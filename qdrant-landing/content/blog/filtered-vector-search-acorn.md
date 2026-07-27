@@ -7,7 +7,7 @@ description: "Benchmark filtered vector search in Qdrant: how ACORN, filterable 
 preview_image: /blog/filtered-vector-search-acorn/hero.jpg
 social_preview_image: /blog/filtered-vector-search-acorn/hero.jpg
 date: 2026-07-27
-author: Dylan Couzon
+author: Dylan Couzon & Meina Ghafouri
 featured: true
 tags:
   - acorn
@@ -21,27 +21,29 @@ Filtered vector search breaks when metadata filters turn a healthy nearest-neigh
 
 Qdrant repairs that damage in two places. ACORN patches a filter-blind HNSW graph at search time. Filterable HNSW repairs the graph at index time, by adding edges for indexed payload values. Both are available on the same collection, and they don't cost the same.
 
-ACORN earns its cost only on fields where Qdrant built no extra edges, and which fields those are is a rule you can learn in one paragraph. We benchmarked both approaches on the same data: Qdrant on one machine, configured four ways, with no other engine measured.
+ACORN earns its cost only on fields where Qdrant built no extra edges. We benchmarked both approaches on the same data: Qdrant on one machine, configured four ways, with no other engine measured.
 
 ## The Two ACORNs
 
-The [ACORN paper](https://arxiv.org/abs/2403.04871) (Patel et al., SIGMOD 2024) describes two algorithms. ACORN-gamma, renamed ACORN-W in the paper's latest revision, drives the headline claim of "2-1,000x higher throughput at a fixed recall," but it expands neighbor lists during index construction, and its reported build times run 8.8x to 33.1x slower than plain HNSW.
+The [ACORN paper](https://arxiv.org/abs/2403.04871) (Patel et al., SIGMOD 2024) describes two algorithms. ACORN-gamma, renamed ACORN-W in the latest revision, drives the claim of "2-1,000x higher throughput at a fixed recall." It expands neighbor lists during index construction, with reported build times 8.8x to 33.1x slower than plain HNSW.
 
 ACORN-1 is the lighter variant: build a standard HNSW graph, then check neighbors of neighbors at search time when the filter removes too many direct ones. Qdrant implements ACORN-1, as a query parameter you opt into per request, with no index-time changes required.
 
 ## The Graph Qdrant Builds Instead
 
-Qdrant repairs the graph before the query ever arrives. [Filterable HNSW](/articles/filterable-hnsw/), which our co-founder Andrey Vasnetsov described in 2019, builds the fix into the index: when a field has a [payload index](/documentation/manage-data/indexing/#payload-index), Qdrant adds extra HNSW edges between points that share a value in that field. A query filtering on that field keeps a connected graph to traverse. You pay for those edges at build time: one million points indexed in 171 seconds without them and in 448 to 560 seconds with them, a 2.6x to 3.3x cost, against the 8.8x to 33.1x the ACORN paper reports for ACORN-gamma on its own datasets.
+[Filterable HNSW](/articles/filterable-hnsw/), which our co-founder Andrey Vasnetsov described in 2019, builds the fix into the index. When a field has a [payload index](/documentation/manage-data/indexing/#payload-index), Qdrant adds extra HNSW edges between points that share a value in that field, so a filtered query keeps a connected graph to traverse.
 
-Those edges follow two rules. First, Qdrant skips them on fields whose value groups are big enough that the main graph keeps them connected. Second, Qdrant builds them per field, not for every combination: an `AND` filter creates an intersection that no single field's edges fully represent, and the number of combinations grows too fast to ever build them all.
+You pay for those edges at build time. Indexing one million points took 171 seconds without them and 448 to 560 seconds with them, a 2.6x to 3.3x cost. ACORN-1 asks for nothing at build time and pays at query time instead.
 
-ACORN aims at both gaps from the query side. Since [1.16](/blog/qdrant-1.16.x/), it has been one option behind the [query planner](/documentation/search/search/#query-planning), alongside full scan, retrieval straight from the payload index, and filterable HNSW.
+Those edges follow two rules. First, Qdrant skips them on fields whose value groups are big enough that the main graph keeps them connected. Second, Qdrant builds them per field, never per combination, so an `AND` filter lands on an intersection that no single field's edges cover.
+
+ACORN aims at both gaps from the query side, as one option behind the [query planner](/documentation/search/search/#query-planning), alongside full scan, retrieval straight from the payload index, and filterable HNSW.
 
 ## The Benchmark
 
-We benchmarked four strategies on one million `deep-image-96` image vectors in Qdrant v1.18.2, with keyword filters from 20% down to 0.012% selectivity and recall@10 scored against exact brute force. Most filters are independent of the vectors; one 10% filter is correlated with them.
+We benchmarked four strategies on one million `deep-image-96` image vectors, with keyword filters from 20% down to 0.012% selectivity and recall@10 scored against exact brute force. Most filters are independent of the vectors; one 10% filter is correlated with them.
 
-The plain graph checks the filter during traversal and discards points that fail; it's the control, with extra edges switched off. The second strategy forces ACORN on that same graph. The third is filterable HNSW. The fourth is the planner on Qdrant's defaults, which stacks all three tools: extra edges, ACORN, and the payload-index fallback. Latency is mean server-side query time. Full methodology and reproduction instructions are in the [reproduction kit](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark).
+The plain graph checks the filter during traversal and discards points that fail; it's the control, with extra edges switched off. The second strategy forces ACORN on that same graph. The third is filterable HNSW. The fourth is Qdrant's default planner, which stacks all three tools: extra edges, ACORN, and the payload-index fallback. Latency is mean server-side query time. The [reproduction kit](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark) has the full methodology.
 
 Every number below was measured on Qdrant v1.18.2, July 27, 2026.
 
@@ -58,13 +60,13 @@ Recall@10 at `hnsw_ef=64`, with mean server-side latency. `hnsw_ef`, shortened t
 
 The plain graph collapses as filters tighten. ACORN helps, but only up to a point: it pulls recall back at 2.1x to 2.9x plain-graph latency, then stalls at 67.7% on the 1% filter. That stall is a known ACORN-1 weakness, the one the [RACORN-1 follow-up paper](https://arxiv.org/abs/2607.00768) sets out to fix.
 
-Where extra edges exist, they solve the problem earlier and cheaper. They hold 99.0% to 99.8% recall on the 10%, 1%, and correlated 10% filters at 1.0ms to 1.2ms. ACORN gets close on two of those filters, but it needs 3.5ms to 4.7ms. Even correlation only lifts the plain graph to 88.4%, still short of the edges on the same filter.
+Where extra edges exist, they solve the problem earlier and cheaper. They hold 99.0% to 99.8% recall on the 10%, 1%, and correlated 10% filters at 1.0ms to 1.2ms. ACORN gets close on two, but needs 3.5ms to 4.7ms. Correlation lifts the plain graph to 88.4%, still short of the edges.
 
 {{< figure src="/blog/filtered-vector-search-acorn/single-filters.png" alt="Bar chart of recall at hnsw_ef=64 on four single-field filters, with each bar's mean server-side latency, comparing plain graph, plain graph with ACORN, and filterable HNSW." caption="Recall@10 and each bar's mean server-side latency at hnsw_ef=64 on the single-field filters. Extra edges hold the top recall at about 1ms; ACORN pays 3 to 4x that." width="100%" >}}
 
-The 20% filter is the first rule from before doing its work: this field's value groups are big enough that the main graph keeps them connected, so Qdrant skips extra edges for it. Recall still climbs from 62.9% to 94.8%, because edges built for the other fields densify the shared graph. It is also the one single-filter case where ACORN finishes ahead of filterable HNSW, 98.9% against 94.8%: without edges of its own, this field doesn't reach full recall at a small search budget.
+The 20% filter falls under the first rule: its value groups are large enough that the main graph keeps them connected, so Qdrant skips extra edges. Recall still climbs from 62.9% to 94.8% because edges for other fields densify the shared graph. It is the only single-filter case where ACORN beats filterable HNSW, 98.9% against 94.8%, because this field has no edges of its own.
 
-Once a query opts into ACORN, the planner applies it whenever the filter passes 40% of the points or fewer (the `max_selectivity` gate), and every filter here qualifies. That takes recall to 99.9% to 100%, at 7.7x to 9x filterable HNSW's latency on the uniform 10% and 20% filters. Skip the option and you get the filterable HNSW numbers.
+With ACORN enabled, the planner applies it when the filter passes 40% of points or fewer (the `max_selectivity` gate), and every filter here qualifies. Recall reaches 99.9% to 100%, at 7.7x to 9x filterable HNSW's latency on the uniform 10% and 20% filters. Skip the option and you get the filterable HNSW numbers.
 
 ## Double Filters: The Intersection Gap
 
@@ -84,22 +86,20 @@ The tie breaks when the search budget rises. At `ef=512`, filterable HNSW reache
 
 {{< figure src="/blog/filtered-vector-search-acorn/ef-sweep.png" alt="Recall versus server-side latency for four filtered-search strategies as hnsw_ef sweeps from 64 to 512." caption="Recall vs server-side latency on the 1% double filter, hnsw_ef swept from 64 to 512. Filterable HNSW reaches ACORN-level recall at roughly a quarter of the latency, while the planner holds 100% by switching strategy per query." width="100%" >}}
 
-When neither field has extra edges, ACORN gets its clean win. That is the 4% intersection: under the first rule, both fields hold five values of 200k points each, so neither earned extra edges, and the gap holds across the whole sweep, 99.6% against filterable HNSW's 92.5% at `ef=512`.
+ACORN wins on the 4% intersection because neither field has extra edges. Under the first rule, both fields hold five values of 200k points each. The gap holds across the sweep: 99.6% against filterable HNSW's 92.5% at `ef=512`.
 
-At 0.012%, the right move is to stop using the graph. With roughly 120 matching points in a million, the plain graph reaches 0.5%, ACORN reaches 0.6%, and filterable HNSW reaches 1.8%; all three sit on the graph only because the benchmark pins them there. On defaults, the planner reads the payload index instead and returns 100% recall at 1.3ms.
+At 0.012%, the right move is to stop using the graph. With roughly 120 matching points in a million, the plain graph reaches 0.5%, ACORN 0.6%, and filterable HNSW 1.8%; the benchmark pins all three to the graph. On defaults, the planner reads the payload index and returns 100% recall at 1.3ms.
 
 The planner changes the outcome before the graph fully collapses. On the 1% intersection, it sent 29 of the 500 queries to the graph and 471 to the payload index, reaching 100% recall at the 3.7ms mean shown before.
 
 ## Where ACORN Wins
 
-ACORN wins when Qdrant had no extra edges for the queried field. That happened on two of the benchmark's seven payload fields, both with value groups too large for extra edges. On the five fields that did get those edges, ACORN never beat filterable HNSW by a defensible margin.
+ACORN wins when the queried field has no extra edges. That happened on two of the benchmark's seven payload fields, both with value groups too large for extra edges. On the other five fields, ACORN never beat filterable HNSW by a defensible margin.
 
-ACORN repairs the graph after filtering damages traversal, especially for oversized value groups and strict intersections. A [PostgreSQL study](https://arxiv.org/abs/2603.23710) shows the cost of that repair on a five-million-point OpenAI embedding set: 71.6K filter checks for ACORN at 1% selectivity against 2.6K for plain traversal.
+ACORN repairs traversal after filtering, especially for oversized value groups and strict intersections. A [PostgreSQL study](https://arxiv.org/abs/2603.23710) reports 71.6K filter checks for ACORN at 1% selectivity against 2.6K for plain traversal on a five-million-point OpenAI embedding set.
 
 Three questions decide filtered search quality: what the index holds before the query arrives, what the search budget buys during traversal, and when the engine stops traversing altogether. ACORN answers part of the second one.
 
-Qdrant gives you a lever for each: extra HNSW edges at index time, `ef` and opt-in ACORN at query time, and a planner that leaves the graph for the payload index when the filter is small enough to check directly.
+Create a payload index on every field you filter on, because that's what makes the extra edges possible. Use the [telemetry endpoint](/documentation/ops-monitoring/monitoring/) to check which paths your workload takes. If a filtered field falls under the first rule, turn ACORN on per query and measure.
 
-Start by creating a payload index on every field you filter on, because that's what makes the extra edges possible. Then read the [telemetry endpoint](/documentation/ops-monitoring/monitoring/), which counts how many queries took each path, and check the split on your own workload. If your filtered fields fall under the first rule, turn ACORN on per query and measure.
-
-The [reproduction kit](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark) has the pinned image digest, dataset checksum, frozen queries, ground truth, and build receipts, so you can check those answers on your own machine. The numbers will move as Qdrant changes, so re-run the kit against your own version rather than trusting the tables here. To talk through your filtered-search setup, [get in touch](https://qdrant.tech/contact-us/).
+The [reproduction kit](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark) includes the pinned image digest, dataset checksum, frozen queries, ground truth, and build receipts. Re-run it against your Qdrant version rather than relying on these tables. To discuss your filtered-search setup, [get in touch](https://qdrant.tech/contact-us/).
