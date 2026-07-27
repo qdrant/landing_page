@@ -11,7 +11,7 @@ weight: 50
 # Designing a Vector Search System
 
 <div class="video">
-  <iframe src="https://www.youtube.com/embed/CT5leRzcL5M?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  <iframe src="https://youtu.be/0qQ3B9uirz0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
   </iframe>
 </div>
 
