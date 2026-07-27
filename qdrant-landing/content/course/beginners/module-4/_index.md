@@ -290,60 +290,57 @@ One caveat about Local Mode, since it's where you'll run the course notebooks. I
 
 Work through these before starting the capstone.
 
-**Q: Name the five layers of a vector search stack, and place "switch to a multilingual embedding model" in the right one.**
-
-A: Query, indexing, storage, knowledge, distribution. The embedding model is a knowledge-layer decision, and mistakes there can't be fixed by tuning other layers.
-
-**Q: In the news system, why is hybrid retrieval chosen from the start rather than dense-only?**
-
-A: Query analysis showed a mix of semantic intent ("port congestion") and exact tokens (tickers, ship names). Dense search blurs exact tokens into semantic neighbors, the SKU problem from Module 3, so a sparse vector is needed alongside dense, fused by rank.
-
-**Q: What's wrong with post-filtering, and how does Qdrant avoid it?**
-
-A: Post-filtering retrieves the top K first and discards invalid results, so a selective filter can leave zero valid points. Qdrant's query planner instead picks a strategy per segment from the estimated filter cardinality: skip non-matching points during graph traversal, retrieve through the payload index when very few points match, or full-scan a small segment.
-
-**Q: In a hybrid query, where does the filter belong, and what happens if you put it at the top level?**
-
-A: Inside each `Prefetch`. Prefetches run first and the outer query is applied to their results, so a top-level `query_filter` only filters the already-fused candidates. That's post-filtering, and it fails silently.
-
-**Q: Why must payload indexes be created before ingestion rather than after?**
-
-A: The filterable HNSW graph gains extra edges from indexed payload values, and those edges can only be built for indexes that exist when the graph is built. Creating an index afterward means rebuilding the HNSW index to benefit from it.
-
-**Q: Why does per-user scoping use a payload filter instead of one collection per user?**
-
-A: Collections don't scale to millions of users operationally. An indexed `tenant_id` payload field, filtered on at every query, gives complete isolation in one collection. Marking that index with `is_tenant=True` is what keeps it fast as tenant count grows.
-
-**Q: In the RAG pipeline, which step should you improve first when answer quality disappoints, and why?**
-
-A: Step 2, retrieval. Retrieval quality caps answer quality, since the model can't cite a passage it never received. Improving the retriever beats scaling the LLM.
-
-**Q: When would you choose Hybrid Cloud over managed cloud, and when would you not?**
-
-A: Choose it when data residency or security policy requires your own infrastructure. Otherwise skip it: it adds Kubernetes operational complexity you don't need.
+{{< details summary="Name the five layers of a vector search stack, and place 'switch to a multilingual embedding model' in the right one." >}}
+Query, indexing, storage, knowledge, distribution. The embedding model is a knowledge-layer decision, and mistakes there can't be fixed by tuning other layers.
+{{< /details >}}
+ 
+{{< details summary="In the news system, why is hybrid retrieval chosen from the start rather than dense-only?" >}}
+Query analysis showed a mix of semantic intent (port congestion) and exact tokens (tickers, ship names). Dense search blurs exact tokens into semantic neighbors, the SKU problem from Module 3, so a sparse vector is needed alongside dense, fused by rank.
+{{< /details >}}
+ 
+{{< details summary="What's wrong with post-filtering, and how does Qdrant avoid it?" >}}
+Post-filtering retrieves the top K first and discards invalid results, so a selective filter can leave zero valid points. Qdrant's query planner instead picks a strategy per segment from the estimated filter cardinality: skip non-matching points during graph traversal, retrieve through the payload index when very few points match, or full-scan a small segment.
+{{< /details >}}
+ 
+{{< details summary="In a hybrid query, where does the filter belong, and what happens if you put it at the top level?" >}}
+Inside each `Prefetch`. Prefetches run first and the outer query is applied to their results, so a top-level `query_filter` only filters the already-fused candidates. That's post-filtering, and it fails silently.
+{{< /details >}}
+ 
+{{< details summary="Why must payload indexes be created before ingestion rather than after?" >}}
+The filterable HNSW graph gains extra edges from indexed payload values, and those edges can only be built for indexes that exist when the graph is built. Creating an index afterward means rebuilding the HNSW index to benefit from it.
+{{< /details >}}
+ 
+{{< details summary="Why does per-user scoping use a payload filter instead of one collection per user?" >}}
+Collections don't scale to millions of users operationally. An indexed `tenant_id` payload field, filtered on at every query, gives complete isolation in one collection. Marking that index with `is_tenant=True` is what keeps it fast as tenant count grows.
+{{< /details >}}
+ 
+{{< details summary="In the RAG pipeline, which step should you improve first when answer quality disappoints, and why?" >}}
+Step 2, retrieval. Retrieval quality caps answer quality, since the model can't cite a passage it never received. Improving the retriever beats scaling the LLM.
+{{< /details >}}
+ 
+{{< details summary="When would you choose Hybrid Cloud over managed cloud, and when would you not?" >}}
+Choose it when data residency or security policy requires your own infrastructure. Otherwise skip it: it adds Kubernetes operational complexity you don't need.
+{{< /details >}}
 
 ## 7. References & Further Reading
-
-- **Filtering Reference** - [Filtering - Qdrant](/documentation/search/filtering/)
-  - Full filter syntax: must, should, must_not, range, geo, and nested conditions.
-
-- **Payload Indexes** - [Indexing - Qdrant](/documentation/manage-data/indexing/)
-  - Payload index types and configuration, the filterable HNSW index, ACORN, and how to rebuild an HNSW index.
-
-- **Hybrid Queries** - [Hybrid Queries - Qdrant](/documentation/search/hybrid-queries/)
-  - Prefetch semantics, Reciprocal Rank Fusion and its weights, Distribution-Based Score Fusion, formula queries, and fusion across shards.
-
-- **Bulk Upload** - [Bulk Upload - Qdrant](/documentation/manage-data/bulk-upload/)
+- [Hybrid Queries](/documentation/search/hybrid-queries/)
+  - Prefetch semantics, Reciprocal Rank Fusion with weights, Distribution-Based Score Fusion, and formula queries.
+- [Indexing and Filterable HNSW](/documentation/manage-data/indexing/)
+  - Payload index types, why indexes come before ingestion, the ACORN algorithm, and how to rebuild an HNSW index.
+- [Query Planning](/documentation/search/search/#query-planning)
+  - How Qdrant chooses between graph traversal, payload index lookup, and full scan for each segment.
+- [Filtering](/documentation/search/filtering/)
+  - Full filter syntax: must, should, must_not, min_should, range, geo, and nested conditions.
+- [Multitenancy](/documentation/manage-data/multitenancy/)
+  - Payload-based tenant scoping, tenant indexes, and when a tenant-aware vector index is worth it.
+- [Bulk Upload](/documentation/manage-data/bulk-upload/)
   - Batch sizes, index ordering, and disabling indexing during a large initial load.
-
-- **Multitenancy Guide** - [Multitenancy - Qdrant](/documentation/manage-data/multitenancy/)
-  - The payload-based tenant scoping pattern in depth.
-
-- **Hybrid Search Tutorial** - [Hybrid Search with FastEmbed - Qdrant](/documentation/tutorials-develop/hybrid-search-fastembed/)
-  - Dense + sparse with FastEmbed and rank fusion, step by step.
-
-- **Deployment Documentation** - [Deploy Qdrant - Qdrant](/documentation/deploy-intro/)
-  - All deployment modes with configuration references.
+- [Hybrid Search with FastEmbed](/documentation/tutorials-develop/hybrid-search-fastembed/)
+  - Dense and sparse retrieval end to end with rank fusion, as runnable code.
+- [Deploy Qdrant](/documentation/deploy-intro/)
+  - Every deployment mode with its configuration reference.
+- [Qdrant Cloud](https://cloud.qdrant.io/)
+  - Create a free cluster before Module 5, so the capstone runs against a real server instead of local mode.
 
 ## What's Next - Module 5
 
