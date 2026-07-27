@@ -47,7 +47,7 @@ Every design decision belongs to a layer. "Add a payload index" is an indexing d
 
 Here's the brief, the kind you'd get on a real project:
 
-Analysts at a research firm need to search global news. Articles arrive continuously in many languages. Analysts ask questions in English ("port congestion in Southeast Asia"), expect results from any language, and need to scope searches by country, topic, date range, and source. Some queries name exact things, like a company ticker or a ship name, that must match precisely.
+> Analysts at a research firm need to search global news that arrives continuously, in many languages. They ask in English ("port congestion in Southeast Asia") but expect matches from any language, and they scope every search by country, topic, date range, and source. Some queries name one specific thing, a company ticker or a ship name, that has to match exactly.
 
 That's realistic, and it's messy in exactly the ways real projects are. We'll design it by answering five questions.
 
@@ -96,7 +96,13 @@ payload:
   summary: string         # not indexed: returned, never filtered
 ```
 
-Create those indexes now too, in the same setup step, before a single point is uploaded. This ordering is not a style preference. Qdrant extends the HNSW graph with extra edges derived from indexed payload values, and it can only add those edges for indexes that already exist when the graph is built. Create a payload index after ingesting, and you have to rebuild the HNSW index to get any benefit from it, which is slow and expensive on millions of points.
+Create those indexes in the same setup step, before a single point is uploaded. This ordering is not a style preference. Qdrant extends the HNSW graph with extra edges derived from indexed payload values, and it can only add those edges for indexes that already exist when the graph is built. Create a payload index after ingesting, and you have to rebuild the HNSW index to get any benefit from it, which is slow and expensive on millions of points (Knowledge and indexing layers).
+
+The build order for any collection you filter on is: 
+
+- create the collection
+- create every payload index
+- ingest
 
 ```python
 for field in ["country", "language", "topic", "source"]:
@@ -112,8 +118,6 @@ client.create_payload_index(
     field_schema=models.PayloadSchemaType.DATETIME,
 )
 ```
-
-So the build order for any collection you filter on is: create the collection, create every payload index, then ingest. *(Knowledge and indexing layers.)*
 
 ### Question 3: What's the Workload Shape?
 
@@ -179,7 +183,7 @@ A research firm with a small engineering team, no residency restrictions, and a 
 
 ### Key Insight
 
-Nothing in this design is exotic. It's the Module 2 pipeline plus the Module 3 hybrid pattern plus a payload schema that was thought about, and indexed, before ingestion. That last part is what separates systems that scale from systems that get re-ingested three times. Use the five questions on any system you're asked to design, including the one you'll build in Module 5.
+Every piece of this design already appeared in an earlier module: the Module 2 pipeline, the Module 3 hybrid pattern, and a payload schema. What's new is the order of operations. You decided what to filter on and created the indexes before the first point went in. That ordering is the difference between a system that scales and one that gets re-ingested three times. Run the five questions on anything you're asked to design, starting with the capstone in Module 5.
 
 ## 3. Filtering
 
