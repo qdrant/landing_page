@@ -10,12 +10,12 @@ weight: 50
 
 # Designing a Vector Search System
 
-Modules 1 through 3 gave you the parts: embeddings, collections, HNSW, hybrid retrieval, filters. The next step is learning about reasoning that turns "we have articles and analysts" into a payload schema, a retrieval pipeline, and a deployment mode. 
-
 <div class="video">
   <iframe src="https://www.youtube.com/embed/CT5leRzcL5M?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
   </iframe>
 </div>
+
+Modules 1 through 3 gave you the parts: embeddings, collections, HNSW, hybrid retrieval, filters. The next step is learning about reasoning that turns "we have articles and analysts" into a payload schema, a retrieval pipeline, and a deployment mode. 
 
 ## Today's Path
 
