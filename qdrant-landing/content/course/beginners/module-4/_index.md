@@ -17,6 +17,8 @@ weight: 50
 
 Modules 1 through 3 gave you the parts: embeddings, collections, HNSW, hybrid retrieval, filters. The next step is learning about reasoning that turns "we have articles and analysts" into a payload schema, a retrieval pipeline, and a deployment mode. 
 
+**Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/Beginner-course/Module4.ipynb)
+
 ## Today's Path
 
 1. The Layers of the Stack
