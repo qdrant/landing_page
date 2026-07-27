@@ -13,7 +13,6 @@ content:
   title: "Beginners Course"
   description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 partition: course
-isLesson: true
 ---
 
 # Beginners Course
