@@ -50,9 +50,28 @@
 
   &__content {
     p,
-    li,
     summary {
       margin-bottom: $spacer * 2;
+    }
+
+    ul,
+    ol {
+      margin-bottom: $spacer * 2;
+    }
+
+    p {
+      ul,
+      ol {
+        margin-bottom: 0;
+      }
+    }
+
+    li {
+      margin-bottom: $spacer * 0.5;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
     p,
     li,

@@ -1,0 +1,51 @@
+{
+  "@type": "Event",
+  "@id": "{{- with .Params.link -}}{{- . -}}{{- else -}}{{- .Permalink -}}{{- end -}}#event",
+  "name": "{{- with .Params.event_name -}}{{- . | htmlEscape -}}{{- else -}}{{- .Title | htmlEscape -}}{{- end -}}",
+  "description": {{ $description := printf "%s" (.Params.description | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $description -}}",
+  {{- $image := "" -}}
+  {{- with .Params.social_preview_image -}}{{- $image = . | absURL -}}{{- end -}}
+  {{- if and (not $image) .Params.preview_image -}}{{- $image = .Params.preview_image | absURL -}}{{- end -}}
+  {{- if $image }}
+  "image": ["{{- $image -}}"],
+  {{- end }}
+  "url": "{{- with .Params.link -}}{{- . -}}{{- else -}}{{- .Permalink -}}{{- end -}}",
+  "startDate": "{{- .Params.start -}}"{{- with .Params.end -}},
+  "endDate": "{{- . -}}"{{- end -}},
+  "eventStatus": "{{- with .Params.eventStatus -}}{{- . -}}{{- else -}}https://schema.org/EventScheduled{{- end -}}",
+  {{- $attendanceMode := "https://schema.org/OfflineEventAttendanceMode" -}}
+  {{- if eq (lower (printf "%s" .Params.place)) "online" -}}
+    {{- $attendanceMode = "https://schema.org/OnlineEventAttendanceMode" -}}
+  {{- end -}}
+  {{- with .Params.eventAttendanceMode -}}{{- $attendanceMode = . -}}{{- end }}
+  "eventAttendanceMode": "{{- $attendanceMode -}}",
+  {{- if .Params.location }}
+  "location": {
+    "@type": "Place",
+    "name": "{{- .Params.location.name | htmlEscape -}}"{{- with .Params.location.streetAddress -}},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{- . | htmlEscape -}}",
+      "addressLocality": "{{- $.Params.location.addressLocality | htmlEscape -}}",
+      "addressRegion": "{{- $.Params.location.addressRegion | htmlEscape -}}",
+      "postalCode": "{{- $.Params.location.postalCode | htmlEscape -}}",
+      "addressCountry": "{{- $.Params.location.addressCountry | htmlEscape -}}"
+    }{{- end -}}
+  },
+  {{- else if eq (lower (printf "%s" .Params.place)) "online" }}
+  "location": {
+    "@type": "VirtualLocation"{{- with .Params.link -}},
+    "url": "{{- . -}}"{{- end -}}
+  },
+  {{- else if .Params.place }}
+  "location": {
+    "@type": "Place",
+    "name": "{{- .Params.place | htmlEscape -}}"
+  },
+  {{- end }}
+  "organizer": {
+    "@type": "Organization",
+    "name": "Qdrant",
+    "url": "https://qdrant.tech"
+  }
+}

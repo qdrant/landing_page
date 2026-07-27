@@ -58,7 +58,7 @@ To implement this approach, you should:
 When specified, storage structure will be organized in a way to co-locate vectors of the same tenant together, which can significantly improve performance by utilizing sequential reads during queries.
 
 
-{{< figure src="/docs/defragmentation.png" alt="Tenants defragmentation with is_tenant" caption="Grouping tenants together by tenant ID, if `is_tenant=true` is used" width="90%" >}}
+{{< figure src="/docs/defragmentation.png" alt="Tenants defragmentation with is_tenant" caption="Grouping tenants together by tenant ID, if `is_tenant=true` is used, enables more efficient disk reads (curly brackets). Rather than many random seeks across the file, Qdrant can read the data for a specific tenant with a sequential read." width="90%" >}}
 
 
 

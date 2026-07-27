@@ -24,6 +24,8 @@ Paying customers have access to our Support team. Links to the support portal ar
 
 Support is handled via **Jira Service Management (JSM)**. When creating a support ticket, you will be asked to select a request type and provide information to help us understand and prioritize your issue.
 
+For more information on our different support tiers and their included services and SLAs, have a look at our [Pricing Page](/pricing/).
+
 ### Request Type
 
 The form allows you to specify what your ticket is about:

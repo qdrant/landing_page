@@ -28,13 +28,13 @@ Selecting the best embedding model is a multi-objective optimization problem and
 and there probably never will be. In this article, we will try to provide some guidance on how to approach this problem
 in a practical way, and how to move from model selection to running it in production.
 
-## Evaluation: the holy grail of vector search
+## Evaluation: The Holy Grail of Vector Search
 
 You can't improve what you don't measure. It's cliché, but it's true also for retrieval. Search quality might and should
 be measured not only in a running system, but also before you make the most important decision - which embedding model 
 to use. 
 
-### Know the language your model speaks
+### Know the Language Your Model Speaks
 
 Embedding models are trained with specific languages in mind. When evaluating one, consider whether it supports all the 
 languages you have or predict to have in your data. If your data is not homogeneous, you might require a multilingual 
@@ -79,7 +79,7 @@ similarity between the original and modified text.
 If the created representations are really far from each other in the vector space, it may indicate that some 
 non-supported characters are replaced with `UNK` tokens and thus the model can't properly embed the input data.
 
-### Checklist of things to consider
+### Checklist of Things to Consider
 
 Nevertheless, the evaluation does not focus on the input tokens only. First and foremost, we should measure how well
 a particular model can handle the task we want to use it for. Vector embeddings are multipurpose tools, and some models
@@ -100,7 +100,7 @@ The list is not exhaustive, as there might be plenty of other things to consider
 That's why you need to precisely define the task you really want to solve, get your hands dirty with the data the system
 is supposed to process and build a ground truth dataset for it, so you can make an informed decision.
 
-### Building the ground truth dataset
+### Building the Ground Truth Dataset
 
 The way your dataset will look like depends on the task you want to evaluate. If we speak about semantic similarity,
 then you will need pairs of texts with a score indicating how similar they are. 
@@ -168,11 +168,11 @@ help you with that. [Running the evaluation process](/rag/rag-evaluation-guide/)
 a sense of how they perform on your data. You can test even proprietary models that way. However, it's not the only 
 thing you should consider when choosing the best model.
 
-Please do not be afraid of building your evaluation dataset. It’s not as complicated as it might seem, and it's a 
-critical step! You don’t need millions of samples to get a good idea of how the model performs. A few hundred 
+Please do not be afraid of building your evaluation dataset. It's not as complicated as it might seem, and it's a 
+critical step! You don't need millions of samples to get a good idea of how the model performs. A few hundred 
 well-curated examples might be a good starting point. Even dozens are better than nothing!
 
-## Compute resource constraints
+## Compute Resource Constraints
 
 Even if you found the best performing embedding model for your domain, that doesn't mean you can use it. Software projects 
 do not live in isolation, and you have to consider the bigger picture. For example, you might have budget constraints 
@@ -182,7 +182,7 @@ slower and consumes 10 times more resources, is it really worth it?
 Eventually, enjoying the journey is more important than reaching the destination in some cases, but that doesn't hold 
 true for search. The simpler and faster the means that took you there, the better.
 
-## Throughput, latency and cost
+## Throughput, Latency and Cost
 
 When selecting an embedding model for production, you need to consider three critical operational factors:
 
@@ -201,7 +201,7 @@ processing large volumes of articles in real-time, while a website search might 
 results. Similarly, a chatbot using a Large Language Model to generate a response might prioritize cost-effectiveness, 
 as LLMs are often slower and retrieval isn't the most time-consuming part of the process.
 
-## Balancing all aspects
+## Balancing All Aspects
 
 After all these considerations, you should have a table that summarizes each of the models you evaluated under all the 
 different conditions. Now things are getting hard and answers are not obvious anymore.
@@ -227,10 +227,14 @@ choice of the embedding model. Qdrant's architecture makes it relatively easy to
 Named vectors help to create a system with multiple models and switch between them based on the query, or build a 
 [hybrid search](/articles/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
+Choosing the right embedding model is one of the most important design decisions in a vector search system, but it is just one of several levers. 
+Memory usage can often be reduced with techniques such as quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model. 
+The key takeaway is that while the embedding model matters a great deal, cost, retrieval quality, latency, and throughput are properties of the retrieval pipeline and system as a whole.
+
 An important decision to make is also where to host the embedding model. Maybe you prefer not to deal with the 
 infrastructure management and send the data you process in its original form? Qdrant now has something for you!
 
-## Locally sourced embeddings
+## Locally Sourced Embeddings
 
 Wouldn't it be great to run your selected embedding model as close to your search engine as possible? Network latency 
 might be one of the biggest enemies, and transferring millions of vectors over the network may take longer if done from
