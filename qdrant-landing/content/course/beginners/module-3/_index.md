@@ -17,6 +17,7 @@ weight: 40
 
 Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
+**Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/Beginner-course/Module3.ipynb)
 
 ## Today's Path
 
@@ -142,8 +143,6 @@ Hybrid search runs dense and sparse retrieval in the same request, then fuses th
 You can learn more about fusion in the [Hybrid Queries documentation](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
 ## 4. Setting Up Hybrid Search in Qdrant
-
-**Follow along in Colab.** Every example from here through Section 7 is runnable in this notebook, no setup or API keys required: [Open in Google Colab](https://colab.research.google.com/drive/1YwUzhfP_Dxy_mgxP6dV8zJyYQvsWRn2i?usp=sharing).
 
 Hybrid search in Qdrant uses named vectors, dense and sparse stored together on the same point, and the Universal Query API to prefetch from each, then fuse the results.
 
