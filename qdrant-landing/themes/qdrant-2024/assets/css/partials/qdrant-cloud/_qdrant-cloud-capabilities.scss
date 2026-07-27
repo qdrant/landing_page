@@ -97,7 +97,7 @@
       }
       
       &-overlay1 {
-        background-image: url('/img/cloud/background/stars-mobile.svg');
+        background-image: url('/img/qdrant-cloud/background/stars-mobile.svg');
         mix-blend-mode: color-dodge;
       }
       
@@ -106,7 +106,7 @@
       }
       
       &-overlay3 {
-        background-image: url('/img/cloud/background/texture-mobile.svg');
+        background-image: url('/img/qdrant-cloud/background/texture-mobile.svg');
         mix-blend-mode: overlay;
       }
     }
@@ -226,7 +226,7 @@
         padding: $spacer * 4 $spacer * 1.5;
 
         &-overlay1 {
-          background-image: url('/img/cloud/background/stars.svg');
+          background-image: url('/img/qdrant-cloud/background/stars.svg');
           mix-blend-mode: color-dodge;
         }
 
@@ -235,7 +235,7 @@
         }
 
         &-overlay3 {
-          background-image: url('/img/cloud/background/texture.svg');
+          background-image: url('/img/qdrant-cloud/background/texture.svg');
           mix-blend-mode: overlay;
         }
       }
