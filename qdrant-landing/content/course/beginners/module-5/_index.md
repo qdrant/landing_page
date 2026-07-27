@@ -10,14 +10,17 @@ weight: 60
 
 # Capstone: Multimodal Supplier Risk Intelligence
 
-Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily news, audio, and satellite data about suppliers, cluster risk signals into themes, and surface what local-language sources are saying before it reaches English media.
-
 <!-- TODO (video): add the Module 5 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
 <div class="video">
   <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
   </iframe>
 </div>
 -->
+
+Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily news, audio, and satellite data about suppliers, cluster risk signals into themes, and surface what local-language sources are saying before it reaches English media.
+
+**Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/Beginner-course/Module5.ipynb)
+
 
 ## Today's Path
 
