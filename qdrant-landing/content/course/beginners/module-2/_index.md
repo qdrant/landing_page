@@ -10,8 +10,6 @@ weight: 30
 
 # First Principles of Vector Search
 
-Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
-
 <div class="video">
 <iframe
   src="https://www.youtube.com/embed/zrUswSTeQMI?rel=0"
@@ -21,6 +19,8 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
   allowfullscreen>
 </iframe>
 </div>
+
+Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
 
 <br/>
 
