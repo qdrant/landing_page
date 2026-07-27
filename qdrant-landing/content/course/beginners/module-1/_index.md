@@ -38,6 +38,8 @@ Understand why traditional search struggles and how modern semantic search impro
 7. Modern Search = Hybrid Systems
 8. References & Further Reading
 
+**Follow-along code**: [Module 1 notebook](https://github.com/qdrant/examples/blob/master/Beginner-course/Module1.ipynb)
+
 ## 1. The Problem: Why Keyword Search Struggles
 
 Traditional search works by matching exact words. That's it. If the query string appears in the document, it's a hit. If it doesn't, it's a miss, no matter how closely related the meaning is.
