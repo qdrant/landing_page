@@ -3,8 +3,8 @@ label: WHY QDRANT CLOUD
 title: Offload Operations to Qdrant Cloud
 description: Get the same predictably fast and accurate vector search engine. Qdrant Cloud handles the infrastructure.
 img:
-  src: img/qdrant-cloud/infrastructure.png
-  mobileSrc: img/qdrant-cloud/infrastructure-mobile.png
+  src: /img/qdrant-cloud/infrastructure.png
+  mobileSrc: /img/qdrant-cloud/infrastructure-mobile.png
   alt: Infrastructure
 list:
   - id: 0
