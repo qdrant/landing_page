@@ -1,0 +1,35 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-faq") }}
+  <section class="qdrant-cloud-faq">
+    <div class="container">
+      <h3 class="qdrant-cloud-faq__title">{{ .Params.title }}</h3>
+  
+      <div class="row">
+        <div class="col-12 col-lg-4">
+          <nav class="qdrant-cloud-faq__nav">
+            {{ range $index, $category := .Params.list }}
+            <button
+              class="qdrant-cloud-faq__nav-button{{ if eq $index 0 }} is-active{{ end }}"
+              data-faq-category="{{ $index }}"
+            >
+              {{ $category.title }}
+            </button>
+            {{ end }}
+          </nav>
+        </div>
+  
+        <div class="col-12 col-lg-8">
+          <div class="qdrant-cloud-faq__panels">
+            {{ range $index, $category := .Params.list }}
+              <div
+                class="qdrant-cloud-faq__panel{{ if eq $index 0 }} is-active{{ end }}"
+                data-faq-panel="{{ $index }}"
+              >
+                {{ partial "accordion" (dict "Params" (dict "questions" $category.questions)) }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

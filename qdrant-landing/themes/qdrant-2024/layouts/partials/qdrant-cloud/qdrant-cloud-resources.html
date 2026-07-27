@@ -1,0 +1,20 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-resources") }}
+  <section class="qdrant-cloud-resources">
+    <div class="container">
+      <p class="qdrant-cloud-resources__label">{{ .Params.label }}</p>
+      <h3 class="qdrant-cloud-resources__title">{{ .Params.title }}</h3>
+      <div class="row gy-2 gx-4">
+        {{ range .Params.cards }}
+        <div class="col-12 col-lg-4">
+          <div class="card qdrant-cloud-resources__card">
+            <img class="qdrant-cloud-resources__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <h5 class="qdrant-cloud-resources__card-title">{{ .title | safeHTML }}</h5>
+            <p class="qdrant-cloud-resources__card-description">{{ .description }}</p>
+            <a class="link link_dark link_md qdrant-cloud-resources__card-link" href="{{ .link.url }}">{{ .link.text }}</a>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

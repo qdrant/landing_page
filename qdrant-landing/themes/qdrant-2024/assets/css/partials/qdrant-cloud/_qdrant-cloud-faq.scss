@@ -1,0 +1,79 @@
+@use '../../helpers/functions' as *;
+
+.qdrant-cloud-faq {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-20;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.5;
+    margin-bottom: $spacer * 2.5;
+    
+    &-button {
+      position: relative;
+      width: 100%;
+      padding-left: $spacer;
+      border: 0;
+      background: none;
+      text-align: left;
+      color: $neutral-30;
+
+      &.is-active {
+        color: $neutral-20;
+        font-weight: $font-weight-semibold;
+        
+        &:before {
+          content: "";
+          display: block;
+          position: absolute;
+          left: 0;
+          top: $spacer * 0.5;
+          height: $spacer * 0.5;
+          width: $spacer * 0.5;
+          border-radius: 50%;
+          background-color: $primary-50;
+        }
+      }
+    }
+  }
+
+  &__panels {
+    position: relative;
+  }
+
+  &__panel {
+    display: none;
+    pointer-events: none;
+
+    &.is-active {
+      display: block;
+      pointer-events: auto;
+      z-index: 1;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+      margin-bottom: $spacer * 2.5;
+    }
+
+    &__nav {
+      &-button {
+        width: pxToRem(254);
+      }
+    }
+  }
+}

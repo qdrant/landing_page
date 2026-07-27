@@ -1,0 +1,35 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-why-qdrant") }}
+  <section class="qdrant-cloud-why-qdrant">
+    <div class="container">
+      <p class="qdrant-cloud-why-qdrant__label">{{ .Params.label }}</p>
+      <h3 class="qdrant-cloud-why-qdrant__title">{{ .Params.title }}</h3>
+      <p class="qdrant-cloud-why-qdrant__description">{{ .Params.description }}</p>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <img class="qdrant-cloud-why-qdrant__image" src="{{ .Params.img.src }}" alt="{{ .Params.img.alt }}" />
+          <img 
+            class="qdrant-cloud-why-qdrant__image-mobile" 
+            src="{{ .Params.img.mobileSrc }}" 
+            alt="{{ .Params.img.alt }}"
+          />
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="qdrant-cloud-why-qdrant__list">
+            {{ range .Params.list }}
+              <div class="qdrant-cloud-why-qdrant__list-item">
+                <h6 class="qdrant-cloud-why-qdrant__list-title">{{ .title }}</h6>
+                <p class="qdrant-cloud-why-qdrant__list-description">{{ .description }}</p>
+              </div>
+            {{ end }}
+          </div>
+          <a
+            class="qdrant-cloud-why-qdrant__button button button_contained button_lg"
+            href="{{ .Params.button.url }}" 
+          >
+            {{ .Params.button.text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -60,6 +60,13 @@
     letter-spacing: -0.2px;
     color: $neutral-90;
   }
+  
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer * 1.5;
+  }
 
   &__illustration {
     display: block;
@@ -142,6 +149,12 @@
     &__description {
       font-size: pxToRem(20);
       line-height: 1.5;
+    }
+
+    &__buttons {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: $spacer * 0.5;
     }
 
     &__illustration {
