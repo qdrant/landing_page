@@ -16,6 +16,13 @@ tags:
 
 ## Vector Space Day 2026: Powered by Qdrant 
 
+### Recap
+
+![Watch all the videos](https://qdrant.tech/vector-space-day-sf-26-recap/)
+
+![Read the blog recap](https://qdrant.tech/blog/vector-space-day-2026-recap/)
+
+
 ### About
 
 We’re hosting our second-ever full-day in-person Vector Space Day (https://luma.com/vsd-sf) on June 11th at The Midway in San Francisco, and you’re invited.
