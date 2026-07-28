@@ -251,4 +251,4 @@ The safest approach is to choose the right strategy for the workload instead of 
 
 > **Tip:** After a large upload, confirm the collection status is green and the optimizers have finished before serving production traffic.
 
-By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. To size your deployment, use the [Qdrant sizing calculator](http://sizing.qdrant.tech/).
+By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. To size your deployment, use the [Qdrant sizing calculator](https://sizing.qdrant.tech/).
