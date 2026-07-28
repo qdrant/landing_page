@@ -20,7 +20,7 @@ When setting up your cluster, you'll need to figure out the right balance of **R
 - Your cluster's replication settings.
 - Whether you're using quantization and how you’ve set it up.
 
-<aside role="status">To estimate your collection footprint interactively, try the <a href="https://sizing.qdrant.tech/estimate">Qdrant Sizing Calculator</a>.</aside>
+<aside role="status">To estimate your collection footprint interactively, try the <a href="https://sizing.qdrant.tech/">Qdrant Sizing Calculator</a>.</aside>
 
 ## Calculating RAM size 
 
