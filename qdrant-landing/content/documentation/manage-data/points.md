@@ -386,6 +386,8 @@ All resulting points are sorted by ID. To query the next page it is necessary to
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
 
+<aside role="status">To scroll a collection in parallel, add a <a href="/documentation/search/filtering/#slice">slice filter condition</a> to each worker's request, one <code>index</code> per worker. Each worker then scrolls a disjoint, exhaustive share of the collection instead of paging through it sequentially.</aside>
+
 ### Order Points by Payload Key
 
 _Available as of v1.8.0_

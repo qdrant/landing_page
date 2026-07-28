@@ -509,6 +509,8 @@ Random sampling API is a part of [Universal Query API](#query-api) and can be us
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/random-sample/" >}}
 
+<aside role="status">If you need a sample that's reproducible across queries, for example for recall evaluation or a train/test split, use the <a href="/documentation/search/filtering/#slice">slice filter condition</a> instead. It returns the same subset of points every time.</aside>
+
 ## Query Planning
 
 Depending on the filter used in the search - there are several possible scenarios for query execution.
