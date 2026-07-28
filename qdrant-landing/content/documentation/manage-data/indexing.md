@@ -408,7 +408,7 @@ The only requirement is to enable the IDF modifier in the collection configurati
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-idf/" >}}
 
-IDF statistics are calculating per shard using the following formula:
+IDF statistics are calculated per shard using the following formula:
 
 $$
 \text{IDF}(q_i) = \ln \left(\frac{N - n(q_i) + 0.5}{n(q_i) + 0.5}+1\right)

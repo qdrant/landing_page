@@ -22,4 +22,5 @@ client.query("books", {
     },
   },
   limit: 10,
+  with_payload: true,
 });

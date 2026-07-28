@@ -21,6 +21,7 @@ POST /collections/books/points/query
             }
         }
     },
-    "limit": 10
+    "limit": 10,
+    "with_payload": true
 }
 ```

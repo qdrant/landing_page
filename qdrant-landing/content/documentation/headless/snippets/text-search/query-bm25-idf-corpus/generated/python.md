@@ -18,7 +18,7 @@ client.query_points(
         ]
     ),
     search_params=models.SearchParams(
-        idf=models.IdfParams(
+        idf=models.IdfCorpusParams(
             corpus=models.Filter(
                 must=[
                     models.FieldCondition(
@@ -29,5 +29,6 @@ client.query_points(
         )
     ),
     limit=10,
+    with_payload=True,
 )
 ```

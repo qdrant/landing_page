@@ -30,6 +30,7 @@ public class Snippet
                     },
                 },
             },
+            payloadSelector: true,
             limit: 10
         );
     }

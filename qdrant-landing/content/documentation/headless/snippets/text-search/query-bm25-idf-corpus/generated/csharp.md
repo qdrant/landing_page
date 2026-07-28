@@ -25,6 +25,7 @@ await client.QueryAsync(
             },
         },
     },
+    payloadSelector: true,
     limit: 10
 );
 ```

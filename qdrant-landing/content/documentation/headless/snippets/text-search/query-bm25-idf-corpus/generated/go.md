@@ -23,6 +23,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 			},
 		},
 	},
-	Limit: qdrant.PtrOf(uint64(10)),
+	Limit:       qdrant.PtrOf(uint64(10)),
+	WithPayload: qdrant.NewWithPayload(true),
 })
 ```
