@@ -18,9 +18,9 @@ tags:
 
 ### Recap
 
-![Watch all the videos](https://qdrant.tech/vector-space-day-sf-26-recap/)
+[Watch all the videos](https://qdrant.tech/vector-space-day-sf-26-recap/)
 
-![Read the blog recap](https://qdrant.tech/blog/vector-space-day-2026-recap/)
+[Read the blog recap](https://qdrant.tech/blog/vector-space-day-2026-recap/)
 
 
 ### About
