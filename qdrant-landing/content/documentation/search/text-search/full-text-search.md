@@ -62,9 +62,9 @@ If you set any of the options discussed in this section, ensure that you apply t
 
 To configure stemming and stopword removal, use the following options:
 
-- `language`: sets the language for stemming and stopword removal. Defaults to `english`. To disable stemming and stopword removal, set `language` to `none`.
-- `stemmer`: defaults to stemming for `language` (if set), but can be configured independently.
-- `stopwords`: defaults to a set of stopwords for `language` (if set) but can be configured independently. You can configure a specific `language` and/or configure an explicit set of stopwords that will be merged with the stopword set of the configured language.
+- `language`: sets the language for stemming and stopword removal. Defaults to `english`.
+- `stemmer`: defaults to stemming for `language` (if set), but can be configured independently. Set to `{"type": "none"}` to explicitly disable stemming.
+- `stopwords`: defaults to a set of stopwords for `language` (if set) but can be configured independently. You can configure a specific `language` and/or configure an explicit set of stopwords that will be merged with the stopword set of the configured language. Configure an empty stopwords set to disable stopword removal.
 
 For example, to use Spanish stemming and stopwords during data ingestion, use:
 
@@ -74,7 +74,7 @@ At query time, use the exact same parameters to ensure consistent text processin
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-spanish/" >}}
 
-To configure only a stemmer or a stopword set, rather than both, set `language` to `none` and specify the configuration for the desired stemmer or stopwords.
+To use only stemming, set an empty stopword list. To use only stopword removal, disable stemming by setting `stemmer: {"type": "none"}`.
 
 #### ASCII Folding
 
@@ -92,12 +92,19 @@ The tokenizer breaks down text into individual tokens (words). By default, the B
 
 #### Language-neutral Text Processing
 
+*Available as of v1.19.0*
+
 In some situations, you may want to disable language-specific processing altogether. For example, when searching for author names, that don't necessarily conform to the rules of a specific language.
 
 To disable language-specific processing, set the following options:
-- `language`: set to `none` to disable language-specific stemming and stopword removal.
-- `tokenizer`: set to `multilingual` for multilingual tokenization and lemmatization.
+- `stemmer`: set to `{"type": "none"}` to explicitly disable stemming.
+- `stopwords`: configure an empty stopwords set to disable stopword removal.
+- `tokenizer`: set to `multilingual` for language-aware tokenization that automatically detects the script and applies the appropriate segmentation for each language.
 - Optionally, set `ascii_folding` to `true` to enable ASCII folding and ignore diacritics.
+
+<aside role="status">
+Setting <code>language</code> to <code>"none"</code> to disable text processing is deprecated as of Qdrant 1.19. Instead, set <code>stemmer</code> to <code>{"type": "none"}</code> and configure an empty stopwords set.
+</aside>
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-language-neutral/" >}}
 
