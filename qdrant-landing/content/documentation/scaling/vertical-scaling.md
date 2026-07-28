@@ -48,7 +48,7 @@ num_vectors * dimensions * 4 bytes * 1.5
 
 Quantization can reduce this estimate by a factor of 4 to 32, depending on the quantization method. See [Quantization](/documentation/manage-data/quantization/) for the tradeoffs between quantization methods, and monitor actual memory usage before and after resizing (see [Monitor Collection Memory Usage](/documentation/ops-monitoring/memory-usage/)).
 
-<aside role="status">To get a more detailed sizing estimate, try the <a href="https://sizing.qdrant.tech/estimate">Qdrant Sizing Calculator</a>.</aside>
+<aside role="status">To get a more detailed sizing estimate, try the <a href="https://sizing.qdrant.tech/">Qdrant Sizing Calculator</a>.</aside>
 
 On top of the vector data itself, budget for the HNSW index, which typically adds 20% to 30% overhead, along with payload indexes and the write-ahead log. Reserve about 20% headroom for optimizer operations and operating system cache.
 
