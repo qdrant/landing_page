@@ -1,3 +1,6 @@
+> Fetch the complete index at: https://qdrant.tech/llms.txt
+> Use this file to discover all available pages before exploring further.
+
 {{- $content := .RenderShortcodes -}}
 {{- if not (strings.TrimSpace $content) }}# {{ .Title }}
 {{ end -}}
