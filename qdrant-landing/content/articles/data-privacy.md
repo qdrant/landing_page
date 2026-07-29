@@ -18,7 +18,7 @@ keywords: # Keywords for SEO
 category: production-ops
 ---
 
-Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures become critical to safeguarding this data. If the data stored in a vector database is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
+Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures are critical to safeguarding this data. If the data stored in a vector database is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
 
 Strict compliance regulations govern data stored in vector databases across various industries. For instance, healthcare must comply with HIPAA, which dictates how protected health information (PHI) is stored, transmitted, and secured. Similarly, the financial services industry follows PCI DSS to safeguard sensitive financial data. These regulations require developers to ensure data storage and transmission comply with industry-specific legal frameworks across different regions. **As a result, features that enable data privacy, security and sovereignty are deciding factors when choosing the right vector database.**
 
@@ -43,27 +43,55 @@ The primary challenge with static API keys is their all-or-nothing access, inade
 
 One of the cornerstones of our design choices at Qdrant has been the focus on security features. We have built in a range of features keeping the enterprise user in mind, which allow building of granular access control on a fully data sovereign architecture.
 
-A Qdrant instance is unsecured by default. However, when you are ready to deploy in production, Qdrant offers a range of security features that allow you to control access to your data, protect it from breaches, and adhere to regulatory requirements. Using Qdrant, you can build granular access control, segregate roles and privileges, and create a fully data sovereign architecture.
+Qdrant offers a range of security features that allow you to control access to your data, protect it from breaches, and adhere to regulatory requirements. Using Qdrant, you can build granular access control, segregate roles and privileges, and create a fully data sovereign architecture.
 
-### API Keys and TLS Encryption
+> Self-hosted open source deployments are not secure by default and are not production-ready. Qdrant Cloud deployments are always secure and production-ready.
 
-For simpler use cases, Qdrant offers API key-based authentication. This includes both regular API keys and read-only API keys. Regular API keys grant full access to read, write, and delete operations, while read-only keys restrict access to data retrieval operations only, preventing write actions.
+Qdrant Cloud has two independent access-control systems, and it helps to keep them separate from the outset:
 
-On Qdrant Cloud, you can create API keys using the [Cloud Dashboard](https://qdrant.to/cloud). This allows you to generate API keys that give you access to a single node or cluster, or multiple clusters. You can read the steps to do so [here](/documentation/cloud/authentication/).
+- Cloud Access Control 
+- Database Access Control
 
-![web-ui](/articles_data/data-privacy/web-ui.png)
+### Cloud RBAC 
+
+[Cloud RBAC](https://qdrant.tech/documentation/cloud-rbac/) governs what a user can do inside the Qdrant cloud console and account: managing clusters, billing, identity and access management, Hybrid Cloud, and account settings. 
+
+Qdrant Cloud includes some built-in roles for common use-cases. 
+A Role contains a set of permissions that define the ability to perform or control specific actions in Qdrant Cloud. 
+Under Access Management in the Cloud Dashboard, you can also create custom roles with granular permissions, invite users, and assign roles to them. 
+
+Note that current permissions control access to ALL clusters. Per Cluster permissions will be in a future release.
+
+<img src="/articles_data/data-privacy/custom_roles.png" alt="User and role management" width="900">
+
+The keys associated with this layer are Cloud Management Keys, which authenticate to the Qdrant Cloud API. 
+
+<img src="/articles_data/data-privacy/cloud_management_keys.png" alt="Creating Cloud Management Keys" width="900">
+
+### Database API Keys
+
+Database API Keys enable [Database Access Control](https://qdrant.tech/documentation/cloud/authentication/). They are used to read and write data inside your Qdrant collections.
+Qdrant supports three types of API key:
+
+1. **Admin API Key**: grants full access to all operations and collections.
+2. **Read-Only API Key**: grants read-only access to all operations and collections, suitable for services or users that only need to query data.
+3. **Granular Access API Key**: assigns read or write permissions to the whole cluster or on individual collections. These keys are built on the JSON Web Token (JWT) standard and are covered in detail in the sections that follow.
+
+On Qdrant Cloud, you create granular access keys from the API Keys section of a cluster's detail page. Each key is scoped to the single cluster it was created in. You can optionally grant per-collection access levels, so a single key can grant read-write on some collections and read-only on others.
+
+<img src="/articles_data/data-privacy/granular_access_keys.png" alt="Creating granular access API keys" width="900">
 
 For on-premise or local deployments, you'll need to configure API key authentication. This involves specifying a key in either the Qdrant configuration file or as an environment variable. This ensures that all requests to the server must include a valid API key sent in the header.
 
-When using the simple API key-based authentication, you should also turn on TLS encryption. Otherwise, you are exposing the connection to sniffing and MitM attacks. To secure your connection using TLS, you would need to create a certificate and private key, and then [enable TLS](/documentation/security/#tls) in the configuration.
+When using the simple API key-based authentication on your self-hosted deployment, you should also turn on **TLS encryption**. Otherwise, you are exposing the connection to sniffing and MitM attacks. To secure your connection using TLS, you would need to create a certificate and private key, and then [enable TLS](/documentation/security/#tls) in the configuration.
 
-API authentication, coupled with TLS encryption, offers a first layer of security for your Qdrant instance. However, to enable more granular access control, the recommended approach is to leverage JSON Web Tokens (JWTs).
+API authentication, coupled with TLS encryption, offers a first layer of security for your self-hosted Qdrant instance. However, to enable more granular access control, the recommended approach is to leverage JSON Web Tokens (JWTs).
 
-### JWT on Qdrant
+#### JWT on Qdrant
 
 JSON Web Tokens (JWTs) are a compact, URL-safe, and stateless means of representing _claims_ to be transferred between two parties. These claims are encoded as a JSON object and are cryptographically signed.
 
-JWT is composed of three parts: a header, a payload, and a signature, which are concatenated with dots (.) to form a single string. The header contains the type of token and algorithm being used. The payload contains the claims (explained in detail later). The signature is a cryptographic hash and ensures the token’s integrity.
+A JWT is composed of three parts: a header, a payload, and a signature, which are concatenated with dots (.) to form a single string. The header contains the type of token and algorithm being used. The payload contains the claims (explained in detail later). The signature is a cryptographic hash and ensures the token’s integrity.
 
 In Qdrant, JWT forms the foundation through which powerful access controls can be built. Let’s understand how.
 
@@ -101,16 +129,16 @@ qdrant_client = QdrantClient(
 search_vector = [0.1, 0.2, 0.3, 0.4]
 
 # Example similarity search request
-response = qdrant_client.search(
+response = qdrant_client.query_points(
     collection_name="demo_collection",
-    query_vector=search_vector,
+    query=search_vector,
     limit=5  # Number of results to retrieve
 )
 ```
 
 For convenience, we have added a JWT generation tool in the Qdrant Web UI, which is present under the 🔑 tab. For your local deployments, you will find it at [http://localhost:6333/dashboard#/jwt](http://localhost:6333/dashboard#/jwt).
 
-### Payload Configuration
+#### Payload Configuration
 
 There are several different options (claims) you can use in the JWT payload that help control access and functionality. Let’s look at them one by one.
 
@@ -147,19 +175,17 @@ Suppose you have a ‘users’ collection and have defined specific roles for ea
     "matches": [
       { "key": "username", "value": "john" },
       { "key": "role", "value": "developer" }
-    ],
-  },
+    ]
+  }
 }
 
 ```
-
-
 
 Now, if you ever want to revoke access for a user, simply change the value of their role. All future requests will be invalid using a token payload of the above type.
 
 By combining the claims, you can fully customize the access level that a user or a role has within the vector store.
 
-### Creating Role-Based Access Control (RBAC) Using JWT
+#### Creating Role-Based Access Control (RBAC) for Self-Hosted Instances Using JWT
 
 As we saw above, JWT claims create powerful levers through which you can create granular access control on Qdrant. Let’s bring it all together and understand how it helps you create Role-Based Access Control (RBAC).
 
@@ -194,8 +220,9 @@ In such an application, an example JWT payload for a customer support representa
     }
   ],
   "value_exists": {
-    "collection": "departments",
+    "collection": "employees",
     "matches": [
+      { "key": "username", "value": "john" },
       { "key": "department", "value": "support" }
     ]
   }
