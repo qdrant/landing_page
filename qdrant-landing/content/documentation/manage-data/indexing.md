@@ -419,4 +419,4 @@ Where:
 - `N` is the total number of documents in the shard.
 - `n` is the number of documents containing non-zero values for the given vector element.
 
-By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Query IDF Statistics](/documentation/search/text-search/full-text-search/#per-query-idf-statistics).
+By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Tenant IDF Statistics](/documentation/search/text-search/full-text-search/#per-tenant-idf-statistics).
