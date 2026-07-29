@@ -1,5 +1,6 @@
-> Fetch the complete index at: https://qdrant.tech/llms.txt
-> Use this file to discover all available pages before exploring further.
+> Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
+> Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
+> Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
 {{- $content := printf "# %s\n\n" .Title -}}
 {{- range .RegularPages.ByPublishDate.Reverse -}}
