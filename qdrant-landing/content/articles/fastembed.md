@@ -130,10 +130,11 @@ This is intentional. FastEmbed is engineered to deliver optimal performance righ
 
 FastEmbed has grown well beyond dense text embeddings. Today it supports:
 
-- **Dense embeddings** – the default `TextEmbedding` model used throughout this article
-- **Sparse embeddings** – SPLADE and miniCOIL, for exact keyword-style retrieval
-- **Multi-vector embeddings** – ColBERT, ideal for rescoring and small-scale retrieval
-- **Rerankers** – cross-encoders to re-rank top-K results
+- **Dense embeddings** – the default `TextEmbedding` model used throughout this article (e.g. `BAAI/bge-small-en-v1.5`, multilingual-e5, nomic-embed-text-v2-moe)
+- **Sparse embeddings** – `SparseTextEmbedding` models including BM25, SPLADE, and miniCOIL for exact keyword-style retrieval
+- **Multi-vector embeddings** – `LateInteractionTextEmbedding` models including ColBERT, ideal for rescoring and small-scale retrieval
+- **Image embeddings** – `ImageEmbedding` models including CLIP variants for visual and multimodal search
+- **Rerankers** – `TextCrossEncoder` cross-encoders to re-rank top-K results (e.g. ms-marco-MiniLM)
 - **Postprocessing** – MUVERA, for compressing multi-vector embeddings into single fixed-size vectors for fast first-stage search
 
 Most of the models we support are [quantized](https://pytorch.org/docs/stable/quantization.html) to enable even faster computation!
