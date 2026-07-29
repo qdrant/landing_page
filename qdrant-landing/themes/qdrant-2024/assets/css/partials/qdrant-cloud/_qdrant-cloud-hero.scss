@@ -104,6 +104,7 @@
     &__description {
       font-size: $font-size-l;
       line-height: $line-height-lg;
+      max-width: pxToRem(524);
     }
 
     &__features {
@@ -113,10 +114,13 @@
     &__image {
       display: block;
       position: absolute;
-      top: pxToRem(120);
-      right: 0;
-      max-height: pxToRem(540);
-      max-width: 46%;
+      top: 0;
+      left: $spacer * 5;
+      height: pxToRem(540);
+      
+      &-container {
+        position: relative;
+      }
 
       &-mobile {
         display: none;

@@ -3,7 +3,7 @@ label: QDRANT CLOUD
 title: Build Fast, Accurate Vector Search at Scale with Qdrant Cloud
 description: Qdrant Cloud is a managed service for running Qdrant vector search. You get the same open-source Rust engine with secure, predictable performance at scale. Move between self-hosted and managed without changing your code or data.
 startFree:
-  text: Get Started
+  text: Start Free
   url: https://cloud.qdrant.io/signup
 features:
   - id: 0
