@@ -22,9 +22,13 @@ weight: 30
 
 Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
 
-**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/Beginner-course/Module2.ipynb)
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/Beginner-course/Module2.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
 
 <br/>
+
+**TL;DR:** Module 1 explained *why* semantic search works. This module is about *where the data actually lives*: how Qdrant organizes collections, points, vectors, and payloads; how it finds your top-K matches fast using an index called HNSW instead of scanning everything; how to filter results by metadata; how to split long documents into chunks before embedding them; and how all of that comes together into one working ingestion pipeline, from an empty cluster to your first filtered query.
 
 ## Today's Path
 
@@ -52,10 +56,10 @@ Split into passages
 Convert to vectors
 
 - **Store**
-Upsert to Qdrant
+Upsert to Qdrant — insert a point if its ID is new, update it if the ID already exists
 
 - **Query**
-Retrieve top-K results
+Retrieve the top-K results — the K most similar matches to your query
 
 ![Flow Diagram](/courses/beginners/module-2/flow.png)
 
@@ -104,21 +108,26 @@ crossed. Confirm the actual image contents match these sections.
 -->
 ![A point's payload is JSON metadata attached alongside its vector, such as title, category, year, and region](/courses/beginners/module-2/payload.png)
 
-### Creating a Collection
+### Your Qdrant Cluster
 
-When you create a collection, you fix two things: the size of vectors it will accept and the distance metric used for similarity.
+A collection needs a running Qdrant instance, a cluster, to live in. Qdrant Cloud has a free tier that takes about a minute to set up; section 8 walks through it step by step, screenshots included. 
 
 ```python
 from qdrant_client import QdrantClient, models
-import os
 
 client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),      # e.g. https://6cec7aec.eu-west-1-0.aws.cloud.qdrant.io
-    api_key=os.getenv("QDRANT_API_KEY"),
+    url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  # your cluster URL, from section 8
+    api_key="<your-api-key>",                                    # your cluster API key, from section 8
 )
 # For quick, throwaway experiments without a server, you can instead use:
 # client = QdrantClient(":memory:")
+```
 
+### Creating a Collection
+
+Once connected, you create a collection by fixing two things: the size of vectors it will accept and the distance metric used for similarity.
+
+```python
 client.create_collection(
     collection_name="articles",
     vectors_config=models.VectorParams(
@@ -154,7 +163,7 @@ client.upsert(
 
 ## 3. Distance Metrics
 
-When you query a collection, Qdrant computes similarity between your query vector and every stored vector using the distance metric you chose at collection creation. The most common for text is cosine similarity.
+When you query a collection, Qdrant compares your query vector against the collection using the distance metric you chose at collection creation, and returns the closest matches. The most common for text is cosine similarity. (Checking literally every vector would be slow at scale — section 5 covers how Qdrant avoids that with the HNSW index.)
 
 | Metric | Notes |
 |--------|-------|
@@ -165,7 +174,7 @@ When you query a collection, Qdrant computes similarity between your query vecto
 
 ### Rule
 
-Choose your distance metric at collection creation; it cannot be changed later. HNSW parameters like m and ef_construct can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with. Most sentence-transformer models use cosine.
+Choose your distance metric at collection creation; it cannot be changed later. If you need a different metric, create a new collection with that metric and re-ingest your data into it — there's no in-place conversion. To avoid breaking callers during that switch, point a [collection alias](/documentation/manage-data/collections/#collection-aliases) at whichever collection is currently live, and repoint it to the new one once re-ingestion is done. HNSW parameters like m and ef_construct, by contrast, can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with — most sentence-transformer models use cosine.
 
 ## 4. Top-K Retrieval
 
@@ -186,7 +195,7 @@ for r in results.points:
 
 ### Why K Matters
 
-Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common approach is to overfetch: retrieve a larger candidate pool, then rerank it down to the smaller K you actually show the user. Qdrant supports this natively via [multi-stage queries](/documentation/concepts/hybrid-queries/#multi-stage-queries) - for example, prefetching a large candidate set and reranking it down to a much smaller final `limit`. We'll cover reranking in detail later.
+Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common approach is to overfetch: retrieve a larger candidate pool, then rerank it down to the smaller K you actually show the user. Qdrant supports this natively via [multi-stage queries](/documentation/search/hybrid-queries/#multi-stage-queries) - for example, prefetching a large candidate set and reranking it down to a much smaller final `limit`. We'll cover reranking in detail later.
 
 ## 5. How Search Is Fast: HNSW
 
@@ -211,41 +220,13 @@ from the Docs/Diagrams Figma library with palette tokens.
 
 ### Tunable Parameters
 
-You can fine-tune the HNSW graph to balance search speed, recall accuracy, memory usage, and indexing time. Three key parameters:
-
-| Parameter | What it controls | Trade-off |
-|-----------|------------------|-----------|
-| m | Number of bidirectional links per node in the graph | Higher = better recall, more memory |
-| hnsw_ef | Size of the candidate list during search (query time) | Higher = better recall, slower search |
-| ef_construct | Size of the candidate list during index building | Higher = better graph quality, slower indexing |
-
-```python
-client.create_collection(
-    collection_name="articles",
-    vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
-    hnsw_config=models.HnswConfigDiff(
-        m=16,              # default: 16
-        ef_construct=100,  # default: 100
-    ),
-)
-
-# Override ef at query time for recall vs. speed trade-off:
-results = client.query_points(
-    collection_name="articles",
-    query=[...],
-    search_params=models.SearchParams(hnsw_ef=128),
-    limit=10,
-)
-```
-To learn more about tuning HNSW, see the comprehensive [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/).
-
-### Starting Point
-
-Default values (m=16, ef_construct=100) work well for most use cases. Only tune if you're measuring a recall or latency gap against a benchmark.
+HNSW has a few tunable parameters — `m`, `ef_construct`, and `hnsw_ef` — that trade off search speed, **recall** (the fraction of the true nearest neighbors your approximate search actually finds), memory usage, and indexing time. The defaults work well for most use cases; only tune them once you're measuring an actual recall or latency gap against a benchmark, not before. You haven't run a search yet at this point in the course, so we won't go deeper here — the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) covers HNSW tuning in full once you're ready for it.
 
 ## 6. Payload Filtering
 
 Real-world search is always similarity plus constraints. Payload filtering lets you apply hard conditions during HNSW traversal, not after retrieval. This keeps results both semantically relevant and legally/logically valid.
+
+This searches by vector similarity as usual, but only among points whose payload passes the filter: `Filter` is the overall condition, `must` is a list of conditions that all have to be true (AND logic), and each `FieldCondition` checks one payload field — here, that `category` equals `"automotive"`.
 
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
@@ -256,8 +237,8 @@ results = client.query_points(
     query_filter=Filter(
         must=[
             FieldCondition(
-                key="category",
-                match=MatchValue(value="automotive")
+                key="category",              # the payload field to check
+                match=MatchValue(value="automotive")  # keep only points where category == "automotive"
             )
         ]
     ),
@@ -283,36 +264,27 @@ For fields you filter on frequently, create a payload index. Without an index, Q
 
 ## 7. Chunking Strategies
 
-Embedding models have a maximum token limit that varies widely, from 256 tokens for compact models like all-MiniLM-L6-v2 to 8,000+ tokens for modern large models. Check your model's card before choosing a chunk size. Long documents must be split into chunks before embedding. How you chunk directly affects retrieval quality.
+Embedding models have a maximum token limit — from 256 tokens for compact models like all-MiniLM-L6-v2 to 8,000+ tokens for larger ones (check your model's card). Long documents need to be split into chunks before embedding, and how you chunk affects retrieval quality: too large a chunk packs multiple topics into one embedding, making retrieval imprecise; too small a chunk loses the context needed for the result to be useful.
 
-- **Too large a chunk**: Exceeds model token limit. One embedding represents many topics, so retrieval becomes imprecise.
-- **Too small a chunk**: Loses surrounding context. Retrieved chunks are too short to be useful as LLM context.
+| Strategy | How it works | Trade-off |
+|----------|--------------|-----------|
+| Fixed-Size | Split every N tokens regardless of content boundaries | May cut sentences mid-thought |
+| Semantic | New chunk when topic or meaning shifts | Slower; needs a model to detect shifts |
+| Sliding Window | Chunks overlap to preserve context across the cut | More storage; duplicate content across results |
 
-| Strategy | How it works | Example | Trade-off |
-|----------|--------------|---------|-----------|
-| Fixed-Size | Split every N tokens regardless of content boundaries | Every 500 tokens = 1 chunk | May cut sentences mid-thought; context loss at boundaries |
-| Semantic | Create a new chunk when topic or meaning shifts significantly | New chunk when subject changes | Slower preprocessing; requires a sentence model to detect shifts |
-| Sliding Window | Chunks overlap with each other to preserve context continuity | Chunk 1: tokens 1–500, Chunk 2: tokens 401–900 | Increases storage and retrieval cost; duplicate content in results |
+This is a bare-bones overview — this module won't go deeper into choosing between them right now. For the full comparison and worked examples, see [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
 
-### Fixed-Size
-
-Splits text every N tokens regardless of content boundaries. Simple and fast, but it can cut sentences mid-thought.
+**Fixed-Size**
 
 ![Fixed-size chunking splits text every N words regardless of content boundaries](/courses/beginners/module-2/fixed-size.png)
 
-### Semantic
-
-Creates a new chunk when the topic or meaning shifts significantly, keeping each chunk focused on one idea.
+**Semantic**
 
 ![Semantic chunking splits text at meaning boundaries, keeping each topic in its own chunk](/courses/beginners/module-2/semantic.png)
 
-### Sliding Window
-
-Chunks overlap with each other so context carries across chunk boundaries instead of being lost at the cut.
+**Sliding Window**
 
 ![Sliding window chunking overlaps consecutive chunks to preserve context across boundaries](/courses/beginners/module-2/sliding-window.png)
-
-You can learn more about chunking strategies in the [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) section from the Qdrant Essentials course.
 
 ## 8. Ingestion Pipeline: End-to-End
 
@@ -328,12 +300,13 @@ Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once cr
 
 ```python
 from qdrant_client import QdrantClient
-import os
 
 client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),       # e.g. https://6cec7aec.eu-west-1-0.aws.cloud.qdrant.io
-    api_key=os.getenv("QDRANT_API_KEY")
+    url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  # paste your cluster's URL here
+    api_key="<your-api-key>",                                    # paste your API key here
 )
+# In a real project, don't hardcode these — load them from environment
+# variables or a secrets manager instead of committing them to source control.
 ```
 
 ### Step 2: Create the Collection
@@ -347,15 +320,26 @@ client.create_collection(
         size=384,
         distance=models.Distance.COSINE,
     ))
+
+# Qdrant Cloud runs in strict mode, which rejects filtered queries on payload
+# fields that aren't indexed. Step 4 filters on "category", so create that
+# index now, before ingesting or querying.
+client.create_payload_index(
+    collection_name="articles",
+    field_name="category",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
 ```
 
 ### Step 3: Ingest Data
 
 ```python
-from qdrant_client.models import PointStruct
-from sentence_transformers import SentenceTransformer
+!pip install fastembed
 
-model = SentenceTransformer("all-MiniLM-L6-v2")  # 384-dim
+from qdrant_client.models import PointStruct
+from fastembed import TextEmbedding
+
+model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")  # 384-dim
 
 documents = [
     {"id": 1, "text": "Car repair guide",  "category": "automotive"},
@@ -365,10 +349,10 @@ documents = [
 points = [
     PointStruct(
         id=doc["id"],
-        vector=model.encode(doc["text"]).tolist(),
+        vector=vector.tolist(),
         payload={"title": doc["text"], "category": doc["category"]},
     )
-    for doc in documents
+    for doc, vector in zip(documents, model.embed([d["text"] for d in documents]))
 ]
 # upload_points handles batching and retries automatically — preferred for lists of points.
 # upsert is the raw operation, better for single points or small real-time updates.
@@ -377,11 +361,13 @@ client.upload_points(collection_name="articles", points=points)
 
 ### Step 4: Query
 
+This embeds the user's question the same way we embedded the documents, then searches with a payload filter on top — same pattern as section 6, now filtering to only the "automotive" category:
+
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
 query_text   = "automobile maintenance"
-query_vector = model.encode(query_text).tolist()
+query_vector = list(model.embed([query_text]))[0].tolist()
 
 results = client.query_points(
     collection_name="articles",
@@ -399,18 +385,19 @@ for r in results.points:
 ### Pipeline Summary
 
 1. **Create cluster**: Get URL + API key from cloud.qdrant.io. Free tier available.
-2. **Create collection**: Fix the vector size and distance metric. These cannot be changed after creation.
-3. **Chunk and embed**: Split documents into chunks, encode each with your embedding model.
-4. **Upsert points**: Store each chunk as a PointStruct with ID, vector, and payload.
-5. **Query**: Encode the user's question, call query_points with filters and limit.
+2. **Create collection**: Fix the vector size and distance metric, and create a payload index on any field you'll filter on.
+3. **Ingest**: Embed each document with your embedding model, then upsert it as a `PointStruct` with ID, vector, and payload.
+4. **Query**: Embed the user's question, then call `query_points` with filters and a limit.
 
 ### Try It Yourself
 
-Extend the pipeline above: add a third document, create a payload index on `category` with `client.create_payload_index()`, then re-run the filtered query and confirm your new document shows up when it matches the filter.
+Extend the pipeline above: add a third document with its own category, re-run the filtered query, and confirm it shows up when its category matches — and gets excluded when it doesn't.
 
 ## 9. References & Further Reading
 
-- [Distance Metrics](/documentation/manage-data/collections/#distance-metrics)
+**Qdrant docs:**
+
+- [Distance Metrics](/course/essentials/day-1/distance-metrics/)
   - Cosine, dot product, Euclidean, and Manhattan, and when to use each metric.
 - [Chunking Strategies](/course/essentials/day-1/chunking-strategies/)
   - Fixed-size, semantic, and sliding-window chunking with a full comparison table.
@@ -420,6 +407,20 @@ Extend the pipeline above: add a third document, create a payload index on `cate
   - Full filter syntax: must, should, must_not, range, geo, and payload index configuration.
 - [Qdrant Cloud](https://cloud.qdrant.io/)
   - Create a free cluster and follow the quickstart to run your first query in under 5 minutes.
+
+**Go deeper:**
+
+- [Filterable HNSW](/articles/filterable-hnsw/)
+  - How Qdrant combines HNSW with payload filtering without falling back to brute force.
+- [Efficient and Robust Approximate Nearest Neighbor Search Using HNSW Graphs](https://arxiv.org/abs/1603.09320)
+  - The original HNSW paper, for anyone who wants the algorithm itself, not just the summary.
+
+**Definitions:**
+
+- [Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+- [Dot product](https://en.wikipedia.org/wiki/Dot_product)
+- [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+- [Nearest neighbor search](https://en.wikipedia.org/wiki/Nearest_neighbor_search)
 
 ## What's Next: Module 3
 
