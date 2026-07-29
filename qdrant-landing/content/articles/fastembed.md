@@ -136,7 +136,7 @@ FastEmbed has grown well beyond dense text embeddings. Today it supports:
 - **Rerankers** – cross-encoders to re-rank top-K results
 - **Postprocessing** – MUVERA, for compressing multi-vector embeddings into single fixed-size vectors for fast first-stage search
 
-All the models we support are [quantized](https://pytorch.org/docs/stable/quantization.html) to enable even faster computation!
+Most of the models we support are [quantized](https://pytorch.org/docs/stable/quantization.html) to enable even faster computation!
 
 If you're using FastEmbed and you've got ideas or need certain features, feel free to let us know. Just drop an issue on our GitHub page. That's where we look first when we're deciding what to work on next. Here's where you can do it: [FastEmbed GitHub Issues](https://github.com/qdrant/fastembed/issues).
 
@@ -191,7 +191,7 @@ ids = [42, 2]
 Qdrant needs to know the size and distance metric of the vectors it will store before you can add anything to it. Since FastEmbed determines the vector size for a given model, you can ask the client for it directly instead of hardcoding it:
 
 ```python
-model_name = "BAAI/bge-small-en"
+model_name = "BAAI/bge-small-en-v1.5"
 
 client.create_collection(
     collection_name="demo_collection",
