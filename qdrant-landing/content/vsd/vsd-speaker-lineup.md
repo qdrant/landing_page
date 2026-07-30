@@ -76,8 +76,8 @@ speakers:
     speaker: Sandhya Subramani, Sr. Dev Advocate, GenAI
     theme: Tell the Robot What You Want
 button:
-  text: See Agenda
-  url: /vector-space-day-sf-26/agenda/
+  text: Watch the Recap
+  url: /vector-space-day-sf-26-recap/
   # disclaimer: Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 sitemapExclude: true
 ---

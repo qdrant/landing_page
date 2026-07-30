@@ -5,9 +5,6 @@ cards:
   - id: 0
     content: What’s on the
     title: Agenda
-    button:
-      text: Get Your Ticket
-      url: https://luma.com/vsd-sf
   - id: 1
     content: Search <br>& AI Retrieval
   - id: 2
