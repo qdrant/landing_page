@@ -128,9 +128,7 @@ query = "What did the president say about Ketanji Brown Jackson"
 found_docs = qdrant.similarity_search(query)
 ```
 
-If you'd rather not depend on an embedding provider's API, [FastEmbed](https://github.com/qdrant/fastembed) also lets you generate dense embeddings
-locally. `langchain-community`, which used to ship a `FastEmbedEmbeddings` class, is [being sunset](https://github.com/langchain-ai/langchain-community/issues/674),
-so wrap FastEmbed's `TextEmbedding` directly with LangChain's `Embeddings` interface instead:
+If you'd rather not depend on an embedding provider's API, [FastEmbed](https://github.com/qdrant/fastembed) also lets you generate dense embeddings locally. You can wrap FastEmbed's `TextEmbedding` into LangChain's `Embeddings` interface:
 
 ```py
 from typing import List
