@@ -6,9 +6,9 @@ social_preview_image: /articles_data/langchain-integration/preview/social_previe
 small_preview_image: /articles_data/langchain-integration/chain.svg
 preview_dir: /articles_data/langchain-integration/preview
 weight: 40
-author: Kacper Łukawski
-author_link: https://medium.com/@lukawskikacper
-date: 2023-01-31T10:53:20+01:00
+author: Manas Chopra
+author_link: https://www.linkedin.com/in/themanasai/
+date: 2026-07-30T10:00:00+03:00
 draft: false
 keywords:
   - vector search
