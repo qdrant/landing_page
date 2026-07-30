@@ -11,6 +11,7 @@ demos:
     description: Compare semantic, keyword, and hybrid search over startup profiles, with metadata filters on every query.
     category: Hybrid Search
     image: /img/demos/demo-0.png
+    github: https://github.com/qdrant-labs/startup-search
     link:
       text: View Demo
       url: https://qdrant-demo-qvpw.vercel.app/
@@ -19,6 +20,7 @@ demos:
     description: Categorize products automatically as semantic search groups similar descriptions, even when wording differs.
     category: Classification
     image: /img/demos/demo-2.png
+    github: https://github.com/qdrant-labs/product_categorization
     link:
       text: View Demo
       url: https://goods-categorization-demo.vercel.app/
@@ -27,6 +29,7 @@ demos:
     description: Find foods by taste and meaning, with recommendations that adapt to your likes and skips.
     category: Recommendations
     image: /img/demos/demo-1.png
+    github: https://github.com/qdrant-labs/food-discovery
     link:
       text: View Demo
       url: https://demo-food-discovery-v2x8-xi.vercel.app/
@@ -35,6 +38,7 @@ demos:
     description: Search the Qdrant codebase by describing what the code does, using MiniLM and UniXcoder embeddings.
     category: Code Search
     image: /img/demos/demo-3.png
+    github: https://github.com/qdrant-labs/demo-code-search
     link:
       text: View Demo
       url: https://demo-code-search-gules.vercel.app/
@@ -43,6 +47,7 @@ demos:
     description: Hybrid search, personalization, recommendations, and merchandising across a catalog of 5.7M+ products.
     category: Hybrid Search
     image: /img/demos/demo-4.png
+    github: https://github.com/qdrant-labs/demo-ecommerce-search
     link:
       text: View Demo
       url: https://demo-ecommerce-search.vercel.app/
@@ -51,6 +56,7 @@ demos:
     description: Score every charge against that customer's own history, with evidence behind every fraud alert.
     category: Anomaly Detection
     image: /img/demos/demo-5.png
+    github: https://github.com/qdrant-labs/demo-fraud-detection
     link:
       text: View Demo
       url: https://demo-fraud-detection-eta.vercel.app/

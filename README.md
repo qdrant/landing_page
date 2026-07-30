@@ -381,12 +381,16 @@ demos:
     description: Short description shown on the card.
     category: Semantic Search  # must match a filter field (see below)
     image: /img/demos/demo-0.png  # optional; omit for a placeholder
+    github: https://github.com/org/repo  # optional; icon link on the card
+    weight: 10                 # optional; same rules as Hugo page weight
     link:
       text: View Demo
       url: https://example.com/
 ```
 
-Put card images in `themes/qdrant-2024/static/img/demos/`. Provide a PNG at **800×296px** (2x) and WebP at both **1x (400×148px)** and **2x (800×296px)**. Only list the PNG file in the markdown; WebP will be used automatically if available.
+`weight` follows Hugo’s built-in page weight rules: use a non-zero integer; lighter items float to the top, heavier sink to the bottom; missing or `0` weight is placed at the end. Ties break by title.
+
+Put card images in `themes/qdrant-2024/static/img/demos/`. Provide a PNG and a matching WebP at **800×296px** (same basename, e.g. `demo-0.png` + `demo-0.webp`). Only list the PNG file in the markdown; the picture partial swaps the extension to serve WebP when available.
 
 ### Add a filter
 

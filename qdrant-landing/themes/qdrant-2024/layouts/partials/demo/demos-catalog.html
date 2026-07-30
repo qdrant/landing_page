@@ -1,4 +1,21 @@
-{{- $all := .Params.demos | default slice -}}
+{{/* Mimic Hugo Pages.ByWeight: non-zero lighter first; 0/unset last; title tiebreaker */}}
+{{- $keyed := slice -}}
+{{- range (.Params.demos | default slice) -}}
+  {{- $w := .weight | default 0 -}}
+  {{- $titleKey := .title | lower -}}
+  {{- $sortKey := "" -}}
+  {{- if eq $w 0 -}}
+    {{- $sortKey = printf "1-%s" $titleKey -}}
+  {{- else -}}
+    {{- /* Offset so negative weights still sort numerically as strings */ -}}
+    {{- $sortKey = printf "0-%010d-%s" (add $w 1000000) $titleKey -}}
+  {{- end -}}
+  {{- $keyed = $keyed | append (dict "sortKey" $sortKey "demo" .) -}}
+{{- end -}}
+{{- $all := slice -}}
+{{- range (sort $keyed "sortKey" "asc") -}}
+  {{- $all = $all | append .demo -}}
+{{- end -}}
 {{- $filters := .Params.filters | default slice -}}
 {{- $batchSize := .Params.batchSize | default 8 -}}
 
@@ -104,46 +121,10 @@
         data-results-grid
       >
         {{ range $all }}
-          {{ $demo := . }}
-          {{ $isExternal := strings.HasPrefix .link.url "http" }}
-          {{- $searchParts := slice .title .description -}}
-          {{- range $filterKeySlice -}}
-            {{- with index $demo . -}}
-              {{- $searchParts = $searchParts | append . -}}
-            {{- end -}}
-          {{- end -}}
-          <a
-            href="{{ .link.url }}"
-            class="demos-catalog__card"
-            data-catalog-card
-            data-id="{{ .id }}"
-            data-name="{{ .title }}"
-            {{- range $filterKeySlice }}
-            data-{{ . }}="{{ index $demo . }}"
-            {{- end }}
-            data-search="{{ delimit $searchParts " " }}"
-            {{ if $isExternal }}target="_blank"{{ end }}
-          >
-            <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
-              {{ with .image }}
-                {{ partial "picture.html" (dict
-                  "src" .
-                  "alt" $demo.title
-                  "loading" "lazy"
-                  "decoding" "async"
-                  "width" "400"
-                  "height" "148"
-                ) }}
-              {{ else }}
-                <span class="demos-catalog__card-image-label" aria-hidden="true">Demo</span>
-              {{ end }}
-            </div>
-            <div class="demos-catalog__card-body">
-              <span class="demos-catalog__card-badge">{{ .category }}</span>
-              <h3 class="demos-catalog__card-title">{{ .title }}</h3>
-              <p class="demos-catalog__card-description">{{ .description }}</p>
-            </div>
-          </a>
+          {{ partial "demo/demos-catalog-card.html" (dict
+            "demo" .
+            "filterKeys" $filterKeySlice
+          ) }}
         {{ end }}
       </div>
 
@@ -153,46 +134,11 @@
         data-results-list
       >
         {{ range $all }}
-          {{ $demo := . }}
-          {{ $isExternal := strings.HasPrefix .link.url "http" }}
-          {{- $searchParts := slice .title .description -}}
-          {{- range $filterKeySlice -}}
-            {{- with index $demo . -}}
-              {{- $searchParts = $searchParts | append . -}}
-            {{- end -}}
-          {{- end -}}
-          <a
-            href="{{ .link.url }}"
-            class="demos-catalog__card demos-catalog__card--list"
-            data-catalog-card
-            data-id="{{ .id }}"
-            data-name="{{ .title }}"
-            {{- range $filterKeySlice }}
-            data-{{ . }}="{{ index $demo . }}"
-            {{- end }}
-            data-search="{{ delimit $searchParts " " }}"
-            {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
-          >
-            <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
-              {{ with .image }}
-                {{ partial "picture.html" (dict
-                  "src" .
-                  "alt" $demo.title
-                  "loading" "lazy"
-                  "decoding" "async"
-                  "width" "800"
-                  "height" "296"
-                ) }}
-              {{ else }}
-                <span class="demos-catalog__card-image-label" aria-hidden="true">Demo</span>
-              {{ end }}
-            </div>
-            <div class="demos-catalog__card-body">
-              <span class="demos-catalog__card-badge">{{ .category }}</span>
-              <h3 class="demos-catalog__card-title">{{ .title }}</h3>
-              <p class="demos-catalog__card-description">{{ .description }}</p>
-            </div>
-          </a>
+          {{ partial "demo/demos-catalog-card.html" (dict
+            "demo" .
+            "filterKeys" $filterKeySlice
+            "list" true
+          ) }}
         {{ end }}
       </div>
 
