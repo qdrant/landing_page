@@ -52,6 +52,8 @@ Beyond cleaner configuration, version 1.19 also adds new capabilities: HNSW grap
 
 ## Per-Tenant IDF Statistics
 
+![Section 3](/blog/qdrant-1.19.x/section-3.png)
+
 Sparse vector search commonly uses the inverse document frequency (IDF) to score matching documents, giving rarer terms more weight than common ones. Calculating the IDF requires two statistics: the total number of documents and the number of documents containing each term.
 
 Qdrant computes these statistics for the complete dataset in each shard being queried, which creates a problem for multi-tenant collections. If tenant A's documents use different vocabulary than tenant B's, blending both populations into one set of statistics distorts a term's IDF, so it no longer reflects how rare that term is within either tenant's data.
