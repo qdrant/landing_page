@@ -26,13 +26,13 @@ tags:
 
 **Filtering Enhancements:** Prefix matching on keyword fields and a new slice filter condition for partitioning a collection's points into deterministic, disjoint subsets.
 
-**Web UI Enhancements:** An overhauled Collection Visualizer that scales to tens of thousands of points with new ways to explore data, plus interactive payload index management directly from the UI.
+**Web UI Enhancements:** Live resharding progress, an overhauled Collection Visualizer that scales to tens of thousands of points with new ways to explore data, plus interactive payload index management directly from the UI.
 
 ## TurboQuant Datatype
 
 ![Section 1](/blog/qdrant-1.19.x/section-1.png)
 
-Version 1.18 introduced [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), a quantization method that compresses vectors with minimal loss to recall. It operates as a secondary layer: Qdrant keeps the original full-precision vectors on disk alongside the compressed copy, using the quantized representation during HNSW traversal and rescoring against the original vectors for accuracy. The two-copy model delivers good recall, but storing both representations increases disk usage.
+Version 1.18 introduced [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), a quantization method that compresses vectors with minimal loss in recall. It operates as a secondary layer: Qdrant keeps the original full-precision vectors on disk alongside the compressed copy, using the quantized representation during HNSW traversal and rescoring against the original vectors for accuracy. The two-copy model delivers good recall, but storing both representations increases disk usage.
 
 In version 1.19, we've applied the same method to storage itself: the **[TurboQuant datatype](/documentation/manage-data/vectors/#turbo4)** (`datatype: turbo4`), a new storage type that applies 4-bit TurboQuant compression as the only vector representation, without keeping a full-precision copy.
 
@@ -80,13 +80,21 @@ This opens up two patterns that were previously difficult to implement efficient
 
 ![Section 5](/blog/qdrant-1.19.x/section-5.png)
 
-[Web UI](/documentation/web-ui/) is Qdrant's user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials.
+[Web UI](/documentation/web-ui/) is Qdrant's user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials. In version 1.19, the Web UI has gained several new features.
+
+### Resharding Progress
+
+[Resharding](/documentation/guides/distributed_deployment/#resharding) changes the number of shards for a collection, a process that can take a long time on large collections. Previously, the Web UI only showed that resharding was running, without visibility into its progress.
+
+The Collection **Cluster** tab now displays a live progress message for the duration of the operation. It names the shards being added or removed, and shows the current stage.
+
+![Screenshot of the resharding progress banner in the Qdrant Web UI](/blog/qdrant-1.19.x/web-ui-1.19-resharding.png)
 
 ### Collection Visualizations
 
-One of its tools, the Collection Visualizer, shows interactive 2D visualizations of your vectors, so you can visually explore your data and see how it clusters.
+The Collection **Visualize** tab shows interactive 2D visualizations of your vectors, so you can visually explore your data and see how it clusters.
 
-In this release, the Collection Visualizer has moved from a browser-side pipeline to a server-driven one. Qdrant now computes distances through the Distance Matrix API instead of the browser downloading raw vectors, and the layout engine runs in WebAssembly for a much more responsive experience. Together, these changes raise the practical point limit from a few thousand to tens of thousands, and a new WebGL2 renderer keeps panning and zooming smoothly at that scale.
+In this release, the Collection Visualizer has moved from a browser-side pipeline to a server-driven one. Qdrant now computes distances server-side, instead of the browser downloading raw vectors, and the layout engine runs in WebAssembly for a much more responsive experience. Together, these changes raise the practical point limit from a few thousand to tens of thousands, and a new WebGL2 renderer keeps panning and zooming smoothly at that scale.
 
 The Collection Visualizer also gains new ways to explore a collection: click a point to see its nearest neighbors highlighted, or Shift+drag to select a region of points to open a selection panel listing them, with one-click copy for their IDs, JSON, or a matching filter. You can also apply a filter to highlight matching points.
 
@@ -104,7 +112,7 @@ The Collection **Info** tab now includes a payload indexes overview that lists a
 
 ![Section 6](/blog/qdrant-1.19.x/section-6.png)
 
-- **[Replica Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity)**: Provide an `X-Qdrant-Route-Affinity` HTTP header with a user or session ID to pin that user's reads to the same replica, eliminating the inconsistency that can appear when sequential reads land on different replicas.
+- **[Replica Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity)**: Provide an `X-Qdrant-Route-Affinity` HTTP header with a user or session ID to pin that user's reads to the same replica, eliminating read inconsistency when sequential reads land on different replicas.
 - **[BM25: Language-Neutral Text Processing](/documentation/search/text-search/full-text-search/#language-neutral-text-processing)**: Turn off English stemming and stopword removal in BM25 text processing for a clean language-neutral text search pipeline, better suited to technical content, product identifiers, or multilingual text.
 - **Faster Faceting**: [Faceting](/documentation/manage-data/payload/#facet-counts) is a query feature that counts how many points match each distinct value of a payload field within a filtered result set. In 1.19, facet queries are faster, especially on large collections with high-cardinality fields.
 - **[Strict Mode: `max_disk_usage_percent`](/documentation/ops-configuration/administration/#maximum-disk-usage)**: A new [strict mode](/documentation/ops-configuration/administration/#strict-mode) guardrail that blocks disk-consuming write operations, such as upserts and payload or vector updates, once disk usage exceeds a configured percentage. Deletes remain allowed so you can free up space, and the goal is to prevent nodes from running out of disk space mid-operation.
