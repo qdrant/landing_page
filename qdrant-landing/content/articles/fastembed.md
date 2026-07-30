@@ -6,9 +6,10 @@ social_preview_image: /articles_data/fastembed/preview/social_preview.jpg
 small_preview_image: /articles_data/fastembed/preview/lightning.svg
 preview_dir: /articles_data/fastembed/preview
 weight: 10
-author: Nirant Kasliwal
-author_link: https://nirantk.com/about/ 
-date: 2023-10-18T10:00:00+03:00
+author: Nirant Kasliwal and Manas Chopra
+author_link: https://nirantk.com/about/
+date: 2026-07-30T10:00:00+03:00
+featured: false
 draft: false
 keywords:
     - vector search
@@ -256,4 +257,4 @@ So, go ahead, take it for a test drive. We're excited to hear what you think!
 
 Lastly, If you find FastEmbed useful and want to keep up with what we're doing, giving our GitHub repo a star would mean a lot to us. Here's the link to [star the repository](https://github.com/qdrant/fastembed).
 
-If you ever have questions about FastEmbed, please ask them on the Qdrant Discord: [https://discord.gg/Qy6HCJK9Dc](https://discord.gg/Qy6HCJK9Dc)
+If you ever have questions about FastEmbed, please ask them on the [Qdrant Discord](https://discord.gg/qdrant).
