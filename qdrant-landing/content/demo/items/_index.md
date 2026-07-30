@@ -30,13 +30,6 @@ demos:
     link:
       text: View Demo
       url: https://demo-food-discovery-v2x8-xi.vercel.app/
-  - id: mission-control
-    title: Mission Control
-    description: A home robot uses Qdrant Edge, no server, no network, to build searchable object memory in real time and answer hybrid queries in sub-ms time
-    category: Edge / On device
-    link:
-      text: View Demo
-      url: https://qdrant-edge-mission-control.vercel.app/
   - id: semantic-code-search
     title: Semantic Code Search
     description: Search the Qdrant codebase by describing what the code does, using MiniLM and UniXcoder embeddings.
@@ -53,13 +46,6 @@ demos:
     link:
       text: View Demo
       url: https://demo-ecommerce-search.vercel.app/
-  - id: sentinel
-    title: Sentinel
-    description: Real-time video anomaly detection from edge to cloud
-    category: Edge / Video
-    link:
-      text: View Demo
-      url: https://sentinel-amoeba-labs.vercel.app/overview
   - id: fraud-detection
     title: Fraud detection
     description: Score every charge against that customer's own history, with evidence behind every fraud alert.
