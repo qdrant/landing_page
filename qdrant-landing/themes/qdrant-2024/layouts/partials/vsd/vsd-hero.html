@@ -11,9 +11,16 @@
           {{ end }}
         </div>
         <h1 class="vsd-hero__title">{{ .Params.title | safeHTML }}</h1>
-        <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-hero__button">
-          {{ .Params.button.text }}
-        </a>
+        <div class="vsd-hero__buttons">
+          <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-hero__button"{{ if strings.HasPrefix .Params.button.url "http" }} target="_blank" rel="noopener noreferrer"{{ end }}>
+            {{ .Params.button.text }}
+          </a>
+          {{ with .Params.secondaryButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg vsd-hero__button"{{ if strings.HasPrefix .url "http" }} target="_blank" rel="noopener noreferrer"{{ end }}>
+              {{ .text }}
+            </a>
+          {{ end }}
+        </div>
       </div>
     </div>
   </section>
