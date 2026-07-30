@@ -201,8 +201,16 @@ Each supported language has:
 
 ## Quirks
 
-Sometimes `mypy` (python typechecker) complains at valid code.
-Place this comment at the top of the file to silence it:
-```python
-# mypy: disable-error-code="arg-type"
-```
+- Sometimes `mypy` (python typechecker) complains at valid code.
+  Place this comment at the top of the file to silence it:
+  ```python
+  # mypy: disable-error-code="arg-type"
+  ```
+- On MacOS, if you see Java compile errors like this:
+  ```
+  > java.io.IOException: Cannot run program "/workspace/automation/snippets/cache/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protoc/3.25.5/601137f5367caaf202a28e3844dd6dbbc77b19af/protoc-3.25.5-linux-x86_64.exe": Exec failed, error: 13 (Permission denied) 
+  ```
+  Explicitly set the executable bit on the reported file, for example (from `automation/snippets`):
+  ```bash
+  chmod a+x ./cache/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protoc/3.25.5/601137f5367caaf202a28e3844dd6dbbc77b19af/protoc-3.25.5-linux-x86_64.exe
+  ```
