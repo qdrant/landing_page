@@ -1,3 +1,7 @@
+> Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
+> Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
+> Use this file to discover all available pages: https://qdrant.tech/llms.txt
+
 {{- $content := .RenderShortcodes -}}
 {{- if not (strings.TrimSpace $content) }}# {{ .Title }}
 {{ end -}}

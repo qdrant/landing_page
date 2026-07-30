@@ -119,10 +119,17 @@ disableKinds = ["taxonomy", "term"]
   isHTML = false
   rel = "alternate"
 
+[outputFormats.LLMs]
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  isHTML = false
+  notAlternative = true
+
 [outputs]
   page = ["HTML", "Markdown"]
   section = ["HTML", "RSS", "Markdown"]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "LLMs"]
 
 [services]
   [services.googleAnalytics]
