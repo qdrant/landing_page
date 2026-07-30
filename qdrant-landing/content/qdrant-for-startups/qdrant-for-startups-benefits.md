@@ -9,7 +9,7 @@ mainCard:
 cards:
 - id: 0
   title: Expert Technical Advice
-  description: Get access to one-on-one sessions with experts for personalized technical advice.
+  description: Get access to sessions with experts for personalized technical advice.
   image:
     src: /img/qdrant-for-startups-benefits/card2.svg
     alt: Expert Technical Advice
