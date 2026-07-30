@@ -34,6 +34,27 @@
     }
   }
 
+  // Featured treatment for the "Latest Articles" block, so it reads as the
+  // page's entry point rather than one more category shelf.
+  &__block_featured {
+    padding: $spacer * 1.5;
+    background-color: rgba($neutral-20, 0.4);
+    border: pxToRem(1) solid $neutral-20;
+    border-top: pxToRem(3) solid $primary-50;
+    border-radius: $spacer * 0.5;
+
+    .docs-articles__title {
+      font-size: $spacer * 2;
+      line-height: $spacer * 2.5;
+    }
+
+    [data-theme='light'] & {
+      background-color: $neutral-100;
+      border-color: $neutral-90;
+      border-top-color: $primary-50;
+    }
+  }
+
   &__list {
     padding-bottom: $spacer * 3;
   }
@@ -119,6 +140,10 @@
         align-items: flex-end;
         gap: $spacer * 4;
       }
+    }
+
+    &__block_featured {
+      padding: $spacer * 2.5;
     }
   }
 
