@@ -11,11 +11,6 @@ aliases:
 partition: develop
 ---
 
-<aside role="status">
-  Qdrant offers a bi-weekly "Getting Started" live webinar with experts. 
-  Register for an upcoming session <a href="https://tinyurl.com/qdrant-onboarding" target="_blank" rel="noopener noreferrer">here</a>!
-</aside>
-
 # Qdrant Overview
 
 ## Welcome! {#welcome}
