@@ -10,7 +10,7 @@ cards:
     description: Spin up a permanently free cluster in under 90 seconds. No credit card, no minimum spend, around one million 768-dimension vectors.
     link:
       text: Start Free
-      url: #
+      url: https://cloud.qdrant.io/signup
   - id: 1
     icon:
       src: /icons/outline/message-square-blue.svg
@@ -19,7 +19,7 @@ cards:
     description: For SOC 2 evidence, HIPAA BAA, sizing help, or enterprise procurement.
     link:
       text: Talk to Engineering
-      url: #
+      url: /contact-us/
   - id: 2
     icon:
       src: /icons/outline/code-xml-blue.svg
@@ -28,6 +28,6 @@ cards:
     description: Pull the Docker image or clone the repo. Same engine, same APIs as Cloud. Apache 2.0.
     link:
       text: View on GitHub
-      url: #
+      url: https://github.com/qdrant/qdrant
 sitemapExclude: true
 ---

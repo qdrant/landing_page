@@ -9,7 +9,7 @@ features:
     alt: Language SDKs
   link: 
     text: Language SDKs
-    url: #
+    url: /documentation/interfaces/
 - id: 1
   img:
     src: /img/qdrant-cloud/monitoring-and-observability.svg
@@ -17,7 +17,7 @@ features:
     alt: Infrastructure as Code
   link: 
     text: Infrastructure as Code
-    url: #
+    url: /documentation/cloud-tools/terraform/
 - id: 2
   img:
     src: /img/qdrant-cloud/migrate.svg
@@ -33,7 +33,7 @@ features:
     alt: Integrations
   link: 
     text: Integrations
-    url: https://qdrant.tech/documentation/frameworks/
+    url: /documentation/frameworks/
 tabs:
   - id: 0
     tab: Operate Clusters (SDK + CLI)

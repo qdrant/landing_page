@@ -18,6 +18,6 @@ list:
     description: The same Qdrant engine, data format, and APIs across self-hosted, hybrid, and managed Cloud. Cloud supports snapshot export to your own infrastructure.
 button:
   text: Start Free
-  url: #
+  url: https://cloud.qdrant.io/signup
 sitemapExclude: true
 ---

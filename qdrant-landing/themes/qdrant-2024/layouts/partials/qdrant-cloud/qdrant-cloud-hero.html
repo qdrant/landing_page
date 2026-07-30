@@ -6,7 +6,11 @@
           <p class="qdrant-cloud-hero__label">{{ .Params.label }}</p>
           <h3 class="qdrant-cloud-hero__title">{{ .Params.title }}</h3>
           <div class="qdrant-cloud-hero__description">{{ .Params.description }}</div>
-          <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+          <a
+            href="{{ .Params.startFree.url }}"
+            class="button button_contained button_lg"
+            {{ if strings.HasPrefix .Params.startFree.url "http" }}target="_blank"{{ end }}
+          >
             {{ .Params.startFree.text }}
           </a>
           <div class="qdrant-cloud-hero__features">

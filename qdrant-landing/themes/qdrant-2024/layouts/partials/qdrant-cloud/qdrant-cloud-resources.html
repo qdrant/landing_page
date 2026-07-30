@@ -10,7 +10,11 @@
             <img class="qdrant-cloud-resources__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
             <h5 class="qdrant-cloud-resources__card-title">{{ .title | safeHTML }}</h5>
             <p class="qdrant-cloud-resources__card-description">{{ .description }}</p>
-            <a class="link link_dark link_md qdrant-cloud-resources__card-link" href="{{ .link.url }}">{{ .link.text }}</a>
+            <a
+              class="link link_dark link_md qdrant-cloud-resources__card-link"
+              href="{{ .link.url }}"
+              {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
+            >{{ .link.text }}</a>
           </div>
         </div>
         {{ end }}

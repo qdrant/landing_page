@@ -8,7 +8,11 @@
         {{ end }}
       </div>
       <div class="pricing-banner__button">
-        <a href="{{ .Params.button.url }}" class="button button_contained button_lg">
+        <a
+          href="{{ .Params.button.url }}"
+          class="button button_contained button_lg"
+          {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+        >
           {{ .Params.button.text }}
         </a>
       </div>

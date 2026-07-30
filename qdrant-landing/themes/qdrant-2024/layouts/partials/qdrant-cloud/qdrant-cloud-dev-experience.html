@@ -10,7 +10,11 @@
             <div class="card qdrant-cloud-dev-experience__card">
               <img class="qdrant-cloud-dev-experience__card-image" src="{{ .img.src }}" alt="{{ .img.alt }}">
               <img class="qdrant-cloud-dev-experience__card-image-mobile" src="{{ .img.mobileSrc }}" alt="{{ .img.alt }}">
-              <a class="link link_dark link_lg qdrant-cloud-dev-experience__card-link" href="{{ .link.url }}">
+              <a
+                class="link link_dark link_lg qdrant-cloud-dev-experience__card-link"
+                href="{{ .link.url }}"
+                {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
+              >
                 {{ .link.text }}
               </a>
             </div>
