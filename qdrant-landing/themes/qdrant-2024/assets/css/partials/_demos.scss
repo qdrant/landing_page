@@ -340,6 +340,8 @@
   }
 
   &__card {
+    position: relative;
+    z-index: 0;
     display: flex;
     flex-direction: column;
     gap: $spacer;
@@ -347,16 +349,33 @@
     border-radius: $spacer;
     border: pxToRem(0.64) solid $neutral-90;
     background-color: $neutral-98;
-    text-decoration: none;
     color: inherit;
     transition: box-shadow 0.2s ease;
 
     &:hover {
-      text-decoration: none;
-      color: inherit;
       box-shadow:
         0 pxToRem(5) pxToRem(11) 0 rgba(22, 30, 51, 0.1),
         0 pxToRem(19) pxToRem(21) 0 rgba(22, 30, 51, 0.09);
+    }
+
+    &-link {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      // Stretched link: whole card opens the demo; GitHub sits above via z-index
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: inherit;
+      }
     }
 
     &-image {
@@ -396,11 +415,17 @@
       padding: 0 $spacer;
     }
 
+    &-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacer * 0.5;
+    }
+
     &-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      align-self: flex-start;
       padding: pxToRem(2) $spacer * 0.5;
       border-radius: calc($spacer / 4);
       border: pxToRem(1) solid $neutral-90;
@@ -410,6 +435,40 @@
       line-height: 1.5;
       font-weight: 400;
       color: $neutral-50;
+    }
+
+    &-github {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: pxToRem(24);
+      height: pxToRem(24);
+      border-radius: calc($spacer / 4);
+      border: pxToRem(1) solid $neutral-90;
+      background-color: $neutral-98;
+      color: $neutral-50;
+      text-decoration: none;
+      transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+
+      svg {
+        display: block;
+        width: pxToRem(14);
+        height: pxToRem(14);
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: $neutral-20;
+        border-color: $neutral-80;
+        background-color: $neutral-94;
+        text-decoration: none;
+      }
     }
 
     &-title {
