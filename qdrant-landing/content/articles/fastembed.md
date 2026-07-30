@@ -32,28 +32,37 @@ To tackle these problems we built a small library focused on the task of quickly
 
 ## Quick Embedding Text Document Example
 
-Here is an example of how simple we have made embedding text documents:
+Here is an example of how simple we have made embedding text documents. First, install FastEmbed:
 
 ```python
-documents: List[str] = [
-    "Hello, World!",
-    "fastembed is supported by and maintained by Qdrant."
-] 
-embedding_model = DefaultEmbedding() 
-embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
+pip install fastembed
 ```
 
-These 3 lines of code do a lot of heavy lifting for you: They download the quantized model, load it using ONNXRuntime, and then run a batched embedding creation of your documents.
+Then, generate embeddings for a list of documents:
+
+```python
+from typing import List
+from fastembed import TextEmbedding
+
+documents: List[str] = [
+    "Hello, World!",
+    "fastembed is supported by and maintained by Qdrant."
+]
+embedding_model = TextEmbedding()
+embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
+```
+
+These last 3 lines of code do a lot of heavy lifting for you: They download the quantized model, load it using ONNXRuntime, and then run a batched embedding creation of your documents.
 
 ### Code Walkthrough
 
 Let’s delve into a more advanced example code snippet line-by-line:
 
 ```python
-from fastembed.embedding import DefaultEmbedding
+from fastembed import TextEmbedding
 ```
 
-Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
+Here, we import the `TextEmbedding` class from FastEmbed. This is the core class responsible for generating embeddings based on your chosen text model. By default, it loads [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
 
 ```python
 documents: List[str] = [
@@ -73,7 +82,7 @@ The use of text prefixes like “query” and “passage” isn’t merely synta
 Next, we initialize the Embedding model with the default model: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5). 
 
 ```python
-embedding_model = DefaultEmbedding()
+embedding_model = TextEmbedding()
 ```
 
 The default model and several other models have a context window of a maximum of 512 tokens. This maximum limit comes from the embedding model training and design itself. If you'd like to embed sequences larger than that, we'd recommend using some pooling strategy to get a single vector out of the sequence. For example, you can use the mean of the embeddings of different chunks of a document. This is also what the [SBERT Paper recommends](https://lilianweng.github.io/posts/2021-05-31-contrastive/#sentence-bert)
@@ -90,15 +99,16 @@ The `embed()` method returns a list of NumPy arrays, each corresponding to the 
 
 You can easily parse these NumPy arrays for any downstream application—be it clustering, similarity comparison, or feeding them into a machine learning model for further analysis.
 
-## 3 Key Features of FastEmbed
+## Why FastEmbed is Useful
 
 FastEmbed is built for inference speed, without sacrificing (too much) performance:
 
-1. 50% faster than PyTorch Transformers
-2. Better performance than Sentence Transformers and OpenAI Ada-002
-3. Cosine similarity of quantized and original model vectors is 0.92
+- **Light**: Unlike other inference frameworks, such as PyTorch, FastEmbed requires very little in the way of external dependencies. Because it uses the ONNX Runtime, it’s perfect for serverless environments like AWS Lambda.
+- **Fast**: By using ONNX, FastEmbed ensures high-performance inference across various hardware platforms.
+- **Accurate**: FastEmbed aims for better accuracy and recall than models like OpenAI’s `Ada-002`. It always uses models which demonstrate strong results on the MTEB leaderboard.
+- **Support**: FastEmbed supports a wide range of models — dense, sparse, and multi-vector, including multilingual ones — to meet diverse use case needs.
 
-We use `BAAI/bge-small-en-v1.5` as our DefaultEmbedding, hence we've chosen that for comparison:
+We use `BAAI/bge-small-en-v1.5` as our default `TextEmbedding` model:
 
 ![](/articles_data/fastembed/throughput.png)
 
@@ -106,58 +116,49 @@ We use `BAAI/bge-small-en-v1.5` as our DefaultEmbedding, hence we've chosen that
 
 **Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our default model is so small, you can run this in AWS Lambda if you’d like!
 
-Shout out to Huggingface's [Optimum](https://github.com/huggingface/optimum) – which made it easier to quantize models.
+Shout out to Huggingface's [Optimum](https://github.com/huggingface/optimum) – which made it easier to quantize models.
 
-**Reduced Installation Time**:
+**Light on Dependencies**:
 
-FastEmbed sets itself apart by maintaining a low minimum RAM/Disk usage.
+FastEmbed sets itself apart by maintaining a low minimum RAM/Disk usage. Unlike other inference frameworks, such as PyTorch, it requires very little in the way of external dependencies, and there’s no requirement for CUDA drivers to run on CPU.
 
-It’s designed to be agile and fast, useful for businesses looking to integrate text embedding for production usage. For FastEmbed, the list of dependencies is refreshingly brief:
+This is intentional. FastEmbed is engineered to deliver optimal performance right on your CPU, eliminating the need for specialized hardware or complex setups, while still remaining agile and fast enough for production use.
 
-> - onnx: Version ^1.11 – We’ll try to drop this also in the future if we can!
-> - onnxruntime: Version ^1.15
-> - tqdm: Version ^4.65 – used only at Download
-> - requests: Version ^2.31 – used only at Download
-> - tokenizers: Version ^0.13
-
-This minimized list serves two purposes. First, it significantly reduces the installation time, allowing for quicker deployments. Second, it limits the amount of disk space required, making it a viable option even for environments with storage limitations.
-
-Notably absent from the dependency list are bulky libraries like PyTorch, and there’s no requirement for CUDA drivers. This is intentional. FastEmbed is engineered to deliver optimal performance right on your CPU, eliminating the need for specialized hardware or complex setups.
-
-**ONNXRuntime**: The ONNXRuntime gives us the ability to support multiple providers. The quantization we do is limited for CPU (Intel), but we intend to support GPU versions of the same in the future as well.  This allows for greater customization and optimization, further aligning with your specific performance and computational requirements.
+**ONNXRuntime and GPU Support**: The ONNXRuntime gives us the ability to support multiple providers. FastEmbed's default quantization targets CPU, but GPU acceleration is also available: install `fastembed-gpu` and set `cuda=True` (with `device_ids` to spread work across multiple GPUs) to run inference on GPU instead of CPU. FastEmbed also supports parallelizing inference across multiple CPU workers with the `parallel` parameter, and lazy model loading with `lazy_load`, to optimize throughput for large-scale indexing pipelines.
 
 ## Current Models
 
-We’ve started with a small set of supported models:
+FastEmbed has grown well beyond dense text embeddings. Today it supports:
 
-All the models we support are [quantized](https://pytorch.org/docs/stable/quantization.html) to enable even faster computation!
+- **Dense embeddings** – the default `TextEmbedding` model used throughout this article (e.g. `BAAI/bge-small-en-v1.5`, multilingual-e5, nomic-embed-text-v2-moe)
+- **Sparse embeddings** – `SparseTextEmbedding` models including BM25, SPLADE, and miniCOIL for exact keyword-style retrieval
+- **Multi-vector embeddings** – `LateInteractionTextEmbedding` models including ColBERT, ideal for rescoring and small-scale retrieval
+- **Image embeddings** – `ImageEmbedding` models including CLIP variants for visual and multimodal search
+- **Rerankers** – `TextCrossEncoder` cross-encoders to re-rank top-K results (e.g. ms-marco-MiniLM)
+- **Postprocessing** – MUVERA, for compressing multi-vector embeddings into single fixed-size vectors for fast first-stage search
+
+Most of the models we support are [quantized](https://pytorch.org/docs/stable/quantization.html) to enable even faster computation!
 
 If you're using FastEmbed and you've got ideas or need certain features, feel free to let us know. Just drop an issue on our GitHub page. That's where we look first when we're deciding what to work on next. Here's where you can do it: [FastEmbed GitHub Issues](https://github.com/qdrant/fastembed/issues).
 
-When it comes to FastEmbed's DefaultEmbedding model, we're committed to supporting the best Open Source models.
+When it comes to FastEmbed's default `TextEmbedding` model, we're committed to supporting the best Open Source models.
 
-If anything changes, you'll see a new version number pop up, like going from 0.0.6 to 0.1. So, it's a good idea to lock in the FastEmbed version you're using to avoid surprises.
+If anything changes, you'll see a new version number pop up. So, it's a good idea to lock in the FastEmbed version you're using to avoid surprises.
 
 ## Using FastEmbed with Qdrant
 
 Qdrant is a Vector Store, offering comprehensive, efficient, and scalable [enterprise solutions](https://qdrant.tech/enterprise-solutions/) for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant [vector database solution](https://qdrant.tech/qdrant-vector-database/), or specialized quantization methods – [Qdrant is engineered](/documentation/overview/) to meet those demands head-on.
 
-The fusion of FastEmbed with Qdrant’s vector store capabilities enables a transparent workflow for seamless embedding generation, storage, and retrieval. This simplifies the API design — while still giving you the flexibility to make significant changes e.g. you can use FastEmbed to make your own embedding other than the DefaultEmbedding and use that with Qdrant.
+The fusion of FastEmbed with Qdrant’s vector store capabilities enables a transparent workflow for seamless embedding generation, storage, and retrieval. This simplifies the API design — while still giving you the flexibility to make significant changes e.g. you can use FastEmbed to make your own embedding other than the default `TextEmbedding` model and use that with Qdrant.
 
 Below is a detailed guide on how to get started with FastEmbed in conjunction with Qdrant.
 
 ### Step 1: Installation
 
-Before diving into the code, the initial step involves installing the Qdrant Client along with the FastEmbed library. This can be done using pip:
+Before diving into the code, the initial step involves installing the Qdrant Client along with the FastEmbed library. This can be done using pip. Wrap the package name in quotes so shells like zsh don't try to expand the brackets:
 
-```
-pip install qdrant-client[fastembed]
-```
-
-For those using zsh as their shell, you might encounter syntax issues. In such cases, wrap the package name in quotes:
-
-```
-pip install 'qdrant-client[fastembed]'
+```python
+pip install "qdrant-client[fastembed]>=1.14.2"
 ```
 
 ### Step 2: Initializing the Qdrant Client
@@ -165,9 +166,9 @@ pip install 'qdrant-client[fastembed]'
 After successful installation, the next step involves initializing the Qdrant Client. This can be done either in-memory or by specifying a database path:
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 # Initialize the client
-client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
+client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
 ```
 
 ### Step 3: Preparing Documents, Metadata, and IDs
@@ -175,56 +176,67 @@ client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
 Once the client is initialized, prepare the text documents you wish to embed, along with any associated metadata and unique IDs:
 
 ```python
-docs = [
+docs = [
     "Qdrant has Langchain integrations",
     "Qdrant also has Llama Index integrations"
 ]
-metadata = [
+metadata = [
     {"source": "Langchain-docs"},
     {"source": "LlamaIndex-docs"},
 ]
-ids = [42, 2]
+ids = [42, 2]
 ```
 
-Note that the add method we’ll use is overloaded: If you skip the ids, we’ll generate those for you. metadata is obviously optional. So, you can simply use this too:
+### Step 4: Creating a Collection
+
+Qdrant needs to know the size and distance metric of the vectors it will store before you can add anything to it. Since FastEmbed determines the vector size for a given model, you can ask the client for it directly instead of hardcoding it:
 
 ```python
-docs = [
-    "Qdrant has Langchain integrations",
-    "Qdrant also has Llama Index integrations"
-]
-```
+model_name = "BAAI/bge-small-en-v1.5"
 
-### Step 4: Adding Documents to a Collection
-
-With your documents, metadata, and IDs ready, you can proceed to add these to a specified collection within Qdrant using the add method:
-
-```python
-client.add(
+client.create_collection(
     collection_name="demo_collection",
-    documents=docs,
-    metadata=metadata,
-    ids=ids
+    vectors_config=models.VectorParams(
+        size=client.get_embedding_size(model_name),
+        distance=models.Distance.COSINE,
+    ),
 )
 ```
 
-Inside this function, Qdrant Client uses FastEmbed to make the text embedding, generate ids if they’re missing, and then add them to the index with metadata. This uses the DefaultEmbedding model: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
+### Step 5: Adding Documents to the Collection
+
+With the collection created, wrap each document in `models.Document`, telling Qdrant Client which model to embed it with, and upload the vectors, payload, and ids together:
+
+```python
+metadata_with_docs = [
+    {"document": doc, **meta} for doc, meta in zip(docs, metadata)
+]
+
+client.upload_collection(
+    collection_name="demo_collection",
+    vectors=[models.Document(text=doc, model=model_name) for doc in docs],
+    payload=metadata_with_docs,
+    ids=ids,
+)
+```
+
+Inside this call, Qdrant Client uses FastEmbed to generate the text embeddings and upload them to the collection along with the payload. This uses the model you specified: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
 
 ![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/generate-embeddings-from-docs.png)
 
-### Step 5: Performing Queries
+### Step 6: Performing Queries
 
-Finally, you can perform queries on your stored documents. Qdrant offers a robust querying capability, and the query results can be easily retrieved as follows:
+Finally, you can perform queries on your stored documents. Wrap the query text in `models.Document` the same way, and use `query_points` to search:
 
 ```python
-search_result = client.query(
+search_result = client.query_points(
     collection_name="demo_collection",
-    query_text="This is a query document"
-)
+    query=models.Document(text="This is a query document", model=model_name),
+).points
 print(search_result)
 ```
 
-Behind the scenes, we first convert the query_text to the embedding and use that to query the vector index.
+Behind the scenes, we first convert the query document to an embedding and use that to query the vector index.
 
 ![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](/articles_data/fastembed/generate-embeddings-query.png)
 
