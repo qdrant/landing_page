@@ -3,6 +3,7 @@ title: Payload
 short_description: "Attach JSON payloads to Qdrant points to store metadata alongside vectors and filter or rank results on it."
 description: "Store JSON payloads alongside vectors in Qdrant, then use them for filtering, faceting, and result ranking to combine metadata with semantic similarity search."
 weight: 15
+cta: "See payload filtering in action on a live cluster."
 aliases:
   - ../payload
   - /documentation/concepts/payload/
