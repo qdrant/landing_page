@@ -12,6 +12,10 @@
     margin: 0;
     max-width: 100%;
     padding-top: $spacer * 1.5;
+
+    @include media-breakpoint-down(xl) {
+      max-width: 100%;
+    }
   }
   &__article-wrapper {
     width: 100%;
