@@ -1,0 +1,137 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.free-tier-banner {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: $spacer * 4;
+  padding: $spacer * 2;
+  background: url('/img/stars-pattern.png') $neutral-10;
+  border: pxToRem(1) solid $neutral-20;
+  border-radius: pxToRem(12);
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+  }
+
+  &__intro {
+    text-align: center;
+  }
+
+  &__title {
+    padding-top: 0 !important;
+    margin-bottom: $spacer * 1.5;
+    font-size: pxToRem(28);
+    line-height: pxToRem(36);
+    font-weight: 500;
+    color: $neutral-98;
+  }
+
+  &__button {
+    font-size: pxToRem(14);
+    font-weight: 500;
+  }
+
+  &__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer * 1.25;
+  }
+
+  &__feature {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.75;
+    color: $neutral-90;
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
+  }
+
+  // Higher specificity than the `.documentation-article img` content-image
+  // mixin, so these icons render at a uniform size instead of natural size.
+  &__feature &__feature-icon {
+    display: block;
+    flex-shrink: 0;
+    width: pxToRem(32);
+    height: pxToRem(32);
+    max-width: none;
+    margin: 0;
+    object-fit: contain;
+  }
+
+  @include media-breakpoint-up(lg) {
+    // No card padding at this breakpoint: the intro and grid cells carry their
+    // own padding instead, so the divider lines run full-bleed to the borders.
+    padding: 0;
+
+    &__inner {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    &__intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      flex: 0 0 38%;
+      text-align: left;
+      padding: $spacer * 2.5 $spacer * 3;
+    }
+
+    &__title {
+      max-width: pxToRem(360);
+      margin-bottom: $spacer * 2;
+    }
+
+    &__features {
+      flex: 1;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0;
+      // Vertical divider between the intro and the grid; spans the full height,
+      // so it reaches the top and bottom borders.
+      border-left: pxToRem(1) solid $neutral-20;
+    }
+
+    &__feature {
+      padding: $spacer * 2 $spacer * 1.75;
+
+      // Vertical divider between the two columns (reaches top and bottom borders).
+      &:nth-child(odd) {
+        border-right: pxToRem(1) solid $neutral-20;
+      }
+
+      // Horizontal divider between the two rows (reaches the right border).
+      &:nth-child(-n + 2) {
+        border-bottom: pxToRem(1) solid $neutral-20;
+      }
+    }
+  }
+
+  [data-theme='light'] & {
+    // The card stays dark in light mode, so keep the title light. Uses a
+    // descendant selector (not `&__title`) to outrank the more specific
+    // `[data-theme='light'] .documentation-article h2` dark heading color.
+    .free-tier-banner__title {
+      color: $neutral-98;
+    }
+
+    .button_outlined {
+      color: $neutral-100;
+      box-shadow: 0 0 0 1px $neutral-60;
+
+      &:hover {
+        box-shadow: 0 0 0 2px $neutral-60;
+      }
+    }
+  }
+}
