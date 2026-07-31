@@ -1,0 +1,21 @@
+<section class="pricing-banner">
+  <div class="container">
+    <div class="pricing-banner__content">
+      <div class="pricing-banner__text">
+        <h2 class="pricing-banner__title">{{ .Params.title | safeHTML }}</h2>
+        {{ if .Params.description }}
+          <p class="pricing-banner__description">{{ .Params.description }}</p>
+        {{ end }}
+      </div>
+      <div class="pricing-banner__button">
+        <a
+          href="{{ .Params.button.url }}"
+          class="button button_contained button_lg"
+          {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+        >
+          {{ .Params.button.text }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

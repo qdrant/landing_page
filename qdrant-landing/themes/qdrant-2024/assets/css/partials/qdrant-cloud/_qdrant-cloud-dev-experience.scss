@@ -1,0 +1,396 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.qdrant-cloud-dev-experience {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+  
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    margin-bottom: $spacer * 2.5;
+    color: $neutral-20;
+    text-align: center;
+  }
+  
+  &__cards {
+    margin-bottom: $spacer * 2.5;
+  }
+  
+  &__card {
+    padding: 0;
+    overflow: hidden;
+
+    // The whole card is a link; keep the card itself looking unchanged on hover
+    // and let only the arrow link switch to its hover state.
+    &.card[href]:hover {
+      border-top-color: $neutral-90;
+      box-shadow: none;
+    }
+
+    &-image {
+     display: none;
+      
+      &-mobile {
+        width: 100%;
+      }
+    }
+    
+    &-link {
+      margin: $spacer * 1.5;
+    }
+  }
+  
+  &__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding: $spacer * 0.5;
+    border-radius: $spacer * 0.5;
+    background-color: $neutral-94;
+    margin-bottom: $spacer * 0.5;
+    
+    &-button {
+      width: 100%;
+      padding: pxToRem(12) math.div($spacer, 4);
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+      margin: 0;
+      border: 0;
+      background-color: transparent;
+      border-radius: $spacer * 0.5;
+      transition:
+              background-color 0.25s ease,
+              color 0.25s ease,
+              box-shadow 0.25s ease;
+      
+      &.active {
+        color: $neutral-20;
+        background-color: $neutral-100;
+        font-weight: $font-weight-semibold;
+        box-shadow: 
+                0 11px 3px 0 rgba(0, 0, 0, 0.00), 
+                0 7px 3px 0 rgba(0, 0, 0, 0.01), 
+                0 4px 2px 0 rgba(0, 0, 0, 0.05), 
+                0 2px 2px 0 rgba(0, 0, 0, 0.09), 
+                0 0 1px 0 rgba(0, 0, 0, 0.10);
+      }
+    }
+  }
+  
+  &__tab {
+    &-container {
+      padding: $spacer;
+      border: pxToRem(1) solid $neutral-90;
+      background-color: $neutral-98;
+      border-radius: $spacer * 0.5;
+    }
+
+    &-content {
+      display: none;
+      
+      &.is-active {
+        display: block;
+      }
+    }
+  }
+  
+  &__slide {
+    &-header {
+      display: flex;
+      flex-direction: column;
+      padding: $spacer;
+      gap: $spacer * 0.5;
+      margin-bottom: $spacer * 0.5;
+    }
+    
+    &-title {
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      margin-bottom: 0;
+      color: $neutral-20;
+    }
+    
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: 0;
+      color: $neutral-30; 
+    }
+    
+    &-code-list {
+      display: flex;
+      flex-direction: column;
+      gap: $spacer;
+    }
+    
+    &-code-item {
+      display: flex;
+      justify-content: center;
+      
+      .qdrant-cloud-dev-experience__code {
+        height: pxToRem(620);
+
+        &-content {
+          height: pxToRem(580);
+        }
+      }
+    }
+    
+    &-image {
+      display: none;
+      
+      &-mobile {
+        width: 100%;
+      }
+    }
+  }
+
+  &__code {
+    overflow: hidden;
+    width: 100%;
+    height: pxToRem(302);
+    border-radius: $spacer;
+    background-color: $neutral-100;
+    border: pxToRem(1) solid $neutral-90;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: $spacer * 2.5;
+      padding: 0 $spacer;
+      background-color: $neutral-100;
+      border-bottom: pxToRem(1) solid $neutral-90;
+    }
+
+    &-window-buttons {
+      display: flex;
+      gap: pxToRem(7);
+
+      div {
+        height: pxToRem(8);
+        width: pxToRem(8);
+        border-radius: 50%;
+      }
+
+      &__close {
+        background-color: $error-50;
+      }
+
+      &__minimize {
+        background-color: $neutral-60;
+      }
+
+      &__expand {
+        background-color: $success-50;
+      }
+    }
+
+    &-bar {
+      margin-bottom: 0;
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+      color: $neutral-20;
+    }
+
+    &-content {
+      display: flex;
+      align-items: flex-start;
+      height: pxToRem(262);
+      margin: 0 math.div($spacer, 4);
+      padding: pxToRem(28) pxToRem(20) pxToRem(28) pxToRem(28);
+      background: $neutral-98;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+
+      .highlight {
+        width: calc(100% - ($spacer * 1.5));
+        margin-bottom: 0;
+        background: transparent;
+
+        pre {
+          display: block;
+          width: 100%;
+          padding: 0;
+          background: transparent;
+          white-space: pre-wrap;
+          overflow-x: hidden;
+        }
+
+        code {
+          display: block;
+          width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+
+          .line {
+            margin-bottom: 0;
+          }
+
+          * {
+            font-size: $font-size-xs;
+            line-height: pxToRem(18);
+            color: $neutral-30;
+          }
+
+          .c1 {
+            color: #7D8B99;
+          }
+
+          .s2, .nb {
+            color: #2F9C0A;
+          }
+
+          .k, .kn {
+            color: #A04900;
+          }
+
+          .mi {
+            color: $error-50;
+          }
+          
+          .o, .kc {
+            color: #A67F59;
+          }
+        }
+      }
+
+      &-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: pxToRem(7);
+        border: pxToRem(1) solid $neutral-90;
+        border-radius: math.div($spacer, 4);
+        background: $neutral-98;
+        color: $neutral-70;
+
+        svg {
+          height: pxToRem(14);
+          width: pxToRem(14);
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__slide {
+      &-image {
+        display: block;
+        width: 100%;
+
+        &-mobile {
+          display: none;
+        }
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__cards {
+      margin-bottom: $spacer * 4;
+    }
+    
+    &__card {
+      &-image {
+        display: block;
+        width: 100%;
+
+        &-mobile {
+          display: none;
+        }
+      }
+    }
+
+    &__tabs {
+      &-button {
+        width: auto;
+        flex: 1;
+      }
+    }
+
+    &__slide {
+      &-header {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      &-title {
+        max-width: pxToRem(330);
+        font-size: $h6-font-size;
+        line-height: $spacer * 2;
+      }
+
+      &-description {
+        max-width: pxToRem(412);
+        font-size: $font-size-l;
+        line-height: $line-height-lg;
+      }
+
+      &-code-list {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: $spacer;
+      }
+      
+      &-image {
+        padding: $spacer;
+      }
+
+      &-code-item {
+        display: flex;
+        justify-content: center;
+        padding: $spacer;
+
+        .qdrant-cloud-dev-experience__code {
+          width: auto;
+          min-width: pxToRem(900);
+          height: pxToRem(648);
+
+          &-content {
+            height: pxToRem(608);
+          }
+        }
+      }
+    }
+
+    &__code {
+      height: pxToRem(440);
+
+      &-content {
+        height: pxToRem(400);
+      }
+    }
+  }
+}

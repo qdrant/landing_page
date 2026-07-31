@@ -1,0 +1,54 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-hero") }}
+  <section class="qdrant-cloud-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <p class="qdrant-cloud-hero__label">{{ .Params.label }}</p>
+          <h3 class="qdrant-cloud-hero__title">{{ .Params.title }}</h3>
+          <div class="qdrant-cloud-hero__description">{{ .Params.description }}</div>
+          <a
+            href="{{ .Params.startFree.url }}"
+            class="button button_contained button_lg"
+            {{ if strings.HasPrefix .Params.startFree.url "http" }}target="_blank"{{ end }}
+          >
+            {{ .Params.startFree.text }}
+          </a>
+          <div class="qdrant-cloud-hero__features">
+            {{ range .Params.features }}
+              <div class="qdrant-cloud-hero__features-item">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_18273_21757)">
+                    <path d="M4.5 6L5.5 7L7.5 5M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#8F98B3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_18273_21757">
+                      <rect width="12" height="12" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+                {{ .title }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="qdrant-cloud-hero__image-container">
+            <img class="qdrant-cloud-hero__image" src="{{ .Params.img.src }}" alt="{{ .Params.img.alt }}"/>
+            <img class="qdrant-cloud-hero__image-mobile" src="{{ .Params.img.mobileSrc }}" alt="{{ .Params.img.alt }}"/>
+          </div>
+        </div>
+        <div class="col-12 qdrant-cloud-hero__customers">
+          <p class="qdrant-cloud-hero__customers-title">{{ .Params.iconsTitle }}</p>
+          <div class="qdrant-cloud-hero__customers-list">
+            {{ range .Params.icons }}
+              <div class="qdrant-cloud-hero__customers-logo">
+                <img src="{{ .src }}" alt="{{ .alt }}" />
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="qdrant-cloud-hero__overlay"></div>
+  </section>
+{{ end }}

@@ -1,0 +1,141 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.qdrant-cloud-hero {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  position: relative;
+  overflow: hidden;
+  background: $neutral-10;
+
+  &__label {
+    margin-bottom: $spacer * 1.5;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-80;
+  }
+  
+  &__features {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(12);
+    flex-wrap: wrap;
+    margin-top: $spacer * 2.5;
+    margin-bottom: $spacer * 2.5;
+    
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: math.div($spacer, 4);
+      color: $neutral-70;
+      font-size: $font-size-xs;
+      line-height: pxToRem(18);
+    }
+  }
+  
+  &__image {
+    display: none;
+
+    &-mobile {
+      width: 100%;
+    }
+  }
+  
+  &__customers {
+    margin-top: $spacer * 2.5;
+    
+    &-title {
+      margin-bottom: $spacer * 2.5;
+      font-family: 'Geist Mono', $font-family-monospace;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+      color: $neutral-80;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    
+    &-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: $spacer * 2;
+    }
+    
+    &-logo {
+      width: pxToRem(122);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      img {
+        height: $spacer * 2.5;
+        width: auto;
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(53);
+    }
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      max-width: pxToRem(524);
+    }
+
+    &__features {
+      margin-top: $spacer * 5;
+    }
+
+    &__image {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: $spacer * 5;
+      height: pxToRem(540);
+      
+      &-container {
+        position: relative;
+      }
+
+      &-mobile {
+        display: none;
+      }
+    }
+
+    &__customers {
+      &-title {
+        text-align: left;
+      }
+      
+      &-list {
+        justify-content: space-between;
+        gap: $spacer * 2 $spacer * 5;
+      }
+    }
+  }
+}

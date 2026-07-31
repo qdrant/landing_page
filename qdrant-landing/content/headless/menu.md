@@ -3,7 +3,7 @@ logIn:
   text: Log in
   url: https://cloud.qdrant.io/login
 startFree:
-  text: Get Started
+  text: Start Free
   url: https://cloud.qdrant.io/signup
 menuItems:
   - id: menu-0

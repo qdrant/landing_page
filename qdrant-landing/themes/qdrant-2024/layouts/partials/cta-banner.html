@@ -10,9 +10,24 @@
           {{ if .Params.description }}
             <p class="cta-banner__description">{{ .Params.description }}</p>
           {{ end }}
-          <a href="{{ .Params.button.url }}" class="button button_contained button_lg cta-banner__button">
-            {{ .Params.button.text }}
-          </a>
+          <div class="cta-banner__buttons">
+            <a
+              href="{{ .Params.button.url }}"
+              class="button button_contained button_lg cta-banner__button"
+              {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+            >
+              {{ .Params.button.text }}
+            </a>
+            {{ if .Params.outlineButton }}
+              <a
+                href="{{ .Params.outlineButton.url }}"
+                class="button button_outlined button_lg cta-banner__button"
+                {{ if strings.HasPrefix .Params.outlineButton.url "http" }}target="_blank"{{ end }}
+              >
+                {{ .Params.outlineButton.text }}
+              </a>
+            {{ end }}
+          </div>
         </div>
         <div class="cta-banner__illustration">
           {{ partial "picture" (dict "src" $illustration.src "alt" $illustration.alt "loading" "lazy" "decoding" "async") }}

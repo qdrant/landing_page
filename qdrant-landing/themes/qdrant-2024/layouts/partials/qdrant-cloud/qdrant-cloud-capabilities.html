@@ -1,0 +1,72 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-capabilities") }}
+  <section class="qdrant-cloud-capabilities">
+    <div class="container">
+      <h3 class="qdrant-cloud-capabilities__title">{{ .Params.title }}</h3>
+      <p class="qdrant-cloud-capabilities__description">{{ .Params.description }}</p>
+  
+      <div class="qdrant-cloud-capabilities__tabs-sticky">
+        <div class="qdrant-cloud-capabilities__tabs" data-capabilities-tabs>
+          {{ range $index, $tab := .Params.tabs }}
+            <button
+              class="qdrant-cloud-capabilities__tabs-button{{ if eq $index 0 }} active{{ end }}"
+              data-capabilities-tab="{{ $index }}"
+            >
+              {{ $tab.tab }}
+            </button>
+          {{ end }}
+        </div>
+      </div>
+  
+      <div class="qdrant-cloud-capabilities__tab-container">
+        {{ range $index, $tab := .Params.tabs }}
+          <div
+            class="qdrant-cloud-capabilities__tab-content"
+            id="qdrant-cloud-capabilities-tab-{{ $index }}"
+            data-capabilities-panel="{{ $index }}"
+          >
+            <div class="qdrant-cloud-capabilities__tab-header">
+              <div class="qdrant-cloud-capabilities__tab-header-overlay1"></div>
+              <div
+                class="qdrant-cloud-capabilities__tab-header-overlay2"
+                style="
+                      --overlay-mobile: url('/img/qdrant-cloud/background/line-blur-mobile-{{ add $index 1 }}.png');
+                      --overlay-desktop: url('/img/qdrant-cloud/background/line-blur-{{ add $index 1 }}.png');
+                    "
+              ></div>
+              <div class="qdrant-cloud-capabilities__tab-header-overlay3"></div>
+              <h4 class="qdrant-cloud-capabilities__tab-title">{{ $tab.title }}</h4>
+              <p class="qdrant-cloud-capabilities__tab-description">{{ $tab.description }}</p>
+            </div>
+            <div class="qdrant-cloud-capabilities__tab-features">
+              {{ range $tab.features }}
+                {{ if .link }}
+                <a
+                  class="qdrant-cloud-capabilities__tab-feature"
+                  href="{{ .link }}"
+                  {{ if strings.HasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}
+                >
+                {{ else }}
+                <div class="qdrant-cloud-capabilities__tab-feature">
+                {{ end }}
+                  <div class="qdrant-cloud-capabilities__tab-feature-header">
+                    <img
+                      class="qdrant-cloud-capabilities__tab-feature-icon"
+                      src="{{ .icon.src }}"
+                      alt="{{ .icon.alt }}"
+                    >
+                    <h3 class="qdrant-cloud-capabilities__tab-feature-title">{{ .title }}</h3>
+                  </div>
+                  <p class="qdrant-cloud-capabilities__tab-feature-description">{{ .description }}</p>
+                {{ if .link }}
+                </a>
+                {{ else }}
+                </div>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

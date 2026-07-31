@@ -1,0 +1,108 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-dev-experience") }}
+  <section class="qdrant-cloud-dev-experience">
+    <div class="container">
+      <p class="qdrant-cloud-dev-experience__label">{{ .Params.label }}</p>
+      <h3 class="qdrant-cloud-dev-experience__title">{{ .Params.title }}</h3>
+  
+      <div class="row g-1 qdrant-cloud-dev-experience__cards">
+        {{ range .Params.features }}
+          <div class="col-12 col-md-6 col-lg-3">
+            <a
+              class="card qdrant-cloud-dev-experience__card"
+              href="{{ .link.url }}"
+              {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
+            >
+              <img class="qdrant-cloud-dev-experience__card-image" src="{{ .img.src }}" alt="{{ .img.alt }}">
+              <img class="qdrant-cloud-dev-experience__card-image-mobile" src="{{ .img.mobileSrc }}" alt="{{ .img.alt }}">
+              <span class="link link_dark link_lg qdrant-cloud-dev-experience__card-link">
+                {{ .link.text }}
+              </span>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+  
+      <div class="qdrant-cloud-dev-experience__tab-container">
+        <div class="qdrant-cloud-dev-experience__tabs" data-dev-experience-tabs>
+          {{ range $index, $tab := .Params.tabs }}
+            <button
+              type="button"
+              class="qdrant-cloud-dev-experience__tabs-button{{ if eq $index 0 }} active{{ end }}"
+              data-dev-experience-tab="{{ $index }}"
+            >
+              {{ $tab.tab }}
+            </button>
+          {{ end }}
+        </div>
+  
+        {{ range $index, $tab := .Params.tabs }}
+          <div
+            class="qdrant-cloud-dev-experience__tab-content{{ if eq $index 0 }} is-active{{ end }}"
+            id="qdrant-cloud-dev-experience-tab-{{ $index }}"
+            data-dev-experience-panel="{{ $index }}"
+          >
+            {{ if eq $index 0 }}
+              <div class="qdrant-cloud-dev-experience__slide qdrant-cloud-dev-experience__slide--sdk">
+                <div class="qdrant-cloud-dev-experience__slide-header">
+                  <h4 class="qdrant-cloud-dev-experience__slide-title">{{ $tab.title }}</h4>
+                  <p class="qdrant-cloud-dev-experience__slide-description">{{ $tab.description }}</p>
+                </div>
+      
+                <div class="qdrant-cloud-dev-experience__slide-code-list">
+                  {{ range $tab.codeBlocks }}
+                    {{ partial "code-window" (dict
+                      "block" "qdrant-cloud-dev-experience"
+                      "codeBar" .codeBar
+                      "code" .code
+                    ) }}
+                  {{ end }}
+                </div>
+              </div>
+    
+            {{ else if eq $index 1 }}
+              <div class="qdrant-cloud-dev-experience__slide qdrant-cloud-dev-experience__slide--api">
+                <div class="qdrant-cloud-dev-experience__slide-header">
+                  <h4 class="qdrant-cloud-dev-experience__slide-title">{{ $tab.title }}</h4>
+                  <p class="qdrant-cloud-dev-experience__slide-description">{{ $tab.description }}</p>
+                </div>
+      
+                <img
+                  class="qdrant-cloud-dev-experience__slide-image"
+                  src="{{ $tab.img.src }}"
+                  alt="{{ $tab.img.alt }}"
+                >
+                <img
+                  class="qdrant-cloud-dev-experience__slide-image-mobile"
+                  src="{{ $tab.img.mobileSrc }}" 
+                  alt="{{ $tab.img.alt }}"
+                >
+              </div>
+    
+            {{ else if eq $index 2 }}
+              <div class="qdrant-cloud-dev-experience__slide qdrant-cloud-dev-experience__slide--cli">
+                <div class="qdrant-cloud-dev-experience__slide-header">
+                  <h4 class="qdrant-cloud-dev-experience__slide-title">{{ $tab.title }}</h4>
+                  <p class="qdrant-cloud-dev-experience__slide-description">{{ $tab.description }}</p>
+                </div>
+                
+                <div class="qdrant-cloud-dev-experience__slide-code-item">
+                  {{ partial "code-window" (dict
+                    "block" "qdrant-cloud-dev-experience"
+                    "codeBar" $tab.codeBlock.codeBar
+                    "code" $tab.codeBlock.code
+                  ) }}
+                </div>
+              </div>
+    
+            {{ else }}
+              <div class="qdrant-cloud-dev-experience__slide">
+                <h4 class="qdrant-cloud-dev-experience__slide-title">{{ $tab.title }}</h4>
+                <p class="qdrant-cloud-dev-experience__slide-description">{{ $tab.description }}</p>
+              </div>
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
