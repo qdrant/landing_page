@@ -214,6 +214,7 @@ tabs:
           alt: Chart line
         title: Grafana Dashboard
         description: Reference dashboard for cluster health, query latency, and capacity.
+        link: https://github.com/qdrant/qdrant-cloud-grafana-dashboard
       - id: 2
         icon:
           src: /icons/outline/file-text-burgundy.svg
