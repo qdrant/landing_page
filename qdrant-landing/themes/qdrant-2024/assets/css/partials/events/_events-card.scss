@@ -53,9 +53,12 @@
   &__type {
     padding: pxToRem(2) pxToRem(10);
     border-radius: pxToRem(20);
+    border: pxToRem(1) solid $neutral-70;
     font-size: $font-size-md;
     line-height: $spacer * 1.5;
     text-transform: capitalize;
+    color: $neutral-70;
+    background-color: rgba($neutral-70, 0.1);
     display: inline-block;
     
     &-mobile {
@@ -63,19 +66,19 @@
     }
     
     &-webinar {
-      border: pxToRem(1) solid $secondary-blue-50;
+      border-color: $secondary-blue-50;
       color: $secondary-blue-50;
       background-color: rgba($secondary-blue-50, 0.1);
     }
     
     &-conference {
-      border: pxToRem(1) solid $secondary-violet-50;
+      border-color: $secondary-violet-50;
       color: $secondary-violet-50;
       background-color: rgba($secondary-violet-50, 0.1);
     }
     
     &-meetup {
-      border: pxToRem(1) solid $secondary-teal-50;
+      border-color: $secondary-teal-50;
       color: $secondary-teal-50;
       background-color: rgba($secondary-teal-50, 0.1);
     }
