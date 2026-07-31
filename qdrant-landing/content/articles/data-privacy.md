@@ -62,11 +62,11 @@ Under Access Management in the Cloud Dashboard, you can also create custom roles
 
 Note that current permissions control access to ALL clusters. Per Cluster permissions will be in a future release.
 
-<img src="/articles_data/data-privacy/custom_roles.png" alt="User and role management" width="900">
+![User and role management](/articles_data/data-privacy/custom_roles.png)
 
 The keys associated with this layer are Cloud Management Keys, which authenticate to the Qdrant Cloud API. 
 
-<img src="/articles_data/data-privacy/cloud_management_keys.png" alt="Creating Cloud Management Keys" width="900">
+![Creating Cloud Management Keys](/articles_data/data-privacy/cloud_management_keys.png)
 
 ### Database API Keys
 
@@ -79,7 +79,7 @@ Qdrant supports three types of API key:
 
 On Qdrant Cloud, you create granular access keys from the API Keys section of a cluster's detail page. Each key is scoped to the single cluster it was created in. You can optionally grant per-collection access levels, so a single key can grant read-write on some collections and read-only on others.
 
-<img src="/articles_data/data-privacy/granular_access_keys.png" alt="Creating granular access API keys" width="900">
+![Creating granular access API keys](/articles_data/data-privacy/granular_access_keys.png)
 
 For on-premise or local deployments, you'll need to configure API key authentication. This involves specifying a key in either the Qdrant configuration file or as an environment variable. This ensures that all requests to the server must include a valid API key sent in the header.
 
