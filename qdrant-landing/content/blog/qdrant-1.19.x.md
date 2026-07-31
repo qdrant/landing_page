@@ -22,11 +22,11 @@ tags:
 
 **Memory Tiers:** A single `memory` parameter unifies per-component memory tier placement, with three tiers: `pinned`, `cached`, and `cold`.
 
-**Per-Tenant IDF Statistics:** Narrow the IDF corpus to a specific tenant so term rarity reflects that tenant's vocabulary rather than the whole collection, improving BM25 scoring in multi-tenant deployments.
+**Per-Tenant IDF Statistics:** Narrow the IDF corpus to a specific tenant so term rarity reflects that tenant's vocabulary rather than the whole dataset, improving BM25 scoring in multi-tenant deployments.
 
 **Filtering Enhancements:** Prefix matching on keyword fields and a new slice filter condition for partitioning a collection's points into deterministic, disjoint subsets.
 
-**Web UI Enhancements:** Live resharding progress, an overhauled Collection Visualizer that scales to tens of thousands of points with new ways to explore data, plus interactive payload index management directly from the UI.
+**Web UI Enhancements:** Live resharding progress, an overhauled Collection Visualizer that scales to tens of thousands of points, and payload index management.
 
 ## TurboQuant Datatype
 
@@ -34,7 +34,7 @@ tags:
 
 Version 1.18 introduced [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), a quantization method that compresses vectors with minimal loss in recall. It operates as a secondary layer: Qdrant keeps the original full-precision vectors on disk alongside the compressed copy, using the quantized representation during HNSW traversal and rescoring against the original vectors for accuracy. The two-copy model delivers good recall, but storing both representations increases disk usage.
 
-In version 1.19, we've applied the same method to storage itself: the **[TurboQuant datatype](/documentation/manage-data/vectors/#turbo4)** (`datatype: turbo4`), a new storage type that applies 4-bit TurboQuant compression as the only vector representation, without keeping a full-precision copy.
+In version 1.19, we've applied the same method to storage itself. The new [Turbo4 datatype](/documentation/manage-data/vectors/#turbo4) stores vectors using 4-bit TurboQuant compression as the only representation, with no full-precision copy kept.
 
 Storing only the 4-bit representation drops storage from 36 bits per coordinate (the full float32 original plus the 4-bit compressed copy) to four bits, resulting in a ninefold reduction. This reduces data reads and writes per operation, improving throughput. The same compression applies to multi-vector collections used for ColBERT-style late interaction search, where the benefit is proportionally larger.
 
@@ -44,9 +44,9 @@ That ninefold storage reduction comes at a cost: without a full-precision copy, 
 
 ![Section 2](/blog/qdrant-1.19.x/section-2.png)
 
-Every component of a Qdrant collection has its own memory footprint: vectors, the HNSW index, quantized vectors, the sparse index, payloads, and payload indexes. Until now, each had its own way to configure whether that data is loaded into RAM or served from disk: `on_disk`, `always_ram`, and `on_disk_payload`. This release replaces these parameters with a single, unified `memory` parameter. It works the same way on every component, giving you one consistent way to configure the memory tier for any part of a collection.
+A Qdrant collection stores data across several components, each with its own memory footprint: vectors, the HNSW index, quantized vectors, the sparse index, payloads, and payload indexes. Until now, each had its own way to configure whether that data is loaded into RAM or served from disk: `on_disk`, `always_ram`, and `on_disk_payload`. This release replaces these parameters with [a single, unified `memory` parameter](/documentation/ops-configuration/memory-tiers/). It works the same way on every component, giving you one consistent way to configure the memory tier for any part of a collection.
 
-There are three memory tiers: `pinned` loads the component entirely into memory, where it's never evicted (for components that support it); `cached` keeps data on disk and pre-populates the OS disk cache at startup for fast first reads while remaining evictable under memory pressure; and `cold` loads it lazily on first access. The existing per-component flags remain functional but are deprecated.
+There are three memory tiers: `pinned` loads the component entirely into memory, where it's never evicted (for components that support it); `cached` keeps data on disk and pre-populates the OS disk cache at startup for fast first reads while remaining evictable under memory pressure; and `cold` loads it lazily from disk on first access. The existing per-component flags remain functional but are deprecated.
 
 Beyond cleaner configuration, version 1.19 also adds new capabilities: HNSW graph links can now be pinned in memory, sparse indexes have gained a new `cached` tier, and quantized vectors can now be pinned, cached, or cold independently of the original vectors' placement.
 
@@ -68,25 +68,25 @@ This release adds two new filtering capabilities to Qdrant: prefix matching on k
 
 ### Prefix Matching on Keyword Fields
 
-Keyword indexes store values verbatim for exact matching, which is the right choice for identifiers like URLs, file paths, and SKUs. Filtering by prefix over these values, like *"find all entries where the URL starts with **`https://qdrant.`**"*, wasn't possible without either a full payload scan or switching to a text index, which tokenizes values and breaks exact matching.
+Keyword indexes store values verbatim for exact matching, which is the right choice for identifiers like URLs, file paths, and SKUs. Filtering by prefix over these values, like *"find all entries where the URL starts with `https://qdrant.`"*, wasn't possible without either a full payload scan or switching to a text index, which tokenizes values and breaks exact matching.
 
-This release adds **prefix matching** to keyword indexes. Enable it with `"prefix": true` in the keyword index configuration, then use the `prefix` condition in your filter. Prefix queries are served from a dedicated index structure, making them as fast as any other indexed filter.
+This release adds [support for prefix matching to keyword indexes](/documentation/manage-data/indexing/?q=indexing#prefix-matching-in-keyword-indices). Enable it with `"prefix": true` in the keyword index configuration, then use [the `prefix` condition](/documentation/search/filtering/#prefix-match) in your filter. Prefix queries are served from a dedicated index structure, making them as fast as any other indexed filter.
 
 ### Slicing
 
-The new **[slice filter condition](/documentation/search/filtering/#slice)** groups a collection's points into deterministic, disjoint subsets. Each slice selects a fixed, stable portion of the collection without overlap.
+The new [slice filter condition](/documentation/search/filtering/#slice) groups a collection's points into deterministic, disjoint subsets. Each slice selects a fixed, stable portion of the collection without overlap.
 
-This opens up two patterns that were previously difficult to implement efficiently. For parallel processing, divide a collection into `n` slices and assign one worker per slice, letting you scroll the full dataset concurrently without coordination between workers. For reproducible sampling, use the same slice across multiple queries. The same subset of points is always selected, making it straightforward to benchmark, test, or run experiments on a consistent portion of your data.
+This opens up two patterns that were previously difficult to implement efficiently. For parallel processing, divide a collection into `n` slices and assign one worker per slice. This lets you scroll the full dataset concurrently without coordination between workers. For reproducible sampling, use the same slice across multiple queries. The same subset of points is always selected, making it straightforward to benchmark, test, or run experiments on a consistent portion of your data.
 
 ## Web UI Enhancements
 
 ![Section 5](/blog/qdrant-1.19.x/section-5.png)
 
-[Web UI](/documentation/web-ui/) is Qdrant's user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials. In version 1.19, the Web UI has gained several new features.
+The [Web UI](/documentation/web-ui/) is Qdrant's user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials. In version 1.19, the Web UI has gained several new features.
 
 ### Resharding Progress
 
-[Resharding](/documentation/guides/distributed_deployment/#resharding) changes the number of shards for a collection, a process that can take a long time on large collections. Previously, the Web UI only showed that resharding was running, without visibility into its progress.
+[Resharding](/documentation/scaling/distributed_deployment/#resharding) changes the number of shards for a collection, a process that can take a long time on large collections. Previously, the Web UI only showed that resharding was running, without visibility into its progress.
 
 The Collection **Cluster** tab now displays a live progress message for the duration of the operation. It names the shards being added or removed, and shows the current stage.
 
@@ -104,7 +104,7 @@ The Collection Visualizer also gains new ways to explore a collection: click a p
 
 ### Payload Index Configuration
 
-Previously, you could only create and manage payload indexes through Qdrant's API. The Web UI now lets you do this interactively: hover over any payload field in the Collections **Points** tab and click the index icon to configure an index on that field. Qdrant suggests the index type automatically from the field value, and type-specific options appear where applicable: the tokenizer and phrase matching settings for `text` indexes, or the range and lookup toggles for `integer` indexes.
+Previously, you could only create and manage [payload indexes](/documentation/manage-data/indexing/#payload-index) through Qdrant's API. The Web UI now lets you do this interactively: hover over any payload field in the Collections **Points** tab and click the index icon to configure an index on that field. Qdrant suggests the index type automatically from the field value, and type-specific options appear where applicable: the tokenizer and phrase matching settings for `text` indexes, or the range and lookup toggles for `integer` indexes.
 
 The Collection **Info** tab now includes a payload indexes overview that lists all indexed fields with their types, and lets you edit or delete any of them from one place.
 
