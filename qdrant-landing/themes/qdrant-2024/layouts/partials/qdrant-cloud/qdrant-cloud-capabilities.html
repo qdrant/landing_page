@@ -39,7 +39,15 @@
             </div>
             <div class="qdrant-cloud-capabilities__tab-features">
               {{ range $tab.features }}
+                {{ if .link }}
+                <a
+                  class="qdrant-cloud-capabilities__tab-feature"
+                  href="{{ .link }}"
+                  {{ if strings.HasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}
+                >
+                {{ else }}
                 <div class="qdrant-cloud-capabilities__tab-feature">
+                {{ end }}
                   <div class="qdrant-cloud-capabilities__tab-feature-header">
                     <img
                       class="qdrant-cloud-capabilities__tab-feature-icon"
@@ -49,7 +57,11 @@
                     <h3 class="qdrant-cloud-capabilities__tab-feature-title">{{ .title }}</h3>
                   </div>
                   <p class="qdrant-cloud-capabilities__tab-feature-description">{{ .description }}</p>
+                {{ if .link }}
+                </a>
+                {{ else }}
                 </div>
+                {{ end }}
               {{ end }}
             </div>
           </div>

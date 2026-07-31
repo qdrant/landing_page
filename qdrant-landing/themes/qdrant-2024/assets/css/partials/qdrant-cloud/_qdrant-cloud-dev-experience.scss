@@ -32,7 +32,14 @@
   &__card {
     padding: 0;
     overflow: hidden;
-    
+
+    // The whole card is a link; keep the card itself looking unchanged on hover
+    // and let only the arrow link switch to its hover state.
+    &.card[href]:hover {
+      border-top-color: $neutral-90;
+      box-shadow: none;
+    }
+
     &-image {
      display: none;
       

@@ -135,11 +135,14 @@
     }
     
     &-feature {
+      display: block;
       width: 100%;
       padding: $spacer * 2 $spacer * 1.5;
       border-right: pxToRem(1) solid $neutral-20;
       border-bottom: pxToRem(1) solid $neutral-20;
-      
+      color: inherit;
+      text-decoration: none;
+
       &:hover {
         background: linear-gradient(180deg, rgba(14, 20, 36, 0.00) 0%, $neutral-20 100%);
       }
