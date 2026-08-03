@@ -3,12 +3,11 @@ title: "Question Answering with LangChain and Qdrant"
 short_description: "Build a retrieval-augmented question answering pipeline with just a few lines of code."
 description: "We combined LangChain, a modern chat model like Claude or GPT, FastEmbed & Qdrant to create a question answering system with just a few lines of code. Learn more!"
 social_preview_image: /articles_data/langchain-integration/preview/social_preview.jpg
-small_preview_image: /articles_data/langchain-integration/chain.svg
 preview_dir: /articles_data/langchain-integration/preview
 weight: 40
-author: Kacper Łukawski
+author: Kacper Łukawski and Manas Chopra
 author_link: https://medium.com/@lukawskikacper
-date: 2023-01-31T10:53:20+01:00
+date: 2026-07-30T10:00:00+03:00
 draft: false
 keywords:
   - vector search
@@ -24,9 +23,10 @@ keywords:
 category: demos-and-tutorials
 ---
 
-# Question Answering with LangChain and Qdrant
-
-**Follow along in Colab:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/add-langchain-integration/langchain-integration/langchain_integration.ipynb)
+<div style="display: flex; align-items: center; gap: 8px;">
+  <strong>Follow along in Colab:</strong>
+  <a href="https://colab.research.google.com/github/qdrant/examples/blob/add-langchain-integration/langchain-integration/langchain_integration.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+</div>
 
 Building applications with Large Language Models doesn't have to be complicated. A lot has been going on recently to simplify the development,
 so you can utilize already pre-trained models and support even complex pipelines with a few lines of code. [LangChain](https://docs.langchain.com/oss/python/langchain/overview)
