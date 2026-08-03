@@ -20,8 +20,15 @@
     line-height: $spacer * 2;
 
     &:last-of-type {
-      width: $spacer * 3.5;
-      margin-left: $spacer;
+      width: auto;
+      // Keep visual gap to the previous page button ~$spacer after link padding
+      margin-left: $spacer * 0.25;
+
+      a {
+        width: auto;
+        padding-left: $spacer * 0.75;
+        padding-right: $spacer * 0.75;
+      }
     }
 
     a {
@@ -30,6 +37,15 @@
       height: 100%;
       color: $neutral-50;
       text-align: center;
+      border-radius: pxToRem(10);
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: $neutral-20;
+        background-color: $neutral-94;
+        outline: none;
+      }
     }
 
     &.active {
@@ -38,6 +54,12 @@
 
       a {
         color: $neutral-100;
+
+        &:hover,
+        &:focus-visible {
+          color: $neutral-100;
+          background-color: transparent;
+        }
       }
     }
 
