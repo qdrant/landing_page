@@ -1,7 +1,7 @@
 ---
 title: User Profile
-short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, multi-factor authentication, and deactivation."
-description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations, multi-factor authentication with Authenticator apps and passkeys, and user deactivation."
+short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, and deactivation."
+description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations and user deactivation."
 weight: 212
 partition: deploy
 ---
@@ -15,7 +15,6 @@ Open the **user menu** at the bottom left of the Qdrant Cloud Console to access:
 * **Get Started** — the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
 * **Preferences** — your profile details, color scheme, and cookie consent.
 * **Invitations** — pending invitations to join other accounts.
-* **Security** — multi-factor authentication.
 * **Accounts** — the accounts overview. See [Managing Accounts](/documentation/cloud-account-setup/#managing-accounts).
 * **Logout**.
 
@@ -48,17 +47,6 @@ When someone invites you to their account, the invitation appears on your **Invi
 ![Pending invitations](/documentation/cloud/pending-invitations.png)
 
 > **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-rbac/user-management/#inviting-users-to-an-account).
-
-## Security
-
-On the **Security** page you can set up multi-factor authentication (MFA) using either of the following methods:
-
-* **Authenticator App** (recommended) — use an authenticator app of your choice to generate a one-time code at each login.
-* **Passkey** — use a physical device or software passkey (for example a fingerprint or screen lock) as an additional security layer. You can add multiple passkeys and view all of the ones you have registered.
-
-![Multi-factor authentication settings](/documentation/cloud/security-mfa.png)
-
-> **Note:** Some accounts mandate MFA. In that case you cannot turn MFA off, but you can still change which method you use.
 
 ## Deactivate User
 
