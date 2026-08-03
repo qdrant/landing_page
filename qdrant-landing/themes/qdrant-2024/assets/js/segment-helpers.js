@@ -91,6 +91,51 @@ const handleClickInteraction = (event) => {
   }
 };
 
+// GA4 Enhanced Measurement only reports 90%, so fire the quarters ourselves.
+const SCROLL_MILESTONES = [25, 50, 75, 90];
+
+// Fires each milestone at most once per page load.
+export function trackScrollDepth(milestones = SCROLL_MILESTONES) {
+  const pending = new Set(milestones);
+  let queued = false;
+
+  const check = () => {
+    queued = false;
+
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    // Page fits the viewport, so there is no scrolling to measure.
+    if (scrollable <= 0) return;
+
+    const percent = (window.scrollY / scrollable) * 100;
+
+    // Sorted so a single jump (anchor link, restored position) reports in order.
+    [...pending].sort((a, b) => a - b).forEach((milestone) => {
+      if (percent < milestone) return;
+
+      pending.delete(milestone);
+      emitInteraction({
+        ...PAYLOAD_BOILERPLATE,
+        location: 'page',
+        label: `${milestone}%`,
+        action: 'scrolled',
+        percent: milestone,
+      });
+    });
+
+    if (!pending.size) window.removeEventListener('scroll', onScroll);
+  };
+
+  // Coalesce to one measurement per frame; scroll fires far more often than that.
+  const onScroll = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(check);
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  check(); // page may already be loaded part-way down
+}
+
 // Track every link/button under root, not just the data-metric-loc ones.
 // Delegated so elements added after load are covered too.
 export function trackAllClicksIn(root) {
