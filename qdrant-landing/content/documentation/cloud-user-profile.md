@@ -47,7 +47,7 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 ![Pending invitations](/documentation/cloud/pending-invitations.png)
 
-> **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-account-setup/#inviting-users-to-an-account).
+> **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-rbac/user-management/#inviting-users-to-an-account).
 
 ## Security
 
