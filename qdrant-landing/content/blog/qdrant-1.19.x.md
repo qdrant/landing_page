@@ -114,6 +114,7 @@ The Collection **Info** tab now includes a payload indexes overview that lists a
 
 ![Section 6](/blog/qdrant-1.19.x/section-6.png)
 
+- **[Resource Quotas](/documentation/ops-configuration/quotas/)**: Prevent nodes from running out of memory or disk space by limiting how much memory and disk they can use. This supersedes the per-collection `max_resident_memory_percent` strict mode setting, which is now deprecated.
 - **[Replica Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity)**: Provide an `X-Qdrant-Route-Affinity` HTTP header with a user or session ID to pin that user's reads to the same replica, eliminating read inconsistency when sequential reads land on different replicas.
 - **[BM25: Language-Neutral Text Processing](/documentation/search/text-search/full-text-search/#language-neutral-text-processing)**: Turn off English stemming and stopword removal in BM25 text processing for a clean language-neutral text search pipeline, better suited to technical content, product identifiers, or multilingual text.
 - **Faster Faceting**: [Faceting](/documentation/manage-data/payload/#facet-counts) is a query feature that counts how many points match each distinct value of a payload field within a filtered result set. In 1.19, facet queries are faster, especially on large collections with high-cardinality fields.
