@@ -5,8 +5,8 @@ description: "We combined LangChain, a modern chat model like Claude or GPT, Fas
 social_preview_image: /articles_data/langchain-integration/preview/social_preview.jpg
 preview_dir: /articles_data/langchain-integration/preview
 weight: 40
-author: Manas Chopra
-author_link: https://www.linkedin.com/in/themanasai/
+author: Kacper Łukawski and Manas Chopra
+author_link: https://medium.com/@lukawskikacper
 date: 2026-07-30T10:00:00+03:00
 draft: false
 keywords:
