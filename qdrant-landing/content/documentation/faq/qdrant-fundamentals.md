@@ -257,6 +257,12 @@ Common recovery steps:
 
 See also: [Grey collection status](/documentation/manage-data/collections/#grey-collection-status)
 
+### Why are my writes rejected with HTTP 507?
+
+An write succeeds once at least [`write_consistency_factor`](/documentation/scaling/consistency-guarantees/) replicas have accepted it. When nodes have been configured with [resource quotas](/documentation/ops-configuration/quotas/), no nodes may be availabe with replicas that accept writes. A 507 means too few replicas were left to reach the `write_consistency_factor`. With the default factor of 1, that means no replica of the shard had room.
+
+[Use `GET /quotas` to see which peer is full](/documentation/ops-configuration/quotas/#finding-the-node-that-is-full). Note that a node doesn't resume writes the moment usage drops: a tripped limit clears only once usage has fallen under the [release margin](/documentation/ops-configuration/quotas/#release-margin), five percentage points by default.
+
 ### How do I upload a large number of vectors into a Qdrant collection?
 
 Read about our recommendations in the [Bulk Upload](/documentation/manage-data/bulk-upload/) guide.
