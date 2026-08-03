@@ -114,6 +114,60 @@
     color: $neutral-100;
   }
 
+  // "Ready to try Qdrant?" CTA shown directly below the TOC's external links.
+  // Hidden by default; shown at xl within the `.documentation` scope.
+  &__cta {
+    display: none;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: calc($spacer / 2.5);
+    width: auto;
+    // Break out of the TOC's asymmetric side padding so the button spans nearly
+    // the full sidebar width and the label fits on one line, matching the design.
+    margin-right: pxToRem(-8);
+    margin-left: pxToRem(-24);
+    padding: pxToRem(12) $spacer;
+    border-radius: pxToRem(8);
+    border: pxToRem(1) solid $neutral-30;
+    // Dark base with a soft blue glow on the left, per the design.
+    background-color: $neutral-20;
+    background-image: linear-gradient(90deg, rgba(6, 62, 162, 0.2) 0%, rgba(6, 62, 162, 0) 65%);
+    color: $neutral-98;
+    font-size: pxToRem(14);
+    line-height: $line-height-sm;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    transition: border-color 0.2s ease;
+
+    // divider between the external links and the CTA (the line under "Create an issue")
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: pxToRem(-24);
+      height: pxToRem(1);
+      background: $neutral-90;
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: $neutral-98;
+      border-color: $neutral-50;
+      // glow sweeps across to the right
+      background-image: linear-gradient(90deg, rgba(6, 62, 162, 0) 35%, rgba(6, 62, 162, 0.3) 100%);
+    }
+  }
+
+  &__cta-icon {
+    flex-shrink: 0;
+    width: pxToRem(20);
+    height: pxToRem(20);
+    object-fit: contain;
+  }
+
   @include media-breakpoint-up(xl) {
     max-height: calc(100vh - 80px);
     width: pxToRem(232);
@@ -141,7 +195,7 @@
       color: $neutral-98;
     }
 
-    a:not(.table-of-contents__button) {
+    a:not(.table-of-contents__button):not(.table-of-contents__cta) {
       color: $neutral-70;
       transition: all 0.3s;
       &:hover {
@@ -158,6 +212,10 @@
     &__external-links {
       border-top: 1px solid $neutral-20;
       border-bottom: 1px solid $neutral-20;
+    }
+
+    &__cta::before {
+      background: $neutral-20;
     }
 
     &__link {
@@ -180,6 +238,15 @@
     }
   }
 
+  [data-theme='light'] & {
+    // The default active pill ($neutral-90) is nearly the same as the light page
+    // background ($neutral-94); use a darker neutral so the highlight is visible.
+    a.active {
+      background-color: $neutral-80;
+      color: $neutral-30;
+    }
+  }
+
   // scoped styles
   .documentation & {
     &__external-links {
@@ -189,6 +256,13 @@
       padding: $spacer * 1.5 $spacer $spacer * 1.5 pxToRem(40);
       &__external-links {
         display: block;
+        // The divider below the links is drawn by the CTA's ::before, so drop
+        // this border to avoid a doubled line.
+        border-bottom: none;
+      }
+      &__cta {
+        display: flex;
+        margin-top: $spacer * 1.5;
       }
     }
   }
