@@ -29,23 +29,26 @@ const nameMapper = (url) => { // Mapping names based on pathname for Segment
 /* DOM helpers */
 /***************/
 const handleClickInteraction = (event) => {
-  const rawLabel = event.target.getAttribute('data-metric-label') ?? event.target.innerText;
+  // currentTarget, not target: the tagged element is where the listener was attached,
+  // while target is the innermost node clicked (an <img>/<p> inside a card anchor).
+  const el = event.currentTarget;
+  const rawLabel = el.getAttribute('data-metric-label') ?? el.innerText;
   const cleanedLabel = rawLabel ? rawLabel.replace(/\s+/g, ' ').trim() : '';
 
   const payload = {
     ...PAYLOAD_BOILERPLATE,
-    location: event.target.getAttribute('data-metric-loc') ?? '',
+    location: el.getAttribute('data-metric-loc') ?? '',
     label: cleanedLabel,
     action: 'clicked'
   };
 
-  // If consented to tracking the track 
+  // If consented to tracking the track
   if(getCookie('cookie-consent')) {
     trackInteractionEvent(payload);
-    
+
     // If element can be clicked more than once (ie user remains on same page)
-    if (!event.target.hasAttribute('data-metric-keep')) {
-      event.target.removeEventListener('click', handleClickInteraction);
+    if (!el.hasAttribute('data-metric-keep')) {
+      el.removeEventListener('click', handleClickInteraction);
     }
   } else { // If no consent yet the store in sessionStorage in case of later consent
     createSegmentStoredInteraction(payload);
