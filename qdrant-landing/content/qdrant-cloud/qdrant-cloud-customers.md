@@ -10,6 +10,9 @@ cards:
     description: Travelers using the generative AI experience show 2-3x more revenue than those using traditional search.
     category: CONSUMER-FACING AI APP
     label: 11M BUSINESSES · 21 COUNTRIES
+    link:
+      text: Read Case Study
+      url: /blog/case-study-tripadvisor/
   - id: 1
     icon:
       src: /img/customer-logo/telekom.svg
@@ -18,6 +21,9 @@ cards:
     description: After replacing their vector stack with Qdrant, Deutsche Telekom cut AI agent development from 15 days to 2 days.
     category: MULTI-AGENT PLATFORM
     label: 2M+ AI CONVERSATIONS SERVED
+    link:
+      text: Read Case Study
+      url: /blog/case-study-deutsche-telekom/
   - id: 2
     icon:
       src: /img/customer-logo/faz.svg
@@ -26,5 +32,8 @@ cards:
     description: Sub-second response times on complex, highly filtered semantic queries across an indexed archive of more than 14 million vectors.
     category: MEDIA
     label: 75 YEARS OF ARCHIVED JOURNALISM
+    link:
+      text: Read Case Study
+      url: /blog/case-study-faz/
 sitemapExclude: true
 ---

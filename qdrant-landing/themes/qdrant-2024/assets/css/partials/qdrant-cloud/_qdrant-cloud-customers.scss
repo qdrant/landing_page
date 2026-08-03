@@ -28,7 +28,8 @@
     align-items: flex-start;
     gap: $spacer * 3.5;
     padding: $spacer * 2;
-    
+    text-decoration: none;
+
     &:hover {
       box-shadow:
               0 76px 21px 0 rgba(22, 30, 51, 0.00),
@@ -63,6 +64,10 @@
       color: $neutral-40;
     }
     
+    &-link {
+      margin-top: $spacer;
+    }
+
     &-footer {
       width: 100%;
       margin-top: auto;
