@@ -28,32 +28,81 @@ const nameMapper = (url) => { // Mapping names based on pathname for Segment
 /***************/
 /* DOM helpers */
 /***************/
-const handleClickInteraction = (event) => {
-  // currentTarget, not target: the tagged element is where the listener was attached,
-  // while target is the innermost node clicked (an <img>/<p> inside a card anchor).
-  const el = event.currentTarget;
-  const rawLabel = el.getAttribute('data-metric-label') ?? el.innerText;
-  const cleanedLabel = rawLabel ? rawLabel.replace(/\s+/g, ' ').trim() : '';
+const LABEL_MAX = 120;
 
-  const payload = {
-    ...PAYLOAD_BOILERPLATE,
-    location: el.getAttribute('data-metric-loc') ?? '',
-    label: cleanedLabel,
-    action: 'clicked'
-  };
+// Fall back to the nearest landmark when an element carries no data-metric-loc,
+// so untagged clicks still land in a readable bucket ('cloud_hero', 'footer', ...).
+const deriveLocation = (el) => {
+  // No 'nav' here on purpose: a <nav> nested in the footer would otherwise split
+  // footer clicks into its own bucket.
+  const region = el.closest('section, header, footer');
+  if (!region) return 'page';
 
+  const cls = [...region.classList].find((c) => c && !/^(col|row|g|container)([-_]|$)/.test(c));
+  return (cls || region.tagName.toLowerCase())
+    .replace(/^qdrant-cloud-/, 'cloud-')
+    .replace(/[^a-z0-9]+/gi, '_')
+    .toLowerCase();
+};
+
+// || not ??: an icon-only link has innerText '' and needs to fall through to the image alt.
+const deriveLabel = (el) =>
+  el.getAttribute('data-metric-label')
+  || el.getAttribute('aria-label')
+  || el.innerText
+  || el.querySelector('img[alt]')?.getAttribute('alt')
+  || el.getAttribute('title')
+  || el.getAttribute('href')
+  || '';
+
+const emitInteraction = (payload) => {
   // If consented to tracking the track
-  if(getCookie('cookie-consent')) {
+  if (getCookie('cookie-consent')) {
     trackInteractionEvent(payload);
-
-    // If element can be clicked more than once (ie user remains on same page)
-    if (!el.hasAttribute('data-metric-keep')) {
-      el.removeEventListener('click', handleClickInteraction);
-    }
   } else { // If no consent yet the store in sessionStorage in case of later consent
     createSegmentStoredInteraction(payload);
   }
 };
+
+const trackClickOn = (el) => {
+  const rawLabel = deriveLabel(el);
+  const cleanedLabel = rawLabel ? rawLabel.replace(/\s+/g, ' ').trim().slice(0, LABEL_MAX) : '';
+  const href = el.getAttribute('href') ?? '';
+
+  emitInteraction({
+    ...PAYLOAD_BOILERPLATE,
+    location: el.getAttribute('data-metric-loc') ?? deriveLocation(el),
+    label: cleanedLabel,
+    action: 'clicked',
+    href,
+    outbound: /^https?:\/\//.test(href) && !href.includes(window.location.host),
+  });
+};
+
+const handleClickInteraction = (event) => {
+  // currentTarget, not target: the tagged element is where the listener was attached,
+  // while target is the innermost node clicked (an <img>/<p> inside a card anchor).
+  const el = event.currentTarget;
+  trackClickOn(el);
+
+  // If element can be clicked more than once (ie user remains on same page)
+  if (getCookie('cookie-consent') && !el.hasAttribute('data-metric-keep')) {
+    el.removeEventListener('click', handleClickInteraction);
+  }
+};
+
+// Track every link/button under root, not just the data-metric-loc ones.
+// Delegated so elements added after load are covered too.
+export function trackAllClicksIn(root) {
+  root.addEventListener('click', (event) => {
+    const el = event.target.closest('a, button');
+
+    // Explicitly tagged elements have their own listener via tagAllAnchors()
+    if (!el || !root.contains(el) || el.hasAttribute('data-metric-loc')) return;
+
+    trackClickOn(el);
+  });
+}
 
 // Gather all <a> and <button> elements that have been tagged
 // for tracking via 'data-metric-loc' attribute

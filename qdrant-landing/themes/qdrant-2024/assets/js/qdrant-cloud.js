@@ -1,3 +1,9 @@
+import { trackAllClicksIn } from './segment-helpers';
+
+// ponytail: /cloud only, so Segment volume elsewhere is untouched.
+// Move to index.js to take it sitewide.
+trackAllClicksIn(document);
+
 // Capabilities
 (function initCapabilities() {
   const stickyWrap = document.querySelector('.qdrant-cloud-capabilities__tabs-sticky');
