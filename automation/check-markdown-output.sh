@@ -45,6 +45,32 @@ if ! grep -q '^| Feature |' "$PUBLIC/pricing/index.md" 2>/dev/null; then
   echo "pricing/index.md has no tier comparison table"; fail=1
 fi
 
+# Pricing is rendered by a hand-written template (themes/.../pricing/list.markdown.md),
+# so a bundle or a tier the template does not know about disappears silently -
+# which is how doors-a stayed in the Markdown after the site moved to doors-b.
+# Every headline value in the bundles list.html actually renders must reach the
+# output. Sources are read relative to the repo root.
+PRICING_LAYOUT=qdrant-landing/themes/qdrant-2024/layouts/pricing/list.html
+if [ -f "$PRICING_LAYOUT" ] && [ -f "$PUBLIC/pricing/index.md" ]; then
+  normalize() { sed -E 's/<[^>]*>/ /g; s/[[:space:]]+/ /g; s/^ //; s/ $//'; }
+  out=$(normalize < "$PUBLIC/pricing/index.md")
+  for bundle in $(grep -oE '/pricing/[a-z0-9-]+' "$PRICING_LAYOUT" | sort -u); do
+    src="qdrant-landing/content${bundle}.md"
+    [ -f "$src" ] || continue
+    while IFS= read -r value; do
+      [ "${#value}" -ge 6 ] || continue
+      case "$value" in ''|\'\'|\"\") continue ;; esac
+      if ! printf '%s' "$out" | grep -qF "$value"; then
+        echo "pricing/index.md is missing copy from ${bundle}: \"$value\""; fail=1
+      fi
+    done <<EOF
+$(grep -hE '^[[:space:]]*(title|pricing|price):[[:space:]]*\S' "$src" \
+  | sed -E 's/^[[:space:]]*[a-z]+:[[:space:]]*//; s/^"(.*)"$/\1/; s/^'"'"'(.*)'"'"'$/\1/' \
+  | normalize)
+EOF
+  done
+fi
+
 # llms.txt is how an agent finds these pages at all.
 listed=$(awk '/^## Pages$/{f=1;next} /^## /{f=0} f && /^- \[/{n++} END{print n+0}' "$PUBLIC/llms.txt")
 if [ "$listed" -lt 30 ]; then

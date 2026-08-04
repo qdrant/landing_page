@@ -1,7 +1,11 @@
 {{- /*
   Pricing is the one page the generic params renderer cannot carry: its value
-  lives in per-tier cells (tier × feature), which only survive as tables.
-  Everything else on the page still goes through the generic renderer.
+  lives in per-tier cells (tier × feature) and in tier cards, which collapse to
+  bare feature names if flattened into prose.
+
+  Which bundles are live is decided in pricing/list.html, not by what exists in
+  content/pricing: doors-a is a retired A/B variant and must stay out, or this
+  page reports prices the site no longer shows.
 */ -}}
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
@@ -9,58 +13,53 @@
 
 {{ $content := printf "# %s\n\n" .Title -}}
 {{- with .Description }}{{ $content = printf "%s%s\n\n" $content . }}{{ end -}}
+{{- with .Site.GetPage "/pricing/qdrant-pricing-hero" -}}
+  {{- with strings.TrimSpace (partial "md-params.txt" (dict "v" .Params "level" 2)) -}}
+    {{- $content = printf "%s%s\n\n" $content . -}}
+  {{- end -}}
+{{- end -}}
 
-{{- /* Tier cards: price and per-tier feature lists. */ -}}
-{{- range (sort .Pages "File.Path") -}}
-  {{- if in .File.BaseFileName "doors" -}}
-    {{- $note := .Params.pricingNote -}}
-    {{- range .Params.cards -}}
-      {{- $content = printf "%s## %s\n\n" $content .title -}}
-      {{- with .price -}}
+{{- /* Tier cards, grouped by deployment tab. */ -}}
+{{- with .Site.GetPage "/pricing/qdrant-pricing-doors-b" -}}
+  {{- range .Params.tabs -}}
+    {{- $content = printf "%s## %s\n\n" $content (.label | default .id) -}}
+    {{- range .tiers -}}
+      {{- $tier := . -}}
+      {{- $content = printf "%s### %s\n\n" $content .title -}}
+      {{- with .pricing -}}
         {{- $content = printf "%s**%s**" $content . -}}
-        {{- with $note }}{{ $content = printf "%s %s" $content . }}{{ end -}}
+        {{- with $tier.pricingNote }}{{ $content = printf "%s %s" $content . }}{{ end -}}
         {{- $content = printf "%s\n\n" $content -}}
       {{- end -}}
-      {{- with .description }}{{ $content = printf "%s%s\n\n" $content . }}{{ end -}}
-      {{- with .featureDescription }}{{ $content = printf "%s%s\n\n" $content . }}{{ end -}}
-      {{- range .features -}}
-        {{- with .content }}{{ $content = printf "%s- %s\n" $content . }}{{ end -}}
+      {{- with .target }}{{ $content = printf "%s%s\n\n" $content . }}{{ end -}}
+      {{- range .features }}{{ $content = printf "%s- %s\n" $content . }}{{ end -}}
+      {{- with .marketplace -}}
+        {{- $names := slice -}}
+        {{- range .logos -}}{{- $names = $names | append .name -}}{{- end -}}
+        {{- $content = printf "%s\n%s %s\n" $content (.label | default "Available on:") (delimit $names ", ") -}}
       {{- end -}}
-      {{- with .button }}{{ $content = printf "%s\n[%s](%s)\n\n" $content .text .url }}{{ end -}}
+      {{- with .cta }}{{ $content = printf "%s\n[%s](%s)\n\n" $content .text .url }}{{ end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 
-{{- /* Feature comparison: one Markdown table per tier group. */ -}}
+{{- /* Tier comparison tables: feature matrix and support matrix. */ -}}
 {{- with .Site.GetPage "/pricing/qdrant-pricing-features" -}}
   {{- $content = printf "%s## %s\n\n" $content .Title -}}
   {{- range .Params.tables -}}
-    {{- $tiers := .tiers -}}
     {{- with .label }}{{ $content = printf "%s### %s\n\n" $content . }}{{ end -}}
-    {{- $head := slice "Feature" -}}
-    {{- range $tiers -}}{{- $head = $head | append .name -}}{{- end -}}
-    {{- $content = printf "%s| %s |\n|%s\n" $content (delimit $head " | ") (strings.Repeat (len $head) " --- |") -}}
-    {{- range .sections -}}
-      {{- with .name }}{{ $content = printf "%s| **%s** |%s\n" $content . (strings.Repeat (len $tiers) " |") }}{{ end -}}
-      {{- range .features -}}
-        {{- $row := slice .name -}}
-        {{- $f := . -}}
-        {{- range $tiers -}}
-          {{- $cell := index $f .id -}}
-          {{- if eq $cell true -}}{{- $row = $row | append "Yes" -}}
-          {{- else if or (eq $cell false) (eq $cell nil) -}}{{- $row = $row | append "—" -}}
-          {{- else -}}{{- $row = $row | append (printf "%v" $cell) -}}{{- end -}}
-        {{- end -}}
-        {{- $content = printf "%s| %s |\n" $content (delimit $row " | ") -}}
-      {{- end -}}
-    {{- end -}}
-    {{- $content = printf "%s\n" $content -}}
+    {{- $content = printf "%s%s\n" $content (partial "md-tier-table.txt" (dict "tiers" .tiers "sections" .sections)) -}}
   {{- end -}}
 {{- end -}}
+{{- with .Site.GetPage "/pricing/qdrant-pricing-support-reliability" -}}
+  {{- $content = printf "%s## %s\n\n" $content .Title -}}
+  {{- $content = printf "%s%s\n" $content (partial "md-tier-table.txt" (dict "tiers" .Params.tiers "sections" .Params.sections "first" "Support")) -}}
+  {{- with .Params.button }}{{ $content = printf "%s[%s](%s)\n\n" $content .text .url }}{{ end -}}
+{{- end -}}
 
-{{- /* Everything else on the page, generically. */ -}}
-{{- range (sort .Pages "File.Path") -}}
-  {{- if not (or (in .File.BaseFileName "doors") (in .File.BaseFileName "features")) -}}
+{{- /* Calculator, FAQ and closing CTA, generically. */ -}}
+{{- range (slice "qdrant-pricing-calculator" "qdrant-pricing-faq" "qdrant-pricing-cta") -}}
+  {{- with $.Site.GetPage (printf "/pricing/%s" .) -}}
     {{- with strings.TrimSpace (partial "md-params.txt" (dict "v" .Params "level" 2)) -}}
       {{- if not (findRE `^#+ [^\n]*$` .) -}}{{- $content = printf "%s%s\n\n" $content . -}}{{- end -}}
     {{- end -}}
