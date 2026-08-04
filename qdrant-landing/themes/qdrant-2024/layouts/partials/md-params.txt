@@ -19,7 +19,7 @@
 {{- $level := .level | default 2 -}}
 {{- $item := .item | default false -}}
 {{- $drop := slice "src" "alt" "icon" "image" "img" "logo" "avatar" "photo" "path" "color" "class" "id" "form" "schema" "video" "youtube" "background" "illustration" "visual" "badge" -}}
-{{- $keep := slice "title" "heading" "question" "name" "tab" "text" "subtitle" "description" "content" "answer" "quote" "review" "position" "summary" "part" "benefit" "value" "lesson" "problem" "solution" "step" "stat" -}}
+{{- $keep := slice "title" "heading" "question" "name" "tab" "text" "subtitle" "description" "content" "answer" "quote" "review" "testimonial" "position" "role" "summary" "part" "benefit" "value" "lesson" "problem" "solution" "step" "stat" -}}
 {{- $titleKeys := slice "title" "heading" "question" "name" "tab" "text" -}}
 {{- $bodyOrder := slice "subtitle" "description" "content" "answer" "quote" "review" -}}
 {{- $out := slice -}}
@@ -44,7 +44,7 @@
       {{- with partial "md-params.txt" (dict "v" $val "level" (add $level 1)) -}}
         {{- $children = $children | append . -}}
       {{- end -}}
-    {{- else if in (slice "url" "link") $kl -}}
+    {{- else if in (slice "url" "link" "href") $kl -}}
       {{- $url = printf "%v" $val -}}
     {{- else -}}
       {{- $kept := false -}}
@@ -62,6 +62,9 @@
   {{- range $titleKeys -}}
     {{- if not $title -}}{{- with index $scalars . -}}{{- $title = . -}}{{- end -}}{{- end -}}
   {{- end -}}
+  {{- /* Top-level call on a page's own params: the H1 already says this, and
+         the url is the page's own permalink. */ -}}
+  {{- if .skipTitle -}}{{- $title = "" -}}{{- $url = "" -}}{{- end -}}
 
   {{- /* Body: known copy keys in reading order, then anything else kept. */ -}}
   {{- $body := slice -}}

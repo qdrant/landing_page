@@ -1,38 +1,49 @@
 {{- /*
-  Markdown output for a marketing landing page: rolls the page's headless
-  section bundles up into one document, hero first, then by file path.
+  Markdown output for a marketing landing page: rolls the page's section
+  bundles up into one document, hero first, then by file path. Each bundle
+  contributes its front-matter copy and, where it has one, its page body.
 */ -}}
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
 > Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
 {{ $pages := sort .Pages "File.Path" -}}
+{{- $ordered := slice -}}
+{{- range $pages -}}
+  {{- if in (lower .File.BaseFileName) "hero" -}}{{- $ordered = $ordered | append . -}}{{- end -}}
+{{- end -}}
+{{- range $pages -}}
+  {{- if not (in (lower .File.BaseFileName) "hero") -}}{{- $ordered = $ordered | append . -}}{{- end -}}
+{{- end -}}
+
 {{- $blocks := slice -}}
-{{- range $pages -}}
-  {{- if in (lower .File.BaseFileName) "hero" -}}
-    {{- $blocks = $blocks | append (partial "md-params.txt" (dict "v" .Params "level" 2)) -}}
+{{- /* A single page (industries/*) carries its sections in its own params. */ -}}
+{{- if not $ordered -}}
+  {{- with strings.TrimSpace (partial "md-params.txt" (dict "v" .Params "level" 1 "skipTitle" true)) -}}
+    {{- $blocks = $blocks | append . -}}
   {{- end -}}
 {{- end -}}
-{{- range $pages -}}
-  {{- if not (in (lower .File.BaseFileName) "hero") -}}
-    {{- $blocks = $blocks | append (partial "md-params.txt" (dict "v" .Params "level" 2)) -}}
+{{- range $ordered -}}
+  {{- $parts := slice -}}
+  {{- with strings.TrimSpace (partial "md-params.txt" (dict "v" .Params "level" 2)) -}}
+    {{- $parts = $parts | append . -}}
   {{- end -}}
+  {{- with strings.TrimSpace .RenderShortcodes -}}
+    {{- $parts = $parts | append . -}}
+  {{- end -}}
+  {{- with $parts -}}{{- $blocks = $blocks | append (delimit . "\n\n") -}}{{- end -}}
 {{- end -}}
+
 {{- $content := printf "# %s\n\n" .Title -}}
 {{- with .Description }}{{ $content = printf "%s%s\n\n" $content . }}{{ end -}}
+{{- with strings.TrimSpace .RenderShortcodes }}{{ $content = printf "%s%s\n\n" $content . }}{{ end -}}
 {{- range $blocks -}}
-  {{- $b := strings.TrimSpace . -}}
   {{- /* Skip blocks that reduce to a bare heading: video and image-only
          sections keep nothing an agent can read. */ -}}
-  {{- if and $b (not (findRE `^#+ [^\n]*$` $b)) -}}
-    {{- $content = printf "%s%s\n\n" $content $b -}}
+  {{- if not (findRE `^#+ [^\n]*$` .) -}}
+    {{- $content = printf "%s%s\n\n" $content . -}}
   {{- end -}}
 {{- end -}}
-{{- /* Tighten bullet lists that the recursive join spaced out. */ -}}
-{{- $content = replaceRE `\n\n(- )` "\n$1" $content -}}
-{{- /* Same internal-link rewriting as the docs Markdown output. */ -}}
-{{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
-{{- $content = replaceRE `<(/[^>]*/)>` `<https://qdrant.tech${1}index.md>` $content -}}
 {{- /* safeHTML: the params are plain strings, so without it Go's HTML escaping
        turns "+" into "&#43;" and "<" into "&lt;". */ -}}
-{{ $content | safeHTML }}
+{{ partial "md-finish.txt" $content | safeHTML }}
