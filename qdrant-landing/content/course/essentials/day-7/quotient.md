@@ -118,9 +118,6 @@ This monitoring architecture enables various enterprise use cases:
 
 ## Resources
 
-- [Optimizing RAG Through an Evaluation-Based Methodology](/articles/rapid-rag-optimization-with-qdrant-and-quotient/):  
-  Learn how to optimize RAG systems using Qdrant and Quotient through systematic evaluation. Covers experimentation with chunking, retrieval strategies, and model selection.
-
 - [Building High-Quality RAG Applications with Qdrant and Quotient](https://blog.quotientai.co/building-high-quality-rag-applications-with-qdrant-and-quotient/):  
   Comprehensive guide on building production-ready RAG applications with comprehensive monitoring using Quotient AI and Qdrant for quality assurance and performance tracking.
 
