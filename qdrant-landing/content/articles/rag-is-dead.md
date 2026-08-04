@@ -6,9 +6,9 @@ social_preview_image: /articles_data/rag-is-dead/preview/social_preview.jpg
 small_preview_image: /articles_data/rag-is-dead/icon.svg 
 preview_dir: /articles_data/rag-is-dead/preview 
 weight: 60
-author: David Myriel 
+author: David Myriel & Chadha Sridi
 author_link: https://github.com/davidmyriel
-date: 2024-02-27T00:00:00.000Z
+date: 2026-08-04T00:00:00.000Z
 draft: false 
 keywords: 
   - vector database 
