@@ -94,10 +94,14 @@ const handleClickInteraction = (event) => {
 // GA4 Enhanced Measurement only reports 90%, so fire the quarters ourselves.
 const SCROLL_MILESTONES = [25, 50, 75, 90];
 
-// Fires each milestone at most once per page load.
+// Fires each milestone at most once per page load, plus the deepest point on the way out.
 export function trackScrollDepth(milestones = SCROLL_MILESTONES) {
   const pending = new Set(milestones);
+  const startedAt = performance.now();
+  const sinceLoad = () => Math.round(performance.now() - startedAt);
   let queued = false;
+  let deepest = 0;
+  let reportedDeepest = false;
 
   const check = () => {
     queued = false;
@@ -107,6 +111,7 @@ export function trackScrollDepth(milestones = SCROLL_MILESTONES) {
     if (scrollable <= 0) return;
 
     const percent = (window.scrollY / scrollable) * 100;
+    deepest = Math.max(deepest, Math.min(100, Math.round(percent)));
 
     // Sorted so a single jump (anchor link, restored position) reports in order.
     [...pending].sort((a, b) => a - b).forEach((milestone) => {
@@ -119,10 +124,9 @@ export function trackScrollDepth(milestones = SCROLL_MILESTONES) {
         label: `${milestone}%`,
         action: 'scrolled',
         percent: milestone,
+        ms_to_reach: sinceLoad(),
       });
     });
-
-    if (!pending.size) window.removeEventListener('scroll', onScroll);
   };
 
   // Coalesce to one measurement per frame; scroll fires far more often than that.
@@ -132,8 +136,68 @@ export function trackScrollDepth(milestones = SCROLL_MILESTONES) {
     requestAnimationFrame(check);
   };
 
+  // Deepest point reached, which is the only depth we get from visitors who
+  // leave without crossing a milestone.
+  const reportDeepest = () => {
+    if (reportedDeepest || !deepest) return;
+    reportedDeepest = true;
+
+    emitInteraction({
+      ...PAYLOAD_BOILERPLATE,
+      location: 'page',
+      label: `${deepest}%`,
+      action: 'scroll_max',
+      percent: deepest,
+      ms_to_reach: sinceLoad(),
+    });
+  };
+
+  // The listener stays attached after the last milestone: deepest still needs updating.
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ponytail: best-effort on the way out, a request started here can still be dropped.
+  // visibilitychange covers mobile, where pagehide does not reliably fire.
+  window.addEventListener('pagehide', reportDeepest);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') reportDeepest();
+  });
+
   check(); // page may already be loaded part-way down
+}
+
+// Which sections a visitor actually reached, which a page-level percentage only implies.
+export function trackSectionViews(selector = 'section') {
+  const sections = [...document.querySelectorAll(selector)];
+  if (!sections.length || !('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        observer.unobserve(entry.target); // once per section per page load
+
+        const location = deriveLocation(entry.target);
+
+        // Skip OneTrust consent markup, and unclassed wrappers that would otherwise
+        // land in a meaningless bucket named after the tag.
+        if (location.startsWith('ot_') || location === entry.target.tagName.toLowerCase()) return;
+
+        const heading = entry.target.querySelector('h1, h2, h3, h4');
+        emitInteraction({
+          ...PAYLOAD_BOILERPLATE,
+          location,
+          label: heading ? heading.innerText.replace(/\s+/g, ' ').trim().slice(0, LABEL_MAX) : '',
+          action: 'viewed',
+        });
+      });
+    },
+    // ponytail: a quarter of the section counts as seen. A higher threshold would
+    // never trigger for tall sections on small screens.
+    { threshold: 0.25 },
+  );
+
+  sections.forEach((section) => observer.observe(section));
 }
 
 // Track every link/button under root, not just the data-metric-loc ones.
