@@ -1,6 +1,6 @@
 ---
 title: Memory Tiers
-short_description: "Control whether vectors, indexes, quantized data, and payloads live on disk, in a warm disk cache, or in pinned RAM."
+short_description: "Control how vectors, indexes, quantized data, and payloads are cached in RAM: pinned, warmed into a disk cache, or left on disk."
 description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, and payloads."
 weight: 12
 aliases:
@@ -9,9 +9,9 @@ aliases:
 
 # Memory Tiers
 
-Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter lets you control whether data lives in pinned RAM, a warm disk cache, or on disk.
+Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter controls how each structure is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed.
 
-This page covers how to control where data structures live, the different placement tiers available, and how to optimize for disk-based retrieval.
+This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval.
 
 ## Configuring Memory Tiers
 
@@ -22,13 +22,13 @@ This page covers the <code>memory</code> parameter introduced in Qdrant v1.19. I
 Each collection in Qdrant is backed by several independent structures:
 
 - **[Dense vectors](/documentation/manage-data/vectors/)** hold the original floating-point vectors for a collection or named vector.
-- **The [HNSW graph index](/documentation/manage-data/indexing/#vector-index)** is a graph structure built over dense vectors that makes approximate nearest-neighbor search fast.
+- **The [HNSW vector index](/documentation/manage-data/indexing/#vector-index)** is a graph structure built over dense vectors that makes approximate nearest-neighbor search fast.
 - **[Quantized vectors](/documentation/manage-data/quantization/)** are compressed copies of the original vectors, used to speed up search and shrink memory use.
 - **The [sparse vector index](/documentation/manage-data/indexing/#sparse-vector-index)** is an exact, inverted-index-style structure built over sparse vectors.
 - **[Payloads](/documentation/manage-data/collections/#create-a-collection)** are the JSON documents attached to each point.
 - **[Payload indexes](/documentation/manage-data/indexing/#payload-index)** are per-field indexes that speed up filtering.
 
-Each of these structures accepts a `memory` parameter that determines whether it lives in pinned RAM, in a warm disk cache, or on disk. The available tiers are:
+Each of these structures accepts a `memory` parameter that controls how it is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed. The available tiers are:
 
 - **`pinned`**: Qdrant loads the data onto the heap and never evicts it. Requests stay fast, but the structure must fit in RAM at all times. Because it allocates data on the heap, it's [only available for structures that support a heap-backed in-RAM representation](#limitations).
 - **`cached`**: Qdrant pre-loads the data into the disk cache when it starts up, so the first request is fast. Under memory pressure, the operating system can evict this data if it decides another component's data is used more often.
@@ -39,7 +39,7 @@ Each of these structures accepts a `memory` parameter that determines whether it
 ### Limitations
 
 - Qdrant rejects `pinned` for dense vectors and payloads, since both only support a memory-mapped in-RAM representation (`cached` or `cold`).
-- For sparse vectors, only the sparse vector index has a `memory` parameter. Raw sparse vector values always live on disk. Qdrant doesn't offer an in-RAM option for them, since their values aren't read during the index search step itself, only when a point is fetched.
+- For sparse vectors, only the sparse vector index has a `memory` parameter. Qdrant doesn't offer a RAM cache for sparse vectors, since their values aren't read during the index search step itself, only when a point is fetched.
 
 ## Default Tiers
 
@@ -48,7 +48,7 @@ If you don't explicitly set `memory` on a structure, Qdrant defaults to the foll
 | Data structure | Default tier |
 |---|---|
 | Dense vectors | `cached` |
-| HNSW graph index | `cached` |
+| HNSW vector index | `cached` |
 | Quantized vectors | Depends on the placement of the original dense vectors: `pinned` if original vectors are `cached`, `cold` if original vectors are `cold`. |
 | Sparse vector index | `pinned` |
 | Payloads | `cold` |
@@ -58,7 +58,7 @@ If you don't explicitly set `memory` on a structure, Qdrant defaults to the foll
 
 ## Example
 
-This example configures a collection so the vectors are cached in RAM, the HNSW graph is cold, the quantized vectors are pinned, and the payload is cached:
+This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload is cached:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-memory-tiers/" >}}
 
@@ -94,7 +94,7 @@ On-disk retrieval benefits from fast, local storage. If you're self hosting Qdra
 
 *Available as of v1.16.0*
 
-Avoid putting the HNSW index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of three to four times more disk usage.
+Avoid putting the HNSW vector index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of three to four times more disk usage.
 
 ## Legacy Settings
 
@@ -109,7 +109,7 @@ The legacy parameter is `on_disk`.
 | `cached` | `on_disk: false` |
 | `cold` | `on_disk: true` |
 
-### HNSW Graph Index
+### HNSW Vector Index
 
 The legacy parameter is `on_disk`, set in `hnsw_config`.
 
