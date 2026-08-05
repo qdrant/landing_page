@@ -609,3 +609,5 @@ Now you know how Qdrant works. Getting started with [Qdrant Cloud](/documentatio
 To move onto some more complex examples of vector search, read our [Tutorials](/documentation/tutorials-lp-overview/) and create your own app with the help of our [Examples](/documentation/examples/).
 
 When you're ready to deploy, run through the [Production Checklist](/documentation/production-checklist/) to make sure your instance is secure and optimized.
+
+**Note**: For embedded, on-device vector search, try [Qdrant Edge](/documentation/edge/edge-quickstart/), a lightweight library with support for Python and Rust that runs directly inside your application.
