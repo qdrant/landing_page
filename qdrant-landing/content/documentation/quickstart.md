@@ -610,4 +610,4 @@ To move onto some more complex examples of vector search, read our [Tutorials](/
 
 When you're ready to deploy, run through the [Production Checklist](/documentation/production-checklist/) to make sure your instance is secure and optimized.
 
-**Note:** There is another way of running Qdrant locally. If you are a Python developer, we recommend that you try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup.
+**Note**: Qdrant can also run embedded, right inside your application, with no separate server required. [Qdrant Edge](/documentation/edge/edge-quickstart/) is a lightweight vector search engine that supports Python and Rust and runs directly in-process.
