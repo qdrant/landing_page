@@ -7,7 +7,27 @@
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
 > Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
-{{ $pages := sort .Pages "File.Path" -}}
+{{ $all := sort .Pages "File.Path" -}}
+{{- /* Some bundles build a page of their own rather than a block of this one:
+   /rag holds rag-evaluation-guide plus its rag-evaluation-guide-* blocks, which
+   build /rag/rag-evaluation-guide/ and get their own Markdown there. A bundle
+   that overrides the section cascade with render: always is one of those, and
+   the blocks named after it belong to it. */ -}}
+{{- $siblings := slice -}}
+{{- range $all -}}
+  {{- if eq (index (.Params.build | default dict) "render") "always" -}}
+    {{- $siblings = $siblings | append .File.BaseFileName -}}
+  {{- end -}}
+{{- end -}}
+{{- $pages := slice -}}
+{{- range $all -}}
+  {{- $base := .File.BaseFileName -}}
+  {{- $elsewhere := false -}}
+  {{- range $siblings -}}
+    {{- if or (eq $base .) (hasPrefix $base (printf "%s-" .)) -}}{{- $elsewhere = true -}}{{- end -}}
+  {{- end -}}
+  {{- if not $elsewhere -}}{{- $pages = $pages | append . -}}{{- end -}}
+{{- end -}}
 {{- $ordered := slice -}}
 {{- range $pages -}}
   {{- if in (lower .File.BaseFileName) "hero" -}}{{- $ordered = $ordered | append . -}}{{- end -}}
@@ -19,8 +39,16 @@
 {{- $blocks := slice -}}
 {{- /* A single page (industries/*) carries its sections in its own params. */ -}}
 {{- if not $ordered -}}
-  {{- with strings.TrimSpace (partial "md-params.txt" (dict "v" .Params "level" 1 "skipTitle" true)) -}}
+  {{- with strings.TrimSpace (partial "md-params.txt" (dict "v" .Params "level" 1 "skipTitle" true "omit" (slice .Title .Description))) -}}
     {{- $blocks = $blocks | append . -}}
+  {{- end -}}
+  {{- /* rag-evaluation-guide keeps its blocks as siblings in the parent section
+         rather than in its own params, so collect the ones named after it. */ -}}
+  {{- $prefix := printf "%s-" .File.BaseFileName -}}
+  {{- with .Parent -}}
+    {{- range (sort .Pages "File.Path") -}}
+      {{- if hasPrefix .File.BaseFileName $prefix -}}{{- $ordered = $ordered | append . -}}{{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- range $ordered -}}

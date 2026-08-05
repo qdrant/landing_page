@@ -13,13 +13,18 @@
   ponytail: substring key matching, not a per-page field mapping. Hand-write a
   section's own list.markdown.md if its generated output reads badly.
 
-  Params: v (any), level (int, heading depth), item (bool, rendering a list entry)
+  Params: v (any), level (int, heading depth), item (bool, rendering a list entry),
+          omit (slice of strings already printed by the caller)
 */ -}}
 {{- $v := .v -}}
 {{- $level := .level | default 2 -}}
 {{- $item := .item | default false -}}
 {{- $drop := slice "src" "alt" "icon" "image" "img" "logo" "avatar" "photo" "path" "color" "class" "id" "form" "schema" "video" "youtube" "background" "illustration" "visual" "badge" -}}
 {{- $keep := slice "title" "heading" "question" "name" "tab" "text" "subtitle" "description" "content" "answer" "quote" "review" "testimonial" "position" "role" "summary" "part" "benefit" "value" "lesson" "problem" "solution" "step" "stat" -}}
+{{- /* Exact matches, not substrings: "start" must not catch startFree, and
+       "place" must not catch marketplace. Events and Vector Space Day carry
+       their when and where in these. */ -}}
+{{- $keepExact := slice "start" "end" "date" "time" "place" "location" "venue" -}}
 {{- $titleKeys := slice "title" "heading" "question" "name" "tab" "text" -}}
 {{- $bodyOrder := slice "subtitle" "description" "content" "answer" "quote" "review" -}}
 {{- $out := slice -}}
@@ -49,10 +54,22 @@
     {{- else -}}
       {{- $kept := false -}}
       {{- range $keep -}}{{- if in $kl . -}}{{- $kept = true -}}{{- end -}}{{- end -}}
+      {{- $labelled := in $keepExact $kl -}}
+      {{- if $labelled -}}{{- $kept = true -}}{{- end -}}
       {{- /* Copy carries inline markup for styling; agents want the words. */ -}}
       {{- $s := replaceRE `</?(span|br|b|i|em|strong|p|div|small|sup|sub)[^>]*>` " " (printf "%v" $val) -}}
       {{- $s = strings.TrimSpace (replaceRE `\s+` " " $s) -}}
-      {{- if and $kept $s -}}{{- $scalars = merge $scalars (dict $kl $s) -}}{{- end -}}
+      {{- /* omit: copy the caller already printed, e.g. the page title and
+             description above a single page's own params. */ -}}
+      {{- /* Hugo types bare YAML dates as timestamps, which stringify as
+             "2023-02-13 00:00:00 +0000 UTC". */ -}}
+      {{- $s = replaceRE ` [+-]\d{4} \w+$` "" $s -}}
+      {{- $s = replaceRE ` 00:00:00$` "" $s -}}
+      {{- /* When and where mean nothing unlabelled: "Online", "2026-04-21T17:00". */ -}}
+      {{- if and $labelled $s -}}{{- $s = printf "%s: %s" (title $kl) $s -}}{{- end -}}
+      {{- if and $kept $s (not (in ($.omit | default slice) $s)) -}}
+        {{- $scalars = merge $scalars (dict $kl $s) -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 
@@ -91,6 +108,9 @@
   {{- else if and (ne $url "") (not $body) (not $children) -}}
     {{- /* Bare call to action: just the link. */ -}}
     {{- with $label -}}{{- $out = $out | append . -}}{{- end -}}
+  {{- else if not (or $body $children (ne $url "")) -}}
+    {{- /* Title and nothing else: a badge or kicker, not a section. Emitting it
+           leaves an orphan heading with no content under it. */ -}}
   {{- else -}}
     {{- with $title -}}
       {{- $out = $out | append (printf "%s %s" (strings.Repeat $level "#") .) -}}
