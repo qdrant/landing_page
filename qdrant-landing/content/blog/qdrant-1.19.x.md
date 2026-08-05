@@ -6,7 +6,7 @@ short_description: "Version 1.19 of Qdrant introduces the TurboQuant datatype, a
 description: "Version 1.19 of Qdrant introduces the TurboQuant datatype for major storage savings, unified memory tier configuration, replica read affinity, and full-text search enhancements."
 preview_image: /blog/qdrant-1.19.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.19.x/social_preview.jpg
-date: 2026-07-28T00:00:00-08:00
+date: 2026-08-05T00:00:00-01:00
 author: Andrey Vasnetsov
 featured: true
 tags:
