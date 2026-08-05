@@ -25,7 +25,7 @@ Creating an index requires additional computational resources and memory, so cho
 
 The following field types support payload indexing:
 
-* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions.
+* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions. Can optionally enable [prefix matching](#keyword-index).
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
 * `float` - for [float](/documentation/manage-data/payload/#float) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions.
 * `bool` - for [bool](/documentation/manage-data/payload/#bool) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions (available as of v1.4.0).
@@ -66,25 +66,27 @@ For more information, refer to [Disable Retrieving via Non Indexed Payload](/doc
 
 ### Parameterized Index
 
+Beyond selecting the field type, you can set parameters on a payload index to fine-tune how it is stored and which filtering conditions it can serve. The available parameters depend on the field type, and are described in the subsections below.
+
+#### Using `lookup` and `range` in Integer Indices
+
 *Available as of v1.8.0*
 
-We've added a parameterized variant to the `integer` index, which allows
-you to fine-tune indexing and search performance.
+The parameterized variant of the `integer` index allows you to fine-tune indexing and search performance.
 
-Both the regular and parameterized `integer` indexes use the following flags:
+Parameterized `integer` indexes use the following flags:
 
 - `lookup`: enables support for direct lookup using
  [Match](/documentation/search/filtering/#match) filters.
 - `range`: enables support for
  [Range](/documentation/search/filtering/#range) filters.
 
-The regular `integer` index assumes both `lookup` and `range` are `true`. In
-contrast, to configure a parameterized index, you would set only one of these
-filters to `true`:
+The `integer` index assumes both `lookup` and `range` are `true` by default.
+To configure a parameterized index, set only one of these filters to `true`:
 
 | `lookup` | `range` | Result                      |
 |----------|---------|-----------------------------|
-| `true` | `true` | Regular integer index       |
+| `true` | `true` | Default behavior for integer indices       |
 | `true` | `false` | Parameterized integer index |
 | `false` | `true` | Parameterized integer index |
 | `false` | `false` | No integer index            |
@@ -103,36 +105,45 @@ supports only range filters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/integer-with-params/" >}}
 
-### On-Disk Payload Index
+#### Prefix Matching in Keyword Indices
+
+*Available as of v1.19.0*
+
+By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition.
+
+This is useful for prefix filtering over identifier-like values such as URLs, paths, or SKUs, and for building filter-value autocompletion (for example, combining a facet request with a prefix filter on the same field). A `text` index is not a good fit for these cases: tokenization breaks identifiers apart, and a `text` schema loses exact keyword matching.
+
+<aside role="note">
+    This is unrelated to the full-text <code>prefix</code> <a href="#tokenizers">tokenizer</a>. The tokenizer builds prefixes of the individual words of a <code>text</code> index, while this flag enables prefix matching over whole <code>keyword</code> values.
+</aside>
+
+To enable prefix matching, set the `prefix` flag to `true` when creating a keyword index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-with-prefix/" >}}
+
+Enabling `prefix` builds a dedicated index structure, so prefix filters on the field are served by the index and are as fast as other indexed filters. Matching is byte-wise (hence, for valid UTF-8, character-wise) and case-sensitive, consistent with exact keyword matching.
+
+The `prefix` flag can be enabled on a new index. Enabling it on an existing keyword index triggers a full rebuild of the index, because the schema is incompatible with the previous one.
+
+When [strict mode](/documentation/ops-configuration/administration/#strict-mode) is enabled with `unindexed_filtering_retrieve` or `unindexed_filtering_update` set to `false`, a prefix condition on a field that does not have a prefix-enabled keyword index is rejected.
+
+#### On-Disk Payload Index
 
 *Available as of v1.11.0*
 
-By default all payload-related structures are stored in memory. In this way, the vector index can quickly access payload values during search.
-As latency in this case is critical, it is recommended to keep hot payload indexes in memory.
+Payload indexes are always persisted to disk. By default, they are also loaded into the `pinned` [memory tier](/documentation/ops-configuration/memory-tiers/). This keeps the index on the heap, so payload values can be accessed during search without extra disk I/O.
 
-There are, however, cases when payload indexes are too large or rarely used. In those cases, it is possible to store payload indexes on disk.
+There are, however, cases when payload indexes are too large or rarely used. In those cases, you can move a payload index to the `cached` or `cold` tier.
 
 <aside role="alert">
- On-disk payload index might affect cold requests latency, as it requires additional disk I/O operations.
+A payload index in the <code>cached</code> or <code>cold</code> tier might affect request latency, as it may require additional disk I/O operations.
 </aside>
 
-To configure on-disk payload index, you can use the following index parameters:
+To configure a payload index's memory tier, use the `memory` parameter:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-on-disk/" >}}
 
-Payload index on-disk is supported for the following types:
-
-* `keyword`
-* `integer`
-* `float`
-* `datetime`
-* `uuid`
-* `text`
-* `geo`
-
-The list will be extended in future versions.
-
-### Tenant Index
+#### Tenant Index
 
 *Available as of v1.11.0*
 
@@ -159,7 +170,7 @@ Tenant optimization is supported for the following datatypes:
 * `keyword`
 * `uuid`
 
-### Principal Index
+#### Principal Index
 
 *Available as of v1.11.0*
 
@@ -174,7 +185,6 @@ Principal optimization is supported for following types:
 * `integer`
 * `float`
 * `datetime`
-
 
 ## Full-Text Index
 
@@ -201,7 +211,7 @@ Available tokenizers are:
 * `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
 * `whitespace` - splits the string into words, separated by spaces.
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
-* `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization and lemmatization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+* `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
 
 ### Lowercasing
 
@@ -381,12 +391,17 @@ This approach is particularly useful for collections storing both dense and spar
 
 To configure a sparse vector index, create a collection with the following parameters:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index-on-disk/" >}}`
+{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index/" >}}
 
-The following parameters may affect performance:
+The sparse vector index is persisted on disk and loaded into heap memory by default for faster access. You can configure a memory tier to trade off between search speed and memory usage, for example, move a rarely-queried sparse index to the `cold` tier to save memory. The following [memory tiers](/documentation/ops-configuration/memory-tiers/) are available:
 
-- `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance.
-- `on_disk: false` - The index is still persisted on disk, but it is also loaded into memory for faster search.
+- `pinned` - the index is loaded into memory for faster search. This is the default.
+- `cached` - the index is pre-loaded into the disk cache on startup, though it may be evicted under memory pressure.
+- `cold` - the index is stored on disk, which saves memory at the cost of search performance.
+
+The following configuration creates a sparse vector index in the `cold` memory tier:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index-on-disk/" >}}
 
 Unlike a dense vector index, a sparse vector index does not require a predefined vector size. It automatically adjusts to the size of the vectors added to the collection.
 
@@ -408,7 +423,7 @@ The only requirement is to enable the IDF modifier in the collection configurati
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-idf/" >}}
 
-Qdrant uses the following formula to calculate the IDF modifier:
+IDF statistics are calculated per shard using the following formula:
 
 $$
 \text{IDF}(q_i) = \ln \left(\frac{N - n(q_i) + 0.5}{n(q_i) + 0.5}+1\right)
@@ -416,5 +431,7 @@ $$
 
 Where:
 
-- `N` is the total number of documents in the collection.
+- `N` is the total number of documents in the shard.
 - `n` is the number of documents containing non-zero values for the given vector element.
+
+By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Tenant IDF Statistics](/documentation/search/text-search/full-text-search/#per-tenant-idf-statistics).

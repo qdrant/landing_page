@@ -13,8 +13,8 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	}),
 	QuantizationConfig: qdrant.NewQuantizationTurbo(
 		&qdrant.TurboQuantization{
-			AlwaysRam: qdrant.PtrOf(true),
-			Bits:      qdrant.TurboQuantBitSize_Bits2.Enum(),
+			Memory: qdrant.Memory_Pinned.Enum(),
+			Bits:   qdrant.TurboQuantBitSize_Bits2.Enum(),
 		},
 	),
 })

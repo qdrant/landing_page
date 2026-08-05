@@ -27,9 +27,9 @@ func Main() {
 			}),
 		QuantizationConfig: qdrant.NewQuantizationDiffScalar(
 			&qdrant.ScalarQuantization{
-				Type:      qdrant.QuantizationType_Int8,
-				Quantile:  qdrant.PtrOf(float32(0.8)),
-				AlwaysRam: qdrant.PtrOf(true),
+				Type:     qdrant.QuantizationType_Int8,
+				Quantile: qdrant.PtrOf(float32(0.8)),
+				Memory:   qdrant.Memory_Cached.Enum(),
 			}),
 	})
 }

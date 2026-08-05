@@ -224,7 +224,7 @@ When enabling TurboQuant on an existing collection, use a PATCH request or the c
 
 `bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
 
-`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors. Set `always_ram` to `true` to store quantized vectors in RAM.
+`memory` - the [memory tier](/documentation/ops-configuration/memory-tiers/) for the quantized vectors. By default, depends on the placement of the original vectors. See [Default Tiers](/documentation/ops-configuration/memory-tiers/#default-tiers). Set to `pinned` to always keep quantized vectors in RAM. If you're using a version older than 1.19, see [Legacy Settings](/documentation/ops-configuration/memory-tiers/#legacy-settings).
 
 #### Select a Bit Depth
 
@@ -252,10 +252,10 @@ Using quantiles lower than `1.0` might be useful if there are outliers in your v
 This parameter only affects the resulting precision and not the memory footprint.
 It might be worth tuning this parameter if you experience a significant decrease in search quality.
 
-`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
-However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
+`memory` - the [memory tier](/documentation/ops-configuration/memory-tiers/) for the quantized vectors. By default, depends on the placement of the original vectors. See [Default Tiers](/documentation/ops-configuration/memory-tiers/#default-tiers).
+However, in some setups you might want to keep quantized vectors in RAM to speed up the search process. If you're using a version older than 1.19, see [Legacy Settings](/documentation/ops-configuration/memory-tiers/#legacy-settings).
 
-In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
+In this case, you can set `memory` to `pinned` to always keep quantized vectors in RAM.
 
 ### Setting Up Binary Quantization
 
@@ -265,10 +265,10 @@ When enabling binary quantization on an existing collection, use a PATCH request
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization/" >}}
 
-`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
-However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
+`memory` - the [memory tier](/documentation/ops-configuration/memory-tiers/) for the quantized vectors. By default, depends on the placement of the original vectors. See [Default Tiers](/documentation/ops-configuration/memory-tiers/#default-tiers).
+However, in some setups you might want to keep quantized vectors in RAM to speed up the search process. If you're using a version older than 1.19, see [Legacy Settings](/documentation/ops-configuration/memory-tiers/#legacy-settings).
 
-In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
+In this case, you can set `memory` to `pinned` to always keep quantized vectors in RAM.
 
 #### Set Up Bit Depth
 
@@ -300,8 +300,8 @@ There are two parameters that you can specify in the `quantization_config` secti
 Compression ratio represents the size of the quantized vector in bytes divided by the size of the original vector in bytes.
 In this case, the quantized vector will be 16 times smaller than the original vector.
 
-`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
-However, in some setups you might want to keep quantized vectors in RAM to speed up the search process. Then set `always_ram` to `true`.
+`memory` - the [memory tier](/documentation/ops-configuration/memory-tiers/) for the quantized vectors. By default, depends on the placement of the original vectors. See [Default Tiers](/documentation/ops-configuration/memory-tiers/#default-tiers).
+However, in some setups you might want to keep quantized vectors in RAM to speed up the search process. Then set `memory` to `pinned`. If you're using a version older than 1.19, see [Legacy Settings](/documentation/ops-configuration/memory-tiers/#legacy-settings).
 
 
 ### Disabling Quantization
@@ -349,15 +349,17 @@ By adjusting the quantile, you find an optimal value that will provide the best 
 
 ### Memory and Speed Tuning
 
-In this section, we will discuss how to tune the memory and speed of the search process with quantization.
+<aside role="status">
+This section covers the <code>memory</code> parameter introduced in Qdrant v1.19. If you're using an older version, see the <a href="/documentation/ops-configuration/memory-tiers/#legacy-settings">Legacy Settings</a> section for how to map the new parameter to the old ones.
+</aside>
 
-There are 3 possible modes to place storage of vectors within the qdrant collection:
+The memory usage and speed of the search process can be tuned by choosing a [memory tier](/documentation/ops-configuration/memory-tiers/) for the original and quantized vectors. There are three possible memory tier configurations:
 
-- **All in RAM** - all vectors, original and quantized, are loaded and kept in RAM. This is the fastest mode, but requires a lot of RAM. Enabled by default.
+- **Original cached, quantized in RAM** - the original vectors are cached and the quantized vectors are pinned in RAM. This is the fastest mode, but requires enough RAM to hold both. This is the default.
 
-- **Original on Disk, quantized in RAM** - this is a hybrid mode that provides a good balance between speed and memory usage. It is recommended if you are aiming to shrink the memory footprint while keeping the search speed.
+- **Original cold, quantized pinned** - a hybrid mode that provides a good balance between speed and memory usage. It is recommended if you are aiming to shrink the memory footprint while keeping the search speed.
 
-  This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:\
+  This mode is enabled by setting the original vectors' `memory` to `cold` and the quantized vectors' `memory` to `pinned`:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
 
   In this scenario, the number of disk reads may play a significant role in the search speed.
@@ -366,9 +368,9 @@ There are 3 possible modes to place storage of vectors within the qdrant collect
   Consider disabling `rescore` to improve the search speed:\
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-disabled-rescoring/" >}}
 
-- **All on Disk** - all vectors, original and quantized, are stored on disk. This mode achieves the smallest memory footprint, but at the cost of search speed.
+- **All cold** - both the original and quantized vectors are stored on disk. This mode achieves the smallest memory footprint, but at the cost of search speed.
 
   It is recommended to use this mode if you have a large collection and fast storage (e.g. SSD or NVMe).
 
-  This mode is enabled by setting `always_ram` to `false` in the quantization config while using mmap storage:\
+  This mode is enabled by setting both the original and quantized vectors' `memory` to `cold`:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/quantization-on-disk/" >}}

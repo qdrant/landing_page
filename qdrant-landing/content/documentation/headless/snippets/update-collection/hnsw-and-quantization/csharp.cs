@@ -29,7 +29,7 @@ public class Snippet
 				{
 					Type = QuantizationType.Int8,
 					Quantile = 0.8f,
-					AlwaysRam = true
+					Memory = Memory.Cached
 				}
 			}
 		);
