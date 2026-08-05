@@ -9,12 +9,17 @@ set -uo pipefail
 PUBLIC=${1:-qdrant-landing/public}
 fail=0
 
+# Still title-only, deliberately: /contact-us and /subscribe are forms with
+# nothing to render. /learn has its own agent page (PR #2462).
 PAGES=(
   cloud qdrant-vector-database pricing hybrid-cloud private-cloud edge
   cloud-inference ai-agents advanced-search recommendations
   data-analysis-anomaly-detection rag use-cases healthcare
   enterprise-solutions qdrant-for-startups customers partners benchmarks
   about-us lp/lucene e-commerce hr-tech legal-tech hospitality-and-travel
+  rag/rag-evaluation-guide
+  community stars events vector-space-day-sf-26 vector-space-day-sf-26-recap
+  brand-resources demo
 )
 
 for p in "${PAGES[@]}"; do
@@ -69,6 +74,17 @@ $(grep -hE '^[[:space:]]*(title|pricing|price):[[:space:]]*\S' "$src" \
   | normalize)
 EOF
   done
+fi
+
+# Customers is a table of every client, also hand-written, so a truncated or
+# dropped table has to fail rather than quietly shrink the page.
+clients_src=qdrant-landing/content/customers/clients/_index.md
+if [ -f "$clients_src" ] && [ -f "$PUBLIC/customers/index.md" ]; then
+  want=$(grep -cE '^  - id: ' "$clients_src")
+  got=$(( $(grep -cE '^\| ' "$PUBLIC/customers/index.md") - 2 ))  # minus header and divider
+  if [ "$want" -ne "$got" ]; then
+    echo "customers/index.md lists $got clients, content has $want"; fail=1
+  fi
 fi
 
 # llms.txt is how an agent finds these pages at all.
