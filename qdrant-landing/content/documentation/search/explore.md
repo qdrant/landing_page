@@ -7,7 +7,7 @@ aliases:
   - ../explore
 ---
 
-# Explore the data
+# Explore the Data
 
 After mastering the concepts in [search](/documentation/search/search/), you can start exploring your data in other ways. Qdrant provides a stack of APIs that allow you to find similar vectors in a different fashion, as well as to find the most dissimilar ones. These are useful tools for recommendation systems, data exploration, and data cleaning.
 
@@ -15,7 +15,7 @@ After mastering the concepts in [search](/documentation/search/search/), you can
 
 In addition to the regular search, Qdrant also allows you to search based on multiple positive and negative examples. The API is called ***recommend***, and the examples can be point IDs, so that you can leverage the already encoded objects; and, as of v1.6, you can also use raw vectors as input, so that you can create your vectors on the fly without uploading them as points.
 
-REST API - API Schema definition is available [here](https://api.qdrant.tech/api-reference/search/recommend-points)
+The recommendation API is exposed via the Query API as the [Recommend Query](https://api.qdrant.tech/api-reference/search/query-points#request.body.prefetch.Prefetch.query.QueryInterface.Query.RecommendQuery).
 
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/basic-recommend/" >}}
 
@@ -35,7 +35,7 @@ Example result of this API would be
 
 The algorithm used to get the recommendations is selected from the available `strategy` options. Each of them has its own strengths and weaknesses, so experiment and choose the one that works best for your case.
 
-### Average vector strategy
+### Average Vector Strategy
 
 The default and first strategy added to Qdrant is called `average_vector`. It preprocesses the input examples to create a single vector that is used for the search. Since the preprocessing step happens very fast, the performance of this strategy is on-par with regular search. The intuition behind this kind of recommendation is that each vector component represents an independent feature of the data, so, by averaging the examples, we should get a good recommendation.
 
@@ -49,7 +49,7 @@ In the case of not having any negative examples, the search vector will simply b
 
 This is the default strategy that's going to be set implicitly, but you can explicitly define it by setting `"strategy": "average_vector"` in the recommendation request.
 
-### Best score strategy
+### Best Score Strategy
 
 *Available as of v1.6.0*
 
@@ -79,13 +79,13 @@ Accuracy may be impacted with this strategy. To improve it, increasing the <code
 
 To use this algorithm, you need to set `"strategy": "best_score"` in the recommendation request.
 
-#### Using only negative examples
+#### Using Only Negative Examples
 
 A beneficial side-effect of `best_score` strategy is that you can use it with only negative examples. This will allow you to find the most dissimilar vectors to the ones you provide. This can be useful for finding outliers in your data, or for finding the most dissimilar vectors to a given one.
 
 Combining negative-only examples with filtering can be a powerful tool for data exploration and cleaning.
 
-### Sum scores strategy
+### Sum Scores Strategy
 
 Another strategy for using multiple query vectors simultaneously is to just sum their scores against the candidates. In qdrant, this is called `sum_scores` strategy.
 
@@ -101,7 +101,7 @@ where $Q^+$ is the set of positive examples, $Q^-$ is the set of negative exampl
 
 As with `best_score`, this strategy also allows using only negative examples.
 
-### Multiple vectors
+### Multiple Vectors
 
 *Available as of v0.10.0*
 
@@ -111,7 +111,7 @@ If the collection was created with multiple vectors, the name of the vector shou
 
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
-### Lookup vectors from another collection
+### Lookup Vectors From Another Collection
 
 *Available as of v0.11.6*
 
@@ -128,7 +128,7 @@ Vectors are retrieved from the external collection by ids provided in the `posit
 These vectors then used to perform the recommendation in the current collection, comparing against the "using" or default vector.
 
 
-## Batch recommendation API
+## Batch Recommendation API
 
 *Available as of v0.10.0*
 
@@ -161,11 +161,9 @@ The result of this API contains one array per recommendation requests.
 
 *Available as of v1.7*
 
-REST API Schema definition available [here](https://api.qdrant.tech/api-reference/search/discover-points)
-
 In this API, Qdrant introduces the concept of `context`, which is used for splitting the space. Context is a set of positive-negative pairs, and each pair divides the space into positive and negative zones. In that mode, the search operation prefers points based on how many positive zones they belong to (or how much they avoid negative zones).
 
-The interface for providing context is similar to the recommendation API (ids or raw vectors). Still, in this case, they need to be provided in the form of positive-negative pairs.
+The Discovery API is exposed via the Query API as the [Discover Query](https://api.qdrant.tech/api-reference/search/query-points#request.body.prefetch.Prefetch.query.QueryInterface.Query.DiscoverQuery). The interface for providing context is similar to the recommendation API (ids or raw vectors). Still, in this case, they need to be provided in the form of positive-negative pairs.
 
 Discovery API lets you do two new types of search:
 - **Discovery search**: Uses the context (the pairs of positive-negative vectors) and a target to return the points more similar to the target, but constrained by the context.
@@ -175,7 +173,7 @@ The way positive and negative examples should be arranged in the context pairs i
 
 <aside role="alert">The speed of search is linearly related to the amount of examples you provide in the query.</aside>
 
-### Discovery search
+### Discovery Search
 
 This type of search works specially well for combining multimodal, vector-constrained searches. Qdrant already has extensive support for filters, which constrain the search based on its payload, but using discovery search, you can also constrain the vector space in which the search is performed.
 
@@ -208,7 +206,7 @@ Notes about discovery search:
 
 </aside>
 
-### Context search
+### Context Search
 
 Conversely, in the absence of a target, a rigid integer-by-integer function doesn't provide much guidance for the search when utilizing a proximity graph like HNSW. Instead, context search employs a function derived from the [triplet-loss](/articles/triplet-loss/) concept, which is usually applied during model training. For context search, this function is adapted to steer the search towards areas with fewer negative examples.
 
@@ -258,7 +256,7 @@ This will results in a total of 1000 scores represented as a sparse matrix for e
 
 The distance matrix API offers two output formats to ease the integration with different tools.
 
-### Pairwise format
+### Pairwise Format
 
 Returns the distance matrix as a list of pairs of point `ids` with their respective score.
 
@@ -291,7 +289,7 @@ Returns
 }
 ```
 
-### Offset format
+### Offset Format
 
 Returns the distance matrix as a four arrays:
 - `offsets_row` and `offsets_col`, represent the positions of non-zero distance values in the matrix.
