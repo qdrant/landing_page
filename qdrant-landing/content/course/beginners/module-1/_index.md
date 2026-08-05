@@ -27,29 +27,25 @@ Essentials embed pattern. Outro bumper yes, Intro bumper no.
 
 Understand why traditional search struggles and how modern semantic search improves it.
 
-## Today's path
+## In This Module, You'll Learn
 
-1. What Is Search?
-2. The Problem: Why Keyword Search Struggles
-3. How Traditional Search Improved
-4. How It Works: Embeddings
-5. Comparing Meaning: Distance Metrics
-6. Why Similarity Alone Is Not Enough
-7. Modern Search = Hybrid Systems
-8. References & Further Reading
+- Why keyword search misses relevant results
+- How embeddings let search compare meaning
+- How cosine similarity measures that meaning
+- When exact matching still matters
 
-**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/Beginner-course/Module1.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
-</a>
+### Before You Start
 
-### Before You Start: Environment Setup
+Choose how you want to follow this module:
 
-You can follow this module two ways: in the browser, or on your own machine. Pick whichever suits you. The embedding model used throughout this module runs locally on your CPU. The Colab notebook linked at the start of this module runs every snippet on this page in your browser, with no account and no setup. To run the code locally instead, you'll need Python 3.9 or later and two packages:
+- **Use Colab:** [Open the companion notebook in Colab](https://colab.research.google.com/github/qdrant/examples/blob/master/Beginner-course/Module1.ipynb) to run the examples in your browser.
+- **Run locally:** Use Python 3.9 or later, then install the dependencies:
 
 ```bash
 pip install fastembed numpy
 ```
 
+The embedding model runs on your CPU. You don't need a GPU or API keys.
 
 ## 1. What Is Search?
 
@@ -64,33 +60,15 @@ This module is about one question: how does a system decide what "relevant" mean
 
 ## 2. The Problem: Why Keyword Search Struggles
 
-Traditional search works by matching exact words. That's it. If the query string appears in the document, it's a hit. If it doesn't, it's a miss, no matter how closely related the meaning is.
-
-```python
-# Simple keyword search
-if "car repair" in document:
-    return document
-```
+Keyword search looks for matching words. That works when people use the same terms as the content they need, as the example shows.
 
 ![Keyword search only matches documents that contain the exact words "car" and "repair"](/courses/beginners/module-1/car-repair.png)
 
-This approach works for predictable, structured queries. It breaks immediately on the language real users actually write.
+That creates a few common problems:
 
-### Real-World Failure Examples
-
-| Query | Document in the index | Result |
-|-------|----------------------|--------|
-| car repair | automobile maintenance guide | Missed |
-| cheap flights NYC | affordable airfare to New York | Missed |
-| Apple stock | apple harvest season guide | Wrong sense matched* |
-
-
-### The Four Core Failure Modes
-
-- **Synonyms**: "car" and "automobile" mean the same thing, but to a keyword engine they're unrelated.
-- **Paraphrasing**: "cheap flights" and "affordable airfare" are identical in intent, invisible to grep.
-- **Polysemy**: One word can have multiple meanings. For example, "apple" can mean a fruit or a company
-- **Word order**: "dog bites man" and "man bites dog" use identical words. A Keyword search would not understand the nuance.
+- **Different words, same meaning:** "car repair" misses "automobile maintenance."
+- **Same word, different meaning:** "Apple stock" can retrieve fruit content instead of financial information.
+- **Same words, different order:** "dog bites man" and "man bites dog" contain the same terms, but mean very different things.
 
 ## 3. How Traditional Search Improved
 
