@@ -17,7 +17,7 @@ public class Snippet
 			{
 				Scalar = new ScalarQuantization { Type = QuantizationType.Int8, Memory = Memory.Pinned }
 			},
-			payload: new PayloadStorageParams { Memory = Memory.Cached }
+			onDiskPayload: false
 		);
 	}
 }
