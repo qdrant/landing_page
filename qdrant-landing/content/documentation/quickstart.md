@@ -610,4 +610,4 @@ To move onto some more complex examples of vector search, read our [Tutorials](/
 
 When you're ready to deploy, run through the [Production Checklist](/documentation/production-checklist/) to make sure your instance is secure and optimized.
 
-**Note**: For embedded, on-device vector search, try [Qdrant Edge](/documentation/edge/edge-quickstart/), a lightweight library with support for Python and Rust that runs directly inside your application.
+**Note**: Qdrant can also run embedded, right inside your application, with no separate server required. [Qdrant Edge](/documentation/edge/edge-quickstart/) is a lightweight vector search engine that supports Python and Rust and runs directly in-process.
