@@ -8,7 +8,19 @@
       {{ end }}
       {{ $tocEndLevel := default 3 .Params.toc_end_level }}
       {{ $tocOrdered := false }}
-      {{ .Fragments.ToHTML $tocStartLevel $tocEndLevel $tocOrdered | safeHTML }}
+      {{ $toc := .Fragments.ToHTML $tocStartLevel $tocEndLevel $tocOrdered }}
+
+      {{/* Optional `toc_titles` front matter maps a heading anchor to a short
+           label, so long headings stay full-length on the page but get a
+           readable alias in the sidebar. The original heading text is kept as
+           the link title attribute. */}}
+      {{ range $anchor, $alias := .Params.toc_titles }}
+        {{ $pattern := printf `<a href="#%s">([^<]*)</a>` $anchor }}
+        {{ $replacement := printf `<a href="#%s" title="${1}">%s</a>` $anchor $alias }}
+        {{ $toc = replaceRE $pattern $replacement $toc }}
+      {{ end }}
+
+      {{ $toc | safeHTML }}
 
       {{ if eq .Section "course" }}
         {{ $subject := . }}
