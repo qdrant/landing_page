@@ -32,12 +32,11 @@ Understand why traditional search struggles and how modern semantic search impro
 1. What Is Search?
 2. The Problem: Why Keyword Search Struggles
 3. How Traditional Search Improved
-4. Enter Semantic Search
-5. How It Works: Embeddings
-6. Comparing Meaning: Distance Metrics
-7. Why Similarity Alone Is Not Enough
-8. Modern Search = Hybrid Systems
-9. References & Further Reading
+4. How It Works: Embeddings
+5. Comparing Meaning: Distance Metrics
+6. Why Similarity Alone Is Not Enough
+7. Modern Search = Hybrid Systems
+8. References & Further Reading
 
 **Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/Beginner-course/Module1.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
@@ -115,7 +114,7 @@ Nobody hand-codes the fact that "car" and "automobile" are related. The
 model learns it from the text it was trained and sentences converted into vectors end up near
 each other despite sharing no words, and search becomes a geometry problem. 
 
-## 5. How It Works: Embeddings
+## 4. How It Works: Embeddings
 
 ### What Is an Embedding?
 
@@ -156,7 +155,7 @@ Default to a small general bi-encoder for single-language product or FAQ search 
 
 A dimension is one position in the vector. No single one maps to a human concept like "color"; meaning comes from all of them combined.
 
-## 6. Comparing Meaning: Distance Metrics
+## 5. Comparing Meaning: Distance Metrics
 
 Once we have vectors, we need a way to measure how similar two of them are. Different metrics suit different situations.
 
@@ -213,7 +212,7 @@ for query, document in pairs:
 
 **Cosine vs. dot product:** cosine similarity is direction only — it divides out the length of both vectors. Dot product is direction times both vectors' magnitudes, so on raw vectors it's sensitive to length in a way that isn't meaningful for text. Once every vector is normalized to unit length, though, both magnitudes are 1, and dot product becomes numerically identical to cosine similarity — dividing by 1 changes nothing. That's why Qdrant normalizes vectors on upload and computes a "Cosine" collection as a dot product internally: it's the same score, computed the simpler way, not an extra speed optimization applied at query time.
 
-## 7. Why Similarity Alone Is Not Enough
+## 6. Why Similarity Alone Is Not Enough
 
 Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't — each is strong exactly where the other is weak, and a real search system needs several more things beyond raw vector similarity:
 
@@ -277,7 +276,7 @@ Semantic similarity here doesn't just drift toward the wrong SKU, it ranks the w
 
 This is the flip side of sections 1 and 2: keyword matching isn't obsolete, it's exactly the right tool when a query needs to hit one precise token. Dense similarity is good at finding the general neighborhood of relevant results; exact, keyword-style matching is what finds the right point within it. Neither replaces the other — which is exactly what hybrid search, up next, is built to combine.
 
-## 8. Modern Search = Hybrid Systems
+## 7. Modern Search = Hybrid Systems
 
 Production search today combines multiple retrieval signals in a single pipeline. Each signal handles a different class of query. Together, they cover the full spectrum of how real users search.
 
@@ -290,7 +289,7 @@ So far this module has called the two approaches **semantic search** and **keywo
 
 Hybrid systems combine both, covering exact terms and intent in one pipeline, at the cost of more complexity to build, tune, and operate.
 
-## 9. References & Further Reading
+## 8. References & Further Reading
 
 **Qdrant docs:**
 
