@@ -4,13 +4,11 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CompressionRatio;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.Memory;
 import io.qdrant.client.grpc.Collections.ProductQuantization;
 import io.qdrant.client.grpc.Collections.QuantizationConfig;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Collections.VectorsConfig;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
     .createCollectionAsync(
@@ -29,7 +27,7 @@ client
                     .setProduct(
                         ProductQuantization.newBuilder()
                             .setCompression(CompressionRatio.x16)
-                            .setAlwaysRam(true)
+                            .setMemory(Memory.Pinned)
                             .build())
                     .build())
             .build())

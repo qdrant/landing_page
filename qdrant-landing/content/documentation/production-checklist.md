@@ -65,8 +65,8 @@ Some models produce embeddings that can't be quantized efficiently. [Verify](/do
 
 Right-size your RAM, disk type, and storage mode. These decisions are difficult to change once you're in production.
 
-- **Choose between in-memory and on-disk/memmap storage.**
-In-memory gives maximum speed, but RAM becomes a bottleneck at scale. [On-disk/memmap](/documentation/manage-data/storage/#configuring-memmap-storage) maps data to disk-backed virtual address space, which is slightly slower but handles datasets larger than physical RAM.
+- **Choose a [memory tier](/documentation/ops-configuration/memory-tiers/) for your vectors.**
+`cached` gives maximum speed, but RAM becomes a bottleneck at scale. [`cold`](/documentation/manage-data/storage/#configuring-memmap-storage) maps data to disk-backed virtual address space, which is slower but handles datasets larger than RAM.
 
 - **Estimate your RAM requirements before provisioning.**
 [Calculate](/documentation/capacity-planning/) your full dataset size and add headroom for vector and payload index overhead.
@@ -75,10 +75,10 @@ In-memory gives maximum speed, but RAM becomes a bottleneck at scale. [On-disk/m
 SSDs are strongly recommended for workloads involving random reads and writes. HDDs introduce significant latency that can degrade query response times at scale.
 
 - **Keep frequently accessed data in memory.**
-[Keep hot collections in RAM](/documentation/ops-optimization/optimize/) to minimize disk I/O and speed up query execution. Identify your most-queried collections and prioritize them for in-memory storage.
+[Keep hot collections in RAM](/documentation/ops-optimization/optimize/#3-high-precision-with-high-speed-search) to minimize disk I/O and speed up query execution. Identify your most-queried collections and prioritize them for the `pinned` or `cached` memory tiers.
 
 - **Enable inline storage.**
-When storing vectors and the HNSW index on disk, improve search performance by [enabling inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). It makes searches faster by reducing the number of I/O operations, at the cost of increased storage usage.
+When vectors and the HNSW index are in the `cold` memory tier, improve search performance by [enabling inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). It makes searches faster by reducing the number of I/O operations, at the cost of increased storage usage.
 
 ---
 

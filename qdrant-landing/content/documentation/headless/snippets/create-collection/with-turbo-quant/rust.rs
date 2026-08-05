@@ -1,5 +1,5 @@
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, TurboQuantizationBuilder, VectorParamsBuilder,
+    CreateCollectionBuilder, Distance, Memory, TurboQuantizationBuilder, VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
@@ -12,7 +12,7 @@ pub async fn main() -> anyhow::Result<()> {
         .create_collection(
             CreateCollectionBuilder::new("{collection_name}")
                 .vectors_config(VectorParamsBuilder::new(1536, Distance::Cosine))
-                .quantization_config(TurboQuantizationBuilder::new().always_ram(true)),
+                .quantization_config(TurboQuantizationBuilder::new().memory(Memory::Pinned)),
         )
         .await?;
 

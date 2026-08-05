@@ -126,6 +126,8 @@ This ensures that misconfigurations are caught early, preventing Qdrant from run
 
 The following YAML example describes the available configuration options.
 
+See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for details on the `memory` options shown below.
+
 ```yaml
 log_level: INFO
 
@@ -163,6 +165,7 @@ storage:
   # If null, temporary snapshots are stored in: storage/snapshots_temp/
   temp_path: null
 
+  # Deprecated: use `payload.memory` instead.
   # If true - point payloads will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
@@ -170,6 +173,12 @@ storage:
   #
   # Default: true
   on_disk_payload: true
+
+  # Default payload storage configuration for newly created collections.
+  # Overrides the deprecated `on_disk_payload` flag if both are set.
+  # payload:
+  #   # Memory placement of the payload storage: cold or cached.
+  #   memory: cold
 
   # Maximum number of concurrent updates to shard replicas
   # If `null` - maximum concurrency is used.
@@ -306,8 +315,13 @@ storage:
     # On small CPUs, less threads are used.
     max_indexing_threads: 0
 
+    # Deprecated: use `memory` instead.
     # Store HNSW index on disk. If set to false, index will be stored in RAM. Default: false
     on_disk: false
+
+    # Memory placement of the HNSW index: cold, cached or pinned.
+    # Overrides the deprecated `on_disk` flag if both are set.
+    # memory: cached
 
     # Custom M param for hnsw graph built for payload index. If not set, default M will be used.
     payload_m: null
@@ -328,8 +342,13 @@ storage:
 
     # Default parameters for vectors.
     vectors:
+      # Deprecated: use `memory` instead.
       # Whether vectors should be stored in memory or on disk.
       on_disk: null
+
+      # Memory placement of the vector storage: cold or cached.
+      # Overrides the deprecated `on_disk` flag if both are set.
+      # memory: null
 
     # shard_number_per_node: 1
 

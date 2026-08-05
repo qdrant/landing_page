@@ -1,14 +1,16 @@
 from qdrant_client import QdrantClient, models
 
+# @hide-start
 client = QdrantClient(url="http://localhost:6333")
+# @hide-end
 
 client.create_collection(
     collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE, on_disk=True),
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE, memory=models.Memory.COLD),
     quantization_config=models.ScalarQuantization(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
-            always_ram=False,
+            memory=models.Memory.COLD,
         ),
     ),
 )

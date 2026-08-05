@@ -8,7 +8,7 @@ PUT /collections/{collection_name}
     "quantization_config": {
         "scalar": {
             "type": "int8",
-            "always_ram": true
+            "memory": "pinned"
         }
     }
 }

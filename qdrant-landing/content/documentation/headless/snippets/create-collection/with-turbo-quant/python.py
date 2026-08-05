@@ -9,7 +9,7 @@ client.create_collection(
     vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
     quantization_config=models.TurboQuantization(
         turbo=models.TurboQuantQuantizationConfig(
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )

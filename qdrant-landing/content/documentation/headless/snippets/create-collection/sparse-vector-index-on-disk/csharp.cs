@@ -5,13 +5,15 @@ public class Snippet
 {
 	public static async Task Run()
 	{
+		// @hide-start
 		var client = new QdrantClient("localhost", 6334);
+		// @hide-end
 
 		await client.CreateCollectionAsync(
 			collectionName: "{collection_name}",
-			sparseVectorsConfig: ("splade-model-name", new SparseVectorParams{
+			sparseVectorsConfig: ("text", new SparseVectorParams{
 		        Index = new SparseIndexConfig {
-		            OnDisk = false,
+		            Memory = Memory.Cold,
 		        }
 		    })
 		);
