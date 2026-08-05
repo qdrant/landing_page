@@ -15,6 +15,8 @@ After mastering the concepts in [search](/documentation/search/search/), you can
 
 In addition to the regular search, Qdrant also allows you to search based on multiple positive and negative examples. The API is called ***recommend***, and the examples can be point IDs, so that you can leverage the already encoded objects; and, as of v1.6, you can also use raw vectors as input, so that you can create your vectors on the fly without uploading them as points.
 
+The recommendation API is exposed via the Query API as the [Recommend Query](https://api.qdrant.tech/api-reference/search/query-points#request.body.prefetch.Prefetch.query.QueryInterface.Query.RecommendQuery).
+
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/basic-recommend/" >}}
 
 Example result of this API would be
@@ -161,7 +163,7 @@ The result of this API contains one array per recommendation requests.
 
 In this API, Qdrant introduces the concept of `context`, which is used for splitting the space. Context is a set of positive-negative pairs, and each pair divides the space into positive and negative zones. In that mode, the search operation prefers points based on how many positive zones they belong to (or how much they avoid negative zones).
 
-The interface for providing context is similar to the recommendation API (ids or raw vectors). Still, in this case, they need to be provided in the form of positive-negative pairs.
+The Discovery API is exposed via the Query API as the [Discover Query](https://api.qdrant.tech/api-reference/search/query-points#request.body.prefetch.Prefetch.query.QueryInterface.Query.DiscoverQuery). The interface for providing context is similar to the recommendation API (ids or raw vectors). Still, in this case, they need to be provided in the form of positive-negative pairs.
 
 Discovery API lets you do two new types of search:
 - **Discovery search**: Uses the context (the pairs of positive-negative vectors) and a target to return the points more similar to the target, but constrained by the context.
