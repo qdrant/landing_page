@@ -45,15 +45,12 @@ Understand why traditional search struggles and how modern semantic search impro
 
 ### Before You Start: Environment Setup
 
-You don't need to install anything to follow this module. Click the Colab badge above and every code snippet in this page runs directly in your browser, no account or setup required.
-
-If you'd rather run the code on your own machine, you need Python 3.9 or later and two packages:
+You can follow this module two ways: in the browser, or on your own machine. Pick whichever suits you. The embedding model used throughout this module runs locally on your CPU. The Colab notebook linked at the start of this module runs every snippet on this page in your browser, with no account and no setup. To run the code locally instead, you'll need Python 3.9 or later and two packages:
 
 ```bash
 pip install fastembed numpy
 ```
 
-That's it — no GPU, no API keys, no sign-ups. The embedding model used throughout this module runs locally on your CPU.
 
 ## 1. What Is Search?
 
@@ -88,16 +85,13 @@ This approach works for predictable, structured queries. It breaks immediately o
 | cheap flights NYC | affordable airfare to New York | Missed |
 | Apple stock | apple harvest season guide | Wrong sense matched* |
 
-![The query "cheap flights NYC" misses the document "affordable airfare to New York" because the two share no exact words](/courses/beginners/module-1/cheap-flights.png)
-
-*This assumes a token-based keyword index (matching on the shared word "apple"), the kind built by the inverted index from section 3. A strict phrase-match engine — like the `in document` check above — would report "Missed" instead, since the word "stock" never appears in the fruit document. Both are real keyword engines; they just fail differently.
 
 ### The Four Core Failure Modes
 
-- **Synonyms**: "car" and "automobile" mean the same thing, but to a keyword engine they're unrelated. No word overlap, no match.
-- **Paraphrasing**: Same meaning, completely different words. "cheap flights" and "affordable airfare" are identical in intent, invisible to grep.
-- **Polysemy**: One word, multiple meanings. "apple" is a fruit company, a fruit, and a music label. Context determines the meaning that keywords can't.
-- **Word order**: "dog bites man" and "man bites dog" use identical words. Keyword search treats them as equivalent. (Semantic search helps less here than you'd expect — see section 7.)
+- **Synonyms**: "car" and "automobile" mean the same thing, but to a keyword engine they're unrelated.
+- **Paraphrasing**: "cheap flights" and "affordable airfare" are identical in intent, invisible to grep.
+- **Polysemy**: One word can have multiple meanings. For example, "apple" can mean a fruit or a company
+- **Word order**: "dog bites man" and "man bites dog" use identical words. A Keyword search would not understand the nuance.
 
 ## 3. How Traditional Search Improved
 
@@ -112,15 +106,14 @@ Keyword search picked up several upgrades over the years. Each one made matching
 
 A keyword system can't know "car" and "automobile" are synonyms unless someone hard-codes that fact, and you can't hard-code an entire language.
 
-## 4. Enter Semantic Search
+### Enter Semantic Search
 
-Semantic search changes the question from:
+Semantic search asks a different question. Instead of "Does this document
+contain the same words?" it asks "Does this document mean the same thing?". 
 
-**Keyword search asks:**
-"Does this document contain the same words?"
-
-**Semantic search asks:**
-"Does this document mean the same concept?"
+Nobody hand-codes the fact that "car" and "automobile" are related. The
+model learns it from the text it was trained and sentences converted into vectors end up near
+each other despite sharing no words, and search becomes a geometry problem. 
 
 ## 5. How It Works: Embeddings
 
@@ -225,7 +218,6 @@ for query, document in pairs:
 Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't — each is strong exactly where the other is weak, and a real search system needs several more things beyond raw vector similarity:
 
 - **Filtering**: Return only documents within the last 30 days. Return only items the current user has permission to see.
-- **Access control**: Multi-tenant systems must scope results to the current workspace. Similarity search crosses tenant boundaries.
 - **Ranking signals**: Recency, popularity, and personalization are payload values that should influence result order beyond pure similarity.
 
 ### Word Order and Negation Still Trip It Up
