@@ -1,11 +1,9 @@
 ```rust
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    CreateCollectionBuilder, Distance, Memory, QuantizationType, ScalarQuantizationBuilder,
     VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(
@@ -14,7 +12,7 @@ client
             .quantization_config(
                 ScalarQuantizationBuilder::default()
                     .r#type(QuantizationType::Int8.into())
-                    .always_ram(true),
+                    .memory(Memory::Pinned),
             ),
     )
     .await?;

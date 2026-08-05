@@ -7,12 +7,14 @@ import (
 )
 
 func Main() {
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) } // @hide
+	if err != nil { panic(err) }
+	// @hide-end
 
 	client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 		CollectionName: "{collection_name}",
@@ -22,9 +24,9 @@ func Main() {
 		}),
 		QuantizationConfig: qdrant.NewQuantizationScalar(
 			&qdrant.ScalarQuantization{
-	            Type:      qdrant.QuantizationType_Int8,
-				Quantile:  qdrant.PtrOf(float32(0.99)),
-				AlwaysRam: qdrant.PtrOf(true),
+	            Type:     qdrant.QuantizationType_Int8,
+				Quantile: qdrant.PtrOf(float32(0.99)),
+				Memory:   qdrant.Memory_Pinned.Enum(),
 			},
 		),
 	})

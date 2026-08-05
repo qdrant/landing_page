@@ -25,28 +25,22 @@ The configuration of the segments in the collection can be different and indepen
 
 ## Vector storage
 
-Depending on the requirements of the application, Qdrant can use one of the data storage options.
-The choice has to be made between the search speed and the size of the RAM used.
+Qdrant always stores vectors in a [memory-mapped file](https://en.wikipedia.org/wiki/Memory-mapped_file) on disk. Depending on the requirements of your application, you can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) to control whether vectors are also loaded into RAM for faster access:
 
-**In-memory storage** - Stores all vectors in RAM, has the highest speed since disk access is required only for persistence.
+- **`cached`** - Qdrant pre-loads the file into the disk cache on startup, so the first request is fast. This is the default; it requires enough RAM to hold the vectors.
 
-**Memmap storage** - Creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
-Memmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
-This scheme allows flexible use of available memory. With sufficient RAM, it is almost as fast as in-memory storage.
-
+- **`cold`** - Qdrant doesn't pre-load the file into RAM. The first request may be slower, since Qdrant reads from disk, but the operating system caches pages as they're accessed.
 
 ### Configuring Memmap storage
 
-There are two ways to configure the usage of memmap (also known as on-disk) storage:
+There are two ways to move vectors to the `cold` tier:
 
-- Set up `on_disk` option for the vectors in the collection create API:
-
-  *Available as of v1.2.0*
+- Set the `memory` option for the vectors in the collection create API:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-vectors-on-disk/" >}}
 
-This will create a collection with all vectors immediately stored in memmap storage.
-This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
+This will create a collection with all vectors immediately in the `cold` tier.
+This is the recommended way when your Qdrant instance operates with fast disks and you are working with large collections.
 
 
 - Set up `memmap_threshold` option. This option will set the threshold after which the segment will be converted to memmap storage.
@@ -63,27 +57,27 @@ The rule of thumb to set the memmap threshold parameter is simple:
 - if you have a balanced use scenario - set memmap threshold the same as `indexing_threshold` (default is 10000). In this case the optimizer will not make any extra runs and will optimize all thresholds at once.
 - if you have a high write load and low RAM - set memmap threshold lower than `indexing_threshold` to e.g. 5000. In this case the optimizer will convert the segments to memmap storage first and will only apply indexing after that.
 
-In addition, you can use memmap storage not only for vectors, but also for HNSW index.
-To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during collection [creation](/documentation/manage-data/collections/#create-a-collection) or [updating](/documentation/manage-data/collections/#update-collection-parameters).
+`memmap_threshold` only decides the default placement for vectors that don't have an explicit [memory tier](/documentation/ops-configuration/memory-tiers/) configured. If you explicitly set `memory` (or the deprecated `on_disk`) on a vector, that setting always takes precedence over the threshold, regardless of segment size.
+
+In addition, you can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) for the HNSW index, not only for vectors.
+For example, to move it to the `cold` tier, set the `hnsw_config.memory` parameter to `cold` during collection [creation](/documentation/manage-data/collections/#create-a-collection) or [updating](/documentation/manage-data/collections/#update-collection-parameters).
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-vectors-and-hnsw-on-disk/" >}}
 
 ## Payload storage
 
-Qdrant supports two types of payload storages: InMemory and OnDisk.
+Qdrant supports two [memory tiers](/documentation/ops-configuration/memory-tiers/) for payloads: `cached` and `cold` (default). Disk and [Gridstore](/articles/gridstore-key-value-storage/) are used for persistence regardless of tier.
 
-InMemory payload storage is organized in the same way as in-memory vectors.
-The payload data is loaded into RAM at service startup while disk and [Gridstore](/articles/gridstore-key-value-storage/) are used for persistence only.
-This type of storage works quite fast, but it may require a lot of space to keep all the data in RAM, especially if the payload has large values attached - abstracts of text or even images.
+`cached` payload storage is organized in the same way as `cached` vectors: Qdrant pre-loads it into the disk cache on startup, so it's fast to access. It may require a lot of space to keep all the data warm in RAM, especially if the payload has large values attached - abstracts of text or even images.
 
-In the case of large payload values, it might be better to use OnDisk payload storage.
-This type of storage will read and write payload directly to Gridstore, so it won't require any significant amount of RAM to store.
+In the case of large payload values, it might be better to use the `cold` tier.
+This tier reads and writes payload directly to Gridstore without pre-warming, so it won't require any significant amount of RAM to store.
 The downside, however, is the access latency.
 If you need to query vectors with some payload-based conditions - checking values stored on disk might take too much time.
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
 Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
 
-You can specify the desired type of payload storage with [configuration file](/documentation/ops-configuration/configuration/) or with collection parameter `on_disk_payload` during [creation](/documentation/manage-data/collections/#create-collection) of the collection.
+You can specify the desired memory tier with the [configuration file](/documentation/ops-configuration/configuration/) or with collection parameter `payload.memory` during [creation](/documentation/manage-data/collections/#create-collection) of the collection.
 
 ## Versioning
 

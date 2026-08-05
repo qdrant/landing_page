@@ -9,7 +9,7 @@ PUT /collections/{collection_name}
         "scalar": {
             "type": "int8",
             "quantile": 0.99,
-            "always_ram": true
+            "memory": "pinned"
         }
     }
 }

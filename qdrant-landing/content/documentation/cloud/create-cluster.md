@@ -86,7 +86,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
    > Each node is automatically attached with a disk, that has enough space to store data with Qdrant's default collection configuration.
 1. Premium tier customers can choose if the cluster should be deployed within a single availability zone, or across multiple availability zones for higher availability and resilience. This can only be chosen during cluster creation and not changed later.
 1. Select additional disk space for your deployment.
-   > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `on_disk: true` and only use RAM for caching. 
+   > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `memory: cold` and only use RAM for caching.
 1. Choose the speed tier for your disk. (AWS only)
    > Higher speed tiers provide better performance, especially for write-heavy workloads, or configurations with a low RAM cache ratio.
 1. Review your cluster configuration and pricing.

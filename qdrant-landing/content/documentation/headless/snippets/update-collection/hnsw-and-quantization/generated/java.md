@@ -1,5 +1,6 @@
 ```java
 import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.Memory;
 import io.qdrant.client.grpc.Collections.QuantizationConfigDiff;
 import io.qdrant.client.grpc.Collections.QuantizationType;
 import io.qdrant.client.grpc.Collections.ScalarQuantization;
@@ -32,7 +33,7 @@ client
                         ScalarQuantization.newBuilder()
                             .setType(QuantizationType.Int8)
                             .setQuantile(0.8f)
-                            .setAlwaysRam(true)
+                            .setMemory(Memory.Cached)
                             .build()))
             .build())
     .get();
