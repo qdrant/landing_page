@@ -15,8 +15,6 @@ After mastering the concepts in [search](/documentation/search/search/), you can
 
 In addition to the regular search, Qdrant also allows you to search based on multiple positive and negative examples. The API is called ***recommend***, and the examples can be point IDs, so that you can leverage the already encoded objects; and, as of v1.6, you can also use raw vectors as input, so that you can create your vectors on the fly without uploading them as points.
 
-REST API - API Schema definition is available [here](https://api.qdrant.tech/api-reference/search/recommend-points)
-
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/basic-recommend/" >}}
 
 Example result of this API would be
@@ -160,8 +158,6 @@ The result of this API contains one array per recommendation requests.
 ## Discovery API
 
 *Available as of v1.7*
-
-REST API Schema definition available [here](https://api.qdrant.tech/api-reference/search/discover-points)
 
 In this API, Qdrant introduces the concept of `context`, which is used for splitting the space. Context is a set of positive-negative pairs, and each pair divides the space into positive and negative zones. In that mode, the search operation prefers points based on how many positive zones they belong to (or how much they avoid negative zones).
 
