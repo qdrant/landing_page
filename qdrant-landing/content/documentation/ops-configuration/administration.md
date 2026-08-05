@@ -189,6 +189,8 @@ Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_b
 
 ### Maximum Resident Memory Usage
 
+<aside role="alert">Deprecated as of v1.19.0. Use <a href="/documentation/ops-configuration/quotas/">resource quotas</a> to cap memory instead.</aside>
+
 When a node is under memory pressure, new write operations can destabilize the cluster.
 
 Setting `max_resident_memory_percent` rejects memory-consuming write operations (such as upsert and set payload) when process resident memory exceeds the given percentage of total system memory. Delete operations are not affected. Accepts values in the range 1–100.
