@@ -9,18 +9,65 @@ set -uo pipefail
 PUBLIC=${1:-qdrant-landing/public}
 fail=0
 
-# Still title-only, deliberately: /contact-us and /subscribe are forms with
-# nothing to render. /learn has its own agent page (PR #2462).
-PAGES=(
-  cloud qdrant-vector-database pricing hybrid-cloud private-cloud edge
-  cloud-inference ai-agents advanced-search recommendations
-  data-analysis-anomaly-detection rag use-cases healthcare
-  enterprise-solutions qdrant-for-startups customers partners benchmarks
-  about-us lp/lucene e-commerce hr-tech legal-tech hospitality-and-travel
-  rag/rag-evaluation-guide
-  community stars events vector-space-day-sf-26 vector-space-day-sf-26-recap
-  brand-resources demo
+# The pages to check are whichever ones have a Markdown template, so adding or
+# removing a page needs no edit here. A list.markdown.md means the section
+# landing page; a single.markdown.md means the pages in that section that build
+# themselves (build.render: always), which is how the industry pages and the RAG
+# evaluation guide work. The URL comes from the page's own url: override, or the
+# section name when there isn't one.
+#
+# Still title-only, deliberately, and so absent from this list: /contact-us and
+# /subscribe are forms with nothing to render. /learn has its own agent page
+# (PR #2462).
+PAGES=()
+while IFS= read -r page; do PAGES+=("$page"); done < <(python3 - <<'PY'
+import glob, os, re
+LAYOUTS = "qdrant-landing/themes/qdrant-2024/layouts"
+CONTENT = "qdrant-landing/content"
+
+def front_matter(path):
+    try:
+        text = open(path).read()
+    except OSError:
+        return ""
+    m = re.match(r"^---\n(.*?)\n---", text, re.S)
+    return m.group(1) if m else ""
+
+def own_render(fm):
+    """render: from the page's own build block, ignoring any cascade block."""
+    m = re.search(r"^build:\n((?:[ \t]+.*\n)+)", fm + "\n", re.M)
+    if not m:
+        return ""
+    r = re.search(r"render:\s*(\w+)", m.group(1))
+    return r.group(1) if r else ""
+
+def url(fm, fallback):
+    m = re.search(r'^url:\s*"?([^"\n]+)"?', fm, re.M)
+    return (m.group(1) if m else fallback).strip().strip("/")
+
+pages = []
+for template in sorted(glob.glob(f"{LAYOUTS}/*/list.markdown.md")):
+    section = os.path.basename(os.path.dirname(template))
+    fm = front_matter(f"{CONTENT}/{section}/_index.md")
+    if own_render(fm) == "never":
+        continue  # a container for other pages, not a page itself
+    pages.append(url(fm, section))
+for template in sorted(glob.glob(f"{LAYOUTS}/*/single.markdown.md")):
+    section = os.path.basename(os.path.dirname(template))
+    for page in sorted(glob.glob(f"{CONTENT}/{section}/*.md")):
+        if page.endswith("_index.md"):
+            continue
+        fm = front_matter(page)
+        if own_render(fm) == "always":
+            pages.append(url(fm, os.path.basename(page)[:-3]))
+print("\n".join(p for p in dict.fromkeys(pages) if p))
+PY
 )
+
+if [ "${#PAGES[@]}" -lt 20 ]; then
+  echo "derived only ${#PAGES[@]} pages to check; the layout or content layout changed"
+  exit 1
+fi
 
 for p in "${PAGES[@]}"; do
   f="$PUBLIC/$p/index.md"
