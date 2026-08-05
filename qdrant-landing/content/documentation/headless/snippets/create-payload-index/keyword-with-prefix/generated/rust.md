@@ -2,7 +2,6 @@
 use qdrant_client::qdrant::{
     CreateFieldIndexCollectionBuilder,
     KeywordIndexParamsBuilder,
-    KeywordPrefixParams,
     FieldType
 };
 use qdrant_client::Qdrant;
@@ -17,7 +16,7 @@ client.create_field_index(
     )
     .field_index_params(
         KeywordIndexParamsBuilder::default()
-            .prefix(KeywordPrefixParams::default()),
+            .prefix(true),
     ),
 ).await?;
 ```
