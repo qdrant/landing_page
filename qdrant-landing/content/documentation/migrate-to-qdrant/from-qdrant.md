@@ -32,7 +32,7 @@ If the target collection does not exist, the tool automatically creates it using
 | Sparse vectors | Sparse vectors | Direct mapping |
 | Payload | Payload | Direct mapping |
 | Payload indexes | Payload indexes | Recreated if `--target.ensure-payload-indexes` is `true` |
-| Shard keys | Shard keys | Recreated automatically |
+| Shard keys | Shard keys | Recreated automatically unless a target shard-key option overrides them |
 
 ## Run the Migration
 
@@ -88,6 +88,8 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--target.url` | No | Target gRPC URL (default: `http://localhost:6334`) |
 | `--target.api-key` | No | API key for the target instance |
 | `--target.ensure-payload-indexes` | No | Recreate payload indexes from source (default: `true`) |
+| `--target.shard-key` | No | Fixed keyword shard key for every target upsert |
+| `--target.shard-key-field` | No | Payload field that supplies the target shard key for each point |
 
 ### Parallel Worker Option
 
