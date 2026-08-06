@@ -17,7 +17,7 @@ Hybrid cloud clusters can be scaled up and down, horizontally and vertically, at
 
 ### Automatic Shard Rebalancing
 
-Qdrant Cloud supports automatic shard rebalancing when scaling your cluster horizontally. This ensures that data is evenly distributed across the nodes, optimizing performance and resource utilization. For more details see [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing).
+Qdrant Cloud supports automatic shard rebalancing, which runs continuously in the background to keep data evenly distributed across the nodes, optimizing performance and resource utilization, and also runs when scaling your cluster horizontally. For more details see [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing).
 
 ### Resharding
 
