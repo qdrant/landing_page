@@ -3,6 +3,7 @@ title: Multitenancy
 short_description: "Partition tenants in a single Qdrant collection with payload-based filtering and per-tenant indexes for clean isolation."
 description: "Set up Qdrant multitenancy with payload-based partitioning and per-tenant indexes for tenant isolation, predictable performance, and lower cluster overhead."
 weight: 40
+cta: "Set up tenant isolation on a free Cloud cluster in minutes."
 aliases:
   - ../tutorials/multiple-partitions
   - /tutorials/multiple-partitions/
