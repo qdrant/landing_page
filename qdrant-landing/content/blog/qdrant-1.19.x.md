@@ -58,7 +58,7 @@ Sparse vector search commonly uses the inverse document frequency (IDF) to score
 
 Qdrant computes these statistics for the complete dataset in each shard being queried, which creates a problem for multi-tenant collections. If tenant A's documents use different vocabulary than tenant B's, blending both populations into one set of statistics distorts a term's IDF, so it no longer reflects how rare that term is within either tenant's data.
 
-Version 1.19 lets you [narrow the corpus that the IDF statistics are computed over](/documentation/search/text-search/full-text-search/#per-tenant-idf-statistics), for example down to a single tenant, so the IDF reflects term rarity within that tenant's data rather than the whole collection.
+Version 1.19 lets you [narrow the corpus that the IDF statistics are computed over](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics), for example down to a single tenant, so the IDF reflects term rarity within that tenant's data rather than the whole collection.
 
 ## Filtering Enhancements
 
