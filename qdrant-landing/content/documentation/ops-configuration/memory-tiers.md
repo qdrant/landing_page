@@ -76,7 +76,31 @@ If the accuracy loss is acceptable, you can disable rescoring against the origin
 
 ### Async I/O
 
-Enable `async_scorer` in the [storage configuration](/documentation/ops-configuration/configuration/) to let Qdrant issue disk reads concurrently during rescoring, instead of one at a time:
+Async I/O lets Qdrant issue disk reads concurrently instead of one at a time, reducing how long a query waits on disk when structures are `cold`. This uses [io_uring](/articles/io_uring/), a Linux kernel interface for asynchronous I/O, and requires a kernel that supports it. Async I/O helps most for vector rescoring, where the original vectors are `cold` and quantization is enabled, since rescoring the top candidates against the on-disk originals is where sequential disk reads would otherwise add up. It also applies to payload storage, so it helps whenever a `cold` payload is read from disk.
+
+#### `io_uring` Setting
+
+*Available as of v1.19.0.* 
+
+Set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
+
+```yaml
+storage:
+  performance:
+    io_uring: auto
+```
+
+ or via an environment variable:
+
+```bash
+QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
+```
+
+#### `async_scorer` Setting
+
+*Available as of v1.3.0.*
+
+An older setting that applies async I/O to vector rescoring only. Prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -84,7 +108,11 @@ storage:
     async_scorer: true
 ```
 
-This uses [io_uring](/articles/io_uring/), a Linux kernel interface for asynchronous I/O, and requires a kernel that supports it. Async I/O helps most when the original vectors are `cold` and quantization is enabled, since rescoring the top candidates against the on-disk originals is where sequential disk reads would otherwise add up.
+or via an environment variable:
+
+```bash
+QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
+```
 
 ### Local NVMe/SSD Storage
 
