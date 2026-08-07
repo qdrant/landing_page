@@ -5,6 +5,11 @@
   padding-bottom: $spacer * 2.5;
   background-color: $neutral-94;
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__title {
     margin-bottom: $spacer * 2;
     font-size: $h4-font-size;
@@ -29,6 +34,23 @@
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
+
+    &__content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: $spacer * 3;
+    }
+
+    &__heading {
+      flex: 0 1 pxToRem(443);
+    }
+
+    &__body {
+      flex: 1 1 pxToRem(540);
+      min-width: 0;
+      max-width: pxToRem(560);
+    }
 
     &__title {
       margin-bottom: 0;
