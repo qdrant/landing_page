@@ -54,6 +54,10 @@
       textarea {
         height: pxToRem(130);
         padding: $spacer;
+
+        &:focus::placeholder {
+          color: transparent;
+        }
       }
     }
     
