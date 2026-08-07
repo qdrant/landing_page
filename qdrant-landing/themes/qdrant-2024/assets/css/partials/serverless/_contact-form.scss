@@ -18,6 +18,7 @@
     max-width: pxToRem(720);
     margin: 0 auto;
     border-top: pxToRem(1) solid $neutral-40;
+    overflow: hidden;
     
     form {
       gap: $spacer * 1.5 pxToRem(20);
@@ -58,6 +59,10 @@
     
     .hs-form-field {
       width: 100%;
+    }
+    
+    .submitted-message {
+      margin-top: 0;
     }
 
     &__top-overlay {
