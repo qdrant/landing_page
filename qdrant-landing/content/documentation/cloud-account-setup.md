@@ -1,7 +1,7 @@
 ---
 title: Account Setup
-short_description: "Set up your Qdrant Cloud account: register with email, Google, GitHub, or SSO, invite teammates, and manage multiple accounts."
-description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Invite users, manage permissions, and switch between multiple Cloud accounts."
+short_description: "Set up your Qdrant Cloud account: register, switch between accounts, invite teammates, and manage account settings and ownership."
+description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Create and switch between multiple Cloud accounts, manage account settings, and transfer ownership."
 weight: 210
 partition: deploy
 aliases:
@@ -17,70 +17,77 @@ There are different ways to register for a Qdrant Cloud account:
 * With an email address and passwordless login via email
 * With a Google account
 * With a GitHub account
-* By connection an enterprise SSO solution
+* By connecting an enterprise SSO solution
 
-Every account is tied to an email address. You can invite additional users to your account and manage their permissions.
+Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google, or GitHub credentials. Every user is tied to an email address, and can own or be invited to multiple accounts.
 
-### Email Registration
+## The Qdrant Cloud Console
 
-1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or GitHub credentials.
+Once you sign in, the Qdrant Cloud Console is organized around three areas:
 
-## Inviting Additional Users to an Account
+* The **left navigation** gives you access to your account resources: **Clusters**, **Serverless Spaces**, **Hybrid Cloud**, **Backups**, **Access Management**, **Billing**, and **Settings**.
+* The **account switcher** at the top left lets you switch between the accounts you own or have been invited to, create new accounts, and open the accounts overview.
+* The **user menu** at the bottom left contains your personal, user-level options — Get Started, Preferences, Invitations, Security, and Accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
 
-You can invite additional users to your account, and manage their permissions on the **Account -> Access Management** page in the Qdrant Cloud Console.
+![Qdrant Cloud Console overview](/documentation/cloud/console-overview.png)
 
-![Invitations](/documentation/cloud/invitations.png)
-
-Invited users will receive an email with an invitation link to join Qdrant Cloud. Once they signed up, they can accept the invitation from the Overview page.
-
-![Accepting invitation](/documentation/cloud/accept-invitation.png)
+The **Get Started** page (**Explore Qdrant Cloud**) is your landing page for connecting to clusters, loading sample data, migrating data, and using Cloud Inference. See [Getting Started](/documentation/cloud-getting-started/) for a guided walkthrough.
 
 ## Switching Between Accounts
 
-If you have access to multiple accounts, you can switch between accounts with the account switcher on the top menu bar of the Qdrant Cloud Console.
+If you have access to multiple accounts, you can switch between them with the account switcher at the top left of the Console. Each account shows your role in it, for example an **OWNER** badge for accounts you own.
 
 ![Switching between accounts](/documentation/cloud/account-switcher.png)
 
 ## Creating Additional Accounts
 
-You can create additional accounts from the account switcher in the top menu bar. Every account has its own set of clusters, permissions, and payment methods.
+You can create additional accounts from the **Create new Account** option in the account switcher, or from the **Accounts** page. Each account is isolated: it has its own set of clusters, permissions, and payment methods. Besides the account owner, users are not shared across accounts and must be specifically invited to an account to access it.
 
-Besides the account owner, users are not shared across accounts, and must be specifically invited to an account to access it.
+Multiple accounts are useful when you want to separate clusters across different teams or environments, or apply different payment methods to different resources.
 
-Multiple accounts are useful if you want to manage clusters across different teams or environments, and also if you want to apply different payment methods to different resources.
+When creating an account you provide:
 
-![Create Account](/documentation/cloud/create-new-account.png)
+* **Account Name** — a descriptive name such as *Development*, *Production*, or *Testing*.
+* **Company Name** — optional, associates the account with your organization.
+* **Make Default** — optionally set this account as the one selected when you log in.
 
-## Light & Dark Mode
+Each user can own up to **5 accounts**. The dialog shows how many you have created (for example, *4/5 Accounts Created*).
 
-The Qdrant Cloud Console supports light and dark mode. You can switch between the two modes in the *Settings* menu, by clicking on your account picture in the top right corner.
+![Create a new account](/documentation/cloud/create-account-modal.png)
 
-![Light & Dark Mode](/documentation/cloud/light-dark-mode.png)
+## Managing Accounts
+
+Open the **Accounts** page from the user menu (**Accounts**) or from the account switcher (**Manage accounts**) to see every account you own or have been invited to. You can filter by **All**, **Owned**, or **Invited**, and the page shows your current **account limit** (for example, *Account limit: 4/5*).
+
+For each account you can set it as the default (**Make Default**) or open its **Settings**. Each account also displays its unique **Account ID**, which you may need when contacting support or using the Cloud API.
+
+![Managing accounts](/documentation/cloud/accounts-list.png)
 
 ## Account Settings
 
-You can configure your account settings in the Qdrant Cloud Console on the **Account -> Settings** page.
+Open **Settings** for an account (from the **Accounts** page or the left navigation) to view and manage account details, including the **Account ID**, **Company**, **Account Owner**, and creation date.
 
-The following functionality is available.
+![Account settings](/documentation/cloud/account-settings.png)
 
-### Renaming an Account
+### Editing Account Details
 
-If you use multiple accounts for different purposes, it is a good idea to give them descriptive names, for example *Development*, *Production*, *Testing*. You can also choose which account should be the default one, when you log in.
+Use **Edit Account Details** to rename an account or update its company name. If you use multiple accounts for different purposes, descriptive names make them easier to tell apart, and you can choose which account is the default when you log in.
 
-![Account management](/documentation/cloud/account-management.png)
+### Transferring Account Ownership
 
-### Changing the Account Owner
+Every account has exactly one owner. The owner has full admin permissions plus the unique ability to delete the account or transfer its ownership.
 
-Every account has one owner. The owner is granted full admin permissions for the account as well as further unique permissions allowing them to either delete the account or transfer account ownership.
-
-To transfer ownership of an account, as the owner, visit the *Access Management* page. In the actions menu of the user you wish to transfer to, you will find the option 'Make Account Owner' which begins the transfer.
+To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member — invite them first from the [Access Management](/documentation/cloud-rbac/) page if needed.
 
 ### Deleting an Account
 
-When you delete an account, all database clusters and associated data will be deleted.
+Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner.
 
-![Delete Account](/documentation/cloud/account-delete.png)
+## Inviting Users to an Account
 
+You can invite additional users to an account and manage their permissions on the **Access Management** page in the Qdrant Cloud Console. Invited users receive an email with an invitation link. Once they sign up, they can accept the invitation from their personal [Invitations](/documentation/cloud-user-profile/#invitations) page.
+
+For roles and permissions, see [Cloud RBAC](/documentation/cloud-rbac/).
 
 ## Enterprise Single-Sign-On (SSO)
 
