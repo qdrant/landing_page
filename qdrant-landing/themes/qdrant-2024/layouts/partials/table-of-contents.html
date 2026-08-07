@@ -2,65 +2,78 @@
   {{ if gt (.TableOfContents | len) 34 }}
     <div class="table-of-contents">
       <p class="table-of-contents__head">On this page:</p>
-      {{ $tocStartLevel := .Params.toc_start_level }}
-      {{ if not $tocStartLevel }}
-        {{ $tocStartLevel = default 1 $.Parent.Params.toc_start_level }}
-      {{ end }}
-      {{ $tocEndLevel := default 3 .Params.toc_end_level }}
-      {{ $tocOrdered := false }}
-      {{ .Fragments.ToHTML $tocStartLevel $tocEndLevel $tocOrdered | safeHTML }}
-
-      {{ if eq .Section "course" }}
-        {{ $subject := . }}
-
-        {{ if and $subject.Params $subject.Params.content $subject.Params.content.getStarted }}
-          <a
-            href="{{ $subject.Params.content.getStarted.url }}"
-            class="table-of-contents__button button button_contained button_sm"
-          >
-            {{ $subject.Params.content.getStarted.text }}
-          </a>
+        {{ $tocStartLevel := .Params.toc_start_level }}
+        {{ if not $tocStartLevel }}
+          {{ $tocStartLevel = default 1 $.Parent.Params.toc_start_level }}
         {{ end }}
-      {{ else }}
-        <ul class="table-of-contents__external-links">
-          {{ if or (eq .Section "documentation") (eq .Section "articles") }}
-            <li class="table-of-contents__link">
-              <a href="{{ .Permalink }}index.md" target="_blank">
-                {{ partial "svg" "markdown.svg" }}
-                View as Markdown
-              </a>
-            </li>
-            <li class="table-of-contents__link">
-              <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
-                {{ partial "svg" "github.svg" }}
-                Edit on Github
-              </a>
-            </li>
-            <li class="table-of-contents__link">
-              <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
-                {{ partial "svg" "bug.svg" }}
-                Create an issue
-              </a>
-            </li>
-          {{ end }}
+        {{ $tocEndLevel := default 3 .Params.toc_end_level }}
+        {{ $tocOrdered := false }}
+        {{ .Fragments.ToHTML $tocStartLevel $tocEndLevel $tocOrdered | safeHTML }}
 
-          {{ if eq .Section "blog" }}
-            {{ $link := urlquery .Permalink }}
-            {{ $title := .Title }}
-            {{ with (.Site.GetPage "/headless/share-buttons") }}
-              {{ range .Params.buttons }}
-                {{ $url := .url | replaceRE "\\{\\{\\s*\\$link\\s*\\}\\}" $link | replaceRE "\\{\\{\\s*\\$title\\s*\\}\\}" $title }}
-                <li class="table-of-contents__link">
-                  <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
-                    {{ .icon | safeHTML }}
-                    {{ .subtitle }}
-                  </a>
-                </li>
-              {{ end }}
+        {{ if eq .Section "course" }}
+          {{ $subject := . }}
+
+          {{ if and $subject.Params $subject.Params.content $subject.Params.content.getStarted }}
+            <a
+              href="{{ $subject.Params.content.getStarted.url }}"
+              class="table-of-contents__button button button_contained button_sm"
+            >
+              {{ $subject.Params.content.getStarted.text }}
+            </a>
+          {{ end }}
+        {{ else }}
+          <ul class="table-of-contents__external-links">
+            {{ if or (eq .Section "documentation") (eq .Section "articles") }}
+              <li class="table-of-contents__link">
+                <a href="{{ .Permalink }}index.md" target="_blank">
+                  {{ partial "svg" "markdown.svg" }}
+                  View as Markdown
+                </a>
+              </li>
+              <li class="table-of-contents__link">
+                <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
+                  {{ partial "svg" "github.svg" }}
+                  Edit on Github
+                </a>
+              </li>
+              <li class="table-of-contents__link">
+                <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
+                  {{ partial "svg" "bug.svg" }}
+                  Create an issue
+                </a>
+              </li>
             {{ end }}
 
-          {{ end }}
-        </ul>
+            {{ if eq .Section "blog" }}
+              {{ $link := urlquery .Permalink }}
+              {{ $title := .Title }}
+              {{ with (.Site.GetPage "/headless/share-buttons") }}
+                {{ range .Params.buttons }}
+                  {{ $url := .url | replaceRE "\\{\\{\\s*\\$link\\s*\\}\\}" $link | replaceRE "\\{\\{\\s*\\$title\\s*\\}\\}" $title }}
+                  <li class="table-of-contents__link">
+                    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
+                      {{ .icon | safeHTML }}
+                      {{ .subtitle }}
+                    </a>
+                  </li>
+                {{ end }}
+              {{ end }}
+
+            {{ end }}
+          </ul>
+        {{ end }}
+
+      {{ if eq .Section "documentation" }}
+        {{ with .Site.GetPage "/headless/docs-sidebar-cta" }}
+          <a
+            href="{{ .Params.link }}"
+            class="table-of-contents__cta"
+            {{ if strings.HasPrefix .Params.link "https://" }}target="_blank" rel="noopener"{{ end }}
+          >
+            {{ with .Params.icon }}<img class="table-of-contents__cta-icon" src="{{ . }}" alt="" />{{ end }}
+            {{ .Params.text }}
+          </a>
+        {{ end }}
       {{ end }}
     </div>
   {{ end }}
