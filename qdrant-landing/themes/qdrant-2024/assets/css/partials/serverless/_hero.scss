@@ -1,0 +1,68 @@
+@use '../../helpers/functions' as *;
+
+.serverless-hero {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background: url('../img/serverless-hero-mobile.png') center bottom / cover no-repeat, $neutral-10;
+  position: relative;
+  overflow: hidden;
+  
+  &__overlay {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/img/stars-pattern.png') left top / auto repeat;
+    opacity: 50%;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    margin: 0 auto $spacer * 2;
+    color: $neutral-80;
+    max-width: pxToRem(754);
+  }
+  
+  @include media-breakpoint-up(md) {
+    background: url('../img/serverless-hero.png') center bottom / cover no-repeat, $neutral-10;
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h2-font-size;
+      line-height: pxToRem(62);
+    }
+
+    &__description {
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+    }
+  }
+}

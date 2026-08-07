@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/serverless/faq") }}
+  <section class="serverless-faq" id="faqs">
+    <div class="container">
+      <h2 class="serverless-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}
