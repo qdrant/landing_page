@@ -1,10 +1,8 @@
 {{ with (.Site.GetPage "/serverless/contact-form") }}
   <section class="serverless-contact-form">
-    <div class="container">
+    <div class="container" id="form">
       <h2 class="serverless-contact-form__title">{{ .Params.title }}</h2>
-      <div class="serverless-contact-form__form">
-        {{ partial "contact-form" .Params.form }}
-      </div>
+      {{ partial "contact-form" .Params.form }}
     </div>
   </section>
 {{ end }}
