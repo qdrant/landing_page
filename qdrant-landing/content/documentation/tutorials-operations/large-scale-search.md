@@ -320,6 +320,10 @@ In Qdrant Managed cloud Async IO can be enabled via `Advanced optimizations` sec
 
 {{< figure src="/documentation/tutorials/large-scale-search/async_io.png" caption="Async IO configuration in Cloud" width="80%" >}}
 
+<aside role="status">
+As of Qdrant v1.19, <code>storage.performance.io_uring</code> is a broader alternative: set it to <code>auto</code> to apply async I/O to vector storage and payload storage when they're on disk, not only vector rescoring. See <a href="/documentation/ops-configuration/memory-tiers/#async-io">Async I/O</a> for details.
+</aside>
+
 
 ## Running search requests
 
