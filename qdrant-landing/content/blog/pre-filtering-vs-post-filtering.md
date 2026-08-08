@@ -23,7 +23,7 @@ The usual choice is between two strategies: pre-filtering, which applies the fil
 
 ## Where Each Strategy Works
 
-Pre-filtering resolves the filter first: the engine computes the set of points that pass, usually as a mask over the whole collection, then searches within it. The filter is fully enforced, and scoring the matches directly makes the results exact for that subset. The cost is the problem: the mask touches every point, every match becomes a scoring candidate, and a broad filter degrades into brute force.
+Pre-filtering resolves the filter first: the engine computes the set of points that pass, usually as a mask over the whole collection, then searches within it. The filter is fully enforced, and scoring the matches directly makes the results exact for that subset. The cost grows fast: the mask touches every point, every match becomes a scoring candidate, and a broad filter degrades into brute force.
 
 Post-filtering searches first and filters the returned candidates after the fact. The engine compensates with an over-fetch, asking the nearest-neighbor search for more results than the query requested. That works for lenient filters, where most candidates pass, but strict filters can discard the whole set. The hard part is sizing it: undershoot and you return too little, overshoot and you drift back toward the brute-force work the index was meant to avoid.
 
