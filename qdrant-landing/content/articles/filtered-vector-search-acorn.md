@@ -101,7 +101,7 @@ The same benchmark at `hnsw_ef=64`, now with an `AND` filter over two keyword fi
 | Two keywords (1%) | 72.7% @ 6.8ms | 70.8% @ 1.5ms | 100% @ 3.7ms |
 | Two keywords (0.012%) | 0.6% @ 2.6ms | 1.8% @ 2.6ms | 100% @ 1.3ms |
 
-An `AND` intersection has no extra edges of its own, even when both its payload fields do. Neither repair closes the gap at this `ef`. On the 1% row, ACORN's recall spans 70.7% to 74.1% across rebuilds of the same graph, wider than its lead in the table. The plain graph, dropped from this table, scored 0.1% and 0.0% on the first two rows, and `ef=512` changes nothing once traversal has exhausted its disconnected island.
+A two-keyword intersection has no extra edges of its own, even when both its payload fields do. Neither repair closes the gap at this `ef`. On the 1% row, ACORN's recall spans 70.7% to 74.1% across rebuilds of the same graph, wider than its lead in the table. The plain graph, dropped from this table, scored 0.1% and 0.0% on the first two rows, and `ef=512` changes nothing once traversal has exhausted its disconnected island.
 
 Raising `ef` breaks the tie on the 1% intersection. At `ef=512`, filterable HNSW reaches 91.2% recall at 4.9ms while ACORN needs 20.1ms to reach 90.3%. Repairing the graph at search time costs four times the latency for slightly less recall here. The 4% intersection is the exception, where both fields exceeded the cap and ACORN leads 99.6% to 92.5%.
 
