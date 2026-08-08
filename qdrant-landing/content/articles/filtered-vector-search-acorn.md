@@ -131,7 +131,7 @@ Extra edges also make ACORN stronger. On the 4% intersection it reached 95.2% on
 
 ## What to Measure on Your Own Collection
 
-Measure recall for each filter shape you serve. Start with the ones most likely to break: values covering roughly a fifth of the collection or more, and `AND` combinations of them. [Facet counts](/documentation/manage-data/payload/#facet-counts) show which values are that broad. On the default configuration here, two filters fell short with ACORN off, at 39.7% and 90.8%, while the rest ranged 97.2% to 100%, and a single aggregate number would have hidden both. If those filters come back clean, test narrower values next.
+Measure recall for each filter shape you serve. Start with the ones most likely to break: values covering roughly a fifth of the collection or more, and `AND` combinations of them. [Facet counts](/documentation/manage-data/payload/#facet-counts) show which values are that broad. On the default configuration here, one filter returned 39.7% with ACORN off while every other filter stayed above 90%, and a single aggregate number would have hidden it. If those filters come back clean, test narrower values next.
 
 Create a payload index on every field you filter on, and leave ACORN off to start, since that is Qdrant's default. Then sample a few hundred real queries per filter shape, 500 if you want to match this benchmark. Get exact results with `exact: true`, and score both recall and latency with ACORN off and then on.
 
