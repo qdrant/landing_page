@@ -57,7 +57,7 @@ Every number below was measured on Qdrant v1.18.2, on one laptop-class machine, 
 
 `hnsw_ef`, shortened to `ef` below, is the number of candidates the search evaluates, so raising it improves recall and slows the query. Selectivity is the fraction of points that pass the filter.
 
-This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) is the match-count estimate below which Qdrant skips the graph and scores the matching points directly; we pinned it low so every query stayed on the graph. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
+This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) decides when Qdrant skips the graph entirely: when a filter's estimated match count falls below it, Qdrant scores the matching points directly. We pinned it low for these three strategies so every query stayed on the graph; Planner + ACORN runs with the default threshold. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
 
 | Filter (selectivity) | Plain graph | Plain graph + ACORN | Filterable HNSW |
 |---|---|---|---|
@@ -111,7 +111,7 @@ At 0.012%, roughly 120 points match in a million, and the graph stops being the 
 
 ## ACORN on a Normal Collection
 
-The earlier tables kept every query on the graph, with `full_scan_threshold` pinned low, to isolate each strategy. Nobody runs a collection that way. This is the default configuration: extra edges, the default threshold, and the planner free to choose the graph or the payload index in both columns. ACORN is off by default, so the left column is what a collection with payload indexes returns today.
+The earlier tables pinned `full_scan_threshold` low to hold the three fixed strategies on the graph. Nobody runs a collection that way. This is the default configuration: extra edges, the default threshold, and the planner free to choose the graph or the payload index in both columns. ACORN is off by default, so the left column is what a collection with payload indexes returns today.
 
 | Filter (selectivity) | Planner, ACORN off | Planner + ACORN |
 |---|---|---|
