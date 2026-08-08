@@ -57,7 +57,7 @@ Every number below was measured on Qdrant v1.18.2, on one laptop-class machine, 
 
 `hnsw_ef`, shortened to `ef` below, is the number of candidates the search evaluates, so raising it improves recall and slows the query. Selectivity is the fraction of points that pass the filter.
 
-This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) decides when Qdrant skips the graph entirely: when a filter's estimated match count falls below it, Qdrant scores the matching points directly. We pinned it low for these three strategies so every query stayed on the graph; Planner + ACORN runs with the default threshold. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
+This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) tells Qdrant when a filtered result set is small enough to scan directly. The value is measured in kilobytes of vector data, and Qdrant skips the HNSW graph when the matching vectors fall below it. We pinned it low for these three strategies so every query stayed on the graph; Planner + ACORN runs with the default threshold. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
 
 | Filter (selectivity) | Plain graph | Plain graph + ACORN | Filterable HNSW |
 |---|---|---|---|
@@ -131,7 +131,7 @@ Extra edges also make ACORN stronger. On the 4% intersection it reached 95.2% on
 
 ## What to Measure on Your Own Collection
 
-Measure recall for each filter shape you serve. Start with the ones most likely to break: values covering roughly a fifth of the collection or more, and `AND` combinations of them. [Facet counts](/documentation/manage-data/payload/#facet-counts) show which values are that broad. On the default configuration here, one filter returned 39.7% with ACORN off while the rest returned 100%, and a single aggregate number would have hidden it. If those filters come back clean, test narrower values next.
+Measure recall for each filter shape you serve. Start with the ones most likely to break: values covering roughly a fifth of the collection or more, and `AND` combinations of them. [Facet counts](/documentation/manage-data/payload/#facet-counts) show which values are that broad. On the default configuration here, two filters fell short with ACORN off, at 39.7% and 90.8%, while the rest ranged 97.2% to 100%, and a single aggregate number would have hidden both. If those filters come back clean, test narrower values next.
 
 Create a payload index on every field you filter on, and leave ACORN off to start, since that is Qdrant's default. Then sample a few hundred real queries per filter shape, 500 if you want to match this benchmark. Get exact results with `exact: true`, and score both recall and latency with ACORN off and then on.
 
