@@ -9,8 +9,6 @@ date: 2026-08-07T00:00:00Z
 draft: false
 category: qdrant-internals
 weight: 5
-aliases:
-  - /blog/filtered-vector-search-acorn/
 keywords:
   - acorn
   - filtered vector search
