@@ -82,8 +82,13 @@
       padding: $spacer * 4;
       
       form {
-        .hs-email, 
-        .hs-company, 
+        .hs-email,
+        .hs-company {
+          width: 100%;
+        }
+
+        .hs-firstname,
+        .hs-lastname,
         .hs-vectors_in_your_largest_collection,
         .hs-where_do_you_run_vector_search_today {
           width: calc(50% - pxToRem(10));
