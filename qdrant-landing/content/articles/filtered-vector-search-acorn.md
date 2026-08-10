@@ -45,7 +45,12 @@ Qdrant builds those edges per payload field, never per combination, so an `AND` 
 
 The benchmark runs on one million `deep-image-96` vectors, 96-dimensional image embeddings from the [ANN-benchmarks](https://github.com/erikbern/ann-benchmarks) suite. Keyword filters match from 20% of the points down to 0.012%. `Recall@10` is scored against exact brute force over 500 queries per filter, and latency is mean server-side query time.
 
-We tested four strategies: a plain graph, standard HNSW with no extra edges; the same graph with ACORN forced on; filterable HNSW, the default build with extra edges; and **Planner + ACORN**. We also rebuilt filterable HNSW at identical settings to measure build-to-build variance, and the final table uses a separate build in the default configuration.
+We tested four strategies:
+
+1. **Plain graph**: standard HNSW with no extra edges.
+2. **Plain graph + ACORN**: the same graph with ACORN forced on.
+3. **Filterable HNSW**: the default build with extra edges.
+4. **Planner + ACORN**: Qdrant's default query planner, free to route each query to ACORN, full scan, or the payload index.
 
 Every filter matches one keyword value on a payload field. The collection carries seven such fields, holding 5, 10, or 100 distinct values each.
 
@@ -57,7 +62,8 @@ Every number below was measured on Qdrant v1.18.2, on one laptop-class machine, 
 
 `hnsw_ef`, shortened to `ef` below, is the number of candidates the search evaluates, so raising it improves recall and slows the query. Selectivity is the fraction of points that pass the filter.
 
-This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) tells Qdrant when a filtered result set is small enough to scan directly. The value is measured in kilobytes of vector data, and Qdrant skips the HNSW graph when the matching vectors fall below it. We pinned it low for these three strategies so every query stayed on the graph; Planner + ACORN runs with the default threshold. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
+This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) tells Qdrant when a filtered result set is small enough to scan directly. The value is measured in kilobytes of vector data, and Qdrant skips the HNSW graph when the matching vectors fall below it.<br>
+We pinned it low for these three strategies so every query stayed on the graph; Planner + ACORN runs with the default threshold. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
 
 | Filter (selectivity) | Plain graph | Plain graph + ACORN | Filterable HNSW |
 |---|---|---|---|
@@ -76,7 +82,8 @@ Qdrant's planner sits above all three. It estimates how many points a filter pas
 
 Qdrant builds extra edges by walking the values of each indexed payload field. For each value it finds the points that share it and links them, so a query filtered to that value still has a graph to traverse.
 
-A value shared by more points than a size cap gets no extra edges, because the main graph should already keep that many points connected. Qdrant derives that cap per segment, the slice of a collection that has its own index. The formula is point count divided by average links per node, times four. Here one segment held all million points, so one million over 21 links, times four, gives 190,476 points, about 19% of the collection. Denser graphs get stricter caps: at 24 links per node, the cap falls to 16.7%.
+A value shared by more points than a size cap gets no extra edges, because the main graph should already keep that many points connected. Qdrant derives that cap per segment, the slice of a collection that has its own index. The formula is point count divided by average links per node, times four.<br>
+Here one segment held all million points, so one million over 21 links, times four, gives 190,476 points, about 19% of the collection. Denser graphs get stricter caps: at 24 links per node, the cap falls to 16.7%.
 
 Qdrant does not report these decisions, so the reproduction kit derives them from trace-level build logs and the field sizes. The benchmark's seven payload fields landed like this:
 
@@ -101,7 +108,8 @@ The same benchmark at `hnsw_ef=64`, now with an `AND` filter over two keyword fi
 | Two keywords (1%) | 72.7% @ 6.8ms | 70.8% @ 1.5ms | 100% @ 3.7ms |
 | Two keywords (0.012%) | 0.6% @ 2.6ms | 1.8% @ 2.6ms | 100% @ 1.3ms |
 
-A two-keyword intersection has no extra edges of its own, even when both its payload fields do. Neither repair closes the gap at this `ef`. On the 1% row, ACORN's recall spans 70.7% to 74.1% across rebuilds of the same graph, wider than its lead in the table. The plain graph, dropped from this table, scored 0.1% and 0.0% on the first two rows, and `ef=512` changes nothing once traversal has exhausted its disconnected island.
+A two-keyword intersection has no extra edges of its own, even when both its payload fields do. Neither repair closes the gap at this `ef`. On the 1% row, ACORN's recall spans 70.7% to 74.1% across rebuilds of the same graph, wider than its lead in the table.<br>
+The plain graph, dropped from this table, scored 0.1% and 0.0% on the first two rows, and `ef=512` changes nothing once traversal has exhausted its disconnected island.
 
 Raising `ef` breaks the tie on the 1% intersection. At `ef=512`, filterable HNSW reaches 91.2% recall at 4.9ms while ACORN needs 20.1ms to reach 90.3%. Repairing the graph at search time costs four times the latency for slightly less recall here. The 4% intersection is the exception, where both fields exceeded the cap and ACORN leads 99.6% to 92.5%.
 
@@ -131,11 +139,13 @@ Extra edges also make ACORN stronger. On the 4% intersection it reached 95.2% on
 
 ## What to Measure on Your Own Collection
 
-Measure recall for each filter shape you serve. Start with the ones most likely to break: values covering roughly a fifth of the collection or more, and `AND` combinations of them. [Facet counts](/documentation/manage-data/payload/#facet-counts) show which values are that broad. On the default configuration here, one filter returned 39.7% with ACORN off while every other filter stayed above 90%, and a single aggregate number would have hidden it. If those filters come back clean, test narrower values next.
+Measure recall for each filter shape you serve. Start with the ones most likely to break: values covering roughly a fifth of the collection or more, and `AND` combinations of them. [Facet counts](/documentation/manage-data/payload/#facet-counts) show which values are that broad.<br>
+On the default configuration here, one filter returned 39.7% with ACORN off while every other filter stayed above 90%, and a single aggregate number would have hidden it. If those filters come back clean, test narrower values next.
 
 Create a payload index on every field you filter on, and leave ACORN off to start, since that is Qdrant's default. Then sample a few hundred real queries per filter shape, 500 if you want to match this benchmark. Get exact results with `exact: true`, and score both recall and latency with ACORN off and then on.
 
-Compare the recall gain with the latency cost. A recovery like that 39.7% filter is what ACORN is for, while a point or two is worth taking only when the latency multiple is small. Set [`acorn.enable`](/documentation/search/search/#acorn-search-algorithm) on the query paths whose filters earned it. Turning it on never lowered recall in any of our runs, so if you are unsure, the cost of leaving it on is latency. Qdrant applies it only below `max_selectivity`, 0.4 by default, so a filter matching half your collection will not change either way.
+Compare the recall gain with the latency cost. A recovery like that 39.7% filter is what ACORN is for, while a point or two is worth taking only when the latency multiple is small. Set [`acorn.enable`](/documentation/search/search/#acorn-search-algorithm) on the query paths whose filters earned it.<br>
+Turning it on never lowered recall in any of our runs, so if you are unsure, the cost of leaving it on is latency. Qdrant applies it only below `max_selectivity`, 0.4 by default, so a filter matching half your collection will not change either way.
 
 Extra edges fix the graph before a query ever arrives; ACORN fixes the gaps that remain.
 
