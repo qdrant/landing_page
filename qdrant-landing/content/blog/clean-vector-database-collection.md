@@ -1,5 +1,5 @@
 ---
-title: "Clean Up Your Vector Database Collection Before You Blame the Prompt"
+title: "How to Clean Up a Vector Database Collection"
 draft: false
 slug: clean-vector-database-collection
 short_description: "Learn how duplicates, stale data, and mixed retrieval pipelines distort top-k results as vector collections grow."
