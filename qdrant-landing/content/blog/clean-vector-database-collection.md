@@ -1,15 +1,15 @@
 ---
-title: "How to Clean Up a Vector Database Collection"
+title: "How to Clean Up a Qdrant Collection"
 draft: false
 slug: clean-vector-database-collection
 short_description: "Learn how duplicates, stale data, and mixed retrieval pipelines distort top-k results as vector collections grow."
-description: "Clean up a vector database collection: control duplicate points, embedding provenance, stale records, and top-k search quality."
+description: "Clean up a vector database collection: control duplicate points, track embedding provenance, remove stale records, and protect top-k search quality."
 preview_image: /blog/clean-vector-database-collection/preview/preview.jpg
 social_preview_image: /blog/clean-vector-database-collection/preview/social_preview.jpg
 title_preview_image: /blog/clean-vector-database-collection/preview/title.jpg
 date: 2026-08-10
 author: Dylan Couzon
-featured: false
+featured: true
 tags:
   - vector-database
   - vector-search
