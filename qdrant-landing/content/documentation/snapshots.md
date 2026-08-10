@@ -53,7 +53,7 @@ To download a specified snapshot from a collection as a file:
 
 ## Restore snapshot
 
-<aside role="status">Snapshots generated in one Qdrant cluster can only be restored to other Qdrant clusters that share the same minor version. For instance, a snapshot captured from a v1.4.1 cluster can only be restored to clusters running version v1.4.x, where x is equal to or greater than 1.</aside>
+<aside role="status">Snapshots generated in one Qdrant cluster can only be restored to other Qdrant clusters running the same minor version or the next minor version. For instance, a snapshot captured from a v1.18.1 cluster can only be restored to clusters running version v1.18.x, where x is equal to or greater than 1, or v1.19.x</aside>
 
 Snapshots can be restored in three possible ways:
 
