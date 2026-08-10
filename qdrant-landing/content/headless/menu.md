@@ -35,6 +35,10 @@ menuItems:
           name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
+        - id: subMenu-0-6
+          name: Qdrant Serverless (Coming soon)
+          icon: serverless.svg
+          url: /serverless/
 #       - id: subMenu-0-4
 #         name: Private Cloud
 #         icon: private-cloud.svg
