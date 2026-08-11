@@ -126,6 +126,8 @@ Large segments benefit from the size of the index and overall smaller number of 
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-large-segments/" >}}
 
+**Note**: `max_segment_size` is expressed in **kilobytes**, so the example above corresponds to ~5GB.
+
 ## Summary
 
 By adjusting configurations like vector storage, quantization, and search parameters, you can optimize Qdrant for different use cases:
