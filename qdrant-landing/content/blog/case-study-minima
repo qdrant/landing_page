@@ -3,7 +3,7 @@ draft: false
 title: "Qdrant and Minima Deliver 2.78x More Agentic RAG Tasks per GPU-Hour"
 short_description: "A joint benchmark of Qdrant retrieval and Minima-optimized inference with Qwen3.6-27B on a single RTX PRO 6000 Blackwell GPU."
 description: "Hybrid search, payload filters, and late-interaction reranking in Qdrant plus Minima-optimized inference delivered 2.92x more successful agentic RAG tasks per GPU-hour without reducing grounded quality."
-preview_image: /blog/case-study-minima/preview.png
+preview_image: /blog/case-study-minima/ocial_preview.png
 social_preview_image: /blog/case-study-minima/social_preview.png
 date: 2026-08-11T00:00:00+00:00
 author: Qdrant and Minima Engineering
@@ -21,7 +21,7 @@ tags:
 
 When a retrieval-augmented generation (RAG) agent runs, it often has to plan a search, check the evidence it gets back, and try again when that evidence falls short. Those inefficiencies compound. Every extra retrieval and every extra model call adds latency, context, and inference cost.
 
-To attack that cost, Minima built a bounded retrieval agent. It planned the query, searched Qdrant, decided whether the evidence was sufficient, and rephrased the query when it was not. It then generated a cited answer with Qwen3.6-27B. Qdrant handled [hybrid search](/documentation/search/hybrid-queries/), applied [payload filters](/documentation/search/filtering/), and ran [late-interaction reranking](/documentation/tutorials-basics/reranking-hybrid-search/). Minima served each request on a single 96 GB NVIDIA RTX PRO 6000 Blackwell GPU.
+To attack that cost, Minima built a bounded retrieval agent. It planned the query, searched Qdrant, decided whether the evidence was sufficient, and rephrased the query when it was not. It then generated a cited answer with Qwen3.6-27B. Qdrant handled [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/), applied [payload filters](https://qdrant.tech//documentation/search/filtering/), and ran [late-interaction reranking](https://qdrant.tech//documentation/tutorials-basics/reranking-hybrid-search/). Minima served each request on a single 96 GB NVIDIA RTX PRO 6000 Blackwell GPU.
 
 Across 1,800 evaluated tasks and 10,000 full agent episodes, the joint stack reached 3,750 tasks per GPU-hour, compared to 1,350 for dense retrieval with BF16 inference. Median task latency fell from 21.3 seconds to 7.7 seconds, grounded task success rose from 80.1% to 84.2%, and successful throughput climbed from 1,081 to 3,158 tasks per GPU-hour.
 
@@ -68,7 +68,7 @@ Qdrant's p95 query time was 43.2 milliseconds, less than 0.3% of the 20.8-second
 
 ## How Minima Accelerated Every Model Call
 
-Minima stored Qwen3.6-27B weights in NVFP4 W4A4 and ran them with native Blackwell kernels. Recent and anchor KV stayed in FP8. Stale pages moved to the 3-bit TQ3 tier. Minima disabled Qdrant vector [quantization](/documentation/guides/quantization/) so the retrieval and inference effects stayed separate.
+Minima stored Qwen3.6-27B weights in NVFP4 W4A4 and ran them with native Blackwell kernels. Recent and anchor KV stayed in FP8. Stale pages moved to the 3-bit TQ3 tier. Minima disabled Qdrant vector [quantization](https://qdrant.tech/documentation/guides/quantization/) so the retrieval and inference effects stayed separate.
 
 | Metric | BF16 Reference | Minima | Result |
 |---|:---:|:---:|:---:|
@@ -108,17 +108,17 @@ If you run agentic RAG on Qdrant, Qdrant and Minima would like to reproduce this
 
 ## Technical References
 
-The [Qdrant guide to agentic vector search](/articles/agentic-builders-guide/) explains why retrieval latency, memory, filtering, and reranking matter inside multi-step agent workflows.
+The [Qdrant guide to agentic vector search](https://qdrant.tech//articles/agentic-builders-guide/) explains why retrieval latency, memory, filtering, and reranking matter inside multi-step agent workflows.
 
-The [agentic RAG with LangGraph and Qdrant tutorial](/documentation/tutorials-build-essentials/agentic-rag-langgraph/) covers tool selection, repeated retrieval, and stateful agent control flow.
+The [agentic RAG with LangGraph and Qdrant tutorial](https://qdrant.tech//documentation/tutorials-build-essentials/agentic-rag-langgraph/) covers tool selection, repeated retrieval, and stateful agent control flow.
 
-The [Qdrant hybrid and multi-stage queries documentation](/documentation/search/hybrid-queries/) describes dense and sparse prefetch, RRF and DBSF fusion, and multi-stage ranking.
+The [Qdrant hybrid and multi-stage queries documentation](https://qdrant.tech//documentation/search/hybrid-queries/) describes dense and sparse prefetch, RRF and DBSF fusion, and multi-stage ranking.
 
-The [Qdrant hybrid search with reranking tutorial](/documentation/tutorials-basics/reranking-hybrid-search/) walks through the dense, sparse, and ColBERT-style late-interaction workflow.
+The [Qdrant hybrid search with reranking tutorial](https://qdrant.tech//documentation/tutorials-basics/reranking-hybrid-search/) walks through the dense, sparse, and ColBERT-style late-interaction workflow.
 
-The [Qdrant multivectors and late interaction tutorial](/documentation/tutorials-search-engineering/using-multivector-representations/) covers native multivector representations and MaxSim scoring.
+The [Qdrant multivectors and late interaction tutorial](https://qdrant.tech//documentation/tutorials-search-engineering/using-multivector-representations/) covers native multivector representations and MaxSim scoring.
 
-The [Qdrant filtering documentation](/documentation/search/filtering/) describes payload and point-ID conditions for application-defined constraints.
+The [Qdrant filtering documentation](https://qdrant.tech//documentation/search/filtering/) describes payload and point-ID conditions for application-defined constraints.
 
 The [NVIDIA RTX PRO 6000 Blackwell product page](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/) lists the 96 GB GDDR7 memory and Blackwell FP4 support.
 
