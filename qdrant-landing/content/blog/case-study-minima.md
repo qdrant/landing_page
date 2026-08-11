@@ -3,7 +3,7 @@ draft: false
 title: "Qdrant and Minima Deliver 2.78x More Agentic RAG Tasks per GPU-Hour"
 short_description: "A joint benchmark of Qdrant retrieval and Minima-optimized inference with Qwen3.6-27B on a single RTX PRO 6000 Blackwell GPU."
 description: "Hybrid search, payload filters, and late-interaction reranking in Qdrant plus Minima-optimized inference delivered 2.92x more successful agentic RAG tasks per GPU-hour without reducing grounded quality."
-preview_image: /blog/case-study-minima/ocial_preview.png
+preview_image: /blog/case-study-minima/social_preview.png
 social_preview_image: /blog/case-study-minima/social_preview.png
 date: 2026-08-11T00:00:00+00:00
 author: Qdrant and Minima Engineering
