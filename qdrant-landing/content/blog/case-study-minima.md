@@ -93,7 +93,7 @@ The table below reports agent results at concurrency 8, with final answers cappe
 | Qdrant hybrid + reranking top 8 + BF16 weights/KV | ~2.3K | 14.6 / 20.8 s | 1,980 | 84.3% | 1,669 |
 | Qdrant hybrid + reranking top 8 + full Minima | ~2.3K | 7.7 / 11.0 s | 3,750 | 84.2% | 3,158 |
 
-*At US$1.50 per GPU-hour rate Minima used for test accounting, GPU cost per 1,000 successful agent tasks fell from US$1.39 to US$0.48, a 65% reduction. This GPU-only comparison excludes the Qdrant host and embedding services. The same provisioned services stayed online across all three conditions, though the hybrid pipeline put more work on them.*
+*At US\$1.50 per GPU-hour rate Minima used for test accounting, GPU cost per 1,000 successful agent tasks fell from US\$1.39 to US\$0.48, a 65% reduction. This GPU-only comparison excludes the Qdrant host and embedding services. The same provisioned services stayed online across all three conditions, though the hybrid pipeline put more work on them.*
 
 Minima did not multiply the 3.2x weight compression, 3.5x KV compression, and smaller retrieval context into a single system claim. They affect different bottlenecks. The measured end-to-end results were 2.78x more raw task capacity and 2.92x more successful tasks per GPU-hour.
 
