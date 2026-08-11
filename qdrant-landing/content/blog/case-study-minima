@@ -17,6 +17,8 @@ tags:
   - benchmark
 ---
 
+### Reducing Retrieval and Calls
+
 When a retrieval-augmented generation (RAG) agent runs, it often has to plan a search, check the evidence it gets back, and try again when that evidence falls short. Those inefficiencies compound. Every extra retrieval and every extra model call adds latency, context, and inference cost.
 
 To attack that cost, Minima built a bounded retrieval agent. It planned the query, searched Qdrant, decided whether the evidence was sufficient, and rephrased the query when it was not. It then generated a cited answer with Qwen3.6-27B. Qdrant handled [hybrid search](/documentation/search/hybrid-queries/), applied [payload filters](/documentation/search/filtering/), and ran [late-interaction reranking](/documentation/tutorials-basics/reranking-hybrid-search/). Minima served each request on a single 96 GB NVIDIA RTX PRO 6000 Blackwell GPU.
