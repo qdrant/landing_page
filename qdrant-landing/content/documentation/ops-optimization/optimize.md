@@ -32,11 +32,13 @@ To achieve high search speed with minimal memory usage, you can store vectors on
 To configure in-memory quantization, with on-disk original vectors, you need to create a collection with the following parameters:
 
 - `memory`: Set to `cold` to store the original vectors on disk.
-- `datatype`: Set to `turbo4` to efficiently store vectors as compact 4-bits representation per dimension on disk (instead of a 32-bits floating point number).
+- `datatype`: Set to [`turbo4`](/documentation/manage-data/vectors/#turbo4) to efficiently store vectors as compact 4-bits representation per dimension on disk (instead of a 32-bits floating point number).
 - `quantization_config`: Compresses quantized vectors to 1 bit using the `turboquant` method.
 - `quantization_config.memory`: Set to `pinned` to keep the quantized vectors in RAM.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-in-ram/" >}}
+
+**Note**: These examples use the `turbo4` datatype. `turbo4` stores each vector dimension as a 4-bit value instead of the full 32-bit value, which improves storage efficiency but can reduce recall and search quality. Weigh these trade-offs before you use `turbo4` in your vector search setup.
 
 ### Disable Rescoring for Faster Search (optional)
 
