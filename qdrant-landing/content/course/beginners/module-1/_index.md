@@ -72,66 +72,43 @@ That creates a few common problems:
 
 ## 3. How Traditional Search Improved
 
-Keyword search picked up several upgrades over the years. Each one made matching faster or more forgiving, but none of them taught the system what words mean.
+Keyword search picked up real upgrades over the years: faster lookups, relevance ranking, tolerance for typos, matching on word roots. Each made matching faster or more forgiving, but none of them taught the system what words mean. A keyword system can't know "car" and "automobile" are synonyms unless someone hard-codes that fact, and you can't hard-code an entire language.
 
-| Technique | What it added | Still missing |
-|-----------|---------------|---------------|
-| Inverted index | Fast lookup across millions of documents without scanning each one | No ranking, no relevance, just presence or absence |
-| TF-IDF / BM25 | Relevance ranking based on term frequency and inverse document frequency | No synonyms, no semantic understanding |
-| Fuzzy matching | Tolerance for typos and near-spellings (receave → receive) | Still word-based; "automobile" is not a typo of "car" |
-| Stemming | Reduces words to their root form (running → run) | Misses cross-vocabulary synonyms entirely |
-
-A keyword system can't know "car" and "automobile" are synonyms unless someone hard-codes that fact, and you can't hard-code an entire language.
-
-### Enter Semantic Search
-
-Semantic search asks a different question. Instead of "Does this document
-contain the same words?" it asks "Does this document mean the same thing?". 
-
-Nobody hand-codes the fact that "car" and "automobile" are related. The
-model learns it from the text it was trained and sentences converted into vectors end up near
-each other despite sharing no words, and search becomes a geometry problem. 
+That's the gap semantic search closes. Instead of asking "Does this document contain the same words?" it asks "Does this document mean the same thing?" Nobody hand-codes the fact that "car" and "automobile" are related, the model learns it from the text it was trained on, and sentences with related meaning end up as vectors that sit close together, even when they share no words.
 
 ## 4. How It Works: Embeddings
 
 ### What Is an Embedding?
 
-An embedding is a vector: a list of numbers that captures meaning. Semantic search works by converting text into embeddings — text with similar meaning produces embeddings that sit close together in high-dimensional space, and text with different meaning produces embeddings that sit far apart.
+An embedding is a vector: a list of numbers that captures meaning. Semantic search works by converting text into embeddings — text with similar meaning produces embeddings that sit close together in high-dimensional space, and text with different meaning produces embeddings that sit far apart. Each position in that list is a dimension; no single one maps to a human concept like "color," meaning comes from all of them combined.
 
 ### The Embedding Model
 
-An embedding model takes a piece of text and returns a fixed-length array of floating-point numbers. The exact numbers matter less than the relationships between them — that's what the rest of this section is about.
+An embedding model takes a piece of text and returns a fixed-length array of floating-point numbers. The exact numbers matter less than the relationships between them.
 
 ```python
 from fastembed import TextEmbedding
 
 model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
+# model.embed() takes a list of strings and returns one vector per string
 query_vec = list(model.embed(["car repair"]))[0]
 doc_vec   = list(model.embed(["automobile maintenance"]))[0]
 
-print(len(query_vec), len(doc_vec))   # 384 dimensions each
-print(query_vec[:5])                  # first 5 of the query's 384 floats
-print(doc_vec[:5])                    # first 5 of the document's 384 floats
+print(len(query_vec), len(doc_vec))   # check both vectors are the same length: 384 dimensions each
+print(query_vec[:5])                  # peek at the first 5 of the query's 384 floats
+print(doc_vec[:5])                    # peek at the first 5 of the document's 384 floats
 ```
 
 ![An embedding model turns the text "car repair" into a fixed-length list of 384 numbers](/courses/beginners/module-1/generating-vector.png)
 
-### Kinds of Embedding Models
+### Model Size: A Tradeoff
 
-- **Size (dimensions)**: smaller models (128–384 dims, like the one above) are fast and cheap; larger ones (1024+ dims) can capture more nuance at a higher compute and memory cost. Dimension count alone isn't a quality signal — a well-trained small model can beat a poorly trained large one. See [Points, Vectors and Payloads](/course/essentials/day-1/embedding-models/) for real model sizes and the memory math.
-- **Bi-encoder vs. cross-encoder**: a bi-encoder embeds the query and each document separately (what this module uses), so it's fast enough to search a whole collection. A cross-encoder embeds a query and document together for higher accuracy, but only re-ranks a shortlist — too slow to run on everything.
-- **Contextual vs. static**: the model used above gives a word a different vector depending on context. Older static models (word2vec, GloVe) give every word one fixed vector, so "bank" means the same thing in "river bank" and "savings bank."
-- **Monolingual vs. multilingual, and domain-specific**: some models cover one language, others many; some are fine-tuned on legal, medical, or code text and beat general models there.
-- **Multimodal / image-only**: encode images, audio, or a mix of modalities into the same vector space as text.
+Embedding models come in different sizes. Smaller models (128–384 dimensions, like the one above) are fast and cheap to run. Larger ones (1024+ dimensions) can capture more nuance and context, at the cost of more compute and memory. Dimension count alone isn't a quality signal, a well-trained small model can beat a poorly trained large one.
 
-### Choosing a Model for Your Use Case
+### Why This Model
 
-Default to a small general bi-encoder for single-language product or FAQ search — that's what this module uses. Go multilingual for cross-language question answering. Add a cross-encoder re-ranking step when precision matters more than speed. Use a domain-tuned model for legal, medical, or code content.
-
-### Dimensions
-
-A dimension is one position in the vector. No single one maps to a human concept like "color"; meaning comes from all of them combined.
+This module uses `sentence-transformers/all-MiniLM-L6-v2` because it's small enough to run on a CPU with no API keys or GPU, and accurate enough to demonstrate semantic search clearly. When you start your own project, see [Points, Vectors and Payloads](/course/essentials/day-1/embedding-models/) for how to weigh size, language, and domain fit when picking a model.
 
 ## 5. Comparing Meaning: Distance Metrics
 
