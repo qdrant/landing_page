@@ -12,9 +12,8 @@ client.create_collection(
     quantization_config=models.TurboQuantization(
         turbo=models.TurboQuantQuantizationConfig(
             bits=models.TurboQuantBitSize.BITS1,
-            memory=models.Memory.COLD,
-        )
+            memory=models.Memory.PINNED,
+        ),
     ),
-    hnsw_config=models.HnswConfigDiff(memory=models.Memory.COLD, inline_storage=True),
 )
 ```

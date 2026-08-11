@@ -2,13 +2,13 @@
 PUT /collections/{collection_name}
 {
     "vectors": {
-        "size": 768,
-        "distance": "Cosine",
-        "memory": "cold"
+      "size": 768,
+      "distance": "Cosine",
+      "datatype": "turbo4"
     },
     "quantization_config": {
-        "scalar": {
-            "type": "int8",
+        "turbo": {
+            "bits": "bits1",
             "memory": "pinned"
         }
     }

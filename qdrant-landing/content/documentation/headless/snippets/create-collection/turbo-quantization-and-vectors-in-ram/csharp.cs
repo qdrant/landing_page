@@ -11,10 +11,10 @@ public class Snippet
 
 		await client.CreateCollectionAsync(
 			collectionName: "{collection_name}",
-			vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine},
+			vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine,  Datatype = Datatype.Turbo4},
 			quantizationConfig: new QuantizationConfig
 			{
-				Scalar = new ScalarQuantization { Type = QuantizationType.Int8, Memory = Memory.Pinned }
+				Turboquant = new TurboQuantization { Memory = Memory.Pinned, Bits = TurboQuantBitSize.Bits1 }
 			}
 		);
 	}

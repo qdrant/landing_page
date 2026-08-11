@@ -6,15 +6,13 @@ client.create_collection(
     vectors_config=models.VectorParams(
         size=768,
         distance=models.Distance.COSINE,
-        memory=models.Memory.COLD,
-        datatype=models.Datatype.TURBO4,
+        datatype=models.Datatype.TURBO4
     ),
     quantization_config=models.TurboQuantization(
         turbo=models.TurboQuantQuantizationConfig(
             bits=models.TurboQuantBitSize.BITS1,
-            memory=models.Memory.COLD,
-        )
+            memory=models.Memory.PINNED,
+        ),
     ),
-    hnsw_config=models.HnswConfigDiff(memory=models.Memory.COLD, inline_storage=True),
 )
 ```

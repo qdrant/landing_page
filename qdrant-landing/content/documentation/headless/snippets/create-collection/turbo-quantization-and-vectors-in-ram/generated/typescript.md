@@ -5,11 +5,11 @@ client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
     distance: "Cosine",
-    memory: "cold",
+    datatype: "turbo4",
   },
   quantization_config: {
-    scalar: {
-      type: "int8",
+    turbo: {
+      type: "bits4",
       memory: "pinned",
     },
   },

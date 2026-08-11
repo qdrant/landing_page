@@ -1,5 +1,8 @@
-```python
 from qdrant_client import QdrantClient, models
+
+# @hide-start
+client = QdrantClient(url="http://localhost:6333")
+# @hide-end
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -12,9 +15,7 @@ client.create_collection(
     quantization_config=models.TurboQuantization(
         turbo=models.TurboQuantQuantizationConfig(
             bits=models.TurboQuantBitSize.BITS1,
-            memory=models.Memory.COLD,
-        )
+            memory=models.Memory.PINNED,
+        ),
     ),
-    hnsw_config=models.HnswConfigDiff(memory=models.Memory.COLD, inline_storage=True),
 )
-```

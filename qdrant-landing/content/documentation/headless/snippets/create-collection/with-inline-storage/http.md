@@ -4,11 +4,13 @@ PUT /collections/{collection_name}
     "vectors": {
       "size": 768,
       "distance": "Cosine",
-      "memory": "cold"
+      "memory": "cold",
+      "datatype": "turbo4"
     },
     "quantization_config": {
-        "binary": {
-            "memory": "cold"
+        "turbo": {
+            "memory": "cold",
+            "bits": "bits1"
         }
     },
     "hnsw_config": {
