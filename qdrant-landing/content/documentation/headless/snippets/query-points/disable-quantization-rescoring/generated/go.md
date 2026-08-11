@@ -10,12 +10,15 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	Port: 6334,
 })
 
+if err != nil {
+	panic(err)
+
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
 	Params: &qdrant.SearchParams{
 		Quantization: &qdrant.QuantizationSearchParams{
-			Rescore: qdrant.PtrOf(true),
+			Rescore: qdrant.PtrOf(false),
 		},
 	},
 })

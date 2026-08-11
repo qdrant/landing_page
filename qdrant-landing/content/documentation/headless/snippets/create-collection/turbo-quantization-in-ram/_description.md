@@ -1,0 +1,1 @@
+You can create a collection for high-speed search with low memory usage by configuring it to store original vectors on disk with a low footproint using the `turbo4` datatype, and quantized vectors in RAM. The quantization technique compresses vectors to 1 bit using the TurboQuant method, optimizing memory usage and minimizing disk reads for efficient search operations.

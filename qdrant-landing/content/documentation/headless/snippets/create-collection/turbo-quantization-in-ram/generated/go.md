@@ -11,10 +11,13 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 		Size:     768,
 		Distance: qdrant.Distance_Cosine,
 		Memory:   qdrant.Memory_Cold.Enum(),
+		Datatype: qdrant.Datatype_Turbo4.Enum(),
 	}),
-	QuantizationConfig: qdrant.NewQuantizationScalar(&qdrant.ScalarQuantization{
-		Type:   qdrant.QuantizationType_Int8,
-		Memory: qdrant.Memory_Pinned.Enum(),
-	}),
+	QuantizationConfig: qdrant.NewQuantizationTurbo(
+		&qdrant.TurboQuantization{
+			Memory: qdrant.Memory_Pinned.Enum(),
+			Bits:   qdrant.TurboQuantBitSize_Bits1.Enum(),
+		},
+	),
 })
 ```

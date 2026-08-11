@@ -32,14 +32,15 @@ To achieve high search speed with minimal memory usage, you can store vectors on
 To configure in-memory quantization, with on-disk original vectors, you need to create a collection with the following parameters:
 
 - `memory`: Set to `cold` to store the original vectors on disk.
-- `quantization_config`: Compresses quantized vectors to `int8` using the `scalar` method.
+- `datatype`: Set to `turbo4` to efficiently store vectors as compact 4-bits representation per dimension on disk (instead of a 32-bits floating point number).
+- `quantization_config`: Compresses quantized vectors to 1 bit using the `turboquant` method.
 - `quantization_config.memory`: Set to `pinned` to keep the quantized vectors in RAM.
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-in-ram/" >}}
 
 ### Disable Rescoring for Faster Search (optional)
 
-This is completely optional. Disabling rescoring with search `params` can further reduce the number of disk reads. Note that this might slightly decrease precision.
+This is completely optional, and only applicable if using binary quantization or TurboQuant with 1, 1.5 and 2 bits (other methods do not rescore by default). Disabling rescoring with search `params` can further reduce the number of disk reads. Note that this might slightly decrease precision.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/disable-quantization-rescoring/" >}}
 
@@ -83,9 +84,11 @@ It requires quantization to be enabled.
 
 For scenarios requiring both high speed and high precision, keep as much data in RAM as possible. Apply quantization with re-scoring for tunable accuracy.
 
-Here is how you can configure scalar quantization for a collection:
+Here is how you can configure TurboQuant quantization for a collection:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-and-vectors-in-ram/" >}}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-and-vectors-in-ram/" >}}
+
+Note that, by default, vectors are stored using the `cached` memory tier, thus there is no need to configure it explicitly.
 
 ### Fine-Tuning Search Parameters
 
