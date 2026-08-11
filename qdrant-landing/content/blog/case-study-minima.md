@@ -62,9 +62,10 @@ The numbers below cover retrieval and the agent loop. Recall@10 and nDCG@10 use 
 
 Qdrant's p95 query time was 43.2 milliseconds, less than 0.3% of the 20.8-second p95 BF16 agent episode. The first search was sufficient in 87% of tasks, and mean context fell from 5.2K to 2.3K tokens. Even before Minima was enabled, median task latency dropped from 21.3 to 14.6 seconds and successful throughput rose from 1,081 to 1,669 tasks per GPU-hour, a 54% gain.
 
-<!-- PUBLICATION BLOCKER: placeholder quote below. Replace with a real, approved quote from a Qdrant or Minima engineer on why sufficient first-pass evidence matters inside an agent loop. Do not publish without it. -->
+>“Inside an agent loop, a weak first retrieval costs more than one extra search. It triggers another round of planning, retrieval and inference, so getting sufficient evidence on the first pass is one of the simplest ways to make the whole system faster and more efficient.”
+— Sergii Kozyrev, Co-founder and CEO, Minima AI
 
-> [PLACEHOLDER QUOTE, needs attribution.]
+
 
 ## How Minima Accelerated Every Model Call
 
@@ -92,9 +93,9 @@ The table below reports agent results at concurrency 8, with final answers cappe
 | Qdrant hybrid + reranking top 8 + BF16 weights/KV | ~2.3K | 14.6 / 20.8 s | 1,980 | 84.3% | 1,669 |
 | Qdrant hybrid + reranking top 8 + full Minima | ~2.3K | 7.7 / 11.0 s | 3,750 | 84.2% | 3,158 |
 
- *At US$1.50 per GPU-hour rate Minima used for test accounting, GPU cost per 1,000 successful agent tasks fell from US$1.39 to US$0.48, a 65% reduction. This GPU-only comparison excludes the Qdrant host and embedding services. The same provisioned services stayed online across all three conditions, though the hybrid pipeline put more work on them.*
+*At US$1.50 per GPU-hour rate Minima used for test accounting, GPU cost per 1,000 successful agent tasks fell from US$1.39 to US$0.48, a 65% reduction. This GPU-only comparison excludes the Qdrant host and embedding services. The same provisioned services stayed online across all three conditions, though the hybrid pipeline put more work on them.*
 
-*Minima did not multiply the 3.2x weight compression, 3.5x KV compression, and smaller retrieval context into a single system claim. They affect different bottlenecks. The measured end-to-end results were 2.78x more raw task capacity and 2.92x more successful tasks per GPU-hour.*
+Minima did not multiply the 3.2x weight compression, 3.5x KV compression, and smaller retrieval context into a single system claim. They affect different bottlenecks. The measured end-to-end results were 2.78x more raw task capacity and 2.92x more successful tasks per GPU-hour.
 
 ## Why This Matters for Agentic RAG
 
