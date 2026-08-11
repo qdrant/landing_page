@@ -95,7 +95,7 @@ The table below reports agent results at concurrency 8, with final answers cappe
 
 *At the rate of USD 1.50 per GPU-hour that Minima used for test accounting, GPU cost per 1,000 successful agent tasks fell from USD 1.39 to USD 0.48, a 65% reduction. This GPU-only comparison excludes the Qdrant host and embedding services. The same provisioned services stayed online across all three conditions, though the hybrid pipeline put more work on them.*
 
-Minima did not multiply the 3.2x weight compression, 3.5x KV compression, and smaller retrieval context into a single system claim. They affect different bottlenecks. The measured end-to-end results were 2.78x more raw task capacity and 2.92x more successful tasks per GPU-hour.
+*Minima did not multiply the 3.2x weight compression, 3.5x KV compression, and smaller retrieval context into a single system claim. They affect different bottlenecks. The measured end-to-end results were 2.78x more raw task capacity and 2.92x more successful tasks per GPU-hour.*
 
 ## Why This Matters for Agentic RAG
 
