@@ -20,23 +20,7 @@ Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained s
 
 ![Qdrant Edge Shards operate on edge devices](/documentation/edge/qdrant-edge.png)
 
-To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). This library provides an `EdgeShard` class with methods to manage data, query it, and restore snapshots:
-
-- `new` (Rust) / `create` (Python): Creates a new Edge Shard at the given path with the provided configuration. Fails if the path already contains data.
-- `load`: Initializes an Edge Shard by reading existing data and optionally the configuration from disk.
-- `update`: Updates the data.
-- `query`: Queries the data.
-- `facet`: Returns the top N distinct values of a payload field, sorted by the number of points that have each value.
-- `scroll`: Returns all points.
-- `count`: Returns the number of points.
-- `retrieve`: Retrieves points with the given IDs.
-- `flush`: Flushes the data to ensure that all writes have been persisted to disk.
-- `close`: Cleanly destroys the shard instance, ensuring the data is flushed (Python). The data is persisted on disk and can be used to create another shard. In Rust, use the `Drop` trait to ensure the shard is closed when it goes out of scope.
-- `optimize`: Optimizes the Edge Shard by removing data marked for deletion, merging segments, and creating indexes.
-- `info`: Returns metadata information about the shard.
-- `unpack_snapshot`: Unpacks a snapshot on disk.
-- `snapshot_manifest`: Returns the current shard’s snapshot manifest.
--  `recover_partial_snapshot` (Rust) / `update_from_snapshot` (Python): Applies a snapshot to the shard.
+To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). This library provides an `EdgeShard` class with methods to manage data, query it, and restore snapshots. To learn more about the available methods, refer to the [Edge API](/documentation/edge/edge-api) page.
 
 ## Using Qdrant Edge
 
