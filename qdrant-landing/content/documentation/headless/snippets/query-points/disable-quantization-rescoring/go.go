@@ -12,9 +12,11 @@ func Main() {
 		Port: 6334,
 	})
 
+	// @hide-start
 	if err != nil {
 		panic(err)
-	} // @hide
+	}
+	// @hide-end
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",

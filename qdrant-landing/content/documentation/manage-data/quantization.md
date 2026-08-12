@@ -360,7 +360,9 @@ The memory usage and speed of the search process can be tuned by choosing a [mem
 - **Original cold, quantized pinned** - a hybrid mode that provides a good balance between speed and memory usage. It is recommended if you are aiming to shrink the memory footprint while keeping the search speed.
 
   This mode is enabled by setting the original vectors' `memory` to `cold` and the quantized vectors' `memory` to `pinned`:\
-{{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-in-ram/" >}}
+
+  **Note**: These examples also set the [`turbo4`](/documentation/manage-data/vectors/#turbo4) datatype on the original vectors, which stores each dimension as a 4-bit value instead of a full 32-bit float. This shrinks the on-disk footprint further, but it can reduce recall and search quality. Weigh these trade-offs before you use `turbo4` in your setup. The memory tier itself is set by the `memory` parameters alone, so you can use this mode without `turbo4`.
 
   In this scenario, the number of disk reads may play a significant role in the search speed.
   In a system with high disk latency, the re-scoring step may become a bottleneck.
