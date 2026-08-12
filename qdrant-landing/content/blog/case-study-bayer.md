@@ -1,11 +1,11 @@
 ---
-title: "How Bayer Built an Enterprise-Scale Search Engine for 116,000 Employees with Qdrant"
+title: "How Bayer Built an Enterprise-Scale Search Engine with Qdrant"
 draft: false
 slug: case-study-bayer
-short_description: "Bayer's myGenAssist platform serves 116,000 employees and grounds deep agents on a 135M-point Qdrant Hybrid Cloud deployment."
+short_description: "Bayer serves 116,000 employees and grounds deep agents on a Qdrant Hybrid Cloud deployment."
 description: "How Bayer built myGenAssist on Qdrant Hybrid Cloud: 135M points, hybrid search for deep agents, semantic caching, multitenancy, and a 20% efficiency gain."
-preview_image: /blog/case-study-bayer/preview.png
-social_preview_image: /blog/case-study-bayer/preview.png
+preview_image: /blog/case-study-bayer/social_preview.png
+social_preview_image: /blog/case-study-bayer/social_preview.png
 date: 2026-08-11T00:00:00.000Z
 author: Daniel Azoulai
 featured: false
@@ -20,6 +20,8 @@ tags:
   - life sciences
 partition: case-studies
 ---
+
+![/blog/case-study-bayer/bento_box.png](How Bayer Built an Enterprise-Scale Search Engine with Qdrant)
 
 Bayer is a global life sciences company operating at the intersection of two of the most consequential fields in human life: health and nutrition. Its pharmaceutical work supports drug discovery and patient care, while its crop science work supports food production at planetary scale. The company's guiding ambition, "Health for all, hunger for none," frames how it thinks about technology: AI is not a side project, but a lever applied across the entire organization, from improving the productivity of colleagues to accelerating yield prediction and drug discovery.
 
