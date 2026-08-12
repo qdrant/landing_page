@@ -10,24 +10,24 @@ aliases:
 
 # Setting up a Qdrant Cloud Account
 
-## Registration
+## Registration as a User
 
-There are different ways to register for a Qdrant Cloud account:
+There are different ways to register with Qdrant Cloud:
 
 * With an email address and passwordless login via email
 * With a Google account
 * With a GitHub account
 * By connecting an enterprise SSO solution
 
-Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google, or GitHub credentials. Every user is tied to an email address, and can own or be invited to multiple accounts.
+Register for a [Cloud user](https://cloud.qdrant.io/signup) with your email, Google, or GitHub credentials. Every user is tied to an email address and will get their own account to create clusters in automatically. Once signed up, you can also create additional accounts or get invited to accounts that other users own.
 
 ## The Qdrant Cloud Console
 
 Once you sign in, the Qdrant Cloud Console is organized around three areas:
 
-* The **left navigation** gives you access to your account resources: **Clusters**, **Serverless Spaces**, **Hybrid Cloud**, **Backups**, **Access Management**, **Billing**, and **Settings**.
+* The **left navigation** gives you access to your account resources like the account's clusters, backups, access management, or billing.
 * The **account switcher** at the top left lets you switch between the accounts you own or have been invited to, create new accounts, and open the accounts overview.
-* The **user menu** at the bottom left contains your personal, user-level options — Get Started, Preferences, Invitations, Security, and Accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
+* The **user menu** at the bottom left contains your personal, user-level options — like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
 
 ![Qdrant Cloud Console overview](/documentation/cloud/console-overview.png)
 
@@ -41,7 +41,7 @@ If you have access to multiple accounts, you can switch between them with the ac
 
 ## Creating Additional Accounts
 
-You can create additional accounts from the **Create new Account** option in the account switcher, or from the **Accounts** page. Each account is isolated: it has its own set of clusters, permissions, and payment methods. Besides the account owner, users are not shared across accounts and must be specifically invited to an account to access it.
+You can create additional accounts from the **Create new Account** option in the account switcher, or from your **Accounts** page. Each account is isolated: it has its own set of clusters, permissions, and payment methods. For every account, you can decide which users should have access with which permissions and specifically invite them to access it.
 
 Multiple accounts are useful when you want to separate clusters across different teams or environments, or apply different payment methods to different resources.
 
@@ -57,7 +57,7 @@ Each user can own up to **5 accounts**. The dialog shows how many you have creat
 
 ## Managing Accounts
 
-Open the **Accounts** page from the user menu (**Accounts**) or from the account switcher (**Manage accounts**) to see every account you own or have been invited to. You can filter by **All**, **Owned**, or **Invited**, and the page shows your current **account limit** (for example, *Account limit: 4/5*).
+Open the **Accounts** page from the user menu (**Accounts**) or from the account switcher (**Manage accounts**) to see every account you own or have access to. You can filter by **All**, **Owned**, or **Invited**, and the page shows your current **account limit** (for example, *Account limit: 4/5*).
 
 For each account you can set it as the default (**Make Default**) or open its **Settings**. Each account also displays its unique **Account ID**, which you may need when contacting support or using the Cloud API.
 
@@ -81,7 +81,7 @@ To transfer ownership, on the account **Settings** page choose **Transfer Owners
 
 ### Deleting an Account
 
-Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner.
+Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner. Deleting an account does not delete your user. You can create other accounts afterward. You can delete your user completely in the [User Settings](/documentation/cloud-user-profile/).
 
 ## Inviting Users to an Account
 
