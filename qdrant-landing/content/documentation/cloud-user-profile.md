@@ -50,6 +50,6 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 ## Deactivate User
 
-Use **Deactivate my User** on the **Preferences** page to permanently deactivate your Qdrant user and all associated data. If you own any accounts, you must first [transfer their ownership](/documentation/cloud-account-setup/#transferring-account-ownership) to another member.
+Use **Deactivate my User** on the **Preferences** page to permanently deactivate your Qdrant user and all associated data. If you own any accounts, you must first [transfer their ownership](/documentation/cloud-account-setup/#transferring-account-ownership) to another member or delete them.
 
 ![Deactivate user](/documentation/cloud/deactivate-user.png)
