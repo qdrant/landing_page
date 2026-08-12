@@ -214,7 +214,24 @@ def collect_alias_rules(public_dir, include_pagination=False):
 
 
 def match_rule(rule, path):
-    """Return rule's target for path, or None. Trailing slashes are ignored."""
+    """Return rule's target for path, or None. Trailing slashes are ignored.
+
+    Matching is case-SENSITIVE, deliberately, because the CDN is. The decisive
+    measurement, of the four in HEADER's case section:
+
+        /documentation/operations/running-with-gpu/index.md
+          -> 301 /documentation/deploy-intro/running-with-gpu/index.md   (the
+             /documentation/operations/* catch-all, not _redirects:50, which
+             spells running-with-GPU and sits above it)
+
+    Lowercasing here would make the table promise behaviour the CDN does not
+    deliver for .md requests, and would hide that dead landing. HEADER documents
+    all three of the CDN's case behaviours and why they differ -- read it before
+    changing anything here.
+
+    Asset lookup is a separate matter and is case-insensitive: see
+    locate_case_insensitively.
+    """
     frm = rule.frm
 
     if frm.endswith("/*"):
@@ -303,18 +320,28 @@ def resolve(rules, path, max_hops=10):
 def locate_case_insensitively(public_dir, path):
     """Find the built directory for path, ignoring case as the CDN does.
 
-    Netlify serves assets case-insensitively: a request for
-    /documentation/operations/running-with-GPU/index.md is answered by the
-    built running-with-gpu/index.md. Matching exactly would make this script
-    disagree with production, and disagree with itself across platforms -- the
-    macOS filesystem hides the mismatch, Linux CI does not, so _redirects:50
-    (which targets running-with-GPU while the build writes running-with-gpu)
-    would fail --strict on CI alone.
+    Netlify's *asset lookup* is case-insensitive -- verified live, a request for
+    /documentation/ops-configuration/running-with-GPU/index.md is answered by the
+    built running-with-gpu/index.md. So _redirects:50 works in production despite
+    targeting a casing the build does not write.
+
+    Matching exactly here would therefore disagree with production, and disagree
+    with itself across platforms: the macOS filesystem hides a case mismatch and
+    Linux CI does not, so rule 50 would fail --strict on CI alone.
+
+    Note this is only about finding files. Rule matching is case-sensitive --
+    see match_rule.
 
     Returns the real directory path, or None.
     """
     current = public_dir
-    for segment in [s for s in path.strip("/").split("/") if s]:
+    segments = [s for s in path.strip("/").split("/") if s]
+    if any(s == ".." for s in segments):
+        # Walking .. would step outside the build and report a page as present
+        # when it is not there at all. No rule target needs it today, but this
+        # runs over arbitrary paths once a request-path corpus is fed in.
+        return None
+    for segment in segments:
         candidate = os.path.join(current, segment)
         if os.path.isdir(candidate):
             current = candidate
@@ -342,63 +369,30 @@ def built_variants(public_dir, path):
     )
 
 
-def validate(rules, public_dir, observed_paths=()):
-    """Walk known old paths through the table and check where they land.
+def validate(rules, public_dir):
+    """Walk every old path the rules name through the table and check the landing.
 
-    Coverage here is honestly partial, and it is worth being precise about the
-    gap. Every rule with a concrete source is resolved and checked. A *wildcard*
-    rule has no single source path to test, so all we can probe is its target
-    with the splat stripped -- and that target is usually alive even when the
-    paths routed through it are not:
+    Coverage is partial, and the gap is worth stating rather than glossing. Every
+    rule with a concrete source is resolved and checked. A *wildcard* rule has no
+    single source path to test, so all we can probe is its target with the splat
+    stripped -- and that target is usually alive even when the paths routed
+    through it are not:
 
         /documentation/operations/*  ->  /documentation/deploy-intro/:splat
 
     probes as /documentation/deploy-intro/, which exists, and passes. But
     /documentation/operations/running-with-gpu/ lands on
-    /documentation/deploy-intro/running-with-gpu/, which does not exist. (The
-    rule spells it running-with-GPU; real traffic arrives lowercase and falls
-    through to the catch-all.) Nothing in the rule sources reveals that path.
+    /documentation/deploy-intro/running-with-gpu/, which does not exist, because
+    the rule spells it running-with-GPU and matching is case-sensitive. Nothing
+    in the rule sources reveals that path.
 
-    So pass --observed-paths with real request paths from the access log. That
-    corpus is what closes the gap; the rule-derived checks below cannot.
+    Closing that gap needs a corpus of real request paths from the access log,
+    which is deliberately left to a follow-up: it is regression insurance rather
+    than a bug finder (against current traffic it reports nothing new), and it
+    needs a baseline mechanism so one unfixable path cannot make CI permanently
+    red. The rule-derived checks below cannot close it.
     """
     problems = []
-    unrouted = []
-    # Deliberately separate from the rule loop's set below: sharing one would
-    # let an observed path suppress a wildcard rule's own probe.
-    seen_observed = set()
-
-    for path in observed_paths:
-        key = path.rstrip("/") or "/"
-        if key in seen_observed:
-            continue
-        seen_observed.add(key)
-        final, hops, error = resolve(rules, path)
-        if error:
-            problems.append((Rule(path, path, source="observed"), error))
-            continue
-        if final.startswith(("http", "//")):
-            continue
-
-        html, md = built_variants(public_dir, final)
-        if hops == 0:
-            # No rule fired. If the path is also not in the build it is an
-            # ordinary 404 -- a candidate for a new rule, but not a broken one,
-            # so it is reported separately and never fails --strict.
-            if not html and not md:
-                unrouted.append(path)
-            continue
-        if not html and not md:
-            problems.append(
-                (Rule(path, final, source="observed"),
-                 "requested path %s is redirected to %s, which is not in the build" % (path, final))
-            )
-        elif not md:
-            problems.append(
-                (Rule(path, final, source="observed"),
-                 "requested path %s is redirected to %s, which has no index.md" % (path, final))
-            )
-
     seen = set()
     for rule in rules:
         # Concrete sources resolve directly. For a wildcard source there is no
@@ -431,7 +425,7 @@ def validate(rules, public_dir, observed_paths=()):
         elif not md:
             problems.append((rule, "%s %s lands on %s, which has no index.md" % (label, probe, final)))
 
-    return problems, unrouted
+    return problems
 
 
 def classify_aliases(hand_rules, alias_rules):
@@ -494,6 +488,27 @@ HEADER = """\
 #   * Trailing slashes are not significant on either side.
 #   * A rule marked ! is forced. Consult this table only when you have no
 #     document at the requested path and non-forced behaviour comes for free.
+#   * Case. One CDN, three different behaviours. Four requests, each measured
+#     against production:
+#
+#       /documentation/tutorials-develop/BULK-UPLOAD/
+#         -> 301 to the same path lowercased; rules then apply to the result
+#       /documentation/tutorials-develop/BULK-UPLOAD/index.md
+#         -> 404. No lowercasing, and no rule matched
+#       /documentation/operations/running-with-gpu/index.md
+#         -> 301 via the catch-all to /documentation/deploy-intro/..., NOT the
+#            running-with-GPU rule that sits above it
+#       /documentation/operations/running-with-GPU/index.md
+#         -> 301 to /documentation/ops-configuration/... The rule matched, on
+#            exact case
+#
+#     So: rule matching is case-SENSITIVE; asset lookup is case-INSENSITIVE (the
+#     last row is served by the built running-with-gpu/index.md); and the
+#     lowercasing 301 applies only to directory-style paths, never to an
+#     explicit index.md request -- the only form a markdown mirror ever sees.
+#     This table therefore does no case folding for you. Lowercase the requested
+#     path in your own lookup before consulting it, or uppercase requests will
+#     404 where qdrant.tech succeeds. Do not assume the table does it.
 #   * The third column is the status, and it is not always a redirect. 200 is
 #     a rewrite: Netlify proxies the target and the URL does not change, so a
 #     consumer that answers 301 for it would diverge from the live site. Every
@@ -571,59 +586,6 @@ def strip_generated_blocks(text):
     return "\n".join(out).strip("\n") + "\n"
 
 
-def looks_like_a_probe(path):
-    """Is this path a scanner probe rather than a real documentation request?
-
-    Open-redirect and file-inclusion scanners ride the wildcard rules, so a raw
-    access log is full of paths like these:
-
-        /documentation/distributed_deployment/https://example.com
-        /documentation/distributed_deployment/logout.php
-        /documentation/operations/monitoring/).
-
-    They resolve through a catch-all to something nonexistent and will never be
-    fixed, so left in they would fail --strict on every PR until someone deletes
-    the step. This catches the URL-shaped, script-extension and stray-punctuation
-    families. It cannot catch a probe that is merely a plausible-looking path
-    (/documentation/.../setLocale); filtering by user agent and request count
-    when extracting the corpus is what removes those.
-    """
-    if "://" in path:
-        return True
-    if re.search(r"\.(php|asp|aspx|jsp|cgi|env|git|sql|bak)(/|$)", path, re.I):
-        return True
-    return bool(re.search(r"[()<>\"'\\;`|]", path))
-
-
-def load_observed_paths(path):
-    """Read request paths from an access-log extract, one per line.
-
-    Returns (paths, skipped_probes).
-    """
-    paths, skipped = [], 0
-    with open(path, encoding="utf-8", errors="replace") as fh:
-        for line in fh:
-            entry = line.strip()
-            if not entry or entry.startswith("#"):
-                continue
-            entry = urlsplit(entry).path or "/"
-            entry = entry.split("?")[0]
-            if not entry.startswith("/"):
-                entry = "/" + entry
-            # Access-log paths from the mirror carry the /md/ prefix. Left on,
-            # every path matches nothing, everything is reported as unrouted,
-            # and --strict passes -- the corpus silently does nothing.
-            if entry == "/md" or entry.startswith("/md/"):
-                entry = entry[len("/md"):] or "/"
-            if entry.endswith("index.md"):
-                entry = entry[: -len("index.md")]
-            if looks_like_a_probe(entry):
-                skipped += 1
-                continue
-            paths.append(entry)
-    return paths, skipped
-
-
 def warn(message):
     sys.stderr.write("warning: %s\n" % message)
 
@@ -639,16 +601,6 @@ def main():
         action="store_true",
         help="also append derived rules to <public>/_redirects, so qdrant.tech "
         "honours alias paths for .md requests (changes live CDN behaviour)",
-    )
-    parser.add_argument(
-        "--observed-paths",
-        metavar="FILE",
-        help="file of real request paths, one per line, to resolve through the "
-        "table. Catches dead landings that no rule source reveals -- see "
-        "validate(). Lines may be bare paths or full URLs; blanks and # ignored. "
-        "A leading /md is stripped, so mirror access-log paths can be used as-is. "
-        "Scanner probes are skipped and counted; extract with a user-agent and "
-        "request-count filter, or the report fills with paths nobody will fix.",
     )
     parser.add_argument(
         "--include-pagination",
@@ -700,24 +652,7 @@ def main():
             fh.write("\n".join(head) + "\n\n" + existing.rstrip("\n") + "\n\n" + "\n".join(tail) + "\n")
         print("rewrote %s: %d rules prepended, %d appended" % (target, len(precede), len(append_)))
 
-    observed, skipped_probes = ([], 0)
-    if args.observed_paths:
-        if not os.path.isfile(args.observed_paths):
-            sys.exit("error: --observed-paths file not found: %s" % args.observed_paths)
-        observed, skipped_probes = load_observed_paths(args.observed_paths)
-        if not observed:
-            sys.exit("error: %s yielded no usable paths" % args.observed_paths)
-
-    problems, unrouted = validate(ordered, args.public, observed)
-
-    if observed and len(unrouted) > len(set(observed)) / 2:
-        # A corpus where most paths match no rule is usually mis-shaped rather
-        # than informative -- wrong prefix, or extracted from the wrong host.
-        # Left unsaid this passes --strict while checking nothing.
-        warn(
-            "%d of %d observed paths match no rule at all; the corpus may be "
-            "mis-shaped and is checking little" % (len(unrouted), len(set(observed)))
-        )
+    problems = validate(ordered, args.public)
 
     if not args.quiet:
         print("wrote %s" % out_path)
@@ -729,29 +664,14 @@ def main():
             "  aliases: %d ordered ahead of a wildcard, %d appended, %d suppressed"
             % (len(precede), len(append_), len(suppressed))
         )
-        if observed:
-            print(
-                "  checked %d observed request path(s), skipped %d scanner probe(s)"
-                % (len(set(observed)), skipped_probes)
-            )
-        else:
-            print("  no --observed-paths given: dead landings under a catch-all go unchecked")
+        # Paths that only a catch-all routes are not covered here; closing that
+        # gap needs a corpus of real request paths. See validate().
         if problems:
             print("\n%d path(s) need attention:" % len(problems))
             for rule, reason in problems:
                 print("  %-26s %s" % (rule.source, reason))
         else:
-            print("  every checked path lands on a page with both index.html and index.md")
-
-        if unrouted:
-            print(
-                "\n%d observed path(s) match no rule and are not in the build "
-                "(candidates for new rules, not failures):" % len(unrouted)
-            )
-            for path in unrouted[:20]:
-                print("  %s" % path)
-            if len(unrouted) > 20:
-                print("  ... and %d more" % (len(unrouted) - 20))
+            print("  every rule-derived path lands on a page with both index.html and index.md")
 
     if problems and args.strict:
         return 1
