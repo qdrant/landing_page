@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import typing
 from pathlib import Path
@@ -39,6 +40,13 @@ Example:
 }
 """
 
+def extract_code(language: type[Language], file: Path) -> str:
+    content = file.read_text()
+    regex = re.compile(rf"```{language.NAME}\r?\n([\s\S]*?)\r?\n```")
+    matches = regex.findall(content)
+    if len(matches) == 0:
+        raise RuntimeError("No code find in markdown file")
+    return matches[0]
 
 def collect_snippets(
     bases: list[Path],
