@@ -61,7 +61,9 @@ class Rule:
 
     @property
     def external(self):
-        return self.to.startswith("http://") or self.to.startswith("https://")
+        # Protocol-relative targets are off-site too; without the // case
+        # resolve() would try to follow one as a site path.
+        return self.to.startswith(("http://", "https://", "//"))
 
     def line(self):
         status = self.status + ("!" if self.force else "")
@@ -96,6 +98,14 @@ def parse_redirects_file(path):
             token = parts[2]
             force = token.endswith("!")
             status = token.rstrip("!")
+        if len(parts) > 3:
+            # Netlify allows conditions and query params after the status
+            # (Country=us, Language=en, role=admin). Emitting the rule without
+            # them would turn a scoped redirect into an unconditional one.
+            warn(
+                "%s:%d: ignoring trailing condition(s) %r -- rule will be emitted "
+                "unconditionally" % (path, lineno, " ".join(parts[3:]))
+            )
         rules.append(
             Rule(frm, to, status, force, source="_redirects:%d" % lineno, origin="redirects")
         )
@@ -139,6 +149,15 @@ def parse_netlify_toml(path):
             continue
         if stripped.startswith("["):
             # Any other table header ends the block ([headers.values] etc).
+            if block is not None and stripped.startswith("[redirects."):
+                # [redirects.conditions] / [redirects.headers] scope a rule to a
+                # country, language or role. We emit the rule without them, which
+                # would widen it, so this must not pass silently.
+                warn(
+                    "%s:%d: %s is not carried into the merged table -- the rule "
+                    "from line %d will be emitted unconditionally"
+                    % (path, lineno, stripped, start)
+                )
             flush()
             block = None
             continue
@@ -290,16 +309,60 @@ def built_variants(public_dir, path):
     )
 
 
-def validate(rules, public_dir):
-    """Walk every old path we know of through the table and check where it lands.
+def validate(rules, public_dir, observed_paths=()):
+    """Walk known old paths through the table and check where they land.
 
-    Resolving the *source* paths, not just the targets, is what catches a rule
-    whose target only looks alive: /documentation/concepts/payload/ resolves
-    through the /documentation/concepts/* catch-all to /documentation/payload/,
-    which does not exist, even though the catch-all's own target does.
+    Coverage here is honestly partial, and it is worth being precise about the
+    gap. Every rule with a concrete source is resolved and checked. A *wildcard*
+    rule has no single source path to test, so all we can probe is its target
+    with the splat stripped -- and that target is usually alive even when the
+    paths routed through it are not:
+
+        /documentation/operations/*  ->  /documentation/deploy-intro/:splat
+
+    probes as /documentation/deploy-intro/, which exists, and passes. But
+    /documentation/operations/running-with-gpu/ lands on
+    /documentation/deploy-intro/running-with-gpu/, which does not exist. (The
+    rule spells it running-with-GPU; real traffic arrives lowercase and falls
+    through to the catch-all.) Nothing in the rule sources reveals that path.
+
+    So pass --observed-paths with real request paths from the access log. That
+    corpus is what closes the gap; the rule-derived checks below cannot.
     """
     problems = []
+    unrouted = []
     seen = set()
+
+    for path in observed_paths:
+        key = path.rstrip("/") or "/"
+        if key in seen:
+            continue
+        seen.add(key)
+        final, hops, error = resolve(rules, path)
+        if error:
+            problems.append((Rule(path, path, source="observed"), error))
+            continue
+        if final.startswith(("http", "//")):
+            continue
+
+        html, md = built_variants(public_dir, final)
+        if hops == 0:
+            # No rule fired. If the path is also not in the build it is an
+            # ordinary 404 -- a candidate for a new rule, but not a broken one,
+            # so it is reported separately and never fails --strict.
+            if not html and not md:
+                unrouted.append(path)
+            continue
+        if not html and not md:
+            problems.append(
+                (Rule(path, final, source="observed"),
+                 "requested path %s is redirected to %s, which is not in the build" % (path, final))
+            )
+        elif not md:
+            problems.append(
+                (Rule(path, final, source="observed"),
+                 "requested path %s is redirected to %s, which has no index.md" % (path, final))
+            )
 
     for rule in rules:
         # Concrete sources resolve directly. For a wildcard source there is no
@@ -323,7 +386,7 @@ def validate(rules, public_dir):
         if error:
             problems.append((rule, error))
             continue
-        if final.startswith("http"):
+        if final.startswith(("http", "//")):
             continue
 
         html, md = built_variants(public_dir, final)
@@ -332,7 +395,7 @@ def validate(rules, public_dir):
         elif not md:
             problems.append((rule, "%s %s lands on %s, which has no index.md" % (label, probe, final)))
 
-    return problems
+    return problems, unrouted
 
 
 def classify_aliases(hand_rules, alias_rules):
@@ -345,10 +408,12 @@ def classify_aliases(hand_rules, alias_rules):
     to shadow the rule. That is how /documentation/concepts/payload/ ends up
     serving HTML correctly while its .md variant 301s to a dead path.
 
-    So an alias that collides with a *wildcard* rule has to be emitted ahead of
-    it: it is the more specific rule, and putting it first is what makes the
-    table agree with what the CDN already does for HTML. An alias that collides
-    with an *exact* rule is a deliberate override and stays suppressed.
+    What decides the winner on the live site is `force`, not how specific the
+    rule looks: a forced rule is applied even when a file exists, a non-forced
+    one is not. So an alias that collides with any non-forced rule -- wildcard
+    or exact -- has to be emitted ahead of it, because that is what the CDN
+    already does for HTML at that path. Only a forced rule genuinely beats the
+    alias stub and keeps it suppressed.
 
     Returns (precede, append, suppressed).
     """
@@ -362,11 +427,12 @@ def classify_aliases(hand_rules, alias_rules):
         if winner is None:
             append.append(rule)
         elif target.rstrip("/") == rule.to.rstrip("/"):
+            # Same destination either way, so ordering cannot diverge.
             suppressed.append((rule, winner, target, "agrees"))
-        elif winner.frm.endswith("*") or ":" in winner.frm:
-            precede.append((rule, winner, target))
-        else:
+        elif winner.force:
             suppressed.append((rule, winner, target, "overridden"))
+        else:
+            precede.append((rule, winner, target))
 
     return precede, append, suppressed
 
@@ -392,6 +458,10 @@ HEADER = """\
 #   * Trailing slashes are not significant on either side.
 #   * A rule marked ! is forced. Consult this table only when you have no
 #     document at the requested path and non-forced behaviour comes for free.
+#   * The third column is the status, and it is not always a redirect. 200 is
+#     a rewrite: Netlify proxies the target and the URL does not change, so a
+#     consumer that answers 301 for it would diverge from the live site. Every
+#     rule here is currently 301, but check the column rather than assuming.
 #
 # To edit a rule, edit its source: qdrant-landing/static/_redirects, the
 # [[redirects]] blocks in netlify.toml, or the page's `aliases:` front matter.
@@ -440,6 +510,49 @@ def emit(raw_redirects, toml_rules, precede, append, suppressed):
     return "\n".join(out) + "\n"
 
 
+GENERATED_MARKER = "# --- generated by automation/generate-redirects-table.py:"
+
+
+def strip_generated_blocks(text):
+    """Remove blocks a previous --augment-netlify-redirects run inserted.
+
+    Without this the prepended rules duplicate every time the build runs twice
+    against the same public/ (a rebuild without a clean, or a local re-run).
+    A block runs from its marker to the next blank line that is not followed by
+    another rule of the same block.
+    """
+    out, skipping = [], False
+    for line in text.splitlines():
+        if line.startswith(GENERATED_MARKER):
+            skipping = True
+            continue
+        if skipping:
+            # Comments and rules belong to the block; a blank line ends it.
+            if line.strip() == "":
+                skipping = False
+            continue
+        out.append(line)
+    return "\n".join(out).strip("\n") + "\n"
+
+
+def load_observed_paths(path):
+    """Read request paths from an access-log extract, one per line."""
+    paths = []
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            entry = line.strip()
+            if not entry or entry.startswith("#"):
+                continue
+            entry = urlsplit(entry).path or "/"
+            entry = entry.split("?")[0]
+            if entry.endswith("index.md"):
+                entry = entry[: -len("index.md")]
+            if not entry.startswith("/"):
+                entry = "/" + entry
+            paths.append(entry)
+    return paths
+
+
 def warn(message):
     sys.stderr.write("warning: %s\n" % message)
 
@@ -455,6 +568,13 @@ def main():
         action="store_true",
         help="also append derived rules to <public>/_redirects, so qdrant.tech "
         "honours alias paths for .md requests (changes live CDN behaviour)",
+    )
+    parser.add_argument(
+        "--observed-paths",
+        metavar="FILE",
+        help="file of real request paths, one per line, to resolve through the "
+        "table. Catches dead landings that no rule source reveals -- see "
+        "validate(). Lines may be bare paths or full URLs; blanks and # ignored.",
     )
     parser.add_argument(
         "--include-pagination",
@@ -490,14 +610,15 @@ def main():
         target = os.path.join(args.public, "_redirects")
         with open(target, encoding="utf-8") as fh:
             existing = fh.read()
+        existing = strip_generated_blocks(existing)
         head = [
-            "# Prepended by automation/generate-redirects-table.py: exact alias paths",
+            GENERATED_MARKER + " exact alias paths",
             "# that a catch-all below would otherwise send to a dead .md target.",
         ]
         head += [r.line() for r, _w, _t in precede]
         tail = [
             "",
-            "# Appended by automation/generate-redirects-table.py: netlify.toml rules",
+            GENERATED_MARKER + " netlify.toml rules",
             "# and Hugo aliases, so .md requests to old paths redirect too.",
         ]
         tail += [r.line() for r in append_]
@@ -505,7 +626,8 @@ def main():
             fh.write("\n".join(head) + "\n\n" + existing.rstrip("\n") + "\n\n" + "\n".join(tail) + "\n")
         print("rewrote %s: %d rules prepended, %d appended" % (target, len(precede), len(append_)))
 
-    problems = validate(ordered, args.public)
+    observed = load_observed_paths(args.observed_paths) if args.observed_paths else []
+    problems, unrouted = validate(ordered, args.public, observed)
 
     if not args.quiet:
         print("wrote %s" % out_path)
@@ -517,12 +639,26 @@ def main():
             "  aliases: %d ordered ahead of a wildcard, %d appended, %d suppressed"
             % (len(precede), len(append_), len(suppressed))
         )
+        if observed:
+            print("  checked %d observed request path(s)" % len(set(observed)))
+        else:
+            print("  no --observed-paths given: dead landings under a catch-all go unchecked")
         if problems:
             print("\n%d path(s) need attention:" % len(problems))
             for rule, reason in problems:
                 print("  %-26s %s" % (rule.source, reason))
         else:
-            print("  every known old path lands on a page with both index.html and index.md")
+            print("  every checked path lands on a page with both index.html and index.md")
+
+        if unrouted:
+            print(
+                "\n%d observed path(s) match no rule and are not in the build "
+                "(candidates for new rules, not failures):" % len(unrouted)
+            )
+            for path in unrouted[:20]:
+                print("  %s" % path)
+            if len(unrouted) > 20:
+                print("  ... and %d more" % (len(unrouted) - 20))
 
     if problems and args.strict:
         return 1
