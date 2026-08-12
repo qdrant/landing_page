@@ -41,7 +41,7 @@ If you have access to multiple accounts, you can switch between them with the ac
 
 ## Creating Additional Accounts
 
-You can create additional accounts from the **Create new Account** option in the account switcher, or from your **Accounts** page. Each account is isolated: it has its own set of clusters, permissions, and payment methods. For every account, you can decide which users should have access with which permissions and specifically invite them to access it.
+You can create additional accounts from the **Create new Account** option in the account switcher, or from your **Accounts** page. Each account is isolated: it has its own set of clusters, permissions, and payment methods. For each account, you can decide which users get access, set their specific permissions, and invite them directly.
 
 Multiple accounts are useful when you want to separate clusters across different teams or environments, or apply different payment methods to different resources.
 
