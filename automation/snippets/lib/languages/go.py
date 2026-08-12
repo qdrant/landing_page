@@ -13,6 +13,35 @@ from .base import (
     trim_commonpath,
 )
 
+_RE_HEADER_LINE = re.compile(r"^(import|type|func)\b")
+
+
+def _split_header_body(contents: str) -> tuple[str, str]:
+    """Split shortened Go code into leading package-level declarations
+    (imports, types, helper funcs) and the remaining statements that belong
+    inside `func Main()`.
+
+    `shorten()`/`generic_shorten()` flatten these together and dedent
+    everything to column 0, so indentation alone can no longer tell them
+    apart. Helper declarations always come first (`shorten()`'s `RE_CODE`
+    requires `func Main()` to be the last top-level declaration), so this
+    scans for the first line, outside of any brackets, that isn't the start
+    of an `import`/`type`/`func` declaration and treats everything from
+    there onward as the body.
+    """
+    lines = contents.splitlines(keepends=True)
+    depth = 0
+    header_end = 0
+    for i, line in enumerate(lines):
+        if depth == 0:
+            stripped = line.strip()
+            if stripped and _RE_HEADER_LINE.match(stripped) is None:
+                break
+        depth += line.count("{") + line.count("(")
+        depth -= line.count("}") + line.count(")")
+        header_end = i + 1
+    return "".join(lines[:header_end]), "".join(lines[header_end:])
+
 
 class LanguageGo(Language):
     NAME = "go"
@@ -105,35 +134,20 @@ class LanguageGo(Language):
     def format(cls, fnames: list[str]) -> None:
         subprocess.run(["gofmt", "-w", *fnames], check=True)
 
-    RE_RENDERED = re.compile(
-        r"""
-        (?P<imports>
-            (?: import\s*\([^)]+\)\n
-              | import\s+"[^"]+"\n
-              | \n
-            )*
-        )
-        (?P<body> .* )
-        $
-        """,
-        re.DOTALL | re.VERBOSE,
-    )
-
     @classmethod
     def unshorten(cls, contents: str) -> str:
-        if m := LanguageGo.RE_RENDERED.match(contents):
-            return textwrap.dedent(
-                """\
-                package snippet
+        header, body = _split_header_body(contents)
+        return textwrap.dedent(
+            """\
+            package snippet
 
-                {imports}
+            {header}
 
-                func Main() {{
-                {body}
-                }}
-                """
-            ).format(
-                imports=m["imports"].strip(),
-                body=textwrap.indent(m["body"].strip(), "\t"),
-            )
-        return contents
+            func Main() {{
+            {body}
+            }}
+            """
+        ).format(
+            header=header.strip(),
+            body=textwrap.indent(body.strip(), "\t"),
+        )
