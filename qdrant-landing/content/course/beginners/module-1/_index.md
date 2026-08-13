@@ -195,7 +195,7 @@ Does `"apple stock"` score higher against the finance sense or the fruit sense, 
 
 | Metric | Common use | Notes |
 |--------|----------|-------|
-| Cosine | Text similarity, NLP (Natural Language Processing) models | Robust to different vector magnitudes. Most common default. |
+| Cosine | Text similarity, NLP (Natural Language Processing) models | Compares vector direction and ignores vector length. A common default for text embeddings. |
 | Dot product | Vectors already normalized to unit length | Numerically identical to cosine similarity once vectors are unit length, same score, not a separate metric. |
 | Euclidean (L2) | Image embeddings, spatial data | Sensitive to magnitude; works best with models trained for it. |
 | Manhattan (L1) | Grid-like or count-based data | Sums absolute differences per dimension rather than squaring them first, making it less affected by extreme values in any single dimension. |
