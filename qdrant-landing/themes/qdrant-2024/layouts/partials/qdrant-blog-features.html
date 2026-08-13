@@ -16,7 +16,7 @@
       </form>
     </div>
 
-    {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
+    {{ $all := .Pages.ByPublishDate.Reverse }}
 
 
     <div class="qdrant-blog-features__articles">

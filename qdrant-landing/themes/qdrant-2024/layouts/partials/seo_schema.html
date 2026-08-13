@@ -58,7 +58,7 @@
 {{ $data | jsonify | safeJS }}
 </script>
   {{- end -}}
-{{ else if or (in (slice "documentation" "benchmarks") .Section) (and (in (slice "blog" "articles") .Section) .IsPage) }}
+{{ else if or (in (slice "documentation" "benchmarks") .Section) (and (in (slice "blog" "research" "articles") .Section) .IsPage) }}
   {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
   {{ $organizationTarget := printf "schema-org-1-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
   {{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}

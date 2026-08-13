@@ -102,12 +102,12 @@
   </script>
 {{ end }}
 
-{{ if or (in (slice "docs" "documentation" "articles" "course" "learn" "customers") .Section) (and (not .IsPage) (eq .Section "blog")) }}
+{{ if or (in (slice "docs" "documentation" "articles" "course" "learn" "customers") .Section) (and (not .IsPage) (in (slice "blog" "research") .Section)) }}
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
 
-{{ if and .IsPage (in (slice "blog" "articles" "course" "learn" "benchmarks" "docs" "documentation") .Section) }}
+{{ if and .IsPage (in (slice "blog" "research" "articles" "course" "learn" "benchmarks" "docs" "documentation") .Section) }}
   {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
@@ -127,7 +127,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "docs" "documentation") .Section }}
+{{ if in (slice "blog" "research" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "docs" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
@@ -169,7 +169,7 @@
   <script src="{{ $anchorJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
+{{ if in (slice "blog" "research" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
   <script>
     document.addEventListener('keydown', function (event) {
       if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
@@ -183,7 +183,7 @@
   </script>
 {{ end }}
 
-{{ if and (eq .Section "blog") (.IsPage) }}
+{{ if and (in (slice "blog" "research") .Section) (.IsPage) }}
   <script>
     document.addEventListener('scroll', () => {
       const article = document.getElementById('article');
