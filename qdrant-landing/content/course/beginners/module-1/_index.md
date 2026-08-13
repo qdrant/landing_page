@@ -261,27 +261,11 @@ This isn't a universal requirement, plenty of systems only ever need one of thes
 
 Hybrid search is the next module's topic.
 
-## 8. References & Further Reading
+## 8. Further Reading
 
-**Qdrant docs:**
-
-- [Distance Metrics](/course/essentials/day-1/distance-metrics/)
-  - Cosine, dot product, and Euclidean distance compared, and how to pick the right one for your embedding model.
-- [Filtering](/documentation/search/filtering/)
-  - Payload filter syntax, indexed fields, and combining filters with vector queries.
-
-**Go deeper:**
-
-- [Vector Embeddings Explained](/articles/what-are-embeddings/)
-  - A longer walkthrough of how embedding models are trained and how embeddings are used in ML and search.
-- [FastEmbed: Qdrant's Efficient Python Library for Embedding Generation](/articles/fastembed/)
-  - The library used in this module's code samples, and how it differs from running models directly.
-
-**Definitions:**
-
-- [Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
-- [Dot product](https://en.wikipedia.org/wiki/Dot_product)
-- **Upsert**: to insert a point if its ID doesn't exist yet, or update it in place if it does. It's how you add and modify data in a Qdrant collection. See [Upload Points](/documentation/manage-data/points/#upload-points).
+- [Distance Metrics](/course/essentials/day-1/distance-metrics/) Learn more about cosine similarity, dot product, and Euclidean distance.
+- [Vector Embeddings Explained](/articles/what-are-embeddings/) A deeper introduction to how embedding models turn data into vectors.
+- [FastEmbed](/articles/fastembed/) Learn more about the library used to generate embeddings in this module.
 
 ## What's Next: Module 2
 
