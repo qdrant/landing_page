@@ -255,7 +255,9 @@ A payload filter is different from keyword search. A filter checks whether a fie
 
 ## 7. When a System Needs Both
 
-The product code example above is why some production systems combine semantic search with exact filters or keyword search rather than picking one: a single collection can serve queries that need meaning, queries that need one precise token, and queries that need term-based relevance ranking. 
+The previous examples show why no single retrieval method works for every query. A search system may need semantic search to find related meaning, filters to match exact values such as a SKU, and keyword search when matching terms should affect the ranking.
+
+**Hybrid search** specifically combines semantic retrieval with keyword retrieval. It uses **dense vectors** to compare meaning and **sparse vectors** to match and rank terms, often with an algorithm such as BM25.
 
 Not every search system needs hybrid search. But when users may search by either meaning or specific terms, combining both methods can return more relevant results.
 
