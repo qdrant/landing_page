@@ -6,7 +6,7 @@ short_description: "Bayer serves 116,000 employees and grounds deep agents on a 
 description: "How Bayer built myGenAssist on Qdrant Hybrid Cloud: 135M points, hybrid search for deep agents, semantic caching, multitenancy, and a 20% efficiency gain."
 preview_image: /blog/case-study-bayer/social_preview.png
 social_preview_image: /blog/case-study-bayer/social_preview.png
-date: 2026-08-11T00:00:00.000Z
+date: 2026-08-13T00:00:00.000Z
 author: Daniel Azoulai
 featured: false
 tags:
