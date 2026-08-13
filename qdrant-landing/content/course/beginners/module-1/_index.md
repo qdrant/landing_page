@@ -220,7 +220,7 @@ So: semantic search is great at synonyms and paraphrasing, but shaky on word ord
 
 ### Exact Matching: When You Need a Filter, Not Similarity
 
-Not every query needs semantic understanding. A query for an exact product code, like "SKU-48291" (SKU stands for Stock Keeping Unit, the retail term for this kind of code), needs an exact match instead. Try it yourself: embed the query and three candidate product codes, then compare their cosine scores.
+Not every query needs semantic understanding. A query for an exact product code, like "SKU-48291", needs an exact match instead. Try it yourself: embed the query and three candidate product codes, then compare their cosine scores.
 
 <aside role="status">Again, this is a hand-rolled example so you can see why similarity search falls short here. Qdrant doesn't ask you to embed and compare codes like this, you'd just filter on the payload field, as shown further down.</aside>
 
