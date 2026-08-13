@@ -4,10 +4,10 @@ draft: false
 slug: supernova-10b
 short_description: "We release Supernova, an open framework that builds vector search benchmarks at scale, and three new datasets. The largest holds more than 10 billion vectors and approximately 50 TB of data."
 description: "Supernova is an open-source framework for the construction of large vector search benchmarks. We use it to release FineWeb-10B, a 10-billion-vector dataset with exact dense, sparse, and filtered ground truth."
-preview_image: /blog/supernova-10b/hero.png
-social_preview_image: /blog/supernova-10b/hero.png
+preview_image: /research/supernova-10b/hero.png
+social_preview_image: /research/supernova-10b/hero.png
 date: 2026-08-10
-author: Nathan LeRoy, Seth Ockerman, Marco Vasquez, Brian O'Grady and the Qdrant Labs team
+author: Qdrant Labs team
 featured: true
 tags:
   - benchmark
@@ -33,11 +33,11 @@ Current public benchmarks have three main limitations:
 
 **Missing parts.** Some large sets give no ground truth. Without ground truth you cannot measure recall, which is the primary quality metric for approximate search. Other sets give no payload. They give the vectors but not the source text and the metadata, so you cannot test filters and you cannot test the application that consumes the results.
 
-![Number of vectors in common open-source benchmarks compared to the datasets in this work](/blog/supernova-10b/corpus_scale.svg)
+![Number of vectors in common open-source benchmarks compared to the datasets in this work](/research/supernova-10b/corpus_scale.svg)
 
 There is also a fourth problem, and it is structural. Retrieval now uses dense vectors, sparse vectors, multi-vector representations, images, filters, and combinations of all of these. No single dataset can cover that range. The community needs a growing set of benchmarks, and therefore it needs a repeatable method to build them.
 
-![Capabilities provided by common open-source benchmarks](/blog/supernova-10b/capability_matrix.svg)
+![Capabilities provided by common open-source benchmarks](/research/supernova-10b/capability_matrix.svg)
 
 ## How We Found This Problem
 
@@ -73,7 +73,7 @@ Supernova applies three ideas.
 
 **The GPUs stay fed.** These savings are worth nothing if the GPUs wait for data. Object storage and parallel file systems give high total throughput but high latency per request, so Supernova reads at four levels at the same time: each worker takes a separate set of files, several reader threads keep several files in flight, several column chunks are read at once inside a file, and, when one row is very large, the object itself is fetched as concurrent byte ranges.
 
-The result is a number we can state plainly. We computed exact ground truth for 120,000 dense, sparse, and filtered [MS MARCO](https://microsoft.github.io/msmarco/) queries over 10 billion vectors, and the compute cost was **under $1,200**.
+The result is a number we can state plainly. We computed exact ground truth for 120,000 dense, sparse, and filtered [MS MARCO](https://microsoft.github.io/msmarco/) queries over 10 billion vectors, and the compute cost was **under $600**.
 
 ## The Three Datasets
 
@@ -89,7 +89,7 @@ The result is a number we can state plainly. We computed exact ground truth for 
 
 **Coyo-VE** places text and images in one shared representation, with 5.81 TB of payload against only 117 GB of vectors.
 
-![Vector data and payload data in each benchmark](/blog/supernova-10b/storage_footprint.svg)
+![Vector data and payload data in each benchmark](/research/supernova-10b/storage_footprint.svg)
 
 ## A Test at Full Scale
 
@@ -97,14 +97,15 @@ A dataset is only useful if a real system can consume it. We loaded the full 10-
 
 The load itself needed new work. To build the index in parallel and to reduce the load on the shared file system, we wrote a serverless tool that generates collections independently. Each worker builds its own part with no dependency on the others.
 
-![The scale frontier for open vector search benchmarks](/blog/supernova-10b/scale_frontier.svg)
+![The scale frontier for open vector search benchmarks](/research/supernova-10b/scale_frontier.svg)
 
 ## Read the Paper
 
 Supernova is open source, and so are the three datasets. You can reproduce our results, or you can point the same tools at your own corpus, your own model, and your own filters. That second use is the one we care about most: the community needs more benchmarks, and the cost of a new one should not be the reason nobody builds it.
 
+The code is in the [Supernova repository](https://github.com/qdrant/supernova). For a closer look at how we made exact ground truth affordable at this size, see our post on [`nova-bf`, the brute-force engine behind the benchmark](/research/nova-bf/).
+
 <!-- TODO(nathan): add links once public -->
-<!-- - Supernova on GitHub: -->
 <!-- - FineWeb-10B on Hugging Face: -->
 <!-- - Paper / arXiv: -->
 
