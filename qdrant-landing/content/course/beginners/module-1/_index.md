@@ -73,7 +73,7 @@ That creates a few common problems:
 
 ## 3. How Traditional Search Improved
 
-Keyword search picked up real upgrades over the years: faster lookups, relevance ranking, tolerance for typos, matching on word roots. Each made matching faster or more forgiving, but none of them taught the system what words mean. A keyword system can't know "car" and "automobile" are synonyms unless someone hard-codes that fact, and you can't hard-code an entire language.
+Traditional search has evolved beyond exact word matching. Techniques such as stemming, typo tolerance, and relevance ranking make it faster and more forgiving. But they still rely on words: the system cannot tell that “car repair” and “automobile maintenance” mean the same thing unless that connection is explicitly defined.
 
 That's the gap **semantic search** closes. Instead of asking "Does this document contain the same words?" it asks "Does this document mean the same thing?" Nobody hand-codes the fact that "car" and "automobile" are related, the model learns it from the text it was trained on, and sentences with related meaning end up as vectors that sit close together, even when they share no words.
 
