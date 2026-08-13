@@ -129,7 +129,7 @@ $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
 $$
 
-Here $A \cdot B$ is the **dot product**: multiply each pair of matching positions in the two vectors and sum the results. $\lVert A \rVert$ is the vector's length (magnitude). Dividing the dot product by both lengths is what turns a raw dot product into a length-independent angle measurement.
+Here, $A \cdot B$ is the **dot product**: multiply each pair of matching values in the two vectors and add the results. $\lVert A \rVert$ is the vector’s length, also called its magnitude. Dividing by both vector lengths removes the effect of vector size, so the score measures their angle instead.
 
 ![Cosine similarity measures the angle between two vectors: a smaller angle gives a score closer to 1, unrelated vectors score near 0, and opposite vectors score near -1](/courses/beginners/module-1/cosine-similarity.png)
 
