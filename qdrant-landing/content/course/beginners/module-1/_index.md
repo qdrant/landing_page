@@ -196,17 +196,19 @@ Does `"apple stock"` score higher against the finance sense or the fruit sense, 
 | Metric | Common use | Notes |
 |--------|----------|-------|
 | Cosine | Text similarity, NLP (Natural Language Processing) models | Compares vector direction and ignores vector length. A common default for text embeddings. |
-| Dot product | Vectors already normalized to unit length | Numerically identical to cosine similarity once vectors are unit length, same score, not a separate metric. |
-| Euclidean (L2) | Image embeddings, spatial data | Sensitive to magnitude; works best with models trained for it. |
-| Manhattan (L1) | Grid-like or count-based data | Sums absolute differences per dimension rather than squaring them first, making it less affected by extreme values in any single dimension. |
+| Dot product | Vectors already normalized to unit length | Produces the same ranking as cosine similarity when every vector has unit length. |
+| Euclidean (L2) | Image embeddings, spatial data | Measures the straight-line distance between vectors. Both direction and length affect the score. |
+| Manhattan (L1) | Grid-like or count-based data | Adds the absolute difference for each dimension. Less common for text embeddings. |
 
-**Cosine vs. dot product:** for vectors normalized to unit length, dot product produces the exact same ranking as cosine similarity, it's a cheaper way to compute the same result, not a different metric. That's why Qdrant normalizes vectors on upload and computes a "Cosine" collection as a dot product internally.
+**Cosine vs. dot product:** When vectors are normalized to unit length, cosine similarity and dot product produce the same ranking. In that case, dot product is a simpler way to calculate the same result. Qdrant normalizes vectors when you use cosine distance, then uses dot product internally during search.
 
 ## 6. Why Similarity Alone Is Not Enough
 
 Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't, each is strong exactly where the other is weak, as the next two cases show. 
 
-In Qdrant, each thing you store is a [**point**](https://qdrant.tech/documentation/manage-data/points/): a vector plus an optional [**payload**](https://qdrant.tech/documentation/manage-data/payload/), arbitrary metadata like a timestamp or a permission list, and a [**collection**](https://qdrant.tech/documentation/manage-data/collections/) is the set of points you search over. [Filtering](https://qdrant.tech/documentation/search/filtering/) by recency, permissions, or other payload values, and combining that with ranking signals, is a separate layer on top of similarity, later modules cover it once you have a collection to filter.
+In Qdrant, each item you store is called a **point**. A point contains a vector and can also include a **payload**, which is metadata such as a timestamp or permission list. A **collection** is the group of points you search.
+
+You can use a **filter** to restrict results by payload values, such as only returning documents a user can access. Filtering narrows the results before similarity search ranks them. Later modules show how to combine them in a Qdrant query.
 
 ### Word Order and Negation Still Trip It Up
 
@@ -220,7 +222,7 @@ Section 2 said keyword search can't tell "dog bites man" from "man bites dog." Y
 
 The first two rows score high, even though each pair means something different: one flips who's doing the biting, the other flips safe into dangerous. For this model and this kind of phrasing, high lexical overlap still produces a high score, even though a person would read these pairs as opposites right away.
 
-The third row is the sharpest version of the problem: "a canine attacked a person" is a genuine paraphrase of "dog bites man," meaning the same thing in different words, yet it scores lower (0.570) than the reversed, opposite-meaning sentence (0.907). Shared words move the score more than shared meaning does.
+The third pair is a paraphrase: "a canine attacked a person" means nearly the same thing as "dog bites man." Yet it receives a lower score (0.570) than the reversed sentence (0.907), which changes the meaning.
 
 Semantic search works well for many synonyms and paraphrases, but similarity scores can still miss important details such as word order and negation. Do not rely on similarity alone when those details matter.
 
