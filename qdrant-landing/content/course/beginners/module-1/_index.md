@@ -45,7 +45,7 @@ Choose how you want to follow this module:
 pip install fastembed numpy
 ```
 
-The embedding model runs on your CPU. You don't need a GPU or API keys.
+The embedding model runs on your CPU. You don't need a GPU or API keys. The first time you run it, fastembed downloads the model file, so you'll need an internet connection and it may take a few minutes; after that it's cached locally and loads instantly, so don't mistake that first pause for an error.
 
 ## 1. What Is Search?
 
@@ -60,7 +60,7 @@ This module is about one question: how does a system decide what "relevant" mean
 
 ## 2. The Problem: Why Keyword Search Struggles
 
-Keyword search retrieves documents by exact word match: it checks whether the literal terms in your query appear in the document, with no understanding of what those terms mean. That works when people use the same terms as the content they need, as the example shows.
+In its simplest form, keyword search retrieves documents by exact word match: it checks whether the literal terms in your query appear in the document, with no understanding of what those terms mean. That works when people use the same terms as the content they need, as the example shows. (Real keyword systems add stemming, typo tolerance, and ranking on top, section 3 covers those, but none of them teach the system what words mean, which is the gap this module is really about.)
 
 ![Keyword search only matches documents that contain the exact words "car" and "repair"](/courses/beginners/module-1/car-repair.png)
 
@@ -74,13 +74,13 @@ That creates a few common problems:
 
 Keyword search picked up real upgrades over the years: faster lookups, relevance ranking, tolerance for typos, matching on word roots. Each made matching faster or more forgiving, but none of them taught the system what words mean. A keyword system can't know "car" and "automobile" are synonyms unless someone hard-codes that fact, and you can't hard-code an entire language.
 
-That's the gap semantic search closes. Instead of asking "Does this document contain the same words?" it asks "Does this document mean the same thing?" Nobody hand-codes the fact that "car" and "automobile" are related, the model learns it from the text it was trained on, and sentences with related meaning end up as vectors that sit close together, even when they share no words.
+That's the gap **semantic search** closes. Instead of asking "Does this document contain the same words?" it asks "Does this document mean the same thing?" Nobody hand-codes the fact that "car" and "automobile" are related, the model learns it from the text it was trained on, and sentences with related meaning end up as vectors that sit close together, even when they share no words.
 
 ## 4. How It Works: Embeddings
 
 ### What Is an Embedding?
 
-An embedding is a vector: a list of numbers that captures meaning. Semantic search works by converting text into embeddings, text with similar meaning produces embeddings that sit close together in high-dimensional space, and text with different meaning produces embeddings that sit far apart. Each position in that list is a dimension; no single one maps to a human concept like "color," meaning comes from all of them combined.
+An embedding is a [vector](<https://en.wikipedia.org/wiki/Vector_(mathematics_and_physics)>): a list of numbers that captures meaning. Semantic search works by converting text into embeddings, text with similar meaning produces embeddings that sit close together in high-dimensional space, and text with different meaning produces embeddings that sit far apart. Each position in that list is a dimension; no single one maps to a human concept like "color," meaning comes from all of them combined.
 
 ### The Embedding Model
 
@@ -89,22 +89,22 @@ An embedding model takes a piece of text and returns a fixed-length array of flo
 ```python
 from fastembed import TextEmbedding
 
-model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
-
 # model.embed() takes a list of strings and returns one vector per string
+model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 query_vec = list(model.embed(["car repair"]))[0]
 doc_vec   = list(model.embed(["automobile maintenance"]))[0]
 
-print(len(query_vec), len(doc_vec))   # check both vectors are the same length: 384 dimensions each
-print(query_vec[:5])                  # peek at the first 5 of the query's 384 floats
-print(doc_vec[:5])                    # peek at the first 5 of the document's 384 floats
+# check both vectors are the same length (384 dimensions each), then peek at the first 5 floats of each
+print(len(query_vec), len(doc_vec))
+print(query_vec[:5])
+print(doc_vec[:5])
 ```
 
 ![An embedding model turns the text "car repair" into a fixed-length list of 384 numbers](/courses/beginners/module-1/generating-vector.png)
 
 ### Model Size: A Tradeoff
 
-Embedding models come in different sizes. Smaller models (128–384 dimensions, like the one above) are fast and cheap to run. Larger ones (1024+ dimensions) can capture more nuance and context, at the cost of more compute and memory. Dimension count alone isn't a quality signal, a well-trained small model can beat a poorly trained large one.
+Embedding models vary along two mostly separate axes. The model's parameter count and architecture (how "big" the model itself is) drive how much compute it takes to generate an embedding, and how much nuance it can capture. The output's dimension count (128–384 for smaller models, 1024+ for larger ones, like the 384 above) drives how much memory each vector takes to store and how expensive it is to compare at search time. The two don't always move together: a bigger model doesn't automatically output bigger vectors, and more dimensions alone isn't a quality signal, a well-trained small model can beat a poorly trained large one.
 
 ### Why This Model
 
@@ -116,11 +116,13 @@ Once we have vectors, we need a way to measure how similar two of them are. Diff
 
 ### Cosine Similarity
 
-The most common metric for text. It measures the angle between two vectors and ignores their length, focusing purely on direction. Scores range from -1 to 1: 1.0 means the vectors point the same way, 0.0 means unrelated, -1 means opposite. In practice, normalized text-embedding models like the one used here rarely produce negative scores, so unrelated text usually lands as a small positive number instead.
+Cosine similarity measures the angular similarity between two vectors. It focuses on whether vectors point in the same direction rather than on their length. This aligns well with many text embeddings, where the angle encodes meaning and the length is less important.
 
 $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
 $$
+
+Here $A \cdot B$ is the **dot product**: multiply each pair of matching positions in the two vectors and sum the results. $\lVert A \rVert$ is the vector's length (magnitude). Dividing the dot product by both lengths is what turns a raw dot product into a length-independent angle measurement.
 
 ![Cosine similarity measures the angle between two vectors: a smaller angle gives a score closer to 1, unrelated vectors score near 0, and opposite vectors score near -1](/courses/beginners/module-1/cosine-similarity.png)
 
@@ -129,6 +131,8 @@ For example, embedding "car repair" and "automobile maintenance" and comparing t
 ### Try It Yourself: Compare Cosine Scores
 
 Reuse the embedding snippet from section 4 to embed three query/document pairs, then score each pair with cosine similarity, using the formula above implemented directly with NumPy.
+
+<aside role="status">This snippet computes cosine similarity by hand with NumPy so you can see the formula at work. It's for teaching only, when you search with Qdrant, this comparison happens for you internally, you never write this loop yourself.</aside>
 
 ```python
 from fastembed import TextEmbedding
@@ -162,7 +166,23 @@ for query, document in pairs:
 - The synonym and paraphrase pairs (0.733, 0.821) score high despite sharing almost no words.
 - The unrelated pair (0.332) scores far lower, reflecting different meaning.
 
-**Your turn:** swap in a polysemy case. Score `"apple stock"` against both `"shares of a tech company"` and `"a crisp red fruit"`. Which comes out higher, and does it match the sense you meant?
+**Your turn:** run this block (it reuses `model` and `cosine_similarity` from above) to test a polysemy case, and see how much a little extra context changes the score:
+
+```python
+polysemy_pairs = [
+    ("apple stock", "shares of a tech company"),
+    ("apple stock", "a crisp red fruit"),
+    ("Apple Inc. stock price", "shares of a tech company"),
+]
+
+for query, document in polysemy_pairs:
+    query_vec = list(model.embed([query]))[0]
+    doc_vec = list(model.embed([document]))[0]
+    score = cosine_similarity(query_vec, doc_vec)
+    print(f"{score:.3f}  |  {query!r}  vs  {document!r}")
+```
+
+Does `"apple stock"` score higher against the finance sense or the fruit sense, and does that match the sense you meant? Then compare that first score to the third row: does spelling out `"Apple Inc."` instead of `"apple"` pull the score toward the finance sense, and by how much?
 
 ### Distance Metric Comparison
 
@@ -177,7 +197,9 @@ for query, document in pairs:
 
 ## 6. Why Similarity Alone Is Not Enough
 
-Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't, each is strong exactly where the other is weak, as the next two cases show. (Filtering by recency, permissions, or other payload values, and combining that with ranking signals, is a separate layer on top of similarity, later modules cover it once you have a collection to filter.)
+Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't, each is strong exactly where the other is weak, as the next two cases show. 
+
+In Qdrant, each thing you store is a [**point**](https://qdrant.tech/documentation/manage-data/points/): a vector plus an optional [**payload**](https://qdrant.tech/documentation/manage-data/payload/), arbitrary metadata like a timestamp or a permission list, and a [**collection**](https://qdrant.tech/documentation/manage-data/collections/) is the set of points you search over. [Filtering](https://qdrant.tech/documentation/search/filtering/) by recency, permissions, or other payload values, and combining that with ranking signals, is a separate layer on top of similarity, later modules cover it once you have a collection to filter.
 
 ### Word Order and Negation Still Trip It Up
 
@@ -189,15 +211,17 @@ Section 2 said keyword search can't tell "dog bites man" from "man bites dog." Y
 | "safe for kids" vs "harmful to kids" | 0.779 |
 | "dog bites man" vs "a canine attacked a person" | 0.570 |
 
-The first two rows score high, even though each pair means something different: one flips who's doing the biting, the other flips safe into dangerous. The model mostly notices that the two sentences share almost all the same words, so it calls them similar, even though a person would read them as opposites right away.
+The first two rows score high, even though each pair means something different: one flips who's doing the biting, the other flips safe into dangerous. For this model and this kind of phrasing, high lexical overlap still produces a high score, even though a person would read these pairs as opposites right away.
 
 The third row is the sharpest version of the problem: "a canine attacked a person" is a genuine paraphrase of "dog bites man," meaning the same thing in different words, yet it scores lower (0.570) than the reversed, opposite-meaning sentence (0.907). Shared words move the score more than shared meaning does.
 
 So: semantic search is great at synonyms and paraphrasing, but shaky on word order and negation. Don't rely on a similarity score alone anywhere it actually matters whether something is "safe" or "not safe."
 
-### Exact Matching: Where Keyword Search Wins
+### Exact Matching: When You Need a Filter, Not Similarity
 
-Not every query needs semantic understanding. A query for an exact SKU (Stock Keeping Unit, the unique code a retailer assigns to one specific product), like "SKU-48291," needs an exact match instead. Try it yourself: embed the query and three candidate SKUs, then compare their cosine scores.
+Not every query needs semantic understanding. A query for an exact product code, like "SKU-48291" (SKU stands for Stock Keeping Unit, the retail term for this kind of code), needs an exact match instead. Try it yourself: embed the query and three candidate product codes, then compare their cosine scores.
+
+<aside role="status">Again, this is a hand-rolled example so you can see why similarity search falls short here. Qdrant doesn't ask you to embed and compare codes like this, you'd just filter on the payload field, as shown further down.</aside>
 
 ```python
 from fastembed import TextEmbedding
@@ -224,13 +248,15 @@ for candidate in candidates:
 #   0.765  |  SKU-48290  (wrong product, scores HIGHEST)
 ```
 
-Semantic similarity here doesn't just drift toward the wrong SKU, it ranks the wrong one first. A keyword-style exact filter gets it right, trivially: restrict the results to points where the `sku` payload field equals `"SKU-48291"`, and only that one product comes back, no embedding, no similarity score, just an exact match. Module 2 builds a real filtered Qdrant query once there's a collection with payloads to filter.
+The wrong product code coming out on top is a real failure, and the fix is a payload filter, not keyword search: restrict the search to points where the `sku` field equals `"SKU-48291"`, and you get back exactly that product, no embedding or similarity score involved. Module 2 shows how to write that filtered query for real, once we have a Qdrant collection to run it against.
 
-Keyword matching isn't obsolete, it's exactly the right tool when a query needs to hit one precise token. Dense similarity finds the general neighborhood of relevant results; exact keyword matching finds the right point within it. Neither replaces the other.
+Keyword search (like BM25, covered in the hybrid search section below) is a separate tool from a payload filter: it ranks documents by shared vocabulary, rather than checking for one exact match. Similarity, filters, and keyword search each solve a different problem, none of them replaces the others.
 
 ## 7. When a System Needs Both
 
-The SKU example above is why some production systems run semantic and exact retrieval together rather than picking one: a single collection can serve queries that need meaning and queries that need one precise token. This isn't a universal requirement, plenty of systems only ever need one or the other, but when a use case needs both, that's called **hybrid search**, combining **dense** (semantic/vector) retrieval with **sparse** (keyword-style, e.g. BM25) retrieval.
+The product code example above is why some production systems combine semantic search with exact filters or keyword search rather than picking one: a single collection can serve queries that need meaning, queries that need one precise token, and queries that need term-based relevance ranking. 
+
+This isn't a universal requirement, plenty of systems only ever need one of these, but when a use case needs both meaning-based and term-based retrieval, that's called **hybrid search**: combining **dense** (semantic/vector) retrieval with **sparse** (keyword-style, e.g. BM25, a decades-old algorithm that ranks documents by how much of the query's vocabulary they contain) retrieval.
 
 Hybrid search is the next module's topic.
 
@@ -238,8 +264,6 @@ Hybrid search is the next module's topic.
 
 **Qdrant docs:**
 
-- [Qdrant Documentation Overview](/documentation/overview/)
-  - How Qdrant's vector search engine fits together: collections, points, payloads, and APIs.
 - [Distance Metrics](/course/essentials/day-1/distance-metrics/)
   - Cosine, dot product, and Euclidean distance compared, and how to pick the right one for your embedding model.
 - [Filtering](/documentation/search/filtering/)
@@ -249,21 +273,14 @@ Hybrid search is the next module's topic.
 
 - [Vector Embeddings Explained](/articles/what-are-embeddings/)
   - A longer walkthrough of how embedding models are trained and how embeddings are used in ML and search.
-- [What Is a Vector Database?](/articles/what-is-a-vector-database/)
-  - Why storing and searching vectors at scale needs purpose-built infrastructure, not a bolt-on to a relational database.
 - [FastEmbed: Qdrant's Efficient Python Library for Embedding Generation](/articles/fastembed/)
   - The library used in this module's code samples, and how it differs from running models directly.
-- [Fine-Tuning Sparse Embeddings for E-Commerce Search, Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
-  - A deeper look at the "sparse" side of hybrid search from section 7.
-- [What Is RAG in AI?](/articles/what-is-rag-in-ai/)
-  - How retrieval-augmented generation (RAG) works and where a vector search engine fits in.
 
 **Definitions:**
 
 - [Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
 - [Dot product](https://en.wikipedia.org/wiki/Dot_product)
-- [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
-- [Manhattan (taxicab) distance](https://en.wikipedia.org/wiki/Taxicab_geometry)
+- **Upsert**: to insert a point if its ID doesn't exist yet, or update it in place if it does. It's how you add and modify data in a Qdrant collection. See [Upload Points](/documentation/manage-data/points/#upload-points).
 
 ## What's Next: Module 2
 
