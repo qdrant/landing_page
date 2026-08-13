@@ -257,7 +257,7 @@ A payload filter is different from keyword search. A filter checks whether a fie
 
 The product code example above is why some production systems combine semantic search with exact filters or keyword search rather than picking one: a single collection can serve queries that need meaning, queries that need one precise token, and queries that need term-based relevance ranking. 
 
-This isn't a universal requirement, plenty of systems only ever need one of these, but when a use case needs both meaning-based and term-based retrieval, that's called **hybrid search**: combining **dense** (semantic/vector) retrieval with **sparse** (keyword-style, e.g. BM25, a decades-old algorithm that ranks documents by how much of the query's vocabulary they contain) retrieval.
+Not every search system needs hybrid search. But when users may search by either meaning or specific terms, combining both methods can return more relevant results.
 
 Hybrid search is the next module's topic.
 
