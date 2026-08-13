@@ -1,9 +1,9 @@
 ---
-title: "Scaling Ground-Truth Retrieval with nova-bf"
+title: "Scaling Ground-Truth Retrieval with Supernova"
 draft: false
 slug: nova-bf
-short_description: "Exact ground truth for a 10-billion-vector benchmark takes over 1 quadrillion distance comparisons. This is how we made it a 1.5-hour job."
-description: "nova-bf is Qdrant's distributed, GPU-accelerated brute-force search engine. It computes exact nearest neighbours over billions of vectors for dense, sparse, multi-vector, and filtered workloads."
+short_description: "Exact ground truth for a 10-billion-vector benchmark takes over 1 quadrillion distance comparisons. Supernova solves this with a distributed, GPU-accelerated brute-force search engine."
+description: "Supernova brute-force search is Qdrant's distributed, GPU-accelerated brute-force search engine. It computes exact nearest neighbours over billions of vectors for dense, sparse, multi-vector, and filtered workloads."
 preview_image: /research/nova-bf/hero.png
 social_preview_image: /research/nova-bf/hero.png
 date: 2026-08-13
