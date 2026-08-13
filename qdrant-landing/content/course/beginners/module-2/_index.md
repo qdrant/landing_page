@@ -53,37 +53,21 @@ Documents, articles, PDFs
 Split into passages
 
 - **Embed**
-Convert to vectors
+Convert to dense vectors
 
 - **Store**
-Upsert to Qdrant — insert a point if its ID is new, update it if the ID already exists
+Upsert to Qdrant: insert a point if its ID is new, update it if the ID already exists
 
 - **Query**
-Retrieve the top-K results — the K most similar matches to your query
+Retrieve the top-K results: the K most similar matches to your query
 
-![Flow Diagram](/courses/beginners/module-2/flow.png)
+![](/courses/beginners/module-2/flow.png)
 
 ## 2. Core Data Model
 
 Qdrant organizes data in a simple three-level hierarchy. Understanding this structure is the foundation for everything else in the course.
 
-```
-Collection
-    └── Point
-        ├── id
-        ├── vector
-        └── payload
-```
-
-<!--
-TODO (image regen, blocks shipping): data-model.png has the banned term baked
-into its subtitle (it uses "vector database", and an em-dash). Rebuild from the
-Docs/Diagrams Figma library with palette tokens. Corrected subtitle text:
-"Each point in a vector search engine wraps three pieces together: an ID, a
-vector, and a payload." Use "vector search engine", never "vector database",
-and no em-dashes.
--->
-![Data model hierarchy: a collection contains points, and each point wraps together an ID, a vector, and a payload](/courses/beginners/module-2/data-model.png)
+![](/courses/beginners/module-2/data-model.png)
 
 ### Collection
 
@@ -95,18 +79,21 @@ The atomic unit of data. Every point has an ID (integer or UUID), a vector, and 
 
 ### Vector
 
-A list of floating-point numbers (such as 384 or 768 values, known as dimensions) that represent the meaning of the original content. Similar content produces similar vectors.
+A dense vector: a list of floating-point numbers (such as 384 or 768 values, known as dimensions), almost all non-zero, that represent the meaning of the original content. Similar content produces similar vectors. This module focuses on dense vectors; Module 3 introduces sparse vectors and hybrid search.
 
 ### Payload
 
 Arbitrary JSON metadata attached to a point. Used for filtering, retrieval scoping, and result enrichment. Can hold strings, numbers, booleans, geo coordinates, or arrays.
 
-<!--
-TODO (verify image pairing): swapped so the payload concept uses payload.png and
-the filtering section (§6) uses data-flow-2.png. The filenames were previously
-crossed. Confirm the actual image contents match these sections.
--->
-![A point's payload is JSON metadata attached alongside its vector, such as title, category, year, and region](/courses/beginners/module-2/payload.png)
+```
+Collection
+    └── Point
+        ├── id
+        ├── vector
+        └── payload
+```
+
+![](/courses/beginners/module-2/payload.png)
 
 ### Your Qdrant Cluster
 
@@ -139,7 +126,7 @@ client.create_collection(
 
 ### Inserting a Point
 
-Each point carries an ID, a vector (the embedding of your content), and a payload (any metadata you want to filter or return later).
+Each point carries an ID, a vector (the embedding of your content), and a payload (any metadata you want to filter or return later). Add it with `upsert`: it inserts a new point if the ID doesn't already exist, or updates that point in place if it does.
 
 ```python
 from qdrant_client.models import PointStruct
@@ -163,7 +150,7 @@ client.upsert(
 
 ## 3. Distance Metrics
 
-When you query a collection, Qdrant compares your query vector against the collection using the distance metric you chose at collection creation, and returns the closest matches. The most common for text is cosine similarity. (Checking literally every vector would be slow at scale — section 5 covers how Qdrant avoids that with the HNSW index.)
+When you query a collection, Qdrant uses the distance metric you chose at collection creation to score how similar your query vector is to the stored vectors, and returns the closest matches. The most common for text is cosine similarity. Scoring every stored vector this way would be too slow at scale, so Qdrant doesn't do a full scan by default; section 5 covers how the HNSW index finds close matches without checking every vector.
 
 | Metric | Notes |
 |--------|-------|
@@ -172,9 +159,11 @@ When you query a collection, Qdrant compares your query vector against the colle
 | models.Distance.EUCLID | Measures absolute distance. Sensitive to vector magnitude. |
 | models.Distance.MANHATTAN | Sum of absolute differences. Less sensitive to outliers than Euclidean; use when the embedding model was trained with L1. |
 
-### Rule
+### Note
 
-Choose your distance metric at collection creation; it cannot be changed later. If you need a different metric, create a new collection with that metric and re-ingest your data into it — there's no in-place conversion. To avoid breaking callers during that switch, point a [collection alias](/documentation/manage-data/collections/#collection-aliases) at whichever collection is currently live, and repoint it to the new one once re-ingestion is done. HNSW parameters like m and ef_construct, by contrast, can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with — most sentence-transformer models use cosine.
+Choose your distance metric at collection creation; it cannot be changed later. If you need a different metric, create a new collection with that metric and re-ingest your data into it; there's no in-place conversion. 
+
+To avoid breaking callers during that switch, point a [collection alias](/documentation/manage-data/collections/#collection-aliases) at whichever collection is currently live, and repoint it to the new one once re-ingestion is done. HNSW parameters like m and ef_construct, by contrast, can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with: most sentence-transformer models use cosine.
 
 ## 4. Top-K Retrieval
 
@@ -191,7 +180,7 @@ for r in results.points:
     print(r.id, r.score, r.payload)
 ```
 
-![Top-K Diagram](/courses/beginners/module-2/top-k.png)
+![](/courses/beginners/module-2/top-k.png)
 
 ### Why K Matters
 
@@ -199,34 +188,26 @@ Returning too few results (K=3) misses relevant content. Returning too many (K=1
 
 ## 5. How Search Is Fast: HNSW
 
-Searching millions of vectors by computing similarity against every single one (brute force) is prohibitively slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast without sacrificing meaningful accuracy.
+Searching millions of vectors by computing similarity against every single one (brute force) is prohibitively slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast at a small, measurable recall cost.
 
-<!--
-TODO (image regen, blocks shipping): hnsw.png step callouts are numbered
-backwards. Renumber top-to-bottom so the order matches how search actually
-runs: 1 = enter at the top layer, 2 = navigate toward the query through
-progressively denser layers, 3 = collect the K nearest neighbors at the bottom.
-Also fix the spelling "neighbour" to "neighbor" (American English). Rebuild
-from the Docs/Diagrams Figma library with palette tokens.
--->
-![HNSW search enters at the top layer, navigates toward the query through progressively denser layers, and collects the K nearest neighbors at the bottom](/courses/beginners/module-2/hnsw.png)
+![](/courses/beginners/module-2/hnsw.png)
 
 ### How HNSW Works
 
 - **Graph structure**: Each vector is a node. Nodes are connected to their nearest neighbors by bidirectional edges, forming a navigable graph.
 - **Hierarchical layers**: The graph has multiple layers. The top layer has few nodes and long-range connections. Lower layers are denser with short-range connections.
 - **Search by traversal**: Query entry starts at the top layer. The search "jumps" through neighbors, zooming in on the region of interest at each layer.
-- **Approximate, not exact**: HNSW trades a small accuracy loss for massive speed gains. In practice, the accuracy loss is negligible for retrieval quality.
+- **Approximate, not exact**: HNSW trades some recall (see below) for massive speed gains. Whether that trade-off is worth it depends on your data and queries, so measure recall on queries representative of your actual workload rather than assuming it.
 
 ### Tunable Parameters
 
-HNSW has a few tunable parameters — `m`, `ef_construct`, and `hnsw_ef` — that trade off search speed, **recall** (the fraction of the true nearest neighbors your approximate search actually finds), memory usage, and indexing time. The defaults work well for most use cases; only tune them once you're measuring an actual recall or latency gap against a benchmark, not before. You haven't run a search yet at this point in the course, so we won't go deeper here — the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) covers HNSW tuning in full once you're ready for it.
+HNSW has a few tunable parameters (`m`, `ef_construct`, and `hnsw_ef`) that trade off search speed, **recall** (the fraction of the true nearest neighbors your approximate search actually finds), memory usage, and indexing time. The defaults work well for most use cases; only tune them once you're measuring an actual recall or latency gap against a benchmark, not before. You haven't run a search yet at this point in the course, so we won't go deeper here; the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) covers HNSW tuning in full once you're ready for it.
 
 ## 6. Payload Filtering
 
 Real-world search is always similarity plus constraints. Payload filtering lets you apply hard conditions during HNSW traversal, not after retrieval. This keeps results both semantically relevant and legally/logically valid.
 
-This searches by vector similarity as usual, but only among points whose payload passes the filter: `Filter` is the overall condition, `must` is a list of conditions that all have to be true (AND logic), and each `FieldCondition` checks one payload field — here, that `category` equals `"automotive"`.
+This searches by vector similarity as usual, but only among points whose payload passes the filter: `Filter` is the overall condition, `must` is a list of conditions that all have to be true (AND logic), and each `FieldCondition` checks one payload field: here, that `category` equals `"automotive"`.
 
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
@@ -246,8 +227,6 @@ results = client.query_points(
 )
 ```
 
-![A payload filter narrows a similarity search to only points whose metadata matches a condition, such as category equals automotive](/courses/beginners/module-2/data-flow-2.png)
-
 ### Filter Types
 
 | Condition | What it does | Example use case |
@@ -262,9 +241,11 @@ results = client.query_points(
 
 For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, Qdrant jumps directly to matching points rather than scanning the collection, making filtered queries run significantly faster. Use `client.create_payload_index()` for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
 
+![](/courses/beginners/module-2/data-flow-2.png)
+
 ## 7. Chunking Strategies
 
-Embedding models have a maximum token limit — from 256 tokens for compact models like all-MiniLM-L6-v2 to 8,000+ tokens for larger ones (check your model's card). Long documents need to be split into chunks before embedding, and how you chunk affects retrieval quality: too large a chunk packs multiple topics into one embedding, making retrieval imprecise; too small a chunk loses the context needed for the result to be useful.
+Embedding models have a maximum token limit, from 256 tokens for compact models like all-MiniLM-L6-v2 to 8,000+ tokens for larger ones (check your model's card). Long documents need to be split into chunks before embedding, and how you chunk affects retrieval quality: too large a chunk packs multiple topics into one embedding, making retrieval imprecise; too small a chunk loses the context needed for the result to be useful.
 
 | Strategy | How it works | Trade-off |
 |----------|--------------|-----------|
@@ -272,19 +253,19 @@ Embedding models have a maximum token limit — from 256 tokens for compact mode
 | Semantic | New chunk when topic or meaning shifts | Slower; needs a model to detect shifts |
 | Sliding Window | Chunks overlap to preserve context across the cut | More storage; duplicate content across results |
 
-This is a bare-bones overview — this module won't go deeper into choosing between them right now. For the full comparison and worked examples, see [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
+This is a bare-bones overview; this module won't go deeper into choosing between them right now. For the full comparison and worked examples, see [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
 
 **Fixed-Size**
 
-![Fixed-size chunking splits text every N words regardless of content boundaries](/courses/beginners/module-2/fixed-size.png)
+![](/courses/beginners/module-2/fixed-size.png)
 
 **Semantic**
 
-![Semantic chunking splits text at meaning boundaries, keeping each topic in its own chunk](/courses/beginners/module-2/semantic.png)
+![](/courses/beginners/module-2/semantic.png)
 
 **Sliding Window**
 
-![Sliding window chunking overlaps consecutive chunks to preserve context across boundaries](/courses/beginners/module-2/sliding-window.png)
+![](/courses/beginners/module-2/sliding-window.png)
 
 ## 8. Ingestion Pipeline: End-to-End
 
@@ -294,9 +275,7 @@ Let's put everything together. This section walks through the complete ingestion
 
 Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key.
 
-<!-- TODO: notebook currently lives on the unmerged "add-module-2-cloud-setup-notebook" branch (qdrant/examples PR #114). Merge that PR so this master-branch link resolves. -->
-
-![Create a free cluster at cloud.qdrant.io](/courses/beginners/module-2/qdrant-cloud.png)
+![](/courses/beginners/module-2/qdrant-cloud.png)
 
 ```python
 from qdrant_client import QdrantClient
@@ -305,7 +284,7 @@ client = QdrantClient(
     url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  # paste your cluster's URL here
     api_key="<your-api-key>",                                    # paste your API key here
 )
-# In a real project, don't hardcode these — load them from environment
+# In a real project, don't hardcode these; load them from environment
 # variables or a secrets manager instead of committing them to source control.
 ```
 
@@ -354,14 +333,14 @@ points = [
     )
     for doc, vector in zip(documents, model.embed([d["text"] for d in documents]))
 ]
-# upload_points handles batching and retries automatically — preferred for lists of points.
+# upload_points handles batching and retries automatically; preferred for lists of points.
 # upsert is the raw operation, better for single points or small real-time updates.
 client.upload_points(collection_name="articles", points=points)
 ```
 
 ### Step 4: Query
 
-This embeds the user's question the same way we embedded the documents, then searches with a payload filter on top — same pattern as section 6, now filtering to only the "automotive" category:
+This embeds the user's question the same way we embedded the documents, then searches with a payload filter on top: same pattern as section 6, now filtering to only the "automotive" category:
 
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
@@ -391,7 +370,7 @@ for r in results.points:
 
 ### Try It Yourself
 
-Extend the pipeline above: add a third document with its own category, re-run the filtered query, and confirm it shows up when its category matches — and gets excluded when it doesn't.
+Extend the pipeline above: add a third document with its own category, re-run the filtered query, and confirm it shows up when its category matches, and gets excluded when it doesn't.
 
 ## 9. References & Further Reading
 
