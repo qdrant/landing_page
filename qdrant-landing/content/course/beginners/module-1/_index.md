@@ -105,7 +105,12 @@ print(doc_vec[:5])
 
 ### Model Size and Vector Dimension
 
-Embedding models vary along two mostly separate axes. The model's parameter count and architecture (how "big" the model itself is) drive how much compute it takes to generate an embedding, and how much nuance it can capture. The output's dimension count (128–384 for smaller models, 1024+ for larger ones, like the 384 above) drives how much memory each vector takes to store and how expensive it is to compare at search time. The two don't always move together: a bigger model doesn't automatically output bigger vectors, and more dimensions alone isn't a quality signal, a well-trained small model can beat a poorly trained large one.
+When choosing an embedding model, two sizes matter:
+
+- **Model size** is the number of parameters in the model. Larger models often capture more nuance, but need more compute to create embeddings.
+- **Vector dimension** is the number of values in each embedding. Higher-dimensional vectors use more storage and take more work to compare during search.
+
+These are related, but they are not the same. A larger model can produce a short vector, and a higher-dimensional vector does not automatically produce better search results
 
 ### Why This Model
 
