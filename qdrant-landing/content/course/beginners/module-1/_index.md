@@ -122,7 +122,8 @@ Once we have vectors, we need a way to measure how similar two of them are. Diff
 
 ### Cosine Similarity
 
-Cosine similarity measures the angular similarity between two vectors. It focuses on whether vectors point in the same direction rather than on their length. This aligns well with many text embeddings, where the angle encodes meaning and the length is less important.
+Cosine similarity measures the angle between two vectors. Vectors that point in a similar direction receive a score closer to 1. Vectors that point in different directions receive a lower score. <br>
+It ignores vector length, which is the overall size of a vector. For text embeddings, the direction often carries more useful information about meaning than this size. This makes cosine similarity a common choice for semantic search.
 
 $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
