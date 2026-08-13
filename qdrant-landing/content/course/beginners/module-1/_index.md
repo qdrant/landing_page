@@ -45,7 +45,7 @@ Choose how you want to follow this module:
 pip install fastembed numpy
 ```
 
-The embedding model runs on your CPU. You don't need a GPU or API keys. The first time you run it, fastembed downloads the model file, so you'll need an internet connection and it may take a few minutes; after that it's cached locally and loads instantly, so don't mistake that first pause for an error.
+The embedding model runs on your CPU. You don't need a GPU or API keys. The first run downloads the model, so it may take a few minutes and requires an internet connection. Later runs use the cached model.
 
 ## 1. What Is Search?
 
