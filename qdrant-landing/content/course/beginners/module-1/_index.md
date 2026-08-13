@@ -222,7 +222,7 @@ The first two rows score high, even though each pair means something different: 
 
 The third row is the sharpest version of the problem: "a canine attacked a person" is a genuine paraphrase of "dog bites man," meaning the same thing in different words, yet it scores lower (0.570) than the reversed, opposite-meaning sentence (0.907). Shared words move the score more than shared meaning does.
 
-So: semantic search is great at synonyms and paraphrasing, but shaky on word order and negation. Don't rely on a similarity score alone anywhere it actually matters whether something is "safe" or "not safe."
+Semantic search works well for many synonyms and paraphrases, but similarity scores can still miss important details such as word order and negation. Do not rely on similarity alone when those details matter.
 
 ### Exact Matching: When You Need a Filter, Not Similarity
 
