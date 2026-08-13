@@ -5,7 +5,7 @@ short_description: "A joint benchmark of Qdrant retrieval and Minima-optimized i
 description: "Hybrid search, payload filters, and late-interaction reranking in Qdrant plus Minima-optimized inference delivered 2.92x more successful agentic RAG tasks per GPU-hour without reducing grounded quality."
 preview_image: /blog/case-study-minima/social_preview.png
 social_preview_image: /blog/case-study-minima/social_preview.png
-date: 2026-08-11T00:00:00+00:00
+date: 2026-08-13T00:00:00+00:00
 author: Qdrant and Minima Engineering
 featured: false
 tags:
