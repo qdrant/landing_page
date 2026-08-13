@@ -56,7 +56,8 @@ Every search system, no matter how it's built internally, does the same two thin
 1. **Retrieve**: narrow a huge collection down to a shortlist of documents that might be relevant.
 2. **Rank**: order that shortlist so the best answer ends up near the top.
 
-This module is about one question: how does a system decide what "relevant" means? We'll start with the simplest possible answer, watch it fail, and build up from there. No prior knowledge of vector search engines or indexing algorithms is assumed.
+At the heart of search is one question: what makes a result relevant? <br>
+We'll start with the simplest possible answer, watch it fail, and build up from there. No prior knowledge of vector search engines or indexing algorithms is assumed.
 
 ## 2. The Problem: Why Keyword Search Struggles
 
