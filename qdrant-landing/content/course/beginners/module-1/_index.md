@@ -193,7 +193,7 @@ Does `"apple stock"` score higher against the finance sense or the fruit sense, 
 
 ### Distance Metric Comparison
 
-| Metric | Best for | Notes |
+| Metric | Common use | Notes |
 |--------|----------|-------|
 | Cosine | Text similarity, NLP (Natural Language Processing) models | Robust to different vector magnitudes. Most common default. |
 | Dot product | Vectors already normalized to unit length | Numerically identical to cosine similarity once vectors are unit length, same score, not a separate metric. |
