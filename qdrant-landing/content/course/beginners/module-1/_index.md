@@ -61,7 +61,7 @@ We'll start with the simplest possible answer, watch it fail, and build up from 
 
 ## 2. The Problem: Why Keyword Search Struggles
 
-In its simplest form, keyword search retrieves documents by exact word match: it checks whether the literal terms in your query appear in the document, with no understanding of what those terms mean. That works when people use the same terms as the content they need, as the example shows. (Real keyword systems add stemming, typo tolerance, and ranking on top, section 3 covers those, but none of them teach the system what words mean, which is the gap this module is really about.)
+In its simplest form, keyword search retrieves documents by matching query terms against terms in the document. In other words, it matches the words themselves, not what they mean. It works when the query and document use the same vocabulary, but it can miss relevant results when the same intent is expressed differently.
 
 ![Keyword search only matches documents that contain the exact words "car" and "repair"](/courses/beginners/module-1/car-repair.png)
 
