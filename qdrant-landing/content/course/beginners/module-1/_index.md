@@ -103,7 +103,7 @@ print(doc_vec[:5])
 
 ![An embedding model turns the text "car repair" into a fixed-length list of 384 numbers](/courses/beginners/module-1/generating-vector.png)
 
-### Model Size: A Tradeoff
+### Model Size and Vector Dimension
 
 Embedding models vary along two mostly separate axes. The model's parameter count and architecture (how "big" the model itself is) drive how much compute it takes to generate an embedding, and how much nuance it can capture. The output's dimension count (128–384 for smaller models, 1024+ for larger ones, like the 384 above) drives how much memory each vector takes to store and how expensive it is to compare at search time. The two don't always move together: a bigger model doesn't automatically output bigger vectors, and more dimensions alone isn't a quality signal, a well-trained small model can beat a poorly trained large one.
 
