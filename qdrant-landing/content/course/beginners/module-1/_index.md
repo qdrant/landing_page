@@ -251,7 +251,7 @@ for candidate in candidates:
 
 The wrong product code coming out on top is a real failure, and the fix is a payload filter, not keyword search: restrict the search to points where the `sku` field equals `"SKU-48291"`, and you get back exactly that product, no embedding or similarity score involved. Module 2 shows how to write that filtered query for real, once we have a Qdrant collection to run it against.
 
-Keyword search (like BM25, covered in the hybrid search section below) is a separate tool from a payload filter: it ranks documents by shared vocabulary, rather than checking for one exact match. Similarity, filters, and keyword search each solve a different problem, none of them replaces the others.
+A payload filter is different from keyword search. A filter checks whether a field has an exact value. Keyword search, such as BM25, ranks documents by the words they share with the query. Similarity search, keyword search, and filters solve different retrieval problems, and production systems often combine them.
 
 ## 7. When a System Needs Both
 
