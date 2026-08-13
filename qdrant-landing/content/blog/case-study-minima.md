@@ -17,6 +17,8 @@ tags:
   - benchmark
 ---
 
+![Minima compresses LLM weights and KV cache and serves them with a hardware-aware runtime. Paired with Qdrant hybrid search, reranking, and payload filters, the joint benchmark reached 2.92x more successful agentic RAG tasks per GPU-hour, from 1,081 to 3,158, and cut GPU cost per 1,000 successful tasks by 65%, from USD 1.39 to USD 0.48](/blog/case-study-minima/minima-bento.png)
+
 ## Reducing Retrieval and Calls
 
 When a retrieval-augmented generation (RAG) agent runs, it often has to plan a search, check the evidence it gets back, and try again when that evidence falls short. Those inefficiencies compound. Every extra retrieval and every extra model call adds latency, context, and inference cost.
