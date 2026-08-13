@@ -21,7 +21,7 @@ tags:
 
 When a retrieval-augmented generation (RAG) agent runs, it often has to plan a search, check the evidence it gets back, and try again when that evidence falls short. Those inefficiencies compound. Every extra retrieval and every extra model call adds latency, context, and inference cost.
 
-To attack that cost, Minima built a bounded retrieval agent. It planned the query, searched Qdrant, decided whether the evidence was sufficient, and rephrased the query when it was not. It then generated a cited answer with Qwen3.6-27B. Qdrant handled [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/), applied [payload filters](https://qdrant.tech//documentation/search/filtering/), and ran [late-interaction reranking](https://qdrant.tech//documentation/tutorials-basics/reranking-hybrid-search/). Minima served each request on a single 96 GB NVIDIA RTX PRO 6000 Blackwell GPU.
+To attack that cost, Minima built a bounded retrieval agent. It planned the query, searched Qdrant, decided whether the evidence was sufficient, and rephrased the query when it was not. It then generated a cited answer with Qwen3.6-27B. Qdrant handled [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/), applied [payload filters](https://qdrant.tech/documentation/search/filtering/), and ran [late-interaction reranking](https://qdrant.tech/documentation/tutorials-basics/reranking-hybrid-search/). Minima served each request on a single 96 GB NVIDIA RTX PRO 6000 Blackwell GPU.
 
 Across 1,800 evaluated tasks and 10,000 full agent episodes, the joint stack reached 3,750 tasks per GPU-hour, compared to 1,350 for dense retrieval with BF16 inference. Median task latency fell from 21.3 seconds to 7.7 seconds, grounded task success rose from 80.1% to 84.2%, and successful throughput climbed from 1,081 to 3,158 tasks per GPU-hour.
 
@@ -31,17 +31,17 @@ Across 1,800 evaluated tasks and 10,000 full agent episodes, the joint stack rea
 
 ## What We Tested
 
-Minima ran 1,800 multi-step tasks across SciFact, FiQA, HotpotQA, and a deterministic tenant-and-version filtering set. Every run used the same agent prompt, tool schema, stopping rule, and a maximum of two Qdrant calls per episode. Answers were capped at 256 output tokens. Minima then replayed 10,000 complete episodes against one million 400-token chunks and ran a separate 50,000-query adversarial filtering test for each retrieval condition.
+Minima ran 1,800 multi-step tasks across three public benchmarks, SciFact, FiQA, and HotpotQA, plus a fourth set that Minima built to test payload filtering. In that fourth set, every chunk carries a tenant ID and a document version in its Qdrant payload, and every query has exactly one correct tenant-and-version slice. Any result returned from outside that slice counts as a violation, so the set scores pass or fail with no grader judgment involved. This is the set behind the 50,000-query tenant-policy test reported later in this post. Every run used the same agent prompt, tool schema, stopping rule, and a maximum of two Qdrant calls per episode. Answers were capped at 256 output tokens. Minima then replayed 10,000 complete episodes against one million 400-token chunks and ran a separate 50,000-query adversarial filtering test for each retrieval condition.
 
 | Layer | Baseline | Qdrant + Minima |
 |---|---|---|
 | **Agent loop** | Plan, retrieve, check evidence, refine once if needed, answer with citations | Identical prompt, tool schema, stopping rule, and call limit |
 | **Retrieval** | Qdrant dense retrieval, indexed payload filters, top 16 | Dense plus BM25 sparse, RRF fusion, ColBERT-style late-interaction reranking, the same indexed payload filters, top 8 |
-| **Inference** | Qwen3.6-27B BF16 weights and BF16 attention KV | Minima NVFP4 W4A4 weights with native Blackwell kernels, FP8 recent and anchor KV, and Minima TQ3 stale KV |
+| **LLM inference** | Qwen3.6-27B BF16 weights and BF16 attention KV | Minima NVFP4 W4A4 weights with native Blackwell kernels, FP8 recent and anchor KV, and Minima TQ3 stale KV |
 
 ![Architecture of the joint benchmark: the agent loop calls the Qdrant Query API for hybrid retrieval, fusion, filtering, and reranking, while the Minima-served Qwen3.6-27B endpoint handles planning, evidence checking, and answering on a single Blackwell GPU](/blog/case-study-minima/qdrant-minima-agentic-rag-architecture.png)
 
-All three configurations used the same hardware, Qwen3.6-27B checkpoint, sampling settings, agent prompt template, concurrency, and endpoint. Qdrant and inference ran on separate hosts. Retrieval strategy and Minima compression were the only variables that changed between runs. Minima accepted a configuration only if grounded task quality stayed within 1 percentage point of BF16 with retrieval fixed, citation quality held, and at least 99.5% of episodes completed. Query vectors were precomputed only for the isolated Qdrant latency measurement. The end-to-end agent run included planning, embedding, retrieval, evidence checking, and generation.
+All three configurations used the same hardware, Qwen3.6-27B checkpoint, sampling settings, agent prompt template, concurrency, and endpoint. Qdrant ran on its own host. The Qwen3.6-27B endpoint had the single RTX PRO 6000 Blackwell GPU to itself, so it served generation only, and no retrieval work competed with it for GPU memory. Query encoding ran on a separate embedding service that used the same models and the same hardware in all three configurations: `TODO-DENSE-MODEL` for dense vectors and `TODO-LATE-INTERACTION-MODEL` for the late-interaction vectors, with BM25 sparse vectors computed `TODO-WHERE`. Every throughput and cost number in this post counts GPU time for generation, not for embedding. Retrieval strategy and Minima compression were the only variables that changed between runs. Minima accepted a configuration only if grounded task quality stayed within 1 percentage point of BF16 with retrieval fixed, citation quality held, and at least 99.5% of episodes completed. Query vectors were precomputed only for the isolated Qdrant latency measurement. The end-to-end agent run included planning, embedding, retrieval, evidence checking, and generation.
 
 ## Why the First Qdrant Call Was Usually Enough
 
@@ -62,14 +62,14 @@ The numbers below cover retrieval and the agent loop. Recall@10 and nDCG@10 use 
 
 Qdrant's p95 query time was 43.2 milliseconds, less than 0.3% of the 20.8-second p95 BF16 agent episode. The first search was sufficient in 87% of tasks, and mean context fell from 5.2K to 2.3K tokens. Even before Minima was enabled, median task latency dropped from 21.3 to 14.6 seconds and successful throughput rose from 1,081 to 1,669 tasks per GPU-hour, a 54% gain.
 
->“Inside an agent loop, a weak first retrieval costs more than one extra search. It triggers another round of planning, retrieval and inference, so getting sufficient evidence on the first pass is one of the simplest ways to make the whole system faster and more efficient.”
+>"Inside an agent loop, a weak first retrieval costs more than one extra search. It triggers another round of planning, retrieval and inference, so getting sufficient evidence on the first pass is one of the simplest ways to make the whole system faster and more efficient."
 — Sergii Kozyrev, Co-founder and CEO, Minima AI
 
 
 
 ## How Minima Accelerated Every Model Call
 
-Minima stored Qwen3.6-27B weights in NVFP4 W4A4 and ran them with native Blackwell kernels. Recent and anchor KV stayed in FP8. Stale pages moved to the 3-bit TQ3 tier. Minima disabled Qdrant vector [quantization](https://qdrant.tech/documentation/guides/quantization/) so the retrieval and inference effects stayed separate.
+Minima stored Qwen3.6-27B weights in NVFP4 W4A4 and ran them with native Blackwell kernels. Recent and anchor KV stayed in FP8. Stale pages moved to the 3-bit TQ3 tier. Minima disabled Qdrant vector [quantization](https://qdrant.tech/documentation/guides/quantization/) so the retrieval and LLM inference effects stayed separate.
 
 | Metric | BF16 Reference | Minima | Result |
 |---|:---:|:---:|:---:|
@@ -109,17 +109,17 @@ If you run agentic RAG on Qdrant, Qdrant and Minima would like to reproduce this
 
 ## Technical References
 
-The [Qdrant guide to agentic vector search](https://qdrant.tech//articles/agentic-builders-guide/) explains why retrieval latency, memory, filtering, and reranking matter inside multi-step agent workflows.
+The [Qdrant guide to agentic vector search](https://qdrant.tech/articles/agentic-builders-guide/) explains why retrieval latency, memory, filtering, and reranking matter inside multi-step agent workflows.
 
-The [agentic RAG with LangGraph and Qdrant tutorial](https://qdrant.tech//documentation/tutorials-build-essentials/agentic-rag-langgraph/) covers tool selection, repeated retrieval, and stateful agent control flow.
+The [agentic RAG with LangGraph and Qdrant tutorial](https://qdrant.tech/documentation/tutorials-build-essentials/agentic-rag-langgraph/) covers tool selection, repeated retrieval, and stateful agent control flow.
 
-The [Qdrant hybrid and multi-stage queries documentation](https://qdrant.tech//documentation/search/hybrid-queries/) describes dense and sparse prefetch, RRF and DBSF fusion, and multi-stage ranking.
+The [Qdrant hybrid and multi-stage queries documentation](https://qdrant.tech/documentation/search/hybrid-queries/) describes dense and sparse prefetch, RRF and DBSF fusion, and multi-stage ranking.
 
-The [Qdrant hybrid search with reranking tutorial](https://qdrant.tech//documentation/tutorials-basics/reranking-hybrid-search/) walks through the dense, sparse, and ColBERT-style late-interaction workflow.
+The [Qdrant hybrid search with reranking tutorial](https://qdrant.tech/documentation/tutorials-basics/reranking-hybrid-search/) walks through the dense, sparse, and ColBERT-style late-interaction workflow.
 
-The [Qdrant multivectors and late interaction tutorial](https://qdrant.tech//documentation/tutorials-search-engineering/using-multivector-representations/) covers native multivector representations and MaxSim scoring.
+The [Qdrant multivectors and late interaction tutorial](https://qdrant.tech/documentation/tutorials-search-engineering/using-multivector-representations/) covers native multivector representations and MaxSim scoring.
 
-The [Qdrant filtering documentation](https://qdrant.tech//documentation/search/filtering/) describes payload and point-ID conditions for application-defined constraints.
+The [Qdrant filtering documentation](https://qdrant.tech/documentation/search/filtering/) describes payload and point-ID conditions for application-defined constraints.
 
 The [NVIDIA RTX PRO 6000 Blackwell product page](https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/) lists the 96 GB GDDR7 memory and Blackwell FP4 support.
 
