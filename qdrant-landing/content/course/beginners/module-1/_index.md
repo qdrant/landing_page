@@ -25,7 +25,7 @@ Essentials embed pattern. Outro bumper yes, Intro bumper no.
 
 # Let's Understand Search
 
-Understand why traditional search struggles and how modern semantic search improves it.
+Traditional search retrieves documents by matching the words in a query to the words in an index. It’s fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you’ll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
 
 ## In This Module, You'll Learn
 
