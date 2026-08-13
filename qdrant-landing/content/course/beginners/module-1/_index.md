@@ -167,7 +167,7 @@ for query, document in pairs:
 - The synonym and paraphrase pairs (0.733, 0.821) score high despite sharing almost no words.
 - The unrelated pair (0.332) scores far lower, reflecting different meaning.
 
-**Your turn:** run this block (it reuses `model` and `cosine_similarity` from above) to test a polysemy case, and see how much a little extra context changes the score:
+**Your turn:** Run this block (it reuses `model` and `cosine_similarity` from above) to test a **polysemy** case, where the same word has more than one meaning. See how extra context changes the score:
 
 ```python
 polysemy_pairs = [
