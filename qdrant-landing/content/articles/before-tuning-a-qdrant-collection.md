@@ -56,17 +56,17 @@ Start with the failure mode, not the config reference. The table maps each sympt
 
 The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries. Your workload decides which setting to keep.
 
-The relevance measurements in this article and the linked articles come from five public corpora between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25, except the depth article's quantization comparison. [The memory article](/articles/when-your-collection-outgrows-ram/) is the exception: its 4.6 million vectors are large enough to cross a real RAM boundary.
+The relevance measurements in this article and the linked articles come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25, except the depth article's quantization comparison. [The memory article](/articles/when-your-collection-outgrows-ram/) is the exception: its 4.6 million vectors are large enough to cross a real RAM boundary.
 
-Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, corpus, query mix, filters, index state, shard layout, and deployment. Use each result to choose a test on your own collection, then keep only the settings your labels support.
+Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment. Use each result to choose a test on your own collection, then keep only the settings your labels support.
 
-## Silent Settings Break Quality First
+## Silent Settings Can Break Quality
 
 Check the stages you run before tuning anything else. These prerequisites each have a correct state for a given collection, and each can fail without an error. The query returns results, scores look plausible, and the retrieval setup is still wrong. Fix them before a benchmark or sweep. Otherwise, you are measuring a configuration error, not a trade-off.
 
 Other retrieval settings depend on a latency, memory, or rebuild budget you supply. These checks do not.
 
-### Dense Indexing
+### Dense Search and Indexing
 
 A small collection can deliberately stay unindexed; segment size decides when Qdrant builds HNSW.
 
@@ -87,7 +87,7 @@ These settings apply whether the collection has thousands of documents or billio
 Enable it on the sparse vector. Then rare terms contribute more than terms that appear in every document. Without it, the score contains term frequency and document length only.
 
 **[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)**<br>
-Measure the indexed field's post-stemming average token count and supply that value to BM25. The default is 256; across the five corpora measured for this article, the correct values ranged from 35.3 to 151.4. Replace a copied default or a value measured on another field.
+Measure the indexed field's post-stemming average token count and supply that value to BM25. The default is 256; across the five datasets measured for this article, the correct values ranged from 35.3 to 151.4. Replace a copied default or a value measured on another field.
 
 ### Hybrid Search
 
@@ -104,7 +104,8 @@ Use `score_threshold` only when you have a measured minimum acceptance score for
 Index every field you filter on. The cost of skipping one grows with collection size and query concurrency.
 
 **[Payload indexes](/documentation/manage-data/indexing/#payload-index)**<br>
-It is healthy when every field in your filters has a payload index. Create it before ingestion: on an existing collection the filter-aware HNSW edges only appear once you [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), they do not appear on their own. Qdrant Cloud strict mode rejects an unindexed query outright.
+It is healthy when every field in your filters has a payload index. Create it before ingestion: on an existing collection the filter-aware HNSW edges only appear once you [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), they do not appear on their own. Qdrant Cloud strict mode rejects an unindexed query outright.<br>
+Strict filters cost recall even once the indexes are in place, and none of the measurements in this series were taken on a filtered collection. [What ACORN fixes, and what fixes ACORN](/articles/filtered-vector-search-acorn/) measures that on one million points.
 
 ## Change Things in Cost Order
 
@@ -132,15 +133,15 @@ Three metrics cover most retrieval tuning, and each answers a different question
 
 **`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you are measuring a first stage that feeds something else.
 
-Pick before you sweep, because the metric decides the winner. In our testing, `nDCG@10`, `MRR@10`, and `Recall@100` each name a different best setting, and `Recall@100` disagrees with `nDCG@10` on four of our five corpora.
+Pick before you sweep, because the metric decides the winner. In our testing, `nDCG@10`, `MRR@10`, and `Recall@100` each name a different best setting, and `Recall@100` disagrees with `nDCG@10` on four of our five datasets.
 
 `Recall@k` is capped per query by the number of relevant documents, unlike `nDCG@k`'s per-query normalization. A query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit.
 
-A macro average can exceed that bound because it averages per-query scores. In our testing, one corpus averages 358.9 relevant documents per query, and the best `Recall@100` we measured there was 0.3877.
+A macro average can exceed that bound because it averages per-query scores. In our testing, one dataset averages 358.9 relevant documents per query, and the best `Recall@100` we measured there was 0.3877.
 
 If you use `Recall@k`, count relevant documents per query before choosing k.
 
-## Make Sure Your Labels Can Show a Gain
+## Make Sure Your Labels Can Detect a Gain
 
 A labeled set is queries paired with the documents that should come back for them. [Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building one. Its size decides whether any retrieval tuning is visible to you at all.
 
@@ -190,7 +191,7 @@ def interval(per_query_gain, resamples=1000, seed=42):
     return np.percentile(gains[draws].mean(axis=1), [2.5, 97.5])
 ```
 
-The number of labeled queries determines the width of that interval. Across our corpora, the median 95% interval half-width for paired `nDCG@10` gains was:
+The number of labeled queries determines the width of that interval. Across our datasets, the median 95% interval half-width for paired `nDCG@10` gains was:
 
 | Labeled queries | Interval, either side of the gain |
 |---|---|
@@ -200,18 +201,18 @@ The number of labeled queries determines the width of that interval. Across our 
 | 200 | 0.018 |
 | 300 | 0.015 |
 
-These intervals come from our public test corpora. Treat the table as a starting range: required label count depends primarily on effect size and query-to-query variation, not collection size alone.
+These intervals come from our public test datasets. Treat the table as a starting range: required label count depends primarily on effect size and query-to-query variation, not collection size alone.
 
 In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038. These are gains from tuning an already-working collection, not from rebuilding the retrieval pipeline.<br>
-With 50 labeled queries, only the 0.038 gain had a 95% interval that excluded zero in most draws: 93%, versus 7% to 38% for gains under 0.02. Detecting a 0.015 gain required 200 to 1,000 queries, depending on the corpus.
+With 50 labeled queries, only the 0.038 gain had a 95% interval that excluded zero in most draws: 93%, versus 7% to 38% for gains under 0.02. Detecting a 0.015 gain required 200 to 1,000 queries, depending on the dataset.
 
 ## Check the Winner on Fresh Queries
 
-A setting selected and evaluated on the same queries will look better than it performs on fresh queries. Reserve a validation set before you sweep: select the winner on one half of the labeled queries, then measure its gain on the other. We repeated that split 200 times per corpus.
+A setting selected and evaluated on the same queries will look better than it performs on fresh queries. Reserve a validation set before you sweep: select the winner on one half of the labeled queries, then measure its gain on the other. We repeated that split 200 times per dataset.
 
 The selected setting usually transfers. Across those splits, its median rank was between first and fourth out of 30 settings on the held-out queries, and it was worse than the default in only 0% to 6% of splits.
 
-The gain still shrinks. On held-out queries, the winner retained 67% to 95% of the gain reported during selection. Its held-out 95% interval excluded zero in 20% to 100% of splits, depending on the corpus.
+The gain still shrinks. On held-out queries, the winner retained 67% to 95% of the gain reported during selection. Its held-out 95% interval excluded zero in 20% to 100% of splits, depending on the dataset.
 
 Report the held-out result. A selected gain can shrink on fresh queries, and a small labeled set may not establish that the remaining gain is real.
 
