@@ -4,7 +4,7 @@ short_description: "Tune hybrid search with RRF or DBSF, choose k from relevance
 description: "Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your relevance labels, and get weights right."
 preview_dir: /articles_data/how-to-tune-hybrid-search/preview
 social_preview_image: /articles_data/how-to-tune-hybrid-search/preview/social_preview.jpg
-weight: -210
+weight: -211
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
 date: 2026-08-13T00:00:00+03:00

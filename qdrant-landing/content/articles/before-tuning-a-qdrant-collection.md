@@ -1,6 +1,6 @@
 ---
 title: "What to Check Before Tuning a Qdrant Collection"
-short_description: "Seven collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs."
+short_description: "Eight collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs."
 description: "Audit a Qdrant collection: find the settings that degrade retrieval silently, choose the cheapest next change, and size a labeled query set."
 preview_dir: /articles_data/before-tuning-a-qdrant-collection/preview
 social_preview_image: /articles_data/before-tuning-a-qdrant-collection/preview/social_preview.jpg
@@ -18,165 +18,166 @@ keywords:
 category: search-quality
 ---
 
-Your collection can look healthy while retrieval is already losing quality. Results come back, latency looks fine, and nothing fails. Then relevance becomes someone's quarterly goal, and you are staring at a config reference with dozens of settings.
+Before you change a setting, decide what better retrieval means for this workload, and how you will prove it.
 
-A few of those settings are correctness checks rather than tuning knobs. If one is wrong, every sweep after it is measuring a broken setup.
+You may need the right document at rank one, more candidates for a reranker, lower latency, or a smaller memory footprint. Those goals favor different settings. If your labeled queries cannot detect the improvement you are chasing, you cannot trust it.
 
-Spend the first hour on two questions: is the collection configured the way you think it is, and can your labels detect the size of change you are chasing? This is the checklist for that hour. It assumes you can read an API reference and reason about a memory budget, and it introduces the evaluation terms as they become useful.
+Then make sure the collection is not sabotaging the comparison. A few settings are correctness checks, not tuning knobs. Get one wrong, and every benchmark or parameter sweep after it measures a broken setup.
 
-## The Pipeline You Are Tuning
+This audit tells you what to verify before you tune.
 
-One hybrid query runs in stages. Each prefetch retrieves a list of candidates: a dense vector search for similar meaning, and usually a sparse one such as BM25 for exact terms. Fusion merges those lists into one ranking. An optional reranker reorders the top of that ranking, and `limit` cuts it to what the user sees. [Hybrid queries](/documentation/search/hybrid-queries/) shows the request shape.
+## The Retrieval Pipeline You Are Tuning
 
-Each stage has its own article: [whether a second prefetch pays](/articles/hybrid-search-recall-candidate-list/), [how to tune the fusion](/articles/how-to-tune-hybrid-search/), [how many candidates to retrieve](/articles/candidate-depth/), and [whether a reranker is worth it](/articles/when-a-reranker-is-worth-it/). Once the collection stops fitting in RAM, [memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) covers the stage that starts reading from disk.
+Every query first retrieves candidates, then ranks them. In dense-only search, one vector search does both. Hybrid search adds a sparse prefetch for exact terms, then fusion combines the dense and sparse candidate lists. A reranker, if present, scores the top candidates again.
 
-One number ties the stages together: score your candidate set as if it were perfectly ordered and compare that with the score you ship. A wide gap means the ranking stages are the constraint. A narrow gap means the candidates are, and more quality has to come from retrieval. [Candidate depth](/articles/candidate-depth/) shows how to measure it.
+If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [A second prefetch](/articles/hybrid-search-recall-candidate-list/) covers the setup and evaluation in more depth.
 
-## Start Here
-
-Work through these steps in order before tuning ranking or index parameters:
+Before you tune:
 
 1. Check that vectors are indexed and that every field used in a filter has a payload index. [Collection details](/documentation/manage-data/collections/#collection-info) and [payload indexing](/documentation/manage-data/indexing/#payload-index) show what to inspect.
 2. Build a labeled query set and choose a metric that matches the product experience. A labeled query pairs a real user query with the documents that should be returned. [Measuring retrieval relevance](/documentation/improve-search/retrieval-relevance/) walks through the setup.
-3. Make the cheapest change that addresses the symptom, then validate it on queries you did not use to choose the setting.
 
 ## The Symptom Tells You Where to Start
 
-Start with the failure mode, not the config reference. Retrieval has too many knobs for a linear walk to be useful, and most symptoms point to a narrower part of the stack.
+Start with the failure mode, not the config reference. The table maps each symptom to the likely constraint and the next useful check.
 
-Five companion articles cover the individual moves. Use this table as the shortest route into them.
+| Symptom | Likely Constraint | Next Check |
+|---|---|---|
+| You can't separate gain from noise | Evaluation resolution | This article: the audit, then labeled sets and intervals |
+| Relevant documents are not retrieved | Candidate recall | [Candidate depth](/articles/candidate-depth/), then add a sparse prefetch if needed |
+| Keywords, identifiers, SKUs, or error codes do not match | Lexical recall | Add or tune a sparse prefetch |
+| Relevant documents are misordered | Fusion or ranking | Tune fusion if you use hybrid search, then test [reranking](/articles/when-a-reranker-is-worth-it/) |
+| Hybrid relevance is flat, and you cannot spend more latency | Candidate reordering | [Fusion tuning](/articles/how-to-tune-hybrid-search/) |
+| Results repeat near-duplicates | Diversity | [Reranking](/articles/when-a-reranker-is-worth-it/), for diversity and grouping |
+| Search misses its p95 target | Retrieval cost | [Candidate depth](/articles/candidate-depth/), starting with the prefetch `limit` |
+| The collection no longer fits in RAM | Memory placement | [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) |
 
-| What you are seeing | Where to look |
-|---|---|
-| You cannot tell whether a change helped | This article: the audit, then labeled sets and intervals |
-| The right document never comes back at all | [A second prefetch](/articles/hybrid-search-recall-candidate-list/), then [candidate depth](/articles/candidate-depth/) |
-| Exact identifiers, SKUs or error codes do not match | [A second prefetch](/articles/hybrid-search-recall-candidate-list/), for the BM25 side |
-| The right documents come back in the wrong order | [Fusion tuning](/articles/how-to-tune-hybrid-search/), then [reranking](/articles/when-a-reranker-is-worth-it/) |
-| Relevance is flat and you have no latency to spare | [Fusion tuning](/articles/how-to-tune-hybrid-search/), which is free |
-| Results are repetitive or near-duplicates | [Reranking](/articles/when-a-reranker-is-worth-it/), for diversity and grouping |
-| It is too slow for the latency you have | [Candidate depth](/articles/candidate-depth/), starting with the prefetch `limit` |
-| It no longer fits in RAM | [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/), which prices what recovering the quality costs |
+## How to Read These Measurements
 
-## What Transfers From These Measurements
+The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries. Your workload decides which setting to keep.
 
-The relevance measurements here and in the companion articles come from five public corpora between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25. [The memory article](/articles/when-your-collection-outgrows-ram/) is the exception: its 4.6 million quantized vectors are large enough to cross a real RAM boundary.
+The relevance measurements in this article and the linked articles come from five public corpora between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25, except the depth article's quantization comparison. [The memory article](/articles/when-your-collection-outgrows-ram/) is the exception: its 4.6 million vectors are large enough to cross a real RAM boundary.
 
-The arithmetic transfers at any size. Fusion is math over two candidate lists, so its mechanics hold whether you have ten thousand documents or ten billion. The measurement method transfers too, and it is the part of this worth the most to you: 50 labeled queries cannot reliably resolve a 0.015 gain at any collection size.
-
-Index behavior depends on the collection and workload. When you read "this was flat for us," take the check, not the result. `hnsw_ef` moved nothing on any of our five corpora, all of them under 100,000 documents, because graph recall saturated almost immediately. Once the graph stops saturating, `hnsw_ef` becomes the primary recall-against-latency knob.
+Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, corpus, query mix, filters, index state, shard layout, and deployment. Use each result to choose a test on your own collection, then keep only the settings your labels support.
 
 ## Silent Settings Break Quality First
 
-These seven checks cover what the collection has actually built, values that can be wrong for your data, and settings that only hurt under load. Every one fails quietly: results still come back, but quality or latency is worse than it should be.
+Check the stages you run before tuning anything else. These prerequisites each have a correct state for a given collection, and each can fail without an error. The query returns results, scores look plausible, and the retrieval setup is still wrong. Fix them before a benchmark or sweep. Otherwise, you are measuring a configuration error, not a trade-off.
 
-Check them once before you tune anything else.
+Other retrieval settings depend on a latency, memory, or rebuild budget you supply. These checks do not.
 
-| Check | Group | Why it matters |
-|---|---|---|
-| `indexed_vectors_count` against `points_count` | Index state | The direct read of whether an HNSW graph exists. Zero means every dense search is a full scan. [Collection details](/documentation/manage-data/collections/#collection-info) explains the count |
-| `optimizers_config.indexing_threshold` | Index state | Defaults to 10,000 KB, about 6,700 vectors at 384 dimensions, and it is measured per segment rather than per collection. A collection splits into 2 to 8 segments by default, so it can take 50,000 vectors before every segment crosses the line |
-| `Modifier.IDF` on the sparse vector | Correctness | Qdrant applies the inverse document frequency term at query time. Without it, a score carries only term frequency and document length, so a word in every document counts for as much as a rare one |
-| BM25 `avg_len` | Correctness | Defaults to 256, and the correct value is the post-stemming token count of the indexed field. Measured across our five corpora: 151.4, 96.5, 46.7, 54.0 and 35.3 |
-| Fusion placement | Correctness | Root-level fusion runs once at collection level. Only a fusion nested inside a prefetch runs per shard. [Hybrid queries](/documentation/search/hybrid-queries/) shows both shapes |
-| A payload index on every filtered field, created before you ingest | Performance | Filtering an unindexed field is slower and drains resources other queries need. It also skips the filter-aware edges Qdrant adds to the HNSW graph, which are only built for fields indexed before ingestion. Qdrant Cloud's strict mode rejects the query outright |
-| `full_scan_threshold` | Performance | On `hnsw_config` it is in KiloBytes, not documents, and the server rejects anything under 10. The sparse index has its own, counted in vectors |
+### Dense Indexing
 
-The first two are the common trap. Qdrant builds an HNSW graph only for a segment larger than `indexing_threshold`. Because the threshold is per segment, not per collection, a modest collection can keep scanning even after the collection as a whole looks large enough.
+A small collection can deliberately stay unindexed; segment size decides when Qdrant builds HNSW.
 
-The read is one call:
+**[indexed_vectors_count](/documentation/manage-data/collections/#collection-info) against [points_count](/documentation/manage-data/collections/#collection-info)**<br>
+Call `GET /collections/{collection_name}`. In a dense-only collection, `indexed_vectors_count` should reach `points_count` once indexing finishes. In a hybrid collection with one dense and one sparse vector on every point, it should reach twice `points_count`. A lower count means indexing is still running or stopped early.
 
-```python
-from qdrant_client import QdrantClient
+**[optimizers_config.indexing_threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer)**<br>
+It is healthy when every segment that needs ANN search has crossed this threshold and received an HNSW graph. The default is 10,000 KB per segment, which converts to a vector count using your own embedding's dimension: about 6,700 at 384 dimensions, proportionally fewer as dimension rises. The same threshold gates a sparse vector's compact index too, sized by its own bytes rather than dimension. With one segment per two CPUs by default, clamped to between two and eight, multiply the relevant per-segment figure by your segment count to see when the whole collection is covered.
 
-client = QdrantClient(url="http://localhost:6333")
-info = client.get_collection("products")
-print(info.points_count, info.indexed_vectors_count)
-```
+**[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)**<br>
+`full_scan_threshold` tells Qdrant when to use an exact full scan instead of HNSW. For dense vectors, the threshold is in kilobytes, not vector count, and must be at least 10 KB. Sparse vectors have a separate threshold, expressed in vectors. Do not copy a value between the two index types. Start from the default and confirm it is in the right unit before tuning it.
 
-Zero means no graph exists and every dense search scans the full collection. On a few thousand points that can be a deliberate choice, since a full scan at that size is fast and exact. At any size where latency matters, lower `indexing_threshold` or wait for the optimizer, then read it again.
+### Sparse Retrieval
 
-The count aggregates over named vectors, so it is not a straight equality check. A hybrid collection with a dense vector and a BM25 sparse vector on 5,183 points reports 10,366 indexed, not 5,183.
+These settings apply whether the collection has thousands of documents or billions.
 
-Read it as a floor. Zero is broken. A number that stops climbing well below your point count times your vector count means the optimizer is still working or has stopped early.
+**[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)**<br>
+Enable it on the sparse vector. Then rare terms contribute more than terms that appear in every document. Without it, the score contains term frequency and document length only.
 
-One popular check does not work. Running the same query at two `hnsw_ef` values and seeing identical results does not prove a full scan. Recall saturates: on SciFact we get byte-identical lists at `hnsw_ef` 128 and 512 on a graph that is demonstrably HNSW.
+**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)**<br>
+Measure the indexed field's post-stemming average token count and supply that value to BM25. The default is 256; across the five corpora measured for this article, the correct values ranged from 35.3 to 151.4. Replace a copied default or a value measured on another field.
 
-Use that as corroboration, never as the decision.
+### Hybrid Search
+
+Fusion placement matters on sharded collections. `score_threshold` is a risk at any scale when a request moves from single-vector retrieval to fusion.
+
+**[Fusion placement](/documentation/search/hybrid-queries/)**<br>
+It is healthy when fusion is the root query: it then runs once at collection level. Fusion nested inside a `prefetch` runs per shard and combines different candidate lists.
+
+**[score_threshold](/documentation/search/search/#filtering-results-by-score)**<br>
+Use `score_threshold` only when you have a measured minimum acceptance score for the stage that returns results. A threshold copied from dense-only search is unsafe in a root-level RRF or DBSF query: Qdrant compares it with the fused score, not the dense or sparse score. It can silently truncate the result list or return no results. Validate it on labeled queries, or leave it unset.
+
+### Filtered Search
+
+Index every field you filter on. The cost of skipping one grows with collection size and query concurrency.
+
+**[Payload indexes](/documentation/manage-data/indexing/#payload-index)**<br>
+It is healthy when every field in your filters has a payload index. Create it before ingestion: on an existing collection the filter-aware HNSW edges only appear once you [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), they do not appear on their own. Qdrant Cloud strict mode rejects an unindexed query outright.
 
 ## Change Things in Cost Order
 
-Pipeline order puts the expensive changes first. Tuning in cost order keeps the cheap evidence flowing.
+Start with a change that does not rebuild the collection or add a retrieval stage. Move to a higher-cost tier only when the lower-cost options do not address the symptom.
 
-If you have no latency to spare and no rebuild window, you can still act on the whole first tier today.
-
-| Tier | What | Applied where | Cost |
+| Tier | What | Applies To | Cost |
 |---|---|---|---|
-| Free | Fusion method, RRF `k`, weights | Per query | Arithmetic over lists you already retrieved. No rebuild, no extra latency |
-| Latency | Prefetch `limit`, `hnsw_ef` | Per query | Buys quality with time, in that order of cheapness |
-| A new stage | An additional retrieval prefetch, a reranker | Per query, plus a new index on the collection | A model call per query for the reranker, and a second index for the prefetch |
-| Rebuild | Embedding model, quantization, `m` | The collection | Re-indexing the collection, and the embedding model sets the upper bound for everything downstream |
+| No New Retrieval Work | Fusion method, RRF `k`, weights | Hybrid search | Reorders lists you already retrieved. No rebuild or extra retrieval stage |
+| Expanded Retrieval | `hnsw_ef` | Dense search | Increases search breadth and query time |
+| Expanded Retrieval | Prefetch `limit` | Any pipeline with a downstream stage | Retrieves more candidates, increasing query time |
+| Expanded Retrieval | `full_scan_threshold` | Dense search, especially filtered search | Uses exact scans for larger candidate pools, which can increase query time |
+| A New Stage | Sparse prefetch | Dense-only search | A second index and an extra retrieval stage |
+| A New Stage | Reranker | Any pipeline | A model call per candidate |
+| Rebuild | Embedding model, quantization, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
+
+Use this table to understand the cost of the next change. Choose whether to make it only after you can measure the result.
 
 ## Choose a Metric Before You Tune
 
 Three metrics cover most retrieval tuning, and each answers a different question.
 
-**nDCG@k** grades relevance rather than treating it as yes or no. It gives more credit to strong results near the top and normalizes against a perfect ranking. Use it when multiple documents matter by different amounts.
+**`nDCG@k`** rewards relevant results near the top, gives additional credit when labels are graded, and normalizes against a perfect ranking. Use it when rank order among several results matters.
 
-**MRR@k** is the mean of one over the rank of the first relevant result. It asks only how fast you got to something good. Use it when a query has essentially one right answer.
+**`MRR@k`** is the mean of one over the rank of the first relevant result. It asks only how fast you got to something good. Use it when a query has essentially one right answer.
 
-**Recall@k** is the share of all relevant documents that made it into the top k. Use it when you are measuring a first stage that feeds something else.
+**`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you are measuring a first stage that feeds something else.
 
-Pick before you sweep, because the metric decides the winner. On WANDS and DBPedia, nDCG@10, MRR@10 and Recall@100 each name a different best setting, and Recall@100 disagrees with nDCG@10 on four of our five corpora.
+Pick before you sweep, because the metric decides the winner. In our testing, `nDCG@10`, `MRR@10`, and `Recall@100` each name a different best setting, and `Recall@100` disagrees with `nDCG@10` on four of our five corpora.
 
-Recall becomes hard to interpret when the number of relevant documents per query far exceeds k. A query with 359 relevant products cannot score above 0.28 at Recall@100, no matter how good the ranking is, because only 100 of them fit.
+`Recall@k` is capped per query by the number of relevant documents, unlike `nDCG@k`'s per-query normalization. A query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit.
 
-That bound applies one query at a time, and the reported score averages over queries, so a corpus average lands above the bound of its hardest queries. WANDS averages 358.9 relevant documents per query, and the best we measured there was 0.3877. A reader would call that a broken system when it is a broken measurement.
+A macro average can exceed that bound because it averages per-query scores. In our testing, one corpus averages 358.9 relevant documents per query, and the best `Recall@100` we measured there was 0.3877.
 
-Count relevant documents per query in your own labels before you choose.
+If you use `Recall@k`, count relevant documents per query before choosing k.
 
 ## Make Sure Your Labels Can Show a Gain
 
-A labeled set is queries paired with the documents that should come back for them. [Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building one, including the warning that synthetic queries inflate the scores. Its size decides whether any retrieval tuning is visible to you at all.
+A labeled set is queries paired with the documents that should come back for them. [Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building one. Its size decides whether any retrieval tuning is visible to you at all.
 
-A few hundred queries can be manageable. Pull real queries from your search logs, have an LLM grade which returned documents are relevant, and spot-check a sample yourself.
+A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. The table below shows how many queries it took in our tests. Size alone will not save an unrepresentative set: pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
 
-Every check below takes one score per query for each setting you are comparing. `pytrec_eval` computes those from your labels and the point ids the server returned.
+Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends. The `search` adapter below may run dense-only search, hybrid fusion, or a reranker, but it must return the final points for one query and one setting. `pytrec_eval` computes the scores from those point ids.
 
 ```python
 import pytrec_eval
-from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
 # Relevance keyed by the point ids the server returns, not by your own document ids.
 qrels = {"q1": {"41": 1, "77": 2}}
-# Your query vectors, embedded with the model the collection was built with.
+# Your labeled queries, in the representation your Qdrant request expects.
 queries = {"q1": [...]}
 
 
-def score(setting, metric="ndcg_cut_10"):
-    """One score per query for one configuration, keyed the same way as qrels."""
+def score(queries, search, setting, metric="ndcg_cut_10"):
+    """search(query_id, query, setting) returns the final points."""
     run = {
         query_id: {
             str(point.id): point.score
-            for point in client.query_points(
-                collection_name="products", query=vector, using="dense",
-                limit=10, **setting,
-            ).points
+            for point in search(query_id, query, setting)
         }
-        for query_id, vector in queries.items()
+        for query_id, query in queries.items()
     }
     scored = pytrec_eval.RelevanceEvaluator(qrels, {metric}).evaluate(run)
     return {query_id: scored[query_id][metric] for query_id in queries}
 
 
-candidate = score({"search_params": models.SearchParams(hnsw_ef=256)})
-current = score({"search_params": models.SearchParams(hnsw_ef=64)})
+candidate = score(queries, search, candidate_setting)
+current = score(queries, search, current_setting)
 per_query_gain = [candidate[q] - current[q] for q in sorted(queries)]
 ```
 
-Swap the `setting` dictionary for whichever knob you are testing, and keep everything else fixed between the two calls.
+Make `search` call your existing Qdrant request, and keep its filters, query shape, candidate limits, and every setting except the one under test fixed between the two calls.
 
-Then resample those gains with replacement to get a 95% interval on the mean. If the interval includes zero, keep what you had.
+Resample the per-query gains with replacement to estimate how much the average gain would move if you had drawn a different set of queries. The resulting 95% interval shows the range consistent with that sampling variation. If the interval includes zero, your labels cannot establish a quality gain.
 
 ```python
 import numpy as np
@@ -189,7 +190,7 @@ def interval(per_query_gain, resamples=1000, seed=42):
     return np.percentile(gains[draws].mean(axis=1), [2.5, 97.5])
 ```
 
-The number of labeled queries determines the width of that interval. Across five corpora, the median half-width was:
+The number of labeled queries determines the width of that interval. Across our corpora, the median 95% interval half-width for paired `nDCG@10` gains was:
 
 | Labeled queries | Interval, either side of the gain |
 |---|---|
@@ -199,32 +200,23 @@ The number of labeled queries determines the width of that interval. Across five
 | 200 | 0.018 |
 | 300 | 0.015 |
 
-Now compare the interval with the gain you are trying to see. The gains from [tuning fusion](/articles/how-to-tune-hybrid-search/) run from 0.012 to 0.038. A 50-query set can confirm the largest of them and nothing else. Detecting a 0.015 gain took between 200 and 1,000 queries depending on the corpus.
+These intervals come from our public test corpora. Treat the table as a starting range: required label count depends primarily on effect size and query-to-query variation, not collection size alone.
 
-The work is still useful; the query count tells you which gains you can resolve.
-
-With 50 queries, do the audit and take the free tier. A sweep at that size confirmed the corpus's own best gain in 7% to 38% of draws on the four corpora where that gain was under 0.02, and in 93% on WANDS where it was 0.038. Sweep if you expect an effect that large, and expect the result to be inconclusive if you do not.
+In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038. These are gains from tuning an already-working collection, not from rebuilding the retrieval pipeline.<br>
+With 50 labeled queries, only the 0.038 gain had a 95% interval that excluded zero in most draws: 93%, versus 7% to 38% for gains under 0.02. Detecting a 0.015 gain required 200 to 1,000 queries, depending on the corpus.
 
 ## Check the Winner on Fresh Queries
 
-A setting picked on one set of queries and reported on the same set is grading its own homework. Split your labeled queries in half, pick the winner on one half, report its gain on the other. We ran that 200 times per corpus.
+A setting selected and evaluated on the same queries will look better than it performs on fresh queries. Reserve a validation set before you sweep: select the winner on one half of the labeled queries, then measure its gain on the other. We repeated that split 200 times per corpus.
 
-Sweeping does find something real. The setting chosen on half the queries lands at a median rank of 1 to 4 out of 30 when scored on the other half, and it comes out worse than the default on 0% to 6% of splits. It is not fitting noise.
+The selected setting usually transfers. Across those splits, its median rank was between first and fourth out of 30 settings on the held-out queries, and it was worse than the default in only 0% to 6% of splits.
 
-The gain still shrinks. Scored on queries that had no say in picking it, the winner keeps 67% to 95% of what the sweep reported, and its interval clears zero on only 20% to 30% of splits for three of the five corpora.
+The gain still shrinks. On held-out queries, the winner retained 67% to 95% of the gain reported during selection. Its held-out 95% interval excluded zero in 20% to 100% of splits, depending on the corpus.
 
-Expect to keep about three-quarters of any gain you measure. Expect to be unable to prove it unless the gain is large or the labeled set is.
+Report the held-out result. A selected gain can shrink on fresh queries, and a small labeled set may not establish that the remaining gain is real.
 
-## Clean Rebuilds Did Not Move the Top 10 Here
+If you compare separately rebuilt indexes, check top-10 agreement across two builds before you treat a small metric difference as a tuning gain. In our clean rebuild test, query sampling moved `nDCG@10` more than graph variation did. Upserts, optimizer merges that resegment the collection, replicas built separately, and quantization can change that result.
 
-Rebuilding an index is nondeterministic, so graph variance is an easy suspect when a metric moves. Test it before spending time on it.
+Record the current relevance metric and p95 latency for a representative query set. Then use the symptom table to choose one low-cost change, validate it on held-out queries, and keep it only if the gain survives.
 
-We built the same SciFact collection five times from identical vectors: mean nDCG@10 came out identical across all five, to six decimal places. The graph does move, 11.5% of the positions between ranks 101 and 200 changed, but only 0.04% of the top 10 did, and top-10 membership agreed 99.99% of the time.
-
-In this clean rebuild, graph variance lived in the tail, below the window the metric reads. On a small collection rebuilt from fixed vectors, the query sample moved the number far more than the graph did.
-
-That is the easiest case for stability. Continuous upserts, optimizer merges that resegment the collection, replicas answering from separately built graphs, and a quantization pass on top all reintroduce movement we did not measure, so check the top-10 agreement between two builds on your own collection before ruling it out.
-
-Three Qdrant defaults are also reasonable places to stop. RRF works as the default fusion method because it can combine prefetches with incompatible score scales. `m=16` and `ef_construct=100` are sound HNSW starting points. The RRF constant of 2 is deliberate, and [tuning fusion](/articles/how-to-tune-hybrid-search/) explains what it does.
-
-With the audit done and a labeled set sized, go back to the symptom. It tells you which knob is worth touching first.
+Once you have a baseline, [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows how to test whether retrieval depth is the constraint.

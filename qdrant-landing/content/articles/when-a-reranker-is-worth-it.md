@@ -4,7 +4,7 @@ short_description: "A cross-encoder reranker beat a tuned fusion on one of five 
 description: "Test whether a cross-encoder reranker pays in Qdrant, then choose the candidate count and model size from measured quality and throughput."
 preview_dir: /articles_data/when-a-reranker-is-worth-it/preview
 social_preview_image: /articles_data/when-a-reranker-is-worth-it/preview/social_preview.jpg
-weight: -209
+weight: -210
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
 date: 2026-08-14T00:00:00+03:00

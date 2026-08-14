@@ -4,7 +4,7 @@ short_description: "Rescoring reads original vectors back from disk. Price that 
 description: "Set memory placement and rescoring in Qdrant once a collection outgrows RAM: what the disk read costs, and what quality it buys back."
 preview_dir: /articles_data/when-your-collection-outgrows-ram/preview
 social_preview_image: /articles_data/when-your-collection-outgrows-ram/preview/social_preview.jpg
-weight: -211
+weight: -209
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
 date: 2026-08-12T00:00:00+03:00
