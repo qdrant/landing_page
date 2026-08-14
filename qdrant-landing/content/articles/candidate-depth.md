@@ -77,14 +77,13 @@ Do not assume recall has saturated in either case.
 Measure approximate search against exact search on your own data instead. Set `limit` to the value used by the dense-only stage or dense `prefetch` you are testing:
 
 ```python
-import os
 import time
 
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
     url="https://YOUR-CLUSTER.cloud.qdrant.io",
-    api_key=os.environ["QDRANT_API_KEY"],
+    api_key="<your-api-key>",
 )
 # Your own query vectors, embedded with the model the collection was built with.
 queries = [...]
@@ -144,7 +143,7 @@ Matching result lists do not prove a full scan. The [pre-tuning checks](/article
 Reducing candidate depth does not make the collection smaller. It reduces query work and can leave a later ranking stage with fewer candidates.<br>
 If RAM is the constraint, you may want to test quantization on your labels before lowering `limit`. The [TurboQuant quantization guide](/articles/turboquant-quantization/) compares the storage classes.
 
-Int8 scalar quantization uses a quarter of the vector storage of float32. We rebuilt SciFact and DBPedia-entity with it to measure dense top-10 agreement and the effect on the final hybrid result.
+Int8 scalar quantization stores a compressed copy at one-quarter the size of the float32 vectors. We rebuilt SciFact and DBPedia-entity with it to measure dense top-10 agreement and the effect on the final hybrid result.
 
 | Setting | Dense Top-10 Agreement with Unquantized | Fused `nDCG@10` Change |
 |---|---|---|

@@ -38,7 +38,7 @@ The final column is a repeated split-half check: select the configuration on one
 
 ## Compare with the Best First Stage
 
-These measurements use hybrid retrieval. The table keeps Qdrant's default reciprocal rank fusion (RRF) as a reference. The next two columns report the reranker's `nDCG@10` change over default RRF and over fusion tuned on the same candidate set.
+These measurements use hybrid retrieval. The table keeps Qdrant's default reciprocal rank fusion (RRF) as a reference. Each row reports the `nDCG@10` change for the model and candidate count selected on that dataset, against default RRF and fusion tuned on the same candidate set.
 
 <aside role="status">
 These one-shard, unquantized collections were built in one batch, and the reranker is measured against a tuned hybrid baseline. A weak first stage can inflate reranker gains. Compare against a tuned first stage before deciding whether a reranker justifies its model call.

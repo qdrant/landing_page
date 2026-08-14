@@ -58,13 +58,11 @@ Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-s
 Start with RRF at `k=2` and equal weights, then run DBSF. If RRF wins, test `k` values from 2 to 61. If DBSF wins, take it forward to held-out validation. Lower values favor a document one prefetch ranks highly; higher values give more credit to documents both prefetches retrieve.
 
 ```python
-import os
-
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
     url="https://YOUR-CLUSTER.cloud.qdrant.io",
-    api_key=os.environ["QDRANT_API_KEY"],
+    api_key="<your-api-key>",
 )
 
 # Both prefetches must use the models the collection was indexed with.

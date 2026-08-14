@@ -73,7 +73,7 @@ Other retrieval settings depend on a latency, memory, or rebuild budget you supp
 A small collection can deliberately stay unindexed; segment size decides when Qdrant builds HNSW.
 
 **[indexed_vectors_count](/documentation/manage-data/collections/#collection-info) against [points_count](/documentation/manage-data/collections/#collection-info)**<br>
-Call `GET /collections/{collection_name}`. In a dense-only collection, `indexed_vectors_count` should reach `points_count` once indexing finishes. In a hybrid collection with one dense and one sparse vector on every point, it should reach twice `points_count`. A lower count means indexing is still running or stopped early.
+Call `GET /collections/{collection_name}`. In a dense-only collection, `indexed_vectors_count` should reach `points_count` once indexing finishes. In a hybrid collection with one dense and one sparse vector on every point, it should reach twice `points_count`. A lower count means indexing is still running, stopped early, or some segments are below the indexing threshold covered next.
 
 **[optimizers_config.indexing_threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer)**<br>
 It is healthy when every segment that needs ANN search has crossed this threshold and received an HNSW graph. The default is 10,000 KB per segment, which converts to a vector count using your own embedding's dimension: about 6,700 at 384 dimensions, proportionally fewer as dimension rises.<br>

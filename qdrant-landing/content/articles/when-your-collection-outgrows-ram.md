@@ -75,7 +75,7 @@ The ratios matter more than the milliseconds, which come from one laptop. With r
 
 The read column explains the gap. At 4 GiB, rescoring read far more data than the selected vectors themselves require because storage reads pages, not individual vectors. That amplification is why the latency increase is much larger than the rescore candidate set suggests.
 
-At 12 GiB, the container held 9.46 GB of file cache and did not reread original-vector pages after they entered cache. At 4 GiB, the Linux kernel recorded 613,388 such rereads during the measured pass, after evicting pages the next query needed.<br>
+At 12 GiB, the container held 9.46 GB of file cache and did not reread original-vector pages after they entered cache. At 4 GiB, the Linux kernel recorded 613,388 such rereads across the warm-up and measured passes, after evicting pages the next query needed.<br>
 Treat recurring original-vector reads as evidence that rescoring is disk-resident.
 
 <aside role="status">
@@ -140,13 +140,11 @@ Use Turbo4 when disk capacity is the constraint and its measured quality meets y
 If TurboQuant is the quantization method you selected, configure its `bits` value and `memory` setting on the collection you already have. Set `rescore` and `oversampling` on the query, not on the collection.
 
 ```python
-import os
-
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
     url="https://YOUR-CLUSTER.cloud.qdrant.io",
-    api_key=os.environ["QDRANT_API_KEY"],
+    api_key="<your-api-key>",
 )
 
 client.update_collection(
