@@ -112,9 +112,9 @@
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if eq .Section "customers" }}
-  {{ $customersJs := resources.Get "js/customers-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ if in (slice "customers" "demo") .Section }}
+  {{ $catalogFiltersJs := resources.Get "js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "industries" }}
