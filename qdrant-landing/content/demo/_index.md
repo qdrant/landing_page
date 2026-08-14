@@ -1,6 +1,6 @@
 ---
 title: Qdrant Demos
-description: Experience how Qdrant powers applications such as RAG, agentic AI, semantic/multimodal search, anomaly detection, and recommendations.
+description: Experience firsthand how Qdrant powers intelligent search, anomaly detection, and personalized recommendations, showcasing the full capabilities of vector search to revolutionize data exploration and insights.
 build:
   render: always
 cascade:
