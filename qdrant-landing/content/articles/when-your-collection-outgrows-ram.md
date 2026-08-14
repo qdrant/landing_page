@@ -42,7 +42,7 @@ RAM = number of vectors × vector dimensions × 4 bytes × 1.5
 ```
 
 The extra 50% allows for metadata, indexes, point versions, and temporary segments created during optimization. Treat this as a starting estimate, not a container limit. If it exceeds the RAM you can allocate, the rest of this article shows how quantization and rescoring change the trade-off.<br>
-For a full collection estimate, including payloads, indexes, and replication, use the [Capacity Planning guide](/documentation/capacity-planning/) or the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/).
+For a full collection estimate, including payloads, indexes, and replication, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/).
 
 ## How Vector Placement Changes Rescoring
 
@@ -114,6 +114,8 @@ Start with the float32 row. At these graph-search settings, float32 returned 0.9
 In this test, rescoring `bits4` improved dense-prefetch `Recall@10`, but the 200 held-out queries did not establish a meaningful final `nDCG@10` difference. Whether that extra Recall is worth the disk-read cost depends on your hybrid labels and latency target.
 
 `bits1` was different. `rescore` raised `Recall@10` from 0.605 to 0.951. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization.
+
+{{< figure src="/articles_data/when-your-collection-outgrows-ram/bits1-rescore-recovery.png" alt="Line chart of the share of the exact top 10 that bits1 returns, across rescore off and rescore on at oversampling 1, 2, and 4. The share jumps from 0.605 with rescore off to 0.951 at oversampling 1, crossing the dashed float32 reference at 0.957, then flattens at 0.977 and 0.988." caption="One rescoring pass does most of the recovery at bits1. Raising oversampling past 1 buys little, which is why the disk reads it adds are the cost to watch." width="100%" >}}
 
 That rule selected `bits1` with `rescore` and `oversampling=1`. On the held-out queries, `nDCG@10` was 0.0011 higher, with a paired 95% interval from -0.003 to +0.005, and `Recall@10` was 0.006 lower.<br>
 The interval does not establish identical rankings. On this dataset, it bounds the nDCG@10 difference to 0.005 either way. Check that result on your own labels. If the configuration misses your target, test the next `oversampling` value.

@@ -30,6 +30,8 @@ This audit tells you what to verify before you tune.
 
 Every query first retrieves candidates, then ranks them. In dense-only search, one vector search does both. Hybrid search adds a sparse prefetch for exact terms, then fusion combines the dense and sparse candidate lists. A reranker, if present, scores the top candidates again.
 
+{{< figure src="/articles_data/before-tuning-a-qdrant-collection/retrieval-pipeline.svg" alt="Pipeline diagram: a dense prefetch with limit and hnsw_ef settings and a sparse prefetch with limit and Modifier.IDF settings both feed a fusion stage with RRF k, weights, and DBSF settings, followed by an optional reranker with candidate count and model settings." caption="The hybrid pipeline and the settings each stage owns. Dense-only search runs the first stage alone." width="100%" >}}
+
 If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [Tuning hybrid search](/articles/how-to-tune-hybrid-search/) covers the request shape, what the second prefetch costs, and how to check that fusion beats either prefetch on your labels.
 
 Before you tune:

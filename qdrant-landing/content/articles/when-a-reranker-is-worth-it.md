@@ -1,7 +1,7 @@
 ---
 title: "When Is a Reranker Worth It?"
 short_description: "A cross-encoder reranker beat a tuned fusion on one of five datasets and lost on four. Learn how to test one without scoring more candidates than you need."
-description: "Test whether a cross-encoder reranker improves relevance enough to justify its cost, then choose the candidate count and model size from measured quality and throughput."
+description: "Test whether a cross-encoder reranker improves relevance enough to justify its cost, then set candidate count and model size from measured results."
 preview_dir: /articles_data/when-a-reranker-is-worth-it/preview
 social_preview_image: /articles_data/when-a-reranker-is-worth-it/preview/social_preview.jpg
 weight: -210
@@ -27,7 +27,7 @@ A cross-encoder reranker reads the query and candidate together as a single sequ
 That cost rules it out as a first stage. Jointly reading the query and document lets it model token interactions that separately encoded query and document vectors cannot.
 
 These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval. We reranked the fused candidate list with three cross-encoders at candidate counts from 10 through 200. The table deltas use all 200 queries per dataset.<br>
-The final column is a repeated split-half check: select the configuration on one half, then score it on the held-out half across 200 random splits.<br>
+The final column repeats a split-half check 200 times: select the reranker configuration and fusion setting on one half, then compare them on the other.<br>
 [Held-out validation](/articles/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries) explains this split. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) explains the method.
 
 ## Test a Reranker in Three Steps

@@ -1,7 +1,7 @@
 ---
 title: "Candidate Depth: How Much Retrieval Is Enough?"
 short_description: "Raising candidate depth raises the best score a later ranking stage could reach, but barely moves the current score in our measurements."
-description: "Set candidate depth and hnsw_ef in Qdrant, measure the gap between your ranking and a perfect one, and balance relevance, latency, and memory."
+description: "Set candidate depth and hnsw_ef in Qdrant, measure the gap between your ranking and a perfect one, and balance the trade-offs."
 preview_dir: /articles_data/candidate-depth/preview
 social_preview_image: /articles_data/candidate-depth/preview/social_preview.jpg
 weight: -213
@@ -50,6 +50,8 @@ Each value is the change in `nDCG@10` from `limit=10` to 500.
 | WANDS | +0.124 | +0.007 |
 | CodeSearchNet | +0.149 | +0.010 |
 | DBPedia-entity | +0.282 | +0.003 |
+
+{{< figure src="/articles_data/candidate-depth/depth-ceiling-vs-current.png" alt="Five line charts, one per dataset, showing nDCG at 10 as prefetch limit rises from 10 to 500. In each chart the best possible score climbs at every step while the current score stays almost flat, so the shaded gap between the two lines widens." caption="The full sweep behind the table. The best possible score climbs at every depth step on every dataset, while the score fusion returns stays almost flat." width="100%" >}}
 
 With Qdrant's default [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the top ranks in each `prefetch` contribute far more to the fused score than the tail. Raising `limit` can add candidates without changing the top 10, or replace a more relevant result. CodeSearchNet peaks at `limit=200` and is lower at 500; DBPedia peaks at 50.<br>
 Other fusion methods can rank those candidates differently. [Fusion tuning](/articles/how-to-tune-hybrid-search/) shows how to test them on your labels.

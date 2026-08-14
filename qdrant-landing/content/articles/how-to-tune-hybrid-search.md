@@ -119,7 +119,7 @@ On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, 
 These five datasets suggest a direction: with about one relevant document per query, the best `k` was 2 or 5; with tens or hundreds, it was 20 or 61. Count relevant documents per query in your labeled query set, then try that part of the range first.<br>
 This is a starting direction, not a setting to copy.
 
-One porting note matters if you are moving an RRF configuration into Qdrant. Qdrant uses zero-based positions and defaults to `k=2`. To reproduce an RRF configuration written as `1 / (rank + 60)` with one-based ranks, use `k=61`.
+One porting note matters if you are moving an RRF configuration into Qdrant. Qdrant uses zero-based positions and defaults to `k=2`. To reproduce [the `1 / (rank + 60)` convention from Cormack et al.](https://dl.acm.org/doi/10.1145/1571941.1572114) with one-based ranks, use `k=61`.
 
 <aside role="status">
 On SciFact, 12.5% of the default RRF top 10 fell in a tied group, compared with 2.8% at `k=61` and none under DBSF. When RRF ties documents at rank 10, repeated queries can return a different document in that spot.<br>
