@@ -14,7 +14,7 @@ demos:
     github: https://github.com/qdrant/qdrant_demo
     link:
       text: View Demo
-      url: https://qdrant-demo-qvpw.vercel.app/
+      url: https://demo.qdrant.tech/
     weight: 3
   - id: product-categorization
     title: Product Categorization
@@ -24,7 +24,7 @@ demos:
     github: https://github.com/qdrant/goods_categorization_demo
     link:
       text: View Demo
-      url: https://goods-categorization-demo.vercel.app/
+      url: https://categories.qdrant.tech/
     weight: 4
   - id: food-discovery
     title: Food Discovery
@@ -34,7 +34,7 @@ demos:
     github: https://github.com/qdrant/demo-food-discovery
     link:
       text: View Demo
-      url: https://demo-food-discovery-v2x8-xi.vercel.app/
+      url: https://food-discovery.qdrant.tech/
     weight: 5
   - id: semantic-code-search
     title: Semantic Code Search
@@ -44,7 +44,7 @@ demos:
     github: https://github.com/qdrant/demo-code-search
     link:
       text: View Demo
-      url: https://demo-code-search-gules.vercel.app/
+      url: https://code-search.qdrant.tech/
     weight: 6
   - id: ecommerce-search
     title: E-Commerce search
@@ -54,7 +54,7 @@ demos:
     github: https://github.com/qdrant-labs/demo-ecommerce-search
     link:
       text: View Demo
-      url: https://demo-ecommerce-search.vercel.app/
+      url: https://ecommerce-search.demos.qdrant.tech/
     weight: 1
   - id: fraud-detection
     title: Fraud detection
@@ -64,6 +64,6 @@ demos:
     github: https://github.com/qdrant-labs/demo-fraud-detection
     link:
       text: View Demo
-      url: https://demo-fraud-detection-eta.vercel.app/
+      url: https://fraud-detection.demos.qdrant.tech
     weight: 2
 ---
