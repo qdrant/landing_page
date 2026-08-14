@@ -7,7 +7,7 @@ social_preview_image: /articles_data/before-tuning-a-qdrant-collection/preview/s
 weight: -214
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-09T00:00:00+03:00
+date: 2026-08-08T00:00:00+03:00
 draft: false
 keywords:
   - retrieval tuning
@@ -45,7 +45,7 @@ Start with the failure mode, not the config reference. The table maps each sympt
 |---|---|---|
 | You can't separate gain from noise | Evaluation resolution | This article: the audit, then labeled sets and intervals |
 | Relevant documents are not retrieved | Candidate recall | [Candidate depth](/articles/candidate-depth/), then add a sparse prefetch if needed |
-| Keywords, identifiers, SKUs, or error codes do not match | Lexical recall | Add or tune a sparse prefetch |
+| Keywords, identifiers, SKUs, or error codes do not match | Lexical recall | [Add or tune a sparse prefetch](/articles/hybrid-search-recall-candidate-list/) |
 | Relevant documents are misordered | Fusion or ranking | Tune fusion if you use hybrid search, then test [reranking](/articles/when-a-reranker-is-worth-it/) |
 | Hybrid relevance is flat, and you cannot spend more latency | Candidate reordering | [Fusion tuning](/articles/how-to-tune-hybrid-search/) |
 | Results repeat near-duplicates | Diversity | [Reranking](/articles/when-a-reranker-is-worth-it/), for diversity and grouping |

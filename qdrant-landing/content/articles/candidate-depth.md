@@ -7,7 +7,7 @@ social_preview_image: /articles_data/candidate-depth/preview/social_preview.jpg
 weight: -213
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-11T00:00:00+03:00
+date: 2026-08-09T00:00:00+03:00
 draft: false
 keywords:
   - candidate depth
@@ -18,57 +18,61 @@ keywords:
 category: search-quality
 ---
 
-When a collection has to operate within real latency, memory, disk, and build-time budgets, retrieval tuning is no longer only about relevance. The same controls determine how many candidates retrieval returns, how hard the index works to find them, and what the collection costs to keep in RAM.
+Before you tune candidate depth, use the [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
 
-Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates. In hybrid search, each prefetch has its own `limit`. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
+Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates.<br>
+In hybrid search, each prefetch has its own `limit`. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
 
-In our hybrid measurements, more depth mostly raised the best score a better ranker could reach later. The current fused ranking barely moved.
-
-The measurements come from five public datasets of 5,183 to 100,000 documents. We used `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval, on a single shard in Docker on a laptop. Index behavior changes with scale, so use the checks in this article to find your own numbers.
+These measurements use five public datasets with 5,183 to 100,000 documents, on one shard in Docker. Use the sweep in this article to find the depth your own labels and latency budget support.
 
 ## The Short Version
 
-1. Start the `limit` for a downstream ranking stage at 100 or 200. That range gave a later ranking stage useful choice here, and depth multiplies across shards and reranker candidates, so treat it as the start of a sweep rather than a production default.
-2. Measure approximate-search recall against an exact search before raising `hnsw_ef`. If recall has already plateaued, a larger value only adds latency. [Measuring ANN recall](/documentation/tutorials-search-engineering/ann-recall/) provides a guided version of that test.
-3. When RAM is the constraint, test quantization before reducing candidate depth. [Quantization](/documentation/manage-data/quantization/) shows the collection settings, and [memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) prices what keeping the quality costs once the originals no longer fit.
+1. Test [`limit`](/documentation/search/hybrid-queries/#multi-stage-queries) at 100 and 200 for a downstream ranking stage. Treat that range as the start of a sweep, not a production default: `limit` applies per shard, and a reranker pays for every candidate.
+2. Before raising [`hnsw_ef`](/documentation/search/search/#search-api), compare approximate-search recall with an [exact search](/documentation/search/search/#exact-search). If recall has plateaued, a larger value adds latency without improving recall. [Measuring ANN recall](/documentation/tutorials-search-engineering/ann-recall/) shows the test.
+3. If RAM is the constraint, test quantization before reducing candidate depth. [Quantization](/documentation/manage-data/quantization/) covers the collection settings, and [memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) shows the latency cost of restoring quality after the original vectors no longer fit in RAM.
 
-## More Candidates Raise the Best Possible Score
+## More Candidates Can Raise the Best Possible Score
 
-Score the candidate set as if it were ordered perfectly. That is the best `nDCG@10` any later ranking of those candidates could reach. In hybrid search, the candidate set is the union of the dense and sparse prefetches. In a single-prefetch pipeline, it is the candidates passed to the downstream stage. `nDCG@10` grades the top 10 results and gives more credit to relevant documents near the top; [choosing a metric](/articles/before-tuning-a-qdrant-collection/#choose-a-metric-before-you-tune) covers when to use it.
+Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to score the candidate set as if it were ordered perfectly. That is the best possible score any later ranking of those candidates could reach.<br>
+Compare it with the current score from the same queries. In these hybrid measurements, the current score is fusion's `nDCG@10` over the same candidates.
 
-| Dataset | Best Possible at 10 | Best Possible at 500 | Current Score at 10 | Current Score at 500 |
-|---|---|---|---|---|
-| SciFact | 0.890 | 0.993 | 0.709 | 0.717 |
-| ArguAna | 0.878 | 0.999 | 0.521 | 0.523 |
-| WANDS | 0.859 | 0.983 | 0.720 | 0.727 |
-| CodeSearchNet | 0.813 | 0.962 | 0.645 | 0.655 |
-| DBPedia-entity | 0.688 | 0.970 | 0.460 | 0.463 |
+For hybrid search, score the union of the dense and sparse prefetches.<br>
+For a single-prefetch pipeline, score the candidates passed to the downstream stage.<br>
+`nDCG@10` grades the top 10 results and gives more credit to relevant documents near the top.
 
-In our hybrid measurements, 50 times the candidates moved the best-possible score by 0.10 to 0.28. The current score moved by 0.002 to 0.010.
+Each value is the change in `nDCG@10` from `limit=10` to 500.
 
-The gap between the best-possible and current score widens at every step on every dataset. On DBPedia-entity, it opens from 0.229 at depth 10 to 0.507 at depth 500.
+| Dataset | Best Possible Change | Current Score Change |
+|---|---|---|
+| SciFact | +0.103 | +0.008 |
+| ArguAna | +0.121 | +0.002 |
+| WANDS | +0.124 | +0.007 |
+| CodeSearchNet | +0.149 | +0.010 |
+| DBPedia-entity | +0.282 | +0.003 |
 
-Depth is not even monotonic on the current score. CodeSearchNet's best fusion setting peaks at `limit=100` and is lower at 500, and DBPedia's peaks at 200. Past a point, extra candidates compete for ten seats against documents that already deserved them.
+With Qdrant's default [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the top ranks in each `prefetch` contribute far more to the fused score than the tail. Raising `limit` can add candidates without changing the top 10, or replace a more relevant result. CodeSearchNet peaks at `limit=200` and is lower at 500; DBPedia peaks at 50.<br>
+Other fusion methods can rank those candidates differently. [Fusion tuning](/articles/how-to-tune-hybrid-search/) shows how to test them on your labels.
 
-Start `limit` around 100 to 200 and sweep from there on your own labels. Candidates have to exist before another stage can rank them, but the current score may not follow. [A reranker](/articles/when-a-reranker-is-worth-it/) can use that extra choice. A [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) can rescore the same candidates using payload fields such as recency or popularity.
+Start `limit` around 100 to 200 and sweep from there on your own labels. A [reranker](/articles/when-a-reranker-is-worth-it/) can use the added candidates, and a [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) can rescore those same candidates from payload fields.
 
-Depth has a lower per-candidate cost than a model call, but it is not free. In one fused `query_points` request, going from `limit=10` to `limit=500` added 40% to 45% to the median: 2.14 ms to 3.06 ms on SciFact, and 2.77 ms to 3.94 ms on DBPedia-entity.
+### Depth Is Per Shard
 
-Those are single-shard figures on one machine with no concurrent load. Under a tight p95 budget, concurrent load, or shard fan-out, 45% is material. Take the shape and measure the magnitude yourself.
+Raising `limit` adds retrieval work. If a reranker follows, it also increases the number of candidates the reranker scores. In our single-shard tests, raising `limit` from 10 to 500 increased median latency by 37% to 43%.<br>
+These results establish the direction, not a portable ratio. Measure the change under your own p95 budget, concurrency, and shard fan-out.
 
-**Depth is per shard.** Each shard receives its own `limit` and searches its own data. In hybrid search, on 12 shards a `limit` of 200 means collection-level fusion sees up to 2,400 candidates. Root-level fusion runs once at collection level; only a fusion nested inside a prefetch runs per shard. Both matter when you are reading a latency profile and wondering why depth cost more than you budgeted.
+Each shard receives its own `limit` and searches its own data. On 12 shards, `limit=200` means the collection-level stage, fusion or a downstream reranker, can receive up to 2,400 candidates.<br>
+[Root-level fusion](/documentation/search/hybrid-queries/#fusion-in-distributed-collections) runs once at collection level; only fusion nested inside a `prefetch` runs per shard.
 
 ## Raise `hnsw_ef` Only When Recall Is Still Climbing
 
-For dense vectors, `hnsw_ef` decides how wide the HNSW graph traversal searches. It trades approximate-search recall for latency, with no memory cost.
+For dense vectors, `hnsw_ef` decides how wide the HNSW graph traversal searches. It trades approximate-search recall for latency.
 
-The sweep was flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed the fused score by at most 0.0022 on any of the five, and candidate recall by at most 0.0040. On SciFact, the results at 128 and 512 are byte-identical.
+The sweep was flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only `nDCG@10` was just as flat, moving by at most 0.0035. On SciFact, the results at 128 and 512 are byte-identical.
 
-That result describes collections of 5,000 to 100,000 documents on one shard, where graph recall saturates almost immediately.
+These results apply to clean, unfiltered, unquantized one-shard collections built in one batch. Strict payload filters can leave filterable HNSW short of full accuracy, and this experiment did not cover graphs shaped by continuous upserts or optimizer merges.<br>
+Do not assume recall has saturated in either case.
 
-When approximate-search recall has not saturated, `hnsw_ef` is a recall-against-latency knob. Point count is only one input. Vector distribution, filters, and query difficulty also move the saturation point, so no collection size tells you which side you are on.
-
-Measure approximate search against exact search on your own data instead:
+Measure approximate search against exact search on your own data instead. Set `limit` to the value used by the dense-only stage or dense `prefetch` you are testing:
 
 ```python
 import os
@@ -114,7 +118,8 @@ for ef in (16, 64, 128, 256, 512):
     print(ef, recall_at(ef, queries, truth))
 ```
 
-`exact=True` runs a full scan, which is the ground truth the approximation is trying to match. Sweep `ef` and plot recall against the millisecond figure. On SciFact's 5,183 documents, over 50 queries:
+`exact=True` runs a full scan, which is the ground truth the approximation is trying to match.<br>
+Sweep `ef` and plot recall against the millisecond figure. In this one-shard SciFact example, over 50 queries:
 
 | `hnsw_ef` | Recall against exact | Milliseconds per query |
 |---|---|---|
@@ -124,17 +129,19 @@ for ef in (16, 64, 128, 256, 512):
 | 256 | 1.000 | 2.45 |
 | 512 | 1.000 | 2.25 |
 
-Recall starts at 0.986 and has almost nowhere to go. In our fused query at prefetch `limit` 200, raising `hnsw_ef` from 16 to 512 added between 4% and 49% to median latency across the five datasets, for at most 0.0022 of `nDCG@10`. Here, the larger search budget is close to pure cost.
+In this SciFact example, recall starts at 0.986 and has almost nowhere to go.<br>
+Across our five hybrid requests at prefetch `limit=200`, raising `hnsw_ef` from 16 to 512 added between 4% and 49% to median latency, for at most 0.0022 of fused `nDCG@10`. Here, the larger search budget is close to pure cost.
 
-That is what a saturated graph looks like. On a collection where the recall column climbs, the knee is your setting. If it is flat from the start, do not spend more latency on `hnsw_ef`.
+That is what a saturated graph looks like. On a collection where the recall column climbs, choose the lowest `hnsw_ef` that meets your recall target within the latency budget. If it is flat from the start, leave `hnsw_ef` alone. Test candidate depth only when a downstream stage can use more candidates.
 
-Read the recall column here rather than inferring index state from two result lists that match. [The pre-tuning audit](/articles/before-tuning-a-qdrant-collection/) covers why equal lists prove nothing and what to read instead.
+Matching result lists do not prove a full scan. The [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) explain why and show what to inspect.
 
-## When RAM Is the Constraint
+## When RAM Limits Candidate Depth
 
-Once RAM becomes the binding constraint, reducing candidate depth looks like an easy saving. What it saves is latency: the sections above priced depth at 40% to 45% between depths 10 and 500. Cutting it also removes the candidates a later ranking stage needs. Test quantization first.
+Reducing candidate depth does not make the collection smaller. It reduces query work and can leave a later ranking stage with fewer candidates.<br>
+If RAM is the constraint, you may want to test quantization on your labels before lowering `limit`. The [TurboQuant quantization guide](/articles/turboquant-quantization/) compares the storage classes.
 
-**Quantization** stores each vector in fewer bits, and int8 scalar quantization is a quarter the size of float32. We rebuilt SciFact and DBPedia-entity with it to measure what the saving costs downstream.
+Int8 scalar quantization uses a quarter of the vector storage of float32. We rebuilt SciFact and DBPedia-entity with it to measure dense top-10 agreement and the effect on the final hybrid result.
 
 | Setting | Dense top-10 agreement with unquantized | Fused nDCG@10 change |
 |---|---|---|
@@ -142,20 +149,29 @@ Once RAM becomes the binding constraint, reducing candidate depth looks like an 
 | `rescore=True` | 0.997 to 1.000 | -0.0001 to +0.0000 |
 | `rescore=True`, `oversampling=4` | 0.998 to 1.000 | +0.0000 to +0.0001 |
 
-Quantization does reorder the candidate list: without rescoring, 1.6% of the dense prefetch's top 10 moves. In our fused query, almost none of that reached the final results, because fusion used ranks. `rescore` re-scores the shortlist with the original vectors, `oversampling` fetches extra compressed candidates for it to choose from, and on SciFact rescoring recovered the exact unquantized ordering. [The quantization guide](/documentation/manage-data/quantization/#searching-with-quantization) explains the controls.
+Quantization does reorder the candidate list: without rescoring, 1.6% of the dense prefetch's top 10 moves.<br>
+In our fused query, almost none of that reached the final results, because the default RRF fusion used ranks.<br>
+[`rescore`](/documentation/manage-data/quantization/#searching-with-quantization) re-scores the shortlist with the original vectors, [`oversampling`](/documentation/manage-data/quantization/#searching-with-quantization) fetches extra compressed candidates for it to choose from, and on SciFact rescoring recovered the unquantized top 10.
 
 That is int8 scalar quantization on one shard at 5,000 and 100,000 documents. Binary quantization is a far more aggressive trade and we did not test it here.
 
 **Once the collection outgrows RAM**, the question changes from how many candidates to fetch to which structures stay resident and what recovering the lost quality costs on the query path. [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) measures that boundary on 4.6 million vectors and carries the placement rules.
 
-The remaining index knobs each wait for a specific condition. `m` and `ef_construct` require a rebuild, so consider them only when candidate recall remains below target and a rebuild is acceptable. The [ACORN search algorithm](/documentation/search/search/#acorn-search-algorithm) is off until you enable it; consider it when several strict filters combine on a filtered collection. The quantization `quantile` is a refinement after quantization is already on. Reach for each one when its condition arrives.
+## Settings for Specific Cases
 
-## Use the Gap to Find the Bottleneck
+If `hnsw_ef` cannot reach your recall target, [`m`](/documentation/manage-data/indexing/#vector-index) increases the graph's connections and [`ef_construct`](/documentation/manage-data/indexing/#vector-index) broadens the search during graph construction. Both can raise the approximate-search recall the index can achieve, but changing either rebuilds the HNSW index.
 
-One number links these trade-offs: the difference between what your candidate set could score if perfectly ordered and what it does score. On these datasets that gap ran from 0.14 to 0.51 and grew every time we fetched more candidates.
+The [ACORN search algorithm](/documentation/search/search/#acorn-search-algorithm) is disabled by default; set its `enable` flag before it can explore beyond direct graph neighbors when filters exclude them. It can run about 2 to 10x slower, so use it when several strict payload filters combine.
 
-You can measure it on your own collection with a [labeled set](/articles/before-tuning-a-qdrant-collection/). In hybrid search, take the union of the two prefetch results. In a single-prefetch pipeline, use the candidates passed to the downstream stage. Score that set as if perfectly ordered, then compare it with what you ship.
+On a multi-tenant collection, mark the tenant field's keyword index with [`is_tenant=true`](/documentation/manage-data/multitenancy/#partition-by-payload) so Qdrant groups each tenant's vectors for efficient filtered search.
 
-A large gap means the documents are already present and the ranking stage is leaving them at rank 40. Fusion and depth tuning moved that gap very little here. A small gap means the ranking is close to the best this candidate set allows, so the next gain needs better candidates from the embedding model or another prefetch.
+For scalar quantization, [`quantile`](/documentation/manage-data/quantization/#accuracy-tuning) sets the quantization bounds. A value below `1.0` excludes extreme vector components, preserving more precision for typical values while clipping those extremes. Test it when outliers may be hurting quantization quality. It changes precision, not memory use.
 
-The gap was large on all five datasets. [Reranking](/articles/when-a-reranker-is-worth-it/) tests whether another ranking stage can collect it, and what that stage costs.
+These settings solve different, specific constraints; they are not general-purpose tuning knobs.
+
+## What to Tune Next
+
+Across the five hybrid measurements, more depth raised the best possible score far more than the current score under default RRF. That gap tells you whether the next experiment should focus on ranking or retrieval.<br>
+A large gap means relevant candidates are present but not ranked highly enough. In hybrid search, test fusion settings; in any pipeline with a downstream stage, test whether a reranker can recover the gap. A small gap means ranking is already close to the best the candidate set allows, so improve the candidates instead.
+
+Next, if you use hybrid search, [measure what the second prefetch adds to the candidate list](/articles/hybrid-search-recall-candidate-list/).
