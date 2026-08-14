@@ -23,11 +23,12 @@ Before you tune candidate depth, use the [pre-tuning checks](/articles/before-tu
 Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates.<br>
 In hybrid search, each prefetch has its own `limit`. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
 
-Unless noted otherwise, these measurements use five public datasets with 5,183 to 100,000 documents. Each ran unquantized on one shard in Docker with `all-MiniLM-L6-v2`; the hybrid measurements also used Qdrant's core BM25 for sparse retrieval. Use the checks in this article to find the depth your own labels and latency budget support.
+Unless noted otherwise, these measurements use five public datasets with 5,183 to 100,000 documents. Each ran unquantized on one shard in Docker with `all-MiniLM-L6-v2`; the hybrid measurements also used Qdrant's core BM25 for sparse retrieval.<br>
+Use the checks in this article to find the depth your own labels and latency budget support.
 
 ## The Short Version
 
-1. Test [`limit`](/documentation/search/hybrid-queries/#multi-stage-queries) at 100 and 200 for a downstream ranking stage. Treat that range as a starting range, not a production default: `limit` applies per shard, and a reranker pays for every candidate.
+1. Test [`limit`](/documentation/search/hybrid-queries/#multi-stage-queries) at 100 and 200 for a downstream ranking stage. Treat that range as a starting range, not a production default: `limit` applies per shard, and a reranker scores every candidate.
 2. Before raising [`hnsw_ef`](/documentation/search/search/#search-api), compare approximate-search recall with an [exact search](/documentation/search/search/#exact-search). If recall has plateaued, a larger value adds latency without improving recall. [Measuring ANN recall](/documentation/tutorials-search-engineering/ann-recall/) shows the test.
 3. If RAM is the constraint, test quantization before reducing candidate depth. [Quantization](/documentation/manage-data/quantization/) covers the collection settings, and [memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) shows the latency cost of restoring quality after the original vectors no longer fit in RAM.
 
@@ -67,7 +68,8 @@ Each shard receives its own `limit` and searches its own data. On 12 shards, `li
 
 For dense vectors, `hnsw_ef` decides how wide the HNSW graph traversal searches. It trades approximate-search recall for latency.
 
-The results were flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only `nDCG@10` was just as flat, moving by at most 0.0035. On SciFact, the results at 128 and 512 are byte-identical.
+The results were flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only nDCG@10 was just as flat, moving by at most 0.0035.<br>
+On SciFact, the results at 128 and 512 are byte-identical.
 
 These results apply to clean, unfiltered, unquantized one-shard collections built in one batch. Strict payload filters can leave filterable HNSW short of full accuracy, and this experiment did not cover graphs shaped by continuous upserts or optimizer merges.<br>
 Do not assume recall has saturated in either case.
@@ -121,7 +123,7 @@ for ef in (16, 64, 128, 256, 512):
 `exact=True` runs a full scan, which is the ground truth the approximation is trying to match.<br>
 Test `ef` values and plot recall against the millisecond figure. In this one-shard SciFact example, over 50 queries:
 
-| `hnsw_ef` | Recall against exact | Milliseconds per query |
+| `hnsw_ef` | Recall Against Exact | Milliseconds per Query |
 |---|---|---|
 | 16 | 0.986 | 1.98 |
 | 64 | 0.993 | 1.98 |
@@ -132,7 +134,8 @@ Test `ef` values and plot recall against the millisecond figure. In this one-sha
 In this SciFact example, recall starts at 0.986 and has almost nowhere to go.<br>
 Across our five hybrid requests at prefetch `limit=200`, raising `hnsw_ef` from 16 to 512 added between 4% and 49% to median latency, for at most 0.0022 of fused `nDCG@10`. Here, the larger search budget is close to pure cost.
 
-That is what a saturated graph looks like. On a collection where the recall column climbs, choose the lowest `hnsw_ef` that meets your recall target within the latency budget. If it is flat from the start, leave `hnsw_ef` alone. Test candidate depth only when a downstream stage can use more candidates.
+That is what a saturated graph looks like. On a collection where the recall column climbs, choose the lowest `hnsw_ef` that meets your recall target within the latency budget. If it is flat from the start, leave `hnsw_ef` alone.<br>
+Test candidate depth only when a downstream stage can use more candidates.
 
 Matching result lists do not prove a full scan. The [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) explain why and show what to inspect.
 
@@ -143,7 +146,7 @@ If RAM is the constraint, you may want to test quantization on your labels befor
 
 Int8 scalar quantization uses a quarter of the vector storage of float32. We rebuilt SciFact and DBPedia-entity with it to measure dense top-10 agreement and the effect on the final hybrid result.
 
-| Setting | Dense top-10 agreement with unquantized | Fused nDCG@10 change |
+| Setting | Dense Top-10 Agreement with Unquantized | Fused `nDCG@10` Change |
 |---|---|---|
 | No rescoring | 0.984 | -0.0001 to +0.0000 |
 | `rescore=True` | 0.997 to 1.000 | -0.0001 to +0.0000 |
@@ -151,17 +154,17 @@ Int8 scalar quantization uses a quarter of the vector storage of float32. We reb
 
 Quantization does reorder the candidate list: without rescoring, 1.6% of the dense prefetch's top 10 moves.<br>
 In our fused query, almost none of that reached the final results, because the default RRF fusion used ranks.<br>
-[`rescore`](/documentation/manage-data/quantization/#searching-with-quantization) re-scores the shortlist with the original vectors, [`oversampling`](/documentation/manage-data/quantization/#searching-with-quantization) fetches extra compressed candidates for it to choose from, and on SciFact rescoring recovered the unquantized top 10.
+[`rescore`](/documentation/manage-data/quantization/#searching-with-quantization) rescores the shortlist with the original vectors, [`oversampling`](/documentation/manage-data/quantization/#searching-with-quantization) fetches extra compressed candidates for it to choose from, and on SciFact rescoring recovered the unquantized top 10.
 
 That is int8 scalar quantization on one shard at 5,000 and 100,000 documents. Binary quantization is a far more aggressive trade and we did not test it here.
 
-**Once the collection outgrows RAM**, the question changes from how many candidates to fetch to which structures stay resident and what recovering the lost quality costs on the query path. [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) measures that boundary on 4.6 million vectors and carries the placement rules.
+**Once the collection outgrows RAM**, the question changes from how many candidates to fetch to which structures stay resident and what recovering the lost quality costs on the query path. [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) measures that boundary on 4.6 million vectors and explains the placement rules.
 
 ## Settings for Specific Cases
 
 If `hnsw_ef` cannot reach your recall target, [`m`](/documentation/manage-data/indexing/#vector-index) increases the graph's connections and [`ef_construct`](/documentation/manage-data/indexing/#vector-index) broadens the search during graph construction. Both can raise the approximate-search recall the index can achieve, but changing either rebuilds the HNSW index.
 
-The [ACORN search algorithm](/documentation/search/search/#acorn-search-algorithm) is disabled by default; set its `enable` flag before it can explore beyond direct graph neighbors when filters exclude them. It can run about 2 to 10x slower, so use it when several strict payload filters combine.
+The [ACORN search algorithm](/documentation/search/search/#acorn-search-algorithm) is disabled by default; set its `enable` flag before it can explore beyond direct graph neighbors when filters exclude them. It can run about two to 10 times slower, so use it when several strict payload filters combine.
 
 On a multi-tenant collection, mark the tenant field's keyword index with [`is_tenant=true`](/documentation/manage-data/multitenancy/#partition-by-payload) so Qdrant groups each tenant's vectors for efficient filtered search.
 
@@ -172,6 +175,7 @@ These settings solve different, specific constraints; they are not general-purpo
 ## What to Tune Next
 
 Across the five hybrid measurements, more depth raised the best possible score far more than the current score under default RRF. That gap tells you whether the next experiment should focus on ranking or retrieval.<br>
-A large gap means relevant candidates are present but not ranked highly enough. In hybrid search, test fusion settings; in any pipeline with a downstream stage, test whether a reranker can recover the gap. A small gap means ranking is already close to the best the candidate set allows, so improve the candidates instead.
+A large gap means relevant candidates are present but not ranked highly enough. In hybrid search, test fusion settings; in any pipeline with a downstream stage, test whether a reranker can recover the gap.<br>
+A small gap means ranking is already close to the best the candidate set allows, so improve the candidates instead.
 
 Next, if you use hybrid search, [tune fusion over the candidates you already retrieve](/articles/how-to-tune-hybrid-search/).
