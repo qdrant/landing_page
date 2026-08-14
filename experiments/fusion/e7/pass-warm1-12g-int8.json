@@ -1,0 +1,13 @@
+{
+  "collection": "dbpedia_full",
+  "depth": 200,
+  "hnsw_ef": 128,
+  "label": "warm1-12g-int8",
+  "max_ms": 94.395,
+  "mean_ms": 21.33,
+  "memory_limit": "12884901888/12884901888",
+  "p50_ms": 18.017,
+  "p95_ms": 39.182,
+  "queries": 400,
+  "total_seconds": 8.532
+}

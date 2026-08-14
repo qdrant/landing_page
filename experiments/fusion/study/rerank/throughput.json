@@ -1,0 +1,92 @@
+{
+  "scifact__ms-marco-MiniLM-L-6-v2": {
+    "pairs": 40000,
+    "seconds": 627.9811291694641,
+    "docs_per_second": 63.69618152841944,
+    "queries": 200
+  },
+  "arguana__ms-marco-MiniLM-L-6-v2": {
+    "pairs": 40000,
+    "seconds": 610.3902449607849,
+    "docs_per_second": 65.53184676562097,
+    "queries": 200
+  },
+  "wands__ms-marco-MiniLM-L-6-v2": {
+    "pairs": 40000,
+    "seconds": 325.2718458175659,
+    "docs_per_second": 122.97406158673401,
+    "queries": 200
+  },
+  "codesearchnet__ms-marco-MiniLM-L-6-v2": {
+    "pairs": 40000,
+    "seconds": 602.5684859752655,
+    "docs_per_second": 66.38249581748279,
+    "queries": 200
+  },
+  "dbpedia-entity__ms-marco-MiniLM-L-6-v2": {
+    "pairs": 40000,
+    "seconds": 188.5748097896576,
+    "docs_per_second": 212.1174087070128,
+    "queries": 200
+  },
+  "scifact__ms-marco-MiniLM-L-12-v2": {
+    "pairs": 40000,
+    "seconds": 1165.7787899971008,
+    "docs_per_second": 34.31182686047966,
+    "queries": 200
+  },
+  "arguana__ms-marco-MiniLM-L-12-v2": {
+    "pairs": 40000,
+    "seconds": 1161.872977733612,
+    "docs_per_second": 34.42717127135991,
+    "queries": 200
+  },
+  "wands__ms-marco-MiniLM-L-12-v2": {
+    "pairs": 40000,
+    "seconds": 593.5390019416809,
+    "docs_per_second": 67.39236995234604,
+    "queries": 200
+  },
+  "codesearchnet__ms-marco-MiniLM-L-12-v2": {
+    "pairs": 40000,
+    "seconds": 1146.3750929832458,
+    "docs_per_second": 34.89259339707636,
+    "queries": 200
+  },
+  "dbpedia-entity__ms-marco-MiniLM-L-12-v2": {
+    "pairs": 40000,
+    "seconds": 340.96251702308655,
+    "docs_per_second": 117.31494813340906,
+    "queries": 200
+  },
+  "scifact__bge-reranker-base": {
+    "pairs": 40000,
+    "seconds": 2547.5180122852325,
+    "docs_per_second": 15.701557283246956,
+    "queries": 200
+  },
+  "arguana__bge-reranker-base": {
+    "pairs": 40000,
+    "seconds": 2548.0282278060913,
+    "docs_per_second": 15.698413213593353,
+    "queries": 200
+  },
+  "wands__bge-reranker-base": {
+    "pairs": 40000,
+    "seconds": 1634.637345790863,
+    "docs_per_second": 24.4702594755948,
+    "queries": 200
+  },
+  "codesearchnet__bge-reranker-base": {
+    "pairs": 40000,
+    "seconds": 2525.584105014801,
+    "docs_per_second": 15.837920392584028,
+    "queries": 200
+  },
+  "dbpedia-entity__bge-reranker-base": {
+    "pairs": 40000,
+    "seconds": 891.208906173706,
+    "docs_per_second": 44.882854876007684,
+    "queries": 200
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "at": "2026-08-12T02:04:04-0400",
+  "cgroup": {
+    "io.stat": "254:0 rbytes=580653056 wbytes=32768 rios=5494 wios=62 dbytes=0 dios=0",
+    "memory.current": "1995710464",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.max": "4294967296",
+    "memory.peak": "2092564480",
+    "memory.stat": "file 1544192\ninactive_file 663552\nactive_file 892928\nworkingset_refault_file 0\nworkingset_activate_file 0\npgscan 0\npgsteal 0\npgmajfault 3806",
+    "memory.swap.current": "0"
+  },
+  "container": "e7-qdrant",
+  "docker_memory_limit": "4294967296/4294967296",
+  "docker_stats_mem_usage": "1.857GiB / 4GiB|46.41%",
+  "host": {
+    "cores": 15,
+    "cpu": "Apple M5 Pro",
+    "docker_vm_memory_bytes": 16747134976,
+    "host_swap": "total = 14336.00M  used = 13444.94M  free = 891.06M  (encrypted)",
+    "image": "qdrant/qdrant:v1.19.0",
+    "memory_bytes": 25769803776,
+    "storage_device": "/dev/disk3s5   926Gi   475Gi   412Gi    54%    2.9M  4.3G    0%   /System/Volumes/Data"
+  },
+  "label": "loaded-4g-cold",
+  "qdrant_rss_bytes": 9492459520,
+  "resident": {
+    "active_file_bytes": 1261568,
+    "apparent_bytes": {
+      "graph": 372750835,
+      "id_tracker": 60267034,
+      "originals": 7120776216,
+      "payload": 857412510,
+      "quantized": 0
+    },
+    "file_cache_bytes": 2387968,
+    "inactive_file_bytes": 1138688,
+    "on_disk_bytes": {
+      "graph": 372830208,
+      "id_tracker": 60268544,
+      "originals": 7120822272,
+      "payload": 668340224,
+      "quantized": 0
+    },
+    "on_disk_total_bytes": 8222261248,
+    "pgmajfault": 3810,
+    "share_of_storage_cached": 0.0003,
+    "storage_blocks_bytes": 8782721024,
+    "workingset_refault_file": 0
+  },
+  "storage_apparent_bytes": 9028870893,
+  "storage_breakdown": "15\t/qdrant/storage/collections/dbpedia_full/0/applied_seq.json\n103\t/qdrant/storage/collections/dbpedia_full/0/newest_clocks.json\n87\t/qdrant/storage/collections/dbpedia_full/0/replica_state.json\n8928206316\t/qdrant/storage/collections/dbpedia_full/0/segments\n21\t/qdrant/storage/collections/dbpedia_full/0/shard_config.json\n100663314\t/qdrant/storage/collections/dbpedia_full/0/wal",
+  "storage_bytes": 8782721024
+}

@@ -1,0 +1,58 @@
+{
+  "at": "2026-08-12T09:58:00-0400",
+  "cgroup": {
+    "io.stat": "254:0 rbytes=49712668672 wbytes=21424852992 rios=3674629 wios=30402 dbytes=0 dios=0",
+    "memory.current": "10245935104",
+    "memory.events": "low 0\nhigh 0\nmax 24800\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.events.local": "low 0\nhigh 0\nmax 24800\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.max": "12884901888",
+    "memory.peak": "12884901888",
+    "memory.stat": "anon 2249072640\nfile 7687196672\npagetables 32268288\nsock 0\ninactive_file 5472317440\nactive_file 2214891520\nslab 43701488\nworkingset_refault_file 8790070\nworkingset_activate_file 7978011\npgscan 12450881\npgsteal 12425180\npgmajfault 4017114",
+    "memory.swap.current": "0"
+  },
+  "container": "e7-qdrant",
+  "docker_memory_limit": "12884901888/12884901888",
+  "docker_stats_mem_usage": "4.445GiB / 12GiB|37.05%",
+  "host": {
+    "cores": 15,
+    "cpu": "Apple M5 Pro",
+    "docker_version": "29.6.2",
+    "docker_vm_memory_bytes": 16747134976,
+    "host_swap": "total = 6144.00M  used = 5144.25M  free = 999.75M  (encrypted)",
+    "image": "qdrant/qdrant:v1.19.0",
+    "memory_bytes": 25769803776,
+    "storage_device": "/dev/disk3s5   926Gi   468Gi   427Gi    53%    2.9M  4.5G    0%   /System/Volumes/Data",
+    "vm_kernel": "Linux 0fab91539649 6.12.76-linuxkit #1 SMP Sat Jul 11 11:18:11 UTC 2026 aarch64 Linux",
+    "vm_page_cache_bytes": 7866281984,
+    "vm_swap_bytes": 1073737728
+  },
+  "label": "e7a-turbo_bits1",
+  "qdrant_rss_bytes": 9878896640,
+  "resident": {
+    "active_file_bytes": 2214891520,
+    "apparent_bytes": {
+      "graph": 412216750,
+      "id_tracker": 60267026,
+      "originals": 7120776212,
+      "payload": 857412396,
+      "quantized": 259611632
+    },
+    "file_cache_bytes": 7687196672,
+    "inactive_file_bytes": 5472317440,
+    "on_disk_bytes": {
+      "graph": 412282880,
+      "id_tracker": 60268544,
+      "originals": 7120814080,
+      "payload": 668311552,
+      "quantized": 259620864
+    },
+    "on_disk_total_bytes": 8521297920,
+    "pgmajfault": 4017114,
+    "share_of_storage_cached": 0.8464,
+    "storage_blocks_bytes": 9081790464,
+    "workingset_refault_file": 8790070
+  },
+  "storage_apparent_bytes": 9325897968,
+  "storage_breakdown": "15\t/qdrant/storage/collections/dbpedia_full/0/applied_seq.json\n103\t/qdrant/storage/collections/dbpedia_full/0/newest_clocks.json\n87\t/qdrant/storage/collections/dbpedia_full/0/replica_state.json\n9225233351\t/qdrant/storage/collections/dbpedia_full/0/segments\n21\t/qdrant/storage/collections/dbpedia_full/0/shard_config.json\n0\t/qdrant/storage/collections/dbpedia_full/0/temp_segments\n100663314\t/qdrant/storage/collections/dbpedia_full/0/wal",
+  "storage_bytes": 9081790464
+}

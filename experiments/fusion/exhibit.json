@@ -1,0 +1,257 @@
+{
+  "corpus": "wands",
+  "query_id": "123",
+  "query": "entrance table",
+  "queries_where_they_disagree": 202,
+  "queries_total": 480,
+  "arms": {
+    "low_k": "rrf_k2_w1-1",
+    "high_k": "rrf_k61_w1-1"
+  },
+  "lanes": {
+    "rrf_k2_w1-1": [
+      {
+        "rank": 0,
+        "point_id": 2219,
+        "text": "puzzle table",
+        "fused_score": 0.5,
+        "dense_rank": 0,
+        "sparse_rank": null,
+        "dense_contribution": 0.5,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 0
+      },
+      {
+        "rank": 1,
+        "point_id": 34535,
+        "text": "console table sofa table for entryway with drawers and long shelf rectangular ( antique navy ) the classic accent table is suitable for any living room . it can",
+        "fused_score": 0.5,
+        "dense_rank": null,
+        "sparse_rank": 0,
+        "dense_contribution": null,
+        "sparse_contribution": 0.5,
+        "source": "sparse_only",
+        "relevance": 2
+      },
+      {
+        "rank": 2,
+        "point_id": 7407,
+        "text": "ocampo mahogany entrance console table this console table is hand-carved individually so no two pieces will be exactly the same . it comes with a shelf for maga",
+        "fused_score": 0.3333333432674408,
+        "dense_rank": null,
+        "sparse_rank": 1,
+        "dense_contribution": null,
+        "sparse_contribution": 0.3333333432674408,
+        "source": "sparse_only",
+        "relevance": 1
+      },
+      {
+        "rank": 3,
+        "point_id": 18067,
+        "text": "ashton hall console table",
+        "fused_score": 0.3333333432674408,
+        "dense_rank": 1,
+        "sparse_rank": null,
+        "dense_contribution": 0.3333333432674408,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 1
+      },
+      {
+        "rank": 4,
+        "point_id": 3649,
+        "text": "natasha 44 '' console table adorn your living space with an enhanced minimalist entrance table that will allow you to showcase the beauty of your decor and floo",
+        "fused_score": 0.2539682686328888,
+        "dense_rank": 7,
+        "sparse_rank": 5,
+        "dense_contribution": 0.1111111119389534,
+        "sparse_contribution": 0.1428571492433548,
+        "source": "both",
+        "relevance": 2
+      },
+      {
+        "rank": 5,
+        "point_id": 21904,
+        "text": "entrance feeder",
+        "fused_score": 0.25,
+        "dense_rank": null,
+        "sparse_rank": 2,
+        "dense_contribution": null,
+        "sparse_contribution": 0.25,
+        "source": "sparse_only",
+        "relevance": 0
+      },
+      {
+        "rank": 6,
+        "point_id": 30504,
+        "text": "chairside end table",
+        "fused_score": 0.25,
+        "dense_rank": 2,
+        "sparse_rank": null,
+        "dense_contribution": 0.25,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 1
+      },
+      {
+        "rank": 7,
+        "point_id": 29727,
+        "text": "barnes entrance scraper non-slip outdoor door mat symple stuff entrance scraper doormats are designed to let minimum dirt and moisture inside your house .",
+        "fused_score": 0.20000000298023224,
+        "dense_rank": null,
+        "sparse_rank": 3,
+        "dense_contribution": null,
+        "sparse_contribution": 0.20000000298023224,
+        "source": "sparse_only",
+        "relevance": 0
+      },
+      {
+        "rank": 8,
+        "point_id": 35253,
+        "text": "probst chairside end table",
+        "fused_score": 0.20000000298023224,
+        "dense_rank": 3,
+        "sparse_rank": null,
+        "dense_contribution": 0.20000000298023224,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 1
+      },
+      {
+        "rank": 9,
+        "point_id": 6546,
+        "text": "owston 39.37 '' console table do you have such distress ? every time you go out or go home , the items in your entrance are randomly placed , and then when you ",
+        "fused_score": 0.1666666716337204,
+        "dense_rank": null,
+        "sparse_rank": 4,
+        "dense_contribution": null,
+        "sparse_contribution": 0.1666666716337204,
+        "source": "sparse_only",
+        "relevance": 0
+      }
+    ],
+    "rrf_k61_w1-1": [
+      {
+        "rank": 0,
+        "point_id": 3649,
+        "text": "natasha 44 '' console table adorn your living space with an enhanced minimalist entrance table that will allow you to showcase the beauty of your decor and floo",
+        "fused_score": 0.029857397079467773,
+        "dense_rank": 7,
+        "sparse_rank": 5,
+        "dense_contribution": 0.014705882407724857,
+        "sparse_contribution": 0.01515151560306549,
+        "source": "both",
+        "relevance": 2
+      },
+      {
+        "rank": 1,
+        "point_id": 27319,
+        "text": "rustic elegant entry table masterfully created of heavy solid forged iron , this entry table has a bit less ornate than other models of our line . this sofa tab",
+        "fused_score": 0.027799228206276894,
+        "dense_rank": 9,
+        "sparse_rank": 13,
+        "dense_contribution": 0.014285714365541935,
+        "sparse_contribution": 0.013513513840734959,
+        "source": "both",
+        "relevance": 2
+      },
+      {
+        "rank": 2,
+        "point_id": 1606,
+        "text": "gaiana 12.6 '' console table this is attractive and practical console table , perfect for your living room , hallway , and entrance . the table is made of high-",
+        "fused_score": 0.02255896106362343,
+        "dense_rank": 70,
+        "sparse_rank": 6,
+        "dense_contribution": 0.007633587811142206,
+        "sparse_contribution": 0.014925372786819935,
+        "source": "both",
+        "relevance": 2
+      },
+      {
+        "rank": 3,
+        "point_id": 36915,
+        "text": "console table entry table sofa side table for entryway living room oak bring a simplistic , modern style to your house with this fch console table ! the table f",
+        "fused_score": 0.019038207828998566,
+        "dense_rank": 8,
+        "sparse_rank": 159,
+        "dense_contribution": 0.014492753893136978,
+        "sparse_contribution": 0.004545454401522875,
+        "source": "both",
+        "relevance": 1
+      },
+      {
+        "rank": 4,
+        "point_id": 2219,
+        "text": "puzzle table",
+        "fused_score": 0.016393441706895828,
+        "dense_rank": 0,
+        "sparse_rank": null,
+        "dense_contribution": 0.016393441706895828,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 0
+      },
+      {
+        "rank": 5,
+        "point_id": 34535,
+        "text": "console table sofa table for entryway with drawers and long shelf rectangular ( antique navy ) the classic accent table is suitable for any living room . it can",
+        "fused_score": 0.016393441706895828,
+        "dense_rank": null,
+        "sparse_rank": 0,
+        "dense_contribution": null,
+        "sparse_contribution": 0.016393441706895828,
+        "source": "sparse_only",
+        "relevance": 2
+      },
+      {
+        "rank": 6,
+        "point_id": 7407,
+        "text": "ocampo mahogany entrance console table this console table is hand-carved individually so no two pieces will be exactly the same . it comes with a shelf for maga",
+        "fused_score": 0.016129031777381897,
+        "dense_rank": null,
+        "sparse_rank": 1,
+        "dense_contribution": null,
+        "sparse_contribution": 0.016129031777381897,
+        "source": "sparse_only",
+        "relevance": 1
+      },
+      {
+        "rank": 7,
+        "point_id": 18067,
+        "text": "ashton hall console table",
+        "fused_score": 0.016129031777381897,
+        "dense_rank": 1,
+        "sparse_rank": null,
+        "dense_contribution": 0.016129031777381897,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 1
+      },
+      {
+        "rank": 8,
+        "point_id": 21904,
+        "text": "entrance feeder",
+        "fused_score": 0.01587301678955555,
+        "dense_rank": null,
+        "sparse_rank": 2,
+        "dense_contribution": null,
+        "sparse_contribution": 0.01587301678955555,
+        "source": "sparse_only",
+        "relevance": 0
+      },
+      {
+        "rank": 9,
+        "point_id": 30504,
+        "text": "chairside end table",
+        "fused_score": 0.01587301678955555,
+        "dense_rank": 2,
+        "sparse_rank": null,
+        "dense_contribution": 0.01587301678955555,
+        "sparse_contribution": null,
+        "source": "dense_only",
+        "relevance": 1
+      }
+    ]
+  }
+}

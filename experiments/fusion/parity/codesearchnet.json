@@ -1,0 +1,57 @@
+{
+  "queries": [
+    "https://github.com/20c/vodka/blob/9615148ac6560298453704bb5246b35b66b3339c/vodka/bartender.py#L44-L61",
+    "https://github.com/NetworkAutomation/jaide/blob/8571b987a8c24c246dc09f1bcc11cb0f045ec33f/jaide/core.py#L301-L352",
+    "https://github.com/arne-cl/discoursegraphs/blob/842f0068a3190be2c75905754521b176b25a54fb/src/discoursegraphs/readwrite/generic.py#L42-L66",
+    "https://github.com/dlancer/django-pages-cms/blob/441fad674d5ad4f6e05c953508950525dc0fa789/pages/models/pagecontenttypes.py#L115-L120",
+    "https://github.com/hatemile/hatemile-for-python/blob/1e914f9aa09f6f8d78282af131311546ecba9fb8/hatemile/implementation/css.py#L924-L938",
+    "https://github.com/leonjza/pytel/blob/db9bca21d1ce0b2dfb6bf5068d65fc7309265e28/pytel/base.py#L121-L152",
+    "https://github.com/numenta/htmresearch/blob/70c096b09a577ea0432c3f3bfff4442d4871b7aa/htmresearch/frameworks/layers/l2_l4_inference.py#L518-L573",
+    "https://github.com/robertmartin8/PyPortfolioOpt/blob/dfad1256cb6995c7fbd7a025eedb54b1ca04b2fc/pypfopt/cla.py#L287-L302",
+    "https://github.com/swisscom/cleanerversion/blob/becadbab5d7b474a0e9a596b99e97682402d2f2c/versions/fields.py#L46-L63",
+    "https://github.com/zyga/python-glibc/blob/d6fdb306b123a995471584a5201155c60a34448a/tempfile_ext.py#L254-L277"
+  ],
+  "arms": {
+    "rrf_k2_w1-1": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 1.0,
+      "id_mismatch": 0,
+      "boundary_ties": 16,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.0
+    },
+    "rrf_k61_w1-3": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 0.032968029379844666,
+      "id_mismatch": 0,
+      "boundary_ties": 13,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.0
+    },
+    "rrf_k1_w2-4": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 6.0,
+      "id_mismatch": 0,
+      "boundary_ties": 14,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.0
+    },
+    "dbsf": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 3.612288236618042,
+      "id_mismatch": 0,
+      "boundary_ties": 10,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.00036122882366180424
+    }
+  },
+  "passed": true
+}

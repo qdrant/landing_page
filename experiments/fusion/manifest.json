@@ -1,0 +1,237 @@
+{
+  "created": "2026-08-10T20:26:32-0400",
+  "seed": 42,
+  "depth": 200,
+  "qdrant": {
+    "image": "qdrant/qdrant:v1.19.0",
+    "digest": "qdrant/qdrant@sha256:057ee3a8da769fe7310dd3537b4dc7583bf87a95ce8ac43c0af5a46bc580d1fc",
+    "version": "1.19.0",
+    "commit": "74f3e85b9473c62560006c043e13737ce6b48412",
+    "url": "http://localhost:6360"
+  },
+  "versions": {
+    "qdrant-client": "1.19.0",
+    "fastembed": "0.8.0",
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "pytrec_eval-terrier": "0.5.10"
+  },
+  "datasets_note": "Corpora are read from pinned archives rather than the beir package; each corpus records its source URL and SHA256 under sources.",
+  "models": {
+    "dense": "sentence-transformers/all-MiniLM-L6-v2",
+    "dense_dim": 384,
+    "distance": "cosine",
+    "sparse": "Qdrant/bm25",
+    "sparse_modifier": "idf",
+    "stemmer": "english"
+  },
+  "index": {
+    "m": 16,
+    "ef_construct": 100,
+    "full_scan_threshold": 10,
+    "indexing_threshold": 1,
+    "quantization": null,
+    "shard_number": 1,
+    "replication_factor": 1,
+    "baseline_hnsw_ef": 128
+  },
+  "corpora": {
+    "scifact": {
+      "docs": 5183,
+      "queries": 300,
+      "qrels": 339,
+      "judged_per_query": 1.13,
+      "relevant_per_query": 1.13,
+      "max_relevance": 1,
+      "field_recipe": "title + \" \" + text",
+      "license": "CC BY 4.0",
+      "excludes_self": false,
+      "self_excluded_queries": 0,
+      "doc_id_sha256": "9948d896b35ae4e7c41b492f221009b39d23b61738c2b7ff63e8591c78b418d6",
+      "sources": [
+        {
+          "file": "scifact.zip",
+          "url": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip",
+          "sha256": "536e14446a0ba56ed1398ab1055f39fe852686ecad24a6306c80c490fa8e0165",
+          "bytes": 2816079
+        }
+      ],
+      "avg_len": 151.3803,
+      "avg_raw_tokens": 225.3251,
+      "builds": {
+        "1": {
+          "points_count": 5183,
+          "indexed_vectors_count": 10366,
+          "status": "green",
+          "hnsw_ef_64_equals_512": false,
+          "approximate": true,
+          "queries": 10
+        },
+        "2": {
+          "points_count": 5183,
+          "indexed_vectors_count": 10366,
+          "status": "green"
+        },
+        "3": {
+          "points_count": 5183,
+          "indexed_vectors_count": 10366,
+          "status": "green"
+        },
+        "4": {
+          "points_count": 5183,
+          "indexed_vectors_count": 10366,
+          "status": "green"
+        },
+        "5": {
+          "points_count": 5183,
+          "indexed_vectors_count": 10366,
+          "status": "green"
+        }
+      }
+    },
+    "arguana": {
+      "docs": 8674,
+      "queries": 1401,
+      "qrels": 1401,
+      "judged_per_query": 1.0,
+      "relevant_per_query": 1.0,
+      "max_relevance": 1,
+      "field_recipe": "title + \" \" + text",
+      "license": "CC BY 4.0",
+      "excludes_self": true,
+      "self_excluded_queries": 1294,
+      "doc_id_sha256": "3adc5fec157839718a0e1ae85ecbf8801ae5c721305c1762daadb6c5b1c3142a",
+      "sources": [
+        {
+          "file": "arguana.zip",
+          "url": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/arguana.zip",
+          "sha256": "cfdf79adce27a401b3cd3ea267903134dbfab2c6afeb95d7fe5724a00bf7557b",
+          "bytes": 3773617
+        }
+      ],
+      "avg_len": 96.5022,
+      "avg_raw_tokens": 169.3823,
+      "builds": {
+        "1": {
+          "points_count": 8674,
+          "indexed_vectors_count": 17347,
+          "status": "green",
+          "hnsw_ef_64_equals_512": false,
+          "approximate": true,
+          "queries": 10
+        }
+      }
+    },
+    "wands": {
+      "docs": 42994,
+      "queries": 480,
+      "qrels": 233448,
+      "judged_per_query": 486.35,
+      "relevant_per_query": 358.85,
+      "max_relevance": 2,
+      "field_recipe": "product_name + \" \" + product_description",
+      "license": "MIT",
+      "excludes_self": false,
+      "self_excluded_queries": 0,
+      "doc_id_sha256": "41d5a497a87189f2fa2cefc28a8cf7463f48c696943753922ce59916f44ac167",
+      "sources": [
+        {
+          "file": "wands_product.csv",
+          "url": "wayfair/WANDS@3b74dcf4ba29ab8ff3e6a50b5b09fc627cb882b5:dataset/product.csv",
+          "sha256": "d993926254572e6eba96c8fd87cc549a17fb91ad3748308036eee4cf92b10ac6",
+          "bytes": 90621131
+        },
+        {
+          "file": "wands_query.csv",
+          "url": "wayfair/WANDS@3b74dcf4ba29ab8ff3e6a50b5b09fc627cb882b5:dataset/query.csv",
+          "sha256": "63b61660560fecc33ec490804c7e2b81402ee3e7c31a9cbb5e03736639f68e95",
+          "bytes": 19942
+        },
+        {
+          "file": "wands_label.csv",
+          "url": "wayfair/WANDS@3b74dcf4ba29ab8ff3e6a50b5b09fc627cb882b5:dataset/label.csv",
+          "sha256": "c11fe81ad62f17f56f316b0ec9630ebe8fbe1393578cb0ca4f05c17253a180ef",
+          "bytes": 5736234
+        }
+      ],
+      "avg_len": 46.7145,
+      "avg_raw_tokens": 71.7577,
+      "builds": {
+        "1": {
+          "points_count": 42994,
+          "indexed_vectors_count": 85988,
+          "status": "green",
+          "hnsw_ef_64_equals_512": false,
+          "approximate": true,
+          "queries": 10
+        }
+      }
+    },
+    "codesearchnet": {
+      "docs": 50000,
+      "queries": 1000,
+      "qrels": 1000,
+      "judged_per_query": 1.0,
+      "relevant_per_query": 1.0,
+      "max_relevance": 1,
+      "field_recipe": "func_code_string with func_documentation_string removed",
+      "license": "MIT",
+      "excludes_self": false,
+      "self_excluded_queries": 0,
+      "doc_id_sha256": "4cccca9ffb73dea19e44e7e40cf00940f03e12b78b4cf7b8ac0c8b9843dfc11c",
+      "sources": [
+        {
+          "file": "csn_python_train.parquet",
+          "url": "hf://code-search-net/code_search_net@bd0cf261e357a3eb5c8fba490d23ec1a1cd59555/python/train-00000-of-00001.parquet",
+          "sha256": "ad9e3a4ab10c2c1d8926d2b26ca2bfcc3aadda1477ba29a933391f93806b9fed",
+          "bytes": 521785752
+        }
+      ],
+      "avg_len": 54.0006,
+      "avg_raw_tokens": 63.8992,
+      "builds": {
+        "1": {
+          "points_count": 50000,
+          "indexed_vectors_count": 100000,
+          "status": "green",
+          "hnsw_ef_64_equals_512": false,
+          "approximate": true,
+          "queries": 10
+        }
+      }
+    },
+    "dbpedia-entity": {
+      "docs": 100000,
+      "queries": 400,
+      "qrels": 43515,
+      "judged_per_query": 108.79,
+      "relevant_per_query": 38.22,
+      "max_relevance": 2,
+      "field_recipe": "title + \" \" + text",
+      "license": "CC BY-SA 3.0",
+      "excludes_self": false,
+      "self_excluded_queries": 0,
+      "doc_id_sha256": "bef1902782f67949f3b4f9be7a9384ed39a993824babd6201207c36e87867ffc",
+      "sources": [
+        {
+          "file": "dbpedia-entity.zip",
+          "url": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/dbpedia-entity.zip",
+          "sha256": "e4c13080b5399a19e02b04c908c485f8997ac9e265a06ef5f9f28c3f1134c472",
+          "bytes": 639285131
+        }
+      ],
+      "avg_len": 35.3281,
+      "avg_raw_tokens": 54.5955,
+      "builds": {
+        "1": {
+          "points_count": 100000,
+          "indexed_vectors_count": 200000,
+          "status": "green",
+          "hnsw_ef_64_equals_512": false,
+          "approximate": true,
+          "queries": 10
+        }
+      }
+    }
+  }
+}

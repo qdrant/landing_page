@@ -1,0 +1,247 @@
+{
+  "consistent": 20,
+  "rule": "a run is comparable only if its block reads sit within 40% of its cell's median",
+  "runs": [
+    {
+      "bytes_read": 302833664,
+      "median_bytes_read": 302833664,
+      "name": "exceeds-cached_pinned-rescoreFalse",
+      "p50_ms": 3.951,
+      "round": 0,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 300949504,
+      "median_bytes_read": 302833664,
+      "name": "exceeds-cached_pinned-rescoreFalse",
+      "p50_ms": 4.344,
+      "round": 1,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 2716643328,
+      "median_bytes_read": 302833664,
+      "name": "exceeds-cached_pinned-rescoreFalse",
+      "p50_ms": 28.57,
+      "round": 2,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 431190016,
+      "median_bytes_read": 302833664,
+      "name": "exceeds-cached_pinned-rescoreFalse",
+      "p50_ms": 3.251,
+      "round": 3,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 300888064,
+      "median_bytes_read": 302833664,
+      "name": "exceeds-cached_pinned-rescoreFalse",
+      "p50_ms": 4.288,
+      "round": 4,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 1544802304,
+      "median_bytes_read": 2982957056,
+      "name": "exceeds-cached_pinned-rescoreTrue",
+      "p50_ms": 7.243,
+      "round": 0,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 2982957056,
+      "median_bytes_read": 2982957056,
+      "name": "exceeds-cached_pinned-rescoreTrue",
+      "p50_ms": 43.973,
+      "round": 1,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 2981588992,
+      "median_bytes_read": 2982957056,
+      "name": "exceeds-cached_pinned-rescoreTrue",
+      "p50_ms": 42.702,
+      "round": 2,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 3298246656,
+      "median_bytes_read": 2982957056,
+      "name": "exceeds-cached_pinned-rescoreTrue",
+      "p50_ms": 47.277,
+      "round": 3,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 2985574400,
+      "median_bytes_read": 2982957056,
+      "name": "exceeds-cached_pinned-rescoreTrue",
+      "p50_ms": 42.748,
+      "round": 4,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": -8482148352,
+      "median_bytes_read": 3024424960,
+      "name": "exceeds-cold_cached-rescoreTrue",
+      "p50_ms": 43.788,
+      "round": 0,
+      "verdict": "counter reset, unusable"
+    },
+    {
+      "bytes_read": 2979942400,
+      "median_bytes_read": 3024424960,
+      "name": "exceeds-cold_cached-rescoreTrue",
+      "p50_ms": 45.666,
+      "round": 1,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 3469664256,
+      "median_bytes_read": 3024424960,
+      "name": "exceeds-cold_cached-rescoreTrue",
+      "p50_ms": 52.779,
+      "round": 2,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 3024424960,
+      "median_bytes_read": 3024424960,
+      "name": "exceeds-cold_cached-rescoreTrue",
+      "p50_ms": 42.757,
+      "round": 3,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 1616027648,
+      "median_bytes_read": 3024424960,
+      "name": "exceeds-cold_cached-rescoreTrue",
+      "p50_ms": 7.241,
+      "round": 4,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 2982047744,
+      "median_bytes_read": 3497377792,
+      "name": "exceeds-cold_pinned-rescoreTrue",
+      "p50_ms": 43.786,
+      "round": 0,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 1723932672,
+      "median_bytes_read": 3497377792,
+      "name": "exceeds-cold_pinned-rescoreTrue",
+      "p50_ms": 8.622,
+      "round": 1,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 3497377792,
+      "median_bytes_read": 3497377792,
+      "name": "exceeds-cold_pinned-rescoreTrue",
+      "p50_ms": 51.957,
+      "round": 2,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": -1338105856,
+      "median_bytes_read": 3497377792,
+      "name": "exceeds-cold_pinned-rescoreTrue",
+      "p50_ms": 3.049,
+      "round": 3,
+      "verdict": "counter reset, unusable"
+    },
+    {
+      "bytes_read": 4373032960,
+      "median_bytes_read": 3497377792,
+      "name": "exceeds-cold_pinned-rescoreTrue",
+      "p50_ms": 56.116,
+      "round": 4,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 300687360,
+      "median_bytes_read": 300638208,
+      "name": "fits-cached_pinned-rescoreFalse",
+      "p50_ms": 3.066,
+      "round": 0,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 300638208,
+      "median_bytes_read": 300638208,
+      "name": "fits-cached_pinned-rescoreFalse",
+      "p50_ms": 4.146,
+      "round": 1,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 300638208,
+      "median_bytes_read": 300638208,
+      "name": "fits-cached_pinned-rescoreFalse",
+      "p50_ms": 4.334,
+      "round": 2,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 300269568,
+      "median_bytes_read": 300638208,
+      "name": "fits-cached_pinned-rescoreFalse",
+      "p50_ms": 3.067,
+      "round": 3,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 300707840,
+      "median_bytes_read": 300638208,
+      "name": "fits-cached_pinned-rescoreFalse",
+      "p50_ms": 3.827,
+      "round": 4,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 0,
+      "median_bytes_read": 519073792,
+      "name": "fits-cached_pinned-rescoreTrue",
+      "p50_ms": 4.111,
+      "round": 0,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 298668032,
+      "median_bytes_read": 519073792,
+      "name": "fits-cached_pinned-rescoreTrue",
+      "p50_ms": 3.443,
+      "round": 1,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 959746048,
+      "median_bytes_read": 519073792,
+      "name": "fits-cached_pinned-rescoreTrue",
+      "p50_ms": 4.882,
+      "round": 2,
+      "verdict": "reads disagree with siblings, cache was not cold"
+    },
+    {
+      "bytes_read": 519073792,
+      "median_bytes_read": 519073792,
+      "name": "fits-cached_pinned-rescoreTrue",
+      "p50_ms": 4.304,
+      "round": 3,
+      "verdict": "consistent"
+    },
+    {
+      "bytes_read": 519073792,
+      "median_bytes_read": 519073792,
+      "name": "fits-cached_pinned-rescoreTrue",
+      "p50_ms": 3.841,
+      "round": 4,
+      "verdict": "consistent"
+    }
+  ],
+  "total": 30
+}

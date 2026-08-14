@@ -1,0 +1,57 @@
+{
+  "queries": [
+    "test-culture-ahrtsdlgra-con01a",
+    "test-economy-bepighbdb-pro01a",
+    "test-education-ufsdfkhbwu-con02a",
+    "test-health-dhgsshbesbc-con03a",
+    "test-international-eiahwpamu-pro01a",
+    "test-international-siacphbnt-pro05a",
+    "test-philosophy-elhbrd-con02a",
+    "test-politics-ghbgussbsbt-pro03a",
+    "test-religion-yercfrggms-con01a",
+    "test-sport-ybfgsohbhog-pro04a"
+  ],
+  "arms": {
+    "rrf_k2_w1-1": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 1.0,
+      "id_mismatch": 0,
+      "boundary_ties": 16,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.0
+    },
+    "rrf_k61_w1-3": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 0.032968029379844666,
+      "id_mismatch": 0,
+      "boundary_ties": 11,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.0
+    },
+    "rrf_k1_w2-4": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 6.0,
+      "id_mismatch": 0,
+      "boundary_ties": 12,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.0
+    },
+    "dbsf": {
+      "max_deviation": 0.0,
+      "max_relative": 0.0,
+      "max_score": 4.04109001159668,
+      "id_mismatch": 0,
+      "boundary_ties": 11,
+      "compared": 2000,
+      "passed": true,
+      "tolerance": 0.000404109001159668
+    }
+  },
+  "passed": true
+}
