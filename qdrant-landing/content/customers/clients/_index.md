@@ -49,6 +49,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/aracor.svg
       alt: Aracor logo
+  - id: bayer
+    name: Bayer
+    industry: Healthcare
+    product: Hybrid
+    company_size: 1000+
+    location: Europe
+    use_cases: ["RAG", "Semantic search", "Hybrid search"]
+    title: "How Bayer Built an Enterprise-Scale Search Engine with Qdrant"
+    blog_path: /blog/case-study-bayer
+    logo:
+      src: /img/customers-case-studies-logo/bayer.svg
+      alt: Bayer logo
   - id: bazaarvoice
     name: Bazaarvoice
     industry: E-commerce
@@ -77,8 +89,8 @@ clients:
     name: ConvoSearch
     industry: E-commerce
     product: Qdrant Cloud
-    company_size: 1-50 by
-    locationse: Asia Pacific
+    company_size: 1-50
+    location: Asia Pacific
     use_cases: ["Recommendations", "E-commerce discovery", "Real-time analytics"]
     title: "How ConvoSearch Boosted Revenue for D2C Brands with Qdrant"
     blog_path: /blog/case-study-convosearch
