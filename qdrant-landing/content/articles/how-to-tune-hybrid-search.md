@@ -1,7 +1,7 @@
 ---
-title: "How to Tune Hybrid Search: Fusion, k, and Weights"
-short_description: "The fusion knobs in hybrid search: RRF against DBSF, reading the constant k off your labels, and why weights are pairs and not ratios."
-description: "Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your label density, and get weights right."
+title: "How to Tune Hybrid Search in Qdrant"
+short_description: "The fusion knobs in hybrid search: RRF against DBSF, choosing the constant k from your relevance labels, and why weights are pairs and not ratios."
+description: "Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your relevance labels, and get weights right."
 preview_dir: /articles_data/how-to-tune-hybrid-search/preview
 social_preview_image: /articles_data/how-to-tune-hybrid-search/preview/social_preview.jpg
 weight: -210
@@ -18,17 +18,30 @@ keywords:
 category: search-quality
 ---
 
-Hybrid search gives you two lists and one ranking. The dense prefetch brings semantic matches. The sparse prefetch brings exact terms. Fusion decides which evidence counts.
+Hybrid search gives you two lists and one ranking. A dense prefetch finds similar meaning. A sparse prefetch finds matching terms such as identifiers, SKUs, and error codes. Fusion combines their results into one list.
 
 When the ranking looks plausible but not quite right, fusion is the cheapest place to look. It is arithmetic over two lists you already paid to retrieve: no rebuild, no extra latency, no second model.
 
-There are three knobs: the fusion method, RRF's `k`, and the weights. The numbers come from five public corpora of 5,183 to 100,000 documents, retrieved with `all-MiniLM-L6-v2` and Qdrant's core BM25, unquantized on a single shard. Every gain carries a 95% bootstrap interval over per-query differences, and [sizing a labeled set](/articles/tuning-retrieval-what-to-check-first/) has the method.
+There are three knobs: the fusion method, RRF's `k`, and the weights. The numbers come from five public corpora of 5,183 to 100,000 documents, retrieved with `all-MiniLM-L6-v2` and Qdrant's core BM25, unquantized on a single shard. Every gain carries a 95% interval from resampling per-query differences, and [building a labeled set](/articles/before-tuning-a-qdrant-collection/) has the method.
 
-Fusion can only rank what the two prefetches handed it. [Candidate depth](/articles/retrieval-candidate-depth-and-memory/) decides that. Set your prefetch `limit` to 100 or 200 and read on.
+Fusion can only rank what the two prefetches retrieved. [Candidate depth](/articles/candidate-depth/) decides that. Set your prefetch `limit` to 100 or 200 and read on.
 
-## One Curve Drives All Three Knobs
+That `limit` is per shard. Each shard runs the prefetch against its own data and returns up to `limit` candidates, so on twelve shards a `limit` of 200 gives the root-level fusion up to 2,400 documents to merge. The root-level fusion itself runs once, at collection level; only a fusion nested inside a prefetch runs per shard.
 
-**The fusion method** decides how the two ranked lists become one. [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) reads only the position of each document in each list. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) normalizes each prefetch's raw scores against its own mean and standard deviation, then sums them, so how far a document led inside a prefetch reaches the final score.
+## Start With This Sweep
+
+If you have a labeled query set, try these settings in order:
+
+1. Compare the RRF default with [DBSF](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf).
+2. If RRF wins, sweep `k` around 2 for queries with one clear answer, and around 20 to 61 when many documents can be relevant.
+3. Keep equal weights unless a measured difference supports a specific pair of weights.
+4. Confirm the winner on fresh queries. [Measuring retrieval relevance](/documentation/improve-search/retrieval-relevance/) explains how to build the evaluation set.
+
+This is a small, no-rebuild experiment. The rest of the article explains what each setting changes and when the shortcut can mislead you.
+
+## What Each Fusion Setting Changes
+
+**The fusion method** decides how the two ranked lists become one. [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) reads only each document's position in a list. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) normalizes each prefetch's scores against its own mean and standard deviation, then sums them. In other words, DBSF can use the size of a score lead, while RRF cannot.
 
 **The constant `k`** applies to RRF only. Qdrant scores a document at position `pos` in one prefetch as `1 / ((pos + 1) / weight + k - 1)`, then sums across prefetches. With equal weights that reduces to `1 / (pos + k)`, and `k` alone decides how steeply the head of a list outranks its tail.
 
@@ -59,7 +72,7 @@ response = client.query_points(
 
 The two named prefetches carry through every example.
 
-## DBSF Is the First Free Test
+## Test DBSF Before Tuning RRF
 
 RRF is the right default, and it is Qdrant's, because it works when the two prefetches produce scores on incompatible scales. DBSF is one line to try.
 
@@ -73,9 +86,9 @@ A document only one prefetch retrieved keeps that prefetch's normalized score un
 
 Its one loss here was on ArguAna, 0.0045 below the default, which sits inside that corpus's own measurement interval and is therefore not a result either.
 
-## Label Density Points `k` in the Right Direction
+## Relevant Documents Per Query Point `k` in the Right Direction
 
-The table gives nDCG@10 at equal weights across five values of `k`, with the best cell per row in bold and DBSF alongside. Each corpus ran the same stack, `all-MiniLM-L6-v2` for the dense prefetch and Qdrant's core BM25 for the sparse one, fusing 200 candidates from each.
+The table gives nDCG@10 at equal weights across five values of `k`, with the best cell per row in bold and DBSF alongside. nDCG@10 grades the top 10 results, giving more credit to relevant documents near the top; [choosing a metric](/articles/before-tuning-a-qdrant-collection/#choose-a-metric-before-you-tune) covers when it is the right one. Each corpus ran the same stack, `all-MiniLM-L6-v2` for the dense prefetch and Qdrant's core BM25 for the sparse one, fusing 200 candidates from each.
 
 | Corpus | Queries | Relevant per query | k=1 | k=2 | k=5 | k=20 | k=61 | DBSF |
 |---|---|---|---|---|---|---|---|---|
@@ -85,7 +98,7 @@ The table gives nDCG@10 at equal weights across five values of `k`, with the bes
 | DBPedia-entity | 400 | 38.2 | 0.462 | 0.464 | 0.464 | **0.468** | 0.461 | 0.482 |
 | WANDS | 480 | 358.9 | 0.723 | 0.725 | 0.734 | 0.757 | **0.761** | 0.764 |
 
-The best `k` is different on every corpus, and it tracks label density.
+The best `k` is different on every corpus, and it tracks how many documents are relevant per query.
 
 Where about one document per query is relevant, the winner sits at 2 or 5. The prefetch that found that document first should carry it.
 
@@ -95,9 +108,9 @@ So count the relevant documents per query in your labeled set and sweep in that 
 
 One porting note if you are moving a configuration in. Qdrant's default is 2, where the 2009 paper that introduced RRF used 60 and [Elasticsearch documents its `rank_constant` as defaulting to 60](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/reciprocal-rank-fusion). Both score one-based ranks as `1 / (rank + constant)` where Qdrant scores zero-based positions, so Qdrant's `k` equals theirs plus one, at every rank. Write `k=61` to reproduce a classic `k=60`.
 
-## Provenance Shows the Curve in One Query
+## Inspect Which Prefetch Produced Each Result
 
-Take the top 10 for a handful of queries and label each result by which prefetch found it: dense only, sparse only, or both. On SciFact under the default, both found 79% of all top-10 results and 97% of the relevant ones, which is the same agreement effect the table shows, visible on your own data without a sweep.
+Take the top 10 for a handful of queries and label each result by which prefetch found it: dense only, sparse only, or both. On SciFact under the default, both found 79% of all top-10 results and 97% of the relevant ones. This shows the agreement effect in your own results before you run a broad sweep.
 
 The WANDS query "entrance table" is that read on one query. The two ends of the `k` range disagree on the top result for 202 of the 480 WANDS queries, and this is one of them.
 
@@ -129,6 +142,8 @@ response = client.query_points(
 top10 = sorted(response.points, key=lambda p: (-p.score, p.id))[:10]
 ```
 
+Over-fetching only works if the whole tied group fits inside the larger response. Compare the score at rank 10 with the score of the last point you fetched: if they match, the group is still being cut in the server and membership can still move, so raise the fetch limit until they differ.
+
 ## Weights Are Pairs, Not Ratios
 
 Weights look like a ratio and behave like a pair of numbers. Each prefetch contributes `1 / ((pos + 1) / weight + k - 1)`, so scaling both weights by the same factor changes every score and can change the final order. On WANDS at `k=5`, `(1, 2)` and `(2, 4)` share a ratio and score 0.739 and 0.751. Copy the exact pair you tested.
@@ -137,21 +152,19 @@ Two more edges of the same knob. A weight of 0.0 keeps every one of that prefetc
 
 A prefetch with no query scores every point 1.0, which under DBSF gives it zero standard deviation and flattens it to a constant 0.5 for every document, contributing no ordering at all.
 
-## The Winner Has to Survive Fresh Queries
+## Check the Winner on Fresh Queries
 
-A sweep always produces a winner, so the question is whether yours beat the default or beat this particular set of queries. Two checks settle it: bootstrap a 95% interval on the mean per-query gain and keep the default if it includes zero, then pick the winner on half your queries and report it on the other half. [Sizing a labeled set](/articles/tuning-retrieval-what-to-check-first/) has both, with the query counts each one needs.
+A sweep always produces a winner, so the question is whether yours beat the default or beat this particular set of queries. [The pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) carry the two that settle it, a bootstrap interval on the per-query gain and a split between the queries that pick and the queries that report, with the scoring code and the query counts each one needs.
 
 Both bite here. On SciFact's 300 queries nothing we tried cleared its interval: DBSF gains 0.0148 with an interval from -0.0001 to +0.0290, missing by a ten-thousandth. Across 200 random splits, a swept fusion winner kept 67% to 95% of its gain on queries that had no say in choosing it.
 
-Take the setting closest to `k=2` with equal weights that still clears, since the extremes are where the ties and the scale traps live. Keeping the default because nothing cleared is a real answer, and it was the right one on one of our five corpora.
+Ship the setting that clears the split, and if two clear, take the one with equal weights, since a weight pair is absolute and does not survive being rescaled. Keeping the default because nothing cleared is a real answer, and it was the right one on one of our five corpora.
 
 ## Quantization Barely Moved Fusion Here
 
 Every number above comes from an unquantized collection, and a collection at scale is usually quantized. Fusion reads ranks, so the question is whether quantization reorders the candidate lists enough to change them.
 
-It does not. Rebuilding SciFact and DBPedia with int8 scalar quantization moved 1.6% of the dense prefetch's top 10 without rescoring, and changed none of the conclusions: the best `k` stayed 2 and 20, DBSF still beat the default, tie rates moved by under 0.005, and fused nDCG@10 moved by at most 0.0002.
-
-Turning `rescore` on recovered the exact unquantized ordering on SciFact. That is int8 scalar quantization on one shard at 5,000 and 100,000 documents, and binary quantization is a more aggressive trade that we did not test.
+It does not. Rebuilding SciFact and DBPedia with int8 scalar quantization changed none of the conclusions: the best `k` stayed 2 and 20, DBSF still beat the default, and fused nDCG@10 moved by at most 0.0002. [Candidate depth](/articles/candidate-depth/) has the full measurement, including what `rescore` and `oversampling` recover.
 
 ## Adjacent Work
 
