@@ -23,11 +23,11 @@ Before you tune candidate depth, use the [pre-tuning checks](/articles/before-tu
 Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates.<br>
 In hybrid search, each prefetch has its own `limit`. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
 
-These measurements use five public datasets with 5,183 to 100,000 documents, on one shard in Docker. Use the sweep in this article to find the depth your own labels and latency budget support.
+Unless noted otherwise, these measurements use five public datasets with 5,183 to 100,000 documents. Each ran unquantized on one shard in Docker with `all-MiniLM-L6-v2`; the hybrid measurements also used Qdrant's core BM25 for sparse retrieval. Use the checks in this article to find the depth your own labels and latency budget support.
 
 ## The Short Version
 
-1. Test [`limit`](/documentation/search/hybrid-queries/#multi-stage-queries) at 100 and 200 for a downstream ranking stage. Treat that range as the start of a sweep, not a production default: `limit` applies per shard, and a reranker pays for every candidate.
+1. Test [`limit`](/documentation/search/hybrid-queries/#multi-stage-queries) at 100 and 200 for a downstream ranking stage. Treat that range as a starting range, not a production default: `limit` applies per shard, and a reranker pays for every candidate.
 2. Before raising [`hnsw_ef`](/documentation/search/search/#search-api), compare approximate-search recall with an [exact search](/documentation/search/search/#exact-search). If recall has plateaued, a larger value adds latency without improving recall. [Measuring ANN recall](/documentation/tutorials-search-engineering/ann-recall/) shows the test.
 3. If RAM is the constraint, test quantization before reducing candidate depth. [Quantization](/documentation/manage-data/quantization/) covers the collection settings, and [memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) shows the latency cost of restoring quality after the original vectors no longer fit in RAM.
 
@@ -53,7 +53,7 @@ Each value is the change in `nDCG@10` from `limit=10` to 500.
 With Qdrant's default [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the top ranks in each `prefetch` contribute far more to the fused score than the tail. Raising `limit` can add candidates without changing the top 10, or replace a more relevant result. CodeSearchNet peaks at `limit=200` and is lower at 500; DBPedia peaks at 50.<br>
 Other fusion methods can rank those candidates differently. [Fusion tuning](/articles/how-to-tune-hybrid-search/) shows how to test them on your labels.
 
-Start `limit` around 100 to 200 and sweep from there on your own labels. A [reranker](/articles/when-a-reranker-is-worth-it/) can use the added candidates, and a [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) can rescore those same candidates from payload fields.
+Start `limit` around 100 to 200, then test larger values on your own labels. A [reranker](/articles/when-a-reranker-is-worth-it/) can use the added candidates, and a [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) can rescore those same candidates from payload fields.
 
 ### Depth Is Per Shard
 
@@ -67,7 +67,7 @@ Each shard receives its own `limit` and searches its own data. On 12 shards, `li
 
 For dense vectors, `hnsw_ef` decides how wide the HNSW graph traversal searches. It trades approximate-search recall for latency.
 
-The sweep was flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only `nDCG@10` was just as flat, moving by at most 0.0035. On SciFact, the results at 128 and 512 are byte-identical.
+The results were flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only `nDCG@10` was just as flat, moving by at most 0.0035. On SciFact, the results at 128 and 512 are byte-identical.
 
 These results apply to clean, unfiltered, unquantized one-shard collections built in one batch. Strict payload filters can leave filterable HNSW short of full accuracy, and this experiment did not cover graphs shaped by continuous upserts or optimizer merges.<br>
 Do not assume recall has saturated in either case.
@@ -119,7 +119,7 @@ for ef in (16, 64, 128, 256, 512):
 ```
 
 `exact=True` runs a full scan, which is the ground truth the approximation is trying to match.<br>
-Sweep `ef` and plot recall against the millisecond figure. In this one-shard SciFact example, over 50 queries:
+Test `ef` values and plot recall against the millisecond figure. In this one-shard SciFact example, over 50 queries:
 
 | `hnsw_ef` | Recall against exact | Milliseconds per query |
 |---|---|---|
