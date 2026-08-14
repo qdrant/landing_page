@@ -20,7 +20,7 @@ An Edge Shard is backed by a directory on local disk. The lifecycle of a shard i
 2. **Use** the shard to update and query data.
 3. **Flush** pending changes to disk, and **close** the shard to release its resources.
 
-Because the shard owns the files in its directory, only one read-write `EdgeShard` may be open on a given directory at a time.
+Because the shard owns the files in its directory, only one `EdgeShard` may be open on a given directory at a time.
 
 ### Create a New Edge Shard
 
@@ -122,28 +122,11 @@ In both languages, closing flushes pending data to disk. The data remains on dis
 
 <aside role="status">The Rust <code>Drop</code> implementation flushes on a best-effort basis: a flush error is logged rather than returned, because a destructor cannot fail. If you need to detect a failed flush, call <code>flush</code> explicitly and handle its result before the shard goes out of scope.</aside>
 
-### Read-Only and Update-Only Edge Shards
-
-In addition to the read-write `EdgeShard`, the Rust crate exposes two single-purpose shard types. Neither is available in the Python bindings.
-
-| Type | Constructor | Purpose |
-|---|---|---|
-| `ReadOnlyEdgeShard` | `open_mmap(path)` | A read-only follower that serves queries without writing to the directory. |
-| `UpdateOnlyEdgeShard` | `open_mmap(path)` | A writer that applies updates without building query-time structures. |
-
-```rust
-pub fn open_mmap(path: &Path) -> OperationResult<Self>
-```
-
-`ReadOnlyEdgeShard` discovers segments through the segment manifest written by the read-write shard, so it requires the `write_segment_manifest` feature flag to be enabled on the writer. That flag is disabled by default. `UpdateOnlyEdgeShard` discovers segments by scanning the `segments/` directory instead, since the writer owns the directory it writes to.
-
-Both types also have a generic `open` constructor that takes an explicit read backend and, for the read-only shard, an optional load profile. These are intended for deployments that read segments over a non-local filesystem.
-
 ## Configuration
 
 `EdgeConfig` describes the vectors an Edge Shard stores and the parameters that govern how it indexes, stores, and searches them. Pass it to `create`/`new` when starting a new shard, and optionally to `load` when reopening one.
 
-Every parameter except `vectors` and `sparse_vectors` is optional. A parameter left unset is "not specified" rather than "set to the default": when loading an existing shard, each unspecified parameter resolves through **provided → persisted in `edge_config.json` → derived from the existing segments → default**, so it keeps whatever the shard already has. This is why a configuration that sets only `wal_options` leaves the rest of the shard's configuration untouched.
+Every parameter except `vectors` and `sparse_vectors` is optional. A parameter left unset is "not specified" rather than "set to the default": when loading an existing shard, each unspecified parameter resolves through *provided - persisted in `edge_config.json` - derived from the existing segments - default*, so it keeps whatever the shard already has. This is why a configuration that sets only `wal_options` leaves the rest of the shard's configuration untouched.
 
 ### EdgeConfig
 
@@ -301,25 +284,398 @@ Changes apply to work done after the call. Existing segments converge to the new
 
 <aside role="status">These setters cover HNSW and optimizer parameters only. Immutable properties such as a vector's <code>size</code> and <code>distance</code> cannot be changed on an existing shard, and there is no setter for quantization or payload storage. In Python, configuration can only be supplied at <code>create</code> or <code>load</code> time.</aside>
 
+## Updating Data
+
+Every write to an Edge Shard goes through a single method, `update`, which takes one `UpdateOperation` describing what to change. The operation is written to the write-ahead log before it is applied to storage, so an update that has returned survives a crash.
+
+### update
+
+```python
+def update(self, operation: UpdateOperation) -> None
+```
+
+```rust
+pub fn update(&self, operation: UpdateOperation) -> OperationResult<()>
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `operation` | `UpdateOperation` | The operation to apply. |
+
+**Returns** nothing in Python. In Rust, returns `Ok(())` on success.
+
+Creating a named vector that already exists with different parameters fails rather than silently doing nothing, so the rejected operation never reaches the write-ahead log.
+
+### Update Operations
+
+In Python, `UpdateOperation` is a class with static constructors, one per operation. Each returns an `UpdateOperation` to pass to `update`.
+
+| Operation | Parameters | Description |
+|---|---|---|
+| `upsert_points` | `points`, `condition`, `update_mode` | Insert or update points. |
+| `delete_points` | `point_ids` | Delete points by ID. |
+| `delete_points_by_filter` | `filter` | Delete every point matching a filter. |
+| `update_vectors` | `point_vectors`, `condition` | Replace vectors on existing points. |
+| `delete_vectors` | `point_ids`, `vector_names` | Delete named vectors from points. |
+| `delete_vectors_by_filter` | `filter`, `vector_names` | Delete named vectors from matching points. |
+| `set_payload` | `point_ids`, `payload`, `key` | Merge payload fields into points. |
+| `set_payload_by_filter` | `filter`, `payload`, `key` | Merge payload fields into matching points. |
+| `overwrite_payload` | `point_ids`, `payload`, `key` | Replace the entire payload on points. |
+| `overwrite_payload_by_filter` | `filter`, `payload`, `key` | Replace the entire payload on matching points. |
+| `delete_payload` | `point_ids`, `keys` | Delete named payload fields from points. |
+| `delete_payload_by_filter` | `filter`, `keys` | Delete named payload fields from matching points. |
+| `clear_payload` | `point_ids` | Delete all payload from points. |
+| `clear_payload_by_filter` | `filter` | Delete all payload from matching points. |
+| `create_field_index` | `field_name`, `schema` | Index a payload field. |
+| `delete_field_index` | `field_name` | Remove a payload field index. |
+| `create_dense_vector` | `vector_name`, `size`, `distance`, `multivector_config`, `datatype` | Add a dense named vector to the schema. |
+| `create_sparse_vector` | `vector_name`, `modifier`, `datatype` | Add a sparse named vector to the schema. |
+| `delete_vector_name` | `vector_name` | Remove a named vector from the schema. |
+
+The `key` parameter on the payload operations targets a nested field path rather than the payload root. The `condition` parameter on `upsert_points` and `update_vectors` applies the write only to points matching a filter.
+
+`upsert_points` also takes an `update_mode`:
+
+| Mode | Behavior |
+|---|---|
+| `UpdateMode.Upsert` | Insert new points and update existing ones. The default. |
+| `UpdateMode.InsertOnly` | Insert new points, leave existing ones untouched. |
+| `UpdateMode.UpdateOnly` | Update existing points, do not insert new ones. |
+
+In Rust, `UpdateOperation` is an enum grouping the same operations by what they act on:
+
+| Variant | Covers |
+|---|---|
+| `PointOperation` | Upserting, deleting, and syncing points. |
+| `VectorOperation` | Updating and deleting named vectors on existing points. |
+| `PayloadOperation` | Setting, overwriting, deleting, and clearing payload. |
+| `FieldIndexOperation` | Creating and deleting payload field indexes. |
+| `VectorNameOperation` | Adding and removing named vectors from the schema. |
+
+<aside role="status">Adding a named vector does not populate it on existing points. Re-upsert those points to give them a value for the new vector. Refer to <a href="/documentation/edge/edge-quickstart/#modify-the-vector-schema">Modify the Vector Schema</a>.</aside>
+
+## Querying Data
+
+Qdrant Edge offers two entry points for similarity search. `query` is the general one, supporting prefetches, fusion, and reranking. `search` is a narrower path for a single scoring query. `scroll` pages through points without scoring them.
+
+<aside role="status">In Rust, the read methods are provided by the <code>EdgeShardRead</code> trait rather than declared on <code>EdgeShard</code> directly. Bring it into scope with <code>use qdrant_edge::EdgeShardRead;</code> before calling them.</aside>
+
+### query
+
+Runs a query, optionally combining the results of nested prefetch queries.
+
+```python
+def query(self, query: QueryRequest) -> List[ScoredPoint]
+```
+
+```rust
+fn query(&self, request: QueryRequest) -> OperationResult<Vec<ScoredPoint>>
+```
+
+**Returns** a list of `ScoredPoint`, ordered by score.
+
+`QueryRequest` accepts the following parameters:
+
+| Parameter | Type | Description |
+|---|---|---|
+| `limit` | `int` | Maximum number of points to return. Required. |
+| `offset` | `int` | Number of results to skip. |
+| `query` | scoring query | What to score by. Omit to return points without scoring, honoring the filter alone. |
+| `prefetches` | list of `Prefetch` | Nested queries whose results this query reranks or fuses. |
+| `filter` | `Filter` | Payload and ID conditions the points must satisfy. Refer to [Filtering](/documentation/search/filtering/). |
+| `score_threshold` | `float` | Drop results scoring worse than this value. |
+| `params` | `SearchParams` | Search-time tuning, such as `hnsw_ef` and `exact`. |
+| `with_payload` | `bool`, list of `str`, or `PayloadSelector` | Which payload to include. |
+| `with_vector` | `bool` or list of `str` | Which vectors to include. |
+
+The `query` parameter accepts several kinds of scoring:
+
+| Kind | Purpose |
+|---|---|
+| `Query` | Vector similarity: nearest neighbor, recommendation, discovery, context, or feedback. |
+| `Fusion` | Combine the results of multiple prefetches. Refer to [Hybrid Queries](/documentation/search/hybrid-queries/). |
+| `OrderBy` | Order by a payload field instead of by similarity. |
+| `Formula` | Rescore prefetch results with an expression over payload and score. |
+| `Mmr` | Maximal marginal relevance, trading similarity against diversity. |
+| `Sample` | Return a sample of points. |
+
+`Prefetch` takes `query`, `limit`, `filter`, `score_threshold`, `params`, and its own nested `prefetches`, so prefetches can be nested to build multi-stage retrieval.
+
+### search
+
+Runs a single scoring query. `search` has no prefetches and no fusion; use `query` when you need either.
+
+```python
+def search(self, search: SearchRequest) -> List[ScoredPoint]
+```
+
+```rust
+fn search(&self, request: SearchRequest) -> OperationResult<Vec<ScoredPoint>>
+```
+
+**Returns** a list of `ScoredPoint`, ordered by score.
+
+`SearchRequest` accepts `query` and `limit`, which are required, plus `offset`, `filter`, `params`, `with_payload`, `with_vector`, and `score_threshold`, all of which behave as they do on `QueryRequest`.
+
+### scroll
+
+Pages through points in the shard without scoring them.
+
+```python
+def scroll(self, scroll: ScrollRequest) -> Tuple[List[Record], Optional[PointId]]
+```
+
+```rust
+fn scroll(&self, request: ScrollRequest) -> OperationResult<(Vec<Record>, Option<PointId>)>
+```
+
+**Returns** the matching records and the offset to pass to the next call, or `None` when the last page has been reached.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `offset` | `PointId` | Start from this point ID. Pass the offset returned by the previous call. |
+| `limit` | `int` | Maximum number of points to return. |
+| `filter` | `Filter` | Payload and ID conditions the points must satisfy. |
+| `with_payload` | `bool`, list of `str`, or `PayloadSelector` | Which payload to include. |
+| `with_vector` | `bool` or list of `str` | Which vectors to include. |
+| `order_by` | `OrderBy` | Page in the order of a payload field instead of by point ID. |
+
+### query_groups
+
+Groups query results by a payload field, returning a bounded number of hits per distinct value. Rust only.
+
+```rust
+fn query_groups(&self, request: GroupRequest) -> OperationResult<Vec<Group>>
+```
+
+**Returns** a list of `Group`, each carrying the group's `key` and its `hits`.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `query` | `QueryRequest` | The query to run within each group. |
+| `group_by` | `JsonPath` | Payload field to group by. |
+| `groups` | `usize` | Maximum number of groups to return. |
+| `group_size` | `usize` | Maximum number of hits per group. |
+
+### search_matrix
+
+Samples points and finds each sample's nearest neighbors, producing a similarity matrix useful for clustering and visualization. Rust only.
+
+```rust
+fn search_matrix(&self, request: SearchMatrixRequest) -> OperationResult<SearchMatrixResponse>
+```
+
+**Returns** a `SearchMatrixResponse` with `sample_ids` and, for each sample, its `nearests`.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `sample_size` | `usize` | Number of points to sample. |
+| `limit_per_sample` | `usize` | Number of nearest neighbors to find per sampled point. |
+| `filter` | `Filter` | Restrict sampling to matching points. |
+| `using` | `VectorNameBuf` | Named vector to compare on. |
+
+### Request Builders
+
+In Rust, each request type has a fluent builder, so you only set the parameters you need:
+
+```rust
+let request = QueryRequest::builder()
+    .limit(10)
+    .with_payload(true)
+    .build();
+```
+
+Builders are available for `QueryRequest`, `SearchRequest`, `ScrollRequest`, `RetrieveRequest`, `CountRequest`, `FacetRequest`, `GroupRequest`, `SearchMatrixRequest`, and `Prefetch`. The Python bindings construct requests through their class constructors instead, where every optional parameter defaults to `None`.
+
+## Reading Data
+
+### retrieve
+
+Fetches points by ID, without scoring.
+
+```python
+def retrieve(
+    self,
+    point_ids: List[PointId],
+    with_payload: Optional[WithPayloadType] = None,
+    with_vector: Optional[WithVectorType] = None,
+) -> List[Record]
+```
+
+```rust
+fn retrieve(&self, request: RetrieveRequest) -> OperationResult<Vec<Record>>
+```
+
+**Returns** a list of `Record`. Points that do not exist are omitted rather than reported as errors.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `point_ids` | list of `PointId` | IDs to fetch. |
+| `with_payload` | `bool`, list of `str`, or `PayloadSelector` | Which payload to include. |
+| `with_vector` | `bool` or list of `str` | Which vectors to include. |
+
+Python takes these as three arguments, while Rust collects them into a `RetrieveRequest`.
+
+### count
+
+Counts the points matching a filter.
+
+```python
+def count(self, count: CountRequest) -> int
+```
+
+```rust
+fn count(&self, request: CountRequest) -> OperationResult<usize>
+```
+
+**Returns** the number of matching points.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `filter` | `Filter` | Conditions the counted points must satisfy. Omit to count every point. |
+| `exact` | `bool` | Count exactly rather than estimating. Defaults to `True` in Python. |
+
+### facet
+
+Returns the most common values of a payload field, with a count for each.
+
+```python
+def facet(self, facet: FacetRequest) -> FacetResponse
+```
+
+```rust
+fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
+```
+
+**Returns** a `FacetResponse` whose `hits` each carry a `value` and its `count`.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `key` | `JsonPath` | Payload field to facet on. Required. |
+| `limit` | `int` | Maximum number of distinct values to return. Default: `10`. |
+| `exact` | `bool` | Compute exact counts rather than estimating. Default: `False`. |
+| `filter` | `Filter` | Restrict faceting to matching points. |
+
+<aside role="status">Faceting and filtering both benefit from a payload index on the field. Refer to <a href="/documentation/edge/edge-quickstart/#create-a-payload-index">Create a Payload Index</a>.</aside>
+
+### info
+
+Returns metadata about the shard's contents.
+
+```python
+def info(self) -> ShardInfo
+```
+
+```rust
+fn info(&self) -> OperationResult<ShardInfo>
+```
+
+`ShardInfo` carries the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `segments_count` | `int` | Number of segments in the shard. |
+| `points_count` | `int` | Number of points stored. |
+| `indexed_vectors_count` | `int` | Number of vectors that have been added to a vector index. |
+| `payload_schema` | map of field name to `PayloadIndexInfo` | The shard's payload indexes. |
+
+A `indexed_vectors_count` well below `points_count` means segments are still waiting to be optimized. Refer to [Optimization](#optimization).
+
+## Snapshots
+
+Snapshots move data between an Edge Shard and a Qdrant server collection. This section covers the methods; for how to combine them, refer to [Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/).
+
+### unpack_snapshot
+
+Unpacks a snapshot archive on disk so it can be loaded as a shard. A static method in Python and an associated function in Rust, so it needs no shard instance.
+
+```python
+@staticmethod
+def unpack_snapshot(snapshot_path: str, target_path: str) -> None
+```
+
+```rust
+pub fn unpack_snapshot(snapshot_path: &Path, target_path: &Path) -> OperationResult<()>
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `snapshot_path` | `str` (Python) / `&Path` (Rust) | Path to the downloaded snapshot file. |
+| `target_path` | `str` (Python) / `&Path` (Rust) | Directory to unpack into. |
+
+After unpacking, open the directory with `load`. The resulting shard keeps the configuration and file layout of the collection the snapshot came from, including its vector and payload indexes.
+
+### snapshot_manifest
+
+Returns the shard's snapshot manifest, which describes its segments and their metadata. Pass it to a server when requesting a partial snapshot so the server sends only the segments that have changed.
+
+```python
+def snapshot_manifest(self) -> Any
+```
+
+```rust
+pub fn snapshot_manifest(&self) -> OperationResult<SnapshotManifest>
+```
+
+**Returns** a JSON-like value in Python, and a `SnapshotManifest` in Rust.
+
+### Apply a Snapshot
+
+Applies a snapshot to a shard that already holds data. The two languages differ in shape here.
+
+```python
+def update_from_snapshot(
+    self,
+    snapshot_path: str,
+    tmp_dir: Optional[str] = None,
+) -> None
+```
+
+```rust
+pub fn recover_partial_snapshot(
+    shard_path: &Path,
+    current_manifest: &SnapshotManifest,
+    snapshot_path: &Path,
+    snapshot_manifest: &SnapshotManifest,
+) -> OperationResult<EdgeShard>
+```
+
+Python applies the snapshot to the open shard in place, optionally extracting through `tmp_dir`. Rust takes the shard's path and both manifests, and returns a new `EdgeShard` for the merged result, so the existing instance must be dropped first.
+
+| Parameter | Type | Description |
+|---|---|---|
+| `snapshot_path` | `str` (Python) / `&Path` (Rust) | Path to the snapshot to apply. |
+| `tmp_dir` | `str` | Directory to extract through. Python only. |
+| `shard_path` | `&Path` | Path to the shard being updated. Rust only. |
+| `current_manifest` | `&SnapshotManifest` | Manifest of the shard as it stands. Rust only. |
+| `snapshot_manifest` | `&SnapshotManifest` | Manifest of the incoming snapshot. Rust only. |
+
+<aside role="status">Applying a snapshot rewrites files in the shard directory. Pause or buffer writes for the duration, and make sure any queued updates have already reached the server, so local changes are not lost. Refer to <a href="/documentation/edge/edge-synchronization-guide/">Synchronize with a Server</a>.</aside>
+
+## Optimization
+
+### optimize
+
+Removes data marked for deletion, merges segments, and builds indexes. Qdrant Edge has no background optimizer, so optimization happens only when you call this method. It runs synchronously and blocks until no further optimization is planned.
+
+```python
+def optimize(self) -> bool
+```
+
+```rust
+pub fn optimize(&self) -> OperationResult<bool>
+```
+
+**Returns** `True` if any segment was optimized, and `False` if the shard was already optimal.
+
+Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. What it does is governed by [`EdgeOptimizersConfig`](#optimizer-parameters). Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](#info).
+
 <!--
 
 TO DO
 
-Sections still to write, using the same shape as Shard Lifecycle above:
-
-- [ ] Updating Data — `update` plus the UpdateOperation constructors
-- [ ] Querying Data — `query`, `search`, `rescore_with_formula`, `scroll`,
-      `query_scroll`, and the Rust request builders
-- [ ] Reading Data — `retrieve`, `count`, `facet`, `info`
-- [ ] Snapshots — `unpack_snapshot`, `snapshot_manifest`,
-      `recover_partial_snapshot` (Rust) / `update_from_snapshot` (Python)
-- [ ] Optimization — `optimize`
-
 Open questions:
 
-- [ ] Add a row to the table in _index.md.
-- [ ] Should ReadOnlyEdgeShard / UpdateOnlyEdgeShard be documented here at all?
-      They look like serverless infrastructure rather than Edge user API.
 - [ ] Decide whether to keep inline signature blocks or move to runnable
       code-snippet blocks under headless/snippets/edge/api/.
 
