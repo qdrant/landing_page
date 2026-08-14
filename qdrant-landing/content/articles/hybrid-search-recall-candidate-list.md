@@ -7,7 +7,7 @@ social_preview_image: /articles_data/hybrid-search-recall-candidate-list/preview
 weight: -213
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-11T00:00:00+03:00
+date: 2026-08-10T00:00:00+03:00
 draft: false
 keywords:
   - hybrid search
@@ -18,13 +18,15 @@ keywords:
 category: search-quality
 ---
 
-You run a dense prefetch and a sparse one, fused into a single ranking. It beat either prefetch on its own when you tested it, by a couple of points of nDCG@10, and that is about where it has stayed since.
+You run a dense prefetch and a sparse one, fused into a single ranking. When you tested that setup, it beat either prefetch alone by a couple of points of nDCG@10. That is about where it has stayed.
 
 Coverage is the argument for that setup. Dense retrieval matches meaning and can miss an exact string. BM25 matches strings and can miss a paraphrase. Run both, and you catch what either one alone would drop.
 
 The coverage is real. The second prefetch does retrieve relevant documents the first one never returned. Those documents stop short of your top 10: measured across five corpora, they are worth between -0.013 and +0.001 nDCG@10, and on four of the five they cost more than they pay.
 
-All the numbers below come from five public corpora of 5,183 to 100,000 documents, retrieved with one dense model, `sentence-transformers/all-MiniLM-L6-v2`, against Qdrant's core BM25, unquantized on a single shard. One model across arguments, products, source code, scientific claims, and entities means this is not a verdict on dense or sparse retrieval in general. It asks what a second prefetch contributed for one stack in several domains. Every gain carries a 95% interval from resampling per-query differences, and [building a labeled set](/articles/before-tuning-a-qdrant-collection/) covers why that matters.
+The numbers below come from five public corpora of 5,183 to 100,000 documents. Each ran unquantized on one shard, with `sentence-transformers/all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval.
+
+One dense model across arguments, products, source code, scientific claims, and entities cannot settle dense versus sparse retrieval in general. The experiment asks a narrower question: what did a second prefetch contribute to one stack across five domains? Every gain carries a 95% interval from resampling per-query differences, and [building a labeled set](/articles/before-tuning-a-qdrant-collection/) covers why that matters.
 
 ## The Request These Numbers Describe
 
@@ -53,7 +55,7 @@ Two fusion methods merge those lists. Reciprocal Rank Fusion (RRF), the default 
 
 ## Fusing Costs Quality on One Corpus of Five
 
-Run each prefetch on its own, at candidate depth 200, and score the top 10 with nDCG@10, which gives more credit to relevant documents near the top; [choosing a metric](/articles/before-tuning-a-qdrant-collection/#choose-a-metric-before-you-tune) covers when it is the right one.
+Run each prefetch on its own at candidate depth 200, then score the top 10 with nDCG@10. The metric gives more credit to relevant documents near the top; [choosing a metric](/articles/before-tuning-a-qdrant-collection/#choose-a-metric-before-you-tune) covers when to use it.
 
 | Corpus | Dense alone | Sparse alone | Both, fused | Over the better one |
 |---|---|---|---|---|
@@ -67,13 +69,13 @@ DBPedia-entity is the row to read first. Fusing there returns a worse ranking th
 
 On the other four, fusing beats the better of the two prefetches. Dense wins alone on three corpora and sparse on two, so which prefetch carries your search is a property of your data.
 
-It is tempting to look for a corpus property that predicts the winner so you can skip the test. We looked. Vocabulary overlap between query and relevant document does not predict it: DBPedia has the second-highest overlap of the five at 0.743 and dense wins there by 0.082, while SciFact at 0.507 goes to sparse. Query length and the agreement between the two prefetches do not predict it either.
+No corpus property we tested predicts the winner. DBPedia has the second-highest vocabulary overlap between query and relevant document, at 0.743, and dense wins there by 0.082. SciFact has 0.507 overlap and goes to sparse. Query length and agreement between the two prefetches fail the same test.
 
 Run both on your own data.
 
 ## Most of the Gain Comes From Agreement
 
-Fusing buys about +0.03 nDCG@10 in the four positive cases here. Only two mechanisms can pay for it.
+Fusing buys about +0.03 nDCG@10 in the four positive cases here. The gain comes from exactly two places.
 
 The first is discovery: documents the second prefetch alone retrieved. The second is voting: a better ordering of documents the first prefetch already had.
 
@@ -91,9 +93,9 @@ Reordering is the entire gain. The documents the second prefetch alone contribut
 
 The same split holds in the other direction. Hold the weaker prefetch and admit the stronger one's exclusive documents: reordering carries the gain in nine of the ten corpus and direction cells, by between +0.028 and +0.103. The tenth is DBPedia holding dense, where reordering is worth -0.001 and the new candidates -0.003. That is the corpus fusing loses on from either direction.
 
-Counting queries rather than averaging makes the same point harder. On CodeSearchNet, letting the sparse prefetch's exclusive documents into the list improves 10 queries and damages 128. On ArguAna it is 6 against 61, on WANDS 49 against 105, on DBPedia 21 against 63.
+The query-level outcomes are harsher than the averages. On CodeSearchNet, letting the sparse prefetch's exclusive documents into the list improves 10 queries and damages 128. The counts are 6 against 61 on ArguAna, 49 against 105 on WANDS, and 21 against 63 on DBPedia.
 
-This is not an artifact of the default fusion setting. RRF's constant `k` sets how steeply the top of each list outranks its tail, and [tuning fusion](/articles/how-to-tune-hybrid-search/) covers it alongside DBSF. Run the same split at the flat end of that range, `k=61`, and under DBSF, and the new candidates still contribute between -0.001 and +0.004 on every corpus, while reordering moves between -0.007 and +0.054.
+The split survives other fusion settings. RRF's constant `k` sets how steeply the top of each list outranks its tail, and [tuning fusion](/articles/how-to-tune-hybrid-search/) covers it alongside DBSF. At the flat end of that range, `k=61`, and under DBSF, new candidates still contribute between -0.001 and +0.004 on every corpus. Reordering moves between -0.007 and +0.054.
 
 The gentler settings change the damage. `k=2` loses 0.013 on WANDS and CodeSearchNet by admitting those documents, and `k=61` and DBSF bring that to roughly zero. The largest gain any setting extracted from them was +0.004, on CodeSearchNet under DBSF.
 
@@ -101,9 +103,7 @@ A fusion setting can stop new candidates from hurting you at rank 10. None of th
 
 ## The Extra Candidates Still Matter
 
-The obvious reading is that the second prefetch retrieves junk. It does not.
-
-Its exclusive documents include genuinely relevant ones, enough to move the metrics that judge a candidate set rather than a ranking. Relevant recall at depth 200 rises on every corpus once you take the union. So does the best nDCG@10 a perfect ranking of those candidates could achieve.
+The second prefetch's exclusive documents include genuinely relevant ones, stranded below the cutoff. They move the metrics that judge a candidate set instead of its current ranking. Relevant recall at depth 200 rises on every corpus once you take the union, as does the best nDCG@10 a perfect ranking of those candidates could achieve.
 
 | Corpus | Relevant Recall, Leading | Union | Best Possible nDCG@10, Leading | Union |
 |---|---|---|---|---|
@@ -115,9 +115,7 @@ Its exclusive documents include genuinely relevant ones, enough to move the metr
 
 WANDS is the clearest case. Adding the second prefetch raises relevant recall from 0.514 to 0.622, a fifth more of the relevant products present in the candidate set. The fused score at rank 10 gets 0.016 of that, and the new documents contribute nothing.
 
-So the second prefetch does three things. It finds documents the first one missed. Some do not reach the top 10. It improves the top 10 anyway by corroborating documents that were already there.
-
-At rank 10, only the third one reliably shows up in the metric.
+The second prefetch finds documents the first one missed, but many stop below the top 10. Its reliable top-10 gain comes from corroborating documents that were already present.
 
 Two mechanisms explain the shortfall. Fusion under RRF reads rank and nothing else, so a document sitting at rank 1 in one list and absent from the other has one vote where its competitors have two, and agreement wins. And rank 10 is a fixed number of seats: a new document that takes one has to displace something, and at ten seats the incumbent is usually better.
 
@@ -125,9 +123,7 @@ The second mechanism is testable by moving the cutoff, and it holds up. Measure 
 
 ## Go Collect the Recall You Paid For
 
-On four of five corpora the second prefetch was worth +0.016 to +0.031 nDCG@10, and on three of those that is a larger gain than [tuning the fusion](/articles/how-to-tune-hybrid-search/) produced on the same corpus. It costs a second index, a second vector per point, and 0.6 to 1.5 ms of query time on our single-shard measurements. Score it against your better single prefetch on labeled queries and keep it on that evidence; on DBPedia it would not have survived.
-
-Then hold two expectations.
+On four of five corpora, the second prefetch was worth +0.016 to +0.031 nDCG@10. On three of those, that is a larger gain than [tuning the fusion](/articles/how-to-tune-hybrid-search/) produced on the same corpus. It costs a second index, a second vector per point, and 0.6 to 1.5 ms of query time in our single-shard measurements. Score it against your better prefetch on labeled queries and keep it on that evidence. On DBPedia it would not have survived.
 
 The gain arrives as corroboration rather than as new documents, and nothing we measured predicts its size from how much the two prefetches agree. CodeSearchNet has the lowest agreement of the five at 0.418 and the largest reordering gain; DBPedia has the highest at 0.901 and no gain at all. Score it on your own labels.
 
@@ -143,13 +139,11 @@ The moves below all need a rebuild or a new index, so they come after the free t
 
 **Core BM25 is the sparse default.** It needs `Modifier.IDF` on the vector and a correct `avg_len`, both of which are in [the pre-tuning audit](/articles/before-tuning-a-qdrant-collection/) because both fail silently. [Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) and [hybrid search](/documentation/search/text-search/hybrid-search/) cover the configuration. It costs a second index and a second vector per point.
 
-**Only if core BM25 underperforms on your vocabulary** are the learned sparse models worth the extra cost. [SPLADE](/documentation/fastembed/fastembed-splade/) and [miniCOIL](/documentation/fastembed/fastembed-minicoil/) run model inference on every document and every query, where BM25 is a term count. Domain vocabulary that a general model tokenizes badly is the case that justifies them.
+**Only if core BM25 underperforms on your vocabulary** are learned sparse models worth the extra cost. [SPLADE](/documentation/fastembed/fastembed-splade/) and [miniCOIL](/documentation/fastembed/fastembed-minicoil/) run model inference on every document and query, while BM25 counts terms. Domain vocabulary that a general model tokenizes badly is the case that justifies them.
 
 **Only if you need maximum retrieval quality and have the storage** does [ColBERT](/documentation/fastembed/fastembed-colbert/) belong in the retrieval stage, because it stores a vector per token. [The reranking article](/articles/when-a-reranker-is-worth-it/) has its storage numbers and the stage where it earns that cost.
 
 **Only if you are memory-bound** is truncating the embedding worth it. A Matryoshka model lets you keep the first m dimensions of each vector; on `nomic-embed-text-v1.5`, going from 768 dimensions to 256 costs 1.24 MTEB points and going to 64 costs 6.18. That is a quality knob turned the wrong way on purpose, in exchange for a vector a third or a twelfth of the size.
-
-Related: [candidate depth](/articles/candidate-depth/) measures the same opportunity from the retrieval side, and [reranking](/articles/when-a-reranker-is-worth-it/) is the stage that can collect it.
 
 ## Adjacent Work
 

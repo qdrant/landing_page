@@ -18,7 +18,7 @@ keywords:
 category: search-quality
 ---
 
-Your collection crossed the size where it stops fitting in RAM, so you turned on quantization at a storage class that rescores by default, and left it that way. Rescoring reads original vectors back after the quantized search to repair the ranking errors compression introduced, which, at the placement this article recommends, makes it the stage of a dense query that reads from disk on every request.
+Your collection stopped fitting in RAM, so you turned on a quantization class that rescores by default and left it there. Rescoring repairs compression errors by reading the original vectors after the quantized search. With the placement this article recommends, that is the stage of a dense query that reads from disk on every request.
 
 A dense query against 4.6 million vectors took about 4 ms here with the collection resident, and 43 ms under a memory limit too small to hold it. Nothing about the query changed. The placement parameter that looks like it decides which of those you get matters less than the memory cap does.
 
@@ -31,15 +31,15 @@ A dense query against 4.6 million vectors took about 4 ms here with the collecti
 
 ## Placement Covers Six Structures, and Two of Them Decide This
 
-Since v1.19, a `memory` parameter sets placement per structure, replacing the deprecated `on_disk` and `always_ram` flags. There are three values. `cold` data loads lazily from disk, so the first request that needs a page waits for it. `cached` data is read into the page cache when the collection loads, and the kernel may evict it later. `pinned` data is held in RAM and never evicted, so the structure has to fit.
+Since v1.19, a `memory` parameter sets placement per structure, replacing the deprecated `on_disk` and `always_ram` flags. It has three values. `cold` data loads lazily from disk, so the first request that needs a page waits for it. `cached` data enters the page cache when the collection loads, but the kernel may evict it later. `pinned` data stays in RAM, so the structure has to fit.
 
 Dense search touches two of the six structures. The quantized vectors are what graph traversal scores against, and the original vectors are what a rescore rereads. Write both placements explicitly: the quantized default follows the original vector storage, so changing one silently moves the other.
 
 `pinned` is rejected on dense vector storage by the API validator, which leaves `cold` and `cached` as the real choice for the originals. The [memory tiers documentation](/documentation/ops-configuration/memory-tiers/) recommends this pairing, and the rest of this article prices it.
 
-The measurements use the full 4,635,922-document DBPedia-entity corpus, dense only, embedded with `all-MiniLM-L6-v2` at 384 dimensions. On disk, the original vectors are 7.121 GB and the TurboQuant `bits1` copy of them is 0.260 GB. Qdrant v1.19.0 runs in Docker on a laptop, with the same collection under a 12 GiB container limit that holds it and a 4 GiB limit that cannot. Every query is one dense `query_points` at `hnsw_ef` 128 and a `limit` of 200.
+The measurements use the full 4,635,922-document DBPedia-entity corpus, dense only, embedded with `all-MiniLM-L6-v2` at 384 dimensions. The original vectors occupy 7.121 GB on disk; the TurboQuant `bits1` copy occupies 0.260 GB. Qdrant v1.19.0 runs in Docker on a laptop, with the same collection under a 12 GiB container limit that holds it and a 4 GiB limit that cannot. Every query is one dense `query_points` at `hnsw_ef` 128 and a `limit` of 200.
 
-The two experiments run under different protocols. Each latency cell starts from a cleared page cache, takes a fixed warm-up pass, and reports the second pass over all 400 queries. The quality cells share one container, because what they measure does not depend on the cache, and they report the 200-query half of the split that was held back from selection.
+The latency and quality experiments use different protocols. Each latency cell starts from a cleared page cache, takes a fixed warm-up pass, and reports the second pass over all 400 queries. The quality cells share one container because their measurements do not depend on the cache. They report the 200-query half held back from selection.
 
 ## Rescoring Is the Whole Bill
 
@@ -54,9 +54,9 @@ Six configurations, five rounds each. The read column is bytes pulled off the bl
 | 4 GiB | `cold` | `cached` | on | 3 | 45.7 [42.8, 52.8] | 3.02 |
 | 4 GiB | `cold` | `pinned` | on | 3 | 52.0 [43.8, 56.1] | 3.50 |
 
-Read the ratios rather than the milliseconds, which belong to one laptop. With rescoring off, the memory limit changes almost nothing: 3.8 ms against 4.3 ms, and 0.30 GB read under both limits. That negative control licenses the rest of the table. Turning rescoring on costs 0.3 ms when the collection fits and 39 ms when it does not.
+Read the ratios, because the milliseconds belong to one laptop. With rescoring off, the memory limit changes almost nothing: 3.8 ms against 4.3 ms, and 0.30 GB read under both limits. That baseline isolates the rescore. Turning it on costs 0.3 ms when the collection fits and 39 ms when it does not.
 
-The read column explains the gap. The 800 queries of a tight-limit cell moved 2.98 GB off the disk to reread 200 candidate vectors per query, and those vectors are 246 MB in total, so the disk delivered roughly 12 times the bytes the rescore needed. The kernel faults 4 KB pages rather than vectors, and every page it fetches drags its neighbours along.
+The read column explains the gap. Across the warm-up and measured passes, 800 queries moved 2.98 GB off disk to rescore 200 candidates each. Those vectors total 246 MB, so the disk delivered roughly 12 times the bytes the rescore needed. The kernel faults 4 KB pages instead of individual vectors, and every page brings neighboring data with it.
 
 Under the roomy limit, those pages stayed resident: the container ended the pass holding 9.46 GB of file cache, and its refault counter never moved. Under the tight limit, the same counter rose by a median of 613,388 during the measured pass, meaning pages the container had already read were evicted and read again before the next query wanted them. If refaults or major faults climb during your query pass, treat original vectors as disk-resident for rescoring, whatever their placement label says.
 
@@ -64,11 +64,13 @@ Under the roomy limit, those pages stayed resident: the container ended the pass
 
 The latency table rests on 20 of the 30 runs we made. That exclusion matters more than the milliseconds.
 
-Every run records the bytes its container read from the block device. A run is comparable only if that figure sits within 40% of its cell's median, and 10 runs failed the check: eight whose reads disagreed with their siblings, in both directions, and two whose counter reset when the container was recreated mid-reading. Three of the eight read roughly half what their siblings read and answered in about a fifth of the time, which is what a cache the protocol was supposed to have cleared looks like. Nothing in the timings alone would have flagged them.
+Every run records the bytes its container read from the block device. We kept a run only when that figure sat within 40% of its cell's median. Ten failed: eight because their reads diverged in either direction, and two because the counter reset when the container was recreated mid-reading.
 
-Repeats buy precision. On a memory experiment they buy nothing else until you can show each repeat read the same bytes, and the block-read counter is the only place that shows it. The check has one known weakness: on cells whose reads are near zero, a 40% band is too tight, which is why the second row keeps only two runs. Its five raw runs all landed between 3.4 and 4.9 ms, so that row does not turn on the exclusion.
+Three of the eight read roughly half what the other runs read and answered in about a fifth of the time. That is what a cache the protocol was supposed to clear looks like, and the timings alone would not have exposed it.
 
-One set of timings did not survive at all. The quality cells in the next table ran back to back inside one long-lived container, so each pass inherited the page cache the previous pass warmed, and their latencies came out non-monotonic in `oversampling`. Those timings are discarded and every millisecond in this article comes from the placement runs instead. The quality numbers are unaffected, because retention and nDCG do not depend on what was cached.
+Repeats buy precision only after you show that each run read the same bytes. The block-read counter is what makes that visible. This check has one weakness: a 40% band is too tight when reads are near zero, which is why the second row keeps only two runs. Its five raw runs still landed between 3.4 and 4.9 ms, so the row's conclusion does not depend on the exclusion.
+
+We discarded one timing set entirely. The quality cells in the next table ran back to back in one long-lived container, so each pass inherited the page cache warmed by the previous one. Their latency became non-monotonic in `oversampling`. Every millisecond in this article therefore comes from the placement runs. The quality numbers remain valid because retention and nDCG do not depend on the cache.
 
 ## Placement Is a Request and the Limit Is the Answer
 
@@ -90,21 +92,23 @@ Quality does not depend on placement, so these cells ran once, at the default pl
 | TurboQuant `bits1` | on, `oversampling` 2 | 0.3128 | 0.977 |
 | TurboQuant `bits1` | on, `oversampling` 4 | 0.3178 | 0.988 |
 
-Read the retention column, because the nDCG column cannot separate these. Every quantized cell except `bits1` without rescoring lands within 0.014 of float32 on nDCG@10, several of them nominally above it, and 200 queries cannot resolve differences that size. Retention does separate them: `bits1` alone keeps 60% of the exact top 10, and one rescoring pass at `oversampling` 1 takes that to 95%.
+Read the retention column, because the nDCG column cannot separate these settings. Every quantized cell except `bits1` without rescoring lands within 0.014 of float32 on nDCG@10, and all five sit nominally above it. With 200 queries, those differences are too small to resolve. Retention separates them: `bits1` alone keeps 60% of the exact top 10, and one rescoring pass at `oversampling` 1 takes that to 95%.
 
-Rescoring earns its cost at one of the two quantized classes here. At `bits4` the ranking is already within noise of float32 without it, so the disk read buys retention the reader never sees, and the useful reading of that row is that `bits4` needs no recovery step. At `bits1` the same read is the difference between a ranking that has lost two of every five documents from the exact top 10 and one that has lost one in twenty.
+Rescoring earns its cost at one of the two quantized classes here. At `bits4`, the ranking is already within noise of float32 without rescoring. The disk read improves exact-top-10 retention, but the labeled metric cannot distinguish the change, so `bits4` needs no recovery step on this workload. At `bits1`, the same read is the difference between losing two of every five documents from the exact top 10 and losing one in twenty.
 
 Qdrant follows the same shape: [rescoring defaults to on](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization, and off for everything else. If you turned on an aggressive storage class and never touched the flag, the 43 ms row is the row you are running.
 
 Read float32's own retention of 0.957 before blaming compression for anything. Roughly 4% of the exact top 10 is lost by the graph traversal at these settings, before quantization has done a thing.
 
-A rule registered before the runs picked the deployment point: the smallest storage class within 0.01 nDCG@10 and 0.02 retention of float32, then the lowest `oversampling` clearing both, chosen on one half of the queries and reported on the other. It chose TurboQuant `bits1` with rescoring on at `oversampling` 1, and the reporting half confirmed it. There the nDCG@10 difference is 0.0011 in the quantized cell's favour, with a paired 95% interval from -0.003 to +0.005, and retention sits 0.006 below float32.
+We registered the deployment rule before running the experiment. It chooses the smallest storage class within 0.01 nDCG@10 and 0.02 retention of float32, then takes the lowest `oversampling` that clears both. One half of the queries chose the setting, and the other half reported it.
+
+The rule chose TurboQuant `bits1` with rescoring on at `oversampling` 1, and the reporting half confirmed it. There the nDCG@10 difference is 0.0011 in the quantized cell's favor, with a paired 95% interval from -0.003 to +0.005. Retention sits 0.006 below float32.
 
 That interval is the useful part. It does not say the two rankings are the same; it says any difference between them on this corpus is smaller than 0.005 of nDCG@10 either way, for 7.121 GB of vectors compressed to 0.260 GB. Whether that holds on your labels is what the check below is for, and if it misses, step up one `oversampling` level.
 
 ## Verify It on Your Own Collection
 
-Set the two placements and the storage class in one call. This runs against a collection that already exists, and applying a quantization class to a built collection took three and a half minutes on these 4.6 million vectors, against the 21 minutes to upload and index them and the overnight pass that embedded them.
+Set both placements and the storage class in one call against the collection you already have. Applying a quantization class took three and a half minutes on these 4.6 million vectors. Uploading and indexing took 21 minutes; embedding took overnight.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -183,7 +187,9 @@ The first setting that clears your relevance bar and your latency bar is the ans
 
 ## Where These Numbers Stop
 
-Every figure here is one dense request against one shard, on a laptop where Docker's Linux VM sits behind macOS. A cgroup limit does make the guest evict the mapped original vectors, and the block-read counters show the misses were real, so the shape transfers even though the milliseconds do not. Multi-shard latency has its own shape, so measure it on your own cluster instead of scaling these figures. One part of that shape is predictable: every shard runs the prefetch against its own data and rescores its own candidates, so a `limit` of 200 at `oversampling` 1 rereads up to 200 originals per shard, and 2,400 across twelve of them.
+Every figure here comes from one dense request against one shard, on a laptop where Docker's Linux VM sits behind macOS. The cgroup limit evicted the mapped original vectors, and the block-read counters show that the misses were real. The shape transfers; the milliseconds do not.
+
+Multi-shard latency has a different shape, so measure it on your own cluster instead of scaling these figures. One part is predictable: every shard runs the prefetch against its own data and rescores its own candidates. A `limit` of 200 at `oversampling` 1 rereads up to 200 originals per shard, or 2,400 across twelve shards.
 
 Two levers we did not measure are worth checking. Qdrant can issue those rescore reads asynchronously through io_uring, which is off by default and aimed at exactly this case, so check [async I/O](/documentation/ops-configuration/memory-tiers/#async-io) before you accept a disk-read cost. A sparse prefetch in the same request competes for the same page cache, which is why this experiment ran dense only: pick a placement and a recovery setting here, then rerun your own fused request to see the end-to-end number.
 

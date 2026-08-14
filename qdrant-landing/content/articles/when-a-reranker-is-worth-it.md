@@ -1,13 +1,13 @@
 ---
 title: "When Is a Reranker Worth It?"
 short_description: "A cross-encoder reranker beat a tuned fusion on one of five corpora and lost on four. What separated them, and how to test it cheaply."
-description: "Measure whether a cross-encoder reranker pays in Qdrant: candidate counts, three models, and why the baseline you compare against decides the answer."
+description: "Test whether a cross-encoder reranker pays in Qdrant, then choose the candidate count and model size from measured quality and throughput."
 preview_dir: /articles_data/when-a-reranker-is-worth-it/preview
 social_preview_image: /articles_data/when-a-reranker-is-worth-it/preview/social_preview.jpg
 weight: -209
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-11T00:00:00+03:00
+date: 2026-08-14T00:00:00+03:00
 draft: false
 keywords:
   - cross-encoder reranker
@@ -18,11 +18,11 @@ keywords:
 category: search-quality
 ---
 
-Your candidate list can already contain documents your ranking is not showing. You can measure the opportunity by comparing the score of your current ranking with the best score a perfect ordering of the same candidates could achieve. At candidate depth 200, that difference ran from 0.247 to 0.487 nDCG@10 across the five corpora here; [candidate depth](/articles/candidate-depth/) shows the measurement.
+Your candidate list can already contain documents your ranking never shows. Compare the current score with the best score a perfect ordering of those candidates could reach, and you can measure that opportunity. At candidate depth 200, the gap ran from 0.247 to 0.487 nDCG@10 across the five corpora here; [candidate depth](/articles/candidate-depth/) shows the measurement.
 
 A cross-encoder reranker is the standard answer. Query and candidate go through one transformer together as a single sequence, and a classification head on top reads out one relevance score for the pair. There is no per-document vector to index in advance. Every candidate costs a forward pass at query time.
 
-That is why it cannot be your first stage. It is also why it can make distinctions a vector comparison cannot.
+The cost rules it out as a first stage. Jointly reading the query and document is also what lets it make distinctions a vector comparison cannot.
 
 The question is whether it pays for your workload. On these corpora it paid on one of five.
 
@@ -34,11 +34,7 @@ The numbers come from five public corpora of 5,183 to 100,000 documents, retriev
 2. Rerank 10 candidates with one inexpensive model, then compare it with that tuned baseline on fresh labeled queries. [Multi-stage queries](/documentation/search/hybrid-queries/#multi-stage-queries) explains the prefetch-and-rescore request.
 3. Raise the candidate count only if the reranker wins. Measure throughput on your document lengths before making it part of the serving path.
 
-This sequence limits cost and tells you whether the reranker improves your product, not only an untuned control.
-
 ## Compare With a Tuned First Stage
-
-This is the part that decides the answer, so it comes first.
 
 Compare a reranker against Qdrant's default fusion and it looks like it pays on three of five corpora. Compare the same runs against a fusion that has been tuned first, which costs nothing but an afternoon, and it pays on one.
 
@@ -52,7 +48,7 @@ Compare a reranker against Qdrant's default fusion and it looks like it pays on 
 
 The gains in the first column on SciFact, WANDS, and CodeSearchNet are real, but they are not evidence that the reranker is the best next change.
 
-Distribution-based score fusion had already collected them for free, without a model, without latency, and without a second stage to operate. A reranker measured against an untuned baseline bills you for work that [tuning fusion](/articles/how-to-tune-hybrid-search/) does for nothing.
+Distribution-based score fusion had already collected them without a model call or another stage to operate. A reranker measured against an untuned baseline bills you for work that [tuning fusion](/articles/how-to-tune-hybrid-search/) does for free.
 
 On DBPedia-entity the reranker is worth +0.090 over the best fusion setting we could find, which is five times what the entire fusion grid produced on that corpus. When it pays, it pays like nothing else in retrieval.
 
@@ -78,11 +74,11 @@ WANDS runs the other way without changing the conclusion. Its deficit shrinks fr
 
 So the cheap test is the small one. Rerank ten candidates and compare against your tuned fusion.
 
-Raising the candidate count from there rescued a losing reranker on none of our four losing corpora. A loss at ten is the signal to look at the model rather than the candidate count, and you have spent an afternoon instead of a quarter.
+Raising the candidate count rescued none of the four losing rerankers. A loss at ten is the signal to inspect the model before buying more candidates, and the small test keeps that mistake cheap.
 
 ## Plan for Throughput, Not Laptop Latency
 
-A millisecond figure from a laptop tells you nothing if you serve a thousand queries a second. Throughput does, because reranking cost is linear in candidates: one forward pass each.
+A laptop latency figure does not size a service that handles a thousand queries per second. Throughput does, because reranking cost grows linearly with candidate count: one forward pass per candidate.
 
 Three [FastEmbed cross-encoders](/documentation/fastembed/fastembed-rerankers/), measured on one CPU process, Apple M5 Pro, 15 threads:
 
@@ -94,7 +90,7 @@ Three [FastEmbed cross-encoders](/documentation/fastembed/fastembed-rerankers/),
 
 The ranges are document length, not noise. The fast end is DBPedia's short entity abstracts and the slow end is SciFact's full paper abstracts. Your own throughput depends on how long your documents are, so measure it on your documents.
 
-Those are CPU numbers. sbert.net reports 1,800 documents per second for MiniLM-L6 on a GPU, which is 18 queries per second per worker at 100 candidates rather than 0.6. Their documents and their machine are not ours, so read the two figures as an order of magnitude that serving hardware moves rather than as a controlled comparison. Settle which hardware you are serving on before the relevance question, and benchmark it on your own documents.
+Those are CPU numbers. sbert.net reports 1,800 documents per second for MiniLM-L6 on a GPU, or 18 queries per second per worker at 100 candidates. Their documents and machine are different from ours, so this is not a controlled CPU-to-GPU comparison. It shows how much serving hardware can move capacity. Choose the hardware first, then benchmark it on your own documents.
 
 Model size does not track quality. `bge-reranker-base` is eight times the size of MiniLM-L12 and roughly two and a half times slower, and a MiniLM beat it on three of the five corpora.
 
@@ -102,13 +98,13 @@ That matches sbert.net's own table, where MiniLM-L6 scores 39.0 MRR@10 on MS MAR
 
 ## Many Plausible Answers Give a Reranker Work to Do
 
-The tempting explanation is to rerank where the gap between the best-possible and current score is largest. That is wrong. ArguAna has the second-largest gap of the five at 0.476 and is where reranking failed worst.
+The gap between best-possible and current score does not predict where reranking will pay. ArguAna has the second-largest gap of the five at 0.476, yet reranking fails worst there.
 
-What the two corpora it came closest on have in common is relevance structure. DBPedia-entity averages 38.2 relevant documents per query and WANDS 358.9, both with graded labels rather than yes-or-no. The three where it lost have essentially one right answer per query.
+Relevance structure is what DBPedia-entity and WANDS have in common. They average 38.2 and 358.9 relevant documents per query, both with graded labels. The three corpora where reranking lost have essentially one right answer per query.
 
 Where one document is correct and fusion has already put it near the top, a reranker has nothing left to distinguish and every reordering it makes is a risk. That reading fits the five outcomes; the relevance structure is what we measured, and the mechanism behind it is not.
 
-Five corpora do not make a rule, so treat that as the first thing to check on your own labels. Count relevant documents per query in your own labels: many graded-relevant documents per query is the profile where a reranker has something to do.
+Five corpora do not make a rule. Start by counting relevant documents per query in your own labels. Many graded-relevant documents per query is the profile where a reranker may have useful distinctions to make.
 
 One corpus deserves its own caveat. All three models truncate the query and the document together at 512 tokens, cutting whichever of the two is longer. ArguAna's queries average 168 words, long enough to take the budget the document needed, so its deficit may be a length mismatch rather than a statement about reranking. `BAAI/bge-reranker-base`, which is not an MS MARCO model, failed there too, which makes a simple domain-transfer explanation harder to sustain.
 
@@ -123,13 +119,13 @@ Each stage after retrieval answers a different complaint. Route by the symptom b
 | One document's chunks fill the first page | [Grouping](/documentation/search/search/#grouping-api) |
 | Recency, popularity, or other payload signals should shape the order | [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query), which rescores the same candidates from payload fields |
 
-**Only if repetitive results are the complaint** does [maximal marginal relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) belong in the pipeline. It spends relevance to buy separation between the results it selects, so on a corpus without near-duplicates it usually lowers nDCG, and that is the point: it is fixing a problem your metric cannot see. Where the duplicates are real, it can raise the metric too, so measure it rather than assuming the direction.
+**Only if repetitive results are the complaint** does [maximal marginal relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) belong in the pipeline. It spends relevance to separate the results it selects. On a corpus without near-duplicates, that usually lowers nDCG because the method is fixing a problem the metric cannot see. Real duplicates can reverse the effect, so measure the direction on your data.
 
 **Only if one document is many chunks** do you need grouping. `query_points_groups` with `group_by` collapses results so a single long document cannot occupy your whole first page. It needs a payload index on the grouped field, and the one people forget is `document_id`, which returns a 400 on Qdrant Cloud without it. [Grouping](/documentation/search/search/#grouping-api) shows the API and [payload indexes](/documentation/manage-data/indexing/#payload-index) shows how to create it.
 
-**ColBERT is cheap in compute and expensive in storage.** It keeps a vector per token whether you retrieve with it or only rerank with it, which is 286 GiB for 9M MS MARCO passages at 128 dimensions. Reranking drops the HNSW graph over those vectors and not the vectors themselves: set `m=0` on the multivector and Qdrant stores it unindexed, since rescoring never traverses a graph.
+**ColBERT is cheap in compute and expensive in storage.** It keeps a vector per token whether you retrieve with it or only rerank with it. At 128 dimensions, that is 286 GiB for 9M MS MARCO passages. Reranking drops the HNSW graph over those vectors, not the vectors themselves: set `m=0` on the multivector and Qdrant stores it unindexed, since rescoring never traverses a graph.
 
-The compute saving is the one that is real. Document vectors are computed once at ingest, so only the query goes through the model at query time, which is where the published numbers come from: over 170 times lower reranking latency than a BERT cross-encoder at comparable MRR@10, 34.9 against 34.7, measured with those document vectors already on disk. If a cross-encoder is too slow for your budget, this is the next thing to test rather than a smaller cross-encoder.
+The compute saving comes from building document vectors once at ingest. At query time, only the query goes through the model. The published result is over 170 times lower reranking latency than a BERT cross-encoder at comparable MRR@10, 34.9 against 34.7, with the document vectors already on disk. If a cross-encoder is too slow for your budget, test this next.
 
 ## Start Small and Stop on a Clear Loss
 
@@ -139,9 +135,9 @@ If it wins at ten, raise the candidate count until the curve flattens and only t
 
 If it loses at ten, diagnose the model before you conclude anything about the stage. All three models here truncate the pair at 512 tokens, so a long query eats the budget the document needed, and none of them was trained on your domain. Once the model fits your documents and your language and it still loses, stop buying candidates: on three of our four losing corpora the deficit grew as candidates rose, and on the fourth it shrank without ever passing the fusion.
 
-Hold that conclusion to the same standard as any other. Every gain here was picked on half the queries and scored on the other half, 200 splits per corpus. DBPedia-entity cleared zero on 100% of those splits and the other four corpora on none of them, which is the difference between a reranker that pays and one that looks like it might. [The pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) have the method and the query counts each conclusion needs. On four of five corpora the outcome was that a well-tuned fusion over two prefetches was already the better ranking.
+Hold that conclusion to the same standard as any other. Every gain here was picked on half the queries and scored on the other half, across 200 splits per corpus. DBPedia-entity cleared zero on 100% of those splits; the other four cleared it on none. [The pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) have the method and the query counts each conclusion needs.
 
-Related: [candidate depth](/articles/candidate-depth/) measures the opportunity a reranker can collect, and [the pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) have the labeled-set method behind every number here.
+On four of five corpora, a well-tuned fusion over two prefetches was already the better ranking.
 
 ## Adjacent Work
 
