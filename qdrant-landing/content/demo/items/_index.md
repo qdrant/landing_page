@@ -44,7 +44,7 @@ demos:
     github: https://github.com/qdrant/demo-code-search
     link:
       text: View Demo
-      url: https://code-search.qdrant.tech
+      url: https://code-search.qdrant.tech/
     weight: 6
   - id: ecommerce-search
     title: E-Commerce search
