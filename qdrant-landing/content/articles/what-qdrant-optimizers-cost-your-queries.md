@@ -7,7 +7,7 @@ preview_dir: /articles_data/turboquant/preview
 author: Clelia Bertelli
 author_link: https://qdrant.tech
 date: 2026-08-14T10:00:00+02:00
-draft: true
+draft: false
 keywords:
   - optimizer
   - indexing
