@@ -36,7 +36,7 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 2. Core Data Model
 3. Distance Metrics
 4. Top-K Retrieval
-5. How Search Is Fast: HNSW
+5. Fast Approximate Search: HNSW
 6. Payload Filtering
 7. Chunking Strategies
 8. Ingestion Pipeline: End-to-End
@@ -83,42 +83,37 @@ A dense vector: a list of floating-point numbers (such as 384 or 768 values, kno
 
 ### Payload
 
-Arbitrary JSON metadata attached to a point. Used for filtering, retrieval scoping, and result enrichment. Can hold strings, numbers, booleans, geo coordinates, or arrays.
-
-```
-Collection
-    └── Point
-        ├── id
-        ├── vector
-        └── payload
-```
+Custom JSON metadata attached to a point. Used for filtering, retrieval scoping, and result enrichment. Can hold strings, numbers, booleans, geo coordinates, or arrays.
 
 ![](/courses/beginners/module-2/payload.png)
 
 ### Your Qdrant Cluster
 
-A collection needs a running Qdrant instance, a cluster, to live in. Qdrant Cloud has a free tier that takes about a minute to set up; section 8 walks through it step by step, screenshots included. 
+A collection needs a running Qdrant instance, a **cluster** (a running deployment of Qdrant that hosts your collections and serves requests), to live in. Qdrant Cloud has a free tier that takes about a minute to set up; Module 0 walks through it step by step, screenshots included. 
 
 ```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
-    url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  # your cluster URL, from section 8
-    api_key="<your-api-key>",                                    # your cluster API key, from section 8
+    # your cluster URL, from Module 0
+    url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  
+    # your cluster API key, from Module 0
+    api_key="<your-api-key>",                                    
 )
-# For quick, throwaway experiments without a server, you can instead use:
+# For quick, throwaway experiments without a server, you can also use:
 # client = QdrantClient(":memory:")
 ```
 
 ### Creating a Collection
 
-Once connected, you create a collection by fixing two things: the size of vectors it will accept and the distance metric used for similarity.
+Once connected, you create a collection by setting two parameters: the size of vectors it will accept and the distance metric used for similarity.
 
 ```python
 client.create_collection(
     collection_name="articles",
     vectors_config=models.VectorParams(
-        size=384,                      # must match your embedding model
+        # must match your embedding model
+        size=384,                     
         distance=models.Distance.COSINE,
     ),
 )
@@ -129,7 +124,7 @@ client.create_collection(
 Each point carries an ID, a vector (the embedding of your content), and a payload (any metadata you want to filter or return later). Add it with `upsert`: it inserts a new point if the ID doesn't already exist, or updates that point in place if it does.
 
 ```python
-from qdrant_client.models import PointStruct
+from qdrant_client.models import PointStruct  # represents a single point: id, vector, and payload
 
 client.upsert(
     collection_name="articles",
@@ -161,13 +156,13 @@ When you query a collection, Qdrant uses the distance metric you chose at collec
 
 ### Note
 
-Choose your distance metric at collection creation; it cannot be changed later. If you need a different metric, create a new collection with that metric and re-ingest your data into it; there's no in-place conversion. 
+Choose your distance metric at collection creation; it cannot be changed later. If you need a different metric, create a new collection with that metric and re-ingest your data into it.
 
-To avoid breaking callers during that switch, point a [collection alias](/documentation/manage-data/collections/#collection-aliases) at whichever collection is currently live, and repoint it to the new one once re-ingestion is done. HNSW parameters like m and ef_construct, by contrast, can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with: most sentence-transformer models use cosine.
+To avoid breaking callers during that switch, point a [collection alias](/documentation/manage-data/collections/#collection-aliases) at whichever collection is currently live, and repoint it to the new one once re-ingestion is done. HNSW (Hierarchical Navigable Small World) parameters like m and ef_construct, by contrast, can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with: most sentence-transformer models use cosine.
 
 ## 4. Top-K Retrieval
 
-A search query is itself a vector. Qdrant finds the K points in the collection whose vectors are most similar to the query vector, ranked by similarity score.
+A search query is converted into a vector using the same embedding model used to embed your documents. Qdrant finds the K points in the collection whose vectors are most similar to the query vector, ranked by similarity score.
 
 ```python
 results = client.query_points(
@@ -186,9 +181,9 @@ for r in results.points:
 
 Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common approach is to overfetch: retrieve a larger candidate pool, then rerank it down to the smaller K you actually show the user. Qdrant supports this natively via [multi-stage queries](/documentation/search/hybrid-queries/#multi-stage-queries) - for example, prefetching a large candidate set and reranking it down to a much smaller final `limit`. We'll cover reranking in detail later.
 
-## 5. How Search Is Fast: HNSW
+## 5. Fast Approximate Search: HNSW
 
-Searching millions of vectors by computing similarity against every single one (brute force) is prohibitively slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast at a small, measurable recall cost.
+Searching millions of vectors by computing similarity against every single one (brute force) is slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast at a small, measurable recall cost.
 
 ![](/courses/beginners/module-2/hnsw.png)
 
@@ -205,9 +200,13 @@ HNSW has a few tunable parameters (`m`, `ef_construct`, and `hnsw_ef`) that trad
 
 ## 6. Payload Filtering
 
-Real-world search is always similarity plus constraints. Payload filtering lets you apply hard conditions during HNSW traversal, not after retrieval. This keeps results both semantically relevant and legally/logically valid.
+Payload filtering lets you apply hard conditions during [HNSW traversal](/articles/filterable-hnsw/), not after retrieval. This keeps results both semantically relevant and legally/logically valid.
 
-This searches by vector similarity as usual, but only among points whose payload passes the filter: `Filter` is the overall condition, `must` is a list of conditions that all have to be true (AND logic), and each `FieldCondition` checks one payload field: here, that `category` equals `"automotive"`.
+This searches by vector similarity as usual, but only among points whose payload passes the filter:
+
+- `Filter` — the overall condition
+- `must` — a list of conditions that all have to be true (AND logic)
+- `FieldCondition` — checks one payload field; here, that `category` equals `"automotive"`
 
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
@@ -218,8 +217,10 @@ results = client.query_points(
     query_filter=Filter(
         must=[
             FieldCondition(
-                key="category",              # the payload field to check
-                match=MatchValue(value="automotive")  # keep only points where category == "automotive"
+                # the payload field to check
+                key="category",  
+                # keep only points where category == "automotive"
+                match=MatchValue(value="automotive")  
             )
         ]
     ),
@@ -240,8 +241,6 @@ results = client.query_points(
 ### Index Your Filter Fields
 
 For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, Qdrant jumps directly to matching points rather than scanning the collection, making filtered queries run significantly faster. Use `client.create_payload_index()` for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
-
-![](/courses/beginners/module-2/data-flow-2.png)
 
 ## 7. Chunking Strategies
 
@@ -271,18 +270,16 @@ This is a bare-bones overview; this module won't go deeper into choosing between
 
 Let's put everything together. This section walks through the complete ingestion pipeline from cloud setup to your first query.
 
-### Step 1: Create a Free Cluster
+### Step 1: Connect to Your Cluster
 
-Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key.
-
-![](/courses/beginners/module-2/qdrant-cloud.png)
+Module 0 walks through creating a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io) and getting its URL and API key, screenshots included. With those in hand, connect the same way shown in section 2:
 
 ```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(
-    url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  # paste your cluster's URL here
-    api_key="<your-api-key>",                                    # paste your API key here
+    url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  # your cluster's URL
+    api_key="<your-api-key>",                                    # your API key
 )
 # In a real project, don't hardcode these; load them from environment
 # variables or a secrets manager instead of committing them to source control.
@@ -363,7 +360,7 @@ for r in results.points:
 
 ### Pipeline Summary
 
-1. **Create cluster**: Get URL + API key from cloud.qdrant.io. Free tier available.
+1. **Connect to your cluster**: Get its URL + API key (see Module 0 for the free-tier walkthrough).
 2. **Create collection**: Fix the vector size and distance metric, and create a payload index on any field you'll filter on.
 3. **Ingest**: Embed each document with your embedding model, then upsert it as a `PointStruct` with ID, vector, and payload.
 4. **Query**: Embed the user's question, then call `query_points` with filters and a limit.
