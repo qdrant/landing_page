@@ -126,7 +126,9 @@ Start with a change that does not rebuild the collection or add a retrieval stag
 | Expanded Retrieval | `full_scan_threshold` | Dense search, especially filtered search | Uses exact scans for larger candidate pools, which can increase query time |
 | A New Stage | Sparse prefetch | Dense-only search | A second index, a second vector per point, and 0.6 to 1.5 ms of query time on one shard |
 | A New Stage | Reranker | Any pipeline | A model call per candidate |
-| Rebuild | Embedding model, quantization, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
+| Rebuild | [Embedding model](/articles/how-to-choose-an-embedding-model/), quantization, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
+
+Consider model-level rebuilds only when they address a measured constraint. A Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) trades retrieval quality for smaller vectors when memory is the limit. [SPLADE](/documentation/fastembed/fastembed-splade/) and [miniCOIL](/articles/minicoil/) are alternatives when core BM25 misses vocabulary your users rely on, but they add model inference during indexing and querying. ColBERT can act as the retriever instead of only [reranking](/articles/when-a-reranker-is-worth-it/), at the cost of storing a vector for every token.
 
 Use this table to understand the cost of the next change. Choose whether to make it only after you can measure the result.
 
