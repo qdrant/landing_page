@@ -4,6 +4,7 @@ import { XXL_BREAKPOINT } from './constants';
 import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
 import { handleSegmentReady } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
+import { updateGtmConsent } from './gtm-helpers';
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
 import { scrollIntoViewWithOffset } from './helpers';
@@ -15,11 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
   addUTMToLinks();
 
   const handleOneTrustLoaded = () => {
-    // One Trust Loaded
+    // One Trust Loaded — grant GTM from the stored choice (returning visitors)
+    updateGtmConsent();
+
     window.OneTrust.OnConsentChanged(async () => {
       // One Trust Preference Updated
       addOneTrustPreferencesToLinks();
       registerAndCall();
+      updateGtmConsent();
 
       await window.analytics.track('onetrust_consent_preference_updated', {
         onetrust_active_groups: window.OnetrustActiveGroups ?? '',
