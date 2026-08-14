@@ -174,4 +174,4 @@ These settings solve different, specific constraints; they are not general-purpo
 Across the five hybrid measurements, more depth raised the best possible score far more than the current score under default RRF. That gap tells you whether the next experiment should focus on ranking or retrieval.<br>
 A large gap means relevant candidates are present but not ranked highly enough. In hybrid search, test fusion settings; in any pipeline with a downstream stage, test whether a reranker can recover the gap. A small gap means ranking is already close to the best the candidate set allows, so improve the candidates instead.
 
-Next, if you use hybrid search, [measure what the second prefetch adds to the candidate list](/articles/hybrid-search-recall-candidate-list/).
+Next, if you use hybrid search, [tune fusion over the candidates you already retrieve](/articles/how-to-tune-hybrid-search/).

@@ -30,7 +30,7 @@ This audit tells you what to verify before you tune.
 
 Every query first retrieves candidates, then ranks them. In dense-only search, one vector search does both. Hybrid search adds a sparse prefetch for exact terms, then fusion combines the dense and sparse candidate lists. A reranker, if present, scores the top candidates again.
 
-If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [A second prefetch](/articles/hybrid-search-recall-candidate-list/) covers the setup and evaluation in more depth.
+If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [Tuning hybrid search](/articles/how-to-tune-hybrid-search/) covers the request shape, what the second prefetch costs, and how to check that fusion beats either prefetch on your labels.
 
 Before you tune:
 
@@ -39,18 +39,17 @@ Before you tune:
 
 ## The Symptom Tells You Where to Start
 
-Start with the failure mode, not the config reference. The table maps each symptom to the likely constraint and the next useful check.
+Start with the failure mode, not the config reference. The table maps each symptom to the first useful check and the article that covers it.
 
-| Symptom | Likely Constraint | Next Check |
+| What You See | First Check | Read Next |
 |---|---|---|
-| You can't separate gain from noise | Evaluation resolution | This article: the audit, then labeled sets and intervals |
-| Relevant documents are not retrieved | Candidate recall | [Candidate depth](/articles/candidate-depth/), then add a sparse prefetch if needed |
-| Keywords, identifiers, SKUs, or error codes do not match | Lexical recall | [Add or tune a sparse prefetch](/articles/hybrid-search-recall-candidate-list/) |
-| Relevant documents are misordered | Fusion or ranking | Tune fusion if you use hybrid search, then test [reranking](/articles/when-a-reranker-is-worth-it/) |
-| Hybrid relevance is flat, and you cannot spend more latency | Candidate reordering | [Fusion tuning](/articles/how-to-tune-hybrid-search/) |
-| Results repeat near-duplicates | Diversity | [Reranking](/articles/when-a-reranker-is-worth-it/), for diversity and grouping |
-| Search misses its p95 target | Retrieval cost | [Candidate depth](/articles/candidate-depth/), starting with the prefetch `limit` |
-| The collection no longer fits in RAM | Memory placement | [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) |
+| You cannot separate a gain from noise | Build labeled queries, choose a metric, and calculate an interval | This article |
+| Relevant documents do not appear | Measure whether candidate depth is limiting recall | [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) |
+| Keywords, identifiers, SKUs, or error codes do not match | Add a sparse prefetch and measure fusion against each prefetch alone | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) |
+| Relevant documents are present but misordered | For hybrid search, tune fusion. If the candidate list needs another ranking stage, test a reranker | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/)<br>[When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
+| Results repeat near-duplicates | Test a reranker for diversity and grouping | [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
+| Search misses its p95 target | Measure the cost of candidate depth before adding another retrieval stage | [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) |
+| The collection no longer fits in RAM | Test memory placement and rescoring | [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/) |
 
 ## How to Read These Measurements
 
@@ -117,7 +116,7 @@ Start with a change that does not rebuild the collection or add a retrieval stag
 | Expanded Retrieval | `hnsw_ef` | Dense search | Increases search breadth and query time |
 | Expanded Retrieval | Prefetch `limit` | Any pipeline with a downstream stage | Retrieves more candidates, increasing query time |
 | Expanded Retrieval | `full_scan_threshold` | Dense search, especially filtered search | Uses exact scans for larger candidate pools, which can increase query time |
-| A New Stage | Sparse prefetch | Dense-only search | A second index and an extra retrieval stage |
+| A New Stage | Sparse prefetch | Dense-only search | A second index, a second vector per point, and 0.6 to 1.5 ms of query time on one shard |
 | A New Stage | Reranker | Any pipeline | A model call per candidate |
 | Rebuild | Embedding model, quantization, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
 
