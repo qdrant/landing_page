@@ -28,10 +28,10 @@ In a multi-shard collection, each shard applies its own prefetch <code>limit</co
 
 ## Confirm Fusion Beats Either Prefetch
 
-Before tuning, compare dense retrieval, sparse retrieval, and their default RRF result with `nDCG@10`. It grades the top 10 results and gives more credit to relevant documents near the top. The last column is default RRF's `nDCG@10` minus the better individual prefetch.
+Before tuning, compare dense retrieval, sparse retrieval, and the result from default [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF), `k=2` and equal weights, with `nDCG@10`. It grades the top 10 results and gives more credit to relevant documents near the top. The last column is default RRF's `nDCG@10` minus the better individual prefetch.
 
 These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval.<br>
-Each reported gain was evaluated with a 95% interval. The held-out validation section explains how to use it. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
+Each reported gain was evaluated with a 95% interval. [Held-out validation](#confirm-the-selected-configuration-on-held-out-queries) explains how to use it. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
 
 | Dataset | Dense alone | Sparse alone | Both, RRF (`k=2`) | Over the better one |
 |---|---|---|---|---|
@@ -41,7 +41,7 @@ Each reported gain was evaluated with a 95% interval. The held-out validation se
 | CodeSearchNet | 0.6299 | 0.5126 | 0.6555 | +0.0256 |
 | DBPedia-entity | 0.4677 | 0.3857 | 0.4638 | -0.0039 |
 
-Fusion outscored both prefetches in four datasets. DBPedia-entity shows why this is a measurement, not an assumption: fusion trails dense retrieval by 0.0039. The differences are small, so they do not establish a gain on your dataset.
+Fusion outscored both prefetches in four datasets, and each gain clears its 95% interval. DBPedia-entity is the exception: fusion trails dense retrieval by 0.0039, and its interval crosses zero. These results still do not establish a gain on your dataset.
 
 The second prefetch costs a second index, a second vector per point, and 0.6 to 1.5 ms of query time in these single-shard measurements. Keep it when it improves relevance on your own labels.
 
@@ -113,14 +113,14 @@ For the DBSF column, a document retrieved by one prefetch keeps that prefetch's 
 
 On ArguAna, DBSF is 0.0045 below default RRF. That difference sits inside the dataset's measurement interval, so the result is inconclusive.
 
+On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, while `nDCG@10` rose by 0.036. A small aggregate gain can still change what a user sees first.
+
 These five datasets suggest a direction: with about one relevant document per query, the best `k` was 2 or 5; with tens or hundreds, it was 20 or 61. Count relevant documents per query in your labeled query set, then try that part of the range first. This is a starting direction, not a setting to copy.
 
-One porting note matters if you are moving an RRF configuration into Qdrant. Some other search systems use `k=60` with one-based ranks, while Qdrant defaults to `k=2` and uses zero-based positions.
-
-Those systems score one-based ranks as `1 / (rank + constant)`, while Qdrant scores zero-based positions. Qdrant's `k` therefore equals their constant plus one at every rank. Use `k=61` to reproduce a classic `k=60`.
+One porting note matters if you are moving an RRF configuration into Qdrant. Qdrant uses zero-based positions and defaults to `k=2`. To reproduce an RRF configuration written as `1 / (rank + 60)` with one-based ranks, use `k=61`.
 
 <aside role="status">
-When RRF assigns the same score to documents at the final result limit, repeated queries can return different documents at that cutoff. Request more final results than you display, sort by descending score and ascending ID on the client, then truncate. If the last returned score still equals the score at the display cutoff, Qdrant has not returned the whole tied group.
+On SciFact, 12.5% of the default RRF top 10 fell in a tied group, compared with 2.8% at `k=61` and none under DBSF. When RRF ties documents at rank 10, repeated queries can return a different document in that spot. Request more than 10 final results, sort them on the client by descending score and ascending ID, then keep the first 10. Compare the score at rank 10 with the score of the last point returned. If they match, raise the final result `limit` and try again.
 </aside>
 
 ## Weights Are Pairs, Not Ratios
