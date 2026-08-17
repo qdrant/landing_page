@@ -257,7 +257,8 @@ For fields you filter on frequently, create a payload index. Without an index, Q
 
 ## 7. Chunking Strategies
 
-Embedding models have a maximum token limit, from 256 tokens for compact models like all-MiniLM-L6-v2 to 8,000+ tokens for larger ones (check your model's card). Long documents need to be split into chunks before embedding, and how you chunk affects retrieval quality: too large a chunk packs multiple topics into one embedding, making retrieval imprecise; too small a chunk loses the context needed for the result to be useful.
+Embedding models have a maximum token limit. `all-MiniLM-L6-v2` from Module 1 takes 256 tokens, larger models take 8,000 or more, and anything past the limit is dropped without an error. Check your model's card for its limit. <br>
+Fitting isn't the only reason to split. A chunk is the unit that gets retrieved, so one vector covering several topics averages them together and matches every query weakly, while a chunk that's too small loses the context that made the result useful.
 
 | Strategy | How it works | Trade-off |
 |----------|--------------|-----------|
