@@ -256,7 +256,9 @@ results = client.query_points(
 
 ### Index Your Filter Fields
 
-For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, Qdrant jumps directly to matching points rather than scanning the collection, making filtered queries run significantly faster. Use `client.create_payload_index()` for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
+For fields you filter frequently, create a payload index. Without one, Qdrant may need to check payload values across many points at query time. With one, it can look up matching points directly, making filtered queries faster.
+
+Use `client.create_payload_index()` for fields used in `must`, `should`, or `must_not` conditions. See [Payload Indexing](https://deploy-preview-2495--condescending-goldwasser-91acf0.netlify.app/documentation/manage-data/indexing/#payload-index) for supported index types and configuration options.
 
 ## 7. Chunking Strategies
 
