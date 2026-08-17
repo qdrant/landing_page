@@ -165,11 +165,13 @@ Checking every vector would be too slow for large collections. Instead, Qdrant u
 | models.Distance.EUCLID | Measures absolute distance. Sensitive to vector magnitude. |
 | models.Distance.MANHATTAN | Sum of absolute differences. Less sensitive to outliers than Euclidean; use when the embedding model was trained with L1. |
 
-### Note
+<aside role="status">
+Choose a distance metric when you create a collection. The metric applies to the vector configuration for that collection, so choose one that your embedding model was trained on. Most sentence-transformer models, including the one used in Module 1, work with cosine similarity.
 
-Choose your distance metric at collection creation; it cannot be changed later. If you need a different metric, create a new collection with that metric and re-ingest your data into it.
+ If you choose the wrong metric, you have two options. You can create a new collection with the correct metric and re-ingest your data. A <a href="/documentation/manage-data/collections/#collection-aliases">collection alias</a> lets you switch to the new collection without changing your application.
 
-To avoid breaking callers during that switch, point a [collection alias](/documentation/manage-data/collections/#collection-aliases) at whichever collection is currently live, and repoint it to the new one once re-ingestion is done. HNSW (Hierarchical Navigable Small World) parameters like m and ef_construct, by contrast, can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with: most sentence-transformer models use cosine.
+Since v1.18, you can also add a second named vector with the correct metric to the existing collection. Re-embed your points into the new vector, then remove the old one. See <a href="/documentation/manage-data/collections/#update-vector-schema">Update Vector Schema</a> for details.
+</aside>
 
 ## 4. Top-K Retrieval
 
