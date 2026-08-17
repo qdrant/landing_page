@@ -209,9 +209,10 @@ Searching millions of vectors by computing similarity against every single one (
 
 ### Tunable Parameters
 
-HNSW has a few tunable parameters (`m`, `ef_construct`, and `hnsw_ef`) that trade off search speed, **recall** (the fraction of the true nearest neighbors your approximate search actually finds), memory usage, and indexing time. The defaults work well for most use cases; only tune them once you're measuring an actual recall or latency gap against a benchmark, not before. You haven't run a search yet at this point in the course, so we won't go deeper here; the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) covers HNSW tuning in full once you're ready for it.
+HNSW exposes three tunable parameters: `m`, `ef_construct`, and `hnsw_ef`. They balance search speed, recall (the fraction of true nearest neighbors found), memory usage, and indexing time. <br>
+Defaults work well for most use cases, so tune them only after benchmarking a real recall or latency gap. This course won’t cover tuning in detail; see the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) when you’re ready.
 
-Real-world queries rarely stop at similarity alone; they usually need metadata constraints too. Rather than searching the full graph and filtering afterward, Qdrant applies those constraints during the HNSW traversal itself; see [Filterable HNSW](/articles/filterable-hnsw/) for how that works without falling back to brute force. Section 6 covers this next.
+Real-world queries often combine similarity with metadata filters. Qdrant applies these filters during HNSW traversal instead of searching the full graph and filtering afterward. See [Filterable HNSW](/articles/filterable-hnsw/) for details. Section 6 covers filtering next.
 
 ## 6. Payload Filtering
 
