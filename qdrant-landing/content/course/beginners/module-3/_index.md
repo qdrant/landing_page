@@ -20,9 +20,7 @@ Understand dense versus sparse retrieval, their strengths, and how a hybrid appr
 **Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module3.ipynb)
 
 TL;DR: Module 2 showed you where your data lives and how Qdrant retrieves it. In this module, you'll learn what that retrieval misses and how to cover the gap. <br>
-You'll explore dense and sparse vectors, BM25, and the inverted index, then see why a product code defeats either one alone. <br>
-You'll also learn how fusion merges two ranked lists, and where a filter belongs so both retrievers respect it. <br>
-By the end, you'll have built a hybrid collection, run a fused query, and filtered it correctly.
+You'll explore dense and sparse vectors, BM25, and the inverted index, then see why a product code defeats either one alone. You'll also learn how fusion merges two ranked lists, and where a filter belongs so both retrievers respect it. By the end, you'll have built a hybrid collection, run a fused query, and filtered it correctly.
 
 ## Today's Path
 
