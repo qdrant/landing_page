@@ -27,7 +27,19 @@ Essentials embed pattern. Outro bumper yes, Intro bumper no.
 
 Traditional search retrieves documents by matching the words in a query to the words in an index. It’s fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you’ll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
 
-## In This Module, You'll Learn
+#### TL;DR
+```
+Search has to decide what makes a result relevant. In this module, you'll
+learn why matching words falls short and how comparing meaning fixes it.
+You'll explore embeddings, cosine similarity, and distance metrics, then
+see where similarity alone still fails: word order, negation, and exact
+product codes. You'll also meet the vocabulary the rest of the course
+builds on, including collections, points, payloads, and filters. By the
+end, you'll have embedded your first text and measured how close its
+meaning sits to related and unrelated phrases.
+```
+
+## Today’s Path
 
 - Why keyword search misses relevant results
 - How embeddings let search compare meaning
@@ -38,7 +50,7 @@ Traditional search retrieves documents by matching the words in a query to the w
 
 Choose how you want to follow this module:
 
-- **Use Colab:** [Open the companion notebook in Colab](https://colab.research.google.com/github/qdrant/examples/blob/master/Beginner-course/Module1.ipynb) to run the examples in your browser.
+- **Use follow-along notebooks on our:** [GitHub](https://github.com/qdrant/examples/blob/master/course/beginners)
 - **Run locally:** Use Python 3.9 or later, then install the dependencies:
 
 ```bash
