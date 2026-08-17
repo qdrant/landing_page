@@ -65,7 +65,7 @@ It is possible to override your cluster's default restart mode in the advanced c
 
 ## Shard Rebalancing
 
-When you scale your cluster horizontally, the cloud platform will automatically rebalance shards across all nodes in the cluster, ensuring that data is evenly distributed. This is done to ensure that all nodes are utilized and that the performance of the cluster is optimal.
+Qdrant Cloud continuously monitors the distribution of shards across your cluster's nodes and rebalances them in the background to keep data evenly distributed. This also happens whenever you scale your cluster horizontally. The rebalancing target is the total shard count and/or size per node across all of your collections combined, not per collection, so a single collection can look unevenly placed even while the cluster as a whole is balanced by that measure.
 
 Qdrant Cloud offers three strategies for shard rebalancing:
 
@@ -73,7 +73,7 @@ Qdrant Cloud offers three strategies for shard rebalancing:
 * `by_count`: This strategy will rebalance the shards based on the number of shards only. It will ensure that all nodes have the same number of shards, but shard sizes may not be balanced evenly across nodes.
 * `by_size`: This strategy will rebalance the shards based on their size only. It will ensure that shards are evenly distributed across nodes by size, but the number of shards may not be even across all nodes.
 
-You can deactivate automatic shard rebalancing by selecting the `disabled` option. This is useful if you want to manually control the shard distribution across nodes.
+If you manually move a shard (see [Moving Shards](/documentation/scaling/distributed_deployment/#moving-shards)) while automatic rebalancing is active, and that move leaves a node's shard count or size outside the target, automatic rebalancing can move a shard back to correct it. To manually control shard distribution across nodes, deactivate automatic shard rebalancing by selecting **Disabled** for the **Shard Rebalance Strategy** option.
 
 ![Cluster node endpoints](/documentation/cloud/cloud-shard-rebalancing.png)
 
