@@ -22,16 +22,20 @@ weight: 30
 
 Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
 
-**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/Beginner-course/Module2.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
-</a>
+**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module2.ipynb)
 
 <br/>
 
-TL;DR: Module 1 explained why semantic search works. In this module, you’ll learn where your data lives and how Qdrant searches it. <br>
-You’ll explore collections, points, vectors, payloads, and distance metrics, then see how Qdrant finds the top-k matches without scanning every vector. <br>
-You’ll also learn how to filter results by metadata and split long documents into smaller chunks before embedding them. <br>
-By the end, you’ll have created a collection, stored points, and run your first filtered query.
+#### TL;DR
+```
+Module 1 explained why semantic search works. In this module, you’ll learn 
+where your data lives and how Qdrant searches it. You’ll explore collections,
+points, vectors, payloads, and distance metrics, then see how Qdrant finds the 
+top-k matches without scanning every vector. You’ll also learn how to filter
+results by metadata and split long documents into smaller chunks before embedding
+them. By the end, you’ll have created a collection, stored points, and run 
+your first filtered query.
+```
 
 ## Today's Path
 
