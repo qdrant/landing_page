@@ -413,9 +413,5 @@ Extend the pipeline above: add a third document with its own category, re-run th
 
 ## What's Next: Module 3
 
-In the next module, we'll break down:
-
-- The two families of search: dense vs. sparse, and when each one fails
-- How hybrid systems combine dense and sparse retrieval into a single query
-- Setting up hybrid search in Qdrant and choosing a fusion strategy
-- Beyond text: applying the same retrieval primitives to images, audio, and video
+Dense vectors capture meaning well, but they can miss exact keyword matches such as product codes or model numbers. <br> 
+Module 3 introduces sparse vectors, which complement dense vectors by capturing exact terms and keywords. You’ll learn how to combine both in a single hybrid search query.
