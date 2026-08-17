@@ -21,6 +21,17 @@ Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily
 
 **Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module5.ipynb)
 
+#### TL;DR
+```
+Module 4 turned the building blocks into a design. In this module, you'll
+build that design as a working system. You'll explore named vectors that
+hold text, image, and audio evidence on a single point, then see how a
+daily job clusters those signals into the events they describe.
+You'll also learn how to search images with text and to compare what
+sources in different languages are saying. By the end, you'll have
+ingested, clustered, and queried multimodal signals from one collection.
+```
+
 ## Today's Path
 
 1. Project Overview
@@ -33,9 +44,11 @@ Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily
 8. Course Summary
 9. References & Further Reading
 
+By the end, you'll have built the whole system: ingestion, clustering, and analyst queries over one collection.
+
 ## 1. Project Overview
 
-A factory fire in Vietnam shows up in local news hours before any English wire picks it up. It also shows up in a satellite image, in an earnings call where an executive gets asked about it, and in a supplier's own filing weeks later. Each of those is a signal, and none of them arrives labelled as an incident.
+A factory fire in Vietnam shows up in local news hours before any English wire picks it up. It also shows up in a satellite image, in an earnings call where an executive gets asked about it, and in a supplier's own filing weeks later. Each of those is a signal, and none of them arrives labeled as an incident.
 
 This is the news search system you designed in Module 4, extended in three ways:
 
@@ -54,7 +67,7 @@ The system has four stages. Each maps to Qdrant primitives you already know.
 3. **Store**: upsert each signal as one `PointStruct` carrying every vector it has, plus a payload: supplier, source type, country, publication date, risk score.
 4. **Cluster + Query**: a daily batch tags signals with a `cluster_id`; on demand, analysts run hybrid and image queries against the same collection.
 
-![The four capstone stages stacked top to bottom: ingest, embed, store, then cluster and query, each labelled with the Qdrant primitive it maps to.](/courses/beginners/module-5/four-stage.png)
+![The four capstone stages stacked top to bottom: ingest, embed, store, then cluster and query, each labeled with the Qdrant primitive it maps to.](/courses/beginners/module-5/four-stage.png)
 
 ### Collection Schema
 
@@ -78,7 +91,7 @@ payload_fields:
   published_at: { type: datetime, indexed: true }
   risk_score:   { type: float,    indexed: true, range: "0.0 to 1.0" }
   cluster_id:   { type: integer,  indexed: true, note: assigned after ingestion }
-  summary:      { type: keyword,  indexed: false, note: short excerpt or caption }
+  summary:      { type: text,     indexed: false, note: short excerpt or caption }
 ```
 
 ## 3. Signal Sources & Embedding Models
@@ -90,8 +103,10 @@ Each signal type needs a different embedding approach. The key principle: choose
 | News articles | text | multilingual-e5-large + BM25 | `text_dense`, `text_sparse` |
 | Earnings calls | audio to text | Whisper + MiniLM | `audio_text`, `text_dense` |
 | Factory footage | video to frames | CLIP per keyframe | `image` |
-| Satellite imagery | image | CLIP | `image` |
+| Satellite imagery | image + caption | CLIP, and e5 + BM25 on the caption | `image`, `text_dense`, `text_sparse` |
 | Financial filings | text | multilingual-e5-large + BM25 | `text_dense`, `text_sparse` |
+
+Satellite captures are the row worth reading twice. The caption is what gives an image its text vectors, and Section 5 depends on those: an uncaptioned image can never join a text cluster.
 
 ### Text: multilingual-e5-large
 
@@ -99,9 +114,13 @@ Supply chain news arrives in Japanese, Mandarin, Korean, Vietnamese, and dozens 
 
 Note the `query:` and `passage:` prefixes below. The e5 family is trained with them: use `query:` for search text and `passage:` for stored content. Skipping them lowers retrieval quality quietly, without any error.
 
-```python
-# pip install "qdrant-client" sentence-transformers openai-whisper transformers torch pillow scikit-learn numpy
+```bash
+pip install "qdrant-client[fastembed]" sentence-transformers openai-whisper transformers torch pillow scikit-learn numpy
+```
 
+The dense text model loads once and is reused at ingestion and at query time:
+
+```python
 from sentence_transformers import SentenceTransformer
 
 dense_model = SentenceTransformer("intfloat/multilingual-e5-large")
@@ -111,7 +130,7 @@ passage_vec = dense_model.encode("passage: Executive statement following factory
 query_vec   = dense_model.encode("query: supplier factory fire evacuation")
 ```
 
-e5 similarities compress into roughly the 0.7 to 1.0 band, so a score of 0.8 does not mean "80% relevant". Always score a clearly unrelated passage alongside your real one and read the gap between the two, not the absolute number.
+e5 similarities compress into roughly the 0.7 to 1.0 band, so a score of 0.8 does not mean "80% relevant". Always score a clearly unrelated chunk alongside your real one and read the gap between the two, not the absolute number.
 
 ### Audio: Transcribe Then Embed
 
@@ -163,7 +182,23 @@ def embed_text_for_image_query(text: str) -> list[float]:
 
 The daily job collects signals, embeds each modality, and upserts them. A risk scoring step assigns an initial `risk_score`, which analysts later filter on.
 
-Three helpers appear throughout this module and are left for you to implement: `chunk_text` (the Module 2 chunking strategies), `bm25_encode` (Module 3 sparse vectors, or FastEmbed's `Bm25` model), and `score_risk` (start with a keyword baseline).
+Sparse vectors come from FastEmbed, which ships with the client:
+
+```python
+from fastembed import SparseTextEmbedding
+from qdrant_client import models
+
+bm25 = SparseTextEmbedding(model_name="Qdrant/bm25")
+
+def bm25_encode(text: str) -> models.SparseVector:
+    emb = next(bm25.embed([text]))
+    return models.SparseVector(
+        indices=emb.indices.tolist(),
+        values=emb.values.tolist(),
+    )
+```
+
+Two helpers are left for you to write, because both are decisions rather than boilerplate: `chunk_text` (pick a strategy from Module 2) and `score_risk` (start with a keyword baseline and tune it against your own signals).
 
 ### Collection Setup
 
@@ -295,8 +330,8 @@ Clustering groups signals that describe the same underlying event, even when the
 
 ### The Clustering Approach
 
-- **Cluster assignment**: retrieve the day's vectors with `scroll`, run a lightweight k-means (a standard algorithm that groups vectors around k centre points) over them, and write a `cluster_id` back to each point.
-- **Centroids**: a cluster's centre point is itself a vector. Query with it to pull in older signals about the same theme.
+- **Cluster assignment**: retrieve the day's vectors with `scroll`, run a lightweight k-means (a standard algorithm that groups vectors around k center points) over them, and write a `cluster_id` back to each point.
+- **Centroids**: a cluster's center point is itself a vector. Query with it to pull in older signals about the same theme.
 - **Cross-supplier clustering**: run the same job with no `supplier_id` filter to find themes affecting many suppliers at once.
 
 ### Retrieving Signals for a Supplier
@@ -397,6 +432,8 @@ if centroids is not None:
     matches = signals_like_cluster(centroids[0])
 ```
 
+A centroid is the mean of unit vectors, so it is not unit length itself. That costs you nothing here, because Qdrant normalizes query vectors on a cosine collection, and it can be passed straight in.
+
 ## 6. Analyst Queries
 
 One collection, four named vectors, three ways to ask.
@@ -475,37 +512,55 @@ The image query in the previous section has no prefetch, which is why the same `
 
 Because every language shares one vector space, the same English query works against sources in any language. Run it twice, once filtered to `language: ["en"]` and once to `["ja", "zh"]`, and compare. If English coverage looks routine while local-language sources return shutdown signals, the local narrative is ahead of the English one, and that gap is where early warnings live. The mechanism is nothing new: the same query with a different `language` filter.
 
+### Try It
+
+Extend `query_supplier_risk` so an analyst can restrict an investigation to one kind of evidence, for example only satellite signals or only earnings calls. Add a `source_type` argument, put the condition in `risk_filter`, and check that the field is indexed in the collection setup before you run it.
+
 ## 7. Knowledge Check
 
 Work through these before you call the capstone done.
 
-{{< details summary="Why does the collection use named vectors instead of one collection per modality?" >}}
+<details>
+<summary>Why does the collection use named vectors instead of one collection per modality?</summary>
+
 One signal, one point. A single event can carry text, image, and audio evidence at the same time, and named vectors keep all of it on that one point, queryable separately, sharing a single payload for filtering. Splitting by modality would scatter one event across three collections, triplicate the filtering logic, and leave you joining results in application code.
-{{< /details >}}
 
-{{< details summary="A satellite image is ingested with no caption. Which parts of this system stop working for it, and why?" >}}
-It gets an `image` vector and nothing else. Image search still finds it, because CLIP matches the query text to the picture. But it has no `text_dense` vector, so `dense_matrix` skips it and it can never join a text cluster in Section 5, and no text query will reach it. That is why Section 4 captions images at ingestion rather than treating the caption as optional metadata.
-{{< /details >}}
+</details>
 
-{{< details summary="How does CLIP match the query 'smoke above factory' to a satellite photo with no text attached?" >}}
-CLIP is trained contrastively on image and caption pairs, which places images and text in one shared embedding space. Embed the query with CLIP's *text* encoder and it lands near a visually matching image vector, so ordinary cosine similarity retrieves the photo. Embedding it with the sentence transformer instead would land it in a different space entirely and return nothing useful.
-{{< /details >}}
+<details>
+<summary>A satellite image is ingested with no caption. Which parts of this system stop working for it, and why?</summary>
 
-{{< details summary="In a hybrid query, where does the filter belong?" >}}
-Inside each `Prefetch`. It narrows what each retriever searches and behaves the same on every deployment mode. Local mode ignores an outer `query_filter` without raising an error, which is how a notebook ends up printing results that break its own filter.
-{{< /details >}}
+It gets an <code>image</code> vector and nothing else. Image search still finds it, because CLIP matches the query text to the picture. But it has no <code>text_dense</code> vector, so <code>dense_matrix</code> skips it and it can never join a text cluster in Section 5, and no text query will reach it. That is why Section 4 captions images at ingestion rather than treating the caption as optional metadata.
 
-{{< details summary="How would you extend this system to detect a risk theme affecting 15 suppliers at once?" >}}
-Cluster across suppliers rather than within one: run `cluster_and_tag` over every signal from the last 24 to 48 hours with no `supplier_id` filter. A shared theme appears as one tight cluster drawing signals from many suppliers, and its centroid gives you a vector for the emerging narrative, which `signals_like_cluster` then uses to pull in everything else about it.
-{{< /details >}}
+</details>
 
-{{< details summary="The capstone creates every payload index immediately after creating the collection, before ingesting anything. Why does the order matter more here than in a single-vector system?" >}}
+<details>
+<summary>How does CLIP match the query "smoke above factory" to a satellite photo with no text attached?</summary>
+
+CLIP is trained contrastively on image and caption pairs, which places images and text in one shared embedding space. Embed the query with CLIP's <em>text</em> encoder and it lands near a visually matching image vector, so ordinary cosine similarity retrieves the photo. Embedding it with the sentence transformer instead would land it in a different space entirely and return nothing useful.
+
+</details>
+
+<details>
+<summary>In a hybrid query, where does the filter belong?</summary>
+
+Inside each <code>Prefetch</code>. It narrows what each retriever searches and behaves the same on every deployment mode. Local mode ignores an outer <code>query_filter</code> without raising an error, which is how a notebook ends up printing results that break its own filter.
+
+</details>
+
+<details>
+<summary>How would you extend this system to detect a risk theme affecting 15 suppliers at once?</summary>
+
+Cluster across suppliers rather than within one: run <code>cluster_and_tag</code> over every signal from the last 24 to 48 hours with no <code>supplier_id</code> filter. A shared theme appears as one tight cluster drawing signals from many suppliers, and its centroid gives you a vector for the emerging narrative, which <code>signals_like_cluster</code> then uses to pull in everything else about it.
+
+</details>
+
+<details>
+<summary>The capstone creates every payload index before ingesting anything. Why does the order matter more here than in a single-vector system?</summary>
+
 Qdrant adds filter-aware edges to the HNSW graph from indexed payload values, and only for indexes that exist when the graph is built. An index created later still filters correctly, but earning those edges means rebuilding the graph. This collection has three dense graphs, one per named vector, so a late index means rebuilding all three. On Qdrant Cloud a missing index also fails loudly rather than slowly, since strict mode rejects filters on unindexed fields.
-{{< /details >}}
 
-### Try It
-
-Extend `query_supplier_risk` so an analyst can restrict an investigation to one kind of evidence, for example only satellite signals or only earnings calls. Add a `source_type` argument, put the condition in `risk_filter`, and check that the field is indexed in the collection setup before you run it.
+</details>
 
 ## 8. Course Summary
 
@@ -513,17 +568,19 @@ This module completes the Qdrant Beginners course. Here's what was covered:
 
 | Module | Theme | Key concepts covered |
 |--------|-------|----------------------|
-| Module 0 | Setting Up | Dependencies, a Qdrant Cloud cluster, and a first working connection. |
-| Module 1 | Understand Search | Why keyword search fails; how embeddings and semantic search work; the shift from words to meaning. |
+| Module 1 | Let's Understand Search | Why keyword search fails; how embeddings and semantic search work; the shift from words to meaning. |
 | Module 2 | First Principles of Vector Search | Collections, points, vectors, payloads, HNSW, chunking strategies, and the full ingestion pipeline. |
-| Module 3 | Sparse, Dense & Hybrid | BM25 vs embeddings; when each fails; hybrid search with rank fusion. |
-| Module 4 | Designing a System | The layers of the stack; five design questions; filtering in depth; the RAG pipeline; deployment options. |
-| Module 5 | Multimodal Supplier Risk | End-to-end capstone: ingest news, audio, and images on shared points; cluster risk signals; query every modality. |
+| Module 3 | Sparse vs Dense vs Hybrid Search | BM25 against embeddings; when each fails; hybrid search with rank fusion. |
+| Module 4 | Designing a Vector Search System | The layers of the stack; five design questions; filtering in depth; the RAG pipeline; deployment options. |
+| Module 5 | Multimodal Supplier Risk Intelligence | End-to-end capstone: ingest news, audio, and images on shared points; cluster risk signals; query every modality. |
+| Module 6 | Beyond Similarity (bonus) | Optional further reading: score boosting, MMR diversity, grouping, and relevance feedback. |
+
+Next, [get #QdrantCertified](/course/beginners/certification/) with the official Beginners exam, which covers Modules 1 through 5.
 
 ## 9. References & Further Reading
 
 - [Named Vectors](/documentation/manage-data/vectors/#named-vectors)
-  - Declaring several vectors per point and querying one of them with `using`.
+  - Declaring more than one vector per point and querying a named one with `using`.
 - [Hybrid Queries](/documentation/search/hybrid-queries/)
   - Prefetch semantics, Reciprocal Rank Fusion with weights, Distribution-Based Score Fusion, and formula queries.
 - [Indexing and Filterable HNSW](/documentation/manage-data/indexing/)
@@ -538,5 +595,3 @@ This module completes the Qdrant Beginners course. Here's what was covered:
   - Model card: the 100 supported languages, the required query and passage prefixes, and why cosine scores sit in a narrow band.
 - [CLIP ViT-B/32](https://huggingface.co/openai/clip-vit-base-patch32)
   - Model card for the image and satellite embedding model used here.
-
-<!-- TODO (course completion): let the theme render the course-complete element here instead of plain text. Confirm whether the certificate / completion CTA (as in Essentials) should render on this final module. -->
