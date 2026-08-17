@@ -17,11 +17,12 @@ weight: 40
 
 Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
-
-
 **Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module3.ipynb)
 
-**TL;DR:** Dense search finds what a query means and blurs the exact parts. Sparse search finds what a query says and misses every rewording. On a query like a product code neither is safe alone, so Qdrant runs both in one request and fuses the two ranked lists. You will build that pipeline, then filter it correctly.
+TL;DR: Module 2 showed you where your data lives and how Qdrant retrieves it. In this module, you'll learn what that retrieval misses and how to cover the gap. <br>
+You'll explore dense and sparse vectors, BM25, and the inverted index, then see why a product code defeats either one alone. <br>
+You'll also learn how fusion merges two ranked lists, and where a filter belongs so both retrievers respect it. <br>
+By the end, you'll have built a hybrid collection, run a fused query, and filtered it correctly.
 
 ## Today's Path
 
@@ -86,7 +87,7 @@ indices = [1974139272, 24614856, 1784631546, 243905464, 303109060]
 values  = [1.67, 1.67, 1.67, 1.67, 1.67]
 ```
 
-Five tokens, five weights, nothing else stored. The indices are hashes of each token rather than positions in a word list, which is why they are large. The values are uniform because BM25 produces only half the score, the part counting how often a token appears; Qdrant computes the other half at query time, and Step 1 configures the field for it.
+Five tokens, five weights, nothing else stored. The indices are hashes of each token rather than positions in a word list, which is why they are large. The values are uniform because BM25 produces only half the score, the part counting how often a token appears. Qdrant computes the other half at query time.
 
 Sparse retrieval does not match characters, which is a common assumption. BM25 tokenizes and stems first, so `SKU-48291` and `SKU-48292` still share the token `sku`. What it gives you is that `40` and `41` are *different tokens* with no relationship at all, where dense placed them 0.0087 apart. The distinguishing token gets its own dimension instead of being averaged away.
 
@@ -133,7 +134,7 @@ Each retriever ranks the right shoe first, and each leaves it a hair ahead of so
 
 ### Fusion
 
-**Fusion** is the step that merges two ranked lists into one. It runs on the server once both retrievers finish, and it decides the final order. Qdrant offers two strategies, Reciprocal Rank Fusion and Distribution-Based Score Fusion; Section 5 covers the choice, and the [Hybrid Queries documentation](/documentation/search/hybrid-queries/) covers their parameters.
+**Fusion** is the step that merges two ranked lists into one. It runs on the server once both retrievers finish, and it decides the final order. Qdrant offers two strategies, Reciprocal Rank Fusion and Distribution-Based Score Fusion, and the [Hybrid Queries documentation](/documentation/search/hybrid-queries/) covers their parameters.
 
 **Reciprocal Rank Fusion (RRF)** is the default. It merges the lists using each candidate's *position* and ignores the raw scores entirely, which matters because a dense score of 0.87 and a BM25 score of 3.84 sit on unrelated scales and cannot be meaningfully added. A document ranked highly by both retrievers finishes above one ranked highly by only one.
 
@@ -145,7 +146,7 @@ Hybrid search uses named vectors, dense and sparse on the same point, and the Qu
 
 ### Step 1: Create a Hybrid Collection
 
-Two things are new since Module 2. The collection declares a sparse config alongside the dense one, so both vectors live on the same point. And that sparse config carries a `modifier`, which has no dense equivalent: it tells Qdrant to compute the second half of the BM25 score at query time, the half that makes a rare token like `40` outweigh a common one like `shoes`. Without it, BM25 scoring is wrong rather than merely untuned.
+Two things are new since Module 2. The collection declares a sparse config alongside the dense one, so both vectors live on the same point. And that sparse config carries a `modifier`, which has no dense equivalent: it tells Qdrant to compute the second half of the BM25 score at query time, the inverse document frequency. That half is what makes a rare token like `40` outweigh a common one like `shoes`, so without it BM25 scoring is wrong rather than merely untuned. miniCOIL needs the same modifier.
 
 Install the client with FastEmbed support:
 
@@ -192,7 +193,7 @@ client.create_payload_index(
 )
 ```
 
-Index before ingestion. An index added later still filters correctly, but the structure Qdrant uses to skip non-matching points during a search is built as the data is written, so adding one afterward means a rebuild. On Qdrant Cloud, strict mode is on by default and filtering an unindexed field returns a 400 rather than a slow answer.
+Index before ingestion. An index added later still filters correctly, but the structure Qdrant uses to skip non-matching points during a search is built as the data is written, so adding one afterward means a rebuild. Qdrant Cloud also runs **strict mode** by default, a set of guardrails that rejects queries expensive enough to destabilize a cluster, and filtering an unindexed field is one of them: you get a 400 rather than a slow answer.
 
 ### Step 2: Insert Points with Both Vectors
 
@@ -319,12 +320,15 @@ def filtered_hybrid_search(query_text, query_filter, limit=4):
             models.Prefetch(
                 query=models.Document(text=query_text, model=DENSE_MODEL),
                 using="dense",
+                # The filter goes here, not at the top level, so this
+                # retriever spends its 20 candidates on eligible points
                 filter=query_filter,
                 limit=20,
             ),
             models.Prefetch(
                 query=models.Document(text=query_text, model=SPARSE_MODEL),
                 using="sparse",
+                # The same filter, repeated for the second retriever
                 filter=query_filter,
                 limit=20,
             ),
@@ -363,6 +367,8 @@ results = client.query_points(
 ```
 
 Swap `DENSE_MODEL` for `SPARSE_MODEL` and `using="sparse"` for the sparse equivalent. The placement is identical because there is no prefetch for the filter to belong to.
+
+Whichever retriever you use, the filter admits the same four products, the ones in stock and stocked in size 11: the Pegasus 40 and 41, the Invincible 3, and the Ghost 15. Eligibility does not depend on the retriever. Only the order they come back in does, which is the whole reason the choice of retriever still matters after filtering.
 
 ### One Thing to Watch: Local Mode
 
