@@ -28,7 +28,10 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 
 <br/>
 
-**TL;DR:** Module 1 explained *why* semantic search works. This module is about *where the data actually lives*: how Qdrant organizes collections, points, vectors, and payloads; how it finds your top-K matches fast using an index called HNSW instead of scanning everything; how to filter results by metadata; how to split long documents into chunks before embedding them; and how all of that comes together into one working ingestion pipeline, from an empty cluster to your first filtered query.
+TL;DR: Module 1 explained why semantic search works. In this module, you’ll learn where your data lives and how Qdrant searches it. <br>
+You’ll explore collections, points, vectors, payloads, and distance metrics, then see how Qdrant finds the top-k matches without scanning every vector. <br>
+You’ll also learn how to filter results by metadata and split long documents into smaller chunks before embedding them. <br>
+By the end, you’ll have created a collection, stored points, and run your first filtered query.
 
 ## Today's Path
 
@@ -79,7 +82,8 @@ The atomic unit of data. Every point has an ID (integer or UUID), a vector, and 
 
 ### Vector
 
-A dense vector: a list of floating-point numbers (such as 384 or 768 values, known as dimensions), almost all non-zero, that represent the meaning of the original content. Similar content produces similar vectors. This module focuses on dense vectors; Module 3 introduces sparse vectors and hybrid search.
+A vector is a list of numbers. An embedding is a vector created by a model to represent the meaning of content. In semantic search, a dense vector is usually an embedding generated from text, images, or other data.<br>
+Each number represents one dimension of the vector. Similar content produces similar vectors, making it easier to find related items. Dense vectors usually contain values across most dimensions. This module focuses on dense vectors; Module 3 introduces sparse vectors, which contain mostly zeros.
 
 ### Payload
 
@@ -89,7 +93,7 @@ Custom JSON metadata attached to a point. Used for filtering, retrieval scoping,
 
 ### Your Qdrant Cluster
 
-A collection needs a running Qdrant instance, a **cluster** (a running deployment of Qdrant that hosts your collections and serves requests), to live in. Qdrant Cloud has a free tier that takes about a minute to set up; Module 0 walks through it step by step, screenshots included. 
+To create a collection, you need a running Qdrant instance, or **cluster**. A cluster is a Qdrant deployment that stores your collections and handles requests. You can use Qdrant Cloud or run Qdrant yourself locally. Qdrant Cloud offers a free tier that takes about a minute to set up. Module 0 walks you through the process with screenshots.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -106,13 +110,14 @@ client = QdrantClient(
 
 ### Creating a Collection
 
-Once connected, you create a collection by setting two parameters: the size of vectors it will accept and the distance metric used for similarity.
+Once connected, you create a collection by setting two parameters: the size of the vectors it accepts and the distance metric used for similarity. <br>
+Both come from your embedding model. 384 is the vector size of all-MiniLM-L6-v2, the model from Module 1, and cosine is the metric it was trained for.
 
 ```python
 client.create_collection(
     collection_name="articles",
     vectors_config=models.VectorParams(
-        # must match your embedding model
+        # 384: the vector size of all-MiniLM-L6-v2, from Module 1
         size=384,                     
         distance=models.Distance.COSINE,
     ),
@@ -121,7 +126,8 @@ client.create_collection(
 
 ### Inserting a Point
 
-Each point carries an ID, a vector (the embedding of your content), and a payload (any metadata you want to filter or return later). Add it with `upsert`: it inserts a new point if the ID doesn't already exist, or updates that point in place if it does.
+Each point contains an ID, a vector that represents your content, and a payload with metadata you can use to filter or return results later. <br>
+Use `upsert` to add a point to a collection. If the ID is new, Qdrant inserts the point. If the ID already exists, Qdrant updates the existing point.
 
 ```python
 from qdrant_client.models import PointStruct  # represents a single point: id, vector, and payload
@@ -145,7 +151,8 @@ client.upsert(
 
 ## 3. Distance Metrics
 
-When you query a collection, Qdrant uses the distance metric you chose at collection creation to score how similar your query vector is to the stored vectors, and returns the closest matches. The most common for text is cosine similarity. Scoring every stored vector this way would be too slow at scale, so Qdrant doesn't do a full scan by default; section 5 covers how the HNSW index finds close matches without checking every vector.
+When you query a collection, Qdrant compares your query vector with the stored vectors using the distance metric you chose when creating the collection. For text embeddings, cosine similarity is the most common metric. <br> 
+Checking every vector would be too slow for large collections. Instead, Qdrant uses an HNSW index to find the closest matches efficiently without scanning the entire collection. Section 5 explains how it works.
 
 | Metric | Notes |
 |--------|-------|
