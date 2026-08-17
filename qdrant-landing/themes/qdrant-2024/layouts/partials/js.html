@@ -22,6 +22,42 @@
 {{ end }}
 <!-- OneTrust Cookies Consent Notice end for local.qdrant.tech -->
 
+<!-- Google Tag Manager -->
+{{ if and (not hugo.IsServer) .Site.Params.googleTagManager }}
+  <script>
+    // Consent Mode v2: deny everything before the container loads, so no tag can
+    // fire ahead of a choice. updateGtmConsent() in gtm-helpers.js grants from
+    // OneTrust once the CMP reports in. Must stay above the gtm.js loader below.
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'granted',
+      wait_for_update: 500,
+    });
+  </script>
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', '{{ .Site.Params.googleTagManager }}');
+  </script>
+{{ end }}
+<!-- End Google Tag Manager -->
+
 <!-- Segment -->
 <script>
   const isFirstPageView = !localStorage.getItem('ajs_anonymous_id') && localStorage.getItem('isFirstPageView') === null;
