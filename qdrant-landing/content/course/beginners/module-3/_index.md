@@ -1,21 +1,21 @@
-  ---
-  title: "Module 3: Sparse vs Dense vs Hybrid Search"
-  short_description: "Module 3 of the Beginners course: dense and sparse retrieval, what each one misses, and how hybrid search combines them."
-  description: "Compare dense and sparse retrieval, see where each one fails on real queries, and build a hybrid search pipeline in Qdrant with rank fusion and filters."
-  isLesson: true
-  weight: 40
-  ---
+---
+title: "Module 3: Sparse vs Dense vs Hybrid Search"
+short_description: "Module 3 of the Beginners course: dense and sparse retrieval, what each one misses, and how hybrid search combines them."
+description: "Compare dense and sparse retrieval, see where each one fails on real queries, and build a hybrid search pipeline in Qdrant with rank fusion and filters."
+isLesson: true
+weight: 40
+---
 
-  {{< date >}} Module 3 {{< /date >}}
+{{< date >}} Module 3 {{< /date >}}
 
-  # Sparse vs Dense vs Hybrid Search
+# Sparse vs Dense vs Hybrid Search
 
-  <div class="video">
-    <iframe src="https://www.youtube.com/embed/9XXz21jmWes?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-    </iframe>
-  </div>
+<div class="video">
+  <iframe src="https://www.youtube.com/embed/9XXz21jmWes?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  </iframe>
+</div>
 
-  Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
+Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
 
 
