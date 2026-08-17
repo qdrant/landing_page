@@ -220,7 +220,7 @@ Qdrant allows you to specify the shard for each point individually. This feature
 
 #### Multitenancy
 
-A use-case for this feature is managing a [multi-tenant collection](/documentation/manage-data/multitenancy/), where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
+A use-case for this feature is managing a multi-tenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. See [User-defined sharding](/documentation/manage-data/multitenancy/#user-defined-sharding) in the Multitenancy guide for a tenant-focused walkthrough.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 

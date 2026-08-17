@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 430" font-family="Inter, -apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="acorn-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2F6FF0"/>
+    </marker>
+    <marker id="acorn-arrow-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#89A9FF"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1220" height="430" fill="#FFFFFF"/>
+
+  <!-- panel titles -->
+  <text x="210" y="40" text-anchor="middle" font-size="19" font-weight="600" fill="#161E33">Plain Graph Under a Filter</text>
+  <text x="610" y="40" text-anchor="middle" font-size="19" font-weight="600" fill="#161E33">ACORN at Search Time</text>
+  <text x="1010" y="40" text-anchor="middle" font-size="19" font-weight="600" fill="#161E33">Filterable HNSW at Index Time</text>
+
+  <!-- ============ panel 1 ============ -->
+  <g transform="translate(20,62)">
+    <g stroke="#D4D9E6" stroke-width="1.8">
+      <line x1="45" y1="110" x2="125" y2="45"/><line x1="45" y1="110" x2="75" y2="190"/>
+      <line x1="125" y1="45" x2="210" y2="35"/><line x1="125" y1="45" x2="165" y2="120"/>
+      <line x1="210" y1="35" x2="290" y2="60"/><line x1="210" y1="35" x2="165" y2="120"/>
+      <line x1="290" y1="60" x2="335" y2="140"/><line x1="335" y1="140" x2="255" y2="150"/>
+      <line x1="335" y1="140" x2="320" y2="225"/><line x1="255" y1="150" x2="165" y2="120"/>
+      <line x1="255" y1="150" x2="235" y2="235"/><line x1="165" y1="120" x2="75" y2="190"/>
+      <line x1="75" y1="190" x2="150" y2="255"/><line x1="150" y1="255" x2="235" y2="235"/>
+      <line x1="235" y1="235" x2="320" y2="225"/><line x1="235" y1="235" x2="285" y2="290"/>
+      <line x1="320" y1="225" x2="285" y2="290"/>
+    </g>
+    <g stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" fill="none">
+      <line x1="45" y1="110" x2="88" y2="75"/>
+      <line x1="45" y1="110" x2="61" y2="153"/>
+    </g>
+    <g stroke="#E02828" stroke-width="2.5" stroke-linecap="round">
+      <line x1="94" y1="61" x2="104" y2="71"/><line x1="104" y1="61" x2="94" y2="71"/>
+      <line x1="62" y1="159" x2="72" y2="169"/><line x1="72" y1="159" x2="62" y2="169"/>
+    </g>
+    <g>
+      <circle cx="125" cy="45" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="210" cy="35" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="290" cy="60" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="255" cy="150" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="165" cy="120" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="75" cy="190" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="235" cy="235" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="320" cy="225" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="45" cy="110" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="335" cy="140" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="150" cy="255" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="285" cy="290" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- ============ panel 2 ============ -->
+  <g transform="translate(420,62)">
+    <g stroke="#D4D9E6" stroke-width="1.8">
+      <line x1="45" y1="110" x2="125" y2="45"/><line x1="45" y1="110" x2="75" y2="190"/>
+      <line x1="125" y1="45" x2="210" y2="35"/><line x1="125" y1="45" x2="165" y2="120"/>
+      <line x1="210" y1="35" x2="290" y2="60"/><line x1="210" y1="35" x2="165" y2="120"/>
+      <line x1="290" y1="60" x2="335" y2="140"/><line x1="335" y1="140" x2="255" y2="150"/>
+      <line x1="335" y1="140" x2="320" y2="225"/><line x1="255" y1="150" x2="165" y2="120"/>
+      <line x1="255" y1="150" x2="235" y2="235"/><line x1="165" y1="120" x2="75" y2="190"/>
+      <line x1="75" y1="190" x2="150" y2="255"/><line x1="150" y1="255" x2="235" y2="235"/>
+      <line x1="235" y1="235" x2="320" y2="225"/><line x1="235" y1="235" x2="285" y2="290"/>
+      <line x1="320" y1="225" x2="285" y2="290"/>
+    </g>
+    <g stroke="#89A9FF" stroke-width="2" stroke-dasharray="4 4" fill="none" opacity="0.75">
+      <line x1="235" y1="235" x2="245" y2="200" marker-end="url(#acorn-arrow-light)"/>
+      <line x1="235" y1="235" x2="281" y2="229" marker-end="url(#acorn-arrow-light)"/>
+    </g>
+    <g stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" fill="none">
+      <line x1="45" y1="110" x2="75" y2="190"/>
+      <line x1="75" y1="190" x2="139" y2="246" marker-end="url(#acorn-arrow)"/>
+      <line x1="150" y1="255" x2="235" y2="235"/>
+      <line x1="235" y1="235" x2="276" y2="280" marker-end="url(#acorn-arrow)"/>
+    </g>
+    <g>
+      <circle cx="125" cy="45" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="210" cy="35" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="290" cy="60" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="255" cy="150" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="165" cy="120" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="75" cy="190" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="235" cy="235" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="320" cy="225" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="45" cy="110" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="335" cy="140" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="150" cy="255" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="285" cy="290" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+    </g>
+    <circle cx="75" cy="190" r="15" fill="none" stroke="#2F6FF0" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <circle cx="235" cy="235" r="15" fill="none" stroke="#2F6FF0" stroke-width="1.5" stroke-dasharray="3 3"/>
+  </g>
+
+  <!-- ============ panel 3 ============ -->
+  <g transform="translate(820,62)">
+    <g stroke="#D4D9E6" stroke-width="1.8">
+      <line x1="45" y1="110" x2="125" y2="45"/><line x1="45" y1="110" x2="75" y2="190"/>
+      <line x1="125" y1="45" x2="210" y2="35"/><line x1="125" y1="45" x2="165" y2="120"/>
+      <line x1="210" y1="35" x2="290" y2="60"/><line x1="210" y1="35" x2="165" y2="120"/>
+      <line x1="290" y1="60" x2="335" y2="140"/><line x1="335" y1="140" x2="255" y2="150"/>
+      <line x1="335" y1="140" x2="320" y2="225"/><line x1="255" y1="150" x2="165" y2="120"/>
+      <line x1="255" y1="150" x2="235" y2="235"/><line x1="165" y1="120" x2="75" y2="190"/>
+      <line x1="75" y1="190" x2="150" y2="255"/><line x1="150" y1="255" x2="235" y2="235"/>
+      <line x1="235" y1="235" x2="320" y2="225"/><line x1="235" y1="235" x2="285" y2="290"/>
+      <line x1="320" y1="225" x2="285" y2="290"/>
+    </g>
+    <g stroke="#8547FF" stroke-width="3" fill="none">
+      <path d="M 45 110 Q 30 230 150 255"/>
+      <path d="M 150 255 Q 215 290 285 290"/>
+      <path d="M 285 290 Q 365 240 335 140"/>
+    </g>
+    <g stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" fill="none">
+      <path d="M 45 110 Q 8 240 137 254" marker-end="url(#acorn-arrow)"/>
+      <path d="M 150 255 Q 220 312 273 294" marker-end="url(#acorn-arrow)"/>
+      <path d="M 285 290 Q 390 248 341 152" marker-end="url(#acorn-arrow)"/>
+    </g>
+    <g>
+      <circle cx="125" cy="45" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="210" cy="35" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="290" cy="60" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="255" cy="150" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="165" cy="120" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="75" cy="190" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="235" cy="235" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="320" cy="225" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+      <circle cx="45" cy="110" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="335" cy="140" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="150" cy="255" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+      <circle cx="285" cy="290" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- ============ legend ============ -->
+  <g font-size="14" fill="#3D4866">
+    <circle cx="100" cy="397" r="8" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
+    <text x="116" y="402">matches the filter</text>
+    <circle cx="280" cy="397" r="8" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
+    <text x="296" y="402">filtered out</text>
+    <line x1="420" y1="397" x2="458" y2="397" stroke="#D4D9E6" stroke-width="1.8"/>
+    <text x="468" y="402">base HNSW edge</text>
+    <line x1="610" y1="397" x2="648" y2="397" stroke="#8547FF" stroke-width="3"/>
+    <text x="658" y="402">extra HNSW edge</text>
+    <line x1="805" y1="397" x2="843" y2="397" stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#acorn-arrow)"/>
+    <text x="858" y="402">search path</text>
+    <g stroke="#E02828" stroke-width="2.5" stroke-linecap="round">
+      <line x1="970" y1="392" x2="980" y2="402"/><line x1="980" y1="392" x2="970" y2="402"/>
+    </g>
+    <text x="992" y="402">blocked</text>
+  </g>
+</svg>

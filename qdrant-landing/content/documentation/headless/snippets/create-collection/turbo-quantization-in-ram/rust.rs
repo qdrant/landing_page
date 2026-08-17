@@ -1,0 +1,29 @@
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Datatype, Distance, Memory, TurboQuantBitSize, TurboQuantizationBuilder,
+    VectorParamsBuilder,
+};
+use qdrant_client::Qdrant;
+
+pub async fn main() -> anyhow::Result<()> {
+    // @hide-start
+    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    // @hide-end
+
+    client
+        .create_collection(
+            CreateCollectionBuilder::new("{collection_name}")
+                .vectors_config(
+                    VectorParamsBuilder::new(768, Distance::Cosine)
+                        .memory(Memory::Cold)
+                        .datatype(Datatype::Turbo4),
+                )
+                .quantization_config(
+                    TurboQuantizationBuilder::default()
+                        .bits(TurboQuantBitSize::Bits1)
+                        .memory(Memory::Pinned),
+                ),
+        )
+        .await?;
+
+    Ok(())
+}

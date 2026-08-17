@@ -6,10 +6,12 @@ client.createCollection("{collection_name}", {
     size: 768,
     distance: "Cosine",
     memory: "cold",
+    datatype: "turbo4",
   },
   quantization_config: {
-    binary: {
+    turbo: {
       memory: "cold",
+      bits: "bits1",
     },
   },
   hnsw_config: {
