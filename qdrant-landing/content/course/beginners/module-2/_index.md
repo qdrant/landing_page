@@ -382,34 +382,13 @@ for r in results.points:
 
 Extend the pipeline above: add a third document with its own category, re-run the filtered query, and confirm it shows up when its category matches, and gets excluded when it doesn't.
 
-## 9. References & Further Reading
+## 8. Further Reading
 
-**Qdrant docs:**
-
-- [Distance Metrics](/course/essentials/day-1/distance-metrics/)
-  - Cosine, dot product, Euclidean, and Manhattan, and when to use each metric.
-- [Chunking Strategies](/course/essentials/day-1/chunking-strategies/)
-  - Fixed-size, semantic, and sliding-window chunking with a full comparison table.
-- [Indexing and HNSW](/documentation/manage-data/indexing/)
-  - How the graph index is built, how search traverses it, and the available payload index types.
-- [Filtering](/documentation/search/filtering/)
-  - Full filter syntax: must, should, must_not, range, geo, and payload index configuration.
-- [Qdrant Cloud](https://cloud.qdrant.io/)
-  - Create a free cluster and follow the quickstart to run your first query in under 5 minutes.
-
-**Go deeper:**
-
-- [Filterable HNSW](/articles/filterable-hnsw/)
-  - How Qdrant combines HNSW with payload filtering without falling back to brute force.
-- [Efficient and Robust Approximate Nearest Neighbor Search Using HNSW Graphs](https://arxiv.org/abs/1603.09320)
-  - The original HNSW paper, for anyone who wants the algorithm itself, not just the summary.
-
-**Definitions:**
-
-- [Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
-- [Dot product](https://en.wikipedia.org/wiki/Dot_product)
-- [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
-- [Nearest neighbor search](https://en.wikipedia.org/wiki/Nearest_neighbor_search)
+- [Distance Metrics](/course/essentials/day-1/distance-metrics/) A closer look at cosine similarity, dot product, Euclidean, and Manhattan, and when each one fits.
+- [What Is HNSW](/course/essentials/day-2/what-is-hnsw/) How the graph index is built and tuned, once you have real searches to measure it against.
+- [Filtering](/documentation/search/filtering/) The full filter syntax, including range, geo, and nested conditions.
+- [Payload Indexing](/documentation/manage-data/indexing/#payload-index) The available payload index types and how to configure them.
+- [Chunking Strategies](/course/essentials/day-1/chunking-strategies/) The full comparison of fixed-size, semantic, and sliding-window chunking, with worked examples.
 
 ## What's Next: Module 3
 
