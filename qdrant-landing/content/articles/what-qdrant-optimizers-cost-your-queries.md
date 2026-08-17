@@ -2,8 +2,8 @@
 title: "What Qdrant's Optimizers Cost Your Queries"
 short_description: "A benchmark measuring how Qdrant's optimizers affect search latency."
 description: "We measured search latency across 14 optimizer configurations on a 1.76 million point Qdrant collection, putting numbers on the read-write contention the docs describe qualitatively."
-social_preview_image: /articles_data/turboquant/preview/social_preview.png
-preview_dir: /articles_data/turboquant/preview
+social_preview_image: /articles_data/what-qdrant-optimizers-cost-your-queries/preview/social_preview.png
+preview_dir: /articles_data/what-qdrant-optimizers-cost-your-queries/preview
 author: Clelia Bertelli
 author_link: https://qdrant.tech
 date: 2026-08-14T10:00:00+02:00
@@ -33,11 +33,7 @@ Some of the results confirm that guidance directly. Others surprised us.
 
 Each run followed the same three stages, shown here as a timeline from the last point uploaded to a settled baseline:
 
-```text
-Upload              Draining                        Steady
-(bulk load,    -->  (search competes with      -->  (optimizers idle,
-no search yet)       indexing, merge, vacuum)         fixed baseline)
-```
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/experiment-diagram.png" alt="Diagram showing the three stages of each run: an upload phase during which points were loaded into the Qdrant collection with no search traffic, a draining phase during which search traffic competes for resources with optimizations, and a steady phase in which optimizers are idle and search latency is measured at baseline." width="100%" >}}
 
 1. **Upload.** All 1.76 million points go in with no search traffic running, so the collection is already full by the time we start measuring latency. Upload alone took anywhere from 70 seconds to 316 seconds, depending on whether indexing was running concurrently with it.
 2. **Draining.** Once the upload finishes, we search continuously (one query in flight at a time, no batching) while polling Qdrant's `/collections/{collection_name}/optimizations` endpoint every 2 seconds, until it reports nothing running and nothing queued.
