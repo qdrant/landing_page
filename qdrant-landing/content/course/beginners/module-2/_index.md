@@ -400,5 +400,4 @@ Extend the pipeline above: add a third document with its own category, re-run th
 
 ## What's Next: Module 3
 
-Dense vectors capture meaning well, but they can miss exact keyword matches such as product codes or model numbers. <br> 
-Module 3 introduces sparse vectors, which complement dense vectors by capturing exact terms and keywords. You’ll learn how to combine both in a single hybrid search query.
+Dense vectors capture meaning well, but they can miss exact keyword matches such as product codes or model numbers. Module 3 introduces sparse vectors, which complement dense vectors by capturing exact terms and keywords. You’ll learn how to combine both in a single hybrid search query.
