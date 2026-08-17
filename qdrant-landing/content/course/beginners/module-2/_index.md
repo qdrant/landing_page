@@ -285,7 +285,7 @@ Let's put everything together. This section walks through the complete ingestion
 
 ### Step 1: Connect to Your Cluster
 
-Module 0 walks through creating a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io) and getting its URL and API key, screenshots included. With those in hand, connect the same way shown in section 2:
+Module 0 walks you through creating a free cluster at [Qdrant Cloud](https://cloud.qdrant.io/) and retrieving its URL and API key. Use these credentials to initialize the Qdrant client:
 
 ```python
 from qdrant_client import QdrantClient
