@@ -111,7 +111,7 @@ We compared a 20% threshold with a 50% threshold after deleting roughly 25% of t
 
 A higher `deleted_threshold` can therefore avoid vacuum-related latency spikes and improve search performance after deletions. The trade-off is increased storage use: soft-deleted points remain on disk for longer. This may be acceptable for smaller datasets, but becomes an important capacity consideration for large collections.
 
-{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/d-lstencies.png" alt="Bar chart of p95 search latency before and after deleting 25 percent of a collection, for a deleted_threshold of 0.2 that triggers vacuum and 0.5 that does not" caption="The same deletion made one collection slower and the other faster: p95 latency rose to 22.7 ms when vacuum ran, but fell to 4.3 ms when deleted_threshold kept vacuum from triggering." width="100%" >}}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/d-latencies.png" alt="Bar chart of p95 search latency before and after deleting 25 percent of a collection, for a deleted_threshold of 0.2 that triggers vacuum and 0.5 that does not" caption="The same deletion made one collection slower and the other faster: p95 latency rose to 22.7 ms when vacuum ran, but fell to 4.3 ms when deleted_threshold kept vacuum from triggering." width="100%" >}}
 
 ## Turning Indexing on Later Reopens the Whole Backlog at Once
 
