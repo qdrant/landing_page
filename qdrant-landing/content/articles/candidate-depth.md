@@ -23,7 +23,7 @@ Before you tune candidate depth, use the [pre-tuning checks](/articles/before-tu
 Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates.<br>
 In hybrid search, each prefetch has its own `limit`. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
 
-Unless noted otherwise, these measurements use five public datasets with 5,183 to 100,000 documents. Each ran unquantized on one shard in Docker with `all-MiniLM-L6-v2`; the hybrid measurements also used Qdrant's core BM25 for sparse retrieval.<br>
+These measurements use five public datasets with 5,183 to 100,000 documents. Each ran unquantized on one shard in Docker with `all-MiniLM-L6-v2`; the hybrid measurements also used Qdrant's core BM25 for sparse retrieval.<br>
 Use the checks in this article to find the depth your own labels and latency budget support.
 
 ## The Short Version

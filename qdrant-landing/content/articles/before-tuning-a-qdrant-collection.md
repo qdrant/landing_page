@@ -20,13 +20,13 @@ category: search-quality
 
 Before you change a setting, decide what better retrieval means for this workload. The right document at rank one, more candidates for a reranker, lower latency, and a smaller memory footprint each favor different settings, so pick your goal first. If your labeled queries can't detect the improvement you're chasing, none of this will tell you anything.
 
-A few settings are correctness checks, not tuning knobs. Get one wrong and every benchmark or sweep you run afterward measures a broken setup instead of a real trade-off. Check those first, then tune.
+Some settings are there to verify correctness, not to tune performance. If a vector is unindexed, a sparse vector is missing the IDF modifier, or a BM25 average length was copied from another field, the results are invalid. Any benchmarks or parameter sweeps you run after that will reflect a broken setup. This article shows you how to check each setting and what the correct state looks like.
 
 ## The Retrieval Pipeline You Are Tuning
 
 Every query first retrieves candidates, then ranks them. In dense-only search, one vector search does both. Hybrid search adds a sparse prefetch for exact terms, then fusion combines the dense and sparse candidate lists. A reranker, if present, scores the top candidates again.
 
-{{< figure src="/articles_data/before-tuning-a-qdrant-collection/retrieval-pipeline.svg" alt="Pipeline diagram: a dense prefetch with limit and hnsw_ef settings and a sparse prefetch with limit and Modifier.IDF settings both feed a fusion stage with RRF k, weights, and DBSF settings, followed by an optional reranker with candidate count and model settings." caption="The hybrid pipeline and the settings each stage owns. Dense-only search runs the first stage alone." width="100%" >}}
+{{< figure src="/articles_data/before-tuning-a-qdrant-collection/retrieval-pipeline.svg" alt="Pipeline diagram: a dense prefetch with limit and hnsw_ef settings and a sparse prefetch with limit and Modifier.IDF settings both feed a fusion stage with RRF k, weights, and DBSF settings, followed by an optional reranker with candidate count and model settings." caption="The hybrid pipeline and the settings each stage owns. Dense-only search uses the dense prefetch path on its own, so `limit` and `hnsw_ef` are its only settings here." width="100%" >}}
 
 If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [Tuning hybrid search](/articles/how-to-tune-hybrid-search/) covers the request shape, what the second prefetch costs, and how to check that fusion beats either prefetch on your labels.
 
@@ -53,8 +53,7 @@ Start with the failure mode, not the config reference. The table maps each sympt
 
 The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries. Your workload decides which setting to keep.
 
-The relevance measurements in this article and the linked articles come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25, except the depth article's quantization comparison.<br>
-[The memory article](/articles/when-your-collection-outgrows-ram/) is the exception: its 4.6 million vectors are large enough to cross a real RAM boundary.
+The relevance measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25.
 
 Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment.<br>
 Use each result to choose a test on your own collection, then keep only the settings your labels support.
