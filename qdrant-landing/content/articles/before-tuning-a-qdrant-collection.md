@@ -18,13 +18,9 @@ keywords:
 category: search-quality
 ---
 
-Before you change a setting, decide what better retrieval means for this workload, and how you will prove it.
+Before you change a setting, decide what better retrieval means for this workload. The right document at rank one, more candidates for a reranker, lower latency, and a smaller memory footprint each favor different settings, so pick your goal first. If your labeled queries can't detect the improvement you're chasing, none of this will tell you anything.
 
-You may need the right document at rank one, more candidates for a reranker, lower latency, or a smaller memory footprint. Those goals favor different settings. If your labeled queries cannot detect the improvement you are chasing, you cannot trust it.
-
-Then make sure the collection is not sabotaging the comparison. A few settings are correctness checks, not tuning knobs. Get one wrong, and every benchmark or parameter sweep after it measures a broken setup.
-
-This audit tells you what to verify before you tune.
+A few settings are correctness checks, not tuning knobs. Get one wrong and every benchmark or sweep you run afterward measures a broken setup instead of a real trade-off. Check those first, then tune.
 
 ## The Retrieval Pipeline You Are Tuning
 
@@ -214,8 +210,9 @@ The number of labeled queries determines the width of that interval. Across our 
 
 These intervals come from our public test datasets. Treat the table as a starting range: required label count depends primarily on effect size and query-to-query variation, not collection size alone.
 
-In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038. These are gains from tuning an already-working collection, not from rebuilding the retrieval pipeline.<br>
-With 50 labeled queries, only the 0.038 gain had a 95% interval that excluded zero in most draws: 93%, versus 7% to 38% for gains under 0.02. Detecting a 0.015 gain required 200 to 1,000 queries, depending on the dataset.
+In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038. These are gains from tuning an already-working collection, not from rebuilding the retrieval pipeline.
+
+Fifty labeled queries were enough to detect the larger gains, not the smaller ones. For the 0.038 gain, the 95% interval excluded zero in 93% of draws. For gains under 0.02, it excluded zero in only 7% to 38% of draws. Detecting a 0.015 gain took 200 to 1,000 queries, depending on the dataset.
 
 ## Check the Winner on Fresh Queries
 
