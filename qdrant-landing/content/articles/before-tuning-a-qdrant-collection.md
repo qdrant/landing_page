@@ -44,7 +44,7 @@ Start with the failure mode, not the config reference. The table maps each sympt
 | You cannot separate a gain from noise | Build labeled queries, choose a metric, and calculate an interval | This article |
 | Relevant documents do not appear | Measure whether candidate depth is limiting recall | [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) |
 | Keywords, identifiers, SKUs, or error codes do not match | Add a sparse prefetch and measure fusion against each prefetch alone | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) |
-| Relevant documents are present but misordered | For hybrid search, tune fusion. If the candidate list needs another ranking stage, test a reranker | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/)<br>[When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
+| Relevant documents are present but misordered | For hybrid search, tune fusion. If the candidate list needs another ranking stage, test a reranker | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/), [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
 | Results repeat near-duplicates | Test maximal marginal relevance. If chunks from one document fill the page, use grouping | [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
 | Search misses its p95 target | Measure the cost of candidate depth before adding another retrieval stage | [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) |
 | The collection no longer fits in RAM | Test memory placement and rescoring | [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/) |
@@ -55,8 +55,7 @@ The procedure transfers: choose a metric that matches the product experience, co
 
 The measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25.
 
-Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment.  
-Use each result to choose a test on your own collection, then keep only the settings your labels support.
+Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment. Use each result to choose a test on your own collection, then keep only the settings your labels support.
 
 ## Silent Settings Can Break Quality
 
@@ -64,15 +63,11 @@ Check the stages you run before tuning anything else. Each prerequisite has a co
 
 ### Dense Search and Indexing
 
-**[Vectors are indexed](/documentation/manage-data/collections/#collection-info)**  
-Call `GET /collections/{collection_name}` and compare `indexed_vectors_count` with `points_count`.  
-In a dense-only collection, the counts should match once indexing is complete. In a hybrid collection, where each point has one dense and one sparse vector, `indexed_vectors_count` should be twice `points_count`, because Qdrant counts each vector separately.
+**[Vectors are indexed](/documentation/manage-data/collections/#collection-info)** Call `GET /collections/{collection_name}` and compare `indexed_vectors_count` with `points_count`. In a dense-only collection, the counts should match once indexing is complete. In a hybrid collection, where each point has one dense and one sparse vector, `indexed_vectors_count` should be twice `points_count`, because Qdrant counts each vector separately.
 
-If the indexed count is lower, indexing may still be running, may have stopped, or some segments may be smaller than the default `indexing_threshold` of 10,000 KB. See the [indexing optimizer documentation](/documentation/ops-optimization/optimizer/#indexing-optimizer).  
-Qdrant builds an HNSW graph only after a segment reaches `indexing_threshold`. Before then, it searches the segment without HNSW, so changing `hnsw_ef` has no effect.
+If the indexed count is lower, indexing may still be running, may have stopped, or some segments may be smaller than the default `indexing_threshold` of 10,000 KB. See the [indexing optimizer documentation](/documentation/ops-optimization/optimizer/#indexing-optimizer). Qdrant builds an HNSW graph only after a segment reaches `indexing_threshold`. Before then, it searches the segment without HNSW, so changing `hnsw_ef` has no effect.
 
-**[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)**  
-Dense and sparse vectors have separate thresholds in different units, so a value copied between them lands nowhere near the intended size. The dense threshold counts kilobytes of vectors in a segment, 10,000 by default. It sends a search to an exact scan instead of the graph when the segment holds fewer vectors than that, or when a filter matches fewer points than that.
+**[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)** Dense and sparse vectors have separate thresholds in different units, so a value copied between them lands nowhere near the intended size. The dense threshold counts kilobytes of vectors in a segment, 10,000 by default. It sends a search to an exact scan instead of the graph when the segment holds fewer vectors than that, or when a filter matches fewer points than that.
 
 The sparse threshold counts vectors, 5,000 by default, and applies only when a filter is present.
 
@@ -80,34 +75,23 @@ The sparse threshold counts vectors, 5,000 by default, and applies only when a f
 
 These settings apply whether the collection has thousands of documents or billions.
 
-**[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)**  
-Use this modifier for sparse vectors from BM25 or miniCOIL. Both leave inverse document frequency (IDF) to Qdrant, which computes it per shard for each query term and weights the term by it. SPLADE already includes corpus-level term weighting, so applying the modifier would count rarity twice.
+**[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)** Use this modifier for sparse vectors from BM25 or miniCOIL. Both leave inverse document frequency (IDF) to Qdrant, which computes it per shard for each query term and weights the term by it. SPLADE already includes corpus-level term weighting, so applying the modifier would count rarity twice.
 
-**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)**  
-Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/full-text-search/#bm25-text-processing). BM25 uses this value to adjust for document length.  
-Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256.  
-Measure it using the same stemmer and stopword settings as the collection.
+**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)** Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/full-text-search/#bm25-text-processing). BM25 uses this value to adjust for document length. Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256. Measure it using the same stemmer and stopword settings as the collection.
 
 ### Hybrid Search
 
 Fusion placement matters on sharded collections. `score_threshold` is a risk at any scale when a request moves from single-vector retrieval to fusion.
 
-**[Fusion placement](/documentation/search/hybrid-queries/)**  
-At the root of the query, fusion runs once, after every shard returns its candidates.  
-Inside a `prefetch`, fusion runs on each shard. Each shard fuses only its own candidates, and the outer query ranks by those shard-local fused scores. The result changes with shard count and with how points are distributed, and no error tells you it happened. Nested fusion is deliberate when an outer stage rescores its output.  
-On a single-shard collection, both placements produce the same ranking.
+**[Fusion placement](/documentation/search/hybrid-queries/)** At the root of the query, fusion runs once, after every shard returns its candidates. Inside a `prefetch`, fusion runs on each shard. Each shard fuses only its own candidates, and the outer query ranks by those shard-local fused scores. The result changes with shard count and with how points are distributed, and no error tells you it happened. Nested fusion is deliberate when an outer stage rescores its output. On a single-shard collection, both placements produce the same ranking.
 
-**[score_threshold](/documentation/search/search/#filtering-results-by-score)**  
-Use `score_threshold` only when you have a measured minimum acceptance score for the stage that returns results. A threshold copied from dense-only search is unsafe in a root-level RRF or DBSF query. Qdrant compares it with the fused score, not the dense or sparse score.  
-It can silently truncate the result list or return no results. Validate it on labeled queries, or leave it unset.
+**[score_threshold](/documentation/search/search/#filtering-results-by-score)** Use `score_threshold` only when you have a measured minimum acceptance score for the stage that returns results. A threshold copied from dense-only search is unsafe in a root-level RRF or DBSF query. Qdrant compares it with the fused score, not the dense or sparse score. It can silently truncate the result list or return no results. Validate it on labeled queries, or leave it unset.
 
 ### Filtered Search
 
 Index every field you filter on. The cost of skipping one grows with collection size and query concurrency.
 
-**[Payload indexes](/documentation/manage-data/indexing/#payload-index)**  
-A healthy collection has a payload index for every field used in its filters. Create these indexes before ingestion. If you add one later, Qdrant does not add the filter-aware HNSW edges automatically. You must [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index). Qdrant Cloud strict mode rejects queries that filter on unindexed fields.  
-Even with the right indexes, strict filters can reduce recall. [What ACORN fixes, and what fixes ACORN](/articles/filtered-vector-search-acorn/) measures this effect on one million points.
+**[Payload indexes](/documentation/manage-data/indexing/#payload-index)** A healthy collection has a payload index for every field used in its filters. Create these indexes before ingestion. If you add one later, Qdrant does not add the filter-aware HNSW edges automatically. You must [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index). Qdrant Cloud strict mode rejects queries that filter on unindexed fields. Even with the right indexes, strict filters can reduce recall. [What ACORN fixes, and what fixes ACORN](/articles/filtered-vector-search-acorn/) measures this effect on one million points.
 
 ## Change Things in Cost Order
 
@@ -134,20 +118,15 @@ Choose the metric before you compare settings, because the metric decides the wi
 
 **`MRR@k`** is the mean of one over the rank of the first relevant result. It asks how fast you got to something good. Use it when a query has one right answer.
 
-**`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you measure a first stage that feeds something else.  
-It is capped per query by the number of relevant documents: a query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit.  
-The average across queries can land higher, because queries with fewer relevant documents are not held to that cap. In our testing, one dataset averages 358.9 relevant documents per query, and its best `Recall@100` was 0.3877.  
-Count relevant documents per query before choosing k.
+**`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you measure a first stage that feeds something else. It is capped per query by the number of relevant documents: a query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit. The average across queries can land higher, because queries with fewer relevant documents are not held to that cap. In our testing, one dataset averages 358.9 relevant documents per query, and its best `Recall@100` was 0.3877. Count relevant documents per query before choosing k.
 
 ## Make Sure Your Labels Can Detect a Gain
 
 [Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building a labeled set. Its size decides whether any retrieval tuning is visible to you at all.
 
-A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. The table below shows how many queries it took in our tests.  
-Size alone will not save an unrepresentative set. Pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
+A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. The table below shows how many queries it took in our tests. Size alone will not save an unrepresentative set. Pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
 
-Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends.  
-The `search` adapter below must return the final points for one query and one setting. It may run dense-only search, hybrid fusion, or a reranker. `pytrec_eval` computes the scores from those point IDs.
+Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends. The `search` adapter below must return the final points for one query and one setting. It may run dense-only search, hybrid fusion, or a reranker. `pytrec_eval` computes the scores from those point IDs.
 
 ```python
 import pytrec_eval
@@ -211,8 +190,7 @@ Fifty labeled queries were enough for the larger gains: the 0.038 gain had an in
 
 A setting selected and evaluated on the same queries will look better than it performs on fresh queries. Split the labeled queries in half: select the winner on one half, then measure its gain on the other. We repeated that split 200 times per dataset.
 
-The selected setting usually transfers. Ranking all 30 settings again on the fresh half, our pick typically landed in the top four, and it fell behind the default in 0% to 6% of splits.  
-The gain does shrink: it retained 67% to 95% of what selection reported, so report the number from the fresh queries.
+The selected setting usually transfers. Ranking all 30 settings again on the fresh half, our pick typically landed in the top four, and it fell behind the default in 0% to 6% of splits. The gain does shrink: it retained 67% to 95% of what selection reported, so report the number from the fresh queries.
 
 If you compare separately rebuilt indexes, check top-10 agreement across two builds before you treat a small `nDCG@10` difference as a tuning gain. In our clean rebuild test, query sampling moved `nDCG@10` more than graph variation did.
 

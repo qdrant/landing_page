@@ -23,17 +23,14 @@ Before you tune fusion, use the [pre-tuning checks](/articles/before-tuning-a-qd
 Hybrid search retrieves dense and sparse candidate lists, then fuses them into one ranking. The dense prefetch finds similar meaning; the sparse prefetch finds matching keywords. Fusion cannot rank a candidate neither prefetch returned.
 
 <aside role="status">
-In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker.<br>
-Fusion nested inside a prefetch runs per shard. The <a href="/articles/candidate-depth/">candidate depth guide</a> explains how to set it.
+In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker. Fusion nested inside a prefetch runs per shard. The <a href="/articles/candidate-depth/">candidate depth guide</a> explains how to set it.
 </aside>
 
 ## Confirm Fusion Beats Either Prefetch
 
-Before tuning, compare dense retrieval, sparse retrieval, and the result from default [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF), `k=2` and equal weights, with `nDCG@10`. It grades the top 10 results and gives more credit to relevant documents near the top.<br>
-The last column is default RRF's nDCG@10 minus the better individual prefetch.
+Before tuning, compare dense retrieval, sparse retrieval, and the result from default [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF), `k=2` and equal weights, with `nDCG@10`. It grades the top 10 results and gives more credit to relevant documents near the top. The last column is default RRF's nDCG@10 minus the better individual prefetch.
 
-These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval.<br>
-Each reported gain was evaluated with a 95% interval. [Held-out validation](#confirm-the-selected-configuration-on-held-out-queries) explains how to use it. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
+These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval. Each reported gain was evaluated with a 95% interval. [Held-out validation](#confirm-the-selected-configuration-on-held-out-queries) explains how to use it. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
 
 | Dataset | Dense Alone | Sparse Alone | Both, RRF (`k=2`) | Over the Better One |
 |---|---|---|---|---|
@@ -49,13 +46,11 @@ The second prefetch costs a second index, a second vector per point, and 0.6 to 
 
 ## RRF and DBSF Use Different Signals
 
-[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) uses only a candidate's position in each prefetch. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) normalizes each prefetch's scores using that prefetch's mean and standard deviation, then sums them.<br>
-DBSF can use the size of a score lead; RRF cannot.
+[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) uses only a candidate's position in each prefetch. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) normalizes each prefetch's scores using that prefetch's mean and standard deviation, then sums them. DBSF can use the size of a score lead; RRF cannot.
 
 ## Compare RRF and DBSF on Your Labels
 
-Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches.<br>
-Start with RRF at `k=2` and equal weights, then run DBSF. If RRF wins, test `k` values from 2 to 61. If DBSF wins, take it forward to held-out validation. Lower values favor a document one prefetch ranks highly; higher values give more credit to documents both prefetches retrieve.
+Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches. Start with RRF at `k=2` and equal weights, then run DBSF. If RRF wins, test `k` values from 2 to 61. If DBSF wins, take it forward to held-out validation. Lower values favor a document one prefetch ranks highly; higher values give more credit to documents both prefetches retrieve.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -116,20 +111,17 @@ On ArguAna, DBSF is 0.0045 below default RRF. That difference sits inside the da
 
 On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, while `nDCG@10` rose by 0.036. A small aggregate gain can still change what a user sees first.
 
-These five datasets suggest a direction: with about one relevant document per query, the best `k` was 2 or 5; with tens or hundreds, it was 20 or 61. Count relevant documents per query in your labeled query set, then try that part of the range first.<br>
-This is a starting direction, not a setting to copy.
+These five datasets suggest a direction: with about one relevant document per query, the best `k` was 2 or 5; with tens or hundreds, it was 20 or 61. Count relevant documents per query in your labeled query set, then try that part of the range first. This is a starting direction, not a setting to copy.
 
 One porting note matters if you are moving an RRF configuration into Qdrant. Qdrant uses zero-based positions and defaults to `k=2`. To reproduce [the `1 / (rank + 60)` convention from Cormack et al.](https://dl.acm.org/doi/10.1145/1571941.1572114) with one-based ranks, use `k=61`.
 
 <aside role="status">
-On SciFact, 12.5% of the default RRF top 10 fell in a tied group, compared with 2.8% at `k=61` and none under DBSF. When RRF ties documents at rank 10, repeated queries can return a different document in that spot.<br>
-Request more than 10 final results, sort them on the client by descending score and ascending ID, then keep the first 10. Compare the score at rank 10 with the score of the last point returned. If they match, raise the final result `limit` and try again.
+On SciFact, 12.5% of the default RRF top 10 fell in a tied group, compared with 2.8% at `k=61` and none under DBSF. When RRF ties documents at rank 10, repeated queries can return a different document in that spot. Request more than 10 final results, sort them on the client by descending score and ascending ID, then keep the first 10. Compare the score at rank 10 with the score of the last point returned. If they match, raise the final result `limit` and try again.
 </aside>
 
 ## Weights Are Pairs, Not Ratios
 
-Start with equal weights. Try a different pair only when a measured result supports it: weights look like a ratio but behave as an absolute pair.<br>
-Each prefetch contributes `1 / ((pos + 1) / weight + k - 1)`, so scaling both weights by the same factor changes every score and can change the final order. On WANDS at `k=5`, `(1, 2)` and `(2, 4)` share a ratio but achieve `nDCG@10` values of 0.739 and 0.751. Copy the exact pair you tested.
+Start with equal weights. Try a different pair only when a measured result supports it: weights look like a ratio but behave as an absolute pair. Each prefetch contributes `1 / ((pos + 1) / weight + k - 1)`, so scaling both weights by the same factor changes every score and can change the final order. On WANDS at `k=5`, `(1, 2)` and `(2, 4)` share a ratio but achieve `nDCG@10` values of 0.739 and 0.751. Copy the exact pair you tested.
 
 A weight of 0.0 keeps every document from that prefetch and scores each one 0.0. The documents stay at the bottom of the fused list instead of disappearing.
 
@@ -145,7 +137,6 @@ Use a configuration only when its interval excludes zero and its selected gain h
 
 Every number above comes from an unquantized collection. For RRF, quantization changes fusion only when it reorders the candidate lists. For DBSF, changes to the returned scores can also change the fused result.
 
-The effect was negligible here. Rebuilding SciFact and DBPedia-entity with int8 scalar quantization changed none of the conclusions: the best `k` stayed 2 and 20, DBSF still beat the default, and fused `nDCG@10` moved by at most 0.0002.<br>
-[Candidate depth](/articles/candidate-depth/) has the full measurement, including what `rescore` and `oversampling` recover.
+The effect was negligible here. Rebuilding SciFact and DBPedia-entity with int8 scalar quantization changed none of the conclusions: the best `k` stayed 2 and 20, DBSF still beat the default, and fused `nDCG@10` moved by at most 0.0002. [Candidate depth](/articles/candidate-depth/) has the full measurement, including what `rescore` and `oversampling` recover.
 
 Next, if a downstream model could improve the order of your retrieved candidates, [test whether a reranker is worth its cost](/articles/when-a-reranker-is-worth-it/).
