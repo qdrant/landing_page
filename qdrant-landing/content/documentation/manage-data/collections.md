@@ -3,7 +3,7 @@ title: Collections
 short_description: "Create and configure Qdrant collections — named sets of points sharing vector dimensions and a distance metric."
 description: "Configure Qdrant collections, define named vectors with configurable distance metrics, and manage the building blocks of vector search at the collection level."
 weight: 20
-cta: "Create your first collection in Qdrant Cloud. Free, no card needed."
+cta: "Create your first collection in Qdrant Cloud. Free, no payment needed."
 aliases:
   - ../collections
   - /concepts/collections/
