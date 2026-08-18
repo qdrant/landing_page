@@ -22,7 +22,7 @@ weight: 8
 
 A bulk load finishes, and the collection looks ready: every point is in, and the upload call has returned. Then the first queries land, and search takes hundreds of milliseconds, sometimes several seconds at a stretch, while Qdrant's indexing, merge, and vacuum optimizers work through the backlog the upload left behind. How long that lasts, and what it costs each query, depends on settings most people never touch.
 
-We built a benchmark harness, loaded 1.76 million Cohere-embedded MS MARCO passages into a single Qdrant node under 14 different optimizer configurations, and measured what search latency looked like while each optimizer worked through its backlog, and after it finished. For one corpus and one machine, this puts a number on the qualitative guidance already in Qdrant's optimizer docs and read-write contention guide.
+We built a benchmark harness, loaded 1.76 million Cohere-embedded MS MARCO passages into a single Qdrant node under 13 different optimizer configurations, and measured what search latency looked like while each optimizer worked through its backlog, and after it finished. For one corpus and one machine, this puts a number on the qualitative guidance already in Qdrant's optimizer docs and read-write contention guide.
 
 Some of the results confirm that guidance directly. Others surprised us.
 
@@ -45,19 +45,6 @@ All 14 collections lived on the same node for the whole test, so absolute latenc
 
 ## Indexing While You Write Is Not Free After You Stop Writing
 
-<!--The clearest number in the whole dataset comes from the default configuration: indexing enabled the entire time, no special optimizer settings. We call this run A1, and pair it with A2: the same load with indexing disabled from the start.
-
-| | draining p50 | draining p95 | drain duration | steady p50 | steady p95 |
-|---|---|---|---|---|---|
-| A1 (default, indexing on) | 780 ms | 2.0 s | 683.7 s | 4.3 ms | 7.6 ms |
-| A2 (indexing disabled) | 275.5 ms | 535.1 ms | 4.8 s | 256.6 ms | 1.4 s |
-
-Once the last point lands, Qdrant doesn't finish quickly and go idle. In A1, it took 683.7 seconds, over 11 minutes, for `indexing` and `merge` to clear the backlog left behind by the load. During that window, median search latency was 780 ms, about 180 times the 4.3 ms it settles to once the optimizers actually go idle. The p95 during draining hit 2.0 seconds; some individual queries took as long as 9.8 seconds.
-
-That gap is the whole reason we talk about read-write contention: finishing the embedding upload doesn't mean the collection is ready to serve fast queries, and the distance between those two events, in our A1 test, was over 11 minutes.
-
-A2 shows the other extreme: leave indexing off entirely and there's no backlog to drain. Its draining phase lasts just 4.8 seconds, only as long as it takes to confirm merge has nothing queued. But the steady-state floor never comes down from full-scan territory: a 256.6 ms median, roughly 60 times A1's 4.3 ms, and it stays there for as long as indexing is off. A1 pays a one-time cost of over 11 minutes and then gets a fast floor. A2 pays nothing upfront and never gets one. (A2's steady p95 also carries the cache-drop spikes covered in the Caveats section, so read the 1.4-second figure with that in mind.)-->
-
 Our first experiments compared continuous indexing (where the HNSW graph is built while points are ingested) with indexing disabled by raising the HNSW build threshold.
 
 As expected, continuous indexing does not leave the collection fully optimized as soon as the final point arrives: in our run, Qdrant needed a little over 11 minutes to clear the optimization backlog. During this draining phase, search latency reflected the contention between optimization writes and search reads: median latency was 780 ms, p95 reached 2.0 s, and a few queries took nearly 10 s.
@@ -68,20 +55,10 @@ With indexing disabled, the draining phase was essentially nonexistent because t
 
 In short, continuous indexing incurs a temporary optimization cost after ingestion, whereas disabling indexing provides more consistent but permanently higher query latency.
 
-{{ Chart: draining vs. steady-state latency, continuous indexing vs. indexing disabled. }}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/a1-a2-latencies.png" alt="Grouped bar chart comparing draining-phase and steady-state search latency for continuous indexing versus indexing disabled, on a log scale from 2 milliseconds to 3 seconds" caption="Continuous indexing pays with a 780 ms median during the roughly 11-minute drain, then settles to a 4.3 ms floor. Indexing disabled skips the drain entirely but never gets below a 256.6 ms median." width="100%" >}}
+
 
 ## `prevent_unoptimized` Buys Speed by Not Searching Everything
-
-<!--Qdrant's `prevent_unoptimized` setting (marked experimental in the docs) is supposed to fix exactly this: it stops search from scanning unindexed segments and skips them instead. We tested it alongside continuous indexing in run A3.
-
-| | draining p50 | draining p95 | drain duration |
-|---|---|---|---|
-| A1 (default) | 780 ms | 2.0 s | 683.7 s |
-| A3 (`prevent_unoptimized`) | 10.2 ms | 81.3 ms | 542.7 s |
-
-Median draining latency drops from 780 ms to 10.2 ms, a 76-fold improvement, and the p95 falls from 2.0 seconds to 81.3 ms. The backlog also clears somewhat faster (542.7 seconds instead of 683.7), likely because search is no longer competing for I/O with the optimizer as heavily. A3 also completed 25,533 draining-phase queries in that window, 35 times more than A1's 726, because each query finished faster.
-
-This is a real win, but not a free one. `prevent_unoptimized` gets its speed by excluding not-yet-indexed points from the search results: during that 542.7-second window, A3's queries were technically searching a smaller, evolving subset of the 1.76 million points, not the whole collection.-->
 
 With continuous indexing, the experimental `prevent_unoptimized` flag can reduce query latency. When enabled, Qdrant skips segments whose optimizations are running or queued, searching only segments with an already-built HNSW graph.
 
@@ -91,22 +68,9 @@ However, this comes with an important trade-off. Early in ingestion, most segmen
 
 `prevent_unoptimized` is therefore a choice between lower, more predictable latency and temporarily incomplete search results. It may be a good fit when reduced recall is acceptable during ingestion, particularly for smaller collections; for large collections with long optimization times, the impact on result coverage should be evaluated carefully.
 
-{{ Chart: draining latency and draining duration, continuous indexing with and withouth `prevent_unoptimized`. }}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/a1-a3-latencies.png" alt="Two-panel chart comparing draining-phase latency and drain duration for default continuous indexing versus prevent_unoptimized, one panel on a log scale in milliseconds and one on a linear scale in seconds" caption="prevent_unoptimized cuts median draining latency from 780 ms to 10.2 ms and clears the backlog about two minutes faster, by excluding not-yet-indexed segments from search." width="100%" >}}
 
 ## Segment Layout Decides How Long the Backlog Lasts
-
-<!--We ran continuous indexing against four segment layouts: one giant segment, Qdrant's own default segment count, four times that many segments, and `max_segment_size_kb` set to 100,000. Qdrant's docs size this parameter at roughly 1 KB per 256-dimensional vector, so for our 1024-dimensional vectors, that setting caps a segment at around 25,000 vectors.
-
-| run | segment config | drain duration | draining p50 | draining p95 | steady p50 | steady p95 |
-|---|---|---|---|---|---|---|
-| B1 | `default_segment_number=1` | 3,602.1 s | 472.1 ms | 2.2 s | 3.2 ms | 4.6 ms |
-| B2 | default (~num CPUs) | 1,026.9 s | 5.2 ms | 2.6 s | 4.1 ms | 5.0 ms |
-| B3 | 4x CPU count | 479.5 s | 91.7 ms | 1.5 s | 18.5 ms | 23.9 ms |
-| B4 | `max_segment_size_kb=100000` | 283.9 s | 126.7 ms | 639.0 ms | 17.3 ms | 21.2 ms |
-
-The single giant segment (B1) took 3,602.1 seconds, just over an hour, to finish indexing, while capping segment size (B4) cleared the same backlog in 283.9 seconds: a 12.7-fold difference in how long your collection stays in the degraded draining state, from a single collection setting.
-
-B1's draining latency is also uniformly bad: every query has a median of 472 ms, because the entire 1.76 million points sit in one segment, and until that one segment finishes reindexing, every query touches it. B2's default layout shows a very different shape: a 5.2 ms median next to a 2.6-second p95: most queries hit already-indexed segments and finish fast, while a shrinking minority hit whatever segment is currently mid-rebuild. More segments turn one long uniform slowdown into a shorter, spikier one, and B3 and B4 push that further, at the cost of a noticeably higher steady-state floor (17 to 24 ms instead of 3 to 5 ms) once everything settles. This higher latency can be attributed to the fact that queries had to scan through more segments to find matches, as opposed to the one giant segment in B1.-->
 
 Another important factor in optimizer performance is the number of segments in a collection. Fewer segments require more work from the `merge` optimizer, but result in a more compact HNSW index and faster searches. More segments reduce or even remove merge activity, but searches must traverse multiple segment-level indexes, which can increase latency.
 
@@ -120,79 +84,48 @@ Adding more segments—either by setting the limit to four times the CPU count o
 
 In steady state, however, the single-segment configuration delivered the best search latency: 3.2 ms median, compared with 4.1 ms for the default configuration, 23.9 ms with four times the CPU-core count, and 17.3 ms with 100,000 KB segments.
 
-{{ Chart on draining duration, draining latency and steady latency across configurations. Probably multiple charts here could be good }}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/b-draining-duration.png" alt="Bar chart of drain duration in seconds across four segment configurations, from a single segment to a 100,000 KB segment size cap" caption="A single segment takes 3,602.1 seconds, just over an hour, to finish indexing. Capping segment size clears the same backlog in 283.9 seconds, a 12.7-fold difference." width="100%" >}}
+
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/b-draining-latencies.png" alt="Grouped bar chart of draining-phase p50 and p95 search latency, on a log scale, across the same four segment configurations" caption="The single-segment configuration keeps every query slow and uniform during draining. More segments turn that into a shorter, spikier slowdown instead." width="100%" >}}
+
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/b-steady-latencies.png" alt="Grouped bar chart of steady-state p50 and p95 search latency across the same four segment configurations" caption="Once settled, fewer segments win: the single-segment configuration's 3.2 ms median beats the default's 4.1 ms and is far ahead of the smaller-segment configurations at 17 to 24 ms." width="100%" >}}
 
 ## Optimizer Threads: Smoother Queries or a Shorter Wait, Pick One
 
-<!--We tested `max_optimization_threads` and `max_indexing_threads` on two settings: both set to 1 (serialized) and Qdrant's auto-select default.
+Optimizers run on the same threads as your Qdrant instance, so controlling their access to the CPU, by limiting or increasing the number of threads they can use, directly controls how fast they clear your collection's backlog and how much CPU capacity remains for search.
 
-| run | thread config | drain duration | draining p50 | draining p95 |
-|---|---|---|---|---|
-| C1 | serial (1 thread) | 3,244.1 s | 138.4 ms | 373.7 ms |
-| C2 | default | 474.4 s | 44.0 ms | 820.4 ms |
+Setting both `max_optimizers_threads` and `max_indexing_threads` to 1 stretched the draining window to 3,244.1s, 6.8 times longer than Qdrant's default settings. This came with lower search latency during draining, since optimizers had a limited CPU budget and competed less with search operations: p95 latency was capped at 373.7 ms, less than half of the default configuration's 820.4 ms.
 
-Serializing both `max_optimization_threads` and `max_indexing_threads` to 1 stretches the drain window to 3,244.1 seconds, 6.8 times longer than the default's 474.4 seconds, but it also caps the draining p95 at 373.7 ms, less than half of the default's 820.4 ms. We changed both knobs together, not separately, so this is the effect of serializing optimizer work generally rather than either parameter on its own. It still quantifies the read/write contention tradeoff the documentation describes: serializing that work means smoother, more predictable per-query latency while the backlog clears, at the direct cost of how long the backlog takes to clear.-->
+This quantifies the read/write contention tradeoff described in the docs: serializing optimizer work by reducing its CPU budget to a single thread produces smoother, more predictable per-query latency while the backlog clears, at the direct cost of how long that backlog takes to clear.
 
-Optimizers run on the same threads as your Qdrant instance: controlling the access that optimizers have to the CPU, by limiting or increasing the number of threads they can run on, is a way of controlling how fast they clear your collection's backlog and how much space is left for search workloads.
-
-By setting both `max_optimizers_threads` and `max_indexing_threads` to 1, we saw the draining window stretch for 3,244.1s, 6.8 times longer than it took when leaving those settings at Qdrant's default values. This, of course, comes with decreased search latency during the draining phase, since optimizers have a limited CPU budget and do not compete as much with search operations: p95, in this case, was capeped at 373.7 ms, less than half of what the default configuration got to (820.4ms).
-
-This quantifies the read/write contention tradeoff that the docs explain: serializing optimizers work by reducing their CPU budget to a single thread means a smoother, more predictable per-query latency while the backlog clears, at the direct cost of how long the backlog takes to clear.
-
-{{ Chart on draining duration and draining latency for the two runs }}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/c1-c2-threads.png" alt="Two-panel chart comparing draining-phase latency and drain duration for serialized optimizer threads versus Qdrant's default thread auto-selection" caption="Serializing optimizer threads to 1 stretches the drain window to 3,244.1 seconds, 6.8 times longer than default, but caps draining p95 at 373.7 ms versus the default's 820.4 ms." width="100%" >}}
 
 
 ## Vacuum: The Same Deletion, Two Opposite Outcomes
 
-<!--This comparison depends entirely on a threshold most people never touch. We loaded two identical collections, deleted the same 25% of points from each, and compared what happened next. The difference between them was `deleted_threshold`, the fraction of a segment's points that has to be marked deleted before Qdrant will vacuum it.
+Deletion is another area worth tuning. Like many databases, Qdrant uses soft deletes: a `DELETE` request marks points as deleted, and queries skip them rather than immediately removing them from disk. This keeps delete operations fast, but leaves stale data in storage.
 
-| run | `deleted_threshold` | vacuum ran? | steady p95 before deletion | latency after deletion |
-|---|---|---|---|---|
-| D1 | 0.2 | yes | 5.0 ms | p95 22.7 ms |
-| D2 | 0.5 | no | 5.4 ms | p95 4.3 ms |
+Once the proportion of deleted points exceeds `deleted_threshold`, Qdrant’s `vacuum` optimizer physically removes them. As with indexing, this background write activity can contend with searches.
 
-D1's threshold of 0.2 is comfortably below the roughly 25% of each segment that we deleted, so vacuum triggered: the status snapshot right after the deletion showed two vacuum jobs running and four more queued. Search latency paid for it, with p95 jumping from 5.0 ms to 22.7 ms, a 4.5-fold increase, while vacuum worked through the deleted points.
+We compared a 20% threshold with a 50% threshold after deleting roughly 25% of the collection. At 20%, vacuuming was triggered and median search latency rose from 5.0 ms in steady state to 22.7 ms. At 50%, vacuuming did not run, and latency fell from 5.4 ms to 4.3 ms because fewer points remained searchable.
 
-D2's threshold of 0.5 sat above that same 25%, so no segment ever qualified. The status snapshot after its churn showed seven idle segments, nothing running, nothing queued, and a completed-jobs history containing only the original `indexing` runs, never a single vacuum. Because the collection now had 25% fewer points to scan and no optimizer was competing for resources, latency improved: p95 fell from 5.4 ms to 4.3 ms.
+A higher `deleted_threshold` can therefore avoid vacuum-related latency spikes and improve search performance after deletions. The trade-off is increased storage use: soft-deleted points remain on disk for longer. This may be acceptable for smaller datasets, but becomes an important capacity consideration for large collections.
 
-The same deletion made one collection slower and the other faster. Between these two runs specifically, `deleted_threshold` was the only thing that changed, and it decided the outcome: `vacuum_min_vector_number` (the minimum segment size vacuum will even consider) was set low enough in both configs that it was never the limiting factor here. It's a second condition worth checking against your own segment sizes, since either one can rule vacuum out.-->
-
-An area that requires optimization, and that most users rarely touch, is deletion: as many other databases do, Qdrant applies only a "soft delete" operation to its data when a `DELETE` request is sent. Simply put, deleted points are marked as such and simply skipped at query time: this avoids expensive disk writes to record deletions, and keeps the overall latency of the operation down.
-
-When a sufficiently high number of deleted points is reached (determined bz the `deleted_threshold` config), Qdrant starts vacuuming the points, i.e. removing them from the persistent storage layer. This job is handled by the `vacuum` optimizer, and its activity slows down reads, for the same read/write contention principle we saw above.
-
-We tried setting the `deleted_threshold` to 20% and deleting ~25% of the points, triggering the optimizer, and then doing the same but with a 50% threshold. This single configuration change caused a big divide between the two runs: search latency jumped from a 5.0ms in steady state to 22.7ms during vacuuming in the first case, while it improved in the second, going from 5.4ms to 4.3ms (improvement due to the minor number of searchable points).
-
-Setting a higher `deleted_threshold` could then seem the perfect move: no vacuuming, no latency spikes, improved performance over a drop in the points count. As for all decisions, though, it comes with a tradeoff, in this case higher storage space required to fit the collection. While this can be fine for smaller datasets, disk space can become a constraint in larger collections, thus the `deleted_threshold` becomes less of free win and more of a choice to carefully ponderate.
-
-{{ chart on steady state vs vacuuming latency }}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/d-lstencies.png" alt="Bar chart of p95 search latency before and after deleting 25 percent of a collection, for a deleted_threshold of 0.2 that triggers vacuum and 0.5 that does not" caption="The same deletion made one collection slower and the other faster: p95 latency rose to 22.7 ms when vacuum ran, but fell to 4.3 ms when deleted_threshold kept vacuum from triggering." width="100%" >}}
 
 ## Turning Indexing on Later Reopens the Whole Backlog at Once
 
-<!--
-A1 showed what happens when indexing runs continuously from the first point onward: an 11-minute drain once the upload stops, then a settled floor. The E runs ask a different question: what if a collection sits with indexing off the whole time, reaches a stable steady state doing full scans, and only then gets switched on? We created two collections with indexing disabled from creation (E1 default, E2 with `prevent_unoptimized`), uploaded all 1.76 million points, let each settle, then ran `reconfigure --enable-indexing` and kept searching for five more rounds of 1,000 queries each.
+Another strategy for keeping read-write contention under control is to turn off optimizations during upload and resume them once the upload finishes.
 
-| run | steady p50 before reconfigure | round 0 after (p50 / p95 / max) | all 5 rounds (p50 / p95 / max) |
-|---|---|---|---|
-| E1 (default) | 254.8 ms | 1.89 s / 5.32 s / 9.4 s | 2.70 s / 7.17 s / 12.1 s |
-| E2 (`prevent_unoptimized`) | 238.4 ms | 615.2 ms / 1.64 s / 2.24 s | 4.6 ms / 756.1 ms / 30.0 s |
+We tested this by running the benchmark with indexing disabled, then reconfiguring the collection to activate indexing by lowering the indexing threshold, and measuring query latency over 5 rounds of 1,000 queries each. We ran this with both `prevent_unoptimized` set to `true` and `false`.
 
-Right after the reconfigure call, both collections' optimizer status showed the same picture: two indexing jobs already running, four more segments queued, and 1,005,824 points, more than half the collection, still waiting on the backlog. None of the 1.76 million points had ever been indexed before that moment, so switching the setting doesn't ease a collection into indexing: it opens the entire backlog at once.
+Without continuous indexing, collections lose the benefit of incremental index buildout during upload, resulting in longer indexing times and higher latency once indexing resumes. However, the two settings handled optimization progress very differently.
 
-E1 never closes that backlog within the 5,000-query run. Round-by-round medians swing between 1.35 and 5.31 seconds without ever approaching the 254.8 ms baseline, the overall median lands at 2.70 seconds, more than 10 times that baseline, and the tail reaches 12.1 seconds. At a mean 0.3 queries per second, the whole run took roughly four and a half hours. E2 looks rough for round 0, is still transitioning in round 1 (median already down to 4.6 ms, but a p95 of 621.7 ms and one straggler at 30 seconds), then is fully steady from round 2 on, 4.2 to 4.3 ms median and 5.5 to 5.7 ms p95.
+With `prevent_unoptimized` set to `false`, optimizers never went idle, and search latency climbed to an overall median of 2.7s, with the tail reaching 12.1s. This happens because search queries arrive continuously, repeatedly hitting partially optimized or fully unoptimized segments, and compete with the optimizers for the same I/O and CPU resources.
 
-We only measured end-to-end latency, not what the indexing job itself was doing, but the shape is consistent with a feedback loop: without `prevent_unoptimized`, every search runs a full scan over segments indexing hasn't reached yet, and that scan traffic competes with the indexing job for the same CPU and I/O, which slows the backlog down, which keeps the full scans expensive for longer. `prevent_unoptimized` breaks that loop by taking not-yet-indexed segments out of the search path entirely, the same mechanism behind its bulk-load result earlier in this article, triggered by a config change on an already-full collection instead of a load in progress.-->
+With `prevent_unoptimized` set to `true`, blocking queries from touching unoptimized segments let optimization progress much faster, completing by the end of the first round of queries. Latency benefited significantly: p95 came in at 621.7 ms, with a steady-state p95 of just 5.7 ms. As noted earlier, this improvement only applies if a temporary loss of recall and results is acceptable in exchange for better query latency.
 
-One last strategy for keeping read-write contention under control is to turn optimizations off during upload, and resume them once the upload is finished.
-
-We put that to the test by running the benchmark with indexing turned off, then reconfiguring the collection to activate indexing by lowering the indexing threshold, and finally we measured query latency on 5 rounds of 1000 queries each. We tried with both `prevent_unoptimized` set to `true` and `false`.
-
-What we could see is that, without continuous indxing, collections do not benefit from the incremental buildout of the index during upload, which means longer indexing times and high latency during this phase. There are, however, big differences between how the two runs handled the optimization progress: in the first case, with `prevent_unoptimized` set to `false`, we did not record optimizers going idle and search latency climbed up to an overall median of 2.7s, with the tail reaching 12.1s. This is due to the fact that search queries come in continuously, constantly hitting partially optimized or fully unoptimized segments, and they compete for the same I/O and CPU resources the optimizers are also trying to access.
-
-On the other hand, preventing unoptimized segments from being touched by queries allowed the segments to progress in their optimizations much faster, being able to complete them by the end of the first round of qeuries: latency benefits from it, with a p95 of 621.7ms, and a steady-state p95 of 5.7ms. As said before, this improvement is only applicable if a temporary recall and results loss is acceptable in favor of better query latency.
-
-
-{{ chart on latency changes before/after switching on indexing }}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/charts/e-latencies.png" alt="Line chart of median search latency across three stages, before reconfiguring indexing on, round 0 after, and all 5 rounds after, for default settings versus prevent_unoptimized" caption="Without prevent_unoptimized, median latency climbs to 2.70 seconds and never recovers within 5 rounds. With it, optimization catches up fast and latency lands back near 4.6 ms." width="100%" >}}
 
 ## Takeaways
 
