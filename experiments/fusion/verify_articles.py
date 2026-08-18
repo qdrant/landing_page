@@ -174,6 +174,16 @@ for v in lat.values():
 check("depth: candidate-depth latency cost, low", 37, min(depth_cost), tolerance=0.5)
 check("depth: candidate-depth latency cost, high", 43, max(depth_cost), tolerance=0.5)
 
+# The same span read from the other end, which is what a reader cutting depth
+# back from 500 gets. The article quotes it as "27% to 30%".
+depth_saving = []
+for v in lat.values():
+    s = v["settings"]
+    low, high = s["fused_ef128_depth10"]["median_ms"], s["fused_ef128_depth500"]["median_ms"]
+    depth_saving.append(100 * (high - low) / high)
+check("depth: depth cut latency saving, low", 27, min(depth_saving), tolerance=0.5)
+check("depth: depth cut latency saving, high", 30, max(depth_saving), tolerance=0.5)
+
 # What the second prefetch adds over running the dense one alone, quoted in both
 # the fusion article and the audit article's cost-order table.
 second_prefetch_ms = [
