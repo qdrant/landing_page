@@ -53,7 +53,7 @@ Start with the failure mode, not the config reference. The table maps each sympt
 
 The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries. Your workload decides which setting to keep.
 
-The relevance measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25.
+The measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25.
 
 Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment.<br>
 Use each result to choose a test on your own collection, then keep only the settings your labels support.
@@ -103,8 +103,8 @@ It can silently truncate the result list or return no results. Validate it on la
 Index every field you filter on. The cost of skipping one grows with collection size and query concurrency.
 
 **[Payload indexes](/documentation/manage-data/indexing/#payload-index)**<br>
-It is healthy when every field in your filters has a payload index. Create it before ingestion: on an existing collection the filter-aware HNSW edges only appear once you [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), they do not appear on their own. Qdrant Cloud strict mode rejects an unindexed query outright.<br>
-Strict filters cost recall even once the indexes are in place, and none of the measurements in this series were taken on a filtered collection. [What ACORN fixes, and what fixes ACORN](/articles/filtered-vector-search-acorn/) measures that on one million points.
+A healthy collection has a payload index for every field used in its filters. Create these indexes before ingestion. If you add one later, Qdrant does not add the filter-aware HNSW edges automatically. You must [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index). Qdrant Cloud strict mode rejects queries that filter on unindexed fields.  
+Even with the right indexes, strict filters can reduce recall. [What ACORN fixes, and what fixes ACORN](/articles/filtered-vector-search-acorn/) measures this effect on one million points.
 
 ## Change Things in Cost Order
 
@@ -118,11 +118,12 @@ Start with a change that does not rebuild the collection or add a retrieval stag
 | Expanded Retrieval | `full_scan_threshold` | Dense search, especially filtered search | Uses exact scans for larger candidate pools, which can increase query time |
 | A New Stage | Sparse prefetch | Dense-only search | A second index, a second vector per point, and 0.6 to 1.5 ms of query time on one shard |
 | A New Stage | Reranker | Any pipeline | A model call per candidate |
-| Rebuild | [Embedding model](/articles/how-to-choose-an-embedding-model/), quantization, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
+| Rebuild | Embedding model, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
+| Rebuild | Quantization | Collections limited by memory | Re-indexing, plus a compressed copy of every vector. Holding ranking quality then depends on rescoring |
 
-Consider model-level rebuilds only when they address a measured constraint. A Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) trades retrieval quality for smaller vectors when memory is the limit. [SPLADE](/documentation/fastembed/fastembed-splade/) and [miniCOIL](/articles/minicoil/) are alternatives when core BM25 misses vocabulary your users rely on, but they add model inference during indexing and querying. ColBERT can act as the retriever instead of only [reranking](/articles/when-a-reranker-is-worth-it/), at the cost of storing a vector for every token.
+Consider a model-level rebuild only when it addresses a measured constraint, since a new embedding model means re-embedding every point. [How to choose an embedding model](/articles/how-to-choose-an-embedding-model/) covers that decision. When memory is the constraint, a Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) shortens the vector itself, which is a different trade from compressing it with quantization.
 
-Use this table to understand the cost of the next change. Choose whether to make it only after you can measure the result.
+Choose the next change only after you can measure the result.
 
 ## Choose a Metric Before You Tune
 
