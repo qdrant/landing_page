@@ -191,6 +191,9 @@ What we could see is that, without continuous indxing, collections do not benefi
 
 On the other hand, preventing unoptimized segments from being touched by queries allowed the segments to progress in their optimizations much faster, being able to complete them by the end of the first round of qeuries: latency benefits from it, with a p95 of 621.7ms, and a steady-state p95 of 5.7ms. As said before, this improvement is only applicable if a temporary recall and results loss is acceptable in favor of better query latency.
 
+
+{{ chart on latency changes before/after switching on indexing }}
+
 ## Takeaways
 
 - Turn on `prevent_unoptimized` before a bulk load if incomplete results during that window are acceptable, and switch writes to `wait=false` first if your client defaults to `wait=true`.
