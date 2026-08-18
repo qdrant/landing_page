@@ -1,6 +1,6 @@
 ---
 title: "What to Check Before Tuning a Qdrant Collection"
-short_description: "Eight collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs."
+short_description: "Seven collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs."
 description: "Audit a Qdrant collection: find the settings that degrade retrieval silently, choose the cheapest next change, and size a labeled query set."
 preview_dir: /articles_data/before-tuning-a-qdrant-collection/preview
 social_preview_image: /articles_data/before-tuning-a-qdrant-collection/preview/social_preview.jpg
@@ -60,25 +60,18 @@ Use each result to choose a test on your own collection, then keep only the sett
 
 ## Silent Settings Can Break Quality
 
-Check the stages you run before tuning anything else. These prerequisites each have a correct state for a given collection, and each can fail without an error. The query returns results, scores look plausible, and the retrieval setup is still wrong.<br>
-Fix them before a benchmark or sweep. Otherwise, you are measuring a configuration error, not a trade-off.
-
-Other retrieval settings depend on a latency, memory, or rebuild budget you supply. These checks do not.
+Check the stages you run before tuning anything else. These prerequisites each have a correct state for a given collection, and each can fail without an error. Fix them before a benchmark or sweep, otherwise you are measuring a configuration error, not a trade-off.
 
 ### Dense Search and Indexing
 
-A small collection can deliberately stay unindexed; segment size decides when Qdrant builds HNSW.
-
-**[indexed_vectors_count](/documentation/manage-data/collections/#collection-info) against [points_count](/documentation/manage-data/collections/#collection-info)**<br>
-Call `GET /collections/{collection_name}`. In a dense-only collection, `indexed_vectors_count` should reach `points_count` once indexing finishes. In a hybrid collection with one dense and one sparse vector on every point, it should reach twice `points_count`. A lower count means indexing is still running, stopped early, or some segments are below the indexing threshold covered next.
-
-**[optimizers_config.indexing_threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer)**<br>
-It is healthy when every segment that needs ANN search has crossed this threshold and received an HNSW graph. The default is 10,000 KB per segment, which converts to a vector count using your own embedding's dimension: about 6,700 at 384 dimensions, proportionally fewer as dimension rises.<br>
-The same threshold gates a sparse vector's compact index too, sized by its own bytes rather than dimension. With one segment per two CPUs by default, clamped to between two and eight, multiply the relevant per-segment figure by your segment count to see when the whole collection is covered.
+**[Vectors are indexed](/documentation/manage-data/collections/#collection-info)**<br>
+Call `GET /collections/{collection_name}` and compare `indexed_vectors_count` with `points_count`.  
+For a dense-only collection, the counts should match once indexing is complete. In a hybrid collection where every point has one dense vector and one sparse vector, `indexed_vectors_count` should reach twice `points_count`. Qdrant counts each vector separately.  
+If the indexed count is lower, indexing may still be running, may have stopped early, or the segments may be smaller than the default `indexing_threshold` of 10,000 KB. See the [indexing optimizer documentation](/documentation/ops-optimization/optimizer/#indexing-optimizer).  
+Until Qdrant builds an HNSW graph for a segment, searches there are exact. That means changing `hnsw_ef` or enabling quantization will not change the results for those segments.
 
 **[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)**<br>
-`full_scan_threshold` tells Qdrant when to use an exact full scan instead of HNSW. For dense vectors, the threshold is in kilobytes, not vector count, and must be at least 10 KB. Sparse vectors have a separate threshold, expressed in vectors.<br>
-Do not copy a value between the two index types. Start from the default and confirm it is in the right unit before tuning it.
+Dense and sparse vectors have separate thresholds in different units, so a value copied between them lands nowhere near the intended size. The dense one counts kilobytes of vectors in a segment, 10,000 by default, and sends both unfiltered searches on small segments and searches whose filter matches few points to an exact scan instead of the graph. The sparse one counts vectors, 5,000 by default, and applies only when a filter is present.
 
 ### Sparse Retrieval
 
