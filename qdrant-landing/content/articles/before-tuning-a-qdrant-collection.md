@@ -127,21 +127,15 @@ Choose the next change only after you can measure the result.
 
 ## Choose a Metric Before You Tune
 
-Three metrics cover most retrieval tuning, and each answers a different question.
+Choose the metric before you compare settings, because the metric decides the winner. In our testing, `nDCG@10`, `MRR@10`, and `Recall@100` each name a different best setting, and `Recall@100` disagrees with `nDCG@10` on four of five datasets.
 
-**`nDCG@k`** rewards relevant results near the top, gives additional credit when labels are graded, and normalizes against a perfect ranking. Use it when rank order among several results matters.
+**`nDCG@k`** rewards relevant results near the top, gives additional credit when labels are graded, and normalizes each query against a perfect ranking. Use it when rank order among several results matters.
 
-**`MRR@k`** is the mean of one over the rank of the first relevant result. It asks only how fast you got to something good. Use it when a query has essentially one right answer.
+**`MRR@k`** is the mean of one over the rank of the first relevant result. It asks how fast you got to something good. Use it when a query has one right answer.
 
-**`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you are measuring a first stage that feeds something else.
-
-Pick before you sweep, because the metric decides the winner. In our testing, `nDCG@10`, `MRR@10`, and `Recall@100` each name a different best setting, and Recall@100 disagrees with nDCG@10 on four of our five datasets.
-
-`Recall@k` is capped per query by the number of relevant documents, unlike `nDCG@k`'s per-query normalization. A query with 359 relevant documents cannot exceed 0.28 at Recall@100, because only 100 can fit.
-
-A macro average can exceed that bound because it averages per-query scores. In our testing, one dataset averages 358.9 relevant documents per query, and the best `Recall@100` we measured there was 0.3877.
-
-If you use `Recall@k`, count relevant documents per query before choosing k.
+**`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you measure a first stage that feeds something else.  
+It is capped per query by the number of relevant documents, unlike `nDCG@k`'s per-query normalization: a query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit. The average across queries can land higher, because queries with fewer relevant documents are not held to that cap. In our testing, one dataset averages 358.9 relevant documents per query, and its best `Recall@100` was 0.3877.  
+Count relevant documents per query before choosing k.
 
 ## Make Sure Your Labels Can Detect a Gain
 
@@ -195,7 +189,7 @@ def interval(per_query_gain, resamples=1000, seed=42):
     return np.percentile(gains[draws].mean(axis=1), [2.5, 97.5])
 ```
 
-The number of labeled queries determines the width of that interval. Across our datasets, the median 95% interval half-width for paired `nDCG@10` gains was:
+The more labeled queries you evaluate, the more precise the measured gain. Across our datasets, the 95% interval typically extended this far above and below the `nDCG@10` gain:
 
 | Labeled Queries | Interval, Either Side of the Gain |
 |---|---|
@@ -205,25 +199,19 @@ The number of labeled queries determines the width of that interval. Across our 
 | 200 | 0.018 |
 | 300 | 0.015 |
 
-These intervals come from our public test datasets. Treat the table as a starting range: required label count depends primarily on effect size and query-to-query variation, not collection size alone.
+These intervals come from our public test datasets. The label count you need depends primarily on effect size and query-to-query variation, not collection size alone.
 
-In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038. These are gains from tuning an already-working collection, not from rebuilding the retrieval pipeline.
+In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038, gains from tuning an already-working collection rather than rebuilding the retrieval pipeline.
 
-Fifty labeled queries were enough to detect the larger gains, not the smaller ones. For the 0.038 gain, the 95% interval excluded zero in 93% of draws. For gains under 0.02, it excluded zero in only 7% to 38% of draws. Detecting a 0.015 gain took 200 to 1,000 queries, depending on the dataset.
+Fifty labeled queries were enough for the larger gains: the 0.038 gain had an interval excluding zero in 93% of draws, while gains under 0.02 cleared that bar in 7% to 38%. Treat small movement as unresolved until you have the labels to measure it.
 
 ## Check the Winner on Fresh Queries
 
-A setting selected and evaluated on the same queries will look better than it performs on fresh queries. Reserve a validation set before you sweep: select the winner on one half of the labeled queries, then measure its gain on the other. We repeated that split 200 times per dataset.
+A setting selected and evaluated on the same queries will look better than it performs on fresh queries. Split the labeled queries in half: select the winner on one half, then measure its gain on the other. We repeated that split 200 times per dataset.
 
-The selected setting usually transfers. Across those splits, its median rank was between first and fourth out of 30 settings on the held-out queries, and it was worse than the default in only 0% to 6% of splits.
+The selected setting usually transfers. Ranking all 30 settings again on the fresh half, our pick typically landed in the top four, and it fell behind the default in 0% to 6% of splits.  
+The gain does shrink: it retained 67% to 95% of what selection reported, so report the number from the fresh queries.
 
-The gain still shrinks. On held-out queries, the winner retained 67% to 95% of the gain reported during selection. Its held-out 95% interval excluded zero in 20% to 100% of splits, depending on the dataset.
+If you compare separately rebuilt indexes, check top-10 agreement across two builds before you treat a small `nDCG@10` difference as a tuning gain. In our clean rebuild test, query sampling moved `nDCG@10` more than graph variation did.
 
-Report the held-out result. A selected gain can shrink on fresh queries, and a small labeled set may not establish that the remaining gain is real.
-
-If you compare separately rebuilt indexes, check top-10 agreement across two builds before you treat a small metric difference as a tuning gain. In our clean rebuild test, query sampling moved `nDCG@10` more than graph variation did.<br>
-Upserts, optimizer merges that resegment the collection, replicas built separately, and quantization can change that result.
-
-Record the current relevance metric and p95 latency for a representative query set. Then use the symptom table to choose one low-cost change, validate it on held-out queries, and keep it only if the gain survives.
-
-Once you have a baseline, [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows how to test whether retrieval depth is the constraint.
+Record the current relevance metric and p95 latency for a representative query set. Choose one low-cost change from the symptom table, validate it on fresh queries, and keep it only if the gain survives. Once you have that baseline, [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows how to test whether retrieval depth is the constraint.
