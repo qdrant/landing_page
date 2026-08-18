@@ -70,7 +70,8 @@ When creating a collection, you will need to configure user-defined sharding. Th
 ```python
 client.create_collection(
     collection_name="{tenant_data}",
-    shard_number=2,
+    # number of physical shards per shard key, not the number of shard keys
+    shard_number=1,
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
