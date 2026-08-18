@@ -20,7 +20,7 @@ Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained s
 
 ![Qdrant Edge Shards operate on edge devices](/documentation/edge/qdrant-edge.png)
 
-To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). This library provides an `EdgeShard` class with methods to manage data, query it, and restore snapshots. To learn more about the available methods, refer to the [Edge API](/documentation/edge/edge-api/) page.
+To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). Both expose an `EdgeShard` type with methods to manage data, query it, and restore snapshots. To learn more about the available methods, refer to the [Edge API](/documentation/edge/edge-api/) page.
 
 ## Using Qdrant Edge
 
@@ -29,11 +29,10 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 | **Beginner** | [Qdrant Edge Quickstart](/documentation/edge/edge-quickstart/)             | Get started with Qdrant Edge and learn the basics of managing and querying data |
 | **Beginner** | [On-Device Embeddings](/documentation/edge/edge-fastembed-embeddings/)     | Generate vector embeddings directly on edge devices using FastEmbed |
 | **Beginner** | [On-Device BM25](/documentation/edge/edge-bm25/)                          | Generate BM25 sparse embeddings on-device for keyword search |
-| **Reference** | [Edge API](/documentation/edge/edge-api/)                                 | Reference for the `EdgeShard` methods available in Python and Rust, with their parameters and return values |
 | **Reference** | [Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/) | Overview of patterns for synchronizing data between Edge Shards and Qdrant server collections |
 | **Advanced** | [Synchronize with a Server](/documentation/edge/edge-synchronization-guide/) | Synchronize an Edge Shard with a Qdrant server collection to offload indexing and synchronize data between devices |
+| **Reference** | [Edge API](/documentation/edge/edge-api/)                                 | Reference for the `EdgeShard` methods available in Python and Rust, with their parameters and return values |
 
 ### More Examples
 
 The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/dev/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/dev/lib/edge/publish/examples).
-
