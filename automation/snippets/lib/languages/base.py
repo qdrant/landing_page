@@ -17,11 +17,25 @@ class Language:
     SNIPPET_FILENAME: str
     """Filename of the snippet in this language, e.g., 'python.py'."""
 
+    SUPPORTS_SYNTAX_CHECK: bool = False
+    """Whether `check_syntax()` is implemented for this language."""
+
     @classmethod
     def compile(cls, tmpdir: Path, fnames: list[Path]) -> "CompileResult":
         """Compile, typecheck, and prepare all snippets listed in fnames.
 
         Might create scratch projects in tmpdir.
+        """
+        raise NotImplementedError
+
+    @classmethod
+    def check_syntax(cls, code: str) -> None:
+        """Parse (but do not compile/typecheck) code, raising an exception
+        if it is not syntactically valid.
+
+        Unlike `compile()`, this does not need to resolve imports/types or
+        build a scratch project, so it can run directly on the shortened
+        code extracted from generated markdown files.
         """
         raise NotImplementedError
 
