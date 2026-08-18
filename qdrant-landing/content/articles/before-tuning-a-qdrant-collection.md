@@ -18,9 +18,9 @@ keywords:
 category: search-quality
 ---
 
-Before you change a setting, decide what better retrieval means for this workload. The right document at rank one, more candidates for a reranker, lower latency, and a smaller memory footprint each favor different settings, so pick your goal first. If your labeled queries can't detect the improvement you're chasing, none of this will tell you anything.
+Before you change a setting, decide what better retrieval means for your workload. The right document at rank one, more candidates for a reranker, lower latency, and a smaller memory footprint each favor different settings, so pick your goal first. If your labeled queries can't detect the improvement you're chasing, you won't be able to tell whether a change helped.
 
-Some settings are there to verify correctness, not to tune performance. If a vector is unindexed, a sparse vector is missing the IDF modifier, or a BM25 average length was copied from another field, the results are invalid. Any benchmarks or parameter sweeps you run after that will reflect a broken setup. This article shows you how to check each setting and what the correct state looks like.
+Some settings are there to verify correctness, not to tune performance. If a vector is unindexed, a sparse vector is missing the IDF modifier, or the BM25 average length is wrong, the results are invalid. Any benchmark or comparison you run after that will reflect a broken setup. This article shows you how to check each setting and what the correct state looks like.
 
 ## The Retrieval Pipeline You Are Tuning
 
@@ -51,36 +51,39 @@ Start with the failure mode, not the config reference. The table maps each sympt
 
 ## How to Read These Measurements
 
-The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries. Your workload decides which setting to keep.
+The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries.
 
 The measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using `all-MiniLM-L6-v2` and Qdrant's core BM25.
 
-Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment.<br>
+Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment.  
 Use each result to choose a test on your own collection, then keep only the settings your labels support.
 
 ## Silent Settings Can Break Quality
 
-Check the stages you run before tuning anything else. These prerequisites each have a correct state for a given collection, and each can fail without an error. Fix them before a benchmark or sweep, otherwise you are measuring a configuration error, not a trade-off.
+Check the stages you run before tuning anything else. Each prerequisite has a correct state for a given collection and can fail without an error. Fix them before you benchmark or compare settings, otherwise you are measuring a configuration error, not a trade-off.
 
 ### Dense Search and Indexing
 
-**[Vectors are indexed](/documentation/manage-data/collections/#collection-info)**<br>
+**[Vectors are indexed](/documentation/manage-data/collections/#collection-info)**  
 Call `GET /collections/{collection_name}` and compare `indexed_vectors_count` with `points_count`.  
-In a dense-only collection, the counts should match once indexing is complete. In a hybrid collection, where each point has one dense and one sparse vector, `indexed_vectors_count` should be twice `points_count`. Qdrant counts each vector separately.  
+In a dense-only collection, the counts should match once indexing is complete. In a hybrid collection, where each point has one dense and one sparse vector, `indexed_vectors_count` should be twice `points_count`, because Qdrant counts each vector separately.
+
 If the indexed count is lower, indexing may still be running, may have stopped, or some segments may be smaller than the default `indexing_threshold` of 10,000 KB. See the [indexing optimizer documentation](/documentation/ops-optimization/optimizer/#indexing-optimizer).  
 Qdrant builds an HNSW graph only after a segment reaches `indexing_threshold`. Before then, it searches the segment without HNSW, so changing `hnsw_ef` has no effect.
 
-**[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)**<br>
-Dense and sparse vectors have separate thresholds in different units, so a value copied between them lands nowhere near the intended size. The dense one counts kilobytes of vectors in a segment, 10,000 by default, and sends both unfiltered searches on small segments and searches whose filter matches few points to an exact scan instead of the graph. The sparse one counts vectors, 5,000 by default, and applies only when a filter is present.
+**[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)**  
+Dense and sparse vectors have separate thresholds in different units, so a value copied between them lands nowhere near the intended size. The dense threshold counts kilobytes of vectors in a segment, 10,000 by default. It sends a search to an exact scan instead of the graph when the segment holds fewer vectors than that, or when a filter matches fewer points than that.
+
+The sparse threshold counts vectors, 5,000 by default, and applies only when a filter is present.
 
 ### Sparse Retrieval
 
 These settings apply whether the collection has thousands of documents or billions.
 
-**[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)**<br>
+**[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)**  
 Use this modifier for sparse vectors from BM25 or miniCOIL. Both leave inverse document frequency (IDF) to Qdrant, which computes it per shard for each query term and weights the term by it. SPLADE already includes corpus-level term weighting, so applying the modifier would count rarity twice.
 
-**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)**<br>
+**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)**  
 Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/full-text-search/#bm25-text-processing). BM25 uses this value to adjust for document length.  
 Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256.  
 Measure it using the same stemmer and stopword settings as the collection.
@@ -89,20 +92,20 @@ Measure it using the same stemmer and stopword settings as the collection.
 
 Fusion placement matters on sharded collections. `score_threshold` is a risk at any scale when a request moves from single-vector retrieval to fusion.
 
-**[Fusion placement](/documentation/search/hybrid-queries/)**<br>
+**[Fusion placement](/documentation/search/hybrid-queries/)**  
 At the root of the query, fusion runs once, after every shard returns its candidates.  
-Inside a `prefetch`, it runs on each shard, so each shard fuses only its own candidates and the outer query ranks by those shard-local fused scores. The result changes with shard count and with how points are distributed, and no error tells you it happened. Nested fusion is deliberate when an outer stage rescores its output.  
+Inside a `prefetch`, fusion runs on each shard. Each shard fuses only its own candidates, and the outer query ranks by those shard-local fused scores. The result changes with shard count and with how points are distributed, and no error tells you it happened. Nested fusion is deliberate when an outer stage rescores its output.  
 On a single-shard collection, both placements produce the same ranking.
 
-**[score_threshold](/documentation/search/search/#filtering-results-by-score)**<br>
-Use `score_threshold` only when you have a measured minimum acceptance score for the stage that returns results. A threshold copied from dense-only search is unsafe in a root-level RRF or DBSF query: Qdrant compares it with the fused score, not the dense or sparse score.<br>
+**[score_threshold](/documentation/search/search/#filtering-results-by-score)**  
+Use `score_threshold` only when you have a measured minimum acceptance score for the stage that returns results. A threshold copied from dense-only search is unsafe in a root-level RRF or DBSF query. Qdrant compares it with the fused score, not the dense or sparse score.  
 It can silently truncate the result list or return no results. Validate it on labeled queries, or leave it unset.
 
 ### Filtered Search
 
 Index every field you filter on. The cost of skipping one grows with collection size and query concurrency.
 
-**[Payload indexes](/documentation/manage-data/indexing/#payload-index)**<br>
+**[Payload indexes](/documentation/manage-data/indexing/#payload-index)**  
 A healthy collection has a payload index for every field used in its filters. Create these indexes before ingestion. If you add one later, Qdrant does not add the filter-aware HNSW edges automatically. You must [rebuild the HNSW index](/documentation/manage-data/indexing/#rebuild-the-hnsw-index). Qdrant Cloud strict mode rejects queries that filter on unindexed fields.  
 Even with the right indexes, strict filters can reduce recall. [What ACORN fixes, and what fixes ACORN](/articles/filtered-vector-search-acorn/) measures this effect on one million points.
 
@@ -123,8 +126,6 @@ Start with a change that does not rebuild the collection or add a retrieval stag
 
 Consider a model-level rebuild only when it addresses a measured constraint, since a new embedding model means re-embedding every point. [How to choose an embedding model](/articles/how-to-choose-an-embedding-model/) covers that decision. When memory is the constraint, a Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) shortens the vector itself, which is a different trade from compressing it with quantization.
 
-Choose the next change only after you can measure the result.
-
 ## Choose a Metric Before You Tune
 
 Choose the metric before you compare settings, because the metric decides the winner. In our testing, `nDCG@10`, `MRR@10`, and `Recall@100` each name a different best setting, and `Recall@100` disagrees with `nDCG@10` on four of five datasets.
@@ -134,18 +135,19 @@ Choose the metric before you compare settings, because the metric decides the wi
 **`MRR@k`** is the mean of one over the rank of the first relevant result. It asks how fast you got to something good. Use it when a query has one right answer.
 
 **`Recall@k`** is the share of all relevant documents that made it into the top k. Use it when you measure a first stage that feeds something else.  
-It is capped per query by the number of relevant documents, unlike `nDCG@k`'s per-query normalization: a query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit. The average across queries can land higher, because queries with fewer relevant documents are not held to that cap. In our testing, one dataset averages 358.9 relevant documents per query, and its best `Recall@100` was 0.3877.  
+It is capped per query by the number of relevant documents: a query with 359 relevant documents cannot exceed 0.28 at `Recall@100`, because only 100 can fit.  
+The average across queries can land higher, because queries with fewer relevant documents are not held to that cap. In our testing, one dataset averages 358.9 relevant documents per query, and its best `Recall@100` was 0.3877.  
 Count relevant documents per query before choosing k.
 
 ## Make Sure Your Labels Can Detect a Gain
 
-A labeled set is queries paired with the documents that should come back for them. [Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building one. Its size decides whether any retrieval tuning is visible to you at all.
+[Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building a labeled set. Its size decides whether any retrieval tuning is visible to you at all.
 
-A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. The table below shows how many queries it took in our tests.<br>
-Size alone will not save an unrepresentative set: pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
+A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. The table below shows how many queries it took in our tests.  
+Size alone will not save an unrepresentative set. Pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
 
-Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends.<br>
-The `search` adapter below may run dense-only search, hybrid fusion, or a reranker, but it must return the final points for one query and one setting. `pytrec_eval` computes the scores from those point IDs.
+Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends.  
+The `search` adapter below must return the final points for one query and one setting. It may run dense-only search, hybrid fusion, or a reranker. `pytrec_eval` computes the scores from those point IDs.
 
 ```python
 import pytrec_eval
