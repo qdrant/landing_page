@@ -33,11 +33,11 @@ Some of the results confirm that guidance directly. Others surprised us.
 
 Each run followed the same three stages, shown here as a timeline from the last point uploaded to a settled baseline:
 
-{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/experiment-diagram.png" alt="Diagram showing the three stages of each run: an upload phase during which points were loaded into the Qdrant collection with no search traffic, a draining phase during which search traffic competes for resources with optimizations, and a steady phase in which optimizers are idle and search latency is measured at baseline." width="100%" >}}
+{{< figure src="/articles_data/what-qdrant-optimizers-cost-your-queries/experiment-diagram.svg" alt="Diagram showing the three stages of each run: an upload phase during which points were loaded into the Qdrant collection with no search traffic, a draining phase during which search traffic competes for resources with optimizations, and a steady phase in which optimizers are idle and search latency is measured at baseline." width="100%" >}}
 
-1. **Upload.** All 1.76 million points go in with no search traffic running, so the collection is already full by the time we start measuring latency. Upload alone took anywhere from 70 seconds to 316 seconds, depending on whether indexing was running concurrently with it.
-2. **Draining.** Once the upload finishes, we search continuously (one query in flight at a time, no batching) while polling Qdrant's `/collections/{collection_name}/optimizations` endpoint every 2 seconds, until it reports nothing running and nothing queued.
-3. **Steady.** With optimizers confirmed idle, we run five fixed passes over a separate set of 1,000 query vectors (5,000 searches) as the steady-state baseline.
+- **Upload.** All 1.76 million points go in with no search traffic running, so the collection is already full by the time we start measuring latency. Upload alone took anywhere from 70 seconds to 316 seconds, depending on whether indexing was running concurrently with it.
+- **Draining.** Once the upload finishes, we search continuously (one query in flight at a time, no batching) while polling Qdrant's `/collections/{collection_name}/optimizations` endpoint every 2 seconds, until it reports nothing running and nothing queued.
+- **Steady.** With optimizers confirmed idle, we run five fixed passes over a separate set of 1,000 query vectors (5,000 searches) as the steady-state baseline.
 
 That closed-loop search pattern matters for reading the sample counts in the tables that follow: when a query takes 800 ms, only about 1.25 of them fit into a second of wall-clock time. A draining phase can run for over 10 minutes and still only collect a few hundred samples, while a steady phase with the same fixed 5,000-query workload can finish many times faster once nothing is competing with it. A small `n` during draining is a direct consequence of how slow the search can get while optimizations are running, and shouldn't be considered missing data.
 
