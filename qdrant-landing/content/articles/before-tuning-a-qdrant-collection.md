@@ -66,9 +66,9 @@ Check the stages you run before tuning anything else. These prerequisites each h
 
 **[Vectors are indexed](/documentation/manage-data/collections/#collection-info)**<br>
 Call `GET /collections/{collection_name}` and compare `indexed_vectors_count` with `points_count`.  
-For a dense-only collection, the counts should match once indexing is complete. In a hybrid collection where every point has one dense vector and one sparse vector, `indexed_vectors_count` should reach twice `points_count`. Qdrant counts each vector separately.  
-If the indexed count is lower, indexing may still be running, may have stopped early, or the segments may be smaller than the default `indexing_threshold` of 10,000 KB. See the [indexing optimizer documentation](/documentation/ops-optimization/optimizer/#indexing-optimizer).  
-Until Qdrant builds an HNSW graph for a segment, searches there are exact. That means changing `hnsw_ef` or enabling quantization will not change the results for those segments.
+In a dense-only collection, the counts should match once indexing is complete. In a hybrid collection, where each point has one dense and one sparse vector, `indexed_vectors_count` should be twice `points_count`. Qdrant counts each vector separately.  
+If the indexed count is lower, indexing may still be running, may have stopped, or some segments may be smaller than the default `indexing_threshold` of 10,000 KB. See the [indexing optimizer documentation](/documentation/ops-optimization/optimizer/#indexing-optimizer).  
+Qdrant builds an HNSW graph only after a segment reaches `indexing_threshold`. Before then, it searches the segment without HNSW, so changing `hnsw_ef` has no effect.
 
 **[full_scan_threshold](/documentation/manage-data/indexing/#vector-index)**<br>
 Dense and sparse vectors have separate thresholds in different units, so a value copied between them lands nowhere near the intended size. The dense one counts kilobytes of vectors in a segment, 10,000 by default, and sends both unfiltered searches on small segments and searches whose filter matches few points to an exact scan instead of the graph. The sparse one counts vectors, 5,000 by default, and applies only when a filter is present.
@@ -78,17 +78,21 @@ Dense and sparse vectors have separate thresholds in different units, so a value
 These settings apply whether the collection has thousands of documents or billions.
 
 **[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)**<br>
-Enable it on the sparse vector. Then rare terms contribute more than terms that appear in every document. Without it, the score contains term frequency and document length only.
+Use this modifier for sparse vectors from BM25 or miniCOIL. Both leave inverse document frequency (IDF) to Qdrant, which computes it per shard for each query term and weights the term by it. SPLADE already includes corpus-level term weighting, so applying the modifier would count rarity twice.
 
 **[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)**<br>
-Measure the indexed field's post-stemming average token count and supply that value to BM25. The default is 256; across the five datasets measured for this article, the correct values ranged from 35.3 to 151.4. Replace a copied default or a value measured on another field.
+Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/full-text-search/#bm25-text-processing). BM25 uses this value to adjust for document length.  
+Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256.  
+Measure it using the same stemmer and stopword settings as the collection.
 
 ### Hybrid Search
 
 Fusion placement matters on sharded collections. `score_threshold` is a risk at any scale when a request moves from single-vector retrieval to fusion.
 
 **[Fusion placement](/documentation/search/hybrid-queries/)**<br>
-It is healthy when fusion is the root query: it then runs once at collection level. Fusion nested inside a `prefetch` runs per shard and combines different candidate lists.
+At the root of the query, fusion runs once, after every shard returns its candidates.  
+Inside a `prefetch`, it runs on each shard, so each shard fuses only its own candidates and the outer query ranks by those shard-local fused scores. The result changes with shard count and with how points are distributed, and no error tells you it happened. Nested fusion is deliberate when an outer stage rescores its output.  
+On a single-shard collection, both placements produce the same ranking.
 
 **[score_threshold](/documentation/search/search/#filtering-results-by-score)**<br>
 Use `score_threshold` only when you have a measured minimum acceptance score for the stage that returns results. A threshold copied from dense-only search is unsafe in a root-level RRF or DBSF query: Qdrant compares it with the fused score, not the dense or sparse score.<br>
