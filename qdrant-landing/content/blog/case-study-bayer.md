@@ -27,7 +27,14 @@ Bayer is a global life sciences company operating at the intersection of two of 
 
 Turning that ambition into production systems for 116,000 employees is a hard infrastructure problem. It requires retrieval that stays fast under sustained load, grounds large language models (LLMs) in real data to suppress hallucinations, satisfies strict life sciences compliance requirements, and adapts as the underlying AI workloads shift from simple chatbots to autonomous agents. This is the story of how Bayer built that foundation, and why Qdrant has sat at the center of it for nearly three years.
 
-> "If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML, Precision Medicine & Insights"
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg"
+  featured="true" >}}
 
 ## A Platform Born Weeks After ChatGPT
 
@@ -37,7 +44,13 @@ Bayer moved quickly. Within three months, Sedghamiz's team stood up myGenAssist,
 
 From there, it scaled into a full platform layer. Today, myGenAssist serves the entire company, processes over 1.5 million messages a month, and has ingested more than 450,000 uploaded documents, all while keeping the complexity of RAG hidden from the end user.
 
-> "The whole stack of RAG is hidden from users. For them it's just a file upload, but it ends up going through several layers of retrieval-augmented generation, Qdrant being part of it. That has proven to be quite successful to bring grounding and reduce hallucinations for LLM applications." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="The whole stack of RAG is hidden from users. For them it's just a file upload, but it ends up going through several layers of retrieval-augmented generation, Qdrant being part of it. That has proven to be quite successful to bring grounding and reduce hallucinations for LLM applications."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML, Precision Medicine & Insights"
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg" >}}
 
 ## Choosing a Vector Search Engine, Three Years Ago
 
@@ -45,7 +58,13 @@ Three years ago, Bayer evaluated vector search. The company's first prototype, M
 
 The team evaluated across several dimensions: price-performance ratio, latency, and openness. Qdrant was open source, which meant the team could test it fast without procurement friction. Latency was strong. And it was written in Rust, a signal of the memory efficiency and predictable performance that life sciences workloads would later demand.
 
-> "There weren't many options back then. We did benchmarking across price-performance, latency, and other aspects. The first points we really liked: it was open source, we could test it very fast, latency was good, and it was written in Rust. We ended up going with Qdrant." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="There weren't many options back then. We did benchmarking across price-performance, latency, and other aspects. The first points we really liked: it was open source, we could test it very fast, latency was good, and it was written in Rust. We ended up going with Qdrant."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML, Precision Medicine & Insights"
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg" >}}
 
 ## From Self-Hosted to Hybrid Cloud: Meeting Compliance Without Drowning in Ops
 

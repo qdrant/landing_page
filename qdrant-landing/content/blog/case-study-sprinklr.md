@@ -35,7 +35,13 @@ These self-serve applications rely heavily on advanced vector search to analyze 
 
 ## The Need for a Vector Database
 
-To support various AI-driven applications, Sprinklr needed an efficient vector database. "The key challenge was to provide the highest quality and fastest search capabilities for retrieval tasks across the board," explains Sonavane.
+To support various AI-driven applications, Sprinklr needed an efficient vector database.
+
+{{< quote
+  text="The key challenge was to provide the highest quality and fastest search capabilities for retrieval tasks across the board."
+  name="Raghav Sonavane"
+  role="Associate Director of Machine Learning Engineering"
+  company="Sprinklr" >}}
 
 Last year, Sprinklr undertook a comprehensive evaluation of its existing search infrastructure. The goals were to identify current capability gaps, benchmark performance for speed and cost, and explore opportunities to improve the developer experience through enhanced scalability and stronger data privacy controls. It became clear that an advanced vector database was essential to meet these needs, and Qdrant emerged as the ideal solution.
 

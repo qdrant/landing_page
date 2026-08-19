@@ -1,0 +1,110 @@
+@use '../helpers/functions' as *;
+
+// Descendants are nested (rather than written with `&__`) so each rule carries
+// two classes of specificity. The article stylesheet styles bare elements via
+// `.qdrant-post__content blockquote / p / figcaption`, which would otherwise
+// win over a single-class selector and re-apply its own card and margins.
+.customer-quote {
+  margin: $spacer * 3 0;
+  padding: pxToRem(32) pxToRem(40);
+  border-radius: $spacer * 0.5;
+  background: linear-gradient(180deg, $neutral-20 0%, #0e1424 100%);
+
+  .customer-quote__quote {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+
+  .customer-quote__text {
+    margin-bottom: pxToRem(24);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    text-align: left;
+    color: $neutral-98;
+
+    a {
+      color: $neutral-98;
+      text-decoration: underline;
+    }
+  }
+
+  .customer-quote__attribution {
+    display: flex;
+    align-items: center;
+    gap: $spacer;
+    text-align: left;
+  }
+
+  .customer-quote__avatar {
+    flex-shrink: 0;
+    width: pxToRem(48);
+    height: pxToRem(48);
+    margin: 0;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .customer-quote__meta {
+    min-width: 0;
+    text-align: left;
+  }
+
+  // text-align is set on each <p> rather than inherited from __meta: the
+  // article stylesheet centers figcaption paragraphs directly, so inheritance
+  // never reaches them.
+  .customer-quote__name {
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
+    text-align: left;
+    color: $neutral-94;
+  }
+
+  .customer-quote__role {
+    margin: 0;
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
+    text-align: left;
+    color: $neutral-60;
+  }
+
+  .customer-quote__logo {
+    flex-shrink: 0;
+    margin: 0 0 0 auto;
+    max-width: pxToRem(120);
+    max-height: pxToRem(32);
+    // Company logos are authored for light backgrounds; this card is dark.
+    filter: brightness(0) invert(1);
+    opacity: 0.75;
+  }
+
+  // Lead quote: sits directly under the hero, before the article body.
+  &.customer-quote_featured {
+    margin-top: 0;
+
+    .customer-quote__text {
+      font-size: pxToRem(24);
+      line-height: pxToRem(36);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: pxToRem(24);
+
+    .customer-quote__text {
+      font-size: pxToRem(18);
+      line-height: pxToRem(28);
+    }
+
+    .customer-quote__logo {
+      display: none;
+    }
+
+    &.customer-quote_featured .customer-quote__text {
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{{- /*
+  Customer quote block for case studies and blog posts.
+
+  Usage:
+    {{< quote
+        text="Qdrant has been crucial for our transformation."
+        name="Rahul Todkar"
+        role="Head of Data and AI"
+        company="Tripadvisor"
+        avatar="/img/customers/rahul-todkar.svg"
+        logo="/img/brands/tripadvisor.svg"
+        featured="true" >}}
+
+  Only `text` and `name` carry the quote; every other param degrades
+  gracefully, so a quote with no avatar or logo still renders correctly.
+  `featured="true"` is the lead quote that sits above the article body.
+
+  `text` is rendered as markdown, so inline links work:
+    text="See our [docs](https://qdrant.tech/documentation/) for details."
+
+  Use `&quot;` for a literal double quote inside `text`.
+*/ -}}
+
+{{- $page := .Page -}}
+{{- $text := .Get "text" | default "" -}}
+{{- $name := .Get "name" -}}
+{{- $role := .Get "role" -}}
+{{- $company := .Get "company" -}}
+{{- $avatar := .Get "avatar" -}}
+{{- $logo := .Get "logo" -}}
+{{- $featured := eq (.Get "featured" | default "false") "true" -}}
+
+{{- if not $text -}}
+  {{- errorf "quote shortcode in %q needs a `text` param" $page.Path -}}
+{{- end -}}
+
+<figure class="customer-quote{{ if $featured }} customer-quote_featured{{ end }}">
+  <blockquote class="customer-quote__quote">
+    <p class="customer-quote__text">{{ $page.RenderString (trim $text "\n ") }}</p>
+  </blockquote>
+
+  {{- if $name }}
+  <figcaption class="customer-quote__attribution">
+    {{- with $avatar }}
+    <img
+      class="customer-quote__avatar"
+      src="{{ . }}"
+      alt="{{ $name }}"
+      width="48"
+      height="48"
+      loading="lazy"
+    />
+    {{- end }}
+    <div class="customer-quote__meta">
+      <p class="customer-quote__name">{{ $name }}</p>
+      {{- if or $role $company }}
+      <p class="customer-quote__role">
+        {{- $role -}}
+        {{- if and $role $company }}, {{ end -}}
+        {{- $company -}}
+      </p>
+      {{- end }}
+    </div>
+    {{- with $logo }}
+    <img class="customer-quote__logo" src="{{ . }}" alt="" loading="lazy" />
+    {{- end }}
+  </figcaption>
+  {{- end }}
+</figure>
