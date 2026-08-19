@@ -3,6 +3,7 @@ title: Search Relevance
 short_description: "Tune Qdrant search relevance with custom scoring, payload-based ranking, and business-aware result ordering."
 description: "Tune search relevance in Qdrant by adjusting scoring, applying payload-based ranking, and incorporating business signals to reorder vector search results."
 weight: 30
+cta: "Tune search relevance on a free Qdrant Cloud cluster."
 aliases:
   - /documentation/concepts/search-relevance/
 ---
