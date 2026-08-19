@@ -19,7 +19,12 @@ partition: case-studies
 ---
 # How Lyzr Supercharged AI Agent Performance with Qdrant
 
-![How Lyzr Supercharged AI Agent Performance with Qdrant](/blog/case-study-lyzr/case-study-lyzr-summary-dark.png)
+{{< case-study-summary
+  logo="/img/customers-case-studies-logo/lyzr.svg"
+  company="Lyzr"
+  text="Lyzr Agent Studio powers intelligent agents used across industries. When growing data volumes and concurrency strained their existing vector search, Lyzr turned to Qdrant to supercharge performance. The result: faster queries, lower latency, and reduced infrastructure costs&mdash;at scale."
+  tags="AI Agents; AWS"
+  results="90% | Faster query latency under high concurrency; 2x | Faster indexing for large-scale knowledge bases; 30% | Lower infrastructure costs from reduced resource usage" >}}
 
 ## Scaling Intelligent Agents: How Lyzr Supercharged Performance with Qdrant
 

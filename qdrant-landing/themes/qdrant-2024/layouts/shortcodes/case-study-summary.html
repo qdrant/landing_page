@@ -1,0 +1,84 @@
+{{- /*
+  Summary panel at the top of a case study: logo, a short description, the
+  Qdrant capabilities used, and the headline results.
+
+  These panels used to be exported as a single large image, which meant the
+  numbers in them were not text: not indexed, not selectable, not readable by
+  a screen reader, and not legible once scaled to a phone.
+
+  Usage:
+    {{< case-study-summary
+        logo="/img/customers-case-studies-logo/lyzr.svg"
+        company="Lyzr"
+        text="Lyzr Agent Studio powers intelligent agents used across industries."
+        tags="AI Agents; AWS"
+        results="90% | Faster query latency under high concurrency;
+                 2x | Faster indexing for large-scale knowledge bases;
+                 30% | Lower infrastructure costs" >}}
+
+  `results` is a semicolon-separated list of `value | label` pairs. Omit the
+  value for a result that has no number of its own:
+
+    results=" | Global privacy compliance; | Improved latency"
+
+  `tags` is a semicolon-separated list of capability names.
+  `text` is rendered as markdown, so links and emphasis work.
+*/ -}}
+
+{{- $page := .Page -}}
+{{- $logo := .Get "logo" -}}
+{{- $company := .Get "company" | default "" -}}
+{{- $text := .Get "text" | default "" -}}
+{{- $tags := .Get "tags" | default "" -}}
+{{- $results := .Get "results" | default "" -}}
+
+{{- if not $text -}}
+  {{- errorf "case-study-summary in %q needs a `text` param" $page.Path -}}
+{{- end -}}
+
+<section class="case-study-summary">
+  <div class="case-study-summary__intro">
+    {{- with $logo }}
+    <img
+      class="case-study-summary__logo"
+      src="{{ . }}"
+      alt="{{ with $company }}{{ . }}{{ else }}Company logo{{ end }}"
+      loading="lazy"
+    />
+    {{- end }}
+    <div class="case-study-summary__text">
+      {{ $page.RenderString (trim $text "\n ") }}
+    </div>
+  </div>
+
+  {{- with $tags }}
+  <ul class="case-study-summary__tags">
+    {{- range (split . ";") }}
+      {{- with (trim . " \n") }}
+      <li class="case-study-summary__tag">{{ . }}</li>
+      {{- end }}
+    {{- end }}
+  </ul>
+  {{- end }}
+
+  {{- with $results }}
+  <ul class="case-study-summary__results">
+    {{- range (split . ";") }}
+      {{- $parts := split . "|" -}}
+      {{- $value := trim (index $parts 0) " \n" -}}
+      {{- $label := "" -}}
+      {{- if gt (len $parts) 1 }}{{ $label = trim (index $parts 1) " \n" }}{{ end -}}
+      {{- if or $value $label }}
+      <li class="case-study-summary__result">
+        {{- with $value }}
+        <p class="case-study-summary__result-value">{{ . }}</p>
+        {{- end }}
+        {{- with $label }}
+        <p class="case-study-summary__result-label">{{ . }}</p>
+        {{- end }}
+      </li>
+      {{- end }}
+    {{- end }}
+  </ul>
+  {{- end }}
+</section>

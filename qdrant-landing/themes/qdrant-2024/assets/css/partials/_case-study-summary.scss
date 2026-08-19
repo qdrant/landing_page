@@ -1,0 +1,122 @@
+@use '../helpers/functions' as *;
+
+// Descendants are nested so each rule carries two classes of specificity: the
+// article stylesheet styles bare `p`, `ul` and `li` under .qdrant-post__content
+// and would otherwise win.
+.case-study-summary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacer;
+  margin: $spacer * 3 0;
+
+  .case-study-summary__intro,
+  .case-study-summary__tag,
+  .case-study-summary__result {
+    padding: pxToRem(24) pxToRem(28);
+    border-radius: $spacer * 0.75;
+    background: linear-gradient(180deg, $neutral-20 0%, #0e1424 100%);
+  }
+
+  .case-study-summary__logo {
+    display: block;
+    max-width: pxToRem(160);
+    max-height: pxToRem(40);
+    margin: 0 0 pxToRem(20);
+  }
+
+  .case-study-summary__text {
+    p {
+      margin-bottom: pxToRem(12);
+      font-size: pxToRem(18);
+      line-height: pxToRem(28);
+      color: $neutral-94;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    a {
+      color: $neutral-98;
+      text-decoration: underline;
+    }
+  }
+
+  .case-study-summary__tags,
+  .case-study-summary__results {
+    display: grid;
+    gap: $spacer;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-study-summary__results {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .case-study-summary__tag {
+    padding: pxToRem(16) pxToRem(20);
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
+    color: $neutral-94;
+  }
+
+  .case-study-summary__result-value {
+    margin-bottom: pxToRem(8);
+    font-weight: 600;
+    font-size: pxToRem(32);
+    line-height: pxToRem(40);
+  }
+
+  .case-study-summary__result-label {
+    margin-bottom: 0;
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
+    color: $neutral-94;
+  }
+
+  // The panels cycle through three accents, as the exported images did.
+  .case-study-summary__result:nth-child(3n + 1) .case-study-summary__result-value {
+    color: $secondary-blue-50;
+  }
+
+  .case-study-summary__result:nth-child(3n + 2) .case-study-summary__result-value {
+    color: $secondary-violet-50;
+  }
+
+  .case-study-summary__result:nth-child(3n + 3) .case-study-summary__result-value {
+    color: $primary-60;
+  }
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: 2fr 1fr;
+
+    .case-study-summary__intro {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .case-study-summary__tags {
+      grid-column: 2;
+      grid-row: 1;
+      align-content: start;
+    }
+
+    .case-study-summary__results {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .case-study-summary__results {
+      grid-template-columns: 1fr;
+    }
+
+    .case-study-summary__result-value {
+      font-size: pxToRem(28);
+      line-height: pxToRem(36);
+    }
+  }
+}
