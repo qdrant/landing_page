@@ -28,7 +28,7 @@ Bayer is a global life sciences company operating at the intersection of two of 
 Turning that ambition into production systems for 116,000 employees is a hard infrastructure problem. It requires retrieval that stays fast under sustained load, grounds large language models (LLMs) in real data to suppress hallucinations, satisfies strict life sciences compliance requirements, and adapts as the underlying AI workloads shift from simple chatbots to autonomous agents. This is the story of how Bayer built that foundation, and why Qdrant has sat at the center of it for nearly three years.
 
 {{< quote
-  text="If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago."
+  text="People used to look at vector databases only for RAG applications. Now they're solving enterprise search problems. No one had an omnimodal search engine where you could search videos, audio, and every asset the company generates. We realized Qdrant was turning into that."
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
   company="Bayer"
@@ -89,6 +89,7 @@ The data model itself is also expanding. Bayer is migrating toward an omnimodal 
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
   company="Bayer" >}}
+
 The omnimodal pipeline is concrete, not aspirational. When a scientific PDF enters the system, a vision model generates search-optimized descriptions of every figure (content summary, OCR'd labels, key concepts) and injects them into the text stream before chunking.
 
 So searching "receptor binding affinity curve" returns the figure itself, not just paragraphs that mention it. Audio and video recordings are chunked, transcribed via Whisper, and vector-indexed alongside text documents. A lab meeting from three months ago becomes searchable in Qdrant within minutes of upload.
@@ -104,11 +105,18 @@ The second is retrieval quality. Grounded, high-quality answers are what keep us
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
   company="Bayer" >}}
+
 ![Qdrant as enterprise retrieval backbone: four layers from 116K employees through the deep agent harness to Qdrant Hybrid Cloud and GxP-ready observability](/blog/case-study-bayer/qdrant-enterprise-retrieval-backbone.png)
 
 ## Composable Retrieval for Agents: Exposing Qdrant Directly to the Model
 
 The most significant shift in Bayer's architecture is the move from chatbot-style interactions to deep agents. Bayer now runs agentic applications on a LangGraph-based harness, comparable to the deep research and coding agents that have become common, and these agents are far hungrier for search than the simpler systems that preceded them. A single deep research run unrolls a long tool-calling loop, hundreds of steps deep, and can fire thousands of retrieval queries before it returns, which makes per-query latency matter even more than it did before. Every one of those tools, from web search to PubMed to the FDA connector, is itself backed by a Qdrant collection.
+
+{{< quote
+  text="If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 Crucially, Bayer exposes the Qdrant API directly to the model. Whether the requester is a human or an agent, the same interface is available, and the agent can choose how to retrieve based on the task. This is exactly the composable model Qdrant is designed for: retrieval primitives the caller combines at query time, rather than a fixed pipeline hidden behind an opaque API. Under the hood, the hybrid path runs dense and sparse queries in parallel and fuses them with Reciprocal Rank Fusion before a BGE reranker sharpens the final ordering. The agent sees a clean set of tools, not that machinery.
 
@@ -121,13 +129,9 @@ A feature Bayer calls knowledge bases makes this concrete. Users start a project
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
   company="Bayer" >}}
+
 This is also where the omnimodal direction pays off. Users upload meeting transcripts, images, audio, and video, and the agent discovers and connects them. Qdrant increasingly serves as the agent's memory, letting it recall what a user has been working on and tailor answers accordingly. Teams elsewhere in the company can point their own applications at a shared collection to build their own search experiences, from molecule search to internal enterprise search.
 
-{{< quote
-  text="People used to look at vector databases only for RAG applications. Now they're solving enterprise search problems. No one had an omnimodal search engine where you could search videos, audio, and every asset the company generates. We realized Qdrant was turning into that."
-  name="Hooman Sedghamiz"
-  role="Senior Director AI/ML - Precision Medicine & Insights"
-  company="Bayer" >}}
 Retrieval quality benefits from a parallel query expansion strategy. A single user question generates four Qdrant searches simultaneously: the verbatim query, a question-form rewrite, extracted keywords, and a HYDE hypothetical answer. Results are fused, deduplicated with a diversity cap of three chunks per document, and optionally reranked. The approach is particularly effective for pharmaceutical literature, where the same concept appears under different nomenclatures across regulatory filings, clinical protocols, and marketing materials.
 
 Document parsing itself is agentic. Rather than pre-processing every upload through expensive OCR, the platform defers extraction until the agent actually needs a document's content. A lightweight sandbox-local parser handles simple formats instantly; complex PDFs with tables and figures fall through to server-side Docling OCR on demand. Results are cached and indexed into Qdrant on first use. With 450,000 documents uploaded and most never read beyond their metadata, this lazy parsing strategy cuts compute costs by roughly 80 percent compared to eager processing. This agentic parsing pipeline (the tiered extraction, the lazy on-demand OCR, and the path that turns a raw upload into Qdrant-indexed content the moment an agent reaches for it) was built by Balkrushn Hirani, myGenAssist's backend developer lead.
@@ -190,7 +194,10 @@ The team is careful not to over-attribute. It does not isolate which component d
   text="We've seen 20% efficiency when it comes to using AI platforms. A big part of that gain is that you have to get results from AI that are grounded. If you get hallucinations, people are not satisfied. It wouldn't be possible without the components."
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
-  company="Bayer" >}}
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg" >}}
+
 With the recent shift to more autonomous agents, the measurement problem itself is evolving. Earlier chatbot-style systems delivered incremental time savings: a faster email summary, a quicker draft. The new agents can run for 10 to 15 minutes unattended and return a completed task: research done, document written, a notification sent to the user's phone. That changes the question from "how much time did we save" to "how well was the whole task done," a harder thing to quantify but a larger prize.
 
 That last mile, meeting people where they already work, runs through myGenAssist Claw, the Microsoft Teams integration built by Hendrik Hogertz (myGenAssist senior developer), which lets an employee @-mention the assistant inside a Teams channel and hand it a task without ever leaving the conversation.
@@ -214,6 +221,7 @@ The Bayer team actively tracks Qdrant releases and adopts performance features a
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
   company="Bayer" >}}
+
 This matters to Bayer because it reduces the gap between a published optimization and a deployed one. When Qdrant ships something like improved compression, Bayer can fold it into a live, compliance-bound, enterprise-scale platform without re-architecting.
 
 ## Why a Composable Engine, Not a Black Box
@@ -225,6 +233,7 @@ Bayer's experience drove an architectural conviction to focus on retrieval rathe
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
   company="Bayer" >}}
+
 That preference is sharpened by the proliferation of hyperscaler agent frameworks. With Google, AWS, and Azure each pushing their own solutions, teams struggle to manage and optimize systems they cannot see into. A composable engine that exposes its retrieval primitives lets engineers build pipelines tuned to their specific workload, rather than accepting opaque defaults.
 
 ## What's Next
