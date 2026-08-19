@@ -134,40 +134,15 @@ Key Observations:
 
 ![case-study-sprinklr-8](/blog/case-study-sprinklr/image8.png)
 
-```json
+```python
 data = [
-
-{'system': 'Qdrant', 'index_size': '1,000', 'MAP': 0.98, 'P95 Time': 0.22, 'Mean Time': 0.1, 'QPS': 280,
-
-'Upload Time': 1},
-
-{'system': 'Qdrant', 'index_size': '10,000', 'MAP': 0.99, 'P95 Time': 0.16, 'Mean Time': 0.09, 'QPS': 330,
-
-'Upload Time': 5},
-
-{'system': 'Qdrant', 'index_size': '100,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.23, 'QPS': 145,
-
-'Upload Time': 100},
-
-{'system': 'Qdrant', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.171, 'Mean Time': 0.162, 'QPS': 596,
-
-'Upload Time': 220},
-
-{'system': 'ElasticSearch', 'index_size': '1,000', 'MAP': 0.99, 'P95 Time': 0.42, 'Mean Time': 0.32, 'QPS': 95,
-
-'Upload Time': 10},
-
-{'system': 'ElasticSearch', 'index_size': '10,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.24, 'QPS': 120,
-
-'Upload Time': 50},
-
-{'system': 'ElasticSearch', 'index_size': '100,000', 'MAP': 0.99, 'P95 Time': 0.48, 'Mean Time': 0.42, 'QPS': 80,
-
-'Upload Time': 1100},
-
-{'system': 'ElasticSearch', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.37, 'Mean Time': 0.236,
-
-'QPS': 348, 'Upload Time': 1150}
-
+    {'system': 'Qdrant', 'index_size': '1,000', 'MAP': 0.98, 'P95 Time': 0.22, 'Mean Time': 0.1, 'QPS': 280, 'Upload Time': 1},
+    {'system': 'Qdrant', 'index_size': '10,000', 'MAP': 0.99, 'P95 Time': 0.16, 'Mean Time': 0.09, 'QPS': 330, 'Upload Time': 5},
+    {'system': 'Qdrant', 'index_size': '100,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.23, 'QPS': 145, 'Upload Time': 100},
+    {'system': 'Qdrant', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.171, 'Mean Time': 0.162, 'QPS': 596, 'Upload Time': 220},
+    {'system': 'ElasticSearch', 'index_size': '1,000', 'MAP': 0.99, 'P95 Time': 0.42, 'Mean Time': 0.32, 'QPS': 95, 'Upload Time': 10},
+    {'system': 'ElasticSearch', 'index_size': '10,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.24, 'QPS': 120, 'Upload Time': 50},
+    {'system': 'ElasticSearch', 'index_size': '100,000', 'MAP': 0.99, 'P95 Time': 0.48, 'Mean Time': 0.42, 'QPS': 80, 'Upload Time': 1100},
+    {'system': 'ElasticSearch', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.37, 'Mean Time': 0.236, 'QPS': 348, 'Upload Time': 1150},
 ]
 ```
