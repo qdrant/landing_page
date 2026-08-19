@@ -80,6 +80,11 @@
     color: $neutral-60;
   }
 
+  // The logo already says which company this is.
+  &.customer-quote_has-logo .customer-quote__company {
+    display: none;
+  }
+
   .customer-quote__logo {
     flex-shrink: 0;
     margin: 0 0 0 auto;
@@ -110,6 +115,11 @@
 
     .customer-quote__logo {
       display: none;
+    }
+
+    // No logo at this width, so the company name has to carry it again.
+    &.customer-quote_has-logo .customer-quote__company {
+      display: inline;
     }
 
     &.customer-quote_featured .customer-quote__text {

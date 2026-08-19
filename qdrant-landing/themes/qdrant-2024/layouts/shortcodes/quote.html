@@ -36,7 +36,12 @@
   {{- errorf "quote shortcode in %q needs a `text` param" $page.Path -}}
 {{- end -}}
 
-<figure class="customer-quote{{ if $featured }} customer-quote_featured{{ end }}">
+{{- /* The company name is redundant next to the logo, so it is hidden when
+       one is shown. It is marked up rather than dropped because the logo is
+       hidden on narrow screens, where the name has to come back. */ -}}
+<figure class="customer-quote
+  {{- if $featured }} customer-quote_featured{{ end }}
+  {{- if $logo }} customer-quote_has-logo{{ end }}">
   <blockquote class="customer-quote__quote">
     <p class="customer-quote__text">{{ $page.RenderString (trim $text "\n ") }}</p>
   </blockquote>
@@ -60,8 +65,9 @@
       {{- if or $role $company }}
       <p class="customer-quote__role">
         {{- $role -}}
-        {{- if and $role $company }}, {{ end -}}
-        {{- $company -}}
+        {{- with $company -}}
+          <span class="customer-quote__company">{{ if $role }}, {{ end }}{{ . }}</span>
+        {{- end -}}
       </p>
       {{- end }}
     </div>
