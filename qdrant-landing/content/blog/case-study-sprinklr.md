@@ -38,7 +38,7 @@ These self-serve applications rely heavily on advanced vector search to analyze 
 To support various AI-driven applications, Sprinklr needed an efficient vector database.
 
 {{< quote
-  text="The key challenge was to provide the highest quality and fastest search capabilities for retrieval tasks across the board."
+  text="The key challenge was to provide the highest quality and fastest search capabilities for retrieval tasks across the board,"
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
   company="Sprinklr"
