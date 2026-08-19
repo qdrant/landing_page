@@ -27,8 +27,8 @@ Module 4 turned the building blocks into a design. In this module, you'll
 build that design as a working system. You'll explore named vectors that
 hold text, image, and audio evidence on a single point, then see how a
 daily job clusters those signals into the events they describe.
-You'll also learn how to search images with text and to compare what
-sources in different languages are saying. By the end, you'll have
+You'll also learn how to search images with text and how to extend the
+system across languages. By the end, you'll have
 ingested, clustered, and queried multimodal signals from one collection.
 ```
 
@@ -48,7 +48,7 @@ By the end, you'll have built the whole system: ingestion, clustering, and analy
 
 ## 1. Project Overview
 
-A factory fire in Vietnam shows up in local news hours before any English wire picks it up. It also shows up in a satellite image, in an earnings call where an executive gets asked about it, and in a supplier's own filing weeks later. Each of those is a signal, and none of them arrives labeled as an incident.
+A factory fire at a supplier's plant shows up in a local news report hours before a wire service picks it up. It also shows up in a satellite image, in an earnings call where an executive gets asked about it, and in a supplier's own filing weeks later. Each of those is a signal, and none of them arrives labeled as an incident.
 
 This is the news search system you designed in Module 4, extended in three ways:
 
@@ -77,7 +77,7 @@ One collection holds all modalities. Named vectors let you query by text, image,
 collection: supplier_signals
 
 named_vectors:
-  text_dense:  { model: multilingual-e5-large, size: 1024, distance: Cosine }
+  text_dense:  { model: bge-small-en-v1.5, size: 384, distance: Cosine }
   text_sparse: { model: BM25, modifier: IDF }
   image:       { model: CLIP, size: 512, distance: Cosine }
   audio_text:  { model: Whisper then MiniLM, size: 384, distance: Cosine }
@@ -100,19 +100,17 @@ Each signal type needs a different embedding approach. The key principle: choose
 
 | Signal source | Modality | Embedding model | Vectors it produces |
 |---------------|----------|-----------------|---------------------|
-| News articles | text | multilingual-e5-large + BM25 | `text_dense`, `text_sparse` |
+| News articles | text | bge-small-en-v1.5 + BM25 | `text_dense`, `text_sparse` |
 | Earnings calls | audio to text | Whisper + MiniLM | `audio_text`, `text_dense` |
 | Factory footage | video to frames | CLIP per keyframe | `image` |
-| Satellite imagery | image + caption | CLIP, and e5 + BM25 on the caption | `image`, `text_dense`, `text_sparse` |
-| Financial filings | text | multilingual-e5-large + BM25 | `text_dense`, `text_sparse` |
+| Satellite imagery | image + caption | CLIP, and bge + BM25 on the caption | `image`, `text_dense`, `text_sparse` |
+| Financial filings | text | bge-small-en-v1.5 + BM25 | `text_dense`, `text_sparse` |
 
 Satellite captures are the row worth reading twice. The caption is what gives an image its text vectors, and Section 5 depends on those: an uncaptioned image can never join a text cluster.
 
-### Text: multilingual-e5-large
+### Text: Dense and Sparse
 
-Supply chain news arrives in Japanese, Mandarin, Korean, Vietnamese, and dozens of other languages before it reaches English. multilingual-e5-large is initialized from a multilingual base model and covers 100 languages, projecting all of them into one vector space, so an English query surfaces relevant articles whatever language they were written in. Expect weaker results on languages with little training data, which the model card is explicit about.
-
-Note the `query:` and `passage:` prefixes below. The e5 family is trained with them: use `query:` for search text and `passage:` for stored content. Skipping them lowers retrieval quality quietly, without any error.
+News articles and filings each get two text vectors, a dense one for meaning and a sparse one for exact tokens: the hybrid pairing from Module 3. `bge-small-en-v1.5` is the dense side, the same model Module 4's design used, at 384 dimensions. It is English-only, and Section 6 covers what to change if your sources are not.
 
 ```bash
 pip install "qdrant-client[fastembed]" sentence-transformers openai-whisper transformers torch pillow scikit-learn numpy
@@ -123,14 +121,15 @@ The dense text model loads once and is reused at ingestion and at query time:
 ```python
 from sentence_transformers import SentenceTransformer
 
-dense_model = SentenceTransformer("intfloat/multilingual-e5-large")
+# bge-*-v1.5 needs no query or passage instruction prefix, so the same call
+# works for stored content and for search text.
+dense_model = SentenceTransformer("BAAI/bge-small-en-v1.5")
 
-# Stored content gets the passage prefix, search text gets the query prefix.
-passage_vec = dense_model.encode("passage: Executive statement following factory fire")
-query_vec   = dense_model.encode("query: supplier factory fire evacuation")
+stored_vec = dense_model.encode("Executive statement following factory fire")
+query_vec  = dense_model.encode("supplier factory fire evacuation")
 ```
 
-e5 similarities compress into roughly the 0.7 to 1.0 band, so a score of 0.8 does not mean "80% relevant". Always score a clearly unrelated chunk alongside your real one and read the gap between the two, not the absolute number.
+Read the gap between scores rather than the absolute number. A score of 0.8 does not mean "80% relevant", and how tightly a model bunches its scores is a property of the model, not of your data. Score a clearly unrelated chunk alongside your real one and compare the two.
 
 ### Audio: Transcribe Then Embed
 
@@ -215,7 +214,7 @@ client = QdrantClient(
 client.create_collection(
     collection_name="supplier_signals",
     vectors_config={
-        "text_dense": models.VectorParams(size=1024, distance=models.Distance.COSINE),
+        "text_dense": models.VectorParams(size=384,  distance=models.Distance.COSINE),
         "image":      models.VectorParams(size=512,  distance=models.Distance.COSINE),
         "audio_text": models.VectorParams(size=384,  distance=models.Distance.COSINE),
     },
@@ -267,7 +266,7 @@ def ingest_signal(signal: dict) -> str:
     vectors = {}
 
     if signal.get("text"):
-        vectors["text_dense"]  = dense_model.encode(f"passage: {signal['text']}").tolist()
+        vectors["text_dense"]  = dense_model.encode(signal["text"]).tolist()
         vectors["text_sparse"] = bm25_encode(signal["text"])
 
     if signal.get("image_path"):
@@ -299,7 +298,7 @@ def ingest_signal(signal: dict) -> str:
     return point_id
 ```
 
-An article longer than a few hundred words gets chunked first, one point per chunk, because multilingual-e5-large truncates its input at 512 tokens and silently drops the rest:
+An article longer than a few hundred words gets chunked first, one point per chunk, because bge-small-en-v1.5 truncates its input at 512 tokens and silently drops the rest:
 
 ```python
 def ingest_news_article(article: dict):
@@ -468,7 +467,7 @@ For focused investigations, combine everything: hybrid retrieval over dense and 
 
 ```python
 def query_supplier_risk(supplier_id: str, query_text: str):
-    query_vec    = dense_model.encode(f"query: {query_text}").tolist()
+    query_vec    = dense_model.encode(query_text).tolist()
     query_sparse = bm25_encode(query_text)
     cutoff       = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
 
@@ -510,7 +509,9 @@ The image query in the previous section has no prefetch, which is why the same `
 
 ### Going Further: Cross-Language Comparison
 
-Because every language shares one vector space, the same English query works against sources in any language. Run it twice, once filtered to `language: ["en"]` and once to `["ja", "zh"]`, and compare. If English coverage looks routine while local-language sources return shutdown signals, the local narrative is ahead of the English one, and that gap is where early warnings live. The mechanism is nothing new: the same query with a different `language` filter.
+Supply chain news often appears in Japanese, Mandarin, Korean, or Vietnamese before it reaches an English wire, and `bge-small-en-v1.5` cannot read any of it. Reaching those sources is one substitution: swap `text_dense` for a multilingual model such as `intfloat/multilingual-e5-large`, which covers 100 languages and projects all of them into a single vector space. It is a bigger model with different requirements, so budget for three changes rather than one: vectors are 1024-dimensional instead of 384, the collection has to be recreated at that size, and e5 expects a `query:` prefix on search text and `passage:` on stored content, which is easy to skip and lowers retrieval quality without raising an error.
+
+Once every language shares one space, the same English query reaches sources in all of them. Run it twice, once filtered to `language: ["en"]` and once to `["ja", "zh"]`, and compare. If English coverage looks routine while local-language sources return shutdown signals, the local narrative is ahead of the English one, and that gap is where early warnings live. The mechanism is nothing new: the same query with a different `language` filter.
 
 ### Try It
 
@@ -591,7 +592,9 @@ Next, [get #QdrantCertified](/course/beginners/certification/) with the official
   - Batch sizes and index ordering for the daily ingestion job.
 - [Multimodal and Multilingual RAG](/documentation/tutorials-build-essentials/multimodal-search/)
   - A LlamaIndex tutorial building retrieval over images and text in a shared embedding space.
+- [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5)
+  - Model card for the dense text model: 384 dimensions, a 512-token limit, and why v1.5 needs no instruction prefix.
 - [multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large)
-  - Model card: the 100 supported languages, the required query and passage prefixes, and why cosine scores sit in a narrow band.
+  - The multilingual swap from Section 6: 100 supported languages, 1024 dimensions, and the required query and passage prefixes.
 - [CLIP ViT-B/32](https://huggingface.co/openai/clip-vit-base-patch32)
   - Model card for the image and satellite embedding model used here.
