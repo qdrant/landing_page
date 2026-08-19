@@ -34,6 +34,50 @@ A cross-encoder reranker reads the query and candidate together as a single sequ
 2. Rerank 10 candidates with your existing reranker, or `Xenova/ms-marco-MiniLM-L-6-v2` as a FastEmbed starting model. Compare the result with the first-stage baseline on held-out labeled queries. [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/) shows the cross-encoder workflow.
 3. Raise the candidate count only if the reranker wins. Measure throughput on your document lengths before making it part of the serving path.
 
+This is step 2 on a hybrid collection: fetch the 10 fused candidates you serve today, then rerank the same list with a FastEmbed cross-encoder.
+
+```python
+from fastembed.rerank.cross_encoder import TextCrossEncoder
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(
+    url="https://YOUR-CLUSTER.cloud.qdrant.io",
+    api_key="<your-api-key>",
+)
+
+# Both prefetches must use the models the collection was indexed with,
+# and they embed the same query text the reranker reads.
+from your_embedding_setup import dense_query, sparse_query
+
+query_text = "the query text"
+
+response = client.query_points(
+    collection_name="products",
+    prefetch=[
+        models.Prefetch(query=dense_query, using="dense", limit=200),
+        models.Prefetch(query=sparse_query, using="bm25", limit=200),
+    ],
+    # Your tuned fusion settings; k=2 with equal weights is the default.
+    query=models.RrfQuery(rrf=models.Rrf(k=2, weights=[1.0, 1.0])),
+    limit=10,
+    with_payload=["text"],
+)
+
+candidates = [point.payload["text"] for point in response.points]
+
+# Any FastEmbed cross-encoder works; this is the smallest.
+encoder = TextCrossEncoder(model_name="Xenova/ms-marco-MiniLM-L-6-v2")
+scores = list(encoder.rerank(query_text, candidates))
+
+# The same 10 candidates, reordered by cross-encoder score.
+reranked = [
+    point
+    for _, point in sorted(zip(scores, response.points), key=lambda pair: pair[0], reverse=True)
+]
+```
+
+This code requires Qdrant v1.17 or later for `models.RrfQuery`. Score both lists, `response.points` and `reranked`, against your labels with `nDCG@10`.
+
 ## Compare with the Best First Stage
 
 These measurements use hybrid retrieval, with Qdrant's default reciprocal rank fusion (RRF) kept as a reference. Each row reports the `nDCG@10` change for the model and candidate count selected on that dataset, against both default RRF and fusion tuned on the same candidate set.
@@ -51,6 +95,8 @@ Every collection was built in one batch on one shard, unquantized, and queried u
 | DBPedia-entity | +0.112 | +0.090 | yes, 100% |
 
 Only DBPedia-entity beats tuned fusion on held-out queries. On the other four datasets, tuning the first-stage fusion produced better final ranks without another model call.
+
+Even the win recovered a fraction of the available room. DBPedia-entity's gap to a perfect ordering of the same 200 candidates was 0.487, and the reranker closed 0.090 of it. The gap says a better ordering exists; the test says how much of it a given model captures.
 
 If reranking beats default RRF, [tune fusion](/articles/how-to-tune-hybrid-search/) next. Add reranking only when it improves the strongest first-stage ranking on held-out labeled queries.
 
@@ -89,6 +135,8 @@ The table shows throughput for three [FastEmbed cross-encoders](/documentation/f
 | `BAAI/bge-reranker-base` | 1.04 GB | 16 to 45 | 0.2 to 0.5 |
 
 Document length explains the range: DBPedia-entity has short entity abstracts, while SciFact has full paper abstracts. Benchmark your own documents at the concurrency you expect.
+
+These rates put the model call in scale. At 100 candidates, one CPU process spends between half a second and five seconds per query, where the second prefetch behind [tuned fusion](/articles/how-to-tune-hybrid-search/) added 0.6 to 1.5 ms in the same setup. That is the cost the reranker's held-out gain has to justify.
 
 Model size does not predict quality. `bge-reranker-base` is eight times the size of MiniLM-L12 and roughly two and a half times slower, yet a MiniLM won on three of five datasets.
 
