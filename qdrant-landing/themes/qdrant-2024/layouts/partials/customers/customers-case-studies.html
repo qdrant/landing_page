@@ -218,6 +218,25 @@
               <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
             </div>
             <p class="customers-case-studies__card-description">{{ .title }}</p>
+
+            {{/* Metrics where the case study states them, otherwise a short
+                 quote. Only 21 of the studies carry two or more numbers, so
+                 the quote keeps the rest of the grid from looking empty. */}}
+            {{ with .metrics }}
+              <div class="customers-case-studies__card-metrics">
+                {{ range first 2 . }}
+                  <div class="customers-case-studies__card-metric">
+                    <p class="customers-case-studies__card-metric-value">{{ .value }}</p>
+                    <p class="customers-case-studies__card-metric-label">{{ .label }}</p>
+                  </div>
+                {{ end }}
+              </div>
+            {{ else }}
+              {{ with .quote }}
+                <p class="customers-case-studies__card-quote">{{ .text }}</p>
+              {{ end }}
+            {{ end }}
+
             <p class="customers-case-studies__card-time">
               {{ with $storyPage }}{{ .ReadingTime }} min read{{ else }}{{ .time }}{{ end }}
             </p>

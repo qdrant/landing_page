@@ -10,6 +10,9 @@ clients:
     title: "How Alhena AI unified its AI stack and improved ecommerce conversions with Qdrant"
     # time: 8 min read # by default this is calculated from the post length, if uncomented - shows this param value instead
     blog_path: /blog/case-study-alhena
+    metrics:
+      - value: "90%"
+        label: "lower retrieval latency"
     logo:
       src: /img/customers-case-studies-logo/alhena.svg
       alt: Alhena AI logo
@@ -22,6 +25,11 @@ clients:
     use_cases: ["Patent and legal research", "RAG", "Hybrid search"]
     title: "How &AI scaled global legal retrieval with Qdrant"
     blog_path: /blog/case-study-and-ai
+    metrics:
+      - value: "1B+"
+        label: "vectors"
+      - value: "250B+"
+        label: "tokens"
     logo:
       src: /img/customers-case-studies-logo/and-ai.svg
       alt: "&AI logo"
@@ -46,6 +54,11 @@ clients:
     use_cases: ["Patent and legal research", "Hybrid search", "RAG"]
     title: "Precision at Scale: How Aracor Accelerated Legal Due Diligence with Hybrid Vector Search"
     blog_path: /blog/case-study-aracor
+    metrics:
+      - value: "90%"
+        label: "faster due diligence"
+      - value: "40%"
+        label: "fewer legal hours"
     logo:
       src: /img/customers-case-studies-logo/aracor.svg
       alt: Aracor logo
@@ -58,6 +71,9 @@ clients:
     use_cases: ["E-commerce discovery", "Recommendations", "Real-time analytics"]
     title: "How Bazaarvoice scaled AI-powered product insights with Qdrant"
     blog_path: /blog/case-study-bazaarvoice
+    metrics:
+      - value: "100x"
+        label: "smaller storage footprint"
     logo:
       src: /img/customers-case-studies-logo/bazaarvoice.svg
       alt: Bazaarvoice logo
@@ -82,6 +98,11 @@ clients:
     use_cases: ["Recommendations", "E-commerce discovery", "Real-time analytics"]
     title: "How ConvoSearch Boosted Revenue for D2C Brands with Qdrant"
     blog_path: /blog/case-study-convosearch
+    metrics:
+      - value: "10ms"
+        label: "query latency"
+      - value: "23-24%"
+        label: "median revenue increase"
     logo:
       src: /img/customers-case-studies-logo/convosearch.svg
       alt: ConvoSearch logo
@@ -130,6 +151,8 @@ clients:
     use_cases: ["Customer support", "RAG", "Generative AI"]
     title: "How Deutsche Telekom Built a Multi-Agent Enterprise Platform Leveraging Qdrant"
     blog_path: /blog/case-study-deutsche-telekom
+    quote:
+      text: "Agent development dropped from 15 days to 2."
     logo:
       src: /img/customers-case-studies-logo/telekom.svg
       alt: Deutsche Telekom logo
@@ -202,6 +225,11 @@ clients:
     use_cases: ["Patent and legal research", "Semantic search", "Real-time analytics"]
     title: "How Garden Scaled Patent Intelligence with Qdrant"
     blog_path: /blog/case-study-garden-intel
+    metrics:
+      - value: "<100ms"
+        label: "SLA-backed latency"
+      - value: "200M"
+        label: "patents embedded"
     logo:
       src: /img/customers-case-studies-logo/garden.svg
       alt: Garden logo
@@ -214,6 +242,11 @@ clients:
     use_cases: ["Semantic search", "RAG", "Recommendations"]
     title: "How GlassDollar improved high-recall sourcing by migrating from Elasticsearch to Qdrant"
     blog_path: /blog/case-study-glassdollar
+    metrics:
+      - value: "40%"
+        label: "lower costs"
+      - value: "3x"
+        label: "more bookmarks"
     logo:
       src: /img/customers-case-studies-logo/glassdollar.svg
       alt: GlassDollar logo
@@ -238,6 +271,8 @@ clients:
     use_cases: ["Customer support", "Recommendations", "RAG"]
     title: "HubSpot & Qdrant: Scaling an Intelligent AI Assistant"
     blog_path: /blog/case-study-hubspot
+    quote:
+      text: "We chose it for its ease of deployment and high performance at scale."
     logo:
       src: /img/customers-case-studies-logo/hubspot.svg
       alt: HubSpot logo
@@ -250,6 +285,9 @@ clients:
     use_cases: ["Recommendations", "RAG", "Generative AI"]
     title: "Kairoswealth & Qdrant: Transforming Wealth Management with AI-Driven Insights and Scalable Vector Search"
     blog_path: /blog/case-study-kairoswealth
+    metrics:
+      - value: "2.4M"
+        label: "vectors indexed"
     logo:
       src: /img/customers-case-studies-logo/kairos.svg
       alt: Kairoswealth logo
@@ -274,6 +312,11 @@ clients:
     use_cases: ["Customer support", "RAG", "Semantic search"]
     title: "Kern AI & Qdrant: Precision AI Solutions for Finance and Insurance"
     blog_path: /blog/case-study-kern
+    metrics:
+      - value: "<1%"
+        label: "hallucination rate"
+      - value: "80%"
+        label: "less time reviewing data"
     logo:
       src: /img/customers-case-studies-logo/kern-ai.svg
       alt: Kern AI logo
@@ -310,6 +353,11 @@ clients:
     use_cases: ["RAG", "Generative AI", "Customer support"]
     title: "How Lyzr Supercharged AI Agent Performance with Qdrant"
     blog_path: /blog/case-study-lyzr
+    metrics:
+      - value: "20-50ms"
+        label: "query latency"
+      - value: "2x"
+        label: "faster ingestion"
     logo:
       src: /img/customers-case-studies-logo/lyzr.svg
       alt: Lyzr logo
@@ -322,6 +370,11 @@ clients:
     use_cases: ["Multimodal search", "RAG", "Media search"]
     title: "How Mixpeek Uses Qdrant for Efficient Multimodal Feature Stores"
     blog_path: /blog/case-study-mixpeek
+    metrics:
+      - value: "80%"
+        label: "less hybrid search code"
+      - value: "40%"
+        label: "faster retriever queries"
     logo:
       src: /img/customers-case-studies-logo/mixpeek.svg
       alt: Mixpeek logo
@@ -358,6 +411,8 @@ clients:
     use_cases: ["Generative AI", "RAG", "Semantic search"]
     title: "How OpenTable Reinvented Restaurant Discovery with Qdrant"
     blog_path: /blog/case-study-opentable
+    quote:
+      text: "Sparse embeddings let us filter 60K+ restaurants with high precision."
     logo:
       src: /img/customers-case-studies-logo/opentable.svg
       alt: OpenTable logo
@@ -382,6 +437,9 @@ clients:
     use_cases: ["RAG", "Recommendations", "Real-time analytics"]
     title: "Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search"
     blog_path: /blog/case-study-pathwork
+    metrics:
+      - value: "50%"
+        label: "month-over-month growth"
     logo:
       src: /img/customers-case-studies-logo/pathwork.svg
       alt: Pathwork logo
@@ -418,6 +476,11 @@ clients:
     use_cases: ["Real-time analytics", "Recommendations", "Semantic search"]
     title: "How PortfolioMind Delivered Real-Time Crypto Intelligence with Qdrant"
     blog_path: /blog/case-study-portfolio-mind
+    metrics:
+      - value: "58%"
+        label: "more relevant interactions"
+      - value: "22%"
+        label: "higher retention"
     logo:
       src: /img/customers-case-studies-logo/spoon-os.svg
       alt: PortfolioMind logo
@@ -478,6 +541,11 @@ clients:
     use_cases: ["Customer support", "RAG", "Real-time analytics"]
     title: "How Sprinklr Leverages Qdrant to Enhance AI-Driven Customer Experience Solutions"
     blog_path: /blog/case-study-sprinklr
+    metrics:
+      - value: "30%"
+        label: "lower retrieval cost"
+      - value: "20ms"
+        label: "p99 latency at 1M vectors"
     logo:
       src: /img/customers-case-studies-logo/sprinklr.svg
       alt: Sprinklr logo
@@ -490,6 +558,9 @@ clients:
     use_cases: ["Generative AI", "RAG", "Real-time analytics"]
     title: "How Tavus used Qdrant Edge to create conversational AI"
     blog_path: /blog/case-study-tavus
+    metrics:
+      - value: "20-25ms"
+        label: "retrieval at the edge"
     logo:
       src: /img/customers-case-studies-logo/tavus.svg
       alt: Tavus logo
@@ -502,6 +573,11 @@ clients:
     use_cases: ["Recommendations", "Generative AI", "Multimodal search"]
     title: "How Tripadvisor Drives 2 to 3x More Revenue with Qdrant-Powered AI"
     blog_path: /blog/case-study-tripadvisor
+    metrics:
+      - value: "2-3x"
+        label: "revenue from AI users"
+      - value: "1B+"
+        label: "reviews indexed"
     logo:
       src: /img/customers-case-studies-logo/tripadvisor.svg
       alt: Tripadvisor logo
@@ -526,6 +602,9 @@ clients:
     use_cases: ["Multimodal search", "Threat detection", "Media search"]
     title: Using vector search for quality control and anomaly detection in computer vision.
     blog_path: /blog/case-study-visua
+    metrics:
+      - value: "10x"
+        label: "more data handled"
     logo:
       src: /img/customers-case-studies-logo/visua.svg
       alt: VISUA logo

@@ -363,6 +363,42 @@
           line-height: $line-height-lg;
         }
         
+        // Metrics and the quote occupy the same slot, so a card with numbers
+        // and a card with a quote line up at the same height in the grid.
+        &-metrics {
+          display: flex;
+          gap: $spacer;
+          margin-bottom: $spacer;
+        }
+
+        &-metric {
+          flex: 1 1 0;
+          min-width: 0;
+
+          &-value {
+            margin-bottom: 0;
+            font-weight: 600;
+            font-size: $font-size-xl;
+            line-height: $line-height-lg;
+            color: $neutral-20;
+          }
+
+          &-label {
+            margin-bottom: 0;
+            font-size: $font-size-s;
+            line-height: $line-height-sm;
+            color: $neutral-50;
+          }
+        }
+
+        &-quote {
+          margin-bottom: $spacer;
+          font-style: italic;
+          font-size: $font-size-s;
+          line-height: $line-height-sm;
+          color: $neutral-40;
+        }
+
         &-time {
           margin-top: auto;
           margin-bottom: 0;
