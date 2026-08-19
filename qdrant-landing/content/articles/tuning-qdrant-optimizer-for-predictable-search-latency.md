@@ -57,14 +57,14 @@ With indexing disabled, the draining phase was essentially nonexistent because t
 
 ## `prevent_unoptimized` Buys Speed
 
-With continuous indexing, the experimental `prevent_unoptimized` flag can reduce query latency. When enabled, Qdrant skips segments whose optimizations are running or queued, searching only segments with an already-built HNSW graph.
+With continuous indexing, the experimental `prevent_unoptimized` flag (available since Qdrant 1.17.1) can reduce query latency under heavy write load. It works on the write path rather than the read path: once a growing segment's data crosses `indexing_threshold`, further points written to that segment become deferred points, durably stored but held back from search until the segment finishes optimizing. That's a different mechanism from the older `indexed_only` search parameter, which instead skips large unindexed segments at query time and can make points blink in and out of results as a segment crosses the threshold. Already-indexed data stays fully searchable throughout.
 
 In our benchmark, enabling `prevent_unoptimized` dropped draining-phase p50 latency from 780 ms to 10.2 ms, a 76× improvement, while p95 came in at 81.3 ms. Optimizations also completed faster, in about 9 minutes instead of 11, because search queries no longer competed with optimization work for the same resources.
 
-However, this comes with an important trade-off. Early in ingestion, most segments may still be unoptimized and therefore excluded from search: queries can return few results, or none at all, reducing recall until the collection is fully optimized.
+However, this comes with an important trade-off. Under heavy ingestion, freshly written points can sit as deferred for a while: durable, but invisible to search until their segment is optimized. Queries can return fewer results, or none for the most recent writes, until that backlog clears. Keep writes on `wait=false` while this is on: `wait=true` blocks until a point's deferred status clears, which can be slow enough to time out a client and head-of-line-block other writes.
 
 <aside role="status">
-<strong>prevent_unoptimized trades result completeness for latency.</strong> It fits when reduced recall during ingestion is acceptable, particularly for smaller collections. For large collections with long optimization times, evaluate the impact on result coverage before enabling it.
+<strong>prevent_unoptimized trades write visibility for query latency.</strong> It fits when a short delay before new points become searchable is acceptable, particularly for smaller collections. For large collections with long optimization times, evaluate how long that delay gets before enabling it.
 </aside>
 
 ![Two-panel chart comparing draining-phase latency and drain duration for default continuous indexing versus prevent_unoptimized, one panel on a log scale in milliseconds and one on a linear scale in seconds](/articles_data/tuning-qdrant-optimizer-for-predictable-search-latency/charts/a1-a3-latencies.png)
@@ -132,15 +132,16 @@ We tested this by running the benchmark with indexing disabled, then reconfiguri
 
 Without continuous indexing, collections lose the benefit of incremental index buildout during upload, resulting in longer indexing times and higher latency once indexing resumes. However, the two settings handled optimization progress very differently.
 
-With `prevent_unoptimized` set to `false`, optimizers never went idle, and **search latency climbed to an overall median of 2.7s, with the tail reaching 12.1s**. This happens because search queries arrive continuously, repeatedly hitting partially optimized or fully unoptimized segments, and compete with the optimizers for the same I/O and CPU resources.
+With `prevent_unoptimized` set to `false`, optimizers never went idle, and **search latency climbed to an overall median of 2.7s, with the tail reaching 12.1s**. This happens because search queries arrive continuously, repeatedly scanning the same growing backlog of unindexed points the optimizer hasn't caught up on yet, and compete with the optimizers for the same I/O and CPU resources.
 
-With `prevent_unoptimized` set to `true`, blocking queries from touching unoptimized segments let optimization progress much faster, completing by the end of the first round of queries. Latency recovered fast: p95 came in at 621.7 ms, with a steady-state p95 of just 5.7 ms and median latency back down near 4.6 ms. As noted earlier, this improvement only applies if a temporary loss of recall and results is acceptable in exchange for better query latency.
+With `prevent_unoptimized` set to `true`, newly written points stayed deferred, durable but invisible to search, until their segment finished optimizing, so queries never had to scan that backlog directly. Optimization also progressed much faster, completing by the end of the first round of queries. Latency recovered fast: p95 came in at 621.7 ms, with a steady-state p95 of just 5.7 ms and median latency back down near 4.6 ms. As noted earlier, this improvement only applies if a temporary loss of recall for the most recent writes is acceptable in exchange for better query latency.
 
 ![Line chart of median search latency across three stages, before reconfiguring indexing on, round 0 after, and all 5 rounds after, for default settings versus prevent_unoptimized](/articles_data/tuning-qdrant-optimizer-for-predictable-search-latency/charts/e-latencies.png)
 
 ## Takeaways
 
-- Turn on the experimental `prevent_unoptimized` flag before a bulk load if incomplete results during that window are acceptable, and switch writes to `wait=false` first if your client defaults to `wait=true`. Confirm current behavior against your Qdrant version first, since this flag is still experimental and could change.
+- Turn on the experimental `prevent_unoptimized` flag before a bulk load if a short delay before new points become searchable is acceptable, and switch writes to `wait=false` first if your client defaults to `wait=true`. Confirm current behavior against your Qdrant version first, since this flag is still experimental and could change.
+- Watch `deferred_points` in the collection info while `prevent_unoptimized` is on. A nonzero count under load is normal; what matters is whether it drains.
 - Cap segment size for large loads if slower steady-state queries are an acceptable trade.
 - Do not assume serializing optimizer work is free.
 - Check `deleted_threshold` against your actual delete pattern, not just the default.
