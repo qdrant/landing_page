@@ -5,6 +5,7 @@
     {{< quote
         text="Qdrant has been crucial for our transformation."
         name="Rahul Todkar"
+        name_url="https://www.linkedin.com/in/rahultodkar"
         role="Head of Data and AI"
         company="Tripadvisor"
         avatar="/img/customers/rahul-todkar.svg"
@@ -24,6 +25,7 @@
 {{- $page := .Page -}}
 {{- $text := .Get "text" | default "" -}}
 {{- $name := .Get "name" -}}
+{{- $nameURL := .Get "name_url" -}}
 {{- $role := .Get "role" -}}
 {{- $company := .Get "company" -}}
 {{- $avatar := .Get "avatar" -}}
@@ -52,7 +54,9 @@
     />
     {{- end }}
     <div class="customer-quote__meta">
-      <p class="customer-quote__name">{{ $name }}</p>
+      <p class="customer-quote__name">
+        {{- with $nameURL }}<a href="{{ . }}">{{ $name }}</a>{{ else }}{{ $name }}{{ end -}}
+      </p>
       {{- if or $role $company }}
       <p class="customer-quote__role">
         {{- $role -}}

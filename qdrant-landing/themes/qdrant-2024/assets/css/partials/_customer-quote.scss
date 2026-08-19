@@ -60,6 +60,16 @@
     line-height: pxToRem(24);
     text-align: left;
     color: $neutral-94;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: $neutral-50;
+
+      &:hover {
+        text-decoration-color: $neutral-94;
+      }
+    }
   }
 
   .customer-quote__role {
