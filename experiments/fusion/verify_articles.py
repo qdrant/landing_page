@@ -190,9 +190,18 @@ second_prefetch_ms = [
     v["settings"]["fused_ef128_depth200"]["median_ms"] - v["settings"]["dense_only_ef128_depth200"]["median_ms"]
     for v in lat.values()
 ]
-for key in ("fusion", "audit"):
-    check(f"{key}: second prefetch latency, low", 0.6, min(second_prefetch_ms), tolerance=0.05)
-    check(f"{key}: second prefetch latency, high", 1.5, max(second_prefetch_ms), tolerance=0.05)
+check("audit: second prefetch latency, low", 0.6, min(second_prefetch_ms), tolerance=0.05)
+check("audit: second prefetch latency, high", 1.5, max(second_prefetch_ms), tolerance=0.05)
+
+# The fusion article prints the same cost per corpus, as a column beside the
+# relevance gain the second prefetch buys.
+for name, printed in (
+    ("scifact", 0.73), ("arguana", 1.47), ("wands", 0.60),
+    ("codesearchnet", 0.68), ("dbpedia-entity", 0.64),
+):
+    s = lat[name]["settings"]
+    cost = s["fused_ef128_depth200"]["median_ms"] - s["dense_only_ef128_depth200"]["median_ms"]
+    check(f"fusion: {name} second prefetch cost", printed, cost, tolerance=0.005)
 
 # ------------------------------------------------ the fusion article: the k grid
 printed_k = {
@@ -209,6 +218,44 @@ for name, row in printed_k.items():
     for key, printed in row.items():
         arm = "dbsf" if key == "dbsf" else f"rrf_k{key}_w1-1"
         check(f"fusion: {name} {arm}", printed, mean[arm])
+
+# ------------------------------------------- the fusion article: the weight sweep
+# The best pair at each corpus's best equal-weight k, against equal weights at
+# that same k, which is the comparison the article's weighting paragraph makes.
+printed_weights = {
+    "codesearchnet": ("rrf_k5_w2-1", 0.0096),
+    "dbpedia-entity": ("rrf_k20_w1-3", 0.0060),
+    "arguana": ("rrf_k5_w2-4", 0.0029),
+}
+for name, (arm, gain) in printed_weights.items():
+    frame = pd.read_parquet(RESULTS / f"{name}.parquet")
+    frame = frame[(frame["metric"] == "ndcg_cut_10") & (frame["build"] == 1)]
+    mean = frame.groupby("arm")["value"].mean()
+    equal = f"rrf_{arm.split('_')[1]}_w1-1"
+    check(f"fusion: {name} best weight pair gain", gain, mean[arm] - mean[equal])
+
+# Equal weights win outright at the best k on these two, which is why the
+# article tells the reader to set k before touching the pair.
+for name in ("scifact", "wands"):
+    frame = pd.read_parquet(RESULTS / f"{name}.parquet")
+    frame = frame[(frame["metric"] == "ndcg_cut_10") & (frame["build"] == 1)]
+    mean = frame.groupby("arm")["value"].mean()
+    equal = mean[[a for a in mean.index if a.startswith("rrf") and a.endswith("w1-1")]]
+    best_k = equal.idxmax().split("_")[1]
+    same_k = mean[[a for a in mean.index if a.startswith(f"rrf_{best_k}_")]]
+    check(f"fusion: {name} equal weights win at best k", True, same_k.idxmax().endswith("w1-1"))
+
+# The WANDS pair that wins at k=5 and loses once k=61 is selected.
+frame = pd.read_parquet(RESULTS / "wands.parquet")
+frame = frame[(frame["metric"] == "ndcg_cut_10") & (frame["build"] == 1)]
+mean = frame.groupby("arm")["value"].mean()
+check("fusion: wands k61 equal weights", 0.7614, mean["rrf_k61_w1-1"])
+check("fusion: wands k61 pair 2-4", 0.7567, mean["rrf_k61_w2-4"])
+
+# The decay ratios the k-sweep paragraph quotes, rank 1 against rank 10 at
+# zero-based positions, which is 1 / (pos + k).
+for k, printed in ((5, 2.80), (20, 1.45)):
+    check(f"fusion: rank 1 over rank 10 at k={k}", printed, (9 + k) / k, tolerance=0.005)
 
 # ------------------------------------------------ the reranking article: E4
 e4 = load("e4_reranking")
