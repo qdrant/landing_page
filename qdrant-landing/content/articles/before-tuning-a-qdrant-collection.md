@@ -126,38 +126,65 @@ Choose the metric before you compare settings, because the metric decides the wi
 
 [Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building a labeled set. Its size decides whether any retrieval tuning is visible to you at all.
 
-A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. The table below shows how many queries it took in our tests. Size alone will not save an unrepresentative set. Pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
+A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. Size alone will not save an unrepresentative set. Pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
 
-Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends. The `search` adapter below must return the final points for one query and one setting. It may run dense-only search, hybrid fusion, or a reranker. `pytrec_eval` computes the scores from those point IDs.
+Every check below takes one score per query for each setting you are comparing. Use the Qdrant request your service already sends. The scoring is the same whether your pipeline runs dense-only search, hybrid fusion, or a reranker.
+
+Scoring starts with the metric itself. `dcg` sums graded relevance with a discount that grows with rank. `ndcg_at_k` runs that sum on what came back, then divides it by the same sum over the best ordering the query's labels allow.
 
 ```python
-import pytrec_eval
+import math
 
-# Relevance keyed by the point IDs the server returns, not by your own document IDs.
-qrels = {"q1": {"41": 1, "77": 2}}
-# Your labeled queries, in the representation your Qdrant request expects.
+
+def dcg(gains):
+    """Relevance summed with a discount that grows with rank."""
+    return sum(gain / math.log2(rank + 2) for rank, gain in enumerate(gains))
+
+
+def ndcg_at_k(doc_ids, relevance, k=10):
+    """One query's ranking against the best ranking its labels allow."""
+    returned = [relevance.get(doc_id, 0) for doc_id in doc_ids[:k]]
+    ideal = sorted(relevance.values(), reverse=True)[:k]
+    return dcg(returned) / dcg(ideal) if any(ideal) else 0.0
+```
+
+Then run your labeled queries through both settings. You write `search`, which applies one setting to the request your service already sends and returns the points as the server ranked them. Add `with_payload=["doc_id"]` to that request so every point carries the ID your labels use, or read `point.id` if your point IDs are already your document IDs. `score` turns each list into one number, and subtracting the two scores for each query gives the per-query gain.
+
+```python
+# Relevance keyed by the document IDs your labels already use.
+qrels = {"q1": {"doc-41": 1, "doc-77": 2}}
+# Your labeled queries. Each value is what search sends to Qdrant: text or a vector.
 queries = {"q1": [...]}
+# The one parameter under test, in whatever form your search applies it.
+current_setting = {"hnsw_ef": 64}
+candidate_setting = {"hnsw_ef": 256}
 
 
-def score(queries, search, setting, metric="ndcg_cut_10"):
-    """search(query_id, query, setting) returns the final points."""
-    run = {
-        query_id: {
-            str(point.id): point.score
-            for point in search(query_id, query, setting)
-        }
+def search(query_id, query, setting):
+    """You write this: your own Qdrant request, with setting applied.
+
+    Return the points in the order the server ranked them, each carrying doc_id.
+    """
+    raise NotImplementedError
+
+
+def score(queries, qrels, search, setting):
+    """One nDCG@10 per query, for one setting."""
+    return {
+        query_id: ndcg_at_k(
+            [point.payload["doc_id"] for point in search(query_id, query, setting)],
+            qrels.get(query_id, {}),
+        )
         for query_id, query in queries.items()
     }
-    scored = pytrec_eval.RelevanceEvaluator(qrels, {metric}).evaluate(run)
-    return {query_id: scored[query_id][metric] for query_id in queries}
 
 
-candidate = score(queries, search, candidate_setting)
-current = score(queries, search, current_setting)
+candidate = score(queries, qrels, search, candidate_setting)
+current = score(queries, qrels, search, current_setting)
 per_query_gain = [candidate[q] - current[q] for q in sorted(queries)]
 ```
 
-Make `search` call your existing Qdrant request, and keep its filters, query shape, candidate limits, and every setting except the one under test fixed between the two calls.
+The two calls must differ in exactly one setting. Filters, query shape, and candidate limits stay identical. For `MRR@10` and `Recall@100`, [pytrec_eval](https://github.com/cvangysel/pytrec_eval) computes both from the same `qrels`.
 
 Resample the per-query gains with replacement to estimate how much the average gain would move if you had drawn a different set of queries. The resulting 95% interval shows the range consistent with that sampling variation. If the interval includes zero, your labels cannot establish a quality gain.
 
@@ -182,7 +209,7 @@ The more labeled queries you evaluate, the more precise the measured gain. Acros
 | 200 | 0.018 |
 | 300 | 0.015 |
 
-These intervals come from our public test datasets. The label count you need depends primarily on effect size and query-to-query variation, not collection size alone.
+The label count you need depends primarily on effect size and query-to-query variation, not collection size alone.
 
 In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038, gains from tuning an already-working collection rather than rebuilding the retrieval pipeline.
 

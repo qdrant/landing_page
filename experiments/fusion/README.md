@@ -18,6 +18,7 @@ python run.py t6                   # candidate-breadth sweep, SciFact
 python run.py t7                   # four more SciFact builds, then the floor
 python run.py t8 && python run.py exhibit
 python figure.py && python build_notebook.py
+python test_article_ndcg.py        # article 1's printed nDCG@10 against pytrec_eval
 ```
 
 Full run is about 25 minutes on a laptop, most of it embedding 207,000 documents.
@@ -50,6 +51,7 @@ python verify_articles.py          # every figure in the five articles against i
 | `study.py` | Tasks E1 to E6, one series question each |
 | `verify_articles.py` | Checks all 190 published figures two ways: against the artifact, and that the article file contains the value |
 | `test_replay.py` | Gate A |
+| `test_article_ndcg.py` | Article 1's printed nDCG@10 against `pytrec_eval`, run from the markdown |
 | `figure.py`, `build_notebook.py` | The article figure and the companion notebook |
 | `grounding.md` | Every claim, with the artifact or source line behind it |
 | `engineering-question.md` | Weighted score fusion has no API; drafted for the engine team |
