@@ -47,7 +47,7 @@
     />
     {{- end }}
     <div class="case-study-summary__text">
-      {{ $page.RenderString (trim $text "\n ") }}
+      {{ $page.RenderString (dict "display" "block") (trim $text "\n ") }}
     </div>
   </div>
 

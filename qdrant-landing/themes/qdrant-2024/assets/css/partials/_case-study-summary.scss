@@ -24,7 +24,13 @@
     margin: 0 0 pxToRem(20);
   }
 
+  // Colour is set on the container as well as on the paragraphs, so the text
+  // stays legible even if it renders without a wrapping <p>.
   .case-study-summary__text {
+    font-size: pxToRem(18);
+    line-height: pxToRem(28);
+    color: $neutral-94;
+
     p {
       margin-bottom: pxToRem(12);
       font-size: pxToRem(18);
