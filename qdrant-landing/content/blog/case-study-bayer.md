@@ -116,7 +116,9 @@ The most significant shift in Bayer's architecture is the move from chatbot-styl
   text="If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago."
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
-  company="Bayer" >}}
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg" >}}
 
 Crucially, Bayer exposes the Qdrant API directly to the model. Whether the requester is a human or an agent, the same interface is available, and the agent can choose how to retrieve based on the task. This is exactly the composable model Qdrant is designed for: retrieval primitives the caller combines at query time, rather than a fixed pipeline hidden behind an opaque API. Under the hood, the hybrid path runs dense and sparse queries in parallel and fuses them with Reciprocal Rank Fusion before a BGE reranker sharpens the final ordering. The agent sees a clean set of tools, not that machinery.
 
@@ -194,9 +196,7 @@ The team is careful not to over-attribute. It does not isolate which component d
   text="We've seen 20% efficiency when it comes to using AI platforms. A big part of that gain is that you have to get results from AI that are grounded. If you get hallucinations, people are not satisfied. It wouldn't be possible without the components."
   name="Hooman Sedghamiz"
   role="Senior Director AI/ML - Precision Medicine & Insights"
-  company="Bayer"
-  avatar="/img/customers/hooman-sedghamiz.svg"
-  logo="/img/brands/bayer.svg" >}}
+  company="Bayer" >}}
 
 With the recent shift to more autonomous agents, the measurement problem itself is evolving. Earlier chatbot-style systems delivered incremental time savings: a faster email summary, a quicker draft. The new agents can run for 10 to 15 minutes unattended and return a completed task: research done, document written, a notification sent to the user's phone. That changes the question from "how much time did we save" to "how well was the whole task done," a harder thing to quantify but a larger prize.
 
