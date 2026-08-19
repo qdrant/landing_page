@@ -81,21 +81,45 @@
         "ndcg_10": 0.7337236286378732,
         "vs_rrf_default": -0.007455951484800787,
         "vs_best_fusion_arm": -0.03185839988625258
+      },
+      "jina-reranker-v2-base-multilingual@10": {
+        "ndcg_10": 0.781827386215817,
+        "vs_rrf_default": 0.040647806093143,
+        "vs_best_fusion_arm": 0.01624535769169121
+      },
+      "jina-reranker-v2-base-multilingual@25": {
+        "ndcg_10": 0.7967318687223329,
+        "vs_rrf_default": 0.05555228859965889,
+        "vs_best_fusion_arm": 0.0311498401982071
+      },
+      "jina-reranker-v2-base-multilingual@50": {
+        "ndcg_10": 0.7937909665550419,
+        "vs_rrf_default": 0.05261138643236784,
+        "vs_best_fusion_arm": 0.028208938030916047
+      },
+      "jina-reranker-v2-base-multilingual@100": {
+        "ndcg_10": 0.7954576332217086,
+        "vs_rrf_default": 0.05427805309903451,
+        "vs_best_fusion_arm": 0.029875604697582717
+      },
+      "jina-reranker-v2-base-multilingual@200": {
+        "ndcg_10": 0.7983002282180448,
+        "vs_rrf_default": 0.057120648095370756,
+        "vs_best_fusion_arm": 0.03271819969391896
       }
     },
     "held_out": {
       "splits": 200,
       "baseline": "split_selected_fusion_arm",
-      "median_selection_gain": -0.008469834409420394,
-      "median_held_out_gain": -0.019343995851336504,
-      "median_held_out_vs_rrf_default": 0.004292955012640282,
-      "clears_share": 0.0,
+      "median_selection_gain": 0.035428311425269,
+      "median_held_out_gain": 0.027176381191136193,
+      "median_held_out_vs_rrf_default": 0.05228689887129134,
+      "clears_share": 0.37,
       "picked": {
-        "bge-reranker-base@10": 100,
-        "ms-marco-MiniLM-L-12-v2@10": 55,
-        "bge-reranker-base@25": 35,
-        "ms-marco-MiniLM-L-6-v2@10": 6,
-        "bge-reranker-base@50": 3
+        "jina-reranker-v2-base-multilingual@200": 95,
+        "jina-reranker-v2-base-multilingual@25": 66,
+        "jina-reranker-v2-base-multilingual@100": 31,
+        "jina-reranker-v2-base-multilingual@50": 8
       },
       "fusion_picked": {
         "dbsf": 198,
@@ -185,20 +209,46 @@
         "ndcg_10": 0.19035434063847212,
         "vs_rrf_default": -0.2590631313514526,
         "vs_best_fusion_arm": -0.27255776874600834
+      },
+      "jina-reranker-v2-base-multilingual@10": {
+        "ndcg_10": 0.46968386231999615,
+        "vs_rrf_default": 0.020266390330071465,
+        "vs_best_fusion_arm": 0.006771752935515668
+      },
+      "jina-reranker-v2-base-multilingual@25": {
+        "ndcg_10": 0.4802616333326921,
+        "vs_rrf_default": 0.030844161342767393,
+        "vs_best_fusion_arm": 0.01734952394821159
+      },
+      "jina-reranker-v2-base-multilingual@50": {
+        "ndcg_10": 0.4731114501626169,
+        "vs_rrf_default": 0.02369397817269217,
+        "vs_best_fusion_arm": 0.010199340778136369
+      },
+      "jina-reranker-v2-base-multilingual@100": {
+        "ndcg_10": 0.4635250482754718,
+        "vs_rrf_default": 0.01410757628554709,
+        "vs_best_fusion_arm": 0.0006129388909912925
+      },
+      "jina-reranker-v2-base-multilingual@200": {
+        "ndcg_10": 0.4618691335301242,
+        "vs_rrf_default": 0.012451661540199476,
+        "vs_best_fusion_arm": -0.0010429758543563162
       }
     },
     "held_out": {
       "splits": 200,
       "baseline": "split_selected_fusion_arm",
-      "median_selection_gain": -0.03932517596745844,
-      "median_held_out_gain": -0.04069284861882573,
-      "median_held_out_vs_rrf_default": -0.030234293939927846,
-      "clears_share": 0.0,
+      "median_selection_gain": 0.007056760548867266,
+      "median_held_out_gain": 0.009755191026322295,
+      "median_held_out_vs_rrf_default": 0.02188992095829191,
+      "clears_share": 0.025,
       "picked": {
-        "ms-marco-MiniLM-L-12-v2@10": 117,
-        "ms-marco-MiniLM-L-6-v2@10": 66,
-        "bge-reranker-base@10": 16,
-        "ms-marco-MiniLM-L-6-v2@25": 1
+        "jina-reranker-v2-base-multilingual@25": 131,
+        "jina-reranker-v2-base-multilingual@10": 44,
+        "jina-reranker-v2-base-multilingual@50": 23,
+        "bge-reranker-base@10": 1,
+        "ms-marco-MiniLM-L-12-v2@10": 1
       },
       "fusion_picked": {
         "rrf_k20_w1-1": 72,
@@ -291,21 +341,46 @@
         "ndcg_10": 0.7371937139443713,
         "vs_rrf_default": 0.008096905740703755,
         "vs_best_fusion_arm": -0.03899679880905943
+      },
+      "jina-reranker-v2-base-multilingual@10": {
+        "ndcg_10": 0.740506854557328,
+        "vs_rrf_default": 0.011410046353660497,
+        "vs_best_fusion_arm": -0.03568365819610268
+      },
+      "jina-reranker-v2-base-multilingual@25": {
+        "ndcg_10": 0.7664815273703397,
+        "vs_rrf_default": 0.03738471916667205,
+        "vs_best_fusion_arm": -0.009708985383091128
+      },
+      "jina-reranker-v2-base-multilingual@50": {
+        "ndcg_10": 0.7614025895788831,
+        "vs_rrf_default": 0.0323057813752156,
+        "vs_best_fusion_arm": -0.014787923174547586
+      },
+      "jina-reranker-v2-base-multilingual@100": {
+        "ndcg_10": 0.7617842439953801,
+        "vs_rrf_default": 0.032687435791712495,
+        "vs_best_fusion_arm": -0.014406268758050693
+      },
+      "jina-reranker-v2-base-multilingual@200": {
+        "ndcg_10": 0.7604880622642576,
+        "vs_rrf_default": 0.031391254060590006,
+        "vs_best_fusion_arm": -0.015702450489173177
       }
     },
     "held_out": {
       "splits": 200,
       "baseline": "split_selected_fusion_arm",
-      "median_selection_gain": -0.006386149735860184,
-      "median_held_out_gain": -0.010452293523504519,
-      "median_held_out_vs_rrf_default": 0.03417317364594799,
+      "median_selection_gain": -0.005318150869717401,
+      "median_held_out_gain": -0.013107173444771147,
+      "median_held_out_vs_rrf_default": 0.03179967041700682,
       "clears_share": 0.0,
       "picked": {
-        "ms-marco-MiniLM-L-6-v2@200": 60,
-        "ms-marco-MiniLM-L-12-v2@50": 49,
-        "ms-marco-MiniLM-L-6-v2@50": 41,
-        "ms-marco-MiniLM-L-6-v2@100": 12,
-        "ms-marco-MiniLM-L-12-v2@100": 11
+        "jina-reranker-v2-base-multilingual@25": 46,
+        "ms-marco-MiniLM-L-6-v2@200": 42,
+        "ms-marco-MiniLM-L-12-v2@50": 30,
+        "ms-marco-MiniLM-L-6-v2@50": 27,
+        "jina-reranker-v2-base-multilingual@200": 15
       },
       "fusion_picked": {
         "dbsf": 142,
@@ -398,21 +473,43 @@
         "ndcg_10": 0.5690513715967529,
         "vs_rrf_default": -0.0794680524101405,
         "vs_best_fusion_arm": -0.11347801181441561
+      },
+      "jina-reranker-v2-base-multilingual@10": {
+        "ndcg_10": 0.729503951013582,
+        "vs_rrf_default": 0.0809845270066887,
+        "vs_best_fusion_arm": 0.04697456760241359
+      },
+      "jina-reranker-v2-base-multilingual@25": {
+        "ndcg_10": 0.7686212801075208,
+        "vs_rrf_default": 0.12010185610062754,
+        "vs_best_fusion_arm": 0.08609189669635242
+      },
+      "jina-reranker-v2-base-multilingual@50": {
+        "ndcg_10": 0.7896904705934698,
+        "vs_rrf_default": 0.1411710465865764,
+        "vs_best_fusion_arm": 0.10716108718230127
+      },
+      "jina-reranker-v2-base-multilingual@100": {
+        "ndcg_10": 0.8120580408624225,
+        "vs_rrf_default": 0.16353861685552915,
+        "vs_best_fusion_arm": 0.12952865745125405
+      },
+      "jina-reranker-v2-base-multilingual@200": {
+        "ndcg_10": 0.8175543767696755,
+        "vs_rrf_default": 0.16903495276278208,
+        "vs_best_fusion_arm": 0.13502499335850696
       }
     },
     "held_out": {
       "splits": 200,
       "baseline": "split_selected_fusion_arm",
-      "median_selection_gain": -0.02638148229543321,
-      "median_held_out_gain": -0.041133442415331026,
-      "median_held_out_vs_rrf_default": -0.007990239267197607,
-      "clears_share": 0.0,
+      "median_selection_gain": 0.13540695999688646,
+      "median_held_out_gain": 0.13453343382196115,
+      "median_held_out_vs_rrf_default": 0.16787059653439024,
+      "clears_share": 1.0,
       "picked": {
-        "bge-reranker-base@10": 114,
-        "ms-marco-MiniLM-L-6-v2@10": 42,
-        "ms-marco-MiniLM-L-6-v2@25": 21,
-        "bge-reranker-base@25": 13,
-        "bge-reranker-base@50": 9
+        "jina-reranker-v2-base-multilingual@200": 155,
+        "jina-reranker-v2-base-multilingual@100": 45
       },
       "fusion_picked": {
         "dbsf": 190,
@@ -505,21 +602,46 @@
         "ndcg_10": 0.5261849667086299,
         "vs_rrf_default": 0.09080960482849319,
         "vs_best_fusion_arm": 0.06818901304498785
+      },
+      "jina-reranker-v2-base-multilingual@10": {
+        "ndcg_10": 0.4907836630835869,
+        "vs_rrf_default": 0.05540830120345014,
+        "vs_best_fusion_arm": 0.032787709419944785
+      },
+      "jina-reranker-v2-base-multilingual@25": {
+        "ndcg_10": 0.5541688346571018,
+        "vs_rrf_default": 0.11879347277696492,
+        "vs_best_fusion_arm": 0.09617288099345958
+      },
+      "jina-reranker-v2-base-multilingual@50": {
+        "ndcg_10": 0.5692092556207221,
+        "vs_rrf_default": 0.1338338937405853,
+        "vs_best_fusion_arm": 0.11121330195707997
+      },
+      "jina-reranker-v2-base-multilingual@100": {
+        "ndcg_10": 0.5716346369449449,
+        "vs_rrf_default": 0.13625927506480806,
+        "vs_best_fusion_arm": 0.11363868328130272
+      },
+      "jina-reranker-v2-base-multilingual@200": {
+        "ndcg_10": 0.5726140943971572,
+        "vs_rrf_default": 0.1372387325170204,
+        "vs_best_fusion_arm": 0.11461814073351505
       }
     },
     "held_out": {
       "splits": 200,
       "baseline": "split_selected_fusion_arm",
-      "median_selection_gain": 0.0894165708970559,
-      "median_held_out_gain": 0.0875939646871155,
-      "median_held_out_vs_rrf_default": 0.10835399452693077,
+      "median_selection_gain": 0.11515291161840965,
+      "median_held_out_gain": 0.11489093429676137,
+      "median_held_out_vs_rrf_default": 0.13471242478275441,
       "clears_share": 1.0,
       "picked": {
-        "ms-marco-MiniLM-L-12-v2@200": 147,
-        "ms-marco-MiniLM-L-6-v2@50": 18,
-        "ms-marco-MiniLM-L-6-v2@200": 18,
-        "bge-reranker-base@50": 7,
-        "bge-reranker-base@100": 4
+        "jina-reranker-v2-base-multilingual@200": 129,
+        "jina-reranker-v2-base-multilingual@100": 47,
+        "jina-reranker-v2-base-multilingual@50": 22,
+        "jina-reranker-v2-base-multilingual@25": 1,
+        "ms-marco-MiniLM-L-12-v2@200": 1
       },
       "fusion_picked": {
         "dbsf": 167,

@@ -719,6 +719,7 @@ E4_MODELS = (
     "Xenova/ms-marco-MiniLM-L-6-v2",
     "Xenova/ms-marco-MiniLM-L-12-v2",
     "BAAI/bge-reranker-base",
+    "jinaai/jina-reranker-v2-base-multilingual",
 )
 E4_COUNTS = (10, 25, 50, 100, 200)
 E4_QUERIES = 200
