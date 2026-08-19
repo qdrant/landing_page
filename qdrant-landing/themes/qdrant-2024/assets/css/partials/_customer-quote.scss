@@ -98,11 +98,6 @@
   // Lead quote: sits directly under the hero, before the article body.
   &.customer-quote_featured {
     margin-top: 0;
-
-    .customer-quote__text {
-      font-size: pxToRem(24);
-      line-height: pxToRem(36);
-    }
   }
 
   @include media-breakpoint-down(md) {
@@ -120,11 +115,6 @@
     // No logo at this width, so the company name has to carry it again.
     &.customer-quote_has-logo .customer-quote__company {
       display: inline;
-    }
-
-    &.customer-quote_featured .customer-quote__text {
-      font-size: pxToRem(20);
-      line-height: pxToRem(30);
     }
   }
 }
