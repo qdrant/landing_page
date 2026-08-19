@@ -28,7 +28,9 @@ Before tuning, compare dense retrieval, sparse retrieval, and default [Reciproca
 
 Qdrant defaults to `k=2`. The original RRF paper uses 60, which maps to `k=61` in Qdrant's formula. That gap is what most of this article is about.
 
-**Note:** These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval, Qdrant's core BM25 for sparse retrieval, and 200 candidates from each prefetch. Each reported gain was evaluated with a 95% interval, and the winning configuration was rechecked on held-out queries. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
+<aside role="status">
+<strong>Note:</strong> These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with <code>all-MiniLM-L6-v2</code> for dense retrieval, Qdrant's core BM25 for sparse retrieval, and 200 candidates from each prefetch. Each reported gain was evaluated with a 95% interval, and the winning configuration was rechecked on held-out queries. <a href="/articles/before-tuning-a-qdrant-collection/">Building a labeled set</a> explains the method.
+</aside>
 
 `Over the Better One` is default RRF's `nDCG@10` minus the better individual prefetch. `Second Prefetch Cost` is the median latency the second prefetch adds over the dense prefetch alone.
 

@@ -49,7 +49,9 @@ This measurement concerns the dense vectors and their quantized copy. In a hybri
 
 Qdrant rejects `pinned` for dense vectors, leaving `cold` and `cached` as the available placements for the originals. The [memory tiers documentation](/documentation/ops-configuration/memory-tiers/) recommends this pairing. The rest of this article measures its latency and disk-read trade-off.
 
-**Note:** These are our measurements, not production benchmarks. We ran them on the full 4,635,922-document DBPedia-entity dataset, using dense-only search with `all-MiniLM-L6-v2` at 384 dimensions. The original vectors occupy 7.121 GB on disk, and the TurboQuant `bits1` copy occupies 0.260 GB. Qdrant v1.19.0 ran in Docker on a laptop.
+<aside role="status">
+<strong>Note:</strong> These are our measurements, not production benchmarks. We ran them on the full 4,635,922-document DBPedia-entity dataset, using dense-only search with <code>all-MiniLM-L6-v2</code> at 384 dimensions. The original vectors occupy 7.121 GB on disk, and the TurboQuant <code>bits1</code> copy occupies 0.260 GB. Qdrant v1.19.0 ran in Docker on a laptop.
+</aside>
 
 In this dense-only measurement, the same query took about 4 ms while the original vectors remained resident and 43 ms when rescoring reread them under a 4 GiB limit. The query did not change. The memory cap determined whether rescoring stayed in memory or read from disk.
 
