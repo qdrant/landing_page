@@ -15,18 +15,20 @@
     padding: 0;
     background: none;
     border-radius: 0;
-  }
 
-  .customer-quote__text {
-    margin-bottom: pxToRem(24);
-    font-size: pxToRem(20);
-    line-height: pxToRem(30);
-    text-align: left;
-    color: $neutral-98;
-
-    a {
+    // Nested one level deeper than the other rules so this beats the article
+    // stylesheet's `blockquote p:last-child { margin-bottom: 0 }`.
+    .customer-quote__text {
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+      line-height: 1.65rem;
+      text-align: left;
       color: $neutral-98;
-      text-decoration: underline;
+
+      a {
+        color: $neutral-98;
+        text-decoration: underline;
+      }
     }
   }
 
@@ -102,11 +104,6 @@
 
   @include media-breakpoint-down(md) {
     padding: pxToRem(24);
-
-    .customer-quote__text {
-      font-size: pxToRem(18);
-      line-height: pxToRem(28);
-    }
 
     .customer-quote__logo {
       display: none;
