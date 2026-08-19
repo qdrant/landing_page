@@ -30,7 +30,7 @@ In a multi-shard collection, each shard applies its own prefetch <code>limit</co
 
 Before tuning, compare dense retrieval, sparse retrieval, and the result from default [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF), `k=2` and equal weights, with `nDCG@10`. It grades the top 10 results and gives more credit to relevant documents near the top. The last column is default RRF's nDCG@10 minus the better individual prefetch.
 
-These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval. Each reported gain was evaluated with a 95% interval. [Held-out validation](#confirm-the-selected-configuration-on-held-out-queries) explains how to use it. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
+**Note:** These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with `all-MiniLM-L6-v2` for dense retrieval and Qdrant's core BM25 for sparse retrieval. Each reported gain was evaluated with a 95% interval. [Held-out validation](#confirm-the-selected-configuration-on-held-out-queries) explains how to use it. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) explains the method.
 
 | Dataset | Dense Alone | Sparse Alone | Both, RRF (`k=2`) | Over the Better One |
 |---|---|---|---|---|
