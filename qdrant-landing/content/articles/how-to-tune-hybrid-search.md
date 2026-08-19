@@ -151,8 +151,8 @@ A configuration can score best on the queries used to select it and still fail o
 
 On SciFact's 300 queries, nothing we tried had a 95% interval that excluded zero. DBSF gains 0.0148, but its interval runs from -0.0001 to +0.0290 and still crosses zero. Across 200 random splits, a selected fusion configuration kept 67% to 95% of its gain on held-out queries. Keeping the default is a real answer, and it was the right one on one of our five datasets.
 
-## What to Tune Next
+## Tune in This Order
 
-Work in this order: confirm fusion beats either prefetch alone, pick RRF or DBSF on your labels, set `k`, set the weight pair, and validate the winner on held-out queries before shipping. Each step is cheap enough to run in a single session.
+Confirm fusion beats either prefetch alone, pick RRF or DBSF on your labels, set `k`, set the weight pair, and validate the winner on held-out queries before shipping. Each step is cheap enough to run in a single session.
 
-Next, if a downstream model could improve the order of your retrieved candidates, [test whether a reranker is worth its cost](/articles/when-a-reranker-is-worth-it/).
+Next, if a downstream model could improve the ranking of your retrieved candidates, [test whether a reranker is worth its cost](/articles/when-a-reranker-is-worth-it/).
