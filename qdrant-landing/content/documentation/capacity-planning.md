@@ -212,7 +212,7 @@ nodes = ceil(total_ram_estimate / (node_ram * 0.8))
 
 As a sanity check on that number, a single node typically tops out around 100 million vectors. Treat this as a rough ceiling rather than a target: the real limit depends heavily on dimensionality, datatype, and whether you're using quantization, so a 3072-dimension `float32` collection will hit it far sooner than a 384-dimension `uint8` one.
 
-Node count is also driven by [fault tolerance](/documentation/scaling/resilience). For high availability in production, use at least three nodes and a replication factor of two or higher. See [How many Qdrant nodes should I run?](/documentation/scaling/horizontal-scaling/#how-many-qdrant-nodes-should-i-run).
+Node count is also driven by [fault tolerance](/documentation/scaling/resilience/). For high availability in production, use at least three nodes and a replication factor of two or higher. See [How many Qdrant nodes should I run?](/documentation/scaling/horizontal-scaling/#how-many-qdrant-nodes-should-i-run).
 
 ### Shard Count
 
