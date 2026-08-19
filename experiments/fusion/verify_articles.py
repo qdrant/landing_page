@@ -260,11 +260,11 @@ for k, printed in ((5, 2.80), (20, 1.45)):
 # ------------------------------------------------ the reranking article: E4
 e4 = load("e4_reranking")
 printed_baselines = {
-    "scifact": (0.013, -0.011, 0.0),
-    "arguana": (-0.020, -0.034, 0.0),
+    "scifact": (0.057, 0.033, 0.37),
+    "arguana": (0.031, 0.017, 0.025),
     "wands": (0.039, -0.008, 0.0),
-    "codesearchnet": (0.002, -0.032, 0.0),
-    "dbpedia-entity": (0.112, 0.090, 1.0),
+    "codesearchnet": (0.169, 0.135, 1.0),
+    "dbpedia-entity": (0.137, 0.115, 1.0),
 }
 for name, (vs_default, vs_fusion, clears) in printed_baselines.items():
     cfg = e4[name]["configurations"]
@@ -277,18 +277,71 @@ for name, (vs_default, vs_fusion, clears) in printed_baselines.items():
     )
     check(f"rerank: {name} clears share", clears, e4[name]["held_out"]["clears_share"], tolerance=0.001)
 
-printed_counts = {
-    "scifact": (-0.011, -0.015, -0.019, -0.029, -0.032),
-    "arguana": (-0.034, -0.065, -0.100, -0.115, -0.122),
-    "wands": (-0.033, -0.015, -0.008, -0.009, -0.008),
-    "codesearchnet": (-0.032, -0.046, -0.059, -0.072, -0.086),
-    "dbpedia-entity": (0.023, 0.079, 0.085, 0.087, 0.090),
-}
-for name, row in printed_counts.items():
+
+def best_at(name: str, count: int) -> float:
     cfg = e4[name]["configurations"]
-    for count, printed in zip((10, 25, 50, 100, 200), row):
-        best = max(v["vs_best_fusion_arm"] for k, v in cfg.items() if k.endswith(f"@{count}"))
-        check(f"rerank: {name} best at {count} candidates", printed, best)
+    return max(v["vs_best_fusion_arm"] for k, v in cfg.items() if k.endswith(f"@{count}"))
+
+
+# The candidate-count figure's gloss: DBPedia flattens by 50, and no loss at 10
+# ever reversed by 200 for any model.
+check("rerank: dbpedia-entity best at 50", 0.111, best_at("dbpedia-entity", 50))
+check("rerank: dbpedia-entity best at 200", 0.115, best_at("dbpedia-entity", 200))
+check(
+    "rerank: dbpedia-entity gain from 50 to 200",
+    0.003,
+    best_at("dbpedia-entity", 200) - best_at("dbpedia-entity", 50),
+)
+reversed_losses = 0
+for name in CORPORA:
+    cfg = e4[name]["configurations"]
+    for model in {k.split("@")[0] for k in cfg}:
+        at10 = cfg[f"{model}@10"]["vs_best_fusion_arm"]
+        at200 = cfg[f"{model}@200"]["vs_best_fusion_arm"]
+        reversed_losses += at10 < 0 and at200 > 0
+check("rerank: losses at 10 that reversed by 200", True, reversed_losses == 0)
+
+# The model-fit claims: the three 512-token models lose on four of five corpora,
+# and the swap turns CodeSearchNet from a 0.032 loss into a 0.135 held-out win.
+OLDER = ("ms-marco-MiniLM-L-6-v2", "ms-marco-MiniLM-L-12-v2", "bge-reranker-base")
+older_losses = sum(
+    max(
+        v["vs_best_fusion_arm"]
+        for k, v in e4[name]["configurations"].items()
+        if k.split("@")[0] in OLDER
+    )
+    < 0
+    for name in CORPORA
+)
+check("rerank: corpora where every 512-token model loses", True, older_losses == 4)
+check(
+    "rerank: codesearchnet older-model best vs fusion",
+    -0.032,
+    max(
+        v["vs_best_fusion_arm"]
+        for k, v in e4["codesearchnet"]["configurations"].items()
+        if k.split("@")[0] in OLDER
+    ),
+)
+check(
+    "rerank: codesearchnet jina held-out gain",
+    0.135,
+    e4["codesearchnet"]["held_out"]["median_held_out_gain"],
+)
+
+# The gap-recovery paragraph and the intro's gap range, from the depth artifact.
+e3_gaps = load("e3_breadth")
+gaps = {name: e3_gaps[name]["settings"]["ef128_depth200"]["gap_to_ceiling"] for name in CORPORA}
+check("rerank: codesearchnet gap at depth 200", 0.293, gaps["codesearchnet"])
+check("rerank: dbpedia-entity gap at depth 200", 0.487, gaps["dbpedia-entity"])
+check("rerank: gap range low", 0.247, min(gaps.values()))
+check("rerank: gap range high", 0.487, max(gaps.values()))
+
+# The worked example: the Lennon page sat at fused rank 49 and reranked first.
+lennon = pd.read_parquet(STUDY / "rerank" / "dbpedia-entity__jina-reranker-v2-base-multilingual.parquet")
+lennon = lennon[lennon["query_id"] == "INEX_LD-2012311"].sort_values("score", ascending=False)
+check("rerank: lennon fused rank", 49, int(lennon[lennon["point_id"] == 10310]["fusion_rank"].iloc[0]) + 1)
+check("rerank: lennon reranked first", True, int(lennon.iloc[0]["point_id"]) == 10310)
 
 throughput = json.loads((STUDY / "rerank" / "throughput.json").read_text())
 for model, (lo, hi) in {
@@ -300,13 +353,15 @@ for model, (lo, hi) in {
     check(f"rerank: {model} slowest", lo, min(rates), tolerance=1.0)
     check(f"rerank: {model} fastest", hi, max(rates), tolerance=1.0)
 
-# A MiniLM beats bge-reranker-base on three of five, which is the claim the
-# reranking article makes about model size not tracking quality.
-minilm_wins = sum(
-    "MiniLM" in max(v["configurations"].items(), key=lambda kv: kv[1]["vs_best_fusion_arm"])[0]
-    for v in e4.values()
-)
-check("rerank: corpora where a MiniLM wins", 3, minilm_wins, tolerance=0)
+# jina-v2's quality scores came from PyTorch on MPS (its ONNX export is
+# single-threaded on CPU); throughput_mps.json holds the rates from that run.
+# The 10-candidate figures derive from the smallest CPU model's range.
+mps = json.loads((STUDY / "rerank" / "throughput_mps.json").read_text())
+mps_rates = [v["docs_per_second"] for v in mps.values()]
+check("rerank: jina MPS slowest", 32, min(mps_rates), tolerance=1.0)
+check("rerank: jina MPS fastest", 310, max(mps_rates), tolerance=1.0)
+check("rerank: 10-candidate test fastest ms", 47, 10_000 / 212, tolerance=1.0)
+check("rerank: 10-candidate test slowest ms", 156, 10_000 / 64, tolerance=1.0)
 
 # --------------------------------------------- the memory article: E7a and E7b
 E7 = ROOT / "e7"
