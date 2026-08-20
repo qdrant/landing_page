@@ -59,7 +59,7 @@ Three reports from a running system. Name the layer responsible for each before 
 
 1. Indexing layer. No payload index on country, so the planner cannot estimate how many points match and falls back to scanning. Adding the index fixes filtering and the estimate immediately; the filter-aware graph edges need an HNSW rebuild (see Question 2).
 2. Query layer. A ticker is an exact token and dense retrieval blurs it into neighboring tickers. The fix is hybrid retrieval, not a better dense model.
-3. Storage layer. A second language means a second named vector per point, roughly doubling the vector bytes in memory. Fix it with quantization or on-disk vectors, not with a different search.
+3. Storage layer. A second language means a second [named vector](/documentation/manage-data/vectors/#named-vectors) per point, roughly doubling the vector bytes in memory. Fix it with [quantization](/documentation/manage-data/quantization/) or [on-disk vectors](/documentation/manage-data/storage/#vector-storage), not with a different search.
 
 </details>
 
@@ -77,13 +77,13 @@ Five questions turn that into a design.
 
 Both, and this is the most consequential observation in the design. "Port congestion in Southeast Asia" describes an intent, which is dense territory. "MAERSK-B.CO" carries no meaning a dense model can use, so dense search blurs it into neighboring tickers, the failure from Module 3.
 
-**Decision**: hybrid search, with named dense and sparse vectors on every point, fused at query time. *(Query layer.)*
+**Decision**: hybrid search, with [named dense and sparse vectors](/documentation/manage-data/vectors/#named-vectors) on every point, fused at query time. *(Query layer.)*
 
 ```bash
 pip install "qdrant-client[fastembed]"
 ```
 
-Name both models once and reuse them at ingestion and at query time. `models.Document` embeds locally through FastEmbed, which keeps this example self-contained; Cloud Inference does the same work server-side and is the production path.
+Name both models once and reuse them at ingestion and at query time. `models.Document` embeds locally through [FastEmbed](/documentation/fastembed/), which keeps this example self-contained; [Cloud Inference](/documentation/inference/cloud-inference/) does the same work server-side and is the production path.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -116,7 +116,7 @@ client.create_collection(
 
 Country, topic, date range, and source. An analyst scoping to "Vietnam, last seven days" expects those articles and no others, so these are constraints, not ranking signals.
 
-**Decision**: the payload schema, designed before ingestion. Build it by asking what you will need to filter on: country, topic, source, and date here, plus tenant ID and access-control fields wherever the data is multi-tenant. A field you never stored costs a full re-ingestion.
+**Decision**: the payload schema, designed before ingestion. Build it by asking what you will need to filter on: country, topic, source, and date here, plus tenant ID and access-control fields wherever the data is [multi-tenant](/documentation/manage-data/multitenancy/). A field you never stored costs a full re-ingestion.
 
 ```yaml
 payload:
@@ -146,7 +146,7 @@ client.create_payload_index(
 )
 ```
 
-With the indexes in place, load a few articles. An upsert inserts a point if the ID is new and replaces it if the ID exists. Three articles here keep the page runnable; the notebook uses nine:
+With the indexes in place, load a few articles. An [upsert](/documentation/manage-data/points/#upload-points) inserts a point if the ID is new and replaces it if the ID exists. Three articles here keep the page runnable; the notebook uses nine:
 
 ```python
 ARTICLES = [
@@ -192,11 +192,11 @@ The one-off backfill is different: batch it, and consider [disabling indexing un
 
 *Dense-only, hybrid, or reranked?*
 
-The simplest pipeline that fits the query analysis: hybrid from Question 1, plus filters, fused with Reciprocal Rank Fusion. No reranker yet.
+The simplest pipeline that fits the query analysis: hybrid from Question 1, plus filters, fused with [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf). No reranker yet.
 
 One knowledge-layer decision hides in here: **what you embed matters as much as how you search.** A news article runs 800 words and the ticker is one token inside it, so embedding the whole body averages it into a vector about shipping in general. Embed the headline and lead, keep the full text in the payload, and the dense vector stays about one story.
 
-The filter goes inside each `Prefetch`, so both retrievers search only the valid subset.
+The [filter](/documentation/search/filtering/) goes inside each `Prefetch`, so both retrievers search only the valid subset.
 
 ```python
 QUERY = "port congestion in Southeast Asia"
@@ -260,11 +260,13 @@ Module 3 covered how to write a filter and where to put it in a hybrid query. Wh
 
 Post-filtering retrieves a fixed number of nearest results, the top K, then discards whatever fails the filter. With a selective filter, one country out of 200, even a large K can come back empty.
 
-Qdrant runs a [query planner](/documentation/search/search/#query-planning) instead. It begins by estimating **cardinality**: how many points the filter will actually match. Then it picks a strategy for each **segment**, the independent pieces a collection is stored in. A segment holding few points gets scanned outright. A low-cardinality filter goes through the payload index. A high-cardinality one uses the filterable vector index, which is the HNSW graph carrying the filter-aware edges from Question 2.
+Qdrant runs a [query planner](/documentation/search/search/#query-planning) instead. It begins by estimating **cardinality**: how many points the filter will actually match. Then it picks a strategy for each **[segment](/documentation/manage-data/storage/#vector-storage)**, the independent pieces a collection is stored in. A segment holding few points gets scanned outright. A low-cardinality filter goes through the payload index. A high-cardinality one uses the filterable vector index, which is the HNSW graph carrying the filter-aware edges from Question 2.
 
-One more strategy covers the awkward middle. When a filter matches a small fraction of the collection but still a large number of points, Qdrant uses ACORN, a graph traversal built for that case. Every threshold in these decisions is configurable per collection.
+One more strategy covers the awkward middle. When a filter matches a small fraction of the collection but still a large number of points, Qdrant uses [ACORN](/documentation/search/search/#acorn-search-algorithm), a graph traversal built for that case. Every threshold in these decisions is configurable per collection.
 
 That estimate comes from the payload index, so an unindexed field leaves the planner guessing and the query slow rather than wrong. That is how a missing index sits in production unnoticed for months.
+
+![Filtered query](/courses/beginners/module-4/query.png)
 
 ## 4. The Production RAG Pipeline
 
@@ -287,12 +289,12 @@ Question 5 picked managed deployment for the news system. Here is the full set, 
 
 | Deployment Mode | Use When | Avoid When |
 |-----------------|----------|------------|
-| Local Mode | Prototyping, notebooks, CI tests, teaching | Production or benchmarking |
-| Docker (self-hosted) | Full infrastructure control, air-gapped or regulated environments | You don't yet have monitoring and backups |
-| Managed Cloud | Small ops team, with upgrades, backups, and high availability handled for you | Everything must run inside your own infrastructure |
+| [Local Mode](/documentation/quickstart/) | Prototyping, notebooks, CI tests, teaching | Production or benchmarking |
+| [Docker (self-hosted)](/documentation/installation/#docker) | Full infrastructure control, air-gapped or regulated environments | You don't yet have monitoring and backups |
+| [Managed Cloud](/documentation/cloud/) | Small ops team, with upgrades, backups, and high availability handled for you | Everything must run inside your own infrastructure |
 | [Edge](/documentation/edge/) | On-device search, offline, ultra-low latency | You need distributed search across nodes |
 
-Two further modes cover stricter requirements. Hybrid Cloud runs Qdrant in your own environment with the control plane managed for you, and Private Cloud runs it in any Kubernetes cluster. Both exist for regulated industries, finance and healthcare especially. [Deploy Qdrant](/documentation/deploy-intro/) covers those alongside Managed Cloud and self-hosted installation.
+Two further modes cover stricter requirements. [Hybrid Cloud](/documentation/hybrid-cloud/) runs Qdrant in your own environment with the control plane managed for you, and [Private Cloud](/documentation/private-cloud/) runs it in any Kubernetes cluster. Both exist for regulated industries, finance and healthcare especially. [Deploy Qdrant](/documentation/deploy-intro/) covers those alongside Managed Cloud and self-hosted installation.
 
 One caveat about Local Mode, since it's where you'll run the course notebooks. It reimplements the API in Python with none of the engine behind it: search is exact instead of approximate, payload indexes have no effect, and a filter on the outer query is ignored. Verify against a real server before trusting notebook numbers.
 
