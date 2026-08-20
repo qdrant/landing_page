@@ -271,7 +271,8 @@ Fitting isn't the only reason to split. A chunk is the unit that gets retrieved,
 | Sliding Window | Chunks overlap to preserve context across the cut | More storage; duplicate content across results |
 
 <aside role="status">
-This module introduces the main chunking strategies but doesn’t explore how to choose between them in depth. For a detailed comparison and worked examples, see [Chunking Strategies](https://deploy-preview-2495--condescending-goldwasser-91acf0.netlify.app/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
+
+This module introduces the main chunking strategies but doesn’t explore how to choose between them in depth. For a detailed comparison and worked examples, see [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
 </aside>
 
 **Fixed-Size**
