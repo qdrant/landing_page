@@ -24,6 +24,14 @@ partition: case-studies
 
 [&AI](https://tryandai.com/) is on a mission to redefine patent litigation. Their platform helps legal professionals invalidate patents through intelligent prior art search, claim charting, and automated litigation support. To make this work at scale, CTO and co-founder Herbie Turner needed a vector database that could power fast, accurate retrieval across billions of documents without ballooning DevOps complexity. That’s where Qdrant came in.
 
+{{< quote
+  text="With Qdrant, we scaled to a billion vectors and still respond in sub-second latency. That lets us power workflows that used to take hours in just a few minutes."
+  name="Herbie Turner"
+  role="CTO & Co-Founder"
+  company="&AI"
+  logo="/img/customers-case-studies-logo/and-ai.svg"
+  featured="true" >}}
+
 ## Legal tech’s toughest retrieval challenge
 
 Patent litigation is a high-stakes game. When a company is sued for patent infringement, the best defense is often to invalidate the patent altogether. That means proving the idea was disclosed publicly before the patent was granted. Finding that “prior art” requires sifting through vast, multilingual document corpora with domain-specific technical language.
@@ -47,8 +55,7 @@ But the scale was immense. Their full corpus includes hundreds of millions of do
   text="Qdrant was the only one that handled that load out of the box — and without needing dedicated DevOps engineers."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 Turner had used Qdrant in a prior startup, where he appreciated the high performance and strong Rust-based architecture. But it was Qdrant’s [opinionated documentation](https://qdrant.tech/documentation/) and built-in developer tools that sealed the deal.
 
@@ -85,12 +92,6 @@ By using [Qdrant Cloud](https://qdrant.tech/cloud/), \&AI avoided the need to ma
 "Patent litigation has huge stakes, one result could influence a billion-dollar case," said Turner. "Accuracy is the top priority, and Qdrant let us optimize for that without compromising on cost or performance."
 
 Qdrant’s support for [payload filters](https://qdrant.tech/documentation/search/filtering/), [multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/), and quantization let \&AI optimize deeply. Their AI patent agent, Andy, uses natural language to guide attorneys through patent analysis tasks, drastically cutting time-to-result.
-
-{{< quote
-  text="With Qdrant, we scaled to a billion vectors and still respond in sub-second latency. That lets us power workflows that used to take hours in just a few minutes."
-  name="Herbie Turner"
-  role="CTO & Co-Founder"
-  company="&AI" >}}
 
 ## Unlocking new markets and workflows
 

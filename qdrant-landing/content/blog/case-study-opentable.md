@@ -22,6 +22,14 @@ partition: case-studies
 
 ## **Reinventing Restaurant Discovery: How OpenTable built Concierge, an AI Dining Assistant** 
 
+{{< quote
+  text="Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
+  name="Patrick Lombardo"
+  role="Staff ML Engineer"
+  company="OpenTable"
+  logo="/img/customers-case-studies-logo/opentable.svg"
+  featured="true" >}}
+
 ### Recognizing that AI would redefine restaurant discovery 
 
 When generative AI tools entered the mainstream, OpenTable knew diners would change how they find and choose restaurants. People were beginning to expect conversational, intelligent and context-aware assistants, rather than static search boxes. 
@@ -40,8 +48,7 @@ For Concierge to succeed, the assistant needed to respond to the vast majority o
   text="The primary goal was answerability. We wanted to make sure the model could answer most questions. The second most important was accuracy, so that when the model gave an answer it was correct."
   name="Puyuan Liu"
   role="Machine Learning Scientist"
-  company="OpenTable"
-  logo="/img/customers-case-studies-logo/opentable.svg" >}}
+  company="OpenTable" >}}
 
 Beyond the application logic, the team needed a vector database that could handle sparse embeddings for keyword expansions and fine-grained filtering. Queries often narrowed results to a single restaurant out of more than 60,000, which placed heavy demands on filtering performance. 
 
@@ -54,12 +61,6 @@ First, its handling of sparse embeddings was a key differentiator. Concierge’s
 Second, Qdrant delivered reliable high-precision filtering. In production, each query might target reviews, metadata, and other structured restaurant data all at once. Qdrant handled this with predictable performance, which was essential for hitting their latency budget. 
 
 Third, Qdrant Cloud provided a deployment path that was simpler than self-hosting. 
-
-{{< quote
-  text="Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
-  name="Patrick Lombardo"
-  role="Staff ML Engineer"
-  company="OpenTable" >}}
 
 The production launch was global from the start, allowing Concierge to answer questions about restaurants in many regions without separate deployments. 
 
