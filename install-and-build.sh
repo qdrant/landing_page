@@ -31,4 +31,13 @@ curl -LJO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSI
     tar -xf "${SASS_ARCHIVE}" && \
     rm "${SASS_ARCHIVE}" && \
     export PATH="${CURRENT_DIR}/dart-sass:${PATH}" && \
-    cd qdrant-landing && npm install && hugo --gc --minify --config config.toml,config-theme.toml --buildFuture -b ${DEPLOY_PRIME_URL}
+    cd qdrant-landing && npm install && hugo --gc --minify --config config.toml,config-theme.toml --buildFuture -b ${DEPLOY_PRIME_URL} || exit $?
+
+# Merge the three redirect tables into public/redirects.txt for consumers that
+# do not sit behind the CDN -- see automation/generate-redirects-table.py.
+# A missing table only degrades the /md/ mirror to its cached copy, so warn
+# rather than failing the whole deploy. The "Redirect Table Check" step in
+# .github/workflows/internal-dead-links.yml runs this script with --strict, so
+# a broken table fails the PR there rather than being swallowed here.
+cd "${CURRENT_DIR}" && python3 automation/generate-redirects-table.py || \
+    echo "warning: redirect table not regenerated, public/redirects.txt may be stale"
