@@ -20,7 +20,7 @@ draft: false
 
 > Module 3 gave you hybrid retrieval. In this module, you'll learn how to turn the building blocks into a system. You'll explore the five layers of a vector search stack and the five questions that turn a brief into a design, then see how Qdrant plans a filtered query instead of discarding results afterward. You'll also learn what a production RAG pipeline looks like and how to pick a deployment mode. By the end, you'll have designed a news search system end to end.
 
-**Follow-along code**: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/master/course/beginners/Module4.ipynb) Module 4 notebook
+**Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
 
 ## Today's Path
 
