@@ -21,4 +21,5 @@ client.query("{collection_name}", {
     query: {
         rrf: {},
     },
+    limit: 10,
 });
