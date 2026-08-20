@@ -17,10 +17,12 @@ OUT = (
     "/Users/dylanc/Documents/GitHub/landing_page/qdrant-landing/static/articles_data/"
     "candidate-depth/depth-ceiling-vs-current.png"
 )
-QDRANT_RED = "#DC244C"
-BLUE = "#2F6FF0"
-INK = "#383838"
-MUTED = "#9AA0A6"
+# Brand tokens from qdrant-landing/themes/qdrant/static/css/_colors.scss.
+QDRANT_RED = "#DC244C"  # --brand-primary
+QDRANT_BLUE = "#24386C"  # --brand-secondary
+INK = "#06153D"  # --neutral-n-900
+MUTED = "#8B9CCC"  # --neutral-n-300
+PAGE = "#FFFFFF"  # white, so the figure does not read as part of the table above it
 
 # Article table order, with the article's display names.
 CORPORA = [
@@ -45,15 +47,15 @@ def main():
     data = json.loads(Path("study/e3_breadth.json").read_text())
 
     figure, panels = plt.subplots(1, 5, figsize=(10, 2.9), dpi=160, sharey=True)
-    figure.patch.set_facecolor("white")
+    figure.patch.set_facecolor(PAGE)
 
     for axes, (corpus, label) in zip(panels, CORPORA):
         depths, ceiling, current = sweep(data[corpus])
         axes.set_facecolor("white")
-        axes.fill_between(depths, current, ceiling, color=QDRANT_RED, alpha=0.06, zorder=1)
+        axes.fill_between(depths, current, ceiling, color=QDRANT_RED, alpha=0.08, zorder=1)
         axes.plot(depths, ceiling, color=QDRANT_RED, linewidth=2, marker="o",
                   markersize=3.5, zorder=3)
-        axes.plot(depths, current, color=BLUE, linewidth=2, marker="s",
+        axes.plot(depths, current, color=QDRANT_BLUE, linewidth=2, marker="s",
                   markersize=3.5, zorder=3)
         axes.set_xscale("log")
         axes.set_xticks([10, 50, 200, 500])
@@ -61,7 +63,7 @@ def main():
         axes.minorticks_off()
         axes.set_title(label, color=INK, fontsize=9.5, pad=6)
         axes.set_ylim(0.4, 1.03)
-        axes.grid(axis="y", color=MUTED, alpha=0.25, linewidth=0.8, zorder=0)
+        axes.grid(axis="y", color=MUTED, alpha=0.35, linewidth=0.8, zorder=0)
         axes.set_axisbelow(True)
         for side in ("top", "right"):
             axes.spines[side].set_visible(False)
@@ -73,15 +75,11 @@ def main():
     first = panels[0]
     first.set_ylabel("nDCG@10", color=INK, fontsize=9)
     first.text(11, 0.985, "best possible", color=QDRANT_RED, fontsize=8.5, va="bottom")
-    first.text(11, 0.655, "current score", color=BLUE, fontsize=8.5, va="top")
+    first.text(11, 0.655, "current score", color=QDRANT_BLUE, fontsize=8.5, va="top")
 
-    figure.suptitle(
-        "More depth raises the best possible score far more than the current one",
-        color=INK, fontsize=12, y=1.02,
-    )
-    figure.supxlabel("prefetch limit", color=INK, fontsize=9, y=-0.04)
     figure.tight_layout()
-    figure.savefig(OUT, facecolor="white", bbox_inches="tight")
+    figure.supxlabel("prefetch limit", color=INK, fontsize=9, y=0.02)
+    figure.savefig(OUT, facecolor=PAGE, bbox_inches="tight")
     print(f"wrote {OUT}")
 
 

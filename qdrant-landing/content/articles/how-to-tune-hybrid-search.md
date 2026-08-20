@@ -52,13 +52,15 @@ Every collection was built in one batch and queried unfiltered, so a graph shape
 
 ## RRF and DBSF Use Different Signals
 
-[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) uses only a candidate's position in each prefetch. A document at rank 1 scores the same whether it beat rank 2 by a wide margin or a narrow one. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) puts both lists on one scale for each query, using each list's average score and how spread out its scores are. Adding the two rescaled scores carries the size of a lead into the fused ranking.
+[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) uses only a candidate's position in each prefetch. A document at rank 1 scores the same whether it beat rank 2 by a wide margin or a narrow one. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) puts both lists on one scale for each query, using each list's average score and how spread out its scores are. Adding the two rescaled scores carries the size of a lead into the fused ranking, and a document only one prefetch retrieved keeps that single rescaled score.
+
+{{< figure src="/articles_data/how-to-tune-hybrid-search/fusion-signals.png" alt="Two panels of dot plots, RRF on the left and DBSF on the right. Each panel has a dense line, a sparse line, and a fused line holding documents A, B, C, and D. The RRF lines space every document evenly and label the slots 4, 3, 2, 1. The DBSF lines keep the raw score spacing on one shared axis, dense running 0.55 to 0.91 with A far out to the right and B, C, and D clustered, sparse running 12.9 to 14.8. The fused lines put B first under RRF and A first under DBSF." caption="RRF reads each document's slot, so A's dense lead flattens to one step and B, ranked near the top by both prefetches, wins. DBSF keeps the spacing on a shared axis, so A's lead survives the sum and A wins." width="100%" >}}
 
 RRF ignores score scale, so a cosine similarity and a BM25 score combine without either dominating. DBSF assumes the size of a score gap means something, so one outlying score can move the result. Which one wins depends on your data, so run both against your labels.
 
 ## Compare RRF and DBSF on Your Labels
 
-Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches. Start with RRF at `k=2` and equal weights, then run DBSF. If DBSF wins, take it forward to held-out validation. If RRF wins, tune `k` next.
+Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches. Run RRF at `k=2` and equal weights, then run DBSF.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -96,8 +98,20 @@ dbsf_response = client.query_points(
 This code requires Qdrant v1.17 or later and a compatible `qdrant-client` release that exposes `models.RrfQuery`.
 
 <aside role="status">
-In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker. Fusion nested inside a prefetch runs per shard. The <a href="/articles/candidate-depth/">candidate depth guide</a> explains how to set it.
+In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker. Fusion nested inside a prefetch runs per shard, and DBSF rescales against the score distribution of each shard's own candidates. The <a href="/articles/candidate-depth/">candidate depth guide</a> explains how to set the limit.
 </aside>
+
+On three of these five datasets, DBSF scored higher than default RRF by a margin whose 95% interval excludes zero. SciFact's 0.0148 gain and ArguAna's 0.0045 loss both cross zero, so those two datasets are inconclusive.
+
+| Dataset | DBSF | Over Default RRF |
+|---|---|---|
+| ArguAna | 0.5171 | -0.0045 |
+| CodeSearchNet | 0.6716 | +0.0161 |
+| SciFact | 0.7323 | +0.0148 |
+| DBPedia-entity | 0.4822 | +0.0184 |
+| WANDS | 0.7637 | +0.0383 |
+
+DBSF takes no parameters: `k` and the weight pair are RRF settings, and the public API accepts them only on an `RrfQuery`. So if DBSF wins on your labels, the remaining work is the held-out check at the end of this article, and the two tuning sections between here and it apply when RRF wins.
 
 ## Use Labels to Choose a `k` Range
 
@@ -109,19 +123,15 @@ Rank 1 outweighs rank 10 by 2.80 times at `k=5` and 1.45 times at `k=20`, so mos
 
 Sweep `k` over 1, 2, 5, 20, and 61. Lower values favor a document one prefetch ranks highly, and higher values give more credit to documents both prefetches retrieve.
 
-For the DBSF column, a document retrieved by one prefetch keeps that prefetch's normalized score. A document retrieved by both carries two normalized scores.
+The table gives `nDCG@10` at equal weights across five values of `k`, with `k=2` as default RRF. A star marks the best `k` in each row.
 
-The table gives `nDCG@10` at equal weights across five values of `k`, with `k=2` as default RRF. A star marks the best `k` in each row. The DBSF column sits outside that comparison, so it never carries a star even where it scores highest.
-
-| Dataset | Queries | Relevant per Query | k=1 | k=2 | k=5 | k=20 | k=61 | DBSF |
-|---|---|---|---|---|---|---|---|---|
-| ArguAna | 1,401 | 1.0 | 0.517 | 0.522 | 0.530* | 0.527 | 0.521 | 0.517 |
-| CodeSearchNet | 1,000 | 1.0 | 0.650 | 0.656 | 0.658* | 0.651 | 0.626 | 0.672 |
-| SciFact | 300 | 1.1 | 0.712 | 0.717* | 0.715 | 0.712 | 0.707 | 0.732 |
-| DBPedia-entity | 400 | 38.2 | 0.462 | 0.464 | 0.464 | 0.468* | 0.461 | 0.482 |
-| WANDS | 480 | 358.9 | 0.723 | 0.725 | 0.734 | 0.757 | 0.761* | 0.764 |
-
-On ArguAna, DBSF is 0.0045 below default RRF. That difference sits inside the dataset's measurement interval, so the result is inconclusive.
+| Dataset | Queries | Relevant per Query | k=1 | k=2 | k=5 | k=20 | k=61 |
+|---|---|---|---|---|---|---|---|
+| ArguAna | 1,401 | 1.0 | 0.517 | 0.522 | 0.530* | 0.527 | 0.521 |
+| CodeSearchNet | 1,000 | 1.0 | 0.650 | 0.656 | 0.658* | 0.651 | 0.626 |
+| SciFact | 300 | 1.1 | 0.712 | 0.717* | 0.715 | 0.712 | 0.707 |
+| DBPedia-entity | 400 | 38.2 | 0.462 | 0.464 | 0.464 | 0.468* | 0.461 |
+| WANDS | 480 | 358.9 | 0.723 | 0.725 | 0.734 | 0.757 | 0.761* |
 
 On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, while `nDCG@10` rose by 0.036. A small aggregate gain can still change what a user sees first.
 
@@ -130,18 +140,20 @@ These five datasets suggest a direction: with about one relevant document per qu
 If you are porting an RRF configuration from another system, remember that Qdrant uses zero-based positions. To reproduce [the `1 / (rank + 60)` convention from Cormack et al.](https://dl.acm.org/doi/10.1145/1571941.1572114) with one-based ranks, use `k=61`.
 
 <aside role="status">
-On SciFact, 12.5% of the default RRF top 10 fell in a tied group, against 2.8% at <code>k=61</code> and none under DBSF. Ties at rank 10 let repeated queries return a different document there. Request more than 10 results, sort them on the client by descending score and ascending ID, then keep the first 10. Raise the final result <code>limit</code> if the score at rank 10 still matches the last point returned.
+Tied scores are more common at low <code>k</code>. Averaged over SciFact's queries, 12.5% of default RRF's top 10 results share a score with the result next to them, against 2.8% at <code>k=61</code> and none under DBSF. Fusion sorts on score alone, so a tied group comes back in whatever order storage produced and the same query can return a different document at rank 10. Request more than 10 results, sort them on the client by descending score and ascending ID, then keep the first 10. If the score at rank 10 still matches the last result returned, request more.
 </aside>
 
 ## Tune Weights Last
 
-A weight sweep often returns to equal weights. Six pairs ran at each dataset's best `k`, and `(1, 1)` won outright on two of the five. ArguAna's best pair gained 0.0029, with an interval that crosses zero. Settle `k` first, then give pairs a short sweep.
+A weight pair gives one multiplier to each prefetch, in the order the prefetches appear in the query. The pair is absolute, so `(1, 2)` and `(2, 4)` are two different settings: the formula divides the position by the weight, so scaling both weights changes every score. On WANDS at `k=5`, `(1, 2)` scores 0.739 and `(2, 4)` scores 0.751.
 
-A weight pair is only valid for the `k` you tested it with. On WANDS, `(2, 4)` beats equal weights at `k=5`. At `k=61`, that dataset's best value, equal weights win: 0.7614 against 0.7567.
+Settle `k` first, since a pair is only valid for the `k` you tested it with. On WANDS, `(2, 4)` beats equal weights at `k=5`. At `k=61`, that dataset's best value, equal weights win: 0.7614 against 0.7567.
 
-The single-prefetch scores do not tell you which way to lean, so sweep both. On DBPedia-entity, dense retrieval scores 0.4677 against sparse retrieval's 0.3857, yet the winning pair `(1, 3)` gives sparse three times the dense weight and gains 0.0060. CodeSearchNet leans the other way and gains 0.0096 at `(2, 1)`. Both intervals exclude zero.
+Then sweep a few pairs and let your labels pick the winner. A prefetch's own score does not say which way to lean. Weights act on positions inside each list, so the pair is decided by which prefetch ranks relevant documents highly on the queries the other one misses.
 
-The pair is absolute, so `(1, 2)` and `(2, 4)` are two different settings. The formula divides the position by the weight, so scaling both weights by the same factor changes every score. On WANDS at `k=5`, `(1, 2)` scores 0.739 and `(2, 4)` scores 0.751.
+On DBPedia-entity, dense retrieval scores 0.4677 against sparse retrieval's 0.3857, yet the winning pair `(1, 3)` gives sparse three times the dense weight and gains 0.0060. CodeSearchNet leans the other way and gains 0.0096 at `(2, 1)`. Both intervals exclude zero.
+
+Equal weights are a real outcome. Six pairs ran at each dataset's best `k`, and `(1, 1)` won outright on two of the five. ArguAna's best pair gained 0.0029, with an interval that crosses zero.
 
 A weight of 0.0 keeps every document from that prefetch and scores each one 0.0. The documents stay at the bottom of the fused list instead of disappearing.
 
@@ -149,10 +161,16 @@ A weight of 0.0 keeps every document from that prefetch and scores each one 0.0.
 
 A configuration can score best on the queries used to select it and still fail on held-out queries. Run both checks from [the pre-tuning article](/articles/before-tuning-a-qdrant-collection/): a bootstrap interval on per-query gain, and a split between selection and held-out queries. Ship a configuration when its interval excludes zero and its selected gain holds on the held-out half.
 
-On SciFact's 300 queries, nothing we tried had a 95% interval that excluded zero. DBSF gains 0.0148, but its interval runs from -0.0001 to +0.0290 and still crosses zero. Across 200 random splits, a selected fusion configuration kept 67% to 95% of its gain on held-out queries. Keeping the default is a real answer, and it was the right one on one of our five datasets.
+On SciFact's 300 queries, nothing we tried had a 95% interval that excluded zero, including DBSF's 0.0148 gain. Across 200 random splits, a selected fusion configuration kept 67% to 95% of its gain on held-out queries. Keeping the default is a real answer, and it was the right one on one of our five datasets.
 
 ## Tune in This Order
 
-Confirm fusion beats either prefetch alone, pick RRF or DBSF on your labels, set `k`, set the weight pair, and validate the winner on held-out queries before shipping. Each step is cheap enough to run in a single session.
+Each step is cheap enough to run in a single session.
+
+1. Confirm fusion beats either prefetch alone.
+2. Pick RRF or DBSF on your labels.
+3. Set `k` from the number of relevant documents per query.
+4. Sweep a few weight pairs at that `k`.
+5. Validate the winner on held-out queries before shipping.
 
 Next, if a downstream model could improve the ranking of your retrieved candidates, [test whether a reranker is worth its cost](/articles/when-a-reranker-is-worth-it/).
