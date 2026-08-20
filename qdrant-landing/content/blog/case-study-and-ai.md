@@ -44,8 +44,7 @@ Traditionally, this is done through outsourced search firms or attorneys running
   text="If we can ground our results in real documents, hallucination risk is minimized."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 ## A retrieval-first legal AI stack
 
@@ -73,8 +72,7 @@ Turner had used Qdrant in a prior startup, where he appreciated the high perform
   text="Don’t make me figure out how to optimize everything myself. Qdrant tells you the right way to do things; it just works."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 ## From noisy PDFs to structured vectors
 
@@ -92,8 +90,7 @@ Rather than rely on LLMs to generate legal output, \&AI framed its tasks as retr
   text="We do an initial broad search to get candidates, then use metadata filtering, claim construction analysis, and context-specific re-ranking to refine results."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 Qdrant’s filterable HNSW, payload field indexing, and support for multi-tenancy made this possible. Public patent search operates globally, while firm-specific legal data is stored in isolated tenant spaces.
 
@@ -103,8 +100,7 @@ Qdrant’s filterable HNSW, payload field indexing, and support for multi-tenanc
   text="It let us give firms strong guarantees around data privacy without spinning up separate infrastructure."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 ## Scaling infrastructure, not headcount
 
@@ -116,8 +112,7 @@ By using [Qdrant Cloud](https://qdrant.tech/cloud/), \&AI avoided the need to ma
   text="Accuracy is the top priority, and Qdrant let us optimize for that without compromising on cost or performance."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 Qdrant’s support for [payload filters](https://qdrant.tech/documentation/search/filtering/), [multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/), and quantization let \&AI optimize deeply. Their AI patent agent, Andy, uses natural language to guide attorneys through patent analysis tasks, drastically cutting time-to-result.
 
@@ -135,8 +130,7 @@ Their semantic-first retrieval engine also enabled new products, like real-time 
   text="We want to stay at the application layer. If Qdrant can keep lifting the infrastructure complexity off our plate, we’re happy to keep building on it."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI"
-  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
+  company="&AI" >}}
 
 As legal AI matures, \&AI’s retrieval-first approach — and Qdrant’s infrastructure support — are helping bring clarity and trust to one of the most high-stakes domains in AI.
 

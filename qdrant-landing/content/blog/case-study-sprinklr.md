@@ -35,8 +35,7 @@ Sprinklr’s platform is composed of four key product suites - Sprinklr Service,
   text="These AI-driven capabilities, supported by Qdrant’s advanced vector search, enhance Sprinklr’s customer-facing tools such as FAQ bots, transactional bots, conversational services, and product recommendation engines."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr"
-  logo="/img/customer-logo/sprinklr.svg" >}}
+  company="Sprinklr" >}}
 
 These self-serve applications rely heavily on advanced vector search to analyze and optimize community content and refine knowledge bases, ensuring efficient and relevant responses. For customers requiring further assistance, Sprinklr equips support agents with powerful search capabilities, enabling them to quickly access similar cases and draw from past interactions, enhancing the quality and speed of customer support.
 
@@ -67,8 +66,7 @@ Sprinklr’s transition to Qdrant was carefully managed, starting with 10% of th
   text="Qdrant’s ability to index [multiple vectors](https://qdrant.tech/documentation/manage-data/vectors/#multivectors) simultaneously and retrieve and re-rank with precision brought significant improvements to our workflow."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr"
-  logo="/img/customer-logo/sprinklr.svg" >}}
+  company="Sprinklr" >}}
 
 This feature reduced the need for repeated retrieval processes, significantly improving efficiency. Additionally, Qdrant’s [quantization](https://qdrant.tech/documentation/manage-data/quantization/) and [memory mapping](https://qdrant.tech/documentation/manage-data/storage/#configuring-memmap-storage) features enabled Sprinklr to reduce RAM usage, leading to substantial cost savings.
 
@@ -98,8 +96,7 @@ The Sprinklr team conducted a thorough internal benchmark on applications requir
   text="Qdrant is a very fast and high quality retrieval system."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr"
-  logo="/img/customer-logo/sprinklr.svg" >}}
+  company="Sprinklr" >}}
 
 ![case-study-sprinklr-3](/blog/case-study-sprinklr/image3.png)
 
