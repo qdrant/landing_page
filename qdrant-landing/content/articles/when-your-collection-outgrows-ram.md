@@ -18,7 +18,7 @@ keywords:
 category: search-quality
 ---
 
-Once a collection no longer fits in RAM, decide which structures stay resident and whether rescoring is worth a disk read. In hybrid search, quantization can keep a compressed copy of the dense vectors in RAM while the original dense vectors stay on disk. If rescoring is enabled, Qdrant reads those original vectors after the dense prefetch to repair compression errors. The same mechanism applies to dense-only search.
+Once a collection no longer fits in RAM, decide which structures stay resident and whether rescoring is worth a disk read. In hybrid search, quantization can keep a compressed copy of the dense vectors in RAM while the original dense vectors stay on disk. If rescoring is enabled, Qdrant reads those original vectors after the dense prefetch to repair compression errors. The same mechanism applies to dense-only search. The [`turbo4` datatype](/documentation/manage-data/vectors/#turbo4) stores one 4-bit copy and has no original vectors to reread. A later section covers it separately.
 
 The measurements isolate the dense path. Rerun your full hybrid query before you use them to set a production latency budget.
 
@@ -43,7 +43,11 @@ The extra 50% allows for metadata, indexes, point versions, and temporary segmen
 
 ## How Vector Placement Changes Rescoring
 
-Since v1.19, Qdrant sets memory placement per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. The three placements are `cold`, `cached`, and `pinned`. `cold` data loads lazily from disk, so the first request that needs a page waits for it. `cached` data enters the page cache when the collection loads, but the kernel may evict it later. `pinned` data stays in RAM, so the structure has to fit.
+Since v1.19, Qdrant sets memory placement per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. There are three placements:
+
+- `cold` loads lazily from disk, so the first request that needs a page waits for it.
+- `cached` enters the page cache when the collection loads, and the kernel may evict it later.
+- `pinned` stays in RAM, so the structure has to fit.
 
 This measurement concerns the dense vectors and their quantized copy. In a hybrid query, the dense prefetch scores the quantized vectors during graph traversal, then rereads the original vectors during rescoring. The same placements apply to a dense-only query. Set both placements explicitly: the default placement for quantized vectors depends on the placement of the original vectors.
 
@@ -70,7 +74,7 @@ We ran five rounds for each of six dense-only configurations. The table retains 
 
 The ratios matter more than the milliseconds, which come from one laptop. With rescoring off, the memory limit changes almost nothing: 3.8 ms against 4.3 ms, and 0.30 GB read under both limits. That baseline isolates the rescoring cost. Turning it on costs 0.3 ms at 12 GiB and 39 ms at 4 GiB.
 
-The read column explains the gap. At 4 GiB, rescoring read far more data than the selected vectors themselves require because storage reads pages, not individual vectors. That amplification is why the latency increase is much larger than the rescore candidate set suggests.
+The read column shows why. Storage reads whole pages rather than individual vectors, so a few hundred rescore candidates at 4 GiB required 2.98 GB of disk reads, compared with a 0.30 GB baseline. The page reads set the latency, not the size of the candidate set.
 
 At 12 GiB, the container held 9.46 GB of file cache and did not reread original-vector pages after they entered cache. At 4 GiB, the Linux kernel recorded 613,388 such rereads across the warm-up and measured passes, after evicting pages the next query needed. Treat recurring original-vector reads as evidence that rescoring is disk-resident.
 
@@ -82,7 +86,7 @@ Latency validation: we excluded 10 of 30 runs with inconsistent read counters or
 
 Moving the original vectors from `cached` to `cold` under the 4 GiB limit took the median from 43.4 ms to between 45.7 and 52.0 ms, with ranges that overlap. Five rounds on a laptop cannot separate those.
 
-At 4 GiB, keeping original vectors `cached` did not make rescoring cheaper. The kernel evicted them. `cached` asks the operating system to warm data at startup; it cannot keep data resident past the memory cap. Pin the quantized vectors, leave the original vectors `cold`, and verify by tracking recurring original-vector reads and block reads under your production memory limit.
+At 4 GiB, keeping the original vectors `cached` did not make rescoring cheaper. `cached` warms data at startup, but the kernel can evict it when the memory limit is reached. Pin the quantized vectors, leave the original vectors `cold`, then check the block-read counters and original-vector rereads under your own memory limit.
 
 ## When Rescoring Improves Quality
 
@@ -124,11 +128,11 @@ This article measures TurboQuant. For a comparison of TurboQuant bit depths acro
 
 - [Product Quantization](/documentation/manage-data/quantization/#product-quantization): prioritizes a smaller memory footprint, with a larger accuracy and search-speed trade-off to validate.
 
-### Turbo4 Removes the Rescoring Option
+### `turbo4` Removes the Rescoring Option
 
 The [`turbo4` datatype](/documentation/manage-data/vectors/#turbo4) is not TurboQuant. It stores a 4-bit dense-vector representation as the only copy, so there are no original vectors to rescore against.
 
-Use Turbo4 when disk capacity is the constraint and its measured quality meets your target. Use a full-precision vector with quantization when you need `rescore` to recover dense-prefetch quality. This article does not measure Turbo4, so validate it separately on your own queries and labels.
+Use `turbo4` when disk capacity is the constraint and its measured quality meets your target. Use a full-precision vector with quantization when you need `rescore` to recover dense-prefetch quality. This article does not measure `turbo4`, so validate it separately on your own queries and labels.
 
 ## Verify It on Your Own Collection
 
@@ -160,7 +164,7 @@ First, compute the exact dense top `k` once for a representative sample of your 
 
 For hybrid search, keep the dense prefetch, sparse prefetch, fusion method, and filters that your service already uses. Compare the final result's `nDCG@k` on held-out labeled queries. That is the metric that decides whether the configuration serves your product.
 
-This is an evaluation contract, not a complete script. Use your existing request, or ask a coding agent to build a small harness with your dense vector name, current prefetches, fusion method, filters, query sample, and labels. It should sweep only `rescore` and `oversampling`, then report dense-prefetch `Recall@k`, final `nDCG@k`, and latency.
+The steps above list what to measure. Use your existing request, or ask a coding agent to build a small harness with your dense vector name, current prefetches, fusion method, filters, query sample, and labels. It should sweep only `rescore` and `oversampling`, then report dense-prefetch `Recall@k`, final `nDCG@k`, and latency.
 
 On a self-hosted deployment, run the dense-prefetch check under the memory cap you deploy with, from a cold page cache followed by a measured pass. Run `rescore=False` even if you would never ship it, because it shows the cost of the rest of the dense prefetch. On Qdrant Cloud, measure the full request under its normal operating conditions instead.
 
@@ -177,3 +181,5 @@ On a multi-shard hybrid collection, measure the full request on your deployed sh
 Qdrant's `cold` `memory` tier leaves original vectors on disk until a query accesses them. If you use it, set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) in Qdrant v1.19 to issue reads asynchronously when the Linux kernel supports it. In hybrid search, the sparse prefetch shares the same page cache. Rerun the full request after you set the dense-vector `memory` configuration.
 
 For capacity planning, the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/) estimates the collection size before you set a memory limit.
+
+If you do not have a labeled query set yet, [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) covers how to build one, along with the `nDCG@k` baseline every comparison here is measured against.
