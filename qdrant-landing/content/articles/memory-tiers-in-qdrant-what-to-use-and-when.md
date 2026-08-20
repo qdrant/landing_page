@@ -1,7 +1,7 @@
 ---
 title: "Memory Tiers in Qdrant: What to Use and When"
 short_description: "Guidance on choosing a Qdrant memory tier layout, backed by benchmarks from 1.8M to 9.5M points."
-description: "Which Qdrant memory tier layout to use and why, backed by benchmarks from 1.8M to 9.5M points."
+description: "Which Qdrant memory tier layout to use and why, backed by benchmarks scaling from 1.8M to 9.5M points."
 social_preview_image: /articles_data/memory-tiers-in-qdrant-what-to-use-and-when/preview/social_preview.png
 preview_dir: /articles_data/memory-tiers-in-qdrant-what-to-use-and-when/preview
 author: Clelia Bertelli
