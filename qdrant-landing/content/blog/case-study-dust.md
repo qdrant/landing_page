@@ -62,8 +62,12 @@ strategy with the embeddings models and performs retrieval augmented generation.
 
 For this, Dust required a vector database and evaluated different options
 including Pinecone and Weaviate, but ultimately decided on Qdrant as the
-solution of choice. “We particularly liked Qdrant because it is open-source,
-written in Rust, and it has a well-designed API,” Polu says. For example, Dust
+solution of choice. {{< quote
+  text="We particularly liked Qdrant because it is open-source, written in Rust, and it has a well-designed API."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust"
+  logo="/img/customers-case-studies-logo/dust.svg" >}} For example, Dust
 was looking for high control and visibility in the context of their rapidly
 scaling demand, which made the fact that Qdrant is open-source a key driver for
 selecting Qdrant. Also, Dust's existing system which is interfacing with Qdrant,
@@ -78,7 +82,12 @@ Dust’s end. In addition, they created clusters and deployed them on Google
 Cloud since Dust wanted to have those run directly in their existing Google
 Cloud environment. This added a lot of value as it allowed Dust to centralize
 billing and increase security by having the instance live within the same VPC.
-“The early setup worked out of the box nicely,” Polu says.
+{{< quote
+  text="The early setup worked out of the box nicely."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust"
+  logo="/img/customers-case-studies-logo/dust.svg" >}}
 
 2. **Scale and optimize:** As the load grew, Dust started to take advantage of Qdrant’s
 features to tune the setup for optimization and scale. They started to look into
@@ -90,11 +99,14 @@ more effectively. “This allowed us to scale smoothly from there,” Polu says.
 
 ## Results
 
-Dust has seen success in using Qdrant as their vector database of choice, as Polu
-acknowledges: “Qdrant’s ability to handle large-scale models and the flexibility
-it offers in terms of data management has been crucial for us. The observability
-features, such as historical graphs of RAM, Disk, and CPU, provided by Qdrant are
-also particularly useful, allowing us to plan our scaling strategy effectively.”
+Dust has seen success in using Qdrant as their vector database of choice.
+
+{{< quote
+  text="Qdrant’s ability to handle large-scale models and the flexibility it offers in terms of data management has been crucial for us. The observability features, such as historical graphs of RAM, Disk, and CPU, provided by Qdrant are also particularly useful, allowing us to plan our scaling strategy effectively."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust"
+  logo="/img/customers-case-studies-logo/dust.svg" >}}
 
 Dust was able to scale its application with Qdrant while maintaining low latency
 across hundreds of thousands of collections with retrieval only taking
