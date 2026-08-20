@@ -8,20 +8,16 @@ weight: 20
 
 {{< date >}} Module 1 {{< /date >}}
 
-<!--
-TODO (video): add the Module 1 overview video before launch. Follow the
-Essentials embed pattern. Outro bumper yes, Intro bumper no.
-
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/VIDEO_ID?rel=0"
+  src="https://www.youtube.com/embed/tndhf7mqcjM"
+  title="YouTube video player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen>
 </iframe>
 </div>
--->
 
 # Let's Understand Search
 
