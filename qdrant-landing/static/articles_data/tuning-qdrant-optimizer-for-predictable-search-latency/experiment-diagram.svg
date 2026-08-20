@@ -1,58 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title description">
-  <title id="title">Qdrant collection lifecycle</title><desc id="description">Three Qdrant collection phases: Upload, Draining, and Steady.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">Collection lifecycle: Upload, Draining, and Steady</title>
+  <desc id="desc">An editorial Qdrant-style lifecycle diagram using the supplied palette. Upload has active ingestion and no search. Draining has competing search and optimizer work. Steady has idle optimizers and stable latency.</desc>
   <defs>
-    <marker id="phase-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#77819A"/></marker>
+    <marker id="arrow-neutral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L9 5L0 10Z" fill="#717C99"/></marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L9 5L0 10Z" fill="#2F6FF0"/></marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L9 5L0 10Z" fill="#038585"/></marker>
     <style>
-      .title { font:700 39px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#20263A; letter-spacing:-1.2px; }
-      .stage { font:700 30px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#20263A; }
-      .body { font:500 19px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#414A62; }
-      .label { font:700 14px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#6E7790; letter-spacing:1.2px; }
-      .tiny { font:500 13px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#6E7790; }
+      .title { font:500 38px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#576280; }
+      .stage { font:700 30px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#28324D; }
+      .body { font:500 20px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#3D4866; }
+      .small { font:500 16px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#576280; }
+      .caps { font:700 14px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; fill:#717C99; letter-spacing:1.2px; }
+      .blue { fill:#0040A1; } .teal { fill:#004F4F; } .primary { fill:#91012A; }
     </style>
   </defs>
   <rect width="1600" height="820" fill="#FFFFFF"/>
-  <text x="800" y="84" text-anchor="middle" class="title">Collection lifecycle</text>
-  <text x="800" y="120" text-anchor="middle" class="body">From bulk ingestion to a stable search baseline</text>
+  <!-- stage headers remain neutral on white -->
+  <text x="230" y="184" text-anchor="middle" class="stage">Upload</text>
+  <text x="800" y="184" text-anchor="middle" class="stage">Draining</text>
+  <text x="1370" y="184" text-anchor="middle" class="stage">Steady</text>
+  <text x="230" y="217" text-anchor="middle" class="small">bulk load</text>
+  <text x="800" y="217" text-anchor="middle" class="small">search and maintenance</text>
+  <text x="1370" y="217" text-anchor="middle" class="small">stable search baseline</text>
 
-  <rect x="70" y="180" width="360" height="540" rx="16" fill="#FBFBFF" stroke="#6558FF" stroke-width="2"/>
-  <rect x="610" y="180" width="360" height="540" rx="16" fill="#FBFBFF" stroke="#6558FF" stroke-width="2"/>
-  <rect x="1150" y="180" width="360" height="540" rx="16" fill="#F9FCFF" stroke="#00A6EA" stroke-width="2"/>
+  <!-- phase connectors sit in deliberately empty lanes -->
+  <text x="515" y="347" text-anchor="middle" class="caps">SEARCH BEGINS</text>
+  <path d="M430 377H600" fill="none" stroke="#717C99" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-neutral)"/>
+  <text x="1085" y="347" text-anchor="middle" class="caps">MAINTENANCE CLEARS</text>
+  <path d="M1000 377H1170" fill="none" stroke="#717C99" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-neutral)"/>
 
-  <!-- Dedicated gutters keep phase labels and arrows outside cards. -->
-  <text x="520" y="383" text-anchor="middle" class="label">SEARCH BEGINS</text>
-  <path d="M450 427H590" fill="none" stroke="#77819A" stroke-width="2.5" stroke-linecap="round" marker-end="url(#phase-arrow)"/>
-  <text x="1060" y="383" text-anchor="middle" class="label">MAINTENANCE CLEARS</text>
-  <path d="M990 427H1130" fill="none" stroke="#77819A" stroke-width="2.5" stroke-linecap="round" marker-end="url(#phase-arrow)"/>
-
-  <g transform="translate(70 180)">
-    <text x="180" y="67" text-anchor="middle" class="stage">Upload</text><text x="180" y="101" text-anchor="middle" class="body">bulk load</text>
-    <rect x="42" y="132" width="276" height="82" rx="15" fill="#E5E9F8"/>
-    <text x="180" y="166" text-anchor="middle" class="body">Active ingestion</text><text x="180" y="195" text-anchor="middle" class="body">no search traffic</text>
-    <text x="45" y="268" class="label">POINT BATCHES</text>
-    <g fill="#6558FF"><rect x="45" y="287" width="30" height="26" rx="3"/><rect x="90" y="287" width="30" height="26" rx="3"/><rect x="135" y="287" width="30" height="26" rx="3"/><rect x="180" y="287" width="30" height="26" rx="3"/><rect x="225" y="287" width="30" height="26" rx="3"/><rect x="270" y="287" width="30" height="26" rx="3"/></g>
-    <path d="M180 329V378" fill="none" stroke="#77819A" stroke-width="2.5" stroke-linecap="round" marker-end="url(#phase-arrow)"/><text x="199" y="359" class="tiny">write</text>
-    <g stroke="#00A88F" stroke-width="2.4"><path d="M76 403V476C76 502 284 502 284 476V403" fill="#E7F8F5"/><ellipse cx="180" cy="403" rx="104" ry="23" fill="#F9FFFE"/><ellipse cx="180" cy="403" rx="104" ry="23" fill="none"/></g>
-    <text x="180" y="458" text-anchor="middle" class="body">collection</text>
+  <!-- upload: blue tint with darker blue text -->
+  <g transform="translate(100 270)">
+    <rect x="0" y="0" width="260" height="78" fill="#D9E2FE"/>
+    <text x="22" y="32" class="body blue">Active ingestion</text>
+    <text x="22" y="59" class="body blue">no search traffic</text>
+    <text x="0" y="126" class="caps">POINT BATCHES</text>
+    <g fill="#2F6FF0"><rect x="0" y="145" width="30" height="28"/><rect x="45" y="145" width="30" height="28"/><rect x="90" y="145" width="30" height="28"/><rect x="135" y="145" width="30" height="28"/><rect x="180" y="145" width="30" height="28"/><rect x="225" y="145" width="30" height="28"/></g>
+    <path d="M128 188V249" fill="none" stroke="#2F6FF0" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <rect x="0" y="272" width="260" height="102" fill="#D9E2FE"/>
+    <g transform="translate(25 298)" fill="none" stroke="#0040A1" stroke-width="2.6"><ellipse cx="22" cy="7" rx="19" ry="6"/><path d="M3 7V30C3 38 41 38 41 30V7"/><ellipse cx="22" cy="30" rx="19" ry="6"/></g>
+    <text x="83" y="332" class="body blue">Collection</text>
+    <text x="0" y="420" class="small">Writes build the index.</text>
   </g>
 
-  <g transform="translate(610 180)">
-    <text x="180" y="67" text-anchor="middle" class="stage">Draining</text><text x="180" y="101" text-anchor="middle" class="body">catching up</text>
-    <rect x="33" y="132" width="294" height="100" rx="15" fill="#FFE2DE"/>
-    <text x="180" y="167" text-anchor="middle" class="body">Search traffic competes</text><text x="180" y="196" text-anchor="middle" class="body">with optimizers</text>
-    <text x="42" y="286" class="label">SEARCH</text><path d="M113 280H153" fill="none" stroke="#77819A" stroke-width="2.5" stroke-linecap="round" marker-end="url(#phase-arrow)"/>
-    <g transform="translate(166 258)" stroke="#00A88F" stroke-width="2.4"><path d="M0 19V52C0 70 150 70 150 52V19" fill="#E7F8F5"/><ellipse cx="75" cy="19" rx="75" ry="21" fill="#F9FFFE"/><ellipse cx="75" cy="19" rx="75" ry="21" fill="none"/></g>
-    <text x="42" y="363" class="label">OPTIMIZERS ACTIVE</text>
-    <text x="42" y="405" class="body">index</text><rect x="130" y="387" width="174" height="20" rx="2" fill="none" stroke="#FF9B00" stroke-width="2" stroke-dasharray="3 3"/><rect x="130" y="387" width="100" height="20" rx="2" fill="#FF9B00"/>
-    <text x="42" y="451" class="body">merge</text><rect x="130" y="433" width="174" height="20" rx="2" fill="none" stroke="#F15000" stroke-width="2" stroke-dasharray="3 3"/><rect x="130" y="433" width="143" height="20" rx="2" fill="#F15000"/>
-    <text x="42" y="497" class="body">vacuum</text><rect x="130" y="479" width="174" height="20" rx="2" fill="none" stroke="#FF9B00" stroke-width="2" stroke-dasharray="3 3"/><rect x="130" y="479" width="78" height="20" rx="2" fill="#FF9B00"/>
+  <!-- draining: primary tint for contention; teal stays reserved for search -->
+  <g transform="translate(650 270)">
+    <rect x="0" y="0" width="300" height="78" fill="#FFDADB"/>
+    <text x="22" y="32" class="body primary">Search traffic competes</text>
+    <text x="22" y="59" class="body primary">with optimizers</text>
+    <text x="0" y="126" class="caps">SEARCH</text>
+    <rect x="0" y="145" width="144" height="46" fill="#C0F0F0"/>
+    <text x="18" y="175" class="body teal">Queries</text>
+    <path d="M160 168H221" fill="none" stroke="#038585" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+    <g transform="translate(236 147)" fill="none" stroke="#004F4F" stroke-width="2.5"><ellipse cx="28" cy="8" rx="25" ry="8"/><path d="M3 8V37C3 47 53 47 53 37V8"/><ellipse cx="28" cy="37" rx="25" ry="8"/></g>
+    <text x="0" y="242" class="caps">OPTIMIZERS</text>
+    <text x="0" y="285" class="body">index</text><rect x="92" y="265" width="188" height="21" fill="#FFDADB"/><rect x="92" y="265" width="116" height="21" fill="#DC244C"/>
+    <text x="0" y="329" class="body">merge</text><rect x="92" y="309" width="188" height="21" fill="#FFDADB"/><rect x="92" y="309" width="159" height="21" fill="#BE003A"/>
+    <text x="0" y="373" class="body">vacuum</text><rect x="92" y="353" width="188" height="21" fill="#FFDADB"/><rect x="92" y="353" width="84" height="21" fill="#DC244C"/>
+    <path d="M92 397H280" stroke="#DC244C" stroke-width="2" stroke-dasharray="5 6"/>
+    <text x="0" y="428" class="small">Background work drains.</text>
   </g>
 
-  <g transform="translate(1150 180)">
-    <text x="180" y="67" text-anchor="middle" class="stage">Steady</text><text x="180" y="101" text-anchor="middle" class="body">stable baseline</text>
-    <rect x="33" y="132" width="294" height="100" rx="15" fill="#DDF6F2"/>
-    <text x="180" y="167" text-anchor="middle" class="body">Optimizers idle</text><text x="180" y="196" text-anchor="middle" class="body">search runs at baseline</text>
-    <text x="180" y="291" text-anchor="middle" class="label">SEARCH LATENCY</text>
-    <path d="M59 488V334M59 488H311" fill="none" stroke="#424B63" stroke-width="1.5"/><text x="65" y="355" class="tiny">latency</text><text x="265" y="516" class="tiny">query</text>
-    <path d="M59 429L75 412L91 420L107 411L123 419L139 408L155 419L171 412L187 431L203 406L219 418L235 418L251 405L267 415L283 415L300 408" fill="none" stroke="#00A88F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="300" cy="408" r="3.5" fill="#00A88F"/>
+  <!-- steady: teal tint with dark teal text -->
+  <g transform="translate(1220 270)">
+    <rect x="0" y="0" width="280" height="78" fill="#C0F0F0"/>
+    <text x="22" y="32" class="body teal">Optimizers idle</text>
+    <text x="22" y="59" class="body teal">fixed baseline</text>
+    <text x="0" y="126" class="caps">SEARCH LATENCY</text>
+    <path d="M18 360V158M18 360H276" fill="none" stroke="#3D4866" stroke-width="1.6"/>
+    <text x="30" y="181" class="small">latency</text><text x="226" y="388" class="small">query</text>
+    <path d="M18 278L34 262L50 270L66 260L82 268L98 257L114 270L130 262L146 281L162 255L178 268L194 268L210 255L226 266L242 266L258 259" fill="none" stroke="#038585" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="258" cy="259" r="4" fill="#038585"/>
+    <text x="0" y="430" class="small">Search runs steadily.</text>
   </g>
 </svg>
