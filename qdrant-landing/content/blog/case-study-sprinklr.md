@@ -67,7 +67,8 @@ Sprinklr’s transition to Qdrant was carefully managed, starting with 10% of th
   text="Qdrant’s ability to index [multiple vectors](https://qdrant.tech/documentation/manage-data/vectors/#multivectors) simultaneously and retrieve and re-rank with precision brought significant improvements to our workflow."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr" >}}
+  company="Sprinklr"
+  logo="/img/customer-logo/sprinklr.svg" >}}
 
 This feature reduced the need for repeated retrieval processes, significantly improving efficiency. Additionally, Qdrant’s [quantization](https://qdrant.tech/documentation/manage-data/quantization/) and [memory mapping](https://qdrant.tech/documentation/manage-data/storage/#configuring-memmap-storage) features enabled Sprinklr to reduce RAM usage, leading to substantial cost savings.
 
@@ -77,7 +78,8 @@ Qdrant now plays a key supportive role in enhancing Sprinklr’s vector search c
   text="Retrieval is the foundation of all our AI tasks, and Qdrant’s resilience and speed have made it an integral part of our system."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr" >}}
+  company="Sprinklr"
+  logo="/img/customer-logo/sprinklr.svg" >}}
 
 ### Key Outcomes with Qdrant
 
@@ -96,7 +98,8 @@ The Sprinklr team conducted a thorough internal benchmark on applications requir
   text="Qdrant is a very fast and high quality retrieval system."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr" >}}
+  company="Sprinklr"
+  logo="/img/customer-logo/sprinklr.svg" >}}
 
 ![case-study-sprinklr-3](/blog/case-study-sprinklr/image3.png)
 

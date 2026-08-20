@@ -48,7 +48,8 @@ For Concierge to succeed, the assistant needed to respond to the vast majority o
   text="The primary goal was answerability. We wanted to make sure the model could answer most questions. The second most important was accuracy, so that when the model gave an answer it was correct."
   name="Puyuan Liu"
   role="Machine Learning Scientist"
-  company="OpenTable" >}}
+  company="OpenTable"
+  logo="/img/customers-case-studies-logo/opentable.svg" >}}
 
 Beyond the application logic, the team needed a vector database that could handle sparse embeddings for keyword expansions and fine-grained filtering. Queries often narrowed results to a single restaurant out of more than 60,000, which placed heavy demands on filtering performance. 
 
@@ -66,7 +67,8 @@ Third, Qdrant Cloud provided a deployment path that was simpler than self-hostin
   text="Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
   name="Patrick Lombardo"
   role="Staff ML Engineer"
-  company="OpenTable" >}}
+  company="OpenTable"
+  logo="/img/customers-case-studies-logo/opentable.svg" >}}
 
 The production launch was global from the start, allowing Concierge to answer questions about restaurants in many regions without separate deployments. 
 
@@ -78,7 +80,8 @@ Concierge met its latency target and maintained high answerability without exten
   text="Since running it in production, it is a frictionless part of the stack."
   name="Ant White"
   role="Principal Software Engineer"
-  company="OpenTable" >}}
+  company="OpenTable"
+  logo="/img/customers-case-studies-logo/opentable.svg" >}}
 
 ### Key takeaways from the Concierge rollout 
 

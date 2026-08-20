@@ -55,7 +55,8 @@ But the scale was immense. Their full corpus includes hundreds of millions of do
   text="Qdrant was the only one that handled that load out of the box — and without needing dedicated DevOps engineers."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI" >}}
+  company="&AI"
+  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
 
 Turner had used Qdrant in a prior startup, where he appreciated the high performance and strong Rust-based architecture. But it was Qdrant’s [opinionated documentation](https://qdrant.tech/documentation/) and built-in developer tools that sealed the deal.
 
@@ -65,7 +66,8 @@ Turner had used Qdrant in a prior startup, where he appreciated the high perform
   text="Don’t make me figure out how to optimize everything myself. Qdrant tells you the right way to do things; it just works."
   name="Herbie Turner"
   role="CTO & Co-Founder"
-  company="&AI" >}}
+  company="&AI"
+  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
 
 ## From noisy PDFs to structured vectors
 
