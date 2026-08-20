@@ -10,6 +10,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
 
   &::-webkit-scrollbar {
     width: 8px;
