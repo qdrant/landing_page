@@ -69,33 +69,39 @@ client = QdrantClient(
     url="https://YOUR-CLUSTER.cloud.qdrant.io",
     api_key="<your-api-key>",
 )
+```
 
-# Both prefetches must use the models the collection was indexed with.
+Both queries read the same two candidate lists, so build the prefetches once. They must use the models the collection was indexed with.
+
+```python
 from your_embedding_setup import dense_query, sparse_query
 
 dense_prefetch = models.Prefetch(query=dense_query, using="dense", limit=200)
 sparse_prefetch = models.Prefetch(query=sparse_query, using="bm25", limit=200)
 prefetches = [dense_prefetch, sparse_prefetch]
+```
 
+`RrfQuery` carries both RRF settings, `k` and the weight pair, shown here at their defaults. It requires Qdrant v1.17 or later and a compatible `qdrant-client` release.
+
+```python
 rrf_response = client.query_points(
     collection_name="products",
     prefetch=prefetches,
     query=models.RrfQuery(rrf=models.Rrf(k=2, weights=[1.0, 1.0])),
     limit=10,
 )
+```
 
+The DBSF query differs only in the fusion step.
+
+```python
 dbsf_response = client.query_points(
     collection_name="products",
     prefetch=prefetches,
     query=models.FusionQuery(fusion=models.Fusion.DBSF),
     limit=10,
 )
-
-# For an RRF variant, change k and keep the tested weight pair:
-# models.Rrf(k=20, weights=[1.0, 1.0])
 ```
-
-This code requires Qdrant v1.17 or later and a compatible `qdrant-client` release that exposes `models.RrfQuery`.
 
 <aside role="status">
 In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker. Fusion nested inside a prefetch runs per shard, and DBSF rescales against the score distribution of each shard's own candidates. The <a href="/articles/candidate-depth/">candidate depth guide</a> explains how to set the limit.
@@ -111,17 +117,17 @@ On three of these five datasets, DBSF scored higher than default RRF by a margin
 | DBPedia-entity | 0.4822 | +0.0184 |
 | WANDS | 0.7637 | +0.0383 |
 
-DBSF takes no parameters: `k` and the weight pair are RRF settings, and the public API accepts them only on an `RrfQuery`. So if DBSF wins on your labels, the remaining work is the held-out check at the end of this article, and the two tuning sections between here and it apply when RRF wins.
+DBSF takes no parameters: `k` and the weight pair are RRF settings, and the public API accepts them only on an `RrfQuery`. So if DBSF wins on your labels, skip the next two sections and go to the held-out check.
 
 ## Use Labels to Choose a `k` Range
 
-The constant `k` applies to RRF only. Qdrant scores a document at position `pos` in one prefetch as `1 / ((pos + 1) / weight + k - 1)`, then sums across prefetches. With equal weights that reduces to `1 / (pos + k)`, and `k` alone decides how steeply the head of a list outranks its tail.
+Qdrant scores a document at position `pos` in one prefetch as `1 / ((pos + 1) / weight + k - 1)`, then sums across prefetches. With equal weights that reduces to `1 / (pos + k)`, and `k` alone decides how steeply the head of a list outranks its tail.
 
 {{< figure src="/articles_data/how-to-tune-hybrid-search/rrf-k-rank-weight.png" alt="Grouped bar chart comparing the share of a retrieval prefetch's top-10 score mass at each rank, for k equal to 2 and k equal to 61. At k=2 rank 1 takes 24.8 percent and rank 10 takes 4.5 percent. At k=61 the shares are nearly flat, 10.7 percent at rank 1 and 9.3 percent at rank 10." caption="At Qdrant's default of k=2, rank 1 carries 5.50 times the score weight of rank 10. At k=61, it carries 1.15 times the weight, so a candidate's presence in a prefetch matters almost as much as its position." width="100%" >}}
 
 Rank 1 outweighs rank 10 by 2.80 times at `k=5` and 1.45 times at `k=20`, so most of the movement sits below `k=20`. A sweep in even steps of five would spend most of its runs past the point where the curve stops moving.
 
-Sweep `k` over 1, 2, 5, 20, and 61. Lower values favor a document one prefetch ranks highly, and higher values give more credit to documents both prefetches retrieve.
+Sweep `k` over 1, 2, 5, 20, and 61, changing only `k` in `models.Rrf` and keeping equal weights. Lower values favor a document one prefetch ranks highly, and higher values give more credit to documents both prefetches retrieve.
 
 The table gives `nDCG@10` at equal weights across five values of `k`, with `k=2` as default RRF. A star marks the best `k` in each row.
 
