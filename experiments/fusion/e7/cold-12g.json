@@ -1,7 +1,0 @@
-{
-  "host_purge_ran": false,
-  "host_swap_after": "total = 6144.00M  used = 5241.19M  free = 902.81M  (encrypted)",
-  "limit": "12g",
-  "vm_cache_after_bytes": 80240640,
-  "vm_cache_before_bytes": 10802790400
-}

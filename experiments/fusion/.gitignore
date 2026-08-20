@@ -1,7 +1,0 @@
-data/
-cache/
-*.pyc
-__pycache__/
-# Per-document fused rows: 6.7 MB, and `python run.py t5` regenerates them from cache/.
-fused/
-.venv/
