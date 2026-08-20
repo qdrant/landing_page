@@ -389,7 +389,7 @@ Open the notebook and work through these against the catalog above:
 
 1. Query `Nike Pegasus 41` and compare the dense-only, sparse-only, and hybrid rankings. Which retriever separates 41 from 40 more decisively, and by how much?
 2. Add a `models.FieldCondition` on `price` with `models.Range(lte=140)` to `shopper_filter` and rerun. Two products should drop out. Predict which before you run it.
-3. Query `comfortable shoes for long runs`, a phrase no title contains. Dense ranks the products, while sparse returns a flat tie across the five titles holding both `running` and `shoes`. Work out why sharing exactly the same query tokens produces a tie.
+3. Query `comfortable shoes for long runs`, a phrase no title contains in full. Sparse can only score the titles that share `shoes` or `running`, and it orders them by how rare each token is and how long the title is, not by how well the shoe answers the question. Decide which retriever you would put in front of a shopper typing this, then run the hybrid version and see whether fusion changes your answer.
 
 <aside role="status">
 The same primitive extends beyond text: images with CLIP or SigLIP, video as sampled frames, audio as spectrogram embeddings, stored as named vectors exactly as this module stored dense and sparse together. Module 5 builds a full multimodal search system as the capstone.
@@ -441,7 +441,7 @@ You are in local mode with the filter at the top level rather than inside each p
 - [Filtering](/documentation/search/filtering/): full filter syntax and the payload index each condition needs.
 - [Named Vectors](/documentation/manage-data/vectors/#named-vectors): configuring and querying more than one vector on a single point.
 
-## What's Next - Module 4
+## What's Next: Module 4
 
 Eight products can fit in one collection and one query. A multilingual news archive with strict tenant isolation and a generation step requires a more deliberate design. <br>
 Module 4 works through this system end to end, decision by decision. You'll learn how the layers of the stack work together, how filters behave when the query planner selects a strategy, and how deployment choices range from Docker to Qdrant Edge.
