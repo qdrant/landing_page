@@ -43,7 +43,7 @@ The extra 50% allows for metadata, indexes, point versions, and temporary segmen
 
 ## How Vector Placement Changes Rescoring
 
-Since v1.19, Qdrant sets memory placement per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. There are three placements:
+Since v1.19, Qdrant sets memory placement per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. Data moves between disk and RAM in fixed-size pages, typically 4 KiB on Linux, and the placement decides where a structure's pages sit. There are three placements:
 
 - `cold` loads lazily from disk, so the first request that needs a page waits for it.
 - `cached` enters the page cache when the collection loads, and the kernel may evict it later.
@@ -74,7 +74,7 @@ We ran five rounds for each of six dense-only configurations. The table retains 
 
 The ratios matter more than the milliseconds, which come from one laptop. With rescoring off, the memory limit changes almost nothing: 3.8 ms against 4.3 ms, and 0.30 GB read under both limits. That baseline isolates the rescoring cost. Turning it on costs 0.3 ms at 12 GiB and 39 ms at 4 GiB.
 
-The read column shows why. Storage reads whole pages rather than individual vectors, so a few hundred rescore candidates at 4 GiB required 2.98 GB of disk reads, compared with a 0.30 GB baseline. The page reads set the latency, not the size of the candidate set.
+The read column shows why. Rescoring at 4 GiB read 2.98 GB of pages, many times the size of the candidate vectors it needed, against a 0.30 GB baseline. Latency follows that read volume.
 
 At 12 GiB, the container held 9.46 GB of file cache and did not reread original-vector pages after they entered cache. At 4 GiB, the Linux kernel recorded 613,388 such rereads across the warm-up and measured passes, after evicting pages the next query needed. Treat recurring original-vector reads as evidence that rescoring is disk-resident.
 
