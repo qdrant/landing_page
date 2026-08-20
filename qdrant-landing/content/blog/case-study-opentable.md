@@ -22,19 +22,19 @@ partition: case-studies
 
 ## **Reinventing Restaurant Discovery: How OpenTable built Concierge, an AI Dining Assistant** 
 
+### Recognizing that AI would redefine restaurant discovery 
+
+When generative AI tools entered the mainstream, OpenTable knew diners would change how they find and choose restaurants. People were beginning to expect conversational, intelligent and context-aware assistants, rather than static search boxes. 
+
+The team wanted to move quickly.
+
 {{< quote
-  text="Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
+  text="We knew early on that generative AI was going to change user expectations. Concierge was an opportunity for us to transform the way that diners discover restaurants while building the tooling and infrastructure that will support future AI-powered experiences."
   name="Patrick Lombardo"
   role="Staff ML Engineer"
   company="OpenTable"
   logo="/img/customers-case-studies-logo/opentable.svg"
   featured="true" >}}
-
-### Recognizing that AI would redefine restaurant discovery 
-
-When generative AI tools entered the mainstream, OpenTable knew diners would change how they find and choose restaurants. People were beginning to expect conversational, intelligent and context-aware assistants, rather than static search boxes. 
-
-Patrick Lombardo, Staff ML Engineer at OpenTable, recalls that the team wanted to move quickly. “We knew early on that generative AI was going to change user expectations. Concierge was an opportunity for us to transform the way that diners discover restaurants while building the tooling and infrastructure that will support future AI-powered experiences.”
 
 That stepping stone is [Concierge](https://www.opentable.com/blog/concierge-ai-dining-assistant/), an AI-powered assistant designed to answer restaurant-related questions in natural language using OpenTable’s data. 
 
@@ -61,6 +61,12 @@ First, its handling of sparse embeddings was a key differentiator. Concierge’s
 Second, Qdrant delivered reliable high-precision filtering. In production, each query might target reviews, metadata, and other structured restaurant data all at once. Qdrant handled this with predictable performance, which was essential for hitting their latency budget. 
 
 Third, Qdrant Cloud provided a deployment path that was simpler than self-hosting. 
+
+{{< quote
+  text="Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
+  name="Patrick Lombardo"
+  role="Staff ML Engineer"
+  company="OpenTable" >}}
 
 The production launch was global from the start, allowing Concierge to answer questions about restaurants in many regions without separate deployments. 
 
