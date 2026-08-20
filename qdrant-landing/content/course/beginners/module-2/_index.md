@@ -28,7 +28,7 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 
 #### TL;DR
 
-Module 1 explained why semantic search works. In this module, you’ll learn 
+> Module 1 explained why semantic search works. In this module, you’ll learn 
 where your data lives and how Qdrant searches it. You’ll explore collections,
 points, vectors, payloads, and distance metrics, then see how Qdrant finds the 
 top-k matches without scanning every vector. You’ll also learn how to filter
