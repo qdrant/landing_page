@@ -80,9 +80,9 @@ client.upsert(collection_name, points)
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
 
 ```python
-client.search(
+client.query_points(
     collection_name=collection_name,
-    query_vector=mistral_client.embeddings(
+    query=mistral_client.embeddings(
         model="mistral-embed", input=["What is the best to use for vector search scaling?"]
     ).data[0].embedding,
 )

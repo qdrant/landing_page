@@ -190,13 +190,13 @@ was present in the first *k* results.
 k_max = 10
 answer_positions = []
 for embedding, pubid in tqdm(zip(question_response.embeddings, ids)):
-    response = qdrant_client.search(
+    response = qdrant_client.query_points(
         collection_name="pubmed_qa",
-        query_vector=embedding,
+        query=embedding,
         limit=k_max,
     )
 
-    answer_ids = [record.id for record in response]
+    answer_ids = [record.id for record in response.points]
     if pubid in answer_ids:
         answer_positions.append(answer_ids.index(pubid))
     else:

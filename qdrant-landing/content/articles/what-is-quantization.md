@@ -255,7 +255,7 @@ POST /collections/{collection_name}/points/search
 ```python
 client.query_points(
     collection_name="my_collection",
-    query_vector=[0.22, -0.01, -0.98, 0.37],  # Your query vector
+    query=[0.22, -0.01, -0.98, 0.37],  # Your query vector
     search_params=models.SearchParams(
         quantization=models.QuantizationSearchParams(
             rescore=True  # Enables rescoring with original vectors
@@ -347,7 +347,7 @@ POST /collections/{collection_name}/points/search
 ```python
 client.query_points(
     collection_name="my_collection",
-    query_vector=[0.22, -0.01, -0.98, 0.37],
+    query=[0.22, -0.01, -0.98, 0.37],
     search_params=models.SearchParams(
         quantization=models.QuantizationSearchParams(
             rescore=True,   # Enables rescoring with original vectors
