@@ -127,7 +127,7 @@ client.upsert(
 The access control setup is completed as you specify the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. 
 
 ```python
-client.search(
+client.query_points(
     collection_name="{tenant_data}",
     query_filter=models.Filter(
         must=[
@@ -139,7 +139,7 @@ client.search(
             ),
         ]
     ),
-    query_vector=[0.1, 0.1, 0.9],
+    query=[0.1, 0.1, 0.9],
     limit=10,
 )
 ```
@@ -188,7 +188,6 @@ Qdrant is ready to support a massive-scale architecture for your machine learnin
 To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
 
 Get support or share ideas in our [Discord](https://qdrant.to/discord) community. This is where we talk about vector search theory, publish examples and demos and discuss vector database setups.
-
 
 
 

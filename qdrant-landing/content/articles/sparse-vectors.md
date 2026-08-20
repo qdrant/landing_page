@@ -359,22 +359,20 @@ After setting up the collection and inserting sparse vectors, the next critical 
 
 ```python
 # Searching for similar documents
-result = client.search(
+result = client.query_points(
     collection_name=COLLECTION_NAME,
-    query_vector=models.NamedSparseVector(
-        name="text",
-        vector=models.SparseVector(
-            indices=query_indices,
-            values=query_values,
-        ),
+    query=models.SparseVector(
+        indices=query_indices,
+        values=query_values,
     ),
+    using="text",
     with_vectors=True,
-)
+).points
 
 result
 ```
 
-In the above code, we execute a search against our collection using the prepared sparse vector query. The `client.search` method takes the collection name and the query vector as inputs. The query vector is constructed using the `models.NamedSparseVector`, which includes the indices and values derived from the query text. This is a crucial step in efficiently retrieving relevant documents. 
+The `client.query_points` method takes the collection name and the sparse query vector as inputs. The `using` parameter selects the named vector.
 
 ```python
 ScoredPoint(

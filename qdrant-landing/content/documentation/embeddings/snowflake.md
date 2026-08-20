@@ -116,9 +116,9 @@ Once the documents are added, you can search for the most relevant documents.
 ```python
 query_embedding = next(embedding_model.query_embed("What is the best to use for vector search scaling?"))
 
-qclient.search(
+qclient.query_points(
     collection_name=COLLECTION_NAME,
-    query_vector=query_embedding,
+    query=query_embedding,
 )
 ```
 
@@ -128,7 +128,7 @@ const query_embedding = await extractor("What is the best to use for vector sear
     pooling: 'cls'
 });
 
-await client.search(COLLECTION_NAME, {
-    vector: query_embedding.tolist()[0],
+await client.query(COLLECTION_NAME, {
+    query: query_embedding.tolist()[0],
 });
 ```

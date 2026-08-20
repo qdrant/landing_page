@@ -158,9 +158,9 @@ client.update_collection(
 When setting search parameters, we specify that we want to use `oversampling` and `rescore`. Here is an example snippet:
 
 ```python
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7, ...],
+    query=[0.2, 0.1, 0.9, 0.7, ...],
     search_params=models.SearchParams(
         quantization=models.QuantizationSearchParams(
             ignore=False,

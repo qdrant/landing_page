@@ -342,9 +342,9 @@ The filterable vector index is Qdrant's solves pre and post-filtering problems b
 **Example:**
 
 ```python
-results = client.search(
+results = client.query_points(
     collection_name="my_collection",
-    query_vector=[0.1, 0.2, 0.3],
+    query=[0.1, 0.2, 0.3],
     query_filter=models.Filter(must=[
         models.FieldCondition(
             key="category",
@@ -456,7 +456,7 @@ The rescoring process maps the quantized vectors to their corresponding original
 ```python
 client.query_points(
     collection_name="my_collection",
-    query_vector=[0.22, -0.01, -0.98, 0.37],
+    query=[0.22, -0.01, -0.98, 0.37],
     search_params=models.SearchParams(
         quantization=models.QuantizationSearchParams(
             rescore=True,   # Enables rescoring with original vectors
