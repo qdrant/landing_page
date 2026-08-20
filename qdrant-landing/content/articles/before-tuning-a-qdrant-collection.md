@@ -223,4 +223,6 @@ The selected setting usually transfers. Ranking all 30 settings again on the fre
 
 If you compare separately rebuilt indexes, check top-10 agreement across two builds before you treat a small `nDCG@10` difference as a tuning gain. In our clean rebuild test, query sampling moved `nDCG@10` more than graph variation did.
 
+## Start with One Change
+
 Record the current relevance metric and p95 latency for a representative query set. Choose one low-cost change from the symptom table, validate it on fresh queries, and keep it only if the gain survives. Once you have that baseline, [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows how to test whether retrieval depth is the constraint.

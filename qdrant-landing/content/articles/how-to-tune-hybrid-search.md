@@ -133,13 +133,13 @@ The table gives `nDCG@10` at equal weights across five values of `k`, with `k=2`
 
 | Dataset | Queries | Relevant per Query | k=1 | k=2 | k=5 | k=20 | k=61 |
 |---|---|---|---|---|---|---|---|
-| ArguAna | 1,401 | 1.0 | 0.517 | 0.522 | 0.530* | 0.527 | 0.521 |
-| CodeSearchNet | 1,000 | 1.0 | 0.650 | 0.656 | 0.658* | 0.651 | 0.626 |
-| SciFact | 300 | 1.1 | 0.712 | 0.717* | 0.715 | 0.712 | 0.707 |
-| DBPedia-entity | 400 | 38.2 | 0.462 | 0.464 | 0.464 | 0.468* | 0.461 |
-| WANDS | 480 | 358.9 | 0.723 | 0.725 | 0.734 | 0.757 | 0.761* |
+| ArguAna | 1,401 | 1.0 | 0.5171 | 0.5216 | 0.5304* | 0.5269 | 0.5207 |
+| CodeSearchNet | 1,000 | 1.0 | 0.6501 | 0.6555 | 0.6580* | 0.6511 | 0.6258 |
+| SciFact | 300 | 1.1 | 0.7117 | 0.7175* | 0.7154 | 0.7122 | 0.7067 |
+| DBPedia-entity | 400 | 38.2 | 0.4625 | 0.4638 | 0.4641 | 0.4682* | 0.4606 |
+| WANDS | 480 | 358.9 | 0.7232 | 0.7254 | 0.7336 | 0.7571 | 0.7614* |
 
-On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, while `nDCG@10` rose by 0.036. A small aggregate gain can still change what a user sees first.
+On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, while `nDCG@10` rose by 0.0360. A small aggregate gain can still change what a user sees first.
 
 These five datasets suggest a direction: with about one relevant document per query, the best `k` was 2 or 5; with tens or hundreds, it was 20 or 61. Count relevant documents per query in your labeled query set, then try that part of the range first.
 
@@ -151,7 +151,7 @@ Tied scores are more common at low <code>k</code>. Averaged over SciFact's queri
 
 ## Tune Weights Last
 
-A weight pair gives one multiplier to each prefetch, in the order the prefetches appear in the query. The pair is absolute, so `(1, 2)` and `(2, 4)` are two different settings: the formula divides the position by the weight, so scaling both weights changes every score. On WANDS at `k=5`, `(1, 2)` scores 0.739 and `(2, 4)` scores 0.751.
+A weight pair gives one multiplier to each prefetch, in the order the prefetches appear in the query. The pair is absolute, so `(1, 2)` and `(2, 4)` are two different settings: the formula divides the position by the weight, so scaling both weights changes every score. On WANDS at `k=5`, `(1, 2)` scores 0.7390 and `(2, 4)` scores 0.7508.
 
 Settle `k` first, since a pair is only valid for the `k` you tested it with. On WANDS, `(2, 4)` beats equal weights at `k=5`. At `k=61`, that dataset's best value, equal weights win: 0.7614 against 0.7567.
 

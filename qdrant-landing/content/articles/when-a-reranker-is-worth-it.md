@@ -93,7 +93,7 @@ Compare the reranker against the strongest first stage you can build. Qdrant's d
 
 If reranking beats default RRF, [tune fusion](/articles/how-to-tune-hybrid-search/) next. Add reranking only when it improves the strongest first-stage ranking on held-out labeled queries.
 
-Each row in the following table reports the best of four cross-encoders on that dataset. The deltas show the `nDCG@10` change over default RRF and over fusion tuned on the same candidates. `MiniLM-L-6`, `MiniLM-L-12`, and `BAAI/bge-reranker-base` truncate each pair at 512 tokens. `jinaai/jina-reranker-v2-base-multilingual` reads up to 1024 and was trained on a broader mix, including code.
+Each row in the following table reports the best of four cross-encoders on that dataset. The deltas show the `nDCG@10` change over default RRF and over fusion tuned on the same candidates. `MiniLM-L-6`, `MiniLM-L-12`, and `bge-reranker-base` truncate each pair at 512 tokens. `jina-reranker-v2` reads up to 1024 and was trained on a broader mix, including code.
 
 The held-out column is the one that decides. It holds the share of 200 split-half draws where the gain survived on queries it was not selected on.
 
@@ -139,7 +139,7 @@ A higher count refines a win, and it rescued no loss here: every configuration b
 
 Once relevance has settled the candidate count and the model, measure query-candidate pairs per second and tail latency on the hardware you plan to deploy, using representative document lengths and concurrency.
 
-The table shows CPU throughput for the four [FastEmbed cross-encoders](/documentation/fastembed/fastembed-rerankers/), measured in one process on an Apple M5 Pro with 15 threads. The last column converts that rate to whole queries at 100 candidates each.
+The table shows CPU throughput for the four [FastEmbed cross-encoders](/documentation/fastembed/fastembed-rerankers/), listed by their full model IDs and measured in one process on an Apple M5 Pro with 15 threads. The last column converts that rate to whole queries at 100 candidates each.
 
 | Model | Size | Docs per Second | Queries per Second |
 |---|---|---|---|

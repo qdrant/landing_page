@@ -54,7 +54,7 @@ Each value is the change in `nDCG@10` from `limit=10` to 500.
 
 The best possible score change rises with corpus size across these five, from 5,183 documents on SciFact to 100,000 on DBPedia-entity, while the current score change stays flat. Size and domain move together here, so re-measure the gap as your own collection grows.
 
-With Qdrant's default [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the top ranks in each `prefetch` contribute far more to the fused score than the tail. Raising `limit` can add candidates without changing the top 10, or replace a more relevant result. The fused score is not always higher at greater depth: CodeSearchNet peaks at `limit=200` and is lower at 500, and DBPedia peaks at 50. Other fusion methods can rank those candidates differently. [Fusion tuning](/articles/how-to-tune-hybrid-search/) shows how to test them on your labels.
+With Qdrant's default [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the top ranks in each `prefetch` contribute far more to the fused score than the tail. Raising `limit` can add candidates without changing the top 10, or replace a more relevant result. The fused score is not always higher at greater depth: CodeSearchNet peaks at `limit=200` and is lower at 500, and DBPedia-entity peaks at 50. Other fusion methods can rank those candidates differently. [Fusion tuning](/articles/how-to-tune-hybrid-search/) shows how to test them on your labels.
 
 Start `limit` around 100 to 200, then test larger values on your own labels. A [reranker](/articles/when-a-reranker-is-worth-it/) can use the added candidates, and a [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) can rescore those same candidates from payload fields.
 
@@ -70,7 +70,7 @@ For dense vectors, `limit` decides how many candidates the dense stage returns, 
 
 The results were flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only nDCG@10 was just as flat, moving by at most 0.0035. On SciFact, the results at 128 and 512 are byte-identical.
 
-These results apply to clean, unfiltered, unquantized one-shard collections built in one batch, holding at most 100,000 documents. Strict payload filters can leave filterable HNSW short of full accuracy, and this experiment did not cover graphs shaped by continuous upserts or optimizer merges. [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) ran the same check at the same `hnsw_ef=128` on the full 4,635,922-document DBPedia-entity collection: it returned 0.957 of the exact top 10, so about 4% of the true nearest neighbors never came back.
+These results apply to clean, unfiltered, unquantized one-shard collections built in one batch, holding at most 100,000 documents. Strict payload filters can leave filterable HNSW short of full accuracy, and this experiment did not cover graphs shaped by continuous upserts or optimizer merges. [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) ran the same check on the full 4,635,922-document DBPedia-entity collection: it returned 0.957 of the exact top 10, so about 4% of the true nearest neighbors never came back.
 
 A flat column can also mean there is no graph to search. Qdrant builds an HNSW graph only after a segment passes the default `indexing_threshold`, so a smaller segment is searched exhaustively and `hnsw_ef` has no effect. The [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) show how to confirm the graph exists.
 
@@ -141,7 +141,7 @@ Filters change what the traversal can reach. The [ACORN search algorithm](/docum
 
 ## When RAM Is the Constraint
 
-`limit` is a query-time budget. Lowering it cuts retrieval work and the candidates a later stage receives, and it leaves the collection's disk and RAM footprint where it was. Quantization moves that footprint, so test it on your labels before lowering `limit` for memory reasons. The [TurboQuant quantization guide](/articles/turboquant-quantization/) compares the storage classes.
+`limit` is a query-time budget. Lowering it cuts retrieval work and the candidates a later stage receives, and it leaves the collection's disk and RAM footprint where it was. Quantization moves that footprint, so test it on your labels before lowering `limit` for memory reasons. [TurboQuant in Qdrant](/articles/turboquant-quantization/) compares the storage classes.
 
 Int8 scalar quantization stores a compressed copy at one-quarter the size of the float32 vectors. We rebuilt SciFact and DBPedia-entity with it to measure dense top-10 agreement and the effect on the final hybrid result.
 

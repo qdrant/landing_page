@@ -94,7 +94,7 @@ At 4 GiB, keeping the original vectors `cached` did not make rescoring cheaper. 
 Quality scope: the quality table uses the 200-query held-out set at Qdrant's default `memory` configuration. It does not report latency because sequential query passes warmed the operating system's page cache. The latency table reports the `memory` configurations shown there.
 </aside>
 
-An exact search scans every vector and gives the reference result. The graph search is approximate: it can miss exact neighbors in exchange for lower latency. `Recall@10` is the share of the exact top 10 that a configuration returned. `nDCG@10` grades the top 10 against DBPedia's labels, giving more credit to relevant documents near the top.
+An exact search scans every vector and gives the reference result. The graph search is approximate: it can miss exact neighbors in exchange for lower latency. `Recall@10` is the share of the exact top 10 that a configuration returned. `nDCG@10` grades the top 10 against DBPedia-entity's labels, giving more credit to relevant documents near the top.
 
 We selected a candidate on a separate labeled set: the lowest `oversampling` and most aggressive TurboQuant `bits` value within 0.01 `nDCG@10` and 0.02 `Recall@10` of float32. The table reports the held-out result.
 
@@ -162,7 +162,7 @@ client.update_collection(
 
 First, compute the exact dense top `k` once for a representative sample of your queries, where `k` matches the result count your product evaluates. This article reports `k=10`. An exact search reads every original vector, so keep the sample small enough for the cost you can accept. Then run your existing dense prefetch with each `rescore` and `oversampling` variant, changing no other search parameters. `Recall@k` against the exact result shows what quantization changes in the dense prefetch.
 
-For hybrid search, keep the dense prefetch, sparse prefetch, fusion method, and filters that your service already uses. Compare the final result's `nDCG@k` on held-out labeled queries. That is the metric that decides whether the configuration serves your product.
+For hybrid search, keep the dense prefetch, sparse prefetch, [fusion settings](/articles/how-to-tune-hybrid-search/), and filters that your service already uses. Compare the final result's `nDCG@k` on held-out labeled queries. That is the metric that decides whether the configuration serves your product.
 
 The steps above list what to measure. Use your existing request, or ask a coding agent to build a small harness with your dense vector name, current prefetches, fusion method, filters, query sample, and labels. It should sweep only `rescore` and `oversampling`, then report dense-prefetch `Recall@k`, final `nDCG@k`, and latency.
 
@@ -176,7 +176,7 @@ Keep the first configuration that meets your held-out `nDCG@k` and latency requi
 Scope: every figure comes from a dense-only request against one shard on a laptop, with Qdrant running in Docker's Linux VM behind macOS. The cgroup limit evicted mapped original vectors, and block-read counters confirmed recurring disk reads. Do not transfer the latency or disk-read ratios without measuring your own deployment.
 </aside>
 
-On a multi-shard hybrid collection, measure the full request on your deployed shard layout. Each shard runs the dense prefetch and rescoring against its own data. With a `limit` of 200 and `oversampling=1`, rescoring can read up to 200 original vectors per shard: up to 2,400 across 12 shards. That total shapes disk reads and tail latency.
+On a multi-shard hybrid collection, measure the full request on your deployed shard layout. Each shard runs the dense prefetch and rescoring against its own data. With a `limit` of 200 and `oversampling=1`, rescoring can read up to 200 original vectors per shard: up to 2,400 across 12 shards. That total shapes disk reads and tail latency, and [candidate depth](/articles/candidate-depth/) covers how to set that limit.
 
 Qdrant's `cold` `memory` tier leaves original vectors on disk until a query accesses them. If you use it, set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) in Qdrant v1.19 to issue reads asynchronously when the Linux kernel supports it. In hybrid search, the sparse prefetch shares the same page cache. Rerun the full request after you set the dense-vector `memory` configuration.
 
