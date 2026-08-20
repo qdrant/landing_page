@@ -38,11 +38,8 @@ and filtered it correctly.
 4. Setting Up Hybrid Search in Qdrant
 5. Fusion Strategies
 6. Filtering: Works with Any Retrieval Method
-7. Beyond Text: Multimodal Search
-8. Knowledge Check
-9. References & Further Reading
-
-By the end, you'll know when to use dense, sparse, or hybrid search, and how to build each one in Qdrant.
+7. Knowledge Check
+8. References & Further Reading
 
 ## 1. Where We Left Off
 
@@ -288,15 +285,7 @@ Real output:
 0.4000  Nike Pegasus Trail 4 trail running shoes
 ```
 
-Every run in this module put the right shoe first, so the order is not what improved. The margin is:
-
-| Retriever | Top score | Runner-up | Lead |
-|-----------|-----------|-----------|------|
-| Dense only | 0.8713 | 0.8626 | 1.0% |
-| Sparse only | 3.8396 | 3.8293 | 0.3% |
-| Hybrid with RRF | 1.0000 | 0.5833 | 41.7% |
-
-Alone, each retriever leaves the right product about one percent clear of a wrong one, close enough that a larger catalog will eventually close the gap. The Pegasus 40 is the only product ranked first by *both*, and fusion turns that agreement into distance. Fusion scores come from rank position, which is why they resemble neither input scale.
+Every run in this module put the right shoe first, so the order is not what improved. What changed is the margin: dense and sparse alone each left the right shoe under two percent clear of a rival (Sections 1 and 3), while hybrid with RRF widens that lead to **41.7%** (1.0000 vs. 0.5833). The Pegasus 40 is the only product ranked first by *both* retrievers, and fusion turns that agreement into distance. Fusion scores come from rank position, which is why they resemble neither input scale.
 
 ## 5. Fusion Strategies
 
@@ -402,13 +391,11 @@ Open the notebook and work through these against the catalog above:
 2. Add a `models.FieldCondition` on `price` with `models.Range(lte=140)` to `shopper_filter` and rerun. Two products should drop out. Predict which before you run it.
 3. Query `comfortable shoes for long runs`, a phrase no title contains. Dense ranks the products, while sparse returns a flat tie across the five titles holding both `running` and `shoes`. Work out why sharing exactly the same query tokens produces a tie.
 
-## 7. Beyond Text: Multimodal Search
+<aside role="status">
+The same primitive extends beyond text: images with CLIP or SigLIP, video as sampled frames, audio as spectrogram embeddings, stored as named vectors exactly as this module stored dense and sparse together. Module 5 builds a full multimodal search system as the capstone.
+</aside>
 
-The same primitive, embed data and search by similarity, applies to any modality: images with CLIP or SigLIP, video as sampled frames, audio as spectrogram embeddings. Qdrant stores whatever vectors your model produces and the retrieval mechanics do not change.
-
-Store them as named vectors on the same point, exactly as this module stored dense and sparse together. Each named vector is its own space, so a query has to be embedded by the model that produced the vectors it is searching: to find images with a text query, embed that text with CLIP's text encoder, not the sentence transformer. Module 5 builds this out as the capstone.
-
-## 8. Knowledge Check
+## 7. Knowledge Check
 
 **Q: A shopper searches your catalog for `iPad Air`, and dense-only search returns `iPad Mini` first. Both are reasonable matches for the words, but the ranking is wrong. What would you add, and why would it fix this specific failure?**
 
@@ -446,7 +433,7 @@ You are in local mode with the filter at the top level rather than inside each p
 
 </details>
 
-## 9. References & Further Reading
+## 8. References & Further Reading
 
 - [Hybrid Queries](/documentation/search/hybrid-queries/): prefetch semantics, both fusion strategies, and their tuning parameters.
 - [Understanding SPLADE and Sparse Vectors](/articles/sparse-vectors/): how sparse vectors work and how SPLADE compares to BM25.
