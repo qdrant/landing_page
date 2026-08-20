@@ -27,7 +27,7 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 <br/>
 
 #### TL;DR
-```
+
 Module 1 explained why semantic search works. In this module, you’ll learn 
 where your data lives and how Qdrant searches it. You’ll explore collections,
 points, vectors, payloads, and distance metrics, then see how Qdrant finds the 
@@ -35,7 +35,6 @@ top-k matches without scanning every vector. You’ll also learn how to filter
 results by metadata and split long documents into smaller chunks before embedding
 them. By the end, you’ll have created a collection, stored points, and run 
 your first filtered query.
-```
 
 ## Today's Path
 
@@ -68,13 +67,13 @@ Upsert to Qdrant: insert a point if its ID is new, update it if the ID already e
 - **Query**
 Retrieve the top-K results: the K most similar matches to your query
 
-![](/courses/beginners/module-2/flow.png)
+![Pipeline from raw text to a Qdrant query: chunk, embed, store, query](/courses/beginners/module-2/flow.png)
 
 ## 2. Core Data Model
 
 Qdrant organizes data in a simple three-level hierarchy. Understanding this structure is the foundation for everything else in the course.
 
-![](/courses/beginners/module-2/data-model.png)
+![Qdrant's three-level data hierarchy: collection, point, and vector](/courses/beginners/module-2/data-model.png)
 
 ### Collection
 
@@ -92,8 +91,6 @@ Each number represents one dimension of the vector. Similar content produces sim
 ### Payload
 
 Custom JSON metadata attached to a point. Used for filtering, retrieval scoping, and result enrichment. Can hold strings, numbers, booleans, geo coordinates, or arrays.
-
-![](/courses/beginners/module-2/payload.png)
 
 ### Your Qdrant Cluster
 
@@ -188,7 +185,7 @@ for r in results.points:
     print(r.id, r.score, r.payload)
 ```
 
-![](/courses/beginners/module-2/top-k.png)
+![Top-K retrieval returning the K closest vectors to a query vector](/courses/beginners/module-2/top-k.png)
 
 ### Why K Matters
 
@@ -198,7 +195,7 @@ Returning too few results (K=3) misses relevant content. Returning too many (K=1
 
 Searching millions of vectors by computing similarity against every single one (brute force) is slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast at a small, measurable recall cost.
 
-![](/courses/beginners/module-2/hnsw.png)
+![HNSW graph with hierarchical layers connecting nearest-neighbor nodes](/courses/beginners/module-2/hnsw.png)
 
 ### How HNSW Works
 
@@ -224,6 +221,16 @@ This searches by vector similarity as usual, but only among points whose payload
 - `must` — a list of conditions that all have to be true (AND logic)
 - `FieldCondition` — checks one payload field; here, that `category` equals `"automotive"`
 
+### Filter Types
+
+| Condition | What it does | Example use case |
+|-----------|--------------|------------------|
+| must | All conditions must be true (AND logic) | Category = automotive AND year >= 2022 |
+| should | At least one condition must be true (OR logic) | Category = automotive OR category = transport |
+| must_not | Exclude matching points | Exclude documents flagged as deleted or expired |
+| Range | Numeric range comparisons (gte, lte, gt, lt) | year between 2020 and 2024 |
+| Geo | Geospatial radius or bounding box filter | Restaurants within 5 km of user location |
+
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
@@ -244,21 +251,13 @@ results = client.query_points(
 )
 ```
 
-### Filter Types
-
-| Condition | What it does | Example use case |
-|-----------|--------------|------------------|
-| must | All conditions must be true (AND logic) | Category = automotive AND year >= 2022 |
-| should | At least one condition must be true (OR logic) | Category = automotive OR category = transport |
-| must_not | Exclude matching points | Exclude documents flagged as deleted or expired |
-| Range | Numeric range comparisons (gte, lte, gt, lt) | year between 2020 and 2024 |
-| Geo | Geospatial radius or bounding box filter | Restaurants within 5 km of user location |
-
 ### Index Your Filter Fields
 
 For fields you filter frequently, create a payload index. Without one, Qdrant may need to check payload values across many points at query time. With one, it can look up matching points directly, making filtered queries faster.
 
 Use `client.create_payload_index()` for fields used in `must`, `should`, or `must_not` conditions. See [Payload Indexing](https://deploy-preview-2495--condescending-goldwasser-91acf0.netlify.app/documentation/manage-data/indexing/#payload-index) for supported index types and configuration options.
+
+![Payload filtering applied during HNSW graph traversal](/courses/beginners/module-2/payload.png)
 
 ## 7. Chunking Strategies
 
@@ -277,15 +276,15 @@ This module introduces the main chunking strategies but doesn’t explore how to
 
 **Fixed-Size**
 
-![](/courses/beginners/module-2/fixed-size.png)
+![Fixed-size chunking splitting text every N tokens](/courses/beginners/module-2/fixed-size.png)
 
 **Semantic**
 
-![](/courses/beginners/module-2/semantic.png)
+![Semantic chunking creating a new chunk when the topic shifts](/courses/beginners/module-2/semantic.png)
 
 **Sliding Window**
 
-![](/courses/beginners/module-2/sliding-window.png)
+![Sliding window chunking with overlapping chunks preserving context](/courses/beginners/module-2/sliding-window.png)
 
 ## 8. Ingestion Pipeline: End-to-End
 
