@@ -27,7 +27,14 @@ Bayer is a global life sciences company operating at the intersection of two of 
 
 Turning that ambition into production systems for 116,000 employees is a hard infrastructure problem. It requires retrieval that stays fast under sustained load, grounds large language models (LLMs) in real data to suppress hallucinations, satisfies strict life sciences compliance requirements, and adapts as the underlying AI workloads shift from simple chatbots to autonomous agents. This is the story of how Bayer built that foundation, and why Qdrant has sat at the center of it for nearly three years.
 
-> "If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="People used to look at vector databases only for RAG applications. Now they're solving enterprise search problems. No one had an omnimodal search engine where you could search videos, audio, and every asset the company generates. We realized Qdrant was turning into that."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg"
+  featured="true" >}}
 
 ## A Platform Born Weeks After ChatGPT
 
@@ -37,7 +44,11 @@ Bayer moved quickly. Within three months, Sedghamiz's team stood up myGenAssist,
 
 From there, it scaled into a full platform layer. Today, myGenAssist serves the entire company, processes over 1.5 million messages a month, and has ingested more than 450,000 uploaded documents, all while keeping the complexity of RAG hidden from the end user.
 
-> "The whole stack of RAG is hidden from users. For them it's just a file upload, but it ends up going through several layers of retrieval-augmented generation, Qdrant being part of it. That has proven to be quite successful to bring grounding and reduce hallucinations for LLM applications." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="The whole stack of RAG is hidden from users. For them it's just a file upload, but it ends up going through several layers of retrieval-augmented generation, Qdrant being part of it. That has proven to be quite successful to bring grounding and reduce hallucinations for LLM applications."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 ## Choosing a Vector Search Engine, Three Years Ago
 
@@ -45,7 +56,11 @@ Three years ago, Bayer evaluated vector search. The company's first prototype, M
 
 The team evaluated across several dimensions: price-performance ratio, latency, and openness. Qdrant was open source, which meant the team could test it fast without procurement friction. Latency was strong. And it was written in Rust, a signal of the memory efficiency and predictable performance that life sciences workloads would later demand.
 
-> "There weren't many options back then. We did benchmarking across price-performance, latency, and other aspects. The first points we really liked: it was open source, we could test it very fast, latency was good, and it was written in Rust. We ended up going with Qdrant." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="There weren't many options back then. We did benchmarking across price-performance, latency, and other aspects. The first points we really liked: it was open source, we could test it very fast, latency was good, and it was written in Rust. We ended up going with Qdrant."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 ## From Self-Hosted to Hybrid Cloud: Meeting Compliance Without Drowning in Ops
 
@@ -55,7 +70,11 @@ Pure self-hosting satisfied the compliance side but became demanding for a team 
 
 ![Timeline of Bayer's path from a Redis prototype through benchmarking and self-hosted Qdrant to the current Qdrant Hybrid Cloud deployment, with the scale, infrastructure, and compliance pressures that drove each step](/blog/case-study-bayer/bayer-qdrant-timeline.png)
 
-> "Life science companies want data to stay inside and use the platform self-hosted if possible. But self-hosting was already quite demanding for us. Our team is not that big, so we decided to use hybrid management." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="Life science companies want data to stay inside and use the platform self-hosted if possible. But self-hosting was already quite demanding for us. Our team is not that big, so we decided to use hybrid management."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 ## Scaling to Millions of Messages and an Evolving Data Model
 
@@ -65,7 +84,11 @@ Much of the operational strain has come not from Qdrant itself but from the surr
 
 The data model itself is also expanding. Bayer is migrating toward an omnimodal approach, driven by the reality of life sciences data: medical images, X-rays, CT scans, and molecular databases sit alongside text. With embedding models that handle multiple modalities, the team can now treat search as a problem across all enterprise assets, not just documents.
 
-> "For every enterprise, it's very important to be able to find assets no matter what format they're in: images, text, a molecular image, anything. We've started looking at these not just for simple RAG applications, but to let people search across all the assets they're dealing with." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="For every enterprise, it's very important to be able to find assets no matter what format they're in: images, text, a molecular image, anything. We've started looking at these not just for simple RAG applications, but to let people search across all the assets they're dealing with."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 The omnimodal pipeline is concrete, not aspirational. When a scientific PDF enters the system, a vision model generates search-optimized descriptions of every figure (content summary, OCR'd labels, key concepts) and injects them into the text stream before chunking.
 
@@ -77,7 +100,11 @@ For the people querying the platform, two things matter most. The first is laten
 
 The second is retrieval quality. Grounded, high-quality answers are what keep users satisfied and drive measurable productivity gains. Hallucinations do the opposite. This is where [hybrid search](https://qdrant.tech/documentation/concepts/hybrid-queries/) became decisive. Two years ago, semantic search alone was not enough. The combination of keyword and semantic retrieval in a single query proved far more capable, and it is now central to how Bayer's agents find relevant context.
 
-> "You want your retrieval to be very fast. A low-latency platform helps the user experience a lot. And the second point is the quality of retrieval inside that latency. It's important that your vector search supports hybrid search, for example. That's great." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="You want your retrieval to be very fast. A low-latency platform helps the user experience a lot. And the second point is the quality of retrieval inside that latency. It's important that your vector search supports hybrid search, for example. That's great."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 ![Qdrant as enterprise retrieval backbone: four layers from 116K employees through the deep agent harness to Qdrant Hybrid Cloud and GxP-ready observability](/blog/case-study-bayer/qdrant-enterprise-retrieval-backbone.png)
 
@@ -85,17 +112,27 @@ The second is retrieval quality. Grounded, high-quality answers are what keep us
 
 The most significant shift in Bayer's architecture is the move from chatbot-style interactions to deep agents. Bayer now runs agentic applications on a LangGraph-based harness, comparable to the deep research and coding agents that have become common, and these agents are far hungrier for search than the simpler systems that preceded them. A single deep research run unrolls a long tool-calling loop, hundreds of steps deep, and can fire thousands of retrieval queries before it returns, which makes per-query latency matter even more than it did before. Every one of those tools, from web search to PubMed to the FDA connector, is itself backed by a Qdrant collection.
 
+{{< quote
+  text="If you don't have a Qdrant vector store behind the scenes, it's very difficult to ground LLMs into reality. If you remove the search from the agent, the results go back to two years ago."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer"
+  avatar="/img/customers/hooman-sedghamiz.svg"
+  logo="/img/brands/bayer.svg" >}}
+
 Crucially, Bayer exposes the Qdrant API directly to the model. Whether the requester is a human or an agent, the same interface is available, and the agent can choose how to retrieve based on the task. This is exactly the composable model Qdrant is designed for: retrieval primitives the caller combines at query time, rather than a fixed pipeline hidden behind an opaque API. Under the hood, the hybrid path runs dense and sparse queries in parallel and fuses them with Reciprocal Rank Fusion before a BGE reranker sharpens the final ordering. The agent sees a clean set of tools, not that machinery.
 
 ![Flow diagram of Bayer's composable retrieval: a deep agent chooses keyword, semantic, or hybrid search through the Qdrant API across four collections, returning grounded answers from roughly 135M points on four nodes](/blog/case-study-bayer/composable-retrieval-agents.png)
 
 A feature Bayer calls knowledge bases makes this concrete. Users start a project, drop in folders of data in any format, and the agent works against that data much like a coding agent works against a file system. Bayer extended the agent's command set so that when keyword search fails, it can escalate to semantic or hybrid search through the Qdrant API. It can also fan a single question into several reformulations (keywords, a question form, a hypothetical answer) and search them at once. The agent decides which retrieval strategy fits the moment.
 
-> "This is very powerful because the agent now decides: I didn't find anything with keyword search, so I can switch to semantic search, or I can use hybrid search that the API exposes to me. Two years ago, semantic search alone wasn't enough. Now with hybrid search it's way more powerful." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="This is very powerful because the agent now decides: I didn't find anything with keyword search, so I can switch to semantic search, or I can use hybrid search that the API exposes to me. Two years ago, semantic search alone wasn't enough. Now with hybrid search it's way more powerful."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 This is also where the omnimodal direction pays off. Users upload meeting transcripts, images, audio, and video, and the agent discovers and connects them. Qdrant increasingly serves as the agent's memory, letting it recall what a user has been working on and tailor answers accordingly. Teams elsewhere in the company can point their own applications at a shared collection to build their own search experiences, from molecule search to internal enterprise search.
-
-> "People used to look at vector databases only for RAG applications. Now they're solving enterprise search problems. No one had an omnimodal search engine where you could search videos, audio, and every asset the company generates. We realized Qdrant was turning into that." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
 
 Retrieval quality benefits from a parallel query expansion strategy. A single user question generates four Qdrant searches simultaneously: the verbatim query, a question-form rewrite, extracted keywords, and a HYDE hypothetical answer. Results are fused, deduplicated with a diversity cap of three chunks per document, and optionally reranked. The approach is particularly effective for pharmaceutical literature, where the same concept appears under different nomenclatures across regulatory filings, clinical protocols, and marketing materials.
 
@@ -155,7 +192,11 @@ Bayer measures impact through KPI surveys run every six months across two user g
 
 The team is careful not to over-attribute. It does not isolate which component drives which fraction of the gain. But the connection to retrieval is direct: a large part of the efficiency comes from getting grounded responses, and grounding is impossible without the vector store underneath. Hallucinated answers tank survey scores; grounded answers lift them.
 
-> "We've seen 20% efficiency when it comes to using AI platforms. A big part of that gain is that you have to get results from AI that are grounded. If you get hallucinations, people are not satisfied. It wouldn't be possible without the components." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="We've seen 20% efficiency when it comes to using AI platforms. A big part of that gain is that you have to get results from AI that are grounded. If you get hallucinations, people are not satisfied. It wouldn't be possible without the components."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 With the recent shift to more autonomous agents, the measurement problem itself is evolving. Earlier chatbot-style systems delivered incremental time savings: a faster email summary, a quicker draft. The new agents can run for 10 to 15 minutes unattended and return a completed task: research done, document written, a notification sent to the user's phone. That changes the question from "how much time did we save" to "how well was the whole task done," a harder thing to quantify but a larger prize.
 
@@ -175,7 +216,11 @@ Traceability extends beyond user-facing citations into the infrastructure itself
 
 The Bayer team actively tracks Qdrant releases and adopts performance features as they ship. It uses incremental HNSW indexing to absorb the constant stream of document updates without full reindexing. It adopted binary quantization to compact points and reduce the memory footprint shortly after release. One engineer recently went through the latest Qdrant publications to update the team's search strategy and apply current optimizations.
 
-> "Qdrant is one of the more feature-rich platforms where you can do all those things directly inside the vector store. We always try to be on top of the features you push out to reduce the memory footprint and the latency." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="Qdrant is one of the more feature-rich platforms where you can do all those things directly inside the vector store. We always try to be on top of the features you push out to reduce the memory footprint and the latency."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 This matters to Bayer because it reduces the gap between a published optimization and a deployed one. When Qdrant ships something like improved compression, Bayer can fold it into a live, compliance-bound, enterprise-scale platform without re-architecting.
 
@@ -183,7 +228,11 @@ This matters to Bayer because it reduces the gap between a published optimizatio
 
 Bayer's experience drove an architectural conviction to focus on retrieval rather than agent orchestration. Even when Bayer ships an end-to-end agent that handles everything, its users still prefer access to the underlying pieces. Developers building on the platform's API want lower-level components they can inspect and optimize, not an opaque pipeline they have to trust blindly.
 
-> "People still prefer to have access to these pieces themselves, like Qdrant. It's very important to give developers a platform that's composable, where they can optimize each part and build their own workflows. Not all agentic pipelines are applicable to all use cases." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="People still prefer to have access to these pieces themselves, like Qdrant. It's very important to give developers a platform that's composable, where they can optimize each part and build their own workflows. Not all agentic pipelines are applicable to all use cases."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
 
 That preference is sharpened by the proliferation of hyperscaler agent frameworks. With Google, AWS, and Azure each pushing their own solutions, teams struggle to manage and optimize systems they cannot see into. A composable engine that exposes its retrieval primitives lets engineers build pipelines tuned to their specific workload, rather than accepting opaque defaults.
 
@@ -195,4 +244,8 @@ Bayer's roadmap continues to push on the dimensions that drew it to Qdrant in th
 
 Bayer started with a Redis prototype and a thousand users. Three years later, it runs a compliance-bound, Hybrid Cloud deployment serving 116,000 employees, processing millions of messages a month, grounding autonomous agents, and increasingly searching across every modality the company produces. Qdrant has been the constant underneath that evolution: the retrieval layer that keeps answers grounded, the API the agents call directly, and the composable foundation that has adapted as Bayer's AI workloads shifted from chatbots to agents.
 
-> "We're turning into the AI search engine for the company. There are various applications for a vector database even beyond simple RAG, beyond the chatbot. It supports memory for the agent, it powers enterprise search, and it lets any team build their own multimodal search engine on top." - Hooman Sedghamiz, Senior Director AI/ML - Precision Medicine & Insights, Bayer
+{{< quote
+  text="We're turning into the AI search engine for the company. There are various applications for a vector database even beyond simple RAG, beyond the chatbot. It supports memory for the agent, it powers enterprise search, and it lets any team build their own multimodal search engine on top."
+  name="Hooman Sedghamiz"
+  role="Senior Director AI/ML - Precision Medicine & Insights"
+  company="Bayer" >}}
