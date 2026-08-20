@@ -17,4 +17,5 @@ client.query_points(
         ),
     ],
     query=models.RrfQuery(rrf=models.Rrf()),
+    limit=10,
 )
