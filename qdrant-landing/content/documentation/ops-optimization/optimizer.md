@@ -23,7 +23,7 @@ Changed data is placed in the copy-on-write segment, which has priority for retr
 
 ## Vacuum Optimizer
 
-The **Vacuum Optimizer** helps manage storage by handling deleted records. When a record is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked records can build up, wasting memory and slowing down the system.
+The Vacuum Optimizer helps manage storage by handling deleted records. When a record is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked records can build up, wasting memory and slowing down the system.
 
 The Vacuum Optimizer solves this problem by permanently removing marked records and reorganizing storage. This cleanup saves memory and keeps the system running smoothly, especially when large amounts of deleted data build up in the database.
 
@@ -38,9 +38,14 @@ storage:
     vacuum_min_vector_number: 1000
 ```
 
+- `deleted_threshold` sets the minimum fraction of deleted records in a segment required to initiate optimization. For example, a value of 0.2 means that 20% of a segment's records must be marked as deleted for the optimizer to consider running.
+- `vacuum_min_vector_number` specifies the minimum number of vectors a segment must contain to qualify for optimization. For instance, a value of 1000 ensures that only segments with at least 1,000 vectors are optimized.
+
+When these criteria are met, the Optimizer processes the segment by removing deleted records and reorganizing the data to improve efficiency. This process not only enhances the database's query performance but also reduces memory usage by eliminating redundant data.
+
 ## Merge Optimizer
 
-Qdrant uses the **Merge Optimizer** to manage the number and size of segments in its storage system, ensuring efficient data organization and query performance. Temporary segments may be created during processes like optimization, such as copy-on-write segments, which help facilitate operations.
+Qdrant uses the Merge Optimizer to manage the number and size of segments in its storage system, ensuring efficient data organization and query performance. Temporary segments may be created during processes like optimization, such as copy-on-write segments, which help facilitate operations.
 
 Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the Merge Optimizer works to reduce the number of segments when there are more than optimal.
 
@@ -74,6 +79,11 @@ storage:
     max_segment_size_kb: null
 ```
 
+- `default_segment_number` ensures that segments align with the system's thread count, enabling even distribution of processing across threads.
+- `max_segment_size_kb` controls segment size to optimize both indexing and search performance, depending on system priorities.
+
+Proper configuration of these parameters allows Qdrant to maintain an efficient and responsive storage system.
+
 ## Indexing Optimizer
 
 Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
@@ -103,9 +113,11 @@ storage:
     indexing_threshold_kb: 10000
 ```
 
-In addition to the configuration file, you can also set optimizer parameters separately for each [collection](/documentation/manage-data/collections/).
+## Per-Collection Optimizer Configuration
 
-Dynamic parameter updates may be useful, for example, for more efficient initial loading of points. You can disable indexing during the upload process with these settings and enable it immediately after it is finished. As a result, you will not waste extra computation resources on rebuilding the index.
+The configuration file determines global defaults for all collections. You can also configure optimizer parameters per collection at [creation time](/documentation/manage-data/collections/#create-a-collection), or [update](/documentation/manage-data/collections/#update-collection-parameters)  them later. For example:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
 
 ## Prevent Reads from Large Unindexed Segments
 
