@@ -1,12 +1,12 @@
-@use '../../helpers/functions' as *;
+@use '../helpers/functions' as *;
 
-.serverless-hero {
+.common-hero {
   padding-top: $spacer * 5;
   padding-bottom: $spacer * 5;
-  background: url('../img/serverless-hero-mobile.png') center bottom / cover no-repeat, $neutral-10;
+  background: url('../img/serverless-hero-mobile.png') center top / cover no-repeat, $neutral-10;
   position: relative;
   overflow: hidden;
-  
+
   &__overlay {
     position: absolute;
     left: 0;
@@ -45,14 +45,27 @@
     line-height: $line-height-lg;
     margin: 0 auto $spacer * 2;
     color: $neutral-80;
-    max-width: pxToRem(754);
+    max-width: pxToRem(840);
   }
-  
+
   @include media-breakpoint-up(md) {
-    background: url('../img/serverless-hero.png') center bottom / cover no-repeat, $neutral-10;
+    background: url('../img/serverless-hero.png') center top / cover no-repeat, $neutral-10;
+    position: relative;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: $spacer * 5;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(0deg, #090E1A 32%, rgba(9, 14, 26, 0) 100%);
+    }
   }
-  
+
   @include media-breakpoint-up(lg) {
+    min-height: pxToRem(440);
     padding-bottom: $spacer * 7.5;
 
     &__title {

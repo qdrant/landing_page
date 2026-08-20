@@ -1,9 +1,10 @@
 ---
 title: Security
-sitemapExclude: True
 build:
-  render: never
+  render: always
 cascade:
   - build:
-    render: always
+      list: local
+      publishResources: false
+      render: never
 ---

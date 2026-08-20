@@ -80,6 +80,8 @@
 @import 'partials/subscribe';
 @import 'partials/events/events-card';
 @import 'partials/events/events-list';
+@import 'partials/common-hero';
+@import 'partials/features-table';
 // used by landing pages under /lp/ (e.g. /lp/lucene)
 @import 'partials/elastic-lucene/index';
 @import 'partials/vsd/index';
@@ -88,3 +90,4 @@
 @import 'partials/agenda';
 @import 'partials/pricing-banner';
 @import 'partials/serverless';
+@import 'partials/security';

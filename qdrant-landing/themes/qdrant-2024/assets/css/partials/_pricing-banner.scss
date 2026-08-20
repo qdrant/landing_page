@@ -7,6 +7,8 @@
   background-color: $neutral-94;
   
   &__content {
+    overflow: hidden;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,22 +21,54 @@
             radial-gradient(90.18% 121.21% at 50% 7.58%, rgba(0, 0, 0, 0.00) 9.46%, rgba(9, 14, 26, 0.08) 45.41%, rgba(0, 24, 72, 0.24) 68.94%, rgba(0, 64, 161, 0.40) 78.19%),
             $neutral-10;
     text-align: center;
+    
+    &-overlay-1,
+    &-overlay-2,
+    &-overlay-3 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &-overlay-1 {
+      background-image: url("/img/blurred/blurred-light-32.svg");
+    }
+
+    &-overlay-2 {
+      background-image: url("/img/blurred/stars.svg");
+      mix-blend-mode: color-dodge;
+      opacity: 0.8;
+    }
+    
+    &-overlay-3 {
+      background-image: url("/img/blurred/texture.svg");
+      mix-blend-mode: overlay;
+    }
   }
   
   &__text {
     max-width: pxToRem(675);
+    position: relative;
+    z-index: 1;
   }
   
   &__title {
     font-size: $h6-font-size;
     line-height: $spacer * 2;
-    margin-bottom: $spacer;
+    margin-bottom: 0;
     color: $neutral-98;
   }
   
   &__description {
     font-size: $font-size-l;
     line-height: $line-height-lg;
+    margin-top: $spacer;
     margin-bottom: 0;
     color: $neutral-90;
   }
@@ -42,13 +76,22 @@
   &__button {
     flex-shrink: 0;
     width: 100%;
+    position: relative;
+    z-index: 1;
     
     a {
       width: 100%;
       max-width: pxToRem(400);
     }
   }
-
+  
+  &__small {
+    .pricing-banner__title {
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+    }
+  }
+  
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 2.5;
@@ -58,6 +101,10 @@
       justify-content: space-between;
       padding: $spacer * 2.5 $spacer * 4;
       text-align: left;
+
+      &-overlay-1 {
+        background-image: url("/img/blurred/blurred-light-31.svg");
+      }
     }
 
     &__title {
@@ -76,6 +123,13 @@
 
       a {
         width: auto;
+      }
+    }
+
+    &__small {
+      .pricing-banner__title {
+        font-size: $h6-font-size;
+        line-height: $spacer * 2;
       }
     }
   }
