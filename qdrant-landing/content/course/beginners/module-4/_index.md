@@ -349,4 +349,4 @@ Not stated in the brief, which is the point. Ask before you choose. Support tick
 
 ## What's Next: Module 5
 
-The capstone runs the same five questions against bigger answers. Three modalities replace one: news, audio, and satellite imagery, each embedded into named vectors on shared points. Those signals get clustered into risk themes, and the queries cross languages, so an English question retrieves Japanese and Chinese sources.
+The capstone runs the same five questions against bigger answers. Three modalities replace one: news, audio, and satellite imagery, each embedded into named vectors on shared points. Those signals get clustered into risk themes, and as an optional challenge you can even add multilingual support to our multimodal system.
