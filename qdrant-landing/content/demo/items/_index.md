@@ -47,7 +47,7 @@ demos:
       url: https://code-search.qdrant.tech/
     weight: 6
   - id: ecommerce-search
-    title: E-Commerce search
+    title: E-Commerce Search
     description: Hybrid search, personalization, recommendations, and merchandising across a catalog of 5.7M+ products.
     category: Hybrid Search
     image: /img/demos/demo-4.png
@@ -57,7 +57,7 @@ demos:
       url: https://ecommerce-search.demos.qdrant.tech/
     weight: 1
   - id: fraud-detection
-    title: Fraud detection
+    title: Fraud Detection
     description: Score every charge against that customer's own history, with evidence behind every fraud alert.
     category: Anomaly Detection
     image: /img/demos/demo-5.png
