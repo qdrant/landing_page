@@ -41,12 +41,24 @@ From the start, \&AI framed patent invalidation and charting as semantic retriev
  
 But the scale was immense. Their full corpus includes hundreds of millions of documents from international patent offices and other sources, resulting in more than 250 billion tokens. Ingesting, embedding, and searching this volume of data demanded a robust, cloud-native vector search solution.
 
-"We needed to scale to a number of vectors that just hadn’t been benchmarked publicly," said Turner. "Qdrant was the only one that handled that load out of the box — and without needing dedicated DevOps engineers."
+"We needed to scale to a number of vectors that just hadn’t been benchmarked publicly," said Turner.
+
+{{< quote
+  text="Qdrant was the only one that handled that load out of the box — and without needing dedicated DevOps engineers."
+  name="Herbie Turner"
+  role="CTO & Co-Founder"
+  company="&AI"
+  logo="/img/customers-case-studies-logo/and-ai.svg" >}}
 
 Turner had used Qdrant in a prior startup, where he appreciated the high performance and strong Rust-based architecture. But it was Qdrant’s [opinionated documentation](https://qdrant.tech/documentation/) and built-in developer tools that sealed the deal.
 
-*“I’m all for opinionated docs,” said Turner. “Don’t make me figure out how to optimize everything myself. Qdrant tells you the right way to do things; it just works.”*  
-— Herbie Turner, CTO & Co-Founder, \&AI
+*“I’m all for opinionated docs,” said Turner.*
+
+{{< quote
+  text="Don’t make me figure out how to optimize everything myself. Qdrant tells you the right way to do things; it just works."
+  name="Herbie Turner"
+  role="CTO & Co-Founder"
+  company="&AI" >}}
 
 ## From noisy PDFs to structured vectors
 
@@ -74,7 +86,11 @@ By using [Qdrant Cloud](https://qdrant.tech/cloud/), \&AI avoided the need to ma
 
 Qdrant’s support for [payload filters](https://qdrant.tech/documentation/search/filtering/), [multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/), and quantization let \&AI optimize deeply. Their AI patent agent, Andy, uses natural language to guide attorneys through patent analysis tasks, drastically cutting time-to-result.
 
-*"With Qdrant, we scaled to a billion vectors and still respond in sub-second latency. That lets us power workflows that used to take hours in just a few minutes."*
+{{< quote
+  text="With Qdrant, we scaled to a billion vectors and still respond in sub-second latency. That lets us power workflows that used to take hours in just a few minutes."
+  name="Herbie Turner"
+  role="CTO & Co-Founder"
+  company="&AI" >}}
 
 ## Unlocking new markets and workflows
 

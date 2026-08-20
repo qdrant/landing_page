@@ -96,20 +96,18 @@ it offers in terms of data management has been crucial for us. The observability
 features, such as historical graphs of RAM, Disk, and CPU, provided by Qdrant are
 also particularly useful, allowing us to plan our scaling strategy effectively.”
 
-![“We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as
-we don’t have to run lots of nodes in parallel. While being memory-bound, we were
-able to push the same instances further with the help of quantization. While you
-get pressure on MMAP in this case you maintain very good performance even if the
-RAM is fully used. With this we were able to reduce our cost by 2x.” - Stanislas Polu, Co-Founder of Dust](/case-studies/dust/Dust-Quote.jpg)
-
 Dust was able to scale its application with Qdrant while maintaining low latency
 across hundreds of thousands of collections with retrieval only taking
 milliseconds, as well as maintaining high accuracy. Additionally, Polu highlights
-the efficiency gains Dust was able to unlock with Qdrant: "We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as
-we don’t have to run lots of nodes in parallel. While being memory-bound, we were
-able to push the same instances further with the help of quantization. While you
-get pressure on MMAP in this case you maintain very good performance even if the
-RAM is fully used. With this we were able to reduce our cost by 2x."
+the efficiency gains Dust was able to unlock with Qdrant.
+
+{{< quote
+  text="We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as we don’t have to run lots of nodes in parallel. While being memory-bound, we were able to push the same instances further with the help of quantization. While you get pressure on MMAP in this case you maintain very good performance even if the RAM is fully used. With this we were able to reduce our cost by 2x."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust"
+  avatar="/img/customers/stanislas-polu.svg"
+  logo="/img/customers-case-studies-logo/dust.svg" >}}
 
 
 

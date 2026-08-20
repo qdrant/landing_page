@@ -36,7 +36,12 @@ That stepping stone is [Concierge](https://www.opentable.com/blog/concierge-ai-d
 
 For Concierge to succeed, the assistant needed to respond to the vast majority of user questions and every answer had to reflect reality. Incorrect menu items or outdated offerings could erode user and restaurant trust. 
 
-“The primary goal was answerability. We wanted to make sure the model could answer most questions. The second most important was accuracy, so that when the model gave an answer it was correct.”  Puyuan Liu, Machine Learning Scientist, OpenTable
+{{< quote
+  text="The primary goal was answerability. We wanted to make sure the model could answer most questions. The second most important was accuracy, so that when the model gave an answer it was correct."
+  name="Puyuan Liu"
+  role="Machine Learning Scientist"
+  company="OpenTable"
+  logo="/img/customers-case-studies-logo/opentable.svg" >}}
 
 Beyond the application logic, the team needed a vector database that could handle sparse embeddings for keyword expansions and fine-grained filtering. Queries often narrowed results to a single restaurant out of more than 60,000, which placed heavy demands on filtering performance. 
 
@@ -50,13 +55,23 @@ Second, Qdrant delivered reliable high-precision filtering. In production, each 
 
 Third, Qdrant Cloud provided a deployment path that was simpler than self-hosting. 
 
-Patrick Lombardo summed it up: "Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
+{{< quote
+  text="Creating a Qdrant Cloud cluster was one of the easiest parts of the project. It just worked."
+  name="Patrick Lombardo"
+  role="Staff ML Engineer"
+  company="OpenTable" >}}
 
 The production launch was global from the start, allowing Concierge to answer questions about restaurants in many regions without separate deployments. 
 
 ### Achieving stability and setting the stage for future innovation 
 
-Concierge met its latency target and maintained high answerability without extensive post-launch tuning. Operationally, Qdrant became one of the most stable components in the stack. Ant White, Principal Software Engineer at OpenTable, explained, “Since running it in production, it is a frictionless part of the stack. ” 
+Concierge met its latency target and maintained high answerability without extensive post-launch tuning. Operationally, Qdrant became one of the most stable components in the stack.
+
+{{< quote
+  text="Since running it in production, it is a frictionless part of the stack."
+  name="Ant White"
+  role="Principal Software Engineer"
+  company="OpenTable" >}}
 
 ### Key takeaways from the Concierge rollout 
 
