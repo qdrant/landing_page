@@ -16,6 +16,5 @@ Get started with Qdrant by setting up your environment and building your first v
 
 1. Qdrant Cloud Setup
 2. Implementing a Basic Vector Search
-3. Project: Building Your First Vector Search System
 
 By the end, you'll have a working Qdrant setup and a complete first search running.

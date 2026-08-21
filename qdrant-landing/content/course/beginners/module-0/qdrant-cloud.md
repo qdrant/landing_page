@@ -165,24 +165,4 @@ Learn more in the [Qdrant Cloud Inference documentation](/documentation/cloud/in
 
 ## Qdrant Agent Skills
 
-If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, [Qdrant Skills](/documentation/skills/) are worth setting up early. Skills are open-source, machine-readable knowledge modules that teach your agent when and why to apply a technique, not just how to call an API. They're organized around symptoms and situations, for example "memory usage climbing" and "search quality regressed" rather than features, so your agent can diagnose a problem before prescribing a fix.
-
-Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech/) and can be pointed to directly by URL, with no local installation needed. For local or offline use, install them from the [qdrant/skills repository](https://github.com/qdrant/skills):
-
-```bash
-# Claude Code
-/plugin marketplace add qdrant/skills
-
-# Any agent supporting the npx skills convention
-npx skills add https://github.com/qdrant/skills
-```
-
-If you just want a single assistant that can troubleshoot and advise on any Qdrant deployment, install the `qdrant-advisor` skill directly:
-
-```bash
-npx skills add qdrant/skills/meta/qdrant-advisor
-```
-
-`qdrant-advisor` doesn't answer Qdrant questions from memory. When you describe a problem — slow search, memory climbing toward an out-of-memory crash, a stuck optimizer, a scaling decision — it searches `skills.qdrant.tech` live, pulls only the branch of the skill tree that matches your symptom, and grounds its diagnosis in that current, official guidance. It gives you the likely causes in priority order, concrete steps (endpoints, metrics, config), and the documentation links it drew from, so you're always working from up-to-date advice instead of stale training data.
-
-Read more about the motivation and design behind them in the [Qdrant Skills release post](/blog/qdrant-skills-release/).
+If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, install the [Qdrant Advisor skill](https://qdrant.tech/documentation/skills/#the-qdrant-advisor) early. It's a single assistant that can troubleshoot and advise on any Qdrant deployment: when you describe a problem like slow search, memory climbing toward an out-of-memory crash, a stuck optimizer, a scaling decision, it searches live documentation, pulls only the branch of guidance that matches your symptom, and grounds its diagnosis in that current, official guidance instead of stale training data.

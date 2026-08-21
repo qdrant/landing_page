@@ -109,7 +109,6 @@ Understand why traditional search struggles and how modern semantic search impro
   content: |
     - Qdrant Cloud Setup
     - Implementing a Basic Vector Search
-    - Project: Building Your First Vector Search System
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/beginners/module-0/">→ Start Module 0</a></p>

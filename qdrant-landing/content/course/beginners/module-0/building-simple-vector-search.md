@@ -150,4 +150,4 @@ print("Search results:", search_results)
 
 You'll get back something like `points=[ScoredPoint(id=1, score=0.976..., payload={'category': 'example'})]`. The `score` is how close the match is — higher means more similar.
 
-That's a complete vector search, start to finish. In the next lesson you'll take these same pieces and build a small project of your own.
+That's a complete vector search, start to finish. **Congratulations! You've completed Module 0.** 🎉
