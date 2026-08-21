@@ -16,9 +16,9 @@ draft: false
   </iframe>
 </div>
 
-Hybrid retrieval, HNSW, and payload indexes are the parts. This module is the reasoning that turns them into a system: five layers, five questions, and a news search design built end to end.
+Hybrid retrieval, vector indexes, and payload indexes are the parts. This module is the reasoning that turns them into a system: five layers, five questions, and a news search design built end to end.
 
-**Follow-along code** ![Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
+**Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
 
 ---
 
@@ -30,7 +30,7 @@ Every vector search system is built from the same five layers. They matter becau
 
 **Query** runs once per request: embed the query, search dense, sparse, or both, merge the ranked lists, cut the result to a limit. All of Module 3 lives here, and so does every mistake you can fix by changing one call and running it again. No re-ingestion and no rebuild is this layer's tell.
 
-**Indexing** holds the structures that make search fast rather than correct: the HNSW graph over the vectors from Module 2, plus a payload index for every field you filter on. Get this layer wrong and the results are still right, they just arrive late. The fix costs a rebuild.
+**Indexing** holds the structures that make search fast rather than correct: the Hierarchical Navigable Small World (HNSW) graph over the vectors from Module 2, plus a payload index for every field you filter on. Get this layer wrong and the results are still right, they just arrive late. The fix costs a rebuild.
 
 **Storage** is where points sit, split between RAM and disk, and it is the layer that sets the memory bill. Two levers here need only a change to the collection config, though on a collection that already holds data both rewrite every vector. [Quantization](/documentation/manage-data/quantization/) compresses each vector into fewer bytes, and [on-disk vectors](/documentation/manage-data/storage/#configuring-memmap-storage) keep them in memory-mapped files instead of RAM, trading latency for capacity.
 
@@ -46,16 +46,16 @@ Five reports from production systems. For each, name the layer and the one thing
 
 1. Latency is fine at the median and three seconds at the 99th percentile. The slow queries are the ones scoped to a single small source.
 2. Analysts get good results on the English articles and poor ones on the Japanese articles, from the same query, with both in the collection.
-3. A hybrid query returns nothing when an analyst asks for fifty results, and works fine when they ask for ten.
+3. A hybrid query returns nothing when an analyst asks for 50 results, and works fine when they ask for 10.
 4. The collection is 40 GB and the node has 16 GB of RAM. Latency is an order of magnitude worse than the same collection on a laptop that could hold all of it.
 5. One node serves the query load with room to spare. A disk failure last month took search down for six hours.
 
 <details>
 <summary>Show the Answers</summary>
 
-1. **Indexing**, and this is the one with two answers. A filter on a small source matches few points, which is exactly the case a payload index on `source` exists to serve. Without that index the planner has no estimate to work from and the query degrades to a scan, on a self-hosted cluster at least, since Qdrant Cloud rejects a filter on an unindexed field outright. Reading it as a query-layer problem is defensible, because a smaller limit would also cut the tail. It would hide the cause rather than fix it.
+1. **Indexing**, and this is the one with two answers. A filter on a small source matches few points, which is exactly the case a payload index on `source` exists to serve. Without that index the planner has no estimate to work from and the query degrades to a scan, on a self-hosted cluster at least, since [strict mode](/documentation/ops-configuration/administration/#strict-mode), on by default in Qdrant Cloud, rejects a filter on an unindexed field outright. Reading it as a query-layer problem is defensible, because a smaller limit would also cut the tail. It would hide the cause rather than fix it.
 2. **Knowledge**. The embedding model is English-only, so the Japanese articles were never projected into a space an English query can reach. No filter, index, or limit recovers from that. The fix is a multilingual model and a re-ingestion.
-3. **Query**. Each prefetch carries a limit of its own, and it has to be at least the outer query's limit plus its offset, or fusion has fewer candidates than the result set asks for and comes back empty. Module 3 called this the prefetch-limit trap. Raise the prefetch limits above the largest outer limit the system serves, plus its offset.
+3. **Query**. A hybrid query runs each retriever as a prefetch, a sub-query whose ranked results get fused, and every prefetch carries a limit of its own. That limit has to be at least the outer query's limit plus its offset, or fusion has fewer candidates than the result set asks for and comes back empty. Module 3 called this the prefetch-limit trap. Raise the prefetch limits above the largest outer limit the system serves, plus its offset.
 4. **Storage**. Most of the collection cannot be held in RAM, so searches page in from disk. Quantization, on-disk vectors, or a bigger node are the levers, and none of them change how you search.
 5. **Distribution**. A single copy of each shard means one disk failure is an outage. Replication is what makes search survive it, and it is the first distribution-layer decision worth making.
 
@@ -171,7 +171,7 @@ ARTICLES = [
         "country": "SG", "topic": "shipping", "source": "caixin",
         "published_at": "2026-07-20T08:00:00Z",
         "headline": "Singapore berth waiting times fall for a third week",
-        "lead": "Average waits at Tuas dropped below twelve hours, easing a"
+        "lead": "Average waits at Tuas dropped below 12 hours, easing a"
                 " backlog that built through the second quarter.",
         "body": "The port authority attributed the improvement to two new berths",
     },
@@ -213,7 +213,7 @@ The one-off backfill is different. Batch it, and consider [disabling indexing un
 
 The simplest pipeline that fits the query analysis: hybrid from Question 1, plus filters, fused with [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf). No reranker yet, and Section 4 covers what one is and when to add it.
 
-One knowledge-layer decision hides in here: **what you embed matters as much as how you search.** A news article runs 800 words and the ticker is one token inside it, so embedding the whole body averages it into a vector about shipping in general. Embed the headline and lead, keep the full text in the payload, and the dense vector stays about one story.
+One knowledge-layer decision hides in here: **what you embed matters as much as how you search.** Question 1 showed one ticker averaged away inside a single headline; an 800-word body does that to every specific in the article. Embed the headline and lead, keep the full text in the payload, and the dense vector stays about one story.
 
 The [filter](/documentation/search/filtering/) goes inside each `Prefetch`, so both retrievers search only the valid subset.
 
@@ -315,13 +315,13 @@ When RAG quality disappoints, improve step 2 before reaching for a bigger model 
 
 ## 5. Deployment Options
 
-Question 5 picked managed deployment for the news system. Qdrant runs in six modes, and the design runs unchanged on every one, so the choice comes down to two questions: how much of the operating do you want to do, and how isolated does the data have to be. Those pull in the same direction, which is why five of the modes line up on one spectrum from least setup to most control. Edge sits outside it.
+Question 5 picked managed deployment for the news system. There are six deployment options, and the design runs unchanged on every one, so the choice comes down to two questions: how much of the operating do you want to do, and how isolated does the data have to be. Those pull in the same direction, which is why five of the modes line up on one spectrum from least setup to most control. Edge sits outside it.
 
 ![Six Qdrant deployment modes on a spectrum from least setup to most control: Local Mode, Managed Cloud, Hybrid Cloud, self-hosted Docker, and Private Cloud or on-prem, each with when to use it and when to avoid it, with Edge shown separately as a single-node on-device special case.](/courses/beginners/module-4/deployment.png)
 
 Where to read more on each: [Local Mode](/documentation/quickstart/), [Managed Cloud](/documentation/cloud/), [Hybrid Cloud](/documentation/hybrid-cloud/), [Docker](/documentation/installation/#production) for self-hosting, [Private Cloud](/documentation/private-cloud/) for any Kubernetes cluster, and [Edge](/documentation/edge/). [Deploy Qdrant](/documentation/deploy-intro/) compares them in one place.
 
-One caveat about Local Mode, since it's where you'll run the course notebooks. It reimplements the API in Python with none of the engine behind it: search is exact instead of approximate, payload indexes have no effect, and a filter on the outer query is ignored. Verify against a real server before trusting notebook numbers.
+One caveat about Local Mode, since it is the quickest way to try a snippet. It reimplements the API in Python with none of the engine behind it: search is exact instead of approximate, payload indexes have no effect, and a filter on the outer query is ignored. Every example in this course runs against a Qdrant Cloud cluster for that reason, and any number Local Mode gives you needs checking against a real server.
 
 ## 6. Knowledge Check
 
@@ -370,7 +370,6 @@ Not stated in the brief, which is the point. Ask before you choose. Support tick
 
 - [Capacity Planning](/documentation/capacity-planning/): how to size RAM and disk for vectors, payloads, and indexes before you commit to a node.
 - [Production Checklist](/documentation/production-checklist/): what to have in place before launch, from replication to observability.
-- [Strict Mode](/documentation/ops-configuration/administration/#strict-mode): every guardrail Qdrant can enforce, and how to configure them per collection.
 - [Qdrant Cloud](https://cloud.qdrant.io/): create a free cluster before Module 5, so the capstone runs against a real server.
 
 ## What's Next: Module 5
