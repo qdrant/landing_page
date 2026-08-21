@@ -30,7 +30,7 @@ This tutorial works with two modalities: image and text data. You can build a se
 
 > The **semantic gap** refers to the difference between low-level features, such as brightness, and high-level concepts, such as cuteness.
 
-[Cohere Embed 4.0](https://cohere.com/blog/embed-4), for example, is built for multimodal and multilingual embedding, and supports more than 30 languages. Instead of running the model yourself, this tutorial calls it through [Qdrant Cloud Inference](/documentation/inference/inference-api/), so Qdrant generates the embeddings and stores them in a [collection](/documentation/concepts/collections/) in one step.
+[Cohere Embed 4.0](https://cohere.com/blog/embed-4), for example, is built for multimodal and multilingual embedding, and supports more than 30 languages. Instead of running the model yourself, this tutorial calls it through [Qdrant Cloud Inference](/documentation/inference/inference-api/), so Qdrant generates the embeddings and stores them in a [collection](/documentation/manage-data/collections/) in one step.
 
 ## Setup
 
