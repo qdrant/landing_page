@@ -1,0 +1,178 @@
+{{ $tiers := .tiers }}
+{{ $sections := .sections | default (slice) }}
+{{ $ctas := .ctas }}
+{{ $modifier := .modifier | default "" }}
+{{ $featureCellWidth := .featureCellWidth | default "19.375rem" }}
+
+{{ with .features }}
+  {{ $sections = slice (dict "features" .) | append $sections }}
+{{ end }}
+
+<div
+  class="features-table{{ with $modifier }} features-table--{{ . }}{{ end }}"
+  style="--tier-count: {{ len $tiers }}; --feature-cell-width: {{ $featureCellWidth }}"
+>
+  {{/* Mobile tier tabs */}}
+  <div class="features-table__tier-tabs">
+    <div class="features-table__tier-arrows">
+      <button
+        type="button"
+        class="features-table__tier-arrow features-table__tier-arrow--prev"
+        aria-label="Previous tier"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.6663 7.9987H1.33301M5.99967 3.33203L1.33301 7.9987L5.99967 12.6654" stroke="#28324D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="features-table__tier-arrow features-table__tier-arrow--next"
+        aria-label="Next tier"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 3.33203L14.6667 7.9987L10 12.6654" stroke="#28324D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.33301 8H14.6663" stroke="#28324D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    {{ range $index, $tier := $tiers }}
+      <button
+        class="features-table__tier-tab{{ if eq $index 0 }}
+          features-table__tier-tab--active
+        {{ end }}"
+        data-tier="{{ $tier.id }}"
+      >
+        {{ $tier.name }}
+      </button>
+    {{ end }}
+  </div>
+
+  <div class="features-table__table">
+    <div class="features-table__table-header">
+      <div class="features-table__table-cell features-table__table-cell--feature"></div>
+      {{ range $tiers }}
+        <div
+          class="features-table__table-cell features-table__table-cell--tier{{ if .highlight }}
+            features-table__table-cell--highlight
+          {{ end }}"
+          data-tier-col="{{ .id }}"
+        >
+          {{ with .icon }}
+            <img class="features-table__table-cell--tier-icon" src="{{ .src }}" alt="{{ .alt }}" />
+          {{ end }}
+          {{ .name }}
+        </div>
+      {{ end }}
+    </div>
+
+    <div class="features-table__table-body">
+      {{ range $sections }}
+      <div class="features-table__table-section{{ if .name }} features-table__table-section--collapsible{{ end }}">
+        {{ if .name }}
+          <div class="features-table__table-section-header">
+            <span class="features-table__table-section-title">{{ .name }}</span>
+            <svg
+              class="features-table__chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12.5L10 7.5L15 12.5"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        {{ end }}
+          <div class="features-table__table-section-rows">
+            {{ range .features }}
+              {{ $feature := . }}
+              <div class="features-table__table-row">
+                <div class="features-table__table-cell features-table__table-cell--feature">
+                  {{ .name | safeHTML }}
+                </div>
+                {{ range $tiers }}
+                  {{ $val := index $feature .id }}
+                  <div
+                    class="features-table__table-cell{{ if .highlight }} features-table__table-cell--highlight{{ end }}"
+                    data-tier-col="{{ .id }}"
+                  >
+                  {{ if eq $val true }}
+                    <svg
+                      class="features-table__check"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  {{ else if eq $val false }}
+                    <svg
+                      class="features-table__x"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 5L5 15M5 5L15 15"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  {{ else }}
+                  <span class="features-table__text{{ if .bold }} features-table__text--bold{{ end }}">{{ $val | safeHTML }}</span>
+                  {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+
+    {{ with $ctas }}
+    <div class="features-table__table-footer">
+      <div class="features-table__table-cell features-table__table-cell--feature"></div>
+      {{ range $index, $cta := . }}
+      {{ $tier := index $tiers $index }}
+      <div
+        class="features-table__table-cell features-table__table-cell--cta{{ if $tier.highlight }}
+              features-table__table-cell--highlight
+            {{ end }}"
+        data-tier-col="{{ $tier.id }}"
+      >
+        <a
+          href="{{ $cta.url }}"
+          class="button {{ if $cta.contained }}
+                button_contained
+              {{ else }}
+                button_outlined
+              {{ end }}"
+        >
+          {{ $cta.text }}
+        </a>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+</div>

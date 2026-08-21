@@ -1,14 +1,14 @@
-@use '../../helpers/functions' as *;
+@use '../helpers/functions' as *;
 @use 'sass:math';
 
-/* Shared pricing table styles – used by qdrant-pricing-comparison */
+/* Shared pricing table styles – used by pricing (qdrant-pricing-features, qdrant-pricing-support-reliability) and security */
 
 :root {
-  --tier-count: 4; // fallback; overridden per table via inline style in qdrant-pricing-features-table.html
+  --tier-count: 4; // fallback; overridden per table via inline style in features-table.html
   --feature-cell-width: 19.375rem;
 }
 
-.pricing-table {
+.features-table {
 
   // Layout – fallback for browsers without subgrid (same column track sizes, explicit grid)
   // First column: up to --feature-cell-width when grid fits, shrinks when it doesn't
@@ -48,9 +48,9 @@
     }
 
     &-title {
-      font-size: pxToRem(16);
-      font-weight: 500;
-      line-height: 1.5;
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      font-weight: 600;
       color: $neutral-20;
     }
 
@@ -62,7 +62,7 @@
     }
 
     &--collapsed {
-      .pricing-table__chevron {
+      .features-table__chevron {
         transform: rotate(180deg);
       }
     }
@@ -71,8 +71,32 @@
       border-top: 0.5px solid $neutral-80;
       border-top-left-radius: pxToRem(8);
     }
+    
+    &:first-of-type {
+      .features-table__table-row:first-of-type {
+        .features-table__table-cell {
+          border-top: 0.5px solid $neutral-80;
+        }
+        
+        .features-table__table-cell--feature {
+          border-top-left-radius: pxToRem(8);
+        }
+      }
+      
+      .features-table__table-section-header + .features-table__table-section-rows {
+        .features-table__table-row:first-of-type {
+          .features-table__table-cell {
+            border-top: none;
+          }
+          
+          .features-table__table-cell--feature {
+            border-top-left-radius: 0;
+          }
+        }
+      }
+    }
 
-    &:last-of-type.pricing-table__table-section--collapsed &-header {
+    &:last-of-type.features-table__table-section--collapsed &-header {
       border-bottom-left-radius: pxToRem(8);
     }
   }
@@ -118,20 +142,36 @@
   }
 
   &__table-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: pxToRem(16) pxToRem(32);
     background-color: $neutral-98;
-    font-size: pxToRem(14);
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
     font-weight: 400;
-    line-height: 1.5;
     color: $neutral-30;
     text-align: center;
     border-bottom: 0.5px solid $neutral-80;
     border-left: 0.5px solid $neutral-80;
   }
 
+  &__table-cell--tier {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(8);
+    
+    &-icon {
+      height: pxToRem(20);
+    }
+  }
+
   &__table-cell--feature {
     justify-content: flex-start;
     text-align: left;
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    font-weight: 600;
   }
 
   &__table-cell--highlight {
@@ -144,12 +184,12 @@
   }
 
   &__table-header {
-    & .pricing-table__table-cell {
+    & .features-table__table-cell {
       border-top: 0.5px solid $neutral-80;
       border-bottom: none;
     }
 
-    & .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+    & .features-table__table-cell:not(.features-table__table-cell--feature) {
       padding: pxToRem(16) pxToRem(32);
       font-size: pxToRem(20);
       font-weight: 600;
@@ -159,7 +199,7 @@
       background-color: $neutral-98;
       text-align: center;
 
-      &.pricing-table__table-cell--highlight {
+      &.features-table__table-cell--highlight {
         background-color: $secondary-blue-95;
       }
 
@@ -170,6 +210,10 @@
       &:last-of-type {
         border-top-right-radius: pxToRem(8);
       }
+    }
+    
+    & .features-table__table-cell.features-table__table-cell--tier {
+      padding: pxToRem(16) pxToRem(8);
     }
   }
 
@@ -184,7 +228,7 @@
       }
     }
 
-    & .pricing-table__table-cell {
+    & .features-table__table-cell {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -192,11 +236,11 @@
       padding: pxToRem(32) 1rem;
     }
 
-    & .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+    & .features-table__table-cell:not(.features-table__table-cell--feature) {
       background-color: $neutral-98;
       text-align: center;
 
-      &.pricing-table__table-cell--highlight {
+      &.features-table__table-cell--highlight {
         background-color: $secondary-blue-95;
       }
 
@@ -210,9 +254,9 @@
     }
   }
 
-  &__table-header .pricing-table__table-cell:last-child,
-  &__table-footer .pricing-table__table-cell:last-child,
-  &__table-row .pricing-table__table-cell:last-child {
+  &__table-header .features-table__table-cell:last-child,
+  &__table-footer .features-table__table-cell:last-child,
+  &__table-row .features-table__table-cell:last-child {
     border-right: 0.5px solid $neutral-80;
   }
 
@@ -230,25 +274,25 @@
   }
 
   &__table-body {
-    .pricing-table__table-section:last-of-type
-      .pricing-table__table-section-rows
-      .pricing-table__table-row:last-child
-      .pricing-table__table-cell:first-child {
+    .features-table__table-section:last-of-type
+    .features-table__table-section-rows
+    .features-table__table-row:last-child
+    .features-table__table-cell:first-child {
       border-bottom-left-radius: pxToRem(8);
     }
   }
 
-  &__table:not(:has(.pricing-table__table-footer)) {
-    .pricing-table__table-body
-      .pricing-table__table-section:last-of-type
-      .pricing-table__table-section-rows
-      .pricing-table__table-row:last-child
-      .pricing-table__table-cell:last-child {
+  &__table:not(:has(.features-table__table-footer)) {
+    .features-table__table-body
+    .features-table__table-section:last-of-type
+    .features-table__table-section-rows
+    .features-table__table-row:last-child
+    .features-table__table-cell:last-child {
       border-bottom-right-radius: pxToRem(8);
     }
 
-    .pricing-table__table-section:last-of-type.pricing-table__table-section--collapsed
-      .pricing-table__table-section-header {
+    .features-table__table-section:last-of-type.features-table__table-section--collapsed
+    .features-table__table-section-header {
       border-bottom-right-radius: pxToRem(8);
     }
   }
@@ -271,7 +315,6 @@
   }
 
   &__text {
-    font-size: pxToRem(14);
     color: $neutral-30;
 
     &--bold {
@@ -314,6 +357,10 @@
     }
   }
 
+  &__tier-arrow {
+    display: none;
+  }
+  
   @include media-breakpoint-down(lg) {
     &__tier-tabs {
       display: flex;
@@ -369,25 +416,30 @@
 
     &__table-row {
       display: grid;
-      grid-template-columns: 60% 40%;
+      grid-template-columns: 50% 50%;
     }
 
     &__table-cell {
       min-width: 0;
+      padding: pxToRem(16);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
 
       &[data-tier-col] {
         display: none;
 
-        &.pricing-table__table-cell--mobile-active {
+        &.features-table__table-cell--mobile-active {
           display: flex;
           grid-column: 2;
           align-items: center;
           justify-content: center;
-          border-right: none;
+          border-right: 0.5px solid $neutral-80;
         }
       }
 
       &--feature {
+        font-size: pxToRem(14);
+        line-height: pxToRem(21);
         grid-column: 1;
         min-width: 0;
         border-radius: 0;
@@ -395,31 +447,30 @@
     }
 
     &__table-body {
-      .pricing-table__table-section:last-of-type
-        .pricing-table__table-section-rows
-        .pricing-table__table-row:last-child
-        .pricing-table__table-cell:first-child {
+      .features-table__table-section:last-of-type
+      .features-table__table-section-rows
+      .features-table__table-row:last-child
+      .features-table__table-cell:first-child {
         border-bottom-left-radius: 0;
       }
     }
 
-    &__table:not(:has(.pricing-table__table-footer)) {
-      .pricing-table__table-body
-        .pricing-table__table-section:last-of-type
-        .pricing-table__table-section-rows
-        .pricing-table__table-row:last-child {
-        .pricing-table__table-cell:first-child {
+    &__table:not(:has(.features-table__table-footer)) {
+      .features-table__table-body
+      .features-table__table-section:last-of-type
+      .features-table__table-section-rows
+      .features-table__table-row:last-child {
+        .features-table__table-cell:first-child {
           border-bottom-left-radius: pxToRem(8);
         }
 
-        .pricing-table__table-cell--mobile-active {
+        .features-table__table-cell--mobile-active {
           border-bottom-right-radius: pxToRem(8);
-          border-right: 0.5px solid $neutral-80;
         }
       }
 
-      .pricing-table__table-section:last-of-type.pricing-table__table-section--collapsed
-        .pricing-table__table-section-header {
+      .features-table__table-section:last-of-type.features-table__table-section--collapsed
+      .features-table__table-section-header {
         border-bottom-right-radius: pxToRem(8);
       }
     }
@@ -429,14 +480,14 @@
       grid-template-columns: 1fr;
       width: 100%;
 
-      .pricing-table__table-cell--feature {
+      .features-table__table-cell--feature {
         display: none;
       }
 
-      .pricing-table__table-cell--cta {
+      .features-table__table-cell--cta {
         display: none;
 
-        &[data-tier-col].pricing-table__table-cell--mobile-active {
+        &[data-tier-col].features-table__table-cell--mobile-active {
           display: flex;
           grid-column: 1;
           align-items: center;
@@ -450,20 +501,90 @@
     }
 
     &__table-section {
-      &-rows {
-        border-right: 0.5px solid $neutral-80;
-      }
-
       &:first-of-type &-header {
         border-radius: 0;
       }
 
-      &:last-of-type.pricing-table__table-section--collapsed &-header {
+      &:last-of-type.features-table__table-section--collapsed &-header {
         border-bottom-left-radius: 0;
       }
 
+      &:first-of-type .features-table__table-row:first-of-type .features-table__table-cell--feature {
+        border-top-left-radius: 0;
+      }
+      
       &-header {
         border-radius: 0;
+      }
+
+      &-title {
+        font-size: pxToRem(14);
+        line-height: pxToRem(21);
+      }
+    }
+
+    &--mobile-arrows {
+      .features-table__tier-tabs {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+      }
+
+      .features-table__tier-arrows {
+        display: flex;
+        align-items: center;
+        gap: pxToRem(8);
+      }
+
+      .features-table__tier-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background-color: transparent;
+        padding: pxToRem(8);
+        border-radius: pxToRem(4);
+        border: pxToRem(1) solid $neutral-30;
+      }
+
+      .features-table__tier-tab {
+        flex: none;
+        width: 50%;
+        background-color: $neutral-98;
+        font-size: pxToRem(16);
+        line-height: pxToRem(24);
+        padding: pxToRem(16);
+        min-height: pxToRem(108);
+        border-top: 0.5px solid $neutral-80;
+        border-left: 0.5px solid $neutral-80;
+        border-right: 0.5px solid $neutral-80;
+        border-radius: 0;
+        
+        &:not(.features-table__tier-tab--active) {
+          display: none;
+        }
+      }
+
+      .features-table__table:not(:has(.features-table__table-footer))
+      .features-table__table-body
+      .features-table__table-section:last-of-type
+      .features-table__table-section-rows
+      .features-table__table-row:last-child 
+      .features-table__table-cell--mobile-active {
+        border-bottom-right-radius: 0;
+      }
+
+      .features-table__table:not(:has(.features-table__table-footer)) 
+      .features-table__table-body 
+      .features-table__table-section:last-of-type 
+      .features-table__table-section-rows 
+      .features-table__table-row:last-child 
+      .features-table__table-cell:first-child {
+        border-bottom-left-radius: 0;
       }
     }
   }
@@ -473,24 +594,18 @@
       padding: $spacer;
       min-height: pxToRem(56);
     }
-
-    &__table-section-title {
-      font-size: pxToRem(16);
-      font-weight: 500;
-      line-height: 1.5;
-    }
   }
 
   &--dark {
-    $dark-border: 0.5px solid $neutral-40;
+    $dark-border: 0.5px solid $neutral-30;
 
-    .pricing-table__tier-tabs {
+    .features-table__tier-tabs {
       background-color: $neutral-20;
       border: $dark-border;
       border-bottom: none;
     }
 
-    .pricing-table__tier-tab {
+    .features-table__tier-tab {
       color: $neutral-80;
 
       &--active {
@@ -499,105 +614,164 @@
       }
     }
 
-    .pricing-table__table-cell {
-      background-color: $neutral-20;
-      color: $neutral-80;
+    .features-table__table-section:first-of-type {
+      .features-table__table-row:first-of-type {
+        .features-table__table-cell {
+          border-top: $dark-border;
+        }
+      }
+
+      .features-table__table-section-header + .features-table__table-section-rows {
+        .features-table__table-row:first-of-type {
+          .features-table__table-cell {
+            border-top: none;
+          }
+        }
+      }
+    }
+    
+    .features-table__table-cell {
+      background-color: transparent;
+      color: $neutral-98;
       border-left: $dark-border;
       border-bottom: $dark-border;
     }
 
-    .pricing-table__table-cell--feature {
-      color: $neutral-80;
+    .features-table__table-cell--feature {
+      font-size: pxToRem(16);
+      line-height: pxToRem(24);
+      padding: pxToRem(24) pxToRem(32);
+      color: $neutral-98;
+      z-index: 1;
     }
 
-    .pricing-table__table-cell--highlight {
+    .features-table__table-cell--highlight {
       background-color: $neutral-20;
     }
 
-    .pricing-table__table-header .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
-      background-color: $neutral-20;
+    .features-table__table-header .features-table__table-cell:not(.features-table__table-cell--feature) {
+      background-color: $neutral-10;
       color: $neutral-98;
       border-top: $dark-border;
       border-left: $dark-border;
       border-bottom: none;
     }
 
-    .pricing-table__table-header .pricing-table__table-cell--feature,
-    .pricing-table__table-footer .pricing-table__table-cell--feature {
+    .features-table__table-header .features-table__table-cell--feature,
+    .features-table__table-footer .features-table__table-cell--feature {
       background-color: transparent;
       border: none;
     }
+    
+    .features-table__table-section-rows {
+      position: relative;
+      background-color: $neutral-10;
 
-    .pricing-table__table-header .pricing-table__table-cell:last-child,
-    .pricing-table__table-footer .pricing-table__table-cell:last-child,
-    .pricing-table__table-row .pricing-table__table-cell:last-child {
+      &:before {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: var(--feature-cell-width);
+        background: linear-gradient(180deg, rgba(14, 20, 36, 0.00) 0%, #161E33 100%);
+        border-bottom-left-radius: pxToRem(8);
+        pointer-events: none;
+        z-index: 0;
+      }
+    }
+    
+    .features-table__table-header .features-table__table-cell:last-child,
+    .features-table__table-footer .features-table__table-cell:last-child,
+    .features-table__table-row .features-table__table-cell:last-child {
       border-right: $dark-border;
     }
 
-    .pricing-table__table-section-header {
-      background-color: $neutral-30;
+    .features-table__table-row:first-of-type .features-table__table-cell {
+      border-top: $dark-border;
+    }
+
+    .features-table__table-section-header {
+      background-color: $neutral-20;
       border-left: $dark-border;
       border-right: $dark-border;
       border-bottom: $dark-border;
     }
 
-    .pricing-table__table-section:first-of-type .pricing-table__table-section-header {
+    .features-table__table-section:first-of-type .features-table__table-section-header {
       border-top: $dark-border;
     }
 
-    .pricing-table__table-section-title {
+    .features-table__table-section-title {
       color: $neutral-98;
     }
 
-    .pricing-table__chevron {
+    .features-table__chevron {
       color: $neutral-98;
     }
 
-    .pricing-table__check {
+    .features-table__check {
       color: $neutral-98;
     }
 
-    .pricing-table__x {
+    .features-table__x {
       color: $neutral-60;
     }
 
-    .pricing-table__text {
-      color: $neutral-80;
+    .features-table__text {
+      color: $neutral-98;
 
       &--bold {
-        color: $neutral-98;
+        color: $neutral-98; 
+      }
+      
+      a {
+        border-bottom: pxToRem(1) solid $primary-50;
       }
     }
 
-    .pricing-table__table-footer .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+    .features-table__table-footer .features-table__table-cell:not(.features-table__table-cell--feature) {
       background-color: $neutral-20;
       border-left: $dark-border;
       border-bottom: $dark-border;
     }
 
     @include media-breakpoint-down(lg) {
-      .pricing-table__table-section-rows {
+      .features-table__table-section-rows {
+        &:before {
+          width: 50%;
+        }
+      }
+
+      .features-table__table-cell[data-tier-col].features-table__table-cell--mobile-active {
         border-right: $dark-border;
       }
 
-      .pricing-table__table-cell[data-tier-col].pricing-table__table-cell--mobile-active {
-        border-right: none;
-      }
-
-      .pricing-table__table:not(:has(.pricing-table__table-footer)) {
-        .pricing-table__table-body
-          .pricing-table__table-section:last-of-type
-          .pricing-table__table-section-rows
-          .pricing-table__table-row:last-child
-          .pricing-table__table-cell--mobile-active {
+      .features-table__table:not(:has(.features-table__table-footer)) {
+        .features-table__table-body
+        .features-table__table-section:last-of-type
+        .features-table__table-section-rows
+        .features-table__table-row:last-child
+        .features-table__table-cell--mobile-active {
           border-right: $dark-border;
         }
       }
 
-      .pricing-table__table-footer .pricing-table__table-cell--cta[data-tier-col].pricing-table__table-cell--mobile-active {
+      .features-table__table-footer 
+      .features-table__table-cell--cta[data-tier-col].features-table__table-cell--mobile-active {
         border-left: $dark-border;
         border-right: $dark-border;
+      }
+      
+      .features-table__table-section:first-of-type 
+      .features-table__table-row:first-of-type 
+      .features-table__table-cell {
+        border-top: $dark-border;
       }
     }
   }
 }
+
+
+

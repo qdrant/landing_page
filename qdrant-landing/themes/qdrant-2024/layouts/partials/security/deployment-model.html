@@ -1,0 +1,27 @@
+{{ with (.Site.GetPage "/security/deployment-model") }}
+  {{ $tables := .Params.tables | default slice }}
+  {{ $showTabs := gt (len $tables) 1 }}
+
+  <section class="security-deployment-model">
+    <div class="container">
+      <h2 class="security-deployment-model__title">{{ .Params.title }}</h2>
+
+      {{ range $index, $table := $tables }}
+        {{ if and $table.tiers (or $table.features $table.sections) }}
+          <div
+            class="security-deployment-model__table-wrapper{{ if and $showTabs (gt $index 0) }} security-deployment-model__table-wrapper--hidden{{ end }}"
+            data-features-tab="{{ $table.id }}"
+          >
+            {{ partial "features-table" (dict
+              "tiers" $table.tiers
+              "features" $table.features
+              "featureCellWidth" $table.featureCellWidth
+              "modifier" "dark"
+              )
+            }}
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -25,7 +25,7 @@
           class="qdrant-pricing-features__table-wrapper{{ if and $showTabs (gt $index 0) }} qdrant-pricing-features__table-wrapper--hidden{{ end }}"
           data-features-tab="{{ $table.id }}"
         >
-          {{ partial "pricing/qdrant-pricing-features-table" (dict
+          {{ partial "features-table" (dict
             "tiers" $table.tiers
             "sections" $table.sections
             "ctas" $table.ctas
