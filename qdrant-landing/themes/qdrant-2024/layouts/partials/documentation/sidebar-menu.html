@@ -137,26 +137,25 @@
 
                   <nav>
                     <ul class="docs-menu__links-submenu">
-                      {{ range .RegularPages }}
-                        {{ if (eq .Params.type "external-link") }}
-                          <li class="docs-menu__links-submenu-item">
-                            <a href="{{ .Params.external_url }}" target="_blank">
-                              {{ .Title }}
-                              {{ partial "svg" "external-link.svg" }}
-                            </a>
-                          </li>
-                        {{ else if not .Params.hideInSidebar }}
-                          <li
-                            class="docs-menu__links-submenu-item{{ if eq .File.UniqueID $currentNode.File.UniqueID }}
-                              active
-                            {{ end }}"
-                          >
-                            <a href="{{ .Permalink }}">{{ .Title }}</a>
-                          </li>
-                        {{ end }}
-                      {{ end }}
-                      {{ range .Sections }}
-                        {{ if not .Params.hideInSidebar }}
+                      {{ range .Pages }}
+                        {{ if .IsPage }}
+                          {{ if (eq .Params.type "external-link") }}
+                            <li class="docs-menu__links-submenu-item">
+                              <a href="{{ .Params.external_url }}" target="_blank">
+                                {{ .Title }}
+                                {{ partial "svg" "external-link.svg" }}
+                              </a>
+                            </li>
+                          {{ else if not .Params.hideInSidebar }}
+                            <li
+                              class="docs-menu__links-submenu-item{{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                                active
+                              {{ end }}"
+                            >
+                              <a href="{{ .Permalink }}">{{ .Title }}</a>
+                            </li>
+                          {{ end }}
+                        {{ else if and .IsSection (not .Params.hideInSidebar) }}
                           {{ $subIsActive := false }}
                           {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
                             {{ $subIsActive = true }}
