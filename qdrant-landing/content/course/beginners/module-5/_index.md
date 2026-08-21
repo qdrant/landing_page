@@ -46,7 +46,7 @@ By the end, you'll have built the whole system: ingestion, clustering, and analy
 
 ## 1. Project Overview
 
-A factory fire at a supplier's plant shows up in a local news report hours before a wire service picks it up. It also shows up in a satellite image, in an earnings call where an executive gets asked about it, and in a supplier's own filing weeks later. Each of those is a signal, and none of them arrives labeled as an incident.
+A factory fire at a supplier's plant reaches you four ways. A local news report, a satellite image, an earnings call where an executive gets asked about it, and the supplier's own filing weeks later. You are building the system an analyst uses to see all four, and none of them arrives labeled as an incident.
 
 This is the news search system you designed in Module 4, extended in three ways:
 
