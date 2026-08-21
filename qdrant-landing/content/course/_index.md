@@ -16,6 +16,23 @@ Whether you’re new to Qdrant or building production-grade systems, our guided 
 ## Available Now
 
 {{< course-card
+ title="Qdrant Beginners Course"
+ image="/icons/outline/training-white.svg"
+ link="/course/beginners/"
+>}}
+**What you'll gain:**
+- Why Traditional Search Falls Short
+- Embeddings and Distance Metrics
+- Vector Search First Principles
+- Sparse, Dense, and Hybrid Search
+- Designing a Vector Search System
+- Capstone: Multimodal Supplier Risk Intelligence
+<br><br>
+Time to Complete: under 5 hours<br>
+Includes: videos, code notebooks, projects, certification
+{{< /course-card >}}
+
+{{< course-card
  title="Qdrant Essentials Course"
  image="/icons/outline/rocket-white-light.svg"
  link="/course/essentials/"
@@ -50,27 +67,6 @@ Includes: videos, code notebooks, projects, certification
 {{< /course-card >}}
 
 ## Upcoming Courses
-
-### Beginner Level
-Beginner courses require no previous experience with Qdrant and are useful for building a strong foundation in vector search.
-
-{{< accordion >}}
-- title: "Qdrant Fundamentals"
-  content: |
-    - Vector Search Concepts
-    - Setting Up Qdrant
-    - Creating and Managing Collections
-    - Ingesting Vector Embeddings
-    - Running Your First Query
-    <br>
-    <br>
-    Time to Complete: 2 hours (TBD)<br>
-    Includes: videos, code notebooks
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="https://forms.gle/jiBmDcXr8j9tAb5UA" target="_blank">→ Register Interest</a></p>
-
-{{< /accordion >}}
 
 ### Intermediate Level
 Intermediate courses are recommended for those that have completed the Beginner Level Modules first, and extend knowledge into more practical usage of Qdrant in the real-world.
