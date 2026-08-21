@@ -27,13 +27,7 @@ Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily
 
 #### TL;DR
 
-> Module 4 turned the building blocks into a design. In this module, you'll
-build that design as a working system. You'll explore named vectors that
-hold text, image, and audio evidence on a single point, then see how a
-daily job clusters those signals into the events they describe.
-You'll also learn how to search images with text and how to extend the
-system across languages. By the end, you'll have
-ingested, clustered, and queried multimodal signals from one collection.
+> Module 4 turned the building blocks into a design. Now you’ll build that design into a working system. You’ll use named vectors to connect text, image, and audio evidence to a single point, then cluster those signals into the events they describe. You’ll also search images with text and extend the system across languages. By the end, you’ll have ingested, clustered, and queried multimodal signals from one collection.
 
 
 ## Today's Path
