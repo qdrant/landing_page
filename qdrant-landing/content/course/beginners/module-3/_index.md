@@ -19,7 +19,7 @@ Understand dense versus sparse retrieval, their strengths, and how a hybrid appr
 
 **Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module3.ipynb)
 
-#### TL;DR
+#### Overview
 
 > Module 2 showed you where your data lives and how Qdrant retrieves it. 
 In this module, you'll learn what that retrieval misses and how to cover the gap. 
@@ -43,7 +43,7 @@ and filtered it correctly.
 
 ## 1. Where We Left Off
 
-In Module 2 you built a complete ingestion and retrieval pipeline: raw text, vector, store, top-K query. Dense retrieval handles meaning well. It gets shaky on the part of a query that has to be exact.
+In Module 2, you built a complete ingestion and retrieval pipeline: raw text, vector, store, top-K query. Dense retrieval handles meaning well. It gets shaky on the part of a query that has to be exact.
 
 Here is a shoe catalog with two products one digit apart. Searching it dense-only for `Nike Pegasus 40`:
 
@@ -66,7 +66,7 @@ Every retrieval system is built from one or both of these.
 
 ### Dense Search
 
-![Two short phrases encoded into 384-dimensional dense vectors, positioned close together in vector space because they share meaning rather than words.](/courses/beginners/module-3/dense-search.png)
+![](/courses/beginners/module-3/dense-search.png)
 
 A dense vector has a small, fixed number of dimensions, 384 for the model used here, and every one of them holds a value. Two texts with similar meaning land close together whether or not they share any words:
 
@@ -80,7 +80,7 @@ Read the gap, not the absolute number: what makes 0.73 meaningful is the distanc
 
 ### Sparse Search
 
-![A sparse vector drawn as a long mostly-empty row, with weights on only the handful of positions matching tokens present in the text.](/courses/beginners/module-3/sparse-search.png)
+![](/courses/beginners/module-3/sparse-search.png)
 
 Sparse vectors are token-based: each dimension corresponds to a token, only the tokens present carry a weight, and everything else is zero. Storing that mostly-zero row would be wasteful, so a sparse vector is two parallel arrays, the `indices` of the non-zero dimensions and the `values` at those positions:
 
@@ -92,7 +92,8 @@ values  = [1.67, 1.67, 1.67, 1.67, 1.67]
 
 Five tokens, five weights, nothing else stored. The indices are hashes of each token rather than positions in a word list, which is why they are large. The values are uniform because BM25 produces only half the score, the part counting how often a token appears. Qdrant computes the other half at query time.
 
-Sparse retrieval does not match characters, which is a common assumption. BM25 first splits text into tokens and cuts each token back to its root (stemming), so `SKU-48291` and `SKU-48292` still share the token `sku`. <br>
+Sparse retrieval does not match characters, which is a common assumption. BM25 first splits text into tokens and cuts each token back to its root (stemming), so `SKU-48291` and `SKU-48292` still share the token `sku`.
+
 What it gives you is that `40` and `41` are *different tokens* with no relationship at all, where dense placed them 0.0087 apart. The distinguishing token gets its own dimension instead of being averaged away.
 
 Sparse similarity in Qdrant is always the dot product, with no metric to choose, unlike the dense side where you pick Cosine, Dot, or Euclidean.
@@ -121,8 +122,10 @@ A query reads only the lists for the tokens it contains, summing weights as it g
 
 ### Dense and Sparse, Side by Side
 
-Module 1 covered the strengths of dense vectors, and those strengths apply here too. Dense vectors handle synonyms, paraphrases, and intent well, but they can miss cases where one exact token carries the meaning, such as a serial number, rare term, or invented product name. <br>
-Sparse vectors make the opposite tradeoff. They work well for exact tokens and domain-specific terms, but they cannot recognize reworded content when the query and document share no words. <br>
+Module 1 covered the strengths of dense vectors, and those strengths apply here too. Dense vectors handle synonyms, paraphrases, and intent well, but they can miss cases where one exact token carries the meaning, such as a serial number, rare term, or invented product name.
+
+Sparse vectors make the opposite tradeoff. They work well for exact tokens and domain-specific terms, but they cannot recognize reworded content when the query and document share no words.
+
 One caveat is cross-language retrieval. The model used here, `sentence-transformers/all-MiniLM-L6-v2`, supports English only. For cross-language retrieval, use a multilingual embedding model.
 
 Dense finds what a query means. Sparse finds what it says. Most real catalogs carry both, a name a shopper paraphrases and a model number they type exactly, which is what the next section builds.
@@ -143,16 +146,17 @@ Sparse pushes the 41 down to third, because `40` is a different token from `41`.
 
 Each retriever ranks the right shoe first, and each leaves it a hair ahead of something wrong. Neither is safe alone.
 
-![Hybrid search for the query "Nike Pegasus 40": dense retrieval contributes semantically related running shoes while sparse retrieval locks onto the exact model number, and fusion combines both into one ranked list.](/courses/beginners/module-3/nike-example.png)
+![](/courses/beginners/module-3/nike-example.png)
 
 ### Fusion
 
-**Fusion** combines the ranked results from two retrievers into a single list. After both retrievers finish, Qdrant applies fusion on the server to determine the final ranking. <br>
+**Fusion** combines the ranked results from two retrievers into a single list. After both retrievers finish, Qdrant applies fusion on the server to determine the final ranking.
+
 Qdrant supports two fusion strategies: Reciprocal Rank Fusion and Distribution-Based Score Fusion. See the [Hybrid Queries documentation](/documentation/search/hybrid-queries/) for details and available parameters.
 
 **Reciprocal Rank Fusion (RRF)** is the default. It merges the lists using each candidate's *position* and ignores the raw scores entirely, which matters because a dense score of 0.87 and a BM25 score of 3.84 sit on unrelated scales and cannot be meaningfully added. A document ranked highly by both retrievers finishes above one ranked highly by only one.
 
-![Reciprocal Rank Fusion merging a dense ranked list and a sparse ranked list into a single fused ranking, with a candidate appearing in both lists rising to the top.](/courses/beginners/module-3/fusion.png)
+![](/courses/beginners/module-3/fusion.png)
 
 ## 4. Setting Up Hybrid Search in Qdrant
 
@@ -207,8 +211,9 @@ client.create_payload_index(
 )
 ```
 
-**Index Before Ingestion.** Create payload indexes before you ingest data. Qdrant can add an index later and still filter correctly, but it must rebuild the index for existing points. Creating it first lets Qdrant build the index as it writes the data. <br>
-Qdrant Cloud also enables **strict mode** by default. These guardrails reject queries that could be expensive enough to destabilize a cluster. Filtering on an unindexed field is one such case, so Qdrant returns a `400` error instead of running a slow query.
+**Index Before Ingestion.** Create payload indexes before you ingest data. Qdrant can add an index later and still filter correctly, but it must rebuild the index for existing points. Creating it first lets Qdrant build the index as it writes the data.
+
+Qdrant Cloud also enables [**strict mode**](/documentation/ops-configuration/administration/#strict-mode) by default. These guardrails reject queries that could be expensive enough to destabilize a cluster. Filtering on an unindexed field is one such case, so Qdrant returns a `400` error instead of running a slow query.
 
 ### Step 2: Insert Points with Both Vectors
 
@@ -443,5 +448,6 @@ You are in local mode with the filter at the top level rather than inside each p
 
 ## What's Next: Module 4
 
-Eight products can fit in one collection and one query. A multilingual news archive with strict tenant isolation and a generation step requires a more deliberate design. <br>
+Eight products can fit in one collection and one query. A multilingual news archive with strict tenant isolation and a generation step requires a more deliberate design.
+
 Module 4 works through this system end to end, decision by decision. You'll learn how the layers of the stack work together, how filters behave when the query planner selects a strategy, and how deployment choices range from Docker to Qdrant Edge.
