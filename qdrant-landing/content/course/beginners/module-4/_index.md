@@ -16,21 +16,13 @@ draft: false
   </iframe>
 </div>
 
-#### TL;DR
+Hybrid retrieval, HNSW, and payload indexes are the parts. This module is the reasoning that turns them into a system: five layers, five questions, and a news search design built end to end.
 
-> Module 3 gave you hybrid retrieval. In this module, you'll learn how to turn the building blocks into a system. You'll explore the five layers of a vector search stack and the five questions that turn a brief into a design, then see how Qdrant plans a filtered query instead of discarding results afterward. You'll also learn what a production RAG pipeline looks like and how to pick a deployment mode. By the end, you'll have designed a news search system end to end.
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-beginners/module-4/Module4.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
 
-**Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
-
-## Today's Path
-
-1. The Layers of the Stack
-2. Worked Example: Designing a News Search System
-3. How Qdrant Plans a Filtered Query
-4. The Production RAG Pipeline
-5. Deployment Options
-6. Knowledge Check
-7. References and Further Reading
+---
 
 ## 1. The Layers of the Stack
 
@@ -38,25 +30,19 @@ Every vector search system is built from the same five layers. They matter becau
 
 ![The five layers of a vector search stack, from the query layer at the top down through indexing, storage, and knowledge to the distribution layer at the base.](/courses/beginners/module-4/layers.png)
 
-**Query** runs once per request: embed the query, search dense, sparse, or both, merge the ranked lists, cut the result to a limit. All of Module 3 lives here, and so does every mistake you can fix by changing one call and running it again. That is this layer's tell, no re-ingestion and no rebuild.
+**Query** runs once per request: embed the query, search dense, sparse, or both, merge the ranked lists, cut the result to a limit. All of Module 3 lives here, and so does every mistake you can fix by changing one call and running it again. No re-ingestion and no rebuild is this layer's tell.
 
 **Indexing** holds the structures that make search fast rather than correct: the HNSW graph over the vectors from Module 2, plus a payload index for every field you filter on. Get this layer wrong and the results are still right, they just arrive late. The fix costs a rebuild.
 
-**Storage** is where points sit, split between RAM and disk, and it is the layer that sets the memory bill. Two levers here cost nothing but a change to the collection config. [Quantization](/documentation/manage-data/quantization/) compresses each vector into fewer bytes, and [on-disk vectors](/documentation/manage-data/storage/#configuring-memmap-storage) keep them in memory-mapped files instead of RAM, trading latency for capacity.
+**Storage** is where points sit, split between RAM and disk, and it is the layer that sets the memory bill. Two levers here need only a change to the collection config, though on a collection that already holds data both rewrite every vector. [Quantization](/documentation/manage-data/quantization/) compresses each vector into fewer bytes, and [on-disk vectors](/documentation/manage-data/storage/#configuring-memmap-storage) keep them in memory-mapped files instead of RAM, trading latency for capacity.
 
 **Knowledge** is the data itself and every decision made before it reached Qdrant: which text you embed, how long the pieces are, which model produced the vectors, and what the payload holds. Chunking belongs here too, splitting a long document into passages short enough that one vector still describes one thing. Nothing in the layers above recovers from a mistake in this one. Embed the wrong text and the only fix is embedding the right text and ingesting again.
 
-**Distribution** is how one collection stops fitting on one machine. Sharding splits a collection's points across nodes so each node holds a slice. Replication keeps a copy of each shard on more than one node, so search survives losing one. A multi-node cluster is several Qdrant nodes serving one collection together. None of it is a day-one concern, and reaching for it to fix a latency problem that belongs to the indexing layer is the most expensive mistake on this page. [Distributed Deployment](/documentation/distributed_deployment/) covers all three.
+**Distribution** is how one collection stops fitting on one machine. Sharding splits a collection's points across nodes so each node holds a slice. Replication keeps a copy of each shard on more than one node, so search survives losing one. A multi-node cluster is two or more Qdrant nodes serving one collection together. None of it is a day-one concern, and reaching for it to fix a latency problem that belongs to the indexing layer is the most expensive mistake on this page. [Distributed Deployment](/documentation/distributed_deployment/) covers all three.
 
 ### Diagnosing by Layer
 
 Sorting a decision into a layer is the easy direction: "add a payload index" is indexing, "chunk long articles" is knowledge, "move to three nodes" is distribution. Going the other way, from a symptom to a layer, is the direction you will need, and a symptom almost never names its own layer. Work backwards from what the fix would cost instead.
-
-- One query parameter changes the outcome: **query**.
-- The results are right but slow: **indexing**.
-- A memory or disk number moved while the point count did not: **storage**.
-- The results are wrong for a whole category of data: **knowledge**.
-- The problem only shows up when a machine is lost or added: **distribution**.
 
 Five reports from production systems. For each, name the layer and the one thing you would change. One of them has two defensible answers.
 
@@ -67,11 +53,11 @@ Five reports from production systems. For each, name the layer and the one thing
 5. One node serves the query load with room to spare. A disk failure last month took search down for six hours.
 
 <details>
-<summary>Show the answers</summary>
+<summary>Show the Answers</summary>
 
 1. **Indexing**, and this is the one with two answers. A filter on a small source matches few points, which is exactly the case a payload index on `source` exists to serve. Without that index the planner has no estimate to work from and the query degrades to a scan, on a self-hosted cluster at least, since Qdrant Cloud rejects a filter on an unindexed field outright. Reading it as a query-layer problem is defensible, because a smaller limit would also cut the tail. It would hide the cause rather than fix it.
 2. **Knowledge**. The embedding model is English-only, so the Japanese articles were never projected into a space an English query can reach. No filter, index, or limit recovers from that. The fix is a multilingual model and a re-ingestion.
-3. **Query**. Each prefetch carries a limit of its own, and it has to be at least the outer query's limit, or fusion has fewer candidates than the result set asks for and comes back empty. This is the prefetch-limit trap from Module 3. Raise the prefetch limits above the largest outer limit the system serves.
+3. **Query**. Each prefetch carries a limit of its own, and it has to be at least the outer query's limit plus its offset, or fusion has fewer candidates than the result set asks for and comes back empty. Module 3 called this the prefetch-limit trap. Raise the prefetch limits above the largest outer limit the system serves, plus its offset.
 4. **Storage**. Most of the collection cannot be held in RAM, so searches page in from disk. Quantization, on-disk vectors, or a bigger node are the levers, and none of them change how you search.
 5. **Distribution**. A single copy of each shard means one disk failure is an outage. Replication is what makes search survive it, and it is the first distribution-layer decision worth making.
 
@@ -91,7 +77,7 @@ Five questions turn that into a design.
 
 Two queries from the brief pull in opposite directions. "Port congestion in Southeast Asia" describes an intent, which is dense territory. "MAERSK-B.CO" is a ticker, and it carries no meaning a dense model can use. Put it in a headline next to a near-identical headline about a different carrier and the model has nothing to separate them: the one token the analyst cares about gets averaged into a vector about shipping.
 
-That is the Module 3 failure arriving in a new domain, and it is why a fifth of the queries decide the whole design. Try It, at the end of this section, measures the margin dense-only leaves on exactly that pair.
+Module 3's failure arrives here in a new domain, which is why a fifth of the queries decide the whole design. Try It, at the end of this section, measures the margin dense-only leaves on exactly that pair.
 
 **Decision**: hybrid search, with [named dense and sparse vectors](/documentation/manage-data/vectors/#named-vectors) on every point, fused at query time.
 
@@ -172,7 +158,7 @@ ARTICLES = [
         "headline": "Port congestion worsens at Ho Chi Minh City terminals",
         "lead": "Waiting times at the city's two main container berths have roughly"
                 " tripled since June, and carriers are diverting boxes to Cai Mep.",
-        # a real body runs several hundred words; shortened here
+        # a real body runs 600 to 900 words; shortened here
         "body": "Terminal operators said the backlog began with a monsoon shutdown",
     },
     {
@@ -286,13 +272,15 @@ Then run `vessels queuing outside harbours in Vietnam`, which shares no word wit
 
 ### The Design on One Page
 
+The five answers, with the layer each one commits you to. Deployment mode is the one decision that is not a layer at all, which is why the design survives changing it.
+
 | Question | Answer for this system | Layer |
 |----------|------------------------|-------|
 | Query type | Mixed semantic and exact, so hybrid with RRF | Query |
 | Filter scope | country, topic, source, date, indexed before ingestion | Knowledge, indexing |
-| Workload shape | Millions of articles: bulk backfill, then continuous ingestion | Storage |
+| Workload shape | Millions of articles: bulk backfill, then continuous ingestion | Indexing, knowledge |
 | Pipeline | Hybrid with per-prefetch filters; headline and lead embedded; no reranker yet | Query, knowledge |
-| Deployment | Managed; design independent of the choice | Distribution |
+| Deployment | Managed; design independent of the choice | Not a layer |
 
 ## 3. How Qdrant Plans a Filtered Query
 
@@ -306,11 +294,11 @@ Then it picks a strategy for each **[segment](/documentation/manage-data/storage
 
 - A segment holding few points gets scanned outright.
 - A low-cardinality filter goes through the payload index, which is cheaper than the graph at that selectivity.
-- A high-cardinality one goes through the filterable HNSW index, the graph carrying the extra edges Question 2 created.
+- A high-cardinality one goes through the filterable HNSW index built in Question 2.
 
 Every threshold in these decisions is configurable per collection.
 
-The estimate comes from the payload index, so an unindexed field leaves the planner guessing and the query slow rather than wrong. That is how a missing index sits in production unnoticed for months.
+The estimate comes from the payload index, so an unindexed field leaves the planner guessing and the query slow rather than wrong. Slow rather than wrong is how a missing index sits in production unnoticed for months.
 
 ## 4. The Production RAG Pipeline
 
@@ -318,9 +306,9 @@ The estimate comes from the payload index, so an unindexed field leaves the plan
 
 Give the news system that feature and the pipeline has four steps:
 
-1. **Query understanding**: pull hard constraints (dates, country, topic) into a filter, and embed the query as a dense and a sparse vector. The unit changes here: search returned whole articles, but generation needs passages short enough to fit a prompt, so bodies are split into chunks and each chunk becomes its own point. That is a second collection, not a change to the one built above.
+1. **Query understanding**: pull hard constraints (dates, country, topic) into a filter, and embed the query as a dense and a sparse vector. The unit changes here: search returned whole articles, but generation needs passages short enough to fit a prompt, so bodies are split into chunks and each chunk becomes its own point. Those chunks live in a second collection, not in the one built above.
 2. **Hybrid retrieval**: one `query_points` call, filtered on each prefetch, fused with `RrfQuery`, keeping the top 20 chunks.
-3. **Optional reranking**: a second scoring pass over that short list. A cross-encoder reads the query and the chunk together, which is more accurate than comparing two embeddings that were computed separately. It is also far too slow to run over a whole collection, so it reorders the 20 and keeps five. Add it when the right chunk keeps landing at position 8 when it should be at 2. [Reranking in Semantic Search](/documentation/search-precision/reranking-semantic-search/) compares the types and their cost.
+3. **Optional reranking**: a second scoring pass over that short list. A cross-encoder reads the query and the chunk together, which is more accurate than comparing two embeddings that were computed separately. It is also far too slow to run over a whole collection, so it reorders the 20 and keeps five. Add it when the right chunk keeps landing at position eight when it should be at two. [Reranking in Semantic Search](/documentation/search-precision/reranking-semantic-search/) compares the types and their cost.
 4. **Generation**: the top chunks go in as context and the model writes the answer.
 
 ### Rule of Thumb
@@ -329,7 +317,7 @@ When RAG quality disappoints, improve step 2 before reaching for a bigger model 
 
 ## 5. Deployment Options
 
-Question 5 picked managed deployment for the news system. The same engine runs behind all six modes, and the design runs unchanged on every one, so the choice comes down to two questions: how much of the operating do you want to do, and how isolated does the data have to be. Those pull in the same direction, which is why five of the modes line up on one spectrum from least setup to most control. Edge sits outside it.
+Question 5 picked managed deployment for the news system. Qdrant runs in six modes, and the design runs unchanged on every one, so the choice comes down to two questions: how much of the operating do you want to do, and how isolated does the data have to be. Those pull in the same direction, which is why five of the modes line up on one spectrum from least setup to most control. Edge sits outside it.
 
 ![Six Qdrant deployment modes on a spectrum from least setup to most control: Local Mode, Managed Cloud, Hybrid Cloud, self-hosted Docker, and Private Cloud or on-prem, each with when to use it and when to avoid it, with Edge shown separately as a single-node on-device special case.](/courses/beginners/module-4/deployment.png)
 
@@ -346,35 +334,35 @@ A new brief, not the one you just designed:
 Work through the five questions before opening the answers.
 
 <details>
-<summary>Question 1: What do the queries look like?</summary>
+<summary>Question 1: What Do the Queries Look Like?</summary>
 
 Both kinds, as in the news system. The description is semantic; the error code is an exact token a dense model will blur into neighboring codes. So: hybrid, fused with RRF. (Query layer.)
 
 </details>
 
 <details>
-<summary>Question 2: What must the system filter on?</summary>
+<summary>Question 2: What Must the System Filter On?</summary>
 
 Product line as a keyword index and ticket date as a datetime index, both created before ingestion. Anything an agent must never see across product lines is a filter, not a ranking signal.
 
 </details>
 
 <details>
-<summary>Question 3: What's the workload shape?</summary>
+<summary>Question 3: What's the Workload Shape?</summary>
 
 A bulk backfill of four million text tickets, then light continuous ingestion. One collection, upserts, no distribution-layer work on day one.
 
 </details>
 
 <details>
-<summary>Question 4: What does the retrieval pipeline look like?</summary>
+<summary>Question 4: What Does the Retrieval Pipeline Look Like?</summary>
 
 Hybrid retrieval with the filter inside each prefetch. The knowledge-layer decision is what to embed: a ticket thread runs long, so embed the subject and the first message and keep the full thread in the payload. Add a reranker only if evaluation shows the right ticket landing below the fold.
 
 </details>
 
 <details>
-<summary>Question 5: What are the deployment constraints?</summary>
+<summary>Question 5: What Are the Deployment Constraints?</summary>
 
 Not stated in the brief, which is the point. Ask before you choose. Support tickets carry customer data, so the answer usually turns on where that data is allowed to live, not on latency or cost.
 
