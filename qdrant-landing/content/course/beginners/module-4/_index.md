@@ -16,7 +16,9 @@ draft: false
   </iframe>
 </div>
 
-Hybrid retrieval, vector indexes, and payload indexes are the parts. This module is the reasoning that turns them into a system: five layers, five questions, and a news search design built end to end.
+#### TL;DR
+
+> Module 3 gave you hybrid retrieval. In this module, you'll learn how to turn the building blocks into a system. You'll explore the five layers of a vector search stack and the five questions that turn a brief into a design, then see how Qdrant plans a filtered query instead of discarding results afterward. You'll also learn what a production RAG pipeline looks like and how to pick a deployment mode. By the end, you'll have designed a news search system end to end.
 
 **Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
 
@@ -287,6 +289,8 @@ Module 3 covered how to write a filter and where to put it in a hybrid query. Wh
 Post-filtering retrieves a fixed number of nearest results, the top-K, then discards whatever fails the filter. A selective filter matches only a small share of the collection, one country out of 200 say. Against that, even a large K can come back empty.
 
 Qdrant runs a [query planner](/documentation/search/search/#query-planning) instead. It starts by estimating **cardinality**, how many points the filter will match, because that number decides everything after it.
+
+![How Qdrant plans a filtered query: the planner first estimates how many points the filter matches, then picks a strategy for each segment, scanning a small segment outright, going through the payload index for a low-cardinality filter, and through the filterable HNSW index for a high-cardinality one.](/courses/beginners/module-4/query.png)
 
 Then it picks a strategy for each **[segment](/documentation/manage-data/storage/)**, the independent pieces a collection is stored in. Three strategies cover most queries:
 
