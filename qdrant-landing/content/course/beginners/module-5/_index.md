@@ -1,7 +1,7 @@
 ---
-title: "Module 5 Capstone: Multimodal Supplier Risk Intelligence"
+title: "Module 5: Multimodal Supplier Risk Intelligence"
 short_description: "Module 5 of the Beginners course: the capstone project. Ingest, cluster, and query multimodal supplier signals in one collection."
-description: "Build an end-to-end system with everything from Modules 1-4: ingest news, audio, and satellite signals, cluster them into risk themes, and query them."
+description: "Build the Beginners capstone: ingest news, transcripts, and satellite imagery on shared points, cluster them into risk themes, and query every modality."
 isLesson: true
 weight: 60
 ---
@@ -11,36 +11,29 @@ weight: 60
 # Capstone: Multimodal Supplier Risk Intelligence
 
 <div class="video">
-<iframe
-  src="https://www.youtube.com/embed/Cvl38vKHiWs"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
+  <iframe src="https://www.youtube.com/embed/Cvl38vKHiWs?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  </iframe>
 </div>
 
-Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily news, audio, and satellite signals about your suppliers, cluster them into risk themes, and query all of it from one collection.
+Apply every concept from Modules 1 through 4 in a single end-to-end system: ingest daily news, transcripts, and satellite imagery about your suppliers, cluster them into risk themes, and query all of it from one collection.
 
 **Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module5.ipynb)
 
 #### TL;DR
 
-> Module 4 turned the building blocks into a design. Now you’ll build that design into a working system. You’ll use named vectors to connect text, image, and audio evidence to a single point, then cluster those signals into the events they describe. You’ll also search images with text and extend the system across languages. By the end, you’ll have ingested, clustered, and queried multimodal signals from one collection.
-
+> Module 4 turned the building blocks into a design. Now you'll build that design into a working system. You'll use named vectors to connect text and image evidence to a single point, then cluster those signals into the events they describe. You'll also search images with text and extend the system across languages. By the end, you'll have ingested, clustered, and queried multimodal signals from one collection.
 
 ## Today's Path
 
 1. Project Overview
 2. System Architecture
-3. Signal Sources & Embedding Models
+3. Signal Sources and Embedding Models
 4. Ingestion Pipeline
 5. Clustering Risk Signals
 6. Analyst Queries
 7. Knowledge Check
 8. Course Summary
-9. References & Further Reading
+9. References and Further Reading
 
 By the end, you'll have built the whole system: ingestion, clustering, and analyst queries over one collection.
 
@@ -50,7 +43,7 @@ A factory fire at a supplier's plant reaches you four ways. A local news report,
 
 This is the news search system you designed in Module 4, extended in three ways:
 
-- **Multiple modalities**: news, earnings-call audio, satellite imagery, and factory footage, all in one collection.
+- **Multiple modalities**: news, satellite imagery, and transcribed audio, all in one collection.
 - **Daily ingestion**: signals arrive every 24 hours rather than as a one-off load.
 - **Clustering**: group signals that describe the same underlying event, even when they arrive from different sources and in different formats.
 
@@ -60,29 +53,28 @@ Module 4's five design questions still frame the work. Only the answers get bigg
 
 The system has four stages. Each maps to Qdrant primitives you already know.
 
-1. **Ingest**: collect daily signals from news APIs, audio streams, and image feeds. Chunk text, transcribe audio with Whisper, extract keyframes from video.
-2. **Embed**: run each part of a signal through its modality-specific model, producing named vectors: `text_dense`, `text_sparse`, `image`, `audio_text`.
+1. **Ingest**: collect the day's signals from news APIs, image feeds, and transcript files. Chunk anything longer than a paragraph.
+2. **Embed**: hand each part of a signal to the model for its modality, producing named vectors: `text_dense`, `text_sparse`, `image`.
 3. **Store**: upsert each signal as one `PointStruct` carrying every vector it has, plus a payload: supplier, source type, country, publication date, risk score.
-4. **Cluster + Query**: a daily batch tags signals with a `cluster_id`; on demand, analysts run hybrid and image queries against the same collection.
+4. **Cluster and Query**: a daily batch tags signals with a `cluster_id`; on demand, analysts run hybrid and image queries against the same collection.
 
 ![The four capstone stages stacked top to bottom: ingest, embed, store, then cluster and query, each labeled with the Qdrant primitive it maps to.](/courses/beginners/module-5/four-stage.png)
 
 ### Collection Schema
 
-One collection holds all modalities. Named vectors let you query by text, image, or audio from the same point. Every field an analyst filters on is indexed, exactly as you designed in Module 4.
+One collection holds every modality. Named vectors let you query by text or by image from the same point. Every field an analyst filters on is indexed, exactly as you designed in Module 4.
 
 ```yaml
 collection: supplier_signals
 
 named_vectors:
-  text_dense:  { model: bge-small-en-v1.5, size: 384, distance: Cosine }
-  text_sparse: { model: BM25, modifier: IDF }
-  image:       { model: CLIP, size: 512, distance: Cosine }
-  audio_text:  { model: Whisper then MiniLM, size: 384, distance: Cosine }
+  text_dense:  { model: all-MiniLM-L6-v2, size: 384, distance: Cosine }
+  text_sparse: { model: Qdrant/bm25, modifier: IDF }
+  image:       { model: Qdrant/clip-ViT-B-32-vision, size: 512, distance: Cosine }
 
 payload_fields:
   supplier_id:  { type: keyword,  indexed: true }
-  source_type:  { type: keyword,  indexed: true, values: [news, satellite, audio, video, filing, social] }
+  source_type:  { type: keyword,  indexed: true, values: [news, satellite, audio, filing, social] }
   language:     { type: keyword,  indexed: true }
   country:      { type: keyword,  indexed: true }
   facility_id:  { type: keyword,  indexed: true }
@@ -92,117 +84,135 @@ payload_fields:
   summary:      { type: text,     indexed: false, note: short excerpt or caption }
 ```
 
-## 3. Signal Sources & Embedding Models
+Three named vectors, not five. A transcript is text once it has been transcribed, and a video frame is an image once it has been sampled, so neither needs a space of its own. Section 3 comes back to that.
 
-Each signal type needs a different embedding approach. The key principle: choose a model trained on data similar to your domain, and use the same model at query time as at ingestion time.
+## 3. Signal Sources and Embedding Models
+
+Two models cover every signal here, and both run through FastEmbed exactly as in Modules 3 and 4: name the model, pass the content, and the client embeds it locally before upload.
 
 | Signal source | Modality | Embedding model | Vectors it produces |
 |---------------|----------|-----------------|---------------------|
-| News articles | text | bge-small-en-v1.5 + BM25 | `text_dense`, `text_sparse` |
-| Earnings calls | audio to text | Whisper + MiniLM | `audio_text`, `text_dense` |
-| Factory footage | video to frames | CLIP per keyframe | `image` |
-| Satellite imagery | image + caption | CLIP, and bge + BM25 on the caption | `image`, `text_dense`, `text_sparse` |
-| Financial filings | text | bge-small-en-v1.5 + BM25 | `text_dense`, `text_sparse` |
+| News articles | text | all-MiniLM-L6-v2 and Qdrant/bm25 | `text_dense`, `text_sparse` |
+| Financial filings | text | all-MiniLM-L6-v2 and Qdrant/bm25 | `text_dense`, `text_sparse` |
+| Earnings-call transcripts | text, transcribed | all-MiniLM-L6-v2 and Qdrant/bm25 | `text_dense`, `text_sparse` |
+| Satellite imagery | image and caption | clip-ViT-B-32-vision, and the two text models on the caption | `image`, `text_dense`, `text_sparse` |
 
 Satellite captures are the row worth reading twice. The caption is what gives an image its text vectors, and Section 5 depends on those: an uncaptioned image can never join a text cluster.
 
-### Text: Dense and Sparse
-
-News articles and filings each get two text vectors, a dense one for meaning and a sparse one for exact tokens: the hybrid pairing from Module 3. `bge-small-en-v1.5` is the dense side, the same model Module 4's design used, at 384 dimensions. It is English-only, and Section 6 covers what to change if your sources are not.
+Everything in this module installs with one line:
 
 ```bash
-pip install "qdrant-client[fastembed]" sentence-transformers openai-whisper transformers torch pillow scikit-learn numpy
+pip install "qdrant-client[fastembed]" scikit-learn numpy
 ```
 
-The dense text model loads once and is reused at ingestion and at query time:
+### Text: Dense and Sparse
+
+News articles, filings, and transcripts each get two text vectors, a dense one for meaning and a sparse one for exact tokens: the hybrid pairing from Module 3, using the same two models that module used.
 
 ```python
-from sentence_transformers import SentenceTransformer
+from qdrant_client import QdrantClient, models
 
-# bge-*-v1.5 needs no query or passage instruction prefix, so the same call
-# works for stored content and for search text.
-dense_model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+DENSE_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"   # Module 3's model, 384 dimensions
+SPARSE_MODEL = "Qdrant/bm25"
 
-stored_vec = dense_model.encode("Executive statement following factory fire")
-query_vec  = dense_model.encode("supplier factory fire evacuation")
+# CLIP is a pair of encoders sharing one space: images go through the vision
+# side, and a text query searching those images goes through the text side.
+IMAGE_MODEL      = "Qdrant/clip-ViT-B-32-vision"
+IMAGE_TEXT_MODEL = "Qdrant/clip-ViT-B-32-text"
 ```
 
-Read the gap between scores rather than the absolute number. A score of 0.8 does not mean "80% relevant", and how tightly a model bunches its scores is a property of the model, not of your data. Score a clearly unrelated chunk alongside your real one and compare the two.
-
-### Audio: Transcribe Then Embed
-
-Earnings calls, analyst briefings, and supplier press conferences arrive as audio. Whisper transcribes them to text; a sentence transformer then embeds the transcript. The `audio_text` named vector captures spoken risk signals that never appear in written news.
+`all-MiniLM-L6-v2` reads at most 256 tokens and silently drops the rest, so anything longer than a few paragraphs is chunked first. Roughly 150 words fits inside that budget with room to spare:
 
 ```python
-import whisper
-from sentence_transformers import SentenceTransformer
-
-asr_model        = whisper.load_model("base")
-audio_text_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-
-def transcribe(audio_path: str) -> list[str]:
-    transcript = asr_model.transcribe(audio_path)["text"]
-    return chunk_text(transcript, size=500, overlap=100)
+def chunk_text(text: str, size: int = 150, overlap: int = 30) -> list[str]:
+    """
+    Fixed-size word windows with overlap, the Module 2 strategy.
+    150 words stays under all-MiniLM-L6-v2's 256-token limit; the overlap keeps
+    a sentence split across two chunks readable in both.
+    """
+    words = text.split()
+    if len(words) <= size:
+        return [text]
+    step = size - overlap
+    return [" ".join(words[i:i + size]) for i in range(0, len(words), step)]
 ```
 
-### Images and Video: CLIP Embeddings
+### Images: CLIP Through FastEmbed
 
-Satellite imagery of supplier facilities and factory footage are embedded using CLIP (Contrastive Language-Image Pre-training). CLIP projects both images and text into the same vector space, which is what makes text-to-image queries like "smoke above factory" work against satellite photos with no caption attached.
+Satellite imagery of supplier facilities is embedded with CLIP (Contrastive Language-Image Pre-training). CLIP is trained on image and caption pairs, which puts pictures and text in one shared vector space, and that shared space is what makes a text query like "smoke above factory" match a satellite photo with no caption attached.
+
+FastEmbed exposes the two halves as two model names, so there is no separate image library to install and no tensors to handle:
 
 ```python
-import torch
-from PIL import Image
-from transformers import CLIPProcessor, CLIPModel
+# At ingestion: the picture itself becomes the `image` vector.
+satellite_input = models.Image(
+    image="captures/haiphong-2026-07-15.jpg",
+    model=IMAGE_MODEL,
+)
 
-clip_model     = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+# At query time: the search phrase has to be embedded by CLIP's *text* encoder
+# so it lands in the same space. CLIP truncates text at 77 tokens, so keep
+# image queries to a phrase rather than a paragraph.
+image_query = models.Document(
+    text="smoke above factory roof",
+    model=IMAGE_TEXT_MODEL,
+)
+```
 
-def embed_image(image_path: str) -> list[float]:
-    # Satellite tiles are often RGBA or 16-bit single-band. CLIPProcessor
-    # expects RGB, so convert before processing or it fails on real imagery.
-    image  = Image.open(image_path).convert("RGB")
-    inputs = clip_processor(images=image, return_tensors="pt")
-    with torch.no_grad():
-        features = clip_model.get_image_features(**inputs)
-    return features[0].numpy().tolist()  # 512-dim vector
+Neither of those holds numbers yet. `models.Image` and `models.Document` record what to embed and which model to use, and the client turns them into vectors when you hand them to `upsert` or `query_points`.
 
-def embed_text_for_image_query(text: str) -> list[float]:
-    # CLIP's text encoder, not the sentence transformer: an image query has to
-    # land in the same space as the stored image vectors. Truncates at 77 tokens.
-    inputs = clip_processor(text=[text], return_tensors="pt", padding=True)
-    with torch.no_grad():
-        features = clip_model.get_text_features(**inputs)
-    return features[0].numpy().tolist()
+Using `DENSE_MODEL` for that second call is the mistake to avoid. It produces a perfectly good 384-dimensional vector in the wrong space, and the query either errors on dimension or returns noise.
+
+### The Same Pattern Extends to Audio and Video
+
+Nothing above is specific to articles and satellite tiles. An earnings call becomes text once it is transcribed, and video becomes images once frames are sampled, and both then take a path this module already covers: a transcript is chunked and handed to `models.Document` like an article, a frame is handed to `models.Image` like a satellite tile. That is why the collection declares three named vectors rather than five.
+
+Transcription itself is outside the course. Whisper is the usual choice, and it needs the `ffmpeg` command-line tool installed alongside the Python package, so the transcripts here arrive as plain strings instead of an audio pipeline:
+
+```python
+# Two excerpts from a quarterly call, already transcribed. Swap in Whisper
+# output when you have ffmpeg on the machine; the ingestion path is identical.
+EARNINGS_CALL_EXCERPTS = [
+    "On the Haiphong question: the line was halted for four days after the fire "
+    "and two of the three shifts are running again as of this week.",
+    "We are not guiding to a shortage. The backlog at the port adds a week to "
+    "inbound components and we have qualified a second supplier for the housing.",
+]
 ```
 
 ## 4. Ingestion Pipeline
 
 The daily job collects signals, embeds each modality, and upserts them. A risk scoring step assigns an initial `risk_score`, which analysts later filter on.
 
-Sparse vectors come from FastEmbed, which ships with the client:
+Risk scoring is a keyword baseline, deliberately simple, and the first thing to replace once you have labeled signals of your own:
 
 ```python
-from fastembed import SparseTextEmbedding
-from qdrant_client import models
+import re
 
-bm25 = SparseTextEmbedding(model_name="Qdrant/bm25")
+# Highest-weighted term wins, so one mention of "fire" outranks three of "delay".
+RISK_TERMS = {
+    "fire": 0.9, "explosion": 0.9, "halted": 0.8, "shutdown": 0.8,
+    "recall": 0.7, "strike": 0.7, "flood": 0.7,
+    "investigation": 0.5, "shortage": 0.5, "delay": 0.5,
+    "backlog": 0.4, "inspection": 0.4,
+}
 
-def bm25_encode(text: str) -> models.SparseVector:
-    emb = next(bm25.embed([text]))
-    return models.SparseVector(
-        indices=emb.indices.tolist(),
-        values=emb.values.tolist(),
+def score_risk(text: str) -> float:
+    """A baseline to beat, not a model. Returns 0.0 when nothing matches."""
+    lowered = text.lower()
+    return max(
+        (weight for term, weight in RISK_TERMS.items()
+         # \b stops "fire" matching "firearm" and "strike" matching "striking"
+         if re.search(rf"\b{term}\b", lowered)),
+        default=0.0,
     )
 ```
-
-Two helpers are left for you to write, because both are decisions rather than boilerplate: `chunk_text` (pick a strategy from Module 2) and `score_risk` (start with a keyword baseline and tune it against your own signals).
 
 ### Collection Setup
 
 ```python
 import uuid
 from qdrant_client import QdrantClient, models
-from qdrant_client.models import PointStruct
 
 client = QdrantClient(
     url="https://YOUR-CLUSTER.cloud.qdrant.io",
@@ -212,9 +222,8 @@ client = QdrantClient(
 client.create_collection(
     collection_name="supplier_signals",
     vectors_config={
-        "text_dense": models.VectorParams(size=384,  distance=models.Distance.COSINE),
-        "image":      models.VectorParams(size=512,  distance=models.Distance.COSINE),
-        "audio_text": models.VectorParams(size=384,  distance=models.Distance.COSINE),
+        "text_dense": models.VectorParams(size=384, distance=models.Distance.COSINE),
+        "image":      models.VectorParams(size=512, distance=models.Distance.COSINE),
     },
     sparse_vectors_config={
         "text_sparse": models.SparseVectorParams(
@@ -264,20 +273,17 @@ def ingest_signal(signal: dict) -> str:
     vectors = {}
 
     if signal.get("text"):
-        vectors["text_dense"]  = dense_model.encode(signal["text"]).tolist()
-        vectors["text_sparse"] = bm25_encode(signal["text"])
+        vectors["text_dense"]  = models.Document(text=signal["text"], model=DENSE_MODEL)
+        vectors["text_sparse"] = models.Document(text=signal["text"], model=SPARSE_MODEL)
 
     if signal.get("image_path"):
-        vectors["image"] = embed_image(signal["image_path"])
-
-    if signal.get("transcript"):
-        vectors["audio_text"] = audio_text_model.encode(signal["transcript"]).tolist()
+        vectors["image"] = models.Image(image=signal["image_path"], model=IMAGE_MODEL)
 
     point_id = str(uuid.uuid4())
     client.upsert(
         collection_name="supplier_signals",
         points=[
-            PointStruct(
+            models.PointStruct(
                 id=point_id,
                 vector=vectors,
                 payload={
@@ -296,11 +302,13 @@ def ingest_signal(signal: dict) -> str:
     return point_id
 ```
 
-An article longer than a few hundred words gets chunked first, one point per chunk, because bge-small-en-v1.5 truncates its input at 512 tokens and silently drops the rest:
+Nothing in that function calls an embedding library. `models.Document` and `models.Image` name a model and hand over the content, and the client embeds locally through FastEmbed before upload, the same mechanism Module 3 used for a shoe catalog.
+
+Each source type is a thin wrapper over it:
 
 ```python
 def ingest_news_article(article: dict):
-    for chunk in chunk_text(article["text"], size=500, overlap=100):
+    for chunk in chunk_text(article["text"]):
         ingest_signal({**article, "text": chunk})
 
 def ingest_satellite_capture(capture: dict):
@@ -314,9 +322,24 @@ def ingest_satellite_capture(capture: dict):
         **{k: capture[k] for k in ("supplier_id", "facility_id", "country", "published_at")},
     })
 
-def ingest_earnings_call(call: dict):
-    for chunk in transcribe(call["audio_path"]):
-        ingest_signal({**call, "text": chunk, "transcript": chunk, "source_type": "audio"})
+def ingest_earnings_call(call: dict, excerpts: list[str]):
+    for excerpt in excerpts:
+        for chunk in chunk_text(excerpt):
+            ingest_signal({**call, "text": chunk, "source_type": "audio"})
+```
+
+One quarterly call, ingested from the excerpts defined in Section 3:
+
+```python
+ingest_earnings_call(
+    {
+        "supplier_id":  "SUP-7291",
+        "country":      "VN",
+        "facility_id":  "FAC-HAIPHONG-1",
+        "published_at": "2026-07-16T14:00:00Z",
+    },
+    EARNINGS_CALL_EXCERPTS,
+)
 ```
 
 Keep `source_type` values drawn from the fixed set in the collection schema. A filter written against a value nobody ingests returns nothing, and nothing warns you.
@@ -324,6 +347,8 @@ Keep `source_type` values drawn from the fixed set in the collection schema. A f
 ## 5. Clustering Risk Signals
 
 Clustering groups signals that describe the same underlying event, even when they arrive from different sources. A factory fire appears in a local news article, a captioned satellite image, and an earnings call answer. Because Section 4 put a `text_dense` vector on all three, clustering can surface them as one event.
+
+This is the one part of the capstone that Modules 1 through 4 did not teach. Everything else here is a bigger version of something you have already built.
 
 ### The Clustering Approach
 
@@ -338,15 +363,18 @@ Clustering groups signals that describe the same underlying event, even when the
 ```python
 import numpy as np
 from datetime import datetime, timedelta, timezone
-from qdrant_client.models import Filter, FieldCondition, MatchValue, DatetimeRange
 
 def get_supplier_signals_last_24h(supplier_id: str):
     since = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
 
-    scroll_filter = Filter(
+    scroll_filter = models.Filter(
         must=[
-            FieldCondition(key="supplier_id", match=MatchValue(value=supplier_id)),
-            FieldCondition(key="published_at", range=DatetimeRange(gte=since)),
+            models.FieldCondition(
+                key="supplier_id", match=models.MatchValue(value=supplier_id),
+            ),
+            models.FieldCondition(
+                key="published_at", range=models.DatetimeRange(gte=since),
+            ),
         ]
     )
 
@@ -392,7 +420,7 @@ def cluster_and_tag(supplier_id: str, n_clusters: int = 5):
     if arr is None or len(ids) < n_clusters:
         return None  # not enough signals to cluster meaningfully
 
-    model  = KMeans(
+    model = KMeans(
         n_clusters=n_clusters,
         n_init=10,
         random_state=42,    # reproducible runs while you're learning
@@ -431,20 +459,44 @@ if centroids is not None:
 
 A centroid is the mean of unit vectors, so it is not unit length itself. That costs you nothing here, because Qdrant normalizes query vectors on a cosine collection, and it can be passed straight in.
 
+### Reading a Cluster Back
+
+This is what indexing `cluster_id` bought you. One integer on each point turns a night of clustering into a view an analyst can page through:
+
+```python
+def signals_in_cluster(supplier_id: str, cluster_id: int):
+    """Every signal the daily job put in one cluster."""
+    points, _ = client.scroll(
+        collection_name="supplier_signals",
+        scroll_filter=models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="supplier_id", match=models.MatchValue(value=supplier_id),
+                ),
+                models.FieldCondition(
+                    key="cluster_id", match=models.MatchValue(value=cluster_id),
+                ),
+            ]
+        ),
+        limit=50,
+    )
+    return points
+```
+
 ## 6. Analyst Queries
 
-One collection, four named vectors, three ways to ask.
+One collection, three named vectors. Two ways to ask here, plus the centroid query from Section 5.
 
 ### Searching Images With Text
 
-The satellite and video signals are searchable by what they show, with no caption needed at query time. The query text has to go through CLIP's text encoder so it lands in the image vector space, not the sentence transformer's:
+The satellite signals are searchable by what they show, with no caption needed at query time. The query text goes through CLIP's text encoder so it lands in the image vector space:
 
 ```python
 def search_facility_images(query_text: str, supplier_id: str, limit: int = 10):
     return client.query_points(
         collection_name="supplier_signals",
-        query=embed_text_for_image_query(query_text),   # CLIP text encoder
-        using="image",                                  # CLIP image space
+        query=models.Document(text=query_text, model=IMAGE_TEXT_MODEL),
+        using="image",
         query_filter=models.Filter(
             must=[models.FieldCondition(
                 key="supplier_id", match=models.MatchValue(value=supplier_id),
@@ -457,7 +509,7 @@ def search_facility_images(query_text: str, supplier_id: str, limit: int = 10):
 smoke = search_facility_images("smoke above factory roof", supplier_id="SUP-7291")
 ```
 
-Swap `using="audio_text"` and the MiniLM encoder to search what was said on earnings calls instead. Each named vector is its own space; the query has to be embedded by the model that produced it.
+Each named vector is its own space, so the query has to be embedded by the model that produced the vectors it is searching. Swap `using="text_dense"` and `DENSE_MODEL` and the same call searches article text instead.
 
 ### The Analyst Investigation Query
 
@@ -465,9 +517,7 @@ For focused investigations, combine everything: hybrid retrieval over dense and 
 
 ```python
 def query_supplier_risk(supplier_id: str, query_text: str):
-    query_vec    = dense_model.encode(query_text).tolist()
-    query_sparse = bm25_encode(query_text)
-    cutoff       = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
 
     risk_filter = models.Filter(
         must=[
@@ -489,10 +539,14 @@ def query_supplier_risk(supplier_id: str, query_text: str):
     return client.query_points(
         collection_name="supplier_signals",
         prefetch=[
-            models.Prefetch(query=query_vec,    using="text_dense",
-                            filter=risk_filter, limit=50),
-            models.Prefetch(query=query_sparse, using="text_sparse",
-                            filter=risk_filter, limit=50),
+            models.Prefetch(
+                query=models.Document(text=query_text, model=DENSE_MODEL),
+                using="text_dense", filter=risk_filter, limit=50,
+            ),
+            models.Prefetch(
+                query=models.Document(text=query_text, model=SPARSE_MODEL),
+                using="text_sparse", filter=risk_filter, limit=50,
+            ),
         ],
         query=models.RrfQuery(rrf=models.Rrf()),
         limit=10,
@@ -507,13 +561,17 @@ The image query in the previous section has no prefetch, which is why the same `
 
 ### Going Further: Cross-Language Comparison
 
-Supply chain news often appears in Japanese, Mandarin, Korean, or Vietnamese before it reaches an English wire, and `bge-small-en-v1.5` cannot read any of it. Reaching those sources is one substitution: swap `text_dense` for a multilingual model such as `intfloat/multilingual-e5-large`, which covers 100 languages and projects all of them into a single vector space. It is a bigger model with different requirements, so budget for three changes rather than one: vectors are 1024-dimensional instead of 384, the collection has to be recreated at that size, and e5 expects a `query:` prefix on search text and `passage:` on stored content, which is easy to skip and lowers retrieval quality without raising an error.
+Supply chain news often appears in Japanese, Mandarin, Korean, or Vietnamese before it reaches an English wire, and `all-MiniLM-L6-v2` cannot read any of it. Reaching those sources is one substitution: point `DENSE_MODEL` at a multilingual model such as `intfloat/multilingual-e5-large`, which covers 100 languages and projects all of them into a single vector space. It is a bigger model with different requirements, so budget for three changes rather than one: vectors are 1024-dimensional instead of 384, the collection has to be recreated at that size, and e5 expects a `query:` prefix on search text and `passage:` on stored content, which is easy to skip and lowers retrieval quality without raising an error.
 
 Once every language shares one space, the same English query reaches sources in all of them. Run it twice, once filtered to `language: ["en"]` and once to `["ja", "zh"]`, and compare. If English coverage looks routine while local-language sources return shutdown signals, the local narrative is ahead of the English one, and that gap is where early warnings live. The mechanism is nothing new: the same query with a different `language` filter.
 
 ### Try It
 
-Extend `query_supplier_risk` so an analyst can restrict an investigation to one kind of evidence, for example only satellite signals or only earnings calls. Add a `source_type` argument, put the condition in `risk_filter`, and check that the field is indexed in the collection setup before you run it.
+Open the notebook and work through these against the collection you just built:
+
+1. Ingest a satellite capture with its `caption` set to an empty string, then run `cluster_and_tag` for that supplier. Confirm the point never appears in a cluster, and find the line in `dense_matrix` that drops it.
+2. Add a `source_type` argument to `query_supplier_risk` so an analyst can restrict an investigation to one kind of evidence, satellite captures or transcripts. Put the condition in `risk_filter`, and check the field is indexed in the collection setup before you run it.
+3. Run `search_facility_images("smoke above factory roof", ...)` twice, once with `IMAGE_TEXT_MODEL` and once with `DENSE_MODEL`. Predict what the second call does before you run it, then explain the result.
 
 ## 7. Knowledge Check
 
@@ -522,7 +580,7 @@ Work through these before you call the capstone done.
 <details>
 <summary>Why does the collection use named vectors instead of one collection per modality?</summary>
 
-One signal, one point. A single event can carry text, image, and audio evidence at the same time, and named vectors keep all of it on that one point, queryable separately, sharing a single payload for filtering. Splitting by modality would scatter one event across three collections, triplicate the filtering logic, and leave you joining results in application code.
+One signal, one point. A single event can carry text and image evidence at the same time, and named vectors keep all of it on that one point, queryable separately, sharing a single payload for filtering. Splitting by modality would scatter one event across collections, duplicate the filtering logic, and leave you joining results in application code.
 
 </details>
 
@@ -536,7 +594,14 @@ It gets an <code>image</code> vector and nothing else. Image search still finds 
 <details>
 <summary>How does CLIP match the query "smoke above factory" to a satellite photo with no text attached?</summary>
 
-CLIP is trained contrastively on image and caption pairs, which places images and text in one shared embedding space. Embed the query with CLIP's <em>text</em> encoder and it lands near a visually matching image vector, so ordinary cosine similarity retrieves the photo. Embedding it with the sentence transformer instead would land it in a different space entirely and return nothing useful.
+CLIP is trained on image and caption pairs, which places pictures and text in one shared embedding space. FastEmbed exposes the two halves separately: <code>Qdrant/clip-ViT-B-32-vision</code> embedded the photo, and <code>Qdrant/clip-ViT-B-32-text</code> has to embed the query so it lands in the same space. Using <code>all-MiniLM-L6-v2</code> instead produces a 384-dimensional vector in an unrelated space, and the query fails on dimension or returns noise.
+
+</details>
+
+<details>
+<summary>Why are there three named vectors rather than one per signal source?</summary>
+
+Because two of the sources are not new modalities. A transcript is text the moment it has been transcribed, and a video frame is an image the moment it has been sampled, so both reuse spaces that already exist. Adding a separate vector for transcripts would mean two named vectors holding the same 384-dimensional MiniLM embedding of the same words, with no query able to tell them apart.
 
 </details>
 
@@ -557,7 +622,7 @@ Cluster across suppliers rather than within one: run <code>cluster_and_tag</code
 <details>
 <summary>The capstone creates every payload index before ingesting anything. Why does the order matter more here than in a single-vector system?</summary>
 
-Qdrant adds filter-aware edges to the HNSW graph from indexed payload values, and only for indexes that exist when the graph is built. An index created later still filters correctly, but earning those edges means rebuilding the graph. This collection has three dense graphs, one per named vector, so a late index means rebuilding all three. On Qdrant Cloud a missing index also fails loudly rather than slowly, since strict mode rejects filters on unindexed fields.
+Qdrant adds filter-aware edges to the HNSW graph from indexed payload values, and only for indexes that exist when the graph is built. An index created later still filters correctly, but earning those edges means rebuilding the graph. This collection has two dense graphs, one for <code>text_dense</code> and one for <code>image</code>, so a late index means rebuilding both. On Qdrant Cloud a missing index also fails loudly rather than slowly, since strict mode rejects filters on unindexed fields.
 
 </details>
 
@@ -571,28 +636,19 @@ This module completes the Qdrant Beginners course. Here's what was covered:
 | Module 2 | First Principles of Vector Search | Collections, points, vectors, payloads, HNSW, chunking strategies, and the full ingestion pipeline. |
 | Module 3 | Sparse vs Dense vs Hybrid Search | BM25 against embeddings; when each fails; hybrid search with rank fusion. |
 | Module 4 | Designing a Vector Search System | The layers of the stack; five design questions; filtering in depth; the RAG pipeline; deployment options. |
-| Module 5 | Multimodal Supplier Risk Intelligence | End-to-end capstone: ingest news, audio, and images on shared points; cluster risk signals; query every modality. |
-| Module 6 | Beyond Similarity (bonus) | Optional further reading: score boosting, MMR diversity, grouping, and relevance feedback. |
+| Module 5 | Multimodal Supplier Risk Intelligence | End-to-end capstone: ingest news, transcripts, and images on shared points; cluster risk signals; query every modality. |
+| Module 6 | Beyond Similarity (Bonus) | Optional further reading: score boosting, MMR diversity, grouping, and relevance feedback. |
 
 Next, [get #QdrantCertified](/course/beginners/certification/) with the official Beginners exam, which covers Modules 1 through 5.
 
-## 9. References & Further Reading
+## 9. References and Further Reading
 
-- [Named Vectors](/documentation/manage-data/vectors/#named-vectors)
-  - Declaring more than one vector per point and querying a named one with `using`.
-- [Hybrid Queries](/documentation/search/hybrid-queries/)
-  - Prefetch semantics, Reciprocal Rank Fusion with weights, Distribution-Based Score Fusion, and formula queries.
-- [Indexing and Filterable HNSW](/documentation/manage-data/indexing/)
-  - Payload index types, why indexes come before ingestion, and the IDF modifier that BM25 scoring needs.
-- [Filtering](/documentation/search/filtering/)
-  - Full filter syntax used throughout the capstone, including MatchAny and datetime ranges.
-- [Bulk Upload](/documentation/manage-data/bulk-upload/)
-  - Batch sizes and index ordering for the daily ingestion job.
-- [Multimodal and Multilingual RAG](/documentation/tutorials-build-essentials/multimodal-search/)
-  - A LlamaIndex tutorial building retrieval over images and text in a shared embedding space.
-- [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5)
-  - Model card for the dense text model: 384 dimensions, a 512-token limit, and why v1.5 needs no instruction prefix.
-- [multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large)
-  - The multilingual swap from Section 6: 100 supported languages, 1024 dimensions, and the required query and passage prefixes.
-- [CLIP ViT-B/32](https://huggingface.co/openai/clip-vit-base-patch32)
-  - Model card for the image and satellite embedding model used here.
+- [Named Vectors](/documentation/manage-data/vectors/#named-vectors): declaring more than one vector per point and querying a named one with `using`.
+- [Hybrid Queries](/documentation/search/hybrid-queries/): prefetch semantics, Reciprocal Rank Fusion with weights, Distribution-Based Score Fusion, and formula queries.
+- [Indexing and Filterable HNSW](/documentation/manage-data/indexing/): payload index types, why indexes come before ingestion, and the IDF modifier that BM25 scoring needs.
+- [Filtering](/documentation/search/filtering/): full filter syntax used throughout the capstone, including MatchAny and datetime ranges.
+- [Bulk Upload](/documentation/manage-data/bulk-upload/): batch sizes and index ordering for the daily ingestion job.
+- [FastEmbed](/documentation/fastembed/): the local embedding path behind `models.Document` and `models.Image`, and every model name it accepts.
+- [Multimodal and Multilingual RAG](/documentation/tutorials-build-essentials/multimodal-search/): a LlamaIndex tutorial building retrieval over images and text in a shared embedding space.
+- [multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large): the multilingual swap from Section 6, with its 100 languages, 1024 dimensions, and required query and passage prefixes.
+- [CLIP ViT-B/32](https://huggingface.co/openai/clip-vit-base-patch32): model card for the image model behind `Qdrant/clip-ViT-B-32-vision` and its text counterpart.
