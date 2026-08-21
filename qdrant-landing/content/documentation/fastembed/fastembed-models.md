@@ -56,8 +56,8 @@ model_types = {
     "Reranking": TextCrossEncoder,
 }
 
-for label, cls in model_types.items():
+for label, model_class in model_types.items():
     print(f"\n{label}:")
-    for m in cls.list_supported_models():
+    for m in model_class.list_supported_models():
         print(f"  {m['model']}")
 ```
