@@ -18,9 +18,7 @@ draft: false
 
 Hybrid retrieval, HNSW, and payload indexes are the parts. This module is the reasoning that turns them into a system: five layers, five questions, and a news search design built end to end.
 
-**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-beginners/module-4/Module4.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
-</a>
+**Follow-along code** ![Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
 
 ---
 
