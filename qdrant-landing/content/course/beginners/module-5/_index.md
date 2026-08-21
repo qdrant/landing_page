@@ -10,12 +10,16 @@ weight: 60
 
 # Capstone: Multimodal Supplier Risk Intelligence
 
-<!-- TODO (video): add the Module 5 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
 <div class="video">
-  <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-  </iframe>
+<iframe
+  src="https://www.youtube.com/embed/Cvl38vKHiWs"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 </div>
--->
 
 Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily news, audio, and satellite signals about your suppliers, cluster them into risk themes, and query all of it from one collection.
 
