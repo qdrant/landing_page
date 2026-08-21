@@ -1,7 +1,7 @@
 ---
 title: "When Your Collection Outgrows RAM"
-short_description: "Rescoring reads original vectors back from disk. Measure that read at your own memory cap before you trust a quantization setting."
-description: "Set memory placement and rescoring in Qdrant once a collection outgrows RAM: what the disk read costs, and how much quality it recovers."
+short_description: "Keep the quantized copy in RAM and the original vectors on disk, then measure what rescoring reads back on your own deployment."
+description: "Set quantization and memory placement in Qdrant once a collection outgrows RAM: what the rescoring disk read costs and what quality it recovers."
 preview_dir: /articles_data/when-your-collection-outgrows-ram/preview
 social_preview_image: /articles_data/when-your-collection-outgrows-ram/preview/social_preview.jpg
 weight: -209
@@ -18,85 +18,95 @@ keywords:
 category: search-quality
 ---
 
-Once a collection no longer fits in RAM, decide which structures stay resident and whether rescoring is worth a disk read. In hybrid search, quantization can keep a compressed copy of the dense vectors in RAM while the original dense vectors stay on disk. If rescoring is enabled, Qdrant reads those original vectors after the dense prefetch to repair compression errors. The same mechanism applies to dense-only search. The [`turbo4` datatype](/documentation/manage-data/vectors/#turbo4) stores one 4-bit copy and has no original vectors to reread. A later section covers it separately.
+Once a collection no longer fits in RAM, the kernel evicts vector pages, and the next query waits on a disk read to get them back. Quantization buys that memory back. Qdrant keeps a compressed copy of each dense vector in RAM and moves the full-precision originals to disk.
 
-The measurements isolate the dense path. Rerun your full hybrid query before you use them to set a production latency budget.
+[TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) is the method measured here. It rotates each vector before compressing it, which spreads the error evenly across coordinates, and its `bits` parameter sets the depth from `bits4` down to `bits1`. Start at `bits4`, a good default for many workloads at eight times compression.
 
-Use `nDCG@k` on a [labeled baseline](/articles/before-tuning-a-qdrant-collection/) to compare quantization settings in your hybrid query, where `k` matches the result count your product evaluates. Select a configuration on one part of that set, then confirm it on held-out queries that did not take part in selection. Use `Recall@k` against exact search to measure what quantization changes in the dense prefetch. The latency and Recall@k checks also apply to dense-only search when you do not have labels.
+A lower-precision [datatype](/documentation/manage-data/vectors/#datatypes) such as `float16` shrinks the same vectors a different way. Quantization adds a compressed copy beside the originals, while a datatype changes the originals themselves, and that difference decides whether anything full-precision survives to rescore against.
 
-## The Short Version
+Dense vectors take most of that memory in a single-vector collection. If you use a late interaction model, its multivectors dominate instead, at one vector per token.
 
-1. Measure rescoring at the memory cap you deploy with.
-2. Pin the quantized vectors and leave the original vectors `cold`. Under a limit that cannot hold them, the operating system evicts original vectors set to `cached` anyway.
-3. Choose a quantization method first. If you use TurboQuant, choose its `bits` value and `rescore` setting together. Lower `bits` values use less memory and introduce more approximation error. `rescore` rereads the original vectors to correct the top candidates, trading disk reads for `Recall@k` against exact search.
-4. Compare `nDCG@k` on held-out labeled hybrid queries. Use `Recall@k` against exact search to diagnose what changed in the dense prefetch.
+Every measurement below comes from a dense-only request. In hybrid search the dense and sparse reads share one page cache, so rerun your full query before you size a deployment or set a latency budget.
 
-## Start with a RAM Estimate
+<aside role="status">
+<strong>Note:</strong> These are our measurements, not production benchmarks. Every figure comes from one shard of the 4,635,922-document DBPedia-entity dataset, embedded with <code>all-MiniLM-L6-v2</code> at 384 dimensions, on Qdrant v1.19.0 in Docker on a laptop. The original vectors occupy 7.121 GB on disk, and the TurboQuant <code>bits1</code> copy occupies 0.260 GB.
+</aside>
 
-To estimate the RAM required to keep all `float32` dense vectors in memory, use:
+## Set Quantization in Four Steps
+
+1. Estimate the resident footprint of your dense vectors, and how far it overshoots the memory you have.
+2. Choose the quantization method and bit depth, starting from `bits4`.
+3. Pin the quantized copy and leave the original vectors `cold`.
+4. Set `rescore` and `oversampling` from measurements on the deployment you will serve.
+
+Steps 3 and 4 are what the sections below measure: what a pinned quantized copy with `cold` originals costs in disk reads, and what rescoring recovers. Qdrant [recommends that pairing](/documentation/manage-data/quantization/#memory-and-speed-tuning) to shrink the footprint while keeping search fast.
+
+Compare `nDCG@k` on a [labeled baseline](/articles/before-tuning-a-qdrant-collection/), with `k` set to the number of results you return. Pick the configuration on one part of that set, confirm it on queries that took no part in the selection, and use `Recall@k` against exact search to explain a loss.
+
+For step 1, this formula estimates the RAM needed to keep all `float32` dense vectors resident:
 
 ```text
 RAM = number of vectors × vector dimensions × 4 bytes × 1.5
 ```
 
-The extra 50% allows for metadata, indexes, point versions, and temporary segments created during optimization. Treat this as a starting estimate, not a container limit. If it exceeds the RAM you can allocate, the rest of this article shows how quantization and rescoring change the trade-off. For a full collection estimate, including payloads, indexes, and replication, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/).
+The extra 50% covers metadata, indexes, point versions, and temporary segments created during optimization. Treat the result as a starting estimate, not a container limit. For a full estimate with payloads, indexes, and replication, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/).
 
-## How Vector Placement Changes Rescoring
+## Rescoring Adds the Disk Read
 
-Since v1.19, Qdrant sets memory placement per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. Data moves between disk and RAM in fixed-size pages, typically 4 KiB on Linux, and the placement decides where a structure's pages sit. There are three placements:
+`rescore` repairs part of the error that compression introduces. Qdrant reads the original vectors back after the dense prefetch and reorders the top candidates by their full-precision scores.
+
+`oversampling` sets how many candidates Qdrant pre-selects for that pass. At `oversampling` 2 with a limit of 10, the prefetch collects 20 candidates from the quantized copy, scores them against the originals, and returns the best 10.
+
+Both are query parameters, so a request can change them without touching the collection. Once the originals live on disk, each of those rereads is a disk read.
+
+Since v1.19, Qdrant sets [memory placement](/documentation/ops-configuration/memory-tiers/) per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. Data moves between disk and RAM in fixed-size pages, typically 4 KiB on Linux, and the placement decides where a structure's pages sit.
 
 - `cold` loads lazily from disk, so the first request that needs a page waits for it.
 - `cached` enters the page cache when the collection loads, and the kernel may evict it later.
 - `pinned` stays in RAM, so the structure has to fit.
 
-This measurement concerns the dense vectors and their quantized copy. In a hybrid query, the dense prefetch scores the quantized vectors during graph traversal, then rereads the original vectors during rescoring. The same placements apply to a dense-only query. Set both placements explicitly: the default placement for quantized vectors depends on the placement of the original vectors.
+Only the quantized copy can be pinned. Qdrant reads the [original vectors through a memory map](/documentation/ops-configuration/memory-tiers/#limitations), so they take `cold` or `cached`. Set both placements explicitly, because the quantized copy defaults to following the originals.
 
-Qdrant rejects `pinned` for dense vectors, leaving `cold` and `cached` as the available placements for the originals. The [memory tiers documentation](/documentation/ops-configuration/memory-tiers/) recommends this pairing. The rest of this article measures its latency and disk-read trade-off.
+In hybrid search, budget for the [sparse vector index](/documentation/ops-configuration/memory-tiers/#sparse-vector-index) too: it takes the same placements and defaults to `pinned`, holding RAM the quantized copy needs.
 
-<aside role="status">
-<strong>Note:</strong> These are our measurements, not production benchmarks. We ran them on the full 4,635,922-document DBPedia-entity dataset, using dense-only search with <code>all-MiniLM-L6-v2</code> at 384 dimensions. The original vectors occupy 7.121 GB on disk, and the TurboQuant <code>bits1</code> copy occupies 0.260 GB. Qdrant v1.19.0 ran in Docker on a laptop.
-</aside>
+The memory cap decides what those placements deliver. The same query took about 4 ms with the originals resident, and 43 ms when rescoring reread them under a 4 GiB limit.
 
-In this dense-only measurement, the same query took about 4 ms while the original vectors remained resident and 43 ms when rescoring reread them under a 4 GiB limit. The query did not change. The memory cap determined whether rescoring stayed in memory or read from disk.
+| Limit | Original Vectors | Quantized Vectors | `rescore` | p50 ms | GB Read, Both Passes |
+|---|---|---|---|---|---|
+| 12 GiB | `cached` | `pinned` | off | 3.8 | 0.30 |
+| 12 GiB | `cached` | `pinned` | on | 4.1 | 0.52 |
+| 4 GiB | `cached` | `pinned` | off | 4.3 | 0.30 |
+| 4 GiB | `cached` | `pinned` | on | 43.4 | 2.98 |
+| 4 GiB | `cold` | `cached` | on | 45.7 | 3.02 |
+| 4 GiB | `cold` | `pinned` | on | 52.0 | 3.50 |
 
-## Rescoring Adds the Disk Read
+Turning rescoring on cost 0.3 ms at 12 GiB, where the originals stayed in cache. At 4 GiB, where they no longer fit, it cost 39.1 ms, most of the resulting query time. Carry over that ratio rather than the absolute milliseconds.
 
-We ran five rounds for each of six dense-only configurations. The table retains runs with consistent block reads across the warm-up and measured passes. It shows whether rescoring puts original-vector reads on the query path.
+A smaller cap on its own is harmless. With rescoring off, the query ran within half a millisecond of itself at both limits and read 0.30 GB either way, so the slowdown needs both a cap too small to hold the originals and a rescoring pass that asks for them.
 
-| Limit | Original Vectors | Quantized Vectors | `rescore` | Runs | p50 ms, Median [Range] | GB Read, Both Passes |
-|---|---|---|---|---|---|---|
-| 12 GiB | `cached` | `pinned` | off | 5 | 3.8 [3.1, 4.3] | 0.30 |
-| 12 GiB | `cached` | `pinned` | on | 2 | 4.1 [3.8, 4.3] | 0.52 |
-| 4 GiB | `cached` | `pinned` | off | 3 | 4.3 [4.0, 4.3] | 0.30 |
-| 4 GiB | `cached` | `pinned` | on | 4 | 43.4 [42.7, 47.3] | 2.98 |
-| 4 GiB | `cold` | `cached` | on | 3 | 45.7 [42.8, 52.8] | 3.02 |
-| 4 GiB | `cold` | `pinned` | on | 3 | 52.0 [43.8, 56.1] | 3.50 |
+The cost is the disk read rather than the extra scoring. At 4 GiB, rescoring read 2.98 GB of pages, many times the size of the candidate vectors it needed. At 12 GiB the container held 9.46 GB of file cache and stopped rereading original-vector pages once they entered it, while at 4 GiB the kernel recorded 613,388 rereads.
 
-The ratios matter more than the milliseconds, which come from one laptop. With rescoring off, the memory limit changes almost nothing: 3.8 ms against 4.3 ms, and 0.30 GB read under both limits. That baseline isolates the rescoring cost. Turning it on costs 0.3 ms at 12 GiB and 39 ms at 4 GiB.
+Placement cannot buy back that memory. Moving the originals from `cached` to `cold` at 4 GiB took the median from 43.4 ms to between 45.7 and 52.0 ms, and the `cold` runs spanned 42.8 to 56.1 ms across the `cached` median, so five laptop rounds cannot separate them.
 
-The read column shows why. Rescoring at 4 GiB read 2.98 GB of pages, many times the size of the candidate vectors it needed, against a 0.30 GB baseline. Latency follows that read volume.
-
-At 12 GiB, the container held 9.46 GB of file cache and did not reread original-vector pages after they entered cache. At 4 GiB, the Linux kernel recorded 613,388 such rereads across the warm-up and measured passes, after evicting pages the next query needed. Treat recurring original-vector reads as evidence that rescoring is disk-resident.
+`cached` warms data at startup, and the kernel evicts it again once the limit is reached. Pin the quantized copy, leave the originals `cold`, and check the counters under your own limit. With `cold` originals, set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) to issue those reads asynchronously when the Linux kernel supports it.
 
 <aside role="status">
-Latency validation: we excluded 10 of 30 runs with inconsistent read counters or page-cache state. The remaining runs support the comparison. The 12 GiB rescoring row retains only two runs, so treat it as directional.
+Latency validation: we ran five rounds for each of the six configurations and excluded 10 of 30 with inconsistent block-read counters or page-cache state. The 12 GiB rescoring row retains two runs, so treat it as directional.
 </aside>
 
-## Memory Placement Cannot Override the Memory Limit
+## What Rescoring Recovers
 
-Moving the original vectors from `cached` to `cold` under the 4 GiB limit took the median from 43.4 ms to between 45.7 and 52.0 ms, with ranges that overlap. Five rounds on a laptop cannot separate those.
+Two measurements answer different questions here. An exact search scans every vector and gives the reference result, while graph search trades some of those neighbors for lower latency.
 
-At 4 GiB, keeping the original vectors `cached` did not make rescoring cheaper. `cached` warms data at startup, but the kernel can evict it when the memory limit is reached. Pin the quantized vectors, leave the original vectors `cold`, then check the block-read counters and original-vector rereads under your own memory limit.
+`Recall@10` against exact search is the share of the exact top 10 that a configuration returned, so it reports what happened inside the dense prefetch. `nDCG@10` grades the returned top 10 against DBPedia-entity's labels, giving more credit to relevant documents near the top, so it reports what the user sees.
 
-## When Rescoring Improves Quality
+We picked a candidate on a separate labeled set. The rule was the lowest `oversampling` and lowest `bits` value staying within 0.01 `nDCG@10` of float32, and within 0.02 `Recall@10`.
+
+The table reports how each configuration then scored on 200 held-out queries.
 
 <aside role="status">
-Quality scope: the quality table uses the 200-query held-out set at Qdrant's default `memory` configuration. It does not report latency because sequential query passes warmed the operating system's page cache. The latency table reports the `memory` configurations shown there.
+Quality scope: these rows run at Qdrant's default <code>memory</code> configuration and report no latency, because sequential query passes warmed the page cache. The latency table above reports the placements instead.
 </aside>
-
-An exact search scans every vector and gives the reference result. The graph search is approximate: it can miss exact neighbors in exchange for lower latency. `Recall@10` is the share of the exact top 10 that a configuration returned. `nDCG@10` grades the top 10 against DBPedia-entity's labels, giving more credit to relevant documents near the top.
-
-We selected a candidate on a separate labeled set: the lowest `oversampling` and most aggressive TurboQuant `bits` value within 0.01 `nDCG@10` and 0.02 `Recall@10` of float32. The table reports the held-out result.
 
 | Quantization | `rescore` | `nDCG@10` | `Recall@10` Against Exact |
 |---|---|---|---|
@@ -108,19 +118,23 @@ We selected a candidate on a separate labeled set: the lowest `oversampling` and
 | TurboQuant `bits1` | on, `oversampling` 2 | 0.3128 | 0.977 |
 | TurboQuant `bits1` | on, `oversampling` 4 | 0.3178 | 0.988 |
 
-Start with the float32 row. At these graph-search settings, float32 returned 0.957 `Recall@10` against exact search. Approximate graph traversal missed roughly 4% of the exact top 10 before quantization entered the comparison.
+Start with the float32 row. At these graph-search settings it returned 0.957 `Recall@10`, so approximate traversal missed roughly 4% of the exact top 10 before quantization entered the comparison.
 
-In this test, rescoring `bits4` improved dense-prefetch `Recall@10`, but the 200 held-out queries did not establish a meaningful final `nDCG@10` difference. Whether that extra Recall is worth the disk-read cost depends on your hybrid labels and latency target.
+Without rescoring, `bits4` scored above float32 on `nDCG@10` while returning fewer of the exact neighbors. A configuration can drop an exact neighbor the labels never mark relevant, which costs `Recall@10` and leaves `nDCG@10` where it was.
 
-`bits1` was different. `rescore` raised `Recall@10` from 0.605 to 0.951. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization.
+Rescoring `bits4` did improve dense-prefetch `Recall@10`. On the final ranking, 200 held-out queries did not establish a meaningful `nDCG@10` difference either way.
+
+`bits1` behaved differently. Without rescoring it returned 0.605 `Recall@10`, and one rescoring pass raised that to 0.951. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization for this reason.
 
 {{< figure src="/articles_data/when-your-collection-outgrows-ram/bits1-rescore-recovery.png" alt="Line chart of the share of the exact top 10 that bits1 returns, across rescore off and rescore on at oversampling 1, 2, and 4. The share jumps from 0.605 with rescore off to 0.951 at oversampling 1, crossing the dashed float32 reference at 0.957, then flattens at 0.977 and 0.988." caption="One rescoring pass does most of the recovery at bits1. Raising oversampling past 1 buys little, which is why the disk reads it adds are the cost to watch." width="100%" >}}
 
-That rule selected `bits1` with `rescore` and `oversampling=1`. On the held-out queries, `nDCG@10` was 0.0011 higher, with a paired 95% interval from -0.003 to +0.005, and `Recall@10` was 0.006 lower. The interval does not establish identical rankings. On this dataset, it bounds the nDCG@10 difference to 0.005 either way. Check that result on your own labels. If the configuration misses your target, test the next `oversampling` value.
+The selection rule picked `bits1` with `rescore` and `oversampling` 1. Against float32 on the held-out queries, its `nDCG@10` came in 0.0011 higher, with a paired 95% interval from -0.003 to +0.005.
 
-## Consider Other Quantization Methods
+That interval does not establish identical rankings. On this dataset it bounds the `nDCG@10` difference to 0.005 either way, and `Recall@10` came in 0.006 lower.
 
-This article measures TurboQuant. For a comparison of TurboQuant bit depths across ten datasets, see [TurboQuant in Qdrant](/articles/turboquant-quantization/). If TurboQuant is not the right fit, Qdrant also supports [Scalar, Binary, and Product Quantization](/documentation/manage-data/quantization/). Choose the method that fits the compression, recall, and latency trade-off you need, then validate it with the same dense-prefetch and held-out hybrid checks.
+## If TurboQuant Is Not the Right Fit
+
+For a comparison of TurboQuant bit depths across ten datasets, see [TurboQuant in Qdrant](/articles/turboquant-quantization/). Qdrant also supports [Scalar, Binary, and Product Quantization](/documentation/manage-data/quantization/), and each one validates with the same dense-prefetch and held-out checks.
 
 - [Scalar Quantization](/documentation/manage-data/quantization/#scalar-quantization): converts vector components to `int8`. Start here when moderate compression is enough.
 
@@ -128,15 +142,17 @@ This article measures TurboQuant. For a comparison of TurboQuant bit depths acro
 
 - [Product Quantization](/documentation/manage-data/quantization/#product-quantization): prioritizes a smaller memory footprint, with a larger accuracy and search-speed trade-off to validate.
 
-### `turbo4` Removes the Rescoring Option
+### `turbo4` Changes What Rescoring Reads
 
-The [`turbo4` datatype](/documentation/manage-data/vectors/#turbo4) is not TurboQuant. It stores a 4-bit dense-vector representation as the only copy, so there are no original vectors to rescore against.
+The [`turbo4` datatype](/documentation/manage-data/vectors/#turbo4) stores each dense vector as 4 bits per dimension, about one-eighth of its original size. It is built on TurboQuant, and it replaces the full-precision vector rather than sitting beside it.
 
-Use `turbo4` when disk capacity is the constraint and its measured quality meets your target. Use a full-precision vector with quantization when you need `rescore` to recover dense-prefetch quality. This article does not measure `turbo4`, so validate it separately on your own queries and labels.
+Rescoring still works on top of it. Pairing `turbo4` with 1-bit TurboQuant searches the compact index and rescores against the 4-bit vectors, which costs less storage than 1-bit over full precision and gives up some rescoring precision.
+
+Keep full-precision vectors when you want rescoring at the accuracy this article measures. This article does not measure `turbo4`, so validate it on your own queries and labels.
 
 ## Verify It on Your Own Collection
 
-If TurboQuant is the quantization method you selected, configure its `bits` value and `memory` setting on the collection you already have. Set `rescore` and `oversampling` on the query, not on the collection.
+Configure the bit depth and the two placements on the collection you already have, using the name of your dense vector. `rescore` and `oversampling` belong on the query, which is what makes them cheap to compare.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -160,26 +176,26 @@ client.update_collection(
 )
 ```
 
-First, compute the exact dense top `k` once for a representative sample of your queries, where `k` matches the result count your product evaluates. This article reports `k=10`. An exact search reads every original vector, so keep the sample small enough for the cost you can accept. Then run your existing dense prefetch with each `rescore` and `oversampling` variant, changing no other search parameters. `Recall@k` against the exact result shows what quantization changes in the dense prefetch.
+First, compute the exact dense top `k` once for a representative sample of your queries. This article reports `k=10`. An exact search reads every original vector, so keep the sample small enough for the cost you can accept.
 
-For hybrid search, keep the dense prefetch, sparse prefetch, [fusion settings](/articles/how-to-tune-hybrid-search/), and filters that your service already uses. Compare the final result's `nDCG@k` on held-out labeled queries. That is the metric that decides whether the configuration serves your product.
+Then run your existing dense prefetch with each `rescore` and `oversampling` variant, changing nothing else. `Recall@k` against the exact result shows what quantization changed in the dense prefetch. Without labels, that check and the latency numbers still stand on their own.
 
-The steps above list what to measure. Use your existing request, or ask a coding agent to build a small harness with your dense vector name, current prefetches, fusion method, filters, query sample, and labels. It should sweep only `rescore` and `oversampling`, then report dense-prefetch `Recall@k`, final `nDCG@k`, and latency.
+For hybrid search, keep the prefetches, [fusion settings](/articles/how-to-tune-hybrid-search/), and filters your service already uses, then compare the final `nDCG@k`.
 
-On a self-hosted deployment, run the dense-prefetch check under the memory cap you deploy with, from a cold page cache followed by a measured pass. Run `rescore=False` even if you would never ship it, because it shows the cost of the rest of the dense prefetch. On Qdrant Cloud, measure the full request under its normal operating conditions instead.
+### Self-Hosted
 
-Keep the first configuration that meets your held-out `nDCG@k` and latency requirements. Use dense-prefetch `Recall@k` to explain a quality loss. If none qualifies, test another quantization method or a higher `oversampling` value.
+Run the dense-prefetch check under the memory cap you deploy with, from a cold page cache followed by a measured pass. Run `rescore=False` even if you would never ship it, because it shows the cost of the rest of the dense prefetch.
 
-## Scope and Next Checks
+### Qdrant Cloud
 
-<aside role="status">
-Scope: every figure comes from a dense-only request against one shard on a laptop, with Qdrant running in Docker's Linux VM behind macOS. The cgroup limit evicted mapped original vectors, and block-read counters confirmed recurring disk reads. Do not transfer the latency or disk-read ratios without measuring your own deployment.
-</aside>
+Measure the full request under its normal operating conditions. The cluster sets the container limit and the page-cache state, which leaves the placements and the query parameters as what you compare.
 
-On a multi-shard hybrid collection, measure the full request on your deployed shard layout. Each shard runs the dense prefetch and rescoring against its own data. With a `limit` of 200 and `oversampling=1`, rescoring can read up to 200 original vectors per shard: up to 2,400 across 12 shards. That total shapes disk reads and tail latency, and [candidate depth](/articles/candidate-depth/) covers how to set that limit.
+## What to Tune Next
 
-Qdrant's `cold` `memory` tier leaves original vectors on disk until a query accesses them. If you use it, set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) in Qdrant v1.19 to issue reads asynchronously when the Linux kernel supports it. In hybrid search, the sparse prefetch shares the same page cache. Rerun the full request after you set the dense-vector `memory` configuration.
+Keep the first configuration that meets your held-out `nDCG@k` and latency targets. If none qualifies, test another quantization method or a higher `oversampling` value.
 
-For capacity planning, the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/) estimates the collection size before you set a memory limit.
+On a multi-shard hybrid collection, rerun the full request on your deployed shard layout once the dense-vector placements are set. Each shard runs the prefetch and rescoring against its own data.
 
-If you do not have a labeled query set yet, [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) covers how to build one, along with the `nDCG@k` baseline every comparison here is measured against.
+With a `limit` of 200 and `oversampling` 1, rescoring can read up to 200 original vectors per shard, or up to 2,400 across 12 shards. [Candidate depth](/articles/candidate-depth/) covers how to set the limit that total scales with.
+
+If you do not have a labeled query set yet, [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) covers how to build one.
