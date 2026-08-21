@@ -78,4 +78,4 @@ The second trap costs weeks. Pick a winner on a set of queries, then report its 
 
 Two settings can make every measurement here meaningless: a sparse vector missing its IDF modifier, and a BM25 average length left on the default. [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) catches both, then sizes the labeled set the other four checks run on. If all five checks come back flat, your problem sits upstream of these knobs, in the embedding model, the chunking, or the queries themselves.
 
-Four of the five measurements run against a collection you already have and a labeled set you build once. A free [Qdrant Cloud](https://cloud.qdrant.io/signup) cluster covers those four; the memory one needs a container limit you control, so it stays self-hosted.
+Four of the five checks need only the collection you already run and a labeled query set you build once. The memory check needs a copy of the collection under the memory limit you deploy with.
