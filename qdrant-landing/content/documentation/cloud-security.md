@@ -20,7 +20,7 @@ Qdrant is committed to maintaining high standards of security and compliance. We
 
 All Qdrant clusters running in Qdrant Managed Cloud are isolated from each other in hardened, unprivileged containers. Each cluster is sealed off with strict network policies, ensuring that no other customer can access your data, and outbound network access is restricted to prevent data exfiltration.  Paid clusters are running on their own dedicated resources to ensure stable performance and further security.
 
-All storage volumes are encrypted at rest. [Premium customers](/documentation/cloud-premium/) can also bring their own encryption keys for storage volumes. 
+All storage volumes are encrypted at rest. [Premium customers](/documentation/cloud-premium/) can also [bring their own encryption keys for storage volumes](/documentation/cloud/encryption/).
 
 Data in transit is protected with Transport-Layer-Security (TLS). It is possible to restrict the [IP ranges](/documentation/cloud/configure-cluster/#client-ip-restrictions) that are allowed to access a cluster.
 
