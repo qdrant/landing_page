@@ -23,7 +23,7 @@ weight: 20
 
 Traditional search retrieves documents by matching the words in a query to the words in an index. It’s fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you’ll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
 
-#### TL;DR
+#### Overview
 
 > Search has to decide what makes a result relevant. In this module, you'll
 learn why matching words falls short and how comparing meaning fixes it.
