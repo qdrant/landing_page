@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.docs-menu details > summary > a').forEach(function (link) {
     link.addEventListener('click', function (e) {
       const details = this.closest('details');
-      if (!details.open) {
-        e.preventDefault();
-        details.open = true;
+      const textSpan = this.querySelector('span');
+      const spanRect = textSpan && textSpan.getBoundingClientRect();
+      if (spanRect && e.clientX <= spanRect.right) {
+        return; // click is within text span width — navigate normally
       }
+      e.preventDefault();
+      details.open = !details.open;
     });
   });
 });
