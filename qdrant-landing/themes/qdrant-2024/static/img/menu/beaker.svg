@@ -6,7 +6,7 @@
    version="1.1"
    id="svg1"
    sodipodi:docname="beaker.svg"
-   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@
      inkscape:window-width="1392"
      inkscape:window-height="1246"
      inkscape:window-x="0"
-     inkscape:window-y="904"
+     inkscape:window-y="876"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg1" />
   <!-- Icon from ProIcons by ProCode - https://github.com/ProCode-Software/proicons/blob/main/LICENSE -->
@@ -40,5 +40,5 @@
      stroke-width="0.99402"
      d="M 4.3141434,0.53289576 V 3.9059334 A 1.9880379,1.9880379 0 0 1 3.945031,5.0603208 L 2.7946198,6.6746076 M 4.3141434,0.53289576 H 3.2207226 m 1.0934208,0 h 3.3717123 m 0,0 V 3.9059334 a 1.9880379,1.9880379 0 0 0 0.369112,1.1543874 L 9.2053798,6.6746076 M 7.6858557,0.53289576 H 8.7792761 M 2.7946198,6.6746076 1.2187683,8.885969 a 1.6335044,1.6335044 0 0 0 1.3299976,2.581135 H 9.451233 A 1.6335044,1.6335044 0 0 0 10.781232,8.885969 L 9.2053798,6.6746076 m -6.41076,0 h 6.41076"
      id="path1"
-     style="fill:#000000;fill-opacity:0;stroke:#dc244c;stroke-opacity:1" />
+     style="fill:#000000;fill-opacity:0;stroke:#dc244c;stroke-opacity:1;stroke-width:0.75;stroke-dasharray:none" />
 </svg>
