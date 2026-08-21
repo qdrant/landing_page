@@ -22,9 +22,11 @@ Before you tune a reranker, use the [pre-tuning checks](/articles/before-tuning-
 
 Your candidate list can already contain documents your ranking never shows. Score those candidates as if they were perfectly ordered, then compare that with the score your pipeline returns today. The gap between the two is everything a better ranking stage could recover, so measure it before you reach for a model. Use `nDCG@10`, which grades the top 10 results and gives more credit to relevant documents near the top.
 
-A wide gap means a better order is worth chasing. At 200 candidates, that `nDCG@10` gap ran from 0.247 to 0.487 across the five datasets in this article, and [candidate depth](/articles/candidate-depth/) shows how to measure it on your own collection.
+A wide gap means a better order is worth chasing. The deepest count measured here was 200 candidates. At that count, the `nDCG@10` gap ran from 0.247 to 0.487 across the five datasets, and [candidate depth](/articles/candidate-depth/) shows how to measure it on your own collection.
 
-A cross-encoder reranker reads the query and candidate together as a single sequence, with a classification head that returns one relevance score for the pair. Joint reading lets it model token interactions that separately encoded query and document vectors miss. Every candidate takes a forward pass at query time, which rules the model out as a first stage and keeps it in the reranking slot.
+Reranking covers several model families. This article measures cross-encoders, which read the query and candidate together as a single sequence. A classification head returns one relevance score for the pair. Joint reading lets the model capture token interactions that separately encoded query and document vectors miss.
+
+Every candidate takes a forward pass at query time, which rules a cross-encoder out as a first stage and keeps it in the reranking slot. Late interaction models rerank from stored vectors instead, and the last section covers where they fit.
 
 <aside role="status">
 <strong>Note:</strong> These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. The held-out column comes from a split-half check repeated 200 times: pick the reranker and fusion setting on one half, compare them on the other. <a href="/articles/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
@@ -33,7 +35,7 @@ A cross-encoder reranker reads the query and candidate together as a single sequ
 ## Test a Reranker in Three Steps
 
 1. Establish the baseline the reranker has to beat: [tuned fusion](/articles/how-to-tune-hybrid-search/) if you run hybrid search, your current ranking if you run dense-only or sparse-only. Confirm the documents your labels mark relevant reach the candidate list. A reranker only reorders what it receives; missing documents are a [candidate depth](/articles/candidate-depth/) or retrieval problem.
-2. Rerank 10 candidates with the model you would actually serve, since model choice moved our results more than any other setting. [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/) shows the cross-encoder workflow and the available models. Compare the result with the first-stage baseline on held-out labeled queries.
+2. Rerank 10 candidates with the model you would actually serve, since model choice moved our results more than any other setting. Read its model card first for languages, domains, and context window. [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/) shows the cross-encoder workflow and the available models. Compare the result with the first-stage baseline on held-out labeled queries.
 3. Raise the candidate count only if the reranker wins. Measure throughput on your document lengths before making it part of the serving path.
 
 Step 2 starts from the request your service already sends. Request the payload fields the reranker reads and your labels key on, and keep the fusion settings you serve today.
@@ -91,7 +93,7 @@ Run that over your labeled queries, average the per-query difference, then check
 
 Compare the reranker against the strongest first stage you can build. Qdrant's default reciprocal rank fusion (RRF) is already a solid baseline, and fusion tuned on your own labels is stronger. A reranker measured against the default can look like a win that tuning would have delivered for far less work at query time.
 
-If reranking beats default RRF, [tune fusion](/articles/how-to-tune-hybrid-search/) next. Add reranking only when it improves the strongest first-stage ranking on held-out labeled queries.
+So [tune fusion](/articles/how-to-tune-hybrid-search/) first, then make that tuned ranking the number the reranker has to beat on held-out labeled queries. Measured against the default, a reranker can take credit for the gain tuning would have delivered with no query-time cost.
 
 Each row in the following table reports the best of four cross-encoders on that dataset. The deltas show the `nDCG@10` change over default RRF and over fusion tuned on the same candidates. `MiniLM-L-6`, `MiniLM-L-12`, and `bge-reranker-base` truncate each pair at 512 tokens. `jina-reranker-v2` reads up to 1024 and was trained on a broader mix, including code.
 
@@ -115,11 +117,11 @@ Keep fusion when the reranker loses to the tuned first stage. WANDS gained +0.03
 
 Both confirmed wins came from the model whose window and training data fit the corpus, scoring the same candidates the other three saw. Even those wins closed part of the gap: 0.135 of a 0.293 gap on CodeSearchNet, and 0.115 of a 0.487 gap on DBPedia-entity.
 
-On DBPedia-entity, the query "John Lennon Yoko Ono album Starting Over" is answered by the page for "(Just Like) Starting Over", and every query term sits in that page's first two sentences. Fusion still left it at rank 49 of 200, because the prefetches scored the query and page separately and fusion sees only their ranks. The cross-encoder read the pair as one sequence and put it first.
+On DBPedia-entity, fusion left the page for "(Just Like) Starting Over" at rank 49 of 200, even though every term of the query "John Lennon Yoko Ono album Starting Over" sits in the page's first two sentences. Fusion reads ranks, and neither prefetch ranked the page high: 35th dense, 45th sparse, behind pages whose titles name both Lennon and Ono. The cross-encoder read the query and page as one sequence and put it first.
 
 ## Diagnose a Loss Before You Stop
 
-If the reranker loses at 10 candidates, check model fit before you change anything else. The first check is the context window. Tokenize a sample of your query-document pairs with the model's tokenizer, and compare the 95th percentile length against the model's window: a longer pair gets truncated, and the model scores a document it only partly read. The second is the training data, so read the model card for its languages and domains.
+If the reranker loses at 10 candidates, go back to fit and measure it. Tokenize a sample of your query-document pairs with the model's tokenizer. Compare the 95th percentile length with the model's window: a longer pair gets truncated, and the model scores a document it only partly read. Then reread the card's languages and domains against your corpus.
 
 Both checks explain every loss in the table. None of the three older models was trained on code, and `jina-reranker-v2` turned CodeSearchNet from a 0.032 loss into a 0.135 held-out win over the same candidates. On ArguAna, the window was the problem: 168-word queries leave little space for the document inside a 512-token truncation. The 1024-token model moved it from a loss to +0.017, though at 2.5% of held-out splits the label set cannot confirm the gain.
 
@@ -127,11 +129,15 @@ If you find a mismatch, swap in a model whose window and training data fit your 
 
 ## Set Candidate Count After a Win
 
-Start with 10 candidates. Raise the count only after the reranker beats the tuned first stage at 10. Stop when the gain on your labels flattens or queries get slower than you can serve.
+Start with 10 candidates. Raise the count only after the reranker beats the tuned first stage at 10. `nDCG@10` grades the same top 10 results at every count, so the count changes only what the reranker gets to choose from. Stop when the gain on your labels flattens or queries get slower than you can serve.
 
 {{< figure src="/articles_data/when-a-reranker-is-worth-it/reranker-gain-by-candidate-count.png" alt="Five small line charts, one per dataset, showing the best nDCG@10 change over tuned fusion at candidate counts 10, 25, 50, 100, and 200. SciFact, CodeSearchNet, and DBPedia-entity stay above the zero line, WANDS stays below it at every count, and ArguAna peaks at 25 then falls to zero by 200." caption="The best nDCG@10 change over tuned fusion among the four models, by candidate count. A line above zero is a reranker win; WANDS never crosses it." width="100%" >}}
 
 Each dataset stopped climbing at a different point, which is why the count is measured rather than assumed. DBPedia-entity reached 0.111 of its eventual 0.115 by 50 candidates, so going to 200 quadrupled the reranking work for 0.003 more. CodeSearchNet kept climbing through 200. ArguAna peaked at 25 and became a loss by 200, so more candidates can also hurt.
+
+Depth helps only when the extra candidates hold a relevant document the first stage buried. Every extra candidate that holds none gives the model another chance to score something irrelevant into the top 10. ArguAna has one relevant document per query. At 25 candidates, 90% of queries already had it inside the list.
+
+Going to 200 raised that share to 98%, so nearly all of the added work bought displacement risk. CodeSearchNet went from 80.5% to 90.5% over the same range, which is why its line kept climbing.
 
 A higher count refines a win, and it rescued no loss here: every configuration behind tuned fusion at 10 was still behind it at 200.
 
@@ -162,7 +168,7 @@ Match the stage to the symptom you see in your results.
 
 | Symptom | Stage |
 |---|---|
-| Relevant candidates ranked below weaker ones | A cross-encoder or ColBERT as a reranker |
+| Relevant candidates ranked below weaker ones | A cross-encoder or a late interaction model as a reranker |
 | Results are repetitive or near-duplicates | [Maximal marginal relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) |
 | One document's chunks fill the first page | [Grouping](/documentation/search/search/#grouping-api) |
 | Recency, popularity, or other payload signals should shape the order | [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) |
@@ -173,7 +179,7 @@ Grouping fits collections that store each chunk of a document as its own point. 
 
 Formula Query rescores the same candidates with an expression over payload fields, such as recency or popularity, and needs a payload index on each field the formula references.
 
-Test [ColBERT](https://arxiv.org/abs/2004.12832) when a cross-encoder is too slow for your queries. It moves the reranking work from query time to ingest: document vectors are built once, so only the query goes through the model per request, and storage grows to a vector per token. Reranking needs those vectors but never traverses a graph over them, so set [`m=0`](/documentation/search/hybrid-queries/#multi-stage-queries) on the multivector and Qdrant stores it unindexed. ColBERT rescoring also runs inside Qdrant, in the same multi-stage query, while a cross-encoder runs as its own service after Qdrant returns candidates.
+Test a [late interaction model](/documentation/fastembed/fastembed-colbert/) when a cross-encoder is too slow. Document vectors are built at ingest, so only the query goes through the model per request, and the rescoring runs inside Qdrant in the same multi-stage query. Storage grows to a vector per token. [Multivectors and Late Interaction](/documentation/tutorials-search-engineering/using-multivector-representations/) walks the full setup.
 
 ## What to Tune Next
 
