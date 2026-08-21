@@ -1,7 +1,7 @@
 <section class="qdrant-blog-posts">
   <div class="container">
     <div class="qdrant-blog-posts__articles row gx-5">
-      {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
+      {{ $all := .Pages.ByPublishDate.Reverse }}
 
 
       <!-- Remove first 4 featured posts from $all -->

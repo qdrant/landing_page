@@ -10,7 +10,7 @@
   <link href="{{ $splideCss.RelPermalink }}" rel="stylesheet" integrity="{{ $splideCss.Data.Integrity }}" />
 {{ end }}
 
-{{ if in (slice "blog" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
+{{ if in (slice "blog" "research" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
   {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 {{ end }}
@@ -19,7 +19,7 @@
 {{ $bundles := slice "default" }}
 {{ if .IsHome }}
   {{ $bundles = slice "home" }}
-{{ else if eq .Section "blog" }}
+{{ else if in (slice "blog" "research") .Section }}
   {{ $bundles = slice "blog" }}
 {{ else if in (slice "docs" "documentation" "course" "learn") .Section }}
   {{ $bundles = slice "documentation" }}

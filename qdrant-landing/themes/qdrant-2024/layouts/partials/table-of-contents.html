@@ -56,7 +56,7 @@
             </li>
           {{ end }}
 
-          {{ if eq .Section "blog" }}
+          {{ if in (slice "blog" "research") .Section }}
             {{ $link := urlquery .Permalink }}
             {{ $title := .Title }}
             {{ with (.Site.GetPage "/headless/share-buttons") }}
