@@ -7,7 +7,7 @@ weight: 15
 
 # Supported Models
 
-FastEmbed supports models across four embedding types: dense text, sparse text, late interaction, and image. This page lists every model available in the current release. To see which models your local installation supports, see [List Models for Your Local Installation](#list-models-for-your-local-installation).
+FastEmbed supports models across six types: dense text, sparse text, late interaction text, late interaction multimodal, image embedding, and reranking. This page lists every model available in the current release. To see which models your local installation supports, see [List Models for Your Local Installation](#list-models-for-your-local-installation).
 
 ## Dense Text Embedding Models
 
@@ -17,13 +17,21 @@ FastEmbed supports models across four embedding types: dense text, sparse text, 
 
 {{% include "content/documentation/headless/content/fastembed/sparse-text-embedding-models.md" %}}
 
+## Image Embedding Models
+
+{{% include "content/documentation/headless/content/fastembed/image-embedding-models.md" %}}
+
 ## Late Interaction Models
 
 {{% include "content/documentation/headless/content/fastembed/late-interaction-models.md" %}}
 
-## Image Embedding Models
+## Late Interaction Multimodal Models
 
-{{% include "content/documentation/headless/content/fastembed/image-embedding-models.md" %}}
+{{% include "content/documentation/headless/content/fastembed/late-interaction-multimodal-models.md" %}}
+
+## Reranking Models
+
+{{% include "content/documentation/headless/content/fastembed/reranking-models.md" %}}
 
 ## List Models for Your Local Installation
 
@@ -32,16 +40,20 @@ To see which models your locally installed version of FastEmbed supports, use th
 ```python
 from fastembed import (
     ImageEmbedding,
+    LateInteractionMultimodalEmbedding,
     LateInteractionTextEmbedding,
     SparseTextEmbedding,
     TextEmbedding,
 )
+from fastembed.rerank.cross_encoder import TextCrossEncoder
 
 model_types = {
     "Dense text": TextEmbedding,
     "Sparse text": SparseTextEmbedding,
     "Late interaction": LateInteractionTextEmbedding,
+    "Late interaction multimodal": LateInteractionMultimodalEmbedding,
     "Image": ImageEmbedding,
+    "Reranking": TextCrossEncoder,
 }
 
 for label, cls in model_types.items():

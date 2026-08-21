@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate Markdown tables of FastEmbed supported models.
 
-Writes four .md files to qdrant-landing/content/documentation/headless/content/fastembed/.
+Writes six .md files to qdrant-landing/content/documentation/headless/content/fastembed/.
 Run this script whenever a new fastembed release adds or removes models, then commit
 the updated files and open a PR.
 """
@@ -10,10 +10,12 @@ import pathlib
 
 from fastembed import (
     ImageEmbedding,
+    LateInteractionMultimodalEmbedding,
     LateInteractionTextEmbedding,
     SparseTextEmbedding,
     TextEmbedding,
 )
+from fastembed.rerank.cross_encoder import TextCrossEncoder
 
 REPO_ROOT = pathlib.Path(__file__).parent.parent.parent
 OUTPUT_DIR = REPO_ROOT / "qdrant-landing/content/documentation/headless/content/fastembed"
@@ -64,12 +66,28 @@ def main() -> None:
         _table(["Model", "Dimensions", "License", "Size (GB)"], rows),
     )
 
+    # Late interaction multimodal
+    models = sorted(LateInteractionMultimodalEmbedding.list_supported_models(), key=lambda m: m["model"])
+    rows = [[m["model"], m["dim"], m["license"], m["size_in_GB"]] for m in models]
+    write_table(
+        "late-interaction-multimodal-models.md",
+        _table(["Model", "Dimensions", "License", "Size (GB)"], rows),
+    )
+
     # Image embeddings
     models = sorted(ImageEmbedding.list_supported_models(), key=lambda m: m["model"])
     rows = [[m["model"], m["dim"], m["license"], m["size_in_GB"]] for m in models]
     write_table(
         "image-embedding-models.md",
         _table(["Model", "Dimensions", "License", "Size (GB)"], rows),
+    )
+
+    # Reranking (cross-encoders)
+    models = sorted(TextCrossEncoder.list_supported_models(), key=lambda m: m["model"])
+    rows = [[m["model"], m["license"], m["size_in_GB"]] for m in models]
+    write_table(
+        "reranking-models.md",
+        _table(["Model", "License", "Size (GB)"], rows),
     )
 
 
