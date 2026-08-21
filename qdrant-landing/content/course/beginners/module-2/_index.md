@@ -24,9 +24,7 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 
 **Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module2.ipynb)
 
-<br/>
-
-#### TL;DR
+#### Overview
 
 > Module 1 explained why semantic search works. In this module, you’ll learn 
 where your data lives and how Qdrant searches it. You’ll explore collections,
@@ -67,13 +65,13 @@ Upsert to Qdrant: insert a point if its ID is new, update it if the ID already e
 - **Query**
 Retrieve the top-K results: the K most similar matches to your query
 
-![Pipeline from raw text to a Qdrant query: chunk, embed, store, query](/courses/beginners/module-2/flow.png)
+![](/courses/beginners/module-2/flow.png)
 
 ## 2. Core Data Model
 
-Qdrant organizes data in a simple three-level hierarchy. Understanding this structure is the foundation for everything else in the course.
+Qdrant organizes data in a simple three-level components. Understanding this structure is the foundation for everything else in the course.
 
-![Qdrant's three-level data hierarchy: collection, point, and vector](/courses/beginners/module-2/data-model.png)
+![](/courses/beginners/module-2/data-model.png)
 
 ### Collection
 
@@ -85,7 +83,8 @@ The atomic unit of data. Every point has an ID (integer or UUID), a vector, and 
 
 ### Vector
 
-A vector is a list of numbers. An embedding is a vector created by a model to represent the meaning of content. In semantic search, a dense vector is usually an embedding generated from text, images, or other data.<br>
+A vector is a list of numbers. An embedding is a vector created by a model to represent the meaning of content. In semantic search, a dense vector is usually an embedding generated from text, images, or other data.
+
 Each number represents one dimension of the vector. Similar content produces similar vectors, making it easier to find related items. Dense vectors usually contain values across most dimensions. This module focuses on dense vectors; Module 3 introduces sparse vectors, which contain mostly zeros.
 
 ### Payload
@@ -111,7 +110,8 @@ client = QdrantClient(
 
 ### Creating a Collection
 
-Once connected, you create a collection by setting two parameters: the size of the vectors it accepts and the distance metric used for similarity. <br>
+Once connected, you create a collection by setting two parameters: the size of the vectors it accepts and the distance metric used for similarity.
+
 Both come from your embedding model. 384 is the vector size of all-MiniLM-L6-v2, the model from Module 1, and cosine is the metric it was trained for.
 
 ```python
@@ -127,7 +127,8 @@ client.create_collection(
 
 ### Inserting a Point
 
-Each point contains an ID, a vector that represents your content, and a payload with metadata you can use to filter or return results later. <br>
+Each point contains an ID, a vector that represents your content, and a payload with metadata you can use to filter or return results later.
+
 Use `upsert` to add a point to a collection. If the ID is new, Qdrant inserts the point. If the ID already exists, Qdrant updates the existing point.
 
 ```python
@@ -152,7 +153,8 @@ client.upsert(
 
 ## 3. Distance Metrics
 
-When you query a collection, Qdrant compares your query vector with the stored vectors using the distance metric you chose when creating the collection. For text embeddings, cosine similarity is the most common metric. <br> 
+When you query a collection, Qdrant compares your query vector with the stored vectors using the distance metric you chose when creating the collection. For text embeddings, cosine similarity is the most common metric.
+
 Checking every vector would be too slow for large collections. Instead, Qdrant uses an HNSW index to find the closest matches efficiently without scanning the entire collection. Section 5 explains how it works.
 
 | Metric | Notes |
@@ -185,7 +187,7 @@ for r in results.points:
     print(r.id, r.score, r.payload)
 ```
 
-![Top-K retrieval returning the K closest vectors to a query vector](/courses/beginners/module-2/top-k.png)
+![](/courses/beginners/module-2/top-k.png)
 
 ### Why K Matters
 
@@ -195,7 +197,7 @@ Returning too few results (K=3) misses relevant content. Returning too many (K=1
 
 Searching millions of vectors by computing similarity against every single one (brute force) is slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast at a small, measurable recall cost.
 
-![HNSW graph with hierarchical layers connecting nearest-neighbor nodes](/courses/beginners/module-2/hnsw.png)
+![](/courses/beginners/module-2/hnsw.png)
 
 ### How HNSW Works
 
@@ -206,7 +208,8 @@ Searching millions of vectors by computing similarity against every single one (
 
 ### Tunable Parameters
 
-HNSW exposes three tunable parameters: `m`, `ef_construct`, and `hnsw_ef`. They balance search speed, recall (the fraction of true nearest neighbors found), memory usage, and indexing time. <br>
+HNSW exposes three tunable parameters: `m`, `ef_construct`, and `hnsw_ef`. They balance search speed, recall (the fraction of true nearest neighbors found), memory usage, and indexing time.
+
 Defaults work well for most use cases, so tune them only after benchmarking a real recall or latency gap. This course won’t cover tuning in detail; see the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) when you’re ready.
 
 Real-world queries often combine similarity with metadata filters. Qdrant applies these filters during HNSW traversal instead of searching the full graph and filtering afterward. See [Filterable HNSW](/articles/filterable-hnsw/) for details. Section 6 covers filtering next.
@@ -257,11 +260,12 @@ For fields you filter frequently, create a payload index. Without one, Qdrant ma
 
 Use `client.create_payload_index()` for fields used in `must`, `should`, or `must_not` conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for supported index types and configuration options.
 
-![Payload filtering applied during HNSW graph traversal](/courses/beginners/module-2/payload.png)
+![](/courses/beginners/module-2/payload.png)
 
 ## 7. Chunking Strategies
 
-Embedding models have a maximum token limit. `all-MiniLM-L6-v2` from Module 1 takes 256 tokens, larger models take 8,000 or more, and anything past the limit is dropped without an error. Check your model's card for its limit. <br>
+Embedding models have a maximum token limit. `all-MiniLM-L6-v2` from Module 1 takes 256 tokens, larger models take 8,000 or more, and anything past the limit is dropped without an error. Check your model's card for its limit.
+
 Fitting isn't the only reason to split. A chunk is the unit that gets retrieved, so one vector covering several topics averages them together and matches every query weakly, while a chunk that's too small loses the context that made the result useful.
 
 | Strategy | How it works | Trade-off |
@@ -277,15 +281,15 @@ This module introduces the main chunking strategies but doesn’t explore how to
 
 **Fixed-Size**
 
-![Fixed-size chunking splitting text every N tokens](/courses/beginners/module-2/fixed-size.png)
+![](/courses/beginners/module-2/fixed-size.png)
 
 **Semantic**
 
-![Semantic chunking creating a new chunk when the topic shifts](/courses/beginners/module-2/semantic.png)
+![](/courses/beginners/module-2/semantic.png)
 
 **Sliding Window**
 
-![Sliding window chunking with overlapping chunks preserving context](/courses/beginners/module-2/sliding-window.png)
+![](/courses/beginners/module-2/sliding-window.png)
 
 ## 8. Ingestion Pipeline: End-to-End
 
