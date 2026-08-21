@@ -7,6 +7,21 @@ weight: 35
 
 # Changelog
 
+## 1.9.14 (2026-08-21)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.4 |
+| operator                | 2.34.5  |
+| qdrant-cluster-manager  | v0.3.22 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.19.0
+
+* Improved qdrant-cluster-manager performance for clusters with many nodes.
+* Added support for `rebalanceStrategy: disabled`.
+* Updated operator to 2.34.5 and qdrant-kubernetes-api to v1.37.4, including operator dependency updates.
+
 ## 1.9.13 (2026-07-30)
 
 | Component               | Version |
