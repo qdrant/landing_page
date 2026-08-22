@@ -8,7 +8,7 @@ weight: 60
 
 {{< date >}} Module 5 {{< /date >}}
 
-# Capstone: Multimodal Supplier Risk Intelligence
+# Multimodal Supplier Risk Intelligence
 
 <div class="video">
   <iframe src="https://www.youtube.com/embed/Cvl38vKHiWs?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -19,9 +19,9 @@ Apply every concept from Modules 1 through 4 in a single end-to-end system: inge
 
 **Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module5.ipynb)
 
-#### TL;DR
+#### Overview
 
-> Module 4 turned the building blocks into a design. Now you'll build that design into a working system. You'll use named vectors to connect text and image evidence to a single point, then cluster those signals into the events they describe. You'll also search images with text and extend the system across languages. By the end, you'll have ingested, clustered, and queried multimodal signals from one collection.
+> Module 4 turned the building blocks into a design. In this module, you'll build that design into a working system. You'll explore named vectors that hold text and image evidence on a single point, then see how clustering groups those signals into the events they describe. You'll also learn how to search images with text and extend the system across languages. By the end, you'll have ingested, clustered, and queried multimodal signals from one collection.
 
 ## Today's Path
 
@@ -33,9 +33,7 @@ Apply every concept from Modules 1 through 4 in a single end-to-end system: inge
 6. Analyst Queries
 7. Knowledge Check
 8. Course Summary
-9. References and Further Reading
-
-By the end, you'll have built the whole system: ingestion, clustering, and analyst queries over one collection.
+9. References & Further Reading
 
 ## 1. Project Overview
 
@@ -348,6 +346,8 @@ Keep `source_type` values drawn from the fixed set in the collection schema. A f
 
 Clustering groups signals that describe the same underlying event, even when they arrive from different sources. A factory fire appears in a local news article, a captioned satellite image, and an earnings call answer. Because Section 4 put a `text_dense` vector on all three, clustering can surface them as one event.
 
+Qdrant uses the word for one other thing: a Qdrant Cloud cluster is the deployment that holds your collection. The clustering in this section runs in your own code, over the vectors already stored there.
+
 This is the one part of the capstone that Modules 1 through 4 did not teach. Everything else here is a bigger version of something you have already built.
 
 ### The Clustering Approach
@@ -513,7 +513,7 @@ Each named vector is its own space, so the query has to be embedded by the model
 
 ### The Analyst Investigation Query
 
-For focused investigations, combine everything: hybrid retrieval over dense and sparse text, scoped to one supplier, restricted to elevated-risk signals from the last week. This is the Module 4 production query pattern running on multimodal data, filter placement included.
+For a focused investigation, run hybrid retrieval over dense and sparse text, scoped to one supplier and to elevated-risk signals from the last week. Put the filter inside each `Prefetch`, as in Modules 3 and 4, so each retriever returns 50 candidates that satisfy it.
 
 ```python
 def query_supplier_risk(supplier_id: str, query_text: str):
@@ -553,11 +553,7 @@ def query_supplier_risk(supplier_id: str, query_text: str):
     )
 ```
 
-### Common Mistake: Filters in the Wrong Place
-
-The filter above sits inside both prefetches rather than being passed once as a top-level `query_filter`, and that placement is the point. A per-prefetch filter narrows what each retriever searches, so both come back with 50 candidates that already satisfy the constraint, and it behaves the same way on every deployment mode. An outer `query_filter` is applied by a real server, but local mode ignores it and raises no error either way, so a notebook can print results that break their own filter while looking perfectly healthy.
-
-The image query in the previous section has no prefetch, which is why the same `query_filter` argument is correct there.
+The image query in the previous section passes the same conditions as a top-level `query_filter` because it has no prefetch.
 
 ### Going Further: Cross-Language Comparison
 
@@ -608,7 +604,7 @@ Because two of the sources are not new modalities. A transcript is text the mome
 <details>
 <summary>In a hybrid query, where does the filter belong?</summary>
 
-Inside each <code>Prefetch</code>. It narrows what each retriever searches and behaves the same on every deployment mode. Local mode ignores an outer <code>query_filter</code> without raising an error, which is how a notebook ends up printing results that break its own filter.
+Inside each <code>Prefetch</code>. Each retriever searches only the signals that satisfy the filter, so its 50 candidates are scoped before fusion ranks them.
 
 </details>
 
@@ -635,13 +631,13 @@ This module completes the Qdrant Beginners course. Here's what was covered:
 | Module 1 | Let's Understand Search | Why keyword search fails; how embeddings and semantic search work; the shift from words to meaning. |
 | Module 2 | First Principles of Vector Search | Collections, points, vectors, payloads, HNSW, chunking strategies, and the full ingestion pipeline. |
 | Module 3 | Sparse vs Dense vs Hybrid Search | BM25 against embeddings; when each fails; hybrid search with rank fusion. |
-| Module 4 | Designing a Vector Search System | The layers of the stack; five design questions; filtering in depth; the RAG pipeline; deployment options. |
+| Module 4 | Designing a Vector Search System | The five layers of the stack; what to decide before ingesting; what changes as the collection grows; when to add machines; where generation fits; where to run Qdrant. |
 | Module 5 | Multimodal Supplier Risk Intelligence | End-to-end capstone: ingest news, transcripts, and images on shared points; cluster risk signals; query every modality. |
-| Module 6 | Beyond Similarity (Bonus) | Optional further reading: score boosting, MMR diversity, grouping, and relevance feedback. |
+| Module 6 | Beyond Similarity (Bonus) | Optional further reading: score boosting, MMR diversity, two-stage reranking, grouping, relevance feedback, and discovery. |
 
 Next, [get #QdrantCertified](/course/beginners/certification/) with the official Beginners exam, which covers Modules 1 through 5.
 
-## 9. References and Further Reading
+## 9. References & Further Reading
 
 - [Named Vectors](/documentation/manage-data/vectors/#named-vectors): declaring more than one vector per point and querying a named one with `using`.
 - [Hybrid Queries](/documentation/search/hybrid-queries/): prefetch semantics, Reciprocal Rank Fusion with weights, Distribution-Based Score Fusion, and formula queries.
