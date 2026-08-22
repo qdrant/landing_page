@@ -66,7 +66,7 @@ Every retrieval system is built from one or both of these.
 
 ### Dense Search
 
-![](/courses/beginners/module-3/dense-search.png)
+![Two similar phrases encoded as dense vectors, landing near each other.](/courses/beginners/module-3/dense-search.png)
 
 A dense vector has a small, fixed number of dimensions, 384 for the model used here, and every one of them holds a value. Two texts with similar meaning land close together whether or not they share any words:
 
@@ -80,7 +80,7 @@ Read the gap, not the absolute number: what makes 0.73 meaningful is the distanc
 
 ### Sparse Search
 
-![](/courses/beginners/module-3/sparse-search.png)
+![A sparse vector with five weighted tokens and many empty dimensions.](/courses/beginners/module-3/sparse-search.png)
 
 Sparse vectors are token-based: each dimension corresponds to a token, only the tokens present carry a weight, and everything else is zero. Storing that mostly-zero row would be wasteful, so a sparse vector is two parallel arrays, the `indices` of the non-zero dimensions and the `values` at those positions:
 
@@ -146,7 +146,7 @@ Sparse pushes the 41 down to third, because `40` is a different token from `41`.
 
 Each retriever ranks the right shoe first, and each leaves it a hair ahead of something wrong. Neither is safe alone.
 
-![](/courses/beginners/module-3/nike-example.png)
+![Dense and sparse results for one query, merged by RRF fusion into a single ranked list.](/courses/beginners/module-3/nike-example.png)
 
 ### Fusion
 
@@ -156,7 +156,7 @@ Qdrant supports two fusion strategies: Reciprocal Rank Fusion and Distribution-B
 
 **Reciprocal Rank Fusion (RRF)** is the default. It merges the lists using each candidate's *position* and ignores the raw scores entirely, which matters because a dense score of 0.87 and a BM25 score of 3.84 sit on unrelated scales and cannot be meaningfully added. A document ranked highly by both retrievers finishes above one ranked highly by only one.
 
-![](/courses/beginners/module-3/fusion.png)
+![Two ranked lists merged, with shared points ranked higher.](/courses/beginners/module-3/fusion.png)
 
 ## 4. Setting Up Hybrid Search in Qdrant
 
@@ -382,12 +382,6 @@ Swap `DENSE_MODEL` for `SPARSE_MODEL` and `using="sparse"` for the sparse equiva
 
 Whichever retriever you use, the filter admits the same four products, the ones in stock and stocked in size 11: the Pegasus 40 and 41, the Invincible 3, and the Ghost 15. Eligibility does not depend on the retriever. Only the order they come back in does, which is the whole reason the choice of retriever still matters after filtering.
 
-<aside role="status">
-The companion notebook uses local mode with `QdrantClient(":memory:")`. In this mode, Qdrant ignores a top-level filter on a hybrid query instead of returning an error, so the notebook may show results that don't match the filter.
-
-Filters defined inside each `Prefetch` work consistently in both local mode and Qdrant Cloud.
-</aside>
-
 ### Try It
 
 Open the notebook and work through these against the catalog above:
@@ -429,12 +423,12 @@ The two scores live on unrelated scales, so treating one as "stronger" than the 
 
 </details>
 
-**Q: You filter a hybrid query and get results that violate the filter, with no error. What is the most likely cause?**
+**Q: You add a `brand` field to every product and filter on it. Every query now returns a `400` error from your Qdrant Cloud cluster. What is missing?**
 
 <details>
 <summary>Show answer</summary>
 
-You are in local mode with the filter at the top level rather than inside each prefetch. A real server would have applied it, and per-prefetch placement behaves the same everywhere.
+A payload index on `brand`. Qdrant Cloud runs strict mode by default. It rejects a filter on an unindexed field instead of scanning every point to answer it. Create the index with `create_payload_index`. Create it before ingesting where you can, so Qdrant builds it as it writes the data.
 
 </details>
 
@@ -448,6 +442,6 @@ You are in local mode with the filter at the top level rather than inside each p
 
 ## What's Next: Module 4
 
-Eight products can fit in one collection and one query. A multilingual news archive with strict tenant isolation and a generation step requires a more deliberate design.
+Eight products rebuild in seconds. On a collection that takes hours to embed, one wrong decision means embedding everything again.
 
-Module 4 works through this system end to end, decision by decision. You'll learn how the layers of the stack work together, how filters behave when the query planner selects a strategy, and how deployment choices range from Docker to Qdrant Edge.
+Module 4 designs a global news system decision by decision: what you can change on a live collection, what forces you to start over, and where Qdrant runs, from Docker to Edge.
