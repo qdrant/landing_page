@@ -26,12 +26,12 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 
 #### Overview
 
-> Module 1 explained why semantic search works. In this module, you’ll learn 
-where your data lives and how Qdrant searches it. You’ll explore collections,
+> Module 1 explained why semantic search works. In this module, you'll learn 
+where your data lives and how Qdrant searches it. You'll explore collections,
 points, vectors, payloads, and distance metrics, then see how Qdrant finds the 
-top-k matches without scanning every vector. You’ll also learn how to filter
+top-k matches without scanning every vector. You'll also learn how to filter
 results by metadata and split long documents into smaller chunks before embedding
-them. By the end, you’ll have created a collection, stored points, and run 
+them. By the end, you'll have created a collection, stored points, and run 
 your first filtered query.
 
 ## Today's Path
@@ -44,7 +44,7 @@ your first filtered query.
 6. Payload Filtering
 7. Chunking Strategies
 8. Ingestion Pipeline: End-to-End
-9. References & Further Reading
+9. Further Reading
 
 ## 1. From Idea to System
 
@@ -65,13 +65,13 @@ Upsert to Qdrant: insert a point if its ID is new, update it if the ID already e
 - **Query**
 Retrieve the top-K results: the K most similar matches to your query
 
-![](/courses/beginners/module-2/flow.png)
+![An embedding model turns source data into dense vectors; Qdrant stores, indexes, and queries them for an application.](/courses/beginners/module-2/flow.png)
 
 ## 2. Core Data Model
 
-Qdrant organizes data in a simple three-level components. Understanding this structure is the foundation for everything else in the course.
+Qdrant organizes data in three levels. Understanding this structure is the foundation for everything else in the course.
 
-![](/courses/beginners/module-2/data-model.png)
+![A point contains a unique ID, a vector for similarity search, and a JSON payload for filtering.](/courses/beginners/module-2/data-model.png)
 
 ### Collection
 
@@ -102,10 +102,8 @@ client = QdrantClient(
     # your cluster URL, from Module 0
     url="https://xyz-example.eu-west-1-0.aws.cloud.qdrant.io",  
     # your cluster API key, from Module 0
-    api_key="<your-api-key>",                                    
+    api_key="<your-api-key>",
 )
-# For quick, throwaway experiments without a server, you can also use:
-# client = QdrantClient(":memory:")
 ```
 
 ### Creating a Collection
@@ -187,7 +185,7 @@ for r in results.points:
     print(r.id, r.score, r.payload)
 ```
 
-![](/courses/beginners/module-2/top-k.png)
+![Eight candidates ranked by score, with the top three returned.](/courses/beginners/module-2/top-k.png)
 
 ### Why K Matters
 
@@ -197,7 +195,7 @@ Returning too few results (K=3) misses relevant content. Returning too many (K=1
 
 Searching millions of vectors by computing similarity against every single one (brute force) is slow. Qdrant uses HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast at a small, measurable recall cost.
 
-![](/courses/beginners/module-2/hnsw.png)
+![HNSW search enters the sparse top layer, hops toward the query, and drops through denser layers to the nearest neighbor.](/courses/beginners/module-2/hnsw.png)
 
 ### How HNSW Works
 
@@ -210,7 +208,7 @@ Searching millions of vectors by computing similarity against every single one (
 
 HNSW exposes three tunable parameters: `m`, `ef_construct`, and `hnsw_ef`. They balance search speed, recall (the fraction of true nearest neighbors found), memory usage, and indexing time.
 
-Defaults work well for most use cases, so tune them only after benchmarking a real recall or latency gap. This course won’t cover tuning in detail; see the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) when you’re ready.
+Defaults work well for most use cases, so tune them only after benchmarking a real recall or latency gap. This course won't cover tuning in detail; see the [Qdrant Essentials Course](/course/essentials/day-2/what-is-hnsw/) when you're ready.
 
 Real-world queries often combine similarity with metadata filters. Qdrant applies these filters during HNSW traversal instead of searching the full graph and filtering afterward. See [Filterable HNSW](/articles/filterable-hnsw/) for details. Section 6 covers filtering next.
 
@@ -260,7 +258,7 @@ For fields you filter frequently, create a payload index. Without one, Qdrant ma
 
 Use `client.create_payload_index()` for fields used in `must`, `should`, or `must_not` conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for supported index types and configuration options.
 
-![](/courses/beginners/module-2/payload.png)
+![A payload index maps each category value to the point IDs holding it, so a filtered search looks up IDs instead of reading every payload.](/courses/beginners/module-2/payload.png)
 
 ## 7. Chunking Strategies
 
@@ -276,20 +274,20 @@ Fitting isn't the only reason to split. A chunk is the unit that gets retrieved,
 
 <aside role="status">
 
-This module introduces the main chunking strategies but doesn’t explore how to choose between them in depth. For a detailed comparison and worked examples, see [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
+This module introduces the main chunking strategies but doesn't explore how to choose between them in depth. For a detailed comparison and worked examples, see [Chunking Strategies](/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) in the Qdrant Essentials course.
 </aside>
 
 **Fixed-Size**
 
-![](/courses/beginners/module-2/fixed-size.png)
+![Fixed-size chunking cuts text into five ten-word chunks, splitting sentences mid-thought.](/courses/beginners/module-2/fixed-size.png)
 
 **Semantic**
 
-![](/courses/beginners/module-2/semantic.png)
+![Semantic chunking cuts text into three chunks, one per topic.](/courses/beginners/module-2/semantic.png)
 
 **Sliding Window**
 
-![](/courses/beginners/module-2/sliding-window.png)
+![Sliding-window chunking cuts text into four chunks, each repeating the end of the one before.](/courses/beginners/module-2/sliding-window.png)
 
 ## 8. Ingestion Pipeline: End-to-End
 
@@ -387,14 +385,14 @@ for r in results.points:
 
 1. **Connect to your cluster**: Get its URL + API key (see Module 0 for the free-tier walkthrough).
 2. **Create collection**: Fix the vector size and distance metric, and create a payload index on any field you'll filter on.
-3. **Ingest**: Embed each document with your embedding model, then upsert it as a `PointStruct` with ID, vector, and payload.
+3. **Ingest**: Embed each document with your embedding model, then upload it as a `PointStruct` with ID, vector, and payload.
 4. **Query**: Embed the user's question, then call `query_points` with filters and a limit.
 
 ### Try It Yourself
 
 Extend the pipeline above: add a third document with its own category, re-run the filtered query, and confirm it shows up when its category matches, and gets excluded when it doesn't.
 
-## 8. Further Reading
+## 9. Further Reading
 
 - [Distance Metrics](/course/essentials/day-1/distance-metrics/) A closer look at cosine similarity, dot product, Euclidean, and Manhattan, and when each one fits.
 - [What Is HNSW](/course/essentials/day-2/what-is-hnsw/) How the graph index is built and tuned, once you have real searches to measure it against.
@@ -404,4 +402,4 @@ Extend the pipeline above: add a third document with its own category, re-run th
 
 ## What's Next: Module 3
 
-Dense vectors capture meaning well, but they can miss exact keyword matches such as product codes or model numbers. Module 3 introduces sparse vectors, which complement dense vectors by capturing exact terms and keywords. You’ll learn how to combine both in a single hybrid search query.
+Dense vectors capture meaning well, but they can miss exact keyword matches such as product codes or model numbers. Module 3 introduces sparse vectors, which complement dense vectors by capturing exact terms and keywords. You'll learn how to combine both in a single hybrid search query.
