@@ -21,7 +21,9 @@ weight: 20
 
 # Let's Understand Search
 
-Traditional search retrieves documents by matching the words in a query to the words in an index. It’s fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you’ll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
+Traditional search retrieves documents by matching the words in a query to the words in an index. It's fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you'll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
+
+**Follow-along code**: [Module 1 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module1.ipynb)
 
 #### Overview
 
@@ -34,7 +36,7 @@ builds on, including collections, points, payloads, and filters. By the
 end, you'll have embedded your first text and measured how close its
 meaning sits to related and unrelated phrases.
 
-## Today’s Path
+## Today's Path
 
 - Why keyword search misses relevant results
 - How embeddings let search compare meaning
@@ -43,10 +45,7 @@ meaning sits to related and unrelated phrases.
 
 ### Before You Start
 
-Choose how you want to follow this module:
-
-- **Use follow-along notebooks on our:** [GitHub](https://github.com/qdrant/examples/blob/master/course/beginners)
-- **Run locally:** Use Python 3.9 or later, then install the dependencies:
+To run the code locally, use Python 3.9 or later and install the dependencies:
 
 ```bash
 pip install fastembed numpy
@@ -63,8 +62,7 @@ Every search system, no matter how it's built internally, does the same two thin
 1. **Retrieve**: narrow a huge collection down to a shortlist of documents that might be relevant.
 2. **Rank**: order that shortlist so the best answer ends up near the top.
 
-At the heart of search is one question: what makes a result relevant? <br>
-We'll start with the simplest possible answer, watch it fail, and build up from there. No prior knowledge of vector search engines or indexing algorithms is assumed.
+At the heart of search is one question: what makes a result relevant? We'll start with the simplest possible answer, watch it fail, and build up from there. No prior knowledge of vector search engines or indexing algorithms is assumed.
 
 ## 2. The Problem: Why Keyword Search Struggles
 
@@ -80,7 +78,7 @@ That creates a few common problems:
 
 ## 3. How Traditional Search Improved
 
-Traditional search has evolved beyond exact word matching. Techniques such as stemming, typo tolerance, and relevance ranking make it faster and more forgiving. But they still rely on words: the system cannot tell that “car repair” and “automobile maintenance” mean the same thing unless that connection is explicitly defined.
+Traditional search has evolved beyond exact word matching. Techniques such as stemming, typo tolerance, and relevance ranking make it faster and more forgiving. But they still rely on words: the system cannot tell that "car repair" and "automobile maintenance" mean the same thing unless that connection is explicitly defined.
 
 That's the gap **semantic search** closes. Instead of asking "Does this document contain the same words?" it asks "Does this document mean the same thing?" Nobody hand-codes the fact that "car" and "automobile" are related, the embedding model learns it from the text it was trained on, and sentences with related meaning end up as vectors that sit close together, even when they share no words.
 
@@ -117,11 +115,11 @@ When choosing an embedding model, two sizes matter:
 - **Model size** is the number of parameters in the model. Larger models often capture more nuance, but need more compute to create embeddings.
 - **Vector dimension** is the number of values in each embedding. Higher-dimensional vectors use more storage and take more work to compare during search.
 
-These are related, but they are not the same. A larger model can produce a short vector, and a higher-dimensional vector does not automatically produce better search results
+These are related, but they are not the same. A larger model can produce a short vector, and a higher-dimensional vector does not automatically produce better search results.
 
 ### Why This Model
 
-This module uses `sentence-transformers/all-MiniLM-L6-v2` because it's small enough to run on a CPU with no API keys or GPU, and accurate enough to demonstrate semantic search clearly. When you start your own project, see [Points, Vectors and Payloads](/course/essentials/day-1/embedding-models/) for how to weigh size, language, and domain fit when picking a model.
+This module uses `sentence-transformers/all-MiniLM-L6-v2` because it's small enough to run on a CPU with no API keys or GPU, and accurate enough to demonstrate semantic search clearly. When you start your own project, see [Embedding Models](/course/essentials/day-1/embedding-models/) for how to weigh size, language, and domain fit when picking a model.
 
 ## 5. Comparing Meaning: Distance Metrics
 
@@ -129,14 +127,13 @@ Once we have vectors, we need a way to measure how similar two of them are. Diff
 
 ### Cosine Similarity
 
-Cosine similarity measures the angle between two vectors. Vectors that point in a similar direction receive a score closer to 1. Vectors that point in different directions receive a lower score. <br>
-It ignores vector length, which is the overall size of a vector. For text embeddings, the direction often carries more useful information about meaning than this size. This makes cosine similarity a common choice for semantic search.
+Cosine similarity measures the angle between two vectors. Vectors pointing in a similar direction score closer to 1. Vectors pointing in different directions score lower. It ignores vector length. For text embeddings, direction often carries more useful information about meaning than length does. This makes cosine similarity a common choice for semantic search.
 
 $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
 $$
 
-Here, $A \cdot B$ is the **dot product**: multiply each pair of matching values in the two vectors and add the results. $\lVert A \rVert$ is the vector’s length, also called its magnitude. Dividing by both vector lengths removes the effect of vector size, so the score measures their angle instead.
+Here, $A \cdot B$ is the **dot product**: multiply each pair of matching values in the two vectors and add the results. $\lVert A \rVert$ is the vector's length, also called its magnitude. Dividing by both vector lengths removes the effect of vector size, so the score measures their angle instead.
 
 ![Cosine similarity measures the angle between two vectors: a smaller angle gives a score closer to 1, unrelated vectors score near 0, and opposite vectors score near -1](/courses/beginners/module-1/cosine-similarity.png)
 
@@ -211,7 +208,7 @@ Does `"apple stock"` score higher against the finance sense or the fruit sense, 
 
 ## 6. Why Similarity Alone Is Not Enough
 
-Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't, each is strong exactly where the other is weak, as the next two cases show. 
+Sections 1 and 2 showed keyword search failing on synonyms, paraphrasing, polysemy, and word order. It's tempting to read that as "semantic search replaces keyword search." It doesn't, each is strong exactly where the other is weak, as the next two cases show.
 
 In Qdrant, each item you store is called a **point**. A point contains a vector and can also include a **payload**, which is metadata such as a timestamp or permission list. A **collection** is the group of points you search.
 
@@ -276,7 +273,7 @@ The previous examples show why no single retrieval method works for every query.
 
 Not every search system needs hybrid search. But when users may search by either meaning or specific terms, combining both methods can return more relevant results.
 
-Hybrid search is the next module's topic.
+Module 3 covers hybrid search in detail.
 
 ## 8. Further Reading
 
