@@ -23,7 +23,7 @@ Before you tune candidate depth, use the [pre-tuning checks](/articles/before-tu
 Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates. In hybrid search, every `prefetch` carries its own `limit`, and a [multi-stage query](/documentation/search/hybrid-queries/#multi-stage-queries) that nests one prefetch inside another sets a depth at each level. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
 
 <aside role="status">
-<strong>Note:</strong> The measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using <code>all-MiniLM-L6-v2</code> and Qdrant's core BM25.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task. They provide broad directional evidence across common retrieval patterns, but they are controlled evaluation workloads, not stand-ins for a production collection. The datasets range from 5,183 to 100,000 documents; each ran unquantized on one shard in a laptop Docker container, using <code>all-MiniLM-L6-v2</code> and Qdrant's core BM25.
 </aside>
 
 ## The Short Version
@@ -68,11 +68,7 @@ Depth is per shard. Each shard receives its own <code>limit</code> and searches 
 
 For dense vectors, `limit` decides how many candidates the dense stage returns, and `hnsw_ef` decides how wide the HNSW graph traversal searches for them, trading approximate-search recall for latency. Measure `limit` against your labels when a downstream stage can use more candidates, and measure `hnsw_ef` against exact search to see whether the traversal still misses neighbors.
 
-The results were flat on these datasets. Moving through 16, 64, 128, and 512 at depth 200 changed fused `nDCG@10` by at most 0.0022 on any of the five, and relevant-document recall in the candidate union by at most 0.0040. A dense-only nDCG@10 was just as flat, moving by at most 0.0035. On SciFact, the results at 128 and 512 are byte-identical.
-
-These results apply to clean, unfiltered, unquantized one-shard collections built in one batch, holding at most 100,000 documents. Strict payload filters can leave filterable HNSW short of full accuracy, and this experiment did not cover graphs shaped by continuous upserts or optimizer merges. [Memory placement and rescoring](/articles/when-your-collection-outgrows-ram/) ran the same check on the full 4,635,922-document DBPedia-entity collection: it returned 0.957 of the exact top 10, so about 4% of the true nearest neighbors never came back.
-
-A flat column can also mean there is no graph to search. Qdrant builds an HNSW graph only after a segment passes the default `indexing_threshold`, so a smaller segment is searched exhaustively and `hnsw_ef` has no effect. The [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) show how to confirm the graph exists.
+{{< figure src="/articles_data/candidate-depth/hnsw-ef-saturation.png" alt="A wide HNSW graph with a query, an entry point, and an orange dashed path walking in. A small tinted outline marks the nodes visited at hnsw_ef 16 and a large outline marks the nodes visited at hnsw_ef 512. Four results are ringed. The node just right of the query sits outside the small outline because its only edges run to the far side of the graph, and a hollow gray ring marks the result it displaces once the wider search reaches it." caption="`hnsw_ef` widens the set of nodes the search visits, not the number of results. Here the wider walk reaches a neighbor the narrow one missed, and it displaces the weakest result." width="100%" >}}
 
 Run the same check on your own data, with `limit` set to the value your dense-only stage or dense `prefetch` uses.
 
@@ -87,39 +83,30 @@ client = QdrantClient(
 )
 # Your own query vectors, embedded with the model the collection was built with.
 queries = [...]
+# The limit your dense-only stage or dense prefetch uses.
+LIMIT = 100
 
 
-def exact_top(queries, limit=100):
-    """Ground truth, computed once: a full scan does not depend on hnsw_ef."""
-    return [
-        {point.id for point in client.query_points(
-            collection_name="products", query=vector, using="dense",
-            limit=limit, search_params=models.SearchParams(exact=True),
-        ).points}
-        for vector in queries
-    ]
+def top_ids(vector, **search_params):
+    return {point.id for point in client.query_points(
+        collection_name="products", query=vector, using="dense",
+        limit=LIMIT, search_params=models.SearchParams(**search_params),
+    ).points}
 
 
-def recall_at(ef, queries, truth, limit=100):
-    """Share of the exact top-`limit` an approximate search at this hnsw_ef returns."""
-    found, elapsed = 0.0, 0.0
-    for vector, wanted in zip(queries, truth):
-        started = time.perf_counter()
-        approx = client.query_points(
-            collection_name="products", query=vector, using="dense",
-            limit=limit, search_params=models.SearchParams(hnsw_ef=ef, exact=False),
-        ).points
-        elapsed += time.perf_counter() - started
-        found += len({point.id for point in approx} & wanted) / limit
-    return found / len(queries), elapsed / len(queries) * 1000
+# The full scan is the ground truth, and it runs once: it does not depend on hnsw_ef.
+truth = [top_ids(vector, exact=True) for vector in queries]
 
-
-truth = exact_top(queries)
 for ef in (16, 64, 128, 256, 512):
-    print(ef, recall_at(ef, queries, truth))
+    found = 0
+    started = time.perf_counter()
+    for vector, wanted in zip(queries, truth):
+        found += len(top_ids(vector, hnsw_ef=ef) & wanted)
+    elapsed_ms = (time.perf_counter() - started) / len(queries) * 1000
+    print(ef, found / (LIMIT * len(queries)), elapsed_ms)
 ```
 
-[`exact=True`](/documentation/search/search/#exact-search) runs a full scan, which is the ground truth the approximation is trying to match. In this one-shard SciFact example, over 50 queries:
+[`exact=True`](/documentation/search/search/#exact-search) runs a full scan. Both columns below come from that loop against a one-shard SciFact collection, over 50 queries, timed from the client so the network round trip sits inside the number:
 
 | `hnsw_ef` | Recall Against Exact | Milliseconds per Query |
 |---|---|---|
@@ -129,15 +116,13 @@ for ef in (16, 64, 128, 256, 512):
 | 256 | 1.000 | 2.45 |
 | 512 | 1.000 | 2.25 |
 
-Across our five hybrid requests at prefetch `limit=200`, raising `hnsw_ef` from 16 to 512 added between 4% and 49% to median latency. On a graph this saturated, the larger search budget is close to pure cost.
+On these five datasets, raising `hnsw_ef` through 16, 64, 128, and 512 at depth 200 moved fused `nDCG@10` by at most 0.0022. Relevant-document recall in the candidate union moved by at most 0.0040. Median latency rose between 4% and 49% across the five hybrid requests at prefetch `limit=200`. When the graph is already saturated, the wider search budget is close to pure cost.
 
-A flat recall column means approximate search already matches exact search on this test. On a collection where the recall column climbs, choose the lowest `hnsw_ef` that meets your recall target within the latency budget. If it is flat from the start, leave `hnsw_ef` alone.
+On your collection, choose the lowest `hnsw_ef` that reaches your recall target inside your latency budget. When recall is flat from the first value, keep `hnsw_ef` where it is and confirm that Qdrant has built an HNSW graph. Qdrant builds that graph after a segment passes the default `indexing_threshold`, and smaller segments use exhaustive search where `hnsw_ef` has no effect. The [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) show how to confirm the graph exists.
 
-{{< figure src="/articles_data/candidate-depth/hnsw-ef-saturation.png" alt="A wide HNSW graph with a query, an entry point, and an orange dashed path walking in. A small tinted outline marks the nodes visited at hnsw_ef 16 and a large outline marks the nodes visited at hnsw_ef 512. Four results are ringed. The node just right of the query sits outside the small outline because its only edges run to the far side of the graph, and a hollow gray ring marks the result it displaces once the wider search reaches it." caption="`hnsw_ef` widens the set of nodes the search visits, not the number of results. Here the wider walk reaches a neighbor the narrow one missed, and it displaces the weakest result." width="100%" >}}
+Saturation is a property of your own graph. These collections held at most 100,000 documents, built in one batch, unfiltered and unquantized. We ran the same check on the full 4,635,922-document DBPedia-entity collection, and it returned 0.957 of the exact top 10: about 4% of the true nearest neighbors never came back.
 
-If `hnsw_ef` cannot reach your recall target, [`m`](/documentation/manage-data/indexing/#vector-index) increases the graph's connections and [`ef_construct`](/documentation/manage-data/indexing/#vector-index) broadens the search during graph construction. Both can raise the approximate-search recall the index can achieve, but changing either rebuilds the HNSW index.
-
-Filters change what the traversal can reach. The [ACORN search algorithm](/documentation/search/search/#acorn-search-algorithm) is disabled by default; set its `enable` flag before it can explore beyond direct graph neighbors when filters exclude them. It can run about two to 10 times slower, so use it when several strict payload filters combine.
+If `hnsw_ef` cannot reach your recall target, [`m`](/documentation/manage-data/indexing/#vector-index) increases the graph's connections and [`ef_construct`](/documentation/manage-data/indexing/#vector-index) broadens the search during graph construction. Both raise the recall the index can achieve, and changing either rebuilds the HNSW index. Filters are the other limit on what the traversal reaches: the [ACORN search algorithm](/documentation/search/search/#acorn-search-algorithm) is disabled by default, and its `enable` flag lets the search explore beyond direct graph neighbors when filters exclude them. [ACORN](/articles/filtered-vector-search-acorn/) can run about two to 10 times slower, so use it when several strict payload filters combine.
 
 ## When RAM Is the Constraint
 
