@@ -39,10 +39,6 @@ Every measurement below comes from a dense-only request. In hybrid search the de
 3. Pin the quantized copy and leave the original vectors `cold`.
 4. Set `rescore` and `oversampling` from measurements on the deployment you will serve.
 
-Steps 3 and 4 are what the sections below measure: what a pinned quantized copy with `cold` originals costs in disk reads, and what rescoring recovers. Qdrant [recommends that pairing](/documentation/manage-data/quantization/#memory-and-speed-tuning) to shrink the footprint while keeping search fast.
-
-Compare `nDCG@k` on a [labeled baseline](/articles/before-tuning-a-qdrant-collection/), with `k` set to the number of results you return. Pick the configuration on one part of that set, confirm it on queries that took no part in the selection, and use `Recall@k` against exact search to explain a loss.
-
 For step 1, this formula estimates the RAM needed to keep all `float32` dense vectors resident:
 
 ```text
@@ -50,6 +46,10 @@ RAM = number of vectors × vector dimensions × 4 bytes × 1.5
 ```
 
 The extra 50% covers metadata, indexes, point versions, and temporary segments created during optimization. Treat the result as a starting estimate, not a container limit. For a full estimate with payloads, indexes, and replication, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/).
+
+Qdrant [recommends pinning the quantized copy with `cold` originals](/documentation/manage-data/quantization/#memory-and-speed-tuning) to shrink the footprint while keeping search fast. The following two sections measure what that pairing costs in disk reads and what rescoring recovers.
+
+Step 4 needs a [labeled set](/articles/before-tuning-a-qdrant-collection/). Compare `nDCG@k` with `k` set to the number of results you return, pick the configuration on one part of the set, then confirm it on queries that took no part in the selection. Use `Recall@k` against exact search to explain a loss.
 
 ## Rescoring Adds the Disk Read
 
@@ -80,15 +80,15 @@ The memory cap decides what those placements deliver. The same query took about 
 | 4 GiB | `cold` | `cached` | on | 45.7 | 3.02 |
 | 4 GiB | `cold` | `pinned` | on | 52.0 | 3.50 |
 
-Turning rescoring on cost 0.3 ms at 12 GiB, where the originals stayed in cache. At 4 GiB, where they no longer fit, it cost 39.1 ms, most of the resulting query time. Carry over that ratio rather than the absolute milliseconds.
+Rescoring is nearly free while the originals stay in cache, and it becomes the slowest part of the query once they do not. At 12 GiB it added 0.3 ms. At 4 GiB it added 39.1 ms.
 
-A smaller cap on its own is harmless. With rescoring off, the query ran within half a millisecond of itself at both limits and read 0.30 GB either way, so the slowdown needs both a cap too small to hold the originals and a rescoring pass that asks for them.
+Neither the cap nor the rescoring pass causes it alone: with rescoring off, the query ran within half a millisecond of itself at both limits. The penalty is rereading original-vector pages rather than scoring candidates, and at 4 GiB rescoring read 2.98 GB instead of 0.30 GB. Moving the originals from `cached` to `cold` left the median inside its own run-to-run spread, so placement does not remove those reads. Test both settings under your own container limit to see what rescoring costs you.
 
-The cost is the disk read rather than the extra scoring. At 4 GiB, rescoring read 2.98 GB of pages, many times the size of the candidate vectors it needed. At 12 GiB the container held 9.46 GB of file cache and stopped rereading original-vector pages once they entered it, while at 4 GiB the kernel recorded 613,388 rereads.
+Two changes reduce that read. More memory keeps the originals resident, and a lower `oversampling` rereads fewer candidates without needing any. At `bits1`, the candidates past the first rescoring pass buy little quality, which the next section measures.
 
-Placement cannot buy back that memory. Moving the originals from `cached` to `cold` at 4 GiB took the median from 43.4 ms to between 45.7 and 52.0 ms, and the `cold` runs spanned 42.8 to 56.1 ms across the `cached` median, so five laptop rounds cannot separate them.
+Set placement for the footprint instead. Pin the quantized copy, which is a fraction of the originals' size and fits where they cannot, and leave the originals `cold`.
 
-`cached` warms data at startup, and the kernel evicts it again once the limit is reached. Pin the quantized copy, leave the originals `cold`, and check the counters under your own limit. With `cold` originals, set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) to issue those reads asynchronously when the Linux kernel supports it.
+Async I/O then makes those `cold` reads cheaper without more memory. Set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) in the configuration file, and Qdrant issues a query's rereads together and waits for them in parallel rather than one after another. It is disabled by default, covers `cold` structures only, and needs a Linux kernel that supports io_uring.
 
 <aside role="status">
 Latency validation: we ran five rounds for each of the six configurations and excluded 10 of 30 with inconsistent block-read counters or page-cache state. The 12 GiB rescoring row retains two runs, so treat it as directional.
@@ -118,19 +118,19 @@ Quality scope: these rows run at Qdrant's default <code>memory</code> configurat
 | TurboQuant `bits1` | on, `oversampling` 2 | 0.3128 | 0.977 |
 | TurboQuant `bits1` | on, `oversampling` 4 | 0.3178 | 0.988 |
 
-Start with the float32 row. At these graph-search settings it returned 0.957 `Recall@10`, so approximate traversal missed roughly 4% of the exact top 10 before quantization entered the comparison.
+Measure float32 at your own graph-search settings first, so you can separate what the graph misses from what quantization costs. Here it returned 0.957 `Recall@10`, so approximate traversal missed roughly 4% of the exact top 10 before quantization entered the comparison.
 
-Without rescoring, `bits4` scored above float32 on `nDCG@10` while returning fewer of the exact neighbors. A configuration can drop an exact neighbor the labels never mark relevant, which costs `Recall@10` and leaves `nDCG@10` where it was.
+What rescoring recovers depends on how much precision the bit depth discarded. At `bits4` it lifted dense-prefetch `Recall@10` from 0.918 to 0.993, while 200 held-out queries did not establish an `nDCG@10` difference. Recovered neighbors can improve dense-prefetch recall without improving the labeled top 10.
 
-Rescoring `bits4` did improve dense-prefetch `Recall@10`. On the final ranking, 200 held-out queries did not establish a meaningful `nDCG@10` difference either way.
-
-`bits1` behaved differently. Without rescoring it returned 0.605 `Recall@10`, and one rescoring pass raised that to 0.951. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization for this reason.
+At a deep bit depth, rescoring is what makes the quantization usable. One pass raised `bits1` from 0.605 to 0.951 `Recall@10`. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization for this reason.
 
 {{< figure src="/articles_data/when-your-collection-outgrows-ram/bits1-rescore-recovery.png" alt="Line chart of the share of the exact top 10 that bits1 returns, across rescore off and rescore on at oversampling 1, 2, and 4. The share jumps from 0.605 with rescore off to 0.951 at oversampling 1, crossing the dashed float32 reference at 0.957, then flattens at 0.977 and 0.988." caption="One rescoring pass does most of the recovery at bits1. Raising oversampling past 1 buys little, which is why the disk reads it adds are the cost to watch." width="100%" >}}
 
+After `oversampling` 1, extra candidates add disk reads for little recall. `bits1` reached 0.977 `Recall@10` at `oversampling` 2 and 0.988 at `oversampling` 4.
+
 The selection rule picked `bits1` with `rescore` and `oversampling` 1. Against float32 on the held-out queries, its `nDCG@10` came in 0.0011 higher, with a paired 95% interval from -0.003 to +0.005.
 
-That interval does not establish identical rankings. On this dataset it bounds the `nDCG@10` difference to 0.005 either way, and `Recall@10` came in 0.006 lower.
+Read that interval as a bound rather than proof of an identical ranking. On this dataset it holds the `nDCG@10` difference within 0.005 either way, and `Recall@10` came in 0.006 lower.
 
 ## If TurboQuant Is Not the Right Fit
 
