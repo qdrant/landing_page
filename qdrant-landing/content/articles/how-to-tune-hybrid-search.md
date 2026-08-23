@@ -29,7 +29,7 @@ Before tuning, compare dense retrieval, sparse retrieval, and default [Reciproca
 Qdrant defaults to `k=2`. The original RRF paper uses 60, which maps to `k=61` in Qdrant's formula. That gap is what most of this article is about.
 
 <aside role="status">
-<strong>Note:</strong> These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with <code>all-MiniLM-L6-v2</code> for dense retrieval, Qdrant's core BM25 for sparse retrieval, and 200 candidates from each prefetch. Each reported gain was evaluated with a 95% interval, and the winning configuration was rechecked on held-out queries. <a href="/articles/before-tuning-a-qdrant-collection/">Building a labeled set</a> explains the method.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these fusion deltas as directional. They range from 5,183 to 100,000 documents. Each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval, Qdrant's core BM25 for sparse retrieval, and 200 candidates from each prefetch. A graph shaped by continuous upserts and optimizer merges can return a different ranking. Latency medians come from one Qdrant container on an idle laptop, one request at a time, so re-measure under your own p95 budget, concurrency, and shard fan-out. <a href="/articles/before-tuning-a-qdrant-collection/">Building a labeled set</a> explains how the winning configuration was rechecked on held-out queries.
 </aside>
 
 `Over the Better One` is default RRF's `nDCG@10` minus the better individual prefetch. `Second Prefetch Cost` is the median latency the second prefetch adds over the dense prefetch alone.
@@ -45,10 +45,6 @@ Qdrant defaults to `k=2`. The original RRF paper uses 60, which maps to `k=61` i
 Fusion outscored both prefetches in four datasets, and each gain's 95% interval excludes zero. DBPedia-entity is the exception: fusion trails dense retrieval by 0.0039, and its interval crosses zero.
 
 The second prefetch also needs a second index and a second vector per point. Keep it when it improves relevance on your own labels.
-
-<aside role="status">
-Every collection was built in one batch and queried unfiltered, so a graph shaped by continuous upserts and optimizer merges can behave differently. Latency medians come from one Qdrant container on an idle laptop, single shard, one request at a time, so re-measure under your own p95 budget, concurrency, and shard fan-out. Rebuilding SciFact and DBPedia-entity with int8 scalar quantization moved fused <code>nDCG@10</code> by at most 0.0002, and <a href="/articles/candidate-depth/">candidate depth</a> carries that measurement.
-</aside>
 
 ## RRF and DBSF Use Different Signals
 

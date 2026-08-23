@@ -29,7 +29,7 @@ Reranking covers several model families. This article measures cross-encoders, w
 Every candidate takes a forward pass at query time, which rules a cross-encoder out as a first stage and keeps it in the reranking slot. Late interaction models rerank from stored vectors instead, and the last section covers where they fit.
 
 <aside role="status">
-<strong>Note:</strong> These results come from five public datasets with 5,183 to 100,000 documents. Each collection ran unquantized on one shard, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. The held-out column comes from a split-half check repeated 200 times: pick the reranker and fusion setting on one half, compare them on the other. <a href="/articles/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these reranker deltas as directional. They range from 5,183 to 100,000 documents, and each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. <a href="/articles/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
 </aside>
 
 ## Test a Reranker in Three Steps
@@ -93,15 +93,11 @@ Run that over your labeled queries, average the per-query difference, then check
 
 Compare the reranker against the strongest first stage you can build. Qdrant's default reciprocal rank fusion (RRF) is already a solid baseline, and fusion tuned on your own labels is stronger. A reranker measured against the default can look like a win that tuning would have delivered for far less work at query time.
 
-So [tune fusion](/articles/how-to-tune-hybrid-search/) first, then make that tuned ranking the number the reranker has to beat on held-out labeled queries. Measured against the default, a reranker can take credit for the gain tuning would have delivered with no query-time cost.
+So [tune fusion](/articles/how-to-tune-hybrid-search/) first, then make that tuned ranking the number the reranker has to beat on held-out labeled queries.
 
 Each row in the following table reports the best of four cross-encoders on that dataset. The deltas show the `nDCG@10` change over default RRF and over fusion tuned on the same candidates. `MiniLM-L-6`, `MiniLM-L-12`, and `bge-reranker-base` truncate each pair at 512 tokens. `jina-reranker-v2` reads up to 1024 and was trained on a broader mix, including code.
 
 The held-out column is the one that decides. It holds the share of 200 split-half draws where the gain survived on queries it was not selected on.
-
-<aside role="status">
-Every collection was built in one batch on one shard, unquantized, and queried unfiltered, so a graph shaped by continuous upserts and optimizer merges can return different candidates, and these deltas will not transfer to your collection.
-</aside>
 
 | Dataset | Best Model | vs. Default RRF | vs. Tuned Fusion | Held Out |
 |---|---|---|---|---|
@@ -115,7 +111,7 @@ Ship a reranker gain only when it survives held-out validation. The two confirme
 
 Keep fusion when the reranker loses to the tuned first stage. WANDS gained +0.039 over default RRF and still lost to fusion tuned on the same candidates.
 
-Both confirmed wins came from the model whose window and training data fit the corpus, scoring the same candidates the other three saw. Even those wins closed part of the gap: 0.135 of a 0.293 gap on CodeSearchNet, and 0.115 of a 0.487 gap on DBPedia-entity.
+Both confirmed wins came from the model whose window and training data fit the corpus, scoring the same candidates the other three saw. Even those wins closed part of the gap, recovering 46% of it on CodeSearchNet and 24% on DBPedia-entity.
 
 On DBPedia-entity, fusion left the page for "(Just Like) Starting Over" at rank 49 of 200, even though every term of the query "John Lennon Yoko Ono album Starting Over" sits in the page's first two sentences. Fusion reads ranks, and neither prefetch ranked the page high: 35th dense, 45th sparse, behind pages whose titles name both Lennon and Ono. The cross-encoder read the query and page as one sequence and put it first.
 
@@ -123,23 +119,27 @@ On DBPedia-entity, fusion left the page for "(Just Like) Starting Over" at rank 
 
 If the reranker loses at 10 candidates, go back to fit and measure it. Tokenize a sample of your query-document pairs with the model's tokenizer. Compare the 95th percentile length with the model's window: a longer pair gets truncated, and the model scores a document it only partly read. Then reread the card's languages and domains against your corpus.
 
-Both checks explain every loss in the table. None of the three older models was trained on code, and `jina-reranker-v2` turned CodeSearchNet from a 0.032 loss into a 0.135 held-out win over the same candidates. On ArguAna, the window was the problem: 168-word queries leave little space for the document inside a 512-token truncation. The 1024-token model moved it from a loss to +0.017, though at 2.5% of held-out splits the label set cannot confirm the gain.
+Two mismatches explain every loss in the table. Long queries are the first. ArguAna queries average 168 words, which leaves little room for the document inside a 512-token truncation. The 1024-token model turned that loss into a win, though it held in only 2.5% of the held-out splits, so the label set cannot confirm it.
+
+A training-domain gap is the second. None of the three older models was trained on code, and `jina-reranker-v2` flipped CodeSearchNet from a loss into the largest confirmed win in the table, scoring the same candidates the others saw.
 
 If you find a mismatch, swap in a model whose window and training data fit your documents and rerun the 10-candidate test. If the model fits and still loses, keep the tuned first stage and spend the tuning effort elsewhere: on WANDS, tuned fusion beat all four models at every candidate count.
 
 ## Set Candidate Count After a Win
 
-Start with 10 candidates. Raise the count only after the reranker beats the tuned first stage at 10. `nDCG@10` grades the same top 10 results at every count, so the count changes only what the reranker gets to choose from. Stop when the gain on your labels flattens or queries get slower than you can serve.
+Start with 10 candidates, and confirm on your labeled queries that the reranker beats tuned fusion before you change the count. Every configuration that trailed tuned fusion at 10 candidates still trailed it at 200, so a deeper list does not rescue a reranker that loses at 10. `nDCG@10` grades the same top 10 results at every count, so the count changes only what the reranker gets to choose from.
 
 {{< figure src="/articles_data/when-a-reranker-is-worth-it/reranker-gain-by-candidate-count.png" alt="Five small line charts, one per dataset, showing the best nDCG@10 change over tuned fusion at candidate counts 10, 25, 50, 100, and 200. SciFact, CodeSearchNet, and DBPedia-entity stay above the zero line, WANDS stays below it at every count, and ArguAna peaks at 25 then falls to zero by 200." caption="The best nDCG@10 change over tuned fusion among the four models, by candidate count. A line above zero is a reranker win; WANDS never crosses it." width="100%" >}}
 
-Each dataset stopped climbing at a different point, which is why the count is measured rather than assumed. DBPedia-entity reached 0.111 of its eventual 0.115 by 50 candidates, so going to 200 quadrupled the reranking work for 0.003 more. CodeSearchNet kept climbing through 200. ArguAna peaked at 25 and became a loss by 200, so more candidates can also hurt.
+Step 1 confirmed that your relevant documents reach the candidate list. Run that same check at each count you are considering, before you run the reranker at any of them. The share of queries whose relevant documents are already in the candidate list limits how much increasing the count can help. Beyond that point, extra candidates only add documents that can push the relevant ones out of the top 10.
 
-Depth helps only when the extra candidates hold a relevant document the first stage buried. Every extra candidate that holds none gives the model another chance to score something irrelevant into the top 10. ArguAna has one relevant document per query. At 25 candidates, 90% of queries already had it inside the list.
+Rerank only at candidate counts where that share is still climbing. When the first stage finds relevant documents early, the share flattens quickly. In ArguAna, each query has one relevant document, and 90% of queries already included it within the first 25 candidates. Increasing the count to 200 raised that share to 98%, but turned the gain into a loss.
 
-Going to 200 raised that share to 98%, so nearly all of the added work bought displacement risk. CodeSearchNet went from 80.5% to 90.5% over the same range, which is why its line kept climbing.
+Where the share keeps rising, deeper reranking keeps finding documents the first stage buried. CodeSearchNet held the relevant document for 80.5% of queries at 25 candidates and for 90.5% at 200, and its gain kept climbing through 200.
 
-A higher count refines a win, and it rescued no loss here: every configuration behind tuned fusion at 10 was still behind it at 200.
+The relevance gain can flatten before that share does, so take the smallest count that captures most of it. DBPedia-entity reached 96% of its eventual gain by 50 candidates, so going to 200 quadrupled the reranking work for the last 4%.
+
+The shape you get depends on how many relevant documents your queries have and how well your first stage already ranks them. Measure it on your own labels rather than borrowing a count from these datasets.
 
 ## Size Reranking for Production
 

@@ -23,7 +23,7 @@ Before you tune candidate depth, use the [pre-tuning checks](/articles/before-tu
 Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates. In hybrid search, every `prefetch` carries its own `limit`, and a [multi-stage query](/documentation/search/hybrid-queries/#multi-stage-queries) that nests one prefetch inside another sets a depth at each level. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.
 
 <aside role="status">
-<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task. They provide broad directional evidence across common retrieval patterns, but they are controlled evaluation workloads, not stand-ins for a production collection. The datasets range from 5,183 to 100,000 documents; each ran unquantized on one shard in a laptop Docker container, using <code>all-MiniLM-L6-v2</code> and Qdrant's core BM25.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these depth curves as directional. They range from 5,183 to 100,000 documents, and each ran unquantized on one shard in a laptop Docker container, using <code>all-MiniLM-L6-v2</code> and Qdrant's core BM25.
 </aside>
 
 ## The Short Version

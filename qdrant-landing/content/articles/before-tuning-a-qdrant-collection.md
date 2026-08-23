@@ -54,7 +54,7 @@ Start with the failure mode, not the config reference. The table maps each sympt
 The procedure transfers: choose a metric that matches the product experience, compare settings on labeled queries, and validate the winner on fresh queries.
 
 <aside role="status">
-<strong>Note:</strong> The measurements in this article come from five public datasets between 5,183 and 100,000 documents. Each ran unquantized on one shard in a laptop Docker container, using <code>all-MiniLM-L6-v2</code> and Qdrant's core BM25.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task. They range from 5,183 to 100,000 documents, and each ran unquantized on one shard in a laptop Docker container, using <code>all-MiniLM-L6-v2</code> and Qdrant's core BM25.
 </aside>
 
 Qdrant's API and algorithm mechanics carry across collections. The result of a parameter sweep depends on the embedding model, dataset, query mix, filters, index state, shard layout, and deployment. Use each result to choose a test on your own collection, then keep only the settings your labels support.
