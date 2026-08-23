@@ -34,17 +34,17 @@ Start where the 0.01 question gets its answer. Seven collection settings can cap
 
 Your labels decide what you can measure, too. In our runs, 25 labeled queries weren't enough: the noise was wider than any gain our fusion tuning produced. [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) catches all seven settings and shows how many labeled queries you need before the next four checks are worth trusting.
 
-## One Constant Flipped the Top Result on 202 of 480 Queries
-
-Hybrid search runs a dense and a sparse query, then merges the two result lists with reciprocal rank fusion. One constant, `k`, decides how much that merge favors each list's top-ranked documents. Qdrant defaults to `k=2`, which puts heavy trust in each list's first pick. Switching to the `k=61` from [the original paper](https://dl.acm.org/doi/10.1145/1571941.1572114) changed which document ranked first for 202 of 480 queries on one of our datasets.
-
-That makes `k` worth testing, but you may not need it at all. DBSF, Qdrant's other fusion method, takes no parameters and beat default RRF on three of five datasets. [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) shows which method to reach for, and the one count that picks your `k` when you do sweep it.
-
 ## Retrieval Delivered, Ranking Buried It
 
 Every search system eventually gets this complaint: a document the user knows exists doesn't come up. They searched the obvious terms, and it landed at rank 40 or nowhere. Either retrieval missed it, or ranking buried it. Those failures need different fixes.
 
 The obvious move is to retrieve more. Retrieving more did help: pushing the candidate limit from 10 to 500 lifted the best achievable score by up to 0.28. The score users saw moved by 0.01 at most, because ranking was burying what retrieval had already found. Even `hnsw_ef`, the knob many teams reach for first, moved the final score by at most 0.0022. [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows the check that separates missed retrieval from buried relevance before you pay to fix the wrong one.
+
+## One Constant Flipped the Top Result on 202 of 480 Queries
+
+Hybrid search runs a dense and a sparse query, then merges the two result lists with reciprocal rank fusion. One constant, `k`, decides how much that merge favors each list's top-ranked documents. Qdrant defaults to `k=2`, which puts heavy trust in each list's first pick. Switching to the `k=61` from [the original paper](https://dl.acm.org/doi/10.1145/1571941.1572114) changed which document ranked first for 202 of 480 queries on one of our datasets.
+
+That makes `k` worth testing, but you may not need it at all. DBSF, Qdrant's other fusion method, takes no parameters and beat default RRF on three of five datasets. [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) shows which method to reach for, and the one count that picks your `k` when you do sweep it.
 
 ## The Reranker Got Credit for Tuning We Skipped
 
@@ -65,8 +65,8 @@ So measure quantization at the memory limit you deploy with, because a machine w
 Each article answers one of these:
 
 - You changed a setting and can't tell whether it helped: [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/)
-- You use hybrid search with the default fusion settings: [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/)
 - A document you know exists comes back buried or missing: [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/)
+- You use hybrid search with the default fusion settings: [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/)
 - You're deciding whether a reranker would pay for its latency: [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/)
 - Latency jumped after the collection grew: [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/)
 
