@@ -7,10 +7,9 @@
       <h2 class="qdrant-pricing-support-reliability__title">{{ .Params.title }}</h2>
     </div>
 
-    {{ partial "features-table" (dict
+    {{ partial "pricing/qdrant-pricing-features-table" (dict
       "tiers" .Params.tiers
       "sections" .Params.sections
-      "featureCellWidth" .Params.featureCellWidth
       "modifier" "dark"
       )
     }}

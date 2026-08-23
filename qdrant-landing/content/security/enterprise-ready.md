@@ -16,7 +16,7 @@ cards:
     title: Audit Logging
     description: Audit logging, available on paid clusters, captures operations performed through the Qdrant API, including user and API key attribution, timestamp, target collection, and result of the action.
     link:
-      url: /documentation/cloud/configure-cluster/?q=audit+logging#audit-logging
+      url: /documentation/cloud/configure-cluster/#audit-logging
       text: Activate Audit Logging
   - id: 2
     icon:

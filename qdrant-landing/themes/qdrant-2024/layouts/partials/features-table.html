@@ -1,4 +1,4 @@
-{{ $tiers := .tiers }}
+{{ $cols := .cols }}
 {{ $sections := .sections | default (slice) }}
 {{ $ctas := .ctas }}
 {{ $modifier := .modifier | default "" }}
@@ -10,15 +10,15 @@
 
 <div
   class="features-table{{ with $modifier }} features-table--{{ . }}{{ end }}"
-  style="--tier-count: {{ len $tiers }}; --feature-cell-width: {{ $featureCellWidth }}"
+  style="--col-count: {{ len $cols }}; --feature-cell-width: {{ $featureCellWidth }}"
 >
-  {{/* Mobile tier tabs */}}
-  <div class="features-table__tier-tabs">
-    <div class="features-table__tier-arrows">
+  {{/* Mobile column tabs */}}
+  <div class="features-table__col-tabs">
+    <div class="features-table__col-arrows">
       <button
         type="button"
-        class="features-table__tier-arrow features-table__tier-arrow--prev"
-        aria-label="Previous tier"
+        class="features-table__col-arrow features-table__col-arrow--prev"
+        aria-label="Previous column"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M14.6663 7.9987H1.33301M5.99967 3.33203L1.33301 7.9987L5.99967 12.6654" stroke="#28324D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -26,8 +26,8 @@
       </button>
       <button
         type="button"
-        class="features-table__tier-arrow features-table__tier-arrow--next"
-        aria-label="Next tier"
+        class="features-table__col-arrow features-table__col-arrow--next"
+        aria-label="Next column"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 3.33203L14.6667 7.9987L10 12.6654" stroke="#28324D" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -36,14 +36,14 @@
       </button>
     </div>
 
-    {{ range $index, $tier := $tiers }}
+    {{ range $index, $col := $cols }}
       <button
-        class="features-table__tier-tab{{ if eq $index 0 }}
-          features-table__tier-tab--active
+        class="features-table__col-tab{{ if eq $index 0 }}
+            features-table__col-tab--active
         {{ end }}"
-        data-tier="{{ $tier.id }}"
+        data-col="{{ $col.id }}"
       >
-        {{ $tier.name }}
+        {{ $col.name }}
       </button>
     {{ end }}
   </div>
@@ -51,15 +51,15 @@
   <div class="features-table__table">
     <div class="features-table__table-header">
       <div class="features-table__table-cell features-table__table-cell--feature"></div>
-      {{ range $tiers }}
+      {{ range $cols }}
         <div
-          class="features-table__table-cell features-table__table-cell--tier{{ if .highlight }}
-            features-table__table-cell--highlight
+          class="features-table__table-cell features-table__table-cell--col{{ if .highlight }}
+              features-table__table-cell--highlight
           {{ end }}"
-          data-tier-col="{{ .id }}"
+          data-col="{{ .id }}"
         >
           {{ with .icon }}
-            <img class="features-table__table-cell--tier-icon" src="{{ .src }}" alt="{{ .alt }}" />
+          <img class="features-table__table-cell--col-icon" src="{{ .src }}" alt="{{ .alt }}" />
           {{ end }}
           {{ .name }}
         </div>
@@ -97,13 +97,13 @@
                 <div class="features-table__table-cell features-table__table-cell--feature">
                   {{ .name | safeHTML }}
                 </div>
-                {{ range $tiers }}
+                {{ range $cols }}
                   {{ $val := index $feature .id }}
                   <div
                     class="features-table__table-cell{{ if .highlight }} features-table__table-cell--highlight{{ end }}"
-                    data-tier-col="{{ .id }}"
+                    data-col="{{ .id }}"
                   >
-                  {{ if eq $val true }}
+                    {{ if eq $val true }}
                     <svg
                       class="features-table__check"
                       width="20"
@@ -120,7 +120,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                  {{ else if eq $val false }}
+                    {{ else if eq $val false }}
                     <svg
                       class="features-table__x"
                       width="20"
@@ -137,9 +137,9 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                  {{ else }}
-                  <span class="features-table__text{{ if .bold }} features-table__text--bold{{ end }}">{{ $val | safeHTML }}</span>
-                  {{ end }}
+                    {{ else }}
+                      <span class="features-table__text{{ if .bold }} features-table__text--bold{{ end }}">{{ $val | safeHTML }}</span>
+                    {{ end }}
                   </div>
                 {{ end }}
               </div>
@@ -153,12 +153,12 @@
     <div class="features-table__table-footer">
       <div class="features-table__table-cell features-table__table-cell--feature"></div>
       {{ range $index, $cta := . }}
-      {{ $tier := index $tiers $index }}
+      {{ $col := index $cols $index }}
       <div
-        class="features-table__table-cell features-table__table-cell--cta{{ if $tier.highlight }}
+        class="features-table__table-cell features-table__table-cell--cta{{ if $col.highlight }}
               features-table__table-cell--highlight
             {{ end }}"
-        data-tier-col="{{ $tier.id }}"
+        data-col="{{ $col.id }}"
       >
         <a
           href="{{ $cta.url }}"

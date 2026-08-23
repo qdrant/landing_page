@@ -4,7 +4,7 @@ tables:
   - id: access
     featureCellWidth: 24rem
     label: Access
-    tiers:
+    cols:
       - id: qdrantCloud
         name: Qdrant Cloud
         highlight: false

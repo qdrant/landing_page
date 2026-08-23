@@ -4,7 +4,7 @@ tables:
   - id: deployment-model
     featureCellWidth: 21rem 
     label: Access
-    tiers:
+    cols:
       - id: qdrantCloud
         name: Qdrant Cloud
         highlight: false
@@ -52,8 +52,8 @@ tables:
         hybridOrPrivateCloud: Not applicable
         selfHosted: Not applicable
       - name: Compliance documentation (SOC 2 Type 2, HIPAA)
-        qdrantCloud: Available via <a href="https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9">Trust Center</a>
-        hybridOrPrivateCloud: Available via <a href="https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9">Trust Center</a>
+        qdrantCloud: Available via <a href="https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9" target="_blank">Trust Center</a>
+        hybridOrPrivateCloud: Available via <a href="https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9" target="_blank">Trust Center</a>
         selfHosted: Not applicable
 sitemapExclude: true
 ---

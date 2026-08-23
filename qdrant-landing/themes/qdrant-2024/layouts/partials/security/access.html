@@ -7,13 +7,13 @@
       <h2 class="security-access__title">{{ .Params.title }}</h2>
   
       {{ range $index, $table := $tables }}
-        {{ if and $table.tiers (or $table.features $table.sections) }}
+        {{ if and $table.cols (or $table.features $table.sections) }}
           <div
             class="security-access__table-wrapper{{ if and $showTabs (gt $index 0) }} security-access__table-wrapper--hidden{{ end }}"
             data-features-tab="{{ $table.id }}"
           >
             {{ partial "features-table" (dict
-              "tiers" $table.tiers
+              "cols" $table.cols
               "features" $table.features
               "featureCellWidth" $table.featureCellWidth
               "modifier" "mobile-arrows"
