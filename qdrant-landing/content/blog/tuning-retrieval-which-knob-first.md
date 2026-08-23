@@ -6,7 +6,7 @@ short_description: "The reference tells you what each retrieval setting does. Fi
 description: "Tune retrieval in Qdrant: the measurement behind fusion k, candidate depth, rerankers, rescoring, and labeled set size."
 preview_image: /blog/tuning-retrieval-which-knob-first/hero.jpg
 social_preview_image: /blog/tuning-retrieval-which-knob-first/hero.jpg
-date: 2026-08-19
+date: 2026-08-24
 author: Dylan Couzon
 featured: true
 weight: 0 # Change this weight to change order of posts
@@ -18,64 +18,56 @@ tags:
   - quantization
 ---
 
-Your collection works. Queries return in a few milliseconds, results are mostly right, and someone on the product side has started forwarding you the ones that aren't. You open the search API reference and get accurate definitions for `hnsw_ef`, reciprocal rank fusion `k`, and quantization `oversampling`. None of them tells you which setting is failing on your data.
+Your collection works. Queries return in a few milliseconds, results are mostly right, and product keeps forwarding you the ones that aren't. You open the search API reference and get exact definitions for `hnsw_ef`, reciprocal rank fusion `k`, and quantization `oversampling`. The definitions are correct. They still don't tell you which setting is failing on your data.
 
-So you pick one, change it, rerun your queries, and the score moves by 0.01. Is that a win, or is it the same queries landing differently?
+So you change one setting, rerun the queries, and the score moves by 0.01. Did relevance improve, or did the same queries land differently?
 
-Each of these settings has a right value, and it depends on something about your collection that nobody who wrote a default could see. That something is measurable. We ran all five measurements on five public datasets and turned the results into [five articles](/articles/before-tuning-a-qdrant-collection/), published today. Our collections held 5,183 to 4.6 million documents, so read the numbers as directions and the checks as the part that transfers.
+Each setting has a right value, and it depends on something about your collection that no default can see. That something is measurable. We ran those measurements on five public datasets, from 5,183 to 4.6 million documents, and published the results today in five articles. Here's the problem each one solves, and the result we didn't expect.
+
+The five articles work on one query path. A dense and a sparse prefetch retrieve candidates, fusion merges the two lists into one ranking, and an optional reranker reorders the top of it.
 
 ![Pipeline diagram: a dense prefetch with limit and hnsw_ef settings and a sparse prefetch with limit and Modifier.IDF settings both feed a fusion stage with RRF k, weights, and DBSF settings, followed by an optional reranker with candidate count and model settings.](/articles_data/before-tuning-a-qdrant-collection/retrieval-pipeline.svg)
 
-Every query retrieves candidates, then ranks them, and each stage owns its own settings.
+## Seven Settings Can Quietly Break Your Search
 
-## How Many Documents Can Answer One of Your Queries?
+Start where the 0.01 question gets its answer. Seven collection settings can cap search quality no matter what you tune next. Two examples: a sparse vector missing its IDF modifier stops rare words from counting more than common ones, and a BM25 average length left at the default misjudges every document's length. Neither raises an error. The results are quietly worse.
 
-That count sets the fusion constant. It decides how steeply the head of a candidate list outranks its tail. At Qdrant's default of `k=2`, rank 1 carries 5.50 times the weight of rank 10, so fusion trusts each retriever's top pick almost blindly. At `k=61`, which reproduces [the original paper's convention](https://dl.acm.org/doi/10.1145/1571941.1572114), that ratio falls to 1.15, and being found by both retrievers matters more than being ranked first by one.
+Your labels decide what you can measure, too. In our runs, 25 labeled queries weren't enough: the noise was wider than any gain our fusion tuning produced. [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) catches all seven settings and shows how many labeled queries you need before the next four checks are worth trusting.
 
-Our five datasets give a direction to start from. With about one relevant document per query, the best `k` was 2 or 5. With tens or hundreds of them, it was 20 or 61. A support search where a single document answers the question sits at one end, a product catalog where fifty are all reasonable at the other.
+## One Constant Flipped the Top Result on 202 of 480 Queries
 
-So count relevant documents per query, then sweep the matching end of 1, 2, 5, 20, and 61. That count comes from a labeled query set: real queries paired with the documents that should come back, and the ones product keeps forwarding you are the place to start. Try DBSF first, though. Qdrant's other fusion method takes no parameters at all and beat default RRF on three of our five datasets, which retires the `k` question entirely. [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) shows when the parameter-free option is the safer default, and when the `k` sweep earns the queries it costs.
+Hybrid search runs a dense and a sparse query, then merges the two result lists with reciprocal rank fusion. One constant, `k`, decides how much that merge favors each list's top-ranked documents. Qdrant defaults to `k=2`, which puts heavy trust in each list's first pick. Switching to the `k=61` from [the original paper](https://dl.acm.org/doi/10.1145/1571941.1572114) changed which document ranked first for 202 of 480 queries on one of our datasets.
 
-## Retrieval and Ranking Fail Differently
+That makes `k` worth testing, but you may not need it at all. DBSF, Qdrant's other fusion method, takes no parameters and beat default RRF on three of five datasets. [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) shows which method to reach for, and the one count that picks your `k` when you do sweep it.
 
-The complaint arrives as one specific document. Somebody knows the right document exists, they searched the obvious words, and it came back at rank 40 or not at all. Two things could have happened: the document never made it out of the index, or it landed in your candidate list and your ranking buried it.
+## Retrieval Delivered, Ranking Buried It
 
-Those failures need opposite fixes. Retrieving more adds latency to every query, ranking better adds a stage you have to run and maintain, and guessing wrong means paying for one while the other keeps failing.
+Every search system eventually gets this complaint: a document the user knows exists doesn't come up. They searched the obvious terms, and it landed at rank 40 or nowhere. Either retrieval missed it, or ranking buried it. Those failures need different fixes.
 
-One measurement tells you which you have. Score your candidate list as if it were ordered perfectly, then compare that with what your pipeline returns. Use `nDCG@10`, which grades the top 10 results and gives more credit to relevant documents near the top. A wide gap means better ranking pays. A narrow one means you need better candidates.
+The obvious move is to retrieve more. Retrieving more did help: pushing the candidate limit from 10 to 500 lifted the best achievable score by up to 0.28. The score users saw moved by 0.01 at most, because ranking was burying what retrieval had already found. Even `hnsw_ef`, the knob many teams reach for first, moved the final score by at most 0.0022. [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows the check that separates missed retrieval from buried relevance before you pay to fix the wrong one.
 
-We ran that check while pushing the candidate limit from 10 to 500. Retrieval delivered the whole way, lifting the best achievable score by as much as 0.28, while what users saw moved by 0.01 at most. The documents were arriving; the ranking stage left them out of view.
+## The Reranker Got Credit for Tuning We Skipped
 
-Why `hnsw_ef` moved less than anything else we tested, and how to run the check on your own collection, are both in [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/).
+You add a cross-encoder, relevance improves, and you ship it. That improvement costs a model forward pass per candidate on every query, for as long as the reranker runs.
 
-## The Baseline You Pick Decides the Answer
+Before you pay that cost on every query, tune fusion first. Part of what a reranker appears to buy is fusion tuning you skipped. The best of four rerankers beat Qdrant's out-of-the-box fusion on all five datasets, but against tuned fusion, most of that lift disappeared, and one win became a loss. [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) shows the cheap test that tells you when the model earns its latency.
 
-You bolt on a cross-encoder, the results get better, and you ship it. What you cannot tell from that is what you just bought, because a reranker costs a forward pass per candidate on every query, for as long as you run it.
+## The Query That Got 10 Times Slower Over the Weekend
 
-Against Qdrant's out-of-the-box fusion, the best of four rerankers improved every dataset we tried. Against fusion tuned first, which only reorders lists you already retrieved and adds no query-time model call, most of that improvement disappeared: only two held up on fresh queries, and one turned into a loss.
+Your p95 looked fine on Friday. The collection grew over the weekend. On Monday, the same query takes ten times longer, with no error and no config change to blame.
 
-Some of what the reranker had been paid for was tuning we had not done.
+The culprit is rescoring. Quantization keeps a compressed copy of your vectors in RAM and rereads the originals to fix compression error. While the originals fit in memory, that reread is nearly free. Once they stop fitting, it hits disk: the same query went from 4.3 ms to 43.4 ms.
 
-Make the comparison honest first. Tune fusion, then rerank 10 candidates and score it on fresh queries. In our tests a reranker that lost at 10 also lost at 200, so the cheap version of this test is the informative one. [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) covers what to check when it loses, which turned out to be the model's context window and training domain far more often than the candidate count.
+So measure quantization at the memory limit you deploy with, because a machine with spare RAM can hide the disk-read cost. And think twice before switching it off: without rescoring, the dense stage found only six in ten of the true nearest neighbors. [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/) has the protocol for choosing between speed and recall, and the signal that warns you before your p95 does.
 
-## A Free Setting Becomes a Disk Read at the Memory Boundary
+## Start with the Problem You Have
 
-This one reaches you through your dashboards. Your p95 was fine on Friday, the collection grew over the weekend, and the same query now takes ten times longer. No error, no config change, nothing in the logs to blame.
+Each article answers one of these:
 
-Quantization keeps a compressed copy of your vectors in RAM and leaves the originals on disk. Rescoring reads those originals back to repair compression error, and while they sit in the page cache that read is close to free. Cross the point where they no longer fit and every query pays a disk seek instead. In our test the same query went from 4.3 ms to 43.4 ms, and the only thing that changed was the memory ceiling.
+- You changed a setting and can't tell whether it helped: [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/)
+- You use hybrid search with the default fusion settings: [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/)
+- A document you know exists comes back buried or missing: [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/)
+- You're deciding whether a reranker would pay for its latency: [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/)
+- Latency jumped after the collection grew: [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/)
 
-Switching rescoring off is the tempting fix and an expensive one at aggressive compression, where the dense stage missed roughly a third of the true nearest neighbors without it. Qdrant enables it by default at those settings for that reason.
-
-The setting costs whatever your memory ceiling costs, and a laptop with room to spare will report that it is free. [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/) has the protocol, and the signal that tells the two regimes apart before your p95 does.
-
-## How Small a Gain Can Your Labels See?
-
-Back to that 0.01. You changed a setting and the score moved, and you still cannot say which. Whether that question has an answer at all depends on how many labeled queries you have.
-
-Tuning fusion moved `nDCG@10` by roughly 0.01 to 0.04 on a scale that runs to 1. At 25 labeled queries, the uncertainty around a measurement that size is wider than the measurement itself, so noise can pick your winner. Around 200, the interval narrows enough to resolve.
-
-The second trap costs weeks. Pick a winner on a set of queries, then report its score on those same queries, and the number flatters the setting you chose. Scored on fresh queries, our picks kept between two thirds and nearly all of the gain they had claimed. Split the set and report the half you did not choose on.
-
-Two settings can make every measurement here meaningless: a sparse vector missing its IDF modifier, and a BM25 average length left on the default. [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) catches both, then sizes the labeled set the other four checks run on. If all five checks come back flat, your problem sits upstream of these knobs, in the embedding model, the chunking, or the queries themselves.
-
-Four of the five checks need only the collection you already run and a labeled query set you build once. The memory check needs a copy of the collection under the memory limit you deploy with.
+If more than one fits, start with the first. It builds the labeled query set the other four checks run on, using the queries product keeps forwarding you as raw material. Run the checks, and tuning stops being guesswork.

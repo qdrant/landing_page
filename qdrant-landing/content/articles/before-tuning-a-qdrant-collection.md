@@ -7,7 +7,7 @@ social_preview_image: /articles_data/before-tuning-a-qdrant-collection/preview/s
 weight: -214
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-08T00:00:00+03:00
+date: 2026-08-20T00:00:00+03:00
 draft: false
 keywords:
   - retrieval tuning

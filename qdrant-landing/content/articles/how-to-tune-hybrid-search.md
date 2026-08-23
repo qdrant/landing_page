@@ -7,7 +7,7 @@ social_preview_image: /articles_data/how-to-tune-hybrid-search/preview/social_pr
 weight: -211
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-11T00:00:00+03:00
+date: 2026-08-22T00:00:00+03:00
 draft: false
 keywords:
   - hybrid search tuning

@@ -7,7 +7,7 @@ social_preview_image: /articles_data/when-your-collection-outgrows-ram/preview/s
 weight: -209
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-13T00:00:00+03:00
+date: 2026-08-24T00:00:00+03:00
 draft: false
 keywords:
   - memory tiers

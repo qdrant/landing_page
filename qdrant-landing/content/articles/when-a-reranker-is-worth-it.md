@@ -7,7 +7,7 @@ social_preview_image: /articles_data/when-a-reranker-is-worth-it/preview/social_
 weight: -210
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-12T00:00:00+03:00
+date: 2026-08-23T00:00:00+03:00
 draft: false
 keywords:
   - cross-encoder reranker

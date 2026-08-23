@@ -7,7 +7,7 @@ social_preview_image: /articles_data/candidate-depth/preview/social_preview.jpg
 weight: -213
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-09T00:00:00+03:00
+date: 2026-08-21T00:00:00+03:00
 draft: false
 keywords:
   - candidate depth
