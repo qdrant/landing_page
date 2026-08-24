@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 380" width="1040" height="380" role="img" aria-label="Choosing an ingestion method. upsert takes models.Batch or a list and you batch it yourself; every client library has it. upload_points is record-oriented, an iterable of PointStruct, one object per point carrying its id, vector and payload. upload_collection is column-oriented, taking vectors, payload and ids as parallel columns. All three write into the collection. upload_points and upload_collection are the same tool in two shapes: both batch, retry and parallelize for you, and both take iterators.">
+  <style>
+    .ttl  { font-family:"Geist Mono",ui-monospace,monospace; font-size:13px; fill:#8F98B2 }
+    .name { font-family:"Geist Mono",ui-monospace,monospace; font-size:12px; fill:#3D4866 }
+    .sub  { font-family:"Geist Mono",ui-monospace,monospace; font-size:11px; fill:#717C99 }
+    .on   { font-family:"Geist Mono",ui-monospace,monospace; font-size:11px; fill:#576280 }
+    .teal { font-family:"Geist Mono",ui-monospace,monospace; font-size:12px; fill:#038585 }
+    .foot { font-family:"Geist Mono",ui-monospace,monospace; font-size:11px; fill:#717C99 }
+  </style>
+
+  <defs>
+    <marker id="mb" markerWidth="8" markerHeight="8" refX="6.5" refY="2.5" orient="auto">
+      <path d="M0,0 L5,2.5 L0,5 Z" fill="#89A9FF"/></marker>
+    <marker id="mr" markerWidth="8" markerHeight="8" refX="6.5" refY="2.5" orient="auto">
+      <path d="M0,0 L5,2.5 L0,5 Z" fill="#FF516B"/></marker>
+    <marker id="mt" markerWidth="8" markerHeight="8" refX="6.5" refY="2.5" orient="auto">
+      <path d="M0,0 L5,2.5 L0,5 Z" fill="#1FC7C7"/></marker>
+    <marker id="mg" markerWidth="8" markerHeight="8" refX="6.5" refY="2.5" orient="auto">
+      <path d="M0,0 L5,2.5 L0,5 Z" fill="#038585"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="1040" height="380" rx="8" fill="#F0F3FA"/>
+  <text x="20" y="22" class="ttl">Choosing an ingestion method</text>
+  <rect x="14" y="32" width="1012" height="334" rx="4" fill="#FFFFFF"/>
+
+  <!-- ================= lane 1: upsert, y=112 ================= -->
+  <text x="182" y="76"  class="name" text-anchor="middle">upsert</text>
+  <text x="182" y="92"  class="sub"  text-anchor="middle">models.Batch or a list</text>
+  <rect x="169" y="99" width="26" height="26" rx="5" fill="#D9E2FE" stroke="#89A9FF"/>
+  <text x="470" y="100" class="on"   text-anchor="middle">you batch it yourself</text>
+  <path d="M203,112 L690,112" fill="none" stroke="#89A9FF" stroke-width="1.3" marker-end="url(#mb)"/>
+
+  <!-- ================= lane 2: upload_points, y=204 ================= -->
+  <text x="182" y="168" class="name" text-anchor="middle">upload_points</text>
+  <text x="182" y="184" class="sub"  text-anchor="middle">iterable of PointStruct</text>
+  <rect x="169" y="191" width="26" height="26" rx="5" fill="#FFDADB" stroke="#FF8792"/>
+  <text x="470" y="192" class="on"   text-anchor="middle">record-oriented: one object per point</text>
+  <path d="M203,204 L690,204" fill="none" stroke="#FF516B" stroke-width="1.3" marker-end="url(#mr)"/>
+
+  <!-- ================= lane 3: upload_collection, y=296 ================= -->
+  <text x="182" y="260" class="name" text-anchor="middle">upload_collection</text>
+  <text x="182" y="276" class="sub"  text-anchor="middle">vectors, payload, ids</text>
+  <rect x="169" y="283" width="26" height="26" rx="5" fill="#C0F0F0" stroke="#1FC7C7"/>
+  <text x="470" y="284" class="on"   text-anchor="middle">column-oriented: parallel columns</text>
+  <path d="M203,296 L690,296" fill="none" stroke="#1FC7C7" stroke-width="1.3" marker-end="url(#mt)"/>
+
+  <!-- ================= converge ================= -->
+  <path d="M700,112 L744,112 L744,204" fill="none" stroke="#038585" stroke-width="1.2"/>
+  <path d="M700,296 L744,296 L744,204" fill="none" stroke="#038585" stroke-width="1.2"/>
+  <path d="M700,204 L780,204" fill="none" stroke="#038585" stroke-width="1.3" marker-end="url(#mg)"/>
+  <rect x="788" y="191" width="26" height="26" rx="5" fill="#C0F0F0" stroke="#038585"/>
+  <text x="828" y="200" class="teal">Points in</text>
+  <text x="828" y="216" class="teal">the collection</text>
+
+  <!-- ================= footer ================= -->
+  <text x="470" y="336" class="foot" text-anchor="middle">upload_points and upload_collection are the same tool in two shapes: both batch,</text>
+  <text x="470" y="350" class="foot" text-anchor="middle">retry and parallelize for you, and both take iterators.</text>
+</svg>
