@@ -12,7 +12,6 @@ partition: ecosystem
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [5-Minute RAG with DeepSeek](/documentation/tutorials-build-essentials/rag-deepseek/) | Build a RAG pipeline with DeepSeek enrichment. | <span class="pill">Python</span> | 5m | <span class="text-green">Beginner</span> |
-| [Multimodal Search with Cohere and Qdrant Cloud Inference](/documentation/tutorials-build-essentials/multimodal-search/) | Build a pipeline to search across text and images modalities | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
 | [Agentic RAG with CrewAI](/documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
 | [n8n Workflow Automation](/documentation/tutorials-build-essentials/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Discord RAG Bot](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |

@@ -1,7 +1,7 @@
 ---
-title: Multimodal and Multilingual RAG
-short_description: "Build a multimodal, multilingual RAG application with Cohere Embed 4.0 and Qdrant Cloud Inference that searches across image and text modalities."
-description: "Tutorial: combine Cohere Embed 4.0 with Qdrant Cloud Inference to power multimodal, multilingual RAG over images and text using a shared embedding space and vector search."
+title: Multimodal Search
+short_description: "Build a multimodal, multilingual vector earch application with Cohere Embed 4.0 and Qdrant Cloud Inference that searches across image and text modalities."
+description: "Combine Cohere Embed 4.0 with Qdrant Cloud Inference to power multimodal, multilingual vector search application over images and text using a shared embedding space."
 weight: 25
 partition: ecosystem
 social_preview_image: /documentation/examples/multimodal-search/social_preview.png
@@ -11,9 +11,7 @@ aliases:
   - /documentation/multimodal-search/
 ---
 
-# Multimodal and Multilingual RAG with Cohere and Qdrant
-
-<!-- ![Snow prints](/documentation/examples/multimodal-search/image-1.png) -->
+# Multimodal and Multilingual Vector Search with Cohere and Qdrant
 
 | Time: 15 min | Level: Beginner |Output: [GitHub](https://github.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_Cohere_and_Cloud_Inference.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_Cohere_and_Cloud_Inference.ipynb)   |
 | --- | ----------- | ----------- | ----------- |
