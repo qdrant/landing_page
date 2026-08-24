@@ -45,7 +45,7 @@ from getpass import getpass
 client = AsyncQdrantClient(
     url=getpass("Qdrant URL:"),
     api_key=getpass("Qdrant API key:"),
-    timeout=6000,
+    timeout=600,
     prefer_grpc=True,
 )
 ```
@@ -189,6 +189,7 @@ On a replicated collection, `prevent_unoptimized` also makes points blink across
 
 ## Related Reading
 
+- A deep dive on the Qdrant optimizer: [Tuning Qdrant Optimizer for Predictable Search Latency](/articles/tuning-qdrant-optimizer-for-predictable-search-latency/)
 - Both mechanisms compared side by side: [Query Indexed Data Only](/documentation/search/low-latency-search/#query-indexed-data-only)
 - Full mechanics and configuration: [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments)
 - Deferred point counts and optimizer telemetry: [Monitoring](/documentation/ops-monitoring/monitoring/)
