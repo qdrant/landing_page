@@ -105,7 +105,7 @@ pub fn builder() -> EdgeSparseVectorParamsBuilder
 
 ## Optimizer Parameters
 
-`EdgeOptimizersConfig` controls what the [`optimize`](/documentation/edge/edge-quickstart/#optimize-the-edge-shard) method does when you call it. It is a subset of the server-side collection optimizer config: it omits `flush_interval_sec`, because an Edge Shard does not flush on a timer, and `max_optimization_threads`, because optimization is invoked manually.
+`EdgeOptimizersConfig` controls what the [`optimize`](#optimize) method does when you call it. It is a subset of the server-side collection optimizer config: it omits `flush_interval_sec`, because an Edge Shard does not flush on a timer, and `max_optimization_threads`, because optimization is invoked manually.
 
 ```python
 EdgeOptimizersConfig(
@@ -116,6 +116,26 @@ EdgeOptimizersConfig(
     indexing_threshold: Optional[int] = None,
     prevent_unoptimized: Optional[bool] = None,
 )
+```
+
+In Rust, `EdgeOptimizersConfig` has no builder. Construct it as a struct literal, leaving the rest at their defaults:
+
+```rust
+pub struct EdgeOptimizersConfig {
+    pub deleted_threshold: Option<f64>,
+    pub vacuum_min_vector_number: Option<usize>,
+    pub default_segment_number: Option<usize>,
+    pub max_segment_size: Option<usize>,
+    pub indexing_threshold: Option<usize>,
+    pub prevent_unoptimized: Option<bool>,
+}
+```
+
+```rust
+let optimizers = EdgeOptimizersConfig {
+    indexing_threshold: Some(20_000),
+    ..Default::default()
+};
 ```
 
 | Parameter | Type | Description |
@@ -144,6 +164,8 @@ pub fn optimize(&self) -> OperationResult<bool>
 Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/reading-data/#info).
 
 ## WAL Options
+
+*Rust only*
 
 Qdrant Edge records every update in a write-ahead log before applying it to storage. `WalOptions` is available in Rust only, and is set through `EdgeConfig.wal_options`.
 

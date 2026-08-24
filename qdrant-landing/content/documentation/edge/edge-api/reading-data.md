@@ -93,7 +93,9 @@ fn scroll(&self, request: ScrollRequest) -> OperationResult<(Vec<Record>, Option
 
 ## query_groups
 
-Groups query results by a payload field, returning a bounded number of hits per distinct value. Rust only.
+*Rust only*
+
+Groups query results by a payload field, returning a bounded number of hits per distinct value.
 
 ```rust
 fn query_groups(&self, request: GroupRequest) -> OperationResult<Vec<Group>>
@@ -110,7 +112,9 @@ fn query_groups(&self, request: GroupRequest) -> OperationResult<Vec<Group>>
 
 ## search_matrix
 
-Samples points and finds each sample's nearest neighbors, producing a similarity matrix useful for clustering and visualization. Rust only.
+*Rust only*
+
+Samples points and finds each sample's nearest neighbors, producing a similarity matrix useful for clustering and visualization.
 
 ```rust
 fn search_matrix(&self, request: SearchMatrixRequest) -> OperationResult<SearchMatrixResponse>

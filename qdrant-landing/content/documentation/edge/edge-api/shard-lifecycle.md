@@ -67,7 +67,9 @@ Parameters that you change and that affect stored segments do not take effect im
 
 ## Inspect the Path and Configuration
 
-Return the shard's directory and its currently resolved configuration. Rust only.
+*Rust only*
+
+Return the shard's directory and its currently resolved configuration.
 
 ```rust
 pub fn path(&self) -> &Path
