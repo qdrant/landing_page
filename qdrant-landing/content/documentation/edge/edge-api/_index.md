@@ -16,10 +16,10 @@ For task-oriented introductions, refer to the [Quickstart](/documentation/edge/e
 
 | Page | What it covers |
 |---|---|
-| [Shard Lifecycle](/documentation/edge/edge-api/shard-lifecycle/) | Creating, loading, inspecting, flushing, and closing an Edge Shard |
+| [Shard Lifecycle](/documentation/edge/edge-api/shard-lifecycle/) | Creating, loading, inspecting, flushing, and closing an Edge Shard, and reading its metadata with `info` |
 | [Configuration](/documentation/edge/edge-api/configuration/) | `EdgeConfig`, dense and sparse vector parameters, optimizer settings and `optimize`, and WAL options |
 | [Updating Data](/documentation/edge/edge-api/updating-data/) | The `update` method and the full set of update operations |
-| [Reading Data](/documentation/edge/edge-api/reading-data/) | `query`, `search`, `scroll`, grouping, `retrieve`, `count`, `facet`, and `info` |
+| [Reading Data](/documentation/edge/edge-api/reading-data/) | `query`, `search`, `scroll`, grouping, `retrieve`, `count`, and `facet` |
 | [Snapshots](/documentation/edge/edge-api/snapshots/) | Unpacking snapshots, reading manifests, and applying snapshots to a shard |
 
 ## Language Differences

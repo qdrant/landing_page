@@ -78,6 +78,31 @@ pub fn config(&self) -> parking_lot::RwLockReadGuard<'_, EdgeConfig>
 
 `config` returns a read guard rather than a copy, so the configuration cannot be mutated through it and the guard should be dropped promptly. To change configuration on a live shard, use `set_hnsw_config`, `set_vector_hnsw_config`, or `set_optimizers_config`.
 
+## info
+
+Returns metadata about the shard's contents.
+
+```python
+def info(self) -> ShardInfo
+```
+
+```rust
+fn info(&self) -> OperationResult<ShardInfo>
+```
+
+In Rust, `info` comes from the `EdgeShardRead` trait rather than from `EdgeShard` itself, so bring it into scope with `use qdrant_edge::EdgeShardRead;` before calling it.
+
+`ShardInfo` carries the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `segments_count` | `int` | Number of segments in the shard. |
+| `points_count` | `int` | Number of points stored. |
+| `indexed_vectors_count` | `int` | Number of vectors that have been added to a vector index. |
+| `payload_schema` | map of field name to `PayloadIndexInfo` | The shard's payload indexes. |
+
+An `indexed_vectors_count` well below `points_count` means segments are still waiting to be optimized. Refer to [`optimize`](/documentation/edge/edge-api/configuration/#optimize).
+
 ## Flush Pending Changes
 
 Persists the write-ahead log and all segments to disk.

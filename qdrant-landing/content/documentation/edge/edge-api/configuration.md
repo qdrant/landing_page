@@ -163,7 +163,7 @@ pub fn optimize(&self) -> OperationResult<bool>
 
 **Returns** `True` if any segment was optimized, and `False` if the shard was already optimal.
 
-Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/reading-data/#info).
+Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/shard-lifecycle/#info).
 
 ## WAL Options
 

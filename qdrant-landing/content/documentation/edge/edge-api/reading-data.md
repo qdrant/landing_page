@@ -7,7 +7,7 @@ weight: 40
 
 # Reading Data
 
-An Edge Shard offers several ways to read data. `query` is the general similarity search entry point, supporting prefetches, fusion, and reranking, while `search` is a narrower path for a single scoring query. `scroll` pages through points without scoring them, and `retrieve`, `count`, `facet`, and `info` read points and shard metadata directly.
+An Edge Shard offers several ways to read data. `query` is the general similarity search entry point, supporting prefetches, fusion, and reranking, while `search` is a narrower path for a single scoring query. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
 
 <aside role="status">In Rust, the read methods are provided by the <code>EdgeShardRead</code> trait rather than declared on <code>EdgeShard</code> directly. Bring it into scope with <code>use qdrant_edge::EdgeShardRead;</code> before calling them.</aside>
 
@@ -197,29 +197,6 @@ fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 | `filter` | `Filter` | Restrict faceting to matching points. |
 
 <aside role="status">Faceting and filtering both benefit from a payload index on the field. Refer to <a href="/documentation/edge/edge-quickstart/#create-a-payload-index">Create a Payload Index</a>.</aside>
-
-## info
-
-Returns metadata about the shard's contents.
-
-```python
-def info(self) -> ShardInfo
-```
-
-```rust
-fn info(&self) -> OperationResult<ShardInfo>
-```
-
-`ShardInfo` carries the following fields:
-
-| Field | Type | Description |
-|---|---|---|
-| `segments_count` | `int` | Number of segments in the shard. |
-| `points_count` | `int` | Number of points stored. |
-| `indexed_vectors_count` | `int` | Number of vectors that have been added to a vector index. |
-| `payload_schema` | map of field name to `PayloadIndexInfo` | The shard's payload indexes. |
-
-An `indexed_vectors_count` well below `points_count` means segments are still waiting to be optimized. Refer to [`optimize`](/documentation/edge/edge-api/configuration/#optimize).
 
 ## Request Builders
 
