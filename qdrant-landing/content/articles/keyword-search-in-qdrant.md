@@ -16,7 +16,7 @@ keywords:
   - multilingual tokenization
 category: search-quality
 date: 2026-08-13T12:00:00+03:00
-draft: true
+draft: false
 ---
 
 Search that understands meaning is very good at questions. Someone asks for "cheap flights to Berlin." It finds a page about "affordable airfare to Germany," even though those two phrases barely share a word. That's what dense vector search does well, and it's why most teams start there and stay happy for a while.
