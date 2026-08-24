@@ -50,7 +50,9 @@ The second prefetch also needs a second index and a second vector per point. Kee
 
 [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) uses only a candidate's position in each prefetch. A document at rank 1 scores the same whether it beat rank 2 by a wide margin or a narrow one. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) puts both lists on one scale for each query, using each list's average score and how spread out its scores are. Adding the two rescaled scores carries the size of a lead into the fused ranking, and a document only one prefetch retrieved keeps that single rescaled score.
 
-{{< figure src="/articles_data/how-to-tune-hybrid-search/fusion-signals.png" alt="Two panels of dot plots, RRF on the left and DBSF on the right. Each panel has a dense line, a sparse line, and a fused line holding documents A, B, C, and D. The RRF lines space every document evenly and label the slots 4, 3, 2, 1. The DBSF lines keep the raw score spacing on one shared axis, dense running 0.55 to 0.91 with A far out to the right and B, C, and D clustered, sparse running 12.9 to 14.8. The fused lines put B first under RRF and A first under DBSF." caption="RRF reads each document's slot, so A's dense lead flattens to one step and B, ranked near the top by both prefetches, wins. DBSF keeps the spacing on a shared axis, so A's lead survives the sum and A wins." width="100%" >}}
+![Two panels of dot plots, RRF on the left and DBSF on the right. Each panel has a dense line, a sparse line, and a fused line holding documents A, B, C, and D. The RRF lines space every document evenly and label the slots 4, 3, 2, 1. The DBSF lines keep the raw score spacing on one shared axis, dense running 0.55 to 0.91 with A far out to the right and B, C, and D clustered, sparse running 12.9 to 14.8. The fused lines put B first under RRF and A first under DBSF.](/articles_data/how-to-tune-hybrid-search/fusion-signals.png)
+
+_RRF reads each document's slot, so A's dense lead flattens to one step and B, ranked near the top by both prefetches, wins. DBSF keeps the spacing on a shared axis, so A's lead survives the sum and A wins._
 
 RRF ignores score scale, so a cosine similarity and a BM25 score combine without either dominating. DBSF assumes the size of a score gap means something, so one outlying score can move the result. Which one wins depends on your data, so run both against your labels.
 
@@ -58,19 +60,16 @@ RRF ignores score scale, so a cosine similarity and a BM25 score combine without
 
 Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches. Run RRF at `k=2` and equal weights, then run DBSF.
 
+Both queries read the same two candidate lists, so connect once and build the prefetches once. The prefetches must use the models the collection was indexed with.
+
 ```python
 from qdrant_client import QdrantClient, models
+from your_embedding_setup import dense_query, sparse_query
 
 client = QdrantClient(
     url="https://YOUR-CLUSTER.cloud.qdrant.io",
     api_key="<your-api-key>",
 )
-```
-
-Both queries read the same two candidate lists, so build the prefetches once. They must use the models the collection was indexed with.
-
-```python
-from your_embedding_setup import dense_query, sparse_query
 
 dense_prefetch = models.Prefetch(query=dense_query, using="dense", limit=200)
 sparse_prefetch = models.Prefetch(query=sparse_query, using="bm25", limit=200)
@@ -119,7 +118,9 @@ DBSF takes no parameters: `k` and the weight pair are RRF settings, and the publ
 
 Qdrant scores a document at position `pos` in one prefetch as `1 / ((pos + 1) / weight + k - 1)`, then sums across prefetches. With equal weights that reduces to `1 / (pos + k)`, and `k` alone decides how steeply the head of a list outranks its tail.
 
-{{< figure src="/articles_data/how-to-tune-hybrid-search/rrf-k-rank-weight.png" alt="Grouped bar chart comparing the share of a retrieval prefetch's top-10 score mass at each rank, for k equal to 2 and k equal to 61. At k=2 rank 1 takes 24.8 percent and rank 10 takes 4.5 percent. At k=61 the shares are nearly flat, 10.7 percent at rank 1 and 9.3 percent at rank 10." caption="At Qdrant's default of k=2, rank 1 carries 5.50 times the score weight of rank 10. At k=61, it carries 1.15 times the weight, so a candidate's presence in a prefetch matters almost as much as its position." width="100%" >}}
+![Grouped bar chart comparing the share of a retrieval prefetch's top-10 score mass at each rank, for k equal to 2 and k equal to 61. At k=2 rank 1 takes 24.8 percent and rank 10 takes 4.5 percent. At k=61 the shares are nearly flat, 10.7 percent at rank 1 and 9.3 percent at rank 10.](/articles_data/how-to-tune-hybrid-search/rrf-k-rank-weight.png)
+
+_At Qdrant's default of k=2, rank 1 carries 5.50 times the score weight of rank 10. At k=61, it carries 1.15 times the weight, so a candidate's presence in a prefetch matters almost as much as its position._
 
 Rank 1 outweighs rank 10 by 2.80 times at `k=5` and 1.45 times at `k=20`, so most of the movement sits below `k=20`. A sweep in even steps of five would spend most of its runs past the point where the curve stops moving.
 
@@ -135,7 +136,7 @@ The table gives `nDCG@10` at equal weights across five values of `k`, with `k=2`
 | DBPedia-entity | 400 | 38.2 | 0.4625 | 0.4638 | 0.4641 | 0.4682* | 0.4606 |
 | WANDS | 480 | 358.9 | 0.7232 | 0.7254 | 0.7336 | 0.7571 | 0.7614* |
 
-On WANDS, `k=2` and `k=61` chose a different top result for 202 of 480 queries, while `nDCG@10` rose by 0.0360. A small aggregate gain can still change what a user sees first.
+On WANDS, `k=2` and `k=61` chose a different top result for 42% of queries, while `nDCG@10` rose by 0.0360. A small aggregate gain can still change what a user sees first.
 
 These five datasets suggest a direction: with about one relevant document per query, the best `k` was 2 or 5; with tens or hundreds, it was 20 or 61. Count relevant documents per query in your labeled query set, then try that part of the range first.
 

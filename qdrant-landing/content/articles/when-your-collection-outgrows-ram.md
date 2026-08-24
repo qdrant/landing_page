@@ -124,7 +124,9 @@ What rescoring recovers depends on how much precision the bit depth discarded. A
 
 At a deep bit depth, rescoring is what makes the quantization usable. One pass raised `bits1` from 0.605 to 0.951 `Recall@10`. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization for this reason.
 
-{{< figure src="/articles_data/when-your-collection-outgrows-ram/bits1-rescore-recovery.png" alt="Line chart of the share of the exact top 10 that bits1 returns, across rescore off and rescore on at oversampling 1, 2, and 4. The share jumps from 0.605 with rescore off to 0.951 at oversampling 1, crossing the dashed float32 reference at 0.957, then flattens at 0.977 and 0.988." caption="One rescoring pass does most of the recovery at bits1. Raising oversampling past 1 buys little, which is why the disk reads it adds are the cost to watch." width="100%" >}}
+![Line chart of the share of the exact top 10 that bits1 returns, across rescore off and rescore on at oversampling 1, 2, and 4. The share jumps from 0.605 with rescore off to 0.951 at oversampling 1, crossing the dashed float32 reference at 0.957, then flattens at 0.977 and 0.988.](/articles_data/when-your-collection-outgrows-ram/bits1-rescore-recovery.png)
+
+_One rescoring pass does most of the recovery at bits1. Raising oversampling past 1 buys little, which is why the disk reads it adds are the cost to watch._
 
 After `oversampling` 1, extra candidates add disk reads for little recall. `bits1` reached 0.977 `Recall@10` at `oversampling` 2 and 0.988 at `oversampling` 4.
 

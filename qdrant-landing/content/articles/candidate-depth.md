@@ -50,7 +50,9 @@ Each value is the change in `nDCG@10` from `limit=10` to 500.
 | CodeSearchNet | +0.149 | +0.010 |
 | DBPedia-entity | +0.282 | +0.003 |
 
-{{< figure src="/articles_data/candidate-depth/depth-ceiling-vs-current.png" alt="Five line charts, one per dataset, showing nDCG at 10 as prefetch limit rises from 10 to 500. In each chart the best possible score climbs at every step while the current score stays almost flat, so the shaded gap between the two lines widens." caption="The full sweep behind the table. The best possible score climbs at every depth step on every dataset, while the score fusion returns stays almost flat." width="100%" >}}
+![Five line charts, one per dataset, showing nDCG at 10 as prefetch limit rises from 10 to 500. In each chart the best possible score climbs at every step while the current score stays almost flat, so the shaded gap between the two lines widens.](/articles_data/candidate-depth/depth-ceiling-vs-current.png)
+
+_The full sweep behind the table. The best possible score climbs at every depth step on every dataset, while the score fusion returns stays almost flat._
 
 The best possible score change rises with corpus size across these five, from 5,183 documents on SciFact to 100,000 on DBPedia-entity, while the current score change stays flat. Size and domain move together here, so re-measure the gap as your own collection grows.
 
@@ -68,7 +70,9 @@ Depth is per shard. Each shard receives its own <code>limit</code> and searches 
 
 For dense vectors, `limit` decides how many candidates the dense stage returns, and `hnsw_ef` decides how wide the HNSW graph traversal searches for them, trading approximate-search recall for latency. Measure `limit` against your labels when a downstream stage can use more candidates, and measure `hnsw_ef` against exact search to see whether the traversal still misses neighbors.
 
-{{< figure src="/articles_data/candidate-depth/hnsw-ef-saturation.png" alt="A wide HNSW graph with a query, an entry point, and an orange dashed path walking in. A small tinted outline marks the nodes visited at hnsw_ef 16 and a large outline marks the nodes visited at hnsw_ef 512. Four results are ringed. The node just right of the query sits outside the small outline because its only edges run to the far side of the graph, and a hollow gray ring marks the result it displaces once the wider search reaches it." caption="`hnsw_ef` widens the set of nodes the search visits, not the number of results. Here the wider walk reaches a neighbor the narrow one missed, and it displaces the weakest result." width="100%" >}}
+![A wide HNSW graph with a query, an entry point, and an orange dashed path walking in. A small tinted outline marks the nodes visited at hnsw_ef 16 and a large outline marks the nodes visited at hnsw_ef 512. Four results are ringed. The node just right of the query sits outside the small outline because its only edges run to the far side of the graph, and a hollow gray ring marks the result it displaces once the wider search reaches it.](/articles_data/candidate-depth/hnsw-ef-saturation.png)
+
+_`hnsw_ef` widens the set of nodes the search visits, not the number of results. Here the wider walk reaches a neighbor the narrow one missed, and it displaces the weakest result._
 
 Run the same check on your own data, with `limit` set to the value your dense-only stage or dense `prefetch` uses.
 

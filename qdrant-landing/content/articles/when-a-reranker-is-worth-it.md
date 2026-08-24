@@ -129,7 +129,9 @@ If you find a mismatch, swap in a model whose window and training data fit your 
 
 Start with 10 candidates, and confirm on your labeled queries that the reranker beats tuned fusion before you change the count. Every configuration that trailed tuned fusion at 10 candidates still trailed it at 200, so a deeper list does not rescue a reranker that loses at 10. `nDCG@10` grades the same top 10 results at every count, so the count changes only what the reranker gets to choose from.
 
-{{< figure src="/articles_data/when-a-reranker-is-worth-it/reranker-gain-by-candidate-count.png" alt="Five small line charts, one per dataset, showing the best nDCG@10 change over tuned fusion at candidate counts 10, 25, 50, 100, and 200. SciFact, CodeSearchNet, and DBPedia-entity stay above the zero line, WANDS stays below it at every count, and ArguAna peaks at 25 then falls to zero by 200." caption="The best nDCG@10 change over tuned fusion among the four models, by candidate count. A line above zero is a reranker win; WANDS never crosses it." width="100%" >}}
+![Five small line charts, one per dataset, showing the best nDCG@10 change over tuned fusion at candidate counts 10, 25, 50, 100, and 200. SciFact, CodeSearchNet, and DBPedia-entity stay above the zero line, WANDS stays below it at every count, and ArguAna peaks at 25 then falls to zero by 200.](/articles_data/when-a-reranker-is-worth-it/reranker-gain-by-candidate-count.png)
+
+_The best nDCG@10 change over tuned fusion among the four models, by candidate count. A line above zero is a reranker win; WANDS never crosses it._
 
 Step 1 confirmed that your relevant documents reach the candidate list. Run that same check at each count you are considering, before you run the reranker at any of them. The share of queries whose relevant documents are already in the candidate list limits how much increasing the count can help. Beyond that point, extra candidates only add documents that can push the relevant ones out of the top 10.
 
