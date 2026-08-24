@@ -28,17 +28,17 @@ This tutorial works with two modalities: image and text data. You can build a se
 
 > The **semantic gap** refers to the difference between low-level features, such as brightness, and high-level concepts, such as cuteness.
 
-[Cohere Embed 4.0](https://cohere.com/blog/embed-4), for example, is built for multimodal and multilingual embedding, and supports more than 30 languages. Instead of running the model yourself, this tutorial calls it through [Qdrant Cloud Inference](/documentation/inference/inference-api/), so Qdrant generates the embeddings and stores them in a [collection](/documentation/manage-data/collections/) in one step.
+[Cohere Embed 4.0](https://cohere.com/blog/embed-4), for example, is built for multimodal and multilingual embedding, and supports more than 100 languages. Instead of running the model yourself, this tutorial calls it through [Qdrant Cloud Inference](/documentation/inference/inference-api/), so Qdrant generates the embeddings and stores them in a [collection](/documentation/manage-data/collections/) in one step.
 
 ## Setup
 
-You need a Cohere API key to follow along. Create a free one on the [Cohere dashboard](https://dashboard.cohere.com/api-keys).
+Install the client:
 
-Install the required library:
+{{< code-snippet path="/documentation/headless/snippets/install-client/" >}}
 
-```bash
-pip install -q qdrant-client
-```
+<aside role="status">
+    You need a Cohere API key to follow along. Create a free one on the <a href="https://dashboard.cohere.com/api-keys">Cohere dashboard</a>.
+</aside>
 
 ## Dataset
 
@@ -52,53 +52,17 @@ Download the [tutorial images](https://github.com/qdrant/examples/tree/master/mu
 
 You'll use a [Qdrant Cloud Free Tier Cluster](/documentation/cloud/create-cluster/#free-clusters). [Create a free cluster](https://cloud.qdrant.io/), save the associated API key and endpoint URL, and instantiate the Qdrant client. Set `cloud_inference=True` so Qdrant can generate embeddings for you:
 
-```python
-import os
-
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
-    cloud_inference=True,
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="client-connection" >}}
 
 2. **Define the dataset and a helper to encode images**.
 
 Cloud Inference accepts images as base64 data URLs, so convert each file before uploading it:
 
-```python
-import base64
-
-def image_to_base64_url(image_path: str) -> str:
-    prefix = "data:image/png;base64"
-    with open(image_path, "rb") as image_file:
-        return prefix + "," + base64.b64encode(image_file.read()).decode("utf-8")
-
-documents = [
-    {"caption": "An image about plane emergency safety.", "image": "images/image-1.png"},
-    {"caption": "An image about airplane components.", "image": "images/image-2.png"},
-    {"caption": "An image about COVID safety restrictions.", "image": "images/image-3.png"},
-    {"caption": "A confidential image about UFO sightings.", "image": "images/image-4.png"},
-    {"caption": "An image about unusual footprints on Aralar 2011.", "image": "images/image-5.png"},
-]
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="define-dataset" >}}
 
 3. **Create a collection for the images with captions**.
 
-```python
-COLLECTION_NAME = "multimodal-embeddings"
-
-if not client.collection_exists(COLLECTION_NAME):
-    client.create_collection(
-        collection_name=COLLECTION_NAME,
-        vectors_config={
-            "image": models.VectorParams(size=512, distance=models.Distance.COSINE),
-            "text": models.VectorParams(size=512, distance=models.Distance.COSINE),
-        }
-    )
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="create-collection" >}}
 
 ## Upload Data to Qdrant
 
@@ -106,35 +70,7 @@ Upload your images with captions to the collection. Each image and its caption i
 
 Pass your Cohere API key through a header, and describe each vector as a `models.Document` (for text) or `models.Image` (for the image), naming the Cohere model and the output dimension you want:
 
-```python
-from qdrant_client.context_headers import headers
-
-cohere_api_key = os.getenv("COHERE_API_KEY")
-
-with headers({"cohere-api-key": cohere_api_key}):
-    client.upsert(
-        collection_name=COLLECTION_NAME,
-        points=[
-            models.PointStruct(
-                id=idx,
-                vector={
-                    "text": models.Document(
-                        text=doc["caption"],
-                        model="cohere/embed-v4.0",
-                        options={"output_dimension": 512},
-                    ),
-                    "image": models.Image(
-                        image=image_to_base64_url(doc["image"]),
-                        model="cohere/embed-v4.0",
-                        options={"output_dimension": 512},
-                    ),
-                },
-                payload=doc
-            )
-            for idx, doc in enumerate(documents)
-        ]
-    )
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="upload-data" >}}
 
 ## Search
 
@@ -142,24 +78,7 @@ with headers({"cohere-api-key": cohere_api_key}):
 
 See what image comes back for the query "*Plane components*". Wrap the query in a `models.Document` the same way you did while uploading, so Cloud Inference embeds it with the same model:
 
-```python
-from PIL import Image
-
-with headers({"cohere-api-key": cohere_api_key}):
-    image_path = client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=models.Document(
-            text="Plane components",
-            model="cohere/embed-v4.0",
-            options={"output_dimension": 512},
-        ),
-        using="image",
-        with_payload=["image"],
-        limit=1
-    ).points[0].payload['image']
-
-Image.open(image_path)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="text-to-image-search" >}}
 
 **Response:**
 
@@ -169,22 +88,7 @@ Image.open(image_path)
 
 Now run the same query in Italian, one of the 30+ languages Cohere Embed 4.0 supports, and compare the results:
 
-```python
-with headers({"cohere-api-key": cohere_api_key}):
-    image_path = client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=models.Document(
-            text="Componenti di un aereo",
-            model="cohere/embed-v4.0",
-            options={"output_dimension": 512},
-        ),
-        using="image",
-        with_payload=["image"],
-        limit=1
-    ).points[0].payload['image']
-
-Image.open(image_path)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="multilingual-search" >}}
 
 **Response:**
 
@@ -198,20 +102,7 @@ Now run a reverse search, starting from this image:
 
 Embed the image with `models.Image`, and search only among the text vectors:
 
-```python
-with headers({"cohere-api-key": cohere_api_key}):
-    client.query_points(
-        collection_name=COLLECTION_NAME,
-        query=models.Image(
-            image=image_to_base64_url("images/image-2.png"),
-            model="cohere/embed-v4.0",
-            options={"output_dimension": 512},
-        ),
-        using="text",
-        with_payload=["caption"],
-        limit=1
-    ).points[0].payload['caption']
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="image-to-text-search" >}}
 
 **Response:**
 
