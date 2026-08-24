@@ -151,7 +151,7 @@ def make_point(row: dict[str, Any]) -> models.PointStruct:
     )
 
 
-await client.upload_points(
+client.upload_points(
     collection_name="pet_supplies",
     points=(make_point(row) for row in df.iter_rows(named=True)),
     batch_size=100,
