@@ -109,6 +109,10 @@ We tested four configurations:
 
 ![Grouped bar chart of steady-state p50 and p95 search latency across the same four segment configurations](/articles_data/tuning-qdrant-optimizer-for-predictable-search-latency/charts/b-steady-latencies.png)
 
+<aside role="status">
+Fewer, larger segments give the fastest steady-state search but the longest recovery window; more, smaller segments clear the backlog quickly at the cost of slower queries once settled. Stick with Qdrant's default unless a specific latency target justifies the trade.
+</aside>
+
 ## Smoother Queries vs Shorter Wait
 
 Serialize optimizer threads if a smooth, predictable query latency during a bulk load matters more than how quickly the backlog clears. Leave Qdrant's default thread allocation in place if the opposite is true. Optimizers run on the same threads as your Qdrant instance, so limiting or increasing the number of threads they can use directly controls how fast they clear your collection's backlog and how much CPU capacity remains for search.
@@ -171,8 +175,8 @@ All 13 configurations ran against the same single-node Qdrant instance, one afte
 
 That machine ran other work throughout, not just Qdrant, so a latency change inside a benchmark run isn't automatically proof of an optimizer effect. Two examples:
 
-- In A2, we monitored the collection's memory via Qdrant's `/collections/{name}/memory` endpoint and found that search latency spiked five to six times at the median exactly when the OS reclaimed memory for other processes and Qdrant's own vector cache dropped with it.
-- In E1, some latency bursts had no such cache signal at all, more consistent with other processes competing for resources than with anything Qdrant was doing.
+- In the indexing-disabled run from the first section, we monitored the collection's memory via Qdrant's `/collections/{name}/memory` endpoint and found that search latency spiked five to six times at the median exactly when the OS reclaimed memory for other processes and Qdrant's own vector cache dropped with it.
+- In the first round of queries after reconfiguring indexing on with `prevent_unoptimized` disabled, some latency bursts had no such cache signal at all, more consistent with other processes competing for resources than with anything Qdrant was doing.
 
 We checked the optimizer status and memory status behind every result in this article before attributing it to indexing, merge, or vacuum specifically rather than to the machine. Both patterns are a caution for self-hosters who co-locate Qdrant with other workloads on the same box.
 
