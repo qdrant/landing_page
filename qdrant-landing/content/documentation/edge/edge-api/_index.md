@@ -30,6 +30,7 @@ The Python bindings and the Rust crate cover the same core surface, but they are
 - Rust exposes [`query_groups`](/documentation/edge/edge-api/reading-data/#query_groups) and [`search_matrix`](/documentation/edge/edge-api/reading-data/#search_matrix), which have no Python equivalent.
 - Rust closes a shard by dropping it, while Python has an explicit `close` method.
 - WAL options and the configuration setters are Rust only.
+- Python's [`EdgeConfig`](/documentation/edge/edge-api/configuration/#edgeconfig) always requires `vectors` or `sparse_vectors`, so adjusting a tunable parameter on an existing shard means redeclaring its vectors. Rust can build a configuration that sets only tunables.
 - [Applying a snapshot](/documentation/edge/edge-api/snapshots/#apply-a-snapshot) updates the shard in place in Python, but returns a new shard in Rust.
 
 ## More Examples

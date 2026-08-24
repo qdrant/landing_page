@@ -47,7 +47,9 @@ let config = EdgeConfig::builder()
 | `search_pool_core` | `int` | Pin every search pool thread to this CPU core, bounding the shard's search compute to one core while keeping the pool's I/O overlap. Best-effort. Defaults to OS scheduling. |
 | `wal_options` | `WalOptions` | Write-ahead log parameters. Rust only. Refer to [WAL Options](#wal-options). |
 
-At least one of `vectors` or `sparse_vectors` must be configured. Both define the data the shard stores and are validated against existing segments on `load` rather than converging through the optimizers.
+A new shard must define at least one of `vector` or `sparse_vectors`, as these describe the data stored in the shard. Both are validated against the existing segments on `load`.
+
+The Python and Rust bindings handle this differently. In Python, `EdgeConfig` validates the configuration at construction time and raises a `ValueError` if both `vectors` and `sparse_vectors` are empty, even if the configuration is only meant to be passed to load. As a result, changing a tunable parameter on an existing shard also requires redeclaring its vectors. In Rust, `EdgeConfigBuilder` does not apply this validation. It can build a configuration that only sets tunable parameters, and `load` reads the vector configuration from the shard itself.
 
 ## Dense Vector Parameters
 

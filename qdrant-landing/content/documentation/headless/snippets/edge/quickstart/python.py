@@ -136,3 +136,20 @@ edge_shard.close()
 # @block-start load-edge-shard
 edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 # @block-end load-edge-shard
+
+edge_shard.close()
+
+# @block-start search-threads
+config = EdgeConfig(
+    vectors={
+        VECTOR_NAME: EdgeVectorParams(
+            size=VECTOR_DIMENSION,
+            distance=Distance.Cosine,
+        )
+    },
+    max_search_threads=4,
+    search_pool_core=0,
+)
+
+edge_shard = EdgeShard.load(SHARD_DIRECTORY, config)
+# @block-end search-threads

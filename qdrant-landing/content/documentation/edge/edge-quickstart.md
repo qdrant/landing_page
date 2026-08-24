@@ -130,6 +130,25 @@ When loading an existing Edge Shard, any parameter left unset on the supplied `E
 
 For every `WalOptions` field, refer to [WAL Options](/documentation/edge/edge-api/configuration/#wal-options).
 
+## Tune the Search Thread Pool
+
+Each Edge Shard owns a thread pool that runs per-segment reads such as `query`, `search`, `scroll`, `count`, and `facet` in parallel, and loads segments in parallel when the shard opens. The pool is built once when the shard opens and kept for its lifetime.
+
+By default the pool is deliberately larger than the CPU count: four threads per CPU core. Per-segment reads spend much of their time waiting on I/O, so overcommitting keeps the CPU busy while other threads block. On a device where an Edge Shard shares a small number of cores with the rest of the application, that default can claim more than you want.
+
+Two `EdgeConfig` parameters control the pool:
+
+- `max_search_threads` sets the number of threads directly, replacing the CPU-derived default.
+- `search_pool_core` pins every pool thread to one CPU core, bounding the shard's search compute to that core while keeping the pool's ability to overlap I/O.
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="search-threads" >}}
+
+Pinning is best-effort. If the core ID is unavailable, Qdrant Edge logs a warning and leaves the threads unpinned rather than failing. macOS treats thread affinity as a hint, so pinning may have no effect there.
+
+<aside role="status">In Python, <code>EdgeConfig</code> requires <code>vectors</code> or <code>sparse_vectors</code> to be non-empty, so a configuration that only adjusts the thread pool must still declare the shard's vectors. Rust has no such restriction: <code>EdgeConfigBuilder</code> can build a configuration that sets only these parameters, and <code>load</code> takes the rest from the shard.</aside>
+
+For both parameters, refer to [Configuration](/documentation/edge/edge-api/configuration/#edgeconfig).
+
 ## More Examples
 
 The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/dev/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/dev/lib/edge/publish/examples).
