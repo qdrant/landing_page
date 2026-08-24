@@ -19,8 +19,7 @@ For task-oriented introductions, refer to the [Quickstart](/documentation/edge/e
 | [Shard Lifecycle](/documentation/edge/edge-api/shard-lifecycle/) | Creating, loading, inspecting, flushing, and closing an Edge Shard |
 | [Configuration](/documentation/edge/edge-api/configuration/) | `EdgeConfig`, dense and sparse vector parameters, optimizer settings and `optimize`, and WAL options |
 | [Updating Data](/documentation/edge/edge-api/updating-data/) | The `update` method and the full set of update operations |
-| [Querying Data](/documentation/edge/edge-api/querying-data/) | `query`, `search`, `scroll`, grouping, and the Rust request builders |
-| [Reading Data](/documentation/edge/edge-api/reading-data/) | `retrieve`, `count`, `facet`, and `info` |
+| [Reading Data](/documentation/edge/edge-api/reading-data/) | `query`, `search`, `scroll`, grouping, `retrieve`, `count`, `facet`, and `info` |
 | [Snapshots](/documentation/edge/edge-api/snapshots/) | Unpacking snapshots, reading manifests, and applying snapshots to a shard |
 
 ## Language Differences
@@ -28,7 +27,7 @@ For task-oriented introductions, refer to the [Quickstart](/documentation/edge/e
 The Python bindings and the Rust crate cover the same core surface, but they are not identical. Each method notes the languages it is available in. The most significant differences are:
 
 - Rust declares the read methods on the `EdgeShardRead` trait rather than on `EdgeShard` directly, so the trait must be in scope to call them.
-- Rust exposes [`query_groups`](/documentation/edge/edge-api/querying-data/#query_groups) and [`search_matrix`](/documentation/edge/edge-api/querying-data/#search_matrix), which have no Python equivalent.
+- Rust exposes [`query_groups`](/documentation/edge/edge-api/reading-data/#query_groups) and [`search_matrix`](/documentation/edge/edge-api/reading-data/#search_matrix), which have no Python equivalent.
 - Rust closes a shard by dropping it, while Python has an explicit `close` method.
 - WAL options and the configuration setters are Rust only.
 - [Applying a snapshot](/documentation/edge/edge-api/snapshots/#apply-a-snapshot) updates the shard in place in Python, but returns a new shard in Rust.
