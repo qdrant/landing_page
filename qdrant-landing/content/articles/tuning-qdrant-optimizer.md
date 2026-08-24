@@ -186,4 +186,5 @@ This was a local, single-node setup. Qdrant Cloud results might differ, though t
 
 - Qdrant's [optimizer docs](/documentation/ops-optimization/optimizer/) describe how the indexing, merge, and vacuum optimizers work and how to configure them.
 - The [read-write contention guide](/documentation/ops-optimization/read-write-contention/) explains why search and background optimization compete for the same CPU and I/O.
+- The [tutorial using `prevent_unoptimized`](/documentation/tutorials-operations/prevent-unoptimized-usage/) explains how the flag affects search latency and shows how to measure it.
 - The full benchmarks, including harness, scripts, and results, are available on GitHub at [qdrant-labs/optimizers-in-action](https://github.com/qdrant-labs/optimizers-in-action).
