@@ -54,7 +54,7 @@ The `query` parameter accepts several kinds of scoring:
 
 ## search
 
-Runs a single scoring query. `search` has no prefetches and no fusion; use `query` when you need either.
+Runs a single scoring query. `search` is a convenience path; with no prefetches or fusion to express, the request is simpler to build than the `query` equivalent.
 
 ```python
 def search(self, search: SearchRequest) -> List[ScoredPoint]
