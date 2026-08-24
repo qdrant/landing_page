@@ -2,8 +2,8 @@
 title: "Tuning Qdrant's Optimizer for Predictable Search Latency"
 short_description: "Best practices for configuring Qdrant's optimizers, backed by search latency benchmarks."
 description: "Configuration guidance for Qdrant's indexing, merge, and vacuum optimizers, backed by search latency measurements across 13 configurations on a 1.76 million point collection."
-social_preview_image: /articles_data/tuning-qdrant-optimizer-for-predictable-search-latency/preview/social_preview.jpg
-preview_dir: /articles_data/tuning-qdrant-optimizer-for-predictable-search-latency/preview
+social_preview_image: /articles_data/tuning-qdrant-optimizer/preview/social_preview.jpg
+preview_dir: /articles_data/tuning-qdrant-optimizer/preview
 author: Clelia Bertelli
 date: 2026-08-25T10:00:00+02:00
 draft: false
