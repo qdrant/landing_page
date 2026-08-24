@@ -36,7 +36,7 @@ Install the Qdrant client, plus `huggingface-hub` and `polars` to download and p
 pip install -q qdrant-client huggingface-hub polars
 ```
 
-Create a [Free Tier Qdrant Cloud cluster](https://cloud.qdrant.io/) and instantiate an async client with a long timeout, since we upload 100,000 vectors in this tutorial.
+Create a [Free Tier Qdrant Cloud cluster](https://cloud.qdrant.io/) and instantiate an async client with a timeout longer than the default.
 
 ```python
 from qdrant_client import AsyncQdrantClient
@@ -45,7 +45,7 @@ from getpass import getpass
 client = AsyncQdrantClient(
     url=getpass("Qdrant URL:"),
     api_key=getpass("Qdrant API key:"),
-    timeout=600,
+    timeout=60,
     prefer_grpc=True,
 )
 ```
@@ -165,6 +165,14 @@ stats_prevent, stats_unopt = await asyncio.gather(
     query_and_optimize("allow-unoptimized", queries),
 )
 ```
+
+### Why We Poll and Query Concurrently
+
+`query_and_optimize` runs `get_optimizations_progress` and `query` at the same time with `asyncio.gather`, rather than one after the other. This is deliberate and mirrors what actually happens in production. Searches don't pause while a collection drains its optimization backlog after a bulk load: traffic keeps coming, and it competes with indexing, merging, and vacuuming for the same CPU and I/O resources.
+
+Running the two loops concurrently is also what lets us measure the effect we actually care about: query latency while the collection is under optimization pressure. `get_optimizations_progress` polls `/collections/{collection_name}/optimizations` (plus `get_collection` for `deferred_points`) every 0.5 seconds and sets the `asyncio.Event` once nothing is running or queued. The `query` loop checks that same event after each sweep through `queries` and only stops once optimizations have fully drained, so every latency sample collected corresponds to a moment where the segments were still being worked on.
+
+With `prevent_unoptimized=True`, watch `deferred_points` during this phase: a nonzero count is expected while segments are being optimized, since new points written to an optimizing segment are held back from search until that segment is ready. It is fine for this number to be high temporarily, as long as it drains to zero once the corresponding optimizations complete.
 
 ## Measured Result
 
