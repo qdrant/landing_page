@@ -15,6 +15,8 @@ client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
                 .setCollectionName("{collection_name}")
                 .setRequest(CreateShardKey.newBuilder()
                                 .setShardKey(shardKey("default"))
+                                .setShardsNumber(1)
+                                .setReplicationFactor(1)
                                 .setInitialState(ReplicaState.Partial)
                                 .build())
                 .build()).get();

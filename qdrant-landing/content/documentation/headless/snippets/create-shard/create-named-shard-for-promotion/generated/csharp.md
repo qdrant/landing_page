@@ -6,8 +6,10 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateShardKeyAsync(
     "{collection_name}",
-    new CreateShardKey { 
+    new CreateShardKey {
         ShardKey = new ShardKey { Keyword = "default" },
+        ShardsNumber = 1,
+        ReplicationFactor = 1,
         InitialState = ReplicaState.Partial
     }
 );

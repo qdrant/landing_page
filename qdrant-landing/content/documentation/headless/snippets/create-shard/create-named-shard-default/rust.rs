@@ -9,7 +9,7 @@ pub async fn main() -> anyhow::Result<()> {
     client
         .create_shard_key(
             CreateShardKeyRequestBuilder::new("{collection_name}")
-                .request(CreateShardKeyBuilder::default().shard_key("default".to_string())),
+                .request(CreateShardKeyBuilder::default().shard_key("default".to_string()).shards_number(1)),
         )
         .await?;
 

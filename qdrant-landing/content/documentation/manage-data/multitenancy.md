@@ -141,10 +141,14 @@ To take advantage of tiered multitenancy, you need to create a collection with u
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
+Set `shard_number` to 1. Promoting tenants to dedicated shards later can only be done with single shards. Configuring a `replication_factor` greater than 1 is fine.
+
 Start by creating a fallback shard, which will be used to store small tenants.
 Let's name it `default`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-default/" >}}
+
+Similar to creating a collection, set `shards_number` to 1.
 
 Since the collection will allow both dedicated and shared tenants, you still need to configure payload-based tenancy the same way as described in the [Partition by Payload](#partition-by-payload) section. Specifically, create a payload index for the `group_id` field with `is_tenant=true`.
 
@@ -178,7 +182,7 @@ To do this, first create a new shard for the tenant:
 
 {{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-for-promotion/" >}}
 
-The shard is created in `Partial` state, since it still needs to receive data.
+The shard is created in `Partial` state, since it still needs to receive data. Similar to before, use the collection's default `shards_number` of 1. The `replication_factor` should initially be set to 1 too. You can create replicas after you've replicated the tenant's data to the new shard.
 
 Use the `replicate_points` API to initiate data transfer:
 
@@ -187,9 +191,12 @@ Use the `replicate_points` API to initiate data transfer:
 Once the transfer is complete, the target shard will become `Active`, and all requests for the tenant will be routed to it automatically.
 At this point it's safe to delete the tenant's data from the shared fallback shard to free up space.
 
+You can now [create replicas](/documentation/scaling/distributed_deployment/#creating-new-shard-replicas) for the new shard.
 
 ### Limitations
 
-- The fallback shard is limited to a single shard, though it can still be replicated across nodes for availability. This means all small tenants sharing the fallback shard must fit within the storage and write capacity of a single node. We plan to remove this restriction in a future release.
+- The fallback shard and the dedicated tenant shards must have a `shards_number` of 1. A new dedicated tenant shard also needs to have a `replication_factor` of 1 at creation time. This is because the shard transfer mechanism only works with single shards. If you wish, you can increase the replication factor after the point transfer is complete.
+
+  This means all small tenants sharing the fallback shard must fit within the storage and write capacity of a single shard, and thus that of a single node. The same applies to dedicated tenant shards. We plan to remove this restriction in a future release.
 - Similar to collections, dedicated shards introduce some resource overhead. Don't create more than a thousand dedicated shards per cluster. The recommended threshold for promoting a tenant is the same as the indexing threshold for a single collection, which is approximately 20,000 points.
 

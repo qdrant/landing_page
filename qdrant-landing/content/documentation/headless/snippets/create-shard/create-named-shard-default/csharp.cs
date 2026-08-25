@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.CreateShardKeyAsync(
 		    "{collection_name}",
-		    new CreateShardKey { ShardKey = new ShardKey { Keyword = "default", } }
+		    new CreateShardKey { ShardKey = new ShardKey { Keyword = "default", }, ShardsNumber = 1 }
 		    );
 	}
 }

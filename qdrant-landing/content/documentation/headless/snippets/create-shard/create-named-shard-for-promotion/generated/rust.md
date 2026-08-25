@@ -13,6 +13,8 @@ client
             .request(
                 CreateShardKeyBuilder::default()
                     .shard_key("user_1".to_string())
+                    .shards_number(1)
+                    .replication_factor(1)
                     .initial_state(ReplicaState::Partial)
             ),
     )

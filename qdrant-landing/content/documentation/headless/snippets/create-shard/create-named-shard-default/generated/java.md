@@ -13,6 +13,7 @@ client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
                 .setCollectionName("{collection_name}")
                 .setRequest(CreateShardKey.newBuilder()
                                 .setShardKey(shardKey("default"))
+                                .setShardsNumber(1)
                                 .build())
                 .build()).get();
 ```

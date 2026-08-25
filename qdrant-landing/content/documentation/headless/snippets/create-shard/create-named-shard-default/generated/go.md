@@ -11,6 +11,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 })
 
 client.CreateShardKey(context.Background(), "{collection_name}", &qdrant.CreateShardKey{
-	ShardKey: qdrant.NewShardKey("default"),
+	ShardKey:     qdrant.NewShardKey("default"),
+	ShardsNumber: qdrant.PtrOf(uint32(1)),
 })
 ```
