@@ -51,7 +51,7 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 ## Security
 
-The **Security** page is where you protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting — it applies to your user wherever you sign in, across every account you belong to.
+The **Security** page is where you protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting — it applies to your user whenever you sign in.
 
 Enabling MFA is your choice: until you set up a method, nothing changes about how you log in. Once a method is enabled, you are asked to complete it on every subsequent login. Two methods are available, and you can enable both:
 
