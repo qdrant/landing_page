@@ -7,7 +7,7 @@ weight: 40
 
 # Reading Data
 
-An Edge Shard offers several ways to read data. `query` is the general similarity search entry point, supporting prefetches, fusion, and reranking, while `search` is a narrower path for a single scoring query. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
+An Edge Shard offers several ways to read data. `query` is the similarity search entry point, supporting prefetches, fusion, and reranking. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
 
 <aside role="status">In Rust, the read methods are provided by the <code>EdgeShardRead</code> trait rather than declared on <code>EdgeShard</code> directly. Bring it into scope with <code>use qdrant_edge::EdgeShardRead;</code> before calling them.</aside>
 
@@ -51,22 +51,6 @@ The `query` parameter accepts several kinds of scoring:
 | `Sample` | Return a sample of points. |
 
 `Prefetch` takes `query`, `limit`, `filter`, `score_threshold`, `params`, and its own nested `prefetches`, so prefetches can be nested to build multi-stage retrieval.
-
-## search
-
-Runs a single scoring query. `search` is a convenience path; with no prefetches or fusion to express, the request is simpler to build than the `query` equivalent.
-
-```python
-def search(self, search: SearchRequest) -> List[ScoredPoint]
-```
-
-```rust
-fn search(&self, request: SearchRequest) -> OperationResult<Vec<ScoredPoint>>
-```
-
-**Returns** a list of `ScoredPoint`, ordered by score.
-
-`SearchRequest` accepts `query` and `limit`, which are required, plus `offset`, `filter`, `params`, `with_payload`, `with_vector`, and `score_threshold`, all of which behave as they do on `QueryRequest`.
 
 ## scroll
 
@@ -148,11 +132,11 @@ fn retrieve(&self, request: RetrieveRequest) -> OperationResult<Vec<Record>>
 
 **Returns** a list of `Record`. Points that do not exist are omitted rather than reported as errors.
 
-| Parameter | Type | Description |
-|---|---|---|
-| `point_ids` | list of `PointId` | IDs to fetch. |
-| `with_payload` | `bool`, list of `str`, or `PayloadSelector` | Which payload to include. |
-| `with_vector` | `bool` or list of `str` | Which vectors to include. |
+| Parameter | Description |
+|---|---|
+| `point_ids` | IDs to fetch. |
+| `with_payload` | Which payload to include. |
+| `with_vector` | Which vectors to include. |
 
 Python takes these as three arguments, while Rust collects them into a `RetrieveRequest`.
 
@@ -173,7 +157,7 @@ fn count(&self, request: CountRequest) -> OperationResult<usize>
 | Parameter | Type | Description |
 |---|---|---|
 | `filter` | `Filter` | Conditions the counted points must satisfy. Omit to count every point. |
-| `exact` | `bool` | Count exactly rather than estimating. Defaults to `True` in Python. |
+| `exact` | `bool` | Count exactly rather than estimating. |
 
 ## facet
 
@@ -200,13 +184,27 @@ fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 
 ## Request Builders
 
-In Rust, each request type has a fluent builder, so you only set the parameters you need:
+In Rust, each request type has a builder, so you only set the parameters you need. Builders are constructed with `Builder::new()`, not through a `builder()` method on the request type:
 
 ```rust
-let request = QueryRequest::builder()
-    .limit(10)
+let request = QueryRequestBuilder::new(10)
     .with_payload(true)
     .build();
 ```
 
-Builders are available for `QueryRequest`, `SearchRequest`, `ScrollRequest`, `RetrieveRequest`, `CountRequest`, `FacetRequest`, `GroupRequest`, `SearchMatrixRequest`, and `Prefetch`. The Python bindings construct requests through their class constructors instead, where every optional parameter defaults to `None`.
+Required parameters are arguments to `new`; everything else is a setter:
+
+| Builder | Constructor |
+|---|---|
+| `QueryRequestBuilder` | `new(limit)` |
+| `PrefetchBuilder` | `new(limit)` |
+| `ScrollRequestBuilder` | `new()` |
+| `RetrieveRequestBuilder` | `new(point_ids)` |
+| `CountRequestBuilder` | `new()` |
+| `FacetRequestBuilder` | `new(key)` |
+| `GroupRequestBuilder` | `new(query, group_by, groups, group_size)` |
+| `SearchMatrixRequestBuilder` | `new(sample_size, limit_per_sample, using)` |
+
+The configuration types are the exception: `EdgeConfig`, `EdgeVectorParams`, and `EdgeSparseVectorParams` each expose a `builder()` method, as shown in [Configuration](/documentation/edge/edge-api/configuration/).
+
+The Python bindings construct requests through their class constructors instead, where every optional parameter defaults to `None`.

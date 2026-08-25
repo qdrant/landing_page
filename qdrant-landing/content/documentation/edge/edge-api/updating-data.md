@@ -19,9 +19,9 @@ def update(self, operation: UpdateOperation) -> None
 pub fn update(&self, operation: UpdateOperation) -> OperationResult<()>
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `operation` | `UpdateOperation` | The operation to apply. |
+| Parameter | Description |
+|---|---|
+| `operation` | The operation to apply. |
 
 **Returns** nothing in Python. In Rust, returns `Ok(())` on success.
 

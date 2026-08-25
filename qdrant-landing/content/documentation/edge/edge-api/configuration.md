@@ -35,17 +35,17 @@ let config = EdgeConfig::builder()
     .build();
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `vectors` | `EdgeVectorParams` or map of name to `EdgeVectorParams` | Dense vector configuration. In Python, a single `EdgeVectorParams` configures the default unnamed vector. Optional if `sparse_vectors` is given. |
-| `sparse_vectors` | map of name to `EdgeSparseVectorParams` | Sparse vector configuration. |
-| `on_disk_payload` | `bool` | Store payload on disk with mmap rather than in RAM. Defaults to on-disk. |
-| `hnsw_config` | `HnswIndexConfig` | Global HNSW parameters, used when building the HNSW index. Override per vector with `EdgeVectorParams.hnsw_config`. |
-| `quantization_config` | quantization config | Global quantization. Override per vector with `EdgeVectorParams.quantization_config`. Refer to [Quantization](/documentation/manage-data/quantization/). |
-| `optimizers` | `EdgeOptimizersConfig` | Optimizer parameters. Refer to [Optimizer Parameters](#optimizer-parameters). |
-| `max_search_threads` | `int` | Size of the shard's search thread pool, which runs per-segment reads in parallel and loads segments in parallel. Defaults to a count derived from the number of CPUs. |
-| `search_pool_core` | `int` | Pin every search pool thread to this CPU core, bounding the shard's search compute to one core while keeping the pool's I/O overlap. Best-effort. Defaults to OS scheduling. |
-| `wal_options` | `WalOptions` | Write-ahead log parameters. Rust only. Refer to [WAL Options](#wal-options). |
+| Parameter | Description |
+|---|---|
+| `vectors` | Dense vector configuration. In Python, a single `EdgeVectorParams` configures the default unnamed vector. Optional if `sparse_vectors` is given. |
+| `sparse_vectors` | Sparse vector configuration. |
+| `on_disk_payload` | Store payload on disk with mmap rather than in RAM. Defaults to on-disk. |
+| `hnsw_config` | Global HNSW parameters, used when building the HNSW index. Override per vector with `EdgeVectorParams.hnsw_config`. |
+| `quantization_config` | Global quantization. Override per vector with `EdgeVectorParams.quantization_config`. Refer to [Quantization](/documentation/manage-data/quantization/). |
+| `optimizers` | Optimizer parameters. Refer to [Optimizer Parameters](#optimizer-parameters). |
+| `max_search_threads` | Size of the shard's search thread pool, which runs per-segment reads in parallel and loads segments in parallel. Defaults to a count derived from the number of CPUs. |
+| `search_pool_core` | Pin every search pool thread to this CPU core, bounding the shard's search compute to one core while keeping the pool's I/O overlap. Best-effort. Defaults to OS scheduling. |
+| `wal_options` | A `WalOptions` value carrying the write-ahead log parameters. Rust only. Refer to [WAL Options](#wal-options). |
 
 A new shard must define at least one of `vector` or `sparse_vectors`, as these describe the data stored in the shard. Both are validated against the existing segments on `load`.
 
@@ -71,15 +71,15 @@ EdgeVectorParams(
 pub fn builder(size: usize, distance: Distance) -> EdgeVectorParamsBuilder
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `size` | `int` | Vector dimension. Required. |
-| `distance` | `Distance` | Distance metric. Required. |
-| `on_disk` | `bool` | Store vectors on disk with mmap rather than in RAM. |
-| `multivector_config` | `MultiVectorConfig` | Multi-vector configuration, for late-interaction models. |
-| `datatype` | `VectorStorageDatatype` | Storage datatype for the vector. |
-| `quantization_config` | quantization config | Per-vector quantization, overriding the global setting. |
-| `hnsw_config` | `HnswIndexConfig` | Per-vector HNSW parameters, overriding the global setting. |
+| Parameter | Description |
+|---|---|
+| `size` | Vector dimension. Required. |
+| `distance` | Distance metric. Required. |
+| `on_disk` | Store vectors on disk with mmap rather than in RAM. |
+| `multivector_config` | Multi-vector configuration, for late-interaction models. |
+| `datatype` | Storage datatype for the vector. |
+| `quantization_config` | Per-vector quantization, overriding the global setting. |
+| `hnsw_config` | Per-vector HNSW parameters, overriding the global setting. |
 
 ## Sparse Vector Parameters
 
@@ -98,12 +98,12 @@ EdgeSparseVectorParams(
 pub fn builder() -> EdgeSparseVectorParamsBuilder
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `full_scan_threshold` | `int` | Threshold below which a full scan is used instead of the sparse index. |
-| `on_disk` | `bool` | Store the sparse index on disk rather than in RAM. |
-| `modifier` | `Modifier` | Score modifier. Set to `Modifier.Idf` for BM25 scoring. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
-| `datatype` | `VectorStorageDatatype` | Storage datatype for the vector. |
+| Parameter | Description |
+|---|---|
+| `full_scan_threshold` | Threshold below which a full scan is used instead of the sparse index. |
+| `on_disk` | Store the sparse index on disk rather than in RAM. |
+| `modifier` | Score modifier. Set to `Modifier.Idf` for BM25 scoring. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
+| `datatype` | Storage datatype for the vector. |
 
 ## Optimizer Parameters
 
@@ -140,14 +140,14 @@ let optimizers = EdgeOptimizersConfig {
 };
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `deleted_threshold` | `float` | Minimum fraction of deleted vectors in a segment required to run vacuum. Default: `0.2`. |
-| `vacuum_min_vector_number` | `int` | Minimum number of vectors in a segment required to run vacuum. Default: `1000`. |
-| `default_segment_number` | `int` | Target number of segments. `0` chooses automatically from the CPU count. |
-| `max_segment_size` | `int` | Maximum segment size in KB. Derived from the CPU count when unset. |
-| `indexing_threshold` | `int` | Size in KB above which a segment gets an HNSW index. |
-| `prevent_unoptimized` | `bool` | Store points written to unoptimized segments larger than the indexing threshold as deferred points: they are persisted but excluded from reads and searches until the segments are optimized. |
+| Parameter | Description |
+|---|---|
+| `deleted_threshold` | Minimum fraction of deleted vectors in a segment required to run vacuum. Default: `0.2`. |
+| `vacuum_min_vector_number` | Minimum number of vectors in a segment required to run vacuum. Default: `1000`. |
+| `default_segment_number` | Target number of segments. `0` chooses automatically from the CPU count. |
+| `max_segment_size` | Maximum segment size in KB. Derived from the CPU count when unset. |
+| `indexing_threshold` | Size in KB above which a segment gets an HNSW index. |
+| `prevent_unoptimized` | Store points written to unoptimized segments larger than the indexing threshold as deferred points: they are persisted but excluded from reads and searches until the segments are optimized. |
 
 ## optimize
 
@@ -179,11 +179,11 @@ pub struct WalOptions {
 }
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `segment_capacity` | `usize` | WAL segment capacity in bytes. Default: 32 MiB. |
-| `segment_queue_len` | `usize` | Number of segments to pre-create so appends never wait on segment creation. Default: `0`. |
-| `retain_closed` | `NonZeroUsize` | Number of closed WAL files to retain. Default: `1`. |
+| Parameter | Description |
+|---|---|
+| `segment_capacity` | WAL segment capacity in bytes. Default: 32 MiB. |
+| `segment_queue_len` | Number of segments to pre-create so appends never wait on segment creation. Default: `0`. |
+| `retain_closed` | Number of closed WAL files to retain. Default: `1`. |
 
 The WAL file is pre-allocated to `segment_capacity`, which inflates backup sizes and OS storage reports. Reduce it for embedded and mobile deployments where 32 MiB is too large. Refer to [Custom WAL Size](/documentation/edge/edge-quickstart/#custom-wal-size).
 

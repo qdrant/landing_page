@@ -28,10 +28,10 @@ def create(path: str, config: EdgeConfig) -> EdgeShard
 pub fn new(path: &Path, config: EdgeConfig) -> OperationResult<EdgeShard>
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `path` | `str` (Python) / `&Path` (Rust) | Path to the shard directory. Must not already contain segment data. |
-| `config` | `EdgeConfig` | Configuration for the new shard. Required. |
+| Parameter | Description |
+|---|---|
+| `path` | Path to the shard directory. Must not already contain segment data. |
+| `config` | Configuration for the new shard. Required. |
 
 **Returns** a new `EdgeShard` instance.
 
@@ -52,10 +52,10 @@ def load(path: str, config: Optional[EdgeConfig] = None) -> EdgeShard
 pub fn load(path: &Path, config: Option<EdgeConfig>) -> OperationResult<EdgeShard>
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `path` | `str` (Python) / `&Path` (Rust) | Path to an existing shard directory. |
-| `config` | `EdgeConfig`, optional | Configuration overrides. When omitted, the shard's persisted configuration is used. |
+| Parameter | Description |
+|---|---|
+| `path` | Path to an existing shard directory. |
+| `config` | Configuration overrides. When omitted, the shard's persisted configuration is used. |
 
 **Returns** the loaded `EdgeShard` instance.
 
@@ -92,13 +92,13 @@ fn info(&self) -> OperationResult<ShardInfo>
 
 In Rust, `info` comes from the `EdgeShardRead` trait rather than from `EdgeShard` itself, so bring it into scope with `use qdrant_edge::EdgeShardRead;` before calling it.
 
-`ShardInfo` carries the following fields:
+`ShardInfo` carries the following fields. The counts are summed across segments, and a point can be present in more than one segment before it is optimized, so `points_count` and `indexed_vectors_count` are **approximate** and can read higher than the number of distinct points:
 
 | Field | Type | Description |
 |---|---|---|
 | `segments_count` | `int` | Number of segments in the shard. |
-| `points_count` | `int` | Number of points stored. |
-| `indexed_vectors_count` | `int` | Number of vectors that have been added to a vector index. |
+| `points_count` | `int` | Approximate number of points stored. |
+| `indexed_vectors_count` | `int` | Approximate number of vectors that have been added to a vector index. |
 | `payload_schema` | map of field name to `PayloadIndexInfo` | The shard's payload indexes. |
 
 An `indexed_vectors_count` well below `points_count` means segments are still waiting to be optimized. Refer to [`optimize`](/documentation/edge/edge-api/configuration/#optimize).

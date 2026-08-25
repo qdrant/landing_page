@@ -22,10 +22,10 @@ def unpack_snapshot(snapshot_path: str, target_path: str) -> None
 pub fn unpack_snapshot(snapshot_path: &Path, target_path: &Path) -> OperationResult<()>
 ```
 
-| Parameter | Type | Description |
-|---|---|---|
-| `snapshot_path` | `str` (Python) / `&Path` (Rust) | Path to the downloaded snapshot file. |
-| `target_path` | `str` (Python) / `&Path` (Rust) | Directory to unpack into. |
+| Parameter | Description |
+|---|---|
+| `snapshot_path` | Path to the downloaded snapshot file. |
+| `target_path` | Directory to unpack into. |
 
 After unpacking, open the directory with `load`. The resulting shard keeps the configuration and file layout of the collection the snapshot came from, including its vector and payload indexes.
 
@@ -66,12 +66,12 @@ pub fn recover_partial_snapshot(
 
 Python applies the snapshot to the open shard in place, optionally extracting through `tmp_dir`. Rust takes the shard's path and both manifests, and returns a new `EdgeShard` for the merged result, so the existing instance must be dropped first.
 
-| Parameter | Type | Description |
-|---|---|---|
-| `snapshot_path` | `str` (Python) / `&Path` (Rust) | Path to the snapshot to apply. |
-| `tmp_dir` | `str` | Directory to extract through. Python only. |
-| `shard_path` | `&Path` | Path to the shard being updated. Rust only. |
-| `current_manifest` | `&SnapshotManifest` | Manifest of the shard as it stands. Rust only. |
-| `snapshot_manifest` | `&SnapshotManifest` | Manifest of the incoming snapshot. Rust only. |
+| Parameter | Description |
+|---|---|
+| `snapshot_path` | Path to the snapshot to apply. |
+| `tmp_dir` | Directory to extract through. Python only. |
+| `shard_path` | Path to the shard being updated. Rust only. |
+| `current_manifest` | Manifest of the shard as it stands. Rust only. |
+| `snapshot_manifest` | Manifest of the incoming snapshot. Rust only. |
 
 <aside role="status">Applying a snapshot rewrites files in the shard directory. Pause or buffer writes for the duration, and make sure any queued updates have already reached the server, so local changes are not lost. Refer to <a href="/documentation/edge/edge-synchronization-guide/">Synchronize with a Server</a>.</aside>
