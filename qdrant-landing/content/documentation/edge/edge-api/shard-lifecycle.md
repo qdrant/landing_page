@@ -1,7 +1,7 @@
 ---
 title: "Shard Lifecycle"
-short_description: "Create, load, inspect, flush, and close a Qdrant Edge Shard with the Python bindings or the Rust crate."
-description: "Reference for the Qdrant Edge Shard lifecycle methods: creating a new shard, loading an existing one, inspecting its path and configuration, flushing to disk, and closing it."
+short_description: "Create, load, inspect, flush, and close a Qdrant Edge Shard, and read its metadata with info."
+description: "Reference for the Qdrant Edge Shard lifecycle methods: creating a new shard, loading an existing one, inspecting its path and configuration, reading shard metadata with info, flushing to disk, and closing it."
 weight: 10
 ---
 
@@ -87,10 +87,8 @@ def info(self) -> ShardInfo
 ```
 
 ```rust
-fn info(&self) -> OperationResult<ShardInfo>
+pub fn info(&self) -> OperationResult<ShardInfo>
 ```
-
-In Rust, `info` comes from the `EdgeShardRead` trait rather than from `EdgeShard` itself, so bring it into scope with `use qdrant_edge::EdgeShardRead;` before calling it.
 
 `ShardInfo` carries the following fields. The counts are summed across segments, and a point can be present in more than one segment before it is optimized, so `points_count` and `indexed_vectors_count` are **approximate** and can read higher than the number of distinct points:
 

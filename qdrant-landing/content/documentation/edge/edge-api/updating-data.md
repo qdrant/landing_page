@@ -53,7 +53,9 @@ In Python, `UpdateOperation` is a class with static constructors, one per operat
 | `create_sparse_vector` | `vector_name`, `modifier`, `datatype` | Add a sparse named vector to the schema. |
 | `delete_vector_name` | `vector_name` | Remove a named vector from the schema. |
 
-The `key` parameter on the payload operations targets a nested field path rather than the payload root. The `condition` parameter on `upsert_points` and `update_vectors` applies the write only to points matching a filter.
+The `key` parameter on the payload operations targets a nested field path rather than the payload root.
+
+The `condition` parameter gates the write by a filter, but the two operations differ. On `update_vectors` it applies to the whole operation: only points matching the filter are updated. On `upsert_points` it applies only to points that already exist, so an existing point that fails the filter is left untouched while a point that is new to the shard is inserted regardless of the filter.
 
 `upsert_points` also takes an `update_mode`:
 

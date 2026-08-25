@@ -1,7 +1,7 @@
 ---
 title: "Reading Data"
-short_description: "Read from a Qdrant Edge Shard with query, search, scroll, retrieve, count, facet, and info."
-description: "Reference for reading data from a Qdrant Edge Shard: similarity search with query and search, paging with scroll, grouping, retrieving points by ID, counting, faceting, and inspecting shard metadata."
+short_description: "Read from a Qdrant Edge Shard with query, scroll, retrieve, count, and facet."
+description: "Reference for reading data from a Qdrant Edge Shard: similarity search with query, paging with scroll, grouping, retrieving points by ID, counting, and faceting payload fields."
 weight: 40
 ---
 
@@ -9,7 +9,7 @@ weight: 40
 
 An Edge Shard offers several ways to read data. `query` is the similarity search entry point, supporting prefetches, fusion, and reranking. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
 
-<aside role="status">In Rust, the read methods are provided by the <code>EdgeShardRead</code> trait rather than declared on <code>EdgeShard</code> directly. Bring it into scope with <code>use qdrant_edge::EdgeShardRead;</code> before calling them.</aside>
+<aside role="status">In Rust, <code>query_groups</code> and <code>search_matrix</code> are provided only by the <code>EdgeShardRead</code> trait, so bring it into scope with <code>use qdrant_edge::EdgeShardRead;</code> to call them. The other read methods are also inherent methods on <code>EdgeShard</code> and need no import.</aside>
 
 ## query
 
@@ -20,7 +20,7 @@ def query(self, query: QueryRequest) -> List[ScoredPoint]
 ```
 
 ```rust
-fn query(&self, request: QueryRequest) -> OperationResult<Vec<ScoredPoint>>
+pub fn query(&self, request: QueryRequest) -> OperationResult<Vec<ScoredPoint>>
 ```
 
 **Returns** a list of `ScoredPoint`, ordered by score.
@@ -61,7 +61,7 @@ def scroll(self, scroll: ScrollRequest) -> Tuple[List[Record], Optional[PointId]
 ```
 
 ```rust
-fn scroll(&self, request: ScrollRequest) -> OperationResult<(Vec<Record>, Option<PointId>)>
+pub fn scroll(&self, request: ScrollRequest) -> OperationResult<(Vec<Record>, Option<PointId>)>
 ```
 
 **Returns** the matching records and the offset to pass to the next call, or `None` when the last page has been reached.
@@ -127,7 +127,7 @@ def retrieve(
 ```
 
 ```rust
-fn retrieve(&self, request: RetrieveRequest) -> OperationResult<Vec<Record>>
+pub fn retrieve(&self, request: RetrieveRequest) -> OperationResult<Vec<Record>>
 ```
 
 **Returns** a list of `Record`. Points that do not exist are omitted rather than reported as errors.
@@ -149,7 +149,7 @@ def count(self, count: CountRequest) -> int
 ```
 
 ```rust
-fn count(&self, request: CountRequest) -> OperationResult<usize>
+pub fn count(&self, request: CountRequest) -> OperationResult<usize>
 ```
 
 **Returns** the number of matching points.
@@ -168,7 +168,7 @@ def facet(self, facet: FacetRequest) -> FacetResponse
 ```
 
 ```rust
-fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
+pub fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 ```
 
 **Returns** a `FacetResponse` whose `hits` each carry a `value` and its `count`.
@@ -176,8 +176,8 @@ fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 | Parameter | Type | Description |
 |---|---|---|
 | `key` | `JsonPath` | Payload field to facet on. Required. |
-| `limit` | `int` | Maximum number of distinct values to return. Default: `10`. |
-| `exact` | `bool` | Compute exact counts rather than estimating. Default: `False`. |
+| `limit` | `int` | Maximum number of distinct values to return. |
+| `exact` | `bool` | Compute exact counts rather than estimating. |
 | `filter` | `Filter` | Restrict faceting to matching points. |
 
 <aside role="status">Faceting and filtering both benefit from a payload index on the field. Refer to <a href="/documentation/edge/edge-quickstart/#create-a-payload-index">Create a Payload Index</a>.</aside>
@@ -188,7 +188,7 @@ In Rust, each request type has a builder, so you only set the parameters you nee
 
 ```rust
 let request = QueryRequestBuilder::new(10)
-    .with_payload(true)
+    .with_payload(WithPayloadInterface::Bool(true))
     .build();
 ```
 
@@ -207,4 +207,4 @@ Required parameters are arguments to `new`; everything else is a setter:
 
 The configuration types are the exception: `EdgeConfig`, `EdgeVectorParams`, and `EdgeSparseVectorParams` each expose a `builder()` method, as shown in [Configuration](/documentation/edge/edge-api/configuration/).
 
-The Python bindings construct requests through their class constructors instead, where every optional parameter defaults to `None`.
+The Python bindings construct requests through their class constructors instead.

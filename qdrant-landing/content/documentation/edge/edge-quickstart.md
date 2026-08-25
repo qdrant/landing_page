@@ -132,7 +132,7 @@ For every `WalOptions` field, refer to [WAL Options](/documentation/edge/edge-ap
 
 ## Tune the Search Thread Pool
 
-Each Edge Shard owns a thread pool that runs per-segment reads such as `query`, `scroll`, `count`, and `facet` in parallel, and loads segments in parallel when the shard opens. The pool is built once when the shard opens and kept for its lifetime.
+Each Edge Shard owns a thread pool that runs per-segment reads such as `query`, `scroll`, `count`, and `facet` in parallel. The pool is built once when the shard opens and kept for its lifetime.
 
 By default the pool is deliberately larger than the CPU count: four threads per CPU core. Per-segment reads spend much of their time waiting on I/O, so overcommitting keeps the CPU busy while other threads block. On a device where an Edge Shard shares a small number of cores with the rest of the application, that default can claim more than you want.
 
