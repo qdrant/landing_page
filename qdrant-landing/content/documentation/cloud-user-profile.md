@@ -75,7 +75,7 @@ Once set up, the method is marked **Enabled** and two actions become available:
 
 ### Passkeys
 
-A passkey lets you approve a login with your device or a security key instead of typing in a code. Select **Create a New Passkey** and choose one of:
+A passkey lets you approve a login with your device or a security key. Select **Create a New Passkey** and choose one of:
 
 * **Built-in Passkey** — verify with Face ID, Touch ID, a device PIN, or your preferred password manager. Select **Create Passkey on this Device**.
 * **Hardware Security Key** — verify with a dedicated key such as a YubiKey, inserted via USB or tapped via NFC. Select **Use Hardware Security Key**.
