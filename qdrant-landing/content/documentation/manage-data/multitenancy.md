@@ -49,7 +49,7 @@ Next, insert points with the tenant ID in the payload:
     The key doesn't need to be named <code>group_id</code>. You can choose any name.
 </aside>
 
-Query with a filter on `group_id` to return only one tenant's data:
+Query with a filter on the tenant field (`group_id`) to return only one tenant's data:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id/" >}}
 
@@ -96,7 +96,7 @@ This filter is independent of the retrieval filter. The filter that determines t
 
 Instead of filtering tenants by a payload field, another way to separate tenants is to give each tenant its own dedicated shard. Qdrant lets you specify the shard for each point individually, so operations for a tenant only ever touch that tenant's shard. This trades some resource overhead (each shard has its own storage and index structures) for stronger isolation, and works best for a modest number of large tenants.
 
-To use this approach, create a collection with [custom sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding) enabled:
+To use this approach, create a collection with [user-defined sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding) (also known as custom sharding) enabled:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
@@ -137,7 +137,7 @@ There are three components in Qdrant that allow you to implement tiered multiten
 
 ### Configure Tiered Multitenancy
 
-To take advantage of tiered multitenancy, you need to create a collection with user-defined (also known as `custom`) sharding and create a fallback shard in it.
+To take advantage of tiered multitenancy, you need to create a collection with user-defined sharding and create a fallback shard in it.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
@@ -150,7 +150,7 @@ Let's name it `default`.
 
 Similar to creating a collection, set `shards_number` to 1.
 
-Since the collection will allow both dedicated and shared tenants, you still need to configure payload-based tenancy the same way as described in the [Partition by Payload](#partition-by-payload) section. Specifically, create a payload index for the `group_id` field with `is_tenant=true`.
+Since the collection will allow both dedicated and shared tenants, you still need to configure payload-based tenancy the same way as described in the [Partition by Payload](#partition-by-payload) section. Specifically, create a payload index for the tenant field (`group_id` in this example) with `is_tenant=true`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
@@ -170,7 +170,7 @@ The routing logic works as follows:
 
 ### Query Tiered Multitenant Collection
 
-When querying points, specify the same shard key selector and filter by tenant key (`group_id` in this example). The tenant filter value must match the `target` shard key.
+When querying points, specify the same shard key selector and filter on the tenant field (`group_id` in this example). The tenant filter value must match the `target` shard key.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id-and-fallback-shard-key/" >}}
 
