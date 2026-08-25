@@ -58,7 +58,7 @@ Enabling MFA is your choice: until you set up a method, nothing changes about ho
 * **Authenticator App** — a one-time code from an authenticator app of your choice.
 * **Passkey** — a fingerprint, face scan, screen lock, or hardware security key.
 
-Setting up either method sends you back through the login screen, because that is where your app or device is registered. When it completes, you land back on the **Security** page.
+You will be asked to authenticate again in order to set up a MFA method. After completion, you land back on the **Security** page.
 
 ![User Security Page](/documentation/cloud/user-security-page.png)
 
