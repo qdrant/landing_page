@@ -376,6 +376,12 @@ with open(LATENCIES_FILE, "w") as f:
     )
 ```
 
+As a result of this monitoring, we expect the GPU-powered cluster to show faster optimization times, for the reasons discussed above. 
+
+Query times should be similar across both clusters, though the CPU-only cluster may show more latency spikes, since queries and optimizations compete for the same CPU cycles, increasing resource contention between reads and writes.
+
+![On the CPU-only cluster, serving queries and building the index compete for the same CPU cycles. On the GPU-accelerated cluster, the GPU builds the index on its own hardware, leaving the CPU free to serve queries.](/documentation/tutorials/gpu-accelerated-hnsw-indexing/gpu-cpu-query-contention.png)
+
 ## Analyzing the Results
 
 ### HNSW Indexing Time
