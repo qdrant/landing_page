@@ -154,26 +154,25 @@ Since the collection will allow both dedicated and shared tenants, you still nee
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
-### Query Tiered Multitenant Collection
+### Write to a Tiered Multitenant Collection
 
-Now you can start uploading data into the collection. Unlike basic payload-based multitenancy, you need to specify the **Shard Key Selector** in each request to reach the correct shard.
+Now you can start uploading data into the collection. Specify a **shard key selector** in each request to reach the correct shard. The shard key selector needs to specify two keys:
 
-The Shard Key Selector will specify two keys:
- 
- - `target` shard - name of the tenant's dedicated shard (which may or may not exist).
- - `fallback` shard - name of the shared fallback shard (in this example, `default`).
-
+- `target` shard - name of the tenant's dedicated shard (which may or may not exist).
+- `fallback` shard - name of the shared fallback shard (in this example, `default`).
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/with-tenant-group-id-and-fallback-shard-key/" >}}
 
-The routing logic will work as follows:
+The routing logic works as follows:
 
-- If the `target` shard exists and is active, the request will be routed to it.
-- If the `target` shard does not exist, the request will be routed to the `fallback` shard.
+- If the `target` shard exists and is active, the request routes to it.
+- If the `target` shard does not exist, the request routes to the `fallback` shard.
 
-Similarly, when querying points, specify the Shard Key Selector and filter by `group_id`.
-The `group_id` filter value must match the `target` shard key.
+### Query Tiered Multitenant Collection
 
+When querying points, specify the same shard key selector and filter by tenant key (`group_id` in this example). The tenant filter value must match the `target` shard key.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id-and-fallback-shard-key/" >}}
 
 ### Promote Tenant to Dedicated Shard
 
