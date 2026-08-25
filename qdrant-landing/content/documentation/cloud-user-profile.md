@@ -70,7 +70,7 @@ A **recovery code** always accompanies an authenticator app, and is issued in th
 
 Once set up, the method is marked **Enabled** and two actions become available:
 
-* **Regenerate recovery code** — disables your existing recovery code and sends you back through login to issue a new one.
+* **Regenerate recovery code** — disables your existing recovery code and generate a new one.
 * **Disable** — removes the authenticator app across all devices, along with its recovery code. You can no longer use it for MFA.
 
 ### Passkeys
