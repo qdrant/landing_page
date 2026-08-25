@@ -1,6 +1,6 @@
 ```go
 client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "books",
+	CollectionName: "{collection_name}",
 	Query: qdrant.NewQueryNearest(
 		qdrant.NewVectorInputDocument(&qdrant.Document{
 			Model: "qdrant/bm25",
@@ -10,7 +10,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 	Using: qdrant.PtrOf("title-bm25"),
 	Filter: &qdrant.Filter{
 		Must: []*qdrant.Condition{
-			qdrant.NewMatch("tenant", "acme"),
+			qdrant.NewMatch("group_id", "user_1"),
 			qdrant.NewMatchInt("year", 2024),
 		},
 	},
@@ -18,7 +18,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 		Idf: &qdrant.IdfParams{
 			Corpus: &qdrant.Filter{
 				Must: []*qdrant.Condition{
-					qdrant.NewMatch("tenant", "acme"),
+					qdrant.NewMatch("group_id", "user_1"),
 				},
 			},
 		},

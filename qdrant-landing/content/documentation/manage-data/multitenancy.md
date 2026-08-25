@@ -49,7 +49,7 @@ Next, insert points with the tenant ID in the payload:
     The key doesn't need to be named <code>group_id</code>. You can choose any name.
 </aside>
 
-Query with a filter on `group_id` to return only one tenant's data:
+Query with a filter on the tenant field (`group_id`) to return only one tenant's data:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id/" >}}
 
@@ -96,7 +96,7 @@ This filter is independent of the retrieval filter. The filter that determines t
 
 Instead of filtering tenants by a payload field, another way to separate tenants is to give each tenant its own dedicated shard. Qdrant lets you specify the shard for each point individually, so operations for a tenant only ever touch that tenant's shard. This trades some resource overhead (each shard has its own storage and index structures) for stronger isolation, and works best for a modest number of large tenants.
 
-To use this approach, create a collection with [custom sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding) enabled:
+To use this approach, create a collection with [user-defined sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding) (also known as custom sharding) enabled:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
@@ -137,39 +137,42 @@ There are three components in Qdrant that allow you to implement tiered multiten
 
 ### Configure Tiered Multitenancy
 
-To take advantage of tiered multitenancy, you need to create a collection with user-defined (also known as `custom`) sharding and create a fallback shard in it.
+To take advantage of tiered multitenancy, you need to create a collection with user-defined sharding and create a fallback shard in it.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
+
+Set `shard_number` to 1. Promoting tenants to dedicated shards later can only be done with single shards. Configuring a `replication_factor` greater than 1 is fine.
 
 Start by creating a fallback shard, which will be used to store small tenants.
 Let's name it `default`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-default/" >}}
 
-Since the collection will allow both dedicated and shared tenants, you still need to configure payload-based tenancy the same way as described in the [Partition by Payload](#partition-by-payload) section. Specifically, create a payload index for the `group_id` field with `is_tenant=true`.
+Similar to creating a collection, set `shards_number` to 1.
+
+Since the collection will allow both dedicated and shared tenants, you still need to configure payload-based tenancy the same way as described in the [Partition by Payload](#partition-by-payload) section. Specifically, create a payload index for the tenant field (`group_id` in this example) with `is_tenant=true`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
-### Query Tiered Multitenant Collection
+### Write to a Tiered Multitenant Collection
 
-Now you can start uploading data into the collection. Unlike basic payload-based multitenancy, you need to specify the **Shard Key Selector** in each request to reach the correct shard.
+Now you can start uploading data into the collection. Specify a **shard key selector** in each request to reach the correct shard. The shard key selector needs to specify two keys:
 
-The Shard Key Selector will specify two keys:
- 
- - `target` shard - name of the tenant's dedicated shard (which may or may not exist).
- - `fallback` shard - name of the shared fallback shard (in this example, `default`).
-
+- `target` shard - name of the tenant's dedicated shard (which may or may not exist).
+- `fallback` shard - name of the shared fallback shard (in this example, `default`).
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/with-tenant-group-id-and-fallback-shard-key/" >}}
 
-The routing logic will work as follows:
+The routing logic works as follows:
 
-- If the `target` shard exists and is active, the request will be routed to it.
-- If the `target` shard does not exist, the request will be routed to the `fallback` shard.
+- If the `target` shard exists and is active, the request routes to it.
+- If the `target` shard does not exist, the request routes to the `fallback` shard.
 
-Similarly, when querying points, specify the Shard Key Selector and filter by `group_id`.
-The `group_id` filter value must match the `target` shard key.
+### Query Tiered Multitenant Collection
 
+When querying points, specify the same shard key selector and filter on the tenant field (`group_id` in this example). The tenant filter value must match the `target` shard key.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id-and-fallback-shard-key/" >}}
 
 ### Promote Tenant to Dedicated Shard
 
@@ -178,7 +181,7 @@ To do this, first create a new shard for the tenant:
 
 {{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-for-promotion/" >}}
 
-The shard is created in `Partial` state, since it still needs to receive data.
+The shard is created in `Partial` state, since it still needs to receive data. Similar to before, use the collection's default `shards_number` of 1. The `replication_factor` should initially be set to 1 too. You can create replicas after you've replicated the tenant's data to the new shard.
 
 Use the `replicate_points` API to initiate data transfer:
 
@@ -187,9 +190,12 @@ Use the `replicate_points` API to initiate data transfer:
 Once the transfer is complete, the target shard will become `Active`, and all requests for the tenant will be routed to it automatically.
 At this point it's safe to delete the tenant's data from the shared fallback shard to free up space.
 
+You can now [create replicas](/documentation/scaling/distributed_deployment/#creating-new-shard-replicas) for the new shard.
 
 ### Limitations
 
-- The fallback shard is limited to a single shard, though it can still be replicated across nodes for availability. This means all small tenants sharing the fallback shard must fit within the storage and write capacity of a single node. We plan to remove this restriction in a future release.
+- The fallback shard and the dedicated tenant shards must have a `shards_number` of 1. A new dedicated tenant shard also needs to have a `replication_factor` of 1 at creation time. This is because the shard transfer mechanism only works with single shards. If you wish, you can increase the replication factor after the point transfer is complete.
+
+  This means all small tenants sharing the fallback shard must fit within the storage and write capacity of a single shard, and thus that of a single node. The same applies to dedicated tenant shards. We plan to remove this restriction in a future release.
 - Similar to collections, dedicated shards introduce some resource overhead. Don't create more than a thousand dedicated shards per cluster. The recommended threshold for promoting a tenant is the same as the indexing threshold for a single collection, which is approximately 20,000 points.
 
