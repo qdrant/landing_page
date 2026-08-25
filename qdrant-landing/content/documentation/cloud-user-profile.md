@@ -64,7 +64,7 @@ Setting up either method sends you back through the login screen, because that i
 
 ### Authenticator App
 
-Select **Setup Authenticator App** to get started. You are taken back through login, where you scan a QR code with your authenticator app and confirm the code it generates.
+Select **Setup Authenticator App** to get started. You will be presented with a QR code that you need to scan with your authenticator app and confirm the code it generates.
 
 A **recovery code** always accompanies an authenticator app, and is issued in the same step. It is shown once, so store it somewhere safe — it is your way back in if you lose access to your authenticator app.
 
