@@ -1,6 +1,4 @@
 ```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
 client.upsert("{collection_name}", {
     points: [
         {

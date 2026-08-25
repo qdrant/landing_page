@@ -9,9 +9,6 @@ import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.ShardKeySelector;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client.queryAsync(
         QueryPoints.newBuilder()
                 .setCollectionName("{collection_name}")
