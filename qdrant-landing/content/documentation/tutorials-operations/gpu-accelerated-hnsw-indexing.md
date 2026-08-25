@@ -10,7 +10,7 @@ weight: 42
 | Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/gpu-accelerated-hnsw-indexing/Gpu_Accelerated_HNSW_Indexing.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/gpu-accelerated-hnsw-indexing/Gpu_Accelerated_HNSW_Indexing.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-Since [Qdrant v1.13](/blog/qdrant-1.13.x), Qdrant has supported GPU-accelerated Hierarchical Navigable Small World (HNSW) indexing on self-hosted instances. Qdrant Cloud added it as a managed option more recently, as part of the [Cloud Enterprise launch](/blog/qdrant-cloud-enterprise-launch/).
+Since [Qdrant v1.13](/blog/qdrant-1.13.x/), Qdrant has supported GPU-accelerated Hierarchical Navigable Small World (HNSW) indexing on self-hosted instances. Qdrant Cloud added it as a managed option more recently, as part of the [Cloud Enterprise launch](/blog/qdrant-cloud-enterprise-launch/).
 
 GPU acceleration speeds up HNSW index builds, which addresses a problem every team building with vector search eventually runs into: the cost of re-indexing a collection when switching to a different embedding model.
 
