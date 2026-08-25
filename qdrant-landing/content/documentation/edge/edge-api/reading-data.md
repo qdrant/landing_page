@@ -184,7 +184,7 @@ pub fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 
 ## Request Builders
 
-In Rust, each request type has a builder, so you only set the parameters you need. Builders are constructed with `Builder::new()`, not through a `builder()` method on the request type:
+Rust request types use builders. Create the builder directly with `Builder::new()` rather than calling `builder()` on the request type:
 
 ```rust
 let request = QueryRequestBuilder::new(10)
@@ -192,7 +192,7 @@ let request = QueryRequestBuilder::new(10)
     .build();
 ```
 
-Required parameters are arguments to `new`; everything else is a setter:
+Pass required parameters to `new()` and configure optional parameters with setters:
 
 | Builder | Constructor |
 |---|---|
@@ -205,6 +205,6 @@ Required parameters are arguments to `new`; everything else is a setter:
 | `GroupRequestBuilder` | `new(query, group_by, groups, group_size)` |
 | `SearchMatrixRequestBuilder` | `new(sample_size, limit_per_sample, using)` |
 
-The configuration types are the exception: `EdgeConfig`, `EdgeVectorParams`, and `EdgeSparseVectorParams` each expose a `builder()` method, as shown in [Configuration](/documentation/edge/edge-api/configuration/).
+Configuration types work differently. `EdgeConfig`, `EdgeVectorParams`, and `EdgeSparseVectorParams` expose a `builder()` method. Refer to [Configuration](/documentation/edge/edge-api/configuration/).
 
-The Python bindings construct requests through their class constructors instead.
+Python does not use request builders. Requests are created directly through class constructors.

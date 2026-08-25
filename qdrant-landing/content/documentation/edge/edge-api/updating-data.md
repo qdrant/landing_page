@@ -57,15 +57,18 @@ The `key` parameter on the payload operations targets a nested field path rather
 
 The `condition` parameter gates the write by a filter, but the two operations differ. On `update_vectors` it applies to the whole operation: only points matching the filter are updated. On `upsert_points` it applies only to points that already exist, so an existing point that fails the filter is left untouched while a point that is new to the shard is inserted regardless of the filter.
 
+The `condition` parameter controls whether a write is applied, but its behavior depends on the operation.
+For `update_vectors`, only points that match the filter are updated. For `upsert_points`, the filter applies only to existing points. Existing points that do not match the filter remain unchanged, while new points are inserted regardless of the filter.
+
 `upsert_points` also takes an `update_mode`:
 
 | Mode | Behavior |
 |---|---|
-| `UpdateMode.Upsert` | Insert new points and update existing ones. The default. |
+| `UpdateMode.Upsert` | Insert new points and update existing ones. This is the default behavior. |
 | `UpdateMode.InsertOnly` | Insert new points, leave existing ones untouched. |
 | `UpdateMode.UpdateOnly` | Update existing points, do not insert new ones. |
 
-In Rust, `UpdateOperation` is an enum grouping the same operations by what they act on:
+In Rust, `UpdateOperation` is an enum that groups operations by what they modify:
 
 | Variant | Covers |
 |---|---|
