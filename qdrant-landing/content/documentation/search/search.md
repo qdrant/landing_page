@@ -3,6 +3,7 @@ title: Search
 short_description: "Run similarity search in Qdrant to find points whose vectors are nearest to a query in the configured vector space."
 description: "Run similarity search in Qdrant to retrieve nearest-neighbor points for text, image, and multimodal queries using configurable distance metrics and HNSW."
 weight: 5
+cta: "Run your first similarity search. Free, no infrastructure needed."
 aliases:
   - ../search
   - /documentation/concepts/search/
@@ -92,6 +93,7 @@ Currently, it could be:
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 * `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/manage-data/quantization/#searching-with-quantization) guide.
 * `acorn` - parameters related to the [ACORN search algorithm](#acorn-search-algorithm).
+* `idf` - which population sparse vector IDF statistics are computed over. See [Per-Tenant IDF Statistics](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics).
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](/documentation/search/filtering/) section.
@@ -508,6 +510,8 @@ In some cases it might be useful to retrieve a random sample of points from the 
 Random sampling API is a part of [Universal Query API](#query-api) and can be used in the same way as regular search API.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/random-sample/" >}}
+
+<aside role="status">If you need a sample that's reproducible across queries, for example for recall evaluation or a train/test split, use the <a href="/documentation/search/filtering/#slice">slice filter condition</a> instead. It returns the same subset of points every time.</aside>
 
 ## Query Planning
 

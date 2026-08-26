@@ -80,9 +80,9 @@ client.upsert(collection_name, points)
 Once the documents are indexed, you can search for the most relevant documents using the same model.
 
 ```python
-client.search(
+client.query_points(
     collection_name=collection_name,
-    query_vector=openai_client.embeddings.create(
+    query=openai_client.embeddings.create(
         input=["What is the best to use for vector search scaling?"],
         model=embedding_model,
     )

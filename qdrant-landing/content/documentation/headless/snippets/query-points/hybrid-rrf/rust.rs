@@ -17,6 +17,7 @@ pub async fn main() -> anyhow::Result<()> {
                 .limit(20u64)
             )
             .query(Query::new_rrf(RrfBuilder::default()))
+            .limit(10u64)
     ).await?;
 
     Ok(())

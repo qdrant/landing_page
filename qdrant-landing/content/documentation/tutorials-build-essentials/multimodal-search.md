@@ -35,10 +35,10 @@ For example, the [vdr-2b-multi-v1 model](https://huggingface.co/llamaindex/vdr-2
 
 ## Setup
 
-First, install the required libraries `qdrant-client` and `llama-index-embeddings-huggingface`.
+First, install the required libraries `qdrant-client`, `llama-index-embeddings-huggingface`, and `torchvision`.
 
 ```bash
-pip install qdrant-client llama-index-embeddings-huggingface
+pip install qdrant-client llama-index-embeddings-huggingface torchvision
 ```
 
 ## Dataset

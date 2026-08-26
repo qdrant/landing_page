@@ -1,16 +1,74 @@
+{{/*
+  Condensed pagination: first + last always visible, a small window around
+  the current page, and ellipsis where pages are omitted.
+  Clicking an ellipsis opens a menu of all pages.
+  Page-number and "Newest" link markup/classes are unchanged.
+*/}}
 {{ $paginator := . }}
+{{ $total := $paginator.TotalPages }}
+{{ $current := $paginator.PageNumber }}
+{{ $adjacent := 1 }}
+{{ $showAll := le $total 7 }}
+
+{{ if gt $total 1 }}
 <div class="pagination">
   <ul class="pagination__list">
+    {{ $lastShown := 0 }}
     {{ range $paginator.Pagers }}
-      <li class="pagination__item {{ if eq .PageNumber $paginator.PageNumber }}active{{ end }}">
-        <a href="{{ .URL }}">{{ .PageNumber }}</a>
-      </li>
+      {{ $n := .PageNumber }}
+      {{ $show := or $showAll (eq $n 1) (eq $n $total) (and (ge $n (sub $current $adjacent)) (le $n (add $current $adjacent))) }}
+
+      {{/* Near the start: expand the leading window so we don't get "1 … 2 3" */}}
+      {{ if and (not $showAll) (le $current (add $adjacent 2)) (le $n (add (mul $adjacent 2) 2)) }}
+        {{ $show = true }}
+      {{ end }}
+
+      {{/* Near the end: expand the trailing window */}}
+      {{ if and (not $showAll) (ge $current (sub $total (add $adjacent 1))) (ge $n (sub $total (add (mul $adjacent 2) 1))) }}
+        {{ $show = true }}
+      {{ end }}
+
+      {{ if $show }}
+        {{ if and (gt $lastShown 0) (gt (sub $n $lastShown) 1) }}
+          {{ $panelMod := "" }}
+          {{ if eq $lastShown 1 }}
+            {{ $panelMod = " pagination__pages-menu-panel--start" }}
+          {{ else if eq $n $total }}
+            {{ $panelMod = " pagination__pages-menu-panel--end" }}
+          {{ end }}
+          <li class="pagination__item pagination__item--ellipsis">
+            <details class="pagination__pages-menu">
+              <summary class="pagination__pages-menu-trigger" aria-label="All pages">
+                <span aria-hidden="true">&hellip;</span>
+              </summary>
+              <div class="pagination__pages-menu-panel{{ $panelMod }}">
+                <ul class="pagination__pages-menu-list">
+                  {{ range $paginator.Pagers }}
+                    <li class="pagination__pages-menu-item{{ if eq .PageNumber $current }} active{{ end }}">
+                      <a href="{{ .URL }}">{{ .PageNumber }}</a>
+                    </li>
+                  {{ end }}
+                </ul>
+              </div>
+            </details>
+          </li>
+        {{ end }}
+        <li class="pagination__item{{ if eq $n $current }} active{{ end }}">
+          <a href="{{ .URL }}">{{ $n }}</a>
+        </li>
+        {{ $lastShown = $n }}
+      {{ end }}
     {{ end }}
 
-    {{ range first 1 $paginator.Pagers }}
+    {{ with $paginator.First }}
       <li class="pagination__item">
         <a href="{{ .URL }}"> Newest </a>
       </li>
     {{ end }}
   </ul>
 </div>
+{{ if not $showAll }}
+  {{ $paginationJs := resources.Get "/js/pagination.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $paginationJs.RelPermalink }}"></script>
+{{ end }}
+{{ end }}

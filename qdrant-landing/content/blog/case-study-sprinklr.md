@@ -29,7 +29,14 @@ Raghav Sonavane, Associate Director of Machine Learning Engineering at Sprinklr,
 
 *Figure:* Sprinklr’s RAG architecture
 
-Sprinklr’s platform is composed of four key product suites - Sprinklr Service, Sprinklr Marketing, Sprinklr Social, and Sprinklr Insights. Each suite is embedded with AI-first features such as assist agents, post-call analysis, and real-time analytics, which are crucial for managing large-scale contact center operations. “These AI-driven capabilities, supported by Qdrant’s advanced vector search, enhance Sprinklr’s customer-facing tools such as FAQ bots, transactional bots, conversational services, and product recommendation engines,” says Sonavane.
+Sprinklr’s platform is composed of four key product suites - Sprinklr Service, Sprinklr Marketing, Sprinklr Social, and Sprinklr Insights. Each suite is embedded with AI-first features such as assist agents, post-call analysis, and real-time analytics, which are crucial for managing large-scale contact center operations.
+
+{{< quote
+  text="These AI-driven capabilities, supported by Qdrant’s advanced vector search, enhance Sprinklr’s customer-facing tools such as FAQ bots, transactional bots, conversational services, and product recommendation engines."
+  name="Raghav Sonavane"
+  role="Associate Director of Machine Learning Engineering"
+  company="Sprinklr"
+  logo="/img/customer-logo/sprinklr.svg" >}}
 
 These self-serve applications rely heavily on advanced vector search to analyze and optimize community content and refine knowledge bases, ensuring efficient and relevant responses. For customers requiring further assistance, Sprinklr equips support agents with powerful search capabilities, enabling them to quickly access similar cases and draw from past interactions, enhancing the quality and speed of customer support.
 
@@ -56,9 +63,21 @@ After evaluating several options of vector DBs, including Pinecone, Weaviate, an
 
 Sprinklr’s transition to Qdrant was carefully managed, starting with 10% of their workloads before gradually scaling up. The transition was seamless, thanks in part to Qdrant’s configurable [Web UI](https://qdrant.tech/documentation/interfaces/web-ui/), which allowed Sprinklr to fully utilize its capabilities within the existing infrastructure.
 
-“Qdrant’s ability to index [multiple vectors](https://qdrant.tech/documentation/manage-data/vectors/#multivectors) simultaneously and retrieve and re-rank with precision brought significant improvements to our workflow,” Sonavane remarks. This feature reduced the need for repeated retrieval processes, significantly improving efficiency. Additionally, Qdrant’s [quantization](https://qdrant.tech/documentation/manage-data/quantization/) and [memory mapping](https://qdrant.tech/documentation/manage-data/storage/#configuring-memmap-storage) features enabled Sprinklr to reduce RAM usage, leading to substantial cost savings.
+{{< quote
+  text="Qdrant’s ability to index [multiple vectors](https://qdrant.tech/documentation/manage-data/vectors/#multivectors) simultaneously and retrieve and re-rank with precision brought significant improvements to our workflow."
+  name="Raghav Sonavane"
+  role="Associate Director of Machine Learning Engineering"
+  company="Sprinklr" >}}
 
-Qdrant now plays a key supportive role in enhancing Sprinklr’s vector search capabilities within its AI-driven applications, which is designed to be cloud- and LLM-agnostic. The platform supports various AI-driven tasks, from retrieval and re-ranking to serving advanced customer experiences. “Retrieval is the foundation of all our AI tasks, and Qdrant’s resilience and speed have made it an integral part of our system,” Sonavane emphasizes. Sprinklr operates [Qdrant as a managed service on AWS](https://qdrant.tech/cloud/), ensuring scalability, reliability, and ease of use.
+This feature reduced the need for repeated retrieval processes, significantly improving efficiency. Additionally, Qdrant’s [quantization](https://qdrant.tech/documentation/manage-data/quantization/) and [memory mapping](https://qdrant.tech/documentation/manage-data/storage/#configuring-memmap-storage) features enabled Sprinklr to reduce RAM usage, leading to substantial cost savings.
+
+Qdrant now plays a key supportive role in enhancing Sprinklr’s vector search capabilities within its AI-driven applications, which is designed to be cloud- and LLM-agnostic. The platform supports various AI-driven tasks, from retrieval and re-ranking to serving advanced customer experiences. Sprinklr operates [Qdrant as a managed service on AWS](https://qdrant.tech/cloud/), ensuring scalability, reliability, and ease of use.
+
+{{< quote
+  text="Retrieval is the foundation of all our AI tasks, and Qdrant’s resilience and speed have made it an integral part of our system."
+  name="Raghav Sonavane"
+  role="Associate Director of Machine Learning Engineering"
+  company="Sprinklr" >}}
 
 ### Key Outcomes with Qdrant
 
@@ -73,7 +92,11 @@ The Sprinklr team conducted a thorough internal benchmark on applications requir
 - **Low Latency for Real-Time Applications:** In Sprinklr's benchmark, Qdrant delivered a P99 latency of 20ms for searches on 1 million vectors, making it ideal for real-time use cases like live chat, where Elasticsearch and Milvus both exceeded 100ms.
 - **High Throughput for Heavy Query Loads**: In Sprinklr's benchmark, Qdrant handled up to 250 requests per second (RPS) under similar configurations, significantly outperforming Elasticsearch's 100 RPS, making it ideal for environments with heavy query loads.
 
-“Qdrant is a very fast and high quality retrieval system,” Sonavane points out.
+{{< quote
+  text="Qdrant is a very fast and high quality retrieval system."
+  name="Raghav Sonavane"
+  role="Associate Director of Machine Learning Engineering"
+  company="Sprinklr" >}}
 
 ![case-study-sprinklr-3](/blog/case-study-sprinklr/image3.png)
 
@@ -111,40 +134,15 @@ Key Observations:
 
 ![case-study-sprinklr-8](/blog/case-study-sprinklr/image8.png)
 
-```json
+```python
 data = [
-
-{'system': 'Qdrant', 'index_size': '1,000', 'MAP': 0.98, 'P95 Time': 0.22, 'Mean Time': 0.1, 'QPS': 280,
-
-'Upload Time': 1},
-
-{'system': 'Qdrant', 'index_size': '10,000', 'MAP': 0.99, 'P95 Time': 0.16, 'Mean Time': 0.09, 'QPS': 330,
-
-'Upload Time': 5},
-
-{'system': 'Qdrant', 'index_size': '100,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.23, 'QPS': 145,
-
-'Upload Time': 100},
-
-{'system': 'Qdrant', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.171, 'Mean Time': 0.162, 'QPS': 596,
-
-'Upload Time': 220},
-
-{'system': 'ElasticSearch', 'index_size': '1,000', 'MAP': 0.99, 'P95 Time': 0.42, 'Mean Time': 0.32, 'QPS': 95,
-
-'Upload Time': 10},
-
-{'system': 'ElasticSearch', 'index_size': '10,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.24, 'QPS': 120,
-
-'Upload Time': 50},
-
-{'system': 'ElasticSearch', 'index_size': '100,000', 'MAP': 0.99, 'P95 Time': 0.48, 'Mean Time': 0.42, 'QPS': 80,
-
-'Upload Time': 1100},
-
-{'system': 'ElasticSearch', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.37, 'Mean Time': 0.236,
-
-'QPS': 348, 'Upload Time': 1150}
-
+    {'system': 'Qdrant', 'index_size': '1,000', 'MAP': 0.98, 'P95 Time': 0.22, 'Mean Time': 0.1, 'QPS': 280, 'Upload Time': 1},
+    {'system': 'Qdrant', 'index_size': '10,000', 'MAP': 0.99, 'P95 Time': 0.16, 'Mean Time': 0.09, 'QPS': 330, 'Upload Time': 5},
+    {'system': 'Qdrant', 'index_size': '100,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.23, 'QPS': 145, 'Upload Time': 100},
+    {'system': 'Qdrant', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.171, 'Mean Time': 0.162, 'QPS': 596, 'Upload Time': 220},
+    {'system': 'ElasticSearch', 'index_size': '1,000', 'MAP': 0.99, 'P95 Time': 0.42, 'Mean Time': 0.32, 'QPS': 95, 'Upload Time': 10},
+    {'system': 'ElasticSearch', 'index_size': '10,000', 'MAP': 0.98, 'P95 Time': 0.3, 'Mean Time': 0.24, 'QPS': 120, 'Upload Time': 50},
+    {'system': 'ElasticSearch', 'index_size': '100,000', 'MAP': 0.99, 'P95 Time': 0.48, 'Mean Time': 0.42, 'QPS': 80, 'Upload Time': 1100},
+    {'system': 'ElasticSearch', 'index_size': '1,000,000', 'MAP': 0.99, 'P95 Time': 0.37, 'Mean Time': 0.236, 'QPS': 348, 'Upload Time': 1150},
 ]
 ```

@@ -156,9 +156,9 @@ If you anticipate a lot of growth, we recommend 12 shards since you can expand f
 
 Shards are evenly distributed across all existing nodes when a collection is first created.
 
-When you add or remove nodes from the cluster, rebalancing of existing shards across the nodes depends on how you've deployed the cluster:
+How existing shards get rebalanced across nodes depends on how you've deployed the cluster:
 
-- In Qdrant Cloud, shards are [balanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing).
+- In Qdrant Cloud, shards are [rebalanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing) on an ongoing basis to keep total shard count and size even per node across all of your collections.
 - If your cluster is not running in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
 ### Resharding
@@ -179,7 +179,7 @@ Please refer to the [Resharding](/documentation/cloud/cluster-scaling/#reshardin
 
 Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
 
-If your cluster is running in Qdrant Cloud, shards are balanced across the cluster nodes automatically. For more information see the [Configuring Cloud Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) and [Cloud Cluster Scaling](/documentation/cloud/cluster-scaling/) documentation.
+If your cluster is running in Qdrant Cloud, shards are rebalanced across the cluster nodes automatically on an ongoing basis. For more information see the [Configuring Cloud Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) and [Cloud Cluster Scaling](/documentation/cloud/cluster-scaling/) documentation.
 
 Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://api.qdrant.tech/master/api-reference/distributed/collection-cluster-info).
 
@@ -210,6 +210,8 @@ DELETE /cluster/peer/{peer_id}
 
 After that, Qdrant will exclude the node from the consensus, and the instance will be ready for shutdown.
 
+<aside role="status">On Qdrant Cloud, if <a href="/documentation/cloud/configure-cluster/#shard-rebalancing">automatic shard rebalancing</a> is active, a manual move that leaves a node's shard count or size outside the cluster's balance target can be corrected by automatic rebalancing. Disable automatic rebalancing first to manually control shard distribution across nodes.</aside>
+
 ### User-Defined Sharding
 
 *Available as of v1.7.0*
@@ -218,7 +220,7 @@ Qdrant allows you to specify the shard for each point individually. This feature
 
 #### Multitenancy
 
-A use-case for this feature is managing a [multi-tenant collection](/documentation/manage-data/multitenancy/), where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
+A use-case for this feature is managing a multi-tenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. See [User-defined sharding](/documentation/manage-data/multitenancy/#user-defined-sharding) in the Multitenancy guide for a tenant-focused walkthrough.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 

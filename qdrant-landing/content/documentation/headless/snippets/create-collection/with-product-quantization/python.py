@@ -1,6 +1,8 @@
 from qdrant_client import QdrantClient, models
 
+# @hide-start
 client = QdrantClient(url="http://localhost:6333")
+# @hide-end
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -8,7 +10,7 @@ client.create_collection(
     quantization_config=models.ProductQuantization(
         product=models.ProductQuantizationConfig(
             compression=models.CompressionRatio.X16,
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )

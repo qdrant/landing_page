@@ -10,7 +10,7 @@ import types
 import typing
 from pathlib import Path
 
-from lib import SNIPPETS_DIR, CollectedSnippetsType, collect_snippets, log
+from lib import SNIPPETS_DIR, CollectedSnippetsType, collect_snippets, extract_code, log
 from lib.languages import ALL_LANGUAGES, CompileResult, Language, parse_languages
 
 
@@ -84,6 +84,29 @@ def build_and_run(
             assert spec.loader is not None
             spec.loader.exec_module(mod)
             test_modules[snippet_dir] = mod
+
+    log("Syntax check stage")
+    for lang in snippets_by_lang:
+        if not lang.SUPPORTS_SYNTAX_CHECK:
+            log(
+                f"· Cannot check syntax of generated {lang.NAME} markdown "
+                "(no syntax-only parser available) - please review it manually"
+            )
+            continue
+
+        log(f"· Checking syntax of generated {lang.NAME} markdown")
+        for snippet_dir in snippets:
+            generated_dir = snippet_dir / "generated"
+            if not generated_dir.is_dir():
+                continue
+            for md_fname in sorted(generated_dir.rglob(f"{lang.NAME}.md")):
+                try:
+                    lang.check_syntax(extract_code(lang, md_fname))
+                except Exception as e:
+                    log(f"· · Syntax check failed for {md_fname}")
+                    errors.append(f"Syntax check failed for {md_fname}")
+                    if not isinstance(e, subprocess.CalledProcessError):
+                        traceback.print_exc()
 
     log("Compile stage")
     for lang, fnames in snippets_by_lang.items():

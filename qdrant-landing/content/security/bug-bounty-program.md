@@ -1,5 +1,8 @@
 ---
 title: Bug Bounty Program
+build:
+  render: always
+  list: always
 ---
 
 # Bug Bounty Program Overview

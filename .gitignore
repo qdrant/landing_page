@@ -9,3 +9,4 @@ dart-sass/
 
 .env
 .venv/
+.agents/

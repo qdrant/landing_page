@@ -116,11 +116,35 @@ To disable, set `read_fan_out_delay_ms` back to `0`.
 
 *Linux only. Requires kernel support.*
 
-If your vectors or HNSW index are on disk, enabling the [async scorer](/articles/io_uring/) can reduce the time Qdrant spends waiting on disk reads. By default, Qdrant reads vectors synchronously: it sends a request, waits for the response, then sends the next. With Async I/O enabled, it batches disk requests and waits for them in parallel, saturating disk bandwidth instead of leaving it idle between reads.
+If your vectors or payload are on disk, [async I/O](/articles/io_uring/) can reduce the time Qdrant spends waiting on disk reads. By default, Qdrant reads data synchronously: it sends a request, waits for the response, then sends the next. With async I/O enabled, it batches disk requests and waits for them in parallel, saturating disk bandwidth instead of leaving it idle between reads. This is most relevant during rescoring: when Qdrant retrieves candidate vectors from disk to rerank results, async I/O allows it to fetch all of them concurrently rather than one by one.
 
-This is most relevant during rescoring: when Qdrant retrieves candidate vectors from disk to rerank results, async I/O allows it to fetch all of them concurrently rather than one by one.
+Async I/O relies on `io_uring`, so verify kernel support before enabling in production.
 
-Enable it in the config file by setting `async_scorer` to `true`:
+### `io_uring` Setting
+
+*Available as of v1.19.0.* 
+
+Set `storage.performance.io_uring` to `auto` to apply async I/O to vector storage and payload storage when they're `cold`. You can enable it in the configuration file:
+
+```yaml
+storage:
+  performance:
+    io_uring: auto
+```
+
+or via an environment variable:
+
+```bash
+QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
+```
+
+### `async_scorer` Setting
+
+*Available as of v1.3.0.* 
+
+An older setting that applies async I/O to vector rescoring only, not payload. Prefer `io_uring` unless you're on a version older than 1.19. Setting `io_uring` takes precedence over `async_scorer` for the structures it covers.
+
+You can enable `async_scorer` in the configuration file:
 
 ```yaml
 storage:
@@ -128,15 +152,13 @@ storage:
     async_scorer: true
 ```
 
-Or via an environment variable:
+or via an environment variable:
 
 ```bash
 QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
 ```
 
-On Qdrant Cloud, it's available under **Advanced Optimizations** in the cluster **Configuration** tab.
-
-If your data is entirely in memory, this setting has no effect. And because it relies on `io_uring`, it only works on Linux with a kernel that supports it. Verify kernel support before enabling in production.
+On Qdrant Cloud, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab.
 
 ## Step 7: Lower the Maximum Segment Size
 
@@ -170,7 +192,7 @@ Like Step 8, this step adds capacity rather than reallocating it. Where horizont
 
 **CPU.** More vCPUs mean the optimizer and queries share a larger pool. The ratios from Steps 3 and 4 still apply, but with 32 vCPUs instead of eight, even a 25% optimizer budget leaves more absolute cores for queries. Vertical CPU scaling amplifies the effect of the tuning you've already done.
 
-**RAM.** This is often the highest-leverage upgrade. When vectors and the HNSW index fit entirely in memory, disk I/O drops out of the picture: the optimizer and queries no longer compete for it. If you're currently using memmap storage because your dataset outgrew RAM, adding memory may let you move to in-memory storage and eliminate a whole class of contention.
+**RAM.** This is often the highest-leverage upgrade. When vectors and the HNSW index are [loaded](/documentation/ops-configuration/memory-tiers/) in RAM, disk I/O drops out of the picture: the optimizer and queries no longer compete for it. If you're currently keeping vectors in the `cold` tier because your dataset outgrew RAM, adding memory may let you move them to the `cached` tier and eliminate a whole class of contention.
 
 **Input/Output Operations per Second (IOPS).** If vectors or the HNSW index are stored on disk, disk throughput is a shared resource between the optimizer and queries. The optimizer continuously reads and writes segment data: merging segments, flushing the write-ahead log, and rebuilding indexes. Higher IOPS lets it complete that work faster, shortening the window of I/O contention.
 

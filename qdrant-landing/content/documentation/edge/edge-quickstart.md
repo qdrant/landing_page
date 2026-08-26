@@ -112,6 +112,8 @@ For example, to set the WAL size to 4 MB:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="wal-options" >}}
 
+When loading an existing Edge Shard, any parameter left unset on the supplied `EdgeConfig` keeps the value persisted with the shard. A config that only sets `wal_options` therefore leaves the rest of the shard's configuration untouched.
+
 ## More Examples
 
 The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/dev/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/dev/lib/edge/publish/examples).

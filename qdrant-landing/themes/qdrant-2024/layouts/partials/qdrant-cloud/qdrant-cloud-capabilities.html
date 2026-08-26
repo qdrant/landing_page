@@ -43,6 +43,7 @@
                 <a
                   class="qdrant-cloud-capabilities__tab-feature"
                   href="{{ .link }}"
+                  data-metric-label="{{ .title | plainify }}"
                   {{ if strings.HasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}
                 >
                 {{ else }}

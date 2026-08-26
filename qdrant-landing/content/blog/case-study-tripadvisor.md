@@ -22,6 +22,16 @@ partition: case-studies
 
 ![How Tripadvisor Drives 2–3x More Revenue with Qdrant-Powered AI](/blog/case-study-tripadvisor/case-study-tripadvisor-summary-dark.jpg)
 
+{{< quote
+  text="Qdrant has been crucial for our transformation. When you're dealing with over a billion plus user-generated, multi-modal pieces of content from hundreds of millions of monthly active users across 21 countries, 11M businesses and all the complex user interactions that come with it, you need a way to bring it all together. Now, we can represent everything from hotel preferences to restaurant choices to user behavior in a unified way. And we’re seeing real business results. Users engaging with our AI-powered features like trip planning are showing 2-3x more revenue."
+  name="Rahul Todkar"
+  name_url="https://www.linkedin.com/in/rahultodkar"
+  role="Head of Data and AI"
+  company="Tripadvisor"
+  avatar="/img/customers/rahul-todkar.svg"
+  logo="/img/brands/tripadvisor.svg"
+  featured="true" >}}
+
 Tripadvisor, the world’s largest travel guidance platform, is undergoing a deep transformation. With hundreds of millions of monthly users and over a billion reviews and contributions, it holds one of the richest datasets in the travel industry. And until recently, that data, particularly its unstructured content, had incredible untapped potential. Now, with the rise of generative AI and the adoption of tools like Qdrant’s vector database, Tripadvisor is unlocking its full potential to deliver intelligent, personalized, and high-impact travel experiences.
 
 ## Activating Billions of Data Assets
@@ -53,10 +63,6 @@ To support all of this, Tripadvisor needed a way to store and retrieve complex, 
 The team is using Qdrant to build a **user graph**, a multidimensional representation of how users engage with different aspects of a trip: hotels, attractions, food, travel styles, and more. Vector-based retrieval allows them to query this data flexibly and serve responses that feel genuinely personalized.
 
 And unlike traditional databases, Qdrant is built for **real-time, unstructured data**, making it ideal for powering conversational AI, search augmentation, and recommendation engines.
-
-*“Qdrant has been crucial for our transformation. When you're dealing with over a billion plus user-generated, multi-modal pieces of content from hundreds of millions of monthly active users across 21 countries, 11M businesses and all the complex user interactions that come with it, you need a way to bring it all together. Now, we can represent everything from hotel preferences to restaurant choices to user behavior in a unified way. And we’re seeing real business results. Users engaging with our AI-powered features like trip planning are showing 2-3x more revenue.”*
-
-[*Rahul Todkar*](https://www.linkedin.com/in/rahultodkar) *\- Head of Data and AI*
 
 ## What’s Next
 

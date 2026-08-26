@@ -21,7 +21,7 @@ tags:
 
 Evaluating the performance of a [Retrieval-Augmented Generation (RAG)](/rag/) application can be a complex task for developers. 
 
-To help simplify this, Qdrant has partnered with [Relari](https://www.relari.ai) to provide an in-depth [RAG evaluation](/articles/rapid-rag-optimization-with-qdrant-and-quotient/) process.
+To help simplify this, Qdrant has partnered with [Relari](https://www.relari.ai) to provide an in-depth RAG evaluation process.
 
 As a [vector database](https://qdrant.tech), Qdrant handles the data storage and retrieval, while Relari enables you to run experiments to assess how well your RAG app performs in real-world scenarios. Together, they allow for fast, iterative testing and evaluation, making it easier to keep up with your app's development pace.
 

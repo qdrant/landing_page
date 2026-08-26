@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 
 from .base import CompileResult, Language, copy_template
@@ -6,6 +7,11 @@ from .base import CompileResult, Language, copy_template
 class LanguageBash(Language):
     NAME = "bash"
     SNIPPET_FILENAME = "bash.sh"
+    SUPPORTS_SYNTAX_CHECK = True
+
+    @classmethod
+    def check_syntax(cls, code: str) -> None:
+        subprocess.run(["bash", "-n"], input=code, text=True, check=True)
 
     @classmethod
     def compile(cls, tmpdir: Path, fnames: list[Path]) -> CompileResult:

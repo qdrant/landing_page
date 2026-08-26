@@ -1,0 +1,3 @@
+Category: Create Collection - Sparse Vector Index Default Memory Tier
+
+This code snippet demonstrates creating a collection in Qdrant with a sparse vector index configuration that does not set a memory tier. Without an explicit `memory` setting, the sparse vector index defaults to the `pinned` memory tier, meaning it is loaded into memory for the fastest search. Sparse vector indexing in Qdrant is exact and does not involve approximation algorithms. The indexing method employed is similar to inverted indexes commonly found in text search engines.

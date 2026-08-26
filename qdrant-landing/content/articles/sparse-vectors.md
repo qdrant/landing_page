@@ -37,7 +37,7 @@ The numbers 331 and 14136 map to specific tokens in the vocabulary e.g. `['choco
 
 The tokens aren't always words though, sometimes they can be sub-words: `['ch', 'ocolate']` too.
 
-They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
+They're pivotal in information retrieval, especially in ranking and search systems. [BM25](/documentation/search/text-search/full-text-search/#bm25), a standard ranking function natively available in Qdrant, exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
 BM25's capabilities are well-established, yet it has its limitations. 
 
@@ -359,22 +359,20 @@ After setting up the collection and inserting sparse vectors, the next critical 
 
 ```python
 # Searching for similar documents
-result = client.search(
+result = client.query_points(
     collection_name=COLLECTION_NAME,
-    query_vector=models.NamedSparseVector(
-        name="text",
-        vector=models.SparseVector(
-            indices=query_indices,
-            values=query_values,
-        ),
+    query=models.SparseVector(
+        indices=query_indices,
+        values=query_values,
     ),
+    using="text",
     with_vectors=True,
-)
+).points
 
 result
 ```
 
-In the above code, we execute a search against our collection using the prepared sparse vector query. The `client.search` method takes the collection name and the query vector as inputs. The query vector is constructed using the `models.NamedSparseVector`, which includes the indices and values derived from the query text. This is a crucial step in efficiently retrieving relevant documents. 
+The `client.query_points` method takes the collection name and the sparse query vector as inputs. The `using` parameter selects the named vector.
 
 ```python
 ScoredPoint(

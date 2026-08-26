@@ -1,0 +1,15 @@
+{{ with (.Site.GetPage "/serverless/what-is") }}
+  <section class="serverless-what-is">
+    <div class="container">
+      <div class="serverless-what-is__content">
+        <div class="serverless-what-is__heading">
+          <h3 class="serverless-what-is__title">{{ .Params.title }}</h3>
+        </div>
+        <div class="serverless-what-is__body">
+          <h6 class="serverless-what-is__subtitle">{{ .Params.subtitle }}</h6>
+          <p class="serverless-what-is__description">{{ .Params.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

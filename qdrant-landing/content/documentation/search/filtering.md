@@ -3,6 +3,7 @@ title: Filtering
 short_description: "Combine vector similarity with payload filters in Qdrant to enforce business rules and refine search results."
 description: "Filter Qdrant search results with payload conditions on metadata and IDs, combining database-style clauses with vector similarity for precise retrieval."
 weight: 10
+cta: "Try filtered vector search on a free Cloud cluster."
 aliases:
   - ../filtering
 ---
@@ -302,9 +303,25 @@ Parent document is considered to match the condition if at least one element of 
 
 **Limitations**
 
-The `has_id` condition is not supported within the nested object filter. If you need it, place it in an adjacent `must` clause.
+The `has_id` and `slice` conditions are not supported within the nested object filter. If you need them, place them in an adjacent `must` clause.
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause-and-has-id/" >}}
+
+### Prefix Match
+
+*Available as of v1.19.0*
+
+A match `prefix` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that start with the specified string.
+
+For example, the prefix `"https://qdrant."` matches the value `"https://qdrant.tech/documentation"`, but the prefix `"qdrant"` does not.
+
+Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It is also case-sensitive, consistent with exact keyword matching. Unlike [Full Text Match](#full-text-match), prefix matching does not tokenize the value, so it is well suited to identifiers such as URLs, paths, or SKUs.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-prefix/" >}}
+
+<aside role="status">
+    For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
+</aside>
 
 ### Full Text Match
 
@@ -513,6 +530,22 @@ Some points in the collection might have all vectors, some might have only a sub
 This is how you can search for points which have the dense `image` vector defined:
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-has-vector/" >}}
+
+### Slice
+
+*Available as of v1.19.0*
+
+The `slice` condition divides a collection into a specific number of deterministic, disjoint subsets and matches all points in one of those subsets.
+
+Slicing is useful to [scroll](/documentation/manage-data/points/#scroll-points) through several subsets of a collection in parallel, for example to export, migrate, or re-embed points. Give each worker its own `index` to let every worker scan a separate subset of the collection.
+
+You can also use it to reproducibly sample a subset of the data for recall evaluation, train/test splits, or canary rollouts. Unlike [random sampling](/documentation/search/search/#random-sampling), a given slice always returns the same subset of points. It can be combined with any other filter condition for stratified sampling.
+
+For example, to scroll through slice 3 out of a total of 8 slices:
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/slice/" >}}
+
+Slicing is based on a hash of the point IDs. A point matches slice `index` of `total` if `hash(id) % total == index`. For a fixed `total`, slices `0` through `total - 1` are disjoint and together cover every point in the collection. The hash is [SipHash-2-4](https://en.wikipedia.org/wiki/SipHash) with a zero key over the ID bytes, and it won't change across Qdrant versions. Slices with different `total` values are correlated, so slice `0` of `total: 4` is always a subset of slice `0` of `total: 2`.
 
 ## Read More
 

@@ -5,17 +5,12 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
 client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	CollectionName: "{collection_name}",
 	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
 		Size:     768,
 		Distance: qdrant.Distance_Cosine,
-		OnDisk:   qdrant.PtrOf(true),
+		Memory:   qdrant.Memory_Cold.Enum(),
 	}),
 })
 ```

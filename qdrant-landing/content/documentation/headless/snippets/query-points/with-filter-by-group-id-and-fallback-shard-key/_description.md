@@ -1,0 +1,1 @@
+Query a collection using a shard key selector with fallback, and filter results by `group_id`. The shard key selector routes to the tenant's dedicated shard if it exists, or falls back to the shared shard.

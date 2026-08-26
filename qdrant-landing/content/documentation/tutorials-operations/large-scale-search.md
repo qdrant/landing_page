@@ -81,12 +81,14 @@ client.create_collection(
             size=512, # CLIP model output size
             distance=models.Distance.COSINE, # CLIP model uses cosine distance
             datatype=models.Datatype.FLOAT16, # We only need 16 bits for float, otherwise disk usage would be 800Gb instead of 400Gb
+            # `on_disk` is deprecated. On version 1.19 or later, use `memory` instead.
             on_disk=True # We don't need original vectors in RAM
         ),
         # Even though CLIP vectors don't work well with binary quantization, out of the box,
         # we can rely on query-time oversampling to get more accurate results
         quantization_config=models.BinaryQuantization(
             binary=models.BinaryQuantizationConfig(
+                # `always_ram` is deprecated. On version 1.19 or later, use `memory` instead.
                 always_ram=True,
             )
         ),
@@ -100,6 +102,7 @@ client.create_collection(
         # We could still achieve reasonable accuracy even with M=6 + oversampling
         hnsw_config=models.HnswConfigDiff(
             m=6, # decrease M for lower memory usage
+            # `on_disk` is deprecated. On version 1.19 or later, use `memory` instead.
             on_disk=False
         ),
     )
@@ -316,6 +319,10 @@ storage:
 In Qdrant Managed cloud Async IO can be enabled via `Advanced optimizations` section in cluster `Configuration` tab.
 
 {{< figure src="/documentation/tutorials/large-scale-search/async_io.png" caption="Async IO configuration in Cloud" width="80%" >}}
+
+<aside role="status">
+As of Qdrant v1.19, <code>storage.performance.io_uring</code> is a broader alternative: set it to <code>auto</code> to apply async I/O to vector storage and payload storage when they're on disk, not only vector rescoring. See <a href="/documentation/ops-configuration/memory-tiers/#async-io">Async I/O</a> for details.
+</aside>
 
 
 ## Running search requests

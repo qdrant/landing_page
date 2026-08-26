@@ -42,6 +42,9 @@ menuItems:
         name: Qdrant Edge (Beta)
         url: /edge/
       - id: 6
+        name: Qdrant Serverless (Coming soon)
+        url: /serverless/
+      - id: 7
         name: Pricing
         url: /pricing/
   - title: Use Cases

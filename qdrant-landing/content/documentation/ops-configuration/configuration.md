@@ -126,6 +126,8 @@ This ensures that misconfigurations are caught early, preventing Qdrant from run
 
 The following YAML example describes the available configuration options.
 
+See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for details on the `memory` options shown below.
+
 ```yaml
 log_level: INFO
 
@@ -163,6 +165,7 @@ storage:
   # If null, temporary snapshots are stored in: storage/snapshots_temp/
   temp_path: null
 
+  # Deprecated: use `payload.memory` instead.
   # If true - point payloads will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
@@ -170,6 +173,12 @@ storage:
   #
   # Default: true
   on_disk_payload: true
+
+  # Default payload storage configuration for newly created collections.
+  # Overrides the deprecated `on_disk_payload` flag if both are set.
+  # payload:
+  #   # Memory placement of the payload storage: cold or cached.
+  #   memory: cold
 
   # Maximum number of concurrent updates to shard replicas
   # If `null` - maximum concurrency is used.
@@ -222,6 +231,16 @@ storage:
     # Only supported on Linux, must be enabled in your kernel.
     # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
     #async_scorer: false
+
+    # Whether components readable through either a memory mapping or io_uring should use
+    # io_uring. Only has an effect on Linux.
+    #
+    # - unset (default): the immutable vector storages follow `async_scorer`, nothing else
+    #   uses io_uring.
+    # - "disabled": no component uses io_uring.
+    # - "auto": use io_uring for components with a `cold` memory placement, where reads hit
+    #   the disk. Components meant to sit in RAM keep using mmap, which is faster there.
+    #io_uring: disabled
 
     # Maximum number of collections to load concurrently.
     #max_concurrent_collection_loads: 1
@@ -306,8 +325,13 @@ storage:
     # On small CPUs, less threads are used.
     max_indexing_threads: 0
 
+    # Deprecated: use `memory` instead.
     # Store HNSW index on disk. If set to false, index will be stored in RAM. Default: false
     on_disk: false
+
+    # Memory placement of the HNSW index: cold, cached or pinned.
+    # Overrides the deprecated `on_disk` flag if both are set.
+    # memory: cached
 
     # Custom M param for hnsw graph built for payload index. If not set, default M will be used.
     payload_m: null
@@ -328,8 +352,13 @@ storage:
 
     # Default parameters for vectors.
     vectors:
+      # Deprecated: use `memory` instead.
       # Whether vectors should be stored in memory or on disk.
       on_disk: null
+
+      # Memory placement of the vector storage: cold or cached.
+      # Overrides the deprecated `on_disk` flag if both are set.
+      # memory: null
 
     # shard_number_per_node: 1
 
@@ -366,6 +395,39 @@ storage:
   # Maximum number of collections allowed to be created
   # If null - no limit.
   max_collections: null
+
+  # Cluster-wide resource quotas.
+  #
+  # Memory and disk are node-wide resources, so their limits are configured once for the whole
+  # cluster instead of per collection. Quotas reject updates that would consume more of a resource,
+  # regardless of whether strict mode is enabled for the collection being written to. The deprecated
+  # `max_resident_memory_percent` in a collection's strict mode config can tighten the memory limit
+  # for that collection, but never lift it.
+  #
+  # A limit that is reached has to be cleared by `release_margin_percent` before the node accepts
+  # writes again. Without that margin a resource resting on its limit would put the node in and out
+  # of service on the noise between two readings, restarting a shard recovery every time.
+  #
+  # If this section is absent - no quota is enforced.
+  #quotas:
+    # Whether the limits below are enforced.
+    #enabled: false
+
+    # Reject memory-consuming updates once process resident memory reaches this percentage of total
+    # system memory (or of the cgroup limit, if one applies).
+    # If null - resident memory is not capped.
+    #max_resident_memory_percent: null
+
+    # Reject disk-consuming updates once the filesystem hosting the storage directory is filled to
+    # this percentage of its capacity.
+    # If null - disk usage is not capped.
+    #max_disk_usage_percent: null
+
+    # How many percentage points below its limit a resource has to fall before this node starts
+    # accepting work again. Raise it where usage is volatile; 0 releases as soon as usage is back
+    # under the limit.
+    # If null - the built-in default of 5 applies.
+    #release_margin_percent: null
 
 service:
   # Maximum size of POST data in a single request in megabytes

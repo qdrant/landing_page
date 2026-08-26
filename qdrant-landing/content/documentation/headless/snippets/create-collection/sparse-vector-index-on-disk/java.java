@@ -6,20 +6,22 @@ import io.qdrant.client.grpc.Collections;
 
 public class Snippet {
         public static void run() throws Exception {
+                // @hide-start
                 QdrantClient client = new QdrantClient(
                     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+                // @hide-end
 
                 client.createCollectionAsync(
                     Collections.CreateCollection.newBuilder()
                         .setCollectionName("{collection_name}")
                         .setSparseVectorsConfig(
                             Collections.SparseVectorConfig.newBuilder().putMap(
-                                "splade-model-name",
+                                "text",
                                 Collections.SparseVectorParams.newBuilder()
                                     .setIndex(
                                         Collections.SparseIndexConfig
                                             .newBuilder()
-                                            .setOnDisk(false)
+                                            .setMemory(Collections.Memory.Cold)
                                             .build()
                                     ).build()
                             ).build()

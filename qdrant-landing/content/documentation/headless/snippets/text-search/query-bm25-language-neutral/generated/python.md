@@ -7,13 +7,17 @@ client = QdrantClient(
     cloud_inference=True,
 )
 
-# Note: these BM25 options are not supported by FastEmbed
 client.query_points(
     collection_name="books",
     query=models.Document(
         text="Mieville",
         model="qdrant/bm25",
-        options={"language": "none", "tokenizer": "multilingual", "ascii_folding": True},
+        options=models.Bm25Config(
+            stemmer=models.DisabledStemmerParams(type=models.NoStemmer.NONE),
+            stopwords=models.StopwordsSet(),
+            tokenizer=models.TokenizerType.MULTILINGUAL,
+            ascii_folding=True,
+        ),
     ),
     using="author-bm25",
     limit=10,

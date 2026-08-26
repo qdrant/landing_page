@@ -6,17 +6,23 @@
       <div class="row g-4">
         {{ range .Params.cards }}
           <div class="col-12 col-lg-4">
-            <div class="card qdrant-cloud-customers__card">
+            <a
+              class="card qdrant-cloud-customers__card"
+              href="{{ .link.url }}"
+              data-metric-label="{{ .title | plainify }}"
+              {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
+            >
               <img class="qdrant-cloud-customers__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
               <div>
                 <h5 class="qdrant-cloud-customers__card-title">{{ .title | safeHTML }}</h5>
                 <p class="qdrant-cloud-customers__card-description">{{ .description }}</p>
+                <span class="link link_dark link_md qdrant-cloud-customers__card-link">{{ .link.text }}</span>
               </div>
               <div class="qdrant-cloud-customers__card-footer">
                 <p class="qdrant-cloud-customers__card-category">{{ .category }}</p>
                 <p class="qdrant-cloud-customers__card-label">{{ .label }}</p>
               </div>
-            </div>
+            </a>
           </div>
         {{ end }}
       </div>

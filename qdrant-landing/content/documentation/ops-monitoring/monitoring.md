@@ -45,6 +45,9 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | ----------------------------------- | ------- | ------------------------------ |
 | app_info                            | gauge   | Qdrant server name and version |
 | app_status_recovery_mode            | gauge   | If started in recovery mode    |
+| quota_exceeded                      | gauge   | If a configured resource quota is exceeded, per resource <sup>(v1.19+)</sup> [^metrics-quota] |
+
+[^metrics-quota]: Only reported for resources that have a quota configured. See [Monitoring Quotas](/documentation/ops-configuration/quotas/#monitoring-quotas).
 
 **Collection Metrics**
 
@@ -171,6 +174,8 @@ The `endpoint` label uses the route template, not the resolved path. The actual 
 ## Telemetry Endpoint
 
 Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
+
+As of v1.19.0, telemetry includes a top-level `quota` field. See [Monitoring Quotas](/documentation/ops-configuration/quotas/#monitoring-quotas).
 
 ## Cluster-Wide Telemetry
 

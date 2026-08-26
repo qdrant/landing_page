@@ -1,16 +1,20 @@
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(
-        size=768, distance=models.Distance.COSINE, on_disk=True
+        size=768,
+        distance=models.Distance.COSINE,
+        memory=models.Memory.COLD,
+        datatype=models.Datatype.TURBO4,
     ),
-    quantization_config=models.BinaryQuantization(
-        binary=models.BinaryQuantizationConfig(always_ram=False),
+    quantization_config=models.TurboQuantization(
+        turbo=models.TurboQuantQuantizationConfig(
+            bits=models.TurboQuantBitSize.BITS1,
+            memory=models.Memory.COLD,
+        )
     ),
-    hnsw_config=models.HnswConfigDiff(on_disk=True, inline_storage=True),
+    hnsw_config=models.HnswConfigDiff(memory=models.Memory.COLD, inline_storage=True),
 )
 ```

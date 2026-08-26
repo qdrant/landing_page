@@ -252,7 +252,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **What can I do to resolve this?**
     
-    Resharding and shard rebalancing are the primary techniques for ensuring data is evenly distributed and that requests are not concentrated on a single node.
+    Resharding and shard rebalancing are the primary techniques for ensuring data is evenly distributed and that requests are not concentrated on a single node. In Qdrant Cloud, rebalancing runs continuously in the background, but it balances total shard count and size per node across all of your collections combined, not per collection, so one collection can still look uneven even while the cluster as a whole is balanced.
     
     **Where can I learn more about this alert?**
     
@@ -278,7 +278,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     This would help when your node count has been scaled up so you can reshard a collection to split it more evenly with a rebalance.
     
-    Rebalancing is the process of redistributing shards across nodes which is useful if you add a new node and need to fill the capacity. In Qdrant Cloud, rebalancing happens automatically when a cluster is scaled horizontally.
+    Rebalancing is the process of redistributing shards across nodes to keep the total shard count and size even per node across all collections. In Qdrant Cloud, rebalancing runs automatically and continuously in the background by default.
     
     **Where can I learn more about this alert?**
     
