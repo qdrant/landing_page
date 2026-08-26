@@ -77,6 +77,7 @@ Qdrant now plays a key supportive role in enhancing Sprinklr’s vector search c
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
   company="Sprinklr"
+  avatar="/img/customers/raghav-sonavane.png"
   logo="/img/customer-logo/sprinklr.svg" >}}
 
 ### Key Outcomes with Qdrant
@@ -92,11 +93,7 @@ The Sprinklr team conducted a thorough internal benchmark on applications requir
 - **Low Latency for Real-Time Applications:** In Sprinklr's benchmark, Qdrant delivered a P99 latency of 20ms for searches on 1 million vectors, making it ideal for real-time use cases like live chat, where Elasticsearch and Milvus both exceeded 100ms.
 - **High Throughput for Heavy Query Loads**: In Sprinklr's benchmark, Qdrant handled up to 250 requests per second (RPS) under similar configurations, significantly outperforming Elasticsearch's 100 RPS, making it ideal for environments with heavy query loads.
 
-{{< quote
-  text="Qdrant is a very fast and high quality retrieval system."
-  name="Raghav Sonavane"
-  role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr" >}}
+“Qdrant is a very fast and high quality retrieval system,” Sonavane points out.
 
 ![case-study-sprinklr-3](/blog/case-study-sprinklr/image3.png)
 

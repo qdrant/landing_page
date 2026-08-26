@@ -81,11 +81,7 @@ Dust’s end. In addition, they created clusters and deployed them on Google
 Cloud since Dust wanted to have those run directly in their existing Google
 Cloud environment. This added a lot of value as it allowed Dust to centralize
 billing and increase security by having the instance live within the same VPC.
-{{< quote
-  text="The early setup worked out of the box nicely."
-  name="Stanislas Polu"
-  role="Co-Founder"
-  company="Dust" >}}
+“The early setup worked out of the box nicely,” Polu says.
 
 2. **Scale and optimize:** As the load grew, Dust started to take advantage of Qdrant’s
 features to tune the setup for optimization and scale. They started to look into
@@ -111,7 +107,7 @@ milliseconds, as well as maintaining high accuracy. Additionally, Polu highlight
 the efficiency gains Dust was able to unlock with Qdrant.
 
 {{< quote
-  text="We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as we don’t have to run lots of nodes in parallel. While being memory-bound, we were able to push the same instances further with the help of quantization. While you get pressure on MMAP in this case you maintain very good performance even if the RAM is fully used. With this we were able to reduce our cost by 2x."
+  text="We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as we don’t have to run lots of nodes in parallel. While being memory-bound, we were able to push the same instances further with the help of quantization. While you get pressure on MMAP in this case you maintain very good performance even if the RAM is fully used. With this we were able to **reduce our cost by 2x**."
   name="Stanislas Polu"
   role="Co-Founder"
   company="Dust"
@@ -130,3 +126,5 @@ Dust will expand on its structured data capabilities.
 
 To learn more about how Dust uses Qdrant to help employees in their day to day
 tasks, check out our [Vector Space Talk](https://www.youtube.com/watch?v=toIgkJuysQ4) featuring Stanislas Polu, Co-Founder of Dust.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/toIgkJuysQ4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
