@@ -36,9 +36,9 @@ The Qdrant client gives you three ways to get points in. The first has you manag
 
 - **upload_collection** takes `vectors`, `payload`, and `ids` as separate arguments, the column-oriented shape.
 
-Those last two are the same tool in two shapes. Both add [parallelization, retries, and lazy batching](/documentation/manage-data/points/#python-client-optimizations) on top of upsert, and because both accept iterators, neither needs the whole dataset in memory. Pick whichever matches how your data already sits: the docs note the two formats are equivalent internally and offered for convenience.
+![upsert takes models.Batch or a list and you batch it yourself. upload_points is record-oriented, an iterable of PointStruct. upload_collection is column-oriented, taking vectors, payload and ids as parallel columns. All three write into the collection.](/courses/day4/choosing-an-upload-method.svg)
 
-![Choosing an ingestion method. upsert has you batching it yourself, takes models.Batch or a list, exists in every client library. upload_points is record-oriented, taking one PointStruct per point carrying its id, vector, and payload. upload_collection is column-oriented, taking parallel columns of vectors, payloads, and ids. All three write into the collection. The two upload methods are the same tool in two shapes: both batch, retry, and parallelize for you, and both take iterators.](/courses/day4/choosing-an-upload-method.svg)
+Those last two are the same tool in two shapes. Both add [parallelization, retries, and lazy batching](/documentation/manage-data/points/#python-client-optimizations) on top of upsert, and because both accept iterators, neither needs the whole dataset in memory. Pick whichever matches how your data already sits: the docs note the two formats are equivalent internally and offered for convenience.
 
 > **<font color='red'>Note:</font>** You can also skip generating embeddings yourself. With [inference](/documentation/inference/), you send the text or image and the model name, and Qdrant produces the vector on upsert.
 
@@ -57,6 +57,15 @@ Those last two are the same tool in two shapes. Both add [parallelization, retri
 When a collection is too large to hold in memory, each structure takes a `memory` parameter that says where it lives. `pinned` stays on the heap, `cached` is memory-mapped and pre-warmed, and `cold` is memory-mapped and read on demand.
 
 ```python
+from qdrant_client import QdrantClient, models
+import os
+
+client = QdrantClient(
+    url=os.getenv("QDRANT_URL"),
+    api_key=os.getenv("QDRANT_API_KEY"),
+    prefer_grpc=True,
+)
+
 client.create_collection(
     collection_name="my_collection",
     vectors_config=models.VectorParams(
