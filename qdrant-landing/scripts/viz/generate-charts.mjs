@@ -95,7 +95,88 @@ function panel(c, p, data, w, h) {
   return head + axisLabel + plotted;
 }
 
+
+// ── heatmap ────────────────────────────────────────────────────────────────
+// Wide CSV (one row per category, one column per series) melted to long form.
+// Cell fill is a sequential ramp from data/viz.json; cell text is the value,
+// inked light or dark for contrast against its own cell.
+function rampColor(t) {
+  const stops = viz.sequential.stops;
+  const x = Math.max(0, Math.min(1, t)) * (stops.length - 1);
+  const i = Math.min(stops.length - 2, Math.floor(x));
+  const f = x - i;
+  const hex = (h) => [1, 3, 5].map((k) => parseInt(h.slice(k, k + 2), 16));
+  const [a, b] = [hex(stops[i]), hex(stops[i + 1])];
+  const mix = a.map((v, k) => Math.round(v + (b[k] - v) * f));
+  return '#' + mix.map((v) => v.toString(16).padStart(2, '0')).join('');
+}
+
+function heatmap(c) {
+  const [head, ...lines] = readFileSync(c.data, 'utf8').trim().split('\n');
+  const cols = head.split(',').slice(1);
+  const rows = lines.map((l) => l.split(','));
+  const rowNames = rows.map((r) => r[0]);
+  const vals = rows.flatMap((r) => r.slice(1).map(Number));
+  const lo = c.domain ? c.domain[0] : Math.min(...vals);
+  const hi = c.domain ? c.domain[1] : Math.max(...vals);
+
+  const cw = c.cellWidth, ch = c.cellHeight;
+  const left = c.marginLeft, top = c.marginTop;
+  let out = '';
+
+  // column headers
+  cols.forEach((col, j) => {
+    out += `<text x="${left + j * cw + cw / 2}" y="${top - 10}" text-anchor="middle"`
+      + ` font-family="${MONO}" font-size="${viz.type.tick - 1}"`
+      + ` fill="${viz.surface.inkMuted}">${esc(col)}</text>`;
+  });
+
+  rows.forEach((r, i) => {
+    const y = top + i * ch;
+    const emphasised = c.highlight && r[0] === c.highlight;
+    out += `<text x="${left - 12}" y="${y + ch / 2 + 4}" text-anchor="end" font-family="${MONO}"`
+      + ` font-size="${viz.type.tick - 1}" font-weight="${emphasised ? 700 : 400}"`
+      + ` fill="${emphasised ? viz.surface.ink : viz.surface.inkMuted}">${esc(r[0])}</text>`;
+    r.slice(1).forEach((v, j) => {
+      const t = (Number(v) - lo) / (hi - lo);
+      const fill = rampColor(t);
+      const x = left + j * cw;
+      out += `<rect x="${x + 1}" y="${y + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="${fill}"/>`
+        + `<text x="${x + cw / 2}" y="${y + ch / 2 + 4}" text-anchor="middle" font-family="${MONO}"`
+        + ` font-size="${viz.type.tick - 2}" fill="${readableInk(fill)}">${Number(v).toFixed(2)}</text>`;
+    });
+    if (emphasised) {
+      out += `<rect x="${left}" y="${y}" width="${cols.length * cw}" height="${ch}" rx="3"`
+        + ` fill="none" stroke="${viz.surface.ink}" stroke-width="2"/>`;
+    }
+  });
+
+  // legend
+  const lw = 190, lx = left, ly = top + rows.length * ch + 30;
+  for (let k = 0; k < lw; k++) {
+    out += `<rect x="${lx + k}" y="${ly}" width="1" height="10" fill="${rampColor(k / (lw - 1))}"/>`;
+  }
+  out += `<text x="${lx}" y="${ly + 24}" font-family="${MONO}" font-size="${viz.type.tick - 2}"`
+    + ` fill="${viz.surface.inkMuted}">${lo.toFixed(2)}</text>`
+    + `<text x="${lx + lw}" y="${ly + 24}" text-anchor="end" font-family="${MONO}"`
+    + ` font-size="${viz.type.tick - 2}" fill="${viz.surface.inkMuted}">${hi.toFixed(2)}</text>`
+    + `<text x="${lx + lw + 14}" y="${ly + 9}" font-family="${MONO}" font-size="${viz.type.tick - 1}"`
+    + ` fill="${viz.surface.inkMuted}">${esc(c.legend || 'recall')}</text>`;
+
+  const title = `<text x="${(left + cols.length * cw) / 2 + left / 2}" y="22" text-anchor="middle"`
+    + ` font-family="${MONO}" font-size="${viz.type.label}" font-weight="700"`
+    + ` fill="${viz.surface.ink}">${esc(c.title)}</text>`;
+  return title + out;
+}
+
 for (const c of manifest) {
+  if (c.kind === 'heatmap') {
+    const out = `assets/viz/${c.id}.svg`;
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, `${heatmap(c)}\n`);
+    console.log(`wrote ${out}`);
+    continue;
+  }
   if (c.kind !== 'columns-2panel') throw new Error(`unsupported kind ${c.kind}`);
   const data = readCsv(c.data);
   const gap = 44;

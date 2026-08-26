@@ -22,5 +22,23 @@
       }
     ],
     "yMax": 140
+  },
+  {
+    "id": "turboquant/recall",
+    "data": "assets/viz/turboquant/recall.csv",
+    "kind": "heatmap",
+    "title": "Recall by quantization variant across ten datasets",
+    "legend": "recall",
+    "highlight": "TQ 4-bit (8x)",
+    "domain": [
+      0.45,
+      1.0
+    ],
+    "cellWidth": 74,
+    "cellHeight": 30,
+    "marginLeft": 150,
+    "marginTop": 56,
+    "width": 892,
+    "height": 386
   }
 ]
