@@ -24,7 +24,8 @@
 
   &__title {
     padding-top: 0 !important;
-    margin-bottom: $spacer * 1.5;
+    // !important so the 24px wins over the `.docs-core h2` heading margin on the docs landing.
+    margin-bottom: $spacer * 1.5 !important;
     font-size: pxToRem(28);
     line-height: pxToRem(36);
     font-weight: 500;
@@ -89,7 +90,6 @@
 
     &__title {
       max-width: pxToRem(360);
-      margin-bottom: $spacer * 2;
     }
 
     &__features {
