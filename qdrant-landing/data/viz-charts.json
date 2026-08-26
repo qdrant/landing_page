@@ -40,5 +40,31 @@
     "marginTop": 56,
     "width": 892,
     "height": 386
+  },
+  {
+    "id": "defrag/rps",
+    "data": "assets/viz/defrag/rps.csv",
+    "kind": "lines-facet",
+    "facet": "tenant",
+    "facetLabel": "Tenant size: {} vectors",
+    "x": "hot_pct",
+    "xLabel": "% of collection in the hot subset",
+    "yLabel": "RPS (log scale)",
+    "yScale": "log",
+    "yDomain": [
+      0.2,
+      700
+    ],
+    "series": [
+      "defragmented",
+      "non_defragmented"
+    ],
+    "seriesLabels": [
+      "defragmented",
+      "non-defragmented"
+    ],
+    "width": 880,
+    "height": 330,
+    "extraHeight": 46
   }
 ]

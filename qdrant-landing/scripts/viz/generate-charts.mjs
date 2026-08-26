@@ -169,7 +169,66 @@ function heatmap(c) {
   return title + out;
 }
 
+
+// ── lines-facet ────────────────────────────────────────────────────────────
+// One small-multiple panel per facet value; two or more series per panel.
+// Log y-axis when the manifest asks for it — required here, where the data
+// spans 0.3 to 490 RPS and a linear axis flattens the whole story.
+function linesFacet(c) {
+  const data = readCsv(c.data);
+  const facets = [...new Set(data.map((d) => d[c.facet]))];
+  const gap = 46;
+  const pw = (c.width - gap) / facets.length;
+
+  return facets.map((fv, fi) => {
+    const rows = data.filter((d) => d[c.facet] === fv);
+    const node = Plot.plot({
+      document: dom.window.document,
+      width: pw, height: c.height,
+      marginLeft: 58, marginRight: 24, marginTop: 62, marginBottom: 56,
+      style: { fontFamily: MONO, fontSize: `${viz.type.tick}px`, background: 'none',
+               color: viz.surface.inkMuted },
+      x: { type: 'point', label: null, domain: rows.map((r) => r[c.x]),
+           tickFormat: (v) => `${v}%` },
+      y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true,
+           label: null, tickFormat: (v) => (v >= 1 ? String(v) : String(v)) },
+      marks: c.series.flatMap((sName, si) => [
+        Plot.line(rows, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
+        Plot.dot(rows, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
+      ]),
+    });
+    const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
+    const plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+    const head = `<text x="${pw / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
+      + ` font-size="${viz.type.label}" font-weight="700" fill="${viz.surface.ink}">`
+      + `${esc(c.facetLabel.replace('{}', fv))}</text>`;
+    const xlab = `<text x="${pw / 2}" y="${c.height - 8}" text-anchor="middle" font-family="${MONO}"`
+      + ` font-size="${viz.type.tick - 1}" fill="${viz.surface.inkMuted}">${esc(c.xLabel)}</text>`;
+    const ylab = `<text transform="translate(13,${c.height / 2}) rotate(-90)" text-anchor="middle"`
+      + ` font-family="${MONO}" font-size="${viz.type.tick - 1}" fill="${viz.surface.inkMuted}">${esc(c.yLabel)}</text>`;
+    return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${xlab}</g>`;
+  }).join('') + legend(c, c.width);
+}
+
+function legend(c, w) {
+  const items = c.seriesLabels || c.series;
+  const itemW = 190;
+  const startX = (w - items.length * itemW) / 2;
+  return items.map((name, i) =>
+    `<g transform="translate(${startX + i * itemW},${c.height + 16})">`
+    + `<rect width="11" height="11" rx="2" fill="${viz.palette.categorical[i]}"/>`
+    + `<text x="18" y="10" font-family="${MONO}" font-size="${viz.type.tick - 1}"`
+    + ` fill="${viz.surface.inkMuted}">${esc(name)}</text></g>`).join('');
+}
+
 for (const c of manifest) {
+  if (c.kind === 'lines-facet') {
+    const out = `assets/viz/${c.id}.svg`;
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, `${linesFacet(c)}\n`);
+    console.log(`wrote ${out}`);
+    continue;
+  }
   if (c.kind === 'heatmap') {
     const out = `assets/viz/${c.id}.svg`;
     mkdirSync(dirname(out), { recursive: true });
