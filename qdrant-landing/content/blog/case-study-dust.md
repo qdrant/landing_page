@@ -62,8 +62,11 @@ strategy with the embeddings models and performs retrieval augmented generation.
 
 For this, Dust required a vector database and evaluated different options
 including Pinecone and Weaviate, but ultimately decided on Qdrant as the
-solution of choice. “We particularly liked Qdrant because it is open-source,
-written in Rust, and it has a well-designed API,” Polu says. For example, Dust
+solution of choice. {{< quote
+  text="We particularly liked Qdrant because it is open-source, written in Rust, and it has a well-designed API."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust" >}} For example, Dust
 was looking for high control and visibility in the context of their rapidly
 scaling demand, which made the fact that Qdrant is open-source a key driver for
 selecting Qdrant. Also, Dust's existing system which is interfacing with Qdrant,
@@ -90,26 +93,26 @@ more effectively. “This allowed us to scale smoothly from there,” Polu says.
 
 ## Results
 
-Dust has seen success in using Qdrant as their vector database of choice, as Polu
-acknowledges: “Qdrant’s ability to handle large-scale models and the flexibility
-it offers in terms of data management has been crucial for us. The observability
-features, such as historical graphs of RAM, Disk, and CPU, provided by Qdrant are
-also particularly useful, allowing us to plan our scaling strategy effectively.”
+Dust has seen success in using Qdrant as their vector database of choice.
 
-![“We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as
-we don’t have to run lots of nodes in parallel. While being memory-bound, we were
-able to push the same instances further with the help of quantization. While you
-get pressure on MMAP in this case you maintain very good performance even if the
-RAM is fully used. With this we were able to reduce our cost by 2x.” - Stanislas Polu, Co-Founder of Dust](/case-studies/dust/Dust-Quote.jpg)
+{{< quote
+  text="Qdrant’s ability to handle large-scale models and the flexibility it offers in terms of data management has been crucial for us. The observability features, such as historical graphs of RAM, Disk, and CPU, provided by Qdrant are also particularly useful, allowing us to plan our scaling strategy effectively."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust" >}}
 
 Dust was able to scale its application with Qdrant while maintaining low latency
 across hundreds of thousands of collections with retrieval only taking
 milliseconds, as well as maintaining high accuracy. Additionally, Polu highlights
-the efficiency gains Dust was able to unlock with Qdrant: "We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as
-we don’t have to run lots of nodes in parallel. While being memory-bound, we were
-able to push the same instances further with the help of quantization. While you
-get pressure on MMAP in this case you maintain very good performance even if the
-RAM is fully used. With this we were able to reduce our cost by 2x."
+the efficiency gains Dust was able to unlock with Qdrant.
+
+{{< quote
+  text="We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as we don’t have to run lots of nodes in parallel. While being memory-bound, we were able to push the same instances further with the help of quantization. While you get pressure on MMAP in this case you maintain very good performance even if the RAM is fully used. With this we were able to **reduce our cost by 2x**."
+  name="Stanislas Polu"
+  role="Co-Founder"
+  company="Dust"
+  avatar="/img/customers/stanislas-polu.svg"
+  logo="/img/customers-case-studies-logo/dust.svg" >}}
 
 
 
@@ -123,3 +126,5 @@ Dust will expand on its structured data capabilities.
 
 To learn more about how Dust uses Qdrant to help employees in their day to day
 tasks, check out our [Vector Space Talk](https://www.youtube.com/watch?v=toIgkJuysQ4) featuring Stanislas Polu, Co-Founder of Dust.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/toIgkJuysQ4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

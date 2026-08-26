@@ -35,8 +35,7 @@ Sprinklr’s platform is composed of four key product suites - Sprinklr Service,
   text="These AI-driven capabilities, supported by Qdrant’s advanced vector search, enhance Sprinklr’s customer-facing tools such as FAQ bots, transactional bots, conversational services, and product recommendation engines."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr"
-  logo="/img/customer-logo/sprinklr.svg" >}}
+  company="Sprinklr" >}}
 
 These self-serve applications rely heavily on advanced vector search to analyze and optimize community content and refine knowledge bases, ensuring efficient and relevant responses. For customers requiring further assistance, Sprinklr equips support agents with powerful search capabilities, enabling them to quickly access similar cases and draw from past interactions, enhancing the quality and speed of customer support.
 
@@ -77,7 +76,9 @@ Qdrant now plays a key supportive role in enhancing Sprinklr’s vector search c
   text="Retrieval is the foundation of all our AI tasks, and Qdrant’s resilience and speed have made it an integral part of our system."
   name="Raghav Sonavane"
   role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr" >}}
+  company="Sprinklr"
+  avatar="/img/customers/raghav-sonavane.png"
+  logo="/img/customer-logo/sprinklr.svg" >}}
 
 ### Key Outcomes with Qdrant
 
@@ -92,11 +93,7 @@ The Sprinklr team conducted a thorough internal benchmark on applications requir
 - **Low Latency for Real-Time Applications:** In Sprinklr's benchmark, Qdrant delivered a P99 latency of 20ms for searches on 1 million vectors, making it ideal for real-time use cases like live chat, where Elasticsearch and Milvus both exceeded 100ms.
 - **High Throughput for Heavy Query Loads**: In Sprinklr's benchmark, Qdrant handled up to 250 requests per second (RPS) under similar configurations, significantly outperforming Elasticsearch's 100 RPS, making it ideal for environments with heavy query loads.
 
-{{< quote
-  text="Qdrant is a very fast and high quality retrieval system."
-  name="Raghav Sonavane"
-  role="Associate Director of Machine Learning Engineering"
-  company="Sprinklr" >}}
+“Qdrant is a very fast and high quality retrieval system,” Sonavane points out.
 
 ![case-study-sprinklr-3](/blog/case-study-sprinklr/image3.png)
 
