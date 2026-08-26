@@ -47,9 +47,7 @@ let config = EdgeConfig::builder()
 | `search_pool_core` | Pin every search pool thread to this CPU core, bounding the shard's search compute to one core while keeping the pool's I/O overlap. Best-effort. Defaults to OS scheduling. |
 | `wal_options` | A `WalOptions` value carrying the write-ahead log parameters. Rust only. Refer to [WAL Options](#wal-options). |
 
-A new shard must define at least one of `vectors` or `sparse_vectors`, as these describe the data stored in the shard. Both are validated against the existing segments on `load`.
-
-The Python and Rust bindings handle this differently. In Python, `EdgeConfig` validates the configuration at construction time and raises a `ValueError` if both `vectors` and `sparse_vectors` are empty, even if the configuration is only meant to be passed to load. As a result, changing a tunable parameter on an existing shard also requires redeclaring its vectors. In Rust, `EdgeConfigBuilder` does not apply this validation. It can build a configuration that only sets tunable parameters, and `load` reads the vector configuration from the shard itself.
+A new shard must define at least one of `vectors` or `sparse_vectors`; both are validated against the existing segments on `load`. Python raises `ValueError` if both are empty, so changing only a tunable parameter still requires redeclaring the vectors. Rust accepts a tunables-only configuration and takes the vectors from the shard.
 
 ## Dense Vector Parameters
 
@@ -107,7 +105,7 @@ pub fn builder() -> EdgeSparseVectorParamsBuilder
 
 ## Optimizer Parameters
 
-`EdgeOptimizersConfig` controls what the [`optimize`](#optimize) method does when you call it. It is a subset of the server-side collection optimizer config: it omits `flush_interval_sec`, because an Edge Shard does not flush on a timer, and `max_optimization_threads`, because optimization is invoked manually.
+`EdgeOptimizersConfig` controls what the [`optimize`](#optimize) method does when you call it.
 
 ```python
 EdgeOptimizersConfig(
@@ -120,7 +118,7 @@ EdgeOptimizersConfig(
 )
 ```
 
-In Rust, `EdgeOptimizersConfig` has no builder. Construct it as a struct literal, leaving the rest at their defaults:
+In Rust, set the fields you need and leave the rest at their defaults:
 
 ```rust
 pub struct EdgeOptimizersConfig {

@@ -9,7 +9,7 @@ weight: 40
 
 An Edge Shard offers several ways to read data. `query` is the similarity search entry point, supporting prefetches, fusion, and reranking. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
 
-<aside role="status">In Rust, <code>query_groups</code> and <code>search_matrix</code> are provided only by the <code>EdgeShardRead</code> trait, so bring it into scope with <code>use qdrant_edge::EdgeShardRead;</code> to call them. The other read methods are also inherent methods on <code>EdgeShard</code> and need no import.</aside>
+<aside role="status">In Rust, <code>query_groups</code> and <code>search_matrix</code> require the <code>EdgeShardRead</code> trait in scope: <code>use qdrant_edge::EdgeShardRead;</code></aside>
 
 ## query
 
@@ -138,8 +138,6 @@ pub fn retrieve(&self, request: RetrieveRequest) -> OperationResult<Vec<Record>>
 | `with_payload` | Which payload to include. |
 | `with_vector` | Which vectors to include. |
 
-Python takes these as three arguments, while Rust collects them into a `RetrieveRequest`.
-
 ## count
 
 Counts the points matching a filter.
@@ -184,7 +182,7 @@ pub fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 
 ## Request Builders
 
-Rust request types use builders. Create the builder directly with `Builder::new()` rather than calling `builder()` on the request type:
+In Rust, the request types follow the fluent builder pattern:
 
 ```rust
 let request = QueryRequestBuilder::new(10)
@@ -192,19 +190,6 @@ let request = QueryRequestBuilder::new(10)
     .build();
 ```
 
-Pass required parameters to `new()` and configure optional parameters with setters:
+Builders are available for `QueryRequest`, `ScrollRequest`, `RetrieveRequest`, `CountRequest`, `FacetRequest`, `GroupRequest`, `SearchMatrixRequest`, and `Prefetch`.
 
-| Builder | Constructor |
-|---|---|
-| `QueryRequestBuilder` | `new(limit)` |
-| `PrefetchBuilder` | `new(limit)` |
-| `ScrollRequestBuilder` | `new()` |
-| `RetrieveRequestBuilder` | `new(point_ids)` |
-| `CountRequestBuilder` | `new()` |
-| `FacetRequestBuilder` | `new(key)` |
-| `GroupRequestBuilder` | `new(query, group_by, groups, group_size)` |
-| `SearchMatrixRequestBuilder` | `new(sample_size, limit_per_sample, using)` |
-
-Configuration types work differently. `EdgeConfig`, `EdgeVectorParams`, and `EdgeSparseVectorParams` expose a `builder()` method. Refer to [Configuration](/documentation/edge/edge-api/configuration/).
-
-Python does not use request builders. Requests are created directly through class constructors.
+In Python, requests are created through their class constructors.

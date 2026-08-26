@@ -138,4 +138,4 @@ Rust has no `close` method. `EdgeShard` implements `Drop`, so the shard is close
 
 In both languages, closing flushes pending data to disk. The data remains on disk and the directory can be reopened with `load`.
 
-<aside role="status">The Rust <code>Drop</code> implementation flushes on a best-effort basis: a flush error is logged rather than returned, because a destructor cannot fail. If you need to detect a failed flush, call <code>flush</code> explicitly and handle its result before the shard goes out of scope.</aside>
+<aside role="status">The Rust <code>Drop</code> implementation flushes on a best-effort basis: a flush error is logged rather than returned. To detect a failed flush, call <code>flush</code> explicitly and handle its result before the shard goes out of scope.</aside>

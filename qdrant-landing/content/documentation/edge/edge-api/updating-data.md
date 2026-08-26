@@ -25,7 +25,7 @@ pub fn update(&self, operation: UpdateOperation) -> OperationResult<()>
 
 **Returns** nothing in Python. In Rust, returns `Ok(())` on success.
 
-Creating a named vector that already exists with different parameters fails rather than silently doing nothing, so the rejected operation never reaches the write-ahead log.
+Creating a named vector that already exists with different parameters fails.
 
 ## Update Operations
 

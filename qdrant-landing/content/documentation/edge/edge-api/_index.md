@@ -26,8 +26,7 @@ For task-oriented introductions, refer to the [Quickstart](/documentation/edge/e
 
 The Python bindings and the Rust crate cover the same core surface, but they are not identical. Each method notes the languages it is available in. The most significant differences are:
 
-- Rust declares the read methods on the `EdgeShardRead` trait rather than on `EdgeShard` directly, so the trait must be in scope to call them.
-- Rust exposes [`query_groups`](/documentation/edge/edge-api/reading-data/#query_groups) and [`search_matrix`](/documentation/edge/edge-api/reading-data/#search_matrix), which have no Python equivalent.
+- Rust exposes [`query_groups`](/documentation/edge/edge-api/reading-data/#query_groups) and [`search_matrix`](/documentation/edge/edge-api/reading-data/#search_matrix), which have no Python equivalent. Both require the `EdgeShardRead` trait in scope.
 - Rust closes a shard by dropping it, while Python has an explicit `close` method.
 - WAL options and the configuration setters are Rust only.
 - Python's [`EdgeConfig`](/documentation/edge/edge-api/configuration/#edgeconfig) always requires `vectors` or `sparse_vectors`, so adjusting a tunable parameter on an existing shard means redeclaring its vectors. Rust can build a configuration that sets only tunables.
