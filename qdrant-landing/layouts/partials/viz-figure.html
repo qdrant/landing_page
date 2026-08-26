@@ -1,0 +1,31 @@
+{{- /*
+  viz-figure — the one wrapper for every generated visual.
+
+  Enforces the accessibility contract from the design spec §7: a required
+  caption becomes both the SVG <title> (announced once, via aria-labelledby)
+  and the visible <figcaption>.
+
+  Params:
+    svg      inner SVG markup, WITHOUT the outer <svg> tag
+    viewBox  viewBox value for the outer <svg>, e.g. "0 0 800 320"
+    caption  required, non-empty
+    id       page-unique slug used to build the title element id
+    class    optional extra class on the <figure>
+*/ -}}
+{{- $caption := .caption -}}
+{{- $id := .id -}}
+{{- if not $caption -}}
+  {{- errorf "viz-figure: 'caption' is required. Write one sentence stating what the figure shows — it is the only description a screen reader receives." -}}
+{{- end -}}
+{{- if not $id -}}
+  {{- errorf "viz-figure: 'id' is required and must be unique within the page." -}}
+{{- end -}}
+<figure class="viz-figure{{ with .class }} {{ . }}{{ end }}">
+  <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
+       aria-labelledby="viz-title-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
+       preserveAspectRatio="xMidYMid meet">
+    <title id="viz-title-{{ $id }}">{{ $caption }}</title>
+    {{ .svg | safeHTML }}
+  </svg>
+  <figcaption class="viz-figure__caption">{{ $caption }}</figcaption>
+</figure>

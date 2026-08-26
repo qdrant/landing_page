@@ -1,0 +1,23 @@
+// Blog visualisation figures. See docs/superpowers/specs/2026-08-27-blog-visual-system-design.md
+//
+// Colors for the visuals themselves live in data/viz.json and arrive inside the
+// SVG. This file styles only the surrounding chrome, using existing theme tokens.
+
+.viz-figure {
+  margin: 2rem 0;
+}
+
+.viz-figure__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.viz-figure__caption {
+  margin-top: 0.75rem;
+  font-size: $font-size-s;
+  line-height: 1.5;
+  color: $neutral-50;
+}

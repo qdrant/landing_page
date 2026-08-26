@@ -1,0 +1,28 @@
+{
+  "$comment": "Single source of truth for blog visualisation colors and type. Consumed by Hugo templates (site.Data.viz) and scripts/viz/generate-charts.mjs. Do NOT duplicate these values into SCSS.",
+  "palette": {
+    "categorical": ["#dc244c", "#2f6ff0", "#038585", "#8547ff", "#e0700d"],
+    "names": ["qdrant", "blue", "teal", "violet", "amber"],
+    "muted": "#b4bacc"
+  },
+  "surface": {
+    "ink": "#161e33",
+    "inkMuted": "#576280",
+    "page": "#ffffff",
+    "panel": "#f0f3fa",
+    "grid": "#d4d9e6",
+    "axis": "#8f98b2"
+  },
+  "tone": {
+    "cost": { "fill": "#f0f3fa", "stroke": "#b4bacc", "text": "#576280" },
+    "win":  { "fill": "#c0f0f0", "stroke": "#038585", "text": "#004f4f" }
+  },
+  "type": {
+    "family": "'Mona Sans', -apple-system, 'Segoe UI', sans-serif",
+    "mono": "'Geist Mono', ui-monospace, monospace",
+    "label": 15,
+    "title": 20,
+    "tick": 13
+  },
+  "stroke": { "hairline": 1, "regular": 2, "emphasis": 3 }
+}

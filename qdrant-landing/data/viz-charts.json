@@ -1,0 +1,26 @@
+[
+  {
+    "id": "diskbbq/results",
+    "data": "assets/viz/diskbbq/results.csv",
+    "kind": "columns-2panel",
+    "width": 980,
+    "height": 420,
+    "panels": [
+      {
+        "title": "Throughput at ~0.96 recall",
+        "y": "throughput_qps",
+        "axis": "QPS",
+        "unit": "QPS",
+        "subtitle": "higher is better"
+      },
+      {
+        "title": "Average latency at ~0.96 recall",
+        "y": "avg_latency_ms",
+        "axis": "avg latency (ms)",
+        "unit": "ms",
+        "subtitle": "lower is better"
+      }
+    ],
+    "yMax": 140
+  }
+]

@@ -1,0 +1,10 @@
+{{- $id := .Get "id" -}}
+{{- if not $id }}{{ errorf "chart in %s: 'id' is required." .Position }}{{ end -}}
+{{- $caption := .Get "caption" -}}
+{{- if not $caption }}{{ errorf "chart in %s: 'caption' is required." .Position }}{{ end -}}
+{{- $spec := false -}}
+{{- range (index site.Data "viz-charts") -}}{{- if eq .id $id -}}{{- $spec = . -}}{{- end -}}{{- end -}}
+{{- if not $spec }}{{ errorf "chart in %s: no chart with id %q in data/viz-charts.json." .Position $id }}{{ end -}}
+{{- $res := resources.Get (printf "viz/%s.svg" $id) -}}
+{{- if not $res }}{{ errorf "chart in %s: assets/viz/%s.svg missing. Run: node scripts/viz/generate-charts.mjs" .Position $id }}{{ end -}}
+{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $spec.width) (int $spec.height)) "caption" $caption "id" (replace $id "/" "-") "class" "viz-figure--chart") -}}
