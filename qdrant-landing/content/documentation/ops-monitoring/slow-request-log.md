@@ -7,7 +7,7 @@ weight: 9
 
 # Slow Request Log
 
-*Available as of v1.16.0*
+*Available as of v1.16.0 (beta). Behavior may change in future releases.*
 
 The slow request log records the slowest unique operations on a node since startup. Use it to identify which queries are responsible for high latency.
 
