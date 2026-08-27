@@ -40,7 +40,7 @@ The Qdrant client gives you three ways to get points in. The first has you manag
 
 Those last two are the same tool in two shapes. Both add [parallelization, retries, and lazy batching](/documentation/manage-data/points/#python-client-optimizations) on top of upsert, and because both accept iterators, neither needs the whole dataset in memory. Pick whichever matches how your data already sits: the docs note the two formats are equivalent internally and offered for convenience.
 
-> **<font color='red'>Note:</font>** You can also skip generating embeddings yourself. With [inference](/documentation/inference/), you send the text or image and the model name, and Qdrant produces the vector on upsert.
+You can also skip generating embeddings yourself. With [inference](/documentation/inference/), you send the text or image and the model name, and Qdrant produces the vector on upsert.
 
 `upload_points` and `upload_collection` are helpers in the client library rather than server endpoints, so what's available depends on your language:
 
@@ -50,7 +50,7 @@ Those last two are the same tool in two shapes. Both add [parallelization, retri
 | Rust | `upsert_points_chunked(request, chunk_size)` |
 | TypeScript, Go, Java, C# | Batched `upsert` calls |
 
-> **<font color='red'>Note:</font>** The bottleneck during upload is usually the client library, not the Qdrant server. If ingestion speed is your priority, the [Rust client](https://github.com/qdrant/rust-client) is the fastest option.
+The bottleneck during upload is usually the client library, not the Qdrant server. If ingestion speed is your priority, the [Rust client](https://github.com/qdrant/rust-client) is the fastest option.
 
 ## The Collection Configuration
 
@@ -80,7 +80,7 @@ client.create_collection(
 
 Two things catch people out. `pinned` is rejected for dense vectors, which support only `cached` or `cold`. And `max_segment_size` and `indexing_threshold` are both measured in kilobytes rather than points. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for which tier suits which structure.
 
-> **<font color='red'>Note:</font>** `memory` arrived in Qdrant v1.19. If you are following older material, it replaces `on_disk` on the vectors, `on_disk_payload` on the collection, `always_ram` in the quantization config, and `on_disk` in the HNSW config. Those still work but are deprecated, and `pinned` has no equivalent among them.
+`memory` arrived in Qdrant v1.19. If you are following older material, it replaces `on_disk` on the vectors, `on_disk_payload` on the collection, `always_ram` in the quantization config, and `on_disk` in the HNSW config. Those still work but are deprecated, and `pinned` has no equivalent among them.
 
 ## The Upload Process
 
@@ -109,9 +109,9 @@ A few things worth knowing about these parameters:
 - **`update_mode=models.UpdateMode.INSERT_ONLY`** (v1.17) makes a resumed upload skip points already in the collection rather than rewriting them. See [Update Mode](/documentation/manage-data/points/#update-mode).
 - **On Windows and macOS**, `parallel` greater than 1 needs the upload call behind a `if __name__ == "__main__":` guard in a script, because Python starts workers by re-importing your module. Without it the upload hangs instead of failing. Notebooks are unaffected.
 
-> **<font color='red'>Best Practice:</font>** Start small and test. Before attempting to upload your entire dataset, ingest a smaller chunk to validate your configuration and process.
+Start small and test. Before attempting to upload your entire dataset, ingest a smaller chunk to validate your configuration and process.
 
-> Try it hands-on in the **[Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb)**
+Try it hands-on in the [Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb).
 
-> See it at 400 million points in the **[LAION-400M benchmark](https://github.com/qdrant/laion-400m-benchmark)**
+See it at 400 million points in the [LAION-400M benchmark](https://github.com/qdrant/laion-400m-benchmark).
 
