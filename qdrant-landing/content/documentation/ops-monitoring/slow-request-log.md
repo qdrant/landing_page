@@ -7,6 +7,8 @@ weight: 9
 
 # Slow Request Log
 
+*Available as of v1.16.0*
+
 The slow request log records the slowest unique operations on a node since startup. Use it to identify which queries are responsible for high latency.
 
 The log keeps up to 32 entries per request type. Entries are deduplicated by a content hash of the request body and collection name, so repeated identical requests don't fill the log with duplicates. The log keeps count of the number of times each request pattern has been seen. When the queue for a request type is full, a new entry replaces the current fastest entry only if it took longer.
