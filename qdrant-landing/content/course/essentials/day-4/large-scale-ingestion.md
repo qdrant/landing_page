@@ -60,11 +60,7 @@ When a collection is too large to hold in memory, each structure takes a `memory
 from qdrant_client import QdrantClient, models
 import os
 
-client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
-    prefer_grpc=True,
-)
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 client.create_collection(
     collection_name="my_collection",
@@ -115,8 +111,7 @@ A few things worth knowing about these parameters:
 
 > **<font color='red'>Best Practice:</font>** Start small and test. Before attempting to upload your entire dataset, ingest a smaller chunk to validate your configuration and process.
 
-> **Want to try this workflow hands-on?**  
-> Run the [Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb) to see large-scale vector ingestion, quantized search, and efficient RAM/disk optimization in action!
+> Try it hands-on in the **[Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb)**
 
-> **Want to see it at 400 million points?** The [LAION-400M benchmark](https://github.com/qdrant/laion-400m-benchmark) has the full download, processing, and upload scripts.
+> See it at 400 million points in the **[LAION-400M benchmark](https://github.com/qdrant/laion-400m-benchmark)**
 
