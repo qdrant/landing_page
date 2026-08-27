@@ -1,7 +1,7 @@
 ---
 title: User Profile
-short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, multi-factor authentication, and deactivation."
-description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations, multi-factor authentication and user deactivation."
+short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, and deactivation."
+description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations, multi-factor authentication with Authenticator apps and passkeys, and user deactivation."
 weight: 212
 partition: deploy
 ---
@@ -15,8 +15,8 @@ Open the **user menu** at the bottom left of the Qdrant Cloud Console to access:
 * **Get Started** — the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
 * **Preferences** — your profile details, color scheme, and cookie consent.
 * **Invitations** — pending invitations to join other accounts.
-* **Security** — secure your login with multi-factor authentication.
 * **Accounts** — the accounts overview. See [Managing Accounts](/documentation/cloud-account-setup/#managing-accounts).
+* **Security** - multi-factor authentication
 * **Logout**.
 
 ![User menu and Explore Qdrant Cloud](/documentation/cloud/user-menu.png)
@@ -51,38 +51,14 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 ## Security
 
-The **Security** page is where you protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting — it applies to your user whenever you sign in.
+On the **Security** page you can set up multi-factor authentication (MFA) using either of the following methods:
 
-Enabling MFA is your choice: until you set up a method, nothing changes about how you log in. Once a method is enabled, you are asked to complete it on every subsequent login. Two methods are available, and you can enable both:
+* **Authenticator App** (recommended) — use an authenticator app of your choice to generate a one-time code at each login.
+* **Passkey** — use a physical device or software passkey (for example a fingerprint or screen lock) as an additional security layer. You can add multiple passkeys and view all of the ones you have registered.
 
-* **Authenticator App** — a one-time code from an authenticator app of your choice.
-* **Passkey** — a fingerprint, face scan, screen lock, or hardware security key.
+![Multi-factor authentication settings](/documentation/cloud/security-mfa.png)
 
-You will be asked to authenticate again in order to set up a MFA method. After completion, you land back on the **Security** page.
-
-![User Security Page](/documentation/cloud/user-security-page.png)
-
-### Authenticator App
-
-Select **Setup Authenticator App** to get started. You will be presented with a QR code that you need to scan with your authenticator app and confirm the code it generates.
-
-A **recovery code** always accompanies an authenticator app, and is issued in the same step. It is shown once, so store it somewhere safe — it is your way back in if you lose access to your authenticator app.
-
-Once set up, the method is marked **Enabled** and two actions become available:
-
-* **Regenerate recovery code** — disables your existing recovery code and generate a new one.
-* **Disable** — removes the authenticator app across all devices, along with its recovery code. You can no longer use it for MFA.
-
-### Passkeys
-
-A passkey lets you approve a login with your device or a security key. Select **Create a New Passkey** and choose one of:
-
-* **Built-in Passkey** — verify with Face ID, Touch ID, a device PIN, or your preferred password manager. Select **Create Passkey on this Device**.
-* **Hardware Security Key** — verify with a dedicated key such as a YubiKey, inserted via USB or tapped via NFC. Select **Use Hardware Security Key**.
-
-> **Note:** If you use a password manager extension, it may not work well with a hardware security key. Choose a **Built-in Passkey** instead.
-
-You can register one of each, for a maximum of two passkeys.
+> **Note:** Some accounts mandate MFA. In that case you cannot turn MFA off, but you can still change which method you use.
 
 ## Deactivate User
 
