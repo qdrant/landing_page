@@ -10,7 +10,7 @@ weight: 42
 | Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/gpu-accelerated-hnsw-indexing/Gpu_Accelerated_HNSW_Indexing.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/gpu-accelerated-hnsw-indexing/Gpu_Accelerated_HNSW_Indexing.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-Since [Qdrant v1.13](/blog/qdrant-1.13.x/), Qdrant has supported GPU-accelerated Hierarchical Navigable Small World (HNSW) indexing on self-hosted instances. Qdrant Cloud added it as a managed option more recently, as part of the [Cloud Enterprise launch](/blog/qdrant-cloud-enterprise-launch/).
+Since [Qdrant v1.13](/blog/qdrant-1.13.x/), Qdrant has supported GPU-accelerated Hierarchical Navigable Small World (HNSW) indexing on self-hosted instances. Qdrant Cloud added it as a managed option more recently, as part of [the new features added to Qdrant Cloud](/blog/qdrant-cloud-enterprise-launch/) in April 2026.
 
 GPU acceleration speeds up HNSW index builds, which addresses a problem every team building with vector search eventually runs into: the cost of re-indexing a collection when switching to a different embedding model.
 
@@ -74,22 +74,9 @@ Create a GPU-powered cluster with `qcloud cluster create`.
 A GPU cluster requires a minimum of <strong>16 GB RAM</strong> and <strong>4 vCPU</strong>, and can only be hosted on <strong>AWS</strong>, using <strong>T4 NVIDIA chips</strong>. Free-tier clusters don't have access to GPUs.
 </aside>
 
-Before creating the cluster, check the prices in the table below and pick the best regional latency/cost tradeoff for your use case. Prices are for **1 GPU, 16 GB RAM, 4 vCPU, 64 GB disk, cost-optimized disk performance**, as of time of writing this tutorial (August 2026).
+Before creating the cluster, check its [expected pricing](https://cloud.qdrant.io/calculator) given the resources you want to allocate for it and the region you want to deploy it in. 
 
-| Region | /month |
-| --- | --- |
-| sa-east-1 | 1302.65 |
-| ap-northeast-1 | 962.87 |
-| ap-southeast-1 | 998.13 |
-| ap-southeast-2 | 927.61 |
-| ap-south-1 | 785.21 |
-| eu-central-1 | 865.23 |
-| eu-west-1 | 796.06 |
-| eu-west-2 | 834.03 |
-| us-east-1 | 713.33 |
-| us-west-1 | 855.73 |
-| us-west-2 | 713.33 |
-| us-east-2 | 713.34 |
+Here is an example command to create a cluster with the minimum required resources for GPUs:
 
 ```bash
 qcloud cluster create \
@@ -166,9 +153,9 @@ data = pl.read_parquet(
 
 ### Create the Collection
 
-Create a collection with a single `dense` vector field and disable indexing until the upload finishes, by setting `indexing_threshold` above the total size (in KB) of the data you're about to upload. This keeps the initial upload fast, since Qdrant won't build (and rebuild) the HNSW graph while points are still streaming in.
+Create a collection with a single `dense` vector field and disable indexing until the upload finishes, by [setting `indexing_threshold`](https://qdrant.tech/documentation/ops-optimization/optimizer/#indexing-optimizer) above the total size (in KB) of the data you're about to upload. This keeps the initial upload fast, since Qdrant won't build (and rebuild) the HNSW graph while points are still streaming in.
 
-`hnsw_config.m` and `hnsw_config.ef_construct` are left as variables here so you can vary them across experiments.
+`hnsw_config.m` and `hnsw_config.ef_construct` are left as variables here so you can [vary them across experiments](https://qdrant.tech/documentation/manage-data/indexing/#vector-index).
 
 ```python
 HNSW_M = 32
@@ -280,7 +267,9 @@ class OptimizationProgress(BaseModel):
 
 ### Poll for Optimizations
 
-`poll_for_optimizations` is an async generator: on every iteration, it fetches the collection's running/queued optimizations and its current segment count, then yields a timestamped snapshot of both. Qdrant reports a collection as idle once every optimization has completed and every segment is idle, but that state can flicker for a moment between optimization runs. To avoid stopping on a false idle, the loop only signals completion once it has observed 5 consecutive idle snapshots (`idle_its == 5`), about 1s at the 0.2s polling interval. `max_iterations` bounds the loop at 2 hours of polling; if indexing hasn't finished by then, the function raises a `TimeoutError` instead of polling forever.
+`poll_for_optimizations` is an async generator that yields timestamped snapshots of a collection's running/queued optimizations and segment count on each iteration.
+
+Since Qdrant's idle state can briefly flicker between optimization runs, the loop waits for 5 consecutive idle snapshots (~1s at the 0.2s polling interval) before signaling completion. A `max_iterations` cap limits polling to 2 hours, after which the function raises `TimeoutError` rather than looping indefinitely.
 
 ```python
 async def poll_for_optimizations(
@@ -554,30 +543,22 @@ For this workload, GPU-accelerated indexing **cut the re-indexing window by an o
 
 ### Cost of Indexing
 
-Per the pricing table above, the GPU cluster in `us-east-1` costs 713.33 USD/month; a CPU-only cluster with the same specs (16 GB RAM, 4 vCPU, 64 GB disk) in the same region costs 208.82 USD/month, about 3.4x cheaper per hour of uptime.
+A GPU cluster tends to cost more per hour than a CPU-only cluster with equivalent specs. Whether that's worth it depends on how much indexing you actually do with it, not on the hourly rate alone: a large enough speedup on indexing time can offset a higher hourly rate, but only for as long as the GPU is actually indexing.
 
-Converting to a per-second rate (assuming a 730-hour month):
+<aside role="status">
+Cloud pricing changes over time and varies by region and provider. Always check the <a href="https://cloud.qdrant.io/calculator">pricing calculator</a> for current rates before estimating cost.
+</aside>
 
-- GPU: 713.33 USD / 730h / 3600s ≈ 0.000275 USD/s
-- CPU: 208.82 USD / 730h / 3600s ≈ 0.0000795 USD/s
-
-Multiplying by each run's indexing time:
-
-- GPU: 6.1s × 0.000275 USD/s ≈ **0.0017** USD
-- CPU: 66.3s × 0.0000795 USD/s ≈ **0.0053** USD
-
-Even though the GPU cluster costs 3.4x more per hour, the roughly 10x indexing speedup more than compensates for it: the **GPU run's indexing cost is about 3.2x cheaper** than the CPU run's, but only while it's actually indexing. That math flips the moment the GPU sits there without an indexing job to run.
-
-It is importasnt to consider, though, that a GPU cluster only pays for itself in two scenarios:
+It is important to consider, though, that a GPU cluster mostly pays for itself in two scenarios:
 
 - if it keeps re-indexing regularly, for example because the collection grows continuously and needs incremental re-indexing
 - if you switch embedding models often enough that re-indexing is a recurring cost rather than a one-off. 
 
-**If neither applies, an idle GPU cluster is a much worse deal than a CPU-only one**: you're paying the higher hourly rate with none of the speedup to offset it, since there's no indexing work for the GPU to accelerate.
+**If neither applies, an idle GPU cluster could result in a worse deal than a CPU-only one**: you might be paying the higher hourly rate with none of the speedup to offset it, since there's no indexing work for the GPU to accelerate.
 
 ![Whether GPU acceleration pays off depends on how often you re-index, not on indexing s
 peed alone.](/documentation/tutorials/gpu-accelerated-hnsw-indexing/gpu-idle-cost-tradeoff.png)
 
 <aside role="status">
-The GPU's higher hourly rate only pays for itself while it's indexing. If you don't expect to re-index often, don't run a GPU cluster continuously: index with GPU acceleration, then scale the cluster back down to remove the GPU once the build finishes, and re-add it only for the next indexing job.
+The GPU's generally higher hourly rate mainly pays for itself while it's indexing. If you don't expect to re-index often, you should not run a GPU cluster continuously: index with GPU acceleration, then scale the cluster back down to remove the GPU once the build finishes, and re-add it only for the next indexing job.
 </aside>
