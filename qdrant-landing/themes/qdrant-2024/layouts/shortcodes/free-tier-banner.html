@@ -1,0 +1,18 @@
+{{- /* Free tier banner for use inside markdown pages (e.g. quickstarts).
+       All content has sensible defaults but can be overridden via named params. */ -}}
+{{- $title := default "Free tier includes everything you need." (.Get "title") -}}
+{{- $buttonText := default "Get Started" (.Get "buttonText") -}}
+{{- $buttonUrl := default "https://cloud.qdrant.io/signup" (.Get "buttonUrl") -}}
+
+{{- $features := slice
+  (dict "icon" (dict "src" "/icons/outline/cloud.png" "alt" "Cloud") "text" "Cloud Inference")
+  (dict "icon" (dict "src" "/icons/outline/code.png" "alt" "Embedding models") "text" "Free embedding models")
+  (dict "icon" (dict "src" "/icons/outline/lock.png" "alt" "No limits") "text" "No token limits")
+  (dict "icon" (dict "src" "/icons/outline/credit-card.png" "alt" "No payment") "text" "No payment method required")
+-}}
+
+{{- partial "documentation/banners/banner-free-tier.html" (dict
+  "title" $title
+  "button" (dict "text" $buttonText "url" $buttonUrl)
+  "features" $features
+) -}}
