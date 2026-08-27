@@ -32,7 +32,14 @@ As part of this development, the Voiceflow engineering team was looking for a [v
 - **Metadata**: The capability to tag data and chunks and retrieve based on those values, essential for organizing and accessing specific information swiftly.
 - **Managed Solution**: The availability of a [managed service](/documentation/cloud/) with automated maintenance, scaling, and security, freeing the team from infrastructure concerns.
 
-*"We started with Pinecone but eventually switched to Qdrant,"* Linkov noted. The reasons for the switch included:
+{{< quote
+  text="We started with Pinecone but eventually switched to Qdrant."
+  name="Denys Linkov"
+  role="Machine Learning Team Lead"
+  company="Voiceflow"
+  logo="/img/customers-case-studies-logo/voiceflow.svg" >}}
+
+The reasons for the switch included:
 
 - **Scaling Capabilities**: Qdrant offers a robust multi-node setup with [horizontal scaling](/documentation/cloud/cluster-scaling/), allowing clusters to grow by adding more nodes and distributing data and load among them. This ensures high performance and resilience, which is crucial for handling large-scale projects.
 - **Infrastructure**: “Qdrant provides robust infrastructure support, allowing integration with virtual private clouds on AWS using AWS Private Links and ensuring encryption with AWS KMS. This setup ensures high security and reliability,” says Portillo Edo.
@@ -40,7 +47,11 @@ As part of this development, the Voiceflow engineering team was looking for a [v
 
 ## Migration and Onboarding
 
-Voiceflow began its migration to Qdrant by creating [backups](/documentation/cloud/backups/) and ensuring data consistency through random checks and key customer verifications. "Once we were confident in the stability, we transitioned the primary database to Qdrant, completing the migration smoothly," Linkov explained.
+Voiceflow began its migration to Qdrant by creating [backups](/documentation/cloud/backups/) and ensuring data consistency through random checks and key customer verifications. {{< quote
+  text="Once we were confident in the stability, we transitioned the primary database to Qdrant, completing the migration smoothly."
+  name="Denys Linkov"
+  role="Machine Learning Team Lead"
+  company="Voiceflow" >}}
 
 During onboarding, Voiceflow transitioned from namespaces to Qdrant's collections, which offer enhanced flexibility and advanced vector search capabilities. They also implemented Quantization to enhance data processing efficiency. This comprehensive process ensured a seamless transition to Qdrant's robust infrastructure.
 
