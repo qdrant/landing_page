@@ -45,7 +45,7 @@ When these criteria are met, the Optimizer processes the segment by removing del
 
 ## Merge Optimizer
 
-Qdrant uses the Merge Optimizer to manage the number and size of segments in its storage system, ensuring efficient data organization and query performance. Temporary segments may be created during processes like optimization, such as copy-on-write segments, which help facilitate operations.
+Qdrant uses the Merge Optimizer to manage the number of segments in its storage system, ensuring efficient data organization and query performance. Temporary segments may be created during processes like optimization, such as copy-on-write segments, which help facilitate operations.
 
 Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the Merge Optimizer works to reduce the number of segments when there are more than optimal.
 
@@ -79,7 +79,7 @@ storage:
     max_segment_size_kb: null
 ```
 
-- `default_segment_number` ensures that segments align with the system's thread count, enabling even distribution of processing across threads.
+- `default_segment_number` ensures that segments align with the search thread count, enabling even distribution of processing across threads.
 - `max_segment_size_kb` controls segment size to optimize both indexing and search performance, depending on system priorities.
 
 Proper configuration of these parameters allows Qdrant to maintain an efficient and responsive storage system.
