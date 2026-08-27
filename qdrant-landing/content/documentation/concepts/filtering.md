@@ -313,7 +313,7 @@ It allows you to search for a specific substring, token or phrase within the tex
 Exact texts that will match the condition depend on full-text index configuration.
 Configuration is defined during the index creation and describe at [full-text index](/documentation/concepts/indexing/#full-text-index).
 
-If there is no full-text index for the field, the condition will work as exact substring match.
+If there is no full-text index for the field, the condition will use some basic tokenizer.
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match/" >}}
 
@@ -342,7 +342,7 @@ For example, the text `"quick brown fox"` will be matched by the query `"brown f
     The index must be configured with <code>phrase_matching</code> parameter set to <code>true</code>. If the index has phrase matching disabled, phrase conditions won't match anything.
 </aside>
 
-If there is no full-text index for the field, the condition will work as exact substring match.
+If there is no full-text index for the field, the condition will use some basic tokenizer.
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/phrase-match/" >}}
 
