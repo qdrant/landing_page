@@ -112,3 +112,5 @@ A few things worth knowing about these parameters:
 Start small and test. Before attempting to upload your entire dataset, ingest a smaller chunk to validate your configuration and process.
 
 Try it hands-on in the [Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb).
+
+See it at 400 million points in the [LAION-400M benchmark](https://github.com/qdrant/laion-400m-benchmark).
