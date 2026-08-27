@@ -1,5 +1,7 @@
 ---
 title: Memory Usage
+short_description: "Inspect disk space, RAM, and OS page cache usage for a Qdrant collection across the cluster, broken down by component."
+description: "Use the Qdrant Web UI or API to monitor a collection's disk, RAM, and page cache consumption across the cluster and per component, to plan capacity and diagnose memory pressure."
 weight: 7
 ---
 

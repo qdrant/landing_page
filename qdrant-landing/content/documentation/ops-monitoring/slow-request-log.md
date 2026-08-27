@@ -1,5 +1,7 @@
 ---
 title: Slow Request Log
+short_description: "Identify the slowest queries in your Qdrant deployment with the built-in slow request log, which records the slowest unique operations on each node since startup."
+description: "Use the Slow Request Log REST endpoint to find which queries are responsible for high latency, with per-request-type breakdowns, deduplication by request content, and approximate occurrence counts."
 weight: 9
 ---
 
