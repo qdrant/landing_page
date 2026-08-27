@@ -20,7 +20,15 @@ partition: case-studies
 ---
 ![voiceflow/image2.png](/blog/case-study-voiceflow/image1.png)
 
-[Voiceflow](https://www.voiceflow.com/) enables enterprises to create AI agents in a no-code environment by designing workflows through a drag-and-drop interface. The platform allows developers to host and customize chatbot interfaces without needing to build their own RAG pipeline, working out of the box and being easily adaptable to specific use cases. “Powered by technologies like Natural Language Understanding (NLU), Large Language Models (LLM), and Qdrant as a vector search engine, Voiceflow serves a diverse range of customers, including enterprises that develop chatbots for internal and external AI use cases,” says [Xavier Portillo Edo](https://www.linkedin.com/in/xavierportillaedo/), Head of Cloud Infrastructure at Voiceflow.
+[Voiceflow](https://www.voiceflow.com/) enables enterprises to create AI agents in a no-code environment by designing workflows through a drag-and-drop interface. The platform allows developers to host and customize chatbot interfaces without needing to build their own RAG pipeline, working out of the box and being easily adaptable to specific use cases.
+
+{{< quote
+  text="Powered by technologies like Natural Language Understanding (NLU), Large Language Models (LLM), and Qdrant as a vector search engine, Voiceflow serves a diverse range of customers, including enterprises that develop chatbots for internal and external AI use cases."
+  name="Xavier Portillo Edo"
+  role="Head of Cloud Infrastructure"
+  company="Voiceflow"
+  logo="/img/customers-case-studies-logo/voiceflow.svg"
+  featured="true" >}}
 
 ## Evaluation Criteria
 
@@ -36,8 +44,7 @@ As part of this development, the Voiceflow engineering team was looking for a [v
   text="We started with Pinecone but eventually switched to Qdrant."
   name="Denys Linkov"
   role="Machine Learning Team Lead"
-  company="Voiceflow"
-  logo="/img/customers-case-studies-logo/voiceflow.svg" >}}
+  company="Voiceflow" >}}
 
 The reasons for the switch included:
 
@@ -47,11 +54,7 @@ The reasons for the switch included:
 
 ## Migration and Onboarding
 
-Voiceflow began its migration to Qdrant by creating [backups](/documentation/cloud/backups/) and ensuring data consistency through random checks and key customer verifications. {{< quote
-  text="Once we were confident in the stability, we transitioned the primary database to Qdrant, completing the migration smoothly."
-  name="Denys Linkov"
-  role="Machine Learning Team Lead"
-  company="Voiceflow" >}}
+Voiceflow began its migration to Qdrant by creating [backups](/documentation/cloud/backups/) and ensuring data consistency through random checks and key customer verifications. “Once we were confident in the stability, we transitioned the primary database to Qdrant, completing the migration smoothly,” Linkov explained.
 
 During onboarding, Voiceflow transitioned from namespaces to Qdrant's collections, which offer enhanced flexibility and advanced vector search capabilities. They also implemented Quantization to enhance data processing efficiency. This comprehensive process ensured a seamless transition to Qdrant's robust infrastructure.
 
@@ -82,7 +85,13 @@ Voiceflow leverages Qdrant's robust features and infrastructure to optimize thei
 
 *Infrastructure:*
 
-- **Private Link**: The ability to use Private Link connections across different instances is a significant advantage, requiring robust infrastructure support from Qdrant. "This setup was crucial for SOC2 compliance, and Qdrant's support team made the process seamless by ensuring feasibility and aiding in the implementation," Linkov explained.
+- **Private Link**: The ability to use Private Link connections across different instances is a significant advantage, requiring robust infrastructure support from Qdrant.
+
+{{< quote
+  text="This setup was crucial for SOC2 compliance, and Qdrant's support team made the process seamless by ensuring feasibility and aiding in the implementation."
+  name="Denys Linkov"
+  role="Machine Learning Team Lead"
+  company="Voiceflow" >}}
 
 By utilizing these features, Voiceflow ensures that its platform is scalable, secure, and efficient, meeting the diverse needs of its users.
 
