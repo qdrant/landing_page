@@ -25,6 +25,7 @@ partition: case-studies
 {{< quote
   text="Powered by technologies like Natural Language Understanding (NLU), Large Language Models (LLM), and Qdrant as a vector search engine, Voiceflow serves a diverse range of customers, including enterprises that develop chatbots for internal and external AI use cases."
   name="Xavier Portillo Edo"
+  name_url="https://www.linkedin.com/in/xavierportillaedo/"
   role="Head of Cloud Infrastructure"
   company="Voiceflow"
   logo="/img/customers-case-studies-logo/voiceflow.svg"
@@ -54,7 +55,7 @@ The reasons for the switch included:
 
 ## Migration and Onboarding
 
-Voiceflow began its migration to Qdrant by creating [backups](/documentation/cloud/backups/) and ensuring data consistency through random checks and key customer verifications. “Once we were confident in the stability, we transitioned the primary database to Qdrant, completing the migration smoothly,” Linkov explained.
+Voiceflow began its migration to Qdrant by creating [backups](/documentation/cloud/backups/) and ensuring data consistency through random checks and key customer verifications. "Once we were confident in the stability, we transitioned the primary database to Qdrant, completing the migration smoothly," Linkov explained.
 
 During onboarding, Voiceflow transitioned from namespaces to Qdrant's collections, which offer enhanced flexibility and advanced vector search capabilities. They also implemented Quantization to enhance data processing efficiency. This comprehensive process ensured a seamless transition to Qdrant's robust infrastructure.
 
