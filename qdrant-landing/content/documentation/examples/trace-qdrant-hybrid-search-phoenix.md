@@ -16,7 +16,38 @@ Hybrid search improves relevance, but when results look wrong it is hard to know
 
 In this tutorial, you will instrument a staged Qdrant hybrid search with [Arize Phoenix](https://phoenix.arize.com/) and OpenTelemetry. You will index 200 AG News documents in [Qdrant Cloud](https://qdrant.tech/cloud/) with dense and sparse vectors via [Qdrant Cloud Inference](/documentation/cloud/inference/), run hybrid retrieval and send a trace tree to Phoenix that separates what Qdrant returned from what you kept.
 
-## Components
+## Concepts
+
+If you need a primer on how hybrid search works, read the [hybrid search guide](/documentation/search/hybrid-queries/).
+
+The problem we solve is simple to state and hard to debug: when a hybrid search returns the wrong results, you cannot tell which stage failed. Tracing makes each stage visible.
+
+### What a trace shows
+
+[OpenTelemetry](https://opentelemetry.io/) is an open standard that records operations as spans (timed units of work with inputs, outputs, and metadata). A trace is a tree of spans for one request. [Arize Phoenix](https://arize.com/phoenix/) is a UI that receives spans over OTLP and renders the tree so you can inspect each stage.
+
+### One search, two stages to observe
+
+A hybrid search makes two decisions that usually run as one block of code:
+
+1. Retrieval — Qdrant fuses the dense and sparse results and returns a candidate set (`candidate_limit` documents).
+2. Selection — your code keeps a smaller slice (`result_limit` documents), or reranks and filters them.
+
+When the final answer is wrong, the fault can sit in either stage. The two stages look the same in a single log line or one Qdrant call. Qdrant can fail to return the right document. Your selection logic can also drop it after Qdrant returns it.
+
+### Spans make the stages visible
+
+In this tutorial, each search emits three nested spans:
+
+```text
+search
+|- qdrant_hybrid_retrieval
+`- select_results
+```
+
+`qdrant_hybrid_retrieval` records what Qdrant returned. `select_results` records what your code kept. Compare the document IDs of the two spans to find the stage to fix.
+
+### Components
 
 - [Qdrant Cloud](https://qdrant.tech/cloud/) with [Cloud Inference](/documentation/cloud/inference/) for vector embeddings.
 - [Arize Phoenix](https://phoenix.arize.com/) for traces and [OpenInference](https://github.com/Arize-ai/openinference) semantic conventions.
@@ -566,8 +597,12 @@ The retrieval span shows what Qdrant found. The selection span shows what you ke
 
 ## Next Steps
 
-You now have a minimal, staged tracing pattern for Qdrant hybrid search. Extend it by adding a reranking span between retrieval and selection, recording scores as `retrieval.scores`, or wrapping the inference calls.
+You now have a minimal staged tracing pattern for Qdrant hybrid search. Extend it in these ways:
 
-To run this with your own embeddings, swap `EMBEDDING_MODEL` and `SPARSE_MODEL` for any [Cloud Inference](/documentation/cloud/inference/) models or local models. For production, export traces to a persistent Phoenix instance or any OTLP collector instead of `localhost:6006`.
+- Add a reranking span between retrieval and selection.
+- Record scores as `retrieval.scores`.
+- Wrap the inference calls in spans.
+
+To use your own embeddings, replace `EMBEDDING_MODEL` and `SPARSE_MODEL` with any [Cloud Inference](/documentation/cloud/inference/) model or a local model. For production, export traces to a persistent Phoenix instance or any OTLP collector instead of `localhost:6006`.
 
 If you have questions, ask on our [Discord community](https://qdrant.to/discord).
