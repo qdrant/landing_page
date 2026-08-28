@@ -1,3 +1,3 @@
 ```typescript
-npm install qdrant/js-client-rest
+npm install @qdrant/js-client-rest
 ```

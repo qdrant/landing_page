@@ -3,7 +3,7 @@ title: Multimodal Search
 short_description: "Build a multimodal, multilingual vector earch application with Cohere Embed 4.0 and Qdrant Cloud Inference that searches across image and text modalities."
 description: "Combine Cohere Embed 4.0 with Qdrant Cloud Inference to power multimodal, multilingual vector search application over images and text using a shared embedding space."
 weight: 25
-partition: ecosystem
+partition: develop
 social_preview_image: /documentation/examples/multimodal-search/social_preview.png
 aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
