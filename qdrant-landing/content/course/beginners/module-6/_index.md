@@ -168,4 +168,5 @@ No. A point passed in by ID is left out of the results, and here that is what yo
 
 - [Qdrant Essentials](/course/essentials/) goes deeper on HNSW tuning, quantization and rescoring, high-throughput ingestion, and the full Query API.
 - [Multi-Vector Search](/course/multi-vector-search/) covers ColBERT and ColPali, including MaxSim scoring, pooling, and MUVERA indexing.
+- [Tutorials](/documentation/tutorials-and-examples/) walk through complete, code-first implementations of the features in this module.
 - [Qdrant Cloud](https://cloud.qdrant.io/) has a free cluster to run any of this on.
