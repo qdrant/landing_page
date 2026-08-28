@@ -14,6 +14,8 @@ tags:
 weight: 0 
 ---
 
+*This is Dust’s story as it stood in 2024. For how they scaled to 5,000+ data sources and brought search latency under a second, read [How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/).*
+
 One of the major promises of artificial intelligence is its potential to
 accelerate efficiency and productivity within businesses, empowering employees
 and teams in their daily tasks. The French company [Dust](https://dust.tt/), co-founded by former
@@ -123,8 +125,6 @@ choice for companies to execute on their internal GenAI strategy, unlocking
 company knowledge and driving team productivity. Over the coming months, Dust
 will add more connections, such as Intercom, Jira, or Salesforce. Additionally,
 Dust will expand on its structured data capabilities.
-
-Dust has since grown well past this. [How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/) picks the story up in 2025, when they consolidated thousands of collections and brought search latency under a second.
 
 To learn more about how Dust uses Qdrant to help employees in their day to day
 tasks, check out our [Vector Space Talk](https://www.youtube.com/watch?v=toIgkJuysQ4) featuring Stanislas Polu, Co-Founder of Dust.
