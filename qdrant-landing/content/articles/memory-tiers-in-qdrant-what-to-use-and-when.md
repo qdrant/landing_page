@@ -6,7 +6,7 @@ social_preview_image: /articles_data/memory-tiers-in-qdrant-what-to-use-and-when
 preview_dir: /articles_data/memory-tiers-in-qdrant-what-to-use-and-when/preview
 author: Clelia Bertelli
 author_link: https://qdrant.tech
-date: 2026-08-14T10:00:00+02:00
+date: 2026-08-28T10:00:00+02:00
 draft: false
 keywords:
   - memory tiers
@@ -64,7 +64,7 @@ On a collection small enough to fit entirely in the cached tier with room to spa
 
 ## Use The Cold Tier With Quantization
 
-Add quantization before going cold if disk footprint matters more than raw speed. Every **first touch on a cold, unquantized structure comes from disk**, and a single HNSW traversal touches enough pages that a rare query can stretch far past its typical latency.
+If disk footpring matters more than just raw speed, consider adding quantization before fully committing to the cold tier. Every **first touch on a cold, unquantized structure comes from disk**, and a single HNSW traversal touches enough pages that a rare query can stretch far past its typical latency.
 
 Giving the search a small compressed copy to score against, instead of paging full-precision vectors in from a cold file, removes most of the tail-latency risk even before anything gets pinned.
 
@@ -92,7 +92,7 @@ In these cases, the latency can increase by multiple times, and its worst-case q
 
 ## HNSW Inline Storage and Disk Space
 
-Test HNSW inline storage with quantization at your real vector dimensionality and graph connectivity before relying on it in production. Qdrant's inline HNSW storage removes a random-access read by copying vector data directly into the graph file: a full-precision copy per point, plus a compressed copy for every edge into it.
+Test [HNSW inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) with quantization at your real vector dimensionality and graph connectivity before relying on it in production. Qdrant's inline HNSW storage removes a random-access read by copying vector data directly into the graph file: a full-precision copy per point, plus a compressed copy for every edge into it.
 
 That second cost scales with edge count and vector size, not point count, so it can grow far faster than the collection does.
 
