@@ -45,7 +45,7 @@ The **Cookie Consent Preferences** section lets you control how cookies are used
 
 When someone invites you to their account, the invitation appears on your **Invitations** page as a pending invitation, where you can accept it. Once accepted, the account becomes available in your [account switcher](/documentation/cloud-account-setup/#switching-between-accounts).
 
-![Pending invitations](/documentation/cloud/pending-invitations.png)
+![Pending invitations](/documentation/cloud/accept-invitation.png)
 
 > **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-rbac/user-management/#inviting-users-to-an-account).
 
