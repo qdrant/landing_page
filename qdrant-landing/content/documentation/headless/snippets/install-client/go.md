@@ -1,3 +1,3 @@
 ```go
-github.com/qdrant/go-client
+go get github.com/qdrant/go-client
 ```

@@ -1,3 +1,3 @@
 ```csharp
-Qdrant.Client
+dotnet add package Qdrant.Client
 ```
