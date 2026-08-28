@@ -74,6 +74,19 @@
           {{ end }}
         </ul>
       {{ end }}
+
+      {{ if eq .Section "documentation" }}
+        {{ with .Site.GetPage "/headless/docs-sidebar-cta" }}
+          <a
+            href="{{ .Params.link }}"
+            class="table-of-contents__cta"
+            {{ if strings.HasPrefix .Params.link "https://" }}target="_blank" rel="noopener"{{ end }}
+          >
+            {{ with .Params.icon }}<img class="table-of-contents__cta-icon" src="{{ . }}" alt="" />{{ end }}
+            {{ .Params.text }}
+          </a>
+        {{ end }}
+      {{ end }}
     </div>
   {{ end }}
 {{ end }}
