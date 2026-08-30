@@ -1,0 +1,109 @@
+{{ with (.Site.GetPage "/resilience/capabilities") }}
+  <section class="resilience-capabilities" data-sticky-tabs>
+    <div class="container">
+      <p class="resilience-capabilities__label">{{ .Params.label }}</p>
+      <p class="resilience-capabilities__description">{{ .Params.description | safeHTML }}</p>
+      <a class="link link_md link_white" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+  
+      <div class="resilience-capabilities__banner">
+        <h3 class="resilience-capabilities__banner-title">{{ .Params.banner.title }}</h3>
+        <div class="resilience-capabilities__banner-buttons">
+          <a href="{{ .Params.banner.containedButton.url }}" class="button button_contained button_lg" target="_blank">
+            {{ .Params.banner.containedButton.text }}
+          </a>
+          <a href="{{ .Params.banner.outlinedButton.url }}" class="button button_outlined button_lg">
+            {{ .Params.banner.outlinedButton.text }}
+          </a>
+        </div>
+      </div>
+
+      {{ $tabs := .Params.tabs }}
+      {{ $pairFrom := sub (len $tabs) 2 }}
+
+      <div class="resilience-capabilities__tabs-sticky" data-sticky-tabs-sticky>
+        <div class="resilience-capabilities__tabs" data-sticky-tabs-nav>
+          {{ range $index, $tab := $tabs }}
+            <button
+              class="resilience-capabilities__tabs-button{{ if eq $index 0 }} active{{ end }}"
+              data-sticky-tab="{{ $index }}"
+            >
+              {{ $tab.tab }}
+            </button>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="resilience-capabilities__tab-container">
+        {{ range $index, $tab := $tabs }}
+          <div
+            class="resilience-capabilities__tab-content{{ if ge $index $pairFrom }} resilience-capabilities__tab-content--pair{{ end }}"
+            id="resilience-capabilities-tab-{{ $index }}"
+            data-sticky-panel="{{ $index }}"
+          >
+            <div class="resilience-capabilities__cards">
+              {{ range $tab.cards }}
+              <div
+                class="resilience-capabilities__card{{ if and .image .addition }} resilience-capabilities__card--image-addition{{ else if .image }} resilience-capabilities__card--image{{ else }} resilience-capabilities__card--text{{ end }}"
+              >
+                  {{ if and .image .addition }}
+                    <div class="resilience-capabilities__card-media">
+                      <img class="resilience-capabilities__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+                      <img 
+                        class="resilience-capabilities__card-image-mobile" 
+                        src="{{ .image.mobileSrc }}" 
+                        alt="{{ .image.alt }}" 
+                      />
+                      <p class="resilience-capabilities__card-addition">{{ .addition | safeHTML }}</p>
+                    </div>
+                  {{ else if .image }}
+                    <div class="resilience-capabilities__card-media">
+                      <img class="resilience-capabilities__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+                      <img 
+                        class="resilience-capabilities__card-image-mobile" 
+                        src="{{ .image.mobileSrc }}" 
+                        alt="{{ .image.alt }}" 
+                      />
+                    </div>
+                  {{ else }}
+                    {{ with .label }}
+                      <div class="resilience-capabilities__card-label">
+                        {{ with .icon }}
+                        <img
+                          class="resilience-capabilities__card-label-icon"
+                          src="{{ .src }}"
+                          alt="{{ .alt }}"
+                        />
+                        {{ end }}
+                        <span class="resilience-capabilities__card-label-text">{{ .text }}</span>
+                      </div>
+                    {{ end }}
+  
+                    <h3 class="resilience-capabilities__card-title">{{ .title }}</h3>
+  
+                    {{ with .description1 }}
+                      <p class="resilience-capabilities__card-description">{{ . | safeHTML }}</p>
+                    {{ end }}
+  
+                    {{ with .description2 }}
+                     <p class="resilience-capabilities__card-description">{{ . | safeHTML }}</p>
+                    {{ end }}
+  
+                    {{ with .link }}
+                      <a
+                        class="link link_white link_md resilience-capabilities__card-link"
+                        href="{{ .url }}"
+                        {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener"{{ end }}
+                      >
+                        {{ .text }}
+                      </a>
+                    {{ end }}
+                  {{ end }}
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

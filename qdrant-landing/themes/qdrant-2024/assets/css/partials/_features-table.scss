@@ -168,10 +168,17 @@
 
   &__table-cell--feature {
     justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0 $spacer * 0.5;
     text-align: left;
     font-size: pxToRem(18);
     line-height: pxToRem(27);
     font-weight: 600;
+    
+    span {
+      font-weight: $font-weight-normal;
+      color: $neutral-80;
+    }
   }
 
   &__table-cell--highlight {
@@ -213,7 +220,15 @@
     }
     
     & .features-table__table-cell.features-table__table-cell--col {
-      padding: pxToRem(16) pxToRem(8);
+      padding: pxToRem(32) pxToRem(16);
+      font-size: pxToRem(24);
+      line-height: pxToRem(32);
+
+      &.features-table__table-cell--has-icon {
+        font-size: pxToRem(20);
+        line-height: pxToRem(30);
+        padding: pxToRem(16) pxToRem(8);
+      }
     }
   }
 
@@ -587,6 +602,24 @@
         border-bottom-left-radius: 0;
       }
     }
+    
+    &--mobile-align-left {
+      &.features-table--mobile-arrows {
+        .features-table__col-tab {
+          text-align: left;
+        }
+
+        .features-table__table-cell[data-col] {
+          text-align: left;
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+
+        .features-table__table-cell--feature {
+          align-items: flex-start;
+        }
+      }
+    }
   }
 
   @include media-breakpoint-down(md) {
@@ -638,10 +671,6 @@
     }
 
     .features-table__table-cell--feature {
-      font-size: pxToRem(16);
-      line-height: pxToRem(24);
-      padding: pxToRem(24) pxToRem(32);
-      color: $neutral-98;
       z-index: 1;
     }
 
@@ -712,7 +741,7 @@
     }
 
     .features-table__check {
-      color: $neutral-98;
+      color: #1FC7C7;
     }
 
     .features-table__x {
@@ -768,6 +797,38 @@
       .features-table__table-row:first-of-type 
       .features-table__table-cell {
         border-top: $dark-border;
+      }
+
+      &.features-table--mobile-arrows {
+        .features-table__col-tabs {
+          background-color: transparent;
+          border: none;
+        }
+
+        .features-table__col-arrows {
+          display: flex;
+          align-items: center;
+          gap: pxToRem(8);
+        }
+
+        .features-table__col-arrow {
+          border: pxToRem(1) solid $neutral-94;
+
+          svg path {
+            stroke: $neutral-94;
+          }
+        }
+
+        .features-table__col-tab {
+          background-color: $neutral-10;
+          border-top: 0.5px solid $neutral-30;
+          border-left: 0.5px solid $neutral-30;
+          border-right: 0.5px solid $neutral-30;
+        }
+
+        .features-table__table-section-rows:before {
+          border-radius: 0;
+        }
       }
     }
   }

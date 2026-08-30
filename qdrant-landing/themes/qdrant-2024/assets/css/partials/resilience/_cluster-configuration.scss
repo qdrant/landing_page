@@ -1,0 +1,261 @@
+@use '../../helpers/functions' as *;
+
+.resilience-cluster-configuration {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 375 / 979;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-image: url("/img/resilience/background-lights-mobile.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-xs;
+    line-height: pxToRem(18);
+    color: $neutral-80;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__title {
+    font-size: pxToRem(28);
+    line-height: pxToRem(34);
+    margin-bottom: $spacer;
+    color: $neutral-98;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__description {
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    margin-bottom: $spacer * 2;
+    color: $neutral-80;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__cards {
+    margin-bottom: $spacer * 2;
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__card {
+    height: 100%;
+    padding: $spacer * 1.5 pxToRem(20);
+    border: pxToRem(1) solid $neutral-20;
+    background-color: $neutral-10;
+    
+    &:hover {
+      background: linear-gradient(180deg, rgba(14, 20, 36, 0.00) 0%, $neutral-20 100%), $neutral-10;
+    }
+    
+    &-title {
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-98;
+    }
+    
+    &-image {
+      display: block;
+      width: 100%;
+      margin: 0 auto $spacer * 1.5;
+      max-width: pxToRem(470);
+    }
+    
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: 0;
+      color: $neutral-60;
+      
+      span {
+        color: $neutral-90;
+        font-weight: $font-weight-semibold;
+      }
+      
+      &:last-of-type {
+        margin-top: $spacer;
+        padding-top: $spacer;
+        border-top: pxToRem(0.5) solid $neutral-20;
+      }
+    }
+  }
+  
+  &__banner {
+    padding: $spacer * 1.5 pxToRem(20);
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-20;
+    background: linear-gradient(180deg, rgba(14, 20, 36, 0.00) -143.42%, $neutral-20 264.8%);
+    position: relative;
+    z-index: 1;
+    
+    &-header {
+      display: flex;
+      gap: pxToRem(10);
+      align-items: center;
+      margin-bottom: pxToRem(12);
+    }
+    
+    &-icon {
+      width: pxToRem(20);
+      height: pxToRem(20);
+    }
+    
+    &-title {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-80;
+    }
+    
+    &-content {
+      display: flex;
+      flex-direction: column;
+      gap: $spacer * 0.5;
+    }
+    
+    &-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    &-item {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: pxToRem(8);
+      padding-left: pxToRem(8);
+      font-size: $font-size-s;
+      line-height: $line-height-lg;
+      color: $neutral-60;
+
+      &::before {
+        content: "";
+        flex-shrink: 0;
+        width: pxToRem(3);
+        height: pxToRem(3);
+        margin-top: pxToRem(12);
+        background: $neutral-60;
+      }
+    }
+    
+    &-link {
+      margin-top: $spacer;
+      align-self: flex-end;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: pxToRem(220);
+      right: 0;
+      left: 0;
+      margin: 0 auto;
+      width: 100%;
+      max-width: pxToRem(1440);
+      height: auto;
+      aspect-ratio: 1440 / 925;
+      pointer-events: none;
+      background-repeat: no-repeat;
+      background-image: url("/img/resilience/background-lights.png");
+      background-size: cover;
+      background-position: center;
+    }
+
+    &__label {
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+    }
+
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      margin-bottom: $spacer * 2;
+    }
+
+    &__description {
+      max-width: pxToRem(910);
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin: 0 auto $spacer * 4;
+    }
+
+    &__cards {
+      margin-bottom: $spacer * 4;
+      border: pxToRem(1) solid $neutral-20;
+      
+      & > :not(:first-of-type) {
+        .resilience-cluster-configuration__card {
+          border-left: pxToRem(1) solid $neutral-20;
+        }
+      }
+    }
+
+    &__card {
+      padding: $spacer * 2;
+      border: 0;
+
+      &-title {
+        margin-bottom: $spacer * 2;
+      }
+
+      &-image {
+        margin-bottom: $spacer * 2;
+      }
+    }
+
+    &__banner {
+      padding: $spacer * 2;
+
+      &-header {
+        margin-bottom: $spacer;
+      }
+
+      &-content {
+        width: 100%;
+        flex-direction: row;
+        gap: $spacer * 2;
+      }
+
+      &-item {
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+      }
+
+      &-link {
+        margin-top: 0;
+        margin-left: auto;
+      }
+    }
+  }
+}

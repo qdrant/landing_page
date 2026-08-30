@@ -1,0 +1,110 @@
+@use '../../helpers/functions' as *;
+
+.resilience-how-it-works {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-80;
+  }
+  
+  &__cards {
+    margin-top: $spacer * 2;
+    border: pxToRem(1) solid $neutral-20;
+  }
+  
+  &__card {
+    padding: $spacer * 1.5 pxToRem(20);
+    border-bottom: pxToRem(1) solid $neutral-20;
+    
+    &-icon {
+      height: $spacer * 2;
+      width: $spacer * 2;
+      margin-bottom: $spacer;
+    }
+    
+    &-title {
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+      margin-bottom: $spacer;
+      color: $neutral-98;
+    }
+    
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: 0;
+      color: $neutral-80;
+    }
+  }
+  
+  &__addition {
+    padding: $spacer * 1.5;
+    
+    &-text {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: 0;
+      color: $neutral-80;
+      
+      span {
+        font-weight: $font-weight-semibold;
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      margin-bottom: 0;
+    }
+    
+    &__content {
+      max-width: pxToRem(445);
+      margin-left: auto;
+    }
+    
+    &__cards {
+      margin-top: $spacer * 4;
+
+      & > :not(:first-of-type) {
+        .resilience-how-it-works__card {
+          border-left: pxToRem(1) solid $neutral-20;
+        }
+      }
+    }
+
+    &__card {
+      padding: $spacer * 2 $spacer * 1.5;
+
+      &-icon {
+        margin-bottom: $spacer * 1.5;
+      }
+
+      &-description {
+        margin-bottom: $spacer * 3;
+      }
+    }
+
+    &__addition {
+      &-text {
+        text-align: center;
+      }
+    }
+  }
+}

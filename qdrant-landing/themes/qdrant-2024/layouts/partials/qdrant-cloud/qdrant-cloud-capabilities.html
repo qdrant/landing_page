@@ -1,15 +1,15 @@
 {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-capabilities") }}
-  <section class="qdrant-cloud-capabilities">
+  <section class="qdrant-cloud-capabilities" data-sticky-tabs>
     <div class="container">
       <h3 class="qdrant-cloud-capabilities__title">{{ .Params.title }}</h3>
       <p class="qdrant-cloud-capabilities__description">{{ .Params.description }}</p>
   
-      <div class="qdrant-cloud-capabilities__tabs-sticky">
-        <div class="qdrant-cloud-capabilities__tabs" data-capabilities-tabs>
+      <div class="qdrant-cloud-capabilities__tabs-sticky" data-sticky-tabs-sticky>
+        <div class="qdrant-cloud-capabilities__tabs" data-sticky-tabs-nav>
           {{ range $index, $tab := .Params.tabs }}
             <button
               class="qdrant-cloud-capabilities__tabs-button{{ if eq $index 0 }} active{{ end }}"
-              data-capabilities-tab="{{ $index }}"
+              data-sticky-tab="{{ $index }}"
             >
               {{ $tab.tab }}
             </button>
@@ -22,7 +22,7 @@
           <div
             class="qdrant-cloud-capabilities__tab-content"
             id="qdrant-cloud-capabilities-tab-{{ $index }}"
-            data-capabilities-panel="{{ $index }}"
+            data-sticky-panel="{{ $index }}"
           >
             <div class="qdrant-cloud-capabilities__tab-header">
               <div class="qdrant-cloud-capabilities__tab-header-overlay1"></div>

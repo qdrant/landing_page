@@ -83,6 +83,7 @@
 @import 'partials/events/events-list';
 @import 'partials/common-hero';
 @import 'partials/features-table';
+@import 'partials/nested-accordion';
 // used by landing pages under /lp/ (e.g. /lp/lucene)
 @import 'partials/elastic-lucene/index';
 @import 'partials/vsd/index';
@@ -92,3 +93,4 @@
 @import 'partials/pricing-banner';
 @import 'partials/serverless';
 @import 'partials/security';
+@import 'partials/resilience';
