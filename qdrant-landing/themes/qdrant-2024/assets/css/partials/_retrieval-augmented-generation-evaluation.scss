@@ -36,11 +36,8 @@
     &-logos {
       display: flex;
       flex-wrap: wrap;
-      justify-content: start;
-      gap: $spacer * 1.5 $spacer * 0.5;
-      @include media-breakpoint-up(xl) {
-        justify-content: space-between;
-      }
+      justify-content: center;
+      gap: $spacer * 1.5 $spacer * 2;
     }
 
     &-logo {
