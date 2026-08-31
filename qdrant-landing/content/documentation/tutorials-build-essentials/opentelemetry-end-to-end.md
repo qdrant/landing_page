@@ -476,7 +476,7 @@ This page sets up scrape targets. It does not configure alerts. Once the signals
 
 ## Verified against
 
-Qdrant Cloud 1.17.1, single node, `us-west-1`, the `qdrant-docs` snapshot at 18,828 points and 384 dimensions. Collector image `otel/opentelemetry-collector-contrib`, backend `grafana/otel-lgtm`. The Kubernetes and self-hosted paths above are described but not verified in this configuration.
+Qdrant Cloud 1.17.1, single node, `us-west-1`, the `qdrant-docs` snapshot at 18,828 points and 384 dimensions. Collector image `otel/opentelemetry-collector-contrib`, backend `grafana/otel-lgtm`. The self-hosted scrape path above is described but not verified in this configuration.
 
 ## Next
 
