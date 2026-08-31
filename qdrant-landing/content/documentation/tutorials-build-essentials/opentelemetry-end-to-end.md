@@ -12,6 +12,12 @@ Qdrant Cloud exposes Prometheus metrics, not OpenTelemetry. You scrape these met
 
 Two existing pages cover the app side. [OpenLLMetry](/documentation/observability/openllmetry/) instruments the `qdrant_client` library and exports spans. [OpenLIT](/documentation/observability/openlit/) sends app traces and metrics. This page covers the third piece. It gets the metrics of Qdrant Cloud into the same backend, and then ties them to a slow trace.
 
+### Which layer reports what
+
+Qdrant reports on the database: request durations, collection state, optimizer activity, and node resources. It does not know your model, your prompt, or your token counts.
+
+Token counts, model latency, and retrieval relevance come from a tracing library in your application, such as OpenLLMetry, OpenLIT, or Arize. Instrument those in your own code. Qdrant needs no per-vendor integration for either layer, because the Collector speaks both OTLP and Prometheus.
+
 ## What you need
 
 - A Qdrant Cloud instance.
@@ -19,7 +25,7 @@ Two existing pages cover the app side. [OpenLLMetry](/documentation/observabilit
 - Python.
 - An OTLP endpoint. The tutorial uses `grafana/otel-lgtm`, so you do not need a vendor account.
 
-The `/sys_metrics` endpoint is Cloud-only. Self-hosted Qdrant does not expose it.
+The `/sys_metrics` endpoint is Cloud-only. Self-hosted Qdrant does not expose it. Self-hosted clusters still expose `/metrics` on every node, so drop the `qdrant-cloud-sys` scrape job in Step 2 and list one target per node under `qdrant-node`. You lose the node resource and edge latency series. You keep the request histograms and the optimizer signal.
 
 The data for this example will come from a public snapshot of the Qdrant documentation site.
 
@@ -178,7 +184,7 @@ KEY = os.environ["QDRANT_API_KEY"]
 COLL = os.environ["COLLECTION"]
 SNAPSHOT = os.environ["SNAPSHOT_URL"]
 
-client = QdrantClient(url=URL, api_key=KEY)
+client = QdrantClient(url=URL, api_key=KEY, timeout=600)
 
 if not client.collection_exists(COLL):
     client.recover_snapshot(
@@ -186,6 +192,8 @@ if not client.collection_exists(COLL):
         location=SNAPSHOT,
     )
 ```
+
+`recover_snapshot` blocks until the restore finishes, which takes longer than the client's default timeout. Raise the timeout as shown, or the call fails with `ResponseHandlingException: The read operation timed out` while the restore keeps running on the cluster.
 
 If the `.env` file is loaded, run the script:
 
@@ -416,7 +424,38 @@ histogram_quantile(0.5,
 
 `per_collection=true` is the `params` block on the `qdrant-node` scrape, from Step 2. Without it, `rest_responses_duration_seconds_bucket` has no `collection` label. The query returns nothing.
 
+<aside role="status">
+The docs list <code>per_collection=true</code> as available from v1.18. It works on 1.17.1, duration histograms included. Check your own cluster version rather than assuming either way.
+</aside>
+
 The `collection` label on the histogram matches the `db.collection.name` attribute on the span. You can compare the two values directly.
+
+### Read the ratio, not the total
+
+Compare the span duration against `rest_responses_duration_seconds` for the same window. On Qdrant Cloud the two rarely match, and the gap is the point.
+
+Measured on a single-node 1.17.1 cluster against the `qdrant-docs` collection above, 20 requests per shape, `rest_responses_duration_seconds` read straight from `/metrics`:
+
+| Query shape          | Client median | Mean time inside Qdrant |
+| -------------------- | ------------- | ----------------------- |
+| `docs`, `limit=10`   | 312.6 ms      | 2.71 ms                 |
+| `blog`, `limit=1000` | 316.2 ms      | 3.42 ms                 |
+
+Under 1% of what the client waits for is spent inside the database. Asking for 100 times more results makes Qdrant do 26% more work and moves the client total by 1%. The rest is transit between your machine and the cluster, so treat a slow span as a placement or transport problem until the histogram says otherwise.
+
+Your own numbers will differ with vector dimension, collection size, and region. The ratio is what to watch, not the absolute figures.
+
+This also means the slowest span your app records is often a network outlier on the cheaper query rather than the expensive one. Rank traces by `rest_responses_duration_seconds` when you want to find work the database actually did.
+
+## Import the Grafana dashboard
+
+Qdrant publishes dashboards at [qdrant-cloud-grafana-dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard). Import `qdrant_cloud_dashboard.json` through **Dashboards > New > Import** in the Grafana at <http://localhost:3000>. The other dashboard in that repository targets self-managed Hybrid and Private Cloud, and needs `kube_*` series that this setup does not scrape.
+
+<aside role="alert">
+Several API latency and request rate panels query <code>envoy_cluster_upstream_rq_*</code>. Clusters that route through Traefik emit <code>traefik_*</code> instead, so you see those panels empty. The <code>qdrant_*</code> and <code>container_*</code> panels fill normally. Check which proxy your cluster reports before you read a blank panel as an outage.
+</aside>
+
+These dashboards are community maintained. Treat them as a starting point rather than a supported product surface.
 
 ## Use a different backend
 
@@ -429,10 +468,22 @@ Change the `exporters` block. Endpoint and an auth header are all that differ.
 | New Relic     | `https://otlp.nr-data.net:4317`                 | `api-key: <your-key>`                           |
 | Honeycomb     | `https://api.honeycomb.io:443`                  | `x-honeycomb-team: <your-key>`                  |
 
+Confirm the endpoint and header against your vendor's own OTLP documentation before you rely on a row. This tutorial was verified end to end against `grafana/otel-lgtm` only.
+
+## Scrape targets and alerting are separate
+
+This page sets up scrape targets. It does not configure alerts. Once the signals land in your backend, write alerting rules there against `collection_running_optimizations`, `qdrant_node_rssanon_bytes`, and the request histograms. On Kubernetes, the Qdrant operator can install its own Prometheus rules, which are configured separately from anything on this page.
+
+## Verified against
+
+Qdrant Cloud 1.17.1, single node, `us-west-1`, the `qdrant-docs` snapshot at 18,828 points and 384 dimensions. Collector image `otel/opentelemetry-collector-contrib`, backend `grafana/otel-lgtm`. The Kubernetes and self-hosted paths above are described but not verified in this configuration.
+
 ## Next
 
-- [OpenLLMetry](/documentation/observability/openllmetry/) — instrument `qdrant_client` and export spans.
-- [OpenLIT](/documentation/observability/openlit/) — auto-instrumentation for your app.
-- [Datadog integration](/documentation/observability/datadog/) — managed scrape when Datadog is your only backend.
-- [OpenTelemetry Collector reference](https://opentelemetry.io/docs/collector/) — receivers, processors, exporters.
-- [OpenTelemetry Operator](https://opentelemetry.io/docs/kubernetes/operator/) — wraps the same `otelcol-config.yaml` for Kubernetes.
+- [OpenLLMetry](/documentation/observability/openllmetry/) instruments `qdrant_client` and exports spans.
+- [OpenLIT](/documentation/observability/openlit/) auto-instruments your app.
+- [Datadog integration](/documentation/observability/datadog/) is the managed scrape path when Datadog is your only backend.
+- [Cluster monitoring](/documentation/ops-monitoring/monitoring/) lists every metric Qdrant exposes.
+- [qdrant-opentelemetry-tutorial](https://github.com/meinsta/qdrant-opentelemetry-tutorial) is a runnable version of this page, with a notebook, a check that fails if a signal does not arrive, and three Kubernetes deployment paths.
+- [OpenTelemetry Collector reference](https://opentelemetry.io/docs/collector/) covers receivers, processors, and exporters.
+- [OpenTelemetry Operator](https://opentelemetry.io/docs/kubernetes/operator/) wraps the same `otelcol-config.yaml` for Kubernetes.
