@@ -72,7 +72,9 @@ When structures are in the `cold` tier, retrieval may involve reading from disk.
 
 Keep the quantized vectors in RAM by setting `memory: "pinned"` in the `quantization_config`. Without pinning, the quantized copy may be evicted under memory pressure, forcing Qdrant to read both the quantized and original vectors from disk.
 
-If the accuracy loss is acceptable, you can disable rescoring against the original vectors entirely by setting `rescore: false` in the `quantization_config`. This avoids any disk reads during search, and the memory tier of the original vectors no longer affects search latency.
+If the accuracy loss is acceptable, you can disable rescoring against the original vectors by setting `rescore: false` in a query's search parameters. This avoids any disk reads during search, and the memory tier of the original vectors no longer affects search latency. `rescore` is a per-query parameter, so you can keep it on for the queries that need the accuracy:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/disable-quantization-rescoring/" >}}
 
 ### Async I/O
 

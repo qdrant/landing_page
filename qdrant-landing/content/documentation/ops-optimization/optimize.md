@@ -32,14 +32,17 @@ To achieve high search speed with minimal memory usage, you can store vectors on
 To configure in-memory quantization, with on-disk original vectors, you need to create a collection with the following parameters:
 
 - `memory`: Set to `cold` to store the original vectors on disk.
-- `quantization_config`: Compresses quantized vectors to `int8` using the `scalar` method.
+- `datatype`: Set to [`turbo4`](/documentation/manage-data/vectors/#turbo4) to efficiently store vectors as compact 4-bits representation per dimension on disk (instead of a 32-bits floating point number).
+- `quantization_config`: Compresses quantized vectors to 1 bit using the `turboquant` method.
 - `quantization_config.memory`: Set to `pinned` to keep the quantized vectors in RAM.
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-in-ram/" >}}
+
+**Note**: These examples use the `turbo4` datatype. `turbo4` stores each vector dimension as a 4-bit value instead of the full 32-bit value, which improves storage efficiency but can reduce recall and search quality. Weigh these trade-offs before you use `turbo4` in your vector search setup.
 
 ### Disable Rescoring for Faster Search (optional)
 
-This is completely optional. Disabling rescoring with search `params` can further reduce the number of disk reads. Note that this might slightly decrease precision.
+This is completely optional, and only applicable if using binary quantization or TurboQuant with 1, 1.5 and 2 bits (other methods do not rescore by default). Disabling rescoring with search `params` can further reduce the number of disk reads. Note that this might slightly decrease precision.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/disable-quantization-rescoring/" >}}
 
@@ -83,9 +86,11 @@ It requires quantization to be enabled.
 
 For scenarios requiring both high speed and high precision, keep as much data in RAM as possible. Apply quantization with re-scoring for tunable accuracy.
 
-Here is how you can configure scalar quantization for a collection:
+Here is how you can configure TurboQuant quantization for a collection:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-and-vectors-in-ram/" >}}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-and-vectors-in-ram/" >}}
+
+Note that, by default, vectors are stored using the `cached` memory tier, thus there is no need to configure it explicitly.
 
 ### Fine-Tuning Search Parameters
 
@@ -122,6 +127,8 @@ To do that, use fewer segments (usually 2) of larger size (default 200Mb per seg
 Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. However, they will require more time to build the HNSW index.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-large-segments/" >}}
+
+**Note**: `max_segment_size` is expressed in **kilobytes**, so the example above corresponds to ~5GB.
 
 ## Summary
 

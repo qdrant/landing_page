@@ -5,8 +5,6 @@ use qdrant_client::qdrant::{
 };
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client
     .update_collection_cluster_setup(UpdateCollectionClusterSetupRequest {
         collection_name: "{collection_name}".to_string(),

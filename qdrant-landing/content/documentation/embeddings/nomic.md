@@ -72,9 +72,9 @@ output = embed.text(
     task_type="search_query",
 )
 
-client.search(
+client.query_points(
     collection_name="my-collection",
-    query_vector=output["embeddings"][0],
+    query=output["embeddings"][0],
 )
 ```
 
@@ -83,9 +83,9 @@ client.search(
 ```python
 output = next(model.embed("What is the best vector database?"))
 
-client.search(
+client.query_points(
     collection_name="my-collection",
-    query_vector=output.tolist(),
+    query=output.tolist(),
 )
 ```
 

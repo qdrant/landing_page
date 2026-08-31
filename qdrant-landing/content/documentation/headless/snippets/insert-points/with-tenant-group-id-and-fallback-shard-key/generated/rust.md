@@ -2,8 +2,6 @@
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{PointStruct, ShardKeySelectorBuilder, UpsertPointsBuilder};
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 let shard_key_selector = ShardKeySelectorBuilder::with_shard_key("user_1")
     .fallback("default")
     .build();

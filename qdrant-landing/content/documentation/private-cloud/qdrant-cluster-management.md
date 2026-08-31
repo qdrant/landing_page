@@ -380,7 +380,7 @@ on how k8s node ephemeral storage is allocated and used.
 
 ## Automatic Shard Rebalancing
 
-Qdrant Private Cloud supports automatic shard rebalancing. This means that when you scale up or down the number of nodes in a cluster, the operator will automatically redistribute the shards across the available nodes to ensure an even distribution of data.
+Qdrant Private Cloud supports automatic shard rebalancing. Shards are continuously redistributed across the available nodes to keep data evenly distributed, including when you scale up or down the number of nodes in a cluster. Automatic rebalancing applies to the whole cluster. If you manually move a shard while it's active, and that move leaves a node's shard count or size outside the target, the shard can be moved back to correct it. Disable automatic shard rebalancing first if you need to manually control shard placement.
 
 To enable automatic shard rebalancing, you can set the `rebalancestrategy` field in the QdrantCluster spec:
 

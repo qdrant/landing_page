@@ -22,6 +22,7 @@ await client.QueryAsync(
         Limit = 20
     }
   },
-  query: new Rrf()
+  query: new Rrf(),
+  limit: 10
 );
 ```

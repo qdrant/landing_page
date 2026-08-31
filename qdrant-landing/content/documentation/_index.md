@@ -60,6 +60,28 @@ content:
         link:
           url: /documentation/inference/
           text: Read More
+  - partial: documentation/banners/banner-free-tier
+    title: Free tier includes everything you need.
+    button:
+      text: Get Started
+      url: https://cloud.qdrant.io/signup
+    features:
+      - icon:
+          src: /icons/outline/cloud.png
+          alt: Cloud
+        text: Cloud Inference
+      - icon:
+          src: /icons/outline/code.png
+          alt: Embedding models
+        text: Free embedding models
+      - icon:
+          src: /icons/outline/lock.png
+          alt: No limits
+        text: No token limits
+      - icon:
+          src: /icons/outline/credit-card.png
+          alt: No payment
+        text: No payment method required
   - partial: documentation/sections/cards-section
     title: Support
     description: Get help from the Qdrant community or contact our support team.

@@ -4,7 +4,7 @@
   <footer class="docs-footer w-100 py-0 pt-0 pb-4 pb-xl-0">
     {{ if not (eq $currentPage.Section "course") }}
       <div class="docs-footer__cta">
-        <h4>{{ .Params.question }}</h4>
+        <h4>{{ if $currentPage.Params.cta }}{{ $currentPage.Params.cta }}{{ else }}{{ .Params.question }}{{ end }}</h4>
         <a href="{{ .Params.questionButton.url }}" class="button button_outlined button_sm" target="_blank">
           {{ .Params.questionButton.text }}
         </a>

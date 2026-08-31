@@ -252,7 +252,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **What can I do to resolve this?**
     
-    Resharding and shard rebalancing are the primary techniques for ensuring data is evenly distributed and that requests are not concentrated on a single node.
+    Resharding and shard rebalancing are the primary techniques for ensuring data is evenly distributed and that requests are not concentrated on a single node. In Qdrant Cloud, rebalancing runs continuously in the background, but it balances total shard count and size per node across all of your collections combined, not per collection, so one collection can still look uneven even while the cluster as a whole is balanced.
     
     **Where can I learn more about this alert?**
     
@@ -278,7 +278,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     This would help when your node count has been scaled up so you can reshard a collection to split it more evenly with a rebalance.
     
-    Rebalancing is the process of redistributing shards across nodes which is useful if you add a new node and need to fill the capacity. In Qdrant Cloud, rebalancing happens automatically when a cluster is scaled horizontally.
+    Rebalancing is the process of redistributing shards across nodes to keep the total shard count and size even per node across all collections. In Qdrant Cloud, rebalancing runs automatically and continuously in the background by default.
     
     **Where can I learn more about this alert?**
     
@@ -357,6 +357,13 @@ In Qdrant Cloud, each Qdrant cluster will expose the following metrics. This end
 | container_network_transmit_errors_total                     |         |                                                                                                                                     |
 | container_network_transmit_packets_dropped_total            |         |                                                                                                                                     |
 | container_network_transmit_packets_total                    |         |                                                                                                                                     |
+| envoy_cluster_upstream_cx_active                             | gauge   | Number of active upstream connections                                                                                               |
+| envoy_cluster_upstream_cx_rx_bytes_total                     | counter | Total bytes received by the proxy from the backend over upstream connections                                                        |
+| envoy_cluster_upstream_cx_tx_bytes_total                     | counter | Total bytes sent by the proxy to the backend over upstream connections                                                              |
+| envoy_cluster_upstream_rq_time_bucket                        | histogram | Histogram of upstream request duration, in milliseconds                                                                           |
+| envoy_cluster_upstream_rq_time_count                         | gauge   | Count of upstream requests recorded in the request duration histogram                                                               |
+| envoy_cluster_upstream_rq_time_sum                           | gauge   | Sum of upstream request duration, in milliseconds                                                                                   |
+| envoy_cluster_upstream_rq_total                              | counter | Total number of upstream requests. Use with `irate` to calculate requests per second                                                |
 | kube_persistentvolumeclaim_info                             |         |                                                                                                                                     |
 | kube_pod_container_info                                     |         |                                                                                                                                     |
 | kube_pod_container_resource_limits                          | gauge   | Response contains limits for CPU and memory of DB.                                                                                  |         
@@ -452,10 +459,3 @@ In Qdrant Cloud, each Qdrant cluster will expose the following metrics. This end
 | rest_responses_max_duration_seconds                         |         |                                                                                                                                     |
 | rest_responses_min_duration_seconds                         |         |                                                                                                                                     |
 | rest_responses_total                                        |         |                                                                                                                                     |
-| traefik_service_open_connections                            |         |                                                                                                                                     |
-| traefik_service_request_duration_seconds_bucket             |         |                                                                                                                                     |
-| traefik_service_request_duration_seconds_count              |         |                                                                                                                                     |
-| traefik_service_request_duration_seconds_sum                | gauge   | Response contains list of metrics for each Traefik service.                                                                         |    
-| traefik_service_requests_bytes_total                        |         |                                                                                                                                     |
-| traefik_service_requests_total                              | counter | Response contains list of metrics for each Traefik service.                                                                         |         
-| traefik_service_responses_bytes_total                       |         |                                                                                                                                     |

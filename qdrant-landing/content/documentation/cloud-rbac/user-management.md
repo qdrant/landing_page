@@ -7,7 +7,7 @@ weight: 10
 
 # User Management
 
-> 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for details](/documentation/cloud-rbac/).*
+> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-rbac/).*
 
 ## Inviting Users to an Account
 

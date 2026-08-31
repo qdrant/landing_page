@@ -4,14 +4,14 @@ using Qdrant.Client.Grpc;
 using static Qdrant.Client.Grpc.Conditions;
 
 await client.QueryAsync(
-    collectionName: "books",
+    collectionName: "{collection_name}",
     query: new Document { Text = "time travel", Model = "qdrant/bm25" },
     usingVector: "title-bm25",
     filter: new Filter
     {
         Must =
         {
-            MatchKeyword("tenant", "acme"),
+            MatchKeyword("group_id", "user_1"),
             Match("year", 2024),
         },
     },
@@ -21,7 +21,7 @@ await client.QueryAsync(
         {
             Corpus = new Filter
             {
-                Must = { MatchKeyword("tenant", "acme") },
+                Must = { MatchKeyword("group_id", "user_1") },
             },
         },
     },

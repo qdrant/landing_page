@@ -49,6 +49,11 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
+{{ if eq .Section "security" }}
+  {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "pricing" }}
   {{ $pricingTableJs := resources.Get "/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
@@ -112,9 +117,9 @@
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if eq .Section "customers" }}
-  {{ $customersJs := resources.Get "js/customers-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ if in (slice "customers" "demo") .Section }}
+  {{ $catalogFiltersJs := resources.Get "js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "industries" }}

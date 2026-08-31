@@ -84,3 +84,6 @@
 
 # Unpublished indexing-optimization article superseded by bulk-uploads-in-qdrant
 /articles/indexing-optimization/   /articles/bulk-uploads-in-qdrant/   301
+
+# ACORN blog post converted into an internals article
+/blog/filtered-vector-search-acorn/   /articles/filtered-vector-search-acorn/   301
