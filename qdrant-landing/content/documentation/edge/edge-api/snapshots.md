@@ -23,7 +23,7 @@ pub fn unpack_snapshot(snapshot_path: &Path, target_path: &Path) -> OperationRes
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `snapshot_path` | Path to the downloaded snapshot file. |
 | `target_path` | Directory to unpack into. |
 
@@ -67,7 +67,7 @@ pub fn recover_partial_snapshot(
 Python applies the snapshot to the open shard in place, optionally extracting through `tmp_dir`. Rust takes the shard's path and both manifests, and returns a new `EdgeShard` for the merged result, so the existing instance must be dropped first.
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `snapshot_path` | Path to the snapshot to apply. |
 | `tmp_dir` | Directory to extract through. Python only. |
 | `shard_path` | Path to the shard being updated. Rust only. |

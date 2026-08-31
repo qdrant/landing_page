@@ -2,7 +2,7 @@
 title: "Edge API"
 short_description: "Reference for the Qdrant Edge API: the EdgeShard methods available in Python and Rust, with their parameters and return values."
 description: "Reference for the Qdrant Edge API. Covers the EdgeShard methods available in the Python bindings and the Rust crate, including parameters, return values, and language differences."
-weight: 12
+weight: 9
 partition: develop
 ---
 
@@ -15,7 +15,7 @@ For task-oriented introductions, refer to the [Quickstart](/documentation/edge/e
 ## Reference
 
 | Page | What it covers |
-|---|---|
+| --- | --- |
 | [Shard Lifecycle](/documentation/edge/edge-api/shard-lifecycle/) | Creating, loading, inspecting, flushing, and closing an Edge Shard, and reading its metadata with `info` |
 | [Configuration](/documentation/edge/edge-api/configuration/) | `EdgeConfig`, dense and sparse vector parameters, optimizer settings and `optimize`, and WAL options |
 | [Updating Data](/documentation/edge/edge-api/updating-data/) | The `update` method and the full set of update operations |

@@ -9,7 +9,7 @@ weight: 20
 
 `EdgeConfig` describes the vectors an Edge Shard stores and the parameters that govern how it indexes, stores, and searches them. Pass it to `create`/`new` when starting a new shard, and optionally to `load` when reopening one.
 
-Every parameter except `vectors` and `sparse_vectors` is optional. A parameter left unset is "not specified" rather than "set to the default": when loading an existing shard, each unspecified parameter resolves through *provided - persisted in `edge_config.json` - derived from the existing segments - default*, so it keeps whatever the shard already has. This is why a configuration that sets only `wal_options` leaves the rest of the shard's configuration untouched.
+Every parameter except `vectors` and `sparse_vectors` is optional. A parameter left unset is considered as not specified rather than set to the default: when loading an existing shard, each unspecified parameter resolves through *provided - persisted in `edge_config.json` - derived from the existing segments - default*, so it keeps whatever the shard already has. This is why a configuration that sets only `wal_options` leaves the rest of the shard's configuration untouched.
 
 ## EdgeConfig
 
@@ -36,7 +36,7 @@ let config = EdgeConfig::builder()
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `vectors` | Dense vector configuration. In Python, a single `EdgeVectorParams` configures the default unnamed vector. Optional if `sparse_vectors` is given. |
 | `sparse_vectors` | Sparse vector configuration. |
 | `on_disk_payload` | Whether to cache payloads in RAM for faster access, or serve them from disk. |
@@ -70,7 +70,7 @@ pub fn builder(size: usize, distance: Distance) -> EdgeVectorParamsBuilder
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `size` | Vector dimension. Required. |
 | `distance` | Distance metric. Required. |
 | `on_disk` | Whether to cache vectors in RAM for faster access, or serve them from disk. |
@@ -97,7 +97,7 @@ pub fn builder() -> EdgeSparseVectorParamsBuilder
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `full_scan_threshold` | Threshold below which a full scan is used instead of the sparse index. |
 | `on_disk` | Whether to cache sparse vector indexes in RAM for faster access, or serve them from disk.  |
 | `modifier` | Score modifier. Set to `Modifier.Idf` for BM25 scoring. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
@@ -139,7 +139,7 @@ let optimizers = EdgeOptimizersConfig {
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `deleted_threshold` | Minimum fraction of deleted vectors in a segment required to run vacuum. Default: `0.2`. |
 | `vacuum_min_vector_number` | Minimum number of vectors in a segment required to run vacuum. Default: `1000`. |
 | `default_segment_number` | Target number of segments. `0` chooses automatically from the CPU count. |
@@ -161,7 +161,7 @@ pub fn optimize(&self) -> OperationResult<bool>
 
 **Returns** `True` if any segment was optimized, and `False` if the shard was already optimal.
 
-Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/shard-lifecycle/#info).
+Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/shard-lifecycle/#get-shard-information).
 
 ## WAL Options
 
@@ -178,7 +178,7 @@ pub struct WalOptions {
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `segment_capacity` | WAL segment capacity in bytes. Default: 32 MiB. |
 | `segment_queue_len` | Number of segments to pre-create so appends never wait on segment creation. Default: `0`. |
 | `retain_closed` | Number of closed WAL files to retain. Default: `1`. |
@@ -196,7 +196,7 @@ pub fn set_optimizers_config(&self, optimizers: EdgeOptimizersConfig) -> Operati
 ```
 
 | Method | Description |
-|---|---|
+| --- | --- |
 | `set_hnsw_config` | Sets the global HNSW config. Does not affect per-vector overrides. |
 | `set_vector_hnsw_config` | Sets the HNSW config for one named vector. Fails if the vector does not exist. |
 | `set_optimizers_config` | Sets the optimizer parameters. |

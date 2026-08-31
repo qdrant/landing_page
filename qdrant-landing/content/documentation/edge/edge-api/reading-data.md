@@ -28,7 +28,7 @@ pub fn query(&self, request: QueryRequest) -> OperationResult<Vec<ScoredPoint>>
 `QueryRequest` accepts the following parameters:
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `limit` | `int` | Maximum number of points to return. Required. |
 | `offset` | `int` | Number of results to skip. |
 | `query` | scoring query | What to score by. Omit to return points without scoring, honoring the filter alone. |
@@ -42,7 +42,7 @@ pub fn query(&self, request: QueryRequest) -> OperationResult<Vec<ScoredPoint>>
 The `query` parameter accepts several kinds of scoring:
 
 | Kind | Purpose |
-|---|---|
+| --- | --- |
 | `Query` | Vector similarity: nearest neighbor, recommendation, discovery, context, or feedback. |
 | `Fusion` | Combine the results of multiple prefetches. Refer to [Hybrid Queries](/documentation/search/hybrid-queries/). |
 | `OrderBy` | Order by a payload field instead of by similarity. |
@@ -67,7 +67,7 @@ pub fn scroll(&self, request: ScrollRequest) -> OperationResult<(Vec<Record>, Op
 **Returns** the matching records and the offset to pass to the next call, or `None` when the last page has been reached.
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `offset` | `PointId` | Start from this point ID. Pass the offset returned by the previous call. |
 | `limit` | `int` | Maximum number of points to return. |
 | `filter` | `Filter` | Payload and ID conditions the points must satisfy. |
@@ -88,7 +88,7 @@ fn query_groups(&self, request: GroupRequest) -> OperationResult<Vec<Group>>
 **Returns** a list of `Group`, each carrying the group's `key` and its `hits`.
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `query` | `QueryRequest` | The query to run within each group. |
 | `group_by` | `JsonPath` | Payload field to group by. |
 | `groups` | `usize` | Maximum number of groups to return. |
@@ -107,7 +107,7 @@ fn search_matrix(&self, request: SearchMatrixRequest) -> OperationResult<SearchM
 **Returns** a `SearchMatrixResponse` with `sample_ids` and, for each sample, its `nearests`.
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `sample_size` | `usize` | Number of points to sample. |
 | `limit_per_sample` | `usize` | Number of nearest neighbors to find per sampled point. |
 | `filter` | `Filter` | Restrict sampling to matching points. |
@@ -133,7 +133,7 @@ pub fn retrieve(&self, request: RetrieveRequest) -> OperationResult<Vec<Record>>
 **Returns** a list of `Record`. Points that do not exist are omitted rather than reported as errors.
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `point_ids` | IDs to fetch. |
 | `with_payload` | Which payload to include. |
 | `with_vector` | Which vectors to include. |
@@ -153,7 +153,7 @@ pub fn count(&self, request: CountRequest) -> OperationResult<usize>
 **Returns** the number of matching points.
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `filter` | `Filter` | Conditions the counted points must satisfy. Omit to count every point. |
 | `exact` | `bool` | Count exactly rather than estimating. |
 
@@ -172,7 +172,7 @@ pub fn facet(&self, request: FacetRequest) -> OperationResult<FacetResponse>
 **Returns** a `FacetResponse` whose `hits` each carry a `value` and its `count`.
 
 | Parameter | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `key` | `JsonPath` | Payload field to facet on. Required. |
 | `limit` | `int` | Maximum number of distinct values to return. |
 | `exact` | `bool` | Compute exact counts rather than estimating. |

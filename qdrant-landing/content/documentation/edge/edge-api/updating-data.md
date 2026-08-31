@@ -20,7 +20,7 @@ pub fn update(&self, operation: UpdateOperation) -> OperationResult<()>
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `operation` | The operation to apply. |
 
 **Returns** nothing in Python. In Rust, returns `Ok(())` on success.
@@ -32,7 +32,7 @@ Creating a named vector that already exists with different parameters fails.
 In Python, `UpdateOperation` is a class with static constructors, one per operation. Each returns an `UpdateOperation` to pass to `update`.
 
 | Operation | Parameters | Description |
-|---|---|---|
+| --- | --- | --- |
 | `upsert_points` | `points`, `condition`, `update_mode` | Insert or update points. |
 | `delete_points` | `point_ids` | Delete points by ID. |
 | `delete_points_by_filter` | `filter` | Delete every point matching a filter. |
@@ -47,13 +47,13 @@ In Python, `UpdateOperation` is a class with static constructors, one per operat
 | `delete_payload_by_filter` | `filter`, `keys` | Delete named payload fields from matching points. |
 | `clear_payload` | `point_ids` | Delete all payload from points. |
 | `clear_payload_by_filter` | `filter` | Delete all payload from matching points. |
-| `create_field_index` | `field_name`, `schema` | Index a payload field. |
+
 ### Payload Indexes
 
 The `update` operation also enables you to create and delete payload indexes.
 
 | Operation | Parameters | Description |
-|---|---|---|
+| --- | --- | --- |
 | `create_field_index` | `field_name`, `schema` | Index a payload field. |
 | `delete_field_index` | `field_name` | Remove a payload field index. |
 
@@ -62,7 +62,7 @@ The `update` operation also enables you to create and delete payload indexes.
 Add or remove named vectors to an existing Edge Shard’s schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
 
 | Operation | Parameters | Description |
-|---|---|---|
+| --- | --- | --- |
 | `create_dense_vector` | `vector_name`, `size`, `distance`, `multivector_config`, `datatype` | Add a dense named vector to the schema. |
 | `create_sparse_vector` | `vector_name`, `modifier`, `datatype` | Add a sparse named vector to the schema. |
 | `delete_vector_name` | `vector_name` | Remove a named vector from the schema. |
@@ -79,7 +79,7 @@ For `update_vectors`, only points that match the filter are updated. For `upsert
 `upsert_points` also takes an `update_mode`:
 
 | Mode | Behavior |
-|---|---|
+| --- | --- |
 | `UpdateMode.Upsert` | Insert new points and update existing ones. This is the default behavior. |
 | `UpdateMode.InsertOnly` | Insert new points, leave existing ones untouched. |
 | `UpdateMode.UpdateOnly` | Update existing points, do not insert new ones. |
@@ -87,7 +87,7 @@ For `update_vectors`, only points that match the filter are updated. For `upsert
 In Rust, `UpdateOperation` is an enum that groups operations by what they modify:
 
 | Variant | Covers |
-|---|---|
+| --- | --- |
 | `PointOperation` | Upserting, deleting, and syncing points. |
 | `VectorOperation` | Updating and deleting named vectors on existing points. |
 | `PayloadOperation` | Setting, overwriting, deleting, and clearing payload. |

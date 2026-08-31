@@ -29,7 +29,7 @@ pub fn new(path: &Path, config: EdgeConfig) -> OperationResult<EdgeShard>
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `path` | Path to the shard directory. Must not already contain segment data. |
 | `config` | Configuration for the new shard. Required. |
 
@@ -37,7 +37,7 @@ pub fn new(path: &Path, config: EdgeConfig) -> OperationResult<EdgeShard>
 
 Creation fails if the shard's segments directory already contains any segment. To open a directory that already holds data, use [`load`](#load-an-existing-edge-shard) instead.
 
-The configuration is persisted to `edge_config.json` inside the shard directory, so a later `load` can recover it without you passing it again. Write-ahead log behavior follows `config.wal_options`, which defaults to 32 MiB segments when unset. See [Custom WAL Size](/documentation/edge/edge-quickstart/#custom-wal-size).
+The configuration is persisted to `edge_config.json` inside the shard directory, so a later `load` can recover it without you passing it again. Write-ahead log behavior follows `config.wal_options`, which defaults to 32 MiB segments when unset. Refer to [Custom WAL Size](/documentation/edge/edge-quickstart/#custom-wal-size).
 
 ## Load an Existing Edge Shard
 
@@ -53,7 +53,7 @@ pub fn load(path: &Path, config: Option<EdgeConfig>) -> OperationResult<EdgeShar
 ```
 
 | Parameter | Description |
-|---|---|
+| --- | --- |
 | `path` | Path to an existing shard directory. |
 | `config` | Configuration overrides. When omitted, the shard's persisted configuration is used. |
 
@@ -78,7 +78,7 @@ pub fn config(&self) -> parking_lot::RwLockReadGuard<'_, EdgeConfig>
 
 `config` returns a read guard rather than a copy, so the configuration cannot be mutated through it and the guard should be dropped promptly. To change configuration on a live shard, use `set_hnsw_config`, `set_vector_hnsw_config`, or `set_optimizers_config`.
 
-## info
+## Get Shard Information
 
 Returns metadata about the shard's contents.
 
@@ -93,7 +93,7 @@ pub fn info(&self) -> OperationResult<ShardInfo>
 `ShardInfo` carries the following fields. The counts are summed across segments, and a point can be present in more than one segment before it is optimized, so `points_count` and `indexed_vectors_count` are **approximate** and can read higher than the number of distinct points:
 
 | Field | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `segments_count` | `int` | Number of segments in the shard. |
 | `points_count` | `int` | Approximate number of points stored. |
 | `indexed_vectors_count` | `int` | Approximate number of vectors that have been added to a vector index. |
