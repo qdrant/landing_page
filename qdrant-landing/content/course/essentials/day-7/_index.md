@@ -45,11 +45,6 @@ Learn about the Qdrant ecosystem and integration strategies.
   content: Process and vectorize documents from any format
   link: /course/essentials/day-7/unstructured/
 
-- icon: /courses/course-integrations/quotient.svg
-  title: Quotient
-  content: Advanced analytics with vector data
-  link: /course/essentials/day-7/quotient/
-
 - icon: /courses/course-integrations/superlinked.svg
   title: Superlinked
   content: Advanced feature engineering for vectors

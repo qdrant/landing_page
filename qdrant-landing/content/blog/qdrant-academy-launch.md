@@ -69,7 +69,6 @@ Our current partner content tutorials include:
 * [Tensorlake](https://qdrant.tech/course/essentials/day-7/tensorlake/)  
 * [LlamaIndex](https://qdrant.tech/course/essentials/day-7/llamaindex/)  
 * [Unstructured.io](https://qdrant.tech/course/essentials/day-7/unstructured/)  
-* [Quotient](https://qdrant.tech/course/essentials/day-7/quotient/)  
 * [Superlinked](https://qdrant.tech/course/essentials/day-7/superlinked/)  
 * [Camel AI](https://qdrant.tech/course/essentials/day-7/camel/)  
 * [Jina AI](https://qdrant.tech/course/essentials/day-7/jina/)
