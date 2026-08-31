@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant 1.19 - TurboQuant Datatype & Memory Tiers"
+text: "Vector Space Stream: a research-first broadcast for engineers. Eight talks on compression, edge, hybrid search, and more. Sept 17."
 link:
-  text: Read more
-  url: https://qdrant.tech/blog/qdrant-1.19.x/
-start: 2026-08-06T11:50:00.000Z
+  text: RSVP
+  url: https://luma.com/vector-space-stream
+start: 2026-09-01T11:50:00.000Z
 sitemapExclude: true
-end: 2026-08-30T14:00:00.000Z
+end: 2026-09-16T14:00:00.000Z
 
 ---
