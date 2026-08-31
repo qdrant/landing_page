@@ -39,7 +39,7 @@ let config = EdgeConfig::builder()
 |---|---|
 | `vectors` | Dense vector configuration. In Python, a single `EdgeVectorParams` configures the default unnamed vector. Optional if `sparse_vectors` is given. |
 | `sparse_vectors` | Sparse vector configuration. |
-| `on_disk_payload` | Store payload on disk with mmap rather than in RAM. Defaults to on-disk. |
+| `on_disk_payload` | Whether to cache payloads in RAM for faster access, or serve them from disk. |
 | `hnsw_config` | Global HNSW parameters, used when building the HNSW index. Override per vector with `EdgeVectorParams.hnsw_config`. |
 | `quantization_config` | Global quantization. Override per vector with `EdgeVectorParams.quantization_config`. Refer to [Quantization](/documentation/manage-data/quantization/). |
 | `optimizers` | Optimizer parameters. Refer to [Optimizer Parameters](#optimizer-parameters). |
@@ -73,7 +73,7 @@ pub fn builder(size: usize, distance: Distance) -> EdgeVectorParamsBuilder
 |---|---|
 | `size` | Vector dimension. Required. |
 | `distance` | Distance metric. Required. |
-| `on_disk` | Store vectors on disk with mmap rather than in RAM. |
+| `on_disk` | Whether to cache vectors in RAM for faster access, or serve them from disk. |
 | `multivector_config` | Multi-vector configuration, for late-interaction models. |
 | `datatype` | Storage datatype for the vector. |
 | `quantization_config` | Per-vector quantization, overriding the global setting. |
@@ -99,7 +99,7 @@ pub fn builder() -> EdgeSparseVectorParamsBuilder
 | Parameter | Description |
 |---|---|
 | `full_scan_threshold` | Threshold below which a full scan is used instead of the sparse index. |
-| `on_disk` | Store the sparse index on disk rather than in RAM. |
+| `on_disk` | Whether to cache sparse vector indexes in RAM for faster access, or serve them from disk.  |
 | `modifier` | Score modifier. Set to `Modifier.Idf` for BM25 scoring. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
 | `datatype` | Storage datatype for the vector. |
 
@@ -145,7 +145,7 @@ let optimizers = EdgeOptimizersConfig {
 | `default_segment_number` | Target number of segments. `0` chooses automatically from the CPU count. |
 | `max_segment_size` | Maximum segment size in KB. Derived from the CPU count when unset. |
 | `indexing_threshold` | Size in KB above which a segment gets an HNSW index. |
-| `prevent_unoptimized` | Store points written to unoptimized segments larger than the indexing threshold as deferred points: they are persisted but excluded from reads and searches until the segments are optimized. |
+| `prevent_unoptimized` | [Prevents slow reads from large unoptimized segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) by deferring the visibility of points until they've been indexed. |
 
 ## optimize
 

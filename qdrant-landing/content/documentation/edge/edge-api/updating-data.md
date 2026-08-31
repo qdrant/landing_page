@@ -48,10 +48,26 @@ In Python, `UpdateOperation` is a class with static constructors, one per operat
 | `clear_payload` | `point_ids` | Delete all payload from points. |
 | `clear_payload_by_filter` | `filter` | Delete all payload from matching points. |
 | `create_field_index` | `field_name`, `schema` | Index a payload field. |
+### Payload Indexes
+
+The `update` operation also enables you to create and delete payload indexes.
+
+| Operation | Parameters | Description |
+|---|---|---|
+| `create_field_index` | `field_name`, `schema` | Index a payload field. |
 | `delete_field_index` | `field_name` | Remove a payload field index. |
+
+### Modify the Vector Schema
+
+Add or remove named vectors to an existing Edge Shard’s schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
+
+| Operation | Parameters | Description |
+|---|---|---|
 | `create_dense_vector` | `vector_name`, `size`, `distance`, `multivector_config`, `datatype` | Add a dense named vector to the schema. |
 | `create_sparse_vector` | `vector_name`, `modifier`, `datatype` | Add a sparse named vector to the schema. |
 | `delete_vector_name` | `vector_name` | Remove a named vector from the schema. |
+
+### Parameters
 
 The `key` parameter on the payload operations targets a nested field path rather than the payload root.
 
