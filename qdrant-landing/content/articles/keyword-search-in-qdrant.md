@@ -19,25 +19,21 @@ date: 2026-08-13T12:00:00+03:00
 draft: false
 ---
 
-Search that understands meaning is very good at questions. Someone asks for "cheap flights to Berlin." It finds a page about "affordable airfare to Germany," even though those two phrases barely share a word. That's what dense vector search does well, and it's why most teams start there and stay happy for a while.
+Search that understands meaning is very good at questions. Someone asks for "cheap flights to Berlin." It finds a page about "affordable airfare to Germany," even though those two phrases barely share a word. That's what dense vector search does well.
 
 Then someone searches for an error code. Or a part number, a surname, a phrase in quotes. The results come back reasonable, related, and completely wrong. Nothing broke: the engine found things that mean something similar, which is exactly what it was built for. "Similar" was never what the user asked for.
 
-So you add keyword search alongside it. That's the right call. Keyword search is the older idea: match the words the user actually typed, then rank by how telling those words are. The two approaches fail in opposite directions, so running both and merging the results usually beats either one alone. That combination is what people mean by [hybrid search](/documentation/search/hybrid-queries/).
-
-Qdrant's tools for the keyword half grew quickly across v1.15.0 and v1.16.0. Exact phrase matching, tokenizers for languages that don't put spaces between words, stemming, stopword lists, accent folding. Each has a documentation page telling you what it does.
+So you add keyword search alongside it. Keyword search matches the words the user actually typed, then ranks by how telling those words are. The two approaches fail in opposite directions, so running both and merging the results usually beats either one alone. That combination is what people mean by [hybrid search](/documentation/search/hybrid-queries/).
 
 What no page tells you is which of them you need.
 
-That's the hard part, because none of these settings fail loudly. Get one wrong and you get no error, just results that look plausible and are quietly worse than they should be. And a default is a guess about somebody's data, which isn't yours: one of them is a fixed number sitting in BM25's scoring formula, wrong for most collections, and it's the first option below.
+That's the hard part, because none of these settings fail loudly. Get one wrong and you get no error, just results that look plausible and are quietly worse than they should be. A default is a guess about somebody's data, which isn't yours.
 
-So this is four decisions, each with the same three questions: when you want it, when to leave it alone, and how to tell which applies to you.
-
-The numbers below come from five [BEIR](https://github.com/beir-cellar/beir) corpora, ArguAna, FIQA, NFCorpus, SCIDOCS and SciFact, as of Qdrant v1.19.0, with per-query significance testing. Dense retrieval is `sentence-transformers/all-MiniLM-L6-v2` unless stated, the stronger model later is `mixedbread-ai/mxbai-embed-large-v1`, and the sparse methods beside `Qdrant/bm25` are `prithivida/Splade_PP_en_v1` and `Qdrant/minicoil-v1`. Where a result didn't survive correction, it says so, and the two smaller demonstrations are labeled where they appear.
+The numbers come from five [BEIR](https://github.com/beir-cellar/beir) corpora, ArguAna, FIQA, NFCorpus, SCIDOCS and SciFact, as of Qdrant v1.19.0, with per-query significance testing. Dense retrieval is `sentence-transformers/all-MiniLM-L6-v2` unless stated, the stronger model later is `mixedbread-ai/mxbai-embed-large-v1`, and the sparse methods beside `Qdrant/bm25` are `prithivida/Splade_PP_en_v1` and `Qdrant/minicoil-v1`. Where a result didn't survive correction, it says so.
 
 ## Two Places Text Matching Happens
 
-One distinction decides which of those four are even relevant to you.
+Four decisions follow: `avg_len`, phrase matching, the tokenizer, and whether to fuse. One distinction decides which of them are even relevant to you.
 
 **The [payload](/documentation/manage-data/payload/) text index is a filter.** Payload is Qdrant's word for the JSON you attach to each point. An index over a text field there answers one question: does this document contain these words, yes or no? No score, no ordering. It narrows the candidates and hands them on.
 
@@ -57,13 +53,13 @@ Same names, and not always the same defaults. Leaving `stemmer` unset means Snow
 
 Every recommendation below ends with a way to check it, and they all use one setup: labeled queries, run three ways, scored.
 
-Set `Modifier.IDF` on the collection for BM25 and miniCOIL, and leave it off for SPLADE, whose learned weights already carry term importance. Without it BM25's ranking isn't weak, it's broken:
+Set `Modifier.IDF` on the collection for BM25 and miniCOIL, and leave it off for SPLADE. BM25 and miniCOIL need it because neither one puts collection statistics into the stored weights, so without it BM25's ranking isn't weak, it's broken. SPLADE's weights already carry importance, and setting the modifier anyway double-counts it. Nothing errors either way:
 
 ```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY,
-                      cloud_inference=True)      # both models run in-cluster
+                      cloud_inference=True)      # BM25 and SPLADE run in-cluster
 
 client.create_collection(
     collection_name=COLLECTION,
@@ -74,10 +70,12 @@ client.create_collection(
 )
 ```
 
+miniCOIL is the exception: the cluster rejects it for in-cluster inference, so encode it locally with FastEmbed, and use `query_embed` for queries because its query and document encoders differ.
+
 Then the comparison. Run it once per sparse method you're considering:
 
 ```python
-YOUR_SPARSE_MODEL = "Qdrant/bm25"   # or Splade_PP_en_v1, or minicoil-v1
+YOUR_SPARSE_MODEL = "Qdrant/bm25"   # or "prithivida/Splade_PP_en_v1"
 YOUR_DENSE_MODEL  = "sentence-transformers/all-MiniLM-L6-v2"
 SPARSE_OPTIONS    = None            # BM25 only: see Tuning BM25
 
@@ -111,17 +109,17 @@ Score the three result sets with whatever metric suits your data. Ours is [nDCG@
 
 **Do this:** set `avg_len` to your corpus mean, counted the way BM25 counts. It defaults to **256** regardless of your documents, and BM25 divides every document's length by that number, so a wrong average distorts every score.
 
-That is the whole option. Most people who conclude BM25 doesn't work on their data are looking at a misconfigured BM25, and this is usually the misconfiguration. SPLADE and miniCOIL have no `avg_len`, `k`, or `b` at all, so if you're using one, skip ahead to whether to fuse at all.
+That is the whole option. SPLADE and miniCOIL have no `avg_len`, `k`, or `b` at all, so if you're using one, skip ahead to whether to fuse at all.
 
 It moved every corpus the right way, though only two of five gains survived correction. The big number is the best case, not the expected one:
 
 | Corpus | Content mean | Default `avg_len=256` | Corrected | Change | Survived correction |
 |---|---|---|---|---|---|
-| ArguAna | 96.7 | 0.3518 | 0.4194 | <span class="text-success">+19.2%</span> | yes |
-| SCIDOCS | 116.5 | 0.1500 | 0.1573 | <span class="text-success">+4.8%</span> | yes |
-| FIQA | 72.1 | 0.2435 | 0.2506 | <span class="text-success">+2.9%</span> | no |
-| NFCorpus | 166.2 | 0.3238 | 0.3273 | <span class="text-success">+1.1%</span> | no |
-| SciFact | 151.6 | 0.6830 | 0.6885 | <span class="text-success">+0.8%</span> | no |
+| ArguAna | 96.7 | 0.3518 | 0.4194 | +19.2% | yes |
+| SCIDOCS | 116.5 | 0.1500 | 0.1573 | +4.8% | yes |
+| FIQA | 72.1 | 0.2435 | 0.2506 | +2.9% | no |
+| NFCorpus | 166.2 | 0.3238 | 0.3273 | +1.1% | no |
+| SciFact | 151.6 | 0.6830 | 0.6885 | +0.8% | no |
 
 **Leave stemming and the stopword list alone.** Stemming is on by default and earned its place on three of five corpora; changing the stopword list moved one. Count your mean without stopwords, since the engine strips 127 of them before scoring and a raw word count comes out far too high. On very short documents try it both ways, because that was the one corpus where the raw count won:
 
@@ -199,7 +197,7 @@ While you're here: make sure every field you filter on has an index at all. An u
 
 **How to tell:** take 20 queries where you know the answer, run each as a phrase and again as a both-words match, and count the extra documents. If the counts are close, you don't need this.
 
-**Watch for:** without the flag, behavior depends on where you're running. With strict mode on, the default on Qdrant Cloud, the query fails with a 400 naming the index type it wanted. Self-hosted with strict mode off, we expect it to return nothing instead, which would send you off debugging your tokenizer when the problem was configuration. We only measured the Cloud behavior. Adding the flag later means rebuilding that field's index.
+**Watch for:** without the flag on Qdrant Cloud, where strict mode is the default, the query fails with a 400 naming the index it wanted. Self-hosted with strict mode off we expect an empty result instead, which we did not measure. Adding the flag later means rebuilding that field's index.
 
 ## Non-Latin and Accented Text
 
@@ -215,7 +213,7 @@ field_schema=models.TextIndexParams(
 )
 ```
 
-In a demonstration set of five documents and 11 queries, switching to the multilingual tokenizer took 8 of them from returning nothing to returning the right document, across Japanese, Chinese, and Thai. Searching `京都` for the Kyoto article returned nothing on the word tokenizer and the right article on the multilingual one. That shows the tokenizer is the blocker; it isn't a measurement of quality.
+In a demonstration set of five documents and 11 queries, switching to the multilingual tokenizer took 8 of them from returning nothing to returning the right document, across Japanese, Chinese, and Thai. That shows the tokenizer is the blocker; it isn't a measurement of quality.
 
 ASCII folding is the related setting for European text, making `Munchen` match `München`. It's **off** by default, and your users won't always type the accent.
 
@@ -227,7 +225,7 @@ This is the filter path only. If you also rank with BM25, set the same tokenizer
 
 **How to tell:** index 10 documents in your hardest language, then search for a word you can see inside one of them. Nothing back means the tokenizer is your problem.
 
-**Watch for:** this is real word segmentation, not substring matching, which is both what you want and where it stops. `東京` won't find a document containing `東京都`, because segmentation treated that as a single word. German surprised us: `Krankenhausarzt` already worked without the multilingual tokenizer, and `Krankenhaus` still doesn't find it, because compounds aren't broken apart. There's also no way to ask Qdrant how it tokenized a value, so an empty result leaves you nothing to inspect.
+**Watch for:** this is word segmentation, not substring matching. `東京` won't find `東京都`, and German compounds don't split either. Qdrant also won't tell you how it tokenized a value, so an empty result leaves you nothing to inspect.
 
 ## Whether to Fuse at All
 
@@ -237,7 +235,7 @@ Should you put a sparse vector next to your dense one and merge them? Score each
 
 Close together, or sparse ahead, and fusing pays double digits. Far apart and it costs you, because merging promotes whatever each side ranks first, so the weaker side's confident wrong answers push the stronger side's right answers out.
 
-{{< figure src="/articles_data/keyword-search-in-qdrant/sparse-contribution-by-model.svg" alt="Paired bar chart of what the sparse prefetch adds on top of dense across five BEIR corpora, under two embedding models, with the stronger model at or below zero on four of the five." caption="What the sparse prefetch adds on top of dense, under two embedding models. With the stronger model it stops helping significantly anywhere and costs 7 to 8.5% on three corpora." width="100%" >}}
+{{< figure src="/articles_data/keyword-search-in-qdrant/sparse-contribution-by-model.svg" alt="Paired bar chart of what the sparse prefetch adds on top of dense across five BEIR corpora, under two embedding models, with the stronger model at or below zero on four of the five." caption="What the sparse prefetch adds on top of dense, under two embedding models. With the stronger model it stops helping on four of five corpora and costs 7 to 8.5% on three." width="100%" >}}
 
 **Use it when** your two retrievers score comparably on your own labeled queries.
 
@@ -245,13 +243,29 @@ Close together, or sparse ahead, and fusing pays double digits. Far apart and it
 
 **How to tell:** run the three-way comparison from earlier with each sparse method you're considering. Compare `sparse_only` against `dense_only` for the gap, then check whether `fused` beats `dense_only`. The smallest gap is the one to fuse.
 
-**Watch for:** re-check after any embedding model change. An upgrade is normally good news, and it is the one event that can quietly flip your sparse half from asset to cost, precisely because your other numbers went up and nothing looks wrong. With a weak dense model the sparse half helped on most corpora; with a strong one it stopped helping anywhere and cost 7% to 8.5% on three of five.
+**Watch for:** re-check after any embedding model change. An upgrade is the one event that can quietly flip your sparse half from asset to cost. With a weak dense model the sparse half helped on most corpora; with a strong one it stopped helping on four of five and cost 7% to 8.5% on three of them. SciFact was the only exception, where BM25 added 2.1% and miniCOIL 3.4%, though SPLADE still lost 2.7% there and neither gain survived correction.
 
-And don't expect the merge settings to rescue a wide gap. RRF's rank constant `k` is shared by both legs, so it cannot down-weight a retriever, and 12 sweeps of it came back negative. Per-leg `weights` can, and lowering the sparse weight lifted the score every time, on all five corpora, but only toward not fusing: as that weight approaches zero the fused ranking approaches `dense_only`, and none of the five went past it. FIQA came closest, landing 0.0001 short of simply dropping the sparse half.
+And don't expect the merge settings to rescue a wide gap. RRF's rank constant `k` is shared by both legs, so it cannot down-weight a retriever, and 12 sweeps of it came back negative. Per-leg `weights` can. Sweeping the SPLADE leg over seven weights, the best cell was 0.10, and it edged past `dense_only` on all five corpora by a mean of 0.002 nDCG@10. That sits inside the 0.004 noise band from earlier on four of the five, clears it only on SciFact, and was picked on the same queries it is scored on. Consistent in direction, not resolvable in size.
 
 ### Why There Is No Shortcut
 
-There is no best sparse method to name, because the ranking between them reverses by corpus. On ArguAna, SPLADE beat the dense model outright and fusing paid **17.7%** against BM25's 1.9% and miniCOIL's 0.6%, on NFCorpus and SciFact that order inverts with miniCOIL leading, and as standalone retrievers the three differ by as much as 27%. A recommendation that travels between corpora does not exist, so this section hands you a measurement instead.
+Three sparse methods are worth your time, and they differ in where their term weights come from. **BM25** counts words, and no model is involved. **SPLADE** learns its weights with a transformer, and it adds terms a document never used, so a page about "cardiac arrest" can answer a query for "heart attack" while staying a bag of words. **miniCOIL** keeps BM25's formula but swaps the flat term weights for contextual ones, so "bank" in a river sentence scores differently from "bank" in a finance sentence.
+
+Those different mechanics produce large differences in quality, and they do not point the same way twice:
+
+| Corpus | BM25 | SPLADE | Difference | Survives correction |
+|---|---|---|---|---|
+| ArguAna | 0.4197 | 0.5345 | <span class="text-success">+27.4%</span> | yes |
+| FIQA | 0.2506 | 0.2929 | <span class="text-success">+16.9%</span> | yes |
+| NFCorpus | 0.3273 | 0.3211 | <span class="text-danger">-1.9%</span> | no |
+| SCIDOCS | 0.1573 | 0.1488 | <span class="text-danger">-5.4%</span> | no |
+| SciFact | 0.6885 | 0.6204 | <span class="text-danger">-9.9%</span> | yes |
+
+SPLADE's added terms win big on two corpora and lose badly on a third, and all three of those results survive correction. Learned weights are not simply an upgrade on counting.
+
+SPLADE's extra terms are not free either. Each one is another posting list to walk at query time. On our two largest corpora the server closed connections on the SPLADE runs and retries recovered them, but our setup was not built to measure latency, so we put no number on the cost.
+
+There is no best sparse method to name, because the ranking between them reverses by corpus. On ArguAna, SPLADE beat the dense model outright and fusing paid **17.7%** against BM25's 1.9% and miniCOIL's 0.6%, on NFCorpus and SciFact that order inverts with miniCOIL leading, and as standalone retrievers BM25 and SPLADE differ by as much as 27%. A recommendation that travels between corpora does not exist.
 
 What does travel is the gap, which called the outcome correctly on **21 of 22** swaps where only the sparse method changed. Read it as a ranking rather than a cutoff, since one corpus still gained at a 29.9% gap while another lost at 27.2%, and the turning point moves with your dense model. It is a rank-10 result across five corpora, three of them for miniCOIL, and none of the machinery is new: RRF is Cormack, Clarke and Buettcher, 2009.
 
@@ -265,11 +279,9 @@ Three things the keyword paths will not do for you, and what to reach for instea
 
 **Boosting a title over a body: one sparse vector per field.** A single sparse vector is one bag of words for the whole document, so it has no notion of fields. Give each field its own sparse vector and per-leg RRF `weights` gives you one weight per field. It costs storage and a prefetch per field on every query, and it is the only route to a field boost today.
 
-The first is also the argument for keeping your dense vector even when the gap says not to merge. All three have a route through them; none has a single setting that solves it, so plan for them rather than tuning toward them.
+The first is also the argument for keeping your dense vector even when the gap says not to merge.
 
 ## What to Do First
-
-Every option above comes down to the same thing: the defaults are guesses about somebody else's data, and one measurement on yours beats any recommendation on this page. What changes is the order, because two of these are cheap to get right and one is expensive to change later.
 
 - **If you rank with BM25**, set `avg_len` to your corpus mean first. It applies to every BM25 workload, costs one measurement, and moved every corpus we tried in the right direction by a median of about 3%.
 - **If word order carries meaning in your queries**, turn phrase matching on before you need it. Adding it later means rebuilding that field's index.
