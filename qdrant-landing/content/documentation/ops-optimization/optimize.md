@@ -76,7 +76,7 @@ You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abd
 *Available as of v1.16.0*
 
 <aside role="alert">
-Inline storage can increase the HNSW index size significantly. Only use it when the HNSW index is in the <a href="/documentation/ops-configuration/memory-tiers/"><code>cold</code> memory tier</a>. To reduce the index size, apply a quantization method <a href="/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method">with at max 4-bit quantized representations</a>, such as TurboQuant.
+Inline storage can increase the HNSW index size significantly. Only use it when the HNSW index is in the <a href="/documentation/ops-configuration/memory-tiers/"><code>cold</code> memory tier</a>. To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method <a href="/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method">that compresses to at most 4 bits per dimension</a>, such as TurboQuant.
 </aside>
 
 When vectors and the HNSW index are in the `cold` memory tier, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
