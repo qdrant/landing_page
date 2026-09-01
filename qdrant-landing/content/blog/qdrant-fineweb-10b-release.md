@@ -15,14 +15,6 @@ tags:
   - Open Source
 ---
 
-<!--
-Notes for pasting:
-- Drop the leading "# Internet-Scale 10B Vector Dataset..." H1 from the prose; the frontmatter title renders it.
-- Replace the ![][image1] reference with the SVG once it's added, e.g.:
-  ![Supernova architecture](/blog/qdrant-fineweb-10b-release/supernova-architecture.svg)
-- The SVG goes in qdrant-landing/static/blog/qdrant-fineweb-10b-release/
--->
-
 Real world vector search workloads are increasingly large and complex. Enterprises are not using vector search to occasionally search through a couple of PDF files. They are indexing and searching billions of vectors at thousands of requests per second (RPS) and sub 50ms tail latency. Large enterprises also can’t tolerate faulty assumptions.
 
 Too many benchmarks use gated, proprietary managed services. And even worse, the data is synthetic, the queries are hidden, and the engines are locked behind paywalls. 
