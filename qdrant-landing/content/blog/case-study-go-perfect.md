@@ -80,7 +80,8 @@ Within GoPerfect's user-facing interactive, sub-agent-loop latency budget, the a
   text="Higher accuracy means fewer searches. Recruiters who used to run dozens of queries per role to assemble a shortlist now run one or two."
   name="Idan Shaked"
   role="Head of R&D"
-  company="GoPerfect" >}}
+  company="GoPerfect"
+  logo="/img/customers-case-studies-logo/goperfect.svg" >}}
 
 ### How it works in production
 
@@ -92,7 +93,8 @@ GoPerfect also runs a candidate scoring and fraud-signal layer that cross-refere
   text="With Qdrant, we can offer customers a full agentic experience: a real chain of thoughts, memory, and context. That's what people expect from a true agent today."
   name="Eylon Etshtein"
   role="CEO"
-  company="GoPerfect" >}}
+  company="GoPerfect"
+  logo="/img/customers-case-studies-logo/goperfect.svg" >}}
 
 ![pipeline](/blog/case-study-goperfect/goperfect-pipeline-architecture.png)
 
