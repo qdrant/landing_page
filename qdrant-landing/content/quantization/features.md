@@ -5,7 +5,7 @@ features:
       src: /icons/outline/square-plus-teal.svg
       alt: Plus
     title: Multi-Vector vs. Single-Vector Collections
-    description: If your collection uses multi-vector representations for late-interaction retrieval, quantization delivers less memory relief than it does for single-vector collections. If you are sizing a multi-vector collection and wondering whether quantization changes the math, <a href="/contact-us">contact us</a> and we will work through the numbers with you.
+    description: If your collection uses multi-vector representations for late-interaction retrieval, quantization delivers less memory relief than it does for single-vector collections. If you are sizing a multi-vector collection and wondering whether quantization changes the math, <a href="/contact-us/">contact us</a> and we will work through the numbers with you.
     image:
       src: /img/quantization/folder.png
       mobileSrc: /img/quantization/folder-mobile.png
