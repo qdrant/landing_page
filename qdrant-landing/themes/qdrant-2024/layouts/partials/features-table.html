@@ -1,7 +1,10 @@
 {{ $cols := .cols }}
 {{ $sections := .sections | default (slice) }}
 {{ $ctas := .ctas }}
-{{ $modifier := .modifier | default "" }}
+{{ $modifiers := .modifier | default (slice) }}
+{{ if not (reflect.IsSlice $modifiers) }}
+{{ $modifiers = slice $modifiers }}
+{{ end }}
 {{ $featureCellWidth := .featureCellWidth | default "19.375rem" }}
 
 {{ with .features }}
@@ -9,7 +12,7 @@
 {{ end }}
 
 <div
-  class="features-table{{ with $modifier }} features-table--{{ . }}{{ end }}"
+  class="features-table{{ range $modifiers }} features-table--{{ . }}{{ end }}"
   style="--col-count: {{ len $cols }}; --feature-cell-width: {{ $featureCellWidth }}"
 >
   {{/* Mobile column tabs */}}
@@ -55,11 +58,11 @@
         <div
           class="features-table__table-cell features-table__table-cell--col{{ if .highlight }}
               features-table__table-cell--highlight
-          {{ end }}"
+          {{ end }}{{ with .icon }} features-table__table-cell--has-icon{{ end }}"
           data-col="{{ .id }}"
         >
           {{ with .icon }}
-          <img class="features-table__table-cell--col-icon" src="{{ .src }}" alt="{{ .alt }}" />
+            <img class="features-table__table-cell--col-icon" src="{{ .src }}" alt="{{ .alt }}" />
           {{ end }}
           {{ .name }}
         </div>

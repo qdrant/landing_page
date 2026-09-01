@@ -1,0 +1,61 @@
+@use '../../helpers/functions' as *;
+
+.quantization-why-it-matters {
+  background-color: $neutral-94;
+  
+  &__container {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+    border-bottom: pxToRem(1) solid $neutral-90;
+  }
+  
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+    margin-bottom: $spacer;
+  }
+
+  &__description {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-30;
+    margin-bottom: $spacer;
+  }
+
+  &__image {
+    width: 100%;
+    padding: $spacer * 2.5 $spacer 0;
+  }
+  
+  @include media-breakpoint-up(lg) {
+    &__container {
+      padding-top: $spacer * 7.5;
+      padding-bottom: $spacer * 7.5;
+    }
+
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &__description {
+      margin-bottom: $spacer * 1.5;
+    }
+    
+    &__image {
+      padding: 0 $spacer * 2;
+    }
+  }
+}

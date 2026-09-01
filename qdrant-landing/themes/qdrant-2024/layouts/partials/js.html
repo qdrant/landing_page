@@ -49,7 +49,7 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
-{{ if eq .Section "security" }}
+{{ if eq .Section "security" "quantization" }}
   {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
@@ -132,7 +132,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "docs" "documentation") .Section }}
+{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "quantization" "docs" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
