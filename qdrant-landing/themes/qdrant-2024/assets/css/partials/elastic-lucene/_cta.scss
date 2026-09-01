@@ -11,6 +11,10 @@
   }
 
   &__overlay-bottom {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
     background-image: url('/img/blurred/blurred-light-4.png');
     transform: scale(-1, -1);
     background-position: bottom right;
