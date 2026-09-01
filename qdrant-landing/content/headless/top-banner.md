@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant 1.19 - TurboQuant Datatype & Memory Tiers"
+text: "We built the benchmark the industry was missing: 10 billion documents, with ground truth."
 link:
-  text: Read more
-  url: https://qdrant.tech/blog/qdrant-1.19.x/
-start: 2026-08-06T11:50:00.000Z
+  text: Read how we did it
+  url: https://qdrant.tech/blog/supernova-release
+start: 2026-09-01T12:00:00.000Z
 sitemapExclude: true
-end: 2026-08-30T14:00:00.000Z
+end: 2026-09-03T12:00:00.000Z
 
 ---
