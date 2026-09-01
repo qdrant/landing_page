@@ -9,7 +9,7 @@ description: "Qdrant is a Rust-native engine designed for vector + filter searc
 # closingText: Lucene-based architectures just aren't built for scaling vector search.
 startFree:
   text: Book a Call
-  url: '#cta'
+  url: /contact-us/
 learnMore:
   text: Start Migrating
   url: https://cloud.qdrant.io/signup
