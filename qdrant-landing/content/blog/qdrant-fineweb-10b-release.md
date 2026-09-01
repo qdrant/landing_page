@@ -1,5 +1,5 @@
 ---
-title: "Enough with the Bad Benchmarks"
+title: "Enough with the Bad Benchmarks: Tools for Production-Grade Research"
 draft: false # TODO: flip to false when ready to publish
 slug: qdrant-fineweb-10b-release
 short_description: "Qdrant releases Qdrant-FineWeb-10B, a 10-billion vector benchmark dataset, alongside Supernova, an open-source internet-scale benchmarking engine."
