@@ -34,8 +34,11 @@ Most people assume you can just throw a talent database at GPT and get great can
 
 GoPerfect's previous vector architecture worked at small scale with purely semantic dense embeddings. But as the talent pool grew, the system started returning candidates who looked right semantically and were wrong in practice. GoPerfect measures acceptance rate as the share of surfaced candidates that recruiters accept onto their shortlist. On their previous system, that rate plateaued around 30 percent. For a company whose product thesis is finding unicorns and replacing manual recruiter work, parity wasn't a defensible position.
 
->"Words can be really close semantically but mean completely different things. A product manager and a product marketer sit right next to each other in embedding space. They're not the same job."    
-— Idan Shaked, Head of R\&D, GoPerfect             
+{{< quote
+  text="Words can be really close semantically but mean completely different things. A product manager and a product marketer sit right next to each other in embedding space. They're not the same job."
+  name="Idan Shaked"
+  role="Head of R&D"
+  company="GoPerfect" >}}
 
 Large language models alone could not close the gap either. Even if a recruiter wanted to drop 200 million profiles into a model, the context window will not accommodate that scale, and the model would fail to reason reliably over the corpus. GoPerfect needed a retrieval layer that could narrow a 200 million-profile pool into a high-confidence shortlist before the LLM ever saw it.
 
@@ -45,8 +48,11 @@ The team needed three things in the retrieval layer: hybrid search that combined
 
 GoPerfect evaluated multiple vector search engines and ran a structured proof-of-concept against internal KPIs covering acceptance rate, precision at rank one, and pool size. Qdrant won the evaluation. Hybrid search was straightforward to stand up, and the additional retrieval step didn't add the kind of latency that would have broken the agent user experience.
 
->"Your solution with hybrid search was pretty quick to achieve. It didn't harm anything regarding the search. Qdrant made it much better."    
-— Idan Shaked, Head of R\&D, GoPerfect
+{{< quote
+  text="Your solution with hybrid search was pretty quick to achieve. It didn't harm anything regarding the search. Qdrant made it much better."
+  name="Idan Shaked"
+  role="Head of R&D"
+  company="GoPerfect" >}}
 
 ### The breakthrough: treating each candidate as a structured set of vectors
 
@@ -60,15 +66,21 @@ A single embedding per candidate collapses the nuances a recruiter needs to eval
 
 The combined effect of hybrid search, multivector representation, and the LLM orchestration layer moved GoPerfect's match accuracy from the recruiting industry's baseline 30 percent acceptance rate to 99.993% in internal benchmarks. Across their largest customer cohorts, they consistently see acceptance rates in the 95–100% range after the agent's iterative refinement. That's roughly four times the recruiting industry baseline.
 
->"After we split the vectors, the results were much more accurate. We added the LLM layer above all of it, and that's where we managed to reach 99.993% percent accuracy."   
-— Idan Shaked, Head of R\&D, GoPerfect
+{{< quote
+  text="After we split the vectors, the results were much more accurate. We added the LLM layer above all of it, and that's where we managed to reach 99.993% percent accuracy."
+  name="Idan Shaked"
+  role="Head of R&D"
+  company="GoPerfect" >}}
 
 Speed mattered for a non-obvious reason. The agent doesn't run one search per recruiter request. It runs many in parallel and then reasons over the combined result set. A query like "product marketer in San Francisco with 10 must-haves" gets decomposed into multiple parallel sub-queries that probe different category combinations.
 
 Within GoPerfect's user-facing interactive, sub-agent-loop latency budget, the agent runs multiple parallel sub-queries against Qdrant and reasons over the union before returning a shortlist. Complex, multi-criteria searches complete end to end in under 10 seconds. From recruiter intent to a live pipeline, including the outreach agent kicking in, the full cycle takes under 2 minutes. Predictable retrieval latency is what makes the chain-of-thought experience feel agentic instead of laggy.
 
->"Higher accuracy means fewer searches. Recruiters who used to run dozens of queries per role to assemble a shortlist now run one or two."    
-— Idan Shaked, Head of R\&D, GoPerfect
+{{< quote
+  text="Higher accuracy means fewer searches. Recruiters who used to run dozens of queries per role to assemble a shortlist now run one or two."
+  name="Idan Shaked"
+  role="Head of R&D"
+  company="GoPerfect" >}}
 
 ### How it works in production
 
@@ -76,8 +88,11 @@ The production pipeline runs in three layers. Ingestion enriches profile data fr
 
 GoPerfect also runs a candidate scoring and fraud-signal layer that cross-references claims in a resume against external evidence. A candidate who lists a programming language, for example, gets validated against their public code activity. The scoring layer also learns from outcomes: when a candidate flagged with a fraud signal goes on to get hired through normal channels, the system weights similar signals more leniently going forward. Recruiters see a graphical view of each candidate that includes both the ranking and the supporting evidence, with adjustable tolerance for fraud signals depending on the role context.
 
->"With Qdrant, we can offer customers a full agentic experience: a real chain of thoughts, memory, and context. That's what people expect from a true agent today."   
-— Eylon Etshtein, CEO, GoPerfect
+{{< quote
+  text="With Qdrant, we can offer customers a full agentic experience: a real chain of thoughts, memory, and context. That's what people expect from a true agent today."
+  name="Eylon Etshtein"
+  role="CEO"
+  company="GoPerfect" >}}
 
 ![pipeline](/blog/case-study-goperfect/goperfect-pipeline-architecture.png)
 
