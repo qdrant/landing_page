@@ -5,9 +5,24 @@
       <p class="common-hero__label">{{ .Params.label }}</p>
       <h1 class="common-hero__title">{{ .Params.title }}</h1>
       <p class="common-hero__description">{{ .Params.description }}</p>
-      <a href="{{ .Params.button.url }}" class="button button_contained button_lg">
-        {{ .Params.button.text }}
-      </a>
+      <div class="common-hero__buttons">
+        <a
+          href="{{ .Params.button.url }}"
+          class="button button_contained button_lg"
+          {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+        >
+          {{ .Params.button.text }}
+        </a>
+        {{ if .Params.outlineButton }}
+          <a
+            href="{{ .Params.outlineButton.url }}"
+            class="button button_outlined button_lg"
+            {{ if strings.HasPrefix .Params.outlineButton.url "http" }}target="_blank"{{ end }}
+          >
+            {{ .Params.outlineButton.text }}
+          </a>
+        {{ end }}
+      </div>
     </div>
   </div>
 </section>

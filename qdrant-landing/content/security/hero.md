@@ -4,6 +4,9 @@ description: Security controls are available across all Qdrant Cloud deployment 
 button:
   text: Explore the Security Docs
   url: /documentation/security/
+outlineButton:
+  text: Start Free
+  url: https://cloud.qdrant.io
 sitemapExclude: true
 ---
 
