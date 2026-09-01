@@ -14,7 +14,7 @@ tags:
 weight: 0 
 ---
 
-*This is Dust’s story as it stood in 2024. For how they scaled to 5,000+ data sources and brought search latency under a second, read [How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/).*
+*This is Dust’s story as it stood in 2024. For how they scaled further, read [How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/).*
 
 One of the major promises of artificial intelligence is its potential to
 accelerate efficiency and productivity within businesses, empowering employees
