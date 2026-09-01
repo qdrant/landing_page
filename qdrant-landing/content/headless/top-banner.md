@@ -13,7 +13,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
 text: "We built the benchmark the industry was missing: 10 billion documents, with ground truth."
 link:
   text: Read how we did it
-  url: https://qdrant.tech/blog/supernova-release
+  url: https://qdrant.tech/blog/qdrant-fineweb-10b-release/
 start: 2026-09-01T12:00:00.000Z
 sitemapExclude: true
 end: 2026-09-03T12:00:00.000Z
