@@ -20,6 +20,8 @@ partition: case-studies
 ---
 ![voiceflow/image2.png](/blog/case-study-voiceflow/image1.png)
 
+{{< case-study-tags >}}
+
 [Voiceflow](https://www.voiceflow.com/) enables enterprises to create AI agents in a no-code environment by designing workflows through a drag-and-drop interface. The platform allows developers to host and customize chatbot interfaces without needing to build their own RAG pipeline, working out of the box and being easily adaptable to specific use cases. “Powered by technologies like Natural Language Understanding (NLU), Large Language Models (LLM), and Qdrant as a vector search engine, Voiceflow serves a diverse range of customers, including enterprises that develop chatbots for internal and external AI use cases,” says [Xavier Portillo Edo](https://www.linkedin.com/in/xavierportillaedo/), Head of Cloud Infrastructure at Voiceflow.
 
 ## Evaluation Criteria

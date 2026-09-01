@@ -19,6 +19,8 @@ partition: case-studies
 ---
 # How Lyzr Supercharged AI Agent Performance with Qdrant
 
+{{< case-study-tags >}}
+
 {{< case-study-summary
   results="90% | Faster query latency under high concurrency; 2x | Faster indexing for large-scale knowledge bases; 30% | Lower infrastructure costs from reduced resource usage" >}}
 

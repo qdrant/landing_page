@@ -15,6 +15,8 @@ aliases:
 partition: case-studies
 ---
 
+{{< case-study-tags >}}
+
 The partnership between Pienso and Qdrant is set to revolutionize interactive deep learning, making it practical, efficient, and scalable for global customers. Pienso's low-code platform provides a streamlined and user-friendly process for deep learning tasks. This exceptional level of convenience is augmented by Qdrant’s scalable and cost-efficient high vector computation capabilities, which enable reliable retrieval of similar vectors from high-dimensional spaces.
 
 Together, Pienso and Qdrant will empower enterprises to harness the full potential of generative AI on a large scale. By combining the technologies of both companies, organizations will be able to train their own large language models and leverage them for downstream tasks that demand data sovereignty and model autonomy. This collaboration will help customers unlock new possibilities and achieve advanced AI-driven solutions.

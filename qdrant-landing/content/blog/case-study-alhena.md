@@ -23,6 +23,8 @@ partition: case-studies
 
 # How Alhena AI unified its AI stack and accelerated ecommerce outcomes with Qdrant
 
+{{< case-study-tags >}}
+
 ![How Alhena AI unified its AI stack and improved ecommerce conversions with Qdrant](/blog/case-study-alhena/alhena-bento-box-dark.jpg)
 
 ## Building AI agents that drive both revenue and support outcomes

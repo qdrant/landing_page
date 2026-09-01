@@ -20,6 +20,8 @@ partition: case-studies
 
 # How Tripadvisor Is Reimagining Travel with Qdrant
 
+{{< case-study-tags >}}
+
 {{< case-study-summary
   results="2-3x | Revenue Uplift; 1B+ | Content Items Indexed; 11M | businesses and 21 countries supported" >}}
 

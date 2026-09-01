@@ -20,6 +20,8 @@ partition: case-studies
 
 ## Garden Accelerates Patent Intelligence with Qdrant’s Filterable Vector Search
 
+{{< case-study-tags >}}
+
 ![How Garden Unlocked AI Patent Analysis](/blog/case-study-garden/case-study-garden-bento-dark.jpg)
 
 For more than a century, patent litigation has been a slow, people-powered business. Analysts read page after page—sometimes tens of thousands of pages—hunting for the smoking-gun paragraph that proves infringement or invalidity. Garden, a New York-based startup, set out to change that by applying large-scale AI to the entire global patent corpus—more than 200 million patents—in conjunction with terabytes of real world data.

@@ -20,6 +20,8 @@ partition: case-studies
 
 ![Kairoswealth overview](/blog/case-study-kairoswealth/image2.png)
 
+{{< case-study-tags >}}
+
 ## **About Kairoswealth**
 
 [Kairoswealth](https://kairoswealth.com/) is a comprehensive wealth management platform designed to provide users with a holistic view of their financial portfolio. The platform offers access to unique financial products and automates back-office operations through its AI assistant, Gaia.

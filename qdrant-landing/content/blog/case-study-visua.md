@@ -20,6 +20,8 @@ partition: case-studies
 
 ![visua/image1.png](/blog/case-study-visua/image1.png)
 
+{{< case-study-tags >}}
+
 For over a decade, [VISUA](https://visua.com/) has been a leader in precise, high-volume computer vision data analysis, developing a robust platform that caters to a wide range of use cases, from startups to large enterprises. Starting with social media monitoring, where it excels in analyzing vast data volumes to detect company logos, VISUA has built a diverse ecosystem of customers, including names in social media monitoring, like **Brandwatch**, cybersecurity like **Mimecast**, trademark protection like **Ebay** and several sports agencies like **Vision Insights** for sponsorship evaluation.
 
 ![visua/image3.png](/blog/case-study-visua/image3.png)

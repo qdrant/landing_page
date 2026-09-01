@@ -1,0 +1,28 @@
+@use '../helpers/functions' as *;
+
+// Facts about the customer, read from the customers catalog. Nested so each
+// rule carries two classes: the article stylesheet styles bare `ul` and `li`
+// under .qdrant-post__content and would otherwise win.
+.case-study-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacer * 0.5;
+  margin: 0 0 $spacer * 2;
+  padding: 0;
+  list-style: none;
+
+  .case-study-tags__tag {
+    margin: 0;
+    padding: pxToRem(6) pxToRem(14);
+    border: pxToRem(1) solid $neutral-90;
+    border-radius: pxToRem(100);
+    background-color: $neutral-98;
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
+    color: $neutral-30;
+
+    &::marker {
+      content: none;
+    }
+  }
+}

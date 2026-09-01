@@ -20,6 +20,8 @@ partition: case-studies
 
 # How FAZ Built a Hybrid Search Engine with Qdrant to Unlock 75 Years of Journalism
 
+{{< case-study-tags >}}
+
 [Frankfurter Allgemeine Zeitung (FAZ)](https://www.frankfurterallgemeine.de/die-faz), a major national newspaper in Germany, has spent decades building a rich archive of journalistic content, stretching back to 1949\. The FAZ archive has long built expertise in making its extensive collection of over 75 years accessible and searchable for both internal and external customers through keyword- and index-based search engines. New AI-powered search technologies were therefore immediately recognized as an opportunity to unlock the potential of the comprehensive archive in entirely new ways and to systematically address the limitations of traditional search methods. The solution they arrived at involved a thoughtful orchestration of technologies \- with Qdrant at the heart.
 
 This undertaking was driven by a cross-functional team:

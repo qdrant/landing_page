@@ -22,6 +22,8 @@ partition: case-studies
 
 ![Tavus Overview](/blog/case-study-tavus/tavus-bento-box-dark.jpg)
 
+{{< case-study-tags >}}
+
 ## How Tavus delivered human-grade conversational AI with edge retrieval on Qdrant
 
 Tavus is a human–computer research lab building CVI, the <a href="https://www.tavus.io/" target="_blank">Conversational Video Interface</a>. CVI presents a face-to-face AI that reads tone, gesture, and on-screen context in real time, allowing for humans to interface with powerful, functional AI like never before. The team’s north star was simple to say and hard to ship: conversations should feel natural. That meant tracking conversational dynamics like utterance-to-utterance timing, back-channeling, and turn-taking while grounding replies in a customer’s private knowledge.

@@ -15,6 +15,8 @@ tags:
 partition: case-studies
 ---
 
+{{< case-study-tags >}}
+
 **How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Leveraging Qdrant—Powering Over 2 Million Conversations Across Europe**
 
 ![Deutsche Telekom's AI Competence Center team leading the LMOS platform development](/blog/case-study-deutsche-telekom/dtag-team.jpg)

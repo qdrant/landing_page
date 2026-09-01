@@ -22,6 +22,8 @@ partition: case-studies
 
 ## **Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search**
 
+{{< case-study-tags >}}
+
 {{< case-study-summary
   results="~50% | error reduction; 78% | faster responses, MSE dropped from 3.5 → 1.8; 50% | MoM user growth, query latency cut from 9s → 2s" >}}
 

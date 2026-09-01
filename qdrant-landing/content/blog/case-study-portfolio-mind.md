@@ -21,6 +21,8 @@ partition: case-studies
 
 ## **How PortfolioMind delivered real-time crypto intelligence with Qdrant**
 
+{{< case-study-tags >}}
+
 The crypto world is an inherently noisy and volatile place. Markets shift quickly, narratives change overnight, and wallet activities conceal subtle yet critical patterns. For PortfolioMind,  Web3-native AI research copilot built using the [SpoonOS framework](https://spoonai.io/), the challenge was not only finding just finding relevant information, but also surfacing it in real-time.
 
 ### Challenge: Moving beyond static insights

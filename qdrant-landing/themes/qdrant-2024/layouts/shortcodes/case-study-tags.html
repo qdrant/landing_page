@@ -1,0 +1,62 @@
+{{- /*
+  Facts about the customer, taken from the customers catalog.
+
+  The catalog at content/customers/clients/_index.md already records each
+  customer's industry, deployment, region and use cases, and the filters on
+  /customers/ run off those exact values. Reading them here rather than
+  retyping them per article means the two can never drift apart, and adding a
+  tag to a case study means adding it to the catalog, where it also becomes
+  filterable.
+
+  Usage, on any case study whose path appears as a `blog_path` in the catalog:
+
+    {{< case-study-tags >}}
+
+  Choose and order the fields:
+
+    {{< case-study-tags fields="industry product location use_cases" >}}
+
+  Point it at a different customer, for a page whose own path is not in the
+  catalog:
+
+    {{< case-study-tags id="dust" >}}
+
+  Renders nothing at all when the customer has no catalog row, so a page with
+  no entry simply carries no tags.
+*/ -}}
+
+{{- $fields := split (.Get "fields" | default "industry product location") " " -}}
+{{- $want := .Get "id" -}}
+{{- $path := strings.TrimSuffix "/" .Page.RelPermalink -}}
+
+{{- $client := false -}}
+{{- with site.GetPage "/customers/clients" -}}
+  {{- range .Params.clients -}}
+    {{- $blog := strings.TrimSuffix "/" (.blog_path | default "") -}}
+    {{- if or (and $want (eq .id $want)) (and (not $want) $blog (eq $blog $path)) -}}
+      {{- $client = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $client -}}
+  {{- $tags := slice -}}
+  {{- range $fields -}}
+    {{- $v := index $client . -}}
+    {{- if $v -}}
+      {{- if reflect.IsSlice $v -}}
+        {{- range $v }}{{ $tags = $tags | append . }}{{ end -}}
+      {{- else -}}
+        {{- $tags = $tags | append $v -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with $tags }}
+  <ul class="case-study-tags">
+    {{- range . }}
+    <li class="case-study-tags__tag">{{ . }}</li>
+    {{- end }}
+  </ul>
+  {{- end }}
+{{- end -}}

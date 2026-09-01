@@ -23,6 +23,8 @@ partition: case-studies
 
 # Scaled Vector & Graph Retrieval: How Lettria Unlocked 20% Accuracy Gains with Qdrant & Neo4j
 
+{{< case-study-tags >}}
+
 ![Lettria increases accuracy by 20% by blending Qdrant's vector search and Neo4j's knowledge graphs](/blog/case-study-lettria/lettria-bento-dark.jpg)
 
 ## Why Complex Document Intelligence Needs More Than Just Vector Search

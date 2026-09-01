@@ -23,6 +23,8 @@ partition: case-studies
 
 ![Anima Health scaled privacy-first clinical intelligence with Qdrant](/blog/case-study-anima-health/anima-bento.png)
 
+{{< case-study-tags >}}
+
 Primary care systems across the UK are under intense strain. General practitioners (GPs) balance their time with patient demand, understaffing, administrative burden vs. delivering care. <a href="https://animahealth.com/" target="_blank">Anima Health</a> set out to address this challenge by building a clinical operating system designed to make primary care more efficient, more informed, and more humane for both clinicians and patients.
 
 At the heart of Anima’s platform is the ability to process large volumes of unstructured clinical data, including documents, test results, referral letters, and notes, while maintaining strict privacy guarantees. To achieve this at scale, Anima relies on Qdrant as a core infrastructure component for vector search, similarity analysis, and agentic AI workflows.

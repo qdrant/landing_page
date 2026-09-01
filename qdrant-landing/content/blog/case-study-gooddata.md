@@ -22,6 +22,8 @@ partition: case-studies
 ![Gooddata Overview](/blog/case-study-gooddata/gooddata-bento-box-dark.jpg)
 ### GoodData's Evolution into AI-Powered Analytics
 
+{{< case-study-tags >}}
+
 AI is redefining how people interact with data, pushing analytics platforms beyond static dashboards toward intelligent, conversational experiences. While traditionally recognized as a powerful BI platform, GoodData is laser-focused on accelerating both 'time to insight' and 'time to solution' by enhancing productivity for analysts and business users alike. 
 
 What sets GoodData apart is its unique position in the market: a composable, API-first platform designed for teams that build data products, not just consume them. With deep support for white-labeled analytics, embedded use cases, and governed self-service at scale, GoodData delivers the flexibility modern organizations need. With AI being integrated across every layer of the platform, GoodData is helping their over 140,000 end customers move from traditional BI to intelligent, real-time decision-making.

@@ -78,7 +78,7 @@ clients:
     industry: E-commerce
     product: Qdrant Cloud
     company_size: 1-50 by
-    locationse: Asia Pacific
+    location: Asia Pacific
     use_cases: ["Recommendations", "E-commerce discovery", "Real-time analytics"]
     title: "How ConvoSearch Boosted Revenue for D2C Brands with Qdrant"
     blog_path: /blog/case-study-convosearch

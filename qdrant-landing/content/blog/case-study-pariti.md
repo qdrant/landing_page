@@ -21,6 +21,8 @@ partition: case-studies
 
 ## From Manual Bottlenecks to Millisecond Matching: Connecting Africa’s Best Talent
 
+{{< case-study-tags >}}
+
 {{< case-study-summary
   results="20% → 48% | Hiring fill-rate; 4 min → 1 min | Candidate vetting time; 94% | of hires ranked in top 10% of search results" >}}
 

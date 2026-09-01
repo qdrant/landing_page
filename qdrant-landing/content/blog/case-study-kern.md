@@ -20,6 +20,8 @@ partition: case-studies
 
 ![kern-case-study](/blog/case-study-kern/kern-case-study.png)
 
+{{< case-study-tags >}}
+
 ## About Kern AI
 
 [Kern AI](https://kern.ai/) specializes in data-centric AI. Originally an AI consulting firm, the team led by Co-Founder and CEO Johannes Hötter quickly realized that developers spend 80% of their time reviewing data instead of focusing on model development. This inefficiency significantly reduces the speed of development and adoption of AI. To tackle this challenge, Kern AI developed a low-code platform that enables developers to quickly analyze their datasets and identify outliers using vector search. This innovation led to enhanced data accuracy and streamlined workflows for the rapid deployment of AI applications.

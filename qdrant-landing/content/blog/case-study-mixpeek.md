@@ -19,6 +19,8 @@ partition: case-studies
 ---
 # How Mixpeek Uses Qdrant for Efficient Multimodal Feature Stores
 
+{{< case-study-tags >}}
+
 ![How Mixpeek Uses Qdrant for Efficient Multimodal Feature Stores](/blog/case-study-mixpeek/Case-Study-Mixpeek-Summary-Dark.jpg)
 
 ## About Mixpeek

@@ -20,6 +20,8 @@ partition: case-studies
 
 ![Bento Box](/blog/case-study-and-ai/and-ai-bento.jpg)
 
+{{< case-study-tags >}}
+
 ## How \&AI scaled global patent retrieval with Qdrant
 
 [&AI](https://tryandai.com/) is on a mission to redefine patent litigation. Their platform helps legal professionals invalidate patents through intelligent prior art search, claim charting, and automated litigation support. To make this work at scale, CTO and co-founder Herbie Turner needed a vector database that could power fast, accurate retrieval across billions of documents without ballooning DevOps complexity. That’s where Qdrant came in.

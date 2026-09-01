@@ -21,6 +21,8 @@ partition: case-studies
 
 ![pento bento box](/blog/case-study-pento/pento-bento-box-dark.jpg)
 
+{{< case-study-tags >}}
+
 # Bringing People Together Through Qdrant
 
 ![pento-cover-image](/blog/case-study-pento/pento-cover-image.png)

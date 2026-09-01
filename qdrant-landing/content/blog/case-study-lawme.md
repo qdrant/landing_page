@@ -21,6 +21,8 @@ partition: case-studies
 
 ## How Lawme Scaled AI Legal Assistants and Cut Costs by 75% with Qdrant
 
+{{< case-study-tags >}}
+
 ![How Lawme Scaled AI Legal Assistants and Cut Costs 75% with Qdrant](/blog/case-study-lawme/lawme-bento-dark.jpg)
 
 Legal technology (LegalTech) is at the forefront of digital transformation in the traditionally conservative legal industry. Lawme.ai, an ambitious startup, is pioneering this transformation by automating routine legal workflows with AI assistants. By leveraging sophisticated AI-driven processes, Lawme empowers law firms to dramatically accelerate legal document preparation, from initial research and analysis to comprehensive drafting. However, scaling their solution presented formidable challenges, particularly around data management, compliance, and operational costs.

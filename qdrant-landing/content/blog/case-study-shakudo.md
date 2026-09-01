@@ -14,6 +14,8 @@ tags:
 partition: case-studies
 ---
 
+{{< case-study-tags >}}
+
 We are excited to announce that Qdrant has partnered with [Shakudo](https://www.shakudo.io/), bringing [Qdrant Hybrid Cloud](https://qdrant.tech/hybrid-cloud/) to Shakudo’s virtual private cloud (VPC) deployments. This collaboration allows Shakudo clients to seamlessly integrate Qdrant’s high-performance vector database as a managed service into their private infrastructure, ensuring data sovereignty, scalability, and low-latency vector search for enterprise AI applications.
 
 ## Data Sovereignty and Compliance with Secure Vector Search

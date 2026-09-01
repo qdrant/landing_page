@@ -22,6 +22,8 @@ partition: case-studies
 
 ## Fieldy AI’s migration to Qdrant: Building a fault-tolerant AI memory platform
 
+{{< case-study-tags >}}
+
 ![How Fieldy AI Achieved Reliable AI Memory with Qdrant](/blog/case-study-fieldy/case-study-fieldy-bento-dark.jpg)
 
 ### Capturing and retrieving a lifetime of conversations

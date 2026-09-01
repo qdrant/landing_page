@@ -22,6 +22,8 @@ partition: case-studies
 
 ![Bazaarvoice overview](/blog/case-study-bazaarvoice/bazaarvoice-bento.png)
 
+{{< case-study-tags >}}
+
 ## Turning billions of reviews into real-time, actionable intelligence
 
 Bazaarvoice powers ratings and reviews across the global ecommerce ecosystem, connecting brands, retailers, and consumers through authentic product feedback. From brand-owned storefronts to major retailers, Bazaarvoice sources, verifies, and amplifies reviews at a scale few companies ever reach.

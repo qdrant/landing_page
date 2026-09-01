@@ -15,6 +15,8 @@ aliases:
 partition: case-studies
 ---
 
+{{< case-study-tags >}}
+
 Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 
 search for codebases. A fast, reliable Vector Search Database is a core component of a semantic 
 search engine, and bloop surveyed the field of available solutions and even considered building 

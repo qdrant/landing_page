@@ -21,6 +21,8 @@ partition: case-studies
 
 ## How ConvoSearch Boosted E-commerce Revenue with Qdrant
 
+{{< case-study-tags >}}
+
 ![How ConvoSearch Boosted E-commerce Revenue with Qdrant](/blog/case-study-convosearch/convosearch-bento-dark.jpg)
 
 ### Driving E-commerce Success Through Enhanced Search

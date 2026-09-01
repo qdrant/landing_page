@@ -22,6 +22,8 @@ partition: case-studies
 
 ![Dragonfruit Overview](/blog/case-study-dragonfruit/dragonfruit-bento-box-dark.png)
 
+{{< case-study-tags >}}
+
 ## Dragonfruit AI scales real-time computer vision with Qdrant
 ### Building enterprise-ready computer vision
 

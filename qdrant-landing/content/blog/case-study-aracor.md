@@ -22,6 +22,8 @@ partition: case-studies
 
 ## Precision at Scale: How Aracor Uses Qdrant to Accelerate Legal Due Diligence Resulting in 90% Faster Workflows ##
 
+{{< case-study-tags >}}
+
 ![How Aracor Sped Up Due Diligence Workflows by 90%](/blog/case-study-aracor/case-study-aracor-bento-dark.jpg)
 
 ### How Aracor Accelerated Legal Due Diligence with Qdrant Vector Search

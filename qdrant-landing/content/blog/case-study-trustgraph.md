@@ -23,6 +23,8 @@ partition: case-studies
 
 ![TrustGraph Overview](/blog/case-study-trustgraph/trustgraph-bento-box-dark.jpg)
 
+{{< case-study-tags >}}
+
 # TrustGraph \+ Qdrant: A Technical Deep Dive
 
 When teams first experiment with agentic AI, the journey often starts with a slick demo: a few APIs stitched together, a large language model answering questions, and just enough smoke and mirrors to impress stakeholders.

@@ -23,6 +23,8 @@ partition: case-studies
 
 ![GlassDollar overview](/blog/case-study-glassdollar/glassdollar-bento-box.png)
 
+{{< case-study-tags >}}
+
 <a href="https://www.glassdollar.com/" target="_blank">GlassDollar</a> helps enterprises such as Siemens, Mahle, and A2A discover, compare, and run proof-of-concepts with innovative startups. The platform combines an chatbot-like experience for discovering innovate companies with tools to manager innovation projects from start to finish.
 
 For GlassDollar, search is not a feature. It is the core mechanism that turns an enterprise problem statement into a shortlist of relevant companies, ranked and contextualized for decision-making.

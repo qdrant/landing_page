@@ -22,6 +22,8 @@ partition: case-studies
 
 ## How SayOne Enhanced Government AI Services with Qdrant
 
+{{< case-study-tags >}}
+
 
 {{< case-study-summary
   results=" | Improved Latency; | Global Privacy Compliance; | Enhanced Developer Productivity" >}}

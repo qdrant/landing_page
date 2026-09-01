@@ -19,6 +19,8 @@ partition: case-studies
 
 ![nyris-case-study](/blog/case-study-nyris/nyris-case-study.png)
 
+{{< case-study-tags >}}
+
 ## About Nyris
 
 Founded in 2015 by CTO Markus Lukasson and his sister Anna Lukasson-Herzig, [Nyris](https://www.nyris.io/) offers advanced visual search solutions for companies, positioning itself as the "Google Lens" for corporate data. Their technology powers use cases such as visual search on websites of large retailers and machine manufacturing companies that require visual identification of spare parts. The primary goal is to identify items in a product catalog or spare parts as quickly as possible. With a strong foundation in e-commerce and nearly a decade of experience in vector search, Nyris is at the forefront of visual search innovation.

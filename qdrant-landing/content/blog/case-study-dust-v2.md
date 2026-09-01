@@ -20,6 +20,8 @@ partition: case-studies
 
 ## Inside Dust’s Vector Stack Overhaul: Scaling to 5,000+ Data Sources with Qdrant
 
+{{< case-study-tags >}}
+
 ![How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/case-study-dust-v2-v2-bento-dark.jpg)
 
 We first wrote about Dust in 2024, in [Dust and Qdrant: Using AI to Unlock Company Knowledge and Drive Employee Productivity](/blog/dust-and-qdrant/). This is what came next.

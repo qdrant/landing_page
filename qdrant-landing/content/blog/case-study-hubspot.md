@@ -18,6 +18,8 @@ tags:
 partition: case-studies
 ---
 
+{{< case-study-tags >}}
+
 HubSpot, a global leader in CRM solutions, continuously enhances its product suite with powerful AI-driven features. To optimize Breeze AI, its flagship intelligent assistant, HubSpot chose Qdrant as its vector database.
 
 ## **Challenges Scaling an Intelligent AI**

@@ -21,6 +21,8 @@ tags:
 
 ![How Data Graphs Built a True Hybrid Graph RAG Platform](/blog/case-study-datagraphs/datagraphs-bento.png)
 
+{{< case-study-tags >}}
+
 Data Graphs is a UK-based platform company that provides a knowledge graph-as-a-service polystore, built on a proprietary, high-performance graph database engine. Co-founded by Paul Wilton over 10 years ago as a consultancy, Data Graphs has evolved into a platform that serves industries ranging from sports media and publishing to GLAM (galleries, libraries, archives, museums), Agri-Tech, and Regulatory Technology.
 
 The Data Graphs platform combines a proprietary graph database, full-text search, vector embeddings, workflow automation, and an Agentic AI layer into a single, unified backbone for enterprise data. For organizations managing complex, highly connected data, the platform acts as both the system of record and the context layer that reasons across it.

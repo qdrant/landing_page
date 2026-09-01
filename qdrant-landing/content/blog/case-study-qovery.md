@@ -20,6 +20,8 @@ partition: case-studies
 
 ## Qovery Scales Real-Time DevOps Automation with Qdrant
 
+{{< case-study-tags >}}
+
 {{< case-study-summary
   results=" | Zero-maintenance ops; | Tasks take seconds vs. hours; >100K | vectors indexed" >}}
 

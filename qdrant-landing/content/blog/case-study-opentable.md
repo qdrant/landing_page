@@ -22,6 +22,8 @@ partition: case-studies
 
 ## **Reinventing Restaurant Discovery: How OpenTable built Concierge, an AI Dining Assistant** 
 
+{{< case-study-tags >}}
+
 ### Recognizing that AI would redefine restaurant discovery 
 
 When generative AI tools entered the mainstream, OpenTable knew diners would change how they find and choose restaurants. People were beginning to expect conversational, intelligent and context-aware assistants, rather than static search boxes. 

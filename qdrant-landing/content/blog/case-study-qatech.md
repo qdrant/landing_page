@@ -20,6 +20,8 @@ partition: case-studies
 
 ![qdrant-qatech-1](/blog/case-study-qatech/qdrant-qatech-1.png)
 
+{{< case-study-tags >}}
+
 [QA.tech](https://qa.tech/), a company specializing in AI-driven automated testing solutions, found that building and **fully testing web applications, especially end-to-end, can be complex and time-consuming**. Unlike unit tests, end-to-end tests reveal what’s actually happening in the browser, often uncovering issues that other methods miss. 
 
 Traditional solutions like hard-coded tests are not only labor-intensive to set up but also challenging to maintain over time. Alternatively, hiring QA testers can be a solution, but for startups, it quickly becomes a bottleneck. With every release, more testers are needed, and if testing is outsourced, managing timelines and ensuring quality becomes even harder.

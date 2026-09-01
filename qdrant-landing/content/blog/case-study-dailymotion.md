@@ -25,6 +25,8 @@ partition: case-studies
 ## Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search
 In today's digital age, the consumption of video content has become ubiquitous, with an overwhelming abundance of options available at our fingertips. However, amidst this vast sea of videos, the challenge lies not in finding content, but in discovering the content that truly resonates with individual preferences and interests and yet is diverse enough to not throw users into their own filter bubble. As viewers, we seek meaningful and relevant videos that enrich our experiences, provoke thought, and spark inspiration.
 
+{{< case-study-tags >}}
+
 Dailymotion is not just another video application; it's a beacon of curated content in an ocean of options. With a steadfast commitment to providing users with meaningful and ethical viewing experiences, Dailymotion stands as the bastion of videos that truly matter.
 
 They aim to boost a dynamic visual dialogue, breaking echo chambers and fostering discovery.

@@ -21,6 +21,8 @@ partition: case-studies
 
 ### Tackling fraud and abuse with scalable similarity search 
 
+{{< case-study-tags >}}
+
 At Flipkart, the Trust & Safety team is focused on detecting and preventing platform abuse and fraud. A critical part of this work involves running large-scale similarity searches across customer and seller-submitted data, particularly images. This allows the team to identify patterns associated with fraudulent activity, such as repeat returns or duplicate seller claims, before they cause downstream harm. 
 
 *“Platform integrity is a constant challenge. To stay ahead of fraudulent actors, we needed a system that could compare multimodal data in real time, not just in long-running batch jobs.”* 

@@ -20,6 +20,8 @@ partition: case-studies
 
 ![case-study-sprinklr-1](/blog/case-study-sprinklr/image1.png)
 
+{{< case-study-tags >}}
+
 
 [Sprinklr](https://www.sprinklr.com/), a leader in unified customer experience management (Unified-CXM), helps global brands engage customers meaningfully across more than 30 digital channels. To achieve this, Sprinklr needed a scalable solution for AI-powered search to support their AI applications, particularly in handling the vast data requirements of customer interactions.
 
