@@ -14,6 +14,8 @@ tags:
 weight: 0 
 ---
 
+*This is Dust’s story as it stood in 2024. For how they scaled further, read [How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/).*
+
 One of the major promises of artificial intelligence is its potential to
 accelerate efficiency and productivity within businesses, empowering employees
 and teams in their daily tasks. The French company [Dust](https://dust.tt/), co-founded by former
