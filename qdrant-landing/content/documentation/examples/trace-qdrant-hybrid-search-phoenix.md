@@ -12,9 +12,9 @@ aliases:
 | Time: 45 min | Level: Intermediate |
 |--------------|---------------------|
 
-Hybrid search improves relevance, but when results look wrong it is hard to know which stage to fix. Qdrant retrieves a fused candidate set, and your code then selects the final results. Without observability, both stages look like a single opaque call.
+Hybrid search makes results more relevant. When the results are wrong, you cannot tell which stage to fix. Qdrant returns a fused set of candidates. Your code then selects the final results from that set. Without observability, both stages look like one call.
 
-In this tutorial, you will instrument a staged Qdrant hybrid search with [Arize Phoenix](https://phoenix.arize.com/) and OpenTelemetry. You will index 200 AG News documents in [Qdrant Cloud](https://qdrant.tech/cloud/) with dense and sparse vectors via [Qdrant Cloud Inference](/documentation/cloud/inference/), run hybrid retrieval and send a trace tree to Phoenix that separates what Qdrant returned from what you kept.
+In this tutorial, you instrument a staged Qdrant hybrid search with [Arize Phoenix](https://phoenix.arize.com/) and OpenTelemetry. You index 200 AG News documents in [Qdrant Cloud](https://qdrant.tech/cloud/) with dense and sparse vectors via [Qdrant Cloud Inference](/documentation/cloud/inference/). Then you run hybrid retrieval and send a trace tree to Phoenix. The tree shows what Qdrant returned and what your code kept.
 
 ## Concepts
 
@@ -30,8 +30,8 @@ The problem we solve is simple to state and hard to debug: when a hybrid search 
 
 A hybrid search makes two decisions that usually run as one block of code:
 
-1. Retrieval — Qdrant fuses the dense and sparse results and returns a candidate set (`candidate_limit` documents).
-2. Selection — your code keeps a smaller slice (`result_limit` documents), or reranks and filters them.
+1. Retrieval. Qdrant fuses the dense and sparse results and returns a candidate set (`candidate_limit` documents).
+2. Selection. Your code keeps a smaller slice (`result_limit` documents), or reranks and filters them.
 
 When the final answer is wrong, the fault can sit in either stage. The two stages look the same in a single log line or one Qdrant call. Qdrant can fail to return the right document. Your selection logic can also drop it after Qdrant returns it.
 
@@ -54,8 +54,8 @@ search
 
 Each search creates two spans in Phoenix:
 
-* `qdrant_hybrid_retrieval` — what Qdrant returned
-* `select_results` — what your code kept
+* `qdrant_hybrid_retrieval`: what Qdrant returned
+* `select_results`: what your code kept
 
 ```text
 search
@@ -67,9 +67,9 @@ search
 
 Two stages:
 
-1. Index — Load 200 AG News texts. Qdrant Cloud Inference creates dense and sparse vectors and stores them in a collection.
+1. Index. Load 200 AG News texts. Qdrant Cloud Inference creates dense and sparse vectors and stores them in a collection.
 
-2. Search — Send two `Prefetch` queries (dense and sparse), fuse them with [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), and record three spans (`search`, `qdrant_hybrid_retrieval`, `select_results`). Phoenix shows candidate IDs vs. result IDs, so you can tell if you need to tune `candidate_limit`, `result_limit`, or the embedding models.
+2. Search. Send two `Prefetch` queries (dense and sparse). Fuse them with [RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf). Record three spans: `search`, `qdrant_hybrid_retrieval`, and `select_results`. Phoenix shows the candidate IDs and the result IDs. Use the two ID lists to tune `candidate_limit`, `result_limit`, or the embedding models.
 
 ## Prerequisites
 
@@ -112,7 +112,7 @@ The full script is shown at the end of this section.
 
 ### Setting Up Tracing and Constants
 
-Register Phoenix once in `main()` and define the collection and inference models. All spans use OpenInference attributes for consistent Phoenix rendering.
+Register Phoenix once in `main()` and define the collection and the inference models. All spans use OpenInference attributes so Phoenix renders them the same way.
 
 ```python
 import json
@@ -129,7 +129,7 @@ EMBEDDING_DIMENSION = 384
 PROJECT_NAME = "qdrant-staged-retrieval"
 ```
 
-In `main()`, the provider is registered to the Phoenix OTLP endpoint:
+In `main()`, you register the provider to the Phoenix OTLP endpoint:
 
 ```python
 def main():
@@ -148,7 +148,7 @@ def main():
 ---
 
 - `register`: Creates a `TracerProvider` that batches and exports spans to `http://localhost:6006/v1/traces`.
-- `cloud_inference`: Delegates embeddings generation to Qdrant Cloud Inference.
+- `cloud_inference`: Delegates embedding generation to Qdrant Cloud Inference.
 
 ### Defining the Span Helper
 
@@ -175,8 +175,8 @@ def span(tracer, name, **attributes):
 
 ---
 
-- Status: Marks spans `OK` on success and `ERROR` with the exception message on failure, visible in Phoenix.
-- Attributes: Sets `SpanAttributes.INPUT_VALUE`/`OUTPUT_VALUE` and custom keys like `search.candidate_limit` at span creation.
+- Status: Marks a span `OK` on success. On failure, marks it `ERROR` and adds the exception message. Phoenix shows the status.
+- Attributes: Sets `SpanAttributes.INPUT_VALUE` and `OUTPUT_VALUE`. Also sets custom keys such as `search.candidate_limit` when the span starts.
 
 ### Loading AG News
 
@@ -200,7 +200,7 @@ def load_documents():
 
 ### Indexing Documents with Dense and Sparse Vectors
 
-Create one collection with a dense vector and a sparse vector, then upsert with `models.Document` so Qdrant Cloud Inference embeds server-side. The span records `document.count`.
+Create one collection with a dense vector and a sparse vector. Then upsert with `models.Document` so Qdrant Cloud Inference embeds server-side. The span records `document.count`.
 
 ```python
 from qdrant_client import models
@@ -254,8 +254,8 @@ def index_documents(client, tracer, documents):
 
 ---
 
-- Vectors: `text-dense` (384-d, Cosine) for semantics, `text-sparse` (BM25) for keyword matching.
-- Document API: `models.Document(text=..., model=...)` triggers Cloud Inference. No local embeddings models to download.
+- Vectors: `text-dense` (384 dimensions, Cosine) and `text-sparse` (BM25).
+- Document API: `models.Document(text=..., model=...)` triggers Cloud Inference. You do not download local embedding models.
 
 ### Running Staged Hybrid Retrieval
 
@@ -338,7 +338,7 @@ def search(client, tracer, query, candidate_limit, result_limit):
 
 - Prefetch + RRF: Each `Prefetch` retrieves `candidate_limit` hits from one vector type. `Fusion.RRF` merges them without additional scoring logic.
 - `candidate_limit` vs. `result_limit`: `candidate_limit` controls fused Qdrant candidates and `result_limit` controls final documents after selection.
-- Span attributes: `retrieval.document_ids` and `selection.document_ids` let you diff the two stages in Phoenix. `INPUT_VALUE`/`OUTPUT_VALUE` follow OpenInference for Phoenix detail panes.
+- Span attributes: `retrieval.document_ids` and `selection.document_ids` let you compare the two stages in Phoenix. `INPUT_VALUE` and `OUTPUT_VALUE` follow the OpenInference format for the Phoenix detail panes.
 
 ### Full script
 
@@ -546,7 +546,7 @@ Run the script with the Qdrant environment variables set:
 python qdrant_trace.py
 ```
 
-The script downloads 200 AG News records, creates the `ag-news-hybrid-tracing` collection, and runs a `sports` query with `candidate_limit=12` and `result_limit=6`.
+The script downloads 200 AG News records. It creates the `ag-news-hybrid-tracing` collection. It runs a `sports` query with `candidate_limit=12` and `result_limit=6`.
 
 Each search prints a JSON object with the two ID lists:
 
@@ -562,38 +562,70 @@ Each search prints a JSON object with the two ID lists:
 
 ## Observe the Traces
 
+Run the script. Then open `http://localhost:6006`. Every span in this tutorial is in the `qdrant-staged-retrieval` project.
+
 ### Locate a Trace
 
-Open `http://localhost:6006`. Select the `qdrant-staged-retrieval` project, then open the Spans view.
+Select the `qdrant-staged-retrieval` project in the project picker. Then open the **Spans** view.
 
 ![Phoenix trace list showing qdrant-staged-retrieval project with root search span](/documentation/examples/trace-qdrant-hybrid-search-phoenix/phoenix-trace-list.png)
 
-Find the root `search` span with Input `sports`. It records the query, both limits, and the response. The `index_documents` span is a separate trace — filter by name if needed.
+The Spans view lists every span as a row. Each row shows the name, latency, and start time. Each run makes two root spans:
 
-### Read the Spans
+- `index_documents`: one span that records the indexing step.
+- `search`: the root of the search trace, with Input `sports`.
 
-Select the root `search` span. Phoenix opens the span tree and the detail pane.
+Filter by name (`search`) or by Input (`sports`) to find these spans.
+
+### Read the Span Tree
+
+Select the root `search` span. Phoenix shows the span tree on one side and a detail pane on the other.
 
 ![Expanded Phoenix trace with search parent and qdrant_hybrid_retrieval and select_results children](/documentation/examples/trace-qdrant-hybrid-search-phoenix/phoenix-trace-detail.png)
 
-Select `qdrant_hybrid_retrieval` first. Read these attributes:
+The tree shows the parent-child order and a timing waterfall:
 
-- `retrieval.document_ids` — IDs Qdrant returned after RRF
-- `retrieval.candidate_limit` — the prefetch/fused limit sent to Qdrant
-- `OUTPUT_VALUE` — full payloads of candidates (JSON)
+```text
+search                     <- CHAIN, the root
+|- qdrant_hybrid_retrieval <- RETRIEVER, the Qdrant call
+`- select_results          <- CHAIN, the slice
+```
 
-Then select `select_results`. Read these attributes:
+The waterfall also shows latency. `qdrant_hybrid_retrieval` runs the dense and sparse prefetch queries and the RRF fusion. So it is usually the slowest span. `select_results` only slices a list. It has almost no latency.
 
-- `selection.document_ids` — IDs kept after `candidates[:result_limit]`
-- `selection.result_limit` — the slice limit
-- `INPUT_VALUE` — the candidate list that entered selection
+### Read a Span's Attributes
+
+Select a span to open its detail pane. Phoenix lists the attributes that the code set, and the OpenInference input and output.
+
+Select `qdrant_hybrid_retrieval` first. Its detail pane shows a `RETRIEVER` span-kind badge and these attributes:
+
+- `retrieval.document_ids`: IDs Qdrant returned after RRF
+- `retrieval.candidate_limit`: the prefetch/fused limit sent to Qdrant
+- `INPUT_VALUE`: the query text (`sports`)
+- `OUTPUT_VALUE`: the full candidate payloads (JSON)
+
+Then select `select_results`. Its detail pane shows a `CHAIN` span kind and these attributes:
+
+- `selection.document_ids`: IDs kept after `candidates[:result_limit]`
+- `selection.result_limit`: the slice limit
+- `INPUT_VALUE`: the candidate list that entered selection
+- `OUTPUT_VALUE`: the final result payloads (JSON)
+
+The `INPUT_VALUE` of `select_results` must match the `OUTPUT_VALUE` of `qdrant_hybrid_retrieval`. That match links the two stages into one flow.
 
 ### See What Changed
 
-The retrieval span shows what Qdrant found. The selection span shows what you kept. Compare the two ID lists:
+The retrieval span shows what Qdrant found. The selection span shows what you kept. Compare the two ID lists.
 
-- If the document you expect is in `retrieval.document_ids` but not in `selection.document_ids`, raise `result_limit` or add a reranker instead of a hard slice.
-- If the document is in neither list, raise `candidate_limit` or tune the dense/sparse queries (different embedding model, BM25 parameters, or fusion).
+Phoenix shows the full list of candidate IDs in `retrieval.document_ids`. For the `sports` query:
+
+- `retrieval.document_ids`: up to `candidate_limit` (12) IDs in RRF order.
+- `selection.document_ids`: up to `result_limit` (6) IDs. These are the first six of the fused list.
+
+The first six IDs match across the two lists. The slice drops the rest. Now find the document you want to check:
+
+- If it is in `retrieval.document_ids` but not in `selection.document_ids`, raise `result_limit` or add a reranker instead of a hard slice.
+- If it is in neither list, raise `candidate_limit` or tune the dense/sparse queries (different embedding model, BM25 parameters, or fusion).
 
 ## Next Steps
 
