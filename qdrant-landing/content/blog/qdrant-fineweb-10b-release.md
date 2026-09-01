@@ -3,11 +3,11 @@ title: "Enough with the Bad Benchmarks: Tools for Production-Grade Research"
 draft: false # TODO: flip to false when ready to publish
 slug: qdrant-fineweb-10b-release
 short_description: "Qdrant releases Qdrant-FineWeb-10B, a 10-billion vector benchmark dataset, alongside Supernova, an open-source internet-scale benchmarking engine."
-description: "In partnership with Vultr, Qdrant releases Qdrant-FineWeb-10B, the largest open-source vector search benchmark, plus Supernova, an open-source framework for embedding generation, ground truth, and evaluation at billion-vector scale."
+description: "Qdrant and Vultr release Qdrant-FineWeb-10B, the largest open-source vector search benchmark, plus Supernova, an open-source framework for embedding generation, ground truth, and evaluation at billion-vector scale."
 preview_image: /blog/qdrant-fineweb-10b-release/Blog-Hero.png # TODO: add preview image to static/blog/qdrant-fineweb-10b-release/
 social_preview_image: /blog/qdrant-fineweb-10b-release/Blog-Hero.png # TODO: add social preview image
 date: 2026-09-01
-author: Qdrant labs
+author: Qdrant Labs
 featured: true
 tags:
   - Benchmarks
@@ -35,13 +35,13 @@ To ensure these datasets aren't just another proprietary vendor claim, we are op
 
 The era of relying on 1-million vector datasets, production hearsay, and synthetic approximations is over. Here is the real data, the real ground truth, and the open-source infrastructure you need to run it yourself.
 
-## **Qdrant-FineWeb-10B: Benchmarking at Internet Scale**
+## Qdrant-FineWeb-10B: Benchmarking at Internet Scale
 
 **Qdrant-FineWeb-10B** represents the core of this release. It is the largest open-source vector search benchmark available to the community, comprising **24.47 TB of vectors** and **28.66 TB of source text and metadata**.
 
 Created in collaboration with Vultr using `gte-multilingual-base` on Hugging Face's FineWeb corpus, we utilized Supernova to compute exact top-1000 brute-force ground-truth nearest neighbors for 100,000 queries across the entire 10-billion vector space. Taken together, this amounted to over **one quadrillion distance calculations** run in parallel on GPU-accelerated hardware.
 
-### **Additional Community Datasets**
+### Additional Community Datasets
 
 To showcase Supernova’s versatility across modalities and provide further assets to the community, we used Supernova to generate two additional open datasets:
 
@@ -58,7 +58,7 @@ We plan to continue to release more datasets for the community.
 
 ---
 
-## **Supernova: The Open-Source Benchmarking Engine**
+## Supernova: The Open-Source Benchmarking Engine
 
 We didn't want to stop at releasing a static dataset. We built **Supernova** as a free, fully open-source framework so that the broader community can generate, manipulate, ground-truth, and benchmark internet-scale datasets on their own infrastructure, without relying on Qdrant or any third-party stack.
 
@@ -73,12 +73,12 @@ Each phase is driven by a specialized module configured entirely via YAML files 
 ![Overview of the supernova framework: a standardized pipeline for vector search benchmarking](/blog/qdrant-fineweb-10b-release/supernova-generic-pipeline.svg)
 Overview of the Supernova framework: a standardized pipeline for vector search benchmarking. Each module is designed to scale linearly across cloud and HPC environments, enabling reproducible benchmarking at internet scale.
 
-#### **Distributed Compute with SkyPilot**
+### Distributed Compute with SkyPilot
 
 To scale compute seamlessly across distributed infrastructure, Supernova integrates `nova-dist`, a controller-only module built on [**SkyPilot**](https://skypilot.ai/) that handles cluster provisioning, job scheduling, fault tolerance, and cloud abstraction. Rather than hardcoding infrastructure logic into individual pipeline modules, `nova-dist` decouples job execution from hardware management. This allows `nova-embed`, `nova-bf`, `nova-load`, and `nova-storm` to scale linearly across AWS, GCP, Azure, Kubernetes, and Slurm HPC clusters using identical YAML configurations—massively parallelizing workloads across hundreds of GPUs without manual infrastructure overhead.
 
 ---
 
-## **Acknowledgements**
+## Acknowledgements
 
 We extend our sincere thanks to **Vultr** for providing the raw compute infrastructure to generate the initial FineWeb-10B embeddings, as well as the **SkyPilot** and **Hugging Face** teams for building open-source foundation tools that enable operating at this scale.  
