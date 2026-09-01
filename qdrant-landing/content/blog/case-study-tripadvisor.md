@@ -20,7 +20,8 @@ partition: case-studies
 
 # How Tripadvisor Is Reimagining Travel with Qdrant
 
-![How Tripadvisor Drives 2–3x More Revenue with Qdrant-Powered AI](/blog/case-study-tripadvisor/case-study-tripadvisor-summary-dark.jpg)
+{{< case-study-summary
+  results="2-3x | Revenue Uplift; 1B+ | Content Items Indexed; 11M | businesses and 21 countries supported" >}}
 
 {{< quote
   text="Qdrant has been crucial for our transformation. When you're dealing with over a billion plus user-generated, multi-modal pieces of content from hundreds of millions of monthly active users across 21 countries, 11M businesses and all the complex user interactions that come with it, you need a way to bring it all together. Now, we can represent everything from hotel preferences to restaurant choices to user behavior in a unified way. And we’re seeing real business results. Users engaging with our AI-powered features like trip planning are showing 2-3x more revenue."
@@ -39,6 +40,8 @@ Tripadvisor, the world’s largest travel guidance platform, is undergoing a dee
 The shift was driven by [Rahul Todkar](https://www.linkedin.com/in/rahultodkar/), Head of Data and AI who had previously overseen global AI teams. With a background in building complex data and AI products, including LinkedIn’s data, AI and vector systems, he immediately recognized the opportunity at Tripadvisor: a billion user reviews and contributions \- including hundreds of millions of images \- and years of behavioral data across hotels, restaurants, and experiences.
 
 The goal was ambitious: convert this sprawling, multimodal dataset into a dynamic, AI-driven platform that enhances both user experience and business impact.
+
+![How Tripadvisor Drives 2–3x More Revenue with Qdrant-Powered AI](/blog/case-study-tripadvisor/case-study-tripadvisor-summary-dark.jpg)
 
 ## Generative AI at the Core
 
