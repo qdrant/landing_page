@@ -1,0 +1,103 @@
+@use '../../helpers/functions' as *;
+
+.gpu-indexing-hero {
+  padding-top: $spacer * 3;
+  padding-bottom: $spacer * 3;
+  background-color: $neutral-94;
+
+  &__content {
+    max-width: pxToRem(760);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: $font-family-monospace;
+    font-size: $font-size-sm;
+    line-height: $spacer * 1.25;
+    letter-spacing: pxToRem(1);
+    text-transform: uppercase;
+    color: $neutral-40;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: $h4-font-size;
+    line-height: pxToRem(52);
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-30;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer;
+  }
+
+  // button_outlined is white-on-transparent for dark heroes; this hero is light.
+  .button_outlined {
+    color: $neutral-20;
+    background-color: $neutral-98;
+    box-shadow: 0 0 0 pxToRem(1) $neutral-90;
+
+    &:hover {
+      box-shadow: 0 0 0 pxToRem(2) $neutral-90;
+    }
+  }
+
+  &__checks {
+    margin: $spacer * 2 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__check {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: $spacer * 0.5;
+    font-size: $font-size-sm;
+    line-height: $spacer * 1.25;
+    color: $neutral-30;
+
+    & + & {
+      margin-top: $spacer * 0.5;
+    }
+
+    &-icon {
+      flex-shrink: 0;
+      width: $spacer;
+      height: $spacer;
+      margin-top: pxToRem(2);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__buttons {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $h2-font-size;
+    }
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+  }
+}

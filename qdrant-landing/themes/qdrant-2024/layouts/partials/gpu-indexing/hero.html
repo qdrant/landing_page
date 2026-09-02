@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/gpu-indexing/hero") }}
+  <section class="gpu-indexing-hero">
+    <div class="container">
+      <div class="gpu-indexing-hero__content">
+        <p class="gpu-indexing-hero__label">{{ .Params.label }}</p>
+        <h1 class="gpu-indexing-hero__title">{{ .Params.title }}</h1>
+        <p class="gpu-indexing-hero__description">{{ .Params.description }}</p>
+        <div class="gpu-indexing-hero__buttons">
+          <a
+            href="{{ .Params.button.url }}"
+            class="button button_contained button_lg"
+            {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+          >
+            {{ .Params.button.text }}
+          </a>
+          {{ with .Params.outlineButton }}
+            <a
+              href="{{ .url }}"
+              class="button button_outlined button_lg"
+              {{ if strings.HasPrefix .url "http" }}target="_blank"{{ end }}
+            >
+              {{ .text }}
+            </a>
+          {{ end }}
+        </div>
+        {{ with .Params.checks }}
+          <ul class="gpu-indexing-hero__checks">
+            {{ range . }}
+              <li class="gpu-indexing-hero__check">
+                <img
+                  class="gpu-indexing-hero__check-icon"
+                  src="/icons/outline/circle-check-green.svg"
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                />
+                <span>{{ .text }}</span>
+              </li>
+            {{ end }}
+          </ul>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

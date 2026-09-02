@@ -1,0 +1,205 @@
+@use '../../helpers/functions' as *;
+
+// Write-path diagram inside the How It Works section. Geometry follows the Figma
+// frame: 24px gutter, a 220px label column, then the lane. Static by design.
+.qg-root {
+  margin-bottom: $spacer * 2.5;
+  padding: $spacer;
+  border-radius: $spacer * 0.75;
+  background-color: $neutral-10;
+  color: $neutral-98;
+
+  .qg-diagram {
+    padding: $spacer * 0.5;
+  }
+
+  .qg-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer * 0.5;
+    padding: $spacer 0;
+  }
+
+  .qg-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &__title {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      line-height: $spacer * 1.25;
+      color: $neutral-98;
+    }
+
+    &__sub {
+      margin-top: pxToRem(3);
+      font-family: $font-family-monospace;
+      font-size: pxToRem(11);
+      line-height: pxToRem(18);
+      color: rgba($neutral-98, 0.55);
+    }
+  }
+
+  .qg-badge {
+    margin-top: $spacer * 0.5;
+    padding: pxToRem(2) pxToRem(8);
+    border: pxToRem(1) solid;
+    border-radius: pxToRem(5);
+    font-family: $font-family-monospace;
+    font-size: pxToRem(11);
+    line-height: pxToRem(18);
+
+    &--cpu {
+      color: #5dcaa5;
+      border-color: rgba(0, 150, 136, 0.45);
+      background-color: rgba(0, 150, 136, 0.1);
+    }
+
+    &--gpu {
+      color: #ff8792;
+      border-color: rgba(220, 36, 76, 0.45);
+      background-color: rgba(220, 36, 76, 0.1);
+    }
+
+    &--base {
+      color: rgba($neutral-98, 0.55);
+      border-color: rgba(78, 83, 102, 0.6);
+      background-color: rgba(78, 83, 102, 0.12);
+    }
+  }
+
+  .qg-lane {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.75;
+    min-height: pxToRem(37);
+
+    &--query {
+      justify-content: space-between;
+      padding-right: pxToRem(24);
+      padding-left: pxToRem(24);
+      border: pxToRem(1) solid rgba(0, 150, 136, 0.3);
+      border-radius: $spacer * 0.5;
+      background-color: rgba(0, 150, 136, 0.06);
+    }
+  }
+
+  .qg-block {
+    display: inline-flex;
+    align-items: center;
+    height: pxToRem(37);
+    padding: 0 pxToRem(12);
+    border: pxToRem(1) solid;
+    border-radius: $spacer * 0.5;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(11);
+    white-space: nowrap;
+
+    &--query {
+      padding: 0;
+      border: none;
+      color: rgba(93, 202, 165, 0.75);
+    }
+
+    &--gpu {
+      color: #ff8792;
+      border-color: rgba(220, 36, 76, 0.55);
+      background: linear-gradient(90deg, rgba(220, 36, 76, 0.32), rgba(220, 36, 76, 0.5));
+    }
+
+    // The CPU-only lane runs the full width, with its state pinned right.
+    &--cpu {
+      flex: 1;
+      justify-content: space-between;
+      color: rgba($neutral-98, 0.55);
+      border-style: dashed;
+      border-color: rgba(120, 127, 148, 0.5);
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(120, 127, 148, 0.18) 0 pxToRem(6),
+        rgba(120, 127, 148, 0.06) pxToRem(6) pxToRem(12)
+      );
+    }
+
+    &__state {
+      padding-left: $spacer;
+    }
+  }
+
+  .qg-note {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(11);
+
+    svg {
+      flex-shrink: 0;
+      width: pxToRem(14);
+      height: pxToRem(14);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &--cpu {
+      color: #5dcaa5;
+    }
+
+    &--gpu {
+      color: #ff8792;
+    }
+  }
+
+  .qg-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    margin-top: $spacer;
+    padding-top: $spacer;
+    border-top: pxToRem(1) solid rgba(78, 83, 102, 0.35);
+
+    &__item {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacer * 0.5;
+      font-size: pxToRem(12.5);
+      color: rgba($neutral-98, 0.65);
+
+      svg {
+        flex-shrink: 0;
+        width: pxToRem(15);
+        height: pxToRem(15);
+        fill: none;
+        stroke: #ff8792;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: $spacer * 1.5;
+
+    .qg-row {
+      grid-template-columns: pxToRem(220) 1fr;
+      gap: $spacer * 1.5;
+      padding: pxToRem(30) $spacer * 1.5;
+    }
+
+    .qg-panel {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    // The GPU build block is 234 of the 786px lane in the frame.
+    .qg-block--gpu {
+      width: 29.77%;
+    }
+  }
+}
