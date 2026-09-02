@@ -34,7 +34,7 @@ items:
     description: "Qdrant Cloud uses NVIDIA T4 instances for GPU-accelerated indexing on AWS. (In open source, GPU indexing is vendor-agnostic via Vulkan: NVIDIA, AMD, or Intel.)"
   - id: 5
     icon:
-      src: /icons/outline/aws-teal.svg
+      src: /icons/outline/aws.svg
       alt: AWS
     title: Available on AWS
     description: Supported in select AWS regions, with more rolling out over time.
