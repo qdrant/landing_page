@@ -5,6 +5,9 @@
       <div class="pricing-banner__content-overlay-2"></div>
       <div class="pricing-banner__content-overlay-3"></div>
       <div class="pricing-banner__text">
+        {{ if .Params.label }}
+          <p class="pricing-banner__label">{{ .Params.label }}</p>
+        {{ end }}
         <h2 class="pricing-banner__title">{{ .Params.title | safeHTML }}</h2>
         {{ if .Params.description }}
           <p class="pricing-banner__description">{{ .Params.description }}</p>

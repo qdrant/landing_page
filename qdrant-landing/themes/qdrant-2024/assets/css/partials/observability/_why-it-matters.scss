@@ -1,0 +1,104 @@
+@use '../../helpers/functions' as *;
+
+.observability-why-it-matters {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+  
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    margin-bottom: $spacer;
+    color: $neutral-20;
+  }
+
+  &__description {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    margin-bottom: $spacer;
+    color: $neutral-30;
+  }
+  
+  &__preview {
+    width: 100%;
+    margin-top: $spacer * 2.5;
+    margin-bottom: $spacer * 2.5;
+    
+    &-image {
+      display: none;
+    }
+    
+    &-image-mobile {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(450);
+      margin: 0 auto;
+    }
+  }
+  
+  &__card {
+    &-title {
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+      margin-bottom: $spacer;
+      color: $neutral-20;
+    }
+
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+    
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      gap: $spacer;
+    }
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+      margin-bottom: 0;
+      width: 60%;
+    }
+    
+    &__content {
+      width: 40%;
+    }
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+
+    &__preview {
+      margin-top: $spacer * 5;
+
+      &-image {
+        display: block;
+        width: 100%;
+      }
+
+      &-image-mobile {
+        display: none;
+      }
+    }
+  }
+}

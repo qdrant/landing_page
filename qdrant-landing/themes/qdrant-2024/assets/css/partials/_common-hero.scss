@@ -34,9 +34,10 @@
   }
 
   &__title {
+    max-width: pxToRem(800);
     font-size: $h4-font-size;
     line-height: $spacer * 3;
-    margin-bottom: $spacer * 1.5;
+    margin: 0 auto $spacer * 1.5;
     color: $neutral-98;
   }
 
@@ -79,6 +80,7 @@
 
   @include media-breakpoint-up(lg) {
     min-height: pxToRem(440);
+    max-height: pxToRem(540);
     padding-bottom: $spacer * 7.5;
 
     &__title {
