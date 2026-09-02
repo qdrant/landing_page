@@ -5,7 +5,7 @@
         <p class="gpu-indexing-what-you-get__label">{{ .Params.label }}</p>
         <h2 class="gpu-indexing-what-you-get__title">{{ .Params.title }}</h2>
       </div>
-      <div class="row gy-4 gx-5 align-items-center">
+      <div class="row gy-4 gx-lg-5 align-items-center">
         <div class="col-12 col-lg-6">
           <div class="gpu-indexing-what-you-get__image">
             {{ partial "picture" (dict "src" .Params.image.src "alt" .Params.image.alt "loading" "lazy" "decoding" "async") }}
