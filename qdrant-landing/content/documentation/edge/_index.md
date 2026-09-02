@@ -36,3 +36,43 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 ### More Examples
 
 The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/dev/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/dev/lib/edge/publish/examples).
+
+## Comparison Tables
+
+Qdrant Edge and a Qdrant cluster share the same core search engine, but they're built for different environments.
+Use the following tables to review where they align and diverge.
+
+### Architecture & Deployment
+
+How each option runs, connects, and scales.
+
+| | Qdrant Edge | Qdrant Cluster |
+| --- | --- | --- |
+| **Architecture** | Embedded, in-process library | Client-server, accessed over the network |
+| **Connectivity** | Works fully offline | Requires network access to the server |
+| **Scaling** | Single shard, single device | Horizontal scaling across multiple nodes |
+| **Multitenancy** | Manual: one Edge Shard per tenant | Native shard-key based multitenancy |
+
+### Operations
+
+How data gets indexed, optimized, and kept available.
+
+| | Qdrant Edge | Qdrant Cluster |
+| --- | --- | --- |
+| **Indexing** | Manual, blocking `optimize()` call; no background optimizer | Continuous background optimizer |
+| **High availability** | None; a single local shard | Replication and failover across nodes |
+| **Data sync** | Snapshot-based sync with a server collection ([Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/)) | Not applicable |
+
+### API & Features
+
+How you talk to each option, and what you can do once connected.
+
+| | Qdrant Edge | Qdrant Cluster |
+| --- | --- | --- |
+| **API** | In-process library API ([Python](https://pypi.org/project/qdrant-edge-py/) and [Rust](https://crates.io/crates/qdrant-edge) bindings) | REST and gRPC, plus all Qdrant client libraries |
+| **HNSW indexing** | Supported | Supported |
+| **Quantization** | Supported | Supported |
+| **On-disk storage** | Supported | Supported |
+| **Sparse vectors** | Supported | Supported |
+| **Grouping (`query_groups`)** | Rust only; not exposed in Python | Available |
+| **Search matrix (`search_matrix`)** | Rust only; not exposed in Python | Available |
