@@ -1,0 +1,64 @@
+@use '../../helpers/functions' as *;
+
+.gpu-indexing-how-it-works {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  @include gpu-indexing-section-header('gpu-indexing-how-it-works');
+
+  &__steps {
+    margin-top: $spacer * 2.5;
+  }
+
+  &__step {
+    .card {
+      justify-content: flex-start;
+      height: 100%;
+    }
+
+    &-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: $spacer * 2.5;
+      height: $spacer * 2;
+      margin-bottom: $spacer;
+      border-radius: pxToRem(2);
+      font-family: $font-family-monospace;
+      font-size: $font-size-md;
+      font-weight: $font-weight-semibold;
+    }
+
+    &:nth-of-type(1) .gpu-indexing-how-it-works__step-number {
+      color: $secondary-violet-50;
+      background-color: $secondary-violet-90;
+    }
+
+    &:nth-of-type(2) .gpu-indexing-how-it-works__step-number {
+      color: $secondary-blue-50;
+      background-color: $secondary-blue-90;
+    }
+
+    &-title {
+      margin-bottom: $spacer;
+      padding-bottom: $spacer;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+      border-bottom: pxToRem(1) solid $neutral-90;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-40;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 2.5;
+  }
+}

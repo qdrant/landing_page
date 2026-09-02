@@ -1,0 +1,72 @@
+@use '../../helpers/functions' as *;
+
+.gpu-indexing-whats-included {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  // Dark section with the purple glow behind the heading, per the frame.
+  background:
+    radial-gradient(60% 60% at 20% 0%, rgba(96, 71, 255, 0.45) 0%, rgba(96, 71, 255, 0) 70%),
+    radial-gradient(50% 50% at 85% 0%, rgba(87, 0, 201, 0.35) 0%, rgba(87, 0, 201, 0) 70%),
+    $neutral-10;
+
+  @include gpu-indexing-section-header('gpu-indexing-whats-included', $neutral-98);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: pxToRem(1) solid rgba($neutral-98, 0.12);
+    border-radius: $spacer * 0.5;
+    overflow: hidden;
+  }
+
+  &__item {
+    padding: $spacer * 1.5;
+    border-bottom: pxToRem(1) solid rgba($neutral-98, 0.12);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &-icon {
+      width: $spacer * 1.5;
+      height: $spacer * 1.5;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      font-weight: $font-weight-semibold;
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: rgba($neutral-98, 0.65);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+
+    &__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &__item {
+      border-right: pxToRem(1) solid rgba($neutral-98, 0.12);
+
+      &:nth-child(3n) {
+        border-right: none;
+      }
+
+      &:nth-last-child(-n + 3) {
+        border-bottom: none;
+      }
+    }
+  }
+}
