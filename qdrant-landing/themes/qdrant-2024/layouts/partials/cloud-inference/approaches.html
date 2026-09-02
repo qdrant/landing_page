@@ -1,0 +1,31 @@
+{{ with (.Site.GetPage "/cloud-inference/approaches") }}
+  <section class="cloud-inference-approaches">
+    <div class="container">
+      <div class="cloud-inference-approaches__header">
+        <p class="cloud-inference-approaches__label">{{ .Params.label }}</p>
+        <h2 class="cloud-inference-approaches__title">{{ .Params.title }}</h2>
+        <p class="cloud-inference-approaches__description">{{ .Params.description | safeHTML }}</p>
+      </div>
+
+      {{ range .Params.tables }}
+        {{ if and .cols .features }}
+          <div class="cloud-inference-approaches__table-wrapper" data-features-tab="{{ .id }}">
+            {{ partial "features-table" (dict
+              "cols" .cols
+              "features" .features
+              "featureCellWidth" .featureCellWidth
+              "modifier" "mobile-arrows"
+              )
+            }}
+          </div>
+        {{ end }}
+      {{ end }}
+
+      {{ with .Params.button }}
+        <div class="cloud-inference-approaches__action">
+          <a class="button button_contained button_lg" href="{{ .url }}">{{ .text }}</a>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

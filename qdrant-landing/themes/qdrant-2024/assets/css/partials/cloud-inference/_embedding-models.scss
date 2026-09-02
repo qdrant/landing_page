@@ -1,0 +1,75 @@
+@use '../../helpers/functions' as *;
+
+.cloud-inference-embedding-models {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  @include cloud-inference-section-header('cloud-inference-embedding-models');
+
+  &__header {
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__subheading {
+    margin-bottom: $spacer;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    font-weight: $font-weight-semibold;
+    color: $neutral-20;
+  }
+
+  &__description {
+    p {
+      margin-bottom: $spacer;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__link {
+    margin-top: $spacer;
+  }
+
+  &__card {
+    .card {
+      justify-content: flex-start;
+      height: 100%;
+    }
+
+    &-icon {
+      width: $spacer * 1.5;
+      height: $spacer * 1.5;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      font-weight: $font-weight-semibold;
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-sm;
+      line-height: $spacer * 1.375;
+      color: $neutral-40;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 2.5;
+
+    &__header {
+      margin-bottom: $spacer * 4;
+    }
+  }
+}
