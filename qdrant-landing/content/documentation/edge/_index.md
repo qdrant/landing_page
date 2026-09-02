@@ -51,7 +51,7 @@ How each option runs, connects, and scales.
 | **Architecture** | Embedded, in-process library | Client-server, accessed over the network |
 | **Connectivity** | Works fully offline | Requires network access to the server |
 | **Scaling** | Single shard, single device | Horizontal scaling across multiple nodes |
-| **Multitenancy** | Manual: one Edge Shard per tenant | Native shard-key based multitenancy |
+| **Multitenancy** | Payload-based partitioning within one shard, or one Edge Shard per tenant/device | Payload partitioning, user-defined sharding, or tiered — refer to [Multitenancy](/documentation/manage-data/multitenancy/) |
 
 ### Operations
 
@@ -59,9 +59,9 @@ How data gets indexed, optimized, and kept available.
 
 | | Qdrant Edge | Qdrant Cluster |
 | --- | --- | --- |
-| **Indexing** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
+| **Optimization** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
 | **High availability** | None; a single local shard | Replication and failover across nodes |
-| **Data sync** | Snapshot-based sync with a server collection ([Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/)) | Not applicable |
+| **Data sync** | Server-Edge via (partial) snapshots; Edge-server via application-level dual-write | Acts as the snapshot source and write target |
 
 ### API & Features
 
