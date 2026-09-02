@@ -203,14 +203,17 @@ The analysis shows that capping at 4 searches would be nearly free: coverage bar
 
 | Dataset              | Budget       | Cov   | Cost (tokens) | Latency   |
 | ----------------------| --------------| -------| ---------------| -----------|
-| 22K original MuSiQue | full budget  | 0.743 | 23,947       | 3.03s     |
-|                      | @4 estimated | 0.729 | 6,740        | ~2.9-3.8s |
+| 22K original MuSiQue | full budget  | 0.757 | 23,740       | 3.03s     |
+|                      | @4 estimated | 0.717 | 6,740        | ~2.9-3.8s |
 |                      | @4 measured  | 0.718 | 9,746        | 2.21s     |
-| 1M minted MuSiQue    | full budget  | 0.665 | 24,517       | 3.09s     |
-|                      | @4 estimated | 0.650 | 11,010       | ~2-3s     |
+| 1M minted MuSiQue    | full budget  | 0.646 | 24,090       | 3.09s     |
 |                      | @4 measured  | 0.604 | 8,982        | 1.95s     |
 
-The capped loop still finds 44% to 48% more gold than Qdrant's primitives on their own, and it does it on 59% to 63% fewer tokens than the uncapped agent. What it gives up is 0.039 coverage at 22K and 0.042 at 1M, both sitting within a hair of our 0.0375 noise floor, so the cap is close to free at either size.
+Every row here is the same script on the same day, and SID's seconds are service time. Its pilot endpoint takes 2 requests in flight while our harness runs 6, so raw wall clock there measures our own thread pool as much as it measures SID. The baseline table above reports 0.743 and 5.749s for the same configuration, measured four weeks earlier, when the same loop was taking twice as long per turn.
+
+The 1M corpus has no `@4 estimated` row. Those runs were recorded without traces, so there were no per-search observations to truncate, and we measured the cap there directly instead.
+
+The capped loop still finds about 44% more gold than Qdrant's primitives on their own, and it does it on 59% to 63% fewer tokens than the uncapped agent. What it gives up is 0.039 coverage at 22K and 0.042 at 1M, both sitting within a hair of our 0.0375 noise floor, so the cap is close to free at either size.
 
 **But more importantly, both corpora then answer in about two seconds: 2.21s at 22,808 documents and 1.95s at 1,022,808.**
 
@@ -223,22 +226,24 @@ The conclusion for the second finding is more interesting: can we improve the ra
 
 | Ranking                      | Cov@3 |
 | ------------------------------| -------|
-| control (no rerank)          | 0.743 |
+| control (no rerank)          | 0.765 |
 | ColBERT reranks every search | 0.749 |
 | LLM reranks every search     | 0.764 |
 
-Both deltas fall within our 0.0375 noise floor. In the end, the most effective way to improve the coverage is to use more than 3 items as the result. All SID rows use the 4-search-capped configuration from the previous section:
+All three rows are the same 60 questions run twice, `n=120`. Both rerankers land slightly below the control, and both deltas fall within our 0.0375 noise floor. In the end, the most effective way to improve the coverage is to use more than 3 items as the result. All SID rows below are the full-budget configuration:
 
 | Window Size | SID (22K) | SID (1.02M) | Hybrid (22K) | Hybrid (1.02M) |
 | -------------| -----------| -------------| --------------| ----------------|
-| 3           | 0.729     | 0.665       | 0.500        | 0.407          |
+| 3           | 0.729     | 0.665       | 0.500        | 0.417          |
 | 4           | 0.769     | 0.694       | 0.554        | 0.431          |
-| 5           | 0.789     | 0.705       | 0.590        | 0.439          |
-| 6           | 0.799     | 0.707       | 0.610        | 0.465          |
-| 10          | 0.812     | 0.719       | 0.651        | 0.521          |
+| 5           | 0.789     | 0.705       | 0.590        | 0.431          |
+| 6           | 0.799     | 0.707       | 0.610        | 0.457          |
+| 10          | 0.812     | 0.719       | 0.651        | 0.515          |
 
 
 An oracle selecting the best three from SID's reported list (about five documents on average) would score 0.808 coverage@3. **Simply returning SID's full reported list scores 0.812.** Widening the answer window beats a perfect reranker at zero compute.
+
+Capping the loop at 4 searches and handing the answerer the whole reported list gets 0.776 coverage@3 on about a quarter of the full-budget tokens. That beats the uncapped agent reading into three slots, which scores 0.729. Both changes are configuration.
 
 SID forensics: [notebook](https://github.com/qdrant-labs/agentic-sid-multihop-musique/blob/main/notebooks/experimental/sid_forensics.ipynb).
 
