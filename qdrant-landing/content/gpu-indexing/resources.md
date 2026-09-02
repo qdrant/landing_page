@@ -8,7 +8,7 @@ cards:
       src: /icons/outline/binary-blue.svg
       alt: Binary
     title: Quantization
-    description: Cloud Console path, OSS Docker setup, instance types, tuning parameters
+    description: Memory complement to GPU builds
     link:
       text: Set Up Quantization
       url: /documentation/manage-data/quantization/
