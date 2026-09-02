@@ -68,8 +68,8 @@ settings:
         # The config where to find the image for qdrant
         image: 
           # The repository where to find the image for qdrant
-          # Default is "qdrant/qdrant"
-          repository: qdrant/qdrant
+          # Default is "registry.cloud.qdrant.io/qdrant/qdrant"
+          repository: registry.cloud.qdrant.io/qdrant/qdrant
           # Docker image pull policy
           # Default "IfNotPresent", unless the tag is dev, master or latest. Then "Always"
           #pullPolicy:
