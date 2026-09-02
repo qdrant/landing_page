@@ -12,21 +12,25 @@ aliases:
 | Time: 45 min | Level: Intermediate |
 |--------------|---------------------|
 
-Hybrid search makes results more relevant. When the results are wrong, you cannot tell which stage to fix. Qdrant returns a fused set of candidates. Your code then selects the final results from that set. Without observability, both stages look like one call.
+Hybrid search does not always make results more relevant. It helps when dense and sparse retrieval complement each other, and only when they are tuned well. When results look wrong, you cannot tell which stage to fix. Qdrant returns a fused set of candidates, and your code then selects the final results. Without observability, both stages look like one call.
 
-In this tutorial, you instrument a staged Qdrant hybrid search with [Arize Phoenix](https://phoenix.arize.com/) and OpenTelemetry. You index 200 AG News documents in [Qdrant Cloud](https://qdrant.tech/cloud/) with dense and sparse vectors via [Qdrant Cloud Inference](/documentation/cloud/inference/). Then you run hybrid retrieval and send a trace tree to Phoenix. The tree shows what Qdrant returned and what your code kept.
+In this tutorial, you instrument a staged Qdrant hybrid search with [Arize Phoenix](https://phoenix.arize.com/) and OpenTelemetry. You index 200 [AG News](https://huggingface.co/datasets/fancyzhx/ag_news) documents in [Qdrant Cloud](https://qdrant.tech/cloud/) with dense and sparse vectors via [Qdrant Cloud Inference](/documentation/cloud/inference/). Then you run hybrid retrieval and send a trace tree to Phoenix. The tree shows what Qdrant returned and what your code kept.
 
 ## Concepts
 
-If you need a primer on how hybrid search works, read the [hybrid search guide](/documentation/search/hybrid-queries/).
+Hybrid search runs two queries and merges them into one ranking. A dense query matches documents by meaning. A sparse query matches documents by exact words. Qdrant fuses the two lists with [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf). When a document appears near the top of either list, it ranks higher.
+
+![Fusing results from multiple queries](/docs/fusion-idea.png)
+
+The fused list is the candidate set that this tutorial traces.
 
 The problem we solve is simple to state and hard to debug: when a hybrid search returns the wrong results, you cannot tell which stage failed. Tracing makes each stage visible.
 
-### What a trace shows
+### What a Trace Shows
 
 [OpenTelemetry](https://opentelemetry.io/) is an open standard that records operations as spans (timed units of work with inputs, outputs, and metadata). A trace is a tree of spans for one request. [Arize Phoenix](https://arize.com/phoenix/) is a UI that receives spans over OTLP and renders the tree so you can inspect each stage.
 
-### One search, two stages to observe
+### One Search, Two Stages to Observe
 
 A hybrid search makes two decisions that usually run as one block of code:
 
@@ -35,7 +39,7 @@ A hybrid search makes two decisions that usually run as one block of code:
 
 When the final answer is wrong, the fault can sit in either stage. The two stages look the same in a single log line or one Qdrant call. Qdrant can fail to return the right document. Your selection logic can also drop it after Qdrant returns it.
 
-### Spans make the stages visible
+### Spans Make the Stages Visible
 
 In this tutorial, each search emits three nested spans:
 
@@ -340,7 +344,7 @@ def search(client, tracer, query, candidate_limit, result_limit):
 - `candidate_limit` vs. `result_limit`: `candidate_limit` controls fused Qdrant candidates and `result_limit` controls final documents after selection.
 - Span attributes: `retrieval.document_ids` and `selection.document_ids` let you compare the two stages in Phoenix. `INPUT_VALUE` and `OUTPUT_VALUE` follow the OpenInference format for the Phoenix detail panes.
 
-### Full script
+### Full Script
 
 <details>
 <summary>Click to expand the complete <code>qdrant_trace.py</code></summary>
@@ -627,6 +631,8 @@ The first six IDs match across the two lists. The slice drops the rest. Now find
 - If it is in `retrieval.document_ids` but not in `selection.document_ids`, raise `result_limit` or add a reranker instead of a hard slice.
 - If it is in neither list, raise `candidate_limit` or tune the dense/sparse queries (different embedding model, BM25 parameters, or fusion).
 
+To tune these settings step by step, refer to our [series on tuning retrieval](/blog/tuning-retrieval-which-knob-first/).
+
 ## Next Steps
 
 You now have a minimal staged tracing pattern for Qdrant hybrid search. Extend it in these ways:
@@ -637,4 +643,4 @@ You now have a minimal staged tracing pattern for Qdrant hybrid search. Extend i
 
 To use your own embeddings, replace `EMBEDDING_MODEL` and `SPARSE_MODEL` with any [Cloud Inference](/documentation/cloud/inference/) model or a local model. For production, export traces to a persistent Phoenix instance or any OTLP collector instead of `localhost:6006`.
 
-If you have questions, ask on our [Discord community](https://qdrant.to/discord).
+If you have questions, ask in the [Qdrant Discord community](https://qdrant.to/discord).
