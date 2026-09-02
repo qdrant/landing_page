@@ -38,10 +38,12 @@
     gap: $spacer;
   }
 
+  // The console screenshot bleeds off the right edge at every width, per the frame.
   &__image {
     img {
       display: block;
-      width: 100%;
+      width: 125%;
+      max-width: none;
       height: auto;
       border-radius: $spacer * 0.5;
     }
