@@ -5,6 +5,7 @@ description: "Enable GPU-accelerated vector indexing in Qdrant with dedicated Do
 weight: 20
 aliases:
   - /documentation/guides/running-with-GPU/
+  - /documentation/guides/running-with-gpu
   - /documentation/ops-configuration/running-with-gpu
   - /documentation/operations/running-with-GPU
   - /documentation/operations/running-with-gpu
