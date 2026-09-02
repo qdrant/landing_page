@@ -128,7 +128,7 @@ Avoid putting the HNSW vector index in the `cold` tier. If you must store it on 
 
 ## Migrating
 
-When migrating from a pre-1.19 version to a newer version, Qdrant doesn't automatically convert any [legacy settings](#legacy-settings) that control memory placement to the new `memory` setting. The legacy settings have only been deprecated, not removed, so you can continue to use them. A pre-1.19 collection with legacy settings will continue to work on newer versions without having to change its configuration.
+When migrating from a pre-1.19 version to a newer version, Qdrant doesn't automatically convert any [legacy settings](#legacy-settings) that control memory placement to the new `memory` setting. The legacy settings have only been deprecated, not removed, so your existing settings remain working. A pre-1.19 collection with legacy settings will continue to work on newer versions without having to change its configuration.
 
 ### Legacy Settings
 
