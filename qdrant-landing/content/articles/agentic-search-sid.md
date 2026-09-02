@@ -203,14 +203,14 @@ The analysis shows that capping at 4 searches would be nearly free: coverage bar
 
 | Dataset              | Budget       | Cov   | Cost (tokens) | Latency   |
 | ----------------------| --------------| -------| ---------------| -----------|
-| 22K original MuSiQue | full budget  | 0.743 | 23,947       | 5.75s     |
+| 22K original MuSiQue | full budget  | 0.743 | 23,947       | 3.03s     |
 |                      | @4 estimated | 0.729 | 6,740        | ~2.9-3.8s |
 |                      | @4 measured  | 0.718 | 9,746        | 2.21s     |
-| 1M minted MuSiQue    | full budget  | 0.665 | 24,517       | 14.03s    |
-|                      | @4 estimated | 0.650 | 11,010       | ~5-8s     |
+| 1M minted MuSiQue    | full budget  | 0.665 | 24,517       | 3.09s     |
+|                      | @4 estimated | 0.650 | 11,010       | ~2-3s     |
 |                      | @4 measured  | 0.604 | 8,982        | 1.95s     |
 
-The capped loop still finds 44% to 48% more gold than Qdrant's primitives on their own, even if at 1M documents it stops being free (outside of  0.0375 noise floor). They are also saving 55% to 72% of token budget compared to the agent's baseline.
+The capped loop still finds 44% to 48% more gold than Qdrant's primitives on their own, and it does it on 59% to 63% fewer tokens than the uncapped agent. What it gives up is 0.039 coverage at 22K and 0.042 at 1M, both sitting within a hair of our 0.0375 noise floor, so the cap is close to free at either size.
 
 **But more importantly, both corpora then answer in about two seconds: 2.21s at 22,808 documents and 1.95s at 1,022,808.**
 
