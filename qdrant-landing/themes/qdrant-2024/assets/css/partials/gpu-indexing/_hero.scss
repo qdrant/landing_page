@@ -6,6 +6,8 @@
   background-color: $neutral-94;
 
   &__content {
+    display: flex;
+    flex-direction: column;
     max-width: pxToRem(760);
     margin: 0 auto;
     text-align: center;
@@ -36,9 +38,10 @@
   }
 
   &__buttons {
+    order: 2;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: $spacer;
   }
 
@@ -53,16 +56,19 @@
     }
   }
 
+  // Below md the frame puts the checks above the buttons and left-aligns them.
   &__checks {
-    margin: $spacer * 2 0 0;
+    order: 1;
+    margin: 0 0 $spacer * 1.5;
     padding: 0;
     list-style: none;
+    text-align: left;
   }
 
   &__check {
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
     gap: $spacer * 0.5;
     font-size: $font-size-sm;
     line-height: $spacer * 1.25;
@@ -82,7 +88,19 @@
 
   @include media-breakpoint-up(md) {
     &__buttons {
+      order: 1;
       flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__checks {
+      order: 2;
+      margin: $spacer * 2 0 0;
+      text-align: center;
+    }
+
+    &__check {
       justify-content: center;
     }
   }
