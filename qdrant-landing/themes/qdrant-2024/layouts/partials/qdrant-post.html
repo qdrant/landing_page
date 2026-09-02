@@ -12,6 +12,7 @@
         <p>{{ .context.Params.author }}</p>
         <span>&middot;</span>
         <p>{{ time.Format "January 02, 2006" .context.Date }}</p>
+        {{ partial "case-study-tags" .context }}
       </div>
       {{ if .context.Params.preview_dir }}
         <picture class="qdrant-post__preview">

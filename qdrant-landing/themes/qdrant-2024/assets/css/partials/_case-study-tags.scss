@@ -1,0 +1,21 @@
+@use '../helpers/functions' as *;
+
+// Industry, deployment and region for a case study. These sit inside the
+// byline row every blog post already has, so a case study extends that line
+// rather than introducing a header element other posts do not have.
+.case-study-tags {
+  display: contents;
+
+  // display:contents drops the list box but not the item markers.
+  .case-study-tags__tag {
+    margin: 0;
+    list-style: none;
+    padding: 0 pxToRem(10);
+    border: pxToRem(1) solid $neutral-90;
+    border-radius: pxToRem(100);
+    background-color: $neutral-98;
+    font-size: pxToRem(13);
+    line-height: pxToRem(21);
+    color: $neutral-50;
+  }
+}
