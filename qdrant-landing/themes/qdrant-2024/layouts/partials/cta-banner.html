@@ -27,6 +27,15 @@
                 {{ .Params.outlineButton.text }}
               </a>
             {{ end }}
+            {{ if .Params.textButton }}
+              <a
+                href="{{ .Params.textButton.url }}"
+                class="button button_outlined button_lg cta-banner__button"
+                {{ if strings.HasPrefix .Params.textButton.url "http" }}target="_blank"{{ end }}
+              >
+                {{ .Params.textButton.text }}
+              </a>
+            {{ end }}
           </div>
         </div>
         <div class="cta-banner__illustration">
