@@ -59,7 +59,7 @@ How data gets indexed, optimized, and kept available.
 
 | | Qdrant Edge | Qdrant Cluster |
 | --- | --- | --- |
-| **Indexing** | Manual, blocking `optimize()` call; no background optimizer | Continuous background optimizer |
+| **Indexing** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
 | **High availability** | None; a single local shard | Replication and failover across nodes |
 | **Data sync** | Snapshot-based sync with a server collection ([Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/)) | Not applicable |
 
