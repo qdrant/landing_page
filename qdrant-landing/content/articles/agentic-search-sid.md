@@ -61,6 +61,8 @@ The Qdrant collection and question split were forked and adapted from [Predictin
 
 ![System map of the SID-1 agentic retrieval loop: the application delegates tool selection to SID-1, while Qdrant provides hybrid search, text search, and read-by-ID tools.](/articles_data/agentic-search-sid/agentic-retrieval-system.png)
 
+*Takeaway: SID-1 chooses among a small set of Qdrant retrieval operations, rather than relying on a single search pass.*
+
 **An agent combines an LLM with instructions, conversation state, and tools**. On each turn, the model examines the original question and previous tool results, decides what to do next, and continues until it produces a result or reaches its turn limit.
 
 A search agent follows the same pattern, but its task is retrieval: find and rank the passages most useful for answering a question. Unlike a one-shot retriever, it can inspect the initial results, identify missing information, reformulate the query, and search again.
@@ -99,7 +101,9 @@ Two examples of single-hop questions from the split:
 
 The answer sits in one passage. No reasoning chain, no bridge entity to resolve. Here's how the three arms perform across all 120 single-hop questions, with cost columns reported as per-query averages:
 
-{{< figure src="/articles_data/agentic-search-sid/single-hop-quality-vs-cost.png" caption="SID-1 gains 0.008 coverage@3 over hybrid and pays 35x the latency plus 11k tokens for it." >}}
+![Single-hop retrieval quality and per-query cost: SID-1 slightly exceeds hybrid coverage@3 but has much higher latency and token use.](/articles_data/agentic-search-sid/single-hop-quality-vs-cost.png)
+
+*Takeaway: SID-1 gains 0.008 coverage@3 over hybrid, but costs 35× more latency and about 11K tokens per query.*
 
 | arm            | coverage@3 | full_gold@3 | mrr@3 | qdrant_calls | llm_calls | tokens  | latency_s |
 | ----------------| ------------| -------------| -------| --------------| -----------| ---------| -----------|
@@ -132,7 +136,9 @@ Multi-hop queries can't be answered in one pass. Take the first example: we need
 
 Multi-hop queries also mirror how people actually ask questions. Users skip context, reference things vaguely, and expect the system to fill in what they left out. Here's how the three arms compare across all 60 multi-hop questions:
 
-{{< figure src="/articles_data/agentic-search-sid/multi-hop-quality-vs-cost.png" caption="SID-1 reaches 0.743 coverage@3 against 0.500 for hybrid and 0.479 for colbert-rerank" >}}
+![Multi-hop retrieval quality and per-query cost: SID-1 has the highest coverage@3, with substantially higher latency and token use.](/articles_data/agentic-search-sid/multi-hop-quality-vs-cost.png)
+
+*Takeaway: SID-1 reaches 0.743 coverage@3, compared with 0.500 for hybrid and 0.479 for ColBERT rerank.*
 
 | arm            | coverage@3 | full_gold@3 | mrr@3 | qdrant_calls | llm_calls | tokens  | latency_s |
 | ----------------| ------------| -------------| -------| --------------| -----------| ---------| -----------|
@@ -162,14 +168,19 @@ The question is: while **0.743** looks impressive, how do results look in practi
 
 Across the 60 multi-hop questions, we find a noticeable discrepancy between SID runs. **More importantly, retrieval quality does not keep improving indefinitely as the agent continues searching**. Instead, there is a clear ceiling: after a certain point, additional search steps stop producing meaningful gains in gold-document retrieval.
 
-<div style="display: flex; gap: 16px;">
-  <figure><img src="/articles_data/agentic-search-sid/marginal-new-gold-per-search.png" alt="New gold per search"><figcaption>Finding on search turns: new gold is usually found in first searches</figcaption></figure>
-  <figure><img src="/articles_data/agentic-search-sid/cumulative-gold-discovered.png" alt="Cumulative gold"><figcaption>Finding  on search turns: gold answers platous at certain point</figcaption></figure>
-</div>
+![Marginal number of new gold documents discovered per search turn.](/articles_data/agentic-search-sid/marginal-new-gold-per-search.png)
+
+*Takeaway: The first few searches uncover most new gold documents; later searches add little.*
+
+![Cumulative number of gold documents discovered over search turns.](/articles_data/agentic-search-sid/cumulative-gold-discovered.png)
+
+*Takeaway: Gold-document discovery plateaus after the early search turns.*
 
 Most of the gain we get is due to the first several runs. This is true for both the 22K dataset and the 1M dataset. Moreover, further analysis shows us that the agent retrieves most of the gold results at some point in time; it just does not rank them well:
 
-{{< figure src="/articles_data/agentic-search-sid/retrieved-but-not-surfaced.png" caption="Finding on ranking: we have retrieved gold that is not surfaced" >}}
+![Comparison of gold documents retrieved during the search loop and gold documents surfaced in the final ranking.](/articles_data/agentic-search-sid/retrieved-but-not-surfaced.png)
+
+*Takeaway: SID often retrieves gold documents that its final ranking does not surface.*
 
 The conclusion from the first finding is easy to apply - we can just use the first N retrievals, and then push the model to make a final decision. 
 
