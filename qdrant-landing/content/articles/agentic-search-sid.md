@@ -17,12 +17,13 @@ keywords:
   - RAG
 weight: -211
 ---
+**An agentic retriever runs a loop: read what comes back, decide what's still missing, issue a new sub-query, repeat.** The LLM in the loop can bridge entities across passages, reformulate underspecified queries, and stop when it either finds what it needs or exhausts its retries. 
 
 Hybrid search returns a ranked list in a single pass: your query is embedded, sparse and dense retrievers each pull candidates, and RRF or DBSF fuses them. It's fast, cheap, and assumes a well-constructed query.
 
-Agentic search doesn't assume that. **An agentic retriever runs a loop: read what comes back, decide what's still missing, issue a new sub-query, repeat**. The LLM in the loop can bridge entities across passages, reformulate underspecified queries, and stop when it either finds what it needs or exhausts its retries. That's why, in theory, it should beat hybrid search on multi-hop questions, where the answer requires stitching facts from two or three documents that no single query retrieves at once.
+In theory, agentic search should beat hybrid search on multi-hop questions, where the answer requires stitching facts from two or three documents that no single query retrieves at once. This article measures where the theory holds up on Qdrant. We put [SID-1](https://www.sid.ai/research/sid-1), a 14B model trained specifically for agentic retrieval, alongside a well-configured hybrid setup on the MuSiQue multi-hop benchmark. 
 
-This article measures whether the theory holds up on Qdrant. We put [SID-1](https://www.sid.ai/research/sid-1), a 14B model trained specifically for agentic retrieval, head-to-head with a well-configured hybrid setup on the MuSiQue multi-hop QA benchmark. The answer isn't "agentic search wins," and it isn't "hybrid is enough." It's to use both in a routing fashion, sending each query to whichever retriever fits.
+As a result, on multi-hop questions, SID lands every gold passage 3.7x more often than hybrid. On single-hop, both perform well within rounding error. By the end of the article, we form a routing rule that captures the strengths of both solutions.
 
 ## Evaluation Setup 
 
