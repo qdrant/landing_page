@@ -12,7 +12,7 @@ menuItems:
       - id: mainMenu-0-0
         subMenuItems:
         - id: subMenu-0-0
-          name: Qdrant Vector Database
+          name: Qdrant Vector Search Engine
           icon: qdrant-vector-database.svg
           url: /qdrant-vector-database/
         - id: subMenu-0-1
