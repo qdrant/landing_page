@@ -32,10 +32,14 @@ menuItems:
           icon: cloud-inference.svg
           url: /cloud-inference/
         - id: subMenu-0-5
+          name: Security
+          icon: security.svg
+          url: /security/
+        - id: subMenu-0-6
           name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
-        - id: subMenu-0-6
+        - id: subMenu-0-7
           name: Qdrant Serverless (Coming soon)
           icon: serverless.svg
           url: /serverless/
