@@ -89,8 +89,6 @@ Configuration, as it turns out, the agent never needs to see. It doesn't have to
 
 Configuration notebooks: [22K](https://github.com/qdrant-labs/agentic-sid-multihop-musique/blob/main/notebooks/experimental/stand1_configuration_100K.ipynb) & [1M](https://github.com/qdrant-labs/agentic-sid-multihop-musique/blob/main/notebooks/experimental/stand1_configuration_1M.ipynb). Custom tool experiments: [Exotic Tools](https://github.com/qdrant-labs/agentic-sid-multihop-musique/blob/main/notebooks/stand2_exotic_tools.ipynb). 
 
-<!-- TODO: have a better status  -->
-
 
 ## Agentic Search Can Be Overkill for Single-Hop
 
@@ -149,7 +147,7 @@ Multi-hop queries also mirror how people actually ask questions. Users skip cont
 
 SID-1 finds every gold passage for 55% of multi-hop questions. Hybrid finds every gold passage for 15%. That gap is the case for agentic search on multi-hop, and it's larger than the `coverage@3` gap (0.743 vs 0.500).
 
-SID's win costs over 100x the latency of hybrid (5.7s vs 0.056s) and about 24K tokens per query. On multi-hop, that trade buys a real result.
+SID's win costs over 100x the latency of hybrid (5.7s vs 0.056s) and about 24K tokens per query. The 5.7s is an early measurement; the budget section below re-measures the same loop at about 3s of service time. On multi-hop, that trade buys a real result.
 
 On the quality-vs-cost graph, SID-1 lands near the top of the multi-hop coverage frontier. A better prompt or a larger loop budget might close some of the remaining gap, though the incremental win would be small.
 
@@ -195,7 +193,7 @@ The analysis shows that capping at four searches would be nearly free: coverage 
 | 1M minted MuSiQue    | full budget  | 0.646 | 24,090       | 3.09s     |
 |                      | @4 measured  | 0.604 | 8,982        | 1.95s     |
 
-Every row here is the same script on the same day, and SID's seconds are service time. Its pilot endpoint takes two requests in flight while our harness runs six, so raw wall clock there measures our own thread pool as much as it measures SID. The baseline table above reports 0.743 and 5.749s for the same configuration, measured four weeks earlier, when the same loop was taking twice as long per turn.
+Every row here is the same script on the same day, and SID's seconds are service time. Its pilot endpoint takes two requests in flight while our harness runs six, so raw wall clock there measures our own thread pool as much as it measures SID. The baseline table above reports 0.743 and 5.749s for the same configuration, measured four weeks earlier, when the same loop was taking twice as long per turn. Coverage drifts between re-runs the same way: full-budget runs of this configuration land at 0.743, 0.757, and 0.765 across this article's sections, a 0.022 spread that sits inside the 0.0375 noise floor.
 
 The 1M corpus has no `@4 estimated` row. Those runs were recorded without traces, so there were no per-search observations to truncate, and we measured the cap there directly instead.
 
@@ -220,7 +218,7 @@ Both rerankers got more to work with than the control: 15 candidates scored per 
 
 Same 60 questions run twice, `n=120`, full budget. Three times the pool moves neither arm past our 0.0375 noise floor.
 
-Widening the answer window works instead. All SID rows are full budget:
+Widening the answer window works instead. All SID rows are full budget; the 22K column is the same run as the rerank control above, while the 1M and hybrid columns come from the earlier banked runs, so each column is internally consistent:
 
 | Window | SID (22K) | SID (1.02M) | Hybrid (22K) | Hybrid (1.02M) |
 | ------ | --------- | ----------- | ------------ | -------------- |
@@ -241,7 +239,7 @@ SID forensics: [notebook](https://github.com/qdrant-labs/agentic-sid-multihop-mu
 
 The rule from these numbers: hybrid handles single-hop, SID handles multi-hop, and a router picks between them.
 
-On single-hop, agentic search matches hybrid within noise (0.983 vs 0.975 coverage@3) at 35x the latency and 11K tokens per query. On multi-hop, the trade flips: SID lands every gold passage 3.7x more often than hybrid (0.55 vs 0.15 full_gold@3) for about 100x the latency and 24K tokens. There is no workload where the same retriever is the right answer for every query.
+On single-hop, agentic search matches hybrid within noise (0.983 vs 0.975 coverage@3) at 11K tokens per query and seconds of latency against hybrid's milliseconds. On multi-hop, the trade flips: SID lands every gold passage 3.7x more often than hybrid (0.55 vs 0.15 full_gold@3) for about 24K tokens and roughly 3s of service time at full budget, 2.2s capped. There is no workload where the same retriever is the right answer for every query.
 
 A cheap classifier catches most of the multi-hop cases: if the query mentions two or more named entities that need linking, or if the answer requires a bridge fact, route to SID. Otherwise, stay on hybrid. For a signal-based router that decides on retrieval confidence rather than query shape, see [Predicting Weak Retrieval](https://qdrant.tech/articles/predicting-weak-retrieval/?selector=aHRtbCA%2BIGJvZHkgPiBtYWluID4gc2VjdGlvbiA%2BIGRpdiA%2BIGRpdiA%2BIGRpdjpudGgtb2YtdHlwZSgyKSA%2BIGRpdiA%2BIGRpdjpudGgtb2YtdHlwZSgxKSA%2BIGFydGljbGUgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBoMQ%3D%3D&q=Predicting+Weak+Retrieval).
 
