@@ -206,30 +206,33 @@ The capped loop still finds about 44% more gold than Qdrant's primitives on thei
 That is the number that reaches the user. Nobody ever experiences a system's deployment cost. They experience the wait and whether the answer is right.
 
 
-### Reranking Does Not Fix SID's Ranking; Only a Larger Window Does
+### Reranking Doesn't Fix SID's Ranking; a Wider Window Does
 
-The conclusion for the second finding is more interesting: can we improve the ranking that is already quite good for SID? The immediate idea is to use a reranker for the given result; however, all our attempts were unsuccessful. 
+Gold is retrieved but badly placed, so a reranker is the obvious fix. We measured the ceiling first: an oracle picking the best three from SID's reported list scores 0.818 coverage@3 against a control of 0.765.
 
-| Ranking                      | Cov@3 |
-| ------------------------------| -------|
-| control (no rerank)          | 0.765 |
-| ColBERT reranks every search | 0.749 |
-| LLM reranks every search     | 0.764 |
+Both rerankers got more to work with than the control: 15 candidates scored per search where SID had asked for 5, ranked against SID's sub-query for that step rather than against the question.
 
-All three rows are the same 60 questions run twice, `n=120`. Both rerankers land slightly below the control, and both deltas fall within our 0.0375 noise floor. In the end, the most effective way to improve the coverage is to use more than three items as the result. All SID rows below are the full-budget configuration:
+| Ranking                             | Cov@3 |
+| -------------------------------------| -------|
+| control (no rerank)                 | 0.765 |
+| ColBERT reranks every vector search | 0.749 |
+| LLM reranks every vector search     | 0.764 |
 
-| Window Size | SID (22K) | SID (1.02M) | Hybrid (22K) | Hybrid (1.02M) |
-| -------------| -----------| -------------| --------------| ----------------|
-| 3           | 0.729     | 0.665       | 0.500        | 0.417          |
-| 4           | 0.769     | 0.694       | 0.554        | 0.431          |
-| 5           | 0.789     | 0.705       | 0.590        | 0.431          |
-| 6           | 0.799     | 0.707       | 0.610        | 0.457          |
-| 10          | 0.812     | 0.719       | 0.651        | 0.515          |
+Same 60 questions run twice, `n=120`, full budget. Three times the pool moves neither arm past our 0.0375 noise floor.
 
+Widening the answer window works instead. All SID rows are full budget:
 
-An oracle selecting the best three from SID's reported list (about five documents on average) would score 0.808 coverage@3. **Simply returning SID's full reported list scores 0.812.** Widening the answer window beats a perfect reranker at zero compute.
+| Window | SID (22K) | SID (1.02M) | Hybrid (22K) | Hybrid (1.02M) |
+| ------ | --------- | ----------- | ------------ | -------------- |
+| 3      | 0.765     | 0.665       | 0.500        | 0.417          |
+| 4      | 0.785     | 0.694       | 0.554        | 0.431          |
+| 5      | 0.795     | 0.705       | 0.590        | 0.431          |
+| 6      | 0.810     | 0.707       | 0.610        | 0.457          |
+| 10     | 0.818     | 0.719       | 0.651        | 0.515          |
 
-Capping the loop at four searches and handing the answerer the whole reported list gets 0.776 coverage@3 on about a quarter of the full-budget tokens. That beats the uncapped agent reading into three slots, which scores 0.729. Both changes are configuration.
+The climb is arithmetic; three things in it are not. SID is given ten slots and fills 4.9 of them, so the curve flattens on its own, 0.008 across windows 6 to 10, with nothing left to read. Hybrid gets the same slots in every row and is 0.167 behind at window 10. And the full list scores what the oracle scores, 0.818 here and 0.719 at 1M, so reading it out matches a perfect reranker, paying two more passages of answerer context instead of a ranking pass.
+
+Capping the loop at four searches costs 0.045 coverage at a matched window and saves 58% of the tokens. Paired with the wide window it scores 0.778 on 9,746 tokens against 23,094 at full budget, clearing the 0.765 the shipped three-slot configuration scores.
 
 SID forensics: [notebook](https://github.com/qdrant-labs/agentic-sid-multihop-musique/blob/main/notebooks/experimental/sid_forensics.ipynb).
 
