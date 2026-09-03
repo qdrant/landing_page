@@ -40,14 +40,14 @@ We used three retrievers, all reading the same Qdrant collection:
 - **Reranker**: ColBERT late-interaction rerank over a top-K dense prefetch from bge-base.
 - **SID-1**: a 14B model trained for agentic retrieval, running its own multi-turn loop with three tools (search, text_search, read) that all delegate to the same collection. 
  
-**Note**: All SID-1 numbers in this article use a single rollout, the vendor's more conservative configuration. SID's published headline uses 4 fused rollouts for higher recall at proportionally higher cost.
+**Note**: All SID-1 numbers in this article use a single rollout, the vendor's more conservative configuration. SID's published headline uses four fused rollouts for higher recall at proportionally higher cost.
 
 
-The following metrics were used, all evaluated inside the top-3 window:
+The following metrics were used, all evaluated inside the top-three window:
 
-- `coverage@3`: fraction of the gold documents that landed in the top 3, averaged across queries.
-- `full_gold@3`: 1 if all gold documents landed in the top 3, else 0; averaged across queries.
-- `mrr@3`: 1 over the rank of the first gold document if it appears in the top 3, else 0; averaged across queries.
+- `coverage@3`: fraction of the gold documents that landed in the top three, averaged across queries.
+- `full_gold@3`: one if all gold documents landed in the top three, else zero; averaged across queries.
+- `mrr@3`: one over the rank of the first gold document if it appears in the top three, else zero; averaged across queries.
 
 We will use also more common metrics like latency and token usage as well.
 
@@ -184,7 +184,7 @@ Most of the gain we get is due to the first several runs. This is true for both 
 
 The conclusion from the first finding is easy to apply - we can just use the first N retrievals, and then push the model to make a final decision. 
 
-The analysis shows that capping at 4 searches would be nearly free: coverage barely moving, tokens down to about a quarter, seconds down by half. Those are estimates, taken by truncating full-budget traces at search 4, so they score a ranking the model produced after seeing the searches we removed. So we built a real search budget and ran it with the budget held at exactly four searches on every single run.
+The analysis shows that capping at four searches would be nearly free: coverage barely moving, tokens down to about a quarter, seconds down by half. Those are estimates, taken by truncating full-budget traces at search four, so they score a ranking the model produced after seeing the searches we removed. So we built a real search budget and ran it with the budget held at exactly four searches on every single run.
 
 | Dataset              | Budget       | Cov   | Cost (tokens) | Latency   |
 | ----------------------| --------------| -------| ---------------| -----------|
@@ -194,7 +194,7 @@ The analysis shows that capping at 4 searches would be nearly free: coverage bar
 | 1M minted MuSiQue    | full budget  | 0.646 | 24,090       | 3.09s     |
 |                      | @4 measured  | 0.604 | 8,982        | 1.95s     |
 
-Every row here is the same script on the same day, and SID's seconds are service time. Its pilot endpoint takes 2 requests in flight while our harness runs 6, so raw wall clock there measures our own thread pool as much as it measures SID. The baseline table above reports 0.743 and 5.749s for the same configuration, measured four weeks earlier, when the same loop was taking twice as long per turn.
+Every row here is the same script on the same day, and SID's seconds are service time. Its pilot endpoint takes two requests in flight while our harness runs six, so raw wall clock there measures our own thread pool as much as it measures SID. The baseline table above reports 0.743 and 5.749s for the same configuration, measured four weeks earlier, when the same loop was taking twice as long per turn.
 
 The 1M corpus has no `@4 estimated` row. Those runs were recorded without traces, so there were no per-search observations to truncate, and we measured the cap there directly instead.
 
@@ -215,7 +215,7 @@ The conclusion for the second finding is more interesting: can we improve the ra
 | ColBERT reranks every search | 0.749 |
 | LLM reranks every search     | 0.764 |
 
-All three rows are the same 60 questions run twice, `n=120`. Both rerankers land slightly below the control, and both deltas fall within our 0.0375 noise floor. In the end, the most effective way to improve the coverage is to use more than 3 items as the result. All SID rows below are the full-budget configuration:
+All three rows are the same 60 questions run twice, `n=120`. Both rerankers land slightly below the control, and both deltas fall within our 0.0375 noise floor. In the end, the most effective way to improve the coverage is to use more than three items as the result. All SID rows below are the full-budget configuration:
 
 | Window Size | SID (22K) | SID (1.02M) | Hybrid (22K) | Hybrid (1.02M) |
 | -------------| -----------| -------------| --------------| ----------------|
@@ -228,7 +228,7 @@ All three rows are the same 60 questions run twice, `n=120`. Both rerankers land
 
 An oracle selecting the best three from SID's reported list (about five documents on average) would score 0.808 coverage@3. **Simply returning SID's full reported list scores 0.812.** Widening the answer window beats a perfect reranker at zero compute.
 
-Capping the loop at 4 searches and handing the answerer the whole reported list gets 0.776 coverage@3 on about a quarter of the full-budget tokens. That beats the uncapped agent reading into three slots, which scores 0.729. Both changes are configuration.
+Capping the loop at four searches and handing the answerer the whole reported list gets 0.776 coverage@3 on about a quarter of the full-budget tokens. That beats the uncapped agent reading into three slots, which scores 0.729. Both changes are configuration.
 
 SID forensics: [notebook](https://github.com/qdrant-labs/agentic-sid-multihop-musique/blob/main/notebooks/experimental/sid_forensics.ipynb).
 
