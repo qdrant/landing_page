@@ -93,19 +93,9 @@ Configuration notebooks: [22K](https://github.com/qdrant-labs/agentic-sid-multih
 
 Two examples of single-hop questions from the split:
 
-```text
-SINGLE_HOP   2hop__101960_136211__h0
-  Q: Of what country is Kurt Frederick a citizen?
-  A: Saint Lucia
-  gold: 1 passage(s) - 1 of the 3 answer slots must land on them
-    [1] Kurt Frederick - Kurt Frederick (born 27 April 1991) is an international soccer player from Saint Lucia, who plays as a left ba..
+**Kurt Frederick.** The question asks, “Of what country is Kurt Frederick a citizen?” The answer, **Saint Lucia**, appears directly in the *Kurt Frederick* passage: “an international soccer player from Saint Lucia.”
 
-SINGLE_HOP   2hop__33326_54749__h0
-  Q: What territory has been suggested as a new addition to the United States?
-  A: Puerto Rico
-  gold: 1 passage(s) - 1 of the 3 answer slots must land on them
-    [1] 51st state - Puerto Rico has been discussed as a potential 51st state of the United States. In a 2012 status referendum a m...
-```
+**Puerto Rico.** The question asks, “What territory has been suggested as a new addition to the United States?” The answer, **Puerto Rico**, appears directly in the *51st state* passage, which describes Puerto Rico as a potential 51st state.
 
 The answer sits in one passage. No reasoning chain, no bridge entity to resolve. Here's how the three arms perform across all 120 single-hop questions, with cost columns reported as per-query averages:
 
@@ -134,25 +124,9 @@ Single-hop notebook: [SID Baseline Runs](https://github.com/qdrant-labs/agentic-
 
 Two more examples, this time multi-hop:
 
-```text
-MULTI_HOP   2hop__11693_20779
-  Q: When did the relationship end between Carlos Leon and the performer who sang the hit single "vogue?"
-  A: May 1997
-     hop 1: who sang the hit single "vogue"?  ->  Madonna
-     hop 2: When did #1 's relationship with Carlos Leon ended?  ->  May 1997
-  gold: 2 passage(s) - 2 of the 3 answer slots must land on them
-    [1] Madonna (entertainer) - After its release, Evita garnered critical appreciation. Zach Conner from Time magazine commented, "It's a rel...
-    [2] House music - The early 1990s additionally saw the rise in mainstream US popularity for house music. Pop recording artist Ma...
+**Carlos Leon and Madonna.** The question asks when Carlos Leon's relationship with the performer behind “Vogue” ended. One passage establishes the bridge fact: that performer was **Madonna**. A second passage about Madonna and Carlos Leon supplies the answer: **May 1997**.
 
-MULTI_HOP   2hop__645277_2702
-  Q: What shift away from the genre Clementino is known for is Kanye credited with?
-  A: gangsta rap
-     hop 1: Clementino >> genre  ->  rap
-...
-  gold: 2 passage(s) - 2 of the 3 answer slots must land on them
-    [1] Kanye West - West's middle-class background, flamboyant fashion sense and outspokenness have additionally set him apart fro...
-    [2] Clementino - Clementino, stage name of Clemente Maccaro (Avellino, 21 December 1982), is an Italian rapper proficient in fr...
-``` 
+**Clementino and Kanye West.** The question asks what shift away from Clementino's genre Kanye West is credited with. One passage establishes that Clementino is associated with **rap**; a second passage about Kanye supplies the answer: **gangsta rap**.
 
 Multi-hop queries can't be answered in one pass. Take the first example: we need to know who sang "Vogue". The answer: Madonna. Then the next question: when did Madonna and Carlos Leon break up? The second hop gives us the answer.
 
