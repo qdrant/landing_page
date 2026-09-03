@@ -51,6 +51,7 @@ How each option runs, connects, and scales.
 | **Architecture** | Embedded, in-process library | Client-server, accessed over the network |
 | **Connectivity** | Works fully offline | Requires network access to the server |
 | **Scaling** | Single shard, single device | Horizontal scaling across multiple nodes |
+| **Collections** | No collection concept; use one Edge Shard per dataset | Named collections with aliases, managed through the collection API |
 | **Multitenancy** | Payload-based partitioning within one shard, or one Edge Shard per tenant/device | Payload partitioning, user-defined sharding, or tiered — refer to [Multitenancy](/documentation/manage-data/multitenancy/) |
 
 ### Operations
@@ -62,6 +63,7 @@ How data gets indexed, optimized, and kept available.
 | **Optimization** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
 | **High availability** | None; a single local shard | Replication and failover across nodes |
 | **Data sync** | Server-Edge via (partial) snapshots; Edge-server via application-level dual-write | Acts as the snapshot source and write target |
+| **Snapshots** | Consume only: unpack, read manifests, and apply full or partial snapshots | Full lifecycle: create, list, download, and restore |
 
 ### API & Features
 
@@ -74,5 +76,10 @@ How you talk to each option, and what you can do once connected.
 | **Quantization** | Supported | Supported |
 | **On-disk storage** | Supported | Supported |
 | **Sparse vectors** | Supported | Supported |
-| **Grouping (`query_groups`)** | Rust only; not exposed in Python | Available |
-| **Search matrix (`search_matrix`)** | Rust only; not exposed in Python | Available |
+| **Hybrid search** | Supported, through prefetches and fusion (RRF, DBSF) | Supported |
+| **Distance metrics** | Cosine, Dot, Euclid, and Manhattan | Cosine, Dot, Euclid, and Manhattan |
+| **Multivectors** | Supported, for late-interaction models | Supported |
+| **Payload indexes** | All field types | All field types |
+| **Query scoring** | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample |
+| **Grouping (`query_groups`)** | Rust only | Available |
+| **Search matrix (`search_matrix`)** | Rust only | Available |
