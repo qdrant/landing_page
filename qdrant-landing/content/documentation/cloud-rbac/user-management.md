@@ -55,3 +55,7 @@ Only account owners are allowed to transfer ownership of an account, this can be
 Users can be removed from an account by clicking on their name in either **User Management** (via Actions). This option is only available after they've accepted the invitation to join, ensuring that only active users can be removed.
 
 ![image.png](/documentation/cloud/role-based-access-control/remove-user.png)
+
+<aside role="alert">
+    Removing or deleting a user does <strong>not</strong> delete the <a href="/documentation/cloud-api/">Cloud Management Keys</a> or <a href="/documentation/cloud/authentication/">Database API keys</a> they created. Those keys keep working with the permissions they were granted, and can still be used to manage the account or access its clusters. Revoke a departing user's keys separately if they should no longer have access.
+</aside>
