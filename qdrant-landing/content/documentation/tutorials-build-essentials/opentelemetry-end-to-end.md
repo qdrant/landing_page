@@ -625,6 +625,5 @@ Three paths on this page are described but not verified in this configuration: t
 - [OpenLIT](/documentation/observability/openlit/) auto-instruments your app.
 - [Datadog integration](/documentation/observability/datadog/) is the managed scrape path when Datadog is your only backend.
 - [Cluster monitoring](/documentation/ops-monitoring/monitoring/) lists every metric Qdrant exposes.
-- [qdrant-opentelemetry-tutorial](https://github.com/meinsta/qdrant-opentelemetry-tutorial) is a runnable version of this page, with a notebook, a check that fails if a signal does not arrive, and three Kubernetes deployment paths.
 - [OpenTelemetry Collector reference](https://opentelemetry.io/docs/collector/) covers receivers, processors, and exporters.
 - [OpenTelemetry Operator](https://opentelemetry.io/docs/kubernetes/operator/) wraps the same `otelcol-config.yaml` for Kubernetes.
