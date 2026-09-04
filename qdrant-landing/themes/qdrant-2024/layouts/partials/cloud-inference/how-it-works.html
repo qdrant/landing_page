@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/cloud-inference/how-it-works") }}
+  <section class="cloud-inference-how-it-works">
+    <div class="container">
+      <div class="cloud-inference-how-it-works__header">
+        <p class="cloud-inference-how-it-works__label">{{ .Params.label }}</p>
+        <h2 class="cloud-inference-how-it-works__title">{{ .Params.title }}</h2>
+        <p class="cloud-inference-how-it-works__description">{{ .Params.description }}</p>
+        {{ with .Params.button }}
+          <a class="button button_contained button_lg" href="{{ .url }}">{{ .text }}</a>
+        {{ end }}
+      </div>
+      <div class="row g-2">
+        {{ range .Params.steps }}
+          <div class="col-12 col-lg-4 cloud-inference-how-it-works__step">
+            <div class="card">
+              <span class="cloud-inference-how-it-works__step-number">{{ .number }}</span>
+              <h3 class="cloud-inference-how-it-works__step-title">{{ .title }}</h3>
+              <p class="cloud-inference-how-it-works__step-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

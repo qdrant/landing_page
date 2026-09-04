@@ -1,0 +1,92 @@
+@use '../../helpers/functions' as *;
+
+.cloud-inference-hero {
+  padding-top: $spacer * 3;
+  padding-bottom: $spacer * 3;
+  background-color: $neutral-10;
+  overflow: hidden;
+
+  @include cloud-inference-section-header('cloud-inference-hero', $neutral-98);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2.5;
+  }
+
+  &__content {
+    flex-shrink: 0;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: $h4-font-size;
+    line-height: pxToRem(52);
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: rgba($neutral-98, 0.75);
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  // The console screenshot bleeds off the right edge at every width, per the frame.
+  &__image {
+    img {
+      display: block;
+      width: 125%;
+      max-width: none;
+      height: auto;
+      border-radius: $spacer * 0.5;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__buttons {
+      flex-direction: row;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__inner {
+      flex-direction: row;
+      align-items: center;
+      gap: $spacer * 4;
+    }
+
+    &__content {
+      width: pxToRem(524);
+    }
+
+    &__title {
+      font-size: $h2-font-size;
+    }
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+
+    // The console screenshot bleeds off the right edge in the frame.
+    &__image {
+      flex: 1;
+      min-width: 0;
+
+      img {
+        width: pxToRem(920);
+        max-width: none;
+      }
+    }
+  }
+}

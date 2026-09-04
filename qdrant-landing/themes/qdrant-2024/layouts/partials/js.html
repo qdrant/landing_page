@@ -49,7 +49,7 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
-{{ if eq .Section "security" }}
+{{ if in (slice "security" "cloud-inference") .Section }}
   {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}

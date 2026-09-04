@@ -1,0 +1,35 @@
+{{ with (.Site.GetPage "/cloud-inference/embedding-models") }}
+  <section class="cloud-inference-embedding-models">
+    <div class="container">
+      <div class="row gy-3 gx-lg-5 cloud-inference-embedding-models__header">
+        <div class="col-12 col-lg-6">
+          <p class="cloud-inference-embedding-models__label">{{ .Params.label }}</p>
+          <h2 class="cloud-inference-embedding-models__title">{{ .Params.title }}</h2>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="cloud-inference-embedding-models__subheading">{{ .Params.subheading }}</p>
+          <div class="cloud-inference-embedding-models__description">{{ .Params.description | markdownify }}</div>
+          {{ with .Params.link }}
+            <a class="link link_dark link_md cloud-inference-embedding-models__link" href="{{ .url }}">{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+      <div class="row g-2">
+        {{ range .Params.cards }}
+          <div class="col-12 col-sm-6 col-lg-3 cloud-inference-embedding-models__card">
+            <div class="card">
+              <img
+                class="cloud-inference-embedding-models__card-icon"
+                src="{{ .icon.src }}"
+                alt="{{ .icon.alt }}"
+                loading="lazy"
+              />
+              <h3 class="cloud-inference-embedding-models__card-title">{{ .title }}</h3>
+              <p class="cloud-inference-embedding-models__card-description">{{ .description | safeHTML }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

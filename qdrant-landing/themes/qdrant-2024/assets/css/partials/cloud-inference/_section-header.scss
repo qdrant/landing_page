@@ -1,0 +1,61 @@
+@use '../../helpers/functions' as *;
+
+// Eyebrow + title + intro shared by the Cloud Inference sections.
+// $color carries the title colour so the dark "What You Get" section can reuse it.
+@mixin cloud-inference-section-header($block, $color: $neutral-20) {
+  .#{$block}__label {
+    margin-bottom: $spacer;
+    font-family: $font-family-monospace;
+    font-size: $font-size-sm;
+    line-height: $spacer * 1.25;
+    letter-spacing: pxToRem(1);
+    text-transform: uppercase;
+    color: if($color == $neutral-20, $neutral-40, rgba($neutral-98, 0.7));
+  }
+
+  .#{$block}__title {
+    margin-bottom: $spacer;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $color;
+  }
+
+  .#{$block}__description {
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: if($color == $neutral-20, $neutral-30, rgba($neutral-98, 0.65));
+  }
+
+  @include media-breakpoint-up(lg) {
+    .#{$block}__title {
+      font-size: $h4-font-size;
+      line-height: pxToRem(52);
+    }
+
+    .#{$block}__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+  }
+}
+
+// Centred header variant, used by the sections whose heading is centre-aligned.
+@mixin cloud-inference-section-header-centered($block) {
+  .#{$block}__header {
+    margin-bottom: $spacer * 2.5;
+    text-align: center;
+  }
+
+  .#{$block}__description {
+    max-width: pxToRem(760);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include media-breakpoint-up(lg) {
+    .#{$block}__header {
+      margin-bottom: $spacer * 4;
+    }
+  }
+}

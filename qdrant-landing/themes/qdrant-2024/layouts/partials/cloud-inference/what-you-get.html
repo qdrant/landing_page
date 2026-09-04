@@ -1,0 +1,31 @@
+{{ with (.Site.GetPage "/cloud-inference/what-you-get") }}
+  <section class="cloud-inference-what-you-get">
+    <div class="container">
+      <div class="cloud-inference-what-you-get__header">
+        <p class="cloud-inference-what-you-get__label">{{ .Params.label }}</p>
+        <h2 class="cloud-inference-what-you-get__title">{{ .Params.title }}</h2>
+        <p class="cloud-inference-what-you-get__description">{{ .Params.description }}</p>
+      </div>
+      <div class="row gy-4 gx-lg-5 align-items-center">
+        <div class="col-12 col-lg-6">
+          <div class="cloud-inference-what-you-get__image">
+            {{ partial "picture" (dict "src" .Params.image.src "alt" .Params.image.alt "loading" "lazy" "decoding" "async") }}
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <ul class="cloud-inference-what-you-get__items">
+            {{ range .Params.items }}
+              <li class="cloud-inference-what-you-get__item">
+                <h3 class="cloud-inference-what-you-get__item-title">{{ .title }}</h3>
+                <p class="cloud-inference-what-you-get__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+          {{ with .Params.button }}
+            <a class="button button_contained button_lg" href="{{ .url }}">{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
