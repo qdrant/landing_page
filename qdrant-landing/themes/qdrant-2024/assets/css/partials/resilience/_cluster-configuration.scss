@@ -90,7 +90,10 @@
       line-height: $spacer * 1.5;
       margin-bottom: 0;
       color: $neutral-60;
-      
+      // Slight negative tracking keeps the longest card copy on two lines
+      // in the 3-column layout without touching the copy or the card width.
+      letter-spacing: -0.2px;
+
       span {
         color: $neutral-90;
         font-weight: $font-weight-semibold;

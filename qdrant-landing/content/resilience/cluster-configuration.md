@@ -8,22 +8,22 @@ cards:
     image:
       src: /img/resilience/cluster-configuration/replication-factor.png
       alt: Replication factor
-    description1: <span>What Qdrant Cloud Does</span> Keeps equal copies of each shard accross your nodes.
+    description1: <span>What Qdrant Cloud Does</span> Keeps equal copies of every shard across your nodes
     description2: <span>What it Means</span> Searches and writes continue when a node goes down.
   - id: 1
     title: Node Count
     image:
       src: /img/resilience/cluster-configuration/node-count.png
       alt: Node Count
-    description1: <span>What Qdrant Cloud Does</span> Keeps equal copies of each shard accross your nodes.
-    description2: <span>What it Means</span> Searches and writes continue when a node goes down.
+    description1: <span>What Qdrant Cloud Does</span> Distributes shard replicas across more nodes.
+    description2: <span>What it Means</span> More headroom for your cluster to stay healthy.
   - id: 0
     title: Multi-AZ
     image:
       src: /img/resilience/cluster-configuration/multi-az.png
       alt: Multi-AZ
-    description1: <span>What Qdrant Cloud Does</span> Keeps equal copies of each shard accross your nodes.
-    description2: <span>What it Means</span> Searches and writes continue when a node goes down.
+    description1: <span>What Qdrant Cloud Does</span> Spreads those nodes across three availability zones.
+    description2: <span>What it Means</span> Your cluster stays up across a full zone outage.
 banner:
   title: Multi-AZ
   icon:
