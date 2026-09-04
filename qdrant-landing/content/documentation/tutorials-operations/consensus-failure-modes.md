@@ -21,6 +21,8 @@ This tutorial reproduces network partitions against a real Qdrant cluster so you
 - How to read the `/cluster` endpoint to tell these failure modes apart
 - How to recover a healthy state when a peer isn't recoverable
 
+This tutorial runs entirely on a local, disposable cluster. Deliberately partitioning nodes with Chaos Mesh means breaking real network connectivity between pods, which is a reasonable thing to do on a `kind` cluster you can throw away, and a much riskier thing to do against infrastructure you don't fully control the networking layer of, such as a Qdrant Hybrid Cloud environment running on your own cloud provider's nodes. A short note on how the final recovery step differs on Hybrid Cloud follows at the end.
+
 ## Prerequisites
 
 - A Kubernetes cluster. This tutorial uses [kind](https://kind.sigs.k8s.io/) for a local, disposable cluster.
@@ -388,6 +390,10 @@ Which returns a response confirming the deletion:
 ```
 
 If the peer still holds shard allocations from before it went down, this call can be rejected instead. See [Node Failure Recovery](/documentation/scaling/node-failure-recovery/) for the `force` flag that handles that case.
+
+<aside role="status">
+On Qdrant Hybrid Cloud, the peer removal call above works the same way, since it hits Qdrant's own HTTP API directly and the Operator doesn't sit in front of it. Scaling down does not work directly with kubectl, so you need to do it through the Qdrant Cloud console instead, which is the sanctioned path for changing cluster size on Hybrid Cloud.
+</aside>
 
 Check `message_send_failures` again. The failure count for that peer stops increasing, and `latest_error_timestamp` stops advancing, since the cluster no longer tries to reach it:
 
