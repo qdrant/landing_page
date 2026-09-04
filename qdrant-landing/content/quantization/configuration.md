@@ -24,29 +24,29 @@ tables:
     features:
       - name: Memory Cut
         scalar: 4x
-        turboQuant: Usually within 1%
-        binary: Faster
-        product: Safe default, <br>any dimensionality
+        turboQuant: 8x to 32x
+        binary: Up to 32x
+        product: Up to 64x
       - name: Typical Recall (with rescoring)
-        scalar: 8x to 32x
+        scalar: Usually within 1%
         turboQuant: Comparable <br>to scalar at double the compression
-        binary: Fast
-        product: Strong default, <br>no dataset training
+        binary: High on centered, high-dim embeddings
+        product: Lower, tune carefully
       - name: Speed
-        scalar: Up to 32x
-        turboQuant: High on centered, high-dim embeddings
+        scalar: Faster
+        turboQuant: Fast
         binary: Fastest (up to 40x)
-        product: Models with 1024+ dimensions
+        product: Slower
       - name: Best for
-        scalar: Up to 64x
-        turboQuant: Lower, tune carefully
-        binary: Slower
+        scalar: Safe default, <br>any dimensionality
+        turboQuant: Strong default, <br>no dataset training
+        binary: Models with 1024+ dimensions
         product: When memory <br>is the only priority
 banner:
   content:
     Scalar, product, and binary quantization each make a different tradeoff across memory savings, recall, and query speed.
   link:
-    url: /documentation/cloud/
+    url: /documentation/manage-data/quantization/
     text: Compare Quantization Methods
 sitemapExclude: true
 ---
