@@ -1,21 +1,21 @@
 ---
-title: "Beginners Course"
-page_title: "Qdrant Beginners Course"
+title: "Beginner Course"
+page_title: "Qdrant Beginner Course"
 short_description: "Learn the fundamentals of vector search: why keyword search struggles, how semantic search improves it, embeddings, distance metrics, and hybrid systems."
 description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 content:
-  sidebarTitle: "Beginners Course"
+  sidebarTitle: "Beginner Course"
   menuTitle:
     text: Course Overview
     url: /course/beginners/
   nextButton: Continue to Next Step
   nextDay: Complete
-  title: "Beginners Course"
+  title: "Beginner Course"
   description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 partition: course
 ---
 
-# Beginners Course
+# Beginner Course
 
 **Learn the fundamentals of vector search**
 
@@ -52,7 +52,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 <br/>
 
-## What you'll learn
+## What You'll Learn
 {{< course-card
  title="Skills you'll gain:"
  image="/icons/outline/training-white.svg"
@@ -82,7 +82,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 **Bonus Module**: Further Reading. A roundup of advanced techniques for further reading: score boosting, relevance feedback, MMR, and re-ranking.
 
-## How the course works
+## How the Course Works
 
 {{< cards-list >}}
 
@@ -181,11 +181,11 @@ Understand why traditional search struggles and how modern semantic search impro
     <p style="margin-left: 0px;">→ Coming soon</p>
 {{< /accordion >}}
 
-## Who it's for
+## Who It's For
 
 Anyone new to vector search who wants to understand the fundamentals. No prior experience with Qdrant or vector search engines required.
 
-## Time commitment
+## Time Commitment
 
 - Core course (Modules 0-4): under 2 hours
 - Capstone project (Module 5): ~3 hours

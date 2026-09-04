@@ -13,7 +13,7 @@ isLesson: true
 <!--
 TODO (video): the previous embed here (_83L9ZIoOjM) is the Essentials-course
 recording — the narration names "Day 0 of the Essentials course," which
-contradicts this Beginners Module 0 page. Drop in a beginner-specific cut here,
+contradicts this Beginner Course Module 0 page. Drop in a beginner-specific cut here,
 or leave this commented out until one exists.
 -->
 

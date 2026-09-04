@@ -1,14 +1,14 @@
 ---
-title: "Qdrant Beginners Certification"
+title: "Qdrant Beginner Certification"
 short_description: "Validate your vector search fundamentals with an official certification exam covering semantic search, embeddings, and hybrid retrieval."
-description: "Earn the official Qdrant Beginners certification: prove you can build collections, choose distance metrics, filter payloads, and run hybrid search."
+description: "Earn the official Qdrant Beginner certification: prove you can build collections, choose distance metrics, filter payloads, and run hybrid search."
 isLesson: true
 weight: 100
 ---
 
-# Qdrant Beginners Certification
+# Qdrant Beginner Certification
 
-Congratulations! You've completed the **Qdrant Beginners** course.
+Congratulations! You've completed the **Qdrant Beginner** course.
 
 Along the way you learned why keyword search falls short, how embeddings capture meaning, how distance metrics compare that meaning, and how hybrid search brings dense and sparse retrieval together. That effort deserves professional recognition.
 

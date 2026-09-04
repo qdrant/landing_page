@@ -16,7 +16,7 @@ Whether you’re new to Qdrant or building production-grade systems, our guided 
 ## Available Now
 
 {{< course-card
- title="Qdrant Beginners Course"
+ title="Qdrant Beginner Course"
  image="/icons/outline/training-white.svg"
  link="/course/beginners/"
 >}}
