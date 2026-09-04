@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "gpu-indexing/hero" . }}
+  {{ partial "gpu-indexing/what-you-get" . }}
+  {{ partial "gpu-indexing/how-it-works" . }}
+
+  {{ with (.Site.GetPage "/gpu-indexing/migration-banner") }}
+    {{ partial "pricing-banner" . }}
+  {{ end }}
+
+  {{ partial "gpu-indexing/whats-included" . }}
+  {{ partial "gpu-indexing/resources" . }}
+  {{ partial "gpu-indexing/faq" . }}
+
+  {{ with (.Site.GetPage "/gpu-indexing/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

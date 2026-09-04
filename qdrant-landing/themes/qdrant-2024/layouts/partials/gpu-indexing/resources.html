@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/gpu-indexing/resources") }}
+  <section class="gpu-indexing-resources">
+    <div class="container">
+      <div class="gpu-indexing-resources__header">
+        <p class="gpu-indexing-resources__label">{{ .Params.label }}</p>
+        <h2 class="gpu-indexing-resources__title">{{ .Params.title }}</h2>
+        <p class="gpu-indexing-resources__description">{{ .Params.description }}</p>
+      </div>
+      <div class="row g-2">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4">
+            <a class="card gpu-indexing-resources__card" href="{{ .link.url }}">
+              <img
+                class="gpu-indexing-resources__card-icon"
+                src="{{ .icon.src }}"
+                alt="{{ .icon.alt }}"
+                loading="lazy"
+              />
+              <h3 class="gpu-indexing-resources__card-title">{{ .title }}</h3>
+              <p class="gpu-indexing-resources__card-description">{{ .description }}</p>
+              <span class="link link_dark link_md gpu-indexing-resources__card-link">{{ .link.text }}</span>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
