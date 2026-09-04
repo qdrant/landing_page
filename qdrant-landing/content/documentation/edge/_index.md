@@ -36,3 +36,50 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 ### More Examples
 
 The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/dev/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/dev/lib/edge/publish/examples).
+
+## Comparison Tables
+
+Qdrant Edge and a Qdrant cluster share the same core search engine, but they're built for different environments.
+Use the following tables to review where they align and diverge.
+
+### Architecture & Deployment
+
+How each option runs, connects, and scales.
+
+| | Qdrant Edge | Qdrant Cluster |
+| --- | --- | --- |
+| **Architecture** | Embedded, in-process library | Client-server, accessed over the network |
+| **Connectivity** | Works fully offline | Requires network access to the server |
+| **Scaling** | Single shard, single device | Horizontal scaling across multiple nodes |
+| **Collections** | No collection concept; use one Edge Shard per dataset | Named collections with aliases, managed through the collection API |
+| **Multitenancy** | Payload-based partitioning within one shard, or one Edge Shard per tenant/device | Payload partitioning, user-defined sharding, or tiered — refer to [Multitenancy](/documentation/manage-data/multitenancy/) |
+
+### Operations
+
+How data gets indexed, optimized, and kept available.
+
+| | Qdrant Edge | Qdrant Cluster |
+| --- | --- | --- |
+| **Optimization** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
+| **High availability** | None; a single local shard | Replication and failover across nodes |
+| **Data sync** | Server-Edge via (partial) snapshots; Edge-server via application-level dual-write | Acts as the snapshot source and write target |
+| **Snapshots** | Consume only: unpack, read manifests, and apply full or partial snapshots | Full lifecycle: create, list, download, and restore |
+
+### API & Features
+
+How you talk to each option, and what you can do once connected.
+
+| | Qdrant Edge | Qdrant Cluster |
+| --- | --- | --- |
+| **API** | In-process library API ([Python](https://pypi.org/project/qdrant-edge-py/) and [Rust](https://crates.io/crates/qdrant-edge) bindings) | REST and gRPC, plus all Qdrant client libraries |
+| **HNSW indexing** | Supported | Supported |
+| **Quantization** | Supported | Supported |
+| **On-disk storage** | Supported | Supported |
+| **Sparse vectors** | Supported | Supported |
+| **Hybrid search** | Supported, through prefetches and fusion (RRF, DBSF) | Supported |
+| **Distance metrics** | Cosine, Dot, Euclid, and Manhattan | Cosine, Dot, Euclid, and Manhattan |
+| **Multivectors** | Supported, for late-interaction models | Supported |
+| **Payload indexes** | All field types | All field types |
+| **Query scoring** | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample |
+| **Grouping (`query_groups`)** | Rust only | Available |
+| **Search matrix (`search_matrix`)** | Rust only | Available |
