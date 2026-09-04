@@ -22,6 +22,9 @@
 
   &__about {
     display: flex;
+    // Case studies add tags to this row, which overflows a phone otherwise.
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
     gap: pxToRem(6);
     font-size: pxToRem(14);

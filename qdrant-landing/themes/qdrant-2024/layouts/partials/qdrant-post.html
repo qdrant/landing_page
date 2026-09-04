@@ -8,6 +8,7 @@
   <article id="article" class="container">
     <div class="qdrant-post__header">
       <h1 class="qdrant-post__title">{{ .context.Params.title }}</h1>
+      {{ partial "case-study-tags" .context }}
       <div class="qdrant-post__about">
         <p>{{ .context.Params.author }}</p>
         <span>&middot;</span>

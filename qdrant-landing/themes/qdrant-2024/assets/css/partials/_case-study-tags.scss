@@ -1,0 +1,26 @@
+@use '../helpers/functions' as *;
+
+// Industry, deployment and region for a case study, on their own row between
+// the title and the byline. Sized and coloured to sit with the byline rather
+// than compete with the title.
+.case-study-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacer * 0.5;
+  margin: 0 0 pxToRem(10);
+  padding: 0;
+  list-style: none;
+
+  .case-study-tags__tag {
+    margin: 0;
+    padding: 0 pxToRem(10);
+    list-style: none;
+    border: pxToRem(1) solid $neutral-90;
+    border-radius: pxToRem(100);
+    background-color: $neutral-98;
+    font-size: pxToRem(13);
+    line-height: pxToRem(21);
+    color: $neutral-50;
+  }
+}
