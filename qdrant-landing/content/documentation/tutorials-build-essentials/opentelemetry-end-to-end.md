@@ -470,13 +470,154 @@ Change the `exporters` block. Endpoint and an auth header are all that differ.
 
 Confirm the endpoint and header against your vendor's own OTLP documentation before you rely on a row. This tutorial was verified end to end against `grafana/otel-lgtm` only.
 
+## Run the collector in Kubernetes
+
+Compose is the fastest way to see the bridge work, but production usually means running the collector inside your own cluster. Nothing about the scrape configuration changes. You reuse the same `otelcol-config.yaml` from Step 2 and wrap it in Kubernetes objects, with the API key coming from a secret instead of a `.env` file.
+
+### Plain manifests
+
+This path assumes no operators and no custom resources. Create the namespace, the secret, and the config map from the file you already have:
+
+```bash
+kubectl create namespace observability
+
+kubectl -n observability create secret generic qdrant-cluster-api-key \
+  --from-literal=apiKey="$QDRANT_API_KEY"
+
+kubectl -n observability create configmap otelcol-config \
+  --from-file=config.yaml=otelcol-config.yaml
+```
+
+In your copy of `otelcol-config.yaml`, point the exporter at an endpoint the cluster can reach, then apply the deployment:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - name: otelcol
+          image: otel/opentelemetry-collector-contrib:0.158.0
+          args: ["--config=/etc/otelcol/config.yaml"]
+          env:
+            # Hostname only. No scheme, no port, no trailing slash.
+            - name: QDRANT_HOST
+              value: "<cluster-id>.<region>.<provider>.cloud.qdrant.io"
+            - name: QDRANT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: qdrant-cluster-api-key
+                  key: apiKey
+          ports:
+            - containerPort: 4317
+            - containerPort: 4318
+          volumeMounts:
+            - name: config
+              mountPath: /etc/otelcol
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+      volumes:
+        - name: config
+          configMap:
+            name: otelcol-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  namespace: observability
+spec:
+  selector:
+    app: otel-collector
+  ports:
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+```
+
+Point your application's `OTEL_EXPORTER_OTLP_ENDPOINT` at `http://otel-collector.observability:4318`, then confirm both jobs are scraping:
+
+```bash
+kubectl -n observability logs -f deploy/otel-collector
+```
+
+Two alternating scrapes means both jobs work, one per endpoint:
+
+```text
+Metrics ... "metrics": 109, "data points": 1809    <- /sys_metrics
+Metrics ... "metrics": 60,  "data points": 866     <- /metrics
+```
+
+Add the `debug` exporter with `verbosity: basic` to your metrics pipeline while you wire this up, and remove it once the counts look right.
+
+### OpenTelemetry Operator
+
+If you already run the operator, skip the deployment and the config map. Put the Step 2 configuration inside an `OpenTelemetryCollector` resource and let the operator own the rest:
+
+```yaml
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: qdrant
+  namespace: observability
+spec:
+  image: otel/opentelemetry-collector-contrib:0.158.0
+  env:
+    - name: QDRANT_HOST
+      value: "<cluster-id>.<region>.<provider>.cloud.qdrant.io"
+    - name: QDRANT_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: qdrant-cluster-api-key
+          key: apiKey
+  config:
+    # The receivers, processors, exporters and service blocks from Step 2,
+    # unchanged. Point the exporter at an endpoint the cluster can reach.
+```
+
+<aside role="status">
+Check the <code>apiVersion</code> against the operator version you run. <code>v1beta1</code> takes <code>config</code> as a structured field, and the older <code>v1alpha1</code> takes it as a YAML string.
+</aside>
+
+Multi-node clusters need one `qdrant-node` target per node, exactly as in Step 2. The `qdrant-cloud-sys` job still needs only the one cluster endpoint.
+
+### When your backend is already Prometheus
+
+If you run kube-prometheus-stack and Prometheus is where the metrics end up, you do not need a collector at all. Give Prometheus a `ScrapeConfig` instead, which is the path described in [Managed Cloud Prometheus monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/).
+
+<aside role="alert">
+A single <code>ScrapeConfig</code> against <code>/sys_metrics</code> gives you node and edge metrics but not <code>collection_running_optimizations</code>. Add a second <code>ScrapeConfig</code> for <code>/metrics</code> to get the optimizer signal, which is the first thing to check when queries slow down.
+</aside>
+
 ## Scrape targets and alerting are separate
 
 This page sets up scrape targets. It does not configure alerts. Once the signals land in your backend, write alerting rules there against `collection_running_optimizations`, `qdrant_node_rssanon_bytes`, and the request histograms. On Kubernetes, the Qdrant operator can install its own Prometheus rules, which are configured separately from anything on this page.
 
 ## Verified against
 
-Qdrant Cloud 1.17.1, single node, `us-west-1`, the `qdrant-docs` snapshot at 18,828 points and 384 dimensions. Collector image `otel/opentelemetry-collector-contrib`, backend `grafana/otel-lgtm`. The self-hosted scrape path above is described but not verified in this configuration.
+Qdrant Cloud 1.17.1, single node, `us-west-1`, the `qdrant-docs` snapshot at 18,828 points and 384 dimensions. Collector image `otel/opentelemetry-collector-contrib`, backend `grafana/otel-lgtm`.
+
+The plain Kubernetes manifests were applied to a `kind` v1.35.0 cluster and scraped the same live Qdrant Cloud cluster from inside a pod, with bearer auth read from the mounted secret and no scrape errors. The counts above are that run.
+
+Three paths on this page are described but not verified in this configuration: the self-hosted scrape, the `OpenTelemetryCollector` resource, and the vendor endpoints in the backend table.
 
 ## Next
 
