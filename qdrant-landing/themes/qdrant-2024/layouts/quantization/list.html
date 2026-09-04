@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ partial "quantization/hero" . }}
+  {{ partial "quantization/why-it-matters" . }}
+  {{ partial "quantization/what-you-get" . }}
+  {{ partial "quantization/configuration" . }}
+  {{ partial "quantization/features" . }}
+  {{ partial "quantization/faq" . }}
+
+  {{ with (.Site.GetPage "/quantization/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/quantization/why-it-matters") }}
+  <section class="quantization-why-it-matters">
+    <div class="container">
+      <div class="quantization-why-it-matters__container">
+        <div class="row gx-4 justify-content-lg-between align-items-lg-center">
+          <div class="col-12 col-lg-6 quantization-why-it-matters__content">
+            <p class="quantization-why-it-matters__label">{{ .Params.label }}</p>
+            <h1 class="quantization-why-it-matters__title">{{ .Params.title }}</h1>
+            <p class="quantization-why-it-matters__description">{{ .Params.description }}</p>
+            <a class="link link_dark link_md quantization-why-it-matters__link" href="{{ .Params.link.url }}">
+              {{ .Params.link.text }}
+            </a>
+          </div>
+          <div class="col-12 col-lg-6">
+            <img
+              src="{{ .Params.image.src }}"
+              alt="{{ .Params.image.alt }}"
+              class="quantization-why-it-matters__image"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/quantization/faq") }}
+  <section class="quantization-faq" id="faqs">
+    <div class="container">
+      <h2 class="quantization-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

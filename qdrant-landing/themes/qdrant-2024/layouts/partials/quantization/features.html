@@ -1,0 +1,30 @@
+{{ with (.Site.GetPage "/quantization/features") }}
+  <section class="quantization-features">
+    <div class="container">
+      <div class="quantization-features__cards">
+        {{ range .Params.features }}
+          <div class="quantization-features__card">
+            <img class="quantization-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <h5 class="quantization-features__card-title">{{ .title }}</h5>
+            <p class="quantization-features__card-description">{{ .description | safeHTML }}</p>
+            {{ if .image }}
+              <div class="quantization-features__card-image-container">
+                <img class="quantization-features__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+                <img
+                  class="quantization-features__card-image-mobile"
+                  src="{{ .image.mobileSrc }}"
+                  alt="{{ .image.alt }}"
+                />
+              </div>
+            {{ end }}
+            <div class="quantization-features__card-link">
+              <a class="link link_white link_md" href="{{ .link.url }}">
+                {{ .link.text }}
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

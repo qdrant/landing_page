@@ -1,0 +1,39 @@
+{{ with (.Site.GetPage "/quantization/what-you-get") }}
+  <section class="quantization-what-you-get">
+    <div class="container">
+      <div class="row quantization-what-you-get__header">
+        <div class="col-12 col-lg-6">
+          <p class="quantization-what-you-get__label">{{ .Params.label }}</p>
+          <h1 class="quantization-what-you-get__title">{{ .Params.title | safeHTML }}</h1>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="quantization-what-you-get__description">{{ .Params.description }}</p>
+        </div>
+      </div>
+      
+      <div class="quantization-what-you-get__chart">
+        <div class="quantization-what-you-get__chart-header">
+          <div>
+            <p class="quantization-what-you-get__chart-title">{{ .Params.chart.title }}</p>
+            <p class="quantization-what-you-get__chart-description">{{ .Params.chart.description }}</p>
+          </div>
+          <div class="quantization-what-you-get__chart-legend">
+            {{ range $index, $element := .Params.chart.legend }}
+              <p class="quantization-what-you-get__chart-legend-item">{{ .text }}</p>
+            {{ end }}
+          </div>
+        </div>
+        <img
+          class="quantization-what-you-get__chart-image"
+          src="{{ .Params.chart.image.src }}"
+          alt="{{ .Params.chart.image.alt }}"
+        />
+      </div>
+
+      <p class="quantization-what-you-get__explanation">{{ .Params.explanation }}</p>
+      <a class="link link_dark link_md quantization-what-you-get__link" href="{{ .Params.link.url }}">
+        {{ .Params.link.text }}
+      </a>
+    </div>
+  </section>
+{{ end }}
