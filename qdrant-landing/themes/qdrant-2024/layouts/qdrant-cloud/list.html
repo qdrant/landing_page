@@ -11,7 +11,10 @@
   {{ end }}
 
   {{ partial "qdrant-cloud/qdrant-cloud-resources" . }}
-  {{ partial "qdrant-cloud/qdrant-cloud-faq" . }}
+
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-faq") }}
+    {{ partial "nested-accordion" (dict "context" . "class" "pt-5 pb-5 pb-lg-7") }}
+  {{ end }}
 
   {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-cta") }}
     {{ partial "cta-banner" . }}

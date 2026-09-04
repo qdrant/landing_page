@@ -1,0 +1,38 @@
+{{ with (.Site.GetPage "/resilience/deployment-models") }}
+  {{ $tables := .Params.tables | default slice }}
+  {{ $showTabs := gt (len $tables) 1 }}
+
+  <section class="resilience-deployment-models">
+    <div class="container">
+      <p class="resilience-deployment-models__label">{{ .Params.label }}</p>
+      <h2 class="resilience-deployment-models__title">{{ .Params.title }}</h2>
+  
+      {{ range $index, $table := $tables }}
+        {{ if and $table.cols (or $table.features $table.sections) }}
+          <div
+            class="resilience-deployment-models__table-wrapper{{ if and $showTabs (gt $index 0) }} resilience-deployment-models__table-wrapper--hidden{{ end }}"
+            data-features-tab="{{ $table.id }}"
+          >
+            {{ partial "features-table" (dict
+              "cols" $table.cols
+              "features" $table.features
+              "featureCellWidth" $table.featureCellWidth
+              "modifier" (slice "dark" "mobile-arrows" "mobile-align-left")
+              )
+            }}
+          </div>
+        {{ end }}
+      {{ end }}
+      
+      <div class="resilience-deployment-models__banner">
+        <p class="resilience-deployment-models__banner-content">{{ .Params.banner.content | safeHTML }}</p>
+        <a 
+          class="link link_white link_md resilience-deployment-models__banner-link" 
+          href="{{ .Params.banner.link.url }}"
+        >
+          {{ .Params.banner.link.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}
