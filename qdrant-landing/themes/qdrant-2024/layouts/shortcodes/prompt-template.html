@@ -1,0 +1,52 @@
+{{- /*
+  Renders a fillable prompt template. The prompt body is this shortcode's Inner
+  content; the variables come from the page's `variables` front matter.
+
+  The body is rendered server-side with its {{PLACEHOLDER}} tokens intact, so the
+  page is complete and copyable without JavaScript. prompt-template.js reads that
+  text as its source and substitutes values as you type.
+
+  `without-copy-code` keeps copy-code.js from injecting a second copy button.
+*/ -}}
+{{- $vars := .Page.Params.variables -}}
+<div class="prompt-template without-copy-code" data-prompt-template>
+  {{- with $vars }}
+    <div class="prompt-template__vars">
+      <p class="prompt-template__vars-title">Variables</p>
+      {{- range . }}
+        <div class="prompt-template__field" data-pt-field="{{ .name }}">
+          <label class="prompt-template__label" for="pt-{{ .name }}">
+            <code>{{ .name }}</code>
+            {{- if .required }}
+              <span class="prompt-template__flag prompt-template__flag--req">Required</span>
+            {{- else }}
+              <span class="prompt-template__flag">Optional</span>
+            {{- end }}
+          </label>
+          <p class="prompt-template__hint">
+            {{ .description }}
+            {{- with .source }}<br /><code>{{ . }}</code>{{ end }}
+          </p>
+          <textarea
+            class="prompt-template__input"
+            id="pt-{{ .name }}"
+            rows="2"
+            spellcheck="false"
+            data-pt-var="{{ .name }}"
+            data-pt-required="{{ if .required }}true{{ else }}false{{ end }}"
+            {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
+          ></textarea>
+        </div>
+      {{- end }}
+      <p class="prompt-template__status" data-pt-status aria-live="polite"></p>
+    </div>
+  {{- end }}
+
+  <div class="prompt-template__output">
+    <div class="prompt-template__bar">
+      <span class="prompt-template__bar-title">Prompt</span>
+      <button type="button" class="prompt-template__copy" data-pt-copy>Copy</button>
+    </div>
+    <pre class="prompt-template__body" data-pt-output>{{ .Inner | htmlEscape | safeHTML }}</pre>
+  </div>
+</div>
