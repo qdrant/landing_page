@@ -1,204 +1,129 @@
 ---
-title: In-Place Pod Resizing on Kubernetes
-short_description: "Resize a running Qdrant pod's CPU and memory on Kubernetes without a restart, using the 1.33+ in-place resize feature."
-description: "Use Kubernetes in-place pod resize to raise a running Qdrant pod's CPU and memory limits without a restart, and track the resize through the Pod's conditions."
+title: In-Place Pod Resizing on Qdrant Hybrid Cloud
+short_description: "Resize a running Qdrant pod's CPU and memory on Hybrid Cloud without a restart, and see why the resize stays capped at the cluster's configured limits."
+description: "Use Kubernetes in-place pod resize to raise a running Qdrant pod's CPU and memory on Hybrid Cloud without a restart, and learn why the ceiling comes from the cluster configuration, not from kubectl."
 weight: 43
 ---
 
-# In-Place Pod Resizing for Qdrant on Kubernetes
+# In-Place Pod Resizing for Qdrant on Hybrid Cloud
 
-| Time: 20 min | Level: Intermediate | Stack: Kubernetes |
+| Time: 20 min | Level: Intermediate | Stack: Kubernetes, Qdrant Hybrid Cloud |
 | --- | --- | --- |
 
-Vertically scaling a stateful workload on Kubernetes has traditionally meant editing the pod spec and accepting a restart. For Qdrant, that means the pod leaves the cluster, reloads its segments from disk, and only rejoins once it is ready again. On a large collection, that can take a while.
+Vertically scaling a stateful workload on Kubernetes has traditionally meant editing the pod spec and accepting a restart. For Qdrant, that means the pod leaves the cluster, reloads its segments from disk, and only rejoins once it is ready again. On a large collection, that takes a while.
 
 Kubernetes 1.33 promoted **in-place pod resize** to beta ([KEP-1287](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources/README.md)), which adds a `/resize` subresource that lets you change a running container's CPU and memory without recreating the pod. The feature graduated to stable in [Kubernetes 1.35](https://kubernetes.io/blog/2025/12/19/kubernetes-v1-35-in-place-pod-resize-ga).
 
-This tutorial uses in-place resize to size a Qdrant pod down at first, then bump it up at runtime, with no restart.
+On Qdrant Hybrid Cloud, this subresource works the same way it does on any conformant cluster, with one difference that matters: the Qdrant Operator sets your pod's `requests` and `limits` from the `QdrantCluster` resource, and it keeps them there. A resize inside that ceiling applies and sticks, whereas a resize past it gets rejected by the Kubernetes API itself, and an attempt to raise the ceiling through `kubectl` gets reverted by the Hybrid Cloud agent. This tutorial walks through both outcomes and shows the supported path for raising the ceiling itself.
 
 You will:
 
-- Deploy Qdrant with the [Guaranteed Quality of Service (QoS) class](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/)
+- Confirm the QoS class the Operator already gives your pod
 - Check the node's allocatable resources before requesting a resize
-- Patch a running pod's `/resize` subresource to double its CPU and memory
+- Patch a running pod's `/resize` subresource within its existing limits
 - Watch the resize move through `PodResizePending` and `PodResizeInProgress`
+- See why a resize past the configured limit fails, and where to raise that limit instead
 
 ## Prerequisites
 
-- A Kubernetes cluster on v1.33 or later, for beta support, or v1.35 or later, where the feature is stable. This tutorial uses [`kind`](https://kind.sigs.k8s.io/) to create a local cluster, but any 1.33+ cluster works.
-- `kubectl` and `helm` installed.
-- `jq`, for reading pod status as JSON.
+- A Qdrant Hybrid Cloud Environment, onboarded and healthy, with a `QdrantCluster` already running. See the [Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/) if you have not created one yet.
+- A Kubernetes cluster on v1.33 or later, for beta support, or v1.35 or later, where the feature is stable. Most managed Kubernetes offerings default to a recent enough version; check yours with `kubectl version`.
+- `kubectl` configured against your Hybrid Cloud cluster, and `jq` for reading pod status as JSON.
 
-## Create a Cluster and Deploy Qdrant
+## Check the QoS Class the Operator Set
 
-Create a local cluster and confirm the server version is 1.33 or later, since in-place resize does not exist before that.
-
-```bash
-kind create cluster --name qdrant-resize-demo
-kubectl version
-```
-
-Add the Qdrant Helm chart and deploy it with defaults:
+Unlike a Qdrant pod deployed from the community Helm chart, which comes up as BestEffort until you set resources yourself, a Hybrid Cloud pod already has requests and limits from the `QdrantCluster` resource. Find your pod name and check its class:
 
 ```bash
-helm repo add qdrant https://qdrant.github.io/qdrant-helm
-helm repo update
-helm upgrade --install qdrant-resize qdrant/qdrant
+kubectl get pods -n <your-namespace>
+kubectl get pod <your-qdrant-pod> -n <your-namespace> -o jsonpath='{.status.qosClass}'
 ```
 
-Wait for the pod to become ready before continuing:
+On a Hybrid Cloud cluster, this comes back `Burstable`, not `Guaranteed`, even though the main `qdrant` container's requests equal its limits. QoS class is decided across every container in the pod, including init containers, and the Operator's init container carries no resource limits of its own:
 
 ```bash
-while true
-do
-    ready=$(kubectl get pod qdrant-resize-0 --output=json | jq -r '.status.containerStatuses[0].ready')
-    if [[ "$ready" == "true" ]]; then
-        echo "Pod is ready!"
-        break
-    fi
-done
+kubectl get pod <your-qdrant-pod> -n <your-namespace> -o jsonpath='{range .spec.initContainers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
 ```
 
-## Set the QoS Class to Guaranteed
-
-In-place resize works under any [QoS class](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/), but the guarantees differ: 
-
-- A **Guaranteed** pod, where requests equal limits for both CPU and memory, keeps that equality through a resize, which makes the resulting state the most predictable
-- A **Burstable** pod can resize more loosely, since requests and limits are allowed to differ
-- A **BestEffort** pod, with no requests or limits at all, cannot be resized because there is nothing to resize
-
-Check the class the default chart install produced:
+An init container with no limits set caps the whole pod at Burstable, regardless of what the main container looks like. Confirm the main container's actual numbers:
 
 ```bash
-qos_class=$(kubectl get pod qdrant-resize-0 -o jsonpath='{.status.qosClass}')
-echo "QoS Class: $qos_class"
+kubectl get pod <your-qdrant-pod> -n <your-namespace> -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
 ```
 
-The default Qdrant Helm chart sets no resource requests or limits, so the pod comes up as BestEffort. QoS class is fixed at pod creation, so getting to Guaranteed means upgrading the release with requests and limits set:
+You should see something close to:
 
-```yaml
-resources:
-  requests:
-    cpu: "500m"
-    memory: "1Gi"
-  limits:
-    cpu: "500m"
-    memory: "1Gi"
-updateVolumeFsOwnership: false
+```json
+{"limits":{"cpu":"460m","memory":"1717986919"},"requests":{"cpu":"460m","memory":"1717986919"}}
 ```
 
-<aside role="alert"><code>updateVolumeFsOwnership</code> is on by default in cloud environments. Turning it off here is <strong>safe only for this local demo</strong>: it disables the <code>ensure-dir-ownership</code> init container, whose resources can't be set upfront and would otherwise cap the pod at Burstable instead of Guaranteed. In the cloud, this tutorial works the same way, just at Burstable instead of Guaranteed.</aside>
-
-Save this as `base-values.yaml` and upgrade the release:
-
-```bash
-helm upgrade --install qdrant-resize qdrant/qdrant -f base-values.yaml
-```
-
-Kubernetes recreates the pod once, since the resource fields on a fresh pod spec are not covered by in-place resize. Check the class again, and confirm the running and init containers picked up the new resources:
-
-```bash
-new_qos_class=$(kubectl get pod qdrant-resize-0 -o jsonpath='{.status.qosClass}')
-echo "New QoS Class: $new_qos_class"
-
-echo "Resources for runtime containers:"
-kubectl get pod qdrant-resize-0 -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
-
-echo "Resources for init containers (should be empty if local):"
-kubectl get pod qdrant-resize-0 -o jsonpath='{range .spec.initContainers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
-```
-
-The pod now reports `Guaranteed`, with 0.5 CPU and 1 GiB of memory reserved for the `qdrant` container.
-
-Kubernetes also exposes a `resizePolicy` field per container, which controls whether a resize needs a restart. It has two values: 
-- `NotRequired`, which applies the change to the running container and is the default when no policy is set
-- `RestartContainer`, needed by workloads such as JVM-based containers that read memory limits only at startup, for example to set `-Xmx`. 
-
-The Qdrant Helm chart sets no `resizePolicy`, so it defaults to `NotRequired`. If you have applied a custom policy elsewhere, check it before relying on a resize applying without a restart.
+Because the pod is Burstable, not Guaranteed, a resize does not have to keep requests equal to limits. You can raise one without the other, which gives you more flexibility than a Guaranteed pod allows.
 
 ## Check What the Node Can Give You
 
 Before requesting more resources, check what the node actually has available. A resize request the node cannot satisfy stays pending instead of applying:
 
 ```bash
-kubectl describe node qdrant-resize-demo-control-plane | grep -A 6 Allocatable
+kubectl describe node <your-node-name> | grep -A 6 Allocatable
 ```
 
-You will see an output similar to the following:
+Compare that against your pod's current usage and the ceiling set by the `QdrantCluster` resource. The node's free capacity and the cluster's configured limit are two separate constraints, and you need headroom on both.
+
+## Resize Within the Existing Limit
+
+Try a small increase that stays under the current `limits`, moving `requests` closer to it:
+
+```bash
+kubectl patch pod <your-qdrant-pod> -n <your-namespace> --subresource resize --patch \
+  '{"spec":{"containers":[{"name":"qdrant","resources":{"requests":{"memory":"1717986918","cpu":"450m"},"limits":{"memory":"1717986919","cpu":"460m"}}}]}}'
+```
+
+This applies immediately and does not restart the pod. You can confirm the change was applied by running:
+
+```bash
+kubectl get pod <your-qdrant-pod> -n <your-namespace> -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
+```
+
+`--subresource resize` is why this works on a running pod at all. A `kubectl patch pod` against the main spec would normally be rejected, since most of a pod's spec is immutable once it is running. The resize subresource is a separate API endpoint carved out specifically for in-place resize, and it accepts a resource change on a live pod without treating it as an illegal spec mutation.
+
+## What Happens Past the Configured Limit
+
+Try to request more than the `QdrantCluster` resource currently allows:
+
+```bash
+kubectl patch pod <your-qdrant-pod> -n <your-namespace> --subresource resize --patch \
+  '{"spec":{"containers":[{"name":"qdrant","resources":{"requests":{"memory":"1717986920","cpu":"470m"},"limits":{"memory":"1717986919","cpu":"460m"}}}]}}'
+```
+
+The Kubernetes API rejects this outright:
 
 ```text
-Allocatable:
-  cpu:                14
-  ephemeral-storage:  1003736440832
-  hugepages-1Gi:      0
-  hugepages-2Mi:      0
-  memory:             31510312Ki
-  pods:               110
+The Pod "<your-qdrant-pod>" is invalid:
+* spec.containers[0].resources.requests: Invalid value: "470m": must be less than or equal to cpu limit of 460m
+* spec.containers[0].resources.requests: Invalid value: "1717986920": must be less than or equal to memory limit of 1717986919
 ```
 
-In this example, the Qdrant pod is currently using 0.5 of 14 CPUs and 1 GiB of roughly 30 GiB of memory, so there's plenty of headroom to grow into.
+This is standard Kubernetes validation, not a Hybrid Cloud restriction: a request can never exceed its own limit, resize or not. To get real headroom, the limit itself has to move, and that is where Hybrid Cloud diverges from a self-managed cluster.
 
-![Headroom for resizing, detailing allocatable resources, current limits and target limits for resizing](/documentation/tutorials/pod-resizing/resizing-headroom.png)
-
-## Resize the Running Pod
-
-Qdrant generally makes use of more CPU and memory as its budget grows, unless you constrain it otherwise through [configuration](/documentation/ops-configuration/configuration/) or [quotas](/documentation/ops-configuration/quotas/), so a larger pod translates into more usable capacity, not just headroom.
-
-Patch the pod through the `/resize` subresource to double both CPU and memory:
-
+## Raising the Ceiling
+ 
+To raise the ceiling itself, use the Qdrant Cloud console's scale option for your cluster, or hit its API directly. The `QdrantCluster` resource carries a `cloud.qdrant.io/scale-url` annotation pointing at that endpoint:
+ 
 ```bash
-kubectl patch pod qdrant-resize-0 --subresource resize --patch \
-  '{"spec":{"containers":[{"name":"qdrant","resources":{"requests":{"memory":"2Gi","cpu":"1000m"},"limits":{"memory":"2Gi","cpu":"1000m"}}}]}}'
+kubectl get qdrantcluster <your-cluster-name> -n <your-namespace> -o jsonpath='{.metadata.annotations.cloud\.qdrant\.io/scale-url}'
 ```
-
-`--subresource resize` is why this works on a running pod at all: `kubectl patch pod` against the main spec would normally be rejected, because most of a pod's spec is immutable once it is running, which is why the earlier QoS change forced a pod recreation. 
-
-The resize subresource is a separate API endpoint carved out specifically for in-place resize: it accepts a resource change on a live pod without treating it as an illegal spec mutation.
-
-Since this pod is Guaranteed, requests must keep equaling limits for both CPU and memory after the resize, which is why the patch raises both together. Resizing only one of them, or setting a request that doesn't match its limit, would change the pod's QoS class, which Kubernetes does not allow through a resize.
-
-<aside role="alert">In cloud environments, where the pod stays Burstable rather than Guaranteed, the same patch has to set requests and limits to <strong>different</strong> quantities. A Burstable pod cannot have requests equal limits for both CPU and memory at once, since that combination is what defines Guaranteed, so a patch that raises both to the same value gets rejected instead of applied.</aside>
-
-## Watch the Resize Happen
-
-While the resize is in progress, poll the pod's conditions to see it move through its states. You should see `PodResizePending` while the node checks feasibility, then `PodResizeInProgress` while the kubelet applies the change to the running container, before the pod settles back to a steady state:
-
-```bash
-while true
-do
-    echo "================== POD STATUS =================="
-    kubectl get pod qdrant-resize-0 -o jsonpath='{range .status.conditions[*]}{.type}{"="}{.status}{"\t"}{.message}{"\n"}{end}'
-    echo ""
-    echo "============== DESIRED RESOURCES ==============="
-    desired=$(kubectl get pod qdrant-resize-0 -o jsonpath='{.spec.containers[*].resources}')
-    echo "$desired" | jq
-    echo "=============== ACTUAL RESOURCES ==============="
-    actual=$(kubectl get pod qdrant-resize-0 -o jsonpath='{.status.containerStatuses[*].resources}')
-    echo "$actual" | jq
-    echo "=========== DIFF (DESIRED VS ACTUAL) ==========="
-    diff <(echo "$desired") <(echo "$actual")
-    sleep 1
-done
-```
-
-Press `Ctrl+C` to stop the loop once the diff comes back empty.
-
-During the resize, `.spec.containers[*].resources` (desired) and `.status.containerStatuses[*].resources` (actual) can briefly disagree. 
-
-The container status also carries `.status.containerStatuses[*].allocatedResources`, which tracks what the kubelet has confirmed and is mostly relevant for scheduling. For monitoring a resize as it happens, comparing desired against actual is enough.
-
-![Resizing timeline, showing the divide between desired and actual resources, as well as the status progression for the resizing operation](/documentation/tutorials/pod-resizing/resizing-timeline.png)
+ 
+Once you raise the limit there, your pod's `limits` grow to match, and you have a new ceiling to resize within using the steps above.
 
 ## Limitations to Keep in Mind
 
 In-place resize has a defined scope, listed in full in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/#limitations). The ones most relevant to a Qdrant deployment:
 
-* Only CPU and memory are resizable. You cannot resize storage, GPUs, or other extended resources this way.
-* Downsizing memory is best-effort: if the container is already using more than the new limit, the kubelet cannot reclaim it in place and the container gets OOM-killed and restarted instead.
+* Only CPU and memory are resizable this way. Storage resizes on Hybrid Cloud through a separate path, and it does not require a restart either.
+* Downsizing memory is best-effort. If the container is already using more than the new limit, the kubelet cannot reclaim it in place, and the container gets OOM-killed and restarted instead.
 * Init containers and ephemeral containers cannot be resized.
+* Qdrant checks the number of available CPUs once, at startup, and sizes its thread pools accordingly. A live CPU resize changes what Kubernetes reports as available to the container, but it does not prompt Qdrant to re-check and resize its own thread pools. Treat a CPU resize as raising the ceiling Kubernetes enforces, not as something Qdrant immediately puts to use. A memory resize does not carry this caveat, since Qdrant reads memory pressure continuously rather than once at startup.
 
 ## Next Steps
 
-You resized a live Qdrant pod's CPU and memory without a restart, which turns capacity planning from a maintenance-window operation into something you can adjust while the cluster keeps serving traffic. 
-
-From here, the same `/resize` subresource is what a Vertical Pod Autoscaler or a custom controller would call to automate this based on observed load. See the [configuration reference](/documentation/ops-configuration/configuration/) and [quotas](/documentation/ops-configuration/quotas/) docs for how Qdrant reacts to the extra headroom once it's there.
+You resized a live Qdrant pod's CPU and memory within its configured limit, without a restart, and saw why raising that limit itself goes through the Qdrant Cloud console rather than through `kubectl`. See the [Hybrid Cloud cluster creation guide](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/) for the full set of settings the console controls, and the [configuration reference](/documentation/ops-configuration/configuration/) for how Qdrant reacts to added memory once it is there.
