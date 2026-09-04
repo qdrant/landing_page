@@ -1,7 +1,7 @@
 ---
 title: "Large-Scale Data Ingestion"
 short_description: "Choose the right ingestion strategy for Qdrant: batched upserts, upload_points, and streaming uploads for million- and billion-scale workloads."
-description: Master large-scale vector ingestion in Qdrant. Explore batching, upload_points, and upload_collection methods, on-disk storage, and parallel streaming for billion-scale AI data pipelines.
+description: Master large-scale vector ingestion in Qdrant. Compare upsert, upload_points, and upload_collection, and learn how to stream a large dataset into a collection without loading it into memory.
 weight: 4
 isLesson: true
 ---
@@ -12,7 +12,7 @@ isLesson: true
 
 <div class="video">
 <iframe 
-  src="https://www.youtube.com/embed/Rawvm7TP1XI"
+  src="https://www.youtube.com/embed/EhSZkGwTWsA"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
@@ -24,37 +24,37 @@ isLesson: true
 
 In vector search applications inserting a few thousand data points is straightforward but the dynamics change completely when dealing with millions or billions of records. Tiny inefficiencies in the ingestion process compound into significant time losses, increased memory pressure, and degraded search performance.
 
-Every individual upsert call initiates a transaction that consumes memory and disk I/O to build parts of the index. At scale, this naive approach can overwhelm your system, causing upload times to spike and search quality to decrease. Efficiently preparing and loading your data into Qdrant is paramount for building a robust and scalable AI application.
+Every individual upsert call initiates a transaction that consumes memory and disk I/O to build parts of the index. At scale, this naive approach can overwhelm your system, causing upload times to spike and search quality to decrease. Efficiently preparing and loading your data into Qdrant is paramount for building a reliable and scalable AI application.
 
 ## Choosing Your Ingestion Strategy
 
-Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we recommend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/manage-data/points/#batch-update).
+The Qdrant client gives you three ways to get points in. The first has you managing the batching; the other two hand that to the client.
 
-- **upsert (Individual or Batched)**: This is the fundamental operation for adding or updating points. Individual upserts are best suited for real-time updates while batching works best for larger workloads. 
+- **upsert** is the basic write operation, and the one every client library has. Send points one at a time for real-time updates, or [in batches](/documentation/manage-data/points/#upload-points) for a bulk load, which minimizes the overhead of opening a connection per point. You decide the batch size and you send the requests.
 
-- **upload_points**: This method is optimized for uploading an entire batch of points that can comfortably fit into your client's memory. It leverages features like lazy batching, retries, and parallelism, making it a strong choice for medium-sized datasets.
+- **upload_points** takes an iterable of `models.PointStruct`, the record-oriented shape: one object per point, carrying its own id, vector, and payload.
 
-- **upload_collection**: For truly large-scale datasets, upload_collection is the most powerful tool. It streams data directly from an iterator, meaning the entire dataset doesn't need to be loaded into memory at once. This memory-efficient approach is ideal for ingesting millions or billions of points.
+- **upload_collection** takes `vectors`, `payload`, and `ids` as separate arguments, the column-oriented shape.
 
-> **<font color='red'>Note:</font>** For clients in other languages like **TypeScript**, **Rust**, and **Go**, batched upsert calls are the recommended method for efficient data loading.
+![upsert takes models.Batch or a list and you batch it yourself. upload_points is record-oriented, an iterable of PointStruct. upload_collection is column-oriented, taking vectors, payload and ids as parallel columns. All three write into the collection.](/courses/day4/choosing-an-upload-method.svg)
 
-## Heuristics for Scale
+Those last two are the same tool in two shapes. Both add [parallelization, retries, and lazy batching](/documentation/manage-data/points/#python-client-optimizations) on top of upsert, and because both accept iterators, neither needs the whole dataset in memory. Pick whichever matches how your data already sits: the docs note the two formats are equivalent internally and offered for convenience.
 
-Deciding which method to use can be guided by a few simple rules of thumb. While every use case is different, these heuristics provide a solid starting point:
+You can also skip generating embeddings yourself. With [inference](/documentation/inference/), you send the text or image and the model name, and Qdrant produces the vector on upsert.
 
-- **Less than 100,000 points**: A single-threaded, batched upsert operation will generally perform well.
-- **100,000 to 1 million points**: `upload_points` is recommended, using batch sizes between 1,000 and 10,000 to balance network overhead and memory usage.
-- **More than 1 million points**: `upload_collection` is the ideal choice for streaming data from disk. To maximize throughput, you should enable parallelism by setting the `parallel` parameter to the number of available CPU cores (e.g., 4 or 8).
+`upload_points` and `upload_collection` are helpers in the client library rather than server endpoints, so what's available depends on your language:
 
-> **<font color='red'>Best Practice:</font>** Start small and test. Before attempting to upload your entire dataset, ingest a smaller chunk to validate your configuration and process.
+| Client | Bulk helper |
+|---|---|
+| Python | `upload_points`, `upload_collection` |
+| Rust | `upsert_points_chunked(request, chunk_size)` |
+| TypeScript, Go, Java, C# | Batched `upsert` calls |
 
-## A Real-World Example: Ingesting LAION-400M
+The bottleneck during upload is usually the client library, not the Qdrant server. If ingestion speed is your priority, the [Rust client](https://github.com/qdrant/rust-client) is the fastest option.
 
-To illustrate these principles, let's examine the process of ingesting the LAION-400M dataset, which contains approximately 400 million image-text pairs with 512-dimensional CLIP embeddings. This massive dataset, with 400 GB of vectors and 200 GB of payload, requires a carefully optimized strategy.
+## The Collection Configuration
 
-### The Optimal Collection Configuration
-
-The foundation of scalable ingestion is a well-designed collection configuration. For a dataset of this magnitude, the goal is to intelligently balance memory usage, disk I/O, and search performance.
+When a collection is too large to hold in memory, each structure takes a `memory` parameter that says where it lives. `pinned` stays on the heap, `cached` is memory-mapped and pre-warmed, and `cold` is memory-mapped and read on demand.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -62,76 +62,55 @@ import os
 
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
-client.recreate_collection(
-    collection_name="laion400m_collection",
+client.create_collection(
+    collection_name="my_collection",
     vectors_config=models.VectorParams(
-        size=512,  # CLIP embedding dimensions
+        size=512,
         distance=models.Distance.COSINE,
-        on_disk=True,  # Store original vectors on disk
+        datatype=models.Datatype.FLOAT16,
+        memory=models.Memory.COLD,
     ),
+    payload=models.PayloadStorageParams(memory=models.Memory.COLD),
     quantization_config=models.BinaryQuantization(
-        binary=models.BinaryQuantizationConfig(
-            always_ram=True,  # Keep quantized vectors in RAM
-        )
+        binary=models.BinaryQuantizationConfig(memory=models.Memory.PINNED),
     ),
-    optimizers_config=models.OptimizersConfigDiff(
-        max_segment_size=5_000_000, # Create larger segments for faster search
-    ),
-    hnsw_config=models.HnswConfigDiff(
-        m=6,  # Lower m to reduce memory usage
-        on_disk=False  # Keep the HNSW index graph in RAM
-    ),
+    hnsw_config=models.HnswConfigDiff(memory=models.Memory.PINNED),
 )
 ```
 
-This configuration employs several key optimizations:
+Two things catch people out. `pinned` is rejected for dense vectors, which support only `cached` or `cold`. And `max_segment_size` and `indexing_threshold` are both measured in kilobytes rather than points. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for which tier suits which structure.
 
-- **`on_disk=True`**: This is the most critical setting for large datasets. It instructs Qdrant to store the full-precision original vectors on disk ([memmap storage](/documentation/manage-data/storage/#on-disk-storage)) instead of in RAM, dramatically reducing memory requirements.
+`memory` arrived in Qdrant v1.19. If you are following older material, it replaces `on_disk` on the vectors, `on_disk_payload` on the collection, `always_ram` in the quantization config, and `on_disk` in the HNSW config. Those still work but are deprecated, and `pinned` has no equivalent among them.
 
-- **Binary Quantization with `always_ram=True`**: While the original vectors are on disk, we enable [binary quantization](/documentation/manage-data/quantization/#binary-quantization) and force the compressed vectors to remain in RAM. This provides a lightweight in-memory representation for fast initial candidate searches.
+## The Upload Process
 
-- **Large Segment Size**: The `max_segment_size` is increased to create fewer, larger segments. This can improve search performance at the cost of slightly slower indexing.
-
-- **In-Memory HNSW Index**: By setting `on_disk=False` for the [HNSW config](/documentation/manage-data/quantization/#hnsw-config), we keep the graph index in RAM. This ensures that navigating vector relationships during a search is extremely fast, avoiding disk latency. The `m` value is lowered to 6 to further conserve memory.
-
-### The Upload Process
-
-With the collection configured, the upload can proceed using a memory-efficient streaming approach. The LAION dataset is split into 409 parts, each containing about 1 million records. The script processes one part at a time, downloading the data, preparing the points, and streaming them to Qdrant.
+Hand the method an iterable and it takes care of the requests. Because it accepts an iterator, you can feed it a generator that reads from disk as it goes, rather than materializing the whole set first.
 
 ```python
-def upload_data_to_qdrant(client, embeddings, metadata, parallel=4):
-    """
-    Uploads data to Qdrant using the upload_collection method.
-    """
-    client.upload_collection(
-        collection_name="laion400m_collection",
-        points=zip(range(len(metadata)), embeddings, metadata),
-        batch_size=256,
-        parallel=parallel,
-        show_progress=True,
-    )
+import tqdm
 
-# --- Simplified logic for processing chunks ---
-# for part in dataset_parts:
-#     embeddings, metadata = download_and_process_part(part)
-#     upload_data_to_qdrant(client, embeddings, metadata)
-#     cleanup_local_files(part)
+client.upload_collection(
+    collection_name="my_collection",
+    vectors=embeddings,
+    payload=payloads,
+    ids=tqdm.tqdm(ids),
+    batch_size=256,
+    parallel=4,
+)
 ```
 
-This method processes the dataset in manageable chunks without ever loading the entire 400 million points into memory. Using `parallel=4` allows the client to upload multiple batches concurrently, saturating the network connection and maximizing ingestion speed.
+A few things worth knowing about these parameters:
 
-## The Payoff: An Efficient Architecture at Scale
+- **`ids`** must be unique across the whole upload. Writes are [idempotent](/documentation/manage-data/points/#idempotence), so a point sent under an id that already exists overwrites it instead of erroring. That is what you want on a retry, and what bites you if two batches reuse the same numbers.
+- **`batch_size`** controls how many points go in each request. The [Bulk Upload guide](/documentation/manage-data/bulk-upload/) covers how to pick it, along with sharding and payload indexes.
+- **`parallel`** starts worker processes. Each one opens its own connection, so if batches begin failing after you raise it, drop back to `1`.
+- **`tqdm`** around any of the iterables gives you progress. There is no `show_progress` parameter.
+- **`prefer_grpc=True`** on the client skips JSON serialization on every batch.
+- **`update_mode=models.UpdateMode.INSERT_ONLY`** (v1.17) makes a resumed upload skip points already in the collection rather than rewriting them. See [Update Mode](/documentation/manage-data/points/#update-mode).
+- **On Windows and macOS**, `parallel` greater than 1 needs the upload call behind a `if __name__ == "__main__":` guard in a script, because Python starts workers by re-importing your module. Without it the upload hangs instead of failing. Notebooks are unaffected.
 
-This combined strategy of a hybrid storage configuration and streaming ingestion creates a highly efficient system. By keeping only the most essential components in RAM: the quantized vectors and the HNSW index, Qdrant can index and serve a 400 million vector dataset on a machine with just 64GB of RAM. The original vectors, which would consume hundreds of gigabytes, are efficiently accessed from disk only when needed for rescoring top candidates.
+Start small and test. Before attempting to upload your entire dataset, ingest a smaller chunk to validate your configuration and process.
 
-This architecture strikes a balance by keeping infrastructure costs low by minimizing RAM usage while maintaining fast and accurate search performance. By understanding and applying these ingestion strategies, you can confidently scale your Qdrant-powered applications to handle real-world data volumes.
+Try it hands-on in the [Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb).
 
-> Learn more in a complete hands-on guide in our **[Large-Scale Search tutorial](/documentation/tutorials-operations/large-scale-search/)**.
-
-> **Check out the reference implementation:**  
-> [qdrant/laion-400m-benchmark on GitHub](https://github.com/qdrant/laion-400m-benchmark)  
-> This open-source repository includes full scripts for downloading, processing, and uploading the LAION-400M dataset to Qdrant using efficient, production-ready patterns.
-
-> **Want to try this workflow hands-on?**  
-> Run the [Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb) to see large-scale vector ingestion, quantized search, and efficient RAM/disk optimization in action!
-
+See it at 400 million points in the [LAION-400M benchmark](https://github.com/qdrant/laion-400m-benchmark).
