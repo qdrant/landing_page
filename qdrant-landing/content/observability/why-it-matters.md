@@ -3,7 +3,7 @@ label: WHY IT MATTERS
 title: Ship Retrieval You Can Measure and Tune
 description: Tune cluster performance with real-time visibility into query latency and throughput.
 link: 
-  url: #
+  url: /documentation/ops-optimization/optimize/#balancing-latency-and-throughput
   text: Tune Latency and Throughput
 image:
   src: /img/observability-agentic.png

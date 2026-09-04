@@ -12,7 +12,7 @@ features:
       src: /img/observability-chart.png
       alt: Chart
     link:
-      url: /documentation/cloud/cluster-monitoring/#alertshttps://qdrant.tech/documentation/ops-monitoring/managed-cloud-prometheus/
+      url: /documentation/cloud/cluster-monitoring/#alerts
       text: Check out Alerting
   - id: 1
     icon:
