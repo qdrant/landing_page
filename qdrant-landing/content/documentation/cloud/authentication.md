@@ -32,6 +32,10 @@ Database API keys with granular access control are available for clusters using 
 
 We recommend configuring an expiration and rotating your API keys regularly as a security best practice.
 
+<aside role="alert">
+    A Database API key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted, so it can still be used to access the cluster after its creator no longer has access. Revoke any Database API Keys tied to a user before or when removing them from the account.
+</aside>
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=OoyobgPTU-DHIhee" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Admin Database API Keys
