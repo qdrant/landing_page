@@ -1,0 +1,29 @@
+@use '../../helpers/functions' as *;
+
+.common-hero--observability {
+  .common-hero__description {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    margin-bottom: $spacer * 2;
+  }
+  
+  .common-hero__buttons {
+    a {
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .common-hero__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      margin-bottom: $spacer * 2;
+    }
+
+    .common-hero__buttons {
+      a {
+        width: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/observability/faq") }}
+  <section class="observability-faq" id="faqs">
+    <div class="container">
+      <h2 class="observability-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,44 @@
+@use '../../helpers/functions' as *;
+
+.pricing-banner__observability {
+  padding-top: 0;
+  padding-bottom: $spacer * 2.5;
+  
+  .pricing-banner__description {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    margin-top: $spacer * 0.5;
+  }
+  .pricing-banner__content {
+    &-overlay-2 {
+      background-image: url("/img/blurred/stars2.svg");
+    }
+  }
+  
+  a {
+    padding: 0 $spacer;
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 5;
+    
+    .pricing-banner__content {
+      padding: $spacer * 2.5;
+
+      &-overlay-1 {
+        background-image: url("/img/blurred/blurred-light-33.svg");
+      }
+    }
+
+    .pricing-banner__title {
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+    }
+
+    .pricing-banner__description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-top: $spacer * 0.5;
+    }
+  }
+}

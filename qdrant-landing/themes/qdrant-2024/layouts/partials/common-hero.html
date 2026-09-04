@@ -1,4 +1,4 @@
-<section class="common-hero">
+<section class="common-hero{{ with .Params.page }} common-hero--{{ . }}{{ end }}">
   <div class="common-hero__overlay"></div>
   <div class="container">
     <div class="common-hero__container">

@@ -1,0 +1,148 @@
+@use '../../helpers/functions' as *;
+
+.observability-configuration {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    margin-bottom: $spacer * 2.5;
+    color: $neutral-98;
+    text-align: center;
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: pxToRem(1) solid $neutral-20;
+  }
+
+  &__card {
+    width: 100%;
+    padding: $spacer * 2 $spacer * 1.5;
+
+    &:not(:last-child) {
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+
+    &-icon {
+      height: $spacer * 2;
+      width: $spacer * 2;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &-title {
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+      margin-bottom: $spacer;
+      color: $neutral-98;
+    }
+
+    &-image-container {
+      width: 100%;
+      margin-bottom: $spacer * 1.5;
+      margin-top: $spacer * 1.5;
+      position: relative;
+      
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        max-width: pxToRem(450);
+        margin: 0 auto;
+        background-image: url('/img/observability-stars.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        mix-blend-mode: color-dodge;
+      }
+    }
+
+    &-image {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(450);
+      margin: 0 auto;
+    }
+
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: 0;
+      color: $neutral-80;
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__cards {
+      display: grid;
+      grid-template-columns: 60fr 51fr;
+      grid-template-areas:
+        "firstItem secondItem"
+        "firstItem thirdItem"
+        "firstItem fourthItem";
+    }
+
+    &__card {
+      display: flex;
+      flex-direction: column;
+
+      &:nth-of-type(1) {
+        grid-area: firstItem;
+        border-right: pxToRem(1) solid $neutral-20;
+        border-bottom: 0;
+      }
+
+      &:nth-of-type(2) {
+        grid-area: secondItem;
+      }
+
+      &:nth-of-type(3) {
+        grid-area: thirdItem;
+      }
+
+      &:nth-of-type(4) {
+        grid-area: fourthItem;
+      }
+
+      &-image {
+        max-width: none;
+      }
+
+      &-image-container {
+        margin: auto;
+
+        &:after {
+          max-width: none;
+        }
+      }
+    }
+  }
+}

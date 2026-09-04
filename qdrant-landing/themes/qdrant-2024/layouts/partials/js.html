@@ -122,7 +122,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "security" "resilience" "quantization") .Section }}
+{{ if in (slice "security" "resilience" "quantization" "observability") .Section }}
   {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
