@@ -120,7 +120,7 @@ For best results, create payload indexes **before** uploading data. When uploadi
 
 To prevent clients from filtering on payload fields that don't have a payload index, enable strict mode and [set unindexed\_filtering\_retrieve to false](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 
-See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/)
+See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/), [Slow Request Log](/documentation/ops-monitoring/slow-request-log/)
 
 ### Does Qdrant support a full-text search or a hybrid search?
 

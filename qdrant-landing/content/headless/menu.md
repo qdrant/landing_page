@@ -12,7 +12,7 @@ menuItems:
       - id: mainMenu-0-0
         subMenuItems:
         - id: subMenu-0-0
-          name: Qdrant Vector Database
+          name: Qdrant Vector Search Engine
           icon: qdrant-vector-database.svg
           url: /qdrant-vector-database/
         - id: subMenu-0-1
@@ -32,10 +32,14 @@ menuItems:
           icon: cloud-inference.svg
           url: /cloud-inference/
         - id: subMenu-0-5
+          name: Security
+          icon: security.svg
+          url: /security/
+        - id: subMenu-0-6
           name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
-        - id: subMenu-0-6
+        - id: subMenu-0-7
           name: Qdrant Serverless (Coming soon)
           icon: serverless.svg
           url: /serverless/

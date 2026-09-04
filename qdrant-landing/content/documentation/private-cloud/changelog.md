@@ -7,6 +7,20 @@ weight: 35
 
 # Changelog
 
+## 1.9.15 (2026-09-04)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.7 |
+| operator                | 2.34.9  |
+| qdrant-cluster-manager  | v0.3.22 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.19.0
+
+* Fixed an edge case where a `chown` init container in `ImagePullBackOff` could block a Qdrant upgrade.
+* Updated operator to 2.34.9 and qdrant-kubernetes-api to v1.37.7.
+
 ## 1.9.14 (2026-08-21)
 
 | Component               | Version |

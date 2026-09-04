@@ -1,0 +1,381 @@
+@use '../../helpers/functions' as *;
+
+.resilience-capabilities {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background: $neutral-10;
+
+  &__label {
+    margin-bottom: $spacer * 1.5;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    text-transform: uppercase;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-70;
+  }
+  
+  &__banner {
+    position: relative;
+    margin-top: $spacer * 2.5;
+    margin-bottom: $spacer * 2.5;
+    overflow: hidden;
+    padding: $spacer * 2 pxToRem(20);
+    border-radius: $spacer * 0.5;
+    background-color: $neutral-10;
+
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-position: bottom center;
+      background-size: cover;
+      pointer-events: none;
+    }
+    
+    &:before {
+      background-image: url("/img/resilience/stars-mobile.png");
+      mix-blend-mode: color-dodge;
+    }
+    
+    &:after {
+      background-image: url("/img/resilience/line-blur-mobile.png");
+    }
+    
+    &-title {
+      margin-bottom: $spacer * 1.5;
+      font-size: pxToRem(28);
+      line-height: pxToRem(34);
+      color: $neutral-98;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    &-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: pxToRem(12);
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__tabs-sticky {
+    display: none;
+    position: sticky;
+    z-index: 1;
+    top: pxToRem(60);
+    padding-top: $spacer;
+    background: $neutral-10;
+    box-shadow: 0 $spacer * 2 $spacer * 1.5 rgba($neutral-10, .5);
+  }
+
+  &__tabs {
+    display: flex;
+    gap: $spacer * 0.5;
+    width: 100vw;
+    margin: 0 pxToRem(-16);
+    padding: 0 $spacer;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &-button {
+      padding: $spacer * 0.5 pxToRem(28);
+      border-radius: $spacer * 0.5;
+      border: 0;
+      background-color: $neutral-20;
+      color: $neutral-70;
+      flex-shrink: 0;
+      transition:
+              background-color 0.25s ease,
+              color 0.25s ease;
+
+      &.active {
+        background-color: $neutral-40;
+        font-weight: $font-weight-semibold;
+        color: $neutral-98;
+      }
+    }
+  }
+
+  &__tab-container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 4;
+    border: pxToRem(1) solid $neutral-20;
+    
+    & > :first-of-type {
+      .resilience-capabilities__card {
+        border-top: 0;
+      }
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__card {
+    width: 100%;
+    
+    &:first-of-type {
+      border-top: pxToRem(1) solid $neutral-20;
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+
+    &:last-of-type {
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+    
+    &--text {
+      padding: $spacer * 2 $spacer * 1.5;
+    }
+    
+    &-label {
+      display: inline-flex;
+      gap: $spacer * 0.5;
+      margin-bottom: $spacer;
+      padding: pxToRem(6) pxToRem(14);
+      border-radius: $spacer * 0.5;
+      border: pxToRem(1) solid $neutral-20;
+      
+      &-icon {
+        width: $spacer;
+        height: $spacer;
+      }
+      
+      &-text {
+        margin-bottom: 0;
+        font-size: $font-size-xs;
+        line-height: pxToRem(18);
+        color: $neutral-80;
+      }
+    }
+    
+    &-title {
+      margin-bottom: $spacer * 2;
+      font-size: $h5-font-size;
+      line-height: pxToRem(42);
+      color: $neutral-98;
+    }
+    
+    &-description {
+      margin-bottom: $spacer;
+      padding-bottom: $spacer;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-80;
+      border-bottom: pxToRem(0.5) solid $neutral-20;
+      
+      span {
+        color: $neutral-98;
+        font-weight: $font-weight-semibold;
+      }
+    }
+    
+    &-link {
+      margin-top: $spacer * 0.5;
+    }
+    
+    &-image-mobile {
+      width: 100%;
+      aspect-ratio: 335 / 303;
+    }
+    
+    &-image {
+      display: none;
+    }
+    
+    &-media {
+      position: relative;
+    }
+    
+    &-addition {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      padding: $spacer * 0.5 $spacer * 1.5;
+      border-left: pxToRem(2) solid $secondary-teal-50;
+      background: linear-gradient(180deg, rgba(22, 30, 51, 0.96) 0%, rgba(14, 20, 36, 0.96) 100%);
+      box-shadow: 
+              0 -76px 21px 0 rgba(22, 30, 51, 0.00), 
+              0 -49px 20px 0 rgba(22, 30, 51, 0.01), 
+              0 -28px 17px 0 rgba(22, 30, 51, 0.05), 
+              0 -12px 12px 0 rgba(22, 30, 51, 0.09), 
+              0 -3px 7px 0 rgba(22, 30, 51, 0.10);
+      font-size: $font-size-xs;
+      line-height: pxToRem(18);
+      color: $neutral-80;
+      
+      span {
+        color: $neutral-98;
+        font-weight: $font-weight-semibold;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &__tabs {
+      margin: 0 calc((100vw - pxToRem(508)) / 2 * -1);
+      padding: 0 calc((100vw - pxToRem(508)) / 2);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__tabs {
+      margin: 0 calc((100vw - pxToRem(688)) / 2 * -1);
+      padding: 0 calc((100vw - pxToRem(688)) / 2);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $spacer * 4;
+      margin-bottom: $spacer * 3;
+      padding: $spacer * 2 $spacer * 2.5;
+
+      &:before {
+        background-image: url("/img/resilience/stars.png");
+      }
+      
+      &:after {
+        background-image: url("/img/resilience/line-blur.png");
+      }
+      
+      &-title {
+        max-width: pxToRem(448);
+        margin-bottom: 0;
+        font-size: $h4-font-size;
+        line-height: $spacer * 3;
+        text-align: left;
+      }
+      
+      &-buttons {
+        flex-direction: row;
+        gap: $spacer * 2;
+      }
+    }
+
+    &__tabs-sticky {
+      display: block;
+      top: pxToRem(52);
+    }
+
+    &__tabs {
+      margin: 0 calc((100vw - pxToRem(928)) / 2 * -1);
+      padding: 0 calc((100vw - pxToRem(928)) / 2);
+    }
+    
+    &__tab-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacer * 4 0;
+      margin-top: $spacer * 4;
+
+      .resilience-capabilities__tab-content--pair {
+        .resilience-capabilities__card {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    &__tab-content:last-of-type {
+      border-left: pxToRem(1) solid $neutral-20;
+    }
+
+    &__tab-content:not(&__tab-content--pair) {
+      grid-column: 1 / -1;
+
+      .resilience-capabilities__card {
+        width: 50%;
+      }
+    }
+
+    &__cards {
+      flex-direction: row;
+    }
+    
+    &__card {
+      &--text {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        min-height: pxToRem(504);
+        padding: $spacer * 2 $spacer * 5 $spacer * 2 $spacer * 2;
+      }
+
+      &-description:first-of-type {
+        margin-top: auto;
+      }
+
+      &-link {
+        margin-top: $spacer;
+      }
+
+      &-image-mobile {
+        display: none;
+      }
+
+      &-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      &-media {
+        height: 100%;
+      }
+
+      &-addition {
+        padding: $spacer $spacer * 1.5;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__tabs {
+      width: 100%;
+      justify-content: space-between;
+      margin: 0;
+      padding: pxToRem(3);
+      border-radius: pxToRem(12);
+      border: pxToRem(1) solid transparent;
+      background-image:
+              linear-gradient($neutral-20, $neutral-20),
+              linear-gradient(180deg, $neutral-30 0%, #141B2E 100%);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+
+      &-button {
+        background-color: transparent;
+      }
+    }
+  }
+}

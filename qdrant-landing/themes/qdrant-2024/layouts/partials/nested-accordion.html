@@ -1,0 +1,35 @@
+{{ $page := .context }}
+{{ $class := .class }}
+<section class="nested-accordion{{ with $class }} {{ . }}{{ end }}">
+  <div class="container">
+    <h3 class="nested-accordion__title">{{ $page.Params.title }}</h3>
+
+    <div class="row">
+      <div class="col-12 col-lg-4">
+        <nav class="nested-accordion__nav">
+          {{ range $index, $category := $page.Params.list }}
+            <button
+              class="nested-accordion__nav-button{{ if eq $index 0 }} is-active{{ end }}"
+              data-faq-category="{{ $index }}"
+            >
+              {{ $category.title }}
+            </button>
+          {{ end }}
+        </nav>
+      </div>
+
+      <div class="col-12 col-lg-8">
+        <div class="nested-accordion__panels">
+          {{ range $index, $category := $page.Params.list }}
+            <div
+              class="nested-accordion__panel{{ if eq $index 0 }} is-active{{ end }}"
+              data-faq-panel="{{ $index }}"
+            >
+              {{ partial "accordion" (dict "Params" (dict "questions" $category.questions)) }}
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

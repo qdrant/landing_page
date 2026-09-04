@@ -56,3 +56,5 @@ There are several possible reasons for that:
 - **Using filters without payload index** -- If you're performing a search with a filter but you don't have a payload index, Qdrant will have to load whole payload data from disk to check the filtering condition. Ensure you have adequately configured [payload indexes](/documentation/manage-data/indexing/#payload-index).
 - **Usage of on-disk vector storage with slow disks** -- If you're using on-disk vector storage, ensure you have fast enough disks. We recommend using local SSDs with at least 50k IOPS. Read more about the influence of the disk speed on the search latency in the article about [Memory Consumption](/articles/memory-consumption/).
 - **Large limit or non-optimal query parameters** -- A large limit or offset might lead to significant performance degradation. Please pay close attention to the query/collection parameters that significantly diverge from the defaults. They might be the reason for the performance issues.
+
+To identify which specific requests are slow, use the [Slow Request Log](/documentation/ops-monitoring/slow-request-log/).
