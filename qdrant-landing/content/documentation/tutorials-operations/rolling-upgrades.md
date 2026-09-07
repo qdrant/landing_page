@@ -129,6 +129,10 @@ Watch the pods cycle one at a time, highest ordinal first:
 kubectl get pods -n $KUBENS -w
 ```
 
+<aside role="status">
+    Here we used <code>qcloud</code> to perform the upgrade, to keep the whole tutorial reproducible in a shell script, but you can also upgrade a cluster in the Cloud UI (recommended approach) or via <a href="/documentation/cloud-tools/terraform/">Terraform</a>/<a href="/documentation/cloud-tools/pulumi/">Pulumi</a>.
+</aside>
+
 ## Step 5: Check the Results at Replication Factor 2
 
 Once all pods report the new image and are ready, stop the traffic loop and check `logs_rf_2.log`. Every line reads `write=200 read=200` for the full duration of the upgrade, including while each pod was terminating and restarting in turn. No request failed and the anchor point seeded in Step 3 is still there:
