@@ -1,0 +1,64 @@
+// Island shell styles: the wrapper, the fallback, and the loading spinner.
+//
+// This is the CSS half of the content-islands feature; the behavior half (the
+// host loader) is emitted from partials/js.html. This file is loaded as a
+// <link> from partials/css.html, gated on `.HasShortcode "island"` so it only
+// ships on pages that actually embed an island. It is deliberately NOT imported
+// into a section bundle (blog/documentation), to keep those under their CSS
+// budgets. Per-island visual styles live with each island in
+// assets/islands/<name>/index.css.
+
+.island {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.island__mount {
+  display: block;
+  width: 100%;
+}
+
+.island__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.island__spinner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  animation: island-spinner 1s ease-in-out infinite;
+
+  &:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes island-spinner {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .island__spinner-dot {
+    animation: none;
+  }
+}

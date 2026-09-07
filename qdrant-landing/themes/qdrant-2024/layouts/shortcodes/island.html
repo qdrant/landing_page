@@ -1,0 +1,75 @@
+{{- /*
+  island — embed a self-contained interactive micro-app in content.
+
+  Each island lives in one folder under `assets/islands/<path>/`:
+    index.js       required. ES module exporting `mount(node, ctx)`.
+    index.css      optional. Styles, hand-scoped under the island's root class.
+    fallback.html  optional. Static markup shown until the island mounts; also
+                   the no-JS / accessibility baseline.
+
+  Same-DOM model: the island renders directly into the article (no iframe) and
+  talks to the host loader via bubbling CustomEvents (island:ready, and
+  island:themechange from host to island). This shortcode is intentionally
+  dumb: it builds the assets, reserves space, and drops a placeholder. What is
+  rendered and how is entirely up to the island module.
+
+  Usage:
+    {{< island path="demo-bars" >}}
+    {{< island path="demo-bars" min-height="360" title="Requests per second by engine" >}}
+    {{< island path="demo-bars" spinner="true" >}}
+
+  Params:
+    path        Required. Island folder under assets/islands/ (e.g. "demo-bars").
+                Build fails if index.js does not exist.
+    min-height  Optional. Reserved height in px to avoid layout shift while the
+                island loads. Default 320. Accepts "360" or "360px".
+    title       Optional. Accessible label for the island region.
+    spinner     Optional. "true" forces the host loading indicator on. Otherwise
+                it shows only if the island opts in (island:loading event) and is
+                always stopped by island:ready / a timeout.
+*/ -}}
+
+{{- $page := .Page -}}
+{{- $path := trim (.Get "path" | default "") "/ " -}}
+
+{{- if not $path -}}
+  {{- errorf "island shortcode in %q needs a `path` param" $page.File.Path -}}
+{{- end -}}
+
+{{- $jsRes := resources.Get (printf "islands/%s/index.js" $path) -}}
+{{- if not $jsRes -}}
+  {{- errorf "island shortcode in %q: no island module at %q (expected assets/islands/%s/index.js)" $page.File.Path $path $path -}}
+{{- end -}}
+
+{{- $js := $jsRes | js.Build (dict "format" "esm" "minify" true) | resources.Fingerprint "sha512" -}}
+{{- $cssRes := resources.Get (printf "islands/%s/index.css" $path) -}}
+{{- $css := "" -}}
+{{- with $cssRes -}}
+  {{- $css = (. | minify | resources.Fingerprint "sha512").RelPermalink -}}
+{{- end -}}
+{{- $fallback := resources.Get (printf "islands/%s/fallback.html" $path) -}}
+
+{{- $minHeight := int (or (.Get "min-height" | default "320" | replaceRE "px$" "") "320") -}}
+{{- $title := .Get "title" | default "" -}}
+{{- $spinner := eq (.Get "spinner" | default "false") "true" -}}
+
+{{- /* The loader (js.html) and shell CSS (css.html) are gated on
+       `.HasShortcode "island"`, so no page-store flag is needed here. */ -}}
+
+<div
+  class="island"
+  data-island="{{ $path }}"
+  data-island-src="{{ $js.RelPermalink }}"
+  {{ with $css }}data-island-css="{{ . }}"{{ end }}
+  {{ if $spinner }}data-island-spinner="true"{{ end }}
+  {{ with $title }}role="figure" aria-label="{{ . }}"{{ end }}
+  style="min-height: {{ $minHeight }}px"
+>
+  {{ with $fallback }}<div class="island__fallback">{{ .Content | safeHTML }}</div>{{ end }}
+  <div class="island__spinner" hidden aria-hidden="true">
+    <span class="island__spinner-dot"></span>
+    <span class="island__spinner-dot"></span>
+    <span class="island__spinner-dot"></span>
+  </div>
+  <div class="island__mount"></div>
+</div>

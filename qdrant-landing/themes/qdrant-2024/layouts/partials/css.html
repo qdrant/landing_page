@@ -15,6 +15,13 @@
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 {{ end }}
 
+<!--Content islands: shell CSS half (wrapper/fallback/spinner). Behavior half (loader) is in js.html.
+    `.HasShortcode` is parse-derived, so it works here in <head> where .Store/hasIslands is not yet set.-->
+{{ if .HasShortcode "island" }}
+  {{ $islandsCss := resources.Get "css/islands.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $islandsCss.RelPermalink }}" rel="stylesheet" integrity="{{ $islandsCss.Data.Integrity }}" />
+{{ end }}
+
 <!--Section bundle: page-specific styles on top of core.css (articles need two bundles)-->
 {{ $bundles := slice "default" }}
 {{ if .IsHome }}

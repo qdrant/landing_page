@@ -49,6 +49,13 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
+{{/* Content islands: behavior half. The shell CSS is loaded from css.html.
+     Gated on `.HasShortcode "island"` so it ships only on pages with an island. */}}
+{{ if .HasShortcode "island" }}
+  {{ $islandsLoaderJs := resources.Get "/js/islands/loader.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $islandsLoaderJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "pricing" }}
   {{ $pricingTableJs := resources.Get "/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
