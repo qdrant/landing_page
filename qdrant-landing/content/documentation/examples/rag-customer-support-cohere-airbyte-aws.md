@@ -75,11 +75,11 @@ follow the steps described there to set up your own instance.
 
 ### Qdrant Hybrid Cloud on AWS
 
-Our documentation covers the deployment of Qdrant on AWS as a Hybrid Cloud Environment, so you can follow the steps described 
-there to set up your own instance. The deployment process is quite straightforward, and you can have your Qdrant cluster 
+Our [Deployment Platforms documentation](/documentation/hybrid-cloud/platform-deployment-options/)
+covers the deployment of Qdrant Hybrid Cloud on AWS, including Amazon EKS. Follow the
+[Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/)
+to configure your own instance. The deployment process is quite straightforward, and you can have your Qdrant cluster
 up and running in a few minutes.
-
-[//]: # (TODO: refer to the documentation on how to deploy Qdrant on AWS)
 
 Once you perform all the steps, your Qdrant cluster should be running on a specific URL. You will need this URL and the 
 API key to interact with Qdrant, so let's store them both in the environment variables:
