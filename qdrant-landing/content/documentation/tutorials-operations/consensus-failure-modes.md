@@ -72,18 +72,22 @@ helm upgrade --install qdrant-consensus-demo qdrant/qdrant -f values.yaml
 replicaCount: 5
 ```
 
-Wait for all 5 pods to be `Running` with `kubectl get pods`, then poll their Raft state:
+Wait for all 5 pods to be `Running` with `kubectl get pods`.
+
+The Qdrant image doesn't ship `curl`, so start one small debug pod to query the cluster from inside it instead. Pod-to-pod DNS on the StatefulSet's headless service means no port-forwarding is needed:
+
+```shell
+kubectl run curl-debug --image=curlimages/curl --restart=Never --command -- sleep infinity
+kubectl wait --for=condition=Ready pod/curl-debug
+```
+
+Then poll every node's Raft state:
 
 ```shell
 check_nodes_status () {
   for i in 0 1 2 3 4; do
-    port=$((6340 + i))
-    kubectl port-forward qdrant-consensus-demo-$i $port:6333 > /dev/null 2>&1 &
-    pf_pid=$!
-    sleep 1
-    echo "=== node $i (local port $port) ==="
-    curl -s http://localhost:$port/cluster | jq '.result.raft_info'
-    kill $pf_pid
+    echo "=== node $i ==="
+    kubectl exec curl-debug -- curl -s http://qdrant-consensus-demo-$i.qdrant-consensus-demo-headless:6333/cluster | jq '.result.raft_info'
   done
 }
 
@@ -160,13 +164,8 @@ Poll `raft_info`, `consensus_thread_status`, and `message_send_failures` togethe
 ```shell
 check_node_status_extra () {
   for i in 0 1 2 3 4; do
-    port=$((6340 + i))
-    kubectl port-forward qdrant-consensus-demo-$i $port:6333 > /dev/null 2>&1 &
-    pf_pid=$!
-    sleep 1
-    echo "=== node $i (local port $port) ==="
-    curl -s http://localhost:$port/cluster | jq '.result.raft_info, .result.consensus_thread_status, .result.message_send_failures'
-    kill $pf_pid 2>/dev/null
+    echo "=== node $i ==="
+    kubectl exec curl-debug -- curl -s http://qdrant-consensus-demo-$i.qdrant-consensus-demo-headless:6333/cluster | jq '.result.raft_info, .result.consensus_thread_status, .result.message_send_failures'
   done
 }
 ```
@@ -307,14 +306,10 @@ Sending a write to each node during the three-way split shows the practical cons
 
 ```shell
 for i in 0 1 2 3 4; do
-  port=$((6340 + i))
-  kubectl port-forward qdrant-consensus-demo-$i $port:6333 > /dev/null 2>&1 &
-  pf_pid=$!
-  sleep 1
-  curl -X PUT "http://localhost:${port}/collections/test_collection" \
+  echo "=== node $i ==="
+  kubectl exec curl-debug -- curl -s -X PUT "http://qdrant-consensus-demo-$i.qdrant-consensus-demo-headless:6333/collections/test_collection" \
     --header "Content-Type: application/json" \
     --data-raw '{"vectors": {"size": 384, "distance": "Cosine"}}' | jq
-  kill $pf_pid 2>/dev/null
 done
 ```
 
@@ -370,17 +365,23 @@ Check the leader's state. It keeps counting failed messages to the peer that wil
 
 The rest of the cluster still has quorum, 4 out of the original 5, so it keeps working, but the dead peer stays in the Raft peer list until you remove it explicitly.
 
-Look up its peer ID, then delete it hitting the `DELETE /cluster/peer/:id` endpoint:
+Look up its peer ID, then delete it hitting the `DELETE /cluster/peer/:id` endpoint. List the peers and read off the ID whose `uri` points at the dead pod:
 
 ```shell
-kubectl port-forward qdrant-consensus-demo-0 6333:6333 > /dev/null 2>&1 &
-sleep 1
+kubectl exec curl-debug -- curl -s http://qdrant-consensus-demo-0.qdrant-consensus-demo-headless:6333/cluster | jq '.result.peers'
+```
 
-peer_id=$(curl -s http://localhost:6333/cluster \
-  | jq -r '.result.peers | to_entries[] | select(.value.uri | contains("qdrant-consensus-demo-4.")) | .key')
+```json
+{
+  "5763063190104270": {"uri": "http://qdrant-consensus-demo-0.qdrant-consensus-demo-headless:6335/"},
+  "9482017562301883": {"uri": "http://qdrant-consensus-demo-4.qdrant-consensus-demo-headless:6335/"}
+}
+```
 
-curl -s -X DELETE "http://localhost:6333/cluster/peer/${peer_id}"
-kill %1 2>/dev/null
+Here that's `9482017562301883`, the peer whose `uri` still names node 4:
+
+```shell
+kubectl exec curl-debug -- curl -s -X DELETE "http://qdrant-consensus-demo-0.qdrant-consensus-demo-headless:6333/cluster/peer/9482017562301883"
 ```
 
 Which returns a response confirming the deletion:
@@ -410,6 +411,12 @@ Check `message_send_failures` again. The failure count for that peer stops incre
 ```
 
 That stale, no-longer-advancing timestamp is your confirmation that removal succeeded. The peer entry itself may linger in some views since it once existed, but the cluster has stopped waiting on it, and quorum is now computed against the 4 remaining nodes.
+
+Once you're done, remove the debug pod:
+
+```shell
+kubectl delete pod curl-debug
+```
 
 ## Summary
 
