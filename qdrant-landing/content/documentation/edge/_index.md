@@ -37,9 +37,9 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 
 The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/dev/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/dev/lib/edge/publish/examples).
 
-## Comparison Tables
+## Comparing Qdrant Edge and Qdrant Cluster
 
-Qdrant Edge and a Qdrant cluster share the same core search engine, but they're built for different environments.
+Qdrant Edge and a Qdrant cluster share the same core search engine, but they're built for different use cases.
 Use the following tables to review where they align and diverge.
 
 ### Architecture & Deployment
@@ -61,6 +61,7 @@ How data gets indexed, optimized, and kept available.
 | | Qdrant Edge | Qdrant Cluster |
 | --- | --- | --- |
 | **Optimization** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
+│ **HNSW indexing** │ Manual indexing for large shards via `optimize()`; new points are brute-force searchable until then │ Automatic background indexing │
 | **High availability** | None; a single local shard | Replication and failover across nodes |
 | **Data sync** | Server-Edge via (partial) snapshots; Edge-server via application-level dual-write | Acts as the snapshot source and write target |
 | **Snapshots** | Consume only: unpack, read manifests, and apply full or partial snapshots | Full lifecycle: create, list, download, and restore |
@@ -72,13 +73,14 @@ How you talk to each option, and what you can do once connected.
 | | Qdrant Edge | Qdrant Cluster |
 | --- | --- | --- |
 | **API** | In-process library API ([Python](https://pypi.org/project/qdrant-edge-py/) and [Rust](https://crates.io/crates/qdrant-edge) bindings) | REST and gRPC, plus all Qdrant client libraries |
-| **HNSW indexing** | Supported | Supported |
-| **Quantization** | Supported | Supported |
-| **On-disk storage** | Supported | Supported |
+| **Dense vectors** | Supported | Supported |
 | **Sparse vectors** | Supported | Supported |
-| **Hybrid search** | Supported, through prefetches and fusion (RRF, DBSF) | Supported |
+| **Multivectors** | Supported | Supported |
+| **Named vectors** | Supported | Supported |
+| **Hybrid search** | Supported | Supported |
+| **Quantization** | Supported | Supported |
 | **Distance metrics** | Cosine, Dot, Euclid, and Manhattan | Cosine, Dot, Euclid, and Manhattan |
-| **Multivectors** | Supported, for late-interaction models | Supported |
+| **HNSW indexing** | Supported | Supported |
 | **Payload indexes** | All field types | All field types |
 | **Query scoring** | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample |
 | **Grouping (`query_groups`)** | Rust only | Available |
