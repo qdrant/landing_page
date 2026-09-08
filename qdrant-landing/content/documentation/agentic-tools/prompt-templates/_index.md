@@ -1,7 +1,7 @@
 ---
 title: "Prompt Template Library"
-short_description: "Task-shaped prompts for designing, migrating, evaluating, and reviewing Qdrant deployments. Fill in the variables, hand the result to your coding agent."
-description: "A curated library of Qdrant prompt templates. Each template takes your collection configuration and workload as input and produces a structured result: a launch review, a migration plan, an evaluation harness, or a payload index audit."
+short_description: "Task-shaped prompts for designing, evaluating, and reviewing Qdrant collections. Fill in the variables, hand the result to your coding agent."
+description: "A curated library of Qdrant prompt templates. Each template takes your data, configuration, and workload as input and produces a structured result: a collection definition, a pre-launch review, or a payload index audit."
 weight: 20
 partition: develop
 ---
@@ -12,5 +12,5 @@ Vector search is unusual in that a wrong configuration returns plausible results
 
 ## Templates
 
+- [Design a Collection Schema From a Dataset Description](/documentation/agentic-tools/prompt-templates/design-collection-schema/) turns a description of your data and the searches you need into a collection definition, with the vector configuration, distance metric, payload schema, and payload indexes chosen and justified.
 - [Review a Collection Configuration Before Launch](/documentation/agentic-tools/prompt-templates/review-collection-configuration/) produces a go or no-go checklist over indexing, quantization, replication, and filter readiness for a collection about to take production traffic.
-- [Translate a Pinecone Workload to Qdrant](/documentation/agentic-tools/prompt-templates/translate-pinecone-workload/) maps an index definition, namespaces, metadata filters, and hybrid weighting onto Qdrant equivalents, and calls out where the two engines genuinely differ.
