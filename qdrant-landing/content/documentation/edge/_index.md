@@ -63,7 +63,6 @@ How data gets indexed, optimized, and kept available.
 | **Optimization** | Manual, by calling `optimize()`; runs synchronously | Continuous background optimizer |
 │ **HNSW indexing** │ Manual indexing for large shards via `optimize()`; new points are brute-force searchable until then │ Automatic background indexing │
 | **High availability** | None; a single local shard | Replication and failover across nodes |
-| **Data sync** | Server-Edge via (partial) snapshots; Edge-server via application-level dual-write | Acts as the snapshot source and write target |
 | **Snapshots** | Consume only: unpack, read manifests, and apply full or partial snapshots | Full lifecycle: create, list, download, and restore |
 
 ### API & Features
