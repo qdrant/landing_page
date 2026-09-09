@@ -12,7 +12,7 @@ weight: 30
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/zrUswSTeQMI?rel=0"
+  src="https://www.youtube.com/embed/kbdpE514qSY?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
