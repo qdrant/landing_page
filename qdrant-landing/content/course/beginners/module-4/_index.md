@@ -11,8 +11,13 @@ weight: 50
 # Designing a Vector Search System
 
 <div class="video">
-  <iframe src="https://youtu.be/RhVySTvxjkw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-  </iframe>
+<iframe src="https://youtu.be/_PBKs94QGE0?rel=0" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
 </div>
 
 So far, rebuilding a collection has taken only a few seconds. Once generating embeddings takes hours, you need to get the design right before ingesting your data.
