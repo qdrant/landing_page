@@ -15,22 +15,15 @@
 {{ end }}
 
 {{ if .Params.seo_schema_json }} <!-- if schema is defined in front matter as a list of  json files -->
+  {{- $context := . -}}
+  {{- range $index, $element := .Params.seo_schema_json -}}
+    {{- $template := resources.Get $element -}}
+    {{- $schema := $template | resources.ExecuteAsTemplate (printf "schema%d.json" $index) $context -}}
+    {{- $data := merge (dict "@context" "https://schema.org") ($schema | unmarshal) -}}
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph":
-        [
-            {{- $context := . -}}
-            {{- range $index, $element := .Params.seo_schema_json -}}
-              {{- $template := resources.Get $element -}}
-              {{- $schema := $template | resources.ExecuteAsTemplate (printf "schema%d.json" $index) $context -}}
-              {{ $schema | unmarshal }}
-              {{- if not (eq $index (sub (len $.Params.seo_schema_json) 1)) -}},
-              {{- end -}}
-            {{- end -}}
-        ]
-    }
+{{ $data | jsonify | safeJS }}
 </script>
+  {{- end -}}
 
 {{ else if .IsHome }}
 
@@ -48,6 +41,25 @@
         ]
     }
 </script>
+
+{{ else if and (eq .Section "events") (not .IsPage) }}
+  {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+  {{ $organizationTarget := printf "schema-org-events-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+  {{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
+  {{- $orgData := merge (dict "@context" "https://schema.org") ($organizationSchema | unmarshal) -}}
+<script type="application/ld+json">
+{{ $orgData | jsonify | safeJS }}
+</script>
+  {{- $eventTemplate := resources.Get "schema/event-schema.json" -}}
+  {{- range $index, $event := .Pages -}}
+    {{- if not $event.Params.start -}}{{- continue -}}{{- end -}}
+    {{- $target := printf "schema-event-%d-%s.json" $index (replaceRE "[^a-zA-Z0-9]+" "" $event.Title) -}}
+    {{- $schema := $eventTemplate | resources.ExecuteAsTemplate $target $event -}}
+    {{- $data := merge (dict "@context" "https://schema.org") ($schema | unmarshal) -}}
+<script type="application/ld+json">
+{{ $data | jsonify | safeJS }}
+</script>
+  {{- end -}}
 
 {{ else if or (in (slice "documentation" "benchmarks") .Section) (and (in (slice "blog" "articles") .Section) .IsPage) }}
 

@@ -1,0 +1,136 @@
+@use '../../helpers/functions' as *;
+
+.resilience-case-study {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+  
+  &__label {
+    margin-bottom: $spacer * 2;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 2;
+    font-size: $h4-font-size;
+    line-height: pxToRem(44);
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 2;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-30;
+  }
+
+  &__image {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-90;
+    background: linear-gradient(180deg, $neutral-100 -18.59%, $neutral-98 24.2%), $neutral-98;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 534 / 355;
+    margin-top: $spacer * 2.5;
+    transition: all 0.3s;
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-repeat: no-repeat, no-repeat;
+      mix-blend-mode: screen;
+    }
+
+    &::before {
+      content: "";
+      opacity: 1;
+      background-image:
+              url("/img/resilience/hexagonal-pattern-3.png"),
+              url("/img/resilience/hexagonal-pattern-4.png");
+      background-size: pxToRem(202) pxToRem(212), pxToRem(288) pxToRem(190);
+      background-position: left bottom, right top;
+      transition: opacity 0.35s ease;
+    }
+
+    &::after {
+      content: "";
+      opacity: 0;
+      background-image:
+              url("/img/resilience/hexagonal-pattern-1.png"),
+              url("/img/resilience/hexagonal-pattern-2.png");
+      background-size: pxToRem(350) pxToRem(355), pxToRem(355) pxToRem(354);
+      background-position: left bottom, right top;
+      mask-image: linear-gradient(#000, #000), linear-gradient(#000, #000);
+      mask-repeat: no-repeat, no-repeat;
+      mask-position: left bottom, right top;
+      mask-size: 0 0, 0 0;
+      -webkit-mask-image: linear-gradient(#000, #000), linear-gradient(#000, #000);
+      -webkit-mask-repeat: no-repeat, no-repeat;
+      -webkit-mask-position: left bottom, right top;
+      -webkit-mask-size: 0 0, 0 0;
+      transition: opacity 0.35s ease, mask-size 1.2s ease, -webkit-mask-size 1.2s ease;
+    }
+
+    &:hover {
+      background: linear-gradient(180deg, $neutral-100 -18.59%, $neutral-98 38.22%);
+      box-shadow:
+              0 pxToRem(76) pxToRem(21) 0 rgba($neutral-20, 0),
+              0 pxToRem(49) pxToRem(20) 0 rgba($neutral-20, 0.01),
+              0 pxToRem(28) pxToRem(17) 0 rgba($neutral-20, 0.05),
+              0 pxToRem(12) pxToRem(12) 0 rgba($neutral-20, 0.09),
+              0 pxToRem(3) pxToRem(7) 0 rgba($neutral-20, 0.1);
+
+      &::before {
+        opacity: 0;
+      }
+
+      &::after {
+        opacity: 1;
+        mask-size: pxToRem(350) pxToRem(355), pxToRem(355) pxToRem(354);
+        -webkit-mask-size: pxToRem(350) pxToRem(355), pxToRem(355) pxToRem(354);
+      }
+    }
+
+    img {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 5;
+
+    &__label {
+      margin-bottom: $spacer;
+    }
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__image {
+      margin-top: 0;
+    }
+  }
+}

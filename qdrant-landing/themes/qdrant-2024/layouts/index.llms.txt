@@ -1,0 +1,19 @@
+# {{ .Site.BaseURL }}
+## Overall Summary
+> {{ .Site.Params.description }}
+{{ range .Site.Sections.ByWeight -}}
+{{- $header := printf "\n## %s\n" .Title -}}
+{{- range .RegularPagesRecursive.ByWeight -}}
+{{- $include := true -}}
+{{- if eq .Params.sitemapExclude true -}}{{- $include = false -}}{{- end -}}
+{{- if .Sitemap.Disable -}}{{- $include = false -}}{{- end -}}
+{{- with .Params.build -}}
+  {{- $render := .render | default "always" -}}
+  {{- if in (slice "never" "link") $render -}}{{- $include = false -}}{{- end -}}
+{{- end -}}
+{{- if and $include (ne .Title "") (ne .Permalink "") -}}
+{{ $header }}{{- $header = "" -}}
+- [{{ .Title }}]({{ .Permalink }}index.md): {{ with .Description }}{{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ else }}{{ .Summary | plainify | replaceRE "\\s+" " " | strings.TrimSpace | truncate 200 "" }}{{ end }}
+{{ end -}}
+{{- end -}}
+{{- end -}}

@@ -3,6 +3,7 @@ title: Points
 short_description: "Insert, update, and delete points in Qdrant — the core records that pair a vector with an optional payload."
 description: "Manage points in Qdrant collections by upserting, updating, deleting, and retrieving records that combine a vector with an optional JSON payload for search."
 weight: 5
+cta: "Try uploading your first points to a live collection."
 aliases:
   - ../points
   - /documentation/concepts/points/
@@ -385,6 +386,8 @@ The Scroll API will return all points that match the filter in a page-by-page ma
 All resulting points are sorted by ID. To query the next page it is necessary to specify the largest seen ID in the `offset` field.
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
+
+<aside role="status">To scroll a collection in parallel, add a <a href="/documentation/search/filtering/#slice">slice filter condition</a> to each worker's request, one <code>index</code> per worker. Each worker then scrolls a disjoint, exhaustive share of the collection instead of paging through it sequentially.</aside>
 
 ### Order Points by Payload Key
 

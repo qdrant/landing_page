@@ -121,11 +121,8 @@ Qdrant operates with and they consist of a vector and an optional id and payload
     - id: a unique identifier for your vectors.
     - Vector: a high-dimensional representation of data, for example, an image, a sound, a document, a video, etc.
     - [Payload](/documentation/manage-data/payload/): A payload is a JSON object with additional data you can add to a vector.
-- [Storage](/documentation/manage-data/storage/): Qdrant can use one of two options for 
-storage, **In-memory** storage (Stores all vectors in RAM, has the highest speed since disk 
-access is required only for persistence), or **Memmap** storage, (creates a virtual address 
-space associated with the file on disk).
-- Clients: the programming languages you can use to connect to Qdrant.
+- [Storage](/documentation/manage-data/storage/): Qdrant persists data on disk, and [lets you choose](/documentation/ops-configuration/memory-tiers/) how much of it also lives in memory: `pinned` to keep hot data fully in RAM, `cached` for a warm disk cache, or `cold` to save RAM on large datasets.
+- [Clients](/documentation/interfaces/): the programming languages you can use to connect to Qdrant.
 
 ## Next Steps
 

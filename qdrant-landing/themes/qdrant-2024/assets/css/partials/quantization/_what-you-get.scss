@@ -1,0 +1,190 @@
+@use '../../helpers/functions' as *;
+
+.quantization-what-you-get {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__header {
+    margin-bottom: $spacer * 2;
+  }
+  
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+    margin-bottom: $spacer;
+  }
+
+  &__description {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-30;
+    margin-bottom: 0;
+  }
+  
+  &__chart {
+    padding: $spacer $spacer 0;
+    border-radius: $spacer;
+    box-shadow: 0 0 0 pxToRem(0.5) rgba(0, 0, 0, 0.10) inset;
+    background-color: #f0f3fa;
+    background-image:
+            radial-gradient(circle at 50% 85%,#e5e8ff 0%,transparent 42%),
+            radial-gradient(circle at 50% 85%,#e1f5fe 0%,transparent 48%);
+    background-repeat: no-repeat;
+    margin-bottom: $spacer;
+    
+    &-title {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      font-weight: $font-weight-semibold;
+      color: $neutral-20;
+      margin-bottom: 0;
+    }
+    
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+      margin-bottom: $spacer * 2;
+    }
+    
+    &-legend {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+      gap: $spacer;
+      margin-bottom: $spacer * 2;
+      
+      &-item {
+        display: flex;
+        gap: pxToRem(6);
+        align-items: center;
+        position: relative;
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+        color: $neutral-30;
+        margin-bottom: 0;
+        
+        &:before {
+          display: block;
+          content: "";
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        
+        &:nth-of-type(1):before {
+          height: $spacer * 0.5;
+          width: $spacer * 0.5;
+          background-image: url("data:image/svg+xml,%3Csvg width='9' height='9' viewBox='0 0 9 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.05703 8.11406C6.29767 8.11406 8.11406 6.29767 8.11406 4.05703C8.11406 1.81639 6.29767 0 4.05703 0C1.81639 0 0 1.81639 0 4.05703C0 6.29767 1.81639 8.11406 4.05703 8.11406Z' fill='%2303A9F4'/%3E%3C/svg%3E%0A");
+        }
+        
+        &:nth-of-type(2):before {
+          height: $spacer * 0.5;
+          width: $spacer * 0.5;
+          background-image: url("data:image/svg+xml,%3Csvg width='9' height='9' viewBox='0 0 9 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.05703 8.11406C6.29767 8.11406 8.11406 6.29767 8.11406 4.05703C8.11406 1.81639 6.29767 0 4.05703 0C1.81639 0 0 1.81639 0 4.05703C0 6.29767 1.81639 8.11406 4.05703 8.11406Z' fill='%238547FF'/%3E%3C/svg%3E%0A");
+        }
+        
+        &:nth-of-type(3):before {
+          height: pxToRem(11);
+          width: pxToRem(11);
+          background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.1568 1H3C1.89543 1 1 1.89543 1 3V10.1568C1 11.2614 1.89543 12.1568 3 12.1568H10.1568C11.2614 12.1568 12.1568 11.2614 12.1568 10.1568V3C12.1568 1.89543 11.2614 1 10.1568 1Z' stroke='%23717C99' stroke-width='2'/%3E%3C/svg%3E%0A");
+        }
+        
+        &:nth-of-type(4):before {
+          height: pxToRem(10);
+          width: pxToRem(10);
+          background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.78073 0.209212C9.05968 -0.0697372 9.51184 -0.0697372 9.79079 0.209212C10.0697 0.488161 10.0697 0.940318 9.79079 1.21927L6.01006 5L9.79079 8.78073C10.0697 9.05968 10.0697 9.51184 9.79079 9.79079C9.51184 10.0697 9.05968 10.0697 8.78073 9.79079L5 6.01006L1.21927 9.79079C0.940318 10.0697 0.488161 10.0697 0.209212 9.79079C-0.0697372 9.51184 -0.0697372 9.05968 0.209212 8.78073L3.98994 5L0.209212 1.21927C-0.0697372 0.940318 -0.0697372 0.488161 0.209212 0.209212C0.488161 -0.0697372 0.940318 -0.0697372 1.21927 0.209212L5 3.98994L8.78073 0.209212Z' fill='%23717C99'/%3E%3C/svg%3E%0A");
+        }
+      }
+    }
+    
+    &-image {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(450);
+      margin: 0 auto;
+    }
+  }
+  
+  &__explanation {
+    font-size: $font-size-xs;
+    line-height: pxToRem(18);
+    color: $neutral-30;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__header {
+      margin-bottom: $spacer * 4;
+    }
+    
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      margin-bottom: 0;
+    }
+
+    &__description {
+      margin-left: auto;
+      max-width: pxToRem(445);
+    }
+
+    &__chart {
+      padding: $spacer * 2 $spacer * 2.5 0;
+      background-image:
+              radial-gradient(circle at 68% 50%, #e5e8ff 0%, transparent 42%), 
+              radial-gradient(circle at 32% 100%, #e1f5fe 0%, transparent 48%), 
+              radial-gradient(circle at 60% 100%, #e5e8ff 0%, transparent 48%);
+      margin-bottom: $spacer * 1.5;
+
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: $spacer;
+        margin-bottom: $spacer * 2;
+      }
+      
+      &-title {
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+      }
+
+      &-description {
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+        margin-bottom: 0;
+      }
+      
+      &-legend {
+        margin-bottom: 0;
+      }
+
+      &-image {
+        max-width: pxToRem(820);
+      }
+    }
+
+    &__explanation {
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+      margin-bottom: $spacer * 4;
+    }
+  }
+}

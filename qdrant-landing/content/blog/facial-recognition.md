@@ -58,7 +58,7 @@ ___
 
 ## Application Workflows
 
-The app is divided into two phases - **The Offline Phase**, where the celebrity images are vectorized and **The Online Phase**, which carries out a live [**similarity search**]().
+The app is divided into two phases - **The Offline Phase**, where the celebrity images are vectorized and **The Online Phase**, which carries out a live **similarity search**.
 
 ![online-offline](/blog/facial-recognition/online-offline.png)
 

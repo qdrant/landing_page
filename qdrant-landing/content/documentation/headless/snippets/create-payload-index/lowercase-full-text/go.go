@@ -21,7 +21,7 @@ func Main() {
 	    FieldIndexParams: qdrant.NewPayloadIndexParamsText(
 	        &qdrant.TextIndexParams{
 	            Tokenizer:   qdrant.TokenizerType_Word,
-	            Lowercase:   qdrant.PtrOf(true),
+	            Lowercase:   qdrant.PtrOf(false),
 	        }),
 	})
 }

@@ -92,7 +92,7 @@ POST /collections/my_collection/points/search
 }
 ```
 
-If you want to know more about the user-defined sharding, please refer to the [sharding documentation](/documentation/distributed_deployment/#sharding).
+If you want to know more about the user-defined sharding, please refer to the [sharding documentation](/documentation/scaling/distributed_deployment/#sharding).
 
 ### Snapshot-based shard transfer
 
@@ -101,7 +101,7 @@ That's a really more in depth technical improvement for the distributed mode use
 Moving shards is required for dynamical scaling of the cluster. Your data can migrate between nodes, and the way you move it is crucial for the performance of the whole system. The good old `stream_records` method (still the default one) transmits all the records between the machines and indexes them on the target node. 
 In the case of moving the shard, it's necessary to recreate the HNSW index each time. However, with the introduction of the new `snapshot` approach, the snapshot itself, inclusive of all data and potentially quantized content, is transferred to the target node. This comprehensive snapshot includes the entire index, enabling the target node to seamlessly load it and promptly begin handling requests without the need for index recreation.
 
-There are multiple scenarios in which you may prefer one over the other. Please check out the docs of the [shard transfer method](/documentation/distributed_deployment/#shard-transfer-method) for more details and head-to-head comparison. As for now, the old `stream_records` method is still the default one, but we may decide to change it in the future.
+There are multiple scenarios in which you may prefer one over the other. Please check out the docs of the [shard transfer method](/documentation/scaling/distributed_deployment/#shard-transfer-method) for more details and head-to-head comparison. As for now, the old `stream_records` method is still the default one, but we may decide to change it in the future.
 
 ## Minor improvements
 

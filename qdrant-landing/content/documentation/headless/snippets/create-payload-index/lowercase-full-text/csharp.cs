@@ -16,7 +16,7 @@ public class Snippet
 		        TextIndexParams = new TextIndexParams
 		        {
 		            Tokenizer = TokenizerType.Word,
-		            Lowercase = true,
+		            Lowercase = false,
 		        }
 		    }
 		);

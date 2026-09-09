@@ -9,9 +9,6 @@ import io.qdrant.client.grpc.Points.PointStruct;
 import io.qdrant.client.grpc.Points.UpsertPoints;
 import java.util.List;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client
     .upsertAsync(
         UpsertPoints.newBuilder()

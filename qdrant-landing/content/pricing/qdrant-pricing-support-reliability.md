@@ -3,6 +3,7 @@ label: Enterprise Support
 title: Support & Reliability
 tiers:
   - id: community
+    featureCellWidth: 20rem
     name: Community
     highlight: false
     bold: false

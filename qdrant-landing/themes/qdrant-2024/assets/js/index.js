@@ -169,11 +169,6 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('click', toggleAccordion);
   });
 
-  const customersAccordionButtons = Array.from(document.getElementsByClassName('customers-case-studies__accordion-header'));
-  customersAccordionButtons.forEach((el) => {
-    el.addEventListener('click', toggleAccordion);
-  });
-
   // Pricing doors tabs
   const pricingDoorsTabs = document.querySelectorAll('.qdrant-pricing-doors-b__tab');
   const pricingDoorsContainers = document.querySelectorAll('[data-doors-tab]');

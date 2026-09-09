@@ -3,6 +3,7 @@ title: "Qdrant Essentials Course"
 page_title: Qdrant Essentials Course
 short_description: "Build production vector search skills in seven days: hybrid retrieval, multivector reranking, quantization, sharding, and multitenancy."
 description: Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine.
+weight: 10
 content:
   sidebarTitle: Qdrant Essentials
   menuTitle:
@@ -173,7 +174,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
   content: |
     - AI & LLM Frameworks (Haystack, Jina AI, TwelveLabs)
     - Data Processing (Unstructured.io)
-    - ML Platforms & Analytics (Tensorlake, Vectorize.io, Superlinked, Quotient)
+    - ML Platforms & Analytics (Tensorlake, Vectorize.io, Superlinked)
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start Day 7</a></p>

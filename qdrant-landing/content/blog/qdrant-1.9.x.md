@@ -40,7 +40,7 @@ We highly recommend this feature to enterprises using [Qdrant Hybrid Cloud](/hyb
 
 ## Faster shard transfers on node recovery
 
-We now offer a streamlined approach to [data synchronization between shards](/documentation/distributed_deployment/#shard-transfer-method) during node upgrades or recovery processes. Traditional methods used to transfer the entire dataset, but our new `wal_delta` method focuses solely on transmitting the difference between two existing shards. By leveraging the Write-Ahead Log (WAL) of both shards, this method selectively transmits missed operations to the target shard, ensuring data consistency. 
+We now offer a streamlined approach to [data synchronization between shards](/documentation/scaling/distributed_deployment/#shard-transfer-method) during node upgrades or recovery processes. Traditional methods used to transfer the entire dataset, but our new `wal_delta` method focuses solely on transmitting the difference between two existing shards. By leveraging the Write-Ahead Log (WAL) of both shards, this method selectively transmits missed operations to the target shard, ensuring data consistency. 
 
 In some cases, where transfers can take hours, this update **reduces transfers down to a few minutes.**
 
@@ -48,7 +48,7 @@ The advantages of this approach are twofold:
 1. **It is faster** since only the differential data is transmitted, avoiding the transfer of redundant information. 
 2. It upholds robust **ordering guarantees**, crucial for applications reliant on strict sequencing. 
 
-For more details on how this works, check out the [shard transfer documentation](/documentation/distributed_deployment/#shard-transfer-method).
+For more details on how this works, check out the [shard transfer documentation](/documentation/scaling/distributed_deployment/#shard-transfer-method).
 
 > **Note:** There are limitations to consider. First, this method only works with existing shards. Second, while the WALs typically retain recent operations, their capacity is finite, potentially impeding the transfer process if exceeded. Nevertheless, for scenarios like rapid node restarts or upgrades, where the WAL content remains manageable, WAL delta transfer is an efficient solution.
 

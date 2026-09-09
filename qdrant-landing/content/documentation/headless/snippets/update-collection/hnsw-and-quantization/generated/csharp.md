@@ -26,7 +26,7 @@ await client.UpdateCollectionAsync(
 		{
 			Type = QuantizationType.Int8,
 			Quantile = 0.8f,
-			AlwaysRam = true
+			Memory = Memory.Cached
 		}
 	}
 );

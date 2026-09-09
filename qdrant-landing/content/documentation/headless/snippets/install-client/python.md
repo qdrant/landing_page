@@ -1,3 +1,3 @@
 ```python
-qdrant-client
+pip install qdrant-client
 ```

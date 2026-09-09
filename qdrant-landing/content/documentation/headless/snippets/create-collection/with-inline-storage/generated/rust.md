@@ -1,20 +1,18 @@
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    BinaryQuantizationBuilder, CreateCollectionBuilder, Distance, HnswConfigDiffBuilder,
-    VectorParamsBuilder,
+    CreateCollectionBuilder, Datatype, Distance, HnswConfigDiffBuilder, Memory,
+    TurboQuantBitSize, TurboQuantizationBuilder, VectorParamsBuilder,
 };
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
-            .quantization_config(BinaryQuantizationBuilder::new(false))
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).memory(Memory::Cold).datatype(Datatype::Turbo4))
+            .quantization_config(TurboQuantizationBuilder::default().memory(Memory::Cold).bits(TurboQuantBitSize::Bits1))
             .hnsw_config(
                 HnswConfigDiffBuilder::default()
-                    .on_disk(true)
+                    .memory(Memory::Cold)
                     .inline_storage(true),
             ),
     )

@@ -7,7 +7,7 @@ PUT /collections/{collection_name}
     },
     "quantization_config": {
         "binary": {
-            "always_ram": true
+            "memory": "pinned"
         }
     }
 }

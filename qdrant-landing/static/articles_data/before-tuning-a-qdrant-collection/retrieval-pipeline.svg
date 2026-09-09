@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" role="img" aria-label="The hybrid retrieval pipeline: a dense prefetch and a sparse prefetch feed fusion, and an optional reranker rescores the fused candidates before the results return.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3D4866"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="320" fill="#FFFFFF"/>
+  <style>
+    .stage { font-family: "Mona Sans", -apple-system, "Segoe UI", sans-serif; font-weight: 600; font-size: 22px; }
+    .knobs { font-family: "Geist Mono", ui-monospace, "SF Mono", monospace; font-size: 15px; }
+    .tag   { font-family: "Mona Sans", -apple-system, "Segoe UI", sans-serif; font-size: 15px; }
+    .wire  { stroke: #3D4866; stroke-width: 2; fill: none; }
+  </style>
+
+  <!-- Retrieve: two prefetches -->
+  <rect x="40" y="62" width="250" height="76" rx="10" fill="#C0F0F0"/>
+  <text x="165" y="94" text-anchor="middle" class="stage" fill="#004F4F">Dense prefetch</text>
+  <text x="165" y="122" text-anchor="middle" class="knobs" fill="#004F4F">limit · hnsw_ef</text>
+
+  <rect x="40" y="182" width="250" height="76" rx="10" fill="#C0F0F0"/>
+  <text x="165" y="214" text-anchor="middle" class="stage" fill="#004F4F">Sparse prefetch</text>
+  <text x="165" y="242" text-anchor="middle" class="knobs" fill="#004F4F">limit · Modifier.IDF</text>
+
+  <!-- Fuse -->
+  <rect x="470" y="122" width="250" height="76" rx="10" fill="#FFDADB"/>
+  <text x="595" y="154" text-anchor="middle" class="stage" fill="#91012A">Fusion</text>
+  <text x="595" y="182" text-anchor="middle" class="knobs" fill="#91012A">RRF (k, weights) · DBSF</text>
+
+  <!-- Rerank (optional) -->
+  <text x="1020" y="106" text-anchor="middle" class="tag" fill="#5700C9">optional</text>
+  <rect x="895" y="122" width="250" height="76" rx="10" fill="none" stroke="#8547FF" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="1020" y="154" text-anchor="middle" class="stage" fill="#5700C9">Reranker</text>
+  <text x="1020" y="182" text-anchor="middle" class="knobs" fill="#5700C9">candidate count · model</text>
+
+  <!-- Connectors -->
+  <path class="wire" d="M290 100 H380 V145 H460" marker-end="url(#arrow)"/>
+  <path class="wire" d="M290 220 H380 V175 H460" marker-end="url(#arrow)"/>
+  <path class="wire" d="M720 160 H885" marker-end="url(#arrow)"/>
+</svg>

@@ -1,3 +1,4 @@
+import ast
 import re
 import subprocess
 from pathlib import Path
@@ -19,6 +20,11 @@ RE_IMPORTS = re.compile(
 class LanguagePython(Language):
     NAME = "python"
     SNIPPET_FILENAME = "python.py"
+    SUPPORTS_SYNTAX_CHECK = True
+
+    @classmethod
+    def check_syntax(cls, code: str) -> None:
+        ast.parse(code)
 
     @classmethod
     def compile(cls, tmpdir: Path, fnames: list[Path]) -> CompileResult:

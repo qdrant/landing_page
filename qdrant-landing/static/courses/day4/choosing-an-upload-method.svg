@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 345" width="900" height="345" role="img" aria-label="upsert takes models.Batch or a list and you batch it yourself; every client library has it. upload_points is record-oriented, an iterable of PointStruct, one object per point carrying its id, vector and payload. upload_collection is column-oriented, taking vectors, payload and ids as parallel columns. All three write into the collection.">
+  <style>
+    .name { font-family:"Geist Mono",ui-monospace,monospace; font-size:17px; fill:#28324D }
+    .sub  { font-family:"Geist Mono",ui-monospace,monospace; font-size:15px; fill:#576280 }
+    .on   { font-family:"Geist Mono",ui-monospace,monospace; font-size:15px; fill:#576280 }
+    .teal { font-family:"Geist Mono",ui-monospace,monospace; font-size:16px; fill:#038585 }
+  </style>
+
+  <defs>
+    <marker id="mb" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#89A9FF"/></marker>
+    <marker id="mr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#FF516B"/></marker>
+    <marker id="mt" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1FC7C7"/></marker>
+    <marker id="mg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#038585"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="345" rx="6" fill="#FFFFFF"/>
+
+  <!-- ============ upsert, arrow y=85 ============ -->
+  <text x="150" y="40" class="name" text-anchor="middle">upsert</text>
+  <text x="150" y="61" class="sub"  text-anchor="middle">models.Batch or a list</text>
+  <rect x="135" y="70" width="30" height="30" rx="6" fill="#D9E2FE" stroke="#89A9FF" stroke-width="1.5"/>
+  <text x="430" y="79" class="on"   text-anchor="middle">you batch it yourself</text>
+  <path d="M172,85 L610,85" fill="none" stroke="#89A9FF" stroke-width="1.6" marker-end="url(#mb)"/>
+
+  <!-- ============ upload_points, arrow y=195 ============ -->
+  <text x="150" y="150" class="name" text-anchor="middle">upload_points</text>
+  <text x="150" y="171" class="sub"  text-anchor="middle">iterable of PointStruct</text>
+  <rect x="135" y="180" width="30" height="30" rx="6" fill="#FFDADB" stroke="#FF8792" stroke-width="1.5"/>
+  <text x="430" y="189" class="on"   text-anchor="middle">record-oriented</text>
+  <path d="M172,195 L610,195" fill="none" stroke="#FF516B" stroke-width="1.6" marker-end="url(#mr)"/>
+
+  <!-- ============ upload_collection, arrow y=305 ============ -->
+  <text x="150" y="260" class="name" text-anchor="middle">upload_collection</text>
+  <text x="150" y="281" class="sub"  text-anchor="middle">vectors, payload, ids</text>
+  <rect x="135" y="290" width="30" height="30" rx="6" fill="#C0F0F0" stroke="#1FC7C7" stroke-width="1.5"/>
+  <text x="430" y="299" class="on"   text-anchor="middle">column-oriented</text>
+  <path d="M172,305 L610,305" fill="none" stroke="#1FC7C7" stroke-width="1.6" marker-end="url(#mt)"/>
+
+  <!-- ============ converge on the collection ============ -->
+  <path d="M620,85 L664,85 L664,195" fill="none" stroke="#038585" stroke-width="1.5"/>
+  <path d="M620,305 L664,305 L664,195" fill="none" stroke="#038585" stroke-width="1.5"/>
+  <path d="M620,195 L700,195" fill="none" stroke="#038585" stroke-width="1.6" marker-end="url(#mg)"/>
+  <rect x="710" y="180" width="30" height="30" rx="6" fill="#C0F0F0" stroke="#038585" stroke-width="1.5"/>
+  <text x="756" y="190" class="teal">Points in</text>
+  <text x="756" y="209" class="teal">the collection</text>
+</svg>

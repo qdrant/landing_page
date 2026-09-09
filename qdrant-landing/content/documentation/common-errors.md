@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting
-short_description: "Diagnose and resolve common Qdrant errors, from open-file limits to incompatible file systems and corrupted collection metadata."
-description: "Troubleshoot common Qdrant runtime errors — open-file limits, POSIX file system requirements, and recovery from corrupted collection metadata."
+short_description: "Diagnose and resolve common Qdrant errors, from open-file limits and quota rejections to incompatible file systems and corrupted collection metadata."
+description: "Troubleshoot common Qdrant runtime errors: open-file limits, HTTP 507 quota rejections, POSIX file system requirements, and recovery from corrupted collection metadata."
 partition: deploy
 weight: 150
 aliases:
@@ -37,6 +37,28 @@ ulimit -n 10000
 ```
 
 Please note, the command should be executed before you run Qdrant server.
+
+## Insufficient storage (HTTP 507)
+
+*Available as of v1.19.0*
+
+When nodes have been configured with a [resource quotas](/documentation/ops-configuration/quotas/) no nodes may be availabe with replicas that accept writes. In that case, clients see an HTTP 507 Insufficient Storage, or gRPC `ResourceExhausted` error:
+
+```text
+Disk usage is at 95% of total capacity, exceeding the configured limit of 90%.
+Help: Reduce disk usage (e.g. delete points or drop collections), or raise
+`max_disk_usage_percent` in the global quota config.
+```
+
+See also: [When a Quota Is Exceeded](/documentation/ops-configuration/quotas/#when-a-quota-is-exceeded)
+
+To resolve it, either free the resource or raise the limit:
+
+- Delete points, or drop collections you no longer need. Point deletes stay allowed under a quota for exactly this reason. Deleting individual vectors or payload keys is rejected.
+- Add capacity. See [Capacity Planning](/documentation/capacity-planning/).
+- Raise the limit with `PUT /quotas`, if the quota is set lower than the node can actually handle.
+
+Writes don't resume the instant usage drops. A tripped limit clears only once usage has fallen under the [release margin](/documentation/ops-configuration/quotas/#release-margin), which defaults to 5 percentage points under the limit.
 
 ## Incompatible file system
 

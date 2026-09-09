@@ -47,9 +47,10 @@ edge_shard.update(UpdateOperation::PointOperation(
 use qdrant_edge::*;
 
 let retrieved = edge_shard.retrieve(
-    &[PointId::NumId(1)],
-    Some(WithPayloadInterface::Bool(true)),
-    Some(WithVector::Bool(false)),
+    RetrieveRequestBuilder::new(vec![PointId::NumId(1)])
+        .with_payload(WithPayloadInterface::Bool(true))
+        .with_vector(WithVector::Bool(false))
+        .build(),
 )?;
 
 use qdrant_edge::*;
@@ -66,20 +67,15 @@ edge_shard.update(UpdateOperation::VectorNameOperation(
 
 use qdrant_edge::*;
 
-let results = edge_shard.query(QueryRequest {
-    prefetches: vec![],
-    query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
-        query: vec![0.2f32, 0.1, 0.9, 0.7].into(),
-        using: Some(VECTOR_NAME.to_string()),
-    }))),
-    filter: None,
-    score_threshold: None,
-    limit: 10,
-    offset: 0,
-    params: None,
-    with_vector: WithVector::Bool(false),
-    with_payload: WithPayloadInterface::Bool(true),
-})?;
+let results = edge_shard.query(
+    QueryRequestBuilder::new(10)
+        .query(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
+            query: vec![0.2f32, 0.1, 0.9, 0.7].into(),
+            using: Some(VECTOR_NAME.to_string()),
+        })))
+        .with_payload(WithPayloadInterface::Bool(true))
+        .build(),
+)?;
 
 use qdrant_edge::*;
 
@@ -95,29 +91,24 @@ let filter = Filter {
     must_not: None,
 };
 
-let results = edge_shard.query(QueryRequest {
-    prefetches: vec![],
-    query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
-        query: vec![0.2f32, 0.1, 0.9, 0.7].into(),
-        using: Some(VECTOR_NAME.to_string()),
-    }))),
-    filter: Some(filter),
-    score_threshold: None,
-    limit: 10,
-    offset: 0,
-    params: None,
-    with_vector: WithVector::Bool(false),
-    with_payload: WithPayloadInterface::Bool(true),
-})?;
+let results = edge_shard.query(
+    QueryRequestBuilder::new(10)
+        .query(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
+            query: vec![0.2f32, 0.1, 0.9, 0.7].into(),
+            using: Some(VECTOR_NAME.to_string()),
+        })))
+        .filter(filter)
+        .with_payload(WithPayloadInterface::Bool(true))
+        .build(),
+)?;
 
 use qdrant_edge::*;
 
-let facet_response = edge_shard.facet(FacetRequest {
-    key: "color".try_into().unwrap(),
-    limit: 10,
-    filter: None,
-    exact: false,
-})?;
+let facet_response = edge_shard.facet(
+    FacetRequestBuilder::new("color".try_into().unwrap())
+        .limit(10)
+        .build(),
+)?;
 
 edge_shard.optimize()?;
 
@@ -165,6 +156,15 @@ let config = EdgeConfigBuilder::new()
         segment_capacity: 4 * 1024 * 1024,
         ..Default::default()
     })
+    .build();
+
+let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
+
+use qdrant_edge::*;
+
+let config = EdgeConfigBuilder::new()
+    .max_search_threads(4)
+    .search_pool_core(0)
     .build();
 
 let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;

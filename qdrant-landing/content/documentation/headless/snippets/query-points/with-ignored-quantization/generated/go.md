@@ -15,7 +15,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
 	Params: &qdrant.SearchParams{
 		Quantization: &qdrant.QuantizationSearchParams{
-			Ignore: qdrant.PtrOf(false),
+			Ignore: qdrant.PtrOf(true),
 		},
 	},
 })

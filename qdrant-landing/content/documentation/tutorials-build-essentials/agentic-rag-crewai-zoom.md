@@ -219,11 +219,11 @@ class SearchMeetingsTool(BaseTool):
         )
         query_vector = response.data[0].embedding
         
-        return self.qdrant_client.search(
+        return self.qdrant_client.query_points(
             collection_name='zoom_recordings',
-            query_vector=query_vector,
+            query=query_vector,
             limit=10
-        )
+        ).points
 ```
 
 The search results then feed into our analysis tool, which uses Claude to provide deeper insights:
