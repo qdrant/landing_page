@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ partial "resilience/hero" . }}
+  {{ partial "resilience/how-it-works" . }}
+  {{ partial "resilience/cluster-configuration" . }}
+  {{ partial "resilience/capabilities" . }}
+  {{ partial "resilience/deployment-models" . }}
+  {{ partial "resilience/case-study" . }}
+  
+  {{ with (.Site.GetPage "/resilience/faq") }}
+    {{ partial "nested-accordion" (dict "context" . "class" "pt-5 pt-lg-6 pb-lg-5") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/resilience/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

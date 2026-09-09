@@ -26,7 +26,7 @@
                 {{ end }}
                 {{ $latest = $latest.ByPublishDate.Reverse }}
                 {{ if gt (len $latest) 0 }}
-                  <div class="docs-articles__block">
+                  <div class="docs-articles__block docs-articles__block_featured">
                     <div class="docs-articles__block-header">
                       <div>
                         <h4 class="docs-articles__title">Latest Articles</h4>

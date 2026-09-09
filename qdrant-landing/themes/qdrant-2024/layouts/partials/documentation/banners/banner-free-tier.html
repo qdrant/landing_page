@@ -1,0 +1,26 @@
+<!-- Free tier banner: heading + CTA button on the left, a grid of free-tier features on the right. -->
+<section class="free-tier-banner">
+  <div class="free-tier-banner__inner">
+    <div class="free-tier-banner__intro">
+      <h2 class="free-tier-banner__title">{{ .title }}</h2>
+      <a
+        href="{{ .button.url }}"
+        {{ if strings.HasPrefix .button.url "https://" }}target="_blank"{{ end }}
+        class="button button_outlined button_sm free-tier-banner__button"
+      >
+        {{ .button.text }}
+      </a>
+    </div>
+
+    <ul class="free-tier-banner__features">
+      {{ range .features }}
+        <li class="free-tier-banner__feature">
+          <img class="free-tier-banner__feature-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+          <span class="free-tier-banner__feature-text">{{ .text }}</span>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+
+  <div class="docs-core__overlay"></div>
+</section>

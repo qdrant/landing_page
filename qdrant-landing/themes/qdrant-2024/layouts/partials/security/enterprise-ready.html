@@ -1,0 +1,35 @@
+{{ with (.Site.GetPage "/security/enterprise-ready") }}
+  <section class="security-enterprise-ready">
+    <div class="container">
+      <div class="row gy-3 gy-lg-2 gx-4">
+        {{ range $index, $card := .Params.cards }}
+          <div class="col-12 {{ if lt $index 2 }}col-lg-6{{ else }}col-lg-4{{ end }}">
+            <a 
+              class="card security-enterprise-ready__card"
+              href="{{ .link.url }}"
+              {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
+            >
+              {{ with .icon }}
+                <img class="security-enterprise-ready__card-icon" src="{{ .src }}" alt="{{ .alt }}" />
+              {{ else }}
+              {{ with .image }}
+                <img class="security-enterprise-ready__card-image" src="{{ .src }}" alt="{{ .alt }}" />
+              {{ end }}
+              {{ end }}
+    
+              {{ with .label }}
+                <span class="security-enterprise-ready__card-label">{{ . }}</span>
+              {{ end }}
+    
+              <h5 class="security-enterprise-ready__card-title">{{ .title }}</h5>
+              <p class="security-enterprise-ready__card-description">{{ .description | safeHTML }}</p>
+              <span class="link link_dark link_lg security-enterprise-ready__card-link">
+                {{ .link.text }}
+              </span>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

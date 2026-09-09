@@ -11,7 +11,7 @@ client.createCollection("{collection_name}", {
   },
   quantization_config: {
     turbo: {
-      always_ram: true,
+      memory: "pinned",
     },
   },
 });

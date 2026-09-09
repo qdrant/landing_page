@@ -20,8 +20,15 @@
     line-height: $spacer * 2;
 
     &:last-of-type {
-      width: $spacer * 3.5;
-      margin-left: $spacer;
+      width: auto;
+      // Keep visual gap to the previous page button ~$spacer after link padding
+      margin-left: $spacer * 0.25;
+
+      a {
+        width: auto;
+        padding-left: $spacer * 0.75;
+        padding-right: $spacer * 0.75;
+      }
     }
 
     a {
@@ -30,6 +37,15 @@
       height: 100%;
       color: $neutral-50;
       text-align: center;
+      border-radius: pxToRem(10);
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: $neutral-20;
+        background-color: $neutral-94;
+        outline: none;
+      }
     }
 
     &.active {
@@ -38,6 +54,133 @@
 
       a {
         color: $neutral-100;
+
+        &:hover,
+        &:focus-visible {
+          color: $neutral-100;
+          background-color: transparent;
+        }
+      }
+    }
+
+    &--ellipsis {
+      position: relative;
+    }
+  }
+
+  &__pages-menu {
+    width: 100%;
+    height: 100%;
+
+    &-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      border-radius: pxToRem(10);
+      color: $neutral-70;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      span {
+        line-height: 1;
+        letter-spacing: pxToRem(1);
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: $neutral-50;
+        background-color: $neutral-94;
+        outline: none;
+      }
+    }
+
+    &[open] > .pagination__pages-menu-trigger {
+      color: $neutral-50;
+      background-color: $neutral-94;
+    }
+
+    &-panel {
+      position: absolute;
+      bottom: calc(100% + #{pxToRem(8)});
+      left: 50%;
+      z-index: 20;
+      min-width: pxToRem(168);
+      max-width: min(pxToRem(280), 90vw);
+      max-height: pxToRem(220);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background-color: $neutral-100;
+      border: pxToRem(1) solid $neutral-90;
+      border-radius: pxToRem(12);
+      box-shadow: 0 pxToRem(8) pxToRem(24) rgba($neutral-10, 0.12);
+      transform: translateX(-50%);
+
+      &--start {
+        left: 0;
+        transform: none;
+      }
+
+      &--end {
+        left: auto;
+        right: 0;
+        transform: none;
+      }
+    }
+
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(5, $spacer * 2);
+      gap: pxToRem(4);
+      margin: 0;
+      padding: $spacer * 0.75;
+      list-style: none;
+    }
+
+    &-item {
+      height: $spacer * 2;
+      width: $spacer * 2;
+      line-height: $spacer * 2;
+      border-radius: pxToRem(10);
+
+      a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        color: $neutral-50;
+        text-align: center;
+        border-radius: inherit;
+        transition: background-color 0.15s ease, color 0.15s ease;
+
+        &:hover,
+        &:focus-visible {
+          color: $neutral-20;
+          background-color: $neutral-94;
+          outline: none;
+        }
+      }
+
+      &.active {
+        background-color: $primary-50;
+
+        a {
+          color: $neutral-100;
+
+          &:hover,
+          &:focus-visible {
+            color: $neutral-100;
+            background-color: transparent;
+          }
+        }
       }
     }
   }

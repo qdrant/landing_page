@@ -1,0 +1,50 @@
+{{ with (.Site.GetPage "/resilience/cluster-configuration") }}
+  <section class="resilience-cluster-configuration">
+    <div class="container">
+      <p class="resilience-cluster-configuration__label">{{ .Params.label }}</p>
+      <h3 class="resilience-cluster-configuration__title">{{ .Params.title }}</h3>
+      <p class="resilience-cluster-configuration__description">{{ .Params.description }}</p>
+      
+      <div class="row g-4 g-lg-0 resilience-cluster-configuration__cards">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4">
+            <div class="resilience-cluster-configuration__card">
+              <h6 class="resilience-cluster-configuration__card-title">{{ .title }}</h6>
+              <img class="resilience-cluster-configuration__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              <p class="resilience-cluster-configuration__card-description">{{ .description1 | safeHTML }}</p>
+              <p class="resilience-cluster-configuration__card-description">{{ .description2 | safeHTML }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="resilience-cluster-configuration__banner">
+        <div class="resilience-cluster-configuration__banner-header">
+          <img 
+            class="resilience-cluster-configuration__banner-icon" 
+            src="{{ .Params.banner.icon.src }}" 
+            alt="{{ .Params.banner.icon.alt }}" 
+          />
+          <h6 class="resilience-cluster-configuration__banner-title">{{ .Params.banner.title }}</h6>
+        </div>
+        <div class="resilience-cluster-configuration__banner-content">
+          <ul class="resilience-cluster-configuration__banner-list">
+            {{ range .Params.banner.list1 }}
+              <li class="resilience-cluster-configuration__banner-item">{{ .text }}</li>
+            {{ end }}
+          </ul>
+          <ul class="resilience-cluster-configuration__banner-list">
+            {{ range .Params.banner.list2 }}
+              <li class="resilience-cluster-configuration__banner-item">{{ .text }}</li>
+            {{ end }}
+          </ul>
+          <div class="resilience-cluster-configuration__banner-link">
+            <a class="link link_white link_md" href="{{ .Params.banner.link.url }}">
+              {{ .Params.banner.link.text }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

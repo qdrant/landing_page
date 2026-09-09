@@ -141,9 +141,9 @@ response = vclient.embed(
     input_type="query",
 )
 
-qclient.search(
+qclient.query_points(
     collection_name=COLLECTION_NAME,
-    query_vector=response.embeddings[0],
+    query=response.embeddings[0],
 )
 ```
 
@@ -162,7 +162,7 @@ response = await fetch(VOYAGEAI_BASE_URL, {
 
 response_body = await response.json();
 
-await client.search(COLLECTION_NAME, {
-    vector: response_body.data[0].embedding,
+await client.query(COLLECTION_NAME, {
+    query: response_body.data[0].embedding,
 });
 ```

@@ -14,9 +14,17 @@ These pages cover the settings and runtime options available for customizing and
 
 [Configuration](/documentation/ops-configuration/configuration/) describes how to customize Qdrant's behavior using config files and environment variables, covering storage paths, network interfaces, performance parameters, and feature flags.
 
+## Resource Quotas
+
+[Resource Quotas](/documentation/ops-configuration/quotas/) explains how to cap node memory and disk usage across a cluster, what happens when a node reaches a limit, and how to find the node that is full.
+
 ## Administration
 
-[Administration](/documentation/ops-configuration/administration/) covers runtime administration tools that let you modify instance behavior without restarting — including recovery mode for resolving out-of-memory situations.
+[Administration](/documentation/ops-configuration/administration/) covers runtime administration tools that let you modify instance behavior without restarting, including recovery mode for resolving out-of-memory situations, low memory mode, and strict mode.
+
+## Memory Tiers
+
+[Memory Tiers](/documentation/ops-configuration/memory-tiers/) explains how the `memory` parameter (`cold`, `cached`, `pinned`) controls RAM residency for vectors, indexes, quantized data, and payloads.
 
 ## Usage Statistics
 

@@ -1,0 +1,1 @@
+This code snippet creates a collection configured for stronger write guarantees. It sets `shard_number` to 6, `replication_factor` to 2, and `write_consistency_factor` to 2, so a write operation is only acknowledged once the specified number of replicas confirm it.

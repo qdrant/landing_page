@@ -5,14 +5,14 @@ use qdrant_client::qdrant::{
 use qdrant_client::qdrant::ReplicaState;
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client
     .create_shard_key(
         CreateShardKeyRequestBuilder::new("{collection_name}")
             .request(
                 CreateShardKeyBuilder::default()
                     .shard_key("user_1".to_string())
+                    .shards_number(1)
+                    .replication_factor(1)
                     .initial_state(ReplicaState::Partial)
             ),
     )

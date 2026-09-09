@@ -5,7 +5,8 @@ POST /collections/books/points/query
     "text": "Mieville",
     "model": "qdrant/bm25",
     "options": {
-      "language": "none",
+      "stemmer": {"type": "none"},
+      "stopwords": {},
       "tokenizer": "multilingual",
       "ascii_folding": true
     }

@@ -1,0 +1,29 @@
+{{ with (.Site.GetPage "/observability/configuration") }}
+  <section class="observability-configuration">
+    <div class="container">
+      <p class="observability-configuration__label">{{ .Params.label }}</p>
+      <h2 class="observability-configuration__title">{{ .Params.title }}</h2>
+      <div class="observability-configuration__cards">
+        {{ range .Params.features }}
+          <div class="observability-configuration__card">
+            <img class="observability-configuration__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <h5 class="observability-configuration__card-title">{{ .title }}</h5>
+            <p class="observability-configuration__card-description">{{ .description | safeHTML }}</p>
+            {{ if .image }}
+              <div class="observability-configuration__card-image-container">
+                <img class="observability-configuration__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              </div>
+            {{ end }}
+            {{ if .link }}
+              <div class="observability-configuration__card-link">
+                <a class="link link_white link_xl" href="{{ .link.url }}">
+                  {{ .link.text }}
+                </a>
+              </div>
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

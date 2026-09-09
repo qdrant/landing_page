@@ -1,1 +1,1 @@
-Update the collection by setting the vectors to be saved on disk for a specific vector named 'my_vector'. This code snippet demonstrates the configuration to ensure that the vector data is saved on disk within the collection.
+Update the collection by moving the vectors to the `cold` memory tier for a specific vector named 'my_vector'. This code snippet demonstrates the configuration to ensure that the vector data is stored on disk within the collection.

@@ -73,7 +73,7 @@ qdrant = QdrantVectorStore.from_documents(
 Local mode, without using the Qdrant server, may also store your vectors on disk so they’re persisted between runs.
 
 ```python
-qdrant = Qdrant.from_documents(
+qdrant = QdrantVectorStore.from_documents(
     docs,
     embeddings,
     path="/tmp/local_qdrant",
@@ -111,7 +111,7 @@ qdrant = QdrantVectorStore.from_documents(
 To search with only dense vectors,
 
 - The `retrieval_mode` parameter should be set to `RetrievalMode.DENSE`(default).
-- A [dense embeddings](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be provided for the `embedding` parameter.
+- A [dense embeddings](https://docs.langchain.com/oss/python/integrations/text_embedding) value should be provided for the `embedding` parameter.
 
 ```py
 from langchain_qdrant import RetrievalMode
@@ -128,6 +128,29 @@ query = "What did the president say about Ketanji Brown Jackson"
 found_docs = qdrant.similarity_search(query)
 ```
 
+If you'd rather not depend on an embedding provider's API, [FastEmbed](https://github.com/qdrant/fastembed) also lets you generate dense embeddings locally. You can wrap FastEmbed's `TextEmbedding` into LangChain's `Embeddings` interface:
+
+```py
+from typing import List
+
+from fastembed import TextEmbedding
+from langchain_core.embeddings import Embeddings
+
+
+class FastEmbedEmbeddings(Embeddings):
+    def __init__(self, model_name: str = "BAAI/bge-small-en-v1.5"):
+        self._model = TextEmbedding(model_name=model_name)
+
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        return [vector.tolist() for vector in self._model.embed(texts)]
+
+    def embed_query(self, text: str) -> List[float]:
+        return self.embed_documents([text])[0]
+
+
+embeddings = FastEmbedEmbeddings()  # defaults to BAAI/bge-small-en-v1.5
+```
+
 ### Sparse Vector Search
 
 To search with only sparse vectors,
@@ -142,7 +165,7 @@ To use it, install the [FastEmbed package](https://github.com/qdrant/fastembed#-
 ```python
 from langchain_qdrant import FastEmbedSparse, RetrievalMode
 
-sparse_embeddings = FastEmbedSparse(model_name="Qdrant/BM25")
+sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
 
 qdrant = QdrantVectorStore.from_documents(
     docs,
@@ -161,7 +184,7 @@ found_docs = qdrant.similarity_search(query)
 To perform a hybrid search using dense and sparse vectors with score fusion,
 
 - The `retrieval_mode` parameter should be set to `RetrievalMode.HYBRID`.
-- A [dense embeddings](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be provided for the `embedding` parameter.
+- A [dense embeddings](https://docs.langchain.com/oss/python/integrations/text_embedding) value should be provided for the `embedding` parameter.
 - An implementation of the [SparseEmbeddings interface](https://github.com/langchain-ai/langchain/blob/master/libs/partners/qdrant/langchain_qdrant/sparse_embeddings.py) using any sparse embeddings provider has to be provided as value to the `sparse_embedding` parameter.
 
 ```python
@@ -187,7 +210,7 @@ Note that if you've added documents with HYBRID mode, you can switch to any retr
 ## Next steps
 
 If you'd like to know more about running Qdrant in a LangChain-based application, please read our article
-[Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
+[Question Answering with LangChain and Qdrant](/articles/langchain-integration/). Some more information
 might also be found in the [LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant).
 
 - [Source Code](https://github.com/langchain-ai/langchain/tree/master/libs%2Fpartners%2Fqdrant)

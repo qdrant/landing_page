@@ -1,6 +1,8 @@
 from qdrant_client import QdrantClient, models
 
+# @hide-start
 client = QdrantClient(url="http://localhost:6333")
+# @hide-end
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -9,7 +11,7 @@ client.create_collection(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.99,
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )
