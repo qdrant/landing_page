@@ -8,7 +8,7 @@ weight: -220
 author: Matin Mahmood and John Kupchanko
 author_link: https://github.com/mnm-matin
 date: 2026-09-08T00:00:00+00:00
-draft: true
+draft: false
 keywords:
   - hyperbolic embeddings
   - poincare ball
