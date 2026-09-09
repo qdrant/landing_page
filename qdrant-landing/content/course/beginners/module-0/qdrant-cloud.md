@@ -22,9 +22,9 @@ isLesson: true
 
 <br/>
 
-Welcome to your first hands-on step. Before you can search anything, you need a place to store your vectors. That's what Qdrant Cloud gives you: a managed database that runs in the cloud, so there's nothing to install and nothing to keep running on your own machine. It comes with a secure connection, automatic backups, and a clean interface you'll use throughout this course.
+Welcome to your first hands-on step. Before you can search anything, you need a place to store your vectors. That's what Qdrant Cloud gives you: a managed Qdrant environment that runs in the cloud, so there's nothing to install and nothing to keep running on your own local machine. It comes with a secure connection, backups, easier updates, and a clean interface you'll use throughout this course.
 
-Don't worry if some words here are new. You'll set up a cluster, get a key that lets your code talk to it, and run one quick check to confirm it's working. That's the whole goal for this lesson.
+Don't worry if some terms here are new. You'll set up a cluster, get a key that lets your code talk to it, and run one quick check to confirm it's working. That's the whole goal for this lesson.
 
 ## Create Your Cluster
 
@@ -165,4 +165,10 @@ Learn more in the [Qdrant Cloud Inference documentation](/documentation/cloud/in
 
 ## Qdrant Agent Skills
 
-If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, install the [Qdrant Advisor skill](https://qdrant.tech/documentation/skills/#the-qdrant-advisor) early. It's a single assistant that can troubleshoot and advise on any Qdrant deployment: when you describe a problem like slow search, memory climbing toward an out-of-memory crash, a stuck optimizer, a scaling decision, it searches live documentation, pulls only the branch of guidance that matches your symptom, and grounds its diagnosis in that current, official guidance instead of stale training data.
+If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, install the [Qdrant Advisor skill](https://qdrant.tech/documentation/skills/#the-qdrant-advisor) early with this simple command:
+
+```bash
+npx skills add qdrant/skills/meta/qdrant-advisor
+```
+
+It's a single assistant that can troubleshoot and advise on any Qdrant deployment: when you describe a problem like slow search, memory climbing toward an out-of-memory crash, a stuck optimizer, a scaling decision, it searches live documentation, pulls only the branch of guidance that matches your symptom, and grounds its diagnosis in that current, official guidance instead of stale training data.

@@ -21,6 +21,10 @@ In this lesson you'll build your very first search, one small step at a time. Yo
 
 A quick vocabulary note before you start: a **vector** is just a list of numbers that represents something (a piece of text, an image, a product). Searching by vectors means finding the entries whose numbers are closest to your query's numbers. That's the whole idea, and the code below makes it concrete.
 
+## Before You Start
+
+This course requires Python 3.11 or above installed
+
 ## Step 1: Install the Qdrant Client
 
 The **client** is the Python library that lets your code talk to Qdrant. Install it first:
@@ -76,78 +80,6 @@ client.create_collection(
 
 This returns `True` when it works.
 
-**What's a distance metric?** It's the rule for deciding how similar two vectors are. Qdrant supports a few, and you can [read the full explanation in the collections documentation](/documentation/manage-data/collections/#distance-metrics):
+If completed correctly, you will now have an established Qdrant environment for the rest of the course. Later modules will explain collections, points, distance metrics, and more. Keep going to find out more!
 
-- **Cosine:** compares the *direction* two vectors point, ignoring their length. This is the most common choice for text search, and the one you'll use here.
-- **Euclidean:** the straight-line distance between two points.
-- **Dot:** considers both direction and length.
-
-## Step 5: Confirm the Collection Exists
-
-Ask Qdrant for the list of collections to check that yours was created:
-
-```python
-collections = client.get_collections()
-print("Existing collections:", collections)
-```
-
-## Step 6: Add Some Points
-
-A [point](/documentation/manage-data/points/) is one entry in your collection. Each point has three parts:
-
-- **ID:** a unique number or string to identify it.
-- **Vector:** the list of numbers.
-- **Payload:** optional extra information, such as a name or a category. This is what you'll filter and display later.
-
-```python
-points = [
-    models.PointStruct(
-        id=1,
-        vector=[0.1, 0.2, 0.3, 0.4],
-        payload={"category": "example"}
-    ),
-    models.PointStruct(
-        id=2,
-        vector=[0.2, 0.3, 0.4, 0.5],
-        payload={"category": "demo"}
-    )
-]
-
-client.upsert(
-    collection_name=collection_name,
-    points=points
-)
-```
-
-When this finishes, you'll see a result with `status=<UpdateStatus.COMPLETED>`, which means your points are stored.
-
-## Step 7: Check What You Stored
-
-Have a look at the collection to confirm your points landed:
-
-```python
-collection_info = client.get_collection(collection_name)
-print("Collection info:", collection_info)
-```
-
-You'll see `points_count=2` along with the vector settings and index details.
-
-## Step 8: Run Your First Search
-
-Now the payoff. You give Qdrant a **query vector**, and it returns the stored points closest to it. The closest match comes first, ranked by a similarity score:
-
-```python
-query_vector = [0.08, 0.14, 0.33, 0.28]
-
-search_results = client.query_points(
-    collection_name=collection_name,
-    query=query_vector,
-    limit=1  # return only the single closest match
-)
-
-print("Search results:", search_results)
-```
-
-You'll get back something like `points=[ScoredPoint(id=1, score=0.976..., payload={'category': 'example'})]`. The `score` is how close the match is — higher means more similar.
-
-That's a complete vector search, start to finish. **Congratulations! You've completed Module 0.** 🎉
+ **Congratulations! You've completed Module 0.** 🎉

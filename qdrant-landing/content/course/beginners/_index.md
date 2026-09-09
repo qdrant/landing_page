@@ -125,7 +125,7 @@ Understand why traditional search struggles and how modern semantic search impro
     - References & Further Reading
     <br>
     <br>
-    <p style="margin-left: 0px;">→ Coming soon</p>
+    <p style="margin-left: 0px;"><a href="/course/beginners/module-1/">→ Start Module 1</a></p>
 
 - title: "Module 2: First Principles of Vector Search"
   content: |
@@ -136,7 +136,7 @@ Understand why traditional search struggles and how modern semantic search impro
     - Points, Payloads, and Queries
     <br>
     <br>
-    <p style="margin-left: 0px;">→ Coming soon</p>
+    <p style="margin-left: 0px;"><a href="/course/beginners/module-2/">→ Start Module 2</a></p>
 
 - title: "Module 3: Sparse vs Dense vs Hybrid Search"
   content: |
@@ -147,7 +147,7 @@ Understand why traditional search struggles and how modern semantic search impro
     - Beyond Text: Multimodal Search
     <br>
     <br>
-    <p style="margin-left: 0px;">→ Coming soon</p>
+    <p style="margin-left: 0px;"><a href="/course/beginners/module-3/">→ Start Module 3</a></p>
 
 - title: "Module 4: Designing a Vector Search System"
   content: |
@@ -157,7 +157,7 @@ Understand why traditional search struggles and how modern semantic search impro
     - Deployment Considerations
     <br>
     <br>
-    <p style="margin-left: 0px;">→ Coming soon</p>
+    <p style="margin-left: 0px;"><a href="/course/beginners/module-4/">→ Start Module 4</a></p>
 
 - title: "Module 5: Capstone - Multimodal Supplier Risk Intelligence"
   content: |
@@ -167,7 +167,7 @@ Understand why traditional search struggles and how modern semantic search impro
     - Putting It All Together
     <br>
     <br>
-    <p style="margin-left: 0px;">→ Coming soon</p>
+    <p style="margin-left: 0px;"><a href="/course/beginners/module-5/">→ Start Module 5</a></p>
 
 - title: "Bonus Module: Further Reading"
   content: |
@@ -178,7 +178,7 @@ Understand why traditional search struggles and how modern semantic search impro
     - Other Advanced Techniques
     <br>
     <br>
-    <p style="margin-left: 0px;">→ Coming soon</p>
+    <p style="margin-left: 0px;"><a href="/course/beginners/module-6/">→ Start Module 6</a></p>
 {{< /accordion >}}
 
 ## Who It's For

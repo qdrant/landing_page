@@ -144,4 +144,4 @@ Advanced courses are recommended for those that have completed the Beginner and 
     </p>
 {{< /accordion >}}
 
-**Want something not mentioned above? Email [devrel@qdrant.com](emailto:devrel@qdrant.com) and let us know!**
+**Want something not mentioned above? Email [devrel@qdrant.com](mailto:devrel@qdrant.com) and let us know!**
