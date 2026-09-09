@@ -7,7 +7,9 @@ weight: 10
 
 # Private Cloud Configuration
 
-The Qdrant Private Cloud helm chart has several configuration options. The following YAML shows all configuration options with their default values:
+The Qdrant Private Cloud Helm chart has several configuration options. These values configure the Operator, cluster manager, and cluster exporter. They do not set per-cluster Qdrant database options. For database settings such as API keys, TLS, and [audit logging](/documentation/private-cloud/logging-monitoring/#audit-logging) (`spec.config.audit`), see [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/) and the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig).
+
+The following YAML shows all Helm chart configuration options with their default values:
 
 ```yaml
 operator:

@@ -1,7 +1,7 @@
 ---
 title: Logging & Monitoring
-short_description: "Collect logs and Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
-description: "Collect logs and Prometheus-compatible metrics from Qdrant Private Cloud clusters and visualize cluster health with a ready-made Grafana dashboard."
+short_description: "Collect application logs, audit logs, and Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
+description: "Collect application logs, enable Qdrant audit logging, and scrape Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
 weight: 25
 ---
 
@@ -37,9 +37,48 @@ spec:
     log_level: "DEBUG"
 ```
 
+### Audit Logging
+
+*Available as of Qdrant v1.17.0*
+
+Qdrant can write structured JSON audit log entries for API operations that require authentication or authorization. Enable it on the `QdrantCluster` with `spec.config.audit`:
+
+```yaml
+apiVersion: qdrant.io/v1
+kind: QdrantCluster
+metadata:
+  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
+  labels:
+    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+    customer-id: "acme-industries"
+spec:
+  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+  version: "v1.17.0"
+  size: 1
+  resources:
+    cpu: 100m
+    memory: "1Gi"
+    storage: "2Gi"
+  config:
+    audit:
+      enabled: true
+      # Default directory on the database volume. Override only if you need a different path.
+      # dir: ./storage/audit
+      rotation: daily
+      max_log_files: 7
+      # Only enable behind a trusted reverse proxy or load balancer.
+      trust_forwarded_headers: false
+```
+
+Audit logs are written as files on the cluster's storage volume (default `./storage/audit`). They are separate from the container stdout logs shown with `kubectl logs`. Audit logging is verbose and can grow quickly, so size the PersistentVolume with enough headroom.
+
+From Qdrant v1.18.0, you can attach tracing IDs with headers such as `x-request-id`, and query recent entries with `POST /audit/logs` (manage-level access). For field reference, filters, and client examples, see [Audit Logging](/documentation/security/#audit-logging) in the Security guide. For every `AuditConfig` field, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig).
+
 ### Integrating with a log management system
 
 You can integrate the logs into any log management system that supports Kubernetes. There are no Qdrant specific configurations necessary. Just configure the agents of your system to collect the logs from all Pods in the Qdrant namespace.
+
+To collect audit log files as well, configure your agent to read from the audit directory on each Qdrant Pod's data volume, or pull entries through the [`/audit/logs` API](/documentation/security/#query-audit-logs).
 
 ## Monitoring
 
