@@ -326,9 +326,13 @@ spec:
       trust_forwarded_headers: false
 ```
 
-Set `trust_forwarded_headers` only when the cluster sits behind a trusted reverse proxy or load balancer, so client IPs in the audit trail come from `X-Forwarded-For`.
+`trust_forwarded_headers` makes Qdrant take the client address from the `X-Forwarded-For` header instead of the TCP connection. Only enable it when the cluster sits behind a trusted reverse proxy or load balancer. On a publicly reachable instance it lets clients spoof their IP address in the audit log.
 
-From Qdrant v1.18.0, clients can send tracing IDs (for example `x-request-id`), and you can query entries with `POST /audit/logs`. Details, including rotation options and the query API, are in [Audit Logging](/documentation/security/#audit-logging). Field-level reference for `AuditConfig` is in the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig). For collecting audit files alongside application logs, see [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/#audit-logging).
+Audit entries are written to files on the cluster's database volume (default `./storage/audit`), not to the container stdout that `kubectl logs` shows. Audit logging is verbose and the files can grow quickly, so size the PersistentVolume with enough headroom. For collecting them alongside application logs, see [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/#audit-logging).
+
+The Operator only writes this configuration if the cluster runs Qdrant v1.17.0 or later. On an older version it is dropped silently: the `QdrantCluster` still shows `enabled: true`, but no audit log is written and no error is reported.
+
+From Qdrant v1.18.0, clients can send tracing IDs (for example `x-request-id`), and you can query entries with `POST /audit/logs`. Details, including rotation options and the query API, are in [Audit Logging](/documentation/security/#audit-logging). Field-level reference for `AuditConfig` is in the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig).
 
 ## GPU support
 

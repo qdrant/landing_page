@@ -93,7 +93,7 @@ For more information also see the [Helm Install Documentation](https://helm.sh/d
 
 The Qdrant Private Cloud Helm chart comes with a set of default values which are suitable for most deployments. However, you are able to customize the configuration further to fit your specific needs. See the [Private Cloud Configuration](/documentation/private-cloud/configuration/) page for all available configuration options.
 
-Helm values configure the Operator and related components. Per-cluster database settings, including [audit logging](/documentation/private-cloud/logging-monitoring/#audit-logging), authentication, and TLS, belong on the `QdrantCluster` resource. See [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/) after the Operator is installed.
+Helm values configure the Operator and related components. Per-cluster database settings, including [audit logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging), authentication, and TLS, belong on the `QdrantCluster` resource. See [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/) after the Operator is installed.
 
 You must ensure that the default `StorageClasses` and corresponding `VolumeSnapshotClass` are set appropriately for your environment.
 

@@ -130,7 +130,7 @@ Latest validated Qdrant version: 1.18.2
 Latest validated Qdrant version: 1.18.1
 
 * Support for Qdrant 1.18
-* Support for configuring Qdrant [audit logging](/documentation/private-cloud/logging-monitoring/#audit-logging) via `spec.config.audit` on `QdrantCluster` (requires Qdrant v1.17.0 or later)
+* Support for configuring Qdrant [audit logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) via `spec.config.audit` on `QdrantCluster` (requires Qdrant v1.17.0 or later)
 
 ## 1.9.6 (2026-02-19)
 
