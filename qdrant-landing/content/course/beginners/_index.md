@@ -1,21 +1,23 @@
 ---
-title: "Beginner Course"
+title: "Qdrant Beginner Course"
 page_title: "Qdrant Beginner Course"
 short_description: "Learn the fundamentals of vector search: why keyword search struggles, how semantic search improves it, embeddings, distance metrics, and hybrid systems."
 description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 content:
-  sidebarTitle: "Beginner Course"
+  sidebarTitle: "Qdrant Beginner Course"
   menuTitle:
     text: Course Overview
     url: /course/beginners/
   nextButton: Continue to Next Step
   nextDay: Complete
-  title: "Beginner Course"
+  title: "Qdrant Beginner Course"
   description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 partition: course
+# sorts the course list on /course/ ahead of Essentials (10) and Multi-Vector (20)
+weight: 5
 ---
 
-# Beginner Course
+# Qdrant Beginner Course
 
 **Learn the fundamentals of vector search**
 

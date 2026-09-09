@@ -2,7 +2,7 @@
 title: "Qdrant Setup"
 short_description: "Spin up a managed Qdrant Cloud cluster, generate API keys, and explore the Web UI for collections, points, and cluster monitoring."
 description: Set up your Qdrant Cloud cluster in minutes. Learn to create collections, manage data, access the Web UI, and connect securely from Python.
-weight: 2
+weight: 3
 isLesson: true
 ---
 
