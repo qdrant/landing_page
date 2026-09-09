@@ -76,7 +76,8 @@
                     <a href="{{ $next.RelPermalink }}" class="button button_contained button_sm">
                       {{ if eq $currentWeight $maxWeight }}
                         {{ $subject.Params.content.nextDay }}
-                        {{ .Parent.Title }}
+                        {{/* lesson titles read "Module 1: ..." / "Day 1: ..."; the button wants just the number */}}
+                        {{ index (split .Parent.Title ":") 0 }}
                       {{ else }}
                         {{ $subject.Params.content.nextButton }}
                       {{ end }}
