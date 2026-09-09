@@ -25,7 +25,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/TJJLsqBnX8o"
+  src="https://www.youtube.com/embed/9XKQ3NSch_s?rel=0"
   title="YouTube video player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
