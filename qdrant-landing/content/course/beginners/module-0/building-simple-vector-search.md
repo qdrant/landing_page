@@ -19,7 +19,7 @@ or leave this commented out until one exists.
 
 In this lesson you'll build your very first search, one small step at a time. You'll connect to Qdrant, create a place to store data, add a few example vectors, and then ask Qdrant to find the closest match. Every step has runnable code, so follow along in a notebook or script.
 
-A quick vocabulary note before you start: a **vector** is just a list of numbers that represents something (a piece of text, an image, a product). Searching by vectors means finding the entries whose numbers are closest to your query's numbers. That's the whole idea, and the code below makes it concrete.
+A quick vocabulary note before you start: a **vector** is just a list of numbers that represents something (a piece of text, an image, a product). Searching by vectors means finding the entries whose numbers are closest to your query's numbers.
 
 ## Before You Start
 
