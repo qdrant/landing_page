@@ -2,11 +2,9 @@
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.KeywordIndexParams;
+import io.qdrant.client.grpc.Collections.Memory;
 import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
     .createPayloadIndexAsync(
@@ -16,7 +14,7 @@ client
         PayloadIndexParams.newBuilder()
             .setKeywordIndexParams(
                 KeywordIndexParams.newBuilder()
-                    .setOnDisk(true)
+                    .setMemory(Memory.Cold)
                     .build())
             .build(),
         null,

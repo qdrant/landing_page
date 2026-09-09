@@ -313,6 +313,8 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 | get cluster info | ✅ | ✅ | ❌ | ❌ |
 | recover raft state | ✅ | ❌ | ❌ | ❌ |
 | delete peer | ✅ | ❌ | ❌ | ❌ |
+| get quotas | ✅ | ✅ | ❌ | ❌ |
+| set quotas | ✅ | ❌ | ❌ | ❌ |
 | get point | ✅ | ✅ | ✅ | ✅ |
 | get points | ✅ | ✅ | ✅ | ✅ |
 | upsert points | ✅ | ❌ | ✅ | ❌ |

@@ -84,6 +84,15 @@
     }
   }
   
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
   &__button {
     position: relative;
     z-index: 1;
@@ -138,6 +147,10 @@
 
     &__title {
       margin-bottom: $spacer * 2.5;
+    }
+
+    &__buttons {
+      justify-content: flex-start;
     }
   }
 

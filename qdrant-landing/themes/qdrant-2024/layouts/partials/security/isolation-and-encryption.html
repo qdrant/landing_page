@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/security/isolation-and-encryption") }}
+  <section class="security-isolation-and-encryption">
+    <div class="container">
+      <h3 class="security-isolation-and-encryption__title">{{ .Params.title }}</h3>
+      <p class="security-isolation-and-encryption__description">{{ .Params.description }}</p>
+      <div class="row gy-2 gy-lg-3 gx-4">
+        {{ range $index, $card := .Params.cards }}
+          <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-lg-5{{ else }}col-lg-7{{ end }}">
+            <div class="card security-isolation-and-encryption__card">
+              <img class="security-isolation-and-encryption__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h5 class="security-isolation-and-encryption__card-title">{{ .title }}</h5>
+              <p class="security-isolation-and-encryption__card-description">{{ .description | safeHTML }}</p>
+              <a
+                class="link link_dark link_md security-isolation-and-encryption__card-link"
+                href="{{ .link.url }}"
+              >
+              {{ .link.text }}
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

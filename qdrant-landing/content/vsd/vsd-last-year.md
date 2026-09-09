@@ -32,27 +32,24 @@ logos:
 title2: With Builders From
 logos2:
   - id: 0
-    src: /img/vsd-sf-26/vsd-logos/Bosch-Digital.svg
-    alt: Bosch-Digital logo
-  - id: 1
     src: /img/vsd-sf-26/vsd-logos/Johnson-Johnson.svg
     alt: Johnson-&-Johnson logo
-  - id: 2
+  - id: 1
     src: /img/vsd-sf-26/vsd-logos/Bayer.svg
     alt: Bayer logo
-  - id: 3
+  - id: 2
     src: /img/vsd-sf-26/vsd-logos/Zalando.svg
     alt: Zalando logo
-  - id: 4
+  - id: 3
     src: /img/vsd-sf-26/vsd-logos/Ebay.svg
     alt: Ebay logo
-  - id: 5
+  - id: 4
     src: /img/vsd-sf-26/vsd-logos/Lidl.svg
     alt: Lidl logo
-  - id: 6
+  - id: 5
     src: /img/vsd-sf-26/vsd-logos/Delivery-Hero.svg
     alt: Delivery-Hero logo
-  - id: 7
+  - id: 6
     src: /img/vsd-sf-26/vsd-logos/Mercedez.svg
     alt: Mercedez logo
 sitemapExclude: true

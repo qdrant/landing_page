@@ -109,4 +109,19 @@ edge_shard.update(UpdateOperation.create_field_index("color", PayloadSchemaType.
 edge_shard.close()
 
 edge_shard = EdgeShard.load(SHARD_DIRECTORY)
+
+edge_shard.close()
+
+config = EdgeConfig(
+    vectors={
+        VECTOR_NAME: EdgeVectorParams(
+            size=VECTOR_DIMENSION,
+            distance=Distance.Cosine,
+        )
+    },
+    max_search_threads=4,
+    search_pool_core=0,
+)
+
+edge_shard = EdgeShard.load(SHARD_DIRECTORY, config)
 ```

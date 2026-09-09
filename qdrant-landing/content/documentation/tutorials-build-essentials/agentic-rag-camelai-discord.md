@@ -184,7 +184,7 @@ qdrant_urls = [
     "/documentation/installation",
     "/documentation/search/filtering",
     "/documentation/manage-data/indexing",
-    "/documentation/distributed_deployment",
+    "/documentation/scaling/distributed_deployment",
     "/documentation/manage-data/quantization"
     # Add more URLs as needed
 ]

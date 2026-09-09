@@ -1,0 +1,27 @@
+<section class="pricing-banner{{ with .Params.variant }} pricing-banner__{{ . }}{{ end }}">
+  <div class="container">
+    <div class="pricing-banner__content">
+      <div class="pricing-banner__content-overlay-1"></div>
+      <div class="pricing-banner__content-overlay-2"></div>
+      <div class="pricing-banner__content-overlay-3"></div>
+      <div class="pricing-banner__text">
+        {{ if .Params.label }}
+          <p class="pricing-banner__label">{{ .Params.label }}</p>
+        {{ end }}
+        <h2 class="pricing-banner__title">{{ .Params.title | safeHTML }}</h2>
+        {{ if .Params.description }}
+          <p class="pricing-banner__description">{{ .Params.description }}</p>
+        {{ end }}
+      </div>
+      <div class="pricing-banner__button">
+        <a
+          href="{{ .Params.button.url }}"
+          class="button button_contained button_lg"
+          {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+        >
+          {{ .Params.button.text }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

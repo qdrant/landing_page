@@ -10,6 +10,18 @@ isLesson: true
 
 # Qdrant Setup
 
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/-8TpooWX8kE?rel=0"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
+
 Before diving into multi-vector search, you need a running Qdrant instance. Whether you choose Qdrant Cloud for a managed solution or a local deployment, this lesson will get you up and running.
 
 Multi-vector search requires specific collection configurations that differ from traditional single-vector setups. We'll cover the essentials to prepare your environment.

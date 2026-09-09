@@ -1,3 +1,3 @@
 ```rust
-qdrant-client
+cargo add qdrant-client
 ```

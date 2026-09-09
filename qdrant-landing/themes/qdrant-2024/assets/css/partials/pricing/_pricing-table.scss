@@ -1,7 +1,7 @@
 @use '../../helpers/functions' as *;
 @use 'sass:math';
 
-/* Shared pricing table styles – used by qdrant-pricing-features and qdrant-pricing-comparison */
+/* Shared pricing table styles – used by qdrant-pricing-comparison */
 
 :root {
   --tier-count: 4; // fallback; overridden per table via inline style in qdrant-pricing-features-table.html

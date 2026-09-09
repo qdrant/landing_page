@@ -1,0 +1,21 @@
+{{ with (.Site.GetPage "/serverless/to-use") }}
+  <section class="serverless-to-use">
+    <div class="container">
+      <div class="serverless-to-use__header">
+        <h3 class="serverless-to-use__title">{{ .Params.title }}</h3>
+        <p class="serverless-to-use__description">{{ .Params.description }}</p>
+      </div>
+      <div class="row g-2">
+        {{ range $i, $card := .Params.cards }}
+          <div class="col-12 col-lg-4 serverless-to-use__card">
+            <div class="card">
+              <div class="serverless-to-use__card-tag">0{{ add $i 1 }}</div>
+              <h5 class="serverless-to-use__card-title">{{ $card.title }}</h5>
+              <p class="serverless-to-use__card-description">{{ $card.description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

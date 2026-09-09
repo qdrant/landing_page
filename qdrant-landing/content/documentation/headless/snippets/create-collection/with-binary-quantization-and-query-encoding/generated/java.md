@@ -5,12 +5,10 @@ import io.qdrant.client.grpc.Collections.BinaryQuantization;
 import io.qdrant.client.grpc.Collections.BinaryQuantizationQueryEncoding;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.Memory;
 import io.qdrant.client.grpc.Collections.QuantizationConfig;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Collections.VectorsConfig;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
     .createCollectionAsync(
@@ -31,7 +29,7 @@ client
                             .newBuilder()
                             .setSetting(BinaryQuantizationQueryEncoding.Setting.Scalar8Bits)
                             .build())
-                        .setAlwaysRam(true)
+                        .setMemory(Memory.Pinned)
                         .build())
                     .build())
             .build())

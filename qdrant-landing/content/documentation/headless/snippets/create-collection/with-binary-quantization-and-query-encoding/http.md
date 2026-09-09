@@ -8,7 +8,7 @@ PUT /collections/{collection_name}
     "quantization_config": {
         "binary": {
             "query_encoding": "scalar8bits",
-            "always_ram": true
+            "memory": "pinned"
         }
     }
 }

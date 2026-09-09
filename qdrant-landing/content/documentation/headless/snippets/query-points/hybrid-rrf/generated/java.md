@@ -25,6 +25,7 @@ client.queryAsync(
       .setLimit(20)
       .build())
     .setQuery(rrf(Rrf.newBuilder().build()))
+    .setLimit(10)
     .build())
   .get();
 ```

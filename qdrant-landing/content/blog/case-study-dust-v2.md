@@ -22,6 +22,8 @@ partition: case-studies
 
 ![How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/case-study-dust-v2-v2-bento-dark.jpg)
 
+We first wrote about Dust in 2024, in [Dust and Qdrant: Using AI to Unlock Company Knowledge and Drive Employee Productivity](/blog/dust-and-qdrant/). This is what came next.
+
 ### The Challenge: Scaling AI Infrastructure for Thousands of Data Sources
 
 Dust, an OS for AI-native companies enabling users to build AI agents powered by actions and company knowledge, faced a set of growing technical hurdles as it scaled its operations. The company's core product enables users to give AI agents secure access to internal and external data resources, enabling enhanced workflows and faster access to information. However, this mission hit bottlenecks when their infrastructure began to strain under the weight of thousands of data sources and increasingly demanding user queries.

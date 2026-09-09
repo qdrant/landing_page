@@ -3,6 +3,7 @@ title: Low-Latency Search
 short_description: "Tune Qdrant for low-latency vector search with quantization, HNSW indexing, sharding, and replica routing strategies."
 description: "Reduce Qdrant search latency by tuning HNSW indexes, quantization, sharding, and replica routing for fast vector retrieval in distributed deployments."
 weight: 35
+cta: "Experience low-latency search. Spin up a free cluster in minutes."
 aliases:
   - /documentation/guides/low-latency-search/
 ---
@@ -17,7 +18,7 @@ Queries that filter on unindexed fields are not only slower; they can also unnec
 
 ## Scale Horizontally with Replicas
 
-Qdrant can be deployed in a [distributed configuration](/documentation/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
+Qdrant can be deployed in a [distributed configuration](/documentation/scaling/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/scaling/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/scaling/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
 
 For example, a collection with three shards and a replication factor of two would have six total replicas (two replicas for each of the three shards). On a cluster with three peers, these replicas can be evenly distributed across the peers, with each peer hosting two replicas.
 
@@ -82,3 +83,13 @@ Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimi
 <aside role="status">
 Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
+
+### Pin Reads with Route Affinity
+
+*Available as of v1.19.0*
+
+Enabling `prevent_unoptimized` makes cross-replica "blinking" more prominent: points held back until a segment is optimized become visible on each replica at slightly different times, and because reads are spread across replicas, successive requests for the same query can land on different replicas and see a point appear, disappear, then reappear. To keep reads stable for a given client, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value (such as a user or session ID) to pin all of that client's reads to the same replica, without giving up load balancing across other clients. Refer to [Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity) for details.
+
+## See Also
+
+- [Slow Request Log](/documentation/ops-monitoring/slow-request-log/) — Identify which specific queries are contributing to high latency.

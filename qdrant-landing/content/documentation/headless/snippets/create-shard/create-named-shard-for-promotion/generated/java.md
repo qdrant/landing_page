@@ -8,13 +8,12 @@ import io.qdrant.client.grpc.Collections.CreateShardKeyRequest;
 import io.qdrant.client.grpc.Collections.ReplicaState;
 import io.qdrant.client.grpc.Common.Filter;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
                 .setCollectionName("{collection_name}")
                 .setRequest(CreateShardKey.newBuilder()
                                 .setShardKey(shardKey("default"))
+                                .setShardsNumber(1)
+                                .setReplicationFactor(1)
                                 .setInitialState(ReplicaState.Partial)
                                 .build())
                 .build()).get();

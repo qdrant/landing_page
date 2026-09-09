@@ -1,8 +1,8 @@
 {
   "banner": {
-    "message": "Agent Skills for Qdrant are now available!",
-    "link": "https://github.com/qdrant/skills",
-    "link_text": "Download Here"
+    "message": "Qdrant v1.19.0 is available - TurboQuant 4bit as primary vector datatype and more",
+    "link": "https://github.com/qdrant/qdrant/releases/tag/v1.19.0",
+    "link_text": "Release notes"
   },
-  "latest_version": "1.17.1"
+  "latest_version": "1.19.0"
 }

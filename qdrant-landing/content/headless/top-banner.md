@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Hear from Slack, Adobe, Hubspot, Arize, Google DeepMind, Qualcomm & more at Vector Space Day "
+text: "Vector Space Stream: a research-first broadcast for engineers. Eight talks on compression, edge, hybrid search, and more. Sept 17."
 link:
-  text: Join us June 11 in San Francisco for agents, retrieval, & robotics
-  url: https://qdrant.tech/vector-space-day-sf-26/
-start: 2026-05-26T11:50:00.000Z
+  text: Tune in
+  url: https://luma.com/vector-space-stream
+start: 2026-09-02T12:00:00.000Z
 sitemapExclude: true
-end: 2026-06-10T14:00:00.000Z
+end: 2026-09-16T12:00:00.000Z
 
 ---
