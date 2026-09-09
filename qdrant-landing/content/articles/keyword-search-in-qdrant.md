@@ -1,5 +1,5 @@
 ---
-title: "Keyword Search in Qdrant: What to Configure and When"
+title: "How to Configure Keyword Search in Qdrant"
 short_description: "Which keyword settings to change, which to leave alone, and how to tell the difference on your own data."
 description: "When to use phrase matching, multilingual tokenization, and BM25 in Qdrant, when to skip them, and where the capabilities stop."
 preview_dir: /articles_data/keyword-search-in-qdrant/preview
@@ -19,146 +19,177 @@ date: 2026-08-13T12:00:00+03:00
 draft: false
 ---
 
-A customer types a part number, and a dense-only system returns things that mean roughly that: related, reasonable, not the part. Qdrant matches the words themselves on two surfaces beside your dense vector, a payload text index that filters and a sparse vector that ranks, and you configure each one separately. Here is what to configure for common keyword workloads, what our measurements settled, and what your own data has to decide.
+Search gets interesting when someone knows exactly what they want. Maybe they type a product number like `AB123`, paste an error code, or search for the exact phrase "brake pad."
 
-## Two Text Surfaces, Both Yours to Configure
+Dense search is great when the user is searching by meaning. But when they've typed a part number, something similar isn't good enough. They want that part number.
 
-*Text index and sparse*
+That's where keyword search comes in. In Qdrant you can keep the dense search you already have and add two keyword paths beside it: a payload text index for literal matching, and a sparse vector for ranking. Both live in the same collection as your dense vectors, so what you're really deciding is which one should handle which search.
 
-{{< figure src="/articles_data/keyword-search-in-qdrant/two-paths.svg" alt="Diagram: one query splits into two surfaces. The payload text index filters, narrowing a candidate set with no ordering inside it. A sparse vector ranks, producing scores that fuse with the dense vector's." width="100%" >}}
+## Two Keyword Paths, Two Different Jobs
 
-You're adding keyword matching beside a dense vector that already works, and Qdrant gives you two places to do it.
+Imagine someone searches your catalog for `brake pad`. Sometimes you just need to know which documents contain those words, and that's the payload text index: it filters the collection without scoring or ordering anything. Other times you have hundreds of matching documents and need to decide which should come first. That's what sparse vectors are for.
 
-- **Filtering**: The [payload](/documentation/manage-data/payload/) text index answers one question: does this document contain these words? No score, no ordering, only a narrowed set.
-- **Ranking**: A [sparse vector](/documentation/manage-data/vectors/) holds mostly zeros, one weight per word. Qdrant's built-in [BM25](/articles/minicoil/) model builds one from your text, and its scores merge with your dense vector's.
-- **Shared names**: Tokenizer, stemmer, stopwords, and ASCII folding sit on both surfaces under the same names, and each works only on its own path.
-- **Different defaults**: Leave the stemmer unset and you get Snowball English on the BM25 side and no stemming at all on the index side. Set it twice.
+Qdrant can use BM25 for sparse ranking, or you can bring in SPLADE or miniCOIL. If sparse search helps, you can combine it with your dense results.
 
-> You get two independent text surfaces over one collection, so every setting below has exactly one place to go.
-
-## Four Decisions, and What Each One Rests On
-
-*Both surfaces*
+Tokenizers, stemming, stopwords, and ASCII folding all exist on both paths, and configuring the text index doesn't configure your sparse vectors. If you want both sides treating the text the same way, you have to set both.
 
 {{< figure src="/articles_data/keyword-search-in-qdrant/four-decisions.svg" alt="Diagram: the four decisions laid against the two surfaces they sit on. Padlock glyphs mark the choices fixed when you create the index or upload your points, caliper glyphs mark the ones only your own data settles, and cells drawn solid were scored on BEIR while hatched cells are behavior we probed." width="100%" >}}
 
-Four decisions on those surfaces are genuinely yours. The rest hold at their defaults. Two of the four are locked when you create the index or upload your points, so deciding late means a rebuild. Two kinds of claim follow, so you know how far to trust each. What we say about `avg_len`, fusing, and the sparse methods, we scored on five English BEIR corpora and tested query by query. What we say about phrase matching and tokenizers is behavior we probed on hand-checked documents, not retrieval quality we measured.
+For most workloads there are four decisions worth your attention:
 
-- **`avg_len`**: Ranking path, BM25 only, and locked at upload. SPLADE and miniCOIL don't have it.
-- **Phrase matching**: Filter path, and switched on when you create the text index.
-- **The tokenizer**: Both paths, so you set it in both places.
-- **Whether to fuse**: Ranking path. Both vectors sit on one collection, so you score each leg on your own queries before you commit.
+1. `avg_len` for BM25
+2. Phrase matching for exact text
+3. The tokenizer your content needs
+4. Whether sparse and dense should be fused
 
-> The list is short and named, most of it stays at the defaults, and you can settle the rest on your own queries before you build anything.
+The last one is where I'd start testing.
 
-## Catalogs, Part Numbers, and Identifiers
-
-*Text index*
-
-{{< figure src="/articles_data/keyword-search-in-qdrant/present-vs-adjacent.svg" alt="Diagram: the query for the phrase brake pad, against three documents. One holds the phrase in order and matches. Two hold both words apart and match only when phrase matching is off." width="100%" >}}
-
-You're indexing a parts catalog, an error-code reference, or a support archive where people search by identifier. Qdrant's payload text index matches those words exactly.
-
-- **Adjacency, not presence**: Phrase matching lets the index require the words side by side in that order. It's off by default, and adding it later rebuilds that field's index.
-- **Identifiers split already**: The word tokenizer breaks on hyphens and underscores, so a code inside a longer part number matches on its own, and the opt-in prefix tokenizer covers leading fragments. A fragment mid-token stays out of reach.
-- **What we saw**: On phrases mined from corpus text rather than a scored benchmark run, phrase matching was exact on every one we tried, while the both-words query returned many more documents, none of the extras holding the phrase.
-- **Failure differs by deployment**: Under Cloud's default strict mode, a phrase query without the flag fails with an error naming the index it wanted. Self-hosted with strict mode off, we expect an empty result instead, unmeasured.
-
-> Set the flag when you create the index and a quoted product code returns that product, with the hyphens in your part numbers already matchable on their own.
-
-## Support Content in Japanese, Chinese, and Thai
-
-*Text index and sparse*
-
-{{< figure src="/articles_data/keyword-search-in-qdrant/where-words-end.svg" alt="Diagram: unspaced Japanese text becoming a single unsearchable token under the default tokenizer, then segmented into two searchable terms under the multilingual one. Below it, an accented word matched by an unaccented query once ASCII folding is on." width="100%" >}}
-
-You're putting support content behind search in Japanese, Chinese, or Thai, or in European languages your users type without accents. Qdrant segments unspaced text with its multilingual tokenizer, no per-language plugin involved. Our corpora are English, so what follows is behavior we probed on hand-checked documents rather than retrieval quality we measured.
-
-- **Multilingual tokenizer**: The default looks for spaces, so unspaced text arrives whole with nothing findable inside it.
-- **ASCII folding**: It's off by default. Turn it on and an unaccented query still reaches "München".
-- **Set both surfaces**: Set the tokenizer and the folding on your BM25 config too, or your text filters correctly and scores as one long word.
-- **No tokenization report**: Qdrant won't show you how it tokenized a value.
-- **Segmentation, not substrings**: A short word won't find a longer compound that contains it, and German compounds don't split.
-
-> Match the tokenizer to your text on both surfaces, and content in scripts that don't use spaces is searchable on the same collection as your English.
-
-## Fit BM25 to Your Own Corpus
-
-*Sparse only*
-
-{{< figure src="/articles_data/keyword-search-in-qdrant/wrong-yardstick.svg" alt="Diagram: the spread of document lengths in a corpus, with the corpus mean marked in green and BM25's fixed default of 256 marked in red far to the right. BM25 divides every document's length by the red line rather than the green one." width="100%" >}}
-
-You're ranking support tickets, product descriptions, or abstracts, whatever length your business made them. BM25 divides every document's length by a corpus average, and `avg_len` puts that average on your collection beside `k` and `b`, all three yours to set at upload.
-
-- **Measure your own mean**: The bundled model ships `avg_len` at 256 whatever your documents hold. Count the way BM25 counts, with stopwords stripped.
-- **Set it at upload**: The value bakes into every stored weight, so changing it later means re-indexing, and paying for dense inference again on a hybrid collection.
-- **Expect a small move**: Correcting it moved every corpus we tried in the right direction, the gains are small, and only some of them separate from noise.
-- **Don't predict the size**: Distance from the default didn't track the effect on our corpora, and on very short documents the corrected count can overshoot.
-
-> One pass over your documents and BM25 scores against your corpus's own lengths. It's the cheapest change on this page.
-
-## Score Each Leg Before You Build the Merge
-
-*Sparse and dense*
+## Do Not Assume Hybrid Search Is Better
 
 {{< figure src="/articles_data/keyword-search-in-qdrant/distance-decides.svg" alt="Diagram: two cases side by side. When dense and sparse score close together, fusing pays. When they are far apart, fusing costs, because the weaker side's confident mistakes displace the stronger side's right answers. Upgrading the embedding model moves a setup from the first case to the second." width="100%" >}}
 
-You have a dense setup that works, and you're weighing whether a sparse leg belongs beside it. Exact terms and quoted phrases stay available on the text index whatever you decide, so the only open question is the ranking half. One collection carries both vectors, so settle it on your own labeled queries: query sparse alone, dense alone, and fused at equal depth, then read the distance between the legs.
+It's easy to think dense understands meaning, sparse understands keywords, so combining them must be better. Sometimes that holds, and often it doesn't. The only way to find out is to test dense alone, sparse alone, and the two together on the same queries.
 
-- **The text index stays**: Quoted phrases, part numbers, and segmented scripts are a job no embedding upgrade covers, so this decision is only ever about the sparse ranking leg.
-- **Drop self-retrieval first**: If your queries are also documents in the collection, each one retrieves itself at the top and every number after it is wrong. Fetch past your cutoff and drop the query's own document. Where this applies, it outweighs every other decision here.
-- **Read the distance**: Close together, or sparse ahead, and fusing pays; far apart and it costs, because fusion promotes whatever each leg ranks first. No cutoff travels, and we measured near the top of the results only.
-- **Repeat after an upgrade**: Under the stronger dense model, the sparse leg did not significantly help on any of the five corpora and significantly hurt on three. Nothing looks broken when it happens.
-- **Merge weights are yours**: RRF (Cormack, Clarke, and Buettcher, 2009) shares its rank constant across both legs, so it can't down-weight a retriever at all. Per-leg weights can, and sweeping ours rose monotonically as the sparse weight fell, converging on not fusing, with the best weight chosen on the same queries it was scored on.
+If dense and sparse land reasonably close, fusion can help. If dense is much stronger, the sparse side starts promoting its own mistakes and pushing better dense results down.
 
-> Every leg is separately addressable over one collection, so you add the sparse half only where it earns its place, and keep exact matching either way. A morning of measurement, not a build you might undo.
+I hit this after switching to a stronger embedding model. Sparse search didn't significantly improve any of the five corpora I tested, and it significantly hurt three of them. Nothing in Qdrant was broken; the dense retriever had simply gotten good enough that equal fusion stopped being useful. So repeat this test whenever you change embedding models.
 
-## Three Sparse Methods, One Collection Shape
+Two things can wreck the measurement itself.
 
-*Sparse only*
+The first is self-retrieval. If your queries are also documents in the collection, remove them before scoring. On ArguAna, doing that moved nDCG@10 from `0.2639` to `0.3518`, a 25 percent difference, which was the largest effect of any protocol decision I made. It's a measurement artifact, not a tuning win, and if you leave it in every number after it is wrong.
 
-{{< figure src="/articles_data/keyword-search-in-qdrant/ordering-reverses.svg" alt="Diagram: BM25, SPLADE and miniCOIL ranked first, second and third across four corpora, with the order changing at every one and the lines crossing." width="100%" >}}
+The second is run-to-run noise. Query the same fused collection twice without changing anything: tie breaking alone moved 120 of 323 top 10 results on NFCorpus and 105 of 300 on SciFact. If a gain is smaller than the normal movement between your own two runs, I wouldn't call it an improvement.
 
-You've settled that a sparse leg earns its place. BM25, SPLADE, and miniCOIL are model names against one sparse vector field, and they solve lexical ranking differently, so start from the behavior that matches your content. On Cloud, BM25 and SPLADE run inference in-cluster.
+All of this only decides whether you need sparse *ranking*. You can still use the text index for exact phrases, identifiers, and other literal searches even when fusion doesn't help.
 
-- **Start from behavior**: BM25 counts words, so reach for it when your users type the terms your documents use. [SPLADE](https://huggingface.co/prithivida/Splade_PP_en_v1) learns its weights with a transformer and adds terms a document never used, which helps when they ask in different words than your content. [miniCOIL](/articles/minicoil/) keeps BM25's formula with contextual weights, for content where the same word means different things, and it encodes locally in our deployment.
-- **Then validate the pick**: Don't assume one of them wins everywhere. SPLADE placed first on two corpora and last on two others, and BM25 never won one where all three ran, so score your shortlist on your own queries before you commit.
-- **Set `Modifier.IDF` per method**: BM25 and miniCOIL need it; SPLADE's weights already carry term importance, which the modifier double-counts. Nothing errors either way.
-- **Ours are point estimates**: These comparisons span more than one version of our harness and read near the top of each ranking only, so take them as point estimates, not controlled swaps.
+## Pick Sparse Search Based on the Workload
 
-> Three methods read the same collection shape, so trying the one your content argues for costs a rebuild and a scoring run, not a second service.
+{{< figure src="/articles_data/keyword-search-in-qdrant/ordering-reverses.svg" alt="Diagram: BM25, SPLADE and miniCOIL placed first, second and third on each corpus. SPLADE leads on two and trails on three, miniCOIL leads on two, and BM25 sits second on every corpus where all three methods ran." width="100%" >}}
 
-## Where the Two Surfaces Cover Each Other
+If sparse ranking earns a place, the next question is which method. BM25, SPLADE, and miniCOIL all produce sparse vectors, but they behave differently.
 
-*All three*
+BM25 is the straightforward choice when your users search with the same terms that appear in your documents. SPLADE can add related terms that were never in the original text, which helps when users describe things differently from your content. miniCOIL adds contextual weighting, useful when the same word means different things depending on where it appears.
 
-{{< figure src="/articles_data/keyword-search-in-qdrant/three-limits.svg" alt="Diagram: three limits and the route through each. A misspelled query goes to the dense vector, a fragment mid-token has no route today, and weighting a title over a body needs one sparse vector per field." width="100%" >}}
+There was no universal winner in my testing. SPLADE finished first on two corpora and last on three, while BM25 stayed around the middle. miniCOIL only ran on three of the five, ArguAna, NFCorpus, and SciFact, so its comparisons rest on a narrower base than the other two. The order changed with retrieval depth as well: on NFCorpus, SPLADE was last at nDCG@10 and first at nDCG@100.
 
-Your users misspell things, quote part numbers, and search in scripts without spaces. One collection carries the text index, the sparse vector, and the dense vector, and the three divide the work along a clean line.
+So there's no sparse model I'd blindly pick for every application. Test the one that matches how your users search, and test it at the depth you actually serve.
 
-- **Your dense vector owns meaning**: A typo barely moves it, so the dense side takes what no keyword setting corrects. Over a small catalog, the filter path answered none of the misspelled queries, BM25 most, dense all, fused all: shape only, too small to size the effect.
-- **Keyword owns the literal**: Quoted phrases, part numbers, and segmented scripts stay the text index's job whatever the distance said, and no embedding upgrade covers them.
-- **Fragments inside a token**: Hyphens and underscores split already, and the opt-in prefix tokenizer covers leading fragments. A fragment mid-token has no route today.
-- **Field boosts**: A sparse vector is one bag of words with no fields in it. One per field plus per-leg weights buys a weight per field, costing storage and a prefetch per field per query, the only route today.
+BM25 and miniCOIL need `Modifier.IDF`. SPLADE doesn't, because its weights already carry term importance.
 
-> Keep all three in one collection and the gaps stop stacking up: what the words miss, your dense vector usually catches.
+```python
+qc.create_collection(
+    collection_name="docs",
+    vectors_config={
+        "dense": models.VectorParams(
+            size=1024,
+            distance=models.Distance.COSINE,
+        )
+    },
+    sparse_vectors_config={
+        "text-sparse": models.SparseVectorParams(
+            modifier=models.Modifier.IDF,
+        )
+    },
+)
+```
 
-## What to Set, and What to Measure
+For SPLADE, pass `None` instead.
 
-In build order, on a collection that already carries a dense vector:
+## Use the Text Index When the Words Themselves Matter
 
-- Create the text index with the tokenizer your content needs, and turn phrase matching on then.
-- Set that same tokenizer and your folding on the BM25 config too.
-- Measure your own corpus mean the way BM25 counts, and pass it as `avg_len` at upload.
-- Score sparse alone, dense alone, and fused on your own labeled queries before you build the merge, and again the day you change embedding models.
-- Keep both whatever the distance says: the dense vector for meaning, the text index for the literal. Design around the mid-token fragment and the field boost.
-- Change nothing else. Stemming and the stopword list earned their defaults on our corpora, so leave them alone.
+Back to `brake pad`. You probably don't want documents that mention "brake" near the top and "pad" somewhere near the bottom. You want the phrase. That's what phrase matching is for.
+
+```python
+qc.create_payload_index(
+    collection_name="docs",
+    field_name="text",
+    field_schema=models.TextIndexParams(
+        type=models.TextIndexType.TEXT,
+        tokenizer=models.TokenizerType.WORD,
+        lowercase=True,
+        phrase_matching=True,
+    ),
+    wait=True,
+)
+```
+
+With phrase matching on, the words have to appear together and in order. In my testing it matched all 180 phrases I pulled from real corpus text, while a normal AND query returned a median of 4.3 to 7 times as many documents, because it also caught every document where those words happened to appear separately. That gap is the whole point for catalogs, product names, support documentation, and error codes.
+
+Turn phrase matching on when you create the index. Adding it later rebuilds that field.
+
+Identifiers work naturally here too, since the word tokenizer already splits on hyphens and underscores, so a code inside `ABC-123-RED` becomes searchable on its own. There's also a prefix tokenizer when you need to match the start of a token. What you don't get today is arbitrary matching from the middle of one, so if your application leans on that, design around it before you index the catalog.
+
+## Match the Tokenizer to the Language
+
+{{< figure src="/articles_data/keyword-search-in-qdrant/where-words-end.svg" alt="Diagram: unspaced Japanese text becoming a single unsearchable token under the default tokenizer, then segmented into two searchable terms under the multilingual one. Below it, an accented word matched by an unaccented query once ASCII folding is on." width="100%" >}}
+
+English makes tokenization look simple because spaces usually show where words begin and end. Japanese, Chinese, and Thai don't work that way, and with a normal word tokenizer a long unspaced string becomes one giant token, leaving everything inside it hard to reach. Qdrant's multilingual tokenizer handles that segmentation for you.
+
+In a small test of five documents and 11 queries across Japanese, Chinese, and Thai, switching tokenizers took 8 of those 11 from returning nothing to returning the right document.
+
+ASCII folding solves a different problem. If your content has `München` and someone searches `Munchen`, folding lets those match.
+
+Just remember to set the same behavior on the sparse side, or your text index will segment one way while BM25 ranks another. And segmentation won't give you substring search: a short term still can't be found inside a longer compound on its own.
+
+## Check BM25's Average Document Length
+
+{{< figure src="/articles_data/keyword-search-in-qdrant/wrong-yardstick.svg" alt="Diagram: the spread of document lengths in a corpus, with the corpus mean marked in green and BM25's fixed default of 256 marked in red far to the right. BM25 divides every document's length by the red line rather than the green one." width="100%" >}}
+
+BM25 needs to know roughly how long the average document in your corpus is, and Qdrant's bundled model assumes an `avg_len` of `256`. That might match your data. It might not. If your documents average closer to 70 tokens, BM25 is still normalizing them against 256 until you say otherwise.
+
+So calculate the average before you upload, and count it the way BM25 counts, with stopwords removed. A raw word count runs high and undoes the correction you came for.
+
+```python
+avg_len = round(
+    sum(content_tokens(d) for d in docs) / len(docs),
+    1,
+)
+
+options = models.Bm25Config(
+    avg_len=avg_len,
+    k=1.2,
+    b=0.75,
+)
+```
+
+Use the same `options` for documents and queries. The value gets baked into the stored BM25 weights, so changing it later means reindexing.
+
+Correcting `avg_len` improved all five corpora I tested, with gains from `0.0035` to `0.0676` nDCG@10. ArguAna and SCIDOCS stayed significant after multiple comparison correction; the other three moved the same way, but by small enough margins that I'd still validate it on your own data.
+
+One exception is worth spelling out. If you're using the multilingual tokenizer for unspaced text, a normal word counter may see one or two tokens where Qdrant sees dozens, and your calculated average ends up worse than the default. Leave `avg_len` alone until you can count the same tokens Qdrant produces.
+
+## What I Would Configure First
+
+If you already have dense search running, I'd build keyword search in this order:
+
+1. Create the text index with the tokenizer your content needs.
+2. Enable phrase matching if users search for exact phrases.
+3. Apply the same tokenizer and ASCII folding to BM25.
+4. Measure your corpus `avg_len` before uploading.
+5. Remove self-retrieval before evaluating anything.
+6. Test dense, sparse, and fused separately.
+7. Repeat the fused test so you know your normal measurement noise.
+8. Test again whenever you change embedding models.
+9. Keep the text index for literal search even if sparse fusion doesn't help.
+
+Most other settings can stay at their defaults until your workload gives you a reason to change them. Two limits you design around instead of tuning: there's no matching from the middle of a token today, and field boosts need a separate sparse vector per field plus a query leg for each. Those are architecture decisions.
+
+You end up with three retrieval paths in one collection. Which of them your users need is a question your own queries answer.
+
+## How I Measured This
+
+Every number here came from the same setup, so you can rebuild it and check the results.
+
+I used five [BEIR](https://github.com/beir-cellar/beir) collections: ArguAna, FIQA, NFCorpus, SCIDOCS, and SciFact. The sparse legs were `Qdrant/bm25`, `prithivida/Splade_PP_en_v1`, and `Qdrant/minicoil-v1`, with miniCOIL running on ArguAna, NFCorpus, and SciFact only. The dense legs were `sentence-transformers/all-MiniLM-L6-v2` and `mixedbread-ai/mxbai-embed-large-v1`.
+
+BM25 ran at k=1.2 and b=0.75, with retrieval depth 100, scored using nDCG@10 on Qdrant v1.19.0 with in-cluster inference. On ArguAna, where the queries are themselves documents in the collection, each query's own document was dropped before scoring.
+
+Two caveats on provenance. The cross-method comparisons between BM25, SPLADE, and miniCOIL span more than one version of the harness, so read those orderings as point estimates rather than controlled swaps. And the two hand-probed results, the 180 phrases and the 11 multilingual queries, ran against client 1.18.0, so treat them as behavior checks.
 
 ## Where to Go Next
 
-- [Payload documentation](/documentation/manage-data/payload/): the text index options, phrase matching and the tokenizers included.
-- [Vectors documentation](/documentation/manage-data/vectors/): how sparse vectors are stored, queried, and fused with dense ones.
-- [BEIR](https://github.com/beir-cellar/beir): the five retrieval collections behind every result here, scored with nDCG@10 on Qdrant v1.19.0.
-- `qdrant-keyword-guide`, a private repository: the code, the raw per-query results, and the measurement limits behind this guidance.
+* [Payload documentation](/documentation/manage-data/payload/): text index options, phrase matching, and tokenizers.
+* [Vectors documentation](/documentation/manage-data/vectors/): sparse vectors and hybrid search.
+* [BEIR](https://github.com/beir-cellar/beir): the retrieval collections behind these measurements.
 
 To talk through your own setup, [get in touch](/contact-us/).
