@@ -32,6 +32,7 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 | **Reference** | [Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/) | Overview of patterns for synchronizing data between Edge Shards and Qdrant server collections |
 | **Advanced** | [Synchronize with a Server](/documentation/edge/edge-synchronization-guide/) | Synchronize an Edge Shard with a Qdrant server collection to offload indexing and synchronize data between devices |
 | **Reference** | [Edge API](/documentation/edge/edge-api/)                                 | Reference for the `EdgeShard` methods available in Python and Rust, with their parameters and return values |
+| **Reference** | [Edge vs. Qdrant Cluster](/documentation/edge/edge-vs-qdrant-cluster/) | Comparison of Qdrant Edge and Qdrant Server across architecture, operations, and API surface |
 
 ### More Examples
 
