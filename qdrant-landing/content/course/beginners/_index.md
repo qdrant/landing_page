@@ -13,6 +13,8 @@ content:
   title: "Qdrant Beginner Course"
   description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 partition: course
+# sorts the course list on /course/ ahead of Essentials (10) and Multi-Vector (20)
+weight: 5
 ---
 
 # Qdrant Beginner Course
