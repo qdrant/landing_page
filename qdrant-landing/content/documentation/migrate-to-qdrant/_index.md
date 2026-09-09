@@ -24,6 +24,7 @@ docker pull registry.cloud.qdrant.io/library/qdrant-migration
 | [Milvus](/documentation/migrate-to-qdrant/from-milvus/) | `milvus` | Yes |
 | [Elasticsearch](/documentation/migrate-to-qdrant/from-elasticsearch/) | `elasticsearch` | Yes |
 | [OpenSearch](/documentation/migrate-to-qdrant/from-opensearch/) | `opensearch` | Yes |
+| [Azure AI Search](/documentation/migrate-to-qdrant/from-azure-search/) | `azure` | Yes |
 | [pgvector](/documentation/migrate-to-qdrant/from-pgvector/) | `pg` | Yes |
 | [S3 Vectors](/documentation/migrate-to-qdrant/from-s3-vectors/) | `s3` | Yes |
 | [Chroma](/documentation/migrate-to-qdrant/from-chroma/) | `chroma` | Yes |
