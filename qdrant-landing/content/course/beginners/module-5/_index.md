@@ -11,8 +11,12 @@ weight: 60
 # Multimodal Supplier Risk Intelligence
 
 <div class="video">
-  <iframe src="https://www.youtube.com/embed/Cvl38vKHiWs?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-  </iframe>
+<iframe src="https://www.youtube.com/embed/ov6KqOmtLPw?rel=0" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
 </div>
 
 Apply every concept from Modules 1 through 4 in a single end-to-end system: ingest daily news, transcripts, and satellite imagery about your suppliers, cluster them into risk themes, and query all of it from one collection.
