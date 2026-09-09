@@ -10,6 +10,19 @@ isLesson: true
 
 # What Is Search?
 
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/5FOzvyCG-8s?rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+**Follow-along code**: [Module 1 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module1.ipynb)
+
 Search is the act of finding the right information out of everything you have, given a question. You type "car repair" into a box, and something has to decide which of your thousands of documents, products, or messages actually answers that.
 
 Every search system, no matter how it's built internally, does the same two things:

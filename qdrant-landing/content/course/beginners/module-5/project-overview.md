@@ -10,6 +10,17 @@ isLesson: true
 
 # Project Overview
 
+<div class="video">
+<iframe src="https://www.youtube.com/embed/ov6KqOmtLPw?rel=0" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
+</div>
+
+**Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module5.ipynb)
+
 A factory fire at a supplier's plant reaches you four ways. A local news report, a satellite image, an earnings call where an executive gets asked about it, and the supplier's own filing weeks later. You are building the system an analyst uses to see all four, and none of them arrives labeled as an incident.
 
 This is the news search system you designed in Module 4, extended in three ways:

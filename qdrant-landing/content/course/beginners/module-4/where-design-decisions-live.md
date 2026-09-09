@@ -10,6 +10,18 @@ isLesson: true
 
 # Where Design Decisions Live
 
+<div class="video">
+<iframe src="https://youtu.be/_PBKs94QGE0?rel=0" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
+</div>
+
+**Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
+
 A vector search system has five layers. The first four go from easiest to hardest to change. Distribution is separate, because its cost depends on which change you make, and [Growing Past One Machine](/course/beginners/module-4/growing-past-one-machine/) covers it.
 
 ![The five layers of a vector search system as stacked rows. Four sit on a shaded scale from easiest to hardest to change: Query, holding query embedding, dense and sparse search, fusion, and top-K; Indexing, holding the HNSW graph and payload indexes; Storage, holding quantization and on-disk storage; and Data, holding chunking, the embedding model, and the payload schema. Distribution, holding sharding and replication, sits below in a dashed group because what a change costs there depends on the operation.](/courses/beginners/module-4/layers.png)

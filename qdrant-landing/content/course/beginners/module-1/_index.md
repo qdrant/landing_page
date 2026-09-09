@@ -8,22 +8,9 @@ weight: 20
 
 {{< date >}} Module 1 {{< /date >}}
 
-<div class="video">
-<iframe
-  src="https://www.youtube.com/embed/5FOzvyCG-8s?rel=0"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
-</div>
-
 # Let's Understand Search
 
 Traditional search retrieves documents by matching the words in a query to the words in an index. It's fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you'll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
-
-**Follow-along code**: [Module 1 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module1.ipynb)
 
 #### Overview
 

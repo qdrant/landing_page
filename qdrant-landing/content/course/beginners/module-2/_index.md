@@ -10,19 +10,7 @@ weight: 30
 
 # First Principles of Vector Search
 
-<div class="video">
-<iframe
-  src="https://www.youtube.com/embed/kbdpE514qSY?rel=0"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
-</div>
-
 Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
-
-**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module2.ipynb)
 
 #### Overview
 

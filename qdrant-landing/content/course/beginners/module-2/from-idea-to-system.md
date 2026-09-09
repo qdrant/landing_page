@@ -10,6 +10,18 @@ isLesson: true
 
 # From Idea to System
 
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/kbdpE514qSY?rel=0"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module2.ipynb)
+
 In Module 1, we saw how search evolved from matching words to understanding meaning. Now we move from theory to actual system design. This module covers every building block you need to go from raw text to a running Qdrant collection.
 
 - **Raw Text**
