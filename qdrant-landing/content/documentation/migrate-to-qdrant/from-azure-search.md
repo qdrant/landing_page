@@ -53,15 +53,6 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | :--- | :--- | :--- |
 | `--qdrant.id-field` | `__id__` | Payload field name for original Azure AI Search document keys |
 
-## Gotchas
-
-- **Fields must be marked `retrievable`:** the connector fetches documents with `select: "*"`, which Azure AI Search limits to fields marked `"retrievable": true` in the index schema. This applies to vector fields too — make sure every vector field you want migrated is retrievable, or its values won't be returned at all.
-- **Missing or empty vectors are migrated silently:** if a document has no value (or an empty array) for a vector field — whether because it wasn't set or because the field isn't retrievable — the tool skips that named vector for the point without raising an error. Points can end up with fewer vectors than expected; verify vector counts after migration.
-- **Key field must be sortable and filterable:** the tool paginates through documents using keyset pagination (`orderby` plus a `gt` filter on the key field). If your index's key field isn't marked `"sortable": true` and `"filterable": true` in the schema, the migration fails immediately with an error instead of transferring partial data.
-- **API key authentication only:** the connector authenticates with an `api-key` header. Azure AD / managed identity authentication is not currently supported.
-- **Multiple vector fields become multiple named vectors:** if your index defines more than one vector field, each is migrated into the same Qdrant collection as a separate named vector, and the target collection is created with all of them configured up front.
-- **Unrecognized similarity metrics default to Cosine:** any HNSW or exhaustive-KNN metric other than `dotProduct` or `euclidean` (including `cosine`) is mapped to Qdrant's `Cosine` distance.
-
 ## Next Steps
 
 After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).
