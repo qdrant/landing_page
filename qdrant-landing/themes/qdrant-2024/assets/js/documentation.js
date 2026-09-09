@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const details = this.closest('details');
       const textSpan = this.querySelector('span');
       const spanRect = textSpan && textSpan.getBoundingClientRect();
-      if (spanRect && e.clientX <= spanRect.right) {
-        return; // click is within text span width — navigate normally
+      if (!spanRect || e.clientX <= spanRect.right) {
+        return; // no span to measure, or click is within the text — navigate normally
       }
       e.preventDefault();
       details.open = !details.open;
