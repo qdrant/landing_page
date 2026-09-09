@@ -10,10 +10,10 @@ PATCH /collections/{collection_name}
             "quantization_config": {
                 "product": {
                     "compression": "x32",
-                    "always_ram": true
+                    "memory": "pinned"
                 }
             },
-            "on_disk": true
+            "memory": "cold"
         }
     },
     "hnsw_config": {
@@ -23,7 +23,7 @@ PATCH /collections/{collection_name}
         "scalar": {
             "type": "int8",
             "quantile": 0.8,
-            "always_ram": false
+            "memory": "cached"
         }
     }
 }

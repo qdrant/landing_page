@@ -7,7 +7,7 @@ weight: 5
 
 # Role Management
 
-> 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for details](/documentation/cloud-rbac/).*
+> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-rbac/).*
 
 A **Role** contains a set of **permissions** that define the ability to perform or control specific actions in Qdrant Cloud. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification.
 

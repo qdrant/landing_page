@@ -5,7 +5,9 @@ public class Snippet
 {
 	public static async Task Run()
 	{
+		// @hide-start
 		var client = new QdrantClient("localhost", 6334);
+		// @hide-end
 
 		await client.CreateCollectionAsync(
 			"{collection_name}",
@@ -13,7 +15,7 @@ public class Snippet
 			{
 				Size = 768,
 				Distance = Distance.Cosine,
-				OnDisk = true
+				Memory = Memory.Cold
 			}
 		);
 	}

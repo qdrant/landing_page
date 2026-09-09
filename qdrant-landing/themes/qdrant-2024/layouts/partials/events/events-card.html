@@ -1,0 +1,67 @@
+{{ $event := . }}
+{{ $start := time.AsTime $event.Params.start }}
+
+{{ $end := $start }}
+{{ with $event.Params.end }}
+  {{ $end = time.AsTime . }}
+{{ end }}
+
+{{ $hasStartTime := findRE "T" $event.Params.start }}
+{{ $hasEndTime := false }}
+{{ with $event.Params.end }}
+  {{ $hasEndTime = findRE "T" . }}
+{{ end }}
+
+{{ $link := $event.Params.link }}
+{{ $linkURL := urls.Parse $link }}
+{{ $siteHost := (urls.Parse $event.Site.BaseURL).Host }}
+{{ $isExternal := and $linkURL.IsAbs (ne $linkURL.Host $siteHost) }}
+{{ $icons := $event.Parent.Params.icons }}
+
+<a href="{{ $link }}" class="events-card"{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>
+  <div class="events-card__date">
+    {{ with $icons.date }}{{ partial "svg" . }}{{ end }}
+    <p>
+      {{ if eq ($start.Format "2006-01-02") ($end.Format "2006-01-02") }}
+        {{ $start.Format "Mon, Jan 2, 2006" }}
+      {{ else }}
+        {{ $start.Format "Mon, Jan 2, 2006" }} - {{ $end.Format "Mon, Jan 2, 2006" }}
+      {{ end }}
+    </p>
+  </div>
+  
+  <div class="events-card__content">
+    <span class="events-card__type events-card__type-{{ $event.Params.type }}">{{ $event.Params.type }}</span>
+    <h3 class="events-card__title">{{ $event.Title }}</h3>
+    <p class="events-card__description">{{ $event.Params.description }}</p>
+
+    <div class="events-card__location">
+      <span class="events-card__type events-card__type-mobile events-card__type-{{ $event.Params.type }}">
+        {{ $event.Params.type }}
+      </span>
+      <p class="events-card__place">
+        {{ with $icons.place }}{{ partial "svg" . }}{{ end }}
+        {{ $event.Params.place }}
+      </p>
+
+      {{ if $hasStartTime }}
+        {{ $timeFormat := "3:04 PM" }}
+        {{ if $event.Params.timezoneLabel }}
+          {{ $timeFormat = "15:04" }}
+        {{ end }}
+  
+        <p class="events-card__time">
+          {{ with $icons.time }}{{ partial "svg" . }}{{ end }}
+
+          {{ $start.Format $timeFormat }}
+          {{ if and $hasEndTime (ne ($start.Format "15:04") ($end.Format "15:04")) }}
+            - {{ $end.Format $timeFormat }}
+          {{ end }}
+          {{ with $event.Params.timezoneLabel }}
+            <span class="events-card__timezone">{{ . }}</span>
+          {{ end }}
+        </p>
+      {{ end }}
+    </div>
+  </div>
+</a>

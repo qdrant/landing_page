@@ -24,6 +24,8 @@ Paying customers have access to our Support team. Links to the support portal ar
 
 Support is handled via **Jira Service Management (JSM)**. When creating a support ticket, you will be asked to select a request type and provide information to help us understand and prioritize your issue.
 
+For more information on our different support tiers and their included services and SLAs, have a look at our [Pricing Page](/pricing/).
+
 ### Request Type
 
 The form allows you to specify what your ticket is about:
@@ -64,3 +66,9 @@ You will also be asked to select a **severity level**, which determines how your
 - **Severity 4** – Minor issues: cosmetic bugs, general questions
 
 > Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for full definitions of severity levels and guaranteed response times per your [support tier](/documentation/cloud-premium/).
+
+## Service Status
+
+For real-time information on Qdrant Cloud uptime, ongoing incidents, and scheduled maintenance, check the Qdrant status page. If you're experiencing an issue, confirm whether it's a known service disruption before submitting a support ticket.
+
+<a href="https://status.qdrant.io/" class="button button_contained button_sm" target="_blank">Check Status</a>

@@ -162,9 +162,9 @@ response_body = nvidia_session.post(
     NVIDIA_BASE_URL, headers=headers, json=payload
 ).json()
 
-client.search(
+client.query_points(
     collection_name=collection_name,
-    query_vector=response_body["data"][0]["embedding"],
+    query=response_body["data"][0]["embedding"],
 )
 ```
 
@@ -183,7 +183,7 @@ response = await fetch(NVIDIA_BASE_URL, {
 
 response_body = await response.json()
 
-await client.search(COLLECTION_NAME, {
-    vector: response_body.data[0].embedding,
+await client.query(COLLECTION_NAME, {
+    query: response_body.data[0].embedding,
 });
 ```

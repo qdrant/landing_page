@@ -7,6 +7,64 @@ weight: 35
 
 # Changelog
 
+## 1.9.15 (2026-09-04)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.7 |
+| operator                | 2.34.9  |
+| qdrant-cluster-manager  | v0.3.22 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.19.0
+
+* Fixed an edge case where a `chown` init container in `ImagePullBackOff` could block a Qdrant upgrade.
+* Updated operator to 2.34.9 and qdrant-kubernetes-api to v1.37.7.
+
+## 1.9.14 (2026-08-21)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.4 |
+| operator                | 2.34.5  |
+| qdrant-cluster-manager  | v0.3.22 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.19.0
+
+* Improved qdrant-cluster-manager performance for clusters with many nodes.
+* Added support for `rebalanceStrategy: disabled`.
+* Updated operator to 2.34.5 and qdrant-kubernetes-api to v1.37.4, including operator dependency updates.
+
+## 1.9.13 (2026-07-30)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.3 |
+| operator                | 2.34.2  |
+| qdrant-cluster-manager  | v0.3.19 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.18.3
+
+* Updated operator to 2.34.2 and qdrant-kubernetes-api to v1.37.3.
+
+## 1.9.12 (2026-07-17)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.1 |
+| operator                | 2.34.0  |
+| qdrant-cluster-manager  | v0.3.19 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.18.2
+
+* Updated operator to 2.34.0.
+* Tightened operator RBAC to least privilege: namespace-scoped resources now use Roles in watched namespaces, leader-election Lease access is limited to the release namespace, and VolumeAttributesClass access is create-only.
+* Traefik ingress and routing write permissions are now feature-gated, and unused ServiceAccount, Role, RoleBinding, and OpenShift SCC management permissions were removed.
+* Helm now rejects conflicting or unscoped limited-RBAC watch settings.
+
 ## 1.9.11 (2026-07-08)
 
 | Component               | Version |

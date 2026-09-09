@@ -2,7 +2,8 @@
 title: Text Search
 short_description: "Combine semantic vector search with lexical text features in Qdrant, including BM25 and full-text payload filters."
 description: "Run text search in Qdrant by mixing semantic vector retrieval with BM25 lexical search and full-text payload filters for robust hybrid search experiences."
-weight: 25
+weight: 40
+cta: "Test full-text and vector search together in Qdrant Cloud."
 aliases:
   - ../text-search
   - /documentation/guides/text-search/

@@ -1,0 +1,41 @@
+{{ with (.Site.GetPage "/quantization/configuration") }}
+  {{ $tables := .Params.tables | default slice }}
+  {{ $showTabs := gt (len $tables) 1 }}
+
+  <section class="quantization-configuration">
+    <div class="container">
+      <p class="quantization-configuration__label">{{ .Params.label }}</p>
+      <h2 class="quantization-configuration__title">{{ .Params.title }}</h2>
+  
+      {{ range $index, $table := $tables }}
+        {{ if and $table.cols (or $table.features $table.sections) }}
+          <div
+            class="quantization-configuration__table-wrapper{{ if and $showTabs (gt $index 0) }} quantization-configuration__table-wrapper--hidden{{ end }}"
+            data-features-tab="{{ $table.id }}"
+          >
+            {{ partial "features-table" (dict
+              "cols" $table.cols
+              "features" $table.features
+              "featureCellWidth" $table.featureCellWidth
+              "modifier" (slice "dark" "mobile-arrows" "mobile-align-left")
+              )
+            }}
+          </div>
+        {{ end }}
+      {{ end }}
+  
+      <div class="quantization-configuration__banner">
+        <div class="quantization-configuration__banner-overlay1"></div>
+        <div class="quantization-configuration__banner-overlay2"></div>
+        <div class="quantization-configuration__banner-overlay3"></div>
+        <p class="quantization-configuration__banner-content">{{ .Params.banner.content | safeHTML }}</p>
+        <a
+          class="link link_white link_md quantization-configuration__banner-link"
+          href="{{ .Params.banner.link.url }}"
+        >
+          {{ .Params.banner.link.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}

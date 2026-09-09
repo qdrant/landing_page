@@ -24,10 +24,7 @@
 @import 'partials/private-cloud-hero';
 @import 'partials/private-cloud-about';
 @import 'partials/private-cloud-get-contacted';
-@import 'partials/qdrant-cloud-hero';
-@import 'partials/qdrant-cloud-bento-cards';
-@import 'partials/qdrant-cloud-marketplaces';
-@import 'partials/qdrant-cloud-features-link';
+@import 'partials/qdrant-cloud';
 @import 'partials/video';
 @import 'partials/customer-list';
 @import 'partials/demos';
@@ -35,6 +32,7 @@
 @import 'partials/pagination';
 @import 'partials/newsletter';
 @import 'partials/qdrant-post';
+@import 'partials/customer-quote';
 @import 'partials/carousel';
 @import 'partials/leadership';
 @import 'partials/open-roles';
@@ -81,9 +79,20 @@
 @import 'partials/cloud-inference-faq';
 @import 'partials/cta-banner';
 @import 'partials/subscribe';
+@import 'partials/events/events-card';
+@import 'partials/events/events-list';
+@import 'partials/common-hero';
+@import 'partials/features-table';
+@import 'partials/nested-accordion';
 // used by landing pages under /lp/ (e.g. /lp/lucene)
 @import 'partials/elastic-lucene/index';
 @import 'partials/vsd/index';
 @import 'partials/vsd-recap/index';
 @import 'partials/vsd/vsd-agenda';
 @import 'partials/agenda';
+@import 'partials/pricing-banner';
+@import 'partials/quantization';
+@import 'partials/observability';
+@import 'partials/serverless';
+@import 'partials/security';
+@import 'partials/resilience';

@@ -1,0 +1,121 @@
+@use '../../helpers/functions' as *;
+
+.serverless-contact-form {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background: 
+          radial-gradient(115.51% 123.53% at 50% -9.94%, rgba(67, 37, 174, 0.00) 0%, rgba(67, 37, 174, 0.00) 75%, rgba(67, 37, 174, 0.80) 90%, #6143E0 100%), $neutral-10;
+  
+  &__title {
+    margin-bottom: $spacer * 3;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+    text-align: center;
+  }
+  
+  .contact-form {
+    max-width: pxToRem(720);
+    margin: 0 auto;
+    border-top: pxToRem(1) solid $neutral-40;
+    overflow: hidden;
+    
+    form {
+      gap: $spacer * 1.5 pxToRem(20);
+      margin-top: 0;
+
+      & > div:first-of-type {
+        display: none;
+      }
+      
+      & > div > .hs-main-font-element {
+        font-size: $font-size-xs;
+        line-height: pxToRem(18);
+        color: $neutral-60;
+        text-align: center;
+        
+        p {
+          margin-bottom: 0;
+          text-align: center;
+        }
+      }
+      
+      & > div:not(.hs-form-field):not(.hs-submit) {
+        width: 100%;
+        order: 1
+      }
+      
+      label {
+        margin-bottom: pxToRem(6);
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+      }
+
+      textarea {
+        height: pxToRem(130);
+        padding: $spacer;
+
+        &:focus::placeholder {
+          color: transparent;
+        }
+      }
+    }
+    
+    .hs-form-field {
+      width: 100%;
+    }
+    
+    .submitted-message {
+      margin-top: 0;
+    }
+
+    &__top-overlay {
+      width: pxToRem(210);
+      height: pxToRem(210);
+      background-image: url('/img/blurred/blurred-light-15.svg');
+      border-radius: 0 $spacer * 0.5 0 0;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    .contact-form {
+      padding: $spacer * 4;
+      
+      form {
+        .hs-email,
+        .hs-company {
+          width: 100%;
+        }
+
+        .hs-firstname,
+        .hs-lastname,
+        .hs-vectors_in_your_largest_collection,
+        .hs-where_do_you_run_vector_search_today {
+          width: calc(50% - pxToRem(10));
+        }
+        
+        .hs_submit {
+          margin-top: $spacer;
+          
+          input[type=submit] {
+            width: 100%;
+          }
+        }
+
+        textarea {
+          height: pxToRem(82);
+        }
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(62);
+    }
+  }
+}

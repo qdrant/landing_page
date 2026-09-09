@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/serverless/not-to-use") }}
+  <section class="serverless-to-use">
+    <div class="container">
+      <div class="serverless-to-use__header">
+        <h3 class="serverless-to-use__title">{{ .Params.title }}</h3>
+      </div>
+      <div class="row g-2">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4 serverless-to-use__card">
+            <div class="card">
+              <div class="serverless-to-use__card-tag serverless-to-use__card-tag-warning">X</div>
+              <h5 class="serverless-to-use__card-title">{{ .title }}</h5>
+              <p class="serverless-to-use__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+      <div class="serverless-to-use__alert">
+        <img 
+          class="serverless-to-use__alert-icon" 
+          src="{{ .Params.alertIcon.src }}" 
+          alt="{{ .Params.alertIcon.alt }}" 
+        />
+        <p class="serverless-to-use__alert-content">{{ .Params.alert }}</p>
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -115,7 +115,7 @@ build:
 ## Self-Hosted
 
 - [Installation](/documentation/installation/index.md) — Install Qdrant via Docker, Kubernetes, or binary on Linux, macOS, or Windows.
-- [Distributed Deployment](/documentation/distributed_deployment/index.md) — Multi-node clusters with horizontal sharding and replication for scale and fault tolerance.
+- [Distributed Deployment](/documentation/scaling/distributed_deployment/index.md) — Multi-node clusters with horizontal sharding and replication for scale and fault tolerance.
 - [Capacity Planning](/documentation/capacity-planning/index.md) — Estimate RAM and disk requirements for vectors, payloads, indexes, and replication factors.
 - [Snapshots](/documentation/snapshots/index.md) — Back up and restore collections for disaster recovery and cross-cluster replication.
 - [Production Checklist](/documentation/production-checklist/index.md) — Pre-launch review of sharding, replication, quantization, load balancing, and observability.

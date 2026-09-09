@@ -3,6 +3,7 @@ title: Hybrid Queries
 short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and multi-stage rescoring with Formula Query."
 description: "Run hybrid queries in Qdrant: fuse dense, sparse, and multivector results with RRF or DBSF, layer custom scoring with Formula Query, and pick the right method for your data."
 weight: 15
+cta: "Run hybrid queries on a free Cloud cluster."
 aliases:
   - ../hybrid-queries
 hideInSidebar: false
@@ -162,6 +163,12 @@ A formula query lets you compose a final score from prefetch scores (`$score`), 
 <aside role="status">Calibrate the decay weight against the scale of your fused <code>$score</code>. RRF scores are small (sums of <code>1/(k+rank)</code> terms), while decay functions return values in <code>[0, 1]</code>, so an unweighted decay term will dominate the fused score unless you multiply it by a smaller coefficient. Wrap the decay in a multiplication expression with a coefficient tuned to your workload.</aside>
 
 The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full formula query and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
+
+### Fusion in Distributed Collections
+
+The previous example puts the fusion inside a prefetch. In a multi-shard collection, a fusion merges results across all shards only when it is the main query, held in the top-level `query` field with the retrievers as its prefetches, as in the [RRF](#reciprocal-rank-fusion-rrf) and [DBSF](#distribution-based-score-fusion-dbsf) examples. When it instead sits inside a prefetch, each shard computes the fusion on its local results, so the fused ranking is per shard rather than global.
+
+To fuse across shards, make the fusion the main query. A main query is a single operation, so it cannot be both a fusion and a formula. To keep a formula rescore over fused results, use a single shard.
 
 ## Grouping
 

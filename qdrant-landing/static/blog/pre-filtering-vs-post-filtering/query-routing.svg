@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="'Mona Sans', Inter, -apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="qr-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8F98B2"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="900" height="420" fill="#FFFFFF"/>
+
+  <!-- filtered query: ringed query vector -->
+  <g>
+    <circle cx="70" cy="210" r="17" fill="none" stroke="#DC244C" stroke-width="2.5"/>
+    <circle cx="70" cy="210" r="8" fill="#DC244C"/>
+    <text x="70" y="252" text-anchor="middle" font-size="14" font-family="'Geist Mono', Menlo, monospace" fill="#3D4866">filtered query</text>
+  </g>
+
+  <line x1="95" y1="210" x2="140" y2="210" stroke="#8F98B2" stroke-width="2.5" marker-end="url(#qr-arrow)"/>
+
+  <!-- planner -->
+  <g>
+    <rect x="148" y="163" width="244" height="94" rx="12" fill="#FFDADB"/>
+    <text x="270" y="203" text-anchor="middle" font-size="22" font-weight="600" fill="#91012A">Query planner</text>
+    <text x="270" y="230" text-anchor="middle" font-size="13.5" font-family="'Geist Mono', Menlo, monospace" fill="#91012A">estimates how many</text>
+    <text x="270" y="247" text-anchor="middle" font-size="13.5" font-family="'Geist Mono', Menlo, monospace" fill="#91012A">points pass the filter</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#8F98B2" stroke-width="2.5" fill="none">
+    <path d="M 392 190 C 460 165, 470 130, 522 118" marker-end="url(#qr-arrow)"/>
+    <path d="M 392 220 C 460 230, 470 262, 522 270" marker-end="url(#qr-arrow)"/>
+    <path d="M 392 244 C 460 280, 470 335, 522 348" marker-end="url(#qr-arrow)"/>
+  </g>
+
+  <!-- tags -->
+  <g font-family="'Geist Mono', Menlo, monospace" font-size="14">
+    <rect x="428" y="122" width="72" height="26" rx="13" fill="#D9E2FE"/>
+    <text x="464" y="140" text-anchor="middle" fill="#0040A1">29/500</text>
+    <rect x="424" y="232" width="80" height="26" rx="13" fill="#D9E2FE"/>
+    <text x="464" y="250" text-anchor="middle" fill="#0040A1">471/500</text>
+  </g>
+
+  <!-- HNSW graph container with two traversal lanes -->
+  <g>
+    <rect x="530" y="38" width="340" height="160" rx="12" fill="#F0F3FA"/>
+    <text x="550" y="68" font-size="14" font-family="'Geist Mono', Menlo, monospace" fill="#576280">HNSW graph</text>
+    <rect x="550" y="82" width="300" height="44" rx="10" fill="#FFFFFF"/>
+    <text x="570" y="110" font-size="18" font-weight="600" fill="#161E33">Extra edges</text>
+    <rect x="550" y="138" width="300" height="44" rx="10" fill="#FFFFFF"/>
+    <text x="570" y="166" font-size="18" font-weight="600" fill="#161E33">ACORN</text>
+    <text x="830" y="166" text-anchor="end" font-size="13" font-family="'Geist Mono', Menlo, monospace" fill="#576280">opt-in</text>
+  </g>
+
+  <!-- payload index -->
+  <rect x="530" y="246" width="240" height="48" rx="12" fill="#F0F3FA"/>
+  <text x="650" y="276" text-anchor="middle" font-size="18" font-weight="600" fill="#161E33">Payload index</text>
+
+  <!-- full scan -->
+  <rect x="530" y="324" width="240" height="48" rx="12" fill="#F0F3FA"/>
+  <text x="650" y="354" text-anchor="middle" font-size="18" font-weight="600" fill="#161E33">Full scan</text>
+</svg>

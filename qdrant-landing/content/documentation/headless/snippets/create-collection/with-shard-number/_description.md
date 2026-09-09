@@ -1,0 +1,1 @@
+This code snippet creates a collection split into a specific number of shards by setting `shard_number` to 6. The shard count determines how the collection's data is distributed across nodes and cannot be changed without recreating the collection.

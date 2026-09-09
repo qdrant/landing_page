@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ with (.Site.GetPage "/serverless/hero") }}
+    {{ partial "common-hero" . }}
+  {{ end }}
+
+  {{ partial "serverless/what-is" . }}
+  {{ partial "serverless/to-use" . }}
+  {{ partial "serverless/not-to-use" . }}
+  {{ partial "serverless/contact-form" . }}
+  {{ partial "serverless/faq" . }}
+{{ end }}

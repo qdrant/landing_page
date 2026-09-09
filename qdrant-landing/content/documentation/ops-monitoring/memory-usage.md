@@ -1,5 +1,7 @@
 ---
 title: Memory Usage
+short_description: "Inspect disk space, RAM, and OS page cache usage for a Qdrant collection across the cluster, broken down by component."
+description: "Use the Qdrant Web UI or API to monitor a collection's disk, RAM, and page cache consumption across the cluster and per component, to plan capacity and diagnose memory pressure."
 weight: 7
 ---
 
@@ -43,6 +45,12 @@ Each component reports four values:
 | **RAM** | Non-evictable heap RAM: in-memory data structures not backed by memory-mapped files. |
 | **Cached** | Evictable RAM: file pages currently resident in the OS page cache. |
 | **Expected Cache** | The amount of data that should ideally be cached for best performance. Compare this against **Cached** to see how much of the working set is warm. |
+
+These roughly map to the [memory tiers](/documentation/ops-configuration/memory-tiers/) available per component:
+
+- `pinned` components report their full size under **RAM**.
+- `cached` components are pre-loaded and typically show up under **Cached**, though evicted pages fall back to **Disk** under memory pressure.
+- `cold` components mainly show as **Disk**, since Qdrant doesn't pre-load them, though pages can still appear under **Cached** once the OS warms them up from actual access.
 
 ## API
 

@@ -120,7 +120,7 @@ For best results, create payload indexes **before** uploading data. When uploadi
 
 To prevent clients from filtering on payload fields that don't have a payload index, enable strict mode and [set unindexed\_filtering\_retrieve to false](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 
-See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/)
+See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/), [Slow Request Log](/documentation/ops-monitoring/slow-request-log/)
 
 ### Does Qdrant support a full-text search or a hybrid search?
 
@@ -256,6 +256,12 @@ Common recovery steps:
 2. Send any [update collection operation](/documentation/manage-data/collections/#grey-collection-status) to trigger and start the optimizations again.
 
 See also: [Grey collection status](/documentation/manage-data/collections/#grey-collection-status)
+
+### Why are my writes rejected with HTTP 507?
+
+An write succeeds once at least [`write_consistency_factor`](/documentation/scaling/consistency-guarantees/) replicas have accepted it. When nodes have been configured with [resource quotas](/documentation/ops-configuration/quotas/), no nodes may be availabe with replicas that accept writes. A 507 means too few replicas were left to reach the `write_consistency_factor`. With the default factor of 1, that means no replica of the shard had room.
+
+[Use `GET /quotas` to see which peer is full](/documentation/ops-configuration/quotas/#finding-the-node-that-is-full). Note that a node doesn't resume writes the moment usage drops: a tripped limit clears only once usage has fallen under the [release margin](/documentation/ops-configuration/quotas/#release-margin), five percentage points by default.
 
 ### How do I upload a large number of vectors into a Qdrant collection?
 

@@ -9,9 +9,6 @@ import io.qdrant.client.grpc.Collections.ReplicatePoints;
 import io.qdrant.client.grpc.Collections.UpdateCollectionClusterSetupRequest;
 import io.qdrant.client.grpc.Common.Filter;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client
     .updateCollectionClusterSetupAsync(
         UpdateCollectionClusterSetupRequest.newBuilder()
