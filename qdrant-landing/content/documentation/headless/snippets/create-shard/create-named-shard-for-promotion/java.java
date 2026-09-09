@@ -11,13 +11,17 @@ import io.qdrant.client.grpc.Common.Filter;
 
 public class Snippet {
         public static void run() throws Exception {
+                // @hide-start
                 QdrantClient client =
                     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+                // @hide-end
 
                 client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
                                 .setCollectionName("{collection_name}")
                                 .setRequest(CreateShardKey.newBuilder()
                                                 .setShardKey(shardKey("default"))
+                                                .setShardsNumber(1)
+                                                .setReplicationFactor(1)
                                                 .setInitialState(ReplicaState.Partial)
                                                 .build())
                                 .build()).get();

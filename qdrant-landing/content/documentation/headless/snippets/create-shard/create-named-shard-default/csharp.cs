@@ -5,11 +5,11 @@ public class Snippet
 {
 	public static async Task Run()
 	{
-		var client = new QdrantClient("localhost", 6334);
+		var client = new QdrantClient("localhost", 6334); // @hide
 
 		await client.CreateShardKeyAsync(
 		    "{collection_name}",
-		    new CreateShardKey { ShardKey = new ShardKey { Keyword = "default", } }
+		    new CreateShardKey { ShardKey = new ShardKey { Keyword = "default", }, ShardsNumber = 1 }
 		    );
 	}
 }

@@ -1,3 +1,6 @@
 ```java
-io.qdrant:client
+// build.gradle
+dependencies {
+    implementation("io.qdrant:client:+") // specify the desired version
+}
 ```

@@ -66,3 +66,9 @@ You will also be asked to select a **severity level**, which determines how your
 - **Severity 4** – Minor issues: cosmetic bugs, general questions
 
 > Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for full definitions of severity levels and guaranteed response times per your [support tier](/documentation/cloud-premium/).
+
+## Service Status
+
+For real-time information on Qdrant Cloud uptime, ongoing incidents, and scheduled maintenance, check the Qdrant status page. If you're experiencing an issue, confirm whether it's a known service disruption before submitting a support ticket.
+
+<a href="https://status.qdrant.io/" class="button button_contained button_sm" target="_blank">Check Status</a>

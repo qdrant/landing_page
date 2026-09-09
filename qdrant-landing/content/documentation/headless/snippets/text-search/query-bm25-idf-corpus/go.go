@@ -21,7 +21,7 @@ func Main() {
 	// @hide-end
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
-		CollectionName: "books",
+		CollectionName: "{collection_name}",
 		Query: qdrant.NewQueryNearest(
 			qdrant.NewVectorInputDocument(&qdrant.Document{
 				Model: "qdrant/bm25",
@@ -31,7 +31,7 @@ func Main() {
 		Using: qdrant.PtrOf("title-bm25"),
 		Filter: &qdrant.Filter{
 			Must: []*qdrant.Condition{
-				qdrant.NewMatch("tenant", "acme"),
+				qdrant.NewMatch("group_id", "user_1"),
 				qdrant.NewMatchInt("year", 2024),
 			},
 		},
@@ -39,7 +39,7 @@ func Main() {
 			Idf: &qdrant.IdfParams{
 				Corpus: &qdrant.Filter{
 					Must: []*qdrant.Condition{
-						qdrant.NewMatch("tenant", "acme"),
+						qdrant.NewMatch("group_id", "user_1"),
 					},
 				},
 			},

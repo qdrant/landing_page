@@ -9,6 +9,7 @@
             <a
               class="card qdrant-cloud-customers__card"
               href="{{ .link.url }}"
+              data-metric-label="{{ .title | plainify }}"
               {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
             >
               <img class="qdrant-cloud-customers__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />

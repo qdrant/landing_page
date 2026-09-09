@@ -2,7 +2,7 @@ import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
 
 const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-client.query("books", {
+client.query("{collection_name}", {
   query: {
     text: "time travel",
     model: "qdrant/bm25",
@@ -10,14 +10,14 @@ client.query("books", {
   using: "title-bm25",
   filter: {
     must: [
-      { key: "tenant", match: { value: "acme" } },
+      { key: "group_id", match: { value: "user_1" } },
       { key: "year", match: { value: 2024 } },
     ],
   },
   params: {
     idf: {
       corpus: {
-        must: [{ key: "tenant", match: { value: "acme" } }],
+        must: [{ key: "group_id", match: { value: "user_1" } }],
       },
     },
   },

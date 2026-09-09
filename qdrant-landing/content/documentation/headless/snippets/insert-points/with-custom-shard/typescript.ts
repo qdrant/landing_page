@@ -1,4 +1,4 @@
-import { QdrantClient } from "@qdrant/js-client-rest";
+import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
 
 // @hide-start
 const client = new QdrantClient({ host: "localhost", port: 6333 });

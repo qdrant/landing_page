@@ -191,5 +191,16 @@ pub async fn main() -> anyhow::Result<()> {
     let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
     // @block-end wal-options
 
+    // @block-start search-threads
+    use qdrant_edge::*;
+
+    let config = EdgeConfigBuilder::new()
+        .max_search_threads(4)
+        .search_pool_core(0)
+        .build();
+
+    let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
+    // @block-end search-threads
+
     Ok(())
 }

@@ -10,6 +10,7 @@
             <a
               class="card qdrant-cloud-dev-experience__card"
               href="{{ .link.url }}"
+              data-metric-label="{{ .link.text | plainify }}"
               {{ if strings.HasPrefix .link.url "http" }}target="_blank"{{ end }}
             >
               <img class="qdrant-cloud-dev-experience__card-image" src="{{ .img.src }}" alt="{{ .img.alt }}">

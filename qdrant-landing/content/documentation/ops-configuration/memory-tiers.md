@@ -72,7 +72,9 @@ When structures are in the `cold` tier, retrieval may involve reading from disk.
 
 Keep the quantized vectors in RAM by setting `memory: "pinned"` in the `quantization_config`. Without pinning, the quantized copy may be evicted under memory pressure, forcing Qdrant to read both the quantized and original vectors from disk.
 
-If the accuracy loss is acceptable, you can disable rescoring against the original vectors entirely by setting `rescore: false` in the `quantization_config`. This avoids any disk reads during search, and the memory tier of the original vectors no longer affects search latency.
+If the accuracy loss is acceptable, you can disable rescoring against the original vectors by setting `rescore: false` in a query's search parameters. This avoids any disk reads during search, and the memory tier of the original vectors no longer affects search latency. `rescore` is a per-query parameter, so you can keep it on for the queries that need the accuracy:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/disable-quantization-rescoring/" >}}
 
 ### Async I/O
 
@@ -124,11 +126,15 @@ On-disk retrieval benefits from fast, local storage. If you're self hosting Qdra
 
 Avoid putting the HNSW vector index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of three to four times more disk usage.
 
-## Legacy Settings
+## Migrating
 
-Before version 1.19, memory placement was controlled by a different set of parameters. These parameters are deprecated. If you're on a version older than 1.19, you can use the following tables to map the new `memory` parameter to the legacy parameters.
+When migrating from a pre-1.19 version to a newer version, Qdrant doesn't automatically convert any [legacy settings](#legacy-settings) that control memory placement to the new `memory` setting. The legacy settings have only been deprecated, not removed, so your existing settings remain working. A pre-1.19 collection with legacy settings will continue to work on newer versions without having to change its configuration.
 
-### Dense Vectors
+### Legacy Settings
+
+Before version 1.19, memory placement was controlled by a different set of parameters. These parameters are deprecated. Use the following tables to map the new `memory` parameter to the legacy parameters.
+
+#### Dense Vectors
 
 The legacy parameter is `on_disk`.
 
@@ -137,7 +143,7 @@ The legacy parameter is `on_disk`.
 | `cached` | `on_disk: false` |
 | `cold` | `on_disk: true` |
 
-### HNSW Vector Index
+#### HNSW Vector Index
 
 The legacy parameter is `on_disk`, set in `hnsw_config`.
 
@@ -147,7 +153,7 @@ The legacy parameter is `on_disk`, set in `hnsw_config`.
 | `cached` | `on_disk: false` |
 | `cold` | `on_disk: true` |
 
-### Quantized Vectors
+#### Quantized Vectors
 
 The legacy parameter is `always_ram`. `always_ram: true` always resolves to `pinned`. Otherwise, quantized vectors inherit the original vectors' placement: `pinned` if the vectors are in RAM, `cold` if they're on disk.
 
@@ -157,7 +163,7 @@ The legacy parameter is `always_ram`. `always_ram: true` always resolves to `pin
 | `cached` | No legacy equivalent |
 | `cold` | Inherited from the original vectors |
 
-### Sparse Vector Index
+#### Sparse Vector Index
 
 The legacy parameter is `on_disk`.
 
@@ -167,7 +173,7 @@ The legacy parameter is `on_disk`.
 | `cached` | No legacy equivalent |
 | `cold` | `on_disk: true` |
 
-### Payloads
+#### Payloads
 
 The legacy parameter is `on_disk_payload`, set on the collection.
 
@@ -176,7 +182,7 @@ The legacy parameter is `on_disk_payload`, set on the collection.
 | `cached` | `on_disk_payload: false` |
 | `cold` | `on_disk_payload: true` |
 
-### Payload Indexes
+#### Payload Indexes
 
 The legacy parameter is `on_disk`, set on each field index.
 

@@ -1,5 +1,5 @@
 ```http
-POST /collections/books/points/query
+POST /collections/{collection_name}/points/query
 {
     "query": {
         "text": "time travel",
@@ -8,7 +8,7 @@ POST /collections/books/points/query
     "using": "title-bm25",
     "filter": {
         "must": [
-            { "key": "tenant", "match": { "value": "acme" } },
+            { "key": "group_id", "match": { "value": "user_1" } },
             { "key": "year", "match": { "value": 2024 } }
         ]
     },
@@ -16,7 +16,7 @@ POST /collections/books/points/query
         "idf": {
             "corpus": {
                 "must": [
-                    { "key": "tenant", "match": { "value": "acme" } }
+                    { "key": "group_id", "match": { "value": "user_1" } }
                 ]
             }
         }

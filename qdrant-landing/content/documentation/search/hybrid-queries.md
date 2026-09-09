@@ -3,6 +3,7 @@ title: Hybrid Queries
 short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and multi-stage rescoring with Formula Query."
 description: "Run hybrid queries in Qdrant: fuse dense, sparse, and multivector results with RRF or DBSF, layer custom scoring with Formula Query, and pick the right method for your data."
 weight: 15
+cta: "Run hybrid queries on a free Cloud cluster."
 aliases:
   - ../hybrid-queries
 hideInSidebar: false

@@ -1,9 +1,0 @@
-{
- "compilerOptions": {
-  "paths": {
-   "*": [
-    "../themes/qdrant-2024/assets/*"
-   ]
-  }
- }
-}

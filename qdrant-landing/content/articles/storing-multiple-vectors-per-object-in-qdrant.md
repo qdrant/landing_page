@@ -180,14 +180,10 @@ The created vectors might be easily put into Qdrant. For the sake of simplicity,
 If you decided to describe each object with several [neural embeddings](https://qdrant.tech/articles/neural-search-tutorial/), then at each search operation you need to provide the vector name along with the [vector embedding](https://qdrant.tech/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
 
 ```python
-from qdrant_client.http.models import NamedVector
-
-text_results = client.search(
+text_results = client.query_points(
    collection_name="ms-coco-2017",
-   query_vector=NamedVector(
-       name="text",
-       vector=row["text_vector"],
-   ),
+   query=row["text_vector"],
+   using="text",
    limit=5,
    with_vectors=False,
    with_payload=True,

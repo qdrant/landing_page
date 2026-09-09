@@ -1,4 +1,4 @@
-from qdrant_client import QdrantClient, models
+from qdrant_client import QdrantClient, models  # @hide
 
 # @hide-start
 client = QdrantClient(url="http://localhost:6333")

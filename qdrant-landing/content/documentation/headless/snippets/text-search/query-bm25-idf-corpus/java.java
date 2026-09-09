@@ -18,7 +18,7 @@ public class Snippet {
     client
         .queryAsync(
             QueryPoints.newBuilder()
-                .setCollectionName("books")
+                .setCollectionName("{collection_name}")
                 .setQuery(
                     nearest(
                         Document.newBuilder()
@@ -28,7 +28,7 @@ public class Snippet {
                 .setUsing("title-bm25")
                 .setFilter(
                     Filter.newBuilder()
-                        .addMust(matchKeyword("tenant", "acme"))
+                        .addMust(matchKeyword("group_id", "user_1"))
                         .addMust(match("year", 2024))
                         .build())
                 .setParams(
@@ -37,7 +37,7 @@ public class Snippet {
                             IdfParams.newBuilder()
                                 .setCorpus(
                                     Filter.newBuilder()
-                                        .addMust(matchKeyword("tenant", "acme"))
+                                        .addMust(matchKeyword("group_id", "user_1"))
                                         .build())
                                 .build())
                         .build())

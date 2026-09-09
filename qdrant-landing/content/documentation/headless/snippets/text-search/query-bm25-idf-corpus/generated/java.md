@@ -14,7 +14,7 @@ QdrantClient client =
 client
     .queryAsync(
         QueryPoints.newBuilder()
-            .setCollectionName("books")
+            .setCollectionName("{collection_name}")
             .setQuery(
                 nearest(
                     Document.newBuilder()
@@ -24,7 +24,7 @@ client
             .setUsing("title-bm25")
             .setFilter(
                 Filter.newBuilder()
-                    .addMust(matchKeyword("tenant", "acme"))
+                    .addMust(matchKeyword("group_id", "user_1"))
                     .addMust(match("year", 2024))
                     .build())
             .setParams(
@@ -33,7 +33,7 @@ client
                         IdfParams.newBuilder()
                             .setCorpus(
                                 Filter.newBuilder()
-                                    .addMust(matchKeyword("tenant", "acme"))
+                                    .addMust(matchKeyword("group_id", "user_1"))
                                     .build())
                             .build())
                     .build())

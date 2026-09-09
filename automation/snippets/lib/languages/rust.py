@@ -18,6 +18,17 @@ from .base import (
 class LanguageRust(Language):
     NAME = "rust"
     SNIPPET_FILENAME = "rust.rs"
+    SUPPORTS_SYNTAX_CHECK = True
+
+    @classmethod
+    def check_syntax(cls, code: str) -> None:
+        subprocess.run(
+            ["rustfmt", "--edition=2024"],
+            input=cls.unshorten(code),
+            text=True,
+            check=True,
+            stdout=subprocess.DEVNULL,
+        )
 
     @classmethod
     def compile(cls, tmpdir: Path, fnames: list[Path]) -> CompileResult:
