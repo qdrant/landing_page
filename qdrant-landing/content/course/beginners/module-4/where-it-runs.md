@@ -12,7 +12,7 @@ isLesson: true
 
 Deployment mode is independent of the design decisions in this module. Choose based on how much you want to run yourself and how isolated the data needs to be. Four modes run Qdrant as a server:
 
-- **Managed Cloud** runs it for you, with upgrades, backups, and replication handled.
+- **[Managed Cloud](/documentation/cloud/)** runs it for you, with upgrades, backups, and replication handled.
 - **[Hybrid Cloud](/documentation/hybrid-cloud/)** runs in your own Kubernetes cluster, managed from the Qdrant Cloud console, with the data staying in your network.
 - **[Private Cloud](/documentation/private-cloud/)** runs in your own Kubernetes cluster with no connection to that console, and can run fully air-gapped.
 - **Docker** means you run and operate the container, on your own machine or your own infrastructure.
