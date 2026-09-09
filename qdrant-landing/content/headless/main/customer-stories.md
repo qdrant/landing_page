@@ -33,16 +33,6 @@ storyCards:
       fullName: Alex Webb
       position: Director of Engineering, CB Insights
   - id: 3
-    icon: '/img/brands/bosch.svg'
-    brand: Bosch
-    content: “With Qdrant, we found the missing piece to develop our own provider independent multimodal generative AI platform on enterprise scale.”
-    author:
-      avatar:
-        - '/img/customers/jeremy-t.png'
-        - '/img/customers/daly-singh.png'
-      fullName: Jeremy T. & Daly Singh
-      position: Generative AI Expert  & Product Owner, Bosch
-  - id: 4
     icon: '/img/brands/cognizant.svg'
     brand: Cognizant
     content: “We LOVE Qdrant! The exceptional engineering, strong business value, and outstanding team behind the product drove our choice. Thank you for your great contribution to the technology community!”

@@ -3,6 +3,7 @@ title: "Multi-Vector Search Course"
 page_title: "Qdrant Multi-Vector Search Course"
 short_description: "Master multi-vector search with ColBERT and ColPali: late interaction, MaxSim scoring, multi-stage retrieval, MUVERA indexing, and evaluation."
 description: Master late interaction models, ColPali, and production optimization. Build scalable multi-vector search pipelines.
+weight: 20
 content:
   sidebarTitle: "Multi-Vector Search Course"
   menuTitle:

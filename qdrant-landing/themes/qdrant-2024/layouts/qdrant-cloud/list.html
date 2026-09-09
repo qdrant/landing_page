@@ -1,13 +1,22 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
-  {{ partial "qdrant-cloud-hero" . }}
-  {{ partial "qdrant-cloud-bento-cards" . }}
-  {{ partial "qdrant-cloud-features-link" . }}
+  {{ partial "qdrant-cloud/qdrant-cloud-hero" . }}
+  {{ partial "qdrant-cloud/qdrant-cloud-why-qdrant" . }}
+  {{ partial "qdrant-cloud/qdrant-cloud-customers" . }}
+  {{ partial "qdrant-cloud/qdrant-cloud-capabilities" . }}
+  {{ partial "qdrant-cloud/qdrant-cloud-dev-experience" . }}
 
-  {{ with (.Site.GetPage "/headless/marketplaces") }}
-    {{ partial "marketplaces" (dict "context" . "class" "qdrant-cloud-marketplaces") }}
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-pricing") }}
+    {{ partial "pricing-banner" . }}
   {{ end }}
 
-  {{ partial "additional-resources" . }}
-  {{ partial "get-started" . }}
+  {{ partial "qdrant-cloud/qdrant-cloud-resources" . }}
+
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-faq") }}
+    {{ partial "nested-accordion" (dict "context" . "class" "pt-5 pb-5 pb-lg-7") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-cta") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
 {{ end }}

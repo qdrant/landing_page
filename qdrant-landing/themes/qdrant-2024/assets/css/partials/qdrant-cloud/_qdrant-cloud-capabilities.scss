@@ -1,0 +1,282 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.qdrant-cloud-capabilities {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background: $neutral-10;
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+    text-align: center;
+  }
+
+  &__description {
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    margin-bottom: $spacer * 3;
+    color: $neutral-80;
+    text-align: center;
+  }
+
+  &__tabs-sticky {
+    position: sticky;
+    z-index: 1;
+    top: pxToRem(60);
+    padding-top: $spacer;
+    background: $neutral-10;
+    box-shadow: 0 $spacer * 2 $spacer * 1.5 rgba($neutral-10, .5);
+  }
+  
+  &__tabs {
+    display: flex;
+    gap: $spacer * 0.5;
+    width: 100vw;
+    margin: 0 pxToRem(-16);
+    padding: 0 $spacer;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &-button {
+      padding: $spacer * 0.5 pxToRem(28);
+      border-radius: $spacer * 0.5;
+      border: 0;
+      background-color: $neutral-20;
+      color: $neutral-70;
+      flex-shrink: 0;
+      transition:
+              background-color 0.25s ease,
+              color 0.25s ease;
+      
+      &.active {
+        background-color: $neutral-40;
+        font-weight: $font-weight-semibold;
+        color: $neutral-98;
+      }
+    }
+  }
+  
+  &__tab {
+    &-container {
+      display: flex;
+      flex-direction: column;
+      gap: $spacer * 2.5;
+      margin-top: $spacer * 1.5;
+    }
+    
+    &-content {
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+    
+    &-header {
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: $spacer * 1.5;
+      padding: $spacer * 1.5;
+      border: pxToRem(1) solid $neutral-20;
+
+      &-overlay1,
+      &-overlay2,
+      &-overlay3 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-position: bottom;
+        background-size: cover;
+      }
+      
+      &-overlay1 {
+        background-image: url('/img/qdrant-cloud/background/stars-mobile.svg');
+        mix-blend-mode: color-dodge;
+      }
+      
+      &-overlay2 {
+        background-image: var(--overlay-mobile);
+      }
+      
+      &-overlay3 {
+        background-image: url('/img/qdrant-cloud/background/texture-mobile.svg');
+        mix-blend-mode: overlay;
+      }
+    }
+    
+    &-title {
+      position: relative;
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+      color: $neutral-90;
+      margin-bottom: 0;
+    }
+    
+    &-description {
+      position: relative;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-90;
+      margin-bottom: 0;
+    }
+    
+    &-features {
+      display: flex;
+      flex-wrap: wrap;
+      border-left: pxToRem(1) solid $neutral-20;
+      margin-bottom: pxToRem(-1);
+    }
+    
+    &-feature {
+      display: block;
+      width: 100%;
+      padding: $spacer * 2 $spacer * 1.5;
+      border-right: pxToRem(1) solid $neutral-20;
+      border-bottom: pxToRem(1) solid $neutral-20;
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        background: linear-gradient(180deg, rgba(14, 20, 36, 0.00) 0%, $neutral-20 100%);
+      }
+      
+      &-header {
+        display: flex;
+        align-items: center;
+        gap: $spacer * 0.5;
+      }
+      
+      &-icon {
+        height: pxToRem(20);
+        width: pxToRem(20);
+      }
+      
+      &-title {
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+        color: $neutral-90;
+        margin-bottom: 0;
+      }
+      
+      &-description {
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+        color: $neutral-70;
+        margin-top: math.div($spacer, 4);
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &__tabs {
+      margin: 0 calc((100vw - pxToRem(508)) / 2 * -1);
+      padding: 0 calc((100vw - pxToRem(508)) / 2);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__tabs {
+      margin: 0 calc((100vw - pxToRem(688)) / 2 * -1);
+      padding: 0 calc((100vw - pxToRem(688)) / 2);
+    }
+    
+    &__tab {
+      &-feature {
+        width: calc(100% / 2); 
+        min-height: pxToRem(176);
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      max-width: pxToRem(740);
+      margin-left: auto;
+      margin-right: auto;
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__tabs-sticky {
+      top: pxToRem(52);
+    }
+
+    &__tabs {
+      margin: 0 calc((100vw - pxToRem(928)) / 2 * -1);
+      padding: 0 calc((100vw - pxToRem(928)) / 2);
+    }
+
+    &__tab {
+      &-container {
+        gap: $spacer * 4;
+        margin-top: $spacer * 4;
+      }
+
+      &-header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: $spacer * 4 $spacer * 1.5;
+
+        &-overlay1 {
+          background-image: url('/img/qdrant-cloud/background/stars.svg');
+          mix-blend-mode: color-dodge;
+        }
+
+        &-overlay2 {
+          background-image: var(--overlay-desktop);
+        }
+
+        &-overlay3 {
+          background-image: url('/img/qdrant-cloud/background/texture.svg');
+          mix-blend-mode: overlay;
+        }
+      }
+
+      &-title {
+        font-size: $h5-font-size;
+        line-height: pxToRem(42);
+        max-width: pxToRem(460);
+      }
+
+      &-description {
+        max-width: pxToRem(400);
+      }
+
+      &-feature {
+        width: calc(100% / 3);
+        min-height: pxToRem(176);
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__tabs {
+      width: 100%;
+      justify-content: space-between;
+      margin: 0;
+      padding: pxToRem(3);
+      border-radius: pxToRem(12);
+      border: pxToRem(1) solid transparent;
+      background-image:
+              linear-gradient($neutral-20, $neutral-20),
+              linear-gradient(180deg, $neutral-30 0%, #141B2E 100%);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+
+      &-button {
+        background-color: transparent;
+      }
+    }
+  }
+}

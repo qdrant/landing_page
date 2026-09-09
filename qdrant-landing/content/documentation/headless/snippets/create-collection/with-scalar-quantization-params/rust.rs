@@ -1,11 +1,13 @@
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    CreateCollectionBuilder, Distance, Memory, QuantizationType, ScalarQuantizationBuilder,
     VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
+    // @hide-start
     let client = Qdrant::from_url("http://localhost:6334").build()?;
+    // @hide-end
 
     client
         .create_collection(
@@ -15,7 +17,7 @@ pub async fn main() -> anyhow::Result<()> {
                     ScalarQuantizationBuilder::default()
                         .r#type(QuantizationType::Int8.into())
                         .quantile(0.99)
-                        .always_ram(true),
+                        .memory(Memory::Pinned),
                 ),
         )
         .await?;

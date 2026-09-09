@@ -29,5 +29,6 @@ func Main() {
 			},
 		},
 		Query: qdrant.NewQueryRRF(&qdrant.Rrf{}),
+		Limit: qdrant.PtrOf(uint64(10)),
 	})
 }

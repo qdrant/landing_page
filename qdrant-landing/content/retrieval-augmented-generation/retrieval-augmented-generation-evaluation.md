@@ -15,10 +15,6 @@ logos:
   icon:
     src: /img/retrieval-augmented-generation-evaluation/ragas-logo.svg
     alt: Ragas logo
-- id: 2
-  icon:
-    src: /img/retrieval-augmented-generation-evaluation/quotient-logo.svg
-    alt: Quotient logo
 sitemapExclude: true
 ---
 

@@ -1,0 +1,37 @@
+{{ with (.Site.GetPage "/resilience/how-it-works") }}
+  <section class="resilience-how-it-works">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <h3 class="resilience-how-it-works__title">{{ .Params.title | safeHTML }}</h3>
+        </div>
+  
+        <div class="col-12 col-lg-6">
+          <div class="resilience-how-it-works__content">
+            <p class="resilience-how-it-works__description">{{ .Params.description }}</p>
+            <a class="link link_white link_lg resilience-how-it-works__link" href="{{ .Params.link.url }}">
+              {{ .Params.link.text }}
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row g-0 resilience-how-it-works__cards">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4">
+            <div class="resilience-how-it-works__card">
+              <img class="resilience-how-it-works__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="resilience-how-it-works__card-title">{{ .title }}</h6>
+              <p class="resilience-how-it-works__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+        <div class="col-12">
+          <div class="resilience-how-it-works__addition">
+            <p class="resilience-how-it-works__addition-text">{{ .Params.addition | safeHTML }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

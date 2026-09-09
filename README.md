@@ -25,6 +25,9 @@
     - [Images](#images)
     - [Important notes](#important-notes)
   - [Agenda](#agenda)
+  - [Demo](#demo)
+    - [Add a demo](#add-a-demo)
+    - [Add a filter](#add-a-filter)
   - [Shortcodes 🧩🧩🧩](#shortcodes-)
     - [Built-in shortcodes](#built-in-shortcodes)
     - [Custom shortcodes](#custom-shortcodes)
@@ -362,6 +365,56 @@ Optional talk parameters:
 - `company_logo_offset` — adjust logo position with `placement` (top/bottom/left/right) and `value` (px)
 
 The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/css/partials/_agenda.scss`.
+
+## Demo
+
+Demos and filters for the `/demo` page live in `qdrant-landing/content/demo/items/_index.md`. Edit that file only — no template changes needed for new demos or filters.
+
+### Add a demo
+
+Append an entry under `demos:`:
+
+```yaml
+demos:
+  - id: my-new-demo          # unique slug
+    title: My New Demo
+    description: Short description shown on the card.
+    category: Semantic Search  # must match a filter field (see below)
+    image: /img/demos/demo-0.png  # optional; omit for a placeholder
+    github: https://github.com/org/repo  # optional; icon link on the card
+    weight: 10                 # optional; same rules as Hugo page weight
+    link:
+      text: View Demo
+      url: https://example.com/
+```
+
+`weight` follows Hugo’s built-in page weight rules: use a non-zero integer; lighter items float to the top, heavier sink to the bottom; missing or `0` weight is placed at the end. Ties break by title.
+
+Put card images in `themes/qdrant-2024/static/img/demos/`. Provide a PNG and a matching WebP at **800×296px** (same basename, e.g. `demo-0.png` + `demo-0.webp`). Only list the PNG file in the markdown; the picture partial swaps the extension to serve WebP when available.
+
+### Add a filter
+
+Each filter needs a `key` that matches a field on every demo, and a `label` for the sidebar. Filter options are collected automatically from demo values unless you set `values` explicitly.
+
+```yaml
+filters:
+  - key: category
+    label: Categories
+  - key: industry          # new filter
+    label: Industries
+
+demos:
+  - id: my-new-demo
+    title: My New Demo
+    description: Short description shown on the card.
+    category: Semantic Search
+    industry: Healthcare   # same key as the new filter
+    link:
+      text: View Demo
+      url: https://example.com/
+```
+
+Optional: `batchSize` controls how many cards show before “View More” (default `8`).
 
 ## Shortcodes 🧩🧩🧩
 

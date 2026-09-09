@@ -1,21 +1,21 @@
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
 client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
     distance: "Cosine",
-    on_disk: true,
+    memory: "cold",
+    datatype: "turbo4",
   },
   quantization_config: {
-    binary: {
-      always_ram: false,
+    turbo: {
+      memory: "cold",
+      bits: "bits1",
     },
   },
   hnsw_config: {
-    on_disk: true,
+    memory: "cold",
     inline_storage: true,
   },
 });

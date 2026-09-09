@@ -17,6 +17,7 @@ Qdrant supports all available text and multimodal dense vector embedding models 
 | [Aleph Alpha](/documentation/embeddings/aleph-alpha/) | Multilingual embeddings focused on European languages.           |
 | [Bedrock](/documentation/embeddings/bedrock/)         | AWS managed service for foundation models and embeddings.        |
 | [Cohere](/documentation/embeddings/cohere/)           | Language model embeddings for NLP tasks.                         |
+| [Fusion Embedding 2](/documentation/embeddings/fusion-embedding-2/) | Open-weight multimodal embeddings across text, image, video, and audio. |
 | [Gemini](/documentation/embeddings/gemini/)           | Google Gemini embeddings for semantic search, classification.    |
 | [Jina AI](/documentation/embeddings/jina-embeddings/) | Customizable embeddings for neural search.                       |
 | [Mistral](/documentation/embeddings/mistral/)         | Open-source, efficient language model embeddings.                |

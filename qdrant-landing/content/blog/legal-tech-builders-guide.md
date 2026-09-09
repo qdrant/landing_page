@@ -95,13 +95,16 @@ Utilize [ColBERT](https://qdrant.tech/articles/late-interaction-models/) for hig
 
 ```python
 # Step 1: Retrieve hybrid results using dense and sparse queries
-hybrid_results = client.search(
+hybrid_results = client.query_points(
     collection_name="legal-hybrid-search",
-    query_vector=dense_vector,
-    query_sparse_vector=sparse_vector,
+    prefetch=[
+        models.Prefetch(query=dense_vector, using="dense", limit=50),
+        models.Prefetch(query=sparse_vector, using="sparse", limit=50),
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
     limit=20,
     with_payload=True
-)
+).points
 
 # Step 2: Tokenize the query using ColBERT
 colbert_query_tokens = colbert_model.query_tokenize(query_text)
@@ -111,7 +114,7 @@ reranked = sorted(
     hybrid_results,
     key=lambda doc: colbert_model.score(
         colbert_query_tokens,
-        colbert_model.doc_tokenize(doc["payload"]["document"])
+        colbert_model.doc_tokenize(doc.payload["document"])
     ),
     reverse=True
 )

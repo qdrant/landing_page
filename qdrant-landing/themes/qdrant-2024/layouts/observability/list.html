@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ with (.Site.GetPage "/observability/hero") }}
+    {{ partial "common-hero" . }}
+  {{ end }}
+
+  {{ partial "observability/why-it-matters" . }}
+
+  {{ with (.Site.GetPage "/observability/pricing-banner") }}
+    {{ partial "pricing-banner" . }}
+  {{ end }}
+
+  {{ partial "observability/configuration" . }}
+  {{ partial "observability/by-deployment" . }}
+  {{ partial "observability/faq" . }}
+
+  {{ with (.Site.GetPage "/observability/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

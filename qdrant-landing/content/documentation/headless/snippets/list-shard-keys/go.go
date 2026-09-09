@@ -7,12 +7,12 @@ import (
 )
 
 func Main() {
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	// @hide-start
 	if err != nil {
 		panic(err)
 	}

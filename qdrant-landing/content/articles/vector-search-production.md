@@ -243,7 +243,7 @@ It depends. If you're just starting out - we have prepared a tool on our website
 
 A three-node setup provides a baseline for fault tolerance: if one node goes offline, the remaining two can continue serving queries and maintain a quorum for data consistency. This guards against hardware failures, rolling updates, and network disruptions. Fewer than three nodes leaves you vulnerable to single-point failures that can knock your entire cluster offline.
 
-> [**We follow the Raft Protocol**](https://qdrant.tech/documentation/distributed_deployment/#raft), so check out the docs and learn why this is important.
+> [**We follow the Raft Protocol**](https://qdrant.tech/documentation/scaling/horizontal-scaling/#raft-consensus), so check out the docs and learn why this is important.
 
 ✅ **Set a replication factor of at least 2** to tolerate node failure without losing availability.
 
@@ -275,7 +275,7 @@ Development and staging environments often run experimental builds, tests, or si
 
 > It's quite possible that the user has multiple shards on one node, which end up handling most traffic while other nodes remain underutilized.
 
-In this case, you should [**choose the right number of shards**](https://qdrant.tech/documentation/distributed_deployment/#sharding) based on your node count and expected RPS.
+In this case, you should [**choose the right number of shards**](https://qdrant.tech/documentation/scaling/distributed_deployment/#sharding) based on your node count and expected RPS.
 
 You need to implement a shard strategy that aligns with real usage patterns. First, distribute your shards across all available nodes. This will help balance the load more effectively. After redistributing the shards, run performance tests to see how it affects your system. Then add replicas and test again to see how that changes performance.
 
@@ -286,14 +286,14 @@ Proper sharding considers data distribution and query patterns. By default, shar
 
 ||
 |-|
-|**Read More:** [**Sharding Documentation**](https://qdrant.tech/documentation/distributed_deployment/#sharding)|
+|**Read More:** [**Sharding Documentation**](https://qdrant.tech/documentation/scaling/distributed_deployment/#sharding)|
 
 ### Manage Your Costs by Scaling Up or Down
 ![vector-search-production](/articles_data/vector-search-production/vector-search-production-5.jpg)
 
 Some teams scale up for daytime surges, then scale down overnight to save resources. If you do this, ensure data is sharded and replicated appropriately, so that scaling up and down won't result in service degradation.
 
-If using Qdrant Cloud you could also do this using the [**Replication Factor**](https://qdrant.tech/documentation/distributed_deployment/#replication-factor), though it may be considered a bit of a hack.
+If using Qdrant Cloud you could also do this using the [**Replication Factor**](https://qdrant.tech/documentation/scaling/distributed_deployment/#replication-factor), though it may be considered a bit of a hack.
 
 > If you have 3 nodes with just 1 shard, and replication factor 6. It will create 3 replicas (one on each node) of that shard, because it can't host more. If you add 3 more nodes at peak times, it'll automatically replicate that shard 3 more times in an attempt to match the factor of 6.
 
@@ -309,7 +309,7 @@ If new nodes remain empty after joining, you waste resources. If departing nodes
 
 ||
 |-|
-|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/distributed_deployment/)|
+|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/scaling/distributed_deployment/)|
 |**Read More:** [**Resharding**](https://qdrant.tech/documentation/cloud/cluster-scaling/#resharding)|
 
 ### How to Predict and Test Cluster Performance
@@ -332,7 +332,7 @@ Remember, cold-starts and query behaviour are dataset dependent, which is why yo
 
 ||
 |-|
-|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/distributed_deployment/)
+|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/scaling/distributed_deployment/)
 
 ### How to Design Your Systems to Protect Against Failure
 

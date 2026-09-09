@@ -4,6 +4,7 @@ import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.Memory;
 import io.qdrant.client.grpc.Collections.QuantizationConfig;
 import io.qdrant.client.grpc.Collections.TurboQuantization;
 import io.qdrant.client.grpc.Collections.VectorParams;
@@ -30,7 +31,7 @@ public class Snippet {
 		                    .build())
 		            .setQuantizationConfig(
 		                QuantizationConfig.newBuilder()
-		                    .setTurboquant(TurboQuantization.newBuilder().setAlwaysRam(true).build())
+		                    .setTurboquant(TurboQuantization.newBuilder().setMemory(Memory.Pinned).build())
 		                    .build())
 		            .build())
 		    .get();

@@ -60,6 +60,28 @@ content:
         link:
           url: /documentation/inference/
           text: Read More
+  - partial: documentation/banners/banner-free-tier
+    title: Free tier includes everything you need.
+    button:
+      text: Get Started
+      url: https://cloud.qdrant.io/signup
+    features:
+      - icon:
+          src: /icons/outline/cloud.png
+          alt: Cloud
+        text: Cloud Inference
+      - icon:
+          src: /icons/outline/code.png
+          alt: Embedding models
+        text: Free embedding models
+      - icon:
+          src: /icons/outline/lock.png
+          alt: No limits
+        text: No token limits
+      - icon:
+          src: /icons/outline/credit-card.png
+          alt: No payment
+        text: No payment method required
   - partial: documentation/sections/cards-section
     title: Support
     description: Get help from the Qdrant community or contact our support team.
@@ -112,7 +134,7 @@ Qdrant is an AI-native vector search engine for storing, indexing, and searching
 - [Managed Cloud](/documentation/cloud/index.md) — Qdrant as a managed service on AWS, GCP, or Azure with automatic scaling, backups, and zero-downtime upgrades.
 - [Hybrid Cloud](/documentation/hybrid-cloud/index.md) — Deploy into your own Kubernetes cluster while managing through Qdrant Cloud.
 - [Private Cloud](/documentation/private-cloud/index.md) — Fully air-gapped deployment in your own Kubernetes cluster with no Qdrant Cloud connectivity required.
-- [Distributed Deployment](/documentation/distributed_deployment/index.md) — Multi-node clusters with horizontal sharding and replication for scale and fault tolerance.
+- [Distributed Deployment](/documentation/scaling/distributed_deployment/index.md) — Multi-node clusters with horizontal sharding and replication for scale and fault tolerance.
 - [Security](/documentation/security/index.md) — API keys, JWT-based collection-scoped access control, TLS encryption, and network binding.
 - [Configuration](/documentation/ops-configuration/index.md) — Customize Qdrant via config files and environment variables; runtime administration tools; GPU-accelerated vector indexing.
 - [Monitoring & Telemetry](/documentation/ops-monitoring/index.md) — Monitor Qdrant with Prometheus and Grafana via built-in OpenMetrics endpoints.

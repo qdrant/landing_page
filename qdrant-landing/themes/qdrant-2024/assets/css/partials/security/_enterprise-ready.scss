@@ -1,0 +1,54 @@
+@use '../../helpers/functions' as *;
+
+.security-enterprise-ready {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__card {
+    overflow: hidden;
+    align-items: flex-start;
+
+    &-image {
+      width: calc(100% + $spacer * 3);
+      margin: pxToRem(-24) pxToRem(-24) $spacer * 1.5 pxToRem(-24)
+    }
+    
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+      margin-bottom: $spacer * 2.5;
+    }
+    
+    &-label {
+      font-family: $font-family-monospace;
+      font-size: $font-size-s;
+      line-height: 1.5;
+      font-weight: $font-weight-medium;
+      color: $neutral-30;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &-title {
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-40;
+    }
+
+    &-link {
+      margin-top: auto;
+    }
+
+    a:not(.link) {
+      border-bottom: pxToRem(1) solid $primary-50;
+    }
+  }
+}

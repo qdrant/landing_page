@@ -8,7 +8,7 @@ PUT /collections/{collection_name}
     "quantization_config": {
         "product": {
             "compression": "x16",
-            "always_ram": true
+            "memory": "pinned"
         }
     }
 }

@@ -1,0 +1,25 @@
+@use '../../helpers/functions' as *;
+
+.security-deployment-model {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+
+  &__title {
+    margin: 0 auto $spacer * 2.5;
+    font-size: $h6-font-size;
+    line-height: $spacer * 2;
+    color: $neutral-98;
+    text-align: center;
+  }
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 5;
+      font-size: $h4-font-size;
+      line-height: pxToRem(48);
+    }
+  }
+}

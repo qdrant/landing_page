@@ -18,7 +18,7 @@ client
             .setTextIndexParams(
                 TextIndexParams.newBuilder()
                     .setTokenizer(TokenizerType.Word)
-                    .setLowercase(true)
+                    .setLowercase(false)
                     .build())
             .build(),
         null,

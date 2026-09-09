@@ -1,0 +1,130 @@
+@use '../../helpers/functions' as *;
+
+.quantization-features {
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+  
+  &__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: pxToRem(1) solid $neutral-20;
+  }
+  
+  &__card {
+    width: 100%;
+    padding: $spacer * 2 pxToRem(20);
+    background-color: transparent;
+    
+    &:not(:last-child) {
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+    
+    &-icon {
+      height: $spacer * 2;
+      width: $spacer * 2;
+      margin-bottom: $spacer * 1.5;
+    }
+    
+    &-title {
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+      margin-bottom: $spacer;
+      color: $neutral-98;
+    }
+    
+    &-image-mobile {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(400);
+      margin: 0 auto $spacer;
+    }
+    
+    &-image-container {
+      position: relative;
+      
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        background-image: url('/img/quantization/folder-stars-mobile.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        mix-blend-mode: color-dodge;
+      }
+    }
+    
+    &-image {
+      display: none;
+    }
+    
+    &-description {
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-80;
+      
+      a {
+        color: $neutral-80;
+        border-bottom: pxToRem(1) solid $neutral-80;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+
+    &__cards {
+      display: grid;
+      grid-template-columns: 57fr 43fr;
+      grid-template-areas:
+        "firstItem secondItem"
+        "firstItem thirdItem";
+    }
+    
+    &__card {
+      display: flex;
+      flex-direction: column;
+      
+      &:nth-of-type(1) {
+        grid-area: firstItem;
+        border-right: pxToRem(1) solid $neutral-20;
+        border-bottom: 0;
+      }
+
+      &:nth-of-type(2) {
+        grid-area: secondItem;
+      }
+
+      &:nth-of-type(3) {
+        grid-area: thirdItem;
+      }
+
+      &-image-mobile {
+        display: none;
+      }
+
+      &-image {
+        display: block;
+        width: 100%;
+        margin-bottom: $spacer * 1.5;
+        position: relative;
+        z-index: 1;
+      }
+
+      &-image-container {
+        &:after {
+          background-image: url('/img/quantization/folder-stars.png');
+        }
+      }
+      
+      &-link {
+        margin-top: auto;
+      }
+    }
+  }
+}

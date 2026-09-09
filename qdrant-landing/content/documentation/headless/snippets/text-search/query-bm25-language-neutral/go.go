@@ -26,7 +26,12 @@ func Main() {
 			qdrant.NewVectorInputDocument(&qdrant.Document{
 				Model:   "qdrant/bm25",
 				Text:    "Mieville",
-				Options: qdrant.NewValueMap(map[string]any{"language": "none", "tokenizer": "multilingual", "ascii_folding": true}),
+				Options: qdrant.NewValueMap(map[string]any{
+				"stemmer":       map[string]any{"type": "none"},
+				"stopwords":     map[string]any{},
+				"tokenizer":     "multilingual",
+				"ascii_folding": true,
+			}),
 			}),
 		),
 		Using:       qdrant.PtrOf("author-bm25"),

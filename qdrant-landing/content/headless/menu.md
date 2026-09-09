@@ -3,7 +3,7 @@ logIn:
   text: Log in
   url: https://cloud.qdrant.io/login
 startFree:
-  text: Get Started
+  text: Start Free
   url: https://cloud.qdrant.io/signup
 menuItems:
   - id: menu-0
@@ -12,7 +12,7 @@ menuItems:
       - id: mainMenu-0-0
         subMenuItems:
         - id: subMenu-0-0
-          name: Qdrant Vector Database
+          name: Qdrant Vector Search Engine
           icon: qdrant-vector-database.svg
           url: /qdrant-vector-database/
         - id: subMenu-0-1
@@ -32,9 +32,17 @@ menuItems:
           icon: cloud-inference.svg
           url: /cloud-inference/
         - id: subMenu-0-5
+          name: Security
+          icon: security.svg
+          url: /security/
+        - id: subMenu-0-6
           name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
+        - id: subMenu-0-7
+          name: Qdrant Serverless (Coming soon)
+          icon: serverless.svg
+          url: /serverless/
 #       - id: subMenu-0-4
 #         name: Private Cloud
 #         icon: private-cloud.svg
@@ -140,14 +148,18 @@ menuItems:
             icon: articles.svg
             url: /articles/
           - id: subMenu-3-3
+            name: Events
+            icon: partners.svg
+            url: /events/
+          - id: subMenu-3-4
             name: Demos
             icon: demos.svg
             url: /demo/
-          - id: subMenu-3-4
+          - id: subMenu-3-5
             name: Startup Program
             icon: qdrant-for-startups.svg
             url: /qdrant-for-startups/
-          - id: subMenu-3-5
+          - id: subMenu-3-6
             name: Bug Bounty Program
             icon: bug-bounty-program.svg
             url: /security/bug-bounty-program/

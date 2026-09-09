@@ -53,7 +53,7 @@ To download a specified snapshot from a collection as a file:
 
 ## Restore snapshot
 
-<aside role="status">Snapshots generated in one Qdrant cluster can only be restored to other Qdrant clusters that share the same minor version. For instance, a snapshot captured from a v1.4.1 cluster can only be restored to clusters running version v1.4.x, where x is equal to or greater than 1.</aside>
+<aside role="status">Snapshots generated in one Qdrant cluster can only be restored to other Qdrant clusters running the same minor version or the next minor version. For instance, a snapshot captured from a v1.18.1 cluster can only be restored to clusters running version v1.18.x, where x is equal to or greater than 1, or v1.19.x</aside>
 
 Snapshots can be restored in three possible ways:
 
@@ -139,7 +139,7 @@ To recover from a URL, you specify an additional parameter in the request body:
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
 
-<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
+<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/scaling/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
 
 <aside role="status">Full storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
 

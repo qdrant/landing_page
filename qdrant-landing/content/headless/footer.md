@@ -24,7 +24,7 @@ menuItems:
   - title: Products
     items:
       - id: 0
-        name: Qdrant Vector Database
+        name: Qdrant Vector Search Engine
         url: /qdrant-vector-database/
       - id: 1
         name: Qdrant Cloud
@@ -42,6 +42,9 @@ menuItems:
         name: Qdrant Edge (Beta)
         url: /edge/
       - id: 6
+        name: Qdrant Serverless (Coming soon)
+        url: /serverless/
+      - id: 7
         name: Pricing
         url: /pricing/
   - title: Use Cases
@@ -112,13 +115,16 @@ menuItems:
       - id: 2
         name: Articles
         url: /articles/
-      - id: 3
+      - id: 4
+        name: Events
+        url: /events/
+      - id: 5
         name: Startup Program
         url: /qdrant-for-startups/
-      - id: 4
+      - id: 6
         name: Demos
         url: /demo/
-      - id: 5
+      - id: 7
         name: Bug Bounty
         url: /security/bug-bounty-program/
   - title: Company
