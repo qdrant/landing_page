@@ -649,6 +649,6 @@ Next, [get #QdrantCertified](/course/beginners/certification/) with the official
 - [Filtering](/documentation/search/filtering/): full filter syntax used throughout the capstone, including MatchAny and datetime ranges.
 - [Bulk Upload](/documentation/manage-data/bulk-upload/): batch sizes and index ordering for the daily ingestion job.
 - [FastEmbed](/documentation/fastembed/): the local embedding path behind `models.Document` and `models.Image`, and every model name it accepts.
-- [Multimodal and Multilingual RAG](/documentation/tutorials-build-essentials/multimodal-search/): a LlamaIndex tutorial building retrieval over images and text in a shared embedding space.
+- [Multimodal and Multilingual Search](/documentation/tutorials-basics/multimodal-search/): a Cohere Embed 4.0 tutorial building retrieval over images and text in a shared embedding space.
 - [multilingual-e5-large](https://huggingface.co/intfloat/multilingual-e5-large): the multilingual swap from Section 6, with its 100 languages, 1024 dimensions, and required query and passage prefixes.
 - [CLIP ViT-B/32](https://huggingface.co/openai/clip-vit-base-patch32): model card for the image model behind `Qdrant/clip-ViT-B-32-vision` and its text counterpart.
