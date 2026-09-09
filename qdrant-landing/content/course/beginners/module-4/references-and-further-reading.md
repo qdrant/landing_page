@@ -2,7 +2,7 @@
 title: "References and Further Reading"
 short_description: "Module 4 of the Beginner Course: references on sizing, distributed deployment, and optimization."
 description: "References for Module 4: the sizing tool, distributed deployment mechanics, and further reading on tuning a collection as it grows."
-weight: 8
+weight: 9
 isLesson: true
 ---
 

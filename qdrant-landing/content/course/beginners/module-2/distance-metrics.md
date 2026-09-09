@@ -2,7 +2,7 @@
 title: "Distance Metrics"
 short_description: "Module 2 of the Beginner Course: choose the distance metric your embedding model was trained for."
 description: "Choose a distance metric when you create a collection. Learn why cosine similarity fits most text embeddings, and how to match the metric to your model."
-weight: 3
+weight: 4
 isLesson: true
 ---
 

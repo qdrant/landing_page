@@ -2,7 +2,7 @@
 title: "Comparing Meaning: Distance Metrics"
 short_description: "Module 1 of the Beginner Course: measure how close two meanings sit using cosine similarity."
 description: "Measure meaning with cosine similarity. Score related and unrelated phrases with NumPy, and see how context changes the similarity between two texts."
-weight: 5
+weight: 6
 isLesson: true
 ---
 

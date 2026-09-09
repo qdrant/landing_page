@@ -2,7 +2,7 @@
 title: "Design Your Own System"
 short_description: "Module 4 of the Beginner Course: five questions that turn requirements into a design."
 description: "Apply five questions to a system of your own, and turn what you know about layers, ingestion, and scale into a concrete design."
-weight: 7
+weight: 8
 isLesson: true
 ---
 

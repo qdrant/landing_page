@@ -2,7 +2,7 @@
 title: "Course Summary"
 short_description: "Module 5 of the Beginner Course: everything the Beginner Course covered."
 description: "A recap of the Qdrant Beginner Course, from why keyword search struggles through to a multimodal capstone running on one collection."
-weight: 8
+weight: 9
 isLesson: true
 ---
 

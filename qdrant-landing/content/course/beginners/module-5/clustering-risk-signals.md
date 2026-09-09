@@ -2,7 +2,7 @@
 title: "Clustering Risk Signals"
 short_description: "Module 5 of the Beginner Course: group signals describing the same event across sources."
 description: "Cluster signals that describe the same underlying event even when they arrive from different sources, using the shared text vector on every point."
-weight: 5
+weight: 6
 isLesson: true
 ---
 

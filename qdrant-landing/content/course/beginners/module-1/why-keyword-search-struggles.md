@@ -2,7 +2,7 @@
 title: "Why Keyword Search Struggles"
 short_description: "Module 1 of the Beginner Course: where keyword matching breaks down, and why relevant results go missing."
 description: "See why keyword search misses relevant results when people phrase the same intent differently, and where exact word matching runs out of road."
-weight: 2
+weight: 3
 isLesson: true
 ---
 

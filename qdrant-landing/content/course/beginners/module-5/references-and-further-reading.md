@@ -2,7 +2,7 @@
 title: "References and Further Reading"
 short_description: "Module 5 of the Beginner Course: references on named vectors, multimodal search, and clustering."
 description: "References for Module 5: named vectors, multimodal and multilingual search, and the APIs behind the capstone project."
-weight: 9
+weight: 10
 isLesson: true
 ---
 

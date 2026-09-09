@@ -2,25 +2,13 @@
 title: "Where Design Decisions Live"
 short_description: "Module 4 of the Beginner Course: the five layers of a vector search system, ordered by cost to change."
 description: "A vector search system has five layers, ordered from easiest to hardest to change. Learn which decisions you can revise and which force a rebuild."
-weight: 1
+weight: 2
 isLesson: true
 ---
 
 {{< date >}} Module 4 {{< /date >}}
 
 # Where Design Decisions Live
-
-<div class="video">
-<iframe src="https://youtu.be/_PBKs94QGE0?rel=0" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    referrerpolicy="strict-origin-when-cross-origin" 
-    allowfullscreen>
-</iframe>
-</div>
-
-**Follow-along code**: [Module 4 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module4.ipynb)
 
 A vector search system has five layers. The first four go from easiest to hardest to change. Distribution is separate, because its cost depends on which change you make, and [Growing Past One Machine](/course/beginners/module-4/growing-past-one-machine/) covers it.
 

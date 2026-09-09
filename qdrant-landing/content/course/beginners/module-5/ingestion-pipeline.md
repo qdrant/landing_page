@@ -2,7 +2,7 @@
 title: "Ingestion Pipeline"
 short_description: "Module 5 of the Beginner Course: embed each modality, score risk, and upsert with the right indexes."
 description: "Build the daily job: collect signals, embed each modality, assign a risk score, and create every payload index analysts will filter on before ingesting."
-weight: 4
+weight: 5
 isLesson: true
 ---
 

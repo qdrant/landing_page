@@ -2,7 +2,7 @@
 title: "Further Reading"
 short_description: "Module 1 of the Beginner Course: references on embeddings, distance metrics, and FastEmbed."
 description: "References for Module 1: distance metrics, how embedding models work, and the FastEmbed library used throughout this module."
-weight: 8
+weight: 9
 isLesson: true
 ---
 

@@ -2,7 +2,7 @@
 title: "Inspecting a Collection"
 short_description: "Bonus module of the Beginner Course: facet counts and random sampling for checking what you ingested."
 description: "Two features for checking what you actually ingested: facet counts for how selective a filter would be, and random sampling for spot checks."
-weight: 7
+weight: 8
 isLesson: true
 ---
 

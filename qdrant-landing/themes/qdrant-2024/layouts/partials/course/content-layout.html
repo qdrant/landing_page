@@ -17,7 +17,7 @@
               {{ partial "article-content.html" . }}
 
               {{ $parent := .Parent }}
-              {{ if or (eq .Params.isLesson true) (eq $parent.Params.isLesson true) }}
+              {{ if and (or (eq .Params.isLesson true) (eq $parent.Params.isLesson true)) (not .Params.hasOverviewPage) }}
                 <div class="d-flex justify-content-lg-end pb-3 pt-4">
                   {{/* Determine the course section */}}
                   {{ $subject := "" }}
@@ -33,7 +33,12 @@
                   {{ $allLessons := sort (where $subject.Pages ".Params.isLesson" true) ".Params.weight" }}
                   {{ $allPages := slice }}
                   {{ range $lesson := $allLessons }}
-                    {{ $allPages = $allPages | append $lesson }}
+                    {{/* A lesson with its own overview page is a signpost: its children are the
+                         steps, so the flow skips straight to them. Courses that do not set
+                         hasOverviewPage are unaffected. */}}
+                    {{ if not $lesson.Params.hasOverviewPage }}
+                      {{ $allPages = $allPages | append $lesson }}
+                    {{ end }}
                     {{ $sortedChildren := sort $lesson.RegularPages ".Params.weight" }}
                     {{ range $child := $sortedChildren }}
                       {{ $allPages = $allPages | append $child }}

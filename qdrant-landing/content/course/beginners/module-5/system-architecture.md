@@ -2,7 +2,7 @@
 title: "System Architecture"
 short_description: "Module 5 of the Beginner Course: four stages mapped to the Qdrant primitives behind them."
 description: "The capstone has four stages: ingest, embed, store, then cluster and query. See how each maps to Qdrant primitives you already know."
-weight: 2
+weight: 3
 isLesson: true
 ---
 

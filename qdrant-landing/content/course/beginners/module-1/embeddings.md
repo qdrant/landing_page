@@ -2,7 +2,7 @@
 title: "How It Works: Embeddings"
 short_description: "Module 1 of the Beginner Course: turn text into vectors with FastEmbed and see what those numbers hold."
 description: "Learn how embedding models turn text into vectors that capture meaning, and generate your first embeddings locally with FastEmbed and Python."
-weight: 4
+weight: 5
 isLesson: true
 ---
 

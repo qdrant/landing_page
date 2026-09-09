@@ -2,7 +2,7 @@
 title: "Ranking: Score Boosting and Reranking"
 short_description: "Bonus module of the Beginner Course: change result order with formula queries and cross-encoders."
 description: "Two ways to change result order: rescore candidates with a formula query and decay functions, or reorder a shortlist with a cross-encoder reranker."
-weight: 3
+weight: 4
 isLesson: true
 ---
 

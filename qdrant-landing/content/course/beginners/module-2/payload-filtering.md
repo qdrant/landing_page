@@ -2,7 +2,7 @@
 title: "Payload Filtering"
 short_description: "Module 2 of the Beginner Course: apply hard conditions during search, not after it."
 description: "Apply payload filters during HNSW traversal rather than after retrieval, so results stay both semantically relevant and logically valid."
-weight: 6
+weight: 7
 isLesson: true
 ---
 

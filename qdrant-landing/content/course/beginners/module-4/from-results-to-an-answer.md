@@ -2,7 +2,7 @@
 title: "From Results to an Answer"
 short_description: "Module 4 of the Beginner Course: where Retrieval-Augmented Generation sits next to search."
 description: "Retrieval-Augmented Generation sends a ranked list to a language model that writes an answer. See where generation sits relative to the search system."
-weight: 5
+weight: 6
 isLesson: true
 ---
 

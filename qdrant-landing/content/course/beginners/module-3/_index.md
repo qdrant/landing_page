@@ -4,23 +4,15 @@ short_description: "Module 3 of the Beginners course: dense and sparse retrieval
 description: "Compare dense and sparse retrieval, see where each one fails on real queries, and build a hybrid search pipeline in Qdrant with rank fusion and filters."
 isLesson: true
 weight: 40
+# Content lives on the Module Overview page; this section page is a signpost.
+hasOverviewPage: true
 ---
 
 {{< date >}} Module 3 {{< /date >}}
 
 # Sparse vs Dense vs Hybrid Search
 
-Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
-
-#### Overview
-
-> Module 2 showed you where your data lives and how Qdrant retrieves it. 
-In this module, you'll learn what that retrieval misses and how to cover the gap. 
-You'll explore dense and sparse vectors, BM25, and the inverted index, then see 
-why a product code defeats either one alone. You'll also learn how fusion merges 
-two ranked lists, and where a filter belongs so both retrievers respect it. 
-By the end, you'll have built a hybrid collection, run a fused query, 
-and filtered it correctly.
+Start with the [Module Overview](/course/beginners/module-3/module-overview/), then work through the path.
 
 ## Today's Path
 

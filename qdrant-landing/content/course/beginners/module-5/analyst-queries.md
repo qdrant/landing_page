@@ -2,7 +2,7 @@
 title: "Analyst Queries"
 short_description: "Module 5 of the Beginner Course: query one collection across three named vectors."
 description: "Query the capstone collection the way an analyst would: across three named vectors, with filters, plus the centroid query from the clustering step."
-weight: 6
+weight: 7
 isLesson: true
 ---
 

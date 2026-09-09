@@ -2,7 +2,7 @@
 title: "Knowledge Check"
 short_description: "Module 5 of the Beginner Course: check the capstone before you call it done."
 description: "Work through these questions on named vectors, payload indexes, and clustering before you call the capstone project complete."
-weight: 7
+weight: 8
 isLesson: true
 ---
 

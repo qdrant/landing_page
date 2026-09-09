@@ -2,7 +2,7 @@
 title: "Knowledge Check"
 short_description: "Bonus module of the Beginner Course: test what you know about ranking, diversity, and grouping."
 description: "Work through the traps in this module: an MMR recall drop, a decay term that decides every ranking, and a grouping request that returns a 400."
-weight: 8
+weight: 9
 isLesson: true
 ---
 

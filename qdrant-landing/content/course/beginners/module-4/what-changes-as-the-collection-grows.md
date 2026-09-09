@@ -2,7 +2,7 @@
 title: "What Changes as the Collection Grows"
 short_description: "Module 4 of the Beginner Course: what the indexing and storage layers need at scale."
 description: "A three-article collection needs no tuning. At millions of points, the indexing and storage layers both need attention. Learn what changes and when."
-weight: 3
+weight: 4
 isLesson: true
 ---
 

@@ -2,7 +2,7 @@
 title: "Ingestion Pipeline: End-to-End"
 short_description: "Module 2 of the Beginner Course: build the full pipeline from cloud setup to your first query."
 description: "Put it together: connect to a cluster, create a collection and payload index, embed and upload points, then run your first filtered query."
-weight: 8
+weight: 9
 isLesson: true
 ---
 

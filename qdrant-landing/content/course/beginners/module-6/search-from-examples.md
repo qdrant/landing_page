@@ -2,7 +2,7 @@
 title: "Searching From Examples and Feedback"
 short_description: "Bonus module of the Beginner Course: search with no query text, using examples and feedback."
 description: "Search from positive and negative examples with the Recommendation and Discovery APIs, and fold click feedback into the next query."
-weight: 6
+weight: 7
 isLesson: true
 ---
 

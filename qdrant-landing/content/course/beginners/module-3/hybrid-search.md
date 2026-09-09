@@ -2,7 +2,7 @@
 title: "Hybrid Search: Dense and Sparse"
 short_description: "Module 3 of the Beginner Course: run both retrievers in one request and fuse the results."
 description: "Hybrid search runs dense and sparse retrieval in the same request and merges their ranked lists into one result set. Learn how fusion works."
-weight: 3
+weight: 4
 isLesson: true
 ---
 

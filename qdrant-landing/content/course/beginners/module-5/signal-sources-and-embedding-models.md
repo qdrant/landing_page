@@ -2,7 +2,7 @@
 title: "Signal Sources and Embedding Models"
 short_description: "Module 5 of the Beginner Course: three named vectors, two models, and why captions matter."
 description: "Two models cover every signal in the capstone. Learn why the collection declares three named vectors rather than five, and what CLIP puts in one space."
-weight: 3
+weight: 4
 isLesson: true
 ---
 

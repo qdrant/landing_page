@@ -2,7 +2,7 @@
 title: "Chunking Strategies"
 short_description: "Module 2 of the Beginner Course: fixed-size, semantic, and sliding-window chunking compared."
 description: "Every embedding model has a token limit, and text past it is dropped silently. Compare fixed-size, semantic, and sliding-window chunking."
-weight: 7
+weight: 8
 isLesson: true
 ---
 

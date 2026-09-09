@@ -2,7 +2,7 @@
 title: "Where It Runs"
 short_description: "Module 4 of the Beginner Course: local, Docker, self-hosted, and Qdrant Cloud compared."
 description: "Deployment mode is independent of your design decisions. Compare the modes that run Qdrant as a server, and choose by ownership and isolation."
-weight: 6
+weight: 7
 isLesson: true
 ---
 

@@ -4,17 +4,15 @@ short_description: "Module 5 of the Beginners course: the capstone project. Inge
 description: "Build the Beginners capstone: ingest news, transcripts, and satellite imagery on shared points, cluster them into risk themes, and query every modality."
 isLesson: true
 weight: 60
+# Content lives on the Module Overview page; this section page is a signpost.
+hasOverviewPage: true
 ---
 
 {{< date >}} Module 5 {{< /date >}}
 
 # Multimodal Supplier Risk Intelligence
 
-Apply every concept from Modules 1 through 4 in a single end-to-end system: ingest daily news, transcripts, and satellite imagery about your suppliers, cluster them into risk themes, and query all of it from one collection.
-
-#### Overview
-
-> Module 4 turned the building blocks into a design. In this module, you'll build that design into a working system. You'll explore named vectors that hold text and image evidence on a single point, then see how clustering groups those signals into the events they describe. You'll also learn how to search images with text and extend the system across languages. By the end, you'll have ingested, clustered, and queried multimodal signals from one collection.
+Start with the [Module Overview](/course/beginners/module-5/module-overview/), then work through the path.
 
 ## Today's Path
 

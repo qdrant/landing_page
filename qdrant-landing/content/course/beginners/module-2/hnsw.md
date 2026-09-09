@@ -2,7 +2,7 @@
 title: "Fast Approximate Search: HNSW"
 short_description: "Module 2 of the Beginner Course: the graph index that keeps large-scale vector search fast."
 description: "Learn how the HNSW graph index makes search over millions of vectors fast, and what recall you trade for that speed."
-weight: 5
+weight: 6
 isLesson: true
 ---
 

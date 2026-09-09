@@ -2,7 +2,7 @@
 title: "Further Reading"
 short_description: "Module 2 of the Beginner Course: references on distance metrics, HNSW, and chunking."
 description: "References for Module 2: a closer look at distance metrics, how the HNSW index is built and tuned, and the full chunking comparison."
-weight: 9
+weight: 10
 isLesson: true
 ---
 

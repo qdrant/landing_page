@@ -2,7 +2,7 @@
 title: "Why Similarity Alone Is Not Enough"
 short_description: "Module 1 of the Beginner Course: where semantic search fails, from word order to exact product codes."
 description: "See where similarity breaks: negation, word order, and exact product codes. Learn why a payload filter, not a better model, is the fix."
-weight: 6
+weight: 7
 isLesson: true
 ---
 

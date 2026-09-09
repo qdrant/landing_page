@@ -2,7 +2,7 @@
 title: "Top-K Retrieval"
 short_description: "Module 2 of the Beginner Course: how a query becomes a vector and returns the K closest points."
 description: "See how Qdrant turns a query into a vector and returns the K most similar points, ranked by similarity score."
-weight: 4
+weight: 5
 isLesson: true
 ---
 

@@ -2,7 +2,7 @@
 title: "Filtering: Works with Any Retrieval Method"
 short_description: "Module 3 of the Beginner Course: payload filters apply to dense, sparse, and hybrid alike."
 description: "Payload filters are not a hybrid-only feature. Apply the same conditions to dense, sparse, and hybrid retrieval, evaluated during the search."
-weight: 6
+weight: 7
 isLesson: true
 ---
 

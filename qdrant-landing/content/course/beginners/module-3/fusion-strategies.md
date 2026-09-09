@@ -2,7 +2,7 @@
 title: "Fusion Strategies"
 short_description: "Module 3 of the Beginner Course: Reciprocal Rank Fusion compared with Distribution-Based Score Fusion."
 description: "Compare the two fusion strategies. Reciprocal Rank Fusion uses position alone, while Distribution-Based Score Fusion rescales scores onto a comparable range."
-weight: 5
+weight: 6
 isLesson: true
 ---
 

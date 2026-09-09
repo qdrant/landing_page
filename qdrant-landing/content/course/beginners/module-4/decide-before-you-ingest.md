@@ -2,7 +2,7 @@
 title: "Decide Before You Ingest"
 short_description: "Module 4 of the Beginner Course: the four data-layer decisions you cannot undo without re-ingesting."
 description: "Four decisions belong to the data layer: what you embed, the model, the chunk size, and the payload schema. Changing any one means ingesting again."
-weight: 2
+weight: 3
 isLesson: true
 ---
 

@@ -2,7 +2,7 @@
 title: "How Traditional Search Improved"
 short_description: "Module 1 of the Beginner Course: stemming, typo tolerance, and the gap they still leave open."
 description: "Traditional search gained stemming, typo tolerance, and relevance ranking, but it still matches words. Learn what semantic search adds on top."
-weight: 3
+weight: 4
 isLesson: true
 ---
 

@@ -2,7 +2,7 @@
 title: "Diversity: Maximal Marginal Relevance"
 short_description: "Bonus module of the Beginner Course: trade relevance for variety, and avoid the candidates_limit trap."
 description: "Maximal Marginal Relevance picks results that match the query and differ from each other. Learn the candidates_limit trap that makes it look inert."
-weight: 4
+weight: 5
 isLesson: true
 ---
 

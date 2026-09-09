@@ -2,7 +2,7 @@
 title: "Setting Up Hybrid Search in Qdrant"
 short_description: "Module 3 of the Beginner Course: named vectors, prefetch, and the Query API, with working code."
 description: "Build hybrid search in Qdrant: store dense and sparse vectors on the same point, then use prefetch and the Query API to run and fuse both retrievers."
-weight: 4
+weight: 5
 isLesson: true
 ---
 

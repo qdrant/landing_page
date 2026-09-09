@@ -2,7 +2,7 @@
 title: "Measure First"
 short_description: "Bonus module of the Beginner Course: build a golden set and pick the right relevance metric."
 description: "Ranking changes are hard to judge by eye. Build a golden set, then pick between Recall@K, Mean Reciprocal Rank, and Normalized Discounted Cumulative Gain."
-weight: 2
+weight: 3
 isLesson: true
 ---
 

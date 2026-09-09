@@ -2,7 +2,7 @@
 title: "Growing Past One Machine"
 short_description: "Module 4 of the Beginner Course: when sharding and replication are worth their cost."
 description: "Sharding splits a collection across nodes and replication survives losing one. Learn when each is worth adding, and why tuning usually comes first."
-weight: 4
+weight: 5
 isLesson: true
 ---
 

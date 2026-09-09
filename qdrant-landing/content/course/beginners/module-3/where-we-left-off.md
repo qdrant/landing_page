@@ -2,24 +2,13 @@
 title: "Where We Left Off"
 short_description: "Module 3 of the Beginner Course: where dense retrieval gets shaky on exact terms."
 description: "Dense retrieval handles meaning well and gets shaky on the part of a query that has to be exact. See where Module 2's pipeline falls short."
-weight: 1
+weight: 2
 isLesson: true
 ---
 
 {{< date >}} Module 3 {{< /date >}}
 
 # Where We Left Off
-
-<div class="video">
-<iframe src="https://www.youtube.com/embed/WntUDHOuOqQ?rel=0" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-  referrerpolicy="strict-origin-when-cross-origin" 
-  allowfullscreen>
-</iframe>
-</div>
-
-**Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module3.ipynb)
 
 In Module 2, you built a complete ingestion and retrieval pipeline: raw text, vector, store, top-K query. Dense retrieval handles meaning well. It gets shaky on the part of a query that has to be exact.
 

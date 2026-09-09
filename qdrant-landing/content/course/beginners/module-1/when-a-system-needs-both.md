@@ -2,7 +2,7 @@
 title: "When a System Needs Both"
 short_description: "Module 1 of the Beginner Course: when to combine semantic matching with exact matching."
 description: "Learn when a search system needs both semantic matching and exact matching, and how the two approaches cover each other's blind spots."
-weight: 7
+weight: 8
 isLesson: true
 ---
 

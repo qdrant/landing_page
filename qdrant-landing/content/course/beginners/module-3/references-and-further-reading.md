@@ -2,7 +2,7 @@
 title: "References and Further Reading"
 short_description: "Module 3 of the Beginner Course: references on hybrid queries, fusion, and filtering."
 description: "References for Module 3: prefetch semantics, both fusion strategies and their tuning parameters, and filtering during search."
-weight: 8
+weight: 9
 isLesson: true
 ---
 

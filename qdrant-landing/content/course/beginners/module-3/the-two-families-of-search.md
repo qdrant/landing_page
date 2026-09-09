@@ -2,7 +2,7 @@
 title: "The Two Families of Search"
 short_description: "Module 3 of the Beginner Course: dense and sparse retrieval, and what each one misses."
 description: "Compare the two families every retrieval system is built from: dense vectors that find what a query means, and sparse vectors that find what it says."
-weight: 2
+weight: 3
 isLesson: true
 ---
 

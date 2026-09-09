@@ -2,7 +2,7 @@
 title: "Find Your Problem"
 short_description: "Bonus module of the Beginner Course: match a search problem to the Qdrant feature that fixes it."
 description: "Pair each common search problem with the feature that addresses it, and see which stage of a query that feature runs in."
-weight: 1
+weight: 2
 isLesson: true
 ---
 

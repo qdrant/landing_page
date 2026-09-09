@@ -2,7 +2,7 @@
 title: "Core Data Model"
 short_description: "Module 2 of the Beginner Course: collections, points, vectors, and payloads explained."
 description: "Learn how Qdrant organizes data in three levels: collections hold points, points hold vectors and payloads. The foundation for everything that follows."
-weight: 2
+weight: 3
 isLesson: true
 ---
 

@@ -2,7 +2,7 @@
 title: "Grouping: One Slot per Document"
 short_description: "Bonus module of the Beginner Course: stop one document filling the page with its own chunks."
 description: "Group results by a payload field so one document takes one slot, and see why deduplicating after the search leaves the page short."
-weight: 5
+weight: 6
 isLesson: true
 ---
 

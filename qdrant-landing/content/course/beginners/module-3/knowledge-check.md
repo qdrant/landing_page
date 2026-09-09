@@ -2,7 +2,7 @@
 title: "Knowledge Check"
 short_description: "Module 3 of the Beginner Course: test what you know about dense, sparse, and hybrid retrieval."
 description: "Work through retrieval failures and decide what to add and why, before you move on to designing a full system."
-weight: 7
+weight: 8
 isLesson: true
 ---
 

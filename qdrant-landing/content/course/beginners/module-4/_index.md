@@ -4,17 +4,15 @@ short_description: "Module 4 of the Beginners course: the decisions that turn a 
 description: "Design a vector search system in Qdrant: what to decide before ingesting, what changes as data grows, where generation fits, and where to run it."
 isLesson: true
 weight: 50
+# Content lives on the Module Overview page; this section page is a signpost.
+hasOverviewPage: true
 ---
 
 {{< date >}} Module 4 {{< /date >}}
 
 # Designing a Vector Search System
 
-So far, rebuilding a collection has taken only a few seconds. Once generating embeddings takes hours, you need to get the design right before ingesting your data.
-
-#### Overview
-
-> Module 3 showed you how to combine dense and sparse retrieval. Now you'll use those pieces to design a system that can grow beyond a small collection. You'll decide what to store and embed, see what changes as the collection grows, and choose when to add more machines, when to put a language model on top, and where to run Qdrant. By the end, you'll have designed a news search system and five questions to use on a system of your own.
+Start with the [Module Overview](/course/beginners/module-4/module-overview/), then work through the path.
 
 ## Today's Path
 

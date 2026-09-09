@@ -4,23 +4,15 @@ short_description: "Module 2 of the Beginners course: how data is stored, indexe
 description: "Understand collections, points, vectors, payloads, HNSW, chunking, and the ingestion pipeline. Move from theory to actual system design in Qdrant."
 isLesson: true
 weight: 30
+# Content lives on the Module Overview page; this section page is a signpost.
+hasOverviewPage: true
 ---
 
 {{< date >}} Module 2 {{< /date >}}
 
 # First Principles of Vector Search
 
-Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
-
-#### Overview
-
-> Module 1 explained why semantic search works. In this module, you'll learn 
-where your data lives and how Qdrant searches it. You'll explore collections,
-points, vectors, payloads, and distance metrics, then see how Qdrant finds the 
-top-k matches without scanning every vector. You'll also learn how to filter
-results by metadata and split long documents into smaller chunks before embedding
-them. By the end, you'll have created a collection, stored points, and run 
-your first filtered query.
+Start with the [Module Overview](/course/beginners/module-2/module-overview/), then work through the path.
 
 ## Today's Path
 
