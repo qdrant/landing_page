@@ -3,7 +3,6 @@ title: "Design a Collection Schema From a Dataset Description"
 short_description: "Describe your data and the searches you need, and get a collection definition: vector configuration, distance metric, payload schema, and the payload indexes to create before you load."
 description: "A Qdrant prompt template for greenfield collection design. Turns a dataset description and a set of search requirements into a concrete collection definition, with the vector configuration, distance metric, payload schema, and payload indexes chosen and justified."
 weight: 10
-partition: develop
 category: authoring
 output_contract: config
 tags:
@@ -95,7 +94,7 @@ The field table should account for every field in your description, and the immu
 | title      | embedded  | text         | text (word)       | second named vector       |
 | product    | filter    | keyword      | keyword           | filtered on every query   |
 | language   | filter    | keyword      | keyword           | 7 values, still selective |
-| updated_at | sort      | integer      | datetime          | range and tiebreak        |
+| updated_at | sort      | datetime     | datetime          | range and tiebreak        |
 | author_id  | display   | keyword      | none              | never filtered            |
 
 ## Collection definition

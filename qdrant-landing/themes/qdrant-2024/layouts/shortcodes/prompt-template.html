@@ -3,13 +3,16 @@
   content; the variables come from the page's `variables` front matter.
 
   The body is rendered server-side with its {{PLACEHOLDER}} tokens intact, so the
-  page is complete and copyable without JavaScript. prompt-template.js reads that
-  text as its source and substitutes values as you type.
+  page is complete and readable without JavaScript. prompt-template.js reads that
+  text as its source, substitutes values as you type, and drops blocks whose only
+  placeholders are empty optional variables. Keep one variable per
+  blank-line-separated block in the body so that dropping works cleanly.
 
-  `without-copy-code` keeps copy-code.js from injecting a second copy button.
+  The copy button is hidden until the script marks the panel ready, so it is not
+  offered as a control that does nothing.
 */ -}}
 {{- $vars := .Page.Params.variables -}}
-<div class="prompt-template without-copy-code" data-prompt-template>
+<div class="prompt-template" data-prompt-template>
   {{- with $vars }}
     <div class="prompt-template__vars">
       <p class="prompt-template__vars-title">Variables</p>
@@ -23,7 +26,7 @@
               <span class="prompt-template__flag">Optional</span>
             {{- end }}
           </label>
-          <p class="prompt-template__hint">
+          <p class="prompt-template__hint" id="pt-hint-{{ .name }}">
             {{ .description }}
             {{- with .source }}<br /><code>{{ . }}</code>{{ end }}
           </p>
@@ -32,6 +35,7 @@
             id="pt-{{ .name }}"
             rows="2"
             spellcheck="false"
+            aria-describedby="pt-hint-{{ .name }}"
             data-pt-var="{{ .name }}"
             data-pt-required="{{ if .required }}true{{ else }}false{{ end }}"
             {{ with .placeholder }}placeholder="{{ . }}"{{ end }}

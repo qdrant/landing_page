@@ -119,7 +119,7 @@
 
 {{/* Prompt templates live under /documentation/, so .Section is "documentation"
       here and cannot isolate them. Match on the path instead. */}}
-{{ if in .RelPermalink "/documentation/agentic-tools/prompt-templates/" }}
+{{ if and .IsPage (in .RelPermalink "/documentation/agentic-tools/prompt-templates/") }}
   {{ $promptTemplateJs := resources.Get "js/prompt-template.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $promptTemplateJs.RelPermalink }}"></script>
 {{ end }}

@@ -5,9 +5,19 @@
  * tokens intact. This module takes that text as its source, substitutes the
  * values you type, and marks whatever is still unresolved. Nothing is fetched,
  * and nothing is stored.
+ *
+ * Blocks separated by a blank line are the unit of resolution. When every
+ * placeholder in a block belongs to an empty optional variable, the whole block
+ * is dropped rather than handed to an agent as a literal token. Template
+ * authors should therefore keep one variable per blank-line-separated block; a
+ * block mixing a filled required variable with an empty optional one is kept,
+ * and the optional token stays visible.
  */
 (function () {
-  const PLACEHOLDER = /\{\{\s*([A-Z0-9_]+)\s*\}\}/g;
+  const PLACEHOLDER_SRC = '\\{\\{\\s*([A-Z0-9_]+)\\s*\\}\\}';
+
+  // A fresh regex per use: a shared global one carries lastIndex between calls.
+  const placeholders = () => new RegExp(PLACEHOLDER_SRC, 'g');
 
   const escapeHtml = (value) =>
     value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -25,6 +35,8 @@
       this.inputs = Array.from(root.querySelectorAll('[data-pt-var]'));
       this.status = root.querySelector('[data-pt-status]');
       this.copyBtn = root.querySelector('[data-pt-copy]');
+      this.copyLabel = this.copyBtn ? this.copyBtn.textContent : 'Copy';
+      this.copyTimer = null;
 
       this.inputs.forEach((input) => {
         input.addEventListener('input', () => this.render());
@@ -34,6 +46,8 @@
         this.copyBtn.addEventListener('click', () => this.copy());
       }
 
+      // Reveals the copy button, which is hidden until the behavior exists.
+      root.classList.add('prompt-template--ready');
       this.render();
     }
 
@@ -44,9 +58,28 @@
       }, {});
     }
 
+    /** Optional variables left empty: their blocks come out of the prompt. */
+    droppable(values) {
+      return new Set(
+        this.inputs
+          .filter((input) => input.dataset.ptRequired !== 'true')
+          .map((input) => input.dataset.ptVar)
+          .filter((name) => !values[name]),
+      );
+    }
+
     resolve() {
       const values = this.values();
-      return this.source.replace(PLACEHOLDER, (token, name) => values[name] || token);
+      const droppable = this.droppable(values);
+
+      return this.source
+        .split(/\n{2,}/)
+        .filter((block) => {
+          const names = Array.from(block.matchAll(placeholders()), (m) => m[1]);
+          return !(names.length > 0 && names.every((name) => droppable.has(name)));
+        })
+        .join('\n\n')
+        .replace(placeholders(), (token, name) => values[name] || token);
     }
 
     missingRequired() {
@@ -58,7 +91,7 @@
 
     render() {
       this.output.innerHTML = escapeHtml(this.resolve()).replace(
-        PLACEHOLDER,
+        placeholders(),
         '<span class="prompt-template__ph">$&</span>',
       );
 
@@ -80,22 +113,21 @@
       }
     }
 
+    flashCopyLabel(text, isError) {
+      clearTimeout(this.copyTimer);
+      this.copyBtn.textContent = text;
+      this.copyBtn.classList.toggle('prompt-template__copy--done', !isError);
+
+      this.copyTimer = setTimeout(() => {
+        this.copyBtn.textContent = this.copyLabel;
+        this.copyBtn.classList.remove('prompt-template__copy--done');
+      }, 1600);
+    }
+
     copy() {
-      const label = this.copyBtn.textContent;
-
       navigator.clipboard.writeText(this.resolve()).then(
-        () => {
-          this.copyBtn.textContent = 'Copied';
-          this.copyBtn.classList.add('prompt-template__copy--done');
-
-          setTimeout(() => {
-            this.copyBtn.textContent = label;
-            this.copyBtn.classList.remove('prompt-template__copy--done');
-          }, 1600);
-        },
-        () => {
-          this.copyBtn.textContent = 'Press Ctrl+C';
-        },
+        () => this.flashCopyLabel('Copied', false),
+        () => this.flashCopyLabel('Copy failed', true),
       );
     }
   }

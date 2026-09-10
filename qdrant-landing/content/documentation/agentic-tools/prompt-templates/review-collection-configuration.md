@@ -3,7 +3,6 @@ title: "Review a Collection Configuration Before Launch"
 short_description: "Hand your agent a collection configuration and workload profile, and get a go or no-go checklist covering indexing, quantization, replication, and filter readiness."
 description: "A Qdrant prompt template for pre-launch collection review. Produces a prioritized checklist of blockers and recommendations across payload indexing, quantization, replication, sharding, and search parameters, based on your actual configuration."
 weight: 20
-partition: develop
 category: review-and-audit
 output_contract: checklist
 tags:

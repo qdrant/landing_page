@@ -2,7 +2,7 @@
 
 $pt-surface: $neutral-20;
 $pt-surface-raised: $neutral-30;
-$pt-border: $neutral-30;
+$pt-border: $neutral-40;
 $pt-border-strong: $neutral-40;
 $pt-text: $neutral-98;
 $pt-text-muted: $neutral-70;
@@ -137,6 +137,7 @@ $pt-ready: $secondary-teal-70;
   }
 
   &__copy {
+    display: none;
     font-family: $font-family-base;
     font-size: $font-size-s;
     font-weight: 500;
@@ -155,6 +156,10 @@ $pt-ready: $secondary-teal-70;
       color: $pt-ready;
       border-color: $pt-ready;
     }
+  }
+
+  &--ready &__copy {
+    display: inline-block;
   }
 
   &__body {
