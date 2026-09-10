@@ -1,7 +1,7 @@
 ---
 title: "Agentic Tools"
-short_description: "Tools that help AI coding assistants work with Qdrant: agent skills for diagnosis and tuning, and prompt templates for design, migration, evaluation, and review."
-description: "Qdrant agentic tools for AI coding assistants. Agent skills give your agent solutions architect knowledge on demand. Prompt templates give you task-shaped prompts for designing collections, migrating from other engines, evaluating search quality, and reviewing configurations."
+short_description: "Tools that help AI coding assistants work with Qdrant: a prompt to get started, and agent skills that carry solutions architect knowledge into your agent."
+description: "Qdrant agentic tools for AI coding assistants. Start from a single prompt that runs Qdrant locally and installs the Qdrant Advisor, then use agent skills to diagnose and tune search, memory, scaling, and relevance in a running deployment."
 weight: 303
 partition: develop
 ---
@@ -55,9 +55,3 @@ A wrong collection configuration rarely fails loudly in vector search: a mismatc
 [Agent skills](/documentation/agentic-tools/skills/) encode solutions architect knowledge as structured files your agent loads on demand.
 They're organized around symptoms, so they answer "why is this happening, and what should I check first?"
 Reach for skills when something is already running and behaving unexpectedly: slow search, growing memory, a stuck optimizer, poor relevance.
-
-## Prompt Template Library
-
-The [prompt template library](/documentation/agentic-tools/prompt-templates/) is a set of task-shaped prompts you fill in and hand to your agent.
-They answer "how do I get a correct result for my specific case?"
-Reach for templates when you're designing something new, moving from another engine, measuring whether search actually works, or reviewing a configuration before it ships.

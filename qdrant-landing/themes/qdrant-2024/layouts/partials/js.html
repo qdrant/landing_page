@@ -117,13 +117,6 @@
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
-{{/* Prompt templates live under /documentation/, so .Section is "documentation"
-      here and cannot isolate them. Match on the path instead. */}}
-{{ if and .IsPage (in .RelPermalink "/documentation/agentic-tools/prompt-templates/") }}
-  {{ $promptTemplateJs := resources.Get "js/prompt-template.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $promptTemplateJs.RelPermalink }}"></script>
-{{ end }}
-
 {{ if in (slice "customers" "demo") .Section }}
   {{ $catalogFiltersJs := resources.Get "js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
