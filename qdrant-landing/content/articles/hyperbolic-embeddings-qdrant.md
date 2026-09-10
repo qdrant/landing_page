@@ -119,6 +119,8 @@ So we tested the same idea on the Google Product Taxonomy: 5,595 categories, sev
 
 Both embeddings used the same data and optimizer. The main difference was the geometry.
 
+We scored them with mean average precision (MAP), which asks how close each category's true parents land to the top of its results. Higher is better, and `1.000` would mean every parent came back first.
+
 | Dimensions | Euclidean MAP | Poincaré MAP |
 | ---------- | ------------: | -----------: |
 | 2 | 0.140 | 0.501 |
@@ -147,7 +149,7 @@ Getting a good embedding was only half the problem.
 
 The next question was how to search it.
 
-Hyperbolic distance can be converted into an inner product by adding two extra dimensions. Under brute force search in Faiss, that worked well. Across 82,115 WordNet nouns, recall@10 reached `0.986`.
+Hyperbolic distance can be converted into an inner product by adding two extra dimensions. Under brute force search in Faiss, that worked well. Across 82,115 WordNet nouns it found `0.986` of the correct nearest neighbors in its top 10, which we write as recall@10.
 
 Then we put the same vectors behind HNSW.
 
@@ -155,7 +157,7 @@ Recall dropped to `0.020`, even with `ef=1024`.
 
 The conversion was still mathematically correct, but the resulting vectors had norms spread across roughly a 600x range. That made HNSW a poor fit for the ranking we actually wanted.
 
-Grouping vectors by norm helped, but recall only reached `0.41`.
+Grouping vectors by norm helped, but recall only reached `0.410`.
 
 So instead of forcing the converted vectors into HNSW, we changed the search strategy.
 
