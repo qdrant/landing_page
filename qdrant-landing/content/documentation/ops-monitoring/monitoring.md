@@ -21,7 +21,7 @@ The integration with Qdrant is easy to
 [configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets)
 with Prometheus and Grafana.
 
-If you would rather have an agent do this, the prompt below asks it to pick the right scrape setup for your deployment type and propose alerts worth having.
+If you would rather have an agent handle this, use the following prompt to select the appropriate configuration for your deployment type and recommend relevant alerts.
 
 {{< prompt "set-up-monitoring" >}}
 
