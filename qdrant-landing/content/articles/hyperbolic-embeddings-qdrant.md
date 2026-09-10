@@ -25,7 +25,7 @@ This article covers:
 - How can we search hyperbolic embeddings with Qdrant?
 - A practical example with WordNet and Qdrant.
 
-## What is a manifold, and where do our vectors live?
+## What Is a Manifold, and Where Do Our Vectors Live?
 
 A manifold is the space our embeddings live in. For embeddings, we care about the geometry we give that space. It determines how we measure distance, what the shortest path looks like, and how much room there is as we move outward.
 
@@ -43,7 +43,7 @@ The embedding is still a vector. The geometry determines how we measure distance
 
 Many familiar embedding models normalize their vectors onto a sphere and use cosine similarity. Hyperbolic embeddings use a different geometry, one that is particularly well suited to branching relationships.
 
-## Hierarchical data meets hyperbolic embeddings
+## Hierarchical Data Meets Hyperbolic Embeddings
 
 Imagine a product catalog. Footwear splits into boots, trainers, and sandals. Boots split into ankle boots, hiking boots, and work boots. Each type contains products, and each product can have several variants.
 
@@ -71,11 +71,11 @@ That is a much closer match to the growth of a branching tree. As a hierarchy ge
 
 The same branching structure appears in biological taxonomies, document hierarchies, and part–whole relationships. Hyperbolic embeddings give these hierarchies room to grow.
 
-## Superpowers of hyperbolic embeddings
+## Superpowers of Hyperbolic Embeddings
 
 Matching the geometry to the data can make an embedding more compact and give its coordinates more meaning. Two useful examples are dimensional efficiency and radius as a measure of specificity.
 
-### Dimensional efficiency
+### Dimensional Efficiency
 
 When the geometry matches the data, you can often represent the same structure with fewer dimensions.
 
@@ -89,7 +89,7 @@ Five-dimensional Poincaré embeddings achieved **0.823**, compared with **0.168*
 
 Fewer coordinates mean fewer values to store and move through a retrieval system. Before reaching for a larger vector, it is worth asking whether a different geometry would fit the data better.
 
-### Radius can encode specificity
+### Radius Can Encode Specificity
 
 One of the nicest properties of a hierarchy-aware hyperbolic embedding is that radius can start to mean something.
 
@@ -135,7 +135,7 @@ There is one limitation. These numbers measure relationships the embedding alrea
 
 So we would not treat this as a universal win. We would treat it as a strong reason to test hyperbolic embeddings when the data itself is hierarchical.
 
-## Serving Them With Qdrant
+## Serving Them with Qdrant
 
 Getting a good embedding was only half the problem. The next question was how to search it.
 
