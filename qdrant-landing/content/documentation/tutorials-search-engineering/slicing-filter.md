@@ -1,5 +1,5 @@
 ---
-title: Deterministic Slicing with the Slice Filter
+title: Deterministic Collection Slicing
 short_description: "Split a Qdrant collection into disjoint, deterministic subsets with the slice filter for parallel scroll and reproducible sampling."
 description: "Use Qdrant's slice filter to divide a collection into fixed, deterministic subsets for parallel scroll across workers, reproducible sampling, and stratified sampling with a payload filter."
 weight: 15
@@ -7,20 +7,28 @@ aliases:
   - /documentation/tutorials/slicing-filter/
 ---
 
-# Deterministic Slicing with the Slice Filter
+# Deterministic Collection Slicing
 
-| Time: 20 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/slicing-filter/Slicing_Filter.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/slicing-filter/Slicing_Filter.ipynb) |
-| --- | ----------- | ----------- | ----------- |
+| Time: 20 min | Level: Intermediate | Stack: Python | Output: [GitHub](https://github.com/qdrant/examples/blob/master/slicing-filter/Slicing_Filter.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/slicing-filter/Slicing_Filter.ipynb) |
+| --- | ----------- | ----------- | ----------- | ----------- |
 
-Exporting or re-embedding a large collection with a single `scroll` call is slow, and splitting the work across worker processes usually means paging through the collection and dividing IDs by hand, or reaching for random sampling that returns a different set of points on every run. Qdrant's `slice` filter condition, available as of v1.19.0, solves both: it divides a collection into a fixed number of deterministic, disjoint subsets, so several workers can each claim one subset with no coordination, and a single subset makes a reproducible sample for evaluation or a train/test split.
+Getting all the points of a large collection with a single call to the [Scroll API](/documentation/manage-data/points/#scroll-points) is slow, and splitting the work across worker processes usually means paging through the collection and dividing IDs by hand. 
 
-A point matches slice `index` of `total` when `hash(id) % total == index`, using SipHash-2-4 over the point ID bytes. For a fixed `total`, slices `0` through `total - 1` are disjoint and together cover the whole collection. Unlike [random sampling](/documentation/search/search/#random-sampling), a given slice always returns the same points, and it composes with any other filter condition, including a payload filter.
+Qdrant's [`slice` filter condition](/documentation/search/filtering/#slice), available as of v1.19.0, addresses this pain point: it divides a collection into a fixed number of deterministic, disjoint subsets, so a fixed number of workers can each claim one subset with no coordination, and a single subset makes a reproducible sample for evaluation or a train/test split.
 
-This tutorial covers three uses: parallel `scroll` across workers, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
+Qdrant assigns each point to one slice by hashing its ID, and, for a fixed `total`, slices `0` through `total - 1` are disjoint and together cover the whole collection. Unlike [random sampling](/documentation/search/search/#random-sampling), a given slice always returns the same points, and it composes with any other filter condition, including a payload filter. Because `slice` matches on the point ID hash rather than payload data, it needs no payload index: like `has_id`, it is checked per candidate point within each shard that receives the query.
+
+This tutorial covers four uses: parallel `scroll` across workers, restricting a vector search with `query_points`, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
 
 ## Setup
 
-The [Cloud Quickstart](/documentation/cloud-quickstart/) covers creating a cluster and connecting a client. This tutorial uses [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to embed the sample data server-side, with the free model `sentence-transformers/all-MiniLM-L6-v2`.
+We first need to install the [Qdrant Python Client](https://github.com/qdrant/qdrant-client):
+
+```bash
+pip install qdrant-client
+```
+
+While the installation completes, follow the [Cloud Quickstart](/documentation/cloud-quickstart/) to create a free cluster and retrieve the credentials to connect the client to it. This tutorial uses [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to embed the sample data server-side, with the free model `sentence-transformers/all-MiniLM-L6-v2`.
 
 ```python
 import os
@@ -28,8 +36,8 @@ import os
 from qdrant_client import AsyncQdrantClient, models
 
 client = AsyncQdrantClient(
-    url=os.environ["QDRANT_URL"],
-    api_key=os.environ["QDRANT_API_KEY"],
+    url="https://your-endpoint.cloud.qdrant.io:6333",
+    api_key="<paste-your-key>",
     cloud_inference=True,
 )
 
@@ -73,25 +81,32 @@ for i in range(500):
         )
     )
 
-await client.upload_points(collection_name=collection_name, points=points, wait=True)
+client.upload_points(collection_name=collection_name, points=points, wait=True)
 ```
 
 ## Scrolling a Single Slice
 
-A `SliceCondition` takes an `index` and a `total`. This scrolls slice `3` of `8`, one eighth of the collection:
+A `SliceCondition` takes an `index` and a `total`. A single `scroll` call only returns up to `limit` points, so to fetch a whole slice you page through it: keep calling `scroll` with the `next_page_offset` from the previous response until it comes back `None`. This pages through slice `3` of `8`, one eighth of the collection:
 
 ```python
-result, _ = await client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(
-        must=[models.SliceCondition(slice=models.Slice(index=3, total=8))],
-    ),
-    limit=500,
-    with_payload=False,
-    with_vectors=False,
-)
+next_page_offset = None
+records = []
+while True:
+    result, next_page_offset = await client.scroll(
+        collection_name=collection_name,
+        scroll_filter=models.Filter(
+            must=[models.SliceCondition(slice=models.Slice(index=3, total=8))],
+        ),
+        limit=500,
+        with_payload=False,
+        with_vectors=False,
+        offset=next_page_offset,
+    )
+    records.extend(result)
+    if next_page_offset is None:
+        break
 
-print(f"slice 3 of 8: {len(result)} points")
+print(f"slice 3 of 8: {len(records)} points")
 # slice 3 of 8: 61 points
 ```
 
@@ -104,104 +119,110 @@ The main use case is splitting a full scroll into `N` independent, non-overlappi
 ```python
 import asyncio
 
-
 async def scroll_slice(index: int, total: int) -> list[models.Record]:
-    records, _ = await client.scroll(
-        collection_name=collection_name,
-        scroll_filter=models.Filter(
-            must=[models.SliceCondition(slice=models.Slice(index=index, total=total))],
-        ),
-        limit=500,
-        with_payload=True,
-        with_vectors=False,
-    )
+    next_page_offset = None
+    records = []
+    while True:
+        result, next_page_offset = await client.scroll(
+            collection_name=collection_name,
+            scroll_filter=models.Filter(
+                must=[models.SliceCondition(slice=models.Slice(index=index, total=total))],
+            ),
+            limit=500,
+            with_payload=True,
+            with_vectors=False,
+            offset=next_page_offset,
+        )
+        records.extend(result)
+        if next_page_offset is None:
+            break
     return records
 
 
-total_slices = 4
+total_slices = 10
 slices = await asyncio.gather(*(scroll_slice(i, total_slices) for i in range(total_slices)))
 
 for i, s in enumerate(slices):
     print(f"worker {i}: {len(s)} points")
 print(f"sum across workers: {sum(len(s) for s in slices)}")
-# worker 0: 115 points
-# worker 1: 143 points
-# worker 2: 118 points
-# worker 3: 124 points
+
+# worker 0: 47 points
+# worker 1: 56 points
+# worker 2: 54 points
+# worker 3: 52 points
+# worker 4: 41 points
+# worker 5: 65 points
+# worker 6: 45 points
+# worker 7: 45 points
+# worker 8: 46 points
+# worker 9: 49 points
 # sum across workers: 500
 ```
 
-Every point appears in exactly one slice, so the counts add up to the full collection with no overlap and no gaps:
+Every point appears in exactly one slice, so the counts add up to the full collection with no overlap and no gaps.
+
+## Restricting a Vector Search to a Slice
+
+`slice` is not limited to `scroll`. It also works as a `query_points` filter, so a vector search can be restricted to a fixed, reproducible subset of the collection, for example to hold out a portion of the data for evaluation while searching the rest:
 
 ```python
-ids_per_slice = [{r.id for r in s} for s in slices]
-overlap = set.intersection(*ids_per_slice)
-union = set.union(*ids_per_slice)
+results = await client.query_points(
+    collection_name=collection_name,
+    query=models.Document(text="warm winter jacket", model=embedding_model),
+    query_filter=models.Filter(
+        must=[models.SliceCondition(slice=models.Slice(index=0, total=5))],
+    ),
+    limit=5,
+    with_payload=True,
+)
+```
 
-count_result = await client.count(collection_name=collection_name)
+We now install [`siphash24`](https://pypi.org/project/siphash24/), a Python implementation of SipHash-2-4, the hash function `slice` uses internally.
 
-print(f"overlapping IDs: {len(overlap)}")
-print(f"union covers full collection: {len(union) == count_result.count}")
-# overlapping IDs: 0
-# union covers full collection: True
+```bash
+! pip install siphash24
+```
+
+With the hashing library installed, we can recompute the slice independently of the client and verify that every retrieved point really does belong to slice `0`:
+
+```python
+from siphash24 import siphash24
+
+def slice_of(point_id: int, total: int) -> int:
+    digest = siphash24(point_id.to_bytes(8, "little")).digest()
+    return int.from_bytes(digest, "little") % total
+
+print(f"all results in slice 0: {all(slice_of(p.id, 5) == 0 for p in results.points)}")
+# all results in slice 0: True
 ```
 
 ## Reproducible Sampling
 
-Because the hash is stable across runs and Qdrant versions, a single slice makes a reproducible sample. Requesting slice `0` of `total: 10` always returns the same 10% of the collection, which makes it a solid choice for a recall benchmark or a train/test split that has to be repeatable.
+Because the hash is stable across runs and Qdrant versions, a single slice makes a reproducible sample: requesting slice `0` of `total: 10` always returns the same 10% of the collection. [Random sampling](/documentation/search/search/#random-sampling) cannot make this guarantee, since it draws a fresh random subset on every call, which is why `slice` is the right tool for a recall benchmark or a train/test split that has to be repeatable.
+
+A small helper turns a slice into a set of IDs, so the point can be made in a few lines: calling it twice with the same `index` and `total` returns the exact same IDs.
 
 ```python
-sample, _ = await client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(
-        must=[models.SliceCondition(slice=models.Slice(index=0, total=10))],
-    ),
-    limit=10000,
-    with_payload=False,
-    with_vectors=False,
-)
-sample_ids = {p.id for p in sample}
+async def slice_ids(index: int, total: int) -> set[int]:
+    records, _ = await client.scroll(
+        collection_name=collection_name,
+        scroll_filter=models.Filter(must=[models.SliceCondition(slice=models.Slice(index=index, total=total))]),
+        limit=10000,
+        with_payload=False,
+        with_vectors=False,
+    )
+    return {p.id for p in records}
 
-sample_again, _ = await client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(
-        must=[models.SliceCondition(slice=models.Slice(index=0, total=10))],
-    ),
-    limit=10000,
-    with_payload=False,
-    with_vectors=False,
-)
+first_run = await slice_ids(index=0, total=10)
+second_run = await slice_ids(index=0, total=10)
 
-print(f"sample size: {len(sample_ids)}")
-print(f"identical on repeat: {sample_ids == {p.id for p in sample_again}}")
+print(f"sample size: {len(first_run)}")
+print(f"identical on repeat: {first_run == second_run}")
 # sample size: 47
 # identical on repeat: True
 ```
 
-Slices with different `total` values are also correlated: slice `0` of `total: 4` is always a subset of slice `0` of `total: 2`. Growing the number of slices refines a sample instead of reshuffling it:
-
-```python
-coarse, _ = await client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(must=[models.SliceCondition(slice=models.Slice(index=0, total=2))]),
-    limit=10000,
-    with_payload=False,
-    with_vectors=False,
-)
-fine, _ = await client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(must=[models.SliceCondition(slice=models.Slice(index=0, total=4))]),
-    limit=10000,
-    with_payload=False,
-    with_vectors=False,
-)
-
-fine_ids = {p.id for p in fine}
-coarse_ids = {p.id for p in coarse}
-
-print(f"slice 0/4 is a subset of slice 0/2: {fine_ids.issubset(coarse_ids)}")
-# slice 0/4 is a subset of slice 0/2: True
-```
+Slices with different `total` values are also correlated: slice `0` of `total: 4` is always a subset of slice `0` of `total: 2`. This means you can go from `total: 2` to `total: 4` to halve your sample, and every point in the smaller sample was already in the bigger one, so nothing you have already evaluated drops out.
 
 ## Stratified Sampling with Payload Filters
 
