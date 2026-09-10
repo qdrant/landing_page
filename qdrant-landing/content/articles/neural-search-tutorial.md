@@ -12,6 +12,7 @@ author_link: https://blog.vasnetsov.com/
 date: 2021-06-10T10:18:00.000Z
 category: demos-and-tutorials
 # aliases: [ /articles/neural-search-tutorial/ ]
+draft: true
 ---
 # Neural Search 101: A Comprehensive Guide and Step-by-Step Tutorial
 

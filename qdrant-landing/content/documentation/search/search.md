@@ -5,6 +5,8 @@ description: "Run similarity search in Qdrant to retrieve nearest-neighbor point
 weight: 5
 cta: "Run your first similarity search. Free, no infrastructure needed."
 aliases:
+  - /articles/batch-vector-search-with-qdrant/
+  - /blog/batch-vector-search-with-qdrant/
   - ../search
   - /documentation/concepts/search/
 ---

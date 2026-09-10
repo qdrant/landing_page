@@ -1,0 +1,17 @@
+{{ $page := .page }}
+<article class="{{ .column | default "col-12 col-lg-4" }} post post-sm">
+  <a class="post-link" href="{{ $page.RelPermalink }}">
+    {{ with $page.Params.preview_dir }}
+      <div class="post-preview"><img src="{{ . }}/preview.jpg" alt="" loading="lazy" /></div>
+    {{ end }}
+    {{ with site.GetPage (printf "/articles/%s/" $page.Params.category) }}
+      <span class="post-type-badge">{{ .Title }}</span>
+    {{ end }}
+    <h3 class="post-title">{{ $page.Title }}</h3>
+    <p class="post-description">{{ $page.Params.short_description | default $page.Description }}</p>
+    <div class="post-about">
+      <p>{{ $page.Params.author }}</p>
+      <p>{{ time.Format "January 2, 2006" $page.Date }}</p>
+    </div>
+  </a>
+</article>

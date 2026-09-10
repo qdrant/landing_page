@@ -1,0 +1,44 @@
+{{ $section := site.GetPage .section }}
+{{ $standalone := where $section.RegularPages.ByWeight "Params.guide_series" "ne" true }}
+{{ $series := where $section.RegularPages.ByWeight "Params.guide_series" true }}
+{{ $groups := slice (dict "title" "Find Your Guide" "description" "Find practical guidance for the search problem or design decision you are working on." "pages" $standalone "series" false) }}
+{{ if $series }}
+  {{ $groups = $groups | append (dict "title" $section.Params.guide_series_title "description" "Follow the complete series in order, or choose the part that matches your next decision." "pages" $series "series" true) }}
+{{ end }}
+{{ range $groups }}
+  {{ $isSeries := .series }}
+  {{ $cards := slice }}
+  {{ range $index, $page := .pages }}
+    {{ $tag := .Params.guide_kind }}
+    {{ if $isSeries }}{{ $tag = printf "Part %d" (add $index 1) }}{{ end }}
+    {{ $cards = $cards | append (dict "title" .Title "description" .Params.short_description "tag" $tag "icon" (dict "src" $section.Params.guide_icon "alt" "") "link" (dict "text" "Open Guide" "url" .RelPermalink)) }}
+  {{ end }}
+  {{ if $cards }}
+    {{ partial "documentation/sections/cards-section" (dict "title" .title "description" .description "cardsPartial" "documentation/cards/docs-cards" "cardsPerRow" (cond (eq (len $cards) 2) 2 3) "cards" $cards) }}
+  {{ end }}
+{{ end }}
+{{ $examples := slice }}
+{{ range $section.Params.worked_examples }}
+  {{ $url := . }}
+  {{ with site.GetPage . }}
+    {{ $description := .Params.short_description }}
+    {{ range where hugo.Data.examples "page" $url }}
+      {{ $description = .description | default $description }}
+    {{ end }}
+    {{ $examples = $examples | append (dict "title" .Title "description" $description "link" (dict "text" "Open Example" "url" .RelPermalink)) }}
+  {{ else }}{{ errorf "Unknown worked example %s" . }}{{ end }}
+{{ end }}
+{{ if $examples }}
+  {{ partial "documentation/sections/cards-section" (dict "title" "Apply These Techniques" "description" "Use a worked example to put the guidance into practice." "cardsPartial" "documentation/cards/docs-cards" "cards" $examples "button" (dict "text" "Browse Tutorials & Examples" "url" "/learn/examples/")) }}
+{{ end }}
+{{ $references := slice }}
+{{ range $section.Params.related }}
+  {{ with site.GetPage . }}
+    {{ $references = $references | append (dict "title" .Title "description" .Params.short_description "link" (dict "text" "Explore Documentation" "url" .RelPermalink)) }}
+  {{ else }}
+    {{ errorf "Unknown related page %s in %s" . $section.Path }}
+  {{ end }}
+{{ end }}
+{{ if $references }}
+{{ partial "documentation/sections/cards-section" (dict "title" "Read More" "description" "Use the full reference when you need configuration details or an operating procedure." "cardsPartial" "documentation/cards/docs-cards" "cards" $references) }}
+{{ end }}

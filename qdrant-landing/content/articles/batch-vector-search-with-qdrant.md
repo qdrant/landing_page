@@ -15,6 +15,7 @@ tags:
   - Information Retrieval
 category: mastering-search
 weight: 100
+draft: true
 ---
 
 # How to Optimize Vector Search Using Batch Search in Qdrant 0.10.0

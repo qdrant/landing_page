@@ -74,5 +74,4 @@ build:
 
 - [Essential Examples](/documentation/tutorials-build-essentials/index.md) — Hands-on tutorials for agentic RAG, multimodal search, data ingestion, and automation integrations.
 - [Build Prototypes](/documentation/examples/index.md) — End-to-end code samples for RAG pipelines, hybrid search, multitenancy, recommendations, and multimodal search.
-- [Improve Search](/documentation/improve-search/index.md) — Techniques for improving retrieval relevance and pipeline output quality.
 - [Practice Datasets](/documentation/datasets/index.md) — Ready-made Qdrant snapshots of public datasets you can import and explore without the embedding step.

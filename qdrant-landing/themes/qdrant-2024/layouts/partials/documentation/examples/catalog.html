@@ -1,0 +1,58 @@
+{{ $goals := slice }}
+{{ $stacks := slice }}
+{{ range hugo.Data.examples }}
+  {{ $goals = $goals | append .goal }}
+  {{ $stacks = $stacks | append .stack }}
+{{ end }}
+<section class="example-library" id="example-library" aria-labelledby="examples-title">
+  <h2 id="examples-title">Browse Tutorials &amp; Examples</h2>
+  <p>Choose the result you want, then filter the collection by your stack.</p>
+  <form class="example-library__filters" role="search" aria-label="Find a Tutorial or Example" hidden>
+    <div>
+      <label for="example-query">Search This Collection</label>
+      <input id="example-query" name="q" type="search" placeholder="Try recall, PDF, or filters" autocomplete="off">
+    </div>
+    <div>
+      <label for="example-goal">Goal</label>
+      <select id="example-goal" name="goal">
+        <option value="">All Goals</option>
+        {{ range sort (uniq $goals) }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+      </select>
+    </div>
+    <div>
+      <label for="example-stack">Stack</label>
+      <select id="example-stack" name="stack">
+        <option value="">All Stacks</option>
+        {{ range sort (uniq $stacks) }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+      </select>
+    </div>
+    <button type="reset" class="button button_outlined button_sm">Clear Filters</button>
+  </form>
+  <p data-example-count role="status" aria-live="polite" aria-atomic="true">{{ len hugo.Data.examples }} results</p>
+  <p data-example-empty hidden>No tutorials or examples match these filters. Try a broader term or clear the filters.</p>
+  <div class="row g-4">
+    {{ range hugo.Data.examples }}
+      {{ $entry := . }}
+      {{ $page := site.GetPage .page }}
+      {{ if not $page }}{{ errorf "Unknown example page %s" .page }}{{ end }}
+      {{ $title := .title | default $page.Title }}
+      {{ $description := .description | default $page.Params.short_description | default $page.Description }}
+      {{ if not $description }}{{ errorf "Missing example description: %s" .page }}{{ end }}
+      <div class="col-12 col-lg-6" data-example data-goal="{{ .goal }}" data-stack="{{ delimit .stack "|" }}" data-search="{{ printf "%s %s %s %s %s" $title $description .goal (delimit .stack " ") (.keywords | default "") | lower }}">
+        <article class="docs-card example-library__card">
+          <span class="docs-card__tag">{{ .goal }}</span>
+          <h3 class="docs-card__title"><a href="{{ $page.RelPermalink }}">{{ $title }}</a></h3>
+          <p class="docs-card__description">{{ $description }}</p>
+          <p class="example-library__stack">{{ delimit .stack " · " }}</p>
+          <div class="example-library__actions">
+            <a href="{{ $page.RelPermalink }}" class="link link_sm">Open Example<span class="visually-hidden">: {{ $title }}</span></a>
+            {{ range .resources }}
+              {{ if not (strings.Contains $page.RawContent .url) }}{{ errorf "Example resource is no longer linked from %s: %s" $entry.page .url }}{{ end }}
+              <a href="{{ .url }}" class="link link_sm">{{ .label }}<span class="visually-hidden">: {{ $title }}</span></a>
+            {{ end }}
+          </div>
+        </article>
+      </div>
+    {{ end }}
+  </div>
+</section>

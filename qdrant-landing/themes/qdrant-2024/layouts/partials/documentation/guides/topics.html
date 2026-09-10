@@ -1,0 +1,7 @@
+{{ $cards := slice }}
+{{ range (site.GetPage "/documentation").Sections.ByWeight }}
+  {{ if eq .Params.learning_kind "guides" }}
+    {{ $cards = $cards | append (dict "title" .Title "description" .Params.short_description "icon" (dict "src" .Params.guide_icon "alt" "") "link" (dict "text" "Explore Guides" "url" .RelPermalink)) }}
+  {{ end }}
+{{ end }}
+{{ partial "documentation/sections/cards-section" (dict "title" "Grow Your Search Engineering Skills" "description" "Learn the tradeoffs, apply a pattern, and test it against the needs of your application." "cardsPartial" "documentation/cards/docs-cards" "cardsPerRow" 2 "cards" $cards) }}

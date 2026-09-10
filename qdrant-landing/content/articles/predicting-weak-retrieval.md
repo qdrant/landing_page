@@ -21,7 +21,7 @@ category: search-quality
 
 Most retrieval systems run one pipeline on every query, and it is the wrong default in both directions: a single pass under-serves the hard queries, while reranking or rewriting every query wastes compute on the easy ones. Worse, the single pass fails silently. When the relevant document never reaches the top, the system answers anyway from whatever it got, with no sign anything went wrong.
 
-The expensive fixes are well understood, [cross-encoders](/documentation/fastembed/fastembed-rerankers/), [ColBERT late interaction](/articles/late-interaction-models/), query rewriting, and [decomposition](/documentation/improve-search/query-decomposition/), so the real question is when to spend them: ideally you catch a weak retrieval cheaply, before paying for any of them, and escalate only the queries that need it. But what tells you, cheaply, that a retrieval is weak? That depends on how your retrieval fails, and we measure it across three corpora.
+The expensive fixes are well understood, [cross-encoders](/documentation/fastembed/fastembed-rerankers/), [ColBERT late interaction](/articles/late-interaction-models/), query rewriting, and [decomposition](/documentation/search-patterns/query-decomposition/), so the real question is when to spend them: ideally you catch a weak retrieval cheaply, before paying for any of them, and escalate only the queries that need it. But what tells you, cheaply, that a retrieval is weak? That depends on how your retrieval fails, and we measure it across three corpora.
 
 ## What "Weak Retrieval" Means
 
@@ -165,4 +165,4 @@ This sits alongside corrective and adaptive retrieval. The difference is where t
 - [Adaptive-RAG](https://arxiv.org/abs/2403.14403) routes on query complexity *before* retrieving, the question-shape approach this article argues against: gate on the evidence you got back, not the shape of the question.
 - [Sufficient-context work](https://arxiv.org/abs/2411.06037) asks the same "is this enough?" question with an LLM judge rather than a free signal.
 
-*The full loop, corrective actions, and evaluation harness are in the [self-correcting retrieval loops workshop](https://github.com/qdrant-labs/self-correcting-loops-workshop). For the building blocks it escalates to, see [late interaction models](/articles/late-interaction-models/), [hybrid search](/articles/hybrid-search/), and [query decomposition](/documentation/improve-search/query-decomposition/).*
+*The full loop, corrective actions, and evaluation harness are in the [self-correcting retrieval loops workshop](https://github.com/qdrant-labs/self-correcting-loops-workshop). For the building blocks it escalates to, see [late interaction models](/articles/late-interaction-models/), [hybrid search](/articles/hybrid-search/), and [query decomposition](/documentation/search-patterns/query-decomposition/).*
