@@ -34,7 +34,7 @@ content:
           alt: ""
         link:
           text: Compare Models
-          url: /documentation/search-tuning/choose-embedding-model/
+          url: /documentation/search-patterns/choose-embedding-model/
       - title: How to Implement Multitenancy and Custom Sharding in Qdrant
         description: Choose shared collections, tenant filters, and shard placement as customer workloads grow.
         icon:

@@ -4,6 +4,8 @@ short_description: "Answer multi-hop questions by retrieving in steps: an LLM as
 description: "Answer multi-hop questions in Qdrant: decompose the query into retrieval steps, let an LLM ask each follow-up, and fuse results with RRF."
 weight: 20
 aliases:
+  - /documentation/search-design/query-decomposition/
+  - /documentation/search-tuning/query-decomposition/
   - /documentation/improve-search/query-decomposition/
 partition: learn
 learning_kind: guides

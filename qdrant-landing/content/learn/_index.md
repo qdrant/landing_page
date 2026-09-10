@@ -82,11 +82,16 @@ content:
         link:
           url: /documentation/production-patterns/
           text: Explore Production & Performance
-      - title: Design and Tune Search
-        description: Choose embeddings and retrieval strategies, then follow the tuning series to test improvements.
+      - title: Choose Search Patterns
+        description: Choose embedding models, plan query decomposition, and filter results for your application.
+        link:
+          url: /documentation/search-patterns/
+          text: Explore Search Patterns
+      - title: Tune Search Results
+        description: Follow the retrieval tuning series to test candidate depth, fusion, reranking, and memory choices.
         link:
           url: /documentation/search-tuning/
-          text: Explore Search Design & Tuning
+          text: Explore Search Tuning
 ---
 
 # Learn

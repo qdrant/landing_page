@@ -302,7 +302,7 @@ When a page moves into a guide section, add its former URL to `aliases`.
 
 #### Articles
 
-An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. To retire an article, set `draft: true` and add a `301` line to `static/_redirects`.
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. To retire an article, set `draft: true` and add its former URLs to `aliases` on the specific replacement page.
 
 ## Blog
 

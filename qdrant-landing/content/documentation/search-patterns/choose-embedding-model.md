@@ -12,6 +12,8 @@ weight: 10
 partition: learn
 learning_kind: guides
 aliases:
+  - /documentation/search-design/choose-embedding-model/
+  - /documentation/search-tuning/choose-embedding-model/
   - /articles/how-to-choose-an-embedding-model/
 ---
 

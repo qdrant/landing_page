@@ -11,6 +11,8 @@ date: 2024-09-10T00:00:00.000Z
 partition: learn
 learning_kind: guides
 aliases:
+  - /documentation/search-design/vector-search-filtering/
+  - /documentation/search-tuning/vector-search-filtering/
   - /articles/vector-search-filtering/
 ---
 

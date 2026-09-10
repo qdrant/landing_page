@@ -12,11 +12,11 @@
     {{ $pages := slice }}
     {{ range .RegularPages.ByWeight }}
       {{ if not .Params.hideInSidebar }}
-        {{ $pages = $pages | append (dict "title" .Title "url" .RelPermalink "series" .Params.guide_series) }}
+        {{ $pages = $pages | append (dict "title" .Title "url" .RelPermalink) }}
       {{ end }}
     {{ end }}
     {{ $active := or (eq .RelPermalink $current) (and $isGuide (eq $.Parent .)) }}
-    {{ $guideLinks = $guideLinks | append (dict "title" .Title "url" .RelPermalink "active" $active "children" $pages "seriesTitle" .Params.guide_series_title) }}
+    {{ $guideLinks = $guideLinks | append (dict "title" .Title "url" .RelPermalink "active" $active "children" $pages) }}
   {{ end }}
 {{ end }}
 {{ $articleLinks := slice }}
@@ -53,13 +53,7 @@
                 <details class="guide-topic{{ if .active }} active{{ end }}" {{ if .active }}open{{ end }}>
                   <summary{{ if eq .url $current }} class="active"{{ end }}><a href="{{ .url }}"><span>{{ .title }}</span></a></summary>
                   <ul class="docs-menu__links-sub-submenu">
-                    {{ $seriesTitle := .seriesTitle }}
-                    {{ $seriesStarted := false }}
                     {{ range .children }}
-                      {{ if and .series (not $seriesStarted) }}
-                        <li class="guide-series-label">{{ $seriesTitle }}</li>
-                        {{ $seriesStarted = true }}
-                      {{ end }}
                       <li class="docs-menu__links-sub-submenu-item{{ if eq .url $current }} active{{ end }}">
                         <a href="{{ .url }}" {{ if eq .url $current }}aria-current="page"{{ end }}>{{ .title }}</a>
                       </li>

@@ -1,7 +1,7 @@
 ---
-title: Search Design & Tuning
-short_description: Choose embedding models, filters, and retrieval strategies, then tune candidate depth, fusion, reranking, and memory against your search goals.
-description: "Design and tune Qdrant search: choose embeddings and retrieval strategies, then evaluate changes to candidate depth, fusion, reranking, and memory."
+title: Search Tuning
+short_description: Tune candidate depth, fusion, reranking, and memory against your search goals, following the complete retrieval tuning series.
+description: "Tune Qdrant retrieval with measured changes to candidate depth, hybrid fusion, reranking, and memory use. Follow the six-part series in order."
 partition: learn
 learning_kind: guides
 weight: 125
@@ -12,15 +12,15 @@ aliases:
 guide_icon: /icons/outline/speedometer-blue.svg
 content:
   - partial: documentation/banners/banner-a
-    title: Search Design & Tuning
-    description: Choose a search approach, then use evaluation results to decide what to change.
-    linkDescription: Start with a design decision or follow the complete retrieval tuning series.
+    title: Search Tuning
+    description: Use evaluation results to decide what to change in your retrieval pipeline.
+    linkDescription: Follow the tuning series in order, or open the part that matches your next decision.
     cloudButton:
-      text: Choose an Embedding Model
-      url: /documentation/search-tuning/choose-embedding-model/
-    localButton:
       text: Start the Tuning Series
       url: /documentation/search-tuning/hybrid-search/
+    localButton:
+      text: Check Before Tuning
+      url: /documentation/search-tuning/before-tuning-a-qdrant-collection/
   - partial: documentation/guides/guide-cards
     section: /documentation/search-tuning/
 guide_series_title: Tune Your Retrieval Pipeline
