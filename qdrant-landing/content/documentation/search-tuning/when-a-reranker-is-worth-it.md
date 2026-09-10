@@ -1,40 +1,44 @@
 ---
-title: "When Is a Reranker Worth It?"
-short_description: "Rerank 10 candidates, compare with your tuned first stage on held-out queries, and raise the count only after the win holds."
-description: "Test whether a cross-encoder reranker beats your tuned first stage in Qdrant, then choose the model and candidate count from measured results."
+title: When Is a Reranker Worth It?
+short_description: Rerank 10 candidates, compare with your tuned first stage on held-out queries, and raise the count only after the win holds.
+description: Test whether a cross-encoder reranker beats your tuned first stage in Qdrant, then choose the model and candidate count from measured results.
 preview_dir: /articles_data/when-a-reranker-is-worth-it/preview
 social_preview_image: /articles_data/when-a-reranker-is-worth-it/preview/social_preview.jpg
-weight: -210
+weight: 150
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-23T00:00:00+03:00
+date: 2026-08-23 00:00:00+03:00
 draft: false
 keywords:
-  - cross-encoder reranker
-  - reranking
-  - MMR
-  - search relevance
-  - FastEmbed
-category: search-quality
+- cross-encoder reranker
+- reranking
+- MMR
+- search relevance
+- FastEmbed
+partition: learn
+learning_kind: guides
+aliases:
+- /articles/when-a-reranker-is-worth-it/
+guide_series: true
 ---
 
-Before you tune a reranker, use the [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
+Before you tune a reranker, use the [pre-tuning checks](/documentation/search-tuning/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
 
 Your candidate list can already contain documents your ranking never shows. Score those candidates as if they were perfectly ordered, then compare that with the score your pipeline returns today. The gap between the two is everything a better ranking stage could recover, so measure it before you reach for a model. Use `nDCG@10`, which grades the top 10 results and gives more credit to relevant documents near the top.
 
-A wide gap means a better order is worth chasing. The deepest count measured here was 200 candidates. At that count, the `nDCG@10` gap ran from 0.247 to 0.487 across the five datasets, and [candidate depth](/articles/candidate-depth/) shows how to measure it on your own collection.
+A wide gap means a better order is worth chasing. The deepest count measured here was 200 candidates. At that count, the `nDCG@10` gap ran from 0.247 to 0.487 across the five datasets, and [candidate depth](/documentation/search-tuning/candidate-depth/) shows how to measure it on your own collection.
 
 Reranking covers several model families. This article measures cross-encoders, which read the query and candidate together as a single sequence. A classification head returns one relevance score for the pair. Joint reading lets the model capture token interactions that separately encoded query and document vectors miss.
 
 Every candidate takes a forward pass at query time, which rules a cross-encoder out as a first stage and keeps it in the reranking slot. Late interaction models rerank from stored vectors instead, and the last section covers where they fit.
 
 <aside role="status">
-<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these reranker deltas as directional. They range from 5,183 to 100,000 documents, and each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. <a href="/articles/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these reranker deltas as directional. They range from 5,183 to 100,000 documents, and each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
 </aside>
 
 ## Test a Reranker in Three Steps
 
-1. Establish the baseline the reranker has to beat: [tuned fusion](/articles/how-to-tune-hybrid-search/) if you run hybrid search, your current ranking if you run dense-only or sparse-only. Confirm the documents your labels mark relevant reach the candidate list. A reranker only reorders what it receives; missing documents are a [candidate depth](/articles/candidate-depth/) or retrieval problem.
+1. Establish the baseline the reranker has to beat: [tuned fusion](/documentation/search-tuning/how-to-tune-hybrid-search/) if you run hybrid search, your current ranking if you run dense-only or sparse-only. Confirm the documents your labels mark relevant reach the candidate list. A reranker only reorders what it receives; missing documents are a [candidate depth](/documentation/search-tuning/candidate-depth/) or retrieval problem.
 2. Rerank 10 candidates with the model you would actually serve, since model choice moved our results more than any other setting. Read its model card first for languages, domains, and context window. [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/) shows the cross-encoder workflow and the available models. Compare the result with the first-stage baseline on held-out labeled queries.
 3. Raise the candidate count only if the reranker wins. Measure throughput on your document lengths before making it part of the serving path.
 
@@ -79,7 +83,7 @@ order = sorted(range(len(fused)), key=lambda i: scores[i], reverse=True)
 reranked = [fused[i] for i in order]
 ```
 
-You now have two orderings of the same 10 candidates. Score both with the `nDCG@10` function from the [pre-tuning article](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain).
+You now have two orderings of the same 10 candidates. Score both with the `nDCG@10` function from the [pre-tuning article](/documentation/search-tuning/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain).
 
 ```python
 # relevance holds this query's labels, keyed by doc_id.
@@ -93,7 +97,7 @@ Run that over your labeled queries, average the per-query difference, then check
 
 Compare the reranker against the strongest first stage you can build. Qdrant's default reciprocal rank fusion (RRF) is already a solid baseline, and fusion tuned on your own labels is stronger. A reranker measured against the default can look like a win that tuning would have delivered for far less work at query time.
 
-So [tune fusion](/articles/how-to-tune-hybrid-search/) first, then make that tuned ranking the number the reranker has to beat on held-out labeled queries.
+So [tune fusion](/documentation/search-tuning/how-to-tune-hybrid-search/) first, then make that tuned ranking the number the reranker has to beat on held-out labeled queries.
 
 Each row in the following table reports the best of four cross-encoders on that dataset. The deltas show the `nDCG@10` change over default RRF and over fusion tuned on the same candidates. `MiniLM-L-6`, `MiniLM-L-12`, and `bge-reranker-base` truncate each pair at 512 tokens. `jina-reranker-v2` reads up to 1024 and was trained on a broader mix, including code.
 
@@ -107,7 +111,7 @@ The held-out column is the one that decides. It holds the share of 200 split-hal
 | CodeSearchNet | `jina-reranker-v2` @ 200 | +0.169 | +0.135 | yes, 100% |
 | DBPedia-entity | `jina-reranker-v2` @ 200 | +0.137 | +0.115 | yes, 100% |
 
-Ship a reranker gain only when it survives held-out validation. The two confirmed wins here held in 100% of the split-half draws, while the three unconfirmed results held in under half of them. When a positive result fails the split, add queries or keep fusion, and use [the label-count table in the pre-tuning article](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to size that confirmation.
+Ship a reranker gain only when it survives held-out validation. The two confirmed wins here held in 100% of the split-half draws, while the three unconfirmed results held in under half of them. When a positive result fails the split, add queries or keep fusion, and use [the label-count table in the pre-tuning article](/documentation/search-tuning/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to size that confirmation.
 
 Keep fusion when the reranker loses to the tuned first stage. WANDS gained +0.039 over default RRF and still lost to fusion tuned on the same candidates.
 
@@ -158,7 +162,7 @@ The table shows CPU throughput for the four [FastEmbed cross-encoders](/document
 
 Document length explains each range. DBPedia-entity has short entity abstracts, while SciFact has full paper abstracts.
 
-Weigh those rates against the held-out gain. At 100 candidates, one CPU process spends between half a second and five seconds per query with the three smaller models, where the second prefetch behind [tuned fusion](/articles/how-to-tune-hybrid-search/) added 0.6 to 1.5 ms in the same setup. The 10-candidate test itself stays fast even on CPU, at 47 to 156 ms per query with the smallest model, so run it before you plan any serving work.
+Weigh those rates against the held-out gain. At 100 candidates, one CPU process spends between half a second and five seconds per query with the three smaller models, where the second prefetch behind [tuned fusion](/documentation/search-tuning/how-to-tune-hybrid-search/) added 0.6 to 1.5 ms in the same setup. The 10-candidate test itself stays fast even on CPU, at 47 to 156 ms per query with the smallest model, so run it before you plan any serving work.
 
 Pick the model on fit rather than size. `bge-reranker-base` and `jina-reranker-v2` are nearly the same size, and only the second ever beat tuned fusion. Training data and context window separated them.
 
@@ -185,6 +189,6 @@ Test a [late interaction model](/documentation/fastembed/fastembed-colbert/) whe
 
 ## What to Tune Next
 
-After a win, the work moves to throughput, where the candidate count you can serve decides how much of the gain survives. After a loss, the gap is still there and the candidates are what to change, so revisit retrieval and [candidate depth](/articles/candidate-depth/) before adding another ranking stage.
+After a win, the work moves to throughput, where the candidate count you can serve decides how much of the gain survives. After a loss, the gap is still there and the candidates are what to change, so revisit retrieval and [candidate depth](/documentation/search-tuning/candidate-depth/) before adding another ranking stage.
 
-Next, if memory is the constraint, [measure what memory placement and rescoring add to query latency](/articles/when-your-collection-outgrows-ram/).
+Next, if memory is the constraint, [measure what memory placement and rescoring add to query latency](/documentation/search-tuning/when-your-collection-outgrows-ram/).

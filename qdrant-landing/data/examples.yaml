@@ -1,0 +1,309 @@
+- page: /documentation/tutorials-basics/search-beginners/
+  goal: Get Started
+  stack:
+  - Python
+  - Cloud Inference
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb
+- page: /documentation/tutorials-basics/search-beginners-local/
+  goal: Get Started
+  stack:
+  - Python
+  - Sentence Transformers
+- page: /documentation/tutorials-basics/cloud-inference-hybrid-search/
+  goal: Search Quality
+  stack:
+  - Python
+  - Cloud Inference
+- page: /documentation/tutorials-develop/hybrid-search-fastembed/
+  goal: Search Quality
+  stack:
+  - Python
+  - FastEmbed
+  - FastAPI
+  resources:
+  - label: View Code
+    url: https://github.com/qdrant/qdrant_demo/
+- page: /documentation/tutorials-basics/reranking-hybrid-search/
+  goal: Search Quality
+  stack:
+  - Python
+  - FastEmbed
+- page: /documentation/tutorials-develop/neural-search/
+  goal: Get Started
+  stack:
+  - Python
+  - FastAPI
+  resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing
+- page: /documentation/tutorials-develop/code-search/
+  goal: Search Quality
+  stack:
+  - Python
+  - FastEmbed
+  resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/github/qdrant/examples/blob/master/code-search/code-search.ipynb
+- page: /documentation/tutorials-basics/huggingface-datasets/
+  goal: Data & Filtering
+  stack:
+  - Python
+  - Hugging Face
+- page: /documentation/tutorials-develop/async-api/
+  goal: Operations
+  stack:
+  - Python
+- page: /documentation/tutorials-search-engineering/ann-recall/
+  goal: Search Quality
+  stack:
+  - Python
+  - Web UI
+  description: Compare approximate search with exact results, inspect ANN recall in the Web UI, and add a repeatable Python check.
+  keywords: evaluation index quality hnsw approximate exact recall
+- page: /documentation/tutorials-search-engineering/branch-aware-search/
+  goal: Data & Filtering
+  stack:
+  - Python
+  keywords: versioned documents branches filters inherited data
+- page: /documentation/tutorials-search-engineering/index-dynamic-payloads/
+  goal: Data & Filtering
+  stack:
+  - Python
+  keywords: arbitrary dynamic attributes filters payload schema
+- page: /documentation/tutorials-search-engineering/multi-representation-search/
+  goal: Search Quality
+  stack:
+  - Python
+  - FastEmbed
+  description: Combine title, summary, and chunk vectors in one retrieval pipeline, then compare the effect of each representation.
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb
+- page: /documentation/tutorials-search-engineering/pdf-retrieval-at-scale/
+  goal: Multimodal Search
+  stack:
+  - Python
+  - ColPali
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb
+- page: /documentation/tutorials-search-engineering/using-multivector-representations/
+  goal: Search Quality
+  stack:
+  - Python
+  - FastEmbed
+- page: /documentation/tutorials-search-engineering/using-relevance-feedback/
+  goal: Search Quality
+  stack:
+  - Python
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb
+- page: /documentation/tutorials-search-engineering/static-embeddings/
+  goal: Search Quality
+  stack:
+  - Python
+- page: /documentation/tutorials-search-engineering/turbo4-multivector-search/
+  goal: Search Quality
+  stack:
+  - Python
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multivector-turbo4/Multivector_Turbo4.ipynb
+- page: /documentation/tutorials-search-engineering/collaborative-filtering/
+  goal: Recommendations
+  stack:
+  - Python
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb
+- page: /documentation/tutorials-operations/embedding-model-migration/
+  goal: Operations
+  stack:
+  - Python
+  keywords: replace change embedding models migration serving traffic
+- page: /documentation/tutorials-operations/create-snapshot/
+  goal: Operations
+  stack:
+  - Python
+- page: /documentation/tutorials-operations/blue-green-deployment/
+  goal: Operations
+  stack:
+  - Python
+- page: /documentation/tutorials-operations/gpu-accelerated-hnsw-indexing/
+  goal: Operations
+  stack:
+  - Python
+  - Qdrant Cloud
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/gpu-accelerated-hnsw-indexing/Gpu_Accelerated_HNSW_Indexing.ipynb
+- page: /documentation/tutorials-operations/incremental-embedding-updates/
+  goal: Data & Filtering
+  stack:
+  - Python
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/temporal-data-drift/sync_raw_data_to_embeddings.ipynb
+- page: /documentation/tutorials-operations/large-scale-search/
+  goal: Operations
+  stack:
+  - Python
+  resources:
+  - label: View Code
+    url: https://github.com/qdrant/laion-400m-benchmark
+- page: /documentation/tutorials-operations/migration/
+  goal: Operations
+  stack:
+  - Migration Tool
+- page: /documentation/tutorials-operations/prevent-unoptimized-usage/
+  goal: Operations
+  stack:
+  - Python
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/prevent_unoptimized_usage/prevent_unoptimized.ipynb
+- page: /documentation/tutorials-operations/secure-qdrant/
+  goal: Operations
+  stack:
+  - Docker
+- page: /documentation/tutorials-operations/time-based-sharding/
+  goal: Data & Filtering
+  stack:
+  - Python
+- page: /documentation/tutorials-build-essentials/rag-deepseek/
+  goal: RAG & Agents
+  stack:
+  - Python
+  - DeepSeek
+  resources:
+  - label: View Notebook
+    url: https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb
+- page: /documentation/tutorials-build-essentials/qdrant-n8n/
+  goal: RAG & Agents
+  stack:
+  - n8n
+- page: /documentation/tutorials-build-essentials/multimodal-search/
+  goal: Multimodal Search
+  stack:
+  - Python
+  - LlamaIndex
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_LlamaIndex.ipynb
+- page: /documentation/tutorials-build-essentials/data-ingestion-beginners/
+  goal: Data & Filtering
+  stack:
+  - Python
+  - LangChain
+  - AWS
+- page: /documentation/tutorials-build-essentials/agentic-rag-camelai-discord/
+  goal: RAG & Agents
+  stack:
+  - Python
+  - CAMEL-AI
+  resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/drive/1Ymqzm6ySoyVOekY7fteQBCFCXYiYyHxw#scrollTo=QQZXwzqmNfaS
+- page: /documentation/tutorials-build-essentials/video-anomaly-edge-part-1/
+  goal: Multimodal Search
+  stack:
+  - Qdrant Edge
+  - Twelve Labs
+  resources:
+  - label: View Code
+    url: https://github.com/qdrant/video-anomaly-edge
+- page: /documentation/tutorials-build-essentials/video-anomaly-edge-part-2/
+  goal: Multimodal Search
+  stack:
+  - Qdrant Edge
+  - Twelve Labs
+  resources:
+  - label: View Code
+    url: https://github.com/qdrant/video-anomaly-edge
+- page: /documentation/tutorials-build-essentials/video-anomaly-edge-part-3/
+  goal: Multimodal Search
+  stack:
+  - Qdrant Edge
+  - Twelve Labs
+  resources:
+  - label: View Code
+    url: https://github.com/qdrant/video-anomaly-edge
+- page: /documentation/examples/graphrag-qdrant-neo4j/
+  goal: RAG & Agents
+  stack:
+  - Python
+  - Neo4j
+  resources:
+  - label: View Code
+    url: https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py
+- page: /documentation/examples/hybrid-search-llamaindex-jinaai/
+  goal: RAG & Agents
+  stack:
+  - Python
+  - LlamaIndex
+  - Jina
+  resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb
+  keywords: PDF documents manuals LlamaIndex Jina RAG
+- page: /documentation/examples/Qdrant-DSPy-medicalbot/
+  goal: RAG & Agents
+  stack:
+  - Python
+  - DSPy
+  resources:
+  - label: View Notebook
+    url: https://github.com/qdrant/examples/blob/master/DSPy-medical-bot/medical_bot_DSPy_Qdrant.ipynb
+- page: /documentation/examples/cohere-rag-connector/
+  goal: RAG & Agents
+  stack:
+  - Python
+  - Cohere
+- page: /documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/
+  goal: RAG & Agents
+  stack:
+  - LangChain
+  - Cohere
+  - Oracle Cloud
+- page: /documentation/examples/rag-chatbot-red-hat-openshift-haystack/
+  goal: RAG & Agents
+  stack:
+  - Haystack
+  - OpenShift
+- page: /documentation/examples/rag-chatbot-scaleway/
+  goal: RAG & Agents
+  stack:
+  - LangChain
+  - OpenAI
+  - Scaleway
+  resources:
+  - label: View Notebook
+    url: https://github.com/qdrant/examples/blob/langchain-lcel-rag/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb
+- page: /documentation/examples/rag-chatbot-vultr-dspy-ollama/
+  goal: RAG & Agents
+  stack:
+  - DSPy
+  - Ollama
+  - Vultr
+- page: /documentation/examples/rag-contract-management-stackit-aleph-alpha/
+  goal: RAG & Agents
+  stack:
+  - Aleph Alpha
+  - STACKIT
+- page: /documentation/examples/rag-customer-support-cohere-airbyte-aws/
+  goal: RAG & Agents
+  stack:
+  - Cohere
+  - Airbyte
+  - AWS
+- page: /documentation/examples/recommendation-system-ovhcloud/
+  goal: Recommendations
+  stack:
+  - Python
+  - OVHcloud
+  resources:
+  - label: View Notebook
+    url: https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-OVH.ipynb

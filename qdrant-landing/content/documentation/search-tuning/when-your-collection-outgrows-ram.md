@@ -1,22 +1,28 @@
 ---
-title: "When Your Collection Outgrows RAM"
-short_description: "Keep the quantized copy in RAM and the original vectors on disk, then measure what rescoring reads back on your own deployment."
-description: "Set quantization and memory placement in Qdrant once a collection outgrows RAM: what the rescoring disk read costs and what quality it recovers."
+title: When Your Collection Outgrows RAM
+short_description: Keep the quantized copy in RAM and the original vectors on disk, then measure what rescoring reads back on your own deployment.
+description: 'Set quantization and memory placement in Qdrant once a collection outgrows RAM: what the rescoring disk read costs and what quality it recovers.'
 preview_dir: /articles_data/when-your-collection-outgrows-ram/preview
 social_preview_image: /articles_data/when-your-collection-outgrows-ram/preview/social_preview.jpg
-weight: -209
+weight: 160
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-24T00:00:00+03:00
+date: 2026-08-24 00:00:00+03:00
 draft: false
 keywords:
-  - memory tiers
-  - quantization
-  - rescoring
-  - oversampling
-  - TurboQuant
-category: search-quality
+- memory tiers
+- quantization
+- rescoring
+- oversampling
+- TurboQuant
+partition: learn
+learning_kind: guides
+aliases:
+- /articles/when-your-collection-outgrows-ram/
+guide_series: true
 ---
+
+# When Your Collection Outgrows RAM
 
 Once a collection no longer fits in RAM, the kernel evicts vector pages, and the next query waits on a disk read to get them back. Quantization buys that memory back. Qdrant keeps a compressed copy of each dense vector in RAM and moves the full-precision originals to disk.
 
@@ -49,7 +55,7 @@ The extra 50% covers metadata, indexes, point versions, and temporary segments c
 
 Qdrant [recommends pinning the quantized copy with `cold` originals](/documentation/manage-data/quantization/#memory-and-speed-tuning) to shrink the footprint while keeping search fast. The following two sections measure what that pairing costs in disk reads and what rescoring recovers.
 
-Step 4 needs a [labeled set](/articles/before-tuning-a-qdrant-collection/). Compare `nDCG@k` with `k` set to the number of results you return, pick the configuration on one part of the set, then confirm it on queries that took no part in the selection. Use `Recall@k` against exact search to explain a loss.
+Step 4 needs a [labeled set](/documentation/search-tuning/before-tuning-a-qdrant-collection/). Compare `nDCG@k` with `k` set to the number of results you return, pick the configuration on one part of the set, then confirm it on queries that took no part in the selection. Use `Recall@k` against exact search to explain a loss.
 
 ## Rescoring Adds the Disk Read
 
@@ -182,7 +188,7 @@ First, compute the exact dense top `k` once for a representative sample of your 
 
 Then run your existing dense prefetch with each `rescore` and `oversampling` variant, changing nothing else. `Recall@k` against the exact result shows what quantization changed in the dense prefetch. Without labels, that check and the latency numbers still stand on their own.
 
-For hybrid search, keep the prefetches, [fusion settings](/articles/how-to-tune-hybrid-search/), and filters your service already uses, then compare the final `nDCG@k`.
+For hybrid search, keep the prefetches, [fusion settings](/documentation/search-tuning/how-to-tune-hybrid-search/), and filters your service already uses, then compare the final `nDCG@k`.
 
 ### Self-Hosted
 
@@ -198,6 +204,6 @@ Keep the first configuration that meets your held-out `nDCG@k` and latency targe
 
 On a multi-shard hybrid collection, rerun the full request on your deployed shard layout once the dense-vector placements are set. Each shard runs the prefetch and rescoring against its own data.
 
-With a `limit` of 200 and `oversampling` 1, rescoring can read up to 200 original vectors per shard, or up to 2,400 across 12 shards. [Candidate depth](/articles/candidate-depth/) covers how to set the limit that total scales with.
+With a `limit` of 200 and `oversampling` 1, rescoring can read up to 200 original vectors per shard, or up to 2,400 across 12 shards. [Candidate depth](/documentation/search-tuning/candidate-depth/) covers how to set the limit that total scales with.
 
-If you do not have a labeled query set yet, [What to Check Before Tuning a Qdrant Collection](/articles/before-tuning-a-qdrant-collection/) covers how to build one.
+If you do not have a labeled query set yet, [What to Check Before Tuning a Qdrant Collection](/documentation/search-tuning/before-tuning-a-qdrant-collection/) covers how to build one.

@@ -1,0 +1,22 @@
+<div class="docs-articles docs-articles__list">
+  {{ partial "documentation/breadcrumbs" . }}
+  <h1 class="docs-articles__title">{{ .Title }}</h1>
+  <p class="docs-articles__description">{{ .Description }}</p>
+  <nav class="docs-articles__topics" aria-label="Article Topics">
+    <a href="/articles/">All Articles</a>
+    {{ range (site.GetPage "/articles").Sections.ByWeight }}
+      {{ if and .Params.isCategoryPage (not .Params.article_collection) (not .Params.hideFromList) }}
+        <a href="{{ .RelPermalink }}" {{ if eq $.Params.category .Params.category }}aria-current="page"{{ end }}>{{ .Title }}</a>
+      {{ end }}
+    {{ end }}
+  </nav>
+  {{ $paginator := .Paginate (partial "documentation/articles/list" .) 14 }}
+  <div class="docs-articles__posts row gx-4 gy-5">
+    {{ range $paginator.Pages }}
+      {{ partial "documentation/articles/card" (dict "page" . "column" "col-12 col-lg-6") }}
+    {{ end }}
+  </div>
+  {{ if gt $paginator.TotalPages 1 }}
+    <div class="docs-articles__pagination">{{ partial "pagination" $paginator }}</div>
+  {{ end }}
+</div>

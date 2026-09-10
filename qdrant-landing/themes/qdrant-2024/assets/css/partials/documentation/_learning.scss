@@ -1,0 +1,56 @@
+.example-library {
+  scroll-margin-top: 7rem;
+  [hidden] { display: none !important; }
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    > div { flex: 1 1 12rem; }
+    label { display: block; margin-bottom: .5rem; }
+    input, select {
+      width: 100%;
+      min-height: 2.75rem;
+      padding: .65rem;
+      border: 1px solid $neutral-50;
+      border-radius: .5rem;
+      background: $neutral-10;
+      color: $neutral-98;
+      color-scheme: dark;
+    }
+    :focus-visible { outline: 2px solid $secondary-blue-50; outline-offset: 3px; }
+  }
+  .docs-card__title a { color: inherit; }
+  &__stack { font-size: .875rem; margin: 0; }
+  &__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: auto; }
+  [data-theme='light'] & {
+    input, select { background: $neutral-98; color: $neutral-10; color-scheme: light; }
+  }
+}
+
+.guide-read-more { margin-bottom: 1.5rem; }
+
+// Leave room for the disclosure arrow when a guide topic wraps.
+.guide-topic > summary > a { padding-right: 2.5rem; }
+
+.guide-series-navigation {
+  border-top: 1px solid $neutral-50;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    a { flex: 1 1 15rem; }
+    span { display: block; font-size: .875rem; color: $neutral-70; }
+  }
+}
+
+.guide-series-label {
+  list-style: none;
+  margin: .75rem 0 .25rem;
+  font-size: .75rem;
+  font-weight: 600;
+  color: $neutral-70;
+}

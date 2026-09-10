@@ -1,9 +1,11 @@
 ---
 title: Query Decomposition for Multi-Hop Questions
-short_description: "Answer multi-hop questions by retrieving in steps: an LLM asks each follow-up sub-question, then fuse the per-hop results with RRF."
-description: "Answer multi-hop questions in Qdrant: decompose the query into retrieval steps, let an LLM ask each follow-up, and fuse results with RRF."
-weight: 8
-partition: ecosystem
+short_description: 'Answer multi-hop questions by retrieving in steps: an LLM asks each follow-up sub-question, then fuse the per-hop results with RRF.'
+description: 'Answer multi-hop questions in Qdrant: decompose the query into retrieval steps, let an LLM ask each follow-up, and fuse results with RRF.'
+weight: 20
+partition: learn
+learning_kind: guides
+url: /documentation/improve-search/query-decomposition/
 ---
 
 # Query Decomposition for Multi-Hop Questions

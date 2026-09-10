@@ -1,21 +1,25 @@
 ---
-title: "What to Check Before Tuning a Qdrant Collection"
-short_description: "Seven collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs."
-description: "Audit a Qdrant collection: find the settings that degrade retrieval silently, choose the cheapest next change, and size a labeled query set."
+title: What to Check Before Tuning a Qdrant Collection
+short_description: Seven collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs.
+description: 'Audit a Qdrant collection: find the settings that degrade retrieval silently, choose the cheapest next change, and size a labeled query set.'
 preview_dir: /articles_data/before-tuning-a-qdrant-collection/preview
 social_preview_image: /articles_data/before-tuning-a-qdrant-collection/preview/social_preview.jpg
-weight: -214
+weight: 120
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-20T00:00:00+03:00
+date: 2026-08-20 00:00:00+03:00
 draft: false
 keywords:
-  - retrieval tuning
-  - search relevance
-  - nDCG
-  - labeled query set
-  - Qdrant collection audit
-category: search-quality
+- retrieval tuning
+- search relevance
+- nDCG
+- labeled query set
+- Qdrant collection audit
+partition: learn
+learning_kind: guides
+aliases:
+- /articles/before-tuning-a-qdrant-collection/
+guide_series: true
 ---
 
 Before you change a setting, decide what better retrieval means for your workload. The right document at rank one, more candidates for a reranker, lower latency, and a smaller memory footprint each favor different settings, so pick your goal first. If your labeled queries can't detect the improvement you're chasing, you won't be able to tell whether a change helped.
@@ -30,7 +34,7 @@ Every query first retrieves candidates, then ranks them. In dense-only search, o
 
 _The hybrid pipeline and the settings each stage owns. Dense-only search uses the dense prefetch path on its own, so `limit` and `hnsw_ef` are its only settings here._
 
-If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [Tuning hybrid search](/articles/how-to-tune-hybrid-search/) covers the request shape, what the second prefetch costs, and how to check that fusion beats either prefetch on your labels.
+If you run dense-only search and exact keywords are missing from results, hybrid search is the first change to test. [Tuning hybrid search](/documentation/search-tuning/how-to-tune-hybrid-search/) covers the request shape, what the second prefetch costs, and how to check that fusion beats either prefetch on your labels.
 
 Before you tune:
 
@@ -44,12 +48,12 @@ Start with the failure mode, not the config reference. The table maps each sympt
 | What You See | First Check | Read Next |
 |---|---|---|
 | You cannot separate a gain from noise | Build labeled queries, choose a metric, and calculate an interval | This article |
-| Relevant documents do not appear | Measure whether candidate depth is limiting recall | [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) |
-| Keywords, identifiers, SKUs, or error codes do not match | Add a sparse prefetch and measure fusion against each prefetch alone | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/) |
-| Relevant documents are present but misordered | For hybrid search, tune fusion. If the candidate list needs another ranking stage, test a reranker | [How to Tune Hybrid Search in Qdrant](/articles/how-to-tune-hybrid-search/), [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
-| Results repeat near-duplicates | Test maximal marginal relevance. If chunks from one document fill the page, use grouping | [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) |
-| Search misses its p95 target | Measure the cost of candidate depth before adding another retrieval stage | [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) |
-| The collection no longer fits in RAM | Test memory placement and rescoring | [When Your Collection Outgrows RAM](/articles/when-your-collection-outgrows-ram/) |
+| Relevant documents do not appear | Measure whether candidate depth is limiting recall | [Candidate Depth: How Much Retrieval Is Enough?](/documentation/search-tuning/candidate-depth/) |
+| Keywords, identifiers, SKUs, or error codes do not match | Add a sparse prefetch and measure fusion against each prefetch alone | [How to Tune Hybrid Search in Qdrant](/documentation/search-tuning/how-to-tune-hybrid-search/) |
+| Relevant documents are present but misordered | For hybrid search, tune fusion. If the candidate list needs another ranking stage, test a reranker | [How to Tune Hybrid Search in Qdrant](/documentation/search-tuning/how-to-tune-hybrid-search/), [When Is a Reranker Worth It?](/documentation/search-tuning/when-a-reranker-is-worth-it/) |
+| Results repeat near-duplicates | Test maximal marginal relevance. If chunks from one document fill the page, use grouping | [When Is a Reranker Worth It?](/documentation/search-tuning/when-a-reranker-is-worth-it/) |
+| Search misses its p95 target | Measure the cost of candidate depth before adding another retrieval stage | [Candidate Depth: How Much Retrieval Is Enough?](/documentation/search-tuning/candidate-depth/) |
+| The collection no longer fits in RAM | Test memory placement and rescoring | [When Your Collection Outgrows RAM](/documentation/search-tuning/when-your-collection-outgrows-ram/) |
 
 ## How to Read These Measurements
 
@@ -213,7 +217,7 @@ The more labeled queries you evaluate, the more precise the measured gain. Acros
 
 The label count you need depends primarily on effect size and query-to-query variation, not collection size alone.
 
-In our measurements, [fusion settings](/articles/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038, gains from tuning an already-working collection rather than rebuilding the retrieval pipeline.
+In our measurements, [fusion settings](/documentation/search-tuning/how-to-tune-hybrid-search/) moved `nDCG@10` by 0.012 to 0.038, gains from tuning an already-working collection rather than rebuilding the retrieval pipeline.
 
 Fifty labeled queries were enough for the larger gains: the 0.038 gain had an interval excluding zero in 93% of draws, while gains under 0.02 cleared that bar in 7% to 38%. Treat small movement as unresolved until you have the labels to measure it.
 
@@ -227,4 +231,4 @@ If you compare separately rebuilt indexes, check top-10 agreement across two bui
 
 ## Start with One Change
 
-Record the current relevance metric and p95 latency for a representative query set. Choose one low-cost change from the symptom table, validate it on fresh queries, and keep it only if the gain survives. Once you have that baseline, [Candidate Depth: How Much Retrieval Is Enough?](/articles/candidate-depth/) shows how to test whether retrieval depth is the constraint.
+Record the current relevance metric and p95 latency for a representative query set. Choose one low-cost change from the symptom table, validate it on fresh queries, and keep it only if the gain survives. Once you have that baseline, [Candidate Depth: How Much Retrieval Is Enough?](/documentation/search-tuning/candidate-depth/) shows how to test whether retrieval depth is the constraint.

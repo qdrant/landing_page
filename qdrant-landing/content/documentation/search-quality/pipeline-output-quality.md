@@ -2,8 +2,12 @@
 title: Evaluating Pipeline Output Quality
 weight: 7
 aliases:
-  - /documentation/tutorials/retrieval-quality-pipeline-output/
-partition: ecosystem
+- /documentation/tutorials/retrieval-quality-pipeline-output/
+partition: learn
+learning_kind: guides
+url: /documentation/improve-search/pipeline-output-quality/
+short_description: Separate retrieval failures from generation failures and evaluate whether your full pipeline produces supported, useful answers.
+description: Evaluate retrieval and generation separately to identify why a Qdrant search pipeline returns an unsupported answer or misses the information users need.
 ---
 
 # Evaluating Pipeline Output Quality

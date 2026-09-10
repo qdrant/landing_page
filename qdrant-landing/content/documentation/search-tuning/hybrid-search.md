@@ -1,22 +1,28 @@
 ---
-title: "Hybrid Search in Qdrant"
-short_description: "Run dense and sparse retrieval together: the queries each one gets wrong, what the second index costs, and how to tell if it helped."
-description: "Decide whether to add hybrid search in Qdrant: the queries dense and sparse retrieval each get wrong, and how to measure the gain."
+title: Hybrid Search in Qdrant
+short_description: 'Run dense and sparse retrieval together: the queries each one gets wrong, what the second index costs, and how to tell if it helped.'
+description: 'Decide whether to add hybrid search in Qdrant: the queries dense and sparse retrieval each get wrong, and how to measure the gain.'
 preview_dir: /articles_data/hybrid-search/preview
 social_preview_image: /articles_data/hybrid-search/preview/social_preview.jpg
-weight: -215
+weight: 110
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-24T09:00:00+03:00
+date: 2026-08-24 09:00:00+03:00
 draft: false
 keywords:
-  - hybrid search
-  - sparse vectors
-  - BM25
-  - reciprocal rank fusion
-  - search relevance
-category: search-quality
+- hybrid search
+- sparse vectors
+- BM25
+- reciprocal rank fusion
+- search relevance
+partition: learn
+learning_kind: guides
+aliases:
+- /articles/hybrid-search/
+guide_series: true
 ---
+
+# Hybrid Search in Qdrant
 
 A search result can look plausible and still be wrong. Dense retrieval can return a document on the right topic but miss an exact identifier copied into the query. Sparse retrieval can miss a relevant document when the query describes it with terms the corpus doesn't use. Either way, your logs record a successful query.
 
@@ -65,7 +71,7 @@ Formula Queries serve a different purpose: they rescore retrieved candidates wit
 
 Fusion only reorders. It works on the union of what the two prefetches returned, so a document neither one found cannot appear anywhere in the results.
 
-If a relevant document falls below a prefetch cutoff, increasing one or both prefetch limits can expose it to fusion. A larger limit adds retrieval work, and it does not help if the retrievers still miss the document at greater depth. [Candidate depth](/articles/candidate-depth/) explains how to test the limits, and the [hybrid query documentation](/documentation/search/hybrid-queries/) covers how prefetches feed fusion.
+If a relevant document falls below a prefetch cutoff, increasing one or both prefetch limits can expose it to fusion. A larger limit adds retrieval work, and it does not help if the retrievers still miss the document at greater depth. [Candidate depth](/documentation/search-tuning/candidate-depth/) explains how to test the limits, and the [hybrid query documentation](/documentation/search/hybrid-queries/) covers how prefetches feed fusion.
 
 ![A collection drawn as a field of documents with two overlapping oval regions over it. Documents inside the left oval are red and labeled dense prefetch, documents inside the right oval are blue and labeled sparse prefetch, documents in the overlap are dark, and roughly a third of the documents sit outside both ovals in pale grey. A note reading candidate union passed to fusion points into the retrieved region.](/articles_data/hybrid-search/candidate-boundary.png)
 
@@ -142,9 +148,9 @@ Run the same labeled queries with dense retrieval, sparse retrieval, and fusion.
 
 First, check whether fusion beats both retrievers. Review the queries where their rankings differ, then see whether the wins and losses cluster around important query types in your workload.
 
-If one retriever finds relevant results that fusion ranks too low, tune the fusion method or weights. [How to Tune Hybrid Search](/articles/how-to-tune-hybrid-search/) covers those settings. If both retrievers miss a result, fusion has no candidate to promote.
+If one retriever finds relevant results that fusion ranks too low, tune the fusion method or weights. [How to Tune Hybrid Search](/documentation/search-tuning/how-to-tune-hybrid-search/) covers those settings. If both retrievers miss a result, fusion has no candidate to promote.
 
-Recheck the winning setup on held-out queries. [Building a labeled set](/articles/before-tuning-a-qdrant-collection/) covers query selection and held-out evaluation.
+Recheck the winning setup on held-out queries. [Building a labeled set](/documentation/search-tuning/before-tuning-a-qdrant-collection/) covers query selection and held-out evaluation.
 
 Dense retrieval may already cover much of a natural-language-only workload, but query shape alone cannot tell you whether hybrid search will help.
 
@@ -152,5 +158,5 @@ Keep the sparse retriever when the relevance gain justifies its measured indexin
 
 ## What to Test Next
 
-- **Add more stages.** [Multi-stage queries](/documentation/search/hybrid-queries/#multi-stage-queries) retrieve with a cheap representation and rescore with an expensive one. Cross-encoder reranking puts the query and chunk into a model together. [When Is a Reranker Worth It?](/articles/when-a-reranker-is-worth-it/) compares that approach with a tuned first stage.
-- **Tune what you have.** The fusion method, the RRF constant, and the per-retriever weights can all move relevance without adding a stage. [How to Tune Hybrid Search](/articles/how-to-tune-hybrid-search/) measures each one across the same five datasets.
+- **Add more stages.** [Multi-stage queries](/documentation/search/hybrid-queries/#multi-stage-queries) retrieve with a cheap representation and rescore with an expensive one. Cross-encoder reranking puts the query and chunk into a model together. [When Is a Reranker Worth It?](/documentation/search-tuning/when-a-reranker-is-worth-it/) compares that approach with a tuned first stage.
+- **Tune what you have.** The fusion method, the RRF constant, and the per-retriever weights can all move relevance without adding a stage. [How to Tune Hybrid Search](/documentation/search-tuning/how-to-tune-hybrid-search/) measures each one across the same five datasets.

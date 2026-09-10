@@ -1,0 +1,10 @@
+{{ $pages := slice }}
+{{ range (site.GetPage "/articles").RegularPages }}
+  {{ $topic := partial "documentation/articles/topic" . }}
+  {{ if and $topic (not .Draft) (not .Params.hideFromList) }}
+    {{ if or (not $.Params.category) (eq $.Params.category $topic) }}
+      {{ $pages = $pages | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return (sort $pages "PublishDate" "desc") }}

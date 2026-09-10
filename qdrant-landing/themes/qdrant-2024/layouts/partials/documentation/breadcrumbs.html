@@ -1,4 +1,24 @@
 <ul class="docs-breadcrumbs">
+  {{ if eq .Params.learning_kind "guides" }}
+    <li class="docs-breadcrumbs__crumb"><a href="/learn/">Learn</a></li>
+    <li class="docs-breadcrumbs__crumb-separator"></li>
+    <li class="docs-breadcrumbs__crumb"><a href="/documentation/guides/">Guides</a></li>
+    <li class="docs-breadcrumbs__crumb-separator"></li>
+    {{ if eq .Parent.Params.learning_kind "guides" }}
+      <li class="docs-breadcrumbs__crumb"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></li>
+      <li class="docs-breadcrumbs__crumb-separator"></li>
+    {{ end }}
+  {{ else if eq .Section "articles" }}
+    <li class="docs-breadcrumbs__crumb"><a href="/learn/">Learn</a></li>
+    <li class="docs-breadcrumbs__crumb-separator"></li>
+    <li class="docs-breadcrumbs__crumb"><a href="/articles/">Articles</a></li>
+    <li class="docs-breadcrumbs__crumb-separator"></li>
+  {{ else if and (eq (partial "get-partition.html" (dict "page" .)) "learn") (eq .Section "documentation") }}
+    <li class="docs-breadcrumbs__crumb"><a href="/learn/">Learn</a></li>
+    <li class="docs-breadcrumbs__crumb-separator"></li>
+    <li class="docs-breadcrumbs__crumb"><a href="/learn/examples/">Tutorials &amp; Examples</a></li>
+    <li class="docs-breadcrumbs__crumb-separator"></li>
+  {{ else }}
   {{ $rellink := "" }}
   {{ $paths := (split .RelPermalink "/") }}
   {{ $len := sub (len $paths) 2 }}
@@ -10,6 +30,7 @@
       <li class="docs-breadcrumbs__crumb"><a href="{{ $rellink }}/">{{ $label }}</a></li>
       <li class="docs-breadcrumbs__crumb-separator"></li>
     {{ end }}
+  {{ end }}
   {{ end }}
   <li class="docs-breadcrumbs__crumb">{{ .Params.title | safeHTML }}</li>
 </ul>

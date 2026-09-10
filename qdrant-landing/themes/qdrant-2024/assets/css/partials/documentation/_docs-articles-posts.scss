@@ -2,6 +2,55 @@
 @use 'sass:math';
 
 .docs-articles {
+  &__topics {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacer * 0.75;
+    margin-top: $spacer * 1.5;
+
+    > span {
+      color: $neutral-70;
+      width: 100%;
+    }
+
+    a {
+      padding: $spacer * 0.5 $spacer;
+      border: pxToRem(1) solid $neutral-30;
+      border-radius: $spacer * 2;
+      color: $neutral-90;
+      font-size: pxToRem(14);
+
+      &:hover,
+      &[aria-current='page'] {
+        border-color: $primary-50;
+        color: $primary-50;
+      }
+    }
+  }
+
+  &__guide-callout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacer;
+    padding: $spacer * 1.5;
+    border: pxToRem(1) solid $neutral-30;
+    border-radius: $spacer * 0.5;
+
+    > div { flex: 1 1 100%; }
+  }
+
+  .post-type-badge {
+    display: inline-block;
+    font-size: pxToRem(11);
+    padding: $spacer * 0.2 $spacer * 0.6;
+    border: pxToRem(1) solid $neutral-50;
+    border-radius: $spacer;
+    margin-bottom: $spacer * 0.5;
+    color: $neutral-70;
+  }
+
   &__title {
     margin-bottom: math.div($spacer, 2);
     font-size: $spacer * 1.5;
@@ -17,8 +66,11 @@
   &__blocks {
     display: flex;
     flex-direction: column;
-    gap: $spacer * 5;
+    gap: $spacer * 3;
     padding-bottom: $spacer * 3;
+
+    .docs-core__hero { margin-bottom: 0; }
+    > .docs-articles__topics { margin-top: 0; }
   }
 
   &__block {
@@ -148,6 +200,21 @@
   }
 
   [data-theme='light'] & {
+    &__topics a,
+    &__topics > span,
+    .post-type-badge {
+      color: $neutral-30;
+      border-color: $neutral-70;
+    }
+
+    &__topics a:hover,
+    &__topics a[aria-current='page'] {
+      color: $primary-50;
+      border-color: $primary-50;
+    }
+
+    &__guide-callout { border-color: $neutral-90; }
+
     &__title {
       color: $neutral-30;
     }

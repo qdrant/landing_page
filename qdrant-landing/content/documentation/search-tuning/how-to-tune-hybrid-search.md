@@ -1,24 +1,30 @@
 ---
-title: "How to Tune Hybrid Search in Qdrant"
-short_description: "Tune hybrid search with RRF or DBSF, choose k from relevance labels, and learn why weights are pairs instead of ratios."
-description: "Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your relevance labels, and get weights right."
+title: How to Tune Hybrid Search in Qdrant
+short_description: Tune hybrid search with RRF or DBSF, choose k from relevance labels, and learn why weights are pairs instead of ratios.
+description: 'Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your relevance labels, and get weights right.'
 preview_dir: /articles_data/how-to-tune-hybrid-search/preview
 social_preview_image: /articles_data/how-to-tune-hybrid-search/preview/social_preview.jpg
-weight: -211
+weight: 140
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-22T00:00:00+03:00
+date: 2026-08-22 00:00:00+03:00
 draft: false
 keywords:
-  - hybrid search tuning
-  - reciprocal rank fusion
-  - RRF k parameter
-  - fusion weights
-  - DBSF
-category: search-quality
+- hybrid search tuning
+- reciprocal rank fusion
+- RRF k parameter
+- fusion weights
+- DBSF
+partition: learn
+learning_kind: guides
+aliases:
+- /articles/how-to-tune-hybrid-search/
+guide_series: true
 ---
 
-Before you tune fusion, use the [pre-tuning checks](/articles/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
+# How to Tune Hybrid Search in Qdrant
+
+Before you tune fusion, use the [pre-tuning checks](/documentation/search-tuning/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
 
 Hybrid search retrieves dense and sparse candidate lists, then fuses them into one ranking. The dense prefetch finds similar meaning; the sparse prefetch finds matching keywords. Fusion reorders the candidates the prefetches return, so a document missing from both lists cannot appear in the result.
 
@@ -29,7 +35,7 @@ Before tuning, compare dense retrieval, sparse retrieval, and default [Reciproca
 Qdrant defaults to `k=2`. The original RRF paper uses 60, which maps to `k=61` in Qdrant's formula. That gap is what most of this article is about.
 
 <aside role="status">
-<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these fusion deltas as directional. They range from 5,183 to 100,000 documents. Each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval, Qdrant's core BM25 for sparse retrieval, and 200 candidates from each prefetch. A graph shaped by continuous upserts and optimizer merges can return a different ranking. Latency medians come from one Qdrant container on an idle laptop, one request at a time, so re-measure under your own p95 budget, concurrency, and shard fan-out. <a href="/articles/before-tuning-a-qdrant-collection/">Building a labeled set</a> explains how the winning configuration was rechecked on held-out queries.
+<strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these fusion deltas as directional. They range from 5,183 to 100,000 documents. Each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval, Qdrant's core BM25 for sparse retrieval, and 200 candidates from each prefetch. A graph shaped by continuous upserts and optimizer merges can return a different ranking. Latency medians come from one Qdrant container on an idle laptop, one request at a time, so re-measure under your own p95 budget, concurrency, and shard fan-out. <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/">Building a labeled set</a> explains how the winning configuration was rechecked on held-out queries.
 </aside>
 
 `Over the Better One` is default RRF's `nDCG@10` minus the better individual prefetch. `Second Prefetch Cost` is the median latency the second prefetch adds over the dense prefetch alone.
@@ -58,7 +64,7 @@ RRF ignores score scale, so a cosine similarity and a BM25 score combine without
 
 ## Compare RRF and DBSF on Your Labels
 
-Use your [labeled query set](/articles/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches. Run RRF at `k=2` and equal weights, then run DBSF.
+Use your [labeled query set](/documentation/search-tuning/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain) to compare RRF and DBSF over the same prefetches. Run RRF at `k=2` and equal weights, then run DBSF.
 
 Both queries read the same two candidate lists, so connect once and build the prefetches once. The prefetches must use the models the collection was indexed with.
 
@@ -99,7 +105,7 @@ dbsf_response = client.query_points(
 ```
 
 <aside role="status">
-In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker. Fusion nested inside a prefetch runs per shard, and DBSF rescales against the score distribution of each shard's own candidates. The <a href="/articles/candidate-depth/">candidate depth guide</a> explains how to set the limit.
+In a multi-shard collection, each shard applies its own prefetch <code>limit</code>. With root-level fusion, Qdrant combines those candidates across shards. A larger limit can expose more candidates to fusion, but it also adds retrieval work and candidates for a downstream reranker. Fusion nested inside a prefetch runs per shard, and DBSF rescales against the score distribution of each shard's own candidates. The <a href="/documentation/search-tuning/candidate-depth/">candidate depth guide</a> explains how to set the limit.
 </aside>
 
 On three of these five datasets, DBSF scored higher than default RRF by a margin whose 95% interval excludes zero. SciFact's 0.0148 gain and ArguAna's 0.0045 loss both cross zero, so those two datasets are inconclusive.
@@ -162,7 +168,7 @@ A weight of 0.0 keeps every document from that prefetch and scores each one 0.0.
 
 ## Confirm the Selected Configuration on Held-Out Queries
 
-A configuration can score best on the queries used to select it and still fail on held-out queries. Run both checks from [the pre-tuning article](/articles/before-tuning-a-qdrant-collection/): a bootstrap interval on per-query gain, and a split between selection and held-out queries. Ship a configuration when its interval excludes zero and its selected gain holds on the held-out half.
+A configuration can score best on the queries used to select it and still fail on held-out queries. Run both checks from [the pre-tuning article](/documentation/search-tuning/before-tuning-a-qdrant-collection/): a bootstrap interval on per-query gain, and a split between selection and held-out queries. Ship a configuration when its interval excludes zero and its selected gain holds on the held-out half.
 
 On SciFact's 300 queries, nothing we tried had a 95% interval that excluded zero, including DBSF's 0.0148 gain. Across 200 random splits, a selected fusion configuration kept 67% to 95% of its gain on held-out queries. Keeping the default is a real answer, and it was the right one on one of our five datasets.
 
@@ -176,4 +182,4 @@ Each step is cheap enough to run in a single session.
 4. Sweep a few weight pairs at that `k`.
 5. Validate the winner on held-out queries before shipping.
 
-Next, if a downstream model could improve the ranking of your retrieved candidates, [test whether a reranker is worth its cost](/articles/when-a-reranker-is-worth-it/).
+Next, if a downstream model could improve the ranking of your retrieved candidates, [test whether a reranker is worth its cost](/documentation/search-tuning/when-a-reranker-is-worth-it/).

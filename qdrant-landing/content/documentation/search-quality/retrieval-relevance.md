@@ -2,8 +2,12 @@
 title: Measuring Retrieval Relevance
 weight: 6
 aliases:
-  - /documentation/tutorials/retrieval-quality-golden-set/
-partition: ecosystem
+- /documentation/tutorials/retrieval-quality-golden-set/
+partition: learn
+learning_kind: guides
+url: /documentation/improve-search/retrieval-relevance/
+short_description: Build a labeled query set and measure whether retrieved documents answer users' questions, with query-level relevance metrics.
+description: Measure Qdrant retrieval relevance with labeled queries, document IDs, and ranking metrics to compare search configurations on your own data.
 ---
 
 # Measuring Retrieval Relevance

@@ -11,148 +11,10 @@
         <!--        todo: update this and styles to support both types of content on the same page-->
         <div class="documentation__content-wrapper">
           {{ if eq .Section "articles" }}
-            {{ $subject := site.GetPage "articles" }}
-            {{ $currentNode := .Params }}
-
             {{ if .Params.isMainPage }}
-              <div class="docs-articles docs-articles__blocks">
-
-                {{/* Latest section: the 3 most recent (non-hidden, categorized) articles */}}
-                {{ $latest := first 0 site.Pages }}
-                {{ range $subject.Pages }}
-                  {{ if and (not .Params.isCategoryPage) (not .Params.hideFromList) .Params.category }}
-                    {{ $latest = $latest | append . }}
-                  {{ end }}
-                {{ end }}
-                {{ $latest = $latest.ByPublishDate.Reverse }}
-                {{ if gt (len $latest) 0 }}
-                  <div class="docs-articles__block docs-articles__block_featured">
-                    <div class="docs-articles__block-header">
-                      <div>
-                        <h4 class="docs-articles__title">Latest Articles</h4>
-                        <p class="docs-articles__description">The most recent publications from the Qdrant team.</p>
-                      </div>
-                    </div>
-
-                    <div class="docs-articles__posts">
-                      <div class="row gy-4">
-                        {{ range first 3 $latest }}
-                          <article class="col-12 col-lg-4 post post-sm">
-                            <a class="post-link" href="{{ .RelPermalink }}">
-                              <div class="post-preview">
-                                <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
-                              </div>
-                              <h6 class="post-title">{{ .Params.title }}</h6>
-                              <p class="post-description">{{ .Params.description }}</p>
-                              <div class="post-about">
-                                <p>{{ .Params.author }}</p>
-                                <p>{{ time.Format "January 02, 2006" .Date }}</p>
-                              </div>
-                            </a>
-                          </article>
-                        {{ end }}
-                      </div>
-                    </div>
-                  </div>
-                {{ end }}
-
-                {{ range $subject.Pages }}
-                  {{ if .Params.isCategoryPage }}
-                    <div class="docs-articles__block">
-                      <div class="docs-articles__block-header">
-                        <div>
-                          <h4 class="docs-articles__title">{{ .Params.title }}</h4>
-                          <p class="docs-articles__description">{{ .Params.description }}</p>
-                        </div>
-                        <a href="{{ .Params.url }}" class="docs-articles__block-link button button_outlined button_sm">
-                          {{ $currentNode.learnButton }}
-                        </a>
-                      </div>
-
-                      {{ $category := .Params.category }}
-
-
-                      <div class="docs-articles__posts">
-                        <div class="row gy-4">
-                          {{ $list := first 0 site.Pages }}
-
-                          {{ range $subject.Pages }}
-                            {{ if and (eq .Params.category $category) (not .Params.isCategoryPage) (not .Params.hideFromList) }}
-                              {{ $list = $list | append . }}
-                            {{ end }}
-                          {{ end }}
-
-                          {{ $all := $list.ByPublishDate.Reverse }}
-                          {{ range first 3 $all }}
-                            <article class="col-12 col-lg-4 post post-sm">
-                              <a class="post-link" href="{{ .RelPermalink }}">
-                                <div class="post-preview">
-                                  <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
-                                </div>
-                                <h6 class="post-title">{{ .Params.title }}</h6>
-                                <p class="post-description">{{ .Params.description }}</p>
-                                <div class="post-about">
-                                  <p>{{ .Params.author }}</p>
-                                  <p>{{ time.Format "January 02, 2006" .Date }}</p>
-                                </div>
-                              </a>
-                            </article>
-                          {{ end }}
-                        </div>
-                      </div>
-                    </div>
-                  {{ end }}
-                {{ end }}
-              </div>
+              {{ partial "documentation/articles/hub" . }}
             {{ else if .Params.isCategoryPage }}
-              <div class="docs-articles docs-articles__list">
-                {{ partial "documentation/breadcrumbs" . }}
-
-
-                <h4 class="docs-articles__title">{{ .Params.title }}</h4>
-                <p class="docs-articles__description">{{ .Params.description }}</p>
-
-                {{ $category := .Params.category }}
-
-
-                <div class="docs-articles__posts">
-                  <div class="row gx-4 gy-5">
-                    {{ $list := first 0 site.Pages }}
-                    {{ range $subject.Pages }}
-                      {{ if and (eq .Params.category $category) (not .Params.isCategoryPage) (not .Params.hideFromList) }}
-                        {{ $list = $list | append . }}
-                      {{ end }}
-                    {{ end }}
-
-                    {{ $all := $list.ByPublishDate.Reverse }}
-                    {{ $paginator := .Paginate $all 14 }}
-
-                    {{ range $paginator.Pages }}
-                      <article class="col-12 col-lg-6 post post-md">
-                        <a class="post-link" href="{{ .RelPermalink }}">
-                          <div class="post-preview">
-                            <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
-                          </div>
-                          <h6 class="post-title">{{ .Params.title }}</h6>
-                          <p class="post-description">{{ .Params.description }}</p>
-                          <div class="post-about">
-                            <p>{{ .Params.author }}</p>
-                            <p>{{ time.Format "January 02, 2006" .Date }}</p>
-                          </div>
-                        </a>
-                      </article>
-                    {{ end }}
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="docs-articles__pagination col-12">
-                    {{ if gt $paginator.TotalPages 1 }}
-                      {{ partial "pagination" $paginator }}
-                    {{ end }}
-                  </div>
-                </div>
-              </div>
+              {{ partial "documentation/articles/category" . }}
             {{ else }}
               <div class="documentation__article-wrapper">
                 {{ partial "documentation/breadcrumbs" . }}
@@ -160,8 +22,8 @@
 
                 <article class="documentation-article">
                   <div class="documentation-article__header">
-                    {{ $firstUrlElement := index (split .RelPermalink "/") 1 }}
-                    {{ $url := path.Join $firstUrlElement .Params.category }}
+                    {{ $url := "articles" }}
+                    {{ with partial "documentation/articles/topic" . }}{{ $url = printf "articles/%s" . }}{{ end }}
 
 
                     <a href="/{{ $url }}/" class="documentation-article__header-link">

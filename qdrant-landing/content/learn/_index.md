@@ -1,6 +1,6 @@
 ---
-title: "Qdrant Learn Portal"
-description: "Tutorials, Courses, Articles"
+title: Qdrant Learn Portal
+description: Grow your search engineering skills with practical Qdrant guides, working examples, structured courses, and research on retrieval and engine internals.
 hideTOC: true
 breadcrumb: false
 partition: learn
@@ -8,101 +8,96 @@ feedback: false
 build:
   render: always
 cascade:
-  - build:
-      list: local
-      publishResources: false
-      render: never
+- build:
+    list: local
+    publishResources: false
+    render: never
 content:
-#   - partial: documentation/banners/banner-b
-#     title: Welcome to Qdrant Learn
-#     description: Learn Portal
-#     image:
-#       src: /img/dev-portal-cloud/dev-portal-cloud-hero.png
-#       alt: Qdrant Course
-#     startedButton:
-#       text: Start Learning
-#       url: /courses/essentials
-  - partial: documentation/sections/cards-section
-    title: Learn
-    description: Master vector search with Qdrant through comprehensive documentation, structured courses, and hands-on tutorials.
-    cardsPartial: documentation/cards/docs-cards
-    cards:
-    - id: 1
-      image:
-        src: /img/dev-portal-learn/articles.png
-        alt: Articles
-      title: Articles
-      description: In-depth technical documentation covering vector search concepts, system architecture, and advanced techniques.
-
-      list:
-        title: "Featured articles:"
-        elements:
-            - Data Exploration with Qdrant's Distance Matrix API
-            - Why Vector Search Needs a Dedicated Database
-            - Semantic Search As You Type
-      link:
-        url: /articles/
-        text: Browse Articles
-    - id: 2
-      image:
-        src: /img/dev-portal-learn/courses.png
-        alt: Courses
-      title: Courses
-      description: Structured learning paths with progressive difficulty levels, from beginner fundamentals to advanced implementations.
-      list:
-        title: "Available topics:"
-        elements:
-            - "Beginner: Vector search basics"
-            - "Intermediate: Advanced querying"
-            - "Advanced: Production optimization"
-      
-      link:
-        url: /course/
-        text: View Courses
-    - id: 3
-      image:
-        src: /img/dev-portal-learn/tutorials.png
-        alt: Tutorials
-      title: Tutorials
-      description: Step-by-step guides and video content for hands-on learning with practical examples and real-world applications.
-      list:
-        title: "Tutorial categories:"
-        elements:
-            - "Search Engineering"
-            - "Operations and Scale"
-            - "Develop and Implement"
-      
-      link:
-        url: /documentation/tutorials-lp-overview/
-        text: Explore Tutorials
-  - partial: documentation/sections/cards-section
-    title: Quickstart
-    description: 
-    cardsPartial: documentation/cards/docs-cards
-    cardsPerRow: 2
-    cards:
-    - id: 1
-      icon:
-        src: /icons/outline/rocket-blue.svg
-        alt: Rocket icon
-      title: New to Vector Search?
-      description: Start with our beginner-friendly exercises on vector embeddings and basic concepts.
-      link:
-        text: Start Learning
-        url: /documentation/tutorials-basics/
-    - id: 2
-      icon:
-        src: /icons/outline/hacker-purple.svg
-        alt: Hacker icon
-      title: Ready to Build?
-      description: Build out practical projects using our example prototypes and integration guides.
-      link:
-        text: View Examples
-        url: /documentation/examples/
+- partial: documentation/banners/banner-a
+  title: Grow as a Search Engineer
+  description: Make better search decisions, adapt a working example, or understand how Qdrant works beneath the API.
+  linkDescription: Choose the resource that answers your question today.
+  cloudButton:
+    text: Explore Practical Guides
+    url: /documentation/guides/
+  localButton:
+    text: Start with Qdrant Essentials
+    url: /course/essentials/
+- partial: documentation/sections/cards-section
+  title: Choose How to Learn
+  description: Each resource serves a different purpose. Start with the one that fits your task.
+  cardsPartial: documentation/cards/docs-cards
+  cardsPerRow: 2
+  cards:
+  - title: Guides
+    description: Evaluate search quality, choose embedding models, and plan how your Qdrant application grows.
+    link:
+      url: /documentation/guides/
+      text: Find Practical Guidance
+    image:
+      src: /img/dev-portal-learn/articles.png
+      alt: ''
+  - title: Tutorials & Examples
+    description: Open working code and walkthroughs, then adapt the implementation to your data and application stack.
+    link:
+      url: /learn/examples/
+      text: Browse Tutorials & Examples
+    image:
+      src: /img/dev-portal-learn/tutorials.png
+      alt: ''
+  - title: Courses
+    description: Build your understanding through structured lessons and exercises, starting with Qdrant Essentials.
+    link:
+      url: /course/
+      text: Explore Courses
+    image:
+      src: /img/dev-portal-learn/courses.png
+      alt: ''
+  - title: Articles
+    description: Examine retrieval experiments and the mechanisms behind Qdrant indexing, storage, and search.
+    link:
+      url: /articles/
+      text: Explore Articles
+    image:
+      src: /img/dev-portal-learn/articles.png
+      alt: ''
+- partial: documentation/sections/cards-section
+  title: Start with Your Task
+  description: Take a direct path to a common search engineering task.
+  cardsPartial: documentation/cards/docs-cards
+  cardsPerRow: 2
+  cards:
+  - title: Build Your First Search
+    description: Start with a small semantic search application and adapt it to your own data.
+    link:
+      url: /documentation/tutorials-basics/search-beginners/
+      text: Open the Example
+  - title: Evaluate Search Quality
+    description: Choose an evaluation baseline before changing embeddings, retrieval, or ranking.
+    link:
+      url: /documentation/search-quality/
+      text: Explore Search Evaluation
+  - title: Prepare for Production
+    description: Plan tenant growth and large imports around the workload you need to serve.
+    link:
+      url: /documentation/production-patterns/
+      text: Explore Production & Performance
+  - title: Design and Tune Search
+    description: Choose embeddings and retrieval strategies, then follow the tuning series to test improvements.
+    link:
+      url: /documentation/search-tuning/
+      text: Explore Search Design & Tuning
 ---
 
 # Learn
 
-- **[Articles](/articles/index.md)**: Long-form technical pieces covering vector search concepts, system architecture, RAG pipelines, quantization, hybrid retrieval, and Qdrant internals.
-- **[Courses](/course/index.md)**: Structured, self-paced learning paths through Qdrant Academy. Two courses are currently available: *Qdrant Essentials* (9–12 hours) and *Multi-Vector Search* (4–6 hours), with beginner, intermediate, and advanced courses planned. Free, with certification.
-- **[Tutorials](/documentation/tutorials-lp-overview/index.md)**: Step-by-step guides organized into five categories: Basic, Search Engineering, Operations & Scale, Develop & Implement, and Migrate to Qdrant.
+Choose Guides for practical decisions, Tutorials & Examples for an implementation, Courses for structured study, or Articles for new evidence and engine mechanisms.
+
+## Read More
+
+- [Guides](/documentation/guides/)
+- [Tutorials & Examples](/learn/examples/)
+- [Courses](/course/)
+- [Articles](/articles/)
+
+Start with the resource that answers your current question.

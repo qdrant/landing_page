@@ -7,3 +7,5 @@
 {{ $old := "<table>" }}
 {{ $new := printf "<table class=\"%s\">"  "table mb-5" }}
 {{ $contentWithWrappedTables | replaceRE $old $new | safeHTML }}
+
+{{ if eq .Params.learning_kind "guides" }}{{ partial "documentation/guides/series-navigation" . }}{{ end }}

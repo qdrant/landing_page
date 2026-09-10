@@ -1,22 +1,28 @@
 ---
-title: "Bulk Uploading Data to Qdrant"
-short_description: "Plan bulk uploads in Qdrant at scale: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage."
-description: "Plan bulk uploads in Qdrant: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage."
+title: Bulk Uploading Data to Qdrant
+short_description: 'Plan bulk uploads in Qdrant at scale: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage.'
+description: 'Plan bulk uploads in Qdrant: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage.'
 preview_dir: /articles_data/bulk-uploads-in-qdrant/preview
 social_preview_image: /articles_data/bulk-uploads-in-qdrant/preview/social_preview.jpg
 weight: 35
 author: John Kupchanko
 author_link: https://github.com/jkupchanko
 keywords:
-  - bulk upload
-  - vector database
-  - batching
-  - quantization
-  - sharding
-category: production-ops
-date: 2026-07-14T00:00:00.000Z
+- bulk upload
+- vector database
+- batching
+- quantization
+- sharding
+date: 2026-07-14 00:00:00+00:00
 draft: false
+partition: learn
+learning_kind: guides
+url: /documentation/production-patterns/bulk-data-import/
+aliases:
+- /articles/bulk-uploads-in-qdrant/
 ---
+
+# Bulk Uploading Data to Qdrant
 
 ## Why Bulk Uploading Matters
 
