@@ -69,7 +69,7 @@ which grows exponentially for large $r$.
 
 That is a much closer match to the growth of a branching tree. As a hierarchy gets deeper, hyperbolic space keeps creating room for its descendants. In a flat space, branches increasingly crowd together.
 
-The same branching structure appears in biological taxonomies, document hierarchies, and part–whole relationships. Hyperbolic embeddings give these hierarchies room to grow.
+The same branching structure appears in biological taxonomies, document hierarchies, and part and whole relationships. Hyperbolic embeddings give these hierarchies room to grow.
 
 ## Superpowers of Hyperbolic Embeddings
 
