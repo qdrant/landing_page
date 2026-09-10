@@ -2,7 +2,11 @@
 
 // Eyebrow + title + intro shared by the Cloud Inference sections.
 // $color carries the title colour so the dark "What You Get" section can reuse it.
+// @at-root: these mixins are included from inside `.#{$block}`, so without it every
+// selector compiles to `.block .block__x` and outranks the per-section overrides below
+// the include. Emitted at root, source order decides, which is what the call sites expect.
 @mixin cloud-inference-section-header($block, $color: $neutral-20) {
+ @at-root {
   .#{$block}__label {
     margin-bottom: $spacer;
     font-family: $font-family-monospace;
@@ -38,10 +42,12 @@
       line-height: $line-height-lg;
     }
   }
+ }
 }
 
 // Centred header variant, used by the sections whose heading is centre-aligned.
 @mixin cloud-inference-section-header-centered($block) {
+ @at-root {
   .#{$block}__header {
     margin-bottom: $spacer * 2.5;
     text-align: center;
@@ -58,4 +64,5 @@
       margin-bottom: $spacer * 4;
     }
   }
+ }
 }
