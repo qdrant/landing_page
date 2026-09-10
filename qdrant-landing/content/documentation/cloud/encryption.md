@@ -13,7 +13,7 @@ Qdrant Managed Cloud encrypts all storage volumes at rest by default. [Premium c
 
 - A [Premium Managed Cloud](/documentation/cloud-premium/) subscription
 - An existing cluster in Qdrant Cloud (create one before requesting encryption)
-- Whether your cluster is empty or contains data (empty clusters are simpler to migrate; Qdrant Support will advise on the approach)
+- Whether your cluster is empty or contains data. We recommend starting with an empty cluster where possible.
 
 ## Step 1: Open a Support Ticket
 
