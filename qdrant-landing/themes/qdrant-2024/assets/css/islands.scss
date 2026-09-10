@@ -9,13 +9,50 @@
 // assets/islands/<name>/index.css.
 
 .island {
+  margin: 1.5rem auto;
+}
+
+// Stage: reserves space by aspect-ratio (set inline from the shortcode's `ratio`),
+// so the reservation scales with the width and the fallback never changes it. The
+// fallback and spinner are layered inside it absolutely; the app centers within.
+.island__stage {
   position: relative;
-  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .island__mount {
   display: block;
   width: 100%;
+}
+
+// Fallback (the shortcode's inner markdown, usually an image). Layered over the
+// stage so it never affects the reservation; hidden by the loader on island:ready.
+.island__fallback {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+.island__fallback > * {
+  margin: 0;
+}
+// Scoped under .island to outrank .documentation-article img (max-width:100%).
+// The image fills the stage, which already carries the illustration's ratio.
+.island .island__fallback img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+// Shared caption/title for both the fallback and the live island.
+.island__caption {
+  margin: 0.6rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0.75;
 }
 
 .island__spinner {
@@ -26,6 +63,9 @@
   justify-content: center;
   gap: 6px;
   pointer-events: none;
+}
+.island__spinner[hidden] {
+  display: none;
 }
 
 .island__spinner-dot {
