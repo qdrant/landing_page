@@ -22,7 +22,7 @@
   {{ $url := . }}
   {{ with site.GetPage . }}
     {{ $description := .Params.short_description }}
-    {{ range where site.Data.examples "page" $url }}
+    {{ range where hugo.Data.examples "page" $url }}
       {{ $description = .description | default $description }}
     {{ end }}
     {{ $examples = $examples | append (dict "title" .Title "description" $description "link" (dict "text" "Open Example" "url" .RelPermalink)) }}

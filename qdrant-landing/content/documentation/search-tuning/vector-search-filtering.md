@@ -1,15 +1,21 @@
 ---
 title: "A Complete Guide to Filtering in Vector Search"
-short_description: "Merging different search methods to improve the search quality was never easier"
+short_description: "Apply payload filters, build payload indexes, and combine conditions to narrow Qdrant search results to the right data."
 description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost semantic search performance and reduce Qdrant's resource usage."
 preview_dir: /articles_data/vector-search-filtering/preview
 social_preview_image: /articles_data/vector-search-filtering/preview/social_preview.jpg
-weight: 70
+weight: 30
 author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
-category: mastering-search
+partition: learn
+learning_kind: guides
+aliases:
+  - /articles/vector-search-filtering/
 ---
+
+# A Complete Guide to Filtering in Vector Search
+
 Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**.
 
 ![vector-search-ecommerce](/articles_data/vector-search-filtering/vector-search-ecommerce.png)

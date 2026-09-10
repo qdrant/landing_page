@@ -1,32 +1,29 @@
+{{ $topics := where (site.GetPage "/articles").Sections.ByWeight "Params.isCategoryPage" true }}
 <div class="docs-articles docs-articles__blocks">
   <div class="docs-core">
-    {{ partial "documentation/banners/banner-a" (dict "title" "Articles" "description" "Explore search quality, embedding research, Qdrant internals, and production operations." "linkDescription" "Read experiments, mechanisms, and engineering decisions from the Qdrant team." "cloudButton" (dict "text" "Browse Articles" "url" "#article-topics") "localButton" (dict "text" "Explore Guides" "url" "/documentation/guides/")) }}
+    {{ partial "documentation/banners/banner-a" (dict "title" "Articles" "description" "Explore vector search concepts, retrieval research, Qdrant internals, and application patterns." "linkDescription" "Read technical explanations, experiments, and engineering decisions from the Qdrant team." "cloudButton" (dict "text" "Browse Articles" "url" "#article-topics") "localButton" (dict "text" "Explore Guides" "url" "/documentation/guides/")) }}
   </div>
   <nav id="article-topics" class="docs-articles__topics" aria-label="Article Topics">
     <span>Browse by Topic</span>
-    {{ range (site.GetPage "/articles").Sections.ByWeight }}
-      {{ if and .Params.isCategoryPage (not .Params.article_collection) (not .Params.hideFromList) }}
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ end }}
+    {{ range $topics }}
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
     {{ end }}
   </nav>
-  {{ range slice "/articles/search-quality" "/articles/embedding-research" "/articles/qdrant-internals" "/articles/production-ops" }}
-    {{ with site.GetPage . }}
-      <section class="docs-articles__block">
-        <div class="docs-articles__block-header">
-          <div>
-            <h2 class="docs-articles__title">{{ .Title }}</h2>
-            <p class="docs-articles__description">{{ .Description }}</p>
-          </div>
-          <a href="{{ .RelPermalink }}" class="docs-articles__block-link button button_outlined button_sm">Explore {{ .Title }}</a>
+  {{ range $topics }}
+    <section class="docs-articles__block">
+      <div class="docs-articles__block-header">
+        <div>
+          <h2 class="docs-articles__title">{{ .Title }}</h2>
+          <p class="docs-articles__description">{{ .Description }}</p>
         </div>
-        <div class="docs-articles__posts row gy-4">
-          {{ range first 3 (partial "documentation/articles/list" .) }}
-            {{ partial "documentation/articles/card" (dict "page" .) }}
-          {{ end }}
-        </div>
-      </section>
-    {{ end }}
+        <a href="{{ .RelPermalink }}" class="docs-articles__block-link button button_outlined button_sm">Explore {{ .Title }}</a>
+      </div>
+      <div class="docs-articles__posts row gy-4">
+        {{ range first 3 (partial "documentation/articles/list" .) }}
+          {{ partial "documentation/articles/card" (dict "page" .) }}
+        {{ end }}
+      </div>
+    </section>
   {{ end }}
   <aside class="docs-articles__guide-callout">
     <div>

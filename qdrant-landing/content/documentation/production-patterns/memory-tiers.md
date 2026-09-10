@@ -1,25 +1,24 @@
 ---
-title: 'Memory Tiers in Qdrant: What to Use and When'
-short_description: A guide to choosing a Qdrant memory tier layout as your collection grows.
-description: Which Qdrant memory tier layout to use and when, and why, backed by benchmarks.
+title: "Memory Tiers in Qdrant: What to Use and When"
+short_description: "A guide to choosing a Qdrant memory tier layout as your collection grows."
+description: "Which Qdrant memory tier layout to use and when, and why, backed by benchmarks."
 social_preview_image: /articles_data/memory-tiers-in-qdrant-what-to-use-and-when/preview/social_preview.jpg
 preview_dir: /articles_data/memory-tiers-in-qdrant-what-to-use-and-when/preview
 author: Clelia Bertelli
 author_link: https://qdrant.tech
-date: 2026-08-28 10:00:00+02:00
+date: 2026-08-28T10:00:00+02:00
 draft: false
 keywords:
-- memory tiers
-- caching
-- disk
-- scaling
-- benchmark
+  - memory tiers
+  - caching
+  - disk
+  - scaling
+  - benchmark
 weight: 8
 partition: learn
 learning_kind: guides
-url: /documentation/production-patterns/memory-tiers/
 aliases:
-- /articles/memory-tiers-in-qdrant-what-to-use-and-when/
+  - /articles/memory-tiers-in-qdrant-what-to-use-and-when/
 ---
 
 # Memory Tiers in Qdrant: What to Use and When
@@ -128,10 +127,6 @@ A story built only on point count, where more data always means a worse tail, do
 
 ## Adjacent Work
 
-{{< read-more >}}
-
 - [Memory tiers documentation](/documentation/ops-configuration/memory-tiers/): the full set of tier and quantization options per structure.
 - [Storage documentation](/documentation/manage-data/storage/): how collections, segments, and storage structures fit together on disk.
 - [qdrant-labs/memory-tiers-explained](https://github.com/qdrant-labs/memory-tiers-explained): the benchmark code and raw results behind the guidance in this piece.
-
-{{< /read-more >}}

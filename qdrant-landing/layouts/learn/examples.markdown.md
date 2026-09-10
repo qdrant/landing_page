@@ -2,7 +2,7 @@
 
 Find an implementation by goal and stack. Open the example for its prerequisites and procedure, or use its available code.
 
-{{ range site.Data.examples }}
+{{ range hugo.Data.examples }}
 {{ $page := site.GetPage .page }}
 ## {{ .title | default $page.Title }}
 

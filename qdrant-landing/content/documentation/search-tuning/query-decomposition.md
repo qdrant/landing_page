@@ -1,11 +1,12 @@
 ---
 title: Query Decomposition for Multi-Hop Questions
-short_description: 'Answer multi-hop questions by retrieving in steps: an LLM asks each follow-up sub-question, then fuse the per-hop results with RRF.'
-description: 'Answer multi-hop questions in Qdrant: decompose the query into retrieval steps, let an LLM ask each follow-up, and fuse results with RRF.'
+short_description: "Answer multi-hop questions by retrieving in steps: an LLM asks each follow-up sub-question, then fuse the per-hop results with RRF."
+description: "Answer multi-hop questions in Qdrant: decompose the query into retrieval steps, let an LLM ask each follow-up, and fuse results with RRF."
 weight: 20
+aliases:
+  - /documentation/improve-search/query-decomposition/
 partition: learn
 learning_kind: guides
-url: /documentation/improve-search/query-decomposition/
 ---
 
 # Query Decomposition for Multi-Hop Questions
@@ -122,4 +123,4 @@ The birthplace chunk never mentions Inception, so the original question won't su
 
 ## When to Use It
 
-Decomposition adds an LLM call and a query per hop, so reach for it only when a question spans multiple facts. For single-fact questions, one query is faster and just as accurate. To confirm it helps on your data, compare `recall@k` for single-pass against decomposition on a small set of multi-hop questions; the [Measuring Retrieval Relevance](/documentation/improve-search/retrieval-relevance/) tutorial covers the setup.
+Decomposition adds an LLM call and a query per hop, so reach for it only when a question spans multiple facts. For single-fact questions, one query is faster and just as accurate. To confirm it helps on your data, compare `recall@k` for single-pass against decomposition on a small set of multi-hop questions; the [Measuring Retrieval Relevance](/documentation/search-quality/retrieval-relevance/) tutorial covers the setup.

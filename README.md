@@ -284,6 +284,26 @@ hideInSidebar: true
 
 If `true`, the page will not be shown in the sidebar. It can be used in regular documentation and section pages (_index.md).
 
+### Learn
+
+The Learn portal (`/learn/`) groups four resources: Guides, Tutorials & Examples, Courses, and Articles. The sidebar for `partition: learn` pages is built by `themes/qdrant-2024/layouts/partials/documentation/learn-menu.html` from the content below.
+
+#### Guides
+
+A guide section is a directory under `content/documentation/` whose `_index.md` sets `partition: learn` and `learning_kind: guides`. Its pages inherit both values through `cascade` or set them directly. The sidebar, the Guides tab, and the section landing page list the section's pages by `weight`.
+
+Set `guide_series: true` on pages that form an ordered series. The section's `guide_series_title` names the series, and `weight` sets the order of the numbered cards and the previous/next links.
+
+When a page moves into a guide section, add its former URL to `aliases`.
+
+#### Tutorials & Examples
+
+`data/examples.yaml` is the catalog behind `/learn/examples/`. Each entry names an existing tutorial page and adds a `goal`, a `stack`, and optional `keywords` and `resources` links. The card title and description come from the tutorial's front matter, so the catalog never copies page content. The build fails if an entry points to a missing page or to a resource URL the tutorial no longer links.
+
+#### Articles
+
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. To retire an article, set `draft: true` and add a `301` line to `static/_redirects`.
+
 ## Blog
 
 To add a new blog post, run the following commands:

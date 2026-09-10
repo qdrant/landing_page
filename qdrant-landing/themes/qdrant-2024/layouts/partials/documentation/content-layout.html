@@ -22,11 +22,10 @@
 
                 <article class="documentation-article">
                   <div class="documentation-article__header">
-                    {{ $url := "articles" }}
-                    {{ with partial "documentation/articles/topic" . }}{{ $url = printf "articles/%s" . }}{{ end }}
+                    {{ $back := site.GetPage "/articles" }}
+                    {{ with site.GetPage (printf "/articles/%s/" .Params.category) }}{{ $back = . }}{{ end }}
 
-
-                    <a href="/{{ $url }}/" class="documentation-article__header-link">
+                    <a href="{{ $back.RelPermalink }}" class="documentation-article__header-link">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M14.6668 8.00004H1.3335M1.3335 8.00004L6.00016 12.6667M1.3335 8.00004L6.00016 3.33337"
@@ -36,10 +35,8 @@
                           stroke-linejoin="round"
                         />
                       </svg>
-                      {{ with (.Site.GetPage $url) }}
-                        Back to
-                        {{ .Params.Title }}
-                      {{ end }}
+                      Back to
+                      {{ $back.Title }}
                     </a>
                     <h1 class="documentation-article__header-title">{{ .Params.title }}</h1>
                     <div class="documentation-article__header-about">
@@ -84,6 +81,7 @@
 
                 <article class="documentation-article">
                   {{ partial "article-content.html" . }}
+                  {{ partial "documentation/guides/series-navigation" . }}
                 </article>
 
                 {{ if not (eq .Params.feedback false) }}

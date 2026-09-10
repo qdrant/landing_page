@@ -76,11 +76,11 @@
 /documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
 
 # Articles category reorganization (technical articles taxonomy)
-/articles/vector-search-manuals/   /articles/search-quality/        301
+/articles/vector-search-manuals/   /documentation/search-tuning/    301
 /articles/machine-learning/        /articles/embedding-research/    301
-/articles/ecosystem/               /articles/                       301
-/articles/practicle-examples/      /articles/                       301
-/articles/rag-and-genai/           /articles/                       301
+/articles/ecosystem/               /articles/demos-and-tutorials/   301
+/articles/practicle-examples/      /articles/demos-and-tutorials/   301
+/articles/rag-and-genai/           /articles/rag-and-agents/        301
 
 # Unpublished indexing-optimization article superseded by bulk-uploads-in-qdrant
 /articles/indexing-optimization/   /documentation/production-patterns/bulk-data-import/   301

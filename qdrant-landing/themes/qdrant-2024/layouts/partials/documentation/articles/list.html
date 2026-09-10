@@ -1,10 +1,9 @@
-{{ $pages := slice }}
-{{ range (site.GetPage "/articles").RegularPages }}
-  {{ $topic := partial "documentation/articles/topic" . }}
-  {{ if and $topic (not .Draft) (not .Params.hideFromList) }}
-    {{ if or (not $.Params.category) (eq $.Params.category $topic) }}
-      {{ $pages = $pages | append . }}
-    {{ end }}
-  {{ end }}
+{{ $articles := site.GetPage "/articles" }}
+{{ $topics := slice }}
+{{ range $articles.Sections }}
+  {{ if .Params.isCategoryPage }}{{ $topics = $topics | append .Params.category }}{{ end }}
 {{ end }}
-{{ return (sort $pages "PublishDate" "desc") }}
+{{ $pages := where $articles.RegularPages "Params.category" "in" $topics }}
+{{ $pages = where $pages "Params.hideFromList" "ne" true }}
+{{ with .Params.category }}{{ $pages = where $pages "Params.category" . }}{{ end }}
+{{ return $pages.ByPublishDate.Reverse }}

@@ -4,10 +4,8 @@
   <p class="docs-articles__description">{{ .Description }}</p>
   <nav class="docs-articles__topics" aria-label="Article Topics">
     <a href="/articles/">All Articles</a>
-    {{ range (site.GetPage "/articles").Sections.ByWeight }}
-      {{ if and .Params.isCategoryPage (not .Params.article_collection) (not .Params.hideFromList) }}
-        <a href="{{ .RelPermalink }}" {{ if eq $.Params.category .Params.category }}aria-current="page"{{ end }}>{{ .Title }}</a>
-      {{ end }}
+    {{ range where (site.GetPage "/articles").Sections.ByWeight "Params.isCategoryPage" true }}
+      <a href="{{ .RelPermalink }}" {{ if eq $.Params.category .Params.category }}aria-current="page"{{ end }}>{{ .Title }}</a>
     {{ end }}
   </nav>
   {{ $paginator := .Paginate (partial "documentation/articles/list" .) 14 }}

@@ -1,7 +1,7 @@
 {{ $current := .RelPermalink }}
 {{ $isGuide := eq .Params.learning_kind "guides" }}
 {{ $goals := slice }}
-{{ range site.Data.examples }}{{ $goals = $goals | append .goal }}{{ end }}
+{{ range hugo.Data.examples }}{{ $goals = $goals | append .goal }}{{ end }}
 {{ $exampleLinks := slice }}
 {{ range sort (uniq $goals) }}
   {{ $exampleLinks = $exampleLinks | append (dict "title" . "url" (printf "/learn/examples/?%s" (querify "goal" .)) "goal" . "active" false) }}
@@ -20,18 +20,18 @@
   {{ end }}
 {{ end }}
 {{ $articleLinks := slice }}
-{{ range (site.GetPage "/articles").Sections.ByWeight }}
-  {{ if and .Params.isCategoryPage (not .Params.hideFromList) }}
-    {{ $active := or (eq .RelPermalink $current) (and (eq $.Section "articles") (eq .Params.category (partial "documentation/articles/topic" $))) }}
-    {{ $articleLinks = $articleLinks | append (dict "title" .Title "url" .RelPermalink "active" $active) }}
-  {{ end }}
+{{ range where (site.GetPage "/articles").Sections.ByWeight "Params.isCategoryPage" true }}
+  {{ $active := or (eq .RelPermalink $current) (and (eq $.Section "articles") (eq .Params.category $.Params.category)) }}
+  {{ $articleLinks = $articleLinks | append (dict "title" .Title "url" .RelPermalink "active" $active) }}
+{{ end }}
+{{ $courseLinks := slice }}
+{{ range (site.GetPage "/course").Sections.ByWeight }}
+  {{ $courseLinks = $courseLinks | append (dict "title" .Title "url" .RelPermalink) }}
 {{ end }}
 {{ $items := slice
   (dict "title" "Guides" "url" "/documentation/guides/" "active" $isGuide "children" $guideLinks)
   (dict "title" "Tutorials & Examples" "url" "/learn/examples/" "active" (eq $current "/learn/examples/") "children" $exampleLinks)
-  (dict "title" "Courses" "url" "/course/" "active" (eq .Section "course") "children" (slice
-    (dict "title" "Qdrant Essentials" "url" "/course/essentials/")
-    (dict "title" "Multivector Search" "url" "/course/multi-vector-search/")))
+  (dict "title" "Courses" "url" "/course/" "active" (eq .Section "course") "children" $courseLinks)
   (dict "title" "Articles" "url" "/articles/" "active" (eq .Section "articles") "children" $articleLinks)
 }}
 <nav class="docs-menu__links" aria-label="Learning Resources">
@@ -61,7 +61,7 @@
                         {{ $seriesStarted = true }}
                       {{ end }}
                       <li class="docs-menu__links-sub-submenu-item{{ if eq .url $current }} active{{ end }}">
-                        <a href="{{ .url }}" data-guide-link {{ if eq .url $current }}aria-current="page"{{ end }}>{{ .title }}</a>
+                        <a href="{{ .url }}" {{ if eq .url $current }}aria-current="page"{{ end }}>{{ .title }}</a>
                       </li>
                     {{ end }}
                   </ul>

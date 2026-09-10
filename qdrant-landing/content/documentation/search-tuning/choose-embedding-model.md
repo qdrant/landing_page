@@ -1,19 +1,18 @@
 ---
-title: 'How to Choose an Embedding Model: Evaluation & Tradeoffs'
-short_description: There is no one-size-fits-all solution when it comes to embedding models. Learn how to choose the right one for your use case.
-description: Building proper search requires selecting the right embedding model for your specific use case. This guide helps you navigate the selection process based on performance, cost, and other practical considerations.
+title: "How to Choose an Embedding Model: Evaluation & Tradeoffs"
+short_description: "There is no one-size-fits-all solution when it comes to embedding models. Learn how to choose the right one for your use case."
+description: "Building proper search requires selecting the right embedding model for your specific use case. This guide helps you navigate the selection process based on performance, cost, and other practical considerations."
 preview_dir: /articles_data/how-to-choose-an-embedding-model/preview
 social_preview_image: /articles_data/how-to-choose-an-embedding-model/preview/social_preview.jpg
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
-date: 2025-07-15 00:00:00+00:00
+date: 2025-07-15T00:00:00.000Z
 draft: false
 weight: 10
 partition: learn
 learning_kind: guides
-url: /documentation/search-quality/choose-embedding-model/
 aliases:
-- /articles/how-to-choose-an-embedding-model/
+  - /articles/how-to-choose-an-embedding-model/
 ---
 
 # How to Choose an Embedding Model: Evaluation & Tradeoffs

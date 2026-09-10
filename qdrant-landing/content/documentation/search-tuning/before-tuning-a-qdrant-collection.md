@@ -1,24 +1,24 @@
 ---
-title: What to Check Before Tuning a Qdrant Collection
-short_description: Seven collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs.
-description: 'Audit a Qdrant collection: find the settings that degrade retrieval silently, choose the cheapest next change, and size a labeled query set.'
+title: "What to Check Before Tuning a Qdrant Collection"
+short_description: "Seven collection settings that degrade retrieval without an error, the order to try changes in, and how many labeled queries a gain needs."
+description: "Audit a Qdrant collection: find the settings that degrade retrieval silently, choose the cheapest next change, and size a labeled query set."
 preview_dir: /articles_data/before-tuning-a-qdrant-collection/preview
 social_preview_image: /articles_data/before-tuning-a-qdrant-collection/preview/social_preview.jpg
 weight: 120
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-20 00:00:00+03:00
+date: 2026-08-20T00:00:00+03:00
 draft: false
 keywords:
-- retrieval tuning
-- search relevance
-- nDCG
-- labeled query set
-- Qdrant collection audit
+  - retrieval tuning
+  - search relevance
+  - nDCG
+  - labeled query set
+  - Qdrant collection audit
 partition: learn
 learning_kind: guides
 aliases:
-- /articles/before-tuning-a-qdrant-collection/
+  - /articles/before-tuning-a-qdrant-collection/
 guide_series: true
 ---
 
@@ -39,7 +39,7 @@ If you run dense-only search and exact keywords are missing from results, hybrid
 Before you tune:
 
 1. Check that vectors are indexed and that every field used in a filter has a payload index. [Collection details](/documentation/manage-data/collections/#collection-info) and [payload indexing](/documentation/manage-data/indexing/#payload-index) show what to inspect.
-2. Build a labeled query set and choose a metric that matches the product experience. A labeled query pairs a real user query with the documents that should be returned. [Measuring retrieval relevance](/documentation/improve-search/retrieval-relevance/) walks through the setup.
+2. Build a labeled query set and choose a metric that matches the product experience. A labeled query pairs a real user query with the documents that should be returned. [Measuring retrieval relevance](/documentation/search-quality/retrieval-relevance/) walks through the setup.
 
 ## The Symptom Tells You Where to Start
 
@@ -130,7 +130,7 @@ Choose the metric before you compare settings, because the metric decides the wi
 
 ## Make Sure Your Labels Can Detect a Gain
 
-[Retrieval relevance](/documentation/improve-search/retrieval-relevance/) covers building a labeled set. Its size decides whether any retrieval tuning is visible to you at all.
+[Retrieval relevance](/documentation/search-quality/retrieval-relevance/) covers building a labeled set. Its size decides whether any retrieval tuning is visible to you at all.
 
 A labeled set is large enough when it can distinguish the improvement you care about from normal query-to-query variation. Size alone will not save an unrepresentative set. Pull queries across the mix your product sees, including its important query types and filters, and spot-check a sample of the labels yourself.
 

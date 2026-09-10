@@ -1,6 +1,0 @@
-{{ $settings := (site.GetPage "/articles").Params }}
-{{ $topic := .Params.category | default "" }}
-{{ with index $settings.category_aliases $topic }}{{ $topic = . }}{{ end }}
-{{ with index $settings.category_overrides .RelPermalink }}{{ $topic = . }}{{ end }}
-{{ if not (in (slice "search-quality" "embedding-research" "qdrant-internals" "production-ops") $topic) }}{{ $topic = "" }}{{ end }}
-{{ return $topic }}

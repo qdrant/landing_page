@@ -136,14 +136,8 @@ disableKinds = ["taxonomy", "term"]
     id = 'G-NZYW2651NE'
 
 [server]
-  # Local previews must show the same navigation after content moves.
-  [[server.headers]]
+  [server.headers]
     for = '/get_anonymous_id/**'
-    [server.headers.values]
-      Cache-Control = 'no-store'
+    [[server.headers.values]]
       Content-Security-Policy = 'frame-ancestors https://localhost:3000'
       X-Frame-Options = 'ALLOW-FROM https://localhost:3000'
-  [[server.headers]]
-    for = '/**'
-    [server.headers.values]
-      Cache-Control = 'no-store'

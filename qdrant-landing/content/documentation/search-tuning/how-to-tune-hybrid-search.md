@@ -1,24 +1,24 @@
 ---
-title: How to Tune Hybrid Search in Qdrant
-short_description: Tune hybrid search with RRF or DBSF, choose k from relevance labels, and learn why weights are pairs instead of ratios.
-description: 'Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your relevance labels, and get weights right.'
+title: "How to Tune Hybrid Search in Qdrant"
+short_description: "Tune hybrid search with RRF or DBSF, choose k from relevance labels, and learn why weights are pairs instead of ratios."
+description: "Tune hybrid search fusion in Qdrant: choose between RRF and DBSF, set the constant k from your relevance labels, and get weights right."
 preview_dir: /articles_data/how-to-tune-hybrid-search/preview
 social_preview_image: /articles_data/how-to-tune-hybrid-search/preview/social_preview.jpg
 weight: 140
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-22 00:00:00+03:00
+date: 2026-08-22T00:00:00+03:00
 draft: false
 keywords:
-- hybrid search tuning
-- reciprocal rank fusion
-- RRF k parameter
-- fusion weights
-- DBSF
+  - hybrid search tuning
+  - reciprocal rank fusion
+  - RRF k parameter
+  - fusion weights
+  - DBSF
 partition: learn
 learning_kind: guides
 aliases:
-- /articles/how-to-tune-hybrid-search/
+  - /articles/how-to-tune-hybrid-search/
 guide_series: true
 ---
 

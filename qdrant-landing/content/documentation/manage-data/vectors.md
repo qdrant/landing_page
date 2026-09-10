@@ -5,6 +5,8 @@ description: "Define dense, sparse, and multivector configurations in Qdrant col
 weight: 10
 cta: "Try dense and sparse vectors with your own data in Cloud."
 aliases:
+  - /articles/storing-multiple-vectors-per-object-in-qdrant/
+  - /blog/storing-multiple-vectors-per-object-in-qdrant/
   - /vectors
 ---
 

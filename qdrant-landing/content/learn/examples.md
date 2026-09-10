@@ -11,15 +11,15 @@ feedback: false
 build:
   render: always
 content:
-- partial: documentation/banners/banner-a
-  title: Find a Tutorial or Example
-  description: Search, RAG, recommendations, and operations, with code and walkthroughs you can adapt.
-  linkDescription: Choose your goal and stack, then open the example or its available notebook.
-  cloudButton:
-    text: Build Your First Search
-    url: /documentation/tutorials-basics/search-beginners/
-  localButton:
-    text: Browse Tutorials & Examples
-    url: '#example-library'
-- partial: documentation/examples/catalog
+  - partial: documentation/banners/banner-a
+    title: Find a Tutorial or Example
+    description: Search, RAG, recommendations, and operations, with code and walkthroughs you can adapt.
+    linkDescription: Choose your goal and stack, then open the example or its available notebook.
+    cloudButton:
+      text: Build Your First Search
+      url: /documentation/tutorials-basics/search-beginners/
+    localButton:
+      text: Browse Tutorials & Examples
+      url: "#example-library"
+  - partial: documentation/examples/catalog
 ---

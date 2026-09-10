@@ -1,24 +1,24 @@
 ---
-title: When Is a Reranker Worth It?
-short_description: Rerank 10 candidates, compare with your tuned first stage on held-out queries, and raise the count only after the win holds.
-description: Test whether a cross-encoder reranker beats your tuned first stage in Qdrant, then choose the model and candidate count from measured results.
+title: "When Is a Reranker Worth It?"
+short_description: "Rerank 10 candidates, compare with your tuned first stage on held-out queries, and raise the count only after the win holds."
+description: "Test whether a cross-encoder reranker beats your tuned first stage in Qdrant, then choose the model and candidate count from measured results."
 preview_dir: /articles_data/when-a-reranker-is-worth-it/preview
 social_preview_image: /articles_data/when-a-reranker-is-worth-it/preview/social_preview.jpg
 weight: 150
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-23 00:00:00+03:00
+date: 2026-08-23T00:00:00+03:00
 draft: false
 keywords:
-- cross-encoder reranker
-- reranking
-- MMR
-- search relevance
-- FastEmbed
+  - cross-encoder reranker
+  - reranking
+  - MMR
+  - search relevance
+  - FastEmbed
 partition: learn
 learning_kind: guides
 aliases:
-- /articles/when-a-reranker-is-worth-it/
+  - /articles/when-a-reranker-is-worth-it/
 guide_series: true
 ---
 

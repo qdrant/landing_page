@@ -117,6 +117,11 @@
   <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if eq .Layout "examples" }}
+  {{ $exampleLibraryJs := resources.Get "js/example-library.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "industries" }}
   {{ $customersJs := resources.Get "js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>

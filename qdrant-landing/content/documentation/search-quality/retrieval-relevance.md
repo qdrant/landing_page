@@ -1,13 +1,13 @@
 ---
 title: Measuring Retrieval Relevance
+short_description: "Build a labeled query set and measure whether retrieved documents answer users' questions, with query-level relevance metrics."
+description: "Measure Qdrant retrieval relevance with labeled queries, document IDs, and ranking metrics to compare search configurations on your own data."
 weight: 6
 aliases:
-- /documentation/tutorials/retrieval-quality-golden-set/
+  - /documentation/improve-search/retrieval-relevance/
+  - /documentation/tutorials/retrieval-quality-golden-set/
 partition: learn
 learning_kind: guides
-url: /documentation/improve-search/retrieval-relevance/
-short_description: Build a labeled query set and measure whether retrieved documents answer users' questions, with query-level relevance metrics.
-description: Measure Qdrant retrieval relevance with labeled queries, document IDs, and ranking metrics to compare search configurations on your own data.
 ---
 
 # Measuring Retrieval Relevance
@@ -18,7 +18,7 @@ description: Measure Qdrant retrieval relevance with labeled queries, document I
 This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
 To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Evaluating Pipeline Output Quality](/documentation/improve-search/pipeline-output-quality/) (does the end-to-end pipeline produce the right output?).
+Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Evaluating Pipeline Output Quality](/documentation/search-quality/pipeline-output-quality/) (does the end-to-end pipeline produce the right output?).
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
@@ -180,4 +180,4 @@ In golden sets, **data leakage** means any setup that makes offline metrics look
 
 ## Next Steps
 
-Once retrieval relevance is on target, the next layer is pipeline output quality: whether the full pipeline produces the right output when retrieval feeds into a consumer (LLM generator, ranker, or UI). See [Evaluating Pipeline Output Quality](/documentation/improve-search/pipeline-output-quality/).
+Once retrieval relevance is on target, the next layer is pipeline output quality: whether the full pipeline produces the right output when retrieval feeds into a consumer (LLM generator, ranker, or UI). See [Evaluating Pipeline Output Quality](/documentation/search-quality/pipeline-output-quality/).

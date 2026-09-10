@@ -1,24 +1,24 @@
 ---
-title: When Your Collection Outgrows RAM
-short_description: Keep the quantized copy in RAM and the original vectors on disk, then measure what rescoring reads back on your own deployment.
-description: 'Set quantization and memory placement in Qdrant once a collection outgrows RAM: what the rescoring disk read costs and what quality it recovers.'
+title: "When Your Collection Outgrows RAM"
+short_description: "Keep the quantized copy in RAM and the original vectors on disk, then measure what rescoring reads back on your own deployment."
+description: "Set quantization and memory placement in Qdrant once a collection outgrows RAM: what the rescoring disk read costs and what quality it recovers."
 preview_dir: /articles_data/when-your-collection-outgrows-ram/preview
 social_preview_image: /articles_data/when-your-collection-outgrows-ram/preview/social_preview.jpg
 weight: 160
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-24 00:00:00+03:00
+date: 2026-08-24T00:00:00+03:00
 draft: false
 keywords:
-- memory tiers
-- quantization
-- rescoring
-- oversampling
-- TurboQuant
+  - memory tiers
+  - quantization
+  - rescoring
+  - oversampling
+  - TurboQuant
 partition: learn
 learning_kind: guides
 aliases:
-- /articles/when-your-collection-outgrows-ram/
+  - /articles/when-your-collection-outgrows-ram/
 guide_series: true
 ---
 

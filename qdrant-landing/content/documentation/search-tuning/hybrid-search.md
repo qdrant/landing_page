@@ -1,24 +1,24 @@
 ---
-title: Hybrid Search in Qdrant
-short_description: 'Run dense and sparse retrieval together: the queries each one gets wrong, what the second index costs, and how to tell if it helped.'
-description: 'Decide whether to add hybrid search in Qdrant: the queries dense and sparse retrieval each get wrong, and how to measure the gain.'
+title: "Hybrid Search in Qdrant"
+short_description: "Run dense and sparse retrieval together: the queries each one gets wrong, what the second index costs, and how to tell if it helped."
+description: "Decide whether to add hybrid search in Qdrant: the queries dense and sparse retrieval each get wrong, and how to measure the gain."
 preview_dir: /articles_data/hybrid-search/preview
 social_preview_image: /articles_data/hybrid-search/preview/social_preview.jpg
 weight: 110
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-24 09:00:00+03:00
+date: 2026-08-24T09:00:00+03:00
 draft: false
 keywords:
-- hybrid search
-- sparse vectors
-- BM25
-- reciprocal rank fusion
-- search relevance
+  - hybrid search
+  - sparse vectors
+  - BM25
+  - reciprocal rank fusion
+  - search relevance
 partition: learn
 learning_kind: guides
 aliases:
-- /articles/hybrid-search/
+  - /articles/hybrid-search/
 guide_series: true
 ---
 

@@ -4,10 +4,8 @@
     {{ with $page.Params.preview_dir }}
       <div class="post-preview"><img src="{{ . }}/preview.jpg" alt="" loading="lazy" /></div>
     {{ end }}
-    {{ with partial "documentation/articles/topic" $page }}
-      {{ with site.GetPage (printf "/articles/%s/" .) }}
-        <span class="post-type-badge">{{ .Title }}</span>
-      {{ end }}
+    {{ with site.GetPage (printf "/articles/%s/" $page.Params.category) }}
+      <span class="post-type-badge">{{ .Title }}</span>
     {{ end }}
     <h3 class="post-title">{{ $page.Title }}</h3>
     <p class="post-description">{{ $page.Params.short_description | default $page.Description }}</p>

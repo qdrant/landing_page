@@ -1,24 +1,24 @@
 ---
-title: 'Candidate Depth: How Much Retrieval Is Enough?'
-short_description: Raising candidate depth raises the best score a later ranking stage could reach, but default fusion barely used that extra room.
-description: Set candidate depth and hnsw_ef in Qdrant, measure the gap between your ranking and a perfect one, and balance the trade-offs.
+title: "Candidate Depth: How Much Retrieval Is Enough?"
+short_description: "Raising candidate depth raises the best score a later ranking stage could reach, but default fusion barely used that extra room."
+description: "Set candidate depth and hnsw_ef in Qdrant, measure the gap between your ranking and a perfect one, and balance the trade-offs."
 preview_dir: /articles_data/candidate-depth/preview
 social_preview_image: /articles_data/candidate-depth/preview/social_preview.jpg
 weight: 130
 author: Dylan Couzon
 author_link: https://www.linkedin.com/in/dcouzon/
-date: 2026-08-21 00:00:00+03:00
+date: 2026-08-21T00:00:00+03:00
 draft: false
 keywords:
-- candidate depth
-- hnsw_ef
-- scalar quantization
-- memory tiers
-- HNSW tuning
+  - candidate depth
+  - hnsw_ef
+  - scalar quantization
+  - memory tiers
+  - HNSW tuning
 partition: learn
 learning_kind: guides
 aliases:
-- /articles/candidate-depth/
+  - /articles/candidate-depth/
 guide_series: true
 ---
 

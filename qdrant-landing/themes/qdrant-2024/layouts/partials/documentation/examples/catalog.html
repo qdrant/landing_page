@@ -1,6 +1,6 @@
 {{ $goals := slice }}
 {{ $stacks := slice }}
-{{ range site.Data.examples }}
+{{ range hugo.Data.examples }}
   {{ $goals = $goals | append .goal }}
   {{ $stacks = $stacks | append .stack }}
 {{ end }}
@@ -28,10 +28,10 @@
     </div>
     <button type="reset" class="button button_outlined button_sm">Clear Filters</button>
   </form>
-  <p data-example-count role="status" aria-live="polite" aria-atomic="true">{{ len site.Data.examples }} results</p>
+  <p data-example-count role="status" aria-live="polite" aria-atomic="true">{{ len hugo.Data.examples }} results</p>
   <p data-example-empty hidden>No tutorials or examples match these filters. Try a broader term or clear the filters.</p>
   <div class="row g-4">
-    {{ range site.Data.examples }}
+    {{ range hugo.Data.examples }}
       {{ $entry := . }}
       {{ $page := site.GetPage .page }}
       {{ if not $page }}{{ errorf "Unknown example page %s" .page }}{{ end }}
@@ -56,5 +56,3 @@
     {{ end }}
   </div>
 </section>
-{{ $script := resources.Get "js/example-library.js" | js.Build | minify | fingerprint }}
-<script src="{{ $script.RelPermalink }}" defer></script>
