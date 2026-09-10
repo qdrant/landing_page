@@ -1,9 +1,13 @@
 {{- /*
   island — embed a self-contained interactive micro-app in content.
 
-  Each island lives in one folder under `assets/islands/<path>/`:
-    index.js   required. ES module exporting `mount(node, ctx)`.
-    index.css  optional. Styles, hand-scoped under the island's root class.
+  An island is a folder given by `path` (relative to the project root):
+    <path>/index.js   required. ES module exporting mount(node).
+    <path>/index.css  optional. Styles scoped under the island's root class.
+  Islands are typically grouped by page in the headless bundle, e.g.
+  content/documentation/headless/<page>/<island>/, which is render:never /
+  publishResources:false, so the raw files are not published; this shortcode
+  reads them and builds fingerprinted assets. Any other location works too.
 
   The fallback is authored in the markdown as the shortcode's INNER content
   (typically an image), so an editor viewing the source still sees it, and it
@@ -11,24 +15,18 @@
   shared <figcaption> — it labels both the fallback and the live island — so
   island modules do not render their own title/caption.
 
-  Same-DOM model: the island renders directly into the article (no iframe) and
-  talks to the host loader via bubbling CustomEvents (island:ready, and
-  island:themechange from host to island).
-
   Usage (always paired, so the fallback can live inside):
-    {{< island path="tenant-defrag" title="…" min-height="360" width="600" >}}
+    {{< island path="content/documentation/headless/multitenancy/tenant-defrag" title="…" width="90%" >}}
     ![Alt text](/docs/defragmentation.png)
     {{< /island >}}
 
   Params:
-    path        Required. Island folder under assets/islands/ (fails if index.js is missing).
-    title       Optional. Shared caption for the island and its fallback.
-    min-height  Optional. Reserved height in px to avoid layout shift while the
-                island loads. Default 320. Accepts "360" or "360px".
-    width       Optional. Max width in px; the figure is then centered.
-    spinner     Optional. "true" forces the host loading indicator on. Otherwise
-                it shows only if the island opts in (island:loading event) and is
-                always stopped by island:ready / a timeout.
+    path    Required. Island folder path from the project root (fails if <path>/index.js is missing).
+    title   Optional. Shared caption (markdown) for the island and its fallback.
+    width   Optional. "600" -> 600px, "90%" -> 90%; sizes the illustration and centers it. Empty -> full width.
+    ratio   Optional. Reserved aspect-ratio of the illustration. Default "16 / 9".
+    spinner Optional. "true" forces the host loading indicator on. Otherwise it
+            shows only if the island opts in (island:loading), stopped by ready/timeout.
   Inner content: markdown shown as the fallback (hidden once the island mounts).
 */ -}}
 
@@ -39,16 +37,20 @@
   {{- errorf "island shortcode in %q needs a `path` param" $page.File.Path -}}
 {{- end -}}
 
-{{- $jsRes := resources.Get (printf "islands/%s/index.js" $path) -}}
-{{- if not $jsRes -}}
-  {{- errorf "island shortcode in %q: no island module at %q (expected assets/islands/%s/index.js)" $page.File.Path $path $path -}}
+{{- /* `path` is the island folder, relative to the project root, e.g.
+       "content/documentation/headless/multitenancy/tenant-defrag". */ -}}
+{{- $jsFile := printf "%s/index.js" $path -}}
+{{- if not (fileExists $jsFile) -}}
+  {{- errorf "island shortcode in %q: no island module for %q (expected %q)" $page.File.Path $path $jsFile -}}
 {{- end -}}
 
-{{- $js := $jsRes | js.Build (dict "format" "esm" "minify" true) | resources.Fingerprint "sha512" -}}
-{{- $cssRes := resources.Get (printf "islands/%s/index.css" $path) -}}
+{{- /* Asset name (published URL prefix) from the last two path segments. */ -}}
+{{- $name := printf "islands/%s/%s" (path.Base (path.Dir $path)) (path.Base $path) -}}
+{{- $js := resources.FromString (printf "%s/index.js" $name) (readFile $jsFile) | js.Build (dict "format" "esm" "minify" true) | resources.Fingerprint "sha512" -}}
+{{- $cssFile := printf "%s/index.css" $path -}}
 {{- $css := "" -}}
-{{- with $cssRes -}}
-  {{- $css = (. | minify | resources.Fingerprint "sha512").RelPermalink -}}
+{{- if fileExists $cssFile -}}
+  {{- $css = (resources.FromString (printf "%s/index.css" $name) (readFile $cssFile) | minify | resources.Fingerprint "sha512").RelPermalink -}}
 {{- end -}}
 
 {{- /* width: "600" -> 600px, "90%" -> 90%. Sizes the illustration (fallback +
