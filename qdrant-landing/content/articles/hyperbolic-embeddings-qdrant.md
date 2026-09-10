@@ -227,8 +227,6 @@ The distances shown in the viewer come directly from Qdrant. Nothing is recalcul
 
 We checked the same calculations outside Qdrant, and they matched within `4.7e-07`. So the viewer is showing the actual search behavior, not an approximation.
 
-<iframe src="https://qdrant-geometry-viewer.vercel.app" width="100%" height="700" style="border:0" loading="lazy" title="Three geometries, one taxonomy"></iframe>
-
 <!-- TODO: worked example, one live query with real distances -->
 
 ## Takeaways
