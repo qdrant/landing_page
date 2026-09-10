@@ -18,13 +18,6 @@ category: embedding-research
 
 We choose embedding models, dimensions, and indexes. The geometry usually comes with the package. But why use a flat space, and what else could we choose?
 
-This article covers:
-
-- What is a manifold?
-- Why use hyperbolic embeddings for hierarchical data?
-- How can we search hyperbolic embeddings with Qdrant?
-- A practical example with WordNet and Qdrant.
-
 ## What Is a Manifold, and Where Do Our Vectors Live?
 
 A manifold is the space our embeddings live in. For embeddings, we care about the geometry we give that space. It determines how we measure distance, what the shortest path looks like, and how much room there is as we move outward.
