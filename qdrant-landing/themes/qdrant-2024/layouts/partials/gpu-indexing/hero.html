@@ -9,7 +9,7 @@
           <a
             href="{{ .Params.button.url }}"
             class="button button_contained button_lg"
-            {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank"{{ end }}
+            {{ if strings.HasPrefix .Params.button.url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
           >
             {{ .Params.button.text }}
           </a>
@@ -17,7 +17,7 @@
             <a
               href="{{ .url }}"
               class="button button_outlined button_lg"
-              {{ if strings.HasPrefix .url "http" }}target="_blank"{{ end }}
+              {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
             >
               {{ .text }}
             </a>
