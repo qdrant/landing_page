@@ -31,8 +31,6 @@ pip install qdrant-client
 While the installation completes, follow the [Cloud Quickstart](/documentation/cloud-quickstart/) to create a free cluster and retrieve the credentials to connect the client to it. This tutorial uses [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to embed the sample data server-side, with the free model `sentence-transformers/all-MiniLM-L6-v2`.
 
 ```python
-import os
-
 from qdrant_client import AsyncQdrantClient, models
 
 client = AsyncQdrantClient(
