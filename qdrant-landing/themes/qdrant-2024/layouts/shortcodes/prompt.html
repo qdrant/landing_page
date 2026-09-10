@@ -1,0 +1,35 @@
+{{- /*
+  Renders one prompt from content/documentation/headless/prompts/<id>.md.
+
+  Usage: {{< prompt "set-up-monitoring" >}}
+
+  The prompt file's body is plain text. This template wraps it in a fenced
+  block and runs it through markdownify so Chroma produces a real
+  `.highlight > pre`, which copy-code.js finds and adds a copy button to. That
+  is why this element needs no JavaScript of its own.
+
+  The Markdown output format has its own variant, prompt.markdown.md, which
+  deliberately drops the body so an agent reading index.md is not handed an
+  instruction addressed to it.
+*/ -}}
+{{- $id := .Get 0 -}}
+{{- $p := site.GetPage (printf "documentation/headless/prompts/%s" $id) -}}
+{{- if not $p -}}
+  {{- errorf "prompt: no prompt file found for id %q (looked in content/documentation/headless/prompts/). Called from %s" $id .Page.File.Path -}}
+{{- end -}}
+<details class="prompt" id="prompt-{{ $id }}"{{ if $p.Params.open }} open{{ end }}>
+  <summary class="prompt__summary">
+    <span class="prompt__summary-label">{{ $p.Title }}</span>
+  </summary>
+  <div class="prompt__body">
+    {{ printf "```text\n%s\n```" (trim $p.RawContent "\n") | markdownify }}
+    {{- with $p.Params.skill }}
+      <p class="prompt__skill">
+        Uses the
+        <a href="https://skills.qdrant.tech/{{ . }}/SKILL.md"><code>{{ . }}</code></a>
+        agent skill.
+        <a href="/documentation/agentic-tools/skills/">What are agent skills?</a>
+      </p>
+    {{- end }}
+  </div>
+</details>

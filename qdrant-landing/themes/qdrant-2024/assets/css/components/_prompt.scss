@@ -1,0 +1,117 @@
+@use '../helpers/functions' as *;
+
+$prompt-surface: $neutral-20;
+$prompt-border: $neutral-40;
+$prompt-text: $neutral-98;
+$prompt-text-muted: $neutral-70;
+$prompt-accent: $primary-60;
+
+.prompt {
+  background: $prompt-surface;
+  border: 1px solid $prompt-border;
+  border-left: 3px solid $prompt-accent;
+  border-radius: pxToRem(8);
+  margin: pxToRem(24) 0;
+  overflow: hidden;
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(10);
+    padding: pxToRem(14) pxToRem(16);
+    cursor: pointer;
+    font-size: $font-size-md;
+    font-weight: 600;
+    color: $prompt-text;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // Disclosure caret, drawn rather than an icon file so it inherits color.
+    &::before {
+      content: '';
+      flex: none;
+      width: pxToRem(8);
+      height: pxToRem(8);
+      border-right: 2px solid $prompt-accent;
+      border-bottom: 2px solid $prompt-accent;
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+    }
+
+    &:hover {
+      color: $prompt-accent;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $prompt-accent;
+      outline-offset: -2px;
+    }
+  }
+
+  &[open] &__summary::before {
+    transform: rotate(45deg);
+  }
+
+  &__summary-label {
+    // A prompt title can be long; wrap rather than overflow.
+    min-width: 0;
+  }
+
+  &__body {
+    padding: 0 pxToRem(16) pxToRem(16);
+  }
+
+  // The fenced block Chroma emits inside the body.
+  .highlight {
+    margin: 0;
+  }
+
+  &__skill {
+    font-size: $font-size-s;
+    color: $prompt-text-muted;
+    margin: pxToRem(12) 0 0;
+    line-height: 1.5;
+
+    code {
+      font-family: $font-family-code;
+      font-size: pxToRem(12);
+      background: none;
+      padding: 0;
+    }
+  }
+
+  [data-theme='light'] & {
+    background: $neutral-98;
+    border-color: $neutral-94;
+    border-left-color: $primary-40;
+  }
+}
+
+// Written out longhand: inside a compound selector `[data-theme='light'] &`
+// lands in the descendant position, where it can never match, because the
+// theme attribute sits on <html>.
+[data-theme='light'] .prompt__summary {
+  color: $neutral-10;
+}
+
+[data-theme='light'] .prompt__summary::before {
+  border-right-color: $primary-40;
+  border-bottom-color: $primary-40;
+}
+
+[data-theme='light'] .prompt__summary:hover {
+  color: $primary-40;
+}
+
+[data-theme='light'] .prompt__skill {
+  color: $neutral-50;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt__summary::before {
+    transition: none;
+  }
+}
