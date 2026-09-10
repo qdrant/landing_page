@@ -10,7 +10,7 @@
           <p class="cloud-inference-embedding-models__subheading">{{ .Params.subheading }}</p>
           <div class="cloud-inference-embedding-models__description">{{ .Params.description | markdownify }}</div>
           {{ with .Params.link }}
-            <a class="link link_dark link_md cloud-inference-embedding-models__link" href="{{ .url }}">{{ .text }}</a>
+            <a class="link link_md cloud-inference-embedding-models__link" href="{{ .url }}">{{ .text }}</a>
           {{ end }}
         </div>
       </div>

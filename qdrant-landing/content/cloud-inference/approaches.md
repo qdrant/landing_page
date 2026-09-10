@@ -20,7 +20,7 @@ tables:
         highlight: false
         bold: false
         icon:
-          src: /icons/outline/cloud-managed.svg
+          src: /icons/outline/cloud-managed-violet.svg
           alt: Managed cloud
       - id: hybridCloud
         name: Hybrid Cloud

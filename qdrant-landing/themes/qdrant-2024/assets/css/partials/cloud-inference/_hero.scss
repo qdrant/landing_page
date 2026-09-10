@@ -38,12 +38,12 @@
     gap: $spacer;
   }
 
-  // The console screenshot bleeds off the right edge at every width, per the frame.
+  // Below lg the screenshot sits inside the container like every other hero image;
+  // the bleed is a desktop-only treatment (see the lg block).
   &__image {
     img {
       display: block;
-      width: 125%;
-      max-width: none;
+      width: 100%;
       height: auto;
       border-radius: $spacer * 0.5;
     }

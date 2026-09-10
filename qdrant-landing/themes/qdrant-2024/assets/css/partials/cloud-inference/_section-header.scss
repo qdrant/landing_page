@@ -53,6 +53,7 @@
     text-align: center;
   }
 
+  .#{$block}__title,
   .#{$block}__description {
     max-width: pxToRem(760);
     margin-left: auto;
