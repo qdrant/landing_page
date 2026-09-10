@@ -75,7 +75,7 @@ The following text processing steps are applied to text strings:
 - Optionally, Qdrant can remove diacritics (accents) from characters using a process called [ASCII folding](/documentation/manage-data/indexing/#ascii-folding). This ensures that diacritics are ignored. As a result, filtering for the word "cafe" matches "café".
 - Optionally, tokens can be reduced to their root form using a [stemmer](/documentation/manage-data/indexing/#stemmer). This ensures that filtering for "running" also matches "run" and "ran". Stemming is disabled by default. Because it's language-specific, it must be configured for a specific language when enabled.
 - Certain words like "the", "is", and "and" are very common in text and don't contribute much to the meaning of text. These words are called [stopwords](/documentation/manage-data/indexing/#stopwords) and can optionally be removed during indexing. Stopword removal is disabled by default. Like stemming, it's language-specific: you can configure specific languages for stopword removal and/or provide a custom list of stopwords to remove.
-- Optionally, you can enable [phrase matching](/documentation/manage-data/indexing/#phrase-search) to allow filtering for multiple words in the exact same order as they appear in the original text.
+- Optionally, you can enable [phrase matching](/documentation/manage-data/indexing/#phrase-matching) to allow filtering for multiple words in the exact same order as they appear in the original text.
 
 These text processing steps can be configured when creating a [full-text index](/documentation/manage-data/indexing/#full-text-index). For example, to create a text index on the `title` field with ASCII folding enabled:
 
@@ -111,7 +111,7 @@ Summarizing the differences between the four filtering methods for a multi-term 
 | keyword  | `"Space War"`     | Yes               | No                      | No                    | No                          |
 
 
-To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/manage-data/indexing/#phrase-search) when creating the full-text index:
+To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/manage-data/indexing/#phrase-matching) when creating the full-text index:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-title-phrase-index/" >}}
 
