@@ -39,7 +39,10 @@ This example uses `group_id` as the tenant field. Start by creating a keyword pa
 The `is_tenant=true` parameter is optional, but specifying it gives Qdrant additional information about the collection's usage patterns.
 When set, Qdrant organizes the storage structure to co-locate vectors of the same tenant together, which can significantly improve performance by utilizing sequential reads during queries.
 
-{{< island path="content/documentation/headless/multitenancy/tenant-defrag" width="90%" title="Grouping tenants together by tenant ID, if `is_tenant=true` is used, enables more efficient disk reads. Rather than many random seeks across the file, Qdrant can read the data for a specific tenant with a sequential read." >}}
+{{< island
+    path="content/documentation/headless/multitenancy/tenant-defrag"
+    width="90%" title="Grouping tenants together by tenant ID, if `is_tenant=true` is used, enables more efficient disk reads. Rather than many random seeks across the file, Qdrant can read the data for a specific tenant with a sequential read."
+>}}
 ![Tenants defragmentation with is_tenant](/docs/defragmentation.png)
 {{< /island >}}
 
@@ -64,7 +67,8 @@ By adopting this strategy, Qdrant indexes vectors for each tenant independently,
 To implement this approach:
 
 1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
-2. Set `m` in the HNSW configuration to 0. This disables the global index for the collection.\
+2. Set `m` in the HNSW configuration to 0. This disables the global index for the collection.
+
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-disabled-global-hnsw/" >}}
 
 ### Limitations
