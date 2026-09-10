@@ -181,6 +181,30 @@ Without that payload index the rescore turns into a full scan.
 
 Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request.
 
+The geodesic needs `acosh`, and Formula Query works with `ln` and `sqrt`. Since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
+
+```json
+{
+  "sum": [1.0, {"div": {
+    "left":  {"mult": [2.0, {"pow": {"base": "$score", "exponent": 2.0}}]},
+    "right": {"mult": [0.982, {"sum": [1.0, {"neg": "sq_norm"}]}]}
+  }}]
+}
+```
+
+`$score` is the Euclidean distance the prefetch already computed. `sq_norm` comes from the payload. `0.982` is one minus the squared norm of the query, which you calculate before sending. Call that term `x`, and the query is:
+
+```json
+{
+  "prefetch": [{"query": [0.31, -0.72, 0.44, 0.09, -0.51],
+                "using": "hyperbolic", "limit": 1000}],
+  "query": {"formula": {"neg": {"ln": {"sum": [
+    x, {"sqrt": {"sum": [{"pow": {"base": x, "exponent": 2.0}}, -1.0]}}
+  ]}}}},
+  "limit": 10
+}
+```
+
 We tested this against a live Qdrant collection with all 5,595 taxonomy points.
 
 | Prefetch | Euclidean Only | With Rescore |
