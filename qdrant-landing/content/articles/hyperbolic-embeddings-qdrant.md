@@ -161,6 +161,24 @@ Grouping vectors by norm helped, but recall only reached `0.410`.
 
 So instead of forcing the converted vectors into HNSW, we changed the search strategy.
 
+The collection stores the Poincaré coordinates as an ordinary Euclidean vector, and keeps each point's squared norm in its payload:
+
+```python
+client.create_collection(
+    "taxonomy_geometry",
+    vectors_config={
+        "hyperbolic": models.VectorParams(size=5, distance=models.Distance.EUCLID),
+    },
+)
+
+client.create_payload_index(
+    "taxonomy_geometry", "sq_norm",
+    field_schema=models.PayloadSchemaType.FLOAT,
+)
+```
+
+Without that payload index the rescore turns into a full scan.
+
 Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request.
 
 We tested this against a live Qdrant collection with all 5,595 taxonomy points.
