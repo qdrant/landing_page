@@ -109,7 +109,7 @@ We can also look at how the model organizes product images. Below are convention
 
 ![Conventional and hyperbolic CLIP scatter plots of the same 165 product images](/articles_data/hyperbolic-embeddings-qdrant/clip-hyper3-scatter.png)
 
-*The same 165 Amazon Berkeley Objects product images in six categories, shown through Euclidean and Poincaré UMAP projections. Colors identify product types. These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality.*
+*The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality.*
 
 ## Testing Hyperbolic Embeddings
 
