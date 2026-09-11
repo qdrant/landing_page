@@ -90,7 +90,7 @@ Closer to the center, you can place broad concepts. Farther out, you can place m
 
 For a catalog, “footwear” covers many possible items. “Boots” narrows that set. “Red leather ankle boots” narrows it further. A representation that captures this structure has room for both semantic similarity and different levels of detail.
 
-Hyper3-CLIP, a hyperbolic image and text embedding model from hyper³labs, brings this idea to visual retrieval. It is trained to capture general-to-specific relationships alongside similarity. This gives radius a role in organizing broad descriptions and specific visual content. [[2]](#references)
+Hyper3-CLIP, a hyperbolic image and text embedding model from [hyper³labs](https://hyper3labs.com/), brings this idea to visual retrieval. It is trained to capture general-to-specific relationships alongside similarity. This gives radius a role in organizing broad descriptions and specific visual content. [[2]](#references)
 
 Consider the black Chelsea boot below. A traversal toward the origin illustrates a move from the specific product to broader concepts: black Chelsea boots, Chelsea boots, boots, and footwear.
 
@@ -168,16 +168,16 @@ The geodesic needs `acosh`, and Formula Query works with `ln` and `sqrt`. Since 
 {
   "sum": [1.0, {"div": {
     "left":  {"mult": [2.0, {"pow": {"base": "$score", "exponent": 2.0}}]},
-    "right": {"mult": [0.982, {"sum": [1.0, {"neg": "sq_norm"}]}]}
+    "right": {"mult": [0.0488, {"sum": [1.0, {"neg": "sq_norm"}]}]}
   }}]
 }
 ```
 
-`$score` is the Euclidean distance the prefetch already computed. `sq_norm` comes from the payload. `0.982` is one minus the squared norm of the query, which you calculate before sending. Call that term `x`, and the query is:
+`$score` is the Euclidean distance the prefetch already computed. `sq_norm` comes from the payload. `0.0488` is one minus the squared norm of the query, which you calculate before sending. The vector here is the stored point for Animals & Pet Supplies, whose squared norm is `0.9512`. Call that term `x`, and the query is:
 
 ```json
 {
-  "prefetch": [{"query": [0.31, -0.72, 0.44, 0.09, -0.51],
+  "prefetch": [{"query": [-0.3189, 0.9057, -0.0140, 0.1646, -0.0439],
                 "using": "hyperbolic", "limit": 1000}],
   "query": {"formula": {"neg": {"ln": {"sum": [
     x, {"sqrt": {"sum": [{"pow": {"base": x, "exponent": 2.0}}, -1.0]}}
@@ -243,3 +243,8 @@ The main point is simple. If the data is hierarchical, Qdrant gives you a practi
 5. Qdrant. [Hybrid Queries and Formula Query](https://qdrant.tech/documentation/search/hybrid-queries/).
 
 6. Amazon Berkeley Objects. [Product image](https://amazon-berkeley-objects.s3.amazonaws.com/images/small/ff/ffb123bf.jpg), item `B06XCPVVPS`, image `71KwV3JHT9L`.
+7. hyper³labs. [The Geometry Mistake Behind Modern Embedding Models](https://hyper3labs.com/blog/the-geometry-mistake/).
+8. Radford, A. et al. (2021). [Learning Transferable Visual Models From Natural Language Supervision (CLIP)](https://arxiv.org/abs/2103.00020).
+9. McInnes, L., Healy, J. and Melville, J. (2018). [UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction](https://arxiv.org/abs/1802.03426).
+10. Amazon Berkeley Objects. [Dataset and documentation](https://amazon-berkeley-objects.s3.amazonaws.com/index.html).
+11. Google. [Google Product Taxonomy](https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt).
