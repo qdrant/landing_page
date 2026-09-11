@@ -22,6 +22,10 @@ This tutorial covers four uses: parallel `scroll` across workers, restricting a 
 
 ## Setup
 
+<aside role="status">
+    The tutorial uses top-level awaits as it is adapted from <a href="https://github.com/qdrant/examples/blob/master/slicing-filter/Slicing_Filter.ipynb">this notebook</a>: if you are using the snippets in a python script, don't forget to use <code>asyncio</code> (or another async runtime like <code>trio</code>) to run the code.
+</aside>
+
 We first need to install the [Qdrant Python Client](https://github.com/qdrant/qdrant-client):
 
 ```bash
@@ -62,10 +66,33 @@ import random
 random.seed(0)
 
 products = {
-    "electronics": ["wireless earbuds", "4K monitor", "mechanical keyboard", "USB-C hub", "smartwatch"],
-    "books": ["science fiction novel", "cookbook", "history book", "graphic novel", "poetry collection"],
-    "clothing": ["running shoes", "wool sweater", "denim jacket", "rain jacket", "cotton t-shirt"],
-    "home": ["cast iron pan", "ceramic mug", "throw blanket", "desk lamp", "storage basket"],
+    "electronics": [
+        "wireless earbuds", 
+        "4K monitor", 
+        "mechanical keyboard", 
+        "USB-C hub",
+        "smartwatch",
+    ],
+    "books": [
+        "science fiction novel", 
+        "cookbook", "history book", 
+        "graphic novel", 
+        "poetry collection",
+    ],
+    "clothing": [
+        "running shoes", 
+        "wool sweater", 
+        "denim jacket", 
+        "rain jacket", 
+        "cotton t-shirt",
+    ],
+    "home": [
+        "cast iron pan", 
+        "ceramic mug", 
+        "throw blanket", 
+        "desk lamp", 
+        "storage basket",
+    ],
 }
 categories = list(products)
 
@@ -161,40 +188,6 @@ print(f"sum across workers: {sum(len(s) for s in slices)}")
 
 Every point appears in exactly one slice, so the counts add up to the full collection with no overlap and no gaps.
 
-## Restricting a Vector Search to a Slice
-
-`slice` is not limited to `scroll`. It also works as a `query_points` filter, so a vector search can be restricted to a fixed, reproducible subset of the collection, for example to hold out a portion of the data for evaluation while searching the rest:
-
-```python
-results = await client.query_points(
-    collection_name=collection_name,
-    query=models.Document(text="warm winter jacket", model=embedding_model),
-    query_filter=models.Filter(
-        must=[models.SliceCondition(slice=models.Slice(index=0, total=5))],
-    ),
-    limit=5,
-    with_payload=True,
-)
-```
-
-We now install [`siphash24`](https://pypi.org/project/siphash24/), a Python implementation of SipHash-2-4, the hash function `slice` uses internally.
-
-```bash
-! pip install siphash24
-```
-
-With the hashing library installed, we can recompute the slice independently of the client and verify that every retrieved point really does belong to slice `0`:
-
-```python
-from siphash24 import siphash24
-
-def slice_of(point_id: int, total: int) -> int:
-    digest = siphash24(point_id.to_bytes(8, "little")).digest()
-    return int.from_bytes(digest, "little") % total
-
-print(f"all results in slice 0: {all(slice_of(p.id, 5) == 0 for p in results.points)}")
-# all results in slice 0: True
-```
 
 ## Reproducible Sampling
 
