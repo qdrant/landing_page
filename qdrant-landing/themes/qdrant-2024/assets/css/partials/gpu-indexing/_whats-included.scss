@@ -50,8 +50,9 @@
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 4;
-    padding-bottom: $spacer * 4;
+    // 120px top and bottom in the frame, wider than the 64px the other sections use.
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
 
     &__grid {
       grid-template-columns: repeat(3, 1fr);
