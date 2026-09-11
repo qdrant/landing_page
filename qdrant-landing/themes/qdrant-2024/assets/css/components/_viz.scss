@@ -12,16 +12,24 @@
   --viz-ink: #{$neutral-20};
   --viz-muted: #{$neutral-50};
   --viz-grid: #{$neutral-90};
+  --viz-surface: #{$neutral-100};
+  --viz-border: #{$neutral-90};
 }
 
 [data-theme='dark'] {
   --viz-ink: #{$neutral-98};
   --viz-muted: #{$neutral-80};
   --viz-grid: #{$neutral-30};
+  --viz-surface: #{$neutral-20};
+  --viz-border: #{$neutral-30};
 }
 
 .viz-figure {
   margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--viz-surface);
+  border: 1px solid var(--viz-border);
+  border-radius: 10px;
 }
 
 .viz-figure__svg {
@@ -33,7 +41,9 @@
 }
 
 .viz-figure__caption {
-  margin-top: 0.75rem;
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--viz-border);
   font-size: $font-size-s;
   line-height: 1.5;
   color: var(--viz-muted);
