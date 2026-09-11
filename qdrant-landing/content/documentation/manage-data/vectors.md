@@ -148,6 +148,7 @@ To search with multivector (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/multivector/" >}}
 
+The maximum number of sub-vectors has a hard limit and is determined by the formula `number_of_sub_vectors * vector_size < 1,048,576`. For a 4096-dimensional model this allows up to 255 sub-vectors per point. The limit is not configurable. If a late-interaction model produces more sub-vectors than the limit allows, pool the token vectors before storing, or split the document into multiple points and aggregate scores at query time.
 
 ## Named Vectors
 
