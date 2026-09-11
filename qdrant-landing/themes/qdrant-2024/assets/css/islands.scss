@@ -28,7 +28,9 @@
 }
 
 // Fallback (the shortcode's inner markdown, usually an image). Layered over the
-// stage so it never affects the reservation; hidden by the loader on island:ready.
+// stage so it never affects the reservation. It is the NO-JS / error view: shown
+// by default (no JS), hidden while JS drives the island, and revealed again only
+// if the island fails (`.island.is-failed`). See the visibility rules below.
 .island__fallback {
   position: absolute;
   inset: 0;
@@ -46,6 +48,20 @@
   object-fit: contain;
 }
 
+// Loading UX. `islands-js` is set on <html> in the <head> when JS is enabled, so
+// there is no fallback flash: with JS, the loader shows while the island loads
+// and the fallback stays hidden; it returns only on failure. Without JS, only
+// the fallback shows (the spinner never appears).
+.islands-js .island__fallback {
+  display: none;
+}
+.islands-js .island.is-failed .island__fallback {
+  display: block;
+}
+.islands-js .island.is-failed .island__mount {
+  display: none;
+}
+
 // Shared caption/title for both the fallback and the live island.
 .island__caption {
   margin: 0.6rem 0 0;
@@ -55,16 +71,23 @@
   opacity: 0.75;
 }
 
+// Spinner: hidden by default (no-JS never shows it). With JS it shows while the
+// island is loading, then is hidden once the island settles (ready or failed).
 .island__spinner {
   position: absolute;
   inset: 0;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   gap: 6px;
   pointer-events: none;
+  color: var(--island-spinner, currentColor);
 }
-.island__spinner[hidden] {
+.islands-js .island__spinner {
+  display: flex;
+}
+.islands-js .island.is-ready .island__spinner,
+.islands-js .island.is-failed .island__spinner {
   display: none;
 }
 

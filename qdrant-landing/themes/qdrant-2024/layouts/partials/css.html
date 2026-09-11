@@ -18,6 +18,11 @@
 <!--Content islands: shell CSS half (wrapper/fallback/spinner). Behavior half (loader) is in js.html.
     `.HasShortcode` is parse-derived, so it works here in <head> where .Store/hasIslands is not yet set.-->
 {{ if .HasShortcode "island" }}
+  {{/* Mark JS as available before the body paints, so islands can show a loader
+       (not the fallback image) while they load — avoids a fallback flash. */}}
+  <script>
+    document.documentElement.classList.add('islands-js');
+  </script>
   {{ $islandsCss := resources.Get "css/islands.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $islandsCss.RelPermalink }}" rel="stylesheet" integrity="{{ $islandsCss.Data.Integrity }}" />
 {{ end }}
