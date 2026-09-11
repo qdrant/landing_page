@@ -108,10 +108,10 @@ function panel(c, p, data, w, h) {
     marginLeft, marginRight, marginTop, marginBottom,
     style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none',
              color: MUTED },
-    x: { label: null, domain: data.map(barKey), tickFormat: () => '' },
+    x: { label: null, domain: data.map(barKey), tickFormat: () => '', tickSize: 0 },
     // A panel may override the shared max: nDCG and recall live on very
     // different ranges, and a shared axis flattens one of them.
-    y: { label: null, domain: [0, p.yMax ?? c.yMax], grid: true, nice: false },
+    y: { label: null, domain: [0, p.yMax ?? c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: data.map(barKey), range: colors },
     marks: [
       Plot.barY(data, { x: barKey, y: p.y, fill: barKey, rx: 1.5, inset: 14 }),
@@ -266,14 +266,16 @@ function linesFacet(c) {
       marginTop: LAYOUT.top, marginBottom: LAYOUT.bottom,
       style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none',
                color: MUTED },
-      x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]),
+      x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]), tickSize: 0,
            tickFormat: (v) => `${v}${c.xSuffix ?? ''}` },
       // A log axis defaults to a tick at every 1,2,3…9,10,20,30… which draws
       // ~33 gridlines per panel and leaves most tick labels blank. Only the
       // decades earn a line.
       y: { type: c.yScale || 'linear', domain: (c.yDomains && c.yDomains[fv]) || c.yDomain,
            grid: true, label: null,
-           ticks: c.yScale === 'log' ? decades(c.yDomain) : undefined },
+           tickSize: 0,
+           ticks: c.yScale === 'log' ? decades(c.yDomain)
+             : ((c.yTicks && c.yTicks[fv]) || undefined) },
       marks: [
         ...(c.refLine
           ? [Plot.ruleY([c.refLine.value], { stroke: MUTED, strokeDasharray: '4 3', strokeWidth: 1 }),
@@ -367,8 +369,8 @@ function groupedColumns(c) {
     marginLeft: mL, marginRight: mR, marginTop: mT, marginBottom: mB,
     style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
     x: { axis: null, domain: series },
-    fx: { label: null, domain: groups, tickFormat: (v) => v },
-    y: { label: null, domain: [0, c.yMax], grid: true, nice: false },
+    fx: { label: null, domain: groups, tickFormat: (v) => v, tickSize: 0 },
+    y: { label: null, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: series, range: colors },
     marks: [
       Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, inset: 2 }),

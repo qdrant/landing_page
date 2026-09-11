@@ -112,7 +112,7 @@ for ef in (16, 64, 128, 256, 512):
 
 [`exact=True`](/documentation/search/search/#exact-search) runs a full scan. Both columns below come from that loop against a one-shard SciFact collection, over 50 queries, timed from the client so the network round trip sits inside the number:
 
-{{< chart id="candidate-depth/sweep" caption="Recall is already 0.999 at hnsw_ef=128 and flat after it, while time per query keeps climbing. Past 128 you are paying latency for precision the index has already found." >}}
+{{< chart id="candidate-depth/sweep" caption="Recall is already 0.999 at hnsw_ef=128 and flat after it, while time per query edges up from 1.98 to 2.45 ms. Neither move is large, which is the point: past 128 you pay a little latency for precision the index has already found." >}}
 
 | `hnsw_ef` | Recall Against Exact | Milliseconds per Query |
 |---|---|---|

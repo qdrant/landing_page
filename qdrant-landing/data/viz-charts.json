@@ -145,12 +145,12 @@
     "yScale": "linear",
     "yDomains": {
       "Recall against exact": [
-        0.98,
-        1.002
+        0.9,
+        1.001
       ],
       "Milliseconds per query": [
-        1.8,
-        2.6
+        0,
+        3
       ]
     },
     "yLabels": {
@@ -166,7 +166,20 @@
     "unit": "",
     "width": 980,
     "height": 340,
-    "extraHeight": 8
+    "extraHeight": 8,
+    "yTicks": {
+      "Recall against exact": [
+        0.9,
+        0.95,
+        1.0
+      ],
+      "Milliseconds per query": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
   },
   {
     "id": "bits1-rescore/recovery",
