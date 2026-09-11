@@ -108,6 +108,8 @@ The table reports how each configuration then scored on 200 held-out queries.
 Quality scope: these rows run at Qdrant's default <code>memory</code> configuration and report no latency, because sequential query passes warmed the page cache. The latency table above reports the placements instead.
 </aside>
 
+{{< chart id="oversampling/recall" caption="Without rescoring, 1-bit quantization recalls only 0.605 of what exact search finds. Oversampling brings it back to 0.988 — nearly the float32 baseline — at 1/32 the vector size." >}}
+
 | Quantization | `rescore` | `nDCG@10` | `Recall@10` Against Exact |
 |---|---|---|---|
 | float32 | not applicable | 0.3103 | 0.957 |

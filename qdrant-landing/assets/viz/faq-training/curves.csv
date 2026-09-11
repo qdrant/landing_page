@@ -1,0 +1,13 @@
+metric,epoch,train,val
+Precision@1,0,0.650,0.659
+Precision@1,100,0.665,0.673
+Precision@1,200,0.677,0.682
+Precision@1,300,0.686,0.688
+Precision@1,400,0.695,0.694
+Precision@1,500,0.701,0.700
+Reciprocal rank,0,0.732,0.741
+Reciprocal rank,100,0.746,0.754
+Reciprocal rank,200,0.757,0.763
+Reciprocal rank,300,0.765,0.768
+Reciprocal rank,400,0.772,0.773
+Reciprocal rank,500,0.778,0.777

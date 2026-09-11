@@ -1,0 +1,8 @@
+variant,setting,ndcg_at_10,recall_at_10
+float32,no quant,0.3103,0.957
+TQ 4-bit,rescore off,0.3218,0.918
+TQ 4-bit,oversample 4,0.3238,0.993
+TQ 1-bit,rescore off,0.2786,0.605
+TQ 1-bit,oversample 1,0.3114,0.951
+TQ 1-bit,oversample 2,0.3128,0.977
+TQ 1-bit,oversample 4,0.3178,0.988

@@ -71,7 +71,10 @@ const readableInk = (hex) => {
   return L > 0.45 ? viz.surface.ink : '#ffffff';
 };
 
-const barKey = (d) => `${d.engine}|${d.config}`;
+// Which CSV columns label a bar. Defaults keep the diskbbq chart working.
+const topCol = (c) => c.labelTop || 'engine';
+const botCol = (c) => c.labelBottom || 'config';
+const keyOf = (c) => (d) => `${d[topCol(c)]}|${d[botCol(c)]}`;
 
 // Powers of ten inside a domain, for log axes.
 const decades = ([lo, hi]) => {
@@ -82,8 +85,11 @@ const decades = ([lo, hi]) => {
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 function panel(c, p, data, w, h) {
+  const barKey = keyOf(c);
   const values = rawCol(c.data, p.y);
-  const colors = [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[3]];
+  const colors = c.colors
+    ? c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]))
+    : [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[3]];
   const { top: marginTop, bottom: marginBottom, left: marginLeft, right: marginRight } = LAYOUT;
 
   const node = Plot.plot({
@@ -93,7 +99,9 @@ function panel(c, p, data, w, h) {
     style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none',
              color: MUTED },
     x: { label: null, domain: data.map(barKey), tickFormat: () => '' },
-    y: { label: null, domain: [0, c.yMax], grid: true, nice: false },
+    // A panel may override the shared max: nDCG and recall live on very
+    // different ranges, and a shared axis flattens one of them.
+    y: { label: null, domain: [0, p.yMax ?? c.yMax], grid: true, nice: false },
     color: { domain: data.map(barKey), range: colors },
     marks: [
       Plot.barY(data, { x: barKey, y: p.y, fill: barKey, rx: 1.5, inset: 14 }),
@@ -105,10 +113,10 @@ function panel(c, p, data, w, h) {
         fill: { value: () => INK, scale: null },
         fontSize: viz.type.axis, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 24, frameAnchor: 'bottom', textAnchor: 'middle',
-        fontFamily: MONO, text: (d) => d.engine,
+        fontFamily: MONO, text: (d) => d[topCol(c)],
         fill: INK, fontSize: viz.type.axis, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 40, frameAnchor: 'bottom', textAnchor: 'middle',
-        fontFamily: MONO, text: (d) => d.config,
+        fontFamily: MONO, text: (d) => d[botCol(c)],
         fill: MUTED, fontSize: viz.type.label }),
     ],
   });
@@ -137,9 +145,9 @@ function panel(c, p, data, w, h) {
       c: colors[i],
     }));
     return `<rect data-viz-zone data-viz-key="${esc(barKey(d))}"`
-      + ` data-viz-title="${esc(d.engine + ' · ' + d.config)}"`
+      + ` data-viz-title="${esc(d[topCol(c)] + ' · ' + d[botCol(c)])}"`
       + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
-      + ` tabindex="0" role="button" aria-label="${esc(d.engine + ' ' + d.config)}"`
+      + ` tabindex="0" role="button" aria-label="${esc(d[topCol(c)] + ' ' + d[botCol(c)])}"`
       + ` x="${marginLeft + i * bandW}" y="${marginTop}" width="${bandW}"`
       + ` height="${h - marginTop - marginBottom}" fill="transparent"/>`;
   }).join('');
@@ -237,7 +245,7 @@ function linesFacet(c) {
   const data = readCsv(c.data);
   const facets = [...new Set(data.map((d) => d[c.facet]))];
   const gap = LAYOUT.gap;
-  const pw = (c.width - gap) / facets.length;
+  const pw = (c.width - gap * (facets.length - 1)) / facets.length;
 
   return facets.map((fv, fi) => {
     const rows_ = data.filter((d) => d[c.facet] === fv);
@@ -249,7 +257,7 @@ function linesFacet(c) {
       style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none',
                color: MUTED },
       x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]),
-           tickFormat: (v) => `${v}%` },
+           tickFormat: (v) => `${v}${c.xSuffix ?? ''}` },
       // A log axis defaults to a tick at every 1,2,3…9,10,20,30… which draws
       // ~33 gridlines per panel and leaves most tick labels blank. Only the
       // decades earn a line.
@@ -342,7 +350,7 @@ for (const c of manifest) {
   if (c.kind !== 'columns-2panel') throw new Error(`unsupported kind ${c.kind}`);
   const data = readCsv(c.data);
   const gap = LAYOUT.gap;
-  const pw = (c.width - gap) / 2;
+  const pw = (c.width - gap * (c.panels.length - 1)) / c.panels.length;
   // No frame: gridlines carry the structure, so nothing can touch a border.
   const body = c.panels.map((p, i) =>
     `<g transform="translate(${i * (pw + gap)},0)">${panel(c, p, data, pw, c.height)}</g>`).join('');

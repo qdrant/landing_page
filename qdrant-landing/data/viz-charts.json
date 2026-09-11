@@ -89,6 +89,75 @@
     "height": 360,
     "extraHeight": 44,
     "unit": "RPS",
-    "subtitle": "higher is better"
+    "subtitle": "higher is better",
+    "xSuffix": "%"
+  },
+  {
+    "id": "faq-training/curves",
+    "data": "assets/viz/faq-training/curves.csv",
+    "kind": "lines-facet",
+    "facet": "metric",
+    "facetLabel": "{}",
+    "x": "epoch",
+    "xLabel": "training epoch",
+    "xSuffix": "",
+    "yLabel": "score",
+    "yScale": "linear",
+    "yDomain": [
+      0.63,
+      0.8
+    ],
+    "series": [
+      "val",
+      "train"
+    ],
+    "seriesLabels": [
+      "validation",
+      "train"
+    ],
+    "unit": "",
+    "width": 980,
+    "height": 340,
+    "extraHeight": 44
+  },
+  {
+    "id": "oversampling/recall",
+    "data": "assets/viz/oversampling/recall.csv",
+    "kind": "columns-2panel",
+    "labelTop": "variant",
+    "labelBottom": "setting",
+    "colors": [
+      "muted",
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "width": 980,
+    "height": 400,
+    "yMax": 1.0,
+    "panels": [
+      {
+        "title": "Recall@10 against exact search",
+        "subtitle": "higher is better",
+        "y": "recall_at_10",
+        "axis": "recall@10",
+        "unit": ""
+      }
+    ],
+    "tooltip": [
+      {
+        "label": "recall@10",
+        "field": "recall_at_10",
+        "unit": ""
+      },
+      {
+        "label": "nDCG@10",
+        "field": "ndcg_at_10",
+        "unit": ""
+      }
+    ]
   }
 ]
