@@ -1,0 +1,38 @@
+{{ with (.Site.GetPage "/observability/why-it-matters") }}
+  <section class="observability-why-it-matters">
+    <div class="container">
+      <p class="observability-why-it-matters__label">{{ .Params.label }}</p>
+      <div class="observability-why-it-matters__header">
+        <h3 class="observability-why-it-matters__title">{{ .Params.title }}</h3>
+        <div class="observability-why-it-matters__content">
+          <p class="observability-why-it-matters__description">{{ .Params.description }}</p>
+          <a class="link link_md observability-why-it-matters__link" href="{{ .Params.link.url }}">
+            {{ .Params.link.text }}
+          </a>
+        </div>
+      </div>
+      <div class="observability-why-it-matters__preview">
+        <img
+          class="observability-why-it-matters__preview-image"
+          src="{{ .Params.image.src }}"
+          alt="{{ .Params.image.alt }}"
+        />
+        <img
+          class="observability-why-it-matters__preview-image-mobile"
+          src="{{ .Params.image.mobileSrc }}"
+          alt="{{ .Params.image.alt }}"
+        />
+      </div>
+      <div class="row g-5">
+        {{ range .Params.features }}
+        <div class="col-12 col-lg-4">
+          <div class="observability-why-it-matters__card">
+            <h5 class="observability-why-it-matters__card-title">{{ .title }}</h5>
+            <p class="observability-why-it-matters__card-description">{{ .description }}</p>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

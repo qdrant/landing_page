@@ -40,6 +40,10 @@ You can create a Cloud Management Keys in the Cloud Console UI. Go to **Access M
 
 **Note:** Ensure that the API key is kept secure and not exposed in public repositories or logs.  Once authenticated, the API allows you to manage clusters, backup schedules, and perform other operations available to your account.
 
+<aside role="alert">
+    A Cloud Management Key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted, so it can still be used to manage the account even after its creator no longer has access. Revoke any Cloud Management Keys tied to a user before or when removing them from the account.
+</aside>
+
 ### Samples
 
 For samples on how to use the API, with a tool like grpcurl, curl or any of the provided SDKs, please see the [Qdrant Cloud Public API](https://github.com/qdrant/qdrant-cloud-public-api) repository.

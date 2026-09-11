@@ -124,13 +124,19 @@ On-disk retrieval benefits from fast, local storage. If you're self hosting Qdra
 
 *Available as of v1.16.0*
 
-Avoid putting the HNSW vector index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of three to four times more disk usage.
+Avoid putting the HNSW vector index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of more disk usage.
 
-## Legacy Settings
+Enabling inline storage can significantly increase the size of the HNSW index. Do not use inline storage if the HNSW index is in RAM ([`pinned` or `cached` tiers](/documentation/ops-configuration/memory-tiers/)). To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method [that compresses to at most 4 bits per dimension](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method), such as TurboQuant.
 
-Before version 1.19, memory placement was controlled by a different set of parameters. These parameters are deprecated. If you're on a version older than 1.19, you can use the following tables to map the new `memory` parameter to the legacy parameters.
+## Migrating
 
-### Dense Vectors
+When migrating from a pre-1.19 version to a newer version, Qdrant doesn't automatically convert any [legacy settings](#legacy-settings) that control memory placement to the new `memory` setting. The legacy settings have only been deprecated, not removed, so your existing settings remain working. A pre-1.19 collection with legacy settings will continue to work on newer versions without having to change its configuration.
+
+### Legacy Settings
+
+Before version 1.19, memory placement was controlled by a different set of parameters. These parameters are deprecated. Use the following tables to map the new `memory` parameter to the legacy parameters.
+
+#### Dense Vectors
 
 The legacy parameter is `on_disk`.
 
@@ -139,7 +145,7 @@ The legacy parameter is `on_disk`.
 | `cached` | `on_disk: false` |
 | `cold` | `on_disk: true` |
 
-### HNSW Vector Index
+#### HNSW Vector Index
 
 The legacy parameter is `on_disk`, set in `hnsw_config`.
 
@@ -149,7 +155,7 @@ The legacy parameter is `on_disk`, set in `hnsw_config`.
 | `cached` | `on_disk: false` |
 | `cold` | `on_disk: true` |
 
-### Quantized Vectors
+#### Quantized Vectors
 
 The legacy parameter is `always_ram`. `always_ram: true` always resolves to `pinned`. Otherwise, quantized vectors inherit the original vectors' placement: `pinned` if the vectors are in RAM, `cold` if they're on disk.
 
@@ -159,7 +165,7 @@ The legacy parameter is `always_ram`. `always_ram: true` always resolves to `pin
 | `cached` | No legacy equivalent |
 | `cold` | Inherited from the original vectors |
 
-### Sparse Vector Index
+#### Sparse Vector Index
 
 The legacy parameter is `on_disk`.
 
@@ -169,7 +175,7 @@ The legacy parameter is `on_disk`.
 | `cached` | No legacy equivalent |
 | `cold` | `on_disk: true` |
 
-### Payloads
+#### Payloads
 
 The legacy parameter is `on_disk_payload`, set on the collection.
 
@@ -178,7 +184,7 @@ The legacy parameter is `on_disk_payload`, set on the collection.
 | `cached` | `on_disk_payload: false` |
 | `cold` | `on_disk_payload: true` |
 
-### Payload Indexes
+#### Payload Indexes
 
 The legacy parameter is `on_disk`, set on each field index.
 

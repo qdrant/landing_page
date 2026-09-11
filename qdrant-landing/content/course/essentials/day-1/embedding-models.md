@@ -90,7 +90,7 @@ We will cover more about sparse vectors on day 3. If you would like to read up o
 
 While most models produce one vector per input, advanced techniques like late-interaction models (e.g., ColBERT) generate a set of vectors, often one for each token. Qdrant's multivector lets you store this whole matrix on a single point.
 
-![MultivVector generation](/courses/day1/multivector.png)
+![Multivector generation](/courses/day1/multivector.png)
 
 **Structure:**
 - Variable number of vectors per set (multivector rows)
@@ -231,7 +231,7 @@ These models run locally on your own hardware (CPU or GPU) but require managing 
 
 ## Payloads (Metadata)
 
-While vectors capture the essence of data, payloads hold structured metadata for filtering and refinement. This combination enables to combine semantic relevance from vectors with business logic from payloads.
+While vectors capture the essence of data, payloads hold structured metadata for filtering and refinement. This combination enables you to combine semantic relevance from vectors with business logic from payloads.
 
 Payloads can store textual data (descriptions, tags, categories), numerical values (dates, prices, ratings), and complex structures (nested objects, arrays). When searching for dog images, for example, the vector finds visually similar images while payload filters narrow results to images taken within the last year, tagged with "vacation," or meeting specific rating criteria.
 

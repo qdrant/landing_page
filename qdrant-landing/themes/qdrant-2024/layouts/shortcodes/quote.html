@@ -52,7 +52,7 @@
     <img
       class="customer-quote__avatar"
       src="{{ . }}"
-      alt="{{ $name }}"
+      alt=""
       width="48"
       height="48"
       loading="lazy"
@@ -72,7 +72,12 @@
       {{- end }}
     </div>
     {{- with $logo }}
-    <img class="customer-quote__logo" src="{{ . }}" alt="" loading="lazy" />
+    <img
+      class="customer-quote__logo"
+      src="{{ . }}"
+      alt="{{ with $company }}{{ . }}{{ end }}"
+      loading="lazy"
+    />
     {{- end }}
   </figcaption>
   {{- end }}

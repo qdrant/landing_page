@@ -25,7 +25,7 @@ aliases: [ /blog/binary-quantization-openai/ ]
 category: search-quality
 ---
 
-OpenAI Ada-003 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings are a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.
+OpenAI Ada-003 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.
 
 In this post, we discuss:
 
@@ -47,7 +47,7 @@ These models include multilingual support in over 100 languages. The transition 
 
 #### Matryoshka representation learning
 
-The new OpenAI models have been trained with a novel approach called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions). In this post, we use small and large variants. Developers can select embeddings which balances accuracy and size.
+The new OpenAI models have been trained with a novel approach called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions). In this post, we use small and large variants. Developers can select embeddings which balance accuracy and size.
 
 Here, we show how the accuracy of binary quantization is quite good across different dimensions -- for both the models. 
 
@@ -62,7 +62,7 @@ The accompanying graph illustrates the promising accuracy levels achievable with
 The efficiency gains from Binary Quantization are as follows: 
 
 - Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, and scales up to 30x at the same cost. 
-- Enhanced speed of data retrieval: Smaller data sizes generally leads to faster searches. 
+- Enhanced speed of data retrieval: Smaller data sizes generally lead to faster searches. 
 - Accelerated search process: It is based on simplified distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
 
 ### Experiment setup: OpenAI embeddings in focus
@@ -73,7 +73,7 @@ This approach not only leverages the high-caliber OpenAI embeddings but also pro
 
 #### Dataset
 
- The research employs 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) 1M dataset, focusing on 100 randomly selected records. These records serve as queries in the experiment, aiming to assess how Binary Quantization influences search efficiency and precision within the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
+ The research employs 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) dataset, focusing on 100 randomly selected records. These records serve as queries in the experiment, aiming to assess how Binary Quantization influences search efficiency and precision within the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
 
 #### Parameters: oversampling, rescoring, and search limits
 
@@ -83,7 +83,7 @@ For each record, we run a parameter sweep over the number of oversampling, resco
 
 - **Rescoring**: Rescoring refines the first results of an initial binary search. This process leverages the original high-dimensional vectors to refine the search results, **always** improving accuracy. We toggled rescoring on and off to measure effectiveness, when combined with Binary Quantization. We also measured the impact on search performance. 
 
-- **Search Limits**: We specify the number of results from the search process. We experimented with various search limits to measure their impact the accuracy and efficiency. We explored the trade-offs between search depth and performance. The results provide insight for applications with different precision and speed requirements.
+- **Search Limits**: We specify the number of results from the search process. We experimented with various search limits to measure their impact on the accuracy and efficiency. We explored the trade-offs between search depth and performance. The results provide insight for applications with different precision and speed requirements.
 
 Through this detailed setup, our experiment sought to shed light on the nuanced interplay between Binary Quantization and the high-quality embeddings produced by OpenAI's models. By meticulously adjusting and observing the outcomes under different conditions, we aimed to uncover actionable insights that could empower users to harness the full potential of Qdrant in combination with OpenAI's embeddings, regardless of their specific application needs.
 
@@ -95,7 +95,7 @@ To analyze the impact of rescoring (`True` or `False`), we compared results acro
 
 ![Graph that measures the impact of rescoring](/blog/openai/Rescoring_Impact.png)
 
-Here are some key observations, which analyzes the impact of rescoring (`True` or `False`):
+Here are some key observations, which analyze the impact of rescoring (`True` or `False`):
 
 1. **Significantly Improved Accuracy**:
    - Across all models and dimension configurations, enabling rescoring (`True`) consistently results in higher accuracy scores compared to when rescoring is disabled (`False`).
@@ -111,7 +111,7 @@ In contrast, for lower dimension models (such as text-embedding-3-small with 512
 3. **Influence of Search Limit**:
    - The performance gain from rescoring seems to be relatively stable across different search limits, suggesting that rescoring consistently enhances accuracy regardless of the number of top results considered.
 
-In summary, enabling rescoring dramatically improves search accuracy across all tested configurations. It is crucial feature for applications where precision is paramount. The consistent performance boost provided by rescoring underscores its value in refining search results, particularly when working with complex, high-dimensional data like OpenAI embeddings. This enhancement is critical for applications that demand high accuracy, such as semantic search, content discovery, and recommendation systems, where the quality of search results directly impacts user experience and satisfaction.
+In summary, enabling rescoring dramatically improves search accuracy across all tested configurations. It is a crucial feature for applications where precision is paramount. The consistent performance boost provided by rescoring underscores its value in refining search results, particularly when working with complex, high-dimensional data like OpenAI embeddings. This enhancement is critical for applications that demand high accuracy, such as semantic search, content discovery, and recommendation systems, where the quality of search results directly impacts user experience and satisfaction.
 
 ### Dataset combinations
 

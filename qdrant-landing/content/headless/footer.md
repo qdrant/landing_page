@@ -24,7 +24,7 @@ menuItems:
   - title: Products
     items:
       - id: 0
-        name: Qdrant Vector Database
+        name: Qdrant Vector Search Engine
         url: /qdrant-vector-database/
       - id: 1
         name: Qdrant Cloud

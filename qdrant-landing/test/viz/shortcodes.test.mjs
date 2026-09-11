@@ -16,11 +16,15 @@ test('figure wrapper renders caption, role and aria-labelledby', () => {
   const html = getFixtureHtml();
   assert.match(html, /<figure class="viz-figure"/, 'figure wrapper missing');
   assert.match(html, /role="img"/, 'svg must carry role="img"');
-  assert.match(html, /aria-labelledby="viz-title-smoke"/, 'aria-labelledby must point at the title id');
-  assert.match(html, /<title id="viz-title-smoke">Smoke test caption\.<\/title>/,
-    'svg <title> must carry the caption');
-  assert.match(html, /<figcaption class="viz-figure__caption">Smoke test caption\.<\/figcaption>/,
-    'caption must also be visible');
+  // The accessible name points at the VISIBLE figcaption. Deliberately not an
+  // SVG <title>: that renders as the browser's own tooltip on hover, floating
+  // over the chart's metrics tooltip and repeating the caption underneath it.
+  assert.match(html, /aria-labelledby="viz-cap-smoke"/,
+    'aria-labelledby must point at the figcaption id');
+  assert.doesNotMatch(html, /<title id="viz-/,
+    'no SVG <title> — it raises a native browser tooltip over the chart');
+  assert.match(html, /<figcaption class="viz-figure__caption" id="viz-cap-smoke">Smoke test caption\.<\/figcaption>/,
+    'caption must be visible and carry the id the svg points at');
 });
 
 test('no viz color is duplicated into SCSS', () => {

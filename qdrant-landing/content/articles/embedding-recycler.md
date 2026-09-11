@@ -37,7 +37,7 @@ However, they find out that it does not work equally for all the tasks.
 For example, the question answering task suffers from a more significant degradation in performance with 50% of the layers recycled,
 and they choose to lower it down to 25% for this task,
 so they suggest determining the level of caching based on the task at hand.
-they also note that caching provides a more considerable speedup for larger models and on lower-end machines.
+They also note that caching provides a more considerable speedup for larger models and on lower-end machines.
 
 In layer recycling, the cache is hit for exactly the same object.
 It is easy to achieve this in textual data as it is easily hashable,
@@ -53,7 +53,7 @@ and I believe that these findings will be helpful for your future projects.
 We conducted different experiments to test the performance with:
 1. Different numbers of layers recycled in [the similar cars search example](https://quaterion.qdrant.tech/tutorials/cars-tutorial.html).
 2. Different numbers of samples in the dataset for training and fine-tuning for similar cars search.
-3. Different numbers of layers recycled in [the question answerring example](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
+3. Different numbers of layers recycled in [the question answering example](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
 
 ## Easy layer recycling with Quaterion
 The easiest way of caching layers in Quaterion is to compose a [TrainableModel](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel)
@@ -101,7 +101,7 @@ while still benefiting from the speedup in the frozen `Encoder` provided by the 
 The paper states that recycling 50% of the layers yields little to no loss in performance when compared to full fine-tuning.
 In this setup, we compared performances of four methods:
 1. Freeze the whole base model and train only `EncoderHead`.
-2. Move one of the four residual blocks `EncoderHead` and train it together with the head layer while freezing the rest (75% layer recycling).
+2. Move one of the four residual blocks to `EncoderHead` and train it together with the head layer while freezing the rest (75% layer recycling).
 3. Move two of the four residual blocks to `EncoderHead` while freezing the rest (50% layer recycling).
 4. Train the whole base model together with `EncoderHead`.
 

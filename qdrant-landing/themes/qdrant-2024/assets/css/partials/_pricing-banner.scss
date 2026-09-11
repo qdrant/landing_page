@@ -51,6 +51,16 @@
       mix-blend-mode: overlay;
     }
   }
+
+  &__label {
+    margin-bottom: $spacer * 0.5;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    text-transform: uppercase;
+  }
   
   &__text {
     max-width: pxToRem(675);

@@ -55,11 +55,6 @@
   <script src="{{ $vizJs.RelPermalink }}" defer></script>
 {{ end }}
 
-{{ if eq .Section "security" }}
-  {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
-{{ end }}
-
 {{ if eq .Section "pricing" }}
   {{ $pricingTableJs := resources.Get "/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
@@ -133,12 +128,27 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if in (slice "security" "resilience" "quantization" "observability" "cloud-inference") .Section }}
+  {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "resilience" "qdrant-cloud") .Section }}
+  {{ $pricingTableJs := resources.Get "/js/sticky-tabs.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "qdrant-cloud" }}
   {{ $customersJs := resources.Get "js/qdrant-cloud.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
+          
+{{ if in (slice "qdrant-cloud" "resilience") .Section }}
+  {{ $customersJs := resources.Get "js/nested-accordion.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
 
-{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "docs" "documentation") .Section }}
+{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "quantization" "docs" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 

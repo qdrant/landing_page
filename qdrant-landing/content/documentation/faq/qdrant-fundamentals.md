@@ -59,7 +59,9 @@ There are two possible reasons for this:
 
 ### How many vectors can I store in a point? Can a point have no vector at all?
 
-A point can hold any number of dense, sparse, and multi vectors, though each has to be configured in the collection's schema. There's no hard limit imposed by Qdrant, though practical limits apply: each additional vector increases memory usage, so the realistic ceiling is determined by available RAM and storage. You can attach a single vector, or multiple vectors with different names (for example, a dense vector for semantic search alongside a sparse vector for keyword matching). This lets you run [hybrid queries](/documentation/search/hybrid-queries/) over several representations of the same data within one collection. Each vector must be defined in the collection's schema.
+A point can hold any number of named vector fields (dense, sparse, and multivector), though each has to be configured in the collection's schema. There is no hard limit on the number of named vector fields per point. Practical limits apply: each additional vector increases memory usage, so the realistic ceiling is determined by available RAM and storage. You can attach a single vector, or multiple vectors with different names (for example, a dense vector for semantic search alongside a sparse vector for keyword matching). This lets you run [hybrid queries](/documentation/search/hybrid-queries/) over several representations of the same data within one collection.
+
+Within a single multivector field, each point is subject to a hard limit: the total number of flattened float elements must be less than 1,048,576. In practice, `number_of_sub_vectors * vector_size < 1,048,576`. For a 4096-dimensional model, that caps a single multivector at 255 sub-vectors. This limit is not configurable. If a late-interaction model produces more sub-vectors than the limit allows, the recommended approaches are to pool the token vectors before storing, or to split the document into multiple points and aggregate scores at query time.
 
 A point can also have zero vectors. If you don't provide any vectors at upsert time, Qdrant stores the point with its ID and payload only. This is useful when you want to use Qdrant as a document store with filtering, or when you plan to add vectors to a point later. A vector-less point won't appear in nearest-neighbor search results, but it's fully accessible via [scroll](/documentation/manage-data/points/#scroll-points) and payload filtering.
 
@@ -120,7 +122,7 @@ For best results, create payload indexes **before** uploading data. When uploadi
 
 To prevent clients from filtering on payload fields that don't have a payload index, enable strict mode and [set unindexed\_filtering\_retrieve to false](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 
-See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/)
+See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/), [Slow Request Log](/documentation/ops-monitoring/slow-request-log/)
 
 ### Does Qdrant support a full-text search or a hybrid search?
 

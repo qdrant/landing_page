@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/resilience/case-study") }}
+  <section class="resilience-case-study">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-6">
+          <p class="resilience-case-study__label">{{ .Params.label }}</p>
+          <h3 class="resilience-case-study__title">{{ .Params.title }}</h3>
+          <p class="resilience-case-study__description">{{ .Params.description }}</p>
+          <a class="link link_md link_dark" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="resilience-case-study__image">
+            <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

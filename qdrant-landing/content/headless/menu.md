@@ -12,7 +12,7 @@ menuItems:
       - id: mainMenu-0-0
         subMenuItems:
         - id: subMenu-0-0
-          name: Qdrant Vector Database
+          name: Qdrant Vector Search Engine
           icon: qdrant-vector-database.svg
           url: /qdrant-vector-database/
         - id: subMenu-0-1
@@ -126,6 +126,10 @@ menuItems:
             name: Certification
             icon: certificate.svg
             url: http://train.qdrant.dev/
+          - id: subMenu-2-6
+            name: Security
+            icon: security.svg
+            url: /security/
   - id: menu-3
     name: Resources
     mainMenuItems:

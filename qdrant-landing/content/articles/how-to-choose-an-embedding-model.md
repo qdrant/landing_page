@@ -45,7 +45,7 @@ so it's not a good choice if you have data in other languages.
 [![all-MiniLM-L6-v2 on Hugging Face Hub](/articles_data/how-to-choose-an-embedding-model/hf-model-card.png)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 
 However, it's not only about the language, but also about how the model treats the input data. Surprisingly, this is 
-often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then [starts 
+often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then [start 
 all the Transformer magic with assigning each token a specific input vector 
 representation](/articles/late-interaction-models/#understanding-embedding-models). 
 
@@ -68,7 +68,7 @@ we recorded together with DeepLearning.AI. You may find the course especially in
 semantic search engine can't handle numerical data, such as prices or dates, and what you can do about it. 
 
 How do you know if the tokenizer supports the target language? That's pretty easy for the Open Source models, as you 
-can just run the tokenizer without the model and see how the yielded tokens look like. For the commercial models that 
+can just run the tokenizer without the model and see what the yielded tokens look like. For the commercial models that 
 might be slightly harder, but companies like [OpenAI](https://github.com/openai/tiktoken) and 
 [Cohere](https://huggingface.co/Cohere/multilingual-22-12) are transparent about it and open source their tokenizers. 
 In the worst case, you can just modify some of the suspected tokens and see how the model reacts in terms of the 
@@ -102,7 +102,7 @@ is supposed to process and build a ground truth dataset for it, so you can make 
 
 ### Building the Ground Truth Dataset
 
-The way your dataset will look like depends on the task you want to evaluate. If we speak about semantic similarity,
+The way your dataset will look depends on the task you want to evaluate. If we speak about semantic similarity,
 then you will need pairs of texts with a score indicating how similar they are. 
 
 For semantic similarity tasks, your dataset might look like this:

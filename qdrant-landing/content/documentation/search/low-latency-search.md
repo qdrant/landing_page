@@ -89,3 +89,7 @@ Set the <code>wait</code> parameter to <code>false</code> on write requests when
 *Available as of v1.19.0*
 
 Enabling `prevent_unoptimized` makes cross-replica "blinking" more prominent: points held back until a segment is optimized become visible on each replica at slightly different times, and because reads are spread across replicas, successive requests for the same query can land on different replicas and see a point appear, disappear, then reappear. To keep reads stable for a given client, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value (such as a user or session ID) to pin all of that client's reads to the same replica, without giving up load balancing across other clients. Refer to [Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity) for details.
+
+## See Also
+
+- [Slow Request Log](/documentation/ops-monitoring/slow-request-log/) — Identify which specific queries are contributing to high latency.

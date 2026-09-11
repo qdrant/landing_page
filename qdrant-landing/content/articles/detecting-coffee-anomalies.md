@@ -38,7 +38,7 @@ This data is used to train a classifier that evaluates crop quality and highligh
 
 {{< figure src=/articles_data/detecting-coffee-anomalies/detection.gif caption="Anomalies in coffee" width="400px" >}}
 
-We should note that anomalies are very diverse, so the enumeration of all possible anomalies is a challenging task on it's own.
+We should note that anomalies are very diverse, so the enumeration of all possible anomalies is a challenging task on its own.
 In the course of work, new types of defects appear, and shooting conditions change. Thus, a one-time labeled dataset becomes insufficient.
 
 Let's find out how metric learning might help to address this challenge.
@@ -89,7 +89,7 @@ Although the results are promising, we can do even better by finetuning with met
 
 We started by selecting 200 labeled samples randomly without replacement.
 
-In this step, The model was composed of the encoder part of the autoencoder with a randomly initialized projection layer stacked on top of it.
+In this step, the model was composed of the encoder part of the autoencoder with a randomly initialized projection layer stacked on top of it.
 We applied transfer learning from the frozen encoder and trained only the projection layer with Triplet Loss and an online batch-all triplet mining strategy.
 
 Unfortunately, the model overfitted quickly in this attempt.

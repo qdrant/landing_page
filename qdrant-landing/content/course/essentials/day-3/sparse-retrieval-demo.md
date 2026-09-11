@@ -75,7 +75,7 @@ The number of times a word appears in the text.
   [(101, 2.0), (130, 1.0), (131, 1.0), (490, 1.0), (705, 1.0)]
   ```
 
-This representations are called **bag-of-words**: words are placed in a sparse vector like in a bag, without preserving order, but counting their occurrences.
+These representations are called **bag-of-words**: words are placed in a sparse vector like in a bag, without preserving order, but counting their occurrences.
 
 ## The Idea Behind Sparse Text Retrieval
 
@@ -143,9 +143,9 @@ The very famous formula in information retrieval, **Best Matching 25 (BM25)**, m
 For a query \(Q\) and document \(D\):
 
 $$
-\mathrm{BM25}(Q, D) \=\ \sum_{i=1}^{N} \mathrm{IDF}(q_i)\
-\frac{\mathrm{TF}(q_i, D)\(k_1 + 1)}
-{\mathrm{TF}(q_i, D) + k_1\\left(1 - b + b \cdot \frac{|D|}{\mathrm{avg}_{\text{corpus}}(|D|)}\right)}
+\mathrm{BM25}(Q, D) = \sum_{i=1}^{N} \mathrm{IDF}(q_i)
+\frac{\mathrm{TF}(q_i, D)(k_1 + 1)}
+{\mathrm{TF}(q_i, D) + k_1\left(1 - b + b \cdot \frac{|D|}{\mathrm{avg}_{\text{corpus}}(|D|)}\right)}
 $$
 
 Most of its components we've already introduced:
@@ -285,7 +285,7 @@ For every keyword in the query that is not a stop word in the target language (i
 
 **Step 2**
 
-Qdrant lookups up this keyword index (`1496964506`) in the **inverted index**, introduced in the previous video.
+Qdrant looks up this keyword index (`1496964506`) in the **inverted index**, introduced in the previous video.
 
 For every document (found via the inverted index) that contains the keyword `"cheese"`, we have the BM25-based score for `"cheese"` in that particular document, precomputed by FastEmbed (Qdrant) and stored:
 
