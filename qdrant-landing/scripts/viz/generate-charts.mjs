@@ -19,6 +19,12 @@ const manifest = JSON.parse(readFileSync('data/viz-charts.json', 'utf8'));
 const dom = new JSDOM('');
 const MONO = viz.type.mono;
 
+// Theme-following chrome. Defined in components/_viz.scss for light and again
+// under [data-theme='dark']; the articles section really does have a dark mode.
+const INK = 'var(--viz-ink)';
+const MUTED = 'var(--viz-muted)';
+const GRIDC = 'var(--viz-grid)';
+
 const readCsv = (p) => {
   const [head, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
   const cols = head.split(',');
@@ -42,7 +48,7 @@ const readableInk = (hex) => {
 };
 
 const barKey = (d) => `${d.engine}|${d.config}`;
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 function panel(c, p, data, w, h) {
   const values = rawCol(c.data, p.y);
@@ -54,7 +60,7 @@ function panel(c, p, data, w, h) {
     width: w, height: h,
     marginLeft, marginRight, marginTop, marginBottom,
     style: { fontFamily: MONO, fontSize: `${viz.type.tick}px`, background: 'none',
-             color: viz.surface.inkMuted },
+             color: MUTED },
     x: { label: null, domain: data.map(barKey), tickFormat: () => '' },
     y: { label: null, domain: [0, c.yMax], grid: true, nice: false },
     color: { domain: data.map(barKey), range: colors },
@@ -65,34 +71,60 @@ function panel(c, p, data, w, h) {
       // edge and reads poorly; the original PNG put values above, in ink.
       Plot.text(data, { x: barKey, y: p.y, dy: -9, textAnchor: 'middle', fontFamily: MONO,
         text: (d, i) => `${values[i]}${p.unit ? ' ' + p.unit : ''}`,
-        fill: { value: () => viz.surface.ink, scale: null },
+        fill: { value: () => INK, scale: null },
         fontSize: viz.type.tick, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 22, frameAnchor: 'bottom', textAnchor: 'middle',
         fontFamily: MONO, text: (d) => d.engine,
-        fill: viz.surface.ink, fontSize: viz.type.tick, fontWeight: 600 }),
+        fill: INK, fontSize: viz.type.tick, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 40, frameAnchor: 'bottom', textAnchor: 'middle',
         fontFamily: MONO, text: (d) => d.config,
-        fill: viz.surface.inkMuted, fontSize: viz.type.tick - 1 }),
+        fill: MUTED, fontSize: viz.type.tick - 1 }),
     ],
   });
   const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
   // Plot silently drops the `textAnchor` mark option here (the emitted group has
   // no text-anchor, so it defaults to `start` and every label sits half its own
   // width right of the bar). Force it on the text groups it produces.
-  const plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+  let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+
+  // Tag each bar with its row key (in data order) so js/viz.js can ring the
+  // same config in every panel at once. Purely additive — no JS, no effect.
+  plotted = plotted.replace(/(<g aria-label="bar"[^>]*>)([\s\S]*?)(<\/g>)/, (m, open, body, close) => {
+    let i = 0;
+    const tagged = body.replace(/<rect /g, () => `<rect data-viz-key="${esc(barKey(data[i++]))}" `);
+    return open + tagged + close;
+  });
+
+  // Full-height hit zones, one per category band: you hover the column, not the
+  // bar. Focusable so keyboard users get the same readout.
+  const plotW = w - marginLeft - marginRight;
+  const bandW = plotW / data.length;
+  const zones = data.map((d, i) => {
+    const rows = c.tooltip.map((t) => ({
+      k: t.label,
+      v: `${rawCol(c.data, t.field)[i]}${t.unit ? ' ' + t.unit : ''}`,
+      c: colors[i],
+    }));
+    return `<rect data-viz-zone data-viz-key="${esc(barKey(d))}"`
+      + ` data-viz-title="${esc(d.engine + ' · ' + d.config)}"`
+      + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
+      + ` tabindex="0" role="button" aria-label="${esc(d.engine + ' ' + d.config)}"`
+      + ` x="${marginLeft + i * bandW}" y="${marginTop}" width="${bandW}"`
+      + ` height="${h - marginTop - marginBottom}" fill="transparent"/>`;
+  }).join('');
 
   const head =
     `<text x="${w / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
-    + ` font-size="${viz.type.label}" font-weight="700" fill="${viz.surface.ink}">${esc(p.title)}</text>`
+    + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">${esc(p.title)}</text>`
     + (p.subtitle
       ? `<text x="${w / 2}" y="40" text-anchor="middle" font-family="${MONO}"`
-        + ` font-size="${viz.type.tick}" fill="${viz.surface.inkMuted}">${esc(p.subtitle)}</text>`
+        + ` font-size="${viz.type.tick}" fill="${MUTED}">${esc(p.subtitle)}</text>`
       : '');
   const midY = (marginTop + (h - marginBottom)) / 2;
   const axisLabel = `<text transform="translate(13,${midY}) rotate(-90)" text-anchor="middle"`
     + ` font-family="${MONO}" font-size="${viz.type.tick - 1}"`
-    + ` fill="${viz.surface.inkMuted}">${esc(p.axis)}</text>`;
-  return head + axisLabel + plotted;
+    + ` fill="${MUTED}">${esc(p.axis)}</text>`;
+  return head + axisLabel + plotted + zones;
 }
 
 
@@ -128,7 +160,7 @@ function heatmap(c) {
   cols.forEach((col, j) => {
     out += `<text x="${left + j * cw + cw / 2}" y="${top - 10}" text-anchor="middle"`
       + ` font-family="${MONO}" font-size="${viz.type.tick - 1}"`
-      + ` fill="${viz.surface.inkMuted}">${esc(col)}</text>`;
+      + ` fill="${MUTED}">${esc(col)}</text>`;
   });
 
   rows.forEach((r, i) => {
@@ -136,18 +168,25 @@ function heatmap(c) {
     const emphasised = c.highlight && r[0] === c.highlight;
     out += `<text x="${left - 12}" y="${y + ch / 2 + 4}" text-anchor="end" font-family="${MONO}"`
       + ` font-size="${viz.type.tick - 1}" font-weight="${emphasised ? 700 : 400}"`
-      + ` fill="${emphasised ? viz.surface.ink : viz.surface.inkMuted}">${esc(r[0])}</text>`;
+      + ` fill="${emphasised ? INK : MUTED}">${esc(r[0])}</text>`;
     r.slice(1).forEach((v, j) => {
       const t = (Number(v) - lo) / (hi - lo);
       const fill = rampColor(t);
       const x = left + j * cw;
-      out += `<rect x="${x + 1}" y="${y + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="${fill}"/>`
+      // Cells display 2dp; the tooltip carries the full precision from the CSV.
+      const tipRows = JSON.stringify([{ k: c.legend || 'recall', v: v, c: fill }]);
+      out += `<rect x="${x + 1}" y="${y + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="${fill}"`
+        + ` data-viz-key="${esc(r[0] + '|' + cols[j])}"/>`
         + `<text x="${x + cw / 2}" y="${y + ch / 2 + 4}" text-anchor="middle" font-family="${MONO}"`
-        + ` font-size="${viz.type.tick - 2}" fill="${readableInk(fill)}">${Number(v).toFixed(2)}</text>`;
+        + ` font-size="${viz.type.tick - 2}" fill="${readableInk(fill)}">${Number(v).toFixed(2)}</text>`
+        + `<rect data-viz-zone data-viz-key="${esc(r[0] + '|' + cols[j])}"`
+        + ` data-viz-title="${esc(r[0] + ' · ' + cols[j])}" data-viz-rows="${esc(tipRows)}"`
+        + ` tabindex="0" role="button" aria-label="${esc(r[0] + ' on ' + cols[j] + ': ' + v)}"`
+        + ` x="${x}" y="${y}" width="${cw}" height="${ch}" fill="transparent"/>`;
     });
     if (emphasised) {
       out += `<rect x="${left}" y="${y}" width="${cols.length * cw}" height="${ch}" rx="3"`
-        + ` fill="none" stroke="${viz.surface.ink}" stroke-width="2"/>`;
+        + ` fill="none" stroke="${INK}" stroke-width="2"/>`;
     }
   });
 
@@ -157,15 +196,15 @@ function heatmap(c) {
     out += `<rect x="${lx + k}" y="${ly}" width="1" height="10" fill="${rampColor(k / (lw - 1))}"/>`;
   }
   out += `<text x="${lx}" y="${ly + 24}" font-family="${MONO}" font-size="${viz.type.tick - 2}"`
-    + ` fill="${viz.surface.inkMuted}">${lo.toFixed(2)}</text>`
+    + ` fill="${MUTED}">${lo.toFixed(2)}</text>`
     + `<text x="${lx + lw}" y="${ly + 24}" text-anchor="end" font-family="${MONO}"`
-    + ` font-size="${viz.type.tick - 2}" fill="${viz.surface.inkMuted}">${hi.toFixed(2)}</text>`
+    + ` font-size="${viz.type.tick - 2}" fill="${MUTED}">${hi.toFixed(2)}</text>`
     + `<text x="${lx + lw + 14}" y="${ly + 9}" font-family="${MONO}" font-size="${viz.type.tick - 1}"`
-    + ` fill="${viz.surface.inkMuted}">${esc(c.legend || 'recall')}</text>`;
+    + ` fill="${MUTED}">${esc(c.legend || 'recall')}</text>`;
 
   const title = `<text x="${(left + cols.length * cw) / 2 + left / 2}" y="22" text-anchor="middle"`
     + ` font-family="${MONO}" font-size="${viz.type.label}" font-weight="700"`
-    + ` fill="${viz.surface.ink}">${esc(c.title)}</text>`;
+    + ` fill="${INK}">${esc(c.title)}</text>`;
   return title + out;
 }
 
@@ -187,7 +226,7 @@ function linesFacet(c) {
       width: pw, height: c.height,
       marginLeft: 58, marginRight: 24, marginTop: 62, marginBottom: 56,
       style: { fontFamily: MONO, fontSize: `${viz.type.tick}px`, background: 'none',
-               color: viz.surface.inkMuted },
+               color: MUTED },
       x: { type: 'point', label: null, domain: rows.map((r) => r[c.x]),
            tickFormat: (v) => `${v}%` },
       y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true,
@@ -200,12 +239,12 @@ function linesFacet(c) {
     const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
     const plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
     const head = `<text x="${pw / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
-      + ` font-size="${viz.type.label}" font-weight="700" fill="${viz.surface.ink}">`
+      + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">`
       + `${esc(c.facetLabel.replace('{}', fv))}</text>`;
     const xlab = `<text x="${pw / 2}" y="${c.height - 8}" text-anchor="middle" font-family="${MONO}"`
-      + ` font-size="${viz.type.tick - 1}" fill="${viz.surface.inkMuted}">${esc(c.xLabel)}</text>`;
+      + ` font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
     const ylab = `<text transform="translate(13,${c.height / 2}) rotate(-90)" text-anchor="middle"`
-      + ` font-family="${MONO}" font-size="${viz.type.tick - 1}" fill="${viz.surface.inkMuted}">${esc(c.yLabel)}</text>`;
+      + ` font-family="${MONO}" font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.yLabel)}</text>`;
     return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${xlab}</g>`;
   }).join('') + legend(c, c.width);
 }
@@ -218,7 +257,7 @@ function legend(c, w) {
     `<g transform="translate(${startX + i * itemW},${c.height + 16})">`
     + `<rect width="11" height="11" rx="2" fill="${viz.palette.categorical[i]}"/>`
     + `<text x="18" y="10" font-family="${MONO}" font-size="${viz.type.tick - 1}"`
-    + ` fill="${viz.surface.inkMuted}">${esc(name)}</text></g>`).join('');
+    + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
 }
 
 for (const c of manifest) {

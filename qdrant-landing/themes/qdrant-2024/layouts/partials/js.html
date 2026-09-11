@@ -49,6 +49,12 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
+{{ if in (slice "blog" "articles") .Section }}
+  <!--Chart hover affordances. The SVGs render fully without this.-->
+  {{ $vizJs := resources.Get "/js/viz.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $vizJs.RelPermalink }}" defer></script>
+{{ end }}
+
 {{ if eq .Section "security" }}
   {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>

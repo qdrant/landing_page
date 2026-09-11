@@ -20,7 +20,7 @@
 {{- if not $id -}}
   {{- errorf "viz-figure: 'id' is required and must be unique within the page." -}}
 {{- end -}}
-<figure class="viz-figure{{ with .class }} {{ . }}{{ end }}">
+<figure class="viz-figure{{ with .class }} {{ . }}{{ end }}" data-viz>
   <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
        aria-labelledby="viz-title-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
        preserveAspectRatio="xMidYMid meet">

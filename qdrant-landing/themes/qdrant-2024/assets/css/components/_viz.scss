@@ -1,7 +1,24 @@
 // Blog visualisation figures. See docs/superpowers/specs/2026-08-27-blog-visual-system-design.md
 //
-// Colors for the visuals themselves live in data/viz.json and arrive inside the
-// SVG. This file styles only the surrounding chrome, using existing theme tokens.
+// Data colours (bar fills, heatmap ramp) live in data/viz.json and arrive inside
+// the SVG — they carry meaning, so they do not change with the theme. Chrome
+// colours (ink, muted, gridlines) DO follow the theme and are published here as
+// custom properties that the generated SVG references by var().
+//
+// The articles and documentation sections have a real dark mode via
+// html[data-theme='dark'], so a figure with hardcoded dark ink disappears there.
+
+:root {
+  --viz-ink: #{$neutral-20};
+  --viz-muted: #{$neutral-50};
+  --viz-grid: #{$neutral-90};
+}
+
+[data-theme='dark'] {
+  --viz-ink: #{$neutral-98};
+  --viz-muted: #{$neutral-80};
+  --viz-grid: #{$neutral-30};
+}
 
 .viz-figure {
   margin: 2rem 0;
@@ -19,5 +36,77 @@
   margin-top: 0.75rem;
   font-size: $font-size-s;
   line-height: 1.5;
-  color: $neutral-50;
+  color: var(--viz-muted);
+}
+
+// ── Hover affordances (added by js/viz.js; absent without JS) ───────────────
+
+.viz-figure__svg [data-viz-zone] {
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// "Highlight, don't reorder": nothing dims and nothing moves. The hovered
+// series gains a ring, so the eye is drawn without the rest being hidden.
+.viz-figure__svg [data-viz-key] {
+  transition: stroke-width 90ms ease-out, stroke 90ms ease-out;
+}
+
+.viz-figure__svg [data-viz-active] {
+  stroke: var(--viz-ink);
+  stroke-width: 2;
+  paint-order: stroke;
+}
+
+.viz-tip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 90ms ease-out;
+  max-width: 280px;
+  padding: 9px 11px;
+  border-radius: 7px;
+  background: $neutral-20;
+  color: $neutral-98;
+  font-family: $font-family-monospace;
+  font-size: pxToRem(12);
+  line-height: 1.45;
+  box-shadow: 0 6px 20px rgba(9, 14, 26, 0.28);
+
+  &.is-on {
+    opacity: 1;
+  }
+
+  &__title {
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    font-weight: 600;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  &__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    flex: 0 0 auto;
+  }
+
+  &__k {
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  &__v {
+    margin-left: auto;
+    font-weight: 600;
+  }
 }

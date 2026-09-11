@@ -21,7 +21,29 @@
         "subtitle": "lower is better"
       }
     ],
-    "yMax": 140
+    "yMax": 140,
+    "tooltip": [
+      {
+        "label": "recall@100",
+        "field": "recall_at_100",
+        "unit": ""
+      },
+      {
+        "label": "throughput",
+        "field": "throughput_qps",
+        "unit": "QPS"
+      },
+      {
+        "label": "avg latency",
+        "field": "avg_latency_ms",
+        "unit": "ms"
+      },
+      {
+        "label": "p99 latency",
+        "field": "p99_latency_ms",
+        "unit": "ms"
+      }
+    ]
   },
   {
     "id": "turboquant/recall",
