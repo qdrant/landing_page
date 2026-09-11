@@ -314,10 +314,10 @@ function linesFacet(c) {
         .map((r) => ({ k: r.k, v: `${r.n} ${c.unit || ''}`.trim(), c: r.c }));
       return `<rect data-viz-zone data-viz-key="${fv}-x${i}" data-viz-x="${cx}"`
         + ` data-viz-panel="${fi}"`
-        + ` data-viz-title="${esc(c.facetLabel.replace('{}', fv))} · ${esc(rows_[i][c.x])}%"`
+        + ` data-viz-title="${esc(c.facetLabel.replace('{}', fv))} · ${esc(rows_[i][c.x])}${esc(c.xSuffix ?? '')}"`
         + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
         + ` tabindex="0" role="button"`
-        + ` aria-label="${esc(fv + ' at ' + rows_[i][c.x] + ' percent')}"`
+        + ` aria-label="${esc(fv + ' at ' + c.xLabel + ' ' + rows_[i][c.x] + (c.xSuffix ?? ''))}"`
         + ` x="${cx - step / 2}" y="${top}" width="${step}" height="${bot - top}" fill="transparent"/>`;
     }).join('');
 
