@@ -170,7 +170,13 @@ In order to build 2-bit representation, Qdrant computes values distribution and 
 
 1.5-bit quantization is similar, but it merges buckets of element pairs into binary triplets.
 
-{{<figure src=/docs/2-bit-quantization.png caption="2-bit quantization" width=80% >}}
+{{< island
+    path="content/documentation/headless/quantization/bit-depth"
+    width="80%" ratio="2 / 1"
+    title="Binary quantization at 1, 1.5 and 2 bits per dimension. With 2 bits, the distribution of component values is split into three buckets, so values close to zero are stored as an explicit `0` rather than a random sign. At 1.5 bits, two neighbouring values share one bit."
+>}}
+![2-bit quantization](/docs/2-bit-quantization.png)
+{{< /island >}}
 
 See how to set up 1.5-bit and 2-bit quantization in the [following section](#set-up-bit-depth).
 
@@ -181,7 +187,13 @@ See how to set up 1.5-bit and 2-bit quantization in the [following section](#set
 The **Asymmetric Quantization** technique allows Qdrant to use different vector encoding algorithms for stored vectors and queries.
 A particularly interesting combination is binary stored vectors and Scalar quantized queries.
 
-{{<figure src=/docs/asymmetric-quantization.png caption="Asymmetric quantization" width=80% >}}
+{{< island
+    path="content/documentation/headless/quantization/asymmetric"
+    width="80%" ratio="9 / 5"
+    title="Asymmetric quantization. Stored vectors stay binary in both cases. With a binary query every dimension casts the same ±1 vote, even where the query component is close to zero and its sign is mostly noise. A scalar-quantized query keeps each component's magnitude, so each dimension's contribution to the score stays close to the exact float32 value."
+>}}
+![Asymmetric quantization](/docs/asymmetric-quantization.png)
+{{< /island >}}
 
 This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU.
 This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.

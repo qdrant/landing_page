@@ -45,11 +45,17 @@
 
 {{- /* Asset name (published URL prefix) from the last two path segments. */ -}}
 {{- $name := printf "islands/%s/%s" (path.Base (path.Dir $path)) (path.Base $path) -}}
-{{- $js := resources.FromString (printf "%s/index.js" $name) (readFile $jsFile) | js.Build (dict "format" "esm" "minify" true) | resources.Fingerprint "sha512" -}}
+{{- /* The resource name carries a short hash of the file content. Hugo's dev
+       server caches resources.FromString by name for the whole session, so
+       without this an edited island keeps being served from its first build
+       until the server is restarted. */ -}}
+{{- $jsSrc := readFile $jsFile -}}
+{{- $js := resources.FromString (printf "%s/index.%s.js" $name (substr (sha1 $jsSrc) 0 8)) $jsSrc | js.Build (dict "format" "esm" "minify" true) | resources.Fingerprint "sha512" -}}
 {{- $cssFile := printf "%s/index.css" $path -}}
 {{- $css := "" -}}
 {{- if fileExists $cssFile -}}
-  {{- $css = (resources.FromString (printf "%s/index.css" $name) (readFile $cssFile) | minify | resources.Fingerprint "sha512").RelPermalink -}}
+  {{- $cssSrc := readFile $cssFile -}}
+  {{- $css = (resources.FromString (printf "%s/index.%s.css" $name (substr (sha1 $cssSrc) 0 8)) $cssSrc | minify | resources.Fingerprint "sha512").RelPermalink -}}
 {{- end -}}
 
 {{- /* width: "600" -> 600px, "90%" -> 90%. Sizes the illustration (fallback +
