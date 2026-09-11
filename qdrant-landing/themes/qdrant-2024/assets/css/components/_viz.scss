@@ -24,8 +24,10 @@
   --viz-grid: #{$neutral-30};
   --viz-surface: #{$neutral-20};
   --viz-border: #{$neutral-30};
-  --viz-tip-bg: #{$neutral-40};
-  --viz-tip-border: #{$neutral-60};
+  // Darker than the card, not lighter: raising it to neutral-40 read as glare
+  // on a dark page. The border does the separating, the background stays calm.
+  --viz-tip-bg: #{$neutral-10};
+  --viz-tip-border: #{$neutral-50};
 }
 
 .viz-figure {
