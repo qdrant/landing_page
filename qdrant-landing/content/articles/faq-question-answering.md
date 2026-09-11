@@ -540,8 +540,6 @@ def train(model, train_dataset_path, val_dataset_path, params):
 
 At this point we can train our model, I do it via `python3 -m faq.train`.
 
-{{< chart id="faq-training/curves" caption="Validation tracks training closely across all 500 epochs on both metrics, so the fine-tuning gains are real rather than memorised." >}}
-
 <div class="table-responsive">
 
 |epoch|train_precision@1|train_reciprocal_rank|val_precision@1|val_reciprocal_rank|

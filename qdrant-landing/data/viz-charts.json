@@ -93,34 +93,6 @@
     "xSuffix": "%"
   },
   {
-    "id": "faq-training/curves",
-    "data": "assets/viz/faq-training/curves.csv",
-    "kind": "lines-facet",
-    "facet": "metric",
-    "facetLabel": "{}",
-    "x": "epoch",
-    "xLabel": "training epoch",
-    "xSuffix": "",
-    "yLabel": "score",
-    "yScale": "linear",
-    "yDomain": [
-      0.63,
-      0.8
-    ],
-    "series": [
-      "val",
-      "train"
-    ],
-    "seriesLabels": [
-      "validation",
-      "train"
-    ],
-    "unit": "",
-    "width": 980,
-    "height": 340,
-    "extraHeight": 44
-  },
-  {
     "id": "oversampling/recall",
     "data": "assets/viz/oversampling/recall.csv",
     "kind": "columns-2panel",
@@ -159,5 +131,41 @@
         "unit": ""
       }
     ]
+  },
+  {
+    "id": "candidate-depth/sweep",
+    "data": "assets/viz/candidate-depth/sweep.csv",
+    "kind": "lines-facet",
+    "facet": "metric",
+    "facetLabel": "{}",
+    "x": "hnsw_ef",
+    "xLabel": "hnsw_ef",
+    "xSuffix": "",
+    "yLabel": "value",
+    "yScale": "linear",
+    "yDomains": {
+      "Recall against exact": [
+        0.98,
+        1.002
+      ],
+      "Milliseconds per query": [
+        1.8,
+        2.6
+      ]
+    },
+    "yLabels": {
+      "Recall against exact": "recall",
+      "Milliseconds per query": "ms per query"
+    },
+    "series": [
+      "value"
+    ],
+    "seriesLabels": [
+      "measured"
+    ],
+    "unit": "",
+    "width": 980,
+    "height": 340,
+    "extraHeight": 8
   }
 ]

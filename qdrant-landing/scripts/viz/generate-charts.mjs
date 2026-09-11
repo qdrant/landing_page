@@ -261,7 +261,8 @@ function linesFacet(c) {
       // A log axis defaults to a tick at every 1,2,3…9,10,20,30… which draws
       // ~33 gridlines per panel and leaves most tick labels blank. Only the
       // decades earn a line.
-      y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true, label: null,
+      y: { type: c.yScale || 'linear', domain: (c.yDomains && c.yDomains[fv]) || c.yDomain,
+           grid: true, label: null,
            ticks: c.yScale === 'log' ? decades(c.yDomain) : undefined },
       marks: c.series.flatMap((sName, si) => [
         Plot.line(rows_, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
@@ -316,9 +317,9 @@ function linesFacet(c) {
     const head = panelHead(pw, c.facetLabel.replace('{}', fv), c.subtitle);
     const xlab = `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${MONO}"`
       + ` font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
-    const ylab = yAxisLabel(c.height, c.yLabel);
+    const ylab = yAxisLabel(c.height, (c.yLabels && c.yLabels[fv]) || c.yLabel);
     return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${crosshair}${zones}${xlab}</g>`;
-  }).join('') + legend(c, c.width);
+  }).join('') + (c.series.length > 1 ? legend(c, c.width) : '');
 }
 
 function legend(c, w) {
