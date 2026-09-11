@@ -27,10 +27,12 @@
   points at the visible <figcaption>, so the text exists exactly once.
 */ -}}
 <figure class="viz-figure{{ with .class }} {{ . }}{{ end }}" data-viz>
-  <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
-       aria-labelledby="viz-cap-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
-       preserveAspectRatio="xMidYMid meet">
-    {{ .svg | safeHTML }}
-  </svg>
+  <div class="viz-figure__scroll">
+    <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
+         aria-labelledby="viz-cap-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMidYMid meet">
+      {{ .svg | safeHTML }}
+    </svg>
+  </div>
   <figcaption class="viz-figure__caption" id="viz-cap-{{ $id }}">{{ $caption }}</figcaption>
 </figure>

@@ -32,6 +32,13 @@
   border-radius: 10px;
 }
 
+.viz-figure__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  // room for the scrollbar so it never sits on top of the x-axis labels
+  padding-bottom: 2px;
+}
+
 .viz-figure__svg {
   display: block;
   width: 100%;
@@ -40,7 +47,8 @@
   overflow: visible;
 }
 
-.viz-figure__caption {
+
+.viz-figure .viz-figure__caption {
   margin-top: 0.9rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--viz-border);
@@ -129,5 +137,23 @@
   &__v {
     margin-left: auto;
     font-weight: 600;
+  }
+}
+
+// Below this width the chart would scale down so far that 13px type renders at
+// ~4px — unreadable, and jarring next to a 14px caption that does not shrink.
+// Hold a legible width and let the figure scroll sideways instead.
+@media (max-width: 767px) {
+  .viz-figure {
+    padding: 1rem 0.75rem 0.85rem;
+  }
+
+  .viz-figure__svg {
+    width: 720px;
+    max-width: none;
+  }
+
+  .viz-figure .viz-figure__caption {
+    font-size: pxToRem(13);
   }
 }
