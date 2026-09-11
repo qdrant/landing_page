@@ -327,17 +327,14 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
 
 *Available as of v0.10.0*
 
-A special case of the `match` condition is the `text` match condition.
-It allows you to search for a specific substring, token or phrase within the text field.
-
-Exact texts that will match the condition depend on full-text index configuration.
-Configuration is defined during the index creation and describe at [full-text index](/documentation/manage-data/indexing/#full-text-index).
-
-If there is no full-text index for the field, the condition will use some basic tokenizer.
+The `text` match condition supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering).
+It matches text fields that contain *all* of the provided query terms.
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match/" >}}
 
-If the query has several words, then the condition will be satisfied only if all of them are present in the text.
+For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
+
+Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
 
 ### Full Text Any
 
@@ -349,22 +346,21 @@ For example, a query for `good cheap` matches `cheap hardware` as well as `good 
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match-any/" >}}
 
+For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
+
+Without a full-text index, Qdrant splits the query on whitespace and performs a case-sensitive substring match for each token.
+
 ### Phrase Match
 
 *Available as of v1.15.0*
 
-A match `phrase` condition also leverages [full-text index](/documentation/manage-data/indexing/#full-text-index), to perform exact phrase comparisons.
-It allows you to search for a specific token phrase within the text field.
-
-For example, the text `"quick brown fox"` will be matched by the query `"brown fox"`, but not by `"fox brown"`.
-
-<aside role="status">
-    The index must be configured with <code>phrase_matching</code> parameter set to <code>true</code>. If the index has phrase matching disabled, phrase conditions won't match anything.
-</aside>
-
-If there is no full-text index for the field, the condition will use some basic tokenizer.
+A match `phrase` condition matches phrases. For example, the text `"quick brown fox"` matches the query `"brown fox"`, but not `"fox brown"`.
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/phrase-match/" >}}
+
+For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field with [`phrase_matching` enabled](/documentation/manage-data/indexing/#phrase-matching). The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
+
+Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching. If the index exists, but with phrase matching disabled, phrase conditions don't match anything.
 
 ### Range
 
