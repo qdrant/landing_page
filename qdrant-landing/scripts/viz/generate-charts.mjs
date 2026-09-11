@@ -367,6 +367,18 @@ function groupedColumns(c) {
   const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
   let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
 
+  // Tag every bar with its group key so hovering the column brightens all of
+  // its series at once. Plot nests one <g transform> per facet inside a single
+  // <g aria-label="bar">, in fx-domain order — which is `groups`.
+  plotted = plotted.replace(/(<g aria-label="bar"[^>]*>)([\s\S]*?)(?=<\/g><g aria-label|<\/g>\s*$)/, (m, open, body) => {
+    let gi = 0;
+    const tagged = body.replace(/<g transform="translate\([^)]*\)"[^>]*>[\s\S]*?<\/g>/g, (facet) => {
+      const key = groups[gi++];
+      return facet.replace(/<rect /g, () => `<rect data-viz-key="${esc(key)}" `);
+    });
+    return open + tagged;
+  });
+
   // One hit zone per category group, spanning the plot height.
   const plotW = c.width - mL - mR;
   const gw = plotW / groups.length;
