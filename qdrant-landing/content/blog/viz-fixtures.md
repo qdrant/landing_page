@@ -11,3 +11,5 @@ author: Qdrant
 Fixture page for `node --test test/viz/`. Not linked, not published.
 
 {{< partial-smoke >}}
+
+{{< chart id="hybrid/fusion" caption="Fixture chart caption." >}}

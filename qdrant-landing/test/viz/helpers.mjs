@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -22,6 +22,24 @@ export function buildSite() {
 /** Rendered HTML of the draft fixture page. */
 export function getFixtureHtml() {
   return readFileSync(join(buildSite(), 'blog', 'viz-fixtures', 'index.html'), 'utf8');
+}
+
+/** Rendered Markdown of the draft fixture page (config.toml: page = HTML + Markdown). */
+export function getFixtureMarkdown() {
+  return readFileSync(join(buildSite(), 'blog', 'viz-fixtures', 'index.md'), 'utf8');
+}
+
+/** Every index.md the build emitted, absolute paths. */
+export function everyBuiltMarkdownFile() {
+  const out = [];
+  (function walk(dir) {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith('.md')) out.push(p);
+    }
+  })(buildSite());
+  return out;
 }
 
 /** Run a hugo build expected to FAIL; return combined stderr. */
