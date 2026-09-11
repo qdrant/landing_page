@@ -157,14 +157,14 @@ In production, replace the self-signed certificate with one from a trusted CA an
  
 ### Configure the backend connection
  
-Traefik needs two pieces of configuration to reach an HTTPS backend: which protocol scheme to use, and which `ServersTransport` to trust it with. Both go **on the Qdrant Service, not the Ingress**:
+Traefik needs two pieces of configuration to reach an HTTPS backend: which protocol scheme to use, and which `ServersTransport` to trust it with. Both go **on the Qdrant Service, not the Ingress**, and you can configure them directly from the Cloud UI, under **Configuration → Kubernetes Configuration → Service Annotations**:
  
-```bash
-kubectl annotate service $CLUSTER_NAME -n qdrant \
-  traefik.ingress.kubernetes.io/service.serversscheme=https \
-  traefik.ingress.kubernetes.io/service.serverstransport=qdrant-qdrant-insecure-transport@kubernetescrd \
-  --overwrite
-```
+| Key | Value |
+|------|-----|
+| traefik.ingress.kubernetes.io/service.serversscheme | https |
+| traefik.ingress.kubernetes.io/service.serverstransport | qdrant-qdrant-insecure-transport@kubernetescrd |
+
+![Traefik-related service annotations](/documentation/tutorials/secure-and-expose-hybrid-cloud/service-annotations.png)
  
 The `serverstransport` value has to follow Traefik's `<namespace>-<name>@kubernetescrd` format.
  
