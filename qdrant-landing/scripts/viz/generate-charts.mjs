@@ -264,10 +264,17 @@ function linesFacet(c) {
       y: { type: c.yScale || 'linear', domain: (c.yDomains && c.yDomains[fv]) || c.yDomain,
            grid: true, label: null,
            ticks: c.yScale === 'log' ? decades(c.yDomain) : undefined },
-      marks: c.series.flatMap((sName, si) => [
+      marks: [
+        ...(c.refLine
+          ? [Plot.ruleY([c.refLine.value], { stroke: MUTED, strokeDasharray: '4 3', strokeWidth: 1 }),
+             Plot.text([c.refLine], { y: 'value', frameAnchor: 'right', dx: -6, dy: -8,
+               textAnchor: 'end', fontFamily: MONO, fontSize: viz.type.label,
+               text: (d) => d.label, fill: { value: () => MUTED, scale: null } })]
+          : []),
+      ].concat(c.series.flatMap((sName, si) => [
         Plot.line(rows_, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
         Plot.dot(rows_, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
-      ]),
+      ])),
     });
     const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
     let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');

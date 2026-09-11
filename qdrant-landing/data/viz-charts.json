@@ -167,5 +167,32 @@
     "width": 980,
     "height": 340,
     "extraHeight": 8
+  },
+  {
+    "id": "bits1-rescore/recovery",
+    "data": "assets/viz/bits1-rescore/recovery.csv",
+    "kind": "lines-facet",
+    "facet": "metric",
+    "facetLabel": "Share of the exact top 10 that bits1 returns",
+    "x": "setting",
+    "xLabel": "rescore setting",
+    "xSuffix": "",
+    "yLabel": "recall@10",
+    "yScale": "linear",
+    "yDomain": [
+      0.55,
+      1.02
+    ],
+    "refLine": {
+      "value": 0.957,
+      "label": "float32 baseline 0.957"
+    },
+    "series": [
+      "recall_at_10"
+    ],
+    "unit": "",
+    "width": 980,
+    "height": 340,
+    "extraHeight": 8
   }
 ]
