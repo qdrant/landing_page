@@ -6,8 +6,8 @@
  * random disk seeks to read one tenant) to grouped (one sequential read). Pick
  * a tenant to highlight its points and see the seek count.
  *
- * Pure SVG + CSS: all colors come from CSS custom properties that switch on the
- * host theme, so it re-themes with no JS.
+ * Pure SVG + CSS on the shared island design system (islands.scss): chrome
+ * colors switch with the host theme, tenant hues are the categorical palette.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -68,27 +68,27 @@ export function mount(node) {
   points.forEach((p) => (tenantOf[p.id] = p.tenant));
 
   node.innerHTML = [
-    '<div class="qi-td__fig">',
-    '  <div class="qi-td__controls">',
-    '    <button type="button" class="qi-td__toggle" aria-pressed="false">',
-    '      <span class="qi-td__toggle-track"><span class="qi-td__toggle-knob"></span></span>',
+    '<div class="qi-fig">',
+    '  <div class="qi-controls">',
+    '    <button type="button" class="qi-chip qi-td__toggle" aria-pressed="false">',
+    '      <span class="qi-switch__track"><span class="qi-switch__knob"></span></span>',
     '      <span class="qi-td__toggle-label">is_tenant = <b>false</b></span>',
     '    </button>',
-    '    <div class="qi-td__legend" role="group" aria-label="Highlight a tenant">',
+    '    <div class="qi-group" role="group" aria-label="Highlight a tenant">',
     TENANTS.map(
       (t) =>
-        `<button type="button" class="qi-td__chip qi-td__chip--${t.id}" data-tenant="${t.id}" aria-pressed="false">` +
-        `<span class="qi-td__swatch"></span>${t.label}</button>`,
+        `<button type="button" class="qi-chip qi-td__chip qi-td__chip--${t.id}" data-tenant="${t.id}" aria-pressed="false">` +
+        `<span class="qi-chip__swatch"></span>${t.label}</button>`,
     ).join(''),
     '    </div>',
     '  </div>',
-    `  <svg class="qi-td__svg" viewBox="0 0 ${VB_W} 210" role="img" aria-label="A shard of points colored by tenant, shown scattered and grouped by is_tenant.">`,
-    `    <rect class="qi-td__frame" x="2" y="30" width="${VB_W - 4}" height="${AH + 60}" rx="10"/>`,
-    '    <text class="qi-td__frame-label" x="20" y="52">Shard A</text>',
+    `  <svg class="qi-svg qi-td__svg" viewBox="0 0 ${VB_W} 210" role="img" aria-label="A shard of points colored by tenant, shown scattered and grouped by is_tenant.">`,
+    `    <rect class="qi-frame" x="2" y="30" width="${VB_W - 4}" height="${AH + 60}" rx="6"/>`,
+    '    <text class="qi-frame-label" x="20" y="52">Shard A</text>',
     '    <g class="qi-td__bars"></g>',
     '    <g class="qi-td__runs"></g>',
     '  </svg>',
-    '  <p class="qi-td__status" role="status" aria-live="polite"></p>',
+    '  <p class="qi-status qi-td__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 

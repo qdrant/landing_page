@@ -10,8 +10,8 @@
  * query magnitude is lost; with a scalar query they follow the diagonal. "New
  * vectors" draws a fresh pair; hover a dimension (cell or dot) for its numbers.
  *
- * Pure SVG + CSS: chrome colors switch on the host theme via CSS custom
- * properties; the sign hues are constant.
+ * Pure SVG + CSS on the shared island design system (islands.scss); the sign
+ * hues (blue positive, red negative) are constant across themes.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -73,7 +73,7 @@ function quantizeQuery(q) {
   return q.map((v) => (Math.round(((v + m) / (2 * m)) * levels) / levels) * 2 * m - m);
 }
 
-// Paint a cell: hue by sign (blue positive, orange negative), saturation by
+// Paint a cell: hue by sign (blue positive, red negative), saturation by
 // |v| relative to `scale` (clamped).
 function paint(rect, v, scale) {
   rect.classList.toggle('is-neg', v < 0);
@@ -89,35 +89,35 @@ export function mount(node) {
   node.classList.add('qi-aq');
 
   node.innerHTML = [
-    '<div class="qi-aq__fig">',
-    '  <div class="qi-aq__controls">',
-    '    <span class="qi-aq__hint">Hover a dimension, cell or dot, to see its numbers.</span>',
-    '    <button type="button" class="qi-aq__btn qi-aq__shuffle">',
-    '      <svg class="qi-aq__btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>New vectors',
+    '<div class="qi-fig">',
+    '  <div class="qi-controls qi-controls--split">',
+    '    <span class="qi-hint">Hover a cell or dot for its numbers.</span>',
+    '    <button type="button" class="qi-chip qi-aq__shuffle">',
+    '      <svg class="qi-chip__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>New vectors',
     '    </button>',
     '  </div>',
-    `  <svg class="qi-aq__svg" viewBox="-2 0 ${VB_W + 4} ${VB_H}" role="img"`,
+    `  <svg class="qi-svg qi-aq__svg" viewBox="-2 0 ${VB_W + 4} ${VB_H}" role="img"`,
     '    aria-label="Two panels scoring a binary stored vector against a query, with a binary query on the left and a scalar-quantized query on the right. Each panel shows the stored vector, the query, and a scatter of estimated against exact per-dimension contributions.">',
     PANELS.map((p) => {
       const px = p.x + PLOT.dx;
       return [
         `<g class="qi-aq__panel" data-panel="${p.id}">`,
-        `  <text class="qi-aq__title" x="${p.x}" y="16">${p.title}</text>`,
-        `  <text class="qi-aq__label" x="${p.x}" y="${ROWS.stored - 6}">Stored vector · 1 bit / dim</text>`,
+        `  <text class="qi-title" x="${p.x}" y="16">${p.title}</text>`,
+        `  <text class="qi-label" x="${p.x}" y="${ROWS.stored - 6}">Stored vector · 1 bit / dim</text>`,
         `  <g class="qi-aq__row qi-aq__row--stored"></g>`,
-        `  <text class="qi-aq__label" x="${p.x}" y="${ROWS.query - 6}"><tspan class="qi-aq__op">×</tspan> ${p.queryLabel}</text>`,
+        `  <text class="qi-label" x="${p.x}" y="${ROWS.query - 6}"><tspan class="qi-aq__op">×</tspan> ${p.queryLabel}</text>`,
         `  <g class="qi-aq__row qi-aq__row--query"></g>`,
-        `  <text class="qi-aq__label" x="${p.x}" y="${PLOT.y - 8}"><tspan class="qi-aq__op">=</tspan> Estimated vs exact contribution</text>`,
+        `  <text class="qi-label" x="${p.x}" y="${PLOT.y - 8}"><tspan class="qi-aq__op">=</tspan> Estimated vs exact contribution</text>`,
         // Scatter box with the identity diagonal; dots are added per dimension.
         `  <rect class="qi-aq__plot" x="${px}" y="${PLOT.y}" width="${PLOT.w}" height="${PLOT.h}" rx="4"/>`,
         `  <line class="qi-aq__diag" x1="${px + PAD}" y1="${PLOT.y + PLOT.h - PAD}" x2="${px + PLOT.w - PAD}" y2="${PLOT.y + PAD}"/>`,
         `  <g class="qi-aq__dots"></g>`,
-        `  <text class="qi-aq__gap" x="${px + PLOT.w - 8}" y="${PLOT.y + PLOT.h - 8}" text-anchor="end"></text>`,
+        `  <text class="qi-label qi-aq__gap" x="${px + PLOT.w - 8}" y="${PLOT.y + PLOT.h - 8}" text-anchor="end"></text>`,
         '</g>',
       ].join('');
     }).join(''),
     '  </svg>',
-    '  <p class="qi-aq__status" role="status" aria-live="polite"></p>',
+    '  <p class="qi-status qi-status--2 qi-aq__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
@@ -225,8 +225,8 @@ export function mount(node) {
     if (hovered == null) {
       const small = qScalar.filter((v) => Math.abs(v) < NEAR_ZERO).length;
       statusEl.innerHTML =
-        `A dot on the diagonal is a perfect estimate. Binary gives every dimension the same ±1 vote, ` +
-        `even the <b>${small}</b> near-zero ones; scalar weights each by its magnitude.`;
+        `Dots on the diagonal are exact. A binary query gives every dimension the same ±1 vote, ` +
+        `even the <b>${small}</b> near-zero ones; a scalar query weights each by magnitude.`;
       return;
     }
 

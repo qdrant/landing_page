@@ -11,9 +11,8 @@
  * Hover (or click to pin) a component to trace it through the encoding, or
  * hover a histogram bin / bucket band to see which components fall there.
  *
- * Pure SVG + CSS: chrome colors come from CSS custom properties that switch on
- * the host theme; the data palette (blues for buckets, green for bits) is
- * constant.
+ * Pure SVG + CSS on the shared island design system (islands.scss); the data
+ * palette (blues for buckets, teal for bits) is constant across themes.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -113,40 +112,40 @@ export function mount(node) {
   node.classList.add('qi-bd');
 
   node.innerHTML = [
-    '<div class="qi-bd__fig">',
-    '  <div class="qi-bd__controls">',
-    '    <div class="qi-bd__seg" role="group" aria-label="Bits per dimension">',
+    '<div class="qi-fig">',
+    '  <div class="qi-controls qi-controls--split">',
+    '    <div class="qi-group" role="group" aria-label="Bits per dimension">',
     MODES.map(
       (m) =>
-        `<button type="button" class="qi-bd__seg-btn" data-mode="${m.id}" aria-pressed="false">` +
-        `${m.label}<span class="qi-bd__seg-ratio">${m.ratio}×</span></button>`,
+        `<button type="button" class="qi-chip qi-bd__seg-btn" data-mode="${m.id}" aria-pressed="false">` +
+        `${m.label}<small>${m.ratio}×</small></button>`,
     ).join(''),
     '    </div>',
-    '    <button type="button" class="qi-bd__btn qi-bd__shuffle">',
-    '      <svg class="qi-bd__btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>New vector',
+    '    <button type="button" class="qi-chip qi-bd__shuffle">',
+    '      <svg class="qi-chip__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>New vector',
     '    </button>',
     '  </div>',
-    `  <svg class="qi-bd__svg" viewBox="-3 0 ${VB_W + 6} ${VB_H}" role="img"`,
+    `  <svg class="qi-svg qi-bd__svg" viewBox="-3 0 ${VB_W + 6} ${VB_H}" role="img"`,
     '    aria-label="A float vector encoded with 1, 1.5 or 2 bits per dimension, next to the distribution of its component values split into buckets by thresholds.">',
     // Left column: the vector
-    `    <text class="qi-bd__label" x="0" y="14">Float vector · 32 bit / dim</text>`,
+    `    <text class="qi-label" x="0" y="14">Float vector · 32 bit / dim</text>`,
     '    <g class="qi-bd__floats"></g>',
-    `    <text class="qi-bd__label qi-bd__bits-label" x="0" y="80"></text>`,
+    `    <text class="qi-label qi-bd__bits-label" x="0" y="80"></text>`,
     '    <g class="qi-bd__bits"></g>',
-    `    <text class="qi-bd__label" x="0" y="${BAR_FLOAT_Y - 6}">Storage per vector</text>`,
+    `    <text class="qi-label" x="0" y="${BAR_FLOAT_Y - 6}">Storage per vector</text>`,
     `    <rect class="qi-bd__bar qi-bd__bar--float" x="0" y="${BAR_FLOAT_Y}" width="${LEFT_W}" height="${BAR_H}" rx="3"/>`,
-    `    <text class="qi-bd__bar-text" x="${LEFT_W}" y="${BAR_FLOAT_Y + BAR_H + 13}" text-anchor="end">float32 · ${D} × 32 = ${D * 32} bit</text>`,
+    `    <text class="qi-label" x="${LEFT_W}" y="${BAR_FLOAT_Y + BAR_H + 13}" text-anchor="end">float32 · ${D} × 32 = ${D * 32} bit</text>`,
     `    <rect class="qi-bd__bar qi-bd__bar--q" x="0" y="${BAR_Q_Y}" width="0" height="${BAR_H}" rx="3"/>`,
-    `    <text class="qi-bd__bar-text qi-bd__bar-text--q" x="0" y="${BAR_Q_Y + BAR_H + 13}"></text>`,
+    `    <text class="qi-label qi-bd__bar-text--q" x="0" y="${BAR_Q_Y + BAR_H + 13}"></text>`,
     // Right column: distribution + thresholds + buckets
-    `    <text class="qi-bd__label" x="${HX0}" y="14">Distribution of component values</text>`,
+    `    <text class="qi-label" x="${HX0}" y="14">Distribution of component values</text>`,
     '    <g class="qi-bd__hist"></g>',
-    `    <line class="qi-bd__axis" x1="${HX0 - 6}" y1="${BASE_Y}" x2="${HX0 + HW + 6}" y2="${BASE_Y}"/>`,
+    `    <line class="qi-axis" x1="${HX0 - 6}" y1="${BASE_Y}" x2="${HX0 + HW + 6}" y2="${BASE_Y}"/>`,
     '    <g class="qi-bd__thresholds"></g>',
     '    <g class="qi-bd__bands"></g>',
     `    <polygon class="qi-bd__marker" points="0,0 -6,10 6,10" style="display:none"/>`,
     '  </svg>',
-    '  <p class="qi-bd__status" role="status" aria-live="polite"></p>',
+    '  <p class="qi-status qi-status--2 qi-bd__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
@@ -247,7 +246,7 @@ export function mount(node) {
     thresholds.forEach((t) => {
       const x = xOfValue(t);
       thrG.appendChild(el('line', { class: 'qi-bd__threshold', x1: x, y1: 44, x2: x, y2: BASE_Y + 4 }));
-      thrG.appendChild(el('text', { class: 'qi-bd__threshold-label', x, y: 40, 'text-anchor': 'middle' }, t === 0 ? '0' : t < 0 ? '−σ' : '+σ'));
+      thrG.appendChild(el('text', { class: 'qi-label qi-bd__threshold-label', x, y: 40, 'text-anchor': 'middle' }, t === 0 ? '0' : t < 0 ? '−σ' : '+σ'));
     });
 
     // Color the bell by bucket.
@@ -271,7 +270,7 @@ export function mount(node) {
       bandsG.appendChild(el('rect', { class: `qi-bd__band ${cls}`, x: x1 + 1, y: BAND_Y, width: x2 - x1 - 2, height: BAND_H, rx: 3, 'data-bucket': b }));
       const code = mode.id === 'one' ? (b === 1 ? '1' : '0') : twoBits(b).map((z) => (z ? '1' : '0')).join('');
       const name = b === -1 ? '−1' : b === 0 ? '0' : '+1';
-      bandsG.appendChild(el('text', { class: 'qi-bd__band-label', x: (x1 + x2) / 2, y: BAND_LABEL_Y, 'text-anchor': 'middle' }, `${name} → ${code}`));
+      bandsG.appendChild(el('text', { class: 'qi-label qi-label--strong', x: (x1 + x2) / 2, y: BAND_LABEL_Y, 'text-anchor': 'middle' }, `${name} → ${code}`));
     }
   }
 
@@ -301,12 +300,12 @@ export function mount(node) {
     const total = D * mode.bpd;
     const tail = `${D * 32} bit → <b>${total} bit</b> per vector, <b>${mode.ratio}×</b> compression.`;
     if (mode.id === 'one') {
-      return `<b>1 bit per dimension</b>: only the sign survives, so values close to zero become a coin-flip. ${tail}`;
+      return `<b>1 bit per dimension</b>: only the sign survives, so values near zero become a coin-flip. ${tail}`;
     }
     if (mode.id === 'two') {
-      return `<b>2 bits per dimension</b>: three buckets, so values within ±σ are stored as an explicit 0 instead of a random sign. ${tail}`;
+      return `<b>2 bits per dimension</b>: three buckets, so values within ±σ are stored as an explicit 0. ${tail}`;
     }
-    return `<b>1.5 bits per dimension</b>: the same buckets, but two neighbouring values share their +1 bit (the dashed middle cell). ${tail}`;
+    return `<b>1.5 bits per dimension</b>: the same buckets, but neighbouring values share their +1 bit (dashed cell). ${tail}`;
   }
 
   // hot: null | { type: 'dim', i } | { type: 'bin', b } | { type: 'bucket', bucket }
