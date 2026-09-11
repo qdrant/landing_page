@@ -194,5 +194,27 @@
     "width": 980,
     "height": 340,
     "extraHeight": 8
+  },
+  {
+    "id": "hybrid/fusion",
+    "data": "assets/viz/hybrid/fusion.csv",
+    "kind": "grouped-columns",
+    "title": "nDCG@10: each retriever alone versus RRF fusion",
+    "subtitle": "five BEIR-style datasets, higher is better",
+    "group": "dataset",
+    "series": "method",
+    "y": "ndcg",
+    "yLabel": "nDCG@10",
+    "yMax": 0.8,
+    "colors": [
+      1,
+      2,
+      0
+    ],
+    "deltaField": "delta",
+    "deltaLabel": "vs better alone",
+    "width": 980,
+    "height": 400,
+    "extraHeight": 44
   }
 ]

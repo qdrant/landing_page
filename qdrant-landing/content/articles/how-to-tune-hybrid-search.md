@@ -34,6 +34,8 @@ Qdrant defaults to `k=2`. The original RRF paper uses 60, which maps to `k=61` i
 
 `Over the Better One` is default RRF's `nDCG@10` minus the better individual prefetch. `Second Prefetch Cost` is the median latency the second prefetch adds over the dense prefetch alone.
 
+{{< chart id="hybrid/fusion" caption="Fusion beat the better single retriever on four of five datasets. On DBPedia-entity it did not: dense alone scored 0.4677 against 0.4638 fused, so hybrid is worth measuring rather than assuming." >}}
+
 | Dataset | Dense Alone | Sparse Alone | Both, RRF (`k=2`) | Over the Better One | Second Prefetch Cost |
 |---|---|---|---|---|---|
 | SciFact | 0.6239 | 0.6886 | 0.7175 | +0.0289 | +0.73 ms |

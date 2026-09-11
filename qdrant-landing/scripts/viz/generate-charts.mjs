@@ -340,7 +340,65 @@ function legend(c, w) {
     + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
 }
 
+
+// ── grouped-columns ────────────────────────────────────────────────────────
+// Several series side by side within each category. The one shape the other
+// kinds cannot express: N categories x M methods.
+function groupedColumns(c) {
+  const data = readCsv(c.data);
+  const groups = [...new Set(data.map((d) => d[c.group]))];
+  const series = [...new Set(data.map((d) => d[c.series]))];
+  const colors = c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]));
+  const { top: mT, bottom: mB, left: mL, right: mR } = LAYOUT;
+
+  const node = Plot.plot({
+    document: dom.window.document,
+    width: c.width, height: c.height,
+    marginLeft: mL, marginRight: mR, marginTop: mT, marginBottom: mB,
+    style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
+    x: { axis: null, domain: series },
+    fx: { label: null, domain: groups, tickFormat: (v) => v },
+    y: { label: null, domain: [0, c.yMax], grid: true, nice: false },
+    color: { domain: series, range: colors },
+    marks: [
+      Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, inset: 2 }),
+    ],
+  });
+  const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
+  let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+
+  // One hit zone per category group, spanning the plot height.
+  const plotW = c.width - mL - mR;
+  const gw = plotW / groups.length;
+  const zones = groups.map((g, i) => {
+    const rows = data.filter((d) => d[c.group] === g)
+      .map((d, si) => ({ k: d[c.series], v: d[c.y], c: colors[si] }));
+    const delta = data.find((d) => d[c.group] === g)?.[c.deltaField];
+    if (delta) rows.push({ k: c.deltaLabel || 'delta', v: delta, c: '' });
+    return `<rect data-viz-zone data-viz-key="${esc(g)}" data-viz-title="${esc(g)}"`
+      + ` data-viz-rows="${esc(JSON.stringify(rows))}" tabindex="0" role="button"`
+      + ` aria-label="${esc(g)}" x="${mL + i * gw}" y="${mT}" width="${gw}"`
+      + ` height="${c.height - mT - mB}" fill="transparent"/>`;
+  }).join('');
+
+  const legendRow = series.map((name, i) =>
+    `<g transform="translate(${(c.width - series.length * 190) / 2 + i * 190},${c.height + 14})">`
+    + `<rect width="11" height="11" rx="2" fill="${colors[i]}"/>`
+    + `<text x="18" y="10" font-family="${MONO}" font-size="${viz.type.label}"`
+    + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
+
+  return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel)
+    + plotted + zones + legendRow;
+}
+
 for (const c of manifest) {
+  if (c.kind === 'grouped-columns') {
+    const out = `assets/viz/${c.id}.svg`;
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, `${groupedColumns(c)}\n`);
+    console.log(`wrote ${out}`);
+    continue;
+  }
   if (c.kind === 'lines-facet') {
     const out = `assets/viz/${c.id}.svg`;
     mkdirSync(dirname(out), { recursive: true });
