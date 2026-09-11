@@ -66,5 +66,36 @@
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 4;
     padding-bottom: $spacer * 4;
+
+    // The frame runs a 74px gutter here so the step connectors have room to sit in it.
+    .row {
+      --bs-gutter-x: #{pxToRem(74)};
+    }
+
+    // Connector between consecutive steps: a 64px line fading into the colour of the
+    // step it points at, capped with a ring at each card edge.
+    // ponytail: the frame's three stacked 9%/5%/1% drop shadows on the 9px rings are
+    // invisible at this size, so the SVGs ship without them.
+    &__step {
+      position: relative;
+
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: pxToRem(35);
+        right: pxToRem(-37);
+        width: pxToRem(74);
+        height: pxToRem(12);
+        background: no-repeat center / contain;
+      }
+
+      &:nth-of-type(1)::after {
+        background-image: url('/img/cloud-inference/step-connector-blue.svg');
+      }
+
+      &:nth-of-type(2)::after {
+        background-image: url('/img/cloud-inference/step-connector-teal.svg');
+      }
+    }
   }
 }

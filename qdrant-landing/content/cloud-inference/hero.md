@@ -10,6 +10,7 @@ outlineButton:
   url: /documentation/cloud/inference/
 image:
   src: /img/cloud-inference/console-inference.png
+  mobileSrc: /img/cloud-inference/console-inference-mobile.png
   alt: Qdrant Cloud console showing the Inference tab with dense text embedding models
 sitemapExclude: true
 ---

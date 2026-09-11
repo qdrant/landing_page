@@ -15,6 +15,11 @@
 {{- else -}}
   {{- $webpSrc := replace $src $ext ".webp" -}}
   <picture>
+    {{- with .mobileSrc -}}
+      {{- $mobileMedia := $.mobileMedia | default "(max-width: 991.98px)" -}}
+      <source srcset="{{ replace . (path.Ext .) ".webp" }}" media="{{ $mobileMedia }}" type="image/webp" />
+      <source srcset="{{ . }}" media="{{ $mobileMedia }}" />
+    {{- end -}}
     <source srcset="{{ $webpSrc }}" type="image/webp" />
     <img
       src="{{ $src }}"
