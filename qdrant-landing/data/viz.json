@@ -53,14 +53,14 @@
     "emphasis": 3
   },
   "sequential": {
-    "$comment": "Low->high ramp for heatmaps. Pale neutral through Qdrant teal to near-black teal.",
+    "$comment": "Sequential ramp for heatmaps. Every stop is a brand token: neutral-98 then primary 90/80/70/50/40. Deliberately stops at primary-40 rather than descending into near-black, which is what made the previous teal ramp read off-palette.",
     "stops": [
       "#f0f3fa",
-      "#c0f0f0",
-      "#77e5e5",
-      "#038585",
-      "#004f4f",
-      "#002020"
+      "#ffdadb",
+      "#ffb2b7",
+      "#ff8792",
+      "#dc244c",
+      "#be003a"
     ]
   }
 }
