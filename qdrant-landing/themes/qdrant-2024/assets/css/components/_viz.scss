@@ -67,21 +67,23 @@
   }
 }
 
-// "Highlight, don't reorder": nothing dims and nothing moves. The hovered
-// series gains a ring, so the eye is drawn without the rest being hidden.
+// "Highlight, don't reorder": nothing dims and nothing moves. The hovered mark
+// just lights up.
+//
+// Deliberately NOT a stroke: an ink-coloured ring is a colour that appears
+// nowhere else in the chart, and against a red or violet mark it reads as a
+// black (or white, in dark mode) box drawn on top. Brightening the mark uses
+// no foreign colour at all and needs no per-theme value.
 .viz-figure__svg [data-viz-key] {
-  transition: stroke-width 90ms ease-out, stroke 90ms ease-out, r 90ms ease-out;
+  transition: filter 90ms ease-out, r 90ms ease-out;
 }
 
 .viz-figure__svg [data-viz-active] {
-  stroke: var(--viz-ink);
-  stroke-width: 2;
-  paint-order: stroke;
+  filter: brightness(1.16) saturate(1.06);
 }
 
-// Dots are small, so a 2px ring swamps them; ring thinner and grow the dot.
+// Dots are small enough that brightness alone is easy to miss, so grow them too.
 .viz-figure__svg circle[data-viz-active] {
-  stroke-width: 1.5;
   r: 5.5;
 }
 

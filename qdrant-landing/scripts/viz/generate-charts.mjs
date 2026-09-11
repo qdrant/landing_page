@@ -205,8 +205,11 @@ function heatmap(c) {
         + ` x="${x}" y="${y}" width="${cw}" height="${ch}" fill="transparent"/>`;
     });
     if (emphasised) {
-      out += `<rect x="${left}" y="${y}" width="${cols.length * cw}" height="${ch}" rx="3"`
-        + ` fill="none" stroke="${INK}" stroke-width="2"/>`;
+      // Ring the recommended row in the CARD colour, not in ink: a surface-coloured
+      // outline reads as a clean gap lifting the row out, where an ink outline
+      // draws a foreign dark box across red cells.
+      out += `<rect x="${left - 1}" y="${y - 1}" width="${cols.length * cw + 2}" height="${ch + 2}" rx="3"`
+        + ` fill="none" stroke="var(--viz-surface)" stroke-width="3"/>`;
     }
   });
 
