@@ -48,6 +48,13 @@ const readableInk = (hex) => {
 };
 
 const barKey = (d) => `${d.engine}|${d.config}`;
+
+// Powers of ten inside a domain, for log axes.
+const decades = ([lo, hi]) => {
+  const out = [];
+  for (let e = Math.ceil(Math.log10(lo)); Math.pow(10, e) <= hi; e++) out.push(Math.pow(10, e));
+  return out;
+};
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 function panel(c, p, data, w, h) {
@@ -229,8 +236,11 @@ function linesFacet(c) {
                color: MUTED },
       x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]),
            tickFormat: (v) => `${v}%` },
-      y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true,
-           label: null, tickFormat: (v) => (v >= 1 ? String(v) : String(v)) },
+      // A log axis defaults to a tick at every 1,2,3…9,10,20,30… which draws
+      // ~33 gridlines per panel and leaves most tick labels blank. Only the
+      // decades earn a line.
+      y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true, label: null,
+           ticks: c.yScale === 'log' ? decades(c.yDomain) : undefined },
       marks: c.series.flatMap((sName, si) => [
         Plot.line(rows_, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
         Plot.dot(rows_, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
