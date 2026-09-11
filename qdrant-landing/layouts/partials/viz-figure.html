@@ -20,12 +20,17 @@
 {{- if not $id -}}
   {{- errorf "viz-figure: 'id' is required and must be unique within the page." -}}
 {{- end -}}
+{{- /*
+  No <title> inside the <svg>: an SVG <title> element renders as the browser's
+  own native tooltip on hover, which floats over the chart's metrics tooltip and
+  just repeats the caption sitting right underneath. The accessible name instead
+  points at the visible <figcaption>, so the text exists exactly once.
+*/ -}}
 <figure class="viz-figure{{ with .class }} {{ . }}{{ end }}" data-viz>
   <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
-       aria-labelledby="viz-title-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
+       aria-labelledby="viz-cap-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
        preserveAspectRatio="xMidYMid meet">
-    <title id="viz-title-{{ $id }}">{{ $caption }}</title>
     {{ .svg | safeHTML }}
   </svg>
-  <figcaption class="viz-figure__caption">{{ $caption }}</figcaption>
+  <figcaption class="viz-figure__caption" id="viz-cap-{{ $id }}">{{ $caption }}</figcaption>
 </figure>
