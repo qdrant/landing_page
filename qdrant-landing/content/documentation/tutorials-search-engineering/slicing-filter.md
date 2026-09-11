@@ -18,7 +18,7 @@ Qdrant's [`slice` filter condition](/documentation/search/filtering/#slice), ava
 
 Qdrant assigns every point to one slice by hashing its ID. For a fixed `total`, slices `0` through `total - 1` never overlap and together cover the entire collection. Unlike [random sampling](/documentation/search/search/#random-sampling), the same slice always returns the same set of points. You can also combine `slice` with any other filter condition, including payload filters. Because slicing is based on the point ID hash rather than payload data, it does not require a payload index. Like `has_id`, the slice condition is checked against each candidate point within every shard that receives the query.
 
-This tutorial covers four uses: parallel `scroll` across workers, restricting a vector search with `query_points`, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
+This tutorial covers three uses: parallel `scroll` across workers, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
 
 ## Setup
 
@@ -195,14 +195,21 @@ A small helper turns a slice into a set of IDs, so the point can be made in a fe
 
 ```python
 async def slice_ids(index: int, total: int) -> set[int]:
-    records, _ = await client.scroll(
-        collection_name=collection_name,
-        scroll_filter=models.Filter(must=[models.SliceCondition(slice=models.Slice(index=index, total=total))]),
-        limit=10000,
-        with_payload=False,
-        with_vectors=False,
-    )
-    return {p.id for p in records}
+    next_page_offset = None
+    ids = set()
+    while True:
+        records, next_page_offset = await client.scroll(
+            collection_name=collection_name,
+            scroll_filter=models.Filter(must=[models.SliceCondition(slice=models.Slice(index=index, total=total))]),
+            limit=10000,
+            with_payload=False,
+            with_vectors=False,
+        )
+        for p in records:
+            ids.add(p.id)
+        if next_page_offset is None:
+            break
+    return ids
 
 first_run = await slice_ids(index=0, total=10)
 second_run = await slice_ids(index=0, total=10)
@@ -226,21 +233,30 @@ await client.create_payload_index(
     field_schema=models.PayloadSchemaType.KEYWORD,
 )
 
-stratified, _ = await client.scroll(
-    collection_name=collection_name,
-    scroll_filter=models.Filter(
-        must=[
-            models.SliceCondition(slice=models.Slice(index=0, total=5)),
-            models.FieldCondition(key="category", match=models.MatchValue(value="electronics")),
-        ],
-    ),
-    limit=10000,
-    with_payload=True,
-    with_vectors=False,
-)
+next_page_offset = None
+stratified_results = []
 
-print(f"electronics points in slice 0/5: {len(stratified)}")
-print(f"all match the category: {all(p.payload['category'] == 'electronics' for p in stratified)}")
+while True:
+    stratified, next_page_offset = await client.scroll(
+        collection_name=collection_name,
+        scroll_filter=models.Filter(
+            must=[
+                models.SliceCondition(slice=models.Slice(index=0, total=5)),
+                models.FieldCondition(
+                    key="category", 
+                    match=models.MatchValue(value="electronics")),
+            ],
+        ),
+        limit=10000,
+        with_payload=True,
+        with_vectors=False,
+    )
+    if next_page_offset is None:
+        break
+    stratified_results.extend(stratified)
+
+print(f"electronics points in slice 0/5: {len(stratified_results)}")
+print(f"all match the category: {all(p.payload['category'] == 'electronics' for p in stratified_results)}")
 # electronics points in slice 0/5: 28
 # all match the category: True
 ```
