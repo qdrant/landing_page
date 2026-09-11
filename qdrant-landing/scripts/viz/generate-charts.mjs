@@ -60,7 +60,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 function panel(c, p, data, w, h) {
   const values = rawCol(c.data, p.y);
   const colors = [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[3]];
-  const marginTop = 66, marginBottom = 64, marginLeft = 56, marginRight = 40;
+  const marginTop = 66, marginBottom = 68, marginLeft = 72, marginRight = 40;
 
   const node = Plot.plot({
     document: dom.window.document,
@@ -80,7 +80,7 @@ function panel(c, p, data, w, h) {
         text: (d, i) => `${values[i]}${p.unit ? ' ' + p.unit : ''}`,
         fill: { value: () => INK, scale: null },
         fontSize: viz.type.tick, fontWeight: 600 }),
-      Plot.text(data, { x: barKey, dy: 22, frameAnchor: 'bottom', textAnchor: 'middle',
+      Plot.text(data, { x: barKey, dy: 24, frameAnchor: 'bottom', textAnchor: 'middle',
         fontFamily: MONO, text: (d) => d.engine,
         fill: INK, fontSize: viz.type.tick, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 40, frameAnchor: 'bottom', textAnchor: 'middle',
@@ -231,7 +231,7 @@ function linesFacet(c) {
     const node = Plot.plot({
       document: dom.window.document,
       width: pw, height: c.height,
-      marginLeft: 58, marginRight: 24, marginTop: 62, marginBottom: 56,
+      marginLeft: 74, marginRight: 26, marginTop: 48, marginBottom: 62,
       style: { fontFamily: MONO, fontSize: `${viz.type.tick}px`, background: 'none',
                color: MUTED },
       x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]),
@@ -267,8 +267,8 @@ function linesFacet(c) {
     });
 
     const step = xs.length > 1 ? xs[1] - xs[0] : 40;
-    const top = 62;
-    const bot = c.height - 56;
+    const top = 48;
+    const bot = c.height - 62;
     const crosshair = `<line data-viz-crosshair="${fi}" x1="0" y1="${top}" x2="0" y2="${bot}"`
       + ` stroke="${MUTED}" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>`;
 
@@ -294,7 +294,7 @@ function linesFacet(c) {
     const head = `<text x="${pw / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
       + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">`
       + `${esc(c.facetLabel.replace('{}', fv))}</text>`;
-    const xlab = `<text x="${pw / 2}" y="${c.height - 8}" text-anchor="middle" font-family="${MONO}"`
+    const xlab = `<text x="${pw / 2}" y="${c.height - 62 + 56}" text-anchor="middle" font-family="${MONO}"`
       + ` font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
     const ylab = `<text transform="translate(13,${c.height / 2}) rotate(-90)" text-anchor="middle"`
       + ` font-family="${MONO}" font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.yLabel)}</text>`;
