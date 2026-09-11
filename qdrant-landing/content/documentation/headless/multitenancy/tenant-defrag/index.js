@@ -7,7 +7,7 @@
  * a tenant to highlight its points and see the seek count.
  *
  * Pure SVG + CSS on the shared island design system (islands.scss): chrome
- * colors switch with the host theme, tenant hues are the categorical palette.
+ * colors switch with the host theme, tenant hues stay constant.
  */
 
 const NS = 'http://www.w3.org/2000/svg';

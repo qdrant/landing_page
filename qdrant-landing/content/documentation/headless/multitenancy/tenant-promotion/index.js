@@ -10,7 +10,7 @@
  * Layout is balanced: a tall Default shard on the left, and user_1 + the
  * promoted shard stacked on the right at the same total height, so there is no
  * empty space. Pure SVG + CSS on the shared island design system
- * (islands.scss); tenant hues are the categorical palette.
+ * (islands.scss); tenant hues stay constant.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
