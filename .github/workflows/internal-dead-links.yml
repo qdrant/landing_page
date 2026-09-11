@@ -32,6 +32,8 @@ jobs:
             curl -sf http://localhost:1314/ >/dev/null && break
             sleep 1
           done
+      - name: Marketing Markdown Output Check
+        run: automation/check-markdown-output.sh
       - name: Internal Links Check
         id: lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
