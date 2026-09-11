@@ -25,6 +25,30 @@ const INK = 'var(--viz-ink)';
 const MUTED = 'var(--viz-muted)';
 const GRIDC = 'var(--viz-grid)';
 
+// Shared layout. Every chart kind uses these, so two charts in different posts
+// read as the same object. Widths are pinned in the manifest to the same value
+// for the same reason: the SVG scales to the column, so a wider viewBox renders
+// identical font sizes smaller.
+const LAYOUT = {
+  top: 62, right: 36, bottom: 68, left: 74,
+  gap: 44, titleY: 20, subtitleY: 38,
+};
+
+// Panel heading, shared so the title/subtitle block sits identically everywhere.
+const panelHead = (w, title, subtitle) =>
+  `<text x="${w / 2}" y="${LAYOUT.titleY}" text-anchor="middle" font-family="${MONO}"`
+  + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">${esc(title)}</text>`
+  + (subtitle
+    ? `<text x="${w / 2}" y="${LAYOUT.subtitleY}" text-anchor="middle" font-family="${MONO}"`
+      + ` font-size="${viz.type.tick}" fill="${MUTED}">${esc(subtitle)}</text>`
+    : '');
+
+// Rotated y-axis label, shared for the same reason.
+const yAxisLabel = (h, text) =>
+  `<text transform="translate(13,${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
+  + ` text-anchor="middle" font-family="${MONO}" font-size="${viz.type.tick - 1}"`
+  + ` fill="${MUTED}">${esc(text)}</text>`;
+
 const readCsv = (p) => {
   const [head, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
   const cols = head.split(',');
@@ -60,7 +84,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 function panel(c, p, data, w, h) {
   const values = rawCol(c.data, p.y);
   const colors = [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[3]];
-  const marginTop = 66, marginBottom = 68, marginLeft = 72, marginRight = 40;
+  const { top: marginTop, bottom: marginBottom, left: marginLeft, right: marginRight } = LAYOUT;
 
   const node = Plot.plot({
     document: dom.window.document,
@@ -120,18 +144,7 @@ function panel(c, p, data, w, h) {
       + ` height="${h - marginTop - marginBottom}" fill="transparent"/>`;
   }).join('');
 
-  const head =
-    `<text x="${w / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
-    + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">${esc(p.title)}</text>`
-    + (p.subtitle
-      ? `<text x="${w / 2}" y="40" text-anchor="middle" font-family="${MONO}"`
-        + ` font-size="${viz.type.tick}" fill="${MUTED}">${esc(p.subtitle)}</text>`
-      : '');
-  const midY = (marginTop + (h - marginBottom)) / 2;
-  const axisLabel = `<text transform="translate(13,${midY}) rotate(-90)" text-anchor="middle"`
-    + ` font-family="${MONO}" font-size="${viz.type.tick - 1}"`
-    + ` fill="${MUTED}">${esc(p.axis)}</text>`;
-  return head + axisLabel + plotted + zones;
+  return panelHead(w, p.title, p.subtitle) + yAxisLabel(h, p.axis) + plotted + zones;
 }
 
 
@@ -209,10 +222,7 @@ function heatmap(c) {
     + `<text x="${lx + lw + 14}" y="${ly + 9}" font-family="${MONO}" font-size="${viz.type.tick - 1}"`
     + ` fill="${MUTED}">${esc(c.legend || 'recall')}</text>`;
 
-  const title = `<text x="${(left + cols.length * cw) / 2 + left / 2}" y="22" text-anchor="middle"`
-    + ` font-family="${MONO}" font-size="${viz.type.label}" font-weight="700"`
-    + ` fill="${INK}">${esc(c.title)}</text>`;
-  return title + out;
+  return panelHead(2 * left + cols.length * cw, c.title, c.subtitle) + out;
 }
 
 
@@ -223,7 +233,7 @@ function heatmap(c) {
 function linesFacet(c) {
   const data = readCsv(c.data);
   const facets = [...new Set(data.map((d) => d[c.facet]))];
-  const gap = 46;
+  const gap = LAYOUT.gap;
   const pw = (c.width - gap) / facets.length;
 
   return facets.map((fv, fi) => {
@@ -231,7 +241,8 @@ function linesFacet(c) {
     const node = Plot.plot({
       document: dom.window.document,
       width: pw, height: c.height,
-      marginLeft: 74, marginRight: 26, marginTop: 48, marginBottom: 62,
+      marginLeft: LAYOUT.left, marginRight: LAYOUT.right,
+      marginTop: LAYOUT.top, marginBottom: LAYOUT.bottom,
       style: { fontFamily: MONO, fontSize: `${viz.type.tick}px`, background: 'none',
                color: MUTED },
       x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]),
@@ -267,8 +278,8 @@ function linesFacet(c) {
     });
 
     const step = xs.length > 1 ? xs[1] - xs[0] : 40;
-    const top = 48;
-    const bot = c.height - 62;
+    const top = LAYOUT.top;
+    const bot = c.height - LAYOUT.bottom;
     const crosshair = `<line data-viz-crosshair="${fi}" x1="0" y1="${top}" x2="0" y2="${bot}"`
       + ` stroke="${MUTED}" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>`;
 
@@ -291,13 +302,10 @@ function linesFacet(c) {
         + ` x="${cx - step / 2}" y="${top}" width="${step}" height="${bot - top}" fill="transparent"/>`;
     }).join('');
 
-    const head = `<text x="${pw / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
-      + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">`
-      + `${esc(c.facetLabel.replace('{}', fv))}</text>`;
-    const xlab = `<text x="${pw / 2}" y="${c.height - 62 + 56}" text-anchor="middle" font-family="${MONO}"`
+    const head = panelHead(pw, c.facetLabel.replace('{}', fv), c.subtitle);
+    const xlab = `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${MONO}"`
       + ` font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
-    const ylab = `<text transform="translate(13,${c.height / 2}) rotate(-90)" text-anchor="middle"`
-      + ` font-family="${MONO}" font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.yLabel)}</text>`;
+    const ylab = yAxisLabel(c.height, c.yLabel);
     return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${crosshair}${zones}${xlab}</g>`;
   }).join('') + legend(c, c.width);
 }
@@ -330,7 +338,7 @@ for (const c of manifest) {
   }
   if (c.kind !== 'columns-2panel') throw new Error(`unsupported kind ${c.kind}`);
   const data = readCsv(c.data);
-  const gap = 44;
+  const gap = LAYOUT.gap;
   const pw = (c.width - gap) / 2;
   // No frame: gridlines carry the structure, so nothing can touch a border.
   const body = c.panels.map((p, i) =>

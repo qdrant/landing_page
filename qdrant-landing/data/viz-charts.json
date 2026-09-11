@@ -56,11 +56,11 @@
       0.45,
       1.0
     ],
-    "cellWidth": 74,
+    "cellWidth": 83,
     "cellHeight": 30,
     "marginLeft": 150,
     "marginTop": 56,
-    "width": 892,
+    "width": 980,
     "height": 386
   },
   {
@@ -85,9 +85,10 @@
       "defragmented",
       "non-defragmented"
     ],
-    "width": 880,
-    "height": 340,
+    "width": 980,
+    "height": 360,
     "extraHeight": 44,
-    "unit": "RPS"
+    "unit": "RPS",
+    "subtitle": "higher is better"
   }
 ]
