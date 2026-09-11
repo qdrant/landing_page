@@ -71,6 +71,16 @@ const readableInk = (hex) => {
   return L > 0.45 ? viz.surface.ink : '#ffffff';
 };
 
+
+// Plot puts its typography and fill on the ROOT <svg> — fill="currentColor",
+// style="color: …", font-family, font-size — and we keep only innerHTML, so all
+// of that is thrown away and every axis label falls back to SVG's default black.
+// On the dark theme that is unreadable. Re-apply it on a wrapping <g>; marks
+// that set their own fill still win.
+const wrapPlot = (inner) =>
+  `<g fill="currentColor" style="color:${MUTED}" font-family="${MONO}"`
+  + ` font-size="${viz.type.axis}" text-anchor="middle">${inner}</g>`;
+
 // Which CSV columns label a bar. Defaults keep the diskbbq chart working.
 const topCol = (c) => c.labelTop || 'engine';
 const botCol = (c) => c.labelBottom || 'config';
@@ -152,7 +162,7 @@ function panel(c, p, data, w, h) {
       + ` height="${h - marginTop - marginBottom}" fill="transparent"/>`;
   }).join('');
 
-  return panelHead(w, p.title, p.subtitle) + yAxisLabel(h, p.axis) + plotted + zones;
+  return panelHead(w, p.title, p.subtitle) + yAxisLabel(h, p.axis) + wrapPlot(plotted) + zones;
 }
 
 
@@ -325,7 +335,7 @@ function linesFacet(c) {
     const xlab = `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${MONO}"`
       + ` font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
     const ylab = yAxisLabel(c.height, (c.yLabels && c.yLabels[fv]) || c.yLabel);
-    return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${crosshair}${zones}${xlab}</g>`;
+    return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${wrapPlot(plotted)}${crosshair}${zones}${xlab}</g>`;
   }).join('') + (c.series.length > 1 ? legend(c, c.width) : '');
 }
 
@@ -400,7 +410,7 @@ function groupedColumns(c) {
     + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
 
   return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel)
-    + plotted + zones + legendRow;
+    + wrapPlot(plotted) + zones + legendRow;
 }
 
 for (const c of manifest) {
