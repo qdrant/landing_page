@@ -38,11 +38,14 @@
     }
   },
   "type": {
+    "$comment": "Named roles, not arithmetic. Every chart kind uses the same five sizes.",
     "family": "'Mona Sans', -apple-system, 'Segoe UI', sans-serif",
     "mono": "'Geist Mono', ui-monospace, monospace",
-    "label": 15,
-    "title": 20,
-    "tick": 13
+    "title": 15,
+    "subtitle": 13,
+    "axis": 13,
+    "label": 12,
+    "small": 11
   },
   "stroke": {
     "hairline": 1,
