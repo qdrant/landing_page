@@ -1,9 +1,14 @@
 {{- /*
   viz-figure — the one wrapper for every generated visual.
 
-  Enforces the accessibility contract from the design spec §7: a required
-  caption becomes both the SVG <title> (announced once, via aria-labelledby)
-  and the visible <figcaption>.
+  Every visual goes through here so the accessibility contract is enforced in
+  one place instead of trusted to each call site: a caption is required, and it
+  becomes the SVG's accessible name. A chart whose caption is optional ships
+  without one, and then the only description a screen reader gets is silence.
+
+  The caption is authored per call site rather than baked into the generated
+  SVG, because the same chart can make a different point in a different post —
+  the numbers are the artifact, the claim about them is not.
 
   Params:
     svg      inner SVG markup, WITHOUT the outer <svg> tag

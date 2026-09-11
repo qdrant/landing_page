@@ -1,4 +1,8 @@
-// Blog visualisation figures. See docs/superpowers/specs/2026-08-27-blog-visual-system-design.md
+// Blog visualisation figures.
+//
+// Imported into the global bundle (_components.scss) rather than a per-section
+// one, because a figure can appear in blog or articles and the tooltip it
+// spawns is appended to <body>, outside any section's subtree.
 //
 // Data colours (bar fills, heatmap ramp) live in data/viz.json and arrive inside
 // the SVG — they carry meaning, so they do not change with the theme. Chrome
