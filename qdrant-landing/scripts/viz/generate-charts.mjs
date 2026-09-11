@@ -220,24 +220,67 @@ function linesFacet(c) {
   const pw = (c.width - gap) / facets.length;
 
   return facets.map((fv, fi) => {
-    const rows = data.filter((d) => d[c.facet] === fv);
+    const rows_ = data.filter((d) => d[c.facet] === fv);
     const node = Plot.plot({
       document: dom.window.document,
       width: pw, height: c.height,
       marginLeft: 58, marginRight: 24, marginTop: 62, marginBottom: 56,
       style: { fontFamily: MONO, fontSize: `${viz.type.tick}px`, background: 'none',
                color: MUTED },
-      x: { type: 'point', label: null, domain: rows.map((r) => r[c.x]),
+      x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]),
            tickFormat: (v) => `${v}%` },
       y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true,
            label: null, tickFormat: (v) => (v >= 1 ? String(v) : String(v)) },
       marks: c.series.flatMap((sName, si) => [
-        Plot.line(rows, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
-        Plot.dot(rows, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
+        Plot.line(rows_, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
+        Plot.dot(rows_, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
       ]),
     });
     const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
-    const plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+    let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+
+    // Snap-to-x-column interaction, the way a line chart wants to be read: you
+    // hover anywhere in a column and every series reads out together at that x.
+    // Take the x positions from Plot's own emitted dots rather than recomputing
+    // the point scale — whatever Plot did is the truth.
+    const dotGroups = [...plotted.matchAll(/<g aria-label="dot"[\s\S]*?<\/g>/g)].map((m) => m[0]);
+    const xs = dotGroups.length
+      ? [...dotGroups[0].matchAll(/cx="([\d.]+)"/g)].map((m) => Number(m[1]))
+      : [];
+
+    // Tag each dot with its column key so hovering rings every series at that x.
+    let gi = 0;
+    plotted = plotted.replace(/<g aria-label="dot"[\s\S]*?<\/g>/g, (g) => {
+      const si = gi++;
+      let ci = 0;
+      return g.replace(/<circle /g, () => `<circle data-viz-key="${fv}-x${ci++}" `);
+    });
+
+    const step = xs.length > 1 ? xs[1] - xs[0] : 40;
+    const top = 62;
+    const bot = c.height - 56;
+    const crosshair = `<line data-viz-crosshair="${fi}" x1="0" y1="${top}" x2="0" y2="${bot}"`
+      + ` stroke="${MUTED}" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>`;
+
+    const zones = xs.map((cx, i) => {
+      // Rows sorted high to low so the tooltip order matches how the lines
+      // actually stack at this x — reading raw series order puts a low line
+      // above a high one and the eye has to re-map it every time.
+      const rows = c.series
+        .map((sName, si) => ({ k: (c.seriesLabels || c.series)[si],
+                               n: Number(rows_[i][sName]),
+                               c: viz.palette.categorical[si] }))
+        .sort((a, b) => b.n - a.n)
+        .map((r) => ({ k: r.k, v: `${r.n} ${c.unit || ''}`.trim(), c: r.c }));
+      return `<rect data-viz-zone data-viz-key="${fv}-x${i}" data-viz-x="${cx}"`
+        + ` data-viz-panel="${fi}"`
+        + ` data-viz-title="${esc(c.facetLabel.replace('{}', fv))} · ${esc(rows_[i][c.x])}%"`
+        + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
+        + ` tabindex="0" role="button"`
+        + ` aria-label="${esc(fv + ' at ' + rows_[i][c.x] + ' percent')}"`
+        + ` x="${cx - step / 2}" y="${top}" width="${step}" height="${bot - top}" fill="transparent"/>`;
+    }).join('');
+
     const head = `<text x="${pw / 2}" y="22" text-anchor="middle" font-family="${MONO}"`
       + ` font-size="${viz.type.label}" font-weight="700" fill="${INK}">`
       + `${esc(c.facetLabel.replace('{}', fv))}</text>`;
@@ -245,7 +288,7 @@ function linesFacet(c) {
       + ` font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
     const ylab = `<text transform="translate(13,${c.height / 2}) rotate(-90)" text-anchor="middle"`
       + ` font-family="${MONO}" font-size="${viz.type.tick - 1}" fill="${MUTED}">${esc(c.yLabel)}</text>`;
-    return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${xlab}</g>`;
+    return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${plotted}${crosshair}${zones}${xlab}</g>`;
   }).join('') + legend(c, c.width);
 }
 

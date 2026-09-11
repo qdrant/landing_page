@@ -87,6 +87,7 @@
     ],
     "width": 880,
     "height": 330,
-    "extraHeight": 46
+    "extraHeight": 46,
+    "unit": "RPS"
   }
 ]

@@ -54,6 +54,22 @@
   Array.prototype.forEach.call(figures, function (fig) {
     var zones = fig.querySelectorAll('[data-viz-zone]');
 
+    // Line charts carry a dashed vertical rule that snaps to the hovered
+    // x-column, so the eye can read every series at the same x.
+    function setCrosshair(zone) {
+      var lines = fig.querySelectorAll('[data-viz-crosshair]');
+      for (var i = 0; i < lines.length; i++) lines[i].setAttribute('opacity', '0');
+      if (!zone) return;
+      var x = zone.getAttribute('data-viz-x');
+      var panel = zone.getAttribute('data-viz-panel');
+      if (x === null || panel === null) return;
+      var line = fig.querySelector('[data-viz-crosshair="' + panel + '"]');
+      if (!line) return;
+      line.setAttribute('x1', x);
+      line.setAttribute('x2', x);
+      line.setAttribute('opacity', '1');
+    }
+
     function setActive(key) {
       // Zones carry a key too, but they are invisible hit targets — ringing
       // them would draw a tall box around the whole column.
@@ -74,19 +90,20 @@
       var rows;
       try { rows = JSON.parse(z.getAttribute('data-viz-rows') || '[]'); } catch (err) { rows = []; }
 
-      function enter(e) { setActive(key); show(e, title, rows); }
+      function enter(e) { setActive(key); setCrosshair(z); show(e, title, rows); }
       z.addEventListener('pointerenter', enter);
       z.addEventListener('pointermove', move);
-      z.addEventListener('pointerleave', function () { setActive(null); hide(); });
+      z.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
       // Keyboard parity: the zones are focusable, so tabbing reads the same rows.
       z.addEventListener('focus', function () {
         setActive(key);
+        setCrosshair(z);
         var r = z.getBoundingClientRect();
         show({ clientX: r.left + r.width / 2, clientY: r.top }, title, rows);
       });
-      z.addEventListener('blur', function () { setActive(null); hide(); });
+      z.addEventListener('blur', function () { setActive(null); setCrosshair(null); hide(); });
     });
 
-    fig.addEventListener('pointerleave', function () { setActive(null); hide(); });
+    fig.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
   });
 })();

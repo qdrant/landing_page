@@ -62,13 +62,24 @@
 // "Highlight, don't reorder": nothing dims and nothing moves. The hovered
 // series gains a ring, so the eye is drawn without the rest being hidden.
 .viz-figure__svg [data-viz-key] {
-  transition: stroke-width 90ms ease-out, stroke 90ms ease-out;
+  transition: stroke-width 90ms ease-out, stroke 90ms ease-out, r 90ms ease-out;
 }
 
 .viz-figure__svg [data-viz-active] {
   stroke: var(--viz-ink);
   stroke-width: 2;
   paint-order: stroke;
+}
+
+// Dots are small, so a 2px ring swamps them; ring thinner and grow the dot.
+.viz-figure__svg circle[data-viz-active] {
+  stroke-width: 1.5;
+  r: 5.5;
+}
+
+.viz-figure__svg [data-viz-crosshair] {
+  transition: opacity 90ms ease-out;
+  pointer-events: none;
 }
 
 .viz-tip {
