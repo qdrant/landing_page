@@ -216,5 +216,24 @@
     "width": 980,
     "height": 400,
     "extraHeight": 44
+  },
+  {
+    "id": "rrf-k/weight",
+    "data": "assets/viz/rrf-k/weight.csv",
+    "kind": "grouped-columns",
+    "title": "Share of a prefetch's top-10 score mass at each rank",
+    "subtitle": "RRF weight 1/(pos + k), normalised over the top 10",
+    "group": "rank",
+    "series": "k",
+    "y": "share",
+    "yLabel": "% of score mass",
+    "yMax": 26,
+    "colors": [
+      0,
+      1
+    ],
+    "width": 980,
+    "height": 380,
+    "extraHeight": 44
   }
 ]
