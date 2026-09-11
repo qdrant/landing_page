@@ -16,7 +16,7 @@ Getting all the points of a large collection with a single call to the [Scroll A
 
 Qdrant's [`slice` filter condition](/documentation/search/filtering/#slice), available as of v1.19.0, addresses this pain point: it divides a collection into a fixed number of deterministic, disjoint subsets, so a fixed number of workers can each claim one subset with no coordination, and a single subset makes a reproducible sample for evaluation or a train/test split.
 
-Qdrant assigns each point to one slice by hashing its ID, and, for a fixed `total`, slices `0` through `total - 1` are disjoint and together cover the whole collection. Unlike [random sampling](/documentation/search/search/#random-sampling), a given slice always returns the same points, and it composes with any other filter condition, including a payload filter. Because `slice` matches on the point ID hash rather than payload data, it needs no payload index: like `has_id`, it is checked per candidate point within each shard that receives the query.
+Qdrant assigns every point to one slice by hashing its ID. For a fixed `total`, slices `0` through `total - 1` never overlap and together cover the entire collection. Unlike [random sampling](/documentation/search/search/#random-sampling), the same slice always returns the same set of points. You can also combine `slice` with any other filter condition, including payload filters. Because slicing is based on the point ID hash rather than payload data, it does not require a payload index. Like `has_id`, the slice condition is checked against each candidate point within every shard that receives the query.
 
 This tutorial covers four uses: parallel `scroll` across workers, restricting a vector search with `query_points`, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
 
@@ -35,8 +35,6 @@ pip install qdrant-client
 While the installation completes, follow the [Cloud Quickstart](/documentation/cloud-quickstart/) to create a free cluster and retrieve the credentials to connect the client to it. This tutorial uses [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to embed the sample data server-side, with the free model `sentence-transformers/all-MiniLM-L6-v2`.
 
 ```python
-import os
-
 from qdrant_client import AsyncQdrantClient, models
 
 client = AsyncQdrantClient(
