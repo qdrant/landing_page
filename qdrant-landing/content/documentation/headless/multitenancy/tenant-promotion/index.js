@@ -9,8 +9,8 @@
  *
  * Layout is balanced: a tall Default shard on the left, and user_1 + the
  * promoted shard stacked on the right at the same total height, so there is no
- * empty space. Pure SVG + CSS; colors come from CSS custom properties that
- * switch on the host theme.
+ * empty space. Pure SVG + CSS on the shared island design system
+ * (islands.scss); tenant hues stay constant.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -38,21 +38,21 @@ export function mount(node) {
   node.classList.add('qi-tp');
 
   node.innerHTML = [
-    '<div class="qi-tp__fig">',
-    '  <div class="qi-tp__controls">',
-    '    <div class="qi-tp__promote-group">',
-    '      <span class="qi-tp__controls-label">Promote a tenant:</span>',
+    '<div class="qi-fig">',
+    '  <div class="qi-controls">',
+    '    <div class="qi-group qi-tp__promote-group">',
+    '      <span class="qi-hint">Promote a tenant:</span>',
     SMALL.map(
       (t) =>
-        `<button type="button" class="qi-tp__btn qi-tp__btn--${t.id}" data-tenant="${t.id}">` +
-        `<span class="qi-tp__swatch"></span>${t.label}</button>`,
+        `<button type="button" class="qi-chip qi-tp__btn qi-tp__btn--${t.id}" data-tenant="${t.id}">` +
+        `<span class="qi-chip__swatch"></span>${t.label}</button>`,
     ).join(''),
     '    </div>',
-    '    <button type="button" class="qi-tp__btn qi-tp__reset" data-reset hidden>',
-    '      <svg class="qi-tp__reset-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>Reset',
+    '    <button type="button" class="qi-chip qi-tp__reset" data-reset hidden>',
+    '      <svg class="qi-chip__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>Reset',
     '    </button>',
     '  </div>',
-    '  <svg class="qi-tp__svg" viewBox="0 0 720 250" role="img"',
+    '  <svg class="qi-svg qi-tp__svg" viewBox="0 0 720 250" role="img"',
     '    aria-label="Small tenants share the Default shard; user_1 has a dedicated shard. Promoting a tenant moves it to its own dedicated shard.">',
     '    <defs>',
     '      <marker id="qi-tp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">',
@@ -63,25 +63,25 @@ export function mount(node) {
     '    <g class="qi-tp__promo" style="display: none">',
     `      <path class="qi-tp__arrow" d="M ${DEF.x + DEF.w} ${ARROW_Y} L ${PRO.x - 4} ${ARROW_Y}" marker-end="url(#qi-tp-arrow)"/>`,
     `      <g class="qi-tp__pill" transform="translate(${(DEF.x + DEF.w + PRO.x) / 2 - 46} ${ARROW_Y - 34})">`,
-    '        <rect class="qi-tp__pill-bg" x="0" y="0" width="92" height="26" rx="6"/>',
+    '        <rect class="qi-tp__pill-bg" x="0" y="0" width="92" height="26" rx="4"/>',
     '        <text class="qi-tp__pill-text" x="46" y="17">Promotion</text>',
     '      </g>',
     '    </g>',
     // Default (shared fallback) shard
-    `    <rect class="qi-tp__frame" x="${DEF.x}" y="${DEF.y}" width="${DEF.w}" height="${DEF.h}" rx="10"/>`,
-    `    <text class="qi-tp__frame-label" x="${DEF.x + 16}" y="${DEF.y + 28}">\`Default\` Shard</text>`,
+    `    <rect class="qi-frame" x="${DEF.x}" y="${DEF.y}" width="${DEF.w}" height="${DEF.h}" rx="6"/>`,
+    `    <text class="qi-frame-label" x="${DEF.x + 16}" y="${DEF.y + 28}">\`Default\` Shard</text>`,
     '    <g class="qi-tp__default-bars"></g>',
     // user_1 dedicated shard (static context)
-    `    <rect class="qi-tp__frame" x="${BIG.x}" y="${BIG.y}" width="${BIG.w}" height="${BIG.h}" rx="10"/>`,
-    `    <text class="qi-tp__frame-label" x="${BIG.x + 16}" y="${BIG.y + 28}">\`user_1\` Shard</text>`,
+    `    <rect class="qi-frame" x="${BIG.x}" y="${BIG.y}" width="${BIG.w}" height="${BIG.h}" rx="6"/>`,
+    `    <text class="qi-frame-label" x="${BIG.x + 16}" y="${BIG.y + 28}">\`user_1\` Shard</text>`,
     '    <g class="qi-tp__big-bars"></g>',
     // Promoted (dedicated) shard — placeholder before promotion, fills on promotion
-    `    <rect class="qi-tp__frame qi-tp__frame--dashed" x="${PRO.x}" y="${PRO.y}" width="${PRO.w}" height="${PRO.h}" rx="10"/>`,
-    `    <text class="qi-tp__placeholder" x="${PRO.x + PRO.w / 2}" y="${PRO.y + PRO.h / 2 + 4}" text-anchor="middle">a promoted tenant lands here</text>`,
-    `    <text class="qi-tp__frame-label qi-tp__promoted-label" x="${PRO.x + 16}" y="${PRO.y + 28}" style="display: none"></text>`,
+    `    <rect class="qi-frame qi-tp__frame--dashed" x="${PRO.x}" y="${PRO.y}" width="${PRO.w}" height="${PRO.h}" rx="6"/>`,
+    `    <text class="qi-label qi-tp__placeholder" x="${PRO.x + PRO.w / 2}" y="${PRO.y + PRO.h / 2 + 4}" text-anchor="middle">a promoted tenant lands here</text>`,
+    `    <text class="qi-frame-label qi-tp__promoted-label" x="${PRO.x + 16}" y="${PRO.y + 28}" style="display: none"></text>`,
     '    <g class="qi-tp__pro-bars"></g>',
     '  </svg>',
-    '  <p class="qi-tp__status" role="status" aria-live="polite"></p>',
+    '  <p class="qi-status qi-tp__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
@@ -176,7 +176,7 @@ export function mount(node) {
       } else {
         placeholder.style.display = '';
       }
-      statusEl.innerHTML = 'Small tenants share the <code>Default</code> fallback shard. Promote one to give it a dedicated shard.';
+      statusEl.innerHTML = 'Small tenants share the <code>Default</code> shard. Promote one to give it its own.';
       return;
     }
 
@@ -207,7 +207,7 @@ export function mount(node) {
     timers.push(
       window.setTimeout(() => {
         promotedFrame.classList.add('is-active');
-        statusEl.innerHTML = `<b>${t.label}</b> promoted to its own dedicated shard (<b>Active</b>). Its requests now route there.`;
+        statusEl.innerHTML = `<b>${t.label}</b> now has a dedicated shard (<b>Active</b>); its requests route there.`;
       }, settle * 1000),
     );
   }

@@ -1,139 +1,38 @@
-/* tenant-promotion island. Scoped under .qi-tp. Chrome colors switch on the
-   host theme via CSS custom properties; tenant hues stay constant. */
+/* tenant-promotion island. Scoped under .qi-tp. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the point bars and the promotion connector. Tenant hues are
+   constant across themes (values from _theme-variables.scss). */
 
 .qi-tp {
-  /* Light theme (default). Values from _theme-variables.scss. */
-  --tp-frame: #d4d9e6; /* neutral-90 */
-  --tp-fg: #28324d; /* neutral-30 */
-  --tp-muted: #576280; /* neutral-50 */
-  --tp-control-bg: #f0f3fa; /* neutral-98 */
-  --tp-control-border: #d4d9e6; /* neutral-90 */
-  --tp-arrow: #e0700d; /* warning-50 (matches user_3) */
-
   --tp-u1: #2f6ff0; /* secondary-blue-50 */
   --tp-u2: #e02828; /* error-50 */
   --tp-u3: #e0700d; /* warning-50 */
   --tp-u4: #008a53; /* success-50 */
+  /* Connector color: set to the promoted tenant's hue from JS. */
+  --tp-arrow: var(--qi-muted);
 
   display: block;
-  color: var(--tp-fg);
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme='light']) .qi-tp {
-    --tp-frame: #28324d; /* neutral-30 */
-    --tp-fg: #e1e5f0; /* neutral-94 */
-    --tp-muted: #8f98b2; /* neutral-70 */
-    --tp-control-bg: #161e33; /* neutral-20 */
-    --tp-control-border: #28324d; /* neutral-30 */
-  }
+.qi-tp__btn--u2 {
+  --swatch: var(--tp-u2);
 }
-html[data-theme='dark'] .qi-tp {
-  --tp-frame: #28324d; /* neutral-30 */
-  --tp-fg: #e1e5f0; /* neutral-94 */
-  --tp-muted: #8f98b2; /* neutral-70 */
-  --tp-control-bg: #161e33; /* neutral-20 */
-  --tp-control-border: #28324d; /* neutral-30 */
+.qi-tp__btn--u3 {
+  --swatch: var(--tp-u3);
 }
-
-.qi-tp__fig {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* --- Controls --- */
-.qi-tp__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  min-height: 34px;
-}
-.qi-tp__promote-group {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-.qi-tp__controls-label {
-  font-size: 14px;
-  color: var(--tp-muted);
-  margin-right: 4px;
-}
-.qi-tp__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px;
-  border: 1px solid var(--tp-control-border);
-  border-radius: 8px;
-  background: var(--tp-control-bg);
-  color: var(--tp-fg);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  transition: border-color 0.15s ease, opacity 0.15s ease;
-}
-.qi-tp__btn:hover:not(:disabled) {
-  border-color: var(--tp-muted);
-}
-.qi-tp__btn:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-.qi-tp__btn.is-active {
-  border-color: currentColor;
-  opacity: 1;
-}
-.qi-tp__swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  flex: none;
-}
-.qi-tp__btn--u2 .qi-tp__swatch {
-  background: var(--tp-u2);
-}
-.qi-tp__btn--u3 .qi-tp__swatch {
-  background: var(--tp-u3);
-}
-.qi-tp__btn--u4 .qi-tp__swatch {
-  background: var(--tp-u4);
-}
-.qi-tp__reset {
-  color: var(--tp-muted);
-}
-.qi-tp__reset-icon {
-  flex: none;
+.qi-tp__btn--u4 {
+  --swatch: var(--tp-u4);
 }
 
 /* --- SVG --- */
-.qi-tp__svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.qi-tp__frame {
-  fill: var(--tp-control-bg);
-  stroke: var(--tp-frame);
-  stroke-width: 1.5;
-}
 .qi-tp__frame--dashed {
-  stroke-dasharray: 6 5;
+  stroke-dasharray: 5 4;
   transition: stroke-dasharray 0.3s ease;
 }
 .qi-tp__frame--dashed.is-active {
   stroke-dasharray: none;
 }
-.qi-tp__frame-label {
-  fill: var(--tp-muted);
-  font-size: 15px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
 .qi-tp__placeholder {
-  fill: var(--tp-muted);
-  font-size: 13px;
   opacity: 0.7;
 }
 
@@ -171,7 +70,7 @@ html[data-theme='dark'] .qi-tp {
 .qi-tp__arrow {
   fill: none;
   stroke: var(--tp-arrow);
-  stroke-width: 2.5;
+  stroke-width: 2;
 }
 .qi-tp__arrowhead {
   fill: var(--tp-arrow);
@@ -181,17 +80,10 @@ html[data-theme='dark'] .qi-tp {
 }
 .qi-tp__pill-text {
   fill: #fff;
-  font-size: 13px;
+  font-family: var(--qi-mono);
+  font-size: 12px;
   font-weight: 600;
   text-anchor: middle;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
-
-.qi-tp__status {
-  margin: 0;
-  min-height: 20px;
-  font-size: 14px;
-  color: var(--tp-fg);
 }
 
 @media (prefers-reduced-motion: reduce) {

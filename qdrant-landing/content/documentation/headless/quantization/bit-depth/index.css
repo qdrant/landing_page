@@ -1,155 +1,44 @@
-/* bit-depth island. Scoped under .qi-bd. Chrome colors switch on the host
-   theme via CSS custom properties; the data palette (bucket blues, bit
-   greens) stays constant. */
+/* bit-depth island. Scoped under .qi-bd. Controls and labels come from the
+   shared island design system (islands.scss); this file only styles the
+   cells, bits, bars and the histogram. Data palette: blue scale (--qi-cat-1)
+   for buckets/values, teal (--qi-cat-3) for bits, Qdrant red for thresholds. */
 
 .qi-bd {
-  /* Light theme (default). Values from _theme-variables.scss. */
-  --bd-fg: #28324d; /* neutral-30 */
-  --bd-muted: #576280; /* neutral-50 */
-  --bd-control-bg: #f0f3fa; /* neutral-98 */
-  --bd-control-border: #d4d9e6; /* neutral-90 */
-  --bd-axis: #b4bacc; /* neutral-80 */
-  --bd-cell-stroke: rgba(22, 30, 51, 0.3);
-  --bd-accent: #dc244c; /* primary-50 (thresholds only) */
-  --bd-hot: #28324d; /* neutral-30: quiet highlight outline */
-  --bd-bar-float: #b4bacc; /* neutral-80 */
-  --bd-bit-off: #a9e8c4; /* between success-90 and success-70, visible on white */
-
-  /* Data palette. The two light blues are a step darker than in dark mode so
+  --bd-bit-on: var(--qi-cat-3);
+  --bd-bit-off: var(--qi-cat-3-soft);
+  /* Bucket blues. The two light ones are a step darker than in dark mode so
      they read against a white page. */
   --bd-neg: #c5d2fb;
   --bd-zero: #7a9ef7;
   --bd-pos: #0040a1; /* secondary-blue-30 */
-  --bd-bit-on: #008a53; /* success-50 */
 
   display: block;
-  color: var(--bd-fg);
 }
-
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) .qi-bd {
-    --bd-fg: #e1e5f0; /* neutral-94 */
-    --bd-muted: #8f98b2; /* neutral-70 */
-    --bd-control-bg: #161e33; /* neutral-20 */
-    --bd-control-border: #28324d; /* neutral-30 */
-    --bd-axis: #3d4866; /* neutral-40 */
-    --bd-cell-stroke: rgba(225, 229, 240, 0.18);
-    --bd-hot: #f0f3fa; /* neutral-98 */
-    --bd-bar-float: #3d4866; /* neutral-40 */
-    --bd-bit-off: #00522f; /* success-30 */
     --bd-neg: #d9e2fe; /* secondary-blue-90 */
     --bd-zero: #89a9ff; /* secondary-blue-70 */
   }
 }
 html[data-theme='dark'] .qi-bd {
-  --bd-fg: #e1e5f0; /* neutral-94 */
-  --bd-muted: #8f98b2; /* neutral-70 */
-  --bd-control-bg: #161e33; /* neutral-20 */
-  --bd-control-border: #28324d; /* neutral-30 */
-  --bd-axis: #3d4866; /* neutral-40 */
-  --bd-cell-stroke: rgba(225, 229, 240, 0.18);
-  --bd-hot: #f0f3fa; /* neutral-98 */
-  --bd-bar-float: #3d4866; /* neutral-40 */
-  --bd-bit-off: #00522f; /* success-30 */
   --bd-neg: #d9e2fe; /* secondary-blue-90 */
   --bd-zero: #89a9ff; /* secondary-blue-70 */
 }
 
-.qi-bd__fig {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* --- Controls --- */
-.qi-bd__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 16px;
-}
-.qi-bd__seg {
-  display: inline-flex;
-  padding: 3px;
-  border: 1px solid var(--bd-control-border);
-  border-radius: 10px;
-  background: var(--bd-control-bg);
-}
-.qi-bd__seg-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: var(--bd-muted);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease;
-}
-.qi-bd__seg-btn:hover {
-  color: var(--bd-fg);
-}
-.qi-bd__seg-btn[aria-pressed='true'] {
-  background: var(--bd-pos);
-  color: #fff;
-}
-.qi-bd__seg-ratio {
-  font-size: 11px;
-  opacity: 0.75;
-  font-variant-numeric: tabular-nums;
-}
-.qi-bd__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px;
-  border: 1px solid var(--bd-control-border);
-  border-radius: 8px;
-  background: var(--bd-control-bg);
-  color: var(--bd-muted);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-.qi-bd__btn:hover {
-  border-color: var(--bd-muted);
-  color: var(--bd-fg);
-}
-.qi-bd__btn-icon {
-  flex: none;
-}
-
-/* --- SVG --- */
-.qi-bd__svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.qi-bd__label {
-  fill: var(--bd-muted);
-  font-size: 13px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
-
 .qi-bd__cell {
-  stroke: var(--bd-cell-stroke);
+  stroke: var(--qi-cell-stroke);
   stroke-width: 1;
   cursor: pointer;
   transition: fill 0.4s ease;
 }
 .qi-bd__cell.is-hot {
-  stroke: var(--bd-hot);
+  stroke: var(--qi-hot);
   stroke-width: 2;
 }
 
 .qi-bd__bit {
   fill: var(--bd-bit-off);
-  stroke: var(--bd-cell-stroke);
+  stroke: var(--qi-cell-stroke);
   stroke-width: 0.75;
   cursor: pointer;
   transition: fill 0.25s ease;
@@ -163,7 +52,7 @@ html[data-theme='dark'] .qi-bd {
   stroke-dasharray: 3 2;
 }
 .qi-bd__bit.is-hot {
-  stroke: var(--bd-hot);
+  stroke: var(--qi-hot);
   stroke-width: 2;
   stroke-dasharray: none;
 }
@@ -172,20 +61,15 @@ html[data-theme='dark'] .qi-bd {
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .qi-bd__bar--float {
-  fill: var(--bd-bar-float);
+  fill: var(--qi-line);
 }
 .qi-bd__bar--q {
   fill: var(--bd-bit-on);
 }
-.qi-bd__bar-text {
-  fill: var(--bd-muted);
-  font-size: 12px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
 
 .qi-bd__sq {
   fill: var(--bd-zero);
-  stroke: var(--bd-cell-stroke);
+  stroke: var(--qi-cell-stroke);
   stroke-width: 1;
   cursor: pointer;
   transition: fill 0.35s ease, opacity 0.2s ease;
@@ -197,22 +81,16 @@ html[data-theme='dark'] .qi-bd {
   fill: var(--bd-pos);
 }
 .qi-bd__sq.is-hot {
-  stroke: var(--bd-hot);
+  stroke: var(--qi-hot);
   stroke-width: 2;
 }
-.qi-bd__axis {
-  stroke: var(--bd-axis);
-  stroke-width: 1.5;
-}
 .qi-bd__threshold {
-  stroke: var(--bd-accent);
+  stroke: var(--qi-accent);
   stroke-width: 1.5;
   stroke-dasharray: 4 4;
 }
 .qi-bd__threshold-label {
-  fill: var(--bd-accent);
-  font-size: 12px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
+  fill: var(--qi-accent);
 }
 .qi-bd__band {
   opacity: 0.9;
@@ -221,7 +99,7 @@ html[data-theme='dark'] .qi-bd {
   stroke-width: 2;
 }
 .qi-bd__band.is-hot {
-  stroke: var(--bd-hot);
+  stroke: var(--qi-hot);
 }
 .qi-bd__band.is-neg {
   fill: var(--bd-neg);
@@ -232,25 +110,8 @@ html[data-theme='dark'] .qi-bd {
 .qi-bd__band.is-pos {
   fill: var(--bd-pos);
 }
-.qi-bd__band-label {
-  fill: var(--bd-fg);
-  font-size: 12px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
 .qi-bd__marker {
-  fill: var(--bd-hot);
-}
-
-/* Two lines are reserved so the text switching on hover never reflows the page. */
-.qi-bd__status {
-  margin: 0;
-  min-height: calc(2 * 1.45em);
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--bd-fg);
-}
-.qi-bd__status sub {
-  font-size: 0.75em;
+  fill: var(--qi-hot);
 }
 
 @media (prefers-reduced-motion: reduce) {

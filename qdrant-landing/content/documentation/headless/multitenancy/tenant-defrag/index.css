@@ -1,205 +1,55 @@
-/* tenant-defrag island. Scoped under .qi-td. Chrome colors switch on the host
-   theme via CSS custom properties; tenant hues stay constant (categorical). */
+/* tenant-defrag island. Scoped under .qi-td. Controls, frame and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the point bars and the contiguity underline. Tenant hues are constant
+   across themes (values from _theme-variables.scss). */
 
 .qi-td {
-  /* Light theme (default). Values from _theme-variables.scss. */
-  --td-frame: #d4d9e6; /* neutral-90 */
-  --td-fg: #28324d; /* neutral-30 */
-  --td-muted: #576280; /* neutral-50 */
-  --td-control-bg: #f0f3fa; /* neutral-98 */
-  --td-control-border: #d4d9e6; /* neutral-90 */
-  --td-track: #b4bacc; /* neutral-80 */
-  --td-accent: #dc244c; /* primary-50 */
-
-  /* Tenant palette (shared across themes). */
   --td-a: #2f6ff0; /* secondary-blue-50 */
   --td-b: #008a53; /* success-50 */
   --td-c: #e0700d; /* warning-50 */
   --td-d: #e02828; /* error-50 */
 
   display: block;
-  color: var(--td-fg);
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme='light']) .qi-td {
-    --td-frame: #28324d; /* neutral-30 */
-    --td-fg: #e1e5f0; /* neutral-94 */
-    --td-muted: #8f98b2; /* neutral-70 */
-    --td-control-bg: #161e33; /* neutral-20 */
-    --td-control-border: #28324d; /* neutral-30 */
-    --td-track: #3d4866; /* neutral-40 */
-  }
+.qi-td__chip--a {
+  --swatch: var(--td-a);
 }
-html[data-theme='dark'] .qi-td {
-  --td-frame: #28324d; /* neutral-30 */
-  --td-fg: #e1e5f0; /* neutral-94 */
-  --td-muted: #8f98b2; /* neutral-70 */
-  --td-control-bg: #161e33; /* neutral-20 */
-  --td-control-border: #28324d; /* neutral-30 */
-  --td-track: #3d4866; /* neutral-40 */
+.qi-td__chip--b {
+  --swatch: var(--td-b);
 }
-
-.qi-td__fig {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.qi-td__chip--c {
+  --swatch: var(--td-c);
 }
-
-/* --- Controls --- */
-.qi-td__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 18px;
-}
-
-.qi-td__toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 12px 6px 8px;
-  border: 1px solid var(--td-control-border);
-  border-radius: 999px;
-  background: var(--td-control-bg);
-  color: var(--td-fg);
-  font: inherit;
-  font-size: 14px;
-  cursor: pointer;
-}
-.qi-td__toggle-track {
-  position: relative;
-  width: 38px;
-  height: 22px;
-  border-radius: 999px;
-  background: var(--td-track);
-  transition: background 0.2s ease;
-  flex: none;
-}
-.qi-td__toggle-knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #fff;
-  transition: transform 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-.qi-td__toggle[aria-pressed='true'] .qi-td__toggle-track {
-  background: var(--td-accent);
-}
-.qi-td__toggle[aria-pressed='true'] .qi-td__toggle-knob {
-  transform: translateX(16px);
-}
-.qi-td__toggle-label b {
-  font-variant-numeric: tabular-nums;
-}
-
-.qi-td__legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.qi-td__chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 11px;
-  border: 1px solid var(--td-control-border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--td-muted);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-}
-.qi-td__chip:hover {
-  color: var(--td-fg);
-}
-.qi-td__chip[aria-pressed='true'] {
-  color: var(--td-fg);
-  border-color: currentColor;
-  background: var(--td-control-bg);
-}
-.qi-td__swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  flex: none;
-}
-.qi-td__chip--a .qi-td__swatch {
-  background: var(--td-a);
-}
-.qi-td__chip--b .qi-td__swatch {
-  background: var(--td-b);
-}
-.qi-td__chip--c .qi-td__swatch {
-  background: var(--td-c);
-}
-.qi-td__chip--d .qi-td__swatch {
-  background: var(--td-d);
-}
-
-/* --- SVG stage --- */
-.qi-td__svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.qi-td__frame {
-  fill: var(--td-control-bg);
-  stroke: var(--td-frame);
-  stroke-width: 1.5;
-}
-.qi-td__frame-label {
-  fill: var(--td-muted);
-  font-size: 15px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
+.qi-td__chip--d {
+  --swatch: var(--td-d);
 }
 
 .qi-td__bar {
   transition: x 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
 }
-.qi-td__bar--a {
+.qi-td__bar--a,
+.qi-td__run--a {
   fill: var(--td-a);
 }
-.qi-td__bar--b {
+.qi-td__bar--b,
+.qi-td__run--b {
   fill: var(--td-b);
 }
-.qi-td__bar--c {
+.qi-td__bar--c,
+.qi-td__run--c {
   fill: var(--td-c);
 }
-.qi-td__bar--d {
+.qi-td__bar--d,
+.qi-td__run--d {
   fill: var(--td-d);
 }
 .qi-td__bar.is-dim {
   opacity: 0.16;
 }
 
-.qi-td__run--a {
-  fill: var(--td-a);
-}
-.qi-td__run--b {
-  fill: var(--td-b);
-}
-.qi-td__run--c {
-  fill: var(--td-c);
-}
-.qi-td__run--d {
-  fill: var(--td-d);
-}
 .qi-td__run {
   transition: x 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.qi-td__status {
-  margin: 0;
-  min-height: 20px;
-  font-size: 14px;
-  color: var(--td-fg);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,119 +1,49 @@
-/* asymmetric island. Scoped under .qi-aq. Chrome colors switch on the host
-   theme via CSS custom properties; the data palette (blue value scale,
-   candidate hues) stays constant. */
+/* asymmetric island. Scoped under .qi-aq. Controls and labels come from the
+   shared island design system (islands.scss); this file only styles the cells
+   and the scatter. Sign hues come from the shared palette: blue (--qi-cat-1)
+   for positive, Qdrant red (--qi-cat-4) for negative. */
 
 .qi-aq {
-  /* Light theme (default). Values from _theme-variables.scss. */
-  --aq-fg: #28324d; /* neutral-30 */
-  --aq-muted: #576280; /* neutral-50 */
-  --aq-control-bg: #f0f3fa; /* neutral-98 */
-  --aq-control-border: #d4d9e6; /* neutral-90 */
-  --aq-cell-stroke: rgba(22, 30, 51, 0.3);
-  --aq-hot: #28324d; /* neutral-30: quiet highlight outline */
-
-  /* Data palette (shared across themes): hue = sign, saturation = magnitude. */
-  --aq-pos: #2f6ff0; /* secondary-blue-50 */
-  --aq-neg: #e0700d; /* warning-50 */
+  --aq-pos: var(--qi-cat-1);
+  --aq-neg: var(--qi-cat-4);
 
   display: block;
-  color: var(--aq-fg);
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme='light']) .qi-aq {
-    --aq-fg: #e1e5f0; /* neutral-94 */
-    --aq-muted: #8f98b2; /* neutral-70 */
-    --aq-control-bg: #161e33; /* neutral-20 */
-    --aq-control-border: #28324d; /* neutral-30 */
-    --aq-cell-stroke: rgba(225, 229, 240, 0.18);
-    --aq-hot: #f0f3fa; /* neutral-98 */
-  }
-}
-html[data-theme='dark'] .qi-aq {
-  --aq-fg: #e1e5f0; /* neutral-94 */
-  --aq-muted: #8f98b2; /* neutral-70 */
-  --aq-control-bg: #161e33; /* neutral-20 */
-  --aq-control-border: #28324d; /* neutral-30 */
-  --aq-cell-stroke: rgba(225, 229, 240, 0.18);
-  --aq-hot: #f0f3fa; /* neutral-98 */
-}
-
-.qi-aq__fig {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* --- Controls --- */
-.qi-aq__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 16px;
-}
-.qi-aq__hint {
-  font-size: 13px;
-  color: var(--aq-muted);
-}
-.qi-aq__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px;
-  border: 1px solid var(--aq-control-border);
-  border-radius: 8px;
-  background: var(--aq-control-bg);
-  color: var(--aq-muted);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-.qi-aq__btn:hover {
-  border-color: var(--aq-muted);
-  color: var(--aq-fg);
-}
-.qi-aq__btn-icon {
-  flex: none;
-}
-
-/* --- SVG --- */
-.qi-aq__svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.qi-aq__title {
-  fill: var(--aq-fg);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
-.qi-aq__label {
-  fill: var(--aq-muted);
-  font-size: 12px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
 .qi-aq__op {
-  fill: var(--aq-fg);
+  fill: var(--qi-fg);
   font-weight: 600;
 }
+
+/* --- Cells: hue = sign, fill-opacity = magnitude (set from JS) --- */
+.qi-aq__cell {
+  fill: var(--aq-pos);
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  transition: fill 0.35s ease, fill-opacity 0.35s ease;
+}
+.qi-aq__cell.is-neg {
+  fill: var(--aq-neg);
+}
+.qi-aq__cell.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+
 /* --- Scatter: estimated vs exact contribution --- */
 .qi-aq__plot {
-  fill: var(--aq-control-bg);
-  stroke: var(--aq-control-border);
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
   stroke-width: 1;
 }
 .qi-aq__diag {
-  stroke: var(--aq-muted);
+  stroke: var(--qi-muted);
   stroke-width: 1;
   stroke-dasharray: 4 4;
 }
 .qi-aq__dot {
   fill: var(--aq-pos);
-  stroke: var(--aq-control-bg);
+  stroke: var(--qi-surface);
   stroke-width: 1;
   cursor: pointer;
   transition: cx 0.4s ease, cy 0.4s ease;
@@ -122,49 +52,26 @@ html[data-theme='dark'] .qi-aq {
   fill: var(--aq-neg);
 }
 .qi-aq__dot.is-hot {
-  stroke: var(--aq-hot);
+  stroke: var(--qi-hot);
   stroke-width: 2;
   r: 5.5;
 }
 /* Error: from the dot straight to the diagonal. */
 .qi-aq__err {
-  stroke: var(--aq-muted);
+  stroke: var(--qi-muted);
   stroke-width: 1;
   opacity: 0.5;
   pointer-events: none;
   transition: x1 0.4s ease, x2 0.4s ease, y1 0.4s ease, y2 0.4s ease;
 }
 .qi-aq__err.is-hot {
-  stroke: var(--aq-hot);
+  stroke: var(--qi-hot);
   opacity: 1;
   stroke-width: 1.5;
 }
 .qi-aq__gap {
-  fill: var(--aq-muted);
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-}
-.qi-aq__cell {
-  fill: var(--aq-pos);
-  stroke: var(--aq-cell-stroke);
-  stroke-width: 1;
-  transition: fill 0.35s ease, fill-opacity 0.35s ease;
-}
-.qi-aq__cell.is-neg {
-  fill: var(--aq-neg);
-}
-.qi-aq__cell.is-hot {
-  stroke: var(--aq-hot);
-  stroke-width: 2;
-}
-/* Two lines are reserved so the text switching on hover never reflows the page. */
-.qi-aq__status {
-  margin: 0;
-  min-height: calc(2 * 1.45em);
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--aq-fg);
 }
 
 @media (prefers-reduced-motion: reduce) {
