@@ -186,7 +186,7 @@ A particularly interesting combination is binary stored vectors and Scalar quant
 This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU.
 This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.
 
-See how to set up Asymmetric Quantization quantization in the [following section](#set-up-asymmetric-quantization)
+See how to set up Asymmetric Quantization in the [following section](#set-up-asymmetric-quantization)
 
 ## Product Quantization
 

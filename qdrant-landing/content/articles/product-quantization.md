@@ -83,7 +83,7 @@ the way it has to be calculated. The query vector is divided into chunks, and th
 distance as a sum of distances between the subvectors and the centroids assigned to the specific id of 
 the vector we compare to. We know the coordinates of the centroids, so that's easy.
 
-![Calculating the distance of between the query and the stored vector](/articles_data/product-quantization/distance-calculation.png)
+![Calculating the distance between the query and the stored vector](/articles_data/product-quantization/distance-calculation.png)
 
 #### Qdrant implementation
 

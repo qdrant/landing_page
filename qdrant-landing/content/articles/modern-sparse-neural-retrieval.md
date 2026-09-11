@@ -229,7 +229,7 @@ show good results on MS MARCO test data, but when it comes to generalisation (wo
 ### State-of-the-Art of Modern Sparse Neural Retrieval
 
 ![Sparse Lexical and Expansion Model Plus Plus, (SPLADE++)](/articles_data/modern-sparse-neural-retrieval/SPLADE++.png)
-The authors of the [`Sparse Lexical and Expansion Model (SPLADE)]`](https://arxiv.org/pdf/2109.10086) family of models added dense model training tricks to the 
+The authors of the [`Sparse Lexical and Expansion Model (SPLADE)`](https://arxiv.org/pdf/2109.10086) family of models added dense model training tricks to the 
 internal document expansion idea, which made the retrieval quality noticeably better. 
 
 - The SPARTA model is not sparse enough by construction, so authors of the SPLADE family of models introduced explicit **sparsity regularisation**, 
@@ -397,7 +397,7 @@ from qdrant_client import QdrantClient, models
 qdrant_client = QdrantClient(":memory:") # Qdrant is running from RAM.
 ```
 
-Now, let's create a [collection](https://qdrant.tech/documentation/manage-data/collections/) in which could upload our sparse SPLADE++ embeddings. \
+Now, let's create a [collection](https://qdrant.tech/documentation/manage-data/collections/) in which we could upload our sparse SPLADE++ embeddings. \
 For that, we will use the [sparse vectors](https://qdrant.tech/documentation/manage-data/vectors/#sparse-vectors) representation supported in Qdrant.
 
 ```python
@@ -409,7 +409,7 @@ qdrant_client.create_collection(
     },
 )
 ```
-To make this collection human-readable, let's save movie metadata (name, description and movie's length) together with an embeddings.
+To make this collection human-readable, let's save movie metadata (name, description and movie's length) together with embeddings.
 <details>
 <summary> Movie metadata </summary>
 

@@ -94,7 +94,7 @@ methods are really popular among our users, and we were curious to check if they
 embeddings with the same success.
 
 We took the `static-retrieval-mrl-en-v1` model and tested it on various subsets of 
-[BeIR](https://github.com/beir-cellar/beir) with and without Binary Quantization, to see how much if affects the 
+[BeIR](https://github.com/beir-cellar/beir) with and without Binary Quantization, to see how much it affects the 
 retrieval quality. The results are really promising, as shown in our NDCG@10 measurements (a metric that evaluates the 
 ranking quality of search results, with higher scores indicating better performance):
 
@@ -134,7 +134,7 @@ ranking quality of search results, with higher scores indicating better performa
     </tbody>
 </table>
 
-Binary Quantization definitely speeds up the retrieval, and make it cheaper, but also seems not to affect the quality of 
+Binary Quantization definitely speeds up the retrieval, and makes it cheaper, but also seems not to affect the quality of 
 the retrieval much in some cases. **However, that's something you should carefully verify on your own data**. If you are 
 a Qdrant user, then you can just enable quantization on an existing collection and [measure the impact on the retrieval 
 quality](/documentation/tutorials-search-engineering/ann-recall/).
@@ -146,7 +146,7 @@ repo](https://github.com/kacperlukawski/beir-qdrant/blob/main/examples/retrieval
 ## Who should use static embeddings?
 
 Static embeddings seem to be a budget-friendly option for those who would like to use semantic search in their 
-applications, but can't afford hosting standard representation models, or cannot do it, i.e. due to hardware 
+applications, but can't afford hosting standard representation models, or cannot do it, e.g. due to hardware 
 constraints. Some of the use cases might be:
 
 - **Mobile applications** - although many smartphones have powerful CPUs or even GPUs, the battery life is still a 
@@ -164,7 +164,7 @@ environments**. The speedup in the encoding process might be a game-changer for 
 ### Customization of the static embeddings
 
 Last, but not least. The training pipeline published by [Tom Aarsen](https://www.tomaarsen.com) can help you to train
-your own static embeddings models, so **you can adjust it the specifics of your data easily**. This training process 
+your own static embeddings models, so **you can adjust it to the specifics of your data easily**. This training process 
 will also be way faster than for a transformer-based model, so you can even retrain it more often. Recomputing the 
 embeddings is a bottleneck of the semantic search systems, and the static embeddings might be a good solution to this 
 problem. Whether a custom static embedding model can beat a general pre-trained model remains an open question, but it's 

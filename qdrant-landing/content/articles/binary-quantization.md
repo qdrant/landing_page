@@ -81,7 +81,7 @@ You will still get faster boolean operations and reduced RAM usage, but the accu
 
 ## Sample implementation
 
-Now that we have introduced you to binary quantization, let’s try our a basic implementation. In this example, we will be using OpenAI and Cohere with Qdrant.
+Now that we have introduced you to binary quantization, let’s try out a basic implementation. In this example, we will be using OpenAI and Cohere with Qdrant.
 
 #### Create a collection with Binary Quantization enabled
 
@@ -150,7 +150,7 @@ client.update_collection(
     collection_name=f"{collection_name}",
     hnsw_config=models.HnswConfigDiff(
         m=16,
-    ,
+    ),
 )
 ```
 #### Configure the search parameters:
@@ -179,7 +179,7 @@ If you have lower accuracy requirements you can even try doing a small oversampl
 
 ## Benchmark results
 
-We retrieved some early results on the relationship between limit and oversampling using the the DBPedia OpenAI 1M vector dataset. We ran all these experiments on a Qdrant instance where 100K vectors were indexed and used 100 random queries. 
+We retrieved some early results on the relationship between limit and oversampling using the DBPedia OpenAI 1M vector dataset. We ran all these experiments on a Qdrant instance where 100K vectors were indexed and used 100 random queries. 
 
 We varied the 3 parameters that will affect query time and accuracy: limit, rescore and oversampling. We offer these as an initial exploration of this new feature. You are highly encouraged to reproduce these experiments with your datasets.
 
