@@ -51,7 +51,23 @@
 
   function hide() { tip.classList.remove('is-on'); }
 
+  // Each figure is wired in isolation. Without this, a throw while wiring one
+  // figure aborts the whole forEach and silently kills hover on every figure
+  // after it — the failure would be invisible, since the SVG still renders.
+  //
+  // No load timeout here, unlike the island loader: nothing in this file is
+  // async. The SVG is already in the document and this only attaches listeners,
+  // so there is no pending state a timeout could rescue.
   Array.prototype.forEach.call(figures, function (fig) {
+    try {
+      wireFigure(fig);
+    } catch (err) {
+      // Leave the chart exactly as rendered: static, correct, just not hoverable.
+      if (window.console && console.warn) console.warn('viz: figure not wired', err);
+    }
+  });
+
+  function wireFigure(fig) {
     var zones = fig.querySelectorAll('[data-viz-zone]');
 
     // Line charts carry a dashed vertical rule that snaps to the hovered
@@ -85,6 +101,14 @@
     }
 
     Array.prototype.forEach.call(zones, function (z) {
+      try {
+        wireZone(z);
+      } catch (err) {
+        if (window.console && console.warn) console.warn('viz: zone not wired', err);
+      }
+    });
+
+    function wireZone(z) {
       var key = z.getAttribute('data-viz-key');
       var title = z.getAttribute('data-viz-title') || '';
       var rows;
@@ -102,8 +126,8 @@
         show({ clientX: r.left + r.width / 2, clientY: r.top }, title, rows);
       });
       z.addEventListener('blur', function () { setActive(null); setCrosshair(null); hide(); });
-    });
+    }
 
     fig.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
-  });
+  }
 })();
