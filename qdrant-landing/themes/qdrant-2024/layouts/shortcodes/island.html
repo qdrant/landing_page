@@ -1,0 +1,97 @@
+{{- /*
+  island — embed a self-contained interactive micro-app in content.
+
+  An island is a folder given by `path` (relative to the project root):
+    <path>/index.js   required. ES module exporting mount(node).
+    <path>/index.css  optional. Styles scoped under the island's root class.
+  Islands are typically grouped by page in the headless bundle, e.g.
+  content/documentation/headless/<page>/<island>/, which is render:never /
+  publishResources:false, so the raw files are not published; this shortcode
+  reads them and builds fingerprinted assets. Any other location works too.
+
+  The fallback is authored in the markdown as the shortcode's INNER content
+  (typically an image), so an editor viewing the source still sees it, and it
+  renders when the island cannot (no JS). The `title` is rendered here as a
+  shared <figcaption> — it labels both the fallback and the live island — so
+  island modules do not render their own title/caption.
+
+  Usage (always paired, so the fallback can live inside):
+    {{< island path="content/documentation/headless/multitenancy/tenant-defrag" title="…" width="90%" >}}
+    ![Alt text](/docs/defragmentation.png)
+    {{< /island >}}
+
+  Params:
+    path    Required. Island folder path from the project root (fails if <path>/index.js is missing).
+    title   Optional. Shared caption (markdown) for the island and its fallback.
+    width   Optional. "600" -> 600px, "90%" -> 90%; sizes the illustration and centers it. Empty -> full width.
+    ratio   Optional. Reserved aspect-ratio of the illustration. Default "16 / 9".
+  Inner content: markdown fallback — the no-JS / error view. With JS, a loader
+  shows while the island loads and the island replaces it on `island:ready`.
+*/ -}}
+
+{{- $page := .Page -}}
+{{- $path := trim (.Get "path" | default "") "/ " -}}
+
+{{- if not $path -}}
+  {{- errorf "island shortcode in %q needs a `path` param" $page.File.Path -}}
+{{- end -}}
+
+{{- /* `path` is the island folder, relative to the project root, e.g.
+       "content/documentation/headless/multitenancy/tenant-defrag". */ -}}
+{{- $jsFile := printf "%s/index.js" $path -}}
+{{- if not (fileExists $jsFile) -}}
+  {{- errorf "island shortcode in %q: no island module for %q (expected %q)" $page.File.Path $path $jsFile -}}
+{{- end -}}
+
+{{- /* Asset name (published URL prefix) from the last two path segments. */ -}}
+{{- $name := printf "islands/%s/%s" (path.Base (path.Dir $path)) (path.Base $path) -}}
+{{- /* The resource name carries a short hash of the file content. Hugo's dev
+       server caches resources.FromString by name for the whole session, so
+       without this an edited island keeps being served from its first build
+       until the server is restarted. */ -}}
+{{- $jsSrc := readFile $jsFile -}}
+{{- $js := resources.FromString (printf "%s/index.%s.js" $name (substr (sha1 $jsSrc) 0 8)) $jsSrc | js.Build (dict "format" "esm" "minify" true) | resources.Fingerprint "sha512" -}}
+{{- $cssFile := printf "%s/index.css" $path -}}
+{{- $css := "" -}}
+{{- if fileExists $cssFile -}}
+  {{- $cssSrc := readFile $cssFile -}}
+  {{- $css = (resources.FromString (printf "%s/index.%s.css" $name (substr (sha1 $cssSrc) 0 8)) $cssSrc | minify | resources.Fingerprint "sha512").RelPermalink -}}
+{{- end -}}
+
+{{- /* width: "600" -> 600px, "90%" -> 90%. Sizes the illustration (fallback +
+       app together); empty -> full width. */ -}}
+{{- $widthRaw := trim (.Get "width" | default "") " " -}}
+{{- $width := "" -}}
+{{- with $widthRaw -}}
+  {{- if strings.HasSuffix . "%" -}}{{- $width = . -}}{{- else -}}{{- $width = printf "%spx" (replaceRE "px$" "" .) -}}{{- end -}}
+{{- end -}}
+{{- $ratio := .Get "ratio" | default "16 / 9" -}}
+{{- $title := .Get "title" | default "" -}}
+{{- $fallback := trim (.Inner | default "") "\n " -}}
+
+{{- /* The loader (js.html) and shell CSS (css.html) are gated on
+       `.HasShortcode "island"`, so no page-store flag is needed here. */ -}}
+
+<figure
+  class="island"
+  data-island="{{ $path }}"
+  data-island-src="{{ $js.RelPermalink }}"
+  {{ with $css }}data-island-css="{{ . }}"{{ end }}
+>
+  {{/* The stage reserves space by `ratio` (matching the illustration), so the
+       reservation scales with the width and the fallback never changes it.
+       `width` sizes the whole illustration; empty -> full width. Caption is
+       always full width. safeCSS: the "16 / 9" slash is otherwise sanitized. */}}
+  {{- $style := printf "aspect-ratio: %s" $ratio -}}
+  {{- with $width }}{{ $style = printf "%s; max-width: %s; margin-inline: auto" $style . }}{{ end -}}
+  <div class="island__stage" style="{{ $style | safeCSS }}">
+    {{ with $fallback }}<div class="island__fallback">{{ $page.RenderString . }}</div>{{ end }}
+    <div class="island__spinner" aria-hidden="true">
+      <span class="island__spinner-dot"></span>
+      <span class="island__spinner-dot"></span>
+      <span class="island__spinner-dot"></span>
+    </div>
+    <div class="island__mount"></div>
+  </div>
+  {{ with $title }}<figcaption class="island__caption">{{ $page.RenderString . }}</figcaption>{{ end }}
+</figure>
