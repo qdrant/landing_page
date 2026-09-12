@@ -110,7 +110,7 @@ WordNet is useful for showing why hyperbolic embeddings work, but we also wanted
 
 Both embeddings used the same data and optimizer. The main difference was the geometry.
 
-We scored them with mean average precision (MAP), which asks how close each category's true parents land to the top of its results. Higher is better, and `1.000` would mean every parent came back first.
+We scored them with mean average precision, written MAP from here on. It asks how close each category's true parents land to the top of its results. Higher is better, and `1.000 MAP` would mean every parent came back first.
 
 | Dimensions | Euclidean MAP | Poincaré MAP |
 | ---------- | ------------: | -----------: |
@@ -120,11 +120,11 @@ We scored them with mean average precision (MAP), which asks how close each cate
 | 20 | 0.551 | 0.932 |
 | 50 | 0.658 | 0.934 |
 
-At just 5 dimensions, the Poincaré embedding reaches `0.905 MAP`. The Euclidean version only reaches `0.658` at 50 dimensions, using ten times as many coordinates.
+At just 5 dimensions, the Poincaré embedding reaches `0.905 MAP`. The Euclidean version only reaches `0.658 MAP` at 50 dimensions, using ten times as many coordinates.
 
 That is the part that matters. When the data really does branch like a tree, hyperbolic geometry can represent that structure much more efficiently.
 
-There is one limitation. These numbers measure relationships the embedding already saw during training. When we asked it to find each category's direct parent instead, the score dropped to `0.539`.
+There is one limitation. These numbers measure relationships the embedding already saw during training. When we asked it to find each category's direct parent instead, the score dropped to `0.539 MAP`.
 
 So we would not treat this as a universal win. We would treat it as a strong reason to test hyperbolic embeddings when the data itself is hierarchical.
 
@@ -132,13 +132,13 @@ So we would not treat this as a universal win. We would treat it as a strong rea
 
 Getting a good embedding was only half the problem. The next question was how to search it.
 
-Hyperbolic distance can be converted into an inner product by adding two extra dimensions. Under brute force search in Faiss, that worked well. Across 82,115 WordNet nouns it found `0.986` of the correct nearest neighbors in its top 10, which we write as recall@10.
+Hyperbolic distance can be converted into an inner product by adding two extra dimensions. Under brute force search in Faiss, that worked well. Across 82,115 WordNet nouns it found `0.986` of the correct nearest neighbors in its top 10, a measure we write as recall@10.
 
-Then we put the same vectors behind HNSW. Recall dropped to `0.020`, even with `ef=1024`.
+Then we put the same vectors behind HNSW. Recall@10 dropped to `0.020`, even with `ef=1024`.
 
 The conversion was still mathematically correct, but the resulting vectors had norms spread across roughly a 600x range. That made HNSW a poor fit for the ranking we actually wanted.
 
-Grouping vectors by norm helped, but recall only reached `0.410`.
+Grouping vectors by norm helped, but recall@10 only reached `0.410`.
 
 So instead of forcing the converted vectors into HNSW, we changed the search strategy.
 
@@ -162,7 +162,7 @@ Without that payload index the rescore turns into a full scan.
 
 Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request.
 
-The geodesic needs `acosh`, and Formula Query works with `ln` and `sqrt`. Since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
+The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query does not have that operator. It does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
 
 ```json
 {
@@ -177,11 +177,14 @@ The geodesic needs `acosh`, and Formula Query works with `ln` and `sqrt`. Since 
 
 ```json
 {
-  "prefetch": [{"query": [-0.3189, 0.9057, -0.0140, 0.1646, -0.0439],
-                "using": "hyperbolic", "limit": 1000}],
-  "query": {"formula": {"neg": {"ln": {"sum": [
-    x, {"sqrt": {"sum": [{"pow": {"base": x, "exponent": 2.0}}, -1.0]}}
-  ]}}}},
+  "prefetch": [
+    {"query": [-0.3189, 0.9057, -0.0140, 0.1646, -0.0439], "using": "hyperbolic", "limit": 1000}
+  ],
+  "query": {
+    "formula": {
+      "neg": {"ln": {"sum": [x, {"sqrt": {"sum": [{"pow": {"base": x, "exponent": 2.0}}, -1.0]}}]}}
+    }
+  },
   "limit": 10
 }
 ```
@@ -202,7 +205,7 @@ The prefetch size matters. If the right neighbors never make it into the candida
 
 There is one more tradeoff. As the embedding gets better, the prefetch usually needs to get wider.
 
-Comparing two embeddings offline, the stronger one at `0.905 MAP` recovered `0.498` of the true neighbors from a prefetch of 50, while a weaker one at `0.724 MAP` recovered `0.789`. Those offline numbers sit a little above what the live index returns, because HNSW is approximate.
+Comparing two embeddings offline, the stronger one at `0.905 MAP` recovered `0.498` of the true neighbors from a prefetch of 50, while a weaker one at `0.724 MAP` recovered `0.789` of them. Those offline numbers sit a little above what the live index returns, because HNSW is approximate.
 
 Better hyperbolic embeddings push more points toward the edge of the Poincaré ball, where Euclidean distance becomes a weaker shortcut. So if you improve the embedding, retest the retrieval settings too.
 
@@ -220,11 +223,9 @@ The distances shown in the viewer come directly from Qdrant. Nothing is recalcul
 
 We checked the same calculations outside Qdrant, and they matched within `4.7e-07`. So the viewer is showing the actual search behavior, not an approximation.
 
-<!-- TODO: worked example, one live query with real distances -->
-
 ## Takeaways
 
-If your data naturally forms a hierarchy, we would test a small hyperbolic embedding before automatically reaching for a much larger Euclidean one. On the product taxonomy, a 5 dimensional Poincaré embedding reached `0.905 MAP`. A 50 dimensional Euclidean embedding reached `0.658`.
+If your data naturally forms a hierarchy, we would test a small hyperbolic embedding before automatically reaching for a much larger Euclidean one. On the product taxonomy, a 5 dimensional Poincaré embedding reached `0.905 MAP`. A 50 dimensional Euclidean embedding reached `0.658 MAP`.
 
 The harder part is serving it. We would not convert the vectors and index them directly with HNSW. That worked under brute force search, but recall@10 dropped to `0.020` once HNSW was involved.
 
