@@ -1,13 +1,13 @@
 /* tenant-defrag island. Scoped under .qi-td. Controls, frame and labels come
    from the shared island design system (islands.scss); this file only styles
    the point bars and the contiguity underline. Tenant hues are constant
-   across themes (values from _theme-variables.scss). */
+   across themes (design-system palette, see Colors). */
 
 .qi-td {
-  --td-a: #2f6ff0; /* secondary-blue-50 */
-  --td-b: #008a53; /* success-50 */
-  --td-c: #e0700d; /* warning-50 */
-  --td-d: #e02828; /* error-50 */
+  --td-a: #6047ff; /* neon-blue-500 */
+  --td-b: #388e3c; /* green-700 */
+  --td-c: #ef6c00; /* warning-800 */
+  --td-d: #dc244c; /* amaranth-500 */
 
   display: block;
 }

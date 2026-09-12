@@ -42,7 +42,7 @@ Instead of many random disk seeks across the segment, the data of one tenant can
 
 {{< island
     path="content/documentation/headless/multitenancy/tenant-defrag"
-    width="90%" title="With `is_tenant=true`, the points of one tenant are stored together and read sequentially."
+    width="90%" ratio="12 / 5" title="With `is_tenant=true`, the points of one tenant are stored together and read sequentially."
 >}}
 ![Tenants defragmentation with is_tenant](/docs/defragmentation.png)
 {{< /island >}}
@@ -140,7 +140,7 @@ There are three components in Qdrant that allow you to implement tiered multiten
 - **Fallback shards** - a special routing mechanism that allows you to route requests to either a dedicated shard (if it exists) or to a shared fallback shard. It allows you to keep requests unified, without the need to know whether a tenant is dedicated or shared.
 - **Tenant promotion** - a mechanism that allows you to move tenants from the shared fallback shard to their own dedicated shard when they grow large enough. This process is based on Qdrant's internal shard transfer mechanism, which makes promotion completely transparent for the application. The promotion process supports both read and write requests.
 
-{{< island path="content/documentation/headless/multitenancy/tenant-promotion" width="90%" title="Tiered multitenancy: small tenants share the fallback shard, promoted tenants get their own." >}}
+{{< island path="content/documentation/headless/multitenancy/tenant-promotion" width="90%" ratio="15 / 7" title="Tiered multitenancy: small tenants share the fallback shard, promoted tenants get their own." >}}
 ![Tiered multitenancy with tenant promotion](/docs/tenant-promotion.png)
 {{< /island >}}
 

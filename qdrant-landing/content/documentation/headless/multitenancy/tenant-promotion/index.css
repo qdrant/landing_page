@@ -1,13 +1,13 @@
 /* tenant-promotion island. Scoped under .qi-tp. Controls, frames and labels
    come from the shared island design system (islands.scss); this file only
    styles the point bars and the promotion connector. Tenant hues are
-   constant across themes (values from _theme-variables.scss). */
+   constant across themes (design-system palette, see Colors). */
 
 .qi-tp {
-  --tp-u1: #2f6ff0; /* secondary-blue-50 */
-  --tp-u2: #e02828; /* error-50 */
-  --tp-u3: #e0700d; /* warning-50 */
-  --tp-u4: #008a53; /* success-50 */
+  --tp-u1: #6047ff; /* neon-blue-500 */
+  --tp-u2: #dc244c; /* amaranth-500 */
+  --tp-u3: #ef6c00; /* warning-800 */
+  --tp-u4: #388e3c; /* green-700 */
   /* Connector color: set to the promoted tenant's hue from JS. */
   --tp-arrow: var(--qi-muted);
 

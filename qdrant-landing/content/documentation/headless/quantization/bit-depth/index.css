@@ -1,28 +1,32 @@
 /* bit-depth island. Scoped under .qi-bd. Controls and labels come from the
    shared island design system (islands.scss); this file only styles the
-   cells, bits, bars and the histogram. Data palette: blue scale (--qi-cat-1)
-   for buckets/values, teal (--qi-cat-3) for bits, Qdrant red for thresholds. */
+   cells, bits, bars and the histogram. Data palette: the Neon Blue ramp
+   (--qi-cat-1) for buckets/values, cyan (--qi-cat-3) for bits, Qdrant red
+   for thresholds. */
 
 .qi-bd {
   --bd-bit-on: var(--qi-cat-3);
   --bd-bit-off: var(--qi-cat-3-soft);
-  /* Bucket blues. The two light ones are a step darker than in dark mode so
-     they read against a white page. */
-  --bd-neg: #c5d2fb;
-  --bd-zero: #7a9ef7;
-  --bd-pos: #0040a1; /* secondary-blue-30 */
+  /* Bucket blues. The light steps are a step darker than in dark mode so they
+     read against a white page; the dark step is a step lighter in dark mode so
+     it reads against the dark surface. */
+  --bd-neg: #c2c5ff; /* neon-blue-200 */
+  --bd-zero: #7e75ff; /* neon-blue-400 */
+  --bd-pos: #4325ae; /* neon-blue-800 */
 
   display: block;
 }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) .qi-bd {
-    --bd-neg: #d9e2fe; /* secondary-blue-90 */
-    --bd-zero: #89a9ff; /* secondary-blue-70 */
+    --bd-neg: #dde0ff; /* neon-blue-100 */
+    --bd-zero: #9494ff; /* neon-blue-300 */
+    --bd-pos: #5f36f5; /* neon-blue-600 */
   }
 }
 html[data-theme='dark'] .qi-bd {
-  --bd-neg: #d9e2fe; /* secondary-blue-90 */
-  --bd-zero: #89a9ff; /* secondary-blue-70 */
+  --bd-neg: #dde0ff; /* neon-blue-100 */
+  --bd-zero: #9494ff; /* neon-blue-300 */
+  --bd-pos: #5f36f5; /* neon-blue-600 */
 }
 
 .qi-bd__cell {

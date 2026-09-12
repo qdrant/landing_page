@@ -135,41 +135,42 @@
 // Island design system
 // ---------------------------------------------------------------------------
 
-// Tokens. Light theme (default); values from _theme-variables.scss. Chrome
-// colors switch with the host theme (`data-theme` on <html>, else the system
-// preference). The categorical palette is theme-independent.
+// Tokens. Light theme (default); values from the Qdrant design-system palette
+// (Color.pdf: Neutral / Amaranth / Neon Blue / Cyan / Purple / Green / Warning).
+// Chrome colors switch with the host theme (`data-theme` on <html>, else the
+// system preference). The categorical palette is theme-independent.
 .island {
-  --qi-fg: #28324d; // neutral-30
-  --qi-muted: #576280; // neutral-50
-  --qi-surface: #f0f3fa; // neutral-98: card / control background
-  --qi-border: #d4d9e6; // neutral-90: thin neutral border
-  --qi-line: #b4bacc; // neutral-80: axes, toggle track, ghost bars
-  --qi-hot: #28324d; // neutral-30: highlight outline
-  --qi-cell-stroke: rgba(22, 30, 51, 0.3);
-  --qi-accent: #dc244c; // primary-50: thresholds, emphasis
+  --qi-fg: #303547; // neutral-800
+  --qi-muted: #656b7f; // neutral-600
+  --qi-surface: #f0f3fa; // neutral-50: card / control background
+  --qi-border: #d3d9eb; // neutral-200: thin neutral border
+  --qi-line: #abb1c7; // neutral-400: axes, toggle track, ghost bars
+  --qi-hot: #303547; // neutral-800: highlight outline
+  --qi-cell-stroke: rgba(17, 24, 36, 0.3); // neutral-900 @ 30%
+  --qi-accent: #dc244c; // amaranth-500: thresholds, emphasis
 
   // Categorical palette (brand secondaries) available to islands that need
   // hues without a status meaning. Islands may also define their own.
-  --qi-cat-1: #2f6ff0; // secondary-blue-50
-  --qi-cat-2: #8547ff; // secondary-violet-50
-  --qi-cat-3: #038585; // secondary-teal-50
-  --qi-cat-4: #dc244c; // primary-50 (Qdrant red)
-  // Tint of the teal, for an "off" state next to a solid "on".
-  --qi-cat-3-soft: #c0f0f0; // secondary-teal-90
+  --qi-cat-1: #6047ff; // neon-blue-500 (secondary brand)
+  --qi-cat-2: #9c27b0; // purple-500
+  --qi-cat-3: #00838f; // cyan-800
+  --qi-cat-4: #dc244c; // amaranth-500 (Qdrant red)
+  // Tint of the cyan, for an "off" state next to a solid "on".
+  --qi-cat-3-soft: #b2ebf2; // cyan-100
 
   --qi-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --qi-radius: 6px;
 }
 
 @mixin qi-dark-tokens {
-  --qi-fg: #e1e5f0; // neutral-94
-  --qi-muted: #8f98b2; // neutral-70
-  --qi-surface: #161e33; // neutral-20
-  --qi-border: #28324d; // neutral-30
-  --qi-line: #3d4866; // neutral-40
-  --qi-hot: #f0f3fa; // neutral-98
-  --qi-cell-stroke: rgba(225, 229, 240, 0.18);
-  --qi-cat-3-soft: #004f4f; // secondary-teal-30
+  --qi-fg: #e2e7f5; // neutral-100
+  --qi-muted: #898ea3; // neutral-500
+  --qi-surface: #111824; // neutral-900
+  --qi-border: #303547; // neutral-800
+  --qi-line: #4e5366; // neutral-700
+  --qi-hot: #f0f3fa; // neutral-50
+  --qi-cell-stroke: rgba(226, 231, 245, 0.18); // neutral-100 @ 18%
+  --qi-cat-3-soft: #006064; // cyan-900
 }
 
 @media (prefers-color-scheme: dark) {

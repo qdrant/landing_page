@@ -52,8 +52,8 @@ const BAND_H = 12;
 const BAND_LABEL_Y = 254;
 
 // Data palette (constant across themes): light blue (-1) -> dark navy (+1).
-const C_LOW = [0xc5, 0xd2, 0xfb]; // light blue, darker than secondary-blue-90 for contrast on white
-const C_HIGH = [0x00, 0x18, 0x48]; // secondary-blue-10
+const C_LOW = [0xc2, 0xc5, 0xff]; // neon-blue-200, dark enough to read on a white page
+const C_HIGH = [0x39, 0x26, 0x89]; // neon-blue-900
 
 function el(name, attrs, text) {
   const node = document.createElementNS(NS, name);
