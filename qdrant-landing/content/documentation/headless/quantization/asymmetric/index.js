@@ -33,7 +33,7 @@ const PANELS = [
 const ROWS = { stored: 42, query: 90 };
 const PLOT = { dx: 0, y: 142, w: ROW_W, h: 156 }; // scatter box: full panel width
 const PAD = 9; // inset of the data area inside the box, so edge (clamped) dots stay inside
-const MIN_ALPHA = 0.12; // saturation floor so a near-zero cell stays visible
+const MAG_STEPS = 4; // discrete palette steps standing in for a magnitude ramp
 
 function el(name, attrs, text) {
   const node = document.createElementNS(NS, name);
@@ -73,12 +73,16 @@ function quantizeQuery(q) {
   return q.map((v) => (Math.round(((v + m) / (2 * m)) * levels) / levels) * 2 * m - m);
 }
 
-// Paint a cell: hue by sign (blue positive, red negative), saturation by
-// |v| relative to `scale` (clamped).
+// Paint a cell: hue by sign (blue positive, red negative), palette step by
+// |v| relative to `scale` (clamped). Stepped rather than faded: a fractional
+// fill-opacity composites against the page and yields colours outside the
+// palette, so magnitude picks one of the --aq-{pos,neg}-N entries instead.
 function paint(rect, v, scale) {
-  rect.classList.toggle('is-neg', v < 0);
+  const neg = v < 0;
+  rect.classList.toggle('is-neg', neg);
   const t = Math.min(1, Math.abs(v) / (scale || 1));
-  rect.setAttribute('fill-opacity', (MIN_ALPHA + (1 - MIN_ALPHA) * t).toFixed(3));
+  const step = 1 + Math.min(MAG_STEPS - 1, Math.floor(t * MAG_STEPS));
+  rect.style.fill = `var(--aq-${neg ? 'neg' : 'pos'}-${step})`;
 }
 
 function fmt(v, digits = 2) {

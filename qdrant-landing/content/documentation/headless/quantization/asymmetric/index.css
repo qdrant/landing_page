@@ -7,7 +7,45 @@
   --aq-pos: var(--qi-cat-1);
   --aq-neg: var(--qi-cat-4);
 
+  /* Magnitude ramps: five discrete steps per sign, picked from JS. Cells used
+     to carry a fill-opacity proportional to |value|, but a translucent fill
+     composites against the page and lands on colours that are not in the
+     palette, so the ramp is stepped through real palette entries instead.
+     Both themes top out at the brand 500, the colour a fully saturated cell
+     used to carry; the steps below it run pale in the light theme and dim in
+     the dark one, so a near-zero cell stays quiet against either surface. */
+  --aq-pos-1: #c2c5ff; /* neon-blue-200 */
+  --aq-pos-2: #9494ff; /* neon-blue-300 */
+  --aq-pos-3: #7e75ff; /* neon-blue-400 */
+  --aq-pos-4: #6047ff; /* neon-blue-500 */
+  --aq-neg-1: #ffb2b7; /* amaranth-200 */
+  --aq-neg-2: #ff8792; /* amaranth-300 */
+  --aq-neg-3: #ff516b; /* amaranth-400 */
+  --aq-neg-4: #dc244c; /* amaranth-500 */
+
   display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-aq {
+    --aq-pos-1: #392689; /* neon-blue-900 */
+    --aq-pos-2: #4325ae; /* neon-blue-800 */
+    --aq-pos-3: #5f36f5; /* neon-blue-600 */
+    --aq-pos-4: #6047ff; /* neon-blue-500 */
+    --aq-neg-1: #850d35; /* amaranth-900 */
+    --aq-neg-2: #9e0d38; /* amaranth-800 */
+    --aq-neg-3: #cc1845; /* amaranth-600 */
+    --aq-neg-4: #dc244c; /* amaranth-500 */
+  }
+}
+html[data-theme='dark'] .qi-aq {
+  --aq-pos-1: #392689; /* neon-blue-900 */
+  --aq-pos-2: #4325ae; /* neon-blue-800 */
+  --aq-pos-3: #5f36f5; /* neon-blue-600 */
+  --aq-pos-4: #6047ff; /* neon-blue-500 */
+  --aq-neg-1: #850d35; /* amaranth-900 */
+  --aq-neg-2: #9e0d38; /* amaranth-800 */
+  --aq-neg-3: #cc1845; /* amaranth-600 */
+  --aq-neg-4: #dc244c; /* amaranth-500 */
 }
 
 .qi-aq__op {
@@ -15,12 +53,12 @@
   font-weight: 600;
 }
 
-/* --- Cells: hue = sign, fill-opacity = magnitude (set from JS) --- */
+/* --- Cells: hue = sign, palette step = magnitude (both set from JS) --- */
 .qi-aq__cell {
   fill: var(--aq-pos);
   stroke: var(--qi-cell-stroke);
   stroke-width: 1;
-  transition: fill 0.35s ease, fill-opacity 0.35s ease;
+  transition: fill 0.35s ease;
 }
 .qi-aq__cell.is-neg {
   fill: var(--aq-neg);

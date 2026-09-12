@@ -14,6 +14,16 @@
   --bd-zero: #7e75ff; /* neon-blue-400 */
   --bd-pos: #4325ae; /* neon-blue-800 */
 
+  /* Float-cell shade ramp: five discrete steps, low value -> high value. This
+     used to be a continuous interpolation between two palette endpoints, which
+     put most cells on colours that are not in the palette. Dark theme runs the
+     other way so the ramp stays legible against the dark surface. */
+  --bd-shade-1: #c2c5ff; /* neon-blue-200 */
+  --bd-shade-2: #9494ff; /* neon-blue-300 */
+  --bd-shade-3: #6047ff; /* neon-blue-500 */
+  --bd-shade-4: #522ad8; /* neon-blue-700 */
+  --bd-shade-5: #392689; /* neon-blue-900 */
+
   display: block;
 }
 @media (prefers-color-scheme: dark) {
@@ -21,12 +31,22 @@
     --bd-neg: #dde0ff; /* neon-blue-100 */
     --bd-zero: #9494ff; /* neon-blue-300 */
     --bd-pos: #5f36f5; /* neon-blue-600 */
+    --bd-shade-1: #392689; /* neon-blue-900 */
+    --bd-shade-2: #4325ae; /* neon-blue-800 */
+    --bd-shade-3: #5f36f5; /* neon-blue-600 */
+    --bd-shade-4: #7e75ff; /* neon-blue-400 */
+    --bd-shade-5: #c2c5ff; /* neon-blue-200 */
   }
 }
 html[data-theme='dark'] .qi-bd {
   --bd-neg: #dde0ff; /* neon-blue-100 */
   --bd-zero: #9494ff; /* neon-blue-300 */
   --bd-pos: #5f36f5; /* neon-blue-600 */
+  --bd-shade-1: #392689; /* neon-blue-900 */
+  --bd-shade-2: #4325ae; /* neon-blue-800 */
+  --bd-shade-3: #5f36f5; /* neon-blue-600 */
+  --bd-shade-4: #7e75ff; /* neon-blue-400 */
+  --bd-shade-5: #c2c5ff; /* neon-blue-200 */
 }
 
 .qi-bd__cell {
@@ -97,7 +117,6 @@ html[data-theme='dark'] .qi-bd {
   fill: var(--qi-accent);
 }
 .qi-bd__band {
-  opacity: 0.9;
   cursor: pointer;
   stroke: transparent;
   stroke-width: 2;

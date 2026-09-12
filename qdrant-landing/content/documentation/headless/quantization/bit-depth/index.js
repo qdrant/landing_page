@@ -52,8 +52,7 @@ const BAND_H = 12;
 const BAND_LABEL_Y = 254;
 
 // Data palette (constant across themes): light blue (-1) -> dark navy (+1).
-const C_LOW = [0xc2, 0xc5, 0xff]; // neon-blue-200, dark enough to read on a white page
-const C_HIGH = [0x39, 0x26, 0x89]; // neon-blue-900
+const SHADE_STEPS = 5; // discrete palette steps for the float-cell shade ramp
 
 function el(name, attrs, text) {
   const node = document.createElementNS(NS, name);
@@ -81,10 +80,12 @@ function gaussian(rnd) {
 }
 
 // Shade over ±2 (not the full ±3 range) so typical values keep contrast.
+// Stepped rather than interpolated: lerping between two palette endpoints put
+// almost every cell on a colour outside the palette, so the value picks one of
+// the --bd-shade-N entries instead.
 function shade(v) {
   const t = Math.max(0, Math.min(1, (v + 2) / 4));
-  const c = C_LOW.map((lo, i) => Math.round(lo + (C_HIGH[i] - lo) * t));
-  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+  return `var(--bd-shade-${1 + Math.min(SHADE_STEPS - 1, Math.floor(t * SHADE_STEPS))})`;
 }
 
 function fmt(v, digits = 2) {
@@ -275,7 +276,7 @@ export function mount(node) {
   }
 
   function renderFloats() {
-    values.forEach((v, i) => floatRects[i].setAttribute('fill', shade(v)));
+    values.forEach((v, i) => (floatRects[i].style.fill = shade(v)));
   }
 
   function bucketName(b) {
