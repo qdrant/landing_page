@@ -94,14 +94,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeBtn = document.querySelector('.menu-mobile__close');
   const menuTrigger = document.querySelector('.main-menu__trigger');
   const menu = document.querySelector('.menu-mobile');
-  menuTrigger.addEventListener('click', () => {
-    menu.classList.add('menu-mobile--visible');
-    body.classList.add('no-scroll');
-  });
-  closeBtn.addEventListener('click', () => {
-    menu.classList.remove('menu-mobile--visible');
-    body.classList.remove('no-scroll');
-  });
+  if (menuTrigger && menu) {
+    menuTrigger.addEventListener('click', () => {
+      menu.classList.add('menu-mobile--visible');
+      body.classList.add('no-scroll');
+    });
+  }
+  if (closeBtn && menu) {
+    closeBtn.addEventListener('click', () => {
+      menu.classList.remove('menu-mobile--visible');
+      body.classList.remove('no-scroll');
+    });
+  }
   function toggleMenu(id) {
     const menuItem = document.querySelector(`[data-path=${id}]`);
     if (menuItem) {
@@ -127,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // close mobile menu on resize
   window.addEventListener('resize', () => {
-    if (window.innerWidth >= XXL_BREAKPOINT) {
+    if (window.innerWidth >= XXL_BREAKPOINT && menu) {
       menu.classList.remove('menu-mobile--visible');
     }
   });
@@ -186,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // scroll to anchors:
   let offset = DOCS_HEADER_OFFSET;
 
-  if (window.location.hash) {
+  if (window.location.hash && window.location.hash.length > 1) {
     scrollIntoViewWithOffset(window.location.hash.replace('#', ''), offset);
   }
 
@@ -194,6 +198,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   allLinks.forEach((anchor) => {
     const target = anchor.getAttribute('href');
+    if (!target || target === '#') {
+      return;
+    }
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       history.pushState(null, null, target);
