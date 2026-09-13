@@ -1,0 +1,16 @@
+dataset,method,ndcg,delta
+SciFact,dense only,0.6239,+0.0289
+SciFact,sparse only,0.6886,+0.0289
+SciFact,hybrid (RRF),0.7175,+0.0289
+ArguAna,dense only,0.4905,+0.0311
+ArguAna,sparse only,0.4224,+0.0311
+ArguAna,hybrid (RRF),0.5216,+0.0311
+WANDS,dense only,0.6921,+0.0156
+WANDS,sparse only,0.7098,+0.0156
+WANDS,hybrid (RRF),0.7254,+0.0156
+CodeSearchNet,dense only,0.6299,+0.0256
+CodeSearchNet,sparse only,0.5126,+0.0256
+CodeSearchNet,hybrid (RRF),0.6555,+0.0256
+DBPedia-entity,dense only,0.4677,-0.0039
+DBPedia-entity,sparse only,0.3857,-0.0039
+DBPedia-entity,hybrid (RRF),0.4638,-0.0039

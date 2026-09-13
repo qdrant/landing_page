@@ -1,0 +1,252 @@
+[
+  {
+    "id": "diskbbq/results",
+    "data": "assets/viz/diskbbq/results.csv",
+    "kind": "columns-2panel",
+    "width": 980,
+    "height": 420,
+    "panels": [
+      {
+        "title": "Throughput at ~0.96 recall",
+        "y": "throughput_qps",
+        "axis": "QPS",
+        "unit": "QPS",
+        "subtitle": "higher is better"
+      },
+      {
+        "title": "Average latency at ~0.96 recall",
+        "y": "avg_latency_ms",
+        "axis": "avg latency (ms)",
+        "unit": "ms",
+        "subtitle": "lower is better"
+      }
+    ],
+    "yMax": 140,
+    "tooltip": [
+      {
+        "label": "recall@100",
+        "field": "recall_at_100",
+        "unit": ""
+      },
+      {
+        "label": "throughput",
+        "field": "throughput_qps",
+        "unit": "QPS"
+      },
+      {
+        "label": "avg latency",
+        "field": "avg_latency_ms",
+        "unit": "ms"
+      },
+      {
+        "label": "p99 latency",
+        "field": "p99_latency_ms",
+        "unit": "ms"
+      }
+    ]
+  },
+  {
+    "id": "turboquant/recall",
+    "data": "assets/viz/turboquant/recall.csv",
+    "kind": "heatmap",
+    "title": "Recall by quantization variant across ten datasets",
+    "legend": "recall",
+    "highlight": "TQ 4-bit (8x)",
+    "domain": [
+      0.45,
+      1.0
+    ],
+    "cellWidth": 81,
+    "cellHeight": 30,
+    "marginLeft": 172,
+    "marginTop": 56,
+    "width": 982,
+    "height": 386
+  },
+  {
+    "id": "defrag/rps",
+    "data": "assets/viz/defrag/rps.csv",
+    "kind": "lines-facet",
+    "facet": "tenant",
+    "facetLabel": "Tenant size: {} vectors",
+    "x": "hot_pct",
+    "xLabel": "% of collection in the hot subset",
+    "yLabel": "RPS (log scale)",
+    "yScale": "log",
+    "yDomain": [
+      0.2,
+      700
+    ],
+    "series": [
+      "defragmented",
+      "non_defragmented"
+    ],
+    "seriesLabels": [
+      "defragmented",
+      "non-defragmented"
+    ],
+    "width": 980,
+    "height": 360,
+    "extraHeight": 44,
+    "unit": "RPS",
+    "subtitle": "higher is better",
+    "xSuffix": "%"
+  },
+  {
+    "id": "oversampling/recall",
+    "data": "assets/viz/oversampling/recall.csv",
+    "kind": "columns-2panel",
+    "labelTop": "variant",
+    "labelBottom": "setting",
+    "colors": [
+      "muted",
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "width": 980,
+    "height": 400,
+    "yMax": 1.0,
+    "panels": [
+      {
+        "title": "Recall@10 against exact search",
+        "subtitle": "higher is better",
+        "y": "recall_at_10",
+        "axis": "recall@10",
+        "unit": ""
+      }
+    ],
+    "tooltip": [
+      {
+        "label": "recall@10",
+        "field": "recall_at_10",
+        "unit": ""
+      },
+      {
+        "label": "nDCG@10",
+        "field": "ndcg_at_10",
+        "unit": ""
+      }
+    ]
+  },
+  {
+    "id": "candidate-depth/sweep",
+    "data": "assets/viz/candidate-depth/sweep.csv",
+    "kind": "lines-facet",
+    "facet": "metric",
+    "facetLabel": "{}",
+    "x": "hnsw_ef",
+    "xLabel": "hnsw_ef",
+    "xSuffix": "",
+    "yLabel": "value",
+    "yScale": "linear",
+    "yDomains": {
+      "Recall against exact": [
+        0.9,
+        1.001
+      ],
+      "Milliseconds per query": [
+        0,
+        3
+      ]
+    },
+    "yLabels": {
+      "Recall against exact": "recall",
+      "Milliseconds per query": "ms per query"
+    },
+    "series": [
+      "value"
+    ],
+    "seriesLabels": [
+      "measured"
+    ],
+    "unit": "",
+    "width": 980,
+    "height": 340,
+    "extraHeight": 8,
+    "yTicks": {
+      "Recall against exact": [
+        0.9,
+        0.95,
+        1.0
+      ],
+      "Milliseconds per query": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "id": "bits1-rescore/recovery",
+    "data": "assets/viz/bits1-rescore/recovery.csv",
+    "kind": "lines-facet",
+    "facet": "metric",
+    "facetLabel": "Share of the exact top 10 that bits1 returns",
+    "x": "setting",
+    "xLabel": "rescore setting",
+    "xSuffix": "",
+    "yLabel": "recall@10",
+    "yScale": "linear",
+    "yDomain": [
+      0.55,
+      1.02
+    ],
+    "refLine": {
+      "value": 0.957,
+      "label": "float32 baseline 0.957"
+    },
+    "series": [
+      "recall_at_10"
+    ],
+    "unit": "",
+    "width": 980,
+    "height": 340,
+    "extraHeight": 8
+  },
+  {
+    "id": "hybrid/fusion",
+    "data": "assets/viz/hybrid/fusion.csv",
+    "kind": "grouped-columns",
+    "title": "nDCG@10: each retriever alone versus RRF fusion",
+    "subtitle": "five BEIR-style datasets, higher is better",
+    "group": "dataset",
+    "series": "method",
+    "y": "ndcg",
+    "yLabel": "nDCG@10",
+    "yMax": 0.8,
+    "colors": [
+      1,
+      2,
+      0
+    ],
+    "deltaField": "delta",
+    "deltaLabel": "vs better alone",
+    "width": 980,
+    "height": 400,
+    "extraHeight": 44
+  },
+  {
+    "id": "rrf-k/weight",
+    "data": "assets/viz/rrf-k/weight.csv",
+    "kind": "grouped-columns",
+    "title": "Share of a prefetch's top-10 score mass at each rank",
+    "subtitle": "RRF weight 1/(pos + k), normalised over the top 10",
+    "group": "rank",
+    "series": "k",
+    "y": "share",
+    "yLabel": "% of score mass",
+    "yMax": 26,
+    "colors": [
+      0,
+      1
+    ],
+    "width": 980,
+    "height": 380,
+    "extraHeight": 44
+  }
+]

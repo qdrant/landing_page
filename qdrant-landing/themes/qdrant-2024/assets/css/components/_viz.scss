@@ -1,0 +1,172 @@
+// Blog visualisation figures.
+//
+// Imported into the global bundle (_components.scss) rather than a per-section
+// one, because a figure can appear in blog or articles and the tooltip it
+// spawns is appended to <body>, outside any section's subtree.
+//
+// Data colours (bar fills, heatmap ramp) live in data/viz.json and arrive inside
+// the SVG — they carry meaning, so they do not change with the theme. Chrome
+// colours (ink, muted, gridlines) DO follow the theme and are published here as
+// custom properties that the generated SVG references by var().
+//
+// The articles and documentation sections have a real dark mode via
+// html[data-theme='dark'], so a figure with hardcoded dark ink disappears there.
+
+:root {
+  --viz-ink: #{$neutral-20};
+  --viz-muted: #{$neutral-50};
+  --viz-grid: #{$neutral-90};
+  --viz-surface: #{$neutral-100};
+  --viz-border: #{$neutral-90};
+  --viz-tip-bg: #{$neutral-20};
+  --viz-tip-border: #{$neutral-30};
+}
+
+[data-theme='dark'] {
+  --viz-ink: #{$neutral-98};
+  --viz-muted: #{$neutral-80};
+  --viz-grid: #{$neutral-30};
+  --viz-surface: #{$neutral-20};
+  --viz-border: #{$neutral-30};
+  // Darker than the card, not lighter: raising it to neutral-40 read as glare
+  // on a dark page. The border does the separating, the background stays calm.
+  --viz-tip-bg: #{$neutral-10};
+  --viz-tip-border: #{$neutral-50};
+}
+
+.viz-figure {
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--viz-surface);
+  border: 1px solid var(--viz-border);
+  border-radius: 10px;
+}
+
+.viz-figure__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  // room for the scrollbar so it never sits on top of the x-axis labels
+  padding-bottom: 2px;
+}
+
+.viz-figure__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  overflow: visible;
+}
+
+
+.viz-figure .viz-figure__caption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--viz-border);
+  font-size: $font-size-s;
+  line-height: 1.5;
+  color: var(--viz-muted);
+}
+
+// ── Hover affordances (added by js/viz.js; absent without JS) ───────────────
+
+.viz-figure__svg [data-viz-zone] {
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// "Highlight, don't reorder": nothing dims and nothing moves. The hovered mark
+// just lights up.
+//
+// Deliberately NOT a stroke: an ink-coloured ring is a colour that appears
+// nowhere else in the chart, and against a red or violet mark it reads as a
+// black (or white, in dark mode) box drawn on top. Brightening the mark uses
+// no foreign colour at all and needs no per-theme value.
+.viz-figure__svg [data-viz-key] {
+  transition: filter 90ms ease-out, r 90ms ease-out;
+}
+
+.viz-figure__svg [data-viz-active] {
+  filter: brightness(1.16) saturate(1.06);
+}
+
+// Dots are small enough that brightness alone is easy to miss, so grow them too.
+.viz-figure__svg circle[data-viz-active] {
+  r: 5.5;
+}
+
+.viz-figure__svg [data-viz-crosshair] {
+  transition: opacity 90ms ease-out;
+  pointer-events: none;
+}
+
+.viz-tip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 90ms ease-out;
+  max-width: 280px;
+  padding: 9px 11px;
+  border-radius: 7px;
+  background: var(--viz-tip-bg);
+  border: 1px solid var(--viz-tip-border);
+  color: $neutral-98;
+  font-family: $font-family-monospace;
+  font-size: pxToRem(12);
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(9, 14, 26, 0.45);
+
+  &.is-on {
+    opacity: 1;
+  }
+
+  &__title {
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    font-weight: 600;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  &__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    flex: 0 0 auto;
+  }
+
+  &__k {
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  &__v {
+    margin-left: auto;
+    font-weight: 600;
+  }
+}
+
+// Below this width the chart would scale down so far that 13px type renders at
+// ~4px — unreadable, and jarring next to a 14px caption that does not shrink.
+// Hold a legible width and let the figure scroll sideways instead.
+@media (max-width: 767px) {
+  .viz-figure {
+    padding: 1rem 0.75rem 0.85rem;
+  }
+
+  .viz-figure__svg {
+    width: 720px;
+    max-width: none;
+  }
+
+  .viz-figure .viz-figure__caption {
+    font-size: pxToRem(13);
+  }
+}

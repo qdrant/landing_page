@@ -4,3 +4,6 @@ node_modules
 .hugo_build.lock
 resources/_gen
 assets/jsconfig.json
+
+# Playwright MCP debug artifacts
+.playwright-mcp/

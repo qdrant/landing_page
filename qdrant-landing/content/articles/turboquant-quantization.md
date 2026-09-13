@@ -169,6 +169,8 @@ Setup: HNSW index (`m=16`, `ef_construct=128`). Rows are ordered by storage clas
 
 **Recall:**
 
+{{< chart id="turboquant/recall" caption="TurboQuant holds recall where binary quantization collapses: TQ 2-bit beats BQ 2-bit on every dataset at the same 16x storage, and TQ 4-bit matches SQ at half the bits." >}}
+
 | Variant (compression) | arxiv-384  | arxiv-iXL  | dbp-gem    | dbp-3s     | dbp-3l     | dbp-oai    | cohere     | h&m        | laion      | ads-1M     |
 | --------------------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | f32 (1x)              | 0.9855     | 0.9419     | 0.9167     | 0.9384     | 0.9348     | 0.9625     | 0.9446     | 0.9967     | 0.9897     | 0.9298     |

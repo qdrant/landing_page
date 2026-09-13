@@ -1,0 +1,43 @@
+{{- /*
+  viz-figure — the one wrapper for every generated visual.
+
+  Every visual goes through here so the accessibility contract is enforced in
+  one place instead of trusted to each call site: a caption is required, and it
+  becomes the SVG's accessible name. A chart whose caption is optional ships
+  without one, and then the only description a screen reader gets is silence.
+
+  The caption is authored per call site rather than baked into the generated
+  SVG, because the same chart can make a different point in a different post —
+  the numbers are the artifact, the claim about them is not.
+
+  Params:
+    svg      inner SVG markup, WITHOUT the outer <svg> tag
+    viewBox  viewBox value for the outer <svg>, e.g. "0 0 800 320"
+    caption  required, non-empty
+    id       page-unique slug used to build the title element id
+    class    optional extra class on the <figure>
+*/ -}}
+{{- $caption := .caption -}}
+{{- $id := .id -}}
+{{- if not $caption -}}
+  {{- errorf "viz-figure: 'caption' is required. Write one sentence stating what the figure shows — it is the only description a screen reader receives." -}}
+{{- end -}}
+{{- if not $id -}}
+  {{- errorf "viz-figure: 'id' is required and must be unique within the page." -}}
+{{- end -}}
+{{- /*
+  No <title> inside the <svg>: an SVG <title> element renders as the browser's
+  own native tooltip on hover, which floats over the chart's metrics tooltip and
+  just repeats the caption sitting right underneath. The accessible name instead
+  points at the visible <figcaption>, so the text exists exactly once.
+*/ -}}
+<figure class="viz-figure{{ with .class }} {{ . }}{{ end }}" data-viz>
+  <div class="viz-figure__scroll">
+    <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
+         aria-labelledby="viz-cap-{{ $id }}" xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMidYMid meet">
+      {{ .svg | safeHTML }}
+    </svg>
+  </div>
+  <figcaption class="viz-figure__caption" id="viz-cap-{{ $id }}">{{ $caption }}</figcaption>
+</figure>

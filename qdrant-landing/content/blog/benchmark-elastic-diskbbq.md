@@ -71,8 +71,7 @@ At recall@100 around 0.96:
 | Qdrant, two-stage | 3 × 2 vCPU / 8 GB RF=1 | 0.9596 | 67.2 QPS | 59.5 ms | 86.0 ms |
 | Qdrant, two-stage | 3 × 4 vCPU / 16 GB RF=1 | 0.9596 | 111.9 QPS | 35.7 ms | 83.1 ms |
 
-![Elasticsearch vs Qdrant on Throughput and latency](/blog/benchmark-elastic-diskbbq/image1.png)  
-*Throughput and average latency at recall@100 ≈ 0.96. Qdrant: two-stage rescore, TurboQuant 4-bit, RF=1. Elasticsearch: published DiskBBQ results, 2-bit quantization, RF=2. Same dataset and closed-loop load model (concurrency 4).*
+{{< chart id="diskbbq/results" caption="At matched recall (~0.96), Qdrant on 2 vCPU / 8 GB sustained twice the throughput of Elasticsearch on 7 vCPU / 26 GB, at half the average latency." >}}
 
 On the smallest nodes we tested (2 vCPU and 8 GB RAM per node), roughly 3× less CPU and RAM per node than Elastic's 7 vCPU / 26 GB pods, Qdrant delivered 2× the throughput and half the latency of Elasticsearch at the same recall. More hardware makes Qdrant faster; that is expected. The result that matters for the efficiency argument is that Qdrant already beats Elastic's published numbers on the smallest footprint we tested. 
 

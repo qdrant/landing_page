@@ -1,0 +1,68 @@
+{
+  "$comment": "Single source of truth for blog visualisation colors and type. Consumed by Hugo templates (site.Data.viz) and scripts/viz/generate-charts.mjs. Do NOT duplicate these values into SCSS.",
+  "palette": {
+    "categorical": [
+      "#dc244c",
+      "#2f6ff0",
+      "#038585",
+      "#6047ff",
+      "#e0700d"
+    ],
+    "names": [
+      "qdrant",
+      "blue",
+      "teal",
+      "violet",
+      "amber"
+    ],
+    "muted": "#b4bacc",
+    "$comment": "categorical[0] is Amaranth and categorical[3] is Neon Blue, both official brand colours."
+  },
+  "surface": {
+    "ink": "#161e33",
+    "inkMuted": "#576280",
+    "page": "#ffffff",
+    "panel": "#f0f3fa",
+    "grid": "#d4d9e6",
+    "axis": "#8f98b2"
+  },
+  "tone": {
+    "cost": {
+      "fill": "#f0f3fa",
+      "stroke": "#b4bacc",
+      "text": "#576280"
+    },
+    "win": {
+      "fill": "#c0f0f0",
+      "stroke": "#038585",
+      "text": "#004f4f"
+    }
+  },
+  "type": {
+    "$comment": "Named roles, not arithmetic. Every chart kind uses the same five sizes.",
+    "family": "'Mona Sans', -apple-system, 'Segoe UI', sans-serif",
+    "mono": "'Geist Mono', ui-monospace, monospace",
+    "title": 15,
+    "subtitle": 13,
+    "axis": 13,
+    "label": 12,
+    "small": 11
+  },
+  "stroke": {
+    "hairline": 1,
+    "regular": 2,
+    "emphasis": 3
+  },
+  "sequential": {
+    "$comment": "Sequential ramp for heatmaps, built on the official Neon Blue #6047FF. Deliberately NOT Amaranth: red reads as alarm when the darkest cells are the best values, and Amaranth already means 'the Qdrant series' in categorical charts.",
+    "stops": [
+      "#f4f2ff",
+      "#dcd6ff",
+      "#bcb0ff",
+      "#9481ff",
+      "#6047ff",
+      "#4430b8",
+      "#241c5c"
+    ]
+  }
+}

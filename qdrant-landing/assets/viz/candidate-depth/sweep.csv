@@ -1,0 +1,11 @@
+metric,hnsw_ef,value
+Recall against exact,16,0.986
+Recall against exact,64,0.993
+Recall against exact,128,0.999
+Recall against exact,256,1.000
+Recall against exact,512,1.000
+Milliseconds per query,16,1.98
+Milliseconds per query,64,1.98
+Milliseconds per query,128,2.18
+Milliseconds per query,256,2.45
+Milliseconds per query,512,2.25
