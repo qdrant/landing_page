@@ -5,7 +5,7 @@
       "#dc244c",
       "#2f6ff0",
       "#038585",
-      "#8547ff",
+      "#6047ff",
       "#e0700d"
     ],
     "names": [
@@ -15,7 +15,8 @@
       "violet",
       "amber"
     ],
-    "muted": "#b4bacc"
+    "muted": "#b4bacc",
+    "$comment": "categorical[0] is Amaranth and categorical[3] is Neon Blue, both official brand colours."
   },
   "surface": {
     "ink": "#161e33",
@@ -53,14 +54,15 @@
     "emphasis": 3
   },
   "sequential": {
-    "$comment": "Sequential ramp for heatmaps. Every stop is a brand token: neutral-98 then primary 90/80/70/50/40. Deliberately stops at primary-40 rather than descending into near-black, which is what made the previous teal ramp read off-palette.",
+    "$comment": "Sequential ramp for heatmaps, built on the official Neon Blue #6047FF. Deliberately NOT Amaranth: red reads as alarm when the darkest cells are the best values, and Amaranth already means 'the Qdrant series' in categorical charts.",
     "stops": [
-      "#f0f3fa",
-      "#ffdadb",
-      "#ffb2b7",
-      "#ff8792",
-      "#dc244c",
-      "#be003a"
+      "#f4f2ff",
+      "#dcd6ff",
+      "#bcb0ff",
+      "#9481ff",
+      "#6047ff",
+      "#4430b8",
+      "#241c5c"
     ]
   }
 }
