@@ -3,7 +3,6 @@ name: Check documentation prompts
 on:
   pull_request:
     paths:
-      - 'qdrant-landing/content/documentation/headless/prompts/**'
       - 'qdrant-landing/content/**/*.md'
       - 'qdrant-landing/layouts/shortcodes/prompt.markdown.md'
       - 'qdrant-landing/themes/qdrant-2024/layouts/shortcodes/prompt.html'
@@ -16,22 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Hugo
-        uses: peaceiris/actions-hugo@v3
-        with:
-          hugo-version: '0.160.1'
-          extended: true
-
-      - name: Install Dart Sass
-        run: |
-          curl -sSL -o dart-sass.tar.gz \
-            https://github.com/sass/dart-sass/releases/download/1.70.0/dart-sass-1.70.0-linux-x64.tar.gz
-          tar -xzf dart-sass.tar.gz
-          echo "$PWD/dart-sass" >> "$GITHUB_PATH"
-
-      - name: Build site
-        working-directory: qdrant-landing
-        run: hugo --destination public
-
+      # Source checks only: no Hugo, no Dart Sass, no npm install. The rules
+      # this guards are all visible in the source, so a full site build would
+      # cost minutes on every docs PR to verify something that takes seconds.
       - name: Check prompts
         run: automation/prompts/check-prompts.sh

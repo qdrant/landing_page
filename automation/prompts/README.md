@@ -32,7 +32,9 @@ pages include them by id.
 2. Add `{{< prompt "<id>" >}}` to that page, near the top of the section it
    relates to rather than at the bottom.
 
-3. Run `automation/prompts/check-prompts.sh` after a build.
+3. Run `automation/prompts/check-prompts.sh`. It needs no build. Pass a built
+   site directory to also verify the real output, for example
+   `automation/prompts/check-prompts.sh qdrant-landing/public`.
 
 ## Writing one
 
@@ -68,4 +70,8 @@ prompt is never written as a plain fenced block on the page.
 who includes them, so a stale declaration would put a wrong link in the index,
 and a prompt that is never included would still be listed.
 
-`check-prompts.sh` guards both.
+`check-prompts.sh` guards both, plus a third rule that keeps them equivalent:
+the Markdown variant of the shortcode must never render the body. Rule one is
+checked in the source rather than in the built output, because pasting a body
+inline is a source-level mistake and catching it there means CI needs no site
+build.
