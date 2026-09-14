@@ -25,6 +25,10 @@ This guide will walk you three main optimization strategies:
 This page covers the <code>memory</code> parameter introduced in Qdrant v1.19. If you're using an older version, see the <a href="/documentation/ops-configuration/memory-tiers/#legacy-settings">Legacy Settings</a> section for how to map the new parameter to the old ones.
 </aside>
 
+If you would rather have an agent work through this with you, the prompt below asks it to find which component is actually using the memory before it suggests any changes.
+
+{{< prompt "diagnose-memory-usage" >}}
+
 ## 1. High-Speed Search with Low Memory Usage
 
 To achieve high search speed with minimal memory usage, you can store vectors on disk while minimizing the number of disk reads. Vector quantization is a technique that compresses vectors, allowing more of them to be stored in memory, thus reducing the need to read from disk.
