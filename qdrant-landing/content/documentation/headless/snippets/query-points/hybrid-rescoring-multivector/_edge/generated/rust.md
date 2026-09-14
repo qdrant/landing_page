@@ -6,8 +6,8 @@ let results = edge_shard.query(
         .add_prefetch(
             PrefetchBuilder::new(100)
                 .query(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
-                    query: vec![0.01f32, 0.45, 0.67].into(),
-                    using: None,
+                    query: vec![0.01f32, 0.45, 0.67, 0.53].into(),
+                    using: Some("dense".to_string()),
                 })))
                 .build(),
         )
