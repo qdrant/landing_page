@@ -90,7 +90,7 @@ Closer to the center, you can place broad concepts. Farther out, you can place m
 
 For a catalog, “footwear” covers many possible items. “Boots” narrows that set. “Red leather ankle boots” narrows it further. A representation that captures this structure has room for both semantic similarity and different levels of detail.
 
-Hyper3-CLIP, a hyperbolic image and text embedding model from [hyper³labs](https://hyper3labs.com/), brings this idea to visual retrieval. It is trained to capture general-to-specific relationships alongside similarity. This gives radius a role in organizing broad descriptions and specific visual content. [[2]](#references)
+Hyper3-CLIP, a hyperbolic image and text embedding model from [hyper³labs](https://hyper3labs.com/), brings this idea to visual retrieval. [[7]](#references) It is trained to capture general-to-specific relationships alongside similarity. This gives radius a role in organizing broad descriptions and specific visual content. [[2]](#references) It follows earlier work on hyperbolic image and text representations. [[3]](#references)
 
 Consider the black Chelsea boot below. A traversal toward the origin illustrates a move from the specific product to broader concepts: black Chelsea boots, Chelsea boots, boots, and footwear.
 
@@ -98,15 +98,15 @@ Consider the black Chelsea boot below. A traversal toward the origin illustrates
 
 *Conceptual traversal inspired by a catalog product from Amazon Berkeley Objects. Product imagery is AI-illustrated; descriptions and positions are illustrative, not model retrieval results. [[6]](#references)*
 
-We can also look at how the model organizes product images. Below are conventional CLIP and Hyper3-CLIP embeddings of the same catalog subset.
+We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
 ![Conventional and hyperbolic CLIP scatter plots of the same 165 product images](/articles_data/hyperbolic-embeddings-qdrant/clip-hyper3-scatter.png)
 
-*The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality.*
+*The same 165 Amazon Berkeley Objects product images [[10]](#references) in six categories, shown through UMAP [[9]](#references) projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality.*
 
 ## Testing Hyperbolic Embeddings
 
-WordNet is useful for showing why hyperbolic embeddings work, but we also wanted to see what happens on something closer to a real application. So we tested the same idea on the Google Product Taxonomy: 5,595 categories, seven levels, and 17,312 relationships.
+WordNet is useful for showing why hyperbolic embeddings work, but we also wanted to see what happens on something closer to a real application. So we tested the same idea on the Google Product Taxonomy: 5,595 categories, seven levels, and 17,312 relationships. [[11]](#references)
 
 Both embeddings used the same data and optimizer. The main difference was the geometry.
 
@@ -160,9 +160,9 @@ client.create_payload_index(
 
 Without that payload index the rescore turns into a full scan.
 
-Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request.
+Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request. [[5]](#references)
 
-The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query does not have that operator. It does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
+The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query does not have that operator. [[4]](#references) It does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
 
 ```json
 {
@@ -177,14 +177,16 @@ The geodesic, meaning the shortest path between two points in the curved space, 
 
 ```json
 {
-  "prefetch": [
-    {"query": [-0.3189, 0.9057, -0.0140, 0.1646, -0.0439], "using": "hyperbolic", "limit": 1000}
-  ],
-  "query": {
-    "formula": {
-      "neg": {"ln": {"sum": [x, {"sqrt": {"sum": [{"pow": {"base": x, "exponent": 2.0}}, -1.0]}}]}}
-    }
-  },
+  "prefetch": [{
+      "query": [-0.3189, 0.9057, -0.0140, 0.1646, -0.0439],
+      "using": "hyperbolic",
+      "limit": 1000
+    }],
+  "query": {"formula": {
+    "neg": {"ln": {"sum": [
+      x, {"sqrt": {"sum": [{"pow": {"base": x, "exponent": 2.0}}, -1.0]}}
+    ]}}
+  }},
   "limit": 10
 }
 ```
@@ -242,7 +244,6 @@ The main point is simple. If the data is hierarchical, Qdrant gives you a practi
 3. Desai, K. et al. (2023). [Hyperbolic Image-Text Representations (MERU)](https://arxiv.org/abs/2304.09172).
 4. Qdrant. [Add `acosh` expression to Formula Query](https://github.com/qdrant/qdrant/pull/10231).
 5. Qdrant. [Hybrid Queries and Formula Query](https://qdrant.tech/documentation/search/hybrid-queries/).
-
 6. Amazon Berkeley Objects. [Product image](https://amazon-berkeley-objects.s3.amazonaws.com/images/small/ff/ffb123bf.jpg), item `B06XCPVVPS`, image `71KwV3JHT9L`.
 7. hyper³labs. [The Geometry Mistake Behind Modern Embedding Models](https://hyper3labs.com/blog/the-geometry-mistake/).
 8. Radford, A. et al. (2021). [Learning Transferable Visual Models From Natural Language Supervision (CLIP)](https://arxiv.org/abs/2103.00020).
