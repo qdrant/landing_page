@@ -1,0 +1,24 @@
+{{- /* Language files of a snippet dir, in display order.
+       Params: dir (fs path), block (name or ""), order (slice of langs).
+       Reads `<dir>/*.md` and `<dir>/generated/<block>/*.md`. Returns a slice
+       of dicts (lang, content): languages in `order` first, then the rest. */ -}}
+{{- $files := dict -}}
+{{- range slice .dir (printf "%s/generated/%s" .dir .block) -}}
+  {{- $d := . -}}
+  {{- if fileExists $d -}}
+    {{- range (readDir $d) -}}
+      {{- if and (not .IsDir) (strings.HasSuffix .Name ".md") (not (strings.HasPrefix .Name "_")) (ne .Name "index.md") -}}
+        {{- $lang := strings.TrimSuffix ".md" .Name -}}
+        {{- $files = merge $files (dict $lang (readFile (printf "%s/%s" $d .Name))) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $result := slice -}}
+{{- range $lang := .order -}}
+  {{- with index $files $lang -}}{{- $result = $result | append (dict "lang" $lang "content" .) -}}{{- end -}}
+{{- end -}}
+{{- range $lang, $content := $files -}}
+  {{- if not (in $.order $lang) -}}{{- $result = $result | append (dict "lang" $lang "content" $content) -}}{{- end -}}
+{{- end -}}
+{{- return $result -}}
