@@ -10,6 +10,10 @@ weight: 147
 
 A practical checklist to ensure Qdrant is optimized, stable, and ready to handle real-world load.
 
+If you would rather have an agent run through this with you, use the following prompt to get a prioritized list of what would break first under real load.
+
+{{< prompt "review-before-launch" >}}
+
 ---
 
 ## 1. Distributed Deployment & Sharding
