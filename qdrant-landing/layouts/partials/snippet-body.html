@@ -1,26 +1,16 @@
 {{- /* Assemble the all-languages markdown body for a (dir, block) pair.
        Params: dir (fs path), block (name or ""), order (slice of langs).
-       Mirrors layouts/shortcodes/code-snippet.markdown.md. Returns markdown. */ -}}
-{{- $dir := .dir -}}
-{{- $block := .block -}}
-{{- $order := .order -}}
-{{- $files := dict -}}
-{{- range slice $dir (printf "%s/generated/%s" $dir $block) -}}
-  {{- $d := . -}}
-  {{- if fileExists $d -}}
-    {{- range (readDir $d) -}}
-      {{- if and (strings.HasSuffix .Name ".md") (not (strings.HasPrefix .Name "_")) (ne .Name "index.md") -}}
-        {{- $lang := strings.TrimSuffix ".md" .Name -}}
-        {{- $files = merge $files (dict $lang (readFile (printf "%s/%s" $d .Name))) -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
+       Snippets with deployment-type variants (_server, _edge, ...) get one
+       section per variant. Returns markdown. */ -}}
+{{- $deployments := partial "snippet-deployments.html" (dict "dir" .dir "block" .block) -}}
 {{- $parts := slice -}}
-{{- range $order -}}
-  {{- with index $files . -}}{{- $parts = $parts | append . -}}{{- end -}}
-{{- end -}}
-{{- range $lang, $content := $files -}}
-  {{- if not (in $order $lang) -}}{{- $parts = $parts | append $content -}}{{- end -}}
+{{- if $deployments -}}
+  {{- range $deployments -}}
+    {{- $langs := partial "snippet-files.html" (dict "dir" .path "block" $.block "order" $.order) -}}
+    {{- $parts = $parts | append (printf "## %s\n" .label) -}}
+    {{- range $langs -}}{{- $parts = $parts | append .content -}}{{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- range (partial "snippet-files.html" .) -}}{{- $parts = $parts | append .content -}}{{- end -}}
 {{- end -}}
 {{- return (delimit $parts "\n") -}}

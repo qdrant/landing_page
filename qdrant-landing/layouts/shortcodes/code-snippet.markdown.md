@@ -20,42 +20,44 @@
   {{- end -}}
 {{- end -}}
 
-{{- $files := dict -}}
-{{- range $dir := slice (printf "content/%s" $path) (printf "content/%s/generated/%s" $path $block) -}}
-  {{- if not (fileExists $dir) -}}
-    {{- continue -}}
-  {{- end -}}
-  {{- range (readDir $dir) -}}
-    {{- if or (strings.HasPrefix .Name "_") (not (strings.HasSuffix .Name ".md")) (eq .Name "index.md") -}}
-      {{- continue -}}
-    {{- end -}}
-    {{- $filePath := printf "%s/%s" $dir .Name -}}
-    {{- $content := readFile $filePath -}}
-    {{- $files = merge $files (dict (strings.TrimSuffix ".md" .Name) $content) -}}
-  {{- end -}}
+{{- $basePath := printf "content/%s" $path -}}
+
+{{- /* One variant per deployment type (_server, _edge, ...), or a single
+       unlabeled variant for snippets without deployment-type subdirs. */ -}}
+{{- $variants := slice -}}
+{{- $deployments := partial "snippet-deployments.html" (dict "dir" $basePath "block" $block) -}}
+{{- range $deployments -}}
+  {{- $variants = $variants | append (dict "label" .label "langs" (partial "snippet-files.html" (dict "dir" .path "block" $block "order" $order))) -}}
+{{- end -}}
+{{- if not $deployments -}}
+  {{- $variants = slice (dict "label" "" "langs" (partial "snippet-files.html" (dict "dir" $basePath "block" $block "order" $order))) -}}
 {{- end -}}
 
-{{- /* Ordered list of languages that actually exist for this snippet. */ -}}
-{{- $langs := slice -}}
-{{- range $order -}}
-  {{- if index $files . -}}{{- $langs = $langs | append . -}}{{- end -}}
-{{- end -}}
-{{- range $name, $content := $files -}}
-  {{- if not (in $order $name) -}}{{- $langs = $langs | append $name -}}{{- end -}}
-{{- end -}}
+{{- /* Markdown output shows only the first language of each variant; the rest
+       live on a dedicated snippet page (see content/documentation/snippets/_content.gotmpl). */ -}}
+{{- $more := slice -}}
+{{- range $variants -}}
+  {{- if .langs -}}
+    {{- with .label }}
+**{{ . }}:**
 
-{{- /* Markdown output shows only the first language; the rest live on a
-       dedicated snippet page (see content/documentation/snippets/_content.gotmpl). */ -}}
-{{- if $langs -}}
-  {{- $first := index $langs 0 -}}
-{{ index $files $first }}
-  {{- if gt (len $langs) 1 -}}
-    {{- /* Languages are gathered from the snippet's own files (the code-fence
-           identifier), title-cased for display. */ -}}
-    {{- $otherLanguages := apply (after 1 $langs) "title" "." -}}
-    {{- $linkPath := replace $path "/documentation/headless/snippets/" "/documentation/snippets/" -}}
-    {{- with $block -}}{{- $linkPath = printf "%s%s/" $linkPath . -}}{{- end -}}
-    {{- $url := printf "https://qdrant.tech%sindex.md" $linkPath }}
-> This snippet is also available in {{ delimit $otherLanguages ", " ", and " }}. See the [full snippet]({{ $url }}).
 {{ end -}}
+{{ (index .langs 0).content }}
+    {{- if gt (len .langs) 1 -}}
+      {{- /* Languages are gathered from the snippet's own files (the code-fence
+             identifier), title-cased for display. */ -}}
+      {{- $otherLanguages := slice -}}
+      {{- range after 1 .langs -}}{{- $otherLanguages = $otherLanguages | append (title .lang) -}}{{- end -}}
+      {{- $text := delimit $otherLanguages ", " ", and " -}}
+      {{- with .label -}}{{- $text = printf "%s for %s" $text . -}}{{- end -}}
+      {{- $more = $more | append $text -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
+
+{{- if $more -}}
+  {{- $linkPath := replace $path "/documentation/headless/snippets/" "/documentation/snippets/" -}}
+  {{- with $block -}}{{- $linkPath = printf "%s%s/" $linkPath . -}}{{- end -}}
+  {{- $url := printf "https://qdrant.tech%sindex.md" $linkPath }}
+> This snippet is also available in {{ delimit $more "; " "; and in " }}. See the [full snippet]({{ $url }}).
+{{ end -}}
