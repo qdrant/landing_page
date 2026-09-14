@@ -38,7 +38,7 @@ pub async fn main() -> anyhow::Result<()> {
                                     "published_at".try_into().unwrap(),
                                 )),
                                 target: Some(Box::new(Expression::Datetime(
-                                    "2025-01-01T00:00:00Z".to_string(),
+                                    "YYYY-MM-DDT00:00:00Z".to_string(),
                                 ))),
                                 midpoint: Some(0.5),
                                 scale: Some(86400.0 * 180.0),

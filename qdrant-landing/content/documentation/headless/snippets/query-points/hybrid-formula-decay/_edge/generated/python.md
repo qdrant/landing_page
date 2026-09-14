@@ -35,7 +35,7 @@ results = edge_shard.query(QueryRequest(
                 Expression.Decay(
                     kind=DecayKind.Exp,
                     x=Expression.DatetimeKey("published_at"),
-                    target=Expression.Datetime("2025-01-01T00:00:00Z"),
+                    target=Expression.Datetime("YYYY-MM-DDT00:00:00Z"),
                     midpoint=0.5,
                     scale=86400.0 * 180.0,
                 ),
