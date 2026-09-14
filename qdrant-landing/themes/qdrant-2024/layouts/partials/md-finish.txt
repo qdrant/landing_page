@@ -1,0 +1,10 @@
+{{- /*
+  Shared tail for Markdown output built from marketing params: tightens bullet
+  lists and rewrites internal links the way the docs Markdown output does.
+  Takes the assembled Markdown, returns it. Callers still need | safeHTML.
+*/ -}}
+{{- $content := . -}}
+{{- $content = replaceRE `\n\n(- )` "\n$1" $content -}}
+{{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
+{{- $content = replaceRE `<(/[^>]*/)>` `<https://qdrant.tech${1}index.md>` $content -}}
+{{- return $content -}}
