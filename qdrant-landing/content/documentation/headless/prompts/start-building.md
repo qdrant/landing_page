@@ -1,7 +1,10 @@
 ---
 title: "Start building with an AI agent"
 page: /documentation/agentic-tools/
+# Expanded because this prompt is the point of the hub page. Do not copy
+# this to an in-page prompt; those are always collapsed.
 open: true
+skill: meta/qdrant-advisor
 ---
 Help me get started building on Qdrant.
 

@@ -23,11 +23,19 @@ pages include them by id.
    - `title` is what shows when the element is collapsed, which is the only
      thing most readers will ever see of it.
    - `skill` is a path under `skills.qdrant.tech`, without the `/SKILL.md`
-     suffix. Omit it when no skill applies.
+     suffix. Omit it when no skill applies. Check the path resolves before
+     using it: `curl -I https://skills.qdrant.tech/<path>/SKILL.md`. The
+     published paths are listed in `https://skills.qdrant.tech/llms.txt`, and a
+     path in the `qdrant/skills` repo is not automatically published, so the
+     repo is not a reliable source for this value. Note the meta skills sit
+     under `meta/`, as in `meta/qdrant-advisor`.
    - `page` is where the prompt is included. CI checks that page really
      includes it.
-   - `open: true` renders the element expanded. Use it only where the prompt is
-     the point of the page, as on the Agentic Tools hub.
+   - `open: true` renders the element expanded. **In-page prompts are always
+     collapsed**, so leave this unset. It exists for a page whose whole purpose
+     is the prompt, which today means only the Agentic Tools hub. A prompt
+     feeling important is not a reason to set it: every prompt feels important
+     to its author, and the collapsed state is what keeps a docs page readable.
 
 2. Add `{{< prompt "<id>" >}}` to that page, near the top of the section it
    relates to rather than at the bottom.
