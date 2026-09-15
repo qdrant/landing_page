@@ -4,6 +4,7 @@ draft: false
 slug: how-to-choose-a-qdrant-deployment
 short_description: "Qdrant Cloud, Hybrid Cloud, Self-Hosted, or Edge: which deployment model fits your team, and the constraints that change the answer."
 description: "Every Qdrant deployment runs the same engine and the same API. The difference is how much of the operations you run yourself. A four-question assessment plus the real trade-offs behind each model."
+subline: "Every deployment speaks the same core Qdrant API. Managed tiers simplify infrastructure operations, prevent downtime, and lower cost while improving search at scale. The difference between each one is how much of the operations you run yourself."
 preview_image: /blog/how-to-choose-a-qdrant-deployment/deployment-ownership.jpg
 social_preview_image: /blog/how-to-choose-a-qdrant-deployment/deployment-ownership.jpg
 date: 2026-09-15
@@ -14,8 +15,6 @@ tags:
   - Hybrid Cloud
   - Deployment
 ---
-
-Every deployment speaks the same core Qdrant API. Managed tiers simplify infrastructure operations, prevent downtime, and lower cost while improving search at scale. The difference between each one is how much of the operations you run yourself.
 
 Are you stuck running infrastructure instead of building search? Or do you *need* to own your infrastructure?
 
