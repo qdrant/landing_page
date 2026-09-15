@@ -19,6 +19,11 @@
 {{- end -}}
 <details class="prompt" id="prompt-{{ $id }}"{{ if $p.Params.open }} open{{ end }}>
   <summary class="prompt__summary">
+    {{- /* Names the kind of thing this is while collapsed. The summary line is
+         the only discovery surface a prompt has, so the type marker is placed
+         here by the shortcode rather than left to each author to work into the
+         title. Prompt titles are therefore plain task names. */ -}}
+    <span class="prompt__kind">Prompt</span>
     <span class="prompt__summary-label">{{ $p.Title }}</span>
   </summary>
   <div class="prompt__body">

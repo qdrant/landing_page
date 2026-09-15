@@ -55,6 +55,21 @@ $prompt-accent: $primary-60;
     transform: rotate(45deg);
   }
 
+  // The kind marker: a category label, not disabled metadata. It uses the
+  // secondary text color rather than a true grey, because the collapsed
+  // summary is the only surface that tells a reader this element exists.
+  &__kind {
+    flex: none;
+    font-size: pxToRem(11);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $prompt-text-muted;
+    // Separates the marker from the title without a divider glyph.
+    padding-right: pxToRem(10);
+    border-right: 1px solid $prompt-border;
+  }
+
   &__summary-label {
     // A prompt title can be long; wrap rather than overflow.
     min-width: 0;
@@ -106,8 +121,13 @@ $prompt-accent: $primary-60;
   color: $primary-40;
 }
 
-[data-theme='light'] .prompt__skill {
+[data-theme='light'] .prompt__skill,
+[data-theme='light'] .prompt__kind {
   color: $neutral-50;
+}
+
+[data-theme='light'] .prompt__kind {
+  border-right-color: $neutral-94;
 }
 
 @media (prefers-reduced-motion: reduce) {

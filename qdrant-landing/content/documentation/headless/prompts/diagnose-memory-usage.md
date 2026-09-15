@@ -1,5 +1,5 @@
 ---
-title: "Diagnose high memory usage with an AI agent"
+title: "Diagnose high memory usage"
 skill: qdrant-performance-optimization/memory-usage-optimization
 page: /documentation/ops-optimization/optimize/
 ---

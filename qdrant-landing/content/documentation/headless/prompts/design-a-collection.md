@@ -1,5 +1,5 @@
 ---
-title: "Design a collection with an AI agent"
+title: "Design a collection"
 skill: qdrant-multitenancy
 page: /documentation/manage-data/collections/
 ---

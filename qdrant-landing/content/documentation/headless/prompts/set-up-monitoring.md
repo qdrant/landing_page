@@ -1,5 +1,5 @@
 ---
-title: "Set up monitoring with an AI agent"
+title: "Set up monitoring"
 skill: qdrant-monitoring/setup
 page: /documentation/ops-monitoring/monitoring/
 ---

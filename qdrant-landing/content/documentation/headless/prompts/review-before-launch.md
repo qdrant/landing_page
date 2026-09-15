@@ -1,5 +1,5 @@
 ---
-title: "Review my deployment with an AI agent"
+title: "Review my deployment"
 skill: qdrant-sizing
 page: /documentation/production-checklist/
 ---
