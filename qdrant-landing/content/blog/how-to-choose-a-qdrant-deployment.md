@@ -110,8 +110,6 @@ Lead with Qdrant Cloud unless one of these constraints applies.
 
 For teams needing maximum isolation, [Qdrant Private Cloud](/documentation/private-cloud/) provides dedicated single-tenant infrastructure with fully managed operations, and requires enterprise procurement and custom setup.
 
-{{< free-tier-banner >}}
-
 ## Conclusion
 
 Most teams building vector search should start with Qdrant Cloud, so their technical effort goes to what makes their product unique: search quality, embedding optimization, and the user experience that differentiates their offering.
