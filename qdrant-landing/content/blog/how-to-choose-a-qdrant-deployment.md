@@ -39,7 +39,9 @@ The deployment choice depends on where your team's time is best spent.
 - **Check for a hard constraint.** Data residency, VPC-only, or mandatory Kubernetes integration points you to Qdrant Hybrid Cloud.
 - **Weigh your infra depth.** If you already run distributed systems and need to tune past the defaults, self-host.
 
-Or answer four questions and let the assessment route you:
+### Answer four questions
+
+Not sure which of those applies to you? The assessment below asks about your team, your constraints, and your timeline, then routes you to a model and shows the reasoning behind it.
 
 {{< deployment-quiz >}}
 
