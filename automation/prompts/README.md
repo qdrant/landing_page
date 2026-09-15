@@ -42,9 +42,15 @@ pages include them by id.
 2. Add `{{< prompt "<id>" >}}` to that page, near the top of the section it
    relates to rather than at the bottom.
 
-3. Run `automation/prompts/check-prompts.sh`. It needs no build. Pass a built
-   site directory to also verify the real output, for example
-   `automation/prompts/check-prompts.sh qdrant-landing/public`.
+3. Run both checks:
+
+   ```bash
+   automation/prompts/check-prompts.sh       # source rules, no build, seconds
+   automation/prompts/check-skill-links.sh   # skill links resolve, needs network
+   ```
+
+   `check-prompts.sh` also accepts a built site directory, to verify the real
+   output as well: `automation/prompts/check-prompts.sh qdrant-landing/public`.
 
 ## Writing one
 
@@ -87,3 +93,19 @@ the Markdown variant of the shortcode must never render the body. Rule one is
 checked in the source rather than in the built output, because pasting a body
 inline is a source-level mistake and catching it there means CI needs no site
 build.
+
+## The third rule, which breaks without a commit
+
+**A skill link rots on its own.** A skill renamed or unpublished in
+`qdrant/skills` breaks every reference to it here without anything in this
+repository changing, so no pull request run would ever notice.
+`check-skill-links.sh` covers that. It checks both places a skill path appears,
+the `skill:` front matter and the `SKILL.md` URLs written inside prompt bodies
+and documentation prose, against the catalog at
+`https://skills.qdrant.tech/llms.txt`, and it also runs weekly on a schedule.
+
+It reaches the network, which is why it is a separate script and a separate CI
+job. An unreachable catalog skips the run rather than failing it, so a docs pull
+request never goes red because skills.qdrant.tech was down. A path missing from
+the catalog is confirmed with a request before it is reported, since the catalog
+can lag a freshly published skill.

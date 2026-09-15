@@ -15,5 +15,5 @@
 | Prompt | Page | Agent skill |
 |---|---|---|
 {{ range $section.RegularPages.ByTitle -}}
-| {{ .Title }} | {{ with .Params.page }}{{ . }}{{ else }}none{{ end }} | {{ with .Params.skill }}https://skills.qdrant.tech/{{ . }}/SKILL.md{{ else }}none{{ end }} |
+| {{ .Title }} | {{ with .Params.page }}{{ . }}{{ else }}None{{ end }} | {{ with .Params.skill }}https://skills.qdrant.tech/{{ . }}/SKILL.md{{ else }}None{{ end }} |
 {{ end -}}
