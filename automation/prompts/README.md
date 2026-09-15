@@ -20,8 +20,10 @@ pages include them by id.
    me whether I am self-hosted, on Qdrant Cloud, or on Hybrid Cloud.
    ```
 
-   - `title` is what shows when the element is collapsed, which is the only
-     thing most readers will ever see of it.
+   - `title` is a plain task name: "Set up monitoring", not "Set up monitoring
+     with an AI agent". The collapsed element already carries a `Prompt` marker
+     placed by the shortcode, so working the word into the title says the same
+     thing twice. Write it as the task, starting with a verb.
    - `skill` is a path under `skills.qdrant.tech`, without the `/SKILL.md`
      suffix. Omit it when no skill applies. Check the path resolves before
      using it: `curl -I https://skills.qdrant.tech/<path>/SKILL.md`. The
@@ -61,9 +63,11 @@ re-explains the feature earns nothing.
 that make an agent commit to a judgment call: which setup applies to the
 reader's deployment, what to check first, what to ignore.
 
-**Title it as an offer, not a label.** "Set up monitoring with an AI agent"
-tells a reader what they get. "Prompt" does not, and the element is collapsed
-by default, so the title is the whole invitation.
+**Title it as the task.** The collapsed line reads `PROMPT | Set up
+monitoring`: the marker says what kind of thing it is, the title says what it
+does. That split is why titles stay short, and why the type signal is
+consistent across every prompt rather than depending on each author phrasing it
+the same way.
 
 ## Two rules that break silently
 
