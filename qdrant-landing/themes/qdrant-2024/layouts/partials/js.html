@@ -56,6 +56,14 @@
   <script src="{{ $islandsLoaderJs.RelPermalink }}"></script>
 {{ end }}
 
+{{/* Deployment router: behavior half. The markup and its scoped CSS live in the
+     shortcode. Gated on `.HasShortcode "deployment-quiz"` so it ships only on
+     pages that embed the quiz. */}}
+{{ if .HasShortcode "deployment-quiz" }}
+  {{ $deploymentQuizJs := resources.Get "/js/deployment-quiz.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $deploymentQuizJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "pricing" }}
   {{ $pricingTableJs := resources.Get "/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
