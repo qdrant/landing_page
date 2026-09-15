@@ -1,6 +1,6 @@
 ---
 title: "Agentic Tools"
-short_description: "Tools that help AI coding assistants work with Qdrant: a prompt to get started, and agent skills that carry solutions architect knowledge into your agent."
+short_description: "Tools that help AI coding assistants work with Qdrant: a prompt to get started, agent skills that carry solutions architect knowledge, and prompts embedded across the documentation."
 description: "Qdrant agentic tools for AI coding assistants. Start from a single prompt that runs Qdrant locally and installs the Qdrant Advisor, then use agent skills to diagnose and tune search, memory, scaling, and relevance in a running deployment."
 weight: 303
 partition: develop
@@ -29,3 +29,9 @@ A wrong collection configuration rarely fails loudly in vector search: a mismatc
 [Agent skills](/documentation/agentic-tools/skills/) encode solutions architect knowledge as structured files your agent loads on demand.
 They're organized around symptoms, so they answer "why is this happening, and what should I check first?"
 Reach for skills when something is already running and behaving unexpectedly: slow search, growing memory, a stuck optimizer, poor relevance.
+
+## Prompts in the Docs
+
+Short, ready-to-use prompts appear directly on the documentation pages where they are relevant, so you can use the prompts when you need them instead of looking for them elsewhere.
+Each prompt points to the agent skill your assistant should load. The prompt gets the task started; the skill provides the deeper Qdrant-specific guidance.
+The [prompt index](/documentation/agentic-tools/prompts/) lists all available prompts.
