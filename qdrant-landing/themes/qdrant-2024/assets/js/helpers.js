@@ -14,8 +14,17 @@ export function isElementInViewport(el) {
 export function scrollIntoViewWithOffset(id, offset) {
   offset = offset || 0;
 
+  if (!id) {
+    return;
+  }
+
+  const el = document.getElementById(id);
+  if (!el) {
+    return;
+  }
+
   const targetPosition =
-    document.getElementById(id).getBoundingClientRect().top - document.body.getBoundingClientRect().top - offset;
+    el.getBoundingClientRect().top - document.body.getBoundingClientRect().top - offset;
 
   window.scrollTo({
     top: targetPosition,
