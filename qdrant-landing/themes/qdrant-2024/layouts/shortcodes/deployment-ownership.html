@@ -1,0 +1,181 @@
+{{- /* Operational-ownership matrix across the three Qdrant deployment models.
+
+  Rendered server-side: no client JS, no CDN dependencies. All CSS is scoped under
+  .qvp-root so it cannot collide with theme styles. Mona Sans comes from the theme.
+
+  Rows are operational responsibilities, columns are deployment models, and each
+  region declares its own grid start/span so contiguous bands of ownership merge
+  into one block (the point of the visual).
+
+  Pass subheaders="off" to hide the per-row descriptor lines.
+*/ -}}
+
+{{- $subheaders := default "on" (.Get "subheaders") -}}
+
+{{- $rows := slice
+  (dict "fn" "Infrastructure &amp; compute"     "fs" "servers · nodes · single-tenant isolation")
+  (dict "fn" "Scaling &amp; performance"        "fs" "sharding · resize · GPU")
+  (dict "fn" "Backups &amp; disaster recovery"  "fs" "snapshots · restore · in-region · Multi-AZ")
+  (dict "fn" "Security &amp; compliance"        "fs" "CVE patching · encryption · RBAC + key rotation")
+  (dict "fn" "Monitoring &amp; audit"           "fs" "metrics · audit logging · alerting")
+  (dict "fn" "Upgrades &amp; support"           "fs" "zero-downtime upgrades · 24/7")
+-}}
+
+{{- $cols := slice
+  (dict "ttl" "Self-Hosted"   "badge" "OPEN SOURCE"  "bcls" "qvp-neutral"
+        "regions" (slice (dict "own" "you" "start" 2 "span" 6)))
+  (dict "ttl" "Hybrid Cloud"  "badge" "BYOC · K8s"   "bcls" "qvp-you"
+        "regions" (slice (dict "own" "you" "start" 2 "span" 1)
+                         (dict "own" "shared" "start" 3 "span" 4)
+                         (dict "own" "qd" "start" 7 "span" 1)))
+  (dict "ttl" "Managed Cloud" "badge" "DEFAULT"      "bcls" "qvp-qd" "center" true
+        "regions" (slice (dict "own" "qd" "start" 2 "span" 6)))
+-}}
+
+{{- $own := dict
+  "you"    (dict "lab" "Your team")
+  "shared" (dict "lab" "Shared")
+  "qd"     (dict "lab" "Fully managed")
+-}}
+
+<style>
+  .qvp-root{
+    --bg:#0a0d16; --ink:#fcfdff; --muted:#9aa3b8; --faint:#6b7488;
+    --free:#9b9bff;  --free-bg:rgba(96,71,255,.15);  --free-bd:rgba(96,71,255,.45);
+    --shared:#e8b24a;--shared-bg:rgba(224,160,25,.10);--shared-bd:rgba(224,160,25,.34);
+    --you-ink:#aab1c6; --you-bg:rgba(255,255,255,.035);
+    --accent:#ff5b71; --brand:#dc244c; --brand-light:#ff516b;
+    --card-bd:rgba(255,255,255,.10); --rowline:rgba(255,255,255,.07);
+    --qvp-mono:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    box-sizing:border-box; width:100%; max-width:1240px; margin:2rem auto;
+    background:var(--bg); color:var(--ink);
+    -webkit-font-smoothing:antialiased; border-radius:16px; overflow:hidden;
+    container-type:inline-size;
+  }
+  .qvp-root *,.qvp-root *::before,.qvp-root *::after{ box-sizing:border-box; }
+  .qvp-stage{ padding:clamp(24px,3.2cqi,40px) clamp(22px,4cqi,52px) clamp(18px,2.4cqi,28px); }
+
+  .qvp-eyebrow{ display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .qvp-eyebrow .qvp-dash{ width:42px; height:2px; background:var(--brand); flex:none; }
+  .qvp-eyebrow span{ font-family:var(--qvp-mono); font-size:12.5px; letter-spacing:2.5px; color:var(--brand-light); font-weight:600; }
+  .qvp-root .qvp-h{ font-size:clamp(26px,4.2cqi,40px); line-height:1.06; font-weight:700; letter-spacing:-1px; margin:0 0 12px; color:var(--ink); }
+  .qvp-root .qvp-h .qvp-accent{ color:var(--brand-light); }
+  .qvp-lede{ font-size:clamp(15px,1.6cqi,18px); line-height:1.45; color:var(--muted); max-width:1000px; margin:0 0 22px; }
+
+  .qvp-grid{ display:grid; grid-template-columns:minmax(150px,252px) repeat(3,1fr); column-gap:8px; row-gap:0; position:relative; }
+  .qvp-grid > *{ min-width:0; }
+
+  .qvp-corner{ display:flex; align-items:flex-end; padding:0 4px 8px; grid-area:1 / 1; }
+  .qvp-corner span{ font-family:var(--qvp-mono); font-size:11px; letter-spacing:1.5px; color:var(--faint); text-transform:uppercase; }
+  .qvp-dh{ border:1px solid var(--card-bd); border-radius:11px; padding:11px 15px; background:rgba(255,255,255,.02);
+    display:flex; flex-direction:column; justify-content:center; gap:5px; }
+  .qvp-dh .qvp-toprow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .qvp-dh .qvp-ttl{ font-size:clamp(15px,1.7cqi,18.5px); font-weight:700; letter-spacing:-.4px; }
+  .qvp-badge{ font-family:var(--qvp-mono); font-size:10px; letter-spacing:.7px; padding:2px 7px; border-radius:5px; border:1px solid; white-space:nowrap; flex:none; }
+  .qvp-badge.qvp-neutral{ color:rgba(255,255,255,.6); border-color:rgba(255,255,255,.25); }
+  .qvp-badge.qvp-you{ color:var(--free); border-color:var(--free-bd); }
+  .qvp-badge.qvp-qd{ color:var(--accent); border-color:rgba(220,36,76,.5); }
+  .qvp-dh.qvp-center{ background:rgba(96,71,255,.07); border-color:var(--free-bd); }
+
+  .qvp-fl{ display:flex; flex-direction:column; justify-content:center; gap:2px; padding:0 12px 0 4px; }
+  .qvp-fl.qvp-rowdiv{ border-bottom:1px solid var(--rowline); }
+  .qvp-fl .qvp-fn{ font-size:clamp(12.5px,1.3cqi,14px); font-weight:600; letter-spacing:-.2px; line-height:1.14; }
+  .qvp-fl .qvp-fs{ font-size:10px; color:var(--faint); line-height:1.3; }
+  .qvp-root[data-subheaders="off"] .qvp-fl .qvp-fs{ display:none; }
+
+  .qvp-region{ border:1px solid var(--card-bd); border-left-width:3px; border-radius:11px; padding:10px 12px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; text-align:center;
+    background-image:repeating-linear-gradient(to bottom, transparent 0 45px, var(--rowline) 45px 46px); background-origin:border-box; }
+  .qvp-region .qvp-ro{ display:flex; align-items:center; gap:8px; font-size:clamp(13px,1.5cqi,16.5px); font-weight:700; letter-spacing:-.2px; }
+  .qvp-region .qvp-ro svg{ width:16px; height:16px; flex:none; }
+  .qvp-region.qvp-you{ background-color:var(--you-bg); border-left-color:var(--you-ink); color:var(--you-ink); }
+  .qvp-region.qvp-shared{ background-color:var(--shared-bg); border-left-color:var(--shared); color:var(--shared); }
+  .qvp-region.qvp-qd{ background-color:var(--free-bg); border-left-color:var(--free); color:var(--free); }
+
+  .qvp-axis{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:16px; }
+  .qvp-axis .qvp-end{ font-size:clamp(12px,1.3cqi,14px); color:var(--muted); display:flex; align-items:center; gap:9px; }
+  .qvp-axis .qvp-end b{ font-weight:700; }
+  .qvp-axis .qvp-more b{ color:var(--you-ink); }
+  .qvp-axis .qvp-less b{ color:var(--free); }
+  .qvp-axis .qvp-arrow{ color:var(--free); font-size:24px; font-weight:800; line-height:1; }
+
+  .qvp-seatbelt{ margin-top:16px; display:flex; align-items:center; gap:15px; border:1px solid var(--free-bd);
+    background:rgba(96,71,255,.07); border-radius:12px; padding:13px 20px; }
+  .qvp-seatbelt .qvp-ic{ width:32px; height:32px; flex:none; border-radius:9px; display:grid; place-items:center; background:rgba(96,71,255,.16); color:var(--free); }
+  .qvp-seatbelt .qvp-ic svg{ width:18px; height:18px; }
+  .qvp-seatbelt .qvp-tx{ font-size:clamp(13px,1.4cqi,15px); line-height:1.4; color:#d7dce8; }
+  .qvp-seatbelt .qvp-tx b{ color:var(--free); font-weight:700; }
+
+  .qvp-foot{ margin-top:16px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+    border-top:1px solid var(--card-bd); padding-top:13px; }
+  .qvp-foot .qvp-fl2{ font-size:12px; color:var(--faint); line-height:1.45; max-width:840px; }
+  .qvp-foot .qvp-cta{ font-family:var(--qvp-mono); font-size:12.5px; color:var(--brand-light); white-space:nowrap; text-decoration:none; }
+  .qvp-foot .qvp-cta:hover{ text-decoration:underline; }
+
+  @container (max-width:720px){
+    .qvp-grid{ grid-template-columns:1fr; row-gap:18px; }
+    .qvp-corner{ display:none; }
+    .qvp-region{ grid-column:1 !important; grid-row:auto !important; flex-direction:row; justify-content:flex-start; background-image:none; }
+    .qvp-fl{ padding:0; }
+    .qvp-fl.qvp-rowdiv{ border-bottom:0; }
+    .qvp-axis{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+
+{{- $icons := dict
+  "you"    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`
+  "shared" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+  "qd"     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>`
+-}}
+
+<div class="qvp-root" data-subheaders="{{ $subheaders }}">
+  <div class="qvp-stage">
+    <div class="qvp-eyebrow"><span class="qvp-dash"></span><span>QDRANT DEPLOYMENT MODELS</span></div>
+    <p class="qvp-h">Operational ownership by <span class="qvp-accent">deployment model</span></p>
+    <p class="qvp-lede">Each capability is operated by your team, shared, or fully managed by Qdrant. Columns are the three deployment models; rows are operational responsibilities.</p>
+
+    <div class="qvp-grid" style="grid-template-rows:50px repeat({{ len $rows }},46px);">
+      <div class="qvp-corner"><span>Operational load</span></div>
+
+      {{- range $ci, $c := $cols }}
+        <div class="qvp-dh{{ if $c.center }} qvp-center{{ end }}" style="grid-area:1 / {{ add $ci 2 }};">
+          <div class="qvp-toprow">
+            <span class="qvp-ttl">{{ $c.ttl }}</span>
+            <span class="qvp-badge {{ $c.bcls }}">{{ $c.badge }}</span>
+          </div>
+        </div>
+      {{- end }}
+
+      {{- range $i, $r := $rows }}
+        <div class="qvp-fl{{ if lt $i (sub (len $rows) 1) }} qvp-rowdiv{{ end }}" style="grid-column:1; grid-row:{{ add $i 2 }};">
+          <span class="qvp-fn">{{ $r.fn | safeHTML }}</span>
+          <span class="qvp-fs">{{ $r.fs }}</span>
+        </div>
+      {{- end }}
+
+      {{- range $ci, $c := $cols }}
+        {{- range $c.regions }}
+          {{- $o := index $own .own }}
+          <div class="qvp-region qvp-{{ .own }}" style="grid-column:{{ add $ci 2 }}; grid-row:{{ .start }} / span {{ .span }};">
+            <div class="qvp-ro">{{ index $icons .own | safeHTML }}{{ $o.lab }}</div>
+          </div>
+        {{- end }}
+      {{- end }}
+    </div>
+
+    <div class="qvp-axis">
+      <div class="qvp-end qvp-more"><b>Operated by your team</b></div>
+      <div class="qvp-end qvp-less"><b>Operated by Qdrant</b> <span class="qvp-arrow">&rsaquo;</span></div>
+    </div>
+
+    <div class="qvp-seatbelt">
+      <span class="qvp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></span>
+      <span class="qvp-tx"><b>Portable.</b> Same open-source engine and API across all three models. Snapshot export to your own object storage; migration between models is reversible.</span>
+    </div>
+
+    <div class="qvp-foot">
+      <div class="qvp-fl2">Capabilities &amp; ownership reflect typical enterprise defaults across Qdrant deployment models. Compliance reports (SOC 2 Type II, HIPAA, GDPR) are available under NDA.</div>
+      <a class="qvp-cta" href="https://cloud.qdrant.io/signup">cloud.qdrant.io &rsaquo;</a>
+    </div>
+  </div>
+</div>
