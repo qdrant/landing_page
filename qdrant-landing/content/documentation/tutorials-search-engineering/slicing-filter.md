@@ -20,6 +20,8 @@ Qdrant assigns every point to one slice by hashing its ID. For a fixed `total`, 
 
 This tutorial covers three uses: parallel `scroll` across workers, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
 
+![The slicing mechanism: run an unsorted collection through a hashing function which assigns each point, based on its ID and the total number of requested slices, to the appropriate slice](/documentation/tutorials/slicing-filter/slicing-mechanism.png)
+
 ## Setup
 
 <aside role="status">
@@ -151,7 +153,10 @@ async def scroll_slice(index: int, total: int) -> list[models.Record]:
         result, next_page_offset = await client.scroll(
             collection_name=collection_name,
             scroll_filter=models.Filter(
-                must=[models.SliceCondition(slice=models.Slice(index=index, total=total))],
+                must=[models.SliceCondition(
+                    slice=models.Slice(index=index, 
+                    total=total)
+                )],
             ),
             limit=500,
             with_payload=True,
@@ -165,7 +170,10 @@ async def scroll_slice(index: int, total: int) -> list[models.Record]:
 
 
 total_slices = 10
-slices = await asyncio.gather(*(scroll_slice(i, total_slices) for i in range(total_slices)))
+slices = await asyncio.gather(*(
+    scroll_slice(i, total_slices) 
+    for i in range(total_slices)
+))
 
 for i, s in enumerate(slices):
     print(f"worker {i}: {len(s)} points")
@@ -200,7 +208,11 @@ async def slice_ids(index: int, total: int) -> set[int]:
     while True:
         records, next_page_offset = await client.scroll(
             collection_name=collection_name,
-            scroll_filter=models.Filter(must=[models.SliceCondition(slice=models.Slice(index=index, total=total))]),
+            scroll_filter=models.Filter(
+                must=[models.SliceCondition(
+                    slice=models.Slice(index=index, total=total)
+                )]
+            ),
             limit=10000,
             with_payload=False,
             with_vectors=False,
@@ -256,7 +268,11 @@ while True:
     stratified_results.extend(stratified)
 
 print(f"electronics points in slice 0/5: {len(stratified_results)}")
-print(f"all match the category: {all(p.payload['category'] == 'electronics' for p in stratified_results)}")
+all_match = all(
+    p.payload['category'] == 'electronics' 
+    for p in stratified_results
+)
+print(f"all match the category: {all_match}")
 # electronics points in slice 0/5: 28
 # all match the category: True
 ```
