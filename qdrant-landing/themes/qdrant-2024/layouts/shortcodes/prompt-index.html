@@ -1,0 +1,57 @@
+{{- /*
+  Generated index of every prompt in the docs.
+
+  Ranges the headless prompts section rather than scraping pages, so the table
+  cannot drift from the prompt files. Each row's page comes from the prompt's
+  own `page:` param; check-prompts.sh verifies that page really includes it.
+
+  This emits real table markup because a shortcode's output is inserted as HTML
+  and never re-parsed as markdown, so pipe rows would render as literal text.
+  The Markdown output format has its own variant, prompt-index.markdown.md,
+  which does use pipes. Keep the two in step.
+*/ -}}
+{{- $section := site.GetPage "documentation/headless/prompts" -}}
+{{- if not $section -}}
+  {{- errorf "prompt-index: cannot resolve documentation/headless/prompts. The section needs an _index.md setting build.list to 'local'; the parent headless bundle cascades 'never', which makes this lookup nil." -}}
+{{- end -}}
+{{- /* Emitted without attributes on purpose: article-content.html matches a
+     bare `<table>`, wraps it in .table-responsive and adds `table mb-5`, so
+     this picks up the same styling and mobile scrolling as every other docs
+     table. Adding a class here would silently opt out of both. */ -}}
+<table>
+  <thead>
+    <tr><th>Prompt</th><th>Page</th><th>Agent skill</th></tr>
+  </thead>
+  <tbody>
+    {{- range $section.RegularPages.ByTitle }}
+      {{- $p := . }}
+    <tr>
+      <td>
+        {{- with $p.Params.page -}}
+          <a href="{{ . }}#prompt-{{ $p.File.BaseFileName }}">{{ $p.Title }}</a>
+        {{- else -}}
+          {{ $p.Title }}
+        {{- end -}}
+      </td>
+      <td>
+        {{- with $p.Params.page -}}
+          {{- with site.GetPage . -}}
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{- else -}}
+            <a href="{{ $p.Params.page }}">{{ $p.Params.page }}</a>
+          {{- end -}}
+        {{- else -}}
+          None
+        {{- end -}}
+      </td>
+      <td>
+        {{- with $p.Params.skill -}}
+          <a href="https://skills.qdrant.tech/{{ . }}/SKILL.md"><code>{{ . }}</code></a>
+        {{- else -}}
+          None
+        {{- end -}}
+      </td>
+    </tr>
+    {{- end }}
+  </tbody>
+</table>

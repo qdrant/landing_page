@@ -1,0 +1,164 @@
+@use '../helpers/functions' as *;
+
+// Both themes are declared here so a palette change is a one-block edit. The
+// light values were previously written as literals at the use site, which is
+// how a palette silently stops being the palette.
+$prompt-surface: $neutral-20;
+$prompt-border: $neutral-40;
+$prompt-text: $neutral-98;
+$prompt-text-muted: $neutral-70;
+$prompt-accent: $primary-60;
+// The body block sits deeper than the card. Without this it renders the same
+// $neutral-20 as the card and the prompt reads as loose monospace in a box.
+$prompt-block-surface: $neutral-10;
+
+$prompt-surface-light: $neutral-98;
+$prompt-border-light: $neutral-94;
+$prompt-text-light: $neutral-10;
+$prompt-text-muted-light: $neutral-50;
+$prompt-accent-light: $primary-40;
+
+.prompt {
+  background: $prompt-surface;
+  border: 1px solid $prompt-border;
+  border-left: 3px solid $prompt-accent;
+  border-radius: pxToRem(8);
+  margin: pxToRem(24) 0;
+  overflow: hidden;
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(10);
+    padding: pxToRem(14) pxToRem(16);
+    cursor: pointer;
+    font-size: $font-size-md;
+    font-weight: 600;
+    color: $prompt-text;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // Disclosure caret, drawn rather than an icon file so it inherits color.
+    &::before {
+      content: '';
+      flex: none;
+      width: pxToRem(8);
+      height: pxToRem(8);
+      border-right: 2px solid $prompt-accent;
+      border-bottom: 2px solid $prompt-accent;
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+    }
+
+    &:hover {
+      color: $prompt-accent;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $prompt-accent;
+      outline-offset: -2px;
+    }
+  }
+
+  &[open] &__summary::before {
+    transform: rotate(45deg);
+  }
+
+  // The kind marker: a category label, not disabled metadata. It uses the
+  // secondary text color rather than a true grey, because the collapsed
+  // summary is the only surface that tells a reader this element exists.
+  &__kind {
+    flex: none;
+    font-size: pxToRem(11);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $prompt-text-muted;
+    // Separates the marker from the title without a divider glyph.
+    padding-right: pxToRem(10);
+    border-right: 1px solid $prompt-border;
+  }
+
+  &__summary-label {
+    // A prompt title can be long; wrap rather than overflow.
+    min-width: 0;
+  }
+
+  &__body {
+    padding: 0 pxToRem(16) pxToRem(16);
+  }
+
+  // The block Chroma emits inside the body.
+  .highlight {
+    margin: 0;
+    background: $prompt-block-surface;
+  }
+
+  // A prompt is prose, not code. Its line breaks come from how the author
+  // wrapped the source file, so a fixed-width <pre> clips every line at any
+  // window narrower than the wrap width instead of reflowing. Sideways
+  // scrolling is a fair bargain for code and a bad one for a paragraph.
+  // pre-wrap keeps the deliberate line structure in prompts that have one.
+  .highlight > pre {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    // copy-code.js absolutely positions its button at the top right of
+    // .highlight. Wrapped text now reaches the full width, so the first line
+    // would run underneath it.
+    padding-right: pxToRem(56);
+  }
+
+  &__skill {
+    font-size: $font-size-s;
+    color: $prompt-text-muted;
+    margin: pxToRem(12) 0 0;
+    line-height: 1.5;
+
+    code {
+      font-family: $font-family-code;
+      font-size: pxToRem(12);
+      background: none;
+      padding: 0;
+    }
+  }
+
+  [data-theme='light'] & {
+    background: $prompt-surface-light;
+    border-color: $prompt-border-light;
+    border-left-color: $prompt-accent-light;
+  }
+}
+
+// Written out longhand: inside a compound selector `[data-theme='light'] &`
+// lands in the descendant position, where it can never match, because the
+// theme attribute sits on <html>.
+[data-theme='light'] .prompt__summary {
+  color: $prompt-text-light;
+}
+
+[data-theme='light'] .prompt__summary::before {
+  border-right-color: $prompt-accent-light;
+  border-bottom-color: $prompt-accent-light;
+}
+
+[data-theme='light'] .prompt__summary:hover {
+  color: $prompt-accent-light;
+}
+
+[data-theme='light'] .prompt__skill,
+[data-theme='light'] .prompt__kind {
+  color: $prompt-text-muted-light;
+}
+
+[data-theme='light'] .prompt__kind {
+  border-right-color: $prompt-border-light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt__summary::before {
+    transition: none;
+  }
+}

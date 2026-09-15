@@ -1,0 +1,45 @@
+{{- /*
+  Renders one prompt from content/documentation/headless/prompts/<id>.md.
+
+  Usage: {{< prompt "set-up-monitoring" >}}
+
+  The prompt file's body is plain text. `highlight` hands it to Chroma as a
+  value, producing a real `.highlight > pre`, which copy-code.js finds and adds
+  a copy button to. That is why this element needs no JavaScript of its own.
+
+  It is deliberately not wrapped in a fence and run through markdownify. A body
+  containing its own ``` would close that outer fence early, truncating the
+  prompt and spilling the rest of it onto the page as loose markdown, with a
+  clean build and a green check. `highlight` never re-parses the body, so a
+  prompt can contain any characters at all.
+
+  The Markdown output format has its own variant, prompt.markdown.md, which
+  deliberately drops the body so an agent reading index.md is not handed an
+  instruction addressed to it.
+*/ -}}
+{{- $id := .Get 0 -}}
+{{- $p := site.GetPage (printf "documentation/headless/prompts/%s" $id) -}}
+{{- if not $p -}}
+  {{- errorf "prompt: no prompt file found for id %q (looked in content/documentation/headless/prompts/). Called from %s" $id .Page.RelPermalink -}}
+{{- end -}}
+<details class="prompt" id="prompt-{{ $id }}"{{ if $p.Params.open }} open{{ end }}>
+  <summary class="prompt__summary">
+    {{- /* Names the kind of thing this is while collapsed. The summary line is
+         the only discovery surface a prompt has, so the type marker is placed
+         here by the shortcode rather than left to each author to work into the
+         title. Prompt titles are therefore plain task names. */ -}}
+    <span class="prompt__kind">Prompt</span>
+    <span class="prompt__summary-label">{{ $p.Title }}</span>
+  </summary>
+  <div class="prompt__body">
+    {{ highlight (trim $p.RawContent "\n") "text" "" }}
+    {{- with $p.Params.skill }}
+      <p class="prompt__skill">
+        Uses the
+        <a href="https://skills.qdrant.tech/{{ . }}/SKILL.md"><code>{{ . }}</code></a>
+        agent skill.
+        <a href="/documentation/agentic-tools/skills/">What are agent skills?</a>
+      </p>
+    {{- end }}
+  </div>
+</details>

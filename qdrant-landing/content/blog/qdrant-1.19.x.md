@@ -132,7 +132,7 @@ We recommend upgrading versions one by one. Qdrant Cloud does this automatically
 
 > If you still use the legacy `/search`, `/recommend`, or `/discover` endpoints, migrate to the [`/query` API](/documentation/search/search/#query-api) before upgrading to 1.19.
 
-Need help with your upgrade? The [Qdrant Advisor agent skill](https://qdrant.tech/documentation/skills/) can help you navigate upgrades, troubleshoot configurations, and answer questions about your Qdrant setup, whether you're on Qdrant Cloud or self-hosting.
+Need help with your upgrade? The [Qdrant Advisor agent skill](https://qdrant.tech/documentation/agentic-tools/skills/) can help you navigate upgrades, troubleshoot configurations, and answer questions about your Qdrant setup, whether you're on Qdrant Cloud or self-hosting.
 
 ## Engage
 
