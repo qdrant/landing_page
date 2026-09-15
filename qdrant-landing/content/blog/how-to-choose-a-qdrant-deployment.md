@@ -1,9 +1,11 @@
 ---
 title: "How to Choose a Qdrant Deployment"
-draft: false # DO NOT MERGE until static/blog/how-to-choose-a-qdrant-deployment/preview/title.jpg exists: without it the hero renders a broken image
+draft: false
 slug: how-to-choose-a-qdrant-deployment
 short_description: "Qdrant Cloud, Hybrid Cloud, Self-Hosted, or Edge: which deployment model fits your team, and the constraints that change the answer."
 description: "Every Qdrant deployment runs the same engine and the same API. The difference is how much of the operations you run yourself. A four-question assessment plus the real trade-offs behind each model."
+preview_image: /blog/how-to-choose-a-qdrant-deployment/deployment-ownership.jpg
+social_preview_image: /blog/how-to-choose-a-qdrant-deployment/deployment-ownership.jpg
 date: 2026-09-15
 author: Meina Ghafouri
 featured: false
