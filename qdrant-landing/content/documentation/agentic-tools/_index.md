@@ -13,16 +13,17 @@ Use them to give your agent task-specific guidance, troubleshoot existing deploy
 
 ## Start Building
 
-If you're new to Qdrant, paste this into your coding assistant.
+If you're new to Qdrant, the Start building on Qdrant prompt takes your coding assistant from an empty project to a working search query.
 It stands up a local instance, installs the client with local embeddings, adds the [Qdrant Advisor](/documentation/agentic-tools/skills/#the-qdrant-advisor) skill, and then builds against your own use case.
 
 {{< prompt "start-building" >}}
 
-Nothing in those four steps needs an account.
+None of that needs an account.
 Qdrant runs in Docker and [FastEmbed](/documentation/fastembed/fastembed-quickstart/) generates embeddings on your machine, so you can go from nothing to a working search query without signing up for anything.
 
-Step 4 does the work that matters.
-A wrong collection configuration rarely fails loudly in vector search: a mismatched distance metric or a missing payload index returns plausible results and quietly costs you relevance, so it's worth making your agent commit to those choices out loud before it writes code.
+The part that matters most is the collection configuration.
+A wrong one rarely fails loudly in vector search: a mismatched distance metric or a missing payload index returns plausible results and quietly costs you relevance.
+The prompt is written to make your assistant ask what you are building, then commit to those choices out loud before it writes any code.
 
 ## Agent Skills
 

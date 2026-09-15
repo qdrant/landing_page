@@ -75,6 +75,19 @@ does. That split is why titles stay short, and why the type signal is
 consistent across every prompt rather than depending on each author phrasing it
 the same way.
 
+## Formatting a prompt body
+
+**Do not hard-wrap prose.** Write each paragraph as one long line and let the
+page wrap it. The element renders the body with `white-space: pre-wrap`, so any
+line breaks you type are preserved, and a body wrapped at 80 columns keeps those
+breaks in a content column that is narrower than that. `start-building` is the
+exception: its numbered steps and indented commands are structure, so its line
+breaks are content.
+
+**A body can contain anything, including fenced blocks.** The shortcode passes
+it to Chroma as a value rather than re-parsing it as markdown, so a prompt that
+includes a YAML or JSON snippet renders correctly.
+
 ## Two rules that break silently
 
 **Prompt bodies must never reach a built `index.md`.** Those files are consumed

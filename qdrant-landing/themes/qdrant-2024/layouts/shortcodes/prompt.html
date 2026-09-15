@@ -3,10 +3,15 @@
 
   Usage: {{< prompt "set-up-monitoring" >}}
 
-  The prompt file's body is plain text. This template wraps it in a fenced
-  block and runs it through markdownify so Chroma produces a real
-  `.highlight > pre`, which copy-code.js finds and adds a copy button to. That
-  is why this element needs no JavaScript of its own.
+  The prompt file's body is plain text. `highlight` hands it to Chroma as a
+  value, producing a real `.highlight > pre`, which copy-code.js finds and adds
+  a copy button to. That is why this element needs no JavaScript of its own.
+
+  It is deliberately not wrapped in a fence and run through markdownify. A body
+  containing its own ``` would close that outer fence early, truncating the
+  prompt and spilling the rest of it onto the page as loose markdown, with a
+  clean build and a green check. `highlight` never re-parses the body, so a
+  prompt can contain any characters at all.
 
   The Markdown output format has its own variant, prompt.markdown.md, which
   deliberately drops the body so an agent reading index.md is not handed an
@@ -15,7 +20,7 @@
 {{- $id := .Get 0 -}}
 {{- $p := site.GetPage (printf "documentation/headless/prompts/%s" $id) -}}
 {{- if not $p -}}
-  {{- errorf "prompt: no prompt file found for id %q (looked in content/documentation/headless/prompts/). Called from %s" $id .Page.File.Path -}}
+  {{- errorf "prompt: no prompt file found for id %q (looked in content/documentation/headless/prompts/). Called from %s" $id .Page.RelPermalink -}}
 {{- end -}}
 <details class="prompt" id="prompt-{{ $id }}"{{ if $p.Params.open }} open{{ end }}>
   <summary class="prompt__summary">
@@ -27,7 +32,7 @@
     <span class="prompt__summary-label">{{ $p.Title }}</span>
   </summary>
   <div class="prompt__body">
-    {{ printf "```text\n%s\n```" (trim $p.RawContent "\n") | markdownify }}
+    {{ highlight (trim $p.RawContent "\n") "text" "" }}
     {{- with $p.Params.skill }}
       <p class="prompt__skill">
         Uses the

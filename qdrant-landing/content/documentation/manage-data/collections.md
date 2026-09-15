@@ -29,7 +29,7 @@ Qdrant supports these most popular types of metrics:
 In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
 These settings can be changed at any time by a corresponding request.
 
-If you would rather have an agent design this with you, the following prompt asks it for your data and query shape first, then commits to a vector configuration and the payload indexes to create.
+To hand this to an agent instead, the Design a collection prompt makes it ask about your data and query shape first, then commit to a vector configuration and the payload indexes to create.
 
 {{< prompt "design-a-collection" >}}
 

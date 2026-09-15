@@ -1,10 +1,22 @@
 @use '../helpers/functions' as *;
 
+// Both themes are declared here so a palette change is a one-block edit. The
+// light values were previously written as literals at the use site, which is
+// how a palette silently stops being the palette.
 $prompt-surface: $neutral-20;
 $prompt-border: $neutral-40;
 $prompt-text: $neutral-98;
 $prompt-text-muted: $neutral-70;
 $prompt-accent: $primary-60;
+// The body block sits deeper than the card. Without this it renders the same
+// $neutral-20 as the card and the prompt reads as loose monospace in a box.
+$prompt-block-surface: $neutral-10;
+
+$prompt-surface-light: $neutral-98;
+$prompt-border-light: $neutral-94;
+$prompt-text-light: $neutral-10;
+$prompt-text-muted-light: $neutral-50;
+$prompt-accent-light: $primary-40;
 
 .prompt {
   background: $prompt-surface;
@@ -79,9 +91,24 @@ $prompt-accent: $primary-60;
     padding: 0 pxToRem(16) pxToRem(16);
   }
 
-  // The fenced block Chroma emits inside the body.
+  // The block Chroma emits inside the body.
   .highlight {
     margin: 0;
+    background: $prompt-block-surface;
+  }
+
+  // A prompt is prose, not code. Its line breaks come from how the author
+  // wrapped the source file, so a fixed-width <pre> clips every line at any
+  // window narrower than the wrap width instead of reflowing. Sideways
+  // scrolling is a fair bargain for code and a bad one for a paragraph.
+  // pre-wrap keeps the deliberate line structure in prompts that have one.
+  .highlight > pre {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    // copy-code.js absolutely positions its button at the top right of
+    // .highlight. Wrapped text now reaches the full width, so the first line
+    // would run underneath it.
+    padding-right: pxToRem(56);
   }
 
   &__skill {
@@ -99,9 +126,9 @@ $prompt-accent: $primary-60;
   }
 
   [data-theme='light'] & {
-    background: $neutral-98;
-    border-color: $neutral-94;
-    border-left-color: $primary-40;
+    background: $prompt-surface-light;
+    border-color: $prompt-border-light;
+    border-left-color: $prompt-accent-light;
   }
 }
 
@@ -109,25 +136,25 @@ $prompt-accent: $primary-60;
 // lands in the descendant position, where it can never match, because the
 // theme attribute sits on <html>.
 [data-theme='light'] .prompt__summary {
-  color: $neutral-10;
+  color: $prompt-text-light;
 }
 
 [data-theme='light'] .prompt__summary::before {
-  border-right-color: $primary-40;
-  border-bottom-color: $primary-40;
+  border-right-color: $prompt-accent-light;
+  border-bottom-color: $prompt-accent-light;
 }
 
 [data-theme='light'] .prompt__summary:hover {
-  color: $primary-40;
+  color: $prompt-accent-light;
 }
 
 [data-theme='light'] .prompt__skill,
 [data-theme='light'] .prompt__kind {
-  color: $neutral-50;
+  color: $prompt-text-muted-light;
 }
 
 [data-theme='light'] .prompt__kind {
-  border-right-color: $neutral-94;
+  border-right-color: $prompt-border-light;
 }
 
 @media (prefers-reduced-motion: reduce) {

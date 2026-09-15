@@ -7,6 +7,10 @@
 
   Keep in step with prompt-index.html, which emits table markup instead of
   pipes because shortcode output is not re-parsed as markdown.
+
+  Page links are absolute and index.md-suffixed to match every other link in
+  this output, which single.markdown.md rewrites that way. A bare site path
+  would be the one column an agent reading this table could not resolve.
 */ -}}
 {{- $section := site.GetPage "documentation/headless/prompts" -}}
 {{- if not $section -}}
@@ -15,5 +19,5 @@
 | Prompt | Page | Agent skill |
 |---|---|---|
 {{ range $section.RegularPages.ByTitle -}}
-| {{ .Title }} | {{ with .Params.page }}{{ . }}{{ else }}None{{ end }} | {{ with .Params.skill }}https://skills.qdrant.tech/{{ . }}/SKILL.md{{ else }}None{{ end }} |
+| {{ .Title }} | {{ with .Params.page }}{{ with site.GetPage . }}{{ .Permalink }}index.md{{ else }}{{ . }}{{ end }}{{ else }}None{{ end }} | {{ with .Params.skill }}https://skills.qdrant.tech/{{ . }}/SKILL.md{{ else }}None{{ end }} |
 {{ end -}}

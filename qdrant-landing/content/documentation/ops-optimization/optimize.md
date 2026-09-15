@@ -25,7 +25,7 @@ This guide will walk you three main optimization strategies:
 This page covers the <code>memory</code> parameter introduced in Qdrant v1.19. If you're using an older version, see the <a href="/documentation/ops-configuration/memory-tiers/#legacy-settings">Legacy Settings</a> section for how to map the new parameter to the old ones.
 </aside>
 
-If you would rather have an agent work through this with you, the following prompt asks it to find which component is actually using the memory before it suggests any changes.
+An agent can work through this with you. The Diagnose high memory usage prompt makes it find which component is actually using the memory before it suggests any changes.
 
 {{< prompt "diagnose-memory-usage" >}}
 

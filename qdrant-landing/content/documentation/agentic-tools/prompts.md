@@ -12,6 +12,6 @@ Qdrant documentation includes short, ready-to-use prompts on the pages where the
 
 Each prompt is collapsed by default, requires no additional input, and tells your assistant which [agent skill](/documentation/agentic-tools/skills/) to load. The prompt defines the task; the skill provides the Qdrant-specific guidance needed to complete it.
 
-This page lists all available prompts. Follow a link to open the prompt alongside the documentation that provides its context.
+This page lists all available prompts. Follow a link to jump to the prompt on the page that provides its context.
 
 {{< prompt-index >}}

@@ -98,9 +98,9 @@ automation/prompts/check-skill-links.sh   # skill links resolve, needs network
 automation/snippets/generate-md.py        # if you touched snippets, then commit the result
 ```
 
-Run `git add -A` or `git add :/` from anywhere other than the repository root.
-Plain `git add .` inside `qdrant-landing/` silently misses changes to
-`automation/` and `.github/`.
+When you are not at the repository root, stage with `git add -A` or
+`git add :/`. Plain `git add .` inside `qdrant-landing/` silently misses
+changes to `automation/` and `.github/`.
 
 ## Two traps in the templates
 

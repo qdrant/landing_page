@@ -21,7 +21,7 @@ The integration with Qdrant is easy to
 [configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets)
 with Prometheus and Grafana.
 
-If you would rather have an agent handle this, use the following prompt to select the appropriate configuration for your deployment type and recommend relevant alerts.
+If you would rather have an agent handle this, the Set up monitoring prompt asks it to select the right configuration for your deployment type and recommend the alerts worth wiring up.
 
 {{< prompt "set-up-monitoring" >}}
 

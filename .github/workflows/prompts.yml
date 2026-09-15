@@ -4,8 +4,11 @@ on:
   pull_request:
     paths:
       - 'qdrant-landing/content/**/*.md'
-      - 'qdrant-landing/layouts/shortcodes/prompt.markdown.md'
-      - 'qdrant-landing/themes/qdrant-2024/layouts/shortcodes/prompt.html'
+      # Every shortcode, not just the prompt ones: the Markdown variants are
+      # what keep prompt bodies out of the agent-facing output, and naming them
+      # individually is how prompt-index.markdown.md went unguarded.
+      - 'qdrant-landing/layouts/shortcodes/**'
+      - 'qdrant-landing/themes/qdrant-2024/layouts/shortcodes/**'
       - 'automation/prompts/**'
       - '.github/workflows/prompts.yml'
   # A skill link breaks when a skill is renamed or unpublished in qdrant/skills,

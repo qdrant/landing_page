@@ -9,8 +9,11 @@
 #      body, so the only way a body reaches index.md is an author pasting it as
 #      a fenced block instead of using the shortcode. That is a source-level
 #      mistake, so it is caught in the source.
-#   2. The Markdown variant of the shortcode still drops the body. Rule 1 is
-#      only equivalent to "no body in index.md" while this holds.
+#   2. No Markdown variant renders the body. Rule 1 is only equivalent to "no
+#      body in index.md" while this holds, and it has to cover every template
+#      that can reach a prompt's content, not just the element's. The index
+#      ranges the same pages, so a body added there lands in the built
+#      index.md exactly the same way.
 #   3. Every prompt's declared `page:` really includes it. The prompt files live
 #      in one folder and cannot know who includes them, so the declaration is
 #      what the index trusts. This also catches a prompt that is written but
@@ -28,7 +31,12 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 public_dir="${1:-}"
 prompts_dir="$repo_root/qdrant-landing/content/documentation/headless/prompts"
 content_dir="$repo_root/qdrant-landing/content"
-md_shortcode="$repo_root/qdrant-landing/layouts/shortcodes/prompt.markdown.md"
+# Every Markdown-output template that can reach a prompt page. Add to this list
+# rather than writing a new check if another one appears.
+md_shortcodes=(
+  "$repo_root/qdrant-landing/layouts/shortcodes/prompt.markdown.md"
+  "$repo_root/qdrant-landing/layouts/shortcodes/prompt-index.markdown.md"
+)
 
 failures=0
 
@@ -42,12 +50,15 @@ if [[ ! -d "$prompts_dir" ]]; then
   exit 0
 fi
 
-# --- rule 2: the Markdown variant must not render the prompt body ---
-if [[ ! -f "$md_shortcode" ]]; then
-  fail "missing $md_shortcode: without it, prompt bodies reach the agent-facing Markdown"
-elif grep -qE '\.(RawContent|Content|Inner)\b' "$md_shortcode"; then
-  fail "$md_shortcode renders the prompt body; it must emit only the skill pointer"
-fi
+# --- rule 2: no Markdown variant may render the prompt body ---
+for md_shortcode in "${md_shortcodes[@]}"; do
+  rel="${md_shortcode#"$repo_root"/}"
+  if [[ ! -f "$md_shortcode" ]]; then
+    fail "missing $rel: without it, prompt bodies reach the agent-facing Markdown"
+  elif grep -qE '\.(RawContent|Content|Inner)\b' "$md_shortcode"; then
+    fail "$rel renders the prompt body; it must emit only titles, pages, and skill pointers"
+  fi
+done
 
 shopt -s nullglob
 checked=0
