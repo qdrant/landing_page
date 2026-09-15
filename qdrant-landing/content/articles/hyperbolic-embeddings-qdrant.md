@@ -215,7 +215,7 @@ Better hyperbolic embeddings push more points toward the edge of the Poincaré b
 
 To make the difference easier to see, we built a [live viewer](https://qdrant-geometry-viewer.vercel.app) against the same Qdrant collection.
 
-![The Wheelbarrows category and its parent chain drawn in three panels: a hyperbolic Poincaré disk where the chain runs straight out from the center, a flat Euclidean layout where it collapses into one cluster, and a text embedding where it scatters](/articles_data/hyperbolic-embeddings-qdrant/viewer-three-panels.jpg)
+<iframe src="https://qdrant-geometry-viewer.vercel.app/embed.html" width="100%" height="1425" style="border:0;border-radius:8px" loading="lazy" title="One category in three geometries, live"></iframe>
 
 *The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart.*
 
