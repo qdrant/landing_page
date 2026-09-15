@@ -71,7 +71,9 @@
 
   .qvp-table thead th{ vertical-align:bottom; padding-bottom:8px; text-align:left; }
   .qvp-table thead th:first-child span{ font-family:var(--qvp-mono); font-size:10.5px; letter-spacing:1.4px; color:var(--qvp-faint); text-transform:uppercase; font-weight:400; }
-  .qvp-dh{ border:1px solid var(--qvp-bd); border-radius:11px; padding:10px 13px; background:rgba(255,255,255,.02); }
+  /* display:block matters: this is a <span> in a <th> wrapping block children,
+     and an inline box around block content renders its border in fragments. */
+  .qvp-dh{ display:block; border:1px solid var(--qvp-bd); border-radius:11px; padding:10px 13px; background:rgba(255,255,255,.02); }
   .qvp-dh.qvp-center{ background:rgba(96,71,255,.07); border-color:var(--qvp-free-bd); }
   .qvp-ttl{ display:block; font-size:15.5px; font-weight:700; letter-spacing:-.3px; color:var(--qvp-ink); }
   .qvp-badge{ display:inline-block; margin-top:5px; font-family:var(--qvp-mono); font-size:9.5px; letter-spacing:.6px; padding:2px 6px; border-radius:5px; border:1px solid; white-space:nowrap; font-weight:400; }
