@@ -9,7 +9,8 @@ $prompt-text: $neutral-98;
 $prompt-text-muted: $neutral-70;
 $prompt-accent: $primary-60;
 // The body block sits deeper than the card. Without this it renders the same
-// $neutral-20 as the card and the prompt reads as loose monospace in a box.
+// $neutral-20 as the card, from .chroma, and the prompt reads as loose
+// monospace in a box rather than as a block.
 $prompt-block-surface: $neutral-10;
 
 $prompt-surface-light: $neutral-98;
@@ -94,7 +95,6 @@ $prompt-accent-light: $primary-40;
   // The block Chroma emits inside the body.
   .highlight {
     margin: 0;
-    background: $prompt-block-surface;
   }
 
   // A prompt is prose, not code. Its line breaks come from how the author
@@ -103,6 +103,10 @@ $prompt-accent-light: $primary-40;
   // scrolling is a fair bargain for code and a bad one for a paragraph.
   // pre-wrap keeps the deliberate line structure in prompts that have one.
   .highlight > pre {
+    // On the pre, not on .highlight: Chroma puts class="chroma" on this
+    // element and syntax-highlight.scss gives .chroma its own background, so a
+    // color set on the parent is painted over and the change is invisible.
+    background: $prompt-block-surface;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     // copy-code.js absolutely positions its button at the top right of
