@@ -100,7 +100,7 @@ Consider the black Chelsea boot below. A traversal toward the origin illustrates
 
 We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
-<iframe src="https://qdrant-geometry-viewer.vercel.app/clip-embed.html" width="100%" height="980" style="border:0;border-radius:8px" loading="lazy" title="The same 165 products under CLIP and Hyper3-CLIP"></iframe>
+<iframe src="https://qdrant-geometry-viewer.vercel.app/clip-embed.html" width="100%" height="700" style="border:0;border-radius:8px" loading="lazy" title="The same 165 products under CLIP and Hyper3-CLIP"></iframe>
 
 *The same 165 Amazon Berkeley Objects product images [[10]](#references) in six categories, shown through UMAP [[9]](#references) projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality.*
 
