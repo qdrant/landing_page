@@ -14,6 +14,9 @@ $prompt-accent: $primary-60;
 $prompt-block-surface: $neutral-10;
 
 $prompt-surface-light: $neutral-98;
+// In light mode the card is already light, so the block needs no extra depth
+// to read as a block. It matches the other code blocks on the page instead.
+$prompt-block-surface-light: $neutral-20;
 $prompt-border-light: $neutral-94;
 $prompt-text-light: $neutral-10;
 $prompt-text-muted-light: $neutral-50;
@@ -102,6 +105,16 @@ $prompt-accent-light: $primary-40;
   // window narrower than the wrap width instead of reflowing. Sideways
   // scrolling is a fair bargain for code and a bad one for a paragraph.
   // pre-wrap keeps the deliberate line structure in prompts that have one.
+  // Chroma wraps every line in `.line > .cl`, and syntax-highlight.scss makes
+  // `.line` a flex container. A flex item will not shrink below its min-content
+  // width, so the `overflow-wrap` set on the pre never reaches a long token
+  // inside `.cl` and a docker command or a URL is clipped instead of wrapped.
+  // Letting the item shrink is what makes the wrapping rule take effect;
+  // setting `word-break` on the pre does not, because the constraint is here.
+  .highlight .cl {
+    min-width: 0;
+  }
+
   .highlight > pre {
     // On the pre, not on .highlight: Chroma puts class="chroma" on this
     // element and syntax-highlight.scss gives .chroma its own background, so a
@@ -150,6 +163,10 @@ $prompt-accent-light: $primary-40;
 
 [data-theme='light'] .prompt__summary:hover {
   color: $prompt-accent-light;
+}
+
+[data-theme='light'] .prompt .highlight > pre {
+  background: $prompt-block-surface-light;
 }
 
 [data-theme='light'] .prompt__skill,
