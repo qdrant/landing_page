@@ -4,9 +4,9 @@ draft: false
 slug: shift-multilingual-rag
 short_description: "Shift document and query vectors to one pivot language for cheap cross-lingual recall in multilingual RAG."
 description: "Fix multilingual embedding language bias with SHIFT: shift document and query vectors to one pivot language and store them in a single Qdrant index."
-preview_image: /blog/shift-multilingual-rag/cover.png
-social_preview_image: /blog/shift-multilingual-rag/cover.png
-# TODO(cover): 
+preview_image: /blog/shift-multilingual-rag/preview/preview.jpg
+social_preview_image: /blog/shift-multilingual-rag/preview/social_preview.jpg
+title_preview_image: /blog/shift-multilingual-rag/preview/title.jpg
 date: 2026-09-16T09:00:00+02:00
 author: Evgeniya Sukhodolskaya
 featured: false
