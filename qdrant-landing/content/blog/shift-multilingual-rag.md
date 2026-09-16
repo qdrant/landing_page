@@ -32,12 +32,12 @@ Because of how they're trained, many multilingual encoders group texts by both m
 
 We checked it with `intfloat/multilingual-e5-small`, the model our [Cloud Inference](https://qdrant.tech/documentation/cloud/inference/) serves for free. On [XRAG](https://huggingface.co/datasets/AmazonScience/XRAG), 15,277 real news articles in five languages, a same-language answer lands in the top 10 in 61% of cases, while an equally relevant answer in another language makes it in only 8%.
 
-{{< figure src="/blog/shift-multilingual-rag/multilingual-e5-small-screenshot-webUI.png" alt="The multilingual-e5-small embedding space on real data: English and Spanish documents fall into separate clusters, the language bias in action." caption="English and Spanish documents from XRAG, encoded by \"multilingual-e5-small\", split into separate clusters instead of mixing by meaning." width="60%" >}}
+{{< figure src="/blog/shift-multilingual-rag/multilingual-e5-small-screenshot-webUI.png" alt="The multilingual-e5-small embedding space on real data: English and Spanish documents fall into separate clusters, the language bias in action." caption="English and Spanish documents from XRAG, encoded by \"multilingual-e5-small\", split into separate clusters instead of mixing by meaning." width="75%" >}}
 
 The common fixes against this bias are rather costly: translating every document and keeping a per-language copy, then running one search per language and merging results. 
 Or reaching for a bigger, seemingly unbiased model, like, in our recent research, we noticed that [Qwen3-Embedding-8B](https://huggingface.co/Qwen/Qwen3-Embedding-8B) is a complete champ at fighting the language bias in embeddings.
 
-{{< figure src="/blog/shift-multilingual-rag/qwen-webUI-screenshot.png" alt="Qwen3-Embedding at 4096 dimensions keeps English and Spanish points intermixed by meaning rather than split by language." caption="Qwen3-8B keeps English and Spanish points intermixed by meaning." width="60%" >}}
+{{< figure src="/blog/shift-multilingual-rag/qwen-webUI-screenshot.png" alt="Qwen3-Embedding at 4096 dimensions keeps English and Spanish points intermixed by meaning rather than split by language." caption="Qwen3-8B keeps English and Spanish points intermixed by meaning." width="75%" >}}
 
 ...but Qwen-8B vectors are 4096-dimensional; for comparison, `multilingual-e5-small` produces 384-dimensional vectors. 
 
