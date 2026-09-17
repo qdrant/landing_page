@@ -18,7 +18,7 @@ skill: meta/qdrant-advisor
 Help me get started building on Qdrant.
 
 1. Start Qdrant locally with Docker. No signup and no API key needed:
-   docker run -p 6333:6333 -p 6334:6334 -v "$(pwd)/qdrant_storage:/qdrant/storage:z" qdrant/qdrant
+   docker run -d -p 6333:6333 -p 6334:6334 -v "$(pwd)/qdrant_storage:/qdrant/storage:z" qdrant/qdrant
    Confirm it's running at http://localhost:6333/dashboard
 
 2. Install the client with local embeddings, so I don't need an embedding provider key either:

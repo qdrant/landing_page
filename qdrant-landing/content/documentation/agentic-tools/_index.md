@@ -18,11 +18,9 @@ It stands up a local instance, installs the client with local embeddings, adds t
 
 {{< prompt "start-building" >}}
 
-None of that needs an account.
 Qdrant runs in Docker and [FastEmbed](/documentation/fastembed/fastembed-quickstart/) generates embeddings on your machine, so you can go from nothing to a working search query without signing up for anything.
 
-The part that matters most is the collection configuration.
-A wrong one rarely fails loudly in vector search: a mismatched distance metric or a missing payload index returns plausible results and quietly costs you relevance.
+Collection configuration is important. A mismatched distance metric or a missing payload index can result in slower or lower quality search.
 The prompt is written to make your assistant ask what you are building, then commit to those choices out loud before it writes any code.
 
 ## Agent Skills
