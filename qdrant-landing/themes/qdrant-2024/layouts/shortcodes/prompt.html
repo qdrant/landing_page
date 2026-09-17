@@ -28,16 +28,22 @@
          the only discovery surface a prompt has, so the type marker is placed
          here by the shortcode rather than left to each author to work into the
          title. Prompt titles are therefore plain task names. */ -}}
-    <span class="prompt__kind">Prompt</span>
+    <span class="prompt__kind">Agent Prompt</span>
     <span class="prompt__summary-label">{{ $p.Title }}</span>
   </summary>
   <div class="prompt__body">
     {{ highlight (trim $p.RawContent "\n") "text" "" }}
-    {{- with $p.Params.skill }}
+    {{- /* `skills` is always a sequence, even with one entry, so there is one
+         shape to render rather than two to keep in step. */ -}}
+    {{- $skills := $p.Params.skills }}
+    {{- with $skills }}
       <p class="prompt__skill">
         Uses the
-        <a href="https://skills.qdrant.tech/{{ . }}/SKILL.md"><code>{{ . }}</code></a>
-        agent skill.
+        {{- range $i, $s := $skills -}}
+          {{- if $i }}{{ if eq (add $i 1) (len $skills) }} and{{ else }},{{ end }}{{ end }}
+          <a href="https://skills.qdrant.tech/{{ $s }}/SKILL.md"><code>{{ $s }}</code></a>
+        {{- end }}
+        agent skill{{ if gt (len $skills) 1 }}s{{ end }}.
         <a href="/documentation/agentic-tools/skills/">What are agent skills?</a>
       </p>
     {{- end }}

@@ -11,9 +11,10 @@ pages include them by id.
 
    ```yaml
    ---
-   title: "Set up monitoring with an AI agent"
-   skill: qdrant-monitoring/setup
+   title: "Set up monitoring"
    page: /documentation/ops-monitoring/monitoring/
+   skills:
+     - qdrant-monitoring/setup
    ---
    Help me set up monitoring for my Qdrant deployment. Read
    https://skills.qdrant.tech/qdrant-monitoring/setup/SKILL.md first, then ask
@@ -24,13 +25,20 @@ pages include them by id.
      with an AI agent". The collapsed element already carries a `Prompt` marker
      placed by the shortcode, so working the word into the title says the same
      thing twice. Write it as the task, starting with a verb.
-   - `skill` is a path under `skills.qdrant.tech`, without the `/SKILL.md`
-     suffix. Omit it when no skill applies. Check the path resolves before
-     using it: `curl -I https://skills.qdrant.tech/<path>/SKILL.md`. The
-     published paths are listed in `https://skills.qdrant.tech/llms.txt`, and a
-     path in the `qdrant/skills` repo is not automatically published, so the
-     repo is not a reliable source for this value. Note the meta skills sit
-     under `meta/`, as in `meta/qdrant-advisor`.
+   - `skills` is **always a YAML sequence**, even for a single skill, so the
+     four templates that render it have one shape to handle rather than two.
+     The old scalar `skill:` key is rejected by CI rather than ignored. Each
+     entry is a path under `skills.qdrant.tech` without the `/SKILL.md` suffix.
+     List more than one when the prompt genuinely spans them, as
+     `design-a-collection` does across tenancy and sizing; the index renders
+     every entry. Omit the key entirely when no skill applies, rather than
+     reaching for the nearest one, because this value is what labels the prompt
+     in the index. Published paths are listed at
+     `https://skills.qdrant.tech/llms.txt`, and a path in the `qdrant/skills`
+     repo is not automatically published, so the repo is not a reliable source
+     for this value. Meta skills sit under `meta/`, as in `meta/qdrant-advisor`.
+     `check-skill-links.sh` verifies all of this, so there is no need to curl
+     by hand.
    - `page` is where the prompt is included. CI checks that page really
      includes it.
    - `open: true` renders the element expanded. **In-page prompts are always

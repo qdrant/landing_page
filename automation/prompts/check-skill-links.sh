@@ -44,17 +44,26 @@ fail() {
 # --- collect references, as "<skill path>\t<where it came from>" ---
 
 refs="$(
-  # 1. skill: values in prompt front matter.
+  # 1. skills: values in prompt front matter. Always a YAML sequence, even for
+  #    a single skill, so there is one shape here and in all four templates.
+  #    A file still using the old scalar `skill:` key emits a LEGACY marker
+  #    rather than being silently skipped, which would leave it unchecked.
   if [[ -d "$prompts_dir" ]]; then
     for file in "$prompts_dir"/*.md; do
       [[ -f "$file" ]] || continue
-      awk -v src="${file#"$repo_root"/}" -F': *' '
+      awk -v src="${file#"$repo_root"/}" '
         /^---[[:space:]]*$/ { d++; if (d >= 2) exit; next }
-        d == 1 && $1 == "skill" {
-          gsub(/^[ \t"'"'"']+|[ \t"'"'"']+$/, "", $2)
-          if ($2 != "") print $2 "\t" src " (skill: front matter)"
-          exit
+        d != 1 { next }
+        /^skill:[[:space:]]/ { print "LEGACY-SKILL-KEY\t" src; next }
+        /^skills:[[:space:]]*$/ { inlist = 1; next }
+        inlist && /^[[:space:]]*-[[:space:]]*/ {
+          v = $0
+          sub(/^[[:space:]]*-[[:space:]]*/, "", v)
+          gsub(/^["\x27[:space:]]+|["\x27[:space:]]+$/, "", v)
+          if (v != "") print v "\t" src " (skills: front matter)"
+          next
         }
+        /^[^[:space:]#]/ { inlist = 0 }
       ' "$file"
     done
   fi
@@ -68,6 +77,16 @@ refs="$(
         sub(/^https:\/\/skills\.qdrant\.tech\//, "", url); sub(/\/SKILL\.md$/, "", url)
         print url "\t" src " (SKILL.md link)" }' || true
 )"
+
+# A prompt still on the old scalar `skill:` key would contribute no references
+# at all, so this check would pass while that prompt's link went unverified.
+if legacy="$(grep -F 'LEGACY-SKILL-KEY' <<<"$refs" || true)" && [[ -n "$legacy" ]]; then
+  while IFS=$'\t' read -r _ src; do
+    [[ -n "$src" ]] && fail "$src uses the old scalar 'skill:' key; it must be a 'skills:' sequence"
+  done <<<"$legacy"
+  printf '\n%d prompt(s) on the legacy key.\n' "$failures" >&2
+  exit 1
+fi
 
 if [[ -z "$refs" ]]; then
   echo "No agent skill references found; nothing to check."

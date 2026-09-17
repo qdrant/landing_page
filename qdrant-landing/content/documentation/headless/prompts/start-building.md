@@ -13,7 +13,8 @@ page: /documentation/agentic-tools/
 #     A 65-column source wrap colliding with a 37-column screen wrap leaves
 #     orphan fragments on their own lines.
 open: true
-skill: meta/qdrant-advisor
+skills:
+  - meta/qdrant-advisor
 ---
 Help me get started building on Qdrant.
 
@@ -21,14 +22,14 @@ Help me get started building on Qdrant.
    docker run -d -p 6333:6333 -p 6334:6334 -v "$(pwd)/qdrant_storage:/qdrant/storage:z" qdrant/qdrant
    Confirm it's running at http://localhost:6333/dashboard
 
-2. Install the client with local embeddings, so I don't need an embedding provider key either:
+2. Ask me which language I want to build in, then install the Qdrant client for it. If I have no preference, use Python with local embeddings so I don't need an embedding provider key either:
    pip install "qdrant-client[fastembed]"
 
 3. Install the Qdrant Advisor agent skill:
    npx skills add qdrant/skills/meta/qdrant-advisor
 
 4. Then ask me what I'm building and what I'll search over before you write any code. Once you know, build the integration against my local instance, and get the collection right the first time:
-   - Derive the vector size from the model with client.get_embedding_size(model_name). Never hardcode a dimension.
+   - Derive the vector size from the embedding model itself. Never hardcode a dimension.
    - Choose the distance metric the model was trained for, and say which one you picked and why.
    - Create a payload index for every field I'll filter on, before I load data rather than after.
    Then load a small sample, run a real query, and show me the results.

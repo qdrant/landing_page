@@ -20,7 +20,7 @@
      table. Adding a class here would silently opt out of both. */ -}}
 <table>
   <thead>
-    <tr><th>Prompt</th><th>Page</th><th>Agent skill</th></tr>
+    <tr><th>Prompt</th><th>Page</th><th>Agent skills</th></tr>
   </thead>
   <tbody>
     {{- range $section.RegularPages.ByTitle }}
@@ -45,8 +45,12 @@
         {{- end -}}
       </td>
       <td>
-        {{- with $p.Params.skill -}}
-          <a href="https://skills.qdrant.tech/{{ . }}/SKILL.md"><code>{{ . }}</code></a>
+        {{- $skills := $p.Params.skills -}}
+        {{- with $skills -}}
+          {{- range $i, $s := $skills -}}
+            {{- if $i }}, {{ end -}}
+            <a href="https://skills.qdrant.tech/{{ $s }}/SKILL.md"><code>{{ $s }}</code></a>
+          {{- end -}}
         {{- else -}}
           None
         {{- end -}}

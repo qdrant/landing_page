@@ -16,8 +16,8 @@
 {{- if not $section -}}
   {{- errorf "prompt-index: cannot resolve documentation/headless/prompts (see prompt-index.html for the cause)." -}}
 {{- end -}}
-| Prompt | Page | Agent skill |
+| Prompt | Page | Agent skills |
 |---|---|---|
 {{ range $section.RegularPages.ByTitle -}}
-| {{ .Title }} | {{ with .Params.page }}{{ with site.GetPage . }}{{ .Permalink }}index.md{{ else }}{{ . }}{{ end }}{{ else }}None{{ end }} | {{ with .Params.skill }}https://skills.qdrant.tech/{{ . }}/SKILL.md{{ else }}None{{ end }} |
+| {{ .Title }} | {{ with .Params.page }}{{ with site.GetPage . }}{{ .Permalink }}index.md{{ else }}{{ . }}{{ end }}{{ else }}None{{ end }} | {{ with .Params.skills }}{{ range $i, $s := . }}{{ if $i }}, {{ end }}https://skills.qdrant.tech/{{ $s }}/SKILL.md{{ end }}{{ else }}None{{ end }} |
 {{ end -}}

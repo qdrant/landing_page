@@ -16,7 +16,7 @@
 {{- $p := site.GetPage (printf "documentation/headless/prompts/%s" $id) -}}
 {{- with $p }}
 > Prompt: {{ .Title }}
-{{- with .Params.skill }}
+{{- range .Params.skills }}
 > Related agent skill: https://skills.qdrant.tech/{{ . }}/SKILL.md
 {{- end }}
 {{ end -}}
