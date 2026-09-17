@@ -118,23 +118,34 @@
     {{- end -}}
 
     {{- range $order -}}
-      {{- $content := index $files . -}}
+      {{- $lang := . -}}
+      {{- $content := index $files $lang -}}
       {{- if $content -}}
-        {{- $displayName := index $langNames . | default (. | title) }}
+        {{- $displayName := index $langNames $lang | default ($lang | title) -}}
+        {{- if strings.HasPrefix (strings.TrimSpace $content) "```" }}
 
 **{{ $displayName }} snippet for {{ $dt.label }}:**
 
 {{ $content }}
+        {{- else }}
+
+*{{ $content | strings.TrimSpace }}*
+        {{- end -}}
       {{- end -}}
     {{- end -}}
 
     {{- range $name, $content := $files -}}
       {{- if not (in $order $name) -}}
-        {{- $displayName := index $langNames $name | default ($name | title) }}
+        {{- $displayName := index $langNames $name | default ($name | title) -}}
+        {{- if strings.HasPrefix (strings.TrimSpace $content) "```" }}
 
 **{{ $displayName }} snippet for {{ $dt.label }}:**
 
 {{ $content }}
+        {{- else }}
+
+*{{ $content | strings.TrimSpace }}*
+        {{- end -}}
       {{- end -}}
     {{- end -}}
 
