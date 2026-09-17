@@ -4,10 +4,18 @@
 // light values were previously written as literals at the use site, which is
 // how a palette silently stops being the palette.
 $prompt-surface: $neutral-20;
-$prompt-border: $neutral-40;
+$prompt-border: $neutral-30;
 $prompt-text: $neutral-98;
 $prompt-text-muted: $neutral-70;
-$prompt-accent: $primary-60;
+// Violet rather than red. Red is the site's interactive color, on buttons,
+// links, and CTAs, so an accent bar in it reads as another call to action
+// competing with the real ones on the page. Violet is the brand secondary and
+// is unclaimed in the documentation callouts, where amber is alerts and
+// $secondary-blue-10 is the status aside, so it marks a prompt as its own kind
+// of thing. The surface stays neutral: the alerts pattern of a hue-tinted card
+// works for a few lines of text and turns a card holding a code block into a
+// slab that fights the code for attention.
+$prompt-accent: $secondary-violet-50;
 // The body block sits deeper than the card. Without this it renders the same
 // $neutral-20 as the card, from .chroma, and the prompt reads as loose
 // monospace in a box rather than as a block.
@@ -20,7 +28,7 @@ $prompt-block-surface-light: $neutral-20;
 $prompt-border-light: $neutral-94;
 $prompt-text-light: $neutral-10;
 $prompt-text-muted-light: $neutral-50;
-$prompt-accent-light: $primary-40;
+$prompt-accent-light: $secondary-violet-30;
 
 .prompt {
   background: $prompt-surface;
@@ -89,6 +97,16 @@ $prompt-accent-light: $primary-40;
   &__summary-label {
     // A prompt title can be long; wrap rather than overflow.
     min-width: 0;
+  }
+
+  // `.documentation-article summary` sets margin-bottom: 1rem for the sidebar
+  // disclosures. Inside this element that margin lands below the summary, and
+  // `overflow: hidden` keeps it inside the box, so a collapsed prompt is 16px
+  // taller than its content and the title sits above center. Written as a
+  // descendant selector because the plain BEM class loses to that rule on
+  // specificity: one class against a class plus an element.
+  & &__summary {
+    margin-bottom: 0;
   }
 
   &__body {
