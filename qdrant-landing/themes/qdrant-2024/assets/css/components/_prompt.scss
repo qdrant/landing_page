@@ -32,8 +32,10 @@ $prompt-accent-light: $secondary-violet-30;
 
 .prompt {
   background: $prompt-surface;
+  // A plain border on all four sides. An accent bar down the left was the
+  // first attempt at "visually distinct" and read as decoration rather than
+  // meaning. The surface, the kind marker, and the caret carry that job.
   border: 1px solid $prompt-border;
-  border-left: 3px solid $prompt-accent;
   border-radius: pxToRem(8);
   margin: pxToRem(24) 0;
   overflow: hidden;
@@ -133,6 +135,15 @@ $prompt-accent-light: $secondary-violet-30;
     min-width: 0;
   }
 
+  // copy-code.js styles its button with a $neutral-20 fill, which is invisible
+  // on a normal code block because that is exactly the block's own color. This
+  // element gives its block a deeper surface so it reads as a block inside the
+  // card, and that made the fill show up as a grey chip around the icon. Only
+  // the icon is wanted, so the fill goes.
+  .copy-code {
+    background: transparent;
+  }
+
   .highlight > pre {
     // On the pre, not on .highlight: Chroma puts class="chroma" on this
     // element and syntax-highlight.scss gives .chroma its own background, so a
@@ -163,7 +174,6 @@ $prompt-accent-light: $secondary-violet-30;
   [data-theme='light'] & {
     background: $prompt-surface-light;
     border-color: $prompt-border-light;
-    border-left-color: $prompt-accent-light;
   }
 }
 
