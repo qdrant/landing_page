@@ -38,8 +38,14 @@ This example uses `group_id` as the tenant field. Start by creating a keyword pa
 
 The `is_tenant=true` parameter is optional, but specifying it gives Qdrant additional information about the collection's usage patterns.
 When set, Qdrant organizes the storage structure to co-locate vectors of the same tenant together, which can significantly improve performance by utilizing sequential reads during queries.
+Instead of many random disk seeks across the segment, the data of one tenant can be read in a single sequential pass.
 
-{{< figure src="/docs/defragmentation.png" alt="Tenants defragmentation with is_tenant" caption="Grouping tenants together by tenant ID, if `is_tenant=true` is used, enables more efficient disk reads (curly brackets). Rather than many random seeks across the file, Qdrant can read the data for a specific tenant with a sequential read." width="90%" >}}
+{{< island
+    path="content/documentation/headless/multitenancy/tenant-defrag"
+    width="90%" ratio="12 / 5" title="With `is_tenant=true`, the points of one tenant are stored together and read sequentially."
+>}}
+![Tenants defragmentation with is_tenant](/docs/defragmentation.png)
+{{< /island >}}
 
 Next, insert points with the tenant ID in the payload:
 
@@ -62,7 +68,8 @@ By adopting this strategy, Qdrant indexes vectors for each tenant independently,
 To implement this approach:
 
 1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
-2. Set `m` in the HNSW configuration to 0. This disables the global index for the collection.\
+2. Set `m` in the HNSW configuration to 0. This disables the global index for the collection.
+
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-disabled-global-hnsw/" >}}
 
 ### Limitations
@@ -133,7 +140,9 @@ There are three components in Qdrant that allow you to implement tiered multiten
 - **Fallback shards** - a special routing mechanism that allows you to route requests to either a dedicated shard (if it exists) or to a shared fallback shard. It allows you to keep requests unified, without the need to know whether a tenant is dedicated or shared.
 - **Tenant promotion** - a mechanism that allows you to move tenants from the shared fallback shard to their own dedicated shard when they grow large enough. This process is based on Qdrant's internal shard transfer mechanism, which makes promotion completely transparent for the application. The promotion process supports both read and write requests.
 
-{{< figure src="/docs/tenant-promotion.png" alt="Tiered multitenancy with tenant promotion" caption="Tiered multitenancy with tenant promotion" width="90%" >}}
+{{< island path="content/documentation/headless/multitenancy/tenant-promotion" width="90%" ratio="15 / 7" title="Tiered multitenancy: small tenants share the fallback shard, promoted tenants get their own." >}}
+![Tiered multitenancy with tenant promotion](/docs/tenant-promotion.png)
+{{< /island >}}
 
 ### Configure Tiered Multitenancy
 

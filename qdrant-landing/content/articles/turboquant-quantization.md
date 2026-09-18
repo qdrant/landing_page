@@ -218,3 +218,7 @@ TurboQuant gives Qdrant a new path on the compression ladder: 8x compression at 
 * [Interactive TurboQuant explainer](https://arkaung.github.io/interactive-turboquant/) by Arkar Min Aung — a hands-on, step-by-step walkthrough of the algorithm with interactive visualizations. The clearest high-level explanation of TurboQuant available, and a great place to build intuition before reading the paper.
 * [Scalar Quantization in Qdrant](https://qdrant.tech/articles/scalar-quantization/) — the int8 baseline this post refers to.
 * [Binary Quantization in Qdrant](https://qdrant.tech/articles/binary-quantization/) — the 1-bit baseline this post refers to.
+
+**Qdrant in agent memory:**
+
+* [Qdrant TurboQuant Cuts Cognee Vector Memory 8x](https://www.cognee.ai/qdrant-turboquant-vector-memory) — how [Cognee](https://www.cognee.ai/) uses TurboQuant in Qdrant to shrink the vector memory behind its agent memory layer.
