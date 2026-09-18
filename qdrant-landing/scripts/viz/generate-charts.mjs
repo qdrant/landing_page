@@ -21,9 +21,9 @@ const MONO = viz.type.mono;
 
 // Theme-following chrome. Defined in components/_viz.scss for light and again
 // under [data-theme='dark']; the articles section really does have a dark mode.
-const INK = 'var(--viz-ink)';
-const MUTED = 'var(--viz-muted)';
-const GRIDC = 'var(--viz-grid)';
+const INK = 'var(--qi-fg)';
+const MUTED = 'var(--qi-muted)';
+const GRIDC = 'var(--qi-line)';
 
 // Shared layout. Every chart kind uses these, so two charts in different posts
 // read as the same object. Widths are pinned in the manifest to the same value
@@ -68,7 +68,7 @@ const readableInk = (hex) => {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
   const lin = (c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
   const L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
-  return L > 0.45 ? viz.surface.ink : '#ffffff';
+  return L > 0.45 ? viz.surface.ink : viz.surface.onDark;
 };
 
 
@@ -99,7 +99,7 @@ function panel(c, p, data, w, h) {
   const values = rawCol(c.data, p.y);
   const colors = c.colors
     ? c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]))
-    : [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[3]];
+    : [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[1]];
   const { top: marginTop, bottom: marginBottom, left: marginLeft, right: marginRight } = LAYOUT;
 
   const node = Plot.plot({
@@ -227,7 +227,7 @@ function heatmap(c) {
       // outline reads as a clean gap lifting the row out, where an ink outline
       // draws a foreign dark box across red cells.
       out += `<rect x="${left - 1}" y="${y - 1}" width="${cols.length * cw + 2}" height="${ch + 2}" rx="3"`
-        + ` fill="none" stroke="var(--viz-surface)" stroke-width="3"/>`;
+        + ` fill="none" stroke="var(--qi-surface)" stroke-width="3"/>`;
     }
   });
 

@@ -1,45 +1,43 @@
-// Blog visualisation figures.
+// Chart figures: the shell (card, caption, scroll) and the hover affordances.
 //
-// Imported into the global bundle (_components.scss) rather than a per-section
-// one, because a figure can appear in blog or articles and the tooltip it
-// spawns is appended to <body>, outside any section's subtree.
+// This is the CSS half of the charts feature; the behavior half (js/viz.js) is
+// emitted from partials/js.html. Loaded as a <link> from partials/css.html,
+// gated on `.HasShortcode "chart"` so it ships only on pages that embed a
+// chart. Deliberately NOT imported into a section bundle — same reasoning as
+// islands.scss, and for the same budget.
+//
+// Self-contained on purpose: no theme SCSS variables, so deleting this file and
+// scripts/viz/ removes the feature cleanly.
 //
 // Data colours (bar fills, heatmap ramp) live in data/viz.json and arrive inside
-// the SVG — they carry meaning, so they do not change with the theme. Chrome
-// colours (ink, muted, gridlines) DO follow the theme and are published here as
-// custom properties that the generated SVG references by var().
-//
-// The articles and documentation sections have a real dark mode via
-// html[data-theme='dark'], so a figure with hardcoded dark ink disappears there.
+// the SVG — they carry meaning, so they do not follow the theme. Chrome colours
+// come from the shared --qi-* tokens, the same ones the island diagrams use.
+@import 'qi-tokens';
 
-:root {
-  --viz-ink: #{$neutral-20};
-  --viz-muted: #{$neutral-50};
-  --viz-grid: #{$neutral-90};
-  --viz-surface: #{$neutral-100};
-  --viz-border: #{$neutral-90};
-  --viz-tip-bg: #{$neutral-20};
-  --viz-tip-border: #{$neutral-30};
+// Tokens go on both roots: the figure, and the tooltip, which js/viz.js appends
+// to <body> and so sits outside the figure's subtree.
+.viz-figure,
+.viz-tip {
+  @include qi-light-tokens;
 }
 
-[data-theme='dark'] {
-  --viz-ink: #{$neutral-98};
-  --viz-muted: #{$neutral-80};
-  --viz-grid: #{$neutral-30};
-  --viz-surface: #{$neutral-20};
-  --viz-border: #{$neutral-30};
-  // Darker than the card, not lighter: raising it to neutral-40 read as glare
-  // on a dark page. The border does the separating, the background stays calm.
-  --viz-tip-bg: #{$neutral-10};
-  --viz-tip-border: #{$neutral-50};
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .viz-figure,
+  html:not([data-theme='light']) .viz-tip {
+    @include qi-dark-tokens;
+  }
+}
+html[data-theme='dark'] .viz-figure,
+html[data-theme='dark'] .viz-tip {
+  @include qi-dark-tokens;
 }
 
 .viz-figure {
   margin: 2rem 0;
   padding: 1.25rem 1.25rem 1rem;
-  background: var(--viz-surface);
-  border: 1px solid var(--viz-border);
-  border-radius: 10px;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
 }
 
 .viz-figure__scroll {
@@ -57,14 +55,15 @@
   overflow: visible;
 }
 
-
+// Scoped under .viz-figure to outrank `.qdrant-post__content figcaption`, which
+// is (0,1,1) and would otherwise win.
 .viz-figure .viz-figure__caption {
   margin-top: 0.9rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--viz-border);
-  font-size: $font-size-s;
+  border-top: 1px solid var(--qi-border);
+  font-size: 0.875rem;
   line-height: 1.5;
-  color: var(--viz-muted);
+  color: var(--qi-muted);
 }
 
 // ── Hover affordances (added by js/viz.js; absent without JS) ───────────────
@@ -102,6 +101,8 @@
   pointer-events: none;
 }
 
+// The tooltip stays dark in both themes: it floats above the page rather than
+// sitting in it, so it reads as an overlay rather than a second surface.
 .viz-tip {
   position: fixed;
   z-index: 1000;
@@ -110,14 +111,14 @@
   transition: opacity 90ms ease-out;
   max-width: 280px;
   padding: 9px 11px;
-  border-radius: 7px;
-  background: var(--viz-tip-bg);
-  border: 1px solid var(--viz-tip-border);
-  color: $neutral-98;
-  font-family: $font-family-monospace;
-  font-size: pxToRem(12);
+  border-radius: var(--qi-radius);
+  background: #111824; // neutral-900
+  border: 1px solid #303547; // neutral-800
+  color: #e2e7f5; // neutral-100
+  font-family: var(--qi-mono);
+  font-size: 0.75rem;
   line-height: 1.45;
-  box-shadow: 0 8px 24px rgba(9, 14, 26, 0.45);
+  box-shadow: 0 8px 24px rgba(11, 15, 25, 0.45);
 
   &.is-on {
     opacity: 1;
@@ -126,7 +127,7 @@
   &__title {
     margin-bottom: 5px;
     padding-bottom: 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom: 1px solid rgba(226, 231, 245, 0.16);
     font-weight: 600;
   }
 
@@ -144,7 +145,7 @@
   }
 
   &__k {
-    color: rgba(255, 255, 255, 0.62);
+    color: #898ea3; // neutral-500
   }
 
   &__v {
@@ -167,6 +168,6 @@
   }
 
   .viz-figure .viz-figure__caption {
-    font-size: pxToRem(13);
+    font-size: 0.8125rem;
   }
 }

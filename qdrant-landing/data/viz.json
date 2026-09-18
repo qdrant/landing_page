@@ -3,28 +3,25 @@
   "palette": {
     "categorical": [
       "#dc244c",
-      "#2f6ff0",
-      "#038585",
       "#6047ff",
-      "#e0700d"
+      "#009688",
+      "#03a9f4",
+      "#ff9800"
     ],
     "names": [
-      "qdrant",
-      "blue",
-      "teal",
-      "violet",
-      "amber"
+      "Primary Red",
+      "Secondary Violet",
+      "Teal",
+      "Light Blue",
+      "Orange"
     ],
-    "muted": "#b4bacc",
-    "$comment": "categorical[0] is Amaranth and categorical[3] is Neon Blue, both official brand colours."
+    "muted": "#abb1c7",
+    "$comment": "Official Qdrant data-visualisation sequence, in order. Qdrant's own series takes position 1 (Primary Red)."
   },
   "surface": {
-    "ink": "#161e33",
-    "inkMuted": "#576280",
-    "page": "#ffffff",
-    "panel": "#f0f3fa",
-    "grid": "#d4d9e6",
-    "axis": "#8f98b2"
+    "$comment": "Only used by readableInk(), which picks legible text for a coloured cell. Chrome colours come from the --qi-* CSS tokens, not from here.",
+    "ink": "#0b0f19",
+    "onDark": "#ffffff"
   },
   "tone": {
     "cost": {

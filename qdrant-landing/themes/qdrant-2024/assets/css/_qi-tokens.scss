@@ -1,0 +1,54 @@
+// Shared visual tokens for in-content graphics: islands (interactive diagrams)
+// and charts (generated SVG). Values come from the Qdrant design-system palette
+// (Color.pdf: Neutral / Amaranth / Neon Blue / Cyan / Purple / Green / Warning).
+//
+// Extracted from islands.scss so the two features cannot drift apart. Both
+// declare the tokens on their own root element (.island, .viz-figure) rather
+// than :root, so a page that loads only one of them pays for only one.
+//
+// Chrome colors follow the host theme: the explicit toggle (`data-theme` on
+// <html>) and, when no explicit choice has been made, the system preference.
+// The categorical palette is deliberately theme-independent.
+
+@mixin qi-light-tokens {
+  --qi-fg: #303547; // neutral-800
+  --qi-muted: #656b7f; // neutral-600
+  --qi-surface: #f0f3fa; // neutral-50: card / control background
+  --qi-border: #d3d9eb; // neutral-200: thin neutral border
+  --qi-line: #abb1c7; // neutral-400: axes, toggle track, ghost bars
+  --qi-hot: #303547; // neutral-800: highlight outline
+  --qi-cell-stroke: rgba(17, 24, 36, 0.3); // neutral-900 @ 30%
+  --qi-accent: #dc244c; // amaranth-500: thresholds, emphasis
+
+  // Categorical palette (brand secondaries) available to graphics that need
+  // hues without a status meaning. Consumers may also define their own.
+  --qi-cat-1: #6047ff; // neon-blue-500 (secondary brand)
+  --qi-cat-2: #9c27b0; // purple-500
+  --qi-cat-3: #00838f; // cyan-800
+  --qi-cat-4: #dc244c; // amaranth-500 (Qdrant red)
+  // Tint of the cyan, for an "off" state next to a solid "on".
+  --qi-cat-3-soft: #b2ebf2; // cyan-100
+
+  --qi-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --qi-radius: 6px;
+}
+
+@mixin qi-dark-tokens {
+  --qi-fg: #e2e7f5; // neutral-100
+  --qi-muted: #898ea3; // neutral-500
+  --qi-surface: #111824; // neutral-900
+  --qi-border: #303547; // neutral-800
+  --qi-line: #4e5366; // neutral-700
+  --qi-hot: #f0f3fa; // neutral-50
+  --qi-cell-stroke: rgba(226, 231, 245, 0.18); // neutral-100 @ 18%
+  --qi-cat-3-soft: #006064; // cyan-900
+}
+
+// Emit both themes for one root selector. Used as:
+//   .island { @include qi-tokens-for('.island'); }  -- no; see usage below.
+// Consumers write:
+//   .thing { @include qi-light-tokens; }
+//   @media (prefers-color-scheme: dark) {
+//     html:not([data-theme='light']) .thing { @include qi-dark-tokens; }
+//   }
+//   html[data-theme='dark'] .thing { @include qi-dark-tokens; }
