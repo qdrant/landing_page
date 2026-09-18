@@ -51,7 +51,7 @@
     "emphasis": 3
   },
   "sequential": {
-    "$comment": "Sequential ramp for heatmaps, built on the official Neon Blue #6047FF. Deliberately NOT Amaranth: red reads as alarm when the darkest cells are the best values, and Amaranth already means 'the Qdrant series' in categorical charts.",
+    "$comment": "Sequential ramp on the official Neon Blue #6047FF. Currently used only by the parked heatmap kind (scripts/viz/parked/, gitignored). Kept here so restoring it is one step.",
     "stops": [
       "#f4f2ff",
       "#dcd6ff",

@@ -46,24 +46,6 @@
     ]
   },
   {
-    "id": "turboquant/recall",
-    "data": "assets/viz/turboquant/recall.csv",
-    "kind": "heatmap",
-    "title": "Recall by quantization variant across ten datasets",
-    "legend": "recall",
-    "highlight": "TQ 4-bit (8x)",
-    "domain": [
-      0.45,
-      1.0
-    ],
-    "cellWidth": 81,
-    "cellHeight": 30,
-    "marginLeft": 172,
-    "marginTop": 56,
-    "width": 982,
-    "height": 386
-  },
-  {
     "id": "defrag/rps",
     "data": "assets/viz/defrag/rps.csv",
     "kind": "lines-facet",

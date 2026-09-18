@@ -166,87 +166,6 @@ function panel(c, p, data, w, h) {
 }
 
 
-// ── heatmap ────────────────────────────────────────────────────────────────
-// Wide CSV (one row per category, one column per series) melted to long form.
-// Cell fill is a sequential ramp from data/viz.json; cell text is the value,
-// inked light or dark for contrast against its own cell.
-function rampColor(t) {
-  const stops = viz.sequential.stops;
-  const x = Math.max(0, Math.min(1, t)) * (stops.length - 1);
-  const i = Math.min(stops.length - 2, Math.floor(x));
-  const f = x - i;
-  const hex = (h) => [1, 3, 5].map((k) => parseInt(h.slice(k, k + 2), 16));
-  const [a, b] = [hex(stops[i]), hex(stops[i + 1])];
-  const mix = a.map((v, k) => Math.round(v + (b[k] - v) * f));
-  return '#' + mix.map((v) => v.toString(16).padStart(2, '0')).join('');
-}
-
-function heatmap(c) {
-  const [head, ...lines] = readFileSync(c.data, 'utf8').trim().split('\n');
-  const cols = head.split(',').slice(1);
-  const rows = lines.map((l) => l.split(','));
-  const rowNames = rows.map((r) => r[0]);
-  const vals = rows.flatMap((r) => r.slice(1).map(Number));
-  const lo = c.domain ? c.domain[0] : Math.min(...vals);
-  const hi = c.domain ? c.domain[1] : Math.max(...vals);
-
-  const cw = c.cellWidth, ch = c.cellHeight;
-  const left = c.marginLeft, top = c.marginTop;
-  let out = '';
-
-  // column headers
-  cols.forEach((col, j) => {
-    out += `<text x="${left + j * cw + cw / 2}" y="${top - 10}" text-anchor="middle"`
-      + ` font-family="${MONO}" font-size="${viz.type.axis}"`
-      + ` fill="${MUTED}">${esc(col)}</text>`;
-  });
-
-  rows.forEach((r, i) => {
-    const y = top + i * ch;
-    const emphasised = c.highlight && r[0] === c.highlight;
-    out += `<text x="${left - 12}" y="${y + ch / 2 + 4}" text-anchor="end" font-family="${MONO}"`
-      + ` font-size="${viz.type.axis}" font-weight="${emphasised ? 700 : 400}"`
-      + ` fill="${emphasised ? INK : MUTED}">${esc(r[0])}</text>`;
-    r.slice(1).forEach((v, j) => {
-      const t = (Number(v) - lo) / (hi - lo);
-      const fill = rampColor(t);
-      const x = left + j * cw;
-      // Cells display 2dp; the tooltip carries the full precision from the CSV.
-      const tipRows = JSON.stringify([{ k: c.legend || 'recall', v: v, c: fill }]);
-      out += `<rect x="${x + 1}" y="${y + 1}" width="${cw - 2}" height="${ch - 2}" rx="2" fill="${fill}"`
-        + ` data-viz-key="${esc(r[0] + '|' + cols[j])}"/>`
-        + `<text x="${x + cw / 2}" y="${y + ch / 2 + 4}" text-anchor="middle" font-family="${MONO}"`
-        + ` font-size="${viz.type.small}" fill="${readableInk(fill)}">${Number(v).toFixed(2)}</text>`
-        + `<rect data-viz-zone data-viz-key="${esc(r[0] + '|' + cols[j])}"`
-        + ` data-viz-title="${esc(r[0] + ' · ' + cols[j])}" data-viz-rows="${esc(tipRows)}"`
-        + ` tabindex="0" role="button" aria-label="${esc(r[0] + ' on ' + cols[j] + ': ' + v)}"`
-        + ` x="${x}" y="${y}" width="${cw}" height="${ch}" fill="transparent"/>`;
-    });
-    if (emphasised) {
-      // Ring the recommended row in the CARD colour, not in ink: a surface-coloured
-      // outline reads as a clean gap lifting the row out, where an ink outline
-      // draws a foreign dark box across red cells.
-      out += `<rect x="${left - 1}" y="${y - 1}" width="${cols.length * cw + 2}" height="${ch + 2}" rx="3"`
-        + ` fill="none" stroke="var(--qi-surface)" stroke-width="3"/>`;
-    }
-  });
-
-  // legend
-  const lw = 190, lx = left, ly = top + rows.length * ch + 30;
-  for (let k = 0; k < lw; k++) {
-    out += `<rect x="${lx + k}" y="${ly}" width="1" height="10" fill="${rampColor(k / (lw - 1))}"/>`;
-  }
-  out += `<text x="${lx}" y="${ly + 24}" font-family="${MONO}" font-size="${viz.type.small}"`
-    + ` fill="${MUTED}">${lo.toFixed(2)}</text>`
-    + `<text x="${lx + lw}" y="${ly + 24}" text-anchor="end" font-family="${MONO}"`
-    + ` font-size="${viz.type.small}" fill="${MUTED}">${hi.toFixed(2)}</text>`
-    + `<text x="${lx + lw + 14}" y="${ly + 9}" font-family="${MONO}" font-size="${viz.type.label}"`
-    + ` fill="${MUTED}">${esc(c.legend || 'recall')}</text>`;
-
-  return panelHead(2 * left + cols.length * cw, c.title, c.subtitle) + out;
-}
-
-
 // ── lines-facet ────────────────────────────────────────────────────────────
 // One small-multiple panel per facet value; two or more series per panel.
 // Log y-axis when the manifest asks for it — required here, where the data
@@ -427,13 +346,6 @@ for (const c of manifest) {
     const out = `assets/viz/${c.id}.svg`;
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(out, `${linesFacet(c)}\n`);
-    console.log(`wrote ${out}`);
-    continue;
-  }
-  if (c.kind === 'heatmap') {
-    const out = `assets/viz/${c.id}.svg`;
-    mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, `${heatmap(c)}\n`);
     console.log(`wrote ${out}`);
     continue;
   }
