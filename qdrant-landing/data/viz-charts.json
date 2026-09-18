@@ -230,5 +230,117 @@
     "width": 980,
     "height": 380,
     "extraHeight": 44
+  },
+  {
+    "id": "gallery/columns",
+    "data": "assets/viz/gallery/columns.csv",
+    "kind": "columns-2panel",
+    "width": 980,
+    "height": 420,
+    "yMax": 160,
+    "panels": [
+      {
+        "title": "Throughput",
+        "y": "throughput_qps",
+        "axis": "QPS",
+        "unit": "QPS",
+        "subtitle": "higher is better"
+      },
+      {
+        "title": "Latency",
+        "y": "latency_ms",
+        "axis": "latency (ms)",
+        "unit": "ms",
+        "subtitle": "lower is better"
+      }
+    ],
+    "tooltip": [
+      {
+        "label": "throughput",
+        "field": "throughput_qps",
+        "unit": "QPS"
+      },
+      {
+        "label": "latency",
+        "field": "latency_ms",
+        "unit": "ms"
+      }
+    ]
+  },
+  {
+    "id": "gallery/grouped",
+    "data": "assets/viz/gallery/grouped.csv",
+    "kind": "grouped-columns",
+    "title": "Three methods across five sets",
+    "subtitle": "made-up numbers, higher is better",
+    "group": "dataset",
+    "series": "method",
+    "y": "score",
+    "yLabel": "score",
+    "yMax": 0.8,
+    "colors": [
+      0,
+      1,
+      2
+    ],
+    "width": 980,
+    "height": 400,
+    "extraHeight": 44
+  },
+  {
+    "id": "gallery/lines-log",
+    "data": "assets/viz/gallery/lines-log.csv",
+    "kind": "lines-facet",
+    "facet": "group",
+    "facetLabel": "{}",
+    "x": "step",
+    "xLabel": "step",
+    "yLabel": "value (log scale)",
+    "yScale": "log",
+    "yDomain": [
+      0.2,
+      700
+    ],
+    "series": [
+      "series_two",
+      "series_one"
+    ],
+    "seriesLabels": [
+      "series two",
+      "series one"
+    ],
+    "width": 980,
+    "height": 360,
+    "extraHeight": 44,
+    "unit": "",
+    "subtitle": "higher is better"
+  },
+  {
+    "id": "gallery/lines-linear",
+    "data": "assets/viz/gallery/lines-linear.csv",
+    "kind": "lines-facet",
+    "facet": "group",
+    "facetLabel": "Diminishing returns",
+    "x": "step",
+    "xLabel": "parameter value",
+    "yLabel": "score",
+    "yScale": "linear",
+    "yDomain": [
+      0.5,
+      0.9
+    ],
+    "series": [
+      "variant_a",
+      "variant_b"
+    ],
+    "seriesLabels": [
+      "variant A",
+      "variant B"
+    ],
+    "width": 980,
+    "height": 360,
+    "extraHeight": 44,
+    "unit": "",
+    "subtitle": "both series in the same unit, higher is better"
   }
 ]
