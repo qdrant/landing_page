@@ -1,0 +1,173 @@
+// Chart figures: the shell (card, caption, scroll) and the hover affordances.
+//
+// This is the CSS half of the charts feature; the behavior half (js/viz.js) is
+// emitted from partials/js.html. Loaded as a <link> from partials/css.html,
+// gated on `.HasShortcode "chart"` so it ships only on pages that embed a
+// chart. Deliberately NOT imported into a section bundle — same reasoning as
+// islands.scss, and for the same budget.
+//
+// Self-contained on purpose: no theme SCSS variables, so deleting this file and
+// scripts/viz/ removes the feature cleanly.
+//
+// Data colours (bar fills, heatmap ramp) live in data/viz.json and arrive inside
+// the SVG — they carry meaning, so they do not follow the theme. Chrome colours
+// come from the shared --qi-* tokens, the same ones the island diagrams use.
+@import 'qi-tokens';
+
+// Tokens go on both roots: the figure, and the tooltip, which js/viz.js appends
+// to <body> and so sits outside the figure's subtree.
+.viz-figure,
+.viz-tip {
+  @include qi-light-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .viz-figure,
+  html:not([data-theme='light']) .viz-tip {
+    @include qi-dark-tokens;
+  }
+}
+html[data-theme='dark'] .viz-figure,
+html[data-theme='dark'] .viz-tip {
+  @include qi-dark-tokens;
+}
+
+.viz-figure {
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+
+.viz-figure__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  // room for the scrollbar so it never sits on top of the x-axis labels
+  padding-bottom: 2px;
+}
+
+.viz-figure__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  overflow: visible;
+}
+
+// Scoped under .viz-figure to outrank `.qdrant-post__content figcaption`, which
+// is (0,1,1) and would otherwise win.
+.viz-figure .viz-figure__caption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--qi-border);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--qi-muted);
+}
+
+// ── Hover affordances (added by js/viz.js; absent without JS) ───────────────
+
+.viz-figure__svg [data-viz-zone] {
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// "Highlight, don't reorder": nothing dims and nothing moves. The hovered mark
+// just lights up.
+//
+// Deliberately NOT a stroke: an ink-coloured ring is a colour that appears
+// nowhere else in the chart, and against a red or violet mark it reads as a
+// black (or white, in dark mode) box drawn on top. Brightening the mark uses
+// no foreign colour at all and needs no per-theme value.
+.viz-figure__svg [data-viz-key] {
+  transition: filter 90ms ease-out, r 90ms ease-out;
+}
+
+.viz-figure__svg [data-viz-active] {
+  filter: brightness(1.16) saturate(1.06);
+}
+
+// Dots are small enough that brightness alone is easy to miss, so grow them too.
+.viz-figure__svg circle[data-viz-active] {
+  r: 5.5;
+}
+
+.viz-figure__svg [data-viz-crosshair] {
+  transition: opacity 90ms ease-out;
+  pointer-events: none;
+}
+
+// The tooltip stays dark in both themes: it floats above the page rather than
+// sitting in it, so it reads as an overlay rather than a second surface.
+.viz-tip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 90ms ease-out;
+  max-width: 280px;
+  padding: 9px 11px;
+  border-radius: var(--qi-radius);
+  background: #111824; // neutral-900
+  border: 1px solid #303547; // neutral-800
+  color: #e2e7f5; // neutral-100
+  font-family: var(--qi-mono);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(11, 15, 25, 0.45);
+
+  &.is-on {
+    opacity: 1;
+  }
+
+  &__title {
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(226, 231, 245, 0.16);
+    font-weight: 600;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  &__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    flex: 0 0 auto;
+  }
+
+  &__k {
+    color: #898ea3; // neutral-500
+  }
+
+  &__v {
+    margin-left: auto;
+    font-weight: 600;
+  }
+}
+
+// Below this width the chart would scale down so far that 13px type renders at
+// ~4px — unreadable, and jarring next to a 14px caption that does not shrink.
+// Hold a legible width and let the figure scroll sideways instead.
+@media (max-width: 767px) {
+  .viz-figure {
+    padding: 1rem 0.75rem 0.85rem;
+  }
+
+  .viz-figure__svg {
+    width: 720px;
+    max-width: none;
+  }
+
+  .viz-figure .viz-figure__caption {
+    font-size: 0.8125rem;
+  }
+}

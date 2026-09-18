@@ -49,6 +49,14 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
+{{ if .HasShortcode "chart" }}
+  <!--Chart hover affordances. The generated SVG is complete without this file,
+      so it is purely additive; gate on the shortcode rather than the section,
+      since only a handful of blog/articles pages actually embed a chart.-->
+  {{ $vizJs := resources.Get "/js/viz.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $vizJs.RelPermalink }}" defer></script>
+{{ end }}
+
 {{/* Content islands: behavior half. The shell CSS is loaded from css.html.
      Gated on `.HasShortcode "island"` so it ships only on pages with an island. */}}
 {{ if .HasShortcode "island" }}

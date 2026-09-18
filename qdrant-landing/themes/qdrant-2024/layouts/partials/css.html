@@ -17,6 +17,14 @@
 
 <!--Content islands: shell CSS half (wrapper/fallback/spinner). Behavior half (loader) is in js.html.
     `.HasShortcode` is parse-derived, so it works here in <head> where .Store/hasIslands is not yet set.-->
+<!--Charts: CSS half (card, caption, hover affordances). Behavior half (js/viz.js) is in js.html.
+    Gated on `.HasShortcode "chart"` so it ships only on the handful of pages that embed a chart,
+    rather than riding along in core.css on all ~1100 pages.-->
+{{ if .HasShortcode "chart" }}
+  {{ $vizCss := resources.Get "css/viz.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $vizCss.RelPermalink }}" rel="stylesheet" integrity="{{ $vizCss.Data.Integrity }}" />
+{{ end }}
+
 {{ if .HasShortcode "island" }}
   {{/* Mark JS as available before the body paints, so islands can show a loader
        (not the fallback image) while they load — avoids a fallback flash. */}}

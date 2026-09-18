@@ -4,3 +4,11 @@ node_modules
 .hugo_build.lock
 resources/_gen
 assets/jsconfig.json
+
+# Playwright MCP debug artifacts
+.playwright-mcp/
+
+# Charts parked while we decide whether to use them: local only, never shipped.
+# See scripts/viz/parked/heatmap.mjs for how to restore.
+scripts/viz/parked/
+assets/viz/turboquant/

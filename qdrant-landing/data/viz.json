@@ -1,0 +1,65 @@
+{
+  "$comment": "Single source of truth for blog visualisation colors and type. Consumed by Hugo templates (site.Data.viz) and scripts/viz/generate-charts.mjs. Do NOT duplicate these values into SCSS.",
+  "palette": {
+    "categorical": [
+      "#dc244c",
+      "#6047ff",
+      "#009688",
+      "#03a9f4",
+      "#ff9800"
+    ],
+    "names": [
+      "Primary Red",
+      "Secondary Violet",
+      "Teal",
+      "Light Blue",
+      "Orange"
+    ],
+    "muted": "#abb1c7",
+    "$comment": "Official Qdrant data-visualisation sequence, in order. Qdrant's own series takes position 1 (Primary Red)."
+  },
+  "surface": {
+    "$comment": "Only used by readableInk(), which picks legible text for a coloured cell. Chrome colours come from the --qi-* CSS tokens, not from here.",
+    "ink": "#0b0f19",
+    "onDark": "#ffffff"
+  },
+  "tone": {
+    "cost": {
+      "fill": "#f0f3fa",
+      "stroke": "#b4bacc",
+      "text": "#576280"
+    },
+    "win": {
+      "fill": "#c0f0f0",
+      "stroke": "#038585",
+      "text": "#004f4f"
+    }
+  },
+  "type": {
+    "$comment": "Named roles, not arithmetic. Every chart kind uses the same five sizes.",
+    "family": "'Mona Sans', -apple-system, 'Segoe UI', sans-serif",
+    "mono": "'Geist Mono', ui-monospace, monospace",
+    "title": 15,
+    "subtitle": 13,
+    "axis": 13,
+    "label": 12,
+    "small": 11
+  },
+  "stroke": {
+    "hairline": 1,
+    "regular": 2,
+    "emphasis": 3
+  },
+  "sequential": {
+    "$comment": "Sequential ramp on the official Neon Blue #6047FF. Currently used only by the parked heatmap kind (scripts/viz/parked/, gitignored). Kept here so restoring it is one step.",
+    "stops": [
+      "#f4f2ff",
+      "#dcd6ff",
+      "#bcb0ff",
+      "#9481ff",
+      "#6047ff",
+      "#4430b8",
+      "#241c5c"
+    ]
+  }
+}
