@@ -6,7 +6,8 @@ author: Qdrant
 date: 2026-09-18T00:00:00+03:00
 draft: false
 category: qdrant-internals
-_build:
+# `build` (not `_build`: that key was removed in Hugo 0.145; the pipeline runs 0.160.1)
+build:
   list: never
   render: always
   publishResources: true
