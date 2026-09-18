@@ -55,7 +55,7 @@
     {{- $otherLanguages := apply (after 1 $langs) "title" "." -}}
     {{- $linkPath := replace $path "/documentation/headless/snippets/" "/documentation/snippets/" -}}
     {{- with $block -}}{{- $linkPath = printf "%s%s/" $linkPath . -}}{{- end -}}
-    {{- $url := printf "%sindex.md" $linkPath }}
+    {{- $url := printf "https://qdrant.tech%sindex.md" $linkPath }}
 > This snippet is also available in {{ delimit $otherLanguages ", " ", and " }}. See the [full snippet]({{ $url }}).
 {{ end -}}
 {{- end -}}
