@@ -1,0 +1,213 @@
+@use '../helpers/functions' as *;
+
+// Both themes are declared here so a palette change is a one-block edit. The
+// light values were previously written as literals at the use site, which is
+// how a palette silently stops being the palette.
+$prompt-surface: $neutral-20;
+$prompt-border: $neutral-30;
+$prompt-text: $neutral-98;
+$prompt-text-muted: $neutral-70;
+// Violet rather than red. Red is the site's interactive color, on buttons,
+// links, and CTAs, so an accent bar in it reads as another call to action
+// competing with the real ones on the page. Violet is the brand secondary and
+// is unclaimed in the documentation callouts, where amber is alerts and
+// $secondary-blue-10 is the status aside, so it marks a prompt as its own kind
+// of thing. The surface stays neutral: the alerts pattern of a hue-tinted card
+// works for a few lines of text and turns a card holding a code block into a
+// slab that fights the code for attention.
+$prompt-accent: $secondary-violet-50;
+// The body block sits deeper than the card. Without this it renders the same
+// $neutral-20 as the card, from .chroma, and the prompt reads as loose
+// monospace in a box rather than as a block.
+$prompt-block-surface: $neutral-10;
+
+$prompt-surface-light: $neutral-98;
+// In light mode the card is already light, so the block needs no extra depth
+// to read as a block. It matches the other code blocks on the page instead.
+$prompt-block-surface-light: $neutral-20;
+$prompt-border-light: $neutral-94;
+$prompt-text-light: $neutral-10;
+$prompt-text-muted-light: $neutral-50;
+$prompt-accent-light: $secondary-violet-30;
+
+.prompt {
+  background: $prompt-surface;
+  // A plain border on all four sides. An accent bar down the left was the
+  // first attempt at "visually distinct" and read as decoration rather than
+  // meaning. The surface, the kind marker, and the caret carry that job.
+  border: 1px solid $prompt-border;
+  border-radius: pxToRem(8);
+  margin: pxToRem(24) 0;
+  overflow: hidden;
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(10);
+    padding: pxToRem(14) pxToRem(16);
+    cursor: pointer;
+    font-size: $font-size-md;
+    font-weight: 600;
+    color: $prompt-text;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // Disclosure caret, drawn rather than an icon file so it inherits color.
+    &::before {
+      content: '';
+      flex: none;
+      width: pxToRem(8);
+      height: pxToRem(8);
+      border-right: 2px solid $prompt-accent;
+      border-bottom: 2px solid $prompt-accent;
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+    }
+
+    &:hover {
+      color: $prompt-accent;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $prompt-accent;
+      outline-offset: -2px;
+    }
+  }
+
+  &[open] &__summary::before {
+    transform: rotate(45deg);
+  }
+
+  // The kind marker: a category label, not disabled metadata. It uses the
+  // secondary text color rather than a true grey, because the collapsed
+  // summary is the only surface that tells a reader this element exists.
+  &__kind {
+    flex: none;
+    font-size: pxToRem(11);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $prompt-text-muted;
+    // Separates the marker from the title without a divider glyph.
+    padding-right: pxToRem(10);
+    border-right: 1px solid $prompt-border;
+  }
+
+  &__summary-label {
+    // A prompt title can be long; wrap rather than overflow.
+    min-width: 0;
+  }
+
+  // `.documentation-article summary` sets margin-bottom: 1rem for the sidebar
+  // disclosures. Inside this element that margin lands below the summary, and
+  // `overflow: hidden` keeps it inside the box, so a collapsed prompt is 16px
+  // taller than its content and the title sits above center. Written as a
+  // descendant selector because the plain BEM class loses to that rule on
+  // specificity: one class against a class plus an element.
+  & &__summary {
+    margin-bottom: 0;
+  }
+
+  &__body {
+    padding: 0 pxToRem(16) pxToRem(16);
+  }
+
+  // The block Chroma emits inside the body.
+  .highlight {
+    margin: 0;
+  }
+
+  // A prompt is prose, not code. Its line breaks come from how the author
+  // wrapped the source file, so a fixed-width <pre> clips every line at any
+  // window narrower than the wrap width instead of reflowing. Sideways
+  // scrolling is a fair bargain for code and a bad one for a paragraph.
+  // pre-wrap keeps the deliberate line structure in prompts that have one.
+  // Chroma wraps every line in `.line > .cl`, and syntax-highlight.scss makes
+  // `.line` a flex container. A flex item will not shrink below its min-content
+  // width, so the `overflow-wrap` set on the pre never reaches a long token
+  // inside `.cl` and a docker command or a URL is clipped instead of wrapped.
+  // Letting the item shrink is what makes the wrapping rule take effect;
+  // setting `word-break` on the pre does not, because the constraint is here.
+  .highlight .cl {
+    min-width: 0;
+  }
+
+  // copy-code.js styles its button with a $neutral-20 fill, which is invisible
+  // on a normal code block because that is exactly the block's own color. This
+  // element gives its block a deeper surface so it reads as a block inside the
+  // card, and that made the fill show up as a grey chip around the icon. Only
+  // the icon is wanted, so the fill goes.
+  .copy-code {
+    background: transparent;
+  }
+
+  .highlight > pre {
+    // On the pre, not on .highlight: Chroma puts class="chroma" on this
+    // element and syntax-highlight.scss gives .chroma its own background, so a
+    // color set on the parent is painted over and the change is invisible.
+    background: $prompt-block-surface;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    // copy-code.js absolutely positions its button at the top right of
+    // .highlight. Wrapped text now reaches the full width, so the first line
+    // would run underneath it.
+    padding-right: pxToRem(56);
+  }
+
+  &__skill {
+    font-size: $font-size-s;
+    color: $prompt-text-muted;
+    margin: pxToRem(12) 0 0;
+    line-height: 1.5;
+
+    code {
+      font-family: $font-family-code;
+      font-size: pxToRem(12);
+      background: none;
+      padding: 0;
+    }
+  }
+
+  [data-theme='light'] & {
+    background: $prompt-surface-light;
+    border-color: $prompt-border-light;
+  }
+}
+
+// Written out longhand: inside a compound selector `[data-theme='light'] &`
+// lands in the descendant position, where it can never match, because the
+// theme attribute sits on <html>.
+[data-theme='light'] .prompt__summary {
+  color: $prompt-text-light;
+}
+
+[data-theme='light'] .prompt__summary::before {
+  border-right-color: $prompt-accent-light;
+  border-bottom-color: $prompt-accent-light;
+}
+
+[data-theme='light'] .prompt__summary:hover {
+  color: $prompt-accent-light;
+}
+
+[data-theme='light'] .prompt .highlight > pre {
+  background: $prompt-block-surface-light;
+}
+
+[data-theme='light'] .prompt__skill,
+[data-theme='light'] .prompt__kind {
+  color: $prompt-text-muted-light;
+}
+
+[data-theme='light'] .prompt__kind {
+  border-right-color: $prompt-border-light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt__summary::before {
+    transition: none;
+  }
+}

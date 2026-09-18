@@ -87,3 +87,12 @@
 
 # ACORN blog post converted into an internals article
 /blog/filtered-vector-search-acorn/   /articles/filtered-vector-search-acorn/   301
+
+# Agent Skills moved under the Agentic Tools hub. The page's `aliases:` front
+# matter already covers the HTML, but Hugo writes an alias as index.html with
+# no index.md beside it, so the agent-facing form of the old URL 404s. That URL
+# is linked from the pointers prepended to every documentation index.md, so the
+# .md case is the one that matters most here. Left unforced on purpose: the
+# alias stub is a real file and so keeps serving the HTML, and this rule applies
+# where there is no file to shadow it.
+/documentation/skills/*    /documentation/agentic-tools/skills/:splat    301
