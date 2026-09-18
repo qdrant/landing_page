@@ -1,0 +1,16 @@
+{{- /* Recursively collect every snippet leaf dir (one containing a `generated` subdir). Returns a slice of paths. */ -}}
+{{- $found := slice -}}
+{{- $dir := . -}}
+{{- range (readDir $dir) -}}
+  {{- if .IsDir -}}
+    {{- $child := printf "%s/%s" $dir .Name -}}
+    {{- if eq .Name "generated" -}}
+      {{- $found = $found | append $dir -}}
+    {{- else -}}
+      {{- range (partial "snippet-dirs.html" $child) -}}
+        {{- $found = $found | append . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $found -}}
