@@ -1,9 +1,0 @@
-[package]
-name = "rust-snippets"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-# qdrant-client = "1.15.0"
-qdrant-client = { path = "../../../../rust-client" }
-tokio = { version = "1.47.1", features = ["full"] }
