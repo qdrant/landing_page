@@ -272,14 +272,18 @@ const trackPageView = () => {
   removeSegmentStoredPages(); // TODO: Remove this end of April 2025
 }
 
-const trackStoredInteractions = () => {
+export const trackStoredInteractions = () => {
+  if (!getCookie('cookie-consent')) {
+    return;
+  }
+
   // Iterate over all stored interactions
-  getSegmentStoredInteractions().forEach(interactionPayload => {
+  getSegmentStoredInteractions().forEach((interactionPayload) => {
     trackInteractionEvent(interactionPayload);
   });
-  
+
   removeSegmentStoredInteractions();
-}
+};
 
 const trackEvent = (name, properties = {}) => {
   const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
