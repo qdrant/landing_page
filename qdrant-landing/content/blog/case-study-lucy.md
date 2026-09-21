@@ -5,7 +5,7 @@ short_description: "Lucy grounds financial AI answers in the original filing wit
 description: "How Lucy built a retrieval layer over 2.8M+ SEC and DART filings on Qdrant: four-lane hybrid search, payload filtering, and TurboQuant, reaching 94.7% Recall@10 on FinanceBench."
 preview_image: /blog/case-study-lucy/social_preview.png
 social_preview_image: /blog/case-study-lucy/social_preview.png
-date: 2026-09-18T00:00:00.000Z
+date: 2026-09-21T00:00:00.000Z
 author: Daniel Azoulai
 featured: false
 tags:
@@ -24,7 +24,7 @@ partition: case-studies
 
 <a href="https://lucydata.ai/" target="_blank">Lucy</a> builds data infrastructure for financial AI. The company turns large-scale regulatory filings from the U.S. Securities and Exchange Commission (SEC) EDGAR system and Korea's DART disclosure system into structured data that AI systems can search, retrieve, and reason over.
 
-Its corpus covers more than 2.8 million filings across 27 filing and report types, roughly 10 years of history from 2016 to 2026, with new filings processed on a near-real-time basis. Wall Street firms including GraniteShares, VistaShares, and Canary Capital already use Lucy's data.
+Its corpus covers more than 2.8 million filings across 27 filing and report types, roughly 10 years of history from 2016 to 2026, with new filings processed on a near-real-time basis. On the SEC side that spans corporate, ownership, and fund filings: 10-K, 10-Q, 8-K, 20-F, DEF 14A, S-1, S-3, Forms 3, 4, and 5, 13F, 13D/G, N-1A, N-PORT, and the 485 and 497 series. Asset managers and ETF issuers already build on Lucy's data.
 
 Financial filings are among the hardest documents to make usable for a language model. A single 10-K can run past 200 pages of narrative text, financial tables, images, cross-references, and metadata, and the tables are the part that matters most and parses worst. Lucy's bet is that the filings themselves are the source of truth for financial questions, and that a retrieval layer built around them can outperform a frontier model searching the open web.
 
@@ -34,7 +34,8 @@ An analyst or investor today has access to ChatGPT, Claude, Gemini, and every ot
 
 {{< quote
   text="The finance field is so complicated and so complex. When you give a question to AI, sometimes it gives a wrong answer. We think we need a source of truth for the data, and we think it is the SEC filings."
-  name="Glen Park"
+  name="Jihoi Park"
+  role="Co-Founder"
   company="Lucy"
   featured="true" >}}
 
@@ -46,16 +47,29 @@ Cost and latency mattered too. Frontier models are expensive, heavy, and slow fo
 
 ## Why Lucy Chose Qdrant for Hybrid Search and Metadata Filtering
 
-Lucy's retrieval design depends on doing two things in the same query. Every question about a filing carries structured signals: which company, which Central Index Key (CIK), which form type, which period, and often which exact document by accession number. Those signals need to constrain the search before similarity ranking runs, not trim a long candidate list afterward. On top of that constraint, the search itself needs both dense vectors for semantic matching and sparse vectors for the exact terms, tickers, and line-item names that dominate financial text.
+Lucy did not run a formal head-to-head benchmark against every alternative. The team picked Qdrant because it matched three specific requirements of an SEC and DART retrieval workload.
 
-Qdrant's [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/) covers the dense and sparse side, and [payload filtering](https://qdrant.tech/documentation/search/filtering/) applies the company, form type, date range, and document ID filters inside the query. Lucy runs the same hybrid query with the same filters across several retrieval lanes and fuses the ranked lists with reciprocal rank fusion (RRF).
+The first is filtering. Every question about a filing carries structured signals: which company, which ticker, which Central Index Key (CIK), which form type, which period, which item or section, and often which exact document by accession number. Those signals need to constrain the search before similarity ranking runs, not trim a long candidate list afterward. Qdrant's [payload filtering](https://qdrant.tech/documentation/search/filtering/) applies them inside the query, so the filter and the vector search execute together rather than as two passes.
+
+The second is the search itself. Financial text is full of exact terms, tickers, and line-item names that embeddings alone miss, so Lucy needs dense vectors for semantic matching and sparse vectors for lexical precision in the same query. Qdrant's [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/) covers both, and Lucy fuses the ranked lists with reciprocal rank fusion (RRF).
+
+{{< quote
+  text="Vector search alone can miss important details in financial filings, while sending too much context to an LLM can lead to omissions or hallucinations. Combining keyword and vector search gave us much more reliable retrieval. Qdrant made that hybrid approach easy to implement and scale."
+  name="Jongbok Lee"
+  role="RAG Engineer"
+  company="Lucy" >}}
+
+The third is cost as the corpus grows. New filings arrive continuously, so Lucy needs recall to hold without infrastructure cost tracking corpus size. Native [quantization](https://qdrant.tech/documentation/manage-data/quantization/) keeps the index footprint down, and Qdrant's distributed architecture and sharding give the team room to scale horizontally as coverage expands.
 
 {{< quote
   text="If you embed a huge volume of data, it is important to narrow down the scope to improve recall and precision. We provide structured metadata for filtering in the vector search engine, and it's really effective for improving recall and accuracy."
   name="Jongbok Lee"
+  role="RAG Engineer"
   company="Lucy" >}}
 
-Memory efficiency was the other requirement. Lucy evaluated Qdrant's [TurboQuant quantization](https://qdrant.tech/documentation/manage-data/quantization/) on both the SEC and DART corpora and now applies 4-bit quantization to SEC filings and 2-bit quantization to DART filings, an 8x and 16x reduction in vector storage respectively, while holding retrieval quality. TurboQuant compresses only the stored vectors and scores queries in full precision, so the accuracy cost of that compression stays small.
+On the quantization side, Lucy evaluated Qdrant's TurboQuant on both corpora. On its 10-K corpus at 1,536 dimensions, 4-bit TurboQuant cut the observed memory footprint from roughly 52 GB to 10.7 GB, a 4.9x reduction.
+
+The quality cost was small. Measuring without metadata filtering, dense-only retrieval moved by -0.8% Recall@20, -0.3% MRR, and -0.6% nDCG@20. Hybrid retrieval was effectively unchanged at +0.2% Recall@20, +0.1% MRR, and -0.1% nDCG@20, because the sparse side recovers what compression costs the dense side. On that basis Lucy runs 2-bit quantization on DART filings, where Korean text produces more chunks per filing and the higher compression ratio saves the most, and a more conservative 4-bit on SEC filings.
 
 ## Recall Above 94% on FinanceBench, and a 0.16 Answer Accuracy Gain From Retrieval Alone
 
@@ -72,10 +86,11 @@ That result also reframes the cost question. In a separate evaluation, an open-w
 
 {{< quote
   text="GPT and Gemini are quite expensive, very heavy, and very slow. We found that if we build the RAG system well, we can get quite good results even with a small open-source model."
-  name="Glen Park"
+  name="Jihoi Park"
+  role="Co-Founder"
   company="Lucy" >}}
 
-For Lucy's customers, the payoff is an answer that cites the chunk it came from and highlights the matching passage in the original filing, so an analyst can verify the number before acting on it.
+For Lucy's customers, the payoff is an answer that cites the chunk it came from and highlights the matching passage in the original filing, so an analyst can verify the number before acting on it. The team has not yet formalized a metric like analyst hours saved. The clearest benefit so far is the time it takes to find and verify the right disclosure across a large volume of filings.
 
 ## How Lucy RAG Routes a Question Through Qdrant
 
@@ -89,6 +104,37 @@ The narrow lane runs focused multi-query retrieval with section filters for prec
 
 Each active lane returns up to 60 candidates. Lucy fuses the ranked lists with RRF, deduplicates them, and passes the final top 20 chunks to the answer model. A supplementary knowledge base in Amazon S3 holds preprocessed summaries and key financial facts for each filing, which the pipeline selects by topic and adds as extra context. The team is also adding a Neo4j graph layer to capture relationships between filings, starting with amendments.
 
+Across 1,517 measured searches, Qdrant averaged 32 ms per search, with a p50 of 16 ms and a p90 of 82 ms. The lanes separate cleanly by how much they constrain the search.
+
+| Lane | Average | p50 | p90 |
+|---|:---:|:---:|:---:|
+| Narrow | 23 ms | 9 ms | 62 ms |
+| XBRL | 27 ms | 10 ms | 81 ms |
+| Broad | 42 ms | 27 ms | 105 ms |
+| Narrow + Broad (1,208 searches) | 34 ms | 21 ms | 83 ms |
+| Narrow + XBRL + Broad (298 searches) | 26 ms | 9 ms | 81 ms |
+
+The broad lane is the slowest because it applies the least restrictive filters over the widest scope, which is the same property that makes it useful as a recall safety net. The narrow and XBRL lanes, which carry tighter filters, finish in single-digit milliseconds at p50.
+
+## What Running This in Production Looks Like
+
+Lucy runs Qdrant self-hosted. Production holds 12 collections with roughly 52.25 million dense vectors and the same number of sparse vectors, and both figures keep climbing as the team embeds more SEC and DART filings.
+
+The two corpora use different dense models and share a sparse one.
+
+| | Dense embeddings | Sparse retrieval |
+|---|---|---|
+| SEC | OpenAI `text-embedding-3-small`, 1,536 dimensions | BM25 |
+| DART | Upstage `solar-embedding-2`, 1,024 dimensions | BM25 |
+
+Chunk counts differ by corpus as well. SEC filings average 194 chunks each (P25 91, P75 236, P90 373). DART filings average 418 (P25 178, P75 520, P90 846), because Korean text produces higher token counts under Lucy's current tokenization and chunking setup. That difference is part of why DART gets the more aggressive 2-bit quantization.
+
+The collection layout took a round of iteration to get right, and it is the clearest lesson from Lucy's scaling experience. The team initially stored every SEC filing type in a single collection and prefixed each chunk with metadata such as company name, ticker, and report date. That worked at small scale. As coverage expanded, retrieval latency rose by roughly 2x to 3x and recall declined.
+
+Lucy split the data into collections by filing type and moved that metadata out of the chunk text and into indexed payload fields: `accession_number` (`receipt_number` on the DART side), `chunk_type`, and `item_key`, plus the additional fields each document type needs for filtering. Narrowing the search scope this way improved latency and recall together as the corpus kept growing.
+
+All of this is operated by a team of fewer than ten engineers across both the SEC and DART sides.
+
 ## What's Next: Benchmark Generation and Evaluation on the Same Retrieval Layer
 
 Lucy is expanding on three fronts. Coverage will grow beyond the current 27 filing types and 10-year window, and the Korean DART corpus is available to partners interested in that market. The Neo4j graph layer will move amendment and cross-filing relationships into retrieval.
@@ -99,4 +145,4 @@ And the company is exploring partnerships with expert-led AI training and evalua
 
 Lucy started from the premise that frontier models alone cannot be trusted with financial questions, and that the filings are the source of truth. Making 2.8 million filings retrievable required preserving their structure at ingestion and constraining retrieval at query time.
 
-With hybrid search, payload filtering, and quantization in Qdrant, Lucy RAG holds Recall@10 at 94.7% on FinanceBench, lifts answer accuracy by 0.160 on a fixed model, and lets an open-weight model outperform frontier models with web search. The answer an analyst gets now comes with the filing passage it came from.
+With hybrid search, payload filtering, and quantization in Qdrant, Lucy RAG holds Recall@10 at 94.7% on FinanceBench, lifts answer accuracy by 0.160 on a fixed model, and lets an open-weight model outperform frontier models with web search, on a footprint a team of fewer than ten engineers can operate. The answer an analyst gets now comes with the filing passage it came from.
