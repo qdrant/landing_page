@@ -1,58 +1,51 @@
 @use '../helpers/functions' as *;
 
-// Both themes are declared here so a palette change is a one-block edit. The
-// light values were previously written as literals at the use site, which is
-// how a palette silently stops being the palette.
-$prompt-surface: $neutral-20;
+// Both themes are declared here so a palette change is a one-block edit.
 $prompt-border: $neutral-30;
 $prompt-text: $neutral-98;
-$prompt-text-muted: $neutral-70;
-// Violet rather than red. Red is the site's interactive color, on buttons,
-// links, and CTAs, so an accent bar in it reads as another call to action
-// competing with the real ones on the page. Violet is the brand secondary and
-// is unclaimed in the documentation callouts, where amber is alerts and
-// $secondary-blue-10 is the status aside, so it marks a prompt as its own kind
-// of thing. The surface stays neutral: the alerts pattern of a hue-tinted card
-// works for a few lines of text and turns a card holding a code block into a
-// slab that fights the code for attention.
-$prompt-accent: $secondary-violet-50;
-// The body block sits deeper than the card. Without this it renders the same
-// $neutral-20 as the card, from .chroma, and the prompt reads as loose
-// monospace in a box rather than as a block.
+$prompt-text-secondary: $neutral-70;
+// The site's interactive red. Used for the disclosure caret and the skill-line
+// links, the only interactive marks in the component.
+$prompt-accent: $primary-50;
+// The dark card fill and the dark code block fill. Swapped from the usual
+// arrangement: the card is the lighter $neutral-20 and the code block recesses
+// to the $neutral-10 page tone.
+$prompt-surface: $neutral-20;
 $prompt-block-surface: $neutral-10;
-// One step down from the $neutral-94 Chroma uses for code. At 15.3:1 on the
-// block that is glare for something people read a paragraph of; this is 9.9:1,
-// still comfortably AAA. The block is dark in both themes, so one value serves
-// both.
-$prompt-body-text: $neutral-80;
+// The code text color Chroma uses on this site. The block text is dark in both
+// themes, so one value serves both.
+$prompt-body-text: $neutral-94;
 
-$prompt-surface-light: $neutral-98;
-// In light mode the card is already light, so the block needs no extra depth
-// to read as a block. It matches the other code blocks on the page instead.
-$prompt-block-surface-light: $neutral-20;
-$prompt-border-light: $neutral-94;
+$prompt-border-light: $neutral-80;
 $prompt-text-light: $neutral-10;
-$prompt-text-muted-light: $neutral-50;
-$prompt-accent-light: $secondary-violet-30;
+$prompt-text-secondary-light: $neutral-50;
+// The light card fill, and the light code block's own darker fill on top of it.
+$prompt-surface-light: $neutral-98;
+$prompt-block-surface-light: $neutral-20;
 
 .prompt {
+  // Dark: the card is the lighter $neutral-20 and the code block recesses to
+  // $neutral-10. Light overrides this below with its own card and code fills.
   background: $prompt-surface;
-  // A plain border on all four sides. An accent bar down the left was the
-  // first attempt at "visually distinct" and read as decoration rather than
-  // meaning. The surface, the kind marker, and the caret carry that job.
   border: 1px solid $prompt-border;
-  border-radius: pxToRem(8);
+  border-radius: pxToRem(12);
   margin: pxToRem(24) 0;
   overflow: hidden;
+  // Grayscale antialiasing for the summary text, so Mona Sans renders light and
+  // crisp rather than the heavier subpixel default on macOS.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   &__summary {
     display: flex;
     align-items: center;
-    gap: pxToRem(10);
-    padding: pxToRem(14) pxToRem(16);
+    gap: pxToRem(8);
+    padding: pxToRem(12) pxToRem(16);
     cursor: pointer;
     font-size: $font-size-md;
     font-weight: 600;
+    // The title inherits this; the kind marker overrides it with the secondary
+    // tier below.
     color: $prompt-text;
     list-style: none;
 
@@ -60,24 +53,32 @@ $prompt-accent-light: $secondary-violet-30;
       display: none;
     }
 
-    // Disclosure caret, drawn rather than an icon file so it inherits color.
+    // Disclosure caret, drawn rather than an icon file. It sets its own color to
+    // the accent red and draws its borders in currentColor, so it stays red
+    // regardless of the summary text color.
     &::before {
       content: '';
       flex: none;
       width: pxToRem(8);
       height: pxToRem(8);
-      border-right: 2px solid $prompt-accent;
-      border-bottom: 2px solid $prompt-accent;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
       transform: rotate(-45deg);
       transition: transform 0.15s ease;
-    }
-
-    &:hover {
       color: $prompt-accent;
     }
 
+    // On hover the kind marker lifts to the prominent color (the `&__kind` hover
+    // rule below) and the title is only underlined, not recolored. Same in both
+    // themes.
+    &:hover {
+      .prompt__summary-label {
+        text-decoration: underline;
+      }
+    }
+
     &:focus-visible {
-      outline: 2px solid $prompt-accent;
+      outline: 2px solid currentColor;
       outline-offset: -2px;
     }
   }
@@ -86,24 +87,29 @@ $prompt-accent-light: $secondary-violet-30;
     transform: rotate(45deg);
   }
 
-  // The kind marker: a category label, not disabled metadata. It uses the
-  // secondary text color rather than a true grey, because the collapsed
-  // summary is the only surface that tells a reader this element exists.
+  // The category label. It shares the title's type and differs only in color,
+  // dropping to the secondary tier, with the divider rule setting it apart.
   &__kind {
     flex: none;
-    font-size: pxToRem(11);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: $prompt-text-muted;
+    color: $prompt-text-secondary;
     // Separates the marker from the title without a divider glyph.
-    padding-right: pxToRem(10);
+    padding-right: pxToRem(12);
     border-right: 1px solid $prompt-border;
+    transition: color 0.15s ease;
+  }
+
+  // The one part that changes color on hover: the kind marker rises from the
+  // secondary tier to the title's prominent color, while the title only gains an
+  // underline. Light mode overrides the target below, where the prominent text
+  // is dark. Beats the base and light-theme `&__kind` colors on specificity.
+  &__summary:hover &__kind {
+    color: $prompt-text;
   }
 
   &__summary-label {
     // A prompt title can be long; wrap rather than overflow.
     min-width: 0;
+    transition: color 0.15s ease;
   }
 
   // `.documentation-article summary` sets margin-bottom: 1rem for the sidebar
@@ -129,12 +135,15 @@ $prompt-accent-light: $secondary-violet-30;
   &__body {
     // The bottom padding matches the skill line's top margin, so that line
     // sits centred between the prompt block and the bottom edge of the card.
-    padding: 0 pxToRem(16) pxToRem(12);
+    padding: 0 pxToRem(16) pxToRem(16);
   }
 
-  // The block Chroma emits inside the body.
+  // The block Chroma emits inside the body. The card is transparent, so this
+  // is the only filled surface; it takes the card's corner radius itself
+  // rather than borrowing it from the card's overflow clip.
   .highlight {
     margin: 0;
+    border-radius: pxToRem(12);
   }
 
   // A prompt is prose, not code. Its line breaks come from how the author
@@ -152,11 +161,8 @@ $prompt-accent-light: $secondary-violet-30;
     min-width: 0;
   }
 
-  // copy-code.js styles its button with a $neutral-20 fill, which is invisible
-  // on a normal code block because that is exactly the block's own color. This
-  // element gives its block a deeper surface so it reads as a block inside the
-  // card, and that made the fill show up as a grey chip around the icon. Only
-  // the icon is wanted, so the fill goes.
+  // copy-code.js gives its button a $neutral-20 fill, which shows as a grey chip
+  // against the surface behind it. Only the icon is wanted, so the fill goes.
   .copy-code {
     background: transparent;
   }
@@ -170,8 +176,8 @@ $prompt-accent-light: $secondary-violet-30;
   // margin goes so wrapped lines and source lines share one rhythm. Blank
   // source lines still separate the steps in a structured prompt.
   .highlight .line {
-    font-size: pxToRem(15);
-    line-height: 1.65;
+    font-size: pxToRem(16);
+    line-height: 1.625;
     color: $prompt-body-text;
 
     &:not(:last-of-type) {
@@ -183,7 +189,13 @@ $prompt-accent-light: $secondary-violet-30;
     // On the pre, not on .highlight: Chroma puts class="chroma" on this
     // element and syntax-highlight.scss gives .chroma its own background, so a
     // color set on the parent is painted over and the change is invisible.
+    // $neutral-10 in dark, so the block recesses below the lighter card; light
+    // gives it a $neutral-20 fill below.
     background: $prompt-block-surface;
+    // The pre carries the same radius as its .highlight wrapper so the fill's
+    // own corners are rounded, not just clipped by the wrapper.
+    border-radius: pxToRem(12);
+    padding: pxToRem(16);
     white-space: pre-wrap;
     overflow-wrap: break-word;
     // copy-code.js absolutely positions its button at the top right of
@@ -194,16 +206,30 @@ $prompt-accent-light: $secondary-violet-30;
 
   &__skill {
     font-size: $font-size-s;
-    color: $prompt-text-muted;
-    margin: pxToRem(12) 0 0;
+    color: $prompt-text-secondary;
+    margin: pxToRem(16) 0 0;
     line-height: 1.5;
 
     code {
       font-family: $font-family-code;
       font-size: pxToRem(12);
-      background: none;
-      padding: 0;
     }
+
+    a {
+      color: $prompt-accent;
+      text-decoration: none;
+      text-underline-offset: pxToRem(2);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & &__skill a code:not([class]) {
+    background: none;
+    padding: 0;
+    color: inherit;
   }
 
   [data-theme='light'] & {
@@ -212,33 +238,25 @@ $prompt-accent-light: $secondary-violet-30;
   }
 }
 
-// Written out longhand: inside a compound selector `[data-theme='light'] &`
-// lands in the descendant position, where it can never match, because the
-// theme attribute sits on <html>.
 [data-theme='light'] .prompt__summary {
   color: $prompt-text-light;
 }
 
-[data-theme='light'] .prompt__summary::before {
-  border-right-color: $prompt-accent-light;
-  border-bottom-color: $prompt-accent-light;
-}
-
-[data-theme='light'] .prompt__summary:hover {
-  color: $prompt-accent-light;
-}
-
-[data-theme='light'] .prompt .highlight > pre {
-  background: $prompt-block-surface-light;
+[data-theme='light'] .prompt__summary:hover .prompt__kind {
+  color: $prompt-text-light;
 }
 
 [data-theme='light'] .prompt__skill,
 [data-theme='light'] .prompt__kind {
-  color: $prompt-text-muted-light;
+  color: $prompt-text-secondary-light;
 }
 
 [data-theme='light'] .prompt__kind {
   border-right-color: $prompt-border-light;
+}
+
+[data-theme='light'] .prompt .highlight > pre {
+  background: $prompt-block-surface-light;
 }
 
 @media (prefers-reduced-motion: reduce) {
