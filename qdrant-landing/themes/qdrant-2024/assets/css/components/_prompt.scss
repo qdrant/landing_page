@@ -116,8 +116,20 @@ $prompt-accent-light: $secondary-violet-30;
     margin-bottom: 0;
   }
 
+  // The skill line is a <p>, and the same rule catches it: the shorthand on
+  // `&__skill` already sets its bottom margin to zero, but
+  // `.documentation-article p` outranks a single class and puts 1rem back,
+  // which then stacks on the body's bottom padding and pushes the line off
+  // centre. Anything in here that the docs article also styles by tag name
+  // needs this descendant form to win.
+  & &__skill {
+    margin-bottom: 0;
+  }
+
   &__body {
-    padding: 0 pxToRem(16) pxToRem(16);
+    // The bottom padding matches the skill line's top margin, so that line
+    // sits centred between the prompt block and the bottom edge of the card.
+    padding: 0 pxToRem(16) pxToRem(12);
   }
 
   // The block Chroma emits inside the body.
