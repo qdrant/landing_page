@@ -20,6 +20,11 @@ $prompt-accent: $secondary-violet-50;
 // $neutral-20 as the card, from .chroma, and the prompt reads as loose
 // monospace in a box rather than as a block.
 $prompt-block-surface: $neutral-10;
+// One step down from the $neutral-94 Chroma uses for code. At 15.3:1 on the
+// block that is glare for something people read a paragraph of; this is 9.9:1,
+// still comfortably AAA. The block is dark in both themes, so one value serves
+// both.
+$prompt-body-text: $neutral-80;
 
 $prompt-surface-light: $neutral-98;
 // In light mode the card is already light, so the block needs no extra depth
@@ -142,6 +147,24 @@ $prompt-accent-light: $secondary-violet-30;
   // the icon is wanted, so the fill goes.
   .copy-code {
     background: transparent;
+  }
+
+  // Chroma sets `.line` to font-size 16px with line-height 16px, a ratio of
+  // exactly 1, and supplies the breathing room with a margin between source
+  // lines. That works for code, where a line is short and never wraps. A
+  // prompt is prose: one long source line that pre-wrap breaks into many
+  // visual lines, and every one of those gets the 1.0 ratio with no margin at
+  // all, so the text packs into a slab. A real line height fixes it, and the
+  // margin goes so wrapped lines and source lines share one rhythm. Blank
+  // source lines still separate the steps in a structured prompt.
+  .highlight .line {
+    font-size: pxToRem(15);
+    line-height: 1.65;
+    color: $prompt-body-text;
+
+    &:not(:last-of-type) {
+      margin-bottom: 0;
+    }
   }
 
   .highlight > pre {
