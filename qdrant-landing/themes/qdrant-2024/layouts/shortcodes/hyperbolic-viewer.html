@@ -1,0 +1,89 @@
+{{/*
+  The interactive three-geometry explorer, served from this repo.
+
+  Usage:  {{< hyperbolic-viewer caption="..." >}}
+
+  Why a frame rather than inline markup: the viewer's stylesheet sets :root,
+  *, body, a and h1, so inlining it would repaint the article page. The frame
+  isolates it for free.
+
+  Why this is not the old embed: the page it loads ships in this repo and
+  deploys with the article, so there is no third-party host and no runtime
+  API. Nothing external can take the figure down.
+
+  How it fails: the static figure is what renders by default. The frame sits
+  transparently on top of it and only takes over once it has loaded, run its
+  script and reported a sane height. So a missing file, a broken script, a
+  failed data fetch, or scripting turned off all leave the reader with exactly
+  the image the article shipped before -- never an empty box. The frame also
+  reports its height, so it never grows an inner scrollbar.
+
+  The frame is positioned rather than display:none because a display:none
+  iframe gets no layout: its content measures 0, so it reports a height of 8
+  and can never prove it works. Transparent-but-laid-out is what lets it
+  measure itself while staying invisible.
+*/}}
+{{- $dir := "/articles_data/hyperbolic-embeddings-qdrant" -}}
+{{- $cap := .Get "caption" -}}
+{{- $page := .Get "page" | default "viewer.html" -}}
+{{- $still := .Get "still" | default "viewer-three-panels.jpg" -}}
+{{- $h := .Get "height" | default "426" -}}
+{{/* Cache-bust on the file's own content: browsers hold an iframe URL hard,
+     and a stale frame is indistinguishable from a broken change. */}}
+{{- $v := slicestr ((printf "static%s/%s" $dir $page) | readFile | md5) 0 8 -}}
+{{- $alt := .Get "alt" | default (printf "%s %s %s"
+      "The Wheelbarrows category and its parent chain in three panels: a"
+      "hyperbolic Poincare disk where the chain runs straight out from the"
+      "centre, a flat Euclidean layout where it collapses into one cluster, and a text embedding where it scatters.") -}}
+<figure class="hyperbolic-viewer" style="position:relative">
+  <img src="{{ $dir }}/{{ $still }}" alt="{{ $alt }}"
+       style="width:100%;height:auto;display:block"
+       data-hyperbolic-fallback>
+  <iframe
+    src="{{ $dir }}/{{ $page }}?v={{ $v }}"
+    title="Three geometries, one taxonomy: an interactive explorer"
+    loading="lazy"
+    scrolling="no"
+    style="position:absolute;left:0;top:0;width:100%;height:{{ $h }}px;border:0;
+           opacity:0;pointer-events:none;overflow:hidden"
+    data-hyperbolic-viewer></iframe>
+  {{- with $cap }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
+<script>
+(function () {
+  var fig = document.currentScript.previousElementSibling;
+  if (!fig) return;
+  var frame = fig.querySelector("[data-hyperbolic-viewer]");
+  var still = fig.querySelector("[data-hyperbolic-fallback]");
+  if (!frame || !still) return;
+  var swapped = false;
+
+  window.addEventListener("message", function (e) {
+    if (e.source !== frame.contentWindow) return;          // our frame only
+    var h = e.data && e.data.hyperbolicViewerHeight;
+    if (typeof h !== "number" || h < 200 || h > 4000) return;
+    frame.style.height = h + "px";
+    if (swapped) return;
+    swapped = true;
+    // It works: put the frame into normal flow, make it live, drop the image.
+    frame.style.position = "static";
+    frame.style.opacity = "1";
+    frame.style.pointerEvents = "auto";
+    still.parentNode.removeChild(still);
+  });
+
+  // Give up only once the frame has actually tried. A wall-clock timer from
+  // page load does not work here: the frame is loading="lazy", so for a
+  // reader who has not scrolled to it yet there is nothing to wait for, and
+  // an early timer deletes a frame that would have worked fine. An iframe
+  // fires load for an error page too, so this covers the missing-file case
+  // as well as a script or data failure inside it.
+  frame.addEventListener("load", function () {
+    setTimeout(function () {
+      if (!swapped && frame.parentNode) frame.parentNode.removeChild(frame);
+    }, 3000);
+  });
+})();
+</script>
