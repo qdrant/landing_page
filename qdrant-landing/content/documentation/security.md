@@ -116,9 +116,9 @@ To rotate an API key without downtime:
 
 #### Enforce Authentication on Internal Communication
 
-*Available as of v1.20.0*
+*Available as of v1.18.0*
 
-In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Since v1.20.0, every peer attaches its admin `api_key` to outgoing internal requests, but the receiving peer ignores the key unless you enable the `enforce_internal_auth` setting. When enabled, the internal gRPC API rejects requests that do not carry a valid `api_key`, `alt_api_key`, or JWT with manage access, in the same way as the public API.
+In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Since v1.18.0, every peer attaches its admin `api_key` to outgoing internal requests, but the receiving peer ignores the key unless you enable the `enforce_internal_auth` setting. When enabled, the internal gRPC API rejects requests that do not carry a valid `api_key`, `alt_api_key`, or JWT with manage access, in the same way as the public API.
 
 ```yaml
 service:
@@ -132,9 +132,9 @@ Or with the environment variable:
 export QDRANT__SERVICE__ENFORCE_INTERNAL_AUTH=true
 ```
 
-Enforcement is off by default to keep rolling upgrades safe. Peers running a version older than v1.20.0 do not attach a key to internal requests, so a newer peer with enforcement enabled would reject them and break the cluster. To enable enforcement:
+Enforcement is off by default to keep rolling upgrades safe. Peers running a version older than v1.18.0 do not attach a key to internal requests, so a newer peer with enforcement enabled would reject them and break the cluster. To enable enforcement:
 
-1. Upgrade every peer to v1.20.0 or later with `enforce_internal_auth` left disabled.
+1. Upgrade every peer to v1.18.0 or later with `enforce_internal_auth` left disabled.
 2. Set the same `api_key` on every peer. Requests to a peer that enforces authentication fail if the sending peer has no `api_key` configured or uses a different one.
 3. Set `enforce_internal_auth: true` on each peer and restart one peer at a time.
 
