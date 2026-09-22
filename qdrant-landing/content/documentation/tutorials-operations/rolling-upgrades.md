@@ -12,7 +12,7 @@ weight: 37
 | Time: 40 min | Level: Intermediate | Stack: Kubernetes, Qdrant Hybrid Cloud |
 | :---- | :---- | :---- |
 
-Upgrading a Qdrant Hybrid Cloud cluster triggers the StatefulSet's default `RollingUpdate` strategy under the hood: pods get replaced one at a time, in reverse ordinal order, and Kubernetes waits for each replacement to become ready before touching the next one.
+Hybrid Cloud does not run your cluster as a StatefulSet. The [Qdrant Operator](/documentation/hybrid-cloud/operator-configuration/) manages the Pods directly and picks between a rolling restart (one Pod at a time) and a parallel restart, based on an `auto` mode that looks at each collection's replication configuration, or a strategy you set explicitly in the cluster configuration.
 
 There is, nevertheless, one setting in your Qdrant collections that mainly determines whether the update will have zero downtime, or it will cause some disruptions: `replication_factor`.
 
@@ -26,9 +26,9 @@ This tutorial upgrades a 2-node Qdrant Hybrid Cloud cluster twice: once with `re
 
 ## How Rolling Updates Work
 
-A StatefulSet's `RollingUpdate` strategy replaces pods highest-ordinal-first: in a 3-node cluster, the pod with ordinal 2 terminates and restarts first, then the pod with ordinal 1, and eventually the one with ordinal 0. Each pod must pass its readiness probe before the next one is touched.
+In its rolling restart strategy, the [Qdrant Operator](/documentation/hybrid-cloud/operator-configuration/) replaces one Pod at a time and waits for it to become ready before touching the next one, the same way a self-hosted StatefulSet's `RollingUpdate` strategy would. The operator also adds guardrails on top of that, such as blocking multi-minor-version skips and coordinating shard rebalancing, and it is triggered here through `qcloud cluster update` instead of `helm upgrade` (which you would use for a fully self-hosted cluster).
 
-The [Qdrant Operator](/documentation/hybrid-cloud/operator-configuration/) that runs a Hybrid Cloud cluster relies on this same primitive, and adds guardrails on top of it, such as blocking multi-minor-version skips and coordinating shard rebalancing. The underlying pod replacement is still the same rolling update, triggered here through `qcloud cluster update` instead of `helm upgrade` (which you would use for a fully self-hosted cluster).
+With `auto` mode, the operator chooses rolling or parallel restarts based on your collections' replication configuration; you can also pin the strategy explicitly in the cluster configuration. This tutorial walks through the rolling restart, and shows why replication factor still matters even under that strategy.
 
 Zero downtime during that replacement depends mostly on your collections having `replication_factor` greater than 1. A search request needs to reach one active replica of every shard in a collection, since the default `consistency` of 1 does not tolerate a missing shard. A write only needs to reach the replica set of the one shard that owns the point being written. 
 
@@ -36,7 +36,7 @@ With `replication_factor: 1`, taking any pod down takes its shards fully offline
 
 ## Step 1: Set Up the Cluster and Confirm the Starting Version
 
-Create a Hybrid Cloud cluster on 3 nodes from the Cloud UI, pinned to a starting version such as `v1.18.3`. Set `KUBENS` and `SERVICE_NAME` to your cluster's namespace and StatefulSet service name, both visible in the Cloud UI:
+Create a Hybrid Cloud cluster on 3 nodes from the Cloud UI, pinned to a starting version such as `v1.18.3`. Set `KUBENS` and `SERVICE_NAME` to your cluster's namespace and Service name, both visible in the Cloud UI:
 
 ```shell
 KUBENS="qdrant-hybrid-test"
@@ -123,7 +123,7 @@ CLUSTER_ID="<cluster-id>"
 qcloud cluster update $CLUSTER_ID --version v1.19.0
 ```
 
-Watch the pods cycle one at a time, highest ordinal first:
+Watch the pods cycle one at a time:
 
 ```shell
 kubectl get pods -n $KUBENS -w
@@ -173,7 +173,7 @@ Do not read the traceback as an application bug. It is `requests` reporting that
 
 This collection used the default shard count, so with `replication_factor: 1` the one shard and its one replica live on a single pod, and the whole collection goes offline while that pod restarts. A collection split across more shards would only lose the requests that touch the shard on the down pod, not every request; the [Distributed Deployment](/documentation/scaling/distributed_deployment/) page covers how `shard_number` and `replication_factor` interact.
 
-Replication factor 2 is also not sufficient by itself. Verify that the two replicas of each shard actually landed on different pods, for example with `kubectl get pods -n $KUBENS -o wide` and the [Collection Cluster info API](https://api.qdrant.tech/master/api-reference/distributed/collection-cluster-info), rather than assuming it. Restart one node at a time, not in parallel; a `RollingUpdate` strategy already enforces this. Collection and cluster metadata operations, such as creating a collection, go through Raft consensus and need a majority of nodes reachable regardless of shard-level replication.
+Replication factor 2 is also not sufficient by itself. Verify that the two replicas of each shard actually landed on different pods, for example with `kubectl get pods -n $KUBENS -o wide` and the [Collection Cluster info API](https://api.qdrant.tech/master/api-reference/distributed/collection-cluster-info), rather than assuming it. Restart one node at a time, not in parallel; the rolling restart strategy already enforces this. Collection and cluster metadata operations, such as creating a collection, go through Raft consensus and need a majority of nodes reachable regardless of shard-level replication.
 
 ## Related Reading
 
