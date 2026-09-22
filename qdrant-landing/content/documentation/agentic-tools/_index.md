@@ -14,7 +14,7 @@ Use them to give your agent task-specific guidance, troubleshoot existing deploy
 ## Start Building
 
 If you're new to Qdrant, the Start building on Qdrant prompt takes your coding assistant from an empty project to a working search query.
-It stands up a local instance, installs the client with local embeddings, adds the [Qdrant Advisor](/documentation/agentic-tools/skills/#the-qdrant-advisor) skill, and then builds against your own use case.
+It stands up a local instance, installs the client with local embeddings, adds the [Qdrant Advisor](/documentation/agentic-tools/skills/#the-qdrant-advisor) skill, and then either runs a quick demo on sample data or builds against your own use case.
 
 {{< prompt "start-building" >}}
 
