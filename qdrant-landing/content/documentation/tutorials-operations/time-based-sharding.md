@@ -13,12 +13,13 @@ Storing everything in Qdrant collection with default sharding can lead to expens
 
 For example, with daily shards, today's data is stored in today's shard, yesterday's data in yesterday's shard, and so on. Queries can target specific shards (today's shard, for example) or multiple shards to cover a date range.
 
-<figure>
-  <img src="/documentation/tutorials/time-based-sharding/time-based-sharding.png">
-  <figcaption>
-    Time-based sharding routes data to different shards based on timestamp. Typically, all writes go to the newest shard, while queries can target one or more shards. Older shards can be pruned in the background without affecting performance.
-  </figcaption>
-</figure>
+{{< island
+    path="content/documentation/headless/sharding/time-based"
+    width="90%" ratio="3 / 2"
+    title="Time-based sharding routes data to shards based on timestamp. All writes go to the newest shard, while queries can target one or more shards. Older shards can be pruned in the background without affecting performance."
+>}}
+![Time-based sharding across daily shards](/documentation/tutorials/time-based-sharding/time-based-sharding.png)
+{{< /island >}}
 
 Depending on your data volume and retention needs, you could shard by hour, week, month, or any other time interval that suits your use case.
 
