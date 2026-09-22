@@ -100,7 +100,7 @@ Consider the black Chelsea boot below. A traversal toward the origin illustrates
 
 We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
-{{< hyperbolic-viewer page="clip-viewer.html" still="clip-hyper3-scatter.png" height="400" alt="Conventional and hyperbolic CLIP scatter plots of the same 165 product images" caption="The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types." >}}
+{{< hyperbolic-viewer script="clip-viewer-inline.js" still="clip-hyper3-scatter.png" alt="Conventional and hyperbolic CLIP scatter plots of the same 165 product images" caption="The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types." >}}
 
 These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality. The two layouts use different output geometries, so visual separation on its own does not establish a retrieval improvement. [[9]](#references) [[10]](#references)
 
