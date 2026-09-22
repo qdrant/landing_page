@@ -49,7 +49,7 @@ API_KEY=$(openssl rand -hex 24)
 
 kubectl create secret generic qdrant-api-key \
   --from-literal=api-key=$API_KEY \
-  --namespace qdrant
+  --namespace $KUBENS
 ```
 
 <aside role="alert">
@@ -86,12 +86,12 @@ In this step, we will need to generate an SSL certificate: for this tutorial we 
 
 ```bash
 mkcert -install
-mkcert -cert-file qdrant.crt -key-file qdrant.key localhost 127.0.0.1 $CLUSTER_NAME.qdrant.svc.cluster.local
+mkcert -cert-file qdrant.crt -key-file qdrant.key localhost 127.0.0.1 $CLUSTER_NAME.$KUBENS.svc.cluster.local
 
 kubectl create secret tls qdrant-tls \
   --cert=qdrant.crt \
   --key=qdrant.key \
-  --namespace qdrant
+  --namespace $KUBENS
 ```
 
 As with the API key, reference this secret through the Cloud Console rather than patching the CR directly: **Configuration → TLS**, secret `qdrant-tls`, keys `tls.crt` / `tls.key`, per [Configuring TLS](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#configuring-tls).
@@ -100,12 +100,25 @@ As with the API key, reference this secret through the Cloud Console rather than
 
 ### Verify
 
+Saving the TLS configuration triggers a rolling restart of the cluster. The port-forward you opened earlier stays attached to the old pod, so it stops working once that pod is replaced. Wait for the new pods to be ready:
+
 ```bash
-curl -i http://localhost:6333/collections -H "api-key: $API_KEY"
-# curl: (1) Received HTTP/0.9 when not allowed
+kubectl get pods -n $KUBENS -w
 ```
 
-That's the error to expect once TLS is on and you're still calling it over plain HTTP, not a connection refused. It's a distinctive enough failure mode that it's worth recognizing on its own if you hit it unexpectedly later. Switch to HTTPS and it resolves:
+Then stop the old port-forward (`Ctrl+C`) and open a new one:
+
+```bash
+kubectl port-forward -n $KUBENS svc/$CLUSTER_NAME 6333:6333
+```
+
+Call the cluster over plain HTTP first:
+
+```bash
+curl -i http://localhost:6333/collections -H "api-key: $API_KEY"
+```
+
+Expect this request to fail with a TLS or connection error, because Qdrant now only accepts HTTPS on this port. The exact curl message depends on your curl build and TLS library, for example `Received HTTP/0.9 when not allowed` or `Empty reply from server`. Switch to HTTPS and the request succeeds:
 
 ```bash
 curl -ik https://localhost:6333/collections -H "api-key: $API_KEY"
@@ -147,7 +160,7 @@ apiVersion: traefik.io/v1alpha1
 kind: ServersTransport
 metadata:
   name: qdrant-insecure-transport
-  namespace: qdrant
+  namespace: $KUBENS
 spec:
   insecureSkipVerify: true
 EOF
@@ -162,11 +175,15 @@ Traefik needs two pieces of configuration to reach an HTTPS backend: which proto
 | Key | Value |
 |------|-----|
 | traefik.ingress.kubernetes.io/service.serversscheme | https |
-| traefik.ingress.kubernetes.io/service.serverstransport | qdrant-qdrant-insecure-transport@kubernetescrd |
+| traefik.ingress.kubernetes.io/service.serverstransport | `<your-namespace>-qdrant-insecure-transport@kubernetescrd` |
 
 ![Traefik-related service annotations](/documentation/tutorials/secure-and-expose-hybrid-cloud/service-annotations.png)
  
-The `serverstransport` value has to follow Traefik's `<namespace>-<name>@kubernetescrd` format.
+The `serverstransport` value has to follow Traefik's `<namespace>-<name>@kubernetescrd` format, so it changes with the namespace you created the `ServersTransport` in. Print the exact value for your setup with:
+
+```bash
+echo "$KUBENS-qdrant-insecure-transport@kubernetescrd"
+```
  
 ### Create the ingress
  
@@ -176,7 +193,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: qdrant-ingress
-  namespace: qdrant
+  namespace: $KUBENS
 spec:
   ingressClassName: traefik
   rules:
@@ -196,17 +213,19 @@ EOF
 The `host` field doesn't create DNS, it's a string Traefik matches against the incoming request's `Host` header. Nothing resolves `qdrant.local` or any other placeholder domain unless DNS actually points somewhere. [nip.io](https://nip.io) is a wildcard DNS service that resolves `anything.<ip>.nip.io` to `<ip>` automatically, useful for testing without owning a domain or configuring DNS. In production, replace it with a real domain pointed at your ingress's external address.
  
 ### Verify
- 
+
 ```bash
 curl -ik https://qdrant.<your-ingress-external-ip>.nip.io/collections -H "api-key: $API_KEY"
 # HTTP/2 200
 ```
 
+This request goes through two TLS connections, each with its own certificate. Between Traefik and Qdrant, Traefik uses the `mkcert` certificate you created earlier and skips verification through the `ServersTransport`. Between your client and Traefik, the Ingress has no `tls:` block, so Traefik serves its own default self-signed certificate (`TRAEFIK DEFAULT CERT`). The `-k` flag hides that second certificate from you. Run the same command with `-v` instead of `-k` to see which certificate Traefik presents.
+
 ## Next Steps
 
 This covers authentication and TLS for a single cluster reachable from outside your Kubernetes network. From here, two things are worth doing before this goes to production: 
 
-1. replace the self-signed certificate with one from a trusted CA
+1. replace both self-signed certificates with ones from a trusted CA: the `mkcert` certificate on Qdrant (then drop the `ServersTransport` and its annotation), and Traefik's default certificate at the edge (add a `tls:` block to the Ingress that references a certificate for your domain)
 2. set up a domain (and related DNS records) for the ingress-controller to resolve to
 
 To further configure, scale and upgrade your cluster, check out the [dedicated documentation](/documentation/hybrid-cloud/configure-scale-upgrade/)
