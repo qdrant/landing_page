@@ -33,7 +33,7 @@ Financial filings are among the hardest documents to make usable for a language 
 An analyst or investor today has access to ChatGPT, Claude, Gemini, and every other frontier model. Lucy's customers told the team the same thing the team had found on its own: ask those models a specific question about a company's filings and they sometimes return a wrong answer. In finance, a wrong number in the wrong place can cost millions of dollars, so the standard for a usable answer is not "mostly right." It is "traceable to the filing."
 
 {{< quote
-  text="The finance field is so complicated and so complex. When you give a question to AI, sometimes it gives a wrong answer. We think we need a source of truth for the data, and we think it is the SEC filings."
+  text="Finance is complex, and AI models can sometimes return incorrect answers to specific financial questions. We believe those answers need a source of truth, and for public-company financial data, that source is the original SEC filing."
   name="Jihoi Park"
   role="Co-Founder"
   company="Lucy"
@@ -41,7 +41,7 @@ An analyst or investor today has access to ChatGPT, Claude, Gemini, and every ot
 
 Building that retrieval layer meant solving two problems at once. The first was data quality: converting 200-page filings into well-organized text, tables that keep their original row and column structure, standardized XBRL (eXtensible Business Reporting Language) financial facts, and source-linked chunks, all while preserving provenance back to the original document.
 
-The second was retrieval precision over a corpus of millions of documents. As Jongbok Lee, who leads Lucy's retrieval engineering, put it, embedding a huge volume of data is not the hard part. Narrowing the search scope so the right chunk ranks first is.
+The second was retrieval precision over a corpus of millions of documents. As Jongbok Lee, a RAG engineer at Lucy, put it, embedding a huge volume of data is not the hard part. Narrowing the search scope so the right chunk ranks first is.
 
 Cost and latency mattered too. Frontier models are expensive, heavy, and slow for this kind of workload. The team wanted to find out whether a well-built retrieval layer could let a small open-weight model answer financial questions as well as, or better than, a frontier model with web search.
 
@@ -62,12 +62,12 @@ The second is the search itself. Financial text is full of exact terms, tickers,
 The third is cost as the corpus grows. New filings arrive continuously, so Lucy needs recall to hold without infrastructure cost tracking corpus size. Native [quantization](https://qdrant.tech/documentation/manage-data/quantization/) keeps the index footprint down, and Qdrant's distributed architecture and sharding give the team room to scale horizontally as coverage expands.
 
 {{< quote
-  text="If you embed a huge volume of data, it is important to narrow down the scope to improve recall and precision. We provide structured metadata for filtering in the vector search engine, and it's really effective for improving recall and accuracy."
+  text="We needed quantization to improve efficiency as the corpus grew, but our main concern was whether it would hurt retrieval quality. In our tests, TurboQuant significantly reduced the memory footprint while keeping retrieval performance nearly unchanged."
   name="Jongbok Lee"
   role="RAG Engineer"
   company="Lucy" >}}
 
-On the quantization side, Lucy evaluated Qdrant's TurboQuant on both corpora. On its 10-K corpus at 1,536 dimensions, 4-bit TurboQuant cut the observed memory footprint from roughly 52 GB to 10.7 GB, a 4.9x reduction.
+Lucy evaluated TurboQuant on both corpora before committing to it. On its 10-K corpus at 1,536 dimensions, 4-bit TurboQuant cut the observed memory footprint from roughly 52 GB to 10.7 GB, a 4.9x reduction.
 
 The quality cost was small. Measuring without metadata filtering, dense-only retrieval moved by -0.8% Recall@20, -0.3% MRR, and -0.6% nDCG@20. Hybrid retrieval was effectively unchanged at +0.2% Recall@20, +0.1% MRR, and -0.1% nDCG@20, because the sparse side recovers what compression costs the dense side. On that basis Lucy runs 2-bit quantization on DART filings, where Korean text produces more chunks per filing and the higher compression ratio saves the most, and a more conservative 4-bit on SEC filings.
 
@@ -85,7 +85,7 @@ The more telling test isolates retrieval from the answer model. Holding the answ
 That result also reframes the cost question. In a separate evaluation, an open-weight Gemma model paired with Lucy RAG scored 0.863 on answer accuracy, while several frontier models using web search scored 0.845, 0.792, and 0.786. A small model grounded in the right filing chunks beat larger models searching the open web.
 
 {{< quote
-  text="GPT and Gemini are quite expensive, very heavy, and very slow. We found that if we build the RAG system well, we can get quite good results even with a small open-source model."
+  text="Frontier models can be expensive and slower for this type of workload. We found that with a strong RAG system, even a smaller open-source model can produce very competitive results."
   name="Jihoi Park"
   role="Co-Founder"
   company="Lucy" >}}
