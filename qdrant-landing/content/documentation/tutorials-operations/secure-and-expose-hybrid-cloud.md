@@ -197,7 +197,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: qdrant.<your-ingress-external-ip>.nip.io
+  - host: qdrant.<your-ingress-external-ip>.sslip.io
     http:
       paths:
       - path: /
@@ -210,12 +210,12 @@ spec:
 EOF
 ```
  
-The `host` field doesn't create DNS, it's a string Traefik matches against the incoming request's `Host` header. Nothing resolves `qdrant.local` or any other placeholder domain unless DNS actually points somewhere. [nip.io](https://nip.io) is a wildcard DNS service that resolves `anything.<ip>.nip.io` to `<ip>` automatically, useful for testing without owning a domain or configuring DNS. In production, replace it with a real domain pointed at your ingress's external address.
+The `host` field doesn't create DNS, it's a string Traefik matches against the incoming request's `Host` header. Nothing resolves `qdrant.local` or any other placeholder domain unless DNS actually points somewhere. [sslp.io](https://sslip.io) is a wildcard DNS service that resolves `anything.<ip>.sslip.io` to `<ip>` automatically, useful for testing without owning a domain or configuring DNS. In production, replace it with a real domain pointed at your ingress's external address.
  
 ### Verify
 
 ```bash
-curl -ik https://qdrant.<your-ingress-external-ip>.nip.io/collections -H "api-key: $API_KEY"
+curl -ik https://qdrant.<your-ingress-external-ip>.sslip.io/collections -H "api-key: $API_KEY"
 # HTTP/2 200
 ```
 
