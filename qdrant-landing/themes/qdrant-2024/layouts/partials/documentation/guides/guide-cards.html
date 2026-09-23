@@ -9,7 +9,7 @@
   {{ $isSeries := .series }}
   {{ $cards := slice }}
   {{ range $index, $page := .pages }}
-    {{ $tag := .Params.guide_kind }}
+    {{ $tag := "" }}
     {{ if $isSeries }}{{ $tag = printf "Part %d" (add $index 1) }}{{ end }}
     {{ $cards = $cards | append (dict "title" .Title "description" .Params.short_description "tag" $tag "icon" (dict "src" $section.Params.guide_icon "alt" "") "link" (dict "text" "Open Guide" "url" .RelPermalink)) }}
   {{ end }}

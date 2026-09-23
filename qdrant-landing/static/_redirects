@@ -76,7 +76,7 @@
 /documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
 
 # Articles category reorganization (technical articles taxonomy)
-/articles/vector-search-manuals/   /articles/mastering-search/    301
+/articles/vector-search-manuals/   /articles/mastering-search/      301
 /articles/machine-learning/        /articles/embedding-research/    301
 /articles/ecosystem/               /articles/demos-and-tutorials/   301
 /articles/practicle-examples/      /articles/demos-and-tutorials/   301

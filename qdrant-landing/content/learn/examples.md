@@ -4,7 +4,6 @@ layout: examples
 description: Find Qdrant tutorials and examples by goal and stack. Open working code for search, RAG, filtering, and operations, then follow the steps relevant to your application.
 short_description: Find tutorials and examples by goal and stack, open the available notebooks, and adapt the implementation to your search application.
 partition: learn
-weight: 310
 hideTOC: true
 breadcrumb: false
 feedback: false

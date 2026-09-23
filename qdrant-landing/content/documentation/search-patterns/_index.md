@@ -8,8 +8,6 @@ layout: guides
 weight: 115
 hideTOC: true
 breadcrumb: false
-aliases:
-  - /documentation/search-design/
 guide_icon: /icons/outline/vectors-blue.svg
 content:
   - partial: documentation/banners/banner-a

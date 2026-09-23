@@ -12,6 +12,10 @@ guide_icon: /icons/outline/search-blue.svg
 related:
   - /documentation/search/
   - /articles/search-quality/
+aliases:
+  - /documentation/improve-search/
+worked_examples:
+  - /documentation/tutorials-search-engineering/ann-recall/
 content:
   - partial: documentation/banners/banner-a
     title: Search Evaluation
@@ -25,8 +29,4 @@ content:
       url: /documentation/search-quality/pipeline-output-quality/
   - partial: documentation/guides/guide-cards
     section: /documentation/search-quality/
-aliases:
-  - /documentation/improve-search/
-worked_examples:
-  - /documentation/tutorials-search-engineering/ann-recall/
 ---

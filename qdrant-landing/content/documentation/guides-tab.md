@@ -8,7 +8,6 @@ layout: guides
 breadcrumb: false
 hideTOC: true
 slug: guides
-hideInSidebar: true
 build:
   render: always
 content:

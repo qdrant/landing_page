@@ -7,6 +7,7 @@
     - label: Open Notebook
       url: https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb
 - page: /documentation/tutorials-basics/search-beginners-local/
+  title: Semantic Search 101 (Local)
   goal: Get Started
   stack:
     - Python
