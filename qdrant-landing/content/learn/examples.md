@@ -21,5 +21,7 @@ content:
     localButton:
       text: Browse Tutorials & Examples
       url: "#example-library"
+  - partial: documentation/recent-publications
+    kind: examples
   - partial: documentation/examples/catalog
 ---

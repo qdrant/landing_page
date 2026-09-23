@@ -1,5 +1,6 @@
 ---
 title: Prevent Unoptimized Usage
+date: 2026-08-21T16:37:03+02:00
 short_description: "Defer visibility of unindexed points to stop bulk uploads from slowing down search."
 description: "Use the prevent_unoptimized optimizer setting to stop bulk uploads and config changes from slowing down search, and see what it costs in recall."
 weight: 34

@@ -1,7 +1,21 @@
-{{ $cards := slice }}
-{{ range (site.GetPage "/documentation").Sections.ByWeight }}
-  {{ if eq .Params.learning_kind "guides" }}
-    {{ $cards = $cards | append (dict "title" .Title "description" .Params.short_description "icon" (dict "src" .Params.guide_icon "alt" "") "link" (dict "text" "Explore Guides" "url" .RelPermalink)) }}
-  {{ end }}
-{{ end }}
-{{ partial "documentation/sections/cards-section" (dict "title" "Grow Your Search Engineering Skills" "description" "Learn the tradeoffs, apply a pattern, and test it against the needs of your application." "cardsPartial" "documentation/cards/docs-cards" "cardsPerRow" 2 "cards" $cards) }}
+<section class="docs-core__data guide-directory">
+  <h2>Browse Guides by Topic</h2>
+  <p>Open a guide directly, or explore a topic for related examples and references.</p>
+  <div class="row g-4 g-lg-3">
+    {{ range where (site.GetPage "/documentation").Sections.ByWeight "Params.learning_kind" "guides" }}
+      <div class="col-12 col-lg-6">
+        <section class="docs-card">
+          <h3 class="docs-card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p class="docs-card__description">{{ .Params.short_description }}</p>
+          {{ $part := 0 }}
+          <ul>
+            {{ range .RegularPages.ByWeight }}
+              {{ if .Params.guide_series }}{{ $part = add $part 1 }}{{ end }}
+              <li><a href="{{ .RelPermalink }}">{{ if .Params.guide_series }}Part {{ $part }}: {{ end }}{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </section>
+      </div>
+    {{ end }}
+  </div>
+</section>

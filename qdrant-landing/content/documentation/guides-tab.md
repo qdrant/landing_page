@@ -21,6 +21,8 @@ content:
     localButton:
       text: Explore Production & Performance
       url: /documentation/production-patterns/
+  - partial: documentation/recent-publications
+    kind: guides
   - partial: documentation/guides/topics
   - partial: documentation/sections/cards-section
     title: Start with a Practical Guide

@@ -32,7 +32,7 @@
   (dict "title" "Guides" "url" "/documentation/guides/" "active" $isGuide "children" $guideLinks)
   (dict "title" "Tutorials & Examples" "url" "/learn/examples/" "active" (eq $current "/learn/examples/") "children" $exampleLinks)
   (dict "title" "Courses" "url" "/course/" "active" (eq .Section "course") "children" $courseLinks)
-  (dict "title" "Articles" "url" "/articles/" "active" (eq .Section "articles") "children" $articleLinks)
+  (dict "title" "Technical Articles" "url" "/articles/" "active" (eq .Section "articles") "children" $articleLinks)
 }}
 <nav class="docs-menu__links" aria-label="Learning Resources">
   <h3 class="docs-menu__links-title">Learn</h3>
@@ -71,4 +71,7 @@
       </nav>
     </details>
   {{ end }}
+  <div class="docs-menu__links-group">
+    <div class="docs-menu__links-group-heading"><a href="{{ site.Params.youtube }}">Videos on YouTube</a></div>
+  </div>
 </nav>

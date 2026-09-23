@@ -53,11 +53,11 @@ content:
         image:
           src: /img/dev-portal-learn/courses.png
           alt: ""
-      - title: Articles
+      - title: Technical Articles
         description: Explore vector search concepts, retrieval research, and the mechanisms behind Qdrant indexing, storage, and search.
         link:
           url: /articles/
-          text: Explore Articles
+          text: Explore Technical Articles
         image:
           src: /img/dev-portal-learn/articles.png
           alt: ""
@@ -92,17 +92,23 @@ content:
         link:
           url: /documentation/search-tuning/
           text: Explore Search Tuning
+      - title: Watch Talks & Tutorials
+        description: Learn from video walkthroughs, technical talks, and conversations with the Qdrant team.
+        link:
+          url: https://www.youtube.com/channel/UC6ftm8PwH1RU_LM1jwG0LQA
+          text: Watch on YouTube
 ---
 
 # Learn
 
-Choose Guides for practical decisions, Tutorials & Examples for an implementation, Courses for structured study, or Articles for concepts, research, and engine mechanisms.
+Choose Guides for practical decisions, Tutorials & Examples for an implementation, Courses for structured study, or Technical Articles for concepts, research, and engine mechanisms.
 
 ## Read More
 
 - [Guides](/documentation/guides/)
 - [Tutorials & Examples](/learn/examples/)
 - [Courses](/course/)
-- [Articles](/articles/)
+- [Technical Articles](/articles/)
+- [Videos on YouTube](https://www.youtube.com/channel/UC6ftm8PwH1RU_LM1jwG0LQA)
 
 Start with the resource that answers your current question.

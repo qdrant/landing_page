@@ -1,5 +1,6 @@
 ---
 title: "Compressed Multivector Search"
+date: 2026-08-21T16:15:41+02:00
 short_description: "Combine the turbo4 datatype with multivector late interaction to cut on-disk vector size at a bounded recall cost."
 description: "Store multivector late interaction embeddings with Qdrant's turbo4 datatype and query them alongside dense and sparse vectors."
 weight: 14

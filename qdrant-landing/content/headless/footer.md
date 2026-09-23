@@ -113,7 +113,7 @@ menuItems:
         name: Benchmarks
         url: /benchmarks/
       - id: 2
-        name: Articles
+        name: Technical Articles
         url: /articles/
       - id: 4
         name: Events

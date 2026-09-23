@@ -1,3 +1,5 @@
+@use '../../helpers/functions' as *;
+
 .example-library {
   scroll-margin-top: $spacer * 7;
 
@@ -10,6 +12,10 @@
 
     > div {
       flex: 1 1 $spacer * 12;
+    }
+
+    button {
+      min-height: pxToRem(44);
     }
 
     label {
@@ -59,6 +65,13 @@
       color-scheme: light;
     }
   }
+}
+
+.guide-directory {
+  .docs-card__title a { color: inherit; }
+  p.docs-card__description { flex-grow: 0; }
+  ul { margin: 0; }
+  li + li { margin-top: $spacer * 0.5; }
 }
 
 // Leave room for the disclosure arrow when a guide topic wraps.
