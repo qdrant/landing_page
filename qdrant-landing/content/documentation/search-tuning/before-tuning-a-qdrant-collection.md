@@ -22,6 +22,8 @@ aliases:
 guide_series: true
 ---
 
+# What to Check Before Tuning a Qdrant Collection
+
 Before you change a setting, decide what better retrieval means for your workload. The right document at rank one, more candidates for a reranker, lower latency, and a smaller memory footprint each favor different settings, so pick your goal first. If your labeled queries can't detect the improvement you're chasing, you won't be able to tell whether a change helped.
 
 Some settings are there to verify correctness, not to tune performance. If a vector is unindexed, a sparse vector is missing the IDF modifier, or the BM25 average length is wrong, the results are invalid. Any benchmark or comparison you run after that will reflect a broken setup. This article shows you how to check each setting and what the correct state looks like.

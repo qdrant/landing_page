@@ -22,6 +22,8 @@ aliases:
 guide_series: true
 ---
 
+# Candidate Depth: How Much Retrieval Is Enough?
+
 Before you tune candidate depth, use the [pre-tuning checks](/documentation/search-tuning/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline. Everything below measures against that baseline.
 
 Candidate depth is the number of candidates a retrieval stage passes to a later ranking stage. It matters only when a later stage can use the extra candidates. In hybrid search, every `prefetch` carries its own `limit`, and a [multi-stage query](/documentation/search/hybrid-queries/#multi-stage-queries) that nests one prefetch inside another sets a depth at each level. In dense-only or sparse-only search, it is the number of candidates you pass to a reranker or other downstream stage.

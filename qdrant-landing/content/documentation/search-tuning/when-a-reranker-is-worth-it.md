@@ -22,6 +22,8 @@ aliases:
 guide_series: true
 ---
 
+# When Is a Reranker Worth It?
+
 Before you tune a reranker, use the [pre-tuning checks](/documentation/search-tuning/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
 
 Your candidate list can already contain documents your ranking never shows. Score those candidates as if they were perfectly ordered, then compare that with the score your pipeline returns today. The gap between the two is everything a better ranking stage could recover, so measure it before you reach for a model. Use `nDCG@10`, which grades the top 10 results and gives more credit to relevant documents near the top.
