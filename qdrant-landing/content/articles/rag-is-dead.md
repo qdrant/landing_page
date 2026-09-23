@@ -80,7 +80,7 @@ That’s a buck a question.
 
 > Vector search queries are orders of magnitude cheaper than queries made by LLMs.
 
-Conversely, the only up-front investment with vector search engines is the indexing (which requires more compute). After this step, everything else is a breeze. Once setup, Qdrant easily scales via [features like Multitenancy and Sharding](/articles/multitenancy/). This lets you scale up your reliance on the vector retrieval process and minimize your use of the compute-heavy LLMs. As an optimization  measure, Qdrant is irreplaceable. 
+Conversely, the only up-front investment with vector search engines is the indexing (which requires more compute). After this step, everything else is a breeze. Once setup, Qdrant easily scales via [features like Multitenancy and Sharding](/documentation/production-patterns/multitenant-search/). This lets you scale up your reliance on the vector retrieval process and minimize your use of the compute-heavy LLMs. As an optimization  measure, Qdrant is irreplaceable.
 
 Julien Simon from HuggingFace says it best:
 

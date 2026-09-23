@@ -45,7 +45,7 @@ Qdrant 1.7.0 brings a bunch of new features. Let's take a closer look at them!
 Traditional keyword-based search mechanisms often rely on algorithms like TF-IDF, BM25, or comparable methods. While these techniques internally utilize vectors, they typically involve sparse vector representations. In these methods, the **vectors are predominantly filled with zeros, containing a relatively small number of non-zero values**.
 Those sparse vectors are theoretically high dimensional, definitely way higher than the dense vectors used in semantic search. However, since the majority of dimensions are usually zeros, we store them differently and just keep the non-zero dimensions. 
 
-Until now, Qdrant has not been able to handle sparse vectors natively. Some were trying to convert them to dense vectors, but that was not the best solution or a suggested way. We even wrote a piece with [our thoughts on building a hybrid search](/articles/hybrid-search/), and we encouraged you to use a different tool for keyword lookup. 
+Until now, Qdrant has not been able to handle sparse vectors natively. Some were trying to convert them to dense vectors, but that was not the best solution or a suggested way. We even wrote a piece with [our thoughts on building a hybrid search](/documentation/search-tuning/hybrid-search/), and we encouraged you to use a different tool for keyword lookup.
 
 Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. And responding to this [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135), we've now introduced sparse vectors!
 

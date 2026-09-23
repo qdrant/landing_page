@@ -76,7 +76,7 @@
 /documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
 
 # Articles category reorganization (technical articles taxonomy)
-/articles/vector-search-manuals/   /documentation/search-tuning/    301
+/articles/vector-search-manuals/   /articles/mastering-search/    301
 /articles/machine-learning/        /articles/embedding-research/    301
 /articles/ecosystem/               /articles/demos-and-tutorials/   301
 /articles/practicle-examples/      /articles/demos-and-tutorials/   301
@@ -87,3 +87,20 @@
 
 # ACORN blog post converted into an internals article
 /blog/filtered-vector-search-acorn/   /articles/filtered-vector-search-acorn/   301
+
+# Preserve Markdown URLs for pages moved into Guides (Hugo aliases cover HTML only)
+/articles/before-tuning-a-qdrant-collection/index.md  /documentation/search-tuning/before-tuning-a-qdrant-collection/index.md  301
+/articles/bulk-uploads-in-qdrant/index.md  /documentation/production-patterns/bulk-data-import/index.md  301
+/articles/candidate-depth/index.md  /documentation/search-tuning/candidate-depth/index.md  301
+/articles/how-to-choose-an-embedding-model/index.md  /documentation/search-patterns/choose-embedding-model/index.md  301
+/articles/how-to-tune-hybrid-search/index.md  /documentation/search-tuning/how-to-tune-hybrid-search/index.md  301
+/articles/hybrid-search/index.md  /documentation/search-tuning/hybrid-search/index.md  301
+/articles/memory-tiers-in-qdrant-what-to-use-and-when/index.md  /documentation/production-patterns/memory-tiers/index.md  301
+/articles/multitenancy/index.md  /documentation/production-patterns/multitenant-search/index.md  301
+/articles/vector-search-filtering/index.md  /documentation/search-patterns/vector-search-filtering/index.md  301
+/articles/when-a-reranker-is-worth-it/index.md  /documentation/search-tuning/when-a-reranker-is-worth-it/index.md  301
+/articles/when-your-collection-outgrows-ram/index.md  /documentation/search-tuning/when-your-collection-outgrows-ram/index.md  301
+/documentation/improve-search/index.md  /documentation/search-quality/index.md  301
+/documentation/improve-search/pipeline-output-quality/index.md  /documentation/search-quality/pipeline-output-quality/index.md  301
+/documentation/improve-search/query-decomposition/index.md  /documentation/search-patterns/query-decomposition/index.md  301
+/documentation/improve-search/retrieval-relevance/index.md  /documentation/search-quality/retrieval-relevance/index.md  301

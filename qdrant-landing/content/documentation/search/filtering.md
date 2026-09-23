@@ -549,4 +549,4 @@ Slicing is based on a hash of the point IDs. A point matches slice `index` of `t
 
 ## Read More
 
-Refer to [A Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/) for developer advice on proper usage and advanced practices.
+Refer to [A Complete Guide to Filtering in Vector Search](/documentation/search-patterns/vector-search-filtering/) for developer advice on proper usage and advanced practices.

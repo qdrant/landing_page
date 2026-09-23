@@ -4,6 +4,7 @@ short_description: Plan multitenancy, bulk uploads, and memory placement as your
 description: Plan multitenancy, bulk uploads, and memory placement as your Qdrant application and vector collection grow.
 partition: learn
 learning_kind: guides
+layout: guides
 weight: 150
 hideTOC: true
 breadcrumb: false
@@ -31,4 +32,3 @@ worked_examples:
   - /documentation/tutorials-search-engineering/branch-aware-search/
   - /documentation/tutorials-operations/embedding-model-migration/
 ---
-

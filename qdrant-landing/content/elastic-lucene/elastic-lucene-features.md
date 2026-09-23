@@ -8,7 +8,7 @@ features:
   description: Build a search system by combining different search methods to improve retrieval quality
   link:
     text: Read about Hybrid Search
-    url: /articles/hybrid-search/
+    url: /documentation/search-tuning/hybrid-search/
 - id: 1
   icon:
     src: /icons/outline/slow-blue.svg
@@ -24,7 +24,7 @@ features:
   description: Properly use a multitenant architecture to scale your product.
   link:
     text: Read about Multitenancy
-    url: /articles/multitenancy/
+    url: /documentation/production-patterns/multitenant-search/
 sitemapExclude: true
 ---
 

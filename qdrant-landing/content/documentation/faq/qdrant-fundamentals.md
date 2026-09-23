@@ -143,7 +143,7 @@ What Qdrant doesn't plan to support:
 - Query analyzers and other NLP tools
 
 Of course, you can always combine Qdrant with any specialized tool you need, including full-text search engines.
-Read more about [our approach](/articles/hybrid-search/) to hybrid search.
+Read more about [our approach](/documentation/search-tuning/hybrid-search/) to hybrid search.
 
 ### When should I use Reciprocal Rank Fusion (RRF) vs. Distribution-Based Score Fusion (DBSF) for hybrid search?
 

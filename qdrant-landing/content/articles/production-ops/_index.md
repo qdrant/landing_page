@@ -5,5 +5,5 @@ description: Operate Qdrant at scale. Learn how to optimize memory and resources
 category: production-ops
 url: /articles/production-ops/
 isCategoryPage: true
-weight: 55
+weight: 40
 ---

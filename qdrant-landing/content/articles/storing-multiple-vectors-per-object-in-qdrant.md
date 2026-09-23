@@ -16,7 +16,6 @@ tags:
   - Similarity Search
 category: mastering-search
 weight: 90
-draft: true
 ---
 
 # How to Optimize Vector Storage by Storing Multiple Vectors Per Object

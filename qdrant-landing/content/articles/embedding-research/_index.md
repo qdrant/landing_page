@@ -5,5 +5,5 @@ description: Explore the research behind modern embeddings and neural retrieval.
 category: embedding-research
 url: /articles/embedding-research/
 isCategoryPage: true
-weight: 35
+weight: 60
 ---

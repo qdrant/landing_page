@@ -120,7 +120,7 @@ Some common hybrid approaches include:
 * Considering both semantic vector closeness and statistical keyword patterns/weights in a combined scoring model.
 * Having multiple stages were different techniques. One example: start with an initial keyword retrieval, followed by semantic re-ranking, then a final re-ranking using even more complex models.
 
-When you combine the powers of different search methods in a complementary way, you can provide higher quality, more comprehensive results. Check out our article on [Hybrid Search](/articles/hybrid-search/) if you’d like to learn more.
+When you combine the powers of different search methods in a complementary way, you can provide higher quality, more comprehensive results. Check out our article on [Hybrid Search](/documentation/search-tuning/hybrid-search/) if you’d like to learn more.
 
 
 ### The Generator

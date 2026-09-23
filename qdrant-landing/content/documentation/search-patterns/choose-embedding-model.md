@@ -232,7 +232,7 @@ smaller model will do the job just fine.
 Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your 
 choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed.
 Named vectors help to create a system with multiple models and switch between them based on the query, or build a 
-[hybrid search](/articles/hybrid-search/) that takes advantage of different models or more complex search pipelines.
+[hybrid search](/documentation/search-tuning/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
 Choosing the right embedding model is one of the most important design decisions in a vector search system, but it is just one of several levers. 
 Memory usage can often be reduced with techniques such as quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model. 

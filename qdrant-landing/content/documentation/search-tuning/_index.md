@@ -4,11 +4,10 @@ short_description: Tune candidate depth, fusion, reranking, and memory against y
 description: "Tune Qdrant retrieval with measured changes to candidate depth, hybrid fusion, reranking, and memory use. Follow the six-part series in order."
 partition: learn
 learning_kind: guides
+layout: guides
 weight: 125
 hideTOC: true
 breadcrumb: false
-aliases:
-  - /articles/mastering-search/
 guide_icon: /icons/outline/speedometer-blue.svg
 content:
   - partial: documentation/banners/banner-a

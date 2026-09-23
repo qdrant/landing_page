@@ -4,6 +4,7 @@ short_description: Find practical guidance on search evaluation, embedding model
 description: Explore practical Qdrant guides for evaluating search quality, choosing embedding models, and planning multitenancy, bulk uploads, and memory use.
 partition: learn
 learning_kind: guides
+layout: guides
 breadcrumb: false
 hideTOC: true
 slug: guides

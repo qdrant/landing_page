@@ -140,7 +140,7 @@ The new graphing method is cleaner and reveals **relationships and outliers:**
 
 ![facet-api](/blog/qdrant-1.12.x/facet-api.png)
 
-In modern applications like e-commerce, users often rely on [**filters**](/articles/vector-search-filtering/), such as **brand** or **color**, to refine search results. The **Facet API** is designed to help users understand the distribution of values in a dataset. 
+In modern applications like e-commerce, users often rely on [**filters**](/documentation/search-patterns/vector-search-filtering/), such as **brand** or **color**, to refine search results. The **Facet API** is designed to help users understand the distribution of values in a dataset.
 
 The `facet` endpoint can efficiently count and aggregate values for a specific [**payload field**](/documentation/manage-data/payload/) in your dataset. 
 

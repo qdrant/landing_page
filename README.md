@@ -294,11 +294,11 @@ The Guides and Tutorials & Examples hubs show the three most recently published 
 
 #### Guides
 
-A guide section is a directory under `content/documentation/` whose `_index.md` sets `partition: learn` and `learning_kind: guides`. Its pages inherit both values through `cascade` or set them directly. The sidebar, the Guides tab, and the section landing page list the section's pages by `weight`.
+A guide section is a directory under `content/documentation/` whose `_index.md` sets `partition: learn` and `learning_kind: guides`. Its pages inherit both values through `cascade` or set them directly. The sidebar, the Guides tab, and the section landing page list the section's pages by `weight`. Set `layout: guides` on the section landing page to generate its Markdown directory from the same pages.
 
 Set `guide_series: true` on pages that form an ordered series. The section's `guide_series_title` names the series, and `weight` sets the order of the numbered cards and the previous/next links.
 
-When a page moves into a guide section, add its former URL to `aliases`.
+When a page moves into a guide section, add its former URL to `aliases`, add an explicit redirect for its former `index.md` URL in `static/_redirects`, and update internal links. Hugo aliases only generate HTML redirects.
 
 #### Tutorials & Examples
 
@@ -306,7 +306,7 @@ When a page moves into a guide section, add its former URL to `aliases`.
 
 #### Articles
 
-An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. To retire an article, set `draft: true` and add its former URLs to `aliases` on the specific replacement page.
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection. Existing categories and articles remain published; editorial reorganization and retirement are separate from the Guides migration.
 
 ## Blog
 

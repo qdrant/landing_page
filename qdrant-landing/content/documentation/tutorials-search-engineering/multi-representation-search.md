@@ -237,7 +237,7 @@ query=models.FormulaQuery(
 In this formula, `$score[i]` is the score from prefetch `i`, so the order of your `prefetch=` list matters. The `defaults` map provides fallback values (here `0.0`) for candidates that didn't appear in every prefetch, so the formula still evaluates.
 
 <aside role="alert">
-Linear combinations of raw scores break down when prefetches use different scoring scales — for example, dense scores in [0, 1] alongside unbounded BM25 scores. See <a href="/articles/hybrid-search/#why-not-a-linear-combination">Why not a linear combination?</a> for the full argument.
+Linear combinations of raw scores break down when prefetches use different scoring scales — for example, dense scores in [0, 1] alongside unbounded BM25 scores. See <a href="/documentation/search-tuning/hybrid-search/#why-not-a-linear-combination">Why not a linear combination?</a> for the full argument.
 </aside>
 
 The other two fusion strategies handle this for you: RRF discards scores entirely, and DBSF normalizes each prefetch before summing. With a custom formula, you have to normalize the scores yourself, typically using [decay functions](/documentation/search/search-relevance/#decay-functions). The full FormulaQuery syntax lives in the [Score Boosting](/documentation/search/search-relevance/#score-boosting) reference.
@@ -262,6 +262,6 @@ Real corpora rarely have clean metadata across every document. If yours has gaps
 
 Related reading:
 
-- [Hybrid Search Revamped](/articles/hybrid-search/) for the why behind RRF over linear weighting.
+- [Hybrid Search Revamped](/documentation/search-tuning/hybrid-search/) for the why behind RRF over linear weighting.
 - [Hybrid Queries reference](/documentation/search/hybrid-queries/) for the full Query API surface, including grouping.
 - [Search Relevance reference](/documentation/search/search-relevance/) for the formula and decay function syntax.

@@ -118,7 +118,7 @@ Start with a change that does not rebuild the collection or add a retrieval stag
 | Rebuild | Embedding model, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
 | Rebuild | Quantization | Collections limited by memory | Re-indexing, plus a compressed copy of every vector. Holding ranking quality then depends on rescoring |
 
-Consider a model-level rebuild only when it addresses a measured constraint, since a new embedding model means re-embedding every point. [How to choose an embedding model](/articles/how-to-choose-an-embedding-model/) covers that decision. When memory is the constraint, a Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) shortens the vector itself, which is a different trade from compressing it with quantization.
+Consider a model-level rebuild only when it addresses a measured constraint, since a new embedding model means re-embedding every point. [How to choose an embedding model](/documentation/search-patterns/choose-embedding-model/) covers that decision. When memory is the constraint, a Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) shortens the vector itself, which is a different trade from compressing it with quantization.
 
 ## Choose a Metric Before You Tune
 

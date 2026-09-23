@@ -21,7 +21,7 @@ features:
   description: Qdrant’s hybrid search combines semantic vector search, lexical search, and metadata filtering, enabling AI Agents to retrieve highly relevant and contextually precise information. This enhances decision-making by allowing agents to leverage both meaning-based and keyword-based strategies, ensuring accuracy and relevance for complex queries in dynamic environments.
   link:
     text: Hybrid Search
-    url: /articles/hybrid-search/
+    url: /documentation/search-tuning/hybrid-search/
 - id: 1
   icon:
     src: /icons/outline/multitenancy-blue.svg
@@ -30,7 +30,7 @@ features:
   description: Qdrant’s scalability and multitenancy ensures that multiple agents can collaborate in distributed systems, enabling seamless coordination and communication - key for Agentic RAG workflows.
   link:
     text: Multitenancy
-    url: /articles/multitenancy/
+    url: /documentation/production-patterns/multitenant-search/
 - id: 2
   icon:
     src: /icons/outline/time-blue.svg

@@ -6,5 +6,4 @@ category: mastering-search
 url: /articles/mastering-search/
 isCategoryPage: true
 weight: 20
-draft: true
 ---
