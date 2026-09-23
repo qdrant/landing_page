@@ -17,6 +17,7 @@ partition: ecosystem
 | [Connect](/documentation/data-management/redpanda/)          | Declarative data-agnostic streaming service for efficient, stateless processing.                   |
 | [Confluent](/documentation/data-management/confluent/)       | Fully-managed data streaming platform with a cloud-native Apache Kafka engine.                     |
 | [DLT](/documentation/data-management/dlt/)                   | Python library to simplify data loading processes between several sources and destinations.        |
+| [Firecrawl](/documentation/data-management/firecrawl/)       | Web search, scraping, and crawling API that turns websites into clean Markdown for ingestion.     |
 | [Fluvio](/documentation/data-management/fluvio/)             | Rust-based platform for high speed, real-time data processing.                                     |
 | [POMA](/documentation/data-management/poma/)                 | Python library for data ingestion, and structured chunking from various sources.                      |
 | [Spark](/documentation/data-management/spark/)               | A unified analytics engine for large-scale data processing.                                        |
