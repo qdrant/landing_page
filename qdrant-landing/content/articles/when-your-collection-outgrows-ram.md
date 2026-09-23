@@ -108,6 +108,8 @@ The table reports how each configuration then scored on 200 held-out queries.
 Quality scope: these rows run at Qdrant's default <code>memory</code> configuration and report no latency, because sequential query passes warmed the page cache. The latency table above reports the placements instead.
 </aside>
 
+{{< chart id="oversampling/recall" caption="Without rescoring, 1-bit quantization recalls only 0.605 of what exact search finds. Oversampling brings it back to 0.988 — nearly the float32 baseline — at 1/32 the vector size." >}}
+
 | Quantization | `rescore` | `nDCG@10` | `Recall@10` Against Exact |
 |---|---|---|---|
 | float32 | not applicable | 0.3103 | 0.957 |
@@ -124,9 +126,8 @@ What rescoring recovers depends on how much precision the bit depth discarded. A
 
 At a deep bit depth, rescoring is what makes the quantization usable. One pass raised `bits1` from 0.605 to 0.951 `Recall@10`. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization for this reason.
 
-![Line chart of the share of the exact top 10 that bits1 returns, across rescore off and rescore on at oversampling 1, 2, and 4. The share jumps from 0.605 with rescore off to 0.951 at oversampling 1, crossing the dashed float32 reference at 0.957, then flattens at 0.977 and 0.988.](/articles_data/when-your-collection-outgrows-ram/bits1-rescore-recovery.png)
+{{< chart id="bits1-rescore/recovery" caption="One rescoring pass does most of the recovery at bits1: 0.605 to 0.951, crossing the float32 baseline. Oversampling past 1 adds little, so the disk reads it costs are what to watch." >}}
 
-_One rescoring pass does most of the recovery at bits1. Raising oversampling past 1 buys little, which is why the disk reads it adds are the cost to watch._
 
 After `oversampling` 1, extra candidates add disk reads for little recall. `bits1` reached 0.977 `Recall@10` at `oversampling` 2 and 0.988 at `oversampling` 4.
 
