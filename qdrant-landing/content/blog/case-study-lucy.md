@@ -69,7 +69,14 @@ The third is cost as the corpus grows. New filings arrive continuously, so Lucy 
 
 Lucy evaluated TurboQuant on both corpora before committing to it. On its 10-K corpus at 1,536 dimensions, 4-bit TurboQuant cut the observed memory footprint from roughly 52 GB to 10.7 GB, a 4.9x reduction.
 
-The quality cost was small. Measuring without metadata filtering, dense-only retrieval moved by -0.8% Recall@20, -0.3% MRR, and -0.6% nDCG@20. Hybrid retrieval was effectively unchanged at +0.2% Recall@20, +0.1% MRR, and -0.1% nDCG@20, because the sparse side recovers what compression costs the dense side. On that basis Lucy runs 2-bit quantization on DART filings, where Korean text produces more chunks per filing and the higher compression ratio saves the most, and a more conservative 4-bit on SEC filings.
+The quality cost was small. Measured without metadata filtering:
+
+| Retrieval | Recall@20 | MRR | nDCG@20 |
+|---|:---:|:---:|:---:|
+| Dense only | -0.8% | -0.3% | -0.6% |
+| Hybrid (dense + BM25, RRF) | +0.2% | +0.1% | -0.1% |
+
+Hybrid retrieval was effectively unchanged, because the sparse side recovers what compression costs the dense side. On that basis Lucy runs 2-bit quantization on DART filings, where Korean text produces more chunks per filing and the higher compression ratio saves the most, and a more conservative 4-bit on SEC filings.
 
 ## Recall Above 94% on FinanceBench, and a 0.16 Answer Accuracy Gain From Retrieval Alone
 
@@ -82,7 +89,11 @@ Lucy evaluates its retrieval layer against two public finance benchmarks.
 
 The more telling test isolates retrieval from the answer model. Holding the answer model fixed (Claude Fable 5) and changing only the context layer, RAGAS Answer Accuracy moved from 0.792 with general web search context to 0.952 with Lucy RAG context, a gain of 0.160 attributable to retrieval alone.
 
-That result also reframes the cost question. In a separate evaluation, an open-weight Gemma model paired with Lucy RAG scored 0.863 on answer accuracy, while several frontier models using web search scored 0.845, 0.792, and 0.786. A small model grounded in the right filing chunks beat larger models searching the open web.
+That result also reframes the cost question. In a separate evaluation, an open-weight Gemma model paired with Lucy RAG outscored every frontier model running on web search context.
+
+![RAGAS Answer Accuracy by context layer: an open-weight Gemma model on Lucy RAG context scores 0.863, ahead of three frontier models on web search context at 0.845, 0.792, and 0.786](/blog/case-study-lucy/chart-answer-accuracy.png)
+
+A small model grounded in the right filing chunks beat larger models searching the open web.
 
 {{< quote
   text="Frontier models can be expensive and slower for this type of workload. We found that with a strong RAG system, even a smaller open-source model can produce very competitive results."
@@ -90,17 +101,17 @@ That result also reframes the cost question. In a separate evaluation, an open-w
   role="Co-Founder"
   company="Lucy" >}}
 
-For Lucy's customers, the payoff is an answer that cites the chunk it came from and highlights the matching passage in the original filing, so an analyst can verify the number before acting on it. The team has not yet formalized a metric like analyst hours saved. The clearest benefit so far is the time it takes to find and verify the right disclosure across a large volume of filings.
+For Lucy's customers, the payoff is an answer that cites the chunk it came from and highlights the matching passage in the original filing, so an analyst can verify the number before acting on it. The clearest benefit so far is the time it takes to find and verify the right disclosure across a large volume of filings.
 
 ## How Lucy RAG Routes a Question Through Qdrant
+
+![Lucy RAG architecture: a router resolves the entity, CIK, and exact filing, then passes payload filters into Qdrant, where four lanes each run the same dense-plus-sparse hybrid query. Reciprocal rank fusion and deduplication reduce the candidates to the top 20 chunks, which the answer model turns into a source-linked answer](/blog/case-study-lucy/lucy-rag-architecture.png)
 
 A query enters Lucy RAG through a router whose first job is to determine which company and which filing the user means. It checks Lucy's catalog database, resolves the entity and CIK, and pins the exact document by SEC accession number or DART listing number. If the question is ambiguous, the router asks the user to clarify before retrieval runs.
 
 Once the target is known, the router passes metadata filters (company, form type, date range, and document ID) to Qdrant, which serves as the main retrieval path. Retrieval runs across four lanes, each executing the same dense-plus-sparse hybrid query with the same filters.
 
 The narrow lane runs focused multi-query retrieval with section filters for precision. The broad lane searches more widely as a safety net for recall and always runs alongside the narrow lane. The XBRL lane runs only for questions about financial statements or figures, adding the relevant XBRL tags to pull the right financial table higher in the ranking. The companion lane runs when a filing incorporates another by reference, for example a DEF 14A proxy statement referenced from a 10-K.
-
-![Lucy RAG architecture: a router resolves the entity, CIK, and exact filing, then passes payload filters into Qdrant, where four lanes each run the same dense-plus-sparse hybrid query. Reciprocal rank fusion and deduplication reduce the candidates to the top 20 chunks, which the answer model turns into a source-linked answer](/blog/case-study-lucy/lucy-rag-architecture.png)
 
 Each active lane returns up to 60 candidates. Lucy fuses the ranked lists with RRF, deduplicates them, and passes the final top 20 chunks to the answer model. A supplementary knowledge base in Amazon S3 holds preprocessed summaries and key financial facts for each filing, which the pipeline selects by topic and adds as extra context. The team is also adding a Neo4j graph layer to capture relationships between filings, starting with amendments.
 
@@ -127,7 +138,9 @@ The two corpora use different dense models and share a sparse one.
 | SEC | OpenAI `text-embedding-3-small`, 1,536 dimensions | BM25 |
 | DART | Upstage `solar-embedding-2`, 1,024 dimensions | BM25 |
 
-Chunk counts differ by corpus as well. SEC filings average 194 chunks each (P25 91, P75 236, P90 373). DART filings average 418 (P25 178, P75 520, P90 846), because Korean text produces higher token counts under Lucy's current tokenization and chunking setup. That difference is part of why DART gets the more aggressive 2-bit quantization.
+Chunk counts differ by corpus as well, because Korean text produces higher token counts under Lucy's current tokenization and chunking setup. That difference is part of why DART gets the more aggressive 2-bit quantization.
+
+![Chunks per filing for SEC and DART at P25, average, P75, and P90. SEC runs 91, 194, 236, and 373; DART runs 178, 418, 520, and 846, roughly double at every point in the distribution](/blog/case-study-lucy/chart-chunks-per-filing.png)
 
 The collection layout took a round of iteration to get right, and it is the clearest lesson from Lucy's scaling experience. The team initially stored every SEC filing type in a single collection and prefixed each chunk with metadata such as company name, ticker, and report date. That worked at small scale. As coverage expanded, retrieval latency rose by roughly 2x to 3x and recall declined.
 
