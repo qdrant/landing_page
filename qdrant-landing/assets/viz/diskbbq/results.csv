@@ -1,0 +1,4 @@
+engine,config,replication,recall_at_100,throughput_qps,avg_latency_ms,p99_latency_ms
+Elasticsearch,7 vCPU / 26 GB,RF=2,0.9599,32.4,122.6,184.3
+Qdrant,2 vCPU / 8 GB,RF=1,0.9596,67.2,59.5,86.0
+Qdrant,4 vCPU / 16 GB,RF=1,0.9596,111.9,35.7,83.1
