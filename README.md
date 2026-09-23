@@ -288,6 +288,8 @@ If `true`, the page will not be shown in the sidebar. It can be used in regular 
 
 The Learn portal (`/learn/`) groups four resources: Guides, Tutorials & Examples, Courses, and Technical Articles, with a link to videos on YouTube. The sidebar for `partition: learn` pages is built by `themes/qdrant-2024/layouts/partials/documentation/learn-menu.html` from the content below.
 
+Search on `partition: learn` pages covers Articles, Courses, guide sections, and the pages in `data/examples.yaml`. The `learn-search-sections` meta tag supplies those paths because catalog tutorials retain their Develop or Ecosystem partitions. Develop and Deploy continue to share the `develop,deploy,cloud,qdrant` documentation search scope.
+
 The Guides and Tutorials & Examples hubs show the three most recently published dated pages in their collections. Set `date` (or `publishDate`) in a page's front matter to include it; undated pages remain in the full listings. Content moves do not reset publication dates. The initial three tutorial dates come from their original addition commits.
 
 #### Guides

@@ -31,6 +31,18 @@
   {{ if $partition }}
     <meta name="partition" content="{{ $partition | safeHTML }}" />
   {{ end }}
+  {{ if eq $partition "learn" }}
+    {{ $sections := slice "articles" "course" }}
+    {{ range where (site.GetPage "/documentation").Sections "Params.learning_kind" "guides" }}
+      {{ $sections = $sections | append (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) }}
+    {{ end }}
+    {{ range hugo.Data.examples }}
+      {{ with site.GetPage .page }}
+        {{ $sections = $sections | append (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) }}
+      {{ end }}
+    {{ end }}
+    <meta name="learn-search-sections" content="{{ delimit $sections "," }}" />
+  {{ end }}
 
   {{ partial "css" . }}
 

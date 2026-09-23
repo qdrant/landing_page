@@ -5,9 +5,10 @@ import 'qdrant-page-search/dist/js/search.min.js';
   const metadata = document.querySelector('meta[name="partition"]');
   let partition = metadata ? metadata.content : null;
 
-  // Learn spans guides, articles, tutorials, and courses, regardless of URL.
-  if (partition === 'learn' || /^\/learn(?:\/|$)/.test(window.location.pathname)) {
-    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'articles,course,documentation' });
+  // Tutorials span several partitions; use the Learn catalog's paths instead.
+  const learnSections = document.querySelector('meta[name="learn-search-sections"]');
+  if (learnSections) {
+    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: learnSections.content });
     return;
   }
 
