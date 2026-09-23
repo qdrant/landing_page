@@ -28,7 +28,7 @@
 {{ range (site.GetPage "/course").Sections.ByWeight }}
   {{ $courseLinks = $courseLinks | append (dict "title" .Title "url" .RelPermalink) }}
 {{ end }}
-{{ with site.GetPage "/learn/ref-courses-retrieval-optimization" }}
+{{ range where (site.GetPage "/learn").RegularPages.ByWeight "Params.type" "external-link" }}
   {{ $courseLinks = $courseLinks | append (dict "title" .Title "url" .Params.external_url "external" true) }}
 {{ end }}
 {{ $items := slice
