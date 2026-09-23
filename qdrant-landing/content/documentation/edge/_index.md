@@ -18,7 +18,13 @@ Unlike Qdrant Server, which uses a client-server architecture, Qdrant Edge runs 
 
 Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained storage unit that can operate independently. Each Edge Shard manages its own data, including vector and payload storage, and can perform local search and retrieval operations.
 
+{{< island
+    path="content/documentation/headless/edge/edge-on-device"
+    width="90%" ratio="13 / 8"
+    title="Ingest and query run inside the application process on the device. A Qdrant server is optional, for backups and heavier indexing."
+>}}
 ![Qdrant Edge Shards operate on edge devices](/documentation/edge/qdrant-edge.png)
+{{< /island >}}
 
 To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). Both expose an `EdgeShard` type with methods to manage data, query it, and restore snapshots. To learn more about the available methods, refer to the [Edge API](/documentation/edge/edge-api/) page.
 
