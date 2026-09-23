@@ -14,4 +14,4 @@ Fixture page for `node --test test/viz/`. Not linked, not published.
 
 {{< chart id="hybrid/fusion" caption="Fixture chart caption." >}}
 
-{{< chart id="fixtures/toggle" caption="Fixture chart with a view switch." >}}
+{{< chart id="fixtures/toggle" caption="Fixture chart, recall view." caption2="Fixture chart, throughput view." >}}

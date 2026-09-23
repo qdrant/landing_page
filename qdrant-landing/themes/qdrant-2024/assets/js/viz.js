@@ -141,10 +141,19 @@
     var views = fig.querySelectorAll('[data-viz-view]');
     if (!btns.length || !views.length) return;
 
+    var cap = fig.querySelector('[data-viz-captions]');
+    var captions = null;
+    if (cap) {
+      try { captions = JSON.parse(cap.getAttribute('data-viz-captions')); } catch (e) { captions = null; }
+    }
+
     function select(idx) {
       Array.prototype.forEach.call(views, function (v) {
         v.style.display = v.getAttribute('data-viz-view') === String(idx) ? '' : 'none';
       });
+      // The caption is the figure's accessible name and states a claim about the
+      // numbers on screen, so it has to change with them.
+      if (captions && captions[idx]) cap.textContent = captions[idx];
       Array.prototype.forEach.call(btns, function (b) {
         b.setAttribute('aria-pressed',
           b.getAttribute('data-viz-view-btn') === String(idx) ? 'true' : 'false');

@@ -17,6 +17,7 @@
     id       page-unique slug used to build the title element id
     class    optional extra class on the <figure>
     views    optional slice of view labels; renders the switch above the chart
+    captions optional slice, one caption per view; the figcaption follows the view
 */ -}}
 {{- $caption := .caption -}}
 {{- $id := .id -}}
@@ -50,5 +51,6 @@
       {{ .svg | safeHTML }}
     </svg>
   </div>
-  <figcaption class="viz-figure__caption" id="viz-cap-{{ $id }}">{{ $caption }}</figcaption>
+  <figcaption class="viz-figure__caption" id="viz-cap-{{ $id }}"
+    {{- with .captions }} data-viz-captions="{{ (jsonify .) }}"{{ end }}>{{ $caption }}</figcaption>
 </figure>

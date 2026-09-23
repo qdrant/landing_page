@@ -33,6 +33,16 @@
 {{- else if eq $spec.kind "lines-facet" -}}
   {{- $room = cond (gt (len $spec.series) 1) $chart.legendRoom $chart.facetRoom -}}
 {{- end -}}
+{{- /* A caption states a claim about the numbers on screen, so it has to follow
+       the view: a caption citing recall under an nDCG chart is just wrong. View
+       0 uses `caption`, later views `caption2`, `caption3`, and so on. They stay
+       at the call site with the other prose rather than moving into the spec. */ -}}
 {{- $views := slice -}}
-{{- range $spec.views -}}{{- $views = $views | append .label -}}{{- end -}}
-{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $chart.width) (add (int $spec.height) (int $room))) "caption" $caption "id" (replace $id "/" "-") "class" "viz-figure--chart" "views" $views) -}}
+{{- $captions := slice -}}
+{{- range $i, $v := $spec.views -}}
+  {{- $views = $views | append $v.label -}}
+  {{- $c := cond (eq $i 0) $caption ($.Get (printf "caption%d" (add $i 1))) -}}
+  {{- if not $c }}{{ errorf "chart in %s: view %d (%q) needs caption%d=, or it inherits a claim about another view's numbers." $.Position $i $v.label (add $i 1) }}{{ end -}}
+  {{- $captions = $captions | append $c -}}
+{{- end -}}
+{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $chart.width) (add (int $spec.height) (int $room))) "caption" $caption "id" (replace $id "/" "-") "class" "viz-figure--chart" "views" $views "captions" $captions) -}}
