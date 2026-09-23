@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ with (.Site.GetPage "/services/hero") }}
+    {{ partial "common-hero" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/services/use-cases") }}
+    {{ partial "services/cards" (dict "context" . "class" "services-use-cases") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/services/how-it-works") }}
+    {{ partial "services/cards" (dict "context" . "class" "services-how-it-works") }}
+  {{ end }}
+
+  {{ partial "services/contact-form" . }}
+{{ end }}

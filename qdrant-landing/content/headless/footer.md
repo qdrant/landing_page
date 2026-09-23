@@ -139,9 +139,12 @@ menuItems:
         name: Partners
         url: /partners/
       - id: 3
+        name: Services
+        url: /services/
+      - id: 4
         name: Careers
         url: https://qdrant.to/jobs
-      - id: 4
+      - id: 5
         name: Contact Us
         url: /contact-us/
 copyright: Qdrant.

@@ -1,0 +1,11 @@
+{{ with (.Site.GetPage "/services/contact-form") }}
+  <section class="services-contact-form">
+    <div class="container" id="form">
+      <h2 class="services-contact-form__title">{{ .Params.title }}</h2>
+      {{ with .Params.description }}
+        <p class="services-contact-form__description">{{ . | safeHTML }}</p>
+      {{ end }}
+      {{ partial "contact-form" .Params.form }}
+    </div>
+  </section>
+{{ end }}
