@@ -1,4 +1,0 @@
-engine,config,throughput_qps,latency_ms
-Baseline,small node,28.0,140.0
-Option A,small node,61.5,64.0
-Option B,large node,104.2,38.5
