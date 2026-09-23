@@ -2,7 +2,9 @@
 title: "Agent Skills"
 short_description: Qdrant agent skills encode solutions architect knowledge for AI coding assistants, helping them diagnose vector search problems, recommend the right configuration, and navigate to the exact documentation without installation.
 description: Qdrant agent skills help AI coding assistants diagnose and tune vector search in production. Pass a skill URL from skills.qdrant.tech to your agent to get targeted guidance on scaling, search quality, performance, monitoring, and more.
-weight: 303
+weight: 10
+aliases:
+  - /documentation/skills/
 partition: develop
 ---
 

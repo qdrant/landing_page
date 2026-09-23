@@ -241,7 +241,7 @@ client.create_collection(
 
 ![Decision tree for choosing the right bulk upload strategy: dense, sparse, or hybrid vectors, with memory, quantization, and sharding options](/articles_data/bulk-uploads-in-qdrant/choosing-the-right-mix.png)
 
-Still deciding exactly what to configure for your workload? [Qdrant's Agent Skills](https://qdrant.tech/documentation/skills/) provide hands-on, scenario-based guidance that walks you through the specific settings for your situation.
+Still deciding exactly what to configure for your workload? [Qdrant's Agent Skills](https://qdrant.tech/documentation/agentic-tools/skills/) provide hands-on, scenario-based guidance that walks you through the specific settings for your situation.
 
 ## It's Not One-Size-Fits-All
 

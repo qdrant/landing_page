@@ -34,6 +34,8 @@ Qdrant defaults to `k=2`. The original RRF paper uses 60, which maps to `k=61` i
 
 `Over the Better One` is default RRF's `nDCG@10` minus the better individual prefetch. `Second Prefetch Cost` is the median latency the second prefetch adds over the dense prefetch alone.
 
+{{< chart id="hybrid/fusion" caption="Fusion beat the better single retriever on four of five datasets. On DBPedia-entity it did not: dense alone scored 0.4677 against 0.4638 fused, so hybrid is worth measuring rather than assuming." >}}
+
 | Dataset | Dense Alone | Sparse Alone | Both, RRF (`k=2`) | Over the Better One | Second Prefetch Cost |
 |---|---|---|---|---|---|
 | SciFact | 0.6239 | 0.6886 | 0.7175 | +0.0289 | +0.73 ms |
@@ -118,9 +120,8 @@ DBSF takes no parameters: `k` and the weight pair are RRF settings, and the publ
 
 Qdrant scores a document at position `pos` in one prefetch as `1 / ((pos + 1) / weight + k - 1)`, then sums across prefetches. With equal weights that reduces to `1 / (pos + k)`, and `k` alone decides how steeply the head of a list outranks its tail.
 
-![Grouped bar chart comparing the share of a retrieval prefetch's top-10 score mass at each rank, for k equal to 2 and k equal to 61. At k=2 rank 1 takes 24.8 percent and rank 10 takes 4.5 percent. At k=61 the shares are nearly flat, 10.7 percent at rank 1 and 9.3 percent at rank 10.](/articles_data/how-to-tune-hybrid-search/rrf-k-rank-weight.png)
+{{< chart id="rrf-k/weight" caption="At Qdrant's default k=2, rank 1 carries 5.5x the score weight of rank 10. At k=61 it carries 1.15x, so a candidate's presence in a prefetch matters almost as much as its position." >}}
 
-_At Qdrant's default of k=2, rank 1 carries 5.50 times the score weight of rank 10. At k=61, it carries 1.15 times the weight, so a candidate's presence in a prefetch matters almost as much as its position._
 
 Rank 1 outweighs rank 10 by 2.80 times at `k=5` and 1.45 times at `k=20`, so most of the movement sits below `k=20`. A sweep in even steps of five would spend most of its runs past the point where the curve stops moving.
 
