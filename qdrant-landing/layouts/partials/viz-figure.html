@@ -35,8 +35,6 @@
 */ -}}
 <figure class="viz-figure{{ with .class }} {{ . }}{{ end }}" data-viz>
   {{- with .views }}
-  {{- /* Buttons, not tabs: the panels they switch live inside one <svg>, which
-         cannot carry a tabpanel each. aria-pressed says which is showing. */ -}}
   <div class="viz-switch" role="group" aria-label="Choose what the chart shows" data-viz-switch>
     {{- range $i, $label := . }}
     <button type="button" class="viz-switch__btn" data-viz-view-btn="{{ $i }}"

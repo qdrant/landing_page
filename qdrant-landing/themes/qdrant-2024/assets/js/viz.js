@@ -132,8 +132,6 @@
     fig.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
   }
 
-  // Every view is already in the SVG; switching is showing one and hiding the
-  // rest. Nothing re-renders and nothing is fetched.
   function wireSwitch(fig) {
     var sw = fig.querySelector('[data-viz-switch]');
     if (!sw) return;
@@ -151,8 +149,7 @@
       Array.prototype.forEach.call(views, function (v) {
         v.style.display = v.getAttribute('data-viz-view') === String(idx) ? '' : 'none';
       });
-      // The caption is the figure's accessible name and states a claim about the
-      // numbers on screen, so it has to change with them.
+      // The caption states a claim about the numbers on screen.
       if (captions && captions[idx]) cap.textContent = captions[idx];
       Array.prototype.forEach.call(btns, function (b) {
         b.setAttribute('aria-pressed',

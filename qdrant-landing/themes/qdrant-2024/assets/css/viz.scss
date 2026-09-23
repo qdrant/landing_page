@@ -172,9 +172,8 @@ html[data-theme='dark'] .viz-tip {
   }
 }
 
-// Chart view switch: a segmented control, not a row of separate buttons. The
-// segments butt together with overlapping borders, and the active one is
-// lifted so its border is not clipped by its neighbour.
+// Segmented control: segments butt together, the active one lifted so its
+// border is not clipped.
 .viz-switch {
   display: flex;
   justify-content: flex-end;
@@ -206,13 +205,11 @@ html[data-theme='dark'] .viz-tip {
     z-index: 2;
   }
 
-  // aria-pressed is the state, so the style follows it rather than a class the
-  // JS has to keep in sync separately.
   &[aria-pressed='true'] {
     z-index: 1;
     border-color: var(--qi-accent);
     background: var(--qi-accent);
-    color: var(--qi-surface);
+    color: var(--qi-accent-ink);
     font-weight: 600;
   }
 }

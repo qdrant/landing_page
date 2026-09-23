@@ -341,7 +341,6 @@ function groupedColumns(c) {
     + wrapPlot(plotted) + zones + legendRow;
 }
 
-// One chart kind -> its inner markup.
 function draw(c) {
   if (c.kind === 'grouped-columns') return groupedColumns(c);
   if (c.kind === 'lines-facet') return linesFacet(c);
@@ -354,23 +353,13 @@ function draw(c) {
     `<g transform="translate(${i * (pw + gap)},0)">${panel(c, p, data, pw, c.height)}</g>`).join('');
 }
 
-/*
- * A chart with `views` renders EVERY view into the same SVG, one <g> each, and
- * ships them all. The alternative is a file per view fetched on click, which
- * costs a request and a flash of empty chart. All but the first are hidden in
- * CSS, so with JavaScript off a reader still gets a complete chart rather than
- * a set of dead buttons.
- *
- * A view is a patch over the base spec, so it can change anything a chart has:
- * which column to plot, the axis, the y-max.
- */
+// Every view ships in one SVG, so switching never fetches and the first view
+// still renders without JavaScript. A view is a patch over the base spec.
 function render(c) {
   if (!c.views) return draw(c);
   return c.views.map((v, i) => {
     const merged = { ...c, ...v, views: undefined };
-    // display, not the `hidden` attribute: browsers do not honour `hidden` on
-    // SVG elements. Inline rather than a class, so the extra views stay hidden
-    // even if the stylesheet never arrives.
+    // `hidden` is ignored on SVG elements; inline so it holds with no CSS.
     return `<g data-viz-view="${i}"${i === 0 ? '' : ' style="display:none"'}>`
       + `${draw(merged)}</g>`;
   }).join('');
