@@ -68,6 +68,7 @@
   });
 
   function wireFigure(fig) {
+    wireSwitch(fig);
     var zones = fig.querySelectorAll('[data-viz-zone]');
 
     // Line charts carry a dashed vertical rule that snaps to the hovered
@@ -129,5 +130,32 @@
     }
 
     fig.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
+  }
+
+  // Every view is already in the SVG; switching is showing one and hiding the
+  // rest. Nothing re-renders and nothing is fetched.
+  function wireSwitch(fig) {
+    var sw = fig.querySelector('[data-viz-switch]');
+    if (!sw) return;
+    var btns = sw.querySelectorAll('[data-viz-view-btn]');
+    var views = fig.querySelectorAll('[data-viz-view]');
+    if (!btns.length || !views.length) return;
+
+    function select(idx) {
+      Array.prototype.forEach.call(views, function (v) {
+        v.style.display = v.getAttribute('data-viz-view') === String(idx) ? '' : 'none';
+      });
+      Array.prototype.forEach.call(btns, function (b) {
+        b.setAttribute('aria-pressed',
+          b.getAttribute('data-viz-view-btn') === String(idx) ? 'true' : 'false');
+      });
+      hide();
+    }
+
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () {
+        select(b.getAttribute('data-viz-view-btn'));
+      });
+    });
   }
 })();

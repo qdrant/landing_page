@@ -1,0 +1,26 @@
+{
+  "title": "Fixture chart with a view switch",
+  "kind": "columns-2panel",
+  "height": 400,
+  "labelTop": "engine",
+  "labelBottom": "config",
+  "views": [
+    {
+      "label": "Recall",
+      "yMax": 1.1,
+      "panels": [
+        { "title": "Recall@10", "y": "recall_at_10", "axis": "recall@10",
+          "subtitle": "higher is better" }
+      ]
+    },
+    {
+      "label": "Throughput",
+      "yMax": 200,
+      "panels": [
+        { "title": "Throughput", "y": "throughput_qps", "axis": "QPS",
+          "unit": "QPS", "subtitle": "higher is better" }
+      ]
+    }
+  ],
+  "tooltip": { "recall_at_10": "recall@10", "throughput_qps": "throughput" }
+}

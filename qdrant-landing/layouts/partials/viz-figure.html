@@ -16,6 +16,7 @@
     caption  required, non-empty
     id       page-unique slug used to build the title element id
     class    optional extra class on the <figure>
+    views    optional slice of view labels; renders the switch above the chart
 */ -}}
 {{- $caption := .caption -}}
 {{- $id := .id -}}
@@ -32,6 +33,16 @@
   points at the visible <figcaption>, so the text exists exactly once.
 */ -}}
 <figure class="viz-figure{{ with .class }} {{ . }}{{ end }}" data-viz>
+  {{- with .views }}
+  {{- /* Buttons, not tabs: the panels they switch live inside one <svg>, which
+         cannot carry a tabpanel each. aria-pressed says which is showing. */ -}}
+  <div class="viz-switch" role="group" aria-label="Choose what the chart shows" data-viz-switch>
+    {{- range $i, $label := . }}
+    <button type="button" class="viz-switch__btn" data-viz-view-btn="{{ $i }}"
+            aria-pressed="{{ if eq $i 0 }}true{{ else }}false{{ end }}">{{ $label }}</button>
+    {{- end }}
+  </div>
+  {{- end }}
   <div class="viz-figure__scroll">
     <svg class="viz-figure__svg" viewBox="{{ .viewBox }}" role="img"
          aria-labelledby="viz-cap-{{ $id }}" xmlns="http://www.w3.org/2000/svg"

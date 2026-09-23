@@ -13,14 +13,32 @@
     0
   ],
   "height": 400,
-  "yMax": 1.0,
-  "panels": [
+  "views": [
     {
-      "title": "Recall@10 against exact search",
-      "subtitle": "higher is better",
-      "y": "recall_at_10",
-      "axis": "recall@10",
-      "unit": ""
+      "label": "Recall@10",
+      "yMax": 1.0,
+      "panels": [
+        {
+          "title": "Recall@10 against exact search",
+          "subtitle": "higher is better",
+          "y": "recall_at_10",
+          "axis": "recall@10",
+          "unit": ""
+        }
+      ]
+    },
+    {
+      "label": "nDCG@10",
+      "yMax": 0.36,
+      "panels": [
+        {
+          "title": "nDCG@10 on 200 held-out queries",
+          "subtitle": "higher is better",
+          "y": "ndcg_at_10",
+          "axis": "nDCG@10",
+          "unit": ""
+        }
+      ]
     }
   ],
   "tooltip": {

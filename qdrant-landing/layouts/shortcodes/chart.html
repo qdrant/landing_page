@@ -33,4 +33,6 @@
 {{- else if eq $spec.kind "lines-facet" -}}
   {{- $room = cond (gt (len $spec.series) 1) $chart.legendRoom $chart.facetRoom -}}
 {{- end -}}
-{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $chart.width) (add (int $spec.height) (int $room))) "caption" $caption "id" (replace $id "/" "-") "class" "viz-figure--chart") -}}
+{{- $views := slice -}}
+{{- range $spec.views -}}{{- $views = $views | append .label -}}{{- end -}}
+{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $chart.width) (add (int $spec.height) (int $room))) "caption" $caption "id" (replace $id "/" "-") "class" "viz-figure--chart" "views" $views) -}}

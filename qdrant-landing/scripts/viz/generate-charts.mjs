@@ -341,30 +341,44 @@ function groupedColumns(c) {
     + wrapPlot(plotted) + zones + legendRow;
 }
 
-for (const c of manifest) {
-  if (c.kind === 'grouped-columns') {
-    const out = `assets/viz/${c.id}.svg`;
-    mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, `${groupedColumns(c)}\n`);
-    console.log(`wrote ${out}`);
-    continue;
-  }
-  if (c.kind === 'lines-facet') {
-    const out = `assets/viz/${c.id}.svg`;
-    mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, `${linesFacet(c)}\n`);
-    console.log(`wrote ${out}`);
-    continue;
-  }
+// One chart kind -> its inner markup.
+function draw(c) {
+  if (c.kind === 'grouped-columns') return groupedColumns(c);
+  if (c.kind === 'lines-facet') return linesFacet(c);
   if (c.kind !== 'columns-2panel') throw new Error(`unsupported kind ${c.kind}`);
   const data = readCsv(c.data);
   const gap = LAYOUT.gap;
   const pw = (c.width - gap * (c.panels.length - 1)) / c.panels.length;
   // No frame: gridlines carry the structure, so nothing can touch a border.
-  const body = c.panels.map((p, i) =>
+  return c.panels.map((p, i) =>
     `<g transform="translate(${i * (pw + gap)},0)">${panel(c, p, data, pw, c.height)}</g>`).join('');
+}
+
+/*
+ * A chart with `views` renders EVERY view into the same SVG, one <g> each, and
+ * ships them all. The alternative is a file per view fetched on click, which
+ * costs a request and a flash of empty chart. All but the first are hidden in
+ * CSS, so with JavaScript off a reader still gets a complete chart rather than
+ * a set of dead buttons.
+ *
+ * A view is a patch over the base spec, so it can change anything a chart has:
+ * which column to plot, the axis, the y-max.
+ */
+function render(c) {
+  if (!c.views) return draw(c);
+  return c.views.map((v, i) => {
+    const merged = { ...c, ...v, views: undefined };
+    // display, not the `hidden` attribute: browsers do not honour `hidden` on
+    // SVG elements. Inline rather than a class, so the extra views stay hidden
+    // even if the stylesheet never arrives.
+    return `<g data-viz-view="${i}"${i === 0 ? '' : ' style="display:none"'}>`
+      + `${draw(merged)}</g>`;
+  }).join('');
+}
+
+for (const c of manifest) {
   const out = `assets/viz/${c.id}.svg`;
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, `${body}\n`);
+  writeFileSync(out, `${render(c)}\n`);
   console.log(`wrote ${out}`);
 }
