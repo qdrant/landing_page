@@ -5,6 +5,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, existsSync, rmSync } from 'node:
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
+// node --test test/markdown/aliases.test.mjs
 const run = (dir) => execFileSync('bash', ['scripts/emit-md-aliases.sh', dir], { encoding: 'utf8' });
 
 function fixture() {

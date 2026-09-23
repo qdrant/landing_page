@@ -21,8 +21,7 @@
   },
   "scripts": {
     "viz:test": "node --test \"test/viz/**/*.test.mjs\"",
-    "viz:charts": "node scripts/viz/generate-charts.mjs",
-    "md:test": "node --test \"test/markdown/**/*.test.mjs\""
+    "viz:charts": "node scripts/viz/generate-charts.mjs"
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
