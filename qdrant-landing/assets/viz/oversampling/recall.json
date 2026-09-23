@@ -1,5 +1,5 @@
 {
-  "title": "Recall@10 by quantization and rescoring",
+  "title": "Quantization quality: recall and nDCG",
   "kind": "columns-2panel",
   "labelTop": "variant",
   "labelBottom": "setting",

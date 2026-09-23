@@ -36,4 +36,12 @@
 |{{ range $head }} --- |{{ end }}
 {{ range after 1 $rows }}| {{ delimit . " | " }} |
 {{ end }}
+{{- /* The table is every view's columns at once, so it needs every view's claim,
+       not just the one the chart happens to open on. */ -}}
+{{- if $spec.views -}}
+{{- range $i, $v := $spec.views }}
+_{{ $v.label }}: {{ cond (eq $i 0) $caption ($.Get (printf "caption%d" (add $i 1))) }}_
+{{ end -}}
+{{- else }}
 _{{ $caption }}_
+{{- end -}}
