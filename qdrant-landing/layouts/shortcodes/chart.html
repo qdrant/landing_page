@@ -1,0 +1,27 @@
+{{- /*
+  chart — embed a pre-generated chart SVG by id.
+
+  The SVG is built by scripts/viz/generate-charts.mjs and committed, not
+  rendered at request time. Charts need Observable Plot and a DOM, which is a
+  Node toolchain Hugo does not have; committing the output also means a chart
+  cannot silently change when a dependency updates, and every diff to a number
+  shows up in review.
+
+  Every lookup below fails the BUILD rather than degrading: a typo'd id, a
+  missing manifest entry or a stale SVG would otherwise ship as a blank gap in
+  a published post, which nobody notices until a reader does. The error names
+  the fix, including the exact command to regenerate.
+
+  Usage: a "chart" shortcode taking id= and caption=, where id matches an
+  entry in data/viz-charts.json and assets/viz/<id>.svg.
+*/ -}}
+{{- $id := .Get "id" -}}
+{{- if not $id }}{{ errorf "chart in %s: 'id' is required." .Position }}{{ end -}}
+{{- $caption := .Get "caption" -}}
+{{- if not $caption }}{{ errorf "chart in %s: 'caption' is required." .Position }}{{ end -}}
+{{- $spec := false -}}
+{{- range (index site.Data "viz-charts") -}}{{- if eq .id $id -}}{{- $spec = . -}}{{- end -}}{{- end -}}
+{{- if not $spec }}{{ errorf "chart in %s: no chart with id %q in data/viz-charts.json." .Position $id }}{{ end -}}
+{{- $res := resources.Get (printf "viz/%s.svg" $id) -}}
+{{- if not $res }}{{ errorf "chart in %s: assets/viz/%s.svg missing. Run: node scripts/viz/generate-charts.mjs" .Position $id }}{{ end -}}
+{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $spec.width) (add (int $spec.height) (int ($spec.extraHeight | default 0)))) "caption" $caption "id" (replace $id "/" "-") "class" "viz-figure--chart") -}}
