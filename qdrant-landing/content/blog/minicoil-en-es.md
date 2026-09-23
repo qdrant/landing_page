@@ -8,7 +8,7 @@ preview_image: /blog/minicoil-en-es/cover.png
 social_preview_image: /blog/minicoil-en-es/cover.png
 # TODO(cover): placeholder; swap to /blog/minicoil-en-es/preview/* once the astronaut set is ready
 date: 2026-09-23T09:00:00+02:00
-author: Evgeniya Sukhodolskaya (Qdrant), Juan Pablo Sotelo (Pento AI), Joaquín Campo (Pento AI)
+author: Evgeniya Sukhodolskaya (Qdrant), Juan Pablo Sotelo (Pento AI)
 featured: false
 tags:
   - sparse-neural-retrieval
