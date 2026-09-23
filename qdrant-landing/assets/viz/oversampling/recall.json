@@ -1,0 +1,30 @@
+{
+  "title": "Recall@10 by quantization and rescoring",
+  "kind": "columns-2panel",
+  "labelTop": "variant",
+  "labelBottom": "setting",
+  "colors": [
+    "muted",
+    1,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "height": 400,
+  "yMax": 1.0,
+  "panels": [
+    {
+      "title": "Recall@10 against exact search",
+      "subtitle": "higher is better",
+      "y": "recall_at_10",
+      "axis": "recall@10",
+      "unit": ""
+    }
+  ],
+  "tooltip": {
+    "recall_at_10": "recall@10",
+    "ndcg_at_10": "nDCG@10"
+  }
+}

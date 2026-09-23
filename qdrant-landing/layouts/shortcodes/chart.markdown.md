@@ -22,9 +22,9 @@
 {{- if not $id }}{{ errorf "chart in %s: 'id' is required." .Position }}{{ end -}}
 {{- $caption := .Get "caption" -}}
 {{- if not $caption }}{{ errorf "chart in %s: 'caption' is required." .Position }}{{ end -}}
-{{- $spec := false -}}
-{{- range (index site.Data "viz-charts") -}}{{- if eq .id $id -}}{{- $spec = . -}}{{- end -}}{{- end -}}
-{{- if not $spec }}{{ errorf "chart in %s: no chart with id %q in data/viz-charts.json." .Position $id }}{{ end -}}
+{{- $specRes := resources.Get (printf "viz/%s.json" $id) -}}
+{{- if not $specRes }}{{ errorf "chart in %s: assets/viz/%s.json missing." .Position $id }}{{ end -}}
+{{- $spec := $specRes | transform.Unmarshal -}}
 {{- $csv := resources.Get (printf "viz/%s.csv" $id) -}}
 {{- if not $csv }}{{ errorf "chart in %s: assets/viz/%s.csv missing; the Markdown output renders the chart's source table." .Position $id }}{{ end -}}
 {{- $rows := $csv | transform.Unmarshal -}}

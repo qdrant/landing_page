@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Generate chart SVGs from data/viz-charts.json. Output is committed.
+// Generate chart SVGs from assets/viz/<id>.json + <id>.csv. Output is committed.
 // Emits INNER svg markup only; layouts/partials/viz-figure.html supplies the outer <svg>.
 //
 // Design language borrowed from ~/projects/blog components/BarChart.jsx:
@@ -11,11 +11,19 @@
 // Colours stay Qdrant's (data/viz.json), not that blog's terminal-green.
 import * as Plot from '@observablehq/plot';
 import { JSDOM } from 'jsdom';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { csvParse } from 'd3-dsv';
+import { readFileSync, writeFileSync, mkdirSync, globSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
-const manifest = JSON.parse(readFileSync('data/viz-charts.json', 'utf8'));
+
+// One spec per chart, beside its data. The id is the path.
+const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
+  const id = p.replace(/^assets\/viz\//, '').replace(/\.json$/, '');
+  return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width,
+           ...JSON.parse(readFileSync(p, 'utf8')) };
+});
+
 const dom = new JSDOM('');
 const MONO = viz.type.mono;
 
@@ -25,10 +33,9 @@ const INK = 'var(--qi-fg)';
 const MUTED = 'var(--qi-muted)';
 const GRIDC = 'var(--qi-line)';
 
-// Shared layout. Every chart kind uses these, so two charts in different posts
-// read as the same object. Widths are pinned in the manifest to the same value
-// for the same reason: the SVG scales to the column, so a wider viewBox renders
-// identical font sizes smaller.
+// Shared layout, so two charts in different posts read as the same object.
+// One width for the same reason: the SVG scales to the column, so a wider
+// viewBox renders identical font sizes smaller.
 const LAYOUT = {
   top: 62, right: 36, bottom: 68, left: 74,
   gap: 44, titleY: 20, subtitleY: 38,
@@ -49,19 +56,14 @@ const yAxisLabel = (h, text) =>
   + ` text-anchor="middle" font-family="${MONO}" font-size="${viz.type.label}"`
   + ` fill="${MUTED}">${esc(text)}</text>`;
 
-const readCsv = (p) => {
-  const [head, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
-  const cols = head.split(',');
-  return rows.map((r) => Object.fromEntries(r.split(',').map((v, i) =>
-    [cols[i], v !== '' && !Number.isNaN(Number(v)) ? Number(v) : v])));
-};
+// csvParse, not split(','): a label containing a comma would shift every
+// column right and mislabel the chart silently.
+const num = (v) => (v !== '' && !Number.isNaN(Number(v)) ? Number(v) : v);
+const readCsv = (p) => csvParse(readFileSync(p, 'utf8'), (d) =>
+  Object.fromEntries(Object.entries(d).map(([k, v]) => [k, num(v)])));
 
 // Keep the source's own decimal formatting: 86.0 must not print as 86.
-const rawCol = (p, col) => {
-  const [head, ...rows] = readFileSync(p, 'utf8').trim().split('\n');
-  const i = head.split(',').indexOf(col);
-  return rows.map((r) => r.split(',')[i]);
-};
+const rawCol = (p, col) => csvParse(readFileSync(p, 'utf8')).map((r) => r[col]);
 
 // Pick legible ink for text sitting on a coloured bar.
 const readableInk = (hex) => {
@@ -93,6 +95,11 @@ const decades = ([lo, hi]) => {
   return out;
 };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+
+// Tooltip units come from the column name suffix.
+const UNITS = { _qps: 'QPS', _ms: 'ms' };
+const unitOf = (field) =>
+  Object.entries(UNITS).find(([suf]) => field.endsWith(suf))?.[1] ?? '';
 
 function panel(c, p, data, w, h) {
   const barKey = keyOf(c);
@@ -149,9 +156,9 @@ function panel(c, p, data, w, h) {
   const plotW = w - marginLeft - marginRight;
   const bandW = plotW / data.length;
   const zones = data.map((d, i) => {
-    const rows = c.tooltip.map((t) => ({
-      k: t.label,
-      v: `${rawCol(c.data, t.field)[i]}${t.unit ? ' ' + t.unit : ''}`,
+    const rows = Object.entries(c.tooltip).map(([field, label]) => ({
+      k: label,
+      v: `${rawCol(c.data, field)[i]}${unitOf(field) ? ' ' + unitOf(field) : ''}`,
       c: colors[i],
     }));
     return `<rect data-viz-zone data-viz-key="${esc(barKey(d))}"`
