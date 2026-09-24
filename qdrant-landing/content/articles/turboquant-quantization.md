@@ -183,7 +183,7 @@ Setup: HNSW index (`m=16`, `ef_construct=128`). Rows are ordered by storage clas
 
 The pattern repeats across all ten datasets:
 
-* **TQ 4-bit is competitive with SQ at half the storage.** On 9 of 10 datasets the gap to SQ is within 2 pp in either direction; on 3 of those (`dbp-oai`, `cohere`, `laion`) TQ 4-bit *beats* SQ, by up to 4.6 pp on `dbp-oai`. The single exception is `arxiv-384`, where TQ 4-bit trails SQ by 2.3 pp. The pattern is consistent: when SQ's int8-per-coordinate grid is mismatched with the embedding distribution, an adaptive 4-bit quantizer with anisotropy compensation does better, despite using half the bits.
+* **TQ 4-bit is competitive with SQ at half the storage.** On 9 of 10 datasets the gap to SQ is within 2.5 pp in either direction; on 3 of those (`dbp-oai`, `cohere`, `laion`) TQ 4-bit *beats* SQ, by up to 4.6 pp on `dbp-oai`. The single exception is `arxiv-384`, where TQ 4-bit trails SQ by 2.3 pp. The pattern is consistent: when SQ's int8-per-coordinate grid is mismatched with the embedding distribution, an adaptive 4-bit quantizer with anisotropy compensation does better, despite using half the bits.
 * **TQ 2-bit beats BQ 2-bit by 9–24 pp** on every dataset, at the same 16x storage class. The largest margins are on `laion` (+24.0 pp) and `h&m` (+21.8 pp); the smallest is `ads-1M` (+9.0 pp).
 * **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on every dataset, at the same 32x storage class. Against the stronger asymmetric BQ configuration (1-bit storage, 8-bit query), TQ 1-bit is still ahead on every dataset, though the margin narrows — between 0.1 pp (`cohere`, essentially tied) and 10 pp (`laion`).
 * **TQ 1.5-bit (~21x)** sits between the 2-bit and 1-bit operating points and is the right pick when 32x is too aggressive but 16x leaves storage on the table.
@@ -216,3 +216,7 @@ TurboQuant gives Qdrant a new path on the compression ladder: 8x compression at 
 * [Interactive TurboQuant explainer](https://arkaung.github.io/interactive-turboquant/) by Arkar Min Aung — a hands-on, step-by-step walkthrough of the algorithm with interactive visualizations. The clearest high-level explanation of TurboQuant available, and a great place to build intuition before reading the paper.
 * [Scalar Quantization in Qdrant](https://qdrant.tech/articles/scalar-quantization/) — the int8 baseline this post refers to.
 * [Binary Quantization in Qdrant](https://qdrant.tech/articles/binary-quantization/) — the 1-bit baseline this post refers to.
+
+**Qdrant in agent memory:**
+
+* [Qdrant TurboQuant Cuts Cognee Vector Memory 8x](https://www.cognee.ai/qdrant-turboquant-vector-memory) — how [Cognee](https://www.cognee.ai/) uses TurboQuant in Qdrant to shrink the vector memory behind its agent memory layer.

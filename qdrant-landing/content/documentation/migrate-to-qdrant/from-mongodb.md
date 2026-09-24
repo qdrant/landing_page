@@ -24,7 +24,7 @@ weight: 80
 | Document | Point | Each document becomes a point |
 | Vector field | Vector | Named vectors are preserved |
 | Non-vector fields | Payload | Direct mapping |
-| `_id` (ObjectID or string) | Point ID + Payload | Converted to UUID; original stored in payload |
+| `_id` (ObjectId or string) | Point ID + Payload | Converted to UUID; original stored in payload |
 
 ## Run the Migration
 
@@ -71,7 +71,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 ## Gotchas
 
 - **Vector field names are required:** MongoDB has no schema-level marker for vector fields. You must explicitly list them via `--mongodb.vector-fields`.
-- **ID mapping:** MongoDB `_id` values (ObjectID or string) are converted to Qdrant UUIDs. The original value is stored in payload under `--qdrant.id-field`.
+- **ID mapping:** MongoDB `_id` values (ObjectId or string) are converted to Qdrant UUIDs. The original value is stored in payload under `--qdrant.id-field`.
 
 ## Next Steps
 

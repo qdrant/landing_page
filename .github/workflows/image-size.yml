@@ -1,0 +1,45 @@
+name: Image Size
+
+on:
+  pull_request:
+    paths:
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.png'
+      - '**.gif'
+      - '**.webp'
+      - '**.svg'
+      - '**.mp4'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-size:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'allow-large-images') }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Reject images over 1MB
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" \
+            --paginate --jq '.[] | select(.status != "removed") | .filename' \
+            | grep -iE '\.(jpg|jpeg|png|gif|webp|svg|mp4)$' > changed.txt || exit 0
+
+          big=$(xargs -r -d '\n' du -k --apparent-size 2>/dev/null < changed.txt | awk -F'\t' '$1 > 1024')
+          [ -n "$big" ] || exit 0
+
+          echo "$big" | awk -F'\t' '{printf "%6.1f MB  %s\n", $1/1024, $2}' | sort -rn
+          echo
+          echo "Nothing on the site is displayed wider than ~2000px, and qdrant-landing/static/"
+          echo "is copied verbatim by Hugo - a 20MB camera JPEG ships to every reader as-is."
+          echo "Resize before committing:"
+          echo "  mogrify -resize '2000x2000>' -quality 82 -strip <file.jpg>"
+          echo "  pngquant --skip-if-larger --ext .png --force <file.png>"
+          echo "If a file genuinely has to be this big, add the 'allow-large-images' label."
+          echo "::error::Images over 1MB in this PR - see the list above"
+          exit 1

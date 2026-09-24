@@ -135,7 +135,7 @@ client.create_collection(
 |---------------------|----------|----------|-------------|
 | Scalar              | 0.99     | up to 2x | 4x          |
 | Binary              | 0.95*    | up to 40x| 32x         |
-| Product             | 0.7      | 0.5x     | up to 64x   |å
+| Product             | 0.7      | 0.5x     | up to 64x   |
 *For compatible models
 
 > [Check out](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) how the new **1.5-bit** and **2-bit binary quantization** methods compare to classical binary quantization. They offer a balanced middle ground between **binary** and **scalar** approaches.

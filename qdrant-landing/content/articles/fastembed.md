@@ -14,7 +14,7 @@ draft: false
 keywords:
     - vector search
     - embedding models
-    - Flag Embedding
+    - TextEmbedding
     - OpenAI Ada
     - NLP
     - embeddings
@@ -43,6 +43,7 @@ Then, generate embeddings for a list of documents:
 
 ```python
 from typing import List
+import numpy as np
 from fastembed import TextEmbedding
 
 documents: List[str] = [

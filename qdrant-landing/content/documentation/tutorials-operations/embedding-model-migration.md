@@ -29,7 +29,7 @@ The best approach to migrating to a new embedding model depends on how your coll
 
 ### Option 1: Blue-Green Migration
 
-The [blue-green migration approach](#blue-green-migration) uses two parallel collections. Start by creating a new collection configured for the new embedding model. Then, enable dual writes such that every incoming upsert is written to both collections simultaneously. Use a background scrolls to re-embed each point using the new model, and write it to the new collection. Once migration is complete, switch search traffic to the new collection (flipping the alias, if applicable) and disable dual writes. This option works with any collection type, regardless of whether you use unnamed or named vectors. 
+The [blue-green migration approach](#blue-green-migration) uses two parallel collections. Start by creating a new collection configured for the new embedding model. Then, enable dual writes such that every incoming upsert is written to both collections simultaneously. Use a background scroll to re-embed each point using the new model, and write it to the new collection. Once migration is complete, switch search traffic to the new collection (flipping the alias, if applicable) and disable dual writes. This option works with any collection type, regardless of whether you use unnamed or named vectors. 
 
 This approach has a couple of downsides:
 - It duplicates payloads across both collections. For text-heavy collections where the payload is large, this can have a significant impact.
@@ -37,7 +37,7 @@ This approach has a couple of downsides:
 
 ### Option 2: Named Vectors
 
-The [named vectors approach](#migrate-using-named-vectors) keeps everything in a single collection. Start by [adding the new model as an additional named vector](/documentation/manage-data/collections/#update-vector-schema): a schema-only operation that doesn't affect existing data. Next, enable dual writes so that every incoming upsert embeds with both models. Then, use a background scrolls to update the new named vector on each existing point, leaving the old vector and payload intact. Once all points are re-embedded, you switch the `using` parameter in your search queries to the new vector, and then delete the old named vector.
+The [named vectors approach](#migrate-using-named-vectors) keeps everything in a single collection. Start by [adding the new model as an additional named vector](/documentation/manage-data/collections/#update-vector-schema): a schema-only operation that doesn't affect existing data. Next, enable dual writes so that every incoming upsert embeds with both models. Then, use a background scroll to update the new named vector on each existing point, leaving the old vector and payload intact. Once all points are re-embedded, you switch the `using` parameter in your search queries to the new vector, and then delete the old named vector.
 
 The downside of this approach is that it only works for collections that were created with named vectors.
 

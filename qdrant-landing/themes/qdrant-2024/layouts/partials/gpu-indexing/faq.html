@@ -1,0 +1,10 @@
+{{ with (.Site.GetPage "/gpu-indexing/faq") }}
+  <section class="gpu-indexing-faq" id="faqs">
+    <div class="container">
+      <h2 class="gpu-indexing-faq__title">{{ .Params.title }}</h2>
+      <div class="gpu-indexing-faq__accordion">
+        {{ partial "accordion" . }}
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -100,6 +100,8 @@ An agent is only as good as the tools it has access to. For the memory and retri
 
 Agentic memory systems like [mem0](https://docs.mem0.ai/components/vectordbs/dbs/qdrant) or [Cognee](https://docs.cognee.ai/examples/documentation-intelligence#scenario-intelligent-documentation-assistant-to-built-with-qdrant) are designed to give agents out-of-the-box long-term and short-term memory capabilities. You can easily drop in Qdrant as the vector search engine to power these systems. Qdrant powers the indexing, storing, and retrieval of data, letting the memory system focus on edits, summaries, and deciding what information to remember and what information can be forgotten.
 
+For a memory-system perspective on what to look for in the vector layer, the Cognee team wrote a guide to [choosing a vector database for search, RAG, and AI memory](https://www.cognee.ai/best-vector-database), including where Qdrant fits.
+
 Agentic builders like [CrewAI](https://docs.crewai.com/en/tools/database-data/qdrantvectorsearchtool), [Dust](https://dust.tt/), [Voiceflow](https://www.voiceflow.com/), [Lyzr](https://www.lyzr.ai/), [n8n](https://n8n.io/), and [Cognigy](https://www.cognigy.com/) allow you to orchestrate your agentic flow. With these tools you can define multi-step, multi-agent workflows, and by adding Qdrant they gain a tool for grounding responses with your data, recalling past interactions, and searching multimodal knowledge. Qdrant provides the speed and precision needed for your workflow to be trustworthy as it scales.
 
 ### **Evaluation Frameworks**

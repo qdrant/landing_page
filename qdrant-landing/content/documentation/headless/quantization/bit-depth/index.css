@@ -1,0 +1,147 @@
+/* bit-depth island. Scoped under .qi-bd. Controls and labels come from the
+   shared island design system (islands.scss); this file only styles the
+   cells, bits, bars and the histogram. Data palette: the Neon Blue ramp
+   (--qi-cat-1) for buckets/values, cyan (--qi-cat-3) for bits, Qdrant red
+   for thresholds. */
+
+.qi-bd {
+  --bd-bit-on: var(--qi-cat-3);
+  --bd-bit-off: var(--qi-cat-3-soft);
+  /* Bucket blues. The light steps are a step darker than in dark mode so they
+     read against a white page; the dark step is a step lighter in dark mode so
+     it reads against the dark surface. */
+  --bd-neg: #c2c5ff; /* neon-blue-200 */
+  --bd-zero: #7e75ff; /* neon-blue-400 */
+  --bd-pos: #4325ae; /* neon-blue-800 */
+
+  /* Float-cell shade ramp: five discrete steps, low value -> high value. This
+     used to be a continuous interpolation between two palette endpoints, which
+     put most cells on colours that are not in the palette. Dark theme runs the
+     other way so the ramp stays legible against the dark surface. */
+  --bd-shade-1: #c2c5ff; /* neon-blue-200 */
+  --bd-shade-2: #9494ff; /* neon-blue-300 */
+  --bd-shade-3: #6047ff; /* neon-blue-500 */
+  --bd-shade-4: #522ad8; /* neon-blue-700 */
+  --bd-shade-5: #392689; /* neon-blue-900 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-bd {
+    --bd-neg: #dde0ff; /* neon-blue-100 */
+    --bd-zero: #9494ff; /* neon-blue-300 */
+    --bd-pos: #5f36f5; /* neon-blue-600 */
+    --bd-shade-1: #392689; /* neon-blue-900 */
+    --bd-shade-2: #4325ae; /* neon-blue-800 */
+    --bd-shade-3: #5f36f5; /* neon-blue-600 */
+    --bd-shade-4: #7e75ff; /* neon-blue-400 */
+    --bd-shade-5: #c2c5ff; /* neon-blue-200 */
+  }
+}
+html[data-theme='dark'] .qi-bd {
+  --bd-neg: #dde0ff; /* neon-blue-100 */
+  --bd-zero: #9494ff; /* neon-blue-300 */
+  --bd-pos: #5f36f5; /* neon-blue-600 */
+  --bd-shade-1: #392689; /* neon-blue-900 */
+  --bd-shade-2: #4325ae; /* neon-blue-800 */
+  --bd-shade-3: #5f36f5; /* neon-blue-600 */
+  --bd-shade-4: #7e75ff; /* neon-blue-400 */
+  --bd-shade-5: #c2c5ff; /* neon-blue-200 */
+}
+
+.qi-bd__cell {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+  transition: fill 0.4s ease;
+}
+.qi-bd__cell.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+
+.qi-bd__bit {
+  fill: var(--bd-bit-off);
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 0.75;
+  cursor: pointer;
+  transition: fill 0.25s ease;
+}
+.qi-bd__bit.is-on {
+  fill: var(--bd-bit-on);
+}
+.qi-bd__bit--shared {
+  stroke: var(--bd-bit-on);
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+.qi-bd__bit.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+
+.qi-bd__bar {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.qi-bd__bar--float {
+  fill: var(--qi-line);
+}
+.qi-bd__bar--q {
+  fill: var(--bd-bit-on);
+}
+
+.qi-bd__sq {
+  fill: var(--bd-zero);
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+  transition: fill 0.35s ease, opacity 0.2s ease;
+}
+.qi-bd__sq.is-neg {
+  fill: var(--bd-neg);
+}
+.qi-bd__sq.is-pos {
+  fill: var(--bd-pos);
+}
+.qi-bd__sq.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-bd__threshold {
+  stroke: var(--qi-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.qi-bd__threshold-label {
+  fill: var(--qi-accent);
+}
+.qi-bd__band {
+  cursor: pointer;
+  stroke: transparent;
+  stroke-width: 2;
+}
+.qi-bd__band.is-hot {
+  stroke: var(--qi-hot);
+}
+.qi-bd__band.is-neg {
+  fill: var(--bd-neg);
+}
+.qi-bd__band.is-zero {
+  fill: var(--bd-zero);
+}
+.qi-bd__band.is-pos {
+  fill: var(--bd-pos);
+}
+.qi-bd__marker {
+  fill: var(--qi-hot);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-bd__bar,
+  .qi-bd__sq,
+  .qi-bd__cell,
+  .qi-bd__bit {
+    transition: none;
+  }
+}

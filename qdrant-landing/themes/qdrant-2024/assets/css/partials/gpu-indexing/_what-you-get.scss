@@ -1,0 +1,50 @@
+@use '../../helpers/functions' as *;
+
+.gpu-indexing-what-you-get {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  @include gpu-indexing-section-header('gpu-indexing-what-you-get');
+
+  &__image {
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: $spacer * 0.5;
+    }
+  }
+
+  &__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    & + & {
+      margin-top: $spacer * 1.5;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      font-weight: $font-weight-semibold;
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+  }
+}

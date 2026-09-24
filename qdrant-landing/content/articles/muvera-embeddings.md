@@ -58,7 +58,7 @@ a quick definition of them:
 SimHash is one of the LSH techniques that uses random hyperplanes to hash input vectors into binary codes. In the first
 step, this method chooses `k_sim` random hyperplanes (normal vectors) from a standard normal distribution. These 
 hyperplanes divide the vector space into `2^k_sim` regions, because each vector can be on either side of each 
-hyperplane. Here is how such a space division could look like for `k_sim=3`:
+hyperplane. Here is what such a space division could look like for `k_sim=3`:
 
 ![SimHash space partitioning](/articles_data/muvera-embeddings/simhash-space-partitioning.png)
 
@@ -173,7 +173,7 @@ Version 0.7.2 has introduced support for MUVERA embeddings which is compatible w
 and available as a post-processing step.
 
 <aside role="status">
-Due to probabilistic nature of the SimHash and random projection techniques, the MUVERA embeddings created in different
+Due to the probabilistic nature of the SimHash and random projection techniques, the MUVERA embeddings created in different
 libraries won't be compatible. 
 </aside>
 

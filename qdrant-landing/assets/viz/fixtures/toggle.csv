@@ -1,0 +1,4 @@
+engine,config,recall_at_10,throughput_qps
+Qdrant,2 vCPU,0.951,67.2
+Qdrant,4 vCPU,0.977,111.9
+Qdrant,8 vCPU,0.988,168.4

@@ -25,6 +25,10 @@ This guide will walk you three main optimization strategies:
 This page covers the <code>memory</code> parameter introduced in Qdrant v1.19. If you're using an older version, see the <a href="/documentation/ops-configuration/memory-tiers/#legacy-settings">Legacy Settings</a> section for how to map the new parameter to the old ones.
 </aside>
 
+An agent can work through this with you. The Diagnose high memory usage prompt makes it find which component is actually using the memory before it suggests any changes.
+
+{{< prompt "diagnose-memory-usage" >}}
+
 ## 1. High-Speed Search with Low Memory Usage
 
 To achieve high search speed with minimal memory usage, you can store vectors on disk while minimizing the number of disk reads. Vector quantization is a technique that compresses vectors, allowing more of them to be stored in memory, thus reducing the need to read from disk.
@@ -75,10 +79,14 @@ You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abd
 
 *Available as of v1.16.0*
 
+<aside role="alert">
+Inline storage can increase the HNSW index size significantly. Only use it when the HNSW index is in the <a href="/documentation/ops-configuration/memory-tiers/"><code>cold</code> memory tier</a>. To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method <a href="/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method">that compresses to at most 4 bits per dimension</a>, such as TurboQuant.
+</aside>
+
 When vectors and the HNSW index are in the `cold` memory tier, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
 With inline storage, Qdrant stores copies of vectors directly within the HNSW index file.
-It makes searches faster by reducing the number of IO operations, at the cost of 3-4x increased storage usage.
-It requires quantization to be enabled.
+It makes searches faster by reducing the number of IO operations, at the cost of increased storage usage.
+To enable inline storage, quantization must be enabled.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >}}
 

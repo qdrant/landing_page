@@ -82,7 +82,7 @@ $$ f32 = \alpha \times i8 + offset $$
 
 $$ i8 = \frac{f32 - offset}{\alpha} $$
 
-The parameters $ \alpha $ and $ offset $ has to be calculated for a given set of vectors, 
+The parameters $ \alpha $ and $ offset $ have to be calculated for a given set of vectors, 
 but that comes easily by putting the minimum and maximum of the represented range for 
 both `f32` and `i8`. 
 
@@ -101,14 +101,14 @@ $$ \begin{equation}
 \end{equation} $$
 
 For any set of vector values we can simply calculate the $ \alpha $ and $ offset $ and 
-those values have to be stored along with the collection to enable to conversion between
+those values have to be stored along with the collection to enable the conversion between
 the types. 
 
 #### Distance calculation
 
 We do not store the vectors in the collections represented by `int8` instead of `float32` 
 just for the sake of compressing the memory. But the coordinates are being used while we 
-calculate the distance between the vectors. Both dot product and cosine distance requires 
+calculate the distance between the vectors. Both dot product and cosine distance require 
 multiplying the corresponding coordinates of two vectors, so that's the operation we 
 perform quite often on `float32`. Here is how it would look like if we perform the 
 conversion to `int8`:
@@ -126,7 +126,7 @@ computed once and reused.
 
 If we had to calculate all the terms to measure the distance, the performance could have 
 been even worse than without the conversion. But thanks for the fact we can precompute
-the majority of the terms, things are getting simpler. And in turns out the scalar 
+the majority of the terms, things are getting simpler. And it turns out the scalar 
 quantization has a positive impact not only on the memory usage, but also on the 
 performance. As usual, we performed some benchmarks to support this statement!
 
@@ -243,17 +243,17 @@ difference in your search quality.
          <td>Difference</td>
          <td><span style="color: green;">-30.79%</span></td>
          <td>0%</td>
-         <td><span style="color: green;">-44,16%</span></td>
+         <td><span style="color: green;">-44.16%</span></td>
          <td><span style="color: green;">+0.11%</span></td>
          <td><span style="color: green;">-42.96%</span></td>
          <td>0%</td>
-         <td><span style="color: green;">-41,56%</span></td>
+         <td><span style="color: green;">-41.56%</span></td>
       </tr>
    </tbody>
 </table>
 
 In all the cases, the decrease in search precision is negligible, but we keep a latency 
-reduction of at least 28.57%, even up to 60,64%, while searching. As a rule of thumb,
+reduction of at least 28.57%, even up to 60.64%, while searching. As a rule of thumb,
 the higher the dimensionality of the vectors, the lower the precision loss.
 
 ### Oversampling and rescoring

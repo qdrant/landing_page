@@ -51,7 +51,7 @@ Qdrant requires at least one small segment to handle frequently updated data eff
 
 The target number of segments is specified by the `default_segment_number` parameter, which typically defaults to the number of CPUs. During optimization, the optimizer may merge the three smallest segments into one, aiming to balance segment size and system performance.
 
-To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Adjusting this parameter helps strike a balance between indexing speed and search efficiency, especially when dealing with large datasets.
+To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Adjusting this parameter helps strike a balance between indexing speed and search efficiency, especially when dealing with large datasets. When `max_segment_size_kb` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
 
 The criteria for starting the optimizer are defined in the configuration file. Here is an example of parameter values:
 

@@ -44,11 +44,11 @@ BM25's capabilities are well-established, yet it has its limitations.
 BM25 relies solely on the frequency of words in a document and does not attempt to comprehend the meaning or the contextual importance of the words. Additionally, it requires the computation of the entire corpus's statistics in advance, posing a challenge for large datasets.
 
 Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
-They excel in handling large text data, making them crucial in modern data processing a and marking an advancement over traditional methods such as BM25.
+They excel in handling large text data, making them crucial in modern data processing and marking an advancement over traditional methods such as BM25.
 
 ## Understanding sparse vectors
 
-Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complimenting the meaning-rich embedding or dense vectors. 
+Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complementing the meaning-rich embedding or dense vectors. 
 
 Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain non-zero values for every element. In contrast, sparse vectors focus on relative word weights per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
 
@@ -209,7 +209,7 @@ Consider a query "solar energy advantages". SPLADE might expand this to include 
 
 SPLADE learns the query/document expansion to include other relevant terms. This is a crucial advantage over other sparse methods which include the exact word, but completely miss the contextually relevant ones.
 
-This expansion has a direct relationship with what we can control when making a SPLADE model: Sparsity via Regularisation. The number of tokens (BERT wordpieces) we use to represent each document. If we use more tokens, we can represent more terms, but the vectors become denser. This number is typically between 20 to 200 per document. As a reference point, the dense BERT vector is 768 dimensions, OpenAI Embedding is 1536 dimensions, and the sparse vector is 30 dimensions. 
+This expansion has a direct relationship with what we can control when making a SPLADE model: Sparsity via Regularisation. The number of tokens (BERT wordpieces) we use to represent each document. If we use more tokens, we can represent more terms, but the vectors become denser. This number is typically between 20 to 200 per document. As a reference point, the dense BERT vector is 768 dimensions, OpenAI Embedding is 1536 dimensions, and the sparse vector is ~30,000 dimensions (BERT's vocabulary size), with only 20-200 of those non-zero per document. 
 
 For example, assume a 1M document corpus. Say, we use 100 sparse token ids + weights per document. Correspondingly, dense BERT vector would be 768M floats, the OpenAI Embedding would be 1.536B floats, and the sparse vector would be a maximum of 100M integers + 100M floats. This could mean a **10x reduction in memory usage**, which is a huge win for large-scale systems:
 
@@ -245,7 +245,7 @@ SPLADE importance estimation can provide insights into the 'why' behind a docume
 ### Pooling strategy
 The switch to max pooling in SPLADE improved its performance on the MS MARCO and TREC datasets. However, this indicates a potential limitation of the baseline SPLADE pooling method, suggesting that SPLADE's performance is sensitive to the choice of pooling strategy​​.
 
-### Document and query Eecoder 
+### Document and query Encoder 
 The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
 ### Other sparse vector methods

@@ -7,7 +7,11 @@ weight: 10
 
 # Private Cloud Configuration
 
-The Qdrant Private Cloud helm chart has several configuration options. The following YAML shows all configuration options with their default values:
+The Qdrant Private Cloud Helm chart has several configuration options. These configure the Operator itself and the fleet-wide defaults it applies to every Qdrant database it manages, such as the database image, log level and storage performance settings.
+
+Settings that differ per cluster are not set here. API keys, TLS and [audit logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) (`spec.config.audit`) belong on the `QdrantCluster` resource; see [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/) and the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig). Audit logging has no Helm-level default and must be enabled on each cluster.
+
+The following YAML shows all Helm chart configuration options with their default values:
 
 ```yaml
 operator:

@@ -10,4 +10,3 @@ weight: 10 # Choose a unique weight within the topic; lower numbers appear first
 ---
 
 # {{ replace .Name "-" " " | title }}
-

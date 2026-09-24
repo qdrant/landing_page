@@ -1,17 +1,19 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ partial "cloud-inference-hero" . }}
-  {{ partial "cloud-inference-features" . }}
-  {{ partial "cloud-inference-cluster" . }}
+  {{ partial "cloud-inference/hero" . }}
+  {{ partial "cloud-inference/embedding-models" . }}
 
-  {{ with (.Site.GetPage "/cloud-inference/cloud-inference-read-doc") }}
-    {{ partial "get-started-small" (dict "context" . "class" "cloud-inference-read-doc") }}
+  {{ with (.Site.GetPage "/cloud-inference/model-request-banner") }}
+    {{ partial "pricing-banner" . }}
   {{ end }}
 
-  {{ partial "cloud-inference-faq" . }}
+  {{ partial "cloud-inference/what-you-get" . }}
+  {{ partial "cloud-inference/how-it-works" . }}
+  {{ partial "cloud-inference/approaches" . }}
+  {{ partial "cloud-inference/faq" . }}
 
-  {{ with (.Site.GetPage "/cloud-inference/cloud-inference-get-started") }}
-    {{ partial "get-started-small" (dict "context" . "class" "cloud-inference-get-started") }}
+  {{ with (.Site.GetPage "/cloud-inference/cta-banner") }}
+    {{ partial "cta-banner" . }}
   {{ end }}
 {{ end }}

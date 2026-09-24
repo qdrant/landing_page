@@ -38,7 +38,7 @@ The key to performing vector search in constant time with quantum quantization i
 Grover's algorithm is a quantum search algorithm that finds the location of a marked item in an unsorted database in O(√N) time, where N is the size of the database.
 This is a significant improvement over classical algorithms, which require O(N) time to solve the same problem.
 
-However, the is one another trick, which allows to improve Grover's algorithm performanse dramatically.
+However, there is another trick, which allows to improve Grover's algorithm performance dramatically.
 This trick is called transposition and it allows to reduce the number of Grover's iterations from O(√N) to O(√D), where D - is a dimension of the vector space.
 
 And since the dimension of the vector space is much smaller than the number of vectors, and usually is a constant, this trick allows to reduce the number of Grover's iterations from O(√N) to O(√D) = O(1).
