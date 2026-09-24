@@ -7,6 +7,11 @@ partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
 aliases:
   - /documentation/agentic-rag-crewai-zoom/
+goal: RAG & Agents
+stack:
+  - Python
+  - CrewAI
+  - Streamlit
 ---
 <!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png) -->
 

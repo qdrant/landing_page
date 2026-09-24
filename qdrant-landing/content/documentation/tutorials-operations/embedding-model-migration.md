@@ -5,6 +5,17 @@ description: "Tutorial: switch embedding models in Qdrant with zero downtime by 
 aliases:
   - /documentation/tutorials/embedding-model-migration/
 weight: 30
+goal: Operations
+stack:
+  - Python
+keywords:
+  - replace
+  - change
+  - embedding
+  - models
+  - migration
+  - serving
+  - traffic
 ---
 
 # Migrate to a New Embedding Model with Zero Downtime in Qdrant

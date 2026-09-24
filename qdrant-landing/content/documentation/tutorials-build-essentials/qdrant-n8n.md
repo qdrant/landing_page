@@ -8,7 +8,9 @@ social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_previe
 aliases:
   - /blog/qdrant-n8n-beyond-simple-similarity-search/
   - /documentation/qdrant-n8n/
-
+goal: RAG & Agents
+stack:
+  - n8n
 ---
 
 <!-- ![n8n-qdrant](/documentation/examples/qdrant-n8n-2/cover.png) -->

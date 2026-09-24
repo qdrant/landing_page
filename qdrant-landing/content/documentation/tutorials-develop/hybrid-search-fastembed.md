@@ -7,6 +7,14 @@ aliases:
   - /documentation/beginner-tutorials/hybrid-search-fastembed/
   - /documentation/tutorials-search-engineering/hybrid-search-fastembed/
 weight: 50
+goal: Search Quality
+stack:
+  - Python
+  - FastEmbed
+  - FastAPI
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant/qdrant_demo/
 ---
 
 # Build a Search API with Qdrant's FastEmbed

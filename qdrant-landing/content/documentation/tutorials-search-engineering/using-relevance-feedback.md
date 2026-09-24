@@ -3,6 +3,12 @@ title: Relevance Feedback Retrieval in Qdrant
 short_description: "Add relevance feedback to a Qdrant retriever to nudge search toward more relevant results across the entire vector space."
 description: "Tutorial: integrate Qdrant's relevance feedback query into a search pipeline, customize feedback parameters, and evaluate retrieval quality gains."
 weight: 2
+goal: Search Quality
+stack:
+  - Python
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb
 ---
 # Relevance Feedback in Qdrant
 

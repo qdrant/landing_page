@@ -5,6 +5,10 @@ description: "Configure multitenant retrieval with LlamaIndex and Qdrant via pay
 weight: 25
 aliases:
   - /documentation/tutorials/llama-index-multitenancy/
+goal: Data & Filtering
+stack:
+  - Python
+  - LlamaIndex
 ---
 
 # Multitenancy with LlamaIndex

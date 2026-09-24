@@ -6,6 +6,10 @@ weight: 2
 aliases:
   - /documentation/search-precision/multivector-representations-with-Qdrant/
   - /documentation/advanced-tutorials/using-multivector-representations/
+goal: Search Quality
+stack:
+  - Python
+  - FastEmbed
 ---
 # Multivector Representations for Reranking in Qdrant
 

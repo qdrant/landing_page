@@ -6,6 +6,12 @@ description: "Store multivector late interaction embeddings with Qdrant's turbo4
 weight: 14
 aliases:
   - /documentation/tutorials-search-engineering/multivector-turbo4/
+goal: Search Quality
+stack:
+  - Python
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multivector-turbo4/Multivector_Turbo4.ipynb
 ---
 
 # Compressed Multivector Search

@@ -15,8 +15,6 @@ keywords:
   - scaling
   - benchmark
 weight: 8
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/memory-tiers-in-qdrant-what-to-use-and-when/
 ---

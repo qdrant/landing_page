@@ -3,6 +3,15 @@ title: Multi-Representation Search
 weight: 11
 aliases:
   - /documentation/tutorials/multi-representation-search/
+goal: Search Quality
+stack:
+  - Python
+  - FastEmbed
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb
+short_description: Combine title, summary, and chunk vectors in one retrieval pipeline,
+  then compare the effect of each representation.
 ---
 
 # Multi-Representation Search Across Titles, Abstracts, and Chunks

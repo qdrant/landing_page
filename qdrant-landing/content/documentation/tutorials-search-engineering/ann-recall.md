@@ -5,6 +5,20 @@ aliases:
   - /documentation/beginner-tutorials/retrieval-quality/
   - /documentation/tutorials-search-engineering/retrieval-quality/
 weight: 5
+goal: Search Quality
+stack:
+  - Python
+  - Web UI
+keywords:
+  - evaluation
+  - index
+  - quality
+  - hnsw
+  - approximate
+  - exact
+  - recall
+short_description: Compare approximate search with exact results, inspect ANN recall
+  in the Web UI, and add a repeatable Python check.
 ---
 
 # Measuring ANN Recall

@@ -9,6 +9,14 @@ aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
   - /documentation/advanced-tutorials/multimodal-search-fastembed/
   - /documentation/multimodal-search/
+goal: Multimodal Search
+stack:
+  - Python
+  - Cohere
+  - Cloud Inference
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_Cohere_and_Cloud_Inference.ipynb
 ---
 
 # Multimodal and Multilingual Vector Search with Cohere and Qdrant

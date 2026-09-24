@@ -8,6 +8,13 @@ description: "Optimizing PDF retrieval at scale with Qdrant and Vision Large Lan
 weight: 4
 preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
 social_preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
+goal: Multimodal Search
+stack:
+  - Python
+  - ColPali
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb
 ---
 
 # Qdrant Multivector Document Retrieval with ColPali/ColQwen

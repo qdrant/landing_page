@@ -15,8 +15,6 @@ keywords:
   - scalar quantization
   - memory tiers
   - HNSW tuning
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/candidate-depth/
 guide_series: true

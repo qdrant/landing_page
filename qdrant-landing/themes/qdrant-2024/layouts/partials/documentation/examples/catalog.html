@@ -1,8 +1,9 @@
+{{ $pages := partialCached "documentation/examples/pages.html" . }}
 {{ $goals := slice }}
 {{ $stacks := slice }}
-{{ range hugo.Data.examples }}
-  {{ $goals = $goals | append .goal }}
-  {{ $stacks = $stacks | append .stack }}
+{{ range $pages }}
+  {{ $goals = $goals | append .Params.goal }}
+  {{ $stacks = $stacks | append .Params.stack }}
 {{ end }}
 {{/* Keep recurring stacks visible; group the long tail under Other. */}}
 {{ $mainStacks := slice }}
@@ -37,26 +38,22 @@
     </div>
     <button type="reset" class="button button_outlined button_sm">Clear Filters</button>
   </form>
-  <p data-example-count role="status" aria-live="polite" aria-atomic="true">{{ len hugo.Data.examples }} results</p>
+  <p data-example-count role="status" aria-live="polite" aria-atomic="true">{{ len $pages }} results</p>
   <p data-example-empty hidden>No tutorials or examples match these filters. Try a broader term or clear the filters.</p>
   <div class="row g-4">
-    {{ range hugo.Data.examples }}
-      {{ $entry := . }}
-      {{ $page := site.GetPage .page }}
-      {{ if not $page }}{{ errorf "Unknown example page %s" .page }}{{ end }}
-      {{ $title := .title | default $page.Title }}
-      {{ $description := .description | default $page.Params.short_description | default $page.Description }}
-      {{ if not $description }}{{ errorf "Missing example description: %s" .page }}{{ end }}
-      <div class="col-12 col-lg-6" data-example data-goal="{{ .goal }}" data-stack="{{ delimit .stack "|" }}" data-search="{{ printf "%s %s %s %s %s" $title $description .goal (delimit .stack " ") (.keywords | default "") | lower }}">
+    {{ range $pages }}
+      {{ $page := . }}
+      {{ $title := .Title }}
+      {{ $description := .Params.short_description | default .Description }}
+      <div class="col-12 col-lg-6" data-example data-goal="{{ .Params.goal }}" data-stack="{{ delimit .Params.stack "|" }}" data-search="{{ printf "%s %s %s %s %s" $title $description .Params.goal (delimit .Params.stack " ") (delimit (.Params.keywords | default slice) " ") | lower }}">
         <article class="docs-card example-library__card">
-          <span class="docs-card__tag">{{ .goal }}</span>
+          <span class="docs-card__tag">{{ .Params.goal }}</span>
           <h3 class="docs-card__title"><a href="{{ $page.RelPermalink }}">{{ $title }}</a></h3>
           <p class="docs-card__description">{{ $description }}</p>
-          <p class="example-library__stack">{{ delimit .stack " · " }}</p>
+          <p class="example-library__stack">{{ delimit .Params.stack " · " }}</p>
           <div class="example-library__actions">
             <a href="{{ $page.RelPermalink }}" class="link link_sm">Open Example<span class="visually-hidden">: {{ $title }}</span></a>
-            {{ range .resources }}
-              {{ if not (strings.Contains $page.RawContent .url) }}{{ errorf "Example resource is no longer linked from %s: %s" $entry.page .url }}{{ end }}
+            {{ range .Params.example_resources }}
               <a href="{{ .url }}" class="link link_sm">{{ .label }}<span class="visually-hidden">: {{ $title }}</span></a>
             {{ end }}
           </div>

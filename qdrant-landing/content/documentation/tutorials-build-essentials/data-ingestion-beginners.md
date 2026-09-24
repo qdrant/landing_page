@@ -8,6 +8,11 @@ hideInSidebar: true
 social_preview_image: /documentation/examples/data-ingestion-beginners/social_preview.png
 aliases:
   - /documentation/data-ingestion-beginners/
+goal: Data & Filtering
+stack:
+  - Python
+  - LangChain
+  - AWS
 ---
 <!-- ![data-ingestion-beginners-7](/documentation/examples/data-ingestion-beginners/data-ingestion-7.png) -->
 

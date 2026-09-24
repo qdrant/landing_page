@@ -1,11 +1,8 @@
 {{ $pages := where site.RegularPages "Params.learning_kind" "guides" }}
 {{ $linkText := "Open Guide" }}
 {{ if eq .kind "examples" }}
-  {{ $pages = slice }}
+  {{ $pages = partialCached "documentation/examples/pages.html" . }}
   {{ $linkText = "Open Example" }}
-  {{ range hugo.Data.examples }}
-    {{ with site.GetPage .page }}{{ $pages = $pages | append . }}{{ end }}
-  {{ end }}
 {{ end }}
 {{ $dated := slice }}
 {{ range $pages }}

@@ -4,6 +4,13 @@ date: 2026-08-25T14:55:39+02:00
 short_description: "Speed up HNSW index builds with GPU acceleration on Qdrant Cloud, and measure the effect on indexing time, query latency, and cost."
 description: "Build a GPU-powered Qdrant Cloud cluster, measure how GPU acceleration affects HNSW indexing time and query latency, and compare cost against a CPU-only cluster."
 weight: 42
+goal: Operations
+stack:
+  - Python
+  - Qdrant Cloud
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/gpu-accelerated-hnsw-indexing/Gpu_Accelerated_HNSW_Indexing.ipynb
 ---
 
 # GPU-Accelerated HNSW Indexing in Qdrant

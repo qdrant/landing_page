@@ -24,33 +24,29 @@ content:
   - partial: documentation/recent-publications
     kind: guides
   - partial: documentation/guides/topics
-  - partial: documentation/sections/cards-section
+  - partial: documentation/guides/featured
     title: Start with a Practical Guide
     description: Work through a decision you can apply to your own search system.
-    cardsPartial: documentation/cards/docs-cards
     cards:
-      - title: "How to Choose an Embedding Model: Evaluation & Tradeoffs"
+      - page: /documentation/search-patterns/choose-embedding-model/
         description: Compare relevance, language support, and serving cost before you rebuild document vectors.
         icon:
           src: /icons/outline/vectors-blue.svg
           alt: ""
         link:
           text: Compare Models
-          url: /documentation/search-patterns/choose-embedding-model/
-      - title: How to Implement Multitenancy and Custom Sharding in Qdrant
+      - page: /documentation/production-patterns/multitenant-search/
         description: Choose shared collections, tenant filters, and shard placement as customer workloads grow.
         icon:
           src: /icons/outline/cloud-cog-teal.svg
           alt: ""
         link:
           text: Plan Tenant Growth
-          url: /documentation/production-patterns/multitenant-search/
-      - title: Bulk Uploading Data to Qdrant
+      - page: /documentation/production-patterns/bulk-data-import/
         description: Plan batching, parallel uploads, sharding, and indexing for large datasets.
         icon:
           src: /icons/outline/refresh-cw-purple.svg
           alt: ""
         link:
           text: Plan Your Import
-          url: /documentation/production-patterns/bulk-data-import/
 ---

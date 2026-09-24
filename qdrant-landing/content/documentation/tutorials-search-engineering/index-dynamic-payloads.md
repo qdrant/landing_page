@@ -3,6 +3,16 @@ title: Indexing Payloads of Random Shape
 short_description: "Index open-ended payloads whose keys are data in Qdrant, using a nested filter over a fixed key-value array instead of one index per key."
 description: "Model payloads with arbitrary keys in Qdrant. Reshape open-ended fields into a key-value array, index it at setup, and query exact matches and ranges with a nested filter."
 weight: 13
+goal: Data & Filtering
+stack:
+  - Python
+keywords:
+  - arbitrary
+  - dynamic
+  - attributes
+  - filters
+  - payload
+  - schema
 ---
 
 # Indexing Payloads of Random Shape

@@ -5,6 +5,9 @@ description: "Tutorial: use a blue-green cluster deployment to perform version u
 aliases:
   - /documentation/tutorials/blue-green-deployment/
 weight: 35
+goal: Operations
+stack:
+  - Python
 ---
 
 # Blue-Green Cluster Deployment

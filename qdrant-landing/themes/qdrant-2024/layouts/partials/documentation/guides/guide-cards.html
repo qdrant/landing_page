@@ -19,12 +19,8 @@
 {{ end }}
 {{ $examples := slice }}
 {{ range $section.Params.worked_examples }}
-  {{ $url := . }}
   {{ with site.GetPage . }}
-    {{ $description := .Params.short_description }}
-    {{ range where hugo.Data.examples "page" $url }}
-      {{ $description = .description | default $description }}
-    {{ end }}
+    {{ $description := .Params.short_description | default .Description }}
     {{ $examples = $examples | append (dict "title" .Title "description" $description "link" (dict "text" "Open Example" "url" .RelPermalink)) }}
   {{ else }}{{ errorf "Unknown worked example %s" . }}{{ end }}
 {{ end }}

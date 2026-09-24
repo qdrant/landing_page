@@ -15,8 +15,6 @@ keywords:
   - sharding
 date: 2026-07-14T00:00:00.000Z
 draft: false
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/bulk-uploads-in-qdrant/
 ---

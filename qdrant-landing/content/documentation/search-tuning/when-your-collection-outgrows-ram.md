@@ -15,8 +15,6 @@ keywords:
   - rescoring
   - oversampling
   - TurboQuant
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/when-your-collection-outgrows-ram/
 guide_series: true

@@ -1,7 +1,7 @@
 {{ $current := .RelPermalink }}
 {{ $isGuide := eq .Params.learning_kind "guides" }}
 {{ $goals := slice }}
-{{ range hugo.Data.examples }}{{ $goals = $goals | append .goal }}{{ end }}
+{{ range partialCached "documentation/examples/pages.html" . }}{{ $goals = $goals | append .Params.goal }}{{ end }}
 {{ $goals = sort (uniq $goals) }}
 {{ if in $goals "Get Started" }}
   {{ $goals = slice "Get Started" | append (collections.Complement (slice "Get Started") $goals) }}

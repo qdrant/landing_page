@@ -8,6 +8,8 @@ aliases:
   - how-to
   - tutorials
 partition: develop
+cascade:
+  learning_kind: tutorials
 ---
 
 ### Search Engineering Tutorials

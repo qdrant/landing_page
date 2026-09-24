@@ -36,10 +36,8 @@
     {{ range where (site.GetPage "/documentation").Sections "Params.learning_kind" "guides" }}
       {{ $sections = $sections | append (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) }}
     {{ end }}
-    {{ range hugo.Data.examples }}
-      {{ with site.GetPage .page }}
-        {{ $sections = $sections | append (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) }}
-      {{ end }}
+    {{ range partialCached "documentation/examples/pages.html" . }}
+      {{ $sections = $sections | append (strings.TrimPrefix "/" (strings.TrimSuffix "/" .RelPermalink)) }}
     {{ end }}
     <meta name="learn-search-sections" content="{{ delimit $sections "," }}" />
   {{ end }}

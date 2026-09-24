@@ -3,6 +3,9 @@ title: Time-Based Sharding
 short_description: "Implement time-based sharding in Qdrant to route fast-moving data by timestamp and prune old shards without expensive re-indexing."
 description: "Tutorial: configure time-based sharding in Qdrant to route data by timestamp, target queries to recent shards, and prune older data without re-indexing."
 weight: 35
+goal: Data & Filtering
+stack:
+  - Python
 ---
 
 # Time-Based Sharding in Qdrant

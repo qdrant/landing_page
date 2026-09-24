@@ -6,8 +6,6 @@ weight: 7
 aliases:
   - /documentation/improve-search/pipeline-output-quality/
   - /documentation/tutorials/retrieval-quality-pipeline-output/
-partition: learn
-learning_kind: guides
 ---
 
 # Evaluating Pipeline Output Quality

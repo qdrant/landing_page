@@ -8,8 +8,6 @@ weight: 30
 author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/vector-search-filtering/
 ---

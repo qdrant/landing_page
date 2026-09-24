@@ -15,8 +15,6 @@ keywords:
   - MMR
   - search relevance
   - FastEmbed
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/when-a-reranker-is-worth-it/
 guide_series: true

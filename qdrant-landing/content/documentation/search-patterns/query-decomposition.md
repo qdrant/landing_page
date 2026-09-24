@@ -5,8 +5,6 @@ description: "Answer multi-hop questions in Qdrant: decompose the query into ret
 weight: 20
 aliases:
   - /documentation/improve-search/query-decomposition/
-partition: learn
-learning_kind: guides
 ---
 
 # Query Decomposition for Multi-Hop Questions

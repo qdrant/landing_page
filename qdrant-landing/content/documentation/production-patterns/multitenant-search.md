@@ -14,8 +14,6 @@ keywords:
   - custom sharding
   - multiple partitions
   - vector database
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/multitenancy/
 ---

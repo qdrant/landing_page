@@ -15,8 +15,6 @@ keywords:
   - BM25
   - reciprocal rank fusion
   - search relevance
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/hybrid-search/
 guide_series: true

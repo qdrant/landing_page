@@ -1,8 +1,8 @@
 {{- $content := "# Tutorials & Examples\n\nFind an implementation by goal and stack. Open the example for its prerequisites and procedure, or use its available code.\n" -}}
-{{- range hugo.Data.examples -}}
-  {{- $page := site.GetPage .page -}}
-  {{- $content = printf "%s\n## %s\n\n%s\n\nGoal: %s. Stack: %s.\n\n[Open Example](%sindex.md)" $content (.title | default $page.Title) (.description | default $page.Params.short_description | default $page.Description) .goal (delimit .stack ", ") $page.Permalink -}}
-  {{- range .resources -}}
+{{- range partialCached "documentation/examples/pages.html" . -}}
+  {{- $page := . -}}
+  {{- $content = printf "%s\n## %s\n\n%s\n\nGoal: %s. Stack: %s.\n\n[Open Example](%sindex.md)" $content $page.Title ($page.Params.short_description | default $page.Description) .Params.goal (delimit .Params.stack ", ") $page.Permalink -}}
+  {{- range .Params.example_resources -}}
     {{- $content = printf "%s | [%s](%s)" $content .label .url -}}
   {{- end -}}
   {{- $content = printf "%s\n" $content -}}

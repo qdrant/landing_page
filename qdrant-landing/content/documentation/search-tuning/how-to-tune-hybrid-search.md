@@ -15,8 +15,6 @@ keywords:
   - RRF k parameter
   - fusion weights
   - DBSF
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/how-to-tune-hybrid-search/
 guide_series: true

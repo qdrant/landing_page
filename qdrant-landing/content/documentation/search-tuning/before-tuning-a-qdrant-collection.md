@@ -15,8 +15,6 @@ keywords:
   - nDCG
   - labeled query set
   - Qdrant collection audit
-partition: learn
-learning_kind: guides
 aliases:
   - /articles/before-tuning-a-qdrant-collection/
 guide_series: true

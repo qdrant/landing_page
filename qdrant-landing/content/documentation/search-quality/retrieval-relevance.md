@@ -6,8 +6,6 @@ weight: 6
 aliases:
   - /documentation/improve-search/retrieval-relevance/
   - /documentation/tutorials/retrieval-quality-golden-set/
-partition: learn
-learning_kind: guides
 ---
 
 # Measuring Retrieval Relevance
