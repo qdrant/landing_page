@@ -20,7 +20,7 @@ Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained s
 
 {{< island
     path="content/documentation/headless/edge/edge-on-device"
-    width="90%" ratio="13 / 8"
+    width="90%" ratio="720 / 340"
     title="Ingest and query run inside the application process on the device. A Qdrant server is optional, for backups and heavier indexing."
 >}}
 ![Qdrant Edge Shards operate on edge devices](/documentation/edge/qdrant-edge.png)

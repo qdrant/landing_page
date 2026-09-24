@@ -1,21 +1,14 @@
-/* edge-on-device island. Scoped under .qi-eod. Controls, frame, labels and
-   status come from the shared island design system (islands.scss); this file
-   only styles the device shells, the two local lanes and the optional link
-   across the boundary. Operation hues are constant across themes
-   (design-system palette, see Colors). */
+/* edge-on-device island. Scoped under .qi-eod. Frame, label and title classes
+   come from the shared island design system (islands.scss); this file only
+   styles the device shells, the two lanes and the connector across the
+   boundary. The diagram is static, so nothing here animates. Operation hues
+   are constant across themes (design-system palette, see Colors). */
 
 .qi-eod {
   --eod-ingest: #6047ff; /* neon-blue-500 */
   --eod-query: #00838f; /* cyan-800 */
 
   display: block;
-}
-
-.qi-eod__op[data-op='ingest'] {
-  --swatch: var(--eod-ingest);
-}
-.qi-eod__op[data-op='query'] {
-  --swatch: var(--eod-query);
 }
 
 /* Device and server shells: the outer boundary of a machine. */
@@ -25,7 +18,7 @@
   stroke-width: 1.5;
 }
 
-/* Nested boxes: process, code, storage. */
+/* Nested boxes: process, logic, storage. */
 .qi-eod__box {
   fill: var(--qi-surface);
   stroke: var(--qi-border);
@@ -42,21 +35,13 @@
   stroke-dasharray: 5 5;
 }
 
-/* Local lanes. Both are drawn at rest, so the diagram reads as a picture even
-   before anything is clicked; running one operation mutes the other. */
+/* The two local lanes, between the application logic and the shard. */
 .qi-eod__lane--ingest {
   --lane: var(--eod-ingest);
 }
 .qi-eod__lane--query {
   --lane: var(--eod-query);
 }
-.qi-eod__lane {
-  transition: opacity 0.2s ease;
-}
-.qi-eod__lane.is-muted {
-  opacity: 0.45;
-}
-
 .qi-eod__wire {
   stroke: var(--lane);
   stroke-width: 2;
@@ -69,44 +54,14 @@
   fill: var(--qi-muted);
 }
 
-.qi-eod__packet {
-  fill: var(--lane, var(--qi-muted));
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-.qi-eod__packet.is-on {
-  opacity: 1;
-}
-
-/* Everything off the device is dimmed until sync is switched on. */
+/* Everything off the device is dimmed: available, but not part of the story. */
 .qi-eod__off,
 .qi-eod__off-title {
-  opacity: 0.4;
-  transition: opacity 0.2s ease;
+  opacity: 0.45;
 }
-.qi-eod.is-sync .qi-eod__off,
-.qi-eod.is-sync .qi-eod__off-title {
-  opacity: 1;
-}
-
 .qi-eod__link {
   stroke: var(--qi-line);
   stroke-width: 2;
   stroke-dasharray: 4 4;
   stroke-linecap: round;
-}
-.qi-eod.is-sync .qi-eod__link {
-  stroke: var(--qi-muted);
-}
-.qi-eod__packet--link {
-  --lane: var(--qi-muted);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .qi-eod__lane,
-  .qi-eod__off,
-  .qi-eod__off-title,
-  .qi-eod__packet {
-    transition: none;
-  }
 }
