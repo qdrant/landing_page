@@ -1,0 +1,400 @@
+{
+  "date": "2026-09-24",
+  "hardware": "Apple M5 Pro",
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "method": {
+    "backend": "FastEmbed research preview / ONNX Runtime CPUExecutionProvider",
+    "threads": 4,
+    "batch_size": 1,
+    "fresh_processes_per_model": 3,
+    "warmups": 5,
+    "queries_per_process": 20,
+    "query_words": 20,
+    "stella_prefix": "Instruct: Given a web search query, retrieve relevant passages that answer the query.\nQuery: ",
+    "queries": [
+      "query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant",
+      "document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query",
+      "retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query document",
+      "medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval",
+      "finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine",
+      "law science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance",
+      "science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law",
+      "search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science",
+      "passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search",
+      "relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage",
+      "query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant",
+      "document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query",
+      "retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query document",
+      "medicine finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval",
+      "finance law science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine",
+      "law science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance",
+      "science search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law",
+      "search passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science",
+      "passage relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search",
+      "relevant query document retrieval medicine finance law science search passage relevant query document retrieval medicine finance law science search passage"
+    ],
+    "loading": "Imports and local model initialization; no download or interpreter startup",
+    "disk_cache": "Not flushed",
+    "aggregation": "Median across three trials for each metric",
+    "scope": "Query encoding only; no Qdrant or network",
+    "model_order": "Rotated between rounds"
+  },
+  "summary": {
+    "Zero": {
+      "model_loading_s": 0.3338938750093803,
+      "first_query_ms": 0.5874579946976155,
+      "warm_p50_ms": 0.08108300971798599
+    },
+    "Nano": {
+      "model_loading_s": 0.40952845799620263,
+      "first_query_ms": 3.9354170148726553,
+      "warm_p50_ms": 3.1314794905483723
+    },
+    "Full Stella": {
+      "model_loading_s": 1.3008027499890886,
+      "first_query_ms": 54.48366698692553,
+      "warm_p50_ms": 38.95183349959552
+    }
+  },
+  "trials": {
+    "Zero": [
+      {
+        "model_loading_s": 0.4785462089930661,
+        "first_query_ms": 4.733791982289404,
+        "warm_p50_ms": 0.0786245072958991,
+        "samples_ms": [
+          0.07866599480621517,
+          0.08154197712428868,
+          0.07779200677759945,
+          0.07799998275004327,
+          0.07758301217108965,
+          0.07945799734443426,
+          0.07937499321997166,
+          0.07779200677759945,
+          0.08091700146906078,
+          0.08204102050513029,
+          0.0788329925853759,
+          0.07858301978558302,
+          0.0771670020185411,
+          0.07800001185387373,
+          0.07658300455659628,
+          0.07729200297035277,
+          0.07720798021182418,
+          0.2330829738639295,
+          0.13433300773613155,
+          0.09262500680051744
+        ],
+        "revision": "ebee6ea94999f26182505548ffc5df035e727351",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      {
+        "model_loading_s": 0.31773599999723956,
+        "first_query_ms": 0.5874579946976155,
+        "warm_p50_ms": 0.08108300971798599,
+        "samples_ms": [
+          0.08329100091941655,
+          0.08262498886324465,
+          0.08054199861362576,
+          0.08020899258553982,
+          0.0805000017862767,
+          0.08125000749714673,
+          0.08054097997955978,
+          0.08091601193882525,
+          0.08187501225620508,
+          0.08016699575819075,
+          0.07970901788212359,
+          0.07974999607540667,
+          0.07949999417178333,
+          0.07908398401923478,
+          0.13729199417866766,
+          0.2841660170815885,
+          0.11962497956119478,
+          0.10404200293123722,
+          0.0881669984664768,
+          0.08566700853407383
+        ],
+        "revision": "ebee6ea94999f26182505548ffc5df035e727351",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      {
+        "model_loading_s": 0.3338938750093803,
+        "first_query_ms": 0.5562079895753413,
+        "warm_p50_ms": 0.08591701043769717,
+        "samples_ms": [
+          0.09033401147462428,
+          0.08720901678316295,
+          0.08462497498840094,
+          0.08266701479442418,
+          0.08224998600780964,
+          0.08320799679495394,
+          0.08216701098717749,
+          0.08091601193882525,
+          0.08012499893084168,
+          0.09637500625103712,
+          0.14975000522099435,
+          0.2435839851386845,
+          0.2271670091431588,
+          0.13620901154354215,
+          0.10891599231399596,
+          0.09108299855142832,
+          0.1271250075660646,
+          0.08462500409223139,
+          0.08245799108408391,
+          0.08095800876617432
+        ],
+        "revision": "ebee6ea94999f26182505548ffc5df035e727351",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      }
+    ],
+    "Nano": [
+      {
+        "model_loading_s": 0.4121812079974916,
+        "first_query_ms": 6.47583301179111,
+        "warm_p50_ms": 3.1314794905483723,
+        "samples_ms": [
+          2.8952499851584435,
+          3.329999977722764,
+          2.982458012411371,
+          3.304582991404459,
+          3.057041991269216,
+          2.9775419970974326,
+          3.6627919762395322,
+          3.099124995060265,
+          3.2002920052036643,
+          3.444832982495427,
+          2.8909580141771585,
+          3.244209015974775,
+          2.924250002251938,
+          2.831292018527165,
+          3.18270901334472,
+          3.1638339860364795,
+          2.998209005454555,
+          3.5524580162018538,
+          2.928041008999571,
+          3.197249985532835
+        ],
+        "revision": "e1a51bff5b15210c93e903406fb655a40ff4e61a",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      {
+        "model_loading_s": 0.4009303750062827,
+        "first_query_ms": 3.9354170148726553,
+        "warm_p50_ms": 2.9591454949695617,
+        "samples_ms": [
+          3.1673340126872063,
+          2.8582499944604933,
+          2.7871660131495446,
+          3.0942919838707894,
+          2.842540998244658,
+          2.8285839944146574,
+          3.186374990036711,
+          3.021375014213845,
+          2.8714170039165765,
+          2.961958001833409,
+          2.8445839998312294,
+          3.040541982045397,
+          3.332249994855374,
+          2.9224579920992255,
+          3.254707989981398,
+          3.0199579778127372,
+          2.8990000137127936,
+          3.0037919932510704,
+          2.86079099169001,
+          2.9563329881057143
+        ],
+        "revision": "e1a51bff5b15210c93e903406fb655a40ff4e61a",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      {
+        "model_loading_s": 0.40952845799620263,
+        "first_query_ms": 3.7439159932546318,
+        "warm_p50_ms": 3.203666507033631,
+        "samples_ms": [
+          3.193458018358797,
+          3.290958993602544,
+          3.227665991289541,
+          2.866125025320798,
+          3.40212500304915,
+          2.9910000157542527,
+          2.9147080203983933,
+          3.4470419923309237,
+          3.448000003118068,
+          4.178500006673858,
+          3.14845799584873,
+          3.250167006626725,
+          3.1277500092983246,
+          3.2376250019297004,
+          3.2138749957084656,
+          2.9422499937936664,
+          3.1127079855650663,
+          3.2880830112844706,
+          2.9012909799348563,
+          3.193125012330711
+        ],
+        "revision": "e1a51bff5b15210c93e903406fb655a40ff4e61a",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      }
+    ],
+    "Full Stella": [
+      {
+        "model_loading_s": 1.815033583989134,
+        "first_query_ms": 49.30899999453686,
+        "warm_p50_ms": 37.31645850348286,
+        "samples_ms": [
+          37.21333298017271,
+          37.1033750125207,
+          38.433915993664414,
+          37.771084025735036,
+          37.41074999561533,
+          37.45041700312868,
+          37.52983300364576,
+          37.377833999926224,
+          37.24141698330641,
+          37.65108299558051,
+          37.11137501522899,
+          37.01079200254753,
+          36.99945900007151,
+          37.053999985801056,
+          37.40720800124109,
+          37.21708300872706,
+          40.704417013330385,
+          38.509083999088034,
+          37.2550830070395,
+          37.21620800206438
+        ],
+        "revision": "9ec7ac44fc2a6e1e768407d1fba9e81c4d6d9317",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      {
+        "model_loading_s": 1.3008027499890886,
+        "first_query_ms": 54.48366698692553,
+        "warm_p50_ms": 38.95183349959552,
+        "samples_ms": [
+          39.09100001328625,
+          38.71545798028819,
+          39.82483298750594,
+          38.70862501207739,
+          39.781165978638455,
+          40.898958017351106,
+          38.938208017498255,
+          39.41079098149203,
+          38.74683301546611,
+          38.73337502591312,
+          38.94462497555651,
+          38.81516700494103,
+          38.84449999895878,
+          40.59754099580459,
+          38.70249999454245,
+          40.40358299971558,
+          40.42674999800511,
+          39.55212500295602,
+          38.95904202363454,
+          38.486917008413
+        ],
+        "revision": "9ec7ac44fc2a6e1e768407d1fba9e81c4d6d9317",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      },
+      {
+        "model_loading_s": 1.2774525840068236,
+        "first_query_ms": 59.161084005609155,
+        "warm_p50_ms": 39.18666699610185,
+        "samples_ms": [
+          39.247167005669326,
+          39.16975000174716,
+          38.863667024997994,
+          39.203583990456536,
+          38.92512500169687,
+          38.97004199097864,
+          38.546750001842156,
+          38.773750013206154,
+          38.62104201107286,
+          38.69808398303576,
+          38.68349999538623,
+          38.68608298944309,
+          42.382834013551474,
+          39.588167011970654,
+          40.82637501414865,
+          39.807000022847205,
+          60.11570798000321,
+          521.1384999856818,
+          65.2688329864759,
+          39.930708007887006
+        ],
+        "revision": "9ec7ac44fc2a6e1e768407d1fba9e81c4d6d9317",
+        "versions": {
+          "fastembed": "0.8.0",
+          "onnxruntime": "1.29.0",
+          "numpy": "2.5.2",
+          "tokenizers": "0.22.2"
+        },
+        "providers": [
+          "CPUExecutionProvider"
+        ]
+      }
+    ]
+  }
+}

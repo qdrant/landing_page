@@ -1,0 +1,160 @@
+---
+title: "Constella: Swap Your Query Model, Keep Your Index"
+draft: false
+slug: constella-research-preview
+short_description: "Constella lets Zero, Nano, and full Stella search one document index. Try the research preview and choose your model per query."
+description: "Swap query models without re-embedding documents. Explore Constella Zero, Nano, and Stella, with BEIR-15 results and CPU benchmarks."
+preview_image: /blog/constella-research-preview/preview/preview.jpg
+social_preview_image: /blog/constella-research-preview/preview/social_preview.jpg
+title_preview_image: /blog/constella-research-preview/preview/title.jpg
+preview_dir: /blog/constella-research-preview/preview
+date: 2026-09-24
+author: Dylan Couzon
+featured: false
+weight: 0
+tags:
+  - embeddings
+  - research
+  - semantic search
+---
+
+As query traffic grows, so does the compute bill for embedding it. On a low-power device, a large model may not fit in memory. A smaller query model could reduce that cost, but switching usually means re-embedding the collection.
+
+Constella lets you make that switch. It's a family of models built around Stella, a 400M-parameter English embedding model. Stella encodes your documents. Zero, Nano, or Stella itself can then encode your queries, all searching the same Qdrant collection.
+
+We're sharing Constella as a research preview, with downloadable models and results across 15 BEIR datasets.
+
+## One Index, Three Query Models
+
+A document vector can serve thousands of searches. A query vector usually serves one. Constella spends more compute on the document side, where you can reuse the result, and gives you a choice on the query side.
+
+We trained Zero and Nano to reproduce Stella's query embeddings. That's what makes the models hot-swappable: you can change the query encoder per request while the stored document vectors stay fixed.
+
+![Documents pass through Stella once into a Qdrant index. Zero, Nano, and full Stella can each search the same document vectors.](/blog/constella-research-preview/shared-index.svg)
+
+| Query Model | What Runs for Each Query | Where It Fits |
+|---|---|---|
+| Constella Zero | Token lookup, pooling, and normalization | Minimal query compute |
+| Constella Nano | A 34.5M-parameter transformer | Context-aware queries with a small model |
+| Full Stella | A 400M-parameter transformer | The highest overall retrieval score in this family |
+
+## Inside Zero and Nano
+
+Zero is a learned bag of tokens: it looks up each token's vector, pools the vectors, and normalizes the result. That's the entire query encoder. It makes search cheap, but loses word order: the same tokens with the same counts produce the same vector, even when rearranging them changes the meaning.
+
+Nano adds context: its transformer models how tokens relate to each other and their positions. It combines features from layers 4, 8, and 12, then projects them into Stella's 1024-dimensional space. We trained it on 199,999,721 examples to match frozen Stella embeddings, with roughly one-twelfth of Stella's parameters. Our [distillation and evaluation harness is on GitHub](https://github.com/Dylancouzon/asymmetric-dual-encoders), including the training code and experiment records.
+
+![Zero pools learned token vectors. Nano uses a 12-layer transformer, combines layers 4, 8, and 12, and projects and pools their features. Both produce a normalized 1024-dimensional query vector in Stella’s space.](/blog/constella-research-preview/model-architecture.svg)
+
+## The Numbers: 15 BEIR Datasets
+
+We evaluated Zero, Nano, and full Stella across BEIR-15, a collection of search tasks covering scientific papers, questions, claims, and other text. Each query model searches the same Stella document vectors.
+
+The table reports exact-search nDCG@10, which measures how well relevant documents rank in the first 10 results. Higher is better. Each dataset has equal weight in the averages; CQADupStack combines its 12 forums into one dataset score.
+
+| Dataset | Zero | Nano | Full Stella |
+|---|---:|---:|---:|
+| SciFact | 0.6101 | 0.7211 | 0.7796 |
+| NFCorpus | 0.3124 | 0.3631 | 0.4134 |
+| SCIDOCS | 0.1677 | 0.2177 | 0.2395 |
+| TREC-COVID | 0.5490 | 0.7871 | 0.8234 |
+| FiQA† | 0.3728 | 0.4778 | 0.5536 |
+| ArguAna† | 0.5916 | 0.6233 | 0.6369 |
+| FEVER† | 0.6978 | 0.6231 | 0.8207 |
+| DBpedia-entity | 0.3900 | 0.4190 | 0.4603 |
+| CQADupStack | 0.3416 | 0.3859 | 0.4448 |
+| MS MARCO | 0.3371 | 0.4063 | 0.4373 |
+| Natural Questions | 0.5173 | 0.5838 | 0.6371 |
+| HotpotQA | 0.6127 | 0.6102 | 0.6950 |
+| Touché-2020 | 0.2288 | 0.2755 | 0.2980 |
+| Quora | 0.8504 | 0.8805 | 0.8912 |
+| Climate-FEVER† | 0.2785 | 0.2473 | 0.2907 |
+| Average, all 15 | 0.4572 | 0.5081 | 0.5614 |
+
+† **Training-contamination caveat:** Stella reports training or evaluation exposure to these four datasets. Zero and Nano learn from Stella, so treat these scores as a comparison within the family, not a test on entirely unseen data. [Full evaluation details](https://github.com/Dylancouzon/asymmetric-dual-encoders/blob/d56f86d/results/m20_beir15_run.json).
+
+Nano retains about 91% of full Stella's average score across all 15 datasets, with a much smaller query transformer. Zero scores lower overall, but outscores Nano on FEVER, HotpotQA, and Climate-FEVER. The tradeoff varies by workload, which is why the choice of query model is worth testing on your own data.
+
+We recommend pairing Zero with BM25 for hybrid search. Zero gained more from the combination than Nano in our benchmarks, improving retrieval quality without adding a transformer to the query path. Our [Zero model card](https://huggingface.co/DylanCouzon/constella-zero) includes recommended fusion settings and practical guidance for getting started.
+
+## How Fast Is the Query Side?
+
+On an Apple M5 Pro CPU, full Stella encoded a warm 20-word query in **38.95 ms**. Nano took **3.13 ms**, and Zero took **0.081 ms**. That's about 12 times faster for Nano and 480 times faster for Zero than full Stella.
+
+The table separates model loading, the first query after loading, and warm p50, the median query time.
+
+| Query Encoder | Model Loading | First Query | Warm p50, 20 Words |
+|---|---:|---:|---:|
+| Zero | 0.334 s | 0.587 ms | 0.081 ms |
+| Nano | 0.410 s | 3.935 ms | 3.131 ms |
+| Full Stella | 1.301 s | 54.484 ms | 38.952 ms |
+
+![Warm query-encoding latency: Zero 0.081 ms, Nano 3.131 ms, and full Stella 38.952 ms. Lower is better.](/blog/constella-research-preview/query-latency.svg)
+
+We measured all three with FastEmbed and ONNX Runtime on CPU, using four threads and batch size one. Values are medians across three fresh processes, each with five warmups and 20 synthetic 20-word queries. Stella receives its required query instruction in addition to those 20 words. These are encoding times; Qdrant search and network time are additional.
+
+Loading includes imports and local model initialization, with assets already downloaded and the operating system's disk cache left intact. Keep models loaded to avoid paying startup costs when switching. The [raw timings and full protocol](/blog/constella-research-preview/serving-benchmark.json) are available to inspect.
+
+## What You Can Build With It
+
+- **Offline search on low-power devices.** Encode manuals or a knowledge base with Stella on a server, then ship Zero or Nano with the vectors. Search locally, even without a connection.
+- **High-volume retrieval APIs.** Use Zero to reduce query-encoding compute, with Nano or Stella available for workloads where their relevance gain justifies the cost. All three search the same collection.
+- **Search as you type.** Use Zero for queries on each keystroke, then Nano when the user pauses or submits. Our local Pokémon demo uses this pattern.
+- **Agents that search repeatedly.** An agent may retrieve repeatedly before answering. Try Zero or Nano for those intermediate searches to reduce the time spent encoding queries.
+- **Hybrid search without a transformer.** Pair Zero with BM25 to find related concepts alongside exact terms across your content. Combine both result sets in Qdrant without running a transformer for each query.
+
+## Try Constella
+
+It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/DylanCouzon/constella-nano), and native FastEmbed support is available on the [research-preview branch](https://github.com/Dylancouzon/fastembed/tree/constella-research-preview).
+
+Install the preview:
+
+```bash
+pip install "fastembed @ git+https://github.com/Dylancouzon/fastembed.git@constella-research-preview" qdrant-client
+```
+
+Create a collection and encode your documents once with Stella:
+
+```python
+from fastembed import TextEmbedding
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(":memory:")
+client.create_collection(
+    "documents",
+    vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),
+)
+
+documents = [
+    "Solar panels convert sunlight into electricity.",
+    "Wind turbines generate electricity from moving air.",
+]
+stella = TextEmbedding("DylanCouzon/stella-en-400M-v5-doc-onnx")
+client.upsert(
+    "documents",
+    points=[
+        models.PointStruct(id=i, vector=vector.tolist(), payload={"text": text})
+        for i, (text, vector) in enumerate(zip(documents, stella.embed(documents)))
+    ],
+)
+```
+
+Now choose your query model. To switch from Zero to Nano, change **one model name**:
+
+```python
+# Switch to DylanCouzon/constella-nano to use Nano.
+query_model = TextEmbedding("DylanCouzon/constella-zero")
+query_vector = next(query_model.embed(["How can we get energy from the sun?"]))
+
+results = client.query_points(
+    "documents", query=query_vector.tolist(), limit=2
+).points
+for result in results:
+    print(result.payload["text"])
+```
+
+Same collection. Same query code. The stored document vectors stay exactly where they are. See the [model card](https://huggingface.co/DylanCouzon/constella-nano#usage) for the supported query paths.
+
+## What's Next
+
+Constella is in internal review ahead of a full release. This research preview is a chance to try the models and help shape what comes next. We'd love to hear where they work, where they fall short, and what you build with them. Share your feedback and what you build in our [Discord community](https://discord.gg/qdrant).
