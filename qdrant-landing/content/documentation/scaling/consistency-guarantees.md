@@ -11,7 +11,12 @@ By default, Qdrant focuses on availability and maximum throughput of search oper
 
 This means concurrent updates on one point can result in an inconsistent state. For example, if two clients simultaneously update the same point in a collection with three replicas per shard. On some replicas, the point may reflect the update from one client, while on other replicas, the point may reflect the update from the other client.
 
+{{< island
+    path="content/documentation/headless/consistency-guarantees/concurrent-writes"
+    width="90%" ratio="3 / 2" title="Two clients update the same point at the same time. Compare the default behavior with read `consistency` and write `ordering`."
+>}}
 ![Two clients updating the same point at the same time.](/docs/concurrent-operations-replicas.png)
+{{< /island >}}
 
 In some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
 
@@ -48,6 +53,13 @@ By default, the cluster continues to accept updates as long as at least one repl
 Setting the `write_consistency_factor` to match the replication factor modifies the cluster's behavior so that unreplicated updates are rejected, preventing the need for extra synchronization.
 
 If the update is applied to enough replicas - according to the `write_consistency_factor` - the update will return a successful status. Any replicas that failed to apply the update will be temporarily disabled and are automatically recovered to keep data consistency. If the update could not be applied to enough replicas, it'll return an error and may be partially applied. The user must submit the operation again to ensure data consistency.
+
+{{< island
+    path="content/documentation/headless/consistency-guarantees/write-consistency-factor"
+    width="90%" ratio="7 / 4" title="The write succeeds once `write_consistency_factor` replicas have acknowledged it."
+>}}
+A write succeeds when at least `write_consistency_factor` replicas acknowledge it.
+{{< /island >}}
 
 For asynchronous updates and injection pipelines capable of handling errors and retries, this strategy might be preferable.
 
