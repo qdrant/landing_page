@@ -35,7 +35,7 @@ content:
           url: /documentation/guides/
           text: Find Practical Guidance
         image:
-          src: /img/dev-portal-learn/articles.png
+          src: /img/dev-portal-learn/guides.png
           alt: ""
       - title: Tutorials & Examples
         description: Open working code and walkthroughs, then adapt the implementation to your data and application stack.
