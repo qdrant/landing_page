@@ -1,0 +1,136 @@
+/* time-based-sharding island. Scoped under .qi-tbs. Controls, frames, captions
+   and label typography come from the shared island design system
+   (islands.scss); this file only styles the shards, the client diamonds and the
+   read/write wiring. Violet is the design-system secondary (see Colors). */
+
+.qi-tbs {
+  --tbs-accent: #6047ff; /* secondary-500: arrows, selected shards */
+  --tbs-client: #c2c5ff; /* secondary-200: client diamond fill */
+  --tbs-client-text: #6047ff;
+  --tbs-point: #00838f; /* cyan-800 (--qi-cat-3): the points inside a shard */
+
+  display: block;
+}
+
+/* `.qi-chip` sets `display: inline-flex`, which outranks the user agent's
+   `[hidden] { display: none }`, so Reset would stay visible while hidden. */
+.qi-tbs [hidden] {
+  display: none;
+}
+
+/* The saturated violet reads thin on a dark page, so lift the accent one step
+   and invert the diamond. Same pair of guards islands.scss uses for its tokens. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-tbs {
+    --tbs-accent: #7e75ff; /* secondary-400 */
+    --tbs-client: #392689; /* secondary-900 */
+    --tbs-client-text: #c2c5ff;
+    --tbs-point: #b2ebf2; /* cyan-100 */
+  }
+}
+html[data-theme='dark'] .qi-tbs {
+  --tbs-accent: #7e75ff;
+  --tbs-client: #392689;
+  --tbs-client-text: #c2c5ff;
+  --tbs-point: #b2ebf2; /* cyan-100 */
+}
+
+/* --- Shards --- */
+/* One group per day, moved between slots by transform on a rollover. */
+.qi-tbs__shard {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+}
+.qi-tbs__shard.is-gone {
+  opacity: 0;
+}
+
+/* Shards darken toward today: `--shade` is the fill opacity over the
+   collection surface, set per slot from JS. */
+.qi-tbs__box {
+  fill: var(--qi-line);
+  fill-opacity: var(--shade, 1);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: fill-opacity 0.35s ease, stroke 0.2s ease, stroke-width 0.2s ease;
+}
+/* Shards in the query's scope carry the design system's neutral highlight
+   outline, the same `--qi-hot` treatment the other islands use for `.is-hot`. */
+.qi-tbs__box.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+
+/* `Yesterday's shard` is the widest label a shard carries, so it sets the size. */
+.qi-tbs__shard-title {
+  font-size: 12px;
+}
+
+/* Points, one bar each, filling the well under a shard's labels. They grow up
+   from the floor of the well as writes arrive. */
+.qi-tbs__bar {
+  fill: var(--qi-muted);
+  opacity: 0;
+  transform: scaleY(0.25);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.qi-tbs__bar.is-on {
+  opacity: 1;
+  transform: none;
+}
+.qi-tbs__shard.is-open .qi-tbs__bar {
+  fill: var(--tbs-point);
+}
+
+/* --- Clients and wiring --- */
+.qi-tbs__client {
+  fill: var(--tbs-client);
+}
+.qi-tbs__client-text {
+  fill: var(--tbs-client-text);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+
+.qi-tbs__wire,
+.qi-tbs__riser {
+  fill: none;
+  stroke: var(--tbs-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.qi-tbs__arrowhead {
+  fill: var(--tbs-accent);
+}
+
+/* Risers are fixed geometry; only the ones in the query's scope are drawn. */
+.qi-tbs__riser {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-tbs__riser.is-on {
+  opacity: 1;
+}
+
+.qi-tbs__wire-text {
+  fill: var(--tbs-accent);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  text-anchor: middle;
+}
+.qi-tbs__wire-text--reads {
+  text-anchor: end;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-tbs__shard {
+    transition: opacity 0.2s ease;
+  }
+  /* Points still appear, they just do not grow into place. */
+  .qi-tbs__bar {
+    transform: none;
+    transition: opacity 0.2s ease;
+  }
+}
