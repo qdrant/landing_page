@@ -68,6 +68,7 @@
   });
 
   function wireFigure(fig) {
+    wireToggle(fig);
     var zones = fig.querySelectorAll('[data-viz-zone]');
 
     // Line charts carry a dashed vertical rule that snaps to the hovered
@@ -129,5 +130,38 @@
     }
 
     fig.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
+  }
+
+  function wireToggle(fig) {
+    var sw = fig.querySelector('[data-viz-toggle]');
+    if (!sw) return;
+    var btns = sw.querySelectorAll('[data-viz-toggle-btn]');
+    var views = fig.querySelectorAll('[data-viz-view]');
+    if (!btns.length || !views.length) return;
+
+    var cap = fig.querySelector('[data-viz-captions]');
+    var captions = null;
+    if (cap) {
+      try { captions = JSON.parse(cap.getAttribute('data-viz-captions')); } catch (e) { captions = null; }
+    }
+
+    function select(idx) {
+      Array.prototype.forEach.call(views, function (v) {
+        v.style.display = v.getAttribute('data-viz-view') === String(idx) ? '' : 'none';
+      });
+      // The caption states a claim about the numbers on screen.
+      if (captions && captions[idx]) cap.textContent = captions[idx];
+      Array.prototype.forEach.call(btns, function (b) {
+        b.setAttribute('aria-pressed',
+          b.getAttribute('data-viz-toggle-btn') === String(idx) ? 'true' : 'false');
+      });
+      hide();
+    }
+
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () {
+        select(b.getAttribute('data-viz-toggle-btn'));
+      });
+    });
   }
 })();

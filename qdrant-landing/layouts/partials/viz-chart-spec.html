@@ -1,0 +1,30 @@
+{{- /*
+  viz-chart-spec — resolve a chart shortcode's arguments once.
+
+  A chart renders twice, through layouts/shortcodes/chart.html and
+  chart.markdown.md, and both need the same things: the id, the caption, the
+  parsed spec, and one caption per view. Deriving that separately in each let
+  the rules drift — the HTML output already refused a view missing its
+  caption2= while the Markdown output quietly printed an empty claim.
+
+  Takes the shortcode context. Returns a dict: id, caption, spec, views
+  (labels), captions (one per view, validated).
+*/ -}}
+{{- $sc := . -}}
+{{- $id := $sc.Get "id" -}}
+{{- if not $id }}{{ errorf "chart in %s: 'id' is required." $sc.Position }}{{ end -}}
+{{- $caption := $sc.Get "caption" -}}
+{{- if not $caption }}{{ errorf "chart in %s: 'caption' is required." $sc.Position }}{{ end -}}
+{{- $specRes := resources.Get (printf "viz/%s.json" $id) -}}
+{{- if not $specRes }}{{ errorf "chart in %s: assets/viz/%s.json missing." $sc.Position $id }}{{ end -}}
+{{- $spec := $specRes | transform.Unmarshal -}}
+{{- /* View 0 uses caption=, later views caption2=, caption3=. */ -}}
+{{- $views := slice -}}
+{{- $captions := slice -}}
+{{- range $i, $v := $spec.views -}}
+  {{- $views = $views | append $v.label -}}
+  {{- $c := cond (eq $i 0) $caption ($sc.Get (printf "caption%d" (add $i 1))) -}}
+  {{- if not $c }}{{ errorf "chart in %s: view %d (%q) needs caption%d=, or it inherits a claim about another view's numbers." $sc.Position $i $v.label (add $i 1) }}{{ end -}}
+  {{- $captions = $captions | append $c -}}
+{{- end -}}
+{{- return dict "id" $id "caption" $caption "spec" $spec "views" $views "captions" $captions -}}

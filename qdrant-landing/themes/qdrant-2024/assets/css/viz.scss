@@ -171,3 +171,45 @@ html[data-theme='dark'] .viz-tip {
     font-size: 0.8125rem;
   }
 }
+
+// Segmented control: segments butt together, the active one lifted so its
+// border is not clipped.
+.viz-toggle {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin: 8px 0 12px;
+  font-family: var(--qi-mono);
+}
+
+.viz-toggle__btn {
+  appearance: none;
+  position: relative;
+  padding: 5px 11px;
+  border: 1px solid var(--qi-border);
+  background: transparent;
+  color: var(--qi-muted);
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 400;
+  cursor: pointer;
+
+  & + & { margin-left: -1px; }
+
+  &:hover { color: var(--qi-fg); }
+
+  &:focus-visible {
+    outline: 2px solid var(--qi-accent);
+    outline-offset: 1px;
+    z-index: 2;
+  }
+
+  &[aria-pressed='true'] {
+    z-index: 1;
+    border-color: var(--qi-accent);
+    background: var(--qi-accent);
+    color: var(--qi-accent-ink);
+    font-weight: 600;
+  }
+}

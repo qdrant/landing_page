@@ -20,8 +20,13 @@ const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
 // One spec per chart, beside its data. The id is the path.
 const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   const id = p.replace(/^assets\/viz\//, '').replace(/\.json$/, '');
-  return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width,
-           ...JSON.parse(readFileSync(p, 'utf8')) };
+  const spec = JSON.parse(readFileSync(p, 'utf8'));
+  // The shortcode builds the viewBox from the shared width, so a per-chart one
+  // would draw at its own size inside a 980-wide box and stretch.
+  if ('width' in spec) {
+    throw new Error(`${p}: charts share one width (data/viz.json chart.width). Remove "width".`);
+  }
+  return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width, ...spec };
 });
 
 const dom = new JSDOM('');
@@ -341,30 +346,33 @@ function groupedColumns(c) {
     + wrapPlot(plotted) + zones + legendRow;
 }
 
-for (const c of manifest) {
-  if (c.kind === 'grouped-columns') {
-    const out = `assets/viz/${c.id}.svg`;
-    mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, `${groupedColumns(c)}\n`);
-    console.log(`wrote ${out}`);
-    continue;
-  }
-  if (c.kind === 'lines-facet') {
-    const out = `assets/viz/${c.id}.svg`;
-    mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, `${linesFacet(c)}\n`);
-    console.log(`wrote ${out}`);
-    continue;
-  }
+function draw(c) {
+  if (c.kind === 'grouped-columns') return groupedColumns(c);
+  if (c.kind === 'lines-facet') return linesFacet(c);
   if (c.kind !== 'columns-2panel') throw new Error(`unsupported kind ${c.kind}`);
   const data = readCsv(c.data);
   const gap = LAYOUT.gap;
   const pw = (c.width - gap * (c.panels.length - 1)) / c.panels.length;
   // No frame: gridlines carry the structure, so nothing can touch a border.
-  const body = c.panels.map((p, i) =>
+  return c.panels.map((p, i) =>
     `<g transform="translate(${i * (pw + gap)},0)">${panel(c, p, data, pw, c.height)}</g>`).join('');
+}
+
+// Every view ships in one SVG, so switching never fetches and the first view
+// still renders without JavaScript. A view is a patch over the base spec.
+function render(c) {
+  if (!c.views) return draw(c);
+  return c.views.map((v, i) => {
+    const merged = { ...c, ...v, views: undefined };
+    // `hidden` is ignored on SVG elements; inline so it holds with no CSS.
+    return `<g data-viz-view="${i}"${i === 0 ? '' : ' style="display:none"'}>`
+      + `${draw(merged)}</g>`;
+  }).join('');
+}
+
+for (const c of manifest) {
   const out = `assets/viz/${c.id}.svg`;
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, `${body}\n`);
+  writeFileSync(out, `${render(c)}\n`);
   console.log(`wrote ${out}`);
 }

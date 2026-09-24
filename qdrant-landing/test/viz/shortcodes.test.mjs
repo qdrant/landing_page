@@ -89,3 +89,34 @@ test('HTML output still renders the chart as SVG', () => {
   assert.match(html, /<svg class="viz-figure__svg"/, 'chart SVG missing from HTML');
   assert.match(html, /data-viz-zone/, 'hover hit zones missing from HTML');
 });
+
+test('a chart with views renders a toggle and ships every view', () => {
+  const html = getFixtureHtml();
+
+  // One button per view, the first one pressed.
+  assert.match(html, /<div class="viz-toggle"[^>]*role="group"/, 'toggle container missing');
+  const btns = html.match(/data-viz-toggle-btn="\d"/g) || [];
+  assert.equal(btns.length, 2, 'expected one button per view');
+  assert.match(html, /data-viz-toggle-btn="0"\s+aria-pressed="true"/, 'first view must start pressed');
+  assert.match(html, /data-viz-toggle-btn="1"\s+aria-pressed="false"/, 'later views must start unpressed');
+
+  // Every view is in the SVG already: toggling hides and shows, it never fetches.
+  const views = html.match(/data-viz-view="\d"/g) || [];
+  assert.equal(views.length, 2, 'expected every view inlined in the svg');
+
+  // Hidden inline rather than by class, so extra views stay hidden with no CSS,
+  // and via display because browsers ignore `hidden` on SVG elements.
+  assert.match(html, /data-viz-view="1" style="display:none"/,
+    'views after the first must be inline-hidden');
+  assert.doesNotMatch(html, /data-viz-view="0" style="display:none"/,
+    'the first view must render without JavaScript');
+});
+
+test('the view toggle is a drawing affordance, not data', () => {
+  // The Markdown output carries the CSV, which already holds every view's
+  // columns, so a toggle there would be buttons with nothing to toggle.
+  const md = getFixtureMarkdown();
+  assert.doesNotMatch(md, /viz-toggle|data-viz-view/, 'no toggle markup in Markdown output');
+  assert.match(md, /\| engine \| config \| recall_at_10 \| throughput_qps \|/,
+    'Markdown must carry every view column');
+});

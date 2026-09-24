@@ -18,15 +18,10 @@
   lossy summary someone has to keep in sync with the numbers; the numbers keep
   themselves in sync.
 */ -}}
-{{- $id := .Get "id" -}}
-{{- if not $id }}{{ errorf "chart in %s: 'id' is required." .Position }}{{ end -}}
-{{- $caption := .Get "caption" -}}
-{{- if not $caption }}{{ errorf "chart in %s: 'caption' is required." .Position }}{{ end -}}
-{{- $specRes := resources.Get (printf "viz/%s.json" $id) -}}
-{{- if not $specRes }}{{ errorf "chart in %s: assets/viz/%s.json missing." .Position $id }}{{ end -}}
-{{- $spec := $specRes | transform.Unmarshal -}}
-{{- $csv := resources.Get (printf "viz/%s.csv" $id) -}}
-{{- if not $csv }}{{ errorf "chart in %s: assets/viz/%s.csv missing; the Markdown output renders the chart's source table." .Position $id }}{{ end -}}
+{{- $c := partial "viz-chart-spec.html" . -}}
+{{- $spec := $c.spec -}}
+{{- $csv := resources.Get (printf "viz/%s.csv" $c.id) -}}
+{{- if not $csv }}{{ errorf "chart in %s: assets/viz/%s.csv missing; the Markdown output renders the chart's source table." .Position $c.id }}{{ end -}}
 {{- $rows := $csv | transform.Unmarshal -}}
 {{- $head := index $rows 0 -}}
 {{- with $spec.title }}**{{ . }}**{{ end }}
@@ -36,4 +31,12 @@
 |{{ range $head }} --- |{{ end }}
 {{ range after 1 $rows }}| {{ delimit . " | " }} |
 {{ end }}
-_{{ $caption }}_
+{{- /* The table is every view's columns at once, so it needs every view's claim,
+       not just the one the chart happens to open on. */ -}}
+{{- if $c.views -}}
+{{- range $i, $label := $c.views }}
+_{{ $label }}: {{ index $c.captions $i }}_
+{{ end -}}
+{{- else }}
+_{{ $c.caption }}_
+{{- end -}}

@@ -19,6 +19,8 @@
   --qi-hot: #303547; // neutral-800: highlight outline
   --qi-cell-stroke: rgba(17, 24, 36, 0.3); // neutral-900 @ 30%
   --qi-accent: #dc244c; // amaranth-500: thresholds, emphasis
+  // On --qi-accent: neither surface reaches 4.5:1 on it, white does.
+  --qi-accent-ink: #ffffff;
 
   // Categorical palette (brand secondaries) available to graphics that need
   // hues without a status meaning. Consumers may also define their own.

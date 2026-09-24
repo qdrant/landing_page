@@ -13,3 +13,5 @@ Fixture page for `node --test test/viz/`. Not linked, not published.
 {{< partial-smoke >}}
 
 {{< chart id="hybrid/fusion" caption="Fixture chart caption." >}}
+
+{{< chart id="fixtures/toggle" caption="Fixture chart, recall view." caption2="Fixture chart, throughput view." >}}
