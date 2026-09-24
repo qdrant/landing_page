@@ -53,6 +53,16 @@ When designing a multi-representation collection (combining short fields like ti
 
 ### BM25 Text Processing
 
+Before BM25 can score a text, Qdrant breaks it down into individual tokens (words) and applies several normalization steps to them. This ensures that searches can match variations of words. For query tokens to match the indexed tokens, the query text must go through the same steps.
+
+{{< island
+    path="content/documentation/headless/text-filtering/text-processing"
+    width="90%" ratio="12 / 5"
+    title="Text processing turns a sentence into tokens. By default, BM25 lowercases tokens, removes English stopwords, and applies English stemming."
+>}}
+![Text processing can break down a sentence like "The quick brown fox" into the tokens "quick", "brown", and "fox".](/docs/text-processing.png)
+{{< /island >}}
+
 By default, BM25 uses English-specific settings for tokenization, stemming, and stopword removal. Words are reduced to their English root form, and common English stopwords are removed. If your data is not in English, this leads to suboptimal search results. To achieve optimal results for other languages, configure language-specific BM25 settings.
 
 <aside role="status">

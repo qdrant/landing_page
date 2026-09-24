@@ -66,7 +66,13 @@ In contrast to keyword filtering, filtering on text strings enables you to filte
 
 To enable efficient full-text filtering, Qdrant processes text strings by breaking them down into individual tokens (words) and applying several normalization steps. This process ensures that searches are more flexible and can match variations of words. At query time, Qdrant applies the same processing steps to the filter string, ensuring that the filter matches the indexed tokens correctly.
 
-![Text processing can break down a sentence like"The quick brown fox" into the tokens "quick", "brown", and "fox".](/docs/text-processing.png)
+{{< island
+    path="content/documentation/headless/text-filtering/text-processing"
+    width="90%" ratio="12 / 5"
+    title="Text processing turns a sentence into tokens. Toggle the steps to see how each one changes the tokens."
+>}}
+![Text processing can break down a sentence like "The quick brown fox" into the tokens "quick", "brown", and "fox".](/docs/text-processing.png)
+{{< /island >}}
 
 The following text processing steps are applied to text strings:
 
