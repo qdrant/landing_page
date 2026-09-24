@@ -1,4 +1,6 @@
 ```python
+from qdrant_client import QdrantClient, models
+
 client.query_points_groups(
     collection_name="chunks",
     # Same as in the regular search() API

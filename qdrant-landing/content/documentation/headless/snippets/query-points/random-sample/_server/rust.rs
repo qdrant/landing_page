@@ -2,7 +2,7 @@ use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{Query, QueryPointsBuilder, Sample};
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let sampled = client
         .query(

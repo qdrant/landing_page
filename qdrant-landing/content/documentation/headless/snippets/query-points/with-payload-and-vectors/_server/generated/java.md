@@ -7,9 +7,6 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.WithVectorsSelectorFactory;
 import io.qdrant.client.grpc.Points.QueryPoints;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client.queryAsync(
         QueryPoints.newBuilder()
                 .setCollectionName("{collection_name}")

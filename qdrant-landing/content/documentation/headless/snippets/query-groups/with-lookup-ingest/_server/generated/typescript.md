@@ -1,4 +1,6 @@
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
 await client.upsert("documents", {
     points: [
         {

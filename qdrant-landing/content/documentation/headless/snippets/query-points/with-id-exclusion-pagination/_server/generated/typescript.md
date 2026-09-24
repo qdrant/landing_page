@@ -1,4 +1,6 @@
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
 const seenIds = [83461, 19284, 57392, 44017, 91825]; // IDs returned on previous pages
 
 client.query("{collection_name}", {

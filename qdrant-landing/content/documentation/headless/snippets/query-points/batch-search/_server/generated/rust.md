@@ -2,8 +2,6 @@
 use qdrant_client::qdrant::{Condition, Filter, QueryBatchPointsBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 let filter = Filter::must([Condition::matches("city", "London".to_string())]);
 
 let searches = vec![

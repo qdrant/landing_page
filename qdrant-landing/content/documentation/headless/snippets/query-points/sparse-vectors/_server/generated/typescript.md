@@ -1,8 +1,6 @@
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
 client.query("{collection_name}", {
     query: {
         indices: [1, 3, 5, 7],

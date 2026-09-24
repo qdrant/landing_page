@@ -5,11 +5,6 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
 client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
 	CollectionName: "chunks",
 	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),

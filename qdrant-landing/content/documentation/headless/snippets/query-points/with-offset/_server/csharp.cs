@@ -1,4 +1,4 @@
-using Qdrant.Client; // @hide
+using Qdrant.Client;
 
 public class Snippet
 {

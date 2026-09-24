@@ -1,4 +1,6 @@
 ```python
+from qdrant_client import QdrantClient
+
 client.query_points_groups(
     collection_name="{collection_name}",
     # Same as in the regular query_points() API

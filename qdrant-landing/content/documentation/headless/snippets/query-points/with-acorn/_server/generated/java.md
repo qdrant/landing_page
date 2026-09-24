@@ -7,9 +7,6 @@ import io.qdrant.client.grpc.Points.AcornSearchParams;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client.queryAsync(
         QueryPoints.newBuilder()
                 .setCollectionName("{collection_name}")

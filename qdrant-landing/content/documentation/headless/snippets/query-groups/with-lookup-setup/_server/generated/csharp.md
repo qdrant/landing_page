@@ -2,8 +2,6 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-var client = new QdrantClient("localhost", 6334);
-
 await client.CreateCollectionAsync(
 	collectionName: "chunks",
 	vectorsConfig: new VectorParams { Size = 4, Distance = Distance.Cosine }

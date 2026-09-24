@@ -1,4 +1,6 @@
 ```python
+from qdrant_client import QdrantClient, models
+
 client.upsert(
     collection_name="documents",
     points=[

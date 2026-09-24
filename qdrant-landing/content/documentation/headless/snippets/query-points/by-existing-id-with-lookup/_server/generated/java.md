@@ -7,9 +7,6 @@ import io.qdrant.client.grpc.Points.LookupLocation;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import java.util.UUID;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client
     .queryAsync(
         QueryPoints.newBuilder()

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class Snippet {
         public static void run() throws Exception {
-                QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+                QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build()); // @hide
 
                 client.queryAsync(QueryPoints.newBuilder()
                   .setCollectionName("{collectionName}")
