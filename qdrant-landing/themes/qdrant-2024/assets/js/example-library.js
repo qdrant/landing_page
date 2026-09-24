@@ -4,6 +4,7 @@ if (library) {
   const query = form.elements.namedItem('q');
   const goal = form.elements.namedItem('goal');
   const stack = form.elements.namedItem('stack');
+  const mainStacks = new Set([...stack.options].map(option => option.value).filter(value => value && value !== 'other'));
   const cards = [...library.querySelectorAll('[data-example]')];
   const count = library.querySelector('[data-example-count]');
   const empty = library.querySelector('[data-example-empty]');
@@ -21,8 +22,12 @@ if (library) {
     const terms = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
     let visible = 0;
     cards.forEach(card => {
+      const cardStacks = card.dataset.stack.split('|');
+      const matchesStack = !stack.value || (stack.value === 'other'
+        ? cardStacks.some(name => !mainStacks.has(name))
+        : cardStacks.includes(stack.value));
       const match = (!goal.value || card.dataset.goal === goal.value)
-        && (!stack.value || card.dataset.stack.split('|').includes(stack.value))
+        && matchesStack
         && terms.every(term => card.dataset.search.includes(term));
       card.hidden = !match;
       if (match) visible += 1;

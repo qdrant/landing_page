@@ -4,6 +4,14 @@
   {{ $goals = $goals | append .goal }}
   {{ $stacks = $stacks | append .stack }}
 {{ end }}
+{{/* Keep recurring stacks visible; group the long tail under Other. */}}
+{{ $mainStacks := slice }}
+{{ range sort (uniq $stacks) }}
+  {{ $name := . }}
+  {{ $count := 0 }}
+  {{ range $stacks }}{{ if eq . $name }}{{ $count = add $count 1 }}{{ end }}{{ end }}
+  {{ if ge $count 3 }}{{ $mainStacks = $mainStacks | append (dict "name" $name "count" $count) }}{{ end }}
+{{ end }}
 <section class="example-library" id="example-library" aria-labelledby="examples-title">
   <h2 id="examples-title">Browse Tutorials &amp; Examples</h2>
   <p>Choose the result you want, then filter the collection by your stack.</p>
@@ -23,7 +31,8 @@
       <label for="example-stack">Stack</label>
       <select id="example-stack" name="stack">
         <option value="">All Stacks</option>
-        {{ range sort (uniq $stacks) }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+        {{ range sort $mainStacks "count" "desc" }}<option value="{{ .name }}">{{ .name }}</option>{{ end }}
+        <option value="other">Other</option>
       </select>
     </div>
     <button type="reset" class="button button_outlined button_sm">Clear Filters</button>
