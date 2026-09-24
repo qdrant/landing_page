@@ -33,22 +33,28 @@
   {{- $variants = slice (dict "label" "" "langs" (partial "snippet-files.html" (dict "dir" $basePath "block" $block "order" $order))) -}}
 {{- end -}}
 
-{{- /* Markdown output shows only the first language of each variant; the rest
-       live on a dedicated snippet page (see content/documentation/snippets/_content.gotmpl). */ -}}
+{{- /* Markdown output shows only the first language of the first variant; the
+       rest live on a dedicated snippet page (see content/documentation/snippets/_content.gotmpl). */ -}}
 {{- $more := slice -}}
+{{- $shown := false -}}
 {{- range $variants -}}
   {{- if .langs -}}
-    {{- with .label }}
+    {{- $rest := .langs -}}
+    {{- if not $shown -}}
+      {{- $shown = true -}}
+      {{- with .label }}
 **{{ . }}:**
 
 {{ end -}}
 {{ (index .langs 0).content }}
-    {{- if gt (len .langs) 1 -}}
+      {{- $rest = after 1 .langs -}}
+    {{- end -}}
+    {{- if $rest -}}
       {{- /* Languages are gathered from the snippet's own files (the code-fence
              identifier), title-cased for display. */ -}}
       {{- $otherLanguages := slice -}}
-      {{- range after 1 .langs -}}{{- $otherLanguages = $otherLanguages | append (title .lang) -}}{{- end -}}
-      {{- $text := delimit $otherLanguages ", " ", and " -}}
+      {{- range $rest -}}{{- $otherLanguages = $otherLanguages | append (title .lang) -}}{{- end -}}
+      {{- $text := delimit $otherLanguages ", " (cond (eq (len $otherLanguages) 2) " and " ", and ") -}}
       {{- with .label -}}{{- $text = printf "%s for %s" $text . -}}{{- end -}}
       {{- $more = $more | append $text -}}
     {{- end -}}
