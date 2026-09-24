@@ -90,17 +90,17 @@ test('HTML output still renders the chart as SVG', () => {
   assert.match(html, /data-viz-zone/, 'hover hit zones missing from HTML');
 });
 
-test('a chart with views renders a switch and ships every view', () => {
+test('a chart with views renders a toggle and ships every view', () => {
   const html = getFixtureHtml();
 
   // One button per view, the first one pressed.
-  assert.match(html, /<div class="viz-switch"[^>]*role="group"/, 'switch container missing');
-  const btns = html.match(/data-viz-view-btn="\d"/g) || [];
+  assert.match(html, /<div class="viz-toggle"[^>]*role="group"/, 'toggle container missing');
+  const btns = html.match(/data-viz-toggle-btn="\d"/g) || [];
   assert.equal(btns.length, 2, 'expected one button per view');
-  assert.match(html, /data-viz-view-btn="0"\s+aria-pressed="true"/, 'first view must start pressed');
-  assert.match(html, /data-viz-view-btn="1"\s+aria-pressed="false"/, 'later views must start unpressed');
+  assert.match(html, /data-viz-toggle-btn="0"\s+aria-pressed="true"/, 'first view must start pressed');
+  assert.match(html, /data-viz-toggle-btn="1"\s+aria-pressed="false"/, 'later views must start unpressed');
 
-  // Every view is in the SVG already: switching hides and shows, it never fetches.
+  // Every view is in the SVG already: toggling hides and shows, it never fetches.
   const views = html.match(/data-viz-view="\d"/g) || [];
   assert.equal(views.length, 2, 'expected every view inlined in the svg');
 
@@ -112,11 +112,11 @@ test('a chart with views renders a switch and ships every view', () => {
     'the first view must render without JavaScript');
 });
 
-test('the view switch is a drawing affordance, not data', () => {
+test('the view toggle is a drawing affordance, not data', () => {
   // The Markdown output carries the CSV, which already holds every view's
-  // columns, so a switch there would be buttons with nothing to switch.
+  // columns, so a toggle there would be buttons with nothing to toggle.
   const md = getFixtureMarkdown();
-  assert.doesNotMatch(md, /viz-switch|data-viz-view/, 'no switch markup in Markdown output');
+  assert.doesNotMatch(md, /viz-toggle|data-viz-view/, 'no toggle markup in Markdown output');
   assert.match(md, /\| engine \| config \| recall_at_10 \| throughput_qps \|/,
     'Markdown must carry every view column');
 });

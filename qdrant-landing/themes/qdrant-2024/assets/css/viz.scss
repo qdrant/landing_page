@@ -174,7 +174,7 @@ html[data-theme='dark'] .viz-tip {
 
 // Segmented control: segments butt together, the active one lifted so its
 // border is not clipped.
-.viz-switch {
+.viz-toggle {
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
@@ -182,7 +182,7 @@ html[data-theme='dark'] .viz-tip {
   font-family: var(--qi-mono);
 }
 
-.viz-switch__btn {
+.viz-toggle__btn {
   appearance: none;
   position: relative;
   padding: 5px 11px;

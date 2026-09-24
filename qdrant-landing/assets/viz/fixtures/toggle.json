@@ -1,5 +1,5 @@
 {
-  "title": "Fixture chart with a view switch",
+  "title": "Fixture chart with a view toggle",
   "kind": "columns-2panel",
   "height": 400,
   "labelTop": "engine",
