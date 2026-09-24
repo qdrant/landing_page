@@ -4,6 +4,9 @@ short_description: Choose embedding models, plan query decomposition, and apply 
 description: Design Qdrant search around your application by choosing embedding models, decomposing multi-hop queries, and filtering results with payload indexes.
 partition: learn
 learning_kind: guides
+cascade:
+  partition: learn
+  learning_kind: guides
 layout: guides
 weight: 115
 hideTOC: true

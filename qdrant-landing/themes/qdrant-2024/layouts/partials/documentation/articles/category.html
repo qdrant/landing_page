@@ -11,7 +11,7 @@
   {{ $paginator := .Paginate (partial "documentation/articles/list" .) 14 }}
   <div class="docs-articles__posts row gx-4 gy-5">
     {{ range $paginator.Pages }}
-      {{ partial "documentation/articles/card" (dict "page" . "column" "col-12 col-lg-6") }}
+      {{ partial "documentation/articles/card" (dict "page" . "column" "col-12 col-lg-6" "size" "post-md") }}
     {{ end }}
   </div>
   {{ if gt $paginator.TotalPages 1 }}

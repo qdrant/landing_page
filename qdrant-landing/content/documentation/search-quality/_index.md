@@ -4,6 +4,9 @@ short_description: Measure retrieval relevance and pipeline output quality to es
 description: Evaluate Qdrant retrieval relevance and pipeline output quality with labeled queries, repeatable measurements, and checks for meaningful improvements.
 partition: learn
 learning_kind: guides
+cascade:
+  partition: learn
+  learning_kind: guides
 layout: guides
 weight: 100
 hideTOC: true

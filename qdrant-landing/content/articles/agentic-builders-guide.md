@@ -38,7 +38,7 @@ Reliable agentic workflows require a clear plan executed with precise tools. A v
 
 * [**Real-time memory layer:**](https://qdrant.tech/blog/case-study-fieldy/) fast access to prior steps, actions, and knowledge  
 * [**Multimodal support**](https://qdrant.tech/blog/case-study-mixpeek/): text, image, videos, audio, and code  
-* [**Hybrid search**](https://qdrant.tech/articles/hybrid-search/)**:** combining dense \+ sparse vectors  
+* [**Hybrid search**](https://qdrant.tech/documentation/search-tuning/hybrid-search/)**:** combining dense \+ sparse vectors
 * [**Advanced filtering**](https://qdrant.tech/documentation/search/filtering/)**:** semantic \+ metadata \+ keyword constraints  
 * [**Millisecond vector retrieval**](https://qdrant.tech/articles/vector-search-production/)**:** Fast retrieval at \>billion vector scale
 

@@ -4,17 +4,23 @@
   <div class="row g-4 g-lg-3">
     {{ range where (site.GetPage "/documentation").Sections.ByWeight "Params.learning_kind" "guides" }}
       <div class="col-12 col-lg-6">
-        <section class="docs-card">
+        <div class="docs-card">
+          {{ with .Params.guide_icon }}<img class="docs-card__icon" src="{{ . }}" alt="" />{{ end }}
           <h3 class="docs-card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
           <p class="docs-card__description">{{ .Params.short_description }}</p>
           {{ $part := 0 }}
-          <ul>
+          <ul class="guide-directory__links" role="list">
             {{ range .RegularPages.ByWeight }}
               {{ if .Params.guide_series }}{{ $part = add $part 1 }}{{ end }}
-              <li><a href="{{ .RelPermalink }}">{{ if .Params.guide_series }}Part {{ $part }}: {{ end }}{{ .Title }}</a></li>
+              <li>
+                <a href="{{ .RelPermalink }}">
+                  <span>{{ if .Params.guide_series }}<span class="guide-directory__part">Part {{ $part }}</span>{{ end }}{{ .Title }}</span>
+                  <span class="guide-directory__arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
             {{ end }}
           </ul>
-        </section>
+        </div>
       </div>
     {{ end }}
   </div>

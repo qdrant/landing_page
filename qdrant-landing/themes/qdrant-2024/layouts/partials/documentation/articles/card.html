@@ -1,5 +1,5 @@
 {{ $page := .page }}
-<article class="{{ .column | default "col-12 col-lg-4" }} post post-sm">
+<article class="{{ .column | default "col-12 col-lg-4" }} post {{ .size | default "post-sm" }}">
   <a class="post-link" href="{{ $page.RelPermalink }}">
     {{ with $page.Params.preview_dir }}
       <div class="post-preview"><img src="{{ . }}/preview.jpg" alt="" loading="lazy" /></div>

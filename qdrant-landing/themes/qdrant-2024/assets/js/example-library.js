@@ -33,7 +33,7 @@ if (library) {
       const active = item.dataset.exampleNavGoal === goal.value;
       item.classList.toggle('active', active);
       const link = item.querySelector('a');
-      if (active) link.setAttribute('aria-current', 'location');
+      if (active) link.setAttribute('aria-current', goal.value ? 'location' : 'page');
       else link.removeAttribute('aria-current');
     });
     if (updateURL) {

@@ -4,7 +4,7 @@
 {{ range hugo.Data.examples }}{{ $goals = $goals | append .goal }}{{ end }}
 {{ $exampleLinks := slice }}
 {{ range sort (uniq $goals) }}
-  {{ $exampleLinks = $exampleLinks | append (dict "title" . "url" (printf "/learn/examples/?%s" (querify "goal" .)) "goal" . "active" false) }}
+  {{ $exampleLinks = $exampleLinks | append (dict "title" . "url" (printf "/learn/examples/?%s#example-library" (querify "goal" .)) "goal" . "active" false) }}
 {{ end }}
 {{ $guideLinks := slice }}
 {{ range (site.GetPage "/documentation").Sections.ByWeight }}
@@ -44,7 +44,7 @@
   </div>
   {{ range $items }}
     <h3 class="docs-menu__links-title">{{ .title }}</h3>
-    <div class="docs-menu__links-group{{ if eq .url $current }} active{{ end }}">
+    <div class="docs-menu__links-group{{ if eq .url $current }} active{{ end }}" {{ if eq .url "/learn/examples/" }}data-example-nav-goal=""{{ end }}>
       <div class="docs-menu__links-group-heading"><a href="{{ .url }}" {{ if eq .url $current }}aria-current="page"{{ end }}>Overview</a></div>
     </div>
     {{ range .children }}

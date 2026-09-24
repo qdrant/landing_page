@@ -294,11 +294,38 @@ The Guides and Tutorials & Examples hubs show the three most recently published 
 
 #### Guides
 
-A guide section is a directory under `content/documentation/` whose `_index.md` sets `partition: learn` and `learning_kind: guides`. Its pages inherit both values through `cascade` or set them directly. The sidebar, the Guides tab, and the section landing page list the section's pages by `weight`. Set `layout: guides` on the section landing page to generate its Markdown directory from the same pages.
+To add a guide to an existing topic, use the same Hugo archetype workflow as blog posts:
 
-Set `guide_series: true` on pages that form an ordered series. The section's `guide_series_title` names the series, and `weight` sets the order of the numbered cards and the previous/next links.
+```sh
+cd qdrant-landing
+hugo new --kind guide documentation/search-patterns/my-guide.md
+```
 
-When a page moves into a guide section, add its former URL to `aliases`, add an explicit redirect for its former `index.md` URL in `static/_redirects`, and update internal links. Hugo aliases only generate HTML redirects.
+Choose the directory that matches the guide:
+
+| Topic | Directory under `content/documentation/` |
+| --- | --- |
+| Search Evaluation | `search-quality/` |
+| Search Patterns | `search-patterns/` |
+| Search Tuning | `search-tuning/` |
+| Production & Performance | `production-patterns/` |
+
+1. Fill in the title, `short_description` (card summary), `description` (search/social summary), and Markdown body. Keep the guide directly inside its topic directory.
+2. Set `date` to the publication date and choose a unique positive `weight` within the topic. Lower weights appear first; gaps such as 10, 20, 30 make later insertions easier.
+3. Preview with the existing Hugo development server. Drafts require the server's `--buildDrafts` / `-D` option. Set `draft: false` when the guide is ready for publication, then submit the normal content PR.
+
+The topic's `_index.md` cascades `partition: learn` and `learning_kind: guides` to new pages. No menu, catalog, or template edits are needed for a new guide in an existing topic:
+
+- **Browse Guides by Topic**, the **topic landing page**, and the **Learn sidebar** list the topic's published pages by `weight`. `hideInSidebar: true` only hides the sidebar entry.
+- **Recently Published** shows the three newest dated guides across all topics, sorted by Hugo's `PublishDate`: explicit `publishDate` takes precedence over `date`. Editing a guide or changing its weight does not make it recent. Undated guides remain in the full listings. Drafts and future publications are excluded from normal builds unless the corresponding Hugo build flags are enabled.
+- **Markdown directories** are generated from the same topic pages.
+- **Start with a Practical Guide** and topic banner buttons are curated links; they do not change automatically.
+
+Set `guide_series: true` only on pages that form an ordered series. The section's `guide_series_title` names the series, and `weight` sets the order of the numbered cards and the previous/next links. Standalone guides do not need this flag.
+
+To add a new topic, copy an existing topic's `_index.md` into a new directory under `content/documentation/`. Update its title, descriptions, weight, icon, banner links, and `guide-cards` section path. Retain `partition: learn`, `learning_kind: guides`, their `cascade` defaults, and `layout: guides`. The overview and sidebar discover the new topic automatically; `layout: guides` also generates its Markdown directory.
+
+When moving an existing page into a guide topic, preserve its original date, add its former URL to `aliases`, add an explicit redirect for its former `index.md` URL in `static/_redirects`, and update internal links. Hugo aliases only generate HTML redirects.
 
 #### Tutorials & Examples
 
