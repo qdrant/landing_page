@@ -1,7 +1,7 @@
 {{ $topics := where (site.GetPage "/articles").Sections.ByWeight "Params.isCategoryPage" true }}
 <div class="docs-articles docs-articles__blocks">
   <div class="docs-core">
-    {{ partial "documentation/banners/banner-a" (dict "title" "Technical Articles" "description" "Explore vector search concepts, retrieval research, Qdrant internals, and application patterns." "linkDescription" "Read technical explanations, experiments, and engineering decisions from the Qdrant team." "cloudButton" (dict "text" "Browse Technical Articles" "url" "#article-topics") "localButton" (dict "text" "Explore Guides" "url" "/documentation/guides/")) }}
+    {{ partial "documentation/banners/banner-a" (dict "title" "Technical Articles" "description" "Explore vector search concepts, retrieval research, Qdrant internals, and application patterns." "linkDescription" "Read technical explanations, experiments, and engineering decisions from the Qdrant team.") }}
   </div>
   <section class="docs-articles__block">
     <div class="docs-articles__block-header">
@@ -35,12 +35,4 @@
       </div>
     </section>
   {{ end }}
-  <aside class="docs-articles__guide-callout">
-    <div>
-      <h2 class="docs-articles__title">Put It into Practice</h2>
-      <p class="docs-articles__description">Fix a search problem or compare configurations in Guides. Use a worked example when you need code to adapt.</p>
-    </div>
-    <a class="button button_contained button_sm" href="/documentation/guides/">Explore Guides</a>
-    <a class="button button_outlined button_sm" href="/learn/examples/">Explore Tutorials &amp; Examples</a>
-  </aside>
 </div>

@@ -29,18 +29,6 @@
     }
   }
 
-  &__guide-callout {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: $spacer;
-    padding: $spacer * 1.5;
-    border: pxToRem(1) solid $neutral-30;
-    border-radius: $spacer * 0.5;
-
-    > div { flex: 1 1 100%; }
-  }
-
   .post-type-badge {
     display: inline-block;
     font-size: pxToRem(11);
@@ -188,8 +176,6 @@
       color: $primary-50;
       border-color: $primary-50;
     }
-
-    &__guide-callout { border-color: $neutral-90; }
 
     &__title {
       color: $neutral-30;
