@@ -28,7 +28,11 @@ Help me get started building on Qdrant.
 3. Install the Qdrant Advisor agent skill:
    npx skills add qdrant/skills/meta/qdrant-advisor
 
-4. Then ask me what I'm building and what I'll search over before you write any code. Once you know, build the integration against my local instance, and get the collection right the first time:
+4. Ask me whether I want a quick demo with sample data, or want to build against my own data.
+
+5. If I want a demo: install qdrant-client[fastembed] for it even if I chose a different language above, download https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/ai-getting-started/demo.py and https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/ai-getting-started/menu-items.json into the same folder, and run python demo.py unmodified. Do not write your own version of this script. It creates a collection called items sized for sentence-transformers/all-MiniLM-L6-v2 (384 dimensions, cosine distance), embeds and upserts the 30 sample menu items locally, and runs three example searches. Show me the output, then ask if I want to continue by building against my own data.
+
+6. If I want to build against my own data, or once the demo is done: ask me what I'm building and what I'll search over before you write any code. Once you know, build the integration against my local instance, and get the collection right the first time:
    - Derive the vector size from the embedding model itself. Never hardcode a dimension.
    - Choose the distance metric the model was trained for, and say which one you picked and why.
    - Create a payload index for every field I'll filter on, before I load data rather than after.
