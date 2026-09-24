@@ -1,0 +1,51 @@
+.deployment-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 16px;
+  background: $neutral-30;
+  border-bottom-left-radius: $code-snippet-border-radius;
+  border-bottom-right-radius: $code-snippet-border-radius;
+  margin-bottom: 1rem;
+}
+
+.deployment-strip__label {
+  font-size: 0.85rem;
+  color: $neutral-60;
+  user-select: none;
+}
+
+.deployment-strip__btn {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  font-size: 0.85rem;
+  color: $neutral-50;
+  cursor: pointer;
+
+  &.active {
+    color: $neutral-98;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  &:not(.active):hover {
+    color: $neutral-90;
+  }
+}
+
+// When a deployment strip is present, flush the code blocks into it:
+// remove the bottom margin (gap) and the bottom border-radius (rounded corners).
+.snippet-group:has(.deployment-strip) .snippet-variant:not([hidden]) {
+  .highlight,
+  .lang-tabs .highlight {
+    margin-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    > pre {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}

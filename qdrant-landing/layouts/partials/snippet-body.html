@@ -1,0 +1,16 @@
+{{- /* Assemble the all-languages markdown body for a (dir, block) pair.
+       Params: dir (fs path), block (name or ""), order (slice of langs).
+       Snippets with deployment-type variants (_server, _edge, ...) get one
+       section per variant. Returns markdown. */ -}}
+{{- $deployments := partial "snippet-deployments.html" (dict "dir" .dir "block" .block) -}}
+{{- $parts := slice -}}
+{{- if $deployments -}}
+  {{- range $deployments -}}
+    {{- $langs := partial "snippet-files.html" (dict "dir" .path "block" $.block "order" $.order) -}}
+    {{- $parts = $parts | append (printf "## %s\n" .label) -}}
+    {{- range $langs -}}{{- $parts = $parts | append .content -}}{{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- range (partial "snippet-files.html" .) -}}{{- $parts = $parts | append .content -}}{{- end -}}
+{{- end -}}
+{{- return (delimit $parts "\n") -}}

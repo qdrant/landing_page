@@ -132,6 +132,9 @@
   {{ $langSwitcherJs := resources.Get "/js/lang-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $langSwitcherJs.RelPermalink }}"></script>
 
+  {{ $deploymentSwitcherJs := resources.Get "/js/deployment-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $deploymentSwitcherJs.RelPermalink }}"></script>
+
   <!-- MathJax support -->
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
