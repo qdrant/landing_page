@@ -7,20 +7,6 @@
     flex-direction: column;
   }
 
-  .qdrant-post__content {
-    min-width: 0;
-    max-width: 100%;
-
-    .highlight {
-      max-width: 100%;
-    }
-
-    pre {
-      max-width: 100%;
-      overflow-x: auto;
-    }
-  }
-
   .qdrant-post {
     &__breadcrumbs {
       margin-top: $spacer * 2.5;

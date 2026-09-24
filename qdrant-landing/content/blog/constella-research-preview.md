@@ -107,11 +107,7 @@ Loading includes imports and local model initialization, with assets already dow
 
 It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/DylanCouzon/constella-nano), and native FastEmbed support is available on the [research-preview branch](https://github.com/Dylancouzon/fastembed/tree/constella-research-preview).
 
-Install the preview:
-
-```bash
-pip install "fastembed @ git+https://github.com/Dylancouzon/fastembed.git@constella-research-preview" qdrant-client
-```
+[Install the FastEmbed preview and Qdrant client](https://huggingface.co/DylanCouzon/constella-nano#installation) to run this example.
 
 Create a collection and encode your documents once with Stella:
 
@@ -122,29 +118,41 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(":memory:")
 client.create_collection(
     "documents",
-    vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),
+    vectors_config=models.VectorParams(
+        size=1024,
+        distance=models.Distance.COSINE,
+    ),
 )
 
 documents = [
     "Solar panels convert sunlight into electricity.",
-    "Wind turbines generate electricity from moving air.",
+    "Wind turbines turn wind into electricity.",
 ]
-stella = TextEmbedding("DylanCouzon/stella-en-400M-v5-doc-onnx")
-client.upsert(
-    "documents",
-    points=[
-        models.PointStruct(id=i, vector=vector.tolist(), payload={"text": text})
-        for i, (text, vector) in enumerate(zip(documents, stella.embed(documents)))
-    ],
+stella = TextEmbedding(
+    "DylanCouzon/stella-en-400M-v5-doc-onnx"
 )
+vectors = stella.embed(documents)
+points = []
+for i, (text, vector) in enumerate(
+    zip(documents, vectors)
+):
+    points.append(models.PointStruct(
+        id=i,
+        vector=vector.tolist(),
+        payload={"text": text},
+    ))
+client.upsert("documents", points=points)
 ```
 
 Now choose your query model. To switch from Zero to Nano, change **one model name**:
 
 ```python
 # Switch to DylanCouzon/constella-nano to use Nano.
-query_model = TextEmbedding("DylanCouzon/constella-zero")
-query_vector = next(query_model.embed(["How can we get energy from the sun?"]))
+query_model = TextEmbedding(
+    "DylanCouzon/constella-zero"
+)
+query = "How can we get energy from the sun?"
+query_vector = next(query_model.embed([query]))
 
 results = client.query_points(
     "documents", query=query_vector.tolist(), limit=2
