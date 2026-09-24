@@ -8,11 +8,11 @@ author_link: https://llogiq.github.io
 date: 2023-06-01T11:24:20+01:00
 draft: true
 keywords:
-    - vector search
-    - embeddings
-    - mighty
-    - rust
-    - semantic search
+  - vector search
+  - embeddings
+  - mighty
+  - rust
+  - semantic search
 goal: Search Quality
 stack:
   - Rust
