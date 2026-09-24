@@ -23,18 +23,21 @@
 
 const NS = 'http://www.w3.org/2000/svg';
 
-// Geometry (viewBox 760 x 360).
+// Geometry (viewBox 760 x 368). Each replica is a node (peer) frame holding
+// its copy of the shard; the shard is a row of points (bars), and the point
+// both clients update is the last bar.
 const VB_W = 760;
-const VB_H = 360;
-const FRAME = { x: 2, y: 84, w: 756, h: 176 };
-const BOX = { y: 122, w: 200, h: 118 };
+const VB_H = 368;
+const BOX = { y: 84, w: 200, h: 176 }; // node frame
 const BOX_X = [38, 280, 522];
 const CX = BOX_X.map((x) => x + BOX.w / 2);
-const SQ = 44;
+const SHARD = { dx: 12, dy: 36, w: 176, h: 100 };
+const BARS = 12;
+const BAR = { pad: 12, dy: 34, h: 44 };
 const DIA = { hw: 46, hh: 26 };
 const TOP_Y = 34; // writer diamonds
-const READER = { x: CX[1], y: 332 };
-const JUNCTION_Y = 282;
+const READER = { x: CX[1], y: 340 };
+const JUNCTION_Y = 300;
 
 const NAME = { w: 'white', a: 'blue', b: 'red' };
 const word = (k) => `<b class="qi-cw__t--${k}">${NAME[k]}</b>`;
@@ -115,8 +118,6 @@ export function mount(node) {
       )
       .join(''),
     '    </defs>',
-    `    <rect class="qi-frame" x="${FRAME.x}" y="${FRAME.y}" width="${FRAME.w}" height="${FRAME.h}" rx="6"/>`,
-    `    <text class="qi-frame-label" x="${FRAME.x + 16}" y="${FRAME.y + 22}">Shard</text>`,
     '    <g class="qi-cw__boxes"></g>',
     '    <g class="qi-cw__links"></g>',
     '    <g class="qi-cw__wires"></g>',
@@ -165,10 +166,20 @@ export function mount(node) {
   // Replica boxes.
   const peers = CX.map((cx, i) => {
     const g = el('g', { class: 'qi-cw__peer' }, boxesG);
-    const box = el('rect', { class: 'qi-cw__box', x: BOX_X[i], y: BOX.y, width: BOX.w, height: BOX.h, rx: 6 }, g);
-    const title = el('text', { class: 'qi-title', x: cx, y: BOX.y + 24, 'text-anchor': 'middle' }, g);
-    const sq = el('rect', { class: 'qi-cw__point', x: cx - SQ / 2, y: BOX.y + 36, width: SQ, height: SQ, rx: 4 }, g);
-    const log = el('text', { class: 'qi-label', x: cx, y: BOX.y + BOX.h - 12, 'text-anchor': 'middle' }, g);
+    const box = el('rect', { class: 'qi-frame qi-cw__node', x: BOX_X[i], y: BOX.y, width: BOX.w, height: BOX.h, rx: 6 }, g);
+    const title = el('text', { class: 'qi-frame-label', x: BOX_X[i] + 14, y: BOX.y + 24 }, g);
+    const sx = BOX_X[i] + SHARD.dx;
+    const sy = BOX.y + SHARD.dy;
+    el('rect', { class: 'qi-cw__shard', x: sx, y: sy, width: SHARD.w, height: SHARD.h, rx: 6 }, g);
+    el('text', { class: 'qi-label qi-label--strong', x: cx, y: sy + 22, 'text-anchor': 'middle' }, g).textContent = 'Shard replica';
+    const slot = (SHARD.w - 2 * BAR.pad) / BARS;
+    const bw = slot * 0.52;
+    let sq;
+    for (let j = 0; j < BARS; j++) {
+      const bar = el('rect', { class: 'qi-cw__bar', x: sx + BAR.pad + j * slot + (slot - bw) / 2, y: sy + BAR.dy, width: bw, height: BAR.h, rx: 2 }, g);
+      if (j === BARS - 1) sq = bar;
+    }
+    const log = el('text', { class: 'qi-label', x: cx, y: BOX.y + BOX.h - 16, 'text-anchor': 'middle' }, g);
     return { i, cx, box, title, sq, log, value: 'w', applied: [] };
   });
 
@@ -186,13 +197,14 @@ export function mount(node) {
   const risers = CX.map((x) => el('path', { class: 'qi-cw__wire qi-cw__wire--r qi-cw__riser', d: riser(x), 'marker-end': 'url(#qi-cw-arrow-r)' }, risersG));
 
   // Replication links between replicas, shown only while a value travels.
-  const midY = BOX.y + 36 + SQ / 2;
-  const topY = FRAME.y + 20;
+  const midY = BOX.y + SHARD.dy + BAR.dy + BAR.h / 2;
+  const botY = BOX.y + BOX.h + 18; // Peer 1 <-> Peer 3 runs under Peer 2
+  const nodeBot = BOX.y + BOX.h;
   const L = (d) => el('path', { class: 'qi-cw__link', d }, linksG);
   const LINKS = {
     g12: L(`M ${BOX_X[0] + BOX.w} ${midY} H ${BOX_X[1]}`),
     g23: L(`M ${BOX_X[1] + BOX.w} ${midY} H ${BOX_X[2]}`),
-    top: L(`M ${CX[0] + 34} ${BOX.y} V ${topY + 12} Q ${CX[0] + 34} ${topY} ${CX[0] + 46} ${topY} H ${CX[2] - 46} Q ${CX[2] - 34} ${topY} ${CX[2] - 34} ${topY + 12} V ${BOX.y}`),
+    top: L(`M ${CX[0] + 40} ${nodeBot} V ${botY - 8} Q ${CX[0] + 40} ${botY} ${CX[0] + 48} ${botY} H ${CX[2] - 48} Q ${CX[2] - 40} ${botY} ${CX[2] - 40} ${botY - 8} V ${nodeBot}`),
   };
   const routeEl = (name) => (name === 'w0' ? WIRES[ordering][0] : name === 'w1' ? WIRES[ordering][1] : LINKS[name]);
 
@@ -217,7 +229,7 @@ export function mount(node) {
 
   function setPoint(p, k) {
     p.value = k;
-    p.sq.setAttribute('class', `qi-cw__point qi-cw__point--${k}`);
+    p.sq.setAttribute('class', `qi-cw__bar qi-cw__point--${k}`);
   }
 
   function drawLog(p) {
@@ -260,7 +272,7 @@ export function mount(node) {
     peers.forEach((p) => {
       p.value = 'w';
       p.applied = [];
-      p.sq.setAttribute('class', 'qi-cw__point qi-cw__point--w');
+      p.sq.setAttribute('class', 'qi-cw__bar');
       p.box.classList.remove('is-hot');
       drawLog(p);
     });

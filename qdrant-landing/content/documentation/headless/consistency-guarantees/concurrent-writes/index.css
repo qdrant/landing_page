@@ -119,25 +119,24 @@ html[data-theme='dark'] .qi-cw {
   stroke-width: 1.5;
 }
 
-/* --- Replicas --- */
-.qi-cw__box {
+/* --- Replicas: one node (peer) frame each, holding its shard replica. --- */
+.qi-cw__node {
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-cw__node.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-cw__shard {
   fill: var(--qi-line);
   fill-opacity: 0.35;
   stroke: var(--qi-border);
   stroke-width: 1;
-  transition: stroke 0.2s ease, stroke-width 0.2s ease;
 }
-.qi-cw__box.is-hot {
-  stroke: var(--qi-hot);
-  stroke-width: 2;
-}
-.qi-cw__point {
-  stroke: var(--qi-cell-stroke);
-  stroke-width: 1;
+/* Points in the shard; the last one is the point both clients update. */
+.qi-cw__bar {
+  fill: var(--qi-muted);
   transition: fill 0.3s ease;
-}
-.qi-cw__point--w {
-  fill: var(--cw-w);
 }
 .qi-cw__point--a {
   fill: var(--cw-a);
@@ -177,7 +176,7 @@ html[data-theme='dark'] .qi-cw {
 
 @media (prefers-reduced-motion: reduce) {
   .qi-cw__wire,
-  .qi-cw__point {
+  .qi-cw__bar {
     transition: none;
   }
 }

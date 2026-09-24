@@ -64,36 +64,38 @@ html[data-theme='dark'] .qi-wcf {
   fill: var(--qi-line);
 }
 
-.qi-wcf__box {
+.qi-wcf__shard {
   fill: var(--qi-line);
   fill-opacity: 0.35;
   stroke: var(--qi-border);
   stroke-width: 1;
 }
-.qi-wcf__point {
-  fill: var(--wcf-empty);
-  stroke: var(--qi-cell-stroke);
-  stroke-width: 1;
+/* Points in the shard; the last one is the point being written. */
+.qi-wcf__bar {
+  fill: var(--qi-muted);
   transition: fill 0.3s ease;
 }
-.qi-wcf__point.is-on {
+.qi-wcf__bar.is-on {
   fill: var(--wcf-write);
 }
 
-/* Offline replica: dashed box, faded content. */
-.qi-wcf__peer.is-offline .qi-wcf__box {
-  fill-opacity: 0.1;
+/* Offline node: dashed frame, faded content. */
+.qi-wcf__peer.is-offline .qi-wcf__node {
   stroke: var(--qi-line);
   stroke-dasharray: 5 4;
 }
-.qi-wcf__peer.is-offline .qi-wcf__point,
-.qi-wcf__peer.is-offline .qi-title {
-  opacity: 0.4;
+.qi-wcf__peer.is-offline .qi-wcf__shard,
+.qi-wcf__peer.is-offline .qi-wcf__bar,
+.qi-wcf__peer.is-offline text {
+  opacity: 0.45;
+}
+.qi-wcf__peer.is-offline .qi-wcf__note {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .qi-wcf__wire,
-  .qi-wcf__point {
+  .qi-wcf__bar {
     transition: none;
   }
 }

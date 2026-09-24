@@ -56,7 +56,7 @@ If the update is applied to enough replicas - according to the `write_consistenc
 
 {{< island
     path="content/documentation/headless/consistency-guarantees/write-consistency-factor"
-    width="90%" ratio="9 / 5" title="The write succeeds once `write_consistency_factor` replicas have acknowledged it."
+    width="90%" ratio="7 / 4" title="The write succeeds once `write_consistency_factor` replicas have acknowledged it."
 >}}
 A write succeeds when at least `write_consistency_factor` replicas acknowledge it.
 {{< /island >}}

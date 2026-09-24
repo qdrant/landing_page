@@ -13,14 +13,17 @@
 
 const NS = 'http://www.w3.org/2000/svg';
 
-// Geometry (viewBox 760 x 268).
+// Geometry (viewBox 760 x 288). Each replica is a node (peer) frame holding
+// its copy of the shard; the shard is a row of points (bars), and the point
+// being written is the last bar.
 const VB_W = 760;
-const VB_H = 268;
-const FRAME = { x: 2, y: 96, w: 756, h: 168 };
-const BOX = { y: 132, w: 200, h: 112 };
+const VB_H = 288;
+const BOX = { y: 112, w: 200, h: 172 }; // node frame
 const BOX_X = [38, 280, 522];
 const CX = BOX_X.map((x) => x + BOX.w / 2);
-const SQ = 40;
+const SHARD = { dx: 12, dy: 36, w: 176, h: 100 };
+const BARS = 12;
+const BAR = { pad: 12, dy: 34, h: 44 };
 const DIA = { hw: 46, hh: 26 };
 const CLIENT = { x: CX[1], y: 34 };
 const JUNCTION_Y = 80;
@@ -68,8 +71,6 @@ export function mount(node) {
     '        <path class="qi-wcf__arrowhead qi-wcf__arrowhead--off" d="M 0 0 L 10 5 L 0 10 z"/>',
     '      </marker>',
     '    </defs>',
-    `    <rect class="qi-frame" x="${FRAME.x}" y="${FRAME.y}" width="${FRAME.w}" height="${FRAME.h}" rx="6"/>`,
-    `    <text class="qi-frame-label" x="${FRAME.x + 16}" y="${FRAME.y + 22}">Shard</text>`,
     '    <g class="qi-wcf__boxes"></g>',
     '    <g class="qi-wcf__wires"></g>',
     `    <polygon class="qi-wcf__client" points="${diamond(CLIENT.x, CLIENT.y)}"/>`,
@@ -109,10 +110,20 @@ export function mount(node) {
 
   const peers = CX.map((cx, i) => {
     const g = el('g', { class: 'qi-wcf__peer' }, boxesG);
-    el('rect', { class: 'qi-wcf__box', x: BOX_X[i], y: BOX.y, width: BOX.w, height: BOX.h, rx: 6 }, g);
-    el('text', { class: 'qi-title', x: cx, y: BOX.y + 24, 'text-anchor': 'middle' }, g).textContent = `Peer ${i + 1}`;
-    const sq = el('rect', { class: 'qi-wcf__point', x: cx - SQ / 2, y: BOX.y + 36, width: SQ, height: SQ, rx: 4 }, g);
-    const note = el('text', { class: 'qi-label', x: cx, y: BOX.y + BOX.h - 12, 'text-anchor': 'middle' }, g);
+    el('rect', { class: 'qi-frame qi-wcf__node', x: BOX_X[i], y: BOX.y, width: BOX.w, height: BOX.h, rx: 6 }, g);
+    el('text', { class: 'qi-frame-label', x: BOX_X[i] + 14, y: BOX.y + 24 }, g).textContent = `Peer ${i + 1}`;
+    const sx = BOX_X[i] + SHARD.dx;
+    const sy = BOX.y + SHARD.dy;
+    el('rect', { class: 'qi-wcf__shard', x: sx, y: sy, width: SHARD.w, height: SHARD.h, rx: 6 }, g);
+    el('text', { class: 'qi-label qi-label--strong', x: cx, y: sy + 22, 'text-anchor': 'middle' }, g).textContent = 'Shard replica';
+    const slot = (SHARD.w - 2 * BAR.pad) / BARS;
+    const bw = slot * 0.52;
+    let sq;
+    for (let j = 0; j < BARS; j++) {
+      const bar = el('rect', { class: 'qi-wcf__bar', x: sx + BAR.pad + j * slot + (slot - bw) / 2, y: sy + BAR.dy, width: bw, height: BAR.h, rx: 2 }, g);
+      if (j === BARS - 1) sq = bar;
+    }
+    const note = el('text', { class: 'qi-label qi-wcf__note', x: cx, y: BOX.y + BOX.h - 16, 'text-anchor': 'middle' }, g);
     const wire = el('path', { class: 'qi-wcf__wire', d: drop(cx), 'marker-end': 'url(#qi-wcf-arrow)' }, wiresG);
     return { i, g, sq, note, wire, online: true, applied: false };
   });
