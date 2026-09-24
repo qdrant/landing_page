@@ -1,0 +1,99 @@
+/* write-consistency-factor island. Scoped under .qi-wcf. Controls, frames and
+   labels come from the shared island design system (islands.scss); this file
+   only styles the client diamond, wires, replica boxes, the point and the
+   result. Same visual language as the concurrent-writes island. */
+
+.qi-wcf {
+  --wcf-write: #6047ff; /* neon-blue-500 */
+  --wcf-empty: #ffffff;
+  --wcf-client: #c2c5ff;
+  --wcf-client-text: #6047ff;
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-wcf {
+    --wcf-client: #392689;
+    --wcf-client-text: #c2c5ff;
+  }
+}
+html[data-theme='dark'] .qi-wcf {
+  --wcf-client: #392689;
+  --wcf-client-text: #c2c5ff;
+}
+
+.qi-wcf__client {
+  fill: var(--wcf-client);
+}
+.qi-wcf__client-text {
+  fill: var(--wcf-client-text);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+.qi-wcf__result {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+.qi-wcf__result.is-error {
+  fill: var(--qi-accent);
+}
+
+.qi-wcf__wire {
+  fill: none;
+  stroke: var(--wcf-write);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-wcf__wire.is-on {
+  opacity: 1;
+}
+.qi-wcf__wire.is-offline {
+  stroke: var(--qi-line);
+  stroke-dasharray: 4 4;
+}
+.qi-wcf__arrowhead {
+  fill: var(--wcf-write);
+}
+.qi-wcf__arrowhead--off {
+  fill: var(--qi-line);
+}
+
+.qi-wcf__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-wcf__point {
+  fill: var(--wcf-empty);
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  transition: fill 0.3s ease;
+}
+.qi-wcf__point.is-on {
+  fill: var(--wcf-write);
+}
+
+/* Offline replica: dashed box, faded content. */
+.qi-wcf__peer.is-offline .qi-wcf__box {
+  fill-opacity: 0.1;
+  stroke: var(--qi-line);
+  stroke-dasharray: 5 4;
+}
+.qi-wcf__peer.is-offline .qi-wcf__point,
+.qi-wcf__peer.is-offline .qi-title {
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-wcf__wire,
+  .qi-wcf__point {
+    transition: none;
+  }
+}
