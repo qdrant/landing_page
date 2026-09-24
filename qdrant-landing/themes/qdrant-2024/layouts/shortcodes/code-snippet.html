@@ -51,38 +51,143 @@
 {{ end }}
 
 
-<!-- Read all files from the given path -->
-{{ $files := dict }}
+<!-- Canonical deployment type order — edit here to add or reorder types -->
+{{ $deploymentTypes := slice
+  (dict "dir" "_server"     "label" "Qdrant Server")
+  (dict "dir" "_edge"       "label" "Qdrant Edge")
+  (dict "dir" "_serverless" "label" "Qdrant Serverless")
+}}
 
-{{ range $dir := slice (printf "content/%s" $path) (printf "content/%s/generated/%s" $path $block) }}
-  {{ if not (fileExists $dir) }}
-    {{ continue }}
+{{ $basePath := printf "content/%s" $path }}
+
+<!-- Detect which deployment type subdirs contain .md snippet files -->
+{{ $availableTypes := slice }}
+{{ range $deploymentTypes }}
+  {{ $dt := . }}
+  {{ $hasFiles := false }}
+  {{ range $checkDir := slice (printf "%s/%s" $basePath $dt.dir) (printf "%s/%s/generated/%s" $basePath $dt.dir $block) }}
+    {{ if and (fileExists $checkDir) (not $hasFiles) }}
+      {{ range readDir $checkDir }}
+        {{ if and (strings.HasSuffix .Name ".md") (not (strings.HasPrefix .Name "_")) }}
+          {{ $hasFiles = true }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
   {{ end }}
-  {{ range (readDir $dir) }}
-    <!--- Skip files starting with `_` and non-markdown files --->
-    {{ if or (strings.HasPrefix .Name "_") (not (strings.HasSuffix .Name ".md")) }}
+  {{ if $hasFiles }}
+    {{ $availableTypes = $availableTypes | append $dt }}
+  {{ end }}
+{{ end }}
+
+
+{{ if eq (len $availableTypes) 0 }}
+
+  <!-- No deployment subdirs found — existing behavior unchanged -->
+  {{ $files := dict }}
+
+  {{ range $dir := slice $basePath (printf "%s/generated/%s" $basePath $block) }}
+    {{ if not (fileExists $dir) }}
       {{ continue }}
     {{ end }}
-  
-    {{ $filePath := printf "%s/%s" $dir .Name }}
-    {{ $content := readFile $filePath | markdownify }}
-    {{ $files = merge $files (dict (strings.TrimSuffix ".md" .Name) $content) }}
+    {{ range (readDir $dir) }}
+      {{ if or (strings.HasPrefix .Name "_") (not (strings.HasSuffix .Name ".md")) }}
+        {{ continue }}
+      {{ end }}
+      {{ $filePath := printf "%s/%s" $dir .Name }}
+      {{ $content := readFile $filePath | markdownify }}
+      {{ $files = merge $files (dict (strings.TrimSuffix ".md" .Name) $content) }}
+    {{ end }}
   {{ end }}
-{{ end }}
 
-
-<!-- Render snippets in the specified order first -->
-{{ range $order }}
-  {{ $snippet := index $files . }}
-  {{ if $snippet }}
-    {{ $snippet | markdownify }}
+  {{ range $order }}
+    {{ $snippet := index $files . }}
+    {{ if $snippet }}
+      {{ $snippet | markdownify }}
+    {{ end }}
   {{ end }}
-{{ end }}
 
-
-<!-- Render remaining files that were not in the order list -->
-{{ range $name, $content := $files }}
-  {{ if not (in $order $name) }}
-    {{ $content | markdownify }}
+  {{ range $name, $content := $files }}
+    {{ if not (in $order $name) }}
+      {{ $content | markdownify }}
+    {{ end }}
   {{ end }}
+
+{{ else }}
+
+  <!-- Deployment-type aware rendering -->
+
+  <!-- Default: prefer _server if available, else first in the available list -->
+  {{ $defaultDir := (index $availableTypes 0).dir }}
+  {{ range $availableTypes }}
+    {{ if eq .dir "_server" }}
+      {{ $defaultDir = "_server" }}
+    {{ end }}
+  {{ end }}
+
+  <div class="snippet-group">
+
+    {{ range $availableTypes }}
+      {{ $dt := . }}
+      {{ $deploymentKey := strings.TrimPrefix "_" $dt.dir }}
+      {{ $isDefault := eq $dt.dir $defaultDir }}
+
+      <div class="snippet-variant" data-deployment="{{ $deploymentKey }}"{{ if not $isDefault }} hidden{{ end }}>
+
+        {{ $files := dict }}
+        {{ range $dir := slice (printf "%s/%s" $basePath $dt.dir) (printf "%s/%s/generated/%s" $basePath $dt.dir $block) }}
+          {{ if not (fileExists $dir) }}
+            {{ continue }}
+          {{ end }}
+          {{ range (readDir $dir) }}
+            {{ if or (strings.HasPrefix .Name "_") (not (strings.HasSuffix .Name ".md")) }}
+              {{ continue }}
+            {{ end }}
+            {{ $filePath := printf "%s/%s" $dir .Name }}
+            {{ $files = merge $files (dict (strings.TrimSuffix ".md" .Name) (readFile $filePath)) }}
+          {{ end }}
+        {{ end }}
+
+        {{ range $order }}
+          {{ $lang := . }}
+          {{ $snippet := index $files $lang }}
+          {{ if $snippet }}
+            {{ if strings.HasPrefix (strings.TrimSpace $snippet) "```" }}
+              {{ $snippet | markdownify }}
+            {{ else }}
+              <div class="highlight snippet-not-supported">
+                <code class="language-{{ $lang }}" data-lang="{{ $lang }}" hidden></code>
+                <div class="snippet-not-supported__message">{{ $snippet | markdownify }}</div>
+              </div>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+
+        {{ range $name, $content := $files }}
+          {{ if not (in $order $name) }}
+            {{ if strings.HasPrefix (strings.TrimSpace $content) "```" }}
+              {{ $content | markdownify }}
+            {{ else }}
+              <div class="highlight snippet-not-supported">
+                <code class="language-{{ $name }}" data-lang="{{ $name }}" hidden></code>
+                <div class="snippet-not-supported__message">{{ $content | markdownify }}</div>
+              </div>
+            {{ end }}
+          {{ end }}
+        {{ end }}
+
+      </div>
+    {{ end }}
+
+    {{ if ge (len $availableTypes) 2 }}
+    <div class="deployment-strip">
+      <span class="deployment-strip__label">Deployment type:</span>
+      {{ range $availableTypes }}
+        {{ $deploymentKey := strings.TrimPrefix "_" .dir }}
+        <button class="deployment-strip__btn{{ if eq .dir $defaultDir }} active{{ end }}" data-deployment="{{ $deploymentKey }}">{{ .label }}</button>
+      {{ end }}
+    </div>
+    {{ end }}
+
+  </div>
+
 {{ end }}
