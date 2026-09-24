@@ -123,49 +123,37 @@ client = QdrantClient(":memory:")
 client.create_collection(
     "documents",
     vectors_config=models.VectorParams(
-        size=1024,
-        distance=models.Distance.COSINE,
+        size=1024, distance=models.Distance.COSINE
     ),
 )
 
 documents = [
-    "Solar panels turn sunlight into power.",
-    "Wind turbines turn wind into power.",
+    "Solar panels convert sunlight into electricity.",
+    "Wind turbines generate electricity from moving air.",
 ]
-stella = TextEmbedding(
-    "DylanCouzon/stella-en-400M-v5-doc-onnx"
-)
+stella = TextEmbedding("DylanCouzon/stella-en-400M-v5-doc-onnx")
 vectors = stella.embed(documents)
-points = []
-for i, (text, vector) in enumerate(
-    zip(documents, vectors)
-):
-    points.append(
+client.upsert(
+    "documents",
+    points=[
         models.PointStruct(
-            id=i,
-            vector=vector.tolist(),
-            payload={"text": text},
+            id=i, vector=vector.tolist(), payload={"text": text}
         )
-    )
-client.upsert("documents", points=points)
+        for i, (text, vector) in enumerate(zip(documents, vectors))
+    ],
+)
 ```
 
 Now choose your query model. To switch from Zero to Nano, change **one model name**:
 
 ```python
 # Or use DylanCouzon/constella-nano.
-query_model = TextEmbedding(
-    "DylanCouzon/constella-zero"
-)
+query_model = TextEmbedding("DylanCouzon/constella-zero")
 query = "How can we get energy from the sun?"
-query_vector = next(
-    query_model.embed([query])
-)
+query_vector = next(query_model.embed([query]))
 
 results = client.query_points(
-    "documents",
-    query=query_vector.tolist(),
-    limit=2,
+    "documents", query=query_vector.tolist(), limit=2
 ).points
 for result in results:
     print(result.payload["text"])
