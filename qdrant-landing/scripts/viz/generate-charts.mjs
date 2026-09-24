@@ -20,8 +20,13 @@ const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
 // One spec per chart, beside its data. The id is the path.
 const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   const id = p.replace(/^assets\/viz\//, '').replace(/\.json$/, '');
-  return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width,
-           ...JSON.parse(readFileSync(p, 'utf8')) };
+  const spec = JSON.parse(readFileSync(p, 'utf8'));
+  // The shortcode builds the viewBox from the shared width, so a per-chart one
+  // would draw at its own size inside a 980-wide box and stretch.
+  if ('width' in spec) {
+    throw new Error(`${p}: charts share one width (data/viz.json chart.width). Remove "width".`);
+  }
+  return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width, ...spec };
 });
 
 const dom = new JSDOM('');
