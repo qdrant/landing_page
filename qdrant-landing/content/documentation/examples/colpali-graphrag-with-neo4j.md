@@ -14,6 +14,8 @@ Most RAG pipelines for PDFs extract the text, split it into chunks, and embed th
 
 The example in this tutorial is a real 8-page report from the U.S. Government Accountability Office (GAO). Page 6 is a scanned letter from the Small Business Administration (SBA). If you ask a PDF library for the text on that page, you get about 120 characters. The name of the person who signed it only exists in the image.
 
+Finding that page is only half the problem. Questions about reports like this one are often about how things connect: who signed what, which company works for which contractor, and who later acquired that company. Those facts are spread across pages, and sometimes across documents. A graph stores them as nodes and relationships, so an entity mentioned in two reports becomes one node that links both. Answering a question then becomes a short traversal from the pages you found, instead of hoping the right pages all land in the top results.
+
 In this tutorial, you will build a GraphRAG system that works with the page images directly, instead of extracting text:
 
 - **Qdrant** stores a ColPali embedding of each page image and finds the pages that match a question.
@@ -49,14 +51,28 @@ INGEST                                        ASK
                                                LLM -> answer
 ```
 
-Why use both databases? ColPali is good at finding the right page, but it can't tell you who is on it. The graph holds those facts. And because entities are shared across pages and documents, a one-hop walk can reach facts on pages the search never returned. The [Run the Pipeline](#run-the-pipeline) section shows this in action.
+Each system does the job it's best at. Qdrant runs the ColPali search, which is good at finding the right page but can't tell you who is on it. Neo4j holds those facts. And because entities are shared across pages and documents, a one-hop walk can reach facts on pages the search never returned. The [Run the Pipeline](#run-the-pipeline) section shows this in action.
 
-The graph has two node types and two relationship types:
+## Graph Schema
+
+The graph has two node labels and two relationship types:
 
 ```text
 (:Entity {id, name, type, description})-[:MENTIONED_ON]->(:Page {id, document_id, document_name, page_number})
 (:Entity)-[:RELATIONSHIP {type, document_id, page_id}]->(:Entity)
 ```
+
+Before writing anything, the pipeline creates two uniqueness constraints:
+
+```cypher
+CREATE CONSTRAINT entity_id IF NOT EXISTS
+FOR (e:Entity) REQUIRE e.id IS UNIQUE;
+
+CREATE CONSTRAINT page_id IF NOT EXISTS
+FOR (p:Page) REQUIRE p.id IS UNIQUE;
+```
+
+Each constraint also creates a range index on the property, so the `MERGE` on `Entity.id` and the lookups by `Page.id` at question time don't scan every node. No other indexes are created.
 
 ## Prerequisites
 
@@ -110,15 +126,15 @@ The document ID comes from the file's absolute path. That keeps things simple, b
 
 To follow along, use `examples/gao-07-33r.pdf` from the repository. It's a public-domain GAO report about a State Department contract for security work at U.S. embassies. This is page 6:
 
-![Page 6 of the report: a scanned letter from the SBA Administrator, with letterhead and a handwritten signature](/documentation/examples/colpali-graphrag-with-neo4j/page6-scanned.png)
+![Page 6 of the report: a scanned letter from the SBA Administrator, with letterhead and a handwritten signature](https://qdrant.tech/documentation/examples/colpali-graphrag-with-neo4j/page6-scanned.png)
 
 ## Embed Pages and Store Them in Qdrant
 
 ColPali doesn't turn a page into a single vector. It splits the page into a 32 × 32 grid of patches and returns a 128-dimensional vector for each one, plus a few extra vectors for its internal prompt: 1,030 vectors per page. A question gets one vector per token. To score a page against a question, it finds the closest page vector for each question vector and adds up those similarities. This is called late interaction, or MaxSim.
 
-[FastEmbed](/documentation/fastembed/) runs ColPali locally through `LateInteractionMultimodalEmbedding`. Its `embed_image` method embeds pages and `embed_text` embeds questions, into the same vector space. Pages are embedded one at a time, because each one is over a thousand vectors.
+[FastEmbed](https://qdrant.tech/documentation/fastembed/) runs ColPali locally through `LateInteractionMultimodalEmbedding`. Its `embed_image` method embeds pages and `embed_text` embeds questions, into the same vector space. Pages are embedded one at a time, because each one is over a thousand vectors.
 
-Qdrant can store a page's whole set of vectors as one point, using a [multivector](/documentation/tutorials-search-engineering/using-multivector-representations/):
+Qdrant can store a page's whole set of vectors as one point, using a [multivector](https://qdrant.tech/documentation/tutorials-search-engineering/using-multivector-representations/):
 
 ```python
 VECTOR_NAME: models.VectorParams(
@@ -142,7 +158,7 @@ models.PointStruct(
 )
 ```
 
-There are two things to watch out for when writing pages. First, re-ingesting a PDF that has lost pages would leave the old pages behind, so `upsert_pages` deletes a document's points before inserting new ones. Second, each page is about 2.5 MB of JSON, and Qdrant rejects requests over 32 MB. Sending a 16-page report in one request fails with:
+Each page is about 2.5 MB of JSON, and Qdrant rejects requests over 32 MB. Sending a 16-page report in one request fails with:
 
 ```text
 400 Bad Request: JSON payload (39884730 bytes) is larger than allowed (limit: 33554432 bytes)
@@ -211,16 +227,7 @@ MERGE (e)-[:MENTIONED_ON]->(p)
 
 Relation names come from the model, so there's no fixed list of them. Rather than a separate Neo4j relationship type for each name, every relation is stored as `RELATIONSHIP` with a `type` property. Each one also records the `document_id` and `page_id` it came from.
 
-Recording `document_id` is what makes re-ingesting safe. Entities are shared between documents: if two reports mention the SBA, there's a single SBA node. So replacing a document means deleting its pages and relationships, then deleting only the entities that no remaining page mentions:
-
-```cypher
-UNWIND $ids AS id
-MATCH (e:Entity {id: id})
-WHERE NOT (e)-[:MENTIONED_ON]->(:Page)
-DETACH DELETE e
-```
-
-The delete and the write run in one transaction, so if the write fails, the previous version of the document is kept.
+Recording `document_id` lets you re-ingest a document safely: in one transaction, the pipeline deletes that document's pages and relationships, removes entities no remaining page mentions, and writes the new version.
 
 At question time, this query takes the page IDs from Qdrant and returns the entities on those pages, plus one hop of relationships:
 
@@ -332,14 +339,10 @@ RETURN e, m, p, r, o
 
 Copy the `id` of any `Page` node and look it up in the `pdf_pages` collection in the Qdrant Cloud dashboard. It's the same page.
 
-## Next Steps
+## Conclusion
 
-This is a proof of concept. To take it further:
+Text extraction can't answer questions about what's only in a page image, like the signature on a scanned letter. In this tutorial, Qdrant searched the page images directly with ColPali, and Neo4j stored the facts a vision model read off those same images. A shared page ID connected the two, so the search results became the starting point for a graph traversal. That traversal answered a question whose answer was in a different report from every page the search returned.
 
-- **Better entity matching:** Merge names like "BP International" and "BP International (BPI)", for example by comparing embeddings of entity names. This would likely improve answers more than anything else here.
-- **More hops:** Use a pattern like `-[:RELATIONSHIP*1..2]-`, and limit the results so they fit in the prompt.
-- **Skip unchanged pages:** Hash each PNG and skip embedding and extraction when it hasn't changed.
+The weakest link is entity matching. Names like "BP International" and "BP International (BPI)" still end up as separate nodes, and merging them would likely improve answers more than any other change. Deeper traversals, such as `-[:RELATIONSHIP*1..2]-`, are a natural next step once the graph is cleaner.
 
-## Further Reading
-- For a text-based GraphRAG pipeline with the same two databases, see [**Build a GraphRAG Agent with Neo4j and Qdrant**](/documentation/examples/graphrag-qdrant-neo4j/)
-- To learn how to scale this approach, see [**Multivector Document Retrieval with ColPali/ColQwen**](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/)
+The full code is in the [colpali-graphrag-demo repository](https://github.com/qdrant-labs/colpali-graphrag-demo). For a text-based GraphRAG pipeline with Neo4j and Qdrant, see [Build a GraphRAG Agent with Neo4j and Qdrant](https://qdrant.tech/documentation/examples/graphrag-qdrant-neo4j/).
