@@ -320,7 +320,7 @@ Set `guide_series: true` only on pages that form an ordered series. The section'
 
 To add a new topic, copy an existing topic's `_index.md` into a new directory under `content/documentation/`. Update its title, descriptions, weight, icon, banner links, and `guide-cards` section path. Retain `partition: learn`, `learning_kind: guides`, their `cascade` defaults, and `layout: guides`. The overview and sidebar discover the new topic automatically; `layout: guides` also generates its Markdown directory.
 
-When moving an existing page into a guide topic, preserve its original date, add its former URL to `aliases`, add an explicit redirect for its former `index.md` URL in `static/_redirects`, and update internal links. Hugo aliases only generate HTML redirects.
+When moving an existing page into a guide topic, preserve its original date, add its former URL to `aliases`, add a wildcard redirect in `static/_redirects` (`/old-path/* /new-path/:splat 301!`), and update internal links. The wildcard covers HTML and Markdown, and `301!` takes precedence over Hugo's generated alias files. Put specific page redirects before broader section redirects.
 
 #### Tutorials & Examples
 
