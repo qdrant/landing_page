@@ -2,8 +2,12 @@
 {{ $isGuide := eq .Params.learning_kind "guides" }}
 {{ $goals := slice }}
 {{ range hugo.Data.examples }}{{ $goals = $goals | append .goal }}{{ end }}
+{{ $goals = sort (uniq $goals) }}
+{{ if in $goals "Get Started" }}
+  {{ $goals = slice "Get Started" | append (collections.Complement (slice "Get Started") $goals) }}
+{{ end }}
 {{ $exampleLinks := slice }}
-{{ range sort (uniq $goals) }}
+{{ range $goals }}
   {{ $exampleLinks = $exampleLinks | append (dict "title" . "url" (printf "/learn/examples/?%s#example-library" (querify "goal" .)) "goal" . "active" false) }}
 {{ end }}
 {{ $guideLinks := slice }}
