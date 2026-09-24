@@ -1,0 +1,67 @@
+/* edge-on-device island. Scoped under .qi-eod. Frame, label and title classes
+   come from the shared island design system (islands.scss); this file only
+   styles the device shells, the two lanes and the connector across the
+   boundary. The diagram is static, so nothing here animates. Operation hues
+   are constant across themes (design-system palette, see Colors). */
+
+.qi-eod {
+  --eod-ingest: #6047ff; /* neon-blue-500 */
+  --eod-query: #00838f; /* cyan-800 */
+
+  display: block;
+}
+
+/* Device and server shells: the outer boundary of a machine. */
+.qi-eod__shell {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+
+/* Nested boxes: process, logic, storage. */
+.qi-eod__box {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-eod__box--store {
+  stroke: var(--qi-line);
+}
+
+/* The network boundary. Nothing on the device side ever crosses it. */
+.qi-eod__divider {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+
+/* The two local lanes, between the application logic and the shard. */
+.qi-eod__lane--ingest {
+  --lane: var(--eod-ingest);
+}
+.qi-eod__lane--query {
+  --lane: var(--eod-query);
+}
+.qi-eod__wire {
+  stroke: var(--lane);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.qi-eod__head {
+  fill: var(--lane);
+}
+.qi-eod__lane-label {
+  fill: var(--qi-muted);
+}
+
+/* Everything off the device is dimmed: available, but not part of the story. */
+.qi-eod__off,
+.qi-eod__off-title {
+  opacity: 0.45;
+}
+.qi-eod__link {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+  stroke-linecap: round;
+}
