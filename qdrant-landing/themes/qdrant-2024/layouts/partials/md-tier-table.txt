@@ -1,0 +1,29 @@
+{{- /*
+  Renders a tier comparison as a Markdown table. Pricing carries its value in
+  per-tier cells (tier × feature), which collapse to nothing useful if flattened
+  into prose.
+
+  Params: tiers (slice of {id, name}), sections (slice of {name, features}),
+          first (header for the first column, default "Feature")
+*/ -}}
+{{- $tiers := .tiers -}}
+{{- $head := slice (.first | default "Feature") -}}
+{{- range $tiers -}}{{- $head = $head | append (.name | default .id) -}}{{- end -}}
+{{- $out := printf "| %s |\n|%s\n" (delimit $head " | ") (strings.Repeat (len $head) " --- |") -}}
+{{- range .sections -}}
+  {{- with .name -}}
+    {{- $out = printf "%s| **%s** |%s\n" $out . (strings.Repeat (len $tiers) " |") -}}
+  {{- end -}}
+  {{- range .features -}}
+    {{- $row := slice (.name | default .title) -}}
+    {{- $f := . -}}
+    {{- range $tiers -}}
+      {{- $cell := index $f .id -}}
+      {{- if eq $cell true -}}{{- $row = $row | append "Yes" -}}
+      {{- else if or (eq $cell false) (eq $cell nil) -}}{{- $row = $row | append "—" -}}
+      {{- else -}}{{- $row = $row | append (printf "%v" $cell) -}}{{- end -}}
+    {{- end -}}
+    {{- $out = printf "%s| %s |\n" $out (delimit $row " | ") -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}
