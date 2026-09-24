@@ -1,5 +1,11 @@
 {
   "$comment": "Single source of truth for blog visualisation colors and type. Consumed by Hugo templates (site.Data.viz) and scripts/viz/generate-charts.mjs. Do NOT duplicate these values into SCSS.",
+  "chart": {
+    "$comment": "Read by scripts/viz/generate-charts.mjs and layouts/shortcodes/chart.html. The SVG scales to the column, so one width keeps type the same size in every chart. legendRoom/facetRoom is the space below the plot the generator draws into and the shortcode must include in the viewBox.",
+    "width": 980,
+    "legendRoom": 44,
+    "facetRoom": 8
+  },
   "palette": {
     "categorical": [
       "#dc244c",
