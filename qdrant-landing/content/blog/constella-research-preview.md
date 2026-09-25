@@ -1,5 +1,5 @@
 ---
-title: "Constella: Swap Your Query Model, Keep Your Index"
+title: "Constella Preview: Swap Query Models Without Re-Embedding"
 draft: false
 slug: constella-research-preview
 short_description: "Constella lets Zero, Nano, and full Stella search one document index. Try the research preview and choose your model per query."
@@ -20,9 +20,9 @@ tags:
 
 As query traffic grows, so does the compute bill for embedding it. On a low-power device, a large model may not fit in memory. A smaller query model could reduce that cost, but switching usually means re-embedding the collection.
 
-Constella lets you make that switch. It's a family of models built around Stella, a 400M-parameter English embedding model. Stella encodes your documents. Zero, Nano, or Stella itself can then encode your queries, all searching the same Qdrant collection.
+Constella lets you make that switch. It's a [family of models on Hugging Face](https://huggingface.co/DylanCouzon) built around Stella, a 400M-parameter English embedding model. Stella encodes your documents. Zero, Nano, or Stella itself can then encode your queries, all searching the same Qdrant collection.
 
-We're sharing Constella as a research preview, with downloadable models and results across 15 BEIR datasets.
+We're sharing Constella as a research preview, with results across 15 BEIR datasets.
 
 ## One Index, Three Query Models
 
@@ -50,26 +50,41 @@ Nano adds context: its transformer models how tokens relate to each other and th
 
 We evaluated Zero, Nano, and full Stella across BEIR-15, a collection of search tasks covering scientific papers, questions, claims, and other text. Each query model searches the same Stella document vectors.
 
-The table reports exact-search nDCG@10, which measures how well relevant documents rank in the first 10 results. Higher is better. Each dataset has equal weight in the averages; CQADupStack combines its 12 forums into one dataset score.
+The table reports exact-search nDCG@10, which measures how well relevant documents rank in the first 10 results. Higher is better. Each dataset has equal weight in the averages; CQADupStack combines its 12 forums into one dataset score. Shading shows each Zero and Nano score as a share of Full Stella's.
 
-| Dataset | Zero | Nano | Full Stella |
-|---|---:|---:|---:|
-| SciFact | 0.6101 | 0.7211 | 0.7796 |
-| NFCorpus | 0.3124 | 0.3631 | 0.4134 |
-| SCIDOCS | 0.1677 | 0.2177 | 0.2395 |
-| TREC-COVID | 0.5490 | 0.7871 | 0.8234 |
-| FiQA† | 0.3728 | 0.4778 | 0.5536 |
-| ArguAna† | 0.5916 | 0.6233 | 0.6369 |
-| FEVER† | 0.6978 | 0.6231 | 0.8207 |
-| DBpedia-entity | 0.3900 | 0.4190 | 0.4603 |
-| CQADupStack | 0.3416 | 0.3859 | 0.4448 |
-| MS MARCO | 0.3371 | 0.4063 | 0.4373 |
-| Natural Questions | 0.5173 | 0.5838 | 0.6371 |
-| HotpotQA | 0.6127 | 0.6102 | 0.6950 |
-| Touché-2020 | 0.2288 | 0.2755 | 0.2980 |
-| Quora | 0.8504 | 0.8805 | 0.8912 |
-| Climate-FEVER† | 0.2785 | 0.2473 | 0.2907 |
-| Average, all 15 | 0.4572 | 0.5081 | 0.5614 |
+<div style="overflow-x: auto; margin: 1.5rem 0;">
+<table style="width: 100%; max-width: 640px; margin: 0 auto; border-collapse: collapse; background: #ffffff; color: #161e33; font-variant-numeric: tabular-nums;">
+<thead>
+<tr style="border-bottom: 2px solid #161e33;">
+<th style="padding: 8px 10px; text-align: left;">Dataset</th>
+<th style="padding: 8px 10px; text-align: right;">Zero</th>
+<th style="padding: 8px 10px; text-align: right;">Nano</th>
+<th style="padding: 8px 10px; text-align: right;">Full Stella</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">SciFact</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.6101</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.7211</td><td style="padding: 8px 10px; text-align: right;">0.7796</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">NFCorpus</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.3124</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.3631</td><td style="padding: 8px 10px; text-align: right;">0.4134</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">SCIDOCS</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.1677</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.2177</td><td style="padding: 8px 10px; text-align: right;">0.2395</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">TREC-COVID</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.5490</td><td style="padding: 8px 10px; text-align: right; background: #2f6ff0; color: #ffffff;">0.7871</td><td style="padding: 8px 10px; text-align: right;">0.8234</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">FiQA†</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.3728</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.4778</td><td style="padding: 8px 10px; text-align: right;">0.5536</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">ArguAna†</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.5916</td><td style="padding: 8px 10px; text-align: right; background: #2f6ff0; color: #ffffff;">0.6233</td><td style="padding: 8px 10px; text-align: right;">0.6369</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">FEVER†</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.6978</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.6231</td><td style="padding: 8px 10px; text-align: right;">0.8207</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">DBpedia-entity</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.3900</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.4190</td><td style="padding: 8px 10px; text-align: right;">0.4603</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">CQADupStack</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.3416</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.3859</td><td style="padding: 8px 10px; text-align: right;">0.4448</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">MS MARCO</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.3371</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.4063</td><td style="padding: 8px 10px; text-align: right;">0.4373</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">Natural Questions</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.5173</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.5838</td><td style="padding: 8px 10px; text-align: right;">0.6371</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">HotpotQA</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.6127</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.6102</td><td style="padding: 8px 10px; text-align: right;">0.6950</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">Touché-2020</td><td style="padding: 8px 10px; text-align: right; background: transparent; color: #161e33;">0.2288</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.2755</td><td style="padding: 8px 10px; text-align: right;">0.2980</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">Quora</td><td style="padding: 8px 10px; text-align: right; background: #2f6ff0; color: #ffffff;">0.8504</td><td style="padding: 8px 10px; text-align: right; background: #2f6ff0; color: #ffffff;">0.8805</td><td style="padding: 8px 10px; text-align: right;">0.8912</td></tr>
+<tr style="border-top: 1px solid #e1e5f0;"><td style="padding: 8px 10px;">Climate-FEVER†</td><td style="padding: 8px 10px; text-align: right; background: #2f6ff0; color: #ffffff;">0.2785</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.2473</td><td style="padding: 8px 10px; text-align: right;">0.2907</td></tr>
+</tbody>
+<tfoot>
+<tr style="border-top: 1px solid #e1e5f0; border-top: 2px solid #161e33; font-weight: 700;"><td style="padding: 8px 10px;">Average, all 15</td><td style="padding: 8px 10px; text-align: right; background: #d9e2fe; color: #161e33;">0.4572</td><td style="padding: 8px 10px; text-align: right; background: #89a9ff; color: #161e33;">0.5081</td><td style="padding: 8px 10px; text-align: right;">0.5614</td></tr>
+</tfoot>
+</table>
+<p style="max-width: 640px; margin: 10px auto 0; font-size: 14px; color: #576280;">Share of Full Stella's score: <span style="display: inline-flex; align-items: center; gap: 6px; margin-right: 14px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: #ffffff; border: 1px solid #e1e5f0;"></span>Under 80%</span><span style="display: inline-flex; align-items: center; gap: 6px; margin-right: 14px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: #d9e2fe; border: 1px solid #e1e5f0;"></span>80-89%</span><span style="display: inline-flex; align-items: center; gap: 6px; margin-right: 14px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: #89a9ff; border: 1px solid #e1e5f0;"></span>90-94%</span><span style="display: inline-flex; align-items: center; gap: 6px; margin-right: 14px;"><span style="width: 14px; height: 14px; border-radius: 3px; background: #2f6ff0; border: 1px solid #e1e5f0;"></span>95% and up</span></p>
+</div>
 
 † **Training-contamination caveat:** Stella reports training or evaluation exposure to these four datasets. Zero and Nano learn from Stella, so treat these scores as a comparison within the family, not a test on entirely unseen data. [Full evaluation details](https://github.com/Dylancouzon/asymmetric-dual-encoders/blob/d56f86d/results/m20_beir15_run.json).
 
