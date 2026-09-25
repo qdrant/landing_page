@@ -20,7 +20,7 @@ tags:
 
 As query traffic grows, so does the compute bill for embedding it. On a low-power device, a large model may not fit in memory. A smaller query model could reduce that cost, but switching usually means re-embedding the collection.
 
-Constella lets you make that switch. It's a [family of models on Hugging Face](https://huggingface.co/DylanCouzon) built around Stella, a 400M-parameter English embedding model. Stella encodes your documents. Zero, Nano, or Stella itself can then encode your queries, all searching the same Qdrant collection.
+Constella lets you make that switch. It's a [family of models on Hugging Face](https://huggingface.co/Qdrant/constella-nano) built around Stella, a 400M-parameter English embedding model. Stella encodes your documents. Zero, Nano, or Stella itself can then encode your queries, all searching the same Qdrant collection.
 
 We're sharing Constella as a research preview, with results across 15 BEIR datasets.
 
@@ -90,7 +90,7 @@ The table reports exact-search nDCG@10, which measures how well relevant documen
 
 Nano retains about 91% of full Stella's average score across all 15 datasets, with a much smaller query transformer. Zero scores lower overall, but outscores Nano on FEVER, HotpotQA, and Climate-FEVER. The tradeoff varies by workload, which is why the choice of query model is worth testing on your own data.
 
-We recommend pairing Zero with BM25 for hybrid search. Zero gained more from the combination than Nano in our benchmarks, improving retrieval quality without adding a transformer to the query path. Our [Zero model card](https://huggingface.co/DylanCouzon/constella-zero) includes recommended fusion settings and practical guidance for getting started.
+We recommend pairing Zero with BM25 for hybrid search. Zero gained more from the combination than Nano in our benchmarks, improving retrieval quality without adding a transformer to the query path. Our [Zero model card](https://huggingface.co/Qdrant/constella-zero) includes recommended fusion settings and practical guidance for getting started.
 
 ## How Fast Is the Query Side?
 
@@ -120,7 +120,7 @@ Loading includes imports and local model initialization, with assets already dow
 
 ## Try Constella
 
-It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/DylanCouzon/constella-nano), and native FastEmbed support is available on the [research-preview branch](https://github.com/Dylancouzon/fastembed/tree/constella-research-preview).
+It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/Qdrant/constella-nano), and native FastEmbed support is available on the [research-preview branch](https://github.com/Dylancouzon/fastembed/tree/constella-research-preview).
 
 Install the preview:
 
@@ -146,7 +146,7 @@ documents = [
     "Solar panels convert sunlight into electricity.",
     "Wind turbines generate electricity from moving air.",
 ]
-stella = TextEmbedding("DylanCouzon/stella-en-400M-v5-doc-onnx")
+stella = TextEmbedding("Qdrant/stella-en-400M-v5-doc-onnx")
 vectors = stella.embed(documents)
 client.upsert(
     "documents",
@@ -162,8 +162,8 @@ client.upsert(
 Now choose your query model. To switch from Zero to Nano, change **one model name**:
 
 ```python
-# Or use DylanCouzon/constella-nano.
-query_model = TextEmbedding("DylanCouzon/constella-zero")
+# Or use Qdrant/constella-nano.
+query_model = TextEmbedding("Qdrant/constella-zero")
 query = "How can we get energy from the sun?"
 query_vector = next(query_model.embed([query]))
 
@@ -174,7 +174,7 @@ for result in results:
     print(result.payload["text"])
 ```
 
-Same collection. Same query code. The stored document vectors stay exactly where they are. See the [model card](https://huggingface.co/DylanCouzon/constella-nano#usage) for the supported query paths.
+Same collection. Same query code. The stored document vectors stay exactly where they are. See the [model card](https://huggingface.co/Qdrant/constella-nano#usage) for the supported query paths.
 
 ## What's Next
 
