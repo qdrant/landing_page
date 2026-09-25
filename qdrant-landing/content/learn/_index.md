@@ -75,13 +75,13 @@ content:
       - title: Evaluate Search Quality
         description: Choose an evaluation baseline before changing embeddings, retrieval, or ranking.
         link:
-          url: /documentation/search-quality/
+          url: /documentation/search-evaluation/
           text: Explore Search Evaluation
       - title: Prepare for Production
         description: Plan tenant growth and large imports around the workload you need to serve.
         link:
-          url: /documentation/production-patterns/
-          text: Explore Production & Performance
+          url: /documentation/production-operations/
+          text: Explore Production & Operations
       - title: Choose Search Patterns
         description: Choose embedding models, plan query decomposition, and filter results for your application.
         link:

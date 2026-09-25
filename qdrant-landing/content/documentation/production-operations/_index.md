@@ -1,5 +1,5 @@
 ---
-title: Production & Performance
+title: Production & Operations
 short_description: Plan multitenancy, bulk uploads, and memory placement as your Qdrant application and vector collection grow.
 description: Plan multitenancy, bulk uploads, and memory placement as your Qdrant application and vector collection grow.
 partition: learn
@@ -19,17 +19,17 @@ related:
   - /documentation/capacity-planning/
 content:
   - partial: documentation/banners/banner-a
-    title: Production & Performance
+    title: Production & Operations
     description: Plan multitenancy, bulk uploads, and memory placement as your Qdrant application and vector collection grow.
     linkDescription: Choose the pattern that matches your workload and its constraints.
     cloudButton:
       text: Serve Many Tenants
-      url: /documentation/production-patterns/multitenant-search/
+      url: /documentation/production-operations/multitenant-search/
     localButton:
       text: Plan a Data Import
-      url: /documentation/production-patterns/bulk-data-import/
+      url: /documentation/production-operations/bulk-data-import/
   - partial: documentation/guides/guide-cards
-    section: /documentation/production-patterns/
+    section: /documentation/production-operations/
 worked_examples:
   - /documentation/tutorials-search-engineering/index-dynamic-payloads/
   - /documentation/tutorials-search-engineering/branch-aware-search/

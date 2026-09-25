@@ -83,7 +83,7 @@
 /articles/rag-and-genai/           /articles/rag-and-agents/        301
 
 # Unpublished indexing-optimization article superseded by bulk-uploads-in-qdrant
-/articles/indexing-optimization/   /documentation/production-patterns/bulk-data-import/   301
+/articles/indexing-optimization/   /documentation/production-operations/bulk-data-import/   301
 
 # ACORN blog post converted into an internals article
 /blog/filtered-vector-search-acorn/   /articles/filtered-vector-search-acorn/   301
@@ -92,20 +92,20 @@
 # Force redirects so generated Hugo alias files cannot shadow the HTTP 301.
 # Keep specific page moves before the Improve Search section fallback.
 /articles/before-tuning-a-qdrant-collection/*  /documentation/search-tuning/before-tuning-a-qdrant-collection/:splat  301!
-/articles/bulk-uploads-in-qdrant/*  /documentation/production-patterns/bulk-data-import/:splat  301!
+/articles/bulk-uploads-in-qdrant/*  /documentation/production-operations/bulk-data-import/:splat  301!
 /articles/candidate-depth/*  /documentation/search-tuning/candidate-depth/:splat  301!
 /articles/how-to-choose-an-embedding-model/*  /documentation/search-patterns/choose-embedding-model/:splat  301!
 /articles/how-to-tune-hybrid-search/*  /documentation/search-tuning/how-to-tune-hybrid-search/:splat  301!
 /articles/hybrid-search/*  /documentation/search-tuning/hybrid-search/:splat  301!
-/articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-patterns/memory-tiers/:splat  301!
-/articles/multitenancy/*  /documentation/production-patterns/multitenant-search/:splat  301!
+/articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-operations/memory-tiers/:splat  301!
+/articles/multitenancy/*  /documentation/production-operations/multitenant-search/:splat  301!
 /articles/vector-search-filtering/*  /documentation/search-patterns/vector-search-filtering/:splat  301!
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!
-/documentation/improve-search/pipeline-output-quality/*  /documentation/search-quality/pipeline-output-quality/:splat  301!
+/documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
 /documentation/improve-search/query-decomposition/*  /documentation/search-patterns/query-decomposition/:splat  301!
-/documentation/improve-search/retrieval-relevance/*  /documentation/search-quality/retrieval-relevance/:splat  301!
-/documentation/improve-search/*  /documentation/search-quality/:splat  301!
+/documentation/improve-search/retrieval-relevance/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
+/documentation/improve-search/*  /documentation/search-evaluation/:splat  301!
 
 # Agent Skills moved under the Agentic Tools hub. The page's `aliases:` front
 # matter already covers the HTML, but Hugo writes an alias as index.html with

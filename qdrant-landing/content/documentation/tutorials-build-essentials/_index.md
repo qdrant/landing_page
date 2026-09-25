@@ -5,7 +5,7 @@ description: "Step-by-step tutorials integrating Qdrant with LangChain, LlamaInd
 weight: 1200
 partition: ecosystem
 cascade:
-  learning_kind: tutorials
+  learning_kind: examples
 ---
 # Integration Examples
 

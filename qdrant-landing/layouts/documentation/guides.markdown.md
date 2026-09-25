@@ -11,7 +11,7 @@
   {{- range .RegularPages.ByWeight -}}
     {{- $content = printf "%s- [%s](%sindex.md)" $content .Title .Permalink -}}
     {{- with .Params.short_description -}}
-      {{- $content = printf "%s — %s" $content . -}}
+      {{- $content = printf "%s: %s" $content . -}}
     {{- end -}}
     {{- $content = printf "%s\n" $content -}}
   {{- end -}}

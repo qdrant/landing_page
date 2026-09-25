@@ -16,7 +16,7 @@ content:
   - partial: documentation/banners/banner-a
     title: Search Patterns
     description: Choose how your search system represents data, handles questions, and narrows results.
-    linkDescription: Choose the pattern that fits your application’s search needs.
+    linkDescription: Choose the pattern that fits your application's search needs.
     cloudButton:
       text: Choose an Embedding Model
       url: /documentation/search-patterns/choose-embedding-model/

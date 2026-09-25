@@ -6,7 +6,7 @@ weight: 425
 is_empty: false
 partition: develop
 cascade:
-  learning_kind: tutorials
+  learning_kind: examples
 ---
 
 ### Develop & Implement Tutorials

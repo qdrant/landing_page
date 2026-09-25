@@ -1,4 +1,4 @@
-{{- $pages := where site.RegularPages "Params.learning_kind" "tutorials" -}}
+{{- $pages := where site.RegularPages "Params.learning_kind" "examples" -}}
 {{- range $pages -}}
   {{- if not .Params.goal -}}{{- errorf "Missing tutorial goal: %s" .Path -}}{{- end -}}
   {{- if not .Params.stack -}}{{- errorf "Missing tutorial stack: %s" .Path -}}{{- end -}}

@@ -121,4 +121,4 @@ The birthplace chunk never mentions Inception, so the original question won't su
 
 ## When to Use It
 
-Decomposition adds an LLM call and a query per hop, so reach for it only when a question spans multiple facts. For single-fact questions, one query is faster and just as accurate. To confirm it helps on your data, compare `recall@k` for single-pass against decomposition on a small set of multi-hop questions; the [Measuring Retrieval Relevance](/documentation/search-quality/retrieval-relevance/) tutorial covers the setup.
+Decomposition adds an LLM call and a query per hop, so reach for it only when a question spans multiple facts. For single-fact questions, one query is faster and just as accurate. To confirm it helps on your data, compare `recall@k` for single-pass against decomposition on a small set of multi-hop questions; the [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) tutorial covers the setup.

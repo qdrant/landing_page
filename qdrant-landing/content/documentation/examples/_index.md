@@ -5,7 +5,7 @@ description: "Hands-on Qdrant code samples and notebooks for RAG, hybrid search,
 weight: 1300
 partition: ecosystem
 cascade:
-  learning_kind: tutorials
+  learning_kind: examples
 ---
 # Build Prototypes
 

@@ -9,7 +9,7 @@ aliases:
   - tutorials
 partition: develop
 cascade:
-  learning_kind: tutorials
+  learning_kind: examples
 ---
 
 ### Basic Tutorials

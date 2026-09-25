@@ -16,9 +16,9 @@ aliases:
 This tutorial focuses on **pipeline output quality**: whether the full retrieval pipeline produces the right output once retrieved results reach a consumer, most often an LLM generator in a RAG system.
 To measure pipeline output quality, you run your golden set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
 
-Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Measuring Retrieval Relevance](/documentation/search-quality/retrieval-relevance/) (do the top-k results match query intent?).
+Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) (do the top-k results match query intent?).
 
-**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/search-quality/retrieval-relevance/)), LLM access for generation and judging, and Python with `ragas` installed.
+**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/)), LLM access for generation and judging, and Python with `ragas` installed.
 
 ## Wiring the RAG Pipeline
 
@@ -178,7 +178,7 @@ If you ship retrieval changes regularly, this evaluation earns its place in CI. 
 
 ## Isolating Retrieval vs Generation
 
-If you're also running [retrieval evaluation](/documentation/search-quality/retrieval-relevance/) against the same golden set, pairing the two scores on every run gives a diagnostic 2x2 for attributing score changes. When a metric drops after a change (new embedding model, new prompt, or new chunking strategy), the pair tells you which half of the pipeline to investigate.
+If you're also running [retrieval evaluation](/documentation/search-evaluation/retrieval-relevance/) against the same golden set, pairing the two scores on every run gives a diagnostic 2x2 for attributing score changes. When a metric drops after a change (new embedding model, new prompt, or new chunking strategy), the pair tells you which half of the pipeline to investigate.
 
 Pair `recall@10` from the retrieval evaluation with `faithfulness` from the pipeline-output evaluation. In the table, High and Low are relative to the target thresholds you set per metric.
 

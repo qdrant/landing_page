@@ -26,10 +26,10 @@ content:
     linkDescription: Choose the evaluation method that matches the result you need to judge.
     cloudButton:
       text: Measure Retrieval Relevance
-      url: /documentation/search-quality/retrieval-relevance/
+      url: /documentation/search-evaluation/retrieval-relevance/
     localButton:
       text: Evaluate Pipeline Output
-      url: /documentation/search-quality/pipeline-output-quality/
+      url: /documentation/search-evaluation/pipeline-output-quality/
   - partial: documentation/guides/guide-cards
-    section: /documentation/search-quality/
+    section: /documentation/search-evaluation/
 ---

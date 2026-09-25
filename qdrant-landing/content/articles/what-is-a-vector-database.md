@@ -478,7 +478,7 @@ client.upsert(
 
 Each tenant’s data remains isolated while still benefiting from the shared infrastructure. Optimizing for data privacy, compliance with local regulations, and scalability, without the need to create excessive collections or maintain separate clusters for each tenant.
 
-If you want to learn more about working with a multitenant setup in Qdrant, you can check out our [Multitenancy and Custom Sharding dedicated guide.](https://qdrant.tech/documentation/production-patterns/multitenant-search/)
+If you want to learn more about working with a multitenant setup in Qdrant, you can check out our [Multitenancy and Custom Sharding dedicated guide.](https://qdrant.tech/documentation/production-operations/multitenant-search/)
 
 ## Data Security and Access Control
 
