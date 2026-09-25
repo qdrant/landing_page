@@ -5,6 +5,12 @@ description: "Tutorial: index and search hundreds of millions of vectors in Qdra
 aliases:
     - /documentation/database-tutorials/large-scale-search/
 weight: 40
+goal: Operations
+stack:
+  - Python
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant/laion-400m-benchmark
 ---
 
 

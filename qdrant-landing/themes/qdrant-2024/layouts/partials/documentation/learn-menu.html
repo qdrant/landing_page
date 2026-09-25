@@ -1,0 +1,79 @@
+{{ $current := .RelPermalink }}
+{{ $isGuide := eq .Params.learning_kind "guides" }}
+{{ $goals := slice }}
+{{ range partialCached "documentation/examples/pages.html" . }}{{ $goals = $goals | append .Params.goal }}{{ end }}
+{{ $goals = sort (uniq $goals) }}
+{{ if in $goals "Get Started" }}
+  {{ $goals = slice "Get Started" | append (collections.Complement (slice "Get Started") $goals) }}
+{{ end }}
+{{ $exampleLinks := slice }}
+{{ range $goals }}
+  {{ $exampleLinks = $exampleLinks | append (dict "title" . "url" (printf "/learn/examples/?%s#example-library" (querify "goal" .)) "goal" . "active" false) }}
+{{ end }}
+{{ $guideLinks := slice }}
+{{ range (site.GetPage "/documentation").Sections.ByWeight }}
+  {{ if eq .Params.learning_kind "guides" }}
+    {{ $pages := slice }}
+    {{ range .RegularPages.ByWeight }}
+      {{ if not .Params.hideInSidebar }}
+        {{ $pages = $pages | append (dict "title" .Title "url" .RelPermalink) }}
+      {{ end }}
+    {{ end }}
+    {{ $active := or (eq .RelPermalink $current) (and $isGuide (eq $.Parent .)) }}
+    {{ $guideLinks = $guideLinks | append (dict "title" .Title "url" .RelPermalink "active" $active "children" $pages) }}
+  {{ end }}
+{{ end }}
+{{ $articleLinks := slice }}
+{{ range where (site.GetPage "/articles").Sections.ByWeight "Params.isCategoryPage" true }}
+  {{ $active := or (eq .RelPermalink $current) (and (eq $.Section "articles") (eq .Params.category $.Params.category)) }}
+  {{ $articleLinks = $articleLinks | append (dict "title" .Title "url" .RelPermalink "active" $active) }}
+{{ end }}
+{{ $courseLinks := slice }}
+{{ range (site.GetPage "/course").Sections.ByWeight }}
+  {{ $courseLinks = $courseLinks | append (dict "title" .Title "url" .RelPermalink) }}
+{{ end }}
+{{ range where (site.GetPage "/learn").RegularPages.ByWeight "Params.type" "external-link" }}
+  {{ $courseLinks = $courseLinks | append (dict "title" .Title "url" .Params.external_url "external" true) }}
+{{ end }}
+{{ $items := slice
+  (dict "title" "Guides" "url" "/documentation/guides/" "children" $guideLinks)
+  (dict "title" "Tutorials & Examples" "url" "/learn/examples/" "children" $exampleLinks)
+  (dict "title" "Courses" "url" "/course/" "children" $courseLinks)
+  (dict "title" "Technical Articles" "url" "/articles/" "children" $articleLinks)
+}}
+<nav class="docs-menu__links" aria-label="Learning Resources">
+  <h3 class="docs-menu__links-title">Learn</h3>
+  <div class="docs-menu__links-group{{ if eq $current "/learn/" }} active{{ end }}">
+    <div class="docs-menu__links-group-heading"><a href="/learn/" {{ if eq $current "/learn/" }}aria-current="page"{{ end }}>Overview</a></div>
+  </div>
+  {{ range $items }}
+    <h3 class="docs-menu__links-title">{{ .title }}</h3>
+    <div class="docs-menu__links-group{{ if eq .url $current }} active{{ end }}" {{ if eq .url "/learn/examples/" }}data-example-nav-goal=""{{ end }}>
+      <div class="docs-menu__links-group-heading"><a href="{{ .url }}" {{ if eq .url $current }}aria-current="page"{{ end }}>Overview</a></div>
+    </div>
+    {{ range .children }}
+      {{ if .children }}
+        <details class="docs-menu__links-group link-group guide-topic{{ if .active }} active{{ end }}" {{ if .active }}open{{ end }}>
+          <summary class="docs-menu__links-group-heading"><a href="{{ .url }}" {{ if eq .url $current }}aria-current="page"{{ end }}><span>{{ .title }}</span></a></summary>
+          <ul class="docs-menu__links-submenu">
+            {{ range .children }}
+              <li class="docs-menu__links-submenu-item{{ if eq .url $current }} active{{ end }}">
+                <a href="{{ .url }}" {{ if eq .url $current }}aria-current="page"{{ end }}>{{ .title }}</a>
+              </li>
+            {{ end }}
+          </ul>
+        </details>
+      {{ else }}
+        <div class="docs-menu__links-group{{ if or .active (eq .url $current) }} active{{ end }}{{ if .external }} external-link{{ end }}" {{ with .goal }}data-example-nav-goal="{{ . }}"{{ end }}>
+          <div class="docs-menu__links-group-heading">
+            <a href="{{ .url }}" {{ if .external }}target="_blank" rel="noopener"{{ end }} {{ if eq .url $current }}aria-current="page"{{ end }}>{{ .title }}</a>
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  <h3 class="docs-menu__links-title">Videos</h3>
+  <div class="docs-menu__links-group external-link">
+    <div class="docs-menu__links-group-heading"><a href="{{ site.Params.youtube }}" target="_blank" rel="noopener">Videos on YouTube</a></div>
+  </div>
+</nav>

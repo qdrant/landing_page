@@ -7,6 +7,13 @@ partition: ecosystem
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 aliases:
     - /documentation/rag-deepseek/
+goal: RAG & Agents
+stack:
+  - Python
+  - DeepSeek
+example_resources:
+  - label: View Notebook
+    url: https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb
 ---
 
 <!-- ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png) -->

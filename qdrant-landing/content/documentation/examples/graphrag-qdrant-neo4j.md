@@ -7,6 +7,13 @@ description: "A step-by-step guide on implementing GraphRAG with Qdrant and Neo4
 weight: 5
 preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_preview.png
 social_preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_preview.png
+goal: RAG & Agents
+stack:
+  - Python
+  - Neo4j
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py
 ---
 
 # Build a GraphRAG Agent with Neo4j and Qdrant

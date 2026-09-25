@@ -1,0 +1,161 @@
+@use '../../helpers/functions' as *;
+
+.example-library,
+.guide-directory {
+  scroll-margin-top: $spacer * 7;
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: $spacer;
+    margin: $spacer * 1.5 0;
+
+    > div {
+      flex: 1 1 $spacer * 12;
+    }
+
+    button {
+      min-height: pxToRem(44);
+    }
+
+    label {
+      display: block;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: pxToRem(44);
+      padding: pxToRem(10);
+      border: pxToRem(1) solid $neutral-50;
+      border-radius: $spacer * 0.5;
+      background: $neutral-10;
+      color: $neutral-98;
+      color-scheme: dark;
+    }
+
+    :focus-visible {
+      outline: pxToRem(2) solid $secondary-blue-50;
+      outline-offset: pxToRem(3);
+    }
+  }
+
+  [hidden] { display: none !important; }
+
+  .docs-card__title a {
+    color: inherit;
+  }
+
+  &__stack {
+    margin: 0;
+    font-size: pxToRem(14);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer;
+    margin-top: auto;
+  }
+
+  [data-theme='light'] & {
+    input,
+    select {
+      background: $neutral-98;
+      color: $neutral-10;
+      color-scheme: light;
+    }
+  }
+}
+
+.guide-directory {
+  .docs-card__title a { color: inherit; }
+  p.docs-card__description { flex-grow: 0; }
+
+  ul.guide-directory__links {
+    width: 100%;
+    margin: $spacer * 0.5 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+      padding: 0;
+      border-top: pxToRem(1) solid $neutral-30;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacer;
+      min-height: pxToRem(44);
+      padding: $spacer * 0.75 0;
+      color: $neutral-90;
+      font-size: pxToRem(14);
+      line-height: 1.5;
+      text-decoration: none;
+
+      &:hover {
+        color: $secondary-blue-50;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__part {
+    display: block;
+    margin-bottom: pxToRem(2);
+    color: $neutral-70;
+    font-size: pxToRem(12);
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    color: $secondary-blue-50;
+  }
+
+  a:focus-visible {
+    outline: pxToRem(2) solid $secondary-blue-50;
+    outline-offset: pxToRem(3);
+    border-radius: pxToRem(2);
+  }
+
+  [data-theme='light'] & {
+    ul.guide-directory__links li { border-color: $neutral-90; }
+    ul.guide-directory__links a {
+      color: $neutral-20;
+      &:hover { color: $primary-50; }
+    }
+    .guide-directory__part { color: $neutral-50; }
+  }
+}
+
+// Leave room for the disclosure arrow when a guide topic wraps.
+.guide-topic > summary > a {
+  padding-right: $spacer * 2.5;
+}
+
+.guide-series-navigation {
+  margin-top: $spacer * 2;
+  padding-top: $spacer;
+  border-top: pxToRem(1) solid $neutral-50;
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer $spacer * 2;
+
+    a {
+      flex: 1 1 $spacer * 15;
+    }
+
+    span {
+      display: block;
+      font-size: pxToRem(14);
+      color: $neutral-70;
+    }
+  }
+}

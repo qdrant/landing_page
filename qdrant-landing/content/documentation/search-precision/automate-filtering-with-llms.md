@@ -10,7 +10,7 @@ hideInSidebar: true
 
 # LLM-Powered Filter Automation with Qdrant
 
-Our [complete guide to filtering in vector search](/articles/vector-search-filtering/) describes why filtering is
+Our [complete guide to filtering in vector search](/documentation/search-patterns/vector-search-filtering/) describes why filtering is
 important, and how to implement it with Qdrant. However, applying filters is easier when you build an application
 with a traditional interface. Your UI may contain a form with checkboxes, sliders, and other elements that users can
 use to set their criteria. But what if you want to build a RAG-powered application with just the conversational

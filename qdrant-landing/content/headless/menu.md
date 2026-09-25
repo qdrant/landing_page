@@ -144,7 +144,7 @@ menuItems:
             icon: blog.svg
             url: /blog/
           - id: subMenu-3-2
-            name: Articles
+            name: Technical Articles
             icon: articles.svg
             url: /articles/
           - id: subMenu-3-3

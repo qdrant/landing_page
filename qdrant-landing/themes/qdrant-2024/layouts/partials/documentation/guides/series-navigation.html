@@ -1,0 +1,19 @@
+{{ if and (eq .Params.learning_kind "guides") .Params.guide_series }}
+  {{ $current := . }}
+  {{ $pages := where .Parent.RegularPages.ByWeight "Params.guide_series" true }}
+  {{ range $index, $page := $pages }}
+    {{ if eq $page $current }}
+      <nav class="guide-series-navigation" aria-label="Series Navigation">
+        <p><a href="{{ $current.Parent.RelPermalink }}">{{ $current.Parent.Params.guide_series_title }}</a> · Part {{ add $index 1 }} of {{ len $pages }}</p>
+        <div class="guide-series-navigation__links">
+          {{ if gt $index 0 }}
+            {{ with index $pages (sub $index 1) }}<a rel="prev" href="{{ .RelPermalink }}"><span>Previous</span>{{ .Title }}</a>{{ end }}
+          {{ end }}
+          {{ if lt (add $index 1) (len $pages) }}
+            {{ with index $pages (add $index 1) }}<a rel="next" href="{{ .RelPermalink }}"><span>Next</span>{{ .Title }}</a>{{ end }}
+          {{ end }}
+        </div>
+      </nav>
+    {{ end }}
+  {{ end }}
+{{ end }}

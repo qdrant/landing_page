@@ -6,6 +6,9 @@ aliases:
   - /documentation/tutorials/create-snapshot/
   - /documentation/database-tutorials/create-snapshot/
 weight: 10
+goal: Operations
+stack:
+  - Python
 ---
 
 # Backup & Restore Qdrant with Snapshots

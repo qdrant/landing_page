@@ -7,6 +7,10 @@ aliases:
   - /documentation/search-precision/reranking-hybrid-search/
   - /documentation/advanced-tutorials/reranking-hybrid-search/
   - /documentation/tutorials-search-engineering/reranking-hybrid-search/
+goal: Search Quality
+stack:
+  - Python
+  - FastEmbed
 ---
 
 # Qdrant Hybrid Search with Reranking

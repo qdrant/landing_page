@@ -5,6 +5,20 @@ aliases:
   - /documentation/beginner-tutorials/retrieval-quality/
   - /documentation/tutorials-search-engineering/retrieval-quality/
 weight: 5
+goal: Search Quality
+stack:
+  - Python
+  - Web UI
+keywords:
+  - evaluation
+  - index
+  - quality
+  - hnsw
+  - approximate
+  - exact
+  - recall
+short_description: Compare approximate search with exact results, inspect ANN recall
+  in the Web UI, and add a repeatable Python check.
 ---
 
 # Measuring ANN Recall
@@ -21,8 +35,8 @@ This tutorial focuses on **ANN recall**: how closely approximate nearest-neighbo
 ANN recall measures how closely approximate search matches exact kNN. It's the first of four evaluation layers; each higher layer measures a different property of the retrieval system, with different tools.
 
 - **ANN recall** (this tutorial). Is the approximate index close to exact kNN?
-- **Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/improve-search/retrieval-relevance/)). Do the top-k results match query intent?
-- **Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/improve-search/pipeline-output-quality/)). Does the end-to-end pipeline (retrieval + generator, ranker, or UI) produce the right output?
+- **Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/)). Do the top-k results match query intent?
+- **Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/search-evaluation/pipeline-output-quality/)). Does the end-to-end pipeline (retrieval + generator, ranker, or UI) produce the right output?
 - **Business impact**. Do the KPIs the business cares about move? Application-specific, out of scope for these tutorials.
 
 A high score on a higher layer requires acceptable scores on the layers below. Embedding quality (separately measured by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard)) sets the ceiling on every downstream metric.
@@ -87,4 +101,4 @@ Wire it into CI and fail the job when recall falls below your target threshold. 
 
 ## Next Steps
 
-Once ANN recall is on target, continue with [Measuring Retrieval Relevance](/documentation/improve-search/retrieval-relevance/) to check how well those results match user intent.
+Once ANN recall is on target, continue with [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) to check how well those results match user intent.

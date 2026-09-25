@@ -284,6 +284,79 @@ hideInSidebar: true
 
 If `true`, the page will not be shown in the sidebar. It can be used in regular documentation and section pages (_index.md).
 
+### Learn
+
+The Learn portal (`/learn/`) groups four resources: Guides, Tutorials & Examples, Courses, and Technical Articles, with a link to videos on YouTube. The sidebar for `partition: learn` pages is built by `themes/qdrant-2024/layouts/partials/documentation/learn-menu.html` from the content below.
+
+Search on `partition: learn` pages covers Articles, Courses, guide sections, and pages marked `learning_kind: examples`. The `learn-search-sections` meta tag supplies those paths because tutorials retain their Develop or Ecosystem partitions. Develop and Deploy continue to share the `develop,deploy,cloud,qdrant` documentation search scope.
+
+The Guides and Tutorials & Examples hubs show the three most recently published dated pages in their collections. Set `date` (or `publishDate`) in a page's front matter to include it; undated pages remain in the full listings. Content moves do not reset publication dates. The initial three tutorial dates come from their original addition commits.
+
+#### Guides
+
+To add a guide, copy an existing guide into a new Markdown file in the appropriate topic directory. Use a descriptive, hyphenated filename, such as `my-guide.md`, and set `draft: true` while writing. Remove copied `aliases` and any metadata specific to the original guide, such as `guide_series` for a standalone guide.
+
+Choose the directory that matches the guide:
+
+| Topic | Directory under `content/documentation/` |
+| --- | --- |
+| Search Evaluation | `search-evaluation/` |
+| Search Patterns | `search-patterns/` |
+| Search Tuning | `search-tuning/` |
+| Production & Operations | `production-operations/` |
+
+1. Fill in the title, `short_description` (card summary), `description` (search/social summary), and Markdown body. Keep the guide directly inside its topic directory.
+2. Set `date` to the publication date, remove or update any copied `publishDate`, and choose a unique positive `weight` within the topic. Lower weights appear first; gaps such as 10, 20, 30 make later insertions easier.
+3. Preview with the existing Hugo development server. Drafts require the server's `--buildDrafts` / `-D` option. Set `draft: false` when the guide is ready for publication, then submit the normal content PR.
+
+The topic's `_index.md` cascades `partition: learn` and `learning_kind: guides` to its pages; do not repeat these fields in individual guides. No menu, catalog, or template edits are needed for a new guide in an existing topic:
+
+- **Browse Guides by Topic**, the **topic landing page**, and the **Learn sidebar** list the topic's published pages by `weight`. `hideInSidebar: true` only hides the sidebar entry.
+- **Recently Published** shows the three newest dated guides across all topics, sorted by Hugo's `PublishDate`: explicit `publishDate` takes precedence over `date`. Editing a guide or changing its weight does not make it recent. Undated guides remain in the full listings. Drafts and future publications are excluded from normal builds unless the corresponding Hugo build flags are enabled.
+- **Markdown directories** are generated from the same topic pages.
+- **Start with a Practical Guide** is curated in `content/documentation/guides-tab.md`. Each card references a guide by `page`; its title and URL come from that page, while its summary, icon, and button text remain customizable. Topic banner buttons are also curated.
+
+Set `guide_series: true` only on pages that form an ordered series. The section's `guide_series_title` names the series, and `weight` sets the order of the numbered cards and the previous/next links. Standalone guides do not need this flag.
+
+To add a new topic, copy an existing topic's `_index.md` into a new directory under `content/documentation/`. Update its title, descriptions, weight, icon, banner links, and `guide-cards` section path. Retain `partition: learn`, `learning_kind: guides`, their `cascade` defaults, and `layout: guides`. The overview and sidebar discover the new topic automatically; `layout: guides` also generates its Markdown directory.
+
+When moving an existing page into a guide topic, preserve its original date, add its former URL to `aliases`, add a wildcard redirect in `static/_redirects` (`/old-path/* /new-path/:splat 301!`), and update internal links. The wildcard covers HTML and Markdown, and `301!` takes precedence over Hugo's generated alias files. Put specific page redirects before broader section redirects.
+
+#### Tutorials & Examples
+
+`/learn/examples/` automatically lists published pages marked `learning_kind: examples`, ordered by title. The existing `tutorials-*` sections and `documentation/examples/` supply that marker through their `_index.md` cascade. Pages retain their original URLs and Develop or Ecosystem navigation.
+
+To add a tutorial:
+
+1. Create a Markdown page in the appropriate tutorial section, or copy an existing tutorial and remove its old aliases and publication dates. Use `draft: true` while writing.
+2. Fill in `title`, `short_description` (or `description`), `goal`, and `stack`. Reuse an existing goal where appropriate. Add optional `keywords` for collection search and `example_resources` for direct code or notebook links.
+3. Set `date` (or `publishDate`) to the publication date and preview with the existing Hugo server (`--buildDrafts` / `-D` includes drafts). Set `draft: false` when ready and submit the normal content PR.
+
+```yaml
+goal: Search Quality
+stack:
+  - Python
+  - FastEmbed
+# Optional; each URL must also appear in the tutorial body.
+example_resources:
+  - label: Open Notebook
+    url: https://github.com/qdrant/examples/blob/master/code-search/code-search.ipynb
+```
+
+No separate catalog entry is needed. The listing, Goal and Stack filters, Learn sidebar categories, Learn search scope, and Markdown directory all use the same discovered pages. Recently Published selects the three newest dated tutorials by `PublishDate`; editing a tutorial does not change its publication date. Normal builds exclude drafts and future publications.
+
+A tutorial outside these sections can opt in by setting `learning_kind: examples` in its front matter. A non-tutorial inside them can opt out with `learning_kind: reference`. Keep `hideInSidebar` for controlling the documentation sidebar; it does not exclude a tutorial from Learn.
+
+The build reports missing goals, stacks, or descriptions, and resource URLs that no longer appear in the tutorial body. `example_resources` is separate from Hugo's reserved `resources` field for page bundle configuration.
+
+#### Courses
+
+The sidebar lists each section of `content/course/` by `weight`. To add an external course, create a page in `content/learn/` with `type: external-link`, `external_url`, `weight`, `partition: learn`, and `sitemapExclude: true`. The `ref-courses-*.md` files are examples.
+
+#### Articles
+
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection.
+
 ## Blog
 
 To add a new blog post, run the following commands:

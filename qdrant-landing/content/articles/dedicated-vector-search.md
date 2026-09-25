@@ -145,7 +145,7 @@ In many vector search solutions, filtering is approached in two ways: **pre-filt
 | ❌ | **Pre-filtering** | Has the linear complexity of computing the vector mask and becomes a bottleneck for large datasets. |
 | ❌ | **Post-filtering** | The problem with **post-filtering** is tied to vector search "*everything fits and doesn't at the same time*" nature: imagine a low-cardinality filter that leaves only a few matching elements in the database. If none of them are similar enough to the query to appear in the top-X retrieved results, they'll all be filtered out. |
 
-Qdrant [**took filtering in vector search further**](/articles/vector-search-filtering/), recognizing the limitations of pre-filtering & post-filtering strategies. We developed an adaptation of HNSW — [**filterable HNSW**](/articles/filterable-hnsw/) — that also enables **in-place filtering** during graph traversal. To make this possible, we condition HNSW index construction on possible filtering conditions reflected by [**payload indexes**](/documentation/manage-data/indexing/#payload-index) (inverted indexes built on vectors' [**metadata**](/documentation/manage-data/payload/)).
+Qdrant [**took filtering in vector search further**](/documentation/search-patterns/vector-search-filtering/), recognizing the limitations of pre-filtering & post-filtering strategies. We developed an adaptation of HNSW — [**filterable HNSW**](/articles/filterable-hnsw/) — that also enables **in-place filtering** during graph traversal. To make this possible, we condition HNSW index construction on possible filtering conditions reflected by [**payload indexes**](/documentation/manage-data/indexing/#payload-index) (inverted indexes built on vectors' [**metadata**](/documentation/manage-data/payload/)).
 
 **Qdrant was designed with a vector index being a central component of the system.** That made it possible to organize optimizers, payload indexes and other components around the vector index, unlocking the possibility of building a filterable HNSW.
 
@@ -205,7 +205,7 @@ In addition to that, we continuously look for improvements in:
 | **Memory Efficiency & Compression** | Techniques such as [**quantization**](/documentation/manage-data/quantization/) and [**HNSW compression**](/blog/qdrant-1.13.x/#hnsw-graph-compression) to reduce storage requirements |
 | **Retrieval Algorithms**         | Support for the latest retrieval algorithms, including [**sparse neural retrieval**](/articles/modern-sparse-neural-retrieval/), [**hybrid search**](/documentation/search/hybrid-queries/) methods, and [**re-rankers**](/documentation/fastembed/fastembed-rerankers/). |
 | **Vector Data Analysis & Visualization** | Tools like the [**distance matrix API**](/blog/qdrant-1.12.x/#distance-matrix-api-for-data-insights) provide insights into vectorized data, and a [**Web UI**](/blog/qdrant-1.11.x/#web-ui-search-quality-tool) allows for intuitive exploration of data. |
-| **Search Speed & Scalability**   | Includes optimizations for [**multi-tenant environments**](/articles/multitenancy/) to ensure efficient and scalable search. |
+| **Search Speed & Scalability**   | Includes optimizations for [**multi-tenant environments**](/documentation/production-operations/multitenant-search/) to ensure efficient and scalable search. |
 
 **These advancements are not just incremental improvements — they define the difference between a system optimized for vector search and one that accommodates it.**
 

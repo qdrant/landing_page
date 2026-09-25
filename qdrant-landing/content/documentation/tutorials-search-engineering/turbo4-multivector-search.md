@@ -1,10 +1,17 @@
 ---
 title: "Compressed Multivector Search"
+date: 2026-08-21T16:15:41+02:00
 short_description: "Combine the turbo4 datatype with multivector late interaction to cut on-disk vector size at a bounded recall cost."
 description: "Store multivector late interaction embeddings with Qdrant's turbo4 datatype and query them alongside dense and sparse vectors."
 weight: 14
 aliases:
   - /documentation/tutorials-search-engineering/multivector-turbo4/
+goal: Search Quality
+stack:
+  - Python
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/multivector-turbo4/Multivector_Turbo4.ipynb
 ---
 
 # Compressed Multivector Search

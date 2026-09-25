@@ -5,6 +5,9 @@ description: "Tutorial: use the Qdrant Migration Tool to stream vectors from Pin
 aliases:
     - /documentation/database-tutorials/migration/
 weight: 20
+goal: Operations
+stack:
+  - Migration Tool
 ---
 
 # Migrate Your Embeddings to Qdrant

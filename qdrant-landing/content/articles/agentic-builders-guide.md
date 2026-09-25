@@ -38,7 +38,7 @@ Reliable agentic workflows require a clear plan executed with precise tools. A v
 
 * [**Real-time memory layer:**](https://qdrant.tech/blog/case-study-fieldy/) fast access to prior steps, actions, and knowledge  
 * [**Multimodal support**](https://qdrant.tech/blog/case-study-mixpeek/): text, image, videos, audio, and code  
-* [**Hybrid search**](https://qdrant.tech/articles/hybrid-search/)**:** combining dense \+ sparse vectors  
+* [**Hybrid search**](https://qdrant.tech/documentation/search-tuning/hybrid-search/)**:** combining dense \+ sparse vectors
 * [**Advanced filtering**](https://qdrant.tech/documentation/search/filtering/)**:** semantic \+ metadata \+ keyword constraints  
 * [**Millisecond vector retrieval**](https://qdrant.tech/articles/vector-search-production/)**:** Fast retrieval at \>billion vector scale
 
@@ -78,7 +78,7 @@ For an agent like TripBuilder, this might mean prioritizing results based on sub
 
 ## Context Engineering with Filtering
 
-Combining semantic search, metadata, and keyword [filters](https://qdrant.tech/articles/vector-search-filtering/) allows you to specify features like price, date, or location while still searching based on similarity. If your user is looking for a “fun restaurant to end the trip with a Michelin star,” you can specify that your agent search for locations that are open on Sunday, and it can filter based on the user’s past preferences to give them the perfect result.
+Combining semantic search, metadata, and keyword [filters](https://qdrant.tech/documentation/search-patterns/vector-search-filtering/) allows you to specify features like price, date, or location while still searching based on similarity. If your user is looking for a “fun restaurant to end the trip with a Michelin star,” you can specify that your agent search for locations that are open on Sunday, and it can filter based on the user’s past preferences to give them the perfect result.
 
 ## Real-Time Memory Layer for Agents
 
@@ -128,7 +128,7 @@ The same agent that speeds through a toy dataset with 10,000 points will become 
 
 We’ll talk about three concepts you can take advantage of to improve your scale, but if you want even more information on how to scale, check out this [article](https://qdrant.tech/documentation/database-tutorials/large-scale-search/) on large scale search.
 
-As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/scaling/distributed_deployment/), creating copies of your shards across the cluster. 
+As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/documentation/production-operations/multitenant-search/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/scaling/distributed_deployment/), creating copies of your shards across the cluster.
 
 Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/manage-data/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
 

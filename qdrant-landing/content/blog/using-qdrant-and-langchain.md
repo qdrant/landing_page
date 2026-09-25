@@ -88,7 +88,7 @@ If you are looking to scale up and keep the same level of performance, Qdrant an
 
 Whether you are building a bank fraud-detection system, RAG for e-commerce, or services for the federal government - you will need to leverage a scalable architecture for your product. Qdrant offers different features to help you considerably increase your application’s performance and lower your hosting costs.
 
-> Read more about out how we foster [best practices for large-scale deployments](/articles/multitenancy/). 
+> Read more about out how we foster [best practices for large-scale deployments](/documentation/production-operations/multitenant-search/).
 
 ## Next Steps
 

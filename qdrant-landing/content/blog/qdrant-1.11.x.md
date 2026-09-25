@@ -34,13 +34,13 @@ New Web UI Tools:</br>
 
 ### Quick Recap: Multitenant Workloads
 
-Before we dive into the specifics of our optimizations, let's first go over Multitenancy. This is one of our most significant features, [best used for scaling and data isolation](https://qdrant.tech/articles/multitenancy/).
+Before we dive into the specifics of our optimizations, let's first go over Multitenancy. This is one of our most significant features, [best used for scaling and data isolation](https://qdrant.tech/documentation/production-operations/multitenant-search/).
 
 If you’re using Qdrant to manage data for multiple users, regions, or workspaces (tenants), we suggest setting up a [multitenant environment](/documentation/manage-data/multitenancy/). This approach keeps all tenant data in a single global collection, with points separated and isolated by their payload.
 
 To avoid slow and unnecessary indexing, it’s better to create an index for each relevant payload rather than indexing the entire collection globally. Since some data is indexed more frequently, you can focus on building indexes for specific regions, workspaces, or users.
 
-*For more details on scaling best practices, read [How to Implement Multitenancy and Custom Sharding](https://qdrant.tech/articles/multitenancy/).*
+*For more details on scaling best practices, read [How to Implement Multitenancy and Custom Sharding](https://qdrant.tech/documentation/production-operations/multitenant-search/).*
 
 ### Defragmentation of Tenant Storage
 

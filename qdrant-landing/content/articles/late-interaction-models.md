@@ -15,7 +15,7 @@ category: embedding-research
 
 ## You Can Adapt Dense Embedding Models for Late Interaction
 
-Qdrant 1.10 introduced support for multi-vector representations, with late interaction being a prominent example of this model. In essence, both documents and queries are represented by multiple vectors, and identifying the most relevant documents involves calculating a score based on the similarity between the corresponding query and document embeddings. If you're not familiar with this paradigm, our updated [Hybrid Search](/articles/hybrid-search/) article explains how multi-vector representations can enhance retrieval quality.
+Qdrant 1.10 introduced support for multi-vector representations, with late interaction being a prominent example of this model. In essence, both documents and queries are represented by multiple vectors, and identifying the most relevant documents involves calculating a score based on the similarity between the corresponding query and document embeddings. If you're not familiar with this paradigm, our updated [Hybrid Search](/documentation/search-tuning/hybrid-search/) article explains how multi-vector representations can enhance retrieval quality.
 
 **Figure 1:** We can visualize late interaction between corresponding document-query embedding pairs.
 
