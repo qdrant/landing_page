@@ -56,10 +56,10 @@ Here is a brief overview in pseudo-Rust:
 ```rust
 // tokenize text
  let encodings = tokenizer.encode_batch(
-  vec![
-	  (query, document1),
-	  (query, document2)
-	  ]
+     vec![
+         (query, document1),
+         (query, document2)
+      ]
 );
 
 // turn encodings into token IDs, attention mask
@@ -71,30 +71,35 @@ let types = encoding.get_type_ids();
 // Convert our flattened arrays
 // into 2-dimensional tensors
 // of shape [num_documents, padding_dim]
-let a_ids = TensorRef::from_array_view(([num_documents, padding_dim], &*ids))?;
- // ... same with mask and types ...
+let a_ids = TensorRef::from_array_view(
+    ([num_documents, padding_dim], &*ids)
+)?;
+// ... same with mask and types ...
 
- // run inference
- let outputs = ort_model.run(ort::inputs![a_ids, a_mask, a_type_ids])?;
+// run inference
+let outputs = ort_model.run(
+    ort::inputs![a_ids, a_mask, a_type_ids]
+)?;
 
- // extract logits into a 2D array
- let logits = outputs[0]
-  .try_extract_array::<f32>()?
-   .into_dimensionality::<Ix2>()
-   .unwrap();
+// extract logits into a 2D array
+let logits = outputs[0]
+    .try_extract_array::<f32>()?
+    .into_dimensionality::<Ix2>()
+    .unwrap();
 
-  // get num_labels
-  (_, num_labels) = logits.dim();
+// get num_labels
+(_, num_labels) = logits.dim();
 
-  if num_labels == 1 {
-   // apply sigmoid
-  } else {
-   // apply softmax
-  }
+if num_labels == 1 {
+    // apply sigmoid
+} else {
+    // apply softmax
+}
 ```
 
-> The original code can be found [here](https://github.com/AstraBert/cross-encode-rs/blob/main/crates/cross-encode-rs/src/inference.rs).
-> 
+<aside role="status">
+The original code can be found <a href="https://github.com/AstraBert/cross-encode-rs/blob/main/crates/cross-encode-rs/src/inference.rs">here</a>.
+</aside>
 
 That's all it takes to oxidize cross-encoder inference. The main optimization in our Rust library is batching, which happens on two levels:
 
@@ -118,8 +123,9 @@ We ran the benchmark against two models and measured both per-request and per-do
 
 All benchmarks ran on a MacBook M4 Max with 48 GB of RAM, using all 14 CPU cores.
 
-> Note: `sentence-transformers` uses `torch` as its backend by default. For a fair comparison against the other two libraries, we configured it to use ONNX (via the `optimum` library) instead.
-> 
+<aside role="status">
+Note: <code>sentence-transformers</code> uses <code>torch</code> as its backend by default. For a fair comparison against the other two libraries, we configured it to use ONNX (via the <code>optimum</code> library) instead.
+</aside>
 
 The results were mixed, and they do not fit the usual "Python is slow" narrative:
 
