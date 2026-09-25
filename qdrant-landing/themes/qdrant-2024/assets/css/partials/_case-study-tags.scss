@@ -6,11 +6,16 @@
 .case-study-tags {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  // Follows the header: left on a phone, centred from md up.
+  justify-content: flex-start;
   gap: $spacer * 0.5;
   margin: 0 0 pxToRem(10);
   padding: 0;
   list-style: none;
+
+  @include media-breakpoint-up(md) {
+    justify-content: center;
+  }
 
   .case-study-tags__tag {
     margin: 0;
