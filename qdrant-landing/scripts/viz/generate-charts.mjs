@@ -16,15 +16,27 @@ import { readFileSync, writeFileSync, mkdirSync, globSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
+const baseType = { ...viz.type };
+let readableType = false;
 
 // One spec per chart, beside its data. The id is the path.
 const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   const id = p.replace(/^assets\/viz\//, '').replace(/\.json$/, '');
   const spec = JSON.parse(readFileSync(p, 'utf8'));
-  // The shortcode builds the viewBox from the shared width, so a per-chart one
-  // would draw at its own size inside a 980-wide box and stretch.
-  if ('width' in spec) {
-    throw new Error(`${p}: charts share one width (data/viz.json chart.width). Remove "width".`);
+  // Opt-in sizes must also be used by the Hugo wrapper's viewBox.
+  if ('width' in spec && (!Number.isInteger(spec.width) || spec.width < 320)) {
+    throw new Error(`${p}: width must be an integer of at least 320`);
+  }
+  if ('legendRoom' in spec && (!Number.isInteger(spec.legendRoom) || spec.legendRoom <= 0)) {
+    throw new Error(`${p}: legendRoom must be a positive integer`);
+  }
+  if (spec.readableType && spec.kind !== 'grouped-columns') {
+    throw new Error(`${p}: readableType is supported only for grouped-columns`);
+  }
+  for (const view of spec.views ?? []) {
+    if (['width', 'height', 'legendRoom', 'readableType'].some(key => key in view)) {
+      throw new Error(`${p}: geometry and typography options must be top-level, not per-view`);
+    }
   }
   return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width, ...spec };
 });
@@ -39,15 +51,41 @@ const MUTED = 'var(--qi-muted)';
 const GRIDC = 'var(--qi-line)';
 
 // Shared layout, so two charts in different posts read as the same object.
-// One width for the same reason: the SVG scales to the column, so a wider
-// viewBox renders identical font sizes smaller.
+// Default width and layout remain unchanged. Grouped-column charts can opt
+// into larger type and a matching smaller viewBox for narrow article columns.
 const LAYOUT = {
   top: 62, right: 36, bottom: 68, left: 74,
   gap: 44, titleY: 20, subtitleY: 38,
 };
 
 // Panel heading, shared so the title/subtitle block sits identically everywhere.
-const panelHead = (w, title, subtitle) =>
+// Larger type needs wrapped headings; keep source strings intact in the spec.
+function readableHeading(w, title, subtitle) {
+  let y = 30;
+  let output = '';
+  for (const [value, size, weight] of [
+    [title, viz.type.title, 700],
+    [subtitle, viz.type.subtitle, 400],
+  ]) {
+    if (!value) continue;
+    const limit = Math.floor((w - 72) / (size * 0.62));
+    const words = value.split(' ').flatMap((word) =>
+      word.length > limit ? word.match(new RegExp(`.{1,${limit}}`, 'g')) : [word]);
+    const lines = [''];
+    for (const word of words) {
+      const i = lines.length - 1;
+      if ((lines[i] + ' ' + word).trim().length > limit && lines[i]) lines.push(word);
+      else lines[i] = (lines[i] + ' ' + word).trim();
+    }
+    for (const line of lines) {
+      output += `<text x="${w / 2}" y="${y}" text-anchor="middle" font-family="${MONO}"`
+        + ` font-size="${size}" font-weight="${weight}" fill="${INK}">${esc(line)}</text>`;
+      y += size * 1.5;
+    }
+  }
+  return output;
+}
+const panelHead = (w, title, subtitle) => readableType ? readableHeading(w,title,subtitle) :
   `<text x="${w / 2}" y="${LAYOUT.titleY}" text-anchor="middle" font-family="${MONO}"`
   + ` font-size="${viz.type.title}" font-weight="700" fill="${INK}">${esc(title)}</text>`
   + (subtitle
@@ -57,7 +95,7 @@ const panelHead = (w, title, subtitle) =>
 
 // Rotated y-axis label, shared for the same reason.
 const yAxisLabel = (h, text) =>
-  `<text transform="translate(13,${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
+  `<text transform="translate(${readableType ? 28 : 13},${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
   + ` text-anchor="middle" font-family="${MONO}" font-size="${viz.type.label}"`
   + ` fill="${MUTED}">${esc(text)}</text>`;
 
@@ -289,8 +327,12 @@ function legend(c, w) {
 // kinds cannot express: N categories x M methods.
 function groupedColumns(c) {
   const data = readCsv(c.data);
+  if (readableType && c.height < 480) throw new Error(`${c.id}: readableType needs height >= 480`);
   const groups = [...new Set(data.map((d) => d[c.group]))];
   const series = [...new Set(data.map((d) => d[c.series]))];
+  if (readableType && (c.legendRoom ?? viz.chart.legendRoom) < series.length * 34 + 18) {
+    throw new Error(`${c.id}: readableType needs legendRoom >= ${series.length * 34 + 18}`);
+  }
   const colors = c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]));
   const { top: mT, bottom: mB, left: mL, right: mR } = LAYOUT;
 
@@ -301,7 +343,7 @@ function groupedColumns(c) {
     style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
     x: { axis: null, domain: series },
     fx: { label: null, domain: groups, tickFormat: (v) => v, tickSize: 0 },
-    y: { label: null, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
+    y: { label: null, ticks: readableType ? 5 : undefined, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: series, range: colors },
     marks: [
       Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, inset: 2 }),
@@ -336,8 +378,9 @@ function groupedColumns(c) {
       + ` height="${c.height - mT - mB}" fill="transparent"/>`;
   }).join('');
 
+  const legendWidth = readableType ? Math.max(...series.map(name => name.length)) * viz.type.label * 0.62 + 42 : 190;
   const legendRow = series.map((name, i) =>
-    `<g transform="translate(${(c.width - series.length * 190) / 2 + i * 190},${c.height + 14})">`
+    `<g transform="translate(${readableType ? (c.width - (name.length * viz.type.label * 0.62 + 18)) / 2 : (c.width - series.length * legendWidth) / 2 + i * legendWidth},${c.height + 14 + (readableType ? i * 34 : 0)})">`
     + `<rect width="11" height="11" rx="2" fill="${colors[i]}"/>`
     + `<text x="18" y="10" font-family="${MONO}" font-size="${viz.type.label}"`
     + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
@@ -371,6 +414,11 @@ function render(c) {
 }
 
 for (const c of manifest) {
+  readableType = c.readableType === true;
+  viz.type = Object.fromEntries(Object.entries(baseType).map(([key,value]) => [key, typeof value === 'number' && readableType ? value * 1.8 : value]));
+  LAYOUT.top = readableType ? 224 : 62;
+  LAYOUT.left = readableType ? 100 : 74;
+
   const out = `assets/viz/${c.id}.svg`;
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, `${render(c)}\n`);
