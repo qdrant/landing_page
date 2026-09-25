@@ -45,8 +45,12 @@ Alhena set out to find a solution that could unify its vector search layer acros
 
 After a proof of concept, Alhena migrated 100 percent of its traffic to Qdrant Cloud. This consolidation allowed the team to retire FAISS, Pinecone, and Weaviate, streamlining both infrastructure and deployment workflows.
 
-*“We replaced FAISS, Pinecone, and Weaviate with Qdrant Cloud. It simplified everything and gave us better performance across the board.”*  
- — Kshitiz Parashar, Founding Engineer and Vector Infra Lead, Alhena AI
+{{< quote
+  text="We replaced FAISS, Pinecone, and Weaviate with Qdrant Cloud. It simplified everything and gave us better performance across the board."
+  name="Kshitiz Parashar"
+  role="Founding Engineer and Vector Infra Lead"
+  company="Alhena AI"
+  logo="/img/e-commerce/alhena.svg" >}}
 
 ## Unlocking business value through performance, flexibility, and control
 
@@ -56,8 +60,11 @@ By supporting both dense and sparse embeddings in a single query, Qdrant’s hyb
 
 With Qdrant handling retrieval, Alhena no longer needed to customize infrastructure per client. Agents could be deployed in minutes regardless of catalog size. That translated into faster onboarding, fewer implementation blockers, and more predictable margins as the company scaled.
 
-*“The more questions the AI can answer, the more revenue our customers make. Qdrant helps us surface better context and more accurate answers.”*  
- — Kshitiz Parashar
+{{< quote
+  text="The more questions the AI can answer, the more revenue our customers make. Qdrant helps us surface better context and more accurate answers."
+  name="Kshitiz Parashar"
+  role="Founding Engineer and Vector Infra Lead"
+  company="Alhena AI" >}}
 
 ## Hitting production-grade performance targets
 
@@ -65,8 +72,12 @@ Latency was a critical metric for Alhena. With FAISS, vector search on catalogs 
 
 Qdrant reduced retrieval latency by up to 90% on the same datasets. That enabled Alhena to meet its internal P95 SLA from query to first token, even after accounting for hallucination detection, policy enforcement, and contextual rewriting.
 
-*“We track every millisecond. Qdrant helped us cut vector retrieval time by 90 percent at scale. That’s what made it possible to stay under our latency SLA.”*  
- — Kang-Chi Ho
+{{< quote
+  text="We track every millisecond. Qdrant helped us cut vector retrieval time by 90 percent at scale. That’s what made it possible to stay under our latency SLA."
+  name="Kang-Chi Ho"
+  role="Founding AI Engineer"
+  company="Alhena AI"
+  logo="/img/e-commerce/alhena.svg" >}}
 
 ## Production architecture built for speed and safety
 
@@ -80,8 +91,11 @@ The ability to boost specific items within a vector search query has proven part
 
 Multi-tenancy played a critical role in Alhena’s ability to scale while keeping operations lean. Instead of spinning up a separate collection for each customer, Alhena isolated data within shared collections, preserving tenant-level boundaries without introducing additional infrastructure complexity. This model dramatically reduced collection sprawl, simplified version control, and allowed the team to support hundreds of thousands of end customers while maintaining just a few collections.
 
-*“Multitenancy is a feature we find highly beneficial. It allows us to scale to hundreds of thousands of customers while managing only a few collections, thereby avoiding challenges in collection management. Additionally, we benefit from searching within their own search space. For each company, we implemented a delicate version control to ensure zero downtime after a new training finishes.”*  
- — Kang-Chi Ho, Founding AI Engineer, Alhena AI
+{{< quote
+  text="Multitenancy is a feature we find highly beneficial. It allows us to scale to hundreds of thousands of customers while managing only a few collections, thereby avoiding challenges in collection management. Additionally, we benefit from searching within their own search space. For each company, we implemented a delicate version control to ensure zero downtime after a new training finishes."
+  name="Kang-Chi Ho"
+  role="Founding AI Engineer"
+  company="Alhena AI" >}}
 
 ## Simplifying global deployment through Qdrant Cloud
 
@@ -89,15 +103,21 @@ Alhena serves customers in both the US and EU, and data residency is a growing c
 
 Feature upgrades are seamless. Boosting, hybrid search, and sparse-dense fusion were all integrated without breaking changes. As Alhena’s needs evolve, Qdrant’s managed infrastructure keeps pace, so there’s no more fighting the database when building new product capabilities.
 
-*“We were live in two weeks. And when Qdrant releases something like boosting, we can start using it the same day. That kind of agility really matters.”*  
- — Kshitiz Parashar
+{{< quote
+  text="We were live in two weeks. And when Qdrant releases something like boosting, we can start using it the same day. That kind of agility really matters."
+  name="Kshitiz Parashar"
+  role="Founding Engineer and Vector Infra Lead"
+  company="Alhena AI" >}}
 
 ## Enabling the next phase of product innovation
 
 With a unified, high-performance vector backend in place, Alhena is now building for the future. Multimodal search is in the roadmap, allowing users to upload a photo and find visually similar products. Qdrant’s image-text embedding support makes this straightforward. The team plans to deploy a separate collection for visual embeddings without touching the core retrieval system.
 
-*“We're using all of Qdrant’s capabilities: hybrid search, keyword-only fallback, boosting, filtering. And it just works, whether the catalog has 1,000 or 100,000 items.”*  
- — Kshitiz Parashar
+{{< quote
+  text="We're using all of Qdrant’s capabilities: hybrid search, keyword-only fallback, boosting, filtering. And it just works, whether the catalog has 1,000 or 100,000 items."
+  name="Kshitiz Parashar"
+  role="Founding Engineer and Vector Infra Lead"
+  company="Alhena AI" >}}
 
 ## From fragmentation to focus
 
@@ -105,7 +125,10 @@ Migrating to Qdrant Cloud allowed Alhena to unify its vector infrastructure, imp
 
 Most importantly, Alhena now has a retrieval layer that scales with them, not against them.
 
-*“Qdrant gave us sub-second hybrid search, simplified our stack, and unlocked better conversions. It’s the infrastructure foundation for our entire agent platform.”*  
- — Kang-Chi Ho
+{{< quote
+  text="Qdrant gave us sub-second hybrid search, simplified our stack, and unlocked better conversions. It’s the infrastructure foundation for our entire agent platform."
+  name="Kang-Chi Ho"
+  role="Founding AI Engineer"
+  company="Alhena AI" >}}
 
 ### 
