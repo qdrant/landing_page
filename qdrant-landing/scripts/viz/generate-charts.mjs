@@ -9,6 +9,7 @@
 //   - title + muted subtitle, centred
 //   - plain rotated y-axis label, no arrow
 // Colours stay Qdrant's (data/viz.json), not that blog's terminal-green.
+import { chartLayout } from './chart-layout.mjs';
 import * as Plot from '@observablehq/plot';
 import { JSDOM } from 'jsdom';
 import { csvParse } from 'd3-dsv';
@@ -18,6 +19,8 @@ import { dirname } from 'node:path';
 const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
 const baseType = { ...viz.type };
 let readableType = false;
+let flexibleLayout = null;
+let viewIndex = 0;
 
 // One spec per chart, beside its data. The id is the path.
 const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
@@ -33,8 +36,16 @@ const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   if (spec.readableType && spec.kind !== 'grouped-columns') {
     throw new Error(`${p}: readableType is supported only for grouped-columns`);
   }
+  const flexible = 'textScale' in spec || 'legendLayout' in spec;
+  if (flexible && spec.kind !== 'grouped-columns') throw new Error(`${p}: textScale and legendLayout are supported only for grouped-columns`);
+  if ('textScale' in spec && (!Number.isFinite(spec.textScale) || spec.textScale < 0.75 || spec.textScale > 2.5)) throw new Error(`${p}: textScale must be a number from 0.75 to 2.5`);
+  if ('legendLayout' in spec && !['auto', 'row', 'stacked'].includes(spec.legendLayout)) throw new Error(`${p}: legendLayout must be auto, row, or stacked`);
+  if (flexible && (!Number.isInteger(spec.height) || spec.height <= 0)) throw new Error(`${p}: height must be a positive integer`);
   for (const view of spec.views ?? []) {
-    if (['width', 'height', 'legendRoom', 'readableType'].some(key => key in view)) {
+    if (flexible && (view.data !== undefined || (view.series !== undefined && view.series !== spec.series) || (view.kind !== undefined && view.kind !== spec.kind))) {
+      throw new Error(`${p}: flexible views must share the data, chart kind, and series field`);
+    }
+    if (['width', 'height', 'legendRoom', 'readableType', 'textScale', 'legendLayout'].some(key => key in view)) {
       throw new Error(`${p}: geometry and typography options must be top-level, not per-view`);
     }
   }
@@ -85,7 +96,9 @@ function readableHeading(w, title, subtitle) {
   }
   return output;
 }
-const panelHead = (w, title, subtitle) => readableType ? readableHeading(w,title,subtitle) :
+const panelHead = (w, title, subtitle) => flexibleLayout
+  ? flexibleLayout.headings[viewIndex].lines.map(line => `<text x="${w / 2}" y="${line.y}" text-anchor="middle" font-family="${MONO}" font-size="${line.size}" font-weight="${line.weight}" fill="${INK}">${esc(line.text)}</text>`).join('')
+  : readableType ? readableHeading(w,title,subtitle) :
   `<text x="${w / 2}" y="${LAYOUT.titleY}" text-anchor="middle" font-family="${MONO}"`
   + ` font-size="${viz.type.title}" font-weight="700" fill="${INK}">${esc(title)}</text>`
   + (subtitle
@@ -95,7 +108,7 @@ const panelHead = (w, title, subtitle) => readableType ? readableHeading(w,title
 
 // Rotated y-axis label, shared for the same reason.
 const yAxisLabel = (h, text) =>
-  `<text transform="translate(${readableType ? 28 : 13},${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
+  `<text transform="translate(${readableType || flexibleLayout ? 28 : 13},${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
   + ` text-anchor="middle" font-family="${MONO}" font-size="${viz.type.label}"`
   + ` fill="${MUTED}">${esc(text)}</text>`;
 
@@ -327,10 +340,10 @@ function legend(c, w) {
 // kinds cannot express: N categories x M methods.
 function groupedColumns(c) {
   const data = readCsv(c.data);
-  if (readableType && c.height < 480) throw new Error(`${c.id}: readableType needs height >= 480`);
+  if (readableType && !flexibleLayout && c.height < 480) throw new Error(`${c.id}: readableType needs height >= 480`);
   const groups = [...new Set(data.map((d) => d[c.group]))];
   const series = [...new Set(data.map((d) => d[c.series]))];
-  if (readableType && (c.legendRoom ?? viz.chart.legendRoom) < series.length * 34 + 18) {
+  if (readableType && !flexibleLayout && (c.legendRoom ?? viz.chart.legendRoom) < series.length * 34 + 18) {
     throw new Error(`${c.id}: readableType needs legendRoom >= ${series.length * 34 + 18}`);
   }
   const colors = c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]));
@@ -343,7 +356,7 @@ function groupedColumns(c) {
     style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
     x: { axis: null, domain: series },
     fx: { label: null, domain: groups, tickFormat: (v) => v, tickSize: 0 },
-    y: { label: null, ticks: readableType ? 5 : undefined, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
+    y: { label: null, ticks: readableType || flexibleLayout ? 5 : undefined, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: series, range: colors },
     marks: [
       Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, inset: 2 }),
@@ -378,6 +391,15 @@ function groupedColumns(c) {
       + ` height="${c.height - mT - mB}" fill="transparent"/>`;
   }).join('');
 
+  if (flexibleLayout) {
+    const legendMarks = flexibleLayout.legend.map((item, i) =>
+      `<g data-viz-legend transform="translate(${item.x},${item.y})">`
+      + `<rect y="-10" width="11" height="11" rx="2" fill="${colors[i]}"/>`
+      + item.lines.map((line, j) => `<text x="18" y="${j * viz.type.label * 1.5}" font-family="${MONO}" font-size="${viz.type.label}" fill="${MUTED}">${esc(line)}</text>`).join('')
+      + '</g>').join('');
+    return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel) + wrapPlot(plotted) + zones + legendMarks;
+  }
+
   const legendWidth = readableType ? Math.max(...series.map(name => name.length)) * viz.type.label * 0.62 + 42 : 190;
   const legendRow = series.map((name, i) =>
     `<g transform="translate(${readableType ? (c.width - (name.length * viz.type.label * 0.62 + 18)) / 2 : (c.width - series.length * legendWidth) / 2 + i * legendWidth},${c.height + 14 + (readableType ? i * 34 : 0)})">`
@@ -406,6 +428,7 @@ function draw(c) {
 function render(c) {
   if (!c.views) return draw(c);
   return c.views.map((v, i) => {
+    viewIndex = i;
     const merged = { ...c, ...v, views: undefined };
     // `hidden` is ignored on SVG elements; inline so it holds with no CSS.
     return `<g data-viz-view="${i}"${i === 0 ? '' : ' style="display:none"'}>`
@@ -415,12 +438,27 @@ function render(c) {
 
 for (const c of manifest) {
   readableType = c.readableType === true;
-  viz.type = Object.fromEntries(Object.entries(baseType).map(([key,value]) => [key, typeof value === 'number' && readableType ? value * 1.8 : value]));
+  const scale = c.textScale ?? (readableType ? 1.8 : 1);
+  flexibleLayout = null;
+  viewIndex = 0;
+  viz.type = Object.fromEntries(Object.entries(baseType).map(([key,value]) => [key, typeof value === 'number' ? value * scale : value]));
   LAYOUT.top = readableType ? 224 : 62;
   LAYOUT.left = readableType ? 100 : 74;
+  LAYOUT.bottom = 68;
+  if ('textScale' in c || 'legendLayout' in c) {
+    const rows = readCsv(c.data);
+    const series = [...new Set(rows.map(row => row[c.series]))];
+    const groups = [...new Set(rows.map(row => row[c.group]))];
+    flexibleLayout = chartLayout(c, series, viz.type, groups);
+    LAYOUT.top = flexibleLayout.top;
+    LAYOUT.bottom = flexibleLayout.bottom;
+    LAYOUT.left = flexibleLayout.left;
+  }
 
   const out = `assets/viz/${c.id}.svg`;
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, `${render(c)}\n`);
+  const content = render(c);
+  // The wrapper consumes the generated height, so layout is calculated once.
+  writeFileSync(out, flexibleLayout ? `<g data-viz-height="${flexibleLayout.height}">${content}</g>\n` : `${content}\n`);
   console.log(`wrote ${out}`);
 }

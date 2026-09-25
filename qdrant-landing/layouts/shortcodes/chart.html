@@ -27,4 +27,10 @@
 {{- else if eq $spec.kind "lines-facet" -}}
   {{- $room = cond (gt (len $spec.series) 1) $cfg.legendRoom $cfg.facetRoom -}}
 {{- end -}}
-{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int ($spec.width | default $cfg.width)) (add (int $spec.height) (int ($spec.legendRoom | default $room)))) "caption" $c.caption "id" (replace $c.id "/" "-") "class" "viz-figure--chart" "views" $c.views "captions" $c.captions) -}}
+{{- $height := add (int $spec.height) (int ($spec.legendRoom | default $room)) -}}
+{{- if or (isset $spec "textScale") (isset $spec "legendLayout") -}}
+  {{- $metadata := findRE `data-viz-height="[0-9]+"` $res.Content 1 -}}
+  {{- if not $metadata -}}{{ errorf "chart %s: generated layout metadata missing; run npm run viz:charts" $c.id }}{{ end -}}
+  {{- range $metadata -}}{{ $height = int (replaceRE `[^0-9]` "" .) }}{{ end -}}
+{{- end -}}
+{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int ($spec.width | default $cfg.width)) $height) "caption" $c.caption "id" (replace $c.id "/" "-") "class" "viz-figure--chart" "views" $c.views "captions" $c.captions) -}}

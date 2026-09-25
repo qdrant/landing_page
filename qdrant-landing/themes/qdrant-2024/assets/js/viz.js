@@ -36,7 +36,9 @@
     tip.style.top = Math.max(8, y) + 'px';
   }
 
-  function show(e, title, rows) {
+  function show(e, title, rows, fig) {
+    if (fig.closest('.qdrant-blog-post')) tip.setAttribute('data-viz-theme', 'light');
+    else tip.removeAttribute('data-viz-theme');
     var html = '<div class="viz-tip__title">' + title + '</div>';
     for (var i = 0; i < rows.length; i++) {
       html += '<div class="viz-tip__row">'
@@ -115,7 +117,7 @@
       var rows;
       try { rows = JSON.parse(z.getAttribute('data-viz-rows') || '[]'); } catch (err) { rows = []; }
 
-      function enter(e) { setActive(key); setCrosshair(z); show(e, title, rows); }
+      function enter(e) { setActive(key); setCrosshair(z); show(e, title, rows, fig); }
       z.addEventListener('pointerenter', enter);
       z.addEventListener('pointermove', move);
       z.addEventListener('pointerleave', function () { setActive(null); setCrosshair(null); hide(); });
@@ -124,7 +126,7 @@
         setActive(key);
         setCrosshair(z);
         var r = z.getBoundingClientRect();
-        show({ clientX: r.left + r.width / 2, clientY: r.top }, title, rows);
+        show({ clientX: r.left + r.width / 2, clientY: r.top }, title, rows, fig);
       });
       z.addEventListener('blur', function () { setActive(null); setCrosshair(null); hide(); });
     }

@@ -50,6 +50,13 @@ test('invalid opt-in geometry fails generation rather than shipping clipped layo
       [{ height: 200 }, /needs height/],
       [{ kind: 'lines-facet' }, /supported only for grouped-columns/],
       [{ views: [{ ...source.views[0], width: 400 }] }, /must be top-level/],
+      [{ textScale: '1.4' }, /textScale must be a number/],
+      [{ textScale: 0 }, /textScale must be a number/],
+      [{ textScale: 3 }, /textScale must be a number/],
+      [{ legendLayout: 'horizontal' }, /legendLayout must be/],
+      [{ textScale: 1.4, views: [{ ...source.views[0], series: 'other' }] }, /must share/],
+      [{ textScale: 1.4, views: [{ ...source.views[0], data: 'other.csv' }] }, /must share/],
+      [{ views: [{ ...source.views[0], textScale: 1.4 }] }, /must be top-level/],
     ];
     for (const [patch, message] of cases) {
       writeFileSync(join(dir, 'assets/viz/example.json'), JSON.stringify({ ...source, ...patch }));
