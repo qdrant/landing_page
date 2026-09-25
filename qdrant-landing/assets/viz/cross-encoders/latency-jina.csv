@@ -1,0 +1,11 @@
+statistic,library,per_request_ms,per_document_ms
+min,cross-encode-rs,74.51,2.48
+min,fastembed,94.43,3.15
+p50,cross-encode-rs,131.00,4.40
+p50,fastembed,188.53,6.34
+p90,cross-encode-rs,180.71,6.09
+p90,fastembed,249.93,8.40
+p99,cross-encode-rs,250.75,8.36
+p99,fastembed,340.43,11.35
+max,cross-encode-rs,581.39,19.38
+max,fastembed,480.12,16.00

@@ -1,0 +1,170 @@
+/* cross-encoder inference island. Scoped under .qi-ce. Frames, chips, labels
+   and the status line come from the shared island design system
+   (islands.scss); this file only styles the token grid, the model boxes, the
+   wires, and the stage highlight. Query tokens use the Neon Blue ramp and
+   document tokens the Cyan ramp, so the token type row reads at a glance. */
+
+.qi-ce {
+  --ce-q-bg: #dde0ff; /* neon-blue-100 */
+  --ce-q-fg: #4325ae; /* neon-blue-800 */
+  --ce-d-bg: #b2ebf2; /* cyan-100 */
+  --ce-d-fg: #006064; /* cyan-900 */
+  --ce-arc: var(--qi-cat-1);
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-ce {
+    --ce-q-bg: #392689; /* neon-blue-900 */
+    --ce-q-fg: #dde0ff; /* neon-blue-100 */
+    --ce-d-bg: #006064; /* cyan-900 */
+    --ce-d-fg: #b2ebf2; /* cyan-100 */
+    --ce-arc: #9494ff; /* neon-blue-300 */
+  }
+}
+html[data-theme='dark'] .qi-ce {
+  --ce-q-bg: #392689; /* neon-blue-900 */
+  --ce-q-fg: #dde0ff; /* neon-blue-100 */
+  --ce-d-bg: #006064; /* cyan-900 */
+  --ce-d-fg: #b2ebf2; /* cyan-100 */
+  --ce-arc: #9494ff; /* neon-blue-300 */
+}
+
+.qi-ce__query {
+  color: var(--qi-fg);
+  font-weight: 600;
+}
+.qi-ce__num {
+  color: var(--qi-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Token cells: fill by kind. Special tokens stay neutral; padding is a ghost. */
+.qi-ce__tok text,
+.qi-ce__num-cell text {
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.qi-ce__tok text.is-long {
+  font-size: 9.5px;
+}
+.qi-ce__tok--q rect {
+  fill: var(--ce-q-bg);
+}
+.qi-ce__tok--q text {
+  fill: var(--ce-q-fg);
+}
+.qi-ce__tok--d rect {
+  fill: var(--ce-d-bg);
+}
+.qi-ce__tok--d text {
+  fill: var(--ce-d-fg);
+}
+.qi-ce__tok--s rect {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+}
+.qi-ce__tok--s text {
+  fill: var(--qi-fg);
+}
+.qi-ce__tok--p rect {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-dasharray: 3 3;
+}
+.qi-ce__tok--p text {
+  fill: var(--qi-muted);
+}
+
+.qi-ce__num-cell rect {
+  fill: none;
+  stroke: var(--qi-border);
+}
+.qi-ce__num-cell text {
+  fill: var(--qi-fg);
+}
+.qi-ce__num-cell.is-off text {
+  fill: var(--qi-muted);
+}
+.qi-ce__type--0 rect {
+  fill: var(--ce-q-bg);
+  stroke: none;
+}
+.qi-ce__type--0 text {
+  fill: var(--ce-q-fg);
+}
+.qi-ce__type--1 rect {
+  fill: var(--ce-d-bg);
+  stroke: none;
+}
+.qi-ce__type--1 text {
+  fill: var(--ce-d-fg);
+}
+
+/* Model boxes and wires. */
+.qi-ce__box-rect {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  transition: stroke 0.15s ease;
+}
+.qi-ce__wire {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.qi-ce__arrowhead {
+  fill: var(--qi-muted);
+}
+.qi-ce__score {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cross-attention arcs, drawn only in the encoder stage. */
+.qi-ce__arc {
+  fill: none;
+  stroke: var(--ce-arc);
+  stroke-width: 1.2;
+  opacity: 0.7;
+}
+.qi-ce__arcs {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.qi-ce.show-arcs .qi-ce__arcs {
+  opacity: 1;
+}
+
+/* Stage highlight: everything tagged with a stage dims unless it belongs to
+   the active one. With no stage selected, the whole pipeline shows. */
+.qi-ce [data-stage] {
+  transition: opacity 0.2s ease;
+}
+.qi-ce.has-stage [data-stage]:not(.is-on) {
+  opacity: 0.28;
+}
+.qi-ce.has-stage .qi-ce__arcs:not(.is-on) {
+  opacity: 0;
+}
+.qi-ce .qi-ce__box.is-on .qi-ce__box-rect {
+  stroke: var(--qi-hot);
+  stroke-width: 1.5;
+}
+
+.qi-ce__status code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ce [data-stage],
+  .qi-ce__arcs,
+  .qi-ce__box-rect {
+    transition: none;
+  }
+}
