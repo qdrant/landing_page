@@ -409,6 +409,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/pienso.svg
       alt: Pienso logo
+  - id: poliscope
+    name: Poliscope
+    industry: GovTech
+    product: Self-managed
+    company_size: 1-50
+    location: Europe
+    use_cases: ["Semantic search", "Hybrid search", "RAG"]
+    title: "How Poliscope Made All of Germany's Local Politics Searchable on One Server with Qdrant"
+    blog_path: /blog/case-study-poliscope
+    logo:
+      src: /img/customers-case-studies-logo/poliscope.svg
+      alt: Poliscope logo
   - id: portfolio-mind
     name: PortfolioMind
     industry: Financial services

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" fill="none">
+  <defs>
+    <linearGradient id="poliscope-g" gradientUnits="userSpaceOnUse" x1="4" y1="32" x2="60" y2="32">
+      <stop offset="0" stop-color="#49b9b1"/>
+      <stop offset="1" stop-color="#00a3b8"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(2 2) scale(0.12)">
+    <path fill="url(#poliscope-g)" d="M 179.281 757.304 C 177.993 757.304 176.708 757.165 175.421 756.852 C 167.948 755.045 162.698 748.371 162.698 740.688 L 162.698 553.08 C 162.698 543.902 170.138 536.465 179.314 536.465 L 264.584 536.465 L 372.485 324.418 C 375.334 318.855 381.036 315.345 387.293 315.345 C 457.407 315.345 514.486 372.389 514.486 442.539 C 514.486 512.653 457.442 569.73 387.293 569.73 L 284.885 569.73 L 194.054 748.266 C 191.203 753.898 185.396 757.304 179.281 757.304 Z M 195.861 569.696 L 195.861 671.443 L 247.62 569.696 L 195.861 569.696 Z M 301.814 536.465 L 387.224 536.465 C 439.018 536.465 481.184 494.333 481.184 442.503 C 481.184 394.046 444.303 354.035 397.165 349.065 L 301.814 536.465 Z" transform="translate(-162.698 -315.345)"/>
+  </g>
+  <text x="72" y="46" font-family="Mona Sans, Inter, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" letter-spacing="-1" fill="#1A1E2C">Poliscope</text>
+</svg>
