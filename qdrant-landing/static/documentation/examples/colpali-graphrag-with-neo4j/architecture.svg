@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 700" width="1240" height="700" role="img" aria-label="Ingest renders PDF pages to PNGs, ColPali embeds them into Qdrant and a vision model writes entities to Neo4j. Ask embeds the question with ColPali, searches Qdrant for page IDs, expands them in Neo4j, and an LLM answers. The Qdrant point ID, the Neo4j Page.id and the page_id are the same value.">
+  <style>
+    .lbl   { font: 500 15px "SFMono-Regular","Menlo","Consolas",monospace; fill: #717C99; letter-spacing: 1.5px; }
+    .card  { font: 500 22px "SFMono-Regular","Menlo","Consolas",monospace; fill: #28324D; }
+    .store { font: 500 24px "SFMono-Regular","Menlo","Consolas",monospace; }
+    .edge  { font: 16px "SFMono-Regular","Menlo","Consolas",monospace; fill: #576280; }
+    .note  { font: 16px "SFMono-Regular","Menlo","Consolas",monospace; fill: #576280; }
+  </style>
+
+  <defs>
+    <marker id="a-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8F98B2"/>
+    </marker>
+    <marker id="a-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2F6FF0"/>
+    </marker>
+    <marker id="a-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8547FF"/>
+    </marker>
+  </defs>
+
+  <rect width="1240" height="700" fill="#F0F3FA"/>
+
+  <!-- column labels -->
+  <text class="lbl" x="70" y="64">INGEST</text>
+  <text class="lbl" x="830" y="64">ASK</text>
+
+  <!-- ingest column -->
+  <rect x="70" y="92" width="220" height="60" rx="10" fill="#FFFFFF" stroke="#B4BACC" stroke-width="1.6"/>
+  <text class="card" x="180" y="129" text-anchor="middle">PDF</text>
+
+  <line x1="180" y1="152" x2="180" y2="212" stroke="#8F98B2" stroke-width="2" marker-end="url(#a-n)"/>
+
+  <rect x="70" y="214" width="220" height="60" rx="10" fill="#FFFFFF" stroke="#B4BACC" stroke-width="1.6"/>
+  <text class="card" x="180" y="251" text-anchor="middle">page PNGs</text>
+
+  <!-- ingest -> stores -->
+  <path d="M 290 236 H 360 V 200 H 452" fill="none" stroke="#2F6FF0" stroke-width="2" marker-end="url(#a-b)"/>
+  <text class="edge" x="366" y="182" fill="#2F6FF0">ColPali</text>
+
+  <path d="M 290 252 H 360 V 452 H 452" fill="none" stroke="#8547FF" stroke-width="2" marker-end="url(#a-v)"/>
+  <text class="edge" x="374" y="330" fill="#8547FF">vision model</text>
+
+  <!-- stores -->
+  <rect x="460" y="166" width="260" height="72" rx="12" fill="#D6E2FE" stroke="#2F6FF0" stroke-width="1.6"/>
+  <text class="store" x="590" y="209" text-anchor="middle" fill="#28324D">Qdrant</text>
+
+  <rect x="460" y="418" width="260" height="72" rx="12" fill="#EADDFF" stroke="#8547FF" stroke-width="1.6"/>
+  <text class="store" x="590" y="461" text-anchor="middle" fill="#28324D">Neo4j</text>
+
+  <!-- qdrant -> neo4j -->
+  <line x1="590" y1="238" x2="590" y2="416" stroke="#8F98B2" stroke-width="2" marker-end="url(#a-n)"/>
+  <text class="edge" x="606" y="334">page IDs</text>
+
+  <!-- ask column -->
+  <rect x="880" y="92" width="280" height="60" rx="10" fill="#FFFFFF" stroke="#B4BACC" stroke-width="1.6"/>
+  <text class="card" x="1020" y="129" text-anchor="middle">question</text>
+
+  <path d="M 1020 152 V 202 H 728" fill="none" stroke="#2F6FF0" stroke-width="2" marker-end="url(#a-b)"/>
+  <text class="edge" x="900" y="194" fill="#2F6FF0">ColPali</text>
+
+  <path d="M 720 454 H 878" fill="none" stroke="#8F98B2" stroke-width="2" marker-end="url(#a-n)"/>
+  <text class="edge" x="799" y="436" text-anchor="middle">nodes + edges</text>
+
+  <rect x="880" y="424" width="280" height="60" rx="10" fill="#FFFFFF" stroke="#B4BACC" stroke-width="1.6"/>
+  <text class="card" x="1020" y="461" text-anchor="middle">LLM</text>
+
+  <line x1="1020" y1="484" x2="1020" y2="544" stroke="#8F98B2" stroke-width="2" marker-end="url(#a-n)"/>
+
+  <rect x="880" y="546" width="280" height="60" rx="10" fill="#FFFFFF" stroke="#8F98B2" stroke-width="1.6"/>
+  <text class="card" x="1020" y="583" text-anchor="middle">answer</text>
+
+  <!-- shared id note -->
+  <rect x="70" y="560" width="620" height="60" rx="10" fill="#E1E6F0" stroke="#B4BACC" stroke-width="1.4"/>
+  <text class="note" x="100" y="596">Qdrant point ID = Neo4j Page.id = page_id</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 520" width="1240" height="520" role="img" aria-label="Graph schema: an Entity node with id, name, type and description properties points to a Page node with id, document_id, document_name and page_number through a MENTIONED_ON relationship, and to another Entity through a RELATIONSHIP with type, document_id and page_id properties.">
+  <style>
+    .node  { font: 500 24px "SFMono-Regular","Menlo","Consolas",monospace; fill: #28324D; }
+    .prop  { font: 18px "SFMono-Regular","Menlo","Consolas",monospace; fill: #576280; }
+    .rel   { font: 500 20px "SFMono-Regular","Menlo","Consolas",monospace; fill: #28324D; }
+    .relp  { font: 16px "SFMono-Regular","Menlo","Consolas",monospace; fill: #717C99; }
+  </style>
+
+  <defs>
+    <marker id="s-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8F98B2"/>
+    </marker>
+  </defs>
+
+  <rect width="1240" height="520" fill="#F0F3FA"/>
+
+  <!-- self relationship -->
+  <path d="M 230 250 C 230 120, 430 120, 430 250" fill="none" stroke="#8F98B2" stroke-width="2" marker-end="url(#s-n)"/>
+  <text class="rel" x="330" y="106" text-anchor="middle">:RELATIONSHIP</text>
+  <text class="relp" x="330" y="132" text-anchor="middle">{type, document_id, page_id}</text>
+
+  <!-- Entity -->
+  <rect x="120" y="250" width="380" height="180" rx="12" fill="#EADDFF" stroke="#8547FF" stroke-width="1.6"/>
+  <text class="node" x="152" y="294">(:Entity)</text>
+  <text class="prop" x="152" y="330">id</text>
+  <text class="prop" x="152" y="358">name</text>
+  <text class="prop" x="152" y="386">type</text>
+  <text class="prop" x="152" y="414">description</text>
+
+  <!-- MENTIONED_ON -->
+  <line x1="500" y1="340" x2="738" y2="340" stroke="#8F98B2" stroke-width="2" marker-end="url(#s-n)"/>
+  <text class="rel" x="619" y="322" text-anchor="middle">:MENTIONED_ON</text>
+
+  <!-- Page -->
+  <rect x="740" y="250" width="380" height="180" rx="12" fill="#C0FCF0" stroke="#038585" stroke-width="1.6"/>
+  <text class="node" x="772" y="294">(:Page)</text>
+  <text class="prop" x="772" y="330">id</text>
+  <text class="prop" x="772" y="358">document_id</text>
+  <text class="prop" x="772" y="386">document_name</text>
+  <text class="prop" x="772" y="414">page_number</text>
+</svg>
