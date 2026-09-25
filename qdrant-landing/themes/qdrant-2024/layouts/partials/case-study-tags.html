@@ -1,0 +1,42 @@
+{{- /*
+  Industry, deployment and region for a case study, shown under the title.
+
+  The customers catalog at content/customers/clients/_index.md already records
+  these, and the filters on /customers/ run off those exact values. Reading them
+  here rather than repeating them in each article means the two cannot drift:
+  adding a tag means adding it to the catalog, where it also becomes filterable.
+
+  Called from qdrant-post.html with the page as context. A post with no row in
+  the catalog renders nothing, so this is inert on every page that is not a
+  case study.
+
+    {{ partial "case-study-tags" . }}
+*/ -}}
+
+{{- $fields := slice "industry" "product" "location" -}}
+{{- $path := strings.TrimSuffix "/" .RelPermalink -}}
+
+{{- $client := false -}}
+{{- with site.GetPage "/customers/clients" -}}
+  {{- range .Params.clients -}}
+    {{- $blog := strings.TrimSuffix "/" (.blog_path | default "") -}}
+    {{- if and $blog (eq $blog $path) -}}
+      {{- $client = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $client -}}
+  {{- $tags := slice -}}
+  {{- range $fields -}}
+    {{- with (index $client .) }}{{ $tags = $tags | append . }}{{ end -}}
+  {{- end -}}
+
+  {{- with $tags }}
+  <ul class="case-study-tags">
+    {{- range . }}
+    <li class="case-study-tags__tag">{{ . }}</li>
+    {{- end }}
+  </ul>
+  {{- end }}
+{{- end -}}
