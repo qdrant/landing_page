@@ -140,13 +140,12 @@ html[data-theme='dark'] .qi-ce {
   opacity: 1;
 }
 
-/* Stage highlight: everything tagged with a stage dims unless it belongs to
-   the active one. With no stage selected, the whole pipeline shows. */
+/* Keep context readable while selected model boxes gain an outline. */
 .qi-ce [data-stage] {
   transition: opacity 0.2s ease;
 }
 .qi-ce.has-stage [data-stage]:not(.is-on) {
-  opacity: 0.28;
+  opacity: 1;
 }
 .qi-ce.has-stage .qi-ce__arcs:not(.is-on) {
   opacity: 0;
@@ -168,3 +167,13 @@ html[data-theme='dark'] .qi-ce {
     transition: none;
   }
 }
+
+/* Preserve the approved composition; fix host contrast and long-token fit. */
+html .qdrant-post .qi-ce {
+  --ce-q-bg: #dde0ff; --ce-q-fg: #4325ae;
+  --ce-d-bg: #b2ebf2; --ce-d-fg: #006064;
+  --ce-arc: var(--qi-cat-1);
+}
+.qi-ce__tok text, .qi-ce__num-cell text { font-size:14px; }
+.qi-ce .qi-label { font-size:13px; }
+.qi-ce__wire { stroke-width:1.5; }

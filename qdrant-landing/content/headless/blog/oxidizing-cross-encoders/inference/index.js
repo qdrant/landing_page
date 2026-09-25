@@ -18,6 +18,7 @@
  * design system (islands.scss).
  */
 
+let instanceId = 0;
 const NS = 'http://www.w3.org/2000/svg';
 
 const QUERY = 'rust programming';
@@ -135,6 +136,7 @@ function arcPath(i, j) {
 
 export function mount(node) {
   node.classList.add('qi-ce');
+  const arrowId = `qi-ce-arrow-${++instanceId}`;
 
   node.innerHTML = [
     '<div class="qi-fig">',
@@ -197,7 +199,7 @@ export function mount(node) {
 
   // Tokenize → embedding: the three tensors leave the Rust side.
   const embCx = BOX_X[0] + BOX.w / 2;
-  layer.appendChild(wire(`M ${embCx} ${FRAME_A.y + FRAME_A.h - 14} V ${BOX.y - 4}`, 'tok emb'));
+  layer.appendChild(wire(`M ${embCx} ${FRAME_A.y + FRAME_A.h + 2} V ${FRAME_B.y - 4}`, 'tok emb'));
   layer.appendChild(
     el('text', { class: 'qi-label', x: embCx + 12, y: (FRAME_A.y + FRAME_A.h + FRAME_B.y) / 2 + 12, 'data-stage': 'tok emb' },
       `3 tensors, shape [2 × ${SEQ}]: batch × seq_len`),
@@ -219,7 +221,7 @@ export function mount(node) {
   // Classifier → sigmoid → score: the flow turns back toward the reader.
   const clsCx = BOX_X[3] + BOX.w / 2;
   layer.appendChild(wire(`M ${clsCx} ${BOX.y + BOX.h + 4} V ${SIG.y - 4}`, 'cls score'));
-  const logitText = el('text', { class: 'qi-label qi-label--strong', x: clsCx + 12, y: (BOX.y + BOX.h + SIG.y) / 2 + 12, 'data-stage': 'cls score' });
+  const logitText = el('text', { class: 'qi-label qi-label--strong', x: clsCx - 14, y: 350, 'text-anchor': 'end', 'data-stage': 'cls score' });
   layer.appendChild(logitText);
 
   const sigG = el('g', { class: 'qi-ce__box', 'data-stage': 'score' });
@@ -245,7 +247,12 @@ export function mount(node) {
       const tok = el('g', { class: `qi-ce__tok qi-ce__tok--${kind}`, 'data-stage': i === 0 ? 'tok emb pool' : 'tok emb' });
       tok.appendChild(el('rect', { x, y: GRID.tokY, width: GRID.cw, height: GRID.tokH, rx: 4 }));
       // "programming" is the one token wider than its cell at 12px.
-      tok.appendChild(el('text', { x: x + GRID.cw / 2, y: GRID.tokY + 18, 'text-anchor': 'middle', class: text.length > 8 ? 'is-long' : '' }, text));
+      const label = el('text', { x: x + GRID.cw / 2, y: GRID.tokY + 18, 'text-anchor': 'middle' });
+      if (text.length > 8) {
+        label.appendChild(el('tspan', {x: x + GRID.cw / 2, y: GRID.tokY + 12}, text.slice(0, 6)));
+        label.appendChild(el('tspan', {x: x + GRID.cw / 2, y: GRID.tokY + 25}, text.slice(6)));
+      } else label.textContent = text;
+      tok.appendChild(label);
       gridG.appendChild(tok);
 
       const vals = { ids: id, types: pair.types[i], mask: kind === 'p' ? 0 : 1 };
@@ -280,7 +287,9 @@ export function mount(node) {
       const on = stage !== null && n.getAttribute('data-stage').split(' ').includes(stage);
       n.classList.toggle('is-on', on);
     });
-    statusEl.innerHTML = STATUS[stage || 'none'](pair);
+    const result = `Document ${pair.doc}; relevance score ${fmt(sigmoid(pair.logit), 4)}.`;
+    statusEl.innerHTML = `${result} ${STATUS[stage || 'none'](pair)}`;
+    node.querySelector('svg').setAttribute('aria-label', `${result} Cross-encoder inference: tokenize and batch, embedding, six encoder layers, CLS pooling, classification, then sigmoid.`);
   }
 
   pairBtns.forEach((b) =>
@@ -298,6 +307,8 @@ export function mount(node) {
     }),
   );
 
+  node.querySelector('marker').id = arrowId;
+  node.querySelectorAll('[marker-end]').forEach(w=>w.setAttribute('marker-end', `url(#${arrowId})`));
   renderGrid();
   render();
 

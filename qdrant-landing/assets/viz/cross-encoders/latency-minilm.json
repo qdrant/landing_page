@@ -3,8 +3,12 @@
   "kind": "grouped-columns",
   "group": "statistic",
   "series": "library",
-  "colors": [0, 1, "muted"],
-  "height": 400,
+  "colors": [
+    0,
+    1,
+    "muted"
+  ],
+  "height": 560,
   "views": [
     {
       "label": "Per request",
@@ -20,5 +24,8 @@
       "yLabel": "latency per document (ms)",
       "yMax": 20
     }
-  ]
+  ],
+  "readableType": true,
+  "width": 640,
+  "legendRoom": 120
 }
