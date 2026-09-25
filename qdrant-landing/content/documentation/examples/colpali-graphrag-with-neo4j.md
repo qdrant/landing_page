@@ -3,6 +3,18 @@ title: GraphRAG over PDF Page Images with ColPali and Neo4j
 short_description: "Answer questions about scanned and image-heavy PDFs that text extraction can't read, using Qdrant and Neo4j."
 description: "Text-based RAG misses what's only in a page image, like a signature on a scanned letter. Learn to find the right pages with Qdrant, connect facts across documents with Neo4j, and answer from both."
 weight: 6
+goal: RAG & Agents
+stack:
+  - Python
+  - Neo4j
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant-labs/colpali-graphrag-demo
+keywords:
+  - PDF
+  - scanned documents
+  - ColPali
+  - multivectors
 ---
 
 # GraphRAG over PDF Page Images with ColPali and Neo4j
