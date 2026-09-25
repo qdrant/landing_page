@@ -3,7 +3,7 @@
   "kind": "grouped-columns",
   "group": "statistic",
   "series": "library",
-  "colors": [0, 1],
+  "colors": [0, 1, "muted"],
   "height": 400,
   "views": [
     {

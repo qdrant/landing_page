@@ -11,14 +11,14 @@
       "subtitle": "about 30 query-document pairs per request, lower is better",
       "y": "per_request_ms",
       "yLabel": "latency per request (ms)",
-      "yMax": 560
+      "yMax": 80
     },
     {
       "label": "Per document",
       "subtitle": "request latency divided by its document count, lower is better",
       "y": "per_document_ms",
       "yLabel": "latency per document (ms)",
-      "yMax": 20
+      "yMax": 2.5
     }
   ]
 }

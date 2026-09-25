@@ -1,11 +1,16 @@
 statistic,library,per_request_ms,per_document_ms
 min,cross-encode-rs,74.51,2.48
 min,fastembed,94.43,3.15
+min,sentence-transformers,93.83,3.13
 p50,cross-encode-rs,131.00,4.40
 p50,fastembed,188.53,6.34
+p50,sentence-transformers,190.79,6.42
 p90,cross-encode-rs,180.71,6.09
 p90,fastembed,249.93,8.40
+p90,sentence-transformers,254.38,8.54
 p99,cross-encode-rs,250.75,8.36
 p99,fastembed,340.43,11.35
+p99,sentence-transformers,336.39,11.21
 max,cross-encode-rs,581.39,19.38
 max,fastembed,480.12,16.00
+max,sentence-transformers,584.86,19.50
