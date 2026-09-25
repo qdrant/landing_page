@@ -3,8 +3,11 @@
   "kind": "grouped-columns",
   "group": "statistic",
   "series": "library",
-  "colors": [0, 1],
-  "height": 400,
+  "colors": [
+    0,
+    1
+  ],
+  "height": 520,
   "views": [
     {
       "label": "MiniLM",
@@ -20,5 +23,8 @@
       "yLabel": "load time (ms)",
       "yMax": 420
     }
-  ]
+  ],
+  "width": 960,
+  "textScale": 1.8,
+  "legendLayout": "row"
 }
