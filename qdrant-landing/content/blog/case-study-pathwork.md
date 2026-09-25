@@ -22,11 +22,14 @@ partition: case-studies
 
 ## **Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search**
 
-![Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search](/blog/case-study-pathwork/case-study-pathwork-summary-dark-b.jpg)
+{{< case-study-summary
+  results="~50% | error reduction; 78% | faster responses, MSE dropped from 3.5 → 1.8; 50% | MoM user growth, query latency cut from 9s → 2s" >}}
 
 ### **About Pathwork**
 
 Pathwork is redesigning life and health insurance workflows for the age of AI. Brokerages and insurance carriers utilize Pathwork's advanced agentic system to automate their underwriting processes and enhance back-office sales operations. Pathwork's solution drastically reduces errors, completes tasks up to 70 times faster, and significantly conserves human capital.
+
+![Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search](/blog/case-study-pathwork/case-study-pathwork-summary-dark-b.jpg)
 
 ### **The Challenge: Accuracy Above All**
 

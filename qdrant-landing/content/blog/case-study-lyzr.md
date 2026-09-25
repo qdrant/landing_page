@@ -19,7 +19,8 @@ partition: case-studies
 ---
 # How Lyzr Supercharged AI Agent Performance with Qdrant
 
-![How Lyzr Supercharged AI Agent Performance with Qdrant](/blog/case-study-lyzr/case-study-lyzr-summary-dark.png)
+{{< case-study-summary
+  results="90% | Faster query latency under high concurrency; 2x | Faster indexing for large-scale knowledge bases; 30% | Lower infrastructure costs from reduced resource usage" >}}
 
 ## Scaling Intelligent Agents: How Lyzr Supercharged Performance with Qdrant
 
@@ -28,6 +29,8 @@ As AI agents become more capable and pervasive, the infrastructure behind them m
 When their existing vector database infrastructure began to buckle under pressure, the engineering team needed a solution that could do more than just keep up. It had to accelerate them forward.
 
 This is how they rethought their stack and adopted Qdrant as the foundation for fast, scalable agent performance.
+
+![How Lyzr Supercharged AI Agent Performance with Qdrant](/blog/case-study-lyzr/case-study-lyzr-summary-dark.png)
 
 ## The Scaling Limits of Early Stack Choices
 

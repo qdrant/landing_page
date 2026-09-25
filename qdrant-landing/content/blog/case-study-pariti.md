@@ -21,7 +21,8 @@ partition: case-studies
 
 ## From Manual Bottlenecks to Millisecond Matching: Connecting Africa’s Best Talent
 
-![Pariti slashes vetting time and boosted candidate placement success.](/blog/case-study-pariti/case-study-pariti-summary-dark.jpg)
+{{< case-study-summary
+  results="20% → 48% | Hiring fill-rate; 4 min → 1 min | Candidate vetting time; 94% | of hires ranked in top 10% of search results" >}}
 
 Pariti’s mission is bold: connect Africa’s best talent with the continent’s most-promising startups—fast. Its referral-driven marketplace lets anyone nominate a great candidate, but viral growth triggered an avalanche of data. A single job post now attracts more than 300 applicants within 72 hours, yet Pariti still promises clients an interview-ready shortlist inside those same five days.
 
@@ -30,6 +31,8 @@ By 2023 the strain was obvious. Analysts spent four minutes vetting each résum�
 ### A Laptop Experiment Shows the Way
 
 Data Scientist Chiara Stramaccioni built a quick Python script on her laptop: encode the text requirements of a new role, embed every candidate’s experience, compare vectors, and rank the results. Quality looked excellent, but each query took half a minute of local compute, and only Chiara could run it. The prototype proved feasibility, but it did not solve scale.
+
+![Pariti slashes vetting time and boosted candidate placement success.](/blog/case-study-pariti/case-study-pariti-summary-dark.jpg)
 
 ### Dropping Qdrant into Production
 
