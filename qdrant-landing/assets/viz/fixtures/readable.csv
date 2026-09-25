@@ -1,0 +1,7 @@
+statistic,series,total_ms,per_item_ms
+p50,Method A,20,2
+p50,Method B,35,3.5
+p50,Method with a longer label,50,5
+p99,Method A,45,4.5
+p99,Method B,65,6.5
+p99,Method with a longer label,90,9
