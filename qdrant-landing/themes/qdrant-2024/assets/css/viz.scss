@@ -32,6 +32,22 @@ html[data-theme='dark'] .viz-tip {
   @include qi-dark-tokens;
 }
 
+// Blog posts have a light-only surface, independent of OS preference.
+// Keep this policy local; documentation and articles retain their theme.
+html .qdrant-blog-post .viz-figure,
+html .viz-tip[data-viz-theme='light'] {
+  @include qi-light-tokens;
+}
+
+html .viz-tip[data-viz-theme='light'] {
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+  border-color: var(--qi-border);
+
+  .viz-tip__title { border-color: var(--qi-border); }
+  .viz-tip__k { color: var(--qi-muted); }
+}
+
 .viz-figure {
   margin: 2rem 0;
   padding: 1.25rem 1.25rem 1rem;
@@ -101,8 +117,8 @@ html[data-theme='dark'] .viz-tip {
   pointer-events: none;
 }
 
-// The tooltip stays dark in both themes: it floats above the page rather than
-// sitting in it, so it reads as an overlay rather than a second surface.
+// Preserve the original dark overlay on theme-aware pages. Light-only blog
+// hosts opt into their surface colors through data-viz-theme above.
 .viz-tip {
   position: fixed;
   z-index: 1000;
