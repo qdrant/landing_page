@@ -97,6 +97,11 @@
   <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if eq .Path "/documentation/guides-tab" }}
+  {{ $guideDirectoryJs := resources.Get "js/guide-directory.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $guideDirectoryJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Layout "examples" }}
   {{ $exampleLibraryJs := resources.Get "js/example-library.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>

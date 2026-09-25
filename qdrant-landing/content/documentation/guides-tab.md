@@ -12,8 +12,8 @@ build:
   render: always
 content:
   - partial: documentation/banners/banner-a
-    title: Build Better Search
-    description: Practical guidance for evaluating and tuning search, choosing models, and planning how your application grows.
+    title: Qdrant Guides
+    description: Practical guidance for search quality, embedding models, multitenancy, bulk uploads, and memory use.
   - partial: documentation/recent-publications
     kind: guides
   - partial: documentation/guides/topics

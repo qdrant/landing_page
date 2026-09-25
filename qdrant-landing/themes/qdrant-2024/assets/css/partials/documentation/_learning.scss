@@ -1,6 +1,7 @@
 @use '../../helpers/functions' as *;
 
-.example-library {
+.example-library,
+.guide-directory {
   scroll-margin-top: $spacer * 7;
 
   &__filters {
@@ -40,6 +41,8 @@
       outline-offset: pxToRem(3);
     }
   }
+
+  [hidden] { display: none !important; }
 
   .docs-card__title a {
     color: inherit;

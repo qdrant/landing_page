@@ -23,13 +23,6 @@ content:
   - partial: documentation/banners/banner-a
     title: Search Evaluation
     description: Build an evaluation baseline and measure whether your search system produces useful results.
-    linkDescription: Choose the evaluation method that matches the result you need to judge.
-    cloudButton:
-      text: Measure Retrieval Relevance
-      url: /documentation/search-evaluation/retrieval-relevance/
-    localButton:
-      text: Evaluate Pipeline Output
-      url: /documentation/search-evaluation/pipeline-output-quality/
   - partial: documentation/guides/guide-cards
     section: /documentation/search-evaluation/
 ---
