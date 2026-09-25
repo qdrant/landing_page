@@ -23,7 +23,12 @@ partition: case-studies
 
 To achieve this, Telekom developed [*Frag Magenta OneBOT*](https://www.telekom.de/hilfe/frag-magenta?samChecked=true) *(Eng: Ask Magenta)*, a platform that includes chatbots and voice bots, built as a Platform as a Service (PaaS) to ensure scalability across Deutsche Telekom's ten European subsidiaries.
 
-"We knew from the start that we couldn't just deploy RAG, tool calling, and workflows at scale without a platform-first approach," Arun explains. "When I looked at the challenge, it looked a lot like a distributed systems and engineering challenge, not just an AI problem."
+{{< quote
+  text="We knew from the start that we couldn't just deploy RAG, tool calling, and workflows at scale without a platform-first approach. When I looked at the challenge, it looked a lot like a distributed systems and engineering challenge, not just an AI problem."
+  name="Arun Joseph"
+  role="Engineering and Architecture, AI Competence Center"
+  company="Deutsche Telekom"
+  featured="true" >}}
 
 ### Key Requirements for Scaling Enterprise AI Agents
 
@@ -71,7 +76,12 @@ LMOS architecture powering AI agent collaboration and lifecycle management in a 
 
 When Deutsche Telekom began searching for a scalable, high-performance vector database, they faced operational challenges with their initial choice. Seeking a solution better suited to their PaaS-first approach and multitenancy requirements, they evaluated alternatives, and [Qdrant](https://qdrant.tech/qdrant-vector-database/) quickly stood out.
 
-"I was looking for open-source components with deep technical expertise behind them," Arun recalls. "I looked at Qdrant and immediately loved the simplicity, [Rust-based efficiency](https://qdrant.tech/articles/why-rust/), and [memory management capabilities](https://qdrant.tech/articles/memory-consumption/). These guys knew what they were doing."
+{{< quote
+  text="I was looking for open-source components with deep technical expertise behind them. I looked at Qdrant and immediately loved the simplicity, [Rust-based efficiency](https://qdrant.tech/articles/why-rust/), and [memory management capabilities](https://qdrant.tech/articles/memory-consumption/). These guys knew what they were doing."
+  name="Arun Joseph"
+  role="Engineering and Architecture, AI Competence Center"
+  company="Deutsche Telekom"
+  logo="/img/customers-case-studies-logo/telekom.svg" >}}
 
 The team structured its evaluation around two key metrics:
 
@@ -86,7 +96,13 @@ Deutsche Telekom's engineers also cited several standout features that made Qdra
 
 As part of their evaluation, Deutsche Telekom engineers compared multiple solutions, weighing operational simplicity and reliability. 
 
-One engineer summarized their findings: "Qdrant has way fewer components, compared to the other solution that required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale it, you get downtime. Qdrant stays up." 
+One engineer summarized their findings.
+
+{{< quote
+  text="Qdrant has way fewer components, compared to the other solution that required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale it, you get downtime. Qdrant stays up."
+  name="An engineer on the team"
+  role=""
+  company="Deutsche Telekom" >}}
 
 ### Scaling AI at Deutsche Telekom & The Future of LMOS
 
@@ -94,7 +110,11 @@ Today, LMOS with Qdrant serves as the backbone for Deutsche Telekom's AI service
 
 With [LMOS now part of the Eclipse Foundation](https://projects.eclipse.org/projects/technology.lmos), Deutsche Telekom is opening up its platform to the broader AI engineering community. Arun sees a future ecosystem of like-minded developers coalescing around LMOS, Qdrant, and other AI infrastructure components.
 
-"For enterprises looking to build their own AI agent platforms, the future isn't just about AI models — it's about scalable, open, and opinionated infrastructure. And that's exactly what we've built," says Arun Joseph. 
+{{< quote
+  text="For enterprises looking to build their own AI agent platforms, the future isn't just about AI models — it's about scalable, open, and opinionated infrastructure. And that's exactly what we've built."
+  name="Arun Joseph"
+  role="Engineering and Architecture, AI Competence Center"
+  company="Deutsche Telekom" >}}
 
 You can learn more about Deutsche Telekom's AI Agents and Arun's vision for LMOS in his [talk](https://www.infoq.com/presentations/ai-agents-platform%20) at the InfoQ Dev Summit Boston.
 
