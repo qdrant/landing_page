@@ -45,7 +45,7 @@ The `ort` crate abstracts away all four layers. Our job in Rust is to tokenize t
 
 {{< island
     path="content/headless/blog/oxidizing-cross-encoders/inference"
-    ratio="320 / 610"
+    width="480" ratio="320 / 610"
     title="One query-document pair through cross-encoder inference: cross-encode-rs tokenizes and batches, `ort` runs the model graph, and cross-encode-rs turns the logit into a score. Tokens, IDs, and scores come from running Xenova/ms-marco-MiniLM-L-6-v2 on this batch. For the query rust programming, cargo builds rust code scores 0.8841 and iron rusts in wet air scores 0.0035."
 >}}
 ![A query and a document are tokenized into one sequence with input IDs, token type IDs, and an attention mask. ort runs embedding, a six-layer encoder, pooling, and a classifier that returns one logit, and cross-encode-rs applies sigmoid to get the relevance score.](/blog/oxidizing-cross-encoders/cross-encoder-inference.svg)

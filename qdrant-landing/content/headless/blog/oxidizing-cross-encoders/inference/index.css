@@ -177,3 +177,18 @@ html .qdrant-post .qi-ce {
 .qi-ce__tok text, .qi-ce__num-cell text { font-size:14px; }
 .qi-ce .qi-label { font-size:13px; }
 .qi-ce__wire { stroke-width:1.5; }
+
+/* This diagram is embedded on a light-only blog. Keep the host policy local;
+   these are the existing qi-light-tokens values, not a new theme palette. */
+html .island[data-island='content/headless/blog/oxidizing-cross-encoders/inference'] {
+  --qi-fg: #303547;
+  --qi-muted: #656b7f;
+  --qi-surface: #f0f3fa;
+  --qi-border: #d3d9eb;
+  --qi-line: #abb1c7;
+  --qi-hot: #303547;
+}
+.island[data-island='content/headless/blog/oxidizing-cross-encoders/inference'].is-ready .island__stage {
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+}
