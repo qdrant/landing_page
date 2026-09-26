@@ -17,7 +17,7 @@ keywords:
   - multivectors
 ---
 
-# GraphRAG over PDF Page Images with ColPali and Neo4j
+# GraphRAG over PDF Pages with ColPali and Neo4j
 
 | Time: 60 min | Level: Intermediate | Output: [GitHub Repository](https://github.com/qdrant-labs/colpali-graphrag-demo) |
 | --- | ----------- | ----------- |
