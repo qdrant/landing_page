@@ -26,6 +26,7 @@ The following guided samples help you get started with real-world projects using
 | [Blog-Reading RAG Chatbot](/documentation/examples/rag-chatbot-scaleway/)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
 | [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |
 | [GraphRAG Agent](/documentation/examples/graphrag-qdrant-neo4j/)                                 | Build a GraphRAG Agent with Neo4J and Qdrant               | Qdrant, Neo4j |
+| [GraphRAG over PDF Pages](/documentation/examples/colpali-graphrag-with-neo4j/)                                 | Search PDF pages as images with ColPali and link them to a Neo4j knowledge graph               | Qdrant, Neo4j, ColPali, FastEmbed |
 | [Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy](/documentation/examples/qdrant-dspy-medicalbot/)                                 | How to build a medical chatbot grounded in medical literature with Qdrant and DSPy.              | Qdrant, DSPy |
 
 

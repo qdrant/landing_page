@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" width="720" height="380" role="img" aria-label="Ingest: a PDF is rendered to page PNGs; ColPali embeds each page into Qdrant and a vision model writes entities and relations into Neo4j. Ask: the question is embedded with ColPali, Qdrant returns page IDs, Neo4j returns nodes and edges, and an LLM produces the answer. The Qdrant point ID, the Neo4j Page.id and the page_id are one value.">
+  <title>ColPali, Qdrant and Neo4j pipeline joined by one page ID</title>
+  <style>
+    /* Self-contained surface: an external SVG cannot inherit the page's
+       --qi-* tokens, so the light token values are resolved here. */
+    .s   { fill: #ffffff; stroke: #d3d9eb; stroke-width: 1; }
+    .t   { fill: #303547; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; }
+    .l   { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+    .cap { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; letter-spacing: 1px; }
+    .f   { stroke: #656b7f; stroke-width: 2; fill: none; }
+    .f1  { stroke: #6047ff; stroke-width: 2; fill: none; }
+    .f2  { stroke: #9c27b0; stroke-width: 2; fill: none; }
+    .i1  { fill: #6047ff; }
+    .i2  { fill: #9c27b0; }
+  </style>
+  <defs>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#656b7f"/>
+    </marker>
+    <marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#6047ff"/>
+    </marker>
+    <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#9c27b0"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="380" rx="8" fill="#f0f3fa"/>
+
+  <text class="cap" x="24" y="30">INGEST</text>
+  <text class="cap" x="504" y="30">ASK</text>
+
+  <!-- ingest column -->
+  <rect class="s" x="24" y="44" width="200" height="44" rx="6"/>
+  <text class="t" x="124" y="72" text-anchor="middle">PDF</text>
+  <path class="f" d="M 124 88 V 120" marker-end="url(#m)"/>
+  <rect class="s" x="24" y="124" width="200" height="44" rx="6"/>
+  <text class="t" x="124" y="152" text-anchor="middle">page PNGs</text>
+
+  <!-- ingest -> stores -->
+  <path class="f1" d="M 224 138 H 258 V 122 H 294" marker-end="url(#m1)"/>
+  <text class="l" x="232" y="112" fill="#6047ff">ColPali</text>
+  <path class="f2" d="M 224 156 H 266 V 266 H 294" marker-end="url(#m2)"/>
+  <text class="l" x="272" y="214" fill="#9c27b0">vision model</text>
+
+  <!-- stores -->
+  <rect x="300" y="96" width="168" height="52" rx="8" fill="#ffffff" stroke="#6047ff" stroke-width="1.5"/>
+  <text class="t" x="384" y="128" text-anchor="middle">Qdrant</text>
+  <rect x="300" y="240" width="168" height="52" rx="8" fill="#ffffff" stroke="#9c27b0" stroke-width="1.5"/>
+  <text class="t" x="384" y="272" text-anchor="middle">Neo4j</text>
+  <path class="f" d="M 384 148 V 234" marker-end="url(#m)"/>
+  <text class="l" x="396" y="200">page IDs</text>
+
+  <!-- ask column -->
+  <rect class="s" x="504" y="44" width="192" height="44" rx="6"/>
+  <text class="t" x="600" y="72" text-anchor="middle">question</text>
+  <path class="f1" d="M 600 88 V 122 H 474" marker-end="url(#m1)"/>
+  <text class="l" x="512" y="114" fill="#6047ff">ColPali</text>
+
+  <path class="f" d="M 468 266 H 530" marker-end="url(#m)"/>
+  <text class="l" x="499" y="240" text-anchor="middle">nodes +</text>
+  <text class="l" x="499" y="256" text-anchor="middle">edges</text>
+
+  <rect class="s" x="536" y="244" width="160" height="44" rx="6"/>
+  <text class="t" x="616" y="272" text-anchor="middle">LLM</text>
+  <path class="f" d="M 616 288 V 314" marker-end="url(#m)"/>
+  <rect class="s" x="536" y="318" width="160" height="44" rx="6"/>
+  <text class="t" x="616" y="346" text-anchor="middle">answer</text>
+
+  <!-- the shared key -->
+  <rect x="24" y="318" width="440" height="44" rx="6" fill="#ffffff" stroke="#d3d9eb" stroke-width="1" stroke-dasharray="6 5"/>
+  <text class="l" x="44" y="346">Qdrant point ID = Neo4j Page.id = page_id</text>
+</svg>

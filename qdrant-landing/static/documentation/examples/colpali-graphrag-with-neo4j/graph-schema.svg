@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" width="720" height="250" role="img" aria-label="Graph schema: an Entity node with id, name, type and description properties points to a Page node with id, document_id, document_name and page_number through a MENTIONED_ON relationship. An Entity also points to another Entity through a RELATIONSHIP that carries type, document_id and page_id.">
+  <title>Neo4j schema: Entity, Page, MENTIONED_ON and RELATIONSHIP</title>
+  <style>
+    .t { fill: #303547; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; font-weight: 600; }
+    .p { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+    .r { fill: #303547; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+    .f { stroke: #656b7f; stroke-width: 2; fill: none; }
+  </style>
+  <defs>
+    <marker id="sm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#656b7f"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="250" rx="8" fill="#f0f3fa"/>
+
+  <!-- Entity -> Entity -->
+  <path class="f" d="M 110 76 C 110 24, 210 24, 210 72" marker-end="url(#sm)"/>
+  <text class="r" x="240" y="36">:RELATIONSHIP</text>
+  <text class="p" x="240" y="56">{type, document_id, page_id}</text>
+
+  <!-- Entity -->
+  <rect x="40" y="78" width="252" height="140" rx="8" fill="#ffffff" stroke="#9c27b0" stroke-width="1.5"/>
+  <text class="t" x="64" y="108">(:Entity)</text>
+  <text class="p" x="64" y="136">id</text>
+  <text class="p" x="64" y="158">name</text>
+  <text class="p" x="64" y="180">type</text>
+  <text class="p" x="64" y="202">description</text>
+
+  <!-- MENTIONED_ON -->
+  <path class="f" d="M 292 148 H 422" marker-end="url(#sm)"/>
+  <text class="r" x="357" y="138" text-anchor="middle">:MENTIONED_ON</text>
+
+  <!-- Page -->
+  <rect x="428" y="78" width="252" height="140" rx="8" fill="#ffffff" stroke="#00838f" stroke-width="1.5"/>
+  <text class="t" x="452" y="108">(:Page)</text>
+  <text class="p" x="452" y="136">id</text>
+  <text class="p" x="452" y="158">document_id</text>
+  <text class="p" x="452" y="180">document_name</text>
+  <text class="p" x="452" y="202">page_number</text>
+</svg>
