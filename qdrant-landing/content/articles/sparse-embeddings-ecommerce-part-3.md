@@ -155,11 +155,11 @@ client.query_points(
 
 With the **off-the-shelf SPLADE**, hybrid helps: +1.3% over sparse alone. Both signals are moderate strength, and combining them catches products that either one misses.
 
-With the **fine-tuned SPLADE**, hybrid actually hurts: SPLADE-only scored 0.413 vs hybrid at 0.405. The fine-tuned sparse model is strong enough that adding a generic dense signal dilutes the ranking. The dense model retrieves semantically similar but irrelevant products that drag down nDCG.
+With the **fine-tuned SPLADE**, hybrid also helps: SPLADE-only scored 0.389 vs hybrid at 0.405, an absolute nDCG@10 gain of 0.016. In this evaluation, the generic dense signal still adds useful matches after domain-specific sparse fine-tuning.
 
 > **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
-This is a useful finding. Hybrid search isn't always better. It depends on the relative strength of your signals. If your sparse model is domain-tuned and your dense model is generic, the dense component can actively harm results.
+Both comparisons show a gain from hybrid search, but the size of that gain depends on the relative strength of the signals. Evaluate the sparse, dense, and fused results on your own data rather than assuming that fusion will always help by the same amount.
 
 ## ANCE-inspired Hard Negative Mining
 

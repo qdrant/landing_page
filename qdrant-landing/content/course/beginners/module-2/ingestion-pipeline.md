@@ -51,9 +51,21 @@ client.create_payload_index(
 
 ### Step 3: Ingest Data
 
-```python
-!pip install fastembed
+Install FastEmbed using the command for your environment.
 
+In a Jupyter/IPython notebook cell:
+
+```python
+%pip install fastembed
+```
+
+Or, in your terminal using the Python environment that will run your script:
+
+```bash
+python -m pip install fastembed
+```
+
+```python
 from qdrant_client.models import PointStruct
 from fastembed import TextEmbedding
 
