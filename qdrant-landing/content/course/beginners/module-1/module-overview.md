@@ -23,7 +23,7 @@ isLesson: true
 
 Traditional search retrieves documents by matching the words in a query to the words in an index. It's fast and still useful for precise terms, but it can miss relevant results when people express the same intent differently. In this module, you'll see how embeddings let search compare meaning, how similarity is measured, and why modern search often combines both approaches.
 
-**Follow-along code**: [Module 1 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module1.ipynb)
+**Follow-along code**: [Module 1 notebook](https://github.com/qdrant/examples/blob/master/beginners-course/Module1.ipynb)
 
 #### Overview
 
@@ -49,7 +49,7 @@ meaning sits to related and unrelated phrases.
 
 ### Before You Start
 
-To run the code locally, use Python 3.9 or later and install the dependencies:
+To run the code locally, use Python 3.11 or later, as required in Module 0, and install the dependencies:
 
 ```bash
 pip install fastembed numpy
