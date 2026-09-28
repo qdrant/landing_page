@@ -1,0 +1,187 @@
+/* retrieval-pipeline island. Scoped under .qi-rp. Controls/frame come from
+   the shared island design system (islands.scss); this file styles the
+   stage boxes, wires, and the compact/full label swap.
+
+   Three stage roles, each with a light/dark pair. "win" (prefetches) reuses
+   the tone already used for measured-improvement charts; "accent" (fusion)
+   is Qdrant red; "cat1" (reranker, optional/dashed) is the neon-blue-violet
+   categorical token. Dark values keep the same hue family, lifted so they
+   read on the dark surface instead of white. */
+
+.qi-rp {
+  --rp-win-fill: #c0f0f0;
+  --rp-win-stroke: #038585;
+  --rp-win-text: #004f4f;
+  --rp-accent-fill: #ffdadb;
+  --rp-accent-stroke: #dc244c;
+  --rp-accent-text: #91012a;
+  --rp-cat1-stroke: #6047ff;
+  --rp-cat1-text: #5700c9;
+  --rp-wire: #303547;
+
+  display: block;
+  /* The compact/full swap below reacts to how much room THIS component
+     actually has, not the viewport. The documentation layout is not
+     monotonic in viewport width: at some desktop widths (roughly 1150-1400px
+     window, where the left nav and right table-of-contents sidebars are both
+     present) the content column is narrower than it is at some in-between
+     widths, and narrower than the column at typical phone widths relative to
+     their own viewport. A viewport media query can't see that; a container
+     query, sized to this element's own rendered width, can. */
+  container-type: inline-size;
+  container-name: qi-rp;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-rp {
+    --rp-win-fill: #0d2e2e;
+    --rp-win-stroke: #03a3a3;
+    --rp-win-text: #8fe9e9;
+    --rp-accent-fill: #3a1420;
+    --rp-accent-stroke: #ff5470;
+    --rp-accent-text: #ffabb9;
+    --rp-cat1-stroke: #9d8bff;
+    --rp-cat1-text: #cabdff;
+    --rp-wire: #e2e7f5;
+  }
+}
+html[data-theme='dark'] .qi-rp {
+  --rp-win-fill: #0d2e2e;
+  --rp-win-stroke: #03a3a3;
+  --rp-win-text: #8fe9e9;
+  --rp-accent-fill: #3a1420;
+  --rp-accent-stroke: #ff5470;
+  --rp-accent-text: #ffabb9;
+  --rp-cat1-stroke: #9d8bff;
+  --rp-cat1-text: #cabdff;
+  --rp-wire: #e2e7f5;
+}
+
+.qi-rp__fig {
+  position: relative;
+}
+
+.qi-rp__box--win {
+  stroke: var(--rp-win-stroke);
+  stroke-width: 1.5;
+}
+.qi-rp__box--accent {
+  stroke: var(--rp-accent-stroke);
+  stroke-width: 1.5;
+}
+.qi-rp__box--cat1 {
+  stroke: var(--rp-cat1-stroke);
+  stroke-width: 2;
+}
+
+.qi-rp__name,
+.qi-rp__short {
+  font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif;
+  font-weight: 600;
+}
+.qi-rp__name {
+  font-size: 24px;
+}
+.qi-rp__knobs {
+  font-family: var(--qi-mono);
+  font-size: 21px;
+}
+.qi-rp__tag {
+  font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif;
+  font-size: 19px;
+  fill: var(--rp-cat1-text);
+}
+.qi-rp__short {
+  font-size: 42px;
+  display: none;
+}
+
+.qi-rp__name--win,
+.qi-rp__knobs--win {
+  fill: var(--rp-win-text);
+}
+.qi-rp__name--accent,
+.qi-rp__knobs--accent {
+  fill: var(--rp-accent-text);
+}
+.qi-rp__name--cat1,
+.qi-rp__knobs--cat1 {
+  fill: var(--rp-cat1-text);
+}
+.qi-rp__short--win {
+  fill: var(--rp-win-text);
+}
+.qi-rp__short--accent {
+  fill: var(--rp-accent-text);
+}
+.qi-rp__short--cat1 {
+  fill: var(--rp-cat1-text);
+}
+
+.qi-rp__wire {
+  stroke: var(--rp-wire);
+  stroke-width: 2;
+  fill: none;
+}
+.qi-rp__arrowhead {
+  fill: var(--rp-wire);
+}
+
+/* Tap targets: transparent buttons over the SVG boxes, positioned by the
+   same fractions as the boxes underneath (set inline from the viewBox). */
+.qi-rp__hits {
+  position: absolute;
+  inset: 0;
+}
+.qi-rp__hit {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: none; /* only meaningful once labels collapse, below */
+  /* Skip the ~300ms synthetic-click delay browsers otherwise add on touch. */
+  touch-action: manipulation;
+}
+.qi-rp__hit:focus-visible {
+  outline: 2px solid var(--qi-hot);
+  outline-offset: 2px;
+}
+
+/* The status line doubles as the tap-reveal target's readable output: plain
+   HTML text has no viewBox to shrink it, unlike the SVG labels above. Only
+   relevant once the hit targets are live, so it shares their breakpoint. */
+.qi-rp__status {
+  display: none;
+}
+
+/* Below ~780px of actual rendered width, the full stage name plus its
+   parameter line no longer fit legibly (viewBox is 1200 units wide, so at
+   780px that's already a 0.65 scale-down, and it only gets worse; measured
+   across the site's own breakpoints, rendered width drops as low as 622px at
+   some nominally "desktop" window sizes). Enlarging that text in place would
+   need the boxes to grow past the canvas edge, so collapse to the short
+   entity name instead, at a size that stays legible across this whole range,
+   and let a tap play the same full name and settings as text below the
+   diagram, where there is no scale-down to fight. */
+@container qi-rp (max-width: 780px) {
+  .qi-rp__name,
+  .qi-rp__knobs {
+    display: none;
+  }
+  .qi-rp__short {
+    display: block;
+  }
+  .qi-rp__tag {
+    font-size: 38px;
+  }
+  .qi-rp__wire {
+    stroke-width: 6;
+  }
+  .qi-rp__hit {
+    display: block;
+  }
+  .qi-rp__status {
+    display: block;
+  }
+}
