@@ -29,7 +29,7 @@ But as brilliant as these chatbots become, they still have **limitations** in ta
 
 While you could be more creative with your prompts, it is only a short-term solution. LLMs can consider only a **limited** amount of text in their responses, known as a context window. Current models accept hundreds of thousands of tokens, but most knowledge bases are larger than that, and every token you send adds cost and latency.
 
-![How a RAG works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
+![How a RAG system works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
 
 The image above shows how a basic RAG system works. Before forwarding the question to the LLM, we have a layer that searches our knowledge base for the "relevant knowledge" to answer the user query. Specifically, in this case, the spending data from the last month. Our LLM can now generate a **relevant non-hallucinated** response about our budget. 
 
@@ -92,7 +92,7 @@ With the top relevant chunks retrieved, it's now the generator's job to produce 
 The generator is a large language model trained on massive datasets to understand and generate human-like text. The original RAG paper ([Lewis et al., 2020](https://arxiv.org/abs/2005.11401)) used BART, a sequence-to-sequence model. Today the generator is usually an instruction-tuned LLM, and any capable model works. It takes not only the query (or question) as input but also the relevant chunks that the retriever identified as potentially containing the answer.
 
 
-![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.png)
+![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.jpg)
 
 
 The retriever and generator don't operate in isolation. The image below shows how the output of the retrieval feeds the generator to produce the final generated response.
