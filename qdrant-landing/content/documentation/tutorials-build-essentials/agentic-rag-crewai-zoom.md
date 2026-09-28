@@ -15,6 +15,7 @@ stack:
 ---
 <!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png) -->
 
+
 # Qdrant Agentic RAG System with CrewAI
 
 | Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) |
