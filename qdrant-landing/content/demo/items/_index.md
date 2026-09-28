@@ -66,4 +66,13 @@ demos:
       text: View Demo
       url: https://fraud-detection.demos.qdrant.tech
     weight: 2
+  - id: game-search
+    title: Game Search
+    description: Describe a game you half remember and find it among 95,000 titles, from Atari classics to today.
+    category: Hybrid Search
+    image: /img/demos/demo-6.png
+    link:
+      text: View Demo
+      url: https://qdrant-game-search.vercel.app/
+    weight: 7
 ---
