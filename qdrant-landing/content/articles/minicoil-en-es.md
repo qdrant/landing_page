@@ -108,7 +108,7 @@ Running community detection ([Louvain](https://arxiv.org/abs/0803.0476)) over th
 
 #### The "bajo" Problem
 
-The first attempt produced a few clusters of several hundred words, a little too many. The culprit is polysemy: Spanish *"bajo"* means *low*, *bass*, *short*, and *under*; each of those English words has its own translations, and one such word is enough to stitch dozens of weakly related terms into one giant hairball of a concept.
+Our first, uncapped attempt produced a few clusters of several hundred words, a little too many. The culprit is polysemy: Spanish *"bajo"* means *low*, *bass*, *short*, and *under*; each of those English words has its own translations, and one such word is enough to stitch dozens of weakly related terms into one giant hairball of a concept.
 
 The fix we used is not very glamorous (as anything else heuristics-, in-my-expert-opinion-it-is-ok-based):  
 MUSE lists translations in frequency order, so we keep only the **top-2 translations per source word** before building the graph. Combined with a maximum cluster size of 20, this yields about 80k clean concepts, median size 2 (a typical concept is literally just a word and its translation, like `{cat, gato}`) and 99th percentile size 9.
@@ -121,7 +121,7 @@ To verify whether the approach works, keeping 80,000 concepts and training a lay
 
 To trim the concept vocabulary, we streamed English and Spanish Wikipedia, split articles into sentences, and counted how many sentences contain each concept in each language, keeping only concepts with enough evidence on both sides. This leaves roughly 12,000 concepts with enough sentences for a per-concept head to learn to light up the right sense region of its concept, in whichever of the two languages the match comes in.
 
-For the released model we went even further and kept, out of the 12k, only the concepts that retrieval queries in [mMARCO](https://huggingface.co/datasets/unicamp-dl/mmarco) (a machine-translated version of the MS MARCO passage ranking dataset, which we also use for evaluation) actually use. When we rank concepts by how many query-word occurrences they catch, the top 2,398 grab 90% of everything the full 12k vocabulary would.  
+For the released model we went even further and kept, out of the 12k, only the concepts that retrieval queries in [mMARCO](https://huggingface.co/datasets/unicamp-dl/mmarco) `dev.small` (a machine-translated version of the MS MARCO passage ranking dataset, which we also use for evaluation) actually use. When we rank concepts by how many query-word occurrences they catch, the top 2,398 grab 90% of everything the full 12k vocabulary would.  
 
 So this [first, raw, small miniCOIL EN-ES](https://huggingface.co/Jocana/minicoil-en-es) trains only **2,398 concept heads**.
 
@@ -200,7 +200,7 @@ The final sparse vector used for retrieval is built [the same way miniCOIL v1 do
 
 1. **Tokens that don't resolve to a trained concept are weighted by the plain BM25 fallback**, which uses the same English tokenizer, stemmer, and stop words plus default parameters as FastEmbed's `Qdrant/bm25`. We reserve a separate region of the sparse vector for out-of-vocabulary (OOV) tokens.
 
-2. **We used a cheap, dirty fix of dropping the query language's own stopwords** on the query side, with documents untouched. For future experiments, we should find a way to make the BM25 fallback bilingual, not always-English: stopwords, tokenization, and stemming behave differently per language.
+2. The fallback's English stop words don't cover Spanish ones like *de* or *la*. In an English corpus these words are rare, so BM25 weights them high, and Spanish queries matched English documents on noise. **We used a cheap, dirty fix of dropping the query language's own stopwords on the query side, with documents untouched.** For future experiments, we should find a way to make the BM25 fallback bilingual, not always-English: stopwords, tokenization, and stemming behave differently per language.
 
 3. Raw `tanh` outputs, that is, the 8 values of a miniCOIL EN-ES concept block, come out much smaller than a typical BM25 word weight (their vector norm averages ~0.15), so a concept match would *lose* compared to a BM25-based match on the initial term.  
   **We normalize each concept 8D block to unit length and scale it by the BM25 weight** the initial term (part of the concept) would have had. This way, a same-sense match scores like the lexical term and a wrong-sense match is suppressed.
