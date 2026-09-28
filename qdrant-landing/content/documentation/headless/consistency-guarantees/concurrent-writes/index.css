@@ -95,11 +95,6 @@ html[data-theme='dark'] .qi-cw {
 .qi-cw__arrowhead--r {
   fill: var(--cw-r);
 }
-.qi-cw__wire-text {
-  fill: var(--cw-r);
-  font-family: var(--qi-mono);
-  font-size: 12px;
-}
 
 /* Replication links between replicas: neutral, shown only while a value
    travels along them. The traveling value is a small colored square. */

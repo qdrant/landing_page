@@ -83,12 +83,14 @@ function el(name, attrs, parent) {
 }
 const diamond = (x, y) => `${x},${y - DIA.hh} ${x + DIA.hw},${y} ${x},${y + DIA.hh} ${x - DIA.hw},${y}`;
 
-// Read riser from the junction up to a replica box, with a rounded corner.
+// Read wire from the reader up to a replica box, with rounded corners. Shown
+// only while a read is in flight.
 function riser(x) {
   const top = BOX.y + BOX.h + 6;
-  if (x === READER.x) return `M ${x} ${JUNCTION_Y} V ${top}`;
+  const start = READER.y - DIA.hh;
+  if (x === READER.x) return `M ${x} ${start} V ${top}`;
   const d = x > READER.x ? 1 : -1;
-  return `M ${READER.x} ${JUNCTION_Y} H ${x - d * 12} Q ${x} ${JUNCTION_Y} ${x} ${JUNCTION_Y - 12} V ${top}`;
+  return `M ${READER.x} ${start} V ${JUNCTION_Y + 12} Q ${READER.x} ${JUNCTION_Y} ${READER.x + d * 12} ${JUNCTION_Y} H ${x - d * 12} Q ${x} ${JUNCTION_Y} ${x} ${JUNCTION_Y - 12} V ${top}`;
 }
 
 export function mount(node) {
@@ -122,8 +124,6 @@ export function mount(node) {
     '    <g class="qi-cw__links"></g>',
     '    <g class="qi-cw__wires"></g>',
     '    <g class="qi-cw__risers"></g>',
-    `    <path class="qi-cw__wire qi-cw__wire--r is-on" d="M ${READER.x} ${READER.y - DIA.hh} V ${JUNCTION_Y}"/>`,
-    `    <text class="qi-cw__wire-text" x="${READER.x - 8}" y="${JUNCTION_Y + 20}" text-anchor="end">Reads</text>`,
     `    <polygon class="qi-cw__client qi-cw__client--a" points="${diamond(CX[0], TOP_Y)}"/>`,
     `    <text class="qi-cw__client-text qi-cw__client-text--a" x="${CX[0]}" y="${TOP_Y + 4}">Client A</text>`,
     `    <polygon class="qi-cw__client qi-cw__client--b" points="${diamond(CX[2], TOP_Y)}"/>`,
