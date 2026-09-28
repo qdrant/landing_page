@@ -1,0 +1,100 @@
+/* Memory tiers figures. Scoped under .qi-mt; chrome (fg, muted, border, line)
+   comes from the shared --qi-* tokens on .island, which already follow the
+   page theme. This file maps the figure's own colors for light and dark and
+   swaps in the stacked composition when the figure is narrower than 640px.
+   Entity hues stay constant across themes: cold is neon blue, cached purple,
+   pinned and the compressed copy cyan, danger amaranth. */
+
+.qi-mt {
+  --mt-blue: #6047ff; /* neon-blue-500 */
+  --mt-purple: #9c27b0; /* purple-500 */
+  --mt-cyan: #00838f; /* cyan-800 */
+  --mt-red: #dc244c; /* amaranth-500 */
+
+  --mt-card: #f0f3fa; /* neutral-50 */
+  --mt-inset: #ffffff;
+
+  --mt-blue-t: #c2c5ff; /* neon-blue-200 */
+  --mt-purple-t: #e1bee7; /* purple-100 */
+  --mt-cyan-t: #b2ebf2; /* cyan-100 */
+  --mt-red-t: #ffb2b7; /* amaranth-200 */
+  --mt-orange-t: #ffe0b2; /* orange-100 */
+
+  --mt-blue-ink: #392689; /* neon-blue-900 */
+  --mt-purple-ink: #6a1b9a; /* purple-800 */
+  --mt-cyan-ink: #006064; /* cyan-900 */
+  --mt-red-ink: #9e0d38; /* amaranth-800 */
+  --mt-orange-ink: #7a4100;
+
+  --mt-blue-text: #6047ff;
+  --mt-purple-text: #9c27b0;
+  --mt-cyan-text: #00838f;
+
+  display: block;
+  container-type: inline-size;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-mt {
+    --mt-card: #111824; /* neutral-900 */
+    --mt-inset: #0b0f19;
+    --mt-blue-t: #392689;
+    --mt-purple-t: #4a148c; /* purple-900 */
+    --mt-cyan-t: #006064;
+    --mt-red-t: #850d35; /* amaranth-900 */
+    --mt-orange-t: #663c00;
+    --mt-blue-ink: #c2c5ff;
+    --mt-purple-ink: #e1bee7;
+    --mt-cyan-ink: #b2ebf2;
+    --mt-red-ink: #ffb2b7;
+    --mt-orange-ink: #ffe0b2;
+    --mt-blue-text: #9494ff; /* neon-blue-300 */
+    --mt-purple-text: #ce93d8; /* purple-200 */
+    --mt-cyan-text: #4dd0e1; /* cyan-300 */
+  }
+}
+html[data-theme='dark'] .qi-mt {
+  --mt-card: #111824;
+  --mt-inset: #0b0f19;
+  --mt-blue-t: #392689;
+  --mt-purple-t: #4a148c;
+  --mt-cyan-t: #006064;
+  --mt-red-t: #850d35;
+  --mt-orange-t: #663c00;
+  --mt-blue-ink: #c2c5ff;
+  --mt-purple-ink: #e1bee7;
+  --mt-cyan-ink: #b2ebf2;
+  --mt-red-ink: #ffb2b7;
+  --mt-orange-ink: #ffe0b2;
+  --mt-blue-text: #9494ff;
+  --mt-purple-text: #ce93d8;
+  --mt-cyan-text: #4dd0e1;
+}
+
+.qi-mt text {
+  font-family: var(--qi-mono);
+  fill: var(--qi-fg);
+}
+.qi-mt .mt-title { font-size: 23px; font-weight: 600; }
+.qi-mt .mt-head { font-size: 21px; font-weight: 600; }
+.qi-mt .mt-label { font-size: 21px; }
+.qi-mt .mt-small { font-size: 20px; }
+.qi-mt .mt-note { font-size: 19px; fill: var(--qi-muted); }
+.qi-mt .mt-muted { fill: var(--qi-muted); }
+.qi-mt .mt-axis { stroke: var(--qi-line); stroke-width: 1.5; fill: none; }
+
+/* Desktop drawing by default; the stacked one below 640px of figure width,
+   where the desktop text would drop under 13px. */
+.qi-mt__m {
+  display: none;
+}
+@container (max-width: 640px) {
+  .qi-mt__d {
+    display: none;
+  }
+  .qi-mt__m {
+    display: block;
+    max-width: 520px;
+    margin-inline: auto;
+  }
+}
