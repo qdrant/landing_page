@@ -1,0 +1,34 @@
+/* idle-cost-tradeoff island. Scoped under .qi-ic. Reproduces the original
+   figure's two-region quadrant, tinted with the shared island tokens. */
+
+.qi-ic {
+  --ic-gpu-fill: color-mix(in srgb, var(--qi-cat-3) 14%, transparent);
+  --ic-scale-fill: color-mix(in srgb, var(--qi-cat-1) 10%, transparent);
+  display: block;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 14px;
+}
+
+.ic-region--gpu {
+  fill: var(--ic-gpu-fill);
+}
+.ic-region--scale {
+  fill: var(--ic-scale-fill);
+}
+.ic-plot-border {
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.ic-diagonal {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+.ic-region-title {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}

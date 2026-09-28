@@ -1,0 +1,18 @@
+/* query-contention island. Scoped under .qi-qc. */
+
+.qi-qc {
+  --qc-index: var(--qi-cat-2);
+  --qc-query: var(--qi-cat-1);
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.qc-seg--index {
+  fill: var(--qc-index);
+}
+.qc-seg--query {
+  fill: var(--qc-query);
+}
