@@ -58,6 +58,9 @@ html[data-theme='dark'] .qi-rp {
 
 .qi-rp__fig {
   position: relative;
+  padding: 1rem;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
 }
 
 .qi-rp__box--win {
