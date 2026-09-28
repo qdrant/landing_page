@@ -24,16 +24,16 @@ Our [miniCOIL v1](https://qdrant.tech/articles/minicoil/) sparse neural retrieve
 Here is the next "in-width" step of the miniCOIL saga: to try and cross the language barrier, that is, make the model suitable for multilingual retrieval.  
 It's a fun challenge, as sparse retrievers are hard to adapt to this scenario: exact matching in cross-lingual text search usually means translation.
 
-Together with the team at [Pento](https://pento.ai), we came up with **miniCOIL EN-ES**: a bilingual sparse neural retriever where *"dog"* and *"perro"* land in the same cells of a sparse vector, *cells representing one concept*. This way, one inverted index serves English and Spanish queries and documents alike, no translation step in between.
+Together with the team at [Pento](https://pento.ai), we came up with **miniCOIL EN-ES**: a bilingual sparse neural retriever where *"home"* and *"casa"* land in the same cells of a sparse vector, *cells representing one concept*. This way, one inverted index serves English and Spanish queries and documents alike, no translation step in between.
 
-{{< figure src="/articles_data/minicoil-en-es/00-hero-shared-slot.png" alt="miniCOIL EN-ES: the English word dog and the Spanish word perro both write into the same block of cells in one sparse vector." caption="miniCOIL EN-ES: \"dog\" and \"perro\" land in the same slot of a sparse vector." width="90%" >}}
+{{< figure src="/articles_data/minicoil-en-es/00-hero-shared-slot.png" alt="miniCOIL EN-ES: the English word home and the Spanish word casa both write into the same block of cells in one sparse vector." caption="miniCOIL EN-ES: \"home\" and \"casa\" land in the same slot of a sparse vector." width="90%" >}}
 
 We're sharing the design and a first set of results.  
 We'd love your feedback: whether you'd use something of the kind, whether the approach works for you. If so, we'd scale the model's vocabulary and training, and let's see what comes next: the idea is easily transferable to other languages.
 
 ## Same Word, Different Language
 
-Word-based sparse retrieval has a limitation that no amount of relevance-based weighting alone can fix: it is based on matching exact terms: *"dog"* and *"perro"* mean the same thing, but to BM25 and co. they don't: they are two different tokens in two different postings lists.
+Word-based sparse retrieval has a limitation that no amount of relevance-based weighting alone can fix: it is based on matching exact terms: *"bat"* and *"murciélago"* can mean the same thing, but to BM25 and co. they don't: they are two different tokens in two different postings lists.
 
 #### Translate, Then Search
 
@@ -53,28 +53,30 @@ We want cross-lingual matching with no translation step and no reliance on dense
 
 Instead, we want to reuse the miniCOIL recipe: keep BM25's reliable signals, a word's importance in the document (term frequency, normalized by document length) and its rarity across the corpus (IDF), and throw on top a small learned component that adds a word's meaning-in-the-context.  
 
-However, in [miniCOIL v1](https://qdrant.tech/articles/minicoil/), the unit of the vocabulary is the English word: there's no cell in a miniCOIL v1 sparse vector for *"perro"*, and if there were, it wouldn't be the same cell as *"dog"*.
+However, in [miniCOIL v1](https://qdrant.tech/articles/minicoil/), the unit of the vocabulary is the English word: there's no cell in a miniCOIL v1 sparse vector for *"murciélago"*, and if there were, it wouldn't be the same cell as *"bat"*.
 
 So the question that defined the next edition of the miniCOIL saga, "miniCOIL EN-ES", was: **what should a sparse slot represent, if not a word?**
 
 ## From Words to Concepts
 
-That's how a concept of a **concept** was born (*applause*): a small set of English and Spanish words that translate to each other, such as `{cat, gato}` or `{house, home, casa, hogar}`.
+That's how a concept of a **concept** was born (*applause*): a small set of English and Spanish words that translate to each other, such as `{cat, gato}` or `{bat, murciélago, bate}`.
 
-> Concepts are not specific to English and Spanish; the approach is transferable to other languages. More about this further in the article.
+> Concepts are not specific to English and Spanish; the approach is transferable to other languages.
 
 #### One Slot per Concept
 
 While in miniCOIL v1, every English word in a 30k vocabulary got its own trainable layer-model and its own 4 consecutive cells-dimensions in the sparse vector, in miniCOIL EN-ES, every *concept* gets one trainable **head** in a similar manner.
 
-When an English document says *"dog"* and a Spanish query says *"perro"*, both resolve to the same concept ID, both are projected by the same head, and both write into the same block of the sparse vector (in this model, 8 consecutive dimensions).  
+When an English document says *"bat"* and a Spanish query says *"murciélago"*, both resolve to the same concept ID, both are projected by the same head, and both write into the same block of the sparse vector (in this model, 8 consecutive dimensions).  
 That allows for both mono- and cross-lingual matching simultaneously, and still keeps miniCOIL's ability to resolve meaning-in-the-context.
 
-{{< figure src="/articles_data/minicoil-en-es/01-concept-slots.png" alt="Two sparse vectors compared: miniCOIL v1 writes the English word dog into a 4-cell block; miniCOIL EN-ES writes the concept {dog, perro} into a shared 8-cell block. Both vectors keep a one-cell BM25 fallback for out-of-vocabulary words." caption="One slot per concept: in miniCOIL EN-ES \"dog\" and \"perro\" resolve to the same concept, and unresolved words fall back to BM25." width="90%" >}}
+{{< island path="content/headless/minicoil-en-es/slots-word" width="90%" ratio="17 / 10" title="One slot per concept: in miniCOIL EN-ES, \"bat\", \"murciélago\", and \"bate\" write into the same cells, and the values follow the sense; unresolved words fall back to BM25." >}}
+![Two sparse vectors compared for "Dracula's bat": miniCOIL v1 writes the English word bat into a 4-cell block; miniCOIL EN-ES writes the concept {bat, murciélago, bate} into a shared 8-cell block. In both, the out-of-vocabulary word Dracula falls back to one BM25 cell.](/articles_data/minicoil-en-es/01-concept-slots.png)
+{{< /island >}}
 
 #### Standing on the Shoulders of BM25, Again (We Got Comfortable)
 
-*At this point, we're jumping on these shoulders with the comfort of a clingy toddler*
+*At this point, we're jumping on these shoulders with the comfort of a clingy toddler.*
 
 The scoring formula between sparse miniCOIL EN-ES vectors copy-cats the miniCOIL v1 approach. For every concept $c_i$ the query words map to, we look for documents whose words map to the same concept, in whichever language the document is written:
 
@@ -82,7 +84,7 @@ $$ \text{score}(D,Q) = \sum_{c_i \in \text{concepts}(Q)} \text{IDF}(c_i) \cdot \
 
 Here $c_i(Q)$ and $c_i(D)$ are the query's and the document's vectors for concept $c_i$; if several words of one text map to the same concept, they are pooled into a single vector before scoring.
 
-- The **Importance** component is the BM25 term weight the concept occurrence gets (*k, avg_len and b should be adjusted according to corpus statistics on concepts; however, consider this version with usual defaults a miniCOIL-EN-ES-let's-check-how-it-goes*).
+- The **Importance** component is the BM25 term weight the concept occurrence gets (*k, avg_len, and b should be adjusted according to corpus statistics on concepts; however, consider this version with usual defaults a miniCOIL-EN-ES-let's-check-how-it-goes*).
 - The **Meaning** component is the dot product of two low-dimensional (eight for this model) miniCOIL vectors, as in v1.
 
 > **Note:** The BM25 formula is suitable not only for words: the probabilistic relevance framework behind it states *"the model is not restricted to terms and term frequencies — any property, attribute or feature of the document, or of the document–query pair, which we reasonably expect to provide some evidence as to relevance, may be included"* ([Robertson & Zaragoza, 2009](https://www.staff.city.ac.uk/~sbrp622/papers/foundations_bm25_review.pdf), Section 2.4).
@@ -101,12 +103,12 @@ Before we can train a head per concept, we need concepts themselves, a vocabular
 To build the concept vocabulary we use the [MUSE bilingual dictionaries](https://github.com/facebookresearch/MUSE): about 112k English-to-Spanish and a same-ish amount of Spanish-to-English pairs. Each pair is an edge in a bipartite graph, English and Spanish words on the two sides, and a concept is a tightly connected community in that graph.
 
 Running community detection ([Louvain](https://arxiv.org/abs/0803.0476)) over the aforementioned dictionary graph gives us candidate concept clusters:
-* We keep only clusters that contain at least one word in both languages. 
+* We keep only clusters that contain at least one word in each language. 
 * We also cap cluster size: Louvain's resolution parameter controls how granular the communities are (higher resolution favors smaller, tighter ones), so on any cluster that grows too large we re-run Louvain with the resolution bumped up, until the concept's word count fits under the cap.
 
 #### The "bajo" Problem
 
-The first attempt produced a few clusters of several hundred words, a little too many. The culprit is polysemy: Spanish *"bajo"* means *low*, *bass*, *short* and *under*; each of those English words has its own translations, and one such word is enough to stitch dozens of weakly related terms into one giant hairball of a concept.
+The first attempt produced a few clusters of several hundred words, a little too many. The culprit is polysemy: Spanish *"bajo"* means *low*, *bass*, *short*, and *under*; each of those English words has its own translations, and one such word is enough to stitch dozens of weakly related terms into one giant hairball of a concept.
 
 The fix we used is not very glamorous (as anything else heuristics-, in-my-expert-opinion-it-is-ok-based):  
 MUSE lists translations in frequency order, so we keep only the **top-2 translations per source word** before building the graph. Combined with a maximum cluster size of 20, this yields about 80k clean concepts, median size 2 (a typical concept is literally just a word and its translation, like `{cat, gato}`) and 99th percentile size 9.
@@ -119,7 +121,7 @@ To verify whether the approach works, keeping 80,000 concepts and training a lay
 
 To trim the concept vocabulary, we streamed English and Spanish Wikipedia, split articles into sentences, and counted how many sentences contain each concept in each language, keeping only concepts with enough evidence on both sides. This leaves roughly 12,000 concepts with enough sentences for a per-concept head to learn to light up the right sense region of its concept, in whichever of the two languages the match comes in.
 
-For the released model we went even further and kept, out of the 12k, only the concepts that retrieval queries in [mMARCO](https://huggingface.co/datasets/unicamp-dl/mmarco) (a machine-translated version of the MS MARCO passage ranking dataset, which we also use for evaluation) actually use. Ranking concepts by how many query-word occurrences they catch, the top 2,398 concepts grab 90% of everything the full 12k vocabulary would.  
+For the released model we went even further and kept, out of the 12k, only the concepts that retrieval queries in [mMARCO](https://huggingface.co/datasets/unicamp-dl/mmarco) (a machine-translated version of the MS MARCO passage ranking dataset, which we also use for evaluation) actually use. When we rank concepts by how many query-word occurrences they catch, the top 2,398 grab 90% of everything the full 12k vocabulary would.  
 
 So this [first, raw, small miniCOIL EN-ES](https://huggingface.co/Jocana/minicoil-en-es) trains only **2,398 concept heads**.
 
@@ -140,14 +142,14 @@ Each miniCOIL EN-ES head is consequently a `384 -> 8` projection: 3,072 weights 
 
 The v1 model trained on triplets: an anchor sentence containing the word, one positive sentence with this word in the same meaning and one negative sentence, where the same word has a different meaning. And the teacher encoder decides which of the two sits closer to the anchor.
 
-Keep that objective unchanged in a bilingual setting, and nothing in it forces the two languages to mix: most sampled triplets are same-language, so a head can drive the loss to zero by arranging English sentences among English ones and Spanish among Spanish, as two separate regions. This way, *"dog"* sentences still never land near *"perro"* ones.
+Keep that objective unchanged in a bilingual setting, and nothing in it forces the two languages to mix: most sampled triplets are same-language, so a head can drive the loss to zero by arranging English sentences among English ones and Spanish among Spanish, as two separate regions. This way, *"bat"* sentences still never land near *"murciélago"* ones.
 
 So instead we decided to sample **five points** (quintuplets!) per training example, covering four quadrants. The following example uses the concept `{award, prize, premio, galardón}`:
 
 | Quadrant | Loss term | Example | Teaches |
 | --- | --- | --- | --- |
-| Same language, similar | `sl_pos` | *"won the Nobel prize"* ~ *"received an award for research"* | collapse same sense within a language |
-| Same language, dissimilar | `sl_neg` | *"won the Nobel prize"* vs *"the bounty was claimed"* | separate senses within a language |
+| Same language, similar | `sl_pos` | *"won the Nobel prize"* ~ *"received an award for her research"* | collapse same sense within a language |
+| Same language, dissimilar | `sl_neg` | *"won the Nobel prize"* vs *"the bounty was claimed by the hunters"* | separate senses within a language |
 | Cross language, similar | `xl_pos` | *"won the Nobel prize"* ~ *"ganó el premio Nobel"* | align equivalent meanings across languages |
 | Cross language, dissimilar | `xl_neg` | *"won the Nobel prize"* vs *"recompensa por su captura"* | separate senses across languages |
 
@@ -196,23 +198,23 @@ Obtaining per-concept mini-vectors is only halfway to multilingual sparse neural
 
 The final sparse vector used for retrieval is built [the same way miniCOIL v1 does it](https://qdrant.tech/articles/minicoil/#bag-of-words-in-4d), with the littlest possible additional tweaks coming from the multilingual setting:
 
-1. **Tokens that don't resolve to a trained concept are weighted by the plain BM25 fallback**, which uses the same English tokenizer, stemmer and stop words plus default parameters as FastEmbed's `Qdrant/bm25`. We reserve a separate region of the sparse vector for OOV tokens.
+1. **Tokens that don't resolve to a trained concept are weighted by the plain BM25 fallback**, which uses the same English tokenizer, stemmer, and stop words plus default parameters as FastEmbed's `Qdrant/bm25`. We reserve a separate region of the sparse vector for out-of-vocabulary (OOV) tokens.
 
-2. **We used a cheap, dirty fix of dropping the query language's own stopwords** on the query side, with documents untouched. For future experiments, we should find a way to make the BM25 fallback bilingual, not always-English: stopwords, tokenization and stemming behave differently per language.
+2. **We used a cheap, dirty fix of dropping the query language's own stopwords** on the query side, with documents untouched. For future experiments, we should find a way to make the BM25 fallback bilingual, not always-English: stopwords, tokenization, and stemming behave differently per language.
 
 3. Raw `tanh` outputs, that is, the 8 values of a miniCOIL EN-ES concept block, come out much smaller than a typical BM25 word weight (their vector norm averages ~0.15), so a concept match would *lose* compared to a BM25-based match on the initial term.  
   **We normalize each concept 8D block to unit length and scale it by the BM25 weight** the initial term (part of the concept) would have had. This way, a same-sense match scores like the lexical term and a wrong-sense match is suppressed.
 
 #### Matching Every Word Form
 
-The concept vocabulary is built from dictionary forms of words, so plurals and conjugations like *"gatos"*, *"injections"* and *"corrieron"* in the encoded-for-retrieval text won't find their concept by exact lookup.
+The concept vocabulary is built from dictionary forms of words, so plurals and conjugations like *"gatos"*, *"injections"*, and *"corrieron"* in the encoded-for-retrieval text won't find their concept by exact lookup.
 
 We added a lemmatizer fallback ([simplemma](https://github.com/adbar/simplemma)): only when a token itself is not in the vocabulary, we look up its lemma instead (*"gatos"* → *"gato"* → concept found).
 
 The lemmatizer fallback is gated by stopword lists, checked for both the token and its lemma.  
 Without that gate, auxiliary verbs would sneak into concepts through their lemmas (*is/are → be*, *es → ser*), and since `{be, ser, estar}` is itself a concept in the vocabulary, that one near-stopword concept would fire on almost every sentence in the index.
 
-On our validation split, turning the lemmatizer fallback on buys roughly +0.01 MRR@10 in every retrieval direction, most in Spanish and cross-lingual, while recall stays put: it doesn't retrieve more, it lets the concept heads score passages that were already being found. It is on by default in the published model, and all results that follow use it.
+On our validation split, turning the lemmatizer fallback on buys roughly +0.01 MRR@10 (mean reciprocal rank of the first relevant passage in the top 10) in every retrieval direction, most in Spanish and cross-lingual, while recall stays put: it doesn't retrieve more, it lets the concept heads score passages that were already being found. It is on by default in the published model, and all results that follow use it.
 
 ## Results
 
@@ -221,7 +223,7 @@ The published checkpoint is at [Jocana/minicoil-en-es](https://huggingface.co/Jo
 #### Eval Setup
 
 We check our intuition that the model turned out to be useful on [mMARCO](https://huggingface.co/datasets/unicamp-dl/mmarco), the machine-translated MS MARCO passage ranking collection, using its English and Spanish versions.  
-As the same query and passage IDs exist in both languages, we can test all four retrieval directions: **EN→EN**, **ES→ES**, **EN→ES** and **ES→EN**.
+As the same query and passage IDs exist in both languages, we can test all four retrieval directions: **EN→EN**, **ES→ES**, **EN→ES**, and **ES→EN**.
 
 The corpus is the judged `dev.small` passage pool: when we get test queries and their relevance judgments for a language, we index just the ~7.5k passages those judgments point to, not the full 8.8M-passage collection, to speed up the evaluation.  
 Every query's relevant passage is present in the corpus by construction; the task is to rank it above the other queries' passages.
@@ -252,7 +254,7 @@ MRR@10 and nDCG@10 for ranking quality, and Recall@100 for retrieval breadth.
 | ES→ES | BM25 | 0.809 | 0.830 | 0.968 |
 | ES→ES | miniCOIL EN-ES | **0.840** | **0.861** | **0.988** |
 
-In English the gains are of the same modest size v1 showed on BEIR: the model lands within 0.004 of v1 itself, carrying 2,398 concepts instead of v1's 30,000 words.
+In English the gains are of the same modest size [v1 showed on the BEIR benchmark](https://qdrant.tech/articles/minicoil/#benchmarking): the model lands within 0.004 of v1 itself, carrying 2,398 concepts instead of v1's 30,000 words.
 
 In Spanish the gains are slightly larger: Spanish is rich in word forms, so lemma-aware concept matching recovers matches that stemming misses.  
 Gains could be even larger: while the BM25 ES→ES baseline is configured with Spanish in mind, miniCOIL's current BM25 fallback is inflexible, processing any input with an English stemmer, which makes it only suitable for matching named entities or numbers. A per-language fallback could improve the metrics.
@@ -268,7 +270,7 @@ Gains could be even larger: while the BM25 ES→ES baseline is configured with S
 
 miniCOIL EN-ES trails translate-then-BM25 on top-10 ranking in both cross-lingual directions; however, Recall@100 goes the other way in both: the concept mechanism finds the relevant passages across the language border, while translated exact matching orders the top better.
 
-However, two caveats make this result look like a desirable one: translate-then-BM25 has to use a translation model in the hot path of every query, while miniCOIL EN-ES retrieves cross-lingually from one index, no translation needed, on a heavily pruned concept vocabulary.  
+Two considerations put this result in a better light: translate-then-BM25 has to use a translation model in the hot path of every query, while miniCOIL EN-ES retrieves cross-lingually from one index, no translation needed, on a heavily pruned concept vocabulary.  
 Moreover, current miniCOIL EN-ES's own BM25 fallback runs the English stemmer on all inputs, Spanish included, so part of its gap is a configuration debt.
 
 ## Takeaways
@@ -290,7 +292,7 @@ We stayed loyal to certain features of the miniCOIL approach:
 
 * **More concepts.** Train the remaining 10k heads of the pruned vocabulary.
 * **But refine them.** Split noisy many-disconnected-words clusters, so wrong senses don't inject ranking noise into the top.
-* **More training data.** Expand the training set and go beyond Wikipedia, so every concept head sees more sentences, more registers and more domains. The rarer concepts in the tail of the concept vocabulary need this to have enough evidence to be trained.
+* **More training data.** Expand the training set and go beyond Wikipedia, so every concept head sees more sentences, more registers, and more domains. The rarer concepts in the tail of the concept vocabulary need this to have enough evidence to be trained.
 * **Train on lemmas.** Use the same token → lemma → concept path at training time that inference uses, so concept heads learn on the various word forms.
 * **Figure out multilingual BM25 fallback.** Figure out how to manage language-aware stopwords and stemming in the BM25 fallback, and how to correctly propagate concept statistics to BM25 parameters (k, b, avg_len).
 

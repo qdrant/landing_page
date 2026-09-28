@@ -1,0 +1,148 @@
+/* slots-word island. Scoped under .qi-sw. Controls, status and frame come from
+   the shared island design system (islands.scss); this file styles only the
+   vector cells, brackets and labels, on a light card that matches the static
+   figures in both page themes. */
+
+.qi-sw {
+  /* A self-contained light card, identical to the static figures in both page
+     themes: the island's own surface, with the light values of the shared
+     tokens pinned on its root (values from _qi-tokens.scss, qi-light-tokens). */
+  --qi-fg: #303547;
+  --qi-muted: #656b7f;
+  --qi-surface: #f0f3fa;
+  --qi-border: #d3d9eb;
+  --qi-line: #abb1c7;
+  --qi-hot: #303547;
+
+  --sw-word-fill: #b2ebf2; /* cyan-100 */
+  --sw-word-line: #006064; /* cyan-900 */
+  --sw-concept-fill: #f3e5f5; /* purple-50, as in the static figure */
+  --sw-concept-line: #9c27b0; /* purple-500 */
+  --sw-oov-fill: #e2e7f5; /* neutral-100, the static figure's BM25 cell */
+  --sw-oov-line: #303547; /* neutral-800 */
+
+  display: block;
+  box-sizing: border-box; /* padding inside the island's width, never wider than its slot */
+  padding: 18px 20px;
+  border-radius: 6px;
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+}
+
+.qi-sw__tag {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.qi-sw__cell {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  transition: fill 0.25s ease, stroke 0.25s ease;
+}
+.qi-sw__cell--word {
+  fill: var(--sw-word-fill);
+  stroke: var(--sw-word-line);
+  stroke-width: 2.5;
+}
+.qi-sw__cell--concept {
+  fill: var(--sw-concept-fill);
+  stroke: var(--sw-concept-line);
+  stroke-width: 2.5;
+}
+.qi-sw__cell--fallback {
+  fill: var(--sw-oov-fill);
+  stroke: var(--sw-oov-line);
+  stroke-width: 2.5;
+}
+
+.qi-sw__val {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-sw__bracket {
+  fill: none;
+  stroke-width: 2;
+}
+.qi-sw__bracket--word {
+  stroke: var(--sw-word-line);
+}
+.qi-sw__bracket--concept {
+  stroke: var(--sw-concept-line);
+}
+.qi-sw__bracket--fallback {
+  stroke: var(--qi-fg);
+}
+
+.qi-sw__label {
+  font-family: var(--qi-mono);
+  font-size: 15px;
+}
+.qi-sw__label--word {
+  fill: var(--sw-word-line);
+}
+.qi-sw__label--concept {
+  fill: var(--sw-concept-line);
+}
+.qi-sw__label--fallback {
+  fill: var(--qi-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-sw__cell {
+    transition: none;
+  }
+}
+
+/* The far part of the vector, compressed into thin slivers between two "…":
+   faint when empty, colored when another slot of the same text lights them. */
+.qi-sw__sliver {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  transition: fill 0.25s ease, stroke 0.25s ease;
+}
+.qi-sw__sliver--word {
+  fill: var(--sw-word-fill);
+  stroke: var(--sw-word-line);
+  stroke-width: 1.5;
+}
+.qi-sw__sliver--concept {
+  fill: var(--sw-concept-fill);
+  stroke: var(--sw-concept-line);
+  stroke-width: 1.5;
+}
+.qi-sw__dots {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+}
+
+/* Controls on the light card: white chips with a visible outline; the selected
+   one is filled, so the current choice reads at a glance. */
+.qi-sw .qi-chip {
+  background: #ffffff;
+  border-color: var(--qi-line);
+  color: var(--qi-fg);
+}
+.qi-sw .qi-chip:hover:not(:disabled) {
+  border-color: var(--qi-fg);
+}
+.qi-sw .qi-chip[aria-pressed='true'] {
+  background: var(--qi-fg);
+  border-color: var(--qi-fg);
+  color: #ffffff;
+}
+
+/* Screen-reader-only narration of the selected use. */
+.qi-sw__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
