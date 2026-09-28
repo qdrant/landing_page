@@ -27,7 +27,7 @@ Language models have exploded on the internet ever since ChatGPT came out, and r
 
 But as brilliant as these chatbots become, they still have **limitations** in tasks requiring external knowledge and factual information. Yes, it can describe the honeybee's waggle dance in excruciating detail. But they become far more valuable if they can generate insights from **any data** that we provide, rather than just their original training data. Since retraining those large language models from scratch costs millions of dollars and takes months, we need better ways to give our existing LLMs access to our custom data.
 
-While you could be more creative with your prompts, it is only a short-term solution. LLMs can consider only a **limited** amount of text in their responses, known as a [context window](https://www.hopsworks.ai/dictionary/context-window-for-llms). Current models accept hundreds of thousands of tokens, but most knowledge bases are larger than that, and every token you send adds cost and latency.
+While you could be more creative with your prompts, it is only a short-term solution. LLMs can consider only a **limited** amount of text in their responses, known as a context window. Current models accept hundreds of thousands of tokens, but most knowledge bases are larger than that, and every token you send adds cost and latency.
 
 ![How a RAG works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
 
@@ -49,80 +49,40 @@ At its core, a RAG architecture includes the **retriever** and the **generator**
 
 ### The Retriever
 
-When you ask a question to the retriever, it uses **similarity search** to scan through a vast knowledge base of vector embeddings. It then pulls out the most **relevant** vectors to help answer that query. There are a few different techniques it can use to know what’s relevant:
+The retriever finds the chunks of your knowledge base that are most relevant to the question. It works in two phases: indexing your data ahead of time, and searching it when a question arrives.
 
 
 #### How indexing works in RAG retrievers
 
-The indexing process organizes the data into your vector database in a way that makes it easily searchable. This allows the RAG to access relevant information when responding to a query.
+Indexing turns your documents into vectors that Qdrant can search. A _loader_ gathers the documents, a _splitter_ cuts them into chunks such as paragraphs, and an embedding model converts each chunk into a [vector embedding](/articles/what-are-embeddings/). Qdrant stores each vector together with the text it came from.
 
 ![How indexing works](/articles_data/what-is-rag-in-ai/how-indexing-works.jpg)
-
-As shown in the image above, here’s the process:
-
-
-
-* Start with a _loader_ that gathers _documents_ containing your data. These documents could be anything from articles and books to web pages and social media posts. 
-* Next, a _splitter_ divides the documents into smaller chunks, typically sentences or paragraphs. 
-* This is because RAG models work better with smaller pieces of text. In the diagram, these are _document snippets_.
-* Each text chunk is then fed into an _embedding machine_. This machine uses complex algorithms to convert the text into [vector embeddings](/articles/what-are-embeddings/).
-
-All the generated vector embeddings are stored in a knowledge base of indexed information. This supports efficient retrieval of similar pieces of information when needed.
 
 
 #### Query vectorization
 
-Once you have vectorized your knowledge base you can do the same to the user query. When the model sees a new query, it uses the same preprocessing and embedding techniques. This ensures that the query vector is compatible with the document vectors in the index.
+When a question arrives, the retriever embeds it with the same model it used for the chunks, so the query vector and the chunk vectors can be compared directly.
 
 ![How retrieval works](/articles_data/what-is-rag-in-ai/how-retrieval-works.jpg)
 
 #### Retrieval of relevant documents
 
-When the system needs to find the most relevant documents or passages to answer a query, it utilizes vector similarity techniques. **Vector similarity** is a fundamental concept in machine learning and natural language processing (NLP) that quantifies the resemblance between vectors, which are mathematical representations of data points.
-
-The system can employ different vector similarity strategies depending on the type of vectors used to represent the data:
+Qdrant then returns the chunks whose vectors are closest to the query vector. What "closest" means depends on the type of vector.
 
 
 ##### Sparse vector representations
 
-A sparse vector is characterized by a high dimensionality, with most of its elements being zero.
-
-The classic approach is **keyword search**, which scans documents for the exact words or phrases in the query. The search creates sparse vector representations of documents by counting word occurrences and inversely weighting common words. Queries with rarer words get prioritized.
-
-
-![Sparse vector representation](/articles_data/what-is-rag-in-ai/sparse-vectors.jpg)
-
-
-[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) are two classic related algorithms. They're simple and computationally efficient. However, they can struggle with synonyms and don't always capture semantic similarities.
-
-If you’re interested in going deeper, refer to our article on [Sparse Vectors](/articles/sparse-vectors/).
+Sparse vectors have one dimension per term in the vocabulary, and most of their values are zero. Keyword methods such as [BM25](/documentation/search/text-search/full-text-search/#bm25) produce them, and Qdrant supports BM25 natively. They match exact terms well but miss synonyms. [Sparse Vectors](/articles/sparse-vectors/) explains how learned models such as SPLADE improve on this.
 
 
 ##### Dense vector embeddings
 
-This approach uses large language models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) to encode the query and passages into dense vector embeddings. These models are compact numerical representations that capture semantic meaning. Vector databases like Qdrant store these embeddings, allowing retrieval based on **semantic similarity** rather than just keywords using distance metrics like cosine similarity.
-
-This allows the retriever to match based on semantic understanding rather than just keywords. So if I ask about "compounds that cause BO," it can retrieve relevant info about "molecules that create body odor" even if those exact words weren't used. We explain more about it in our [What are Vector Embeddings](/articles/what-are-embeddings/) article.
+Dense vectors come from embedding models, often built on transformer encoders such as BERT. They capture meaning rather than exact words, so a question about "compounds that cause BO" can match a chunk about "molecules that create body odor". [Vector Embeddings Explained](/articles/what-are-embeddings/#creating-vector-embeddings) shows how models like BERT produce them.
 
 
-#### Hybrid search 
+#### Hybrid search
 
-However, neither keyword search nor vector search are always perfect. Keyword search may miss relevant information expressed differently, while vector search can sometimes struggle with specificity or neglect important statistical word patterns. Hybrid methods aim to combine the strengths of different techniques.
-
-
-![Hybrid search overview](/articles_data/what-is-rag-in-ai/hybrid-search.jpg)
-
-
-Some common hybrid approaches include:
-
-
-
-* Using keyword search to get an initial set of candidate documents. Next, the documents are re-ranked/re-scored using semantic vector representations.
-* Starting with semantic vectors to find generally topically relevant documents. Next, the documents are filtered/re-ranked e based on keyword matches or other metadata.
-* Considering both semantic vector closeness and statistical keyword patterns/weights in a combined scoring model.
-* Having multiple stages were different techniques. One example: start with an initial keyword retrieval, followed by semantic re-ranking, then a final re-ranking using even more complex models.
-
-When you combine the powers of different search methods in a complementary way, you can provide higher quality, more comprehensive results. Check out our article on [Hybrid Search](/documentation/search-tuning/hybrid-search/) if you’d like to learn more.
+Keyword matching and semantic matching fail in different places, so many RAG systems use both. In Qdrant, a single query can retrieve candidates with sparse and dense vectors and then fuse or rerank them. [Hybrid Search in Qdrant](/documentation/search-tuning/hybrid-search/) explains the options.
 
 
 ### The Generator
