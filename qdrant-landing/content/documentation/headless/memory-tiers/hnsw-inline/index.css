@@ -32,6 +32,11 @@
 
   display: block;
   container-type: inline-size;
+  /* A frame, so the figure reads as a unit next to the prose. The fallback
+     PNG carries its own. */
+  padding: 20px 24px;
+  border: 1px solid var(--qi-line);
+  border-radius: 12px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,4 +102,10 @@ html[data-theme='dark'] .qi-mt {
     max-width: 520px;
     margin-inline: auto;
   }
+}
+
+/* More room between the figures and the surrounding prose than the shared
+   1.5rem: these sit on the page background with no frame of their own. */
+.island[data-island^='content/documentation/headless/memory-tiers/'] {
+  margin-block: 2.5rem;
 }
