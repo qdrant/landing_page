@@ -61,6 +61,7 @@ You will need to have access to the Kubernetes cluster with `kubectl` and `helm`
     - Container registry URL for Qdrant services (like Agent, Operator, Cluster-manager and monitoring stack) images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
     - Helm chart repository URL for the Qdrant services. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
     - An optional secret with credentials to access your own container registry.
+    - Custom cluster domain, if your Kubernetes cluster uses a non-default cluster domain (something other than `cluster.local`), so that in-cluster service addresses resolve correctly. Leave empty to use the default `cluster.local`.
     ![Create Hybrid Cloud Environment - Custom Registries](/documentation/cloud/Hcloud_connection_custom_registries.png)
 
 5. Once complete, click the **Save and Generate Installation Command** button to proceed (see next section).
