@@ -14,6 +14,7 @@ stack:
 ---
 # Agentic RAG with LangGraph and Qdrant
 
+
 | Time: 45 min | Level: Intermediate |
 | --- | ----------- |
 
