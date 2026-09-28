@@ -30,7 +30,7 @@ A lower-precision [datatype](/documentation/manage-data/vectors/#datatypes) such
 
 Dense vectors take most of that memory in a single-vector collection. If you use a late interaction model, its multivectors dominate instead, at one vector per token.
 
-Every measurement below comes from a dense-only request. In hybrid search the dense and sparse reads share one page cache, so rerun your full query before you size a deployment or set a latency budget.
+Every measurement in this article comes from a dense-only request. In hybrid search the dense and sparse reads share one page cache, so rerun your full query before you size a deployment or set a latency budget.
 
 <aside role="status">
 <strong>Note:</strong> These are our measurements, not production benchmarks. Every figure comes from one shard of the 4,635,922-document DBPedia-entity dataset, embedded with <code>all-MiniLM-L6-v2</code> at 384 dimensions, on Qdrant v1.19.0 in Docker on a laptop. The original vectors occupy 7.121 GB on disk, and the TurboQuant <code>bits1</code> copy occupies 0.260 GB.
@@ -61,7 +61,7 @@ Step 4 needs a [labeled set](/documentation/search-tuning/before-tuning-a-qdrant
 
 `oversampling` sets how many candidates Qdrant pre-selects for that pass. At `oversampling` 2 with a limit of 10, the prefetch collects 20 candidates from the quantized copy, scores them against the originals, and returns the best 10.
 
-Both are query parameters, so a request can change them without touching the collection. Once the originals live on disk, each of those rereads is a disk read.
+Both are query parameters, so a request can change them without touching the collection. Rescoring only pays for a disk read when the original-vector pages it needs are not already sitting in the page cache. A `cached` or `pinned` structure that the kernel has not evicted answers from memory instead, at the resident structure's normal cost; the read only lands on disk once a page has aged out or was never brought in.
 
 Since v1.19, Qdrant sets [memory placement](/documentation/ops-configuration/memory-tiers/) per structure with `memory`, replacing the deprecated `on_disk` and `always_ram` flags. Data moves between disk and RAM in fixed-size pages, typically 4 KiB on Linux, and the placement decides where a structure's pages sit.
 
@@ -109,10 +109,10 @@ We picked a candidate on a separate labeled set. The rule was the lowest `oversa
 The table reports how each configuration then scored on 200 held-out queries.
 
 <aside role="status">
-Quality scope: these rows run at Qdrant's default <code>memory</code> configuration and report no latency, because sequential query passes warmed the page cache. The latency table above reports the placements instead.
+Quality scope: these rows run at Qdrant's default <code>memory</code> configuration and report no latency, because sequential query passes warmed the page cache. The latency table in Rescoring Adds the Disk Read reports the placements instead.
 </aside>
 
-{{< chart id="oversampling/recall" caption="Without rescoring, 1-bit quantization recalls only 0.605 of what exact search finds. Oversampling brings it back to 0.988 — nearly the float32 baseline — at 1/32 the vector size." caption2="nDCG@10 moves far less than recall does: every quantized setting lands between 0.2786 and 0.3238 against the float32 baseline of 0.3103. Recall is where the bit depth shows." >}}
+{{< chart id="oversampling/recall" caption="Without rescoring, 1-bit quantization recalls only 0.605 of what exact search finds. Oversampling brings it back to 0.988, nearly the float32 baseline, at 1/32 the vector size." caption2="nDCG@10 moves far less than recall does: every quantized setting lands between 0.2786 and 0.3238 against the float32 baseline of 0.3103. Recall is where the bit depth shows." >}}
 
 | Quantization | `rescore` | `nDCG@10` | `Recall@10` Against Exact |
 |---|---|---|---|
@@ -130,7 +130,7 @@ What rescoring recovers depends on how much precision the bit depth discarded. A
 
 At a deep bit depth, rescoring is what makes the quantization usable. One pass raised `bits1` from 0.605 to 0.951 `Recall@10`. Qdrant [enables `rescore` by default](/documentation/manage-data/quantization/#searching-with-quantization) for `bits1`, `bits1_5`, `bits2`, and binary quantization for this reason.
 
-{{< chart id="bits1-rescore/recovery" caption="One rescoring pass does most of the recovery at bits1: 0.605 to 0.951, crossing the float32 baseline. Oversampling past 1 adds little, so the disk reads it costs are what to watch." >}}
+{{< chart id="bits1-rescore/recovery" caption="One rescoring pass does most of the recovery at bits1: 0.605 to 0.951, just short of the float32 baseline of 0.957. Oversampling past 1 adds little, so the disk reads it costs are what to watch." >}}
 
 
 After `oversampling` 1, extra candidates add disk reads for little recall. `bits1` reached 0.977 `Recall@10` at `oversampling` 2 and 0.988 at `oversampling` 4.
@@ -155,7 +155,18 @@ The [`turbo4` datatype](/documentation/manage-data/vectors/#turbo4) stores each 
 
 Rescoring still works on top of it. Pairing `turbo4` with 1-bit TurboQuant searches the compact index and rescores against the 4-bit vectors, which costs less storage than 1-bit over full precision and gives up some rescoring precision.
 
-Keep full-precision vectors when you want rescoring at the accuracy this article measures. This article does not measure `turbo4`, so validate it on your own queries and labels.
+Keep full-precision vectors when you want rescoring at the accuracy this article measures. This article does not measure `turbo4` with 1-bit TurboQuant quantization, so validate that combination on your own queries and labels.
+
+### Use `turbo4` in Constrained Environments
+
+The tradeoff changes once no full-precision copy has to survive anywhere, which is the case `turbo4` with no further quantization makes. A separate benchmark across five BEIR datasets, comparing datatypes and quantization schemes for both dense prefetch and ColBERT MaxSim rescoring, found unquantized `turbo4` within a percentage point of the `float32` baseline on `Recall@20` and `nDCG@20`, with p50 latency a few percent higher. One-bit `turbo4` was the outlier in that sweep: it lost the most recall and ran the slowest, so it does not carry the same near-parity guarantee. Code and full results are in [`qdrant-labs/hybrid-comparisons`](https://github.com/qdrant-labs/hybrid-comparisons).
+
+That near-parity, at one-eighth the storage of `float32`, is most worth taking when either of the following constraints applies:
+
+- **Disk or memory is already tight.** Unquantized `turbo4` removes the full-precision copy rather than shrinking it further with rescoring, so it helps most once other quantization plus `cold` placement is still not enough headroom.
+- **The vectors themselves are expensive.** A late interaction model's multivectors cost one vector per token, so the same compression ratio saves far more in absolute terms there than on a single dense vector. That is also where `turbo4`'s no-quantization parity was measured directly against MaxSim rescoring, not only against dense-prefetch recall.
+
+Start from unquantized `turbo4` in either case, and validate carefully before switching to 1-bit quantized `turbo4`, since that benchmark found it the weakest of the configurations it tested.
 
 ## Verify It on Your Own Collection
 
