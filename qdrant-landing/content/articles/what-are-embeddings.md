@@ -33,10 +33,6 @@ These are the result of **deep learning models** analyzing the data of your inte
 
 The same embeddings can be repurposed for search, ads, and other features, creating a highly personalized user experience.
 
-
-![How embeddings are applied to perform recommendantions and other use cases](/articles_data/what-are-embeddings/Embeddings-Use-Case.jpg)
-
-
 They make [high-dimensional](https://www.sciencedirect.com/topics/computer-science/high-dimensional-data) data more manageable. This reduces storage requirements, improves computational efficiency, and makes sense of a ton of **unstructured** data.
 
 
