@@ -35,6 +35,8 @@ After running `generate-md.py`, the generated Markdown files will be placed in t
 {{< code-snippet path="/documentation/headless/snippets/example/" >}}
 ```
 
+On rendered Markdown pages (the `index.md` docs mirror consumed by LLMs), the shortcode shows only the first language and links to a standalone all-languages page under `/documentation/snippets/...`. Those pages are built on the fly from the `generated/` files by [`content/documentation/snippets/_content.gotmpl`](../../qdrant-landing/content/documentation/snippets/_content.gotmpl) and are not committed.
+
 Your code may need some boilerplate code that you don't want to show in the generated Markdown files. You can hide such code by placing `// @hide` (or `# @hide` for Python) at the end of the line. Entire blocks of code can be hidden by placing `// @hide-start` and `// @hide-end` around the block. 
 
 You can generate multiple code snippets from one source file by defining "blocks" inside the code. This is useful for tutorials, where later code depends on classes and variables defined in earlier code. Each block becomes its own Markdown snippet, and a Markdown snippet is also generated for the entire file. Use `// @block-start block-name` and `// @block-end block-name` to define a block. 
