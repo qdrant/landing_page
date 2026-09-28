@@ -6,7 +6,7 @@ description: >-
   on the text or images you embed, and the rate depends on the model: several are free,
   others are metered. Inference speed varies by model too, so a cheaper model isn't
   always the faster one. You can read more about
-  <a href="/articles/how-to-choose-an-embedding-model/">choosing an embedding model</a>,
+  <a href="/documentation/search-patterns/choose-embedding-model/">choosing an embedding model</a>,
   or contact us to talk through sizing.
 button:
   text: Talk Through Sizing With Our Team

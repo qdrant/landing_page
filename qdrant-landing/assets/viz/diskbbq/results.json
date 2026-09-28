@@ -1,0 +1,28 @@
+{
+  "title": "Throughput and latency at ~0.96 recall",
+  "kind": "columns-2panel",
+  "height": 420,
+  "panels": [
+    {
+      "title": "Throughput at ~0.96 recall",
+      "y": "throughput_qps",
+      "axis": "QPS",
+      "unit": "QPS",
+      "subtitle": "higher is better"
+    },
+    {
+      "title": "Average latency at ~0.96 recall",
+      "y": "avg_latency_ms",
+      "axis": "avg latency (ms)",
+      "unit": "ms",
+      "subtitle": "lower is better"
+    }
+  ],
+  "yMax": 140,
+  "tooltip": {
+    "recall_at_100": "recall@100",
+    "throughput_qps": "throughput",
+    "avg_latency_ms": "avg latency",
+    "p99_latency_ms": "p99 latency"
+  }
+}

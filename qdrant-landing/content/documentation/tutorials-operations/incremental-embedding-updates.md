@@ -3,6 +3,12 @@ title: Incremental Embedding Updates
 short_description: "Sync embeddings with raw text data that changes over time."
 description: "Keep embeddings in the Qdrant search engine in sync with documentation that changes over time, for up-to-date vector search."
 weight: 32
+goal: Data & Filtering
+stack:
+  - Python
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/temporal-data-drift/sync_raw_data_to_embeddings.ipynb
 ---
 
 # Incremental Embedding Updates

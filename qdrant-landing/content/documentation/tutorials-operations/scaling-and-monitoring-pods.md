@@ -1,6 +1,11 @@
 ---
 title: "Scaling and Monitoring Hybrid Cloud"
+short_description: "Scale CPU, memory, and disk for Qdrant Hybrid Cloud clusters and monitor pod resource usage."
 weight: 10
+goal: Operations
+stack:
+  - Kubernetes
+  - Qdrant Hybrid Cloud
 ---
 
 # Scaling and Monitoring Hybrid Cloud

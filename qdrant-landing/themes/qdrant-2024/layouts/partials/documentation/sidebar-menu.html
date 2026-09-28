@@ -3,24 +3,8 @@
 {{ $currentNode := .context }}
 <div class="docs-menu">
   <div id="sidebar" class="docs-menu__content">
-    {{ if eq $currentNode.Section "articles" }}
-      <h3 class="docs-menu__links-title">Articles</h3>
-      <nav>
-        <div class="docs-menu__links-group">
-          {{ $subject := site.GetPage "articles" }}
-
-          {{ range $subject.Pages }}
-            {{ if .Params.isCategoryPage }}
-              <div
-                class="docs-menu__articles-link docs-menu__links-group-heading
-                {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}"
-              >
-                <a href="{{ .Params.url }}">{{ .Params.title }}</a>
-              </div>
-            {{ end }}
-          {{ end }}
-        </div>
-      </nav>
+    {{ if eq $partition "learn" }}
+      {{ partial "documentation/learn-menu" $currentNode }}
     {{ else }}
 
       {{ $pathSegments := split (trim $currentNode.RelPermalink "/") "/" }}

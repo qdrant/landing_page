@@ -7,6 +7,13 @@ aliases:
   - /documentation/tutorials/mighty.md/
   - /documentation/tutorials/search-beginners/
   - /documentation/beginner-tutorials/search-beginners/
+goal: Get Started
+stack:
+  - Python
+  - Cloud Inference
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb
 ---
 
 # Build a Semantic Search Engine in 5 Minutes

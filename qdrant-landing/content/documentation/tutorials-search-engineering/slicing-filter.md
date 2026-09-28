@@ -5,6 +5,9 @@ description: "Use Qdrant's slice filter to divide a collection into fixed, deter
 weight: 15
 aliases:
   - /documentation/tutorials/slicing-filter/
+goal: Data & Filtering
+stack:
+  - Python
 ---
 
 # Deterministic Collection Slicing

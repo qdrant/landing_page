@@ -1,0 +1,5 @@
+metric,setting,recall_at_10
+bits1 recovery,rescore off,0.605
+bits1 recovery,oversampling 1,0.951
+bits1 recovery,oversampling 2,0.977
+bits1 recovery,oversampling 4,0.988

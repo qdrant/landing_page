@@ -7,6 +7,10 @@ aliases:
   - /documentation/tutorials/huggingface-datasets/
   - /documentation/database-tutorials/huggingface-datasets/
 weight: 3
+goal: Data & Filtering
+stack:
+  - Python
+  - Hugging Face
 ---
 
 # Load Hugging Face Datasets into Qdrant

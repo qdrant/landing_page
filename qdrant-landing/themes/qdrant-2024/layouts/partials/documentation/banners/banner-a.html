@@ -1,7 +1,8 @@
 <section class="docs-core__hero">
   <h1 class="docs-core__hero-title">{{ .title }}</h1>
   <p class="docs-core__hero-description">{{ .description }}</p>
-  <p class="docs-core__hero-link">{{ .linkDescription | safeHTML }}</p>
+  {{ with .linkDescription }}<p class="docs-core__hero-link">{{ . | safeHTML }}</p>{{ end }}
+  {{ if or .cloudButton .localButton }}
   <div class="docs-core__hero-buttons">
     <a
       href="{{ .cloudButton.url }}"
@@ -18,4 +19,5 @@
       {{ .localButton.text }}
     </a>
   </div>
+  {{ end }}
 </section>

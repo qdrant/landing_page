@@ -5,6 +5,13 @@ import 'qdrant-page-search/dist/js/search.min.js';
   const metadata = document.querySelector('meta[name="partition"]');
   let partition = metadata ? metadata.content : null;
 
+  // Tutorials span several partitions; use the Learn catalog's paths instead.
+  const learnSections = document.querySelector('meta[name="learn-search-sections"]');
+  if (learnSections) {
+    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: learnSections.content });
+    return;
+  }
+
   // Treat 'develop' and 'deploy' as a unified search space
   let searchPartition;
   if (partition === 'develop' || partition === 'deploy') {
@@ -27,10 +34,6 @@ import 'qdrant-page-search/dist/js/search.min.js';
 
   if (/course/.test(window.location?.pathname)) {
     window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'course', partition: partition });
-  }
-
-  if (/learn/.test(window.location?.pathname)) {
-    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'articles,course,documentation' });
   }
 
   if (/customers/.test(window.location?.pathname)) {

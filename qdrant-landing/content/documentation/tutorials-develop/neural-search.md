@@ -7,6 +7,13 @@ aliases:
   - /documentation/beginner-tutorials/neural-search/
   - /documentation/tutorials-search-engineering/neural-search/
 weight: 30
+goal: Get Started
+stack:
+  - Python
+  - FastAPI
+example_resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing
 ---
 
 # Build a Semantic Search API with Qdrant

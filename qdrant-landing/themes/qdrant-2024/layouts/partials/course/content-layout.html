@@ -2,7 +2,11 @@
 <section class="docs documentation">
   <div class="documentation__container">
     <div class="d-flex flex-column flex-xl-row">
-      {{ partial "course/sidebar-menu.html" (dict "context" .) }}
+      {{ if eq .Params.partition "learn" }}
+        {{ partial "documentation/sidebar-menu" (dict "context" . "partition" "learn") }}
+      {{ else }}
+        {{ partial "course/sidebar-menu.html" (dict "context" .) }}
+      {{ end }}
 
 
       <div class="documentation__content">

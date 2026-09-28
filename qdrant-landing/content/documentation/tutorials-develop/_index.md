@@ -5,6 +5,8 @@ description: "Tutorials for building applications on Qdrant: use the async API, 
 weight: 425
 is_empty: false
 partition: develop
+cascade:
+  learning_kind: examples
 ---
 
 ### Develop & Implement Tutorials

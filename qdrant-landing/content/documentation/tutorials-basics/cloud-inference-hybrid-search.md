@@ -5,6 +5,10 @@ description: "Build a hybrid search engine on Qdrant Cloud that fuses dense embe
 weight: 40
 aliases:
   - /documentation/tutorials-and-examples/cloud-inference-hybrid-search/
+goal: Search Quality
+stack:
+  - Python
+  - Cloud Inference
 ---
 # Hybrid Search Using Qdrant Cloud Inference
 

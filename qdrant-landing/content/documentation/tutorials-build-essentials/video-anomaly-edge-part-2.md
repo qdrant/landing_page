@@ -6,6 +6,13 @@ weight: 45
 partition: ecosystem
 aliases:
   - /articles/video-anomaly-edge-part-2/
+goal: Multimodal Search
+stack:
+  - Qdrant Edge
+  - Twelve Labs
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant/video-anomaly-edge
 ---
 
 # Video Anomaly Detection: Edge-to-Cloud Pipeline

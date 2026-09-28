@@ -8,6 +8,12 @@ description: "Build an effective movie recommendation system using collaborative
 preview_image: /blog/collaborative-filtering/social_preview.png
 social_preview_image: /blog/collaborative-filtering/social_preview.png
 weight: 3
+goal: Recommendations
+stack:
+  - Python
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb
 ---
 
 # Build a Recommendation System with Collaborative Filtering using Qdrant

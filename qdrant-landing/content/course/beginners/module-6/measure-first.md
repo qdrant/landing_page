@@ -14,7 +14,7 @@ Ranking changes are hard to judge by eye, because a worse results page still loo
 
 A golden set pairs queries with the documents that should come back for them. It turns a ranking change into a number.
 
-Sample query and click pairs from your logs, or have someone who knows the domain write 20 or 30 queries with the answers they expect. [Measuring Retrieval Relevance](/documentation/improve-search/retrieval-relevance/) covers both and computes the metrics with the Python library [`ranx`](https://amenra.github.io/ranx/).
+Sample query and click pairs from your logs, or have someone who knows the domain write 20 or 30 queries with the answers they expect. [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) covers both and computes the metrics with the Python library [`ranx`](https://amenra.github.io/ranx/).
 
 Pick the metric that matches the labels you ended up with.
 

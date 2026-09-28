@@ -3,6 +3,10 @@ title: "Securing and Exposing a Hybrid Cloud Cluster"
 description: "Set up API key authentication, database-level TLS, and TLS-terminating ingress on a self-managed Hybrid Cloud cluster."
 short_description: "Authentication and TLS management for Qdrant Hybrid Cloud clusters"
 weight: 40
+goal: Operations
+stack:
+  - Kubernetes
+  - Qdrant Hybrid Cloud
 ---
 
 # Securing and Exposing a Hybrid Cloud Cluster

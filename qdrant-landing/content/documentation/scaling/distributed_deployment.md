@@ -146,7 +146,7 @@ When you create a collection, Qdrant splits the collection into `shard_number` s
 
 To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
 
-> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
+> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/documentation/production-operations/multitenant-search/).
 
 We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. [Resharding](/documentation/cloud/cluster-scaling/#resharding) is possible on Qdrant Cloud, but should be avoided if hosting elsewhere as it would require creating a new collection.
 
@@ -266,7 +266,13 @@ Now you can target the operations to specific shard(s) by specifying the `shard_
 
 Another use case for user-defined sharding is time-based sharding, where you route points to a specific shard (or shards) based on timestamp. This enables efficient querying of recent data and efficient data lifecycle management by deleting old shards once they pass a certain age. See the [Time-Based Sharding](/documentation/tutorials-operations/time-based-sharding/) tutorial for more details.
 
-<img src="/documentation/tutorials/time-based-sharding/time-based-sharding.png" alt="Sharding per day">
+{{< island
+    path="content/documentation/headless/sharding/time-based"
+    width="90%" ratio="3 / 2"
+    title="One shard per day: writes go to the newest shard, and a query's shard key selector decides how many of them it reads from."
+>}}
+![Time-based sharding across daily shards](/documentation/tutorials/time-based-sharding/time-based-sharding.png)
+{{< /island >}}
 
 ### Shard Transfer Method
 

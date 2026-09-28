@@ -1,0 +1,15 @@
+{
+  "title": "Share of a prefetch's top-10 score mass at each rank",
+  "kind": "grouped-columns",
+  "subtitle": "RRF weight 1/(pos + k), normalised over the top 10",
+  "group": "rank",
+  "series": "k",
+  "y": "share",
+  "yLabel": "% of score mass",
+  "yMax": 26,
+  "colors": [
+    0,
+    1
+  ],
+  "height": 380
+}

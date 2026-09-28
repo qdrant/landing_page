@@ -3,6 +3,9 @@ title: Secure a Self-Hosted Qdrant Instance
 short_description: "Harden a self-hosted Qdrant deployment with TLS, an Admin API key, a Read-Only key, and Granular Access Control."
 description: "Tutorial: secure a self-hosted Qdrant instance step by step: enable TLS, set up an Admin API key, restrict consumers with a Read-Only key, and issue collection-scoped JWT tokens."
 weight: 45
+goal: Operations
+stack:
+  - Docker
 ---
 
 # Secure a Self-Hosted Qdrant Instance

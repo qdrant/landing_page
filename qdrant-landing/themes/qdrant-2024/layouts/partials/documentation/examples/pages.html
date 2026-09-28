@@ -1,0 +1,11 @@
+{{- $pages := where site.RegularPages "Params.learning_kind" "examples" -}}
+{{- range $pages -}}
+  {{- if not .Params.goal -}}{{- errorf "Missing tutorial goal: %s" .Path -}}{{- end -}}
+  {{- if not .Params.stack -}}{{- errorf "Missing tutorial stack: %s" .Path -}}{{- end -}}
+  {{- if not (.Params.short_description | default .Description) -}}{{- errorf "Missing tutorial description: %s" .Path -}}{{- end -}}
+  {{- $page := . -}}
+  {{- range .Params.example_resources -}}
+    {{- if not (strings.Contains $page.RawContent .url) -}}{{- errorf "Tutorial resource is no longer linked from %s: %s" $page.Path .url -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $pages.ByTitle -}}

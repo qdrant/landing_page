@@ -7,7 +7,6 @@ aliases:
   - overview
   - orientation
   - concepts
-  - guides
 partition: develop
 ---
 

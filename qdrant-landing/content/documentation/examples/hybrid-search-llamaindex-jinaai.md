@@ -6,6 +6,21 @@ weight: 45
 social_preview_image: /blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex-tutorial.png
 aliases:
   - /documentation/tutorials/hybrid-search-llamaindex-jinaai/
+goal: RAG & Agents
+stack:
+  - Python
+  - LlamaIndex
+  - Jina
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb
+keywords:
+  - PDF
+  - documents
+  - manuals
+  - LlamaIndex
+  - Jina
+  - RAG
 ---
 
 # Chat With Product PDF Manuals Using Hybrid Search 
