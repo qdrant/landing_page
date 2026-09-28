@@ -192,3 +192,18 @@ html .island[data-island='content/headless/blog/oxidizing-cross-encoders/inferen
   max-width: 100% !important;
   aspect-ratio: auto !important;
 }
+
+/* Card border matching the charts (.viz-figure in viz.scss), so the diagram
+   and the charts read as the same kind of figure. Scoped to this island. */
+html .island[data-island='content/headless/blog/oxidizing-cross-encoders/inference'] {
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+html .island[data-island='content/headless/blog/oxidizing-cross-encoders/inference'] .island__caption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--qi-border);
+}
