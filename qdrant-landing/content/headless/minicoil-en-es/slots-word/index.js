@@ -16,8 +16,8 @@
  *
  * The example is illustrative: slots, fallbacks and values show the mechanism,
  * not a lookup in the released models. Pure SVG on the shared island design
- * system (islands.scss), on a light card that matches the static figures.
- * Below a container width of 560px the vector wraps onto several lines.
+ * system (islands.scss), with chrome inherited from the selected page theme.
+ * Below a container width of 640px the vector wraps onto several lines.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -95,9 +95,9 @@ function el(name, attrs, text) {
 const est = (t, px) => t.length * px * 0.64; // mono text width, with margin over Geist Mono's 0.6em advance
 const split = (label) => label.split('\n');
 
-// Geometry in SVG user units. At the article's desktop width the card's content
-// area is ~644 CSS px, so 680 units render text at ~0.95x (15 units -> ~14.2px).
-const WIDE = { vb: 680, cw: 50, gap: 4, dotsW: 18, sw: 7, sgap: 3, px: 15, wide: true };
+// Wide geometry keeps labels at least 15px at the 640px layout threshold.
+// Narrow geometry uses the measured width so 14-unit labels render at 14px.
+const WIDE = { vb: 680, cw: 50, gap: 4, dotsW: 18, sw: 7, sgap: 3, px: 16, wide: true };
 const NARROW = { vb: 360, cw: 60, gap: 6, dotsW: 18, sw: 7, sgap: 3, px: 14, wide: false };
 const CH = 44; // cell and sliver height
 
@@ -134,12 +134,12 @@ export function mount(node) {
     '    </div>',
     '  </div>',
     '  <svg class="qi-svg qi-sw__svg" role="img"></svg>',
-    '  <p class="qi-sw__sr" role="status" aria-live="polite"></p>',
+    '  <p class="qi-status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
   const svg = node.querySelector('.qi-sw__svg');
-  const statusEl = node.querySelector('.qi-sw__sr');
+  const statusEl = node.querySelector('.qi-status');
   const chips = [...node.querySelectorAll('.qi-chip')];
   let use = 'dracula';
   let geo = WIDE;
@@ -206,8 +206,20 @@ export function mount(node) {
       });
       return bottom + 40 + 20 + 16;
     }
-    labels.forEach((l, i) => text(x0, bottom + 34 + i * 19, l.label.replace('\n', ' '), `qi-sw__label qi-sw__label--${l.kind}`, 'start', 13));
-    return bottom + 34 + 2 * 19 + 8; // two list lines reserved in every state
+    let labelY = bottom + 34;
+    labels.forEach((l) => {
+      const lines = [''];
+      l.label.replace('\n', ' ').split(' ').forEach((word) => {
+        const i = lines.length - 1;
+        const candidate = lines[i] ? `${lines[i]} ${word}` : word;
+        if (lines[i] && est(candidate, g.px) > g.vb - x0 * 2) lines.push(word);
+        else lines[i] = candidate;
+      });
+      text(x0, labelY, lines.join('\n'), `qi-sw__label qi-sw__label--${l.kind}`, 'start', g.px);
+      labelY += lines.length * (g.px + 5) + 6;
+    });
+    // Reserve the longest explanation so switching uses keeps vector positions stable.
+    return Math.max(labelY + 8, bottom + 34 + (g.vb < 400 ? 3 : 2) * (g.px + 5) + 20);
   }
 
   function render() {
@@ -219,7 +231,7 @@ export function mount(node) {
     });
     svg.setAttribute('viewBox', `0 0 ${geo.vb} ${y}`);
     svg.setAttribute('aria-label', `Cells written by "${USES[use].chip}" in miniCOIL v1 and in miniCOIL EN-ES.`);
-    statusEl.textContent = USES[use].say; // read by screen readers only
+    statusEl.textContent = USES[use].say; // visible explanation and accessible live narration
     chips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.use === use)));
   }
 
@@ -232,8 +244,8 @@ export function mount(node) {
 
   // Switch layouts by the island's own width, not the viewport.
   const ro = new ResizeObserver(([entry]) => {
-    const next = entry.contentRect.width < 560 ? NARROW : WIDE;
-    if (next !== geo) {
+    const next = entry.contentRect.width < 640 ? { ...NARROW, vb: Math.max(200, entry.contentRect.width) } : WIDE;
+    if (next.vb !== geo.vb || next.wide !== geo.wide) {
       geo = next;
       render();
     }
