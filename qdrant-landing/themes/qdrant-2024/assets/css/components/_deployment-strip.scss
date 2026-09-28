@@ -34,6 +34,25 @@
   }
 }
 
+.snippet-not-supported {
+  min-height: 80px;
+  background: $neutral-20;
+  border-radius: $code-snippet-border-radius;
+
+  .snippet-not-supported__message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    padding: 0 24px;
+    color: $neutral-98;
+    font-size: 0.9rem;
+    text-align: center;
+
+    p { margin: 0; }
+  }
+}
+
 // When a deployment strip is present, flush the code blocks into it:
 // remove the bottom margin (gap) and the bottom border-radius (rounded corners).
 .snippet-group:has(.deployment-strip) .snippet-variant:not([hidden]) {
