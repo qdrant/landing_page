@@ -16,6 +16,7 @@ example_resources:
     url: https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb
 ---
 
+
 <!-- ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png) -->
 
 # RAG in 5 Minutes with DeepSeek and Qdrant
