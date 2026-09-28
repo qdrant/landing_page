@@ -2,8 +2,8 @@
 title: "Vector Embeddings Explained: How They Work in ML & Search"
 draft: false
 slug: what-are-embeddings? 
-short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a personalized Neural Search Service with Fastembed.
-description: Discover the power of vector embeddings. Learn how to harness the potential of numerical machine learning representations to create a personalized Neural Search Service with FastEmbed.
+short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a neural search service.
+description: Discover the power of vector embeddings. Learn how to harness the potential of numerical machine learning representations to create a neural search service.
 preview_dir: /articles_data/what-are-embeddings/preview
 weight: 70
 social_preview_image: /articles_data/what-are-embeddings/preview/social_preview.jpg
@@ -66,6 +66,8 @@ Embeddings are created through neural networks. They capture complex relationshi
 
 
 The meaning of a data point is implicitly defined by its **position** on the vector space. After the vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](https://en.wikipedia.org/wiki/Nearest_neighbor_search#:~:text=Nearest%20neighbor%20search%20(NNS)%2C,the%20larger%20the%20function%20values.). These searches retrieve semantically similar items based on how close they are in this space.  
+
+Many embedding models normalize their vectors and compare them with cosine similarity. Data that branches like a tree, such as a product catalog, can fit better in a curved hyperbolic space. [Hyperbolic Embeddings in Qdrant](/articles/hyperbolic-embeddings-qdrant/) explains why and how to search them.
 
 > The quality of the vector representations drives the performance. The embedding model that works best for you depends on your use case.
 
@@ -130,19 +132,15 @@ The model creates a vector embedding for "biophilic design" that encapsulates th
 
 ### Integration with embedding APIs
 
-Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](/documentation/embeddings/bedrock/). 
+The embedding model you pick sets the quality of your search. Qdrant has integration guides for many embedding providers, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), and [AWS Bedrock](/documentation/embeddings/bedrock/), and the [embeddings overview](/documentation/embeddings/) lists the rest. To create embeddings on your own machine, [FastEmbed](/documentation/fastembed/) is Qdrant's lightweight Python library for generating embeddings locally.
 
-If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
+The right model depends on your data, latency budget, and cost. [How to Choose an Embedding Model](/documentation/search-patterns/choose-embedding-model/) shows how to build a test set from your own data and compare candidate models on it.
 
-Fastembed, which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
-
-We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
-
-## Create a neural search service with FastEmbed
+## Create a Neural Search Service
 
 Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials-develop/neural-search/)?
 
-This tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
+This tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant, constructing a search API, and finally deploying your solution with FastAPI. The tutorial embeds the descriptions with Sentence Transformers. A [FastEmbed version](/documentation/tutorials-develop/hybrid-search-fastembed/) builds a hybrid search service over the same data.
 
 Check out what the final version of this project looks like on the [live online demo](https://qdrant.to/semantic-search-demo).
 
