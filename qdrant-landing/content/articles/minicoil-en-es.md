@@ -4,7 +4,6 @@ short_description: "miniCOIL goes bilingual: concept-based exact matching for En
 description: "miniCOIL goes bilingual: concept-based exact matching for English and Spanish, research preview."
 social_preview_image: /articles_data/minicoil-en-es/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil-en-es/preview
-# TODO(cover): preview/* are generated from the placeholder cover; replace with the final cover set
 weight: -230
 author: Juan Pablo Sotelo and Evgeniya Sukhodolskaya
 date: 2026-09-25T09:00:00+02:00
@@ -64,14 +63,14 @@ That's how a concept of a **concept** was born (*applause*): a small set of Engl
 
 > Concepts are not specific to English and Spanish; the approach is transferable to other languages. More about this further in the article.
 
-{{< figure src="/articles_data/minicoil-en-es/01-concept-slots.png" alt="Two sparse vectors compared: miniCOIL v1 writes the English word dog into a 4-cell block; miniCOIL EN-ES writes the concept {dog, perro} into a shared 8-cell block. Both vectors keep a one-cell BM25 fallback for out-of-vocabulary words." caption="One slot per concept: in miniCOIL EN-ES \"dog\" and \"perro\" resolve to the same concept, and unresolved words fall back to BM25." width="90%" >}}
-
 #### One Slot per Concept
 
 While in miniCOIL v1, every English word in a 30k vocabulary got its own trainable layer-model and its own 4 consecutive cells-dimensions in the sparse vector, in miniCOIL EN-ES, every *concept* gets one trainable **head** in a similar manner.
 
 When an English document says *"dog"* and a Spanish query says *"perro"*, both resolve to the same concept ID, both are projected by the same head, and both write into the same block of the sparse vector (in this model, 8 consecutive dimensions).  
 That allows for both mono- and cross-lingual matching simultaneously, and still keeps miniCOIL's ability to resolve meaning-in-the-context.
+
+{{< figure src="/articles_data/minicoil-en-es/01-concept-slots.png" alt="Two sparse vectors compared: miniCOIL v1 writes the English word dog into a 4-cell block; miniCOIL EN-ES writes the concept {dog, perro} into a shared 8-cell block. Both vectors keep a one-cell BM25 fallback for out-of-vocabulary words." caption="One slot per concept: in miniCOIL EN-ES \"dog\" and \"perro\" resolve to the same concept, and unresolved words fall back to BM25." width="90%" >}}
 
 #### Standing on the Shoulders of BM25, Again (We Got Comfortable)
 
@@ -91,7 +90,7 @@ Here $c_i(Q)$ and $c_i(D)$ are the query's and the document's vectors for concep
 **For every word that isn't in the concept vocabulary**, we keep the approach from v1: **fall back to plain BM25**.  
 
 In an ideal world, whatever isn't part of this vocabulary is a named entity, a specific term, a code: something "untranslatable". We hope it matches exactly, one to one, no matter the language.  
-*Of course, it's a weak assumption, and we'd like to try other fixes for out-of-vocabulary cross-lingual matches, like the LexEcho head in [MILCO](https://arxiv.org/abs/2510.00671); however, that's for the next editions.*
+*Of course, it's a weak assumption, and we'd like to try other fixes for out-of-vocabulary cross-lingual matches, like the LexEcho head in [MILCO](https://arxiv.org/abs/2510.00671); however, that's for the next iterations.*
 
 ## Building a Concept Vocabulary
 
@@ -120,7 +119,7 @@ To verify whether the approach works, keeping 80,000 concepts and training a lay
 
 To trim the concept vocabulary, we streamed English and Spanish Wikipedia, split articles into sentences, and counted how many sentences contain each concept in each language, keeping only concepts with enough evidence on both sides. This leaves roughly 12,000 concepts with enough sentences for a per-concept head to learn to light up the right sense region of its concept, in whichever of the two languages the match comes in.
 
-For the released model we went even further and kept, out of the 12k, only the concepts that mMARCO retrieval queries actually use. Ranking concepts by how many query-word occurrences they catch, the top 2,398 concepts grab 90% of everything the full 12k vocabulary would.  
+For the released model we went even further and kept, out of the 12k, only the concepts that retrieval queries in [mMARCO](https://huggingface.co/datasets/unicamp-dl/mmarco) (a machine-translated version of the MS MARCO passage ranking dataset, which we also use for evaluation) actually use. Ranking concepts by how many query-word occurrences they catch, the top 2,398 concepts grab 90% of everything the full 12k vocabulary would.  
 
 So this [first, raw, small miniCOIL EN-ES](https://huggingface.co/Jocana/minicoil-en-es) trains only **2,398 concept heads**.
 
@@ -152,7 +151,7 @@ So instead we decided to sample **five points** (quintuplets!) per training exam
 | Cross language, similar | `xl_pos` | *"won the Nobel prize"* ~ *"ganó el premio Nobel"* | align equivalent meanings across languages |
 | Cross language, dissimilar | `xl_neg` | *"won the Nobel prize"* vs *"recompensa por su captura"* | separate senses across languages |
 
-"Close" and "far" are decided by the teacher encoder, [`Qwen/Qwen3-Embedding-0.6B`](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B), whose sentence embeddings we store in Qdrant alongside every sentence. Negatives are semi-hard: the nearest candidate that is still at least a margin farther from the anchor than the positive is.
+"Similar" and "dissimilar" are decided by the teacher encoder, [`Qwen/Qwen3-Embedding-0.6B`](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B), whose sentence embeddings we store in Qdrant alongside every sentence. Negatives are semi-hard: the nearest candidate that is still at least a margin farther from the anchor than the positive is.
 
 {{< figure src="/articles_data/minicoil-en-es/04-five-point.png" alt="Quadrant diagram of five-point sampling: an anchor sentence in the center, same-language and cross-language positives pulled toward it, same-language and cross-language negatives pushed away." caption="Five points per training example: same- and cross-language positives and negatives around each anchor, with \"similar\" and \"dissimilar\" decided by the teacher encoder." width="90%" >}}
 
@@ -160,7 +159,7 @@ The loss is a cosine triplet loss over those four relationships: one triplet in 
 
 $$ \text{loss} = \text{relu}\big(d(a, \text{sl}\_{\text{pos}}) - d(a, \text{sl}\_{\text{neg}}) + \text{margin}\_{\text{sl}}\big) + \text{relu}\big(d(a, \text{xl}\_{\text{pos}}) - d(a, \text{xl}\_{\text{neg}}) + \text{margin}\_{\text{xl}}\big) $$
 
-Here `a` is the anchor sentence, `sl_pos` / `sl_neg` are the close and far sentences in the anchor's language, `xl_pos` / `xl_neg` are the close and far sentences in the other language, and `d` is cosine distance on the head's 8D output.
+Here `a` is the anchor sentence, `sl_pos` / `sl_neg` are the similar and dissimilar sentences in the anchor's language, `xl_pos` / `xl_neg` are the similar and dissimilar sentences in the other language, and `d` is cosine distance on the head's 8D output.
 
 For both triplets (same- and cross-language), `margin` is not a fixed hyperparameter: it is the gap the teacher itself measures on that triplet, `margin = d_teacher(anchor, negative) − d_teacher(anchor, positive)`. The target is "separate these two at least as much as the teacher does." Two guardrails on top:
 
