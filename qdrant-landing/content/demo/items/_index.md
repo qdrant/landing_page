@@ -71,6 +71,7 @@ demos:
     description: Describe a game you half remember and find it among 95,000 titles, from Atari classics to today.
     category: Hybrid Search
     image: /img/demos/demo-6.png
+    github: https://github.com/qdrant/demo-game-search
     link:
       text: View Demo
       url: https://qdrant-game-search.vercel.app/
