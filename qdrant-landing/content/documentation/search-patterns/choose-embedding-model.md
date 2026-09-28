@@ -33,7 +33,7 @@ to use.
 
 Embedding models are trained with specific languages in mind. When evaluating one, consider whether it supports all the languages you have or predict to have in your data. If your data is not homogeneous, you might require a multilingual model that can properly embed text across different languages. If you use Open Source models, then your model is likely documented on [Hugging Face Hub](https://huggingface.co/docs/hub/en/index). For example, `all-MiniLM-L6-v2`, often used in demos, lists English as its language, so it's not a good choice if you have data in other languages.
 
-[![Model card facts for all-MiniLM-L6-v2, highlighting English as its language](/articles_data/how-to-choose-an-embedding-model/hf-model-card.png)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+[![Model card facts for all-MiniLM-L6-v2, highlighting English as its language](/articles_data/how-to-choose-an-embedding-model/hf-model-card.jpg)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 
 *Values from the Hugging Face model card, September 2026.*
 
@@ -42,17 +42,17 @@ often overlooked. Text embedding models use a specific tokenizer to chunk the in
 all the Transformer magic with assigning each token a specific input vector 
 representation](/articles/late-interaction-models/#understanding-embedding-models). 
 
-![An example of tokenization with the all-MiniLM-L6-v2 WordPiece tokenizer](/articles_data/how-to-choose-an-embedding-model/tokenization-example.png)
+![An example of tokenization with the all-MiniLM-L6-v2 WordPiece tokenizer](/articles_data/how-to-choose-an-embedding-model/tokenization-example.jpg)
 
 One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). WordPiece tokenizers, like the one in `all-MiniLM-L6-v2`, replace any word they can't build from their vocabulary with a single `[UNK]` token, so `hello🌞world` becomes one `[UNK]` and the model loses "hello" and "world" too. If you analyze social media data, you might be surprised that the two weather sentences in this example reach the model as identical tokens. Byte-level tokenizers, like the ones in OpenAI's `text-embedding-3` models and Qwen3-Embedding, never produce an unknown token: they split unfamiliar characters into bytes, so the two sentences stay different.
 
-![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.png)
+![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.jpg)
 
 Normalization can also erase differences in your text. The `all-MiniLM-L6-v2` tokenizer lowercases text and strips accents, so "crème brûlée" and "creme brulee" reach the model as identical tokens and get identical vectors. Words that differ only by accents become indistinguishable. Tokenization has a bigger impact on the quality of the embeddings than many people think. If you want to understand what the effects of tokenization are, we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/) we recorded together with DeepLearning.AI. You may find the course especially interesting if you still wonder why your semantic search engine can't handle numerical data, such as prices or dates, and what you can do about it.
 
 How do you know how the tokenizer treats your text? That's pretty easy for the Open Source models, as you can just run the tokenizer without the model and see what the yielded tokens look like. Try your own text and look at normalization, `[UNK]` tokens, and how words split. Commercial models are harder to inspect. Some providers publish their tokenizers: OpenAI's embedding models use the `cl100k_base` encoding from the open-source [tiktoken](https://github.com/openai/tiktoken) library. For the others, modify some of the suspected characters and compare the similarity between the original and modified text.
 
-![all-MiniLM-L6-v2 maps crème brûlée and creme brulee to identical tokens and identical vectors](/articles_data/how-to-choose-an-embedding-model/accented-letters.png)
+![all-MiniLM-L6-v2 maps crème brûlée and creme brulee to identical tokens and identical vectors](/articles_data/how-to-choose-an-embedding-model/accented-letters.jpg)
 
 Near-identical vectors for text that differs only in accents suggest that the tokenizer removes those accents. For `all-MiniLM-L6-v2`, both spellings produce `cr | ##eme | br | ##ule | ##e`, as the example shows.
 
@@ -192,7 +192,7 @@ might lean towards self-hosted options, while those who prefer to avoid dealing 
 might prefer API-based solutions. Who knows? Maybe your project does not require the highest precision possible, and a 
 smaller model will do the job just fine.
 
-![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.png)
+![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.jpg)
 
 Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed. Named vectors help to create a system with multiple models and switch between them based on the query, or build a [hybrid search](/documentation/search-tuning/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
