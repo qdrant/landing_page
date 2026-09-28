@@ -1,0 +1,20 @@
+{{- /* Deployment-type variants present in a snippet dir.
+       Params: dir (fs path), block (name or "").
+       A variant counts if `<dir>/<type>/` or `<dir>/<type>/generated/<block>/`
+       holds language `.md` files. Returns a slice of dicts (dir, key, label)
+       in canonical order; empty when the snippet has no deployment variants.
+       Keep in sync with themes/qdrant-2024/layouts/shortcodes/code-snippet.html. */ -}}
+{{- $deploymentTypes := slice
+  (dict "dir" "_server"     "label" "Qdrant Server")
+  (dict "dir" "_edge"       "label" "Qdrant Edge")
+  (dict "dir" "_serverless" "label" "Qdrant Serverless")
+-}}
+{{- $available := slice -}}
+{{- range $deploymentTypes -}}
+  {{- $dt := . -}}
+  {{- $typeDir := printf "%s/%s" $.dir $dt.dir -}}
+  {{- if (partial "snippet-files.html" (dict "dir" $typeDir "block" $.block "order" (slice))) -}}
+    {{- $available = $available | append (merge $dt (dict "path" $typeDir "key" (strings.TrimPrefix "_" $dt.dir))) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $available -}}
