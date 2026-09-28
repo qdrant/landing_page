@@ -15,9 +15,9 @@ tags:
   - onnx
 ---
 
-We rewrote cross-encoder inference in Rust, benchmarked it against Python, and on a small reranking model it came out only 1.1x faster at the median. That is not a sign of a slow Rust implementation. The Python libraries we compared against, `fastembed` and `sentence-transformers`, hand the same work to the same C++ engine, `onnxruntime`, so every library spends almost all of their time in the same compiled code.
+We rewrote cross-encoder inference in Rust, benchmarked it against Python, and on a small reranking model it came out only 1.1x faster at the median. That is not a sign of a slow Rust implementation. The Python libraries we compared against, `fastembed` and `sentence-transformers`, hand the same work to the same C++ engine, `onnxruntime`, so all three spend almost all of their time in the same compiled code.
 
-This post covers how our Rust library, [`cross-encode-rs`](https://github.com/AstraBert/cross-encode-rs), runs inference, where it does pull ahead (about 1.4x on a larger model), and where it does not (model load time).
+In the Rust community, rewriting code in Rust is called "oxidizing" it, since rust is also what iron turns into when it oxidizes. This post covers how we oxidized cross-encoder inference into a library, [`cross-encode-rs`](https://github.com/AstraBert/cross-encode-rs), how it works, where it does pull ahead (about 1.4x on a larger model), and where it does not (model load time).
 
 ## Understanding the Foundations
 
@@ -127,11 +127,13 @@ All benchmarks ran on a MacBook M4 Max with 48 GB of RAM, using all 14 CPU cores
 Note: <code>sentence-transformers</code> uses <code>torch</code> as its backend by default. For a fair comparison against the other two libraries, we configured it to use ONNX (via the <code>optimum</code> library) instead, pinned to <code>CPUExecutionProvider</code>. On macOS, Optimum otherwise picks CoreML first: in our first run, that put its MiniLM p50 at 213 ms per request, against 29 ms on the CPU provider.
 </aside>
 
-The results were mixed, and they do not fit the usual "Python is slow" narrative:
+The results do not fit the usual "Python is slow" narrative:
 
-- On the MiniLM model, the three libraries land close together. `cross-encode-rs` runs 1.1x faster than `fastembed` and `sentence-transformers` at p50 (25 ms versus 27 ms and 29 ms per request) and 1.4x faster at p99 (36 ms versus 49 ms and 51 ms), but both Python libraries win on the fastest requests (14 ms versus 17 ms minimum per request).
-- On the larger Jina model, the gap widens: `cross-encode-rs` runs 1.3 to 1.5x faster than both Python libraries from minimum to p99 (131 ms versus 189 ms and 191 ms per request at p50, 251 ms versus 340 ms and 336 ms at p99). The one exception is the slowest request: 581 ms for `cross-encode-rs`, 480 ms for `fastembed`, and 585 ms for `sentence-transformers`.
-- `fastembed` and `sentence-transformers` stay within 5% of each other from minimum to p99, on both models.
+- **On the small MiniLM model, the three libraries are close.** `cross-encode-rs` is about 1.1x faster at the median and 1.4x faster at p99, while the Python libraries are slightly faster on the quickest requests.
+- **On the larger Jina model, `cross-encode-rs` pulls ahead.** It is 1.3 to 1.5x faster than both Python libraries at every percentile except the single slowest request.
+- **The two Python libraries perform almost identically**, within 5% of each other from minimum to p99 on both models.
+
+See the charts below for exact numbers.
 
 All three libraries run on `onnxruntime`, the ONNX engine that Microsoft distributes across languages, which explains why their performance is so close on the small model. On the larger model, the two Python libraries still match each other while `cross-encode-rs` pulls about 1.4x ahead, so the runtime is not the whole story: how each library configures and feeds it also counts.
 
@@ -143,10 +145,10 @@ All three libraries run on `onnxruntime`, the ONNX engine that Microsoft distrib
 
 Latency per request is only half of the picture. For cold starts, autoscaling, and serverless deployments, how long a library takes to load a model matters just as much. To compare the libraries rather than the Python interpreter, we timed only the step that creates the ONNX inference session, from inside each process: `init_model()` in `cross-encode-rs`, and the same session setup in `fastembed`. Starting Python, importing libraries, and loading the tokenizer are excluded on both sides. Each library got 11 warmup runs and 41 measured runs per model ([script](https://github.com/AstraBert/cross-encode-rs/blob/main/scripts/model-load-time-bench.sh)).
 
-- On MiniLM, `fastembed` loads the model in 33.5 ms on average, versus 37.6 ms for `cross-encode-rs` (12% faster).
-- On Jina, the two are effectively tied: 333.1 ms for `fastembed` versus 336.6 ms for `cross-encode-rs` on average (1% apart). One slow `cross-encode-rs` run (395 ms) pushes its p99 up; with 41 runs, p99 is effectively the slowest run.
+- **On MiniLM, `fastembed` is slightly faster**, by about 4 ms (12%).
+- **On Jina, the two are effectively tied**, 1% apart on average. The higher `cross-encode-rs` p99 comes from a single slow run.
 
-Both libraries spend this time in the same `onnxruntime` call with the same graph optimization level, so there is little room for the language to make a difference. The gap is a few milliseconds on both models: 12% of a small model's load time, and 1% of a large one's.
+Both libraries spend this time in the same `onnxruntime` call with the same graph optimization level, so there is little room for the language to make a difference. The chart that follows has the exact numbers for each model.
 
 When we timed the whole process instead, `fastembed` took about 134 ms longer than `cross-encode-rs` on both models, even though both loaded the tokenizer and the model. That gap comes from starting the Python interpreter (through uv) and importing the library. It says nothing against fastembed itself, but it is overhead a Python service pays on every cold start.
 

@@ -95,7 +95,7 @@ const STAGES = [
 
 const STATUS = {
   none: () =>
-    'cross-encode-rs prepares the inputs and reads the output; <code>ort</code> runs the model in between. Pick a stage to follow the pair, or switch documents to see the score change.',
+    'cross-encode-rs prepares the inputs and reads the output; <code>ort</code> runs the model in between.',
   tok: (p) =>
     '<code>encode_batch</code> joins query and document into one sequence: <code>[CLS]</code> query <code>[SEP]</code> document <code>[SEP]</code>. ' +
     (p.id === 'cargo'
@@ -288,7 +288,7 @@ export function mount(node) {
       n.classList.toggle('is-on', on);
     });
     const result = `Document ${pair.doc}; relevance score ${fmt(sigmoid(pair.logit), 4)}.`;
-    statusEl.innerHTML = `${result} ${STATUS[stage || 'none'](pair)}`;
+    statusEl.innerHTML = STATUS[stage || 'none'](pair);
     node.querySelector('svg').setAttribute('aria-label', `${result} Cross-encoder inference: tokenize and batch, embedding, six encoder layers, CLS pooling, classification, then sigmoid.`);
   }
 
