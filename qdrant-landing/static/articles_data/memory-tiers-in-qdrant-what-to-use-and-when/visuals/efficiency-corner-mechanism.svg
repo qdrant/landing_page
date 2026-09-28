@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-labelledby="t d">
+<title id="t">Search latency versus memory footprint</title>
+<desc id="d">Conceptual scatter. Pinned quantized vectors sit in the efficient corner of low latency and low memory, at the same latency as full cached with no quantization but with far less memory. Full cold with no quantization is light but slow on cache misses. Full cold with quantization and full cached with quantization sit in between.</desc>
+<style>
+  text { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #303547; }
+  .title { font-size: 23px; font-weight: 600; }
+  .head { font-size: 21px; font-weight: 600; }
+  .label { font-size: 21px; }
+  .small { font-size: 20px; }
+  .note { font-size: 19px; fill: #656b7f; }
+  .muted { fill: #656b7f; }
+  .axis { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+</style>
+<rect x="0.5" y="0.5" width="959" height="539" rx="12" fill="#f0f3fa" stroke="#d3d9eb"/>
+<text class="title" x="40" y="46">Search latency versus memory footprint</text>
+<text class="note" x="40" y="74">conceptual, not to scale</text>
+<rect x="112" y="300" width="330" height="168" rx="8" fill="#b2ebf2"/>
+<text class="label" x="128" y="330" style="fill:#006064;font-weight:600">efficient corner</text>
+<text class="note" x="128" y="356" style="fill:#006064">fast and light</text>
+<path d="M110 110 V470 H920" class="axis"/>
+<text class="note" transform="translate(80 290) rotate(-90)" text-anchor="middle">search latency →</text>
+<text class="note" x="515" y="510" text-anchor="middle">memory footprint →</text>
+<line x1="222" x2="786" y1="417" y2="417" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="5 5"/>
+<text class="note" x="610" y="446" text-anchor="middle">same speed, less memory</text>
+<circle cx="208" cy="417" r="10" fill="#00838f"/>
+<text class="label" x="128" y="456" style="font-weight:600">pinned quantized vectors</text>
+<circle cx="799" cy="417" r="8" fill="#9c27b0"/>
+<text class="label" x="799" y="372" text-anchor="middle" style="fill:#9c27b0">full cached,</text>
+<text class="note" x="799" y="398" text-anchor="middle">no quantization</text>
+<circle cx="191" cy="164" r="8" fill="#dc244c"/>
+<text class="label" x="210" y="162" style="fill:#9e0d38">full cold, no quantization</text>
+<text class="note" x="210" y="188">light, but slow on cache misses</text>
+<circle cx="475" cy="309" r="8" fill="#abb1c7"/>
+<text class="label muted" x="492" y="306">full cold,</text>
+<text class="note" x="492" y="330">with quantization</text>
+<circle cx="855" cy="273" r="8" fill="#abb1c7"/>
+<text class="label muted" x="840" y="244" text-anchor="end">full cached,</text>
+<text class="note" x="840" y="268" text-anchor="end">with quantization</text>
+</svg>

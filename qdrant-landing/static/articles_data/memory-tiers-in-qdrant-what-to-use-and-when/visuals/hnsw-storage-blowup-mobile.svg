@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 858" width="480" height="858" role="img" aria-labelledby="t d">
+<title id="t">HNSW inline storage and on-disk graph size</title>
+<desc id="d">A standard HNSW graph stores a link per edge. Inline storage also stores a compressed copy of the neighbor's vector on every edge, so on-disk graph size grows with edge count and the gap to the standard graph widens as a collection scales.</desc>
+<style>
+  text { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #303547; }
+  .title { font-size: 23px; font-weight: 600; }
+  .head { font-size: 21px; font-weight: 600; }
+  .label { font-size: 21px; }
+  .small { font-size: 20px; }
+  .note { font-size: 19px; fill: #656b7f; }
+  .muted { fill: #656b7f; }
+  .axis { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+</style>
+<rect x="0.5" y="0.5" width="479" height="857" rx="12" fill="#f0f3fa" stroke="#d3d9eb"/>
+<text class="head" x="24" y="44">Per-edge storage</text>
+<rect x="24" y="72" width="88" height="88" rx="10" fill="#c2c5ff"/>
+<line x1="68" y1="116" x2="68.0" y2="84.0" stroke="#6047ff" stroke-width="2"/>
+<circle cx="68.0" cy="84.0" r="5" fill="#6047ff"/>
+<line x1="68" y1="116" x2="40.3" y2="100.0" stroke="#6047ff" stroke-width="2"/>
+<circle cx="40.3" cy="100.0" r="5" fill="#6047ff"/>
+<line x1="68" y1="116" x2="40.3" y2="132.0" stroke="#6047ff" stroke-width="2"/>
+<circle cx="40.3" cy="132.0" r="5" fill="#6047ff"/>
+<line x1="68" y1="116" x2="68.0" y2="148.0" stroke="#6047ff" stroke-width="2"/>
+<circle cx="68.0" cy="148.0" r="5" fill="#6047ff"/>
+<line x1="68" y1="116" x2="95.7" y2="132.0" stroke="#6047ff" stroke-width="2"/>
+<circle cx="95.7" cy="132.0" r="5" fill="#6047ff"/>
+<line x1="68" y1="116" x2="95.7" y2="100.0" stroke="#6047ff" stroke-width="2"/>
+<circle cx="95.7" cy="100.0" r="5" fill="#6047ff"/>
+<circle cx="68" cy="116" r="8" fill="#6047ff"/>
+<rect x="24" y="192" width="88" height="88" rx="10" fill="#e1bee7"/>
+<line x1="68" y1="236" x2="68.0" y2="204.0" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="68.0" cy="204.0" r="5" fill="#9c27b0"/>
+<rect x="63.0" y="214.0" width="10" height="10" rx="1.5" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<line x1="68" y1="236" x2="40.3" y2="220.0" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="40.3" cy="220.0" r="5" fill="#9c27b0"/>
+<rect x="48.3" y="222.5" width="10" height="10" rx="1.5" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<line x1="68" y1="236" x2="40.3" y2="252.0" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="40.3" cy="252.0" r="5" fill="#9c27b0"/>
+<rect x="48.3" y="239.5" width="10" height="10" rx="1.5" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<line x1="68" y1="236" x2="68.0" y2="268.0" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="68.0" cy="268.0" r="5" fill="#9c27b0"/>
+<rect x="63.0" y="248.0" width="10" height="10" rx="1.5" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<line x1="68" y1="236" x2="95.7" y2="252.0" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="95.7" cy="252.0" r="5" fill="#9c27b0"/>
+<rect x="77.7" y="239.5" width="10" height="10" rx="1.5" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<line x1="68" y1="236" x2="95.7" y2="220.0" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="95.7" cy="220.0" r="5" fill="#9c27b0"/>
+<rect x="77.7" y="222.5" width="10" height="10" rx="1.5" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<circle cx="68" cy="236" r="8" fill="#9c27b0"/>
+<text class="head" x="130" y="90">Standard graph</text>
+<text class="small muted" x="130" y="118">An edge stores only a</text>
+<text class="small muted" x="130" y="142">link to its neighbor.</text>
+<text class="head" x="130" y="210">Inline storage</text>
+<text class="small muted" x="130" y="238">Every edge also carries</text>
+<text class="small muted" x="130" y="262">its own compressed copy</text>
+<text class="small muted" x="130" y="286">of the neighbor's vector.</text>
+<line x1="24" x2="456" y1="316" y2="316" stroke="#d3d9eb"/>
+<text class="head" x="24" y="354">On-disk graph size as a</text>
+<text class="head" x="24" y="380">collection grows</text>
+<text class="note" x="24" y="406">conceptual, not to scale</text>
+<path d="M64.0 700.0 C 195.6 695.0, 259.5 642.5, 440.0 460.0 L440.0 567.5 Q 259.5 630.0, 64.0 700.0 Z" fill="#e1bee7" opacity="0.6"/>
+<path d="M64 430 V700 H450" class="axis"/>
+<path d="M64.0 700.0 Q 259.5 630.0, 440.0 567.5" fill="none" stroke="#6047ff" stroke-width="3"/>
+<path d="M64.0 700.0 C 195.6 695.0, 259.5 642.5, 440.0 460.0" fill="none" stroke="#9c27b0" stroke-width="3"/>
+<circle cx="440" cy="460.0" r="6" fill="#9c27b0"/>
+<circle cx="440" cy="567.5" r="6" fill="#6047ff"/>
+<text class="note" transform="translate(44 575) rotate(-90)" text-anchor="middle">on-disk graph size →</text>
+<text class="note" x="252" y="730" text-anchor="middle">edge count →</text>
+<line x1="24" x2="46" y1="766" y2="766" stroke="#9c27b0" stroke-width="3"/><text class="note" x="56" y="772" style="fill:#303547">inline storage</text>
+<line x1="24" x2="46" y1="796" y2="796" stroke="#6047ff" stroke-width="3"/><text class="note" x="56" y="802" style="fill:#303547">standard graph</text>
+<rect x="24" y="818" width="22" height="16" fill="#e1bee7" opacity="0.6"/>
+<text class="note" x="56" y="832" style="fill:#303547">gap widens with edge count</text>
+</svg>

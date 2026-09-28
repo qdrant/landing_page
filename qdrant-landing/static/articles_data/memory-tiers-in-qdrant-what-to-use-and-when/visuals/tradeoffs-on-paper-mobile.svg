@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 1014" width="480" height="1014" role="img" aria-labelledby="t d">
+<title id="t">Trade-offs, on paper, for five memory configurations</title>
+<desc id="d">Full Cached, No Quantization: fast, high footprint, opportunistic cost. Full Cached, With Quantization: fast, high, opportunistic. Full Cold, No Quantization: slow and unpredictable, low, opportunistic. Full Cold, With Quantization: moderate, moderate, opportunistic. Pinned Quantized Vectors: fast, moderate, fixed.</desc>
+<style>
+  text { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #303547; }
+  .title { font-size: 23px; font-weight: 600; }
+  .head { font-size: 21px; font-weight: 600; }
+  .label { font-size: 21px; }
+  .small { font-size: 20px; }
+  .note { font-size: 19px; fill: #656b7f; }
+  .muted { fill: #656b7f; }
+  .axis { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+</style>
+<rect x="0.5" y="0.5" width="479" height="1013" rx="12" fill="#f0f3fa" stroke="#d3d9eb"/>
+<rect x="24" y="24" width="432" height="182" rx="10" fill="#ffffff" stroke="#d3d9eb"/>
+<text class="head" x="44" y="60">Full Cached, No Quantization</text>
+<text class="note" x="44" y="101">speed</text>
+<rect x="186.0" y="78" width="71.6" height="32" rx="16.0" fill="#b2ebf2"/><text x="221.8" y="100.7" text-anchor="middle" style="font-size:19px;fill:#006064">Fast</text>
+<text class="note" x="44" y="143">footprint</text>
+<rect x="186.0" y="120" width="71.6" height="32" rx="16.0" fill="#ffb2b7"/><text x="221.8" y="142.7" text-anchor="middle" style="font-size:19px;fill:#9e0d38">High</text>
+<text class="note" x="44" y="185">memory cost</text>
+<rect x="186.0" y="162" width="174.2" height="32" rx="16.0" fill="#ffffff" stroke="#abb1c7"/><text x="273.1" y="184.7" text-anchor="middle" style="font-size:19px;fill:#303547">Opportunistic</text>
+<rect x="24" y="220" width="432" height="182" rx="10" fill="#ffffff" stroke="#d3d9eb"/>
+<text class="head" x="44" y="256">Full Cached, With Quantization</text>
+<text class="note" x="44" y="297">speed</text>
+<rect x="186.0" y="274" width="71.6" height="32" rx="16.0" fill="#b2ebf2"/><text x="221.8" y="296.6" text-anchor="middle" style="font-size:19px;fill:#006064">Fast</text>
+<text class="note" x="44" y="339">footprint</text>
+<rect x="186.0" y="316" width="71.6" height="32" rx="16.0" fill="#ffb2b7"/><text x="221.8" y="338.6" text-anchor="middle" style="font-size:19px;fill:#9e0d38">High</text>
+<text class="note" x="44" y="381">memory cost</text>
+<rect x="186.0" y="358" width="174.2" height="32" rx="16.0" fill="#ffffff" stroke="#abb1c7"/><text x="273.1" y="380.6" text-anchor="middle" style="font-size:19px;fill:#303547">Opportunistic</text>
+<rect x="24" y="416" width="432" height="182" rx="10" fill="#ffffff" stroke="#d3d9eb"/>
+<text class="head" x="44" y="452">Full Cold, No Quantization</text>
+<text class="note" x="44" y="493">speed</text>
+<rect x="186.0" y="470" width="242.6" height="32" rx="16.0" fill="#ffb2b7"/><text x="307.3" y="492.6" text-anchor="middle" style="font-size:19px;fill:#9e0d38">Slow, unpredictable</text>
+<text class="note" x="44" y="535">footprint</text>
+<rect x="186.0" y="512" width="60.2" height="32" rx="16.0" fill="#b2ebf2"/><text x="216.1" y="534.6" text-anchor="middle" style="font-size:19px;fill:#006064">Low</text>
+<text class="note" x="44" y="577">memory cost</text>
+<rect x="186.0" y="554" width="174.2" height="32" rx="16.0" fill="#ffffff" stroke="#abb1c7"/><text x="273.1" y="576.6" text-anchor="middle" style="font-size:19px;fill:#303547">Opportunistic</text>
+<rect x="24" y="612" width="432" height="182" rx="10" fill="#ffffff" stroke="#d3d9eb"/>
+<text class="head" x="44" y="648">Full Cold, With Quantization</text>
+<text class="note" x="44" y="689">speed</text>
+<rect x="186.0" y="666" width="117.2" height="32" rx="16.0" fill="#ffe0b2"/><text x="244.6" y="688.6" text-anchor="middle" style="font-size:19px;fill:#7a4100">Moderate</text>
+<text class="note" x="44" y="731">footprint</text>
+<rect x="186.0" y="708" width="117.2" height="32" rx="16.0" fill="#ffe0b2"/><text x="244.6" y="730.6" text-anchor="middle" style="font-size:19px;fill:#7a4100">Moderate</text>
+<text class="note" x="44" y="773">memory cost</text>
+<rect x="186.0" y="750" width="174.2" height="32" rx="16.0" fill="#ffffff" stroke="#abb1c7"/><text x="273.1" y="772.6" text-anchor="middle" style="font-size:19px;fill:#303547">Opportunistic</text>
+<rect x="24" y="808" width="432" height="182" rx="10" fill="#ffffff" stroke="#d3d9eb"/>
+<text class="head" x="44" y="844">Pinned Quantized Vectors</text>
+<text class="note" x="44" y="885">speed</text>
+<rect x="186.0" y="862" width="71.6" height="32" rx="16.0" fill="#b2ebf2"/><text x="221.8" y="884.6" text-anchor="middle" style="font-size:19px;fill:#006064">Fast</text>
+<text class="note" x="44" y="927">footprint</text>
+<rect x="186.0" y="904" width="117.2" height="32" rx="16.0" fill="#ffe0b2"/><text x="244.6" y="926.6" text-anchor="middle" style="font-size:19px;fill:#7a4100">Moderate</text>
+<text class="note" x="44" y="969">memory cost</text>
+<rect x="186.0" y="946" width="83.0" height="32" rx="16.0" fill="#c2c5ff"/><text x="227.5" y="968.6" text-anchor="middle" style="font-size:19px;fill:#392689">Fixed</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 510" width="960" height="510" role="img" aria-labelledby="t d">
+<title id="t">Cold tier page faults with and without quantization</title>
+<desc id="d">A disk page holds only a few full-precision vectors but many compressed vectors. Across one query's graph traversal, the per-hop read cost stays low and even with the compressed copy, and spikes on an uncached, unquantized page miss.</desc>
+<style>
+  text { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #303547; }
+  .title { font-size: 23px; font-weight: 600; }
+  .head { font-size: 21px; font-weight: 600; }
+  .label { font-size: 21px; }
+  .small { font-size: 20px; }
+  .note { font-size: 19px; fill: #656b7f; }
+  .muted { fill: #656b7f; }
+  .axis { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+</style>
+<rect x="0.5" y="0.5" width="959" height="509" rx="12" fill="#f0f3fa" stroke="#d3d9eb"/>
+<line x1="420" x2="420" y1="32" y2="486" stroke="#d3d9eb"/>
+<text class="head" x="40" y="56">Vectors per disk page</text>
+<rect x="40" y="110" width="88" height="88" rx="10" fill="#c2c5ff"/>
+<rect x="46" y="116" width="34" height="34" rx="4" fill="#6047ff"/>
+<rect x="88" y="116" width="34" height="34" rx="4" fill="#6047ff"/>
+<rect x="46" y="158" width="34" height="34" rx="4" fill="#6047ff"/>
+<rect x="88" y="158" width="34" height="34" rx="4" fill="#6047ff"/>
+<rect x="40" y="270" width="88" height="88" rx="10" fill="#b2ebf2"/>
+<rect x="46" y="276" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="66" y="276" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="86" y="276" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="106" y="276" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="46" y="296" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="66" y="296" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="86" y="296" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="106" y="296" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="46" y="316" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="66" y="316" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="86" y="316" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="106" y="316" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="46" y="336" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="66" y="336" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="86" y="336" width="16" height="16" rx="2" fill="#00838f"/>
+<rect x="106" y="336" width="16" height="16" rx="2" fill="#00838f"/>
+<text class="head" x="146" y="128">Full precision, cold</text>
+<text class="small muted" x="146" y="156">A page holds only a</text>
+<text class="small muted" x="146" y="180">few full vectors, so</text>
+<text class="small muted" x="146" y="204">most candidates need</text>
+<text class="small muted" x="146" y="228">their own disk read.</text>
+<text class="head" x="146" y="288">Compressed copy</text>
+<text class="small muted" x="146" y="316">The same page holds</text>
+<text class="small muted" x="146" y="340">many compressed</text>
+<text class="small muted" x="146" y="364">vectors, so one read</text>
+<text class="small muted" x="146" y="388">serves far more</text>
+<text class="small muted" x="146" y="412">candidates.</text>
+<text class="head" x="444" y="56">Read cost across one query's</text>
+<text class="head" x="444" y="82">graph traversal</text>
+<text class="note" x="444" y="108">conceptual, not to scale</text>
+<rect x="444" y="129" width="16" height="16" rx="2" fill="#6047ff"/><text class="note" x="470" y="144" style="fill:#303547">full precision, cold</text>
+<rect x="716" y="129" width="16" height="16" rx="2" fill="#00838f"/><text class="note" x="742" y="144" style="fill:#303547">compressed copy</text>
+<rect x="452" y="399" width="22" height="31" rx="2" fill="#6047ff"/>
+<rect x="478" y="410" width="22" height="20" rx="2" fill="#00838f"/>
+<rect x="512" y="383" width="22" height="47" rx="2" fill="#6047ff"/>
+<rect x="538" y="407" width="22" height="23" rx="2" fill="#00838f"/>
+<rect x="572" y="404" width="22" height="26" rx="2" fill="#6047ff"/>
+<rect x="598" y="412" width="22" height="18" rx="2" fill="#00838f"/>
+<rect x="632" y="391" width="22" height="39" rx="2" fill="#6047ff"/>
+<rect x="658" y="410" width="22" height="20" rx="2" fill="#00838f"/>
+<rect x="692" y="396" width="22" height="34" rx="2" fill="#6047ff"/>
+<rect x="718" y="407" width="22" height="23" rx="2" fill="#00838f"/>
+<rect x="752" y="378" width="22" height="52" rx="2" fill="#6047ff"/>
+<rect x="778" y="412" width="22" height="18" rx="2" fill="#00838f"/>
+<rect x="812" y="190" width="22" height="240" rx="2" fill="#6047ff"/>
+<rect x="838" y="404" width="22" height="26" rx="2" fill="#00838f"/>
+<rect x="872" y="394" width="22" height="36" rx="2" fill="#6047ff"/>
+<rect x="898" y="410" width="22" height="20" rx="2" fill="#00838f"/>
+<line x1="774" x2="806" y1="198" y2="198" stroke="#dc244c" stroke-width="1.5"/>
+<text class="note" x="768" y="204" text-anchor="end" style="fill:#9e0d38">a page miss, uncached</text>
+<text class="note" x="768" y="228" text-anchor="end" style="fill:#9e0d38">and unquantized</text>
+<path d="M444 170 V430 H940" class="axis"/>
+<text class="note" x="444" y="456">query start</text>
+<text class="note" x="940" y="456" text-anchor="end">query result</text>
+<text class="note" x="692" y="484" text-anchor="middle">graph traversal, hop by hop →</text>
+</svg>

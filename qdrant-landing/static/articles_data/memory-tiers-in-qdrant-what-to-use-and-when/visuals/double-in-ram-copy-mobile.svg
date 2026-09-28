@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 612" width="480" height="612" role="img" aria-labelledby="t d">
+<title id="t">Caching two copies of the vectors in RAM</title>
+<desc id="d">Caching the full-precision vectors alone leaves headroom under the cluster RAM budget. Also caching the compressed copy alongside it pushes the resident working set past the budget.</desc>
+<style>
+  text { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #303547; }
+  .title { font-size: 23px; font-weight: 600; }
+  .head { font-size: 21px; font-weight: 600; }
+  .label { font-size: 21px; }
+  .small { font-size: 20px; }
+  .note { font-size: 19px; fill: #656b7f; }
+  .muted { fill: #656b7f; }
+  .axis { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+</style>
+<rect x="0.5" y="0.5" width="479" height="611" rx="12" fill="#f0f3fa" stroke="#d3d9eb"/>
+<text class="head" x="24" y="44">Caching the full-precision</text>
+<text class="head" x="24" y="70">vectors alone</text>
+<text class="note" x="400" y="104" text-anchor="end">cluster RAM budget</text>
+<rect x="24" y="116" width="376" height="48" rx="8" fill="#ffffff" stroke="#d3d9eb"/>
+<rect x="24" y="116" width="216" height="48" rx="8" fill="#6047ff"/>
+<line x1="400" x2="400" y1="108" y2="172" stroke="#303547" stroke-width="2"/>
+<rect x="24" y="183" width="16" height="16" rx="2" fill="#6047ff"/><text class="note" x="50" y="198" style="fill:#303547">full-precision vectors, cached</text>
+<text class="small muted" x="24" y="236">One resident copy. Room to</text>
+<text class="small muted" x="24" y="260">spare for growth.</text>
+<text class="head" x="24" y="324">Also caching the compressed</text>
+<text class="head" x="24" y="350">copy alongside it</text>
+<text class="note" x="400" y="384" text-anchor="end">cluster RAM budget</text>
+<rect x="24" y="396" width="376" height="48" rx="8" fill="#ffffff" stroke="#d3d9eb"/>
+<rect x="232" y="396" width="168" height="48" fill="#00838f"/>
+<rect x="400" y="396" width="56" height="48" fill="#dc244c"/>
+<rect x="24" y="396" width="216" height="48" rx="8" fill="#6047ff"/>
+<line x1="400" x2="400" y1="388" y2="452" stroke="#303547" stroke-width="2"/>
+<text class="note" x="456" y="472" text-anchor="end" style="fill:#9e0d38;font-weight:600">over budget</text>
+<rect x="24" y="483" width="16" height="16" rx="2" fill="#6047ff"/><text class="note" x="50" y="498" style="fill:#303547">full-precision vectors, cached</text>
+<rect x="24" y="511" width="16" height="16" rx="2" fill="#00838f"/><text class="note" x="50" y="526" style="fill:#303547">compressed copy, cached</text>
+<text class="small muted" x="24" y="564">Two resident copies competing</text>
+<text class="small muted" x="24" y="588">for the same budget.</text>
+</svg>
