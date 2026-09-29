@@ -38,8 +38,12 @@ This created two fundamental constraints: First, the system had to scale to bill
 
 To move quickly, Bazaarvoice initially implemented vector search using PostgreSQL with the pgvector extension. While this allowed the team to ship early versions of AI-powered features, it was never intended as a long-term solution.
 
->“We only did Postgres to get a product out the door quickly. We knew when we did it, it was not the right long-term choice.”  
-— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
+{{< quote
+  text="We only did Postgres to get a product out the door quickly. We knew when we did it, it was not the right long-term choice."
+  name="Dr. Lou Kratz"
+  role="Senior Principal Engineer"
+  company="Bazaarvoice"
+  logo="/img/customers-case-studies-logo/bazaarvoice.svg" >}}
 
 As usage grew, the drawbacks became unavoidable. Every new client or product required manual partition creation. Cross-product queries forced Postgres to iterate across thousands of partitions, causing query latency to spike. At the same time, storage and RAM requirements climbed into the multi-terabyte range.
 
@@ -51,8 +55,11 @@ The team evaluated several approaches, including traditional search engines and 
 
 With over a billion vectors, post-filtering meant searching far more data than necessary.
 
->“Why would we search a billion vectors when we only need to search ten thousand?”  
-— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
+{{< quote
+  text="Why would we search a billion vectors when we only need to search ten thousand?"
+  name="Dr. Lou Kratz"
+  role="Senior Principal Engineer"
+  company="Bazaarvoice" >}}
 
 Qdrant stood out for a few key reasons:
 
@@ -67,13 +74,19 @@ From the outset, the team defined clear success criteria: sub-100 millisecond qu
 
 The migration from PostgreSQL to Qdrant involved moving between four and five terabytes of data while continuing to ingest new reviews through streaming pipelines. At the same time, message retention limits created a narrow window to complete the migration safely.
 
->“We had to move about 4 to 5 TBs of data while new data kept coming in. There was a real time crunch.”  
-— Abhijeet Dhupia, Senior Machine Learning Engineer, Bazaarvoice
+{{< quote
+  text="We had to move about 4 to 5 TBs of data while new data kept coming in. There was a real time crunch."
+  name="Abhijeet Dhupia"
+  role="Senior Machine Learning Engineer"
+  company="Bazaarvoice" >}}
 
 During the migration, all data was disk-backed to avoid exhausting RAM. Despite this unoptimized configuration, teams immediately noticed performance improvements.
 
->“Even with everything on disk, the feedback was that it was pretty fast compared to where we were earlier.”  
-— Abhijeet Dhupia, Senior Machine Learning Engineer, Bazaarvoice
+{{< quote
+  text="Even with everything on disk, the feedback was that it was pretty fast compared to where we were earlier."
+  name="Abhijeet Dhupia"
+  role="Senior Machine Learning Engineer"
+  company="Bazaarvoice" >}}
 
 Today, Bazaarvoice runs 2.7 billion review vectors in Qdrant and continues to tune the system as usage grows.
 
@@ -83,8 +96,12 @@ The most immediate impact came from storage and infrastructure efficiency.
 
 Bazaarvoice reduced its vector storage footprint by approximately 100x, compressing what previously required 4 to 5 terabytes in PostgreSQL down to a few hundred gigabytes in Qdrant. Quantization made it possible to keep billions of vectors accessible without the RAM requirements that full-resolution embeddings would have imposed.
 
->“Everyone talks about speed and accuracy. Storage is the story nobody talks about, and it’s the most important one at this scale.”  
-— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
+{{< quote
+  text="Everyone talks about speed and accuracy. Storage is the story nobody talks about, and it’s the most important one at this scale."
+  name="Dr. Lou Kratz"
+  role="Senior Principal Engineer"
+  company="Bazaarvoice"
+  logo="/img/customers-case-studies-logo/bazaarvoice.svg" >}}
 
 Performance improved at the same time. Even during migration, with disk-based collections, the system consistently delivered sub-100 millisecond query latency while maintaining approximately 98 percent nearest neighbor accuracy. That balance allowed Bazaarvoice to dramatically lower infrastructure costs without sacrificing user experience.
 
@@ -92,8 +109,11 @@ Just as important, Qdrant removed a major source of engineering friction. Under 
 
 With Qdrant’s flexible indexing, cross-product and cross-category queries now work at query time without performance degradation.
 
->“In Postgres, you’d end up iterating over ten thousand partitions and the query would just go kaput. That simply doesn’t happen anymore.”  
-— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
+{{< quote
+  text="In Postgres, you’d end up iterating over ten thousand partitions and the query would just go kaput. That simply doesn’t happen anymore."
+  name="Dr. Lou Kratz"
+  role="Senior Principal Engineer"
+  company="Bazaarvoice" >}}
 
 ## Unlocking New Product Development
 
@@ -101,13 +121,19 @@ By solving storage, cost, and operational complexity in one move, Qdrant unlocke
 
 Within a single year, the team shipped two new AI-powered products on top of the same vector infrastructure. The AI Shopping Assistant went live in 2026, allowing shoppers to ask natural language questions directly on product pages. AI Insights, currently in prerelease, enables brands to explore sentiment and themes across entire product lines using conversational queries.
 
->“We’re shipping the AI products we actually bought this for now. And we’re doing it from a single place.”  
-— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
+{{< quote
+  text="We’re shipping the AI products we actually bought this for now. And we’re doing it from a single place."
+  name="Dr. Lou Kratz"
+  role="Senior Principal Engineer"
+  company="Bazaarvoice" >}}
 
 From a developer perspective, the experience remained consistent across environments. The open-source container made local development and CI/CD straightforward, while the hybrid cloud deployment satisfied security and compliance requirements.
 
->“It does one thing and it does it really well. It feels simple, even though I know it’s not.”  
-— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
+{{< quote
+  text="It does one thing and it does it really well. It feels simple, even though I know it’s not."
+  name="Dr. Lou Kratz"
+  role="Senior Principal Engineer"
+  company="Bazaarvoice" >}}
 
 ## What’s next for Bazaarvoice
 
