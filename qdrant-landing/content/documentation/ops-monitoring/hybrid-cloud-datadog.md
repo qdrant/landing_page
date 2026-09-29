@@ -3,6 +3,11 @@ title: Monitoring with Datadog
 short_description: "Monitor Qdrant Hybrid Cloud and Private Cloud deployments by setting up the Datadog Operator and Agent in your Kubernetes cluster."
 description: "Set up the Datadog Operator in Kubernetes to scrape Qdrant metrics from Hybrid Cloud and Private Cloud clusters using OpenMetrics, and visualize them in Datadog."
 weight: 20
+goal: Operations
+stack:
+  - Datadog
+  - Kubernetes
+learning_kind: examples
 ---
 
 # Monitoring Hybrid/Private Cloud with Datadog
