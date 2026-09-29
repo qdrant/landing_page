@@ -80,7 +80,51 @@ This can be too broad, so we combine it with a [filter](/articles/filterable-hns
 
 {{< figure src=/articles_data/vector-similarity-beyond-search/mislabelling.png caption="Mislabeling Detection" alt="Items ordered by dissimilarity to the query Chair: three chairs, an outdoor egg chair flagged for review, and a set of caster wheels flagged as mislabeled." >}}
 
-In Qdrant, pass the category title embedding as the only negative example, and filter on the category.
+On a small furniture catalog, this query uses the same category twice: as the only negative example and as the filter.
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(":memory:")
+
+category = "chair"
+
+result = client.query_points(
+    collection_name="furniture",
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            # The category title is the only negative example
+            negative=[
+                models.Document(
+                    text=category,
+                    model="sentence-transformers/all-MiniLM-L6-v2",
+                )
+            ],
+            strategy=models.RecommendStrategy.BEST_SCORE,
+        )
+    ),
+    # The filter keeps the search inside that same category
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="category",
+                match=models.MatchValue(value=category),
+            )
+        ]
+    ),
+    limit=3,
+)
+```
+
+It returns the three items labeled as chairs that look least like a chair:
+
+```text
+-0.584  set of five rubber caster wheels
+-0.662  rattan hanging egg chair
+-0.698  velvet armchair
+```
+
+The mislabeled wheels come first, and the egg chair is the review candidate. Scores are negative, and the least similar item scores highest.
 The output of this search can be further processed with heavier models or human supervision to detect actual mislabeling.
 
 ### Detecting Outliers
@@ -93,7 +137,39 @@ Dissimilarity search can be used for this purpose as well.
 The only thing we need is a bunch of reference points that we consider "normal".
 Then we can search for the most dissimilar points to this reference set and use them as candidates for further analysis.
 In Qdrant, pass the IDs of the reference points as negative examples.
-Keep the reference set to a few representative points, because the cost of `best_score` grows linearly with the number of examples, and raise the `ef` search parameter, for example to 64, for better accuracy.
+Keep the reference set to a few representative points, because the cost of `best_score` grows linearly with the number of examples.
+
+This query uses one reference item per category. In the examples, `item_id` looks up an item's point ID by its name:
+
+```python
+result = client.query_points(
+    collection_name="furniture",
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            # One reference item per category
+            negative=[
+                item_id["wooden dining chair"],
+                item_id["oak dining table"],
+                item_id["brass floor lamp"],
+                item_id["leather sofa"],
+                item_id["walnut bookshelf"],
+            ],
+            strategy=models.RecommendStrategy.BEST_SCORE,
+        )
+    ),
+    limit=3,
+)
+```
+
+It returns:
+
+```text
+-0.616  set of five rubber caster wheels
+-0.625  metal filing cabinet
+-0.651  metal standing desk
+```
+
+The wheels come first. The two metal items follow because every reference is made of wood, brass, or leather, so choose references that cover what "normal" looks like in your data.
 
 
 ## Diversity Search
@@ -118,10 +194,78 @@ By maximizing the distance between all points in the response, we can have an al
 {{< figure src=/articles_data/vector-similarity-beyond-search/diversity.png caption="Diversity Search" alt="Starting from a random point, each next result is the point farthest from all previous results." >}}
 
 
-The best-known algorithm of this kind is [Maximal Marginal Relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) (MMR).
+The method in the diagram is farthest-first selection: start from a random point, then keep adding the point farthest from all points picked so far.
+In Qdrant, the [Distance Matrix API](/documentation/search/explore/#distance-matrix) provides the pairwise scores it needs. Request a matrix with `limit` set to the `sample` size minus one, so every sampled point is scored against every other, and run the selection on the client:
+
+```python
+import random
+
+matrix = client.search_matrix_pairs(
+    collection_name="furniture",
+    # Sample the whole catalog of 17 items
+    sample=17,
+    # Score every sampled item against the 16 others
+    limit=16,
+)
+
+similarity = {}
+for pair in matrix.pairs:
+    similarity[pair.a, pair.b] = similarity[pair.b, pair.a] = pair.score
+ids = {pair.a for pair in matrix.pairs}
+
+picked = [random.choice(sorted(ids))]
+while len(picked) < 4:
+    # Add the item least similar to its closest picked item
+    farthest = min(
+        ids - set(picked),
+        key=lambda i: max(similarity[i, j] for j in picked),
+    )
+    picked.append(farthest)
+```
+
+It returns four items that have little in common:
+
+```text
+wooden dining chair
+bedside reading lamp
+metal filing cabinet
+set of five rubber caster wheels
+```
+
+The first pick is random, so the list changes between runs.
+
+When you have a query, the related approach is [Maximal Marginal Relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) (MMR). It balances relevance to the query against diversity among the selected results.
 Qdrant has supported it since v1.15 as an `mmr` parameter of a nearest-neighbor query, where `diversity` sets the balance between relevance (0.0) and diversity (1.0).
-MMR needs a query vector. To build a selection without one, as in the diagram, request a [Distance Matrix](/documentation/search/explore/#distance-matrix) with `limit` set to the `sample` size minus one, so every sampled point is scored against every other.
-Then pick points on the client: start from a random point and keep adding the point farthest from all points picked so far.
+This query asks for three chairs:
+
+```python
+result = client.query_points(
+    collection_name="furniture",
+    query=models.NearestQuery(
+        nearest=models.Document(
+            text="chair",
+            model="sentence-transformers/all-MiniLM-L6-v2",
+        ),
+        mmr=models.Mmr(
+            # 0.0 is pure relevance, 1.0 is pure diversity
+            diversity=0.7,
+            # Select from the 5 items nearest to the query
+            candidates_limit=5,
+        ),
+    ),
+    limit=3,
+)
+```
+
+It returns:
+
+```text
+0.722  wooden dining chair
+0.481  rattan hanging egg chair
+0.664  ergonomic office chair
+```
+
+A plain nearest-neighbor search returns the velvet armchair instead of the egg chair. Results come in the order MMR selects them, so the scores aren't sorted.
 
 
 ## Recommendations
@@ -136,12 +280,43 @@ There are multiple ways to implement recommendations with vectors.
 ### Feature-Based Recommendations
 
 The first approach is to take all positive and negative examples and average them to create a single query vector.
-In this technique, the more significant components of positive vectors are canceled out by the negative ones, and the resulting vector is a combination of all the features present in the positive examples, but not in the negative ones.
+Qdrant averages the positive and the negative examples separately and combines the two averages into one query vector, `avg_positive + avg_positive - avg_negative`.
+The query moves toward the positive examples and away from the negative ones, and how useful the results are depends on the embedding space.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/feature-based-recommendations.png caption="Feature-Based Recommendations" alt="Bar chart of vector dimensions. The search query keeps the dimensions where positive examples are high and negative examples are low." >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/feature-based-recommendations.png caption="Feature-Based Recommendations" alt="Bar chart comparing the values of the search query, the positive examples, and the negative examples in each vector dimension." >}}
 
 Qdrant implements this approach as the default [`average_vector` strategy](/documentation/search/explore/#average-vector-strategy) of the Recommend query.
-It works great when the vectors are assumed to have each of their dimensions represent some kind of feature of the data, but sometimes distances are a better tool to judge negative and positive examples.
+Because it runs a single search, it's as fast as a regular query. It works when averaging vectors also averages their meaning. In embedding spaces where that fails, distances to each example are a better tool to judge positive and negative examples.
+
+For a shopper who liked the wooden dining chair and the oak dining table, but not the metal standing desk:
+
+```python
+result = client.query_points(
+    collection_name="furniture",
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            positive=[
+                item_id["wooden dining chair"],
+                item_id["oak dining table"],
+            ],
+            negative=[item_id["metal standing desk"]],
+            strategy=models.RecommendStrategy.AVERAGE_VECTOR,
+        )
+    ),
+    limit=4,
+)
+```
+
+It returns:
+
+```text
+0.483  walnut bookshelf
+0.465  oak chest of drawers
+0.423  velvet armchair
+0.414  pine bedside table
+```
+
+Three of the four results are wooden, and none is metal.
 
 ### Distance-Based Recommendations
 
@@ -153,6 +328,36 @@ In this technique, we perform searches near the positive examples while excludin
 Qdrant implements this approach as the [`best_score` strategy](/documentation/search/explore/#best-score-strategy), available since v1.6.
 A candidate that is closer to a negative example than to any positive one gets a negative score, so it ranks below every candidate that is closer to a positive example.
 [Deliver Better Recommendations with Qdrant's New API](/articles/new-recommendation-api/) compares it with `average_vector`.
+
+The same examples with the `best_score` strategy:
+
+```python
+result = client.query_points(
+    collection_name="furniture",
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            positive=[
+                item_id["wooden dining chair"],
+                item_id["oak dining table"],
+            ],
+            negative=[item_id["metal standing desk"]],
+            strategy=models.RecommendStrategy.BEST_SCORE,
+        )
+    ),
+    limit=4,
+)
+```
+
+It returns:
+
+```text
+0.699  oak chest of drawers
+0.695  velvet armchair
+0.689  ergonomic office chair
+0.683  pine bedside table
+```
+
+Each result is closer to one of the positive examples than to the desk. The ergonomic office chair, a close neighbor of the dining chair, now makes the list.
 
 The main use case of both approaches is to take some history of user interactions and recommend new items based on it.
 
@@ -185,7 +390,70 @@ The important difference between this and the recommendation method is that the 
 
 Qdrant implements both ideas in the [Discovery API](/documentation/search/explore/#discovery-api), available since v1.7.
 Discovery search takes a target and context pairs. Points that satisfy more pairs always rank higher, and similarity to the target orders points that satisfy the same number.
+This query looks for a seat on the velvet armchair's side of the pair, away from the wooden dining chair:
+
+```python
+result = client.query_points(
+    collection_name="furniture",
+    query=models.DiscoverQuery(
+        discover=models.DiscoverInput(
+            target=models.Document(
+                text="seat",
+                model="sentence-transformers/all-MiniLM-L6-v2",
+            ),
+            context=[
+                models.ContextPair(
+                    positive=item_id["velvet armchair"],
+                    negative=item_id["wooden dining chair"],
+                ),
+            ],
+        )
+    ),
+    limit=2,
+)
+```
+
+It returns:
+
+```text
+1.654  leather sofa
+1.621  velvet corner sofa
+```
+
+Being on the positive side of the pair adds 1 to the score, and the rest is the similarity to "seat", scaled to between 0 and 1.
+
 Context search takes only the pairs and returns points from the zones where the loss is lowest, which gives a constrained but diverse result.
+These two pairs prefer velvet over metal and wicker over brass:
+
+```python
+result = client.query_points(
+    collection_name="furniture",
+    query=models.ContextQuery(
+        context=[
+            models.ContextPair(
+                positive=item_id["velvet armchair"],
+                negative=item_id["metal filing cabinet"],
+            ),
+            models.ContextPair(
+                positive=item_id["wicker pendant lamp"],
+                negative=item_id["brass floor lamp"],
+            ),
+        ]
+    ),
+    limit=4,
+)
+```
+
+It returns:
+
+```text
+0.000  wooden dining chair
+0.000  walnut bookshelf
+0.000  velvet corner sofa
+0.000  leather sofa
+```
+
+A score of 0 is the best possible. It means the point is on the positive side of every pair, so many points tie.
 [Discovery Search in Qdrant](/articles/discovery-search/) walks through both.
 
 ## Exploration APIs in Qdrant
@@ -194,15 +462,15 @@ Vector similarity as a concept is much broader than task-specific implementation
 Qdrant exposes them through the [Query API](/documentation/search/search/#query-api), available since v1.10, where they accept the same filters as a regular search.
 The Distance Matrix API has its own endpoint.
 
-| Technique | Qdrant query | Since |
-|---|---|---|
-| Dissimilarity search, mislabeling and outlier detection | [Recommend with only negative examples](/documentation/search/explore/#using-only-negative-examples) | v1.6 |
-| Diversity search | [`mmr`](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) on a nearest-neighbor query | v1.15 |
-| Random sampling | [`sample: random`](/documentation/search/search/#random-sampling) | v1.11 |
-| Feature-based recommendations | [Recommend, `average_vector` strategy](/documentation/search/explore/#average-vector-strategy) | Before v0.10 |
-| Distance-based recommendations | [Recommend, `best_score` strategy](/documentation/search/explore/#best-score-strategy) | v1.6 |
-| Discovery and context search | [Discover and context queries](/documentation/search/explore/#discovery-api) | v1.7 |
-| Similarity structure of a sample | [Distance Matrix API](/documentation/search/explore/#distance-matrix) | v1.12 |
+| Technique                                               | Qdrant query                                                                                                       | Since            |
+| ---------------------------------------------------------| --------------------------------------------------------------------------------------------------------------------| ------------------|
+| Dissimilarity search, mislabeling and outlier detection | [Recommend with only negative examples](/documentation/search/explore/#using-only-negative-examples)               | v1.6             |
+| Diversity search without a query                        | [Distance Matrix API](/documentation/search/explore/#distance-matrix), plus farthest-first selection on the client | v1.12            |
+| Diversity search with a query                           | [`mmr`](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) on a nearest-neighbor query        | v1.15            |
+| Random sampling                                         | [`sample: random`](/documentation/search/search/#random-sampling)                                                  | v1.11            |
+| Feature-based recommendations                           | [Recommend, `average_vector` strategy](/documentation/search/explore/#average-vector-strategy)                     | Default strategy |
+| Distance-based recommendations                          | [Recommend, `best_score` strategy](/documentation/search/explore/#best-score-strategy)                             | v1.6             |
+| Discovery and context search                            | [Discover and context queries](/documentation/search/explore/#discovery-api)                                       | v1.7             |
 
 Full-text search runs in the same API: Qdrant scores [BM25](/documentation/search/text-search/full-text-search/#bm25) on sparse vectors and combines it with dense vectors in [hybrid queries](/documentation/search/hybrid-queries/).
 
