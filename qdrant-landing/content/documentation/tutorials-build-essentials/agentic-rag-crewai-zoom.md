@@ -15,14 +15,12 @@ stack:
 ---
 <!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png) -->
 
-
 # Qdrant Agentic RAG System with CrewAI
 
 | Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) |
-| --- | ----------- | ----------- |----------- |
+| --- | --- | --- |
 
 By combining the power of Qdrant for vector search and CrewAI for orchestrating modular agents, you can build systems that don't just answer questions but analyze, interpret, and act. 
-
 
 Traditional RAG systems focus on fetching data and generating responses, but they lack the ability to reason deeply or handle multi-step processes. 
 
@@ -74,11 +72,11 @@ The user can then continue to interact with the system by asking more questions.
 The system is built on three main components:
 - **Qdrant Vector Database**: Stores meeting transcripts and summaries as vector embeddings, enabling semantic search
 - **CrewAI Framework**: Coordinates AI agents that handle different aspects of meeting analysis
-- **Anthropic Claude**: Provides natural language understanding and response generation
+- **Anthropic Claude**: Powers the agents and the analysis tool with `claude-sonnet-5`
 
 1. **Data Processing Pipeline**  
    - Processes meeting transcripts and metadata
-   - Creates embeddings with SentenceTransformer
+   - Creates embeddings with SentenceTransformer (`all-MiniLM-L6-v2`), the same model used for queries
    - Manages Qdrant collection and data upload
 
 2. **AI Agent System**  
@@ -102,9 +100,8 @@ The system is built on three main components:
    - Create a new cluster and copy the **Cluster URL** (format: https://xxx.gcp.cloud.qdrant.io).
    - Go to **Data Access Control** and generate an **API key**.
 
-2. **Get API Credentials for AI Services**:
-   - Get an API key from [Anthropic](https://www.anthropic.com/)
-   - Get an API key from [OpenAI](https://platform.openai.com/)
+2. **Get an API Key for Claude**:
+   - Get an API key from the [Anthropic Console](https://console.anthropic.com/). Claude powers both the CrewAI agents and the analysis tool.
 
 ---
 
@@ -113,12 +110,12 @@ The system is built on three main components:
 1. **Clone the Repository**:
 ```bash
 git clone https://github.com/qdrant/examples.git
-cd agentic_rag_zoom_crewai
+cd examples/agentic_rag_zoom_crewai
 ```
 
-2. **Create and Activate a Python Virtual Environment with Python 3.10 for compatibility**:
+2. **Create and Activate a Python Virtual Environment (Python 3.10 to 3.13)**:
 ```bash
-python3.10 -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
@@ -131,10 +128,9 @@ pip install -r requirements.txt
 Create a `.env.local` file with:
 
 ```bash
-openai_api_key=your_openai_key_here
-anthropic_api_key=your_anthropic_key_here
-qdrant_url=your_qdrant_url_here
-qdrant_api_key=your_qdrant_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_key_here
+QDRANT_URL=your_qdrant_url_here
+QDRANT_API_KEY=your_qdrant_api_key_here
 ```
 
 ---
@@ -164,17 +160,22 @@ When you run this script, you will be able to interact with the system through a
 At the heart of our system is the data processing pipeline:
 
 ```python
+EMBEDDING_MODEL_NAME = 'all-MiniLM-L6-v2'
+EMBEDDING_DIM = 384
+
 class MeetingData:
     def _initialize(self):
         self.data_dir = Path(__file__).parent.parent / 'data'
         self.meetings = self._load_meetings()
         
         self.qdrant_client = QdrantClient(
-            url=os.getenv('qdrant_url'),
-            api_key=os.getenv('qdrant_api_key')
+            url=os.getenv('QDRANT_URL'),
+            api_key=os.getenv('QDRANT_API_KEY')
         )
-        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
 ```
+
+The `zoom_recordings` collection is created with `size=EMBEDDING_DIM`, so every vector written to it or searched against it must come from this model.
 The singleton pattern in data_loader.py is implemented through a MeetingData class that uses Python's __new__ and __init__ methods. The class maintains a private _instance variable to track if an instance exists, and a _initialized flag to ensure the initialization code only runs once. When creating a new instance with MeetingData(), __new__ first checks if _instance exists - if it doesn't, it creates one and sets the initialization flag to False. The __init__ method then checks this flag, and if it's False, runs the initialization code and sets the flag to True. This ensures that all subsequent calls to MeetingData() return the same instance with the same initialized resources.
 
 When processing meetings, we need to consider both the content and context. Each meeting gets converted into a rich text representation before being transformed into a vector:
@@ -215,54 +216,63 @@ class CalculatorTool(BaseTool):
         }
 ```
 
-But the real power comes from our vector search integration. This tool converts natural language queries into vector representations and searches our meeting database:
+But the real power comes from our vector search integration. This tool embeds the natural language query with the same `all-MiniLM-L6-v2` model that indexed the meetings and searches our meeting database. Using one model for both ingestion and queries matters: vectors from different models live in different spaces and have different sizes, so a query embedded with another model would either fail with a dimension error or return meaningless matches.
 
 ```python
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+
 class SearchMeetingsTool(BaseTool):
     def _run(self, query: str) -> List[Dict]:
-        response = openai_client.embeddings.create(
-            model="text-embedding-ada-002",
-            input=query
-        )
-        query_vector = response.data[0].embedding
+        query_vector = embedding_model.encode(query).tolist()
         
-        return self.qdrant_client.query_points(
+        return qdrant_client.query_points(
             collection_name='zoom_recordings',
             query=query_vector,
-            limit=10
+            limit=10,
         ).points
 ```
 
-The search results then feed into our analysis tool, which uses Claude to provide deeper insights:
+The search results then feed into our analysis tool, which uses Claude to provide deeper insights. The example uses `claude-sonnet-5`. The Anthropic SDK reads `ANTHROPIC_API_KEY` from the environment, and the response text is collected from the message's text blocks:
 
 ```python
+CLAUDE_MODEL = "claude-sonnet-5"
+
 class MeetingAnalysisTool(BaseTool):
     def _run(self, meeting_data: dict) -> Dict:
+        client = anthropic.Anthropic()
         meetings_text = self._format_meetings(meeting_data)
         
         message = client.messages.create(
-            model="claude-3-sonnet-20240229",
+            model=CLAUDE_MODEL,
+            max_tokens=4096,
             messages=[{
                 "role": "user", 
                 "content": f"Analyze these meetings:\n\n{meetings_text}"
             }]
         )
+        analysis = "".join(
+            block.text for block in message.content if block.type == "text"
+        )
 ```
 
 ### Orchestrating the Workflow
 
-The magic happens when we bring these tools together under our agent framework. We create two specialized agents:
+The magic happens when we bring these tools together under our agent framework. Both agents run on the same Claude model through CrewAI's `LLM` class. We create two specialized agents:
 
 ```python
+llm = LLM(model=f"anthropic/{CLAUDE_MODEL}", max_tokens=4096)
+
 researcher = Agent(
     role='Research Assistant',
     goal='Find and analyze relevant information',
-    tools=[calculator, searcher, analyzer]
+    tools=[calculator, searcher, analyzer],
+    llm=llm
 )
 
 synthesizer = Agent(
     role='Information Synthesizer',
-    goal='Create comprehensive and clear responses'
+    goal='Create comprehensive and clear responses',
+    llm=llm
 )
 ```
 
