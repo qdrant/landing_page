@@ -20,7 +20,16 @@ partition: case-studies
 ---
 ![voiceflow/image2.png](/blog/case-study-voiceflow/image1.png)
 
-[Voiceflow](https://www.voiceflow.com/) enables enterprises to create AI agents in a no-code environment by designing workflows through a drag-and-drop interface. The platform allows developers to host and customize chatbot interfaces without needing to build their own RAG pipeline, working out of the box and being easily adaptable to specific use cases. “Powered by technologies like Natural Language Understanding (NLU), Large Language Models (LLM), and Qdrant as a vector search engine, Voiceflow serves a diverse range of customers, including enterprises that develop chatbots for internal and external AI use cases,” says [Xavier Portillo Edo](https://www.linkedin.com/in/xavierportillaedo/), Head of Cloud Infrastructure at Voiceflow.
+[Voiceflow](https://www.voiceflow.com/) enables enterprises to create AI agents in a no-code environment by designing workflows through a drag-and-drop interface. The platform allows developers to host and customize chatbot interfaces without needing to build their own RAG pipeline, working out of the box and being easily adaptable to specific use cases.
+
+{{< quote
+  text="Powered by technologies like Natural Language Understanding (NLU), Large Language Models (LLM), and Qdrant as a vector search engine, Voiceflow serves a diverse range of customers, including enterprises that develop chatbots for internal and external AI use cases."
+  name="Xavier Portillo Edo"
+  name_url="https://www.linkedin.com/in/xavierportillaedo/"
+  role="Head of Cloud Infrastructure"
+  company="Voiceflow"
+  logo="/img/customers-case-studies-logo/voiceflow.svg"
+  featured="true" >}}
 
 ## Evaluation Criteria
 
@@ -32,7 +41,13 @@ As part of this development, the Voiceflow engineering team was looking for a [v
 - **Metadata**: The capability to tag data and chunks and retrieve based on those values, essential for organizing and accessing specific information swiftly.
 - **Managed Solution**: The availability of a [managed service](/documentation/cloud/) with automated maintenance, scaling, and security, freeing the team from infrastructure concerns.
 
-*"We started with Pinecone but eventually switched to Qdrant,"* Linkov noted. The reasons for the switch included:
+{{< quote
+  text="We started with Pinecone but eventually switched to Qdrant."
+  name="Denys Linkov"
+  role="Machine Learning Team Lead"
+  company="Voiceflow" >}}
+
+The reasons for the switch included:
 
 - **Scaling Capabilities**: Qdrant offers a robust multi-node setup with [horizontal scaling](/documentation/cloud/cluster-scaling/), allowing clusters to grow by adding more nodes and distributing data and load among them. This ensures high performance and resilience, which is crucial for handling large-scale projects.
 - **Infrastructure**: “Qdrant provides robust infrastructure support, allowing integration with virtual private clouds on AWS using AWS Private Links and ensuring encryption with AWS KMS. This setup ensures high security and reliability,” says Portillo Edo.
@@ -71,7 +86,13 @@ Voiceflow leverages Qdrant's robust features and infrastructure to optimize thei
 
 *Infrastructure:*
 
-- **Private Link**: The ability to use Private Link connections across different instances is a significant advantage, requiring robust infrastructure support from Qdrant. "This setup was crucial for SOC2 compliance, and Qdrant's support team made the process seamless by ensuring feasibility and aiding in the implementation," Linkov explained.
+- **Private Link**: The ability to use Private Link connections across different instances is a significant advantage, requiring robust infrastructure support from Qdrant.
+
+{{< quote
+  text="This setup was crucial for SOC2 compliance, and Qdrant's support team made the process seamless by ensuring feasibility and aiding in the implementation."
+  name="Denys Linkov"
+  role="Machine Learning Team Lead"
+  company="Voiceflow" >}}
 
 By utilizing these features, Voiceflow ensures that its platform is scalable, secure, and efficient, meeting the diverse needs of its users.
 

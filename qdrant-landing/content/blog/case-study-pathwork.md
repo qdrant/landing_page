@@ -42,7 +42,12 @@ Initially, Pathwork explored various solutions, including Amazon S3, OpenSearch,
 
 ### **Why Pathwork Chose Qdrant**
 
-"We landed on Qdrant after extensive trial and error," Blake shared. "Our engineers found Qdrant’s documentation and support significantly better than other solutions. At critical junctures, Qdrant’s support felt like having an additional principal engineer on our team. Fantastic service through their helpdesk was a standout experience."
+{{< quote
+  text="We landed on Qdrant after extensive trial and error. Our engineers found Qdrant’s documentation and support significantly better than other solutions. At critical junctures, Qdrant’s support felt like having an additional principal engineer on our team. Fantastic service through their helpdesk was a standout experience."
+  name="Blake Butterworth"
+  role="Co-Founder"
+  company="Pathwork"
+  logo="/img/customers-case-studies-logo/pathwork.svg" >}}
 
 ### **The Impact: Increased Accuracy and User Adoption**
 
@@ -53,10 +58,18 @@ After implementing Qdrant, Pathwork rapidly saw significant improvements:
 * **Rapid Growth:** Usage has grown 50% month-over-month, with thousands of insurance cases processed in the last month alone. To maintain low-latency retrieval at scale, Pathwork expanded its Qdrant deployment with additional nodes, implemented sharding to distribute load, and introduced replicas to support high-concurrency read operations. These scaling changes ensured consistent performance as usage surged.  
 * **User Satisfaction:** Accurate, consistent underwriting results drove significant user adoption. As accuracy surpassed a critical threshold, word-of-mouth recommendations propelled user growth.
 
-"We knew we'd achieved something significant when brokers began confidently testing edge cases live during demos, resulting in immediate adoption," Blake remarked.
+{{< quote
+  text="We knew we'd achieved something significant when brokers began confidently testing edge cases live during demos, resulting in immediate adoption."
+  name="Blake Butterworth"
+  role="Co-Founder"
+  company="Pathwork" >}}
 
 ### **Looking Ahead**
 
 Pathwork aims to become the central hub for life insurance underwriting. Future plans involve deeper integration with insurance carriers, further enhancing underwriting accuracy, scalability, and efficiency. Pathwork’s commitment to precision, supported by Qdrant’s reliable vector search capabilities, is setting a new industry standard for accuracy and efficiency in life insurance underwriting.
 
-**"Every aspect of our system depends on precision, and Qdrant has been instrumental in achieving our goals," says Blake Butterworth.**
+{{< quote
+  text="Every aspect of our system depends on precision, and Qdrant has been instrumental in achieving our goals."
+  name="Blake Butterworth"
+  role="Co-Founder"
+  company="Pathwork" >}}
