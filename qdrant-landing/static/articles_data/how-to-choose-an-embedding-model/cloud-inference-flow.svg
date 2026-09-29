@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="465" viewBox="0 0 640 465" role="img" aria-labelledby="title desc">
+  <title id="title">Qdrant Cloud Inference request flow</title>
+  <desc id="desc">A client sends an upsert or query to Qdrant. Qdrant sends the document or image to an inference service with an embedding model. The service returns embeddings to Qdrant.</desc>
+  <rect x="1" y="1" width="638" height="463" rx="12" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="2"/>
+  <rect x="170" y="24" width="300" height="65" rx="9" fill="#eeeaff" stroke="#6047ff" stroke-width="2"/>
+  <text x="320" y="66" fill="#303547" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="700">Client</text>
+  <path d="M320 90 V131" stroke="#656b7f" stroke-width="3"/>
+  <path d="M313 124 L320 132 L327 124" fill="none" stroke="#656b7f" stroke-width="3"/>
+  <text x="338" y="120" fill="#303547" font-family="Arial, sans-serif" font-size="27">Upsert / query</text>
+  <rect x="170" y="141" width="300" height="70" rx="9" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <text x="320" y="186" fill="#303547" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="700">Qdrant Cloud</text>
+  <path d="M350 212 V281" stroke="#656b7f" stroke-width="3"/>
+  <path d="M343 274 L350 282 L357 274" fill="none" stroke="#656b7f" stroke-width="3"/>
+  <text x="367" y="256" fill="#303547" font-family="Arial, sans-serif" font-size="27">Document / image</text>
+  <rect x="170" y="291" width="300" height="116" rx="9" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+  <text x="320" y="335" fill="#303547" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="700">Inference service</text>
+  <rect x="204" y="351" width="232" height="42" rx="6" fill="#eeeaff" stroke="#6047ff" stroke-width="2"/>
+  <text x="320" y="380" fill="#303547" text-anchor="middle" font-family="Arial, sans-serif" font-size="27">Embedding model</text>
+  <path d="M170 349 H104 V176 H159" fill="none" stroke="#656b7f" stroke-width="3"/>
+  <path d="M151 169 L160 176 L151 183" fill="none" stroke="#656b7f" stroke-width="3"/>
+  <text x="28" y="445" fill="#303547" font-family="Arial, sans-serif" font-size="27" font-weight="700">Embeddings return to Qdrant</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Fast, precise, cheap: a model-selection tradeoff</title>
+  <desc id="desc">A triangle connects Fast, Precise, and Cheap. Pick two? appears at its center as a heuristic.</desc>
+  <rect x="1" y="1" width="638" height="418" rx="12" fill="#121b2a" stroke="#42506a" stroke-width="2"/>
+  <path d="M320 80 L92 334 H548 Z" fill="#1d293b" stroke="#aeb9cd" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="320" cy="80" r="8" fill="#a794ff"/>
+  <circle cx="92" cy="334" r="8" fill="#3cc4cf"/>
+  <circle cx="548" cy="334" r="8" fill="#ff6b91"/>
+  <text x="320" y="60" fill="#f1f4fa" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700">Fast</text>
+  <text x="92" y="382" fill="#f1f4fa" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700">Cheap</text>
+  <text x="548" y="382" fill="#f1f4fa" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700">Precise</text>
+  <text x="320" y="241" fill="#f1f4fa" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700">Pick two?</text>
+</svg>
