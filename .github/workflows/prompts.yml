@@ -23,7 +23,7 @@ jobs:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Source checks only: no Hugo, no Dart Sass, no npm install. The rules
       # this guards are all visible in the source, so a full site build would
@@ -34,7 +34,7 @@ jobs:
   check-skill-links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Kept separate from check-prompts because this one reaches the network.
       # An unreachable skills.qdrant.tech skips rather than fails, so the job
