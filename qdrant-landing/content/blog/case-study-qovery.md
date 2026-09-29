@@ -20,11 +20,14 @@ partition: case-studies
 
 ## Qovery Scales Real-Time DevOps Automation with Qdrant
 
-![How Qovery Accelerated Developer Autonomy with Qdrant](/blog/case-study-qovery/case-study-qovery-summary-dark.png)
+{{< case-study-summary
+  results=" | Zero-maintenance ops; | Tasks take seconds vs. hours; >100K | vectors indexed" >}}
 
 ### Empowering Developers with Autonomous Infrastructure Management
 
 Qovery, trusted by over 200 companies including Alan, Talkspace, GetSafe, and RxVantage, empowers software engineering teams to autonomously manage their infrastructure through its robust DevOps automation platform. As their platform evolved, Qovery recognized an opportunity to enhance developer autonomy further by integrating an AI-powered DevOps Copilot. To achieve real-time accuracy and rapid responses, Qovery selected Qdrant as the backbone of their vector database infrastructure.
+
+![How Qovery Accelerated Developer Autonomy with Qdrant](/blog/case-study-qovery/case-study-qovery-summary-dark.png)
 
 ### Reducing Dependency on Specialized DevOps Expertise
 
