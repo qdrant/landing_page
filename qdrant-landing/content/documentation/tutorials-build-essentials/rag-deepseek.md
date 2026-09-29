@@ -16,13 +16,12 @@ example_resources:
     url: https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb
 ---
 
-
 <!-- ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png) -->
 
 # RAG in 5 Minutes with DeepSeek and Qdrant
 
 | Time: 5 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) |
-| --- | ----------- | ----------- |----------- |
+| --- | --- | --- |
 
 This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)** pipeline using FastEmbed for embeddings, Qdrant for vector search, and DeepSeek to answer questions with retrieved context. RAG pipelines enhance Large Language Model (LLM) responses by providing contextually relevant data.
 
@@ -133,7 +132,7 @@ What tools should I need to use to build a web service using vector embeddings f
 """
 ```
 
-Using the Deepseek API requires providing the API key. You can obtain it from the [DeepSeek platform](https://platform.deepseek.com/api_keys).
+Using the DeepSeek API requires providing the API key. You can obtain it from the [DeepSeek platform](https://platform.deepseek.com/api_keys).
 
 Now we can call the completion API with [`deepseek-flash`](https://api-docs.deepseek.com/quick_start/pricing/), the current DeepSeek Flash inference model. We disable thinking mode so the example returns just the final answer. Model responses are generated text, so their wording and suggested tools can vary between runs.
 
@@ -142,7 +141,7 @@ Now we can call the completion API with [`deepseek-flash`](https://api-docs.deep
 import requests
 import json
 
-# Fill the environmental variable with your own Deepseek API key
+# Fill the environment variable with your own DeepSeek API key
 # See: https://platform.deepseek.com/api_keys
 API_KEY = "<YOUR_DEEPSEEK_KEY>"
 
