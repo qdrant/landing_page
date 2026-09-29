@@ -42,7 +42,7 @@ Replace `<DATADOG_API_KEY>` with your own API key.
 
 To monitor Qdrant, configure the Datadog Agent to scrape metrics from your Qdrant database. Create a `DatadogAgent` resource that adds an [OpenMetrics](https://docs.datadoghq.com/integrations/openmetrics/) check through the Agent's Autodiscovery mechanism.
 
-The Agent uses the `ad_identifiers` values to discover the Qdrant cluster exporter and operator pods, then scrapes the OpenMetrics endpoint that each pod exposes. The `%%host%%` template variable resolves to the IP of the discovered pod at runtime.
+The Agent uses the `ad_identifiers` values to discover the Qdrant Cloud Agent and Operator pods, then scrapes the OpenMetrics endpoint that each pod exposes. The `%%host%%` template variable resolves to the IP of the discovered pod at runtime. See [Networking, Logging & Monitoring](/documentation/hybrid-cloud/networking-logging-monitoring/#monitoring) for the full list of metrics endpoints available in a Hybrid Cloud or Private Cloud cluster, including the per-database endpoint on port 6333.
 
 ```yaml
 apiVersion: datadoghq.com/v2alpha1
@@ -67,7 +67,7 @@ spec:
               - operator
             init_config:
             instances:
-              # Instance 1: Qdrant Metrics Exporter
+              # Instance 1: Qdrant Cloud Agent
               - openmetrics_endpoint: http://%%host%%:9090/metrics
                 namespace: qdrant.exporter
                 metrics:
@@ -88,7 +88,7 @@ kubectl apply -f datadog-agent.yaml
 
 A few notes on this configuration:
 
-- **The first instance** scrapes the Qdrant cluster exporter on port 9090 and namespaces its metrics under `qdrant.exporter`.
+- **The first instance** scrapes the Qdrant Cloud Agent on port 9090 and namespaces its metrics under `qdrant.exporter`.
 - **The second instance** scrapes the Qdrant operator on port 9290 and namespaces its metrics under `qdrant.operator`.
 - **`metrics: - .*`** collects every metric the endpoint exposes. To reduce the volume of custom metrics, replace this with an explicit list of metric names.
 
@@ -107,3 +107,43 @@ kubectl exec -it <DATADOG_AGENT_POD> --namespace datadog -- agent status
 Look for the `openmetrics` check in the output. It should report the Qdrant instances with no errors and a non-zero number of metric samples.
 
 Next, open Datadog and go to **Metrics > Explorer**. Search for metrics that start with `qdrant.exporter.` or `qdrant.operator.` to confirm that Datadog is receiving them.
+
+## Step 4: Understand the Cost of Collecting Every Metric
+
+The `metrics: - .*` setting in Step 2 collects every metric the Qdrant exporter and operator expose, with no filtering. On most Datadog plans, metrics ingested through a custom OpenMetrics check are billed as [custom metrics](https://docs.datadoghq.com/account_management/billing/custom_metrics/), and each unique combination of metric name and tag value counts separately. A Qdrant cluster exposes metrics per collection, per shard, and per peer, so `.*` on a cluster with many collections or shards can generate a custom metrics volume much larger than the same check on a single-collection deployment, and the bill scales accordingly.
+
+Keep `.*` only for a short evaluation window, such as this tutorial. For a deployment you intend to run past the test, replace it with an explicit list of the metric names you actually query or alert on:
+
+```yaml
+instances:
+  - openmetrics_endpoint: http://%%host%%:9090/metrics
+    namespace: qdrant.exporter
+    metrics:
+      - qdrant_collections_total
+      - qdrant_grpc_responses_duration_seconds
+      - qdrant_rest_responses_duration_seconds
+```
+
+Check **Plan & Usage > Billing > Custom Metrics** in Datadog to see the current custom metrics count for your organization before and after applying the change, and confirm the check names in the current [Qdrant OpenMetrics endpoint](/documentation/ops-monitoring/monitoring/) still match, since metric names can change between Qdrant versions.
+
+## Step 5: Stop Metric Collection After Testing
+
+To stop collecting Qdrant metrics once you are done testing, remove the `openmetrics.yaml` entry from the `DatadogAgent` resource and reapply it:
+
+```shell
+kubectl apply -f datadog-agent.yaml
+```
+
+The Agent stops scraping Qdrant on its next configuration reload, and no further custom metrics are ingested. Existing data already sent to Datadog is retained for that organization's normal retention period and continues to count toward historical usage until it expires; removing the check does not delete metrics already ingested.
+
+If you installed the Datadog Agent only to run this tutorial and do not need it for anything else, remove the Operator and its resources instead:
+
+```shell
+kubectl delete datadogagent datadog --namespace datadog
+
+helm uninstall datadog-operator --namespace datadog
+
+kubectl delete secret datadog-secret --namespace datadog
+```
+
+This deletes the Agent DaemonSet, the Operator, and the API key secret from your cluster.
