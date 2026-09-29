@@ -33,21 +33,28 @@
   {{- $variants = slice (dict "label" "" "langs" (partial "snippet-files.html" (dict "dir" $basePath "block" $block "order" $order))) -}}
 {{- end -}}
 
-{{- /* Markdown output shows only the first language of the first variant; the
-       rest live on a dedicated snippet page (see content/documentation/snippets/_content.gotmpl). */ -}}
+{{- /* Markdown output shows only the first language of the first variant that
+       has one; the rest live on a dedicated snippet page (see
+       content/documentation/snippets/_content.gotmpl). Languages whose file
+       holds a plain-text message instead of a snippet are left out, and a
+       deployment type without a single snippet is called out separately. */ -}}
 {{- $more := slice -}}
+{{- $unsupported := slice -}}
 {{- $shown := false -}}
 {{- range $variants -}}
-  {{- if .langs -}}
-    {{- $rest := .langs -}}
+  {{- $langs := where .langs "supported" true -}}
+  {{- if not $langs -}}
+    {{- with .label -}}{{- $unsupported = $unsupported | append . -}}{{- end -}}
+  {{- else -}}
+    {{- $rest := $langs -}}
     {{- if not $shown -}}
       {{- $shown = true -}}
       {{- with .label }}
 **{{ . }}:**
 
 {{ end -}}
-{{ (index .langs 0).content }}
-      {{- $rest = after 1 .langs -}}
+{{ (index $langs 0).content }}
+      {{- $rest = after 1 $langs -}}
     {{- end -}}
     {{- if $rest -}}
       {{- /* Languages are gathered from the snippet's own files (the code-fence
@@ -61,9 +68,16 @@
   {{- end -}}
 {{- end -}}
 
+{{- $notes := slice -}}
 {{- if $more -}}
   {{- $linkPath := replace $path "/documentation/headless/snippets/" "/documentation/snippets/" -}}
   {{- with $block -}}{{- $linkPath = printf "%s%s/" $linkPath . -}}{{- end -}}
-  {{- $url := printf "https://qdrant.tech%sindex.md" $linkPath }}
-> This snippet is also available in {{ delimit $more "; " "; and in " }}. See the [full snippet]({{ $url }}).
+  {{- $url := printf "https://qdrant.tech%sindex.md" $linkPath -}}
+  {{- $notes = $notes | append (printf "This snippet is also available in %s. See the [full snippet](%s)." (delimit $more "; " "; and in ") $url) -}}
+{{- end -}}
+{{- if $unsupported -}}
+  {{- $notes = $notes | append (printf "Not supported on %s." (delimit $unsupported ", " (cond (eq (len $unsupported) 2) " and " ", and "))) -}}
+{{- end -}}
+{{- with $notes }}
+> {{ delimit . " " }}
 {{ end -}}

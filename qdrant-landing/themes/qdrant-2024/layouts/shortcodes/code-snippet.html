@@ -143,21 +143,35 @@
               {{ continue }}
             {{ end }}
             {{ $filePath := printf "%s/%s" $dir .Name }}
-            {{ $content := readFile $filePath | markdownify }}
-            {{ $files = merge $files (dict (strings.TrimSuffix ".md" .Name) $content) }}
+            {{ $files = merge $files (dict (strings.TrimSuffix ".md" .Name) (readFile $filePath)) }}
           {{ end }}
         {{ end }}
 
         {{ range $order }}
-          {{ $snippet := index $files . }}
+          {{ $lang := . }}
+          {{ $snippet := index $files $lang }}
           {{ if $snippet }}
-            {{ $snippet | markdownify }}
+            {{ if strings.HasPrefix (strings.TrimSpace $snippet) "```" }}
+              {{ $snippet | markdownify }}
+            {{ else }}
+              <div class="highlight snippet-not-supported">
+                <code class="language-{{ $lang }}" data-lang="{{ $lang }}" hidden></code>
+                <div class="snippet-not-supported__message">{{ $snippet | markdownify }}</div>
+              </div>
+            {{ end }}
           {{ end }}
         {{ end }}
 
         {{ range $name, $content := $files }}
           {{ if not (in $order $name) }}
-            {{ $content | markdownify }}
+            {{ if strings.HasPrefix (strings.TrimSpace $content) "```" }}
+              {{ $content | markdownify }}
+            {{ else }}
+              <div class="highlight snippet-not-supported">
+                <code class="language-{{ $name }}" data-lang="{{ $name }}" hidden></code>
+                <div class="snippet-not-supported__message">{{ $content | markdownify }}</div>
+              </div>
+            {{ end }}
           {{ end }}
         {{ end }}
 

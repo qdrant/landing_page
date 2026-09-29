@@ -1,7 +1,10 @@
 {{- /* Language files of a snippet dir, in display order.
        Params: dir (fs path), block (name or ""), order (slice of langs).
        Reads `<dir>/*.md` and `<dir>/generated/<block>/*.md`. Returns a slice
-       of dicts (lang, content): languages in `order` first, then the rest. */ -}}
+       of dicts (lang, content, supported): languages in `order` first, then
+       the rest. `supported` is false when the file holds a plain-text message
+       (no code fence) instead of a snippet, meaning the language does not
+       support this operation. */ -}}
 {{- $files := dict -}}
 {{- range slice .dir (printf "%s/generated/%s" .dir .block) -}}
   {{- $d := . -}}
@@ -16,9 +19,9 @@
 {{- end -}}
 {{- $result := slice -}}
 {{- range $lang := .order -}}
-  {{- with index $files $lang -}}{{- $result = $result | append (dict "lang" $lang "content" .) -}}{{- end -}}
+  {{- with index $files $lang -}}{{- $result = $result | append (dict "lang" $lang "content" . "supported" (strings.HasPrefix (strings.TrimSpace .) "```")) -}}{{- end -}}
 {{- end -}}
 {{- range $lang, $content := $files -}}
-  {{- if not (in $.order $lang) -}}{{- $result = $result | append (dict "lang" $lang "content" $content) -}}{{- end -}}
+  {{- if not (in $.order $lang) -}}{{- $result = $result | append (dict "lang" $lang "content" $content "supported" (strings.HasPrefix (strings.TrimSpace $content) "```")) -}}{{- end -}}
 {{- end -}}
 {{- return $result -}}
