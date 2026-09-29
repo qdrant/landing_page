@@ -8,7 +8,7 @@ preview_image: /blog/constella-research-preview/preview/preview.jpg
 social_preview_image: /blog/constella-research-preview/preview/social_preview.jpg
 title_preview_image: /blog/constella-research-preview/preview/title.jpg
 preview_dir: /blog/constella-research-preview/preview
-date: 2026-09-24
+date: 2026-09-29
 author: Dylan Couzon
 featured: false
 weight: 0
