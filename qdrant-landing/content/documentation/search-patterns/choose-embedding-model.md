@@ -13,9 +13,11 @@ aliases:
   - /articles/how-to-choose-an-embedding-model/
 ---
 
+<link rel="stylesheet" href="/articles_data/how-to-choose-an-embedding-model/figures.css">
+
 # How to Choose an Embedding Model: Evaluation & Tradeoffs
 
-How do you choose the right embedding model to achieve the best search quality? There are some public benchmarks, such as [Massibe Text Embedding Benchmark(MTEB)](https://huggingface.co/spaces/mteb/leaderboard), that can help you narrow down the options, but datasets used in those benchmarks will rarely be representative of your domain-specific data. Moreover, search quality is not the only requirement you could have. Some of the best models might be amazingly accurate for retrieval, but you can't afford to run them, e.g., due to high resource usage or your budget constraints.
+How do you choose the right embedding model to achieve the best search quality? Public benchmarks such as the [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard) can help you narrow down the options, but their datasets rarely represent your own data. Search quality is not the only requirement, either: an accurate model may be too slow or expensive to run.
 
 <aside role="status">
 Although this guide focuses mostly on the dense text embedding models, most of the considerations are also valid for sparse and multivector representations, as well as different modalities.
@@ -33,26 +35,38 @@ to use.
 
 Embedding models are trained with specific languages in mind. When evaluating one, consider whether it supports all the languages you have or predict to have in your data. If your data is not homogeneous, you might require a multilingual model that can properly embed text across different languages. If you use Open Source models, then your model is likely documented on [Hugging Face Hub](https://huggingface.co/docs/hub/en/index). For example, `all-MiniLM-L6-v2`, often used in demos, lists English as its language, so it's not a good choice if you have data in other languages.
 
-[![Model card facts for all-MiniLM-L6-v2, highlighting English as its language](/articles_data/how-to-choose-an-embedding-model/hf-model-card.jpg)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-
-*Values from the Hugging Face model card, September 2026.*
+Check the [all-MiniLM-L6-v2 model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) for its stated language and input length. Confirm that a candidate model supports the languages and text lengths in your own data.
 
 However, it's not only about the language, but also about how the model treats the input data. Surprisingly, this is 
 often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then [start 
 all the Transformer magic with assigning each token a specific input vector 
 representation](/articles/late-interaction-models/#understanding-embedding-models). 
 
-![An example of tokenization with the all-MiniLM-L6-v2 WordPiece tokenizer](/articles_data/how-to-choose-an-embedding-model/tokenization-example.jpg)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.svg" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="448" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.dark.svg" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="448" loading="lazy">
+  <figcaption>The <code>##</code> prefix marks a continuation of the same word. This example uses MiniLM's WordPiece tokenizer.</figcaption>
+</figure>
 
 One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). WordPiece tokenizers, like the one in `all-MiniLM-L6-v2`, replace any word they can't build from their vocabulary with a single `[UNK]` token, so `hello🌞world` becomes one `[UNK]` and the model loses "hello" and "world" too. If you analyze social media data, you might be surprised that the two weather sentences in this example reach the model as identical tokens. Byte-level tokenizers, like the ones in OpenAI's `text-embedding-3` models and Qwen3-Embedding, never produce an unknown token: they split unfamiliar characters into bytes, so the two sentences stay different.
 
-![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.jpg)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.svg" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="534" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.dark.svg" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="534" loading="lazy">
+  <figcaption>MiniLM loses the distinction between the rain and sun emoji; the byte-level tokenizer keeps it.</figcaption>
+</figure>
+
+*The weather examples use `all-MiniLM-L6-v2` and the `cl100k_base` encoding used by OpenAI's `text-embedding-3-small`. The byte-level panel shows the differing token ID suffixes; the words and token ID prefix are shared.*
 
 Normalization can also erase differences in your text. The `all-MiniLM-L6-v2` tokenizer lowercases text and strips accents, so "crème brûlée" and "creme brulee" reach the model as identical tokens and get identical vectors. Words that differ only by accents become indistinguishable. Tokenization has a bigger impact on the quality of the embeddings than many people think. If you want to understand what the effects of tokenization are, we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/) we recorded together with DeepLearning.AI. You may find the course especially interesting if you still wonder why your semantic search engine can't handle numerical data, such as prices or dates, and what you can do about it.
 
 How do you know how the tokenizer treats your text? That's pretty easy for the Open Source models, as you can just run the tokenizer without the model and see what the yielded tokens look like. Try your own text and look at normalization, `[UNK]` tokens, and how words split. Commercial models are harder to inspect. Some providers publish their tokenizers: OpenAI's embedding models use the `cl100k_base` encoding from the open-source [tiktoken](https://github.com/openai/tiktoken) library. For the others, modify some of the suspected characters and compare the similarity between the original and modified text.
 
-![all-MiniLM-L6-v2 maps crème brûlée and creme brulee to identical tokens and identical vectors](/articles_data/how-to-choose-an-embedding-model/accented-letters.jpg)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.svg" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="267" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.dark.svg" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="267" loading="lazy">
+  <figcaption>Accent normalization makes these two inputs identical to MiniLM.</figcaption>
+</figure>
 
 Near-identical vectors for text that differs only in accents suggest that the tokenizer removes those accents. For `all-MiniLM-L6-v2`, both spellings produce `cr | ##eme | br | ##ule | ##e`, as the example shows.
 
@@ -192,20 +206,28 @@ might lean towards self-hosted options, while those who prefer to avoid dealing 
 might prefer API-based solutions. Who knows? Maybe your project does not require the highest precision possible, and a 
 smaller model will do the job just fine.
 
-![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.jpg)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.svg" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="420" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.dark.svg" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="420" loading="lazy">
+  <figcaption>"Pick two" is a useful heuristic, not a fixed rule. Measure speed, quality, and cost together for your workload.</figcaption>
+</figure>
 
 Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed. Named vectors help to create a system with multiple models and switch between them based on the query, or build a [hybrid search](/documentation/search-tuning/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
-Others levers matter as well: memory usage can often be reduced with quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model.
+Other levers matter as well: memory usage can often be reduced with quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model.
 
 Another decision to make is where to host the embedding model and how much inference infrastructure you want to manage.
 
 ## Hosting Your Embedding Model
 
-Where the model runs affects latency and cost. Sending millions of documents to a model hosted far from your cluster adds network latency, and some cloud providers charge for the data transfer. Running the model yourself avoids both, but it takes expertise and infrastructure.
+Where the model runs affects latency and cost. Sending millions of documents to a model hosted far from your cluster adds network latency, and some cloud providers charge for the data transfer. Running a model near your application or Qdrant cluster can reduce those costs, but self-hosting takes expertise and infrastructure.
 
 **Qdrant Cloud Inference** generates dense, sparse, and multimodal embeddings inside Qdrant Cloud, or proxies requests to OpenAI, Cohere, and Jina, without requiring you to manage inference servers.
 
-![Qdrant Cloud Inference: the client sends upserts and queries to Qdrant, which gets embeddings from the inference service](/docs/qdrant-cloud-inference.png)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.svg" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="465" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.dark.svg" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="465" loading="lazy">
+  <figcaption>Qdrant Cloud sends the input to the inference service and receives embeddings in return.</figcaption>
+</figure>
 
 Check out the [Cloud Inference documentation](/documentation/cloud/inference/) to learn more. For generating embeddings on your own infrastructure, [FastEmbed](/documentation/fastembed/) is Qdrant's lightweight Python library.
