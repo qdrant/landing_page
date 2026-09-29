@@ -10,6 +10,26 @@
   padding: 14px;
 }
 
+.qc-panels {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+.qc-panel-svg {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+}
+
+/* Below this width, two 300px-viewBox panels side by side would shrink each
+   track's 12-14px text well under the readable floor. Stack them instead. */
+@media (max-width: 600px) {
+  .qc-panels {
+    flex-direction: column;
+  }
+}
+
 .qc-seg--index {
   fill: var(--qc-index);
 }

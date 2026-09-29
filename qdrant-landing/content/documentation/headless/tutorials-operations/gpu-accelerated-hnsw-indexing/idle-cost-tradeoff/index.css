@@ -32,3 +32,65 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+/* HTML region cards: same copy as the in-SVG text, but hidden by default.
+   Below the breakpoint they replace the SVG copy, which would otherwise
+   shrink under the readable floor along with the rest of the plot. */
+.ic-axis-strip,
+.ic-cards {
+  display: none;
+}
+.ic-axis-strip {
+  margin: 10px 0 0;
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.ic-card {
+  padding: 10px 0;
+}
+.ic-card + .ic-card {
+  border-top: 1px solid var(--qi-border);
+}
+.ic-card__title {
+  margin: 0 0 4px;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.ic-card--gpu .ic-card__title::before,
+.ic-card--scale .ic-card__title::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+.ic-card--gpu .ic-card__title::before {
+  background: var(--qi-cat-3);
+}
+.ic-card--scale .ic-card__title::before {
+  background: var(--qi-cat-1);
+}
+.ic-card__list {
+  margin: 0;
+  padding-left: 1.2em;
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .ic-svg-copy {
+    display: none;
+  }
+  .ic-axis-strip,
+  .ic-cards {
+    display: block;
+  }
+}

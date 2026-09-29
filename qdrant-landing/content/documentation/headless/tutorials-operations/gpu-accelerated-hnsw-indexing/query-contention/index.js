@@ -7,6 +7,10 @@
  * hardware while the CPU is left free to serve queries. Static SVG timelines,
  * framed with margin so the tracks never touch the frame edge. Illustrative
  * scheduling, not a trace of measured CPU cycles.
+ *
+ * Each panel is its own <svg> in a flex row, so a narrow-screen media query
+ * (index.css) can stack them into a column instead of shrinking both panels'
+ * text below the readable floor.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -34,12 +38,12 @@ const CPU_SEGMENTS = [
   { kind: 'index', w: 1.3 },
 ];
 
-function track(g, { x, y, w, h, segments }) {
+function track(parent, { x, y, w, h, segments }) {
   let cx = x;
   const totalUnits = segments.reduce((a, s) => a + s.w, 0);
   segments.forEach((s) => {
     const sw = (s.w / totalUnits) * w;
-    g.appendChild(
+    parent.appendChild(
       el('rect', {
         class: `qc-seg qc-seg--${s.kind}`,
         x: cx,
@@ -60,54 +64,53 @@ export function mount(node) {
   wrap.className = 'qi-fig';
   node.appendChild(wrap);
 
-  const VB_W = 640;
-  const VB_H = 220;
-  const svg = el('svg', {
-    class: 'qi-svg',
-    viewBox: `0 0 ${VB_W} ${VB_H}`,
-    role: 'img',
-    'aria-label':
-      'On a CPU-only cluster, indexing and query serving share the same CPU track. On a GPU-accelerated cluster, indexing runs on the GPU while the CPU track is dedicated to queries.',
-  });
-  wrap.appendChild(svg);
+  const panels = document.createElement('div');
+  panels.className = 'qc-panels';
+  wrap.appendChild(panels);
 
   const pad = 18;
-  const panelW = (VB_W - 24) / 2;
-  const panelH = VB_H;
+  const panelW = 300;
+  const panelH = 220;
 
   [0, 1].forEach((i) => {
     const gpuPanel = i === 1;
-    const gx = i * (panelW + 24);
-    const g = el('g', { transform: `translate(${gx}, 0)` });
-    svg.appendChild(g);
+    const svg = el('svg', {
+      class: 'qi-svg qc-panel-svg',
+      viewBox: `0 0 ${panelW} ${panelH}`,
+      role: 'img',
+      'aria-label': gpuPanel
+        ? 'GPU-accelerated cluster: indexing runs on the GPU while the CPU track is dedicated to queries.'
+        : 'CPU-only cluster: indexing and query serving share the same CPU track.',
+    });
+    panels.appendChild(svg);
 
-    g.appendChild(
+    svg.appendChild(
       el('rect', { class: 'qi-frame', x: 0, y: 0, width: panelW, height: panelH, rx: 10 })
     );
-    g.appendChild(
+    svg.appendChild(
       text('text', { class: 'qi-title', x: pad, y: 28 }, gpuPanel ? 'GPU-accelerated cluster' : 'CPU-only cluster')
     );
 
     const trackW = panelW - pad * 2;
     if (!gpuPanel) {
-      g.appendChild(text('text', { class: 'qi-label', x: pad, y: 62 }, 'CPU'));
-      track(g, { x: pad, y: 72, w: trackW, h: 28, segments: CPU_SEGMENTS });
+      svg.appendChild(text('text', { class: 'qi-label', x: pad, y: 62 }, 'CPU'));
+      track(svg, { x: pad, y: 72, w: trackW, h: 28, segments: CPU_SEGMENTS });
     } else {
-      g.appendChild(text('text', { class: 'qi-label', x: pad, y: 62 }, 'GPU'));
-      g.appendChild(
+      svg.appendChild(text('text', { class: 'qi-label', x: pad, y: 62 }, 'GPU'));
+      svg.appendChild(
         el('rect', { class: 'qc-seg qc-seg--index', x: pad, y: 72, width: trackW, height: 28, rx: 3 })
       );
-      g.appendChild(text('text', { class: 'qi-label', x: pad, y: 130 }, 'CPU'));
-      g.appendChild(
+      svg.appendChild(text('text', { class: 'qi-label', x: pad, y: 130 }, 'CPU'));
+      svg.appendChild(
         el('rect', { class: 'qc-seg qc-seg--query', x: pad, y: 140, width: trackW, height: 28, rx: 3 })
       );
     }
 
     const legendY = panelH - 30;
-    g.appendChild(el('rect', { class: 'qc-seg qc-seg--index', x: pad, y: legendY, width: 14, height: 14, rx: 3 }));
-    g.appendChild(text('text', { class: 'qi-label', x: pad + 20, y: legendY + 12 }, 'indexing'));
-    g.appendChild(el('rect', { class: 'qc-seg qc-seg--query', x: pad + 100, y: legendY, width: 14, height: 14, rx: 3 }));
-    g.appendChild(text('text', { class: 'qi-label', x: pad + 120, y: legendY + 12 }, 'query'));
+    svg.appendChild(el('rect', { class: 'qc-seg qc-seg--index', x: pad, y: legendY, width: 14, height: 14, rx: 3 }));
+    svg.appendChild(text('text', { class: 'qi-label', x: pad + 20, y: legendY + 12 }, 'indexing'));
+    svg.appendChild(el('rect', { class: 'qc-seg qc-seg--query', x: pad + 100, y: legendY, width: 14, height: 14, rx: 3 }));
+    svg.appendChild(text('text', { class: 'qi-label', x: pad + 120, y: legendY + 12 }, 'query'));
   });
 
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));

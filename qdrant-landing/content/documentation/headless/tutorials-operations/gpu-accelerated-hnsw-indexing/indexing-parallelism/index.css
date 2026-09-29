@@ -12,6 +12,27 @@
   padding: 14px;
 }
 
+.ip-panels {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+.ip-panel-svg {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+}
+
+/* Below this width, two 320px-viewBox panels side by side would shrink each
+   graph's 12-14px text well under the readable floor. Stack them instead: each
+   panel keeps its own full-width viewBox and readable text. */
+@media (max-width: 600px) {
+  .ip-panels {
+    flex-direction: column;
+  }
+}
+
 .ip-node {
   fill: var(--qi-surface);
   stroke: var(--qi-border);

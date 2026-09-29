@@ -10,6 +10,11 @@
  * layout, framed with margin so nodes/edges never touch the frame edge. This
  * is a schematic illustration of the mechanism, not measured data — the
  * graph, node count and batch size are illustrative.
+ *
+ * Each panel is its own <svg> (rather than one wide svg with two side-by-side
+ * groups) inside a flex row, so a narrow-screen media query (index.css) can
+ * stack them into a column without shrinking either graph's text below the
+ * readable floor.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -54,13 +59,17 @@ function text(name, attrs, str) {
   return node;
 }
 
-function buildPanel(svg, { x, w, h, title, cls }) {
-  const g = el('g', { transform: `translate(${x}, 0)` });
-  svg.appendChild(g);
+function buildPanel({ w, h, title, cls, ariaLabel }) {
+  const svg = el('svg', {
+    class: 'qi-svg ip-panel-svg',
+    viewBox: `0 0 ${w} ${h}`,
+    role: 'img',
+    'aria-label': ariaLabel,
+  });
 
   const pad = 18;
-  g.appendChild(el('rect', { class: 'qi-frame', x: 0, y: 0, width: w, height: h, rx: 10 }));
-  g.appendChild(text('text', { class: 'qi-title', x: pad, y: 26 }, title));
+  svg.appendChild(el('rect', { class: 'qi-frame', x: 0, y: 0, width: w, height: h, rx: 10 }));
+  svg.appendChild(text('text', { class: 'qi-title', x: pad, y: 26 }, title));
 
   const graphX = pad;
   const graphY = 40;
@@ -70,7 +79,7 @@ function buildPanel(svg, { x, w, h, title, cls }) {
   const scaleY = graphH / 120;
 
   const gg = el('g', { transform: `translate(${graphX}, ${graphY})` });
-  g.appendChild(gg);
+  svg.appendChild(gg);
 
   const pos = {};
   NODES.forEach((n) => {
@@ -103,9 +112,9 @@ function buildPanel(svg, { x, w, h, title, cls }) {
   });
 
   const status = el('text', { class: 'qi-label ip-status', x: pad, y: h - 12 });
-  g.appendChild(status);
+  svg.appendChild(status);
 
-  return { nodeEls, edgeEls, status };
+  return { svg, nodeEls, edgeEls, status };
 }
 
 export function mount(node) {
@@ -115,20 +124,28 @@ export function mount(node) {
   wrap.className = 'qi-fig';
   node.appendChild(wrap);
 
-  const VB_W = 680;
-  const VB_H = 200;
-  const svg = el('svg', {
-    class: 'qi-svg',
-    viewBox: `0 0 ${VB_W} ${VB_H}`,
-    role: 'img',
-    'aria-label':
-      'Schematic: a CPU places one graph node at a time while building the HNSW index; a GPU places a batch of nodes in the same pass, reaching further into the same graph at each step.',
-  });
-  wrap.appendChild(svg);
+  const panels = document.createElement('div');
+  panels.className = 'ip-panels';
+  wrap.appendChild(panels);
 
-  const panelW = (VB_W - 24) / 2;
-  const cpu = buildPanel(svg, { x: 0, w: panelW, h: VB_H, title: 'CPU: one node per step', cls: 'ip--cpu' });
-  const gpu = buildPanel(svg, { x: panelW + 24, w: panelW, h: VB_H, title: 'GPU: a batch per step', cls: 'ip--gpu' });
+  const PANEL_W = 320;
+  const PANEL_H = 200;
+  const cpu = buildPanel({
+    w: PANEL_W,
+    h: PANEL_H,
+    title: 'CPU: one node per step',
+    cls: 'ip--cpu',
+    ariaLabel: 'CPU panel: places one graph node at a time while building the HNSW index.',
+  });
+  const gpu = buildPanel({
+    w: PANEL_W,
+    h: PANEL_H,
+    title: 'GPU: a batch per step',
+    cls: 'ip--gpu',
+    ariaLabel: 'GPU panel: places a batch of nodes in the same pass, reaching further into the same graph at each step.',
+  });
+  panels.appendChild(cpu.svg);
+  panels.appendChild(gpu.svg);
 
   const total = BUILD_ORDER.length;
 
