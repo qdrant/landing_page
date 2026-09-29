@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-labelledby="t1 d1">
+<title id="t1">Agentic RAG workflow</title>
+<desc id="d1">The user sends a query to the AI agent. The agent picks one of three tools: RAG Tool 1 backed by Vector Database 1 with the Hugging Face documentation in Qdrant, RAG Tool 2 backed by Vector Database 2 with the Transformers documentation in Qdrant, or the Web Search Tool backed by the Brave Search API. The agent returns the response to the user.</desc>
+
+  <style>
+    .frame { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1; }
+    .frame-label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+    .node { fill: #ffffff; stroke: #abb1c7; stroke-width: 1.5; }
+    .node--agent { stroke: #6047ff; stroke-width: 2; }
+    .node--rag { stroke: #00838f; stroke-width: 2; }
+    .node--web { stroke: #9c27b0; stroke-width: 2; }
+    .node--db { stroke: #dc244c; stroke-width: 2; }
+    .node--end { fill: #ece9ff; stroke: #6047ff; stroke-width: 2; }
+    .label { fill: #303547; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 17px; font-weight: 600; text-anchor: middle; }
+    .sub { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; text-anchor: middle; }
+    .edge { fill: none; stroke: #656b7f; stroke-width: 2; }
+    .edge--strong { stroke: #303547; }
+    .edge--dashed { stroke-dasharray: 6 5; }
+    .head { fill: #656b7f; }
+    .head--strong { fill: #303547; }
+    .edge-label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; text-anchor: middle; }
+    .user { fill: #ffffff; stroke: #303547; stroke-width: 1.5; }
+  </style>
+
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head"/></marker>
+    <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="head head--strong"/></marker>
+    <symbol id="qmark" viewBox="0 0 346.42 400">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9e0d38;
+      }
+
+      .cls-2 {
+        fill: #dc244c;
+      }
+
+      .cls-3 {
+        fill: #ff516b;
+      }
+    </style>
+  </defs>
+  <g id="Vectors">
+    <g>
+      <g>
+        <polygon class="cls-2" points="173.21 0 0 100 0 300 173.21 400 238.16 362.5 238.16 287.5 173.21 325 64.96 262.5 64.96 137.5 173.21 75 281.46 137.5 281.46 387.5 346.42 350 346.42 100 173.21 0"/>
+        <polygon class="cls-2" points="108.26 162.5 108.26 237.5 173.21 275 238.16 237.5 238.16 162.5 173.21 125 108.26 162.5"/>
+      </g>
+      <g>
+        <polygon class="cls-1" points="238.16 287.5 238.16 362.5 173.21 400 173.21 325 238.16 287.5"/>
+        <polygon class="cls-1" points="346.42 100 346.42 350 281.46 387.5 281.46 137.5 346.42 100"/>
+        <polygon class="cls-3" points="346.42 100 281.46 137.5 173.21 75 64.96 137.5 0 100 173.21 0 346.42 100"/>
+        <polygon class="cls-2" points="173.21 325 173.21 400 0 300 0 100 64.96 137.5 64.96 262.5 173.21 325"/>
+        <polygon class="cls-3" points="238.16 162.5 173.21 200 108.26 162.5 173.21 125 238.16 162.5"/>
+        <polygon class="cls-2" points="173.21 200 173.21 275 108.26 237.5 108.26 162.5 173.21 200"/>
+        <polygon class="cls-1" points="238.16 162.5 238.16 237.5 173.21 275 173.21 200 238.16 162.5"/>
+      </g>
+    </g>
+  </g>
+</symbol>
+  </defs>
+<rect x="0.5" y="0.5" width="959" height="539" rx="6" class="frame"/>
+<text x="20" y="30" class="frame-label">Agentic RAG</text>
+<circle cx="78" cy="300" r="28" class="user"/>
+<circle cx="78" cy="292" r="9" fill="none" stroke="#303547" stroke-width="1.5"/>
+<path d="M62,320 a16,14 0 0 1 32,0" fill="none" stroke="#303547" stroke-width="1.5"/>
+<text x="78" y="352" class="label">User</text>
+<rect x="236" y="270" width="170" height="60" rx="6" class="node node--agent"/><text x="321.0" y="296.0" class="label">AI Agent</text><text x="321.0" y="316.0" class="sub">gpt-4o + LangGraph</text>
+<rect x="470" y="120" width="200" height="60" rx="6" class="node node--rag"/><text x="570.0" y="146.0" class="label">RAG Tool 2</text><text x="570.0" y="166.0" class="sub">Transformers docs</text>
+<rect x="470" y="270" width="200" height="60" rx="6" class="node node--web"/><text x="570.0" y="296.0" class="label">Web Search Tool</text><text x="570.0" y="316.0" class="sub">Brave Search API</text>
+<rect x="470" y="420" width="200" height="60" rx="6" class="node node--rag"/><text x="570.0" y="446.0" class="label">RAG Tool 1</text><text x="570.0" y="466.0" class="sub">Hugging Face docs</text>
+<rect x="720" y="120" width="220" height="60" rx="6" class="node node--db"/><text x="850.0" y="146.0" class="label">Vector Database 2</text><text x="850.0" y="166.0" class="sub">Qdrant collection</text><use href="#qmark" x="732" y="137.0" width="24" height="26"/>
+<rect x="720" y="420" width="220" height="60" rx="6" class="node node--db"/><text x="850.0" y="446.0" class="label">Vector Database 1</text><text x="850.0" y="466.0" class="sub">Qdrant collection</text><use href="#qmark" x="732" y="437.0" width="24" height="26"/>
+<line x1="108" y1="300" x2="234" y2="300" class="edge edge--strong" marker-start="url(#ahs)" marker-end="url(#ahs)"/>
+<text x="171.0" y="288" class="edge-label">query</text>
+<text x="171.0" y="322" class="edge-label">response</text>
+<path d="M408,300 C 425,300 440,150 468,150" class="edge" marker-end="url(#ah)"/>
+<line x1="408" y1="300" x2="468" y2="300" class="edge" marker-end="url(#ah)"/>
+<path d="M408,300 C 425,300 440,450 468,450" class="edge" marker-end="url(#ah)"/>
+<line x1="672" y1="150" x2="718" y2="150" class="edge" marker-end="url(#ah)"/>
+<line x1="672" y1="450" x2="718" y2="450" class="edge" marker-end="url(#ah)"/>
+</svg>

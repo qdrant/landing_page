@@ -32,7 +32,9 @@ This selective approach gives your system the flexibility to choose the best dat
 
 ## Workflow 
 
-![image1](/documentation/examples/agentic-rag-langgraph/image1.png)
+![Agentic RAG workflow: the user sends a query to the AI agent, which picks RAG Tool 1, RAG Tool 2, or the Web Search Tool. The RAG tools query two Qdrant collections, the web search tool calls the Brave Search API, and the agent returns the response.](/documentation/examples/agentic-rag-langgraph/agentic-rag-workflow.svg)
+
+Fig. 1: Agentic RAG workflow
 
 | **Step** | **Description**                                                                                                                                                                           |
 |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -334,9 +336,9 @@ graph = graph_builder.compile()
 
 This is what the graph looks like:
 
-![image2](/documentation/examples/agentic-rag-langgraph/image2.jpg)
+![The compiled LangGraph graph: START leads to the agent node. A conditional edge goes from agent to tools when the last message has tool calls, otherwise to END. The tools node always returns to agent.](/documentation/examples/agentic-rag-langgraph/langgraph-graph.svg)
 
-Fig. 3: Agentic RAG with LangGraph
+Fig. 2: The compiled LangGraph graph. Dashed edges are conditional.
 
 ### Running the Agent
 
