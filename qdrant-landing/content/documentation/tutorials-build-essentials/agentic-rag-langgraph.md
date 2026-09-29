@@ -14,9 +14,8 @@ stack:
 ---
 # Agentic RAG with LangGraph and Qdrant
 
-
-| Time: 45 min | Level: Intermediate |
-| --- | ----------- |
+| Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic-rag-langgraph) |
+| --- | --- | --- |
 
 Traditional Retrieval-Augmented Generation (RAG) systems follow a straightforward path: query → retrieve → generate. Sure, this works well for many scenarios. But let’s face it—this linear approach often struggles when you're dealing with complex queries that demand multiple steps or pulling together diverse types of information.
 
@@ -25,7 +24,6 @@ Traditional Retrieval-Augmented Generation (RAG) systems follow a straightforwar
 By combining LangGraph’s robust state management with Qdrant’s cutting-edge vector search, we’ll build a system that doesn’t just answer questions—it tackles complex, multi-step information retrieval tasks with finesse.
 
 ## What We’ll Build
-
 
 We’re building an AI agent to answer questions about Hugging Face and Transformers documentation using LangGraph. At the heart of our AI agent lies LangGraph, which acts like a conductor in an orchestra. It directs the flow between various components—deciding when to retrieve information, when to perform a web search, and when to generate responses.
 
@@ -66,22 +64,33 @@ Before we dive into building our agent, let’s get everything set up.
 
 ### Imports
 
-Here’s a list of key imports required:
+Install the dependencies first. The tutorial was verified with langgraph 1.2, langchain 1.4, langchain-openai 1.6, langchain-community 0.4, and langchain-qdrant 1.1 on Python 3.12.
+
+```bash
+pip install langgraph langchain langchain-openai langchain-community langchain-qdrant langchain-text-splitters qdrant-client datasets tiktoken python-dotenv
+```
+
+Here’s a list of key imports required. Each LangChain integration now lives in its own package, and LangGraph exposes the graph classes from `langgraph.graph` and the prebuilt `ToolNode` from `langgraph.prebuilt`:
 
 ```python
 import os
-import json
 from typing import Annotated, TypedDict
+
 from dotenv import load_dotenv
-from langchain.embeddings import OpenAIEmbeddings
-from langgraph import StateGraph, tool, ToolNode, ToolMessage
-from langchain.document_loaders import HuggingFaceDatasetLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.llms import ChatOpenAI
+from langchain_community.document_loaders import HuggingFaceDatasetLoader
+from langchain_community.tools import BraveSearch
+from langchain_core.tools import tool
+from langchain_core.tools.retriever import create_retriever_tool
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langgraph.graph import END, START, StateGraph
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import VectorParams
-from brave_search import BraveSearch
 ```
+
+The dataset loader and the Brave Search tool come from `langchain-community`, which prints a warning that the package is being sunset. It still installs and works with the versions above.
 
 ### Qdrant Vector Database Setup
 
@@ -97,7 +106,7 @@ Save these securely for future use!
 
 ### OpenAI API Configuration
 
-Your OpenAI API key will power both embedding generation and language model interactions. Visit [OpenAI's platform](https://platform.openai.com/) and sign up for an account. In the API section of your dashboard, create a new API key. We'll use the text-embedding-3-small model for embeddings and GPT-4 as the language model.
+Your OpenAI API key will power both embedding generation and language model interactions. Visit [OpenAI's platform](https://platform.openai.com/) and sign up for an account. In the API section of your dashboard, create a new API key. We'll use the text-embedding-3-small model for embeddings and gpt-4o as the language model.
 
 ### Brave Search
 
@@ -105,7 +114,7 @@ To enhance search capabilities, we’ll integrate Brave Search. Visit the [Brave
 
 For added security, store all API keys in a .env file.
 
-```json
+```bash
 OPENAI_API_KEY = <your-openai-api-key>
 QDRANT_KEY = <your-qdrant-api-key>
 QDRANT_URL = <your-qdrant-url>
@@ -155,6 +164,8 @@ transformers_doc = HuggingFaceDatasetLoader("m-ric/transformers_documentation_en
 In this demo, we are selecting the first 50 documents from the dataset and passing them to the processing function.
 
 ```python
+number_of_docs = 50
+
 hf_splits = preprocess_dataset(hugging_face_doc.load()[:number_of_docs])
 transformer_splits = preprocess_dataset(transformers_doc.load()[:number_of_docs])
 ```
@@ -187,20 +198,40 @@ Our agent is equipped with three powerful tools:
 Let’s start by defining a retriever that takes documents and a collection name, then returns a retriever. The query is transformed into vectors using **OpenAIEmbeddings**.
 
 ```python
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+qdrant_client = QdrantClient(url=qdrant_url, api_key=qdrant_key)
+
+
 def create_retriever(collection_name, doc_splits):
-    vectorstore = QdrantVectorStore.from_documents(
-        doc_splits,
-        OpenAIEmbeddings(model="text-embedding-3-small"),
-        url=qdrant_url,
-        api_key=qdrant_key,
-        collection_name=collection_name,
-    )
+    # Reuse the collection on later runs so documents are embedded only once
+    if qdrant_client.collection_exists(collection_name):
+        vectorstore = QdrantVectorStore.from_existing_collection(
+            embedding=embeddings,
+            url=qdrant_url,
+            api_key=qdrant_key,
+            collection_name=collection_name,
+        )
+    else:
+        vectorstore = QdrantVectorStore.from_documents(
+            doc_splits,
+            embeddings,
+            url=qdrant_url,
+            api_key=qdrant_key,
+            collection_name=collection_name,
+        )
     return vectorstore.as_retriever()
 ```
 
 ---
 
-Both the Hugging Face documentation retriever and the Transformers documentation retriever use this same function. With this setup, it’s incredibly simple to create separate tools for each.
+Both the Hugging Face documentation retriever and the Transformers documentation retriever use this same function.
+
+```python
+hf_retriever = create_retriever("hugging_face_documentation", hf_splits)
+transformer_retriever = create_retriever("transformers_documentation", transformer_splits)
+```
+
+With this setup, it’s incredibly simple to create separate tools for each.
 
 ```python
 hf_retriever_tool = create_retriever_tool(
@@ -222,7 +253,8 @@ For web search, we create a simple yet effective tool using Brave Search:
 
 ```python
 @tool("web_search_tool")
-def search_tool(query):
+def search_tool(query: str) -> str:
+    """Search the web with Brave Search and return the top results."""
     search = BraveSearch.from_api_key(api_key=brave_key, search_kwargs={"count": 3})
     return search.run(query)
 ```
@@ -245,38 +277,16 @@ llm_with_tools = llm.bind_tools(tools)
 
 ---
 
-Here, the ToolNode class handles and orchestrates our tools:
+Here, `ToolNode` from `langgraph.prebuilt` handles and orchestrates our tools. It maps tool names to their functions, reads the `tool_calls` on the last AI message in the state, invokes each tool, and returns the results as `ToolMessage` objects. Earlier versions of this tutorial defined a class with the same name by hand; the prebuilt node does the same job and also handles errors and parallel tool calls.
+
+The agent node itself is a single function that sends the conversation to the model:
 
 ```python
-class ToolNode:
-    def __init__(self, tools: list) -> None:
-        self.tools_by_name = {tool.name: tool for tool in tools}
-
-    def __call__(self, inputs: dict):
-        if messages := inputs.get("messages", []):
-            message = messages[-1]
-        else:
-            raise ValueError("No message found in input")
-
-        outputs = []
-        for tool_call in message.tool_calls:
-            tool_result = self.tools_by_name[tool_call["name"]].invoke(
-                tool_call["args"]
-            )
-            outputs.append(
-                ToolMessage(
-                    content=json.dumps(tool_result),
-                    name=tool_call["name"],
-                    tool_call_id=tool_call["id"],
-                )
-            )
-
-        return {"messages": outputs}
+def agent(state: State):
+    return {"messages": [llm_with_tools.invoke(state["messages"])]}
 ```
 
 ---
-
-The ToolNode class handles tool execution by initializing a list of tools and mapping tool names to their corresponding functions. It processes input dictionaries, extracts the last message, and checks for tool_calls from LLM tool-calling capability providers such as Anthropic, OpenAI, and others.
 
 ### Routing and Decision Making
 
@@ -317,6 +327,8 @@ graph_builder.add_conditional_edges(
 
 graph_builder.add_edge("tools", "agent")
 graph_builder.add_edge(START, "agent")
+
+graph = graph_builder.compile()
 ```
 
 ---
@@ -368,6 +380,197 @@ MBart:
 Models like `facebook/mbart-large-50-one-to-many-mmt` and `facebook/mbart-large-50-many-to-many-mmt` are used for multilingual machine translation across 50 languages.
 
 These models are designed to handle multiple languages and can be used for tasks like translation, classification, and more.
+```
+
+---
+
+## Complete Script
+
+The full example is published in the [qdrant/examples repository](https://github.com/qdrant/examples/tree/master/agentic-rag-langgraph) with a `requirements.txt` and `.env.example`. Copy your keys into `.env`, then run it with a question as the argument. The web search tool is added only when `BRAVE_API_KEY` is set.
+
+```bash
+python agentic_rag_langgraph.py "In the Transformers library, are there any multilingual models?"
+```
+
+```python
+"""Agentic RAG with LangGraph and Qdrant.
+
+Builds an agent that answers questions about the Hugging Face and
+Transformers documentation. The agent chooses between two Qdrant
+retrievers and a Brave web search tool, and loops until it has an answer.
+
+Companion script for
+https://qdrant.tech/documentation/tutorials-build-essentials/agentic-rag-langgraph/
+"""
+
+import os
+import sys
+from typing import Annotated, TypedDict
+
+from dotenv import load_dotenv
+from langchain_community.document_loaders import HuggingFaceDatasetLoader
+from langchain_community.tools import BraveSearch
+from langchain_core.tools import tool
+from langchain_core.tools.retriever import create_retriever_tool
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langgraph.graph import END, START, StateGraph
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode
+from qdrant_client import QdrantClient
+
+# --- Configuration ---------------------------------------------------------
+
+load_dotenv()
+qdrant_key = os.getenv("QDRANT_KEY")
+qdrant_url = os.getenv("QDRANT_URL")
+brave_key = os.getenv("BRAVE_API_KEY")
+
+if not os.getenv("OPENAI_API_KEY"):
+    sys.exit("OPENAI_API_KEY is not set. Add it to your .env file.")
+if not qdrant_url:
+    sys.exit("QDRANT_URL is not set. Add it to your .env file.")
+
+number_of_docs = 50
+
+# --- Document processing ---------------------------------------------------
+
+
+def preprocess_dataset(docs_list):
+    text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+        chunk_size=700,
+        chunk_overlap=50,
+        disallowed_special=(),
+    )
+    return text_splitter.split_documents(docs_list)
+
+
+hugging_face_doc = HuggingFaceDatasetLoader("m-ric/huggingface_doc", "text")
+transformers_doc = HuggingFaceDatasetLoader("m-ric/transformers_documentation_en", "text")
+
+hf_splits = preprocess_dataset(hugging_face_doc.load()[:number_of_docs])
+transformer_splits = preprocess_dataset(transformers_doc.load()[:number_of_docs])
+
+# --- Retrievers backed by Qdrant -------------------------------------------
+
+
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+qdrant_client = QdrantClient(url=qdrant_url, api_key=qdrant_key)
+
+
+def create_retriever(collection_name, doc_splits):
+    # Reuse the collection on later runs so documents are embedded only once
+    if qdrant_client.collection_exists(collection_name):
+        vectorstore = QdrantVectorStore.from_existing_collection(
+            embedding=embeddings,
+            url=qdrant_url,
+            api_key=qdrant_key,
+            collection_name=collection_name,
+        )
+    else:
+        vectorstore = QdrantVectorStore.from_documents(
+            doc_splits,
+            embeddings,
+            url=qdrant_url,
+            api_key=qdrant_key,
+            collection_name=collection_name,
+        )
+    return vectorstore.as_retriever()
+
+
+hf_retriever = create_retriever("hugging_face_documentation", hf_splits)
+transformer_retriever = create_retriever("transformers_documentation", transformer_splits)
+
+# --- Tools -----------------------------------------------------------------
+
+hf_retriever_tool = create_retriever_tool(
+    hf_retriever,
+    "retriever_hugging_face_documentation",
+    "Search and return information about hugging face documentation, it includes the guide and Python code.",
+)
+
+transformer_retriever_tool = create_retriever_tool(
+    transformer_retriever,
+    "retriever_transformer",
+    "Search and return information specifically about transformers library",
+)
+
+
+@tool("web_search_tool")
+def search_tool(query: str) -> str:
+    """Search the web with Brave Search and return the top results."""
+    search = BraveSearch.from_api_key(api_key=brave_key, search_kwargs={"count": 3})
+    return search.run(query)
+
+
+tools = [hf_retriever_tool, transformer_retriever_tool]
+if brave_key:
+    tools.append(search_tool)
+else:
+    print("BRAVE_API_KEY is not set; running without the web search tool.")
+
+# --- Model and graph -------------------------------------------------------
+
+
+class State(TypedDict):
+    messages: Annotated[list, add_messages]
+
+
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
+llm_with_tools = llm.bind_tools(tools)
+
+# ToolNode from langgraph.prebuilt executes every tool call in the last
+# AI message and returns the results as ToolMessages.
+tool_node = ToolNode(tools=tools)
+
+
+def agent(state: State):
+    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+
+
+def route(state: State):
+    if isinstance(state, list):
+        ai_message = state[-1]
+    elif messages := state.get("messages", []):
+        ai_message = messages[-1]
+    else:
+        raise ValueError(f"No messages found in input state to tool_edge: {state}")
+
+    if hasattr(ai_message, "tool_calls") and len(ai_message.tool_calls) > 0:
+        return "tools"
+
+    return END
+
+
+graph_builder = StateGraph(State)
+
+graph_builder.add_node("agent", agent)
+graph_builder.add_node("tools", tool_node)
+
+graph_builder.add_conditional_edges(
+    "agent",
+    route,
+    {"tools": "tools", END: END},
+)
+
+graph_builder.add_edge("tools", "agent")
+graph_builder.add_edge(START, "agent")
+
+graph = graph_builder.compile()
+
+# --- Run -------------------------------------------------------------------
+
+
+def run_agent(user_input: str):
+    for event in graph.stream({"messages": [("user", user_input)]}):
+        for value in event.values():
+            print("Assistant:", value["messages"][-1].content)
+
+
+if __name__ == "__main__":
+    question = " ".join(sys.argv[1:]) or "In the Transformers library, are there any multilingual models?"
+    run_agent(question)
 ```
 
 ---
