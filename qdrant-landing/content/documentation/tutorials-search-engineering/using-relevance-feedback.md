@@ -50,7 +50,7 @@ Install the aforementioned package (it will automatically install the Qdrant Cli
 pip install qdrant-relevance-feedback
 ```
 
-We're going to use a [Qdrant Cloud Free Tier Cluster](https://qdrant.tech/documentation/cloud/create-cluster/#free-clusters) (make sure it's on version 1.17.0+) and [Free Embedding Inference](https://qdrant.tech/documentation/cloud/inference/#free-embedding-models) available on this Free Tier Cluster.
+We're going to use a [Qdrant Cloud Free Tier Cluster](https://qdrant.tech/documentation/cloud/create-cluster/#free-clusters) (make sure it's on version 1.17.0+) and [Free Embedding Inference](https://qdrant.tech/documentation/cloud/inference/#qdrant-hosted-models) available on this Free Tier Cluster.
 
 [Create a Qdrant Free Tier Cluster](https://cloud.qdrant.io/) and initialize the Qdrant Client:
 
