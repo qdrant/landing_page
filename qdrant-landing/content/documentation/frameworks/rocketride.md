@@ -1,14 +1,14 @@
 ---
 title: RocketRide
-short_description: "Build RAG pipelines and AI agents with RocketRide's multithreaded C++ runtime and Qdrant for vector search, retrieval, and memory."
-description: "Use Qdrant in RocketRide to ingest embedded documents, retrieve context for RAG, and expose vector search, upsert, and delete operations to AI agents."
+short_description: "Developer platform for building, deploying, and operating production AI systems with Qdrant."
+description: "Use Qdrant in RocketRide for vector search, retrieval, memory, and agent tools in production AI systems."
 ---
 
 # RocketRide
 
-[RocketRide](https://github.com/rocketride-org/rocketride-server) is an open-source AI development environment and runtime for building, running, and integrating AI systems. Pipelines are portable JSON and execute on a multithreaded C++ engine. You can compose them in the visual IDE, run them from the CLI, integrate them through Python or TypeScript SDKs, or expose them as tools over MCP.
+[RocketRide](https://cloud.rocketride.ai/) is a developer platform for building, deploying, and operating production AI systems. It gives developers one place to compose AI workloads, run them on managed infrastructure, and observe every step in production.
 
-RocketRide's native Qdrant node stores embedded documents, retrieves context for retrieval-augmented generation (RAG), and gives agents tools for searching and updating a Qdrant collection. It supports both Qdrant Cloud and self-hosted deployments.
+Qdrant is available as a native integration for vector search, retrieval, memory, and agent tools.
 
 ## Run the RAG example
 
