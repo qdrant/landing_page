@@ -4,7 +4,6 @@ short_description: "Build an agentic RAG system with LangGraph and Qdrant that o
 description: "Tutorial: build an agentic RAG workflow using LangGraph for state management and Qdrant for vector retrieval, with multi-source routing and tool orchestration."
 weight: 15
 partition: ecosystem
-hideInSidebar: true
 aliases:
   - /documentation/agentic-rag-langgraph/
 goal: RAG & Agents
