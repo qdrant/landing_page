@@ -18,6 +18,13 @@
   color: var(--qi-fg);
 }
 
+/* Phones: narrower card padding leaves the one-line vector room for its values. */
+@media (max-width: 480px) {
+  .qi-sw {
+    padding: 14px 10px;
+  }
+}
+
 .qi-sw__tag {
   fill: var(--qi-muted);
   font-family: var(--qi-mono);
@@ -165,4 +172,10 @@ html[data-theme="dark"] .qi-sw {
 /* Caption at full opacity: the shared 0.75 falls below 4.5:1 on the dark page. */
 .island[data-island='content/headless/minicoil-en-es/slots-word'] .island__caption {
   opacity: 1;
+}
+
+/* Once drawn, the stage takes the card's own height: the reserved ratio is the
+   wide layout's, and the taller phone layout would otherwise spill over the text. */
+.island[data-island='content/headless/minicoil-en-es/slots-word'].is-ready .island__stage {
+  aspect-ratio: auto !important;
 }

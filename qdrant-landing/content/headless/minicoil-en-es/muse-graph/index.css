@@ -47,3 +47,9 @@ html[data-theme='dark'] .qi-mg {
 .island[data-island='content/headless/minicoil-en-es/muse-graph'] .island__caption {
   opacity: 1;
 }
+
+/* Once drawn, the stage takes the drawing's own height: the reserved ratio is the
+   wide layout's, and the taller phone layout would otherwise spill over the text. */
+.island[data-island='content/headless/minicoil-en-es/muse-graph'].is-ready .island__stage {
+  aspect-ratio: auto !important;
+}
