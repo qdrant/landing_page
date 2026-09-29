@@ -1,0 +1,43 @@
+/* hero-shared-slot island. Light values are the static design; dark values
+   follow the shared dark tokens (_qi-tokens.scss) or brand light variants.
+   Theme switching mirrors islands.scss: explicit toggle, else system setting. */
+
+.qi-hs {
+  --f-006064: #006064;
+  --f-303547: var(--qi-fg);
+  --f-6047ff: #6047ff;
+  --f-656b7f: var(--qi-muted);
+  --f-9c27b0: #9c27b0;
+  --f-f0f3fa: var(--qi-surface);
+  --f-f3e5f5: #f3e5f5;
+  display: block;
+}
+.qi-hs .qi-hs__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.qi-hs .qi-hs__stack {
+  gap: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-hs {
+    --f-006064: #b2ebf2;
+    --f-6047ff: #c2c5ff;
+    --f-9c27b0: #c988d4;
+    --f-f3e5f5: #44204f;
+  }
+}
+html[data-theme='dark'] .qi-hs {
+  --f-006064: #b2ebf2;
+  --f-6047ff: #c2c5ff;
+  --f-9c27b0: #c988d4;
+  --f-f3e5f5: #44204f;
+}
+
+/* Caption at full opacity: the shared 0.75 falls below 4.5:1 on the dark page. */
+.island[data-island='content/headless/minicoil-en-es/hero-shared-slot'] .island__caption {
+  opacity: 1;
+}

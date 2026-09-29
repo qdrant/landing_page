@@ -26,7 +26,9 @@ It's a fun challenge, as sparse retrievers are hard to adapt to this scenario: e
 
 Together with the team at [Pento](https://pento.ai), we came up with **miniCOIL EN-ES**: a bilingual sparse neural retriever where *"home"* and *"casa"* land in the same cells of a sparse vector, *cells representing one concept*. This way, one inverted index serves English and Spanish queries and documents alike, no translation step in between.
 
-{{< figure src="/articles_data/minicoil-en-es/00-hero-shared-slot.svg" alt="miniCOIL EN-ES: the English word home and the Spanish word casa both write into the same block of cells in one sparse vector." caption="miniCOIL EN-ES: \"home\" and \"casa\" land in the same slot of a sparse vector." width="90%" >}}
+{{< island path="content/headless/minicoil-en-es/hero-shared-slot" width="100%" ratio="1480 / 830" title="miniCOIL EN-ES: \"home\" and \"casa\" land in the same slot of a sparse vector." >}}
+![miniCOIL EN-ES: the English word home and the Spanish word casa both write into the same block of cells in one sparse vector.](/articles_data/minicoil-en-es/00-hero-shared-slot.svg)
+{{< /island >}}
 
 We're sharing the design and a first set of results.  
 We'd love your feedback: whether you'd use something of the kind, whether the approach works for you. If so, we'd scale the model's vocabulary and training, and let's see what comes next: the idea is easily transferable to other languages.
@@ -70,8 +72,8 @@ While in miniCOIL v1, every English word in a 30k vocabulary got its own trainab
 When an English document says *"bat"* and a Spanish query says *"murciélago"*, both resolve to the same concept ID, both are projected by the same head, and both write into the same block of the sparse vector (in this model, 8 consecutive dimensions).  
 That allows for both mono- and cross-lingual matching simultaneously, and still keeps miniCOIL's ability to resolve meaning-in-the-context.
 
-{{< island path="content/headless/minicoil-en-es/slots-word" width="90%" ratio="17 / 10" title="One slot per concept: in miniCOIL EN-ES, \"bat\", \"murciélago\", and \"bate\" write into the same cells, and the values follow the sense; unresolved words fall back to BM25." >}}
-![Two sparse vectors compared for "Dracula's bat": miniCOIL v1 writes the English word bat into a 4-cell block; miniCOIL EN-ES writes the concept {bat, murciélago, bate} into a shared 8-cell block. In both, the out-of-vocabulary word Dracula falls back to one BM25 cell.](/articles_data/minicoil-en-es/01-concept-slots.svg)
+{{< island path="content/headless/minicoil-en-es/slots-word" width="100%" ratio="17 / 10" title="One slot per concept: in miniCOIL EN-ES, \"bat\", \"murciélago\", and \"bate\" write into the same cells, and the values follow the sense; unresolved words fall back to BM25." >}}
+![Two sparse vectors compared for "Dracula's bat": miniCOIL v1 writes the English word bat into a 4-cell block; miniCOIL EN-ES writes the concept {bat, murciélago, bate} into a shared 8-cell block. In both, the out-of-vocabulary word Dracula falls back to one BM25 cell. For "a baseball bat", the same cells take different values, and "baseball" writes into a slot of its own. For "el murciélago", miniCOIL v1 has no slot and falls back to BM25, while miniCOIL EN-ES writes it into the shared 8-cell block.](/articles_data/minicoil-en-es/01-concept-slots.svg)
 {{< /island >}}
 
 #### Standing on the Shoulders of BM25, Again (We Got Comfortable)
@@ -113,7 +115,9 @@ Our first, uncapped attempt produced a few clusters of several hundred words, a 
 The fix we used is not very glamorous (as anything else heuristics-, in-my-expert-opinion-it-is-ok-based):  
 MUSE lists translations in frequency order, so we keep only the **top-2 translations per source word** before building the graph. Combined with a maximum cluster size of 20, this yields about 80k clean concepts, median size 2 (a typical concept is literally just a word and its translation, like `{cat, gato}`) and 99th percentile size 9.
 
-{{< figure src="/articles_data/minicoil-en-es/02-muse-graph.svg" alt="Left: a bipartite English-Spanish dictionary graph with tight communities forming concepts. Right: the polysemous Spanish word bajo stitching many unrelated words into one giant cluster." caption="Concepts are Louvain communities in a bilingual dictionary graph. Polysemous words like Spanish \"bajo\" stitch many unrelated terms together, so we had to cap the resulting concept size." width="90%" >}}
+{{< island path="content/headless/minicoil-en-es/muse-graph" width="100%" ratio="1480 / 820" title="Concepts are Louvain communities in a bilingual dictionary graph. Polysemous words like Spanish \"bajo\" stitch many unrelated terms together, so we had to cap the resulting concept size." >}}
+![Left: a bipartite English-Spanish dictionary graph with tight communities forming concepts. Right: the polysemous Spanish word bajo stitching many unrelated words into one giant cluster.](/articles_data/minicoil-en-es/02-muse-graph.svg)
+{{< /island >}}
 
 #### 80k Concepts Are 30 Times Too Many
 
@@ -155,7 +159,9 @@ So instead we decided to sample **five points** (quintuplets!) per training exam
 
 "Similar" and "dissimilar" are decided by the teacher encoder, [`Qwen/Qwen3-Embedding-0.6B`](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B), whose sentence embeddings we store in Qdrant alongside every sentence. Negatives are semi-hard: the nearest candidate that is still at least a margin farther from the anchor than the positive is.
 
-{{< figure src="/articles_data/minicoil-en-es/04-five-point.svg" alt="Quadrant diagram of five-point sampling: an anchor sentence in the center, same-language and cross-language positives pulled toward it, same-language and cross-language negatives pushed away." caption="Five points per training example: same- and cross-language positives and negatives around each anchor, with \"similar\" and \"dissimilar\" decided by the teacher encoder." width="90%" >}}
+{{< island path="content/headless/minicoil-en-es/five-point" width="100%" ratio="1480 / 860" title="Five points per training example: same- and cross-language positives and negatives around each anchor, with \"similar\" and \"dissimilar\" decided by the teacher encoder." >}}
+![Quadrant diagram of five-point sampling: an anchor sentence in the center, same-language and cross-language positives pulled toward it, same-language and cross-language negatives pushed away.](/articles_data/minicoil-en-es/04-five-point.svg)
+{{< /island >}}
 
 The loss is a cosine triplet loss over those four relationships: one triplet in the anchor's own language (`sl`, same-language) and one across languages (`xl`, cross-language), each with its own margin:
 

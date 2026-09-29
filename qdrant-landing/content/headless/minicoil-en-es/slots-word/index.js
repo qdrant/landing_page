@@ -134,12 +134,18 @@ export function mount(node) {
     '    </div>',
     '  </div>',
     '  <svg class="qi-svg qi-sw__svg" role="img"></svg>',
-    '  <p class="qi-status" role="status" aria-live="polite"></p>',
+    '  <p class="qi-sw__sr" role="status" aria-live="polite"></p>',
+    '  <p class="qi-sw__sr qi-sw__desc"></p>',
     '</div>',
   ].join('');
 
   const svg = node.querySelector('.qi-sw__svg');
-  const statusEl = node.querySelector('.qi-status');
+  const statusEl = node.querySelector('.qi-sw__sr');
+  // Hidden description of the current vectors, so the values shown in the drawing
+  // are available to screen readers too (the SVG itself is one role="img").
+  const descEl = node.querySelector('.qi-sw__desc');
+  descEl.id = `qi-sw-desc-${Math.random().toString(36).slice(2, 9)}`;
+  svg.setAttribute('aria-describedby', descEl.id);
   const chips = [...node.querySelectorAll('.qi-chip')];
   let use = 'dracula';
   let geo = WIDE;
@@ -167,7 +173,7 @@ export function mount(node) {
       if (p.t === 'cell') {
         const on = cellOf.get(p.i);
         svg.appendChild(el('rect', { class: `qi-sw__cell${on ? ` qi-sw__cell--${on.kind}` : ''}`, x: X(p), y: Y(p), width: g.cw, height: CH, rx: 5 }));
-        if (on) text(X(p) + g.cw / 2, Y(p) + CH / 2 + 5, on.val, 'qi-sw__val', 'middle', g.px);
+        if (on) text(X(p) + g.cw / 2, Y(p) + CH / 2 + 5, on.val, 'qi-sw__val', 'middle', 14); // values smaller than labels so they fit their cells
       } else if (p.t === 'dots') {
         text(X(p) + g.dotsW / 2, Y(p) + CH / 2 + 5, '…', 'qi-sw__dots', 'middle', g.px);
       } else {
@@ -231,7 +237,12 @@ export function mount(node) {
     });
     svg.setAttribute('viewBox', `0 0 ${geo.vb} ${y}`);
     svg.setAttribute('aria-label', `Cells written by "${USES[use].chip}" in miniCOIL v1 and in miniCOIL EN-ES.`);
-    statusEl.textContent = USES[use].say; // visible explanation and accessible live narration
+    statusEl.textContent = USES[use].say; // read by screen readers only
+    descEl.textContent = ROWS.map(({ key, tag }) => {
+      const spec = USES[use][key];
+      const blocks = spec.blocks.map((b) => `${b.label.replace('\n', ' ')}: ${b.vals.join(', ')}`).join('; ');
+      return `${tag}: ${blocks}${spec.far ? `; another word of the text writes ${spec.far.n} dimensions of its own slot` : ''}.`;
+    }).join(' ');
     chips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.use === use)));
   }
 

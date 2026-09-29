@@ -1,0 +1,52 @@
+/* five-point island. Light values are the static design; dark values
+   follow the shared dark tokens (_qi-tokens.scss) or brand light variants.
+   Theme switching mirrors islands.scss: explicit toggle, else system setting. */
+
+.qi-fp {
+  --f-006064: #006064;
+  --f-303547: var(--qi-fg);
+  --f-388e3c: #388e3c;
+  --f-6047ff: #6047ff;
+  --f-656b7f: var(--qi-muted);
+  --f-dc244c: #dc244c;
+  --f-e2e7f5: #e2e7f5;
+  --f-e8f5e9: #e8f5e9;
+  --f-f0f3fa: var(--qi-surface);
+  --f-fdecef: #fdecef;
+  display: block;
+}
+.qi-fp .qi-fp__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.qi-fp .qi-fp__stack {
+  gap: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-fp {
+    --f-006064: #b2ebf2;
+    --f-388e3c: #9cc79e;
+    --f-6047ff: #c2c5ff;
+    --f-dc244c: #ff8792;
+    --f-e2e7f5: #303547;
+    --f-e8f5e9: #1e3a2d;
+    --f-fdecef: #850d35;
+  }
+}
+html[data-theme='dark'] .qi-fp {
+  --f-006064: #b2ebf2;
+  --f-388e3c: #9cc79e;
+  --f-6047ff: #c2c5ff;
+  --f-dc244c: #ff8792;
+  --f-e2e7f5: #303547;
+  --f-e8f5e9: #1e3a2d;
+  --f-fdecef: #850d35;
+}
+
+/* Caption at full opacity: the shared 0.75 falls below 4.5:1 on the dark page. */
+.island[data-island='content/headless/minicoil-en-es/five-point'] .island__caption {
+  opacity: 1;
+}

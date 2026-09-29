@@ -1,13 +1,14 @@
-/* Article-specific geometry and semantic colors. Chrome and controls inherit
-   the shared island tokens so the page switch and system theme both work. */
+/* slots-word island. Chrome follows the page theme through the shared island
+   tokens; the semantic colors are the article's: cyan for an English word, purple
+   for a bilingual concept, gray for the BM25 fallback, same as the other figures. */
 .qi-sw {
-  --sw-word-fill: #b2ebf2;
-  --sw-word-line: #006064;
-  --sw-concept-fill: #ffdadb;
-  --sw-concept-line: var(--qi-cat-4);
-  --sw-concept-ink: #cc1845; /* amaranth-600: small text exceeds 4.5:1 */
-  --sw-oov-fill: var(--qi-surface);
-  --sw-oov-line: var(--qi-fg);
+  --sw-word-fill: #b2ebf2; /* cyan-100, --qi-cat-3-soft */
+  --sw-word-line: #006064; /* cyan-900 */
+  --sw-concept-fill: #f3e5f5; /* purple-50 */
+  --sw-concept-line: #9c27b0; /* purple-500, --qi-cat-2 */
+  --sw-concept-ink: #9c27b0;
+  --sw-oov-fill: #e2e7f5; /* neutral-100 */
+  --sw-oov-line: #303547; /* neutral-800 */
 
   display: block;
   box-sizing: border-box; /* padding inside the island's width, never wider than its slot */
@@ -26,7 +27,7 @@
 
 .qi-sw__cell {
   fill: none;
-  stroke: var(--qi-line);
+  stroke: var(--qi-muted); /* >= 3:1 on the card in both themes */
   stroke-width: 1.5;
   transition:
     fill 0.25s ease,
@@ -92,7 +93,7 @@
    faint when empty, colored when another slot of the same text lights them. */
 .qi-sw__sliver {
   fill: none;
-  stroke: var(--qi-line);
+  stroke: var(--qi-muted);
   stroke-width: 1;
   transition:
     fill 0.25s ease,
@@ -113,24 +114,55 @@
   font-family: var(--qi-mono);
 }
 
-/* Larger labels retain the shared control shape and selected treatment. */
+/* Controls: the shared chip shape, with an outline that stays visible on the
+   card and a filled selected state, both from theme tokens. */
 .qi-sw .qi-chip {
   font-size: 14px;
+  border-color: var(--qi-muted);
+  color: var(--qi-fg);
+}
+.qi-sw .qi-chip:hover:not(:disabled) {
+  border-color: var(--qi-fg);
+}
+.qi-sw .qi-chip[aria-pressed='true'] {
+  background: var(--qi-fg);
+  border-color: var(--qi-fg);
+  color: var(--qi-surface);
+}
+
+/* Screen-reader-only narration of the selected use; the drawing carries the
+   explanation for sighted readers. */
+.qi-sw__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) .qi-sw {
     --sw-word-fill: #006064;
     --sw-word-line: #b2ebf2;
-    --sw-concept-fill: #850d35;
-    --sw-concept-line: #ff8792;
-    --sw-concept-ink: #ff8792;
+    --sw-concept-fill: #44204f; /* #9c27b0 35% + dark surface */
+    --sw-concept-line: #c988d4; /* #9c27b0 55% + white: no lighter purple token */
+    --sw-concept-ink: #c988d4;
+    --sw-oov-fill: #303547;
+    --sw-oov-line: #abb1c7;
   }
 }
 html[data-theme="dark"] .qi-sw {
   --sw-word-fill: #006064;
   --sw-word-line: #b2ebf2;
-  --sw-concept-fill: #850d35;
-  --sw-concept-line: #ff8792;
-  --sw-concept-ink: #ff8792;
+  --sw-concept-fill: #44204f;
+  --sw-concept-line: #c988d4;
+  --sw-concept-ink: #c988d4;
+  --sw-oov-fill: #303547;
+  --sw-oov-line: #abb1c7;
+}
+
+/* Caption at full opacity: the shared 0.75 falls below 4.5:1 on the dark page. */
+.island[data-island='content/headless/minicoil-en-es/slots-word'] .island__caption {
+  opacity: 1;
 }
