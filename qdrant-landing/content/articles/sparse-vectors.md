@@ -477,7 +477,7 @@ Fusion mixes the results from both dense and sparse vectors based purely on thei
 - Reciprocal Rank Fusion (RRF) scores each point by its positions in the result lists. It's the safe default when you have no evaluation set to tune on.
 - Distribution-Based Score Fusion (DBSF) normalizes the scores from each result list, then sums them. To use it, pass `query=models.FusionQuery(fusion=models.Fusion.DBSF)`.
 
-{{< figure src=/articles_data/sparse-vectors/mixture.png caption="Normalizing and fusing dense and sparse results" width=80% >}}
+{{< figure src=/articles_data/sparse-vectors/mixture.jpg caption="Normalizing and fusing dense and sparse results" width=80% >}}
 
 
 ### Re-ranking
