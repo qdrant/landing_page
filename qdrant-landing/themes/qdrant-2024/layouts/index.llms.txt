@@ -1,6 +1,24 @@
 # {{ .Site.BaseURL }}
 ## Overall Summary
 > {{ .Site.Params.description }}
+{{- /* Landing pages. The loop below only reaches RegularPages, so the pages a
+   section is actually built around — /cloud, /pricing, /edge — were missing.
+   The industry pages come from GetPage because their parent section sets
+   build.list: never, which keeps it out of .Site.Sections entirely. */ -}}
+{{- $landing := .Site.Sections.ByWeight -}}
+{{- with .Site.GetPage "/industries" -}}{{- $landing = $landing | append .Pages -}}{{- end -}}
+{{- $header := "\n## Pages\n" -}}
+{{- range $landing -}}
+{{- $include := ne .Params.sitemapExclude true -}}
+{{- if .Sitemap.Disable -}}{{- $include = false -}}{{- end -}}
+{{- with .Params.build -}}
+  {{- if in (slice "never" "link") (.render | default "always") -}}{{- $include = false -}}{{- end -}}
+{{- end -}}
+{{- if and $include (ne .Title "") (ne .Permalink "") -}}
+{{ $header }}{{- $header = "" -}}
+- [{{ .Title }}]({{ .Permalink }}index.md): {{ with .Description }}{{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ else }}{{ .Summary | plainify | replaceRE "\\s+" " " | strings.TrimSpace | truncate 200 "" }}{{ end }}
+{{ end -}}
+{{- end -}}
 {{ range .Site.Sections.ByWeight -}}
 {{- $header := printf "\n## %s\n" .Title -}}
 {{- range .RegularPagesRecursive.ByWeight -}}

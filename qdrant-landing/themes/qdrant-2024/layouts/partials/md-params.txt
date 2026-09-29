@@ -1,0 +1,129 @@
+{{- /*
+  Renders arbitrary marketing front-matter params as Markdown, recursively.
+  Marketing pages keep their copy in params instead of page bodies, so the
+  generic .RenderShortcodes Markdown output comes out empty for them.
+
+  Keys that read like copy are kept; image, icon and bookkeeping keys are
+  dropped. A map without nested children renders as a bullet inside a list and
+  as a heading otherwise.
+
+  .txt, not .html, so Hugo treats it as a text template and stops escaping
+  "+" and "<" into HTML entities.
+
+  ponytail: substring key matching, not a per-page field mapping. Hand-write a
+  section's own list.markdown.md if its generated output reads badly.
+
+  Params: v (any), level (int, heading depth), item (bool, rendering a list entry),
+          omit (slice of strings already printed by the caller)
+*/ -}}
+{{- $v := .v -}}
+{{- $level := .level | default 2 -}}
+{{- $item := .item | default false -}}
+{{- $drop := slice "src" "alt" "icon" "image" "img" "logo" "avatar" "photo" "path" "color" "class" "id" "form" "schema" "video" "youtube" "background" "illustration" "visual" "badge" -}}
+{{- $keep := slice "title" "heading" "question" "name" "tab" "text" "subtitle" "description" "content" "answer" "quote" "review" "testimonial" "position" "role" "summary" "part" "benefit" "value" "lesson" "problem" "solution" "step" "stat" -}}
+{{- /* Exact matches, not substrings: "start" must not catch startFree, and
+       "place" must not catch marketplace. Events and Vector Space Day carry
+       their when and where in these. */ -}}
+{{- $keepExact := slice "start" "end" "date" "time" "place" "location" "venue" -}}
+{{- $titleKeys := slice "title" "heading" "question" "name" "tab" "text" -}}
+{{- $bodyOrder := slice "subtitle" "description" "content" "answer" "quote" "review" -}}
+{{- $out := slice -}}
+
+{{- if reflect.IsSlice $v -}}
+  {{- range $v -}}
+    {{- with partial "md-params.txt" (dict "v" . "level" $level "item" true) -}}
+      {{- $out = $out | append . -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- else if reflect.IsMap $v -}}
+  {{- $url := "" -}}
+  {{- $scalars := dict -}}
+  {{- $children := slice -}}
+  {{- range $k, $val := $v -}}
+    {{- $kl := lower $k -}}
+    {{- $dropped := false -}}
+    {{- range $drop -}}{{- if in $kl . -}}{{- $dropped = true -}}{{- end -}}{{- end -}}
+    {{- if $dropped -}}
+    {{- else if or (reflect.IsMap $val) (reflect.IsSlice $val) -}}
+      {{- with partial "md-params.txt" (dict "v" $val "level" (add $level 1)) -}}
+        {{- $children = $children | append . -}}
+      {{- end -}}
+    {{- else if in (slice "url" "link" "href") $kl -}}
+      {{- $url = printf "%v" $val -}}
+    {{- else -}}
+      {{- $kept := false -}}
+      {{- range $keep -}}{{- if in $kl . -}}{{- $kept = true -}}{{- end -}}{{- end -}}
+      {{- $labelled := in $keepExact $kl -}}
+      {{- if $labelled -}}{{- $kept = true -}}{{- end -}}
+      {{- /* Copy carries inline markup for styling; agents want the words. */ -}}
+      {{- $s := replaceRE `</?(span|br|b|i|em|strong|p|div|small|sup|sub)[^>]*>` " " (printf "%v" $val) -}}
+      {{- $s = strings.TrimSpace (replaceRE `\s+` " " $s) -}}
+      {{- /* omit: copy the caller already printed, e.g. the page title and
+             description above a single page's own params. */ -}}
+      {{- /* Hugo types bare YAML dates as timestamps, which stringify as
+             "2023-02-13 00:00:00 +0000 UTC". */ -}}
+      {{- $s = replaceRE ` [+-]\d{4} \w+$` "" $s -}}
+      {{- $s = replaceRE ` 00:00:00$` "" $s -}}
+      {{- /* When and where mean nothing unlabelled: "Online", "2026-04-21T17:00". */ -}}
+      {{- if and $labelled $s -}}{{- $s = printf "%s: %s" (title $kl) $s -}}{{- end -}}
+      {{- if and $kept $s (not (in ($.omit | default slice) $s)) -}}
+        {{- $scalars = merge $scalars (dict $kl $s) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Heading: the first title-ish key present. The others are alternate
+         labels for the same block (tab captions, link text), so drop them. */ -}}
+  {{- $title := "" -}}
+  {{- range $titleKeys -}}
+    {{- if not $title -}}{{- with index $scalars . -}}{{- $title = . -}}{{- end -}}{{- end -}}
+  {{- end -}}
+  {{- /* Top-level call on a page's own params: the H1 already says this, and
+         the url is the page's own permalink. */ -}}
+  {{- if .skipTitle -}}{{- $title = "" -}}{{- $url = "" -}}{{- end -}}
+
+  {{- /* Body: known copy keys in reading order, then anything else kept. */ -}}
+  {{- $body := slice -}}
+  {{- range $bodyOrder -}}
+    {{- with index $scalars . -}}{{- $body = $body | append . -}}{{- end -}}
+  {{- end -}}
+  {{- range $k, $s := $scalars -}}
+    {{- if not (or (in $titleKeys $k) (in $bodyOrder $k)) -}}
+      {{- $body = $body | append $s -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $label := cond (and (ne $url "") (ne $title "")) (printf "[%s](%s)" $title $url) $title -}}
+  {{- if and (eq $title "") (ne $url "") -}}{{- $label = printf "<%s>" $url -}}{{- end -}}
+
+  {{- if and $item (not $children) -}}
+    {{- /* Leaf list entry: one bullet. Entries with children stay headings so
+           the nesting (tabs holding features, sections holding cards) survives. */ -}}
+    {{- $line := $label -}}
+    {{- with delimit $body " " -}}
+      {{- $line = cond (ne $line "") (printf "**%s** — %s" $line .) . -}}
+    {{- end -}}
+    {{- with $line -}}{{- $out = $out | append (printf "- %s" .) -}}{{- end -}}
+  {{- else if and (ne $url "") (not $body) (not $children) -}}
+    {{- /* Bare call to action: just the link. */ -}}
+    {{- with $label -}}{{- $out = $out | append . -}}{{- end -}}
+  {{- else if not (or $body $children (ne $url "")) -}}
+    {{- /* Title and nothing else: a badge or kicker, not a section. Emitting it
+           leaves an orphan heading with no content under it. */ -}}
+  {{- else -}}
+    {{- with $title -}}
+      {{- $out = $out | append (printf "%s %s" (strings.Repeat $level "#") .) -}}
+    {{- end -}}
+    {{- range $body -}}{{- $out = $out | append . -}}{{- end -}}
+    {{- if ne $url "" -}}{{- $out = $out | append $label -}}{{- end -}}
+    {{- range $children -}}{{- $out = $out | append . -}}{{- end -}}
+  {{- end -}}
+
+{{- else -}}
+  {{- with strings.TrimSpace (printf "%v" $v) -}}{{- $out = $out | append . -}}{{- end -}}
+{{- end -}}
+
+{{- /* uniq: logo and partner strips repeat their entries to animate as a
+       marquee, which is noise once it is a list. */ -}}
+{{- return (delimit (uniq $out) "\n\n") -}}
