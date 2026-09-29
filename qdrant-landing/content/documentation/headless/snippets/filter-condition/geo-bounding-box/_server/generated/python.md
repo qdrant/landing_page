@@ -1,4 +1,6 @@
 ```python
+from qdrant_client import models
+
 models.FieldCondition(
     key="location",
     geo_bounding_box=models.GeoBoundingBox(

@@ -8,9 +8,6 @@ import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.ScrollPoints;
 import java.util.List;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client
     .scrollAsync(
         ScrollPoints.newBuilder()

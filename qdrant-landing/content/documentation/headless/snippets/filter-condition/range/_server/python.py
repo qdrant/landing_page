@@ -1,4 +1,4 @@
-from qdrant_client import models  # @hide
+from qdrant_client import models
 
 models.FieldCondition(
     key="price",

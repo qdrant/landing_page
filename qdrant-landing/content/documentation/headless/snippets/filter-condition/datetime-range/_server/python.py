@@ -1,5 +1,5 @@
 # mypy: disable-error-code="arg-type"
-from qdrant_client import models  # @hide
+from qdrant_client import models
 
 models.FieldCondition(
     key="date",
