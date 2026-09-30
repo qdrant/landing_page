@@ -5,7 +5,9 @@ import uuid
 csv_url = 'https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/time-based-sharding/social-media-posts.csv'
 
 # Retrieve a list of existing shard keys in the collection
-existing_shard_keys = [key.key for key in client.list_shard_keys(collection_name=collection_name).shard_keys]
+existing_shard_keys = [
+    key.key for key in client.list_shard_keys(collection_name=collection_name).shard_keys or []
+]
 
 dense_model = "sentence-transformers/all-MiniLM-L6-v2"
 batch_size = 100
