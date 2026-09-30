@@ -39,7 +39,9 @@ This mismatch in expectations might sometimes lead to confusion.
 Attempting to use vector similarity as a full-text search can result in a range of frustrations, from slow response times to poor search results, to limited functionality.
 Teams that do this get only a fraction of the benefits of vector similarity.
 
-{{< figure width=70% src=/articles_data/vector-similarity-beyond-search/venn-diagram.png caption="Where Full-Text Search and Vector Search Overlap" alt="Venn diagram. Full-text search only: synonyms, quick counts, and facets. Both: similarity search and filters. Vector search only: dissimilarity search, recommendations, diversity search, and multimodality." >}}
+{{< island path="content/documentation/headless/vector-similarity/venn" width="90%" ratio="15 / 8" title="Full-text and vector search share similarity search and filters, while each supports distinct operations." >}}
+![Venn diagram. Full-text search only: synonyms, quick counts, and facets. Both: similarity search and filters. Vector search only: dissimilarity search, recommendations, diversity search, and multimodality.](/articles_data/vector-similarity-beyond-search/venn-diagram.png)
+{{< /island >}}
 
 The rest of this article covers the techniques that need their own interfaces, and the Qdrant query for each.
 
@@ -59,12 +61,14 @@ The Dissimilarity or farthest search is the most straightforward concept after t
 It aims to find the most dissimilar or distant documents across the collection.
 
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/dissimilarity.png caption="Dissimilarity Search" alt="A query point with dashed lines to the six points farthest from it, which are circled as results." >}}
+{{< island path="content/documentation/headless/vector-similarity/dissimilarity" width="90%" ratio="15 / 9" title="Dissimilarity search returns the six points farthest from the query." >}}
+![A query point with dashed lines to the six points farthest from it, which are circled as results.](/articles_data/vector-similarity-beyond-search/dissimilarity.png)
+{{< /island >}}
 
 Unlike full-text match, Vector similarity can compare any pair of documents (or points) and assign a similarity score. 
 It doesn't rely on keywords or other metadata. 
 With vector similarity, we can easily achieve a dissimilarity search by inverting the search objective from maximizing similarity to minimizing it.
-In Qdrant, this is a [Recommend query with only negative examples](/documentation/search/explore/#using-only-negative-examples), using the `best_score` or `sum_scores` strategy.
+In Qdrant, dissimilarity search is the same Recommend query that powers [recommendations](#recommendations), used for a different purpose: pass [only negative examples](/documentation/search/explore/#using-only-negative-examples) with the `best_score` or `sum_scores` strategy, and the points farthest from those examples rank first.
 
 The dissimilarity search can find items in areas where previously no other search could be used.
 Let's look at a few examples.
@@ -78,7 +82,9 @@ To do this, we only need to search for the most dissimilar items using the embed
 This can be too broad, so we combine it with a [filter](/articles/filterable-hnsw/) to narrow the search down to a specific category.
 
 
-{{< figure src=/articles_data/vector-similarity-beyond-search/mislabelling.png caption="Mislabeling Detection" alt="Items ordered by dissimilarity to the query Chair: three chairs, an outdoor egg chair flagged for review, and a set of caster wheels flagged as mislabeled." >}}
+{{< island path="content/documentation/headless/vector-similarity/mislabeling" width="100%" ratio="15 / 5" title="Dissimilarity to chair separates expected examples from review and mislabel candidates." >}}
+![Items ordered by dissimilarity to the query Chair: three chairs, an outdoor egg chair flagged for review, and a set of caster wheels flagged as mislabeled.](/articles_data/vector-similarity-beyond-search/mislabelling.png)
+{{< /island >}}
 
 On a small furniture catalog, this query uses the same category twice: as the only negative example and as the filter.
 
@@ -132,7 +138,9 @@ The output of this search can be further processed with heavier models or human 
 In some cases, we might not even have labels, but it is still possible to try to detect anomalies in our dataset.
 Dissimilarity search can be used for this purpose as well.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/anomaly-detection.png caption="Anomaly Detection" alt="Three chairs serve as reference points. An egg chair near them is marked for review, and a set of caster wheels far from all of them is marked as an anomaly." >}}
+{{< island path="content/documentation/headless/vector-similarity/outliers" width="90%" ratio="15 / 9" title="Reference chairs anchor the point cloud; dissimilar products are candidates for review or anomaly detection." >}}
+![Three chairs serve as reference points. An egg chair near them is marked for review, and a set of caster wheels far from all of them is marked as an anomaly.](/articles_data/vector-similarity-beyond-search/anomaly-detection.png)
+{{< /island >}}
 
 The only thing we need is a bunch of reference points that we consider "normal".
 Then we can search for the most dissimilar points to this reference set and use them as candidates for further analysis.
@@ -179,19 +187,21 @@ Even without a query vector, similarity between the stored points can improve an
 The naive approach is to do [random sampling](/documentation/search/search/#random-sampling). 
 However, unless our dataset has a uniform distribution, the results of such sampling might be biased toward more frequent types of items.
 
-{{< figure  width=80% src=/articles_data/vector-similarity-beyond-search/diversity-random.png caption="Example of Random Sampling" alt="A random sample of 16 bathroom products, most of them similar-looking drain plugs." >}}
+{{< figure width=100% src=/articles_data/vector-similarity-beyond-search/diversity-random.png caption="Example of Random Sampling" alt="A random sample of 16 bathroom products, most of them similar-looking drain plugs." >}}
 
 
 The similarity information can increase the diversity of those results and make the first overview more interesting.
 That is especially useful when users do not yet know what they are looking for and want to explore the dataset.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/diversity-force.png caption="Example of Similarity-Based Sampling" alt="A similarity-based sample of 16 bathroom products with little repetition, including headrests, bathtubs, feet, frames, cleaners, and a shelf." >}}
+{{< figure width=100% src=/articles_data/vector-similarity-beyond-search/diversity-force.png caption="Example of Similarity-Based Sampling" alt="A similarity-based sample of 16 bathroom products with little repetition, including headrests, bathtubs, feet, frames, cleaners, and a shelf." >}}
 
 
 The power of vector similarity, in the context of being able to compare any two points, allows making a diverse selection of the collection possible without any labeling efforts.
 By maximizing the distance between all points in the response, we can have an algorithm that will sequentially output dissimilar results.
 
-{{< figure src=/articles_data/vector-similarity-beyond-search/diversity.png caption="Diversity Search" alt="Starting from a random point, each next result is the point farthest from all previous results." >}}
+{{< island path="content/documentation/headless/vector-similarity/farthest-first" width="90%" ratio="15 / 10" title="Step through farthest-first selection; each pick maximizes its minimum distance from earlier picks." >}}
+![Starting from a random point, each next result is the point farthest from all previous results.](/articles_data/vector-similarity-beyond-search/diversity.png)
+{{< /island >}}
 
 
 The method in the diagram is farthest-first selection: start from a random point, then keep adding the point farthest from all points picked so far.
@@ -272,6 +282,7 @@ A plain nearest-neighbor search returns the velvet armchair instead of the egg c
 
 Vector similarity can go above a single query vector.
 It can combine multiple positive and negative examples for a more accurate retrieval.
+This is the Recommend query from the dissimilarity examples, now used for its main purpose: positive examples pull the results toward what a user liked, and negative examples push them away.
 Qdrant's Recommend query takes stored points as examples by their point IDs, and also accepts raw vectors.
 With point IDs, we skip query-time neural network inference, which makes the recommendation search faster.
 
@@ -283,7 +294,9 @@ The first approach is to take all positive and negative examples and average the
 Qdrant averages the positive and the negative examples separately and combines the two averages into one query vector, `avg_positive + avg_positive - avg_negative`.
 The query moves toward the positive examples and away from the negative ones, and how useful the results are depends on the embedding space.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/feature-based-recommendations.png caption="Feature-Based Recommendations" alt="Bar chart comparing the values of the search query, the positive examples, and the negative examples in each vector dimension." >}}
+{{< island path="content/documentation/headless/vector-similarity/feature-based" width="90%" ratio="15 / 7" title="Illustrative vector dimensions show the query and positive and negative examples." >}}
+![Bar chart comparing the values of the search query, the positive examples, and the negative examples in each vector dimension.](/articles_data/vector-similarity-beyond-search/feature-based-recommendations.png)
+{{< /island >}}
 
 Qdrant implements this approach as the default [`average_vector` strategy](/documentation/search/explore/#average-vector-strategy) of the Recommend query.
 Because it runs a single search, it's as fast as a regular query. It works when averaging vectors also averages their meaning. In embedding spaces where that fails, distances to each example are a better tool to judge positive and negative examples.
@@ -323,10 +336,13 @@ Three of the four results are wooden, and none is metal.
 Another approach is to use the distance between negative examples to the candidates to help them create exclusion areas.
 In this technique, we perform searches near the positive examples while excluding the points that are closer to a negative example than to a positive one.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/relative-distance-recommendations.png caption="Distance-Based Recommendations" alt="Candidates near the positive examples are returned, except those closer to a negative example than to a positive one." >}}
+{{< island path="content/documentation/headless/vector-similarity/relative-distance" width="90%" ratio="8 / 5" title="Positions are illustrative; the rings mark the results of this article's queries." >}}
+![Candidates near the positive examples are returned, except those closer to a negative example than to a positive one.](/articles_data/vector-similarity-beyond-search/relative-distance-recommendations.png)
+{{< /island >}}
 
 Qdrant implements this approach as the [`best_score` strategy](/documentation/search/explore/#best-score-strategy), available since v1.6.
 A candidate that is closer to a negative example than to any positive one gets a negative score, so it ranks below every candidate that is closer to a positive example.
+With no positive examples, every candidate falls into that negative branch, which is why the same strategy returns the farthest points in [dissimilarity search](#dissimilarity-search).
 [Deliver Better Recommendations with Qdrant's New API](/articles/new-recommendation-api/) compares it with `average_vector`.
 
 The same examples with the `best_score` strategy:
@@ -371,22 +387,21 @@ To get more intuition about the possible ways to implement this approach, let's 
 The most well-known loss function used to train similarity models is a [triplet loss](/articles/triplet-loss/).
 In this loss, the model is trained by fitting the information of relative similarity of three objects: the Anchor, Positive, and Negative examples.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/triplet-loss.png caption="Triplet Loss" alt="Training pulls the positive example toward the anchor and pushes the negative example away by at least a margin." >}}
+{{< island path="content/documentation/headless/vector-similarity/discovery" width="100%" ratio="900 / 440" title="Triplet loss: training pulls the positive toward the anchor and pushes the negative at least a margin farther away." >}}
+![Before and after learning: training pulls the positive toward the anchor and pushes the negative farther away by a margin.](/articles_data/vector-similarity-beyond-search/triplet-loss.png)
+{{< /island >}}
 
 Using the same mechanics, we can look at the training process from the other side.
 Given a trained model, the user can provide positive and negative examples, and the goal of the discovery process is then to find suitable anchors across the stored collection of vectors.
 
-{{< figure width=60% src=/articles_data/vector-similarity-beyond-search/discovery.png caption="Reversed Triplet Loss" alt="One positive-negative pair splits the space into a +1 zone on the positive side and a -1 zone on the negative side." >}}
 
 Multiple positive-negative pairs can be provided to make the discovery process more accurate.
 As in model training, the pairs can be noisy or contradict each other, so the discovery process has to tolerate that.
 
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/discovery-noise.png caption="Multiple Context Pairs" alt="Two positive-negative pairs split the space into four zones scored +2, 0, 0, and -2." >}}
 
 The important difference between this and the recommendation method is that the positive-negative pairs in the discovery method don't assume that the final result should be close to positive, it only assumes that it should be closer than the negative one.
 
-{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/discovery-vs-recommendations.png caption="Discovery vs. Recommendation" alt="A recommendation result sits next to the positive example. A discovery candidate sits far from both examples, on the positive side of the pair." >}}
 
 Qdrant implements both ideas in the [Discovery API](/documentation/search/explore/#discovery-api), available since v1.7.
 Discovery search takes a target and context pairs. Points that satisfy more pairs always rank higher, and similarity to the target orders points that satisfy the same number.
