@@ -8,8 +8,8 @@
   "labelBottom": "size",
   "colors": [
     0,
-    1,
-    "muted"
+    0,
+    0
   ],
   "views": [
     {
