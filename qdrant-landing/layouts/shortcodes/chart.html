@@ -13,7 +13,8 @@
   the fix, including the exact command to regenerate.
 
   Usage: a "chart" shortcode taking id= and caption=, where id is the path to
-  a chart's three files: assets/viz/<id>.{json,csv,svg}.
+  a chart's three files: assets/viz/<id>.{json,csv,svg}. Add table="false"
+  when the post already shows the same table; the Markdown output then skips it.
 */ -}}
 {{- $c := partial "viz-chart-spec.html" . -}}
 {{- $spec := $c.spec -}}
