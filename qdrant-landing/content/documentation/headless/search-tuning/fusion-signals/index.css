@@ -1,0 +1,115 @@
+/* fusion-signals island. Scoped under .qi-fs. Frame, tokens, and text
+   colors come from the shared island design system (islands.scss); this file
+   styles the number lines and the two-panel layout.
+
+   Series colors follow the chart palette (data/viz.json) and the "hybrid/fusion"
+   chart earlier on the same page: dense is Secondary Violet, sparse is Teal,
+   and the fused result is Primary Red. Like the chart palette, they stay the
+   same in both themes; the text and lines follow the host theme. */
+
+.qi-fs {
+  --fs-dense: #6047ff;
+  --fs-sparse: #009688;
+  --fs-fused: #dc244c;
+
+  display: block;
+  /* Stack on this component's own width, not the viewport: the docs column
+     is narrower at some desktop widths (both sidebars shown) than at some
+     tablet widths. */
+  container-type: inline-size;
+  container-name: qi-fs;
+}
+
+.qi-fs__fig {
+  padding: 1rem;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+
+.qi-fs__panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+/* Pad both sides of the divider equally so the two SVGs scale by the same
+   factor and their rows line up. */
+.qi-fs__panel:first-child {
+  padding-right: 12px;
+}
+.qi-fs__panel + .qi-fs__panel {
+  border-left: 1px solid var(--qi-border);
+  padding-left: 12px;
+}
+
+.qi-fs__title {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+.qi-fs__row {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+}
+.qi-fs__doc {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+.qi-fs__note {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-fs__line {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.qi-fs__dot--dense {
+  fill: var(--fs-dense);
+}
+.qi-fs__dot--sparse {
+  fill: var(--fs-sparse);
+}
+.qi-fs__dot--fused {
+  fill: var(--fs-fused);
+}
+.qi-fs__ring {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+
+/* Side by side, each panel gets under half the width. Below ~780px that
+   shrinks the labels past the 14px article minimum, so stack the panels
+   instead, cap their width, and raise the type so a phone column still
+   renders it above the 12px floor. */
+@container qi-fs (max-width: 780px) {
+  .qi-fs__panels {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+  .qi-fs__panel:first-child {
+    padding: 0 0 12px;
+  }
+  .qi-fs__panel + .qi-fs__panel {
+    border-left: 0;
+    border-top: 1px solid var(--qi-border);
+    padding: 12px 0 0;
+  }
+  .qi-fs__title,
+  .qi-fs__row,
+  .qi-fs__doc,
+  .qi-fs__note {
+    font-size: 18px;
+  }
+}
+@container qi-fs (max-width: 400px) {
+  .qi-fs__fig {
+    padding: 0.5rem;
+  }
+}
