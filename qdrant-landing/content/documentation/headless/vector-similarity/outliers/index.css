@@ -25,6 +25,13 @@
   fill: var(--qi-cat-2);
 }
 
+/* Not flagged in the active mode: drops its identity color for the shared
+   muted token, ringless. */
+.qi-outlier__point--muted {
+  fill: var(--qi-muted);
+  opacity: 0.5;
+}
+
 .qi-outlier__ring {
   fill: none;
   stroke-width: 3;
@@ -65,6 +72,14 @@
 
 .qi-outlier__tile--bad {
   stroke: var(--qi-cat-4);
+}
+
+.qi-outlier__tile--muted {
+  stroke: var(--qi-muted);
+}
+
+.qi-outlier__photo--muted {
+  opacity: 0.5;
 }
 
 @media (max-width: 560px) {
