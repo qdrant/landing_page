@@ -88,7 +88,7 @@ One of the nicest properties of a hierarchy-aware hyperbolic embedding is that r
 
 Closer to the center, you can place broad concepts. Farther out, you can place more specific descendants. Direction separates branches; radius helps organize depth.
 
-For a catalog, “footwear” covers many possible items. “Boots” narrows that set. “Red leather ankle boots” narrows it further. A representation that captures this structure has room for both semantic similarity and different levels of detail.
+For a catalog, "footwear" covers many possible items. "Boots" narrows that set. "Red leather ankle boots" narrows it further. A representation that captures this structure has room for both semantic similarity and different levels of detail.
 
 Hyper3-CLIP, a hyperbolic image and text embedding model from [hyper³labs](https://hyper3labs.com/), brings this idea to visual retrieval. [[7]](#references) It is trained to capture general-to-specific relationships alongside similarity. This gives radius a role in organizing broad descriptions and specific visual content. [[2]](#references) It follows earlier work on hyperbolic image and text representations. [[3]](#references)
 
@@ -100,13 +100,21 @@ Consider the black Chelsea boot below. A traversal toward the origin illustrates
 
 We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
-{{< hyperbolic-viewer script="clip-viewer-inline.js" still="clip-hyper3-scatter.png" alt="Conventional and hyperbolic CLIP scatter plots of the same 165 product images" caption="The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. The figure is interactive where scripting is available. Where it is not, the static image is what renders and it carries the same comparison." >}}
+<link rel="stylesheet" href="/articles_data/hyperbolic-embeddings-qdrant/figures.css">
 
-These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality. The two layouts use different output geometries, so visual separation on its own does not establish a retrieval improvement. [[9]](#references) [[10]](#references)
+<figure class="article-figure">
+  <img src="/articles_data/hyperbolic-embeddings-qdrant/clip-hyper3-precision.svg"
+       alt="Precision at 10 for six product types under conventional CLIP and Hyper3-CLIP. Sandal rises from 53 to 75 percent, Table from 84 to 93, Chair from 75 to 84, Sofa from 89 to 91 and Boot from 84 to 85. Shoes falls from 77 to 70. Across all types, 78 percent rises to 83." width="640" height="452" loading="lazy">
+  <img class="article-figure__dark" src="/articles_data/hyperbolic-embeddings-qdrant/clip-hyper3-precision.dark.svg"
+       alt="Precision at 10 for six product types under conventional CLIP and Hyper3-CLIP. Sandal rises from 53 to 75 percent, Table from 84 to 93, Chair from 75 to 84, Sofa from 89 to 91 and Boot from 84 to 85. Shoes falls from 77 to 70. Across all types, 78 percent rises to 83." width="640" height="452" loading="lazy">
+  <figcaption>Precision@10 on 165 Amazon Berkeley Objects product images across six types, measured on the 512-dimensional vectors. Five types improve and one, Shoes, does not.</figcaption>
+</figure>
+
+This is a retrieval measurement rather than a picture of a layout. Neighborhoods are taken from the 512-dimensional vectors, not from any projection of them, so nothing here depends on how the points were arranged for display. The gain is not uniform: Sandal improves by 22 points, Shoes gets worse by 7, and the average over all six types moves from `0.778` to `0.834`. [[9]](#references)
 
 ## Testing Hyperbolic Embeddings
 
-WordNet is useful for showing why hyperbolic embeddings work, but we also wanted to see what happens on something closer to a real application. So we tested the same idea on the Google Product Taxonomy: 5,595 categories, seven levels, and 17,312 relationships. [[11]](#references)
+WordNet is useful for showing why hyperbolic embeddings work, but we also wanted to see what happens on something closer to a real application. So we tested the same idea on the Google Product Taxonomy: 5,595 categories, seven levels, and 17,312 relationships. [[10]](#references)
 
 Both embeddings used the same data and optimizer. The main difference was the geometry.
 
@@ -215,7 +223,13 @@ Better hyperbolic embeddings push more points toward the edge of the Poincaré b
 
 To make the difference easier to see, we built a [live viewer](https://qdrant-geometry-viewer.vercel.app) against the same Qdrant collection.
 
-{{< hyperbolic-viewer caption="The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart. The figure is interactive where scripting is available. Where it is not, the static image is what renders and it carries the same comparison." >}}
+<figure class="article-figure">
+  <img src="/articles_data/hyperbolic-embeddings-qdrant/three-geometries.svg"
+       alt="The chain from Home and Garden down to Espresso Machines, drawn in three geometries. In the hyperbolic Poincare disk the five levels sit at increasing radius, running from the center outward. In the flat Euclidean embedding and in the text embedding the same five levels sit almost on top of each other." width="640" height="300" loading="lazy">
+  <img class="article-figure__dark" src="/articles_data/hyperbolic-embeddings-qdrant/three-geometries.dark.svg"
+       alt="The chain from Home and Garden down to Espresso Machines, drawn in three geometries. In the hyperbolic Poincare disk the five levels sit at increasing radius, running from the center outward. In the flat Euclidean embedding and in the text embedding the same five levels sit almost on top of each other." width="640" height="300" loading="lazy">
+  <figcaption>One category and its ancestors in three geometries. Radius carries depth in the Poincaré disk, so the chain spreads from the center to the rim. The other two have nowhere to put it.</figcaption>
+</figure>
 
 **[Open the interactive viewer →](https://qdrant-geometry-viewer.vercel.app)** Pick any of the 5,595 categories and watch all three panels redraw. It runs three searches, one per panel: exact hyperbolic distance, Euclidean distance over the flat trained coordinates, and cosine similarity over a text embedding. The Product Images tab does the same for the CLIP comparison above.
 
@@ -245,6 +259,5 @@ The main point is simple. If the data is hierarchical, Qdrant gives you a practi
 6. Amazon Berkeley Objects. [Product image](https://amazon-berkeley-objects.s3.amazonaws.com/images/small/ff/ffb123bf.jpg), item `B06XCPVVPS`, image `71KwV3JHT9L`.
 7. hyper³labs. [The Geometry Mistake Behind Modern Embedding Models](https://hyper3labs.com/blog/the-geometry-mistake/).
 8. Radford, A. et al. (2021). [Learning Transferable Visual Models From Natural Language Supervision (CLIP)](https://arxiv.org/abs/2103.00020).
-9. McInnes, L., Healy, J. and Melville, J. (2018). [UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction](https://arxiv.org/abs/1802.03426).
-10. Amazon Berkeley Objects. [Dataset and documentation](https://amazon-berkeley-objects.s3.amazonaws.com/index.html).
-11. Google. [Google Product Taxonomy](https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt).
+9. Amazon Berkeley Objects. [Dataset and documentation](https://amazon-berkeley-objects.s3.amazonaws.com/index.html).
+10. Google. [Google Product Taxonomy](https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt).
