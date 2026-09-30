@@ -112,19 +112,16 @@ Next, open Datadog and go to **Metrics > Explorer**. Search for metrics that sta
 
 The `metrics: - .*` setting in Step 2 collects every metric the Qdrant exporter and operator expose, with no filtering. On most Datadog plans, metrics ingested through a custom OpenMetrics check are billed as [custom metrics](https://docs.datadoghq.com/account_management/billing/custom_metrics/), and each unique combination of metric name and tag value counts separately. A Qdrant cluster exposes metrics per collection, per shard, and per peer, so `.*` on a cluster with many collections or shards can generate a custom metrics volume much larger than the same check on a single-collection deployment, and the bill scales accordingly.
 
-Keep `.*` only for a short evaluation window, such as this tutorial. For a deployment you intend to run past the test, replace it with an explicit list of the metric names you actually query or alert on:
+Keep `.*` only for a short evaluation window, such as this tutorial. For each instance, select metric names from that endpoint's `/metrics` output that you actually query or alert on. For example, to collect only cluster status from the Operator on port 9290, replace that instance's `metrics` list with:
 
 ```yaml
-instances:
-  - openmetrics_endpoint: http://%%host%%:9090/metrics
-    namespace: qdrant.exporter
-    metrics:
-      - qdrant_collections_total
-      - qdrant_grpc_responses_duration_seconds
-      - qdrant_rest_responses_duration_seconds
+metrics:
+  - qdrant_operator_cluster_phase
 ```
 
-Check **Plan & Usage > Billing > Custom Metrics** in Datadog to see the current custom metrics count for your organization before and after applying the change, and confirm the check names in the current [Qdrant OpenMetrics endpoint](/documentation/ops-monitoring/monitoring/) still match, since metric names can change between Qdrant versions.
+Choose the Cloud Agent's port 9090 allowlist separately from its own output. Database metrics such as collection counts and request durations come from [the database endpoint on port 6333](/documentation/hybrid-cloud/networking-logging-monitoring/#monitoring), not the Cloud Agent endpoint.
+
+Reapply `datadog-agent.yaml` and repeat Step 3 to confirm that the selected metrics still arrive. Check **Plan & Usage > Billing > Custom Metrics** in Datadog to compare the custom metrics count before and after the change.
 
 ## Step 5: Stop Metric Collection After Testing
 
