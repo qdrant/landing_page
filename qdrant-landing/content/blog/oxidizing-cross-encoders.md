@@ -6,8 +6,8 @@ description: "Learnings from writing a cross-encoder inference library in Rust a
 date: 2026-09-25T00:00:00Z
 author: Clelia Bertelli
 featured: false
-preview_image: /blog/oxidizing-cross-encoders/preview_image.png
-social_image: /blog/oxidizing-cross-encoders/preview_image.png
+preview_image: /blog/oxidizing-cross-encoders/preview/social_preview.jpg
+social_image: /blog/oxidizing-cross-encoders/preview/social_preview.png
 tags:
   - rust
   - cross-encoders
