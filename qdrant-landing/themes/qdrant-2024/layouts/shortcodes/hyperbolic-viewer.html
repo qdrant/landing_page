@@ -1,0 +1,36 @@
+{{/*
+  An interactive figure for the hyperbolic article.
+
+  Usage:  {{< hyperbolic-viewer script="viewer-inline.js"
+                                 still="viewer-three-panels.jpg"
+                                 caption="..." alt="..." >}}
+
+  No iframe. netlify.toml sets X-Frame-Options DENY for the whole site, and
+  DENY blocks framing even from the same origin, so a framed viewer renders
+  nothing on a real deploy. The script runs in the page and attaches a shadow
+  root, which keeps the viewer's stylesheet (it sets :root, *, body, a and h1)
+  off the article, and keeps the two figures' element ids from colliding.
+
+  How it fails: the static figure is what the markup renders. The script has
+  to load, attach, and finish building before it removes that image. A missing
+  file, a script error, scripting turned off, or a browser without shadow DOM
+  all leave the reader with exactly the image the article shipped before.
+*/}}
+{{- $dir := "/articles_data/hyperbolic-embeddings-qdrant" -}}
+{{- $script := .Get "script" | default "viewer-inline.js" -}}
+{{- $still := .Get "still" | default "viewer-three-panels.jpg" -}}
+{{- $cap := .Get "caption" -}}
+{{- $alt := .Get "alt" | default "An interactive figure from this article." -}}
+{{/* Cache-bust on the file's own contents, so a changed viewer is never
+     served from a stale cache. */}}
+{{- $v := slicestr ((printf "static%s/%s" $dir $script) | readFile | md5) 0 8 -}}
+<figure class="hyperbolic-viewer">
+  <img src="{{ $dir }}/{{ $still }}" alt="{{ $alt }}"
+       style="width:100%;height:auto;display:block"
+       data-hyperbolic-fallback>
+  <div data-viewer-mount="{{ $script }}" hidden></div>
+  <script src="{{ $dir }}/{{ $script }}?v={{ $v }}" defer></script>
+  {{- with $cap }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
