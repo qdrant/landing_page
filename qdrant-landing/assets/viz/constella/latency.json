@@ -1,8 +1,9 @@
 {
   "title": "Query encoding time on an Apple M5 Pro CPU",
   "kind": "columns-2panel",
-  "height": 360,
-  "width": 480,
+  "horizontal": true,
+  "height": 320,
+  "width": 700,
   "labelTop": "encoder",
   "labelBottom": "size",
   "colors": [

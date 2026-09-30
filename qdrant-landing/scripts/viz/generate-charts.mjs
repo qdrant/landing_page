@@ -36,6 +36,9 @@ const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   if (spec.readableType && spec.kind !== 'grouped-columns') {
     throw new Error(`${p}: readableType is supported only for grouped-columns`);
   }
+  if ('horizontal' in spec && (spec.horizontal !== true || spec.kind !== 'columns-2panel')) {
+    throw new Error(`${p}: horizontal must be true and is supported only for columns-2panel`);
+  }
   const flexible = 'textScale' in spec || 'legendLayout' in spec;
   if (flexible && spec.kind !== 'grouped-columns') throw new Error(`${p}: textScale and legendLayout are supported only for grouped-columns`);
   if ('textScale' in spec && (!Number.isFinite(spec.textScale) || spec.textScale < 0.75 || spec.textScale > 2.5)) throw new Error(`${p}: textScale must be a number from 0.75 to 2.5`);
@@ -227,6 +230,60 @@ function panel(c, p, data, w, h) {
   }).join('');
 
   return panelHead(w, p.title, p.subtitle) + yAxisLabel(h, p.axis) + wrapPlot(plotted) + zones;
+}
+
+// Same panel with bars running left to right: names on the left, value at the bar's end.
+function panelH(c, p, data, w, h) {
+  const barKey = keyOf(c);
+  const values = rawCol(c.data, p.y);
+  const colors = c.colors
+    ? c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]))
+    : [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[1]];
+  const longest = Math.max(...data.flatMap((d) => [d[topCol(c)].length, d[botCol(c)].length]));
+  const marginLeft = Math.round(longest * viz.type.axis * 0.6) + 24;
+  const marginRight = 96, marginTop = LAYOUT.top, marginBottom = 56;
+
+  const plot = Plot.plot({
+    document: dom.window.document,
+    width: w, height: h,
+    marginLeft, marginRight, marginTop, marginBottom,
+    style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
+    y: { label: null, domain: data.map(barKey), tickFormat: () => '', tickSize: 0, padding: 0.3 },
+    x: { label: null, domain: [0, p.yMax ?? c.yMax], grid: true, nice: false, tickSize: 0 },
+    color: { domain: data.map(barKey), range: colors },
+    marks: [Plot.barX(data, { y: barKey, x: p.y, fill: barKey, rx: 1.5 })],
+  });
+  const svg = plot.tagName.toLowerCase() === 'svg' ? plot : plot.querySelector('svg');
+  let plotted = svg.innerHTML.replace(/(<g aria-label="bar"[^>]*>)([\s\S]*?)(<\/g>)/, (m, open, body, close) => {
+    let i = 0;
+    return open + body.replace(/<rect /g, () => `<rect data-viz-key="${esc(barKey(data[i++]))}" `) + close;
+  });
+
+  // Written by hand: Plot drops textAnchor on text marks (see panel above).
+  const x = plot.scale('x'), y = plot.scale('y');
+  const mid = (d) => y.apply(barKey(d)) + y.bandwidth / 2;
+  const labels = data.map((d, i) =>
+    `<text x="${marginLeft - 12}" y="${mid(d) - 2}" text-anchor="end" font-family="${FONT}" font-size="${viz.type.axis}" font-weight="600" fill="${INK}">${esc(d[topCol(c)])}</text>`
+    + `<text x="${marginLeft - 12}" y="${mid(d) + viz.type.label + 2}" text-anchor="end" font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(d[botCol(c)])}</text>`
+    + `<text x="${x.apply(num(values[i])) + 8}" y="${mid(d) + viz.type.axis * 0.35}" font-family="${FONT}" font-size="${viz.type.axis}" font-weight="600" fill="${INK}">${esc(values[i] + (p.unit ? ' ' + p.unit : ''))}</text>`).join('');
+  const xlab = `<text x="${marginLeft + (w - marginLeft - marginRight) / 2}" y="${h - 12}" text-anchor="middle" font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(p.axis)}</text>`;
+
+  // Full-width hit zones: you hover the row, not the bar.
+  const step = y.step;
+  const zones = data.map((d, i) => {
+    const rows = Object.entries(c.tooltip).map(([field, label]) => ({
+      k: label,
+      v: `${rawCol(c.data, field)[i]}${unitOf(field) ? ' ' + unitOf(field) : ''}`,
+      c: colors[i],
+    }));
+    return `<rect data-viz-zone data-viz-key="${esc(barKey(d))}"`
+      + ` data-viz-title="${esc(d[topCol(c)] + ' · ' + d[botCol(c)])}"`
+      + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
+      + ` tabindex="0" role="button" aria-label="${esc(d[topCol(c)] + ' ' + d[botCol(c)])}"`
+      + ` x="0" y="${mid(d) - step / 2}" width="${w}" height="${step}" fill="transparent"/>`;
+  }).join('');
+
+  return panelHead(w, p.title, p.subtitle) + wrapPlot(plotted) + labels + xlab + zones;
 }
 
 
@@ -421,7 +478,7 @@ function draw(c) {
   const pw = (c.width - gap * (c.panels.length - 1)) / c.panels.length;
   // No frame: gridlines carry the structure, so nothing can touch a border.
   return c.panels.map((p, i) =>
-    `<g transform="translate(${i * (pw + gap)},0)">${panel(c, p, data, pw, c.height)}</g>`).join('');
+    `<g transform="translate(${i * (pw + gap)},0)">${(c.horizontal ? panelH : panel)(c, p, data, pw, c.height)}</g>`).join('');
 }
 
 // Every view ships in one SVG, so switching never fetches and the first view

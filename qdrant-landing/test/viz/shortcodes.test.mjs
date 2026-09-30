@@ -89,6 +89,15 @@ test('table="false" drops the Markdown table but keeps the claims', () => {
   assert.match(md, /_Warm query: A warm 20-word query takes 38\.952 ms/, 'captions missing');
 });
 
+test('horizontal bars start at zero and grow to the right', () => {
+  const view = readFileSync('assets/viz/constella/latency.svg', 'utf8').split('data-viz-view="1"')[0];
+  const bars = [...view.match(/<g aria-label="bar"[^>]*>([\s\S]*?)<\/g>/)[1].matchAll(/<rect [^>]*?x="([\d.]+)"[^>]*?width="([\d.]+)"/g)]
+    .map(([, x, w]) => [Number(x), Number(w)]);
+  assert.equal(bars.length, 3);
+  assert.equal(new Set(bars.map(([x]) => x)).size, 1, 'every bar should start on the zero line');
+  assert.ok(bars[0][1] < bars[1][1] && bars[1][1] < bars[2][1], 'Zero < Nano < Full Stella');
+});
+
 test('HTML output still renders the chart as SVG', () => {
   // Guards the other direction: the Markdown variant must not shadow the HTML one.
   const html = getFixtureHtml();
