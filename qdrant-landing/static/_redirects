@@ -54,8 +54,11 @@
 /documentation/operations/*                                       /documentation/deploy-intro/:splat                                301
 
 # Prometheus monitoring pages moved from tutorials-and-examples to ops-monitoring (docs reorganization)
-/documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/ops-monitoring/managed-cloud-prometheus/:splat     301
 /documentation/tutorials-and-examples/hybrid-cloud-prometheus/*   /documentation/ops-monitoring/hybrid-cloud-prometheus/:splat      301
+
+# Managed Cloud Prometheus tutorial moved into the Learn / Production & Operations guide topic
+/documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/production-operations/managed-cloud-prometheus/:splat  301!
+/documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
 
 # Search tutorials reorg
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
