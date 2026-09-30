@@ -100,7 +100,7 @@ Consider the black Chelsea boot below. A traversal toward the origin illustrates
 
 We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
-{{< hyperbolic-viewer script="clip-viewer-inline.js" still="clip-hyper3-scatter.png" alt="Conventional and hyperbolic CLIP scatter plots of the same 165 product images" caption="The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types." >}}
+{{< hyperbolic-viewer script="clip-viewer-inline.js" still="clip-hyper3-scatter.png" alt="Conventional and hyperbolic CLIP scatter plots of the same 165 product images" caption="The same 165 Amazon Berkeley Objects product images in six categories, shown through UMAP projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. The figure is interactive where scripting is available. Where it is not, the static image is what renders and it carries the same comparison." >}}
 
 These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality. The two layouts use different output geometries, so visual separation on its own does not establish a retrieval improvement. [[9]](#references) [[10]](#references)
 
@@ -215,7 +215,7 @@ Better hyperbolic embeddings push more points toward the edge of the Poincaré b
 
 To make the difference easier to see, we built a [live viewer](https://qdrant-geometry-viewer.vercel.app) against the same Qdrant collection.
 
-{{< hyperbolic-viewer caption="The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart." >}}
+{{< hyperbolic-viewer caption="The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart. The figure is interactive where scripting is available. Where it is not, the static image is what renders and it carries the same comparison." >}}
 
 **[Open the interactive viewer →](https://qdrant-geometry-viewer.vercel.app)** Pick any of the 5,595 categories and watch all three panels redraw. It runs three searches, one per panel: exact hyperbolic distance, Euclidean distance over the flat trained coordinates, and cosine similarity over a text embedding. The Product Images tab does the same for the CLIP comparison above.
 
