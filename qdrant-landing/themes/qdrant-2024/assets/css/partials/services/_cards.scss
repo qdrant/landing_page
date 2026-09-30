@@ -1,0 +1,106 @@
+@use '../../helpers/functions' as *;
+
+// Card grid used by the "What We Help You Build" and "How It Works" sections.
+// Visual language mirrors .serverless-to-use so the page needs no new design.
+.services-cards {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &.services-how-it-works {
+    background-color: $neutral-98;
+  }
+
+  &__header {
+    margin-bottom: $spacer * 2.5;
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+  }
+
+  &__description {
+    max-width: pxToRem(760);
+    margin: 0 auto;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-30;
+  }
+
+  &__card {
+    .card {
+      height: 100%;
+      justify-content: flex-start;
+    }
+
+    &-tag {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: $spacer * 2.5;
+      height: $spacer * 2;
+      margin-bottom: $spacer * 0.5;
+      border-radius: pxToRem(2);
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      font-weight: $font-weight-semibold;
+    }
+
+    &:nth-of-type(3n + 1) .services-cards__card-tag {
+      color: $secondary-violet-50;
+      border-top: pxToRem(1) solid $secondary-violet-70;
+      background-color: $secondary-violet-90;
+    }
+
+    &:nth-of-type(3n + 2) .services-cards__card-tag {
+      color: $secondary-blue-50;
+      border-top: pxToRem(1) solid $secondary-blue-70;
+      background-color: $secondary-blue-90;
+    }
+
+    &:nth-of-type(3n + 3) .services-cards__card-tag {
+      color: $secondary-teal-50;
+      border-top: pxToRem(1) solid $secondary-teal-70;
+      background-color: $secondary-teal-90;
+    }
+
+    &-title {
+      margin-bottom: $spacer;
+      padding-bottom: $spacer;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+      border-bottom: pxToRem(1) solid $neutral-90;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-40;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+
+    &__header {
+      margin-bottom: $spacer * 4;
+    }
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+  }
+}
