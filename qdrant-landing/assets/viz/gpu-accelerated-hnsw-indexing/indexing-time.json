@@ -1,0 +1,12 @@
+{
+  "title": "HNSW indexing duration",
+  "kind": "grouped-columns",
+  "subtitle": "same 100,000-vector collection, Qdrant v1.19, lower is better",
+  "group": "metric",
+  "series": "cluster",
+  "y": "seconds",
+  "yLabel": "seconds",
+  "yMax": 75,
+  "colors": [2, 1],
+  "height": 380
+}
