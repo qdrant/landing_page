@@ -125,7 +125,7 @@ Each vector covers a different signal: `dense_chunk` for chunk content, `dense_t
 
 Categories live in the `tags` payload with a [keyword index](/documentation/manage-data/indexing/#payload-index), so queries can pre-filter by category.
 
-Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, every representation reachable from any point. For 20 000 documents at 24 chunks each, the duplicated vectors add ~1.4 GB; storing them once per document in a sidecar collection would be ~60 MB. See [Calculating RAM size](/documentation/capacity-planning/#calculating-ram-size) for how to price this on your own corpus, and [Lookup in groups](/documentation/search/search/#lookup-in-groups) to split heavy fields out and rejoin at grouping time.
+Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, every representation reachable from any point. For 20 000 documents, the duplicated vectors add ~0.25 GB at 4 chunks each (typical for an abstract split into two-sentence chunks) and ~1.4 GB at 24 chunks each; storing them once per document in a sidecar collection would be ~60 MB. See [Calculating RAM and Disk Size](/documentation/capacity-planning/#calculating-ram-and-disk-size) for how to price this on your own corpus, and [Lookup in groups](/documentation/search/search/#lookup-in-groups) to split heavy fields out and rejoin at grouping time.
 
 Ingestion produces one point per chunk and reuses the title and abstract embeddings.
 
@@ -187,7 +187,7 @@ The recommended pipeline fuses four prefetches with Reciprocal Rank Fusion and g
 ```python
 def retrieve(query, limit=10, group_size=3, tags=None):
     dense_query  = models.Document(text=query, model=DENSE_MODEL)
-    sparse_query = models.Document(text=query, model=BM25_MODEL)
+    sparse_query = models.Document(text=query, model=BM25_MODEL, options={"avg_len": 10.0})
     # Optional category filter. When tags is provided, Qdrant pre-filters candidates
     # to points whose 'tags' payload includes any of the given values.
     query_filter = (
@@ -246,7 +246,7 @@ query=models.FormulaQuery(
 In this formula, `$score[i]` is the score from prefetch `i`, so the order of your `prefetch=` list matters. The `defaults` map provides fallback values (here `0.0`) for candidates that didn't appear in every prefetch, so the formula still evaluates.
 
 <aside role="alert">
-Linear combinations of raw scores break down when prefetches use different scoring scales — for example, dense scores in [0, 1] alongside unbounded BM25 scores. See <a href="/documentation/search-tuning/hybrid-search/#why-not-a-linear-combination">Why not a linear combination?</a> for the full argument.
+Linear combinations of raw scores break down when prefetches use different scoring scales — for example, dense scores in [0, 1] alongside unbounded BM25 scores. See <a href="/documentation/search-tuning/hybrid-search/#fusion-merges-two-rankings-into-one">Fusion Merges Two Rankings Into One</a> for the full argument.
 </aside>
 
 The other two fusion strategies handle this for you: RRF discards scores entirely, and DBSF normalizes each prefetch before summing. With a custom formula, you have to normalize the scores yourself, typically using [decay functions](/documentation/search/search-relevance/#decay-functions). The full FormulaQuery syntax lives in the [Score Boosting](/documentation/search/search-relevance/#score-boosting) reference.
