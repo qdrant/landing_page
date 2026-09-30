@@ -63,8 +63,8 @@ And then, the model will learn to distinguish proper answers by the similarity o
 Similarity learning approach seems a lot simpler than classification in this case, and if you have some
 doubts on your mind, let me dispel them.
 
-As I have no any resource with exhaustive F.A.Q. which might serve as a dataset, I've scrapped it from sites of popular cloud providers.
-The dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
+As I have no resource with exhaustive F.A.Q. which might serve as a dataset, I've scraped it from sites of popular cloud providers.
+The dataset consists of just 8.5k pairs of questions and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
 
 Once we have data, we need to obtain embeddings for it.
 It is not a novel technique in NLP to represent texts as embeddings.
@@ -177,7 +177,7 @@ At our example we use [MultipleNegativesRankingLoss](https://quaterion.qdrant.te
 This loss is especially good for training retrieval tasks. 
 It assumes that we pass only positive pairs (similar objects) and considers all other objects as negative examples.
 
-`MultipleNegativesRankingLoss` use cosine to measure distance under the hood, but it is a configurable parameter.
+`MultipleNegativesRankingLoss` uses cosine to measure distance under the hood, but it is a configurable parameter.
 Quaterion provides implementation for other distances as well. You can find available ones at [quaterion.distances](https://quaterion.qdrant.tech/quaterion.distances.html).
 
 Now we can come back to `configure_encoders`:)
@@ -245,7 +245,7 @@ class FAQEncoder(Encoder):
         return cls(transformer=transformer, pooling=pooling)
 ```
 
-As you can notice, there are more methods implemented, then we've already discussed. Let's go 
+As you can notice, there are more methods implemented, than we've already discussed. Let's go 
 through them now!
 - In `__init__` we register our pre-trained layers, similar as you do in [torch.nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html) descendant.
 
@@ -293,7 +293,7 @@ But in the case of pairs, we can only assume similarity between explicitly speci
 We can apply any of the approaches with our data, but pairs one seems more intuitive.
 
 The format in which Similarity is represented determines which loss can be used.
-For example, _ContrastiveLoss_ and _MultipleNegativesRankingLoss_ works with pairs format.
+For example, _ContrastiveLoss_ and _MultipleNegativesRankingLoss_ work with pairs format.
 
 [SimilarityPairSample](https://quaterion.qdrant.tech/quaterion.dataset.similarity_samples.html#quaterion.dataset.similarity_samples.SimilarityPairSample) could be used to represent pairs. 
 Let's take a look at it:
@@ -313,7 +313,7 @@ Well, `score` is a measure of expected samples similarity.
 If you only need to specify if two samples are similar or not, you can use `1.0` and `0.0` respectively.
 
 `subgroups` parameter is required for more granular description of what negative examples could be.
-By default, all pairs belong the subgroup zero.
+By default, all pairs belong to the subgroup zero.
 That means that we would need to specify all negative examples manually.
 But in most cases, we can avoid this by enabling different subgroups.
 All objects from different subgroups will be considered as negative examples in loss, and thus it 
@@ -368,11 +368,11 @@ We just need to override it and attach interested metrics.
 
 Quaterion has some popular retrieval metrics implemented - such as _precision @ k_ or _mean reciprocal rank_. 
 They can be found in [quaterion.eval](https://quaterion.qdrant.tech/quaterion.eval.html) package.
-But there are just a few metrics, it is assumed that desirable ones will be made by user or taken from another libraries. 
+But there are just a few metrics, it is assumed that desirable ones will be made by user or taken from other libraries. 
 You will probably need to inherit from `PairMetric` or `GroupMetric` to implement a new one.
 
 In `configure_metrics` we need to return a list of `AttachedMetric`.
-They are just wrappers around metric instances and helps to log metrics more easily.
+They are just wrappers around metric instances and help to log metrics more easily.
 Under the hood `logging` is handled by `pytorch-lightning`.
 You can configure it as you want - pass required parameters as keyword arguments to `AttachedMetric`.
 For additional info visit [logging documentation page](https://pytorch-lightning.readthedocs.io/en/stable/extensions/logging.html)
@@ -505,10 +505,10 @@ Raw data may consume a huge amount of memory, and usually we can't fit it into o
 Embeddings, on the contrary, most probably will consume less.
 
 That's where `Evaluator` enters the scene. 
-At first, having dataset of `SimilaritySample`, `Evaluator` encodes it via `SimilarityModel` and compute corresponding labels.
+At first, having dataset of `SimilaritySample`, `Evaluator` encodes it via `SimilarityModel` and computes corresponding labels.
 After that, it calculates a metric value, which could be more representative than batch-wise ones.
 
-However, you still can find yourself in a situation where evaluation becomes too slow, or there is no enough space left in the memory.
+However, you still can find yourself in a situation where evaluation becomes too slow, or there is not enough space left in the memory.
 A bottleneck might be a squared distance matrix, which one needs to calculate to compute a retrieval metric.
 You can mitigate this bottleneck by calculating a rectangle matrix with reduced size. 
 `Evaluator` accepts `sampler` with a sample size to select only specified amount of embeddings.

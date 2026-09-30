@@ -6,6 +6,9 @@ aliases:
   - /documentation/tutorials/async-api/
   - /documentation/database-tutorials/async-api/
 weight: 4
+goal: Operations
+stack:
+  - Python
 ---
 
 # Build High-Throughput Applications with Qdrant's Async API

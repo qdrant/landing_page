@@ -18,7 +18,13 @@ Unlike Qdrant Server, which uses a client-server architecture, Qdrant Edge runs 
 
 Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained storage unit that can operate independently. Each Edge Shard manages its own data, including vector and payload storage, and can perform local search and retrieval operations.
 
+{{< island
+    path="content/documentation/headless/edge/edge-on-device"
+    width="90%" ratio="720 / 340"
+    title="Ingest and query run inside the application process on the device. A Qdrant server is optional, for backups and heavier indexing."
+>}}
 ![Qdrant Edge Shards operate on edge devices](/documentation/edge/qdrant-edge.png)
+{{< /island >}}
 
 To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). Both expose an `EdgeShard` type with methods to manage data, query it, and restore snapshots. To learn more about the available methods, refer to the [Edge API](/documentation/edge/edge-api/) page.
 
@@ -32,6 +38,7 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 | **Reference** | [Data Synchronization Patterns](/documentation/edge/edge-data-synchronization-patterns/) | Overview of patterns for synchronizing data between Edge Shards and Qdrant server collections |
 | **Advanced** | [Synchronize with a Server](/documentation/edge/edge-synchronization-guide/) | Synchronize an Edge Shard with a Qdrant server collection to offload indexing and synchronize data between devices |
 | **Reference** | [Edge API](/documentation/edge/edge-api/)                                 | Reference for the `EdgeShard` methods available in Python and Rust, with their parameters and return values |
+| **Reference** | [Edge vs. Qdrant Cluster](/documentation/edge/edge-vs-qdrant-cluster/) | Comparison of Qdrant Edge and Qdrant Server across architecture, operations, and API surface |
 
 ### More Examples
 

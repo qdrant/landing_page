@@ -1,6 +1,6 @@
 ---
 title: "Detecting Dataset Errors with Similarity Search"
-short_description: Finding errors datasets with distance-based methods
+short_description: Finding errors in datasets with distance-based methods
 description: Improving quality of text-and-images datasets on the online furniture marketplace example.
 preview_dir: /articles_data/dataset-quality/preview
 social_preview_image: /articles_data/dataset-quality/preview/social_preview.jpg
@@ -110,14 +110,14 @@ Diversity:
 Diversity search utilizes the very same embeddings, and you can reuse them.
 If your data is huge and does not fit into memory, vector search engines like [Qdrant](https://github.com/qdrant/qdrant) might be helpful.
 
-Although the described methods can be used independently. But they are simple to combine and improve detection capabilities.
-If the quality remains insufficient, you can fine-tune the models using a similarity learning approach (e.g. with [Quaterion](https://quaterion.qdrant.tech) both to provide a better representation of your data and pull apart dissimilar objects in space.
+Although the described methods can be used independently, they are simple to combine and improve detection capabilities.
+If the quality remains insufficient, you can fine-tune the models using a similarity learning approach (e.g. with [Quaterion](https://quaterion.qdrant.tech)) both to provide a better representation of your data and pull apart dissimilar objects in space.
 
 ## Conclusion
 
 In this article, we enlightened distance-based methods to find errors in categorized datasets.
 Showed how to find incorrectly placed items in the furniture web store.
-I hope these methods will help you catch sneaky samples leaked into the wrong categories in your data, and make your users` experience more enjoyable.
+I hope these methods will help you catch sneaky samples leaked into the wrong categories in your data, and make your users' experience more enjoyable.
 
 Poke the [demo](https://dataset-quality.qdrant.tech).
 

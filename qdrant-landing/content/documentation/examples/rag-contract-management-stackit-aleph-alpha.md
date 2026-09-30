@@ -6,6 +6,10 @@ weight: 50
 social_preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
 aliases:
   - /documentation/tutorials/rag-contract-management-stackit-aleph-alpha/
+goal: RAG & Agents
+stack:
+  - Aleph Alpha
+  - STACKIT
 ---
 
 # Region-Specific Contract Management System

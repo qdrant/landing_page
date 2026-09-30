@@ -361,7 +361,7 @@ results = client.query_points(
 [**Filterable vector index**](/documentation/manage-data/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points.
 
 ---
-Read more about [**Filtering Docs**](/documentation/search/filtering/) and check out the [**Complete Filtering Guide**](/articles/vector-search-filtering/).
+Read more about [**Filtering Docs**](/documentation/search/filtering/) and check out the [**Complete Filtering Guide**](/documentation/search-patterns/vector-search-filtering/).
 
 ---
 #### Batch Processing
@@ -428,7 +428,7 @@ Hybrid search in Qdrant uses both fusion and reranking. The former is about comb
 After that, there is a formula that takes the relevancy measures and calculates the final score that we use later on to reorder the documents. Qdrant has built-in support for the Reciprocal Rank Fusion method, which is the de facto standard in the field.
 
 ---
-Learn more about [**Hybrid Search**](/articles/hybrid-search/) and read out [**Hybrid Queries docs**](/documentation/search/hybrid-queries/).
+Learn more about [**Hybrid Search**](/documentation/search-tuning/hybrid-search/) and read out [**Hybrid Queries docs**](/documentation/search/hybrid-queries/).
 
 ---
 

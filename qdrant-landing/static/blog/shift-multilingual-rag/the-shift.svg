@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 275" width="100%" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a51d3a"/>
+    </marker>
+  </defs>
+
+  <text x="370" y="30" text-anchor="middle" font-size="14" fill="#656b7f" letter-spacing="1">SUBTRACTING THE LANGUAGE OFFSET</text>
+
+  <!-- English cluster (left) -->
+  <circle cx="135" cy="150" r="12" fill="#6047ff"/><circle cx="174" cy="160" r="12" fill="#6047ff"/>
+  <circle cx="128" cy="192" r="12" fill="#6047ff"/><circle cx="166" cy="200" r="12" fill="#6047ff"/>
+  <text x="112" y="122" font-size="12" fill="#656b7f">English</text>
+
+  <!-- German cluster BEFORE (right, ghosted) -->
+  <circle cx="560" cy="150" r="12" fill="#9c27b0" opacity="0.42"/><circle cx="599" cy="160" r="12" fill="#9c27b0" opacity="0.42"/>
+  <circle cx="553" cy="192" r="12" fill="#9c27b0" opacity="0.42"/><circle cx="591" cy="200" r="12" fill="#9c27b0" opacity="0.42"/>
+  <text x="615" y="122" font-size="12" fill="#656b7f" opacity="0.6">German (before)</text>
+
+  <!-- German cluster AFTER (moved onto English) -->
+  <circle cx="146" cy="150" r="12" fill="#9c27b0"/><circle cx="185" cy="160" r="12" fill="#9c27b0"/>
+  <circle cx="139" cy="192" r="12" fill="#9c27b0"/><circle cx="177" cy="200" r="12" fill="#9c27b0"/>
+  <text x="150" y="250" font-size="12" fill="#656b7f" text-anchor="middle">German (after)</text>
+
+  <!-- the offset arrow: shorter, starts left of the German-before cluster -->
+  <line x1="505" y1="176" x2="245" y2="176" stroke="#a51d3a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="375" y="166" text-anchor="middle" font-size="12" fill="#a51d3a">− V_offset(German)</text>
+</svg>

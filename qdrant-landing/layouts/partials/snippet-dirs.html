@@ -1,0 +1,27 @@
+{{- /* Recursively collect every snippet leaf dir. A dir is a leaf if it holds
+       a `generated` subdir (runnable snippets) or top-level language `.md`
+       files (handwritten snippets), or deployment-type variant subdirs
+       (`_server`, `_edge`, ...), which belong to it and are not descended
+       into. Returns a slice of paths. */ -}}
+{{- $found := slice -}}
+{{- $dir := . -}}
+{{- $isLeaf := fileExists (printf "%s/generated" $dir) -}}
+{{- range (readDir $dir) -}}
+  {{- if and (not .IsDir) (strings.HasSuffix .Name ".md") (not (strings.HasPrefix .Name "_")) (ne .Name "index.md") -}}
+    {{- $isLeaf = true -}}
+  {{- end -}}
+  {{- if and .IsDir (strings.HasPrefix .Name "_") -}}
+    {{- $isLeaf = true -}}
+  {{- end -}}
+{{- end -}}
+{{- if $isLeaf -}}
+  {{- $found = $found | append $dir -}}
+{{- end -}}
+{{- range (readDir $dir) -}}
+  {{- if and .IsDir (ne .Name "generated") (not (strings.HasPrefix .Name "_")) -}}
+    {{- range (partial "snippet-dirs.html" (printf "%s/%s" $dir .Name)) -}}
+      {{- $found = $found | append . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $found -}}

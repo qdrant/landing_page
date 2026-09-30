@@ -7,6 +7,10 @@ aliases:
   - /documentation/tutorials/mighty.md/
   - /documentation/tutorials/search-beginners/
   - /documentation/beginner-tutorials/search-beginners/
+goal: Get Started
+stack:
+  - Python
+  - Sentence Transformers
 ---
 
 # Build a Semantic Search Engine in 5 Minutes

@@ -1,0 +1,43 @@
+name: Check documentation prompts
+
+on:
+  pull_request:
+    paths:
+      - 'qdrant-landing/content/**/*.md'
+      # Every shortcode, not just the prompt ones: the Markdown variants are
+      # what keep prompt bodies out of the agent-facing output, and naming them
+      # individually is how prompt-index.markdown.md went unguarded.
+      - 'qdrant-landing/layouts/shortcodes/**'
+      - 'qdrant-landing/themes/qdrant-2024/layouts/shortcodes/**'
+      - 'automation/prompts/**'
+      - '.github/workflows/prompts.yml'
+  # A skill link breaks when a skill is renamed or unpublished in qdrant/skills,
+  # which does not touch this repository and so never triggers the pull request
+  # run. The weekly run is what catches that.
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-prompts:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Source checks only: no Hugo, no Dart Sass, no npm install. The rules
+      # this guards are all visible in the source, so a full site build would
+      # cost minutes on every docs PR to verify something that takes seconds.
+      - name: Check prompts
+        run: automation/prompts/check-prompts.sh
+
+  check-skill-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Kept separate from check-prompts because this one reaches the network.
+      # An unreachable skills.qdrant.tech skips rather than fails, so the job
+      # only goes red on a skill that is genuinely not published.
+      - name: Check agent skill links
+        run: automation/prompts/check-skill-links.sh

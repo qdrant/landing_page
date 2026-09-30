@@ -1,0 +1,17 @@
+{{ $pages := where site.RegularPages "Params.learning_kind" "guides" }}
+{{ $linkText := "Open Guide" }}
+{{ if eq .kind "examples" }}
+  {{ $pages = partialCached "documentation/examples/pages.html" . }}
+  {{ $linkText = "Open Example" }}
+{{ end }}
+{{ $dated := slice }}
+{{ range $pages }}
+  {{ if not .PublishDate.IsZero }}{{ $dated = $dated | append . }}{{ end }}
+{{ end }}
+{{ $cards := slice }}
+{{ range first 3 (sort $dated "PublishDate" "desc") }}
+  {{ $cards = $cards | append (dict "title" .Title "description" (.Params.short_description | default .Description) "tag" (time.Format "January 2, 2006" .PublishDate) "link" (dict "text" $linkText "url" .RelPermalink)) }}
+{{ end }}
+{{ if $cards }}
+  {{ partial "documentation/sections/cards-section" (dict "title" "Recently Published" "cardsPartial" "documentation/cards/docs-cards" "cards" $cards) }}
+{{ end }}

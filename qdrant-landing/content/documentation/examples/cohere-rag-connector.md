@@ -5,6 +5,10 @@ description: "Build a Cohere RAG connector over Qdrant, indexing data with Coher
 weight: 35
 aliases:
   - /documentation/tutorials/cohere-rag-connector/
+goal: RAG & Agents
+stack:
+  - Python
+  - Cohere
 ---
 
 # Implement custom connector for Cohere RAG

@@ -189,22 +189,24 @@ Principal optimization is supported for following types:
 
 ## Full-Text Index
 
-Qdrant supports full-text search for string payload.
-Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
+Qdrant supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering) on string payload fields, enabling word- and phrase-level matches.
 
-Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
-Tokenization is the process of splitting a string into tokens, which are then indexed in the inverted index.
+For efficient full-text filtering, first create a full-text index on the fields you want to filter on. The index configuration controls how text is processed before matching: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
 
-See [Full Text match](/documentation/search/filtering/#full-text-match) for examples of querying with a full-text index.
+See [Full Text match](/documentation/search/filtering/#full-text-match) for examples of filtering with a full-text index.
 
-To create a full-text index, you can use the following:
+To create a full-text index for a field, create a payload index of type `text`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
+
+<aside role="status">
+A full-text index does not affect BM25 queries. To configure text processing for BM25, see <a href="/documentation/search/text-search/full-text-search/#bm25-text-processing">BM25 Text Processing</a>.
+</aside>
 
 ### Tokenizers
 
 Tokenizers are algorithms used to split text into smaller units called tokens, which are then indexed and searched in a full-text index.
-In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient searching and filtering.
+In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient filtering.
 The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviours such as prefix or phrase matching.
 
 Available tokenizers are:
@@ -216,7 +218,7 @@ Available tokenizers are:
 
 ### Lowercasing
 
-By default, full-text search in Qdrant is case-insensitive. For example, users can search for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
+By default, full-text filtering in Qdrant is case-insensitive. For example, you can filter for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
 
 Lowercasing is enabled by default. To use case-sensitive full-text search, configure a full-text index with `lowercase` set to `false`.
 
@@ -228,7 +230,7 @@ Lowercasing is enabled by default. To use case-sensitive full-text search, confi
 
 When enabled, ASCII folding converts Unicode characters into their corresponding ASCII equivalents, for example, by removing diacritics. For instance, the character `ã` is changed into `a`, `ç` becomes `c`, and `é` is converted to `e`.
 
-Because ASCII folding is applied to both the words in the index and the query terms, it increases recall. For example, users can search for `cafe` and also find text fields containing the word `café`.
+Because ASCII folding is applied to both the words in the index and the query terms, it increases recall. For example, users can filter for `cafe` and also find text fields containing the word `café`.
 
 ASCII folding is not enabled by default. To enable it, configure a full-text index with `ascii_folding` set to `true`.
 
@@ -250,7 +252,7 @@ For full-text indices, stemming is not enabled by default. To enable it, configu
 
 Stopwords are common words (such as "the", "is", "at", "which", and "on") that are often filtered out during text processing because they carry little meaningful information for search and retrieval tasks.
 
-In Qdrant, you can specify a list of stopwords to be ignored during full-text indexing and search. This helps simplify search queries and improves relevance.
+In Qdrant, you can specify a list of stopwords to be ignored during full-text indexing and filtering. This helps simplify search queries and improves relevance.
 
 You can configure stopwords based on predefined languages, as well as extend existing stopword lists with custom words.
 
@@ -258,20 +260,17 @@ For full-text indices, stopword removal is not enabled by default. To enable it,
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}}
 
-### Phrase Search
+### Phrase Matching
 
-Phrase search in Qdrant allows you to find documents or points where a specific sequence of words appears together, in the same order, within a text payload field.
-This is useful when you want to match exact phrases rather than individual words scattered throughout the text.
+Phrase matching in Qdrant allows you to find documents or points where a specific sequence of words appears together, in the same order, within a text payload field.
+This is useful when you want to match phrases rather than individual words scattered throughout the text. 
+For example, filtering on `"machine learning"` will only return results where the words "machine" and "learning" appear together as a phrase, not just anywhere in the text.
 
-When using a full-text index with phrase search enabled, you can perform phrase search by enclosing the desired phrase in double quotes in your filter query.
-For example, searching for `"machine learning"` will only return results where the words "machine" and "learning" appear together as a phrase, not just anywhere in the text.
-
-For efficient phrase search, Qdrant requires building an additional data structure, so it needs to be configured during the creation of the full-text index:
+For efficient phrase matching, Qdrant requires building an additional data structure, so it needs to be configured during the creation of the full-text index:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/phrase-full-text/" >}}
 
-See [Phrase Match](/documentation/search/filtering/#phrase-match) for examples of querying phrases with a full-text index.
-
+Use the [Phrase Match](/documentation/search/filtering/#phrase-match) condition to filter on phrases.
 
 ## Vector Index
 

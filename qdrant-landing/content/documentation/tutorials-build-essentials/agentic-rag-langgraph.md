@@ -7,6 +7,10 @@ partition: ecosystem
 hideInSidebar: true
 aliases:
   - /documentation/agentic-rag-langgraph/
+goal: RAG & Agents
+stack:
+  - Python
+  - LangGraph
 ---
 # Agentic RAG with LangGraph and Qdrant
 

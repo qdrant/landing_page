@@ -1,0 +1,60 @@
+/* tenant-defrag island. Scoped under .qi-td. Controls, frame and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the point bars and the contiguity underline. Tenant hues are constant
+   across themes (design-system palette, see Colors). */
+
+.qi-td {
+  --td-a: #6047ff; /* neon-blue-500 */
+  --td-b: #388e3c; /* green-700 */
+  --td-c: #ef6c00; /* warning-800 */
+  --td-d: #dc244c; /* amaranth-500 */
+
+  display: block;
+}
+
+.qi-td__chip--a {
+  --swatch: var(--td-a);
+}
+.qi-td__chip--b {
+  --swatch: var(--td-b);
+}
+.qi-td__chip--c {
+  --swatch: var(--td-c);
+}
+.qi-td__chip--d {
+  --swatch: var(--td-d);
+}
+
+.qi-td__bar {
+  transition: x 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+.qi-td__bar--a,
+.qi-td__run--a {
+  fill: var(--td-a);
+}
+.qi-td__bar--b,
+.qi-td__run--b {
+  fill: var(--td-b);
+}
+.qi-td__bar--c,
+.qi-td__run--c {
+  fill: var(--td-c);
+}
+.qi-td__bar--d,
+.qi-td__run--d {
+  fill: var(--td-d);
+}
+.qi-td__bar.is-dim {
+  opacity: 0.16;
+}
+
+.qi-td__run {
+  transition: x 0.6s cubic-bezier(0.4, 0, 0.2, 1), width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-td__bar,
+  .qi-td__run {
+    transition: none;
+  }
+}

@@ -1,0 +1,23 @@
+{{ with (.Site.GetPage "/gpu-indexing/how-it-works") }}
+  <section class="gpu-indexing-how-it-works">
+    <div class="container">
+      <div class="gpu-indexing-how-it-works__header">
+        <p class="gpu-indexing-how-it-works__label">{{ .Params.label }}</p>
+        <h2 class="gpu-indexing-how-it-works__title">{{ .Params.title }}</h2>
+      </div>
+
+      <div class="row g-2 gpu-indexing-how-it-works__steps">
+        {{ range .Params.steps }}
+          <div class="col-12 col-lg-6 gpu-indexing-how-it-works__step">
+            <div class="card">
+              <span class="gpu-indexing-how-it-works__step-number">{{ .number }}</span>
+              <h3 class="gpu-indexing-how-it-works__step-title">{{ .title }}</h3>
+              <p class="gpu-indexing-how-it-works__step-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+    </div>
+  </section>
+{{ end }}

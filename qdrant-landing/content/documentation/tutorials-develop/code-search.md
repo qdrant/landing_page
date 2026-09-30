@@ -7,6 +7,13 @@ aliases:
   - /documentation/advanced-tutorials/code-search/
   - /documentation/tutorials-search-engineering/code-search/
 weight: 20
+goal: Search Quality
+stack:
+  - Python
+  - FastEmbed
+example_resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/github/qdrant/examples/blob/master/code-search/code-search.ipynb
 ---
 
 # Semantic Search for Code with Qdrant

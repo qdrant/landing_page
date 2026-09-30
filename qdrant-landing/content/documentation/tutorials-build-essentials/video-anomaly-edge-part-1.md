@@ -7,6 +7,13 @@ partition: ecosystem
 aliases:
   - /articles/video-anomaly-edge/
   - /articles/video-anomaly-edge-part-1/
+goal: Multimodal Search
+stack:
+  - Qdrant Edge
+  - Twelve Labs
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant/video-anomaly-edge
 ---
 
 # Video Anomaly Detection: Architecture, Twelve Labs, and NVIDIA VSS

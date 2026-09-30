@@ -21,7 +21,7 @@ tags:
 category: core-concepts
 ---
 
-> **Embeddings** are numerical machine learning representations of the semantic of the input data. They capture the meaning of complex, high-dimensional data, like text, images, or audio, into vectors. Enabling algorithms to process and analyze the data more efficiently.
+> **Embeddings** are numerical machine learning representations of the semantics of the input data. They capture the meaning of complex, high-dimensional data, like text, images, or audio, into vectors. Enabling algorithms to process and analyze the data more efficiently.
 
 You know when you’re scrolling through your social media feeds and the content just feels incredibly tailored to you? There's the news you care about, followed by a perfect tutorial with your favorite tech stack, and then a meme that makes you laugh so hard you snort.
 
@@ -101,7 +101,7 @@ So, how do we help computers grasp the nuances of language in different contexts
 * "turn right at the corner"
 * "everyone has the right to freedom of speech"
 
-Each of these sentences use the word 'right', with different meanings.
+Each of these sentences uses the word 'right', with different meanings.
 
 More advanced models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) and [GPT](https://en.wikipedia.org/wiki/Generative_pre-trained_transformer) use deep learning models based on the [transformer architecture](https://arxiv.org/abs/1706.03762), which helps computers consider the full context of a word. These models pay attention to the entire context. The model understands the specific use of a word in its **surroundings**, and then creates different embeddings for each.
 
@@ -138,11 +138,11 @@ Fastembed, which we’ll use on the example below, is designed for efficiency an
 
 We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
 
-## Create a neural search service with Fastmbed
+## Create a neural search service with FastEmbed
 
 Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials-develop/neural-search/)?
 
-Tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
+This tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
 
 Check out what the final version of this project looks like on the [live online demo](https://qdrant.to/semantic-search-demo).
 

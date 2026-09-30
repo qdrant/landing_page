@@ -17,7 +17,7 @@ Qdrant Cloud offers an optional premium tier for customers who require additiona
 * **99.9% Uptime SLA**: We guarantee 99.9% uptime for your Qdrant Cloud clusters (compared to 99.5% in standard).
 * **Single Sign-On (SSO)**: Premium customers can use their existing SSO provider to manage access to Qdrant Cloud.
 * **VPC Private Links**: Premium customers can connect their Qdrant Cloud clusters to their VPCs using private links.
-* **Storage encryption with shared keys**: Premium customers can encrypt their data at rest using their own keys.
+* **Storage encryption with shared keys**: Premium customers can [encrypt their data at rest using their own keys](/documentation/cloud/encryption/).
 * **Topology Aware Multi-AZ Setup**: Premium customers can deploy their clusters across multiple availability zones for higher availability and resilience. This guarantees a **99.95% uptime SLA** for Multi-AZ clusters. Multi-AZ is independent of replication factor; see [Multi-AZ Deployments](/documentation/scaling/resilience/#multi-az-deployments) for the distinction.
 
 Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for a detailed definition on uptime and support SLAs.

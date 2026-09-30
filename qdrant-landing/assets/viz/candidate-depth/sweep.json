@@ -1,0 +1,46 @@
+{
+  "title": "Recall and latency by hnsw_ef",
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "{}",
+  "x": "hnsw_ef",
+  "xLabel": "hnsw_ef",
+  "xSuffix": "",
+  "yLabel": "value",
+  "yScale": "linear",
+  "yDomains": {
+    "Recall against exact": [
+      0.9,
+      1.001
+    ],
+    "Milliseconds per query": [
+      0,
+      3
+    ]
+  },
+  "yLabels": {
+    "Recall against exact": "recall",
+    "Milliseconds per query": "ms per query"
+  },
+  "series": [
+    "value"
+  ],
+  "seriesLabels": [
+    "measured"
+  ],
+  "unit": "",
+  "height": 340,
+  "yTicks": {
+    "Recall against exact": [
+      0.9,
+      0.95,
+      1.0
+    ],
+    "Milliseconds per query": [
+      0,
+      1,
+      2,
+      3
+    ]
+  }
+}

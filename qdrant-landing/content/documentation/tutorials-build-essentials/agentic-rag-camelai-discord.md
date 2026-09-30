@@ -7,6 +7,13 @@ weight: 20
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 aliases:
   - /documentation/agentic-rag-camelai-discord/
+goal: RAG & Agents
+stack:
+  - Python
+  - CAMEL-AI
+example_resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/drive/1Ymqzm6ySoyVOekY7fteQBCFCXYiYyHxw#scrollTo=QQZXwzqmNfaS
 ---
 
 <!--  ![agentic-rag-camelai-astronaut](/documentation/examples/agentic-rag-camelai-discord/astronaut-main.png) -->

@@ -1,0 +1,56 @@
+@use '../../helpers/functions' as *;
+
+.gpu-indexing-resources {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  @include gpu-indexing-section-header('gpu-indexing-resources');
+
+  &__description {
+    margin: $spacer 0 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-30;
+  }
+
+  &__card {
+    height: 100%;
+    justify-content: flex-start;
+    text-decoration: none;
+
+    &-icon {
+      width: $spacer * 1.5;
+      height: $spacer * 1.5;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: $spacer * 1.5;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-40;
+    }
+
+    &-link {
+      margin-top: auto;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+  }
+}

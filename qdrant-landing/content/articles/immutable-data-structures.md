@@ -180,6 +180,8 @@ The capacity of such a deployment is typically defined by the size of the hot su
 > Grouping relevant vectors together allows us to optimize the size of the hot subset by avoiding caching of irrelevant data.
 The following benchmark data compares RPS for defragmented and non-defragmented storage:
 
+{{< chart id="defrag/rps" caption="Defragmentation matters most when the hot subset is small: at 2.5% of a 50k-vector tenant it lifts throughput from 1.5 to 304 RPS. The advantage narrows as the hot subset grows toward the whole collection." >}}
+
 | % of hot subset | Tenant Size (vectors) | RPS, Non-defragmented | RPS, Defragmented |
 |-----------------|-----------------------|-----------------------|-------------------|
 | 2.5%            | 50k                   |  1.5                  |  304              |

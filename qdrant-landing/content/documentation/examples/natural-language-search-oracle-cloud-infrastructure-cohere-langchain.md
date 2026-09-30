@@ -6,6 +6,11 @@ weight: 55
 social_preview_image: /blog/hybrid-cloud-oracle-cloud-infrastructure/hybrid-cloud-oracle-cloud-infrastructure-tutorial.png
 aliases:
   - /documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/
+goal: RAG & Agents
+stack:
+  - LangChain
+  - Cohere
+  - Oracle Cloud
 ---
 
 # RAG System for Employee Onboarding

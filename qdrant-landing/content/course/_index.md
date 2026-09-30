@@ -3,6 +3,7 @@ title: "Qdrant Academy"
 short_description: "Qdrant Academy: free, structured courses on vector search, hybrid retrieval, multivectors, and production-grade AI search applications."
 description: Master vector search and AI-powered applications with Qdrant Academy. Free, self-paced courses guide you from beginner to expert with hands-on projects, code notebooks, and certification.
 weight: 50
+partition: learn
 ---
 
 # Welcome to Qdrant Academy
@@ -14,6 +15,23 @@ Qdrant Academy is your step-by-step learning hub for mastering vector search, hy
 Whether you’re new to Qdrant or building production-grade systems, our guided courses help you go from beginner to expert, one module at a time.
 
 ## Available Now
+
+{{< course-card
+ title="Qdrant Beginner Course"
+ image="/icons/outline/training-white.svg"
+ link="/course/beginners/"
+>}}
+**What you'll gain:**
+- Why Traditional Search Falls Short
+- Embeddings and Distance Metrics
+- Vector Search First Principles
+- Sparse, Dense, and Hybrid Search
+- Designing a Vector Search System
+- Capstone: Multimodal Supplier Risk Intelligence
+<br><br>
+Time to Complete: under 5 hours<br>
+Includes: videos, code notebooks, projects, certification
+{{< /course-card >}}
 
 {{< course-card
  title="Qdrant Essentials Course"
@@ -50,27 +68,6 @@ Includes: videos, code notebooks, projects, certification
 {{< /course-card >}}
 
 ## Upcoming Courses
-
-### Beginner Level
-Beginner courses require no previous experience with Qdrant and are useful for building a strong foundation in vector search.
-
-{{< accordion >}}
-- title: "Qdrant Fundamentals"
-  content: |
-    - Vector Search Concepts
-    - Setting Up Qdrant
-    - Creating and Managing Collections
-    - Ingesting Vector Embeddings
-    - Running Your First Query
-    <br>
-    <br>
-    Time to Complete: 2 hours (TBD)<br>
-    Includes: videos, code notebooks
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="https://forms.gle/jiBmDcXr8j9tAb5UA" target="_blank">→ Register Interest</a></p>
-
-{{< /accordion >}}
 
 ### Intermediate Level
 Intermediate courses are recommended for those that have completed the Beginner Level Modules first, and extend knowledge into more practical usage of Qdrant in the real-world.
@@ -148,4 +145,4 @@ Advanced courses are recommended for those that have completed the Beginner and 
     </p>
 {{< /accordion >}}
 
-**Want something not mentioned above? Email [devrel@qdrant.com](emailto:devrel@qdrant.com) and let us know!**
+**Want something not mentioned above? Email [devrel@qdrant.com](mailto:devrel@qdrant.com) and let us know!**

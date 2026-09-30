@@ -1,0 +1,93 @@
+/* tenant-promotion island. Scoped under .qi-tp. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the point bars and the promotion connector. Tenant hues are
+   constant across themes (design-system palette, see Colors). */
+
+.qi-tp {
+  --tp-u1: #6047ff; /* neon-blue-500 */
+  --tp-u2: #dc244c; /* amaranth-500 */
+  --tp-u3: #ef6c00; /* warning-800 */
+  --tp-u4: #388e3c; /* green-700 */
+  /* Connector color: set to the promoted tenant's hue from JS. */
+  --tp-arrow: var(--qi-muted);
+
+  display: block;
+}
+
+.qi-tp__btn--u2 {
+  --swatch: var(--tp-u2);
+}
+.qi-tp__btn--u3 {
+  --swatch: var(--tp-u3);
+}
+.qi-tp__btn--u4 {
+  --swatch: var(--tp-u4);
+}
+
+/* --- SVG --- */
+.qi-tp__frame--dashed {
+  stroke-dasharray: 5 4;
+  transition: stroke-dasharray 0.3s ease;
+}
+.qi-tp__frame--dashed.is-active {
+  stroke-dasharray: none;
+}
+.qi-tp__placeholder {
+  opacity: 0.7;
+}
+
+.qi-tp__bar--u1 {
+  fill: var(--tp-u1);
+}
+.qi-tp__bar--u2 {
+  fill: var(--tp-u2);
+}
+.qi-tp__bar--u3 {
+  fill: var(--tp-u3);
+}
+.qi-tp__bar--u4 {
+  fill: var(--tp-u4);
+}
+.qi-tp__bar {
+  transition: x 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+}
+.qi-tp__bar.is-gone {
+  opacity: 0;
+}
+/* Promoted-shard bars start hidden, then fill in (staggered via inline delay). */
+.qi-tp__bar--pro {
+  opacity: 0;
+  transform: translateY(6px);
+  transform-box: fill-box;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.qi-tp__bar--pro.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Promotion connector. */
+.qi-tp__arrow {
+  fill: none;
+  stroke: var(--tp-arrow);
+  stroke-width: 2;
+}
+.qi-tp__arrowhead {
+  fill: var(--tp-arrow);
+}
+.qi-tp__pill-bg {
+  fill: var(--tp-arrow);
+}
+.qi-tp__pill-text {
+  fill: #fff;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-tp__bar {
+    transition: opacity 0.2s ease;
+  }
+}

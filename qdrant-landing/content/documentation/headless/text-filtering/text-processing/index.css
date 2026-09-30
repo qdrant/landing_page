@@ -1,0 +1,171 @@
+/* text-processing island. Scoped under .qi-tx. Chips, hints and the status
+   line come from the shared island design system (islands.scss); this file
+   only styles the three-column flow, the checkboxes and the token boxes.
+   Text boxes use the Neon Blue ramp, like the original illustration. */
+
+.qi-tx {
+  --tx-box-bg: #dde0ff; /* neon-blue-100 */
+  --tx-box-fg: #4325ae; /* neon-blue-800 */
+  --tx-flash: var(--qi-cat-1);
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-tx {
+    --tx-box-bg: #392689; /* neon-blue-900 */
+    --tx-box-fg: #dde0ff; /* neon-blue-100 */
+    --tx-flash: #9494ff; /* neon-blue-300 */
+  }
+}
+html[data-theme='dark'] .qi-tx {
+  --tx-box-bg: #392689; /* neon-blue-900 */
+  --tx-box-fg: #dde0ff; /* neon-blue-100 */
+  --tx-flash: #9494ff; /* neon-blue-300 */
+}
+
+/* Input | arrow | steps | arrow | tokens. Top-aligned so the three headings
+   line up; the arrows sit level with the first row of boxes. */
+.qi-tx__flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+}
+.qi-tx__col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.qi-tx__arrow {
+  flex: none;
+  margin-top: 30px;
+  color: var(--qi-muted);
+}
+
+.qi-tx__sentence,
+.qi-tx__token {
+  background: var(--tx-box-bg);
+  color: var(--tx-box-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 20px;
+  border-radius: var(--qi-radius);
+}
+.qi-tx__sentence {
+  padding: 8px 12px;
+}
+
+/* Steps: a fieldset of checkbox chips, numbered in the order they apply. */
+.qi-tx__steps {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.qi-tx__steps legend {
+  margin-bottom: 0;
+  padding: 0;
+}
+.qi-tx__opt {
+  justify-content: flex-start;
+}
+.qi-tx__num {
+  color: var(--qi-muted);
+  font-variant-numeric: tabular-nums;
+}
+.qi-tx__check {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  border: 1.5px solid var(--qi-line);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.qi-tx__check:checked {
+  border-color: var(--qi-fg);
+  background: var(--qi-fg);
+}
+.qi-tx__check:checked::after {
+  content: '';
+  position: absolute;
+  left: 3.5px;
+  top: 0.5px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--qi-surface);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.qi-tx__opt:has(.qi-tx__check:focus-visible) {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 1px;
+}
+
+/* Tokens: scoped under .qi-tx to outrank the docs list styles. Reserve room
+   for all seven so toggling never reflows the page. */
+.qi-tx .qi-tx__tokens {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: calc(7 * 28px + 6 * 6px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-tx .qi-tx__token {
+  margin: 0;
+  padding: 4px 10px;
+  box-shadow: inset 0 0 0 1.5px transparent;
+}
+.qi-tx__token.is-changed {
+  animation: qi-tx-flash 1.2s ease-out;
+}
+@keyframes qi-tx-flash {
+  0%,
+  30% {
+    box-shadow: inset 0 0 0 1.5px var(--tx-flash);
+  }
+  100% {
+    box-shadow: inset 0 0 0 1.5px transparent;
+  }
+}
+
+.qi-tx__status code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+/* Narrow screens: stack the columns and point the arrows down. */
+@media (max-width: 640px) {
+  .qi-tx__flow {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .qi-tx__col {
+    width: 100%;
+  }
+  .qi-tx__arrow {
+    margin-top: 0;
+    transform: rotate(90deg);
+  }
+  .qi-tx .qi-tx__tokens {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-tx__token.is-changed {
+    animation: none;
+  }
+  .qi-tx__check {
+    transition: none;
+  }
+}

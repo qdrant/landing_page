@@ -1,0 +1,28 @@
+@use '../../helpers/functions' as *;
+
+.cloud-inference-approaches {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  @include cloud-inference-section-header('cloud-inference-approaches');
+
+  &__header {
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__description strong {
+    color: $neutral-20;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__action {
+    margin-top: $spacer * 2.5;
+    text-align: center;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+  }
+}

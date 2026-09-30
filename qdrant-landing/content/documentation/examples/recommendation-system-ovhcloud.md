@@ -6,6 +6,13 @@ weight: 65
 social_preview_image: /blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png
 aliases:
   - /documentation/tutorials/recommendation-system-ovhcloud/
+goal: Recommendations
+stack:
+  - Python
+  - OVHcloud
+example_resources:
+  - label: View Notebook
+    url: https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-OVH.ipynb
 ---
 
 # Movie Recommendation System 

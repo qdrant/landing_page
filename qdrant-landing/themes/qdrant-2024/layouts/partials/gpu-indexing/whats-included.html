@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/gpu-indexing/whats-included") }}
+  <section class="gpu-indexing-whats-included">
+    <div class="container">
+      <div class="gpu-indexing-whats-included__header">
+        <p class="gpu-indexing-whats-included__label">{{ .Params.label }}</p>
+        <h2 class="gpu-indexing-whats-included__title">{{ .Params.title }}</h2>
+      </div>
+      <div class="gpu-indexing-whats-included__grid">
+        {{ range .Params.items }}
+          <div class="gpu-indexing-whats-included__item">
+            <img
+              class="gpu-indexing-whats-included__item-icon"
+              src="{{ .icon.src }}"
+              alt="{{ .icon.alt }}"
+              loading="lazy"
+            />
+            <h3 class="gpu-indexing-whats-included__item-title">{{ .title }}</h3>
+            <p class="gpu-indexing-whats-included__item-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

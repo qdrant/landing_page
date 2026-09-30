@@ -1,7 +1,7 @@
 ---
 title: Logging & Monitoring
-short_description: "Collect logs and Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
-description: "Collect logs and Prometheus-compatible metrics from Qdrant Private Cloud clusters and visualize cluster health with a ready-made Grafana dashboard."
+short_description: "Collect application logs, audit logs, and Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
+description: "Collect application logs and audit logs and scrape Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
 weight: 25
 ---
 
@@ -37,9 +37,19 @@ spec:
     log_level: "DEBUG"
 ```
 
+### Audit Logging
+
+*Available as of Qdrant v1.17.0*
+
+Qdrant can record API operations that require authentication or authorization as structured JSON. It is disabled by default and is enabled per cluster with `spec.config.audit` on the `QdrantCluster` — see [Audit Logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) for the configuration, and [Audit Logging](/documentation/security/#audit-logging) in the Security guide for the entry format and the query API.
+
+Audit entries are written to files on the cluster's database volume (default `./storage/audit`), not to the container stdout shown above, so they have to be collected separately.
+
 ### Integrating with a log management system
 
 You can integrate the logs into any log management system that supports Kubernetes. There are no Qdrant specific configurations necessary. Just configure the agents of your system to collect the logs from all Pods in the Qdrant namespace.
+
+To collect audit logs as well, configure your agent to read the audit directory on each Qdrant Pod's database volume, or pull entries through the [`/audit/logs` API](/documentation/security/#query-audit-logs).
 
 ## Monitoring
 

@@ -247,7 +247,7 @@ With our dataset, if we want the recall to be greater than 85%, we should pick a
 We can even look at individual cases in the UI to get more insight.
 ![dashboard](/blog/qdrant-relari/dashboard.png)
 
-Relari and Qdrant can also be integrated to evaluate [hybrid search systems](/articles/hybrid-search/), which combine both sparse (traditional keyword-based) and dense (vector-based) search methods. This combination allows you to leverage the strengths of both approaches, potentially improving the relevance and accuracy of search results.
+Relari and Qdrant can also be integrated to evaluate [hybrid search systems](/documentation/search-tuning/hybrid-search/), which combine both sparse (traditional keyword-based) and dense (vector-based) search methods. This combination allows you to leverage the strengths of both approaches, potentially improving the relevance and accuracy of search results.
 
 By using Relari’s evaluation framework alongside Qdrant’s [vector search](/advanced-search/) capabilities, you can experiment with different configurations for hybrid search. For example, you might test varying the ratio of [sparse-to-dense search results](/documentation/search/hybrid-queries/#hybrid-search) or adjust how each component contributes to the overall retrieval score.
 

@@ -38,7 +38,7 @@ Reliable agentic workflows require a clear plan executed with precise tools. A v
 
 * [**Real-time memory layer:**](https://qdrant.tech/blog/case-study-fieldy/) fast access to prior steps, actions, and knowledge  
 * [**Multimodal support**](https://qdrant.tech/blog/case-study-mixpeek/): text, image, videos, audio, and code  
-* [**Hybrid search**](https://qdrant.tech/articles/hybrid-search/)**:** combining dense \+ sparse vectors  
+* [**Hybrid search**](https://qdrant.tech/documentation/search-tuning/hybrid-search/)**:** combining dense \+ sparse vectors
 * [**Advanced filtering**](https://qdrant.tech/documentation/search/filtering/)**:** semantic \+ metadata \+ keyword constraints  
 * [**Millisecond vector retrieval**](https://qdrant.tech/articles/vector-search-production/)**:** Fast retrieval at \>billion vector scale
 
@@ -78,7 +78,7 @@ For an agent like TripBuilder, this might mean prioritizing results based on sub
 
 ## Context Engineering with Filtering
 
-Combining semantic search, metadata, and keyword [filters](https://qdrant.tech/articles/vector-search-filtering/) allows you to specify features like price, date, or location while still searching based on similarity. If your user is looking for a “fun restaurant to end the trip with a Michelin star,” you can specify that your agent search for locations that are open on Sunday, and it can filter based on the user’s past preferences to give them the perfect result.
+Combining semantic search, metadata, and keyword [filters](https://qdrant.tech/documentation/search-patterns/vector-search-filtering/) allows you to specify features like price, date, or location while still searching based on similarity. If your user is looking for a “fun restaurant to end the trip with a Michelin star,” you can specify that your agent search for locations that are open on Sunday, and it can filter based on the user’s past preferences to give them the perfect result.
 
 ## Real-Time Memory Layer for Agents
 
@@ -99,6 +99,8 @@ This is a reranking tool, not a memory system that "forgets" old content so the 
 An agent is only as good as the tools it has access to. For the memory and retrieval layers to work effectively, they must integrate reliably and easily with the broader agentic ecosystem. Qdrant is plug-and-play for the most-used agentic memory and agentic builder frameworks. The integration means developers spend less time writing custom code to plug pipes together and more time perfecting their workflow.
 
 Agentic memory systems like [mem0](https://docs.mem0.ai/components/vectordbs/dbs/qdrant) or [Cognee](https://docs.cognee.ai/examples/documentation-intelligence#scenario-intelligent-documentation-assistant-to-built-with-qdrant) are designed to give agents out-of-the-box long-term and short-term memory capabilities. You can easily drop in Qdrant as the vector search engine to power these systems. Qdrant powers the indexing, storing, and retrieval of data, letting the memory system focus on edits, summaries, and deciding what information to remember and what information can be forgotten.
+
+For a memory-system perspective on what to look for in the vector layer, the Cognee team wrote a guide to [choosing a vector database for search, RAG, and AI memory](https://www.cognee.ai/best-vector-database), including where Qdrant fits.
 
 Agentic builders like [CrewAI](https://docs.crewai.com/en/tools/database-data/qdrantvectorsearchtool), [Dust](https://dust.tt/), [Voiceflow](https://www.voiceflow.com/), [Lyzr](https://www.lyzr.ai/), [n8n](https://n8n.io/), and [Cognigy](https://www.cognigy.com/) allow you to orchestrate your agentic flow. With these tools you can define multi-step, multi-agent workflows, and by adding Qdrant they gain a tool for grounding responses with your data, recalling past interactions, and searching multimodal knowledge. Qdrant provides the speed and precision needed for your workflow to be trustworthy as it scales.
 
@@ -126,7 +128,7 @@ The same agent that speeds through a toy dataset with 10,000 points will become 
 
 We’ll talk about three concepts you can take advantage of to improve your scale, but if you want even more information on how to scale, check out this [article](https://qdrant.tech/documentation/database-tutorials/large-scale-search/) on large scale search.
 
-As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/scaling/distributed_deployment/), creating copies of your shards across the cluster. 
+As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/documentation/production-operations/multitenant-search/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/scaling/distributed_deployment/), creating copies of your shards across the cluster.
 
 Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/manage-data/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
 

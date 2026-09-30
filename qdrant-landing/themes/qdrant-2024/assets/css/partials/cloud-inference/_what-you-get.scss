@@ -1,0 +1,54 @@
+@use '../../helpers/functions' as *;
+
+.cloud-inference-what-you-get {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  // Dark section with the purple glow across the top, per the frame.
+  background:
+    radial-gradient(55% 55% at 15% 0%, rgba(96, 71, 255, 0.5) 0%, rgba(96, 71, 255, 0) 70%),
+    radial-gradient(45% 45% at 60% 0%, rgba(87, 0, 201, 0.3) 0%, rgba(87, 0, 201, 0) 70%),
+    $neutral-10;
+
+  @include cloud-inference-section-header('cloud-inference-what-you-get', $neutral-98);
+  @include cloud-inference-section-header-centered('cloud-inference-what-you-get');
+
+  &__image {
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__items {
+    margin: 0 0 $spacer * 1.5;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    & + & {
+      margin-top: $spacer * 1.5;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      font-weight: $font-weight-semibold;
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: rgba($neutral-98, 0.65);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+  }
+}
