@@ -15,7 +15,7 @@ example_resources:
 | Time: 30 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
+In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback), our scalable, vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
 
 In this tutorial, you'll see how to: 
 1. Customize Relevance Feedback Query for your Qdrant collection, retriever and feedback model.
@@ -395,6 +395,8 @@ Now you can use Relevance Feedback Query results in different ways:
 *Approach is tied to what you're passing to the `example` field in `FeedbackItem` (or analogues in other clients): raw retriever-produced embeddings or point IDs from your collection.*
 
 > If you're passing point IDs as `example`s, these points are automatically excluded from the results. To include them among other points, pass the raw vectors (see commented `responses_vectors`) instead of point IDs.
+
+For more guidance on using relevance feedback in your search pipeline, give your coding agent the [Qdrant relevance feedback skill](https://skills.qdrant.tech/qdrant-search-quality/search-strategies/relevance-feedback/SKILL.md).
 
 ## Evaluation
 
