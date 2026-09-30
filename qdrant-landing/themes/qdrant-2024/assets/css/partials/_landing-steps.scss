@@ -1,0 +1,161 @@
+@use '../helpers/functions' as *;
+
+// Shared landing step visuals. One data contract, four renderings: a process is not always
+// best drawn as 1-2-3, so the variant is chosen from what the section says (see
+// tools/landing_shared.py::choose_variant). Structure follows the design canvas; colour comes
+// from the landing theme's light tokens, not the canvas's dark Web UI palette.
+//
+// The three accents cycle per item so a three-step list reads violet -> blue -> teal, matching
+// the number-pill colours the existing capability pages already use.
+
+$landing-step-accents: ($secondary-violet-50, $secondary-blue-50, $secondary-teal-50);
+$landing-step-tints:   ($secondary-violet-90, $secondary-blue-90, $secondary-teal-90);
+
+.landing-steps {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-98;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: $font-family-monospace;
+    font-size: $font-size-sm;
+    letter-spacing: pxToRem(1);
+    text-transform: uppercase;
+    color: $neutral-40;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: $h5-font-size;
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    color: $neutral-30;
+  }
+
+  &__header { margin-bottom: $spacer * 2.5; }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer * 2;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item { position: relative; }
+
+  &__item-title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $font-size-xl;
+    color: $neutral-20;
+  }
+
+  &__item-description {
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-40;
+  }
+
+  // --- rising bars: magnitude. Items share a bottom edge so the heights compare honestly.
+  &--rising-bars &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &--rising-bars &__bar {
+    display: block;
+    width: 100%;
+    margin-bottom: $spacer;
+    border-radius: $spacer * 0.25;
+  }
+
+  // --- nested layers: accumulation. Item n shows n rings, so depth IS the position.
+  &--nested-layers &__layers {
+    position: relative;
+    display: block;
+    width: pxToRem(72);
+    height: pxToRem(72);
+    margin-bottom: $spacer;
+  }
+
+  &--nested-layers &__layer {
+    position: absolute;
+    inset: 0;
+    border-radius: $spacer * 0.25;
+    opacity: 0;
+  }
+
+  // --- connected path: state. Solid behind what is done, dashed ahead of it.
+  &--connected-path &__node {
+    display: block;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    margin-bottom: $spacer;
+    border-radius: 50%;
+    border: pxToRem(2) solid $neutral-90;
+    background-color: $neutral-98;
+  }
+
+  &--connected-path &__item.is-done &__node { border-color: $secondary-violet-50; background-color: $secondary-violet-90; }
+  &--connected-path &__item.is-active &__node { border-color: $secondary-blue-50; background-color: $neutral-98; }
+  &--connected-path &__item.is-next &__node { border-color: $neutral-90; }
+  &--connected-path &__item.is-next &__item-title { color: $neutral-40; }
+
+  &--numbered &__number {
+    display: inline-block;
+    margin-bottom: $spacer;
+    padding: $spacer * 0.25 $spacer * 0.5;
+    border-radius: pxToRem(2);
+    font-family: $font-family-monospace;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+
+    &__list { grid-template-columns: repeat(3, 1fr); gap: $spacer * 3; }
+
+    // the connector only makes sense once the items sit side by side
+    &--connected-path &__connector {
+      position: absolute;
+      top: pxToRem(19);
+      left: pxToRem(48);
+      right: - $spacer * 3;
+      height: pxToRem(2);
+      background-color: $neutral-90;
+    }
+
+    &--connected-path &__item.is-done &__connector { background-color: $secondary-violet-50; }
+    &--connected-path &__item.is-active &__connector {
+      background: repeating-linear-gradient(to right, $neutral-90 0 pxToRem(4), transparent pxToRem(4) pxToRem(8));
+    }
+  }
+}
+
+// Per-item accents: violet -> blue -> teal, and for rising bars a height that climbs.
+@for $i from 1 through 3 {
+  .landing-steps--rising-bars .landing-steps__item[data-index='#{$i - 1}'] .landing-steps__bar {
+    height: pxToRem(40 + ($i - 1) * 28);
+    background-color: nth($landing-step-tints, $i);
+  }
+  .landing-steps--nested-layers .landing-steps__item[data-index='#{$i - 1}'] .landing-steps__layer:nth-child(-n + #{$i}) {
+    opacity: 1;
+    border: pxToRem(2) solid nth($landing-step-accents, $i);
+  }
+  .landing-steps--nested-layers .landing-steps__item[data-index='#{$i - 1}'] .landing-steps__layer:nth-child(2) { inset: pxToRem(10); }
+  .landing-steps--nested-layers .landing-steps__item[data-index='#{$i - 1}'] .landing-steps__layer:nth-child(3) { inset: pxToRem(20); }
+  .landing-steps--numbered .landing-steps__item[data-index='#{$i - 1}'] .landing-steps__number {
+    color: nth($landing-step-accents, $i);
+    background-color: nth($landing-step-tints, $i);
+  }
+}

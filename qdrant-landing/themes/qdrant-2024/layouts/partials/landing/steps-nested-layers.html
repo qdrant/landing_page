@@ -1,0 +1,22 @@
+<section class="landing-steps landing-steps--nested-layers">
+  <div class="container">
+  <div class="landing-steps__header">
+    {{ with .Params.label }}<p class="landing-steps__label">{{ . }}</p>{{ end }}
+    <h2 class="landing-steps__title">{{ .Params.title }}</h2>
+    {{ with .Params.description }}<p class="landing-steps__description">{{ . }}</p>{{ end }}
+  </div>
+    <ol class="landing-steps__list">
+      {{ range $i, $s := .Params.steps }}
+        <li class="landing-steps__item" data-index="{{ $i }}">
+          <span class="landing-steps__layers" aria-hidden="true">
+            <span class="landing-steps__layer"></span>
+            <span class="landing-steps__layer"></span>
+            <span class="landing-steps__layer"></span>
+          </span>
+          <h3 class="landing-steps__item-title">{{ $s.title }}</h3>
+          <p class="landing-steps__item-description">{{ $s.description }}</p>
+        </li>
+      {{ end }}
+    </ol>
+  </div>
+</section>
