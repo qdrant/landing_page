@@ -134,7 +134,9 @@ Filtered points would be:
 Different types of values in payload correspond to different kinds of queries that we can apply to them.
 Let's look at the existing condition variants and what types of data they apply to.
 
-### Match
+### Exact `Match` conditions
+
+#### Match
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/match-keyword/" >}}
 
@@ -144,9 +146,18 @@ For the other types, the match condition will look exactly the same, except for 
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
 If several values are stored, at least one of them should match the condition.
-You can apply it to [keyword](/documentation/manage-data/payload/#keyword), [integer](/documentation/manage-data/payload/#integer) and [bool](/documentation/manage-data/payload/#bool) payloads.
+You can apply it to [keyword](/documentation/manage-data/payload/#keyword), [integer](/documentation/manage-data/payload/#integer), [bool](/documentation/manage-data/payload/#bool) and [UUID](/documentation/manage-data/payload/#uuid) payloads.
 
-### Match Any
+##### UUID Match
+
+_Available as of v1.11.0_
+
+Matching of UUID values works similarly to the regular `match` condition for strings.
+Functionally, it will work with `keyword` and `uuid` indexes exactly the same, but `uuid` index is more memory efficient.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-uuid/" >}}
+
+#### Match Any
 
 *Available as of v1.1.0*
 
@@ -163,7 +174,7 @@ In this example, the condition will be satisfied if the stored value is either `
 
 If the stored value is an array, it should have at least one value matching any of the given values. For example, if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
 
-### Match Except
+#### Match Except
 
 *Available as of v1.2.0*
 
@@ -180,6 +191,123 @@ Example:
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
 
 If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
+
+### Text Match
+
+#### Prefix Match
+
+*Available as of v1.19.0*
+
+A match `prefix` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that start with the specified string.
+
+For example, the prefix `"https://qdrant."` matches the value `"https://qdrant.tech/documentation"`, but the prefix `"qdrant"` does not.
+
+Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It is also case-sensitive, consistent with exact keyword matching. Unlike [Full Text Match](#full-text-match), prefix matching does not tokenize the value, so it is well suited to identifiers such as URLs, paths, or SKUs.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-prefix/" >}}
+
+<aside role="status">
+    For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
+</aside>
+
+#### Full Text Match
+
+*Available as of v0.10.0*
+
+The `text` match condition supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering).
+It matches text fields that contain *all* of the provided query terms.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match/" >}}
+
+For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
+
+Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
+
+#### Full Text Any
+
+*Available as of v1.16.0*
+
+The `text_any` full-text match condition is similar to the `text` condition, but with a key difference: while `text` only matches text fields that contain *all* the query terms, `text_any` matches fields that contain *any* of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
+
+For example, a query for `good cheap` matches `cheap hardware` as well as `good performance`.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match-any/" >}}
+
+For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
+
+Without a full-text index, Qdrant splits the query on whitespace and performs a case-sensitive substring match for each token.
+
+#### Phrase Match
+
+*Available as of v1.15.0*
+
+A match `phrase` condition matches phrases. For example, the text `"quick brown fox"` matches the query `"brown fox"`, but not `"fox brown"`.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/phrase-match/" >}}
+
+For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field with [`phrase_matching` enabled](/documentation/manage-data/indexing/#phrase-matching). The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
+
+Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching. 
+
+<aside role="status">
+    The index must be configured with <code>phrase_matching</code> parameter set to <code>true</code>. If the index has phrase matching disabled, phrase conditions won't match anything.
+</aside>
+
+### Range
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/range/" >}}
+
+The `range` condition sets the range of possible values for stored payload values.
+If several values are stored, at least one of them should match the condition.
+
+Comparisons that can be used:
+
+- `gt` - greater than
+- `gte` - greater than or equal
+- `lt` - less than
+- `lte` - less than or equal
+
+Can be applied to [float](/documentation/manage-data/payload/#float) and [integer](/documentation/manage-data/payload/#integer) payloads.
+
+#### Datetime Range
+
+The datetime range is a unique range condition, used for [datetime](/documentation/manage-data/payload/#datetime) payloads, which supports RFC 3339 formats.
+You do not need to convert dates to UNIX timestamps. During comparison, timestamps are parsed and converted to UTC.
+
+_Available as of v1.8.0_
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/datetime-range/" >}}
+
+### Geo
+
+#### Geo Bounding Box
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-bounding-box/" >}}
+
+It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `top_left` and the coordinates of the lower right corner in `bottom_right`.
+
+#### Geo Radius
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-radius/" >}}
+
+It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
+
+If several values are stored, at least one of them should match the condition.
+These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
+
+#### Geo Polygon
+Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island.
+
+When defining a ring, you must pick either a clockwise or counterclockwise ordering for your points.  The first and last point of the polygon must be the same.
+
+Currently, we only support unprojected global coordinates (decimal degrees longitude and latitude) and we are datum agnostic.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-poligon/" >}}
+
+A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
+
+If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset.
+These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
 
 ### Nested key
 
@@ -248,7 +376,7 @@ And the leaf nested field can also be an array.
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
 
-### Nested object filter
+#### Nested object filter
 
 *Available as of v1.2.0*
 
@@ -306,130 +434,6 @@ Parent document is considered to match the condition if at least one element of 
 The `has_id` and `slice` conditions are not supported within the nested object filter. If you need them, place them in an adjacent `must` clause.
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause-and-has-id/" >}}
-
-### Prefix Match
-
-*Available as of v1.19.0*
-
-A match `prefix` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that start with the specified string.
-
-For example, the prefix `"https://qdrant."` matches the value `"https://qdrant.tech/documentation"`, but the prefix `"qdrant"` does not.
-
-Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It is also case-sensitive, consistent with exact keyword matching. Unlike [Full Text Match](#full-text-match), prefix matching does not tokenize the value, so it is well suited to identifiers such as URLs, paths, or SKUs.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-prefix/" >}}
-
-<aside role="status">
-    For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
-</aside>
-
-### Full Text Match
-
-*Available as of v0.10.0*
-
-The `text` match condition supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering).
-It matches text fields that contain *all* of the provided query terms.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match/" >}}
-
-For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
-
-Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
-
-### Full Text Any
-
-*Available as of v1.16.0*
-
-The `text_any` full-text match condition is similar to the `text` condition, but with a key difference: while `text` only matches text fields that contain *all* the query terms, `text_any` matches fields that contain *any* of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
-
-For example, a query for `good cheap` matches `cheap hardware` as well as `good performance`.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match-any/" >}}
-
-For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
-
-Without a full-text index, Qdrant splits the query on whitespace and performs a case-sensitive substring match for each token.
-
-### Phrase Match
-
-*Available as of v1.15.0*
-
-A match `phrase` condition matches phrases. For example, the text `"quick brown fox"` matches the query `"brown fox"`, but not `"fox brown"`.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/phrase-match/" >}}
-
-For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field with [`phrase_matching` enabled](/documentation/manage-data/indexing/#phrase-matching). The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
-
-Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching. 
-
-<aside role="status">
-    The index must be configured with <code>phrase_matching</code> parameter set to <code>true</code>. If the index has phrase matching disabled, phrase conditions won't match anything.
-</aside>
-
-### Range
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/range/" >}}
-
-The `range` condition sets the range of possible values for stored payload values.
-If several values are stored, at least one of them should match the condition.
-
-Comparisons that can be used:
-
-- `gt` - greater than
-- `gte` - greater than or equal
-- `lt` - less than
-- `lte` - less than or equal
-
-Can be applied to [float](/documentation/manage-data/payload/#float) and [integer](/documentation/manage-data/payload/#integer) payloads.
-
-### Datetime Range
-
-The datetime range is a unique range condition, used for [datetime](/documentation/manage-data/payload/#datetime) payloads, which supports RFC 3339 formats.
-You do not need to convert dates to UNIX timestamps. During comparison, timestamps are parsed and converted to UTC.
-
-_Available as of v1.8.0_
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/datetime-range/" >}}
-
-### UUID Match
-
-_Available as of v1.11.0_
-
-Matching of UUID values works similarly to the regular `match` condition for strings.
-Functionally, it will work with `keyword` and `uuid` indexes exactly the same, but `uuid` index is more memory efficient.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-uuid/" >}}
-
-### Geo
-
-#### Geo Bounding Box
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-bounding-box/" >}}
-
-It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `top_left` and the coordinates of the lower right corner in `bottom_right`.
-
-#### Geo Radius
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-radius/" >}}
-
-It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
-
-If several values are stored, at least one of them should match the condition.
-These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
-
-#### Geo Polygon
-Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island.
-
-When defining a ring, you must pick either a clockwise or counterclockwise ordering for your points.  The first and last point of the polygon must be the same.
-
-Currently, we only support unprojected global coordinates (decimal degrees longitude and latitude) and we are datum agnostic.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-poligon/" >}}
-
-A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
-
-If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset.
-These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
 
 ### Values count
 
