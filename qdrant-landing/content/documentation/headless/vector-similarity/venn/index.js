@@ -19,7 +19,7 @@ export function mount(node) {
   node.classList.add('qi-venn');
   const clipId = `qi-venn-left-${++instanceCount}`;
   node.innerHTML = `<div class="qi-fig">
-    <svg class="qi-svg qi-venn__svg" role="img" aria-label="Full-text search supports synonyms, quick counts, and facets. Vector search supports dissimilarity search, recommendations, diversity search, and multimodality. Both support similarity search and filters.">
+    <svg class="qi-svg qi-venn__svg" role="img" aria-label="Full-text search supports exact phrase match, quick counts, and facets. Vector search supports dissimilarity search, recommendations, diversity search, and multimodality. Both support similarity search and filters.">
       <defs><clipPath id="${clipId}"><ellipse class="qi-venn__clip" /></clipPath></defs>
       <g class="qi-venn__draw"></g>
     </svg>
@@ -44,7 +44,7 @@ export function mount(node) {
     addLabel(drawing, 250, 43, 'Full-text search', { class: 'qi-frame-label' });
     addLabel(drawing, 650, 43, 'Vector search', { class: 'qi-frame-label' });
     [
-      [170, 205, 'Synonyms'], [170, 270, 'Quick counts'], [170, 335, 'Facets'],
+      [205, 205, 'Exact phrase match'], [205, 270, 'Quick counts'], [205, 335, 'Facets'],
       [450, 245, 'Similarity search'], [450, 300, 'Filters'],
       [690, 175, 'Dissimilarity search'], [690, 235, 'Recommendations'],
       [690, 295, 'Diversity search'], [690, 355, 'Multimodality'],
@@ -66,7 +66,7 @@ export function mount(node) {
     addLabel(drawing, 300, 40, 'Full-text search', { class: 'qi-frame-label' });
     addLabel(drawing, 300, 900, 'Vector search', { class: 'qi-frame-label' });
     [
-      [300, 170, 'Synonyms'], [300, 235, 'Quick counts'], [300, 300, 'Facets'],
+      [300, 170, 'Exact phrase match'], [300, 235, 'Quick counts'], [300, 300, 'Facets'],
       [300, 450, 'Similarity search'], [300, 492, 'Filters'],
       [300, 600, 'Dissimilarity search'], [300, 660, 'Recommendations'],
       [300, 720, 'Diversity search'], [300, 780, 'Multimodality'],

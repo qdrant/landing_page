@@ -40,7 +40,7 @@ Attempting to use vector similarity as a full-text search can result in a range 
 Teams that do this get only a fraction of the benefits of vector similarity.
 
 {{< island path="content/documentation/headless/vector-similarity/venn" width="90%" ratio="15 / 8" title="Full-text and vector search share similarity search and filters, while each supports distinct operations." >}}
-![Venn diagram. Full-text search only: synonyms, quick counts, and facets. Both: similarity search and filters. Vector search only: dissimilarity search, recommendations, diversity search, and multimodality.](/articles_data/vector-similarity-beyond-search/venn-diagram.png)
+![Venn diagram. Full-text search only: exact phrase match, quick counts, and facets. Both: similarity search and filters. Vector search only: dissimilarity search, recommendations, diversity search, and multimodality.](/articles_data/vector-similarity-beyond-search/venn-diagram.png)
 {{< /island >}}
 
 The rest of this article covers the techniques that need their own interfaces, and the Qdrant query for each.
@@ -50,14 +50,12 @@ The rest of this article covers the techniques that need their own interfaces, a
 
 Having a vector representation of unstructured data unlocks new ways of interacting with it.
 For example, it can be used to measure semantic similarity between words, to cluster words or documents based on their meaning, to find related images, or even to generate new text.
-However, these interactions can go beyond finding their nearest neighbors (kNN).
-
-Vector representations also support techniques beyond kNN search: dissimilarity search, diversity search, recommendations, and discovery.
+Vector representations also support techniques beyond nearest-neighbor (kNN) search: dissimilarity search, diversity search, recommendations, and discovery.
 
 
 ## Dissimilarity Search
 
-The Dissimilarity or farthest search is the most straightforward concept after the nearest search, which can't be reproduced in a traditional full-text search.
+Dissimilarity search, or farthest search, is the simplest step beyond nearest-neighbor search, and full-text search can't reproduce it.
 It aims to find the most dissimilar or distant documents across the collection.
 
 
@@ -65,10 +63,10 @@ It aims to find the most dissimilar or distant documents across the collection.
 ![A query point with dashed lines to the six points farthest from it, which are circled as results.](/articles_data/vector-similarity-beyond-search/dissimilarity.png)
 {{< /island >}}
 
-Unlike full-text match, Vector similarity can compare any pair of documents (or points) and assign a similarity score. 
+Unlike full-text match, vector similarity can compare any pair of documents (or points) and assign a similarity score. 
 It doesn't rely on keywords or other metadata. 
 With vector similarity, we can easily achieve a dissimilarity search by inverting the search objective from maximizing similarity to minimizing it.
-In Qdrant, dissimilarity search is the same Recommend query that powers [recommendations](#recommendations), used for a different purpose: pass [only negative examples](/documentation/search/explore/#using-only-negative-examples) with the `best_score` or `sum_scores` strategy, and the points farthest from those examples rank first.
+In Qdrant, dissimilarity search is the same Recommend query that powers [recommendations](#recommendations), used for a different purpose: pass [only negative examples](/documentation/search/explore/#using-only-negative-examples) with the `best_score` strategy, and the points farthest from those examples rank first.
 
 The dissimilarity search can find items in areas where previously no other search could be used.
 Let's look at a few examples.
@@ -78,7 +76,7 @@ Let's look at a few examples.
 For example, we have a dataset of furniture in which we have classified our items into what kind of furniture they are: tables, chairs, and lamps.
 To ensure our catalog is accurate, we can use a dissimilarity search to highlight items that are most likely mislabeled.
 
-To do this, we only need to search for the most dissimilar items using the embedding of the category title itself as a query.
+To do this, we only need to search for the most dissimilar items using the embedding of the category title itself as the only negative example.
 This can be too broad, so we combine it with a [filter](/articles/filterable-hnsw/) to narrow the search down to a specific category.
 
 
@@ -138,7 +136,7 @@ The output of this search can be further processed with heavier models or human 
 In some cases, we might not even have labels, but it is still possible to try to detect anomalies in our dataset.
 Dissimilarity search can be used for this purpose as well.
 
-{{< island path="content/documentation/headless/vector-similarity/outliers" width="90%" ratio="15 / 9" title="Reference chairs anchor the point cloud; dissimilar products are candidates for review or anomaly detection." >}}
+{{< island path="content/documentation/headless/vector-similarity/outliers" width="90%" ratio="4 / 3" title="Outlier detection with reference chairs: switch between best_score and sum_scores." >}}
 ![Three chairs serve as reference points. An egg chair near them is marked for review, and a set of caster wheels far from all of them is marked as an anomaly.](/articles_data/vector-similarity-beyond-search/anomaly-detection.png)
 {{< /island >}}
 
@@ -178,6 +176,7 @@ It returns:
 ```
 
 The wheels come first. The two metal items follow because every reference is made of wood, brass, or leather, so choose references that cover what "normal" looks like in your data.
+Use `best_score` rather than `sum_scores` here: `sum_scores` adds up the similarity to every reference, so on this catalog it flags the bedside reading lamp, a normal lamp that is simply far from the chair, table, sofa, and bookshelf references.
 
 
 ## Diversity Search
@@ -196,8 +195,7 @@ That is especially useful when users do not yet know what they are looking for a
 {{< figure width=100% src=/articles_data/vector-similarity-beyond-search/diversity-force.png caption="Example of Similarity-Based Sampling" alt="A similarity-based sample of 16 bathroom products with little repetition, including headrests, bathtubs, feet, frames, cleaners, and a shelf." >}}
 
 
-The power of vector similarity, in the context of being able to compare any two points, allows making a diverse selection of the collection possible without any labeling efforts.
-By maximizing the distance between all points in the response, we can have an algorithm that will sequentially output dissimilar results.
+Because vector similarity can compare any two points, it can build a diverse selection without labels.
 
 {{< island path="content/documentation/headless/vector-similarity/farthest-first" width="90%" ratio="15 / 10" title="Step through farthest-first selection; each pick maximizes its minimum distance from earlier picks." >}}
 ![Starting from a random point, each next result is the point farthest from all previous results.](/articles_data/vector-similarity-beyond-search/diversity.png)
@@ -333,7 +331,7 @@ Three of the four results are wooden, and none is metal.
 
 ### Distance-Based Recommendations
 
-Another approach is to use the distance between negative examples to the candidates to help them create exclusion areas.
+Another approach uses the distances from each candidate to the positive and negative examples to create exclusion areas.
 In this technique, we perform searches near the positive examples while excluding the points that are closer to a negative example than to a positive one.
 
 {{< island path="content/documentation/headless/vector-similarity/relative-distance" width="90%" ratio="8 / 5" title="Positions are illustrative; the rings mark the results of this article's queries." >}}
@@ -400,7 +398,7 @@ As in model training, the pairs can be noisy or contradict each other, so the di
 
 
 
-The important difference between this and the recommendation method is that the positive-negative pairs in the discovery method don't assume that the final result should be close to positive, it only assumes that it should be closer than the negative one.
+The important difference between this and the recommendation method is that the positive-negative pairs in the discovery method don't assume that the final result should be close to the positive example; they only require it to be closer to the positive than to the negative.
 
 
 Qdrant implements both ideas in the [Discovery API](/documentation/search/explore/#discovery-api), available since v1.7.
@@ -477,15 +475,15 @@ Vector similarity as a concept is much broader than task-specific implementation
 Qdrant exposes them through the [Query API](/documentation/search/search/#query-api), available since v1.10, where they accept the same filters as a regular search.
 The Distance Matrix API has its own endpoint.
 
-| Technique                                               | Qdrant query                                                                                                       | Since            |
-| ---------------------------------------------------------| --------------------------------------------------------------------------------------------------------------------| ------------------|
-| Dissimilarity search, mislabeling and outlier detection | [Recommend with only negative examples](/documentation/search/explore/#using-only-negative-examples)               | v1.6             |
-| Diversity search without a query                        | [Distance Matrix API](/documentation/search/explore/#distance-matrix), plus farthest-first selection on the client | v1.12            |
-| Diversity search with a query                           | [`mmr`](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) on a nearest-neighbor query        | v1.15            |
-| Random sampling                                         | [`sample: random`](/documentation/search/search/#random-sampling)                                                  | v1.11            |
-| Feature-based recommendations                           | [Recommend, `average_vector` strategy](/documentation/search/explore/#average-vector-strategy)                     | Default strategy |
-| Distance-based recommendations                          | [Recommend, `best_score` strategy](/documentation/search/explore/#best-score-strategy)                             | v1.6             |
-| Discovery and context search                            | [Discover and context queries](/documentation/search/explore/#discovery-api)                                       | v1.7             |
+| Technique                                                | Qdrant query                                                                                                       | Since            |
+| ----------------------------------------------------------| --------------------------------------------------------------------------------------------------------------------| ------------------|
+| Dissimilarity search, mislabeling, and outlier detection | [Recommend with only negative examples](/documentation/search/explore/#using-only-negative-examples)               | v1.6             |
+| Diversity search without a query                         | [Distance Matrix API](/documentation/search/explore/#distance-matrix), plus farthest-first selection on the client | v1.12            |
+| Diversity search with a query                            | [`mmr`](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) on a nearest-neighbor query        | v1.15            |
+| Random sampling                                          | [`sample: random`](/documentation/search/search/#random-sampling)                                                  | v1.11            |
+| Feature-based recommendations                            | [Recommend, `average_vector` strategy](/documentation/search/explore/#average-vector-strategy)                     | Default strategy |
+| Distance-based recommendations                           | [Recommend, `best_score` strategy](/documentation/search/explore/#best-score-strategy)                             | v1.6             |
+| Discovery and context search                             | [Discover and context queries](/documentation/search/explore/#discovery-api)                                       | v1.7             |
 
 Full-text search runs in the same API: Qdrant scores [BM25](/documentation/search/text-search/full-text-search/#bm25) on sparse vectors and combines it with dense vectors in [hybrid queries](/documentation/search/hybrid-queries/).
 
