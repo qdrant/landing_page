@@ -14,6 +14,8 @@ category: qdrant-internals
 aliases: [ /articles/filtrable-hnsw/ ]
 ---
 
+> **Note:** This article describes the original design for filterable HNSW, proposed in 2019. It is not a complete description of how Qdrant performs filtered vector search today. For learning more, see our Qdrant Essentials course: [Combining Vector Search and Filtering](/course/essentials/day-2/filterable-hnsw/). For the cases this page does not explain, see [Filtered Vector Search: What ACORN Fixes, and What Fixes ACORN](/articles/filtered-vector-search-acorn/).
+
 If you need to find some similar objects in vector space, provided e.g. by embeddings or matching NN, you can choose among a variety of libraries: Annoy, FAISS or NMSLib.
 All of them will give you a fast approximate neighbors search within almost any space.
 
@@ -27,7 +29,7 @@ Let's see if we could somehow modify any of ANN algorithms to be able to apply c
 Annoy builds tree index over random projections.
 Tree index implies that we will meet same problem that appears in relational databases:
 if field indexes were built independently, then it is possible to use only one of them at a time. 
-Since nobody solved this problem before, it seems that there is no easy approach.
+I hadn't seen this solved elsewhere at the time, which suggested there was no easy fix within the existing tree-index libraries.
 
 There is another algorithm which shows top results on the [benchmark](https://github.com/erikbern/ann-benchmarks).
 It is called HNSW which stands for Hierarchical Navigable Small World.
