@@ -14,7 +14,7 @@ category: qdrant-internals
 aliases: [ /articles/filtrable-hnsw/ ]
 ---
 
-> **Note:** This article describes the original design for filterable HNSW, proposed in 2019. It is not a complete description of how Qdrant performs filtered vector search today. For learning more, see our Qdrant Essentials course: [Combining Vector Search and Filtering](/course/essentials/day-2/filterable-hnsw/). For the cases this page does not explain, see [Filtered Vector Search: What ACORN Fixes, and What Fixes ACORN](/articles/filtered-vector-search-acorn/).
+> **Note:** This article describes the original design for filterable HNSW, proposed in 2019. It is not a complete description of how Qdrant performs filtered vector search today. For learning more, see our Qdrant Beginners course: [Fast Approximate Search: HNSW](/course/beginners/module-2/hnsw/). For the cases this page does not explain, see [Filtered Vector Search: What ACORN Fixes, and What Fixes ACORN](/articles/filtered-vector-search-acorn/).
 
 If you need to find some similar objects in vector space, provided e.g. by embeddings or matching NN, you can choose among a variety of libraries: Annoy, FAISS or NMSLib.
 All of them will give you a fast approximate neighbors search within almost any space.
