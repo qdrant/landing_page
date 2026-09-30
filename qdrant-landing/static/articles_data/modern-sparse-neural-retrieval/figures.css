@@ -1,0 +1,14 @@
+/* Diagrams are light-only PNGs without sources; derive a dark variant in place. */
+html[data-theme='dark'] .documentation-article img[src*="/articles_data/modern-sparse-neural-retrieval/"][src$=".png"] {
+  filter: invert(1) hue-rotate(180deg);
+  mix-blend-mode: lighten;
+}
+
+/* Large-font diagrams read better narrower than the column. */
+.documentation-article img[src$="/modern-sparse-neural-retrieval/InvertedIndex.png"] {
+  width: 50%;
+}
+
+.documentation-article img[src$="/modern-sparse-neural-retrieval/DocumentExpansion.png"] {
+  width: 60%;
+}
