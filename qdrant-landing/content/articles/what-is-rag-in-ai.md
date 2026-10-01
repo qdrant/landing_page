@@ -18,7 +18,7 @@ tags:
   - embeddings
   - llm rag
   - rag application
-category: core-concepts
+category: rag-and-agents
 ---
 
 > Retrieval-augmented generation (RAG) integrates external information retrieval into the process of generating responses by Large Language Models (LLMs). It searches a database for information beyond its pre-trained knowledge base, significantly improving the accuracy and relevance of the generated responses.
@@ -29,9 +29,11 @@ But as brilliant as these chatbots become, they still have **limitations** in ta
 
 While you could be more creative with your prompts, it is only a short-term solution. LLMs can consider only a **limited** amount of text in their responses, known as a context window. Current models accept hundreds of thousands of tokens, but most knowledge bases are larger than that, and every token you send adds cost and latency.
 
+{{< island path="content/headless/what-is-rag-in-ai/overview" ratio="7 / 5" title="The question retrieves relevant knowledge. The LLM receives both the question and that context to generate an answer; retrieval does not guarantee correctness." >}}
 ![How a RAG system works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
+{{< /island >}}
 
-The image above shows how a basic RAG system works. Before forwarding the question to the LLM, we have a layer that searches our knowledge base for the "relevant knowledge" to answer the user query. Specifically, in this case, the spending data from the last month. Our LLM can now generate a **relevant non-hallucinated** response about our budget. 
+The overview diagram shows how a basic RAG system works. Before forwarding the question to the LLM, we have a layer that searches our knowledge base for the "relevant knowledge" to answer the user query. Specifically, in this case, the spending data from the last month. The retrieved context helps the LLM produce a relevant answer about our budget, but it can still make factual errors.
 
 As your data grows, you'll need efficient ways to identify the most relevant information for your LLM's limited memory. This is where you'll want a proper way to store and retrieve the specific data you'll need for your query, without needing the LLM to remember it. 
 
@@ -56,14 +58,18 @@ The retriever finds the chunks of your knowledge base that are most relevant to 
 
 Indexing turns your documents into vectors that Qdrant can search. A _loader_ gathers the documents, a _splitter_ cuts them into chunks such as paragraphs, and an embedding model converts each chunk into a [vector embedding](/articles/what-are-embeddings/). Qdrant stores each vector together with the text it came from.
 
+{{< island path="content/headless/what-is-rag-in-ai/indexing" ratio="63 / 40" title="Indexing loads documents, splits them into chunks, and embeds the chunks. Qdrant stores the embeddings together with their source text." >}}
 ![How indexing works](/articles_data/what-is-rag-in-ai/how-indexing-works.jpg)
+{{< /island >}}
 
 
 #### Query vectorization
 
 When a question arrives, the retriever embeds it with the same model it used for the chunks, so the query vector and the chunk vectors can be compared directly.
 
+{{< island path="content/headless/what-is-rag-in-ai/retrieval" ratio="28 / 13" title="The embedding model converts the question into a query vector. Qdrant searches compatible stored vectors and returns relevant chunks." >}}
 ![How retrieval works](/articles_data/what-is-rag-in-ai/how-retrieval-works.jpg)
+{{< /island >}}
 
 #### Retrieval of relevant documents
 
@@ -92,13 +98,17 @@ With the top relevant chunks retrieved, it's now the generator's job to produce 
 The generator is a large language model trained on massive datasets to understand and generate human-like text. The original RAG paper ([Lewis et al., 2020](https://arxiv.org/abs/2005.11401)) used BART, a sequence-to-sequence model. Today the generator is usually an instruction-tuned LLM, and any capable model works. It takes not only the query (or question) as input but also the relevant chunks that the retriever identified as potentially containing the answer.
 
 
+{{< island path="content/headless/what-is-rag-in-ai/generation" ratio="63 / 40" title="The generator receives the question and retrieved chunks, then produces an answer grounded in that context." >}}
 ![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.jpg)
+{{< /island >}}
 
 
-The retriever and generator don't operate in isolation. The image below shows how the output of the retrieval feeds the generator to produce the final generated response.
+The retriever and generator don't operate in isolation. The full pipeline diagram shows how retrieval feeds context to the generator to produce a response.
 
 
+{{< island path="content/headless/what-is-rag-in-ai/pipeline" ratio="21 / 17" title="Retrieval embeds the question, searches Qdrant, and returns relevant chunks. Generation combines those chunks with the original question to produce the answer." >}}
 ![The entire architecture of a RAG system](/articles_data/what-is-rag-in-ai/rag-system.jpg)
+{{< /island >}}
 
 
 ## Where is RAG being used?
