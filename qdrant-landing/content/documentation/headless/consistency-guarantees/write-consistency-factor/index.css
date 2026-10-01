@@ -1,6 +1,6 @@
 /* write-consistency-factor island. Scoped under .qi-wcf. Controls, frames and
    labels come from the shared island design system (islands.scss); this file
-   only styles the client diamond, wires, replica boxes, the point and the
+   only styles the client, wires, replica boxes, the point and the
    result. Same visual language as the concurrent-writes island. */
 
 .qi-wcf {

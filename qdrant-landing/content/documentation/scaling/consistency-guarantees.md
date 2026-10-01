@@ -13,7 +13,7 @@ This means concurrent updates on one point can result in an inconsistent state. 
 
 {{< island
     path="content/documentation/headless/consistency-guarantees/concurrent-writes"
-    width="90%" ratio="3 / 2" title="Two clients update the same point at the same time. Compare the default behavior with read `consistency` and write `ordering`."
+    width="90%" ratio="7 / 4" title="Two clients update the same point at the same time. Switch write `ordering` to compare how the replicas end up."
 >}}
 ![Two clients updating the same point at the same time.](/docs/concurrent-operations-replicas.png)
 {{< /island >}}
@@ -74,6 +74,13 @@ is consistent across cluster nodes.
 - `quorum` will query randomly selected majority of nodes and return points, which present on all of them
 - `1`/`2`/`3`/etc - will query specified number of randomly selected nodes and return points which present on all of them
 - default `consistency` is `1`
+
+{{< island
+    path="content/documentation/headless/consistency-guarantees/read-consistency"
+    width="90%" ratio="7 / 4" title="Replicas that disagree return different answers to single-replica reads. A `majority` read always returns the same answer."
+>}}
+A read with `consistency=majority` returns the value most replicas hold.
+{{< /island >}}
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-consistency-majority/" >}}
 

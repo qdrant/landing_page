@@ -24,7 +24,7 @@ const CX = BOX_X.map((x) => x + BOX.w / 2);
 const SHARD = { dx: 12, dy: 36, w: 176, h: 100 };
 const BARS = 12;
 const BAR = { pad: 12, dy: 34, h: 44 };
-const DIA = { hw: 46, hh: 26 };
+const DIA = { hw: 60, hh: 20 }; // client rectangle half-size
 const CLIENT = { x: CX[1], y: 34 };
 const JUNCTION_Y = 80;
 
@@ -38,7 +38,6 @@ function el(name, attrs, parent) {
   if (parent) parent.appendChild(node);
   return node;
 }
-const diamond = (x, y) => `${x},${y - DIA.hh} ${x + DIA.hw},${y} ${x},${y + DIA.hh} ${x - DIA.hw},${y}`;
 
 // Wire from the junction down to a replica box, with a rounded corner.
 function drop(x) {
@@ -73,7 +72,7 @@ export function mount(node) {
     '    </defs>',
     '    <g class="qi-wcf__boxes"></g>',
     '    <g class="qi-wcf__wires"></g>',
-    `    <polygon class="qi-wcf__client" points="${diamond(CLIENT.x, CLIENT.y)}"/>`,
+    `    <rect class="qi-wcf__client" x="${CLIENT.x - DIA.hw}" y="${CLIENT.y - DIA.hh}" width="${2 * DIA.hw}" height="${2 * DIA.hh}" rx="6"/>`,
     `    <text class="qi-wcf__client-text" x="${CLIENT.x}" y="${CLIENT.y + 4}">Client</text>`,
     `    <text class="qi-label qi-label--strong qi-wcf__count" x="${CLIENT.x + DIA.hw + 16}" y="${CLIENT.y - 4}"></text>`,
     `    <text class="qi-wcf__result" x="${CLIENT.x + DIA.hw + 16}" y="${CLIENT.y + 14}"></text>`,
