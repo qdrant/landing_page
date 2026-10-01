@@ -38,6 +38,21 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --qdrant.collection 'your-collection'
 ```
 
+### Migrating from Zilliz Cloud
+
+Zilliz Cloud endpoints use HTTPS, so pass the full URL and enable TLS authentication:
+
+```bash
+docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration milvus \
+    --milvus.url 'https://your-cluster.cloud.zilliz.com' \
+    --milvus.enable-tls-auth \
+    --milvus.collection 'your-collection' \
+    --milvus.api-key 'your-zilliz-api-key' \
+    --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
+    --qdrant.api-key 'your-qdrant-api-key' \
+    --qdrant.collection 'your-collection'
+```
+
 ### Migrating Specific Partitions
 
 ```bash
@@ -73,6 +88,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 ## Gotchas
 
 - **Partition handling:** Milvus partitions can map to Qdrant collections or payload filters. If you merge partitions into a single collection, add a partition name as a payload field for filtering.
+- **Vector types:** The tool creates a Qdrant vector for each dense float vector field. Check that sparse, binary, and float16 vector fields in your Milvus schema made it across, and recreate any that did not.
 - **Schema strictness:** Milvus enforces schema on write; Qdrant is schema-flexible. Verify that the schema-less flexibility didn't cause payload fields to drift during migration.
 - **Dynamic fields:** Milvus dynamic fields (introduced in 2.3) may serialize differently. Check that JSON-typed dynamic fields survived the migration with correct structure.
 
