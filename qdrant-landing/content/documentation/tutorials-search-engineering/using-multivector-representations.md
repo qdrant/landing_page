@@ -52,7 +52,7 @@ However, because multivectors are typically used in the reranking stage (after a
 
 Instead, they can be stored as multi-vector fields (without HNSW indexing) and used at query-time for reranking, which reduces resource overhead and improves performance.
 
-For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retrieval with Qdrant tutorial](https://qdrant.tech/documentation/advanced-tutorials/pdf-retrieval-at-scale/#math-behind-the-scaling). 
+For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retrieval with Qdrant tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/#math-behind-the-scaling). 
 
 With Qdrant, you have full control of how indexing works. You can disable indexing by setting the HNSW `m` parameter to `0`:
 ```python
@@ -90,7 +90,7 @@ Let's demonstrate how to effectively use multivectors using [FastEmbed](https://
 Install FastEmbed and Qdrant:
 
 ```bash
-pip install qdrant-client[fastembed]>=1.14.2
+pip install "qdrant-client[fastembed]>=1.14.2"
 ```
 
 ## Step-by-Step: ColBERT + Qdrant Setup
