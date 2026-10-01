@@ -246,7 +246,11 @@ Two caveats. These numbers come from HyCoCLIP-ViT-S and MERU-ViT-S rather than `
 
 To make the difference easier to see, we built a [live viewer](https://qdrant-geometry-viewer.vercel.app) against the same Qdrant collection.
 
-{{< hyperbolic-viewer caption="The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart. The figure is interactive where scripting is available; where it is not, the static image is what renders." >}}
+{{< island path="content/articles/headless/hyperbolic-embeddings-qdrant/geometry-viewer"
+    ratio="16 / 7"
+    title="The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart." >}}
+![The same category and its parents in three geometries: the hyperbolic Poincare disk, the flat Euclidean embedding, and the text embedding.](/articles_data/hyperbolic-embeddings-qdrant/viewer-three-panels.jpg)
+{{< /island >}}
 
 **[Open the interactive viewer →](https://qdrant-geometry-viewer.vercel.app)** Pick any of the 5,595 categories and watch all three panels redraw. It runs three searches, one per panel: exact hyperbolic distance, Euclidean distance over the flat trained coordinates, and cosine similarity over a text embedding. The Product Images tab does the same for the CLIP comparison above.
 
