@@ -1,28 +1,142 @@
 @use '../../helpers/functions' as *;
 
 .filterable-hnsw-filter-execution-strategy {
-  padding-top: $spacer * 2.5;
-  padding-bottom: $spacer * 2.5;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
 
-  @include filterable-hnsw-section-header('filterable-hnsw-filter-execution-strategy');
+  @include filterable-hnsw-section-header('filterable-hnsw-filter-execution-strategy', true);
+
+  $accents: ($secondary-violet-50, $secondary-blue-50, $secondary-teal-50);
+
+  &__grid {
+    display: grid;
+    gap: $spacer * 2.5;
+  }
 
   &__header {
-    margin-bottom: $spacer * 2.5;
+    margin-bottom: 0;
+  }
+
+  &__map {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &__rail {
+    display: flex;
+    flex: 0 0 pxToRem(48);
+    flex-direction: column;
+    align-items: center;
+    width: pxToRem(48);
+  }
+
+  &__node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    line-height: 1.5;
+  }
+
+  &__connector {
+    flex: 1 1 auto;
+    width: 2px;
+    min-height: $spacer * 1.5;
+  }
+
+  &__terminal {
+    display: none;
+    width: pxToRem(8);
+    height: pxToRem(8);
+    border-radius: pxToRem(4);
+  }
+
+  &__item:last-child {
+    .filterable-hnsw-filter-execution-strategy__connector { display: none; }
+    .filterable-hnsw-filter-execution-strategy__terminal { display: block; }
+    .filterable-hnsw-filter-execution-strategy__body { padding-bottom: 0; }
+  }
+
+  &__body {
+    padding: $spacer * 0.5 0 $spacer * 2 $spacer * 1.5;
+  }
+
+  &__item-title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $font-size-l;
+    font-weight: $font-weight-semibold;
+    line-height: 1.5;
+    color: $neutral-98;
+  }
+
+  &__item-description {
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: 1.5;
+    color: $neutral-80;
+  }
+
+  @for $i from 1 through 3 {
+    &__item:nth-child(3n + #{$i}) {
+      .filterable-hnsw-filter-execution-strategy__node {
+        color: nth($accents, $i);
+        border-color: nth($accents, $i);
+        background-color: rgba(nth($accents, $i), 0.1);
+      }
+      .filterable-hnsw-filter-execution-strategy__connector,
+      .filterable-hnsw-filter-execution-strategy__terminal {
+        background-color: rgba(nth($accents, $i), 0.25);
+      }
+    }
+  }
+
+  &__link {
+    margin-top: $spacer * 1.5;
   }
 
   // proof callout: a customer figure from a public case study, quoted verbatim
   &__callout {
-    margin-top: $spacer * 2;
+    margin-top: $spacer * 2.5;
     padding: $spacer * 1.5;
-    border-left: 3px solid $primary;
-    background: $neutral-98;
-    color: $neutral-30;
+    border-left: 3px solid $secondary-violet-50;
+    border-radius: 0 pxToRem(8) pxToRem(8) 0;
+    background: rgba($neutral-98, 0.06);
+    color: $neutral-80;
+    font-size: $font-size-md;
+    line-height: 1.5;
 
-    a { margin-left: $spacer * 0.5; white-space: nowrap; }
+    a { margin-left: $spacer * 0.5; white-space: nowrap; color: $secondary-violet-50; }
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 4;
-    padding-bottom: $spacer * 4;
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__grid {
+      grid-template-columns: pxToRem(400) minmax(0, pxToRem(580));
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__header {
+      display: block;
+      margin-bottom: 0;
+    }
+
+    &__description {
+      margin-top: $spacer;
+    }
   }
 }

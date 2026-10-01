@@ -12,21 +12,29 @@ $landing-step-accents: ($secondary-violet-50, $secondary-blue-50, $secondary-tea
 $landing-step-tints:   ($secondary-violet-90, $secondary-blue-90, $secondary-teal-90);
 
 .landing-steps {
-  padding-top: $spacer * 2.5;
-  padding-bottom: $spacer * 2.5;
-  background-color: $neutral-98;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
 
   &__label {
     margin-bottom: $spacer;
     font-family: $font-family-monospace;
     font-size: $font-size-sm;
-    letter-spacing: pxToRem(1);
+    font-weight: $font-weight-medium;
+    line-height: 1.5;
+    letter-spacing: 0;
     text-transform: uppercase;
-    color: $neutral-40;
+    color: $neutral-30;
   }
 
-  &__title { margin-bottom: $spacer; font-size: $h5-font-size; color: $neutral-20; }
-  &__description { margin-bottom: 0; font-size: $font-size-md; color: $neutral-30; }
+  &__title {
+    margin-bottom: 0;
+    font-size: $h5-font-size;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+  }
+  &__description { margin: $spacer 0 0; font-size: $font-size-l; line-height: 1.5; color: $neutral-30; }
   &__header { margin-bottom: $spacer * 2.5; }
 
   &__list {
@@ -39,17 +47,25 @@ $landing-step-tints:   ($secondary-violet-90, $secondary-blue-90, $secondary-tea
   }
 
   &__item { position: relative; }
-  &__item-title { margin-bottom: $spacer * 0.5; font-size: $font-size-xl; color: $neutral-20; }
+  &__item-title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $font-size-l;
+    font-weight: $font-weight-semibold;
+    line-height: 1.5;
+    color: $neutral-20;
+  }
   &__item-description {
     margin-bottom: 0;
     font-size: $font-size-md;
-    line-height: $spacer * 1.5;
-    color: $neutral-40;
+    line-height: 1.5;
+    color: $neutral-30;
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 4;
-    padding-bottom: $spacer * 4;
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+    &__title { font-size: $h4-font-size; }
+    &__header { margin-bottom: $spacer * 4; }
     &__list { grid-template-columns: repeat(3, 1fr); gap: $spacer * 3; }
   }
 }

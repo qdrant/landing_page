@@ -6,7 +6,7 @@
   {{ partial "filterable-hnsw/scale-and-performance-limits" . }}
 
   {{ with (.Site.GetPage "/filterable-hnsw/how-it-works") }}
-    {{ partial "landing/steps-connected-path" . }}
+    {{ partial "landing/steps-icon-flow" . }}
   {{ end }}
 
   {{ partial "filterable-hnsw/index-configuration" . }}
@@ -20,14 +20,22 @@
   {{ partial "filterable-hnsw/filter-routing-in-practice" . }}
 
   {{ with (.Site.GetPage "/filterable-hnsw/where-it-helps-less") }}
-    {{ partial "features-table" (dict "cols" .Params.cols "features" .Params.features) }}
+    <section class="filterable-hnsw-where-it-helps-less"><div class="container">
+      <div class="filterable-hnsw-where-it-helps-less__header">
+        <div class="filterable-hnsw-where-it-helps-less__heading">
+          {{ with .Params.label }}<p class="filterable-hnsw-where-it-helps-less__label">{{ . }}</p>{{ end }}
+          <h2 class="filterable-hnsw-where-it-helps-less__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="filterable-hnsw-where-it-helps-less__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ partial "features-table" (dict "cols" .Params.cols "features" .Params.features) }}
+      {{ with .Params.button }}
+        <a class="link filterable-hnsw-where-it-helps-less__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div></section>
   {{ end }}
 
-  {{ partial "filterable-hnsw/start-building-filterable-hnsw-on-qdrant-cloud" . }}
-
-  {{ with (.Site.GetPage "/filterable-hnsw/faq") }}
-    {{ partial "accordion" . }}
-  {{ end }}
+  {{ partial "filterable-hnsw/faq" . }}
 
   {{ with (.Site.GetPage "/filterable-hnsw/cta-banner") }}
     {{ partial "cta-banner" . }}

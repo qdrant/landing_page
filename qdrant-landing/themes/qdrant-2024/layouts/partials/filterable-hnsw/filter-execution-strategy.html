@@ -1,30 +1,41 @@
 {{ with (.Site.GetPage "/filterable-hnsw/filter-execution-strategy") }}
   <section class="filterable-hnsw-filter-execution-strategy">
     <div class="container">
-      <div class="filterable-hnsw-filter-execution-strategy__header">
-        <p class="filterable-hnsw-filter-execution-strategy__label">{{ .Params.label }}</p>
-        <h2 class="filterable-hnsw-filter-execution-strategy__title">{{ .Params.title }}</h2>
-        {{ with .Params.description }}<p class="filterable-hnsw-filter-execution-strategy__description">{{ . }}</p>{{ end }}
-      </div>
-      <div class="row g-2">
-        {{ range .Params.cards }}
-          <div class="col-12 col-lg-4 filterable-hnsw-filter-execution-strategy__card">
-            <div class="card">
-              <h3 class="filterable-hnsw-filter-execution-strategy__card-title">{{ .title }}</h3>
-              <p class="filterable-hnsw-filter-execution-strategy__card-description">{{ .description }}</p>
-            </div>
+      <div class="filterable-hnsw-filter-execution-strategy__grid">
+        <div class="filterable-hnsw-filter-execution-strategy__header">
+          <div class="filterable-hnsw-filter-execution-strategy__heading">
+            {{ with .Params.label }}<p class="filterable-hnsw-filter-execution-strategy__label">{{ . }}</p>{{ end }}
+            <h2 class="filterable-hnsw-filter-execution-strategy__title">{{ .Params.title }}</h2>
           </div>
-        {{ end }}
-      </div>
+          {{ with .Params.description }}<p class="filterable-hnsw-filter-execution-strategy__description">{{ . }}</p>{{ end }}
+      {{ with .Params.button }}
+        <a class="link filterable-hnsw-filter-execution-strategy__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+        <div>
+          <ol class="filterable-hnsw-filter-execution-strategy__map">
+            {{ range .Params.cards }}
+              <li class="filterable-hnsw-filter-execution-strategy__item">
+                <div class="filterable-hnsw-filter-execution-strategy__rail" aria-hidden="true">
+                  <span class="filterable-hnsw-filter-execution-strategy__node">{{ printf "%02d" (add .id 1) }}</span>
+                  <span class="filterable-hnsw-filter-execution-strategy__connector"></span>
+                  <span class="filterable-hnsw-filter-execution-strategy__terminal"></span>
+                </div>
+                <div class="filterable-hnsw-filter-execution-strategy__body">
+                  <h3 class="filterable-hnsw-filter-execution-strategy__item-title">{{ .title }}</h3>
+                  <p class="filterable-hnsw-filter-execution-strategy__item-description">{{ .description }}</p>
+                </div>
+              </li>
+            {{ end }}
+          </ol>
       {{ with .Params.callout }}
         <blockquote class="filterable-hnsw-filter-execution-strategy__callout">
           {{ .text }}
           {{ with .url }}<a href="{{ . }}">Read the case study</a>{{ end }}
         </blockquote>
       {{ end }}
-      {{ with .Params.button }}
-        <a class="link link_md filterable-hnsw-filter-execution-strategy__link" href="{{ .url }}">{{ .text }}</a>
-      {{ end }}
+        </div>
+      </div>
     </div>
   </section>
 {{ end }}

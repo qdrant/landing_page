@@ -2,17 +2,19 @@
   <section class="filterable-hnsw-recall-and-accuracy">
     <div class="container">
       <div class="filterable-hnsw-recall-and-accuracy__header">
-        <p class="filterable-hnsw-recall-and-accuracy__label">{{ .Params.label }}</p>
-        <h2 class="filterable-hnsw-recall-and-accuracy__title">{{ .Params.title }}</h2>
+        <div class="filterable-hnsw-recall-and-accuracy__heading">
+          {{ with .Params.label }}<p class="filterable-hnsw-recall-and-accuracy__label">{{ . }}</p>{{ end }}
+          <h2 class="filterable-hnsw-recall-and-accuracy__title">{{ .Params.title }}</h2>
+        </div>
         {{ with .Params.description }}<p class="filterable-hnsw-recall-and-accuracy__description">{{ . }}</p>{{ end }}
       </div>
-      <div class="row g-2">
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="filterable-hnsw-recall-and-accuracy__grid" style="--cols: {{ $cols }}">
         {{ range .Params.cards }}
-          <div class="col-12 col-lg-4 filterable-hnsw-recall-and-accuracy__card">
-            <div class="card">
-              <h3 class="filterable-hnsw-recall-and-accuracy__card-title">{{ .title }}</h3>
-              <p class="filterable-hnsw-recall-and-accuracy__card-description">{{ .description }}</p>
-            </div>
+          <div class="filterable-hnsw-recall-and-accuracy__card">
+            {{ with .icon }}<span class="filterable-hnsw-recall-and-accuracy__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="filterable-hnsw-recall-and-accuracy__card-title">{{ .title }}</h3>
+            <p class="filterable-hnsw-recall-and-accuracy__card-description">{{ .description }}</p>
           </div>
         {{ end }}
       </div>
@@ -23,7 +25,7 @@
         </blockquote>
       {{ end }}
       {{ with .Params.button }}
-        <a class="link link_md filterable-hnsw-recall-and-accuracy__link" href="{{ .url }}">{{ .text }}</a>
+        <a class="link filterable-hnsw-recall-and-accuracy__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
       {{ end }}
     </div>
   </section>

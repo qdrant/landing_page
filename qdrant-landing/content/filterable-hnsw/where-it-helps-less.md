@@ -35,7 +35,7 @@ features:
     hybrid-cloud: Same as Managed Cloud
     private-cloud: Same as Managed Cloud
 button:
-  text: Read the filterable-hnsw docs →
+  text: Read the filterable HNSW docs
   url: https://qdrant.tech/documentation/ops-optimization/optimize/#fine-tuning-search-parameters
 sitemapExclude: true
 ---
