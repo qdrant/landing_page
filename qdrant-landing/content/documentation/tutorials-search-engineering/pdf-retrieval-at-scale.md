@@ -102,7 +102,8 @@ Install & import required libraries
 # pip install "colpali_engine>=0.3.1" "qdrant-client>=1.12.0"
 
 import torch
-from colpali_engine.models import ColPali, ColPaliProcessorfrom qdrant_client import QdrantClient, models
+from colpali_engine.models import ColPali, ColPaliProcessor
+from qdrant_client import QdrantClient, models
 ```
 
 To run these experiments, we’re using a **Qdrant cluster**. If you’re just getting started, you can set up a **free-tier cluster** for testing and exploration. Follow the instructions in the documentation ["How to Create a Free-Tier Qdrant Cluster"](/documentation/cloud/create-cluster/#free-clusters)
@@ -217,7 +218,7 @@ For ColPali, the numbers will always be 32 by 32; ColQwen will define them dynam
 ```python
 x_patches, y_patches = colpali_processor.get_n_patches(
     image_size, 
-    patch_size=model.patch_size
+    patch_size=colpali_model.patch_size
 )
 ```
 
@@ -225,10 +226,10 @@ x_patches, y_patches = colpali_processor.get_n_patches(
 <summary> For <b>ColQwen</b> model </summary>
 
 ```python
-colpali_processor.get_n_patches(
+colqwen_processor.get_n_patches(
     image_size, 
-    patch_size=colpali_model.patch_size,
-    spatial_merge_size=model.spatial_merge_size
+    patch_size=colqwen_model.patch_size,
+    spatial_merge_size=colqwen_model.spatial_merge_size
 )
 ```
 </details>
