@@ -2,16 +2,16 @@
 title: FAQs
 questions:
   - id: 0
-    question: Does filterable HNSW only apply to vector search, or does it affect other query types too?
-    answer: In simpler terms, a vector index speeds up vector search, and payload indexes speed up filtering.
+    question: Does filterable HNSW only apply to dense vector search, or does it also affect sparse vector searches?
+    answer: Since sparse vector search does not use the HNSW index, it is unnecessary to build extra edges in the HNSW graph for these fields.
   - id: 1
-    question: If I skip quantization, does that change how the HNSW index is stored in memory?
-    answer: 'High Precision + Low Memory: Store vectors and HNSW index on disk.'
+    question: When should I create payload indexes relative to ingesting data?
+    answer: For the HNSW graph to be optimized for filtered search, it's highly recommended to create all payload indices immediately after collection creation, before ingesting data.
   - id: 2
-    question: When a filter is very tight and matches very few points, can the extra HNSW edges handle it accurately?
-    answer: In some cases, the additional edges built for Qdrant's filterable HNSW may not be sufficient.
+    question: How does Qdrant handle filtered search when a strict filter matches only a small number of points?
+    answer: In the case of low-selectivity (strict) filters, you can use the payload index and do a complete rescore.
   - id: 3
-    question: Does scaling nodes up or out on Managed Cloud affect the underlying indexed data?
-    answer: On Managed Cloud, both horizontal and vertical scaling are supported. Indexes in each segment exist independently, and index parameters are configured at the collection level, so scaling operations work against that shared configuration.
+    question: What happens if a query filters on a field that has no payload index?
+    answer: To block queries that filter on unindexed fields, enable strict mode and set unindexedfilteringretrieve to false.
 sitemapExclude: true
 ---

@@ -47,6 +47,21 @@
     box-shadow: 0 2px 1.5px rgba(0, 0, 0, 0.04);
   }
   .landing-steps__banner-text { margin: 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-30; }
+
+  // ONE proof-callout treatment on a page: the same bordered blockquote the section partials render. The steps section
+  // used to show proof as a plain banner paragraph, so filterable-hnsw (its only callout is under How it works) never
+  // showed the pattern at all and hybrid-search showed two different ones (PMM, 2026-10-02).
+  .landing-steps__callout {
+    margin: pxToRem(30) 0 0;
+    padding: $spacer * 1.5;
+    border-left: 3px solid $secondary-blue-70;
+    border-radius: 0 pxToRem(8) pxToRem(8) 0;
+    background: $neutral-98;
+    color: $neutral-30;
+    font-size: $font-size-md;
+    line-height: 1.5;
+    a { margin-left: $spacer * 0.5; white-space: nowrap; color: $secondary-blue-70; }
+  }
   .landing-steps__banner-links { display: flex; flex-wrap: wrap; gap: $spacer * 1.5; }
 
   @include media-breakpoint-up(lg) {

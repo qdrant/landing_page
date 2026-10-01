@@ -1,6 +1,6 @@
 ---
-title: 'Get high-level filtered search with precision | Qdrant'
-description: Qdrant combines vector and traditional indexes so your filters run against indexed payload fields and return the result you expect. Tenant indexing, disk-backed HNSW, and horizontal scaling let you tune memory and accuracy for the workload you have.
+title: 'Tune HNSW Performance Across Every Filter Strength | Qdrant'
+description: 'Qdrant keeps HNSW performance benchmarking honest across the full selectivity range: weak filters run straight through the index, strict filters get a dedicated filtered graph, and strict mode blocks queries on unindexed fields before they degrade results.'
 build:
   render: always
 cascade:

@@ -1,11 +1,11 @@
 ---
-title: Start building filterable HNSW on Qdrant Cloud
-description: Qdrant combines vector and traditional indexes so your filters run against indexed payload fields and return the result you expect. Tenant indexing, disk-backed HNSW, and horizontal scaling let you tune memory and accuracy for the workload you have.
+title: Start Building With Filterable HNSW on Qdrant
+description: Find the actual filtering path before you scale to millions of vectors.
 button:
-  text: Start free and self serve from the Console
+  text: Start free
   url: https://cloud.qdrant.io/signup
 outlineButton:
-  text: Explore the filterable HNSW docs
-  url: https://qdrant.tech/documentation/ops-optimization/optimize/#fine-tuning-search-parameters
+  text: Talk to engineering
+  url: https://qdrant.tech/contact-us/
 sitemapExclude: true
 ---

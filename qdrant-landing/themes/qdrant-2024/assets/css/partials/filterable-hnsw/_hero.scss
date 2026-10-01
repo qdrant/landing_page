@@ -1,55 +1,10 @@
 @use '../../helpers/functions' as *;
 
 .filterable-hnsw-hero {
-  padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
-  background-color: $neutral-10;
-
-  &__copy {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: pxToRem(720);
-  }
-
-  &__label {
-    margin-bottom: $spacer;
-    font-family: $font-family-monospace;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    line-height: 1.5;
-    letter-spacing: 0;
-    text-transform: uppercase;
-    color: $neutral-80;
-  }
-
-  &__title {
-    margin-bottom: $spacer * 1.5;
-    font-size: $h4-font-size;
-    line-height: 1.1;
-    letter-spacing: -0.5px;
-    color: $neutral-98;
-  }
-
-  &__description {
-    margin-bottom: $spacer * 1.5;
-    font-size: $font-size-l;
-    line-height: 1.5;
-    color: $neutral-80;
-  }
-
-  &__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $spacer;
-  }
-
-  @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 5;
-    padding-bottom: $spacer * 5;
-
-    &__title {
-      font-size: $h3-font-size;
-    }
-  }
+  @include filterable-hnsw-band(true, 5, 5);
+  &__copy { display: flex; flex-direction: column; align-items: flex-start; max-width: pxToRem(720); }
+  &__label { @include filterable-hnsw-eyebrow(true); }
+  &__title { @include filterable-hnsw-title(true, true); margin-bottom: $spacer * 1.5; }
+  &__description { margin-bottom: $spacer * 1.5; font-size: $font-size-l; line-height: 1.5; color: $neutral-80; }
+  &__actions { display: flex; flex-wrap: wrap; gap: $spacer; }
 }

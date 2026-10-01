@@ -1,0 +1,15 @@
+@use '../../helpers/functions' as *;
+
+.filterable-hnsw-payload-type-filtering {
+  @include filterable-hnsw-band(false, 5, 5);
+  @include filterable-hnsw-header('filterable-hnsw-payload-type-filtering');
+  @include filterable-hnsw-single('filterable-hnsw-payload-type-filtering');
+  @include filterable-hnsw-callout('filterable-hnsw-payload-type-filtering', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2 $spacer * 1.5; }
+  &__card { display: flex; flex-direction: column; align-items: flex-start; }
+  &__card-icon { @include filterable-hnsw-tile; margin-bottom: $spacer * 1.5; }
+  &__card-title { margin-bottom: $spacer * 0.5; font-size: $font-size-md; font-weight: $font-weight-semibold; line-height: 1.5; color: $neutral-20; }
+  &__card-description { margin-bottom: 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-30; }
+  @include media-breakpoint-up(md) { &__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @include media-breakpoint-up(lg) { &__grid { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); } }
+}

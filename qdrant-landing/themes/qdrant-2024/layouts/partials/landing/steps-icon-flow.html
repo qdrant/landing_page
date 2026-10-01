@@ -16,12 +16,16 @@
         {{ end }}
       </ol>
     </div>
-    {{ if or .Params.callout .Params.button }}
+    {{ with .Params.callout }}
+      <blockquote class="landing-steps__callout">
+        {{ .text }}
+        {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+      </blockquote>
+    {{ end }}
+    {{ with .Params.button }}
       <div class="landing-steps__banner">
-        {{ with .Params.callout }}<p class="landing-steps__banner-text">{{ .text }}</p>{{ end }}
         <div class="landing-steps__banner-links">
-          {{ with .Params.callout }}{{ with .url }}<a class="link" href="{{ . }}">Read the case study</a>{{ end }}{{ end }}
-          {{ with .Params.button }}<a class="link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>{{ end }}
+          <a class="link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
         </div>
       </div>
     {{ end }}
