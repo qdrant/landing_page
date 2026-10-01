@@ -13,7 +13,7 @@ This means concurrent updates on one point can result in an inconsistent state. 
 
 {{< island
     path="content/documentation/headless/consistency-guarantees/concurrent-writes"
-    width="90%" ratio="7 / 4" title="Two clients update the same point at the same time. Switch write `ordering` to compare how the replicas end up."
+    width="90%" ratio="15 / 8" title="Two clients update the same point at the same time. The writes reach the replicas in different orders, and the replicas end up disagreeing."
 >}}
 ![Two clients updating the same point at the same time.](/docs/concurrent-operations-replicas.png)
 {{< /island >}}
@@ -109,6 +109,13 @@ sequentially.
 - `weak` _(default)_ ordering does not provide any additional guarantees, so write operations can be freely reordered.
 - `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
 - `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
+
+{{< island
+    path="content/documentation/headless/consistency-guarantees/write-ordering"
+    width="90%" ratio="7 / 4" title="With `strong` ordering, both writes go through the leader, which replicates them in one order to every replica."
+>}}
+With `ordering=strong`, every replica applies concurrent writes in the same order.
+{{< /island >}}
 
 <aside role="status">Some <a href="/documentation/scaling/distributed_deployment/#shard-transfer-method">shard transfer methods</a> may affect ordering guarantees.</aside>
 

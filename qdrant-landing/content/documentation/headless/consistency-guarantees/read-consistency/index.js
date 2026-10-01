@@ -4,8 +4,9 @@
  * Picks up where the concurrent-writes island ends: after two concurrent
  * writes with weak ordering, the three replicas of the shard disagree about
  * one point (Peer 1 holds red, Peers 2 and 3 hold blue). A reader reads that
- * point. Each Read sends the request down to the replica(s) it asks; their
- * answers travel back as colored squares and land in the results strip.
+ * point six times in a row (Start reads). Each read sends the request down to
+ * the replica(s) it asks; their answers travel back as colored squares and land
+ * in the results strip.
  *
  *   consistency=1         each read asks one replica (cycled), so the answer
  *                         depends on which peer it hits.
@@ -35,9 +36,10 @@ const NAME = { a: 'blue', b: 'red' };
 const word = (k) => `<b class="qi-rc__t--${k}">${NAME[k]}</b>`;
 
 const READ_SEQ = [0, 1, 0, 2, 1, 2]; // replica asked by successive single reads
-const SLOTS = 6;
-const REQUEST_MS = 700;
-const ANSWER_MS = 1300;
+const SLOTS = 6; // reads per run
+const PAUSE_MS = 400; // between reads
+const REQUEST_MS = 500;
+const ANSWER_MS = 1000;
 const TOKEN = 12;
 
 function el(name, attrs, parent) {
@@ -65,7 +67,7 @@ export function mount(node) {
     '  <div class="qi-controls">',
     '    <div class="qi-group">',
     '      <button type="button" class="qi-chip" data-read>',
-    '        <svg class="qi-chip__icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20"/></svg>Read',
+    '        <svg class="qi-chip__icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20"/></svg>Start reads',
     '      </button>',
     '    </div>',
     '  </div>',
@@ -159,8 +161,8 @@ export function mount(node) {
     });
     statusEl.innerHTML =
       consistency === 'one'
-        ? `After two concurrent writes, the replicas disagree: Peer 1 holds ${word('b')}, Peers 2 and 3 hold ${word('a')}. Press Read a few times.`
-        : `With <code>consistency=majority</code>, every read asks all 3 replicas. Press Read a few times.`;
+        ? `After two concurrent writes, the replicas disagree: Peer 1 holds ${word('b')}, Peers 2 and 3 hold ${word('a')}. Press Start reads.`
+        : `With <code>consistency=majority</code>, every read asks all 3 replicas. Press Start reads.`;
     render();
   }
 
@@ -187,11 +189,8 @@ export function mount(node) {
     requestAnimationFrame(frame);
   }
 
-  function read() {
-    if (running) return;
-    running = true;
-    render();
-    const myGen = gen;
+  // One read: ask the replica(s), wait for the answers, record the result.
+  function readOnce(myGen, onDone) {
     const asked = consistency === 'majority' ? peers : [peers[READ_SEQ[readN % READ_SEQ.length]]];
     readN++;
     asked.forEach((p) => {
@@ -199,7 +198,7 @@ export function mount(node) {
       p.frame.classList.add('is-hot');
     });
     statusEl.innerHTML =
-      asked.length === 1 ? `The read asks Peer ${asked[0].i + 1}…` : 'The read asks all 3 replicas and waits for their answers…';
+      asked.length === 1 ? `Read ${readN}: asks Peer ${asked[0].i + 1}…` : `Read ${readN}: asks all 3 replicas and waits for their answers…`;
 
     later(() => {
       if (myGen !== gen) return;
@@ -211,23 +210,45 @@ export function mount(node) {
           asked.forEach((q) => (counts[VALUES[q.i]] = (counts[VALUES[q.i]] || 0) + 1));
           const k = Object.keys(counts).sort((x, y) => counts[y] - counts[x])[0];
           reads.push(k);
-          if (reads.length > SLOTS) reads.shift();
           statusEl.innerHTML =
             asked.length === 1
-              ? `Peer ${asked[0].i + 1} answered ${word(k)}. A read from one replica returns red or blue, depending on which peer it asks.`
-              : `2 replicas answered ${word('a')} and 1 answered ${word('b')}, so the read returns ${word(k)}. Every <code>majority</code> read gives the same answer.`;
+              ? `Read ${readN}: Peer ${asked[0].i + 1} answered ${word(k)}.`
+              : `Read ${readN}: 2 replicas answered ${word('a')} and 1 answered ${word('b')}, so it returns ${word(k)}.`;
           peers.forEach((q) => {
             q.wire.classList.remove('is-on');
             q.frame.classList.remove('is-hot');
           });
-          running = false;
           render();
+          onDone();
         }),
       );
     }, REQUEST_MS);
   }
 
-  readBtn.addEventListener('click', read);
+  // Run SLOTS reads one after another, then sum up what they returned.
+  function startReads() {
+    if (running) return;
+    reset();
+    running = true;
+    render();
+    const myGen = gen;
+    const next = () => {
+      if (myGen !== gen) return;
+      if (reads.length < SLOTS) {
+        readOnce(myGen, () => later(next, PAUSE_MS));
+        return;
+      }
+      const mixed = new Set(reads).size > 1;
+      statusEl.innerHTML = mixed
+        ? 'The same read returned different values, depending on which replica it asked. Switch to <code>majority</code> to compare.'
+        : `Every <code>majority</code> read returned ${word(reads[0])}, the value 2 of the 3 replicas hold, even though Peer 1 still holds ${word('b')}.`;
+      running = false;
+      render();
+    };
+    next();
+  }
+
+  readBtn.addEventListener('click', startReads);
   consBtns.forEach((b) =>
     b.addEventListener('click', () => {
       if (consistency === b.dataset.consistency) return;

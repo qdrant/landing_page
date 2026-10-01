@@ -2,20 +2,14 @@
  * concurrent-writes island: interactive replacement for
  * concurrent-operations-replicas.png.
  *
- * Two clients update the same point at the same moment: Client A writes blue,
- * Client B writes red. Three nodes (peers) each hold a replica of the shard,
- * drawn as a row of points; the last bar is the point both clients update.
- * Values travel as small colored squares, so every color change on a replica
- * is caused by a value arriving there.
+ * Shows the problem only. Two clients update the same point at the same
+ * moment: Client A writes blue through Peer 1, Client B writes red through
+ * Peer 3. Each peer applies the write it received and forwards it to the
+ * others, so the writes reach the replicas in different orders and the
+ * replicas end up disagreeing. Values travel as small colored squares, so
+ * every color change on a replica is caused by a value arriving there.
  *
- *   Write ordering  weak    each client's write lands on the peer it reached
- *                           and is forwarded from there, so replicas can apply
- *                           the two writes in different orders and disagree.
- *                   strong  both writes go through the leader (Peer 2), which
- *                           applies them in one order and replicates them in
- *                           that order, so every replica ends the same.
- *
- * Read consistency has its own island (read-consistency).
+ * The fixes have their own islands: read-consistency and write-ordering.
  * Pure SVG + CSS on the shared island design system (islands.scss).
  */
 
@@ -31,47 +25,29 @@ const SHARD = { dx: 12, dy: 36, w: 176, h: 100 };
 const BARS = 12;
 const BAR = { pad: 12, dy: 34, h: 44 };
 const CLIENT = { w: 120, h: 40, y: 34 }; // client rectangles, centered on y
-const LEADER = 1;
 
 const NAME = { a: 'blue', b: 'red' };
 const word = (k) => `<b class="qi-cw__t--${k}">${NAME[k]}</b>`;
 
-// Each race is a list of moves: one value (k) carried along a route, applied
+// The race is a list of moves: one value (k) carried along a route, applied
 // by peer `to` on arrival. Routes: w0 / w1 are Client A's and Client B's
 // write wires, g12 / g23 the links across the gaps between neighboring
 // nodes, far the link from Peer 1 to Peer 3 under Peer 2. `rev` runs a route
 // backwards. `say` lines narrate the race as it unfolds.
-const RACES = {
-  weak: {
-    moves: [
-      { route: 'w0', k: 'a', start: 0, to: 0 },
-      { route: 'w1', k: 'b', start: 0, to: 2 },
-      { route: 'g23', rev: true, k: 'b', start: 1700, to: 1 },
-      { route: 'g12', k: 'a', start: 2200, to: 1 },
-      { route: 'far', k: 'a', start: 1700, to: 2 },
-      { route: 'far', rev: true, k: 'b', start: 1700, to: 0 },
-    ],
-    say: [
-      { at: 0, msg: `Client A's ${word('a')} reaches Peer 1 and Client B's ${word('b')} reaches Peer 3 at the same time.` },
-      { at: 1700, msg: `Each peer forwards the write it received to the other two. They arrive in a different order on each peer…` },
-    ],
-    done: `Peer 1 applied ${word('a')}, then ${word('b')}. Peers 2 and 3 applied ${word('b')}, then ${word('a')}. The replicas now disagree.`,
-  },
-  strong: {
-    moves: [
-      { route: 'w0', k: 'a', start: 0, to: 1 },
-      { route: 'w1', k: 'b', start: 450, to: 1 },
-      { route: 'g12', rev: true, k: 'a', start: 2900, to: 0 },
-      { route: 'g23', k: 'a', start: 2900, to: 2 },
-      { route: 'g12', rev: true, k: 'b', start: 3900, to: 0 },
-      { route: 'g23', k: 'b', start: 3900, to: 2 },
-    ],
-    say: [
-      { at: 0, msg: `With <code>ordering=strong</code>, both writes go to the leader, Peer 2. ${word('a')} arrives first, then ${word('b')}.` },
-      { at: 2900, msg: `The leader replicates the writes to Peers 1 and 3 in the order it applied them: ${word('a')}, then ${word('b')}…` },
-    ],
-    done: `Every replica applied ${word('a')}, then ${word('b')}, and holds ${word('b')}. The replicas agree.`,
-  },
+const RACE = {
+  moves: [
+    { route: 'w0', k: 'a', start: 0, to: 0 },
+    { route: 'w1', k: 'b', start: 0, to: 2 },
+    { route: 'g23', rev: true, k: 'b', start: 1700, to: 1 },
+    { route: 'g12', k: 'a', start: 2200, to: 1 },
+    { route: 'far', k: 'a', start: 1700, to: 2 },
+    { route: 'far', rev: true, k: 'b', start: 1700, to: 0 },
+  ],
+  say: [
+    { at: 0, msg: `Client A's ${word('a')} reaches Peer 1 and Client B's ${word('b')} reaches Peer 3 at the same time.` },
+    { at: 1700, msg: `Each peer forwards the write it received to the other two. They arrive in a different order on each peer…` },
+  ],
+  done: `Peer 1 applied ${word('a')}, then ${word('b')}. Peers 2 and 3 applied ${word('b')}, then ${word('a')}. The replicas now disagree.`,
 };
 const moveMs = (len) => 800 + len * 2.6;
 const TOKEN = 12;
@@ -122,13 +98,6 @@ export function mount(node) {
     }),
     '    <g class="qi-cw__tokens"></g>',
     '  </svg>',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group" role="group" aria-label="Write ordering">',
-    '      <span class="qi-hint">Write ordering:</span>',
-    '      <button type="button" class="qi-chip" data-ordering="weak" aria-pressed="false">weak</button>',
-    '      <button type="button" class="qi-chip" data-ordering="strong" aria-pressed="false">strong</button>',
-    '    </div>',
-    '  </div>',
     '  <p class="qi-status qi-status--2 qi-cw__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
@@ -141,13 +110,12 @@ export function mount(node) {
   const statusEl = node.querySelector('.qi-cw__status');
   const goBtn = node.querySelector('[data-go]');
   const resetBtn = node.querySelector('[data-reset]');
-  const orderBtns = [...node.querySelectorAll('[data-ordering]')];
 
   // Nodes, each holding its shard replica.
   const peers = CX.map((cx, i) => {
     const g = el('g', { class: 'qi-cw__peer' }, boxesG);
     el('rect', { class: 'qi-frame qi-cw__node', x: BOX_X[i], y: BOX.y, width: BOX.w, height: BOX.h, rx: 6 }, g);
-    const title = el('text', { class: 'qi-frame-label', x: BOX_X[i] + 14, y: BOX.y + 24 }, g);
+    el('text', { class: 'qi-frame-label', x: BOX_X[i] + 14, y: BOX.y + 24 }, g).textContent = `Peer ${i + 1}`;
     const sx = BOX_X[i] + SHARD.dx;
     const sy = BOX.y + SHARD.dy;
     el('rect', { class: 'qi-cw__shard', x: sx, y: sy, width: SHARD.w, height: SHARD.h, rx: 6 }, g);
@@ -160,21 +128,14 @@ export function mount(node) {
       if (j === BARS - 1) point = bar;
     }
     const log = el('text', { class: 'qi-label', x: cx, y: BOX.y + BOX.h - 16, 'text-anchor': 'middle' }, g);
-    return { i, cx, title, point, log, applied: [] };
+    return { i, cx, point, log, applied: [] };
   });
 
-  // Write wires. Weak: straight down to the peer each client reached.
-  // Strong: both bend into the leader.
+  // Write wires: straight down to the peer each client reached.
   const wire = (k, d) => el('path', { class: `qi-cw__wire qi-cw__wire--${k}`, d, 'marker-end': `url(#qi-cw-arrow-${k})` }, wiresG);
   const into = BOX.y - 6;
   const below = CLIENT.y + CLIENT.h / 2;
-  const WIRES = {
-    weak: [wire('a', `M ${CX[0]} ${below} V ${into}`), wire('b', `M ${CX[2]} ${below} V ${into}`)],
-    strong: [
-      wire('a', `M ${CX[0] + CLIENT.w / 2} ${CLIENT.y} H ${CX[1] - 22} Q ${CX[1] - 10} ${CLIENT.y} ${CX[1] - 10} ${CLIENT.y + 12} V ${into}`),
-      wire('b', `M ${CX[2] - CLIENT.w / 2} ${CLIENT.y} H ${CX[1] + 22} Q ${CX[1] + 10} ${CLIENT.y} ${CX[1] + 10} ${CLIENT.y + 12} V ${into}`),
-    ],
-  };
+  const WIRES = [wire('a', `M ${CX[0]} ${below} V ${into}`), wire('b', `M ${CX[2]} ${below} V ${into}`)];
 
   // Replication links between nodes, shown only while a value travels.
   const midY = BOX.y + SHARD.dy + BAR.dy + BAR.h / 2;
@@ -186,8 +147,7 @@ export function mount(node) {
     g23: L(`M ${BOX_X[1] + BOX.w} ${midY} H ${BOX_X[2]}`),
     far: L(`M ${CX[0] + 40} ${nodeBot} V ${farY - 8} Q ${CX[0] + 40} ${farY} ${CX[0] + 48} ${farY} H ${CX[2] - 48} Q ${CX[2] - 40} ${farY} ${CX[2] - 40} ${farY - 8} V ${nodeBot}`),
   };
-  let ordering = 'weak';
-  const routeEl = (name) => (name === 'w0' ? WIRES[ordering][0] : name === 'w1' ? WIRES[ordering][1] : LINKS[name]);
+  const routeEl = (name) => (name === 'w0' ? WIRES[0] : name === 'w1' ? WIRES[1] : LINKS[name]);
 
   // --- State ----------------------------------------------------------------
   let phase = 'idle'; // idle | writing | written
@@ -204,10 +164,6 @@ export function mount(node) {
   }
 
   function render() {
-    orderBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.ordering === ordering)));
-    peers.forEach((p) => {
-      p.title.textContent = ordering === 'strong' && p.i === LEADER ? `Peer ${p.i + 1} (leader)` : `Peer ${p.i + 1}`;
-    });
     goBtn.disabled = phase === 'writing';
     resetBtn.hidden = phase === 'idle';
   }
@@ -222,13 +178,10 @@ export function mount(node) {
       p.point.setAttribute('class', 'qi-cw__bar');
       drawLog(p);
     });
-    Object.values(WIRES).flat().forEach((w) => w.classList.remove('is-on'));
+    WIRES.forEach((w) => w.classList.remove('is-on'));
     Object.values(LINKS).forEach((l) => l.classList.remove('is-on'));
     tokensG.innerHTML = '';
-    statusEl.innerHTML =
-      ordering === 'weak'
-        ? `Client A writes ${word('a')} and Client B writes ${word('b')} to the same point at the same time. Press Concurrent writes.`
-        : `With <code>ordering=strong</code>, both writes go through the leader, Peer 2. Press Concurrent writes.`;
+    statusEl.innerHTML = `Client A writes ${word('a')} and Client B writes ${word('b')} to the same point at the same time. Press Concurrent writes.`;
     render();
   }
 
@@ -271,14 +224,14 @@ export function mount(node) {
     reset();
     phase = 'writing';
     render();
-    const race = RACES[ordering];
+    const race = RACE;
     const myGen = gen;
     const active = {};
-    WIRES[ordering].forEach((w) => w.classList.add('is-on'));
+    WIRES.forEach((w) => w.classList.add('is-on'));
     race.say.forEach((s) => later(() => (statusEl.innerHTML = s.msg), s.at));
     const endAt = Math.max(...race.moves.map((m) => runMove(m, myGen, active)));
     later(() => {
-      Object.values(WIRES).flat().forEach((w) => w.classList.remove('is-on'));
+      WIRES.forEach((w) => w.classList.remove('is-on'));
       phase = 'written';
       statusEl.innerHTML = race.done;
       render();
@@ -287,13 +240,6 @@ export function mount(node) {
 
   goBtn.addEventListener('click', go);
   resetBtn.addEventListener('click', reset);
-  orderBtns.forEach((b) =>
-    b.addEventListener('click', () => {
-      if (ordering === b.dataset.ordering) return;
-      ordering = b.dataset.ordering;
-      reset();
-    }),
-  );
 
   reset();
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
