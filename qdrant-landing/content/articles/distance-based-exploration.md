@@ -21,22 +21,23 @@ category: data-exploration
 When working with large collections of documents, images, or other arrays of unstructured data, it often becomes useful to understand the big picture.
 Examining data points individually is not always the best way to grasp the structure of the data.
 
-{{< figure src="/articles_data/distance-based-exploration/no-context-data.png" alt="Data visualization" caption="Datapoints without context, pretty much useless" >}}
+{{< figure src="/articles_data/distance-based-exploration/no-context-data.png" alt="A table of data points with no visible structure" caption="Datapoints without context, pretty much useless" >}}
 
-As numbers in a table obtain meaning when plotted on a graph, visualising distances (similar/dissimilar) between unstructured data items can reveal hidden structures and patterns.
+As numbers in a table obtain meaning when plotted on a graph, visualizing distances (similar/dissimilar) between unstructured data items can reveal hidden structures and patterns.
 
-{{< figure src="/articles_data/distance-based-exploration/data-on-chart.png" alt="Data visualization" caption="Visualized chart, very intuitive" >}}
-There are many tools to investigate data similarity, and Qdrant's [1.12 release](https://qdrant.tech/blog/qdrant-1.12.x/) made it much easier to start this investigation.  With the new [Distance Matrix API](/documentation/search/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process—calculating the distances between data points.
+{{< figure src="/articles_data/distance-based-exploration/data-on-chart.png" alt="The same data points plotted on a chart, forming visible groups" caption="Visualized chart, very intuitive" >}}
 
-In many implementations, the distance matrix calculation was part of the clustering or visualization processes, requiring either brute-force computation or building a temporary index. With Qdrant, however, the data is already indexed, and the distance matrix can be computed relatively cheaply.
+There are many tools to investigate data similarity, and Qdrant's [1.12 release](/blog/qdrant-1.12.x/) made it much easier to start this investigation. With the new [Distance Matrix API](/documentation/search/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process: calculating the distances between data points.
 
-In this article, we will explore several methods for data exploration using the Distance Matrix API.
+In many implementations, the distance matrix calculation was part of the clustering or visualization processes, requiring either brute-force computation or building a temporary index. With Qdrant, however, the data is already indexed, so the server can use that index to find the nearest neighbors of each sampled point.
+
+In this article, we will use the Distance Matrix API for dimensionality reduction, clustering, and graph exploration.
 
 ## Dimensionality Reduction
 
 Initially, we might want to visualize an entire dataset, or at least a large portion of it, at a glance. However, high-dimensional data cannot be directly visualized. We must apply dimensionality reduction techniques to convert data into a lower-dimensional representation while preserving important data properties.
 
-In this article, we will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
+We will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
 
 Here is a **very** simplified but intuitive explanation of UMAP: it finds which points are close to each other in the high-dimensional space, then places them on a 2D plane so that the same points stay close.
 
@@ -139,7 +140,7 @@ That's all that is needed to get the 2d representation of the data.
 ![UMAP map of 1000 Midlib items: one connected cloud of points](/articles_data/distance-based-exploration/umap-midlib.png)
 {{< /island >}}
 
-<aside role="status">An interactive version of this plot is available in the <a href="https://qdrant.tech/documentation/web-ui/">Qdrant Web UI</a>. It requests the distance matrix from the server, so raw vectors stay out of the browser, and it supports UMAP, t-SNE, and PCA, coloring points by a payload field, and filters.</aside>
+<aside role="status">An interactive version of this plot is available in the <a href="/documentation/web-ui/">Qdrant Web UI</a>. It requests the distance matrix from the server, so raw vectors stay out of the browser, and it supports UMAP, t-SNE, and PCA, coloring points by a payload field, and filters.</aside>
 
 UMAP isn't the only algorithm compatible with our distance matrix API. For example, `scikit-learn` also offers the following, each with its own expectations about the matrix:
 
@@ -149,13 +150,13 @@ UMAP isn't the only algorithm compatible with our distance matrix API. For examp
 
 ## Clustering
 
-Another approach to data structure understanding is clustering--grouping similar items.
+Another approach to data structure understanding is clustering, which groups similar items.
 
 *Note that there's no universally best clustering criterion or algorithm.*
 
 {{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Six clustering algorithms applied to six two-dimensional datasets" caption="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets, [source](https://scikit-learn.org/)" >}}
 
-Let's consider a simple example of clustering the Midlib dataset with **KMeans algorithm**.
+Let's consider a simple example of clustering the Midlib dataset with the KMeans algorithm.
 
 KMeans does not take a distance matrix. Its [`fit()` method](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) takes a table of features with shape `(n_samples, n_features)`, and a sparse matrix is accepted. So we pass `similarity` as that table: each row describes one sampled point by its similarity to all 1000 sampled points, with zeros for the points outside its 20 closest.
 
@@ -197,14 +198,14 @@ sns.scatterplot(
 ## Graphs
 
 Clustering and dimensionality reduction both aim to provide a more transparent overview of the data.
-However, they share a common characteristic - they require a training step before the results can be visualized.
+However, they share a common characteristic: they require a training step before the results can be visualized.
 
-This also implies that introducing new data points necessitates re-running the training step, which may be computationally expensive.
+This also means that new data points require re-running the training step, which can be expensive.
 
-Graphs offer an alternative approach to data exploration, enabling direct, interactive visualization of relationships between data points.
+Graphs are an alternative approach to data exploration: they show the relationships between data points directly and interactively.
 In a graph representation, each data point is a node, and similarities between data points are represented as edges connecting the nodes.
 
-Such a graph can be rendered in real-time using [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, which aim to minimize the system's energy by repositioning nodes dynamically--the more similar the data points are, the stronger the edges between them.
+Such a graph can be rendered in real-time using [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, which aim to minimize the system's energy by repositioning nodes dynamically. The more similar the data points are, the stronger the edges between them.
 
 Adding new data points to the graph is as straightforward as inserting new nodes and edges without the need to re-run any training steps.
 
@@ -216,7 +217,7 @@ This is the simplest approach, where we start with a single node and expand the 
 
 {{< figure src="/articles_data/distance-based-exploration/graph.gif" alt="Graph" caption="Graph representation of the data" >}}
 
-<aside role="status">An interactive version of this plot is available in <a href="https://qdrant.tech/documentation/web-ui/"> Qdrant Web UI </a>!</aside>
+<aside role="status">An interactive version of this plot is available in <a href="/documentation/web-ui/">Qdrant Web UI</a>.</aside>
 
 ### Sampling from a collection
 
@@ -226,7 +227,7 @@ If your dataset is small enough, you can render relations for all the data point
 Instead, we can sample a subset of the data and render the graph for this subset.
 This way, we can get a good overview of the data without overwhelming the user with too much information.
 
-Let's try to do so in [Qdrant's Graph Exploration Tool](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool):
+Let's try to do so in [Qdrant's Graph Exploration Tool](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool):
 
 ```json
 {
@@ -235,12 +236,12 @@ Let's try to do so in [Qdrant's Graph Exploration Tool](https://qdrant.tech/blog
 }
 ```
 
-{{< figure src="/articles_data/distance-based-exploration/graph-sampled.png" alt="Graph" caption="Graph representation of the data ([Qdrant's Graph Exploration Tool](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))">}}
+{{< figure src="/articles_data/distance-based-exploration/graph-sampled.png" alt="A sampled graph of the collection, with points linked to their nearest neighbors" caption="Graph representation of the data ([Qdrant's Graph Exploration Tool](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))">}}
 
 This graph captures some high-level structure of the data, but as you might have noticed, it is quite noisy.
 This is because the differences in similarities are relatively small, and they might be overwhelmed by the stretches and compressions of the force-directed layout algorithm.
 
-To make the graph more readable, let's concentrate on the most important similarities and build a so called [Minimum/Maximum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
+To make the graph more readable, let's concentrate on the most important similarities and build a so-called [Minimum/Maximum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
 
 ```json
 {
@@ -250,7 +251,7 @@ To make the graph more readable, let's concentrate on the most important similar
 }
 ```
 
-{{< figure src="/articles_data/distance-based-exploration/spanning-tree.png" alt="Graph" caption="Spanning tree of the graph ([Qdrant's Graph Exploration Tool](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))" width="80%" >}}
+{{< figure src="/articles_data/distance-based-exploration/spanning-tree.png" alt="A spanning tree of the sampled graph, with one path connecting all points" caption="Spanning tree of the graph ([Qdrant's Graph Exploration Tool](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))" width="80%" >}}
 
 This algorithm will only keep the most important edges and remove the rest while keeping the graph connected.
 By doing so, we can reveal clusters of the data and the most important relations between them.
@@ -273,11 +274,11 @@ ToDo
 
 ## Conclusion
 
-Vector similarity goes beyond looking up the nearest neighbors--it provides a powerful tool for data exploration.
-Many algorithms can construct human-readable data representations, and Qdrant makes using them easy.
+Vector similarity goes beyond looking up the nearest neighbors. It also gives you a tool for data exploration.
+Many algorithms can construct human-readable data representations, and Qdrant supplies the neighbor data they need.
 
-Several data exploration instruments are available in the Qdrant Web UI ([Visualization and Graph Exploration Tools](https://qdrant.tech/articles/web-ui-gsoc/)), and for more advanced use cases, you could directly utilize our distance matrix API.
+The Qdrant Web UI includes data exploration tools ([Visualization and Graph Exploration Tools](/articles/web-ui-gsoc/)), and for more advanced use cases, you can call the Distance Matrix API directly.
 
 The same distances also help to find mislabeled and out-of-place items in a categorized dataset, as shown in [Detecting Dataset Errors with Similarity Search](/articles/dataset-quality/).
 
-Try it with your data and see what hidden structures you can reveal!
+Try it on your own collection and see which groups show up.
