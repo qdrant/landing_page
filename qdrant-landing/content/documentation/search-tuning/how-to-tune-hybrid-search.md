@@ -22,8 +22,6 @@ guide_series: true
 
 # How to Tune Hybrid Search in Qdrant
 
-![An astronaut at a mixing console blends two streams: a cyan network of image nodes and a red stream of text documents, which merge into one ranked stack of results rising in the center.](/articles_data/how-to-tune-hybrid-search/hybrid-fusion-hero.webp)
-
 Before you tune fusion, use the [pre-tuning checks](/documentation/search-tuning/before-tuning-a-qdrant-collection/) to verify index state and set a labeled baseline.
 
 Hybrid search retrieves dense and sparse candidate lists, then fuses them into one ranking. The dense prefetch finds similar meaning; the sparse prefetch finds matching keywords. Fusion reorders the candidates the prefetches return, so a document missing from both lists cannot appear in the result.
