@@ -1,0 +1,30 @@
+{{ with (.Site.GetPage "/filterable-hnsw/scale-and-performance-limits") }}
+  <section class="filterable-hnsw-scale-and-performance-limits">
+    <div class="container">
+      <div class="filterable-hnsw-scale-and-performance-limits__header">
+        <p class="filterable-hnsw-scale-and-performance-limits__label">{{ .Params.label }}</p>
+        <h2 class="filterable-hnsw-scale-and-performance-limits__title">{{ .Params.title }}</h2>
+        {{ with .Params.description }}<p class="filterable-hnsw-scale-and-performance-limits__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="row g-2">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4 filterable-hnsw-scale-and-performance-limits__card">
+            <div class="card">
+              <h3 class="filterable-hnsw-scale-and-performance-limits__card-title">{{ .title }}</h3>
+              <p class="filterable-hnsw-scale-and-performance-limits__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="filterable-hnsw-scale-and-performance-limits__callout">
+          {{ .text }}
+          {{ with .url }}<a href="{{ . }}">Read the case study</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link link_md filterable-hnsw-scale-and-performance-limits__link" href="{{ .url }}">{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

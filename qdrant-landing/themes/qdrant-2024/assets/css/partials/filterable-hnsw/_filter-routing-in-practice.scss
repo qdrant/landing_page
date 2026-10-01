@@ -1,0 +1,28 @@
+@use '../../helpers/functions' as *;
+
+.filterable-hnsw-filter-routing-in-practice {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+
+  @include filterable-hnsw-section-header('filterable-hnsw-filter-routing-in-practice');
+
+  &__header {
+    margin-bottom: $spacer * 2.5;
+  }
+
+  // proof callout: a customer figure from a public case study, quoted verbatim
+  &__callout {
+    margin-top: $spacer * 2;
+    padding: $spacer * 1.5;
+    border-left: 3px solid $primary;
+    background: $neutral-98;
+    color: $neutral-30;
+
+    a { margin-left: $spacer * 0.5; white-space: nowrap; }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+  }
+}

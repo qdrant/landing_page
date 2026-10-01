@@ -1,0 +1,36 @@
+@use '../helpers/functions' as *;
+
+// State: solid behind what is done, dashed ahead of it.
+.landing-steps--connected-path {
+  .landing-steps__node {
+    display: block;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    margin-bottom: $spacer;
+    border-radius: 50%;
+    border: pxToRem(2) solid $neutral-90;
+    background-color: $neutral-98;
+  }
+  .landing-steps__item.is-done .landing-steps__node {
+    border-color: $secondary-violet-50;
+    background-color: $secondary-violet-90;
+  }
+  .landing-steps__item.is-active .landing-steps__node { border-color: $secondary-blue-50; }
+  .landing-steps__item.is-next .landing-steps__item-title { color: $neutral-40; }
+
+  // the connector only means anything once the items sit side by side
+  @include media-breakpoint-up(lg) {
+    .landing-steps__connector {
+      position: absolute;
+      top: pxToRem(19);
+      left: pxToRem(48);
+      right: - $spacer * 3;
+      height: pxToRem(2);
+      background-color: $neutral-90;
+    }
+    .landing-steps__item.is-done .landing-steps__connector { background-color: $secondary-violet-50; }
+    .landing-steps__item.is-active .landing-steps__connector {
+      background: repeating-linear-gradient(to right, $neutral-90 0 pxToRem(4), transparent pxToRem(4) pxToRem(8));
+    }
+  }
+}
