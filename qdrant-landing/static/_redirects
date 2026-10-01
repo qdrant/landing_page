@@ -75,6 +75,10 @@
 # Bulk upload moved from tutorials-develop to manage-data
 /documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
 
+# Multitenancy tutorial renamed; preserve old HTML and Markdown URLs.
+/documentation/examples/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
+/documentation/tutorials/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
+
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301
 /articles/machine-learning/        /articles/embedding-research/    301
