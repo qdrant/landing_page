@@ -38,19 +38,14 @@ Initially, we might want to visualize an entire dataset, or at least a large por
 
 In this article, we will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
 
-Here is a **very** simplified but intuitive explanation of UMAP:
+Here is a **very** simplified but intuitive explanation of UMAP: it finds which points are close to each other in the high-dimensional space, then places them on a 2D plane so that the same points stay close.
 
-1. *Randomly generate points in 2D space*: Assign a random 2D point to each high-dimensional point.
-2. *Compute distance matrix for high-dimensional points*: Calculate distances between all pairs of points.
-3. *Compute distance matrix for 2D points*: Perform similarly to step 2.
-4. *Match both distance matrices*: Adjust 2D points to minimize differences.
+{{< figure src="/articles_data/distance-based-exploration/umap.png" alt="UMAP of the Fashion-MNIST dataset, with each clothing category forming its own region" caption="UMAP on the Fashion-MNIST dataset, recreated from the example in the UMAP documentation, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
 
-{{< figure src="/articles_data/distance-based-exploration/umap.png" alt="UMAP" caption="Canonical example of UMAP results, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
-
-UMAP preserves the relative distances between high-dimensional points; the actual coordinates are not essential. If we already have the distance matrix, step 2 can be skipped entirely.
+UMAP keeps neighborhoods, not exact distances, so the gaps between groups and the size of a group on the plot carry no meaning. It only needs the nearest neighbors of each point, which is what the sparse matrix from Qdrant holds.
 
 Let's use Qdrant to calculate the distance matrix and apply UMAP.
-We will use one of the default datasets perfect for experimenting in Qdrant--[Midjourney Styles dataset](https://midlibrary.io/).
+We will use one of the default datasets perfect for experimenting in Qdrant: [Midjourney Styles dataset](https://midlibrary.io/).
 
 Use this command to download and import the dataset into Qdrant:
 
@@ -89,51 +84,68 @@ client = QdrantClient("http://localhost:6333")
 
 </details>
 
-After this is done, we can compute the distance matrix:
+After this is done, we can request the matrix. For each of the 1000 sampled points, Qdrant returns the scores of its 20 closest points within the sample, which makes a sparse 1000 by 1000 matrix. The Midlib collection uses the Cosine metric, so the scores are similarities, where a larger score means a closer point.
 
 ```python
-
-# Request distances matrix from Qdrant
-# `_offsets` suffix defines a format of the output matrix.
+# Request the matrix from Qdrant.
+# The `_offsets` suffix defines the format of the output matrix.
 result = client.search_matrix_offsets(
   collection_name="midlib",
-  sample=1000, # Select a subset of the data, as the whole dataset might be too large
-  limit=20, # For performance reasons, limit the number of closest neighbors to consider
+  # Select a subset of the data, as the whole dataset might be too large
+  sample=1000,
+  # For performance reasons, limit the number of closest neighbors to consider
+  limit=20,
 )
 
-# Convert distances matrix to python-native format 
-matrix = csr_matrix(
-    (result.scores, (result.offsets_row, result.offsets_col))
+# Convert the matrix to a python-native format.
+# An explicit shape keeps the matrix square.
+n = len(result.ids)
+similarity = csr_matrix(
+    (result.scores, (result.offsets_row, result.offsets_col)),
+    shape=(n, n),
 )
 
 # Make the matrix symmetric, as UMAP expects it.
-# Distance matrix is always symmetric, but qdrant only computes half of it.
-matrix = matrix + matrix.T
+# A pair often appears in one direction only.
+# The maximum fills in the missing direction.
+similarity = similarity.maximum(similarity.T)
+
+# UMAP expects distances, where a smaller value means a closer point.
+# For the Cosine metric, the distance is 1 - similarity.
+distances = similarity.copy()
+distances.data = 1 - distances.data
 ```
 
-Now we can apply UMAP to the distance matrix:
+With the Euclid metric, the scores are already distances and the last step is not needed.
+
+Now we can apply UMAP to the distances:
 
 ```python
 umap = UMAP(
-    metric="precomputed", # We provide ready-made distance matrix
-    n_components=2, # output dimension
-    n_neighbors=20, # Same as the limit in the search_matrix_offsets
+    # We provide a ready-made distance matrix
+    metric="precomputed",
+    # Output dimension
+    n_components=2,
+    # Same as the limit in the search_matrix_offsets
+    n_neighbors=20,
 )
 
-vectors_2d = umap.fit_transform(matrix)
+vectors_2d = umap.fit_transform(distances)
 ```
 
 That's all that is needed to get the 2d representation of the data.
 
-{{< figure src="/articles_data/distance-based-exploration/umap-midlib.png" alt="UMAP on Midlib" caption="UMAP applied to Midlib dataset" >}}
+{{< island path="content/documentation/headless/distance-matrix/midlib-umap" width="100%" ratio="3 / 2" title="UMAP applied to 1000 sampled items from the Midlib dataset. KMeans clusters colors the same points by the groups found in the Clustering section." >}}
+![UMAP map of 1000 Midlib items: one connected cloud of points](/articles_data/distance-based-exploration/umap-midlib.png)
+{{< /island >}}
 
-<aside role="status">Interactive version of this plot is available in <a href="https://qdrant.tech/documentation/web-ui/"> Qdrant Web UI </a>!</aside>
+<aside role="status">An interactive version of this plot is available in the <a href="https://qdrant.tech/documentation/web-ui/">Qdrant Web UI</a>. It requests the distance matrix from the server, so raw vectors stay out of the browser, and it supports UMAP, t-SNE, and PCA, coloring points by a payload field, and filters.</aside>
 
-UMAP isn't the only algorithm compatible with our distance matrix API. For example, `scikit-learn` also offers:
+UMAP isn't the only algorithm compatible with our distance matrix API. For example, `scikit-learn` also offers the following, each with its own expectations about the matrix:
 
-- [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) - Non-linear dimensionality reduction through Isometric Mapping.
-- [SpectralEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html) - Forms an affinity matrix given by the specified function and applies spectral decomposition to the corresponding graph Laplacian.
-- [TSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) - well-known algorithm for dimensionality reduction.
+- [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) - Non-linear dimensionality reduction through Isometric Mapping. Use `metric="precomputed"` with `distances`. It needs `n_neighbors` smaller than `limit`, such as 19.
+- [SpectralEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html) - Forms an affinity matrix given by the specified function and applies spectral decomposition to the corresponding graph Laplacian. Use `affinity="precomputed"` with `similarity`, as an affinity is larger for closer points.
+- [TSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) - well-known algorithm for dimensionality reduction. Use `metric="precomputed"` with `distances`, `init="random"`, and a `perplexity` of at most `(limit - 2) / 3`, which is 6 for `limit=20`.
 
 ## Clustering
 
@@ -141,21 +153,15 @@ Another approach to data structure understanding is clustering--grouping similar
 
 *Note that there's no universally best clustering criterion or algorithm.*
 
-{{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Clustering" caption="Clustering example, [source](https://scikit-learn.org/)" width="80%" >}}
-
-Many clustering algorithms accept precomputed distance matrix as input, so we can use the same distance matrix we calculated before.
+{{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Six clustering algorithms applied to six two-dimensional datasets" caption="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets, [source](https://scikit-learn.org/)" >}}
 
 Let's consider a simple example of clustering the Midlib dataset with **KMeans algorithm**.
 
-From [scikit-learn.cluster documentation](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) we know that `fit()` method of KMeans algorithm prefers as an input: 
+KMeans does not take a distance matrix. Its [`fit()` method](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) takes a table of features with shape `(n_samples, n_features)`, and a sparse matrix is accepted. So we pass `similarity` as that table: each row describes one sampled point by its similarity to all 1000 sampled points, with zeros for the points outside its 20 closest.
 
+This is a different representation of the data, not the original 512-dimensional embeddings. KMeans groups the points that have similar neighbors, so the clusters can differ from the ones KMeans would find in the embeddings themselves, and a cluster center is a point in the similarity space, not a vector from the collection.
 
-> `X : {array-like, sparse matrix} of shape (n_samples, n_features)`:  
-> Training instances to cluster. It must be noted that the data will be converted to C ordering, which will cause a memory copy if the given data is not C-contiguous. If a sparse matrix is passed, a copy will be made if it’s not in CSR format.
-
-
-So we can re-use `matrix` from the previous example:
-
+We use `similarity` rather than `distances` because a missing entry reads as zero, which means "not similar" in the first matrix and "identical" in the second.
 
 ```python
 from sklearn.cluster import KMeans
@@ -164,12 +170,12 @@ from sklearn.cluster import KMeans
 kmeans = KMeans(n_clusters=10)
 
 # Generate index of the cluster each sample belongs to
-cluster_labels = kmeans.fit_predict(matrix)
+cluster_labels = kmeans.fit_predict(similarity)
 ```
 
-With this simple code, we have clustered the data into 10 clusters, while the main CPU-intensive part of the process was done by Qdrant.
+With this simple code, we have clustered the data into 10 clusters, while Qdrant did the neighbor search. Algorithms that work on the neighbor graph directly, such as [SpectralClustering](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html) with `affinity="precomputed"`, accept `similarity` as is.
 
-{{< figure src="/articles_data/distance-based-exploration/clustering-midlib.png" alt="Clustering on Midlib" caption="Clustering applied to Midlib dataset" >}}
+Select KMeans clusters on the Midlib map in the Dimensionality Reduction section to see these clusters drawn on the UMAP layout.
 
 
 <details>
@@ -270,6 +276,8 @@ ToDo
 Vector similarity goes beyond looking up the nearest neighbors--it provides a powerful tool for data exploration.
 Many algorithms can construct human-readable data representations, and Qdrant makes using them easy.
 
-Several data exploration instruments are available in the Qdrant Web UI ([Visualization and Graph Exploration Tools](https://qdrant.tech/articles/web-ui-gsoc/)), and for more advanced use cases, you could directly utilise our distance matrix API.
+Several data exploration instruments are available in the Qdrant Web UI ([Visualization and Graph Exploration Tools](https://qdrant.tech/articles/web-ui-gsoc/)), and for more advanced use cases, you could directly utilize our distance matrix API.
+
+The same distances also help to find mislabeled and out-of-place items in a categorized dataset, as shown in [Detecting Dataset Errors with Similarity Search](/articles/dataset-quality/).
 
 Try it with your data and see what hidden structures you can reveal!
