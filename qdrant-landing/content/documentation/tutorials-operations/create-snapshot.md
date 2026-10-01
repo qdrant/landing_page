@@ -156,7 +156,7 @@ Qdrant exposes an HTTP endpoint to request creating a snapshot, but we can also 
 Our setup consists of 3 nodes, so we need to call the endpoint **on each of them** and create a snapshot on each node. While using Python SDK, that means creating a separate client instance for each node.
 
 
-<aside role="status">You may get a timeout error, if the collection size is big. You can trigger the snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
+<aside role="status">You may get a timeout error, if the collection size is big. You can trigger the snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. In that case, the call doesn't return the snapshot name, so <a href="/documentation/snapshots/#list-snapshot">list the snapshots on each node</a> until the new ones appear, before downloading them.</aside>
 
 
 ```python
@@ -213,12 +213,13 @@ for snapshot_url in snapshot_urls:
     snapshot_name = os.path.basename(snapshot_url)
     local_snapshot_path = os.path.join("snapshots", snapshot_name)
 
-    response = requests.get(
-        snapshot_url, headers={"api-key": QDRANT_API_KEY}
-    )
-    with open(local_snapshot_path, "wb") as f:
+    with requests.get(
+        snapshot_url, headers={"api-key": QDRANT_API_KEY}, stream=True
+    ) as response:
         response.raise_for_status()
-        f.write(response.content)
+        with open(local_snapshot_path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=1024 * 1024):
+                f.write(chunk)
 
     local_snapshot_paths.append(local_snapshot_path)
 ```
@@ -261,27 +262,35 @@ for node_url, snapshot_path in zip(QDRANT_NODES, local_snapshot_paths):
     )
 ```
 
-Alternatively, you can use the `curl` command:
+The `requests` library loads the whole snapshot file into memory before sending it. For large snapshots, use the `curl` command instead, which streams the file:
 
 ```bash
 curl -X POST 'https://node-0.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
-    -H 'api-key: ${QDRANT_API_KEY}' \
+    -H "api-key: ${QDRANT_API_KEY}" \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@node-0-snapshot.snapshot'
 
 curl -X POST 'https://node-1.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
-    -H 'api-key: ${QDRANT_API_KEY}' \
+    -H "api-key: ${QDRANT_API_KEY}" \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@node-1-snapshot.snapshot'
 
 curl -X POST 'https://node-2.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
-    -H 'api-key: ${QDRANT_API_KEY}' \
+    -H "api-key: ${QDRANT_API_KEY}" \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@node-2-snapshot.snapshot'
 ```
 
 
-**Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/snapshots/#snapshot-priority).
+**Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read more about the priority in the [documentation](/documentation/snapshots/#snapshot-priority).
+
+### Verify the restore
+
+To check the restore, compare the point counts of both collections. On a multi-node cluster, wait a second after the last upload, until all nodes register the restored shards:
+
+```python
+print(client.count("test_collection_import").count, "of", client.count("test_collection").count)
+```
 
 Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://github.com/qdrant/migration) that supports: 
 - Migration between Qdrant Cloud instances. 
