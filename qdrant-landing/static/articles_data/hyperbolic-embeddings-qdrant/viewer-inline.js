@@ -110,15 +110,45 @@
       ctx.fillStyle=col; ctx.fillText(txt,bx+4.5,y+3);
     }
     
+    /* The canvas is transparent and only the Poincare panel had an outline,
+       so on a light page the flat and text panels were dots floating on the
+       article with nothing holding them. Each panel now gets its own surface
+       and border, which is what makes a scatter read as a plot rather than
+       as scattered ink. Qdrant brand tokens, picked per theme: the viewer is
+       embedded in a page that can be either. */
+    function pal(){
+      const dark = document.documentElement.getAttribute("data-theme") === "dark";
+      return dark
+        ? {surface:"#111824", border:"#2A3142", rim:"#4E5366", ink:"#F0F3FA",
+           chip:"rgba(11,15,25,.86)", dot:0.62, dotDim:0.30}
+        : {surface:"#F7F8FA", border:"#D3D9EB", rim:"#656B7F", ink:"#0B0F19",
+           chip:"rgba(11,15,25,.80)", dot:0.80, dotDim:0.34};
+    }
+
+    function panelFrame(ctx,w,h,P){
+      const r=10, x=0.5, y=0.5, ww=w-1, hh=h-1;
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+ww,y,x+ww,y+hh,r);
+      ctx.arcTo(x+ww,y+hh,x,y+hh,r);
+      ctx.arcTo(x,y+hh,x,y,r);
+      ctx.arcTo(x,y,x+ww,y,r);
+      ctx.closePath();
+      ctx.fillStyle=P.surface; ctx.fill();
+      ctx.strokeStyle=P.border; ctx.lineWidth=1; ctx.stroke();
+    }
+
     function draw(){
+      const PAL=pal();   // not P: that is the chain path inside this function
       VIEWS.forEach(function(v){
         const g=geom(v.k), ctx=g.ctx, t=T[v.k];
         ctx.setTransform(g.dpr,0,0,g.dpr,0,0);
         ctx.clearRect(0,0,g.w,g.h);
+        panelFrame(ctx,g.w,g.h,PAL);
         if(v.disk){
           ctx.beginPath();
           ctx.arc(g.cx+t.tx,g.cy+t.ty,g.R*t.s,0,Math.PI*2);
-          ctx.strokeStyle="#252C3C";ctx.lineWidth=1;ctx.stroke();
+          ctx.strokeStyle=PAL.rim;ctx.lineWidth=1;ctx.stroke();
         }
         const active = sel>=0;
         const lin = active ? new Set(path(sel)) : null;
@@ -143,7 +173,7 @@
             ctx.arc(pts[j][0],pts[j][1],rad,0,Math.PI*2);
           }
           ctx.fillStyle=col;
-          ctx.globalAlpha = active ? 0.30 : 0.62;   // dim, never hollow
+          ctx.globalAlpha = active ? PAL.dotDim : PAL.dot;   // dim, never hollow
           ctx.fill();
         });
         ctx.globalAlpha=1;
@@ -155,9 +185,9 @@
           ctx.beginPath();ctx.arc(p[0],p[1],hr,0,Math.PI*2);
           ctx.fillStyle=inSel?colorOf(hov):fieldOf(hov);
           ctx.globalAlpha=1;ctx.fill();
-          ctx.strokeStyle="#F0F3FA";ctx.lineWidth=1.8;ctx.stroke();
+          ctx.strokeStyle=PAL.surface;ctx.lineWidth=1.8;ctx.stroke();
           ctx.beginPath();ctx.arc(p[0],p[1],hr+3.5,0,Math.PI*2);
-          ctx.strokeStyle="rgba(240,243,250,.35)";ctx.lineWidth=1;ctx.stroke();
+          ctx.strokeStyle=PAL.border;ctx.lineWidth=1;ctx.stroke();
           label(ctx,p[0]+hr-2,p[1],LAB[hov],"#F0F3FA");
         }
         if(!active)return;
@@ -178,7 +208,7 @@
           const p=proj(v.k,g,n);
           ctx.beginPath();
           ctx.arc(p[0],p[1],ix?Math.max(3.8,rad*2.4):Math.max(5.2,rad*3.2),0,Math.PI*2);
-          ctx.fillStyle="#ffffff";ctx.fill();
+          ctx.fillStyle=PAL.surface;ctx.fill();
           ctx.strokeStyle=v.c;ctx.lineWidth=ix?1.6:2.2;ctx.stroke();
         });
         /* The chain's labels used to draw at each dot's own y. Several
