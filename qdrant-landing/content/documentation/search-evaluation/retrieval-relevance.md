@@ -3,9 +3,11 @@ title: Measuring Retrieval Relevance
 short_description: "Build a labeled query set and measure whether retrieved documents answer users' questions, with query-level relevance metrics."
 description: "Measure Qdrant retrieval relevance with labeled queries, document IDs, and ranking metrics to compare search configurations on your own data."
 weight: 6
+author: Dylan Couzon
+author_link: https://www.linkedin.com/in/dcouzon/
+date: 2026-05-11T00:00:00+03:00
 aliases:
   - /documentation/improve-search/retrieval-relevance/
-  - /documentation/tutorials/retrieval-quality-golden-set/
 ---
 
 # Measuring Retrieval Relevance
@@ -13,12 +15,12 @@ aliases:
 | Time: 40 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
-To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
+This guide focuses on **retrieval relevance**: how well retrieved results match real user intent.
+To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This guide covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Evaluating Pipeline Output Quality](/documentation/search-evaluation/pipeline-output-quality/) (does the end-to-end pipeline produce the right output?).
+Two related pages cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Evaluating Pipeline Output Quality](/documentation/search-evaluation/pipeline-output-quality/) (does the end-to-end pipeline produce the right output?).
 
-**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
+**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `doc_id` payload field holding the same IDs as your labels), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
 ## Generating Queries
 
@@ -84,7 +86,7 @@ Build the full `golden_set` by normalizing whatever your generation pipeline pro
 ```python
 # Normalize whatever your generation pipeline produced into this shape:
 #   - Synthetic: one item per generated query, labels = {source_doc_id: 1}
-#   - Logs: one item per query-click pair, labels = {clicked_doc_id: 1}
+#   - Logs: one item per query, labels = {doc_id: 1} for docs your logged signal marks relevant
 #   - Human: one item per annotated query, labels = {doc_id: score, ...}
 labeled_data = [
     {"query_text": "how does X work", "labels": {"doc_42": 1}},
@@ -104,7 +106,7 @@ for i, item in enumerate(labeled_data):
 **2. Build `Qrels` and `Run`.** ranx compares two inputs, both shaped as `{query_id: {doc_id: score}}`:
 
 - **`Qrels`** (query relevance judgments). The labeled ground truth. Use `1` for binary labels or the raw `0/1/2` for graded labels.
-- **`Run`** (retrieval output). What Qdrant returned for each query, with similarity scores.
+- **`Run`** (retrieval output). What Qdrant returned for each query, scored by position, so ranx keeps Qdrant's order.
 
 ```python
 from qdrant_client import QdrantClient
@@ -121,9 +123,16 @@ def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
             collection_name=collection,
             query=embed(entry["query_text"]),
             limit=k,
+            with_payload=["doc_id"],
         ).points
-        # p.id type must match the doc_id type in labels (ranx matches by equality).
-        run[entry["query_id"]] = {p.id: p.score for p in results}
+        # ranx sorts each query's documents by score, highest first.
+        # Qdrant's score can't go in as is: with Euclid or Manhattan it is a distance,
+        # so the closest document has the lowest score and ranx would put it last.
+        # Score by position instead: the top result gets len(results), the last gets 1.
+        run[entry["query_id"]] = {
+            p.payload["doc_id"]: len(results) - idx
+            for idx, p in enumerate(results)
+        }
     return Run(run)
 
 qrels = Qrels({entry["query_id"]: entry["labels"] for entry in golden_set})
@@ -151,10 +160,10 @@ Which metric matters most depends on what your pipeline does with results:
 | Scenario | Recommended Metric | Why |
 |---|---|---|
 | RAG pipeline (LLM reads top-k chunks) | `Recall@k` | The LLM can recover if a relevant doc is at position 3 vs 1; missing it entirely hurts more |
-| Single-answer retrieval (FAQ or Q&A) | `MRR` or `Hits@1` | The first result is what the user acts on; lower ranks matter little |
+| Single-answer retrieval (FAQ or Q&A) | [`MRR` (Mean Reciprocal Rank)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank) or `Hits@1` | The first result is what the user acts on; lower ranks matter little |
 | Re-ranking or recommendation feeds | `NDCG@k` | Order within the result list matters; a highly relevant doc at rank 5 is worse than at rank 1 |
 
-[NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) needs graded labels (for example, 0/1/2 scores per query-document pair). For binary labels, stick with `recall@k` and [`MRR` (Mean Reciprocal Rank)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank). For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+[NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) works with binary labels but makes full use of graded labels (for example, 0/1/2 scores per query-document pair). For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
 
 On choosing `k`: set it to match actual usage. If the application shows 5 results to the user, measure `@5`. If a RAG pipeline passes 10 chunks to the LLM, measure `@10`. Reporting `@100` for a UI that surfaces 5 results makes the metric look artificially good.
 
@@ -170,6 +179,8 @@ In golden sets, **data leakage** means any setup that makes offline metrics look
 
 **Embedding-model contamination.** If your embedding model was trained on pairs overlapping with the golden set, results will look better than true generalization. For hosted models, review published training data when possible. For in-house fine-tuning, keep strict train/eval separation.
 
+**Click bias.** A click is rarely a good relevance judgment: users click higher-ranked results more often regardless of relevance, and documents that were never shown can't be clicked. Click-based labels favor the ranking that produced the logs. Spot-check a sample of click labels by hand.
+
 **Near-duplicate documents.** Your retrieval may return a near-duplicate of a labeled document that isn't in the label set. That makes **metrics look worse** because labels are incomplete, not because retrieval is failing. A score dip here is a signal to audit your labels before tuning retrieval. Deduplicate before labeling (for example, cosine similarity > 0.95), or label duplicate clusters together.
 
 **Temporal drift.** If the corpus changes after labeling, labels go stale: referenced docs may be removed or superseded by newer versions. Pin a corpus snapshot for each run and regenerate the golden set after material corpus changes.
@@ -179,3 +190,5 @@ In golden sets, **data leakage** means any setup that makes offline metrics look
 ## Next Steps
 
 Once retrieval relevance is on target, the next layer is pipeline output quality: whether the full pipeline produces the right output when retrieval feeds into a consumer (LLM generator, ranker, or UI). See [Evaluating Pipeline Output Quality](/documentation/search-evaluation/pipeline-output-quality/).
+
+A golden set also lets you test which cheap signals flag weak retrieval on your data, before you add a reranker or an LLM step. See [Predicting Weak Retrieval Without an LLM](/articles/predicting-weak-retrieval/).
