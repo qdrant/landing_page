@@ -1,7 +1,7 @@
 // Fixed process diagram, adapted from the article's original image.
 // Uses the existing island lifecycle and shared SVG frames/tokens. No controls
 // are needed: the full process is visible. Geometry alone changes on phones.
-const DIAGRAM = {"image": "how-retrieval-works.jpg", "ratio": "28 / 13", "caption": "The embedding model converts the question into a query vector. Qdrant searches compatible stored vectors and returns relevant chunks.", "labels": [["Question", "How do I", "do X?"], ["Embedding", "model"], ["Query", "embedding"], ["Qdrant"], ["Relevant", "chunks"]], "roles": ["query", "model", "model", "database", "data"], "positions": [[20, 164, 152, 68], [220, 24, 152, 68], [220, 164, 152, 68], [420, 24, 152, 68], [620, 164, 152, 68]], "height": 260, "edges": ["M96 164V58H220", "M296 92V164", "M372 198H396V58H420", "M572 58H696V164"], "mobile_extra": [], "name": "retrieval", "mobile_skip": []};
+const DIAGRAM = {"image": "how-retrieval-works.svg", "ratio": "28 / 13", "caption": "The embedding model converts the question into a query vector. Qdrant searches compatible stored vectors and returns relevant chunks.", "labels": [["Question", "How do I", "do X?"], ["Embedding", "model"], ["Query", "embedding"], ["Qdrant"], ["Relevant", "chunks"]], "roles": ["query", "model", "model", "database", "data"], "positions": [[20, 164, 152, 68], [220, 24, 152, 68], [220, 164, 152, 68], [420, 24, 152, 68], [620, 164, 152, 68]], "height": 260, "edges": ["M96 164V58H220", "M296 92V164", "M372 198H396V58H420", "M572 58H696V164"], "mobile_extra": [], "name": "retrieval", "mobile_skip": []};
 let instance = 0;
 const escape = (s) => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 function box(lines, role, p) {

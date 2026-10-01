@@ -1,7 +1,7 @@
 // Fixed process diagram, adapted from the article's original image.
 // Uses the existing island lifecycle and shared SVG frames/tokens. No controls
 // are needed: the full process is visible. Geometry alone changes on phones.
-const DIAGRAM = {"image": "how-generation-works.jpg", "ratio": "63 / 40", "caption": "The generator receives the question and retrieved chunks, then produces an answer grounded in that context.", "labels": [["Question", "How do I", "do X?"], ["Relevant", "chunks"], ["LLM", "Question", "+ context"], ["Answer", "X can be", "done by\u2026"]], "roles": ["query", "data", "model", "query"], "positions": [[80, 24, 200, 80], [520, 24, 200, 80], [80, 194, 200, 80], [520, 194, 200, 80]], "height": 310, "edges": ["M180 104V194", "M620 104V150H240V194", "M280 234H520"], "mobile_extra": [[0, 2]], "name": "generation", "mobile_skip": [0]};
+const DIAGRAM = {"image": "how-generation-works.svg", "ratio": "63 / 40", "caption": "The generator receives the question and retrieved chunks, then produces an answer grounded in that context.", "labels": [["Question", "How do I", "do X?"], ["Relevant", "chunks"], ["LLM", "Question", "+ context"], ["Answer", "X can be", "done by\u2026"]], "roles": ["query", "data", "model", "query"], "positions": [[80, 24, 200, 80], [520, 24, 200, 80], [80, 194, 200, 80], [520, 194, 200, 80]], "height": 310, "edges": ["M180 104V194", "M620 104V150H240V194", "M280 234H520"], "mobile_extra": [[0, 2]], "name": "generation", "mobile_skip": [0]};
 let instance = 0;
 const escape = (s) => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 function box(lines, role, p) {

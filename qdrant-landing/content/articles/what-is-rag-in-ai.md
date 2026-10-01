@@ -30,7 +30,7 @@ But as brilliant as these chatbots become, they still have **limitations** in ta
 While you could be more creative with your prompts, it is only a short-term solution. LLMs can consider only a **limited** amount of text in their responses, known as a context window. Current models accept hundreds of thousands of tokens, but most knowledge bases are larger than that, and every token you send adds cost and latency.
 
 {{< island path="content/headless/what-is-rag-in-ai/overview" ratio="7 / 5" title="The question retrieves relevant knowledge. The LLM receives both the question and that context to generate an answer; retrieval does not guarantee correctness." >}}
-![How a RAG system works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
+![How a RAG system works](/articles_data/what-is-rag-in-ai/how-rag-works.svg)
 {{< /island >}}
 
 The overview diagram shows how a basic RAG system works. Before forwarding the question to the LLM, we have a layer that searches our knowledge base for the "relevant knowledge" to answer the user query. Specifically, in this case, the spending data from the last month. The retrieved context helps the LLM produce a relevant answer about our budget, but it can still make factual errors.
@@ -59,7 +59,7 @@ The retriever finds the chunks of your knowledge base that are most relevant to 
 Indexing turns your documents into vectors that Qdrant can search. A _loader_ gathers the documents, a _splitter_ cuts them into chunks such as paragraphs, and an embedding model converts each chunk into a [vector embedding](/articles/what-are-embeddings/). Qdrant stores each vector together with the text it came from.
 
 {{< island path="content/headless/what-is-rag-in-ai/indexing" ratio="63 / 40" title="Indexing loads documents, splits them into chunks, and embeds the chunks. Qdrant stores the embeddings together with their source text." >}}
-![How indexing works](/articles_data/what-is-rag-in-ai/how-indexing-works.jpg)
+![How indexing works](/articles_data/what-is-rag-in-ai/how-indexing-works.svg)
 {{< /island >}}
 
 
@@ -68,7 +68,7 @@ Indexing turns your documents into vectors that Qdrant can search. A _loader_ ga
 When a question arrives, the retriever embeds it with the same model it used for the chunks, so the query vector and the chunk vectors can be compared directly.
 
 {{< island path="content/headless/what-is-rag-in-ai/retrieval" ratio="28 / 13" title="The embedding model converts the question into a query vector. Qdrant searches compatible stored vectors and returns relevant chunks." >}}
-![How retrieval works](/articles_data/what-is-rag-in-ai/how-retrieval-works.jpg)
+![How retrieval works](/articles_data/what-is-rag-in-ai/how-retrieval-works.svg)
 {{< /island >}}
 
 #### Retrieval of relevant documents
@@ -99,7 +99,7 @@ The generator is a large language model trained on massive datasets to understan
 
 
 {{< island path="content/headless/what-is-rag-in-ai/generation" ratio="63 / 40" title="The generator receives the question and retrieved chunks, then produces an answer grounded in that context." >}}
-![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.jpg)
+![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.svg)
 {{< /island >}}
 
 
@@ -107,7 +107,7 @@ The retriever and generator don't operate in isolation. The full pipeline diagra
 
 
 {{< island path="content/headless/what-is-rag-in-ai/pipeline" ratio="21 / 17" title="Retrieval embeds the question, searches Qdrant, and returns relevant chunks. Generation combines those chunks with the original question to produce the answer." >}}
-![The entire architecture of a RAG system](/articles_data/what-is-rag-in-ai/rag-system.jpg)
+![The entire architecture of a RAG system](/articles_data/what-is-rag-in-ai/rag-system.svg)
 {{< /island >}}
 
 
