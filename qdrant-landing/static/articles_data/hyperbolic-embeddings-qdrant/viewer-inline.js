@@ -181,8 +181,34 @@
           ctx.fillStyle="#ffffff";ctx.fill();
           ctx.strokeStyle=v.c;ctx.lineWidth=ix?1.6:2.2;ctx.stroke();
         });
-        P.forEach(function(n,ix){const p=proj(v.k,g,n);
-          label(ctx,p[0],p[1],LAB[n],ix?"#F0F3FA":"#ffffff");});
+        /* The chain's labels used to draw at each dot's own y. Several
+           levels of a lineage sit at almost the same height, especially in
+           the flat panel where the whole chain collapses, so the boxes
+           stacked on top of each other and none of them could be read.
+           Push them apart vertically, keep the dots where they are, and
+           draw a hairline back to the dot from any label that moved. */
+        (function(){
+          const rows=P.map(function(n,ix){
+            const p=proj(v.k,g,n);
+            return {n:n,ix:ix,x:p[0],y:p[1],ly:p[1]};
+          }).sort(function(a,b){return a.ly-b.ly;});
+          const GAP=17, top=10, bot=g.h-10;
+          for(let i=1;i<rows.length;i++)
+            if(rows[i].ly-rows[i-1].ly<GAP) rows[i].ly=rows[i-1].ly+GAP;
+          const over=rows.length?rows[rows.length-1].ly-bot:0;
+          if(over>0) rows.forEach(function(r){r.ly-=over;});
+          if(rows.length&&rows[0].ly<top){
+            const d=top-rows[0].ly;
+            rows.forEach(function(r){r.ly=Math.min(bot,r.ly+d);});
+          }
+          rows.forEach(function(r){
+            if(Math.abs(r.ly-r.y)>1.5){
+              ctx.strokeStyle="rgba(120,132,154,.55)";ctx.lineWidth=1;
+              ctx.beginPath();ctx.moveTo(r.x,r.y);ctx.lineTo(r.x,r.ly);ctx.stroke();
+            }
+            label(ctx,r.x,r.ly,LAB[r.n],r.ix?"#F0F3FA":"#ffffff");
+          });
+        })();
         if(hov>=0&&(lin.has(hov)||nb.has(hov))){
           const p=proj(v.k,g,hov), hr=Math.max(5.5,rad*3);
           ctx.beginPath();ctx.arc(p[0],p[1],hr,0,Math.PI*2);
