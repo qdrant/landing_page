@@ -3,6 +3,9 @@
 > Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
 {{- $content := .RenderShortcodes -}}
+{{- if .Params.retired -}}
+  {{- $content = printf "\n\n> %s\n\n%s" (partial "retirement-notice.html" .) $content -}}
+{{- end -}}
 {{- if not (strings.TrimSpace $content) }}# {{ .Title }}
 {{ end -}}
 {{- /* Rewrite internal absolute links: ](/path/to/page/) → ](https://qdrant.tech/path/to/page/index.md) */}}

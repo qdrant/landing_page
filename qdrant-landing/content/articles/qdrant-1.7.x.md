@@ -22,6 +22,15 @@ keywords:
   - bm25
   - tfidf
   - splade
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v1.7.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v1.7.0"
 ---
 
 Please welcome the long-awaited [Qdrant 1.7.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.7.0). Except for a handful of minor fixes and improvements, this release brings some cool brand-new features that we are excited to share! 
