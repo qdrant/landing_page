@@ -35,7 +35,7 @@ With token-level vectors, models like ColBERT can match specific query tokens to
 
 In late interaction, each document is converted into multiple token-level vectors instead of a single vector. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a similarity function: MaxSim. You can see how it is calculated [here](/documentation/manage-data/vectors/#multivectors). 
 
-In traditional retrieval, the query and document are converted into single embeddings, after which similarity is computed. This is an early interaction because the information is compressed before retrieval.
+In traditional retrieval, the query and document are converted into single embeddings, after which similarity is computed. This is a bi-encoder setup with no query-document interaction, because the information is compressed before retrieval.
 
 ## What is Rescoring, and Why is it Used?
 Rescoring is two-fold:
@@ -54,7 +54,7 @@ Instead, they can be stored as multi-vector fields (without HNSW indexing) and u
 
 For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retrieval with Qdrant tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/#math-behind-the-scaling). 
 
-With Qdrant, you have full control of how indexing works. You can disable indexing by setting the HNSW `m` parameter to `0`:
+With Qdrant, you have full control of how indexing works. You can disable indexing by setting the HNSW `m` parameter to `0`. The block below shows the configuration this tutorial uses. Step 2 creates the same collection, so run only one of the two:
 ```python
 from qdrant_client import QdrantClient, models
 
@@ -104,7 +104,7 @@ client = QdrantClient("http://localhost:6333")
 ## 1. Encode Documents
 Next, encode your documents: 
 ```python
-from fastembed import TextEmbedding, LateInteractionTextEmbedding
+# With qdrant-client[fastembed] installed, models.Document values below are embedded locally by FastEmbed
 # Example documents and query
 documents = [
     "Artificial intelligence is used in hospitals for cancer diagnosis and treatment.",
