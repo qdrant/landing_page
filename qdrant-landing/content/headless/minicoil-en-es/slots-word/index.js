@@ -1,0 +1,311 @@
+/*
+ * slots-word island: one concept slot, two senses, two languages.
+ *
+ * Pick a use of the concept {bat, murciélago, bate} and compare the sparse
+ * vectors of miniCOIL v1 and miniCOIL EN-ES.
+ * - "Dracula's bat": both models write "bat" into its block, with values for the
+ *   animal sense; the context word "dracula" falls back to one BM25 cell.
+ * - "a baseball bat": the same "bat" cells with values for the other sense;
+ *   "baseball" writes into a slot of its own, in the far part of the vector.
+ * - "el murciélago": v1 has no slot for it and falls back to one BM25 cell;
+ *   EN-ES writes it into the concept block, close to the animal "bat".
+ *
+ * Every state draws the same vector: 8 cells, "…", a compressed far region of 8
+ * thin slivers, "…", 2 cells. Only fills and values change, so the figure keeps
+ * its size and positions while the reader switches uses.
+ *
+ * The example is illustrative: slots, fallbacks and values show the mechanism,
+ * not a lookup in the released models. Pure SVG on the shared island design
+ * system (islands.scss), with chrome inherited from the selected page theme.
+ * Below a container width of 640px the vector stays on one line in a shorter
+ * form: 8 cells, "…", one far cell that shows whatever else the text writes
+ * (a BM25 fallback or another slot), with values rounded to one decimal.
+ */
+
+const NS = 'http://www.w3.org/2000/svg';
+const range = (a, n) => Array.from({ length: n }, (_, i) => a + i);
+
+// The vector, in drawing order. Cells are numbered 0-9; slivers 0-7.
+const ITEMS = [
+  ...range(0, 8).map((i) => ({ t: 'cell', i })),
+  { t: 'dots' },
+  { t: 'zone' },
+  { t: 'dots' },
+  { t: 'cell', i: 8 },
+  { t: 'cell', i: 9 },
+];
+const FB = 8; // the BM25 fallback cell, after the far region
+const SLIVERS = 8;
+
+const BAT_4 = 'word "bat", 4D';
+const BAT_8 = 'concept {"bat", "murciélago", "bate"}, 8D';
+const OOV = 'BM25 fallback (OOV)';
+const DRACULA = OOV; // Dracula falls back like any out-of-vocabulary word
+
+// Per use and model: blocks of cells, and optionally the slivers another slot
+// of the same text lights up in the far region.
+const USES = {
+  dracula: {
+    chip: "Dracula's bat",
+    v1: {
+      blocks: [
+        { cells: range(0, 4), vals: ['0.62', '−0.11', '0.48', '0.20'], kind: 'word', label: BAT_4 },
+        { cells: [FB], vals: ['1.0'], kind: 'fallback', label: DRACULA },
+      ],
+    },
+    enes: {
+      blocks: [
+        { cells: range(0, 8), vals: ['0.52', '−0.31', '0.44', '0.18', '−0.40', '0.27', '0.36', '−0.12'], kind: 'concept', label: BAT_8 },
+        { cells: [FB], vals: ['1.0'], kind: 'fallback', label: DRACULA },
+      ],
+    },
+    say: 'Dracula\'s bat, the animal: both models write "bat" into their slot, and "Dracula" falls back to BM25 in both.',
+  },
+  baseball: {
+    chip: 'a baseball bat',
+    v1: {
+      blocks: [{ cells: range(0, 4), vals: ['−0.35', '0.71', '−0.22', '0.40'], kind: 'word', label: BAT_4 }],
+      far: { n: 4, kind: 'word' }, // "baseball", 4D
+    },
+    enes: {
+      blocks: [{ cells: range(0, 8), vals: ['−0.38', '0.46', '−0.20', '0.51', '0.29', '−0.35', '0.12', '0.41'], kind: 'concept', label: BAT_8 }],
+      far: { n: 8, kind: 'concept' }, // {"baseball", "béisbol"}, 8D
+    },
+    say: 'A baseball bat: the same "bat" cells as Dracula\'s bat, with different values for the other sense; "baseball" writes into a slot of its own, further in the vector.',
+  },
+  murcielago: {
+    chip: 'el murciélago',
+    v1: { blocks: [{ cells: [FB + 1], vals: ['1.0'], kind: 'fallback', label: OOV }] }, // its own token, so not Dracula's cell
+    enes: {
+      blocks: [{ cells: range(0, 8), vals: ['0.49', '−0.28', '0.47', '0.15', '−0.37', '0.30', '0.33', '−0.10'], kind: 'concept', label: BAT_8 }],
+    },
+    say: 'El murciélago: miniCOIL v1 has no slot for it and falls back to BM25; miniCOIL EN-ES writes it into the "bat" cells, with values close to Dracula\'s bat.',
+  },
+};
+const ROWS = [
+  { key: 'v1', tag: 'miniCOIL v1' },
+  { key: 'enes', tag: 'miniCOIL EN-ES' },
+];
+
+function el(name, attrs, text) {
+  const node = document.createElementNS(NS, name);
+  for (const k in attrs) node.setAttribute(k, attrs[k]);
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+const est = (t, px) => t.length * px * 0.64; // mono text width, with margin over Geist Mono's 0.6em advance
+const split = (label) => label.split('\n');
+const wrap = (label, maxW, px) =>
+  label.split(' ').reduce((lines, word) => {
+    const i = lines.length - 1;
+    const candidate = lines[i] ? `${lines[i]} ${word}` : word;
+    if (lines[i] && est(candidate, px) > maxW) lines.push(word);
+    else lines[i] = candidate;
+    return lines;
+  }, ['']);
+
+// Wide geometry keeps labels at least 15px at the 640px layout threshold.
+// Narrow geometry uses the measured width, so 14-unit labels render at 14px.
+const WIDE = { vb: 680, cw: 50, gap: 4, dotsW: 18, sw: 7, sgap: 3, px: 16, wide: true };
+const CH = 44; // cell and sliver height
+
+// Narrow: one line of 8 cells, "…", and one far cell, sized to the width.
+// Values render at 12px (the floor) once cells get too small for 14px.
+function narrow(vb) {
+  const gap = vb < 420 ? 2 : 4;
+  const dotsW = 14;
+  const cw = Math.min(60, Math.floor((vb - 4 - dotsW - 9 * gap) / 9));
+  return { vb, cw, gap, dotsW, px: 14, vpx: cw >= 40 ? 14 : 12, wide: false };
+}
+const PHONE_ITEMS = [...range(0, 8).map((i) => ({ t: 'cell', i })), { t: 'dots' }, { t: 'cell', i: 'far' }];
+const oneDecimal = (v) => (v === '1.0' ? v : (Number(v.replace('−', '-')).toFixed(1) + '').replace('-', '−'));
+
+// Flow the vector's items into lines that fit the drawing width.
+function flow(g) {
+  if (!g.wide) {
+    let x = 0;
+    const pos = PHONE_ITEMS.map((it) => {
+      const w = it.t === 'cell' ? g.cw : g.dotsW;
+      const p = { ...it, x, w, line: 0 };
+      x += w + g.gap;
+      return p;
+    });
+    return { pos, lines: 1, x0: (g.vb - (x - g.gap)) / 2 };
+  }
+  const avail = g.vb - 16;
+  const widthOf = (it) => (it.t === 'cell' ? g.cw : it.t === 'dots' ? g.dotsW : SLIVERS * (g.sw + g.sgap) - g.sgap);
+  const pos = [];
+  let line = 0;
+  let x = 0;
+  ITEMS.forEach((it) => {
+    const w = widthOf(it);
+    if (x > 0 && x + w > avail) {
+      line += 1;
+      x = 0;
+    }
+    pos.push({ ...it, x, w, line });
+    x += w + g.gap;
+  });
+  const width = Math.max(...pos.map((p) => p.x + p.w));
+  const lineWidths = [...new Set(pos.map((p) => p.line))].map((l) => Math.max(...pos.filter((p) => p.line === l).map((p) => p.x + p.w)));
+  return { pos, lines: line + 1, x0: (g.vb - (g.wide ? width : Math.max(...lineWidths))) / 2 };
+}
+
+export function mount(node) {
+  node.classList.add('qi-sw');
+  const keys = Object.keys(USES);
+
+  node.innerHTML = [
+    '<div class="qi-fig">',
+    '  <div class="qi-controls">',
+    '    <div class="qi-group" role="group" aria-label="Pick a use of the concept">',
+    keys.map((k) => `<button type="button" class="qi-chip" data-use="${k}" aria-pressed="false">${USES[k].chip}</button>`).join(''),
+    '    </div>',
+    '  </div>',
+    '  <svg class="qi-svg qi-sw__svg" role="img"></svg>',
+    '  <p class="qi-sw__sr" role="status" aria-live="polite"></p>',
+    '  <p class="qi-sw__sr qi-sw__desc"></p>',
+    '</div>',
+  ].join('');
+
+  const svg = node.querySelector('.qi-sw__svg');
+  const statusEl = node.querySelector('.qi-sw__sr');
+  // Hidden description of the current vectors, so the values shown in the drawing
+  // are available to screen readers too (the SVG itself is one role="img").
+  const descEl = node.querySelector('.qi-sw__desc');
+  descEl.id = `qi-sw-desc-${Math.random().toString(36).slice(2, 9)}`;
+  svg.setAttribute('aria-describedby', descEl.id);
+  const chips = [...node.querySelectorAll('.qi-chip')];
+  let use = 'dracula';
+  let geo = WIDE;
+
+  function text(x, y, str, cls, anchor, px) {
+    const t = el('text', { class: cls, x, y, 'text-anchor': anchor, style: `font-size: ${px}px` });
+    split(str).forEach((p, i) => t.appendChild(el('tspan', { x, dy: i ? px + 5 : 0 }, p)));
+    svg.appendChild(t);
+  }
+
+  function drawRow(spec, rowKey, tag, y, layout) {
+    const g = geo;
+    const { pos, lines, x0 } = layout;
+    const lineH = CH;
+    svg.appendChild(el('text', { class: 'qi-sw__tag', x: x0, y: y + 16, style: `font-size: ${g.px}px` }, tag));
+    y += 30;
+    const X = (p) => x0 + p.x;
+    const Y = (p) => y + p.line * lineH;
+    const cellPos = new Map(pos.filter((p) => p.t === 'cell').map((p) => [p.i, p]));
+
+    // Narrow: every cell past the far region is drawn as the one far cell.
+    const key = (c) => (g.wide || c < FB ? c : 'far');
+    const cellOf = new Map();
+    spec.blocks.forEach((b) => b.cells.forEach((c, i) => cellOf.set(key(c), { kind: b.kind, val: g.wide ? b.vals[i] : oneDecimal(b.vals[i]) })));
+    if (!g.wide && spec.far && !cellOf.has('far')) cellOf.set('far', { kind: spec.far.kind, val: null });
+
+    pos.forEach((p) => {
+      if (p.t === 'cell') {
+        const on = cellOf.get(p.i);
+        svg.appendChild(el('rect', { class: `qi-sw__cell${on ? ` qi-sw__cell--${on.kind}` : ''}`, x: X(p), y: Y(p), width: g.cw, height: CH, rx: 5 }));
+        if (on && on.val) text(X(p) + g.cw / 2, Y(p) + CH / 2 + 5, on.val, 'qi-sw__val', 'middle', g.vpx || 14); // values smaller than labels so they fit their cells
+      } else if (p.t === 'dots') {
+        text(X(p) + g.dotsW / 2, Y(p) + CH / 2 + 5, '…', 'qi-sw__dots', 'middle', g.px);
+      } else {
+        const lit = spec.far ? spec.far.n : 0;
+        for (let s = 0; s < SLIVERS; s++) {
+          const cls = s < lit ? `qi-sw__sliver qi-sw__sliver--${spec.far.kind}` : 'qi-sw__sliver';
+          svg.appendChild(el('rect', { class: cls, x: X(p) + s * (g.sw + g.sgap), y: Y(p), width: g.sw, height: CH, rx: 2 }));
+        }
+      }
+    });
+
+    // Brackets under each block (one per line it occupies). Lit slivers carry no
+    // bracket or label: they only show that another slot of the text is written.
+    const bracket = (x1, x2, by, kind) =>
+      svg.appendChild(el('path', { class: `qi-sw__bracket qi-sw__bracket--${kind}`, d: `M${x1},${by} v8 H${x2} v-8` }));
+    spec.blocks.forEach((b) => {
+      const byLine = new Map();
+      b.cells.forEach((c) => {
+        const p = cellPos.get(key(c));
+        byLine.set(p.line, [...(byLine.get(p.line) || []), p]);
+      });
+      byLine.forEach((ps) => bracket(X(ps[0]), X(ps[ps.length - 1]) + g.cw, Y(ps[0]) + CH + 8, b.kind));
+    });
+
+    // Labels, on two reserved lines. Wide: centered under their bracket, the far
+    // slot's label on the second line so it never meets the first-line labels.
+    // Narrow: a left-aligned list.
+    const bottom = y + (lines - 1) * lineH + CH;
+    const labels = [...spec.blocks.map((b) => ({ label: b.label, kind: b.kind, x1: X(cellPos.get(key(b.cells[0]))), x2: X(cellPos.get(key(b.cells[b.cells.length - 1]))) + g.cw, row: 0 }))];
+    if (g.wide) {
+      labels.forEach((l) => {
+        const half = Math.max(...split(l.label).map((p) => est(p, g.px))) / 2;
+        const cx = Math.min(Math.max((l.x1 + l.x2) / 2, x0 + half), g.vb - x0 - half);
+        text(cx, bottom + 40 + l.row * 20, l.label, `qi-sw__label qi-sw__label--${l.kind}`, 'middle', g.px);
+      });
+      return bottom + 40 + 20 + 16;
+    }
+    // Narrow: each label on lines of its own, so two labels never share a line.
+    // A block label is centered under its bracket and wrapped to its width; the
+    // far cell's label is right-aligned to that cell.
+    const farX = X(cellPos.get('far'));
+    const place = (l) => {
+      const far = l.x1 === farX;
+      const lines = wrap(l.label, far ? g.vb / 2 : Math.max(l.x2 - l.x1, 120), g.px);
+      const w = Math.max(...lines.map((t) => est(t, g.px)));
+      const x = far ? l.x2 : Math.min(Math.max((l.x1 + l.x2) / 2, x0 + w / 2), g.vb - x0 - w / 2);
+      return { ...l, lines, x, anchor: far ? 'end' : 'middle' };
+    };
+    const height = (ls) => ls.reduce((h, l) => h + l.lines.length * (g.px + 5) + 6, 0);
+    let labelY = bottom + 34;
+    labels.map(place).forEach((l) => {
+      text(l.x, labelY, l.lines.join('\n'), `qi-sw__label qi-sw__label--${l.kind}`, l.anchor, g.px);
+      labelY += l.lines.length * (g.px + 5) + 6;
+    });
+    // Reserve the tallest label stack of this row over all uses, so switching
+    // uses keeps vector positions stable.
+    const reserve = Math.max(
+      ...Object.values(USES).map((u) =>
+        height(u[rowKey].blocks.map((b) => place({ label: b.label, x1: X(cellPos.get(key(b.cells[0]))), x2: X(cellPos.get(key(b.cells[b.cells.length - 1]))) + g.cw }))),
+      ),
+    );
+    return bottom + 34 + reserve + 8;
+  }
+
+  function render() {
+    const layout = flow(geo);
+    svg.replaceChildren();
+    let y = 8;
+    ROWS.forEach((row) => {
+      y = drawRow(USES[use][row.key], row.key, row.tag, y, layout) + 16;
+    });
+    svg.setAttribute('viewBox', `0 0 ${geo.vb} ${y}`);
+    svg.setAttribute('aria-label', `Cells written by "${USES[use].chip}" in miniCOIL v1 and in miniCOIL EN-ES.`);
+    statusEl.textContent = USES[use].say; // read by screen readers only
+    descEl.textContent = ROWS.map(({ key, tag }) => {
+      const spec = USES[use][key];
+      const blocks = spec.blocks.map((b) => `${b.label.replace('\n', ' ')}: ${b.vals.join(', ')}`).join('; ');
+      return `${tag}: ${blocks}${spec.far ? `; another word of the text writes ${spec.far.n} dimensions of its own slot` : ''}.`;
+    }).join(' ');
+    chips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.use === use)));
+  }
+
+  chips.forEach((b) =>
+    b.addEventListener('click', () => {
+      use = b.dataset.use;
+      render();
+    }),
+  );
+
+  // Switch layouts by the island's own width, not the viewport.
+  const ro = new ResizeObserver(([entry]) => {
+    const next = entry.contentRect.width < 640 ? narrow(Math.max(200, Math.floor(entry.contentRect.width))) : WIDE;
+    if (next.vb !== geo.vb || next.wide !== geo.wide) {
+      geo = next;
+      render();
+    }
+  });
+  ro.observe(node);
+
+  render();
+  node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
+}
