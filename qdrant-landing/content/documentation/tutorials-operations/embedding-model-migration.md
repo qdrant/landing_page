@@ -67,7 +67,7 @@ Compared to a blue-green migration, this approach:
 - Keeps all point IDs, payloads, and other named vectors intact throughout the migration.
 - Makes rollback trivial: the old named vector stays in the collection until you explicitly delete it.
 
-When updating a point, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge. The example requires pausing application writes, updates, and deletes during [backfill](#step-3-re-embed-existing-points); searches can continue.
+When updating a point, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge. During [backfill](#step-3-re-embed-existing-points), searches and new inserts can continue, but updates and deletes to existing points must be paused.
 
 ## Blue-Green Migration
 
@@ -194,14 +194,14 @@ From this point on, every new or updated point carries both embeddings.
 ### Step 3: Re-Embed Existing Points
 
 <aside role="status">
-Pause application writes, updates, and deletes, and wait for in-flight operations to finish before starting this backfill. Searches can continue using the old vector. A concurrent update could change the payload after it is read, causing the backfill to overwrite the new vector with an embedding of stale text. A concurrent delete could cause the batch to fail.
+Searches and new inserts can continue during backfill. Pause updates and deletes to existing points, and wait for those in-flight operations to finish before starting. A concurrent update could change the payload after it is read, causing the backfill to overwrite the new vector with an embedding of stale text. A concurrent delete could cause the batch to fail.
 </aside>
 
 Run a background process that scrolls through the collection and updates only the new named vector on each existing point. Because `update_vectors` is used rather than `upsert`, the old named vector and the payload on each point remain unchanged.
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="re-embed-existing" >}}
 
-Once the backfill has completed successfully, resume application writes with dual writes enabled so every new or updated point continues to receive both embeddings.
+Once the backfill has completed successfully, resume updates and deletes with dual writes enabled so every new or updated point continues to receive both embeddings.
 
 ### Step 4: Switch Search to the New Vector
 
