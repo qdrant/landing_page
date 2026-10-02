@@ -1,0 +1,44 @@
+{{ with (.Site.GetPage "/filterable-hnsw/metadata-filtering-paths") }}
+  <section class="filterable-hnsw-metadata-filtering-paths">
+    <div class="container">
+      <div class="filterable-hnsw-metadata-filtering-paths__header">
+        <div class="filterable-hnsw-metadata-filtering-paths__heading">
+          {{ with .Params.label }}<p class="filterable-hnsw-metadata-filtering-paths__label">{{ . }}</p>{{ end }}
+          <h2 class="filterable-hnsw-metadata-filtering-paths__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="filterable-hnsw-metadata-filtering-paths__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="filterable-hnsw-metadata-filtering-paths__grid{{ if not (or .Params.image .Params.snippet) }} filterable-hnsw-metadata-filtering-paths__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="filterable-hnsw-metadata-filtering-paths__visual filterable-hnsw-metadata-filtering-paths__visual--code">
+            <pre class="filterable-hnsw-metadata-filtering-paths__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link filterable-hnsw-metadata-filtering-paths__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="filterable-hnsw-metadata-filtering-paths__visual">{{ partial "picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="filterable-hnsw-metadata-filtering-paths__list">
+            {{ range .Params.cards }}
+              <li class="filterable-hnsw-metadata-filtering-paths__item">
+                <h3 class="filterable-hnsw-metadata-filtering-paths__item-title">{{ .title }}</h3>
+                <p class="filterable-hnsw-metadata-filtering-paths__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="filterable-hnsw-metadata-filtering-paths__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link filterable-hnsw-metadata-filtering-paths__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

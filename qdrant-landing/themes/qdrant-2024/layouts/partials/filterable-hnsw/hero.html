@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/filterable-hnsw/hero") }}
+  <section class="filterable-hnsw-hero">
+    <div class="container">
+      <div class="filterable-hnsw-hero__copy">
+        <p class="filterable-hnsw-hero__label">{{ .Params.label }}</p>
+        <h1 class="filterable-hnsw-hero__title">{{ .Params.title }}</h1>
+        <p class="filterable-hnsw-hero__description">{{ .Params.description }}</p>
+        <div class="filterable-hnsw-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+          {{ with .Params.outlineButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
