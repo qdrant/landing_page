@@ -1,0 +1,10 @@
+@use '../../helpers/functions' as *;
+
+.recommendations-hero {
+  @include recommendations-band(true, 5, 5);
+  &__copy { display: flex; flex-direction: column; align-items: flex-start; max-width: pxToRem(720); }
+  &__label { @include recommendations-eyebrow(true); }
+  &__title { @include recommendations-title(true, true); margin-bottom: $spacer * 1.5; }
+  &__description { margin-bottom: $spacer * 1.5; font-size: $font-size-l; line-height: 1.5; color: $neutral-80; }
+  &__actions { display: flex; flex-wrap: wrap; gap: $spacer; }
+}

@@ -1,0 +1,34 @@
+{{ with (.Site.GetPage "/recommendations/honest-limits") }}
+  <section class="recommendations-honest-limits">
+    <div class="container">
+      <div class="recommendations-honest-limits__grid">
+        <div class="recommendations-honest-limits__header">
+          <div class="recommendations-honest-limits__heading">
+            {{ with .Params.label }}<p class="recommendations-honest-limits__label">{{ . }}</p>{{ end }}
+            <h2 class="recommendations-honest-limits__title">{{ .Params.title }}</h2>
+          </div>
+          {{ with .Params.description }}<p class="recommendations-honest-limits__description">{{ . }}</p>{{ end }}
+      {{ with .Params.callout }}
+        <blockquote class="recommendations-honest-limits__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+        </div>
+        <div>
+          <ul class="recommendations-honest-limits__list">
+            {{ range .Params.cards }}
+              <li class="recommendations-honest-limits__item">
+                <h3 class="recommendations-honest-limits__item-title">{{ .title }}</h3>
+                <p class="recommendations-honest-limits__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.button }}
+        <a class="link recommendations-honest-limits__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

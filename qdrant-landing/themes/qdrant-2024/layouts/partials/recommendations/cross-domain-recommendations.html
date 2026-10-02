@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/recommendations/cross-domain-recommendations") }}
+  <section class="recommendations-cross-domain-recommendations">
+    <div class="container">
+      <div class="recommendations-cross-domain-recommendations__header">
+        <div class="recommendations-cross-domain-recommendations__heading">
+          {{ with .Params.label }}<p class="recommendations-cross-domain-recommendations__label">{{ . }}</p>{{ end }}
+          <h2 class="recommendations-cross-domain-recommendations__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="recommendations-cross-domain-recommendations__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}
+      <div class="recommendations-cross-domain-recommendations__grid{{ if eq $n 1 }} recommendations-cross-domain-recommendations__grid--single{{ end }}">
+        {{ range .Params.cards }}
+          <div class="recommendations-cross-domain-recommendations__cell{{ if eq $n 1 }} recommendations-cross-domain-recommendations__cell--wide{{ end }}">
+            {{ with .icon }}<img class="recommendations-cross-domain-recommendations__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
+            <h3 class="recommendations-cross-domain-recommendations__cell-title">{{ .title }}</h3>
+            <p class="recommendations-cross-domain-recommendations__cell-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="recommendations-cross-domain-recommendations__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link recommendations-cross-domain-recommendations__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
