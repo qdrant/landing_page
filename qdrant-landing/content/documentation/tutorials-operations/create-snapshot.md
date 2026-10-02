@@ -82,7 +82,7 @@ dataset = load_dataset(
 We used the streaming mode, so the dataset is not loaded into memory. Instead, we can iterate through it and extract the id and vector embedding:
 
 ```python
-for payload in dataset:
+for payload in dataset.take(1):
     id_ = payload.pop("id")
     vector = payload.pop("vector")
     print(id_, vector, payload)
@@ -92,8 +92,8 @@ A single payload looks like this:
 
 ```json
 {
-  'title': 'Dynamics of partially localized brane systems',
-  'DOI': '1109.1415'
+  "title": "Dynamics of partially localized brane systems",
+  "DOI": "1109.1415"
 }
 ```
 
@@ -247,22 +247,22 @@ The snapshots are now stored locally. We can use them to restore the collection 
 Our brand-new snapshot is ready to be restored. Typically, it is used to move a collection to a different Qdrant instance, but we are going to use it to create a new collection on the same cluster.
 It is just going to have a different name, `test_collection_import`. We do not need to create a collection first, as it is going to be created automatically.
 
-Restoring collection is also done separately on each node, but our Python SDK does not support it yet. We are going to use the HTTP API instead,
-and send a request to each node using `requests` library.
+Restoring collection is also done separately on each node, by uploading each local snapshot file through the HTTP API with the `requests` library.
 
 ```python
 for node_url, snapshot_path in zip(QDRANT_NODES, local_snapshot_paths):
     snapshot_name = os.path.basename(snapshot_path)
-    requests.post(
-        f"{node_url}/collections/test_collection_import/snapshots/upload?priority=snapshot",
-        headers={
-            "api-key": QDRANT_API_KEY,
-        },
-        files={"snapshot": (snapshot_name, open(snapshot_path, "rb"))},
-    )
+    with open(snapshot_path, "rb") as snapshot_file:
+        requests.post(
+            f"{node_url}/collections/test_collection_import/snapshots/upload?priority=snapshot",
+            headers={
+                "api-key": QDRANT_API_KEY,
+            },
+            files={"snapshot": (snapshot_name, snapshot_file)},
+        )
 ```
 
-The `requests` library loads the whole snapshot file into memory before sending it. For large snapshots, use the `curl` command instead, which streams the file:
+This upload with `requests.post(..., files=...)` loads the whole snapshot file into memory before sending it. For large snapshots, use the `curl` command instead, which streams the file from disk:
 
 ```bash
 curl -X POST 'https://node-0.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
