@@ -67,7 +67,7 @@ Compared to a blue-green migration, this approach:
 - Keeps all point IDs, payloads, and other named vectors intact throughout the migration.
 - Makes rollback trivial: the old named vector stays in the collection until you explicitly delete it.
 
-Unlike Option 1, point deletions are safe during this migration. Deleting a point removes it from the collection entirely, so there's no risk of the migration process re-adding it. When updating a vector, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge. The one exception is the background re-embedding step, which needs to handle a point that is deleted while it runs (see [Step 3](#step-3-re-embed-existing-points)).
+When updating a point, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge. The example requires pausing application writes, updates, and deletes during [backfill](#step-3-re-embed-existing-points); searches can continue.
 
 ## Blue-Green Migration
 
@@ -193,13 +193,15 @@ From this point on, every new or updated point carries both embeddings.
 
 ### Step 3: Re-Embed Existing Points
 
+<aside role="status">
+Pause application writes, updates, and deletes, and wait for in-flight operations to finish before starting this backfill. Searches can continue using the old vector. A concurrent update could change the payload after it is read, causing the backfill to overwrite the new vector with an embedding of stale text. A concurrent delete could cause the batch to fail.
+</aside>
+
 Run a background process that scrolls through the collection and updates only the new named vector on each existing point. Because `update_vectors` is used rather than `upsert`, the old named vector and the payload on each point remain unchanged.
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="re-embed-existing" >}}
 
-Concurrent writes by the upsert service and the migration process are safe. Both processes derive the new vector from the same payload text using the same model, so if they process a point concurrently, they produce the same result.
-
-Deletions need one precaution. If a point is deleted after the scroll returned it but before `update_vectors` runs, the request fails with a `404 Not Found` ("No point with id ... found"). Catch that error in the migration loop and run the batch again from the same offset. The next scroll no longer returns the deleted point, and re-running the batch is safe because setting a vector is idempotent.
+Once the backfill has completed successfully, resume application writes with dual writes enabled so every new or updated point continues to receive both embeddings.
 
 ### Step 4: Switch Search to the New Vector
 
