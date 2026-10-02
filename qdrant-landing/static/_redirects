@@ -77,6 +77,10 @@
 /documentation/tutorials/search-beginners/*            /documentation/tutorials-basics/search-beginners/:splat  301!
 /documentation/beginner-tutorials/search-beginners/*   /documentation/tutorials-basics/search-beginners/:splat  301!
 
+# Contract management tutorial renamed from aleph-alpha to cohere
+/documentation/examples/rag-contract-management-stackit-aleph-alpha/*  /documentation/examples/rag-contract-management-stackit-cohere/:splat  301!
+/documentation/tutorials/rag-contract-management-stackit-aleph-alpha/*  /documentation/examples/rag-contract-management-stackit-cohere/:splat  301!
+
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
 
