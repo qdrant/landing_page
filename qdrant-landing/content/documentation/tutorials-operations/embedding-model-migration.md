@@ -74,7 +74,7 @@ Unlike Option 1, point deletions are safe during this migration. Deleting a poin
 A blue-green migration uses two collections: the first collection contains the old embeddings, and the second one is used to store the new embeddings. A migration process copies the data from the old collection to the new one, re-embedding vectors using the new model. During the migration, you keep searching the old collection while writing any data updates to both collections. Once all vectors are re-embedded, switch the search to use the new collection.
 
 {{< island
-    path="content/documentation/headless/tutorials-operations/blue-green-migration"
+    path="content/documentation/headless/tutorials-operations/embedding-model-migration/blue-green-migration"
     ratio="3 / 2"
     title="Blue-green embedding model migration. Select a step to see which services and collections are active; the bars are illustrative."
 >}}
