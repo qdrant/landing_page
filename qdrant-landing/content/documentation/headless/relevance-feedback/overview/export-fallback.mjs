@@ -24,16 +24,18 @@ const colors = {
   "--qi-cat-3": "#00838f",
   "--qi-cat-4": "#dc244c",
 };
-let svg = drawing(false, true).replace(
-  "><title>",
-  `><metadata>${license}</metadata><style>@font-face{font-family:FeedbackGeist;src:url(data:font/ttf;base64,${font}) format('truetype')}text{font-family:FeedbackGeist,monospace;fill:#303547}.qi-frame{fill:#f0f3fa}</style><rect width="100%" height="100%" fill="#f0f3fa"/><title>`,
-);
-for (const [token, color] of Object.entries(colors))
-  svg = svg.replaceAll(`var(${token})`, color);
-writeFileSync(
-  new URL(
-    "static/documentation/tutorials/using-relevance-feedback/overview.svg",
-    root,
-  ),
-  svg + "\n",
-);
+for (const mobile of [false, true]) {
+  let svg = drawing(mobile).replace(
+    "><title>",
+    `><metadata>${license}</metadata><style>@font-face{font-family:FeedbackGeist;src:url(data:font/ttf;base64,${font}) format('truetype')}text{font-family:FeedbackGeist,monospace;fill:#303547}.qi-rf__ink{fill:#fff}.qi-frame{fill:#f0f3fa}</style><rect width="100%" height="100%" fill="#f0f3fa"/><title>`,
+  );
+  for (const [token, color] of Object.entries(colors))
+    svg = svg.replaceAll(`var(${token})`, color);
+  writeFileSync(
+    new URL(
+      `static/documentation/tutorials/using-relevance-feedback/overview${mobile ? "-mobile" : ""}.svg`,
+      root,
+    ),
+    svg + "\n",
+  );
+}

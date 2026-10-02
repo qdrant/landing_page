@@ -29,8 +29,13 @@ In this tutorial, you'll see how to:
 The Relevance Feedback Query uses a small amount of model-generated feedback on the search results to guide the retriever through the entire vector space on the next retrieval iteration, nudging search toward more relevant results.  
 A detailed description of how it works can be found in the article [Relevance Feedback in Qdrant](/articles/relevance-feedback/).
 
-{{< island path="content/documentation/headless/relevance-feedback/overview" ratio="700 / 1235" title="The feedback model selects Doc 2 as a positive example and Doc 5 as a negative example. The query and this context pair adjust candidate scores across the collection. Bar lengths are illustrative, not measured results." >}}
-![Relevance feedback: Doc 2 is the positive example and Doc 5 is the negative example. The query and this pair rescore collection candidates, with a positive adjustment for Candidate 2 and negative adjustments for Candidates 1 and 3.](/documentation/tutorials/using-relevance-feedback/overview.svg)
+<link rel="stylesheet" href="/documentation/tutorials/using-relevance-feedback/overview.css">
+
+{{< island path="content/documentation/headless/relevance-feedback/overview" ratio="780 / 550" title="The feedback model selects Doc 2 as a positive example and Doc 5 as a negative example. The query and this context pair adjust candidate scores across the collection. Bar lengths are illustrative, not measured results." >}}
+<picture>
+  <source media="(max-width: 1200px)" srcset="/documentation/tutorials/using-relevance-feedback/overview-mobile.svg">
+  <img src="/documentation/tutorials/using-relevance-feedback/overview.svg" alt="Relevance feedback: Doc 2 connects to the positive input and Doc 5 to the negative input. The query and this pair rescore collection candidates. Candidate 2 has a positive score delta; Candidates 1 and 3 have negative deltas.">
+</picture>
 {{< /island >}}
 
 ### Strategy
