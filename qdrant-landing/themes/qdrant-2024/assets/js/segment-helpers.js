@@ -1,7 +1,6 @@
 import { addGA4Properties, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
 import { registerAndCall, setOneTrustDataSubjectId } from './onetrust-helpers';
 
-const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
 const INTERACTIONS_SESSION_STORAGE_KEY = 'segmentInteractions';
 const PAYLOAD_BOILERPLATE = {
   url: window.location.href,
@@ -234,9 +233,6 @@ const getSegmentStoredInteractions = () => { // Get Interaction Entires
 };
 
 // Deletions
-const removeSegmentStoredPages = () => { // Remove Page Entires
-  sessionStorage.removeItem(PAGES_SESSION_STORAGE_KEY);
-};
 const removeSegmentStoredInteractions = () => { // Remove Interaction Entires
   sessionStorage.removeItem(INTERACTIONS_SESSION_STORAGE_KEY);
 };
@@ -268,8 +264,6 @@ const trackPageView = () => {
   addGA4Properties(properties);
 
   window.analytics.page(category, name, properties);
-  
-  removeSegmentStoredPages(); // TODO: Remove this end of April 2025
 }
 
 const trackStoredInteractions = () => {
