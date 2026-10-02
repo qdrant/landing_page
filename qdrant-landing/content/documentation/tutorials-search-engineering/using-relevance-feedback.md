@@ -29,7 +29,9 @@ In this tutorial, you'll see how to:
 The Relevance Feedback Query uses a small amount of model-generated feedback on the search results to guide the retriever through the entire vector space on the next retrieval iteration, nudging search toward more relevant results.  
 A detailed description of how it works can be found in the article [Relevance Feedback in Qdrant](/articles/relevance-feedback/).
 
-![Overview of Relevance Feedback](/blog/qdrant-1.17.x/relevance-feedback-overview.png)
+{{< island path="content/documentation/headless/relevance-feedback/overview" ratio="700 / 1235" title="The feedback model selects Doc 2 as a positive example and Doc 5 as a negative example. The query and this context pair adjust candidate scores across the collection. Bar lengths are illustrative, not measured results." >}}
+![Relevance feedback: Doc 2 is the positive example and Doc 5 is the negative example. The query and this pair rescore collection candidates, with a positive adjustment for Candidate 2 and negative adjustments for Candidates 1 and 3.](/documentation/tutorials/using-relevance-feedback/overview.svg)
+{{< /island >}}
 
 ### Strategy
 
