@@ -15,7 +15,7 @@ example_resources:
 | Time: 30 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
+In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback), our scalable, vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
 
 In this tutorial, you'll see how to: 
 1. Customize Relevance Feedback Query for your Qdrant collection, retriever and feedback model.
@@ -29,7 +29,14 @@ In this tutorial, you'll see how to:
 The Relevance Feedback Query uses a small amount of model-generated feedback on the search results to guide the retriever through the entire vector space on the next retrieval iteration, nudging search toward more relevant results.  
 A detailed description of how it works can be found in the article [Relevance Feedback in Qdrant](/articles/relevance-feedback/).
 
-![Overview of Relevance Feedback](/blog/qdrant-1.17.x/relevance-feedback-overview.png)
+<link rel="stylesheet" href="/documentation/tutorials/using-relevance-feedback/overview.css">
+
+{{< island path="content/documentation/headless/relevance-feedback/overview" ratio="780 / 550" title="The feedback model selects Doc 2 as a positive example and Doc 5 as a negative example. The query and this context pair adjust candidate scores across the collection. Bar lengths are illustrative, not measured results." >}}
+<picture>
+  <source media="(max-width: 1200px)" srcset="/documentation/tutorials/using-relevance-feedback/overview-mobile.svg">
+  <img src="/documentation/tutorials/using-relevance-feedback/overview.svg" alt="Relevance feedback: Doc 2 connects to the positive input and Doc 5 to the negative input. The query and this pair rescore collection candidates. Candidate 2 has a positive score delta; Candidates 1 and 3 have negative deltas.">
+</picture>
+{{< /island >}}
 
 ### Strategy
 
@@ -395,6 +402,8 @@ Now you can use Relevance Feedback Query results in different ways:
 *Approach is tied to what you're passing to the `example` field in `FeedbackItem` (or analogues in other clients): raw retriever-produced embeddings or point IDs from your collection.*
 
 > If you're passing point IDs as `example`s, these points are automatically excluded from the results. To include them among other points, pass the raw vectors (see commented `responses_vectors`) instead of point IDs.
+
+For more guidance on using relevance feedback in your search pipeline, give your coding agent the [Qdrant relevance feedback skill](https://skills.qdrant.tech/qdrant-search-quality/search-strategies/relevance-feedback/SKILL.md).
 
 ## Evaluation
 
