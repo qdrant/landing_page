@@ -61,6 +61,7 @@
 /documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
 
 # Search tutorials reorg
+/documentation/tutorials/slicing-filter/*  /documentation/tutorials-search-engineering/slicing-filter/:splat  301!
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
 /documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
 /documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
