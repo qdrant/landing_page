@@ -61,8 +61,6 @@
 /documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
 
 # Search tutorials reorg
-# Preserve the Airflow tutorial's historical HTML and Markdown URLs.
-/documentation/examples/qdrant-airflow-astronomer/*  /documentation/send-data/qdrant-airflow-astronomer/:splat  301!
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
 /documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
 /documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
