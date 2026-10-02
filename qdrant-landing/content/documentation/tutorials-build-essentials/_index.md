@@ -27,4 +27,4 @@ cascade:
 <!-- KEEP BELOW FOR REFERENCE -->
 
 <!-- | [Multimodal & Multilingual RAG](/documentation/tutorials-build-essentials/multimodal-search/) | Search across image and text modalities. | <span class="pill">LlamaIndex</span> | 15m | <span class="text-green">Beginner</span> | -->
-<!-- | [S3 Ingestion with LangChain](/documentation/tutorials-build-essentials/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">LangChain</span> | 30m | <span class="text-green">Beginner</span> | -->
+<!-- | [S3 Ingestion](/documentation/tutorials-build-essentials/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">Python</span> | 30m | <span class="text-green">Beginner</span> | -->

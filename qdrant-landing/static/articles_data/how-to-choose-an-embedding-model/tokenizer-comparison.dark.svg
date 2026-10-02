@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="534" viewBox="0 0 640 534" role="img" aria-labelledby="title desc">
+  <title id="title">Two tokenizers handle weather emoji differently</title>
+  <desc id="desc">For the shared text The weather today is so, MiniLM WordPiece maps both rain and sun emoji to the same unknown token. After their common token prefix, text-embedding-3-small uses token IDs 100 and 31643 for the rain emoji, and 252 for the sun emoji.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#aeb9cd" stroke-width="1.6"/></marker>
+  </defs>
+  <rect x="1" y="1" width="638" height="532" rx="12" fill="#121b2a" stroke="#42506a" stroke-width="2"/>
+  <text x="28" y="47" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27" font-weight="700">The weather today is so ...</text>
+
+  <rect x="20" y="72" width="600" height="195" rx="10" fill="#1d293b" stroke="#42506a" stroke-width="2"/>
+  <text x="40" y="109" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27" font-weight="700">MiniLM · WordPiece</text>
+  <text x="43" y="157" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif" font-size="38">🌧️</text>
+  <path d="M185 148 H215" stroke="#aeb9cd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="239" y="124" width="148" height="47" rx="6" fill="#121b2a" stroke="#ff6b91" stroke-width="2"/>
+  <text x="264" y="156" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27">[UNK]</text>
+  <text x="43" y="224" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif" font-size="38">🌞</text>
+  <path d="M185 215 H215" stroke="#aeb9cd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="239" y="191" width="148" height="47" rx="6" fill="#121b2a" stroke="#ff6b91" stroke-width="2"/>
+  <text x="264" y="223" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27">[UNK]</text>
+  <text x="417" y="190" fill="#ff9ab6" font-family="Arial, sans-serif" font-size="27" font-weight="700">Same input</text>
+
+  <rect x="20" y="284" width="600" height="228" rx="10" fill="#1d293b" stroke="#42506a" stroke-width="2"/>
+  <text x="40" y="321" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27" font-weight="700">text-embedding-3-small · byte-level IDs</text>
+  <text x="43" y="370" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif" font-size="38">🌧️</text>
+  <path d="M185 361 H215" stroke="#aeb9cd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="239" y="337" width="348" height="47" rx="6" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="256" y="369" fill="#8be5ec" font-family="monospace" font-size="27">100 · 31643</text>
+  <text x="43" y="444" font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif" font-size="38">🌞</text>
+  <path d="M185 435 H215" stroke="#aeb9cd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="239" y="411" width="348" height="47" rx="6" fill="#302958" stroke="#a794ff" stroke-width="2"/>
+  <text x="256" y="443" fill="#c7bcff" font-family="monospace" font-size="27">252</text>
+  <text x="247" y="494" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27" font-weight="700">Different input</text>
+</svg>

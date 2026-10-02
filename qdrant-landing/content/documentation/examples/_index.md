@@ -15,7 +15,7 @@ The following guided samples help you get started with real-world projects using
 
 | Guided Sample                                                                  | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Multitenancy with LlamaIndex](/documentation/examples/llama-index-multitenancy/)          | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex                  |
+| [Multitenancy with Qdrant](/documentation/examples/multitenancy/)               | Handle data coming from multiple users in a single collection.    | Qdrant, Python, FastEmbed                   |
 | [Implement custom connector for Cohere RAG](/documentation/examples/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
 | [Chatbot for Interactive Learning](/documentation/examples/rag-chatbot-red-hat-openshift-haystack/)                                 | Build a Private RAG Chatbot for Interactive Learning              | Qdrant, Haystack, OpenShift                                      |  
 | [Information Extraction Engine](/documentation/examples/rag-chatbot-vultr-dspy-ollama/)                                 | Build a Private RAG Information Extraction Engine               | Qdrant, Vultr, DSPy, Ollama                                      |  

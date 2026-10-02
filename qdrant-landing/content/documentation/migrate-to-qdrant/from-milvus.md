@@ -21,9 +21,9 @@ partition: ecosystem
 | Collection | Collection | One-to-one mapping |
 | Partition | Payload field or separate collection | Use `--milvus.partitions` to specify which partitions to migrate |
 | Schema fields | Payload | Non-vector fields become payload |
-| `COSINE` | `Cosine` | Direct mapping |
-| `L2` | `Euclid` | Direct mapping |
-| `IP` (inner product) | `Dot` | Direct mapping |
+| `COSINE` | `Cosine` | The tool creates `Cosine` by default |
+| `L2` | `Euclid` | Not detected. Set `--qdrant.distance-metric` explicitly |
+| `IP` (inner product) | `Dot` | Not detected. Set `--qdrant.distance-metric` explicitly |
 | Dynamic fields | Payload | JSON-typed dynamic fields are preserved |
 
 ## Run the Migration
@@ -33,6 +33,21 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --milvus.url 'your-milvus-host:19530' \
     --milvus.collection 'your-collection' \
     --milvus.api-key 'your-milvus-api-key' \
+    --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
+    --qdrant.api-key 'your-qdrant-api-key' \
+    --qdrant.collection 'your-collection'
+```
+
+### Migrating from Zilliz Cloud
+
+Zilliz Cloud endpoints use HTTPS, so pass the full URL and enable TLS authentication:
+
+```bash
+docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration milvus \
+    --milvus.url 'https://your-cluster.cloud.zilliz.com' \
+    --milvus.enable-tls-auth \
+    --milvus.collection 'your-collection' \
+    --milvus.api-key 'your-zilliz-api-key' \
     --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
     --qdrant.api-key 'your-qdrant-api-key' \
     --qdrant.collection 'your-collection'
@@ -68,11 +83,12 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
-| `--qdrant.distance-metric` | — | Distance metric per vector field (map format, e.g., `field1:cosine,field2:dot`) |
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `field1:euclid,field2:dot`). The tool does not read the metric from Milvus, so set it for every `L2` or `IP` field |
 
 ## Gotchas
 
 - **Partition handling:** Milvus partitions can map to Qdrant collections or payload filters. If you merge partitions into a single collection, add a partition name as a payload field for filtering.
+- **Vector types:** The tool creates a Qdrant vector for each dense float vector field. Check that sparse, binary, and float16 vector fields in your Milvus schema made it across, and recreate any that did not.
 - **Schema strictness:** Milvus enforces schema on write; Qdrant is schema-flexible. Verify that the schema-less flexibility didn't cause payload fields to drift during migration.
 - **Dynamic fields:** Milvus dynamic fields (introduced in 2.3) may serialize differently. Check that JSON-typed dynamic fields survived the migration with correct structure.
 

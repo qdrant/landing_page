@@ -2,8 +2,8 @@
 title: "Vector Embeddings Explained: How They Work in ML & Search"
 draft: false
 slug: what-are-embeddings? 
-short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a personalized Neural Search Service with Fastembed.
-description: Discover the power of vector embeddings. Learn how to harness the potential of numerical machine learning representations to create a personalized Neural Search Service with FastEmbed.
+short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a neural search service.
+description: Discover the power of vector embeddings. Learn how to harness the potential of numerical machine learning representations to create a neural search service.
 preview_dir: /articles_data/what-are-embeddings/preview
 weight: 70
 social_preview_image: /articles_data/what-are-embeddings/preview/social_preview.jpg
@@ -18,7 +18,7 @@ tags:
   - embeddings
   - machine-learning
   - artificial intelligence
-category: core-concepts
+category: vector-search-fundamentals
 ---
 
 > **Embeddings** are numerical machine learning representations of the semantics of the input data. They capture the meaning of complex, high-dimensional data, like text, images, or audio, into vectors. Enabling algorithms to process and analyze the data more efficiently.
@@ -32,10 +32,6 @@ This is the magic of embeddings.
 These are the result of **deep learning models** analyzing the data of your interactions online. From your likes, shares, comments, searches, the kind of content you linger on, and even the content you decide to skip. It also allows the algorithm to predict future content that you are likely to appreciate.
 
 The same embeddings can be repurposed for search, ads, and other features, creating a highly personalized user experience.
-
-
-![How embeddings are applied to perform recommendantions and other use cases](/articles_data/what-are-embeddings/Embeddings-Use-Case.jpg)
-
 
 They make [high-dimensional](https://www.sciencedirect.com/topics/computer-science/high-dimensional-data) data more manageable. This reduces storage requirements, improves computational efficiency, and makes sense of a ton of **unstructured** data.
 
@@ -51,7 +47,9 @@ That’s the magic.
 At their core, vector embeddings are about semantics. They take the idea that "a word is known by the company it keeps" and apply it on a grand scale. 
 
 
-![Example of how synonyms are placed closer together in the embeddings space](/articles_data/what-are-embeddings/Similar-Embeddings.jpg)
+{{< island path="content/documentation/headless/embeddings/word-map" width="100%" ratio="10 / 9" title="631 words embedded with all-MiniLM-L6-v2 and projected to 2D. Nearest neighbors come from Qdrant in all 384 dimensions." >}}
+![Map of 631 word embeddings with ugly selected: its nearest neighbors include hideous, attractive, unattractive, handsome, and pretty](/articles_data/what-are-embeddings/Similar-Embeddings.jpg)
+{{< /island >}}
 
 
 This capability is crucial for creating search systems, recommendation engines, retrieval augmented generation (RAG) and any application that benefits from a deep understanding of content.
@@ -62,10 +60,14 @@ Embeddings are created through neural networks. They capture complex relationshi
 
 
 
+{{< island path="content/documentation/headless/embeddings/embedding-pipeline" width="100%" ratio="12 / 5" title="Images, documents, and audio all become vectors in the same space. Values are illustrative." >}}
 ![The process for turning raw data into embeddings and placing them into the vector space](/articles_data/what-are-embeddings/How-Embeddings-Work.jpg)
+{{< /island >}}
 
 
 The meaning of a data point is implicitly defined by its **position** on the vector space. After the vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](https://en.wikipedia.org/wiki/Nearest_neighbor_search#:~:text=Nearest%20neighbor%20search%20(NNS)%2C,the%20larger%20the%20function%20values.). These searches retrieve semantically similar items based on how close they are in this space.  
+
+Many embedding models normalize their vectors and compare them with cosine similarity. Data that branches like a tree, such as a product catalog, can fit better in a curved hyperbolic space. [Hyperbolic Embeddings in Qdrant](/articles/hyperbolic-embeddings-qdrant/) explains why and how to search them.
 
 > The quality of the vector representations drives the performance. The embedding model that works best for you depends on your use case.
 
@@ -75,7 +77,9 @@ The meaning of a data point is implicitly defined by its **position** on the vec
 Embeddings translate the complexities of human language to a format that computers can understand. It uses neural networks to assign **numerical values** to the input data, in a way that similar data has similar values.
 
 
+{{< island path="content/documentation/headless/embeddings/phrase-similarity" width="100%" ratio="2 / 1" title="All 384 values of each phrase's all-MiniLM-L6-v2 embedding." >}}
 ![The process of using Neural Networks to create vector embeddings](/articles_data/what-are-embeddings/How-Do-Embeddings-Work_.jpg)
+{{< /island >}}
 
 
 For example, if I want to make my computer understand the word 'right', I can assign a number like 1.3. So when my computer sees  1.3, it sees the word 'right’.
@@ -85,11 +89,6 @@ Now I want to make my computer understand the context of the word ‘right’. I
 We can introduce more dimensions to capture more nuances. For example, a third dimension could represent formality of the word, a fourth could indicate its emotional connotation (positive, neutral, negative), and so on. 
 
 The evolution of this concept led to the development of embedding models like [Word2Vec](https://en.wikipedia.org/wiki/Word2vec) and [GloVe](https://en.wikipedia.org/wiki/GloVe). They learn to understand the context in which words appear to generate high-dimensional vectors for each word, capturing far more complex properties. 
-
-
-
-![How Word2Vec model creates the embeddings for a word](/articles_data/what-are-embeddings/Word2Vec-model.jpg)
-
 
 However, these models still have limitations. They generate a single vector per word, based on its usage across texts. This means all the nuances of the word "right" are blended into one vector representation. That is not enough information for computers to fully understand the context.
 
@@ -107,7 +106,9 @@ More advanced models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_mo
 
 
 
+{{< island path="content/documentation/headless/embeddings/contextual-vectors" width="100%" ratio="12 / 5" title="Word2Vec gives right one vector everywhere. BERT gives each occurrence its own, based on the sentence around it." >}}
 ![How the BERT model creates the embeddings for a word](/articles_data/what-are-embeddings/BERT-model.jpg)
+{{< /island >}}
 
 
 But how does this process of understanding and interpreting work in practice? Think of the term: "biophilic design", for example. To generate its embedding, the transformer architecture can use the following  contexts:
@@ -130,19 +131,15 @@ The model creates a vector embedding for "biophilic design" that encapsulates th
 
 ### Integration with embedding APIs
 
-Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](/documentation/embeddings/bedrock/). 
+The embedding model you pick sets the quality of your search. Qdrant has integration guides for many embedding providers, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), and [AWS Bedrock](/documentation/embeddings/bedrock/), and the [embeddings overview](/documentation/embeddings/) lists the rest. To create embeddings on your own machine, [FastEmbed](/documentation/fastembed/) is Qdrant's lightweight Python library for generating embeddings locally.
 
-If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
+The right model depends on your data, latency budget, and cost. [How to Choose an Embedding Model](/documentation/search-patterns/choose-embedding-model/) shows how to build a test set from your own data and compare candidate models on it.
 
-Fastembed, which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
-
-We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
-
-## Create a neural search service with FastEmbed
+## Create a Neural Search Service
 
 Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials-develop/neural-search/)?
 
-This tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
+This tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant, constructing a search API, and finally deploying your solution with FastAPI. The tutorial embeds the descriptions with Sentence Transformers. A [FastEmbed version](/documentation/tutorials-develop/hybrid-search-fastembed/) builds a hybrid search service over the same data.
 
 Check out what the final version of this project looks like on the [live online demo](https://qdrant.to/semantic-search-demo).
 

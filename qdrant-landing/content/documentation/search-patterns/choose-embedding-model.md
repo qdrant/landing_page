@@ -13,23 +13,17 @@ aliases:
   - /articles/how-to-choose-an-embedding-model/
 ---
 
+<link rel="stylesheet" href="/articles_data/how-to-choose-an-embedding-model/figures.css">
+
 # How to Choose an Embedding Model: Evaluation & Tradeoffs
 
-No matter if you are just beginning your journey in the world of vector search, or you are a seasoned practitioner, you 
-have probably wondered how to choose the right embedding model to achieve the best search quality. There are some
-public benchmarks, such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard), that can help you narrow down the 
-options, but datasets used in those benchmarks will rarely be representative of your domain-specific data. Moreover, 
-search quality is not the only requirement you could have. For example, some of the best models might be amazingly 
-accurate for retrieval, but you can't afford to run them, e.g., due to high resource usage or your budget constraints.
+How do you choose the right embedding model to achieve the best search quality? Public benchmarks such as the [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard) can help you narrow down the options, but their datasets rarely represent your own data. Search quality is not the only requirement, either: an accurate model may be too slow or expensive to run.
 
 <aside role="status">
-Although this article focuses mostly on the dense text embedding models, most of the considerations are also valid for 
-sparse and multivector representations, as well as different modalities.
+Although this guide focuses mostly on the dense text embedding models, most of the considerations are also valid for sparse and multivector representations, as well as different modalities.
 </aside>
 
-Selecting the best embedding model is a multi-objective optimization problem and there is no one-size-fits-all solution,
-and there probably never will be. In this article, we will try to provide some guidance on how to approach this problem
-in a practical way, and how to move from model selection to running it in production.
+Selecting the best embedding model is a multi-objective optimization problem and there is no one-size-fits-all solution, and there probably never will be. In this guide, we will try to provide some guidance on how to approach this problem in a practical way, and how to move from model selection to running it in production.
 
 ## Evaluation: The Holy Grail of Vector Search
 
@@ -39,48 +33,42 @@ to use.
 
 ### Know the Language Your Model Speaks
 
-Embedding models are trained with specific languages in mind. When evaluating one, consider whether it supports all the 
-languages you have or predict to have in your data. If your data is not homogeneous, you might require a multilingual 
-model that can properly embed text across different languages. If you use Open Source models, then your model is likely
-documented on Hugging Face Hub. For example, the popular in demos `all-MiniLM-L6-v2` was trained on English data only, 
-so it's not a good choice if you have data in other languages.
+Embedding models are trained with specific languages in mind. When evaluating one, consider whether it supports all the languages you have or predict to have in your data. If your data is not homogeneous, you might require a multilingual model that can properly embed text across different languages. If you use Open Source models, then your model is likely documented on [Hugging Face Hub](https://huggingface.co/docs/hub/en/index). For example, `all-MiniLM-L6-v2`, often used in demos, lists English as its language, so it's not a good choice if you have data in other languages.
 
-[![all-MiniLM-L6-v2 on Hugging Face Hub](/articles_data/how-to-choose-an-embedding-model/hf-model-card.png)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+Check the [all-MiniLM-L6-v2 model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) for its stated language and input length. Confirm that a candidate model supports the languages and text lengths in your own data.
 
 However, it's not only about the language, but also about how the model treats the input data. Surprisingly, this is 
 often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then [start 
 all the Transformer magic with assigning each token a specific input vector 
 representation](/articles/late-interaction-models/#understanding-embedding-models). 
 
-![An example of tokenization with WordPiece tokenizer](/articles_data/how-to-choose-an-embedding-model/tokenization-example.png)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.svg" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="448" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.dark.svg" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="448" loading="lazy">
+  <figcaption>The <code>##</code> prefix marks a continuation of the same word. This example uses MiniLM's WordPiece tokenizer.</figcaption>
+</figure>
 
-One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, 
-tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). As a result, 
-any characters it hasn't seen during the training will be replaced with a special `UNK` token. If you analyze social 
-media data, then you might be surprised that two contradicting sentences are actually perfect matches in your search,
-as presented in the following example:
+One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). WordPiece tokenizers, like the one in `all-MiniLM-L6-v2`, replace any word they can't build from their vocabulary with a single `[UNK]` token, so `hello🌞world` becomes one `[UNK]` and the model loses "hello" and "world" too. If you analyze social media data, you might be surprised that the two weather sentences in this example reach the model as identical tokens. Byte-level tokenizers, like the ones in OpenAI's `text-embedding-3` models and Qwen3-Embedding, never produce an unknown token: they split unfamiliar characters into bytes, so the two sentences stay different.
 
-![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.png)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.svg" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="534" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.dark.svg" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="534" loading="lazy">
+  <figcaption>MiniLM loses the distinction between the rain and sun emoji; the byte-level tokenizer keeps it.</figcaption>
+</figure>
 
-The same may go for accented letters, different alphabets, etc., that dominate in your target language. However, in that 
-case, you shouldn't be using such a model in the first place, as it does not support your language either way. 
-Tokenization has a bigger impact on the quality of the embeddings than many people think. If you want to understand what
-the effects of tokenization are, we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector 
-Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/)
-we recorded together with DeepLearning.AI. You may find the course especially interesting if you still wonder why your 
-semantic search engine can't handle numerical data, such as prices or dates, and what you can do about it. 
+*The weather examples use `all-MiniLM-L6-v2` and the `cl100k_base` encoding used by OpenAI's `text-embedding-3-small`. The byte-level panel shows the differing token ID suffixes; the words and token ID prefix are shared.*
 
-How do you know if the tokenizer supports the target language? That's pretty easy for the Open Source models, as you 
-can just run the tokenizer without the model and see what the yielded tokens look like. For the commercial models that 
-might be slightly harder, but companies like [OpenAI](https://github.com/openai/tiktoken) and 
-[Cohere](https://huggingface.co/Cohere/multilingual-22-12) are transparent about it and open source their tokenizers. 
-In the worst case, you can just modify some of the suspected tokens and see how the model reacts in terms of the 
-similarity between the original and modified text.
+Normalization can also erase differences in your text. The `all-MiniLM-L6-v2` tokenizer lowercases text and strips accents, so "crème brûlée" and "creme brulee" reach the model as identical tokens and get identical vectors. Words that differ only by accents become indistinguishable. Tokenization has a bigger impact on the quality of the embeddings than many people think. If you want to understand what the effects of tokenization are, we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/) we recorded together with DeepLearning.AI. You may find the course especially interesting if you still wonder why your semantic search engine can't handle numerical data, such as prices or dates, and what you can do about it.
 
-![Creating vectors for accented and non-accented letters](/articles_data/how-to-choose-an-embedding-model/accented-letters.png)
+How do you know how the tokenizer treats your text? That's pretty easy for the Open Source models, as you can just run the tokenizer without the model and see what the yielded tokens look like. Try your own text and look at normalization, `[UNK]` tokens, and how words split. Commercial models are harder to inspect. Some providers publish their tokenizers: OpenAI's embedding models use the `cl100k_base` encoding from the open-source [tiktoken](https://github.com/openai/tiktoken) library. For the others, modify some of the suspected characters and compare the similarity between the original and modified text.
 
-If the created representations are really far from each other in the vector space, it may indicate that some 
-non-supported characters are replaced with `UNK` tokens and thus the model can't properly embed the input data.
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.svg" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="267" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.dark.svg" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="267" loading="lazy">
+  <figcaption>Accent normalization makes these two inputs identical to MiniLM.</figcaption>
+</figure>
+
+Near-identical vectors for text that differs only in accents suggest that the tokenizer removes those accents. For `all-MiniLM-L6-v2`, both spellings produce `cr | ##eme | br | ##ule | ##e`, as the example shows.
 
 ### Checklist of Things to Consider
 
@@ -97,6 +85,7 @@ to consider when choosing the right embedding model:
   architecture and your hardware. Some models run effectively only on GPUs, while others can run on CPUs as well.
 - **Optimization support** - not all models are compatible with every optimization technique. For example, Binary 
   Quantization and Matryoshka embeddings require specific model characteristics.
+- **Data structure and geometry** - hierarchical data, such as a product catalog, may fit better in hyperbolic space. See [Hyperbolic Embeddings in Qdrant](/articles/hyperbolic-embeddings-qdrant/) for an example of matching embedding geometry to your data.
 
 The list is not exhaustive, as there might be plenty of other things to consider, but you get the idea.
 
@@ -135,6 +124,8 @@ There are also three different ways of how to define the relevancy at different 
 2. **Ordinal relevancy** - a document can be more or less relevant (ranking).
 3. **Relevancy with a score** - a document can have a score indicating how relevant it is.
 
+This retrieval dataset uses a relevance scale from 0 (not relevant) to 3 (highly relevant), with 2 indicating moderate relevance.
+
 ```json
 [
   {
@@ -143,12 +134,12 @@ There are also three different ways of how to define the relevancy at different 
       {
         "id": "doc_123",
         "text": "Vector databases store and index vector embeddings...",
-        "relevance": 3  // Highly relevant (scale 0-3)
+        "relevance": 3
       },
       {
         "id": "doc_456",
         "text": "The architecture of modern vector search engines...",
-        "relevance": 2  // Moderately relevant
+        "relevance": 2
       }
     ]
   },
@@ -158,7 +149,7 @@ There are also three different ways of how to define the relevancy at different 
       {
         "id": "doc_789",
         "text": "```python\nfrom qdrant_client import QdrantClient\n...",
-        "relevance": 3  // Highly relevant
+        "relevance": 3
       }
     ]
   }
@@ -166,7 +157,7 @@ There are also three different ways of how to define the relevancy at different 
 ```
 
 Once you have the dataset, you can start evaluating the models using one of the evaluation metrics, such as 
-`precision@k`, `MRR`, or `NDCG`. There are existing libraries, such as [ranx](https://amenra.github.io/ranx/) that can 
+`precision@k`, `Mean Reciprocal Rank(MRR)`, or `Normalized Discounted Cumulative Gain(NDCG)`. There are existing libraries, such as [ranx](https://amenra.github.io/ranx/) that can 
 help you with that. [Running the evaluation process](/rag/rag-evaluation-guide/) on various models is a good way to get 
 a sense of how they perform on your data. You can test even proprietary models that way. However, it's not the only 
 thing you should consider when choosing the best model.
@@ -175,17 +166,9 @@ Please do not be afraid of building your evaluation dataset. It's not as complic
 critical step! You don't need millions of samples to get a good idea of how the model performs. A few hundred 
 well-curated examples might be a good starting point. Even dozens are better than nothing!
 
-## Compute Resource Constraints
+## Throughput, Latency, and Cost
 
-Even if you found the best performing embedding model for your domain, that doesn't mean you can use it. Software projects 
-do not live in isolation, and you have to consider the bigger picture. For example, you might have budget constraints 
-that limit your choices. It's also about being pragmatic. If you have a model that is 1% more precise, but it's 10 times 
-slower and consumes 10 times more resources, is it really worth it?
-
-Eventually, enjoying the journey is more important than reaching the destination in some cases, but that doesn't hold 
-true for search. The simpler and faster the means that took you there, the better.
-
-## Throughput, Latency and Cost
+Even if you found the best performing embedding model for your domain, that doesn't mean you can use it. Software projects do not live in isolation, and you have to consider the bigger picture. For example, you might have budget constraints that limit your choices. It's also about being pragmatic. If you have a model that is 1% more precise, but it's 10 times slower and consumes 10 times more resources, is it really worth it?
 
 When selecting an embedding model for production, you need to consider three critical operational factors:
 
@@ -212,7 +195,7 @@ different conditions. Now things are getting hard and answers are not obvious an
 Here's an example of how such a comparison table might look:
 
 | Model                            | Precision@10 | MRR  | Inference Time | Memory Usage | Cost           | Multilingual               | Max Sequence Length |
-|----------------------------------|--------------|------|----------------|--------------|----------------|----------------------------|---------------------|
+| ----------------------------------| --------------| ------| ----------------| --------------| ----------------| ----------------------------| ---------------------|
 | expensive-proprietary-saas-only  | 0.92         | 0.87 | API-dependent  | N/A          | $0.25/M tokens | Probably, yet undocumented | 8192                |
 | cheaper-proprietary-multilingual | 0.89         | 0.84 | API-dependent  | N/A          | $0.01/M tokens | Yes (94 languages)         | 4096                |
 | open-source-gpu-required         | 0.88         | 0.83 | 120ms          | 15GB         | Self-hosted    | English                    | 1024                |
@@ -223,31 +206,28 @@ might lean towards self-hosted options, while those who prefer to avoid dealing 
 might prefer API-based solutions. Who knows? Maybe your project does not require the highest precision possible, and a 
 smaller model will do the job just fine.
 
-![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.png)
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.svg" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="420" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.dark.svg" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="420" loading="lazy">
+  <figcaption>"Pick two" is a useful heuristic, not a fixed rule. Measure speed, quality, and cost together for your workload.</figcaption>
+</figure>
 
-Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your 
-choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed.
-Named vectors help to create a system with multiple models and switch between them based on the query, or build a 
-[hybrid search](/documentation/search-tuning/hybrid-search/) that takes advantage of different models or more complex search pipelines.
+Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed. Named vectors help to create a system with multiple models and switch between them based on the query, or build a [hybrid search](/documentation/search-tuning/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
-Choosing the right embedding model is one of the most important design decisions in a vector search system, but it is just one of several levers. 
-Memory usage can often be reduced with techniques such as quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model. 
-The key takeaway is that while the embedding model matters a great deal, cost, retrieval quality, latency, and throughput are properties of the retrieval pipeline and system as a whole.
+Other levers matter as well: memory usage can often be reduced with quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model.
 
-An important decision to make is also where to host the embedding model. Maybe you prefer not to deal with the 
-infrastructure management and send the data you process in its original form? Qdrant now has something for you!
+Another decision to make is where to host the embedding model and how much inference infrastructure you want to manage.
 
-## Locally Sourced Embeddings
+## Hosting Your Embedding Model
 
-Wouldn't it be great to run your selected embedding model as close to your search engine as possible? Network latency 
-might be one of the biggest enemies, and transferring millions of vectors over the network may take longer if done from
-a distant location. Moreover, some of the cloud providers will charge you for the data transfer, so it's not only about
-the latency, but also about the cost. Finally, running an embedding model on-premises requires some expertise and 
-resources, and if you want to focus on your core business, you might prefer to avoid that.
+Where the model runs affects latency and cost. Sending millions of documents to a model hosted far from your cluster adds network latency, and some cloud providers charge for the data transfer. Running a model near your application or Qdrant cluster can reduce those costs, but self-hosting takes expertise and infrastructure.
 
-![Architecture diagram with Qdrant Cloud Inference](/articles_data/how-to-choose-an-embedding-model/cloud-inference-diagram.jpg)
+**Qdrant Cloud Inference** generates dense, sparse, and multimodal embeddings inside Qdrant Cloud, or proxies requests to OpenAI, Cohere, and Jina, without requiring you to manage inference servers.
 
-**Qdrant's Cloud Inference** solves these problems by allowing you to run the embedding model next to the cluster where 
-your vector database is running. It's a perfect solution for those who want not to worry about the model inference and 
-just use search that works on the data they have. Check out the [Cloud Inference 
-documentation](/documentation/cloud/inference/) to learn more.
+<figure class="embedding-model-figure">
+  <img src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.svg" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="465" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.dark.svg" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="465" loading="lazy">
+  <figcaption>Qdrant Cloud sends the input to the inference service and receives embeddings in return.</figcaption>
+</figure>
+
+Check out the [Cloud Inference documentation](/documentation/cloud/inference/) to learn more. For generating embeddings on your own infrastructure, [FastEmbed](/documentation/fastembed/) is Qdrant's lightweight Python library.

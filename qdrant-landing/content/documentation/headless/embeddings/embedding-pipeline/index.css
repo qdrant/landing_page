@@ -1,0 +1,32 @@
+.qi-ep { --ep-image: #00838f; --ep-document: #6047ff; --ep-audio: #dc244c; font-size: 14px; line-height: 1.45; }
+.qi-ep .qi-chip, .qi-ep .qi-label { font-size: 14px; }
+.qi-ep .qi-chip:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-ep__diagram { position: relative; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: 32px; }
+.qi-ep__inputs, .qi-ep__vectors { display: grid; gap: 14px; min-width: 0; }
+.qi-ep__input, .qi-ep__vector, .qi-ep__model { position: relative; padding: 12px; border: 1px solid var(--qi-border); border-radius: var(--qi-radius); background: var(--qi-surface); overflow-wrap: anywhere; }
+.qi-ep__input { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 60px; box-sizing: border-box; }
+.qi-ep__input svg { flex: none; fill: none; stroke: var(--ep-color); stroke-width: 1.8; opacity: 0.3; }
+.qi-ep [data-kind='image'] { --ep-color: var(--ep-image); }
+.qi-ep [data-kind='document'] { --ep-color: var(--ep-document); }
+.qi-ep [data-kind='audio'] { --ep-color: var(--ep-audio); }
+.qi-ep__vector { display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 60px; box-sizing: border-box; color: var(--qi-muted); }
+.qi-ep__input.is-active, .qi-ep__vector.is-active { border-color: var(--ep-color); color: var(--qi-fg); }
+.qi-ep__input.is-active svg { opacity: 1; }
+.qi-ep__model { text-align: center; font-weight: 600; color: var(--qi-fg); border-color: var(--qi-muted); }
+.qi-ep__space { position: relative; min-width: 0; }
+.qi-ep .qi-ep__space p { margin: 0 0 8px; font-size: 14px; }
+.qi-ep__space g { fill: var(--ep-color); opacity: 0.18; transition: opacity 180ms ease; }
+.qi-ep__space g.is-active { opacity: 1; }
+.qi-ep__space g.is-active circle { stroke: var(--qi-hot); stroke-width: 0.5; }
+.qi-ep__axes { fill: none; stroke: var(--qi-line); stroke-width: 1.5; }
+.qi-ep .qi-ep__wires { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--qi-line); stroke-width: 1.5; pointer-events: none; }
+.qi-ep__wires g { opacity: 0.3; transition: opacity 180ms ease; }
+.qi-ep__wires g.is-active { opacity: 1; stroke: var(--qi-hot); stroke-width: 2; }
+.qi-ep__wires path { vector-effect: non-scaling-stroke; }
+@media (max-width: 640px) {
+  .qi-ep__diagram { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-right: 32px; }
+  .qi-ep__space .qi-svg { width: min(100%, 280px); margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qi-ep .qi-chip, .qi-ep__space g, .qi-ep__wires g { transition: none; }
+}

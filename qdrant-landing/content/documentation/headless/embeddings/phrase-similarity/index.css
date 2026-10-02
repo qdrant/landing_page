@@ -1,0 +1,20 @@
+.qi-ps { --ps-positive: #dc244c; --ps-negative: #6047ff; font-size: 14px; line-height: 1.45; }
+.qi-ps .qi-chip { font-size: 14px; white-space: normal; text-align: left; overflow-wrap: anywhere; }
+.qi-ps .qi-chip:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-ps__row { min-width: 0; }
+.qi-ps .qi-ps__row p { margin: 0 0 8px; font-size: 14px; color: var(--qi-fg); }
+.qi-ps .qi-ps__strip { width: 100%; height: 48px; background: var(--qi-surface); border: 1px solid var(--qi-border); box-sizing: border-box; }
+.qi-ps__summary, .qi-ps__legend { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; }
+.qi-ps__legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.qi-ps__positive { --swatch: var(--ps-positive); }
+.qi-ps__negative { --swatch: var(--ps-negative); }
+.qi-ps meter { appearance: none; width: 180px; max-width: 100%; height: 12px; border: 1px solid var(--qi-border); border-radius: var(--qi-radius); background: var(--qi-surface); }
+.qi-ps meter::-webkit-meter-bar { background: var(--qi-surface); border: 0; }
+.qi-ps meter::-webkit-meter-optimum-value { background: var(--qi-muted); }
+.qi-ps meter::-moz-meter-bar { background: var(--qi-muted); }
+@media (max-width: 640px) {
+  .qi-ps__summary { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qi-ps .qi-chip { transition: none; }
+}

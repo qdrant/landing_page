@@ -54,8 +54,11 @@
 /documentation/operations/*                                       /documentation/deploy-intro/:splat                                301
 
 # Prometheus monitoring pages moved from tutorials-and-examples to ops-monitoring (docs reorganization)
-/documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/ops-monitoring/managed-cloud-prometheus/:splat     301
 /documentation/tutorials-and-examples/hybrid-cloud-prometheus/*   /documentation/ops-monitoring/hybrid-cloud-prometheus/:splat      301
+
+# Managed Cloud Prometheus tutorial moved into the Learn / Production & Operations guide topic
+/documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/production-operations/managed-cloud-prometheus/:splat  301!
+/documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
 
 # Search tutorials reorg
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
@@ -63,6 +66,15 @@
 /documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
 /documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
 /documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301
+
+# Kafka streaming tutorial moved from send-data to tutorials-operations
+/examples/data-streaming-kafka-qdrant/*                     /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
+/documentation/send-data/data-streaming-kafka-qdrant/*      /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
+
+# Semantic Search 101 legacy URLs; the Cloud version owns them, the local version no longer does
+/documentation/tutorials/mighty.md/*                   /documentation/tutorials-basics/search-beginners/:splat  301!
+/documentation/tutorials/search-beginners/*            /documentation/tutorials-basics/search-beginners/:splat  301!
+/documentation/beginner-tutorials/search-beginners/*   /documentation/tutorials-basics/search-beginners/:splat  301!
 
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
@@ -74,6 +86,10 @@
 
 # Bulk upload moved from tutorials-develop to manage-data
 /documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
+
+# Multitenancy tutorial renamed; preserve old HTML and Markdown URLs.
+/documentation/examples/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
+/documentation/tutorials/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
 
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301

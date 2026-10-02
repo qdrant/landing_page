@@ -23,7 +23,7 @@
     }
 
     initLangButtons() {
-      if (this.tabs.length < 2) {
+      if (this.tabs.length < 2 && !this.tabs[0]?.closest('.snippet-variant')) {
         return null;
       }
       this.langButtons = document.createElement('div');
