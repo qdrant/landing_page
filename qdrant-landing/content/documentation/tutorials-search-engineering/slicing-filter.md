@@ -28,7 +28,7 @@ This tutorial covers three uses: parallel `scroll` across workers, reproducible 
     ratio="16 / 10"
     title="The slicing mechanism: an unsorted collection runs through a hashing function that assigns each point, based on its ID and the total number of requested slices, to exactly one slice."
 >}}
-![The slicing mechanism: run an unsorted collection through a hashing function which assigns each point, based on its ID and the total number of requested slices, to the appropriate slice](/documentation/tutorials/slicing-filter/slicing-mechanism.png)
+![The slicing mechanism: run an unsorted collection through a hashing function which assigns each point, based on its ID and the total number of requested slices, to the appropriate slice](/documentation/tutorials-search-engineering/slicing-filter/slicing-mechanism.png)
 {{< /island >}}
 
 ## Setup
