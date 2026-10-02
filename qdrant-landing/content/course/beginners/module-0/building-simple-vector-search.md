@@ -27,10 +27,18 @@ This course requires Python 3.11 or above installed
 
 ## Step 1: Install the Qdrant Client
 
-The **client** is the Python library that lets your code talk to Qdrant. Install it first:
+The **client** is the Python library that lets your code talk to Qdrant. Choose the installation command for your environment.
+
+In a Jupyter/IPython notebook cell:
 
 ```python
-!pip install qdrant-client
+%pip install qdrant-client
+```
+
+Or, in your terminal using the Python environment that will run your script:
+
+```bash
+python -m pip install qdrant-client
 ```
 
 ## Step 2: Import the Libraries You'll Need
