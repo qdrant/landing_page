@@ -13,7 +13,7 @@ stack:
 ---
 # Agentic RAG with LangGraph and Qdrant
 
-| Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic-rag-langgraph) |
+| Time: 45 min | Level: Intermediate | Output: Python agent |
 | --- | --- | --- |
 
 Traditional Retrieval-Augmented Generation (RAG) systems follow a straightforward path: query → retrieve → generate. Sure, this works well for many scenarios. But let’s face it—this linear approach often struggles when you're dealing with complex queries that demand multiple steps or pulling together diverse types of information.
@@ -26,23 +26,23 @@ By combining LangGraph’s robust state management with Qdrant’s cutting-edge 
 
 We’re building an AI agent to answer questions about Hugging Face and Transformers documentation using LangGraph. At the heart of our AI agent lies LangGraph, which acts like a conductor in an orchestra. It directs the flow between various components—deciding when to retrieve information, when to perform a web search, and when to generate responses.
 
-The components are: two Qdrant vector stores and the Brave web search engine. However, our agent doesn’t just blindly follow one path. Instead, it evaluates each query and decides whether to tap into the first vector store, the second one, or search the web.
+The system uses two Qdrant collections for documentation retrieval and Brave Search for web results. The agent evaluates each query and chooses which documentation collection to search or whether to search the web.
 
 This selective approach gives your system the flexibility to choose the best data source for the job, rather than being locked into the same retrieval process every time, like traditional RAG. While we won’t dive into query refinement in this tutorial, the concepts you’ll learn here are a solid foundation for adding that functionality down the line.
 
 ## Workflow 
 
-![Agentic RAG workflow: the user sends a query to the AI agent, which picks RAG Tool 1, RAG Tool 2, or the Web Search Tool. The RAG tools query two Qdrant collections, the web search tool calls the Brave Search API, and the agent returns the response.](/documentation/examples/agentic-rag-langgraph/agentic-rag-workflow.svg)
-
-Fig. 1: Agentic RAG workflow
+{{< island path="content/documentation/headless/agentic-rag-langgraph/workflow" width="340" ratio="340 / 584" title="<span style='color:rgb(from currentColor calc(r * 1.1) calc(g * 1.1) calc(b * 1.1))'>Fig. 1: Agentic RAG workflow. The two RAG tools search separate Qdrant collections; the web search tool calls Brave Search.</span>" >}}
+![The user exchanges a query and response with the AI agent. RAG Tool 2 queries Transformers documentation in Qdrant Collection 2, RAG Tool 1 queries Hugging Face documentation in Qdrant Collection 1, and the Web Search Tool calls the Brave Search API.](/documentation/examples/agentic-rag-langgraph/agentic-rag-workflow-mobile.png)
+{{< /island >}}
 
 | **Step** | **Description**                                                                                                                                                                           |
 |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **1. User Input**              | You start by entering a query or request through an interface, like a chatbot or a web form. This query is sent straight to the AI Agent, the brain of the operation.|
 | **2. AI Agent Processes the Query** | The AI Agent analyzes your query, figuring out what you’re asking and which tools or data sources will best answer your question.                                   |
-| **3. Tool Selection**          | Based on its analysis, the AI Agent picks the right tool for the job. Your data is spread across two vector databases, and depending on the query, it chooses the appropriate one. For queries needing real-time or external web data, the agent taps into a web search tool powered by BraveSearchAPI. |
-| **4. Query Execution**         | The AI Agent then puts its chosen tool to work: <br> - **RAG Tool 1** queries Vector Database 1. <br> - **RAG Tool 2** queries Vector Database 2. <br> - **Web Search Tool** dives into the internet using the search API. |
-| **5. Data Retrieval**          | The results roll in: <br> - Vector Database 1 and 2 return the most relevant documents for your query. <br> - The Web Search Tool provides up-to-date or external information.|
+| **3. Tool Selection**          | Based on its analysis, the AI Agent picks the right tool for the job. The documentation is stored in two Qdrant collections, and the agent chooses which collection to search based on the query. For queries needing real-time or external web data, the agent taps into a web search tool powered by BraveSearchAPI. |
+| **4. Query Execution**         | The AI Agent then puts its chosen tool to work: <br> - **RAG Tool 1** queries Qdrant Collection 1. <br> - **RAG Tool 2** queries Qdrant Collection 2. <br> - **Web Search Tool** dives into the internet using the search API. |
+| **5. Data Retrieval**          | The results roll in: <br> - The two Qdrant collections return relevant documentation chunks for your query. <br> - The Web Search Tool provides up-to-date or external information.|
 | **6. Response Generation**     | Using a text generation model (like GPT), the AI Agent crafts a detailed and accurate response tailored to your query.                                               |
 | **7. User Response**           | The polished response is sent back to you through the interface, ready to use.                                                                                      |
 
@@ -52,7 +52,7 @@ The architecture taps into cutting-edge tools to power efficient Agentic RAG wor
 
 - **AI Agent:** The mastermind of the system, this agent parses your queries, picks the right tools, and integrates the responses. We’ll use OpenAI’s *gpt-4o* as the reasoning engine, managed seamlessly by LangGraph.
 - **Embedding:** Queries are transformed into vector embeddings using OpenAI’s *text-embedding-3-small* model.
-- **Vector Database:** Embeddings are stored and used for similarity searches, with Qdrant stepping in as our database of choice.
+- **Vector Search:** Qdrant is the vector search engine that stores document embeddings and retrieves relevant chunks using similarity search.
 - **LLM:** Responses are generated using OpenAI’s *gpt-4o*, ensuring answers are accurate and contextually grounded.
 - **Search Tools:** To extend RAG’s capabilities, we’ve added a web search component powered by BraveSearchAPI, perfect for real-time and external data retrieval.
 - **Workflow Management:** The entire orchestration and decision-making flow is built with LangGraph, providing the flexibility and intelligence needed to handle complex workflows.
@@ -93,9 +93,9 @@ from qdrant_client import QdrantClient
 
 The dataset loader and the Brave Search tool come from `langchain-community`, which prints a warning that the package is being sunset. It still installs and works with the versions above.
 
-### Qdrant Vector Database Setup
+### Qdrant Cloud Setup
 
-We’ll use **Qdrant Cloud** as our vector store for document embeddings. Here’s how to set it up:
+We'll use **Qdrant Cloud** to store and search document embeddings. Here's how to set it up:
 
 | **Step**                     | **Description**                                                                                                                                           |
 |------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -336,9 +336,9 @@ graph = graph_builder.compile()
 
 This is what the graph looks like:
 
-![The compiled LangGraph graph: START leads to the agent node. A conditional edge goes from agent to tools when the last message has tool calls, otherwise to END. The tools node always returns to agent.](/documentation/examples/agentic-rag-langgraph/langgraph-graph.svg)
-
-Fig. 2: The compiled LangGraph graph. Dashed edges are conditional.
+{{< island path="content/documentation/headless/agentic-rag-langgraph/graph" width="340" ratio="340 / 420" title="<span style='color:rgb(from currentColor calc(r * 1.1) calc(g * 1.1) calc(b * 1.1))'>Fig. 2: The compiled LangGraph graph. Dashed edges are conditional.</span>" >}}
+![START leads to the agent. If the agent requests tools, the graph runs them and returns their results to the agent; otherwise, it reaches END. Dashed edges are conditional.](/documentation/examples/agentic-rag-langgraph/langgraph-graph.png)
+{{< /island >}}
 
 ### Running the Agent
 
@@ -387,11 +387,7 @@ These models are designed to handle multiple languages and can be used for tasks
 
 ## Complete Script
 
-The full example is published in the [qdrant/examples repository](https://github.com/qdrant/examples/tree/master/agentic-rag-langgraph) with a `requirements.txt` and `.env.example`. Copy your keys into `.env`, then run it with a question as the argument. The web search tool is added only when `BRAVE_API_KEY` is set.
-
-```bash
-python agentic_rag_langgraph.py "In the Transformers library, are there any multilingual models?"
-```
+Save the complete Python code as `agentic_rag_langgraph.py` in the same directory as your `.env` file. Install the dependencies listed in [Imports](#imports) and configure the API keys described in [Implementation](#implementation). The web search tool is added only when `BRAVE_API_KEY` is set.
 
 ```python
 """Agentic RAG with LangGraph and Qdrant.
@@ -399,9 +395,6 @@ python agentic_rag_langgraph.py "In the Transformers library, are there any mult
 Builds an agent that answers questions about the Hugging Face and
 Transformers documentation. The agent chooses between two Qdrant
 retrievers and a Brave web search tool, and loops until it has an answer.
-
-Companion script for
-https://qdrant.tech/documentation/tutorials-build-essentials/agentic-rag-langgraph/
 """
 
 import os
@@ -574,6 +567,12 @@ if __name__ == "__main__":
     run_agent(question)
 ```
 
+Run the script with a question:
+
+```bash
+python agentic_rag_langgraph.py "In the Transformers library, are there any multilingual models?"
+```
+
 ---
 
 ## Conclusion
@@ -582,6 +581,6 @@ We’ve successfully implemented Agentic RAG. But this is just the beginning—t
 
 Agentic RAG is transforming how businesses connect data sources with AI, enabling smarter and more dynamic interactions. In this tutorial, you’ve learned how to build an Agentic RAG system that combines the power of LangGraph, Qdrant, and web search into one seamless workflow.
 
-This system doesn’t just stop at retrieving relevant information from Hugging Face and Transformers documentation. It also smartly falls back to web search when needed, ensuring no query goes unanswered. With Qdrant as the vector database backbone, you get fast, scalable semantic search that excels at retrieving precise information—even from massive datasets.
+The agent can retrieve information from the Hugging Face and Transformers documentation and use web search when needed. Qdrant serves as the vector search engine for the documentation collections.
 
 To truly grasp the potential of this approach, why not apply these concepts to your own projects? Customize the template we’ve shared to fit your unique use case, and unlock the full potential of Agentic RAG for your business needs. The possibilities are endless.
