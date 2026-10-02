@@ -22,7 +22,7 @@ Think of a library with a vast index card system. Each index card only has a few
 
 ## What are sparse and dense vectors?
 
-Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (or relevance, in this case). 
+Sparse vectors are like the Marie Kondo of data: they keep only what sparks joy (or relevance, in this case).
 
 Consider a simplified example of 2 documents, each with 200 words. A dense vector would have several hundred non-zero values, whereas a sparse vector could have, much fewer, say only 20 non-zero values.
 
@@ -44,13 +44,13 @@ BM25's capabilities are well-established, yet it has its limitations.
 BM25 relies solely on the frequency of words in a document and does not attempt to comprehend the meaning or the contextual importance of the words. Additionally, it requires the computation of the entire corpus's statistics in advance, posing a challenge for large datasets.
 
 Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
-They excel in handling large text data, making them crucial in modern data processing and marking an advancement over traditional methods such as BM25.
+They excel in handling large text data, which makes them an advancement over traditional methods such as BM25.
 
 ## Understanding sparse vectors
 
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complementing the meaning-rich embedding or dense vectors. 
 
-Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain non-zero values for every element. In contrast, sparse vectors focus on relative word weights per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
+Dense vectors from embedding models, such as OpenAI's [text-embedding-3-small](/documentation/embeddings/openai/) or the Sentence Transformers models available in [FastEmbed](/documentation/fastembed/), contain non-zero values for every element. In contrast, sparse vectors focus on relative word weights per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
 
 Sparse Vectors shine in domains and scenarios where many rare keywords or specialized terms are present.
 For example, in the medical domain, many rare terms are not present in the general vocabulary, so general-purpose dense vectors cannot capture the nuances of the domain.
@@ -61,13 +61,13 @@ For example, in the medical domain, many rare terms are not present in the gener
 | **Data Representation**   | Majority of elements are zero               | All elements are non-zero                   |
 | **Computational Efficiency** | Generally higher, especially in operations involving zero elements | Lower, as operations are performed on all elements |
 | **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
-| **Example Applications**  | Text search, Hybrid search | [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/), many general machine learning tasks |
+| **Example Applications**  | Text search, Hybrid search | [RAG](/articles/what-is-rag-in-ai/), many general machine learning tasks |
 
 Where do sparse vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
 
 ## SPLADE
 
-Let's check out [SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), an excellent way to make sparse vectors. Let's look at some numbers first. Higher is better:
+Let's check out [SPLADE](https://arxiv.org/abs/2107.05720), a learned model for creating sparse vectors. Let's look at some numbers first. Higher is better:
 
 | Model              | MRR@10 (MS MARCO Dev) | Type           |
 |--------------------|---------|----------------|
@@ -79,7 +79,7 @@ Let's check out [SPLADE](https://europe.naverlabs.com/research/computer-science/
 | SPLADE-doc         | 0.322   | Sparse |
 | DistilSPLADE-max   | 0.368   | Sparse |
 
-All numbers are from [SPLADEv2](https://arxiv.org/abs/2109.10086). MRR is [Mean Reciprocal Rank](https://www.wikiwand.com/en/Mean_reciprocal_rank#References), a standard metric for ranking. [MS MARCO](https://microsoft.github.io/MSMARCO-Passage-Ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) is a dataset for evaluating ranking and retrieval for passages.  
+All numbers are from [SPLADEv2](https://arxiv.org/abs/2109.10086). MRR is [Mean Reciprocal Rank](https://en.wikipedia.org/wiki/Mean_reciprocal_rank), a standard metric for ranking. [MS MARCO](https://microsoft.github.io/MSMARCO-Passage-Ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) is a dataset for evaluating ranking and retrieval for passages.  
 
 SPLADE is quite flexible as a method, with regularization knobs that can be tuned to obtain [different models](https://github.com/naver/splade) as well: 
 
@@ -175,7 +175,7 @@ sorted_tokens
 
 There will be 102 sorted tokens in total. This has expanded to include tokens that weren't in the original text. This is the term expansion we will talk about next.
 
-Here are some terms that are added: "Berlin", and "founder" - despite having no mention of Arthur's race (which leads to Owen's Berlin win) and his work as the founder of Arthur Ashe Institute for Urban Health. Here are the top few `sorted_tokens` with a weight of more than 1: 
+Some of the added terms are "founder" and "wimbledon", even though the text doesn't mention Ashe's work as the founder of the Arthur Ashe Institute for Urban Health or his Wimbledon title. Here are the top 15 `sorted_tokens`:
 
 ```python
 {
@@ -200,30 +200,30 @@ Here are some terms that are added: "Berlin", and "founder" - despite having no 
 
 If you're interested in using the higher-performance approach, check out the following models:
 
-1. [naver/efficient-splade-VI-BT-large-doc](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
-2. [naver/efficient-splade-VI-BT-large-query](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
+1. [naver/efficient-splade-VI-BT-large-doc](https://huggingface.co/naver/efficient-splade-VI-BT-large-doc)
+2. [naver/efficient-splade-VI-BT-large-query](https://huggingface.co/naver/efficient-splade-VI-BT-large-query)
 
 ## Why SPLADE works: term expansion
 
 Consider a query "solar energy advantages". SPLADE might expand this to include terms like "renewable," "sustainable," and "photovoltaic," which are contextually relevant but not explicitly mentioned. This process is called term expansion, and it's a key component of SPLADE. 
 
-SPLADE learns the query/document expansion to include other relevant terms. This is a crucial advantage over other sparse methods which include the exact word, but completely miss the contextually relevant ones.
+SPLADE learns the query/document expansion to include other relevant terms. This is the key advantage over other sparse methods which include the exact word, but completely miss the contextually relevant ones.
 
-This expansion has a direct relationship with what we can control when making a SPLADE model: Sparsity via Regularisation. The number of tokens (BERT wordpieces) we use to represent each document. If we use more tokens, we can represent more terms, but the vectors become denser. This number is typically between 20 to 200 per document. As a reference point, the dense BERT vector is 768 dimensions, OpenAI Embedding is 1536 dimensions, and the sparse vector is ~30,000 dimensions (BERT's vocabulary size), with only 20-200 of those non-zero per document. 
+This expansion has a direct relationship with what we can control when making a SPLADE model: Sparsity via Regularisation. The number of tokens (BERT wordpieces) we use to represent each document. If we use more tokens, we can represent more terms, but the vectors become denser. This number is typically between 20 to 200 per document. As a reference point, the dense BERT vector is 768 dimensions, OpenAI text-embedding-3-small is 1536 dimensions, and the sparse vector is ~30,000 dimensions (BERT's vocabulary size), with only 20-200 of those non-zero per document. 
 
-For example, assume a 1M document corpus. Say, we use 100 sparse token ids + weights per document. Correspondingly, dense BERT vector would be 768M floats, the OpenAI Embedding would be 1.536B floats, and the sparse vector would be a maximum of 100M integers + 100M floats. This could mean a **10x reduction in memory usage**, which is a huge win for large-scale systems:
+For example, assume a 1M document corpus. Say, we use 100 sparse token ids + weights per document. Correspondingly, dense BERT vector would be 768M floats, text-embedding-3-small would be 1.536B floats, and the sparse vector would be a maximum of 100M integers + 100M floats. Assuming 4-byte float32 values and 4-byte int32 indices, this means a **4x to 8x reduction in memory usage**:
 
 | Vector Type       | Memory (GB) |
-|-------------------|-------------------------|
-| Dense BERT Vector | 6.144                   |
-| OpenAI Embedding  | 12.288                  |
-| Sparse Vector     | 1.12                    |
+| -------------------| -------------|
+| Dense BERT Vector | 3.072       |
+| text-embedding-3-small | 6.144 |
+| Sparse Vector     | 0.8         |
 
 ### How SPLADE works: leveraging BERT
 
 SPLADE leverages a transformer architecture to generate sparse representations of documents and queries, enabling efficient retrieval. Let's dive into the process. 
 
-The output logits from the transformer backbone are inputs upon which SPLADE builds. The transformer architecture can be something familiar like BERT. Rather than producing dense probability distributions, SPLADE utilizes these logits to construct sparse vectors—think of them as a distilled essence of tokens, where each dimension corresponds to a term from the vocabulary and its associated weight in the context of the given document or query. 
+The output logits from the transformer backbone are inputs upon which SPLADE builds. The transformer architecture can be something familiar like BERT. Rather than producing dense probability distributions, SPLADE uses these logits to construct sparse vectors. They are a distilled essence of tokens, where each dimension corresponds to a term from the vocabulary and its associated weight in the context of the given document or query. 
 
 This sparsity is critical; it mirrors the probability distributions from a typical [Masked Language Modeling](http://jalammar.github.io/illustrated-bert/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) task but is tuned for retrieval effectiveness, emphasizing terms that are both:
 
@@ -272,19 +272,23 @@ But let's first take a look at how you can work with sparse vectors in Qdrant.
 
 Let's dive into how Qdrant handles sparse vectors with an example. Here is what we will cover:
 
-1. Setting Up Qdrant Client: Initially, we establish a connection with Qdrant using the QdrantClient. This setup is crucial for subsequent operations.
+1. Setting Up Qdrant Client: Initially, we establish a connection with Qdrant using the QdrantClient.
 
-2. Creating a Collection with Sparse Vector Support: In Qdrant, a collection is a container for your vectors. Here, we create a collection specifically designed to support sparse vectors. This is done using the create_collection method where we define the parameters for sparse vectors, such as setting the index configuration.
+2. Creating a Collection with Sparse Vector Support: In Qdrant, a collection is a container for your vectors. Here, we create a collection specifically designed to support sparse vectors. This is done using the `create_collection` method where we define the sparse vector configuration.
 
 3. Inserting Sparse Vectors: Once the collection is set up, we can insert sparse vectors into it. This involves defining the sparse vector with its indices and values, and then upserting this point into the collection.
 
 4. Querying with Sparse Vectors: To perform a search, we first prepare a query vector. This involves computing the vector from a query text and extracting its indices and values. We then use these details to construct a query against our collection.
 
-5. Retrieving and Interpreting Results: The search operation returns results that include the id of the matching document, its score, and other relevant details. The score is a crucial aspect, reflecting the similarity between the query and the documents in the collection.
+5. Retrieving and Interpreting Results: The search operation returns results that include the id of the matching document, its score, and other relevant details. The score reflects the similarity between the query and the documents in the collection.
 
 ### 1. Set up
 
+The following code imports the Qdrant client, starts it in local in-memory mode, and defines the collection name and point ID.
+
 ```python
+from qdrant_client import QdrantClient, models
+
 # Qdrant client setup
 client = QdrantClient(":memory:")
 
@@ -297,16 +301,14 @@ point_id = 1  # Assign a unique ID for the point
 
 ### 2. Create a collection with sparse vector support
 
+The following code creates a collection with one sparse vector named `text`. Sparse vectors need no size or distance settings, and Qdrant keeps the sparse index in RAM by default. To move it to disk, see [memory tiers](/documentation/ops-configuration/memory-tiers/).
+
 ```python
 client.create_collection(
     collection_name=COLLECTION_NAME,
     vectors_config={},
     sparse_vectors_config={
-        "text": models.SparseVectorParams(
-            index=models.SparseIndexParams(
-                on_disk=False,
-            )
-        )
+        "text": models.SparseVectorParams(),
     },
 )
 ```
@@ -317,6 +319,10 @@ client.create_collection(
 Here, we see the process of inserting a sparse vector into the Qdrant collection. This step is key to building a dataset that can be quickly retrieved in the first stage of the retrieval process, utilizing the efficiency of sparse vectors. Since this is for demonstration purposes, we insert only one point with Sparse Vector and no dense vector.
 
 ```python
+# Extract the non-zero token IDs and weights from the document vector
+indices = vec.nonzero().numpy().flatten()
+values = vec.detach().numpy()[indices]
+
 client.upsert(
     collection_name=COLLECTION_NAME,
     points=[
@@ -378,16 +384,16 @@ The `client.query_points` method takes the collection name and the sparse query 
 ScoredPoint(
     id=1,
     version=0,
-    score=3.4292831420898438,
+    score=25.473188400268555,
     payload={},
     vector={
         "text": SparseVector(
             indices=[2001, 2002, 2010, 2018, 2032, ...],
             values=[
-                1.0660614967346191,
-                1.391068458557129,
-                0.8903818726539612,
-                0.2502821087837219,
+                1.0660609006881714,
+                1.3910670280456543,
+                0.8903809785842896,
+                0.2502809166908264,
                 ...,
             ],
         )
@@ -407,8 +413,7 @@ This formula calculates the similarity score by multiplying corresponding elemen
 ## Hybrid search: combining sparse and dense vectors
 
 By combining search results from both dense and sparse vectors, you can achieve a hybrid search that is both efficient and accurate.
-Results from sparse vectors will guarantee, that all results with the required keywords are returned, 
-while dense vectors will cover the semantically similar results.
+Sparse vectors favor results that contain the query's keywords, while dense vectors cover semantically similar results.
 
 The mixture of dense and sparse results can be presented directly to the user, or used as a first stage of a two-stage retrieval process.
 
@@ -417,26 +422,24 @@ Let's see how you can make a hybrid search query in Qdrant.
 First, you need to create a collection with both dense and sparse vectors:
 
 ```python
+HYBRID_COLLECTION_NAME = "hybrid_collection"
+
 client.create_collection(
-    collection_name=COLLECTION_NAME,
+    collection_name=HYBRID_COLLECTION_NAME,
     vectors_config={
         "text-dense": models.VectorParams(
-            size=1536,  # OpenAI Embeddings
+            size=1536,  # OpenAI text-embedding-3-small
             distance=models.Distance.COSINE,
         )
     },
     sparse_vectors_config={
-        "text-sparse": models.SparseVectorParams(
-            index=models.SparseIndexParams(
-                on_disk=False,
-            )
-        )
+        "text-sparse": models.SparseVectorParams(),
     },
 )
 ```
 
 
-Then, assuming you have upserted both dense and sparse vectors, you can query them together:
+Then, assuming you have upserted both dense and sparse vectors, the following query runs a sparse and a dense search as prefetches and fuses their results in Qdrant with Reciprocal Rank Fusion (RRF):
 
 ```python
 query_text = "Who was Arthur Ashe?"
@@ -446,50 +449,40 @@ query_indices, query_values = compute_sparse_vector(query_text)
 query_dense_vector = compute_dense_vector(query_text)
 
 
-client.search_batch(
-    collection_name=COLLECTION_NAME,
-    requests=[
-        models.SearchRequest(
-            vector=models.NamedVector(
-                name="text-dense",
-                vector=query_dense_vector,
-            ),
-            limit=10,
+client.query_points(
+    collection_name=HYBRID_COLLECTION_NAME,
+    prefetch=[
+        models.Prefetch(
+            query=models.SparseVector(indices=query_indices, values=query_values),
+            using="text-sparse",
+            limit=20,
         ),
-        models.SearchRequest(
-            vector=models.NamedSparseVector(
-                name="text-sparse",
-                vector=models.SparseVector(
-                    indices=query_indices,
-                    values=query_values,
-                ),
-            ),
-            limit=10,
+        models.Prefetch(
+            query=query_dense_vector,
+            using="text-dense",
+            limit=20,
         ),
     ],
+    query=models.RrfQuery(rrf=models.Rrf()),
+    limit=10,
 )
 ```
 
-The result will be a pair of result lists, one for dense and one for sparse vectors.
-
-Having those results, there are several ways to combine them:
+The result is a single list of the top 10 points, ranked by their fused score. You can change how Qdrant fuses the results, or add a second stage on top of them:
 
 ### Mixing or fusion
 
-You can mix the results from both dense and sparse vectors, based purely on their relative scores. This is a simple and effective approach, but it doesn't take into account the semantic similarity between the results. Among the [popular mixing methods](https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18) are:
+Fusion mixes the results from both dense and sparse vectors based purely on their ranks or relative scores. This is a simple and effective approach, but it doesn't take into account the semantic similarity between the results. Qdrant supports two [fusion methods](/documentation/search/hybrid-queries/#hybrid-search):
 
-    - Reciprocal Ranked Fusion (RRF)
-    - Relative Score Fusion (RSF)
-    - Distribution-Based Score Fusion (DBSF)
+- Reciprocal Rank Fusion (RRF) scores each point by its positions in the result lists. It's the safe default when you have no evaluation set to tune on.
+- Distribution-Based Score Fusion (DBSF) normalizes the scores from each result list, then sums them. To use it, pass `query=models.FusionQuery(fusion=models.Fusion.DBSF)`.
 
-{{< figure src=/articles_data/sparse-vectors/mixture.png caption="Relative Score Fusion" width=80% >}}
-
-[Ranx](https://github.com/AmenRa/ranx) is a great library for mixing results from different sources.
+{{< figure src=/articles_data/sparse-vectors/mixture.jpg caption="Normalizing and fusing dense and sparse results" width=80% >}}
 
 
 ### Re-ranking
 
-You can use obtained results as a first stage of a two-stage retrieval process. In the second stage, you can re-rank the results from the first stage using a more complex model, such as [Cross-Encoders](https://www.sbert.net/examples/applications/cross-encoder/README.html) or services like [Cohere Rerank](https://txt.cohere.com/rerank/).
+You can use obtained results as a first stage of a two-stage retrieval process. In the second stage, you can re-rank the results from the first stage using a more complex model, such as [Cross-Encoders](https://www.sbert.net/examples/cross_encoder/applications/README.html) or services like [Cohere Rerank](https://cohere.com/blog/rerank).
 
 And that's it! You've successfully achieved hybrid search with Qdrant!
 
