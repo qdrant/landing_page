@@ -1,0 +1,627 @@
+/* Static article-local figures. qi palette/chrome, native HTML text, CSS reflow.
+   No JavaScript, figure scrollbar, image filter, or duplicate mobile content. */
+.snr-figure {
+  --snr-fg: #303547;
+  --snr-muted: #4e5366;
+  --snr-surface: #fff;
+  --snr-soft: #f0f3fa;
+  --snr-border: #abb1c7;
+  --snr-line: #656b7f;
+  --snr-query: #5133cc;
+  --snr-query-soft: #f0edff;
+  --snr-doc: #006b75;
+  --snr-doc-soft: #e7f6f8;
+  --snr-model: #bb1841;
+  --snr-model-soft: #fff0f3;
+  --snr-op: #763183;
+  --snr-op-soft: #f7edf9;
+  color: var(--snr-fg);
+  margin: 32px 0;
+  padding: 20px;
+  border: 1px solid var(--snr-border);
+  border-radius: 8px;
+  background: var(--snr-surface);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  container-type: inline-size;
+}
+html[data-theme="dark"] .snr-figure {
+  --snr-fg: #e2e7f5;
+  --snr-muted: #b9c0d4;
+  --snr-surface: #111824;
+  --snr-soft: #1c2433;
+  --snr-border: #656b7f;
+  --snr-line: #b9c0d4;
+  --snr-query: #b8adff;
+  --snr-query-soft: #272143;
+  --snr-doc: #86dbe2;
+  --snr-doc-soft: #112f35;
+  --snr-model: #ff9aac;
+  --snr-model-soft: #3a1c2a;
+  --snr-op: #ddb1e6;
+  --snr-op-soft: #32213c;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]):not([data-theme="dark"]) .snr-figure {
+    --snr-fg: #e2e7f5;
+    --snr-muted: #b9c0d4;
+    --snr-surface: #111824;
+    --snr-soft: #1c2433;
+    --snr-border: #656b7f;
+    --snr-line: #b9c0d4;
+    --snr-query: #b8adff;
+    --snr-query-soft: #272143;
+    --snr-doc: #86dbe2;
+    --snr-doc-soft: #112f35;
+    --snr-model: #ff9aac;
+    --snr-model-soft: #3a1c2a;
+    --snr-op: #ddb1e6;
+    --snr-op-soft: #32213c;
+  }
+}
+.snr-figure *,
+.snr-figure *::before,
+.snr-figure *::after {
+  box-sizing: border-box;
+}
+.snr-figure .snr-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-bottom: 20px;
+}
+.snr-figure .snr-title {
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.snr-figure .snr-kind {
+  color: var(--snr-muted);
+  font-size: 14px;
+}
+.snr-figure p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 8px 0 0;
+  color: inherit;
+}
+.snr-figure .snr-lanes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+}
+.snr-figure .snr-lane {
+  min-width: 0;
+}
+.snr-figure .snr-box {
+  border: 1px solid var(--snr-border);
+  border-radius: 6px;
+  padding: 12px;
+  background: var(--snr-soft);
+  min-width: 0;
+}
+.snr-figure .snr-query {
+  background: var(--snr-query-soft);
+  border-color: var(--snr-query);
+}
+.snr-figure .snr-doc {
+  background: var(--snr-doc-soft);
+  border-color: var(--snr-doc);
+}
+.snr-figure .snr-model {
+  background: var(--snr-model-soft);
+  border-color: var(--snr-model);
+}
+.snr-figure .snr-op {
+  background: var(--snr-op-soft);
+  border-color: var(--snr-op);
+}
+.snr-figure .snr-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+.snr-figure .snr-query > .snr-label {
+  color: var(--snr-query);
+}
+.snr-figure .snr-doc > .snr-label {
+  color: var(--snr-doc);
+}
+.snr-figure .snr-model > .snr-label {
+  color: var(--snr-model);
+}
+.snr-figure .snr-op > .snr-label {
+  color: var(--snr-op);
+}
+.snr-figure .snr-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.snr-figure .snr-token {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 32px;
+  border: 1px solid var(--snr-border);
+  border-radius: 4px;
+  background: var(--snr-surface);
+  padding: 4px 7px;
+  font-size: 14px;
+  align-items: center;
+  line-height: 1.45;
+}
+.snr-figure .snr-token.snr-hit {
+  border-color: var(--snr-op);
+  box-shadow: inset 0 -2px var(--snr-op);
+}
+.snr-figure .snr-token.snr-added {
+  border-color: var(--snr-model);
+  color: var(--snr-model);
+  border-style: dashed;
+}
+.snr-figure .snr-weight {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 550;
+}
+.snr-figure .snr-zero {
+  color: var(--snr-muted);
+}
+.snr-figure .snr-arrow {
+  position: relative;
+  height: 26px;
+  width: 100%;
+}
+.snr-figure .snr-arrow::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 3px;
+  height: 17px;
+  width: 2px;
+  background: var(--snr-line);
+}
+.snr-figure .snr-arrow::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 4px);
+  top: 14px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--snr-line);
+  border-bottom: 2px solid var(--snr-line);
+  transform: rotate(45deg);
+}
+.snr-figure .snr-join {
+  position: relative;
+  height: 36px;
+}
+.snr-figure .snr-join::before {
+  content: "";
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  height: 12px;
+  border: 2px solid var(--snr-line);
+  border-top: 0;
+  top: 0;
+  border-radius: 0 0 4px 4px;
+}
+.snr-figure .snr-join .snr-arrow {
+  position: absolute;
+  top: 10px;
+}
+.snr-figure .snr-step {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 8px 0;
+}
+.snr-figure .snr-step + .snr-step {
+  border-top: 1px solid var(--snr-border);
+}
+.snr-figure .snr-num {
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--snr-model);
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  color: var(--snr-model);
+}
+.snr-figure .snr-step strong {
+  display: block;
+  font-weight: 650;
+}
+.snr-figure .snr-step .snr-tokens {
+  margin-top: 8px;
+}
+.snr-figure .snr-note {
+  color: var(--snr-muted);
+  font-size: 14px;
+}
+.snr-figure .snr-vector {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border: 1px solid var(--snr-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.snr-figure .snr-vector span {
+  font:
+    14px/1.5 "Geist Mono",
+    ui-monospace,
+    monospace;
+  padding: 6px 2px;
+  text-align: center;
+  background: var(--snr-surface);
+  border-right: 1px solid var(--snr-border);
+}
+.snr-figure .snr-vector span:nth-child(5n) {
+  border-right: none;
+}
+.snr-figure .snr-vector span:nth-child(n + 6) {
+  border-top: 1px solid var(--snr-border);
+}
+.snr-figure .snr-math {
+  font:
+    14px/1.6 "Geist Mono",
+    ui-monospace,
+    monospace;
+  overflow-wrap: anywhere;
+}
+.snr-figure .snr-equation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-top: 8px;
+  font:
+    14px/1.6 "Geist Mono",
+    ui-monospace,
+    monospace;
+  align-items: baseline;
+}
+.snr-figure .snr-equation > span {
+  white-space: nowrap;
+}
+.snr-figure .snr-result {
+  color: var(--snr-op);
+  font-weight: 700;
+}
+.snr-figure .snr-match {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 12px;
+  table-layout: fixed;
+  font-size: 14px;
+}
+.snr-figure .snr-match th,
+.snr-figure .snr-match td {
+  padding: 7px 5px;
+  border: 0;
+  border-bottom: 1px solid var(--snr-border);
+  text-align: left;
+  color: var(--snr-fg);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.snr-figure .snr-match th {
+  font-weight: 650;
+}
+.snr-figure .snr-match td:not(:first-child) {
+  font-family: "Geist Mono", ui-monospace, monospace;
+}
+.snr-figure .snr-matches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+.snr-figure .snr-matches + .snr-matches {
+  border-top: 1px solid var(--snr-border);
+}
+.snr-figure .snr-index-term {
+  flex: 0 0 86px;
+  color: var(--snr-query);
+  font-weight: 650;
+}
+.snr-figure .snr-inline-arrow {
+  color: var(--snr-line);
+  font-size: 20px;
+  line-height: 1;
+  margin-right: 4px;
+}
+.snr-figure .snr-id {
+  display: inline-block;
+  border: 1px solid var(--snr-doc);
+  background: var(--snr-doc-soft);
+  color: var(--snr-doc);
+  border-radius: 4px;
+  font:
+    14px/1.5 "Geist Mono",
+    ui-monospace,
+    monospace;
+  min-width: 30px;
+  text-align: center;
+  padding: 3px 6px;
+}
+.snr-figure .snr-bm25 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+.snr-figure .snr-frac {
+  display: inline-grid;
+  vertical-align: middle;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.snr-figure .snr-frac > span:first-child {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.snr-figure .snr-frac > span:last-child {
+  padding-top: 2px;
+}
+.snr-figure .snr-queries {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+}
+.snr-figure .snr-queries li {
+  margin: 5px 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.snr-figure .snr-passage {
+  margin-top: 0;
+}
+.snr-figure .snr-caption {
+  margin-top: 16px;
+  color: var(--snr-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.snr-figure .snr-caption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@container (max-width:570px) {
+  .snr-figure .snr-lanes,
+  .snr-figure .snr-bm25 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .snr-figure .snr-lanes {
+    gap: 16px;
+  }
+  .snr-figure .snr-join::before {
+    display: none;
+  }
+  .snr-figure .snr-join {
+    height: 26px;
+  }
+  .snr-figure .snr-join .snr-arrow {
+    top: 0;
+  }
+}
+@media (max-width: 480px) {
+  .snr-figure {
+    padding: 12px;
+    margin: 24px 0;
+  }
+  .snr-figure .snr-box {
+    padding: 10px;
+  }
+  .snr-figure .snr-heading {
+    margin-bottom: 14px;
+  }
+}
+/* Corresponding stages share rows, preserving the desktop comparison. */
+.snr-figure .snr-aligned {
+  grid-auto-flow: column;
+  grid-template-rows: auto;
+  row-gap: 0;
+}
+.snr-figure .snr-aligned > .snr-lane {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / span 5;
+}
+.snr-figure[id="snr-splade++"] .snr-aligned > .snr-lane {
+  grid-row: 1 / span 9;
+}
+.snr-figure[id="snr-sparta"] .snr-aligned > .snr-lane {
+  grid-row: 1 / span 3;
+}
+.snr-figure .snr-head {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--snr-border);
+}
+.snr-figure .snr-head strong {
+  font-weight: 650;
+}
+.snr-figure .snr-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.snr-figure .snr-product {
+  display: grid;
+  gap: 2px;
+  padding: 6px 10px;
+  border: 1px solid var(--snr-border);
+  border-radius: 4px;
+  background: var(--snr-surface);
+  min-width: 76px;
+}
+.snr-figure .snr-product strong {
+  font-size: 14px;
+}
+.snr-figure .snr-total {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.snr-figure .snr-total strong {
+  color: var(--snr-op);
+}
+.snr-figure .snr-coil-score {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.snr-figure .snr-coil-score .snr-box {
+  background: var(--snr-surface);
+}
+@container (max-width:570px) {
+  .snr-figure .snr-aligned {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    row-gap: 16px;
+  }
+  .snr-figure .snr-aligned > .snr-lane,
+  .snr-figure[id="snr-splade++"] .snr-aligned > .snr-lane,
+  .snr-figure[id="snr-sparta"] .snr-aligned > .snr-lane {
+    display: block;
+    grid-row: auto;
+  }
+  .snr-figure .snr-coil-score {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Compact desktop rhythm; all essential labels remain 14 CSS px. */
+.snr-figure .snr-heading {
+  margin-bottom: 12px;
+}
+.snr-figure .snr-box {
+  padding: 10px;
+}
+.snr-figure .snr-label {
+  margin-bottom: 6px;
+}
+.snr-figure p {
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.snr-figure .snr-arrow {
+  height: 22px;
+}
+.snr-figure .snr-product {
+  padding: 4px 8px;
+}
+.snr-figure .snr-total {
+  margin-top: 6px;
+}
+.snr-figure .snr-caption {
+  text-align: left;
+  margin-top: 12px;
+}
+.snr-figure[id="snr-splade++"] .snr-aligned {
+  grid-template-rows: auto 22px auto 22px auto 22px auto 22px auto;
+}
+.snr-figure .snr-aligned {
+  grid-template-rows: auto 22px auto 22px auto;
+}
+.snr-figure[id="snr-sparta"] .snr-aligned {
+  grid-template-rows: auto 22px auto;
+}
+@container (max-width:570px) {
+  .snr-figure .snr-aligned,
+  .snr-figure[id="snr-splade++"] .snr-aligned,
+  .snr-figure[id="snr-sparta"] .snr-aligned {
+    grid-template-rows: none;
+  }
+}
+
+/* Mathematical indices keep the 12px minimum at every viewport. */
+.snr-figure sub,
+.snr-figure sup {
+  font-size: 12px;
+}
+/* The independently encoded SPARTA query meets the expanded document only
+   at scoring. Keep their output ends aligned for the joining connector. */
+.snr-figure[id="snr-sparta"] .snr-lanes:not(.snr-aligned) {
+  align-items: end;
+}
+
+/* Literal/binary queries bypass the document encoder and feed scoring.
+   Desktop lane centers account for the 20px inter-column gutter. */
+.snr-figure .snr-lane {
+  display: flex;
+  flex-direction: column;
+}
+.snr-figure .snr-bypass {
+  flex: 1;
+  position: relative;
+}
+.snr-figure .snr-bypass::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--snr-line);
+}
+.snr-figure .snr-join::before {
+  left: calc(25% - 5px);
+  width: calc(50% + 10px);
+}
+@container (max-width: 570px) {
+  .snr-figure .snr-bypass {
+    display: none;
+  }
+}
+
+/* External expansion receives only the document, not the example query. */
+.snr-figure .snr-doc-feed::before {
+  left: calc(75% + 4px);
+}
+.snr-figure .snr-doc-feed::after {
+  left: calc(75% + 1px);
+}
+@container (max-width: 570px) {
+  .snr-figure .snr-doc-feed::before {
+    left: calc(50% - 1px);
+  }
+  .snr-figure .snr-doc-feed::after {
+    left: calc(50% - 4px);
+  }
+}
+
+/* DOM order puts the expanded document immediately after expansion on phones.
+   Desktop keeps the independent query left and document right. */
+.snr-figure .snr-sparta-matching > .snr-lane:first-child {
+  grid-column: 2;
+  grid-row: 1;
+}
+.snr-figure .snr-sparta-matching > .snr-lane:last-child {
+  grid-column: 1;
+  grid-row: 1;
+}
+@container (max-width: 570px) {
+  .snr-figure .snr-sparta-matching > .snr-lane:first-child,
+  .snr-figure .snr-sparta-matching > .snr-lane:last-child {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+/* Separate the independent query input from the document expansion stage. */
+.snr-figure .snr-sparta-matching {
+  padding-top: 14px;
+}
