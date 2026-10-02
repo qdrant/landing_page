@@ -1,0 +1,24 @@
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.QueryFactory.recommend;
+import static io.qdrant.client.VectorInputFactory.vectorInput;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Common.Filter;
+import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.RecommendInput;
+import io.qdrant.client.grpc.Points.RecommendStrategy;
+import java.util.List;
+
+client.queryAsync(QueryPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setQuery(recommend(RecommendInput.newBuilder()
+                .addAllPositive(List.of(vectorInput(100), vectorInput(231)))
+                .addAllNegative(List.of(vectorInput(718), vectorInput(0.2f, 0.3f, 0.4f, 0.5f)))
+                .setStrategy(RecommendStrategy.AverageVector)
+                .build()))
+        .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")))
+        .setLimit(3)
+        .build()).get();
+```
