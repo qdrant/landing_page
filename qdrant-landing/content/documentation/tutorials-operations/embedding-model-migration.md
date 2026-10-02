@@ -6,8 +6,6 @@ aliases:
   - /documentation/tutorials/embedding-model-migration/
 weight: 30
 goal: Operations
-stack:
-  - Python
 keywords:
   - replace
   - change
@@ -144,20 +142,8 @@ Once the migration process is complete and all the points from the old collectio
 
 1. **The collection name**. Switch this from the old collection to the new collection. If you're using a [collection alias](/documentation/manage-data/collections/#collection-aliases), switch the alias to point to the new collection. Deleting and recreating the alias in a single request makes the switch atomic:
 
-```python
-client.update_collection_aliases(
-    change_aliases_operations=[
-        models.DeleteAliasOperation(
-            delete_alias=models.DeleteAlias(alias_name="prod")
-        ),
-        models.CreateAliasOperation(
-            create_alias=models.CreateAlias(
-                collection_name=NEW_COLLECTION, alias_name="prod"
-            )
-        ),
-    ]
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="alias-update" >}}
+
 2. **The embedding model**. Switch this from the old embedding model to the new embedding model.
 
 If these values are hardcoded in your application, you will need to change them directly in the code and deploy a new version of your application. For example, if your current search code looks like this:
@@ -212,15 +198,7 @@ Deletions need one precaution. If a point is deleted after the scroll returned i
 
 Before switching, check that no point is missing the new vector, then [compare retrieval quality](#check-retrieval-quality-before-switching) between the two vectors on your own queries. This count returns `0` when the re-embedding is complete:
 
-```python
-missing = client.count(
-    collection_name=COLLECTION,
-    count_filter=models.Filter(
-        must_not=[models.HasVectorCondition(has_vector=NEW_VECTOR)]
-    ),
-    exact=True,
-).count
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="count-missing" >}}
 
 When every point has the new vector and it performs at least as well, change the query logic:
 - switch the `using` parameter from the old vector to the new vector.
@@ -250,51 +228,20 @@ A new embedding model is not automatically better on your data, so measure it be
 
 Start from a labeled set of queries, with the documents that should be returned for each one. [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) explains how to build it from logs, human annotation, or synthetic queries, and how to choose metrics. Use real queries from your application where you can, because a model that wins on generic benchmarks can still lose on your domain.
 
-The following example scores both setups with [ranx](https://amenra.github.io/ranx/). `golden_set` has the shape described in that guide. Pass the same `k` to both runs, and use document IDs that match your point IDs. ranx expects them as strings:
+To score both setups, follow these steps:
 
-```python
-from ranx import Qrels, Run, evaluate
-
-
-def search_old(text, k):
-    return client.query_points(
-        collection_name=OLD_COLLECTION,
-        query=models.Document(text=text, model=OLD_MODEL),
-        limit=k,
-    ).points
-
-
-def search_new(text, k):
-    return client.query_points(
-        collection_name=NEW_COLLECTION,
-        query=models.Document(text=text, model=NEW_MODEL),
-        limit=k,
-    ).points
-
-
-def run_for(search, golden_set, k=10):
-    run = {}
-    for entry in golden_set:
-        points = search(entry["query_text"], k)
-        run[entry["query_id"]] = {str(p.id): p.score for p in points}
-    return Run(run)
-
-
-qrels = Qrels({e["query_id"]: e["labels"] for e in golden_set})
-metrics = ["recall@10", "mrr", "ndcg@10"]
-
-print("old", evaluate(qrels, run_for(search_old, golden_set), metrics))
-print("new", evaluate(qrels, run_for(search_new, golden_set), metrics))
-```
-
-With named vectors, keep one collection and select the vector instead: pass `collection_name=COLLECTION` and `using=OLD_VECTOR` in `search_old`, and `using=NEW_VECTOR` with `NEW_MODEL` in `search_new`.
-
-Each call prints a dictionary with one score per metric, for example `{'recall@10': 0.86, 'mrr': 0.71, 'ndcg@10': 0.74}`. The numbers here only show the format; yours depend on your data and models.
+1. **Query each setup with the same inputs.** For every query in the labeled set, ask the old setup and the new setup for the top `k` results. Use the same `k` for both. In a blue-green migration, that means querying the old and new collections, each with its own model. With named vectors, query the one collection twice and select the old or new vector each time, again with the matching model.
+2. **Collect the ranked results per query.** Record the document IDs in the order returned, along with their scores. Make sure the IDs use the same format as the IDs in your labeled set (for example, strings on both sides), or nothing will match.
+3. **Compute the metrics against the labels.** Use an evaluation library such as [ranx](https://amenra.github.io/ranx/) for Python, or implement the metrics yourself in other languages. Three metrics cover most cases:
+   - **Recall@10:** the share of the relevant documents that appear in the top 10.
+   - **MRR:** the average of 1 divided by the rank of the first relevant result, which rewards putting a correct answer near the top.
+   - **nDCG@10:** a score that rewards relevant documents appearing higher in the list, and handles graded relevance.
+4. **Compare the two score sets.**
 
 Read the comparison with these points in mind:
 
-- **Decide the bar first.** Pick the metric and the minimum improvement that justifies the switch before you look at the results. Different metrics can rank the two models differently.
-- **Look at individual queries.** An average that goes up can hide a group of queries that got worse. Sort the per-query scores and read the biggest regressions.
+- **Decide the bar first.** Pick what metric to look at, and how big the gains have to be to justify the switch to a new embedding model. Different metrics can rank the two models differently.
+- **Look at individual queries.** Average can often hide a group of queries that got worse on the new embedding model. Sort the query by score and read the biggest regression.
 - **Weigh the costs.** A model with larger vectors needs more memory and disk, and may change search latency. Compare these on the new collection as well as the quality scores.
 - **Without labels, you can only measure difference.** The overlap between the top results of both models tells you how much the switch changes what users see, not which results are better. Review the queries with the lowest overlap by hand.
 

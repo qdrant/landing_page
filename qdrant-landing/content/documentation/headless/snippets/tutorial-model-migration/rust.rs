@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, CreateVectorNameRequestBuilder, DeleteVectorNameRequestBuilder,
-    DenseVectorCreationConfigBuilder, Distance, Document, NamedVectors, PointStruct, PointVectors,
+    Condition, CountPointsBuilder, CreateCollectionBuilder, CreateVectorNameRequestBuilder, CreateAliasBuilder, DeleteAlias, DeleteVectorNameRequestBuilder,
+    DenseVectorCreationConfigBuilder, Distance, Document, Filter, NamedVectors, PointStruct, PointVectors,
     Query, QueryPointsBuilder, ScrollPointsBuilder, UpdateMode, UpdatePointVectorsBuilder,
     UpsertPointsBuilder, VectorParamsBuilder,
 };
@@ -122,6 +122,22 @@ pub async fn main() -> anyhow::Result<()> {
         }
     }
     // @block-end migrate-points
+
+    // @block-start alias-update
+    client
+        .delete_alias(DeleteAlias {
+            alias_name: "prod".to_string(),
+        })
+        .await?;
+
+    client
+        .create_alias(CreateAliasBuilder::new(
+            new_collection,
+            "prod",
+        ))
+        .await?;
+    // @block-end alias-update
+
 
     // @block-start search-old-collection
     let results = client
@@ -254,6 +270,16 @@ pub async fn main() -> anyhow::Result<()> {
     // @hide-start
     _ = old_vector_results;
     // @hide-end
+
+    // @block-start count-missing
+    client
+        .count(
+            CountPointsBuilder::new(COLLECTION)
+                .filter(Filter::must([Condition::has_vector(new_vector)]))
+                .exact(true),
+        )
+        .await?;
+    // @block-end count-missing
 
     // @block-start search-with-new-vector
     let new_vector_results = client

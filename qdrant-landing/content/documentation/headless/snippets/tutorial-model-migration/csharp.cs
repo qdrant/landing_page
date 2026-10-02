@@ -1,6 +1,8 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
+using static Qdrant.Client.Grpc.Conditions;
+
 public class Snippet
 {
 	public static async Task Run()
@@ -131,6 +133,11 @@ public class Snippet
 		}
 		// @block-end migrate-points
 
+		// @block-start alias-update
+		await client.DeleteAliasAsync("prod");
+		await client.CreateAliasAsync(aliasName: "prod", collectionName: NEW_COLLECTION);
+		// @block-end alias-update
+
 		// @block-start search-old-collection
 		var results = await client.QueryAsync(
 			collectionName: OLD_COLLECTION,
@@ -233,6 +240,14 @@ public class Snippet
 			limit: 10
 		);
 		// @block-end search-with-old-vector
+
+		// @block-start count-missing
+		await client.CountAsync(
+            collectionName: COLLECTION,
+            filter: HasVector(NEW_VECTOR),
+            exact: true
+		);
+		// @block-end count-missing
 
 		// @block-start search-with-new-vector
 		var newVectorResults = await client.QueryAsync(
