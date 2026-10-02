@@ -1,0 +1,135 @@
+/* blue-green-migration island. Scoped under .qi-mg. Controls, labels and the
+   status line come from the shared island design system (islands.scss); this
+   file styles the boxes, flows and bars. Colors are the shared categorical
+   tokens: --qi-cat-1 for the current setup, --qi-cat-3 for the new one,
+   --qi-cat-2 for the migration service. */
+
+.qi-mg {
+  --mg-old: var(--qi-cat-1);
+  --mg-new: var(--qi-cat-3);
+  --mg-mig: var(--qi-cat-2);
+  display: block;
+}
+
+.qi-mg .qi-fig {
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+}
+
+/* Essential labels render at 14px at the normal article width. */
+.qi-mg .qi-label,
+.qi-mg .qi-title {
+  font-size: 14px;
+}
+.qi-mg__svg.is-narrow {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.qi-mg__rect {
+  fill: var(--qi-surface);
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease;
+}
+.qi-mg__rect--old {
+  stroke: var(--mg-old);
+}
+.qi-mg__rect--new {
+  stroke: var(--mg-new);
+}
+.qi-mg__rect--mig {
+  stroke: var(--mg-mig);
+}
+.qi-mg__box-text {
+  fill: var(--qi-fg);
+}
+
+.qi-mg__line {
+  stroke-width: 2;
+  transition: opacity 0.25s ease;
+}
+.qi-mg__line--old {
+  stroke: var(--mg-old);
+}
+.qi-mg__line--new {
+  stroke: var(--mg-new);
+}
+.qi-mg__line--mig {
+  stroke: var(--mg-mig);
+}
+.qi-mg__head--old {
+  fill: var(--mg-old);
+}
+.qi-mg__head--new {
+  fill: var(--mg-new);
+}
+.qi-mg__head--mig {
+  fill: var(--mg-mig);
+}
+.qi-mg__flow-label {
+  fill: var(--qi-fg);
+}
+
+.qi-mg__track {
+  fill: var(--qi-border);
+}
+.qi-mg__fill {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.qi-mg__fill--old {
+  fill: var(--mg-old);
+}
+.qi-mg__fill--new {
+  fill: var(--mg-new);
+}
+
+.qi-mg__badge {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.qi-mg__badge.is-active {
+  opacity: 1;
+}
+.qi-mg__badge rect {
+  fill: var(--qi-fg);
+}
+.qi-mg__badge text {
+  fill: var(--qi-surface);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Parts that are not active at the selected step stay visible but muted. */
+.qi-mg__box,
+.qi-mg__flow {
+  transition: opacity 0.25s ease;
+}
+.qi-mg__box.is-off,
+.qi-mg__flow.is-off {
+  opacity: 0.55;
+}
+.qi-mg__box.is-off .qi-mg__rect,
+.qi-mg__flow.is-off .qi-mg__line {
+  stroke-dasharray: 5 4;
+}
+.qi-mg__box.is-new .qi-mg__rect,
+.qi-mg__flow.is-new .qi-mg__line {
+  stroke-width: 3;
+}
+
+.qi-mg .qi-status {
+  min-height: calc(3 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-mg__rect,
+  .qi-mg__line,
+  .qi-mg__fill,
+  .qi-mg__badge,
+  .qi-mg__box,
+  .qi-mg__flow {
+    transition: none;
+  }
+}

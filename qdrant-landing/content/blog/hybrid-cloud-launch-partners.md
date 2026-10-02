@@ -52,7 +52,7 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 > Learn how to streamline contract management with a RAG-based system in this tutorial, which utilizes Aleph Alpha’s embeddings and a region-specific cloud setup. Hosted on STACKIT with Qdrant Hybrid Cloud, this solution ensures secure, GDPR-compliant storage and processing of data, ideal for businesses with intensive contractual needs.
 
-[View Tutorial](/documentation/examples/rag-contract-management-stackit-aleph-alpha/)
+[View Tutorial](/documentation/examples/rag-contract-management-stackit-cohere/)
  
 **Movie Recommendation System** with Qdrant Hybrid Cloud and OVHcloud
 

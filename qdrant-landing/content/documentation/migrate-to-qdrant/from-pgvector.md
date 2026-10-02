@@ -58,7 +58,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | :--- | :--- | :--- |
 | `--pg.url` | Yes | Postgres connection string |
 | `--pg.table` | Yes | Table name to migrate |
-| `--pg.key-column` | Yes | Column to use as point ID |
+| `--pg.key-column` | Yes | Column with unique values, which are hashed into point IDs |
 | `--pg.columns` | No | Comma-separated columns to migrate (default: all). Must include the key column |
 | `--migration.num-workers` | No | Parallel workers (default: number of CPU cores) |
 
