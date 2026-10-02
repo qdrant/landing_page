@@ -1,0 +1,134 @@
+/* write-ordering island. Scoped under .qi-wo. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the clients, wires, links, traveling values and shard replicas.
+   Same visual language as the time-based sharding island. */
+
+.qi-wo {
+  --wo-a: #6047ff; /* neon-blue-500: Client A's write */
+  --wo-b: #dc244c; /* amaranth-500: Client B's write */
+  --wo-a-soft: #c2c5ff;
+  --wo-b-soft: #ffc9d4;
+  --wo-a-text: #6047ff;
+  --wo-b-text: #dc244c;
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-wo {
+    --wo-a-soft: #392689;
+    --wo-b-soft: #6b1128;
+    --wo-a-text: #c2c5ff;
+    --wo-b-text: #ffc9d4;
+  }
+}
+html[data-theme='dark'] .qi-wo {
+  --wo-a-soft: #392689;
+  --wo-b-soft: #6b1128;
+  --wo-a-text: #c2c5ff;
+  --wo-b-text: #ffc9d4;
+}
+.qi-wo [hidden] {
+  display: none;
+}
+
+/* Color words in the status line. */
+.qi-wo__t--a {
+  color: var(--wo-a);
+}
+.qi-wo__t--b {
+  color: var(--wo-b);
+}
+
+/* --- Clients --- */
+.qi-wo__client--a {
+  fill: var(--wo-a-soft);
+}
+.qi-wo__client--b {
+  fill: var(--wo-b-soft);
+}
+.qi-wo__client-text {
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+.qi-wo__client-text--a {
+  fill: var(--wo-a-text);
+}
+.qi-wo__client-text--b {
+  fill: var(--wo-b-text);
+}
+
+/* --- Write wires --- */
+.qi-wo__wire {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.qi-wo__wire.is-on {
+  opacity: 1;
+}
+.qi-wo__wire--a {
+  stroke: var(--wo-a);
+}
+.qi-wo__wire--b {
+  stroke: var(--wo-b);
+}
+.qi-wo__arrowhead--a {
+  fill: var(--wo-a);
+}
+.qi-wo__arrowhead--b {
+  fill: var(--wo-b);
+}
+
+/* Replication links between nodes: neutral, shown only while a value
+   travels along them. The traveling value is a small colored square. */
+.qi-wo__link {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-wo__link.is-on {
+  opacity: 1;
+}
+.qi-wo__token {
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+
+/* --- Nodes, each holding its shard replica --- */
+.qi-wo__shard {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+/* Points in the shard; the last one is the point both clients update. */
+.qi-wo__bar {
+  fill: var(--qi-muted);
+  transition: fill 0.4s ease;
+}
+.qi-wo__point--a {
+  fill: var(--wo-a);
+}
+.qi-wo__point--b {
+  fill: var(--wo-b);
+}
+.qi-wo__log--a {
+  fill: var(--wo-a);
+}
+.qi-wo__log--b {
+  fill: var(--wo-b);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-wo__wire,
+  .qi-wo__link,
+  .qi-wo__bar {
+    transition: none;
+  }
+}

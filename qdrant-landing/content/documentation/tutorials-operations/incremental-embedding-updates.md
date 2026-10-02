@@ -3,7 +3,8 @@ title: Incremental Embedding Updates
 short_description: "Sync embeddings with raw text data that changes over time."
 description: "Keep embeddings in the Qdrant search engine in sync with documentation that changes over time, for up-to-date vector search."
 weight: 32
-goal: Data & Filtering
+date: 2026-07-21T20:27:01+02:00
+goal: Operations
 stack:
   - Python
 example_resources:
@@ -49,7 +50,7 @@ The tutorial has an accompanying [notebook](https://github.com/qdrant/examples/b
 
 Install the [Qdrant client of your choice](/documentation/interfaces/#client-libraries).
 
-We use Qdrant Cloud and its [Free Embedding Inference](/documentation/cloud/inference/#free-embedding-models).  
+We use Qdrant Cloud and its [Free Embedding Inference](/documentation/cloud/inference/#qdrant-hosted-models).  
 Create a Free Tier [Qdrant Cloud cluster](https://cloud.qdrant.io/) and set `QDRANT_URL` and `QDRANT_API_KEY` in your environment.
 
 
@@ -121,7 +122,7 @@ normalize(text):
 
 Let's configure a collection for chunks.
 
-We'll use `sentence-transformers/all-MiniLM-L6-v2`: it's one of the [free embedding models](/documentation/cloud/inference/#free-embedding-models) on Qdrant Cloud Inference.  
+We'll use `sentence-transformers/all-MiniLM-L6-v2`: it's one of the [free embedding models](/documentation/cloud/inference/#qdrant-hosted-models) on Qdrant Cloud Inference.  
 Its output dimension is 384, its context window is 256 tokens, which is exactly why long sections got chunked above: over-window input is silently truncated.
 
 ### Collection Metadata

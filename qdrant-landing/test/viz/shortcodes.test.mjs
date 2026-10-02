@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { getFixtureHtml, getFixtureMarkdown, everyBuiltMarkdownFile } from './helpers.mjs';
+import { join } from 'node:path';
+import { buildSite, getFixtureHtml, getFixtureMarkdown, everyBuiltMarkdownFile } from './helpers.mjs';
 
 test('viz.json defines a palette and is valid JSON', () => {
   const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
@@ -80,6 +81,21 @@ test('Markdown output carries the chart data, not the drawing', () => {
   // Title and caption still carry the claim the chart was making.
   assert.match(md, /\*\*nDCG@10: each retriever alone versus RRF fusion\*\*/, 'title missing');
   assert.match(md, /_Fixture chart caption\._/, 'caption missing');
+});
+
+test('table="false" drops the Markdown table but keeps the claims', () => {
+  const md = readFileSync(join(buildSite(), 'blog', 'constella-research-preview', 'index.md'), 'utf8');
+  assert.doesNotMatch(md, /\| encoder \| size \| model_loading_s \|/, 'the post already has this table');
+  assert.match(md, /_Warm query: A warm 20-word query takes 38\.952 ms/, 'captions missing');
+});
+
+test('horizontal bars start at zero and grow to the right', () => {
+  const view = readFileSync('assets/viz/constella/latency.svg', 'utf8').split('data-viz-view="1"')[0];
+  const bars = [...view.match(/<g aria-label="bar"[^>]*>([\s\S]*?)<\/g>/)[1].matchAll(/<rect [^>]*?x="([\d.]+)"[^>]*?width="([\d.]+)"/g)]
+    .map(([, x, w]) => [Number(x), Number(w)]);
+  assert.equal(bars.length, 3);
+  assert.equal(new Set(bars.map(([x]) => x)).size, 1, 'every bar should start on the zero line');
+  assert.ok(bars[0][1] < bars[1][1] && bars[1][1] < bars[2][1], 'Zero < Nano < Full Stella');
 });
 
 test('HTML output still renders the chart as SVG', () => {

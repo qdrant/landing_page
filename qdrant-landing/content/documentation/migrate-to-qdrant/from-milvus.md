@@ -21,9 +21,9 @@ partition: ecosystem
 | Collection | Collection | One-to-one mapping |
 | Partition | Payload field or separate collection | Use `--milvus.partitions` to specify which partitions to migrate |
 | Schema fields | Payload | Non-vector fields become payload |
-| `COSINE` | `Cosine` | Direct mapping |
-| `L2` | `Euclid` | Direct mapping |
-| `IP` (inner product) | `Dot` | Direct mapping |
+| `COSINE` | `Cosine` | The tool creates `Cosine` by default |
+| `L2` | `Euclid` | Not detected. Set `--qdrant.distance-metric` explicitly |
+| `IP` (inner product) | `Dot` | Not detected. Set `--qdrant.distance-metric` explicitly |
 | Dynamic fields | Payload | JSON-typed dynamic fields are preserved |
 
 ## Run the Migration
@@ -68,7 +68,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
-| `--qdrant.distance-metric` | — | Distance metric per vector field (map format, e.g., `field1:cosine,field2:dot`) |
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `field1:euclid,field2:dot`). The tool does not read the metric from Milvus, so set it for every `L2` or `IP` field |
 
 ## Gotchas
 
