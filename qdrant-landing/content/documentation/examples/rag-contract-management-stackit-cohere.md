@@ -3,7 +3,6 @@ title: Region-Specific Contract Management System
 short_description: "Build a region-specific contract management RAG system on STACKIT with Qdrant Hybrid Cloud and Cohere, with role-based access to documents."
 description: "Deploy a contract management RAG application on STACKIT with Qdrant Hybrid Cloud, Cohere embeddings and LLM, and payload filters that restrict each user to their documents."
 weight: 50
-social_preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
 aliases:
   - /documentation/tutorials/rag-contract-management-stackit-aleph-alpha/
   - /documentation/examples/rag-contract-management-stackit-aleph-alpha/
