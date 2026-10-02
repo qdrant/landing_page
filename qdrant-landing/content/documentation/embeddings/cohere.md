@@ -35,8 +35,7 @@ qdrant_client.upsert(
 )
 ```
 
-If you are interested in seeing an end-to-end project created with co.embed API and Qdrant, please check out the
-"[Question Answering as a Service with Cohere and Qdrant](/articles/qa-with-cohere-and-qdrant/)" article.
+For a maintained example using Cohere with Qdrant, see [Reranking for Better Search](/documentation/search-precision/reranking-semantic-search/), which combines Qdrant retrieval with Cohere reranking.
 
 ## Embed v3
 

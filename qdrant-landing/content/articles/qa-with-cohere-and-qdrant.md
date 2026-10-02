@@ -17,7 +17,12 @@ keywords:
   - co.embed
   - embeddings
 category: demos-and-tutorials
+retired: true
 hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 Bi-encoders are probably the most efficient way of setting up a semantic Question Answering system. 

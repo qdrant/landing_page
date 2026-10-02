@@ -14,6 +14,15 @@ tags:
   - Database
   - Open Source
   - Vector Search Database
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Full-Text Search Documentation"
+  url: "/documentation/search/text-search/full-text-search/"
 ---
 
 Qdrant is designed as an efficient vector database, allowing for a quick search of the nearest neighbours. But, you may find yourself in need of applying some extra filtering on top of the semantic search. Up to version 0.10, Qdrant was offering support for keywords only. Since 0.10, there is a possibility to apply full-text constraints as well. There is a new type of filter that you can use to do that, also combined with every other filter type.
