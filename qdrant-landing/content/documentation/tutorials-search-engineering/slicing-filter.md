@@ -23,7 +23,13 @@ Qdrant assigns every point to one slice by hashing its ID. For a fixed `total`, 
 
 This tutorial covers three uses: parallel `scroll` across workers, reproducible sampling for evaluation, and stratified sampling by combining `slice` with a payload filter.
 
+{{< island
+    path="content/documentation/headless/slicing-filter/mechanism"
+    ratio="16 / 10"
+    title="The slicing mechanism: an unsorted collection runs through a hashing function that assigns each point, based on its ID and the total number of requested slices, to exactly one slice."
+>}}
 ![The slicing mechanism: run an unsorted collection through a hashing function which assigns each point, based on its ID and the total number of requested slices, to the appropriate slice](/documentation/tutorials/slicing-filter/slicing-mechanism.png)
+{{< /island >}}
 
 ## Setup
 
