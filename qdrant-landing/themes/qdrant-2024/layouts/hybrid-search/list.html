@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "hybrid-search/hero" . }}
+
+  {{ partial "hybrid-search/what-you-get" . }}
+
+  {{ with (.Site.GetPage "/hybrid-search/how-it-works") }}
+    {{ partial "landing/steps-icon-flow" . }}
+  {{ end }}
+
+  {{ partial "hybrid-search/reciprocal-rank-fusion-rrf" . }}
+
+  {{ partial "hybrid-search/honest-limits" . }}
+
+  {{ partial "hybrid-search/faq" . }}
+
+  {{ with (.Site.GetPage "/hybrid-search/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}
