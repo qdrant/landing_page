@@ -37,11 +37,13 @@ In the rest of this article, we walk you through how we built that memory with Q
 
 Everything Reachy does runs through one big loop. The microphone and camera pick up what you say, who is in front of the robot, and what objects are around it. All of that goes to Gemma 4, the dialog model that acts as the robot's brain. On each turn, Gemma either answers directly or reaches for one of three tools:
 
-- `remember` stores a memory or searches for one.
+- `remember` searches everything the robot has kept.
 - `camera` takes a fresh picture, with the head turned if asked.
-- `move` nods, shows an emotion, or dances.
+- `move` nods, shows an emotion, or dances, when you ask it to.
 
-Ask "what's on your left?" and Gemma calls `move` to turn the head, `camera` to take the picture, and `remember` to store the picture and its caption as vectors. Ask "how are you doing today?" and it answers without touching a tool.
+Ask "what's on your left?" and Gemma calls `camera` with that direction: the head turns, the picture is taken, and the frame is stored with what Reachy says about it. Ask "what was on your left?" and it calls `remember` instead. Ask "how are you doing today?" and it answers without touching a tool.
+
+Storing needs no tool at all. Turns go into memory when the context fills up, frames whenever the objects in view change or the robot is asked to look, and a face when it learns a name.
 
 The Remember box in this loop is Qdrant Edge, and it works in both directions. Faces, frames, and conversation are written to it as embeddings with metadata. When Reachy needs to recall something, it searches it.
 
@@ -58,10 +60,10 @@ Eight models take part in one turn of conversation:
 - **YOLO26n** detects and labels objects in a frame.
 - **YuNet** detects faces.
 - **HSFace** embeds a face into a 512-dimensional vector for recognition.
-- **SigLIP2** embeds a picture and what was said about it into a 768-dimensional vector.
-- **bge-small** embeds conversation exchanges and facts into a 384-dimensional vector.
+- **SigLIP2** embeds a picture into a 768-dimensional vector, and a text query into the same space, so words can find pictures.
+- **bge-small** embeds conversation exchanges, the words attached to each frame, and facts into a 384-dimensional vector.
 
-Not all of this fits on the robot. Gemma 4 E2B alone weighs 2.5 GB before its KV cache, and the robot has about 3 GB of RAM free, shared with the daemon that drives the motors, the camera, and the voice loop. The Pi's graphics core is too weak to help, so a single frame through SigLIP2 takes a couple of seconds on the CPU. So the models run on a laptop next to the robot, over the local network. Nothing goes to the internet; the laptop does the computing itself, and it's hardware you own. The memory, every vector and every payload, lives on the robot's disk and nowhere else. The embeddings can be computed on either side, and bge-small already runs on the robot. The robot can remember without the laptop. It can't talk without it.
+Not all of this fits on the robot. Gemma 4 E2B alone weighs 2.5 GB before its KV cache, and the robot has about 3 GB of RAM free, shared with the daemon that drives the motors, the camera, and the voice loop. The Pi's graphics core is too weak to help, so a single frame through SigLIP2 takes a couple of seconds on the CPU. So the models run on a laptop next to the robot, over the local network. Nothing goes to the internet; the laptop does the computing itself, and it's hardware you own. The memory, every vector and every payload, lives on the robot's disk and nowhere else. The embeddings can be computed on either side: bge-small takes 89 ms a turn on the robot, so with the embedder moved there, the robot can remember without the laptop. It can't talk without it.
 
 <!-- PLACEHOLDER (optional): slide 05, the grid of eight models with their roles and output types. Suggested path: /blog/reachy-robot-memory-qdrant-edge/models.png -->
 
@@ -73,10 +75,13 @@ The unit you work with is a shard. There are no collections in Edge. A shard is 
 
 A shard also speaks the same snapshot format as a Qdrant server, so you can [restore a shard from a server collection, or sync it back](/documentation/edge/edge-synchronization-guide/) when you want to.
 
-This is the configuration of Reachy's main memory shard, two named vectors and nothing else:
+This is how Reachy's main memory shard is created: two named vectors, and a keyword index on `kind` marked as the tenant key:
 
 ```python
-from qdrant_edge import Distance, EdgeConfig, EdgeShard, EdgeVectorParams
+import os
+
+from qdrant_edge import (Distance, EdgeConfig, EdgeShard, EdgeVectorParams,
+                         KeywordIndexParams, UpdateOperation)
 
 config = EdgeConfig(
     vectors={
@@ -85,28 +90,33 @@ config = EdgeConfig(
     }
 )
 
-memory = EdgeShard.create("memory/", config)
+os.makedirs("memory", exist_ok=True)  # create() wants the directory to exist
+memory = EdgeShard.create("memory", config)
+
+# exchanges and frames share the shard, told apart by "kind"
+memory.update(UpdateOperation.create_field_index(
+    "kind", KeywordIndexParams(is_tenant=True)))
 ```
 
 ## Three Shards on the Robot's Disk
 
-Reachy's memory is three shards, split by how long the data lives. Qdrant's usual advice is one collection with a tenant key in the payload, and that's how exchanges and frames share `memory/`: they pile up during a conversation and are wiped together when the demo starts over. `people/` accumulates across runs. `knowledge/` is replaced whole, and only from outside. Put all of it in one store and you can't clean or update one kind without touching the other two. All three shards together take under 50 MB on the robot's disk.
+Reachy's memory is three shards, split by how the data is written and searched. Qdrant's usual advice is one collection with a tenant key in the payload, and that's how exchanges and frames share `memory/`: a tenant-indexed `kind` field tells them apart. `people/` is searched another way, one point per person compared shot by shot, and `knowledge/` is replaced whole on every start, from outside. All three shards together take under 50 MB on the robot's disk.
 
 <!-- PLACEHOLDER: slide 06, the three-shard overview (memory/, people/, knowledge/) with vectors, what each holds, and when it's written and read. Suggested path: /blog/reachy-robot-memory-qdrant-edge/three-shards.png -->
 ![Three Qdrant Edge shards on the robot: memory for exchanges and frames, people for faces, and knowledge for facts, each with its own vectors and write and read triggers](/blog/reachy-robot-memory-qdrant-edge/three-shards.png)
 
 ### memory/: What Was Said and What Was Seen
 
-The `memory/` shard holds two kinds of points, told apart by a `type` field with a keyword index.
+The `memory/` shard holds two kinds of points, told apart by the tenant-indexed `kind` field.
 
-An **exchange** is one pair of what you said and what Reachy answered, embedded with bge-small into the `text` vector. It has no image vector. Exchanges are written when the model's context window fills up: Gemma 4 E2B has 4,096 tokens of context, and the prompt and the tool definitions take a sixth of them before anyone speaks. When the window is over budget, the oldest half of the conversation moves into the shard. The conversation doesn't get lost; it becomes searchable instead of resident.
+An **exchange** is one pair of what you said and what Reachy answered, embedded with bge-small into the `text` vector. It has no image vector. Exchanges are written when the model's context window fills up. Gemma 4 E2B has 4,096 tokens of context, and the prompt and the tool definitions take a sixth of them before anyone speaks; the demo keeps the window at 1,000 tokens, far under that on purpose, so the audience can watch memory take over. When the window is over budget, the oldest half of the conversation moves into the shard. The conversation doesn't get lost; it becomes searchable instead of resident.
 
-A **frame** is a picture. It carries both vectors: SigLIP2 embeds the image into `image`, and bge-small embeds the frame's caption into `text`. The payload holds the JPEG, a timestamp, which way the head was looking, the object labels from YOLO, the names of the people recognized in it, and a caption Gemma wrote, such as "On my left. I saw chair, person. Sasha was there. I see a window." Frames are written on events: the head turned, something in the scene changed, someone held an object up, or the `camera` tool was called. The camera delivers four frames a second, and most of them are an empty room; store them all and every question comes back with a dozen near-identical pictures.
+A **frame** is a picture. It carries both vectors: SigLIP2 embeds the image into `image`, and bge-small embeds the frame's words into `text`. The payload holds the JPEG, a timestamp, which way the head was looking, the object labels from YOLO, the names of the people recognized in it, and, for a frame Reachy was asked to look at, what it said about it. All of that becomes one sentence for the text vector, such as "On my left. I saw chair, person. Sasha was there. I see a window." Frames are written on events: the head turned, something in the scene changed, someone held an object up, or the `camera` tool was called. The robot looks at four frames a second, and most of them are an empty room; store them all and every question comes back with a dozen near-identical pictures.
 
-The caption matters more than it looks. "What did you see today?" names nothing a vector can match, so every frame gets words from its own metadata, and a question about the day is answered with the day's most different pictures.
+That sentence matters more than it looks. "What did you see today?" names nothing a vector can match, so every frame gets words from its own metadata, and a question about the day is answered with the day's most different pictures.
 
 <!-- PLACEHOLDER: slide 07, the memory/ shard with its EdgeConfig and the two example points (exchange and frame). Suggested path: /blog/reachy-robot-memory-qdrant-edge/memory-shard.png -->
-![The memory shard: two named vectors, text and image, and two point types, an exchange with text only and a frame with a picture, caption, labels, and names](/blog/reachy-robot-memory-qdrant-edge/memory-shard.png)
+![The memory shard: two named vectors, text and image, and two point types, an exchange with text only and a frame with a picture, words, labels, and names](/blog/reachy-robot-memory-qdrant-edge/memory-shard.png)
 
 ### people/: One Point Per Person
 
@@ -114,25 +124,25 @@ Faces are the most sensitive thing Reachy stores, and also the simplest shard. E
 
 The face vector is a multivector: a list of HSFace embeddings, one per shot. When Reachy meets someone new, it collects five shots while asking for their name. When a known person shows up at an angle that didn't match, the new pose gets appended, up to 10 per run. The payload keeps the name, when they were first met, when they were last taught, and the number of shots.
 
-Recognition runs every turn. One query vector, the face in the camera right now, is scored against every point with MaxSim, so a person scores by their closest shot. A new angle only has to be close to one of them. Above 0.35, Reachy knows you ("Hello again, Sasha!") and your name goes on every frame it stores from then on. Below it, you're someone new.
+Recognition runs every turn. One query vector, the face in the camera right now, is scored against every point with MaxSim, so a person scores by their closest shot. A new angle only has to be close to one of them. Above 0.35, Reachy knows you ("Hello again, Sasha!") and your name goes on every frame it stores from then on. Below 0.25 you're someone new, and it asks your name; in between, it says nothing until it's sure.
 
 <!-- PLACEHOLDER: slide 08, the people/ shard with the multivector point and the 0.35 threshold diagram. Suggested path: /blog/reachy-robot-memory-qdrant-edge/people-shard.png -->
-![The people shard: one point per person holding a multivector of face shots, scored with MaxSim against the face in the camera, with a 0.35 threshold between known and new](/blog/reachy-robot-memory-qdrant-edge/people-shard.png)
+![The people shard: one point per person holding a multivector of face shots, scored with MaxSim against the face in the camera, with scores above 0.35 known, below 0.25 new, and silence in between](/blog/reachy-robot-memory-qdrant-edge/people-shard.png)
 
 ### knowledge/: Built Once, Shipped as a Snapshot
 
 The third shard is the one the robot never writes. It holds 62 facts about Qdrant and about how the robot itself is built. A fact is not stored alone: with it sit several phrasings of the questions it answers, as a multivector, the same way a person's face shots sit on one point. A short question like "how do you work?" has no subject word for the embedding model to hold on to and never reaches the threshold against the long fact, but it does find its closest phrasing. Only the fact is ever spoken.
 
-The shard is built on the laptop from a text file, one line per fact, and shipped with the code as a 0.28 MB snapshot. At startup the robot calls `unpack_snapshot` and the file becomes the shard. That snapshot is the same file a Qdrant server produces for a collection, so the facts could live in a Qdrant Cloud collection, be edited there, and reach every robot through the same call, with no deploy. The demo restores the local file today; the cloud path is the same API, not yet wired in.
+The shard is built on the laptop from a text file, one line per fact, and shipped with the code as a 0.7 MB snapshot. At startup the robot calls `unpack_snapshot` and the file becomes the shard. That snapshot is the same file a Qdrant server produces for a collection, so the facts could live in a Qdrant Cloud collection, be edited there, and reach every robot through the same call, with no deploy. The demo restores the local file today; the cloud path is the same API, not yet wired in.
 
-<!-- PLACEHOLDER: slide 09, the knowledge/ pipeline: facts file on the laptop, build, 0.28 MB snapshot, unpack_snapshot on the robot, and the Qdrant Cloud row with the same API. Suggested path: /blog/reachy-robot-memory-qdrant-edge/knowledge-shard.png -->
+<!-- PLACEHOLDER: slide 09, the knowledge/ pipeline: facts file on the laptop, build, snapshot (now 0.7 MB, the slide says 0.28 MB), unpack_snapshot on the robot, and the Qdrant Cloud row with the same API. Suggested path: /blog/reachy-robot-memory-qdrant-edge/knowledge-shard.png -->
 ![The knowledge shard: a facts file embedded on the laptop into a snapshot, unpacked on the robot, with the same snapshot available from a Qdrant Cloud collection](/blog/reachy-robot-memory-qdrant-edge/knowledge-shard.png)
 
 ## One Question, End to End
 
 Say you ask: "Do you remember what you saw on your left?"
 
-Whisper returns the text. The turn's frame goes through YuNet and HSFace, and the robot searches `people/` to decide whether to greet you or ask your name. Gemma reads the question and calls `remember`. The query is embedded on the laptop, and the search runs in the robot's own `memory/` shard, on its own disk, in-process. The matching frames come back to Gemma as pictures, and Gemma describes what it saw. Inflect speaks the answer, and a second pass picks a nod or a gesture to go with it. If the context is over budget by then, the oldest half of the conversation goes into `memory/`.
+Whisper returns the text. The turn's frame goes through YuNet and HSFace, and the robot searches `people/` to decide whether to greet you or ask your name. Gemma reads the question and calls `remember`. The query is embedded on the laptop, and the search runs in the robot's own `memory/` shard, on its own disk, in-process. The matching frames come back to Gemma as pictures, and Gemma describes what it saw. Inflect speaks the answer. If the context is over budget by then, the oldest half of the conversation goes into `memory/`.
 
 Of all those steps, the search is the one that takes no time.
 
@@ -161,17 +171,17 @@ Two things fall out of this. Under about 10,000 vectors, the index buys you noth
 
 The memory was the easy part. The constraints around it were not, and the [writeup](https://medium.com/@denisov.shureg/efe223ac442b) walks through all of them. Three shaped the memory design directly:
 
-- A 4,096-token context fills fast, which is why old turns move into Qdrant Edge and come back only when asked for, instead of being summarized or dropped.
+- A small context fills fast, which is why old turns move into Qdrant Edge and come back only when asked for, instead of being summarized or dropped.
 - A small model with tools, deep in a conversation, reaches for the camera when you ask what it *saw*. So there's one `remember` tool and the model only says what the question is about; the tense settles the rest.
-- "What did you see today?" has no vector to match, which is why frames get captions from their own metadata.
+- "What did you see today?" has no vector to match, which is why frames get words from their own metadata.
 
-And it's a robot: a battery that lasts a day, Wi-Fi that drops, and a camera only one process may own. Qdrant Edge is in beta and preallocates its files: the write-ahead log alone takes 32 MB, so the 62-fact knowledge shard looks like over 100 MB on disk while using under a megabyte of it. Copy shards with tools that understand sparse files.
+And it's a robot: Wi-Fi that drops, and a camera only one process may own. Qdrant Edge is in beta and preallocates its files: the write-ahead log alone takes 64 MB, two files of 32, so the 62-fact knowledge shard looks like over 100 MB on disk while using under a megabyte of it. Copy shards with tools that understand sparse files.
 
 ## What You Can Take From This
 
 You don't need a robot to use any of this. The same patterns apply to a phone, a pair of glasses, or a kiosk that should remember without uploading. The shard answers one question, what here resembles this, and the rest is the harness around it: when to write, which shard to search, and what counts as an answer.
 
-- Split shards by how long the data lives. Data that is wiped per session, data that accumulates, and data that is replaced whole from outside don't belong in one store.
+- Split shards by how the data lives and is searched: the knowledge base is replaced whole on every start, and a person is one point compared shot by shot. Data that only differs by type can share a shard with a tenant key.
 - Use one named vector per embedding model inside a shard, so a single point can carry a text embedding and an image embedding and be found through either.
 - Use a multivector when one thing has many views. A person is a set of face shots, a fact is a set of questions, and MaxSim lets a query match any one of them.
 - Ship static knowledge as a snapshot. Build it where you have compute, restore it on the device, and update it from a Qdrant collection when it changes.
@@ -188,8 +198,6 @@ pip install qdrant-edge-py   # Python
 cargo add qdrant-edge        # Rust
 ```
 
-The [Edge quickstart](/documentation/edge/edge-quickstart/) walks through creating a shard, writing points, and querying them. The [Edge API reference](/documentation/edge/edge-api/) covers named vectors, multivectors, and [snapshots](/documentation/edge/edge-api/snapshots/). For the full story of Reachy, including every constraint and what each one forced, read [the technical writeup](https://medium.com/@denisov.shureg/efe223ac442b). The code is in the demo's repository, and it installs with one `uv sync`.
-
-<!-- PLACEHOLDER: link the words "the demo's repository" to the GitHub repo once it's public (the writeup still has LINK-TO-REPO). -->
+The [Edge quickstart](/documentation/edge/edge-quickstart/) walks through creating a shard, writing points, and querying them. The [Edge API reference](/documentation/edge/edge-api/) covers named vectors, multivectors, and [snapshots](/documentation/edge/edge-api/snapshots/). For the full story of Reachy, including every constraint and what each one forced, read [the technical writeup](https://medium.com/@denisov.shureg/efe223ac442b). The code is in the [reachy-edge-memory repository](https://github.com/qdrant-labs/reachy-edge-memory), and it installs with one `uv sync`.
 
 The memory never leaves the robot. That was the point.
