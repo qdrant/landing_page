@@ -3,6 +3,7 @@ title: Private Chatbot for Interactive Learning
 short_description: "Build a fully private interactive learning chatbot with Qdrant Hybrid Cloud, Haystack, and an open-source LLM running on Red Hat OpenShift."
 description: "Deploy a private RAG chatbot on Red Hat OpenShift with Qdrant Hybrid Cloud and Haystack, keeping training content and queries inside your infrastructure."
 weight: 30 
+social_preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/
 goal: RAG & Agents
@@ -25,7 +26,7 @@ With a simple RAG pipeline, you can build a private chatbot. In this tutorial, y
     ratio="3 / 2"
     title="**Figure 1:** The LLM and Qdrant Hybrid Cloud are containerized as separate services. Haystack combines them into a RAG pipeline and exposes the API via Hayhooks. Select a step to see which links it uses."
 >}}
-![Architecture on Red Hat OpenShift: users call Hayhooks, which serves the search pipeline of the Haystack application. The Haystack application talks to Qdrant Hybrid Cloud and to the model server running Mistral-7B-Instruct-v0.1, each in its own container.](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/openshift-diagram.png)
+![Architecture on Red Hat OpenShift: users call Hayhooks, which serves the search pipeline of the Haystack application. The Haystack application talks to Qdrant Hybrid Cloud and to the model server running Mistral-7B-Instruct-v0.1, each in its own container.](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/openshift-diagram.png)
 {{< /island >}}
 
 ## Components
@@ -374,7 +375,7 @@ Now both flows are in place. The following figure shows them side by side: selec
     ratio="3 / 2"
     title="The indexing and search flows. The connections are labeled with the data that flows between the components."
 >}}
-![The indexing flow: course pages, LinkContentFetcher, HTMLToDocument, split_document, then FastembedDocumentEmbedder and DocumentWriter in a Haystack pipeline, into Qdrant. The search flow: a question goes through FastembedTextEmbedder, QdrantEmbeddingRetriever, ChatPromptBuilder, and OpenAIChatGenerator in a Haystack pipeline, and returns an answer.](/documentation/examples/private-chatbot-openshift/pipelines.svg)
+![The indexing flow: course pages, LinkContentFetcher, HTMLToDocument, split_document, then FastembedDocumentEmbedder and DocumentWriter in a Haystack pipeline, into Qdrant. The search flow: a question goes through FastembedTextEmbedder, QdrantEmbeddingRetriever, ChatPromptBuilder, and OpenAIChatGenerator in a Haystack pipeline, and returns an answer.](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/pipelines.svg)
 {{< /island >}}
 
 ## Deployment
