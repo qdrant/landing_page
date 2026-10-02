@@ -2,10 +2,14 @@
 title: Kafka Streaming into Qdrant
 short_description: "Stream real-time data into Qdrant with Apache Kafka and Confluent for change-data-capture pipelines powering semantic search and RAG."
 description: "Build real-time CDC pipelines that stream data from Kafka and Confluent into Qdrant, enabling fresh semantic search and retrieval-augmented generation."
-weight: 15
-hideInSidebar: true
+weight: 60
+date: 2024-07-22
 aliases:
   - /examples/data-streaming-kafka-qdrant/
+  - /documentation/send-data/data-streaming-kafka-qdrant/
+goal: Operations
+stack:
+  - Kafka
 ---
 
 # Stream Real-Time Data into Qdrant with Kafka and Confluent
@@ -19,9 +23,11 @@ This guide will walk you through the detailed steps of installing and setting up
 
 In this example, original data will be sourced from Azure Blob Storage and MongoDB.
 
-![1.webp](/documentation/examples/data-streaming-kafka-qdrant/1.webp)
+{{< island path="content/documentation/headless/tutorials-operations/data-streaming-kafka-qdrant/cdc-pipeline" width="100%" ratio="680 / 420" title="Real-time Change Data Capture (CDC) with Kafka and Qdrant: source connectors stream changes into Kafka, and the Qdrant sink connector writes them into Qdrant." >}}
+![Real-time Change Data Capture (CDC) with Kafka and Qdrant](/documentation/examples/data-streaming-kafka-qdrant/1.webp)
+{{< /island >}}
 
-Figure 1: [Real time Change Data Capture (CDC)](https://www.confluent.io/learn/change-data-capture/) with Kafka and Qdrant. 
+See [Real time Change Data Capture (CDC)](https://www.confluent.io/learn/change-data-capture/) for background on the pattern.
 
 ## The Architecture:
 
@@ -73,9 +79,9 @@ export PATH=$CONFLUENT_HOME/bin:$PATH
 
 ```bash
 # Start the Confluent Platform services:
-confluent local start
+confluent local services start
 # Stop the Confluent Platform services:
-confluent local stop
+confluent local services stop
 ```
 
 ## Installation of Qdrant:
@@ -84,17 +90,17 @@ To install and run Qdrant (self-managed locally), you can use Docker, which simp
 
 ```bash
 docker pull qdrant/qdrant
-docker run -p 6334:6334 -p 6333:6333 qdrant/qdrant
+docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
 ```
 
 This will download the Qdrant image and start a Qdrant instance accessible at `http://localhost:6333`. For more detailed instructions and alternative installation methods, refer to the [Qdrant installation documentation](https://qdrant.tech/documentation/quickstart/).
 
 ## Installation of Qdrant-Kafka Sink Connector:
 
-To install the Qdrant Kafka connector using [Confluent Hub](https://www.confluent.io/hub/), you can utilize the straightforward `confluent-hub install` command. This command simplifies the process by eliminating the need for manual configuration file manipulations. To install the Qdrant Kafka connector version 1.1.0, execute the following command in your terminal:
+To install the Qdrant Kafka connector using [Confluent Hub](https://www.confluent.io/hub/), you can utilize the straightforward `confluent-hub install` command. This command simplifies the process by eliminating the need for manual configuration file manipulations. To install the Qdrant Kafka connector version 1.4.1, execute the following command in your terminal:
 
 ```bash
- confluent-hub install qdrant/qdrant-kafka:1.1.0
+ confluent-hub install qdrant/qdrant-kafka:1.4.1
 ```
 
 This command downloads and installs the specified connector directly from Confluent Hub into your Confluent Platform or Kafka Connect environment. The installation process ensures that all necessary dependencies are handled automatically, allowing for a seamless integration of the Qdrant Kafka connector with your existing setup. Once installed, the connector can be configured and managed using the Confluent Control Center or the Kafka Connect REST API, enabling efficient data streaming between Kafka and Qdrant without the need for intricate manual setup.
@@ -103,9 +109,9 @@ This command downloads and installs the specified connector directly from Conflu
 
 *Figure 2: Local Confluent platform showing the Source and Sink connectors after installation.*
 
-Ensure the configuration of the connector once it's installed as below. keep in mind that your `key.converter` and `value.converter` are very important for kafka to safely deliver the messages from topic to qdrant.
+Configure the connector once it's installed, as shown here. Keep in mind that your `key.converter` and `value.converter` are very important for kafka to safely deliver the messages from topic to qdrant.
 
-```bash
+```json
 {
   "name": "QdrantSinkConnectorConnector_0",
   "config": {
@@ -125,49 +131,34 @@ Ensure the configuration of the connector once it's installed as below. keep in 
 
 ## Installation of MongoDB
 
-For the Kafka to connect MongoDB as source, your MongoDB instance should be running in a `replicaSet` mode. below is the `docker compose` file which will spin a single node `replicaSet` instance of MongoDB.
+For Kafka to use MongoDB as a source, your MongoDB instance must run as a replica set, because the source connector reads changes from the oplog through change streams. The [Atlas CLI](https://www.mongodb.com/docs/atlas/cli/current/) creates a local single-node replica set with one command, and needs Docker running. Install it with `brew install mongodb-atlas-cli` on macOS, or follow the [installation guide](https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/) for other platforms. Then create the deployment:
 
 ```bash
-version: "3.8"
+atlas local setup qdrant-kafka --port 27017 --mdbVersion 8 --force
+```
 
-services:
-  mongo1:
-    image: mongo:7.0
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
-    ports:
-      - 27017:27017
-    healthcheck:
-      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017'}]}) }" | mongosh --port 27017 --quiet
-      interval: 5s
-      timeout: 30s
-      start_period: 0s
-      start_interval: 1s
-      retries: 30
-    volumes:
-      - "mongo1_data:/data/db"
-      - "mongo1_config:/data/configdb"
+Manage it later with `atlas local list`, `atlas local stop`, and `atlas local delete`. The connection string for this deployment is:
 
-volumes:
-  mongo1_data:
-  mongo1_config:
+```text
+mongodb://127.0.0.1:27017/?directConnection=true
 ```
 
 Similarly, install and configure source connector as below.
 
 ```bash
-confluent-hub install mongodb/kafka-connect-mongodb:latest
+confluent-hub install mongodb/kafka-connect-mongodb:3.1.0
 ```
 
 After installing the `MongoDB` connector, connector configuration should look like this:
 
-```bash
+```json
 {
   "name": "MongoSourceConnectorConnector_0",
   "config": {
     "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.storage.StringConverter",
-    "connection.uri": "mongodb://127.0.0.1:27017/?replicaSet=rs0&directConnection=true",
+    "connection.uri": "mongodb://127.0.0.1:27017/?directConnection=true",
     "database": "qdrant_kafka",
     "collection": "docs",
     "publish.full.document.only": "true",
@@ -179,14 +170,14 @@ After installing the `MongoDB` connector, connector configuration should look li
 
 ## Playground Application
 
-As the infrastructure set is completely done, now it's time for us to create a simple application and check our setup. the objective of our application is the data is inserted to Mongodb and eventually it will get ingested into Qdrant also using [Change Data Capture (CDC)](https://www.confluent.io/learn/change-data-capture/).
+With the infrastructure set up, create a simple application to check it. The application inserts data into MongoDB, and the connector then ingests it into Qdrant through [Change Data Capture (CDC)](https://www.confluent.io/learn/change-data-capture/).
 
 `requirements.txt`
 
-```bash
-fastembed==0.3.1
-pymongo==4.8.0
-qdrant_client==1.10.1
+```text
+fastembed==0.8.1
+pymongo==4.18.2
+qdrant-client==1.19.1
 ```
 
 `project_root_folder/main.py`
@@ -205,7 +196,7 @@ embed_model_name: str = 'snowflake/snowflake-arctic-embed-s'
 create_qdrant_collection(collection_name=collection_name, embed_model=embed_model_name)
 
 # Step 1: Connect to MongoDB
-client = MongoClient('mongodb://127.0.0.1:27017/?replicaSet=rs0&directConnection=true')
+client = MongoClient('mongodb://127.0.0.1:27017/?directConnection=true')
 
 # Step 2: Select Database
 db = client['qdrant_kafka']
@@ -238,10 +229,12 @@ print("Inserted document ID:", result.inserted_id)
 
 `project_root_folder/utils/app_utils.py`
 
-```python 
+```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333", api_key="<YOUR_KEY>")
+# The local Docker instance above runs without an API key. For a secured or
+# Qdrant Cloud instance, also pass api_key="<YOUR_KEY>".
+client = QdrantClient(url="http://localhost:6333")
 dimension_dict = {"snowflake/snowflake-arctic-embed-s": 384}
 
 def create_qdrant_collection(collection_name: str, embed_model: str):
@@ -257,7 +250,7 @@ Before we run the application, below is the state of MongoDB and Qdrant database
 
 ![3.webp](/documentation/examples/data-streaming-kafka-qdrant/3.webp)
 
-Figure 3: Initial state: no collection named `test` & `no data` in the `docs` collection of MongodDB.
+Figure 3: Initial state: no collection named `test` & `no data` in the `docs` collection of MongoDB.
 
 Once you run the code the data goes into Mongodb and the CDC gets triggered and eventually Qdrant will receive this data.
 
