@@ -72,6 +72,9 @@
 /documentation/tutorials/search-beginners/*            /documentation/tutorials-basics/search-beginners/:splat  301!
 /documentation/beginner-tutorials/search-beginners/*   /documentation/tutorials-basics/search-beginners/:splat  301!
 
+# Multimodal Search moved from tutorials-build-essentials to tutorials-basics
+/documentation/tutorials-build-essentials/multimodal-search/*  /documentation/tutorials-basics/multimodal-search/:splat  301!
+
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
 
