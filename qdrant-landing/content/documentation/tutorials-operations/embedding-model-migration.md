@@ -28,9 +28,13 @@ model](/documentation/search-patterns/choose-embedding-model/). Over time, you m
 quality or cost-effectiveness. If your application is in production, this must be done with zero downtime to avoid 
 disrupting users. Switching models requires re-embedding all vectors in your collection, which can take time.
 
-This tutorial will guide you step-by-step through the two options for migrating to a new model with zero downtime.
+This tutorial will guide you step-by-step through the two options for migrating to a new model with zero downtime, and shows how to [compare retrieval quality](#check-retrieval-quality-before-switching) on your own queries before you switch any traffic.
 
 Re-embedding requires access to the original data used to create the embeddings. This data can come from a primary database, or it may be stored in the payloads of the points in Qdrant. This tutorial assumes that the necessary data is stored in the payloads. This is usually the case, as the payload often contains the text or other data that was used to generate the embeddings.
+
+<aside role="status">
+    Tested with Qdrant 1.19.0.
+</aside>
 
 The code examples in this tutorial use [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you'll need to adapt the code examples for your embedding service.
 
@@ -58,13 +62,19 @@ Compared to a blue-green migration, this approach:
 - Keeps all point IDs, payloads, and other named vectors intact throughout the migration.
 - Makes rollback trivial: the old named vector stays in the collection until you explicitly delete it.
 
-Unlike Option 1, point deletions are safe during this migration. Deleting a point removes it from the collection entirely, so there's no risk of the migration process re-adding it. When updating a vector, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge.
+Unlike Option 1, point deletions are safe during this migration. Deleting a point removes it from the collection entirely, so there's no risk of the migration process re-adding it. When updating a vector, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge. The one exception is the background re-embedding step, which needs to handle a point that is deleted while it runs (see [Step 3](#step-3-re-embed-existing-points)).
 
 ## Blue-Green Migration
 
 A blue-green migration uses two collections: the first collection contains the old embeddings, and the second one is used to store the new embeddings. A migration process copies the data from the old collection to the new one, re-embedding vectors using the new model. During the migration, you keep searching the old collection while writing any data updates to both collections. Once all vectors are re-embedded, switch the search to use the new collection.
 
-{{< figure src="/docs/embedding-model-migration.png" caption="Blue-green embedding model migration" width="80%" >}}
+{{< island
+    path="content/documentation/headless/tutorials-operations/blue-green-migration"
+    ratio="3 / 2"
+    title="Blue-green embedding model migration. Select a step to see which services and collections are active; the bars are illustrative."
+>}}
+![Blue-green embedding model migration: the application sends update events to the current embedding service and collection and, during the migration, also to a new embedding service and collection. A migration service reads the current collection, embeds with the new model, and inserts into the new collection only if the point does not exist yet.](/docs/embedding-model-migration.png)
+{{< /island >}}
 
 The solution outlined here only works as-is for upsert operations. If you use deletes or partial updates, it is necessary to pause those operations during the migration or implement additional logic to handle them.
 
@@ -130,9 +140,24 @@ The migration process can take some time, and the offset can be stored in a pers
 
 ### Step 4: Change the Collection and Embedding Model for Searches
 
-Once the migration process is complete and all the points from the old collection are re-embedded and stored in the new collection, you can roll out a configuration change of the backend application. There are two key changes you have to make:
+Once the migration process is complete and all the points from the old collection are re-embedded and stored in the new collection, [compare retrieval quality](#check-retrieval-quality-before-switching) between the two collections on your own queries. If you have not deleted any points since the migration started, `count` on both collections returns the same number, which is a quick completeness check. When the new collection performs at least as well, you can roll out a configuration change of the backend application. There are two key changes you have to make:
 
-1. **The collection name**. Switch this from the old collection to the new collection. If you're using a [collection alias](/documentation/manage-data/collections/#collection-aliases), switch the alias to point to the new collection.
+1. **The collection name**. Switch this from the old collection to the new collection. If you're using a [collection alias](/documentation/manage-data/collections/#collection-aliases), switch the alias to point to the new collection. Deleting and recreating the alias in a single request makes the switch atomic:
+
+```python
+client.update_collection_aliases(
+    change_aliases_operations=[
+        models.DeleteAliasOperation(
+            delete_alias=models.DeleteAlias(alias_name="prod")
+        ),
+        models.CreateAliasOperation(
+            create_alias=models.CreateAlias(
+                collection_name=NEW_COLLECTION, alias_name="prod"
+            )
+        ),
+    ]
+)
+```
 2. **The embedding model**. Switch this from the old embedding model to the new embedding model.
 
 If these values are hardcoded in your application, you will need to change them directly in the code and deploy a new version of your application. For example, if your current search code looks like this:
@@ -145,9 +170,11 @@ You need to change it in the following way:
 
 ### Step 5: Wrapping Up
 
-Once your application has switched to the new collection, disable the dual-write mode you implemented in Step 2. From now on, the application should only write to the new collection.
+Once your application has switched to the new collection, keep the dual-write mode from Step 2 running for an observation period. While the old collection still receives every write, you can roll back at any time by pointing the alias (or the collection name) back at the old collection and switching the embedding model back. Run the same call as in Step 4 with `OLD_COLLECTION`.
 
-All searches are now performed using the new embeddings. If the old collection is no longer needed, you can safely delete it. To ensure you can roll back if necessary, keep a snapshot of the old collection.
+When you are confident in the new model, disable dual writes. From now on, the application should only write to the new collection. Rolling back after this point means losing every write since, because the old collection no longer receives updates.
+
+All searches are now performed using the new embeddings. If the old collection is no longer needed, you can safely delete it. To keep the option of restoring it, take a snapshot of the old collection first.
 
 ---
 
@@ -179,9 +206,23 @@ Run a background process that scrolls through the collection and updates only th
 
 Concurrent writes by the upsert service and the migration process are safe. Both processes derive the new vector from the same payload text using the same model, so if they process a point concurrently, they produce the same result.
 
+Deletions need one precaution. If a point is deleted after the scroll returned it but before `update_vectors` runs, the request fails with a `404 Not Found` ("No point with id ... found"). Catch that error in the migration loop and run the batch again from the same offset. The next scroll no longer returns the deleted point, and re-running the batch is safe because setting a vector is idempotent.
+
 ### Step 4: Switch Search to the New Vector
 
-Once all points have a value for the new named vector, change the query logic:
+Before switching, check that no point is missing the new vector, then [compare retrieval quality](#check-retrieval-quality-before-switching) between the two vectors on your own queries. This count returns `0` when the re-embedding is complete:
+
+```python
+missing = client.count(
+    collection_name=COLLECTION,
+    count_filter=models.Filter(
+        must_not=[models.HasVectorCondition(has_vector=NEW_VECTOR)]
+    ),
+    exact=True,
+).count
+```
+
+When every point has the new vector and it performs at least as well, change the query logic:
 - switch the `using` parameter from the old vector to the new vector.
 - switch the embedding model from the old model to the new model. 
 
@@ -195,8 +236,66 @@ After:
 
 ### Step 5: Disable Dual Writes and Delete the Old Named Vector
 
-Once all search traffic uses the new vector, change your upsert service to write only to the new vector going forward. Next, delete the old named vector from the collection:
+Once all search traffic uses the new vector, keep dual writes running for an observation period. Until you delete the old vector, you can roll back by switching the `using` parameter and the embedding model back to the old values.
+
+When you are confident in the new model, change your upsert service to write only to the new vector going forward. Next, delete the old named vector from the collection. Deleting it is the point of no return: queries that use the old vector name fail afterwards, and the old embeddings can only be restored by re-embedding.
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="delete-old-named-vector" >}}
 
 The old vector's storage is reclaimed after the next optimizer run. All point IDs, payloads, and the new named vector remain intact.
+
+## Check Retrieval Quality Before Switching
+
+A new embedding model is not automatically better on your data, so measure it before you move traffic. Both embeddings exist side by side at this point (two collections in a blue-green migration, two named vectors in the other option), which makes it possible to run identical queries against each and compare the results.
+
+Start from a labeled set of queries, with the documents that should be returned for each one. [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) explains how to build it from logs, human annotation, or synthetic queries, and how to choose metrics. Use real queries from your application where you can, because a model that wins on generic benchmarks can still lose on your domain.
+
+The following example scores both setups with [ranx](https://amenra.github.io/ranx/). `golden_set` has the shape described in that guide. Pass the same `k` to both runs, and use document IDs that match your point IDs. ranx expects them as strings:
+
+```python
+from ranx import Qrels, Run, evaluate
+
+
+def search_old(text, k):
+    return client.query_points(
+        collection_name=OLD_COLLECTION,
+        query=models.Document(text=text, model=OLD_MODEL),
+        limit=k,
+    ).points
+
+
+def search_new(text, k):
+    return client.query_points(
+        collection_name=NEW_COLLECTION,
+        query=models.Document(text=text, model=NEW_MODEL),
+        limit=k,
+    ).points
+
+
+def run_for(search, golden_set, k=10):
+    run = {}
+    for entry in golden_set:
+        points = search(entry["query_text"], k)
+        run[entry["query_id"]] = {str(p.id): p.score for p in points}
+    return Run(run)
+
+
+qrels = Qrels({e["query_id"]: e["labels"] for e in golden_set})
+metrics = ["recall@10", "mrr", "ndcg@10"]
+
+print("old", evaluate(qrels, run_for(search_old, golden_set), metrics))
+print("new", evaluate(qrels, run_for(search_new, golden_set), metrics))
+```
+
+With named vectors, keep one collection and select the vector instead: pass `collection_name=COLLECTION` and `using=OLD_VECTOR` in `search_old`, and `using=NEW_VECTOR` with `NEW_MODEL` in `search_new`.
+
+Each call prints a dictionary with one score per metric, for example `{'recall@10': 0.86, 'mrr': 0.71, 'ndcg@10': 0.74}`. The numbers here only show the format; yours depend on your data and models.
+
+Read the comparison with these points in mind:
+
+- **Decide the bar first.** Pick the metric and the minimum improvement that justifies the switch before you look at the results. Different metrics can rank the two models differently.
+- **Look at individual queries.** An average that goes up can hide a group of queries that got worse. Sort the per-query scores and read the biggest regressions.
+- **Weigh the costs.** A model with larger vectors needs more memory and disk, and may change search latency. Compare these on the new collection as well as the quality scores.
+- **Without labels, you can only measure difference.** The overlap between the top results of both models tells you how much the switch changes what users see, not which results are better. Review the queries with the lowest overlap by hand.
+
+If the new model does not clear the bar, stop here. Production still serves the old embeddings, so the only cleanup is deleting the new collection, or the new named vector with `delete_vector_name`.
