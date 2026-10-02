@@ -1,0 +1,44 @@
+{{ with (.Site.GetPage "/hybrid-search/what-you-get") }}
+  <section class="hybrid-search-what-you-get">
+    <div class="container">
+      <div class="hybrid-search-what-you-get__header">
+        <div class="hybrid-search-what-you-get__heading">
+          {{ with .Params.label }}<p class="hybrid-search-what-you-get__label">{{ . }}</p>{{ end }}
+          <h2 class="hybrid-search-what-you-get__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="hybrid-search-what-you-get__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="hybrid-search-what-you-get__grid{{ if not (or .Params.image .Params.snippet) }} hybrid-search-what-you-get__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="hybrid-search-what-you-get__visual hybrid-search-what-you-get__visual--code">
+            <pre class="hybrid-search-what-you-get__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link hybrid-search-what-you-get__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="hybrid-search-what-you-get__visual">{{ partial "picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="hybrid-search-what-you-get__list">
+            {{ range .Params.cards }}
+              <li class="hybrid-search-what-you-get__item">
+                <h3 class="hybrid-search-what-you-get__item-title">{{ .title }}</h3>
+                <p class="hybrid-search-what-you-get__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="hybrid-search-what-you-get__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link hybrid-search-what-you-get__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
