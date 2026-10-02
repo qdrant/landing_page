@@ -6,6 +6,13 @@ aliases:
   - /documentation/tutorials/embedding-model-migration/
 weight: 30
 goal: Operations
+stack:
+  - Python
+  - TypeScript
+  - Rust
+  - Java
+  - C#
+  - Go
 keywords:
   - replace
   - change

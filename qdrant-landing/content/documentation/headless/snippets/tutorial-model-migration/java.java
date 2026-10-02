@@ -13,6 +13,9 @@ import io.qdrant.client.WithVectorsSelectorFactory;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.AliasOperations;
+import io.qdrant.client.grpc.Collections.CreateAlias;
+import io.qdrant.client.grpc.Collections.DeleteAlias;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.JsonWithInt.Value;
@@ -155,10 +158,17 @@ public class Snippet {
         // @block-end migrate-points
 
         // @block-start alias-update
-
-        client.deleteAliasAsync("prod").get();
-        client.createAliasAsync(NEW_COLLECTION, "prod").get();
-
+        client.updateAliasesAsync(List.of(
+            AliasOperations.newBuilder()
+                .setDeleteAlias(DeleteAlias.newBuilder().setAliasName("prod").build())
+                .build(),
+            AliasOperations.newBuilder()
+                .setCreateAlias(CreateAlias.newBuilder()
+                    .setAliasName("prod")
+                    .setCollectionName(NEW_COLLECTION)
+                    .build())
+                .build()
+        )).get();
         // @block-end alias-update
 
         // @block-start search-old-collection
@@ -293,7 +303,7 @@ public class Snippet {
         client
             .countAsync(
                 COLLECTION,
-                Filter.newBuilder().addMust(hasVector(NEW_VECTOR)).build(),
+                Filter.newBuilder().addMustNot(hasVector(NEW_VECTOR)).build(),
                 true)
             .get();
         // @block-end count-missing

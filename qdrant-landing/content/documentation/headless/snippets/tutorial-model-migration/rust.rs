@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use qdrant_client::qdrant::{
-    Condition, CountPointsBuilder, CreateCollectionBuilder, CreateVectorNameRequestBuilder, CreateAliasBuilder, DeleteAlias, DeleteVectorNameRequestBuilder,
+    Condition, CountPointsBuilder, CreateCollectionBuilder, CreateVectorNameRequestBuilder, DeleteVectorNameRequestBuilder,
     DenseVectorCreationConfigBuilder, Distance, Document, Filter, NamedVectors, PointStruct, PointVectors,
     Query, QueryPointsBuilder, ScrollPointsBuilder, UpdateMode, UpdatePointVectorsBuilder,
     UpsertPointsBuilder, VectorParamsBuilder,
@@ -124,18 +124,20 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end migrate-points
 
     // @block-start alias-update
-    client
-        .delete_alias(DeleteAlias {
-            alias_name: "prod".to_string(),
-        })
-        .await?;
-
-    client
-        .create_alias(CreateAliasBuilder::new(
-            new_collection,
-            "prod",
-        ))
-        .await?;
+    // Use the HTTP API to submit both alias operations in one atomic request.
+    // The REST endpoint uses port 6333, unlike the gRPC client's port 6334.
+    let qdrant_rest_url = "https://your-cluster.cloud.qdrant.io:6333";
+    ureq::post(format!("{qdrant_rest_url}/collections/aliases"))
+        .header("api-key", QDRANT_API_KEY)
+        .send_json(serde_json::json!({
+            "actions": [
+                {"delete_alias": {"alias_name": "prod"}},
+                {"create_alias": {
+                    "alias_name": "prod",
+                    "collection_name": new_collection
+                }}
+            ]
+        }))?;
     // @block-end alias-update
 
 
@@ -274,8 +276,8 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-start count-missing
     client
         .count(
-            CountPointsBuilder::new(COLLECTION)
-                .filter(Filter::must([Condition::has_vector(new_vector)]))
+            CountPointsBuilder::new(collection)
+                .filter(Filter::must_not([Condition::has_vector(new_vector)]))
                 .exact(true),
         )
         .await?;

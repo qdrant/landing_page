@@ -134,8 +134,18 @@ public class Snippet
 		// @block-end migrate-points
 
 		// @block-start alias-update
-		await client.DeleteAliasAsync("prod");
-		await client.CreateAliasAsync(aliasName: "prod", collectionName: NEW_COLLECTION);
+		await client.UpdateAliasesAsync(new AliasOperations[]
+		{
+			new() { DeleteAlias = new DeleteAlias { AliasName = "prod" } },
+			new()
+			{
+				CreateAlias = new CreateAlias
+				{
+					AliasName = "prod",
+					CollectionName = NEW_COLLECTION
+				}
+			}
+		});
 		// @block-end alias-update
 
 		// @block-start search-old-collection
@@ -244,7 +254,7 @@ public class Snippet
 		// @block-start count-missing
 		await client.CountAsync(
             collectionName: COLLECTION,
-            filter: HasVector(NEW_VECTOR),
+            filter: new Filter { MustNot = { HasVector(NEW_VECTOR) } },
             exact: true
 		);
 		// @block-end count-missing

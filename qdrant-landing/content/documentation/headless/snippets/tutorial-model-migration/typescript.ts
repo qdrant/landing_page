@@ -218,9 +218,9 @@ const oldVectorResults = await client.query(COLLECTION, {
 // @block-end search-with-old-vector
 
 // @block-start count-missing
-client.count(COLLECTION, {
+await client.count(COLLECTION, {
     filter: {
-        must: [
+        must_not: [
             {
                 has_vector: NEW_VECTOR,
             },
