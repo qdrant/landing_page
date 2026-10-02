@@ -3,7 +3,8 @@ title: Incremental Embedding Updates
 short_description: "Sync embeddings with raw text data that changes over time."
 description: "Keep embeddings in the Qdrant search engine in sync with documentation that changes over time, for up-to-date vector search."
 weight: 32
-goal: Data & Filtering
+date: 2026-07-21T20:27:01+02:00
+goal: Operations
 stack:
   - Python
 example_resources:
