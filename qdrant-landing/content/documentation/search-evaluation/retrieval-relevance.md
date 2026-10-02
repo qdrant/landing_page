@@ -8,12 +8,10 @@ author_link: https://www.linkedin.com/in/dcouzon/
 date: 2026-05-11T00:00:00+03:00
 aliases:
   - /documentation/improve-search/retrieval-relevance/
+  - /documentation/tutorials/retrieval-quality-golden-set/
 ---
 
 # Measuring Retrieval Relevance
-
-| Time: 40 min | Level: Intermediate |  |    |
-|--------------|---------------------|--|----|
 
 This guide focuses on **retrieval relevance**: how well retrieved results match real user intent.
 To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This guide covers both building that dataset and running it through Qdrant to compute relevance metrics.
@@ -139,6 +137,8 @@ qrels = Qrels({entry["query_id"]: entry["labels"] for entry in golden_set})
 run = retrieval_run(golden_set, collection="my_collection", k=10)
 ```
 
+<aside role="status">If several points share a <code>doc_id</code> (for example, chunks of one document), the dictionary keeps the last occurrence, which can push a document below where Qdrant ranked it. Deduplicate the results first, or keep each document's first (highest-ranked) occurrence.</aside>
+
 **3. Compute metrics.** `evaluate(qrels, run, [...])` compares the two and returns a dict of metric names to floats.
 
 ```python
@@ -163,17 +163,17 @@ Which metric matters most depends on what your pipeline does with results:
 | Single-answer retrieval (FAQ or Q&A) | [`MRR` (Mean Reciprocal Rank)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank) or `Hits@1` | The first result is what the user acts on; lower ranks matter little |
 | Re-ranking or recommendation feeds | `NDCG@k` | Order within the result list matters; a highly relevant doc at rank 5 is worse than at rank 1 |
 
-[NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) works with binary labels but makes full use of graded labels (for example, 0/1/2 scores per query-document pair). For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+[NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) works with binary labels but makes full use of graded labels (for example, 0/1/2 scores per query-document pair). For the full metric list (Precision@k, MAP, MRR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
 
-On choosing `k`: set it to match actual usage. If the application shows 5 results to the user, measure `@5`. If a RAG pipeline passes 10 chunks to the LLM, measure `@10`. Reporting `@100` for a UI that surfaces 5 results makes the metric look artificially good.
+On choosing `k`: set it to match actual usage. If the application shows 5 results to the user, measure `@5`. If a RAG pipeline passes 10 chunks to the LLM, measure `@10`. Reporting `@100` for a UI that surfaces 5 results makes recall look artificially good.
 
 ### Re-running in CI
 
-Re-run whenever the retrieval stack changes: new embedding model (which also requires re-embedding queries and re-indexing), new index config, or new reranker. In CI, compute `recall@10` against a fixed golden set and fail the job when the score drops below your target threshold.
+Re-run whenever the retrieval stack changes: new embedding model (which also requires re-embedding queries and re-indexing), new index config, or new reranker. In CI, compute the metric you chose above against a fixed golden set and fail the job when the score drops below your target threshold.
 
 ## Pitfalls to Watch For
 
-In golden sets, **data leakage** means any setup that makes offline metrics look better than production reality. Unlike classic train/test leakage, the issue is often evaluation design. Keep source documents in the index (they are the expected relevant answers). Focus on these risks:
+In golden sets, **data leakage** means any setup that makes offline metrics misrepresent production quality. Unlike classic train/test leakage, the issue is often evaluation design. Keep source documents in the index (they are the expected relevant answers). Focus on these risks:
 
 **Synthetic-query unrealism.** LLMs often mirror source wording, creating easier queries than real user input. This inflates offline scores. Mitigate it by instructing the LLM to generate queries as a user who hasn't seen the source document, then compare synthetic and real-query distributions (length and specificity).
 
