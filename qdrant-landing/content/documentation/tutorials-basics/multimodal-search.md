@@ -9,6 +9,7 @@ aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
   - /documentation/advanced-tutorials/multimodal-search-fastembed/
   - /documentation/multimodal-search/
+  - /documentation/tutorials-build-essentials/multimodal-search/
 goal: Multimodal Search
 stack:
   - Python
@@ -94,7 +95,7 @@ See what image comes back for the query "*Plane components*". Wrap the query in 
 
 ### Multilingual Search
 
-Now run the same query in Italian, one of the 30+ languages Cohere Embed 4.0 supports, and compare the results:
+Now run the same query in Italian, one of the more than 100 languages Cohere Embed 4.0 supports, and compare the results:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="multilingual-search" >}}
 
