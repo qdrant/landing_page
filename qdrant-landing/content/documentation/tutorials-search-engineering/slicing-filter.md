@@ -219,6 +219,7 @@ async def slice_ids(index: int, total: int) -> set[int]:
             limit=10000,
             with_payload=False,
             with_vectors=False,
+            offset=next_page_offset,
         )
         for p in records:
             ids.add(p.id)
@@ -265,10 +266,11 @@ while True:
         limit=10000,
         with_payload=True,
         with_vectors=False,
+        offset=next_page_offset,
     )
+    stratified_results.extend(stratified)
     if next_page_offset is None:
         break
-    stratified_results.extend(stratified)
 
 print(f"electronics points in slice 0/5: {len(stratified_results)}")
 all_match = all(
