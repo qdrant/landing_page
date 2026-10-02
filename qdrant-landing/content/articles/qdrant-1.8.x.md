@@ -18,6 +18,15 @@ tags:
   - hybrid search
   - CPU resource management
   - text field index
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v1.8.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v1.8.0"
 ---
 
 # Unlocking Next-Level Search: Exploring Qdrant 1.8.0's Advanced Search Capabilities
