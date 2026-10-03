@@ -14,7 +14,6 @@ keywords:
     - vector similarity
     - tsne
     - qdrant data visualization
-hideFromList: true
 slug: dimension-reduction-qsoc
 preview_image: /blog/dimension-reduction-qsoc/preview/title.jpg
 small_preview_image: /blog/dimension-reduction-qsoc/preview/preview.jpg

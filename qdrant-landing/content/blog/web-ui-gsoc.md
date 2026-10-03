@@ -14,7 +14,6 @@ keywords:
     - vector similarity
     - exploration
     - recommendation
-hideFromList: true
 slug: web-ui-gsoc
 preview_image: /blog/web-ui-gsoc/preview/title.jpg
 small_preview_image: /blog/web-ui-gsoc/preview/preview.jpg

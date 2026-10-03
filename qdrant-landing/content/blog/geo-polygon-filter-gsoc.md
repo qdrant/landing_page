@@ -12,7 +12,6 @@ keywords:
     - geo polygon
     - search condition
     - gsoc'23
-hideFromList: true
 slug: geo-polygon-filter-gsoc
 preview_image: /blog/geo-polygon-filter-gsoc/preview/title.jpg
 small_preview_image: /blog/geo-polygon-filter-gsoc/preview/preview.jpg

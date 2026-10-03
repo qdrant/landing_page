@@ -12,7 +12,6 @@ keywords:
   - reranking
   - fastembed
   - qsoc'24
-hideFromList: true
 slug: cross-encoder-integration-gsoc
 preview_image: /blog/cross-encoder-integration-gsoc/preview/title.jpg
 small_preview_image: /blog/cross-encoder-integration-gsoc/preview/preview.jpg
