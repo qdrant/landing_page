@@ -161,6 +161,8 @@
 /articles/vector-search-production/*  /documentation/production-operations/vector-search-in-production/:splat  301!
 /articles/vector-search-resource-optimization/*  /documentation/production-operations/vector-search-in-production/:splat  301!
 /articles/vector-search-filtering/*  /documentation/search-patterns/vector-search-filtering/:splat  301!
+/articles/why-rust/*  /blog/why-rust/:splat  301!
+/articles/why_rust/*  /blog/why-rust/:splat  301!
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!
 /documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
