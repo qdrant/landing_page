@@ -39,7 +39,6 @@ So we built our own storage. As of [**Qdrant Version 1.13**](/blog/qdrant-1.13.x
 **Our first challenge?** Figuring out the best way to handle sequential keys and variable-sized data.
 
 ## Gridstore Architecture: Three Main Components
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-2.png)
 
 Gridstore’s architecture is built around three key components that enable fast lookups and efficient space management:
 | Component                  | Description                                                                                   |
@@ -82,7 +81,6 @@ This layered approach allows Gridstore to locate available space quickly, scalin
 Given the default configuration, the gaps layer is scoped out in a few millionths of the actual storage size. This means that for each 1GB of data, the gaps layer only requires scanning about 6KB of metadata. With this mechanism, the other operations can be executed in virtually constant-time complexity.
 
 ## Gridstore in Production: Maintaining Data Integrity 
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-1.png)
 
 Gridstore’s architecture introduces multiple interdependent structures that must remain in sync to ensure data integrity:
 - **The Data Layer** holds the data and associates each key with its location in storage, including page ID, block offset, and the size of its value.
@@ -114,7 +112,6 @@ To achieve this, **Gridstore completes updates lazily**, prioritizing the most c
 | 👉 In the worst-case scenario, Gridstore may need to write the same data twice, leading to a minor space overhead, but it will never corrupt the storage by overwriting valid data. |
 
 ## How We Tested the Final Product 
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-3.png)
 
 ### First... Model Testing 
 
@@ -176,7 +173,6 @@ Crasher runs a loop that continuously writes data, then randomly crashes Qdrant.
 This aggressive yet simple approach has uncovered real-world issues when run for extended periods. While we also use chaos testing for distributed setups, Crasher excels at fast, repeatable failure testing in a local environment.
 
 ## Testing Gridstore Performance: Benchmarks
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-4.png)
 
 To measure the impact of our new storage engine, we used [**Bustle, a key-value storage benchmarking framework**](https://github.com/jonhoo/bustle), to compare Gridstore against RocksDB. We tested three workloads:
 
