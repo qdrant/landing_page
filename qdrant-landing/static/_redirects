@@ -1,3 +1,20 @@
+# Historical company and contributor posts moved to the blog
+/articles/geo-polygon-filter-gsoc/*  /blog/geo-polygon-filter-gsoc/:splat  301!
+/articles/geo-polygon-filter-gsoc  /blog/geo-polygon-filter-gsoc/  301!
+/articles_data/geo-polygon-filter-gsoc/*  /blog/geo-polygon-filter-gsoc/:splat  301!
+/articles/web-ui-gsoc/*  /blog/web-ui-gsoc/:splat  301!
+/articles/web-ui-gsoc  /blog/web-ui-gsoc/  301!
+/articles_data/web-ui-gsoc/*  /blog/web-ui-gsoc/:splat  301!
+/articles/seed-round/*  /blog/seed-round/:splat  301!
+/articles/seed-round  /blog/seed-round/  301!
+/articles_data/seed-round/*  /blog/seed-round/:splat  301!
+/articles/cross-encoder-integration-gsoc/*  /blog/cross-encoder-integration-gsoc/:splat  301!
+/articles/cross-encoder-integration-gsoc  /blog/cross-encoder-integration-gsoc/  301!
+/articles_data/cross-encoder-integration-gsoc/*  /blog/cross-encoder-integration-gsoc/:splat  301!
+/articles/dimension-reduction-qsoc/*  /blog/dimension-reduction-qsoc/:splat  301!
+/articles/dimension-reduction-qsoc  /blog/dimension-reduction-qsoc/  301!
+/articles_data/dimension-reduction-qsoc/*  /blog/dimension-reduction-qsoc/:splat  301!
+
 /surveys/hybrid-saas    https://hybrid-cloud.qdrant.tech/    301
 /surveys/hybrid-saas/    https://hybrid-cloud.qdrant.tech/    301
 
