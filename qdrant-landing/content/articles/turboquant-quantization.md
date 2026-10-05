@@ -56,15 +56,15 @@ Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets: [arx
 
 **1. TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 
-{{< figure src="/articles_data/turboquant/at-a-glance-4bit.svg" alt="Recall comparison: float32 baseline vs SQ (4x) vs TurboQuant 4-bit (8x) across four datasets" caption="float32 baseline, SQ (4x compression), and TurboQuant 4-bit (8x compression)." width="100%" >}}
+{{< chart id="turboquant/at-a-glance-4bit" caption="float32 baseline, SQ (4x compression), and TurboQuant 4-bit (8x compression)." >}}
 
 **2. TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16x storage.
 
-{{< figure src="/articles_data/turboquant/at-a-glance-2bit.svg" alt="Recall comparison at 16x compression: TurboQuant 2-bit vs Binary Quantization 2-bit" caption="At 16x compression: TurboQuant 2-bit vs Binary Quantization 2-bit." width="100%" >}}
+{{< chart id="turboquant/at-a-glance-2bit" caption="At 16x compression: TurboQuant 2-bit vs Binary Quantization 2-bit." >}}
 
 **3. TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32x storage. `BQ 1-bit` here is the vanilla 1-bit configuration (1-bit storage, 1-bit query); the asymmetric variant (8-bit query) is in the [detailed table](#detailed-benchmarks).
 
-{{< figure src="/articles_data/turboquant/at-a-glance-1bit.svg" alt="Recall comparison at 32x compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit" caption="At 32x compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit." width="100%" >}}
+{{< chart id="turboquant/at-a-glance-1bit" caption="At 32x compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit." >}}
 
 ## What Is TurboQuant?
 
@@ -100,7 +100,13 @@ Vanilla MSE has a persistent length bias: quantized vectors are systematically s
 
 The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** rather than from the TurboQuant paper itself: store one extra per-vector scalar that records how much the quantization shrank the length, and multiply it back in at scoring time. We pay the same 4 bytes per vector that we already reserve for the L2 length and use them to store the **ratio of original length to centroid-reconstruction length**.
 
-{{< figure src="/articles_data/turboquant/length-renormalization.svg" alt="2D illustration of length renormalization: the quantized vector is short and slightly rotated; multiplying by the stored ratio scales it back to the original length and lands it much closer to the original vector" caption="The quantized vector is shorter than the original and points in a slightly different direction. Multiplying by the stored ratio scales it back to the original length; the renormalized vector lands on the same circle as the original, much closer to it than the raw quantized one." width="100%" >}}
+Step through the three stages below to see the error before and after renormalization.
+
+{{< island path="content/articles/headless/turboquant-quantization/renorm"
+    ratio="2 / 1"
+    title="2D illustration of length renormalization: the quantized vector is short and slightly rotated, and multiplying it by the stored ratio puts it back on the circle of radius |x|. Angles and lengths are illustrative." >}}
+![2D illustration of length renormalization](/articles_data/turboquant/length-renormalization.svg)
+{{< /island >}}
 
 TurboQuant's PROD variant spends an entire QJL random projection plus extra bits in the codebook on the same problem; RaBitQ-style renormalization spends 4 bytes and one multiplication.
 
@@ -108,7 +114,11 @@ TurboQuant's PROD variant spends an entire QJL random projection plus extra bits
 
 The rotation step gives every coordinate a roughly N(0, 1) distribution **on isotropic data**. The proof is based on uniformly distributed vectors across the sphere and does not extend to anisotropic embeddings, where a few directions concentrate most of the variance. After rotation those high-variance directions get spread across coordinates, but the per-coordinate distributions are not all identical Gaussians. They have different scales, different shapes, sometimes heavy tails. The Lloyd-Max codebook is fitted once for N(0, 1) and stays fixed, so coordinates that drift off the codebook grid waste centroid positions and lose recall.
 
-{{< figure src="/articles_data/turboquant/per-coordinate-calibration.svg" alt="Per-coordinate calibration: in the uncalibrated panel the data distribution is shifted and stretched relative to the N(0,1) codebook, so a long tail falls past the outermost codebook centroid; in the calibrated panel (shift, scale) brings the data back onto the codebook grid" caption="One coordinate of the rotated data (histogram) against the fixed N(0,1) codebook (dashed curve + red centroids). Uncalibrated panel: the data drifts off the grid; the highlighted bars sit past the outermost centroid and are lost to the codebook. Calibrated panel: after `(shift, scale)`, the data lines up with the centroids again." width="100%" >}}
+{{< island path="content/articles/headless/turboquant-quantization/calibration"
+    ratio="19 / 8"
+    title="One rotated coordinate against the fixed N(0,1) codebook, before and after per-coordinate calibration. The data distribution is illustrative." >}}
+![Per-coordinate calibration before and after (shift, scale)](/articles_data/turboquant/per-coordinate-calibration.svg)
+{{< /island >}}
 
 Because Qdrant stores data in segments, we can fix this per segment. For each segment we do a single **pre-pass** before quantization: estimate a `(shift, scale)` pair per coordinate after rotation, then apply `x → (x + shift) · scale` to pull the empirical per-coordinate distribution back onto the codebook's grid. The same `(shift, scale)` is baked into the segment's metadata and reused for every query that hits the segment.
 
