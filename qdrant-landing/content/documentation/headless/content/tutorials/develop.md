@@ -5,3 +5,4 @@
 | [Async API](/documentation/tutorials-develop/async-api/) | Use Asynchronous programming for efficiency. | <span class="pill">Python</span> | 25m | <span class="text-yellow">Intermediate</span> |
 | [Semantic Search for Code](/documentation/tutorials-develop/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Serverless Semantic Search](/documentation/tutorials-develop/serverless-semantic-search/) | Deploy a Rust search function on AWS Lambda with Cohere and Qdrant. | <span class="pill">Rust</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Semantic Search As You Type](/documentation/tutorials-develop/search-as-you-type/) | Build search-as-you-type with a prefix cache and prioritized batch queries. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |

@@ -161,6 +161,7 @@
 /articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-operations/memory-tiers/:splat  301!
 /articles/multitenancy/*  /documentation/production-operations/multitenant-search/:splat  301!
 /articles/new-recommendation-api/*  /documentation/tutorials-search-engineering/food-discovery-recommendations/:splat  301!
+/articles/search-as-you-type/*  /documentation/tutorials-develop/search-as-you-type/:splat  301!
 /articles/serverless/*  /documentation/tutorials-develop/serverless-semantic-search/:splat  301!
 /articles/tuning-qdrant-optimizer/*  /documentation/production-operations/predictable-search-latency/:splat  301!
 /articles/vector-search-production/*  /documentation/production-operations/vector-search-in-production/:splat  301!
