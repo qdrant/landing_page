@@ -72,3 +72,8 @@
   X-Robots-Tag: noindex
 /articles/quantum-quantization.md
   X-Robots-Tag: noindex
+
+/articles/detecting-coffee-anomalies/*
+  X-Robots-Tag: noindex
+/articles/detecting-coffee-anomalies.md
+  X-Robots-Tag: noindex
