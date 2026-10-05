@@ -192,8 +192,6 @@ In this example, the condition will be satisfied if the stored value is neither 
 
 If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
 
-### Text Match
-
 #### Prefix Match
 
 *Available as of v1.19.0*
@@ -209,6 +207,8 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
 <aside role="status">
     For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
 </aside>
+
+### Text Match
 
 #### Full Text Match
 
