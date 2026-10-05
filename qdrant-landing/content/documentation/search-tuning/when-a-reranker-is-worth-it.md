@@ -36,6 +36,10 @@ Every candidate takes a forward pass at query time, which rules a cross-encoder 
 <strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these reranker deltas as directional. They range from 5,183 to 100,000 documents, and each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
 </aside>
 
+The Decide whether to rerank prompt hands this call to an agent, starting with the cheaper alternative worth ruling out before you add a model.
+
+{{< prompt "decide-whether-to-rerank" >}}
+
 ## Test a Reranker in Three Steps
 
 1. Establish the baseline the reranker has to beat: [tuned fusion](/documentation/search-tuning/how-to-tune-hybrid-search/) if you run hybrid search, your current ranking if you run dense-only or sparse-only. Confirm the documents your labels mark relevant reach the candidate list. A reranker only reorders what it receives; missing documents are a [candidate depth](/documentation/search-tuning/candidate-depth/) or retrieval problem.
