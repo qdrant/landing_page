@@ -1,0 +1,27 @@
+.documentation-article .qd-figure {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.qd-figure picture,
+.qd-figure img {
+  display: block;
+  width: 100%;
+}
+
+.qd-figure img {
+  height: auto;
+  margin: 0;
+}
+
+.qd-figure .qd-figure__light {
+  display: none;
+}
+
+html[data-theme='light'] .qd-figure .qd-figure__light {
+  display: block;
+}
+
+html[data-theme='light'] .qd-figure .qd-figure__dark {
+  display: none;
+}

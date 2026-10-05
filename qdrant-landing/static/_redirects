@@ -68,6 +68,9 @@
 /documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
 /documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301
 
+# Query Decomposition moved from Guides / Search Patterns to tutorials-search-engineering
+/documentation/search-patterns/query-decomposition/*  /documentation/tutorials-search-engineering/query-decomposition/:splat  301!
+
 # Kafka streaming tutorial moved from send-data to tutorials-operations
 /examples/data-streaming-kafka-qdrant/*                     /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
 /documentation/send-data/data-streaming-kafka-qdrant/*      /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
@@ -127,7 +130,7 @@
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!
 /documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
-/documentation/improve-search/query-decomposition/*  /documentation/search-patterns/query-decomposition/:splat  301!
+/documentation/improve-search/query-decomposition/*  /documentation/tutorials-search-engineering/query-decomposition/:splat  301!
 /documentation/improve-search/retrieval-relevance/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
 /documentation/tutorials/retrieval-quality-golden-set/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
 /documentation/improve-search/*  /documentation/search-evaluation/:splat  301!
