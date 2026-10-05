@@ -170,7 +170,11 @@ Thus, the resulting vector will represent one of `128^4` possible combinations.
 If the trained model is good enough, you can even try to interpret the values of singular features individually.
 
 
+{{< island path="content/articles/headless/metric-learning-tips/features"
+    ratio="760 / 380"
+    title="Softmax feature embeddings: a regular embedder next to a feature groups embedder, whose softmax groups show how confident the model is. Image adapted from the author; values are illustrative." >}}
 ![Softmax feature embeddings](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/feature_embedding.png)
+{{< /island >}}
 > Softmax feature embeddings, Image by Author.
 
 
@@ -186,7 +190,11 @@ To correct this kind of error, we introduce exclusion rules.
 Rules consist of 2 object anchors encoded into vector space. 
 If the target object falls into one of the anchors' effects area - it triggers the rule. It will exclude all objects in the second anchor area from the prediction result.
 
+{{< island path="content/articles/headless/metric-learning-tips/exclusion"
+    ratio="76 / 33"
+    title="Neural exclusion rules: drag the query into the anchor radius to fire the rule and exclude the references in the effect radius. Points are illustrative." >}}
 ![Exclusion rules](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/exclusion_rule.png)
+{{< /island >}}
 > Neural exclusion rules, Image by Author.
 
 The convenience of working with embeddings is that regardless of the number of rules,
