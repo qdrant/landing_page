@@ -47,7 +47,11 @@ Both industry and academia tend to reinvent the wheel here and there.
 So, we first took some time to study and categorize different methods — just in case there was something we could plug directly into Qdrant.
 The resulting taxonomy isn't set in stone, but we aim to make it useful.
 
-{{<figure src=/articles_data/search-feedback-loop/relevance-feedback.png caption="Types of Relevance Feedback" width=80% >}}
+{{< island path="content/articles/headless/relevance-feedback/types"
+    ratio="19 / 7"
+    title="The same ranked results labeled by three kinds of feedback: pseudo-relevance, binary feedback, and re-scored feedback. Scores are illustrative." >}}
+![Types of relevance feedback](/articles_data/search-feedback-loop/relevance-feedback.png)
+{{< /island >}}
 
 ### Pseudo-Relevance Feedback (PRF)
 
@@ -93,7 +97,13 @@ Retrieval as a recipe can be broken down into three main ingredients:
 2. Documents 
 3. Similarity scoring between them.
 
-{{<figure src=/articles_data/search-feedback-loop/taxonomy-overview.png caption="Research Field Taxonomy Overview" width=80% >}}
+Click a node in the taxonomy to expand it, or highlight the methods built for lexical or neural search.
+
+{{< island path="content/articles/headless/search-feedback-loop/taxonomy"
+    ratio="380 / 176"
+    title="Research field taxonomy: relevance feedback can update the query, the documents, or the similarity scoring, and below each, how." >}}
+![Research field taxonomy overview](/articles_data/search-feedback-loop/taxonomy-overview.png)
+{{< /island >}}
 
 Query formulation is a subjective process – it can be done in infinite configurations, making the relevance of a document unpredictable until the query is formulated and submitted to the system.
 
@@ -106,8 +116,6 @@ Thus, approaches for incorporating relevance feedback in search fall into two ca
 
 There are several ways to refine a query based on relevance feedback.
 Globally, we prefer to distinguish between two approaches: modifying the query as text and modifying the vector representation of the query.
-
-{{<figure src=/articles_data/search-feedback-loop/query.png caption="Incorporating Relevance Feedback in Query" width=80% >}}
 
 ### Query As Text
 
@@ -123,7 +131,11 @@ Well-known methods of those times come from the family of [Relevance Models](htt
 
 The most famous one, `RM3` – interpolation of expansion terms probability with their probability in a query – is still appearing in papers of the last few years as a (noticeably decent) baseline in term-based retrieval, usually as part of [anserini](https://github.com/castorini/anserini).
 
-{{<figure src=/articles_data/search-feedback-loop/relevance-models.png caption="Simplified Query Expansion" width=100% >}}
+{{< island path="content/articles/headless/search-feedback-loop/rm3"
+    ratio="76 / 25"
+    title="Simplified query expansion with a relevance model such as RM3: terms are picked from the first results, and the expanded query returns better results. The terms and results are illustrative." >}}
+![Simplified query expansion](/articles_data/search-feedback-loop/relevance-models.png)
+{{< /island >}}
 
 With the time approaching the modern machine learning era, [multiple](https://aclanthology.org/2020.findings-emnlp.424.pdf) [studies](https://dl.acm.org/doi/10.1145/1390334.1390377) began claiming that these traditional ways of query expansion are not as effective as they could be.
 
@@ -141,7 +153,11 @@ Query term expansion can *hypothetically* work for neural retrieval as well. New
 It definitely works if **query refining is done by a model operating in the same vector space**, which typically requires offline training of a retriever.
 The goal is to extend the query encoder input to also include feedback documents, producing an adjusted query embedding. Examples include [`ANCE-PRF`](https://arxiv.org/pdf/2108.13454) and [`ColBERT-PRF`](https://dl.acm.org/doi/10.1145/3572405) – ANCE and ColBERT fine-tuned extensions. 
 
-{{<figure src=/articles_data/search-feedback-loop/updated-encoder.png caption="Generating a new relevance-aware query vector" width=100% >}}
+{{< island path="content/articles/headless/search-feedback-loop/encoder"
+    ratio="190 / 93"
+    title="Generating a new relevance-aware query vector: a plain query encoder next to an encoder that also takes the feedback. Vectors and results are illustrative." >}}
+![Generating a new relevance-aware query vector](/articles_data/search-feedback-loop/updated-encoder.png)
+{{< /island >}}
 
 The reason why you’re most probably not familiar with these models – their absence in the industry – is that their **training** itself is a **high upfront cost**, and even though it was “paid”, these models [struggle with generalization](https://arxiv.org/abs/2108.13454), performing poorly on out-of-domain tasks (datasets they haven’t seen during training).
 Additionally, feeding an attention-based model a lengthy input (query + documents) is not a good practice in production settings (attention is quadratic in the input length), where time and money are crucial decision factors.
@@ -155,7 +171,11 @@ It is  easily applicable across modalities and suitable for both lexical and neu
 
 Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf) in 1965 for his relevance feedback experiments operated on bag-of-words vector representations of text.
 
-{{<figure src=/articles_data/search-feedback-loop/Roccio.png caption="Rocchio's Relevance Feedback Method" width=100% >}}
+{{< island path="content/articles/headless/search-feedback-loop/rocchio"
+    ratio="38 / 17"
+    title="Rocchio's relevance feedback method: the query moves toward the centroid of the relevant documents and away from the centroid of the non-relevant ones. The plane is a 2D illustration with seeded points." >}}
+![Rocchio's relevance feedback method](/articles_data/search-feedback-loop/Roccio.png)
+{{< /island >}}
 
 **Rocchio’s idea** — to update the query vector by adding a difference between the centroids of relevant and non-relevant documents — seems to translate well to modern dual encoders-based dense retrieval systems.
 Researchers seem to agree: a study from 2022 demonstrated that the [parametrized version of Rocchio’s method](https://arxiv.org/pdf/2108.11044) in dense retrieval consistently improves Recall@1000 by 1–5%, while keeping query processing time suitable for production — around 170 ms. 
@@ -171,7 +191,11 @@ TOUR adapts a query vector over multiple iterations of retrieval and reranking (
 
 The next iteration of gradient-based methods of query refinement – [`ReFit`](https://arxiv.org/abs/2305.11744) – proposed in 2023 a lighter, production-friendly alternative to TOUR, limiting *retrieve → rerank → gradient descent* sequence to only one iteration. The retriever’s query vector is updated through matching (via [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)) retriever and cross-encoder’s similarity scores distribution over feedback documents. ReFit is model- and language-independent and stably improves Recall@100 metric on 2–3%. 
 
-{{<figure src=/articles_data/search-feedback-loop/refit.png caption="An overview of ReFit, a gradient-based method for query refinement" width=90% >}}
+{{< island path="content/articles/headless/search-feedback-loop/refit"
+    ratio="76 / 33"
+    title="An overview of ReFit, a gradient-based method for query refinement, step by step. Scores are illustrative; the distributions and divergences are computed from them." >}}
+![An overview of ReFit](/articles_data/search-feedback-loop/refit.png)
+{{< /island >}}
 
 Gradient descent-based methods seem like a production-viable option, an alternative to finetuning the retriever (distilling it from a reranker).
 Indeed, it doesn't require in-advance training and is compatible with any re-ranking models. 
@@ -184,8 +208,6 @@ they require a substantial amount of feedback documents to converge to a stable 
 On top of that, the gradient descent-based methods are sensitive to the choice of hyperparameters, leading to **query drift**, where the query may drift entirely away from the user's intent.
 
 ## Similarity Scoring 
-
-{{<figure src=/articles_data/search-feedback-loop/similairty-scoring.png caption="Incorporating Relevance Feedback in Similarity Scoring" width=80% >}}
 
 Another family of approaches is built around the idea of incorporating relevance feedback directly into the similarity scoring function. 
 It might be desirable in cases where we want to preserve the original query intent, but still adjust the similarity score based on relevance feedback.
