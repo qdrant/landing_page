@@ -2,23 +2,31 @@
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 3: Evaluation and Hard Negatives"
 short_description: "Evaluate fine-tuned SPLADE with Qdrant and boost results with hard negative mining."
 description: "Part 3 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE-inspired hard negative mining for a 28% improvement over BM25."
-preview_dir: /articles_data/sparse-embeddings-ecommerce-part-3/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-3/preview/social_preview.jpg
-weight: 30
+preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-3/preview
+social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-3/preview/social_preview.jpg
+weight: 22
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: mastering-search
+goal: Search Quality
+stack:
+  - Python
+  - Sentence Transformers
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant-labs/finetune-ecommerce-search
+aliases:
+  - /articles/sparse-embeddings-ecommerce-part-3/
 ---
 
-*This is Part 3 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/articles/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
+*This is Part 3 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
 
 **Series:**
-- [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
-- [Part 2: Training SPLADE on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
+- [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
+- [Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
 - Part 3: Evaluation & Hard Negatives (here)
-- [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
-- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
+- [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
+- [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
@@ -137,7 +145,7 @@ The fine-tuned model beats BM25 by nearly 28%. More telling: it beats the off-th
 
 ### What About Hybrid Search?
 
-![Hybrid search fusion combining sparse and dense retrieval](/articles_data/sparse-embeddings-ecommerce-part-3/hybrid-search-fusion.png)
+![Hybrid search fusion combining sparse and dense retrieval](/documentation/tutorials/sparse-embeddings-ecommerce-part-3/hybrid-search-fusion.png)
 
 A natural question: can we combine sparse and dense vectors for even better results? We tested this with Qdrant's native Reciprocal Rank Fusion:
 
@@ -163,7 +171,7 @@ This is a useful finding. Hybrid search isn't always better. It depends on the r
 
 ## ANCE-inspired Hard Negative Mining
 
-![The ANCE hard negative mining loop](/articles_data/sparse-embeddings-ecommerce-part-3/ance-loop.png)
+![The ANCE hard negative mining loop](/documentation/tutorials/sparse-embeddings-ecommerce-part-3/ance-loop.png)
 
 The training in Part 2 used in-batch negatives: other products in the same batch serve as negatives for a given query. This works but has a limitation: random products are easy negatives. The model doesn't learn to distinguish between genuinely confusable products.
 
@@ -262,4 +270,4 @@ For most e-commerce applications, 15ms is fine, especially when it delivers 28% 
 
 ---
 
-*Next: [Part 4 - Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)*
+*Next: [Part 4 - Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)*

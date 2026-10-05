@@ -2,22 +2,30 @@
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 5: From Research to Product"
 short_description: "One command to fine-tune SPLADE for your catalog. No ML pipeline assembly required."
 description: "Part 5 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. We packaged the entire training pipeline from Parts 1-4 into an open-source CLI and web dashboard that fine-tunes SPLADE models for any product catalog in minutes."
-preview_dir: /articles_data/sparse-embeddings-ecommerce-part-5/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-5/preview/social_preview.jpg
-weight: 50
+preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-5/preview
+social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-5/preview/social_preview.jpg
+weight: 24
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: mastering-search
+goal: Search Quality
+stack:
+  - Python
+  - Modal
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant/sparse-finetune
+aliases:
+  - /articles/sparse-embeddings-ecommerce-part-5/
 ---
 
-*This is Part 5 of a series on fine-tuning sparse embeddings for e-commerce search. Parts [1](/articles/sparse-embeddings-ecommerce-part-1/)–[4](/articles/sparse-embeddings-ecommerce-part-4/) built the pipeline from scratch. This article packages it into a tool anyone can use.*
+*This is Part 5 of a series on fine-tuning sparse embeddings for e-commerce search. Parts [1](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)–[4](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/) built the pipeline from scratch. This article packages it into a tool anyone can use.*
 
 **Series:**
-- [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
-- [Part 2: Training SPLADE on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
-- [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
-- [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
+- [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
+- [Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
+- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
+- [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
 - Part 5: From Research to Product (here)
 
 ---
@@ -30,7 +38,7 @@ So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/qdr
 
 ## The Problem We're Solving
 
-![From research repo to production CLI](/articles_data/sparse-embeddings-ecommerce-part-5/research-to-production-pipeline.png)
+![From research repo to production CLI](/documentation/tutorials/sparse-embeddings-ecommerce-part-5/research-to-production-pipeline.png)
 
 The [series repo](https://github.com/qdrant-labs/finetune-ecommerce-search) is research code. It demonstrates how sparse embedding fine-tuning works. Actually using it on your data means you need to:
 
@@ -112,7 +120,7 @@ The dashboard is the recommended starting point. You can see everything the tool
 
 ## What Changed From the Series Code
 
-![Production architecture: CLI, dashboard, and GPU backends](/articles_data/sparse-embeddings-ecommerce-part-5/production-architecture.png)
+![Production architecture: CLI, dashboard, and GPU backends](/documentation/tutorials/sparse-embeddings-ecommerce-part-5/production-architecture.png)
 
 The pipeline from Parts 2-4 is the same underneath. The toolkit wraps it with:
 
@@ -215,11 +223,11 @@ The 28% improvement over BM25 from Part 3 isn't locked behind a research repo an
 
 ## Series Summary
 
-- **[Part 1: Why sparse embeddings for e-commerce](/articles/sparse-embeddings-ecommerce-part-1/)**: SPLADE combines keyword precision with learned expansion
-- **[Part 2: Training pipeline on Modal](/articles/sparse-embeddings-ecommerce-part-2/)**: A100 training with persistent checkpoints
-- **[Part 3: Evaluation and hard negatives](/articles/sparse-embeddings-ecommerce-part-3/)**: +28% vs BM25, ANCE-inspired mining with Qdrant
-- **[Part 4: Specialization vs generalization](/articles/sparse-embeddings-ecommerce-part-4/)**: Domain-specific vs multi-domain tradeoffs
-- **[Part 5: From research to product](/articles/sparse-embeddings-ecommerce-part-5/)**: CLI + dashboard that runs the full pipeline
+- **[Part 1: Why sparse embeddings for e-commerce](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)**: SPLADE combines keyword precision with learned expansion
+- **[Part 2: Training pipeline on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)**: A100 training with persistent checkpoints
+- **[Part 3: Evaluation and hard negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)**: +28% vs BM25, ANCE-inspired mining with Qdrant
+- **[Part 4: Specialization vs generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)**: Domain-specific vs multi-domain tradeoffs
+- **[Part 5: From research to product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)**: CLI + dashboard that runs the full pipeline
 
 ---
 

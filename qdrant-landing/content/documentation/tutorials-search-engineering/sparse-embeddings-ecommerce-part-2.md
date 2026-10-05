@@ -2,23 +2,32 @@
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 2: Training SPLADE on Modal"
 short_description: "Train a SPLADE model on Amazon's ESCI dataset using Modal's serverless GPUs and Sentence Transformers."
 description: "Part 2 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
-preview_dir: /articles_data/sparse-embeddings-ecommerce-part-2/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
-weight: 20
+preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-2/preview
+social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
+weight: 21
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: mastering-search
+goal: Search Quality
+stack:
+  - Python
+  - Sentence Transformers
+  - Modal
+example_resources:
+  - label: View Code
+    url: https://github.com/qdrant-labs/finetune-ecommerce-search
+aliases:
+  - /articles/sparse-embeddings-ecommerce-part-2/
 ---
 
-*This is Part 2 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/articles/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
+*This is Part 2 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
 
 **Series:**
-- [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
+- [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
 - Part 2: Training SPLADE on Modal (here)
-- [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
-- [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
-- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
+- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
+- [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
+- [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
@@ -34,7 +43,7 @@ We use Amazon's [ESCI dataset](https://github.com/amazon-science/esci-data) (Sho
 
 The graded relevance is what makes ESCI interesting:
 
-![ESCI relevance gradient from Exact to Irrelevant](/articles_data/sparse-embeddings-ecommerce-part-2/esci-relevance-gradient.png)
+![ESCI relevance gradient from Exact to Irrelevant](/documentation/tutorials/sparse-embeddings-ecommerce-part-2/esci-relevance-gradient.png)
 
 For training, we use Exact and Substitute pairs as positives. This teaches the model that both the exact product and reasonable alternatives are relevant, matching how real shoppers think.
 
@@ -100,7 +109,7 @@ def build_product_text(title, brand="", description="", bullets=None, max_length
 
 The bracket notation for brands, pipe separators between sections, and character limits are deliberate. They preserve lexical signals that SPLADE can learn from: brand names, product attributes, and key features remain as distinct tokens rather than blurring into a wall of text.
 
-![Training stack: Modal for GPU compute, Sentence Transformers for training, Qdrant for evaluation](/articles_data/sparse-embeddings-ecommerce-part-2/training-stack.png)
+![Training stack: Modal for GPU compute, Sentence Transformers for training, Qdrant for evaluation](/documentation/tutorials/sparse-embeddings-ecommerce-part-2/training-stack.png)
 
 ## Setting Up the Modal App
 
@@ -344,7 +353,7 @@ The static embedding completely failed because e-commerce queries are highly con
 
 The transformer is the bottleneck at ~15ms per query, but 15ms is perfectly acceptable for search. Don't prematurely optimize away the component that makes the model work.
 
-![Modal detached training with persistent volumes](/articles_data/sparse-embeddings-ecommerce-part-2/modal-detached-training.png)
+![Modal detached training with persistent volumes](/documentation/tutorials/sparse-embeddings-ecommerce-part-2/modal-detached-training.png)
 
 ## Running Training
 
@@ -374,4 +383,4 @@ The model checkpoint gets saved to the persistent volume at `/checkpoints/splade
 
 ---
 
-*Next: [Part 3 - Evaluation, Hard Negatives, and Results](/articles/sparse-embeddings-ecommerce-part-3/)*
+*Next: [Part 3 - Evaluation, Hard Negatives, and Results](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)*

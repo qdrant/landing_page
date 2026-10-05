@@ -110,6 +110,16 @@
 /articles/vector-search-filtering/*  /documentation/search-patterns/vector-search-filtering/:splat  301!
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-1/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-2/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-3/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-4/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-5/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-1/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-1/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-2/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-2/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-3/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-3/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-4/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-4/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-5/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-5/:splat  301!
 /documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
 /documentation/improve-search/query-decomposition/*  /documentation/search-patterns/query-decomposition/:splat  301!
 /documentation/improve-search/retrieval-relevance/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!

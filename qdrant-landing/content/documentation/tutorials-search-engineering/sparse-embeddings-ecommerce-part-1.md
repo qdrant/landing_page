@@ -2,29 +2,33 @@
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 1: Why Sparse Embeddings Beat BM25"
 short_description: "Dense embeddings blur exact matches. Sparse embeddings keep the details that matter in e-commerce search."
 description: "Part 1 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Learn how sparse embeddings outperform BM25 and dense models for product search, how SPLADE works, and why Qdrant's native sparse vector support matters."
-preview_dir: /articles_data/sparse-embeddings-ecommerce-part-1/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-1/preview/social_preview.jpg
-weight: 10
+preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-1/preview
+social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-1/preview/social_preview.jpg
+weight: 20
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: mastering-search
+goal: Search Quality
+stack:
+  - Python
+aliases:
+  - /articles/sparse-embeddings-ecommerce-part-1/
 ---
 
 *This is Part 1 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 28%.*
 
 **Series:**
 - Part 1: Why Sparse Embeddings Beat BM25 (here)
-- [Part 2: Training on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
-- [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
-- [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
-- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
+- [Part 2: Training on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
+- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
+- [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
+- [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
 Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily returns the 128GB model. The semantic similarity is high - it's the same phone! But the customer specified 256GB for a reason. In e-commerce, the details aren't noise. They're the whole point.
 
-![Dense embedding search returns the wrong iPhone storage variant](/articles_data/sparse-embeddings-ecommerce-part-1/wrong-iphone-result.png)
+![Dense embedding search returns the wrong iPhone storage variant](/documentation/tutorials/sparse-embeddings-ecommerce-part-1/wrong-iphone-result.png)
 
 This is the gap that sparse embeddings fill. And with fine-tuning, they fill it dramatically well - we achieved a **28% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
@@ -54,7 +58,7 @@ But this strength becomes a weakness in e-commerce:
 | **Exact matching** | Weak | Strong |
 | **Interpretability** | Black box | Per-term weights |
 
-![Visualization comparing dense and sparse vector representations](/articles_data/sparse-embeddings-ecommerce-part-1/dense-vs-sparse-viz.png)
+![Visualization comparing dense and sparse vector representations](/documentation/tutorials/sparse-embeddings-ecommerce-part-1/dense-vs-sparse-viz.png)
 
 Both approaches encode text into vectors, but sparse embeddings preserve individual term signals that dense models compress away.
 
@@ -71,7 +75,7 @@ For an input like `"noise canceling headphones"`, SPLADE encodes it in four step
 3. **Max pool** across all token positions to get a single score per vocabulary term
 4. **Output a sparse vector** with ~200 non-zero values out of 30,522 vocabulary dimensions
 
-![The SPLADE encoding pipeline from input text to sparse vector](/articles_data/sparse-embeddings-ecommerce-part-1/splade-pipeline.png)
+![The SPLADE encoding pipeline from input text to sparse vector](/documentation/tutorials/sparse-embeddings-ecommerce-part-1/splade-pipeline.png)
 
 | Token | Weight |
 |---|---|
@@ -161,13 +165,13 @@ Modal gives us serverless A100 GPUs - no idle hardware, no queue management. Sen
 
 Over the next four articles, we'll walk through the full pipeline:
 
-- [**Part 2: Training on Modal**](/articles/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
+- [**Part 2: Training on Modal**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
 
-- [**Part 3: Evaluation and Hard Negative Mining**](/articles/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE-inspired hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
+- [**Part 3: Evaluation and Hard Negative Mining**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE-inspired hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
 
-- [**Part 4: Specialization vs Generalization**](/articles/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, when to specialize vs generalize, and production deployment guidance.
+- [**Part 4: Specialization vs Generalization**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, when to specialize vs generalize, and production deployment guidance.
 
-- [**Part 5: From Research to Product**](/articles/sparse-embeddings-ecommerce-part-5/) - An open-source CLI and web dashboard that runs the entire fine-tuning pipeline with a single command.
+- [**Part 5: From Research to Product**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/) - An open-source CLI and web dashboard that runs the entire fine-tuning pipeline with a single command.
 
 The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.389** on Amazon ESCI, compared to **0.305** for BM25 and **0.326** for off-the-shelf SPLADE. That 28% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
 

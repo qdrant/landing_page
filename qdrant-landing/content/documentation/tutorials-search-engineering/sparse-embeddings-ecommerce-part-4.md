@@ -2,23 +2,27 @@
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 4: Specialization vs Generalization"
 short_description: "When to fine-tune sparse embeddings and how far to specialize before generalization suffers."
 description: "Part 4 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Test cross-domain generalization, train a multi-domain model, and decide when to specialize vs generalize."
-preview_dir: /articles_data/sparse-embeddings-ecommerce-part-4/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-4/preview/social_preview.jpg
-weight: 40
+preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-4/preview
+social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-4/preview/social_preview.jpg
+weight: 23
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: mastering-search
+goal: Search Quality
+stack:
+  - Python
+aliases:
+  - /articles/sparse-embeddings-ecommerce-part-4/
 ---
 
-*This is Part 4 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/articles/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*
+*This is Part 4 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*
 
 **Series:**
-- [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
-- [Part 2: Training SPLADE on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
-- [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
+- [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
+- [Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
+- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
 - Part 4: Specialization vs Generalization (here)
-- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
+- [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
@@ -28,7 +32,7 @@ In this final article, we test cross-domain generalization, train a multi-domain
 
 ## Cross-Domain Evaluation
 
-![Cross-domain nDCG comparison across datasets](/articles_data/sparse-embeddings-ecommerce-part-4/cross-domain-ndcg.png)
+![Cross-domain nDCG comparison across datasets](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/cross-domain-ndcg.png)
 
 We took our Amazon ESCI-trained model and tested it on three additional datasets:
 
@@ -57,7 +61,7 @@ Three patterns emerge:
 
 ## Why Generalization Degrades
 
-![Transfer decay curve showing performance drop across domains](/articles_data/sparse-embeddings-ecommerce-part-4/transfer-decay-curve.png)
+![Transfer decay curve showing performance drop across domains](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/transfer-decay-curve.png)
 
 The cross-domain results reveal a fundamental tradeoff. Fine-tuning teaches the model:
 
@@ -71,7 +75,7 @@ MS MARCO is the extreme case. Web search queries like "what is the capital of Fr
 
 ## Multi-Domain Training
 
-![Domain coverage Venn diagram showing overlap between e-commerce datasets](/articles_data/sparse-embeddings-ecommerce-part-4/domain-coverage-venn.png)
+![Domain coverage Venn diagram showing overlap between e-commerce datasets](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/domain-coverage-venn.png)
 
 To address the generalization problem, we trained a **multi-domain SPLADE model** on combined data from ESCI, WANDS, and Home Depot: roughly 50K training pairs from each dataset, 150K total.
 
@@ -117,7 +121,7 @@ Label normalization is the key challenge. ESCI uses character labels (E, S, C, I
 
 ## Decision Framework
 
-![When to use specialist vs generalist models](/articles_data/sparse-embeddings-ecommerce-part-4/specialist-vs-generalist.png)
+![When to use specialist vs generalist models](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/specialist-vs-generalist.png)
 
 After running all these experiments, here's when to use each approach:
 
@@ -177,14 +181,14 @@ Extensions worth exploring:
 
 The [code is open source](https://github.com/qdrant-labs/finetune-ecommerce-search). The [pre-trained models are on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci) (including a [multi-domain variant](https://huggingface.co/Qdrant/splade-ecommerce-multidomain)). Training runs on Modal for under $1. Qdrant handles the [sparse vectors](https://qdrant.tech/articles/sparse-vectors/), indexing, and retrieval out of the box. The barrier to building better e-commerce search has never been lower.
 
-We also packaged this entire pipeline into an open-source toolkit with a CLI and web dashboard. See [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/) for how to fine-tune a SPLADE model on your own catalog with a single command.
+We also packaged this entire pipeline into an open-source toolkit with a CLI and web dashboard. See [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/) for how to fine-tune a SPLADE model on your own catalog with a single command.
 
 ---
 
 ## Series Summary
 
-- **[Part 1: Why sparse embeddings for e-commerce](/articles/sparse-embeddings-ecommerce-part-1/)** - SPLADE combines keyword precision with learned expansion
-- **[Part 2: Training pipeline on Modal](/articles/sparse-embeddings-ecommerce-part-2/)** - 6 min training, <$1, persistent checkpoints
-- **[Part 3: Evaluation and hard negatives](/articles/sparse-embeddings-ecommerce-part-3/)** - +28% vs BM25, +19% vs off-the-shelf SPLADE
-- **[Part 4: Specialization vs generalization](/articles/sparse-embeddings-ecommerce-part-4/)** - Domain-specific wins for single retailers; multi-domain for platforms
-- **[Part 5: From research to product](/articles/sparse-embeddings-ecommerce-part-5/)** - CLI + dashboard that runs the full pipeline
+- **[Part 1: Why sparse embeddings for e-commerce](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)** - SPLADE combines keyword precision with learned expansion
+- **[Part 2: Training pipeline on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)** - 6 min training, <$1, persistent checkpoints
+- **[Part 3: Evaluation and hard negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)** - +28% vs BM25, +19% vs off-the-shelf SPLADE
+- **[Part 4: Specialization vs generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)** - Domain-specific wins for single retailers; multi-domain for platforms
+- **[Part 5: From research to product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)** - CLI + dashboard that runs the full pipeline
