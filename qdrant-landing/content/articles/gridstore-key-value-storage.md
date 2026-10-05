@@ -105,6 +105,7 @@ The storage system must be designed so that reapplying the same operation after 
 
 ### The Grand Solution: Lazy Updates
 To achieve this, **Gridstore completes updates lazily**, prioritizing the most critical part of the write: the data itself. 
+
 - Instead of immediately updating all metadata structures, it writes the new value first while keeping lightweight pending changes in a buffer.
 - The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted.
 - In the worst-case scenario, Gridstore may need to write the same data twice, leading to a minor space overhead, but it will never corrupt the storage by overwriting valid data.
