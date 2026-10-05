@@ -118,7 +118,7 @@ To rotate an API key without downtime:
 
 *Available as of v1.18.0*
 
-In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Since v1.18.0, every peer attaches its admin `api_key` to outgoing internal requests, but the receiving peer ignores the key unless you enable the `enforce_internal_auth` setting. When enabled, the internal gRPC API rejects requests that do not carry a valid `api_key`, `alt_api_key`, or JWT with manage access, in the same way as the public API.
+In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Since v1.18.0, every peer attaches its admin `api_key` to outgoing internal requests, but the receiving peer ignores the key unless you enable the `enforce_internal_auth` setting. When enabled, the internal gRPC API rejects requests that do not carry a valid `api_key` or `alt_api_key`.
 
 ```yaml
 service:
