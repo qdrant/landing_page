@@ -1,0 +1,93 @@
+/* run-stages island. Scoped under .qi-ol. Controls, frames and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the matrix cells. Hues are constant across themes: neon blue for writes,
+   cyan for search, Qdrant red for optimizer work. */
+
+.qi-ol {
+  --ol-write: var(--qi-cat-1);
+  --ol-search: var(--qi-cat-3);
+  --ol-optim: var(--qi-cat-4);
+
+  display: block;
+}
+
+.qi-ol .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+
+/* Stacked layout: keep the drawing from blowing up on phones. */
+.qi-ol[data-layout='column'] .qi-ol__svg {
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+/* --- Stage frames --- */
+.qi-ol__stage {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-ol__stage.is-dim {
+  opacity: 0.45;
+}
+.qi-ol__stage.is-active .qi-ol__frame {
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.qi-ol__name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+.qi-ol .qi-label {
+  font-size: 13px;
+}
+.qi-ol__row {
+  fill: var(--qi-fg);
+}
+
+/* --- Cells --- */
+.qi-ol__cell {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+.qi-ol__cell--write {
+  fill: color-mix(in srgb, var(--ol-write) 22%, transparent);
+  stroke: var(--ol-write);
+  stroke-dasharray: none;
+}
+.qi-ol__cell--search {
+  fill: color-mix(in srgb, var(--ol-search) 22%, transparent);
+  stroke: var(--ol-search);
+  stroke-dasharray: none;
+}
+.qi-ol__cell--optim {
+  fill: color-mix(in srgb, var(--ol-optim) 22%, transparent);
+  stroke: var(--ol-optim);
+  stroke-dasharray: none;
+}
+.qi-ol__cell--partial {
+  fill: color-mix(in srgb, var(--ol-optim) 8%, transparent);
+  stroke: var(--ol-optim);
+}
+.qi-ol__cell--metric {
+  fill: var(--qi-border);
+  stroke: none;
+}
+
+.qi-ol__text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+}
+.qi-ol__text--off {
+  fill: var(--qi-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ol__stage {
+    transition: none;
+  }
+}

@@ -218,7 +218,7 @@ Figure: For many-tenant setups, spinning up a new collection per tenant can ball
 
 ![vector-search-production](/articles_data/vector-search-production/multitenancy.png)
 
-> **Don't forget:** you can always create [**API keys in Qdrant Cloud (or JWT in OSS)**](https://qdrant.tech/articles/data-privacy/) to enforce a certain filter via a payload constraint.
+> **Don't forget:** you can always create [**API keys in Qdrant Cloud (or JWT in OSS)**](/documentation/production-operations/access-control/) to enforce a certain filter via a payload constraint.
 
 ||
 |-|

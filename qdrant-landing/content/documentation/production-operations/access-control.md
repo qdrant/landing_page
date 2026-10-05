@@ -2,20 +2,21 @@
 title: "Data Privacy with Qdrant's Role-Based Access Control (RBAC)"
 short_description: "Secure Your Data with Qdrant: Implementing RBAC"
 description: Discover how Qdrant's Role-Based Access Control (RBAC) ensures data privacy and compliance for your AI applications. Build secure and scalable systems with ease. Read more now!
-social_preview_image: /articles_data/data-privacy/preview/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
-preview_dir: /articles_data/data-privacy/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
+social_preview_image: /articles_data/data-privacy/preview/social_preview.jpg
+preview_dir: /articles_data/data-privacy/preview
 weight: 50
-author: Qdrant Team # Author of the article. Required.
-author_link: https://qdrant.tech/ # Link to the author's page. Required.
-date: 2024-06-18T08:00:00-03:00 # Date of the article. Required.
-draft: false # If true, the article will not be published
-keywords: # Keywords for SEO
+author: Qdrant Team
+author_link: https://qdrant.tech
+date: 2024-06-18T08:00:00-03:00
+draft: false
+keywords:
   - Role-Based Access Control (RBAC)
   - Data Privacy in Vector Databases
   - Secure AI Data Management
   - Qdrant Data Security
   - Enterprise Data Compliance
-category: production-ops
+aliases:
+  - /articles/data-privacy/
 ---
 
 Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures are critical to safeguarding this data. If the data stored in a vector database is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
@@ -25,7 +26,7 @@ Strict compliance regulations govern data stored in vector databases across vari
 This article explores various strategies to ensure the security of your critical data while leveraging the benefits of vector search. Implementing some of these security approaches can help you build privacy-enhanced similarity search algorithms and integrate them into your AI applications. 
 Additionally, you will learn how to build a fully data-sovereign architecture, allowing you to retain control over your data and comply with relevant data laws and regulations.
 
-> To skip right to the code implementation, [click here](/articles/data-privacy/#jwt-on-qdrant). 
+> To skip right to the code implementation, [click here](#jwt-on-qdrant).
 
 ## Vector Database Security: An Overview
 
@@ -68,6 +69,8 @@ The keys associated with this layer are Cloud Management Keys, which authenticat
 
 ![Creating Cloud Management Keys](/articles_data/data-privacy/cloud_management_keys.png)
 
+Cloud roles do not control access to collection data, and removing a user does not remove the keys they created. Cloud Management Keys and Database API Keys keep working with the permissions they were granted, so [revoke a departing user's keys](/documentation/cloud-rbac/user-management/) separately.
+
 ### Database API Keys
 
 Database API Keys enable [Database Access Control](https://qdrant.tech/documentation/cloud/authentication/). They are used to read and write data inside your Qdrant collections.
@@ -81,7 +84,7 @@ On Qdrant Cloud, you create granular access keys from the API Keys section of a 
 
 ![Creating granular access API keys](/articles_data/data-privacy/granular_access_keys.png)
 
-For on-premise or local deployments, you'll need to configure API key authentication. This involves specifying a key in either the Qdrant configuration file or as an environment variable. This ensures that all requests to the server must include a valid API key sent in the header.
+For on-premise or local deployments, you need to configure API key authentication. Specify a key in the Qdrant configuration file or as an environment variable, and every request to the server must then include a valid API key in the header. The [Security & Access Control documentation](/documentation/security/#authenticate-with-an-api-key) has the exact settings.
 
 When using the simple API key-based authentication on your self-hosted deployment, you should also turn on **TLS encryption**. Otherwise, you are exposing the connection to sniffing and MitM attacks. To secure your connection using TLS, you would need to create a certificate and private key, and then [enable TLS](/documentation/security/#tls) in the configuration.
 
@@ -95,7 +98,7 @@ A JWT is composed of three parts: a header, a payload, and a signature, which ar
 
 In Qdrant, JWT forms the foundation through which powerful access controls can be built. Let’s understand how.
 
-JWT is enabled on the Qdrant instance by specifying the API key and turning on the **jwt_rbac** feature in the configuration (alternatively, they can be set as environment variables). For any subsequent request, the API key is used to encode or decode the token.
+JWT is enabled on the Qdrant instance by specifying the API key and turning on the **jwt_rbac** feature in the configuration (alternatively, they can be set as environment variables), as described in [Granular Access API Keys](/documentation/security/#granular-access-api-keys). For any subsequent request, the API key is used to encode or decode the token.
 
 The way JWT works is that just the API key is enough to generate the token, and doesn’t require any communication with the Qdrant instance or server. There are several libraries that help generate tokens by encoding a payload, such as [PyJWT](https://pyjwt.readthedocs.io/en/stable/) (for Python), [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) (for JavaScript), and [jsonwebtoken](https://crates.io/crates/jsonwebtoken) (for Rust). Qdrant uses the HS256 algorithm to encode or decode the tokens.
 
@@ -140,7 +143,7 @@ For convenience, we have added a JWT generation tool in the Qdrant Web UI, which
 
 #### Payload Configuration
 
-There are several different options (claims) you can use in the JWT payload that help control access and functionality. Let’s look at them one by one.
+There are several different options (claims) you can use in the JWT payload that help control access and functionality. Let’s look at them one by one; the [JWT configuration reference](/documentation/security/#jwt-configuration) lists them all.
 
 **exp**: This claim is the expiration time of the token, and is a unix timestamp in seconds. After the expiration time, the token will be invalid.
 
@@ -182,6 +185,8 @@ Suppose you have a ‘users’ collection and have defined specific roles for ea
 ```
 
 Now, if you ever want to revoke access for a user, simply change the value of their role. All future requests will be invalid using a token payload of the above type.
+
+> This payload has no `access` claim. When `access` is absent, Qdrant assumes **manage** access, so add an `access` claim whenever the token should be narrower than that.
 
 By combining the claims, you can fully customize the access level that a user or a role has within the vector store.
 

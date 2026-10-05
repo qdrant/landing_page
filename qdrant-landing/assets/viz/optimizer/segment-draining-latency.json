@@ -1,0 +1,35 @@
+{
+  "title": "Draining-phase search latency by segment configuration",
+  "kind": "columns-2panel",
+  "labelTop": "configuration",
+  "labelBottom": "setting",
+  "colors": [
+    0,
+    "muted",
+    1,
+    2
+  ],
+  "height": 400,
+  "panels": [
+    {
+      "title": "Median (p50) latency while draining",
+      "subtitle": "lower is better",
+      "y": "draining_p50_ms",
+      "axis": "search latency, ms",
+      "unit": "ms",
+      "yMax": 600
+    },
+    {
+      "title": "95th percentile (p95) latency while draining",
+      "subtitle": "lower is better",
+      "y": "draining_p95_ms",
+      "axis": "search latency, ms",
+      "unit": "ms",
+      "yMax": 3000
+    }
+  ],
+  "tooltip": {
+    "draining_p50_ms": "draining p50",
+    "draining_p95_ms": "draining p95"
+  }
+}
