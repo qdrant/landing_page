@@ -3,6 +3,7 @@ title: Hybrid Search with Reranking
 short_description: "Combine dense, sparse, and late-interaction embeddings in Qdrant to build hybrid search with reranking for high-precision results."
 description: "Step-by-step tutorial: build hybrid search in Qdrant combining dense, sparse, and late-interaction reranking for higher precision on large corpora."
 weight: 60
+date: 2024-11-27T10:27:44-08:00
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/
   - /documentation/advanced-tutorials/reranking-hybrid-search/
@@ -10,8 +11,15 @@ aliases:
 goal: Search Quality
 stack:
   - Python
-  - FastEmbed
+  - TypeScript
+  - Rust
+  - Java
+  - C#
+  - Go
+  - Cloud Inference
 ---
+
+<link rel="stylesheet" href="/documentation/examples/reranking-hybrid-search/figures.css">
 
 # Qdrant Hybrid Search with Reranking
 
@@ -32,7 +40,16 @@ Let's start by breaking down the architecture:
 
 ### Ingestion Stage
 
-![Processing dense, sparse, and late interaction embeddings in Qdrant](/documentation/examples/reranking-hybrid-search/image3.png)
+<figure class="hybrid-reranking-figure">
+  <picture>
+    <source media="(max-width: 600px)" srcset="/documentation/examples/reranking-hybrid-search/image3.mobile.svg" width="320" height="560">
+    <img src="/documentation/examples/reranking-hybrid-search/image3.svg" alt="A document produces a dense vector, a sparse vector, and multiple late interaction vectors. All three representations are stored in the Qdrant search engine." width="800" height="400" loading="lazy">
+  </picture>
+  <picture class="hybrid-reranking-figure__dark">
+    <source media="(max-width: 600px)" srcset="/documentation/examples/reranking-hybrid-search/image3.mobile.dark.svg" width="320" height="560">
+    <img src="/documentation/examples/reranking-hybrid-search/image3.dark.svg" alt="A document produces a dense vector, a sparse vector, and multiple late interaction vectors. All three representations are stored in the Qdrant search engine." width="800" height="400" loading="lazy">
+  </picture>
+</figure>
 
 You'll start by ingesting a CSV file containing information about science fiction books. Each row is a **document**, corresponding to a book, with fields for the title, author, and description. Each book description will be processed to generate three types of embeddings:
 - **Dense embeddings** capture the deeper, semantic meanings behind the text.
@@ -43,7 +60,16 @@ The data, including all the embeddings, is stored in Qdrant, a **vector search e
 
 ### Retrieval Stage
 
-![Query retrieval and reranking process in Qdrant](/documentation/examples/reranking-hybrid-search/image2.png)
+<figure class="hybrid-reranking-figure">
+  <picture>
+    <source media="(max-width: 600px)" srcset="/documentation/examples/reranking-hybrid-search/image2.mobile.svg" width="320" height="616">
+    <img src="/documentation/examples/reranking-hybrid-search/image2.svg" alt="A user query produces dense, sparse, and late interaction embeddings. Dense and sparse embeddings feed hybrid search; its candidate documents and the late interaction embeddings feed reranking." width="800" height="400" loading="lazy">
+  </picture>
+  <picture class="hybrid-reranking-figure__dark">
+    <source media="(max-width: 600px)" srcset="/documentation/examples/reranking-hybrid-search/image2.mobile.dark.svg" width="320" height="616">
+    <img src="/documentation/examples/reranking-hybrid-search/image2.dark.svg" alt="A user query produces dense, sparse, and late interaction embeddings. Dense and sparse embeddings feed hybrid search; its candidate documents and the late interaction embeddings feed reranking." width="800" height="400" loading="lazy">
+  </picture>
+</figure>
 
 When a user submits a **query**, it is, just like documents, transformed into each of the types of embeddings: dense for semantic search, sparse for keyword search, and late interaction for precise reranking.
 
@@ -88,7 +114,7 @@ This code creates a point for each book, with three vector types and a payload c
 This code uses a helper function to stream and parse the CSV file:
 
 <details><summary>Details</summary> 
-{{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="parse-csv" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="parse-csv" >}}
 </details>
 
 ### Retrieval
@@ -129,6 +155,8 @@ The top 5 results are:
 
 The sparse BM25 model performs keyword matching with stemming. As a result, it returns books whose descriptions contain variants of the words "time" and "travel". For instance, "Station Eleven" and "Hyperion" mention "traveling" and "travelers" but aren't primarily about time travel.
 
+<aside role="status">This example keeps BM25's default average document length (<code>avg_len</code>, 256 words). The book descriptions are about 10 words long, so on your own data, set <code>avg_len</code> to the average length of the field you index; see <a href="/documentation/search/text-search/full-text-search/#configuring-bm25-parameters">Configuring BM25 Parameters</a>.</aside>
+
 **Hybrid search** can be used to prefetch the dense and sparse results and next merge them using [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="hybrid-search" >}}
@@ -155,14 +183,14 @@ The prefetch step retrieves the top 20 candidates from each sub-query (dense and
 
 ### Compare results
 
-Let's compare the top 10 results of hybrid search with and without reranking. Notice how some documents shift in rank based on their relevance according to the late interaction embeddings.
+Let's compare the top 5 reranked results with their positions in the RRF results. Notice how some documents shift in rank based on their relevance according to the late interaction embeddings.
 
- Title | Description | Reranked | RRF rank  | Rank Change |
+| Title | Description | Reranked | RRF rank  | Rank Change |
 |-------|-------------| ---------|----------|-------------|
 | Slaughterhouse-Five | A nonlinear, time-tripping reflection on war and fate. | 1 | 3 | Moved up |
 | The Forever War | A soldier experiences extreme time dilation while fighting an interstellar war. | 2 | 8 | Moved up |
-| Kindred | A modern Black woman is pulled back in time to the antebellum South. | 3 | 7 | Moved up |
-| Spin | Earth is enclosed in a time-distorting barrier by unknown forces. | 4 | 6 | Moved up |
+| Kindred | A modern Black woman is pulled back in time to the antebellum South. | 3 | 6 | Moved up |
+| Spin | Earth is enclosed in a time-distorting barrier by unknown forces. | 4 | 7 | Moved up |
 | The Light Brigade | Soldiers are turned into light to fight a war across space-time. | 5 | 10 | Moved up |
 
 ## Best Practices in Reranking
