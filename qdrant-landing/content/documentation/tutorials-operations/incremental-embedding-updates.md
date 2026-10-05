@@ -7,6 +7,11 @@ date: 2026-07-21T20:27:01+02:00
 goal: Operations
 stack:
   - Python
+  - TypeScript
+  - Rust
+  - Java
+  - C#
+  - Go
 example_resources:
   - label: Open Notebook
     url: https://githubtocolab.com/qdrant/examples/blob/master/temporal-data-drift/sync_raw_data_to_embeddings.ipynb
