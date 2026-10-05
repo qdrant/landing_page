@@ -4,3 +4,4 @@
 | [Build a Hybrid Search API](/documentation/tutorials-develop/hybrid-search-fastembed/) | Combine dense and sparse search. | <span class="pill">FastAPI</span> | 20m | <span class="text-green">Beginner</span> |
 | [Async API](/documentation/tutorials-develop/async-api/) | Use Asynchronous programming for efficiency. | <span class="pill">Python</span> | 25m | <span class="text-yellow">Intermediate</span> |
 | [Semantic Search for Code](/documentation/tutorials-develop/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Serverless Semantic Search](/documentation/tutorials-develop/serverless-semantic-search/) | Deploy a Rust search function on AWS Lambda with Cohere and Qdrant. | <span class="pill">Rust</span> | 45m | <span class="text-yellow">Intermediate</span> |
