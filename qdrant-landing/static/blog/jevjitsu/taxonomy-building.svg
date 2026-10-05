@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="900" viewBox="0 0 420 900" role="img" aria-labelledby="t d">
+<title id="t">How Jev builds a taxonomy from a collection</title>
+<desc id="d">Four steps. One: similar products are grouped, for example women's long-sleeve T-shirt, puff-sleeve blouse, and metallic catsuit plus 152 more products, or photo album, album cover, and 2020 calendar plus 42 more products. Two: an LLM suggests a name for each group, women's clothing and Greeting Cards. Three: Jev checks whether the name fits the products. Women's clothing fits 14 of 15 and is kept. Greeting Cards fits 4 of 15 and is dropped. Four: what fits becomes the taxonomy, with Clothing and Apparel containing women's clothing, men's clothing, children's apparel, and Women's Dresses, plus 20 more broad categories.</desc>
+<rect width="420" height="900" fill="#f0f3fa"/>
+<g font-family="'Mona Sans', -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#303547">
+<g fill="#ffffff" stroke="#d3d9eb" stroke-width="1.5">
+<rect x="10" y="15" width="400" height="34" rx="6"/>
+<rect x="10" y="281" width="400" height="34" rx="6"/>
+<rect x="10" y="399" width="400" height="34" rx="6"/>
+<rect x="10" y="614" width="400" height="34" rx="6"/>
+<rect x="10" y="71" width="196" height="188" rx="8"/>
+<rect x="214" y="71" width="196" height="188" rx="8"/>
+<rect x="10" y="670" width="400" height="208" rx="8"/>
+</g>
+<g fill="#303547">
+<circle cx="29" cy="32" r="11"/>
+<circle cx="29" cy="298" r="11"/>
+<circle cx="29" cy="416" r="11"/>
+<circle cx="29" cy="631" r="11"/>
+</g>
+<g fill="#ffffff" font-weight="700" text-anchor="middle">
+<text x="29" y="37">1</text>
+<text x="29" y="303">2</text>
+<text x="29" y="421">3</text>
+<text x="29" y="636">4</text>
+</g>
+<g font-size="15" font-weight="700">
+<text x="49" y="37">Similar products are grouped</text>
+<text x="49" y="303">An LLM suggests a name</text>
+<text x="49" y="421">Jev checks: does the name fit the products?</text>
+<text x="49" y="636">What fits becomes the taxonomy</text>
+</g>
+
+<g fill="#f0f3fa">
+<rect x="16" y="83" width="184" height="40" rx="6"/>
+<rect x="16" y="131" width="184" height="40" rx="6"/>
+<rect x="16" y="179" width="184" height="40" rx="6"/>
+<rect x="220" y="83" width="184" height="40" rx="6"/>
+<rect x="220" y="131" width="184" height="40" rx="6"/>
+<rect x="220" y="179" width="184" height="40" rx="6"/>
+</g>
+<text x="26" y="100">Women's long-sleeve</text>
+<text x="26" y="116">T-shirt</text>
+<text x="26" y="156">Puff-sleeve blouse</text>
+<text x="26" y="204">Metallic catsuit</text>
+<text x="230" y="108">Photo album</text>
+<text x="230" y="156">Album cover</text>
+<text x="230" y="204">2020 calendar</text>
+<g fill="#656b7f">
+<text x="26" y="245">+ 152 more products</text>
+<text x="230" y="245">+ 42 more products</text>
+</g>
+
+<g fill="#ffffff" stroke="#ff9800" stroke-width="2.5">
+<rect x="24" y="337" width="168" height="40" rx="20"/>
+<rect x="228" y="337" width="168" height="40" rx="20"/>
+</g>
+<g font-size="16" font-weight="700" text-anchor="middle">
+<text x="108" y="363">women's clothing</text>
+<text x="312" y="363">Greeting Cards</text>
+</g>
+
+<g fill="#009688">
+<circle cx="56" cy="470" r="9"/><circle cx="82" cy="470" r="9"/><circle cx="108" cy="470" r="9"/><circle cx="134" cy="470" r="9"/><circle cx="160" cy="470" r="9"/>
+<circle cx="56" cy="496" r="9"/><circle cx="82" cy="496" r="9"/><circle cx="108" cy="496" r="9"/><circle cx="134" cy="496" r="9"/><circle cx="160" cy="496" r="9"/>
+<circle cx="56" cy="522" r="9"/><circle cx="82" cy="522" r="9"/><circle cx="108" cy="522" r="9"/><circle cx="134" cy="522" r="9"/>
+</g>
+<g fill="#dc244c">
+<circle cx="260" cy="470" r="9"/><circle cx="286" cy="470" r="9"/><circle cx="312" cy="470" r="9"/><circle cx="338" cy="470" r="9"/>
+</g>
+<g fill="#ffffff" stroke="#abb1c7" stroke-width="1.5">
+<circle cx="160" cy="522" r="8.25"/>
+<circle cx="364" cy="470" r="8.25"/>
+<circle cx="260" cy="496" r="8.25"/><circle cx="286" cy="496" r="8.25"/><circle cx="312" cy="496" r="8.25"/><circle cx="338" cy="496" r="8.25"/><circle cx="364" cy="496" r="8.25"/>
+<circle cx="260" cy="522" r="8.25"/><circle cx="286" cy="522" r="8.25"/><circle cx="312" cy="522" r="8.25"/><circle cx="338" cy="522" r="8.25"/><circle cx="364" cy="522" r="8.25"/>
+</g>
+<g font-size="15" font-weight="700">
+<text x="56" y="558">14 of 15 fit</text>
+<text x="260" y="558">4 of 15 fit</text>
+<text x="78" y="582" fill="#00838f">kept</text>
+<text x="282" y="582" fill="#dc244c">dropped</text>
+</g>
+<path d="M56 577l5 5 9-11" fill="none" stroke="#00838f" stroke-width="2.5"/>
+<path d="M260 572l11 11m0-11-11 11" fill="none" stroke="#dc244c" stroke-width="2.5"/>
+
+<g fill="none" stroke="#656b7f" stroke-width="2">
+<path d="M108 49V71m-5-6 5 6 5-6"/>
+<path d="M312 49V71m-5-6 5 6 5-6"/>
+<path d="M108 259V281m-5-6 5 6 5-6"/>
+<path d="M312 259V281m-5-6 5 6 5-6"/>
+<path d="M108 315V337m-5-6 5 6 5-6"/>
+<path d="M312 315V337m-5-6 5 6 5-6"/>
+<path d="M108 377V399m-5-6 5 6 5-6"/>
+<path d="M312 377V399m-5-6 5 6 5-6"/>
+<path d="M108 433V455m-5-6 5 6 5-6"/>
+<path d="M312 433V455m-5-6 5 6 5-6"/>
+<path d="M108 592V614m-5-6 5 6 5-6"/>
+<path d="M108 648V670m-5-6 5 6 5-6"/>
+</g>
+
+<text x="24" y="700" font-size="17" font-weight="700">Clothing &amp; Apparel</text>
+<g fill="none" stroke="#abb1c7" stroke-width="2">
+<path d="M36 716V817"/>
+<path d="M36 727H52M36 757H52M36 787H52M36 817H52"/>
+</g>
+<text x="60" y="732" font-weight="700" fill="#00838f">women's clothing</text>
+<text x="60" y="762">men's clothing</text>
+<text x="60" y="792">children's apparel</text>
+<text x="60" y="822">Women's Dresses</text>
+<text x="24" y="862" fill="#656b7f">+ 20 more broad categories</text>
+
+</g>
+</svg>

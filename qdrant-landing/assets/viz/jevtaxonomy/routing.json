@@ -1,0 +1,15 @@
+{
+  "title": "Jev taxonomy routing on Amazon-C4",
+  "subtitle": "300 real searches, nDCG@10 (x100), higher is better",
+  "kind": "grouped-columns",
+  "group": "routing",
+  "series": "series",
+  "colors": ["muted", 0],
+  "y": "ndcg_at_10",
+  "yLabel": "nDCG@10 (x100)",
+  "yMax": 40,
+  "height": 460,
+  "width": 640,
+  "textScale": 1.3,
+  "legendLayout": "row"
+}
