@@ -20,7 +20,7 @@ When we started building Qdrant, we needed to pick something ready for the task.
   <p>It is mature, reliable, and well-documented.</p>
 </div>
 
-Over time, we ran into issues. Its architecture required compaction (uses [LSMT](https://en.wikipedia.org/wiki/Log-structured_merge-tree)), which caused random latency spikes. It handles generic keys, while we only use it for sequential IDs. Having lots of configuration options makes it versatile, but accurately tuning it was a headache. Finally, interoperating with C++ slowed us down (although we will still support it for quite some time 😭).
+Over time, we ran into issues. Its architecture required compaction (uses [LSMT](https://en.wikipedia.org/wiki/Log-structured_merge-tree)), which caused random latency spikes. It handles generic keys, while we only use it for sequential IDs. Having lots of configuration options makes it versatile, but accurately tuning it was a headache. Finally, interoperating with C++ slowed us down (although we will still support it for quite some time).
 
 While there are already some good options written in Rust that we could leverage, we needed something custom. Nothing out there fit our needs in the way we wanted. We didn’t require generic keys. We wanted full control over when and which data was written and flushed. Our system already has crash recovery mechanisms built-in. Online compaction isn’t a priority, we already have optimizers for that. Debugging misconfigurations was not a great use of our time.
 
@@ -105,11 +105,9 @@ The storage system must be designed so that reapplying the same operation after 
 
 ### The Grand Solution: Lazy Updates
 To achieve this, **Gridstore completes updates lazily**, prioritizing the most critical part of the write: the data itself. 
-|                                                                                                                |
-|-----------------------------------------------------------------------------------------------------------------------------|
-| 👉 Instead of immediately updating all metadata structures, it writes the new value first while keeping lightweight pending changes in a buffer. |
-| 👉 The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted. |
-| 👉 In the worst-case scenario, Gridstore may need to write the same data twice, leading to a minor space overhead, but it will never corrupt the storage by overwriting valid data. |
+- Instead of immediately updating all metadata structures, it writes the new value first while keeping lightweight pending changes in a buffer.
+- The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted.
+- In the worst-case scenario, Gridstore may need to write the same data twice, leading to a minor space overhead, but it will never corrupt the storage by overwriting valid data.
 
 ## How We Tested the Final Product 
 
@@ -232,7 +230,7 @@ We ran this against Qdrant 1.12.6, toggling between the old and new storage back
 
 ### Final Result 
 
-Data ingestion is **twice as fast and with a smoother throughput** — a massive win! 😍
+Data ingestion is **twice as fast and with a smoother throughput** — a massive win!
 
 ![image.png](/articles_data/gridstore-key-value-storage/2.png)
 
@@ -246,9 +244,9 @@ Strictly speaking, RocksDB is slightly smaller, but the difference is negligible
 
 Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures. It was first used as the storage backend for on-disk payloads and sparse vectors in 1.13, and since 1.15 it is the default for new deployments (see the [1.15 release notes](/blog/qdrant-1.15.x/#migration-to-gridstore)).
 
-👉 It’s important to note that Gridstore remains tightly integrated with Qdrant and, as such, has not been released as a standalone crate. 
+It’s important to note that Gridstore remains tightly integrated with Qdrant and, as such, has not been released as a standalone crate. 
 
-Its API is still evolving, and we are focused on refining it within our ecosystem to ensure maximum stability and performance. That said, we recognize the value this innovation could bring to the wider Rust community. In the future, once the API stabilizes and we decouple it enough from Qdrant, we will consider publishing it as a contribution to the community ❤️.
+Its API is still evolving, and we are focused on refining it within our ecosystem to ensure maximum stability and performance. That said, we recognize the value this innovation could bring to the wider Rust community. In the future, once the API stabilizes and we decouple it enough from Qdrant, we will consider publishing it as a contribution to the community.
 
 For now, Gridstore continues to drive improvements in Qdrant, demonstrating the benefits of a custom-tailored storage engine designed with modern demands in mind. Stay tuned for further updates and potential community releases as we keep pushing the boundaries of performance and reliability.
 

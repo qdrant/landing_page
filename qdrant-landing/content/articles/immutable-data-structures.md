@@ -129,7 +129,7 @@ Indeed, every read operation from disk is several orders of magnitude slower tha
 In order to achieve this, we can use a so-called minimal perfect hash function (MPHF).
 This special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal amount of buckets.
 
-In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph crate 🦀](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
+In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph crate](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
 According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but for large volumes (100k keys and up) it significantly reduces the time for the whole operation:
 
 | Volume | `ph::Function` | `std::hash::Hash` | `HashMap::get`|
