@@ -16,6 +16,11 @@ stack:
   - Cohere
 ---
 
+# Build a Serverless Semantic Search Service with Rust, AWS Lambda, and Qdrant
+
+| Time: 45 min | Level: Intermediate |
+| --- | ----------- |
+
 Do you want to add semantic search to your website or online app without running a server? In this tutorial, you build a small search service in Rust on AWS Lambda. For each query, the function embeds the text with Cohere, searches it in Qdrant, and returns the closest texts as JSON. Everything fits in free tiers, so it works as a prototype for your own non-commercial purposes.
 
 ## What You Need
@@ -39,7 +44,7 @@ This tutorial was written with Rust 1.98, Cargo Lambda 1.9, `lambda_http` 1.3, `
 
 You combine the embedding provider and the Qdrant instance into a semantic search, calling both services from a small Lambda function. The function reads the search text from the `q` query parameter of its URL.
 
-{{< island path="content/documentation/headless/serverless/search-flow" ratio="7 / 5" title="One search is one Lambda invocation: the function embeds the query with Cohere, searches Qdrant, and returns JSON. Step through the six calls." >}}
+{{< island path="content/documentation/headless/serverless/search-flow" ratio="7 / 5" title="A search request from the visitor to Qdrant and back, through one Lambda function and the Cohere API." >}}
 ![A visitor sends a search request to a Lambda function. The function asks an embedding provider for the query vector, queries Qdrant with it, and returns the result to the visitor.](/articles_data/serverless/lambda_integration.png)
 {{< /island >}}
 

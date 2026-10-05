@@ -1,0 +1,170 @@
+/* architecture island. Scoped under .qi-fa. Controls, labels and status come
+   from the shared island design system (islands.scss); this file only styles
+   the participants, messages, and the stacked step list. Participant hues are
+   constant across themes. */
+
+.qi-fa {
+  --fa-browser: var(--qi-cat-1);
+  --fa-uvicorn: var(--qi-cat-2);
+  --fa-fastapi: var(--qi-cat-3);
+  --fa-qdrant: var(--qi-cat-4);
+
+  display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+}
+
+.qi-fa .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+.qi-fa code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+.qi-fa .qi-label {
+  font-size: 13px;
+}
+
+.qi-fa__c--browser {
+  --fa-c: var(--fa-browser);
+}
+.qi-fa__c--uvicorn {
+  --fa-c: var(--fa-uvicorn);
+}
+.qi-fa__c--fastapi {
+  --fa-c: var(--fa-fastapi);
+}
+.qi-fa__c--qdrant {
+  --fa-c: var(--fa-qdrant);
+}
+
+/* --- Sequence diagram --- */
+.qi-fa__life {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.qi-fa__pill {
+  fill: color-mix(in srgb, var(--fa-c) 14%, transparent);
+  stroke: var(--fa-c);
+  stroke-width: 1.5;
+}
+.qi-fa__pill-name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.qi-fa__msg {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-fa__msg:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 2px;
+}
+.qi-fa__msg.is-dim {
+  opacity: 0.35;
+}
+.qi-fa__arrow {
+  stroke: var(--fa-c);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.qi-fa__arrow.is-return {
+  stroke-dasharray: 6 4;
+}
+.qi-fa__head {
+  fill: var(--fa-c);
+}
+.qi-fa__msg.is-active .qi-fa__arrow {
+  stroke-width: 4;
+}
+.qi-fa__msg-label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-fa__num {
+  fill: var(--qi-surface);
+  stroke: var(--fa-c);
+  stroke-width: 1.5;
+}
+.qi-fa__num-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-fa__msg.is-active .qi-fa__num {
+  fill: var(--fa-c);
+}
+.qi-fa__msg.is-active .qi-fa__num-text {
+  fill: var(--qi-accent-ink);
+}
+
+/* --- Stacked steps (narrow containers) --- */
+.qi-fa__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-fa__step {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 2px 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--qi-border);
+  border-left: 4px solid var(--fa-c);
+  border-radius: var(--qi-radius);
+  background: transparent;
+  color: var(--qi-fg);
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.15s ease;
+}
+.qi-fa__step:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 1px;
+}
+.qi-fa__step.is-active {
+  background: var(--qi-surface);
+  border-color: var(--fa-c);
+}
+.qi-fa__step.is-dim {
+  opacity: 0.45;
+}
+.qi-fa__badge {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--fa-c);
+  border-radius: 50%;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-fa__path {
+  font-size: 13px;
+}
+.qi-fa__step code {
+  font-size: 13px;
+  color: var(--qi-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-fa__msg,
+  .qi-fa__step {
+    transition: none;
+  }
+}

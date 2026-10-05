@@ -15,7 +15,7 @@ stack:
   - FastEmbed
 ---
 
-# Generate Embeddings with FastEmbed
+# Generate Text Embeddings on CPU with FastEmbed and Qdrant
 
 | Time: 10 min | Level: Beginner |
 | --- | ----------- |
