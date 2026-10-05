@@ -17,7 +17,7 @@ keywords:
     - discovery
     - diversity
     - recommendation
-category: data-exploration
+category: vector-search-fundamentals
 ---
 
 When making use of unstructured data, there are traditional go-to solutions that are well-known for developers:
