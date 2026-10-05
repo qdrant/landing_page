@@ -158,6 +158,8 @@
 /articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-operations/memory-tiers/:splat  301!
 /articles/multitenancy/*  /documentation/production-operations/multitenant-search/:splat  301!
 /articles/tuning-qdrant-optimizer/*  /documentation/production-operations/predictable-search-latency/:splat  301!
+/articles/vector-search-production/*  /documentation/production-operations/vector-search-in-production/:splat  301!
+/articles/vector-search-resource-optimization/*  /documentation/production-operations/vector-search-in-production/:splat  301!
 /articles/vector-search-filtering/*  /documentation/search-patterns/vector-search-filtering/:splat  301!
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!

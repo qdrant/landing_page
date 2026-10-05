@@ -7,8 +7,10 @@ social_preview_image: /articles_data/vector-search-production/preview/social_pre
 author: David Myriel
 author_link: 
 date: 2025-04-30T00:00:00.000Z
-category: production-ops
 weight: 20
+aliases:
+  - /articles/vector-search-production/
+  - /articles/vector-search-resource-optimization/
 ---
 
 ## What Does it Take to Run Search in Production?
@@ -53,13 +55,13 @@ This article will help you successfully deploy and maintain vector search system
 
 ### Ensure your hot dataset fits in RAM for low-latency queries. 
 
-If not, then you'll have to [**offload data 'on_disk'**](/documentation/manage-data/storage/#configuring-memmap-storage). If this parameter is enabled, Qdrant caches your most frequently accessed vectors loaded into RAM, and the rest is memory-mapped onto the disk. 
+If not, move the colder structures to a lower [**memory tier**](/documentation/ops-configuration/memory-tiers/). Since Qdrant v1.19, each structure (dense vectors, the HNSW index, quantized vectors, payloads, and payload indexes) takes a `memory` parameter: `pinned` keeps it in RAM permanently, `cached` warms it into the disk cache at startup, and `cold` leaves it on disk until it is read. On earlier versions, the same choice is made with `on_disk` and `memmap_threshold`; the [legacy settings table](/documentation/ops-configuration/memory-tiers/#legacy-settings) maps one to the other.
 
-This ensures minimal disk access during queries, significantly reducing latency and boosting overall performance. By monitoring query patterns and usage metrics, you can identify which subsets of your data deserve dedicated in-memory storage, reserving disk access only for colder, less frequently queried vectors.
+Keeping only the structures that every query touches in a faster tier minimizes disk access during queries. By monitoring query patterns and usage metrics, you can identify which subsets of your data deserve dedicated in-memory storage, reserving disk access for colder, less frequently queried data. [**Memory Tiers: What to Use and When**](/documentation/production-operations/memory-tiers/) compares the layouts with benchmarks.
 
 ||
 |-|
-|**Read More:** [**Storage Documentation**](https://qdrant.tech/documentation/manage-data/storage/)|
+|**Read More:** [**Memory Tiers**](/documentation/ops-configuration/memory-tiers/) · [**Storage Documentation**](/documentation/manage-data/storage/)|
 
 ### Index Your Important Metadata to Avoid Costly Queries
 
@@ -119,7 +121,7 @@ This not only speeds up query throughput for large-scale datasets, but also cuts
 
 When using [**quantization**](https://qdrant.tech/documentation/manage-data/quantization/), you can store only the compressed vectors in memory while leaving the original floating-point versions on disk for reference. This approach dramatically lowers RAM consumption—since quantized vectors take far less space—yet still allows you to retrieve full-precision vectors if needed for downstream tasks like re-ranking.
 
->**Sidenote:** You can always enable `async_io` scorer when the linux kernel supports it and if you have `on_disk` vectors.
+>**Sidenote:** When your vectors or payloads are `cold` and the Linux kernel supports `io_uring`, set [`storage.performance.io_uring`](/documentation/ops-optimization/read-write-contention/#io_uring-setting) to `auto` (Qdrant v1.19 and later) so disk reads during rescoring run in parallel. Earlier versions use the `async_scorer` setting instead; the [`io_uring` article](/articles/io_uring/) covers it.
 
 ||
 |-|
@@ -152,6 +154,8 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 ✅ **Use Batch Processes:** Increase the number of concurrent processes. Running 50-60 processes can significantly improve upload performance. Using just one or two processes won't allow you to see the true performance potential.
 
+✅ **Batch your queries:** When several searches can run together, send them in one [batch request](/documentation/search/search/#batch-search-api) instead of one at a time. Batching saves network round trips, and the query planner can share intermediate results between requests that use the same filter, which cuts latency for non-trivial filters. For batching writes, see [bulk uploading](/documentation/production-operations/bulk-data-import/#batch-your-uploads).
+
 **Be patient with indexing:** After uploading large datasets, there's a waiting period for indexing to complete. This is normal and can take time depending on your dataset size. 
 
 ||
@@ -169,7 +173,7 @@ If the maximum number of indexed points remains consistently low, this is likely
 
 One option is to [**set `indexed_only=true` in search requests**](https://qdrant.tech/documentation/search/search/#search-api). This will ensure fast searches by only considering indexed data, at the expense of eventual consistency (new data becomes searchable only after indexing).
 
-Alternatively, you can perform [**bulk vector uploads**](https://qdrant.tech/documentation/database-tutorials/bulk-upload/) during low-traffic periods to allow indexing to complete before increased traffic.
+Alternatively, you can perform [**bulk vector uploads**](/documentation/production-operations/bulk-data-import/) during low-traffic periods to allow indexing to complete before increased traffic.
 
 > A persistent increase in the number of indexed points indicates a problem. Potential solutions include: increasing hardware resources, optimizing indexing (e.g., smaller segments, HNSW tuning), or reducing the volume of data changes.
 
