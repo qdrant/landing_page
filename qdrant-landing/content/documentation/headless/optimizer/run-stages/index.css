@@ -9,6 +9,10 @@
   --ol-optim: var(--qi-cat-4);
 
   display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
 }
 
 .qi-ol .qi-status--3 {
