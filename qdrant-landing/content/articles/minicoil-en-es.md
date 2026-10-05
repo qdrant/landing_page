@@ -6,7 +6,7 @@ social_preview_image: /articles_data/minicoil-en-es/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil-en-es/preview
 weight: -230
 author: Juan Pablo Sotelo and Evgeniya Sukhodolskaya
-date: 2026-09-25T09:00:00+02:00
+date: 2026-10-05T09:00:00+02:00
 draft: false
 keywords:
   - sparse neural retrieval
@@ -225,6 +225,8 @@ On our validation split, turning the lemmatizer fallback on buys roughly +0.01 M
 ## Results
 
 The published checkpoint is at [Jocana/minicoil-en-es](https://huggingface.co/Jocana/minicoil-en-es).
+
+> **License note:** Both the checkpoint and the training code are released under CC BY-NC 4.0: the concept vocabulary is built from the MUSE dictionaries, and the model inherits their license. When scaling the model to a prod-sized multilingual retriever, we plan to rebuild the vocabulary from permissively licensed sources and relicense; until then, checkpoint and code imply non-commercial use only.
 
 #### Eval Setup
 
