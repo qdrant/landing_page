@@ -35,11 +35,21 @@ You can already select which points are available to the search by using payload
 
 This is where a __vector _context___ can help. We define _context_ as a list of pairs. Each pair is made up of a positive and a negative vector. With a context, we can define hyperplanes within the vector space, which always prefer the positive over the negative vectors. This effectively partitions the space where the search is performed. After the space is partitioned, we then need a _target_ to return the points that are more similar to it.
 
+Add context pairs and switch between discovery and context search in the diagram to see how the search space is constrained.
+
+{{< island path="content/articles/headless/discovery-search/plane"
+    ratio="2 / 1"
+    title="Discovery search: context pairs define hyperplanes that confine the search to a zone, and a target ranks the points inside it. The points are seeded and illustrative." >}}
 ![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
+{{< /island >}}
 
 While positive and negative vectors might suggest the use of the <a href="/documentation/search/explore/#recommendation-api" target="_blank">recommendation interface</a>, in the case of _context_ they require to be paired up in a positive-negative fashion. This is inspired from the machine-learning concept of <a href="https://en.wikipedia.org/wiki/Triplet_loss" target="_blank">_triplet loss_</a>, where you have three vectors: an anchor, a positive, and a negative. Triplet loss is an evaluation of how much the anchor is closer to the positive than to the negative vector, so that learning happens by "moving" the positive and negative points to try to get a better evaluation. However, during discovery, we consider the positive and negative vectors as static points, and we search through the whole dataset for the "anchors", or result candidates, which fit this characteristic better.
 
+{{< island path="content/articles/headless/discovery-search/triplet"
+    ratio="38 / 17"
+    title="Triplet loss in learning and in searching: training pulls a positive closer to the anchor than a negative, and the context score measures how much closer a candidate is to a negative than to a positive. Positions are illustrative." >}}
 ![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
+{{< /island >}}
 
 [__Discovery search__](#discovery-search), then, is made up of two main inputs:
 
@@ -65,11 +75,19 @@ Wait a second, what has just happened? These pictures have __nothing__ to do wit
 
 Turns out, multimodal encoders <a href="https://modalitygap.readthedocs.io/en/latest/" target="_blank">might not work how you expect them to</a>. Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
 
+{{< island path="content/articles/headless/discovery-search/modalities"
+    ratio="760 / 432"
+    title="Mental model of CLIP embeddings: text and images are not mixed in one space but sit on separate planes. Points are seeded and illustrative." >}}
 ![Mental model of CLIP embeddings](/articles_data/discovery-search/clip-mental-model.png)
+{{< /island >}}
 
 This is where discovery excels because it allows us to constrain the space considering the same mode (images) while using a target from the other mode (text).
 
+{{< island path="content/articles/headless/discovery-search/crossmodal"
+    ratio="760 / 442"
+    title="Cross-modal search with discovery: a text target ranks images, and an image context pair keeps the results on the wanted side. Points are hand-placed and illustrative." >}}
 ![Cross-modal search with discovery](/articles_data/discovery-search/clip-discovery.png)
+{{< /island >}}
 
 Discovery search also lets us keep giving feedback to the search engine in the shape of more context pairs, so we can keep refining our search until we find what we are looking for.
 
@@ -83,15 +101,21 @@ Now, the second case: only providing context.
 
 Ever been caught in the same recommendations on your favorite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarce, and it becomes harder to force the system to recommend something different.
 
+{{< island path="content/articles/headless/discovery-search/plane"
+    ratio="2 / 1"
+    title="Recommendation versus context search: a recommendation stays close to the positive example, while context search accepts any point in the zone. Switch modes to compare. The points are seeded and illustrative." >}}
 ![Context vs recommendation search](/articles_data/discovery-search/context-vs-recommendation.png)
+{{< /island >}}
 
 __Context search__ solves this by de-focusing the search around a single point. Instead, it returns points from within a zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as _"how much a point is closer to a negative than a positive vector?"_. If it is closer to the positive one, then its score will be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
 
+{{< island path="content/articles/headless/discovery-search/plane"
+    ratio="2 / 1"
+    title="Context search: with no target, the zone defined by the context pairs is the result. Add pairs to narrow it." >}}
 ![Context search visualization](/articles_data/discovery-search/context-search.png)
+{{< /island >}}
 
 Creating complex tastes in a high-dimensional space becomes easier since you can just add more context pairs to the search. This way, you should be able to constrain the space enough so you select points from a per-search "category" created just from the context in the input.
-
-![A more complex context search](/articles_data/discovery-search/complex-context-search.png)
 
 This way you can give refreshing recommendations, while still being in control by providing positive and negative feedback, or even by trying out different permutations of pairs.
 
