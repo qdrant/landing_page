@@ -12,7 +12,7 @@ isLesson: true
 
 - [Distance Metrics](/course/essentials/day-1/distance-metrics/) Learn more about cosine similarity, dot product, and Euclidean distance.
 - [Vector Embeddings Explained](/articles/what-are-embeddings/) A deeper introduction to how embedding models turn data into vectors.
-- [FastEmbed](/articles/fastembed/) Learn more about the library used to generate embeddings in this module.
+- [FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/) Learn more about the library used to generate embeddings in this module.
 
 ## What's Next: Module 2
 

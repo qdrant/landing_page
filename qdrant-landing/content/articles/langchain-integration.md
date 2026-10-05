@@ -47,7 +47,7 @@ used to build such pipelines effortlessly.
 
 Surprisingly enough, there will be two models required to set things up. First of all, we need an embedding model that will convert the set of facts into
 vectors, and store those into Qdrant. That's an identical process to any other semantic search application. We're going to use
-[FastEmbed](https://qdrant.tech/articles/fastembed/), Qdrant's own lightweight embedding library, so it can be hosted locally without pulling in a full
+[FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/), Qdrant's own lightweight embedding library, so it can be hosted locally without pulling in a full
 PyTorch or TensorFlow stack. The embeddings created by that model will be put into Qdrant and used to retrieve the most similar documents, given the query.
 
 However, when we receive a query, there are two steps involved. First of all, we ask Qdrant to provide the most relevant documents and simply combine all

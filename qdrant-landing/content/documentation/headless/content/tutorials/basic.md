@@ -6,3 +6,4 @@
 | [Multimodal Search](/documentation/tutorials-basics/multimodal-search/) | Build a pipeline to search across text and images modalities | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
 | [Hybrid Search](/documentation/tutorials-basics/cloud-inference-hybrid-search/) | Get started with hybrid search. | <span class="pill">Any</span> | 30m | <span class="text-green">Beginner</span> |
 | [Hybrid Search with Reranking](/documentation/tutorials-basics/reranking-hybrid-search/) | Rerank hybrid search results for improved accuracy. | <span class="pill">Any</span> | 40m | <span class="text-yellow">Intermediate</span> |
+| [FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/) | Generate embeddings on CPU, then embed, index, and search with qdrant-client. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
