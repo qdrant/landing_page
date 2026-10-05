@@ -77,7 +77,7 @@ Instead of scanning the entire bitmask, Gridstore splits the bitmask into region
 
 This layered approach allows Gridstore to locate available space quickly, scaling down the work required for scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient, even in large segments.
 
-Given the default configuration, the gaps layer is scoped out in a millionth fraction of the actual storage size. This means that for each 1GB of data, the gaps layer only requires scanning 6KB of metadata. With this mechanism, the other operations can be executed in virtually constant-time complexity.
+Given the default configuration, the gaps layer is scoped out in a few millionths of the actual storage size. This means that for each 1GB of data, the gaps layer only requires scanning about 6KB of metadata. With this mechanism, the other operations can be executed in virtually constant-time complexity.
 
 ## Gridstore in Production: Maintaining Data Integrity 
 ![gridstore](/articles_data/gridstore-key-value-storage/gridstore-1.png)
@@ -139,7 +139,7 @@ enum Operation {
 impl Operation {
     fn random(rng: &mut impl Rng, max_point_offset: u32) -> Self {
         let point_offset = rng.random_range(0..=max_point_offset);
-        let operation = rng.gen_range(0..3);
+        let operation = rng.random_range(0..3);
         match operation {
             0 => {
                 let size_factor = rng.random_range(1..10);
@@ -194,7 +194,7 @@ This shows a clear boost in performance. As we can see, the investment in Gridst
 
 ### End-to-End Benchmarking
 
-Now, let’s test the impact on a real Qdrant instance. So far, we’ve only integrated Gridstore for [**payloads**](/documentation/manage-data/payload/) and [**sparse vectors**](/documentation/manage-data/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
+Now, let’s test the impact on a real Qdrant instance. At the time of this benchmark, we had integrated Gridstore only for [**payloads**](/documentation/manage-data/payload/) and [**sparse vectors**](/documentation/manage-data/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
 
 For benchmarking, we used our in-house [**bfb tool**](https://github.com/qdrant/bfb) to generate a workload. Our configuration:
 
@@ -246,7 +246,7 @@ Strictly speaking, RocksDB is slightly smaller, but the difference is negligible
 
 ## Trying Out Gridstore
 
-Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures. It is already used as a storage backend for on-disk payloads and sparse vectors.
+Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures. It was first used as the storage backend for on-disk payloads and sparse vectors in 1.13, and since 1.15 it is the default for new deployments (see the [1.15 release notes](/blog/qdrant-1.15.x/#migration-to-gridstore)).
 
 👉 It’s important to note that Gridstore remains tightly integrated with Qdrant and, as such, has not been released as a standalone crate. 
 

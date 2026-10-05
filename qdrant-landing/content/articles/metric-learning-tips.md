@@ -2,7 +2,6 @@
 title: "Metric Learning Tips & Tricks"
 short_description: How to train an object matching model and serve it in production.
 description: Practical recommendations on how to train a matching model and serve it in production. Even with no labeled data.
-# external_link: https://vasnetsov93.medium.com/metric-learning-tips-n-tricks-2e4cfee6b75b
 social_preview_image: /articles_data/metric-learning-tips/preview/social_preview.jpg
 preview_dir: /articles_data/metric-learning-tips/preview
 small_preview_image: /articles_data/metric-learning-tips/scatter-graph.svg
@@ -11,14 +10,13 @@ author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-05-15T10:18:00.000Z
 category: embedding-research
-# aliases: [ /articles/metric-learning-tips/ ]
 ---
 
 
 ## How to train object matching model with no labeled data and use it in production
 
 
-Currently, most machine-learning-related business cases are solved as a classification problems.
+In 2021, most machine-learning-related business cases were solved as classification problems.
 Classification algorithms are so well studied in practice that even if the original problem is not directly a classification task, it is usually decomposed or approximately converted into one.
 
 However, despite its simplicity, the classification task has requirements that could complicate its production integration and scaling.
@@ -33,7 +31,7 @@ By the example of matching job positions and candidates, I will show how to trai
 According to Wikipedia, metric learning is the task of learning a distance function over objects.
 In practice, it means that we can train a model that tells a number for any pair of given objects.
 And this number should represent a degree or score of similarity between those given objects.
-For example, objects with a score of 0.9 could be more similar than objects with a score of 0.5
+For example, objects with a score of 0.9 could be more similar than objects with a score of 0.5.
 Actual scores and their direction could vary among different implementations.
 
 In practice, there are two main approaches to metric learning and two corresponding types of NN architectures.
@@ -52,14 +50,14 @@ The most well-known example of this embedding representation is Word2Vec.
 Examples of neural network architectures also include DSSM, C-DSSM, and ARC-I. 
 
 The Comparator is usually a very simple function that could be calculated very quickly.
-It might be cosine similarity or even a dot production.
+It might be cosine similarity or even a dot product.
 Two-stage schema allows performing complex calculations only once per object.
 Once transformed, the Comparator can calculate object similarity independent of the Encoder much more quickly.
 For more convenience, embeddings can be placed into specialized storages or vector search engines.
 These search engines allow to manage embeddings using API, perform searches and other operations with vectors.
 
 ![C-DSSM, example of representation-based model](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/cdssm.png)
-> C-DSSM, example of representation-based model, [Xue Li  et al.](https://arxiv.org/abs/1901.10710v2) via arXiv
+> C-DSSM, example of representation-based model, Shen et al., 2014
 
 Pre-trained NNs can also be used. The output of the second-to-last layer could work as an embedded representation.
 Further in this article, I would focus on the representation-based approach, as it proved to be more flexible and fast.
@@ -134,7 +132,7 @@ That is why we can't use hard negative mining for our model.
 To compensate for this limitation we can try to increase the number of random (weak) negative samples.
 One way to achieve this is to train the model longer, so it will see more samples by the end of the training.
 But we found a better solution in adjusting our loss function. 
-In a regular implementation of Triplet or Contractive loss, each positive pair is compared with some or a few negative samples.
+In a regular implementation of Triplet or Contrastive loss, each positive pair is compared with some or a few negative samples.
 What we did is we allow pair comparison amongst the whole batch.
 That means that loss-function penalizes all pairs of random objects if its score exceeds any of the positive scores in a batch.
 This extension gives `~ N * B^2` comparisons where `B` is a size of batch and `N` is a number of batches.

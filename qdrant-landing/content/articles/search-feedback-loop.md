@@ -1,7 +1,7 @@
 ---
-title: "Relevance Feedback in Informational Retrieval"
-short_description: "Incorporating relevance feedback into discovery search, an overview of a research field."
-description: "Relerance feedback: from ancient history to LLMs. Why relevance feedback techniques are good on paper but not popular in neural search, and what we can do about it."
+title: "Relevance Feedback in Information Retrieval"
+short_description: "A survey of relevance feedback methods from lexical and neural retrieval research, and why vector search engines lack them."
+description: "Relevance feedback: from ancient history to LLMs. Why relevance feedback techniques are good on paper but not popular in neural search, and what we can do about it."
 social_preview_image: /articles_data/search-feedback-loop/preview/social_preview.jpg
 preview_dir: /articles_data/search-feedback-loop/preview
 weight: 20
@@ -15,7 +15,7 @@ keywords:
     - semantic search 
     - lexical search
     - search
-    - informational retrieval
+    - information retrieval
 category: search-quality
 ---
 
@@ -155,21 +155,21 @@ It is  easily applicable across modalities and suitable for both lexical and neu
 
 Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf) in 1965 for his relevance feedback experiments operated on bag-of-words vector representations of text.
 
-{{<figure src=/articles_data/search-feedback-loop/Roccio.png caption="Roccio's Relevance Feedback Method" width=100% >}}
+{{<figure src=/articles_data/search-feedback-loop/Roccio.png caption="Rocchio's Relevance Feedback Method" width=100% >}}
 
 **Rocchio’s idea** — to update the query vector by adding a difference between the centroids of relevant and non-relevant documents — seems to translate well to modern dual encoders-based dense retrieval systems.
 Researchers seem to agree: a study from 2022 demonstrated that the [parametrized version of Rocchio’s method](https://arxiv.org/pdf/2108.11044) in dense retrieval consistently improves Recall@1000 by 1–5%, while keeping query processing time suitable for production — around 170 ms. 
 
-However, parameters (centroids and query weights) in the dense retrieval version of Roccio’s method must be tuned for each dataset and, ideally, also for each request.
+However, parameters (centroids and query weights) in the dense retrieval version of Rocchio’s method must be tuned for each dataset and, ideally, also for each request.
 
 #### Gradient Descent-Based Methods
 
-The efficient way of doing so on-the-fly remained an open question until the introduction of a **gradient-descent-based Roccio’s method generalization**: [`Test-Time Optimization of Query Representations (TOUR)`](https://arxiv.org/pdf/2205.12680).
+The efficient way of doing so on-the-fly remained an open question until the introduction of a **gradient-descent-based Rocchio’s method generalization**: [`Test-Time Optimization of Query Representations (TOUR)`](https://arxiv.org/pdf/2205.12680).
 TOUR adapts a query vector over multiple iterations of retrieval and reranking (*retrieve → rerank → gradient descent step*), guided by a reranker’s relevance judgments.
 
 {{<figure src=/articles_data/search-feedback-loop/TOUR.png caption="An overview of TOUR iteratively optimizing initial query representation based on pseudo relevance feedback.<br>Figure adapted from Sung et al., 2023, [Optimizing Test-Time Query Representations for Dense Retrieval](https://arxiv.org/pdf/2205.12680)" width=60% >}}
 
-The next iteration of gradient-based methods of query refinement – [`ReFit`](https://arxiv.org/abs/2305.11744) – proposed in 2024 a lighter, production-friendly alternative to TOUR, limiting *retrieve → rerank → gradient descent* sequence to only one iteration. The retriever’s query vector is updated through matching (via [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)) retriever and cross-encoder’s similarity scores distribution over feedback documents. ReFit is model- and language-independent and stably improves Recall@100 metric on 2–3%. 
+The next iteration of gradient-based methods of query refinement – [`ReFit`](https://arxiv.org/abs/2305.11744) – proposed in 2023 a lighter, production-friendly alternative to TOUR, limiting *retrieve → rerank → gradient descent* sequence to only one iteration. The retriever’s query vector is updated through matching (via [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)) retriever and cross-encoder’s similarity scores distribution over feedback documents. ReFit is model- and language-independent and stably improves Recall@100 metric on 2–3%. 
 
 {{<figure src=/articles_data/search-feedback-loop/refit.png caption="An overview of ReFit, a gradient-based method for query refinement" width=90% >}}
 
@@ -217,3 +217,5 @@ Perhaps relevance feedback methods haven't made it into the neural search system
 Getting it to work in a production setting means experimenting, building interfaces, and adapting architectures. Simply put, it needs to look worth it. And unlike 2D vector math, high-dimensional vector spaces are anything but intuitive. The curse of dimensionality is real. So is query drift. Even methods that make perfect sense on paper might not work in practice.
 
 A real-world solution should be simple. Maybe just a little bit smarter than a rule-based approach, but still practical. It shouldn't require fine-tuning thousands of parameters or feeding paragraphs of text into transformers. **And for it to be effective, it needs to be integrated directly into the retrieval system itself.**
+
+> **Update (Qdrant 1.17):** we later shipped this as the Relevance Feedback Query. See [Relevance Feedback in Qdrant](/articles/relevance-feedback/).

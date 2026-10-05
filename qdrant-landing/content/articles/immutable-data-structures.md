@@ -130,7 +130,7 @@ In order to achieve this, we can use a so-called minimal perfect hash function (
 This special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal amount of buckets.
 
 In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph crate 🦀](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
-According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but it significantly reduces the time for the whole operation:
+According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but for large volumes (100k keys and up) it significantly reduces the time for the whole operation:
 
 | Volume | `ph::Function` | `std::hash::Hash` | `HashMap::get`|
 |--------|----------------|-------------------|---------------|
@@ -138,17 +138,17 @@ According to our benchmarks, using the perfect hash function does introduce some
 | 100k   |   90ns         |  ~20ns            |   220ns       |
 | 10M    |   238ns        |  ~20ns            |   500ns       |
 
-Even thought the absolute time for hashing is higher, the time for the whole operation is lower, because PHF guarantees no collisions.
+Even though the absolute time for hashing is higher, the time for the whole operation is lower, because PHF guarantees no collisions.
 The difference is even more significant when we consider disk read time, which 
-might up to several milliseconds (10^6 ns).
+might take up to several milliseconds (10^6 ns).
 
 PHF RAM size scales linearly for `ph::Function`: 3.46 kB for 10k elements,  119MB for 350M elements.
 The construction time required to build the hash function is surprisingly low, and we only need to do it once: 
 
 | Volume | `ph::Function` (construct) | PHF size | Size of int64 keys (for reference) |
 |--------|----------------------------|----------|------------------------------------|
-| 1M     |   52ms                     | 0.34Mb   | 7.62Mb                             |
-| 100M   |   7.4s                     | 33.7Mb   | 762.9Mb                            |
+| 1M     |   52ms                     | 0.34MB   | 7.62MB                             |
+| 100M   |   7.4s                     | 33.7MB   | 762.9MB                            |
 
 The usage of PHF in Qdrant lets us minimize the latency of cold reads, which is especially important for large-scale multi-tenant systems. With PHF, it is enough to read a single page from a disk to get the exact location of the data.
 
@@ -196,10 +196,10 @@ The following benchmark data compares RPS for defragmented and non-defragmented 
 | 100%            | 5k                    |  2.7                  |  95               |
 
 
-**Dataset size:** 2M 768d vectors (~6Gb Raw data), binary quantization, 650Mb of RAM limit.
+**Dataset size:** 2M 768d vectors (~6GB raw data), binary quantization, 650MB of RAM limit.
 All benchmarks are made with minimal RAM allocation to demonstrate disk cache efficiency.
 
-As you can see, the biggest impact is on the small tenant size, where defragmentation allows us to achieve **100x more RPS**. 
+As you can see, the biggest impact is on the larger tenant with a small to moderate hot subset, where defragmentation delivers hundreds of times more RPS (0.47 to 279 RPS for a 50k-vector tenant at 12.5% hot). 
 Of course, the real-world impact of defragmentation depends on the specific workload and the size of the hot subset, but enabling this feature can significantly improve the performance of Qdrant. 
 
 Please find more details on how to enable defragmentation in the [indexing documentation](/documentation/manage-data/indexing/#tenant-index).
@@ -216,7 +216,7 @@ New data is always written to the mutable segment, which is later converted to t
 
 {{< figure src="/articles_data/immutable-data-structures/optimization.png" alt="Optimization process" caption="Optimization process" width="80%" >}}
 
-If we need to update the data in the immutable or currenly optimized segment, instead of changing the data in place, we perform a copy-on-write operation, move the data to the mutable segment, and update it there.
+If we need to update the data in the immutable or currently optimized segment, instead of changing the data in place, we perform a copy-on-write operation, move the data to the mutable segment, and update it there.
 
 Data in the original segment is marked as deleted, and later vacuumed by the optimization process.
 

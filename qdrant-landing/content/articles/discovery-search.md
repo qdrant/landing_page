@@ -11,18 +11,17 @@ author_link: https://coszio.github.io
 date: 2024-01-31T08:00:00-03:00 
 draft: false
 keywords: 
-  - why use a vector database
-  - specialty
+  - discovery search
+  - context search
   - search
   - multimodal
-  - state-of-the-art
   - vector-search
 category: data-exploration
 ---
 
 # Discovery needs context
 
-When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for the Americas. They were looking for a new route to India because they were convinced that the Earth was round. They didn't know anything about a new continent, but since they were going west, they stumbled upon it.
+When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for the Americas. They were looking for a new route to India because they believed the Earth was small enough to reach India by sailing west. They didn't know anything about a new continent, but since they were going west, they stumbled upon it.
 
 They couldn't reach their _target_, because the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. If we consider that sailors need water to sail, then we can establish a _context_ which is positive in the water, and negative on land. Once the sailor's search was stopped by the land, they could not go any further, and a new route was found. Let's keep these concepts of _target_ and _context_ in mind as we explore the new functionality of Qdrant: __Discovery search__.
 
@@ -86,7 +85,7 @@ Ever been caught in the same recommendations on your favorite music streaming se
 
 ![Context vs recommendation search](/articles_data/discovery-search/context-vs-recommendation.png)
 
-__Context search__ solves this by de-focusing the search around a single point. Instead, it selects points randomly from within a zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as _"how much a point is closer to a negative than a positive vector?"_. If it is closer to the positive one, then its score will be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
+__Context search__ solves this by de-focusing the search around a single point. Instead, it returns points from within a zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as _"how much a point is closer to a negative than a positive vector?"_. If it is closer to the positive one, then its score will be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
 
 ![Context search visualization](/articles_data/discovery-search/context-search.png)
 
@@ -98,6 +97,6 @@ This way you can give refreshing recommendations, while still being in control b
 
 ## Key takeaways:
 - Discovery search is a powerful tool for controlled exploration in vector spaces.
-Context, consisting of positive and negative vectors constrain the search space, while a target guides the search.
+Context, consisting of positive and negative vectors, constrains the search space, while a target guides the search.
 - Real-world applications include multimodal search, diverse recommendations, and context-driven exploration.
 - Ready to learn more about the math behind it and how to use it? Check out the [documentation](/documentation/search/explore/#discovery-api)
