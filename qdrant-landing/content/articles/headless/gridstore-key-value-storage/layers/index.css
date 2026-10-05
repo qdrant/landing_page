@@ -1,0 +1,122 @@
+/* layers island. Scoped under .gs. Six categorical hues identify keys; free
+   blocks and bits are neutral. */
+
+.gs {
+  --gs-k1: var(--qi-cat-1);
+  --gs-k2: #e08a00;
+  --gs-k3: #2e9e5b;
+  --gs-k4: var(--qi-cat-2);
+  --gs-k5: var(--qi-cat-3);
+  --gs-k6: var(--qi-cat-4);
+  display: block;
+}
+
+.gs-k1 { fill: var(--gs-k1); }
+.gs-k2 { fill: var(--gs-k2); }
+.gs-k3 { fill: var(--gs-k3); }
+.gs-k4 { fill: var(--gs-k4); }
+.gs-k5 { fill: var(--gs-k5); }
+.gs-k6 { fill: var(--gs-k6); }
+
+.gs__block,
+.gs__tcell {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+}
+.gs__block.is-free {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+}
+.gs__tcell.is-empty {
+  fill: var(--qi-line);
+  fill-opacity: 0.25;
+  cursor: default;
+}
+.gs__block.is-hot,
+.gs__tcell.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.gs__klabel,
+.gs__bitnum {
+  pointer-events: none;
+}
+.gs__bit {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 0.75;
+  cursor: pointer;
+}
+.gs__bit.is-used {
+  fill: var(--qi-fg);
+  fill-opacity: 0.7;
+}
+.gs__bit.is-free {
+  fill: var(--qi-line);
+  fill-opacity: 0.3;
+}
+.gs__bit.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.gs__bitnum {
+  fill: var(--qi-surface);
+}
+.gs__bit.is-free + .gs__bitnum {
+  fill: var(--qi-fg);
+}
+.gs__ghost {
+  fill: none;
+  stroke: var(--qi-accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.gs__ptrline {
+  fill: none;
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  marker-end: none;
+  pointer-events: none;
+}
+.gs__bracket {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.gs__edge {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.gs__node {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+.gs__node.is-path {
+  stroke: var(--qi-accent);
+  stroke-width: 2.5;
+}
+.gs__node.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.gs__nodenum {
+  font-size: 14px;
+}
+
+.gs .qi-label {
+  font-size: 13px;
+}
+.gs.gs-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs * {
+    transition: none;
+  }
+}
