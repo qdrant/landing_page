@@ -1,8 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 1: Why Sparse Embeddings Beat BM25"
-short_description: "Dense embeddings blur exact matches. Sparse embeddings keep the details that matter in e-commerce search."
-description: "Part 1 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Learn how sparse embeddings outperform BM25 and dense models for product search, how SPLADE works, and why Qdrant's native sparse vector support matters."
-preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-1/preview
+short_description: "Part 1 (theory) of a 5-part tutorial: learn when sparse embeddings fit e-commerce search and how SPLADE builds them."
+description: "Part 1 of a 5-part tutorial on fine-tuning SPLADE for e-commerce search: when sparse embeddings help product search and how SPLADE works."
 social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-1/preview/social_preview.jpg
 weight: 20
 author: Thierry Damiba
@@ -15,7 +14,7 @@ aliases:
   - /articles/sparse-embeddings-ecommerce-part-1/
 ---
 
-*This is Part 1 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 28%.*
+*This is Part 1 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 28%. This part is theory-oriented: it explains the concepts, and the hands-on steps start in Part 2.*
 
 **Series:**
 - Part 1: Why Sparse Embeddings Beat BM25 (here)
@@ -28,11 +27,13 @@ aliases:
 
 Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily returns the 128GB model. The semantic similarity is high - it's the same phone! But the customer specified 256GB for a reason. In e-commerce, the details aren't noise. They're the whole point.
 
-![Dense embedding search returns the wrong iPhone storage variant](/documentation/tutorials/sparse-embeddings-ecommerce-part-1/wrong-iphone-result.png)
+<link rel="stylesheet" href="/documentation/tutorials/sparse-embeddings-ecommerce/figures.css">
+
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/wrong-iphone-result.html" >}}
 
 This is the gap that sparse embeddings fill. And with fine-tuning, they fill it dramatically well - we achieved a **28% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
-In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
+In this tutorial, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
 
 ## The Problem with Dense Embeddings in E-Commerce
 
@@ -58,7 +59,7 @@ But this strength becomes a weakness in e-commerce:
 | **Exact matching** | Weak | Strong |
 | **Interpretability** | Black box | Per-term weights |
 
-![Visualization comparing dense and sparse vector representations](/documentation/tutorials/sparse-embeddings-ecommerce-part-1/dense-vs-sparse-viz.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/dense-vs-sparse-viz.html" >}}
 
 Both approaches encode text into vectors, but sparse embeddings preserve individual term signals that dense models compress away.
 
@@ -71,11 +72,11 @@ SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this 
 For an input like `"noise canceling headphones"`, SPLADE encodes it in four steps:
 
 1. **Tokenize and encode** the input through DistilBERT with a masked language model (MLM) head
-2. **Apply log saturation** — `log(1 + ReLU(x))` — a learned version of BM25's saturation curve that prevents any single term from dominating
+2. **Apply log saturation** (`log(1 + ReLU(x))`): a learned version of BM25's saturation curve that prevents any single term from dominating
 3. **Max pool** across all token positions to get a single score per vocabulary term
 4. **Output a sparse vector** with ~200 non-zero values out of 30,522 vocabulary dimensions
 
-![The SPLADE encoding pipeline from input text to sparse vector](/documentation/tutorials/sparse-embeddings-ecommerce-part-1/splade-pipeline.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/splade-pipeline.html" >}}
 
 | Token | Weight |
 |---|---|
@@ -163,7 +164,7 @@ Modal gives us serverless A100 GPUs - no idle hardware, no queue management. Sen
 
 ## What We'll Build
 
-Over the next four articles, we'll walk through the full pipeline:
+Over the next four parts, we'll walk through the full pipeline:
 
 - [**Part 2: Training on Modal**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
 
@@ -176,4 +177,3 @@ Over the next four articles, we'll walk through the full pipeline:
 The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.389** on Amazon ESCI, compared to **0.305** for BM25 and **0.326** for off-the-shelf SPLADE. That 28% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
 
 > **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
-

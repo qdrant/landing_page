@@ -1,8 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 4: Specialization vs Generalization"
-short_description: "When to fine-tune sparse embeddings and how far to specialize before generalization suffers."
-description: "Part 4 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Test cross-domain generalization, train a multi-domain model, and decide when to specialize vs generalize."
-preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-4/preview
+short_description: "Part 4 (theory) of a 5-part tutorial: learn how far a fine-tuned sparse model generalizes and when to specialize."
+description: "Part 4 of a 5-part tutorial on fine-tuning SPLADE for e-commerce search: test cross-domain generalization and decide when to specialize."
 social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-4/preview/social_preview.jpg
 weight: 23
 author: Thierry Damiba
@@ -15,7 +14,9 @@ aliases:
   - /articles/sparse-embeddings-ecommerce-part-4/
 ---
 
-*This is Part 4 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*
+<link rel="stylesheet" href="/documentation/tutorials/sparse-embeddings-ecommerce/figures.css">
+
+*This is Part 4 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes. This part is theory-oriented: it interprets cross-domain results and adds no new code to run.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
@@ -28,11 +29,11 @@ aliases:
 
 We've built a SPLADE model that beats BM25 by 28% on Amazon ESCI. But here's the question that determines whether this is a lab result or a production strategy: does it work on data it wasn't trained on? Full code is on [GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search), you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci), or fine-tune on your own catalog with the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
 
-In this final article, we test cross-domain generalization, train a multi-domain model, and lay out a decision framework for when to specialize vs generalize.
+In this part, we test cross-domain generalization, train a multi-domain model, and lay out a decision framework for when to specialize vs generalize.
 
 ## Cross-Domain Evaluation
 
-![Cross-domain nDCG comparison across datasets](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/cross-domain-ndcg.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/cross-domain-ndcg.html" >}}
 
 We took our Amazon ESCI-trained model and tested it on three additional datasets:
 
@@ -61,7 +62,7 @@ Three patterns emerge:
 
 ## Why Generalization Degrades
 
-![Transfer decay curve showing performance drop across domains](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/transfer-decay-curve.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/transfer-decay-curve.html" >}}
 
 The cross-domain results reveal a fundamental tradeoff. Fine-tuning teaches the model:
 
@@ -75,7 +76,7 @@ MS MARCO is the extreme case. Web search queries like "what is the capital of Fr
 
 ## Multi-Domain Training
 
-![Domain coverage Venn diagram showing overlap between e-commerce datasets](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/domain-coverage-venn.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/domain-coverage-venn.html" >}}
 
 To address the generalization problem, we trained a **multi-domain SPLADE model** on combined data from ESCI, WANDS, and Home Depot: roughly 50K training pairs from each dataset, 150K total.
 
@@ -121,16 +122,16 @@ Label normalization is the key challenge. ESCI uses character labels (E, S, C, I
 
 ## Decision Framework
 
-![When to use specialist vs generalist models](/documentation/tutorials/sparse-embeddings-ecommerce-part-4/specialist-vs-generalist.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/specialist-vs-generalist.html" >}}
 
 After running all these experiments, here's when to use each approach:
 
 | Scenario | Recommended approach |
 |---|---|
-| Single retailer, lots of training data | **Domain-specific fine-tuning** — maximum performance on your catalog |
-| Multi-retailer or marketplace | **Multi-domain training** — better generalization across catalogs |
-| New domain, limited data | **Off-the-shelf SPLADE** — strong baseline without training data |
-| Hybrid (e-commerce + general search) | **Multi-domain training** — preserves general IR capabilities |
+| Single retailer, lots of training data | **Domain-specific fine-tuning**: maximum performance on your catalog |
+| Multi-retailer or marketplace | **Multi-domain training**: better generalization across catalogs |
+| New domain, limited data | **Off-the-shelf SPLADE**: strong baseline without training data |
+| Hybrid (e-commerce + general search) | **Multi-domain training**: preserves general IR capabilities |
 
 **Single retailer with abundant data.** If you're building search for Amazon, Wayfair, or any single retailer with click logs, domain-specific fine-tuning wins. The 4% you lose on other domains doesn't matter if you only serve one catalog.
 
@@ -160,7 +161,7 @@ Fine-tuning isn't a one-time investment. It's the start of a compounding loop:
 4. **Better training data** produces an even better model
 5. Repeat
 
-**Phase 1: Bootstrap.** Use product metadata and relevance labels (or the ESCI dataset as a proxy). Train the initial model. This is what we've done in this series.
+**Phase 1: Bootstrap.** Use product metadata and relevance labels (or the ESCI dataset as a proxy). Train the initial model. This is what we've done in this tutorial.
 
 **Phase 2: Implicit feedback.** Log queries with clicked products (positive pairs). Log impressions without clicks (negative signals). Track add-to-cart and purchase events (high-confidence positives).
 

@@ -1,0 +1,21 @@
+<figure class="sef-figure" id="sef-splade" aria-labelledby="sef-splade-caption">
+  <div class="sef-artwork">
+    <ol class="sef-pipeline" aria-label="Encoding stages in order">
+      <li class="sef-box sef-query"><span class="sef-label">Input Text</span><span class="sef-mono">"noise canceling headphones"</span></li>
+      <li class="sef-box sef-dense"><span class="sef-label">DistilBERT + MLM</span><span>Transformer encoder</span></li>
+      <li class="sef-box sef-log"><span class="sef-label">Log Saturation</span><span class="sef-mono">log(1 + ReLU(x))</span></li>
+      <li class="sef-box sef-pool"><span class="sef-label">Max Pool</span><span>Across token positions</span></li>
+      <li class="sef-box sef-sparse">
+        <span class="sef-label">Sparse Vector</span>
+        <p class="sef-summary">~200 nonzero values / 30,522 dimensions</p>
+        <ul class="sef-weights" aria-label="Term weights">
+          <li><span>headphones</span><strong>2.3</strong></li>
+          <li><span>noise</span><strong>1.9</strong></li>
+          <li><span>canceling</span><strong>1.7</strong></li>
+          <li><span>audio</span><strong>1.2</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+  <figcaption class="sef-caption" id="sef-splade-caption">Input text passes through DistilBERT, log saturation, and max pooling to a sparse vector.</figcaption>
+</figure>

@@ -1,0 +1,11 @@
+<figure class="sef-figure" id="sef-production" aria-labelledby="sef-production-caption">
+  <div class="sef-artwork">
+    <ol class="sef-pipeline">
+      <li class="sef-box"><span class="sef-label">User Query</span></li>
+      <li class="sef-box"><span class="sef-label">API Gateway</span><span>Encode query (SPLADE + Dense)</span></li>
+      <li class="sef-box sef-mismatch"><span class="sef-label">Qdrant Cluster</span><div class="sef-comparison"><div class="sef-box sef-sparse">Sparse Index</div><div class="sef-box sef-dense">Dense Index</div></div></li>
+      <li class="sef-box sef-sparse"><span class="sef-label">Ranked Products</span></li>
+    </ol>
+  </div>
+  <figcaption class="sef-caption" id="sef-production-caption">User queries pass through the API Gateway and Qdrant Cluster to ranked products.</figcaption>
+</figure>

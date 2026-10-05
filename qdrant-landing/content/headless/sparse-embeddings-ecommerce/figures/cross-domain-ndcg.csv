@@ -1,0 +1,5 @@
+dataset,bm25,splade_off_the_shelf,splade_fine_tuned,vs_bm25_percent
+MS MARCO,0.915,0.982,0.751,-17.9
+Home Depot,0.349,0.391,0.384,10.0
+WANDS,0.329,0.341,0.355,7.9
+ESCI,0.305,0.326,0.389,27.5

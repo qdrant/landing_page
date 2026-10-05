@@ -1,8 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 5: From Research to Product"
-short_description: "One command to fine-tune SPLADE for your catalog. No ML pipeline assembly required."
-description: "Part 5 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. We packaged the entire training pipeline from Parts 1-4 into an open-source CLI and web dashboard that fine-tunes SPLADE models for any product catalog in minutes."
-preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-5/preview
+short_description: "Part 5 (hands-on) of a 5-part tutorial: fine-tune SPLADE for your own product catalog with the qdrant-finetune CLI."
+description: "Part 5 of a 5-part tutorial on fine-tuning SPLADE for e-commerce search: fine-tune for your own catalog with the qdrant-finetune CLI."
 social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-5/preview/social_preview.jpg
 weight: 24
 author: Thierry Damiba
@@ -19,7 +18,9 @@ aliases:
   - /articles/sparse-embeddings-ecommerce-part-5/
 ---
 
-*This is Part 5 of a series on fine-tuning sparse embeddings for e-commerce search. Parts [1](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)–[4](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/) built the pipeline from scratch. This article packages it into a tool anyone can use.*
+<link rel="stylesheet" href="/documentation/tutorials/sparse-embeddings-ecommerce/figures.css">
+
+*This is Part 5 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. Parts [1](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)–[4](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/) built the pipeline from scratch. This part packages it into a tool anyone can use.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
@@ -32,13 +33,13 @@ aliases:
 
 In Parts 1 through 4, we built a SPLADE fine-tuning pipeline piece by piece: data loading, Modal GPU training, Qdrant evaluation, ANCE-inspired hard negative mining, cross-domain experiments. The code worked. The results were strong: 28% over BM25 on Amazon ESCI.
 
-Using it required reading four articles, cloning a repo, understanding the training loop internals, wiring up Modal volumes, and configuring Qdrant connections manually. That's fine for a series walkthrough. It's not fine for someone who has a product catalog and wants a better search model by end of day.
+Using it required reading four tutorial parts, cloning a repo, understanding the training loop internals, wiring up Modal volumes, and configuring Qdrant connections manually. That's fine for a series walkthrough. It's not fine for someone who has a product catalog and wants a better search model by end of day.
 
 So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/qdrant/sparse-finetune): an open-source CLI and web dashboard that runs the entire pipeline (synthetic query generation, SPLADE training with ANCE-inspired hard negative mining, evaluation, and HuggingFace publishing) with a single command.
 
 ## The Problem We're Solving
 
-![From research repo to production CLI](/documentation/tutorials/sparse-embeddings-ecommerce-part-5/research-to-production-pipeline.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/research-to-production-pipeline.html" >}}
 
 The [series repo](https://github.com/qdrant-labs/finetune-ecommerce-search) is research code. It demonstrates how sparse embedding fine-tuning works. Actually using it on your data means you need to:
 
@@ -120,7 +121,7 @@ The dashboard is the recommended starting point. You can see everything the tool
 
 ## What Changed From the Series Code
 
-![Production architecture: CLI, dashboard, and GPU backends](/documentation/tutorials/sparse-embeddings-ecommerce-part-5/production-architecture.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/production-architecture.html" >}}
 
 The pipeline from Parts 2-4 is the same underneath. The toolkit wraps it with:
 

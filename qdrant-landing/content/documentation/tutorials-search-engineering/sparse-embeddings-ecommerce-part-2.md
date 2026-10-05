@@ -1,8 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 2: Training SPLADE on Modal"
-short_description: "Train a SPLADE model on Amazon's ESCI dataset using Modal's serverless GPUs and Sentence Transformers."
-description: "Part 2 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
-preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-2/preview
+short_description: "Part 2 (hands-on) of a 5-part tutorial: train a SPLADE model on Amazon's ESCI dataset with Sentence Transformers on Modal."
+description: "Part 2 of a 5-part tutorial on fine-tuning SPLADE for e-commerce search: train on Amazon ESCI with Sentence Transformers on Modal GPUs."
 social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
 weight: 21
 author: Thierry Damiba
@@ -20,7 +19,9 @@ aliases:
   - /articles/sparse-embeddings-ecommerce-part-2/
 ---
 
-*This is Part 2 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
+<link rel="stylesheet" href="/documentation/tutorials/sparse-embeddings-ecommerce/figures.css">
+
+*This is Part 2 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
@@ -31,7 +32,7 @@ aliases:
 
 ---
 
-In the last article we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). Want to skip straight to fine-tuning on your own data? See the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI. By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
+In Part 1 we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). Want to skip straight to fine-tuning on your own data? See the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI. By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
 
 ## The Dataset: Amazon ESCI
 
@@ -43,7 +44,7 @@ We use Amazon's [ESCI dataset](https://github.com/amazon-science/esci-data) (Sho
 
 The graded relevance is what makes ESCI interesting:
 
-![ESCI relevance gradient from Exact to Irrelevant](/documentation/tutorials/sparse-embeddings-ecommerce-part-2/esci-relevance-gradient.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/esci-relevance-gradient.html" >}}
 
 For training, we use Exact and Substitute pairs as positives. This teaches the model that both the exact product and reasonable alternatives are relevant, matching how real shoppers think.
 
@@ -109,7 +110,7 @@ def build_product_text(title, brand="", description="", bullets=None, max_length
 
 The bracket notation for brands, pipe separators between sections, and character limits are deliberate. They preserve lexical signals that SPLADE can learn from: brand names, product attributes, and key features remain as distinct tokens rather than blurring into a wall of text.
 
-![Training stack: Modal for GPU compute, Sentence Transformers for training, Qdrant for evaluation](/documentation/tutorials/sparse-embeddings-ecommerce-part-2/training-stack.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/training-stack.html" >}}
 
 ## Setting Up the Modal App
 
@@ -353,7 +354,7 @@ The static embedding completely failed because e-commerce queries are highly con
 
 The transformer is the bottleneck at ~15ms per query, but 15ms is perfectly acceptable for search. Don't prematurely optimize away the component that makes the model work.
 
-![Modal detached training with persistent volumes](/documentation/tutorials/sparse-embeddings-ecommerce-part-2/modal-detached-training.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/modal-detached-training.html" >}}
 
 ## Running Training
 
@@ -371,7 +372,7 @@ uv run modal run --detach modal_app.py \
     --mode train
 ```
 
-The model checkpoint gets saved to the persistent volume at `/checkpoints/splade_standard/final`. We've also published the trained model on HuggingFace as [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) so you can skip training and use it directly. In the next article, we'll load this model, index products into Qdrant, and run retrieval benchmarks to see exactly how much we've improved over BM25.
+The model checkpoint gets saved to the persistent volume at `/checkpoints/splade_standard/final`. We've also published the trained model on HuggingFace as [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) so you can skip training and use it directly. In Part 3, we'll load this model, index products into Qdrant, and run retrieval benchmarks to see exactly how much we've improved over BM25.
 
 ## Key Takeaways
 

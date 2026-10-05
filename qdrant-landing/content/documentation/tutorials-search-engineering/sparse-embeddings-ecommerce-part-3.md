@@ -1,8 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 3: Evaluation and Hard Negatives"
-short_description: "Evaluate fine-tuned SPLADE with Qdrant and boost results with hard negative mining."
-description: "Part 3 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE-inspired hard negative mining for a 28% improvement over BM25."
-preview_dir: /documentation/tutorials/sparse-embeddings-ecommerce-part-3/preview
+short_description: "Part 3 (hands-on) of a 5-part tutorial: evaluate fine-tuned SPLADE in Qdrant, then improve it with hard negative mining."
+description: "Part 3 of a 5-part tutorial on fine-tuning SPLADE for e-commerce search: evaluate the model in Qdrant and add ANCE-inspired hard negative mining."
 social_preview_image: /documentation/tutorials/sparse-embeddings-ecommerce-part-3/preview/social_preview.jpg
 weight: 22
 author: Thierry Damiba
@@ -19,7 +18,9 @@ aliases:
   - /articles/sparse-embeddings-ecommerce-part-3/
 ---
 
-*This is Part 3 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
+<link rel="stylesheet" href="/documentation/tutorials/sparse-embeddings-ecommerce/figures.css">
+
+*This is Part 3 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
@@ -30,7 +31,7 @@ aliases:
 
 ---
 
-We have a trained SPLADE model sitting on a Modal volume (or grab it from [HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci)). Now comes the question that matters: is it actually better? In this article, we'll index products into Qdrant, run retrieval benchmarks, implement hard negative mining, and dig into what the model learned. Full evaluation code is in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search). To run this entire pipeline on your own data, see the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
+We have a trained SPLADE model sitting on a Modal volume (or grab it from [HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci)). Now comes the question that matters: is it actually better? In this part, we'll index products into Qdrant, run retrieval benchmarks, implement hard negative mining, and dig into what the model learned. Full evaluation code is in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search). To run this entire pipeline on your own data, see the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
 
 ## Indexing Products in Qdrant
 
@@ -98,10 +99,10 @@ def upsert_with_retry(client, collection_name, points, max_retries=5):
 
 We evaluate with standard information retrieval metrics on 2,000 test queries against 10,000 products:
 
-- **nDCG@k** — Ranking quality with position bias; top results matter more
-- **MRR@k** — How high the first relevant result appears
-- **Recall@k** — What fraction of relevant products appear in top-k
-- **Precision@k** — What fraction of top-k results are relevant
+- **nDCG@k**: Ranking quality with position bias; top results matter more
+- **MRR@k**: How high the first relevant result appears
+- **Recall@k**: What fraction of relevant products appear in top-k
+- **Precision@k**: What fraction of top-k results are relevant
 
 **nDCG@10** (Normalized Discounted Cumulative Gain) is the primary metric. It rewards putting highly relevant products (Exact matches) at the top and penalizes relevant results that appear lower in the ranking. A perfect score is 1.0; random ranking on this dataset gives roughly 0.1.
 
@@ -145,7 +146,7 @@ The fine-tuned model beats BM25 by nearly 28%. More telling: it beats the off-th
 
 ### What About Hybrid Search?
 
-![Hybrid search fusion combining sparse and dense retrieval](/documentation/tutorials/sparse-embeddings-ecommerce-part-3/hybrid-search-fusion.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/hybrid-search-fusion.html" >}}
 
 A natural question: can we combine sparse and dense vectors for even better results? We tested this with Qdrant's native Reciprocal Rank Fusion:
 
@@ -171,7 +172,7 @@ This is a useful finding. Hybrid search isn't always better. It depends on the r
 
 ## ANCE-inspired Hard Negative Mining
 
-![The ANCE hard negative mining loop](/documentation/tutorials/sparse-embeddings-ecommerce-part-3/ance-loop.png)
+{{< include "content/headless/sparse-embeddings-ecommerce/figures/ance-loop.html" >}}
 
 The training in Part 2 used in-batch negatives: other products in the same batch serve as negatives for a given query. This works but has a limitation: random products are easy negatives. The model doesn't learn to distinguish between genuinely confusable products.
 
@@ -179,7 +180,7 @@ Inspired by [ANCE](https://arxiv.org/abs/2007.00808), this approach mines hard n
 
 1. **Index** products into Qdrant with the current model
 2. **Retrieve** top-K products for each query
-3. **Filter** to non-relevant products — these are the hard negatives
+3. **Filter** to non-relevant products; these are the hard negatives
 4. **Train** on (query, positive, hard_negatives) triplets
 5. **Repeat** with the updated model
 
