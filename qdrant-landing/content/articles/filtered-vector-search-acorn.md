@@ -37,7 +37,13 @@ Those edges cost build time. On our one-million-point collection, the HNSW index
 
 Qdrant builds those edges per payload field, never per combination, so an `AND` filter lands on an intersection that no single field's edges cover. ACORN-1 covers that gap and pays at query time instead of build time. Qdrant's [query planner](/documentation/search/search/#query-planning) chooses automatically between ACORN, full scan, retrieval straight from the payload index, and filterable HNSW.
 
-{{< figure src="/articles_data/filtered-vector-search-acorn/two-repairs.svg" alt="Three panels of the same 12-point HNSW graph with a search path drawn in each. In the first, the path leaves a matching point and is blocked at its filtered-out neighbors. In the second, ACORN carries the path through two filtered-out neighbors to reach the other matching points. In the third, the path follows extra edges that filterable HNSW added between points sharing an indexed value." caption="The same graph, repaired two ways. ACORN steps through filtered-out neighbors at search time; filterable HNSW adds extra edges at index time that a filtered query can walk directly." width="100%" >}}
+Switch between the three searches to see how each handles the same filter.
+
+{{< island path="content/articles/headless/filtered-vector-search-acorn/repairs"
+    ratio="19 / 11"
+    title="The same graph, repaired two ways. ACORN steps through filtered-out neighbors at search time; filterable HNSW adds extra edges at index time that a filtered query can walk directly. The graph is a toy; the traversals are computed on it." >}}
+![The same graph, repaired two ways](/articles_data/filtered-vector-search-acorn/two-repairs.svg)
+{{< /island >}}
 
 ## The Benchmark
 
@@ -72,7 +78,7 @@ We pinned it low for these three strategies so every query stayed on the graph; 
 
 The plain graph collapses as filters tighten, and only the correlated filter holds up. ACORN pulls recall back at 2.1x to 2.9x the plain graph's latency, then stalls on the 1% filter, the weakness the [RACORN-1 follow-up paper](https://arxiv.org/abs/2607.00768) targets. The one filter ACORN wins, at 20%, runs on a payload field that got no extra edges, and the next section explains why.
 
-{{< figure src="/articles_data/filtered-vector-search-acorn/single-filters.png" alt="Bar chart of recall at hnsw_ef=64 on four single-field filters, with each bar's mean server-side latency, comparing plain graph, plain graph with ACORN, and filterable HNSW." caption="Bars show Recall@10; the label on each bar is its mean server-side latency. Extra edges hold the top recall at about 1ms; ACORN pays 3 to 5x that." width="100%" >}}
+{{< chart id="filtered-search/single-filters" caption="Recall@10 at hnsw_ef=64 on four single-field filters. Extra edges hold the top recall." caption2="Mean server-side latency for the same runs. Filterable HNSW stays near 1ms while ACORN pays 3 to 5 times that." >}}
 
 Qdrant's planner chooses among all three. It estimates how many points a filter passes, then picks a path per query: the graph, ACORN on the graph, or the payload index once the estimate falls below `full_scan_threshold`. Planner + ACORN, the fourth strategy, holds 99.9% to 100% recall on all four filters, at 7.2ms to 10.9ms on the graph and 1.5ms on the 1% filter, where all 500 queries came from the payload index.
 
