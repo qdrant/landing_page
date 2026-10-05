@@ -15,7 +15,7 @@ keywords:
   - SPLADE
   - hybrid search
   - vector search
-category: core-concepts
+category: embedding-research
 ---
 
 Think of a library with a vast index card system. Each index card only has a few keywords marked out (sparse vector) of a large possible set for each book (document). This is what sparse vectors enable for text. 
@@ -477,7 +477,9 @@ Fusion mixes the results from both dense and sparse vectors based purely on thei
 - Reciprocal Rank Fusion (RRF) scores each point by its positions in the result lists. It's the safe default when you have no evaluation set to tune on.
 - Distribution-Based Score Fusion (DBSF) normalizes the scores from each result list, then sums them. To use it, pass `query=models.FusionQuery(fusion=models.Fusion.DBSF)`.
 
-{{< figure src=/articles_data/sparse-vectors/mixture.jpg caption="Normalizing and fusing dense and sparse results" width=80% >}}
+{{< island path="content/documentation/headless/sparse-vectors/mixture" width="80%" ratio="630 / 423" title="Normalizing and fusing dense and sparse results" >}}
+![Dense and sparse result scores on number lines, rescaled by normalization, then merged into one ranked mixture by fusion](/articles_data/sparse-vectors/mixture.jpg)
+{{< /island >}}
 
 
 ### Re-ranking
