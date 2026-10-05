@@ -1,14 +1,15 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ partial "edge/edge-hero" . }}
-  {{ partial "edge/edge-features" . }}
-  {{ partial "edge/edge-vectors" . }}
-  {{ partial "edge/edge-demo" . }}
-  {{ partial "edge/edge-form" . }}
-  {{ partial "edge/edge-faq" . }}
+  {{ partial "edge/hero" . }}
+  {{ partial "edge/why-edge" . }}
+  {{ partial "edge/what-you-get" . }}
+  {{ partial "edge/how-it-works" . }}
+  {{ partial "edge/on-device-inference" . }}
+  {{ partial "edge/hardware-fit" . }}
+  {{ partial "edge/faq" . }}
 
-  {{ with (.Site.GetPage "/edge/edge-get-started") }}
-    {{ partial "get-started-small" (dict "context" . "class" "edge-get-started") }}
+  {{ with (.Site.GetPage "/edge/cta-banner") }}
+    {{ partial "cta-banner" . }}
   {{ end }}
 {{ end }}

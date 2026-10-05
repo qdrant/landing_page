@@ -1,0 +1,33 @@
+{{ with (.Site.GetPage "/edge/why-edge") }}
+  <section class="edge-why-edge">
+    <div class="container">
+      <div class="row align-items-lg-center g-5">
+        <div class="col-12 col-lg-5">
+          <p class="edge-why-edge__label">{{ .Params.label }}</p>
+          <h3 class="edge-why-edge__title">{{ .Params.title }}</h3>
+          <a href="{{ .Params.demoLink.url }}" class="link link_md">
+            {{ .Params.demoLink.text }}
+          </a>
+        </div>
+        <div class="col-12 col-lg-7">
+          <div class="edge-why-edge__steps">
+            {{ range $index, $element := .Params.steps }}
+              <div class="edge-why-edge__step">
+                <div class="edge-why-edge__step-number">
+                  <span>0{{ add $index 1 }}</span>
+                </div>
+                <div class="edge-why-edge__step-content">
+                  <div class="edge-why-edge__step-tag">
+                    <span>{{ .tag }}</span>
+                  </div>
+                  <h5 class="edge-why-edge__step-title">{{ .title }}</h5>
+                  <p class="edge-why-edge__step-description">{{ .description }}</p>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

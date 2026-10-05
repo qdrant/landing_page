@@ -1,0 +1,49 @@
+{{ with (.Site.GetPage "/edge/hardware-fit") }}
+  <section class="edge-hardware-fit">
+    <div class="container">
+      <p class="edge-hardware-fit__label">{{ .Params.label }}</p>
+      <h3 class="edge-hardware-fit__title">{{ .Params.title }}</h3>
+      <div class="row align-items-lg-center g-5 g-lg-6">
+        <div class="col-12 col-lg-6">
+          <div class="edge-hardware-fit__visual">
+            <div class="edge-hardware-fit__tabs">
+              {{ range $index, $tab := .Params.tabs }}
+                <button
+                  type="button"
+                  class="edge-hardware-fit__tab{{ if eq $index 0 }} edge-hardware-fit__tab--active{{ end }}"
+                  data-hardware-tab="{{ $index }}"
+                >
+                  {{ $tab.title }}
+                </button>
+              {{ end }}
+            </div>
+            <div class="edge-hardware-fit__panels">
+              {{ range $index, $tab := .Params.tabs }}
+                <div
+                  class="edge-hardware-fit__panel{{ if eq $index 0 }} edge-hardware-fit__panel--active{{ end }}"
+                  data-hardware-panel="{{ $index }}"
+                >
+                  {{ partial "code-window" (dict
+                    "block" "edge-hardware-fit"
+                    "code" $tab.code
+                  ) }}
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          {{ range .Params.cards }}
+            <div class="edge-hardware-fit__card">
+              <h5 class="edge-hardware-fit__card-title">{{ .title }}</h5>
+              <p class="edge-hardware-fit__card-description">{{ .description }}</p>
+            </div>
+          {{ end }}
+          <a href="{{ .Params.link.url }}" class="link link_md">
+            {{ .Params.link.text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

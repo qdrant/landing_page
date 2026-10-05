@@ -1,0 +1,55 @@
+{{ with (.Site.GetPage "/edge/on-device-inference") }}
+  <section class="edge-on-device-inference">
+    <div class="container">
+      <p class="edge-on-device-inference__label">{{ .Params.label }}</p>
+      <div class="d-lg-flex align-items-lg-end justify-content-lg-between gap-lg-4 mb-lg-6">
+        <h3 class="edge-on-device-inference__title">{{ .Params.title }}</h3>
+        <p class="edge-on-device-inference__description">{{ .Params.description }}</p>
+      </div>
+      <div class="edge-on-device-inference__features">
+        <div class="edge-on-device-inference__nav">
+          {{ range $index, $feature := .Params.features }}
+            <div 
+              class="edge-on-device-inference__item{{ if eq $index 0 }} edge-on-device-inference__item--active{{ end }}" 
+              data-on-device-tab="{{ $index }}"
+            >
+              <h3 class="edge-on-device-inference__item-title">{{ $feature.title }}</h3>
+              <div class="edge-on-device-inference__item-details">
+                <div class="edge-on-device-inference__item-details-inner">
+                  <p class="edge-on-device-inference__item-description">{{ $feature.description }}</p>
+                  {{ with $feature.link }}
+                    <a class="link link_md" href="{{ .url }}">{{ .text }}</a>
+                  {{ end }}
+                </div>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+        <div class="edge-on-device-inference__panels">
+          {{ range $index, $feature := .Params.features }}
+            <div 
+              class="edge-on-device-inference__panel{{ if eq $index 0 }} edge-on-device-inference__panel--active{{ end }}" 
+              data-on-device-panel="{{ $index }}"
+            >
+              {{ with $feature.code }}
+                {{ partial "code-window" (dict
+                  "block" "edge-on-device-inference"
+                  "codeBar" $feature.codeBar
+                  "code" $feature.code
+                )}}
+              {{ else }}
+                {{ with $feature.image }}
+                  <img
+                    class="edge-on-device-inference__panel-image"
+                    src="{{ .src }}"
+                    alt="{{ .alt }}"
+                  />
+                {{ end }}
+              {{ end }}
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
