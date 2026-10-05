@@ -84,7 +84,13 @@ Incidents within a 20-second cooldown window are merged to prevent fragmentation
 
 ## Baseline Governance
 
-![Baseline governance: quarantine, scrubbing, and poisoning prevention to maintain detection quality](/articles_data/video-anomaly-edge/governance.png)
+{{< island
+    path="content/documentation/headless/video-anomaly-edge/governance"
+    ratio="3 / 2"
+    title="Baseline governance with the default thresholds. Select a scenario to follow a clip through the checks."
+>}}
+![Baseline governance with the default thresholds. Admission: a baseline candidate goes through a contamination check (score at most 0.025), one hour of quarantine, a re-score (score at most 0.025 again), and a per-scene cap (fewer than 500 clips), and is admitted to the baseline; failing a check rejects it. Hourly scrub: every baseline entry must be added at most 7 days ago and score at most 0.0375 on re-scoring to be kept; otherwise it is removed.](/documentation/tutorials/video-anomaly-edge/baseline-governance.svg)
+{{< /island >}}
 
 The baseline is the system's ground truth for "normal." If contaminated with anomalous clips, detection quality degrades silently. The memory governor implements three defenses.
 
@@ -208,7 +214,13 @@ GET  /health                           Service health check
 
 ## Results
 
-![UMAP scatter plot of video embeddings showing normal baseline clusters and anomaly outliers in vector space](/articles_data/video-anomaly-edge/umap-scatter.png)
+{{< island
+    path="content/documentation/headless/video-anomaly-edge/knn-scoring"
+    ratio="3 / 2"
+    title="How kNN scoring separates anomalies from the baseline. An illustration with synthetic points, not data from the evaluation."
+>}}
+![Illustration of kNN anomaly scoring with synthetic points. Normal clips form three clusters, the baseline. Borderline clips lie between clusters and anomalous clips lie far from all of them. The anomaly score of a clip is the mean distance to its three nearest baseline clips; the example shows an anomalous clip and its three nearest baseline clips, all far away.](/documentation/tutorials/video-anomaly-edge/knn-scoring.svg)
+{{< /island >}}
 
 We evaluated on the [UCF-Crime dataset](https://www.crcv.ucf.edu/projects/real-world/) ([Sultani et al., 2018](https://arxiv.org/abs/1801.04264)). It contains 1,900 untrimmed surveillance videos, split into 1,610 training videos (800 normal, 810 anomalous) and 290 test videos (150 normal, 140 anomalous). The anomalous videos cover 13 categories: abuse, arrest, arson, assault, burglary, explosion, fighting, road accidents, robbery, shooting, shoplifting, stealing, and vandalism.
 
@@ -239,7 +251,6 @@ At the operating point where the false positive rate on normal test clips equals
 
 `scripts/evaluate.py` also reports per-category detection rates, so you can see which categories your model separates well. We do not publish per-category figures here, so this tutorial makes no claim about which categories are easier. The design explains why none is excluded: the baseline holds only normal footage, so every category is scored by its distance from normal, whether or not the model has ever seen an example of it.
 
-![Benchmark results on UCF-Crime dataset](/articles_data/video-anomaly-edge/benchmark-results.png)
 
 ---
 
