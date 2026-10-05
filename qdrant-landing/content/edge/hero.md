@@ -6,10 +6,10 @@ description1: Qdrant Edge is an embedded vector search engine that runs inside y
 description2: Ship it on robots, kiosks, home assistants, and mobile phones, or anywhere connectivity is limited or intermittent, then sync with a central Qdrant server when you need to.
 containedButton:
   text: pip install qdrant-edge-py
-  url: /
+  url: https://pypi.org/project/qdrant-edge-py/
 outlinedButton:
   text: Read Documentation
-  url: /
+  url: /documentation/edge/
 notice:
   text: Qdrant Edge is in beta as of August 2026. The API and functionality may change in future releases.
   icon:

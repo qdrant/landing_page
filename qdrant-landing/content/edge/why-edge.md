@@ -2,7 +2,7 @@
 label: WHY EDGE VECTOR SEARCH
 title: Three Reasons Teams Move Search Onto The Device
 demoLink: 
-  url: /
+  url: https://github.com/qdrant/qdrant-edge-demo
   text: Check Our Demo
 steps:
   - id: 0

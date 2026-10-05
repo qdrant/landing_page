@@ -5,7 +5,11 @@
         <div class="col-12 col-lg-5">
           <p class="edge-why-edge__label">{{ .Params.label }}</p>
           <h3 class="edge-why-edge__title">{{ .Params.title }}</h3>
-          <a href="{{ .Params.demoLink.url }}" class="link link_md">
+          <a
+            href="{{ .Params.demoLink.url }}"
+            class="link link_md"
+            {{ if strings.HasPrefix .Params.demoLink.url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+          >
             {{ .Params.demoLink.text }}
           </a>
         </div>

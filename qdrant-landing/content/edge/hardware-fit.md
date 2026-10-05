@@ -27,7 +27,7 @@ cards:
     title: Python and Rust today.
     description: Qdrant Edge ships Python bindings on PyPI and the qdrant-edge crate on crates.io. If your application uses another language, talk to us before you commit to an architecture.
 link:
-  url: /
+  url: /documentation/edge/edge-quickstart/
   text: Read The Qdrant Edge Quickstart
 sitemapExclude: true
 ---

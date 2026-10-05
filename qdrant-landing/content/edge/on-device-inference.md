@@ -7,7 +7,7 @@ features:
     title: Embed With FastEmbed
     description: Generate vector embeddings directly on the device with FastEmbed, so both halves of a retrieval step run in the same process.
     link:
-      url: /
+      url: /documentation/edge/edge-fastembed-embeddings/
       text: Read About On-Device Embeddings
     codeBar: python
     code: |
@@ -30,7 +30,7 @@ features:
     title: Run Hybrid Search
     description: Prefetch dense and BM25 sparse results inside the same shard and fuse them with Reciprocal Rank Fusion, in-process and offline.
     link:
-      url: /
+      url: /documentation/edge/edge-bm25/
       text: On-Device BM25
     codeBar: python
     code: |
@@ -52,7 +52,7 @@ features:
     title: Filter And Facet On Payload
     description: Store payload next to your vectors, filter on it at query time, and keep live facet counts per class.
     link:
-      url: /
+      url: /documentation/edge/edge-quickstart/
       text: See It Running
     image:
       src: /img/edge/edge-demo.png

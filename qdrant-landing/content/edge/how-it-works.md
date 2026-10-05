@@ -26,7 +26,7 @@ banner:
     alt: Hard drive download
   description: Install a library and open a file on disk. There is no container to build and nothing to run between your calls.
   link: 
-    url: /
+    url: /documentation/edge/edge-synchronization-guide/
     text: Read The Qdrant Edge Synchronization Guide
 sitemapExclude: true
 ---
