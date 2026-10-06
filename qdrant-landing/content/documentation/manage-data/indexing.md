@@ -364,7 +364,7 @@ You can disable the creation of extra edges for an indexed payload field by sett
 Rebuilding the HNSW index is resource-intensive and can take a long time. Avoid it when possible.
 </aside>
 
-There may be cases when you need to rebuild the HNSW index, for example, when you create a new payload index and want to take advantage of filter-aware edges in the HNSW graph. To rebuild an HNSW index, make a small change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
+There may be cases when you need to rebuild the HNSW index, for example, when you create a new payload index and want to take advantage of filter-aware edges in the HNSW graph. To rebuild an HNSW index, make a small change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the [optimizer](/documentation/ops-optimization/optimizer/#config-mismatch-optimizer) to re-index all segments.
 
 First, retrieve the current value of `ef_construct`:
 
