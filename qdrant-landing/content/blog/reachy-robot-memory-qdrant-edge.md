@@ -34,9 +34,7 @@ Everything Reachy does runs through one big loop. The microphone and camera pick
 - `camera` takes a fresh picture, with the head turned if asked.
 - `move` nods, shows an emotion, or dances when asked to.
 
-Memory is written automatically, without a tool call: turns are saved when the context fills up, frames when the objects in view change or the robot is asked to look in a certain direction, and faces when Reachy learns a name.
-
-Ask “what’s on your left?” and Gemma calls `camera`: the head turns, a picture is taken, and the frame is stored with Reachy’s description of it. Ask “what was on your left?” and it calls `remember` to retrieve an existing memory. Ask “how are you doing today?” and it answers directly, without touching a tool.
+Memory is written automatically, without a tool call: turns are saved when the context fills up, frames when the objects in view change or the robot is asked to look, and faces when Reachy learns a name.
 
 ![The Reachy loop: perception feeds a dialog model that replies or calls the remember, camera, and move tools, with Qdrant Edge storing and recalling memories on the robot](/blog/reachy-robot-memory-qdrant-edge/loop.png)
 
@@ -49,7 +47,7 @@ Eight models make up the loop:
 - **Inflect Nano v2** turns the reply into speech.
 - **YOLO26n** detects and labels objects in a frame.
 - **YuNet** detects faces.
-- **Model trained on the HSFace** embeds a face into a 512-dimensional vector for recognition.
+- **An iResNet trained on HSFace10K** embeds a face into a 512-dimensional vector for recognition.
 - **SigLIP2** embeds a picture into a 768-dimensional vector, and a text query into the same space, so words can find pictures.
 - **bge-small** embeds conversation exchanges, the words attached to each frame, and facts into a 384-dimensional vector.
 
@@ -106,7 +104,7 @@ Frames are written on events: something changes in the scene, Reachy turns its h
 
 Faces are the most sensitive thing Reachy stores. Each person is one point, with an ID derived from their name, so meeting Sasha twice updates the same point instead of creating a second one.
 
-A face is stored as a **multivector**: a list of HSFace embeddings, one per shot. When Reachy meets someone new, it collects five shots and asks for their name. When a known person appears at an angle that doesn't match their existing shots, the new pose is appended (up to 10 shots per run). The payload stores their name, when they were first met, when their face multivector was last updated, and the number of shots.
+A face is stored as a **multivector**: a list of face embeddings, one per shot. When Reachy meets someone new, it collects five shots and asks for their name. When a known person appears at an angle that doesn't match their existing shots, the new pose is appended (up to 10 shots per run). The payload stores their name, when they were first met, when their face multivector was last updated, and the number of shots.
 
 Recognition runs every turn: the current face is compared against every stored person with MaxSim, using the closest matching shot. Scores above 0.35 identify the person; below 0.25 trigger the enrollment flow; scores in between are ignored.
 
@@ -124,7 +122,7 @@ The shard is built on the laptop from a text file, and shipped as a 0.7 MB snaps
 
 Say you ask: “Do you remember what you saw on your left?”
 
-Whisper transcribes the question. The current frame goes through YuNet and HSFace, and the robot searches `people/` to decide whether to greet you or ask your name. Gemma reads the question and calls `remember`. The query is embedded on the laptop, while the search runs in the robot’s own `memory/` shard, on its own disk, in-process. Matching frames come back to Gemma as pictures, and Gemma describes what it saw. Inflect speaks the answer. If the context is over budget, the oldest half of the conversation is moved into `memory/`.
+Whisper transcribes the question. The current frame goes through YuNet and the face model, and the robot searches `people/` to decide whether to greet you or ask your name. Gemma reads the question and calls `remember`. The query is embedded on the laptop, while the search runs in the robot’s own `memory/` shard, on its own disk, in-process. Matching frames come back to Gemma as pictures, and Gemma describes what it saw. Inflect speaks the answer. If the context is over budget, the oldest half of the conversation is moved into `memory/`.
 
 Of all these steps, the search is the fastest.
 
@@ -143,7 +141,7 @@ At small scale, a full scan is competitive with HNSW and requires no index. As t
 
 ## What Was Hard
 
-The memory itself was straightforward. The constraints around it shaped the design:
+The memory itself was straightforward. The constraints around it shaped the design, and the [technical writeup](https://medium.com/@denisov.shureg/efe223ac442b) walks through all of them:
 
 - The context fills up quickly, so old turns move into Qdrant Edge and come back when they're needed instead of being summarized or dropped.
 - Deep into a conversation, a small model with tools can reach for the camera when you ask what it *saw*. So there is one `remember` tool: the model says what the question is about, and the tense tells it whether to retrieve or look again.
@@ -159,7 +157,6 @@ You don't need a robot to replicate this. The same patterns apply to a phone, a 
 - Ship static knowledge as a snapshot. Build it where you have compute, then restore it on the device.
 - Don't build an index under about 10,000 vectors. Scan. Above that, HNSW keeps search under a millisecond on a Raspberry Pi.
 - Give every shard its own threshold, and tune it on live questions. A search always returns a nearest neighbor, even for a question with no answer, and every embedding model has its own scale.
-- Put the context window's overflow into the shard instead of throwing it away. The conversation stays searchable long after it leaves the model.
 
 ## Try It Yourself
 
