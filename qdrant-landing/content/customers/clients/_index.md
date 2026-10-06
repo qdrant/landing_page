@@ -49,6 +49,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/aracor.svg
       alt: Aracor logo
+  - id: bayer
+    name: Bayer
+    industry: Healthcare
+    product: Hybrid
+    company_size: 1000+
+    location: Europe
+    use_cases: ["RAG", "Semantic search", "Hybrid search"]
+    title: "How Bayer Built an Enterprise-Scale Search Engine with Qdrant"
+    blog_path: /blog/case-study-bayer
+    logo:
+      src: /img/customers-case-studies-logo/bayer.svg
+      alt: Bayer logo
   - id: bazaarvoice
     name: Bazaarvoice
     industry: E-commerce
@@ -77,8 +89,8 @@ clients:
     name: ConvoSearch
     industry: E-commerce
     product: Qdrant Cloud
-    company_size: 1-50 by
-    locationse: Asia Pacific
+    company_size: 1-50
+    location: Asia Pacific
     use_cases: ["Recommendations", "E-commerce discovery", "Real-time analytics"]
     title: "How ConvoSearch Boosted Revenue for D2C Brands with Qdrant"
     blog_path: /blog/case-study-convosearch
@@ -229,6 +241,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/gooddata.svg
       alt: GoodData logo
+  - id: goperfect
+    name: GoPerfect
+    industry: Technology
+    product: Qdrant Cloud
+    company_size: 51-200
+    location: North America
+    use_cases: ["Hybrid search", "Semantic search", "Recommendations"]
+    title: "How GoPerfect Built an Agentic Recruiting Workforce with Qdrant Cloud"
+    blog_path: /blog/case-study-go-perfect
+    logo:
+      src: /img/customers-case-studies-logo/goperfect.svg
+      alt: GoPerfect logo
   - id: himalayas
     name: Himalayas
     industry: Technology
@@ -313,6 +337,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/lettria.svg
       alt: Lettria logo
+  - id: lucy
+    name: Lucy
+    industry: Financial services
+    product: Self-managed
+    company_size: 1-50
+    location: Asia Pacific
+    use_cases: ["RAG", "Hybrid search", "Semantic search"]
+    title: "How Lucy Built a Source-of-Truth Retrieval Layer for 2.8M+ SEC and DART Filings with Qdrant"
+    blog_path: /blog/case-study-lucy
+    logo:
+      src: /img/customers-case-studies-logo/lucy.svg
+      alt: Lucy logo
   - id: lyzr
     name: Lyzr
     industry: Developer tools
@@ -325,6 +361,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/lyzr.svg
       alt: Lyzr logo
+  - id: minima
+    name: Minima
+    industry: Developer tools
+    product: Self-managed
+    company_size: 1-50
+    location: North America
+    use_cases: ["RAG", "Hybrid search", "Generative AI"]
+    title: "Qdrant and Minima Deliver 2.92x More Agentic RAG Tasks per GPU-Hour"
+    blog_path: /blog/case-study-minima
+    logo:
+      src: /img/customers-case-studies-logo/minima.svg
+      alt: Minima logo
   - id: mixpeek
     name: Mixpeek
     industry: Media and entertainment
@@ -457,6 +505,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/qovery.svg
       alt: Qovery logo
+  - id: sapu
+    name: Sapu
+    industry: Healthcare
+    product: Qdrant Cloud
+    company_size: 1-50
+    location: North America
+    use_cases: ["RAG", "Semantic search", "Generative AI"]
+    title: "How Sapu Indexed 28 Million PubMed Abstracts to Accelerate Cancer Research with Qdrant"
+    blog_path: /blog/case-study-sapu
+    logo:
+      src: /img/customers-case-studies-logo/sapu.svg
+      alt: Sapu logo
   - id: sayone
     name: SayOne
     industry: Technology
@@ -493,6 +553,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/sprinklr.svg
       alt: Sprinklr logo
+  - id: sunny-health
+    name: Sunny Health
+    industry: Healthcare
+    product: Qdrant Cloud
+    company_size: 1-50
+    location: North America
+    use_cases: ["Hybrid search", "RAG", "Recommendations"]
+    title: "How Sunny Health Built an AI Healthcare Concierge with Qdrant"
+    blog_path: /blog/case-study-sunny-health-ai
+    logo:
+      src: /img/customers-case-studies-logo/sunny-health.svg
+      alt: Sunny Health logo
   - id: tavus
     name: Tavus
     industry: Media and entertainment
