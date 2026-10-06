@@ -118,6 +118,9 @@
 /documentation/examples/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
 /documentation/tutorials/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
 
+# Video anomaly detection Part 3 moved to Tutorials (HTML and Markdown).
+/articles/video-anomaly-edge-part-3/*  /documentation/tutorials-build-essentials/video-anomaly-edge-part-3/:splat  301!
+
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301
 /articles/machine-learning/        /articles/embedding-research/    301
