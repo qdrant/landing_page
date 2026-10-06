@@ -1,10 +1,10 @@
-/* plane island. Scoped under .ds-pl. Green: positive, red: negative, blue:
-   target, orange: hyperplanes and top results. */
+/* plane island. Scoped under .ds-pl. Cyan: positive, red: negative, violet:
+   target, purple: hyperplanes and top results. */
 .ds-pl {
-  --ds-pos: #2e9e5b;
+  --ds-pos: var(--qi-cat-3);
   --ds-neg: var(--qi-cat-4);
-  --ds-target: #1e88e5;
-  --ds-plane: #e08a00;
+  --ds-target: var(--qi-cat-1);
+  --ds-plane: color-mix(in srgb, var(--qi-cat-2) 80%, var(--qi-fg) 20%);
   display: block;
 }
 .ds-pl__zone {

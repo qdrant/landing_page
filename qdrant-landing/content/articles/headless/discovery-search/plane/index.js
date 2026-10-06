@@ -130,20 +130,22 @@ export function mount(node) {
     const P = (f) => [G.px + f[0] * G.pw, G.py + f[1] * G.ph];
     const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
     const usedPairs = mode === 'recommendation' ? 1 : nPairs;
-    const pairs = PAIRS.slice(0, usedPairs).map((p) => ({ pos: P(p.pos), neg: P(p.neg) }));
+    // Distances use a fixed model plane; resizing changes only its projection.
+    const M = (f) => [f[0] * WIDE.pw, f[1] * WIDE.ph];
+    const pairs = PAIRS.slice(0, usedPairs).map((p) => ({ pos: P(p.pos), neg: P(p.neg), modelPos: M(p.pos), modelNeg: M(p.neg) }));
     const target = P(TARGET);
 
     // Context score of a point: sum over pairs of min(0, closer-to-negative amount).
-    const score = (pt) => pairs.reduce((s, pr) => s + Math.min(0, dist(pt, pr.neg) - dist(pt, pr.pos)), 0);
+    const score = (pt) => pairs.reduce((s, pr) => s + Math.min(0, dist(pt, pr.modelNeg) - dist(pt, pr.modelPos)), 0);
     const scored = pts.map((f, i) => {
       const pt = P(f);
-      return { i, pt, s: score(pt), dt: dist(pt, target) };
+      return { i, pt, model: M(f), s: score(M(f)), dt: dist(M(f), M(TARGET)) };
     });
     const inZone = scored.filter((p) => p.s === 0);
     const ranked = mode === 'discovery'
       ? [...scored].sort((a, b) => (b.s === 0) - (a.s === 0) || (a.s === 0 ? a.dt - b.dt : b.s - a.s)).slice(0, N_RESULTS)
       : mode === 'recommendation'
-        ? [...scored].sort((a, b) => dist(a.pt, pairs[0].pos) - dist(b.pt, pairs[0].pos)).slice(0, N_RESULTS)
+        ? [...scored].sort((a, b) => dist(a.model, pairs[0].modelPos) - dist(b.model, pairs[0].modelPos)).slice(0, N_RESULTS)
         : [];
     const resultSet = new Set(ranked.map((r) => r.i));
 
@@ -153,7 +155,7 @@ export function mount(node) {
     let poly = [[G.px, G.py], [G.px + G.pw, G.py], [G.px + G.pw, G.py + G.ph], [G.px, G.py + G.ph]];
     pairs.forEach((pr) => {
       const m = [(pr.pos[0] + pr.neg[0]) / 2, (pr.pos[1] + pr.neg[1]) / 2];
-      const n = [pr.pos[0] - pr.neg[0], pr.pos[1] - pr.neg[1]];
+      const n = [(pr.modelPos[0] - pr.modelNeg[0]) * WIDE.pw / G.pw, (pr.modelPos[1] - pr.modelNeg[1]) * WIDE.ph / G.ph];
       const out = [];
       for (let k = 0; k < poly.length; k++) {
         const a = poly[k];
@@ -173,7 +175,7 @@ export function mount(node) {
     // Hyperplanes and pair links.
     pairs.forEach((pr) => {
       const m = [(pr.pos[0] + pr.neg[0]) / 2, (pr.pos[1] + pr.neg[1]) / 2];
-      const d = [-(pr.pos[1] - pr.neg[1]), pr.pos[0] - pr.neg[0]];
+      const d = [-(pr.modelPos[1] - pr.modelNeg[1]) * WIDE.ph / G.ph, (pr.modelPos[0] - pr.modelNeg[0]) * WIDE.pw / G.pw];
       const L = Math.hypot(d[0], d[1]) || 1;
       const u = [(d[0] / L) * 2000, (d[1] / L) * 2000];
       g.appendChild(el('line', { class: 'ds-pl__plane', x1: m[0] - u[0], y1: m[1] - u[1], x2: m[0] + u[0], y2: m[1] + u[1], 'clip-path': `url(#${id})` }));
@@ -205,16 +207,19 @@ export function mount(node) {
     }
 
     // Legend
-    const ly = G.py + G.ph + 28;
+    let ly = G.py + G.ph + 28;
     const items = [['is-pos', 'positive'], ['is-neg', 'negative']];
     if (mode === 'discovery') items.push(['is-target', 'target'], ['is-result', 'top results']);
     if (mode === 'recommendation') items.push(['is-result', 'top results']);
     let lx = G.px;
     items.forEach(([cls, t]) => {
+      const width = 34 + t.length * 8 + (narrow ? 0 : 20);
+      if (lx + width > G.px + G.pw) { lx = G.px; ly += 28; }
       g.appendChild(el('circle', { class: `ds-pl__ctx ${cls}`, cx: lx + 8, cy: ly - 4, r: 8 }));
       g.appendChild(el('text', { class: 'qi-label', x: lx + 22, y: ly }, t));
       lx += 34 + t.length * 8 + (narrow ? 0 : 20);
     });
+    if (lx + 110 > G.px + G.pw) { lx = G.px; ly += 28; }
     g.appendChild(el('line', { class: 'ds-pl__plane', x1: lx, y1: ly - 4, x2: lx + 22, y2: ly - 4 }));
     g.appendChild(el('text', { class: 'qi-label', x: lx + 30, y: ly }, 'hyperplane'));
 
@@ -234,7 +239,7 @@ export function mount(node) {
     node.querySelectorAll('.ds-pl__pt').forEach((c) => c.classList.toggle('is-hot', hot != null && Number(c.getAttribute('data-i')) === hot));
     if (hot != null) {
       const p = last.scored[hot];
-      statusEl.innerHTML = p.s === 0 ? `Point ${hot + 1} is on the positive side of every pair: context score <b>0</b>, so it is inside the zone.` : `Point ${hot + 1} is closer to a negative than to its positive: context score <b>${p.s.toFixed(0)}</b> (in plane pixels), so it is outside the zone.`;
+      statusEl.innerHTML = p.s === 0 ? `Point ${hot + 1} is on the positive side of every pair: context score <b>0</b>, so it is inside the zone.` : `Point ${hot + 1} is closer to a negative than to its positive: context score <b>${p.s.toFixed(0)}</b> (in fixed model units), so it is outside the zone.`;
     } else {
       statusEl.innerHTML = last.base + ' Hover a point for its score.';
     }

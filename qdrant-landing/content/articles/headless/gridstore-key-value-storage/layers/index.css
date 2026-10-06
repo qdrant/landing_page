@@ -84,11 +84,6 @@
   stroke: var(--qi-muted);
   stroke-width: 1.5;
 }
-.gs__edge {
-  fill: none;
-  stroke: var(--qi-line);
-  stroke-width: 1.5;
-}
 .gs__node {
   fill: var(--qi-surface);
   stroke: var(--qi-border);

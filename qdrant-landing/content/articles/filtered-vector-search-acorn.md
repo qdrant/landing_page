@@ -117,7 +117,9 @@ The plain graph, dropped from this table, scored 0.1% and 0.0% on the first two 
 
 Raising `ef` breaks the tie on the 1% intersection. At `ef=512`, filterable HNSW reaches 91.2% recall at 4.9ms while ACORN needs 20.1ms to reach 90.3%. Repairing the graph at search time costs four times the latency for slightly less recall here. The 4% intersection is the exception, where both fields exceeded the cap and ACORN leads 99.6% to 92.5%.
 
-{{< figure src="/articles_data/filtered-vector-search-acorn/ef-sweep.png" alt="Recall versus server-side latency for four filtered-search strategies as hnsw_ef sweeps from 64 to 512." caption="Recall vs server-side latency on the 1% double filter alone, hnsw_ef swept from 64 to 512." width="100%" >}}
+{{< chart id="filtered-search/ef-sweep" caption="Recall@10 for four strategies on the 1% double filter at hnsw_ef=64, 128, 256, and 512." caption2="Mean server-side latency for the same four strategies and hnsw_ef settings." >}}
+
+The chart uses the reproduction kit's [full1 run data](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark/tree/7e87b48a65a9b79843beaf75f1910543bf87600b/results), with repeat 0 and the double_a10b10 filter. Each bar averages 500 queries.
 
 At 0.012%, roughly 120 points match in a million, and the graph stops being the right tool. Planner + ACORN wins that row by reading the payload index instead. The choice happens per query: on the 1% intersection it sent 29 of the 500 queries to the graph and 471 to the payload index, and at 4% it stayed on the graph throughout.
 

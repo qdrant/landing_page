@@ -1,6 +1,6 @@
 /*
  * layers island: interactive replacement for data-layer.png, mask-layer.png
- * and architecture.png.
+ * and architecture.svg.
  *
  * Gridstore's three layers on one small, illustrative page of 48 blocks:
  *   Data layer: the tracker holds one pointer per key; a pointer leads to the
@@ -8,8 +8,8 @@
  *   Mask layer: one bit per block, 1 used and 0 free.
  *   Gaps layer: the mask is cut into regions of 8 blocks. Each region keeps its
  *               largest free run (gap) plus its leading and trailing free runs,
- *               and pairs of regions are merged into a tree. To place a value,
- *               Gridstore descends the tree instead of scanning the mask.
+ *               and scans adjacent region summaries. To place a value,
+ *               Gridstore scans the selected regions of the mask.
  *
  * The keys, value sizes and free space are illustrative, not measured.
  */
@@ -63,66 +63,49 @@ function leafOf(r) {
   while (lead < REGION && isFree(lo + lead)) lead++;
   let trail = 0;
   while (trail < REGION && isFree(hi - 1 - trail)) trail++;
-  return { id: `r${r}`, lo, hi, gap, lead, trail, full: lead === REGION, left: null, right: null, leaf: true };
-}
-
-function merge(id, a, b) {
-  const lead = a.full ? a.lead + b.lead : a.lead;
-  const trail = b.full ? b.trail + a.trail : b.trail;
-  return { id, lo: a.lo, hi: b.hi, gap: Math.max(a.gap, b.gap, a.trail + b.lead), lead, trail, full: a.full && b.full, left: a, right: b, leaf: false };
+  return { id: `r${r}`, lo, hi, gap, lead, trail, full: lead === REGION };
 }
 
 const leaves = Array.from({ length: N_REGIONS }, (_, r) => leafOf(r));
-const nodeA = merge('A', leaves[0], leaves[1]);
-const nodeB = merge('B', leaves[2], leaves[3]);
-const nodeC = merge('C', leaves[4], leaves[5]);
-const nodeD = merge('D', nodeA, nodeB);
-const root = merge('root', nodeD, nodeC);
-const NODES = [...leaves, nodeA, nodeB, nodeC, nodeD, root];
-const byId = Object.fromEntries(NODES.map((n) => [n.id, n]));
+const byId = Object.fromEntries(leaves.map((n) => [n.id, n]));
 
-// Descend the tree to place n blocks. Returns the visited nodes, narration and start block.
+// The source checks adjacent windows, then scans only the selected mask range.
 function findFit(n) {
-  const path = [root];
+  const path = [];
   const steps = [];
-  if (n > root.gap) {
-    steps.push(`The root's largest free run is <b>${root.gap}</b>, smaller than ${n}.`);
-    return { path, steps, start: -1 };
-  }
-  steps.push(`The root's largest free run is <b>${root.gap}</b>, so ${n} fit somewhere.`);
-  let node = root;
-  while (!node.leaf) {
-    const { left, right } = node;
-    if (left.gap >= n) {
-      steps.push(`The left half has a run of ${left.gap}: go left.`);
-      node = left;
-    } else if (left.trail + right.lead >= n) {
-      const start = left.hi - left.trail;
-      path.push(left, right);
-      steps.push(`Regions ${regionName(left.hi - 1)} and ${regionName(right.lo)} join across their boundary (${left.trail} trailing + ${right.lead} leading free), so the value starts at block <b>${start}</b>.`);
-      return { path, steps, start };
-    } else {
-      steps.push(`The left half only has ${left.gap}: go right.`);
-      node = right;
+  const windowSize = Math.ceil(n / REGION) + 1;
+  for (let r = 0; r + windowSize <= leaves.length; r++) {
+    const window = leaves.slice(r, r + windowSize);
+    path.push(...window);
+    const first = window[0];
+    const last = window[window.length - 1];
+    let selected = null;
+    if (windowSize === 2) {
+      if (first.gap >= n && last.gap >= n) selected = [first.gap <= last.gap ? first : last];
+      else if (first.gap >= n) selected = [first];
+      else if (last.gap >= n) selected = [last];
+      else if (first.trail + last.lead >= n) selected = window;
+    } else if (window.slice(1, -1).every((region) => region.full) && first.trail + last.lead + (windowSize - 2) * REGION >= n) {
+      selected = window;
     }
-    path.push(node);
-  }
-  let run = 0;
-  let start = -1;
-  for (let b = node.lo; b < node.hi; b++) {
-    run = isFree(b) ? run + 1 : 0;
-    if (run >= n) {
-      start = b - n + 1;
-      break;
+    steps.push(`Check regions ${r} to ${r + windowSize - 1}.`);
+    if (!selected) continue;
+    let run = 0;
+    for (let block = selected[0].lo; block < selected[selected.length - 1].hi; block++) {
+      run = isFree(block) ? run + 1 : 0;
+      if (run >= n) {
+        const start = block - n + 1;
+        steps.push(`Their summaries identify enough space. Scan the selected mask regions to find block <b>${start}</b>.`);
+        return { path, steps, start };
+      }
     }
   }
-  steps.push(`Scanning only region ${node.lo / REGION}'s ${REGION} bits finds the run at block <b>${start}</b>.`);
-  return { path, steps, start };
+  steps.push('The region summaries contain no fitting run.');
+  return { path, steps, start: -1 };
 }
-const regionName = (b) => String(Math.floor(b / REGION));
 
 const freeCount = owner.filter((o) => o === -1).length;
-const NODE_NAME = (n) => (n.leaf ? `region ${n.lo / REGION}` : n.id === 'root' ? 'the root' : `the merge of regions ${n.lo / REGION} to ${(n.hi - 1) / REGION | 0}`);
+const NODE_NAME = (n) => `region ${n.lo / REGION}`;
 
 export function mount(node) {
   node.classList.add('gs');
@@ -138,7 +121,7 @@ export function mount(node) {
     FIND.map((n) => `<button type="button" class="qi-chip" data-find="${n}" aria-pressed="false">Find space: ${n} blocks</button>`).join(''),
     '    </div>',
     '  </div>',
-    '  <svg class="qi-svg" viewBox="0 0 760 470" role="img" aria-label="Gridstore layers: a tracker of pointers, a grid of fixed-size blocks, a bitmask of used blocks, and a tree of free-space gaps per region.">',
+    '  <svg class="qi-svg" viewBox="0 0 760 470" role="img" aria-label="Gridstore layers: a tracker of pointers, a grid of fixed-size blocks, a bitmask of used blocks, and free-space summaries per region.">',
     '    <g class="gs__g"></g>',
     '  </svg>',
     '  <p class="qi-status qi-status--2 gs__status" role="status" aria-live="polite"></p>',
@@ -199,7 +182,7 @@ export function mount(node) {
       g.appendChild(el('rect', { class: `gs__tcell ${used ? keyCls(i) : 'is-empty'}`, x, y: G.ty, width: 30, height: 26, rx: 4, 'data-key': used ? i : '' , ...(used ? {} : { 'data-none': 1 }) }));
       g.appendChild(el('text', { class: 'qi-label gs__klabel', x: x + 15, y: G.ty + 44, 'text-anchor': 'middle' }, `${i}`));
     }
-    g.appendChild(el('text', { class: 'qi-label', x: G.tx + TRACKER_CELLS * 36 + 6, y: G.ty + 18 }, 'keys'));
+    if (!narrow) g.appendChild(el('text', { class: 'qi-label', x: G.tx + TRACKER_CELLS * 36 + 6, y: G.ty + 18 }, 'keys'));
 
     // Data grid
     g.appendChild(el('text', { class: 'qi-label', x: G.bx, y: G.by - 8 }, `Data grid: ${BLOCK_BYTES}-byte blocks`));
@@ -244,32 +227,17 @@ export function mount(node) {
           g.appendChild(el('text', { class: 'qi-label qi-label--strong gs__nodenum', x: G.bx + REGION * G.pitch + 15, y: rowY + 12, 'text-anchor': 'middle', 'pointer-events': 'none' }, `${n.gap}`));
         });
       } else {
-        g.appendChild(el('text', { class: 'qi-label', x: G.bx, y: 296 }, 'Gaps layer: largest free run per region, merged pairwise'));
-        const cx = (n) => G.bx + ((n.lo + n.hi) / 2) * 12;
-        const lvlY = { leaf: 306, 1: 352, 2: 398, root: 440 };
-        const yOf = (n) => (n.leaf ? lvlY.leaf : n.id === 'root' ? lvlY.root : n.id === 'D' ? lvlY[2] : lvlY[1]);
-        // region brackets under the mask
-        leaves.forEach((n) => {
-          const x1 = G.bx + n.lo * 12;
-          const x2 = G.bx + n.hi * 12 - 1;
-          g.appendChild(el('path', { class: 'gs__bracket', d: `M${x1} 266 v5 h${x2 - x1} v-5` }));
-        });
-        // edges
-        NODES.filter((n) => !n.leaf).forEach((n) => {
-          [n.left, n.right].forEach((c) => {
-            const y1 = yOf(c) + 24;
-            const y2 = yOf(n);
-            const ym = y2 - 10;
-            g.appendChild(el('path', { class: 'gs__edge', d: `M${cx(c)} ${y1} V${ym} H${cx(n)} V${y2}`, 'data-edge': `${n.id}` }));
+        g.appendChild(el('text', { class: 'qi-label', x: G.bx, y: 296 }, 'Gaps layer: scan adjacent region summaries'));
+        leaves.forEach((n, r) => {
+          const x = G.bx + r * REGION * 12;
+          g.appendChild(el('path', { class: 'gs__bracket', d: `M${x} 266 v5 h95 v-5` }));
+          g.appendChild(el('rect', { class: 'gs__node', x, y: 308, width: 90, height: 88, rx: 5, 'data-node': n.id }));
+          [`region ${r}`, `max: ${n.gap}`, `lead: ${n.lead}`, `trail: ${n.trail}`].forEach((text, i) => {
+            g.appendChild(el('text', { class: 'qi-label gs__nodenum', x: x + 6, y: 327 + i * 19, 'pointer-events': 'none' }, text));
           });
         });
-        NODES.forEach((n) => {
-          const y = yOf(n);
-          g.appendChild(el('rect', { class: 'gs__node', x: cx(n) - 22, y, width: 44, height: 24, rx: 5, 'data-node': n.id }));
-          g.appendChild(el('text', { class: 'qi-label qi-label--strong gs__nodenum', x: cx(n), y: y + 17, 'text-anchor': 'middle', 'pointer-events': 'none' }, `${n.gap}`));
-        });
-        g.appendChild(el('text', { class: 'qi-label', x: 610, y: 322 }, 'region gap'));
-        g.appendChild(el('text', { class: 'qi-label', x: 610, y: 456 }, 'whole page'));
+        g.appendChild(el('text', { class: 'qi-label', x: G.bx, y: 430 }, 'Highlighted summaries were checked; outlined blocks fit the value.'));
+
       }
     }
     g.appendChild(el('g', { class: 'gs__ptr' }));
@@ -313,10 +281,12 @@ export function mount(node) {
       const { start, len } = KEYS[k];
       for (let b = start; b < start + len; b++) node.querySelectorAll(`[data-block="${b}"]`).forEach((n) => n.classList.add('is-hot'));
       // pointer from the tracker cell to the first block
-      const tx = G.tx + k * 36 + 15;
-      const ty = G.ty + 26;
+      const tx = G.tx + k * 36 + 32;
+      const ty = G.ty + 13;
+      const gutter = G.bx + G.cols * G.pitch + 18;
       const { x, y } = blockXY(start);
-      ptr.appendChild(el('path', { class: 'gs__ptrline', d: `M${tx} ${ty + 20} V${G.by - 18} H${x + G.size / 2} V${y - 1}` }));
+      // The cell gap, tracker margin, right gutter, and row gap stay clear of labels and blocks.
+      ptr.appendChild(el('path', { class: 'gs__ptrline', d: `M${tx} ${ty} V${G.ty + 27} H${gutter} V${y - 3} H${x + G.size / 2} V${y - 1}` }));
       statusEl.innerHTML = `Key <b>${k}</b>: pointer → block offset <b>${start}</b>, length <b>${len}</b> blocks (up to ${len * BLOCK_BYTES} bytes). ${view !== 'data' ? `In the mask, bits ${start} to ${start + len - 1} are 1.` : ''}`;
       return;
     }

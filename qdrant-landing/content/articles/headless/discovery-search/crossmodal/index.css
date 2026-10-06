@@ -1,10 +1,10 @@
-/* crossmodal island. Scoped under .ds-cm. Green: positive, red: negative, blue:
-   target, orange: hyperplane and top results. */
+/* crossmodal island. Scoped under .ds-cm. Cyan: positive, red: negative, violet:
+   target, purple: hyperplane and top results. */
 .ds-cm {
-  --ds-pos: #2e9e5b;
+  --ds-pos: var(--qi-cat-3);
   --ds-neg: var(--qi-cat-4);
-  --ds-target: #1e88e5;
-  --ds-hit: #e08a00;
+  --ds-target: var(--qi-cat-1);
+  --ds-hit: color-mix(in srgb, var(--qi-cat-2) 80%, var(--qi-fg) 20%);
   display: block;
 }
 .ds-cm__plane {

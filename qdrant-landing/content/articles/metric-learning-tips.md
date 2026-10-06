@@ -38,9 +38,8 @@ In practice, there are two main approaches to metric learning and two correspond
 The first is the interaction-based approach, which first builds local interactions (i.e., local matching signals) between two objects. Deep neural networks learn hierarchical interaction patterns for matching.
 Examples of neural network architectures include MV-LSTM, ARC-II, and MatchPyramid.
 
-![MV-LSTM, example of interaction-based model](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/mv_lstm.png)
-> MV-LSTM, example of interaction-based model, [Shengxian Wan et al.
-](https://www.researchgate.net/figure/Illustration-of-MV-LSTM-S-X-and-S-Y-are-the-in_fig1_285271115) via Researchgate
+![MV-LSTM combines two sentence representations in an interaction tensor, then pools the matches to produce a similarity score.](/articles_data/metric-learning-tips/mv-lstm.svg)
+> Architectural adaptation of MV-LSTM, an interaction-based model, [Shengxian Wan et al.](https://www.researchgate.net/figure/Illustration-of-MV-LSTM-S-X-and-S-Y-are-the-in_fig1_285271115) via Researchgate
 
 The second is the representation-based approach.
 In this case distance function is composed of 2 components: 
@@ -56,8 +55,8 @@ Once transformed, the Comparator can calculate object similarity independent of 
 For more convenience, embeddings can be placed into specialized storages or vector search engines.
 These search engines allow to manage embeddings using API, perform searches and other operations with vectors.
 
-![C-DSSM, example of representation-based model](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/cdssm.png)
-> C-DSSM, example of representation-based model, Shen et al., 2014
+![C-DSSM encodes a query and a document separately, then compares them with cosine similarity.](/articles_data/metric-learning-tips/c-dssm.svg)
+> Architectural adaptation of C-DSSM, a representation-based model, Shen et al., 2014.
 
 Pre-trained NNs can also be used. The output of the second-to-last layer could work as an embedded representation.
 Further in this article, I would focus on the representation-based approach, as it proved to be more flexible and fast.
@@ -125,8 +124,8 @@ We cannot guarantee that there is no better match for each job occupation among 
 That is why we can't use hard negative mining for our model. 
 
 
-![Loss variations](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/losses.png)
-> [Alfonso Medela  et al.](https://arxiv.org/abs/1905.10675) via arXiv
+![Contrastive loss compares pairs, triplet loss compares three points, and multi-class and constellation losses add more comparisons.](/articles_data/metric-learning-tips/losses.svg)
+> Schematic adaptation of the loss comparisons in [Alfonso Medela et al.](https://arxiv.org/abs/1905.10675) via arXiv
 
 
 To compensate for this limitation we can try to increase the number of random (weak) negative samples.
@@ -231,5 +230,4 @@ Documentation with examples could be found [here](https://api.qdrant.tech/api-re
 In this article, I have shown how metric learning can be more scalable and flexible than the classification models.
 I suggest trying similar approaches in your tasks - it might be matching similar texts, images, or audio data.
 With the existing variety of pre-trained neural networks and a vector search engine, it is easy to build your metric learning-based application.
-
 

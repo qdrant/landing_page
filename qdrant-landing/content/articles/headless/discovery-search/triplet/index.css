@@ -1,7 +1,7 @@
-/* triplet island. Scoped under .ds-tr. Green: positive, red: negative, dark:
+/* triplet island. Scoped under .ds-tr. Cyan: positive, red: negative, dark:
    anchor. */
 .ds-tr {
-  --ds-pos: #2e9e5b;
+  --ds-pos: var(--qi-cat-3);
   --ds-neg: var(--qi-cat-4);
   display: block;
 }
