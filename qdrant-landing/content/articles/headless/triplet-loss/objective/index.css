@@ -1,0 +1,29 @@
+/* The ready stage grows with the SVG's stacked layout. The shortcode ratio
+   continues to reserve the wide fallback while loading or without JavaScript. */
+.island[data-island='content/articles/headless/triplet-loss/objective'].is-ready .island__stage {
+  aspect-ratio: auto !important;
+}
+
+.triplet-objective svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Beat the shared .qi-label size and retain the standalone SVG's alignment. */
+.triplet-objective .qi-label {
+  font-family: var(--qi-mono);
+  font-size: 20px;
+  text-anchor: middle;
+  fill: var(--qi-fg);
+}
+
+/* Remap literal light palette values, following the static HNSW adapter. */
+.triplet-objective [fill='#f0f3fa'] { fill: var(--qi-surface); }
+.triplet-objective [fill='#303547'] { fill: var(--qi-fg); }
+.triplet-objective [stroke='#303547'] { stroke: var(--qi-fg); }
+.triplet-objective [stroke='#00838f'] { stroke: var(--qi-cat-3); }
+.triplet-objective [stroke='#dc244c'] { stroke: var(--qi-cat-4); }
+/* Muted connectors retain meaningful contrast in both themes. */
+.triplet-objective [stroke='#656b7f'] { stroke: var(--qi-muted); }
+.triplet-objective [fill='#656b7f'] { fill: var(--qi-muted); }

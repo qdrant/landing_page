@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 280" role="img" aria-describedby="objective-description" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20">
+  <desc id="objective-description">An illustrative triplet before and after training. Before training, the negative is closer to the anchor than the positive. After training, the positive lies on the inner anchor-centered arc, and the negative lies outside the outer arc. The radial gap between the arcs is the margin.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#656b7f"/>
+    </marker>
+  </defs>
+  <!-- Literal light tokens keep the external fallback independent of the host. -->
+  <rect class="objective-card" width="880" height="280" rx="6" fill="#f0f3fa"/>
+  <g class="objective-before">
+    <line x1="65.747209" y1="178.431959" x2="214.349160" y2="107.996352" stroke="#656b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <line x1="66.917850" y1="185.459159" x2="341.088469" y2="216.428598" stroke="#656b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <circle cx="54" cy="184" r="12" fill="#f0f3fa" stroke="#303547" stroke-width="5"/>
+    <circle cx="227" cy="102" r="12" fill="#f0f3fa" stroke="#dc244c" stroke-width="5"/>
+    <circle cx="355" cy="218" r="12" fill="#f0f3fa" stroke="#00838f" stroke-width="5"/>
+    <text class="qi-label" x="54" y="223" text-anchor="middle" fill="#303547">Anchor</text>
+    <text class="qi-label" x="227" y="78" text-anchor="middle" fill="#303547">Negative</text>
+    <text class="qi-label" x="355" y="255" text-anchor="middle" fill="#303547">Positive</text>
+  </g>
+  <g class="objective-training">
+    <path class="objective-training-arrow" d="M365 60 C365 16 505 16 505 60" fill="none" stroke="#656b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text class="qi-label" x="435" y="65" text-anchor="middle" fill="#303547">Training</text>
+  </g>
+  <g class="objective-after" transform="translate(460 0)">
+    <!-- Both circular arcs have center (54, 150). Inner radius = d(a,p),
+         outer radius = d(a,p) + 140. Coordinates are computed, not traced. -->
+    <path class="objective-inner-arc" d="M190.021480 116.086036 A140.185591 140.185591 0 0 1 190.000000 184.000000" fill="none" stroke="#656b7f" stroke-width="2.5" stroke-dasharray="6 5"/>
+    <path class="objective-outer-arc" d="M325.862882 82.216971 A280.185591 280.185591 0 0 1 311.912197 259.477232" fill="none" stroke="#656b7f" stroke-width="2.5" stroke-dasharray="6 5"/>
+    <line x1="66.611853" y1="153.152963" x2="176.418005" y2="180.604501" stroke="#656b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <line x1="66.788924" y1="147.666885" x2="336.227313" y2="98.512585" stroke="#656b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <!-- Arrow tips sit exactly at the two arc intersections on the zero-degree ray. -->
+    <line class="objective-margin" x1="194.185591" y1="150" x2="334.185591" y2="150" stroke="#656b7f" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <circle cx="54" cy="150" r="12" fill="#f0f3fa" stroke="#303547" stroke-width="5"/>
+    <circle cx="190" cy="184" r="12" fill="#f0f3fa" stroke="#00838f" stroke-width="5"/>
+    <circle cx="350" cy="96" r="12" fill="#f0f3fa" stroke="#dc244c" stroke-width="5"/>
+    <text class="qi-label" x="54" y="190" text-anchor="middle" fill="#303547">Anchor</text>
+    <text class="qi-label" x="190" y="230" text-anchor="middle" fill="#303547">Positive</text>
+    <text class="qi-label" x="350" y="65" text-anchor="middle" fill="#303547">Negative</text>
+    <text class="qi-label" x="264.185591" y="182" text-anchor="middle" fill="#303547">Margin</text>
+  </g>
+</svg>

@@ -1,0 +1,103 @@
+/* Shared chrome inherits the article's effective theme. Keep all typography
+   unscaled in HTML; only the scatter marks scale with the SVG on phones. */
+.tl-training .qi-fig {
+  gap: 12px;
+}
+.tl-training .qi-chip {
+  font-size: 14px;
+  color: var(--qi-fg);
+}
+.tl-training .qi-controls {
+  gap: 10px 14px;
+}
+.tl-training__timeline {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.tl-training__timeline label {
+  flex: none;
+}
+.tl-training__timeline input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  accent-color: var(--qi-cat-1);
+  cursor: pointer;
+}
+.tl-training__timeline input:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 3px;
+}
+.tl-training__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.tl-training__legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.tl-training__key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  flex: none;
+}
+.tl-training__key--a {
+  border-radius: 50%;
+  background: var(--qi-cat-1);
+}
+.tl-training__key--b {
+  background: var(--qi-cat-4);
+}
+.tl-training__point--a {
+  fill: var(--qi-cat-1);
+}
+.tl-training__point--b {
+  fill: var(--qi-cat-4);
+}
+.tl-training__point {
+  stroke: var(--qi-surface);
+  stroke-width: 0.7;
+}
+.tl-training .qi-status {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.tl-training__status > span {
+  display: block;
+}
+.tl-training__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* The shortcode's aspect ratio is a preferred reservation. Natural content
+   height must win when controls and status wrap, with no clipping or scroll. */
+.island[data-island='content/articles/headless/triplet-loss/training'].is-ready .island__stage {
+  height: auto;
+  min-width: 0;
+}
+@media (max-width: 600px) {
+  .island[data-island='content/articles/headless/triplet-loss/training'].is-ready .island__stage {
+    aspect-ratio: auto !important;
+  }
+  .tl-training .qi-controls {
+    gap: 10px;
+  }
+}
