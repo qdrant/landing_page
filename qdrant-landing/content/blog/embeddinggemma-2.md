@@ -15,13 +15,13 @@ tags:
   - EmbeddingGemma
 ---
 
-Google's new EmbeddingGemma 2 can run on a phone. The model travels light; the vectors need their own suitcase. At 10 million documents, full-size float32 vectors alone take 30.7 GB of RAM.
+Google's new EmbeddingGemma 2 can run on a phone. The model travels light. The vectors need their own suitcase. At 10 million documents, full-size float32 vectors alone take 30.7 GB of RAM.
 
-We got early access ahead of today's Google DeepMind release and tested how much of that memory we could save in Qdrant. Full-size vectors kept 99% of their retrieval quality with 30x less vector RAM. Shorter vectors with rescoring reached 77x less vector RAM and retained 94.5%.
+We got early access ahead of today's Google DeepMind release and tested how much of that memory we could save in Qdrant. Quantized full-size vectors kept 99% of their retrieval quality with 30x less vector RAM. Shorter vectors with rescoring reached 77x less vector RAM and retained 94.5%.
 
 We tried both ways of saving memory: shorter vectors and fewer bits per dimension. The chart compares them with exact search over full-size float32 vectors on five text retrieval datasets. Quality is the percentage of the baseline's nDCG@10 retained, a score for how well the top 10 results rank relevant documents.
 
-{{< chart id="embeddinggemma-2/memory-vs-retention" caption="Vector RAM excludes graph indexes, payloads, and original vectors stored for rescoring. Results cover text retrieval; rescoring uses 4x oversampling." >}}
+{{< chart id="embeddinggemma-2/memory-vs-retention" caption="Vector RAM excludes graph indexes, payloads, and original vectors stored for rescoring. Results cover text retrieval. Rescoring uses 4x oversampling." >}}
 
 <aside role="status">
 We tested SciFact, NFCorpus, ArguAna, SCIDOCS, and FiQA from BEIR and averaged retention across them. nDCG stands for normalized discounted cumulative gain. Rescoring ranks candidates again using original vectors.
