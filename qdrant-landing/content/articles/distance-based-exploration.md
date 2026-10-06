@@ -12,7 +12,7 @@ keywords:
   - clusterization
   - dimensionality reduction
   - visualization
-category: data-exploration
+category: embedding-research
 ---
 
 
