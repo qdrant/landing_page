@@ -1,7 +1,7 @@
 ---
 title: Optimizer
-short_description: "Understand how Qdrant's background optimizer rebuilds segments through vacuum, merge, and indexing stages to maintain efficient storage."
-description: "See how Qdrant's background optimizer reclaims deleted points, merges segments, and rebuilds indexes to keep storage compact and search performance high."
+short_description: "Understand how Qdrant's vacuum, merge, indexing, and config mismatch optimizers rebuild segments to maintain efficient storage."
+description: "See how Qdrant's optimizer reclaims deleted points, merges segments, builds indexes, and applies configuration changes to keep storage compact and search fast."
 weight: 10
 aliases:
   - /documentation/optimizer
