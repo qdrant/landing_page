@@ -11,6 +11,12 @@ aliases:
 goal: RAG & Agents
 stack:
   - n8n
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 <!-- ![n8n-qdrant](/documentation/examples/qdrant-n8n-2/cover.png) -->

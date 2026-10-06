@@ -1,7 +1,7 @@
 {{ $reAltTitleIn := "<img src=\"([^\"]+)\" alt=\"([^\"]*)\" title=\"([^\"]+)\">" }}
 {{ $reAltTitleOut := "<figure><img src=\"$1\" alt=\"$2\" title=\"$3\"><figcaption>$3</figcaption></figure>" }}
 {{ if .Params.retired }}
-  <aside role="status" aria-label="Archived article">
+  <aside role="status" aria-label="Archived content">
     {{ partial "retirement-notice.html" . | markdownify }}
   </aside>
 {{ end }}

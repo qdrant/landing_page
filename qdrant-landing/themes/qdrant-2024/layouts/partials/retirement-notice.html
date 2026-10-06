@@ -1,4 +1,4 @@
-{{- $notice := "**Archived Article.** This article is no longer maintained. Its examples and technical details may be outdated." -}}
+{{- $notice := "**Archived Content.** This content is no longer maintained. Its examples and technical details may be outdated." -}}
 {{- with .Params.retired_note -}}
   {{- $notice = printf "%s %s" $notice . -}}
 {{- end -}}

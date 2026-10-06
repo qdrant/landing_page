@@ -82,3 +82,14 @@
   X-Robots-Tag: noindex
 /articles/embedding-recycler.md
   X-Robots-Tag: noindex
+
+/documentation/tutorials-build-essentials/qdrant-n8n/*
+  X-Robots-Tag: noindex
+/documentation/tutorials-build-essentials/qdrant-n8n.md
+  X-Robots-Tag: noindex
+
+/documentation/qdrant-n8n/*
+  X-Robots-Tag: noindex
+
+/blog/qdrant-n8n-beyond-simple-similarity-search/*
+  X-Robots-Tag: noindex
