@@ -25,7 +25,7 @@ aliases:
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
 - [Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
-- Part 3: Evaluation & Hard Negatives (here)
+- Part 3: Evaluation and Hard Negatives (here)
 - [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
 - [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
@@ -35,13 +35,32 @@ We have a trained SPLADE model sitting on a Modal volume (or grab it from [Huggi
 
 ## Indexing Products in Qdrant
 
+You need Qdrant 1.19 or later (Qdrant Cloud, or `docker run -p 6333:6333 qdrant/qdrant`) and `pip install "qdrant-client>=1.19" sentence-transformers`. Load the published model or your Part 2 checkpoint:
+
+```python
+from sentence_transformers import SparseEncoder
+
+model = SparseEncoder("Qdrant/splade-ecommerce-esci")  # on Apple silicon, add device="cpu"
+```
+
+`products` is a list of dicts with `product_id`, `text` (built with `build_product_text` from Part 2), `title`, and `brand`.
+
 Before we can evaluate, we need products in a searchable index. Qdrant's sparse vector support makes this straightforward:
 
 ```python
 from qdrant_client import QdrantClient, models
 
+
+def chunked(items, size):
+    return (items[i:i + size] for i in range(0, len(items), size))
+
+
 def index_products(model, products, collection_name="ecommerce_splade"):
+    # QDRANT_URL and QDRANT_API_KEY: your Qdrant Cloud cluster URL and API key
     client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+
+    if client.collection_exists(collection_name):
+        client.delete_collection(collection_name)  # re-index from scratch, e.g. each mining round
 
     # Create collection with sparse vector config
     client.create_collection(
@@ -49,44 +68,57 @@ def index_products(model, products, collection_name="ecommerce_splade"):
         vectors_config={},
         sparse_vectors_config={
             "text": models.SparseVectorParams(
-                index=models.SparseIndexParams(on_disk=True)
+                index=models.SparseIndexParams(memory=models.Memory.COLD)
             )
         },
     )
 
     # Encode and index in batches
-    for batch in chunked(products, batch_size=32):
+    batch_size = 32
+    for i, batch in enumerate(chunked(products, batch_size)):
+        start = i * batch_size
         texts = [p["text"] for p in batch]
         embeddings = model.encode(texts)
 
         points = []
-        for product, emb in zip(batch, embeddings):
-            indices = emb["indices"].tolist()
-            values = emb["values"].tolist()
+        for j, (product, emb) in enumerate(zip(batch, embeddings)):
+            emb = emb.coalesce()  # encode() returns sparse tensors
+            indices = emb.indices()[0].tolist()
+            values = emb.values().tolist()
 
             points.append(models.PointStruct(
-                id=product["id"],
+                id=start + j,  # Qdrant point IDs are integers or UUIDs
                 vector={
                     "text": models.SparseVector(indices=indices, values=values)
                 },
-                payload={"title": product["title"], "brand": product["brand"]},
+                payload={
+                    "product_id": product["product_id"],
+                    "text": product["text"],
+                    "title": product["title"],
+                    "brand": product["brand"],
+                },
             ))
 
-        upsert_with_retry(client, collection_name, points)
+        last_batch = start + batch_size >= len(products)
+        upsert_with_retry(client, collection_name, points, wait=last_batch)
+
+    return client
 ```
 
 A few production details:
 
-- **`on_disk=True`** keeps the inverted index on disk instead of RAM. SPLADE vectors average 200 active terms, and across millions of products, this adds up. Requires SSD for acceptable latency.
+- **`memory=models.Memory.COLD`** keeps the inverted index on disk instead of RAM and needs Qdrant and qdrant-client 1.19 or later. SPLADE product vectors average about 340 active terms, and across millions of products, this adds up. Requires SSD for acceptable latency.
 - **`wait=False`** on upserts (inside `upsert_with_retry`) lets you pipeline batches without blocking. Call with `wait=True` on the final batch.
 - **Retry with exponential backoff** for cloud databases. Network hiccups happen in production.
 
 ```python
-def upsert_with_retry(client, collection_name, points, max_retries=5):
+import time
+
+def upsert_with_retry(client, collection_name, points, max_retries=5, wait=False):
     """Upsert with exponential backoff."""
     for attempt in range(max_retries):
         try:
-            client.upsert(collection_name=collection_name, points=points, wait=False)
+            client.upsert(collection_name=collection_name, points=points, wait=wait)
             return
         except Exception as e:
             if attempt == max_retries - 1:
@@ -104,19 +136,19 @@ We evaluate with standard information retrieval metrics on 2,000 test queries ag
 - **Recall@k**: What fraction of relevant products appear in top-k
 - **Precision@k**: What fraction of top-k results are relevant
 
-**nDCG@10** (Normalized Discounted Cumulative Gain) is the primary metric. It rewards putting highly relevant products (Exact matches) at the top and penalizes relevant results that appear lower in the ranking. A perfect score is 1.0; random ranking on this dataset gives roughly 0.1.
+**nDCG@10** (Normalized Discounted Cumulative Gain) is the primary metric. It rewards putting highly relevant products (Exact matches) at the top and penalizes relevant results that appear lower in the ranking. A perfect score is 1.0; random ranking on this dataset gives roughly 0.001.
 
 ### Searching the Index
 
 ```python
 def search_products(query, model, client, collection_name="ecommerce_splade", limit=10):
-    query_embedding = model.encode(query)
+    query_embedding = model.encode(query).coalesce()
 
     results = client.query_points(
         collection_name=collection_name,
         query=models.SparseVector(
-            indices=query_embedding["indices"].tolist(),
-            values=query_embedding["values"].tolist(),
+            indices=query_embedding.indices()[0].tolist(),
+            values=query_embedding.values().tolist(),
         ),
         using="text",
         limit=limit,
@@ -128,7 +160,7 @@ def search_products(query, model, client, collection_name="ecommerce_splade", li
     ]
 ```
 
-Five lines from query string to ranked products. The sparse vector lookup in Qdrant's inverted index is sub-millisecond, even with millions of products. The bottleneck is the 10-20ms query encoding through the transformer.
+Five lines from query string to ranked products. The sparse vector lookup in Qdrant's inverted index is fast. The bottleneck is the 10-20ms query encoding through the transformer.
 
 ## The Results
 
@@ -136,39 +168,13 @@ Here's what we found, evaluated on 2,000 test queries:
 
 | Model | nDCG@10 | MRR@10 | vs BM25 |
 |---|---|---|---|
-| BM25 (baseline) | 0.305 | 0.313 | - |
-| SPLADE (off-the-shelf) | 0.326 | 0.339 | +7.2% |
-| **SPLADE (fine-tuned)** | **0.389** | **0.387** | **+27.5%** |
+| BM25 (baseline) | 0.333 | 0.332 | - |
+| SPLADE (off-the-shelf) | 0.362 | 0.361 | +8.7% |
+| **SPLADE (fine-tuned)** | **0.389** | **0.387** | **+16.8%** |
 
-> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+> **Note:** These metrics were measured on a subsample of 10,000 products and 2,000 queries. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
-The fine-tuned model beats BM25 by nearly 28%. More telling: it beats the off-the-shelf SPLADE by 19%. The off-the-shelf model was trained on MS MARCO (web search queries), not e-commerce. That 19% gap is the value of domain-specific training.
-
-### What About Hybrid Search?
-
-{{< include "content/headless/sparse-embeddings-ecommerce/figures/hybrid-search-fusion.html" >}}
-
-A natural question: can we combine sparse and dense vectors for even better results? We tested this with Qdrant's native Reciprocal Rank Fusion:
-
-```python
-client.query_points(
-    collection_name="products",
-    prefetch=[
-        models.Prefetch(query=sparse_vector, using="sparse", limit=100),
-        models.Prefetch(query=dense_vector, using="dense", limit=100),
-    ],
-    query=models.FusionQuery(fusion=models.Fusion.RRF),
-    limit=10,
-)
-```
-
-With the **off-the-shelf SPLADE**, hybrid helps: +1.3% over sparse alone. Both signals are moderate strength, and combining them catches products that either one misses.
-
-With the **fine-tuned SPLADE**, hybrid actually hurts: SPLADE-only scored 0.413 vs hybrid at 0.405. The fine-tuned sparse model is strong enough that adding a generic dense signal dilutes the ranking. The dense model retrieves semantically similar but irrelevant products that drag down nDCG.
-
-> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
-
-This is a useful finding. Hybrid search isn't always better. It depends on the relative strength of your signals. If your sparse model is domain-tuned and your dense model is generic, the dense component can actively harm results.
+The fine-tuned model beats BM25 by nearly 17%. More telling: it beats the off-the-shelf SPLADE by 7.5%. The off-the-shelf model was trained on MS MARCO (web search queries), not e-commerce.
 
 ## ANCE-inspired Hard Negative Mining
 
@@ -190,11 +196,13 @@ The idea: if the current model retrieves a product for a query but that product 
 
 ### Mining Implementation
 
+Run this block from the root of the research repository. `queries_with_positives` is a list of `{"query", "positive_ids", "positive_text"}` dicts.
+
 ```python
 from src.qdrant.mining import SparseQdrantMiner
 
 # Index products with current model
-index_sparse_vectors(client, collection_name, model, products)
+client = index_products(model, products, collection_name)
 
 # Mine hard negatives
 miner = SparseQdrantMiner(client, model, collection_name)
@@ -210,7 +218,7 @@ hard_neg_examples = miner.mine_for_training(
 #   "negative": ["Generic Bluetooth Earbuds...", ...]}, ...]
 ```
 
-Sparse retrieval keeps mining cheap, with sub-millisecond per query in Qdrant. For 100K queries, the mining step takes seconds, not minutes. Payload filters exclude known positives so you don't accidentally treat a relevant product as a negative.
+In our measurements, sparse retrieval was sub-millisecond per query in Qdrant. The miner skips known positives so you don't accidentally treat a relevant product as a negative.
 
 ### When to Use ANCE-inspired Mining
 
@@ -221,7 +229,7 @@ This approach adds complexity. You need to:
 4. Retrain with the augmented dataset
 5. Optionally repeat
 
-This gives an additional 5-10% improvement on top of basic training. Whether that's worth the engineering effort depends on your use case. For a product search system serving millions of queries, 5% nDCG improvement translates to meaningfully better user experience and conversion rates.
+This adds an additional boost on top of basic training. Whether that's worth the engineering effort depends on your use case. For a product search system serving millions of queries, even a small nDCG improvement translates to meaningfully better user experience and conversion rates.
 
 ## What Fine-Tuning Actually Changes
 
@@ -259,13 +267,20 @@ Optimization strategies if 15ms isn't fast enough:
 - **Caching**: Popular queries can be cached at the sparse vector level
 - **GPU inference**: 5-10x speedup on high-traffic systems
 
-For most e-commerce applications, 15ms is fine, especially when it delivers 28% better relevance.
+For most e-commerce applications, 15ms is fine, especially when it delivers 17% better relevance.
+
+## Clean Up
+
+Delete the collection when you are done:
+
+```python
+client.delete_collection("ecommerce_splade")
+```
 
 ## Key Takeaways
 
-- **Fine-tuned SPLADE beats BM25 by 28% and off-the-shelf SPLADE by 19%.** Domain-specific training matters, even for sparse models.
-- **Hybrid search isn't always better.** A strong domain-tuned sparse model can outperform sparse+dense fusion when the dense component is generic.
-- **Hard negative mining (ANCE-inspired) adds 5-10%** on top of basic training. Qdrant's sparse retrieval makes the mining step cheap.
+- **Fine-tuned SPLADE beats BM25 by 17% and off-the-shelf SPLADE by 7.5%.** Domain-specific training matters, even for sparse models.
+- **Hard negative mining (ANCE-inspired) adds an additional boost** on top of basic training. Qdrant's sparse retrieval makes the mining step cheap.
 - **Production latency is 10-20ms total.** Transformer encoding is the bottleneck, not retrieval.
 - **The model learns domain-specific patterns**: query expansion, term weighting, and e-commerce vocabulary all improve with fine-tuning.
 

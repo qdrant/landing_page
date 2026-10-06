@@ -26,13 +26,28 @@ aliases:
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
 - Part 2: Training SPLADE on Modal (here)
-- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
+- [Part 3: Evaluation and Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
 - [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
 - [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
 In Part 1 we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). Want to skip straight to fine-tuning on your own data? See the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI. By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
+
+## Prerequisites
+
+- Python 3.10 or later, [uv](https://docs.astral.sh/uv/), and a [Modal](https://modal.com/) account.
+- A Qdrant cluster URL and API key, stored as a Modal secret named `qdrant`. The repository's Modal functions reference this secret.
+- The 100K-sample training run uses about $0.35 of Modal A100 time.
+
+```bash
+git clone https://github.com/qdrant-labs/finetune-ecommerce-search.git
+cd finetune-ecommerce-search
+uv run modal setup
+uv run modal secret create qdrant QDRANT_URL=<your-cluster-url> QDRANT_API_KEY=<your-api-key>
+```
+
+Run all commands in this tutorial from the repository root. The code blocks on this page explain what the repository's `modal_app.py` does.
 
 ## The Dataset: Amazon ESCI
 
@@ -51,8 +66,7 @@ For training, we use Exact and Substitute pairs as positives. This teaches the m
 ### Loading the Data
 
 ```python
-from datasets import load_dataset
-from src.data.text_builder import build_product_text
+from datasets import Dataset, load_dataset  # fix: build_product_text is the page's own, defined in Product Text Formatting
 
 def load_esci_training_data(max_samples=None):
     """Load ESCI dataset as anchor-positive pairs for contrastive training."""
@@ -60,7 +74,9 @@ def load_esci_training_data(max_samples=None):
 
     pairs = []
     for row in dataset:
-        if row["relevance_label"] not in ("E", "S"):
+        if row["product_locale"] != "us":  # fix: keep US products only
+            continue
+        if row["esci_label"] not in ("Exact", "Substitute"):  # fix: column name and full-word labels
             continue
 
         query = row["query"]
@@ -68,14 +84,14 @@ def load_esci_training_data(max_samples=None):
             title=row["product_title"],
             brand=row.get("product_brand", ""),
             description=row.get("product_description", ""),
-            bullets=row.get("product_bullet_point", []),
+            bullets=(row.get("product_bullet_point") or "").split("\n"),  # fix: bullets arrive as one string
         )
         pairs.append({"anchor": query, "positive": product_text})
 
         if max_samples and len(pairs) >= max_samples:
             break
 
-    return pairs
+    return Dataset.from_list(pairs)  # fix: the trainer needs a Dataset, not a list
 ```
 
 ### Product Text Formatting
@@ -137,7 +153,7 @@ image = (
         "torch>=2.2.0",
         "transformers>=4.45.0",
         "datasets>=2.20.0",
-        "qdrant-client>=1.12.0",
+        "qdrant-client>=1.19.0",  # Memory tiers (Part 3) need 1.19 or later
         "accelerate>=0.30.0",
     )
 )
@@ -151,10 +167,10 @@ Two things matter here:
 
 ```bash
 # Start training and disconnect
-uv run modal run --detach modal_app.py --mode train
+uv run modal run --detach modal_app.py --config-path configs/splade_standard.yaml --mode train
 
 # Come back later, check your checkpoints
-uv run modal volume ls esci-sparse-checkpoints /checkpoints/
+uv run modal volume ls esci-sparse-checkpoints /splade_standard
 ```
 
 No S3 uploads, no checkpoint management code, no lost training runs.
@@ -202,10 +218,10 @@ Here's the core training logic, decorated as a Modal function:
     timeout=3600 * 6,
 )
 def train_sparse_encoder(config: dict):
-    from sentence_transformers import SparseEncoder
+    from sentence_transformers import SparseEncoder, SparseEncoderTrainingArguments  # fix: import path
     from sentence_transformers.sparse_encoder import SparseEncoderTrainer
-    from sentence_transformers.training_args import SparseEncoderTrainingArguments
-    from sentence_transformers.losses import SpladeLoss, SparseMultipleNegativesRankingLoss
+    from sentence_transformers.sparse_encoder.losses import SpladeLoss, SparseMultipleNegativesRankingLoss  # fix: import path
+    from sentence_transformers.training_args import BatchSamplers  # added: batch sampler
 
     # Create model
     model = create_sparse_encoder(config["base_model"])
@@ -231,6 +247,7 @@ def train_sparse_encoder(config: dict):
         learning_rate=float(config.get("learning_rate", 2e-5)),
         warmup_ratio=0.1,
         fp16=True,
+        batch_sampler=BatchSamplers.NO_DUPLICATES,  # added: no duplicate texts in one batch
         save_steps=1000,
         logging_steps=100,
     )
@@ -265,7 +282,7 @@ The regularization weights control this tradeoff:
 | `query_regularizer_weight` | 5e-5 | Higher = sparser queries |
 | `document_regularizer_weight` | 3e-5 | Higher = sparser documents |
 
-The sweet spot is 100-300 active terms per vector. Too high regularization produces nearly empty vectors (fast but low recall). Too low produces thousands of terms (slow, huge index).
+The sweet spot is ~30 active terms per query and 100-400 per product. Too high regularization produces nearly empty vectors (fast but low recall). Too low produces thousands of terms (slow, huge index).
 
 Document regularization is lower than query regularization because product descriptions need more terms to capture all relevant attributes. A product listing for headphones should activate terms like "audio", "wireless", "bluetooth", "noise", "canceling" - more than the 3-4 words in a typical query.
 
@@ -293,7 +310,9 @@ max_samples: 100000
 One of Modal's strengths is embarrassingly parallel workloads. Hyperparameter sweeps are a natural fit. `spawn()` launches one GPU per configuration:
 
 ```python
-@app.function(gpu="A100")
+# Pseudocode: training and evaluate() are elided.
+# The runnable version is run_sweep() in the repository's modal_app.py.
+@app.function(gpu="A10G")
 def train_single_experiment(config: dict):
     """Train one configuration."""
     model = create_sparse_encoder(config["base_model"])
@@ -303,12 +322,12 @@ def train_single_experiment(config: dict):
 @app.local_entrypoint()
 def run_hyperparameter_sweep():
     """Launch all experiments in parallel."""
+    base = {"base_model": "distilbert/distilbert-base-uncased", "max_samples": 5000}
     configs = [
-        {"learning_rate": 1e-5, "regularizer_weight": 3e-5},
-        {"learning_rate": 2e-5, "regularizer_weight": 3e-5},
-        {"learning_rate": 2e-5, "regularizer_weight": 5e-5},
-        {"learning_rate": 5e-5, "regularizer_weight": 5e-5},
-        # ... more configurations ...
+        {**base, "learning_rate": 1e-5, "query_regularizer_weight": 1e-5, "document_regularizer_weight": 1e-5},
+        {**base, "learning_rate": 2e-5, "query_regularizer_weight": 5e-5, "document_regularizer_weight": 3e-5},
+        {**base, "learning_rate": 5e-5, "query_regularizer_weight": 1e-4, "document_regularizer_weight": 5e-5},
+        {**base, "learning_rate": 2e-5, "query_regularizer_weight": 1e-4, "document_regularizer_weight": 1e-4},
     ]
 
     # Launch all experiments simultaneously
@@ -320,39 +339,15 @@ def run_hyperparameter_sweep():
     print(f"Best config: {best}")
 ```
 
-A 24-experiment sweep finishes in the time of a single training run. Each experiment gets its own A100. You pay only for the compute time actually used, not for idle GPUs waiting in a queue.
+A 4-experiment sweep finishes in the time of a single training run. Each experiment gets its own GPU. You pay only for the compute time actually used, not for idle GPUs waiting in a queue.
 
-## What NOT to Do: The Inference-Free SPLADE Trap
+## Inference-Free SPLADE
 
-We tried replacing the query-side transformer with a static embedding lookup to save latency. The idea is appealing: queries are short, so why run a full transformer?
+Standard SPLADE runs the transformer on every query. Inference-free SPLADE runs it only on documents, at index time, so documents keep their neural expansions while queries skip the model entirely. Query cost drops to about the level of BM25.
 
-```python
-# DON'T DO THIS (for e-commerce)
-router = Router.for_query_document(
-    query_modules=[
-        SparseStaticEmbedding(tokenizer=mlm.tokenizer)  # Fast but weak
-    ],
-    document_modules=[
-        mlm,
-        SpladePooling(pooling_strategy="max"),
-    ],
-)
-```
+The training code in this series can build that variant: with `architecture: inference_free_splade`, the query side becomes a `SparseStaticEmbedding`, which learns one fixed weight per vocabulary token, and the document side stays the full SPLADE encoder. Trained with the same configuration as the standard model and evaluated on the same 10,000 products and 2,000 queries, **it reached nDCG@10 0.379**, against 0.390 for standard SPLADE trained the same way.
 
-The results were disastrous:
-
-| Architecture | nDCG@10 |
-|---|---|
-| Standard SPLADE (contextual) | **0.389** |
-| Inference-Free (static) | 0.065 |
-
-> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
-
-That's 6x worse without contextual encoding.
-
-The static embedding completely failed because e-commerce queries are highly contextual. "Apple" means different things in "apple iphone" vs "apple fruit". The static embedding can't disambiguate. It looks up "apple" and returns the same vector regardless of context.
-
-The transformer is the bottleneck at ~15ms per query, but 15ms is perfectly acceptable for search. Don't prematurely optimize away the component that makes the model work.
+For a deeper look, see the [Inference-Free SPLADE blog post of our core team engineer](https://www.kshivendu.dev/blog/if-splade) and the [talk recording from the RAG: Retrieval Augmented Gathering series](https://maven.com/p/73ce5d/neural-search-at-bm25-latency).
 
 {{< include "content/headless/sparse-embeddings-ecommerce/figures/modal-detached-training.html" >}}
 
@@ -366,7 +361,7 @@ uv run modal run modal_app.py \
     --config-path configs/splade_standard.yaml \
     --mode train
 
-# Full dataset, detached
+# Full dataset (set max_samples: null in the YAML), detached
 uv run modal run --detach modal_app.py \
     --config-path configs/splade_standard.yaml \
     --mode train
@@ -374,14 +369,15 @@ uv run modal run --detach modal_app.py \
 
 The model checkpoint gets saved to the persistent volume at `/checkpoints/splade_standard/final`. We've also published the trained model on HuggingFace as [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) so you can skip training and use it directly. In Part 3, we'll load this model, index products into Qdrant, and run retrieval benchmarks to see exactly how much we've improved over BM25.
 
+The run ends with `Training complete. Model saved to: /checkpoints/splade_standard/final`. Checkpoints and cached data stay in the `esci-sparse-checkpoints` and `esci-datasets` volumes until you delete them with `uv run modal volume delete <name>`.
+
 ## Key Takeaways
 
 - **ESCI's graded relevance** (Exact, Substitute, Complement, Irrelevant) teaches the model nuanced matching, not just binary relevant/not-relevant.
 - **Product text formatting matters** for sparse models. Keep lexical signals distinct with structured formatting.
 - **SpladeLoss balances two objectives**: contrastive learning for relevance and regularization for sparsity. The regularization weights are the main knob to tune.
 - **Modal's persistent volumes** solve the checkpoint management problem. Detached runs survive SSH drops.
-- **Don't skip the query transformer.** The 15ms of latency buys you a 6x quality improvement over static embeddings.
 
 ---
 
-*Next: [Part 3 - Evaluation, Hard Negatives, and Results](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)*
+*Next: [Part 3 - Evaluation and Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)*

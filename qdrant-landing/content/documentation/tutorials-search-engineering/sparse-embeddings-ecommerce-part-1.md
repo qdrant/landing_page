@@ -14,12 +14,12 @@ aliases:
   - /articles/sparse-embeddings-ecommerce-part-1/
 ---
 
-*This is Part 1 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 28%. This part is theory-oriented: it explains the concepts, and the hands-on steps start in Part 2.*
+*This is Part 1 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 17%. This part is theory-oriented: it explains the concepts, and the hands-on steps start in Part 2.*
 
 **Series:**
 - Part 1: Why Sparse Embeddings Beat BM25 (here)
-- [Part 2: Training on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
-- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
+- [Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
+- [Part 3: Evaluation and Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
 - [Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)
 - [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
@@ -31,7 +31,7 @@ Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily retu
 
 {{< include "content/headless/sparse-embeddings-ecommerce/figures/wrong-iphone-result.html" >}}
 
-This is the gap that sparse embeddings fill. And with fine-tuning, they fill it dramatically well - we achieved a **28% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
+This is the gap that sparse embeddings fill. And with fine-tuning, they fill it well - we achieved a **17% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
 In this tutorial, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
 
@@ -45,16 +45,16 @@ But this strength becomes a weakness in e-commerce:
 
 **Retrieval is approximate.** At scale, dense vectors require Approximate Nearest Neighbor (ANN) indexes like HNSW. The "approximate" part means you're trading recall for speed. For search, where missing a relevant product means a lost sale, this tradeoff hurts.
 
-**Results are opaque.** Why did product X rank above product Y? With dense embeddings, you can't say. The 768-dimensional vector offers no interpretability. When a merchandising team asks why a product isn't showing up, you're stuck.
+**Results are opaque.** Why did product X rank above product Y? With dense embeddings, you can't say. A 768-dimensional vector offers no interpretability. When a merchandising team asks why a product isn't showing up, you're stuck.
 
 ## Enter Sparse Embeddings
 
-[Sparse embeddings](https://qdrant.tech/articles/sparse-vectors/) take a fundamentally different approach. Instead of compressing text into a small, dense vector, they project it onto a large vocabulary space - typically 30,000+ dimensions (one per token in the vocabulary). But only 100-300 of those dimensions are non-zero.
+[Sparse embeddings](https://qdrant.tech/articles/sparse-vectors/) take a fundamentally different approach. Instead of compressing text into a small, dense vector, they project it onto a large vocabulary space - typically 30,000+ dimensions (one per token in the vocabulary). But only 100-400 of those dimensions are non-zero for a product.
 
 |  | Dense | Sparse |
 |---|---|---|
 | **Vector size** | 384-1536 dims | ~30,000 dims |
-| **Non-zero values** | All dimensions carry a value | 100-300 terms |
+| **Non-zero values** | All dimensions carry a value | ~30 per query, 100-400 per product |
 | **Index type** | ANN (HNSW) | Inverted index |
 | **Exact matching** | Weak | Strong |
 | **Interpretability** | Black box | Per-term weights |
@@ -72,9 +72,9 @@ SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this 
 For an input like `"noise canceling headphones"`, SPLADE encodes it in four steps:
 
 1. **Tokenize and encode** the input through DistilBERT with a masked language model (MLM) head
-2. **Apply log saturation** (`log(1 + ReLU(x))`): a learned version of BM25's saturation curve that prevents any single term from dominating
+2. **Apply log saturation** (`log(1 + ReLU(x))`): an analogue of BM25's saturation curve that prevents any single term from dominating
 3. **Max pool** across all token positions to get a single score per vocabulary term
-4. **Output a sparse vector** with ~200 non-zero values out of 30,522 vocabulary dimensions
+4. **Output a sparse vector** with ~30 non-zero values out of 30,522 vocabulary dimensions
 
 {{< include "content/headless/sparse-embeddings-ecommerce/figures/splade-pipeline.html" >}}
 
@@ -107,7 +107,7 @@ Expanded by SPLADE: `sundress` (1.8), `floral` (0.9), `lightweight` (0.7), `cott
 
 The model adds "sundress", "floral", and "cotton" - terms that appear in product titles even when "summer" doesn't. This matches products like *"Floral Sundress for Women - Lightweight Cotton"* that BM25 would miss entirely.
 
-No manual synonym file. No query rewriting rules. The model learned these associations from seeing millions of query-product pairs.
+No manual synonym file. No query rewriting rules. The model learned these associations from seeing ESCI query-product pairs.
 
 ## Why Qdrant for Sparse Vectors?
 
@@ -137,7 +137,7 @@ client.query_points(
 )
 ```
 
-**Production-ready scaling.** Rust + SIMD-optimized inverted index with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
+**Production-ready scaling.** Rust + SIMD-optimized [sparse vector](/documentation/manage-data/vectors/#sparse-vectors) inverted index with a `cold` [memory tier](/documentation/ops-configuration/memory-tiers/) keeps RAM low even with 200+ active terms per doc across millions of products.
 
 **No ANN approximation.** Sparse retrieval uses an [inverted index](https://qdrant.tech/articles/sparse-vectors/), the same data structure powering BM25. Results are exact - no recall tradeoffs from approximate nearest neighbor search.
 
@@ -166,14 +166,18 @@ Modal gives us serverless A100 GPUs - no idle hardware, no queue management. Sen
 
 Over the next four parts, we'll walk through the full pipeline:
 
-- [**Part 2: Training on Modal**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
+- [**Part 2: Training SPLADE on Modal**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
 
-- [**Part 3: Evaluation and Hard Negative Mining**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE-inspired hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
+- [**Part 3: Evaluation and Hard Negatives**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE-inspired hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
 
-- [**Part 4: Specialization vs Generalization**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, when to specialize vs generalize, and production deployment guidance.
+- [**Part 4: Specialization vs Generalization**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, and when to specialize vs generalize.
 
 - [**Part 5: From Research to Product**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/) - An open-source CLI and web dashboard that runs the entire fine-tuning pipeline with a single command.
 
-The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.389** on Amazon ESCI, compared to **0.305** for BM25 and **0.326** for off-the-shelf SPLADE. That 28% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
+The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.389** on Amazon ESCI, compared to **0.333** for BM25 and **0.362** for off-the-shelf SPLADE. That 17% improvement over BM25 translates to better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
 
-> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+> **Note:** These metrics were measured on a subsample of 10,000 products and 2,000 queries. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
+---
+
+*Next: [Part 2 - Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)*

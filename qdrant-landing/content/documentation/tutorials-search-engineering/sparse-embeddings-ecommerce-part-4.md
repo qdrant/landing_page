@@ -16,18 +16,18 @@ aliases:
 
 <link rel="stylesheet" href="/documentation/tutorials/sparse-embeddings-ecommerce/figures.css">
 
-*This is Part 4 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes. This part is theory-oriented: it interprets cross-domain results and adds no new code to run.*
+*This is Part 4 of a 5-part tutorial on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes. This part is theory-oriented: it interprets cross-domain results and adds no new code to run beyond one training config.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)
 - [Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)
-- [Part 3: Evaluation & Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
+- [Part 3: Evaluation and Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)
 - Part 4: Specialization vs Generalization (here)
 - [Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
-We've built a SPLADE model that beats BM25 by 28% on Amazon ESCI. But here's the question that determines whether this is a lab result or a production strategy: does it work on data it wasn't trained on? Full code is on [GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search), you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci), or fine-tune on your own catalog with the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
+We've built a SPLADE model that beats BM25 by 17% on Amazon ESCI. But here's the question that determines whether this is a lab result or a production strategy: does it work on data it wasn't trained on? Full code is on [GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search), you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci), or fine-tune on your own catalog with the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
 
 In this part, we test cross-domain generalization, train a multi-domain model, and lay out a decision framework for when to specialize vs generalize.
 
@@ -41,20 +41,20 @@ We took our Amazon ESCI-trained model and tested it on three additional datasets
 - **Home Depot**: Hardware and home improvement search
 - **MS MARCO**: General web search (the "out of distribution" control)
 
-| Dataset | BM25 | SPLADE (OTS) | SPLADE (tuned) | vs BM25 |
+| Dataset | BM25 | SPLADE (OTS) | SPLADE (fine-tuned) | vs BM25 |
 |---|---|---|---|---|
-| ESCI (Amazon) | 0.305 | 0.326 | **0.389** | +27.5% |
+| ESCI (Amazon) | 0.333 | 0.362 | **0.389** | +16.8% |
 | WANDS (Wayfair) | 0.329 | 0.341 | **0.355** | +7.9% |
 | Home Depot | 0.349 | **0.391** | 0.384* | +10.0% |
 | MS MARCO (web) | 0.915 | 0.982 | 0.751 | -17.9% |
 
-> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+> **Note:** These metrics were measured on a subsample of 10,000 products and 2,000 queries (WANDS has 476 test queries; all are used). They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
 *On Home Depot, the off-the-shelf model edges out the fine-tuned one (0.391 vs 0.384).
 
 Three patterns emerge:
 
-**In-domain (ESCI): +28% over BM25.** The model was trained on this data. No surprise it does well.
+**In-domain (ESCI): +17% over BM25.** The model was trained on this data. No surprise it does well.
 
 **Cross-domain e-commerce: +8-10% over BM25.** The Amazon-trained model still helps on Wayfair and Home Depot. E-commerce search shares enough structure (brand matching, attribute weighting, product vocabulary) that the patterns transfer. But notice the gap to off-the-shelf SPLADE narrows. On Home Depot, the off-the-shelf model actually wins (0.391 vs 0.384).
 
@@ -89,7 +89,7 @@ The hypothesis: exposure to diverse e-commerce catalogs should improve cross-dom
 | Home Depot | 0.384 | **0.410** | +6.8% |
 | MS MARCO | 0.751 | **0.829** | +10.4% |
 
-> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+> **Note:** These metrics were measured on a subsample of 10,000 products and 2,000 queries (WANDS has 476 test queries; all are used). They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
 Multi-domain training does exactly what you'd expect:
 
@@ -109,16 +109,21 @@ architecture: splade
 batch_size: 32
 learning_rate: 2e-5
 num_epochs: 1
-datasets:
-  - name: esci
-    max_samples: 50000
-  - name: wands
-    max_samples: 50000
-  - name: homedepot
-    max_samples: 50000
+query_regularizer_weight: 5e-5
+document_regularizer_weight: 3e-5
+max_samples_per_dataset: 50000
+include_esci: true
+include_wands: true
+include_homedepot: true
 ```
 
-Label normalization is the key challenge. ESCI uses character labels (E, S, C, I), WANDS uses numeric scores (0, 1, 2), and Home Depot uses relevance ratings. The multi-domain loader maps everything to a common format: positive (relevant) and negative (irrelevant) pairs for contrastive training.
+Run it from the research repository root, set up as in [Part 2](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/). It ends with `Multi-domain training complete. Model saved to: /checkpoints/splade_multidomain/final`.
+
+```bash
+uv run modal run modal_app.py --config-path configs/splade_multidomain.yaml --mode train-multi
+```
+
+Label normalization is the key challenge. ESCI uses text labels (Exact, Substitute, Complement, Irrelevant), WANDS uses numeric scores (0, 1, 2), and Home Depot uses relevance ratings. The multi-domain loader maps everything to a common format: relevant query-product pairs for contrastive training.
 
 ## Decision Framework
 
@@ -131,13 +136,13 @@ After running all these experiments, here's when to use each approach:
 | Single retailer, lots of training data | **Domain-specific fine-tuning**: maximum performance on your catalog |
 | Multi-retailer or marketplace | **Multi-domain training**: better generalization across catalogs |
 | New domain, limited data | **Off-the-shelf SPLADE**: strong baseline without training data |
-| Hybrid (e-commerce + general search) | **Multi-domain training**: preserves general IR capabilities |
+| Mixed (e-commerce + general search) | **Multi-domain training**: preserves general IR capabilities |
 
-**Single retailer with abundant data.** If you're building search for Amazon, Wayfair, or any single retailer with click logs, domain-specific fine-tuning wins. The 4% you lose on other domains doesn't matter if you only serve one catalog.
+**Single retailer with abundant data.** If you're building search for Amazon, Wayfair, or any single retailer with click logs, domain-specific fine-tuning wins. The 3-9% you lose on other domains doesn't matter if you only serve one catalog.
 
 **Marketplace or multi-retailer.** If you're building a platform that serves multiple retailers (Shopify search, a price comparison engine), multi-domain training provides better balance. You sacrifice some peak performance for consistency across catalogs.
 
-**Cold start.** New to a domain with no training data? Off-the-shelf SPLADE (like `naver/splade-v3`) is a strong baseline. It beats BM25 on most e-commerce datasets without any fine-tuning. Start here, collect click data, then fine-tune.
+**Cold start.** New to a domain with no training data? Off-the-shelf SPLADE (like `naver/splade-v3`) is a strong baseline. It beats BM25 on most e-commerce datasets without any fine-tuning. Start here, collect click data or generate synthetic queries as in Part 5, then fine-tune.
 
 ## The Case for Fine-Tuning
 
@@ -149,7 +154,7 @@ Why fine-tune when off-the-shelf models already beat BM25?
 
 **The model is portable.** Your fine-tuned model runs wherever you need it: Modal, your own GPUs, CPU inference, or any cloud provider. Deploy it however makes sense for your infrastructure.
 
-**Performance compounds.** As we saw, domain-specific training delivers +28% over BM25. That's not a marginal improvement. It's the difference between showing a customer the right product on the first page or burying it on the third.
+**Performance compounds.** As we saw, the fine-tuned model scored 17% higher nDCG@10 than BM25 in this evaluation.
 
 ## The Data Flywheel
 
@@ -167,7 +172,7 @@ Fine-tuning isn't a one-time investment. It's the start of a compounding loop:
 
 **Phase 3: Continuous improvement.** Retrain periodically on accumulated click data. A/B test new models against production. Monitor nDCG on held-out queries.
 
-The 28% improvement we demonstrated is the starting point. Each iteration incorporates what customers actually searched for and clicked on, data your competitors can't access.
+The 17% improvement we demonstrated is the starting point. Each iteration incorporates what customers actually searched for and clicked on, data your competitors can't access.
 
 ## What's Next
 
@@ -188,8 +193,8 @@ We also packaged this entire pipeline into an open-source toolkit with a CLI and
 
 ## Series Summary
 
-- **[Part 1: Why sparse embeddings for e-commerce](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)** - SPLADE combines keyword precision with learned expansion
-- **[Part 2: Training pipeline on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)** - 6 min training, <$1, persistent checkpoints
-- **[Part 3: Evaluation and hard negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)** - +28% vs BM25, +19% vs off-the-shelf SPLADE
-- **[Part 4: Specialization vs generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)** - Domain-specific wins for single retailers; multi-domain for platforms
-- **[Part 5: From research to product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)** - CLI + dashboard that runs the full pipeline
+- **[Part 1: Why Sparse Embeddings Beat BM25](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/)** - SPLADE combines keyword precision with learned expansion
+- **[Part 2: Training SPLADE on Modal](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/)** - 6 min training, <$1, persistent checkpoints
+- **[Part 3: Evaluation and Hard Negatives](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/)** - +17% vs BM25, +7.5% vs off-the-shelf SPLADE
+- **[Part 4: Specialization vs Generalization](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/)** - Domain-specific wins for single retailers; multi-domain for platforms
+- **[Part 5: From Research to Product](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/)** - CLI + dashboard that runs the full pipeline

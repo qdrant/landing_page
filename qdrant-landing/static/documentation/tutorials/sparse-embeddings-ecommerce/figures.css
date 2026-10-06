@@ -225,35 +225,6 @@ html[data-theme='dark'] .sef-figure {
   font-size: 24px;
 }
 
-.sef-figure .sef-branches {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.sef-figure .sef-fusion-arrows {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  height: 28px;
-}
-
-.sef-figure .sef-fusion-arrows span {
-  position: relative;
-  width: 2px;
-  height: 16px;
-  margin: 4px auto 0;
-  background: var(--qi-line);
-}
-
-.sef-figure .sef-fusion-arrows span::after {
-  content: '';
-  position: absolute;
-  top: 15px;
-  left: -4px;
-  border-top: 7px solid var(--qi-line);
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-}
-
 .sef-figure .sef-cycle {
   display: grid;
   grid-template-columns: 28% 44% 28%;
@@ -707,10 +678,6 @@ html[data-theme='dark'] .sef-figure .sef-dark {
   }
 
   .sef-figure .sef-vocabulary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .sef-figure .sef-branches {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
