@@ -1,0 +1,63 @@
+/* linear island. Scoped under .ag-ln. Boxes dim until the pipeline reaches them. */
+.ag-ln {
+  --ag-orange: #e98a15;
+  display: block;
+}
+.ag-ln__node {
+  stroke-width: 1.5;
+  fill-opacity: 0.16;
+}
+.ag-ln__node.is-msg {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.ag-ln__node.is-llm {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cat-1);
+}
+.ag-ln__node.is-embed {
+  fill: var(--ag-orange);
+  stroke: var(--ag-orange);
+}
+.ag-ln__node.is-db {
+  fill: var(--qi-accent);
+  stroke: var(--qi-accent);
+}
+.ag-ln__node.is-plain {
+  fill: var(--qi-line);
+  stroke: var(--qi-muted);
+}
+.ag-ln__node.is-now {
+  fill-opacity: 0.4;
+  stroke-width: 3;
+}
+.ag-ln__node.is-off,
+.ag-ln__label.is-off {
+  opacity: 0.3;
+}
+.ag-ln__label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.ag-ln__edge {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.ag-ln__edge.is-on {
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+.ag-ln__head {
+  fill: var(--qi-line);
+}
+.ag-ln__head.is-on {
+  fill: var(--qi-muted);
+}
+.ag-ln.ag-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
