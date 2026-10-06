@@ -1,0 +1,28 @@
+.filterable-hnsw-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.filterable-hnsw-figure text { fill: var(--qi-fg); }
+.filterable-hnsw-figure [font-family] { font-family: var(--qi-mono); }
+.filterable-hnsw-figure [fill='#f0f1f8'],
+.filterable-hnsw-figure [fill='#fff'] { fill: var(--qi-surface); }
+.filterable-hnsw-figure [fill='#20243a'] { fill: var(--qi-fg); }
+.filterable-hnsw-figure [stroke='#20243a'] { stroke: var(--qi-fg); }
+.filterable-hnsw-figure [stroke='#d9dcea'] { stroke: var(--qi-border); }
+.filterable-hnsw-figure [fill='#eeeef3'] { fill: var(--qi-surface); }
+.filterable-hnsw-figure [stroke='#696d80'] { stroke: var(--qi-muted); }
+.filterable-hnsw-figure [fill='#d8efed'] { fill: var(--qi-cat-3-soft); }
+.filterable-hnsw-figure [stroke='#00766d'] { stroke: var(--qi-cat-3); }
+.filterable-hnsw-figure [fill='#fce5d9'] { fill: var(--qi-surface); }
+.filterable-hnsw-figure [fill='#c44726'] { fill: var(--qi-accent); }
+.filterable-hnsw-figure [stroke='#c44726'] { stroke: var(--qi-accent); }
+.filterable-hnsw-figure .filterable-hnsw-map { filter: none; }
+html[data-theme='dark'] .filterable-hnsw-figure .filterable-hnsw-map {
+  filter: invert(1) hue-rotate(180deg);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .filterable-hnsw-figure .filterable-hnsw-map {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}

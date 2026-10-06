@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 470" role="img" aria-labelledby="description">
+  <desc id="description">Historical 2019 observations. Search groups (original parameter) versus precision@10. Series: 1,000 groups. Full values and intervals are provided in the linked data table.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#c44726"/>
+    </marker>
+    <marker id="black-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#20243a"/>
+    </marker>
+  </defs>
+  <rect width="640" height="470" rx="12" fill="#f0f1f8"/>
+  <rect x="12" y="12" width="616" height="446" rx="8" fill="#fff" stroke="#d9dcea"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <line x1="90" y1="289.09090909090907" x2="600" y2="289.09090909090907" stroke="#d9dcea" stroke-width="1"/>
+    <text x="78" y="295.09090909090907" font-size="18" text-anchor="end" fill="#20243a">0.96</text>
+    <line x1="90" y1="234.54545454545456" x2="600" y2="234.54545454545456" stroke="#d9dcea" stroke-width="1"/>
+    <text x="78" y="240.54545454545456" font-size="18" text-anchor="end" fill="#20243a">0.97</text>
+    <line x1="90" y1="180.0" x2="600" y2="180.0" stroke="#d9dcea" stroke-width="1"/>
+    <text x="78" y="186.0" font-size="18" text-anchor="end" fill="#20243a">0.98</text>
+    <line x1="90" y1="125.45454545454544" x2="600" y2="125.45454545454544" stroke="#d9dcea" stroke-width="1"/>
+    <text x="78" y="131.45454545454544" font-size="18" text-anchor="end" fill="#20243a">0.99</text>
+    <line x1="90" y1="70.9090909090909" x2="600" y2="70.9090909090909" stroke="#d9dcea" stroke-width="1"/>
+    <text x="78" y="76.9090909090909" font-size="18" text-anchor="end" fill="#20243a">1</text>
+    <text x="90.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">0</text>
+    <text x="175.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">3</text>
+    <text x="260.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">6</text>
+    <text x="345.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">9</text>
+    <text x="430.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">12</text>
+    <text x="515.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">15</text>
+    <text x="600.0" y="330" font-size="18" text-anchor="middle" fill="#20243a">18</text>
+    <text x="345" y="360" font-size="18" text-anchor="middle" fill="#20243a">Search groups (original parameter)</text>
+    <text x="30" y="190" font-size="18" text-anchor="middle" fill="#20243a" transform="rotate(-90 30 190)">precision@10</text>
+    <polyline points="90.000,70.909 118.333,70.909 146.667,102.078 175.000,180.000 203.333,242.338 231.667,226.753 260.000,289.091 288.333,195.584 316.667,154.026 345.000,180.000 373.333,221.558 401.667,247.532 430.000,159.221 458.333,138.442 486.667,70.909 515.000,70.909 543.333,70.909 571.667,70.909 600.000,70.909" fill="none" stroke="#dc244c" stroke-width="2.5" stroke-dasharray=""/>
+    <line x1="50" y1="391" x2="85" y2="391" stroke="#dc244c" stroke-width="3"/>
+    <text x="95" y="396" font-size="18" text-anchor="start" fill="#20243a">1,000 groups</text>
+  </g>
+</svg>

@@ -39,7 +39,9 @@ We need to build a navigation graph among all indexed points so that the greedy 
 This graph is constructed by sequentially adding points that are connected by a fixed number of edges to previously added points.
 In the resulting graph, the number of edges at each point does not exceed a given threshold $m$ and always contains the nearest considered points.
 
-![NSW](/articles_data/filterable-hnsw/NSW.png)
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 425" title="The navigation graph connects indexed points; arrows illustrate traversal from the entry point toward the query." >}}
+![NSW graph with indexed points, a query, an entry point, and arrows showing the original illustrated traversal.](/articles_data/filterable-hnsw/nsw.svg)
+{{< /island >}}
 
 ### How can we modify it?
 
@@ -55,11 +57,19 @@ Therefore, the theoretical conclusions obtained in the [Percolation theory](http
 > Percolation is related to the robustness of the graph (called also network). Given a random graph of $n$ nodes and an average degree $\langle k\rangle$ . Next we remove randomly a fraction $1-p$ of nodes and leave only a fraction $p$. There exists a critical percolation threshold $ pc = \frac{1}{\langle k\rangle} $ below which the network becomes fragmented while above $pc$ a giant connected component exists.
 
 
-This statement also confirmed by experiments:
+The 2019 experiments report `precision@10`, the fraction of returned neighbors among the true 10 nearest points.
 
-{{< figure src=/articles_data/filterable-hnsw/exp_connectivity_glove_m0.png caption="Dependency of connectivity to the number of edges" >}}
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 470" title="In the 2019 experiment, more edges shifted the accuracy drop toward higher removal thresholds. The horizontal axis preserves the original mask-threshold parameter." >}}
+![Historical precision@10 curves for m values of 8, 16, 24, and 32. Larger m shifts the sharp accuracy drop toward higher removal thresholds.](/articles_data/filterable-hnsw/edge-count.svg)
+{{< /island >}}
 
-{{< figure src=/articles_data/filterable-hnsw/exp_connectivity_glove_num_elements.png caption="Dependency of connectivity to the number of point (no dependency)." >}}
+{{< include "content/headless/filterable-hnsw/edge-count.md" >}}
+
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 470" title="The three collection sizes reached similar accuracy thresholds in the 2019 experiment." >}}
+![Historical precision@10 curves for 10,000, 20,000, and 30,000 points. All three curves drop at similar removal thresholds.](/articles_data/filterable-hnsw/point-count.svg)
+{{< /island >}}
+
+{{< include "content/headless/filterable-hnsw/point-count.md" >}}
 
 
 There is a clear threshold when the search begins to fail.
@@ -81,13 +91,21 @@ In this case, the total number of edges will increase by no more than 2 times, r
 
 Second case is a little harder. A connection may be lost between two categories if they lie in different clusters.
 
-![category clusters](/articles_data/filterable-hnsw/hnsw_graph_category.png)
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 460" title="Filtering out other categories can remove the connections between category A and category B." >}}
+![A query near category A circles and an entry point in category B squares, with dashed gray nodes in other categories connecting the graph.](/articles_data/filterable-hnsw/categories.svg)
+{{< /island >}}
 
 The idea here is to build same navigation graph but not between nodes, but between categories.
 Distance between two categories might be defined as distance between category entry points (or, for precision, as the average distance between a random sample). Now we can estimate expected graph connectivity by number of excluded categories, not nodes. 
 It still does not guarantee that two random categories will be connected, but allows us to switch to multiple searches in each category if  connectivity threshold passed. In some cases, multiple searches can be even faster if you take advantage of parallel processing.
 
-{{< figure src=/articles_data/filterable-hnsw/exp_random_groups.png caption="Dependency of connectivity to the random categories included in search" >}}
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 470" title="The original interpretation attributes the initial accuracy to within-category connectivity, the dip to a connectivity gap, and the recovery to a larger connected component. Increasing m was proposed to narrow that gap." >}}
+![Historical precision@10 falls from 1.0 to 0.96 as the search-group parameter increases, then returns to 1.0. The vertical axis is restricted to show this gap.](/articles_data/filterable-hnsw/category-count.svg)
+{{< /island >}}
+
+{{< include "content/headless/filterable-hnsw/category-count.md" >}}
+
+These charts use the [original recorded observations](https://github.com/generall/hnsw-python/tree/62d8751ace246533de51295b85b935251a97f5de/data/experiments). Their vertical axis preserves the original `precision@10` metric; it does not directly measure graph connectivity. The expandable tables retain the recorded intervals and any average-position values. The diagrams adapt the [original illustrations](https://github.com/qdrant/landing_page/tree/abf5e4bc05b90d4528a2200429563444b7596e21/qdrant-landing/static/articles_data/filterable-hnsw).
 
 Third case might be resolved in a same way it is resolved in classical databases.
 Depending on labeled subsets size ration we can go for one of the following scenarios:
@@ -102,7 +120,9 @@ Next we also connect neighboring buckets to achieve graph connectivity. We still
 Geographical case is a lot like a numerical one. 
 Usual geographical search involves [geohash](https://en.wikipedia.org/wiki/Geohash), which matches any geo-point to a fixes length identifier.
 
-![Geohash example](/articles_data/filterable-hnsw/geohash.png)
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 425" title="The original map groups locations into geohash cells. Neighboring cells provide connections around the selected region." >}}
+![Original geohash map with street geography, labeled cells, neighboring cells, and the selected region.](/articles_data/filterable-hnsw/geohash.png)
+{{< /island >}}
 
 We can use this identifiers as categories and additionally make connections between neighboring geohashes.
 It will ensure that any selected geographical region will also contain connected HNSW graph.
