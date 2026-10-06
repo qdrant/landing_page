@@ -42,8 +42,6 @@ covers all the steps required to perform Product Quantization and the way it's i
 Let’s assume we have a few vectors being added to the collection and that our optimizer decided 
 to start creating a new segment.
 
-![A list of raw vectors](/articles_data/product-quantization/raw-vectors.png)
-
 ### Cutting the vector into pieces
 
 First of all, our vectors are going to be divided into **chunks** aka **subvectors**. The number
@@ -51,7 +49,11 @@ of chunks is configurable, but as a rule of thumb - the lower it is, the higher 
 That also comes with reduced search precision, but in some cases, you may prefer to keep the memory
 usage as low as possible.
 
+{{< island path="content/articles/headless/product-quantization/chunks"
+    ratio="76 / 37"
+    title="Four example vectors cut into chunks. Pick a chunk size to see how many chunks each vector gets and how much smaller it becomes. The values are illustrative." >}}
 ![A list of chunked vectors](/articles_data/product-quantization/chunked-vectors.png)
+{{< /island >}}
 
 Qdrant API allows choosing the compression ratio from 4x up to 64x. In our example, we selected 16x, 
 so each subvector will consist of 4 floats (16 bytes), and it will eventually be represented by 
@@ -64,7 +66,11 @@ with $ K = 256 $. It was selected a priori, as this is the maximum number of val
 represents. As a result, we receive a list of 256 centroids for each chunk and assign each of them 
 a unique id. **The clustering is done separately for each group of chunks.**
 
+{{< island path="content/articles/headless/product-quantization/clustering"
+    ratio="76 / 43"
+    title="Each group of chunks is clustered separately, and a chunk is stored as the id of its closest centroid. Click a panel to move a chunk." >}}
 ![Clustered chunks of vectors](/articles_data/product-quantization/chunks-clustering.png)
+{{< /island >}}
 
 Each chunk of a vector might now be mapped to the closest centroid. That’s where we lose the precision, 
 as a single point will only represent a whole subspace. Instead of using a subvector, we can store 
@@ -72,13 +78,15 @@ the id of the closest centroid. If we repeat that for each chunk, we can approxi
 embedding as a vector of subsequent ids of the centroids. The dimensionality of the created vector 
 is equal to the number of chunks, in our case 2.
 
-![A new vector built from the ids of the centroids](/articles_data/product-quantization/vector-of-ids.png)
-
 ### Full process
 
 All those steps build the following pipeline of Product Quantization:
 
+{{< island path="content/articles/headless/product-quantization/pipeline"
+    ratio="76 / 43"
+    title="The full process of Product Quantization for one vector, step by step." >}}
 ![Full process of Product Quantization](/articles_data/product-quantization/full-process.png)
+{{< /island >}}
 
 ## Measuring the distance
 
@@ -87,7 +95,11 @@ the way it has to be calculated. The query vector is divided into chunks, and th
 distance as a sum of distances between the subvectors and the centroids assigned to the specific id of 
 the vector we compare to. We know the coordinates of the centroids, so that's easy.
 
+{{< island path="content/articles/headless/product-quantization/distance"
+    ratio="76 / 44"
+    title="Measuring the distance between a query and a stored vector with a lookup table. Pick the stored ids to see which entries are summed. The values are illustrative." >}}
 ![Calculating the distance between the query and the stored vector](/articles_data/product-quantization/distance-calculation.png)
+{{< /island >}}
 
 #### Qdrant implementation
 

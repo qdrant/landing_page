@@ -1,0 +1,34 @@
+/* chunks island. Scoped under .pq-ch. Chunks alternate between two colors. */
+.pq-ch {
+  display: block;
+}
+.pq-ch__box {
+  stroke-width: 1.5;
+}
+.pq-ch__box.is-a {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.14;
+  stroke: var(--qi-cat-1);
+}
+.pq-ch__box.is-b {
+  fill: var(--qi-accent);
+  fill-opacity: 0.14;
+  stroke: var(--qi-accent);
+}
+.pq-ch__val {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.pq-ch__bracket {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+.pq-ch .qi-label {
+  font-size: 18px;
+}
+.pq-ch.pq-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
