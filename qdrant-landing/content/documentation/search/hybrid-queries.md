@@ -33,7 +33,13 @@ Additionally, prefetches can have prefetches themselves, so you can have nested 
 
 One of the most common problems when you have different representations of the same data is to combine the queried points for each representation into a single result.
 
-{{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
+{{< island
+    path="content/documentation/headless/search/fusion"
+    ratio="760 / 566"
+    title="Fusing dense and sparse results into a single ranked list with RRF or DBSF."
+>}}
+![Dense and sparse results for documents A to F, fused into a single list. With RRF, document A ranks first.](/docs/hybrid-fusion.svg)
+{{< /island >}}
 
 For example, in text search, it is often useful to combine dense and sparse vectors to get the best of both worlds: semantic understanding from dense vectors and precise word matching from sparse vectors.
 
