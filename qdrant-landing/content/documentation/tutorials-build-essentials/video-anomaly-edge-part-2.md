@@ -43,10 +43,10 @@ The key capabilities we use:
 - **Snapshot sync**: Download an HNSW-indexed shard from the cloud server and unpack it locally with `EdgeShard.unpack_snapshot()`. Partial snapshots keep the edge updated incrementally.
 - **Offline operation**: Edge shards work without any network connectivity. Data queued locally gets synced when the connection returns.
 
-Install the package:
+Install the package. This tutorial uses version 0.8.0, and the API differs in earlier releases:
 
 ```bash
-pip install qdrant-edge-py
+pip install "qdrant-edge-py==0.8.0"
 ```
 
 ## Two-Shard Edge Architecture
@@ -298,18 +298,22 @@ Three consecutive escalations add +0.2 to the score. This helps sustained events
 When the edge processes a clip, it stores the embedding in the mutable shard and queues it for cloud sync:
 
 ```python
-def store_clip(self, embedding: np.ndarray, metadata: dict | None = None) -> str:
+def store_clip(
+    self, embedding: np.ndarray, metadata: dict | None = None, anomaly_score: float = 0.0
+) -> str:
     clip_id = uuid.uuid4().hex
     vector = embedding.tolist()
     payload = metadata or {}
     payload["sync_timestamp"] = time.time()
+    payload["anomaly_score"] = anomaly_score
+    payload["synced"] = False
 
     self._mutable_shard.update(
         UpdateOperation.upsert_points(
             [Point(id=clip_id, vector=vector, payload=payload)]
         )
     )
-    # Queue for async cloud sync
+    # Queue for async cloud sync (a persistqueue.SQLiteAckQueue, so it survives crashes)
     self._upload_queue.put({"id": clip_id, "vector": vector, "payload": payload})
     return clip_id
 ```

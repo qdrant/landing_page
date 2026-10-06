@@ -3,6 +3,7 @@ title: Hybrid Search with Reranking
 short_description: "Combine dense, sparse, and late-interaction embeddings in Qdrant to build hybrid search with reranking for high-precision results."
 description: "Step-by-step tutorial: build hybrid search in Qdrant combining dense, sparse, and late-interaction reranking for higher precision on large corpora."
 weight: 60
+layout: reranking-hybrid-search
 date: 2024-11-27T10:27:44-08:00
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/
@@ -107,15 +108,17 @@ Create a new collection called `hybrid-search`, configured to handle the three v
 
 Now you can load the sci-fi book descriptions from a CSV and insert them into the `hybrid-search` collection. With Cloud Inference, embeddings are computed server-side by wrapping the text in a `Document` object.
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="ingest-data" >}}
-
-This code creates a point for each book, with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
-
 This code uses a helper function to stream and parse the CSV file:
 
 <details><summary>Details</summary> 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="parse-csv" >}}
 </details>
+
+With the helper defined, upload the books:
+
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="ingest-data" >}}
+
+This code creates a point for each book, with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 
 ### Retrieval
 

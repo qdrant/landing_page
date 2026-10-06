@@ -1,3 +1,20 @@
+# Historical company and contributor posts moved to the blog
+/articles/geo-polygon-filter-gsoc/*  /blog/geo-polygon-filter-gsoc/:splat  301!
+/articles/geo-polygon-filter-gsoc  /blog/geo-polygon-filter-gsoc/  301!
+/articles_data/geo-polygon-filter-gsoc/*  /blog/geo-polygon-filter-gsoc/:splat  301!
+/articles/web-ui-gsoc/*  /blog/web-ui-gsoc/:splat  301!
+/articles/web-ui-gsoc  /blog/web-ui-gsoc/  301!
+/articles_data/web-ui-gsoc/*  /blog/web-ui-gsoc/:splat  301!
+/articles/seed-round/*  /blog/seed-round/:splat  301!
+/articles/seed-round  /blog/seed-round/  301!
+/articles_data/seed-round/*  /blog/seed-round/:splat  301!
+/articles/cross-encoder-integration-gsoc/*  /blog/cross-encoder-integration-gsoc/:splat  301!
+/articles/cross-encoder-integration-gsoc  /blog/cross-encoder-integration-gsoc/  301!
+/articles_data/cross-encoder-integration-gsoc/*  /blog/cross-encoder-integration-gsoc/:splat  301!
+/articles/dimension-reduction-qsoc/*  /blog/dimension-reduction-qsoc/:splat  301!
+/articles/dimension-reduction-qsoc  /blog/dimension-reduction-qsoc/  301!
+/articles_data/dimension-reduction-qsoc/*  /blog/dimension-reduction-qsoc/:splat  301!
+
 /surveys/hybrid-saas    https://hybrid-cloud.qdrant.tech/    301
 /surveys/hybrid-saas/    https://hybrid-cloud.qdrant.tech/    301
 
@@ -61,16 +78,30 @@
 /documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
 
 # Search tutorials reorg
+/documentation/tutorials/slicing-filter/*  /documentation/tutorials-search-engineering/slicing-filter/:splat  301!
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
 /documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
 /documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
 /documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
-/documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301
+/documentation/search-precision/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+/documentation/advanced-tutorials/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+/documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+
+# Kafka streaming tutorial moved from send-data to tutorials-operations
+/examples/data-streaming-kafka-qdrant/*                     /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
+/documentation/send-data/data-streaming-kafka-qdrant/*      /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
 
 # Semantic Search 101 legacy URLs; the Cloud version owns them, the local version no longer does
 /documentation/tutorials/mighty.md/*                   /documentation/tutorials-basics/search-beginners/:splat  301!
 /documentation/tutorials/search-beginners/*            /documentation/tutorials-basics/search-beginners/:splat  301!
 /documentation/beginner-tutorials/search-beginners/*   /documentation/tutorials-basics/search-beginners/:splat  301!
+
+# Multimodal Search moved from tutorials-build-essentials to tutorials-basics
+/documentation/tutorials-build-essentials/multimodal-search/*  /documentation/tutorials-basics/multimodal-search/:splat  301!
+
+# Contract management tutorial renamed from aleph-alpha to cohere
+/documentation/examples/rag-contract-management-stackit-aleph-alpha/*  /documentation/examples/rag-contract-management-stackit-cohere/:splat  301!
+/documentation/tutorials/rag-contract-management-stackit-aleph-alpha/*  /documentation/examples/rag-contract-management-stackit-cohere/:splat  301!
 
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
@@ -117,6 +148,7 @@
 /documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
 /documentation/improve-search/query-decomposition/*  /documentation/search-patterns/query-decomposition/:splat  301!
 /documentation/improve-search/retrieval-relevance/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
+/documentation/tutorials/retrieval-quality-golden-set/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
 /documentation/improve-search/*  /documentation/search-evaluation/:splat  301!
 
 # Agent Skills moved under the Agentic Tools hub. The page's `aliases:` front

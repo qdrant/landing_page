@@ -94,6 +94,17 @@ for !reachedEnd {
 	reachedEnd = (lastOffset == nil)
 }
 
+err = client.UpdateAliases(context.Background(), []*qdrant.AliasOperations{
+	{Action: &qdrant.AliasOperations_DeleteAlias{
+		DeleteAlias: &qdrant.DeleteAlias{AliasName: "prod"},
+	}},
+	{Action: &qdrant.AliasOperations_CreateAlias{
+		CreateAlias: &qdrant.CreateAlias{
+			AliasName: "prod", CollectionName: NEW_COLLECTION,
+		},
+	}},
+})
+
 results, err := client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: OLD_COLLECTION,
 	Query: qdrant.NewQueryDocument(&qdrant.Document{
@@ -193,6 +204,16 @@ oldVectorResults, err := client.Query(context.Background(), &qdrant.QueryPoints{
 	}),
 	Using: qdrant.PtrOf(OLD_VECTOR),
 	Limit: qdrant.PtrOf(uint64(10)),
+})
+
+count, err := client.Count(context.Background(), &qdrant.CountPoints{
+	CollectionName: COLLECTION,
+	Exact: qdrant.PtrOf(true),
+	Filter: &qdrant.Filter{
+		MustNot: []*qdrant.Condition{
+			qdrant.NewHasVector(NEW_VECTOR),
+		},
+	},
 })
 
 newVectorResults, err := client.Query(context.Background(), &qdrant.QueryPoints{

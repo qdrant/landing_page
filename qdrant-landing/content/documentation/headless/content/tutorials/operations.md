@@ -15,3 +15,4 @@
 | [Qdrant Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Monitoring with Grafana and Prometheus](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Monitoring with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) | Observability for hybrid/private cloud setups with Datadog. | <span class="pill">Datadog</span> | 20m | <span class="text-yellow">Intermediate</span> |
+| [Kafka Streaming into Qdrant](/documentation/tutorials-operations/data-streaming-kafka-qdrant/) | Stream real-time data into Qdrant with the Kafka Sink Connector. | <span class="pill">Kafka</span> | 60m | <span class="text-red">Advanced</span> |
