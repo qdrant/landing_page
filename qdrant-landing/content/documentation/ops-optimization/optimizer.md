@@ -16,7 +16,7 @@ Qdrant [stores](/documentation/manage-data/storage/) the points of a collection 
 For efficiency reasons, Qdrant, like many databases, applies data changes in batches rather than one point at a time. Some of its data structures, such as vector indexes, are hard to update in place, so Qdrant rebuilds them in the background when needed, or when you call [`optimize`](/documentation/edge/edge-api/configuration/#optimize) on Qdrant Edge.
 
 These rebuilds are handled by the optimizer, which works at the segment level.
-It selects one or more segments that can be improved and rebuild them into a single new segment, for example to index it, compact it, or reduce the number of segments.
+It selects one or more segments that can be improved and rebuilds them into a single new segment, for example to index it, compact it, or reduce the number of segments.
 The segments being optimized remain readable while the rebuild is in progress.
 
 ![Segment optimization](/articles_data/immutable-data-structures/optimization.png)
