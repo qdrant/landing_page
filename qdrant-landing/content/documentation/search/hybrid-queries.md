@@ -33,6 +33,10 @@ Additionally, prefetches can have prefetches themselves, so you can have nested 
 
 One of the most common problems when you have different representations of the same data is to combine the queried points for each representation into a single result.
 
+For example, in text search, it is often useful to combine dense and sparse vectors to get the best of both worlds: semantic understanding from dense vectors and precise word matching from sparse vectors.
+
+Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
+
 {{< island
     path="content/documentation/headless/search/fusion"
     ratio="760 / 566"
@@ -40,10 +44,6 @@ One of the most common problems when you have different representations of the s
 >}}
 ![Dense and sparse results for documents A to F, fused into a single list. With RRF, document A ranks first.](/docs/hybrid-fusion.svg)
 {{< /island >}}
-
-For example, in text search, it is often useful to combine dense and sparse vectors to get the best of both worlds: semantic understanding from dense vectors and precise word matching from sparse vectors.
-
-Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
 
 ### Reciprocal Rank Fusion (RRF)
 
