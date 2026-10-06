@@ -113,6 +113,20 @@ storage:
     indexing_threshold_kb: 10000
 ```
 
+## Config Mismatch Optimizer
+
+When you [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters), existing segments keep the configuration they were built with. The Config Mismatch Optimizer finds segments whose configuration no longer matches the collection configuration and rebuilds them with the new settings.
+
+The optimizer rebuilds a segment when any of the following differs from the collection configuration:
+
+- [HNSW parameters](/documentation/manage-data/indexing/#vector-index): `m`, `ef_construct`, `full_scan_threshold`, `payload_m`, or `inline_storage`.
+- [Quantization parameters](/documentation/manage-data/quantization/), or whether quantization is enabled.
+- The [memory placement](/documentation/ops-configuration/memory-tiers/) of dense vectors, HNSW graphs, sparse vector indexes, or payloads.
+
+Each rebuild is a full optimization of the segment, so changing these parameters on a large collection can cause a long period of optimization activity.
+
+This optimizer has no configuration parameters.
+
 ## Per-Collection Optimizer Configuration
 
 The configuration file determines global defaults for all collections. You can also configure optimizer parameters per collection at [creation time](/documentation/manage-data/collections/#create-a-collection), or [update](/documentation/manage-data/collections/#update-collection-parameters)  them later. For example:
