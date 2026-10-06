@@ -48,7 +48,7 @@ Cutting dimensions feels like the obvious way to save memory. In these tests, we
 If you're counting every byte, 256 dimensions is worth a look. Keep 1-bit TurboQuant. Each vector takes 40 bytes in RAM. With rescoring, this setup retained 94.5% of the baseline. Without it, retention dropped to 88.1%. If the full-size setup still needs too much vector RAM, this is worth testing. Check whether the relevance loss and rescoring time fit your application.
 
 <aside role="status">
-Rescoring uses the original vectors to rank candidates again. We used 4x oversampling, which means rescoring four times as many candidates as the requested result count. The catch is that the original vectors still need somewhere to live. Reading them from disk can add latency. Rescoring can recover more exact neighbors, but it doesn't guarantee exact results.
+Rescoring helps recover quality with 4x oversampling: 40 candidates for 10 results. The tradeoff is storing and reading original vectors. Test relevance and latency on your own index to see whether the smaller RAM footprint pays off.
 </aside>
 
 Qdrant's [vector datatypes](/documentation/manage-data/vectors/#datatypes) let you store originals as float16 or turbo4 to save disk space. We haven't tried those options yet. That's another experiment.
