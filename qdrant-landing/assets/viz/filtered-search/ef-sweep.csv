@@ -1,0 +1,17 @@
+hnsw_ef,strategy,recall,latency_ms
+64,Plain graph,0.0,3.402
+64,Plain graph + ACORN,72.68,6.836
+64,Filterable HNSW,70.82,1.543
+64,Planner + ACORN,100.0,3.691
+128,Plain graph,0.0,3.263
+128,Plain graph + ACORN,81.92,9.248
+128,Filterable HNSW,81.74,2.088
+128,Planner + ACORN,100.0,4.364
+256,Plain graph,0.0,3.252
+256,Plain graph + ACORN,87.66,12.905
+256,Filterable HNSW,87.62,3.084
+256,Planner + ACORN,100.0,5.063
+512,Plain graph,0.0,3.207
+512,Plain graph + ACORN,90.34,20.075
+512,Filterable HNSW,91.18,4.856
+512,Planner + ACORN,100.0,6.466

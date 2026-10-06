@@ -27,10 +27,11 @@ import { readFileSync } from 'node:fs';
 const SOURCES = {
   'diskbbq/results':        { post: 'content/blog/benchmark-elastic-diskbbq.md',            header: 'Configuration' },
   'defrag/rps':             { post: 'content/articles/immutable-data-structures.md',        header: '% of hot subset' },
-  'oversampling/recall':    { post: 'content/articles/when-your-collection-outgrows-ram.md', header: 'Quantization' },
-  'bits1-rescore/recovery': { post: 'content/articles/when-your-collection-outgrows-ram.md', header: 'Quantization' },
-  'candidate-depth/sweep':  { post: 'content/articles/candidate-depth.md',                  header: 'Milliseconds per Query' },
-  'hybrid/fusion':          { post: 'content/articles/how-to-tune-hybrid-search.md',        header: 'Dense Alone' },
+  'oversampling/recall':    { post: 'content/documentation/search-tuning/when-your-collection-outgrows-ram.md', header: 'Quantization' },
+  'bits1-rescore/recovery': { post: 'content/documentation/search-tuning/when-your-collection-outgrows-ram.md', header: 'Quantization' },
+  'candidate-depth/sweep':  { post: 'content/documentation/search-tuning/candidate-depth.md',               header: 'Milliseconds per Query' },
+  'hybrid/fusion':          { post: 'content/documentation/search-tuning/how-to-tune-hybrid-search.md',       header: 'Dense Alone' },
+  'constella/latency':      { post: 'content/blog/constella-research-preview.md',          header: 'Warm p50' },
   // Computed, not measured, so there is no table to check it against: the k
   // table in that post is nDCG, a different quantity. Checked against the
   // formula instead, below.

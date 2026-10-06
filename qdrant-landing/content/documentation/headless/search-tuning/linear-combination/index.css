@@ -1,0 +1,118 @@
+/* linear-combination island. Scoped under .qi-lc. Frame, tokens, and text
+   colors come from the shared island design system (islands.scss).
+
+   Relevant candidates are Primary Red, the emphasis color; non-relevant
+   candidates take the muted neutral so the relevant ones stand out in both
+   themes. Dense/sparse colors are not used here because the dots encode
+   relevance, not retriever. */
+
+.qi-lc {
+  --lc-rel: #dc244c;
+
+  display: block;
+  container-type: inline-size;
+  container-name: qi-lc;
+}
+
+.qi-lc__fig {
+  padding: 1rem;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+
+.qi-lc__panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+/* Pad both sides of the gap equally so both SVGs scale by the same factor. */
+.qi-lc__panel:first-child {
+  padding-right: 12px;
+}
+.qi-lc__panel + .qi-lc__panel {
+  padding-left: 12px;
+}
+
+.qi-lc__title {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+.qi-lc__tick,
+.qi-lc__axis-label {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+}
+.qi-lc__axis-label {
+  fill: var(--qi-fg);
+}
+.qi-lc__grid {
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.qi-lc__axis {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+
+.qi-lc__dot--rel {
+  fill: var(--lc-rel);
+  background: var(--lc-rel);
+}
+.qi-lc__dot--non {
+  fill: var(--qi-muted);
+  background: var(--qi-muted);
+}
+
+.qi-lc__legend {
+  display: flex;
+  justify-content: center;
+  gap: 6px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  color: var(--qi-fg);
+}
+.qi-lc__legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.qi-lc__swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* Side by side, each panel gets under half the width; below ~780px that
+   shrinks the labels past the 14px article minimum, so stack the panels,
+   cap their width, and raise the type for phone columns. */
+@container qi-lc (max-width: 780px) {
+  .qi-lc__panels {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+  .qi-lc__panel:first-child {
+    padding: 0 0 12px;
+  }
+  .qi-lc__panel + .qi-lc__panel {
+    padding: 12px 0 0;
+    border-top: 1px solid var(--qi-border);
+  }
+  .qi-lc__title,
+  .qi-lc__tick,
+  .qi-lc__axis-label {
+    font-size: 20px;
+  }
+}
+@container qi-lc (max-width: 400px) {
+  .qi-lc__fig {
+    padding: 0.5rem;
+  }
+}

@@ -29,7 +29,11 @@ methods, and then the multi-vector representation can be used for reranking the 
 speed of single-vector search with the accuracy of multi-vector retrieval. Reranking with multi-vector representations 
 is much faster when applied to a small set of candidates rather than the entire dataset.
 
+{{< island path="content/articles/headless/muvera-embeddings/overview"
+    ratio="19 / 8"
+    title="MUVERA turns a list of token vectors of any length, for a document or a query, into one fixed-length vector. Numbers are illustrative." >}}
 ![High-level idea of MUVERA embeddings](/articles_data/muvera-embeddings/muvera-high-level.png)
+{{< /island >}}
 
 [FastEmbed 0.7.2 introduces support for MUVERA embeddings](#muvera-in-fastembed), and this article explains the concept 
 in detail.
@@ -60,14 +64,16 @@ step, this method chooses `k_sim` random hyperplanes (normal vectors) from a sta
 hyperplanes divide the vector space into `2^k_sim` regions, because each vector can be on either side of each 
 hyperplane. Here is what such a space division could look like for `k_sim=3`:
 
-![SimHash space partitioning](/articles_data/muvera-embeddings/simhash-space-partitioning.png)
+{{< island path="content/articles/headless/muvera-embeddings/simhash"
+    ratio="38 / 17"
+    title="SimHash with k_sim hyperplanes. Each hyperplane gives a token vector one bit, and the bits together are its cluster ID. The plane is a 2D illustration with seeded points: lines through the origin cut it into only 2 × k wedges, while in hundreds of dimensions all 2^k_sim clusters occur." >}}
+![SimHash cluster assignment](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
+{{< /island >}}
 
 Each token vector is now assigned to one of these regions based on which side of each hyperplane it falls on. This is 
 done by computing the dot product of the input vector with each hyperplane normal vector, and taking the sign of each 
 result. Since each of our regions can be represented as a binary string of length `k_sim` (where each bit indicates 
 which side of a hyperplane the vector is on), we can interpret this binary string as an integer to get a cluster ID.
-
-![SimHash cluster assignment](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
 
 ### Fixed Dimensional Encoding (FDE) creation
 
@@ -75,14 +81,18 @@ Once all input vectors are assigned to clusters, we can aggregate the vectors be
 process is slightly different for documents and queries. In both cases, we'll end up with a fixed-dimensional vector
 with the same number of dimensions, but the way we compute these vectors differs.
 
+{{< island path="content/articles/headless/muvera-embeddings/fde"
+    ratio="38 / 19"
+    title="Aggregating token vectors per cluster. Switch between a document, which averages and fills empty clusters, and a query, which sums and leaves them as zero vectors. Cluster contents are illustrative." >}}
+![FDE document processing](/articles_data/muvera-embeddings/fde-document-processing.png)
+{{< /island >}}
+
 #### Document clustering
 
 Once we have assigned all the document token vectors to clusters, we compute the cluster centroids by averaging all 
 vectors in each cluster. This gives us a representative vector for each cluster. If a cluster ends up being empty (i.e., 
 no vectors were assigned to it), we fill it using vector from the nearest non-empty cluster. The distance between 
 clusters is determined by the Hamming distance between their cluster IDs.
-
-![FDE document processing](/articles_data/muvera-embeddings/fde-document-processing.png)
 
 As a result we get `2^k_sim` vectors, each of them being `dim`-dimensional. 
 
@@ -94,8 +104,6 @@ assigned vectors. The idea is that it preserves the natural distribution of quer
 retrieval. Unlike with documents, we do not fill empty clusters for queries. Queries are typically shorter than 
 documents, so it's more likely that some clusters will be empty. Filling them could introduce noise and distort the
 representation, as each term would contribute to the dot product multiple times.
-
-![FDE query processing](/articles_data/muvera-embeddings/fde-query-processing.png)
 
 Again, we end up with `2^k_sim` vectors of size `dim`. Because we do not fill empty clusters, some of these vectors 
 might be zero vectors.
@@ -114,7 +122,11 @@ matrix with entries from `{-1, +1}` and applying a scaling factor of `1/√(dim_
 `(dim, dim_proj)`, where `dim_proj` is the desired dimensionality of the projected vectors. The resulting FDE will then 
 have a size of `r_reps * 2^k_sim * dim_proj`.
 
+{{< island path="content/articles/headless/muvera-embeddings/projection"
+    ratio="19 / 8"
+    title="Random projection of one repetition, drawn to scale for 128-dimensional token vectors, and the resulting FDE size for 20 repetitions." >}}
 ![Random projection](/articles_data/muvera-embeddings/random-projection.png)
+{{< /island >}}
 
 The results from all repetitions are then concatenated to form the final FDE. This repetition helps to create a more 
 robust representation that better approximates the original multi-vector embedding.

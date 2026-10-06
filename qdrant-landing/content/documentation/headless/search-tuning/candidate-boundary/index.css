@@ -1,0 +1,134 @@
+/* candidate-boundary island. Scoped under .qi-cb. Frame, tokens, and text
+   colors come from the shared island design system (islands.scss).
+
+   Dense and sparse use the same colors as the rest of the Search Tuning
+   series (the hybrid/fusion chart and the fusion-signals island): Secondary
+   Violet and Teal from data/viz.json. Documents found by both prefetches take
+   the foreground color; documents never retrieved take the neutral line
+   color, so they recede in both themes. */
+
+.qi-cb {
+  --cb-dense: #6047ff;
+  --cb-sparse: #009688;
+
+  display: block;
+  container-type: inline-size;
+  container-name: qi-cb;
+}
+
+.qi-cb__fig {
+  padding: 1rem;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+
+.qi-cb__frame {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.qi-cb__region {
+  stroke-width: 1.5;
+}
+.qi-cb__region--dense {
+  fill: color-mix(in srgb, var(--cb-dense) 9%, transparent);
+  stroke: var(--cb-dense);
+}
+.qi-cb__region--sparse {
+  fill: color-mix(in srgb, var(--cb-sparse) 9%, transparent);
+  stroke: var(--cb-sparse);
+}
+
+.qi-cb__dot--dense {
+  fill: var(--cb-dense);
+  background: var(--cb-dense);
+}
+.qi-cb__dot--sparse {
+  fill: var(--cb-sparse);
+  background: var(--cb-sparse);
+}
+.qi-cb__dot--both {
+  fill: var(--qi-fg);
+  background: var(--qi-fg);
+}
+.qi-cb__dot--none {
+  fill: var(--qi-line);
+  background: var(--qi-line);
+}
+
+.qi-cb__label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+}
+.qi-cb__label--muted {
+  fill: var(--qi-muted);
+}
+.qi-cb__label--dense {
+  fill: var(--cb-dense);
+  font-weight: 600;
+}
+.qi-cb__label--sparse {
+  fill: var(--cb-sparse);
+  font-weight: 600;
+}
+.qi-cb__arrow {
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+  fill: none;
+}
+.qi-cb__arrowhead {
+  fill: var(--qi-muted);
+}
+
+.qi-cb__svg--narrow,
+.qi-cb__legend {
+  display: none;
+}
+
+.qi-cb__legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--qi-fg);
+}
+.qi-cb__legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.qi-cb__swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+}
+.qi-cb__legend-note {
+  flex-basis: 100%;
+  color: var(--qi-muted);
+}
+
+/* Below ~620px of rendered width the wide drawing puts its 16px labels under
+   the 14px article minimum. Switch to the cropped drawing and carry the
+   labels as HTML text, which does not scale with the viewBox. */
+@container qi-cb (max-width: 620px) {
+  .qi-cb__svg--wide {
+    display: none;
+  }
+  .qi-cb__svg--narrow {
+    display: block;
+  }
+  .qi-cb__legend {
+    display: flex;
+  }
+}
+@container qi-cb (max-width: 400px) {
+  .qi-cb__fig {
+    padding: 0.5rem;
+  }
+}

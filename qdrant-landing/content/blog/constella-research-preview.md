@@ -104,7 +104,7 @@ The table separates model loading, the first query after loading, and warm p50, 
 | Nano | 0.410 s | 3.935 ms | 3.131 ms |
 | Full Stella | 1.301 s | 54.484 ms | 38.952 ms |
 
-![Warm query-encoding latency: Zero 0.081 ms, Nano 3.131 ms, and full Stella 38.952 ms. Lower is better.](/blog/constella-research-preview/query-latency.svg)
+{{< chart id="constella/latency" table="false" caption="A warm 20-word query takes 38.952 ms with full Stella, 3.131 ms with Nano and 0.081 ms with Zero: about 12 times and 480 times faster." caption2="The first query after loading costs more for every model: 54.484 ms for full Stella, 3.935 ms for Nano and 0.587 ms for Zero." caption3="Loading full Stella takes 1.301 s. Nano loads in 0.410 s and Zero in 0.334 s, so keep models loaded if you switch between them." >}}
 
 We measured all three with FastEmbed and ONNX Runtime on CPU, using four threads and batch size one. Values are medians across three fresh processes, each with five warmups and 20 synthetic 20-word queries. Stella receives its required query instruction in addition to those 20 words. These are encoding times; Qdrant search and network time are additional.
 

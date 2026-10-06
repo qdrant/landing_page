@@ -3,10 +3,6 @@ title: Semantic Search 101
 short_description: "Build a semantic search engine locally with Qdrant in five minutes using sentence-transformer embeddings and the Python SDK."
 description: "Tutorial: build a local semantic search engine with Qdrant in minutes by encoding text into embeddings and running vector queries with the Python client."
 hideInSidebar: true
-aliases:
-  - /documentation/tutorials/mighty.md/
-  - /documentation/tutorials/search-beginners/
-  - /documentation/beginner-tutorials/search-beginners/
 goal: Get Started
 stack:
   - Python
@@ -52,7 +48,7 @@ pip install -U qdrant-client
 ```
 
 <aside role="status">
-This tutorial requires qdrant-client version 1.7.1 or higher.
+This tutorial requires qdrant-client version 1.10 or higher.
 </aside>
 
 ### Import the Models
@@ -179,7 +175,7 @@ client.create_collection(
 )
 ```
 
-- The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. 384 is the encoder output dimensionality. You can also use model.get_sentence_embedding_dimension() to get the dimensionality of the model you are using.
+- The `size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. 384 is the encoder output dimensionality. You can also use model.get_sentence_embedding_dimension() to get the dimensionality of the model you are using.
 
 - The `distance` parameter lets you specify the function used to measure the distance between two points.
 

@@ -66,7 +66,7 @@ Let’s imagine that you see a 75ms retrieval performance gain with Qdrant. On i
 
 Giving your agent the context to give users the right results isn’t just about text. You need to be able to search and remember images, video, audio. This enables you to search for exactly what you’re looking for by combining any modality in the same search, and then further improve accuracy with weighted fusion.
 
-You also need the ability to [re-rank](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/) candidates for diversity, user preferences, or even custom metrics. 
+You also need the ability to [re-rank](https://qdrant.tech/documentation/tutorials-basics/reranking-hybrid-search/) candidates for diversity, user preferences, or even custom metrics.
 
 Consider search without reranking. It’s like asking a librarian for material on "climate change" and receiving a stack of a dozen books. They're all on-topic, but the pile is unsorted: a fictional story is on top, an essay is in the middle, and a scientific study is at the bottom. The information you need is there, but you have to dig for it.
 
