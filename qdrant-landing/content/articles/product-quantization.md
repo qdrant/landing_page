@@ -24,8 +24,12 @@ Qdrant 1.1.0 brought the support of [Scalar Quantization](/articles/scalar-quant
 a technique of reducing the memory footprint by even four times, by using `int8` to represent
 the values that would be normally represented by `float32`.
 
-The memory usage in [vector search](https://qdrant.tech/solutions/) might be reduced even further! Please welcome **Product 
-Quantization**, a brand-new feature of Qdrant 1.2.0! 
+The memory usage in [vector search](https://qdrant.tech/solutions/) can be reduced even further with **Product
+Quantization**, available since Qdrant 1.2.0.
+
+<aside role="status">
+Since Qdrant 1.18, <a href="/articles/turboquant-quantization/">TurboQuant</a> is the recommended method for most compression levels up to 32x. Product Quantization remains the option for compression beyond 32x, up to 64x. See <a href="#choosing-a-quantization-method">Choosing a quantization method</a>.
+</aside>
 
 ## What is Product Quantization?
 
@@ -99,6 +103,10 @@ distance between a query and all the centroids.
 | **...**     | ...        | ...        | ... |
 
 ## Product Quantization Benchmarks
+
+<aside role="status">
+These measurements are from 2023, taken around the Qdrant 1.2.0 release, and have not been repeated on current versions. They show how the compression level affects precision, search time, and indexing time. They are not a comparison with today's methods.
+</aside>
 
 Product Quantization comes with a cost - there are some additional operations to perform so 
 that the performance might be reduced. However, memory usage might be reduced drastically as 
@@ -209,17 +217,26 @@ the lower the search precision. The main benefit is undoubtedly the reduced usag
 It turns out that in some cases, Product Quantization may not only reduce the memory usage, 
 but also the search time.
 
-## Product Quantization vs Scalar Quantization
+## Choosing a quantization method
 
-Compared to [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/), Product Quantization offers a higher compression rate. However, this comes with considerable trade-offs in accuracy, and at times, in-RAM search speed.
+Qdrant now offers four quantization methods. The [quantization documentation](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) maps a target compression to a method:
 
-Product Quantization tends to be favored in certain specific scenarios:
+| Compression | Method |
+|---|---|
+| 4x | [Scalar Quantization](/articles/scalar-quantization/). 4-bit TurboQuant offers comparable recall at 8x. |
+| 8x | 4-bit TurboQuant. |
+| 16x to 32x | TurboQuant or [binary quantization](/articles/binary-quantization/) at the same bit depth. Binary quantization is faster, and TurboQuant has better recall. |
+| Up to 64x | Product Quantization. |
 
-- Deployment in a low-RAM environment where the limiting factor is the number of disk reads rather than the vector comparison itself
-- Situations where the dimensionality of the original vectors is sufficiently high
-- Cases where indexing speed is not a critical factor
+Product Quantization has the highest compression, but it pays for it in accuracy and speed. Its distance calculations are not SIMD-friendly, so it is slower than Scalar Quantization, and it loses more accuracy, so it suits high-dimensional vectors. Indexing is slower too: in the benchmarks in this article, uploading and indexing took 1.2 to 2.8 times longer than without quantization.
 
-In circumstances that do not align with the above, Scalar Quantization should be the preferred choice.
+Choose Product Quantization when:
+
+- You need more than 32x compression, which no other method offers.
+- Memory is the top priority, and accuracy and speed are not critical.
+- The vectors have many dimensions, and indexing speed does not matter.
+
+In other cases, use the method that matches your compression target in the table.
 
 ## Using Qdrant for Product Quantization
 
