@@ -1,21 +1,12 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
-  {{ partial "hybrid-cloud-hero" . }}
+  {{ partial "hybrid-cloud/hero" . }}
+  {{ partial "hybrid-cloud/features" . }}
+  {{ partial "hybrid-cloud/getting-started" . }}
+  {{ partial "hybrid-cloud/what-you-get" . }}
+  {{ partial "hybrid-cloud/faq" . }}
 
-  {{ partial "hybrid-cloud-kubernetes-clusters" . }}
-  {{ partial "hybrid-cloud-cases" . }}
-  {{ partial "hybrid-cloud-how-it-works" . }}
-  {{ partial "hybrid-cloud-video" . }}
-
-  {{ partial "hybrid-cloud-features" . }}
-  {{ partial "hybrid-cloud-partners" . }}
-
-  {{ with (.Site.GetPage "/hybrid-cloud/get-contacted-with-question") }}
-    {{ partial "get-contacted" (dict "context" . "class" "hybrid-cloud-get-contacted") }}
+  {{ with (.Site.GetPage "/hybrid-cloud/cta-banner") }}
+    {{ partial "cta-banner" . }}
   {{ end }}
-
-  {{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-get-started") }}
-    {{ partial "get-started-banner" . }}
-  {{ end }}
-  {{ partial "customer-list" . }}
 {{ end }}

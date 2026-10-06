@@ -1,0 +1,48 @@
+{{ with (.Site.GetPage "/hybrid-cloud/hero") }}
+  <section class="hybrid-cloud-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-7">
+          <p class="hybrid-cloud-hero__label">{{ .Params.label }}</p>
+          <h1 class="hybrid-cloud-hero__title">{{ .Params.title }}</h1>
+          <div class="hybrid-cloud-hero__description">{{ .Params.description }}</div>
+          <div class="hybrid-cloud-hero__buttons">
+            <a
+              href="{{ .Params.talkToUs.url }}"
+              class="button button_contained button_lg"
+              {{ if strings.HasPrefix .Params.talkToUs.url "http" }}target="_blank"{{ end }}
+            >
+              {{ .Params.talkToUs.text }}
+            </a>
+            <a
+              href="{{ .Params.startFree.url }}"
+              class="button button_outlined button_lg"
+              {{ if strings.HasPrefix .Params.startFree.url "http" }}target="_blank"{{ end }}
+            >
+              {{ .Params.startFree.text }}
+            </a>
+          </div>
+          <div class="hybrid-cloud-hero__feature">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_18273_21757)">
+                <path d="M4.5 6L5.5 7L7.5 5M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z" stroke="#8F98B3" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_18273_21757">
+                  <rect width="12" height="12" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+            {{ .Params.feature }}
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="hybrid-cloud-hero__image-container">
+            <img class="hybrid-cloud-hero__image" src="{{ .Params.img.src }}" alt="{{ .Params.img.alt }}"/>
+            <img class="hybrid-cloud-hero__image-mobile" src="{{ .Params.img.mobileSrc }}" alt="{{ .Params.img.alt }}"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
