@@ -23,9 +23,9 @@ Changed data is placed in the copy-on-write segment, which has priority for retr
 
 ## Vacuum Optimizer
 
-The Vacuum Optimizer helps manage storage by handling deleted records. When a record is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked records can build up, wasting memory and slowing down the system.
+The Vacuum Optimizer helps manage storage by handling deleted points. When a point is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked points can build up, wasting memory and slowing down the system.
 
-The Vacuum Optimizer solves this problem by permanently removing marked records and reorganizing storage. This cleanup saves memory and keeps the system running smoothly, especially when large amounts of deleted data build up in the database.
+The Vacuum Optimizer solves this problem by permanently removing marked points and reorganizing storage. This cleanup saves memory and keeps the system running smoothly, especially when large amounts of deleted data build up in the database.
 
 The criteria for starting the optimizer are defined in the configuration file. Two key parameters control its behavior:
 
@@ -38,10 +38,11 @@ storage:
     vacuum_min_vector_number: 1000
 ```
 
-- `deleted_threshold` sets the minimum fraction of deleted records in a segment required to initiate optimization. For example, a value of 0.2 means that 20% of a segment's records must be marked as deleted for the optimizer to consider running.
-- `vacuum_min_vector_number` specifies the minimum number of vectors a segment must contain to qualify for optimization. For instance, a value of 1000 ensures that only segments with at least 1,000 vectors are optimized.
+- `deleted_threshold` sets the minimum fraction of deleted points in a segment required to initiate optimization. For example, a value of 0.2 means that more than 20% of a segment's points must be marked as deleted for the optimizer to consider running.
+- `vacuum_min_vector_number` specifies the minimum number of points a segment must contain to qualify for optimization. For instance, a value of 1000 ensures that only segments with at least 1,000 points are optimized.
+- Both parameters also apply to each vector index in a segment, counting vectors deleted from points that still exist.
 
-When these criteria are met, the Optimizer processes the segment by removing deleted records and reorganizing the data to improve efficiency. This process not only enhances the database's query performance but also reduces memory usage by eliminating redundant data.
+When these criteria are met, the Optimizer processes the segment by removing deleted points and reorganizing the data to improve efficiency. This process not only enhances the database's query performance but also reduces memory usage by eliminating redundant data.
 
 ## Merge Optimizer
 
@@ -49,7 +50,7 @@ Qdrant uses the Merge Optimizer to manage the number of segments in its storage 
 
 Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the Merge Optimizer works to reduce the number of segments when there are more than optimal.
 
-The target number of segments is specified by the `default_segment_number` parameter, which typically defaults to the number of CPUs. During optimization, the optimizer may merge the three smallest segments into one, aiming to balance segment size and system performance.
+The target number of segments is specified by the `default_segment_number` parameter, whose default depends on the number of available CPUs. When there are more segments than this target, the optimizer merges the smallest segments into larger ones, without exceeding the maximum segment size.
 
 To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Adjusting this parameter helps strike a balance between indexing speed and search efficiency, especially when dealing with large datasets. When `max_segment_size_kb` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
 
@@ -89,7 +90,7 @@ Proper configuration of these parameters allows Qdrant to maintain an efficient 
 Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
 So, for example, if the number of points is less than 10000, using any index would be less efficient than a brute force scan.
 
-The Indexing Optimizer is used to implement the enabling of indexes and memmap storage when the minimal amount of records is reached.
+The Indexing Optimizer is used to implement the enabling of indexes when the minimal amount of records is reached.
 
 The criteria for starting the optimizer are defined in the configuration file.
 
@@ -98,13 +99,6 @@ Here is an example of parameter values:
 ```yaml
 storage:
   optimizers:
-    # Maximum size (in kilobytes) of vectors to store in-memory per segment.
-    # Segments larger than this threshold will be stored as read-only memmaped file.
-    # Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.
-    # To disable memmap storage, set this to `0`.
-    # Note: 1Kb = 1 vector of size 256
-    memmap_threshold: 200000
-
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
     # Default value based on experiments and observations.
     # Note: 1Kb = 1 vector of size 256
