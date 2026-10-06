@@ -11,10 +11,13 @@ aliases:
 
 # Optimizer
 
-It is much more efficient to apply changes in batches than perform each change individually, as many other databases do. Qdrant here is no exception. Since Qdrant operates with data structures that are not always easy to change, it is sometimes necessary to rebuild those structures completely.
+Qdrant [stores](/documentation/manage-data/storage/) the points of a collection in one or more shards, and each shard divides its points into segments. Each segment has its own vector storage, payload storage, vector and payload indexes, and ID tracker. There are two types of segments: appendable and non-appendable. Appendable segments accept new points, while non-appendable segments only support reads and deletes.
 
-Storage optimization in Qdrant occurs at the segment level (see [storage](/documentation/manage-data/storage/)).
-In this case, the segment to be optimized remains readable for the time of the rebuild.
+For efficiency reasons, Qdrant, like many databases, applies data changes in batches rather than one point at a time. Some of its data structures, such as vector indexes, are hard to update in place, so Qdrant rebuilds them in the background when needed.
+
+These rebuilds are handled by the optimizer, which works at the segment level.
+It selects one or more segments that can be improved and rebuild them into a single new segment, for example to index it, compact it, or reduce the number of segments.
+The segments being optimized remain readable while the rebuild is in progress.
 
 ![Segment optimization](/articles_data/immutable-data-structures/optimization.png)
 
