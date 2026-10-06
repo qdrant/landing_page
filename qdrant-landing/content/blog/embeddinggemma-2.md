@@ -29,7 +29,7 @@ We tested SciFact, NFCorpus, ArguAna, SCIDOCS, and FiQA from BEIR and averaged r
 
 ## About EmbeddingGemma 2
 
-EmbeddingGemma 2 is an open embedding model built on Gemma 4. It maps text, code, images, video, and audio into one 768-dimensional space. Its text-only path has 270M parameters. Google reports a 14% gain on code retrieval over the first EmbeddingGemma and an 8K-token context window.
+[EmbeddingGemma 2](https://huggingface.co/google/embeddinggemma-2) is an open embedding model built on Gemma 4. It maps text, code, images, video, and audio into one 768-dimensional space. Its text-only path has 270M parameters. Google reports a 14% gain on code retrieval over the first EmbeddingGemma and an 8K-token context window.
 
 Matryoshka Representation Learning lets you keep the first 512, 256, or 128 dimensions without re-embedding your data. Those first dimensions remain useful on their own. Quantization saves more memory by storing each dimension in fewer bits.
 
