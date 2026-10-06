@@ -241,6 +241,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/gooddata.svg
       alt: GoodData logo
+  - id: goperfect
+    name: GoPerfect
+    industry: Technology
+    product: Qdrant Cloud
+    company_size: 51-200
+    location: North America
+    use_cases: ["Hybrid search", "Semantic search", "Recommendations"]
+    title: "How GoPerfect Built an Agentic Recruiting Workforce with Qdrant Cloud"
+    blog_path: /blog/case-study-go-perfect
+    logo:
+      src: /img/customers-case-studies-logo/goperfect.svg
+      alt: GoPerfect logo
   - id: himalayas
     name: Himalayas
     industry: Technology
@@ -349,6 +361,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/lyzr.svg
       alt: Lyzr logo
+  - id: minima
+    name: Minima
+    industry: Developer tools
+    product: Self-managed
+    company_size: 1-50
+    location: North America
+    use_cases: ["RAG", "Hybrid search", "Generative AI"]
+    title: "Qdrant and Minima Deliver 2.92x More Agentic RAG Tasks per GPU-Hour"
+    blog_path: /blog/case-study-minima
+    logo:
+      src: /img/customers-case-studies-logo/minima.svg
+      alt: Minima logo
   - id: mixpeek
     name: Mixpeek
     industry: Media and entertainment
@@ -481,6 +505,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/qovery.svg
       alt: Qovery logo
+  - id: sapu
+    name: Sapu
+    industry: Healthcare
+    product: Qdrant Cloud
+    company_size: 1-50
+    location: North America
+    use_cases: ["RAG", "Semantic search", "Generative AI"]
+    title: "How Sapu Indexed 28 Million PubMed Abstracts to Accelerate Cancer Research with Qdrant"
+    blog_path: /blog/case-study-sapu
+    logo:
+      src: /img/customers-case-studies-logo/sapu.svg
+      alt: Sapu logo
   - id: sayone
     name: SayOne
     industry: Technology
@@ -517,6 +553,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/sprinklr.svg
       alt: Sprinklr logo
+  - id: sunny-health
+    name: Sunny Health
+    industry: Healthcare
+    product: Qdrant Cloud
+    company_size: 1-50
+    location: North America
+    use_cases: ["Hybrid search", "RAG", "Recommendations"]
+    title: "How Sunny Health Built an AI Healthcare Concierge with Qdrant"
+    blog_path: /blog/case-study-sunny-health-ai
+    logo:
+      src: /img/customers-case-studies-logo/sunny-health.svg
+      alt: Sunny Health logo
   - id: tavus
     name: Tavus
     industry: Media and entertainment
