@@ -313,6 +313,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/lettria.svg
       alt: Lettria logo
+  - id: lucy
+    name: Lucy
+    industry: Financial services
+    product: Self-managed
+    company_size: 1-50
+    location: Asia Pacific
+    use_cases: ["RAG", "Hybrid search", "Semantic search"]
+    title: "How Lucy Built a Source-of-Truth Retrieval Layer for 2.8M+ SEC and DART Filings with Qdrant"
+    blog_path: /blog/case-study-lucy
+    logo:
+      src: /img/customers-case-studies-logo/lucy.svg
+      alt: Lucy logo
   - id: lyzr
     name: Lyzr
     industry: Developer tools
