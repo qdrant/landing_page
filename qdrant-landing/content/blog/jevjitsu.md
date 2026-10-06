@@ -16,185 +16,122 @@ tags:
   - chunking
 ---
 
-Classification is one of the most ancient problems in Machine Learning. Compared to modern decoding transformers, most of the classification models were non-autoregressive by nature. Before the recent introduction of Jev, you had one of the following ways to classify things: either create your own classifier or use an LLM with some hacky type safety on top. The first one needed labels and was limited in what you could classify, as well as brittle. The second, while being able to create any class, was still costly and slow. It also needed a custom hack on top to get a funny class of just random hallucination. There were also [meta-ML methods](https://arxiv.org/pdf/2205.01500), but all of them were away from the mainstream.
+Classification is one of the oldest problems in machine learning. Unlike modern decoding transformers, most classification models were non-autoregressive by nature. Before Jev, the common approaches were training your own classifier, which needs labels, using a zero-shot classifier (compared in this [Hugging Face benchmark](https://huggingface.co/blog/aarabil/btzsc-benchmark)), or prompting an LLM with some hacky type safety on top. There were also [meta-ML methods](https://arxiv.org/pdf/2205.01500), but none of them reached the mainstream.
 
-With the introduction of Jev, the taxonomy of the classifiers has changed yet again:
+With the introduction of Jev, the taxonomy of classifiers has changed yet again:
 
-| **Approach** | **Training needed** | **New labels at runtime?** | **Output constrained to labels?** | **Typical speed** |
-| :-: | :-: | :-: | :-: | :-: |
-| **Train a task-specific classifier** (encoder or MLP) | Yes | No | Yes | Very fast |
-| **Use a zero-shot classifier** (NLI or label embeddings) | No | Yes | Yes, by choosing from the candidate labels | Fast |
-| **Prompt a generative LLM** | No | Yes | Not by default | Slow |
-| **Use Jev** | No | Yes | Yes, as designed | Fast |
-
-To find more about a pre-Jev classification approaches, we recommend checking this [Hugging Face](https://huggingface.co/blog/aarabil/btzsc-benchmark) page that compares recent zero-shot text classifiers.
+| **Approach**                                             | **Training needed** | **New labels at runtime?** | **Output constrained to labels?**          | **Typical speed** |
+| :--------------------------------------------------------:| :-------------------:| :--------------------------:| :------------------------------------------:|:-----------------:|
+| **Train a task-specific classifier** (encoder or MLP)    | Yes                 | No                         | Yes                                        | Very fast         |
+| **Use a zero-shot classifier** (NLI or label embeddings) | No                  | Yes                        | Yes, by choosing from the candidate labels | Fast              |
+| **Prompt a generative LLM**                              | No                  | Yes                        | Not by default                             | Slow              |
+| **Use Jev**                                              | No                  | Yes                        | Yes, as designed                           | Fast              |
 
 There are two fundamental ideas that the Jev advancement brings to light:
 
-1. **Jev is the next step in making models usable without task-specific training.** Pretrained transformers meant you no longer had to train a model from scratch for each task. With LLMs, you can simply describe what you want. Jev keeps that "describe it, don't train it" approach and addresses what makes LLMs awkward for classification: they are slow, costly, and free to answer outside your options. This signals to other developers and enthusiasts that there is a demand for solving classic tasks like classification in this new way, while bringing back the guarantees and speed of old-school methods. This is what keeps the competition high and the progress going.
-2. **A conceptual shift in consumers of the "LLM Is All You Need" approach**. Recently, the default was to stretch LLM over everything. Jev is part of a move for concrete methods. Even if the underlying concept still uses transformer architecture, the constraints and promise are way different for the end customer.
+1. **Jev is the next step in making models usable without task-specific training.** Pretrained transformers meant you no longer trained a model from scratch for each task, and LLMs let you simply describe what you want. Jev keeps "describe it, don't train it" and addresses what makes LLMs awkward for classification: they are slow, costly, and free to answer outside your options. That signals demand for solving classic tasks this way, which is what keeps the competition high and the progress going.
+2. **A conceptual shift in consumers of the "LLM Is All You Need" approach**. Recently, the default was to stretch an LLM over everything. Jev is part of a move toward concrete methods. Even if the underlying concept still uses the transformer architecture, the constraints and promise are way different for the end customer.
 
-Thus, since this is a model that you can apply to any classification task, we did. First we have tried to apply it to how everyone did - as a reranker, however, some other ideas worth checking.
+Since Jev can take on any classification task, we tried it on several. Like everyone, we started with reranking, but the more interesting results came after it:
 
-You can access all of the experiments below are in the [many-jev-recipies](https://github.com/qdrant-labs/many-jev-recipies) repository, if you want to run them yourself. 
+- Reranking makes the first page more relevant but narrower, and it does nothing about near-duplicates. Running Qdrant's MMR first and reranking its results with Jev, or using Jev's score as MMR's relevance term, gave us pages that beat plain hybrid search on both relevance and repetition.
+- Query understanding can start from the collection alone, with no labels or query logs: an LLM proposes a taxonomy, Jev checks it, and search filters or boosts on it. A filter only helps when Jev is sure, and short queries are where filters go wrong: for "apple", a 0.91 score turned the whole page into food.
+- The labels Jev writes at indexing time are free training data. A small classifier trained on them takes over a third of the queries off Jev with no loss in quality.
+- One untuned question, "Does the next sentence start a new topic?", makes a chunker that beats fixed-size, recursive, and embedding-based chunking.
+
+All of the experiments are in the [many-jev-recipies](https://github.com/qdrant-labs/many-jev-recipies) repository if you want to run them yourself.
 
 ## Reranking
 
-Using Jev as a reranker was one of the use cases that gained traction early on. The fit is natural once you look at what a reranker does. In vector search, rerankers are a second, more expensive, and more precise step that reorders a pool of candidates retrieved by a faster first step. LLM judges make strong rerankers, but they're usually too slow and costly to run on every query.
+Reranking, reordering the candidates a fast first step retrieved, is where most people tried Jev first. Jev takes the query, the candidates, and a typed question, and returns a probability for each answer without generating text, so the scores sort directly, with nothing to parse and far fewer ties.
 
-Jev can be a better fit for this step: you pass your query and the retrieved candidates along with a typed question that defines the possible answers, and Jev returns a probability for each answer without generating text. Those probabilities sort directly, with nothing to parse and far fewer ties.
-
-Here are three ways to rerank with Jev:
+We tried three ways to ask:
 
 <picture>
   <source media="(min-width: 700px)" srcset="/blog/jevjitsu/rerank-methods-wide.svg">
-  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/rerank-methods.svg" alt="Three ways to rerank with Jev. Jev Score grades each candidate on a scale of relevance levels with one request. Jev Choice compares all candidates at once and returns a probability for each. Jev Iterative picks the best remaining candidate each round, with one request per ranking position.">
+  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/rerank-methods.svg" alt="Three ways to rerank with Jev. Jev Score asks &quot;How relevant is this doc?&quot; for each doc, judging every doc on its own, in one request. Jev Choice asks &quot;Which doc is most relevant?&quot; once for all docs, in one request. Both produce a ranking such as C, A, D, B. Jev Iterative asks that question once per ranking position, removing each winner, using 10 requests for a top 10.">
 </picture>
 
-- **Jev Score:** uses the Score question type. Jev rates each candidate against an ordered scale of relevance levels: it returns a probability for each level, and the score is the probability-weighted average of the level positions. We rerank the candidates by their scores.
+At this point, testing Jev as a reranker on a few hundred queries is practically a rite of passage. Every search vendor runs it on 80, 100, 200, or 300 queries, posts a table, and moves on. So naturally, we did too. We took 100 queries from [NFCorpus](https://huggingface.co/datasets/BeIR/nfcorpus), retrieved the top 30 and top 50 candidates from Qdrant with BGE-small, and let each method reorder the same candidates. The table shows each method's nDCG@10 lift over BGE-small alone:
 
-```python
-levels = [                        # ordered from least to most relevant
-    "Not relevant: does not help answer the query",
-    "Somewhat relevant: related, but only partially addresses the query",
-    "Highly relevant: directly answers or substantially addresses the query",
-]
+| **Method** | **Requests per query** | **Lift, top 30** | **Lift, top 50** |
+| :-- | :-: | :-: | :-: |
+| Jev Score | 1 | +0.0665 | +0.0741 |
+| Jev Choice | 1 | +0.0583 | +0.0673 |
+| Jev Iterative | 10 | +0.0746 | +0.0789 |
 
-questions = {}
-for each candidate i:
-    questions["candidate_i"] = Score(
-        instructions = "How relevant is this document to the query?"
-                       + query + candidate title and text,
-        criteria = levels,
-    )
+All three methods beat BGE-small at both depths, and reading 50 candidates instead of 30 helped all three a little. The gaps between the methods are under 0.02, which 100 queries can't separate, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
 
-response = jev(questions)         # one request for all candidates
-for each candidate i:
-    candidate.score = response["candidate_i"].score    # fractional, 0 to 2
-sort candidates by score, highest first
-```
+Before you swap out your cross-encoder, consider the trade-off: Jev is an API call, while a small local cross-encoder like MiniLM runs on your own CPU. Jev pays off where a better first page is worth the extra call, or where the judgment can move off the query path entirely.
 
-- **Jev Choice:** uses the Choice question type. We pass all candidates as options in a single request and rank them by Jev's probability that each one is the most relevant.
+The more useful lesson came after the benchmark. A reranker's score usually ends up as a sort key and nothing else, but Jev's score is a probability of relevance, so it can feed other steps. We also combined it with MMR, which fixed a side effect of reranking itself.
 
-```python
-options = {"candidate_i": candidate title and text, for each candidate i}
+## Reducing Repetitive Answers
 
-response = jev(
-    state = query,
-    question = Choice("Which document is most relevant to the query?", options),
-)                                 # one request for the whole pool
+Imagine an e-commerce search for "iphone" that returns ten variants of the same iPhone 18. Sometimes that's what the shopper wants, but often they'd rather see a range of products on the first page.
 
-for each candidate i:
-    candidate.score = response.probabilities["candidate_i"]
-sort candidates by score, highest first
-```
+We measured this on [WANDS](https://huggingface.co/datasets/napsternxg/wands), Wayfair's product search benchmark: 42,994 products and 480 queries with graded labels, half of them for tuning and 240 held out for the results here. We score every pipeline on relevance (nDCG@10) and on repetition: the number of near-duplicate pairs (embedding cosine similarity of 0.95 or more) on the first page of 10.
 
-- **Jev Iterative:** uses the Choice question type repeatedly. Each round, Jev picks the best remaining candidate, which takes the next position and leaves the pool, until the top 10 positions are filled.
+| **Pipeline**                                       | **nDCG@10** | **Near-duplicate pairs per page** | **Product classes in the top 10** |
+| :---------------------------------------------------| :-----------:| :---------------------------------:| :---------------------------------:|
+| Hybrid search                                      | 0.683       | 1.27                              | 3.17                              |
+| Qdrant MMR, diversity 0.5                          | 0.561       | 0.00                              | 4.74                              |
+| Jev rerank                                         | 0.769       | 1.25                              | 2.41                              |
+| Jev's score as MMR's relevance term, diversity 0.7 | 0.719       | 0.22                              | 3.40                              |
+| Qdrant MMR, diversity 0.5, then Jev rerank         | 0.723       | 0.04                              | 3.12                              |
 
-```python
-ranking = []
-remaining = candidates
+Sorting by Jev's answer gave the most relevant page by far, and it did nothing for repetition: the near-duplicates stayed, and the page got narrower, from 3.17 distinct product classes to 2.41. That's not a flaw in Jev. Even a perfect ordering by the human labels narrows the page to 2.66 classes, because the most relevant products for a query tend to be the same kind of product.
 
-repeat 10 times, or until remaining is empty:
-    options = {"candidate_i": title and text, for each remaining candidate i}
-    response = jev(
-        state = query,
-        question = Choice("Which document is most relevant to the query?", options),
-    )
-    winner = remaining[response.choice]
-    ranking.append(winner)
-    remove winner from remaining
+Qdrant's built-in [Maximal Marginal Relevance (MMR)](https://qdrant.tech/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) goes the other way. At diversity 0.5, it removes the near-duplicates but costs 0.12 nDCG@10. MMR measures relevance as vector similarity to the query, and on these candidates that alone loses relevance, even at diversity 0.
 
-return ranking                    # top 10 only
-```
+The fix was to use the reranker's score indirectly, as the relevance signal for diversity. One way keeps MMR but swaps its relevance term for Jev's relevance answer, while vector similarity still measures redundancy. The other runs Qdrant's MMR first and lets Jev rerank its top 20. Both beat hybrid search on relevance and on repetition at the same time, giving up part of the plain rerank's gain in exchange for a varied page. Jev inside MMR spreads the page over the most product classes, and MMR followed by a Jev rerank all but removes the near-duplicates, partly because Qdrant's MMR reads the hybrid top 50 while Jev's MMR reads only the top 20.
 
-At this point, testing Jev as a reranker on a few hundred queries is practically a rite of passage. Every search vendor runs it on 80, 100, 200, or 300 queries, posts a table, and moves on. So naturally, we did too: we tested the three methods on 100 queries from [NFCorpus](https://huggingface.co/datasets/BeIR/nfcorpus). For each query, BGE-small retrieved the top 30 and top 50 candidates from Qdrant, and each method reordered that same candidate set. We measured ranking quality with nDCG@10, which rewards placing relevant documents near the top of the list, and report each method's lift over BGE-small alone. With 30 candidates, Jev Score lifted nDCG@10 by +0.0665, Jev Choice by +0.0583, and Jev Iterative by +0.0746. With 50 candidates, the lifts were +0.0741, +0.0673, and +0.0789, respectively.
-
-All three methods improved on BGE-small at both depths. The gaps between them are small, under 0.02 nDCG@10, and 100 queries aren't enough to say which one is best. Retrieving 50 candidates instead of 30 gave a slightly larger lift for all three. Iterative is the expensive one: it sends one request per ranking position, 10 per query instead of one, and is probably not worth its latency.
-
-Where to Go From Here:
-
-- **Score is a sensible default:** Tune the criteria to your use case.
-- **Iterative Choice can reduce redundancy:** With the documents picked so far included in the state, Jev chooses the candidate that best answers the query without repeating them. Qdrant's [built-in Maximal Marginal Relevance(MMR)](https://qdrant.tech/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) does this with vector distance.
-- **Some judgments can move to index time:** Questions like "Is this page a tutorial?" or "Is this about a deprecated feature?" don't need the query. Answer them once during ingestion, and use them as payload filters or in a [score boosting formula](https://qdrant.tech/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query).
-- **Let confidence decide how much Jev counts:** Every Score answer comes with a confidence value. When confidence is high, use Jev's order. When it's low, blend Jev's score with the original vector score.
+Part of every Jev gain is coverage: WANDS scores unlabeled results as irrelevant, and Jev's pages hold more labeled results (86.5% of the top 10, against 81.3% for hybrid search). The full comparison is in the [pruning notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/prune/prune.ipynb).
 
 ## Query Understanding
 
-**By query understanding, we mean extracting signals (here, [taxonomical classes](https://en.wikipedia.org/wiki/Class_\(taxonomy\))) from a query and using them to decide how to handle it.**
+Query understanding turns a query into signals, here product categories, that decide how to search for it. We followed three rules from [Doug Turnbull's experiments](https://softwaredoug.com/blog/2026/09/22/jev-query-understanding) with Jev:
 
-For example, *"funny movies"* and *"a recent family comedy under two hours"* express a similar intent, but may require different processing. [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf) uses query understanding to route searches: simple queries take a fast path, more complex ones go through BERT, and natural-language queries can be routed to an LLM.
+- Filter only when very sure, and boost otherwise. A wrong filter hides the right product, while a wrong boost only reorders the page.
+- Get the top-level category right first.
+- Let an LLM propose categories, and let Jev check them.
 
-After reading [Doug's Turnbull article](https://softwaredoug.com/blog/2026/09/22/jev-query-understanding) on query understanding, we got inspired to make a query understanding with Jev as a use case. His results gave some initial insights for the implementation:
-
-- **Filter only when very sure; otherwise, boost.** A filter removes results, so a wrong one hides the right product. A boost only moves matching products up, so a wrong one costs less.
-- **Get the broader category right first**. A wrong top-level category can be a catastrophic mistake.
-- **Let the LLM propose, then check.** An LLM generates candidates; Jev just confirms which ones fit the data.
-
-We add query understanding by building a [taxonomy](https://en.wikipedia.org/wiki/Taxonomy) from the collection itself. This happens once per collection, before indexing or doing any search. We sample 5000 items and group similar ones together (by clustering their embeddings). A cheap LLM names each group from a few example items. Then Jev checks each name against the group's items. If the name does not hold up, it's dropped.
+First, we build a taxonomy from the collection itself, once, before indexing. We cluster the embeddings of a 5,000-item sample, and a cheap LLM names each cluster from a few example items. A name stays only if Jev places at least 40% of 15 sampled cluster members under it and at most 15% of other clusters' items, so a name too generic to tell clusters apart is dropped too.
 
 <picture>
   <source media="(min-width: 700px)" srcset="/blog/jevjitsu/taxonomy-building-wide.svg">
-  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/taxonomy-building.svg" alt="Building a taxonomy from a collection in four steps. Similar products are grouped, an LLM suggests a name, Jev checks whether the name fits the products, and what fits becomes the taxonomy. The name &quot;women's clothing&quot; fits 14 of 15 products and is kept. The name &quot;Greeting Cards&quot; fits 4 of 15 and is dropped.">
+  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/taxonomy-building.svg" alt="Building a taxonomy in four steps: group similar products, an LLM names each group, Jev checks that the name fits the group, and the names that fit form the taxonomy. For example, women's clothing is kept and Greeting Cards is dropped.">
 </picture>
 
-At indexing time: Jev tags every product with the categories from taxonomy and we store them as payload fields. *A "Nintendo Switch case"*, for example, is now tagged *Electronics & Accessories* under *device cases* superclass.
+At indexing time, Jev tags every product with these categories, stored as payload: a Nintendo Switch case gets *device cases*, under *Electronics & Accessories*. At search time, Jev scores each category against the query, and search filters on categories scoring 0.9 or more, boosts those from 0.5 up to 0.9, and ignores the rest. For a query that begins "I'm looking for a lightweight case that easily snaps onto my switch oled", Jev scored *Electronics & Accessories* at 0.97, and the search filtered on it along with *device cases* and *Electronic Accessories*, which also scored 0.9 or more. Of the four routing setups we compared on 300 [Amazon-C4](https://huggingface.co/datasets/McAuley-Lab/Amazon-C4) searches, this one had the highest observed nDCG@10:
 
-At search time, Jev reads the query and scores each category. Of the routing configurations we compared (compared in the chart that follows), this one worked best: below 60% we ignore it, between 60% and 90% we boost matching products, and above 90% we filter.
+{{< chart id="jevjitsu/routing" caption="Every routing setup scored above default search on average. Filtering only when Jev is sure and boosting otherwise scored highest; filtering on every guess is within noise." >}}
 
-```python
-results = query_points(client, "products", "a lightweight case that snaps onto my Switch OLED", jev)
+The gain has costs:
 
-Electronics & Accessories   0.97   -> filter
-device cases                0.97   -> filter
-Bags & Luggage              0.65   -> boost
-Toys & Games                0.53   -> ignore
-```
+| | **Standard hybrid search** | **With Jev-based query understanding** |
+| :-- | :-: | :-: |
+| **Taxonomy setup**, once per collection on a 5,000-item sample, so its cost doesn't grow with the collection | - | 16 min (\~\\$0.70 for Jev, <\\$0.02 for LLM) |
+| **Indexing 1M points** (extrapolated, linear in volume) | \~3 hours (local embeddings) | +\~32 hours, +\~\\$103 (labeling is \~\\$0.0001 per item) |
+| **Added query latency** | - | +0.5 s (31 classes) to +1.9 s (70 classes) |
 
-We have tried different configurations of routing, applied to the [Amazon-C4 dataset](https://huggingface.co/datasets/McAuley-Lab/Amazon-C4), and here are the results:
+Latency is the cost that hurts most. Like [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf), we put a cheap model in front of the slow one: small classifiers trained on Jev's own item labels read the query's embedding, and when their top category scores 0.95 or more, the query skips Jev and gets boosts only. That took 37% of queries off Jev with no loss in quality (+3.98 nDCG@10 points, against +3.82 with Jev on every query) and cut the estimated average wait from 1.9 to 1.2 seconds. The details are in section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb).
 
-{{< chart id="jevtaxonomy/routing" caption="On 300 real searches, the Jev taxonomy improves nDCG@10 (x100) over default search in every routing configuration. Filtering when Jev is sure and boosting otherwise works best: 29.3 to 33.1, +13%. Default settings reach 32.4 (+12%), boosting only likely categories 32.0 against a 28.9 baseline (+11%), and filtering on every guess 30.1 (+3%)." >}}
+The Amazon-C4 queries are long and LLM-generated, which gives Jev plenty of context. Real search boxes see much shorter queries, so we tried a few of our own. They have no relevance labels, so read them as examples, not measurements:
 
-We get some solid improvement for the NDCG; however, not without trade-offs:
+| **Query** | **Jev filtered on** | **What happened** |
+| :-- | :-- | :-- |
+| "apple" | *Food & Beverage* (0.91, just past the threshold) | Hurt: the page became all food, and the MacBook, the apple tree, and the laptop decal were gone |
+| "kitchen faucet replacement" | *Plumbing Parts* (0.98) | Helped: more relevant products made it onto the page |
+| "running shoes that aren't nike" | *athletic footwear* (0.98) | Barely helped: the category was right, but "not Nike" isn't something a category can express |
 
-|                                                                     | **Standard hybrid search**       | **With Jev-based query understanding**                                                                | **Trade-offs and key notes**                                                                      |
-| :-------------------------------------------------------------------:| :--------------------------------:| :-----------------------------------------------------------------------------------------------------:| :-------------------------------------------------------------------------------------------------:|
-| **Initial taxonomy setup** (once per collection, sample 5000 items) | -                                | 16 min (\~\\$0.70 for Jev, <\\$0.02 for LLM)                                                  | One-off step. Reads a subset of 5k points, making compute costs independent of total corpus size. |
-| **Indexing 1M points** (extrapolated)                               | \~3 hours (local embeddings) | +\~32 hours, +\~\\$103 (\~\\$100 of labeling, labeling is \~\\$0.0001 per item) | Linear cost scaling based on volume.                                                              |
-| **Added query latency**                                             | -                                | +0.5 s (31 classes) to +1.9 s (70 classes)                                                            | Introduces waiting time for Jev resolution before vector filtering.                               |
+Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most. MMR can't bring the lost products back, because the filter removes them before MMR runs, so the guard we'd try first is to boost, never filter, on one- or two-word queries. A deeper taxonomy would catch more, but query understanding is far from solved. Search still has no one-size-fits-all solution, so check your own queries and edge cases before you adopt even the most confident one.
 
-Some of these trade-offs, like latency (section 6 in the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb)), can be improved; however, that is outside of this blog post. What is important to take from this experiment is that something like this before required at least 3 specialized classifiers; now we can just enjoy the spoils of Jev's decision-making to construct a better search.
+## Semantic Chunking
 
-## Removing near-duplicates from results
+Most semantic chunkers cut where the embeddings of neighboring sentences drift apart. A paragraph that changes vocabulary mid-argument can get split, and two articles that share vocabulary can get merged.
 
-Another exciting idea is to improve the search results by reducing the uniformity of responses.
-
-Imagine in an e-commerce setting, if someone types "iphone" and gets ten variants of the same "iphone 18". That might be intended behavior; however, often customers want search results to be diverse and rich.
-
-As discussed Qdrant MMR supports natively as well as [other dissimilarity methods](https://qdrant.tech/articles/vector-similarity-beyond-search/). But native MMR can lead to a decrease in retrieval quality, like in our quick experiment on the [Wands dataset](https://huggingface.co/datasets/napsternxg/wands):
-
-| **Pipeline** | **Hybrid search** | **MMR, diversity 0** | **MMR, diversity 0.25** | **MMR, diversity 0.5** | **MMR, diversity 0.75** |
-| :------------:| :-----------------:| :--------------------:| :-----------------------:| :----------------------:| :-----------------------:|
-| **nDCG@10**  | 0.6831            | 0.6349               | 0.6179                  | 0.5606                 | 0.5158                  |
-
-*For more details, check our notebook on [pruning](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/prune/prune.ipynb)*.
-
-We tried Jev in two roles, reranker and pruner (applied on top of MMR). As a reranker, Jev scores how likely each result is to be relevant to the query, and we sort the list by that score. As a pruner, Jev also flags results that repeat a higher-ranked one, and we drop those plus any result it isn't confident is relevant. MMR alone removes duplicates but lowers nDCG@10. Jev wins that back with both pruning and reranking, reaching similar performance.
-
-*Individual example from the dataset*
-
-<picture>
-  <source media="(min-width: 700px)" srcset="/blog/jevjitsu/near-duplicates-wide.svg">
-  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/near-duplicates.svg" alt="For the query &quot;sugar canister&quot;, hybrid search returns five results of one product type with nDCG@5 of 0.56. Jev prune returns two product types with nDCG@5 of 0.63. Jev rerank returns three product types with nDCG@5 of 0.79.">
-</picture>
-
-Thus, cutting and reranking are both doing better than the baseline hybrid and also improve the uniqueness of the results.
-
-## Semantic Chunker
-
-Most semantic chunkers cut where the embeddings of neighbouring sentences drift apart. A paragraph that changes vocabulary mid-argument gets split, and two articles that share vocabulary get merged.
-
-What if we use Jev instead to read a window of numbered sentences and judge each gap, asking if **the next sentence starts a new topic?** The pseudo code for it looks the following:
+What if Jev reads a window of numbered sentences instead and judges each gap, asking whether **the next sentence starts a new topic?** In pseudocode:
 
 ```python
 sentences = split(document)                    # by punctuation and newlines
@@ -209,35 +146,20 @@ cut at gaps where P(new topic) >= threshold,
 # threshold, min_size and max_size reuse the same answers: resize without new calls
 ```
 
-For the experiment, we will use the Qasper dataset. A chunker is scored by embedding its chunks, retrieving 5 per question, and measuring the following:
+We tested it on [QASPER](https://huggingface.co/datasets/allenai/qasper): 407 research papers and 1,297 questions whose evidence paragraphs were marked by researchers. Each chunker's chunks are embedded with bge-small, without overlap, and 5 are retrieved per question from within that question's paper. Overlap is counted in characters: recall is the share of the evidence retrieved, precision is the share of retrieved text that is evidence, and IoU is their overlap divided by their union, which rewards chunks that hold the evidence and little else.
 
-- **recall**: share of reference tokens that appear in the retrieved chunks;
-- **precision**: share of retrieved tokens that belong to a reference;
-- **IoU**: overlap divided by the union of retrieved and reference tokens. It rewards chunks that hold the answer and little else.
-
-Overall if we compare Jev to default chunkers based on these metrics, we can see consistent improvement for each chunking size for each strategy:
-
-| **Metric** | **IoU** | **Precision** | **Recall** |
-| :-: | :-: | :-: | :-: |
-| **Avg. improvement over other baselines** | **+13.0%** | **+11.2%** | **+9.1%** |
+We compared Jev against four baselines (fixed-size, two recursive splitters, and embedding-based semantic chunking), with Jev's cutoff set to match each one's mean chunk size. Jev improved every metric against every baseline, and every 95% confidence interval excludes zero. Averaged across the four baselines, the relative gains were 13.0% in IoU, 11.2% in precision, and 9.1% in recall.
 
 To see where the gain comes from, here's one question chunked both ways, with fixed-size chunks and with Jev:
 
 <picture>
   <source media="(min-width: 700px)" srcset="/blog/jevjitsu/chunking-recall-wide.svg">
-  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/chunking-recall.svg" alt="For the question &quot;What language is this dataset in?&quot;, fixed-size chunks split the answer across chunk 26 and chunk 27, each 200 tokens. Jev chunks keep the answer in one 420-token chunk, chunk 25.">
+  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/chunking-recall.svg" alt="For the question &quot;What language is this dataset in?&quot;, fixed-size chunks cut through the answer and split it across two chunks, while Jev cuts where the topic changes and keeps the whole answer in one chunk.">
 </picture>
 
-This shows that this approach targets mostly recall, and has more effective chunks with better answers sitting in one place. Let's look at another example:
+The precision gain follows from the same effect: the retrieved text per question stays about the same length as the baseline's, so when more of the answer lands in the retrieved chunks, less unrelated text does.
 
-<picture>
-  <source media="(min-width: 700px)" srcset="/blog/jevjitsu/chunking-precision-wide.svg">
-  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/chunking-precision.svg" alt="For the question &quot;How long is the dataset?&quot;, fixed-size chunks split the answer across chunk 3 and chunk 4, each 200 tokens, cutting the answer at the last word. Jev keeps the answer in one 161-token chunk, chunk 5.">
-</picture>
-
-Here Jev improves precision, since both chunks retrieve the whole answer, but Jev is more effective since it needs fewer tokens to retrieve the answer.
-
-Jev answers one question, whether the next sentence starts a new topic, and that improves both metrics: answers stay in one chunk, and retrieved chunks carry less unrelated text. With the question untuned and only the cutoff set to match each baseline's chunk size, Jev beats fixed-size, recursive, and semantic chunking on all three metrics. The trade-off is cost and simplicity. Fixed-size, recursive, and embedding-based chunkers run locally for free, while Jev sends your text to an API and costs about \\$0.27 per million tokens. In return, you get measurably better chunks from a question we never tuned, and rewording that question may improve them further. The full comparison is in the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/chunker/chunker.ipynb).
+The trade-off is cost and simplicity. Fixed-size, recursive, and embedding-based chunkers run locally for free, while Jev sends your text to an API and costs about \\$0.27 per million tokens. The smallest gain was against a recursive splitter that breaks on blank lines first: QASPER's answers are whole paragraphs, so that splitter lines up with them for free. We never tuned the question and only set the cutoff, so rewording it may improve the chunks further. The full comparison is in the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/chunker/chunker.ipynb).
 
 ## Summary
 

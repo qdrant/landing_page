@@ -1,6 +1,6 @@
 {
   "title": "Jev taxonomy routing on Amazon-C4",
-  "subtitle": "300 real searches, nDCG@10 (x100), higher is better",
+  "subtitle": "300 searches, higher is better",
   "kind": "grouped-columns",
   "group": "routing",
   "series": "series",

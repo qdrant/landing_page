@@ -2,8 +2,8 @@ routing,series,ndcg_at_10,lift_pct
 Tiered,Default search,29.3,
 Tiered,With Jev taxonomy,33.1,13
 Default,Default search,29.3,
-Default,With Jev taxonomy,32.4,12
-Boost only,Default search,28.9,
-Boost only,With Jev taxonomy,32.0,11
+Default,With Jev taxonomy,32.8,12
+Boost only,Default search,29.3,
+Boost only,With Jev taxonomy,32.5,11
 Filter only,Default search,29.3,
 Filter only,With Jev taxonomy,30.1,3
