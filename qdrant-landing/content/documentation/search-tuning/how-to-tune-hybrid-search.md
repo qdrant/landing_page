@@ -56,9 +56,9 @@ The second prefetch also needs a second index and a second vector per point. Kee
 
 [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) uses only a candidate's position in each prefetch. A document at rank 1 scores the same whether it beat rank 2 by a wide margin or a narrow one. [Distribution-based score fusion](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf) (DBSF) puts both lists on one scale for each query, using each list's average score and how spread out its scores are. Adding the two rescaled scores carries the size of a lead into the fused ranking, and a document only one prefetch retrieved keeps that single rescaled score.
 
+{{< island path="content/documentation/headless/search-tuning/fusion-signals" ratio="3 / 1" title="RRF reads each document's slot, so A's dense lead flattens to one step and B, ranked near the top by both prefetches, wins. DBSF keeps the spacing on a shared axis, so A's lead survives the sum and A wins." >}}
 ![Two panels of dot plots, RRF on the left and DBSF on the right. Each panel has a dense line, a sparse line, and a fused line holding documents A, B, C, and D. The RRF lines space every document evenly and label the slots 4, 3, 2, 1. The DBSF lines keep the raw score spacing on one shared axis, dense running 0.55 to 0.91 with A far out to the right and B, C, and D clustered, sparse running 12.9 to 14.8. The fused lines put B first under RRF and A first under DBSF.](/articles_data/how-to-tune-hybrid-search/fusion-signals.png)
-
-_RRF reads each document's slot, so A's dense lead flattens to one step and B, ranked near the top by both prefetches, wins. DBSF keeps the spacing on a shared axis, so A's lead survives the sum and A wins._
+{{< /island >}}
 
 RRF ignores score scale, so a cosine similarity and a BM25 score combine without either dominating. DBSF assumes the size of a score gap means something, so one outlying score can move the result. Which one wins depends on your data, so run both against your labels.
 

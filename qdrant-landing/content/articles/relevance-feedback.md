@@ -16,7 +16,7 @@ keywords:
 category: search-quality
 ---
 
-A year ago, we dropped a statement-bomb in the “[Relevance Feedback in Information Retrieval](https://qdrant.tech/articles/search-feedback-loop/)” article and then went silent.
+In March 2025, we dropped a statement-bomb in the “[Relevance Feedback in Information Retrieval](https://qdrant.tech/articles/search-feedback-loop/)” article and then went silent.
 
 We claimed that even though the information retrieval research field has proposed many useful mechanisms for increasing the relevance of search results, none of them made it to the neural search industry, simply because these approaches are not scalable.
 
@@ -42,7 +42,11 @@ So most search quality-boosting tools aim to adjust/align/guide these simple ret
 
 It can be provided by a human or a model, be binary (relevant–irrelevant) or granular, rescoring top documents by their relative relevance to the query. 
 
-{{< figure src="/articles_data/relevance-feedback/relevance_feedback_types.png" alt="Diagram showing a query flowing into a retrieval system, which returns top-ranked documents. These documents are then processed in three ways: pseudo-relevance feedback, binary user or classifier feedback, and model-driven re-scored feedback. Arrows illustrate how the feedback signals update document rankings" caption="Feedback types">}}
+{{< island path="content/articles/headless/relevance-feedback/types"
+    ratio="19 / 7"
+    title="The same ranked results labeled by three kinds of feedback: pseudo-relevance, binary feedback, and re-scored feedback. Scores are illustrative." >}}
+![Types of relevance feedback: pseudo-relevance, binary feedback, and re-scored feedback](/articles_data/relevance-feedback/relevance_feedback_types.png)
+{{< /island >}}
 
 Based on this feedback, one of the retrieval components is adjusted: the query or the scoring method between the query and documents. The next retrieval iteration is done with this aligned component.
 
@@ -91,8 +95,6 @@ Usually neither LLMs nor subject matter experts providing feedback know the data
 What they can do is help define a relevance direction from the examples they have seen. A retriever could then use these direction hints on the next retrieval iteration.
 
 ### Relevance Direction
-
-{{< figure src="/articles_data/relevance-feedback/lost_astronaut.png" alt="An astronaut wearing a red spacesuit and backpack stands in a dense, shadowy forest with tall trees and blue-tinted light filtering through, looking toward a brighter glow in the distance." >}}
 
 Imagine a hiker lost in a forest with a weak phone signal. They still manage to send a couple of quick photos to a friend who knows orienteering. 
 
@@ -149,7 +151,13 @@ With two documents, this model could already judge which one is closer to what t
 
 > A **context pair (positive, negative)** is two documents from the top context limit results of the initial retrieval. The positive received a higher relevance-to-query score from the feedback model, and the negative received a lower score.
 
-{{< figure src="/articles_data/relevance-feedback/context_pair.png" alt="Diagram titled Re-score with Feedback Model showing five documents labeled Doc 1 to Doc 5, each with two horizontal bars for Retriever Score in blue and Feedback Score in green. Doc 2 has the highest feedback score and Doc 5 has the lowest feedback score. Doc 2 and Doc 4 show higher feedback scores than retriever scores, while Doc 3 and Doc 5 show lower feedback scores. On the right, a Context Pair section shows Doc 2 labeled Positive and Doc 5 labeled Negative, with curved arrows linking these examples back to the document list" caption="How context pairs are formed">}}
+Step through the example below: it picks a context pair, measures its confidence, computes a candidate's delta, and combines them into a score.
+
+{{< island path="content/articles/headless/relevance-feedback/scoring"
+    ratio="38 / 21"
+    title="From feedback scores to a new score: the context pair, its confidence, a candidate's delta, and the feedback-based score. All numbers are illustrative." >}}
+![How context pairs are formed from feedback scores](/articles_data/relevance-feedback/context_pair.png)
+{{< /island >}}
 
 ### Context Pair's Confidence
 
@@ -157,13 +165,9 @@ Two documents nearly indistinguishable from the perspective of a feedback model 
 
 When documents in the context pair seem different to the feedback model, it is more **confident** in guiding the retriever.
 
-{{< figure src="/articles_data/relevance-feedback/confidence_of_context_pair.png" alt="Diagram titled Re-score with Feedback Model showing five documents labeled Doc 1 to Doc 5, each with two horizontal bars for Retriever Score in blue and Feedback Score in green. Doc 2 has the highest feedback score and Doc 5 has the lowest feedback score. Doc 2 and Doc 4 show higher feedback scores than retriever scores, while Doc 3 and Doc 5 show lower feedback scores. On the right, a Context Pair section shows Doc 2 labeled Positive and Doc 5 labeled Negative, with curved arrows linking these examples back to the document list" caption="Context pair's confidence">}}
-
 ### Direction's Delta
 
 Then, if the retriever favors a document closer to the negative example by some **delta**, the retriever should most probably adjust its search direction in the vector space.
-
-{{< figure src="/articles_data/relevance-feedback/delta_as_distance.png" alt="The image shows a candidate document represented as a dark dot in the center, with dashed arrows indicating its distances to a circled positive example above and a circled negative example below. A ‘-delta’ segment on the arrow to the positive example highlights how much more the retriever currently favors the negative example. The diagram illustrates that the retriever should adjust its direction toward candidates closer to the positive example, as shown by an additional dashed arrow." caption="The point in vector space is closer (more similar) to the negative element of a context pair by a delta." width="80%">}}
 
 ## Feedback-Based Scoring
 
@@ -172,8 +176,6 @@ With the context pair(s) at our expense, we can try the following feedback-based
 1. Let the retriever still have a say in what is relevant to the query, count in its **score** (to query).  
 2. Yet reward candidates that are closer to the positive element of the context pair based on **delta**.  
 3. Especially when the feedback model had high **confidence** in this pair.
-
-{{< figure src="/articles_data/relevance-feedback/scoring.png" alt="Diagram titled Scoring with context pairs showing how candidates from a collection are scored using three components: similarity to the query, similarity to a positive example Doc 2, and similarity to a negative example Doc 5. For each candidate, horizontal bars show score to query in blue, score to positive in green, and score to negative in red. A dashed delta indicates the difference between the positive and negative scores, which rewards candidates closer to the positive example and farther from the negative one. Larger deltas represent stronger separation in relevance, especially when the context pair is known with high confidence." caption="Feedback-based scoring using candidate’s similarity to the query and the context pair.">}}
 
 So, we need to combine signals (**score, delta, confidence**) in a reasonable, simple scoring formula with a few parameters.  
 Usually what helps in coming up with a reasonable formula is looking at edge cases.
@@ -228,7 +230,7 @@ $\text{delta}_\text{retriever}(\text{context pair}_p, \text{candidate document})
 |---|---|
 | What does it mean? | The difference between the candidate’s similarity (e.g., cosine) to the positive document and to the negative document from the context pair. <br> All the similarity scores are calculated on embeddings generated by the retriever. |
 | When is it calculated? | On the second step of retrieval, during search for more relevant candidates in the vector space. |
-| Example | Given the context pair ($\text{doc}_1$, $\text{doc}_2$) mentioned above:<br/>If $\text{cosine}(\text{doc}_1, \text{candidate})$ and $\text{cosine}(\text{doc}_2, \text{candidate})$ are respectively $0.78$ and $0.40$.<br/>$\text{delta} = 0.78 - 0.40 = 0.38$. |
+| Example | Given the context pair ($\text{doc}_1$, $\text{doc}_2$) mentioned earlier:<br/>If $\text{cosine}(\text{doc}_1, \text{candidate})$ and $\text{cosine}(\text{doc}_2, \text{candidate})$ are respectively $0.78$ and $0.40$.<br/>$\text{delta} = 0.78 - 0.40 = 0.38$. |
 
 Now the question is: **Where do we take a, b, and c from?**
 
@@ -259,7 +261,7 @@ Each triplet **retriever**, **feedback model**, **dataset** forms one experiment
 
 <details>
   <summary><b>Datasets</b></summary>
-  <p>A subset of <a href="https://github.com/beir-cellar/beir">BEIR (Informational Retrieval benchmark)</a>:</p>
+  <p>A subset of <a href="https://github.com/beir-cellar/beir">BEIR (Information Retrieval benchmark)</a>:</p>
   <ul>
     <li>MSMARCO (8.84mln documents)</li>
     <li>SCIDOCS (25K documents)</li>
@@ -310,13 +312,17 @@ We want to check if relevance feedback-based retrieval increases relevance recal
 
 Any document in the list **outside the top-K** whose feedback model score **exceeded this threshold** was considered a **desired result** for "the next retrieval iteration".
 
-{{< figure src="/articles_data/relevance-feedback/goal.png" alt="Diagram contrasting retriever's ranking with ranking made by a feedback model. The top section shows the retriever model’s initial ranking, where only the highest scoring items on the left are included in the default top K. The bottom section shows the golden ground-truth relevance scoring on the same cadidates from a feedback model, with some different items now receiving higher scores. Orange bars labeled Desired results appear below the original top K threshold line, illustrating documents that were scored too low by the retriever. The figure demonstrates more relevant documents that were not included in the original top K results that we'd want to surface." caption="More relevant documents we'd like to surface">}}
+{{< island path="content/articles/headless/relevance-feedback/metric"
+    ratio="76 / 33"
+    title="How the abovethreshold@N metric is computed, step by step: the retriever ranking and its top K, the feedback model's scores with the threshold and the desired results, and the count after the top K for the vanilla and feedback-based rankings. Scores are illustrative." >}}
+![How the desired results are defined](/articles_data/relevance-feedback/goal.png)
+{{< /island >}}
 
 **What we wanted to measure**  
 On the next retrieval iteration, can our feedback-based formula pull more relevant documents into the top N than the vanilla retriever did?  
 *Relevance is judged by the feedback model's ground-truth scores.*
 
-For that, we came up with the **abovethreshold@K** metric.
+For that, we came up with the **abovethreshold@N** metric.
 
 #### Abovethreshold@N
 
@@ -326,8 +332,6 @@ A custom metric to compare vanilla retriever versus relevance feedback-based sco
 We looked at N positions after the top-K documents used for mining context pairs (positions K+1 through K+N).
 * **Vanilla retriever:** counted how many "we-want-to-surface" documents already appeared in these positions.
 * **Relevance feedback-based scoring:** rescored all remaining documents (outside top-K) using a trained naive formula, reranked them, and counted how many "we-want-to-surface" documents appeared in the first N positions of the new ranking.
-
-{{< figure src="/articles_data/relevance-feedback/metric.png" alt="Diagram showing the abovethreshold at 10 metric comparing vanilla second retrieval with feedback-based second retrieval. The threshold is the highest feedback model score within the original top K. Documents outside the top K whose feedback score exceeds this threshold are considered desired results. In the vanilla ranking, zero out of two desired documents appear in the next 10 positions, while after feedback-based rescoring, two out of two appear, showing improved recall of relevant documents." caption="Abovethreshold@N metric">}}
 
 To get one number per test set, we summed abovethreshold@N counts across all queries per method and calculated the **relative gain**: `(feedback_count - vanilla_count) / vanilla_count`.
 

@@ -71,8 +71,8 @@ partition: develop
 | [Collaborative Filtering](/documentation/tutorials-search-engineering/collaborative-filtering/) | Collaborative filtering using sparse embeddings. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multivector Document Retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) | PDF RAG using ColPali and embedding pooling. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) | Measure ANN recall with the Web UI and tune HNSW parameters. | <span class="pill">Web UI</span> | 15m | <span class="text-green">Beginner</span> |
-| [Reranking for Better Search](/documentation/search-precision/reranking-semantic-search/) | Use multivector representations for better ranking. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
-| [Hybrid Search with Reranking](/documentation/tutorials-search-engineering/reranking-hybrid-search/) | Implement late interaction and sparse reranking. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
+| [Reranking for Better Search](/documentation/search-precision/reranking-semantic-search/) | Rerank vector search results with the Cohere Rerank model. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Hybrid Search with Reranking](/documentation/tutorials-basics/reranking-hybrid-search/) | Combine dense and sparse retrieval, then rerank with late interaction embeddings. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
 | [Semantic Search for Code](/documentation/tutorials-search-engineering/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) | Fuse title, summary, chunk, and tag vectors with named vectors and the Query API. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Static Embeddings](/documentation/tutorials-search-engineering/static-embeddings/) | Evaluate the renaissance of static embeddings. | <span class="pill">Python</span> | 20m | <span class="text-yellow">Intermediate</span> |
@@ -122,11 +122,11 @@ partition: develop
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [S3 Ingestion with LangChain](/documentation/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">LangChain</span> | 30m | <span class="text-green">Beginner</span> |
+| [S3 Ingestion](/documentation/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">Python</span> | 30m | <span class="text-green">Beginner</span> |
 | [Hugging Face Dataset Ingestion](/documentation/tutorials-ecosystem/huggingface-datasets/) | Load and search public ML datasets. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
 | [Databricks Ingestion](/documentation/send-data/databricks/) | Vectorize datasets using FastEmbed on Databricks. | <span class="pill">Databricks</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Querying with Airflow](/documentation/send-data/qdrant-airflow-astronomer/) | Orchestrate data engineering workflows. | <span class="pill">Airflow</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [n8n Workflow Automation](/documentation/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
-| [Kafka Streaming into Qdrant](/documentation/send-data/data-streaming-kafka-qdrant/) | Setup Qdrant Sink Connector for real-time data. | <span class="pill">Kafka</span> | 60m | <span class="text-red">Advanced</span> |
+| [Kafka Streaming into Qdrant](/documentation/tutorials-operations/data-streaming-kafka-qdrant/) | Setup Qdrant Sink Connector for real-time data. | <span class="pill">Kafka</span> | 60m | <span class="text-red">Advanced</span> |
 
 -->

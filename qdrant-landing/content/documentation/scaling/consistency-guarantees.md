@@ -11,7 +11,12 @@ By default, Qdrant focuses on availability and maximum throughput of search oper
 
 This means concurrent updates on one point can result in an inconsistent state. For example, if two clients simultaneously update the same point in a collection with three replicas per shard. On some replicas, the point may reflect the update from one client, while on other replicas, the point may reflect the update from the other client.
 
+{{< island
+    path="content/documentation/headless/consistency-guarantees/concurrent-writes"
+    width="90%" ratio="15 / 8" title="Two clients update the same point at the same time. The writes reach the replicas in different orders, and the replicas end up disagreeing."
+>}}
 ![Two clients updating the same point at the same time.](/docs/concurrent-operations-replicas.png)
+{{< /island >}}
 
 In some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
 
@@ -49,6 +54,13 @@ Setting the `write_consistency_factor` to match the replication factor modifies 
 
 If the update is applied to enough replicas - according to the `write_consistency_factor` - the update will return a successful status. Any replicas that failed to apply the update will be temporarily disabled and are automatically recovered to keep data consistency. If the update could not be applied to enough replicas, it'll return an error and may be partially applied. The user must submit the operation again to ensure data consistency.
 
+{{< island
+    path="content/documentation/headless/consistency-guarantees/write-consistency-factor"
+    width="90%" ratio="7 / 4" title="The write succeeds once `write_consistency_factor` replicas have acknowledged it."
+>}}
+A write succeeds when at least `write_consistency_factor` replicas acknowledge it.
+{{< /island >}}
+
 For asynchronous updates and injection pipelines capable of handling errors and retries, this strategy might be preferable.
 
 
@@ -62,6 +74,13 @@ is consistent across cluster nodes.
 - `quorum` will query randomly selected majority of nodes and return points, which present on all of them
 - `1`/`2`/`3`/etc - will query specified number of randomly selected nodes and return points which present on all of them
 - default `consistency` is `1`
+
+{{< island
+    path="content/documentation/headless/consistency-guarantees/read-consistency"
+    width="90%" ratio="7 / 4" title="Replicas that disagree return different answers to single-replica reads. A `majority` read always returns the same answer."
+>}}
+A read with `consistency=majority` returns the value most replicas hold.
+{{< /island >}}
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-consistency-majority/" >}}
 
@@ -90,6 +109,13 @@ sequentially.
 - `weak` _(default)_ ordering does not provide any additional guarantees, so write operations can be freely reordered.
 - `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
 - `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
+
+{{< island
+    path="content/documentation/headless/consistency-guarantees/write-ordering"
+    width="90%" ratio="7 / 4" title="With `strong` ordering, both writes go through the leader, which replicates them in one order to every replica."
+>}}
+With `ordering=strong`, every replica applies concurrent writes in the same order.
+{{< /island >}}
 
 <aside role="status">Some <a href="/documentation/scaling/distributed_deployment/#shard-transfer-method">shard transfer methods</a> may affect ordering guarantees.</aside>
 

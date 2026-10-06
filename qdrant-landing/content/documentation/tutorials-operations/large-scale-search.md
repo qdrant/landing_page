@@ -28,7 +28,7 @@ while still maintaining a reasonable search latency and accuracy.
 
 All relevant code snippets are available in the [GitHub repository](https://github.com/qdrant/laion-400m-benchmark).
 
-The recommended Qdrant version for this tutorial is `v1.13.5` and higher.
+The recommended Qdrant version for this tutorial is `v1.19.0` and higher, which introduced the [`memory` parameter](/documentation/ops-configuration/memory-tiers/) used throughout. On older versions, the [legacy settings](/documentation/ops-configuration/memory-tiers/#legacy-settings) (`on_disk`, `always_ram`) achieve the same placement.
 
 
 ## Dataset
@@ -53,9 +53,11 @@ After some initial experiments, we figured out a minimal hardware configuration 
 
 - 8 CPU cores
 - 64Gb RAM
-- 650Gb Disk space
+- 1TB Disk space
 
-{{< figure src="/documentation/tutorials/large-scale-search/hardware.png" caption="Hardware configuration" >}}
+{{< island path="content/documentation/headless/tutorials-operations/large-scale-search/hardware" width="90%" ratio="16 / 5" title="Hardware configuration of the node, with the usage observed after upload and indexing." >}}
+![Hardware configuration](/documentation/tutorials/large-scale-search/hardware.png)
+{{< /island >}}
 
 
 This configuration is enough to index and explore the dataset in a single-user mode; latency is reasonable enough to build interactive graphs and navigate in the dashboard.
@@ -78,7 +80,7 @@ python upload.py
 
 This script will download chunks of the LAION dataset one by one and upload them to Qdrant. Intermediate data is not persisted on disk, so the script doesn't require much disk space on the client side.
 
-Let's take a look at the collection configuration we used:
+Let's take a look at the collection configuration we used. Every structure gets its own [`memory` tier](/documentation/ops-configuration/memory-tiers/#configuring-memory-tiers): `pinned` for RAM that is never evicted, `cached` for a warmed disk cache, and `cold` for data that stays on disk until it is read.
 
 ```python
 client.create_collection(
@@ -87,15 +89,14 @@ client.create_collection(
             size=512, # CLIP model output size
             distance=models.Distance.COSINE, # CLIP model uses cosine distance
             datatype=models.Datatype.FLOAT16, # We only need 16 bits for float, otherwise disk usage would be 800Gb instead of 400Gb
-            # `on_disk` is deprecated. On version 1.19 or later, use `memory` instead.
-            on_disk=True # We don't need original vectors in RAM
+            memory=models.Memory.COLD, # We don't need original vectors in RAM
         ),
         # Even though CLIP vectors don't work well with binary quantization, out of the box,
         # we can rely on query-time oversampling to get more accurate results
         quantization_config=models.BinaryQuantization(
             binary=models.BinaryQuantizationConfig(
-                # `always_ram` is deprecated. On version 1.19 or later, use `memory` instead.
-                always_ram=True,
+                # Quantized vectors are what the first search stage scores, so keep them in RAM
+                memory=models.Memory.PINNED,
             )
         ),
         optimizers_config=models.OptimizersConfigDiff(
@@ -108,17 +109,19 @@ client.create_collection(
         # We could still achieve reasonable accuracy even with M=6 + oversampling
         hnsw_config=models.HnswConfigDiff(
             m=6, # decrease M for lower memory usage
-            # `on_disk` is deprecated. On version 1.19 or later, use `memory` instead.
-            on_disk=False
+            # The graph is memory-mapped: warm it into the disk cache at startup
+            memory=models.Memory.CACHED,
         ),
     )
 ```
 
 There are a few important points to note:
 
+- We put the original vectors in the `cold` tier. They stay on disk and are only read to rescore the final candidates.
 - We use `FLOAT16` datatype for vectors, which allows us to store vectors in half the size compared to `FLOAT32`. There are no significant accuracy losses for this dataset.
-- We use `BinaryQuantization` with `always_ram=True` to enable query-time oversampling. This allows us to get an accurate and resource-efficient search, even though 512d CLIP vectors don't work well with binary quantization out of the box.
-- We use `HnswConfig` with `m=6` to reduce memory usage. We will look deeper into memory usage in the next section.
+- We use `BinaryQuantization` with the quantized vectors `pinned` in RAM to enable query-time oversampling. This allows us to get an accurate and resource-efficient search, even though 512d CLIP vectors don't work well with binary quantization out of the box.
+- We use `HnswConfig` with `m=6` to reduce memory usage, and keep the graph in the `cached` tier. We will look deeper into memory usage in the next section.
+- We leave payloads at their default, the `cold` tier, so the 200 GB of metadata stays on disk.
 
 Goal of this configuration is to ensure that prefetch component of the search never needs to load data from disk, and at least a minimal version of vectors and vector index is always in RAM.
 The second stage of the search can explicitly determine how many times we can afford to load data from a disk.
@@ -134,12 +137,14 @@ The indexation process was going in parallel with the upload and was happening a
 
 After the upload and indexation process is finished, let's take a detailed look at the memory usage of the Qdrant server.
 
-{{< figure src="/documentation/tutorials/large-scale-search/memory_usage.png" caption="Memory usage" >}}
+{{< island path="content/documentation/headless/tutorials-operations/large-scale-search/memory-usage" width="90%" ratio="16 / 11" title="RAM breakdown of the node after upload and indexing." >}}
+![Memory usage](/documentation/tutorials/large-scale-search/memory_usage.png)
+{{< /island >}}
 
 On the high level, memory usage consists of 3 components:
 
 - System memory - 8.34Gb - this is memory reserved for internal systems and OS, it doesn't depend on the dataset size.
-- Data memory - 39.27Gb - this is a resident memory of qdrant process, it can't be evicter and qdrant process will crash if it exceeds the limit.
+- Data memory - 39.27Gb - this is a resident memory of qdrant process, it can't be evicted and Qdrant process will crash if it exceeds the limit.
 - Cache memory - 14.54Gb - this is a disk cache qdrant uses. It is necessary for fast search but can be evicted if needed.
 
 
@@ -180,7 +185,7 @@ This gives us the following estimation:
 In practice the size of index is a bit smaller due to the [compression](https://qdrant.tech/blog/qdrant-1.13.x/#hnsw-graph-compression) we implemented in Qdrant v1.13.0, but it is still a good estimation.
 
 The HNSW index in Qdrant is stored as a mmap, and it can be evicted from RAM if needed. 
-So, the memory consumption of HNSW falls under the category of `Cache memory`.
+So, the memory consumption of HNSW falls under the category of `Cache memory`. This is exactly what the `cached` tier does: it warms the file into the disk cache at startup, and the OS is free to evict it under pressure.
 
 
 ### Size of IDs and versions
@@ -217,6 +222,20 @@ So the total memory usage of `IdTracker` in our case is approximately `12.4Gb`.
 So total expected RAM usage of Qdrant server in our case is approximately `23.84Gb + 17.881Gb + 12.4Gb = 54.121Gb`, which is very close to the actual memory usage we observed: `39.27Gb + 14.54Gb = 53.81Gb`.
 
 We had to apply some simplifications to the estimations, but they are good enough to understand the memory usage of the Qdrant server.
+
+### Which tier holds what
+
+The two memory categories line up with the memory tiers:
+
+| Structure | Tier in this tutorial | Estimated size | Shows up as |
+|---|---|---|---|
+| Original vectors (`FLOAT16`) | `cold` | 400Gb on disk | Neither. Read from disk only when rescoring |
+| Quantized vectors (binary) | `pinned` | 23.84Gb | Data memory |
+| ID tracker | Always on the heap | 12.4Gb | Data memory |
+| HNSW index (`m=6`) | `cached` | 17.881Gb | Cache memory |
+| Payloads | `cold` (default) | 200Gb on disk | Neither. Read from disk only when returned |
+
+Moving a structure to a colder tier trades RAM for latency. If the node had less RAM, the HNSW index is the first candidate to go from `cached` to `cold`, but it sits on the hot path of every query, so expect a large latency cost. See [Memory Tiers: What to Use and When](/documentation/production-operations/memory-tiers/) for how to choose.
 
 
 ## Search
@@ -302,33 +321,32 @@ One important performance tweak we found useful for this dataset is to enable [A
 
 By default, Qdrant uses synchronous IO, which is good for in-memory datasets but can be a bottleneck when we want to read a lot of data from a disk.
 
-Async IO (implemented with `io_uring`) allows to send parallel requests to the disk and saturate the disk bandwidth.
+Async I/O (implemented with `io_uring`) allows to send parallel requests to the disk and saturate the disk bandwidth.
 
 This is exactly what we are looking for when performing large-scale re-scoring with original vectors.
 
 Instead of reading vectors one by one and waiting for the disk response 1000 times, we can send 1000 requests to the disk and wait for all of them to complete. This allows us to saturate the disk bandwidth and get faster results.
 
-To enable Async IO in Qdrant, you need to set the following environment variable:
+To enable Async I/O in Qdrant v1.19 or later, set `io_uring` to `auto`. It applies async I/O to every structure in the `cold` tier, which here means the original vectors used for rescoring and the payloads. Use an environment variable:
 
 ```bash
-QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
+QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 ```
 
-Or set parameter in config file:
+Or set the parameter in the config file:
 
 ```yaml
 storage:
   performance:
-    async_scorer: true
+    io_uring: auto
 ```
+
+On older versions, the `async_scorer` setting (`QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true`) applies async I/O to vector rescoring only. See [Async I/O](/documentation/ops-configuration/memory-tiers/#async-io) for details.
 
 In Qdrant Managed cloud Async IO can be enabled via `Advanced optimizations` section in cluster `Configuration` tab.
 
-{{< figure src="/documentation/tutorials/large-scale-search/async_io.png" caption="Async IO configuration in Cloud" width="80%" >}}
+{{< figure src="/documentation/tutorials/large-scale-search/async-scorer-cloud.png" caption="Async scorer setting in the Advanced Optimizations section of Qdrant Cloud" >}}
 
-<aside role="status">
-As of Qdrant v1.19, <code>storage.performance.io_uring</code> is a broader alternative: set it to <code>auto</code> to apply async I/O to vector storage and payload storage when they're on disk, not only vector rescoring. See <a href="/documentation/ops-configuration/memory-tiers/#async-io">Async I/O</a> for details.
-</aside>
 
 
 ## Running search requests
@@ -352,7 +370,25 @@ In our request we achieved the following results:
 
 Additional experiments with `m=16` demonstrated that we can achieve `85%` precision with `rescore_limit=1000`, but they would require slightly more memory.
 
-{{< figure src="/documentation/tutorials/large-scale-search/precision.png" caption="Log of search evaluation" width="50%">}}
+Log of the evaluation run with `m=16` and `rescore_limit=1000`:
+
+```text
+Intersection: 49/50, which is 98.00%, elapsed time: 0.59s
+Intersection: 49/50, which is 98.00%, elapsed time: 0.60s
+Intersection: 45/50, which is 90.00%, elapsed time: 0.64s
+Intersection: 49/50, which is 98.00%, elapsed time: 0.53s
+Intersection: 48/50, which is 96.00%, elapsed time: 0.62s
+Intersection: 49/50, which is 98.00%, elapsed time: 0.61s
+Intersection: 48/50, which is 96.00%, elapsed time: 0.61s
+Intersection: 38/50, which is 76.00%, elapsed time: 0.61s
+Intersection: 49/50, which is 98.00%, elapsed time: 0.52s
+Intersection: 31/50, which is 62.00%, elapsed time: 0.61s
+...
+Intersection: 36/50, which is 72.00%, elapsed time: 0.60s
+Intersection: 19/50, which is 38.00%, elapsed time: 0.58s
+Intersection: 48/50, which is 96.00%, elapsed time: 0.57s
+Average precision: 85.39%
+```
 
 
 ## Conclusion
