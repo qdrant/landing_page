@@ -1,0 +1,38 @@
+/* Shared chrome inherits the article theme. Cluster colors are invariant. */
+.qi-sc {
+  --sc-0: #6047ff;
+  --sc-1: #00acc1;
+  --sc-2: #dc244c;
+  --sc-3: #ff9800;
+  --sc-4: #03a9f4;
+  --sc-5: #9c27b0;
+  --sc-6: #43a047;
+  --sc-noise: #cddc39;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.qi-sc .qi-chip { font-size: 14px; }
+.qi-sc .qi-controls { gap: 8px 12px; }
+.qi-sc button:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-sc__heads {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0 calc(100% * 12 / 1260);
+  margin: 8px 0 4px;
+  color: var(--qi-fg);
+  font-size: 14px;
+  text-align: center;
+}
+.qi-sc__heads span { transition: opacity 0.15s ease; }
+.qi-sc__dots { fill: none; stroke-width: 7; stroke-linecap: round; }
+.qi-svg g { transition: opacity 0.15s ease; }
+.qi-sc__heads .is-faded,
+.qi-sc .qi-svg g.is-faded { opacity: 0.2; }
+@media (max-width: 640px) {
+  .qi-sc__heads { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qi-sc .qi-chip,
+  .qi-sc__heads span,
+  .qi-sc .qi-svg g { transition: none; }
+}

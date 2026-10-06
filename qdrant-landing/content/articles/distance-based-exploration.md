@@ -39,9 +39,11 @@ Initially, we might want to visualize an entire dataset, or at least a large por
 
 We will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
 
-Here is a **very** simplified but intuitive explanation of UMAP: it finds which points are close to each other in the high-dimensional space, then places them on a 2D plane so that the same points stay close.
+Here is a very simplified but intuitive explanation of UMAP: it finds which points are close to each other in the high-dimensional space, then places them on a 2D plane so that the same points stay close.
 
-{{< figure src="/articles_data/distance-based-exploration/umap.png" alt="UMAP of the Fashion-MNIST dataset, with each clothing category forming its own region" caption="UMAP on the Fashion-MNIST dataset, recreated from the example in the UMAP documentation, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
+{{< island path="content/documentation/headless/distance-matrix/fashion-umap" width="100%" ratio="1 / 1" title="UMAP on the Fashion-MNIST dataset, recreated from the example in the UMAP documentation, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
+![UMAP of the Fashion-MNIST dataset, with each clothing category forming its own region](/articles_data/distance-based-exploration/umap.png)
+{{< /island >}}
 
 UMAP keeps neighborhoods, not exact distances, so the gaps between groups and the size of a group on the plot carry no meaning. It only needs the nearest neighbors of each point, which is what the sparse matrix from Qdrant holds.
 
@@ -154,7 +156,9 @@ Another approach to data structure understanding is clustering, which groups sim
 
 *Note that there's no universally best clustering criterion or algorithm.*
 
-{{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Six clustering algorithms applied to six two-dimensional datasets" caption="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets, [source](https://scikit-learn.org/)" >}}
+{{< island path="content/documentation/headless/distance-matrix/sklearn-clustering" width="100%" ratio="4 / 5" title="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets. The [full example](https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html) compares eleven." >}}
+![Six clustering algorithms applied to six two-dimensional datasets](/articles_data/distance-based-exploration/clustering.png)
+{{< /island >}}
 
 Let's consider a simple example of clustering the Midlib dataset with the KMeans algorithm.
 
