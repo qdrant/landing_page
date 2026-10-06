@@ -21,6 +21,8 @@ In this case, the segment to be optimized remains readable for the time of the r
 The availability is achieved by wrapping the segment into a proxy that transparently handles data changes.
 Changed data is placed in the copy-on-write segment, which has priority for retrieval and subsequent updates.
 
+Qdrant has four optimizers, described in the following sections. In each round of optimization, a segment is selected by at most one optimizer. Every rebuild removes deleted points and applies the current collection configuration, whichever optimizer selected the segment.
+
 ## Vacuum Optimizer
 
 The Vacuum Optimizer helps manage storage by handling deleted points. When a point is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked points can build up, wasting memory and slowing down the system.
@@ -92,6 +94,8 @@ So, for example, if the number of points is less than 10000, using any index wou
 
 The Indexing Optimizer is used to implement the enabling of indexes when the minimal amount of records is reached.
 
+The Indexing Optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
+
 The criteria for starting the optimizer are defined in the configuration file.
 
 Here is an example of parameter values:
@@ -127,6 +131,16 @@ The configuration file determines global defaults for all collections. You can a
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
 
+## Optimizer Resource Usage
+
+Three settings control how much CPU the optimizer uses:
+
+- `optimizer_cpu_budget`: the number of CPUs available to all optimization jobs on a node. By default, Qdrant leaves one or more CPUs free, depending on the number of CPUs. Set it in the configuration file under `storage.performance`.
+- `max_optimization_threads`: the maximum number of optimization jobs that run in parallel per shard. By default, there's no limit other than `optimizer_cpu_budget`.
+- `max_indexing_threads`: the number of threads each optimization job uses to build the HNSW index. Set it in the [HNSW configuration](/documentation/manage-data/indexing/#vector-index). By default, it depends on the number of available CPUs.
+
+For guidance on balancing optimization against search load, see [Troubleshoot Read-Write Contention](/documentation/ops-optimization/read-write-contention/).
+
 ## Prevent Reads from Large Unindexed Segments
 
 *Available as of v1.17.1*
@@ -137,7 +151,7 @@ When a collection receives a high volume of updates, for example, during nightly
 
 To address this, Qdrant supports [querying indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only), by setting `indexed_only` to `true`. A side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again ("blinking" points).
 
-To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` are accepted and durably stored but are not visible in search results. These "deferred" points only become visible after the optimizer has indexed the segment.
+To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` (or `max_segment_size`, if that's set and smaller) are accepted and durably stored but are not visible in search results. These "deferred" points only become visible after the optimizer has indexed the segment.
 
 `prevent_unoptimized` can be enabled per collection, or globally in the configuration file.
 
@@ -176,19 +190,21 @@ A non-zero deferred point count means the optimizer is processing a backlog. Thi
 The `/collections/{collection_name}/optimizations` API endpoint returns information about the optimization of a specific collection, including:
 - A summary of optimization activity, with the number of queued optimizations, queued segments, queued points, and idle segments (segments that need no optimization).
 - Details about any currently running optimization, including:
-  - the specific optimizer
+  - the specific optimizer (`merge`, `indexing`, `vacuum`, or `config mismatch`)
   - its status
   - the segments involved
   - its progress
 
 Optionally, you can use the `with` query parameter with one or more of the following comma-separated values to retrieve additional information:
 - `queued`, to return a list of queued optimizations
-- `completed`, to return a list of completed optimizations
+- `completed`, to return a list of completed optimizations. By default, it returns the 16 most recent. Use the `completed_limit` query parameter to change this number.
 - `idle_segments`, to return a list of idle segments
 
 For example:
 
 {{< code-snippet path="/documentation/headless/snippets/optimizations/" >}}
+
+Furthermore, the [collection info API](/documentation/manage-data/collections/#collection-info) reports the state of the optimizers in the `optimizer_status` field. It's `ok` when the optimizers are working normally. If an optimization fails, it contains an `error` message and the collection status turns red.
 
 ### Web UI
 
