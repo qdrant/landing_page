@@ -1,0 +1,69 @@
+/* shard-distribution island. Scoped under .qi-shd. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the node placeholders and the shards. Shard hues are constant across
+   themes (design-system palette, the same set tenant-defrag uses). */
+
+.qi-shd {
+  --shd-0: #6047ff; /* neon-blue-500 */
+  --shd-1: #388e3c; /* green-700 */
+  --shd-2: #ef6c00; /* warning-800 */
+
+  display: block;
+}
+
+/* --- Nodes --- */
+.qi-shd__frame {
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+.qi-shd__node text {
+  transition: opacity 0.3s ease;
+}
+/* A node that has not joined yet: a dashed outline, like the placeholder
+   shard in tenant-promotion. */
+.qi-shd__node.is-ghost .qi-shd__frame {
+  fill: transparent;
+  stroke: var(--qi-line);
+  stroke-dasharray: 5 4;
+}
+.qi-shd__node.is-ghost .qi-frame-label {
+  opacity: 0.5;
+}
+.qi-shd__empty {
+  opacity: 0;
+}
+.qi-shd__node.is-empty .qi-shd__empty {
+  opacity: 1;
+}
+
+/* --- Shards --- */
+.qi-shd__shard {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.qi-shd__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-shd__shard.is-hot .qi-shd__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-shd__shard--0 .qi-shd__bar {
+  fill: var(--shd-0);
+}
+.qi-shd__shard--1 .qi-shd__bar {
+  fill: var(--shd-1);
+}
+.qi-shd__shard--2 .qi-shd__bar {
+  fill: var(--shd-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-shd__shard,
+  .qi-shd__frame,
+  .qi-shd__node text {
+    transition: none;
+  }
+}

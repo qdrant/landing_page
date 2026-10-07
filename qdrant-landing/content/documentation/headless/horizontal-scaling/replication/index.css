@@ -1,0 +1,79 @@
+/* replication island. Scoped under .qi-rep. Controls, frames and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the replicas and the row of replicas that have no node. Shard hues match the
+   shard-distribution island and are constant across themes. */
+
+.qi-rep {
+  --rep-0: #6047ff; /* neon-blue-500 */
+  --rep-1: #388e3c; /* green-700 */
+  --rep-2: #ef6c00; /* warning-800 */
+
+  display: block;
+}
+
+/* The current factor, between the − and + chips. */
+.qi-rep__value {
+  min-width: 2ch;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--qi-fg);
+}
+
+/* --- Replicas --- */
+.qi-rep__shard {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease;
+}
+.qi-rep__shard.is-leaving {
+  opacity: 0;
+}
+.qi-rep__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-rep__shard.is-hot .qi-rep__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-rep__shard--0 .qi-rep__bar {
+  fill: var(--rep-0);
+}
+.qi-rep__shard--1 .qi-rep__bar {
+  fill: var(--rep-1);
+}
+.qi-rep__shard--2 .qi-rep__bar {
+  fill: var(--rep-2);
+}
+
+/* A replica with no node to live on: a dashed outline with faded points. */
+.qi-rep__shard.is-unplaced .qi-rep__box {
+  fill: transparent;
+  stroke: var(--qi-line);
+  stroke-dasharray: 5 4;
+}
+.qi-rep__shard.is-unplaced.is-hot .qi-rep__box {
+  stroke: var(--qi-hot);
+}
+.qi-rep__shard.is-unplaced .qi-rep__bar,
+.qi-rep__shard.is-unplaced text {
+  opacity: 0.45;
+}
+.qi-rep__unplaced {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-rep__unplaced.is-on {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-rep__shard,
+  .qi-rep__unplaced {
+    transition: none;
+  }
+}
