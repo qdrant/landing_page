@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="398" viewBox="0 0 420 398" role="img" aria-labelledby="t d">
+<title id="t">Building product categories from the collection</title>
+<desc id="d">Four steps: group similar products, let an LLM name each group, let Jev check that the name fits the group's products, and keep the names that fit as the product categories. For example, the name women's clothing fits its group and is kept, while the name Greeting Cards does not fit and is dropped.</desc>
+<rect width="420" height="398" fill="#f0f3fa"/>
+<g font-family="'Mona Sans', -apple-system, 'Segoe UI', sans-serif" font-size="15" fill="#28324D">
+<rect x="10" y="10" width="400" height="48" rx="8" fill="#ffffff" stroke="#D4D9E6" stroke-width="1.5"/>
+<text x="210.0" y="40" text-anchor="middle" font-weight="600">Group similar products</text>
+<path d="M210 61v16m-5-6 5 6 5-6" fill="none" stroke="#576280" stroke-width="2"/>
+<rect x="10" y="80" width="400" height="48" rx="8" fill="#ffffff" stroke="#D4D9E6" stroke-width="1.5"/>
+<text x="210.0" y="110" text-anchor="middle" font-weight="600">An LLM names each group</text>
+<path d="M210 131v16m-5-6 5 6 5-6" fill="none" stroke="#576280" stroke-width="2"/>
+<rect x="10" y="150" width="400" height="48" rx="8" fill="#ffffff" stroke="#038585" stroke-width="2"/>
+<text x="210.0" y="180" text-anchor="middle" font-weight="600">Jev checks the name fits</text>
+<path d="M210 201v16m-5-6 5 6 5-6" fill="none" stroke="#576280" stroke-width="2"/>
+<rect x="10" y="220" width="400" height="48" rx="8" fill="#ffffff" stroke="#D4D9E6" stroke-width="1.5"/>
+<text x="210.0" y="250" text-anchor="middle" font-weight="600">Kept names are the categories</text>
+<text x="14" y="296" fill="#576280">For example:</text>
+<rect x="14" y="310" width="190" height="32" rx="16" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/>
+<text x="109" y="331" text-anchor="middle">women's clothing</text>
+<path d="M212 326h40m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<text x="264" y="331" font-weight="700" fill="#00522F">✓ kept</text>
+<rect x="14" y="354" width="190" height="32" rx="16" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/>
+<text x="109" y="375" text-anchor="middle">Greeting Cards</text>
+<path d="M212 370h40m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<text x="264" y="375" font-weight="700" fill="#93000D">✗ dropped</text>
+</g></svg>
