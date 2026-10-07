@@ -35,8 +35,8 @@ There are two fundamental ideas that the Jev advancement brings to light:
 Since Jev can take on any classification task, we tried it on several. Like everyone, we started with reranking, but the more interesting results came after it:
 
 - Reranking makes the first page more relevant but narrower, and it does nothing about near-duplicates. Running Qdrant's MMR first and reranking its results with Jev, or using Jev's score as MMR's relevance term, gave us pages that beat plain hybrid search on both relevance and repetition.
-- Query understanding can start from the collection alone, with no labels or query logs: an LLM proposes a taxonomy, Jev checks it, and search filters or boosts on it. A filter only helps when Jev is sure, and short queries are where filters go wrong: for "apple", a 0.91 score turned the whole page into food.
-- The labels Jev writes at indexing time are free training data. A small classifier trained on them takes over a third of the queries off Jev with no loss in quality.
+- Query understanding can start from the collection alone, with no labels or query logs: an LLM proposes product categories, Jev checks them, and search filters or boosts on it. A filter only helps when Jev is sure, and short queries are where filters go wrong: for "apple", a 0.91 score turned the whole page into food.
+- The product categories Jev tags at indexing time are free training data. A small classifier trained on them takes over a third of the queries off Jev with no loss in quality.
 - One untuned question, "Does the next sentence start a new topic?", makes a chunker that beats fixed-size, recursive, and embedding-based chunking.
 
 All of the experiments are in the [many-jev-recipies](https://github.com/qdrant-labs/many-jev-recipies) repository if you want to run them yourself.
@@ -94,7 +94,7 @@ Part of every Jev gain is coverage: WANDS scores unlabeled results as irrelevant
 
 ## Query Understanding
 
-Can we use the meaning of what was sent in the query to improve our search? That is the central point of query understanding discipline. It turns a query into signals, here product categories, that decide how to search for it. What we did next is to create an end-to-end query understanding of product categories. 
+Can we use the meaning of a query, not only its words, to improve search? That is the central question of query understanding. It turns a query into signals, here product categories, that decide how to search for it: a shopper typing "kitchen faucet replacement" wants plumbing parts, and search that knows it can push them up. We built query understanding on product categories end to end. 
 
 We started with the three rules from [Doug Turnbull's experiments](https://softwaredoug.com/blog/2026/09/22/jev-query-understanding) with Jev:
 
@@ -102,19 +102,19 @@ We started with the three rules from [Doug Turnbull's experiments](https://softw
 - Get the top-level category right first.
 - Let an LLM propose categories, and let Jev check them.
 
-Jev can only assign the categories not create them. Thus, we first build a them from the collection itself, once, before indexing. We do it with cheap LLM over clustered products and validate those with Jev. A name shouldnt be too generic but also not extra concrete: if at least half of clustered members are placed under category by Jev we are good to go.
+Jev can only assign categories, not create them. Thus, we first build them from the collection itself, once, before indexing. We do it with a cheap LLM over clustered products and validate the names with Jev. A name shouldn't be too generic but also not too narrow: Jev has to place enough of its group under it and few products from other groups. The exact checks are in the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb).
 
 <picture>
   <source media="(min-width: 700px)" srcset="/blog/jevjitsu/taxonomy-building-wide.svg">
-  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/taxonomy-building.svg" alt="Building a taxonomy in four steps: group similar products, an LLM names each group, Jev checks that the name fits the group, and the names that fit form the taxonomy. For example, women's clothing is kept and Greeting Cards is dropped.">
+  <img style="max-width:100%;height:auto" src="/blog/jevjitsu/taxonomy-building.svg" alt="Building product categories in four steps: group similar products, an LLM names each group, Jev checks that the name fits the group, and the names that fit become the categories. For example, women's clothing is kept and Greeting Cards is dropped.">
 </picture>
 
-Next no more generations, only categorization:
+From here on, nothing is generated, only categorized:
 
 - At indexing time, Jev tags every product with these categories, stored as payload: a Nintendo Switch case gets *device cases*, under *Electronics & Accessories*. 
 - At search time, Jev scores each product category against the query. At 0.9 or more, search filters to that category. From 0.5 to 0.9, it boosts matching products. Below that, it does nothing. 
 
-We compared on 300 [Amazon-C4](https://huggingface.co/datasets/McAuley-Lab/Amazon-C4) searches, and that mix of filtering and boosting worked best:
+We compared setups on 300 [Amazon-C4](https://huggingface.co/datasets/McAuley-Lab/Amazon-C4) searches, and that mix of filtering and boosting worked best:
 
 {{< chart id="jevjitsu/routing" caption="Every routing setup scored above default search on average. Filtering only when Jev is sure and boosting otherwise scored highest; filtering on every guess is within noise." >}}
 
@@ -122,11 +122,11 @@ The gain has costs:
 
 | | **Standard hybrid search** | **With Jev-based query understanding** |
 | :-- | :-: | :-: |
-| **Taxonomy setup**, once per collection on a 5,000-item sample, so its cost doesn't grow with the collection | - | 16 min (\~\\$0.70 for Jev, <\\$0.02 for LLM) |
+| **Category setup**, once per collection on a 5,000-item sample, so its cost doesn't grow with the collection | - | 16 min (\~\\$0.70 for Jev, <\\$0.02 for LLM) |
 | **Indexing 1M points** (extrapolated, linear in volume) | \~3 hours (local embeddings) | +\~32 hours, +\~\\$103 (labeling is \~\\$0.0001 per item) |
-| **Added query latency** | - | +0.5 s (31 classes) to +1.9 s (70 classes) |
+| **Added query latency** | - | +0.5 s (31 categories) to +1.9 s (70 categories) |
 
-Building and tagging the categories is a one-off cost per collection. The cost that stays is time, because Jev adds a request to every query. Like [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf), we put a cheap model in front of the slow one: small classifiers trained on Jev's own product tags read the query's embedding, and when their top category scores 0.95 or more, the query skips Jev and gets boosts only. That took 37% of queries off Jev with no loss in quality and cut the estimated average wait from 1.9 to 1.2 seconds (details in section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb))
+The cost that stays is time, because Jev adds a request to every query. Like [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf), we put a cheap model in front of the slow one: small classifiers trained on Jev's own product tags read the query's embedding, and when their top category scores 0.95 or more, the query skips Jev and gets boosts only. That took 37% of queries off Jev with no loss in quality and cut the estimated average wait from 1.9 to 1.2 seconds (details in section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb)).
 
 The Amazon-C4 queries are long and LLM-generated, which gives Jev plenty of context. Real search boxes see much shorter queries, so we tried a few of our own. They have no relevance labels, so read them as examples, not measurements:
 
@@ -136,7 +136,7 @@ The Amazon-C4 queries are long and LLM-generated, which gives Jev plenty of cont
 | "kitchen faucet replacement"     | *Plumbing Parts* (0.98)                           | Helped: more relevant products made it onto the page                                            |
 | "running shoes that aren't nike" | *athletic footwear* (0.98)                        | Barely helped: the category was right, but "not Nike" isn't something a category can express    |
 
-Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most. MMR can't bring the lost products back, because the filter removes them before MMR runs, so the guard we'd try first is to boost, never filter, on one- or two-word queries. A deeper taxonomy would catch more, but query understanding is far from solved. Another idea we did not try but encourage you is to try enriching the context for the Jev. Ambiguous "apple" might bring  *Food & Beverage* category, but "apple[electonics shop]" might make better Jev make better judgements. Search still has no one-size-fits-all solution, so check your own queries and edge cases before you adopt even the most confident one.
+Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most. MMR can't bring the lost products back, because the filter removes them before MMR runs, so the guard we'd try first is to boost, never filter, on one- or two-word queries. A deeper set of categories would catch more, but query understanding is far from solved. Another idea we didn't try, but encourage you to, is giving Jev more context. On its own, "apple" may land on *Food & Beverage*, but "apple" sent together with the shop it was typed in, say `"shop": "electronics"`, can help Jev make a better call. Search still has no one-size-fits-all solution, so check your own queries and edge cases before you adopt even the most confident one.
 
 ## Semantic Chunking
 
