@@ -2,7 +2,7 @@ export function mount(node) {
   node.classList.add("qi-rrf");
   node.innerHTML = `
 <svg aria-label="RRF keeps needed chunks in Helps; repeated vague chunk E displaces C in Hurts." class="qi-svg rrf-desktop" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240">
-  
+
   <path class="cutoff" d="M360 16V224" opacity="0.18"/>
   <g id="rrf-helps-hurts-desktop-helps" transform="translate(0 0)">
   <text class="panel-title" x="176" y="26">Helps</text>
@@ -147,7 +147,7 @@ export function mount(node) {
   </g>
 </svg>
 <svg aria-label="RRF keeps needed chunks in Helps; repeated vague chunk E displaces C in Hurts." class="qi-svg rrf-mobile" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 406">
-  
+
   <g id="rrf-helps-hurts-mobile-helps" transform="translate(0 0)">
   <text class="panel-title" x="195" y="26">Helps</text>
   <text x="56" y="52">Hop 1</text>

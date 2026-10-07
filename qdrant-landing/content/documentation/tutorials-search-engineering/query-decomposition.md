@@ -15,8 +15,8 @@ aliases:
 
 # Query Decomposition for Multi-Hop Questions
 
-| Time: 15 min | Level: Intermediate |  |    |
-|--------------|---------------------|--|----|
+| Time: 15 min | Level: Intermediate | Stack: Python |
+|--------------|---------------------|---------------|
 
 A multi-hop question chains two facts: the second depends on the answer to the first. "Where was the director of the film Inception born?" needs the director, then that person's birthplace. A single query retrieves chunks about the film, but the birthplace sits in a chunk about Christopher Nolan that never mentions Inception. Reranking and fusion only reorder what one query already retrieved, so they can't recover evidence that was never in the candidate set.
 

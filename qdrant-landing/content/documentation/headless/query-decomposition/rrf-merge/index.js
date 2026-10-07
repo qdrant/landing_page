@@ -2,7 +2,7 @@ export function mount(node) {
   node.classList.add("qi-rrf");
   node.innerHTML = `
 <svg aria-label="RRF merges ranked chunks C, A, E, B." class="qi-svg rrf-desktop" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240">
-  
+
   <text x="136" y="30">Hop 1</text>
   <text x="360" y="30">Hop 2</text>
   <text x="584" y="30">Merged</text>
@@ -58,7 +58,7 @@ export function mount(node) {
   </g>
 </svg>
 <svg aria-label="RRF merges ranked chunks C, A, E, B." class="qi-svg rrf-mobile" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 240">
-  
+
   <text x="56" y="30">Hop 1</text>
   <text x="190" y="30">Hop 2</text>
   <text x="329" y="30">Merged</text>
