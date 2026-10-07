@@ -72,7 +72,7 @@ We measured this on 240 held-out queries from the [WANDS](https://huggingface.co
 | Jev's score in our own MMR, diversity 0.7          | 0.719       | 0.22                              | 3.40                              |
 | Qdrant MMR, diversity 0.5, then Jev rerank         | 0.723       | 0.04                              | 3.12                              |
 
-Sorting by Jev's answer gave the most relevant page by far, and it did nothing for repetition: the near-duplicates stayed, and the page got narrower, from 3.17 distinct product classes to 2.41. That's not a flaw in Jev. Even a perfect ordering by the human labels narrows the page to 2.66 classes, because the most relevant products for a query tend to be the same kind of product.
+Jev reranking improved relevance but left near-duplicates in place and reduced product variety. Even ordering by the human relevance labels narrowed the page to 2.66 product classes. Relevant results can still be repetitive.
 
 Qdrant's built-in [Maximal Marginal Relevance (MMR)](/articles/vector-similarity-beyond-search/#diversity-search) goes the other way: at diversity 0.5, it removes the near-duplicates and gives the widest page, but costs 0.12 nDCG@10, because it measures relevance as vector similarity to the query.
 
