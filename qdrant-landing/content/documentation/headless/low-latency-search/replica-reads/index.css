@@ -1,7 +1,8 @@
 /* replica-reads island. Scoped under .qi-rr. Controls, frames and labels come
    from the shared island design system (islands.scss); this file only styles
-   the client, query wires, traveling queries and the shard replicas. Shard
-   colors match the replication island on the horizontal scaling page. */
+   the collection strip, the client, the query wire, the cluster frame and the
+   shard replicas. Shard colors match the replication island on the
+   horizontal scaling page. */
 
 .qi-rr {
   --rr-0: #6047ff; /* neon-blue-500 */
@@ -12,7 +13,25 @@
   display: block;
 }
 
-/* Cluster: an outline around the nodes; queries arrive here. */
+/* Collection strip: the collection, divided into its shards. */
+.qi-rr__chip--0 {
+  fill: var(--rr-0);
+}
+.qi-rr__chip--1 {
+  fill: var(--rr-1);
+}
+.qi-rr__chip--2 {
+  fill: var(--rr-2);
+}
+.qi-rr__chip-text {
+  fill: #fff;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+/* Cluster: an outline around the peers; queries arrive here. */
 .qi-rr__cluster {
   fill: none;
   stroke: var(--qi-border);
@@ -29,13 +48,12 @@
   text-anchor: middle;
 }
 
-/* Query wires: shown only while queries are running. */
+/* Query wire: shown while queries are running. */
 .qi-rr__wire {
   fill: none;
   stroke: var(--rr-query);
   stroke-width: 1.5;
   stroke-linecap: round;
-  stroke-linejoin: round;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -52,6 +70,16 @@
 }
 
 /* --- Shard replicas --- */
+.qi-rr__shard {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+/* The second replica of each shard only exists in Replicas mode. */
+.qi-rr__shard--copy {
+  opacity: 0;
+}
+.qi-rr__shard--copy.is-on {
+  opacity: 1;
+}
 .qi-rr__box {
   fill: var(--qi-line);
   fill-opacity: 0.35;
@@ -78,6 +106,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .qi-rr__wire,
+  .qi-rr__shard,
   .qi-rr__box {
     transition: none;
   }
