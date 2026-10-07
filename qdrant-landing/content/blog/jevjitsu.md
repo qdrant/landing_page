@@ -33,7 +33,7 @@ There are two fundamental ideas that the Jev advancement brings to light:
 1. **Jev is the next step in making models usable without task-specific training.** Pretrained transformers meant you no longer trained a model from scratch for each task, and LLMs let you describe what you want. Jev keeps "describe it, don't train it" while addressing what makes LLMs awkward for classification: slow responses, high costs, and answers outside your options.
 2. **A conceptual shift in consumers of the "LLM Is All You Need" approach**. Recently, the default was to stretch an LLM over everything. Jev is part of a move toward concrete methods. Even if the underlying concept still uses the transformer architecture, the constraints and promise are way different for the end customer.
 
-Since Jev can take on any classification task, we tried it on several. Everyone has tested it as a reranker by now, and so did we, but the more interesting part came after: how to rerank better, how reading the query before searching helps, and what happens if you make Jev chunk a document. Here is what we expected, what surprised us, and what we'd try next. The WANDS, Amazon-C4, and QASPER experiments are in the [many-jev-recipies](https://github.com/qdrant-labs/many-jev-recipies) repository if you want to run them yourself.
+Since Jev can take on any classification task, we tried it on several. Everyone has tested it as a reranker by now, and so did we, but the more interesting part came after: how to rerank better, how reading the query before searching helps, and what happens if you make Jev chunk a document. Here is what we expected, what surprised us, and what we'd try next. All of the experiments are in the [many-jev-recipies](https://github.com/qdrant-labs/many-jev-recipies) repository if you want to run them yourself.
 
 ## Reranking
 
@@ -56,7 +56,7 @@ At this point, testing Jev as a reranker on a few hundred queries is practically
 | ms-marco-MiniLM-L-6-v2 | local | +0.0313 | +0.0258 |
 | bge-reranker-base | local | -0.0015 | -0.0127 |
 
-We expected the most expensive method, Iterative, to win by a wide margin. It had the highest score, but only by a small margin: all three Jev methods beat BGE-small at both depths, and the gaps between them are under 0.02. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
+We expected the most expensive method, Iterative, to win by a wide margin. It had the highest score, but only by a small margin: all three Jev methods beat BGE-small at both depths, and the gaps between them are under 0.02. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query. The full comparison, including the cross-encoders, is in the [reranking notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jev_reranking_nfcorpus.ipynb).
 
 Both cross-encoders gained less than any Jev method, and bge-reranker-base did not improve on BGE-small at all. Jev lets us adapt the relevance question without training a new model. Cross-encoders offer local execution and can be faster or cheaper. Which fits depends on how you weigh flexibility, quality, latency, and cost. But reranking is only the start: Jev's judgments can guide other search decisions too.
 
