@@ -25,3 +25,9 @@ html[data-theme='light'] .qd-figure .qd-figure__light {
 html[data-theme='light'] .qd-figure .qd-figure__dark {
   display: none;
 }
+
+.qd-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}

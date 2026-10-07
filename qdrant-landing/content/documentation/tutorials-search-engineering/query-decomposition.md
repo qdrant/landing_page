@@ -96,17 +96,18 @@ def rrf_fuse(hops, k=2, limit=10):
 
 Reciprocal Rank Fusion scores each chunk by its rank in every hop, `1 / (k + rank)`, and sums across hops, so a chunk ranked high in any hop rises and one ranked high in several rises further.
 
-<link rel="stylesheet" href="/documentation/query-decomposition/figures.css">
+<link rel="stylesheet" href="/documentation/tutorials/query-decomposition/figures.css">
 
 <figure class="qd-figure">
   <picture class="qd-figure__light">
-    <source media="(max-width: 600px)" srcset="/documentation/query-decomposition/rrf-merge.mobile.svg" width="390" height="240">
-    <img src="/documentation/query-decomposition/rrf-merge.svg" alt="Reciprocal Rank Fusion merges two ranked hop lists using k = 2 and zero-based ranks. Hop 1 contains circle, triangle, square, and diamond tiles, in that order. Hop 2 contains plus, square, ring, and bar tiles. Thin lines trace the square from both hops to the first merged position. Its contributions of 0.25 and one-third sum to about 0.583, making it the darkest tile. The merged order is square, circle, plus, then triangle. The circle and plus each score 0.5, and the triangle scores one-third. All tiles use the same linear light-to-dark green score scale from 0.2 to 0.583." width="720" height="240" loading="lazy">
+    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-merge.mobile.svg" width="390" height="240">
+    <img src="/documentation/tutorials/query-decomposition/rrf-merge.svg" alt="Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333." width="720" height="240" loading="lazy">
   </picture>
   <picture class="qd-figure__dark">
-    <source media="(max-width: 600px)" srcset="/documentation/query-decomposition/rrf-merge.mobile.dark.svg" width="390" height="240">
-    <img src="/documentation/query-decomposition/rrf-merge.dark.svg" alt="Reciprocal Rank Fusion merges two ranked hop lists using k = 2 and zero-based ranks. Hop 1 contains circle, triangle, square, and diamond tiles, in that order. Hop 2 contains plus, square, ring, and bar tiles. Thin lines trace the square from both hops to the first merged position. Its contributions of 0.25 and one-third sum to about 0.583, making it the darkest tile. The merged order is square, circle, plus, then triangle. The circle and plus each score 0.5, and the triangle scores one-third. All tiles use the same linear light-to-dark green score scale from 0.2 to 0.583." width="720" height="240" loading="lazy">
+    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-merge.mobile.dark.svg" width="390" height="240">
+    <img src="/documentation/tutorials/query-decomposition/rrf-merge.dark.svg" alt="Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333." width="720" height="240" loading="lazy">
   </picture>
+<figcaption>Illustrative RRF scores with <code>k=2</code> and zero-based ranks. Letters identify chunks; darker violet indicates a higher score. Chunk C contributes 0.250 and 0.333, totaling about 0.583. Equal scores keep first-seen order.</figcaption>
 </figure>
 
 `rrf_fuse` runs in your own code because the loop already holds every hop's results. Qdrant can also run RRF on the server, inside a single query; see the [hybrid queries reference](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
@@ -118,13 +119,14 @@ The example uses `k=2`, the default of Qdrant's server-side RRF. `k` sets how mu
 
 <figure class="qd-figure">
   <picture class="qd-figure__light">
-    <source media="(max-width: 600px)" srcset="/documentation/query-decomposition/rrf-helps-hurts.mobile.svg" width="390" height="406">
-    <img src="/documentation/query-decomposition/rrf-helps-hurts.svg" alt="Two examples show how Reciprocal Rank Fusion with k = 2 and zero-based ranks can help or hurt when the answer step reads only the first two merged chunks. Check badges identify the two needed chunks, represented by a circle and a square. In Helps, Hop 1 contains circle, diamond, and square tiles; Hop 2 contains triangle, square, and ring tiles. The triangle is a wrong result marked with a cross badge. Lines trace the repeated square to the first merged position, with a score of about 0.583. The circle follows with 0.5. Both needed chunks precede the cutoff line, while the wrong triangle, also scoring 0.5, follows it. In Hurts, Hop 1 contains circle, diamond, and plus tiles; Hop 2 contains square, plus, and bar tiles. Dashed outlines identify the vague plus chunk. Lines trace it from both hops to the first merged position, with a score of about 0.583. The circle follows with 0.5. The needed square, also scoring 0.5, follows the cutoff line and has an additional cross badge to show that the answer step does not receive it. Equal scores retain the first-seen order. All tiles use the same linear light-to-dark green score scale from 0.2 to 0.583." width="720" height="240" loading="lazy">
+    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-helps-hurts.mobile.svg" width="390" height="406">
+    <img src="/documentation/tutorials/query-decomposition/rrf-helps-hurts.svg" alt="With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score." width="720" height="240" loading="lazy">
   </picture>
   <picture class="qd-figure__dark">
-    <source media="(max-width: 600px)" srcset="/documentation/query-decomposition/rrf-helps-hurts.mobile.dark.svg" width="390" height="406">
-    <img src="/documentation/query-decomposition/rrf-helps-hurts.dark.svg" alt="Two examples show how Reciprocal Rank Fusion with k = 2 and zero-based ranks can help or hurt when the answer step reads only the first two merged chunks. Check badges identify the two needed chunks, represented by a circle and a square. In Helps, Hop 1 contains circle, diamond, and square tiles; Hop 2 contains triangle, square, and ring tiles. The triangle is a wrong result marked with a cross badge. Lines trace the repeated square to the first merged position, with a score of about 0.583. The circle follows with 0.5. Both needed chunks precede the cutoff line, while the wrong triangle, also scoring 0.5, follows it. In Hurts, Hop 1 contains circle, diamond, and plus tiles; Hop 2 contains square, plus, and bar tiles. Dashed outlines identify the vague plus chunk. Lines trace it from both hops to the first merged position, with a score of about 0.583. The circle follows with 0.5. The needed square, also scoring 0.5, follows the cutoff line and has an additional cross badge to show that the answer step does not receive it. Equal scores retain the first-seen order. All tiles use the same linear light-to-dark green score scale from 0.2 to 0.583." width="720" height="240" loading="lazy">
+    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-helps-hurts.mobile.dark.svg" width="390" height="406">
+    <img src="/documentation/tutorials/query-decomposition/rrf-helps-hurts.dark.svg" alt="With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score." width="720" height="240" loading="lazy">
   </picture>
+<figcaption>Illustrative examples with <code>k=2</code>. Check marks identify needed chunks A and C; dashed borders identify vague chunk E. The horizontal line limits the answer to two chunks. Crosses mark a wrong result or an excluded needed chunk. Repeated chunks score 0.583; each hop's top chunk scores 0.500. Equal scores keep first-seen order.</figcaption>
 </figure>
 
 - A smaller `k` favors each hop's top result.
