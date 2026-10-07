@@ -1,7 +1,7 @@
 ---
 title: "Scalar Quantization for Vector Search"
 short_description: "Discover scalar quantization for optimized data storage and improved performance, including data compression benefits and efficiency enhancements."
-description: "Discover the efficiency of scalar quantization for optimized data storage and enhanced performance. Learn about its data compression benefits and efficiency improvements."
+description: "Learn how scalar quantization turns float32 vectors into int8 in Qdrant, cutting memory 4x, and how it compares to TurboQuant."
 social_preview_image: /articles_data/scalar-quantization/preview/social_preview.jpg
 small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
 preview_dir: /articles_data/scalar-quantization/preview
@@ -40,7 +40,7 @@ from version 1.1.0, you can also optimize your memory by compressing the embeddi
 We've implemented the mechanism of **Scalar Quantization**! It turns out to have not 
 only a positive impact on memory but also on the performance. 
 
-## Scalar quantization
+## Scalar Quantization
 
 Scalar quantization is a data compression technique that converts floating point values 
 into integers. In case of Qdrant `float32` gets converted into `int8`, so a single number 
@@ -48,7 +48,7 @@ needs 75% less memory. It's not a simple rounding though! It's a process that ma
 transformation partially reversible, so we can also revert integers back to floats with 
 a small loss of precision. 
 
-### Theoretical background
+### Theoretical Background
 
 Assume we have a collection of `float32` vectors and denote a single value as `f32`. 
 In reality neural embeddings do not cover a whole range represented by the floating
@@ -56,7 +56,9 @@ point numbers, but rather a small subrange. Since we know all the other vectors,
 establish some statistics of all the numbers. For example, the distribution of the values 
 will be typically normal:
 
-![A distribution of the vector values](/articles_data/scalar-quantization/float32-distribution.png)
+{{< island path="content/articles/headless/scalar-quantization/float32-distribution" ratio="700 / 206" >}}
+![A distribution of the vector values](/articles_data/scalar-quantization/float32-distribution.svg)
+{{< /island >}}
 
 Our example shows that 99% of the values come from a `[-2.0, 5.0]` range. And the 
 conversion to `int8` will surely lose some precision, so we rather prefer keeping the 
@@ -66,13 +68,15 @@ actually, any value from a range `[0, 1]`, where `0` means empty range, and `1` 
 keep all the values. That's a hyperparameter of the procedure called `quantile`. A value 
 of `0.95` or `0.99` is typically a reasonable choice, but in general `quantile ∈ [0, 1]`.
 
-#### Conversion to integers
+#### Conversion to Integers
 
 Let's talk about the conversion to `int8`. Integers also have a finite set of values that
 might be represented. Within a single byte they may represent up to 256 different values,
 either from `[-128, 127]` or `[0, 255]`.
 
-![Value ranges represented by int8](/articles_data/scalar-quantization/int8-value-range.png)
+{{< island path="content/articles/headless/scalar-quantization/int8-value-range" ratio="700 / 92" >}}
+![Value ranges represented by int8](/articles_data/scalar-quantization/int8-value-range.svg)
+{{< /island >}}
 
 Since we put some boundaries on the numbers that might be represented by the `f32`, and
 `i8` has some natural boundaries, the process of converting the values between those
@@ -86,7 +90,9 @@ The parameters $ \alpha $ and $ offset $ have to be calculated for a given set o
 but that comes easily by putting the minimum and maximum of the represented range for 
 both `f32` and `i8`. 
 
-![Float32 to int8 conversion](/articles_data/scalar-quantization/float32-to-int8-conversion.png)
+{{< island path="content/articles/headless/scalar-quantization/float32-to-int8-conversion" ratio="700 / 236" >}}
+![Float32 to int8 conversion](/articles_data/scalar-quantization/float32-to-int8-conversion.svg)
+{{< /island >}}
 
 For the unsigned `int8` it will go as following:
 
@@ -104,7 +110,7 @@ For any set of vector values we can simply calculate the $ \alpha $ and $ offset
 those values have to be stored along with the collection to enable the conversion between
 the types. 
 
-#### Distance calculation
+#### Distance Calculation
 
 We do not store the vectors in the collections represented by `int8` instead of `float32` 
 just for the sake of compressing the memory. But the coordinates are being used while we 
@@ -132,6 +138,8 @@ performance. As usual, we performed some benchmarks to support this statement!
 
 ## Benchmarks
 
+These benchmarks were run in March 2023 on Qdrant v1.1.0, the release that introduced scalar quantization. The hardware was not recorded, so read them as a historical comparison, not as current performance.
+
 We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks/).
 Both [Arxiv-titles-384-angular-no-filters](https://github.com/qdrant/ann-filtering-benchmark-datasets) 
 and [Gist-960](https://github.com/erikbern/ann-benchmarks/) datasets were chosen to make 
@@ -140,58 +148,11 @@ in the tables:
 
 #### Arxiv-titles-384-angular-no-filters	
 
-<table>
-   <thead>
-      <tr>
-         <th colspan="2"></th>
-         <th colspan="2">ef = 128</th>
-         <th colspan="2">ef = 256</th>
-         <th colspan="2">ef = 512</th>
-      </tr>
-      <tr>
-         <th></th>
-         <th><small>Upload and indexing time</small></th>
-         <th><small>Mean search precision</small></th>
-         <th><small>Mean search time</small></th>
-         <th><small>Mean search precision</small></th>
-         <th><small>Mean search time</small></th>
-         <th><small>Mean search precision</small></th>
-         <th><small>Mean search time</small></th>
-      </tr>
-   </thead>
-   <tbody>
-      <tr>
-         <th>Non-quantized vectors</th>
-         <td>649 s</td>
-         <td>0.989</td>
-         <td>0.0094</td>
-         <td>0.994</td>
-         <td>0.0932</td>
-         <td>0.996</td>
-         <td>0.161</td>
-      </tr>
-      <tr>
-         <th>Scalar Quantization</th>
-         <td>496 s</td>
-         <td>0.986</td>
-         <td>0.0037</td>
-         <td>0.993</td>
-         <td>0.060</td>
-         <td>0.996</td>
-         <td>0.115</td>
-      </tr>
-      <tr>
-         <td>Difference</td>
-         <td><span style="color: green;">-23.57%</span></td>
-         <td><span style="color: red;">-0.3%</span></td>
-         <td><span style="color: green;">-60.64%</span></td>
-         <td><span style="color: red;">-0.1%</span></td>
-         <td><span style="color: green;">-35.62%</span></td>
-         <td>0%</td>
-         <td><span style="color: green;">-28.57%</span></td>
-      </tr>
-   </tbody>
-</table>
+| | Upload and indexing time | Mean search precision, ef = 128 | Mean search time, ef = 128 | Mean search precision, ef = 256 | Mean search time, ef = 256 | Mean search precision, ef = 512 | Mean search time, ef = 512 |
+|---|---|---|---|---|---|---|---|
+| Non-quantized vectors | 649 s | 0.989 | 0.0094 | 0.994 | 0.0932 | 0.996 | 0.161 |
+| Scalar Quantization | 496 s | 0.986 | 0.0037 | 0.993 | 0.060 | 0.996 | 0.115 |
+| Difference | -23.57% | -0.3% | -60.64% | -0.1% | -35.62% | 0% | -28.57% |
 
 A slight decrease in search precision results in a considerable improvement in the 
 latency. Unless you aim for the highest precision possible, you should not notice the 
@@ -199,64 +160,17 @@ difference in your search quality.
 
 #### Gist-960
 
-<table>
-   <thead>
-      <tr>
-         <th colspan="2"></th>
-         <th colspan="2">ef = 128</th>
-         <th colspan="2">ef = 256</th>
-         <th colspan="2">ef = 512</th>
-      </tr>
-      <tr>
-         <th></th>
-         <th><small>Upload and indexing time</small></th>
-         <th><small>Mean search precision</small></th>
-         <th><small>Mean search time</small></th>
-         <th><small>Mean search precision</small></th>
-         <th><small>Mean search time</small></th>
-         <th><small>Mean search precision</small></th>
-         <th><small>Mean search time</small></th>
-      </tr>
-   </thead>
-   <tbody>
-      <tr>
-         <th>Non-quantized vectors</th>
-         <td>452</td>
-         <td>0.802</td>
-         <td>0.077</td>
-         <td>0.887</td>
-         <td>0.135</td>
-         <td>0.941</td>
-         <td>0.231</td>
-      </tr>
-      <tr>
-         <th>Scalar Quantization</th>
-         <td>312</td>
-         <td>0.802</td>
-         <td>0.043</td>
-         <td>0.888</td>
-         <td>0.077</td>
-         <td>0.941</td>
-         <td>0.135</td>
-      </tr>
-      <tr>
-         <td>Difference</td>
-         <td><span style="color: green;">-30.79%</span></td>
-         <td>0%</td>
-         <td><span style="color: green;">-44.16%</span></td>
-         <td><span style="color: green;">+0.11%</span></td>
-         <td><span style="color: green;">-42.96%</span></td>
-         <td>0%</td>
-         <td><span style="color: green;">-41.56%</span></td>
-      </tr>
-   </tbody>
-</table>
+| | Upload and indexing time | Mean search precision, ef = 128 | Mean search time, ef = 128 | Mean search precision, ef = 256 | Mean search time, ef = 256 | Mean search precision, ef = 512 | Mean search time, ef = 512 |
+|---|---|---|---|---|---|---|---|
+| Non-quantized vectors | 452 s | 0.802 | 0.077 | 0.887 | 0.135 | 0.941 | 0.231 |
+| Scalar Quantization | 312 s | 0.802 | 0.043 | 0.888 | 0.077 | 0.941 | 0.135 |
+| Difference | -30.97% | 0% | -44.16% | +0.11% | -42.96% | 0% | -41.56% |
 
 In all the cases, the decrease in search precision is negligible, but we keep a latency 
 reduction of at least 28.57%, even up to 60.64%, while searching. As a rule of thumb,
 the higher the dimensionality of the vectors, the lower the precision loss.
 
-### Oversampling and rescoring
+### Oversampling and Rescoring
 
 A distinctive feature of the Qdrant architecture is the ability to combine the search for quantized and original vectors in a single query.
 This enables the best combination of speed, accuracy, and RAM usage.
@@ -288,8 +202,33 @@ The mechanism of Scalar Quantization with rescoring disabled pushes the limits o
 machines even further. It seems like handling lots of requests does not require an 
 expensive setup if you can agree to a small decrease in the search precision.
 
-### Accessing best practices
+## Where Scalar Quantization Fits Today
+
+Qdrant offers more quantization methods today than it did in 2023. Scalar quantization is still what the documentation recommends at 4x compression. Since v1.18, 4-bit [TurboQuant](/articles/turboquant-quantization/) gives comparable recall at 8x compression, unless you use the Manhattan (L1) distance. [Binary quantization](/articles/binary-quantization/) and [product quantization](/articles/product-quantization/) go further, up to 32x and 64x, at a larger accuracy cost. The [quantization guide](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) compares the methods by compression level.
+
+To see how scalar quantization compares with 4-bit TurboQuant today, we reran Gist-960 in October 2026 on Qdrant v1.19.2. Every run used the same collection: HNSW with `m=16` and `ef_construct=100`, Euclidean distance, original vectors on disk, and quantized vectors in RAM. Recall@10 is measured against the dataset's ground-truth neighbors, and rescoring uses no oversampling.
+
+| Method | Compression | Recall@10, ef=128 | Recall@10, ef=256 | Recall@10, ef=512 |
+|---|---|---|---|---|
+| No quantization | 1x | 0.928 | 0.962 | 0.981 |
+| Scalar quantization, rescore | 4x | 0.929 | 0.964 | 0.983 |
+| Scalar quantization, no rescore | 4x | 0.887 | 0.914 | 0.927 |
+| 4-bit TurboQuant, rescore | 8x | 0.929 | 0.965 | 0.981 |
+| 4-bit TurboQuant, no rescore | 8x | 0.878 | 0.903 | 0.912 |
+
+With rescoring, scalar quantization and 4-bit TurboQuant both land within 0.003 of the unquantized baseline, and TurboQuant uses half the memory of scalar quantization. Those gaps are smaller than the variation between HNSW builds: an earlier run on Qdrant v1.19.1 moved individual results by up to 0.008. Without rescoring, scalar quantization kept 0.009 to 0.016 more recall than TurboQuant in both runs. The runs measured recall only, not latency. The 2023 settings were not recorded, so compare rows within this table rather than with the 2023 tables.
+
+### Accessing Best Practices
 
 Qdrant documentation on [Scalar Quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant)
 is a great resource describing different scenarios and strategies to achieve up to 4x 
 lower memory footprint and even up to 2x performance increase.
+
+## Further Reading
+
+- [Quantization guide](/documentation/manage-data/quantization/): how to configure each method, and which one to choose at each compression level.
+- [TurboQuant in Qdrant](/articles/turboquant-quantization/): the 8x method compared with scalar quantization in this article.
+- [Binary Quantization](/articles/binary-quantization/) and [Product Quantization](/articles/product-quantization/): the options for higher compression.
+- [Minimal RAM to serve a million vectors](/articles/memory-consumption/): how on-disk storage and quantization reduce memory use.
+- [Gist-960 on ann-benchmarks](https://github.com/erikbern/ann-benchmarks/): the dataset and ground-truth neighbors used for the 2026 rerun.
+- [Reproduction kit](https://github.com/qdrant-labs/scalar-quantization-benchmark): the script and raw results to rerun the 2026 table on your Qdrant version.

@@ -94,13 +94,13 @@ Hyper3-CLIP, a hyperbolic image and text embedding model from [hyper³labs](http
 
 Hyper3-CLIP appears here to illustrate what radius can carry. It is not the model benchmarked later: the tests below use a small embedding we trained ourselves on a single taxonomy.
 
-Consider the black Chelsea boot below. A traversal toward the origin illustrates a move from the specific product to broader concepts: black Chelsea boots, Chelsea boots, boots, and footwear.
+Consider the black Chelsea boot in the next figure. A traversal toward the origin illustrates a move from the specific product to broader concepts: black Chelsea boots, Chelsea boots, boots, and footwear.
 
 ![Conceptual inward traversal with progressively broader product examples beside each level](/articles_data/hyperbolic-embeddings-qdrant/radius-traversal-products.png)
 
 *Conceptual traversal inspired by a catalog product from Amazon Berkeley Objects. Product imagery is AI-illustrated; descriptions and positions are illustrative, not model retrieval results. [[6]](#references)*
 
-We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
+We can also look at how the model organizes product images. The next figure compares conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
 <link rel="stylesheet" href="/articles_data/hyperbolic-embeddings-qdrant/figures.css">
 
@@ -168,11 +168,11 @@ client.create_payload_index(
 
 Without that payload index the rescore turns into a full scan.
 
-Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request. [[5]](#references)
+Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) rescores those candidates with the real hyperbolic distance in the same request. [[5]](#references)
 
-Euclidean is the prefetch metric here because away from the edge of the ball it tracks hyperbolic distance closely enough to gather candidates. Cosine is the obvious alternative, and which one wins depends on how wide the prefetch is. At a prefetch of 50 cosine is ahead, `0.505` against `0.473`. At the prefetch of 1,000 this article recommends it is behind, `0.876` against `0.920`, and it does not catch up: cosine's recall saturates near `0.875` at every width we tried. Direction alone finds the right neighborhood but cannot separate depths inside it, which is what the rescore is for.
+Euclidean is the prefetch metric here because away from the edge of the ball it tracks hyperbolic distance closely enough to gather candidates. Cosine is the obvious alternative, and which one wins depends on how wide the prefetch is. At a prefetch of 50 cosine is ahead, `0.505` against `0.472`. At the prefetch of 1,000 this article recommends it is behind, `0.876` against `0.920`, and it does not catch up: cosine's recall saturates near `0.875` at every width we tried. Direction alone finds the right neighborhood but cannot separate depths inside it, which is what the rescore is for.
 
-The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query does not have that operator. [[4]](#references) It does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
+The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query did not have that operator when we ran these tests. An `acosh` expression was merged into Qdrant in August 2026 [[4]](#references), but it was not part of a stable release as of v1.19.1. Formula Query does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
 
 ```json
 {

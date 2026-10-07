@@ -112,7 +112,7 @@ No single signal was best on all three, and which ones were worth computing trac
 - **Ranking precision** (SciFact): the right document is retrieved but ranked too low. Spread and height catch it (0.75 to 0.76); agreement says nothing.
 - **Reachability** (MuSiQue): the answer needs a hop the query cannot express, so the first retrieval looks confident even when wrong. The best cheap signal reaches only 0.73, and the agreement signals fall to near chance: no cheap signal reliably catches a missing hop, so the fix is decomposition (new queries that reach the next hop), not a better gate.
 
-Three benchmarks cannot crown a universal signal, so the deliverable is the method, not a default: measure separation on your own data and keep what works (`evidence_coverage` separated nothing on any of the three, so we dropped it). The one pattern that should generalize is the ceiling: when the failure is reachability, not embedding confusion, the result looks healthy and no cheap signal sees it.
+Three benchmarks cannot crown a universal signal, so the deliverable is the method, not a default: measure separation on your own data and keep what works (`evidence_coverage` never cleared the 0.65 bar on any of the three, so we dropped it). The one pattern that should generalize is the ceiling: when the failure is reachability, not embedding confusion, the result looks healthy and no cheap signal sees it.
 
 ## Find Your Signal
 
