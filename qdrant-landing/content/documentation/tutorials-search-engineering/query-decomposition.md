@@ -15,8 +15,8 @@ aliases:
 
 # Query Decomposition for Multi-Hop Questions
 
-| Time: 15 min | Level: Intermediate |  |    |
-|--------------|---------------------|--|----|
+| Time: 15 min | Level: Intermediate | Stack: Python |
+|--------------|---------------------|---------------|
 
 A multi-hop question chains two facts: the second depends on the answer to the first. "Where was the director of the film Inception born?" needs the director, then that person's birthplace. A single query retrieves chunks about the film, but the birthplace sits in a chunk about Christopher Nolan that never mentions Inception. Reranking and fusion only reorder what one query already retrieved, so they can't recover evidence that was never in the candidate set.
 
@@ -96,9 +96,9 @@ def rrf_fuse(hops, k=2, limit=10):
 
 Reciprocal Rank Fusion scores each chunk by its rank in every hop, `1 / (k + rank)`, and sums across hops, so a chunk ranked high in any hop rises and one ranked high in several rises further.
 
+{{< island path="content/documentation/headless/query-decomposition/rrf-merge" ratio="3 / 1" title="Illustrative RRF scores with `k=2` and zero-based ranks. Letters identify chunks; each tile includes its score. Chunk C contributes 0.250 and 0.333, totaling about 0.583. Equal scores keep first-seen order." >}}
 ![Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333.](/documentation/tutorials/query-decomposition/rrf-merge.svg)
-
-Illustrative RRF scores with `k=2` and zero-based ranks. Letters identify chunks; darker violet indicates a higher score. Chunk C contributes 0.250 and 0.333, totaling about 0.583. Equal scores keep first-seen order.
+{{< /island >}}
 
 `rrf_fuse` runs in your own code because the loop already holds every hop's results. Qdrant can also run RRF on the server, inside a single query; see the [hybrid queries reference](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
@@ -107,9 +107,9 @@ The example uses `k=2`, the default of Qdrant's server-side RRF. `k` sets how mu
 - **This can help when a follow-up goes off track**, because agreement between hops can outweigh one hop's wrong top result.
 - **It can also hurt**: a vague chunk that loosely matches two sub-questions can outrank the one chunk that answers a hop.
 
+{{< island path="content/documentation/headless/query-decomposition/rrf-helps-hurts" ratio="3 / 1" title="Illustrative examples with `k=2`. Check marks identify needed chunks A and C; dashed borders identify vague chunk E. The horizontal line limits the answer to two chunks. Crosses mark a wrong result or an excluded needed chunk. Repeated chunks score 0.583; each hop's top chunk scores 0.500. Equal scores keep first-seen order." >}}
 ![With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score.](/documentation/tutorials/query-decomposition/rrf-helps-hurts.svg)
-
-Illustrative examples with `k=2`. Check marks identify needed chunks A and C; dashed borders identify vague chunk E. The horizontal line limits the answer to two chunks. Crosses mark a wrong result or an excluded needed chunk. Repeated chunks score 0.583; each hop's top chunk scores 0.500. Equal scores keep first-seen order.
+{{< /island >}}
 
 - A smaller `k` favors each hop's top result.
 - A larger `k` lets a chunk found by 2 hops outrank a top chunk found by only one, even from lower ranks.
