@@ -34,7 +34,7 @@
 
 .qi-outlier__ring {
   fill: none;
-  stroke-width: 3;
+  stroke-width: 2;
 }
 
 .qi-outlier__ring--reference {
@@ -49,11 +49,74 @@
   stroke: var(--qi-cat-2);
 }
 
+/* Association: a photo and its point are the same item. Dotted and faint,
+   so it never reads as a distance. */
 .qi-outlier__link {
   fill: none;
   stroke: var(--qi-muted);
-  stroke-dasharray: 7 6;
-  stroke-width: 2;
+  stroke-dasharray: 0 7;
+  stroke-linecap: round;
+  stroke-width: 3;
+  opacity: 0.7;
+}
+
+/* Closeness: the distance from a scored item to a reference. Solid, in the
+   item's color; muted when the item is not flagged in the active mode. */
+.qi-outlier__near {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.qi-outlier__near--bad {
+  stroke: var(--qi-cat-4);
+}
+
+.qi-outlier__near--review {
+  stroke: var(--qi-cat-2);
+}
+
+.qi-outlier__near--muted {
+  stroke: var(--qi-muted);
+  opacity: 0.45;
+}
+
+.qi-outlier__near {
+  transition: opacity 0.15s;
+}
+
+/* With one item in focus, every other item's closeness lines step back. */
+.qi-outlier__draw.has-focus [data-item]:not(.is-focus) .qi-outlier__near {
+  opacity: 0.25;
+}
+
+.qi-outlier__draw.has-focus [data-item].is-focus .qi-outlier__near {
+  opacity: 1;
+  stroke-width: 3.5;
+}
+
+.qi-outlier__item {
+  cursor: pointer;
+}
+
+.qi-outlier__hit {
+  fill: transparent;
+}
+
+.qi-outlier .qi-outlier__svg .qi-outlier__score {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.qi-outlier .qi-outlier__svg .qi-outlier__score--bad {
+  fill: var(--qi-cat-4);
+}
+
+.qi-outlier .qi-outlier__svg .qi-outlier__score--review {
+  fill: var(--qi-cat-2);
+}
+
+.qi-outlier .qi-outlier__svg .qi-outlier__score--muted {
+  fill: var(--qi-muted);
 }
 
 .qi-outlier__tile {
@@ -82,8 +145,3 @@
   opacity: 0.5;
 }
 
-@media (max-width: 560px) {
-  .qi-outlier .qi-outlier__svg .qi-label {
-    font-size: 14px;
-  }
-}
