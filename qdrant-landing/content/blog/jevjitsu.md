@@ -78,7 +78,7 @@ Jev reranking improved relevance but left near-duplicates in place and reduced p
 
 Qdrant's built-in [Maximal Marginal Relevance (MMR)](/articles/vector-similarity-beyond-search/#diversity-search) goes the other way: at diversity 0.5, it removes the near-duplicates and gives the widest page, but costs 0.12 nDCG@10, because it measures relevance as vector similarity to the query.
 
-The fix was to use the reranker's score indirectly, as the relevance signal for diversity: either swap MMR's relevance term for Jev's answer, or run Qdrant's MMR first and let Jev rerank its top 20. Both beat hybrid search on relevance and repetition at once, giving up part of the plain rerank's gain for a varied page. This part came together quickly, with one surprise: we expected pruning, dropping the results Jev flags as irrelevant or as near-duplicates of a higher one, to beat reranking. It didn't: the difference in relevance between the two was minimal. The full comparison is in the [pruning notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/prune/prune.ipynb).
+The fix was to use the reranker's score as the relevance signal for diversity: either swap MMR's relevance term for Jev's answer, or run Qdrant's MMR first and let Jev rerank its top 20. Both beat hybrid search on relevance and repetition, giving up part of the plain rerank's gain for a more varied page. On this dataset, plain reranking gave the strongest relevance; combining Jev with MMR reduced repetition while keeping relevance above the hybrid baseline. The full comparison is in the [pruning notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/prune/prune.ipynb).
 
 ## Query Understanding
 
