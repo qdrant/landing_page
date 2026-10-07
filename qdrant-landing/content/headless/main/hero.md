@@ -2,8 +2,8 @@
 title: High-Performance Vector Search at Scale
 subtitle: Qdrant helps you build the AI retrieval you want. Ship high performance, full-feature vector search at any scale and with any deployment model.
 startFree:
-  text: Start Free in Qdrant Cloud
-  url: https://cloud.qdrant.io/signup
+  text: Talk to our Team
+  url: https://qdrant.tech/contact-us/
 learnMore:
   text: See How It Works
   url: /qdrant-vector-database/
