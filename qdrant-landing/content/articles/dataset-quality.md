@@ -1,7 +1,7 @@
 ---
 title: "Detecting Dataset Errors with Similarity Search"
-short_description: Finding errors in datasets with distance-based methods
-description: Improving quality of text-and-images datasets on the online furniture marketplace example.
+short_description: "Find mislabeled items in a dataset by comparing category names with text and image embeddings."
+description: "Detect category errors in text-and-image datasets: rank items by distance from their category, use diversity search to catch what similarity misses."
 preview_dir: /articles_data/dataset-quality/preview
 social_preview_image: /articles_data/dataset-quality/preview/social_preview.jpg
 small_preview_image: /articles_data/dataset-quality/icon.svg
@@ -9,7 +9,7 @@ weight: 50
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-07-18T10:18:00.000Z
-category: data-exploration
+category: relevance-and-evaluation
 # aliases: [ /articles/dataset-quality/ ]
 ---
 Nowadays, people create a huge number of applications of various types and solve problems in different areas.
@@ -27,7 +27,6 @@ It is really important to avoid such errors in your data.
 
 Let’s say you work on an online furniture marketplace. 
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/furniture_marketplace.png caption="Furniture marketplace" >}}
 
 In this case, to ensure a good user experience, you need to split items into different categories: tables, chairs, beds, etc.
 One can arrange all the items manually and spend a lot of money and time on this.
@@ -58,7 +57,13 @@ After embeddings are created, we can measure the distances between them.
 
 Assume we want to search for something other than a single bed in «Single beds» category.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/similarity_search.png caption="Similarity search" >}}
+<link rel="stylesheet" href="/articles_data/dataset-quality/figures.css">
+
+<figure class="dataset-quality-figure">
+  <img class="dataset-quality-figure__light" src="/articles_data/dataset-quality/similarity-search.svg" alt="Three single beds act as references. Other bed listings are closest, while chair listings are furthest." width="760" height="630" loading="lazy">
+  <img class="dataset-quality-figure__dark" src="/articles_data/dataset-quality/similarity-search.dark.svg" alt="Three single beds act as references. Other bed listings are closest, while chair listings are furthest." width="760" height="630" loading="lazy">
+  <figcaption>Similarity search</figcaption>
+</figure>
 
 One of the possible pipelines would look like this:
 - Take the name of the category as an anchor and calculate the anchor embedding.
@@ -68,15 +73,28 @@ One of the possible pipelines would look like this:
 
 For instance, we can do it with the [CLIP](https://huggingface.co/sentence-transformers/clip-ViT-B-32-multilingual-v1) model.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_image_transparent.png caption="Category vs. Image" >}}
+<figure class="dataset-quality-figure">
+  <img class="dataset-quality-figure__light" src="/articles_data/dataset-quality/category-vs-image.svg" alt="The category name passes through a text encoder, and product images pass through an image encoder. Distant chair embeddings are outliers. A dashed ring marks a misplaced stool near the bed cluster. Positions are illustrative." width="712" height="914" loading="lazy">
+  <img class="dataset-quality-figure__dark" src="/articles_data/dataset-quality/category-vs-image.dark.svg" alt="The category name passes through a text encoder, and product images pass through an image encoder. Distant chair embeddings are outliers. A dashed ring marks a misplaced stool near the bed cluster. Positions are illustrative." width="712" height="914" loading="lazy">
+  <figcaption>Category vs. Image</figcaption>
+</figure>
 
 We can also calculate embeddings for titles instead of images, or even for both of them to find more errors.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_name_and_image_transparent.png caption="Category vs. Title and Image" >}}
+<figure class="dataset-quality-figure">
+  <img class="dataset-quality-figure__light" src="/articles_data/dataset-quality/category-vs-title-and-image.svg" alt="The category and product titles use a text encoder; product images use an image encoder. Title and image embeddings are averaged before comparison with the category embedding. A dashed ring marks a misplaced chair near the bed cluster. Positions are illustrative." width="712" height="724" loading="lazy">
+  <img class="dataset-quality-figure__dark" src="/articles_data/dataset-quality/category-vs-title-and-image.dark.svg" alt="The category and product titles use a text encoder; product images use an image encoder. Title and image embeddings are averaged before comparison with the category embedding. A dashed ring marks a misplaced chair near the bed cluster. Positions are illustrative." width="712" height="724" loading="lazy">
+  <figcaption>Category vs. Title and Image</figcaption>
+</figure>
 
 As you can see, different approaches can find new errors or the same ones. 
 Stacking several techniques or even the same techniques with different models may provide better coverage. 
 Hint: Caching embeddings for the same models and reusing them among different methods can significantly speed up your lookup.
+
+**Keep in mind the limits of this approach:**
+- Distance only ranks the items: the furthest ones are candidates for a review, not confirmed errors. There is no universal threshold that tells where the errors end.
+- The anchor matters too: a vague category name, such as "Other" or "Accessories", gives the model little to compare against.
+- A generalistic model sees a "single bed" and a "double bed" as almost the same thing, so mistakes between close categories are likely to slip through.
 
 ### Diversity search
 
@@ -91,27 +109,31 @@ The difference lies in deciding which point should be extracted next.
 Let's imagine how to get 3 points with similarity search and then with diversity search.
 
 Similarity:
-1. Calculate distance matrix
+1. Calculate [distance matrix](/articles/distance-based-exploration/)
 2. Choose your anchor
 3. Get a vector corresponding to the distances from the selected anchor from the distance matrix
 4. Sort fetched vector
 5. Get top-3 embeddings
  
 Diversity:
-1. Calculate distance matrix
+1. Calculate [distance matrix](/articles/distance-based-exploration/)
 2. Initialize starting point (randomly or according to the certain conditions)
 3. Get a distance vector for the selected starting point from the distance matrix
 4. Find the furthest point
 5. Get a distance vector for the new point
 6. Find the furthest point from all of already fetched points 
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/diversity_transparent.png caption="Diversity search" >}}
+<figure class="dataset-quality-figure">
+  <img class="dataset-quality-figure__light" src="/articles_data/dataset-quality/diversity-search.svg" alt="Starting from a bed embedding, successive stages select a distant chair, a stool far from the selected pair, and another point far from the selected set. Positions are illustrative." width="732" height="784" loading="lazy">
+  <img class="dataset-quality-figure__dark" src="/articles_data/dataset-quality/diversity-search.dark.svg" alt="Starting from a bed embedding, successive stages select a distant chair, a stool far from the selected pair, and another point far from the selected set. Positions are illustrative." width="732" height="784" loading="lazy">
+  <figcaption>Diversity search</figcaption>
+</figure>
 
 Diversity search utilizes the very same embeddings, and you can reuse them.
 If your data is huge and does not fit into memory, vector search engines like [Qdrant](https://github.com/qdrant/qdrant) might be helpful.
 
 Although the described methods can be used independently, they are simple to combine and improve detection capabilities.
-If the quality remains insufficient, you can fine-tune the models using a similarity learning approach (e.g. with [Quaterion](https://quaterion.qdrant.tech)) both to provide a better representation of your data and pull apart dissimilar objects in space.
+If the quality remains insufficient, you can fine-tune the models using a similarity learning approach both to provide a better representation of your data and pull apart dissimilar objects in space.
 
 ## Conclusion
 
