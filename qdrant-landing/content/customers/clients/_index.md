@@ -73,6 +73,18 @@ clients:
     logo:
       src: /case-studies/bloop/bloop-logo.png
       alt: Bloop logo
+  - id: canva
+    name: Canva
+    industry: Technology
+    product: Qdrant Cloud
+    company_size: 1000+
+    location: Asia Pacific
+    use_cases: ["Multimodal search", "Hybrid search", "Media search"]
+    title: "How Canva built multimodal search at scale with Qdrant"
+    blog_path: /blog/case-study-canva
+    logo:
+      src: /img/customers-case-studies-logo/canva.svg
+      alt: Canva logo
   - id: convosearch
     name: ConvoSearch
     industry: E-commerce
