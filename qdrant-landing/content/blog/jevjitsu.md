@@ -4,7 +4,7 @@ slug: jevjitsu
 title: "Jevjitsu: Or, How We Tried Generalized Classifiers on Everything"
 short_description: "Trying Jev on reranking, query understanding, near-duplicate removal, and semantic chunking"
 description: "We applied the Jev generalized classifier to reranking, query understanding, near-duplicate removal, and semantic chunking."
-date: 2026-10-07T00:00:00Z
+date: 2026-10-08T00:00:00Z
 author: Andrei Cristea & Chadha Sridi
 featured: false
 preview_image: /blog/jevjitsu/preview_image.jpg
@@ -64,7 +64,7 @@ Both cross-encoders gained less than any Jev method, and bge-reranker-base did n
 
 Imagine an e-commerce search for "iphone" that returns ten variants of the same iPhone 18. Sometimes that's what the shopper wants, but often they'd rather see a range of products on the first page.
 
-We measured this on 240 held-out queries from the [WANDS](https://huggingface.co/datasets/napsternxg/wands) benchmark, scoring relevance (nDCG@10) and repetition: near-duplicate pairs, results whose embeddings are 0.95 similar or more, on the first page of 10. Product classes show how many different product categories appear in the top 10 results
+We measured this on 240 held-out queries from the [WANDS](https://huggingface.co/datasets/napsternxg/wands) benchmark, scoring relevance (nDCG@10) and repetition: near-duplicate pairs, results whose embeddings are 0.95 similar or more, on the first page of 10. Product classes count the different product categories in the top 10 results. This helps show whether shoppers see a useful range of products or mostly variations of the same thing.
 
 | **Pipeline**                               | **nDCG@10** | **Near-duplicate pairs per page** | **Product classes in the top 10** |
 | :-------------------------------------------| :-----------:| :---------------------------------:| :---------------------------------:|
@@ -146,20 +146,16 @@ The trade-off is cost and simplicity: the other chunkers run locally for free, w
 
 ## What We Would Try First
 
-Start with the chunker for RAG, where we saw Jev's effect best with an easy setup and zero overhead at query time, or with Jev's score inside MMR for product search.
+For RAG, start with the chunker: it was easy to set up and adds no overhead at query time. For product search, try combining Jev's relevance scores with MMR to reduce repetition while keeping relevance above the hybrid baseline.
 
-Query understanding has the most unexplored potential: product categories are only one of the signals a query carries, and the fixes for "apple" are still untested.
+Query understanding has the most unexplored potential, but also needs more care. Test ambiguous queries like "apple" before trusting a category prediction to filter results. The fixes we proposed are still untested.
 
-We would also try rerankers in other places, or anything that works like one. Diversity was our first case: we put Jev's relevance score inside MMR and got results that are both diverse and accurate.
-
-What feels too costly are methods like Iterative reranking: ten requests per query for a small gain.
-
-The use cases can grow: with no model to train first, prototyping is easy, and the main cost left is infrastructure, which is a much better problem to have.
+We would skip Iterative reranking for now: ten requests per query bought only a small gain in our experiment.
 
 ## Summary
 
-In the end, Jev shows that generalized classification can be useful far beyond reranking. It is not always the best solution: a specialized reranker or a fine-tuned model for a specific use case may still perform better. What has changed is that classification is becoming cheap, fast, and general enough to use as a building block throughout search and agentic systems.
+Jev's most interesting uses came after reranking: balancing relevance with variety, choosing how to search, and deciding where to split a document. Those tasks benefit from different trade-offs, so there is no single recipe.
 
-The market seems to be moving in the same direction. Paid vendors are introducing their own approaches: OpenAI's [Decisions API](https://developers.openai.com/api/docs/guides/decisions), now in public beta, answers the same three kinds of questions we used here (yes/no, choice, and score). Open source is not staying behind either, with direct Jev reproductions like [OpenJev](https://huggingface.co/openjev/openjev), lightweight classifiers like [JevLite](https://huggingface.co/vagmi/jev-lite), and alternative architectures like [CLM](https://github.com/Contrastive-LM/CLM).
+The industry is exploring the same idea, with OpenAI's [Decisions API](https://developers.openai.com/api/docs/guides/decisions) and open-source approaches such as [OpenJev](https://huggingface.co/openjev/openjev), [JevLite](https://huggingface.co/vagmi/jev-lite), and [CLM](https://github.com/Contrastive-LM/CLM).
 
-The practical lesson is simple: **where your pipeline needs a decision, let Jev make it, instead of generating it with an autoregressive model or guessing it with a similarity threshold.** To try it on your own queries, start with the [many-jev-recipies](https://github.com/qdrant-labs/many-jev-recipies) repository.
+**Find a decision in your pipeline worth improving, then test whether Jev makes it better at a cost you can accept.** Our [experiments](https://github.com/qdrant-labs/many-jev-recipies) give you a place to start.
