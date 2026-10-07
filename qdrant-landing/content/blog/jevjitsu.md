@@ -94,20 +94,27 @@ Part of every Jev gain is coverage: WANDS scores unlabeled results as irrelevant
 
 ## Query Understanding
 
-Query understanding turns a query into signals, here product categories, that decide how to search for it. We followed three rules from [Doug Turnbull's experiments](https://softwaredoug.com/blog/2026/09/22/jev-query-understanding) with Jev:
+Can we use the meaning of what was sent in the query to improve our search? That is the central point of query understanding discipline. It turns a query into signals, here product categories, that decide how to search for it. What we did next is to create an end-to-end query understanding of product categories. 
+
+We started with the three rules from [Doug Turnbull's experiments](https://softwaredoug.com/blog/2026/09/22/jev-query-understanding) with Jev:
 
 - Filter only when very sure, and boost otherwise. A wrong filter hides the right product, while a wrong boost only reorders the page.
 - Get the top-level category right first.
 - Let an LLM propose categories, and let Jev check them.
 
-First, we build a taxonomy from the collection itself, once, before indexing. We cluster the embeddings of a 5,000-item sample, and a cheap LLM names each cluster from a few example items. A name stays only if Jev places at least 40% of 15 sampled cluster members under it and at most 15% of other clusters' items, so a name too generic to tell clusters apart is dropped too.
+Jev can only assign the categories not create them. Thus, we first build a them from the collection itself, once, before indexing. We do it with cheap LLM over clustered products and validate those with Jev. A name shouldnt be too generic but also not extra concrete: if at least half of clustered members are placed under category by Jev we are good to go.
 
 <picture>
   <source media="(min-width: 700px)" srcset="/blog/jevjitsu/taxonomy-building-wide.svg">
   <img style="max-width:100%;height:auto" src="/blog/jevjitsu/taxonomy-building.svg" alt="Building a taxonomy in four steps: group similar products, an LLM names each group, Jev checks that the name fits the group, and the names that fit form the taxonomy. For example, women's clothing is kept and Greeting Cards is dropped.">
 </picture>
 
-At indexing time, Jev tags every product with these categories, stored as payload: a Nintendo Switch case gets *device cases*, under *Electronics & Accessories*. At search time, Jev scores each category against the query, and search filters on categories scoring 0.9 or more, boosts those from 0.5 up to 0.9, and ignores the rest. For a query that begins "I'm looking for a lightweight case that easily snaps onto my switch oled", Jev scored *Electronics & Accessories* at 0.97, and the search filtered on it along with *device cases* and *Electronic Accessories*, which also scored 0.9 or more. Of the four routing setups we compared on 300 [Amazon-C4](https://huggingface.co/datasets/McAuley-Lab/Amazon-C4) searches, this one had the highest observed nDCG@10:
+Next no more generations, only categorization:
+
+- At indexing time, Jev tags every product with these categories, stored as payload: a Nintendo Switch case gets *device cases*, under *Electronics & Accessories*. 
+- At search time, Jev scores each product category against the query. At 0.9 or more, search filters to that category. From 0.5 to 0.9, it boosts matching products. Below that, it does nothing. 
+
+We compared on 300 [Amazon-C4](https://huggingface.co/datasets/McAuley-Lab/Amazon-C4) searches, and that mix of filtering and boosting worked best:
 
 {{< chart id="jevjitsu/routing" caption="Every routing setup scored above default search on average. Filtering only when Jev is sure and boosting otherwise scored highest; filtering on every guess is within noise." >}}
 
@@ -119,17 +126,17 @@ The gain has costs:
 | **Indexing 1M points** (extrapolated, linear in volume) | \~3 hours (local embeddings) | +\~32 hours, +\~\\$103 (labeling is \~\\$0.0001 per item) |
 | **Added query latency** | - | +0.5 s (31 classes) to +1.9 s (70 classes) |
 
-Latency is the cost that hurts most. Like [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf), we put a cheap model in front of the slow one: small classifiers trained on Jev's own item labels read the query's embedding, and when their top category scores 0.95 or more, the query skips Jev and gets boosts only. That took 37% of queries off Jev with no loss in quality (+3.98 nDCG@10 points, against +3.82 with Jev on every query) and cut the estimated average wait from 1.9 to 1.2 seconds. The details are in section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb).
+Building and tagging the categories is a one-off cost per collection. The cost that stays is time, because Jev adds a request to every query. Like [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf), we put a cheap model in front of the slow one: small classifiers trained on Jev's own product tags read the query's embedding, and when their top category scores 0.95 or more, the query skips Jev and gets boosts only. That took 37% of queries off Jev with no loss in quality and cut the estimated average wait from 1.9 to 1.2 seconds (details in section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb))
 
 The Amazon-C4 queries are long and LLM-generated, which gives Jev plenty of context. Real search boxes see much shorter queries, so we tried a few of our own. They have no relevance labels, so read them as examples, not measurements:
 
-| **Query** | **Jev filtered on** | **What happened** |
-| :-- | :-- | :-- |
-| "apple" | *Food & Beverage* (0.91, just past the threshold) | Hurt: the page became all food, and the MacBook, the apple tree, and the laptop decal were gone |
-| "kitchen faucet replacement" | *Plumbing Parts* (0.98) | Helped: more relevant products made it onto the page |
-| "running shoes that aren't nike" | *athletic footwear* (0.98) | Barely helped: the category was right, but "not Nike" isn't something a category can express |
+| **Query**                        | **Jev filtered on**                               | **What happened**                                                                               |
+| :---------------------------------| :--------------------------------------------------| :------------------------------------------------------------------------------------------------|
+| "apple"                          | *Food & Beverage* (0.91, just past the threshold) | Hurt: the page became all food, and the MacBook, the apple tree, and the laptop decal were gone |
+| "kitchen faucet replacement"     | *Plumbing Parts* (0.98)                           | Helped: more relevant products made it onto the page                                            |
+| "running shoes that aren't nike" | *athletic footwear* (0.98)                        | Barely helped: the category was right, but "not Nike" isn't something a category can express    |
 
-Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most. MMR can't bring the lost products back, because the filter removes them before MMR runs, so the guard we'd try first is to boost, never filter, on one- or two-word queries. A deeper taxonomy would catch more, but query understanding is far from solved. Search still has no one-size-fits-all solution, so check your own queries and edge cases before you adopt even the most confident one.
+Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most. MMR can't bring the lost products back, because the filter removes them before MMR runs, so the guard we'd try first is to boost, never filter, on one- or two-word queries. A deeper taxonomy would catch more, but query understanding is far from solved. Another idea we did not try but encourage you is to try enriching the context for the Jev. Ambiguous "apple" might bring  *Food & Beverage* category, but "apple[electonics shop]" might make better Jev make better judgements. Search still has no one-size-fits-all solution, so check your own queries and edge cases before you adopt even the most confident one.
 
 ## Semantic Chunking
 
