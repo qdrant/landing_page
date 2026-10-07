@@ -1,0 +1,104 @@
+/* replica-load island. Scoped under .qi-rl. Controls, frames and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the client, read wires, traveling reads, the shard replicas and the load
+   bars. Shard 0 uses the same color as in the replication island. */
+
+.qi-rl {
+  --rl-shard: #6047ff; /* neon-blue-500: Shard 0 */
+  --rl-query: var(--qi-muted);
+
+  display: block;
+}
+
+.qi-rl__value {
+  min-width: 2ch;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--qi-fg);
+}
+
+.qi-rl__client {
+  fill: var(--qi-border);
+}
+.qi-rl__client-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+
+.qi-rl__wire {
+  fill: none;
+  stroke: var(--rl-query);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.qi-rl__wire.is-on {
+  opacity: 1;
+}
+.qi-rl__arrowhead {
+  fill: var(--rl-query);
+}
+.qi-rl__token {
+  fill: var(--qi-fg);
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+
+/* --- Replica, or an empty slot on a node without one --- */
+.qi-rl__shard,
+.qi-rl__empty {
+  transition: opacity 0.4s ease;
+}
+.qi-rl__shard.is-off,
+.qi-rl__empty.is-off {
+  opacity: 0;
+}
+.qi-rl__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-rl__shard.is-hot .qi-rl__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-rl__bar {
+  fill: var(--rl-shard);
+}
+.qi-rl__empty-box {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-dasharray: 5 4;
+}
+
+/* --- Load bars --- */
+.qi-rl__track {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+}
+.qi-rl__fill {
+  fill: var(--qi-fg);
+  transition: width 0.3s ease;
+}
+.qi-rl__reads {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-rl__wire,
+  .qi-rl__shard,
+  .qi-rl__empty,
+  .qi-rl__box,
+  .qi-rl__fill {
+    transition: none;
+  }
+}

@@ -1,0 +1,77 @@
+/* replica-reads island. Scoped under .qi-rr. Controls, frames and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the client, query wires, traveling queries and the shard replicas. Shard
+   colors match the replication island on the horizontal scaling page. */
+
+.qi-rr {
+  --rr-0: #6047ff; /* neon-blue-500 */
+  --rr-1: #388e3c; /* green-700 */
+  --rr-2: #ef6c00; /* warning-800 */
+  --rr-query: var(--qi-muted);
+
+  display: block;
+}
+
+.qi-rr__client {
+  fill: var(--qi-border);
+}
+.qi-rr__client-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+
+/* Query wires: shown only while queries are running. */
+.qi-rr__wire {
+  fill: none;
+  stroke: var(--rr-query);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.qi-rr__wire.is-on {
+  opacity: 1;
+}
+.qi-rr__arrowhead {
+  fill: var(--rr-query);
+}
+.qi-rr__token {
+  fill: var(--qi-fg);
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+
+/* --- Shard replicas --- */
+.qi-rr__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-rr__shard.is-hot .qi-rr__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-rr__shard--0 .qi-rr__bar {
+  fill: var(--rr-0);
+}
+.qi-rr__shard--1 .qi-rr__bar {
+  fill: var(--rr-1);
+}
+.qi-rr__shard--2 .qi-rr__bar {
+  fill: var(--rr-2);
+}
+.qi-rr__reads {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-rr__wire,
+  .qi-rr__box {
+    transition: none;
+  }
+}
