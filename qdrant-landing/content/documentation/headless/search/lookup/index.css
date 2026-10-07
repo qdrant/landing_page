@@ -1,0 +1,88 @@
+/* lookup island. Scoped under .qi-lk. Controls, frames and labels come from
+   the shared island design system (islands.scss); this file only styles the
+   hit and document rows, the ID chips and the lookup slots. ID hues are
+   constant across themes. */
+
+.qi-lk {
+  --lk-0: #00838f; /* cyan-800 */
+  --lk-1: #dc244c; /* amaranth-500 */
+  --lk-2: #ef6c00; /* warning-800 */
+
+  display: block;
+}
+
+.qi-lk__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-lk__score {
+  fill: var(--qi-muted);
+}
+.qi-lk__title {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+
+/* --- ID chips --- */
+.qi-lk__chip text {
+  fill: #fff;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-lk__chip--0 rect {
+  fill: var(--lk-0);
+}
+.qi-lk__chip--1 rect {
+  fill: var(--lk-1);
+}
+.qi-lk__chip--2 rect {
+  fill: var(--lk-2);
+}
+
+/* --- Lookup slots and the documents copied into them --- */
+.qi-lk__slot {
+  fill: transparent;
+  stroke: var(--qi-line);
+  stroke-dasharray: 5 4;
+  transition: opacity 0.3s ease;
+}
+.qi-lk.is-on .qi-lk__slot {
+  opacity: 0;
+}
+.qi-lk__slot-label {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+.qi-lk.is-on .qi-lk__slot-label {
+  opacity: 1;
+}
+
+/* A copy starts hidden on top of its document and slides into the group.
+   Scoped under .qi-lk to outrank the .qi-lk__doc transition it also has. */
+.qi-lk .qi-lk__copy {
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+.qi-lk.is-on .qi-lk__copy {
+  opacity: 1;
+}
+
+.qi-lk__doc {
+  transition: opacity 0.4s ease;
+}
+.qi-lk__doc.is-unused {
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-lk__copy,
+  .qi-lk__doc,
+  .qi-lk__slot,
+  .qi-lk__slot-label {
+    transition: none;
+  }
+}
