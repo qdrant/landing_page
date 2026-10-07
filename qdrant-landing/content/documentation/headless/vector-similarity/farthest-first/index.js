@@ -1,6 +1,6 @@
 const NS = 'http://www.w3.org/2000/svg';
 const DESKTOP = { width: 900, height: 620 };
-const MOBILE = { width: 354, height: 760 };
+const MOBILE = { width: 354, height: 450 };
 const STACK_AT = 560;
 const MOBILE_SCALE = 0.55;
 const LABEL_GAP = 38;
@@ -123,12 +123,14 @@ export function mount(node) {
           class: 'qi-ff__number', x: point.x + 13, y: point.y - 12,
         }, String(step + 1)));
       });
-      MOBILE_LABELS.slice(0, picked.length).forEach((lines, index) => {
+      let labelY = 310;
+      MOBILE_LABELS.slice(0, picked.length).forEach((lines) => {
         lines.forEach((line, lineIndex) => {
           labels.appendChild(svg('text', {
-            class: 'qi-label qi-ff__mobile-label', x: 177, y: 390 + index * 82 + lineIndex * 20,
+            class: 'qi-label qi-ff__mobile-label', x: 177, y: labelY + lineIndex * 20,
           }, line));
         });
+        labelY += lines.length * 20 + 10;
       });
       return;
     }

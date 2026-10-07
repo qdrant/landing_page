@@ -1,6 +1,6 @@
 const NS = 'http://www.w3.org/2000/svg';
 const DESKTOP = { width: 900, height: 410 };
-const MOBILE = { width: 354, height: 560 };
+const MOBILE = { width: 354, height: 430 };
 const STACK_AT = 560;
 const SCALE = 130;
 const DATA = [
@@ -35,7 +35,7 @@ function addBar(parent, role, x, y, width, height) {
 
 function addLegend(parent, narrow) {
   const positions = narrow ? [
-    [56, 24, 80, 39], [56, 64, 80, 79], [56, 104, 80, 119],
+    [56, 24, 80, 39], [56, 50, 80, 65], [56, 76, 80, 91],
   ] : [
     [100, 26, 124, 41], [370, 26, 394, 41], [640, 26, 664, 41],
   ];
@@ -50,7 +50,7 @@ function addLegend(parent, narrow) {
 }
 
 function drawChart(svgRoot, drawing, narrow) {
-  const axisY = narrow ? 335 : 220;
+  const axisY = narrow ? 260 : 220;
   const plotLeft = narrow ? 16 : 100;
   const plotWidth = narrow ? 322 : 700;
   const slot = plotWidth / DATA.length;
@@ -70,12 +70,13 @@ function drawChart(svgRoot, drawing, narrow) {
     addBar(drawing, 'query', center - queryWidth / 2, axisY - queryHeight, queryWidth, queryHeight);
     addBar(drawing, 'negative', center - outlineWidth / 2, axisY, outlineWidth, negativeHeight);
     drawing.appendChild(svg('text', {
-      class: 'qi-label qi-feature__dimension', x: center, y: narrow ? 500 : 365,
+      class: 'qi-label qi-feature__dimension', x: center, y: narrow ? 405 : 365,
     }, `d${index + 1}`));
   });
 
   addLegend(drawing, narrow);
-  svgRoot.setAttribute('viewBox', narrow ? '0 0 354 560' : '0 0 900 410');
+  const layout = narrow ? MOBILE : DESKTOP;
+  svgRoot.setAttribute('viewBox', `0 0 ${layout.width} ${layout.height}`);
 }
 
 export function mount(node) {
