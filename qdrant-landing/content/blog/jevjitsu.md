@@ -56,7 +56,7 @@ At this point, testing Jev as a reranker on a few hundred queries is practically
 
 We expected the most expensive method, Iterative, to win by a wide margin. It had the highest score, but only by a small margin: all three beat BGE-small at both depths, and the gaps between them are under 0.02. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
 
-Jev is an API call, while a small local cross-encoder like MiniLM runs on your own CPU, so Jev pays off where a better first page is worth the extra call. On product search it was: on the WANDS benchmark from the next section, sorting the hybrid top 20 by Jev's relevance answer beat both local cross-encoders we tried, bge-reranker-base and MiniLM, reading the same results. The more useful lesson came after the benchmark: Jev's score is a probability of relevance, not just a sort key, so other steps can use it.
+Jev lets us adapt the relevance question without training a new model. Cross-encoders offer local execution and can be faster or cheaper. Which fits depends on how you weigh flexibility, quality, latency, and cost. But reranking is only the start: Jev's judgments can guide other search decisions too.
 
 ## Reducing Repetitive Answers
 
