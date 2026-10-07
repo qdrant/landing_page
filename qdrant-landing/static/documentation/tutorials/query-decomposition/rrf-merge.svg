@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="240" viewBox="0 0 390 240">
+  <rect width="390" height="240" rx="6" fill="#f0f3fa"/>
+  <style>
+    text { font-family: 'Geist Mono', 'SFMono-Regular', Consolas, monospace; font-size: 16px; font-weight: 600; fill: #303547; text-anchor: middle; }
+    .tile-label { font-family: 'Geist Mono', 'SFMono-Regular', Consolas, monospace; font-weight: 500; }
+    .panel-title { font-size: 18px; }
+    .connector { fill: none; stroke: #656b7f; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .cutoff { stroke: #303547; stroke-width: 1.5; }
+    .vague { fill: none; stroke: #303547; stroke-width: 1.5; stroke-dasharray: 4 3; }
+  </style>
+  <text x="56" y="30">Hop 1</text>
+  <text x="190" y="30">Hop 2</text>
+  <text x="329" y="30">Merged</text>
+  <path class="connector" d="M100 154H112.4Q118.4 154 118.4 160V220Q118.4 226 124.4 226H259.28Q265.28 226 265.28 220V72Q265.28 66 271.28 66H280"/>
+  <path class="connector" d="M234 110H243.64Q249.64 110 249.64 104V72Q249.64 66 255.64 66H280"/>
+  <g id="hop1-1" transform="translate(12 50)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#6047ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#ffffff">A 0.500</text>
+  </g>
+  <g id="hop1-2" transform="translate(12 94)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#9494ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#211650">B 0.333</text>
+  </g>
+  <g id="hop1-3" transform="translate(12 138)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#c2c5ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#211650">C 0.250</text>
+  </g>
+  <g id="hop1-4" transform="translate(12 182)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#e4e5ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#211650">D 0.200</text>
+  </g>
+  <g id="hop2-1" transform="translate(146 50)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#6047ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#ffffff">E 0.500</text>
+  </g>
+  <g id="hop2-2" transform="translate(146 94)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#9494ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#211650">C 0.333</text>
+  </g>
+  <g id="hop2-3" transform="translate(146 138)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#c2c5ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#211650">F 0.250</text>
+  </g>
+  <g id="hop2-4" transform="translate(146 182)">
+    <rect width="88" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#e4e5ff"/>
+    <text class="tile-label" x="44" y="21" style="font-size:14px;fill:#211650">G 0.200</text>
+  </g>
+  <g id="merged-1" transform="translate(280 50)">
+    <rect width="98" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#4325ae"/>
+    <text class="tile-label" x="49" y="21" style="font-size:14px;fill:#ffffff">C 0.583</text>
+  </g>
+  <g id="merged-2" transform="translate(280 94)">
+    <rect width="98" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#6047ff"/>
+    <text class="tile-label" x="49" y="21" style="font-size:14px;fill:#ffffff">A 0.500</text>
+  </g>
+  <g id="merged-3" transform="translate(280 138)">
+    <rect width="98" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#6047ff"/>
+    <text class="tile-label" x="49" y="21" style="font-size:14px;fill:#ffffff">E 0.500</text>
+  </g>
+  <g id="merged-4" transform="translate(280 182)">
+    <rect width="98" height="32" rx="6" stroke="#656b7f" stroke-width="1" fill="#9494ff"/>
+    <text class="tile-label" x="49" y="21" style="font-size:14px;fill:#211650">B 0.333</text>
+  </g>
+</svg>

@@ -2,8 +2,14 @@
 title: Query Decomposition for Multi-Hop Questions
 short_description: "Answer multi-hop questions by retrieving in steps: an LLM asks each follow-up sub-question, then fuse the per-hop results with RRF."
 description: "Answer multi-hop questions in Qdrant: decompose the query into retrieval steps, let an LLM ask each follow-up, and fuse results with RRF."
-weight: 20
+weight: 16
+date: 2026-06-25T18:25:32Z
+goal: RAG & Agents
+stack:
+  - Python
+  - OpenAI
 aliases:
+  - /documentation/search-patterns/query-decomposition/
   - /documentation/improve-search/query-decomposition/
 ---
 
@@ -71,10 +77,10 @@ def next_subquestion(question, hops):
         messages=[{"role": "user", "content": prompt}],
     )
     answer = response.choices[0].message.content.strip()
-    return None if answer.upper().startswith("DONE") else answer
+    return None if answer.strip(" .").upper() == "DONE" else answer
 ```
 
-The loop already has every hop's results. Fuse all of them, not just the last: each hop retrieves one link of the chain, so dropping the earlier hops loses the evidence that ties the answer back to the question.
+The loop already has every hop's results. Fuse all of them: each hop retrieves one link of the chain, so dropping the earlier hops can lose the evidence that ties the answer back to the question.
 
 ```python
 def rrf_fuse(hops, k=2, limit=10):
@@ -88,9 +94,38 @@ def rrf_fuse(hops, k=2, limit=10):
     return [points[i] for i in ranked[:limit]]
 ```
 
-Reciprocal Rank Fusion scores each chunk by its rank in every hop, `1 / (k + rank)`, and sums across hops, so a chunk ranked high in any hop rises and one ranked high in several rises further. For more on RRF, see the [hybrid queries reference](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf). We fuse in Python because the loop already holds each hop's results; to fuse inside a single request instead, Qdrant runs RRF server-side with `RrfQuery`.
+Reciprocal Rank Fusion scores each chunk by its rank in every hop, `1 / (k + rank)`, and sums across hops, so a chunk ranked high in any hop rises and one ranked high in several rises further.
 
-Tie the pieces together: loop until the LLM is satisfied, then fuse.
+![Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333.](/documentation/tutorials/query-decomposition/rrf-merge.svg)
+
+Illustrative RRF scores with `k=2` and zero-based ranks. Letters identify chunks; darker violet indicates a higher score. Chunk C contributes 0.250 and 0.333, totaling about 0.583. Equal scores keep first-seen order.
+
+`rrf_fuse` runs in your own code because the loop already holds every hop's results. Qdrant can also run RRF on the server, inside a single query; see the [hybrid queries reference](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
+
+The example uses `k=2`, the default of Qdrant's server-side RRF. `k` sets how much a chunk found by several hops is pushed up.
+
+- **This can help when a follow-up goes off track**, because agreement between hops can outweigh one hop's wrong top result.
+- **It can also hurt**: a vague chunk that loosely matches two sub-questions can outrank the one chunk that answers a hop.
+
+![With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score.](/documentation/tutorials/query-decomposition/rrf-helps-hurts.svg)
+
+Illustrative examples with `k=2`. Check marks identify needed chunks A and C; dashed borders identify vague chunk E. The horizontal line limits the answer to two chunks. Crosses mark a wrong result or an excluded needed chunk. Repeated chunks score 0.583; each hop's top chunk scores 0.500. Equal scores keep first-seen order.
+
+- A smaller `k` favors each hop's top result.
+- A larger `k` lets a chunk found by 2 hops outrank a top chunk found by only one, even from lower ranks.
+
+<aside role="status">Whatever <code>k</code> you choose, keep <code>limit</code> at least as large as the number of hops: with a smaller limit, the hops' distinct top chunks can't all reach the answer step.</aside>
+
+<details>
+<summary>RRF is not the only way to merge the hops</summary>
+
+- **Interleaving**: take each hop's first chunk, then each hop's second, and so on, skipping duplicates, until you fill up a limit of chunks you'll show to the LLM.
+- **Highest score**: keep each chunk once with its best similarity score and sort. It's simple, but scores from different queries aren't always directly comparable, so one hop can fill all the top positions of the final result.
+- **Keep everything**: pass every hop's chunks to the answer step, up to a cap, as [IRCoT](https://arxiv.org/abs/2212.10509) does. Here the answer prompt grows with each hop.
+
+</details>
+
+Tie the pieces together: loop until the LLM is satisfied or the hop cap is reached, then fuse.
 
 ```python
 question = "Where was the director of the film Inception born?"
@@ -108,7 +143,7 @@ for point in pool[:3]:
     print(point.payload["text"])
 ```
 
-The loop prints the follow-up the LLM generates, then `rrf_fuse` reuses the hops to build `pool`. With a small, synthetic film-and-director collection, it prints:
+The loop prints the follow-up the LLM generates, then `rrf_fuse` reuses the hops to build `pool`. The exact output depends on your data and the LLM. The following output is illustrative:
 
 ```text
 follow-up: Where was Christopher Nolan born?
@@ -117,8 +152,8 @@ Inception is a 2010 science fiction film written and directed by Christopher Nol
 Christopher Nolan studied English literature at University College London before starting his film career.
 ```
 
-The birthplace chunk never mentions Inception, so the original question won't surface it; only the follow-up does. Here, RRF ranks both the film chunk and the birthplace chunk at the top of `pool`. Pass that `pool` to your answer step: the LLM call that reads the chunks and writes the answer.
+In this illustrative run, the birthplace chunk never mentions Inception, and the original question didn't surface it; only the follow-up did. Here, RRF ranks both the film chunk and the birthplace chunk at the top of `pool`. Pass that `pool` to your answer step: the LLM call that reads the chunks and writes the answer.
 
 ## When to Use It
 
-Decomposition adds an LLM call and a query per hop, so reach for it only when a question spans multiple facts. For single-fact questions, one query is faster and just as accurate. To confirm it helps on your data, compare `recall@k` for single-pass against decomposition on a small set of multi-hop questions; the [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) guide covers the setup.
+Decomposition adds an LLM call and a query per hop, so reach for it only when a question spans multiple facts. For single-fact questions, one query is faster and usually just as accurate. To confirm it helps on your data, compare `recall@k` for single-pass against decomposition on a small set of multi-hop questions; the [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) guide covers the setup.
