@@ -77,3 +77,8 @@
   X-Robots-Tag: noindex
 /articles/detecting-coffee-anomalies.md
   X-Robots-Tag: noindex
+
+/articles/embedding-recycler/*
+  X-Robots-Tag: noindex
+/articles/embedding-recycler.md
+  X-Robots-Tag: noindex
