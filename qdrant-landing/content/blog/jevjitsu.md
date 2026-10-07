@@ -144,15 +144,15 @@ The trade-off is cost and simplicity: the other chunkers run locally for free, w
 
 ## What We Would Try First
 
-We see the effect of using Jev best in tasks like the chunker: it's an easy setup with zero overhead at query time. If you run product search, start with Jev's score inside MMR. If you run RAG, start with the chunker.
+Start with the chunker for RAG, where we saw Jev's effect best with an easy setup and zero overhead at query time, or with Jev's score inside MMR for product search.
 
-Query understanding, on the other hand, still has a lot of unexplored potential: product categories are only one of the signals a query carries, and the fixes for "apple" are still untested.
+Query understanding has the most unexplored potential: product categories are only one of the signals a query carries, and the fixes for "apple" are still untested.
 
-Another idea is to use rerankers in other contexts, or things that look like rerankers. Optimizing for diversity was one, with the goal of a system that is both diverse and accurate. Another perfect use case is the threshold that e-commerce search usually uses to show empty results when the similarity is below a certain X.
+We would also try rerankers in other places, or anything that works like one. Diversity was our first case: we put Jev's relevance score inside MMR and got results that are both diverse and accurate.
 
 What feels too costly are methods like Iterative reranking: ten requests per query for a small gain.
 
-The use cases can grow: you no longer need to train a model before you start, so prototyping is easy, and the main cost left is infrastructure.
+The use cases can grow: with no model to train first, prototyping is easy, and the main cost left is infrastructure, which is a much better problem to have.Wit
 
 ## Summary
 
