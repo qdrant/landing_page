@@ -152,7 +152,7 @@ We would also try rerankers in other places, or anything that works like one. Di
 
 What feels too costly are methods like Iterative reranking: ten requests per query for a small gain.
 
-The use cases can grow: with no model to train first, prototyping is easy, and the main cost left is infrastructure, which is a much better problem to have.Wit
+The use cases can grow: with no model to train first, prototyping is easy, and the main cost left is infrastructure, which is a much better problem to have.
 
 ## Summary
 
