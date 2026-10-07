@@ -2,15 +2,15 @@
 <title id="t">Fixed-size chunks and Jev chunks for the same document</title>
 <desc id="d">For the question What language is this dataset in?, the same document is cut two ways. Fixed-size chunks cut at regular intervals, and one cut falls inside the answer, so the answer is split across two chunks. Jev cuts where the topic changes, so the whole answer sits in one chunk.</desc>
 <rect width="420" height="326" fill="#f0f3fa"/>
-<g font-family="'Mona Sans', -apple-system, 'Segoe UI', sans-serif" font-size="15" fill="#303547">
+<g font-family="'Mona Sans', -apple-system, 'Segoe UI', sans-serif" font-size="15" fill="#28324D">
 <text x="14" y="22">Question: <tspan font-weight="700">"What language is this dataset in?"</tspan></text>
-<text x="249.2" y="104" text-anchor="middle" fill="#656b7f" font-size="14">answer</text>
+<text x="249.2" y="104" text-anchor="middle" fill="#576280" font-size="14">answer</text>
 <text x="14" y="64" font-weight="700">Fixed-size chunks</text>
-<text x="14" y="84" fill="#656b7f">cut at a fixed size</text>
-<rect x="16.0" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="94.4" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="172.8" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="251.2" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="329.6" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="210.0" y="117" width="78.4" height="24" rx="3" fill="#f7c98b"/><rect x="247.2" y="108" width="4" height="42" fill="#f0f3fa"/>
-<text x="14" y="170" font-weight="700" fill="#dc244c">✗ Answer split across two chunks</text>
+<text x="14" y="84" fill="#576280">cut at a fixed size</text>
+<rect x="16.0" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="94.4" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="172.8" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="251.2" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="329.6" y="112" width="74.4" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="210.0" y="117" width="78.4" height="24" rx="3" fill="#B99AFF"/><rect x="247.2" y="108" width="4" height="42" fill="#f0f3fa"/>
+<text x="14" y="170" font-weight="700" fill="#93000D">✗ Answer split across two chunks</text>
 <text x="14" y="206" font-weight="700">Jev chunks</text>
-<text x="14" y="226" fill="#656b7f">cut where the topic changes</text>
-<rect x="16.0" y="254" width="54.8" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="74.8" y="254" width="113.6" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="192.4" y="254" width="125.4" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="321.8" y="254" width="82.2" height="34" rx="4" fill="#ffffff" stroke="#abb1c7" stroke-width="1.5"/><rect x="210.0" y="259" width="78.4" height="24" rx="3" fill="#f7c98b"/>
-<text x="14" y="312" font-weight="700" fill="#00838f">✓ Answer in one chunk</text>
+<text x="14" y="226" fill="#576280">cut where the topic changes</text>
+<rect x="16.0" y="254" width="54.8" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="74.8" y="254" width="113.6" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="192.4" y="254" width="125.4" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="321.8" y="254" width="82.2" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="210.0" y="259" width="78.4" height="24" rx="3" fill="#B99AFF"/>
+<text x="14" y="312" font-weight="700" fill="#00522F">✓ Answer in one chunk</text>
 </g></svg>

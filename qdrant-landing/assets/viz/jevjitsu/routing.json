@@ -5,7 +5,7 @@
   "group": "routing",
   "series": "series",
   "colors": ["muted", 0],
-  "y": "ndcg_at_10",
+  "y": "ndcg_at_10_x100",
   "yLabel": "nDCG@10 (x100)",
   "yMax": 40,
   "height": 460,
