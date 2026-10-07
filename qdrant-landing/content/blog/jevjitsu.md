@@ -46,17 +46,19 @@ We tried three ways to ask:
   <img style="max-width:100%;height:auto" src="/blog/jevjitsu/rerank-methods.svg" alt="Three ways to rerank with Jev. Jev Score asks &quot;How relevant is this doc?&quot; for each doc, judging every doc on its own, in one request. Jev Choice asks &quot;Which doc is most relevant?&quot; once for all docs, in one request. Both produce a ranking such as C, A, D, B. Jev Iterative asks that question once per ranking position, removing each winner, using 10 requests for a top 10.">
 </picture>
 
-At this point, testing Jev as a reranker on a few hundred queries is practically a rite of passage. Every search vendor runs it on 80, 100, 200, or 300 queries, posts a table, and moves on. So naturally, we did too: 100 [NFCorpus](https://huggingface.co/datasets/BeIR/nfcorpus) queries, the top 30 and top 50 candidates from Qdrant with BGE-small, and each method reordering the same candidates. The table shows each method's nDCG@10 lift over BGE-small alone:
+At this point, testing Jev as a reranker on a few hundred queries is practically a rite of passage. Every search vendor runs it on 80, 100, 200, or 300 queries, posts a table, and moves on. So naturally, we did too: 100 [NFCorpus](https://huggingface.co/datasets/BeIR/nfcorpus) queries, the top 30 and top 50 candidates from Qdrant with BGE-small, and each method, plus two local cross-encoders for comparison, reordering the same candidates. The table shows each method's nDCG@10 lift over BGE-small alone:
 
 | **Method** | **Requests per query** | **Lift, top 30** | **Lift, top 50** |
 | :-- | :-: | :-: | :-: |
 | Jev Score | 1 | +0.0665 | +0.0741 |
 | Jev Choice | 1 | +0.0583 | +0.0673 |
 | Jev Iterative | 10 | +0.0746 | +0.0789 |
+| ms-marco-MiniLM-L-6-v2 | local | +0.0313 | +0.0258 |
+| bge-reranker-base | local | -0.0015 | -0.0127 |
 
-We expected the most expensive method, Iterative, to win by a wide margin. It had the highest score, but only by a small margin: all three beat BGE-small at both depths, and the gaps between them are under 0.02. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
+We expected the most expensive method, Iterative, to win by a wide margin. It had the highest score, but only by a small margin: all three Jev methods beat BGE-small at both depths, and the gaps between them are under 0.02. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
 
-Jev lets us adapt the relevance question without training a new model. Cross-encoders offer local execution and can be faster or cheaper. Which fits depends on how you weigh flexibility, quality, latency, and cost. But reranking is only the start: Jev's judgments can guide other search decisions too.
+Both cross-encoders gained less than any Jev method, and bge-reranker-base did not improve on BGE-small at all. Jev lets us adapt the relevance question without training a new model. Cross-encoders offer local execution and can be faster or cheaper. Which fits depends on how you weigh flexibility, quality, latency, and cost. But reranking is only the start: Jev's judgments can guide other search decisions too.
 
 ## Reducing Repetitive Answers
 
