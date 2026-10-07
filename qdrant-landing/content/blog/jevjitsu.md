@@ -62,7 +62,7 @@ Jev lets us adapt the relevance question without training a new model. Cross-enc
 
 Imagine an e-commerce search for "iphone" that returns ten variants of the same iPhone 18. Sometimes that's what the shopper wants, but often they'd rather see a range of products on the first page.
 
-We measured this on 240 held-out queries from the [WANDS](https://huggingface.co/datasets/napsternxg/wands) benchmark, scoring relevance (nDCG@10) and repetition: near-duplicate pairs, results whose embeddings are 0.95 similar or more, on the first page of 10.
+We measured this on 240 held-out queries from the [WANDS](https://huggingface.co/datasets/napsternxg/wands) benchmark, scoring relevance (nDCG@10) and repetition: near-duplicate pairs, results whose embeddings are 0.95 similar or more, on the first page of 10. Product classes show how many different product categories appear in the top 10 results
 
 | **Pipeline**                                       | **nDCG@10** | **Near-duplicate pairs per page** | **Product classes in the top 10** |
 | :---------------------------------------------------| :-----------:| :---------------------------------:| :---------------------------------:|
