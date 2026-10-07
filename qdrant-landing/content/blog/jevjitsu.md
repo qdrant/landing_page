@@ -64,13 +64,13 @@ Imagine an e-commerce search for "iphone" that returns ten variants of the same 
 
 We measured this on 240 held-out queries from the [WANDS](https://huggingface.co/datasets/napsternxg/wands) benchmark, scoring relevance (nDCG@10) and repetition: near-duplicate pairs, results whose embeddings are 0.95 similar or more, on the first page of 10.
 
-| **Pipeline**                                       | **nDCG@10** | **Near-duplicate pairs per page** | **Product classes in the top 10** |
-| :---------------------------------------------------| :-----------:| :---------------------------------:| :---------------------------------:|
-| Hybrid search                                      | 0.683       | 1.27                              | 3.17                              |
-| Qdrant MMR, diversity 0.5                          | 0.561       | 0.00                              | 4.74                              |
-| Jev rerank                                         | 0.769       | 1.25                              | 2.41                              |
-| Jev's score in our own MMR, diversity 0.7          | 0.719       | 0.22                              | 3.40                              |
-| Qdrant MMR, diversity 0.5, then Jev rerank         | 0.723       | 0.04                              | 3.12                              |
+| **Pipeline**                               | **nDCG@10** | **Near-duplicate pairs per page** | **Product classes in the top 10** |
+| :-------------------------------------------| :-----------:| :---------------------------------:| :---------------------------------:|
+| Hybrid search                              | 0.683       | 1.27                              | 3.17                              |
+| Qdrant MMR, diversity 0.5                  | 0.561       | 0.00                              | 4.74                              |
+| Jev rerank                                 | 0.769       | 1.25                              | 2.41                              |
+| Jev's score in our own MMR, diversity 0.7  | 0.719       | 0.22                              | 3.40                              |
+| Qdrant MMR, diversity 0.5, then Jev rerank | 0.723       | 0.04                              | 3.12                              |
 
 Jev reranking improved relevance but left near-duplicates in place and reduced product variety. Even ordering by the human relevance labels narrowed the page to 2.66 product classes. Relevant results can still be repetitive.
 
@@ -110,7 +110,7 @@ The Amazon-C4 queries are long and LLM-generated, which gives Jev plenty of cont
 | "kitchen faucet replacement"     | *Plumbing Parts* (0.98)                           | Helped: more relevant products made it onto the page                                            |
 | "running shoes that aren't nike" | *athletic footwear* (0.98)                        | Barely helped: the category was right, but "not Nike" isn't something a category can express    |
 
-Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most: MMR can't bring the lost products back, because the filter removes them first. The guard we would try first is to boost, never filter, on one- or two-word queries. Another idea we didn't try, but encourage you to, is giving Jev more context: "apple" sent together with the shop it was typed in, say `"shop": "electronics"`, can help Jev make a better call. Search still has no one-size-fits-all solution, so check your own queries and edge cases before you adopt even the most confident one.
+Filtering works when the category is the whole intent. Short queries are more ambiguous, and a filter hurts them most: once it removes products, MMR cannot bring them back. There are two ideas we have not tested yet. One is boosting instead of filtering on one- or two-word queries. The other is giving Jev more context, for example "apple" sent together with the shop it was typed in, say `"shop": "electronics"`. Either way, a confident category prediction can still miss what the shopper wants. The lesson is to check your own queries and edge cases before you adopt even the most confident one.
 
 ## Semantic Chunking
 
@@ -127,11 +127,13 @@ What if Jev judged each gap between sentences instead? We send it a window of nu
 ]}
 ```
 
-For every gap, we ask one yes/no question, "Does sentence 2 start a new topic?", where yes means "Sentence 2 moves to a different subject from sentence 1: a new section, story, question or theme begins" and no means "Sentence 2 continues the subject of sentence 1". Jev answered 0.97 for sentence 2, a section heading, and 0.13 and 0.03 for the two sentences after it.
+For each gap, we ask whether the next sentence starts a new topic, where a new topic means "a new section, story, question or theme begins". For sentence 2, the question is "Does sentence 2 start a new topic?" Jev returned a yes probability of 0.97 for that section heading, followed by 0.13 and 0.03 for the next two sentences.
 
 We cut where the answer passes a threshold, keeping each chunk between a minimum and maximum size. The cuts are a plain function of Jev's answers, so changing the chunk size needs no new requests.
 
-We tested it on QASPER's 407 research papers and 1,297 questions whose evidence paragraphs were marked by researchers. Each chunker's chunks are embedded, 5 are retrieved from Qdrant per question, filtered to that question's paper, and we score how much of the evidence they hold and how little else: recall, precision, and IoU, counted in characters. Against four baselines (fixed-size, a recursive splitter at two sizes, and embedding-based semantic chunking) at the same mean chunk size, Jev improved every metric, with every 95% confidence interval excluding zero: on average 13.0% in IoU, 11.2% in precision, and 9.1% in recall. We expected a modest improvement, and we got it on the first try, with a question we never tuned: sometimes a task really can be done in one iteration. Here's where the gain comes from, on one question:
+We tested this on QASPER's 407 research papers and 1,297 questions with evidence paragraphs marked by researchers. For each question, Qdrant retrieved five chunks from its paper. We measured how much evidence they contained and how much unrelated text they carried, using character-based recall, precision, and intersection over union (IoU).
+
+At matched mean chunk sizes, Jev improved all three metrics against fixed-size, recursive, and embedding-based chunkers. Average relative gains were 13.0% in IoU, 11.2% in precision, and 9.1% in recall. Every 95% confidence interval excluded zero. We expected a modest improvement and got it on the first try, without tuning the question. Here is one example:
 
 <picture>
   <source media="(min-width: 700px)" srcset="/blog/jevjitsu/chunking-recall-wide.svg">
