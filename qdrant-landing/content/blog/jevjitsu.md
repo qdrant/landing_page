@@ -53,7 +53,7 @@ At this point, testing Jev as a reranker on a few hundred queries is practically
 | Jev Choice | 1 | +0.0583 | +0.0673 |
 | Jev Iterative | 10 | +0.0746 | +0.0789 |
 
-We expected the most expensive method, Iterative, to win. It didn't: all three beat BGE-small at both depths, and the gaps between them are under 0.02, which 100 queries can't separate. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
+We expected the most expensive method, Iterative, to win. It did not win by any margin we could measure: all three beat BGE-small at both depths, and the gaps between them are under 0.02, which 100 queries can't separate. More effort doesn't always buy a better result, so the cheap options win: Score is our default, and Iterative isn't worth ten requests per query.
 
 Jev is an API call, while a small local cross-encoder like MiniLM runs on your own CPU, so Jev pays off where a better first page is worth the extra call. On product search it was: on the WANDS benchmark from the next section, sorting the hybrid top 20 by Jev's relevance answer beat both local cross-encoders we tried, bge-reranker-base and MiniLM, reading the same results. The more useful lesson came after the benchmark: Jev's score is a probability of relevance, not just a sort key, so other steps can use it.
 
@@ -139,7 +139,7 @@ The trade-off is cost and simplicity: the other chunkers run locally for free, w
 
 ## What We Would Try First
 
-We see the effect of using Jev best in tasks like the chunker: it's an easy setup with zero overhead.
+We see the effect of using Jev best in tasks like the chunker: it's an easy setup with zero overhead at query time.
 
 Query understanding, on the other hand, still has a lot of unexplored potential: product categories are only one of the signals a query carries, and the fixes for "apple" are still untested.
 
@@ -151,9 +151,9 @@ The use cases can grow, and the blockers are now reduced to just infrastructure 
 
 ## Summary
 
-In the end, Jev shows that generalized classification can be useful far beyond reranking. It is not a one-size-fits-all solution: a specialized reranker or a fine-tuned model for a specific use case may still perform better. What has changed is that classification is becoming cheap, fast, and general enough to use as a building block throughout search and agentic systems.
+In the end, Jev shows that generalized classification can be useful far beyond reranking. It is not always the best solution: a specialized reranker or a fine-tuned model for a specific use case may still perform better. What has changed is that classification is becoming cheap, fast, and general enough to use as a building block throughout search and agentic systems.
 
 
 The market seems to be moving in the same direction. Paid vendors are introducing their own approaches, like [Decisions API](https://huggingface.co/blog/sora-2/what-is-openai-decisions-api-a-practical-guide) from OpenAI, while open source is not staying behind. In just the last several weeks, we have seen direct Jev reproductions ([OpenJev](https://huggingface.co/openjev/openjev), [Open-Jev](https://huggingface.co/AlexWortega/openjev)), lightweight classifiers ([Laya](https://huggingface.co/convaiinnovations/laya), [JevLite](https://huggingface.co/vagmi/jev-lite)), and alternative architectures ([CLM](https://github.com/Contrastive-LM/CLM), [Span-01](https://www.respan.ai/blog/introducing-span-1)).
 
-The interesting question, then, is not whether Jev should replace everything. The idea is simple: **where your pipeline needs a decision, let Jev make it, instead of generating it with an autoregressive model or guessing it with a similarity threshold.** That is where we think there is a lot left to explore.
+The idea is simple: **where your pipeline needs a decision, let Jev make it, instead of generating it with an autoregressive model or guessing it with a similarity threshold.** That is where we think there is a lot left to explore.
