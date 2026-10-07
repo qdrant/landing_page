@@ -96,19 +96,9 @@ def rrf_fuse(hops, k=2, limit=10):
 
 Reciprocal Rank Fusion scores each chunk by its rank in every hop, `1 / (k + rank)`, and sums across hops, so a chunk ranked high in any hop rises and one ranked high in several rises further.
 
-<link rel="stylesheet" href="/documentation/tutorials/query-decomposition/figures.css">
+![Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333.](/documentation/tutorials/query-decomposition/rrf-merge.svg)
 
-<figure class="qd-figure">
-  <picture class="qd-figure__light">
-    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-merge.mobile.svg" width="390" height="240">
-    <img src="/documentation/tutorials/query-decomposition/rrf-merge.svg" alt="Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333." width="720" height="240" loading="lazy">
-  </picture>
-  <picture class="qd-figure__dark">
-    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-merge.mobile.dark.svg" width="390" height="240">
-    <img src="/documentation/tutorials/query-decomposition/rrf-merge.dark.svg" alt="Two ranked chunk lists merge with RRF. Chunk C appears at ranks two and one, scoring 0.583 after fusion. The merged order is C, A, E, B, with scores 0.583, 0.500, 0.500, and 0.333." width="720" height="240" loading="lazy">
-  </picture>
-<figcaption>Illustrative RRF scores with <code>k=2</code> and zero-based ranks. Letters identify chunks; darker violet indicates a higher score. Chunk C contributes 0.250 and 0.333, totaling about 0.583. Equal scores keep first-seen order.</figcaption>
-</figure>
+Illustrative RRF scores with `k=2` and zero-based ranks. Letters identify chunks; darker violet indicates a higher score. Chunk C contributes 0.250 and 0.333, totaling about 0.583. Equal scores keep first-seen order.
 
 `rrf_fuse` runs in your own code because the loop already holds every hop's results. Qdrant can also run RRF on the server, inside a single query; see the [hybrid queries reference](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
@@ -117,17 +107,9 @@ The example uses `k=2`, the default of Qdrant's server-side RRF. `k` sets how mu
 - **This can help when a follow-up goes off track**, because agreement between hops can outweigh one hop's wrong top result.
 - **It can also hurt**: a vague chunk that loosely matches two sub-questions can outrank the one chunk that answers a hop.
 
-<figure class="qd-figure">
-  <picture class="qd-figure__light">
-    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-helps-hurts.mobile.svg" width="390" height="406">
-    <img src="/documentation/tutorials/query-decomposition/rrf-helps-hurts.svg" alt="With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score." width="720" height="240" loading="lazy">
-  </picture>
-  <picture class="qd-figure__dark">
-    <source media="(max-width: 600px)" srcset="/documentation/tutorials/query-decomposition/rrf-helps-hurts.mobile.dark.svg" width="390" height="406">
-    <img src="/documentation/tutorials/query-decomposition/rrf-helps-hurts.dark.svg" alt="With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score." width="720" height="240" loading="lazy">
-  </picture>
-<figcaption>Illustrative examples with <code>k=2</code>. Check marks identify needed chunks A and C; dashed borders identify vague chunk E. The horizontal line limits the answer to two chunks. Crosses mark a wrong result or an excluded needed chunk. Repeated chunks score 0.583; each hop's top chunk scores 0.500. Equal scores keep first-seen order.</figcaption>
-</figure>
+![With a two-chunk answer limit, RRF keeps needed chunks C and A in the Helps case. In the Hurts case, repeated vague chunk E displaces needed chunk C. Each tile shows its chunk ID and RRF score.](/documentation/tutorials/query-decomposition/rrf-helps-hurts.svg)
+
+Illustrative examples with `k=2`. Check marks identify needed chunks A and C; dashed borders identify vague chunk E. The horizontal line limits the answer to two chunks. Crosses mark a wrong result or an excluded needed chunk. Repeated chunks score 0.583; each hop's top chunk scores 0.500. Equal scores keep first-seen order.
 
 - A smaller `k` favors each hop's top result.
 - A larger `k` lets a chunk found by 2 hops outrank a top chunk found by only one, even from lower ranks.
