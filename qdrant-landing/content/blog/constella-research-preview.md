@@ -120,12 +120,12 @@ Loading includes imports and local model initialization, with assets already dow
 
 ## Try Constella
 
-It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/Qdrant/constella-nano), and native FastEmbed support is available on the [research-preview branch](https://github.com/Dylancouzon/fastembed/tree/constella-research-preview).
+It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/Qdrant/constella-nano), and native support is available in [FastEmbed 0.9.0](https://github.com/qdrant/fastembed/releases/tag/v0.9.0).
 
-Install the preview:
+Install FastEmbed and the Qdrant client:
 
 ```bash
-pip install "fastembed @ git+https://github.com/Dylancouzon/fastembed.git@constella-research-preview" qdrant-client
+pip install "fastembed==0.9.0" qdrant-client
 ```
 
 Create a collection and encode your documents once with Stella:
