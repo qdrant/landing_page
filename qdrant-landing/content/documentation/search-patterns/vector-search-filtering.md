@@ -743,7 +743,7 @@ As a conclusion to this guide, let's look at some real-life use cases where filt
 |--------------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------|
 | [E-Commerce Product Search](/advanced-search/)        | Search for products by style or visual similarity                | Filter by price, color, brand, size, ratings                            |
 | [Recommendation Systems](/recommendations/)           | Recommend similar content (e.g., movies, songs)                  | Filter by release date, genre, etc. (e.g., movies after 2020)           |
-| [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find similar drivers or delivery partners                         | Filter by rating, distance radius, vehicle type                                |
+| [Geospatial Search in Ride-Sharing](/documentation/search/filtering/#geo-radius)| Find similar drivers or delivery partners                         | Filter by rating, distance radius, vehicle type                                |
 | [Fraud & Anomaly Detection](/data-analysis-anomaly-detection/)                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
 
 #### Before you go - all the code is in Qdrant's Dashboard 

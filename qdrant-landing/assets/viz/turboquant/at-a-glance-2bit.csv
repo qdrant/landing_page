@@ -1,0 +1,9 @@
+dataset,variant,recall
+arxiv-instructorxl-768,TQ 2-bit (16x),0.8227
+arxiv-instructorxl-768,BQ 2-bit (16x),0.6756
+dbpedia-gemini,TQ 2-bit (16x),0.8170
+dbpedia-gemini,BQ 2-bit (16x),0.6689
+dbpedia-openai-ada,TQ 2-bit (16x),0.8480
+dbpedia-openai-ada,BQ 2-bit (16x),0.7332
+wiki-cohere-v3-1024,TQ 2-bit (16x),0.8303
+wiki-cohere-v3-1024,BQ 2-bit (16x),0.6880

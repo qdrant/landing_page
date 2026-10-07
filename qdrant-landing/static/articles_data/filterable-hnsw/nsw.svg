@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 425" role="img" aria-labelledby="description">
+  <desc id="description">Original NSW graph: black edges connect indexed points; orange arrows show the illustrated traversal from the entry point toward the query. This illustrates NSW navigation, not HNSW hierarchy.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#c44726"/>
+    </marker>
+    <marker id="black-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#20243a"/>
+    </marker>
+  </defs>
+  <rect width="640" height="425" rx="12" fill="#f0f1f8"/>
+  <rect x="12" y="12" width="616" height="401" rx="8" fill="#fff" stroke="#d9dcea"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <line x1="61.85" y1="162.75" x2="113.85000000000001" y2="62.25" stroke="#20243a" stroke-width="2"/>
+    <line x1="61.85" y1="162.75" x2="113.85000000000001" y2="196.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="61.85" y1="162.75" x2="98.25" y2="270.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="113.85000000000001" y1="62.25" x2="113.85000000000001" y2="196.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="113.85000000000001" y1="62.25" x2="193.8" y2="104.25" stroke="#20243a" stroke-width="2"/>
+    <line x1="113.85000000000001" y1="62.25" x2="309.5" y2="60.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="113.85000000000001" y1="196.5" x2="98.25" y2="270.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="113.85000000000001" y1="196.5" x2="193.8" y2="104.25" stroke="#20243a" stroke-width="2"/>
+    <line x1="113.85000000000001" y1="196.5" x2="231.5" y2="151.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="98.25" y1="270.0" x2="231.5" y2="151.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="98.25" y1="270.0" x2="225.65" y2="329.25" stroke="#20243a" stroke-width="2"/>
+    <line x1="193.8" y1="104.25" x2="231.5" y2="151.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="193.8" y1="104.25" x2="225.65" y2="329.25" stroke="#20243a" stroke-width="2"/>
+    <line x1="193.8" y1="104.25" x2="309.5" y2="60.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="231.5" y1="151.5" x2="225.65" y2="329.25" stroke="#20243a" stroke-width="2"/>
+    <line x1="231.5" y1="151.5" x2="309.5" y2="60.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="231.5" y1="151.5" x2="349.8" y2="109.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="231.5" y1="151.5" x2="325.1" y2="201.75" stroke="#20243a" stroke-width="2"/>
+    <line x1="225.65" y1="329.25" x2="309.5" y2="60.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="225.65" y1="329.25" x2="325.1" y2="201.75" stroke="#20243a" stroke-width="2"/>
+    <line x1="225.65" y1="329.25" x2="395.3" y2="318.75" stroke="#20243a" stroke-width="2"/>
+    <line x1="309.5" y1="60.0" x2="349.8" y2="109.5" stroke="#20243a" stroke-width="2"/>
+    <line x1="309.5" y1="60.0" x2="522.7" y2="141.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="349.8" y1="109.5" x2="325.1" y2="201.75" stroke="#20243a" stroke-width="2"/>
+    <line x1="349.8" y1="109.5" x2="522.7" y2="141.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="325.1" y1="201.75" x2="522.7" y2="141.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="395.3" y1="318.75" x2="522.7" y2="141.0" stroke="#20243a" stroke-width="2"/>
+    <line x1="395.3" y1="318.75" x2="527.25" y2="318.75" stroke="#20243a" stroke-width="2"/>
+    <line x1="522.7" y1="141.0" x2="527.25" y2="318.75" stroke="#20243a" stroke-width="2"/>
+    <line x1="527.25" y1="318.75" x2="357.5613016831773" y2="118.65216893324796" stroke="#c44726" stroke-width="3" marker-end="url(#arrow)"/>
+    <line x1="349.8" y1="109.5" x2="73.64992718399958" y2="160.5678637869492" stroke="#c44726" stroke-width="3" marker-end="url(#arrow)"/>
+    <line x1="309.5" y1="60.0" x2="225.65" y2="329.25" stroke="#c44726" stroke-width="3"/>
+    <line x1="225.65" y1="329.25" x2="193.8" y2="104.25" stroke="#c44726" stroke-width="3"/>
+    <line x1="395.3" y1="318.75" x2="113.85000000000001" y2="62.25" stroke="#c44726" stroke-width="3"/>
+    <line x1="61.85" y1="162.75" x2="103.78425634623925" y2="189.9669452247226" stroke="#20243a" stroke-width="2" marker-end="url(#black-arrow)"/>
+    <circle cx="61.85" cy="162.75" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="113.85000000000001" cy="62.25" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="113.85000000000001" cy="196.5" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="98.25" cy="270.0" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="193.8" cy="104.25" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="231.5" cy="151.5" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="225.65" cy="329.25" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="309.5" cy="60.0" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="349.8" cy="109.5" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="325.1" cy="201.75" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="395.3" cy="318.75" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="522.7" cy="141.0" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="527.25" cy="318.75" r="11" fill="#d8efed" stroke="#00766d" stroke-width="2"/>
+    <circle cx="145" cy="206" r="10" fill="#fce5d9" stroke="#c44726" stroke-width="2"/>
+    <text x="162" y="211" font-size="18" text-anchor="start" fill="#20243a">Query</text>
+    <text x="548" y="315" font-size="16" text-anchor="start" fill="#20243a">Entry</text>
+    <text x="548" y="337" font-size="16" text-anchor="start" fill="#20243a">point</text>
+    <line x1="480" y1="389" x2="515" y2="389" stroke="#c44726" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="527" y="395" font-size="14" text-anchor="start" fill="#20243a">Traversal</text>
+  </g>
+</svg>

@@ -1,9 +1,9 @@
 ---
 title: Vector Search Fundamentals
-short_description: "Understand vector search concepts, embeddings, similarity, and the tradeoffs involved in choosing a dedicated vector search engine."
-description: Explore vector search fundamentals, from embeddings and similarity to the capabilities and tradeoffs of dedicated vector search engines.
+short_description: "Foundations of vector search: embeddings, similarity, and vector databases."
+description: Understand how embeddings represent data, how vector similarity works, and why vector search uses dedicated databases.
 category: vector-search-fundamentals
 url: /articles/vector-search-fundamentals/
 isCategoryPage: true
-weight: 15
+weight: 5
 ---

@@ -1,0 +1,81 @@
+/* slicing mechanism island. Scoped under .qi-sl. Controls, labels, frames and
+   the status line come from the shared island design system (islands.scss);
+   this file styles the dots, hash box, connectors and slice frames. Slice
+   colors are the shared categorical tokens (--qi-cat-*), constant across
+   themes. */
+
+.qi-sl {
+  display: block;
+}
+
+/* Essential labels render at 14px at the normal article width. */
+.qi-sl .qi-label,
+.qi-sl .qi-title {
+  font-size: 14px;
+}
+.qi-sl__svg.is-narrow {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.qi-sl .qi-fig {
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+}
+
+.qi-sl__hash {
+  fill: var(--qi-surface);
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.qi-sl__link {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+}
+.qi-sl__conn {
+  stroke-width: 2;
+  fill: none;
+}
+
+.qi-sl__slice {
+  cursor: pointer;
+}
+.qi-sl__slice:focus-visible {
+  outline: none;
+}
+.qi-sl__slice-rect {
+  fill: var(--qi-surface);
+  stroke-width: 1.5;
+}
+.qi-sl__slice.is-hot .qi-sl__slice-rect,
+.qi-sl__slice:focus-visible .qi-sl__slice-rect {
+  stroke-width: 3;
+}
+.qi-sl__slice[aria-pressed='true'] .qi-sl__slice-rect {
+  fill: var(--qi-border);
+}
+
+.qi-sl__dot {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-sl__dot.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.qi-sl__dot.is-dim {
+  opacity: 0.25;
+}
+
+.qi-sl .qi-status {
+  min-height: calc(3 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-sl__dot {
+    transition: none;
+  }
+}

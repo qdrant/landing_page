@@ -1,0 +1,3 @@
+metric,cluster,seconds
+indexing time,GPU cluster,6.10
+indexing time,CPU-only cluster,66.27

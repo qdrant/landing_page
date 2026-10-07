@@ -1,0 +1,13 @@
+{
+  "title": "Recall at 16x compression: TurboQuant 2-bit and Binary Quantization 2-bit",
+  "kind": "grouped-columns",
+  "subtitle": "four representative datasets, HNSW, higher is better",
+  "group": "dataset",
+  "series": "variant",
+  "y": "recall",
+  "yLabel": "recall",
+  "yMin": 0,
+  "yMax": 1,
+  "colors": [0, "muted"],
+  "height": 400
+}

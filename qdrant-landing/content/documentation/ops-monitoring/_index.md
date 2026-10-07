@@ -22,14 +22,12 @@ These pages cover how to observe and measure a running Qdrant deployment using i
 
 [Slow Request Log](/documentation/ops-monitoring/slow-request-log/) describes Qdrant's built-in in-memory log of the slowest unique requests since startup. Use it to identify which queries are responsible for high latency.
 
-## Managed Cloud Prometheus Monitoring
+For a step-by-step Managed Cloud setup, see [Managed Cloud Prometheus Monitoring](/documentation/production-operations/managed-cloud-prometheus/) in [Learn / Production & Operations](/documentation/production-operations/).
 
-[Managed Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) is a step-by-step tutorial for deploying Prometheus and Grafana in a Kubernetes cluster and configuring them to scrape metrics from a Qdrant Managed Cloud database.
+## Monitoring with Grafana and Prometheus
 
-## Self-Hosted Prometheus Monitoring
+[Monitoring with Grafana and Prometheus](/documentation/ops-monitoring/hybrid-cloud-prometheus/) is a step-by-step tutorial for setting up Prometheus and Grafana monitoring for Qdrant running in a Hybrid Cloud or Private Cloud environment.
 
-[Self-Hosted Prometheus Monitoring](/documentation/ops-monitoring/hybrid-cloud-prometheus/) is a step-by-step tutorial for setting up Prometheus and Grafana monitoring for Qdrant running in a Hybrid Cloud or Private Cloud environment.
+## Monitoring with Datadog
 
-## Monitoring Hybrid/Private Cloud with Datadog
-
-[Monitoring Hybrid/Private Cloud with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) is a step-by-step tutorial for setting up Datadog to monitor Qdrant running in a Hybrid Cloud or Private Cloud environment.
+[Monitoring with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) is a step-by-step tutorial for setting up Datadog to monitor Qdrant running in a Hybrid Cloud or Private Cloud environment.

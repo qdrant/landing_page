@@ -3,7 +3,7 @@
  *
  * Illustrates how binary quantization encodes a float32 vector at 1, 1.5 and
  * 2 bits per dimension. The left column shows one vector: its float
- * components, the resulting bits, and the storage bars (512 bit -> 16/24/32
+ * components, the resulting bits, and the storage bars (512 bit -> 16/~21/32
  * bit). The right column shows the distribution of component values with the
  * thresholds that split it into buckets: two for 1 bit (sign only), three for
  * 2 bit (-1 / 0 / 1, so values near zero are not a coin-flip sign). At 1.5 bit
@@ -23,7 +23,7 @@ const RANGE = 3; // histogram spans [-RANGE, RANGE]
 
 const MODES = [
   { id: 'one', label: '1 bit', short: '1 bit', bpd: 1, ratio: 32 },
-  { id: 'half', label: '1.5 bit', short: '1.5 bit', bpd: 1.5, ratio: 24 },
+  { id: 'half', label: '1.5 bit', short: '1.5 bit', bpd: 1.5, ratio: '~21' },
   { id: 'two', label: '2 bit', short: '2 bit', bpd: 2, ratio: 16 },
 ];
 

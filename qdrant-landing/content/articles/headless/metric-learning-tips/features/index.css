@@ -1,0 +1,57 @@
+/* features island. Scoped under .ml-ft. Blue: encoder, green: linear, yellow:
+   softmax, red: the embedding values. */
+.ml-ft {
+  --ml-enc: #4f9dff;
+  --ml-lin: #4cd98a;
+  --ml-soft: #f5d36a;
+  display: block;
+}
+.ml-ft__box {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1.2;
+}
+.ml-ft__box.is-enc {
+  fill: var(--ml-enc);
+  fill-opacity: 0.55;
+}
+.ml-ft__box.is-lin {
+  fill: var(--ml-lin);
+  fill-opacity: 0.55;
+}
+.ml-ft__box.is-soft {
+  fill: var(--ml-soft);
+  fill-opacity: 0.6;
+}
+.ml-ft__box.is-cat {
+  fill: var(--qi-surface);
+  stroke: var(--qi-fg);
+}
+.ml-ft__t {
+  fill: var(--qi-fg);
+}
+.ml-ft__arrow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.ml-ft__head {
+  fill: var(--qi-muted);
+}
+.ml-ft__bar.is-reg,
+.ml-ft__bar.is-a {
+  fill: var(--qi-accent);
+}
+.ml-ft__bar.is-b {
+  fill: var(--qi-cat-1);
+}
+.ml-ft__conflab {
+  fill: var(--qi-fg);
+  font-weight: 600;
+}
+.ml-ft .qi-label {
+  font-size: 13px;
+}
+.ml-ft.ml-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

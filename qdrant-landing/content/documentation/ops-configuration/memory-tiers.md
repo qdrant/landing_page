@@ -11,7 +11,7 @@ aliases:
 
 Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter controls how each structure is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed.
 
-This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval.
+This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval. For guidance on what to choose to fit your RAM and disk budget, see [Memory Tiers: What to Use and When](/documentation/production-operations/memory-tiers/).
 
 ## Configuring Memory Tiers
 
