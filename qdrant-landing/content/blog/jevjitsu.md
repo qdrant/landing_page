@@ -102,7 +102,7 @@ We compared setups on 300 [Amazon-C4](https://huggingface.co/datasets/McAuley-La
 
 {{< chart id="jevjitsu/routing" caption="Tiered filters at 0.9 and boosts from 0.5, with thresholds picked on development queries. Default uses the library defaults, which boost from 0.6. Every setup beat plain hybrid search on average; filtering on every guess is within noise." >}}
 
-Building and tagging the categories is a one-off cost per collection. The cost that stays is time: the Jev request adds half a second to two seconds to every query, depending on how many categories it reads. Like [Netflix](https://pretalx.com/media/haystackeu26/submissions/7F3XA8/resources/From_Tries_to_gXhR9ny.pdf), we put a cheap model in front of the slow one: small classifiers trained on Jev's own product tags answer the queries they're sure about, with boosts only. That took 37% of queries off Jev, with slightly higher average nDCG@10 on our 300 test queries (section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb)).
+Jev adds half a second to two seconds per query, depending on how many categories it reads. Small classifiers trained on Jev's product tags handled 37% of queries with boosts only, skipping Jev with slightly higher average nDCG@10. The details are in section 6 of the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/notebooks/jevqu_c4_llm_taxonomy.ipynb).
 
 The Amazon-C4 queries are long and LLM-generated, which gives Jev plenty of context. Real search boxes see much shorter queries, so we tried a few of our own. They have no relevance labels, so read them as examples, not measurements:
 
