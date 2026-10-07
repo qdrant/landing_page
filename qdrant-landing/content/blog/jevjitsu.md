@@ -140,22 +140,22 @@ Filtering works when the category is the whole intent. Short queries are more am
 
 ## Semantic Chunking
 
-Most semantic chunkers cut where the embeddings of neighboring sentences drift apart. A paragraph that changes vocabulary mid-argument can get split, and two articles that share vocabulary can get merged.
+Retrieval often brings back the right chunk with only half the answer in it, because the chunker cut the paragraph in two. Fixed-size chunkers cut wherever the token count runs out. Most semantic chunkers cut where the embeddings of neighboring sentences drift apart, so a paragraph that changes vocabulary mid-argument can get split, and two articles that share vocabulary can get merged.
 
-What if Jev reads a window of numbered sentences instead and judges each gap, asking whether **the next sentence starts a new topic?** In pseudocode:
+What if Jev judged each gap between sentences instead? We send it a window of numbered sentences from the document, trimmed here to four from a QASPER paper:
 
-```python
-sentences = split(document)                    # by punctuation and newlines
-
-for each window of 40 sentences (step 20):
-    ask Jev, for every gap in the window:
-      "Does sentence k+1 start a new topic?"   # one request, a probability per gap
-
-cut at gaps where P(new topic) >= threshold,
-    keeping each chunk between min_size and max_size tokens
-
-# threshold, min_size and max_size reuse the same answers: resize without new calls
+```json
+{"sentences": [
+  {"sentence": 1, "text": "It can be seen that the classes RY and DN contain the majority of the speeches."},
+  {"sentence": 2, "text": "Language Model"},
+  {"sentence": 3, "text": "We use a simple statistical language model based on n-grams."},
+  {"sentence": 4, "text": "In particular, we use 6-grams."}
+]}
 ```
+
+For every gap, we ask one yes/no question, "Does sentence 2 start a new topic?", where yes means "Sentence 2 moves to a different subject from sentence 1: a new section, story, question or theme begins" and no means "Sentence 2 continues the subject of sentence 1". Jev answered 0.97 for sentence 2, a section heading, and 0.13 and 0.03 for the two sentences after it.
+
+We cut where the answer passes a threshold, keeping each chunk between a minimum and maximum size. The cuts are a plain function of Jev's answers, so changing the chunk size needs no new requests. The implementation is in the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/chunker/chunker.ipynb).
 
 We tested it on [QASPER](https://huggingface.co/datasets/allenai/qasper): 407 research papers and 1,297 questions whose evidence paragraphs were marked by researchers. Each chunker's chunks are embedded with bge-small, without overlap, and 5 are retrieved per question from within that question's paper. Overlap is counted in characters: recall is the share of the evidence retrieved, precision is the share of retrieved text that is evidence, and IoU is their overlap divided by their union, which rewards chunks that hold the evidence and little else.
 
@@ -172,9 +172,20 @@ The precision gain follows from the same effect: the retrieved text per question
 
 The trade-off is cost and simplicity. Fixed-size, recursive, and embedding-based chunkers run locally for free, while Jev sends your text to an API and costs about \\$0.27 per million tokens. The smallest gain was against a recursive splitter that breaks on blank lines first: QASPER's answers are whole paragraphs, so that splitter lines up with them for free. We never tuned the question and only set the cutoff, so rewording it may improve the chunks further. The full comparison is in the [notebook](https://github.com/qdrant-labs/many-jev-recipies/blob/main/recipes/chunker/chunker.ipynb).
 
+## What We Would Try First
+
+If you try one of these, start with the chunker. It runs once, at indexing time, so adds nothing to query latency. The setup is easy, and your tuning will work on already solid foundation. It fits the "least effort - most result" strategy. 
+
+Query understanding has a lot of unexplored potential. It brings solid wins. It brings wins, however it needs more dataset experiments, that will showcase its flaws, and possible improvements via extension of classification in depth or in breath. 
+
+The more useful part from reranker, is not that you can just use it - that was clear from other blog posts for last 3 weeks. Its that its usefulness can be extrapolated by fusing it with other techniques and looking at other objectives like having more diverse results. Another we encourage trying: many e-commerce searches show an empty page instead of irrelevant results when nothing clears a similarity threshold, and that threshold is notoriously hard to set, however Jev like models can do it out of the box.
+
+What feels too costly are methods like Iterative reranking: ten requests per query for no gain we could measure. For most of the rest, the blocker is now infrastructure cost, not what the model can do.
+
 ## Summary
 
 In the end, Jev shows that generalized classification can be useful far beyond reranking. It is not a one-size-fits-all solution: a specialized reranker or a fine-tuned model for a specific use case may still perform better. What has changed is that classification is becoming cheap, fast, and general enough to use as a building block throughout search and agentic systems.
+
 
 The market seems to be moving in the same direction. Paid vendors are introducing their own approaches, like [Decisions API](https://huggingface.co/blog/sora-2/what-is-openai-decisions-api-a-practical-guide) from OpenAI, while open source is not staying behind. In just the last several weeks, we have seen direct Jev reproductions ([OpenJev](https://huggingface.co/openjev/openjev), [Open-Jev](https://huggingface.co/AlexWortega/openjev)), lightweight classifiers ([Laya](https://huggingface.co/convaiinnovations/laya), [JevLite](https://huggingface.co/vagmi/jev-lite)), and alternative architectures ([CLM](https://github.com/Contrastive-LM/CLM), [Span-01](https://www.respan.ai/blog/introducing-span-1)).
 
