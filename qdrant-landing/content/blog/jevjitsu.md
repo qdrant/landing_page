@@ -43,7 +43,11 @@ All of the experiments are in the [many-jev-recipies](https://github.com/qdrant-
 
 ## Reranking
 
-Reranking, reordering the candidates a fast first step retrieved, is where most people tried Jev first. Jev takes the query, the candidates, and a typed question, and returns a probability for each answer without generating text, so the scores sort directly, with nothing to parse and far fewer ties.
+Hybrid search usually finds the useful results. The harder part is the order. Sometimes the difference between the best answer at position seven and a weaker one at position one is too subtle for the first step to catch, so it needs a "smarter cousin" to rearrange what it brought back.
+
+That is what a reranker does: it takes the candidates from the fast first step and puts them in order, more slowly but more carefully. LLM judges are smart enough for that job but too slow and costly to run on every query.
+
+Jev fits naturally here: it takes the query, the candidates, and a typed question, and returns a probability for each answer without generating text, so the scores sort directly, with nothing to parse and far fewer ties.
 
 We tried three ways to ask:
 
