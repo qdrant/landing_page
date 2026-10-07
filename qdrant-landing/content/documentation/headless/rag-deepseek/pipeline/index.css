@@ -1,10 +1,5 @@
 .qi-rag { display: block; }
 
-/* The shortcode's aspect ratio reserves the fallback image before loading. */
-.island.is-ready[data-island='content/documentation/headless/rag-deepseek/pipeline'] .island__stage {
-  aspect-ratio: auto !important;
-}
-
 .qi-rag__diagram {
   padding: 18px;
   border: 1px solid var(--qi-border);
