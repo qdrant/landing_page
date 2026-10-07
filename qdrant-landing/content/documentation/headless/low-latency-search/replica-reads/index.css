@@ -12,6 +12,13 @@
   display: block;
 }
 
+/* Cluster: an outline around the nodes; queries arrive here. */
+.qi-rr__cluster {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+
 .qi-rr__client {
   fill: var(--qi-border);
 }

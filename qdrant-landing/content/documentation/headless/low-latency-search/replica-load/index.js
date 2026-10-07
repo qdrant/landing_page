@@ -14,38 +14,29 @@
 
 const NS = 'http://www.w3.org/2000/svg';
 
-// Geometry (viewBox -2 0 764 240).
-const NODE = { w: 230, h: 150, y: 86, pitch: 265 };
-const BOX = { w: 150, h: 42, dx: 40, dy: 40 };
+// Geometry (viewBox -2 0 764 276); nodes inside a cluster frame.
+const CLUSTER = { x: 0, y: 70, w: 760, h: 198 };
+const NODE = { w: 228, h: 150, y: 104, pitch: 252, x0: 14 };
+const BOX = { w: 150, h: 42, dx: 39, dy: 40 };
 const BARS = 6;
 const BAR = { x: 84, slot: 10, w: 5.5, y: 11, h: 20 };
-const LOAD = { dx: 56, dy: 104, w: 134, h: 10 };
+const LOAD = { dx: 55, dy: 104, w: 134, h: 10 };
 const CLIENT = { x: 380, y: 22, w: 120, h: 40 };
-const JUNCTION_Y = 64;
-const VB_H = 240;
+const VB_H = 276;
 
 const QUERIES = 6;
 const EVERY_MS = 1400;
-const TRAVEL_MS = 1200;
+const TRAVEL_MS = 800;
 const TOKEN = 10;
 const MAX_FACTOR = 3;
 
-const nodeX = (n) => n * NODE.pitch;
+const nodeX = (n) => NODE.x0 + n * NODE.pitch;
 
 function el(name, attrs, parent) {
   const node = document.createElementNS(NS, name);
   for (const k in attrs) node.setAttribute(k, attrs[k]);
   if (parent) parent.appendChild(node);
   return node;
-}
-
-function drop(n) {
-  const x = nodeX(n) + NODE.w / 2;
-  const start = CLIENT.y + CLIENT.h / 2;
-  const end = NODE.y - 6;
-  if (x === CLIENT.x) return `M ${x} ${start} V ${end}`;
-  const d = x > CLIENT.x ? 1 : -1;
-  return `M ${CLIENT.x} ${start} V ${JUNCTION_Y - 10} Q ${CLIENT.x} ${JUNCTION_Y} ${CLIENT.x + d * 10} ${JUNCTION_Y} H ${x - d * 10} Q ${x} ${JUNCTION_Y} ${x} ${JUNCTION_Y + 10} V ${end}`;
 }
 
 export function mount(node) {
@@ -68,7 +59,7 @@ export function mount(node) {
     '    </div>',
     '  </div>',
     `  <svg class="qi-svg qi-rl__svg" viewBox="-2 0 764 ${VB_H}" role="img"`,
-    '    aria-label="One shard on a three-node cluster. Raising the replication factor adds replicas on more nodes, and the reads of the shard spread evenly across them.">',
+    '    aria-label="A client reads one shard on a three-node cluster. Raising the replication factor adds replicas on more nodes, and the reads of the shard spread evenly across them.">',
     '    <defs>',
     '      <marker id="qi-rl-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">',
     '        <path class="qi-rl__arrowhead" d="M 0 0 L 10 5 L 0 10 z"/>',
@@ -97,6 +88,10 @@ export function mount(node) {
 
   // One slot per node: the replica (shown when the factor reaches it), an
   // empty placeholder otherwise, and the node's load bar.
+  el('rect', { class: 'qi-rl__cluster', x: CLUSTER.x, y: CLUSTER.y, width: CLUSTER.w, height: CLUSTER.h, rx: 8 }, nodesG);
+  el('text', { class: 'qi-frame-label', x: CLUSTER.x + 16, y: CLUSTER.y + 24 }, nodesG).textContent = 'Cluster';
+  // One wire: the client talks to the cluster, not to each node.
+  const wire = el('path', { class: 'qi-rl__wire', d: `M ${CLIENT.x} ${CLIENT.y + CLIENT.h / 2} V ${CLUSTER.y - 6}`, 'marker-end': 'url(#qi-rl-arrow)' }, wiresG);
   const slots = [0, 1, 2].map((n) => {
     const nx = nodeX(n);
     el('rect', { class: 'qi-frame', x: nx, y: NODE.y, width: NODE.w, height: NODE.h, rx: 6 }, nodesG);
@@ -115,8 +110,7 @@ export function mount(node) {
     const fill = el('rect', { class: 'qi-rl__fill', x: nx + LOAD.dx, y: ly, width: 0, height: LOAD.h, rx: 3 }, nodesG);
     const reads = el('text', { class: 'qi-label qi-label--strong qi-rl__reads', x: nx + LOAD.dx + LOAD.w + 10, y: ly + 9 }, nodesG);
     el('text', { class: 'qi-label', x: nx + 14, y: ly + 9 }, nodesG).textContent = 'load';
-    const wire = el('path', { class: 'qi-rl__wire', d: drop(n), 'marker-end': 'url(#qi-rl-arrow)' }, wiresG);
-    return { n, g, empty, fill, reads, wire, count: 0 };
+    return { n, g, empty, fill, reads, count: 0 };
   });
 
   let factor = 2;
@@ -153,15 +147,15 @@ export function mount(node) {
     slots.forEach((s) => {
       s.count = 0;
       s.g.classList.remove('is-hot');
-      s.wire.classList.remove('is-on');
     });
+    wire.classList.remove('is-on');
     statusEl.innerHTML = `With <code>replication_factor=${factor}</code>, the shard has ${factor} replica${factor > 1 ? 's' : ''}. Press Start queries.`;
     render();
   }
 
-  function travel(s, myGen) {
+  function travel(myGen) {
     return new Promise((resolve) => {
-      const path = s.wire;
+      const path = wire;
       const len = path.getTotalLength();
       const tok = el('rect', { class: 'qi-rl__token', width: TOKEN, height: TOKEN, rx: 2 }, tokensG);
       const t0 = performance.now();
@@ -186,7 +180,7 @@ export function mount(node) {
     running = true;
     render();
     const myGen = gen;
-    slots.filter((s) => s.n < factor).forEach((s) => s.wire.classList.add('is-on'));
+    wire.classList.add('is-on');
     // One sentence for the whole run: the load bars show the progress.
     statusEl.innerHTML =
       factor === 1 ? 'Every read of the shard goes to its only replica, on Node 1.' : 'The shard’s reads are spread over its replicas in turn.';
@@ -196,18 +190,18 @@ export function mount(node) {
         sent = q + 1;
         render();
         const s = slots[q % factor];
-        travel(s, myGen).then((ok) => {
+        travel(myGen).then((ok) => {
           if (!ok) return;
           s.count++;
           s.g.classList.add('is-hot');
-          later(() => s.g.classList.remove('is-hot'), 800);
+          later(() => s.g.classList.remove('is-hot'), 1000);
           render();
         });
       }, q * EVERY_MS);
     }
     later(() => {
       if (myGen !== gen) return;
-      slots.forEach((s) => s.wire.classList.remove('is-on'));
+      wire.classList.remove('is-on');
       running = false;
       const each = QUERIES / factor;
       statusEl.innerHTML =

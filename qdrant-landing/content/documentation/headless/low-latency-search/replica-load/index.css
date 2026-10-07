@@ -20,6 +20,13 @@
   color: var(--qi-fg);
 }
 
+/* Cluster: an outline around the nodes; queries arrive here. */
+.qi-rl__cluster {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+
 .qi-rl__client {
   fill: var(--qi-border);
 }
