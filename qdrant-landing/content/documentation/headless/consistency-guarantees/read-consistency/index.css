@@ -1,0 +1,107 @@
+/* read-consistency island. Scoped under .qi-rc. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the reader, read wires, answers, shard replicas and the results
+   strip. Same visual language as the concurrent-writes island. */
+
+.qi-rc {
+  --rc-a: #6047ff; /* neon-blue-500 */
+  --rc-b: #dc244c; /* amaranth-500 */
+  --rc-read: var(--qi-muted);
+
+  display: block;
+}
+
+/* Color words in the status line. */
+.qi-rc__t--a {
+  color: var(--rc-a);
+}
+.qi-rc__t--b {
+  color: var(--rc-b);
+}
+
+.qi-rc__reader {
+  fill: var(--qi-border);
+}
+.qi-rc__reader-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+
+/* Read requests: shown only while a read is in flight. */
+.qi-rc__wire {
+  fill: none;
+  stroke: var(--rc-read);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.qi-rc__wire.is-on {
+  opacity: 1;
+}
+.qi-rc__arrowhead {
+  fill: var(--rc-read);
+}
+.qi-rc__token {
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+
+/* --- Nodes, each holding its shard replica --- */
+.qi-rc__node {
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+.qi-rc__node.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-rc__shard {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-rc__bar {
+  fill: var(--qi-muted);
+}
+.qi-rc__point--a {
+  fill: var(--rc-a);
+}
+.qi-rc__point--b {
+  fill: var(--rc-b);
+}
+.qi-rc__log--a {
+  fill: var(--rc-a);
+}
+.qi-rc__log--b {
+  fill: var(--rc-b);
+}
+
+/* Results strip next to the reader. */
+.qi-rc__result {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+.qi-rc__result--a,
+.qi-rc__result--b {
+  stroke: var(--qi-cell-stroke);
+  stroke-dasharray: none;
+}
+.qi-rc__result--a {
+  fill: var(--rc-a);
+}
+.qi-rc__result--b {
+  fill: var(--rc-b);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-rc__wire,
+  .qi-rc__node {
+    transition: none;
+  }
+}

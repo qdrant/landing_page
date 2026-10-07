@@ -21,8 +21,13 @@ With chatbots, companies can scale their training programs to accommodate a larg
 
 With a simple RAG pipeline, you can build a private chatbot. In this tutorial, you will combine open source tools inside of a closed infrastructure and tie them together with a reliable framework. This custom solution lets you run a chatbot without public internet access. You will be able to keep sensitive data secure without compromising privacy.
 
-![OpenShift](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/openshift-diagram.png)
-**Figure 1:** The LLM and Qdrant Hybrid Cloud are containerized as separate services. Haystack combines them into a RAG pipeline and exposes the API via Hayhooks.
+{{< island
+    path="content/documentation/headless/openshift-chatbot/architecture"
+    ratio="3 / 2"
+    title="**Figure 1:** The LLM and Qdrant Hybrid Cloud are containerized as separate services. Haystack combines them into a RAG pipeline and exposes the API via Hayhooks. Select a step to see which links it uses."
+>}}
+![Architecture on Red Hat OpenShift: users call Hayhooks, which serves the search pipeline of the Haystack application. The Haystack application talks to Qdrant Hybrid Cloud and to the model server running Mistral-7B-Instruct-v0.1, each in its own container.](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/openshift-diagram.png)
+{{< /island >}}
 
 ## Components
 To maintain complete data isolation, we need to limit ourselves to open-source tools and use them in a private environment, such as [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift). The pipeline will run internally and will be inaccessible from the internet.
@@ -32,15 +37,19 @@ To maintain complete data isolation, we need to limit ourselves to open-source t
 - **Embedding Model:** `BAAI/bge-base-en-v1.5`, lightweight embedding model deployed from within the Haystack pipeline
   with [FastEmbed](https://github.com/qdrant/fastembed)
 - **Vector DB:** [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech) running on OpenShift.
-- **Framework:** [Haystack 2.x](https://haystack.deepset.ai/) to connect all and [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) to serve the app through HTTP endpoints.
+- **Framework:** [Haystack](https://haystack.deepset.ai/) to connect all and [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) to serve the app through HTTP endpoints.
 
 ### Procedure
 The [Haystack](https://haystack.deepset.ai/) framework leverages two pipelines, which combine our components sequentially to process data. 
 
-1. The **Indexing Pipeline** will run offline in batches, when new data is added or updated. 
+1. The **Indexing Pipeline** will run offline in batches, when new data is added or updated. Fetching the pages and splitting them into chunks is plain Python that runs before it.
 2. The **Search Pipeline** will retrieve information from Qdrant and use an LLM to produce an answer.
 
-> **Note:** We will define the pipelines in Python and then export them to YAML format, so that [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) can run them as a web service.
+> **Note:** We will define the search pipeline in Python and then export it to YAML format, so that [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) can run it as a web service.
+
+<aside role="status">
+    The code in this tutorial is written for Haystack 3.3.0 and Hayhooks 2.0.0.
+</aside>
 
 ## Prerequisites
 
@@ -48,16 +57,11 @@ The [Haystack](https://haystack.deepset.ai/) framework leverages two pipelines, 
 
 Follow the steps in [Chapter 6. Serving large language models](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.5/html/working_on_data_science_projects/serving-large-language-models_serving-large-language-models#doc-wrapper). This will download the LLM from the [HuggingFace](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1), and deploy it to OpenShift using a *single model serving platform*. 
 
-Your LLM service will have a URL, which you need to store as an environment variable.
+Your LLM service will have a URL. The tutorial talks to it through Haystack's chat generator, so the model server needs to expose an OpenAI-compatible chat API, which both vLLM and Text Generation Inference do. Store the URL as an environment variable. The generator also expects an API key; if your model server does not require one, any value works:
 
 ```shell
 export INFERENCE_ENDPOINT_URL="http://mistral-service.default.svc.cluster.local"
-```
-
-```python
-import os
-
-os.environ["INFERENCE_ENDPOINT_URL"] = "http://mistral-service.default.svc.cluster.local"
+export OPENAI_API_KEY="not-needed"
 ```
 
 ### Launch Qdrant Hybrid Cloud
@@ -71,10 +75,8 @@ export QDRANT_URL="https://qdrant.example.com"
 export QDRANT_API_KEY="your-api-key"
 ```
 
-```python
-os.environ["QDRANT_URL"] = "https://qdrant.example.com"
-os.environ["QDRANT_API_KEY"] = "your-api-key"
-```
+Export the variables in the shell where you run the Python code and, later, the Hayhooks server.
+
 ## Implementation
 
 We will first create an indexing pipeline to add documents to the system. 
@@ -83,35 +85,27 @@ After the pipelines are tested, we will export them to YAML files.
 
 ### Indexing pipeline
 
-[Haystack 2.x](https://haystack.deepset.ai/) comes packed with a lot of useful components, from data fetching, through 
+[Haystack](https://haystack.deepset.ai/) comes packed with a lot of useful components, from data fetching, through 
 HTML parsing, up to the vector storage. Before we start, there are a few Python packages that we need to install:
 
 ```shell
 pip install haystack-ai \
-    qdrant-client \
     qdrant-haystack \
-    fastembed-haystack
+    fastembed-haystack \
+    trafilatura
 ```
 
 <aside role="status">
 FastEmbed uses ONNX runtime and does not require a GPU for the embedding models while still providing a fast inference speed.
 </aside>
 
-Our environment is now ready, so we can jump right into the code. Let's define an empty pipeline and gradually add
-components to it:
-
-```python
-from haystack import Pipeline
-
-indexing_pipeline = Pipeline()
-```
+Our environment is now ready, so we can jump right into the code.
 
 #### Data fetching and conversion
 
-In this step, we will use Haystack's `LinkContentFetcher` to download course content from a list of URLs and store it in Qdrant for retrieval. 
-As we don't want to store raw HTML, this tool will extract text content from each webpage. Then, the fetcher will divide them into digestible chunks, since the documents might be pretty long. 
-
-Let's start with data fetching and text conversion:
+In this step, we will use Haystack's `LinkContentFetcher` to download course content from a list of URLs.
+As we don't want to store raw HTML, `HTMLToDocument` will extract the text content from each webpage. 
+Both components can be called directly, so there is no need for a pipeline yet:
 
 ```python
 from haystack.components.fetchers import LinkContentFetcher
@@ -119,118 +113,120 @@ from haystack.components.converters import HTMLToDocument
 
 fetcher = LinkContentFetcher()
 converter = HTMLToDocument()
-
-indexing_pipeline.add_component("fetcher", fetcher)
-indexing_pipeline.add_component("converter", converter)
 ```
 
-Our pipeline knows there are two components, but they are not connected yet. We need to define the flow between them:
+We have a bunch of URLs to all the Red Hat OpenShift Foundations course lessons, so let's use them:
 
 ```python
-indexing_pipeline.connect("fetcher.streams", "converter.sources")
+lesson_base = (
+    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/"
+    "resource/resources:"
+)
+lessons = [
+    "openshift-and-developer-sandbox",
+    "overview-web-console",
+    "use-terminal-window-within-red-hat-openshift-web-console",
+    "install-application-source-code-github-repository-using-openshift-web-console",
+    (
+        "install-application-linux-container-image-repository-"
+        "using-openshift-web-console"
+    ),
+    "install-application-linux-container-image-using-oc-cli-tool",
+    "install-application-source-code-using-oc-cli-tool",
+    "scale-applications-using-openshift-web-console",
+    "scale-applications-using-oc-cli-tool",
+    "work-databases-openshift-using-oc-cli-tool",
+    "work-databases-openshift-web-console",
+    "view-performance-information-using-openshift-web-console",
+]
+
+course_urls = [
+    "https://developers.redhat.com/learn/openshift/foundations-openshift",
+    *(lesson_base + lesson for lesson in lessons),
+]
+
+streams = fetcher.run(urls=course_urls)["streams"]
+documents = converter.run(sources=streams)["documents"]
 ```
 
-Each component has a set of inputs and outputs which might be combined in a directed graph. The definitions of the 
-inputs and outputs are usually provided in the documentation of the component. The `LinkContentFetcher` has the 
-following parameters:
+#### Chunking
 
-![Parameters of the `LinkContentFetcher`](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/haystack-link-content-fetcher.png)
+`HTMLToDocument` returns Haystack `Document` instances, which are the base class containing some data to be queried.
+However, a single document might be too long to be processed by the embedding model, and it also carries way too much 
+information to make the search relevant. 
 
-*Source: https://docs.haystack.deepset.ai/docs/linkcontentfetcher*
-
-#### Chunking and creating the embeddings
-
-We used `HTMLToDocument` to convert the HTML sources into `Document` instances of Haystack, which is a
-base class containing some data to be queried. However, a single document might be too long to be processed by the 
-embedding model, and it also carries way too much information to make the search relevant. 
-
-Therefore, we need to split the document into smaller parts and convert them into embeddings. For this, we will use the 
-`DocumentSplitter` and `FastembedDocumentEmbedder` pointed to our `BAAI/bge-base-en-v1.5` model:
+Therefore, we need to split every document into smaller parts. A few lines of plain Python are enough: the function
+splits the text into sentences and groups them into chunks of 5 sentences, with an overlap of 2 sentences between neighbors.
 
 ```python
-from haystack.components.preprocessors import DocumentSplitter
-from haystack_integrations.components.embedders.fastembed import FastembedDocumentEmbedder
+import re
 
-splitter = DocumentSplitter(split_by="sentence", split_length=5, split_overlap=2)
-embedder = FastembedDocumentEmbedder(model="BAAI/bge-base-en-v1.5")
-embedder.warm_up()
+from haystack import Document
 
-indexing_pipeline.add_component("splitter", splitter)
-indexing_pipeline.add_component("embedder", embedder)
 
-indexing_pipeline.connect("converter.documents", "splitter.documents")
-indexing_pipeline.connect("splitter.documents", "embedder.documents")
+def split_document(
+    document: Document, split_length: int = 5, split_overlap: int = 2
+) -> list[Document]:
+    sentences = re.split(r"(?<=[.!?])\s+", (document.content or "").strip())
+    step = split_length - split_overlap
+    chunks = []
+    for start in range(0, len(sentences), step):
+        content = " ".join(sentences[start:start + split_length])
+        if content:
+            chunks.append(Document(content=content, meta=document.meta))
+    return chunks
+
+
+chunks = [chunk for document in documents for chunk in split_document(document)]
 ```
 
-#### Writing data to Qdrant
+#### Creating the embeddings and writing data to Qdrant
 
-The splitter will be producing chunks with a maximum length of 5 sentences, with an overlap of 2 sentences. Then, these
-smaller portions will be converted into embeddings. 
-
-Finally, we need to store our embeddings in Qdrant.
+The chunks are now ready to be converted into embeddings and stored in Qdrant. This is the part we hand over to a Haystack
+pipeline. It uses `FastembedDocumentEmbedder`, pointed to our `BAAI/bge-base-en-v1.5` model, and a `DocumentWriter` connected to a `QdrantDocumentStore`:
 
 ```python
-from haystack.utils import Secret
-from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
+import os
+
+from haystack import Pipeline
 from haystack.components.writers import DocumentWriter
+from haystack.utils import Secret
+from haystack_integrations.components.embedders.fastembed import (
+    FastembedDocumentEmbedder,
+)
+from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
 
 document_store = QdrantDocumentStore(
-    os.environ["QDRANT_URL"], 
+    url=os.environ["QDRANT_URL"],
     api_key=Secret.from_env_var("QDRANT_API_KEY"),
-    index="red-hat-learning", 
-    return_embedding=True, 
+    index="red-hat-learning",
+    return_embedding=True,
     embedding_dim=768,
 )
-writer = DocumentWriter(document_store=document_store)
 
-indexing_pipeline.add_component("writer", writer)
-
+indexing_pipeline = Pipeline()
+indexing_pipeline.add_component(
+    "embedder", FastembedDocumentEmbedder(model="BAAI/bge-base-en-v1.5")
+)
+indexing_pipeline.add_component(
+    "writer", DocumentWriter(document_store=document_store)
+)
 indexing_pipeline.connect("embedder.documents", "writer.documents")
 ```
 
-Our pipeline is now complete. Haystack comes with a handy visualization of the pipeline, so you can see and verify the 
-connections between the components. It is displayed in the Jupyter notebook, but you can also export it to a file:
-
-```python
-indexing_pipeline.draw("indexing_pipeline.png")
-```
-
-![Structure of the indexing pipeline](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/indexing_pipeline.png)
-
 #### Test the entire pipeline 
 
-We can finally run it on a list of URLs to index the content in Qdrant. We have a bunch of URLs to all the Red Hat
-OpenShift Foundations course lessons, so let's use them:
+We can finally run it on the chunks to index the content in Qdrant:
 
 ```python
-course_urls = [
-    "https://developers.redhat.com/learn/openshift/foundations-openshift",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:openshift-and-developer-sandbox",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:overview-web-console",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:use-terminal-window-within-red-hat-openshift-web-console",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-source-code-github-repository-using-openshift-web-console",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-linux-container-image-repository-using-openshift-web-console",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-linux-container-image-using-oc-cli-tool",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-source-code-using-oc-cli-tool",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:scale-applications-using-openshift-web-console",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:scale-applications-using-oc-cli-tool",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:work-databases-openshift-using-oc-cli-tool",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:work-databases-openshift-web-console",
-    "https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:view-performance-information-using-openshift-web-console",
-]
-
-indexing_pipeline.run(data={
-    "fetcher": {
-        "urls": course_urls,
-    }
-})
+indexing_pipeline.run(data={"embedder": {"documents": chunks}})
 ```
 
-The execution might take a while, as the model needs to process all the documents. After the process is finished, we
-should have all the documents stored in Qdrant, ready for search. You should see a short summary of processed documents:
+The execution might take a while, as the model needs to process all the chunks. After the process is finished, we
+should have all the chunks stored in Qdrant, ready for search. You should see a short summary with the number of written documents:
 
 ```shell
-{'writer': {'documents_written': 381}}
+{'writer': {'documents_written': <number of chunks>}}
 ```
 
 ### Search pipeline
@@ -248,14 +244,17 @@ anymore, since the query only accepts raw text. Thus, some of the components wil
 as it has to accept a single string as an input and produce a single embedding as an output:
 
 ```python
-from haystack_integrations.components.embedders.fastembed import FastembedTextEmbedder
-from haystack_integrations.components.retrievers.qdrant import QdrantEmbeddingRetriever
+from haystack_integrations.components.embedders.fastembed import (
+    FastembedTextEmbedder,
+)
+from haystack_integrations.components.retrievers.qdrant import (
+    QdrantEmbeddingRetriever,
+)
 
 query_embedder = FastembedTextEmbedder(model="BAAI/bge-base-en-v1.5")
-query_embedder.warm_up()
 
 retriever = QdrantEmbeddingRetriever(
-    document_store=document_store,  # The same document store as the one used for indexing
+    document_store=document_store,  # The same store as the one used for indexing
     top_k=3,  # Number of documents to return
 )
 
@@ -299,13 +298,17 @@ We set the `top_k` parameter to 3, so the retriever should return the three most
 Retrieval should serve more than just documents. Therefore, we will need to use an LLM to generate exact answers to our question. 
 This is the final component of our second pipeline. 
 
-Haystack will create a prompt which adds your documents to the model's context.
+Haystack will create a prompt which adds your documents to the model's context. The `ChatPromptBuilder` is filled with
+the documents and the query, and the `OpenAIChatGenerator` sends the resulting message to the LLM service running on OpenShift:
 
 ```python
-from haystack.components.builders.prompt_builder import PromptBuilder
-from haystack.components.generators import HuggingFaceTGIGenerator
+from haystack.components.builders import ChatPromptBuilder
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
 
-prompt_builder = PromptBuilder("""
+prompt_builder = ChatPromptBuilder(
+    template=[
+        ChatMessage.from_user("""
 Given the following information, answer the question.
 
 Context: 
@@ -315,11 +318,13 @@ Context:
 
 Question: {{ query }}
 """)
-llm = HuggingFaceTGIGenerator(
+    ]
+)
+llm = OpenAIChatGenerator(
     model="mistralai/Mistral-7B-Instruct-v0.1",
-    url=os.environ["INFERENCE_ENDPOINT_URL"],
+    api_base_url=f"{os.environ['INFERENCE_ENDPOINT_URL']}/v1",
     generation_kwargs={
-        "max_new_tokens": 1000,  # Allow longer responses
+        "max_tokens": 1000,  # Allow longer responses
     },
 )
 
@@ -327,11 +332,10 @@ search_pipeline.add_component("prompt_builder", prompt_builder)
 search_pipeline.add_component("llm", llm)
 
 search_pipeline.connect("retriever.documents", "prompt_builder.documents")
-search_pipeline.connect("prompt_builder.prompt", "llm.prompt")
+search_pipeline.connect("prompt_builder.prompt", "llm.messages")
 ```
 
-The `PromptBuilder` is a Jinja2 template that will be filled with the documents and the query. The 
-`HuggingFaceTGIGenerator` connects to the LLM service and generates the answer. Let's run the pipeline again:
+The `OpenAIChatGenerator` reads the API key from the `OPENAI_API_KEY` environment variable. Let's run the pipeline again:
 
 ```python
 query = "How to install an application using the OpenShift web console?"
@@ -350,7 +354,7 @@ The LLM may provide multiple replies, if asked to do so, so let's iterate over a
 
 ```python
 for reply in response["llm"]["replies"]:
-    print(reply.strip())
+    print(reply.text.strip())
 ```
 
 In our case there is a single response, which should be the answer to the question:
@@ -364,18 +368,20 @@ Answer: To install an application using the OpenShift web console, follow these 
 4. Install an application from source code stored in a GitHub repository using the OpenShift web console.
 ```
 
-Our final search pipeline might also be visualized, so we can see how the components are glued together:
+Now both flows are in place. The following figure shows them side by side: select a component to see what it does, and note which steps run inside a Haystack pipeline and which are plain Python.
 
-```python
-search_pipeline.draw("search_pipeline.png")
-```
-
-![Structure of the search pipeline](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/search_pipeline.png)
+{{< island
+    path="content/documentation/headless/openshift-chatbot/pipelines"
+    ratio="3 / 2"
+    title="The indexing and search flows. The connections are labeled with the data that flows between the components."
+>}}
+![The indexing flow: course pages, LinkContentFetcher, HTMLToDocument, split_document, then FastembedDocumentEmbedder and DocumentWriter in a Haystack pipeline, into Qdrant. The search flow: a question goes through FastembedTextEmbedder, QdrantEmbeddingRetriever, ChatPromptBuilder, and OpenAIChatGenerator in a Haystack pipeline, and returns an answer.](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/pipelines.svg)
+{{< /island >}}
 
 ## Deployment
 
-The pipelines are now ready, and we can export them to YAML. Hayhooks will use these files to run the
-pipelines as HTTP endpoints. To do this, specify both file paths and your environment variables. 
+The search pipeline is now ready, and we can export it to YAML. Hayhooks will use this file to run the
+pipeline as an HTTP endpoint. 
 
 > Note: The indexing pipeline might be run inside your ETL tool, but search should be definitely exposed as an HTTP endpoint. 
 
@@ -385,14 +391,27 @@ Let's run it on the local machine:
 pip install hayhooks
 ```
 
-First of all, we need to save the pipelines to the YAML file:
+First of all, we need to save the pipeline to a YAML file. Hayhooks also needs to know which inputs the endpoint accepts and
+which outputs it returns, so we append an `inputs` and an `outputs` section to the exported pipeline. Each input maps a
+name to one or more `component.field` targets, which lets the same `question` feed both the embedder and the prompt builder:
 
 ```python
 with open("search-pipeline.yaml", "w") as fp:
     search_pipeline.dump(fp)
+    fp.write("""
+inputs:
+  question:
+    - query_embedder.text
+    - prompt_builder.query
+  top_k:
+    - retriever.top_k
+
+outputs:
+  replies: llm.replies
+""")
 ```
 
-And now we are able to run the Hayhooks service:
+Make sure the environment variables from the prerequisites are exported in the shell that starts Hayhooks, and run the service:
 
 ```shell
 hayhooks run
@@ -402,57 +421,41 @@ The command should start the service on the default port, so you can access it a
 is not deployed yet, but we can do it with just another command:
 
 ```shell
-hayhooks deploy search-pipeline.yaml
+hayhooks pipeline deploy-yaml search-pipeline.yaml --name search-pipeline
 ```
 
 Once it's finished, you should be able to see the OpenAPI documentation at 
-[http://localhost:1416/docs](http://localhost:1416/docs), and test the newly created endpoint.
-
-![Search pipeline in the OpenAPI documentation](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/hayhooks-openapi.png)
-
-Our search is now accessible through the HTTP endpoint, so we can integrate it with any other service. We can even 
-control the other parameters, like the number of documents to return:
+[http://localhost:1416/docs](http://localhost:1416/docs), and test the newly created endpoint. 
+Every declared input is required, so a request always includes the question and the number of documents to retrieve:
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:1416/search-pipeline' \
+  'http://localhost:1416/search-pipeline/run' \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "llm": {
-  },
-  "prompt_builder": {
-    "query": "How can I remove an application?"
-  },
-  "query_embedder": {
-    "text": "How can I remove an application?"
-  },
-  "retriever": {
-    "top_k": 5
-  }
+  "question": "How can I remove an application?",
+  "top_k": 5
 }'
 ```
 
-The response should be similar to the one we got in the Python before:
+Our search is now accessible through the HTTP endpoint, so we can integrate it with any other service. The response wraps
+the declared output in a `result` object, with one entry per component. The generated answer is in the text of the
+chat message:
 
 ```json
 {
-  "llm": {
-    "replies": [
-      "\n\nAnswer: You can remove an application running in OpenShift by right-clicking on the circular graphic representing the application in Topology view and selecting the Delete Application text from the dialog that appears when you click the graphic’s outer ring. Alternatively, you can use the oc CLI tool to delete an installed application using the oc delete all command."
-    ],
-    "meta": [
-      {
-        "model": "mistralai/Mistral-7B-Instruct-v0.1",
-        "index": 0,
-        "finish_reason": "eos_token",
-        "usage": {
-          "completion_tokens": 75,
-          "prompt_tokens": 642,
-          "total_tokens": 717
+  "result": {
+    "llm": {
+      "replies": [
+        {
+          "_role": "assistant",
+          "_content": [{"text": "..."}],
+          "_name": null,
+          "_meta": {}
         }
-      }
-    ]
+      ]
+    }
   }
 }
 ```

@@ -1,7 +1,7 @@
 ---
 title: User Profile
-short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, and deactivation."
-description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations and user deactivation."
+short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, and user deletion."
+description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations and user deletion."
 weight: 212
 partition: deploy
 ---
@@ -48,8 +48,12 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 > **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-rbac/user-management/#inviting-users-to-an-account).
 
-## Deactivate User
+## Delete User
 
-Use **Deactivate my User** on the **Preferences** page to permanently deactivate your Qdrant user and all associated data. If you own any accounts, you must first [transfer their ownership](/documentation/cloud-account-setup/#transferring-account-ownership) to another member or delete them.
+Use **Delete User** on the **Preferences** page to permanently delete your Qdrant user and all associated data. A deleted user cannot be restored.
 
-![Deactivate user](/documentation/cloud/deactivate-user.png)
+* **No accounts:** you are asked to type your email address to confirm the deletion.
+* **Owner of one or more accounts:** for each account you own, choose to [transfer its ownership](/documentation/cloud-account-setup/#transferring-account-ownership) to another member or delete it. Then type your email address to confirm.
+* **Member of other accounts:** you leave those accounts automatically when your user is deleted. You are still asked to type your email address to confirm.
+
+![Delete user](/documentation/cloud/deactivate-user.png)

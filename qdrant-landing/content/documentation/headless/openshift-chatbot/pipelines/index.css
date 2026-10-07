@@ -1,0 +1,90 @@
+/* pipelines island. Scoped under .qi-pl. Controls, labels and the status line
+   come from the shared island design system (islands.scss); this file styles
+   the component column. Haystack components use --qi-cat-1, plain Python
+   --qi-cat-3 with a dashed outline, Qdrant --qi-cat-4, and the external ends of
+   the flow the neutral muted color. */
+
+.qi-pl {
+  display: block;
+}
+
+.qi-pl .qi-fig {
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+}
+
+/* Essential labels render at 14px at the normal article width. */
+.qi-pl .qi-label,
+.qi-pl .qi-title {
+  font-size: 14px;
+}
+.qi-pl__svg {
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+.qi-pl__frame {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+.qi-pl__frame-label {
+  fill: var(--qi-muted);
+}
+
+.qi-pl__edge {
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+.qi-pl__head {
+  fill: var(--qi-muted);
+}
+.qi-pl__edge-label {
+  fill: var(--qi-muted);
+}
+
+.qi-pl__rect {
+  fill: var(--qi-surface);
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease;
+}
+.qi-pl__node {
+  cursor: pointer;
+}
+.qi-pl__node:focus-visible {
+  outline: none;
+}
+.qi-pl__node--hs .qi-pl__rect {
+  stroke: var(--qi-cat-1);
+}
+.qi-pl__node--py .qi-pl__rect {
+  stroke: var(--qi-cat-3);
+  stroke-dasharray: 5 4;
+}
+.qi-pl__node--qd .qi-pl__rect {
+  stroke: var(--qi-cat-4);
+}
+.qi-pl__text {
+  fill: var(--qi-fg);
+}
+.qi-pl__node.is-hot .qi-pl__rect,
+.qi-pl__node:focus-visible .qi-pl__rect {
+  stroke-width: 3.5;
+}
+
+.qi-pl .qi-status {
+  min-height: calc(3 * 1.45em);
+}
+.qi-pl .qi-status code {
+  font-family: var(--qi-mono);
+  font-size: 0.92em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-pl__rect {
+    transition: none;
+  }
+}

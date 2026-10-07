@@ -270,6 +270,6 @@ ToDo
 Vector similarity goes beyond looking up the nearest neighbors--it provides a powerful tool for data exploration.
 Many algorithms can construct human-readable data representations, and Qdrant makes using them easy.
 
-Several data exploration instruments are available in the Qdrant Web UI ([Visualization and Graph Exploration Tools](https://qdrant.tech/articles/web-ui-gsoc/)), and for more advanced use cases, you could directly utilise our distance matrix API.
+Several data exploration instruments are available in the Qdrant Web UI ([Web UI documentation](/documentation/web-ui/)), and for more advanced use cases, you could directly utilise our distance matrix API.
 
 Try it with your data and see what hidden structures you can reveal!

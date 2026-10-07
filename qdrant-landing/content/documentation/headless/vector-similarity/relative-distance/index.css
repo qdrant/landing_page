@@ -1,0 +1,98 @@
+.qi-rd {
+  display: block;
+}
+
+/* text-anchor is set per-element (JS chooses start/middle/end per label to
+   avoid neighbors), so it is deliberately not set here — a CSS value would
+   win over the SVG attribute and force every label to the same anchor. */
+.qi-rd .qi-rd__svg .qi-label {
+  fill: var(--qi-fg);
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.qi-rd__point--positive {
+  fill: var(--qi-cat-3);
+}
+
+.qi-rd__point--negative {
+  fill: var(--qi-cat-4);
+}
+
+.qi-rd__point--combined {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-surface);
+  stroke-width: 3;
+}
+
+.qi-rd__point--candidate,
+.qi-rd__point--filler {
+  fill: var(--qi-muted);
+}
+
+.qi-rd__point--result {
+  fill: var(--qi-fg);
+}
+
+/* Dropped out of the current view's results but selected in the other one. */
+.qi-rd__point--faded {
+  fill: var(--qi-muted);
+  opacity: 0.35;
+}
+
+.qi-rd__point--excluded {
+  fill: var(--qi-surface);
+  stroke: var(--qi-muted);
+  stroke-dasharray: 3 3;
+  stroke-width: 2;
+}
+
+.qi-rd__ring {
+  fill: none;
+  stroke: var(--qi-cat-1);
+  stroke-width: 4;
+}
+
+/* A result that is new compared with the other view (the swap-in). */
+.qi-rd__ring--new {
+  stroke: var(--qi-cat-2);
+}
+
+/* best_score: thin dashed link from a result to its closest positive. */
+.qi-rd__link {
+  stroke: var(--qi-cat-3);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  fill: none;
+  opacity: 0.85;
+}
+
+/* average_vector: dashed arrows showing the positives pulling toward, and
+   the negative pushing away from, the combined query point. */
+.qi-rd__arrow {
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  fill: none;
+}
+
+.qi-rd__arrow--attract {
+  stroke: var(--qi-cat-1);
+}
+
+.qi-rd__arrow--push {
+  stroke: var(--qi-cat-4);
+}
+
+.qi-rd__arrowhead--attract {
+  fill: var(--qi-cat-1);
+}
+
+.qi-rd__arrowhead--push {
+  fill: var(--qi-cat-4);
+}
+
+@media (max-width: 560px) {
+  .qi-rd .qi-rd__svg .qi-label {
+    font-size: 16px;
+  }
+}

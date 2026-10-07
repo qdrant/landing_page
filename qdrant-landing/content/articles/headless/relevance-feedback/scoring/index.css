@@ -1,0 +1,78 @@
+/* scoring island. Scoped under .rf-sc. Blue: retriever, green: positive and
+   feedback, red: negative. */
+.rf-sc {
+  --rf-pos: #2e9e5b;
+  --rf-neg: var(--qi-cat-4);
+  display: block;
+}
+.rf-sc__doc {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+.rf-sc__doc.is-pos {
+  stroke: var(--rf-pos);
+  stroke-width: 2.5;
+}
+.rf-sc__doc.is-neg {
+  stroke: var(--rf-neg);
+  stroke-width: 2.5;
+}
+.rf-sc__bar--q {
+  fill: var(--qi-cat-1);
+}
+.rf-sc__bar--f,
+.rf-sc__bar--pos {
+  fill: var(--rf-pos);
+}
+.rf-sc__bar--neg {
+  fill: var(--rf-neg);
+}
+.rf-sc__pairbox {
+  stroke-width: 2;
+  fill-opacity: 0.15;
+}
+.rf-sc__pairbox.is-pos {
+  fill: var(--rf-pos);
+  stroke: var(--rf-pos);
+}
+.rf-sc__pairbox.is-neg {
+  fill: var(--rf-neg);
+  stroke: var(--rf-neg);
+}
+.rf-sc__poslab,
+.rf-sc__conflab {
+  fill: var(--rf-pos);
+  font-weight: 600;
+}
+.rf-sc__neglab {
+  fill: var(--rf-neg);
+  font-weight: 600;
+}
+.rf-sc__conf-line {
+  stroke: var(--rf-pos);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.rf-sc__conf-arrow {
+  stroke: var(--rf-pos);
+  stroke-width: 2;
+}
+.rf-sc__delta {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.rf-sc__delta.is-neg {
+  stroke: var(--rf-neg);
+}
+.rf-sc__delta.is-pos {
+  stroke: var(--rf-pos);
+}
+.rf-sc .qi-label {
+  font-size: 13px;
+}
+.rf-sc.rf-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

@@ -1,0 +1,65 @@
+/* segments island. Scoped under .im-sg. */
+.im-sg {
+  display: block;
+}
+.im-sg__box {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+.im-sg__reg {
+  stroke: var(--qi-muted);
+}
+.im-sg__box.is-building {
+  stroke-dasharray: 5 4;
+  stroke: var(--qi-cat-1);
+}
+.im-sg__proxy {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 4;
+}
+.im-sg__link {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.im-sg__link.is-accent {
+  stroke: var(--qi-accent);
+  stroke-width: 2;
+}
+.im-sg__head {
+  fill: var(--qi-muted);
+}
+.im-sg__link.is-accent + .im-sg__head {
+  fill: var(--qi-accent);
+}
+.im-sg__pt {
+  stroke-width: 1.5;
+}
+.im-sg__pt.is-deleted {
+  fill: var(--qi-line);
+  fill-opacity: 0.4;
+  stroke: var(--qi-line);
+}
+.im-sg__pt.is-new {
+  fill: var(--qi-accent);
+  fill-opacity: 0.2;
+  stroke: var(--qi-accent);
+}
+.im-sg__ptl {
+  fill: var(--qi-fg);
+}
+.im-sg__strike {
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+}
+.im-sg .qi-label {
+  font-size: 13px;
+}
+.im-sg.im-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
