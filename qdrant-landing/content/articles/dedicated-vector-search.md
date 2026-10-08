@@ -175,8 +175,8 @@ In general, optimizing vector search requires a custom, finely tuned approach to
 
 {{< island path="content/articles/headless/dedicated-vector-search/venn"
     ratio="76 / 53"
-    title="Vector search is not a text search extension: what belongs to full-text search, to vector search, and to both." >}}
-![Vector search is not text search extension](/articles_data/dedicated-vector-search/venn-diagram.png)
+    title="Full-text and vector search capabilities: both support similarity search, filters, counts, and facets." >}}
+![Full-text and vector search share similarity search, filters, counts, and facets.](/articles_data/dedicated-vector-search/venn-diagram.svg)
 {{< /island >}}
 
 Many discussions about the purpose of vector databases focus on Retrieval-Augmented Generation (RAG) — or its more advanced variant, agentic RAG — where vector databases are used as a knowledge source to retrieve context for large language models (LLMs). This is a legitimate use case, however, the hype wave of RAG solutions has overshadowed the broader potential of vector search, which goes [**beyond augmenting generative AI**](/articles/vector-similarity-beyond-search/).

@@ -2,20 +2,20 @@
  * venn island: interactive replacement for venn-diagram.png.
  *
  * Capabilities usually associated with full-text search, with vector search, and
- * with both. The grouping comes from the original figure. Pick a region to
+ * with both. Counts and facets are shared capabilities. Pick a region to
  * highlight it.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
 const REGIONS = [
   { id: 'all', chip: 'All' },
-  { id: 'text', chip: 'Full-text only', text: 'Typical of full-text search: synonyms, quick counts, and facets.' },
-  { id: 'both', chip: 'Both', text: 'Shared by both: similarity search and filters.' },
-  { id: 'vector', chip: 'Vector only', text: 'Specific to vector search: dissimilarity search, recommendations, diverse search, and multimodality.' },
+  { id: 'text', chip: 'Full-text focus', text: 'Full-text search supports explicit synonym rules.' },
+  { id: 'both', chip: 'Both', text: 'Shared by both: similarity search, filters, counts, and facets.' },
+  { id: 'vector', chip: 'Vector focus', text: 'Vector search supports: dissimilarity search, recommendations, diverse search, and multimodality.' },
 ];
 const ITEMS = {
-  text: ['Synonyms', 'Quick counts', 'Facets'],
-  both: ['Similarity search', 'Filters'],
+  text: ['Synonym rules'],
+  both: ['Similarity search', 'Filters', 'Counts', 'Facets'],
   vector: ['Dissimilarity search', 'Recommend', 'Diverse search', 'Multimodality'],
 };
 
@@ -54,7 +54,7 @@ export function mount(node) {
     REGIONS.map((r) => `<button type="button" class="qi-chip" data-region="${r.id}" aria-pressed="false">${r.chip}</button>`).join(''),
     '    </div>',
     '  </div>',
-    '  <svg class="qi-svg" viewBox="0 0 760 430" role="img" aria-label="Overlapping sets for full-text search and vector search. Full-text only: synonyms, quick counts, facets. Both: similarity search, filters. Vector only: dissimilarity search, recommend, diverse search, multimodality.">',
+    '  <svg class="qi-svg" viewBox="0 0 760 430" role="img" aria-label="Overlapping sets for full-text search and vector search. Full-text focus: synonym rules. Both: similarity search, filters, counts, facets. Vector focus: dissimilarity search, recommend, diverse search, multimodality.">',
     '    <g class="dv-vn__g"></g>',
     '  </svg>',
     '  <p class="qi-status qi-status--2 dv-vn__status" role="status" aria-live="polite"></p>',
@@ -83,20 +83,20 @@ export function mount(node) {
       g.appendChild(el('text', { class: 'qi-title', x: 150, y: 30, 'text-anchor': 'middle' }, 'Full-text search'));
       g.appendChild(el('text', { class: 'qi-title', x: 596, y: 30, 'text-anchor': 'middle' }, 'Vector search'));
       pos = {
-        text: [[150, 160], [130, 240], [150, 320]],
-        both: [[380, 205], [380, 285]],
+        text: [[150, 240]],
+        both: [[380, 175], [380, 220], [380, 265], [380, 310]],
         vector: [[596, 155], [596, 210], [596, 265], [596, 320]],
       };
     } else {
       W = 340;
       H = 570;
       g.appendChild(el('ellipse', { class: 'dv-vn__set dv-vn__set--text', cx: 170, cy: 175, rx: 160, ry: 165 }));
-      g.appendChild(el('ellipse', { class: 'dv-vn__set dv-vn__set--vector', cx: 170, cy: 395, rx: 160, ry: 165 }));
+      g.appendChild(el('ellipse', { class: 'dv-vn__set dv-vn__set--vector', cx: 170, cy: 375, rx: 160, ry: 165 }));
       g.appendChild(el('text', { class: 'qi-title', x: 170, y: 36, 'text-anchor': 'middle' }, 'Full-text search'));
       g.appendChild(el('text', { class: 'qi-title', x: 170, y: 548, 'text-anchor': 'middle' }, 'Vector search'));
       pos = {
-        text: [[170, 90], [170, 130], [170, 170]],
-        both: [[170, 255], [170, 295]],
+        text: [[170, 130]],
+        both: [[170, 250], [170, 275], [170, 300], [170, 325]],
         vector: [[170, 355], [170, 395], [170, 435], [170, 475]],
       };
     }
