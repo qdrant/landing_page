@@ -1,0 +1,31 @@
+{{ with (.Site.GetPage "/edge/how-it-works") }}
+  <section class="edge-how-it-works">
+    <div class="edge-how-it-works__overlay"></div>
+    <div class="container edge-how-it-works__container">
+      <p class="edge-how-it-works__label">{{ .Params.label }}</p>
+      <h3 class="edge-how-it-works__title">{{ .Params.title }}</h3>
+      <div class="edge-how-it-works__steps">
+        {{ range $index, $element := .Params.steps }}
+          <div class="edge-how-it-works__step">
+            <div class="edge-how-it-works__step-icon">
+              <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            </div>
+            <h5 class="edge-how-it-works__step-title">{{ .title }}</h5>
+            <p class="edge-how-it-works__step-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+      <div class="edge-how-it-works__banner">
+        <div class="edge-how-it-works__banner-content">
+          <div class="edge-how-it-works__banner-icon">
+            <img src="{{ .Params.banner.icon.src }}" alt="{{ .Params.banner.icon.alt }}" />
+          </div>
+          <p class="edge-how-it-works__banner-description">{{ .Params.banner.description }}</p>
+        </div>
+        <a href="{{ .Params.banner.link.url }}" class="link link_md">
+          {{ .Params.banner.link.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}

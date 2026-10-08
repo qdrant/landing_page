@@ -1,0 +1,174 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.edge-why-edge {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-10;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+  }
+
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+  }
+  
+  &__step {
+    display: flex;
+    gap: $spacer * 1.5;
+    
+    &-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacer * 0.5;
+      padding-top: math.div($spacer, 4);
+    }
+    
+    &-number {
+      padding: 0 math.div($spacer, 4);
+      position: relative;
+      
+      span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: $spacer * 2.5;
+        width: $spacer * 2.5;
+        border-radius: 50%;
+        border: pxToRem(2) solid $secondary-violet-50;
+        color: $secondary-violet-50;
+        background: rgba($secondary-violet-50, 0.10);
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+        font-weight: $font-weight-medium;
+      }
+    }
+    
+    &-tag {
+      display: block;
+      padding: math.div($spacer, 4) pxToRem(10);
+      border-radius: math.div($spacer, 4);
+      border: pxToRem(1) solid $secondary-violet-50;
+      background: rgba($secondary-violet-50, 0.10);
+      color: $secondary-violet-50;
+      font-size: $font-size-s;
+      line-height: $spacer * 1.5;
+      font-weight: $font-weight-medium;
+      font-family: 'Geist Mono', $font-family-monospace;
+    }
+
+    &-title {
+      margin-bottom: 0;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-80;
+    }
+
+    &:nth-of-type(1),
+    &:nth-of-type(2) {
+      .edge-why-edge__step-number:after {
+        position: absolute;
+        display: block;
+        content: "";
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        height: calc(100% - ($spacer * 2.5));
+        width: pxToRem(2);
+        background: rgba($secondary-violet-50, 0.25);
+      }
+    }
+
+    &:nth-of-type(3) {
+      .edge-why-edge__step-number:after {
+        position: absolute;
+        display: block;
+        content: "";
+        left: 50%;
+        transform: translateX(-50%);
+        top: $spacer * 2.5;
+        height: $spacer * 0.5;
+        width: $spacer * 0.5;
+        border-radius: 50%;
+        background: rgba($secondary-teal-50, 0.5);
+      }
+    }
+
+    &:nth-of-type(2) {
+      .edge-why-edge__step-number span {
+        border: pxToRem(2) solid $secondary-blue-50;
+        color: $secondary-blue-50;
+        background: rgba($secondary-blue-50, 0.10);
+      }
+      
+      .edge-why-edge__step-tag {
+        border: pxToRem(1) solid $secondary-blue-50;
+        background: rgba($secondary-blue-50, 0.10);
+        color: $secondary-blue-50;
+      }
+
+      .edge-why-edge__step-number:after {
+        background: rgba($secondary-blue-50, 0.25);
+      }
+    }
+
+    &:nth-of-type(3) {
+      .edge-why-edge__step-number span {
+        border: pxToRem(2) solid $secondary-teal-50;
+        color: $secondary-teal-50;
+        background: rgba($secondary-teal-50, 0.10);
+      }
+
+      .edge-why-edge__step-tag {
+        border: pxToRem(1) solid $secondary-teal-50;
+        background: rgba($secondary-teal-50, 0.10);
+        color: $secondary-teal-50;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      max-width: pxToRem(392);
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+    }
+
+    &__steps {
+      gap: 0;
+      max-width: pxToRem(580);
+      margin-left: auto;
+    }
+
+    &__step {
+      height: $spacer * 10;
+    }
+  }
+}
