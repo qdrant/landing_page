@@ -66,7 +66,7 @@ For training, we use Exact and Substitute pairs as positives. This teaches the m
 ### Loading the Data
 
 ```python
-from datasets import Dataset, load_dataset  # fix: build_product_text is the page's own, defined in Product Text Formatting
+from datasets import Dataset, load_dataset
 
 def load_esci_training_data(max_samples=None):
     """Load ESCI dataset as anchor-positive pairs for contrastive training."""
