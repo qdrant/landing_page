@@ -1,13 +1,16 @@
 /* replica-reads island. Scoped under .qi-rr. Controls, frames and labels come
    from the shared island design system (islands.scss); this file only styles
    the collection strip, the client, the query wire, the cluster frame and the
-   shard replicas. Shard colors match the replication island on the
-   horizontal scaling page. */
+   shard replicas. The first three shard colors match the replication island
+   on the horizontal scaling page; shards cycle through six colors. */
 
 .qi-rr {
   --rr-0: #6047ff; /* neon-blue-500 */
   --rr-1: #388e3c; /* green-700 */
   --rr-2: #ef6c00; /* warning-800 */
+  --rr-3: #c2185b; /* pink-700 */
+  --rr-4: #00838f; /* cyan-800 */
+  --rr-5: #6d4c41; /* brown-600 */
   --rr-query: var(--qi-muted);
 
   display: block;
@@ -27,28 +30,52 @@
   color: var(--qi-fg);
 }
 
-/* Collection strip: the collection, divided into its shards. */
-.qi-rr__chip-g {
-  transition: opacity 0.4s ease;
-}
-.qi-rr__chip-g.is-off {
-  opacity: 0;
-}
-.qi-rr__chip--0 {
+/* Shard colors: collection chips, the bars of full boxes, compact cells. */
+.qi-rr__chip--0,
+.qi-rr__shard--0 .qi-rr__bar,
+.qi-rr__shard--0 .qi-rr__cell {
   fill: var(--rr-0);
 }
-.qi-rr__chip--1 {
+.qi-rr__chip--1,
+.qi-rr__shard--1 .qi-rr__bar,
+.qi-rr__shard--1 .qi-rr__cell {
   fill: var(--rr-1);
 }
-.qi-rr__chip--2 {
+.qi-rr__chip--2,
+.qi-rr__shard--2 .qi-rr__bar,
+.qi-rr__shard--2 .qi-rr__cell {
   fill: var(--rr-2);
 }
-.qi-rr__chip-text {
+.qi-rr__chip--3,
+.qi-rr__shard--3 .qi-rr__bar,
+.qi-rr__shard--3 .qi-rr__cell {
+  fill: var(--rr-3);
+}
+.qi-rr__chip--4,
+.qi-rr__shard--4 .qi-rr__bar,
+.qi-rr__shard--4 .qi-rr__cell {
+  fill: var(--rr-4);
+}
+.qi-rr__chip--5,
+.qi-rr__shard--5 .qi-rr__bar,
+.qi-rr__shard--5 .qi-rr__cell {
+  fill: var(--rr-5);
+}
+
+.qi-rr__chip-text,
+.qi-rr__cell-text {
   fill: #fff;
   font-family: var(--qi-mono);
   font-size: 12px;
   font-weight: 600;
   text-anchor: middle;
+}
+.qi-rr__cell-text {
+  text-anchor: start;
+}
+.qi-rr__cell-count {
+  text-anchor: end;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Cluster: an outline around the peers; queries arrive here. */
@@ -108,21 +135,39 @@
   stroke: var(--qi-hot);
   stroke-width: 2;
 }
-.qi-rr__shard--0 .qi-rr__bar {
-  fill: var(--rr-0);
+.qi-rr__cell {
+  stroke: transparent;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.2s ease;
 }
-.qi-rr__shard--1 .qi-rr__bar {
-  fill: var(--rr-1);
-}
-.qi-rr__shard--2 .qi-rr__bar {
-  fill: var(--rr-2);
+.qi-rr__shard.is-hot .qi-rr__cell {
+  stroke: var(--qi-hot);
 }
 .qi-rr__reads {
   font-variant-numeric: tabular-nums;
 }
 
+/* Full boxes up to three replicas per peer, compact cells beyond. */
+.qi-rr__full,
+.qi-rr__compact,
+.qi-rr__cell-text {
+  transition: opacity 0.4s ease;
+}
+.qi-rr__compact,
+.qi-rr__svg.is-compact .qi-rr__full,
+.qi-rr__svg.is-tiny .qi-rr__cell-text {
+  opacity: 0;
+}
+.qi-rr__svg.is-compact .qi-rr__compact {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .qi-rr__chip-g,
+  .qi-rr__full,
+  .qi-rr__compact,
+  .qi-rr__cell,
+  .qi-rr__cell-text,
   .qi-rr__wire,
   .qi-rr__shard,
   .qi-rr__box {
