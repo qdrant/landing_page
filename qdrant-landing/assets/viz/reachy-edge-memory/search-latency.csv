@@ -1,0 +1,6 @@
+device,vectors,full_scan,binary,hnsw,hnsw_on_disk_mb
+Raspberry Pi CM4,1k,0.75,0.76,0.72,1.7
+Raspberry Pi CM4,10k,5.0,1.8,1.06,16
+Raspberry Pi CM4,50k,23.6,5.8,0.90,77
+Raspberry Pi CM4,100k,45.2,11.0,0.77,154
+Raspberry Pi CM4,250k,112,26,0.68,385

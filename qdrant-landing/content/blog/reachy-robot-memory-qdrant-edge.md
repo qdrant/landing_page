@@ -4,8 +4,8 @@ draft: false
 slug: reachy-robot-memory-qdrant-edge
 short_description: "A desk robot that recognizes you, recalls yesterday's conversation, and remembers what it saw, with every memory stored on its own disk. How Qdrant Edge gave Reachy Mini a memory that never leaves the robot."
 description: "How we built on-device memory for Reachy Mini with Qdrant Edge: three shards, searched in under a millisecond on a Raspberry Pi."
-preview_image: /blog/reachy-robot-memory-qdrant-edge/hero.jpg
-social_preview_image: /blog/reachy-robot-memory-qdrant-edge/hero.jpg
+preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.png
+social_preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.png
 date: 2026-10-01
 author: Sasha Denisov & Chadha Sridi
 featured: true
@@ -65,22 +65,34 @@ This is how Reachy's main memory shard is created: two named vectors, and a keyw
 ```python
 import os
 
-from qdrant_edge import (Distance, EdgeConfig, EdgeShard, EdgeVectorParams,
-                         KeywordIndexParams, UpdateOperation)
+from qdrant_edge import (
+    Distance,
+    EdgeConfig,
+    EdgeShard,
+    EdgeVectorParams,
+    KeywordIndexParams,
+    UpdateOperation,
+)
 
+cosine = Distance.Cosine
 config = EdgeConfig(
     vectors={
-        "text": EdgeVectorParams(size=384, distance=Distance.Cosine),   # bge-small
-        "image": EdgeVectorParams(size=768, distance=Distance.Cosine),  # SigLIP2
+        # text: bge-small, image: SigLIP2
+        "text": EdgeVectorParams(size=384, distance=cosine),
+        "image": EdgeVectorParams(size=768, distance=cosine),
     }
 )
 
-os.makedirs("memory", exist_ok=True)  # create() wants the directory to exist
+# create() needs the directory to exist
+os.makedirs("memory", exist_ok=True)
 memory = EdgeShard.create("memory", config)
 
 # exchanges and frames share the shard, told apart by "kind"
-memory.update(UpdateOperation.create_field_index(
-    "kind", KeywordIndexParams(is_tenant=True)))
+memory.update(
+    UpdateOperation.create_field_index(
+        "kind", KeywordIndexParams(is_tenant=True)
+    )
+)
 ```
 
 ## Three Shards on the Robot's Disk
@@ -135,7 +147,7 @@ Writing to memory is different. Embedding a turn of text takes under 100 ms on t
 
 We also tested how search scales on the same CM4:
 
-![One search against stores from 1,000 to 250,000 vectors, with three strategies: a full scan that compares every vector exactly, binary quantization that scans a 1-bit copy in RAM and rechecks the best 300 exactly, and an HNSW index walked toward the query with ef=32](/blog/reachy-robot-memory-qdrant-edge/latency.png)
+{{< chart id="reachy-edge-memory/search-latency" caption="At 1,000 vectors a full scan is as fast as HNSW (0.75 ms against 0.72 ms). At 250,000, HNSW still answers in 0.68 ms while a full scan takes 112 ms. Binary quantization needs no index but slows down as the store grows." >}}
 
 At small scale, a full scan is competitive with HNSW and requires no index. As the memory grows, HNSW keeps search under a millisecond, reaching 250,000 vectors at 0.68 ms. Building that index took about six minutes on the CM4 and added roughly 5% on disk. For a robot accumulating memories over weeks, that's a one-time cost; the indexed shard can also be [built on a server and synced back](/documentation/edge/edge-synchronization-guide/).
 
