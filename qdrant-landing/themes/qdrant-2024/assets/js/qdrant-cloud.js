@@ -1,11 +1,3 @@
-import { trackAllClicksIn, trackScrollDepth, trackSectionViews } from './segment-helpers';
-
-// ponytail: /cloud only, so Segment volume elsewhere is untouched.
-// Move to index.js to take it sitewide.
-trackAllClicksIn(document);
-trackScrollDepth();
-trackSectionViews();
-
 // Dev-experience
 (function initDevExperience() {
   const buttons = [...document.querySelectorAll('[data-dev-experience-tab]')];
