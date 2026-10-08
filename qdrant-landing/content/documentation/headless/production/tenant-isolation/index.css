@@ -1,0 +1,141 @@
+/* tenant-isolation island. Scoped under .qi-ti. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the points, tenant pills and connectors. Tenant hues are constant
+   across themes. */
+
+.qi-ti {
+  --ti-t1: var(--qi-cat-1);
+  --ti-t2: var(--qi-cat-4);
+
+  display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+}
+
+.qi-ti .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+.qi-ti .qi-label {
+  font-size: 13px;
+}
+.qi-ti[data-layout='column'] .qi-ti__svg {
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+.qi-ti__chip--tenant_1 {
+  --swatch: var(--ti-t1);
+}
+.qi-ti__chip--tenant_2 {
+  --swatch: var(--ti-t2);
+}
+
+.qi-ti__collection {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+}
+
+/* --- Connectors: dotted by default, solid when their tenant is selected --- */
+.qi-ti__link {
+  fill: none;
+  stroke-width: 2;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.2s ease;
+}
+.qi-ti__link--tenant_1 {
+  stroke: var(--ti-t1);
+}
+.qi-ti__link--tenant_2 {
+  stroke: var(--ti-t2);
+}
+.qi-ti__link.is-active {
+  stroke-dasharray: none;
+  stroke-width: 3;
+}
+.qi-ti__link.is-dim {
+  opacity: 0.2;
+}
+
+/* --- Points --- */
+.qi-ti__card-box {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+.qi-ti__card-id {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-ti__card {
+  transition: opacity 0.2s ease;
+}
+.qi-ti__card.is-dim {
+  opacity: 0.4;
+}
+.qi-ti__card--tenant_1.is-active .qi-ti__card-box {
+  fill: color-mix(in srgb, var(--ti-t1) 18%, transparent);
+  stroke: var(--ti-t1);
+  stroke-dasharray: none;
+  stroke-width: 2;
+}
+.qi-ti__card--tenant_2.is-active .qi-ti__card-box {
+  fill: color-mix(in srgb, var(--ti-t2) 18%, transparent);
+  stroke: var(--ti-t2);
+  stroke-dasharray: none;
+  stroke-width: 2;
+}
+
+/* --- Tenant pills --- */
+.qi-ti__pill {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-ti__pill.is-dim {
+  opacity: 0.4;
+}
+.qi-ti__pill-box {
+  fill: var(--qi-surface);
+  stroke-width: 2;
+}
+.qi-ti__pill--tenant_1 .qi-ti__pill-box {
+  stroke: var(--ti-t1);
+}
+.qi-ti__pill--tenant_2 .qi-ti__pill-box {
+  stroke: var(--ti-t2);
+}
+.qi-ti__pill.is-active .qi-ti__pill-box {
+  fill: color-mix(in srgb, currentColor 0%, transparent);
+}
+.qi-ti__pill--tenant_1.is-active .qi-ti__pill-box {
+  fill: var(--ti-t1);
+}
+.qi-ti__pill--tenant_2.is-active .qi-ti__pill-box {
+  fill: var(--ti-t2);
+}
+.qi-ti__pill-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-ti__pill.is-active .qi-ti__pill-text {
+  fill: var(--qi-accent-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ti__link,
+  .qi-ti__card,
+  .qi-ti__card-box,
+  .qi-ti__pill {
+    transition: none;
+  }
+}

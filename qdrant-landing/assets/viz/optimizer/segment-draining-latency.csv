@@ -1,0 +1,5 @@
+configuration,setting,draining_p50_ms,draining_p95_ms
+1 segment,segment count,472.1,2200
+default,1 per core,5.2,2600
+4x cores,segment count,91.7,1500
+"100,000 KB",segment size,126.7,639.0

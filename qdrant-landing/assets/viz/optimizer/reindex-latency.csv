@@ -1,0 +1,7 @@
+metric,stage,default_ms,prevent_unoptimized_ms
+median latency,before reconfigure,254.8,238.4
+median latency,round 0,1890,615.2
+median latency,round 1,2930,4.6
+median latency,round 2,3400,4.3
+median latency,round 3,5310,4.3
+median latency,round 4,1350,4.2
