@@ -70,13 +70,6 @@
   font-weight: 600;
   text-anchor: middle;
 }
-.qi-rr__cell-text {
-  text-anchor: start;
-}
-.qi-rr__cell-count {
-  text-anchor: end;
-  font-variant-numeric: tabular-nums;
-}
 
 /* Cluster: an outline around the peers; queries arrive here. */
 .qi-rr__cluster {
@@ -144,8 +137,33 @@
 .qi-rr__shard.is-hot .qi-rr__cell {
   stroke: var(--qi-hot);
 }
-.qi-rr__reads {
+
+/* --- Chart: schematic throughput and latency over time --- */
+.qi-rr__grid,
+.qi-rr__axis {
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-rr__axis {
+  stroke: var(--qi-line);
+}
+.qi-rr__tick,
+.qi-rr__metric {
   font-variant-numeric: tabular-nums;
+}
+.qi-rr__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.qi-rr__line--thr {
+  stroke: var(--qi-accent);
+}
+.qi-rr__line--lat {
+  stroke: var(--qi-fg);
+  stroke-dasharray: 5 4;
+  stroke-linecap: butt;
 }
 
 /* Full boxes up to three replicas per peer, compact cells beyond. */
