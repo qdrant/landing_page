@@ -16,7 +16,7 @@ keywords:
   - retrieval augmented generation
   - long context
   - context window
-category: core-concepts
+category: rag-and-agents
 ---
 
 # Is RAG Dead? Long Context Windows versus Retrieval
@@ -46,15 +46,15 @@ Most of these studies tested models from 2023 to 2025. The consistent finding is
 
 ## Cost
 
-LLM input is billed per token, so the cost of a query grows with the prompt. This example uses Anthropic's published price for Claude Sonnet 5.5 in October 2026: $2 per million input tokens. A cache read costs 0.1 times that price, and the full 1M-token window is billed at the standard rate. The table shows input cost only. Output tokens cost the same in both setups.
+LLM input is billed per token, so the cost of a query grows with the prompt. This example uses Anthropic's published price for Claude Sonnet 5.5 in October 2026: $2 per million input tokens. A cache read costs 0.05 times that price, and the full 1M-token window is billed at the standard rate. The table shows input cost only. Output tokens cost the same in both setups.
 
 | Setup | Input tokens | Input cost per query |
 |---|---|---|
 | RAG, a few retrieved passages | 5,000 | $0.01 |
 | Long context, whole corpus | 200,000 | $0.40 |
-| Long context, cached prefix | 200,000 | $0.04 |
+| Long context, cached prefix | 200,000 | $0.02 |
 
-The cached row assumes a cache hit. Writing the 200,000-token prefix to the 5-minute cache costs 1.25 times the base price, $0.50, and each hit refreshes the entry. So caching narrows the gap from 40x to 4x when the same corpus is queried often. It helps much less when the content changes or when queries arrive less often than the cache lives.
+The cached row assumes a cache hit. Writing the 200,000-token prefix to the 5-minute cache costs 1.25 times the base price, $0.50, and each hit refreshes the entry. So caching narrows the gap from 40x to 2x when the same corpus is queried often. It helps much less when the content changes or when queries arrive less often than the cache lives.
 
 The RAG row does not include the retrieval step itself, which adds a search query and an index to operate.
 
