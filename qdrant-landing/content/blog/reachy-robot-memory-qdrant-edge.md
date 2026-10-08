@@ -4,8 +4,8 @@ draft: false
 slug: reachy-robot-memory-qdrant-edge
 short_description: "A desk robot that recognizes you, recalls yesterday's conversation, and remembers what it saw, with every memory stored on its own disk. How Qdrant Edge gave Reachy Mini a memory that never leaves the robot."
 description: "How we built on-device memory for Reachy Mini with Qdrant Edge: three shards, searched in under a millisecond on a Raspberry Pi."
-preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.png
-social_preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.png
+preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.jpg
+social_preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.jpg
 date: 2026-10-01
 author: Sasha Denisov & Chadha Sridi
 featured: true
