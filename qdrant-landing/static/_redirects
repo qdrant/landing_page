@@ -86,6 +86,7 @@
 /documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
 /documentation/search-precision/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
 /documentation/advanced-tutorials/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+/documentation/advanced-tutorials/graphrag-qdrant-neo4j/*  /documentation/examples/graphrag-qdrant-neo4j/:splat  301!
 /documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
 
 # Query Decomposition moved from Guides / Search Patterns to tutorials-search-engineering
