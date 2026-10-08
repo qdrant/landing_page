@@ -24,7 +24,7 @@ For example, a collection with three shards and a replication factor of two woul
 
 {{< island
     path="content/documentation/headless/low-latency-search/replica-reads"
-    width="90%" ratio="2 / 1" title="A collection with three shards on three peers. Switch to Replicas to give each shard a second replica, then send queries to see the replicas share the reads."
+    width="90%" ratio="16 / 9" title="A collection on a cluster with three peers. Change the number of shards and the replication factor, then send queries to see how the reads are spread across the replicas."
 >}}
 ![On a cluster with three peers, a collection with 3 shards and a replication factor of 2 would have 6 total replicas distributed across the peers.](/docs/replication.png)
 {{< /island >}}

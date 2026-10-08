@@ -13,7 +13,27 @@
   display: block;
 }
 
+/* Steppers: value between the minus and plus buttons. */
+.qi-rr__steppers {
+  gap: 8px 18px;
+}
+.qi-rr__value {
+  min-width: 2ch;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--qi-fg);
+}
+
 /* Collection strip: the collection, divided into its shards. */
+.qi-rr__chip-g {
+  transition: opacity 0.4s ease;
+}
+.qi-rr__chip-g.is-off {
+  opacity: 0;
+}
 .qi-rr__chip--0 {
   fill: var(--rr-0);
 }
@@ -69,15 +89,12 @@
   stroke-width: 1.5;
 }
 
-/* --- Shard replicas --- */
+/* --- Shard replicas: only those the steppers call for are shown --- */
 .qi-rr__shard {
+  opacity: 0;
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
 }
-/* The second replica of each shard only exists in Replicas mode. */
-.qi-rr__shard--copy {
-  opacity: 0;
-}
-.qi-rr__shard--copy.is-on {
+.qi-rr__shard.is-on {
   opacity: 1;
 }
 .qi-rr__box {
@@ -105,6 +122,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .qi-rr__chip-g,
   .qi-rr__wire,
   .qi-rr__shard,
   .qi-rr__box {
