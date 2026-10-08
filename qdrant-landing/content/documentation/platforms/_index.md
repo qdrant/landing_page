@@ -14,6 +14,7 @@ partition: ecosystem
 | [BuildShip](/documentation/platforms/buildship/)        | Low-code visual builder to create APIs, scheduled jobs, and backend workflows.           |
 | [Keboola](/documentation/platforms/keboola/)            | Data operations platform that unifies data sources, transformations, and ML deployments. |
 | [Kotaemon](/documentation/platforms/kotaemon/)          | Open-source & customizable RAG UI for chatting with your documents.                      |
+| [LibreDB Studio](/documentation/platforms/libredb-studio/) | Open-source, self-hosted web database IDE to browse and query collections. |
 | [Make](/documentation/platforms/make/)                  | Cloud platform to build low-code workflows by integrating various software applications. |
 | [Mulesoft Anypoint](/documentation/platforms/mulesoft/) | Integration platform to connect applications, data, and devices across environments.     |
 | [N8N](/documentation/platforms/n8n/)                    | Platform for node-based, low-code workflow automation.                                   |
