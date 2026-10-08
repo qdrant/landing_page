@@ -6,7 +6,7 @@ social_preview_image: /articles_data/minicoil-en-es/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil-en-es/preview
 weight: -230
 author: Juan Pablo Sotelo and Evgeniya Sukhodolskaya
-date: 2026-10-05T09:00:00+02:00
+date: 2026-10-08T09:00:00+02:00
 draft: false
 keywords:
   - sparse neural retrieval
