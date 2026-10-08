@@ -111,7 +111,7 @@ If you run agentic RAG on Qdrant, Qdrant and Minima would like to reproduce this
 
 ## Technical References
 
-The [Qdrant guide to agentic vector search](https://qdrant.tech/articles/agentic-builders-guide/) explains why retrieval latency, memory, filtering, and reranking matter inside multi-step agent workflows.
+The [Qdrant article on agentic RAG](https://qdrant.tech/articles/agentic-rag/) explains what agents need from the retrieval layer: low latency, real-time memory, filtering, and reranking across multi-step workflows.
 
 The [agentic RAG with LangGraph and Qdrant tutorial](https://qdrant.tech/documentation/tutorials-build-essentials/agentic-rag-langgraph/) covers tool selection, repeated retrieval, and stateful agent control flow.
 
