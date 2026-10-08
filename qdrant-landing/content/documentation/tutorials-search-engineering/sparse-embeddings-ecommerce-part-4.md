@@ -33,7 +33,7 @@ In this part, we test cross-domain generalization, train a multi-domain model, a
 
 ## Cross-Domain Evaluation
 
-{{< include "content/headless/sparse-embeddings-ecommerce/figures/cross-domain-ndcg.html" >}}
+{{< chart id="sparse-ecommerce/cross-domain-ndcg" caption="Fine-tuned on Amazon ESCI, SPLADE scores highest on ESCI and Wayfair's WANDS, slightly below off-the-shelf SPLADE on Home Depot, and far below both baselines on MS MARCO web search." >}}
 
 We took our Amazon ESCI-trained model and tested it on three additional datasets:
 
@@ -41,7 +41,7 @@ We took our Amazon ESCI-trained model and tested it on three additional datasets
 - **Home Depot**: Hardware and home improvement search
 - **MS MARCO**: General web search (the "out of distribution" control)
 
-| Dataset | BM25 | SPLADE (OTS) | SPLADE (fine-tuned) | vs BM25 |
+| Dataset | BM25 | SPLADE (OTS) | SPLADE (fine-tuned) | vs BM25 (relative) |
 |---|---|---|---|---|
 | ESCI (Amazon) | 0.333 | 0.362 | **0.389** | +16.8% |
 | WANDS (Wayfair) | 0.329 | 0.341 | **0.355** | +7.9% |
@@ -82,7 +82,7 @@ To address the generalization problem, we trained a **multi-domain SPLADE model*
 
 The hypothesis: exposure to diverse e-commerce catalogs should improve cross-domain transfer while maintaining reasonable in-domain performance.
 
-| Dataset | ESCI-only | Multi-domain | Difference |
+| Dataset | ESCI-only | Multi-domain | Difference (relative) |
 |---|---|---|---|
 | ESCI | **0.389** | 0.372 | -4.4% |
 | WANDS | 0.355 | **0.366** | +3.1% |

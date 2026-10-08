@@ -68,15 +68,16 @@ For training, we use Exact and Substitute pairs as positives. This teaches the m
 ```python
 from datasets import Dataset, load_dataset
 
-def load_esci_training_data(max_samples=None):
+def load_esci_training_data(max_samples: int | None = None) -> Dataset:
     """Load ESCI dataset as anchor-positive pairs for contrastive training."""
     dataset = load_dataset("tasksource/esci", split="train")
 
     pairs = []
     for row in dataset:
-        if row["product_locale"] != "us":  # fix: keep US products only
+        # keep US products only
+        if row["product_locale"] != "us":
             continue
-        if row["esci_label"] not in ("Exact", "Substitute"):  # fix: column name and full-word labels
+        if row["esci_label"] not in ("Exact", "Substitute"):
             continue
 
         query = row["query"]
@@ -84,14 +85,14 @@ def load_esci_training_data(max_samples=None):
             title=row["product_title"],
             brand=row.get("product_brand", ""),
             description=row.get("product_description", ""),
-            bullets=(row.get("product_bullet_point") or "").split("\n"),  # fix: bullets arrive as one string
+            bullets=(row.get("product_bullet_point") or "").split("\n"),  # bullets arrive as one string
         )
         pairs.append({"anchor": query, "positive": product_text})
 
         if max_samples and len(pairs) >= max_samples:
             break
 
-    return Dataset.from_list(pairs)  # fix: the trainer needs a Dataset, not a list
+    return Dataset.from_list(pairs)
 ```
 
 ### Product Text Formatting
@@ -99,7 +100,13 @@ def load_esci_training_data(max_samples=None):
 How you format product text matters for sparse embeddings. Unlike dense models that capture broad semantic meaning, SPLADE is lexically grounded: the specific tokens in your text determine which vocabulary dimensions activate:
 
 ```python
-def build_product_text(title, brand="", description="", bullets=None, max_length=512):
+def build_product_text(
+    title: str,
+    brand: str = "",
+    description: str = "",
+    bullets: list[str] | None = None,
+    max_length: int = 512,
+) -> str:
     """Consistent product text formatting for SPLADE."""
     parts = []
 
@@ -189,7 +196,7 @@ from sentence_transformers.sparse_encoder.models import (
     SpladePooling,
 )
 
-def create_sparse_encoder(base_model="distilbert/distilbert-base-uncased"):
+def create_sparse_encoder(base_model: str = "distilbert/distilbert-base-uncased") -> SparseEncoder:
     """Create a SPLADE model from a base transformer."""
 
     # MLM transformer outputs logits over vocabulary
@@ -217,11 +224,11 @@ Here's the core training logic, decorated as a Modal function:
     },
     timeout=3600 * 6,
 )
-def train_sparse_encoder(config: dict):
-    from sentence_transformers import SparseEncoder, SparseEncoderTrainingArguments  # fix: import path
+def train_sparse_encoder(config: dict) -> str:
+    from sentence_transformers import SparseEncoder, SparseEncoderTrainingArguments
     from sentence_transformers.sparse_encoder import SparseEncoderTrainer
-    from sentence_transformers.sparse_encoder.losses import SpladeLoss, SparseMultipleNegativesRankingLoss  # fix: import path
-    from sentence_transformers.training_args import BatchSamplers  # added: batch sampler
+    from sentence_transformers.sparse_encoder.losses import SpladeLoss, SparseMultipleNegativesRankingLoss
+    from sentence_transformers.training_args import BatchSamplers
 
     # Create model
     model = create_sparse_encoder(config["base_model"])
@@ -247,7 +254,7 @@ def train_sparse_encoder(config: dict):
         learning_rate=float(config.get("learning_rate", 2e-5)),
         warmup_ratio=0.1,
         fp16=True,
-        batch_sampler=BatchSamplers.NO_DUPLICATES,  # added: no duplicate texts in one batch
+        batch_sampler=BatchSamplers.NO_DUPLICATES,  # deduplicate texts in one batch
         save_steps=1000,
         logging_steps=100,
     )
@@ -313,14 +320,14 @@ One of Modal's strengths is embarrassingly parallel workloads. Hyperparameter sw
 # Pseudocode: training and evaluate() are elided.
 # The runnable version is run_sweep() in the repository's modal_app.py.
 @app.function(gpu="A10G")
-def train_single_experiment(config: dict):
+def train_single_experiment(config: dict) -> dict:
     """Train one configuration."""
     model = create_sparse_encoder(config["base_model"])
     # ... training code ...
     return {"config": config, "ndcg": evaluate(model)}
 
 @app.local_entrypoint()
-def run_hyperparameter_sweep():
+def run_hyperparameter_sweep() -> None:
     """Launch all experiments in parallel."""
     base = {"base_model": "distilbert/distilbert-base-uncased", "max_samples": 5000}
     configs = [

@@ -403,88 +403,12 @@ html[data-theme='dark'] .sef-figure .sef-dark {
   left: 10%;
 }
 
-.sef-figure .sef-chart-group {
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1.5px solid var(--qi-border);
-}
-
-.sef-figure .sef-chart-group-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  font-weight: 650;
-}
-
-.sef-figure .sef-change {
-  flex: none;
-  padding: 2px 8px;
-  border: 1.5px dashed currentColor;
-  font-family: var(--qi-mono);
-  font-size: 14px;
-}
-
 .sef-figure .sef-positive {
   color: var(--sef-sparse);
 }
 
 .sef-figure .sef-negative {
   color: var(--sef-mismatch);
-}
-
-.sef-figure .sef-chart-row {
-  display: grid;
-  grid-template-columns: 192px minmax(0, 1fr) 44px;
-  align-items: center;
-  gap: 12px;
-  margin: 8px 0;
-  font-size: 14px;
-}
-
-.sef-figure .sef-bar-track {
-  min-width: 0;
-}
-
-.sef-figure .sef-bar {
-  display: block;
-  width: calc(var(--sef-value) * 100% / 1.2);
-  height: 20px;
-  border: 1.5px solid;
-}
-
-.sef-figure .sef-bm25 {
-  background: var(--sef-dense);
-  border-color: var(--sef-dense);
-}
-
-.sef-figure .sef-ots {
-  background: var(--sef-dense-soft);
-  border-color: var(--sef-dense);
-}
-
-.sef-figure .sef-better {
-  background: var(--sef-sparse);
-  border-color: var(--sef-sparse);
-}
-
-.sef-figure .sef-worse {
-  background: var(--sef-mismatch);
-  border-color: var(--sef-mismatch);
-}
-
-.sef-figure .sef-chart-axis {
-  margin-inline: 204px 56px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.sef-figure .sef-ticks {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  font-family: var(--qi-mono);
 }
 
 .sef-figure p {
@@ -642,20 +566,6 @@ html[data-theme='dark'] .sef-figure .sef-dark {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 20px;
-  }
-
-  .sef-figure .sef-chart-row {
-    grid-template-columns: minmax(0, 1fr) 44px;
-    gap: 4px 12px;
-    margin: 12px 0;
-  }
-
-  .sef-figure .sef-chart-row > span:first-child {
-    grid-column: 1 / -1;
-  }
-
-  .sef-figure .sef-chart-axis {
-    margin-inline-start: 0;
   }
 
   .sef-figure .sef-vocabulary {

@@ -2,18 +2,18 @@
 
 ## Editing and Regeneration
 
-The 13 HTML figures use the existing `include` shortcode. Edit their HTML
+The 12 HTML figures use the existing `include` shortcode. Edit their HTML
 here and their dedicated stylesheet and SVG shapes in
 `static/documentation/tutorials/sparse-embeddings-ecommerce/`. Paths are
 relative to `qdrant-landing/`.
 
 - Labels, captions, and chart values are native HTML. SVG assets contain
   editable shapes with a `viewBox`; update both theme variants together.
-- `cross-domain-ndcg.csv` is the bar chart's source data. If it changes,
-  update the corresponding HTML value labels, `--sef-value` attributes,
-  and percentage annotations together. Bar widths use the common 0-1.2
-  scale. The shared chart generator does not support this grouped
-  horizontal-bar layout, so this figure uses the series-local HTML/CSS.
+- The Part 4 cross-domain bar chart is a site chart, not an HTML figure:
+  data and spec in `assets/viz/sparse-ecommerce/cross-domain-ndcg.{csv,json}`,
+  embedded with `{{</* chart id="sparse-ecommerce/cross-domain-ndcg" */>}}`.
+  After editing the CSV or spec, run `npm run viz:charts` and commit the
+  generated SVG.
 - The transfer and radar drawings have no numeric source series. Preserve
   their qualitative relationships; do not infer measurements from shapes.
 - Keep original entity labels and values. Do not add internal titles,
@@ -59,7 +59,6 @@ git show e3215d0e9b9a11b0b6af719307e7eed92e3c436f:qdrant-landing/static/articles
 
 | Figure | Preserved Entities and Values | Deliberate Adaptation |
 | --- | --- | --- |
-| `cross-domain-ndcg` | BM25, off-the-shelf SPLADE, and fine-tuned SPLADE, in that order: MS MARCO (out-of-domain) 0.915 / 0.982 / 0.751, -17.9%; Home Depot 0.349 / 0.391 / 0.384, +10.0%; WANDS (Wayfair) 0.329 / 0.341 / 0.355, +7.9%; ESCI (Amazon) 0.333 / 0.362 / 0.389, +16.8%; nDCG@10 axis, 0.0-1.2; better/worse roles. | Model labels accompany each horizontal bar instead of a distant legend. Narrow hosts place labels before their bars. Fragmented per-row gridlines are omitted; common scale ticks and exact values remain. |
 | `transfer-decay-curve` | Specialist and Generalist; Amazon, Wayfair, Home Depot, OOD; crossing curves and the specialist's steeper decline. | Qualitative lines retain an unnumbered vertical axis. Legend wraps after the plot on narrow hosts. Original internal heading is omitted. |
 | `domain-coverage-venn` | Overlapping Wayfair, Amazon ESCI, and Home Depot circles; Multi-domain model at the three-way overlap. | Native HTML labels overlay theme-specific SVG circles. On narrow hosts, the center label wraps at its original hyphen and moves slightly within the overlap to clear the circle boundaries. No overlap quantities are added. |
 | `specialist-vs-generalist` | Electronics, Furniture, Tools, Clothing, Appliances; Specialist peak in Electronics; broader Generalist polygon; both legend entries. | Qualitative radar encoding and category order remain. Legend wraps after the plot on narrow hosts. No numeric radial scale is added. |

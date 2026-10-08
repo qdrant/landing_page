@@ -1,0 +1,15 @@
+{
+  "title": "Cross-domain nDCG@10 of BM25, off-the-shelf SPLADE, and SPLADE fine-tuned on Amazon ESCI",
+  "kind": "grouped-columns",
+  "group": "dataset",
+  "series": "model",
+  "colors": ["muted", 0, 1],
+  "y": "ndcg_at_10",
+  "yLabel": "nDCG@10",
+  "yMax": 1,
+  "subtitle": "higher is better",
+  "width": 960,
+  "height": 520,
+  "textScale": 1.8,
+  "legendLayout": "auto"
+}

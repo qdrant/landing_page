@@ -31,7 +31,7 @@ Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily retu
 
 {{< include "content/headless/sparse-embeddings-ecommerce/figures/wrong-iphone-result.html" >}}
 
-This is the gap that sparse embeddings fill. And with fine-tuning, they fill it well - we achieved a **17% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
+This is the gap that sparse embeddings fill. And with fine-tuning, they fill it well - we achieved a **17% relative improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
 In this tutorial, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
 
@@ -174,7 +174,7 @@ Over the next four parts, we'll walk through the full pipeline:
 
 - [**Part 5: From Research to Product**](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/) - An open-source CLI and web dashboard that runs the entire fine-tuning pipeline with a single command.
 
-The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.389** on Amazon ESCI, compared to **0.333** for BM25 and **0.362** for off-the-shelf SPLADE. That 17% improvement over BM25 translates to better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
+The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.389** on Amazon ESCI, compared to **0.333** for BM25 and **0.362** for off-the-shelf SPLADE. That 17% relative improvement over BM25 translates to better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
 
 > **Note:** These metrics were measured on a subsample of 10,000 products and 2,000 queries. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 

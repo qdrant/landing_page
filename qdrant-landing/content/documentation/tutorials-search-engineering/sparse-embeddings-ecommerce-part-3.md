@@ -48,14 +48,20 @@ model = SparseEncoder("Qdrant/splade-ecommerce-esci")  # on Apple silicon, add d
 Before we can evaluate, we need products in a searchable index. Qdrant's sparse vector support makes this straightforward:
 
 ```python
+from collections.abc import Iterator
+
 from qdrant_client import QdrantClient, models
 
 
-def chunked(items, size):
+def chunked(items: list, size: int) -> Iterator[list]:
     return (items[i:i + size] for i in range(0, len(items), size))
 
 
-def index_products(model, products, collection_name="ecommerce_splade"):
+def index_products(
+    model: SparseEncoder,
+    products: list[dict],
+    collection_name: str = "ecommerce_splade",
+) -> QdrantClient:
     # QDRANT_URL and QDRANT_API_KEY: your Qdrant Cloud cluster URL and API key
     client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
 
@@ -114,7 +120,13 @@ A few production details:
 ```python
 import time
 
-def upsert_with_retry(client, collection_name, points, max_retries=5, wait=False):
+def upsert_with_retry(
+    client: QdrantClient,
+    collection_name: str,
+    points: list[models.PointStruct],
+    max_retries: int = 5,
+    wait: bool = False,
+) -> None:
     """Upsert with exponential backoff."""
     for attempt in range(max_retries):
         try:
@@ -141,7 +153,13 @@ We evaluate with standard information retrieval metrics on 2,000 test queries ag
 ### Searching the Index
 
 ```python
-def search_products(query, model, client, collection_name="ecommerce_splade", limit=10):
+def search_products(
+    query: str,
+    model: SparseEncoder,
+    client: QdrantClient,
+    collection_name: str = "ecommerce_splade",
+    limit: int = 10,
+) -> list[dict]:
     query_embedding = model.encode(query).coalesce()
 
     results = client.query_points(
@@ -166,11 +184,13 @@ Five lines from query string to ranked products. The sparse vector lookup in Qdr
 
 Here's what we found, evaluated on 2,000 test queries:
 
-| Model | nDCG@10 | MRR@10 | vs BM25 |
+| Model | nDCG@10 | MRR@10 | vs BM25 (relative) |
 |---|---|---|---|
 | BM25 (baseline) | 0.333 | 0.332 | - |
 | SPLADE (off-the-shelf) | 0.362 | 0.361 | +8.7% |
 | **SPLADE (fine-tuned)** | **0.389** | **0.387** | **+16.8%** |
+
+Percentages are relative to BM25: 0.389 is 16.8% higher than 0.333, an absolute gain of 0.056 nDCG@10.
 
 > **Note:** These metrics were measured on a subsample of 10,000 products and 2,000 queries. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
