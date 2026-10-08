@@ -2,41 +2,47 @@
  * replica-reads island: interactive replacement for replication.png on the
  * low-latency search page.
  *
- * A collection on a cluster with three peers, under a steady stream of
- * queries, with two independent steppers:
+ * A collection on a cluster, under a steady stream of queries, with three
+ * independent steppers:
  *
+ *   peers               1 to 6, starting at 3. The peers share the cluster's
+ *                       width; replicas slide to their new peer on a change.
  *   shards              1 and up, no upper limit. The collection is divided
- *                       into this many shards; shard s lives on peer s % 3.
- *   replication_factor  1 to 3 (one replica per peer at most). Replica a of
- *                       shard s lives on peer (s + a) % 3, as in the
- *                       replication island on the horizontal scaling page.
- *                       At 3 shards and a factor of 2 this is the page's
- *                       example: 6 replicas, 2 on each peer.
+ *                       into this many shards; shard s lives on peer s % peers.
+ *   replication_factor  1 up to the number of peers (one replica per peer at
+ *                       most). Replica a of shard s lives on peer
+ *                       (s + a) % peers, as in the replication island on the
+ *                       horizontal scaling page. At 3 peers, 3 shards and a
+ *                       factor of 2 this is the page's example: 6 replicas,
+ *                       2 on each peer.
  *
  * Every query reads one replica of every shard, chosen at random; the
- * replicas it reads flash. Up to three replicas per peer are drawn as full
- * shard boxes; beyond that, each peer shows a grid of compact cells that
- * shrinks to fit. Shard colors cycle through six colors.
+ * replicas it reads flash. While every peer holds three replicas or fewer and
+ * is wide enough, replicas are drawn as full shard boxes; otherwise each peer
+ * shows a grid of compact cells that shrinks to fit. Shard colors cycle
+ * through six colors.
  *
- * A schematic chart under the cluster plots throughput and latency over time,
- * relative to one shard with one replica (100%), so every stepper change
- * shows as a step. The numbers come from a simple model (see metrics()), not
- * from benchmarks:
+ * A schematic chart under the cluster plots throughput and latency over time.
+ * It has no numbers except the 1.0 line: one shard with one replica. Every
+ * stepper change shows as a step. The values come from a simple model (see
+ * metrics()), not from benchmarks:
  *
  *   - Each peer has the same CPU. Throughput is limited by the busiest peer.
  *   - Searching a shard costs a fixed overhead plus a part that shrinks
  *     slowly with the shard's size (HNSW search cost grows slowly with data).
  *   - A query reads each shard from one of its replicas, at random, so a
  *     replica takes 1 / replication_factor of its shard's reads.
- *   - Latency: a peer searches its shards for one query in parallel, a few at
- *     a time (CORES), and merging results from more shards adds a little.
+ *   - Latency: the peers search their shards in parallel, but under a steady
+ *     stream a peer works through its own shards one after another, and
+ *     merging results from more shards adds a little.
  *
- * So: replicas raise throughput while they bring idle peers into play (up to
- * 300% at one shard), and leave latency alone; shards cut latency while they
- * spread over idle peers, and past that cost throughput, then latency.
+ * So: replicas raise throughput while they bring idle peers into play, and
+ * leave latency alone; shards cut latency and raise throughput while they
+ * spread over idle peers (up to one per peer), and past that cost both; more
+ * peers give the shards and replicas more room.
  *
  * "Pause" stops the stream and the chart. With reduced motion the island
- * starts paused; the chart and its readouts still follow the steppers.
+ * starts paused; the chart still follows the steppers.
  *
  * Pure SVG + CSS on the shared island design system (islands.scss). The first
  * three shard colors match the replication island.
@@ -48,12 +54,12 @@ const NS = 'http://www.w3.org/2000/svg';
 const COLL = { x: 0, y: 2, w: 300, h: 44, chipX: 106, chipW: 44, gap: 6, chipH: 24 };
 const CLIENT = { x: 420, y: 24, w: 120, h: 40 };
 const CLUSTER = { x: 0, y: 72, w: 760, h: 246 };
-const NODE = { w: 228, h: 196, y: 108, pitch: 252, x0: 14 };
-const BOX = { w: 150, h: 42, dx: 39, dy: 40, pitch: 50 }; // full shard box
+const NODE = { h: 196, y: 108, x0: 14, gap: 24, room: 732 }; // peers share `room`
+const BOX = { w: 150, h: 42, dy: 40, pitch: 50, margin: 20 }; // full shard box
 const BARS = 6;
 const BAR = { x: 84, slot: 10, w: 5.5, y: 11, h: 20 };
 const CELL = { w: 60, h: 30, gap: 6 }; // compact cell, before scaling
-const AREA = { dx: 14, dy: 36, w: 200, h: 146 }; // where cells go in a peer
+const AREA = { dx: 14, dy: 36, h: 146 }; // where cells go in a peer
 const MAX_K = 1.2; // largest cell scale
 const TEXT_K = 0.6; // below this scale, cells drop their label
 const CHART = { x: 0, y: 330, w: 760, h: 132 }; // chart frame
@@ -61,8 +67,8 @@ const PLOT = { x0: 52, x1: 548, y0: 368, y1: 448 }; // plot area: y0 top, y1 bot
 const VB_H = 466;
 const COLORS = 6;
 
-const PEERS = 3;
-const MAX_RF = 3; // one replica per peer at most
+const START_PEERS = 3;
+const MAX_PEERS = 6;
 const EVERY_MS = 650; // between queries
 const TRAVEL_MS = 700; // client to cluster
 const HOT_MS = 450;
@@ -73,22 +79,22 @@ const PAUSED_STEP_MS = 3000; // chart time per change while paused
 // Schematic cost model (relative units; one full-collection search costs 1).
 const OVERHEAD = 0.1; // fixed cost of searching one shard
 const SIZE_EXP = 0.35; // search cost ~ (share of the data) ^ SIZE_EXP
-const CORES = 4; // shards a peer searches in parallel for one query
 const MERGE = 0.05; // merge cost per doubling of the shard count
 
-const nodeX = (n) => NODE.x0 + n * NODE.pitch;
+const peerW = (peers) => (NODE.room - (peers - 1) * NODE.gap) / peers;
+const peerX = (peers, n) => NODE.x0 + n * (peerW(peers) + NODE.gap);
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
-const peerOf = (s, a) => (s + a) % PEERS;
+const peerOf = (s, a, peers) => (s + a) % peers;
 
 // Throughput and latency of a setup, relative to 1 shard, 1 replica (= 1).
-function metrics(shards, rf) {
+function metrics(shards, rf, peers) {
   const cost = OVERHEAD + (1 - OVERHEAD) * Math.pow(1 / shards, SIZE_EXP);
-  const load = new Array(PEERS).fill(0); // work per query, per peer
-  for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) load[peerOf(s, a)] += cost / rf;
+  const load = new Array(peers).fill(0); // work per query, per peer
+  for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) load[peerOf(s, a, peers)] += cost / rf;
   const throughput = 1 / Math.max(...load);
-  // A peer searches up to CORES shards at once; more shards per peer queue up.
-  const rounds = Math.max(1, Math.ceil(shards / PEERS) / CORES);
-  const latency = cost * rounds + MERGE * Math.log2(shards);
+  // Under a steady stream the cores are busy, so a peer works through the
+  // shards it holds for one query one after another.
+  const latency = cost * Math.ceil(shards / peers) + MERGE * Math.log2(shards);
   return { throughput, latency };
 }
 
@@ -120,6 +126,7 @@ export function mount(node) {
     '<div class="qi-fig">',
     '  <div class="qi-controls qi-controls--split">',
     '    <div class="qi-group qi-rr__steppers">',
+    stepper('peers', 'peers'),
     stepper('shards', 'shards'),
     stepper('rf', 'replication_factor'),
     '    </div>',
@@ -128,7 +135,7 @@ export function mount(node) {
     '    </div>',
     '  </div>',
     `  <svg class="qi-svg qi-rr__svg" viewBox="-2 0 764 ${VB_H}" role="img"`,
-    '    aria-label="A collection on a three-peer cluster under a steady stream of queries. Change the number of shards and the replication factor to see how the replicas are placed and read, and how throughput and latency change.">',
+    '    aria-label="A collection on a cluster under a steady stream of queries. Change the number of peers, the number of shards and the replication factor to see how the replicas are placed and read, and how throughput and latency change.">',
     '    <defs>',
     '      <marker id="qi-rr-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">',
     '        <path class="qi-rr__arrowhead" d="M 0 0 L 10 5 L 0 10 z"/>',
@@ -161,6 +168,8 @@ export function mount(node) {
   const playBtn = node.querySelector('[data-play]');
   const shardBtns = [...node.querySelectorAll('[data-shards]')];
   const rfBtns = [...node.querySelectorAll('[data-rf]')];
+  const peerBtns = [...node.querySelectorAll('[data-peers]')];
+  const peerVal = node.querySelector('[data-value="peers"]');
   const shardVal = node.querySelector('[data-value="shards"]');
   const rfVal = node.querySelector('[data-value="rf"]');
 
@@ -172,9 +181,13 @@ export function mount(node) {
   // The cluster and its peers.
   el('rect', { class: 'qi-rr__cluster', x: CLUSTER.x, y: CLUSTER.y, width: CLUSTER.w, height: CLUSTER.h, rx: 8 }, nodesG);
   el('text', { class: 'qi-frame-label', x: CLUSTER.x + 16, y: CLUSTER.y + 24 }, nodesG).textContent = 'Cluster';
-  for (let n = 0; n < PEERS; n++) {
-    el('rect', { class: 'qi-frame', x: nodeX(n), y: NODE.y, width: NODE.w, height: NODE.h, rx: 6 }, nodesG);
-    el('text', { class: 'qi-frame-label', x: nodeX(n) + 14, y: NODE.y + 24 }, nodesG).textContent = `Peer ${n + 1}`;
+  const peersG = el('g', {}, nodesG); // peers, rebuilt on every change
+  function drawPeers() {
+    peersG.innerHTML = '';
+    for (let n = 0; n < peers; n++) {
+      el('rect', { class: 'qi-frame', x: peerX(peers, n), y: NODE.y, width: peerW(peers), height: NODE.h, rx: 6 }, peersG);
+      el('text', { class: 'qi-frame-label', x: peerX(peers, n) + 14, y: NODE.y + 24 }, peersG).textContent = `Peer ${n + 1}`;
+    }
   }
 
   // The chart: frame, title, gridlines (redrawn when the scale changes), the
@@ -190,10 +203,9 @@ export function mount(node) {
   const legend = (y, cls, label) => {
     el('line', { class: `qi-rr__line qi-rr__line--${cls}`, x1: LEGEND_X, x2: LEGEND_X + 22, y1: y - 4, y2: y - 4 }, chartG);
     el('text', { class: 'qi-label', x: LEGEND_X + 30, y }, chartG).textContent = label;
-    return el('text', { class: 'qi-label qi-label--strong qi-rr__metric', x: CHART.x + CHART.w - 16, y, 'text-anchor': 'end' }, chartG);
   };
-  const thrVal = legend(PLOT.y0 + 22, 'thr', 'Throughput');
-  const latVal = legend(PLOT.y0 + 54, 'lat', 'Latency');
+  legend(PLOT.y0 + 22, 'thr', 'Throughput');
+  legend(PLOT.y0 + 54, 'lat', 'Latency');
 
   // replicas[s][a]: replica a of shard s, made the first time it is needed.
   // Each has a full shard box (used while every peer holds three replicas or
@@ -220,6 +232,7 @@ export function mount(node) {
     return r;
   }
 
+  let peers = START_PEERS;
   let shards = 1;
   let rf = 1;
   let playing = !reduced;
@@ -232,8 +245,8 @@ export function mount(node) {
   let lastFrame = 0;
 
   function intro() {
-    const peers = Math.min(PEERS, shards + rf - 1);
-    const what = `${plural(shards, 'shard')} with a replication factor of ${rf}: ${plural(shards * rf, 'replica')} on ${plural(peers, 'peer')}.`;
+    const used = Math.min(peers, shards + rf - 1);
+    const what = `${plural(shards, 'shard')} with a replication factor of ${rf}: ${plural(shards * rf, 'replica')} on ${plural(used, 'peer')}.`;
     const reads = shards === 1 ? 'Each query reads the shard' : `Each query reads all ${shards} shards`;
     const from =
       rf === 1
@@ -261,17 +274,19 @@ export function mount(node) {
   // in shard order. Up to three per peer: full boxes in a column. More: a grid
   // of compact cells, the same scale on every peer, as large as fits.
   function place() {
-    const perPeer = Array.from({ length: PEERS }, () => []);
-    for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) perPeer[peerOf(s, a)].push(replica(s, a));
+    const perPeer = Array.from({ length: peers }, () => []);
+    for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) perPeer[peerOf(s, a, peers)].push(replica(s, a));
     const most = Math.max(...perPeer.map((l) => l.length));
-    const compact = most > 3;
+    const w = peerW(peers);
+    const areaW = w - 2 * AREA.dx;
+    const compact = most > 3 || w < BOX.w + 2 * BOX.margin;
     let cols = 1;
     let k = 1;
     if (compact) {
       k = 0;
       for (let c = 1; c <= most; c++) {
         const rows = Math.ceil(most / c);
-        const kc = Math.min(MAX_K, AREA.w / (c * (CELL.w + CELL.gap) - CELL.gap), AREA.h / (rows * (CELL.h + CELL.gap) - CELL.gap));
+        const kc = Math.min(MAX_K, areaW / (c * (CELL.w + CELL.gap) - CELL.gap), AREA.h / (rows * (CELL.h + CELL.gap) - CELL.gap));
         if (kc > k) {
           k = kc;
           cols = c;
@@ -281,15 +296,15 @@ export function mount(node) {
     svg.classList.toggle('is-compact', compact);
     svg.classList.toggle('is-tiny', compact && k < TEXT_K);
     const pitchX = (CELL.w + CELL.gap) * k;
-    const left = (AREA.w - cols * pitchX + CELL.gap * k) / 2; // centers the grid
+    const left = (areaW - cols * pitchX + CELL.gap * k) / 2; // centers the grid
     const target = new Map();
     perPeer.forEach((list, p) => {
       list.forEach((r, i) => {
         target.set(
           r,
           compact
-            ? { x: nodeX(p) + AREA.dx + left + (i % cols) * pitchX, y: NODE.y + AREA.dy + Math.floor(i / cols) * (CELL.h + CELL.gap) * k, k }
-            : { x: nodeX(p) + BOX.dx, y: NODE.y + BOX.dy + i * BOX.pitch, k: 1 },
+            ? { x: peerX(peers, p) + AREA.dx + left + (i % cols) * pitchX, y: NODE.y + AREA.dy + Math.floor(i / cols) * (CELL.h + CELL.gap) * k, k }
+            : { x: peerX(peers, p) + (w - BOX.w) / 2, y: NODE.y + BOX.dy + i * BOX.pitch, k: 1 },
         );
       });
     });
@@ -309,22 +324,22 @@ export function mount(node) {
       r.at = t;
       r.g.style.transform = tf(t);
     });
+    drawPeers();
     drawChips();
   }
   const tf = ({ x, y, k }) => `translate(${x}px, ${y}px) scale(${k})`;
 
   // --- Chart ---
-  const pct = (v) => `${Math.round(v * 100)}%`;
   const xAt = (t) => PLOT.x1 - ((clock - t) / WINDOW_MS) * (PLOT.x1 - PLOT.x0);
   const yAt = (v) => PLOT.y1 - (Math.min(v, yMax * 1.04) / yMax) * (PLOT.y1 - PLOT.y0);
 
   function drawGrid() {
     gridG.innerHTML = '';
-    for (let v = 0; v <= yMax + 1e-9; v += 1) {
-      const y = yAt(v);
-      el('line', { class: v === 0 ? 'qi-rr__axis' : 'qi-rr__grid', x1: PLOT.x0, x2: PLOT.x1, y1: y, y2: y }, gridG);
-      el('text', { class: 'qi-label qi-rr__tick', x: PLOT.x0 - 8, y: y + 4, 'text-anchor': 'end' }, gridG).textContent = pct(v);
-    }
+    // Only the baseline (1 shard, 1 replica) is labeled; the chart is
+    // schematic.
+    el('line', { class: 'qi-rr__axis', x1: PLOT.x0, x2: PLOT.x1, y1: yAt(0), y2: yAt(0) }, gridG);
+    el('line', { class: 'qi-rr__grid', x1: PLOT.x0, x2: PLOT.x1, y1: yAt(1), y2: yAt(1) }, gridG);
+    el('text', { class: 'qi-label qi-rr__tick', x: PLOT.x0 - 8, y: yAt(1) + 4, 'text-anchor': 'end' }, gridG).textContent = '1.0';
   }
 
   function stepPath(key) {
@@ -352,12 +367,10 @@ export function mount(node) {
   }
 
   function record() {
-    const m = metrics(shards, rf);
+    const m = metrics(shards, rf, peers);
     if (history.length && history[history.length - 1].t === clock) history.pop();
     // The first entry has always been in effect, so the chart starts full.
     history.push({ t: history.length ? clock : -Infinity, ...m });
-    thrVal.textContent = pct(m.throughput);
-    latVal.textContent = pct(m.latency);
     drawChart();
   }
 
@@ -424,15 +437,19 @@ export function mount(node) {
   }
 
   function render() {
+    peerVal.textContent = String(peers);
+    peerBtns.forEach((b) => {
+      const next = peers + Number(b.dataset.peers);
+      b.disabled = next < 1 || next > MAX_PEERS;
+    });
     shardVal.textContent = String(shards);
     rfVal.textContent = String(rf);
     shardBtns.forEach((b) => (b.disabled = shards + Number(b.dataset.shards) < 1));
     rfBtns.forEach((b) => {
       const next = rf + Number(b.dataset.rf);
-      b.disabled = next < 1 || next > MAX_RF;
+      b.disabled = next < 1 || next > peers;
     });
-    const m = metrics(shards, rf);
-    statusEl.textContent = `${intro()} Throughput: ${pct(m.throughput)}, latency: ${pct(m.latency)}.`;
+    statusEl.textContent = intro();
   }
 
   function change(fn) {
@@ -456,7 +473,17 @@ export function mount(node) {
   rfBtns.forEach((b) =>
     b.addEventListener('click', () => {
       const next = rf + Number(b.dataset.rf);
-      if (next >= 1 && next <= MAX_RF) change(() => (rf = next));
+      if (next >= 1 && next <= peers) change(() => (rf = next));
+    }),
+  );
+  peerBtns.forEach((b) =>
+    b.addEventListener('click', () => {
+      const next = peers + Number(b.dataset.peers);
+      if (next >= 1 && next <= MAX_PEERS)
+        change(() => {
+          peers = next;
+          rf = Math.min(rf, peers); // one replica per peer at most
+        });
     }),
   );
   playBtn.addEventListener('click', () => {
