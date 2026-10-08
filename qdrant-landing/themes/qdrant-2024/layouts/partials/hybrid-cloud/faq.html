@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/hybrid-cloud/faq") }}
+  <section class="hybrid-cloud-faq">
+    <div class="container">
+      <h2 class="hybrid-cloud-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

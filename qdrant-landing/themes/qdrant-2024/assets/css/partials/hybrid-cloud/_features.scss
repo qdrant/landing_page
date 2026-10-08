@@ -1,0 +1,145 @@
+@use '../../helpers/functions' as *;
+
+.hybrid-cloud-features {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__title {
+    max-width: pxToRem(730);
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+    margin: 0 auto $spacer;
+    text-align: center;
+  }
+
+  &__description {
+    max-width: pxToRem(730);
+    margin: 0 auto $spacer * 2.5;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-30;
+    text-align: center;
+  }
+
+  &__features {
+    border-radius: $spacer;
+    border: pxToRem(1) solid $neutral-90;
+    background: $neutral-98;
+  }
+
+  &__feature {
+    &-item {
+      padding: $spacer * 2;
+    }
+
+    &-icon {
+      display: block;
+      width: $spacer * 2;
+      height: $spacer * 2;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+    }
+    
+    &-image {
+      display: block;
+      width: 100%;
+      margin-top: $spacer;
+      margin-bottom: $spacer;
+    }
+    
+    &-link {
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+    }
+
+    &:last-of-type {
+      .hybrid-cloud-features__feature-item {
+        border-top: pxToRem(1) solid $neutral-90;
+        padding: $spacer * 1.5 $spacer * 2;
+      }
+
+      .hybrid-cloud-features__feature-title {
+        font-size: $font-size-l;
+        line-height: $line-height-lg;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__description {
+      margin-bottom: $spacer * 5;
+    }
+
+    &__features {
+      display: flex;
+    }
+
+    &__feature {
+      width: 50%;
+
+      &:first-of-type {
+        border-right: pxToRem(1) solid $neutral-90;
+        
+        .hybrid-cloud-features__feature-item {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+      }
+      
+      &:last-of-type {
+        .hybrid-cloud-features__feature-item {
+          &:first-of-type {
+            border: none;
+          }
+        }
+      }
+
+      &-image {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      &-link {
+        margin-top: auto;
+        align-self: flex-start;
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+      }
+    }
+  }
+}

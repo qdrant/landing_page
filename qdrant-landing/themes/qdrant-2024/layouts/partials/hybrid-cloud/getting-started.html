@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/hybrid-cloud/getting-started") }}
+  <section class="hybrid-cloud-getting-started">
+    <div class="hybrid-cloud-getting-started__overlay-top"></div>
+    <div class="hybrid-cloud-getting-started__overlay-bottom"></div>
+    <div class="container hybrid-cloud-getting-started__container">
+      <div class="row align-items-lg-end">
+        <div class="col-12 col-lg-6">
+          <p class="hybrid-cloud-getting-started__label">{{ .Params.label }}</p>
+          <h2 class="hybrid-cloud-getting-started__title">{{ .Params.title }}</h2>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="hybrid-cloud-getting-started__description">{{ .Params.description }}</p>
+          <div class="hybrid-cloud-getting-started__links">
+            <a
+              href="{{ .Params.talkToUs.url }}"
+              class="button button_contained button_md"
+              {{ if strings.HasPrefix .Params.talkToUs.url "http" }}target="_blank"{{ end }}
+            >
+              {{ .Params.talkToUs.text }}
+            </a>
+            <a
+              href="{{ .Params.quickstartLink.url }}"
+              class="link link_md"
+              {{ if strings.HasPrefix .Params.quickstartLink.url "http" }}target="_blank"{{ end }}
+            >
+            {{ .Params.quickstartLink.text }}
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hybrid-cloud-getting-started__steps">
+        <div class="hybrid-cloud-getting-started__steps-line"></div>
+        {{ range $index, $step := .Params.steps }}
+          <div class="hybrid-cloud-getting-started__step">
+            <div class="hybrid-cloud-getting-started__step-tag">
+              <span>STEP 0{{ add $index 1 }}</span>
+            </div>
+            <p class="hybrid-cloud-getting-started__step-description">{{ $step.description }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
