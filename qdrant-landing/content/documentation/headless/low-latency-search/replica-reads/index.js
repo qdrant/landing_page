@@ -7,14 +7,14 @@
  *
  *   peers               1 to 6, starting at 3. The peers share the cluster's
  *                       width; replicas slide to their new peer on a change.
- *   shards              1 and up, no upper limit. The collection is divided
- *                       into this many shards; shard s lives on peer s % peers.
+ *   shards              1 and up, no upper limit.
  *   replication_factor  1 up to the number of peers (one replica per peer at
- *                       most). Replica a of shard s lives on peer
- *                       (s + a) % peers, as in the replication island on the
- *                       horizontal scaling page. At 3 peers, 3 shards and a
- *                       factor of 2 this is the page's example: 6 replicas,
- *                       2 on each peer.
+ *                       most).
+ *
+ * Replicas are spread evenly over the peers (see placement()). At 3 peers,
+ * 3 shards and a factor of 2 this is the page's example: 6 replicas, 2 on
+ * each peer, placed as in the replication island on the horizontal scaling
+ * page.
  *
  * Every query reads one replica of every shard, chosen at random; the
  * replicas it reads flash. While every peer holds three replicas or fewer and
@@ -84,17 +84,42 @@ const MERGE = 0.05; // merge cost per doubling of the shard count
 const peerW = (peers) => (NODE.room - (peers - 1) * NODE.gap) / peers;
 const peerX = (peers, n) => NODE.x0 + n * (peerW(peers) + NODE.gap);
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
-const peerOf = (s, a, peers) => (s + a) % peers;
+// Where each replica lives: placement(...)[s][a] is the peer of replica a of
+// shard s. Replicas are placed one round at a time (every shard's first
+// replica, then every shard's second, ...). Each goes to the least-loaded peer
+// that doesn't hold that shard yet; ties go to the peer after the shard's
+// previous replica. That spreads the replicas evenly over the peers (counts
+// differ by one at most) and gives the replication island's layout on three
+// peers: replica a of shard s on peer (s + a) % 3.
+function placement(shards, rf, peers) {
+  const count = new Array(peers).fill(0);
+  const at = Array.from({ length: shards }, () => []);
+  for (let a = 0; a < rf; a++) {
+    for (let s = 0; s < shards; s++) {
+      const pref = (s + a) % peers;
+      let best = -1;
+      for (let i = 0; i < peers; i++) {
+        const p = (pref + i) % peers;
+        if (at[s].includes(p)) continue;
+        if (best < 0 || count[p] < count[best]) best = p;
+      }
+      at[s].push(best);
+      count[best]++;
+    }
+  }
+  return at;
+}
 
 // Throughput and latency of a setup, relative to 1 shard, 1 replica (= 1).
 function metrics(shards, rf, peers) {
   const cost = OVERHEAD + (1 - OVERHEAD) * Math.pow(1 / shards, SIZE_EXP);
   const load = new Array(peers).fill(0); // work per query, per peer
-  for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) load[peerOf(s, a, peers)] += cost / rf;
+  const at = placement(shards, rf, peers);
+  for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) load[at[s][a]] += cost / rf;
   const throughput = 1 / Math.max(...load);
   // Under a steady stream the cores are busy, so a peer works through the
   // shards it holds for one query one after another.
-  const latency = cost * Math.ceil(shards / peers) + MERGE * Math.log2(shards);
+  const latency = cost * Math.ceil(shards / Math.min(peers, shards * rf)) + MERGE * Math.log2(shards);
   return { throughput, latency };
 }
 
@@ -245,7 +270,7 @@ export function mount(node) {
   let lastFrame = 0;
 
   function intro() {
-    const used = Math.min(peers, shards + rf - 1);
+    const used = Math.min(peers, shards * rf);
     const what = `${plural(shards, 'shard')} with a replication factor of ${rf}: ${plural(shards * rf, 'replica')} on ${plural(used, 'peer')}.`;
     const reads = shards === 1 ? 'Each query reads the shard' : `Each query reads all ${shards} shards`;
     const from =
@@ -275,7 +300,9 @@ export function mount(node) {
   // of compact cells, the same scale on every peer, as large as fits.
   function place() {
     const perPeer = Array.from({ length: peers }, () => []);
-    for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) perPeer[peerOf(s, a, peers)].push(replica(s, a));
+    const at = placement(shards, rf, peers);
+    for (let s = 0; s < shards; s++) for (let a = 0; a < rf; a++) perPeer[at[s][a]].push(replica(s, a));
+    perPeer.forEach((l) => l.sort((x, y) => x.s - y.s || x.a - y.a));
     const most = Math.max(...perPeer.map((l) => l.length));
     const w = peerW(peers);
     const areaW = w - 2 * AREA.dx;
