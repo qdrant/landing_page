@@ -1,0 +1,19 @@
+.rg {
+  padding: 16px;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.rg .qi-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.rg .qi-chip { color: var(--qi-fg); }
+.rg .rg-line { pointer-events: stroke; }
+.rg .rg-active .rg-line { stroke-width: 4; }
+.rg .rg-active .rg-point { r: 5; stroke: var(--qi-fg); stroke-width: 1.5; }
+.rg [data-point] { cursor: pointer; }
+.rg [data-point]:focus-visible { outline: none; stroke: var(--qi-fg); stroke-width: 2; }
+.rg .qi-status { min-height: 1.45em; margin-top: 8px; }
+.island[data-island='content/documentation/headless/reranker/gain'].is-ready .island__stage { aspect-ratio: auto !important; }
+
+.rg .rg-active .rg-outline { stroke-width: 5.5; }
+
+@media (max-width: 600px) { .rg .qi-status { min-height: 2.9em; } }

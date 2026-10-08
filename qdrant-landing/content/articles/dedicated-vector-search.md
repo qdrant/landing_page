@@ -5,6 +5,7 @@ description: "Why add-on vector search looks good — until you actually use it.
 social_preview_image: /articles_data/dedicated-vector-search/preview/social_preview.jpg
 preview_dir: /articles_data/dedicated-vector-search/preview
 weight: 20
+aliases: [ /articles/dedicated-service/ ]
 author: Evgeniya Sukhodolskaya & Andrey Vasnetsov
 date: 2025-02-17T10:00:00+03:00
 draft: false
@@ -20,7 +21,6 @@ Any problem with even a bit of complexity requires a specialized solution. You c
 In this article, we will describe the unique challenges vector search poses and why a dedicated solution is the best way to tackle them.
 
 ## Vectors
-![vectors](/articles_data/dedicated-vector-search/image1.jpg)
 
 Let's look at the central concept of vector databases — [**vectors**](/documentation/manage-data/vectors/).
 
@@ -58,16 +58,23 @@ For dedicated storage, vectors' fixed size comes as a blessing. Knowing how much
 
 Everything becomes far less intuitive if vectors are stored together with other data types, for example, texts or JSONs. The size of a single data point is not fixed anymore, so accessing it becomes non-trivial, especially if data is added, updated, and deleted over time.
 
-{{<figure src=/articles_data/dedicated-vector-search/dedicated_storage.png caption="Fixed size columns VS Variable length table" width=80% >}}
+{{< island path="content/articles/headless/dedicated-vector-search/storage"
+    ratio="76 / 40"
+    title="Fixed-size columns versus variable-length records: where record n starts, and what it takes to find it. Record lengths are illustrative." >}}
+![Fixed size columns versus variable length table](/articles_data/dedicated-vector-search/dedicated_storage.png)
+{{< /island >}}
 
 **Storing vectors together with other types of data, we lose all the benefits of their characteristics**; however, we fully "enjoy" their drawbacks, polluting the storage with an extremely heavy transformation of data already existing in that storage.
 
 ## Vector Search
-![vector-search](/articles_data/dedicated-vector-search/image2.jpg)
 
 Unlike traditional databases that serve as data stores, **vector databases are more like search engines**. They are designed to be **scalable**, always **available**, and capable of delivering high-speed search results even under heavy loads. Just as Google or Bing can handle billions of queries at once, vector databases are designed for scenarios where rapid, high-throughput, low-latency retrieval is a must.
 
-{{<figure src=/articles_data/dedicated-vector-search/compass.png caption="Database Compass" width=80% >}}
+{{< island path="content/articles/headless/dedicated-vector-search/compass"
+    ratio="76 / 52"
+    title="Database compass: where relational, NoSQL, and search-engine systems sit between consistency and availability, and between isolation and scalability. Positions are qualitative." >}}
+![Database compass](/articles_data/dedicated-vector-search/compass.png)
+{{< /island >}}
 
 ### Pick Any Two
 
@@ -101,11 +108,14 @@ Considering the specifics of vector search — its nature demanding availability
 A strictly consistent transactional approach also loses its attractiveness when we remember that vectors are heavy transformations of data at our disposal — what's the point in limiting data protection mechanisms if we can always restore vectorized data through a transformation?
 
 ## Vector Index
-![vector-index](/articles_data/dedicated-vector-search/image3.jpg)
 
 [**Vector search**](/documentation/search/search/) relies on high-dimensional vector mathematics, making it computationally heavy at scale. A brute-force similarity search would require comparing a query against every vector in the database. In a database with 100 million 1536-dimensional vectors, performing 100 million comparisons per one query is unfeasible for production scenarios. Instead of a brute-force approach, vector databases have specialized approximate nearest neighbour (ANN) indexes that balance search precision and speed. These indexes require carefully designed architectures to make their maintenance in production feasible.
 
-{{< figure src=/articles_data/dedicated-vector-search/hnsw.png caption="HNSW Index" width=80% >}}
+{{< island path="content/articles/headless/dedicated-vector-search/hnsw"
+    ratio="76 / 57"
+    title="A search through the layers of an HNSW index. The graph is illustrative, and real HNSW keeps a list of candidates on layer 0 instead of a single greedy walk." >}}
+![HNSW index](/articles_data/dedicated-vector-search/hnsw.png)
+{{< /island >}}
 
 One of the most popular vector indexes is **HNSW (Hierarchical Navigable Small World)**, which we picked for its capability to provide simultaneously high search speed and accuracy. High performance came with a cost — implementing it in production is untrivial due to several challenges, so to make it shine all the system's architecture has to be structured around it, serving the capricious index.
 
@@ -115,7 +125,11 @@ One of the most popular vector indexes is **HNSW (Hierarchical Navigable Small W
 
 Building an HNSW monolith means limiting the scalability of your solution — its size has to be capped, as its construction time scales **non-linearly** with the number of elements. To keep the construction process feasible and ensure it doesn't affect the search time, we came up with a layered architecture that breaks down all data management into small units called **segments**.
 
-{{<figure src=/articles_data/dedicated-vector-search/segments.png caption="Storage structure" width=80% >}}
+{{< island path="content/articles/headless/dedicated-vector-search/nesting"
+    ratio="76 / 35"
+    title="Storage structure: a Qdrant instance holds collections, a collection is split into shards, and a shard is split into segments." >}}
+![Storage structure](/articles_data/dedicated-vector-search/segments.png)
+{{< /island >}}
 
 Each segment isolates a subset of vectorized corpora and supports all collection-level operations on it, from searching to indexing, for example segments build their own index on the subset of data available to them. For users working on a collection level, the specifics of segmentation are unnoticeable. The search results they get span the whole collection, as sub-results are gathered from segments and then merged & deduplicated.
 
@@ -149,13 +163,21 @@ Qdrant [**took filtering in vector search further**](/documentation/search-patte
 
 **Qdrant was designed with a vector index being a central component of the system.** That made it possible to organize optimizers, payload indexes and other components around the vector index, unlocking the possibility of building a filterable HNSW.
 
-{{<figure src=/articles_data/dedicated-vector-search/filterable-vector-index.png caption="Filterable Vector Index" width=80% >}}
+{{< island path="content/articles/headless/dedicated-vector-search/filtering"
+    ratio="76 / 40"
+    title="The same search under three setups: the default index, a filter that strands the search, and a filterable index with an additional link. The graph is illustrative." >}}
+![Filterable vector index](/articles_data/dedicated-vector-search/filterable-vector-index.png)
+{{< /island >}}
 
-In general, optimizing vector search requires a custom, finely tuned approach to data and index management that secures high performance even as data grows and changes dynamically. This specialized architecture is the key reason why **dedicated vector databases will always outperform general-purpose databases in production settings**.
+In general, optimizing vector search requires a custom, finely tuned approach to data and index management that secures high performance even as data grows and changes dynamically. This specialized architecture is the key reason why **dedicated vector databases tend to outperform general-purpose databases once vector search becomes a core production workload**.
 
 ## Vector Search Beyond RAG
 
-{{<figure src=/articles_data/dedicated-vector-search/venn-diagram.png caption="Vector Search is not Text Search Extension" width=80% >}}
+{{< island path="content/articles/headless/dedicated-vector-search/venn"
+    ratio="76 / 53"
+    title="Full-text and vector search capabilities: both support similarity search, filters, counts, and facets." >}}
+![Full-text and vector search share similarity search, filters, counts, and facets.](/articles_data/dedicated-vector-search/venn-diagram.svg)
+{{< /island >}}
 
 Many discussions about the purpose of vector databases focus on Retrieval-Augmented Generation (RAG) — or its more advanced variant, agentic RAG — where vector databases are used as a knowledge source to retrieve context for large language models (LLMs). This is a legitimate use case, however, the hype wave of RAG solutions has overshadowed the broader potential of vector search, which goes [**beyond augmenting generative AI**](/articles/vector-similarity-beyond-search/).
 
@@ -180,7 +202,6 @@ Even if you want to retrofit these capabilities, it's not just a matter of addin
 When the underlying architecture wasn't initially designed for this kind of interaction, integrating interfaces is a **software engineering team nightmare**. You end up breaking existing assumptions, forcing inefficient workarounds, and often introducing backwards-compatibility problems. It's why attempts to patch vector search onto traditional databases won't match the efficiency of purpose-built systems.
 
 ## Making Vector Search State-of-the-Art
-![vector-search-state-of-the-art](/articles_data/dedicated-vector-search/image4.jpg)
 
 Now, let's shift focus to another key advantage of dedicated solutions — their ability to keep up with state-of-the-art solutions in the field.
 
@@ -211,8 +232,46 @@ In addition to that, we continuously look for improvements in:
 
 Staying at the cutting edge of vector search is not just about performance — it's also about keeping pace with an evolving AI landscape.
 
+## Objections to a Dedicated Service
+
+A dedicated service is a second system to run, and the arguments against adding one deserve a straight answer. These are the five we hear most often.
+
+### "Every database will add vector search"
+
+Adding a vector index to a database does not change the architecture around it. A relational database is built for transactions and strong consistency, and its storage, replication, and scaling model follow from that. Extensions such as pgvector let PostgreSQL store and query embeddings, but they inherit this design. The tradeoffs around scalability, indexing, filtering, and hybrid search grow as the vector workload does. We cover them in detail in [the tradeoffs of using pgvector](/blog/pgvector-tradeoffs/).
+
+### "A dedicated service means duplicating data"
+
+Embeddings are derived from source data, as described in [Vectors are a Transformation](#vectors-are-a-transformation). Every time you change the embedding model, every vector changes. So even if you keep everything in one database, you end up with two copies during a migration: the old vectors that serve production and the new ones you are building. In a database that also holds your primary data, that rebuild competes with production traffic. In a separate service, you build the new collection next to the old one and switch over when it is ready.
+
+### "Synchronization is too complex"
+
+It is extra work, and it is worth being honest about that: a second system needs deployment, monitoring, access control, and a pipeline that keeps it in step with the source of truth.
+
+Most teams already accept this cost for other workloads. Analytics and serving databases are often fed from the same source and organized differently, because each one is optimized for its own queries. Search is isolated for the same reason: a heavy vector workload should not become a noisy neighbor for your main database. A million `text-embedding-ada-002` vectors take about 6 GB, which can dwarf the size of the records they were computed from.
+
+Synchronization is a solved problem. Message queues, change data capture, and ETL tools all handle it, and Qdrant has an [Airbyte integration](/documentation/data-management/airbyte/) that syncs data from many sources incrementally.
+
+### "I would pay for two systems"
+
+You pay for the resources you use, not for the number of systems you run. A dedicated engine lets you tune those resources to the vector workload. [Quantization](/documentation/manage-data/quantization/), for example, can cut the memory needed for embeddings by up to 32x, so a dedicated service can hold the same vectors on a much smaller machine.
+
+Data transfer needs some planning. Traffic inside one availability zone is usually free, while traffic between zones or regions is billed on the major cloud providers. Deploy the vector service close to the source data, and check your provider's pricing for the rest.
+
+### "My current database is the most seamless option"
+
+It is, at first. Over time, a dedicated service gives you flexibility that an all-in-one database does not:
+
+- **Independent upgrades.** You do not have to update the primary database each time a vector feature ships, and maintenance on the search service does not touch your primary data.
+- **Independent release cycles.** Vector support in an all-in-one database follows the release cycle of the whole stack, and a long history of use means paying a high price for backward compatibility.
+- **Clear ownership.** In larger organizations, it is much easier for an AI team to run its own search service than to convince the team that owns the core database to change it.
+- **Flexible placement.** You can deploy the vector service in the regions where your users are, independent of where the primary database lives.
+
+### When the extension is the right call
+
+If you have a small amount of data, simple similarity search, and a database that already supports vectors, start there. It is the fastest way to prototype, and you can move to a dedicated service later, because vectors can always be rebuilt from the source data. The case for a dedicated service gets stronger as vector search becomes central to your product, as data volume grows, and as you need filtering, hybrid search, or the newer retrieval methods described above.
+
 ## Summing up
-![conclusion-vector-search](/articles_data/dedicated-vector-search/image5.jpg)
 
 When it comes to vector search, there's a clear distinction between using a dedicated vector search solution and extending a database to support vector operations.
 

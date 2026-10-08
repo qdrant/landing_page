@@ -1,0 +1,37 @@
+/* distance island. Scoped under .pq-ds. Chunks alternate between two colors, the summed cells are outlined. */
+.pq-ds {
+  display: block;
+}
+.pq-ds__q,
+.pq-ds__cell {
+  stroke-width: 1.5;
+}
+.pq-ds__q.is-a,
+.pq-ds__cell.is-a {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.12;
+  stroke: var(--qi-cat-1);
+}
+.pq-ds__q.is-b,
+.pq-ds__cell.is-b {
+  fill: var(--qi-accent);
+  fill-opacity: 0.12;
+  stroke: var(--qi-accent);
+}
+.pq-ds__cell.is-on {
+  fill-opacity: 0.4;
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.pq-ds__val {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.pq-ds .qi-label {
+  font-size: 14px;
+}
+.pq-ds.pq-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

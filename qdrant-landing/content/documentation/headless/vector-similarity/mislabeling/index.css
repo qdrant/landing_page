@@ -1,0 +1,39 @@
+.qi-mislabel {
+  display: block;
+}
+
+.qi-mislabel .qi-mislabel__svg .qi-label {
+  fill: var(--qi-fg);
+  font-size: 20px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.qi-mislabel__tile {
+  fill: var(--qi-surface);
+  stroke-dasharray: 6 5;
+  stroke-width: 3;
+}
+
+.qi-mislabel__tile--good {
+  stroke: var(--qi-cat-3);
+}
+
+.qi-mislabel__tile--review {
+  stroke: var(--qi-cat-2);
+}
+
+.qi-mislabel__tile--bad {
+  stroke: var(--qi-cat-4);
+}
+
+.qi-mislabel .qi-mislabel__svg .qi-mislabel__query {
+  font-size: 18px;
+  text-anchor: end;
+}
+
+@media (max-width: 560px) {
+  .qi-mislabel .qi-mislabel__svg .qi-label {
+    font-size: 14px;
+  }
+}

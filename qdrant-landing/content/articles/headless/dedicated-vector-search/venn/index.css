@@ -1,0 +1,32 @@
+/* venn island. Scoped under .dv-vn. Cyan: full-text search, red: vector search. */
+.dv-vn {
+  display: block;
+}
+.dv-vn__set {
+  stroke-width: 2;
+  fill-opacity: 0.2;
+}
+.dv-vn__set--text {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.dv-vn__set--vector {
+  fill: var(--qi-cat-4);
+  stroke: var(--qi-cat-4);
+}
+.dv-vn__item {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.dv-vn__item.is-dim {
+  opacity: 0.3;
+}
+.dv-vn .qi-title {
+  font-size: 14px;
+}
+.dv-vn.dv-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

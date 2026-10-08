@@ -6,7 +6,7 @@ links:
   - title: Read Our Series A Story
     url: /blog/series-a-funding-round/
   - title: Read About Our Seed Funding
-    url: /articles/seed-round/
+    url: /blog/seed-round/
 investors:
 - id: 0
   logo: '/img/investors/avp.svg'

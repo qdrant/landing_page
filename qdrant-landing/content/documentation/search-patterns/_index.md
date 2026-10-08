@@ -1,7 +1,7 @@
 ---
 title: Search Patterns
-short_description: Choose embedding models, plan query decomposition, and apply payload filters to build search around your data and application needs.
-description: Design Qdrant search around your application by choosing embedding models, decomposing multi-hop queries, and filtering results with payload indexes.
+short_description: Choose embedding models and apply payload filters to build search around your data and application needs.
+description: Design Qdrant search around your application by choosing embedding models and filtering results with payload indexes.
 partition: learn
 learning_kind: guides
 cascade:

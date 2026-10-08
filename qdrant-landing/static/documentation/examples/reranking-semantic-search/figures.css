@@ -1,0 +1,33 @@
+.documentation-article .reranking-figure {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.reranking-figure picture,
+.reranking-figure img {
+  display: block;
+  width: 100%;
+}
+
+.reranking-figure img {
+  height: auto;
+  margin: 0;
+}
+
+.reranking-figure .reranking-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .reranking-figure picture:not(.reranking-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .reranking-figure .reranking-figure__dark {
+  display: block;
+}
+
+.reranking-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

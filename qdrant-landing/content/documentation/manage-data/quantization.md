@@ -43,7 +43,7 @@ Depending on your requirements for recall, compression, and distance metrics, co
 | 4           | Use **Scalar Quantization**. It is a well-established quantization method with a good balance between recall and compression. <br/><br/>However, unless you need to use the Manhattan (L1) distance metric, consider using 4-bit **TurboQuant** instead of scalar quantization, as it offers comparable recall at double the compression. |
 | 8           | Use 4-bit **TurboQuant**. It offers a good balance between recall and compression. <br/><br/>When using the Manhattan (L1) distance metric, consider using another quantization method. |
 | 16          | **2-bit TurboQuant** and **2-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
-| 24          | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| ~21         | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | 32          | **1-bit TurboQuant** and **1-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | Up to 64  | Use **Product Quantization** if the memory footprint is the top priority and accuracy and speed are not critical. |
 
@@ -67,7 +67,7 @@ TurboQuant supports four bit depths:
 |----------|-----------|-------------|
 | `bits4` (default) | 4 bits   | 8× |
 | `bits2`           | 2 bits   | 16× |
-| `bits1_5`         | 1.5 bits | 24× |
+| `bits1_5`         | 1.5 bits | ~21× |
 | `bits1`           | 1 bit    | 32× |
 
 In our benchmarks, 4-bit TurboQuant, at twice the compression ratio of scalar quantization, delivers similar recall and speed. Results vary by dataset and embedding model: it may outperform or slightly underperform scalar quantization. This makes 4-bit TurboQuant a good default choice for many use cases.
@@ -157,7 +157,7 @@ Binary quantization makes it efficient to compare vectors using this representat
 
 *Available as of v1.15.0*
 
-**Binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy.
+**Binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers about 21X compression and intermediate accuracy.
 
 A major limitation of binary quantization is poor handling of values close to zero.
 2-bit quantization addresses this by explicitly representing zeros using an efficient scoring mechanism. In the case of 1.5-bit quantization, the zero-bit is shared between two values, balancing the efficiency of binary quantization with the accuracy improvements of 2-bit quantization, especially when 2-bit BQ requires too much memory.

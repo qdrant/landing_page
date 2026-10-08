@@ -9,6 +9,7 @@ author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
 date: 2024-11-22T00:00:00.000Z
 category: rag-and-agents
+aliases: [ /articles/agentic-builders-guide/ ]
 ---
 
 Standard [Retrieval Augmented Generation](/articles/what-is-rag-in-ai/) follows a predictable, linear path: receive 
@@ -16,7 +17,11 @@ a query, retrieve relevant documents, and generate a response. In many cases tha
 problem. In the worst case scenario, your LLM will just decide to not answer the question, because the context does not 
 provide enough information.
 
+{{< island path="content/articles/headless/agentic-rag/linear"
+    ratio="76 / 42"
+    title="A standard RAG pipeline is a fixed path. Step through it from the query to the answer." >}}
 ![Standard, linear RAG pipeline](/articles_data/agentic-rag/linear-rag.png)
+{{< /island >}}
 
 On the other hand, we have agents. These systems are given more freedom to act, and can take multiple non-linear steps 
 to achieve a certain goal. There isn't a single definition of what an agent is, but in general, it is an application
@@ -25,7 +30,11 @@ decide what action to take next. Actions can be anything, but they are usually w
 set of possibilities. One of these actions might be to query a vector database, like Qdrant, to retrieve relevant
 documents, if the context is not enough to make a decision. However, RAG is just a single tool in the agent's arsenal.
 
+{{< island path="content/articles/headless/agentic-rag/agent"
+    ratio="76 / 48"
+    title="An agent is an LLM that decides which tool to call, and RAG is one tool among many. Pick a tool to see the agent call it." >}}
 ![AI Agent](/articles_data/agentic-rag/ai-agent.png)
+{{< /island >}}
 
 ## Agentic RAG: Combining RAG with Agents
 
@@ -42,7 +51,11 @@ information, and the agent can decide which collection to query based on the con
 decision of choosing a path is made by the LLM, which is the core of the agent. A routing agent never comes back to the
 previous step, so it's ultimately just a conditional decision-making system.
 
+{{< island path="content/articles/headless/agentic-rag/router"
+    ratio="76 / 47"
+    title="A routing agent chooses a single action and never returns to an earlier step. Pick the action it chooses." >}}
 ![Routing Agent](/articles_data/agentic-rag/routing-agent.png)
+{{< /island >}}
 
 However, routing is just the beginning. Agents can be much more complex, and extreme forms of agents can have complete
 freedom to act. In such cases, the agent is given a set of tools and can autonomously decide which ones to use, how to 
@@ -53,7 +66,11 @@ built in that manner can have tools not only to query a vector database, but als
 results, or even generate new data to answer the question. Options are endless, but there are some common patterns
 that can be observed in the wild. 
 
+{{< island path="content/articles/headless/agentic-rag/autonomous"
+    ratio="76 / 48"
+    title="An autonomous agent can choose several actions, in any order, and repeat them until it reaches its goal. Step through one illustrative run." >}}
 ![Autonomous Agent](/articles_data/agentic-rag/autonomous-agent.png)
+{{< /island >}}
 
 ### Solving Information Retrieval Problems with LLMs
 
@@ -65,15 +82,27 @@ the same. What kind of tools you can consider using in an agentic RAG? Here are 
   relevant documents based on the query.
 - **Query expansion** - a tool that can be used to improve the query. It can be used to add synonyms, correct typos, or 
   even to generate new queries based on the original one.
+  {{< island path="content/articles/headless/agentic-rag/expansion"
+      ratio="76 / 27"
+      title="An LLM improves the query before retrieval, fixing typos and adding synonyms. The examples are illustrative." >}}
   ![Query expansion example](/articles_data/agentic-rag/query-expansion.png)
+  {{< /island >}}
 - **Extracting filters** - vector search alone is sometimes not enough. In many cases, you might want to narrow down 
   the results based on specific parameters. This extraction process can automatically identify relevant conditions from 
   the query. Otherwise, your users would have to manually define these search constraints.
+  {{< island path="content/articles/headless/agentic-rag/filters"
+      ratio="76 / 40"
+      title="An LLM extracts filters from a free-text query. View the extracted fields or the Qdrant filter built from them. The examples are illustrative." >}}
   ![Extracting filters](/articles_data/agentic-rag/extracting-filters.png)
+  {{< /island >}}
 - **Quality judgement** - knowing the quality of the results for given query can be used to decide whether they are good 
   enough to answer, or if the agent should take another step to improve them somehow. Alternatively it can also admit 
   the failure to provide good response.
+  {{< island path="content/articles/headless/agentic-rag/judgement"
+      ratio="76 / 38"
+      title="An LLM or a vision model scores each retrieved item, and the agent compares the scores with a threshold. The scores are illustrative." >}}
   ![Quality judgement](/articles_data/agentic-rag/quality-judgement.png)
+  {{< /island >}}
 
 These are just some of the examples, but the list is not exhaustive. For example, your LLM could possibly play with
 Qdrant search parameters or choose different methods to query it. An example? If your users are searching using some
@@ -438,6 +467,17 @@ All the frameworks have different approaches to building agents, so it's worth e
 which one fits your needs the best. LangGraph and CrewAI are more mature and have more features, while AutoGen and 
 OpenAI Swarm are more lightweight and more experimental. However, **none of the existing frameworks solves all the 
 mentioned Information Retrieval problems**, so you still have to build your own tools to fill the gaps. 
+
+## What Agents Need from the Retrieval Layer
+
+An agent calls retrieval repeatedly, with state that changes between calls. That puts a few requirements on the retrieval layer.
+
+- **Latency that does not compound.** An agent can run several searches in sequence to answer one question, and each one adds to the wait. For example, saving 75 ms per search saves 300 ms across four sequential searches, which a user can notice. Searches that do not depend on each other can run in parallel.
+- **Memory that updates in real time.** Short-term and long-term memory should reflect the latest interaction, not only the state at the start of a session. Qdrant supports [real-time upserts](/documentation/manage-data/points/#upload-points). To prefer recent entries without deleting old ones, apply a recency boost at query time with [decay functions](/blog/decay-functions/). Memory frameworks such as [mem0](https://docs.mem0.ai/components/vectordbs/dbs/qdrant) and [Cognee](https://docs.cognee.ai/examples/documentation-intelligence) can use Qdrant as their vector store.
+- **Filtered and hybrid search.** Agents combine meaning with hard constraints, such as "a hotel with a pool, under $200 a day". [Filters](/documentation/search-patterns/vector-search-filtering/) enforce the constraints while vector search handles the subjective part, and [hybrid search](/documentation/search-tuning/hybrid-search/) covers exact terms such as product codes next to semantic matches. Extracting filters from the query is one of the tools described in this article.
+- **Reranking.** Retrieval returns candidates, and a [reranker](/documentation/tutorials-basics/reranking-hybrid-search/) can reorder them by what the agent needs, such as diversity, user preference, or recency.
+- **Access control that matches the data layout.** API keys and tokens set access per collection: [read-only, read-write, or manage](/documentation/security/#granular-access-api-keys). On Qdrant Cloud, [Database API keys](/documentation/cloud/authentication/) carry this access. Separating tenants inside one collection is a different mechanism: [store a tenant field in the payload, index it, and filter on it](/documentation/manage-data/multitenancy/). Add that filter in your own backend for every query, so an agent cannot leave it out.
+- **Measured quality and cost.** Track [retrieval quality](/documentation/search-evaluation/retrieval-relevance/), such as recall@k, and the cost per task, in tokens and end-to-end time. An agent that retrieves poorly takes more steps.
 
 ## Building Agentic RAG with Qdrant
 

@@ -1,3 +1,20 @@
+# Historical company and contributor posts moved to the blog
+/articles/geo-polygon-filter-gsoc/*  /blog/geo-polygon-filter-gsoc/:splat  301!
+/articles/geo-polygon-filter-gsoc  /blog/geo-polygon-filter-gsoc/  301!
+/articles_data/geo-polygon-filter-gsoc/*  /blog/geo-polygon-filter-gsoc/:splat  301!
+/articles/web-ui-gsoc/*  /blog/web-ui-gsoc/:splat  301!
+/articles/web-ui-gsoc  /blog/web-ui-gsoc/  301!
+/articles_data/web-ui-gsoc/*  /blog/web-ui-gsoc/:splat  301!
+/articles/seed-round/*  /blog/seed-round/:splat  301!
+/articles/seed-round  /blog/seed-round/  301!
+/articles_data/seed-round/*  /blog/seed-round/:splat  301!
+/articles/cross-encoder-integration-gsoc/*  /blog/cross-encoder-integration-gsoc/:splat  301!
+/articles/cross-encoder-integration-gsoc  /blog/cross-encoder-integration-gsoc/  301!
+/articles_data/cross-encoder-integration-gsoc/*  /blog/cross-encoder-integration-gsoc/:splat  301!
+/articles/dimension-reduction-qsoc/*  /blog/dimension-reduction-qsoc/:splat  301!
+/articles/dimension-reduction-qsoc  /blog/dimension-reduction-qsoc/  301!
+/articles_data/dimension-reduction-qsoc/*  /blog/dimension-reduction-qsoc/:splat  301!
+
 /surveys/hybrid-saas    https://hybrid-cloud.qdrant.tech/    301
 /surveys/hybrid-saas/    https://hybrid-cloud.qdrant.tech/    301
 
@@ -61,16 +78,35 @@
 /documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
 
 # Search tutorials reorg
+/documentation/tutorials/slicing-filter/*  /documentation/tutorials-search-engineering/slicing-filter/:splat  301!
+/documentation/database-tutorials/automate-filtering-with-llms/*  /documentation/search-precision/automate-filtering-with-llms/:splat  301!
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
 /documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
 /documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
 /documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
-/documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301
+/documentation/search-precision/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+/documentation/advanced-tutorials/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+/documentation/advanced-tutorials/graphrag-qdrant-neo4j/*  /documentation/examples/graphrag-qdrant-neo4j/:splat  301!
+/documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
+
+# Query Decomposition moved from Guides / Search Patterns to tutorials-search-engineering
+/documentation/search-patterns/query-decomposition/*  /documentation/tutorials-search-engineering/query-decomposition/:splat  301!
+
+# Kafka streaming tutorial moved from send-data to tutorials-operations
+/examples/data-streaming-kafka-qdrant/*                     /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
+/documentation/send-data/data-streaming-kafka-qdrant/*      /documentation/tutorials-operations/data-streaming-kafka-qdrant/:splat  301!
 
 # Semantic Search 101 legacy URLs; the Cloud version owns them, the local version no longer does
 /documentation/tutorials/mighty.md/*                   /documentation/tutorials-basics/search-beginners/:splat  301!
 /documentation/tutorials/search-beginners/*            /documentation/tutorials-basics/search-beginners/:splat  301!
 /documentation/beginner-tutorials/search-beginners/*   /documentation/tutorials-basics/search-beginners/:splat  301!
+
+# Multimodal Search moved from tutorials-build-essentials to tutorials-basics
+/documentation/tutorials-build-essentials/multimodal-search/*  /documentation/tutorials-basics/multimodal-search/:splat  301!
+
+# Contract management tutorial renamed from aleph-alpha to cohere
+/documentation/examples/rag-contract-management-stackit-aleph-alpha/*  /documentation/examples/rag-contract-management-stackit-cohere/:splat  301!
+/documentation/tutorials/rag-contract-management-stackit-aleph-alpha/*  /documentation/examples/rag-contract-management-stackit-cohere/:splat  301!
 
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
@@ -82,6 +118,19 @@
 
 # Bulk upload moved from tutorials-develop to manage-data
 /documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
+
+# Multitenancy tutorial renamed; preserve old HTML and Markdown URLs.
+/documentation/examples/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
+/documentation/tutorials/llama-index-multitenancy/*  /documentation/examples/multitenancy/:splat  301!
+
+# Video anomaly detection Part 3 moved to Tutorials (HTML and Markdown).
+/articles/video-anomaly-edge-part-3/*  /documentation/tutorials-build-essentials/video-anomaly-edge-part-3/:splat  301!
+
+# "Do You Need Dedicated Vector Search?" merged into the dedicated vector search article (HTML and Markdown).
+/articles/dedicated-service/*  /articles/dedicated-vector-search/:splat  301!
+
+# "Building Performant, Scaled Agentic Vector Search with Qdrant" merged into the agentic RAG article (HTML and Markdown).
+/articles/agentic-builders-guide/*  /articles/agentic-rag/:splat  301!
 
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301
@@ -102,12 +151,18 @@
 /articles/before-tuning-a-qdrant-collection/*  /documentation/search-tuning/before-tuning-a-qdrant-collection/:splat  301!
 /articles/bulk-uploads-in-qdrant/*  /documentation/production-operations/bulk-data-import/:splat  301!
 /articles/candidate-depth/*  /documentation/search-tuning/candidate-depth/:splat  301!
+/articles/data-privacy/*  /documentation/production-operations/access-control/:splat  301!
 /articles/how-to-choose-an-embedding-model/*  /documentation/search-patterns/choose-embedding-model/:splat  301!
 /articles/how-to-tune-hybrid-search/*  /documentation/search-tuning/how-to-tune-hybrid-search/:splat  301!
 /articles/hybrid-search/*  /documentation/search-tuning/hybrid-search/:splat  301!
 /articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-operations/memory-tiers/:splat  301!
 /articles/multitenancy/*  /documentation/production-operations/multitenant-search/:splat  301!
+/articles/tuning-qdrant-optimizer/*  /documentation/production-operations/predictable-search-latency/:splat  301!
+/articles/vector-search-production/*  /documentation/production-operations/vector-search-in-production/:splat  301!
+/articles/vector-search-resource-optimization/*  /documentation/production-operations/vector-search-in-production/:splat  301!
 /articles/vector-search-filtering/*  /documentation/search-patterns/vector-search-filtering/:splat  301!
+/articles/why-rust/*  /blog/why-rust/:splat  301!
+/articles/why_rust/*  /blog/why-rust/:splat  301!
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!
 /articles/sparse-embeddings-ecommerce-part-1/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/:splat  301!
@@ -121,8 +176,9 @@
 /articles_data/sparse-embeddings-ecommerce-part-4/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-4/:splat  301!
 /articles_data/sparse-embeddings-ecommerce-part-5/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-5/:splat  301!
 /documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
-/documentation/improve-search/query-decomposition/*  /documentation/search-patterns/query-decomposition/:splat  301!
+/documentation/improve-search/query-decomposition/*  /documentation/tutorials-search-engineering/query-decomposition/:splat  301!
 /documentation/improve-search/retrieval-relevance/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
+/documentation/tutorials/retrieval-quality-golden-set/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
 /documentation/improve-search/*  /documentation/search-evaluation/:splat  301!
 
 # Agent Skills moved under the Agentic Tools hub. The page's `aliases:` front

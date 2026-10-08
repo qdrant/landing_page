@@ -1,0 +1,92 @@
+/* resource-tradeoffs island. Scoped under .qi-rt. Controls, labels and status
+   come from the shared island design system (islands.scss); this file only
+   styles the triangle. */
+
+.qi-rt {
+  display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+}
+
+.qi-rt .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+
+.qi-rt__svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.qi-rt__tri {
+  fill: var(--qi-surface);
+  stroke: none;
+}
+.qi-rt__edge {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke 0.2s ease;
+}
+.qi-rt__edge.is-on {
+  stroke: var(--qi-accent);
+  stroke-width: 4;
+}
+
+.qi-rt__cost {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+}
+.qi-rt__cost.is-on {
+  fill: var(--qi-fg);
+  font-weight: 600;
+}
+.qi-rt__cost.is-off {
+  opacity: 0.4;
+}
+.qi-rt__center {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.qi-rt__corner {
+  cursor: pointer;
+}
+.qi-rt__pill {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+.qi-rt__pill-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-rt__corner.is-picked .qi-rt__pill {
+  fill: var(--qi-accent);
+  stroke: var(--qi-accent);
+}
+.qi-rt__corner.is-picked .qi-rt__pill-text {
+  fill: var(--qi-accent-ink);
+}
+.qi-rt__corner.is-out .qi-rt__pill {
+  stroke-dasharray: 4 3;
+}
+.qi-rt__corner.is-out .qi-rt__pill-text {
+  fill: var(--qi-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-rt__edge,
+  .qi-rt__cost,
+  .qi-rt__pill {
+    transition: none;
+  }
+}

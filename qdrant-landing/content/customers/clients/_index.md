@@ -229,6 +229,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/gooddata.svg
       alt: GoodData logo
+  - id: himalayas
+    name: Himalayas
+    industry: Technology
+    product: Qdrant Cloud
+    company_size: 1-50
+    location: Global
+    use_cases: ["Semantic search", "Recommendations", "Hybrid search"]
+    title: "How Himalayas Built Semantic Job Matching for 100,000+ Remote Listings with Qdrant"
+    blog_path: /blog/case-study-himalayas
+    logo:
+      src: /img/customers-case-studies-logo/himalayas.svg
+      alt: Himalayas logo
   - id: hubspot
     name: HubSpot
     industry: Customer support
