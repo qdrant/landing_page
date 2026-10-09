@@ -1,0 +1,63 @@
+/* Bulk upload guide islands. Scoped under .qi-bk; the same file ships with
+   each figure so every island stays self-contained. Boxes and text use the
+   shared island tokens (.qi-frame, .qi-label), so they follow the page theme.
+   The risky or default path is Qdrant red (--qi-accent), the recommended path
+   is cyan (--qi-cat-3), and neutral tradeoffs use the line color. Each path
+   also has a text caption, so color is never the only cue. */
+
+.qi-bk {
+  display: block;
+  container-type: inline-size;
+  container-name: qi-bk;
+}
+
+.qi-bk__box--risk {
+  stroke: var(--qi-accent);
+  stroke-width: 1.5;
+}
+.qi-bk__box--good {
+  stroke: var(--qi-cat-3);
+  stroke-width: 1.5;
+}
+.qi-bk__wire {
+  fill: none;
+  stroke-width: 2;
+}
+.qi-bk__wire--risk {
+  stroke: var(--qi-accent);
+}
+.qi-bk__wire--good {
+  stroke: var(--qi-cat-3);
+}
+.qi-bk__wire--neutral {
+  stroke: var(--qi-line);
+}
+.qi-bk__head--risk {
+  fill: var(--qi-accent);
+}
+.qi-bk__head--good {
+  fill: var(--qi-cat-3);
+}
+.qi-bk__head--neutral {
+  fill: var(--qi-line);
+}
+.qi-bk__caption--risk {
+  fill: var(--qi-accent);
+}
+.qi-bk__caption--good {
+  fill: var(--qi-cat-3);
+}
+
+.qi-bk__svg--narrow {
+  display: none;
+}
+/* Below ~560px the wide drawing shrinks its labels past readability; swap to
+   the stacked drawing, like the repairs island does on phones. */
+@container qi-bk (max-width: 560px) {
+  .qi-bk__svg--wide {
+    display: none;
+  }
+  .qi-bk__svg--narrow {
+    display: block;
+  }
+}
