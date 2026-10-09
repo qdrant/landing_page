@@ -50,8 +50,6 @@ This guide covers the decisions around a filter like this one: which fields to i
 
 ## Filter During the Search, Not Before or After
 
-![stepping-lens](/articles_data/vector-search-filtering/stepping-lens.png)
-
 There are two traditional ways to combine a filter with vector search, and both have a cost.
 
 - **Post-filtering** runs the vector search first and then drops results that fail the filter. If many of the top results fail, you get fewer results than you asked for.
@@ -70,8 +68,6 @@ Qdrant filters **during** the search, so you do not have to choose. Its query pl
 {{< /island >}}
 
 ## Index Every Field You Filter On
-
-![payload-index-filtering](/articles_data/vector-search-filtering/payload-index-filtering.png)
 
 Qdrant uses payload indexes in three ways: to find matching points without scanning every payload, to estimate how many points a filter matches so the [query planner](#let-the-query-planner-choose) can pick a strategy, and to build the extra filterable HNSW edges.
 
@@ -103,8 +99,6 @@ client.create_payload_index(
 ```
 
 ## Let the Query Planner Choose
-
-![scanning-lens](/articles_data/vector-search-filtering/scanning-lens.png)
 
 For each filtered query, the [query planner](/documentation/search/search/#query-planning) estimates the **filter cardinality**, the number of points that satisfy the filter, from the payload indexes. It plans each segment of the collection separately.
 
@@ -170,8 +164,6 @@ PUT /collections/{collection_name}/index
 With `is_tenant` set, Qdrant keeps each tenant's points together, which makes tenant-filtered queries faster. See [multitenancy](/documentation/manage-data/multitenancy/) for the full setup.
 
 ## Common Pitfalls
-
-![best-practices](/articles_data/vector-search-filtering/best-practices.png)
 
 - **Floats need `range`, not `match`.** Qdrant rejects a `match` condition with a float value such as `11.99`. To find an exact stored value, set both bounds to it: `"range": { "gte": 11.99, "lte": 11.99 }`. If values carry rounding errors, use a small window instead. For money, you can also store whole cents as an integer.
 - **Conditions on an array of objects need `nested`.** Two plain conditions such as `diet[].food` is `meat` and `diet[].likes` is `true` can each match a different element of the array. To require both on the same element, use a [nested object filter](/documentation/search/filtering/#nested-object-filter).
