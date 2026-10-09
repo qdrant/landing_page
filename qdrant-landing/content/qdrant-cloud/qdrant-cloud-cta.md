@@ -5,7 +5,7 @@ button:
   text: Case Studies
   url: /customers/
 outlineButton:
-  text: Talk to Engineering
+  text: Talk to the Team
   url: /contact-us/
 sitemapExclude: true
 ---
