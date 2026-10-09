@@ -1,0 +1,14 @@
+from qdrant_edge import EdgeShard, FieldCondition, Filter, MatchValue, ScrollRequest
+
+edge_shard = EdgeShard.load("./shard", None)  # @hide
+
+edge_shard.scroll(ScrollRequest(
+    filter=Filter(
+        must=[
+            FieldCondition(key="city", match=MatchValue(value="London")),
+        ],
+        must_not=[
+            FieldCondition(key="color", match=MatchValue(value="red")),
+        ],
+    ),
+))
