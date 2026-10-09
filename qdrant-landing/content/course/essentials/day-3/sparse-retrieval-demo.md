@@ -479,7 +479,7 @@ SPLADE models are a strong choice for sparse neural retrieval, but they have lim
 
 That said, the expansion behavior can be **fine-tuned** on domain-specific data to make it more deliberate. For example, in an e-commerce setting, fine-tuning can make SPLADE expand `mac` with `laptop` and `computer`, not `cheese`.
 
-If you'd like to explore this direction, we walk through the full process in our 5-part series [Fine-Tuning Sparse Embeddings for E-Commerce Search](/articles/sparse-embeddings-ecommerce-part-1/).
+If you'd like to explore this direction, we walk through the full process in our 5-part series [Fine-Tuning Sparse Embeddings for E-Commerce Search](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/).
 
 #### Qdrant's Sparse Neural Retrievers
 

@@ -222,7 +222,7 @@ sections:
         title: Hybrid Product Search Pipeline
         description: Combine semantic understanding, keyword matching, and business rules in a single query.
         link:
-          href: /articles/sparse-embeddings-ecommerce-part-1/
+          href: /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/
           text: View Full Example
         steps:
           - id: 0
