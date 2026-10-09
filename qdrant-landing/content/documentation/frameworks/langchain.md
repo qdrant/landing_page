@@ -210,7 +210,7 @@ Note that if you've added documents with HYBRID mode, you can switch to any retr
 ## Next steps
 
 If you'd like to know more about running Qdrant in a LangChain-based application, please read our article
-[Question Answering with LangChain and Qdrant](/articles/langchain-integration/). Some more information
+[Question Answering with LangChain and Qdrant](/documentation/tutorials-build-essentials/question-answering-langchain/). Some more information
 might also be found in the [LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant).
 
 - [Source Code](https://github.com/langchain-ai/langchain/tree/master/libs%2Fpartners%2Fqdrant)

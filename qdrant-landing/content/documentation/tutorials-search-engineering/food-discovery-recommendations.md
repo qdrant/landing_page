@@ -1,16 +1,26 @@
 ---
 title: "Multimodal Food Search Demo"
-short_description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
-description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
-preview_dir: /articles_data/food-discovery-demo/preview
+short_description: "See how the Food Discovery demo combines CLIP embeddings, grouped queries, and recommendation strategies in Qdrant."
+description: "Tutorial: explore the Food Discovery demo, which uses CLIP embeddings, grouped search, recommendations with best_score and average_vector strategies, and geo filters in Qdrant."
 social_preview_image: /articles_data/food-discovery-demo/preview/social_preview.jpg
-small_preview_image: /articles_data/food-discovery-demo/icon.svg
-weight: 30
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-09-05T11:32:00.000Z
-category: data-exploration
+aliases:
+  - /articles/food-discovery-demo/
+  - /articles/new-recommendation-api/
+weight: 5
+goal: Recommendations
+stack:
+  - Python
+  - FastAPI
+  - React
 ---
+
+# Build a Food Discovery App with Multimodal Search and Recommendations in Qdrant
+
+| Time: 20 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/demo-food-discovery/) |
+| --- | ----------- | ----------- |
 
 Not every search journey begins with a specific destination in mind. Sometimes, you just want to explore and see what’s out there and what you might like.
 This is especially true when it comes to food. You might be craving something sweet, but you don’t know what. You might be also looking for a new dish to try,
@@ -25,9 +35,11 @@ so you can easily deploy it on your own and play with it. If you prefer to dive 
 Otherwise, read on to learn more about the demo and how it works!
 
 In general, our application consists of three parts: a [FastAPI](https://fastapi.tiangolo.com/) backend, a [React](https://react.dev/) frontend, and 
-a [Qdrant](/) instance. The architecture diagram below shows how these components interact with each other:
+a [Qdrant](/) instance. The diagram shows how these components interact with each other:
 
-![Architecture diagram](/articles_data/food-discovery-demo/architecture-diagram.png)
+{{< island path="content/documentation/headless/food-discovery/architecture" ratio="3 / 2" title="The demo has three parts behind one uvicorn webserver: a React frontend, a FastAPI backend, and a Qdrant instance, either local or in the cloud. Step through a search to follow a request." >}}
+![A user reaches a uvicorn webserver. Requests to the root path go to the React frontend, and requests to the api path go to the FastAPI backend, which talks to a Qdrant server, either local or in the cloud.](/articles_data/food-discovery-demo/architecture-diagram.png)
+{{< /island >}}
 
 ## Why did we use a CLIP model?
 
@@ -37,7 +49,9 @@ you search for “flat bread with toppings”, you will get images of pizza. Or 
 if they were not labeled as “pizza”. This is because CLIP embeddings capture the semantics of the images and texts and can find the similarities between them
 no matter the wording.
 
-![CLIP model](/articles_data/food-discovery-demo/clip-model.png)
+{{< island path="content/documentation/headless/food-discovery/clip-encoders" ratio="2 / 1" title="CLIP encodes an image and a text description with two encoders into vectors of the same space. The vectors shown are shortened examples." >}}
+![The CLIP model has an image encoder and a text encoder. A picture and an image description each go through their encoder and become vectors.](/articles_data/food-discovery-demo/clip-model.png)
+{{< /island >}}
 
 CLIP is available in many different ways. We used the pretrained `clip-ViT-B-32` model available in the [Sentence-Transformers](https://www.sbert.net/examples/applications/image-search/README.html) 
 library, as this is the easiest way to get started. 
@@ -45,7 +59,7 @@ library, as this is the easiest way to get started.
 ## The dataset
 
 The demo is based on the [Wolt](https://wolt.com/) dataset. It contains over 2M images of dishes from different restaurants along with some additional metadata. 
-This is how a payload for a single dish looks like:
+This is how a payload for a single dish looks like (long values are shortened):
 
 ```json
 {
@@ -58,8 +72,8 @@ This is how a payload for a single dish looks like:
         "rating": 9,
         "slug": "vecchia-napoli-skyparks-suq-tal-belt"
     },
-    "description": "Tomato sauce, mozzarella fior di latte, crispy guanciale, Pecorino Romano cheese and a hint of chilli",
-    "image": "https://wolt-menu-images-cdn.wolt.com/menu-images/610936a4ee8ea7a56f4a372a/005dfeb2-e734-11ec-b667-ced7a78a5abd_l_amatriciana_pizza_joel_gueller1.jpeg",
+    "description": "Tomato sauce, mozzarella, guanciale, Pecorino Romano, chilli",
+    "image": "https://wolt-menu-images-cdn.wolt.com/menu-images/.../amatriciana.jpeg",
     "name": "L'Amatriciana"
 }
 ```
@@ -79,7 +93,7 @@ anything. The same applies to our demo. When you open it, you will see a random 
 the demo [chooses some random points](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L70) in the 
 vector space.
 
-![Random points selection](/articles_data/food-discovery-demo/random-results.png)
+![A random selection of dishes shown when the Food Discovery demo opens](/articles_data/food-discovery-demo/random-results.png)
 
 That procedure should result in returning diverse results, so we have a higher chance of showing something interesting to the user.
 
@@ -89,7 +103,7 @@ Since the demo suffers from the cold start problem, we implemented a textual sea
 by clicking a search icon in the top right corner. The demo will use the CLIP model to encode the query into a vector and then search for the nearest neighbors
 in the vector space. 
 
-![Random points selection](/articles_data/food-discovery-demo/textual-search.png)
+![Textual search results for a dish query in the Food Discovery demo](/articles_data/food-discovery-demo/textual-search.png)
 
 This is implemented as [a group search query to Qdrant](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L44). 
 We didn't use a simple search, but performed grouping by the restaurant to get more diverse results. [Search groups](/documentation/search/search/#search-groups) 
@@ -104,10 +118,11 @@ query_vector = model.encode(query).tolist()
 
 # Search for nearest neighbors, client is an instance of 
 # qdrant_client.QdrantClient that has to be initialized before
-response = client.search_groups(
+response = client.query_points_groups(
     settings.QDRANT_COLLECTION,
-    query_vector=query_vector,
+    query=query_vector,
     group_by=settings.GROUP_BY_FIELD,
+    group_size=1,
     limit=search_query.limit,
 )
 ```
@@ -119,67 +134,89 @@ and the demo will update the search results accordingly.
 
 ![Recommendation results](/articles_data/food-discovery-demo/recommendation-results.png)
 
+#### Likes and dislikes
+
+Every like and dislike becomes a positive or a negative example for the [Recommendation API](/documentation/search/explore/#recommendation-api). The demo calls it through the same grouped query as before, with a `RecommendQuery`, so the search happens server-side and the results still come back one per restaurant. [The demo's backend](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L166) makes this call, with the `best_score` strategy as its default. The following is the same request written for the current Python client:
+
+```python
+from qdrant_client import models
+
+response = client.query_points_groups(
+    settings.QDRANT_COLLECTION,
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            positive=search_query.positive,
+            negative=search_query.negative,
+            strategy=models.RecommendStrategy.BEST_SCORE,
+        )
+    ),
+    group_by=settings.GROUP_BY_FIELD,
+    group_size=1,
+    limit=search_query.limit,
+)
+```
+
+The examples can be point IDs or raw vectors, and you can mix both in one request. That is how the demo adds textual queries to a recommendation: it embeds the text with CLIP and passes the vector as one more positive example, next to the IDs of the liked dishes.
+
 #### Negative feedback only
 
-Qdrant [Recommendation API](/documentation/search/search/#recommendation-api) needs at least one positive example to work. However, in our demo
-we want to be able to provide only negative examples. This is because we want to be able to say “I don’t like this dish” without having to like anything first.
-To achieve this, we use a trick. We negate the vectors of the disliked dishes and use their mean as a query. This way, the disliked dishes will be pushed away 
-from the search results. **This works because the cosine distance is based on the angle between two vectors, and the angle between a vector and its negation is 180 degrees.**
-
-![CLIP model](/articles_data/food-discovery-demo/negated-vector.png)
-
-Food Discovery Demo [implements that trick](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L122)
-by calling Qdrant twice. Initially, we use the [Scroll API](/documentation/manage-data/points/#scroll-points) to find disliked items, 
-and then calculate a negated mean of all their vectors. That allows using the [Search Groups API](/documentation/search/search/#search-groups)
-to find the nearest neighbors of the negated mean vector.
+With `best_score` you can pass negative examples only, so a user can say "I don't like this dish" without having to like anything first.
 
 ```python
-import numpy as np
-
-# Retrieve the disliked points based on their ids
-disliked_points, _ = client.scroll(
+response = client.query_points_groups(
     settings.QDRANT_COLLECTION,
-    scroll_filter=models.Filter(
-        must=[
-            models.HasIdCondition(has_id=search_query.negative),
-        ]
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            negative=search_query.negative,
+            strategy=models.RecommendStrategy.BEST_SCORE,
+        )
     ),
-    with_vectors=True,
-)
-
-# Calculate a mean vector of disliked points
-disliked_vectors = np.array([point.vector for point in disliked_points])
-mean_vector = np.mean(disliked_vectors, axis=0)
-negated_vector = -mean_vector
-
-# Search for nearest neighbors of the negated mean vector
-response = client.search_groups(
-    settings.QDRANT_COLLECTION,
-    query_vector=negated_vector.tolist(),
     group_by=settings.GROUP_BY_FIELD,
+    group_size=1,
     limit=search_query.limit,
 )
 ```
 
-#### Positive and negative feedback
+The default `average_vector` strategy still needs at least one positive example. Earlier versions of the demo worked around that by negating the mean vector of the disliked dishes and searching with it, which relies on the angle between a vector and its negation being 180 degrees under cosine distance. The `best_score` strategy makes that workaround unnecessary.
 
-Since the [Recommendation API](/documentation/search/search/#recommendation-api) requires at least one positive example, we can use it only when 
-the user has liked at least one dish. We could theoretically use the same trick as above and negate the disliked dishes, but it would be a bit weird, as Qdrant has
-that feature already built-in, and we can call it just once to do the job. It's always better to perform the search server-side. Thus, in this case [we just call 
-the Qdrant server with a list of positive and negative examples](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L166), 
-so it can find some points which are close to the positive examples and far from the negative ones.
+### Choosing a recommendation strategy
 
-```python
-response = client.recommend_groups(
-    settings.QDRANT_COLLECTION,
-    positive=search_query.positive,
-    negative=search_query.negative,
-    group_by=settings.GROUP_BY_FIELD,
-    limit=search_query.limit,
-)
+The demo lets you switch between two strategies, and the difference shows how each one treats the examples. The [recommendation documentation](/documentation/search/explore/#recommendation-api) covers all strategies, including `sum_scores`.
+
+**`average_vector`** is the default. It averages the positive and the negative examples into a single query vector, with the formula below, and then runs a normal search. It is as fast as a regular search, and it works with point IDs and vectors.
+
+```text
+query = avg(positive) + (avg(positive) - avg(negative))
 ```
 
-From the user perspective nothing changes comparing to the previous case.
+**`best_score`** has no single query vector. At every step of the search, it compares a candidate point with each positive and each negative example separately, and keeps the best positive score and the best negative score. If the best positive score is higher, the candidate's score is that value, normalized with a sigmoid. Otherwise, the candidate's score is the negated sigmoid of the best negative score, which pushes the search away from points that are closer to a negative example.
+
+```text
+sigmoid(x) = 0.5 * (1 + x / (1 + |x|))
+
+score = sigmoid(best_positive)     if best_positive > best_negative
+score = -sigmoid(best_negative)    otherwise
+```
+
+Its cost grows with the number of examples, and its accuracy improves when you raise the `ef` search parameter.
+
+The following observations come from the demo's dataset and CLIP embeddings, which Qdrant 1.6 first made possible. Choosing the right strategy depends on your data, and the embeddings play a significant role, so try both on your own case.
+
+With a single positive example, both strategies return the same results. The difference starts when you add more examples, especially negatives:
+
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/one-positive-one-negative.mp4" type="video/mp4"></video>
+
+The more likes and dislikes you add, the more diverse the results of `best_score` get. With `average_vector` there is just one vector, so all the examples collapse into it, while `best_score` takes every example into account separately:
+
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/multiple.mp4" type="video/mp4"></video>
+
+Passing only negatives can work as an outlier detection mechanism. The dataset was supposed to contain only food photos, but it does not. Passing food photos as negatives returns the most unlike images, which in this dataset are pill bottles and books. `average_vector` returns different results for the same input once it is given a positive example, so each strategy suits different questions:
+
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/negatives-only.mp4" type="video/mp4"></video>
+
+Multimodality adds a catch. Text queries are far from most of the image embeddings, but close to some of them, so text-to-image search works well. When all query items come from one domain, such as only text, everything works. If you mix a positive text query with negative image examples, the `best_score` results are overwhelmed by the negatives, which are simply closer to the dataset embeddings. In that case, `average_vector` is the better choice:
+
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/text-query-with-negative.mp4" type="video/mp4"></video>
 
 ### Location-based search
 

@@ -152,11 +152,17 @@
 /articles/bulk-uploads-in-qdrant/*  /documentation/production-operations/bulk-data-import/:splat  301!
 /articles/candidate-depth/*  /documentation/search-tuning/candidate-depth/:splat  301!
 /articles/data-privacy/*  /documentation/production-operations/access-control/:splat  301!
+/articles/food-discovery-demo/*  /documentation/tutorials-search-engineering/food-discovery-recommendations/:splat  301!
+/articles/fastembed/*  /documentation/tutorials-basics/generate-embeddings-fastembed/:splat  301!
 /articles/how-to-choose-an-embedding-model/*  /documentation/search-patterns/choose-embedding-model/:splat  301!
 /articles/how-to-tune-hybrid-search/*  /documentation/search-tuning/how-to-tune-hybrid-search/:splat  301!
 /articles/hybrid-search/*  /documentation/search-tuning/hybrid-search/:splat  301!
+/articles/langchain-integration/*  /documentation/tutorials-build-essentials/question-answering-langchain/:splat  301!
 /articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-operations/memory-tiers/:splat  301!
 /articles/multitenancy/*  /documentation/production-operations/multitenant-search/:splat  301!
+/articles/new-recommendation-api/*  /documentation/tutorials-search-engineering/food-discovery-recommendations/:splat  301!
+/articles/search-as-you-type/*  /documentation/tutorials-develop/search-as-you-type/:splat  301!
+/articles/serverless/*  /documentation/tutorials-develop/serverless-semantic-search/:splat  301!
 /articles/tuning-qdrant-optimizer/*  /documentation/production-operations/predictable-search-latency/:splat  301!
 /articles/vector-search-production/*  /documentation/production-operations/vector-search-in-production/:splat  301!
 /articles/vector-search-resource-optimization/*  /documentation/production-operations/vector-search-in-production/:splat  301!

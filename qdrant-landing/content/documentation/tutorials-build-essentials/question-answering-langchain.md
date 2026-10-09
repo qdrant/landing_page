@@ -1,32 +1,27 @@
 ---
 title: "Question Answering with LangChain and Qdrant"
-short_description: "Build a retrieval-augmented question answering pipeline with just a few lines of code."
-description: "We combined LangChain, a modern chat model like Claude or GPT, FastEmbed & Qdrant to create a question answering system with just a few lines of code. Learn more!"
+short_description: "Build a retrieval-augmented question answering pipeline with LangChain, FastEmbed, Qdrant, and a chat model."
+description: "Tutorial: combine LangChain, a chat model like Claude or GPT, FastEmbed, and Qdrant to build a retrieval-augmented question answering pipeline in a few lines of code."
 social_preview_image: /articles_data/langchain-integration/preview/social_preview.jpg
-preview_dir: /articles_data/langchain-integration/preview
-weight: 40
 author: Kacper Łukawski and Manas Chopra
 author_link: https://medium.com/@lukawskikacper
 date: 2026-07-30T10:00:00+03:00
-draft: false
-keywords:
-  - vector search
-  - langchain
-  - llm
-  - large language models
-  - question answering
-  - openai
-  - anthropic
-  - claude
-  - fastembed
-  - embeddings
-category: demos-and-tutorials
+aliases:
+  - /articles/langchain-integration/
+weight: 20
+goal: RAG & Agents
+stack:
+  - Python
+  - LangChain
+example_resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/github/qdrant/examples/blob/master/langchain-integration/langchain_integration.ipynb
 ---
 
-<div style="display: flex; align-items: center; gap: 8px;">
-  <strong>Follow along in Colab:</strong>
-  <a href="https://colab.research.google.com/github/qdrant/examples/blob/add-langchain-integration/langchain-integration/langchain_integration.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-</div>
+# Build Question Answering with LangChain and Qdrant
+
+| Time: 20 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/master/langchain-integration/langchain_integration.ipynb) |
+| --- | ----------- | ----------- |
 
 Building applications with Large Language Models doesn't have to be complicated. A lot has been going on recently to simplify the development,
 so you can utilize already pre-trained models and support even complex pipelines with a few lines of code. [LangChain](https://docs.langchain.com/oss/python/langchain/overview)
@@ -38,16 +33,16 @@ It has been reported millions of times, but let's say it again. Modern LLMs, whe
 generate factual statements if no context is provided. They have some general knowledge but cannot guarantee to produce a valid answer consistently. Thus,
 it is better to provide some facts we know are actual, so it can just choose the valid parts and extract them from all the provided contextual data to give
 a comprehensive answer. A [vector search engine, such as Qdrant](https://qdrant.tech/), is of great help here, as its ability to perform a
-[semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) over a huge knowledge base is crucial to preselect some possibly valid
+[semantic search](/documentation/tutorials-basics/search-beginners/) over a huge knowledge base is crucial to preselect some possibly valid
 documents, so they can be provided into the LLM. This pattern is commonly known as retrieval-augmented generation, and it is one of the core building
-blocks of [LangChain](https://qdrant.tech/documentation/frameworks/langchain/), which got Qdrant integrated as a first-class vector store, so it might be
+blocks of [LangChain](/documentation/frameworks/langchain/), which got Qdrant integrated as a first-class vector store, so it might be
 used to build such pipelines effortlessly.
 
 ### The Two-Model Approach
 
 Surprisingly enough, there will be two models required to set things up. First of all, we need an embedding model that will convert the set of facts into
 vectors, and store those into Qdrant. That's an identical process to any other semantic search application. We're going to use
-[FastEmbed](https://qdrant.tech/articles/fastembed/), Qdrant's own lightweight embedding library, so it can be hosted locally without pulling in a full
+[FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/), Qdrant's own lightweight embedding library, so it can be hosted locally without pulling in a full
 PyTorch or TensorFlow stack. The embeddings created by that model will be put into Qdrant and used to retrieve the most similar documents, given the query.
 
 However, when we receive a query, there are two steps involved. First of all, we ask Qdrant to provide the most relevant documents and simply combine all
@@ -56,7 +51,8 @@ or [OpenAI's GPT](https://openai.com/)), including those documents as a context,
 looks like the following:
 
 ```text
-Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+Use the following pieces of context to answer the question at the end. If you don't
+know the answer, just say that you don't know, don't try to make up an answer.
 It's as certain as 2 + 2 = 4
 ...
 
@@ -72,7 +68,9 @@ Both solve some different tasks. The first model performs feature extraction, by
 the second one helps in text generation or summarization. Disclaimer: this is not the only way to solve that task with LangChain. Since we simply stuff
 all the retrieved documents into a single prompt, this pattern is often called a **stuff** chain.
 
-![](/articles_data/langchain-integration/flow-diagram.png)
+{{< island path="content/documentation/headless/langchain-qa/retrieval-flow" ratio="4 / 3" title="How a question becomes an answer: embed it, retrieve the nearest facts, prompt the LLM, and return its answer." >}}
+![A sequence diagram with the user, LangChain, the embedding model, Qdrant, and the LLM. LangChain embeds the question, asks Qdrant for the top K facts, sends a prompt with those facts to the LLM, and returns the answer to the user.](/articles_data/langchain-integration/flow-diagram.png)
+{{< /island >}}
 
 Enough theory! This sounds like a pretty complex application, as it involves several systems. But with LangChain, it might be implemented in just a few
 lines of code, thanks to the integration with [Qdrant](https://qdrant.tech/). We're not even going to work directly with `QdrantClient`, as everything is
@@ -86,7 +84,8 @@ Before anything else, install the packages this pipeline touches - LangChain's Q
 Questions, and whichever chat model provider you'd like to call:
 
 ```shell
-pip install langchain langchain-qdrant fastembed datasets langchain-anthropic langchain-openai
+pip install langchain langchain-qdrant fastembed datasets \
+    langchain-anthropic langchain-openai
 ```
 
 A journey of a thousand miles begins with a single step, in our case with the configuration of all the services. We'll be using [Qdrant
@@ -117,7 +116,8 @@ the answers - in a single call.
 from datasets import load_dataset
 
 dataset = load_dataset("sentence-transformers/natural-questions", split="train")
-# 100 pairs is enough to experiment with; drop the .select() call entirely to index all 100k+ rows
+# 100 pairs is enough to experiment with; drop the .select() call to index all
+# 100k+ rows
 dataset = dataset.select(range(100))
 
 questions = dataset["query"]
@@ -176,8 +176,8 @@ from langchain_core.runnables import RunnablePassthrough
 retriever = doc_store.as_retriever()
 
 prompt = ChatPromptTemplate.from_template(
-    """Use the following pieces of context to answer the question at the end. If you don't know the answer, just
-say that you don't know, don't try to make up an answer.
+    """Use the following pieces of context to answer the question at the end. If you
+don't know the answer, just say that you don't know, don't try to make up an answer.
 
 {context}
 
@@ -189,7 +189,7 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 # Swap the model name for any other provider LangChain supports, e.g. "gpt-5.1"
-llm = init_chat_model("claude-sonnet-4-5", model_provider="anthropic")
+llm = init_chat_model("claude-sonnet-5-5", model_provider="anthropic")
 
 chain = (
     {"context": retriever | format_docs, "question": RunnablePassthrough()}
@@ -199,7 +199,7 @@ chain = (
 )
 ```
 
-## Step 4: Testing out the chain
+### Step 4: Testing out the chain
 
 And that's it! We can put in some queries, and LangChain will perform all the required processing to find the answer in the provided context. Since we
 already have a `questions` list from the dataset, let's just sample a handful of them and see how the chain responds:

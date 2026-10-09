@@ -52,7 +52,7 @@ When supported by LangChain, Qdrant can help you set up effective question-answe
 Integrating Qdrant and LangChain can revolutionize your AI applications. Let's take a look at what this integration can do for you: 
 
 *Enhance Natural Language Processing (NLP):* 
-LangChain is great for developing question-answering **chatbots**, where Qdrant is used to contextualize and retrieve results for the LLM. We cover this in [our article](/articles/langchain-integration/), and in OpenAI's [cookbook examples](https://cookbook.openai.com/examples/vector_databases/qdrant/qa_with_langchain_qdrant_and_openai) that use LangChain and GPT to process natural language.
+LangChain is great for developing question-answering **chatbots**, where Qdrant is used to contextualize and retrieve results for the LLM. We cover this in [our article](/documentation/tutorials-build-essentials/question-answering-langchain/), and in OpenAI's [cookbook examples](https://cookbook.openai.com/examples/vector_databases/qdrant/qa_with_langchain_qdrant_and_openai) that use LangChain and GPT to process natural language.
 
 *Improve Recommendation Systems:*
 Food delivery services thrive on indecisive customers. Businesses need to accomodate a multi-aim search process, where customers seek recommendations though semantic search. With LangChain you can build systems for **e-commerce, content sharing, or even dating apps**.

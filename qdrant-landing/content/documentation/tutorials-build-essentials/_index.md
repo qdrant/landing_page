@@ -14,6 +14,7 @@ cascade:
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [5-Minute RAG with DeepSeek](/documentation/tutorials-build-essentials/rag-deepseek/) | Build a RAG pipeline with DeepSeek enrichment. | <span class="pill">Python</span> | 5m | <span class="text-green">Beginner</span> |
+| [Question Answering with LangChain](/documentation/tutorials-build-essentials/question-answering-langchain/) | Build a retrieval-augmented question answering pipeline. | <span class="pill">LangChain</span> | 20m | <span class="text-green">Beginner</span> |
 | [Agentic RAG with CrewAI](/documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
 | [Agentic RAG with LangGraph](/documentation/tutorials-build-essentials/agentic-rag-langgraph/) | Build AI agents to answer library documentation. | <span class="pill">LangGraph</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Discord RAG Bot](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |

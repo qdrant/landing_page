@@ -163,7 +163,7 @@ To help with data sovereignty, Qdrant can be run in a [Hybrid Cloud](/hybrid-clo
 
 ## Optimizing Similarity Search Performance
 
-In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.**FastEmbed**: Qdrant supports [FastEmbed](/articles/fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
+In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.**FastEmbed**: Qdrant supports [FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
 
 **Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
 

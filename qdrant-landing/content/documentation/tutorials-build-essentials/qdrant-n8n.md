@@ -99,7 +99,7 @@ The combination of similarity and dissimilarity metrics in vector space expands 
 
 When searching for new music, films, books, or food, it can be difficult to articulate exactly what we want. Instead, we often rely on discovering new content through comparison to examples of what we like or dislike.
 
-The [Qdrant Recommendation API](https://qdrant.tech/articles/new-recommendation-api/) is built to make these discovery searches possible by using positive and negative examples as anchors. It helps find new relevant results based on your preferences.
+The [Qdrant Recommendation API](/documentation/search/explore/#recommendation-api) is built to make these discovery searches possible by using positive and negative examples as anchors. It helps find new relevant results based on your preferences.
 
 ![recommendations](/documentation/examples/qdrant-n8n-2/recommendations.png)
 
