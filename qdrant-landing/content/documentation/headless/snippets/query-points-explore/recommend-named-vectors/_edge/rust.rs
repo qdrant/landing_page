@@ -7,18 +7,18 @@ pub async fn main() -> anyhow::Result<()> {
     let edge_shard = EdgeShard::load(std::path::Path::new("./shard"), None)?; // @hide
 
     // Look up the stored "image" vectors of the example points
-    let records = edge_shard.retrieve(
+    let points = edge_shard.retrieve(
         RetrieveRequestBuilder::new([100, 231, 718].map(PointId::from).to_vec())
             .with_payload(WithPayloadInterface::Bool(false))
             .with_vector(WithVector::Selector(vec!["image".to_string()]))
             .build(),
     )?;
     let mut vectors: HashMap<PointId, VectorInternal> = HashMap::new();
-    for record in &records {
-        let vector = record
+    for point in &points {
+        let vector = point
             .get_vector_by_name("image")
             .context("point has no vector")?;
-        vectors.insert(record.id, vector.to_owned());
+        vectors.insert(point.id, vector.to_owned());
     }
     let mut take = |id: u64| vectors.remove(&PointId::from(id)).context("point not found");
 
