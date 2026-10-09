@@ -51,6 +51,10 @@ The tutorial has an accompanying [notebook](https://github.com/qdrant/examples/b
 <p>A follow-up post will cover a version that groups chunks into hash buckets and checks only the buckets that changed, so cost stays flat as the corpus grows.</p>
 </aside>
 
+Whether this pattern suits your corpus is the first question, not the last. The Sync embeddings with changing source prompt has an agent check that, then design the chunk ID and fingerprint around your source rather than this one.
+
+{{< prompt "sync-embeddings-with-source" >}}
+
 ## Prerequisites
 
 Install the [Qdrant client of your choice](/documentation/interfaces/#client-libraries).

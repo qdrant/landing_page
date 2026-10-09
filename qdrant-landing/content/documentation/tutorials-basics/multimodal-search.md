@@ -39,6 +39,10 @@ This tutorial works with two modalities: image and text data. You can build a se
 
 [Cohere Embed 4.0](https://cohere.com/blog/embed-4), for example, is built for multimodal and multilingual embedding, and supports more than 100 languages. Instead of running the model yourself, this tutorial calls it through [Qdrant Cloud Inference](/documentation/inference/inference-api/), so Qdrant generates the embeddings and stores them in a [collection](/documentation/manage-data/collections/) in one step.
 
+Cohere Embed 4 is one model that bridges image and text. The Choose a multimodal model prompt has an agent work out which model fits your own modalities and languages, and how to check the fit before you embed everything.
+
+{{< prompt "choose-a-multimodal-model" >}}
+
 ## Setup
 
 Install the client:

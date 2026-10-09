@@ -20,6 +20,10 @@ datasets. [Qdrant](https://huggingface.co/Qdrant) also publishes datasets along 
 embeddings that you can use to practice with Qdrant and build your applications based on semantic
 search. **Please [let us know](https://qdrant.to/discord) if you'd like to see a specific dataset!**
 
+Loading your own dataset changes the parts worth getting right. The Load a dataset into Qdrant prompt has an agent pick streaming, batch size, and indexing settings from your record count and shape.
+
+{{< prompt "load-a-dataset" >}}
+
 ## arxiv-titles-instructorxl-embeddings
 
 [This dataset](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) contains 
