@@ -1,6 +1,7 @@
 ```rust
 use std::collections::HashMap;
 
+use anyhow::Context;
 use qdrant_edge::external::ordered_float::OrderedFloat;
 use qdrant_edge::*;
 
@@ -11,14 +12,14 @@ let records = edge_shard.retrieve(
         .with_vector(WithVector::Bool(true))
         .build(),
 )?;
-let mut vectors: HashMap<PointId, VectorInternal> = records
-    .iter()
-    .map(|record| {
-        let vector = record.get_vector_by_name(DEFAULT_VECTOR_NAME).unwrap();
-        (record.id, vector.to_owned())
-    })
-    .collect();
-let mut take = |id: u64| vectors.remove(&PointId::from(id)).unwrap();
+let mut vectors: HashMap<PointId, VectorInternal> = HashMap::new();
+for record in &records {
+    let vector = record
+        .get_vector_by_name(DEFAULT_VECTOR_NAME)
+        .context("point has no vector")?;
+    vectors.insert(record.id, vector.to_owned());
+}
+let mut take = |id: u64| vectors.remove(&PointId::from(id)).context("point not found");
 
 let _points = edge_shard.query(
     QueryRequestBuilder::new(10)
@@ -27,15 +28,15 @@ let _points = edge_shard.query(
                 target: vec![0.1f32, 0.9, 0.23].into(),
                 feedback: vec![
                     FeedbackItem {
-                        vector: take(111),
+                        vector: take(111)?,
                         score: OrderedFloat(0.68),
                     },
                     FeedbackItem {
-                        vector: take(222),
+                        vector: take(222)?,
                         score: OrderedFloat(0.72),
                     },
                     FeedbackItem {
-                        vector: take(333),
+                        vector: take(333)?,
                         score: OrderedFloat(0.61),
                     },
                 ],
