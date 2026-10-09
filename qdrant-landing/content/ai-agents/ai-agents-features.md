@@ -57,6 +57,6 @@ features:
   description: Qdrant enhances AI agent efficiency with semantic caching, which preserves results of queries based on semantic equivalence rather than exact matches. This method reduces query processing times and system load by reusing previously computed answers, essential for high-throughput AI applications.
   link:
     text: Semantic Cache
-    url: /articles/semantic-cache-ai-data-retrieval/
+    url: /documentation/tutorials-build-essentials/semantic-cache/
 sitemapExclude: true
 ---
