@@ -1,0 +1,6 @@
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+await client.ScrollAsync(collectionName: "{collection_name}", filter: HasId([1, 3, 5, 7, 9, 11]));
+```
