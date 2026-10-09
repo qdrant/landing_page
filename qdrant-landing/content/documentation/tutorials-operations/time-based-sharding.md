@@ -34,6 +34,10 @@ This tutorial guides you through implementing time-based sharding and covers:
 * Querying one or more shards
 * Pruning older shards
 
+The interval and the retention window are the two choices this tutorial makes for you. The Plan time-based shards prompt has an agent derive both from your own data and query pattern, and say when the approach does not fit.
+
+{{< prompt "plan-time-based-shards" >}}
+
 ## Install and Initialize the Qdrant Client
 
 First, install the Qdrant client:
