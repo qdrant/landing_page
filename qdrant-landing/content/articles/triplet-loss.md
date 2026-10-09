@@ -26,11 +26,13 @@ $L=max(d(a,p) - d(a,n) + m, 0)$, where:
 - $d$ is a function to measure the distance between these three samples,
 - and $m$ is a margin value to keep negative samples far apart.
 
-The paper uses Euclidean distance, but it is equally valid to use any other distance metric, e.g., cosine distance.
+The paper uses squared Euclidean distance, but it is equally valid to use any other distance metric, e.g., cosine distance.
 
 The function has a learning objective that can be visualized as in the following:
 
-{{< figure src=/articles_data/triplet-loss/loss_objective.png caption="Triplet Loss learning objective" >}}
+{{< island path="content/articles/headless/triplet-loss/objective" ratio="880 / 280" title="Triplet Loss learning objective: after training, the negative is farther from the anchor than the positive by at least the margin. Adapted from Figure 3 of the [FaceNet paper](https://arxiv.org/abs/1503.03832), with the margin added." >}}
+![Before training, the negative sits closer to the anchor than the positive. After training, the positive has moved close to the anchor and the negative is farther away than the positive by at least the margin.](/articles_data/triplet-loss/loss-objective.svg)
+{{< /island >}}
 
 Notice that Triplet Loss does not have a side effect of urging to encode anchor and positive samples into the same point
 in the vector space as in Contrastive Loss.
@@ -48,13 +50,13 @@ and it does not care at all where similar pairs are at that moment.
 This means that Contrastive Loss may reach a local minimum earlier,
 while Triplet Loss may continue to organize the vector space in a better state.
 
-Let's demonstrate how two loss functions organize the vector space by animations.
+Let's demonstrate how the two loss functions organize the vector space.
 For simpler visualization, the vectors are represented by points in a 2-dimensional space,
 and they are selected randomly from a normal distribution.
 
-{{< figure src=/articles_data/triplet-loss/contrastive.gif caption="Animation that shows how Contrastive Loss moves points in the course of training." >}}
-
-{{< figure src=/articles_data/triplet-loss/triplet.gif caption="Animation that shows how Triplet Loss moves points in the course of training." >}}
+{{< island path="content/articles/headless/triplet-loss/training" ratio="7 / 6" title="The same two classes of points trained with Contrastive Loss and with Triplet Loss. Contrastive Loss pulls each class toward a single point, while Triplet Loss stops moving points once every negative is at least the margin farther from the anchor than its positives, so each class keeps much of its spread. Points are illustrative." >}}
+![Three panels share the same scale. The starting points of two classes overlap. After training with Contrastive Loss, each class has shrunk into a tight cluster. After training with Triplet Loss, the classes are separated but each keeps much of its spread.](/articles_data/triplet-loss/training.svg)
+{{< /island >}}
 
 
 From mathematical interpretations of the two-loss functions, it is clear that Triplet Loss is theoretically stronger,
@@ -156,13 +158,14 @@ def euclidean_distance_matrix(x):
   mask = (distance_matrix == 0.0).float()
 
   # use this mask to set indices with a value of 0 to eps
-  distance_matrix += mask * eps
+  # (out-of-place: autograd needs the unmodified outputs of relu and sqrt)
+  distance_matrix = distance_matrix + mask * eps
 
   # now it is safe to get the square root
   distance_matrix = torch.sqrt(distance_matrix)
 
   # undo the trick for numerical stability
-  distance_matrix *= (1.0 - mask)
+  distance_matrix = distance_matrix * (1.0 - mask)
 
   return distance_matrix
 ```
