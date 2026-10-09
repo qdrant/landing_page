@@ -1,0 +1,95 @@
+# Archived pages remain accessible; exclude HTML and both Markdown URL forms from search.
+/articles/cars-recognition/*
+  X-Robots-Tag: noindex
+/articles/cars-recognition.md
+  X-Robots-Tag: noindex
+
+/articles/qdrant-introduces-full-text-filters-and-indexes/*
+  X-Robots-Tag: noindex
+/articles/qdrant-introduces-full-text-filters-and-indexes.md
+  X-Robots-Tag: noindex
+
+/blog/qdrant-introduces-full-text-filters-and-indexes/*
+  X-Robots-Tag: noindex
+
+/articles/qdrant-0-11-release/*
+  X-Robots-Tag: noindex
+/articles/qdrant-0-11-release.md
+  X-Robots-Tag: noindex
+
+/articles/qdrant-1.2.x/*
+  X-Robots-Tag: noindex
+/articles/qdrant-1.2.x.md
+  X-Robots-Tag: noindex
+
+/articles/qdrant-1.3.x/*
+  X-Robots-Tag: noindex
+/articles/qdrant-1.3.x.md
+  X-Robots-Tag: noindex
+
+/articles/batch-vector-search-with-qdrant/*
+  X-Robots-Tag: noindex
+/articles/batch-vector-search-with-qdrant.md
+  X-Robots-Tag: noindex
+
+/blog/batch-vector-search-with-qdrant/*
+  X-Robots-Tag: noindex
+
+/articles/storing-multiple-vectors-per-object-in-qdrant/*
+  X-Robots-Tag: noindex
+/articles/storing-multiple-vectors-per-object-in-qdrant.md
+  X-Robots-Tag: noindex
+
+/blog/storing-multiple-vectors-per-object-in-qdrant/*
+  X-Robots-Tag: noindex
+
+/articles/faq-question-answering/*
+  X-Robots-Tag: noindex
+/articles/faq-question-answering.md
+  X-Robots-Tag: noindex
+
+/articles/qdrant-0-10-release/*
+  X-Robots-Tag: noindex
+/articles/qdrant-0-10-release.md
+  X-Robots-Tag: noindex
+
+/articles/qdrant-1.7.x/*
+  X-Robots-Tag: noindex
+/articles/qdrant-1.7.x.md
+  X-Robots-Tag: noindex
+
+/articles/qdrant-1.8.x/*
+  X-Robots-Tag: noindex
+/articles/qdrant-1.8.x.md
+  X-Robots-Tag: noindex
+
+/articles/qa-with-cohere-and-qdrant/*
+  X-Robots-Tag: noindex
+/articles/qa-with-cohere-and-qdrant.md
+  X-Robots-Tag: noindex
+
+/articles/quantum-quantization/*
+  X-Robots-Tag: noindex
+/articles/quantum-quantization.md
+  X-Robots-Tag: noindex
+
+/articles/detecting-coffee-anomalies/*
+  X-Robots-Tag: noindex
+/articles/detecting-coffee-anomalies.md
+  X-Robots-Tag: noindex
+
+/articles/embedding-recycler/*
+  X-Robots-Tag: noindex
+/articles/embedding-recycler.md
+  X-Robots-Tag: noindex
+
+/documentation/tutorials-build-essentials/qdrant-n8n/*
+  X-Robots-Tag: noindex
+/documentation/tutorials-build-essentials/qdrant-n8n.md
+  X-Robots-Tag: noindex
+
+/documentation/qdrant-n8n/*
+  X-Robots-Tag: noindex
+
+/blog/qdrant-n8n-beyond-simple-similarity-search/*
+  X-Robots-Tag: noindex

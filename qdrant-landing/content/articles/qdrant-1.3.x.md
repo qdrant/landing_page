@@ -18,6 +18,15 @@ keywords:
   - io_uring
   - oversampling
   - group lookup
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v1.3.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v1.3.0"
 ---
 
 A brand-new [Qdrant 1.3.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.3.0) comes packed with a plethora of new features, performance improvements and bux fixes:
