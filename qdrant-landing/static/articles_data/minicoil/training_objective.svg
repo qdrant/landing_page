@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="470" viewBox="0 0 800 470" role="img" aria-labelledby="title desc">
+  <title id="title">miniCOIL training objective</title>
+  <desc id="desc">Left panel, sentence embeddings target: the anchor sentence &#x27;This fruit bat is cute&#x27; is closer to the positive sentence &#x27;A bat slept in a cave&#x27; than to the negative sentence &#x27;I bought a baseball bat&#x27;. The margin is the extra distance of the negative over the positive. Right panel, miniCOIL representations: the three bat points are trained so that the positive point is pulled toward the anchor and the negative point is pushed away, reproducing that ordering. Positions are illustrative.</desc>
+  <rect x="1" y="1" width="798" height="468" rx="12" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="2"/>
+  <path d="M205 72 L205 48 Q205 34 219 34 L581 34 Q595 34 595 48 L595 62" fill="none" stroke="#6047ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 6"/>
+  <path d="M589 62 L595 72 L601 62" fill="none" stroke="#6047ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="205" y="100" fill="#8a4b00" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sentence embeddings target</text>
+  <text x="595" y="100" fill="#006b75" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">miniCOIL representations</text>
+  <rect x="20" y="116" width="370" height="334" rx="8" fill="none" stroke="#d98200" stroke-width="2" stroke-dasharray="7 6"/>
+  <rect x="410" y="116" width="370" height="334" rx="8" fill="none" stroke="#00838f" stroke-width="2" stroke-dasharray="7 6"/>
+  <path d="M82.0671 282.902 L219.314 202.168" fill="none" stroke="#303547" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M222.356 207.34 L227.933 197.098 L216.271 196.997" fill="none" stroke="#303547" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M83.1724 294.742 L297.419 371.871" fill="none" stroke="#303547" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M295.386 377.516 L306.828 375.258 L299.451 366.225" fill="none" stroke="#303547" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M240 190 A197.2 197.2 0 0 1 255.6 356.8" fill="none" stroke="#303547" stroke-width="2" stroke-dasharray="4 5"/>
+  <path d="M255.6 356.8 L308.7 375.9" stroke="#d98200" stroke-width="6" stroke-linecap="round"/>
+  <text x="292" y="354" fill="#8a4b00" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">margin</text>
+  <circle cx="70" cy="290" r="9" fill="#ffffff" stroke="#6047ff" stroke-width="3"/>
+  <circle cx="70" cy="290" r="4" fill="#303547"/>
+  <circle cx="240" cy="190" r="9" fill="#ffffff" stroke="#1b8a4b" stroke-width="3"/>
+  <circle cx="240" cy="190" r="4" fill="#303547"/>
+  <circle cx="320" cy="380" r="9" fill="#ffffff" stroke="#dc244c" stroke-width="3"/>
+  <circle cx="320" cy="380" r="4" fill="#303547"/>
+  <text x="36" y="330" fill="#5133cc" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Anchor</text>
+  <text x="36" y="352" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17">This fruit bat is cute</text>
+  <text x="250" y="146" fill="#137a3f" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Positive</text>
+  <text x="250" y="168" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">A bat slept in a cave</text>
+  <text x="380" y="420" fill="#bb1841" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="end">Negative</text>
+  <text x="380" y="442" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="end">I bought a baseball bat</text>
+  <path d="M627.798 206.864 L585.962 230.396" fill="none" stroke="#1b8a4b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M583.021 225.167 L577.247 235.299 L588.904 235.626" fill="none" stroke="#1b8a4b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M662.945 365.33 L694.385 378.276" fill="none" stroke="#dc244c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M692.1 383.824 L703.631 382.083 L696.669 372.728" fill="none" stroke="#dc244c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="480" cy="290" r="9" fill="#ffffff" stroke="#6047ff" stroke-width="3"/>
+  <circle cx="480" cy="290" r="4" fill="#303547"/>
+  <circle cx="640" cy="200" r="9" fill="#ffffff" stroke="#1b8a4b" stroke-width="3"/>
+  <circle cx="640" cy="200" r="4" fill="#303547"/>
+  <circle cx="650" cy="360" r="9" fill="#ffffff" stroke="#dc244c" stroke-width="3"/>
+  <circle cx="650" cy="360" r="4" fill="#303547"/>
+  <text x="480" y="326" fill="#5133cc" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Anchor</text>
+  <text x="480" y="348" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">bat</text>
+  <text x="640" y="164" fill="#137a3f" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Positive</text>
+  <text x="640" y="186" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">bat</text>
+  <text x="650" y="322" fill="#bb1841" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Negative</text>
+  <text x="650" y="344" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">bat</text>
+  <text x="580" y="270" fill="#137a3f" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">pulled closer</text>
+  <text x="702" y="428" fill="#bb1841" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">pushed away</text>
+
+</svg>
