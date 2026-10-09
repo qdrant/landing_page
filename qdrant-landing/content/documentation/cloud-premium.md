@@ -25,11 +25,11 @@ The following table lists what changes when you move from Standard to Premium. T
 | Severity 1 initial response | 4 business hours | 1 hour |
 | Support channels | Support portal and email | Support portal, email, and an optional private Slack or Discord channel |
 | Migration support | Not included | Dedicated engineering support |
-| [Multi-AZ clusters](#multi-az-clusters) | Not included | Included |
-| [Enterprise SSO](#enterprise-single-sign-on-sso) | Not included | Included |
+| [Multi-AZ clusters](#multi-az-clusters) | Not included | Available in regions with 3 or more zones, at a higher rate than single-AZ |
+| [Enterprise SSO](#enterprise-single-sign-on-sso) | Not included | Included, for Cloud Console sign-in |
 | [Private network connectivity](#private-network-connectivity) | Not included | AWS PrivateLink and GCP Private Service Connect |
 | [Customer-managed encryption keys](#customer-managed-encryption-keys) | Not included | AWS KMS, GCP Cloud KMS, and Azure Key Vault |
-| Pricing | Pay as you go, or a committed-spend contract | Committed-spend contract with a minimum spend |
+| Pricing | Usage-based, paid as you go or under a committed-spend contract | Premium tier rates, under a committed-spend contract with an annual minimum |
 
 ## Uptime SLA
 
@@ -73,18 +73,24 @@ A multi-AZ cluster spreads its nodes across several availability zones in one re
 
 Replication alone doesn't give you this protection. On a single-zone cluster, every replica of a shard can sit in the same zone, so one zone outage can take all of them down. For more detail, see [Multi-AZ Deployments](/documentation/scaling/resilience/#multi-az-deployments).
 
+Multi-AZ clusters are billed at a higher rate than single-AZ clusters, to cover the cost of traffic between zones. They're available only in regions with at least 3 availability zones.
+
 To run a multi-AZ cluster:
 
 1. Check **Multi AZ Deployment** when you [create the cluster](/documentation/cloud/create-cluster/#creating-a-production-ready-cluster). You can't turn it on or off after the cluster exists.
 2. Run at least 3 nodes. Multi-AZ clusters scale in multiples of 3 (3, 6, 9, and so on), so each zone gets the same number of nodes.
-3. Set a replication factor of at least 2 on every collection. A replication factor of 3 is recommended.
+3. Keep the replication factor at 2 or more on every collection. Multi-AZ clusters default to a replication factor of 3, which is the recommended setting.
 4. Keep `write_consistency_factor` and the read `consistency` parameter low enough that the replicas left after a zone outage can satisfy them. The default of 1 for both does. See [Consistency Guarantees](/documentation/scaling/consistency-guarantees/).
 
 The 99.95% uptime commitment doesn't cover outages caused by replication or consistency settings that can't tolerate the loss of one zone.
 
 ## Enterprise Single Sign-On (SSO)
 
-With SSO, your team signs in to the Qdrant Cloud Console through your identity provider. Qdrant Cloud supports the following providers:
+With SSO, your team signs in to the Qdrant Cloud Console through your identity provider. SSO is turned on per email domain, so anyone who signs in with an address on that domain goes through your identity provider.
+
+SSO covers Cloud Console sign-in only. Applications and users that send requests to a cluster still authenticate with [Database API keys](/documentation/cloud/authentication/).
+
+Qdrant Cloud supports the following identity providers:
 
 - Active Directory/LDAP
 - ADFS
@@ -100,22 +106,22 @@ To turn on SSO for your account, open a ticket in the [Qdrant support portal](ht
 
 ## Private Network Connectivity
 
-Premium clusters on AWS and GCP can accept traffic from your own VPC over AWS PrivateLink or GCP Private Service Connect. Traffic between your application and the cluster then stays on the cloud provider's network instead of crossing the public internet.
+Premium clusters on AWS and GCP can accept traffic from your own VPC over AWS PrivateLink or GCP Private Service Connect. Traffic between your application and the cluster then stays on the cloud provider's network instead of crossing the public internet. Private connectivity isn't available on Azure.
 
-Private connections are set up per cluster through a support ticket. Every new cluster needs its own connection, so request it as soon as you create the cluster and wait for confirmation before you route production traffic to it.
+To set up a private connection, open a support ticket. Before you route production traffic to a new cluster, confirm with Qdrant Support that your private connection covers it, especially if the cluster is in a new region, you connect from a different cloud account, or the cluster is multi-AZ. Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only, so check your region before you create the cluster.
 
-Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only. If you need both, confirm with Qdrant Support that your region supports them before you create the cluster. If you're replacing a cluster, see [Private Link or Private Service Connect on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-link-or-private-service-connect-on-qdrant-cloud) in the blue-green deployment guide.
+If you're replacing a cluster, see [Private Link or Private Service Connect on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-link-or-private-service-connect-on-qdrant-cloud) in the blue-green deployment guide.
 
 ## Customer-Managed Encryption Keys
 
 Qdrant Cloud encrypts every storage volume at rest by default. Premium customers can encrypt their cluster's volumes with a key they own in their cloud provider's key management service (KMS): AWS KMS, GCP Cloud KMS, or Azure Key Vault. The key must be in the same region as the cluster.
 
-Setup runs through a support ticket, and Qdrant recommends enabling it on an empty cluster. For the steps on each cloud provider, see [Encryption at Rest](/documentation/cloud/encryption/).
+Setup runs through a support ticket. Qdrant recommends enabling it on an empty cluster, because volumes that already hold data have to be recreated with encryption, which takes longer the more data they hold. For the steps on each cloud provider, see [Encryption at Rest](/documentation/cloud/encryption/).
 
 ## Upgrade to Premium
 
 Premium is a committed-usage plan with a minimum spend that you agree with Qdrant. To discuss your requirements, [contact the Qdrant team](/contact-us/).
 
-Premium applies to a whole Qdrant Cloud account, not to individual clusters, so every cluster in a Premium account runs on the Premium tier. To keep development or staging clusters on the Standard tier, run them in a separate account. One contract can cover both accounts.
+Premium applies to a whole Qdrant Cloud account, not to individual clusters, so every cluster in a Premium account runs on the Premium tier and is billed at Premium rates. To keep development or staging clusters on the Standard tier, run them in a separate account. One contract can cover both accounts.
 
 After your account moves to Premium, you enable SSO, private connections, and customer-managed encryption keys through support tickets. Multi-AZ can only be chosen when you create a cluster, so to move an existing workload to multi-AZ, create a new multi-AZ cluster and migrate to it, for example with a [blue-green deployment](/documentation/tutorials-operations/blue-green-deployment/).
