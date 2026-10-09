@@ -90,6 +90,7 @@ partition: develop
 | [Agentic RAG with CrewAI](/documentation/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
 | [Agentic RAG with LangGraph](/documentation/agentic-rag-langgraph/) | Build AI agents to answer library documentation. | <span class="pill">LangGraph</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Discord RAG Bot](/documentation/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Semantic Caching for RAG](/documentation/tutorials-build-essentials/semantic-cache/) | Reuse answers to repeated questions and invalidate stale ones. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [LLM-Powered Filter Automation](/documentation/search-precision/automate-filtering-with-llms/) | Use LLM structured output for dynamic filters. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 
 ---
