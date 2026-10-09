@@ -1,1 +1,0 @@
-Not supported for Python on Qdrant Edge
