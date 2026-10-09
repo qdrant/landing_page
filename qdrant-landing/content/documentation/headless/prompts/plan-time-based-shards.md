@@ -4,4 +4,12 @@ page: /documentation/tutorials-operations/time-based-sharding/
 skills:
   - qdrant-scaling/scaling-data-volume/sliding-time-window
 ---
-Help me plan time-based sharding for my collection. Read https://skills.qdrant.tech/qdrant-scaling/scaling-data-volume/sliding-time-window/SKILL.md first. Ask me what my data is, how fast it arrives, how far back queries actually reach, and how long I am required to keep anything, before you pick an interval, because daily shards and a seven-day window are one example rather than a default. Tell me the shard interval and retention window my answers imply, and say plainly if time-based sharding is the wrong shape for me, which it is when queries routinely span the whole history or when old data has to stay queryable. Then give me the shard key for my timestamp field, the roll-and-prune job including what runs at the boundary, and what happens to a point that arrives late for a shard that is already gone. Tell me which of these I cannot change later without recreating the collection.
+Help me plan time-based sharding for my Qdrant collection. First, read https://skills.qdrant.tech/qdrant-scaling/scaling-data-volume/sliding-time-window/SKILL.md
+
+Before choosing a shard interval or retention window, ask me what my data contains, how quickly it arrives, how far back queries typically reach, and how long I need to retain it. Treat daily shards and a seven-day window as an example, not a default.
+
+Recommend an interval and retention window based on my answers, and explain why they fit. If a sliding time window would not suit my workload, for example, because queries routinely span the full history or older data must remain searchable, say so before proposing a configuration.
+
+If it fits, show me how to derive shard keys from my timestamp field. Then lay out the job that creates new shards and removes expired ones, including what runs at each time boundary and in what order. Explain how to handle a point that arrives late when its shard has already been deleted.
+
+Finally, explain which choices I can change later and which require recreating the collection.
