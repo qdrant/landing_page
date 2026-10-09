@@ -1,0 +1,29 @@
+{
+  "title": "One search on the robot, by number of stored vectors",
+  "subtitle": "384-dimensional vectors, cosine; lower is better",
+  "kind": "lines-facet",
+  "facet": "device",
+  "facetLabel": "{}",
+  "x": "vectors",
+  "xLabel": "stored vectors",
+  "xSuffix": "",
+  "yLabel": "ms per search (log scale)",
+  "yScale": "log",
+  "yDomain": [
+    0.5,
+    200
+  ],
+  "series": [
+    "full_scan",
+    "binary",
+    "hnsw"
+  ],
+  "seriesLabels": [
+    "full scan",
+    "binary quantization",
+    "HNSW (ef=32)"
+  ],
+  "unit": "ms",
+  "height": 360,
+  "width": 640
+}
