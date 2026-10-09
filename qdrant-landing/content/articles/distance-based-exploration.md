@@ -12,7 +12,7 @@ keywords:
   - clusterization
   - dimensionality reduction
   - visualization
-category: data-exploration
+category: embedding-research
 ---
 
 
@@ -21,36 +21,34 @@ category: data-exploration
 When working with large collections of documents, images, or other arrays of unstructured data, it often becomes useful to understand the big picture.
 Examining data points individually is not always the best way to grasp the structure of the data.
 
-{{< figure src="/articles_data/distance-based-exploration/no-context-data.png" alt="Data visualization" caption="Datapoints without context, pretty much useless" >}}
+{{< figure src="/articles_data/distance-based-exploration/no-context-data.png" alt="A table of data points with no visible structure" caption="Datapoints without context, pretty much useless" >}}
 
-As numbers in a table obtain meaning when plotted on a graph, visualising distances (similar/dissimilar) between unstructured data items can reveal hidden structures and patterns.
+As numbers in a table obtain meaning when plotted on a graph, visualizing distances (similar/dissimilar) between unstructured data items can reveal hidden structures and patterns.
 
-{{< figure src="/articles_data/distance-based-exploration/data-on-chart.png" alt="Data visualization" caption="Visualized chart, very intuitive" >}}
-There are many tools to investigate data similarity, and Qdrant's [1.12 release](https://qdrant.tech/blog/qdrant-1.12.x/) made it much easier to start this investigation.  With the new [Distance Matrix API](/documentation/search/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process—calculating the distances between data points.
+{{< figure src="/articles_data/distance-based-exploration/data-on-chart.png" alt="The same data points plotted on a chart, forming visible groups" caption="Visualized chart, very intuitive" >}}
 
-In many implementations, the distance matrix calculation was part of the clustering or visualization processes, requiring either brute-force computation or building a temporary index. With Qdrant, however, the data is already indexed, and the distance matrix can be computed relatively cheaply.
+There are many tools to investigate data similarity, and Qdrant's [1.12 release](/blog/qdrant-1.12.x/) made it much easier to start this investigation. With the new [Distance Matrix API](/documentation/search/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process: calculating the distances between data points.
 
-In this article, we will explore several methods for data exploration using the Distance Matrix API.
+In many implementations, the distance matrix calculation was part of the clustering or visualization processes, requiring either brute-force computation or building a temporary index. With Qdrant, however, the data is already indexed, so the server can use that index to find the nearest neighbors of each sampled point.
+
+In this article, we will use the Distance Matrix API for dimensionality reduction, clustering, and graph exploration.
 
 ## Dimensionality Reduction
 
 Initially, we might want to visualize an entire dataset, or at least a large portion of it, at a glance. However, high-dimensional data cannot be directly visualized. We must apply dimensionality reduction techniques to convert data into a lower-dimensional representation while preserving important data properties.
 
-In this article, we will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
+We will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
 
-Here is a **very** simplified but intuitive explanation of UMAP:
+Here is a very simplified but intuitive explanation of UMAP: it finds which points are close to each other in the high-dimensional space, then places them on a 2D plane so that the same points stay close.
 
-1. *Randomly generate points in 2D space*: Assign a random 2D point to each high-dimensional point.
-2. *Compute distance matrix for high-dimensional points*: Calculate distances between all pairs of points.
-3. *Compute distance matrix for 2D points*: Perform similarly to step 2.
-4. *Match both distance matrices*: Adjust 2D points to minimize differences.
+{{< island path="content/documentation/headless/distance-matrix/fashion-umap" width="100%" ratio="1 / 1" title="UMAP on the Fashion-MNIST dataset, recreated from the example in the UMAP documentation, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
+![UMAP of the Fashion-MNIST dataset, with each clothing category forming its own region](/articles_data/distance-based-exploration/umap.png)
+{{< /island >}}
 
-{{< figure src="/articles_data/distance-based-exploration/umap.png" alt="UMAP" caption="Canonical example of UMAP results, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
-
-UMAP preserves the relative distances between high-dimensional points; the actual coordinates are not essential. If we already have the distance matrix, step 2 can be skipped entirely.
+UMAP keeps neighborhoods, not exact distances, so the gaps between groups and the size of a group on the plot carry no meaning. It only needs the nearest neighbors of each point, which is what the sparse matrix from Qdrant holds.
 
 Let's use Qdrant to calculate the distance matrix and apply UMAP.
-We will use one of the default datasets perfect for experimenting in Qdrant--[Midjourney Styles dataset](https://midlibrary.io/).
+We will use one of the default datasets perfect for experimenting in Qdrant: [Midjourney Styles dataset](https://midlibrary.io/).
 
 Use this command to download and import the dataset into Qdrant:
 
@@ -89,73 +87,86 @@ client = QdrantClient("http://localhost:6333")
 
 </details>
 
-After this is done, we can compute the distance matrix:
+After this is done, we can request the matrix. For each of the 1000 sampled points, Qdrant returns the scores of its 20 closest points within the sample, which makes a sparse 1000 by 1000 matrix. The Midlib collection uses the Cosine metric, so the scores are similarities, where a larger score means a closer point.
 
 ```python
-
-# Request distances matrix from Qdrant
-# `_offsets` suffix defines a format of the output matrix.
+# Request the matrix from Qdrant.
+# The `_offsets` suffix defines the format of the output matrix.
 result = client.search_matrix_offsets(
   collection_name="midlib",
-  sample=1000, # Select a subset of the data, as the whole dataset might be too large
-  limit=20, # For performance reasons, limit the number of closest neighbors to consider
+  # Select a subset of the data, as the whole dataset might be too large
+  sample=1000,
+  # For performance reasons, limit the number of closest neighbors to consider
+  limit=20,
 )
 
-# Convert distances matrix to python-native format 
-matrix = csr_matrix(
-    (result.scores, (result.offsets_row, result.offsets_col))
+# Convert the matrix to a python-native format.
+# An explicit shape keeps the matrix square.
+n = len(result.ids)
+similarity = csr_matrix(
+    (result.scores, (result.offsets_row, result.offsets_col)),
+    shape=(n, n),
 )
 
 # Make the matrix symmetric, as UMAP expects it.
-# Distance matrix is always symmetric, but qdrant only computes half of it.
-matrix = matrix + matrix.T
+# A pair often appears in one direction only.
+# The maximum fills in the missing direction.
+similarity = similarity.maximum(similarity.T)
+
+# UMAP expects distances, where a smaller value means a closer point.
+# For the Cosine metric, the distance is 1 - similarity.
+distances = similarity.copy()
+distances.data = 1 - distances.data
 ```
 
-Now we can apply UMAP to the distance matrix:
+With the Euclid metric, the scores are already distances and the last step is not needed.
+
+Now we can apply UMAP to the distances:
 
 ```python
 umap = UMAP(
-    metric="precomputed", # We provide ready-made distance matrix
-    n_components=2, # output dimension
-    n_neighbors=20, # Same as the limit in the search_matrix_offsets
+    # We provide a ready-made distance matrix
+    metric="precomputed",
+    # Output dimension
+    n_components=2,
+    # Same as the limit in the search_matrix_offsets
+    n_neighbors=20,
 )
 
-vectors_2d = umap.fit_transform(matrix)
+vectors_2d = umap.fit_transform(distances)
 ```
 
 That's all that is needed to get the 2d representation of the data.
 
-{{< figure src="/articles_data/distance-based-exploration/umap-midlib.png" alt="UMAP on Midlib" caption="UMAP applied to Midlib dataset" >}}
+{{< island path="content/documentation/headless/distance-matrix/midlib-umap" width="100%" ratio="3 / 2" title="UMAP applied to 1000 sampled items from the Midlib dataset. KMeans clusters colors the same points by the groups found in the Clustering section." >}}
+![UMAP map of 1000 Midlib items: one connected cloud of points](/articles_data/distance-based-exploration/umap-midlib.png)
+{{< /island >}}
 
-<aside role="status">Interactive version of this plot is available in <a href="https://qdrant.tech/documentation/web-ui/"> Qdrant Web UI </a>!</aside>
+<aside role="status">An interactive version of this plot is available in the <a href="/documentation/web-ui/">Qdrant Web UI</a>. It requests the distance matrix from the server, so raw vectors stay out of the browser, and it supports UMAP, t-SNE, and PCA, coloring points by a payload field, and filters.</aside>
 
-UMAP isn't the only algorithm compatible with our distance matrix API. For example, `scikit-learn` also offers:
+UMAP isn't the only algorithm compatible with our distance matrix API. For example, `scikit-learn` also offers the following, each with its own expectations about the matrix:
 
-- [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) - Non-linear dimensionality reduction through Isometric Mapping.
-- [SpectralEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html) - Forms an affinity matrix given by the specified function and applies spectral decomposition to the corresponding graph Laplacian.
-- [TSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) - well-known algorithm for dimensionality reduction.
+- [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) - Non-linear dimensionality reduction through Isometric Mapping. Use `metric="precomputed"` with `distances`. It needs `n_neighbors` smaller than `limit`, such as 19.
+- [SpectralEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html) - Forms an affinity matrix given by the specified function and applies spectral decomposition to the corresponding graph Laplacian. Use `affinity="precomputed"` with `similarity`, as an affinity is larger for closer points.
+- [TSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) - well-known algorithm for dimensionality reduction. Use `metric="precomputed"` with `distances`, `init="random"`, and a `perplexity` of at most `(limit - 2) / 3`, which is 6 for `limit=20`.
 
 ## Clustering
 
-Another approach to data structure understanding is clustering--grouping similar items.
+Another approach to data structure understanding is clustering, which groups similar items.
 
 *Note that there's no universally best clustering criterion or algorithm.*
 
-{{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Clustering" caption="Clustering example, [source](https://scikit-learn.org/)" width="80%" >}}
+{{< island path="content/documentation/headless/distance-matrix/sklearn-clustering" width="100%" ratio="4 / 5" title="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets. The [full example](https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html) compares eleven." >}}
+![Six clustering algorithms applied to six two-dimensional datasets](/articles_data/distance-based-exploration/clustering.png)
+{{< /island >}}
 
-Many clustering algorithms accept precomputed distance matrix as input, so we can use the same distance matrix we calculated before.
+Let's consider a simple example of clustering the Midlib dataset with the KMeans algorithm.
 
-Let's consider a simple example of clustering the Midlib dataset with **KMeans algorithm**.
+KMeans does not take a distance matrix. Its [`fit()` method](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) takes a table of features with shape `(n_samples, n_features)`, and a sparse matrix is accepted. So we pass `similarity` as that table: each row describes one sampled point by its similarity to all 1000 sampled points, with zeros for the points outside its 20 closest.
 
-From [scikit-learn.cluster documentation](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) we know that `fit()` method of KMeans algorithm prefers as an input: 
+This is a different representation of the data, not the original 512-dimensional embeddings. KMeans groups the points that have similar neighbors, so the clusters can differ from the ones KMeans would find in the embeddings themselves, and a cluster center is a point in the similarity space, not a vector from the collection.
 
-
-> `X : {array-like, sparse matrix} of shape (n_samples, n_features)`:  
-> Training instances to cluster. It must be noted that the data will be converted to C ordering, which will cause a memory copy if the given data is not C-contiguous. If a sparse matrix is passed, a copy will be made if it’s not in CSR format.
-
-
-So we can re-use `matrix` from the previous example:
-
+We use `similarity` rather than `distances` because a missing entry reads as zero, which means "not similar" in the first matrix and "identical" in the second.
 
 ```python
 from sklearn.cluster import KMeans
@@ -164,12 +175,12 @@ from sklearn.cluster import KMeans
 kmeans = KMeans(n_clusters=10)
 
 # Generate index of the cluster each sample belongs to
-cluster_labels = kmeans.fit_predict(matrix)
+cluster_labels = kmeans.fit_predict(similarity)
 ```
 
-With this simple code, we have clustered the data into 10 clusters, while the main CPU-intensive part of the process was done by Qdrant.
+With this simple code, we have clustered the data into 10 clusters, while Qdrant did the neighbor search. Algorithms that work on the neighbor graph directly, such as [SpectralClustering](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html) with `affinity="precomputed"`, accept `similarity` as is.
 
-{{< figure src="/articles_data/distance-based-exploration/clustering-midlib.png" alt="Clustering on Midlib" caption="Clustering applied to Midlib dataset" >}}
+Select KMeans clusters on the Midlib map in the Dimensionality Reduction section to see these clusters drawn on the UMAP layout.
 
 
 <details>
@@ -191,14 +202,14 @@ sns.scatterplot(
 ## Graphs
 
 Clustering and dimensionality reduction both aim to provide a more transparent overview of the data.
-However, they share a common characteristic - they require a training step before the results can be visualized.
+However, they share a common characteristic: they require a training step before the results can be visualized.
 
-This also implies that introducing new data points necessitates re-running the training step, which may be computationally expensive.
+This also means that new data points require re-running the training step, which can be expensive.
 
-Graphs offer an alternative approach to data exploration, enabling direct, interactive visualization of relationships between data points.
+Graphs are an alternative approach to data exploration: they show the relationships between data points directly and interactively.
 In a graph representation, each data point is a node, and similarities between data points are represented as edges connecting the nodes.
 
-Such a graph can be rendered in real-time using [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, which aim to minimize the system's energy by repositioning nodes dynamically--the more similar the data points are, the stronger the edges between them.
+Such a graph can be rendered in real-time using [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, which aim to minimize the system's energy by repositioning nodes dynamically. The more similar the data points are, the stronger the edges between them.
 
 Adding new data points to the graph is as straightforward as inserting new nodes and edges without the need to re-run any training steps.
 
@@ -210,7 +221,7 @@ This is the simplest approach, where we start with a single node and expand the 
 
 {{< figure src="/articles_data/distance-based-exploration/graph.gif" alt="Graph" caption="Graph representation of the data" >}}
 
-<aside role="status">An interactive version of this plot is available in <a href="https://qdrant.tech/documentation/web-ui/"> Qdrant Web UI </a>!</aside>
+<aside role="status">An interactive version of this plot is available in <a href="/documentation/web-ui/">Qdrant Web UI</a>.</aside>
 
 ### Sampling from a collection
 
@@ -220,7 +231,7 @@ If your dataset is small enough, you can render relations for all the data point
 Instead, we can sample a subset of the data and render the graph for this subset.
 This way, we can get a good overview of the data without overwhelming the user with too much information.
 
-Let's try to do so in [Qdrant's Graph Exploration Tool](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool):
+Let's try to do so in [Qdrant's Graph Exploration Tool](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool):
 
 ```json
 {
@@ -229,12 +240,12 @@ Let's try to do so in [Qdrant's Graph Exploration Tool](https://qdrant.tech/blog
 }
 ```
 
-{{< figure src="/articles_data/distance-based-exploration/graph-sampled.png" alt="Graph" caption="Graph representation of the data ([Qdrant's Graph Exploration Tool](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))">}}
+{{< figure src="/articles_data/distance-based-exploration/graph-sampled.png" alt="A sampled graph of the collection, with points linked to their nearest neighbors" caption="Graph representation of the data ([Qdrant's Graph Exploration Tool](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))">}}
 
 This graph captures some high-level structure of the data, but as you might have noticed, it is quite noisy.
 This is because the differences in similarities are relatively small, and they might be overwhelmed by the stretches and compressions of the force-directed layout algorithm.
 
-To make the graph more readable, let's concentrate on the most important similarities and build a so called [Minimum/Maximum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
+To make the graph more readable, let's concentrate on the most important similarities and build a so-called [Minimum/Maximum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
 
 ```json
 {
@@ -244,7 +255,7 @@ To make the graph more readable, let's concentrate on the most important similar
 }
 ```
 
-{{< figure src="/articles_data/distance-based-exploration/spanning-tree.png" alt="Graph" caption="Spanning tree of the graph ([Qdrant's Graph Exploration Tool](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))" width="80%" >}}
+{{< figure src="/articles_data/distance-based-exploration/spanning-tree.png" alt="A spanning tree of the sampled graph, with one path connecting all points" caption="Spanning tree of the graph ([Qdrant's Graph Exploration Tool](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool))" width="80%" >}}
 
 This algorithm will only keep the most important edges and remove the rest while keeping the graph connected.
 By doing so, we can reveal clusters of the data and the most important relations between them.
@@ -267,9 +278,11 @@ ToDo
 
 ## Conclusion
 
-Vector similarity goes beyond looking up the nearest neighbors--it provides a powerful tool for data exploration.
-Many algorithms can construct human-readable data representations, and Qdrant makes using them easy.
+Vector similarity goes beyond looking up the nearest neighbors. It also gives you a tool for data exploration.
+Many algorithms can construct human-readable data representations, and Qdrant supplies the neighbor data they need.
 
-Several data exploration instruments are available in the Qdrant Web UI ([Web UI documentation](/documentation/web-ui/)), and for more advanced use cases, you could directly utilise our distance matrix API.
+The Qdrant Web UI includes data exploration tools ([Visualization and Graph Exploration Tools](/articles/web-ui-gsoc/)), and for more advanced use cases, you can call the Distance Matrix API directly.
 
-Try it with your data and see what hidden structures you can reveal!
+The same distances also help to find mislabeled and out-of-place items in a categorized dataset, as shown in [Detecting Dataset Errors with Similarity Search](/articles/dataset-quality/).
+
+Try it on your own collection and see which groups show up.
