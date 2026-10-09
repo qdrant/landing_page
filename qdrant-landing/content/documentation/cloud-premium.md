@@ -29,7 +29,7 @@ The following table lists what changes when you move from Standard to Premium. T
 | [Enterprise SSO](#enterprise-single-sign-on-sso) | Not included | Included |
 | [Private network connectivity](#private-network-connectivity) | Not included | AWS PrivateLink and GCP Private Service Connect |
 | [Customer-managed encryption keys](#customer-managed-encryption-keys) | Not included | AWS KMS, GCP Cloud KMS, and Azure Key Vault |
-| Pricing | Usage-based | Committed usage with a minimum spend |
+| Pricing | Pay as you go, or a committed-spend contract | Committed-spend contract with a minimum spend |
 
 ## Uptime SLA
 
@@ -102,7 +102,9 @@ To turn on SSO for your account, open a ticket in the [Qdrant support portal](ht
 
 Premium clusters on AWS and GCP can accept traffic from your own VPC over AWS PrivateLink or GCP Private Service Connect. Traffic between your application and the cluster then stays on the cloud provider's network instead of crossing the public internet.
 
-Private connections are set up per cluster through a support ticket. Every new cluster needs its own connection, so request it as soon as you create the cluster and wait for confirmation before you route production traffic to it. If you're replacing a cluster, see [Private Link or Private Service Connect on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-link-or-private-service-connect-on-qdrant-cloud) in the blue-green deployment guide.
+Private connections are set up per cluster through a support ticket. Every new cluster needs its own connection, so request it as soon as you create the cluster and wait for confirmation before you route production traffic to it.
+
+Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only. If you need both, confirm with Qdrant Support that your region supports them before you create the cluster. If you're replacing a cluster, see [Private Link or Private Service Connect on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-link-or-private-service-connect-on-qdrant-cloud) in the blue-green deployment guide.
 
 ## Customer-Managed Encryption Keys
 
@@ -113,5 +115,7 @@ Setup runs through a support ticket, and Qdrant recommends enabling it on an emp
 ## Upgrade to Premium
 
 Premium is a committed-usage plan with a minimum spend that you agree with Qdrant. To discuss your requirements, [contact the Qdrant team](/contact-us/).
+
+Premium applies to a whole Qdrant Cloud account, not to individual clusters, so every cluster in a Premium account runs on the Premium tier. To keep development or staging clusters on the Standard tier, run them in a separate account. One contract can cover both accounts.
 
 After your account moves to Premium, you enable SSO, private connections, and customer-managed encryption keys through support tickets. Multi-AZ can only be chosen when you create a cluster, so to move an existing workload to multi-AZ, create a new multi-AZ cluster and migrate to it, for example with a [blue-green deployment](/documentation/tutorials-operations/blue-green-deployment/).
