@@ -130,6 +130,18 @@ menuItems:
             name: Security
             icon: security.svg
             url: /security/
+          - id: subMenu-2-7
+            name: Observability
+            icon: observability.svg
+            url: /observability/
+          - id: subMenu-2-8
+            name: Quantization
+            icon: quantization.svg
+            url: /quantization/
+          - id: subMenu-2-9
+            name: Resilience
+            icon: resilience.svg
+            url: /resilience/
   - id: menu-3
     name: Resources
     mainMenuItems:
