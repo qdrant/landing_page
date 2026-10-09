@@ -30,12 +30,12 @@ Help me get started building on Qdrant.
    Cloud: no embedding library. Send text as Document objects with a free model from https://qdrant.tech/documentation/cloud/inference/#qdrant-hosted-models. In Python, set cloud_inference=True. For other languages, find examples with https://skills.qdrant.tech/snippets/search?language=<LANGUAGE>&query=cloud+inference
    Local: if I have no preference, use Python with pip install "qdrant-client[fastembed]".
 
-5. Offer a demo. If I want it, download demo.py and menu-items.json from https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/ai-getting-started/ and run python demo.py. If I picked another language, port demo.py to it, with the same data and queries.
+5. First, offer a quick demo on sample data. If I decline, go to step 6. If I accept, download demo.py and menu-items.json from https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/ai-getting-started/ and run python demo.py. If I picked another language, port demo.py to it, with the same data and queries.
    Cloud: install qdrant-client, then change only the client setup to use QDRANT_URL, QDRANT_API_KEY, and cloud_inference=True, and set EMBED_MODEL to sentence-transformers/all-minilm-l6-v2.
    Local: install qdrant-client[fastembed] and run it unmodified.
    When you show me the output, introduce it in a few sentences: what the dataset is, which text was embedded and with which model, what each query searched for, and why the top results match even when they share no words with the query.
 
-6. Ask what I'm building and what I'll search over before you write any code. If I have no data of my own, use menu-items.json from step 5. Consult the Qdrant Advisor skill, and:
+6. Next, offer to build something on my own data. If I decline, stop. If I accept, ask what I'm building and what I'll search over before you write any code. If I don't have data yet, use menu-items.json, downloading it from the URL in step 5 if needed. Consult the Qdrant Advisor skill, and:
    - Take the vector size from the model. For Qdrant-hosted models, it's in the Dimensions column at https://qdrant.tech/documentation/cloud/inference/#qdrant-hosted-models. Never guess it.
    - Use the distance metric the model was trained for, and say why.
    - Create a payload index of the right type for every field I'll filter on, before loading data.
