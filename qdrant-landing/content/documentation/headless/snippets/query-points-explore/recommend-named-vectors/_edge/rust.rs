@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use anyhow::Context;
 use qdrant_edge::*;
 
 pub async fn main() -> anyhow::Result<()> {
@@ -12,19 +13,19 @@ pub async fn main() -> anyhow::Result<()> {
             .with_vector(WithVector::Selector(vec!["image".to_string()]))
             .build(),
     )?;
-    let mut vectors: HashMap<PointId, VectorInternal> = records
-        .iter()
-        .map(|record| {
-            let vector = record.get_vector_by_name("image").unwrap();
-            (record.id, vector.to_owned())
-        })
-        .collect();
-    let mut take = |id: u64| vectors.remove(&PointId::from(id)).unwrap();
+    let mut vectors: HashMap<PointId, VectorInternal> = HashMap::new();
+    for record in &records {
+        let vector = record
+            .get_vector_by_name("image")
+            .context("point has no vector")?;
+        vectors.insert(record.id, vector.to_owned());
+    }
+    let mut take = |id: u64| vectors.remove(&PointId::from(id)).context("point not found");
 
     edge_shard.query(
         QueryRequestBuilder::new(10)
             .query(ScoringQuery::Vector(QueryEnum::RecommendBestScore(NamedQuery {
-                query: RecommendQuery::new(vec![take(100), take(231)], vec![take(718)]),
+                query: RecommendQuery::new(vec![take(100)?, take(231)?], vec![take(718)?]),
                 using: Some("image".to_string()),
             })))
             .build(),

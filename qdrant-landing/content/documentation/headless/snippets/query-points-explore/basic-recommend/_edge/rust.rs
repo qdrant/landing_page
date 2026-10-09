@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use anyhow::Context;
 use qdrant_edge::*;
 
 pub async fn main() -> anyhow::Result<()> {
@@ -12,21 +13,21 @@ pub async fn main() -> anyhow::Result<()> {
             .with_vector(WithVector::Bool(true))
             .build(),
     )?;
-    let mut vectors: HashMap<PointId, VectorInternal> = records
-        .iter()
-        .map(|record| {
-            let vector = record.get_vector_by_name(DEFAULT_VECTOR_NAME).unwrap();
-            (record.id, vector.to_owned())
-        })
-        .collect();
-    let mut take = |id: u64| vectors.remove(&PointId::from(id)).unwrap();
+    let mut vectors: HashMap<PointId, VectorInternal> = HashMap::new();
+    for record in &records {
+        let vector = record
+            .get_vector_by_name(DEFAULT_VECTOR_NAME)
+            .context("point has no vector")?;
+        vectors.insert(record.id, vector.to_owned());
+    }
+    let mut take = |id: u64| vectors.remove(&PointId::from(id)).context("point not found");
 
     edge_shard.query(
         QueryRequestBuilder::new(3)
             .query(ScoringQuery::Vector(QueryEnum::RecommendBestScore(NamedQuery {
                 query: RecommendQuery::new(
-                    vec![take(100), take(231)],
-                    vec![take(718), vec![0.2f32, 0.3, 0.4, 0.5].into()],
+                    vec![take(100)?, take(231)?],
+                    vec![take(718)?, vec![0.2f32, 0.3, 0.4, 0.5].into()],
                 ),
                 using: None,
             })))
