@@ -190,7 +190,6 @@ html .island[data-island='content/headless/blog/oxidizing-cross-encoders/inferen
 }
 .island[data-island='content/headless/blog/oxidizing-cross-encoders/inference'].is-ready .island__stage {
   max-width: 100% !important;
-  aspect-ratio: auto !important;
 }
 
 /* Card border matching the charts (.viz-figure in viz.scss), so the diagram

@@ -24,7 +24,6 @@
    stylesheet cannot load. Expand only a successfully mounted illustration. */
 .island.is-ready[data-island='content/documentation/headless/agentic-rag-langgraph/workflow'] .island__stage {
   max-width: 760px !important;
-  aspect-ratio: auto !important;
 }
 .qi-lg-workflow { container-type: inline-size; }
 .qi-lg-workflow__narrow { display: none; max-width: 340px; margin-inline: auto; }

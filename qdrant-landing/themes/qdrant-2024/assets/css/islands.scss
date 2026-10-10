@@ -32,6 +32,12 @@
   width: 100%;
 }
 
+// The live diagram supplies its own height, including responsive layouts.
+// Keep the shortcode reservation only while loading or showing a fallback.
+.island.is-ready .island__stage {
+  aspect-ratio: auto !important; // Override the shortcode's inline reservation.
+}
+
 // Fallback (the shortcode's inner markdown, usually an image). Layered over the
 // stage so it never affects the reservation. It is the NO-JS / error view: shown
 // by default (no JS), hidden while JS drives the island, and revealed again only
