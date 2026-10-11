@@ -1,0 +1,81 @@
+/* rocchio island. Scoped under .sf-ro. Teal: positive, red: negative, blue:
+   the query. */
+.sf-ro {
+  --sf-pos: #00838f;
+  --sf-neg: var(--qi-cat-4);
+  display: block;
+}
+.sf-ro__pt {
+  fill: var(--qi-fg);
+  fill-opacity: 0.7;
+}
+.sf-ro__pt.is-other {
+  fill: var(--qi-line);
+  fill-opacity: 0.3;
+  stroke: var(--qi-line);
+  stroke-dasharray: 3 3;
+}
+.sf-ro__pt.is-pos {
+  stroke: var(--sf-pos);
+  stroke-width: 2.5;
+  fill-opacity: 0.55;
+}
+.sf-ro__pt.is-neg {
+  stroke: var(--sf-neg);
+  stroke-width: 2.5;
+  fill-opacity: 0.55;
+}
+.sf-ro__x {
+  fill: none;
+  stroke-width: 2.5;
+}
+.sf-ro__x.is-pos {
+  stroke: var(--sf-pos);
+}
+.sf-ro__x.is-neg {
+  stroke: var(--sf-neg);
+}
+.sf-ro__step {
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+.sf-ro__step.is-pos {
+  stroke: var(--sf-pos);
+}
+.sf-ro__step.is-neg {
+  stroke: var(--sf-neg);
+}
+.sf-ro__q {
+  fill: var(--qi-cat-1);
+}
+.sf-ro__qn {
+  fill: #2e9e5b;
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2;
+}
+.sf-ro__qnlab,
+.sf-ro__poslab {
+  fill: var(--sf-pos);
+  font-weight: 600;
+}
+.sf-ro__qnlab {
+  fill: #2e9e5b;
+}
+.sf-ro__neglab {
+  fill: var(--sf-neg);
+  font-weight: 600;
+}
+.sf-ro .qi-label {
+  font-size: 13px;
+}
+.sf-ro.sf-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
+.sf-ro__lab {
+  paint-order: stroke;
+  stroke: var(--qi-surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}

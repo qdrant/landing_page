@@ -112,6 +112,11 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if eq .Section "edge" }}
+  {{ $customersJs := resources.Get "js/edge.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if in (slice "security" "resilience" "quantization" "observability" "cloud-inference") .Section }}
   {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
@@ -120,6 +125,11 @@
 {{ if in (slice "resilience" "qdrant-cloud") .Section }}
   {{ $pricingTableJs := resources.Get "/js/sticky-tabs.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "qdrant-cloud" "security" "resilience" "quantization" "observability" "gpu-indexing" "cloud-inference") .Section }}
+  {{ $cjpTrackingJs := resources.Get "js/cjp-tracking.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $cjpTrackingJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "qdrant-cloud" }}
@@ -132,7 +142,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "quantization" "docs" "documentation") .Section }}
+{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "quantization" "edge" "docs" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 

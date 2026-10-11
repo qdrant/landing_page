@@ -1,0 +1,49 @@
+/* nesting island. Scoped under .dv-ns. */
+.dv-ns {
+  display: block;
+}
+.dv-ns__frame {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.dv-ns__frame.is-sel {
+  stroke: var(--qi-accent);
+  stroke-dasharray: none;
+  stroke-width: 2.5;
+}
+.dv-ns__card {
+  fill-opacity: 0.22;
+  stroke-width: 1.5;
+}
+.dv-ns__card--3 {
+  fill: var(--qi-cat-4);
+  stroke: var(--qi-cat-4);
+}
+.dv-ns__card--2 {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.dv-ns__card--1 {
+  fill: var(--qi-surface);
+  fill-opacity: 1;
+  stroke: var(--qi-cat-1);
+}
+.dv-ns__link {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.dv-ns__head {
+  fill: var(--qi-muted);
+}
+.dv-ns .qi-label,
+.dv-ns .qi-title {
+  font-size: 14px;
+}
+.dv-ns.dv-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

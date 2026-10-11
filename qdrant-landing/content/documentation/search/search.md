@@ -192,6 +192,14 @@ It is an extension to the regular HNSW search algorithm, based on the ACORN-1 al
 During graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out.
 This improves search accuracy at the cost of performance.
 
+{{< island
+    path="content/documentation/headless/search/acorn"
+    width="620" ratio="6 / 5"
+    title="Filtered search in an HNSW graph, without and with ACORN."
+>}}
+![Filtering and the HNSW graph without ACORN (left) and with ACORN (right)](/blog/qdrant-1.16.x/hnsw-acorn.png)
+{{< /island >}}
+
 Enable it as follows:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-acorn/" >}}

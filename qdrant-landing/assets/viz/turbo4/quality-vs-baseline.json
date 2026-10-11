@@ -1,0 +1,16 @@
+{
+  "title": "Quality retained vs float32 baseline, ColBERT MaxSim rescoring",
+  "kind": "grouped-columns",
+  "subtitle": "five BEIR datasets, prefetch limit 100, k=20, higher is better",
+  "group": "config",
+  "series": "metric",
+  "y": "value",
+  "yLabel": "% of float32 quality retained",
+  "yMin": 94,
+  "yMax": 100,
+  "colors": [
+    1,
+    2
+  ],
+  "height": 400
+}

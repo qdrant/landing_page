@@ -1,0 +1,32 @@
+/* refit island. Scoped under .sf-rf. Green: retriever, orange:
+   cross-encoder. */
+.sf-rf {
+  --sf-s: #2e9e5b;
+  --sf-c: #e08a00;
+  display: block;
+}
+.sf-rf__bar--s {
+  fill: var(--sf-s);
+}
+.sf-rf__bar--c {
+  fill: var(--sf-c);
+}
+.sf-rf__cell {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cell-stroke);
+}
+.sf-rf__cell.is-new {
+  stroke: var(--qi-cat-1);
+  stroke-width: 1.5;
+}
+.sf-rf__kl {
+  fill: var(--qi-fg);
+  font-weight: 600;
+}
+.sf-rf .qi-label {
+  font-size: 13px;
+}
+.sf-rf.sf-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

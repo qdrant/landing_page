@@ -90,7 +90,13 @@ Decay functions enable you to modify the score based on how far a value is from 
 | `scale`    | 1.0     | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units. For example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number. |
 | `midpoint` | 0.5     | Output is `midpoint` when `x` equals `target` ± `scale`. Must be in the range (0.0, 1.0), exclusive.                                                                                                          |
 
+{{< island
+    path="content/documentation/headless/search-relevance/decay-functions"
+    width="90%" ratio="8 / 5"
+    title="Each decay function maps `x` to a score in the range of 0 to 1. `target`, `scale` and `midpoint` determine the shape of the curve."
+>}}
 ![Decay functions.](/docs/decay-function.png)
+{{< /island >}}
 
 The [formula for each decay function](https://www.desmos.com/calculator/idv5hknwb1) is as follows:
 

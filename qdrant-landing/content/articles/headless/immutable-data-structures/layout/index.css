@@ -1,0 +1,36 @@
+/* layout island. Scoped under .im-lay. */
+.im-lay {
+  display: block;
+}
+.im-lay__cell {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+}
+.im-lay__cell--a {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.3;
+}
+.im-lay__cell--b {
+  fill: var(--qi-cat-3);
+  fill-opacity: 0.3;
+}
+.im-lay__cell.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.im-lay__arrow {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.im-lay__head {
+  fill: var(--qi-muted);
+}
+.im-lay .qi-label {
+  font-size: 13px;
+}
+.im-lay.im-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

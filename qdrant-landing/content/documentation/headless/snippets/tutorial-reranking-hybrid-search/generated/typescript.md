@@ -12,7 +12,7 @@ const lateInteractionEmbeddingModel = "answerdotai/answerai-colbert-small-v1";
 
 const collectionName = "hybrid-search";
 
-if (await client.collectionExists(collectionName)) {
+if ((await client.collectionExists(collectionName)).exists) {
     await client.deleteCollection(collectionName);
 }
 

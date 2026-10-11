@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/hybrid-cloud/what-you-get") }}
+  <section class="hybrid-cloud-what-you-get">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <p class="hybrid-cloud-what-you-get__label">{{ .Params.label }}</p>
+          <h2 class="hybrid-cloud-what-you-get__title">{{ .Params.title }}</h2>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="hybrid-cloud-what-you-get__description">{{ .Params.description | safeHTML }}</p>
+        </div>
+      </div>
+
+      <div class="hybrid-cloud-what-you-get__image-container">
+        <img class="hybrid-cloud-what-you-get__image" src="{{ .Params.img.src }}" alt="{{ .Params.img.alt }}"/>
+        <img 
+          class="hybrid-cloud-what-you-get__image-mobile" 
+          src="{{ .Params.img.mobileSrc }}" 
+          alt="{{ .Params.img.alt }}"
+        />
+      </div>
+    </div>
+  </section>
+{{ end }}

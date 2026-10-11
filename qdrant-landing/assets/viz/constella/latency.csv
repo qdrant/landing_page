@@ -1,0 +1,4 @@
+encoder,size,model_loading_s,first_query_ms,warm_p50_ms
+Zero,no transformer,0.334,0.587,0.081
+Nano,34.5M params,0.410,3.935,3.131
+Full Stella,400M params,1.301,54.484,38.952

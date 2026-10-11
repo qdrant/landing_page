@@ -1,0 +1,61 @@
+{
+  "title": "Search latency: continuous indexing versus indexing disabled",
+  "kind": "columns-2panel",
+  "labelTop": "configuration",
+  "labelBottom": "setting",
+  "colors": [
+    "muted",
+    0
+  ],
+  "height": 400,
+  "views": [
+    {
+      "label": "Draining phase",
+      "panels": [
+        {
+          "title": "Median (p50) latency while draining",
+          "subtitle": "lower is better",
+          "y": "draining_p50_ms",
+          "axis": "search latency, ms",
+          "unit": "ms",
+          "yMax": 900
+        },
+        {
+          "title": "95th percentile (p95) latency while draining",
+          "subtitle": "lower is better",
+          "y": "draining_p95_ms",
+          "axis": "search latency, ms",
+          "unit": "ms",
+          "yMax": 2200
+        }
+      ]
+    },
+    {
+      "label": "Steady state",
+      "panels": [
+        {
+          "title": "Median (p50) latency once settled",
+          "subtitle": "lower is better",
+          "y": "steady_p50_ms",
+          "axis": "search latency, ms",
+          "unit": "ms",
+          "yMax": 300
+        },
+        {
+          "title": "95th percentile (p95) latency once settled",
+          "subtitle": "lower is better",
+          "y": "steady_p95_ms",
+          "axis": "search latency, ms",
+          "unit": "ms",
+          "yMax": 1600
+        }
+      ]
+    }
+  ],
+  "tooltip": {
+    "draining_p50_ms": "draining p50",
+    "draining_p95_ms": "draining p95",
+    "steady_p50_ms": "steady p50",
+    "steady_p95_ms": "steady p95"
+  }
+}

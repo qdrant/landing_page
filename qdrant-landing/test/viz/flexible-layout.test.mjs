@@ -76,9 +76,9 @@ import { execFileSync } from 'node:child_process';
 
 test('generation preserves default chart kinds and the legacy readable preset', () => {
   const expected = {
-    "fixtures/readable": "4b16e40ff6a1d4003a4f41dfaacb528029b7ec02e93bacd1744c52ccd8035143",
-    "oversampling/recall": "da2ca3d7c1482d23582308e448ff82e75bb6b167966331a1b8460e37fbfeae68",
-    "defrag/rps": "2a7aef9eee6a0394487ede104c45b645ab793b8c98fb1db5076b4659c4873dfc"
+    "fixtures/readable": "241baabef0e45aaefd180fc088c700f1a112ff84cba16cda96f96ec9130bf3c3",
+    "oversampling/recall": "eb76b495636f9abff87f65f6f6d8d1998e636745c2eaa31cabdb81cd6b6ad002",
+    "defrag/rps": "54d5f979e3d803196212377dac591b2b4264795902db3a74f7a8c462e898998e"
 };
   const dir = mkdtempSync(join(tmpdir(), 'viz-compatibility-'));
   try {

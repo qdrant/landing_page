@@ -11,22 +11,11 @@
           </a>
         </div>
       </div>
-      <div class="observability-why-it-matters__preview">
-        <img
-          class="observability-why-it-matters__preview-image"
-          src="{{ .Params.image.src }}"
-          alt="{{ .Params.image.alt }}"
-        />
-        <img
-          class="observability-why-it-matters__preview-image-mobile"
-          src="{{ .Params.image.mobileSrc }}"
-          alt="{{ .Params.image.alt }}"
-        />
-      </div>
       <div class="row g-5">
         {{ range .Params.features }}
         <div class="col-12 col-lg-4">
           <div class="observability-why-it-matters__card">
+            <img class="observability-why-it-matters__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
             <h5 class="observability-why-it-matters__card-title">{{ .title }}</h5>
             <p class="observability-why-it-matters__card-description">{{ .description }}</p>
           </div>

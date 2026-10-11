@@ -105,6 +105,24 @@ while (!reachedEnd) {
 }
 // @block-end migrate-points
 
+// @block-start alias-update
+await client.updateCollectionAliases({
+  actions: [
+    {
+      delete_alias: {
+        alias_name: "prod",
+      },
+    },
+    {
+      create_alias: {
+        collection_name: NEW_COLLECTION,
+        alias_name: "prod",
+      },
+    },
+  ],
+});
+// @block-end alias-update
+
 // @block-start search-old-collection
 const results = await client.query(OLD_COLLECTION, {
     query: {
@@ -198,6 +216,19 @@ const oldVectorResults = await client.query(COLLECTION, {
     limit: 10,
 });
 // @block-end search-with-old-vector
+
+// @block-start count-missing
+await client.count(COLLECTION, {
+    filter: {
+        must_not: [
+            {
+                has_vector: NEW_VECTOR,
+            },
+        ],
+    },
+    exact: true,
+});
+// @block-end count-missing
 
 // @block-start search-with-new-vector
 const newVectorResults = await client.query(COLLECTION, {

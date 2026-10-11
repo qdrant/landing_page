@@ -22,7 +22,11 @@ category: qdrant-internals
 Those who took programming courses might remember that there is no such thing as a universal data structure.
 Some structures are good at accessing elements by index (like arrays), while others shine in terms of insertion efficiency (like linked lists).
 
-{{< figure src="/articles_data/immutable-data-structures/hardware-optimized.png" alt="Hardware-optimized data structure" caption="Hardware-optimized data structure" width="80%" >}}
+{{< island path="content/articles/headless/immutable-data-structures/layout"
+    ratio="380 / 146"
+    title="The same twelve cells read in order, scattered and linked by pointers or contiguous in an array. Positions are illustrative." >}}
+![Hardware-optimized data structure](/articles_data/immutable-data-structures/hardware-optimized.png)
+{{< /island >}}
 
 However, when we move from theoretical data structures to real-world systems, and particularly in performance-critical areas such as [vector search](/use-cases/), things become more complex. [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) provides a good abstraction, but it doesn’t account for the realities of modern hardware: cache misses, memory layout, disk I/O, and other low-level considerations that influence actual performance.
 
@@ -84,7 +88,11 @@ The simplest example is a sorted array: we would know exactly how many elements 
 More complex data structures might require additional statistics to be collected before the structure is built.
 A Qdrant-related example of this is [Scalar Quantization](/articles/scalar-quantization/#conversion-to-integers): in order to select proper quantization levels, we have to know the distribution of the data.
 
-{{< figure src="/articles_data/immutable-data-structures/quantization-quantile.png" alt="Scalar Quantization Quantile" caption="Scalar Quantization Quantile" width="70%" >}}
+{{< island path="content/articles/headless/immutable-data-structures/quantile"
+    ratio="380 / 161"
+    title="Scalar quantization bounds. The quantile sets the bounds, the quantization levels are spread evenly between them, and the extreme values outside are clamped. The curve is a normal distribution, and 8 of the 256 levels are drawn." >}}
+![Scalar Quantization Quantile](/articles_data/immutable-data-structures/quantization-quantile.png)
+{{< /island >}}
 
 
 Computing this distribution requires knowing all the data in advance, but once we have it, applying scalar quantization is a simple operation.
@@ -129,8 +137,8 @@ Indeed, every read operation from disk is several orders of magnitude slower tha
 In order to achieve this, we can use a so-called minimal perfect hash function (MPHF).
 This special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal amount of buckets.
 
-In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph crate 🦀](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
-According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but it significantly reduces the time for the whole operation:
+In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph crate](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
+According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but for large volumes (100k keys and up) it significantly reduces the time for the whole operation:
 
 | Volume | `ph::Function` | `std::hash::Hash` | `HashMap::get`|
 |--------|----------------|-------------------|---------------|
@@ -138,17 +146,17 @@ According to our benchmarks, using the perfect hash function does introduce some
 | 100k   |   90ns         |  ~20ns            |   220ns       |
 | 10M    |   238ns        |  ~20ns            |   500ns       |
 
-Even thought the absolute time for hashing is higher, the time for the whole operation is lower, because PHF guarantees no collisions.
+Even though the absolute time for hashing is higher, the time for the whole operation is lower, because PHF guarantees no collisions.
 The difference is even more significant when we consider disk read time, which 
-might up to several milliseconds (10^6 ns).
+might take up to several milliseconds (10^6 ns).
 
 PHF RAM size scales linearly for `ph::Function`: 3.46 kB for 10k elements,  119MB for 350M elements.
 The construction time required to build the hash function is surprisingly low, and we only need to do it once: 
 
 | Volume | `ph::Function` (construct) | PHF size | Size of int64 keys (for reference) |
 |--------|----------------------------|----------|------------------------------------|
-| 1M     |   52ms                     | 0.34Mb   | 7.62Mb                             |
-| 100M   |   7.4s                     | 33.7Mb   | 762.9Mb                            |
+| 1M     |   52ms                     | 0.34MB   | 7.62MB                             |
+| 100M   |   7.4s                     | 33.7MB   | 762.9MB                            |
 
 The usage of PHF in Qdrant lets us minimize the latency of cold reads, which is especially important for large-scale multi-tenant systems. With PHF, it is enough to read a single page from a disk to get the exact location of the data.
 
@@ -160,14 +168,18 @@ On many systems, the page size is 4KB, which means that every read operation wil
 Vector search, on the other hand, requires reading a lot of small vectors, which might create a large overhead.
 It is especially noticeable if we use binary quantization, where the size of even large OpenAI 1536d vectors is compressed down to **192 bytes**.
 
-{{< figure src="/articles_data/immutable-data-structures/page-vector.png" alt="Overhead when reading a single vector" caption="Overhead when reading single vector" width="80%" >}}
-
 That means if the vectors we access during the search are randomly scattered across the disk, we will have to read 4KB for each vector, which is 20 times more than the actual data size.
 
 There is, however, a simple way to avoid this overhead: **defragmentation**.
 If we knew some additional information about the data, we could combine all relevant vectors into a single page.
 
-{{< figure src="/articles_data/immutable-data-structures/defragmentation.png" alt="Defragmentation" caption="Defragmentation" width="70%" >}}
+Pick the workspace a query uses, and switch between scattered and defragmented storage to see how many pages it has to read.
+
+{{< island path="content/articles/headless/immutable-data-structures/pages"
+    ratio="76 / 33"
+    title="Disk pages holding vectors from four workspaces, scattered or grouped by workspace. A real 4 KB page holds about 21 binary-quantized 1536d vectors of 192 bytes; the picture uses 8 per page. The arrangement is illustrative." >}}
+![Defragmentation](/articles_data/immutable-data-structures/defragmentation.png)
+{{< /island >}}
 
 This additional information is available to Qdrant via the [payload index](/documentation/manage-data/indexing/#payload-index).
 
@@ -196,10 +208,10 @@ The following benchmark data compares RPS for defragmented and non-defragmented 
 | 100%            | 5k                    |  2.7                  |  95               |
 
 
-**Dataset size:** 2M 768d vectors (~6Gb Raw data), binary quantization, 650Mb of RAM limit.
+**Dataset size:** 2M 768d vectors (~6GB raw data), binary quantization, 650MB of RAM limit.
 All benchmarks are made with minimal RAM allocation to demonstrate disk cache efficiency.
 
-As you can see, the biggest impact is on the small tenant size, where defragmentation allows us to achieve **100x more RPS**. 
+As you can see, the biggest impact is on the larger tenant with a small to moderate hot subset, where defragmentation delivers hundreds of times more RPS (0.47 to 279 RPS for a 50k-vector tenant at 12.5% hot). 
 Of course, the real-world impact of defragmentation depends on the specific workload and the size of the hot subset, but enabling this feature can significantly improve the performance of Qdrant. 
 
 Please find more details on how to enable defragmentation in the [indexing documentation](/documentation/manage-data/indexing/#tenant-index).
@@ -214,9 +226,13 @@ As it usually happens with every decent magic trick, the secret is disappointing
 In Qdrant, storage is divided into segments, which might be either mutable or immutable.
 New data is always written to the mutable segment, which is later converted to the immutable one by the optimization process.
 
-{{< figure src="/articles_data/immutable-data-structures/optimization.png" alt="Optimization process" caption="Optimization process" width="80%" >}}
+{{< island path="content/articles/headless/immutable-data-structures/segments"
+    ratio="38 / 17"
+    title="The optimization process, step by step: a proxy holds the old segment, the optimized segment being built, and a copy-on-write segment for new writes." >}}
+![Optimization process](/articles_data/immutable-data-structures/optimization.png)
+{{< /island >}}
 
-If we need to update the data in the immutable or currenly optimized segment, instead of changing the data in place, we perform a copy-on-write operation, move the data to the mutable segment, and update it there.
+If we need to update the data in the immutable or currently optimized segment, instead of changing the data in place, we perform a copy-on-write operation, move the data to the mutable segment, and update it there.
 
 Data in the original segment is marked as deleted, and later vacuumed by the optimization process.
 

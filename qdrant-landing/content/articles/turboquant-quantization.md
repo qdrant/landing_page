@@ -34,7 +34,7 @@ This article walks through what TurboQuant is, what we added on top to make it p
 Before TurboQuant, Qdrant offered two primary production-grade quantization paths:
 
 * **[Scalar Quantization (SQ)](https://qdrant.tech/articles/scalar-quantization/)** — int8 per coordinate. 4x compression. Recall is essentially indistinguishable from float32 on most embeddings. The default first step when memory matters.
-* **[Binary Quantization (BQ)](https://qdrant.tech/articles/binary-quantization/)** — 1- or 2-bit storage (32x or 16x compression). Recall depends heavily on the embedding model; it works beautifully on isotropic, well-trained models.
+* **[Binary Quantization (BQ)](https://qdrant.tech/articles/binary-quantization/)** — 1-, 1.5-, or 2-bit storage (32x, ~21x, or 16x compression). Recall depends heavily on the embedding model; it works beautifully on isotropic, well-trained models.
 
 TurboQuant adds a new path with four operating points: 8x (4 bits/dim), 16x (2 bits/dim), ~21x (1.5 bits/dim), and 32x (1 bit/dim).
 
@@ -44,29 +44,31 @@ To enable TurboQuant, specify it in the `quantization_config` section of the col
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant-bits/" >}}
 
+The `memory` parameter in this snippet requires Qdrant 1.19 or later. On 1.18, omit it.
+
 When enabling TurboQuant on an existing collection, use a `PATCH` request, or the corresponding `update_collection` method in any client SDK.
 
 The `bits` field controls encoding bit depth. It defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy. See the [benchmarks](#detailed-benchmarks) for the recall trade-off on each bit width. The full reference is in [the quantization docs](https://qdrant.tech/documentation/manage-data/quantization/).
 
 ## At a Glance
 
-Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets: [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), [dbpedia-gemini](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K), [dbpedia-openai-ada](https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz), and [wiki-cohere-v3-1024](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is [further down](#detailed-benchmarks).
+Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets: [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), [dbpedia-gemini](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K), [dbpedia-openai-ada](https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz), and [wiki-cohere-v3-1024](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is in [Detailed Benchmarks](#detailed-benchmarks).
 
 **1. TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 
-{{< figure src="/articles_data/turboquant/at-a-glance-4bit.svg" alt="Recall comparison: float32 baseline vs SQ (4x) vs TurboQuant 4-bit (8x) across four datasets" caption="float32 baseline, SQ (4x compression), and TurboQuant 4-bit (8x compression)." width="100%" >}}
+{{< chart id="turboquant/at-a-glance-4bit" caption="float32 baseline, SQ (4x compression), and TurboQuant 4-bit (8x compression)." >}}
 
 **2. TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16x storage.
 
-{{< figure src="/articles_data/turboquant/at-a-glance-2bit.svg" alt="Recall comparison at 16x compression: TurboQuant 2-bit vs Binary Quantization 2-bit" caption="At 16x compression: TurboQuant 2-bit vs Binary Quantization 2-bit." width="100%" >}}
+{{< chart id="turboquant/at-a-glance-2bit" caption="At 16x compression: TurboQuant 2-bit vs Binary Quantization 2-bit." >}}
 
 **3. TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32x storage. `BQ 1-bit` here is the vanilla 1-bit configuration (1-bit storage, 1-bit query); the asymmetric variant (8-bit query) is in the [detailed table](#detailed-benchmarks).
 
-{{< figure src="/articles_data/turboquant/at-a-glance-1bit.svg" alt="Recall comparison at 32x compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit" caption="At 32x compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit." width="100%" >}}
+{{< chart id="turboquant/at-a-glance-1bit" caption="At 32x compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit." >}}
 
 ## What Is TurboQuant?
 
-TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a rotation-based vector quantization algorithm in the Product Quantization (PQ) family, with a clean theoretical recipe:
+TurboQuant ([Zandieh et al., 2025](https://arxiv.org/abs/2504.19874)) is a rotation-based vector quantization algorithm in the Product Quantization (PQ) family, with a clean theoretical recipe:
 
 1. **Apply a random orthogonal rotation** to every vector. This redistributes per-coordinate variance evenly; after rotation each coordinate looks roughly Gaussian with the same variance.
 2. **Quantize each coordinate independently** with a fixed lookup table of representative values (Lloyd-Max codebook) for the standard normal distribution. One codebook of `2^b` levels for the entire dataset, hard-coded as a small lookup table.
@@ -98,7 +100,13 @@ Vanilla MSE has a persistent length bias: quantized vectors are systematically s
 
 The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** rather than from the TurboQuant paper itself: store one extra per-vector scalar that records how much the quantization shrank the length, and multiply it back in at scoring time. We pay the same 4 bytes per vector that we already reserve for the L2 length and use them to store the **ratio of original length to centroid-reconstruction length**.
 
-{{< figure src="/articles_data/turboquant/length-renormalization.svg" alt="2D illustration of length renormalization: the quantized vector is short and slightly rotated; multiplying by the stored ratio scales it back to the original length and lands it much closer to the original vector" caption="The quantized vector is shorter than the original and points in a slightly different direction. Multiplying by the stored ratio scales it back to the original length; the renormalized vector lands on the same circle as the original, much closer to it than the raw quantized one." width="100%" >}}
+Step through the three stages below to see the error before and after renormalization.
+
+{{< island path="content/articles/headless/turboquant-quantization/renorm"
+    ratio="2 / 1"
+    title="2D illustration of length renormalization: the quantized vector is short and slightly rotated, and multiplying it by the stored ratio puts it back on the circle of radius |x|. Angles and lengths are illustrative." >}}
+![2D illustration of length renormalization](/articles_data/turboquant/length-renormalization.svg)
+{{< /island >}}
 
 TurboQuant's PROD variant spends an entire QJL random projection plus extra bits in the codebook on the same problem; RaBitQ-style renormalization spends 4 bytes and one multiplication.
 
@@ -106,7 +114,11 @@ TurboQuant's PROD variant spends an entire QJL random projection plus extra bits
 
 The rotation step gives every coordinate a roughly N(0, 1) distribution **on isotropic data**. The proof is based on uniformly distributed vectors across the sphere and does not extend to anisotropic embeddings, where a few directions concentrate most of the variance. After rotation those high-variance directions get spread across coordinates, but the per-coordinate distributions are not all identical Gaussians. They have different scales, different shapes, sometimes heavy tails. The Lloyd-Max codebook is fitted once for N(0, 1) and stays fixed, so coordinates that drift off the codebook grid waste centroid positions and lose recall.
 
-{{< figure src="/articles_data/turboquant/per-coordinate-calibration.svg" alt="Per-coordinate calibration: on the left the data distribution is shifted and stretched relative to the N(0,1) codebook, so a long tail falls past the outermost codebook centroid; on the right (shift, scale) brings the data back onto the codebook grid" caption="One coordinate of the rotated data (histogram) against the fixed N(0,1) codebook (dashed curve + red centroids). Left: the data drifts off the grid; the highlighted bars sit past the outermost centroid and are lost to the codebook. Right: after `(shift, scale)`, the data lines up with the centroids again." width="100%" >}}
+{{< island path="content/articles/headless/turboquant-quantization/calibration"
+    ratio="19 / 8"
+    title="One rotated coordinate against the fixed N(0,1) codebook, before and after per-coordinate calibration. The data distribution is illustrative." >}}
+![Per-coordinate calibration before and after (shift, scale)](/articles_data/turboquant/per-coordinate-calibration.svg)
+{{< /island >}}
 
 Because Qdrant stores data in segments, we can fix this per segment. For each segment we do a single **pre-pass** before quantization: estimate a `(shift, scale)` pair per coordinate after rotation, then apply `x → (x + shift) · scale` to pull the empirical per-coordinate distribution back onto the codebook's grid. The same `(shift, scale)` is baked into the segment's metadata and reused for every query that hits the segment.
 
@@ -183,7 +195,7 @@ Setup: HNSW index (`m=16`, `ef_construct=128`). Rows are ordered by storage clas
 
 The pattern repeats across all ten datasets:
 
-* **TQ 4-bit is competitive with SQ at half the storage.** On 9 of 10 datasets the gap to SQ is within 2.5 pp in either direction; on 3 of those (`dbp-oai`, `cohere`, `laion`) TQ 4-bit *beats* SQ, by up to 4.6 pp on `dbp-oai`. The single exception is `arxiv-384`, where TQ 4-bit trails SQ by 2.3 pp. The pattern is consistent: when SQ's int8-per-coordinate grid is mismatched with the embedding distribution, an adaptive 4-bit quantizer with anisotropy compensation does better, despite using half the bits.
+* **TQ 4-bit is competitive with SQ at half the storage.** On 7 of 10 datasets TQ 4-bit trails SQ by 2.3 pp or less (`arxiv-384` is the widest gap). On the other three it *beats* SQ: `dbp-oai` (+4.6 pp), `cohere` (+2.6 pp), and `laion` (+1.6 pp). The pattern is consistent: when SQ's int8-per-coordinate grid is mismatched with the embedding distribution, an adaptive 4-bit quantizer with anisotropy compensation does better, despite using half the bits.
 * **TQ 2-bit beats BQ 2-bit by 9–24 pp** on every dataset, at the same 16x storage class. The largest margins are on `laion` (+24.0 pp) and `h&m` (+21.8 pp); the smallest is `ads-1M` (+9.0 pp).
 * **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on every dataset, at the same 32x storage class. Against the stronger asymmetric BQ configuration (1-bit storage, 8-bit query), TQ 1-bit is still ahead on every dataset, though the margin narrows — between 0.1 pp (`cohere`, essentially tied) and 10 pp (`laion`).
 * **TQ 1.5-bit (~21x)** sits between the 2-bit and 1-bit operating points and is the right pick when 32x is too aggressive but 16x leaves storage on the table.
@@ -193,14 +205,14 @@ The pattern repeats across all ten datasets:
 A practical guide:
 
 * **You currently run SQ** → try TQ 4-bit. Comparable recall (often within 1–2 pp; sometimes higher) at half the memory. The easiest upgrade call on the ladder.
-* **You currently run BQ at any bit depth** → try TurboQuant at the same storage budget (BQ 2-bit → TQ 2-bit, BQ 1.5-bit → TQ 1.5-bit, BQ 1-bit → TQ 1-bit). On the benchmarks described here, it consistently delivers higher recall, typically 10–20 pp at both the 16x and 32x storage classes. Stay on BQ if you observe a noticeable drop in throughput on your workload, or if the recall improvement is too small to matter for your use case.
+* **You currently run BQ at any bit depth** → try TurboQuant at the same storage budget (BQ 2-bit → TQ 2-bit, BQ 1.5-bit → TQ 1.5-bit, BQ 1-bit → TQ 1-bit). On the benchmarks described here, it consistently delivers higher recall, typically 9–24 pp at both the 16x and 32x storage classes. Stay on BQ if you observe a noticeable drop in throughput on your workload, or if the recall improvement is too small to matter for your use case.
 * **You need cosine, dot, or L2** → all three are first-class in TurboQuant. **L1** → stay on SQ.
 
 A word on indexing: TurboQuant has a small one-time pre-pass per segment (the calibration scan) that runs in a few seconds at production segment sizes. Once a segment is calibrated, the calibration is reused across queries and segment merges; it is paid once per segment, never per query.
 
 ## Conclusion
 
-TurboQuant gives Qdrant a new path on the compression ladder: 8x compression at SQ-level recall, and at 16x / 32x a consistent 10–20 percentage points of recall above BQ on every embedding model we have benchmarked. What makes that work is a hybrid: TurboQuant's MSE codebook and integer-arithmetic SIMD kernels, RaBitQ's per-vector length rescaling and bit-plane scoring at 1-bit, and the anisotropy-compensation pre-pass we developed on top to make all of it land on real production embeddings. The whole stack is shipping in **Qdrant 1.18**, on Cloud and in the standard Docker image. Migration from SQ or BQ is a config change and a re-index; the rest of the application stays identical.
+TurboQuant gives Qdrant a new path on the compression ladder: 8x compression at SQ-level recall, and at 16x / 32x typically 9–24 percentage points of recall above BQ on every dataset we benchmarked. What makes that work is a hybrid: TurboQuant's MSE codebook and integer-arithmetic SIMD kernels, RaBitQ's per-vector length rescaling and bit-plane scoring at 1-bit, and the anisotropy-compensation pre-pass we developed on top to make all of it land on real production embeddings. The whole stack is shipping in **Qdrant 1.18**, on Cloud and in the standard Docker image. Migration from SQ or BQ is a config change and a re-index; the rest of the application stays identical.
 
 ## Further Reading
 
@@ -211,7 +223,7 @@ TurboQuant gives Qdrant a new path on the compression ladder: 8x compression at 
 **Background:**
 
 * [TurboQuant: Redefining AI Efficiency with Extreme Compression](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) — the original Google Research blog post.
-* [TurboQuant paper (arXiv:2504.19874)](https://arxiv.org/abs/2504.19874) — Zandieh et al., 2026.
+* [TurboQuant paper (arXiv:2504.19874)](https://arxiv.org/abs/2504.19874) — Zandieh et al., 2025.
 * [RaBitQ paper (arXiv:2405.12497)](https://arxiv.org/abs/2405.12497) — Gao & Long.
 * [Interactive TurboQuant explainer](https://arkaung.github.io/interactive-turboquant/) by Arkar Min Aung — a hands-on, step-by-step walkthrough of the algorithm with interactive visualizations. The clearest high-level explanation of TurboQuant available, and a great place to build intuition before reading the paper.
 * [Scalar Quantization in Qdrant](https://qdrant.tech/articles/scalar-quantization/) — the int8 baseline this post refers to.

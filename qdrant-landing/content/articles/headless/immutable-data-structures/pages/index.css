@@ -1,0 +1,47 @@
+/* pages island. Scoped under .im-pg. Four workspace hues. */
+.im-pg {
+  --im-w1: var(--qi-cat-1);
+  --im-w2: #2e9e5b;
+  --im-w3: #e08a00;
+  --im-w4: var(--qi-cat-4);
+  display: block;
+}
+.im-pg__w1 { fill: var(--im-w1); background: var(--im-w1); }
+.im-pg__w2 { fill: var(--im-w2); background: var(--im-w2); }
+.im-pg__w3 { fill: var(--im-w3); background: var(--im-w3); }
+.im-pg__w4 { fill: var(--im-w4); background: var(--im-w4); }
+.im-pg__sw {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.im-pg__page {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+.im-pg__page.is-read {
+  stroke: var(--qi-accent);
+  stroke-width: 2.5;
+}
+.im-pg__vec.is-other {
+  fill-opacity: 0.3;
+}
+.im-pg__bar--need {
+  fill: var(--qi-cat-3);
+}
+.im-pg__bar--read {
+  fill: var(--qi-accent);
+}
+.im-pg__readtag {
+  fill: var(--qi-accent);
+  font-weight: 600;
+}
+.im-pg .qi-label {
+  font-size: 13px;
+}
+.im-pg.im-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

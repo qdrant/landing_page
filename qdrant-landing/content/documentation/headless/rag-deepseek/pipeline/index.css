@@ -1,0 +1,122 @@
+.qi-rag { display: block; }
+
+/* The shortcode's aspect ratio reserves the fallback image before loading. */
+.island.is-ready[data-island='content/documentation/headless/rag-deepseek/pipeline'] .island__stage {
+  aspect-ratio: auto !important;
+}
+
+.qi-rag__diagram {
+  padding: 18px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+}
+
+.qi-rag__question {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.qi-rag__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.qi-rag__step {
+  position: relative;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+  background: var(--qi-surface);
+}
+
+.qi-rag__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--qi-fg);
+  border-right: 2px solid var(--qi-fg);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.qi-rag__role {
+  display: block;
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.qi-rag__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  margin: 8px 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.qi-rag__brand strong {
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.qi-rag__brand img { margin: 0; }
+
+.qi-rag__brand .qi-rag__qdrant-logo { height: 44px; }
+.qi-rag__brand .qi-rag__deepseek-logo { height: 42px; }
+
+.qi-rag__qdrant-logo {
+  display: block;
+  width: 158px;
+  max-width: 100%;
+  height: 44px;
+  padding: 6px;
+  border-radius: 5px;
+  background: #fff;
+  object-fit: contain;
+}
+
+.qi-rag__deepseek-logo {
+  display: block;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  padding: 5px;
+  border-radius: 5px;
+  background: #fff;
+  object-fit: contain;
+}
+
+.qi-rag__step p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.qi-rag__status { min-height: 1.45em; }
+
+@media (max-width: 680px) {
+  .qi-rag__diagram { padding: 14px; }
+  .qi-rag__steps { grid-template-columns: 1fr; gap: 18px; }
+  .qi-rag__step { padding: 10px 14px; }
+  .qi-rag__step:not(:last-child)::after {
+    top: auto;
+    right: calc(50% - 5px);
+    bottom: -14px;
+    transform: rotate(135deg);
+  }
+  .qi-rag__brand { height: 44px; margin: 3px 0; }
+  .qi-rag__brand .qi-rag__qdrant-logo { height: 40px; }
+  .qi-rag__deepseek-logo { width: 38px; }
+  .qi-rag__brand .qi-rag__deepseek-logo { height: 38px; }
+}

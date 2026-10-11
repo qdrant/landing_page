@@ -10,20 +10,16 @@ aliases:
 goal: RAG & Agents
 stack:
   - Python
+  - FastEmbed
   - DeepSeek
-example_resources:
-  - label: View Notebook
-    url: https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb
 ---
-
-<!-- ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png) -->
 
 # RAG in 5 Minutes with DeepSeek and Qdrant
 
-| Time: 5 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) |
-| --- | ----------- | ----------- |----------- |
+| Time: 5 min | Level: Beginner |
+| --- | --- |
 
-This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)** pipeline using Qdrant as a vector storage solution and DeepSeek for semantic query enrichment. RAG pipelines enhance Large Language Model (LLM) responses by providing contextually relevant data.
+This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)** pipeline using FastEmbed for embeddings, Qdrant for vector search, and DeepSeek to answer questions with retrieved context. RAG pipelines enhance Large Language Model (LLM) responses by providing contextually relevant data.
 
 ## Overview
 In this tutorial, we will:
@@ -34,29 +30,35 @@ In this tutorial, we will:
 5. Enrich DeepSeek prompts with content retrieved from Qdrant.
 6. Evaluate answer accuracy before and after.
 
-#### Architecture:
+### Architecture
 
-![deepseek-rag-architecture](/documentation/examples/rag-deepseek/architecture.png)
+{{< island path="content/documentation/headless/rag-deepseek/pipeline" ratio="10 / 7" title="Trace how FastEmbed, Qdrant, and DeepSeek answer a question with retrieved context." >}}
+![FastEmbed embeds the question with BGE small, Qdrant retrieves matching tool descriptions, and DeepSeek Flash writes an answer from the question and matches.](/documentation/examples/rag-deepseek/architecture.svg)
+{{< /island >}}
+
+The two example questions show how retrieved context changes the answer. The grocery-store question has no location in the source data, so its grounded answer is "I don't know." The displayed matches and answers are deterministic illustrations based on a local run, not live API calls. FastEmbed uses BGE small for stored descriptions and the question, Qdrant returns matches, and DeepSeek writes an answer from the question and those matches.
 
 ---
 
 ## Prerequisites
 
 Ensure you have the following:
-- Python environment (3.9+)
+- Python environment (3.10+)
 - Access to [Qdrant Cloud](https://qdrant.tech)
 - A DeepSeek API key from [DeepSeek Platform](https://platform.deepseek.com/api_keys)
+
+The Qdrant retrieval steps were checked with Qdrant 1.19.1 and `qdrant-client` 1.19.1 on October 1, 2026. Use a Qdrant Cloud cluster on the 1.19 release line to match the client. DeepSeek API calls are billed according to its [current pricing](https://api-docs.deepseek.com/quick_start/pricing/).
 
 ## Setup Qdrant
 
 
-```python
-pip install "qdrant-client[fastembed]>=1.14.1"
+```bash
+python -m pip install "qdrant-client[fastembed]==1.19.1" requests
 ```
 
 [Qdrant](https://qdrant.tech) will act as a knowledge base providing the context information for the prompts we'll be sending to the LLM.
 
-You can get a free-forever Qdrant cloud instance at http://cloud.qdrant.io. Learn about setting up your instance from the [Quickstart](https://qdrant.tech/documentation/cloud-quickstart/).
+You can get a free-forever Qdrant Cloud instance at https://cloud.qdrant.io. Learn about setting up your instance from the [Quickstart](https://qdrant.tech/documentation/cloud-quickstart/).
 
 
 ```python
@@ -77,7 +79,7 @@ client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
 
 Qdrant will use vector embeddings of our facts to enrich the original prompt with some context. Thus, we need to store the vector embeddings and the facts used to generate them.
 
-We'll be using the [bge-base-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model via [FastEmbed](https://github.com/qdrant/fastembed/) - A lightweight, fast, Python library for embeddings generation.
+We'll use [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) through [FastEmbed](https://github.com/qdrant/fastembed/), a lightweight Python library for generating embeddings. DeepSeek generates answers; BGE creates the vectors used to find relevant descriptions. BGE produces 384-dimensional vectors, matching the collection configuration in the code.
 
 The Qdrant client provides a handy integration with FastEmbed that makes building a knowledge base very straightforward.
 
@@ -101,7 +103,7 @@ documents = [
     "MySQL is an open-source relational database management system (RDBMS). A relational database organizes data into one or more data tables in which data may be related to each other; these relations help structure the data. SQL is a language that programmers use to create, modify and extract data from the relational database, as well as control user access to the database.",
     "NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption.",
     "FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.",
-    "SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.",
+    "FastEmbed generates 384-dimensional text embeddings with the BAAI/bge-small-en-v1.5 model. The Qdrant Python client uses it to embed documents and queries.",
     "The cron command-line utility is a job scheduler on Unix-like operating systems. Users who set up and maintain software environments use cron to schedule jobs (commands or shell scripts), also known as cron jobs, to run periodically at fixed times, dates, or intervals.",
 ]
 client.upsert(
@@ -132,17 +134,15 @@ What tools should I need to use to build a web service using vector embeddings f
 """
 ```
 
-Using the Deepseek API requires providing the API key. You can obtain it from the [DeepSeek platform](https://platform.deepseek.com/api_keys).
+Using the DeepSeek API requires providing the API key. You can obtain it from the [DeepSeek platform](https://platform.deepseek.com/api_keys).
+Replace the placeholder `API_KEY` value in the Python code with your DeepSeek API key.
 
-Now we can finally call the completion API.
+Now we can call the completion API with [`deepseek-flash`](https://api-docs.deepseek.com/quick_start/pricing/), the current DeepSeek Flash inference model. We disable thinking mode so the example returns just the final answer. Model responses are generated text, so their wording and suggested tools can vary between runs.
 
 
 ```python
 import requests
 import json
-
-# Fill the environmental variable with your own Deepseek API key
-# See: https://platform.deepseek.com/api_keys
 API_KEY = "<YOUR_DEEPSEEK_KEY>"
 
 HEADERS = {
@@ -153,13 +153,17 @@ HEADERS = {
 
 def query_deepseek(prompt):
     data = {
-        "model": "deepseek-chat",
+        "model": "deepseek-flash",
         "messages": [{"role": "user", "content": prompt}],
+        "thinking": {"type": "disabled"},
         "stream": False,
     }
 
     response = requests.post(
-        "https://api.deepseek.com/chat/completions", headers=HEADERS, data=json.dumps(data)
+        "https://api.deepseek.com/chat/completions",
+        headers=HEADERS,
+        data=json.dumps(data),
+        timeout=30,
     )
 
     if response.ok:
@@ -176,11 +180,7 @@ and also the query
 query_deepseek(prompt)
 ```
 
-The response is:
-
-```bash
-"Building a web service that uses vector embeddings for search involves several components, including data processing, embedding generation, storage, search, and serving the service via an API. Below is a list of tools and technologies you can use for each step:\n\n---\n\n### 1. **Data Processing**\n   - **Python**: For general data preprocessing and scripting.\n   - **Pandas**: For handling tabular data.\n   - **NumPy**: For numerical operations.\n   - **NLTK/Spacy**: For text preprocessing (tokenization, stemming, etc.).\n   - **LLM models**: For generating embeddings if you're using pre-trained models.\n\n---\n\n### 2. **Embedding Generation**\n   - **Pre-trained Models**:\n     - Embeddings (e.g., `text-embedding-ada-002`).\n     - Hugging Face Transformers (e.g., `Sentence-BERT`, `all-MiniLM-L6-v2`).\n     - Google's Universal Sentence Encoder.\n   - **Custom Models**:\n     - TensorFlow/PyTorch: For training custom embedding models.\n   - **Libraries**:\n     - `sentence-transformers`: For generating sentence embeddings.\n     - `transformers`: For using Hugging Face models.\n\n---\n\n### 3. **Vector Storage**\n   - **Vector Databases**:\n     - Pinecone: Managed vector database for similarity search.\n     - Weaviate: Open-source vector search engine.\n     - Milvus: Open-source vector database.\n     - FAISS (Facebook AI Similarity Search): Library for efficient similarity search.\n     - Qdrant: Open-source vector search engine.\n     - Redis with RedisAI: For storing and querying vectors.\n   - **Traditional Databases with Vector Support**:\n     - PostgreSQL with pgvector extension.\n     - Elasticsearch with dense vector support.\n\n---\n\n### 4. **Search and Retrieval**\n   - **Similarity Search Algorithms**:\n     - Cosine similarity, Euclidean distance, or dot product for comparing vectors.\n   - **Libraries**:\n     - FAISS: For fast nearest-neighbor search.\n     - Annoy (Approximate Nearest Neighbors Oh Yeah): For approximate nearest neighbor search.\n   - **Vector Databases**: Most vector databases (e.g., Pinecone, Weaviate) come with built-in search capabilities.\n\n---\n\n### 5. **Web Service Framework**\n   - **Backend Frameworks**:\n     - Flask/Django/FastAPI (Python): For building RESTful APIs.\n     - Node.js/Express: If you prefer JavaScript.\n   - **API Documentation**:\n     - Swagger/OpenAPI: For documenting your API.\n   - **Authentication**:\n     - OAuth2, JWT: For securing your API.\n\n---\n\n### 6. **Deployment**\n   - **Containerization**:\n     - Docker: For packaging your application.\n   - **Orchestration**:\n     - Kubernetes: For managing containers at scale.\n   - **Cloud Platforms**:\n     - AWS (EC2, Lambda, S3).\n     - Google Cloud (Compute Engine, Cloud Functions).\n     - Azure (App Service, Functions).\n   - **Serverless**:\n     - AWS Lambda, Google Cloud Functions, or Vercel for serverless deployment.\n\n---\n\n### 7. **Monitoring and Logging**\n   - **Monitoring**:\n     - Prometheus + Grafana: For monitoring performance.\n   - **Logging**:\n     - ELK Stack (Elasticsearch, Logstash, Kibana).\n     - Fluentd.\n   - **Error Tracking**:\n     - Sentry.\n\n---\n\n### 8. **Frontend (Optional)**\n   - **Frontend Frameworks**:\n     - React, Vue.js, or Angular: For building a user interface.\n   - **Libraries**:\n     - Axios: For making API calls from the frontend.\n\n---\n\n### Example Workflow\n1. Preprocess your data (e.g., clean text, tokenize).\n2. Generate embeddings using a pre-trained model (e.g., Hugging Face).\n3. Store embeddings in a vector database (e.g., Pinecone or FAISS).\n4. Build a REST API using FastAPI or Flask to handle search queries.\n5. Deploy the service using Docker and Kubernetes or a serverless platform.\n6. Monitor and scale the service as needed.\n\n---\n\n### Example Tools Stack\n- **Embedding Generation**: Hugging Face `sentence-transformers`.\n- **Vector Storage**: Pinecone or FAISS.\n- **Web Framework**: FastAPI.\n- **Deployment**: Docker + AWS/GCP.\n\nBy combining these tools, you can build a scalable and efficient web service for vector embedding-based search."
-```
+A direct response should suggest a general set of components for generating embeddings, storing and searching vectors, and serving an API. Because the question was sent without retrieved context, the model may mention tools that are not in our knowledge base. The exact answer varies between runs.
 
 
 ### Extending the prompt
@@ -196,16 +196,7 @@ results = client.query_points(
 results
 ```
 
-Here is the response: 
-
-```bash
-QueryResponse(points=[
-    ScoredPoint(id=0, version=0, score=0.67437416, payload={'document': 'Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!'}, vector=None, shard_key=None, order_value=None), 
-    ScoredPoint(id=6, version=0, score=0.63144326, payload={'document': 'SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.'}, vector=None, shard_key=None, order_value=None), 
-    ScoredPoint(id=5, version=0, score=0.6064749, payload={'document': 'FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.'}, vector=None, shard_key=None, order_value=None)
-])
-```
-
+In a local run with `BAAI/bge-small-en-v1.5`, the top matches were FastEmbed, Qdrant, and FastAPI. Scores may vary slightly by model or client version.
 
 We used the original prompt to perform a semantic search over the set of tool descriptions. Now we can use these descriptions to augment the prompt and create more context.
 
@@ -215,14 +206,9 @@ context = "\n".join(r.payload['document'] for r in results.points)
 context
 ```
 
-The response is:
+The context now contains the FastEmbed, Qdrant, and FastAPI descriptions in that order.
 
-```bash
-'Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!\nFastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.\nPyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing.'
-```
-
-
-Finally, let's build a metaprompt, the combination of the assumed role of the LLM, the original question, and the results from our semantic search that will force our LLM to use the provided context. 
+Finally, let's build a metaprompt that combines the LLM's role, the original question, and the search results. It asks the model to use only the provided context.
 
 By doing this, we effectively convert the knowledge-oriented task into a language task and hopefully reduce the chances of hallucinations. It also should make the response sound more relevant.
 
@@ -230,8 +216,8 @@ By doing this, we effectively convert the knowledge-oriented task into a languag
 ```python
 metaprompt = f"""
 You are a software architect. 
-Answer the following question using the provided context. 
-If you can't find the answer, do not pretend you know it, but answer "I don't know".
+Answer the following question using only the provided context.
+If the context does not contain the answer, answer exactly "I don't know".
 
 Question: {prompt.strip()}
 
@@ -245,22 +231,7 @@ Answer:
 print(metaprompt)
 ```
 
-**Response:**
-
-```bash
-You are a software architect. 
-Answer the following question using the provided context. 
-If you can't find the answer, do not pretend you know it, but answer "I don't know".
-    
-Question: What tools should I need to use to build a web service using vector embeddings for search?
-    
-Context: 
-Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!
-FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
-PyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing.
-    
-Answer:
-```   
+The printed prompt includes the question and the retrieved document descriptions in their search order. Check that the context names the same tools shown in `results.points`.
 
 Our current prompt is much longer, and we also used a couple of strategies to make the responses even better:
 
@@ -268,18 +239,14 @@ Our current prompt is much longer, and we also used a couple of strategies to ma
 2. We provide more context to answer the question.
 3. If the context contains no meaningful information, the model shouldn't make up an answer.
 
-Let's find out if that works as expected.
+Now ask the model to answer with the retrieved context.
 
 **Question:**
 
 ```python
 query_deepseek(metaprompt)
 ```
-**Answer:**
-
-```bash
-'To build a web service using vector embeddings for search, you can use the following tools:\n\n1. **Qdrant**: As a vector database and similarity search engine, Qdrant will handle the storage and retrieval of high-dimensional vectors. It provides an API service for searching and matching vectors, making it ideal for applications that require vector-based search functionality.\n\n2. **FastAPI**: This web framework is perfect for building the API layer of your web service. It is fast, easy to use, and based on Python type hints, which makes it a great choice for developing the backend of your service. FastAPI will allow you to expose endpoints that interact with Qdrant for vector search operations.\n\n3. **PyTorch**: If you need to generate vector embeddings from your data (e.g., text, images), PyTorch can be used to create and train neural network models that produce these embeddings. PyTorch is a powerful machine learning framework that supports a wide range of applications, including natural language processing and computer vision.\n\n### Summary:\n- **Qdrant** for vector storage and search.\n- **FastAPI** for building the web service API.\n- **PyTorch** for generating vector embeddings (if needed).\n\nThese tools together provide a robust stack for building a web service that leverages vector embeddings for search functionality.'
-```
+**Expected answer:** The retrieved context supports FastEmbed for embeddings, Qdrant for vector search, and FastAPI for the web API. A grounded answer should describe those roles; its wording will vary with the model response.
 
 ### Testing out the RAG pipeline
 
@@ -298,8 +265,8 @@ def rag(question: str, n_points: int = 3) -> str:
 
     metaprompt = f"""
     You are a software architect. 
-    Answer the following question using the provided context. 
-    If you can't find the answer, do not pretend you know it, but only answer "I don't know".
+    Answer the following question using only the provided context.
+    If the context does not contain the answer, answer exactly "I don't know".
 
     Question: {question.strip()}
 
@@ -319,11 +286,7 @@ Now it's easier to ask a broad range of questions.
 ```python
 rag("What can the stack for a web api look like?")
 ```
-**Answer:**
-
-```bash
-'The stack for a web API can include the following components based on the provided context:\n\n1. **Web Framework**: FastAPI can be used as the web framework for building the API. It is modern, fast, and leverages Python type hints for better development and performance.\n\n2. **Reverse Proxy/Web Server**: NGINX can be used as a reverse proxy or web server to handle incoming HTTP requests, load balancing, and serving static content. It is known for its high performance and low resource consumption.\n\n3. **Containerization**: Docker can be used to containerize the application, making it easier to build, share, and run the API consistently across different environments without worrying about configuration issues.\n\nThis stack provides a robust, scalable, and efficient setup for building and deploying a web API.'
-```
+**Expected answer:** In a local run, the three retrieved descriptions are FastAPI, NGINX, and FastEmbed. A grounded response can use FastAPI for the API, NGINX as a reverse proxy, and FastEmbed for embeddings. The exact wording will vary.
 
 **Question:**
 
@@ -331,15 +294,11 @@ rag("What can the stack for a web api look like?")
 rag("Where is the nearest grocery store?")
 ```
 
-**Answer:**
+**Expected answer:** "I don't know." None of the documents in this example contains a store location. If the model names a store, it has not followed the grounding instruction.
 
-```bash
-"I don't know. The provided context does not contain any information about the location of the nearest grocery store."
-```
-
-Our model can now:
+This pipeline is designed to:
 
 1. Take advantage of the knowledge in our vector datastore.
-2. Answer, based on the provided context, that it can not provide an answer.
+2. Say "I don't know" when the provided context cannot answer the question.
 
-We have just shown a useful mechanism to mitigate the risks of hallucinations in Large Language Models.
+Grounding the prompt in retrieved context can reduce unsupported answers, but you should still check the generated response.

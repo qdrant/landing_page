@@ -5,7 +5,7 @@ button:
   text: Start Free
   url: https://cloud.qdrant.io/signup
 outlineButton:
-  text: Talk to Engineering
+  text: Talk to the Team
   url: /contact-us/
 sitemapExclude: true
 ---

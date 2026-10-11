@@ -1,0 +1,30 @@
+.qi-rf {
+  container-type: inline-size;
+}
+.qi-rf text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+}
+.qi-rf .qi-rf__ink {
+  fill: #fff;
+}
+.qi-rf__mobile {
+  display: none;
+}
+.island.is-ready[data-island="content/documentation/headless/relevance-feedback/overview"]
+  .island__stage {
+  aspect-ratio: auto !important;
+}
+@container (max-width: 640px) {
+  .qi-rf__desktop {
+    display: none;
+  }
+  .qi-rf__mobile {
+    display: block;
+  }
+}
+.island[data-island="content/documentation/headless/relevance-feedback/overview"]
+  .island__caption {
+  opacity: 1;
+  color: var(--qi-fg);
+}

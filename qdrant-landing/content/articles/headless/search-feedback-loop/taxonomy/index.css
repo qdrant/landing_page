@@ -1,0 +1,78 @@
+/* taxonomy island. Scoped under .sf-tx. Green: lexical search, orange: neural
+   search, split: both. */
+.sf-tx {
+  --sf-lex: #2e9e5b;
+  --sf-neu: #e08a00;
+  display: block;
+}
+.sf-tx__k--lex,
+.sf-tx__sw--lex {
+  fill: var(--sf-lex);
+  background: var(--sf-lex);
+}
+.sf-tx__k--neu,
+.sf-tx__sw--neu {
+  fill: var(--sf-neu);
+  background: var(--sf-neu);
+}
+.sf-tx__sw {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.sf-tx__box {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+.sf-tx__node {
+  cursor: pointer;
+  outline: none;
+}
+.sf-tx__node.is-branch .sf-tx__box {
+  stroke: var(--qi-cat-1);
+}
+.sf-tx__node.is-sel .sf-tx__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.sf-tx__node:focus-visible .sf-tx__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.sf-tx__node.is-muted .sf-tx__box {
+  stroke-dasharray: 4 3;
+  fill-opacity: 0.5;
+}
+.sf-tx__node.is-muted .sf-tx__lab {
+  fill: var(--qi-muted);
+}
+.sf-tx__node.is-dim {
+  opacity: 0.3;
+}
+.sf-tx__lab {
+  fill: var(--qi-fg);
+}
+.sf-tx__chev {
+  fill: var(--qi-muted);
+  font-size: 16px;
+}
+.sf-tx__edge {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.sf-tx__edge.is-muted {
+  stroke-dasharray: 4 3;
+}
+.sf-tx__edgelab {
+  fill: var(--qi-muted);
+}
+.sf-tx .qi-label {
+  font-size: 13px;
+}
+.sf-tx.sf-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

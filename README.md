@@ -154,6 +154,38 @@ keywords: # Keywords for SEO
 ---
 ```
 
+### Retiring an Article Without Breaking Links
+
+Keep the article, its original URL, aliases, publication date, and assets. Add
+the following front matter to archive it while keeping HTML and Markdown available:
+
+```yaml
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+# Optional resource for readers; this does not redirect the archived page.
+retired_resource:
+  title: Full-Text Search Documentation
+  url: /documentation/search/text-search/full-text-search/
+```
+
+`retired` adds the same archive notice to HTML and Markdown. Use `retired_note`
+for necessary historical context. `hideFromList` excludes article cards, and
+`build.list: never` excludes automatic collections, including RSS feeds.
+`sitemapExclude` adds HTML `noindex` and excludes the page from the sitemap and
+`llms.txt`.
+
+Add `X-Robots-Tag: noindex` rules in `qdrant-landing/static/_headers` for
+`/articles/<slug>/*` and `/articles/<slug>.md`. The wildcard covers HTML and
+`index.md`; the separate rule covers the Markdown copy generated after the build.
+Preserve existing alias routes and cover their HTML paths too. Do not block
+crawling in `robots.txt`: crawlers need to fetch the indexing directive.
+Replace active recommendations with maintained content; historical references
+can continue linking to the archive.
+
 ### Preview image mechanism
 
 Preview image for each page is selected based on the following places in the following order:

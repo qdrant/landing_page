@@ -20,6 +20,7 @@
 */ -}}
 {{- $c := partial "viz-chart-spec.html" . -}}
 {{- $spec := $c.spec -}}
+{{- if $c.table -}}
 {{- $csv := resources.Get (printf "viz/%s.csv" $c.id) -}}
 {{- if not $csv }}{{ errorf "chart in %s: assets/viz/%s.csv missing; the Markdown output renders the chart's source table." .Position $c.id }}{{ end -}}
 {{- $rows := $csv | transform.Unmarshal -}}
@@ -31,6 +32,7 @@
 |{{ range $head }} --- |{{ end }}
 {{ range after 1 $rows }}| {{ delimit . " | " }} |
 {{ end }}
+{{- end -}}
 {{- /* The table is every view's columns at once, so it needs every view's claim,
        not just the one the chart happens to open on. */ -}}
 {{- if $c.views -}}

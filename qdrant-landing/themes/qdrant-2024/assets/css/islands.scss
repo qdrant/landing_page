@@ -152,6 +152,13 @@ html[data-theme='dark'] .island {
   @include qi-dark-tokens;
 }
 
+// Blog posts have a light-only surface, independent of the theme toggle and OS
+// preference, so islands there always use the light tokens (as charts do in
+// viz.scss). Same specificity as the dark rules above; wins by source order.
+html .qdrant-blog-post .island {
+  @include qi-light-tokens;
+}
+
 // Layout: controls row above the SVG, one status line below.
 .qi-fig {
   display: flex;

@@ -104,7 +104,7 @@ The table separates model loading, the first query after loading, and warm p50, 
 | Nano | 0.410 s | 3.935 ms | 3.131 ms |
 | Full Stella | 1.301 s | 54.484 ms | 38.952 ms |
 
-![Warm query-encoding latency: Zero 0.081 ms, Nano 3.131 ms, and full Stella 38.952 ms. Lower is better.](/blog/constella-research-preview/query-latency.svg)
+{{< chart id="constella/latency" table="false" caption="A warm 20-word query takes 38.952 ms with full Stella, 3.131 ms with Nano and 0.081 ms with Zero: about 12 times and 480 times faster." caption2="The first query after loading costs more for every model: 54.484 ms for full Stella, 3.935 ms for Nano and 0.587 ms for Zero." caption3="Loading full Stella takes 1.301 s. Nano loads in 0.410 s and Zero in 0.334 s, so keep models loaded if you switch between them." >}}
 
 We measured all three with FastEmbed and ONNX Runtime on CPU, using four threads and batch size one. Values are medians across three fresh processes, each with five warmups and 20 synthetic 20-word queries. Stella receives its required query instruction in addition to those 20 words. These are encoding times; Qdrant search and network time are additional.
 
@@ -120,12 +120,12 @@ Loading includes imports and local model initialization, with assets already dow
 
 ## Try Constella
 
-It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/Qdrant/constella-nano), and native FastEmbed support is available on the [research-preview branch](https://github.com/Dylancouzon/fastembed/tree/constella-research-preview).
+It's a standard Qdrant + FastEmbed setup: embed your documents, store the vectors, and query the collection. The [models are on Hugging Face](https://huggingface.co/Qdrant/constella-nano), and native support is available in [FastEmbed 0.9.0](https://github.com/qdrant/fastembed/releases/tag/v0.9.0).
 
-Install the preview:
+Install FastEmbed and the Qdrant client:
 
 ```bash
-pip install "fastembed @ git+https://github.com/Dylancouzon/fastembed.git@constella-research-preview" qdrant-client
+pip install "fastembed==0.9.0" qdrant-client
 ```
 
 Create a collection and encode your documents once with Stella:

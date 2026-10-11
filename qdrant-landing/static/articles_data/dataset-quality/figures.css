@@ -1,0 +1,29 @@
+.documentation-article figure.dataset-quality-figure {
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: none;
+}
+
+.dataset-quality-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dataset-quality-figure .dataset-quality-figure__dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .dataset-quality-figure__light { display: none; }
+  html:not([data-theme='light']) .dataset-quality-figure__dark { display: block; }
+}
+
+html[data-theme='dark'] .dataset-quality-figure__light { display: none; }
+html[data-theme='dark'] .dataset-quality-figure__dark { display: block; }
+
+.dataset-quality-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

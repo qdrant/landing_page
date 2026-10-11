@@ -39,7 +39,7 @@ This tutorial guides you through implementing time-based sharding and covers:
 First, install the Qdrant client:
 
 ```bash
-!pip install qdrant-client
+pip install qdrant-client
 ```
 
 Next, initialize the client: 
@@ -119,13 +119,13 @@ To query the entire dataset (all shards), omit the shard key selector parameter:
 
 ## Pruning Shards
 
-Every night at midnight, create a new shard for the new data that will be ingested that day. If you only query the last 7 days of data, you can also delete the oldest shard. You can automate this with a cron job.
+Every night at midnight, create a new shard for the new data that will be ingested that day. If you only query the last 7 days of data, you can also delete the oldest shard. You can automate this with a cron job. The example sets `today` to `2026-04-08` to match the sample data. In a scheduled job, use `date.today().isoformat()` instead.
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="pruning-shards" >}}
 
 ## Ingest New Data
 
-When ingesting new data, set the `shard_key_selector` to today's date so the data goes to the correct shard:
+When ingesting new data, set the `shard_key_selector` to today's date, using the `today` value defined in the pruning step, so the data goes to the correct shard:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="ingest-new-data" >}}
 

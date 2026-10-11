@@ -1,0 +1,34 @@
+/* A successful stylesheet response must also apply this scoped marker. */
+.qi-lg-workflow { --qi-lg-ready: 1; }
+/* Geometry and contrast adjustments only; typography and colors inherit
+   the shared qi design system. The diagrams have no interactive state. */
+.qi-lg-workflow .qi-lg__node { stroke: var(--qi-muted); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.qi-lg-workflow .qi-lg__node--agent, .qi-lg-workflow .qi-lg__node--end { stroke: var(--qi-cat-1); }
+.qi-lg-workflow .qi-lg__node--rag { stroke: var(--qi-cat-3); }
+/* The purple category hue is below 3:1 on the dark surface. A neutral
+   boundary carries the shape; the purple accent remains a redundant cue. */
+.qi-lg-workflow .qi-lg__node--web { stroke: var(--qi-muted); }
+.qi-lg-workflow .qi-lg__web-accent { stroke: var(--qi-cat-2); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.qi-lg-workflow .qi-lg__node--db { stroke: var(--qi-cat-4); }
+.qi-lg-workflow .qi-lg__label { font-size: 22px; font-weight: 600; text-anchor: middle; }
+.qi-lg-workflow .qi-lg__sub { font-size: 20px; text-anchor: middle; }
+.qi-lg-workflow .qi-lg__edge-label { font-size: 18px; text-anchor: middle; }
+.qi-lg-workflow .qi-lg__edge { fill: none; stroke: var(--qi-muted); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.qi-lg-workflow .qi-lg__edge--strong { stroke: var(--qi-fg); }
+.qi-lg-workflow .qi-lg__edge--dashed { stroke-dasharray: 6 5; }
+.qi-lg-workflow .qi-lg__head { fill: var(--qi-muted); }
+.qi-lg-workflow .qi-lg__head--strong { fill: var(--qi-fg); }
+.qi-lg-workflow .qi-lg__icon { stroke: var(--qi-fg); stroke-width: 2; vector-effect: non-scaling-stroke; }
+
+/* The shortcode reserves the complete portrait fallback even when this lazy
+   stylesheet cannot load. Expand only a successfully mounted illustration. */
+.island.is-ready[data-island='content/documentation/headless/agentic-rag-langgraph/workflow'] .island__stage {
+  max-width: 760px !important;
+  aspect-ratio: auto !important;
+}
+.qi-lg-workflow { container-type: inline-size; }
+.qi-lg-workflow__narrow { display: none; max-width: 340px; margin-inline: auto; }
+@container (max-width: 600px) {
+  .qi-lg-workflow__wide { display: none; }
+  .qi-lg-workflow__narrow { display: block; }
+}

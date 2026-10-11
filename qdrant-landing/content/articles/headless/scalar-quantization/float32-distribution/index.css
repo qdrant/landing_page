@@ -1,0 +1,63 @@
+/* Scalar quantization article figures. Scoped under .qi-sq; the same file
+   ships with each of the three figures so each island stays self-contained.
+
+   Visual language copied from the CTO-validated quantization islands
+   (content/documentation/headless/quantization/bit-depth): no frame, muted
+   mono row captions (.qi-label), rounded cells with the shared cell stroke,
+   the Neon Blue ramp for float values, cyan (--qi-cat-3) for quantized
+   integer values, and Qdrant red for thresholds. Ramp values and their
+   dark-theme steps are the ones bit-depth uses. */
+
+.qi-sq {
+  --sq-shade-1: #c2c5ff; /* neon-blue-200 */
+  --sq-shade-2: #9494ff; /* neon-blue-300 */
+  --sq-shade-3: #6047ff; /* neon-blue-500 */
+  --sq-shade-4: #522ad8; /* neon-blue-700 */
+  --sq-shade-5: #392689; /* neon-blue-900 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-sq {
+    --sq-shade-1: #392689; /* neon-blue-900 */
+    --sq-shade-2: #4325ae; /* neon-blue-800 */
+    --sq-shade-3: #5f36f5; /* neon-blue-600 */
+    --sq-shade-4: #7e75ff; /* neon-blue-400 */
+    --sq-shade-5: #c2c5ff; /* neon-blue-200 */
+  }
+}
+html[data-theme='dark'] .qi-sq {
+  --sq-shade-1: #392689; /* neon-blue-900 */
+  --sq-shade-2: #4325ae; /* neon-blue-800 */
+  --sq-shade-3: #5f36f5; /* neon-blue-600 */
+  --sq-shade-4: #7e75ff; /* neon-blue-400 */
+  --sq-shade-5: #c2c5ff; /* neon-blue-200 */
+}
+
+.qi-sq__cell {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+}
+.qi-sq__cell--int {
+  fill: var(--qi-cat-3);
+}
+.qi-sq__cell--clipped {
+  fill: var(--qi-cat-3-soft);
+}
+
+.qi-sq__band {
+  fill: var(--sq-shade-3);
+}
+.qi-sq__guide {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.qi-sq__threshold {
+  stroke: var(--qi-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.qi-sq__threshold-label {
+  fill: var(--qi-accent);
+}

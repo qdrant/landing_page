@@ -338,7 +338,7 @@ Instead of assigning word weights solely based on the corpus statistics, we coul
 
 In practice, authors of sparse neural retrievers often start from dense encoders and adapt them to produce sparse text representations: similar in shape to bag‑of‑words, but with **weights produced by a machine learning model**.
 
-If you’re interested in details, you can check out ["Modern Sparse Neural Retrieval: From Theory to Practice"](/articles/modern-sparse-neural-retrieval/) article.
+If you’re interested in details, you can check out ["Modern Sparse Neural Retrieval: From DeepCT to SPLADE++"](/articles/modern-sparse-neural-retrieval/) article.
 
 Probably the most famous and used model in the field of modern sparse neural retrieval is called the Sparse Lexical and Expansion Model or SPLADE.
 
@@ -479,7 +479,7 @@ SPLADE models are a strong choice for sparse neural retrieval, but they have lim
 
 That said, the expansion behavior can be **fine-tuned** on domain-specific data to make it more deliberate. For example, in an e-commerce setting, fine-tuning can make SPLADE expand `mac` with `laptop` and `computer`, not `cheese`.
 
-If you'd like to explore this direction, we walk through the full process in our 5-part series [Fine-Tuning Sparse Embeddings for E-Commerce Search](/articles/sparse-embeddings-ecommerce-part-1/).
+If you'd like to explore this direction, we walk through the full process in our 5-part series [Fine-Tuning Sparse Embeddings for E-Commerce Search](/documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/).
 
 #### Qdrant's Sparse Neural Retrievers
 
