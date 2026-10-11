@@ -2,6 +2,7 @@
    unscaled in HTML; only the scatter marks scale with the SVG on phones. */
 .tl-training .qi-fig {
   gap: 12px;
+  container-type: inline-size;
 }
 .tl-training .qi-chip {
   font-size: 14px;
@@ -12,7 +13,7 @@
 }
 .tl-training__timeline {
   display: flex;
-  flex: 1 1 100%;
+  flex: 1 1 280px;
   align-items: center;
   gap: 12px;
   min-width: 0;
@@ -92,12 +93,32 @@
 .island[data-island='content/articles/headless/triplet-loss/training'].is-ready .island__stage {
   height: auto;
   min-width: 0;
+  aspect-ratio: auto !important;
 }
-@media (max-width: 600px) {
-  .island[data-island='content/articles/headless/triplet-loss/training'].is-ready .island__stage {
-    aspect-ratio: auto !important;
+
+.tl-training__panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.tl-training__panel h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: var(--qi-fg);
+}
+.tl-training__panel .qi-status {
+  margin-top: 10px;
+}
+.tl-training__tick {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 18px;
+}
+@container (max-width: 600px) {
+  .tl-training__panels {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .tl-training .qi-controls {
-    gap: 10px;
+  .tl-training__timeline {
+    flex-wrap: wrap;
   }
 }

@@ -54,7 +54,7 @@ Let's demonstrate how the two loss functions organize the vector space.
 For simpler visualization, the vectors are represented by points in a 2-dimensional space,
 and they are selected randomly from a normal distribution.
 
-{{< island path="content/articles/headless/triplet-loss/training" ratio="7 / 6" title="The same two classes of points trained with Contrastive Loss and with Triplet Loss. Contrastive Loss pulls each class toward a single point, while Triplet Loss stops moving points once every negative is at least the margin farther from the anchor than its positives, so each class keeps much of its spread. Points are illustrative." >}}
+{{< island path="content/articles/headless/triplet-loss/training" ratio="880 / 620" title="The same two classes of points trained with Contrastive Loss and with Triplet Loss. Contrastive Loss pulls each class toward a single point, while Triplet Loss stops moving points once every negative is at least the margin farther from the anchor than its positives, so each class keeps much of its spread. Points are illustrative." >}}
 ![Three panels share the same scale. The starting points of two classes overlap. After training with Contrastive Loss, each class has shrunk into a tight cluster. After training with Triplet Loss, the classes are separated but each keeps much of its spread.](/articles_data/triplet-loss/training.svg)
 {{< /island >}}
 

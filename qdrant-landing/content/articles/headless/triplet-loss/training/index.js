@@ -167,6 +167,22 @@ export function assertSimulation(result) {
   }
 }
 
+// The plot uses equal coordinate units on both axes.
+export const PLOT = Object.freeze({ left: 46, top: 18, width: 350, height: 200 });
+
+export function plotMarkup() {
+  const { left, top, width, height } = PLOT;
+  const x = (value) => left + (value - DOMAIN.xMin) * width / (DOMAIN.xMax - DOMAIN.xMin);
+  const y = (value) => top + (DOMAIN.yMax - value) * height / (DOMAIN.yMax - DOMAIN.yMin);
+  return [
+    '<rect class="qi-frame" x="1" y="1" width="418" height="258" rx="6"/>',
+    `<path class="qi-axis" d="M${left} ${top} V${top + height} H${left + width}" fill="none"/>`,
+    ...[-3, 0, 3].map((value) => `<path class="qi-axis" d="M${x(value)} ${top + height} v5"/><text class="tl-training__tick" x="${x(value)}" y="${top + height + 22}" text-anchor="middle">${value}</text>`),
+    ...[-2, 0, 2].map((value) => `<path class="qi-axis" d="M${left} ${y(value)} h-5"/><text class="tl-training__tick" x="${left - 10}" y="${y(value) + 5}" text-anchor="end">${value}</text>`),
+    '<g class="tl-training__points"></g>',
+  ].join('');
+}
+
 const NS = 'http://www.w3.org/2000/svg';
 let instance = 0;
 
@@ -186,10 +202,6 @@ export function mount(node) {
   node.innerHTML = [
     '<div class="qi-fig">',
     '  <div class="qi-controls">',
-    '    <div class="qi-group" role="group" aria-label="Loss function">',
-    '      <button type="button" class="qi-chip" data-loss="contrastive" aria-pressed="true">Contrastive Loss</button>',
-    '      <button type="button" class="qi-chip" data-loss="triplet" aria-pressed="false">Triplet Loss</button>',
-    '    </div>',
     '    <button type="button" class="qi-chip tl-training__play">Replay</button>',
     '    <div class="tl-training__timeline">',
     `      <label for="${sliderId}">Training step</label>`,
@@ -200,69 +212,73 @@ export function mount(node) {
     '    <span><i class="tl-training__key tl-training__key--a" aria-hidden="true"></i>Class A (circles)</span>',
     '    <span><i class="tl-training__key tl-training__key--b" aria-hidden="true"></i>Class B (squares)</span>',
     '  </div>',
-    '  <svg class="qi-svg" viewBox="0 0 700 400" role="img">',
-    '    <rect class="qi-frame" x="2" y="2" width="696" height="396" rx="6"/>',
-    '    <g class="tl-training__points"></g>',
-    '  </svg>',
-    '  <p class="qi-status tl-training__status"></p>',
+    '  <div class="tl-training__panels">',
+    ...['contrastive', 'triplet'].map((mode) => [
+      `    <section class="tl-training__panel" data-loss="${mode}">`,
+      `      <h3>${mode === 'contrastive' ? 'Contrastive Loss' : 'Triplet Loss'}</h3>`,
+      `      <svg class="qi-svg" viewBox="0 0 420 260" role="img">${plotMarkup()}</svg>`,
+      '      <p class="qi-status tl-training__status"></p>',
+      '    </section>',
+    ].join('')),
+    '  </div>',
     '  <span class="tl-training__live" role="status" aria-live="polite" aria-atomic="true"></span>',
     '</div>',
   ].join('\n');
 
-  const svg = node.querySelector('svg');
-  const pointsGroup = node.querySelector('.tl-training__points');
-  const chips = [...node.querySelectorAll('[data-loss]')];
   const play = node.querySelector('.tl-training__play');
   const slider = node.querySelector('input');
-  const status = node.querySelector('.tl-training__status');
   const live = node.querySelector('.tl-training__live');
-  const points = [];
-  for (let i = 0; i < 2 * SETTINGS.perClass; i++) {
-    const isA = i < SETTINGS.perClass;
-    const shape = document.createElementNS(NS, isA ? 'circle' : 'rect');
-    shape.setAttribute('class', `tl-training__point tl-training__point--${isA ? 'a' : 'b'}`);
-    if (isA) shape.setAttribute('r', '5.5');
-    else {
-      shape.setAttribute('width', '10');
-      shape.setAttribute('height', '10');
+  const panels = [...node.querySelectorAll('[data-loss]')].map((panel) => {
+    const pointsGroup = panel.querySelector('.tl-training__points');
+    const points = [];
+    for (let i = 0; i < 2 * SETTINGS.perClass; i++) {
+      const isA = i < SETTINGS.perClass;
+      const shape = document.createElementNS(NS, isA ? 'circle' : 'rect');
+      shape.setAttribute('class', `tl-training__point tl-training__point--${isA ? 'a' : 'b'}`);
+      if (isA) shape.setAttribute('r', '4');
+      else {
+        shape.setAttribute('width', '7');
+        shape.setAttribute('height', '7');
+      }
+      pointsGroup.appendChild(shape);
+      points.push(shape);
     }
-    pointsGroup.appendChild(shape);
-    points.push(shape);
-  }
+    return { mode: panel.dataset.loss, svg: panel.querySelector('svg'), status: panel.querySelector('.qi-status'), points };
+  });
 
-  let mode = 'contrastive';
   let step = SETTINGS.steps;
   let playing = false;
   let frame = 0;
   const duration = 6000;
-  const name = () => mode === 'contrastive' ? 'Contrastive Loss' : 'Triplet Loss';
 
   function render() {
-    const state = simulation[mode][step];
-    points.forEach((shape, i) => {
-      // Equal units on x and y: 672 / 7.7 == 384 / 4.4.
-      const x = 14 + (state.points[2 * i] - DOMAIN.xMin) * 672 / (DOMAIN.xMax - DOMAIN.xMin);
-      const y = 8 + (DOMAIN.yMax - state.points[2 * i + 1]) * 384 / (DOMAIN.yMax - DOMAIN.yMin);
-      if (i < SETTINGS.perClass) {
-        shape.setAttribute('cx', x);
-        shape.setAttribute('cy', y);
-      } else {
-        shape.setAttribute('x', x - 5);
-        shape.setAttribute('y', y - 5);
-      }
-    });
-    chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.loss === mode)));
+    for (const { mode, svg, status, points } of panels) {
+      const state = simulation[mode][step];
+      const name = mode === 'contrastive' ? 'Contrastive Loss' : 'Triplet Loss';
+      points.forEach((shape, i) => {
+        const x = PLOT.left + (state.points[2 * i] - DOMAIN.xMin) * PLOT.width / (DOMAIN.xMax - DOMAIN.xMin);
+        const y = PLOT.top + (DOMAIN.yMax - state.points[2 * i + 1]) * PLOT.height / (DOMAIN.yMax - DOMAIN.yMin);
+        if (i < SETTINGS.perClass) {
+          shape.setAttribute('cx', x);
+          shape.setAttribute('cy', y);
+        } else {
+          shape.setAttribute('x', x - 3.5);
+          shape.setAttribute('y', y - 3.5);
+        }
+      });
+      status.innerHTML = `<span>Mean within-class distance: <b>${state.spread.toFixed(2)}</b> (start ${simulation[mode][0].spread.toFixed(2)})</span>` +
+        `<span>Margin violations: <b>${state.violations.toLocaleString('en-US')}</b> of ${simulation.totalTriplets.toLocaleString('en-US')}</span>`;
+      svg.setAttribute('aria-label', `${name}, step ${step} of ${SETTINGS.steps}. Class A uses circles; Class B uses squares. Mean within-class distance ${state.spread.toFixed(2)}. ${state.violations} of ${simulation.totalTriplets} triplets violate the margin. Both plots use the same coordinate scale.`);
+    }
     play.textContent = playing ? 'Pause' : step === SETTINGS.steps ? 'Replay' : 'Play';
     slider.value = step;
     slider.setAttribute('aria-valuetext', `Step ${step} of ${SETTINGS.steps}`);
-    status.innerHTML = `<span>Step <b>${step} of ${SETTINGS.steps}</b> · ${name()}</span>` +
-      `<span>Spread within a class: <b>${state.spread.toFixed(2)}</b> (start ${simulation[mode][0].spread.toFixed(2)})</span>` +
-      `<span>Triplets violating the margin: <b>${state.violations.toLocaleString('en-US')}</b> of ${simulation.totalTriplets.toLocaleString('en-US')}</span>`;
-    svg.setAttribute('aria-label', `${name()}, step ${step} of ${SETTINGS.steps}. Class A uses circles; Class B uses squares. Mean within-class distance ${state.spread.toFixed(2)}. ${state.violations} of ${simulation.totalTriplets} triplets violate the margin.`);
+    node.querySelector('.tl-training__timeline label').textContent = `Training step ${step} of ${SETTINGS.steps}`;
   }
 
   function announce() {
-    live.textContent = [...status.children].map((line) => line.textContent).join('. ');
+    live.textContent = `Step ${step} of ${SETTINGS.steps}. ` + panels.map(({ mode, status }) =>
+      `${mode === 'contrastive' ? 'Contrastive Loss' : 'Triplet Loss'}. ${[...status.children].map((line) => line.textContent).join('. ')}`).join('. ');
   }
 
   function stop() {
@@ -279,67 +295,56 @@ export function mount(node) {
     console.error('Triplet Loss training playback:', error);
   }
 
+  function start() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (step === SETTINGS.steps) step = 0;
+    playing = true;
+    // Hold the final comparison for 1.5 seconds before restarting.
+    const hold = 1500;
+    const startTime = performance.now() - step * duration / SETTINGS.steps;
+    render();
+    function tick(time) {
+      try {
+        if (!node.isConnected) {
+          stop();
+          return;
+        }
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          stop();
+          step = SETTINGS.steps;
+          render();
+          return;
+        }
+        const elapsed = Math.max(0, time - startTime) % (duration + hold);
+        step = Math.min(SETTINGS.steps, Math.floor(elapsed * SETTINGS.steps / duration));
+        render();
+        frame = requestAnimationFrame(tick);
+      } catch (error) {
+        failPlayback(error);
+      }
+    }
+    frame = requestAnimationFrame(tick);
+  }
+
   play.addEventListener('click', () => {
     try {
-      if (playing) {
-        stop();
-        render();
-        announce();
-        return;
-      }
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        step = SETTINGS.steps;
-        render();
-        announce();
-        return;
-      }
-      if (step === SETTINGS.steps) step = 0;
-      playing = true;
-      const startTime = performance.now() - step * duration / SETTINGS.steps;
+      if (playing) stop();
+      else start();
       render();
-      function tick(time) {
-        try {
-          // The callback retains no page-global handlers and stops on removal.
-          if (!node.isConnected) {
-            stop();
-            return;
-          }
-          // A frame's timestamp can precede the click's performance.now().
-          // Clamp both bounds before using the step as a snapshot index.
-          step = Math.max(0, Math.min(SETTINGS.steps,
-            Math.floor((time - startTime) * SETTINGS.steps / duration)));
-          if (step === SETTINGS.steps) {
-            stop();
-            render();
-            announce();
-          } else {
-            render();
-            frame = requestAnimationFrame(tick);
-          }
-        } catch (error) {
-          failPlayback(error);
-        }
-      }
-      frame = requestAnimationFrame(tick);
+      announce();
     } catch (error) {
       failPlayback(error);
     }
   });
 
-  chips.forEach((chip) => chip.addEventListener('click', () => {
-    mode = chip.dataset.loss;
-    // Keep the current step, including during playback, for a fair comparison.
-    render();
-    announce();
-  }));
   slider.addEventListener('input', () => {
-    const wasPlaying = playing;
     stop();
     step = Math.max(0, Math.min(SETTINGS.steps, Number(slider.value)));
     render();
-    if (wasPlaying) announce();
+    announce();
   });
 
   render();
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
+  start();
 }
