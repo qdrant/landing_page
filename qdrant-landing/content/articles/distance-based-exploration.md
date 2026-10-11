@@ -45,7 +45,7 @@ Here is a very simplified but intuitive explanation of UMAP: it finds which poin
 ![UMAP of the Fashion-MNIST dataset, with each clothing category forming its own region](/articles_data/distance-based-exploration/umap.png)
 {{< /island >}}
 
-UMAP keeps neighborhoods, not exact distances, so the gaps between groups and the size of a group on the plot carry no meaning. It only needs the nearest neighbors of each point, which is what the sparse matrix from Qdrant holds.
+UMAP emphasizes neighborhood structure. Distances between groups and their apparent sizes can be distorted, so interpret them cautiously. It only needs the nearest neighbors of each point, which is what the sparse matrix from Qdrant holds.
 
 Let's use Qdrant to calculate the distance matrix and apply UMAP.
 We will use one of the default datasets perfect for experimenting in Qdrant: [Midjourney Styles dataset](https://midlibrary.io/).
@@ -148,7 +148,7 @@ That's all that is needed to get the 2d representation of the data.
 ![UMAP map of 1000 Midlib items, colored by ten KMeans clusters](/articles_data/distance-based-exploration/umap-midlib.png)
 {{< /island >}}
 
-<aside role="status">An interactive version of this plot is available in the <a href="/documentation/web-ui/">Qdrant Web UI</a>. It requests the distance matrix from the server, so raw vectors stay out of the browser, and it supports UMAP, t-SNE, and PCA, coloring points by a payload field, and filters.</aside>
+<aside role="status">An interactive version of this plot is available in the <a href="/documentation/web-ui/">Qdrant Web UI</a>. UMAP and t-SNE use the server's distance matrix. PCA retrieves raw vectors. The Web UI also supports coloring points by a payload field and filtering.</aside>
 
 UMAP isn't the only algorithm compatible with our distance matrix API. For example, `scikit-learn` also offers the following, each with its own expectations about the matrix:
 
@@ -168,7 +168,7 @@ Another approach to data structure understanding is clustering, which groups sim
 
 Let's consider a simple example of clustering the Midlib dataset with the KMeans algorithm.
 
-KMeans does not take a distance matrix. Its [`fit()` method](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) takes a table of features with shape `(n_samples, n_features)`, and a sparse matrix is accepted. So we pass `similarity` as that table: each row describes one sampled point by its similarity to all 1000 sampled points, with zeros for the points outside its 20 closest.
+KMeans does not take a distance matrix. Its [`fit()` method](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) takes a table of features with shape `(n_samples, n_features)`, and a sparse matrix is accepted. We pass `similarity` as that table. Each row contains scores for neighbors selected in either direction, with zeros where neither point selected the other.
 
 This is a different representation of the data, not the original 512-dimensional embeddings. KMeans groups the points that have similar neighbors, so the clusters can differ from the ones KMeans would find in the embeddings themselves, and a cluster center is a point in the similarity space, not a vector from the collection.
 

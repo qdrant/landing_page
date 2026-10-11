@@ -2,7 +2,7 @@
 // (500 points, StandardScaler, random_state=42). Data: /articles_data/distance-based-exploration/sklearn-clustering.json.
 // Labels: hex digit per point, "n" is noise (-1). Colors are invariant across themes.
 const NS = 'http://www.w3.org/2000/svg';
-const SHORT = ['KMeans', 'Spectral', 'Ward', 'DBSCAN', 'HDBSCAN', 'GMM'];
+const SHORT = ['MiniBatch KMeans', 'Spectral', 'Ward', 'DBSCAN', 'HDBSCAN', 'GMM'];
 const CELL = 200;
 const GAP = 12;
 const PAD = 10;

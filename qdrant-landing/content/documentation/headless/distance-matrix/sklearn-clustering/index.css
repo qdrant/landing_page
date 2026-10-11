@@ -22,6 +22,6 @@
 }
 .qi-sc__dots { fill: none; stroke-width: 7; stroke-linecap: round; }
 @media (max-width: 640px) {
-  .qi-sc__heads { font-size: 12px; }
+  .qi-sc__heads { font-size: 11px; }
   .qi-sc__heads span { overflow-wrap: anywhere; min-width: 0; }
 }
