@@ -15,9 +15,7 @@
 }
 .qi-mm .qi-chip { font-size: 14px; }
 .qi-mm .qi-chip small { font-size: 14px; }
-.qi-mm .qi-controls { gap: 8px 12px; }
 .qi-mm button:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
-.qi-mm [hidden] { display: none; }
 .qi-mm__dots circle { stroke: var(--qi-surface); stroke-width: 1; transition: opacity 0.15s ease; }
 .qi-mm__dots .is-faded { opacity: 0.15; }
 @media (prefers-reduced-motion: reduce) {

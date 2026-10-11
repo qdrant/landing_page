@@ -18,14 +18,8 @@ function render(node, data) {
   const count = data.sizes.length;
   node.innerHTML = `
     <div class="qi-fig">
-      <div class="qi-controls">
-        <div class="qi-group" role="group" aria-label="Color">
-          <button type="button" class="qi-chip" data-mode="plain" aria-pressed="false">Plain UMAP</button>
-          <button type="button" class="qi-chip" data-mode="clusters" aria-pressed="false">KMeans clusters</button>
-        </div>
-      </div>
       <div class="qi-mm__legend qi-group" role="group" aria-label="Highlight a cluster"></div>
-      <svg class="qi-svg" viewBox="0 0 ${data.W} ${data.H}" role="img" aria-label="UMAP map of ${data.cluster.length} sampled Midlib items, optionally colored by ${count} KMeans clusters">
+      <svg class="qi-svg" viewBox="0 0 ${data.W} ${data.H}" role="img" aria-label="UMAP map of ${data.cluster.length} sampled Midlib items, colored by ${count} KMeans clusters">
         <rect class="qi-frame" x="1" y="1" width="${data.W - 2}" height="${data.H - 2}" rx="6"/>
         <g class="qi-mm__dots"></g>
       </svg>
@@ -36,7 +30,6 @@ function render(node, data) {
   const dots = find('.qi-mm__dots');
   const legend = find('.qi-mm__legend');
   const status = find('.qi-status');
-  const modes = [...node.querySelectorAll('[data-mode]')];
   const circles = [];
   for (let i = 0; i < data.cluster.length; i++) {
     const circle = document.createElementNS(NS, 'circle');
@@ -57,31 +50,20 @@ function render(node, data) {
     return chip;
   });
 
-  let clustered = false;
   let picked = null;
 
   function update() {
-    modes[0].setAttribute('aria-pressed', String(!clustered));
-    modes[1].setAttribute('aria-pressed', String(clustered));
-    legend.hidden = !clustered;
     chips.forEach((chip, k) => chip.setAttribute('aria-pressed', String(picked === k)));
     circles.forEach((circle, i) => {
       const k = +data.cluster[i];
-      circle.style.fill = clustered ? `var(--mm-${k})` : 'var(--qi-cat-1)';
-      circle.classList.toggle('is-faded', clustered && picked !== null && picked !== k);
+      circle.style.fill = `var(--mm-${k})`;
+      circle.classList.toggle('is-faded', picked !== null && picked !== k);
     });
-    status.textContent = !clustered
-      ? `UMAP places items with similar neighbors close together. Distances between far-apart groups carry no meaning.`
-      : picked === null
+    status.textContent = picked === null
         ? `KMeans finds ${count} clusters, from ${Math.max(...data.sizes)} items down to ${Math.min(...data.sizes)}. Select a cluster to highlight it.`
         : `Cluster ${picked + 1}: ${data.sizes[picked]} of ${data.cluster.length} items.`;
   }
 
-  modes.forEach((button, i) => button.addEventListener('click', () => {
-    clustered = i === 1;
-    picked = null;
-    update();
-  }));
   chips.forEach((chip, k) => chip.addEventListener('click', () => {
     picked = picked === k ? null : k;
     update();

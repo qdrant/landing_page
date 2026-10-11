@@ -50,7 +50,13 @@ UMAP keeps neighborhoods, not exact distances, so the gaps between groups and th
 Let's use Qdrant to calculate the distance matrix and apply UMAP.
 We will use one of the default datasets perfect for experimenting in Qdrant: [Midjourney Styles dataset](https://midlibrary.io/).
 
-Use this command to download and import the dataset into Qdrant:
+This example uses Qdrant 1.16.1, which supports the Midlib snapshot's storage format. Start a local instance:
+
+```bash
+docker run --rm -p 6333:6333 qdrant/qdrant:v1.16.1
+```
+
+Download and import the dataset into Qdrant:
 
 ```http
 PUT /collections/midlib/snapshots/recover
@@ -63,7 +69,7 @@ PUT /collections/midlib/snapshots/recover
 <summary>We also need to prepare our python environment:</summary>
 
 ```bash
-pip install umap-learn seaborn matplotlib qdrant-client
+pip install umap-learn seaborn matplotlib qdrant-client==1.16.1
 ```
 
 Import the necessary libraries:
@@ -138,8 +144,8 @@ vectors_2d = umap.fit_transform(distances)
 
 That's all that is needed to get the 2d representation of the data.
 
-{{< island path="content/documentation/headless/distance-matrix/midlib-umap" width="100%" ratio="3 / 2" title="UMAP applied to 1000 sampled items from the Midlib dataset. KMeans clusters colors the same points by the groups found in the Clustering section." >}}
-![UMAP map of 1000 Midlib items: one connected cloud of points](/articles_data/distance-based-exploration/umap-midlib.png)
+{{< island path="content/documentation/headless/distance-matrix/midlib-umap" width="100%" ratio="3 / 2" title="UMAP determines the positions of 1000 sampled Midlib items. KMeans colors them by clusters found in the similarity rows." >}}
+![UMAP map of 1000 Midlib items, colored by ten KMeans clusters](/articles_data/distance-based-exploration/umap-midlib.png)
 {{< /island >}}
 
 <aside role="status">An interactive version of this plot is available in the <a href="/documentation/web-ui/">Qdrant Web UI</a>. It requests the distance matrix from the server, so raw vectors stay out of the browser, and it supports UMAP, t-SNE, and PCA, coloring points by a payload field, and filters.</aside>
@@ -156,7 +162,7 @@ Another approach to data structure understanding is clustering, which groups sim
 
 *Note that there's no universally best clustering criterion or algorithm.*
 
-{{< island path="content/documentation/headless/distance-matrix/sklearn-clustering" width="100%" ratio="4 / 5" title="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets. The [full example](https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html) compares eleven." >}}
+{{< island path="content/documentation/headless/distance-matrix/sklearn-clustering" width="100%" ratio="4 / 5" title="Six of the clustering algorithms compared in the scikit-learn example, recreated on the same toy datasets. The [full example](https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html) compares eleven. Each color represents a cluster; yellow points represent noise." >}}
 ![Six clustering algorithms applied to six two-dimensional datasets](/articles_data/distance-based-exploration/clustering.png)
 {{< /island >}}
 
@@ -180,7 +186,7 @@ cluster_labels = kmeans.fit_predict(similarity)
 
 With this simple code, we have clustered the data into 10 clusters, while Qdrant did the neighbor search. Algorithms that work on the neighbor graph directly, such as [SpectralClustering](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html) with `affinity="precomputed"`, accept `similarity` as is.
 
-Select KMeans clusters on the Midlib map in the Dimensionality Reduction section to see these clusters drawn on the UMAP layout.
+The Midlib map in the Dimensionality Reduction section shows these clusters on the UMAP layout. Select a cluster to highlight it.
 
 
 <details>

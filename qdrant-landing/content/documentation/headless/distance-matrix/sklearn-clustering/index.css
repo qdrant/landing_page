@@ -11,9 +11,6 @@
   font-size: 14px;
   line-height: 1.45;
 }
-.qi-sc .qi-chip { font-size: 14px; }
-.qi-sc .qi-controls { gap: 8px 12px; }
-.qi-sc button:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
 .qi-sc__heads {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -23,16 +20,8 @@
   font-size: 14px;
   text-align: center;
 }
-.qi-sc__heads span { transition: opacity 0.15s ease; }
 .qi-sc__dots { fill: none; stroke-width: 7; stroke-linecap: round; }
-.qi-svg g { transition: opacity 0.15s ease; }
-.qi-sc__heads .is-faded,
-.qi-sc .qi-svg g.is-faded { opacity: 0.2; }
 @media (max-width: 640px) {
   .qi-sc__heads { font-size: 12px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .qi-sc .qi-chip,
-  .qi-sc__heads span,
-  .qi-sc .qi-svg g { transition: none; }
+  .qi-sc__heads span { overflow-wrap: anywhere; min-width: 0; }
 }
