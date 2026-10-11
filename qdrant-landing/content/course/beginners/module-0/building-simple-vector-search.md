@@ -1,14 +1,14 @@
 ---
-title: "Implementing a Basic Vector Search"
-short_description: "Walk through your first vector search: connect to Qdrant, create a collection, insert points, and run similarity queries with the Python client."
-description: Learn how to build a basic vector search in Qdrant. Create collections, insert vectors, and run your first similarity search step-by-step with Python. 
+title: "Creating Your First Collection"
+short_description: "Install the Python client, connect to Qdrant, and create your first collection."
+description: "Set up the Qdrant Python client, connect to your cluster, and create a collection with a vector size and distance metric."
 weight: 4
 isLesson: true
 ---
 
 {{< date >}} Module 0 {{< /date >}}
 
-# Implementing a Basic Vector Search
+# Creating Your First Collection
 
 <!--
 TODO (video): the previous embed here (_83L9ZIoOjM) is the Essentials-course
@@ -17,7 +17,7 @@ contradicts this Beginner Course Module 0 page. Drop in a beginner-specific cut 
 or leave this commented out until one exists.
 -->
 
-In this lesson you'll build your very first search, one small step at a time. You'll connect to Qdrant, create a place to store data, add a few example vectors, and then ask Qdrant to find the closest match. Every step has runnable code, so follow along in a notebook or script.
+In this lesson you'll prepare for vector search, one small step at a time. You'll install the Python client, connect to Qdrant, and create a collection to store vectors. Follow along in a notebook or script. In [Module 2's ingestion pipeline](/course/beginners/module-2/ingestion-pipeline/), you'll add data and run a filtered search.
 
 A quick vocabulary note before you start: a **vector** is just a list of numbers that represents something (a piece of text, an image, a product). Searching by vectors means finding the entries whose numbers are closest to your query's numbers.
 

@@ -86,8 +86,10 @@ points = [
 ]
 # upload_points handles batching and retries automatically; preferred for lists of points.
 # upsert is the raw operation, better for single points or small real-time updates.
-client.upload_points(collection_name="articles", points=points)
+client.upload_points(collection_name="articles", points=points, wait=True)
 ```
+
+`wait=True` waits for the upload to be applied before running the query in Step 4.
 
 ### Step 4: Query
 
