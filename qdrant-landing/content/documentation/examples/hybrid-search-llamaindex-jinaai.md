@@ -40,9 +40,55 @@ In this tutorial, you build a retrieval-augmented generation (RAG) chatbot that 
 - **Framework:** [LlamaIndex](https://www.llamaindex.ai/) for RAG and [hybrid search support](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/)
 - **Parser:** [LlamaParse](https://github.com/run-llama/llama_parse) to parse complex documents with embedded tables and figures
 
-{{< island path="content/documentation/headless/pdf-manual-rag/architecture" ratio="16 / 10" title="LlamaIndex runs in Colab or locally. Qdrant Hybrid Cloud runs in your DigitalOcean Kubernetes cluster; parsing, dense embeddings, and generation use external APIs." >}}
-![Index PDFs with LlamaParse, Jina dense vectors, and local FastEmbed sparse vectors. Search Qdrant and pass at most two chunks through LlamaIndex to OpenRouter for an answer.](/documentation/tutorials/hybrid-search-llamaindex-jinaai/architecture.svg)
-{{< /island >}}
+<!-- Self-contained diagram: native HTML controls work without JavaScript. -->
+<style>
+#pdf-manual-flow { --pm-bg: #f0f3fa; --pm-fg: #303547; --pm-muted: #656b7f; --pm-border: #d3d9eb; container: pdf-manual / inline-size; margin: 1.5rem 0; color: var(--pm-fg); }
+#pdf-manual-flow * { box-sizing: border-box; }
+#pdf-manual-flow details { margin: 0 0 12px; padding: 0; border: 1px solid var(--pm-border); border-radius: 8px; }
+#pdf-manual-flow summary { padding: 12px 16px; color: var(--pm-fg); background: var(--pm-bg); border-radius: 7px; cursor: pointer; font-size: 16px; font-weight: 600; line-height: 1.5; }
+#pdf-manual-flow summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+#pdf-manual-flow summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+#pdf-manual-flow .pm-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin: 0; padding: 20px 16px; list-style: none; }
+#pdf-manual-flow .pm-steps > li { position: relative; margin: 0; padding: 12px; border: 1px solid var(--pm-border); border-top: 3px solid var(--pm-accent, #656b7f); border-radius: 6px; font-size: 14px; line-height: 1.5; }
+#pdf-manual-flow .pm-steps > li + li::before { content: "\2192"; position: absolute; inset: 50% auto auto -19px; transform: translateY(-50%); color: var(--pm-muted); font-size: 20px; }
+#pdf-manual-flow strong, #pdf-manual-flow span { display: block; }
+#pdf-manual-flow strong { margin-bottom: 6px; color: var(--pm-fg); font-size: 14px; font-weight: 600; }
+#pdf-manual-flow span { color: var(--pm-muted); }
+#pdf-manual-flow .pm-parse { --pm-accent: #00838f; }
+#pdf-manual-flow .pm-vectors { --pm-accent: #6047ff; }
+#pdf-manual-flow .pm-qdrant { --pm-accent: #dc244c; }
+#pdf-manual-flow .pm-llm { --pm-accent: #9c27b0; }
+#pdf-manual-flow .pm-pair + .pm-pair { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--pm-border); }
+html[data-theme="dark"] #pdf-manual-flow { --pm-bg: #111824; --pm-fg: #e2e7f5; --pm-muted: #a9afc2; --pm-border: #4e5366; }
+@media (prefers-color-scheme: dark) { html:not([data-theme="light"]) #pdf-manual-flow { --pm-bg: #111824; --pm-fg: #e2e7f5; --pm-muted: #a9afc2; --pm-border: #4e5366; } }
+@container pdf-manual (max-width: 620px) {
+  #pdf-manual-flow .pm-steps { grid-template-columns: 1fr; gap: 26px; }
+  #pdf-manual-flow .pm-steps > li + li::before { content: "\2193"; inset: -27px auto auto 50%; transform: translateX(-50%); }
+}
+</style>
+
+<div id="pdf-manual-flow" role="group" aria-label="PDF manual chatbot workflow">
+  <details name="pdf-manual-pipeline" open>
+    <summary>Index manuals</summary>
+    <ol class="pm-steps" role="list" aria-label="Indexing pipeline">
+      <li><strong>PDF manuals</strong><span>Product instructions, tables, and figures</span></li>
+      <li class="pm-parse"><strong>Parse and split</strong><span>LlamaParse API &rarr; Markdown</span><span>LlamaIndex &rarr; text chunks</span></li>
+      <li class="pm-vectors"><strong>Embed each chunk</strong><span class="pm-pair">Dense: Jina API</span><span class="pm-pair">Sparse: FastEmbed in your runtime</span></li>
+      <li class="pm-qdrant"><strong>Qdrant Hybrid Cloud</strong><span>Store both vectors and chunk text</span><span>Runs on DOKS</span></li>
+    </ol>
+  </details>
+  <details name="pdf-manual-pipeline">
+    <summary>Ask a question</summary>
+    <ol class="pm-steps" role="list" aria-label="Question answering pipeline">
+      <li><strong>Your question</strong><span>Sent to the LlamaIndex application</span></li>
+      <li class="pm-vectors"><strong>Embed the question</strong><span class="pm-pair">Dense: Jina API</span><span class="pm-pair">Sparse: FastEmbed in your runtime</span></li>
+      <li class="pm-qdrant"><strong>Hybrid retrieval</strong><span>Search Qdrant; fuse results</span><span>LlamaIndex keeps at most 2 chunks</span></li>
+      <li class="pm-llm"><strong>Generate an answer</strong><span>LlamaIndex sends the question + chunks to OpenRouter / Qwen</span></li>
+    </ol>
+  </details>
+</div>
+
+LlamaIndex coordinates both flows from Colab or your local runtime. Qdrant Hybrid Cloud runs in your DigitalOcean Kubernetes (DOKS) cluster. LlamaParse, Jina embeddings, and OpenRouter generation use external APIs; FastEmbed computes sparse vectors in your runtime. Hybrid retrieval passes at most two chunks to the language model.
 
 ## How RAG Works
 
