@@ -186,7 +186,7 @@ JINAAI_API_KEY=your-jina-api-key
 OPENROUTER_API_KEY=your-openrouter-api-key
 LLAMA_CLOUD_API_KEY=your-llama-cloud-api-key
 QDRANT_HOST=https://your-qdrant-cluster-url
-QDRANT_API_KEY=your-qdrant-database-api-key
+QDRANT_API_KEY=your-qdrant-api-key
 ```
 
 In **Colab**, open **Secrets** (the key icon), add the same five names and values,
