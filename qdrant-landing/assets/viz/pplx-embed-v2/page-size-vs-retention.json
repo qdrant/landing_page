@@ -1,11 +1,15 @@
 {
-  "title": "Retained nDCG@10 by storage per page image, with and without rescoring",
+  "title": "Retained nDCG@10 by storage per page image, original vectors and 1-bit TurboQuant",
   "kind": "columns-2panel",
   "horizontal": true,
   "labelTop": "config",
   "labelBottom": "rescoring",
-  "colors": ["muted", 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-  "height": 640,
+  "colors": [
+    "muted",
+    1,
+    0
+  ],
+  "height": 320,
   "width": 540,
   "yMax": 100,
   "panels": [
