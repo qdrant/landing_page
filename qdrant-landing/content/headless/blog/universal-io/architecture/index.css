@@ -1,0 +1,158 @@
+/* Universal I/O architecture island. Scoped under .qi-ab. Frames, chips,
+   labels and the status line come from the shared island design system
+   (islands.scss); this file styles the boxes, wires, and pipeline slots. Each
+   backend keeps one categorical color: mmap Neon Blue, io_uring Cyan, network
+   Purple. */
+
+.qi-ab {
+  display: block;
+}
+.qi-ab .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+
+.qi-ab__swatch--mmap {
+  --swatch: var(--qi-cat-1);
+}
+.qi-ab__swatch--uring {
+  --swatch: var(--qi-cat-3);
+}
+.qi-ab__swatch--net {
+  --swatch: var(--qi-cat-2);
+}
+.qi-ab__backend--mmap {
+  --ab-c: var(--qi-cat-1);
+}
+.qi-ab__backend--uring {
+  --ab-c: var(--qi-cat-3);
+}
+.qi-ab__backend--net {
+  --ab-c: var(--qi-cat-2);
+}
+.qi-ab__wire--mmap {
+  --ab-c: var(--qi-cat-1);
+}
+.qi-ab__wire--uring {
+  --ab-c: var(--qi-cat-3);
+}
+.qi-ab__wire--net {
+  --ab-c: var(--qi-cat-2);
+}
+
+.qi-ab__box,
+.qi-ab__box-rect {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  transition: stroke 0.15s ease, stroke-width 0.15s ease;
+}
+.qi-ab__box--traits {
+  stroke: var(--qi-muted);
+}
+.qi-ab__backend.is-on .qi-ab__box-rect {
+  stroke: var(--ab-c);
+  stroke-width: 2;
+}
+
+.qi-ab__wire {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  transition: opacity 0.2s ease, stroke 0.15s ease;
+}
+.qi-ab__arrowhead {
+  fill: var(--qi-muted);
+}
+.qi-ab__wire.is-on {
+  stroke: var(--ab-c);
+  stroke-width: 2.5;
+}
+.qi-ab.has-selection .qi-ab__wire[data-backend]:not(.is-on) {
+  opacity: 0.35;
+}
+.qi-ab.has-selection .qi-ab__backend:not(.is-on) {
+  opacity: 0.55;
+}
+.qi-ab__backend {
+  transition: opacity 0.2s ease;
+}
+
+/* Pipeline slots: empty outline until a read occupies them. */
+.qi-ab__cell {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  transition: fill 0.12s ease, stroke 0.12s ease;
+}
+.qi-ab__cell.is-full {
+  fill: var(--ab-c);
+  stroke: var(--ab-c);
+}
+
+.qi-ab .qi-title {
+  font-size: 14px;
+}
+.qi-ab .qi-label {
+  font-size: 13px;
+}
+.qi-ab__status code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+/* Compact composition (island narrower than 560px): the drawing is 360 units
+   wide, so 14px labels render at about 12px on a phone. The status line gets
+   more reserved lines because it wraps more. */
+.qi-ab.is-compact .qi-title {
+  font-size: 15px;
+}
+.qi-ab.is-compact .qi-label {
+  font-size: 14px;
+}
+.qi-ab.is-compact .qi-status--3 {
+  min-height: calc(8 * 1.45em);
+}
+@media (prefers-reduced-motion: reduce) {
+  .qi-ab__wire,
+  .qi-ab__backend,
+  .qi-ab__cell,
+  .qi-ab__box,
+  .qi-ab__box-rect {
+    transition: none;
+  }
+}
+
+/* Light-only blog surface, same policy as the other blog islands. */
+html .island[data-island='content/headless/blog/universal-io/architecture'] {
+  --qi-fg: #303547;
+  --qi-muted: #656b7f;
+  --qi-surface: #f0f3fa;
+  --qi-border: #d3d9eb;
+  --qi-line: #abb1c7;
+  --qi-hot: #303547;
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.island[data-island='content/headless/blog/universal-io/architecture'].is-ready .island__stage {
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+}
+html .island[data-island='content/headless/blog/universal-io/architecture'] .island__caption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--qi-border);
+}
+html .island[data-island='content/headless/blog/universal-io/architecture'] .qi-ab__box,
+html .island[data-island='content/headless/blog/universal-io/architecture'] .qi-ab__box-rect {
+  fill: #ffffff;
+}
+
+/* Tighter card padding on phones; last so it wins over the card rule above. */
+@media (max-width: 640px) {
+  html .island[data-island='content/headless/blog/universal-io/architecture'] {
+    padding: 1rem 0.75rem 0.75rem;
+  }
+}

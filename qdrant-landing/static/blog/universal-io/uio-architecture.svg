@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="t d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<title id="t">Universal I/O architecture</title><desc id="d">Consumer code calls the Universal I/O traits, which are implemented by three backends: mmap with pipeline depth 1, io_uring with depth 16, and network I/O with depth up to 256.</desc>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#656b7f"/></marker></defs>
+<rect width="760" height="430" fill="#f0f3fa"/>
+<rect x="130" y="10" width="500" height="76" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="380" y="34" font-size="14" fill="#303547" text-anchor="middle" font-weight="600">Consumers</text>
+<text x="380" y="54" font-size="13" fill="#303547" text-anchor="middle" font-weight="400">vectors · HNSW links · payload indexes</text>
+<text x="380" y="73" font-size="13" fill="#656b7f" text-anchor="middle" font-weight="400">written once, generic over the backend</text>
+<rect x="130" y="132" width="500" height="84" rx="6" fill="#fff" stroke="#656b7f"/>
+<text x="380" y="156" font-size="14" fill="#303547" text-anchor="middle" font-weight="600">Universal I/O traits</text>
+<text x="380" y="177" font-size="13" fill="#303547" text-anchor="middle" font-weight="400">UniversalReadFs · UniversalRead · ReadPipeline</text>
+<text x="380" y="197" font-size="13" fill="#656b7f" text-anchor="middle" font-weight="400">schedule() · wait()</text>
+<path d="M380 86V128" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<path d="M380 216V254H132V286" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="16" y="290" width="232" height="132" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="28" y="318" font-size="14" fill="#303547" text-anchor="start" font-weight="600">mmap</text>
+<text x="28" y="338" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">synchronous</text>
+<rect x="28" y="352" width="10" height="14" rx="2" fill="none" stroke="#6047ff"/>
+<text x="28" y="394" font-size="13" fill="#303547" text-anchor="start" font-weight="400">depth 1</text>
+<path d="M380 216V254H380V286" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="264" y="290" width="232" height="132" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="276" y="318" font-size="14" fill="#303547" text-anchor="start" font-weight="600">io_uring</text>
+<text x="276" y="338" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">queued</text>
+<rect x="276" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="289" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="302" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="315" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="328" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="341" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="354" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="367" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="380" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="393" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="406" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="419" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="432" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="445" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="458" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<rect x="471" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
+<text x="276" y="394" font-size="13" fill="#303547" text-anchor="start" font-weight="400">depth 16</text>
+<path d="M380 216V254H628V286" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="512" y="290" width="232" height="132" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="524" y="318" font-size="14" fill="#303547" text-anchor="start" font-weight="600">Network I/O</text>
+<text x="524" y="338" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">asynchronous</text>
+<rect x="524" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="537" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="550" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="563" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="576" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="589" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="602" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="615" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="628" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="641" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="654" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="667" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="680" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="693" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="706" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<rect x="719" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
+<text x="524" y="394" font-size="13" fill="#303547" text-anchor="start" font-weight="400">depth up to 256</text>
+<text x="524" y="412" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">16 of 256 slots drawn</text>
+</svg>
