@@ -182,7 +182,7 @@ For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-named-vector/dense/" >}}
 
-Refer to [Update Vectors](/documentation/manage-data/points/#update-vectors) for more details.
+Refer to [Update Vector Schema](/documentation/manage-data/collections/#update-vector-schema) for more details.
 
 
 ## Inference
