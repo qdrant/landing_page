@@ -1,5 +1,5 @@
 ---
-title: Chat With Product PDF Manuals Using Hybrid Search 
+title: Chat With Product PDF Manuals Using Hybrid Search
 short_description: "Build a PDF-manual chatbot with Qdrant Hybrid Cloud, LlamaIndex, and Jina embeddings, using hybrid search to answer product-support questions."
 description: "Create a RAG chatbot for PDF manuals using Qdrant Hybrid Cloud, LlamaIndex, and Jina embeddings, with hybrid search for precise customer-support answers."
 weight: 45
@@ -23,92 +23,86 @@ keywords:
   - RAG
 ---
 
-# Chat With Product PDF Manuals Using Hybrid Search 
+# Chat With Product PDF Manuals Using Hybrid Search
 
-| Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb)   |
-| --- | ----------- | ----------- |----------- |
+| Time: 120 min | Level: Advanced | Stack: Python, LlamaIndex, Jina | Output: [GitHub](https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) |
+| --- | --- | --- | --- | --- |
 
-With the proliferation of digital manuals and the increasing demand for quick and accurate customer support, having a chatbot capable of efficiently parsing through complex PDF documents and delivering precise information can be a game-changer for any business.
+Product manuals usually ship as long PDFs full of tables and figures, which makes them hard to search when a customer needs a quick answer.
 
-In this tutorial, we'll walk you through the process of building a RAG-based chatbot, designed specifically to assist users with understanding the operation of various household appliances.
-We'll cover the essential steps required to build your system, including data ingestion, natural language understanding, and response generation for customer support use cases. 
+In this tutorial, you build a retrieval-augmented generation (RAG) chatbot that answers questions about household appliances from their PDF manuals. You set up data ingestion, hybrid retrieval, and response generation for a customer support use case.
 
 ## Components
 
-- **Embeddings:** Jina Embeddings, served via the [Jina Embeddings API](https://jina.ai/embeddings/#apiform)
-- **Database:** [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/), deployed in a managed Kubernetes cluster on [DigitalOcean 
-  (DOKS)](https://www.digitalocean.com/products/kubernetes)
-- **LLM:** [Mixtral-8x7B-Instruct-v0.1](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) language model on HuggingFace
-- **Framework:** [LlamaIndex](https://www.llamaindex.ai/) for extended RAG functionality and [Hybrid Search support](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/).
-- **Parser:** [LlamaParse](https://github.com/run-llama/llama_parse) as a way to parse complex documents with embedded objects such as tables and figures.
+- **Embeddings:** Jina Embeddings, served through the [Jina Embeddings API](https://jina.ai/embeddings/#apiform)
+- **Vector search engine:** [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/), deployed in a managed Kubernetes cluster on [DigitalOcean (DOKS)](https://www.digitalocean.com/products/kubernetes)
+- **LLM:** [Mixtral-8x7B-Instruct-v0.1](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) on Hugging Face
+- **Framework:** [LlamaIndex](https://www.llamaindex.ai/) for RAG and [hybrid search support](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/)
+- **Parser:** [LlamaParse](https://github.com/run-llama/llama_parse) to parse complex documents with embedded tables and figures
 
-![Architecture diagram](/documentation/examples/hybrid-search-llamaindex-jinaai/architecture-diagram.png)
+![Architecture diagram of the PDF manual chatbot](/documentation/examples/hybrid-search-llamaindex-jinaai/architecture-diagram.png)
 
-### Procedure
+## How RAG Works
 
-Retrieval Augmented Generation (RAG) combines search with language generation. An external information retrieval system is used to identify documents likely to provide information relevant to the user's query. These documents, along with the user's request, are then passed on to a text-generating language model, producing a natural response.
+RAG combines search with text generation. A retrieval system finds the documents most likely to be relevant to the user's question. The question and those documents then go to a language model, which writes the answer.
 
-This method enables a language model to respond to questions and access information from a much larger set of documents than it could see otherwise. The language model only looks at a few relevant sections of the documents when generating responses, which also helps to reduce inexplicable errors.
-
-## 
-
-[Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud Instances, a leading European cloud provider. With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
-
-
+This lets the model answer from a much larger set of documents than it could read at once. Because the model only reads a few relevant sections, it's also less likely to produce unsupported answers.
 
 ## Prerequisites
 
 ### Deploying Qdrant Hybrid Cloud on DigitalOcean
 
-[DigitalOcean Kubernetes (DOKS)](https://www.digitalocean.com/products/kubernetes) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
+[DigitalOcean Kubernetes (DOKS)](https://www.digitalocean.com/products/kubernetes) is a managed Kubernetes service. It runs the control plane for you, works with standard Kubernetes tools, and integrates with DigitalOcean Load Balancers and volumes.
 
-1. To start using managed Kubernetes on DigitalOcean, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean).
-2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud/). 
-3. Once it's deployed, you should have a running Qdrant cluster with an API key. 
+1. To set up managed Kubernetes on DigitalOcean, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean).
+2. Once your Kubernetes cluster is up, [deploy Qdrant Hybrid Cloud](/documentation/hybrid-cloud/).
+3. When the deployment finishes, you have a running Qdrant cluster and an API key.
 
-### Development environment
+### Development Environment
 
-Then, install all dependencies:
+Install the dependencies. In a notebook, prefix the command with `!`.
 
-```python
-!pip install -U  \
-    llama-index  \
+```bash
+pip install -U \
+    llama-index \
     llama-parse \
     python-dotenv \
-    llama-index-embeddings-jinaai  \
-    llama-index-llms-huggingface  \
-    llama-index-vector-stores-qdrant  \
-    "huggingface_hub[inference]"  \
+    llama-index-embeddings-jinaai \
+    llama-index-llms-huggingface \
+    llama-index-vector-stores-qdrant \
+    "huggingface_hub[inference]" \
     datasets
 ```
 
-Set up secret key values on `.env` file:
+Add your keys to a `.env` file:
 
 ```bash
-JINAAI_API_KEY
-HF_INFERENCE_API_KEY
-LLAMA_CLOUD_API_KEY
-QDRANT_HOST
-QDRANT_API_KEY
+JINAAI_API_KEY=your-jina-api-key
+HF_INFERENCE_API_KEY=your-hugging-face-token
+LLAMA_CLOUD_API_KEY=your-llama-cloud-api-key
+QDRANT_HOST=your-qdrant-cluster-url
+QDRANT_API_KEY=your-qdrant-api-key
 ```
 
-Load all environment variables:
+Load the environment variables:
 
-```python 
+```python
 import os
 from dotenv import load_dotenv
-load_dotenv('./.env')
+
+load_dotenv("./.env")
 ```
-## Implementation 
+
+## Implementation
 
 ### Connect Jina Embeddings and Mixtral LLM
 
-LlamaIndex provides built-in support for the [Jina Embeddings API](https://jina.ai/embeddings/#apiform). To use it, you need to initialize the `JinaEmbedding` object with your API Key and model name.
+LlamaIndex has built-in support for the [Jina Embeddings API](https://jina.ai/embeddings/#apiform). To use it, initialize `JinaEmbedding` with your API key and the model name.
 
-For the LLM, you need to wrap it in a subclass of `llama_index.llms.CustomLLM` to make it compatible with LlamaIndex.
+For the LLM, use LlamaIndex's `HuggingFaceInferenceAPI` wrapper with your Hugging Face token.
 
 ```python
-# connect embeddings
+# Connect the embedding model
 from llama_index.embeddings.jinaai import JinaEmbedding
 
 jina_embedding_model = JinaEmbedding(
@@ -116,131 +110,135 @@ jina_embedding_model = JinaEmbedding(
     api_key=os.getenv("JINAAI_API_KEY"),
 )
 
-# connect LLM
+# Connect the LLM
 from llama_index.llms.huggingface import HuggingFaceInferenceAPI
 
 mixtral_llm = HuggingFaceInferenceAPI(
-    model_name = "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    model_name="mistralai/Mixtral-8x7B-Instruct-v0.1",
     token=os.getenv("HF_INFERENCE_API_KEY"),
 )
 ```
 
-### Prepare data for RAG
+### Prepare Data for RAG
 
-This example will use household appliance manuals, which are generally available as PDF documents.
-LlamaPar
-In the `data` folder, we have three documents, and we will use it to extract the textual content from the PDF and use it as a knowledge base in a simple RAG.
+This example uses household appliance manuals, which manufacturers usually publish as PDFs. LlamaParse extracts the text from the three manuals in the `data` folder, and that text becomes the knowledge base for the chatbot.
 
-The free LlamaIndex Cloud plan is sufficient for our example:
+The free LlamaIndex Cloud plan is enough for this example:
 
 ```python
 import nest_asyncio
-nest_asyncio.apply()
 from llama_parse import LlamaParse
+
+nest_asyncio.apply()
 
 llamaparse_api_key = os.getenv("LLAMA_CLOUD_API_KEY")
 
-llama_parse_documents = LlamaParse(api_key=llamaparse_api_key, result_type="markdown").load_data([
-    "data/DJ68-00682F_0.0.pdf", 
-    "data/F500E_WF80F5E_03445F_EN.pdf", 
-    "data/O_ME4000R_ME19R7041FS_AA_EN.pdf"
+llama_parse_documents = LlamaParse(
+    api_key=llamaparse_api_key,
+    result_type="markdown",
+).load_data([
+    "data/DJ68-00682F_0.0.pdf",
+    "data/F500E_WF80F5E_03445F_EN.pdf",
+    "data/O_ME4000R_ME19R7041FS_AA_EN.pdf",
 ])
 ```
 
-### Store data into Qdrant
-The code below does the following:
+### Store Data in Qdrant
 
-- create a vector store with Qdrant client;
-- get an embedding for each chunk using Jina Embeddings API;
-- combines `sparse` and `dense` vectors for hybrid search;
-- stores all data into Qdrant;
+The following code:
 
-Hybrid search with Qdrant must be enabled from the beginning - we can simply set `enable_hybrid=True`.
+- Creates a vector store with the Qdrant client
+- Gets an embedding for each chunk from the Jina Embeddings API
+- Combines sparse and dense vectors for hybrid search
+- Stores all the data in Qdrant
+
+You need to enable hybrid search when you create the vector store, by setting `enable_hybrid=True`.
 
 ```python
-# By default llamaindex uses OpenAI models
-# setting embed_model to Jina and llm model to Mixtral
-from llama_index.core import Settings
-Settings.embed_model = jina_embedding_model
-Settings.llm = mixtral_llm
-
-from llama_index.core import VectorStoreIndex, StorageContext
+from llama_index.core import Settings, StorageContext, VectorStoreIndex
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 import qdrant_client
 
+# LlamaIndex uses OpenAI models by default.
+# Set Jina as the embedding model and Mixtral as the LLM.
+Settings.embed_model = jina_embedding_model
+Settings.llm = mixtral_llm
+Settings.chunk_size = 512
+
 client = qdrant_client.QdrantClient(
     url=os.getenv("QDRANT_HOST"),
-    api_key=os.getenv("QDRANT_API_KEY")
+    api_key=os.getenv("QDRANT_API_KEY"),
 )
 
 vector_store = QdrantVectorStore(
-    client=client, collection_name="demo", enable_hybrid=True, batch_size=20
+    client=client,
+    collection_name="demo",
+    enable_hybrid=True,
+    batch_size=20,
 )
-Settings.chunk_size = 512
 
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 index = VectorStoreIndex.from_documents(
-    documents=llama_parse_documents, 
-    storage_context=storage_context
+    documents=llama_parse_documents,
+    storage_context=storage_context,
 )
 ```
 
-### Prepare a prompt
-Here we will create a custom prompt template. This prompt asks the LLM to use only the context information retrieved from Qdrant. When querying with hybrid mode, we can set `similarity_top_k` and `sparse_top_k` separately:
+### Prepare a Prompt
 
-- `sparse_top_k` represents how many nodes will be retrieved from each dense and sparse query.
-- `similarity_top_k` controls the final number of returned nodes. In the above setting, we end up with 10 nodes.
+Create a custom prompt template that tells the LLM to answer only from the context retrieved from Qdrant.
 
-Then, we assemble the query engine using the prompt.
+When you query in hybrid mode, you can set `similarity_top_k` and `sparse_top_k` separately:
+
+- `sparse_top_k` sets how many nodes each of the dense and sparse searches retrieves.
+- `similarity_top_k` sets how many nodes the retriever returns after combining them.
+
+With the following settings, each search retrieves 12 nodes and the retriever returns 2. Then you assemble the query engine with the prompt.
 
 ```python
-from llama_index.core import PromptTemplate
+from llama_index.core import PromptTemplate, get_response_synthesizer
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core.retrievers import VectorIndexRetriever
 
 qa_prompt_tmpl = (
     "Context information is below.\n"
-    "-------------------------------"
+    "-------------------------------\n"
     "{context_str}\n"
-    "-------------------------------"
-    "Given the context information and not prior knowledge,"
-    "answer the query. Please be concise, and complete.\n"
-    "If the context does not contain an answer to the query,"
-    "respond with \"I don't know!\"."
+    "-------------------------------\n"
+    "Given the context information and not prior knowledge, "
+    "answer the query. Be concise and complete.\n"
+    "If the context does not contain an answer to the query, "
+    "respond with \"I don't know!\".\n"
     "Query: {query_str}\n"
     "Answer: "
 )
 qa_prompt = PromptTemplate(qa_prompt_tmpl)
 
-from llama_index.core.retrievers import VectorIndexRetriever
-from llama_index.core.query_engine import RetrieverQueryEngine
-from llama_index.core import get_response_synthesizer
-from llama_index.core import Settings
-Settings.embed_model = jina_embedding_model
-Settings.llm = mixtral_llm
-
-# retriever
+# Retriever
 retriever = VectorIndexRetriever(
     index=index,
     similarity_top_k=2,
     sparse_top_k=12,
-    vector_store_query_mode="hybrid"
+    vector_store_query_mode="hybrid",
 )
 
-# response synthesizer
+# Response synthesizer
 response_synthesizer = get_response_synthesizer(
     llm=mixtral_llm,
     text_qa_template=qa_prompt,
     response_mode="compact",
 )
 
-# query engine
+# Query engine
 query_engine = RetrieverQueryEngine(
     retriever=retriever,
     response_synthesizer=response_synthesizer,
 )
 ```
 
-## Run a test query
-Now you can ask questions and receive answers based on the data:
+## Run a Test Query
+
+Ask a question, and the chatbot answers from the manuals:
 
 **Question**
 
@@ -255,4 +253,4 @@ print(result.response)
 The water temperature is set to 70 ˚C during the Eco Drum Clean cycle. You cannot change the water temperature. However, the temperature for other cycles is not specified in the context.
 ```
 
-And that's it! Feel free to scale this up to as many documents and complex PDFs as you like. 
+You can scale this pipeline to more documents and more complex PDFs.
