@@ -25,7 +25,7 @@ keywords:
 
 # Chat With Product PDF Manuals Using Hybrid Search
 
-| Time: 120 min | Level: Advanced | Stack: Python, LlamaIndex, Jina | Output: [GitHub](https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) |
+| Time: 60 min | Level: Advanced | Stack: Python, LlamaIndex, Jina | Output: [GitHub](https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/infoslack/qdrant-example/blob/main/HC-demo/HC-DO-LlamaIndex-Jina-v2.ipynb) |
 | --- | --- | --- | --- | --- |
 
 Product manuals usually ship as long PDFs full of tables and figures, which makes them hard to search when a customer needs a quick answer.
@@ -65,13 +65,11 @@ Install the dependencies. In a notebook, prefix the command with `!`.
 ```bash
 pip install -U \
     llama-index \
-    llama-parse \
+    "llama-cloud>=2.18" \
     python-dotenv \
     llama-index-embeddings-jinaai \
-    llama-index-llms-huggingface \
-    llama-index-vector-stores-qdrant \
-    "huggingface_hub[inference]" \
-    datasets
+    llama-index-llms-huggingface-api \
+    llama-index-vector-stores-qdrant
 ```
 
 Add your keys to a `.env` file:
@@ -111,7 +109,7 @@ jina_embedding_model = JinaEmbedding(
 )
 
 # Connect the LLM
-from llama_index.llms.huggingface import HuggingFaceInferenceAPI
+from llama_index.llms.huggingface_api import HuggingFaceInferenceAPI
 
 mixtral_llm = HuggingFaceInferenceAPI(
     model_name="mistralai/Mixtral-8x7B-Instruct-v0.1",
@@ -121,27 +119,47 @@ mixtral_llm = HuggingFaceInferenceAPI(
 
 ### Prepare Data for RAG
 
-This example uses household appliance manuals, which manufacturers usually publish as PDFs. LlamaParse extracts the text from the three manuals in the `data` folder, and that text becomes the knowledge base for the chatbot.
+This example uses three household appliance manuals, which manufacturers usually publish as PDFs. LlamaParse turns each manual into Markdown, keeping tables and layout readable, and that text becomes the chatbot's knowledge base.
 
-The free LlamaIndex Cloud plan is enough for this example:
+Before you run the code:
+
+1. Create a LlamaCloud account and generate an API key. The free plan's credits are enough for three manuals.
+2. Add the key to your `.env` file as `LLAMA_CLOUD_API_KEY`.
+3. Download the three manuals and save them in a `data` folder next to your notebook, with these file names:
+    - `DJ68-00682F_0.0.pdf`
+    - `F500E_WF80F5E_03445F_EN.pdf`
+    - `O_ME4000R_ME19R7041FS_AA_EN.pdf`
+
+The following code uploads each file, parses it, and wraps the result in a LlamaIndex `Document`:
 
 ```python
-import nest_asyncio
-from llama_parse import LlamaParse
+from llama_cloud import LlamaCloud
+from llama_index.core import Document
 
-nest_asyncio.apply()
+llama_cloud = LlamaCloud(api_key=os.getenv("LLAMA_CLOUD_API_KEY"))
 
-llamaparse_api_key = os.getenv("LLAMA_CLOUD_API_KEY")
-
-llama_parse_documents = LlamaParse(
-    api_key=llamaparse_api_key,
-    result_type="markdown",
-).load_data([
+pdf_paths = [
     "data/DJ68-00682F_0.0.pdf",
     "data/F500E_WF80F5E_03445F_EN.pdf",
     "data/O_ME4000R_ME19R7041FS_AA_EN.pdf",
-])
+]
+
+documents = []
+for path in pdf_paths:
+    uploaded = llama_cloud.files.create(file=path, purpose="parse")
+    result = llama_cloud.parsing.parse(
+        file_id=uploaded.id,
+        tier="cost_effective",
+        version="latest",
+        expand=["markdown"],
+    )
+    pages = [page.markdown for page in result.markdown.pages if page.success]
+    documents.append(Document(text="\n\n".join(pages), metadata={"file_name": path}))
+
+print(f"Parsed {len(documents)} manuals")
 ```
+
+Check that the output reports three manuals before you continue, so you don't index an incomplete knowledge base.
 
 ### Store Data in Qdrant
 
@@ -179,7 +197,7 @@ vector_store = QdrantVectorStore(
 
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 index = VectorStoreIndex.from_documents(
-    documents=llama_parse_documents,
+    documents=documents,
     storage_context=storage_context,
 )
 ```
@@ -188,12 +206,13 @@ index = VectorStoreIndex.from_documents(
 
 Create a custom prompt template that tells the LLM to answer only from the context retrieved from Qdrant.
 
-When you query in hybrid mode, you can set `similarity_top_k` and `sparse_top_k` separately:
+In hybrid mode, the retriever runs a dense search and a sparse search, then fuses the results. Three settings control how many nodes each step keeps:
 
-- `sparse_top_k` sets how many nodes each of the dense and sparse searches retrieves.
-- `similarity_top_k` sets how many nodes the retriever returns after combining them.
+- `similarity_top_k` sets how many nodes the dense search retrieves.
+- `sparse_top_k` sets how many nodes the sparse search retrieves.
+- `hybrid_top_k` sets how many nodes the retriever returns after fusion. If you leave it out, the retriever falls back to `similarity_top_k`.
 
-With the following settings, each search retrieves 12 nodes and the retriever returns 2. Then you assemble the query engine with the prompt.
+With the following settings, each search retrieves 12 candidates and the retriever passes the best 2 to the LLM. Then you assemble the query engine with the prompt.
 
 ```python
 from llama_index.core import PromptTemplate, get_response_synthesizer
@@ -217,8 +236,9 @@ qa_prompt = PromptTemplate(qa_prompt_tmpl)
 # Retriever
 retriever = VectorIndexRetriever(
     index=index,
-    similarity_top_k=2,
+    similarity_top_k=12,
     sparse_top_k=12,
+    hybrid_top_k=2,
     vector_store_query_mode="hybrid",
 )
 
