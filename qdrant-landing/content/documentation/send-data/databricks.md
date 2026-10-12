@@ -35,7 +35,7 @@ All code is included on this page. Copy each Python block into its own cell in a
 - Install the [Qdrant Spark connector](/documentation/data-management/spark/) as a library:
   - Navigate to the `Libraries` section in your cluster dashboard.
   - Select `Install New` to open the library installation modal.
-  - Install the Maven coordinate `io.qdrant:spark:2.5.0`.
+  - Install the Maven coordinate `io.qdrant:spark:2.2.0`.
 
     ![Install the library](/documentation/examples/databricks/library-install.png)
 
