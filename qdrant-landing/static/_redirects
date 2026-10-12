@@ -132,6 +132,10 @@
 # "Building Performant, Scaled Agentic Vector Search with Qdrant" merged into the agentic RAG article (HTML and Markdown).
 /articles/agentic-builders-guide/*  /articles/agentic-rag/:splat  301!
 
+# Semantic caching article moved to Tutorials (HTML and Markdown).
+/articles/semantic-cache-ai-data-retrieval/*  /documentation/tutorials-build-essentials/semantic-cache/:splat  301!
+/blog/semantic-cache-ai-data-retrieval/*  /documentation/tutorials-build-essentials/semantic-cache/:splat  301!
+
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301
 /articles/machine-learning/        /articles/embedding-research/    301
