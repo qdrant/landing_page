@@ -5,7 +5,7 @@ slug: reachy-robot-memory-qdrant-edge
 short_description: "A desk robot that recognizes you, recalls yesterday's conversation, and remembers what it saw, with every memory stored on its own disk. How Qdrant Edge gave Reachy Mini a memory that never leaves the robot."
 description: "How we built on-device memory for Reachy Mini with Qdrant Edge: three shards, searched in under a millisecond on a Raspberry Pi."
 preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.jpg
-social_preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.jpg
+social_preview_image: /blog/reachy-robot-memory-qdrant-edge/preview/social_preview.jpg
 date: 2026-10-01
 author: Sasha Denisov & Chadha Sridi
 featured: true
@@ -18,13 +18,12 @@ tags:
   - vector-search
 ---
 
-[Reachy Mini](https://www.pollen-robotics.com/reachy-mini/) is an open-source robot from Pollen Robotics and Hugging Face, with a camera, a microphone, a speaker, and a turning head, all run by a Raspberry Pi with 4 GB of RAM.
+[Reachy Mini](https://www.pollen-robotics.com/reachy-mini/) is an open-source robot from Pollen Robotics and Hugging Face, run by a Raspberry Pi with 4 GB of RAM. Imagine you bring it home to keep your father company. To be useful, not just cute on a shelf, it has to remember: his face and name, that the grandchildren call on Sundays, and that the spare key is under the pot by the door.
 
-Imagine you bring it home to keep your father company. You want the robot to be useful, not just cute on a shelf. For that, it has to remember. It has to know his face and name, that the grandchildren call on Sundays, and that the spare key is under the pot by the door.
+But a robot that talks through a language model only knows what's in the model's context: restart the robot and it knows nobody. To remember, it needs a memory of its own.
+If that memory lives on a server, all those details leave the house. Keeping it on the edge means nothing leaves unless you decide it can. Privacy isn't the only reason: on-device search takes a fraction of a millisecond, and memory keeps working without connectivity.
 
-Now think about where that memory lives. If it lives on a server, all those details leave the house. Keeping it on the edge means nothing leaves unless you decide it can. Privacy isn't the only reason: on-device search avoids network round trips, taking a fraction of a millisecond, and memory keeps working without connectivity.
-
-That was the idea behind Reachy Remembers, a demo we showed on the Vector Space Stream. We gave Reachy a **persistent semantic memory** using [Qdrant Edge](/edge/).
+We gave Reachy a **persistent semantic memory**, stored as vectors in [Qdrant Edge](/edge/) on the robot's own disk. It recognizes the people it has met, recalls what you talked about, and remembers what it saw. We showed it on the Vector Space Stream:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PxGlBlqTxJI?start=3709" title="Reachy Mini and Qdrant Edge on the Vector Space Stream" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -42,10 +41,10 @@ Memory is written automatically, without a tool call: turns are saved when the c
 
 ## What Was Hard
 
-On the stream, we asked Reachy: "What did you see today?" Getting that one question right shaped most of the memory design. The [technical writeup](https://medium.com/@denisov.shureg/efe223ac442b) walks through every constraint; these three matter most:
+We asked Reachy: "What did you see today?" Getting that one question right shaped most of the memory design. The [technical writeup](https://medium.com/@denisov.shureg/efe223ac442b) walks through every constraint; these three matter most:
 
-- **The model looked instead of remembering.** Deep into a conversation, a small model with tools reaches for `camera` and describes what is in front of it now. So there is one `remember` tool: the model says what the question is about, and the tense decides whether to look again or recall.
-- **The question names nothing to match.** "What did you see today?" contains no object a vector can find. So every frame carries searchable words built from its own metadata.
+- **Routing between tools.** A small model has to choose between `camera` and `remember` from the wording alone, and deep in a conversation it reached for `camera` when asked what it *saw*. The fix was in the tool description, where we explicitly state that "anything in the past tense belongs here" and quote example questions. That took the right choice from 23 to 26 out of 26 test questions.
+- **The question names nothing to match.** "What did you see today?" contains no object a vector can find. So every frame carries searchable words built from its own metadata, and a question about the whole day returns its most different frames instead of the single closest one.
 - **The context fills up fast.** Old turns move into Qdrant Edge and come back when they're needed, instead of being summarized or dropped.
 
 With those changes, the question works: Reachy pulls several distinct frames out of its own memory and describes its day.
@@ -65,7 +64,7 @@ Eight models make up the loop:
 - **SigLIP2**: image embeddings, as 768-dimensional vectors in the same space as text queries, so words can find pictures
 - **bge-small**: text embeddings for exchanges, frame descriptions, and facts, as 384-dimensional vectors
 
-Gemma 4 E2B alone weighs 2.5 GB before its KV cache, while the robot has about 3 GB of RAM free, shared with the daemon that drives the motors, camera, and voice loop. In this demo, we therefore run the models on a laptop connected to Reachy over the local network. The memory lives entirely on the robot's disk, inference runs on hardware you own, and nothing goes to the Internet.
+Gemma 4 E2B alone weighs 2.5 GB before its KV cache, while the robot has about 3 GB of RAM free, shared with the daemon that drives the motors, camera, and voice loop. In this demo, we therefore run the models on a laptop connected to Reachy over the local network. Privacy still holds: the memory lives entirely on the robot's disk, inference runs on hardware you own, and nothing goes to the Internet.
 
 ## Qdrant Edge: Where the Memory Lives
 
@@ -110,9 +109,9 @@ memory.update(
 
 ## Three Shards on the Robot's Disk
 
-Reachy's memory is split across three shards based on how each type of data is written and searched.
+Reachy's memory is split across three shards based on how each type of data is written and searched, and the `remember` tool decides which ones to search. When Gemma calls it, it sends a `query` and an `about` label for the kind of memory the question is about. The raw question never reaches Qdrant Edge: the query is embedded first, with bge-small for text and SigLIP2 for pictures, and the label narrows where those vectors are searched. `seen`, for example, searches the frames in `memory/`, while `anything` searches every shard. Qdrant Edge returns the matching points with their scores, and Gemma only sees their payload: an exchange's text or a fact as words, and a frame's JPEG as the picture itself.
 
-![Three Qdrant Edge shards on the robot: memory for exchanges and frames, people for faces, and knowledge for facts, each with its own vectors and write and read triggers](/blog/reachy-robot-memory-qdrant-edge/three-shards.png)
+![Three Qdrant Edge shards on the robot: memory with a text and an image vector, people with a face multivector, and knowledge with a text multivector](/blog/reachy-robot-memory-qdrant-edge/three-shards.png)
 
 ### memory/: Remembering Conversations and Scenes
 
@@ -148,9 +147,8 @@ At small scale, a full scan is competitive with HNSW and requires no index. As t
 
 You don't need a robot to replicate this. The same patterns apply to a phone, a pair of glasses, or any other device that needs local memory.
 
-- Split shards by how the data lives and is searched. Data that only differs by type can share a shard with a tenant key.
+- Split shards by how data lives and is searched. Qdrant's usual advice is one collection with a tenant key, and that's how exchanges and frames share memory/. A separate shard pays off only when data behaves differently: the facts are replaced whole from a snapshot at every start, and each person is one point whose face shots keep growing, matched with MaxSim. 
 - Use a multivector when one entity has many views. A person is a set of face shots, a fact answers a set of questions, and MaxSim scores the query against the best-matching representation.
-- Don't build an index under about 10,000 vectors. Scan. Above that, HNSW keeps search around a millisecond.
 - Give every shard its own threshold, and tune it on live questions. A search always returns a nearest neighbor, even for a question with no answer.
 
 ## Next Steps
