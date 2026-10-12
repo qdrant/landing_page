@@ -11,10 +11,6 @@
 .qi-rf__mobile {
   display: none;
 }
-.island.is-ready[data-island="content/documentation/headless/relevance-feedback/overview"]
-  .island__stage {
-  aspect-ratio: auto !important;
-}
 @container (max-width: 640px) {
   .qi-rf__desktop {
     display: none;
