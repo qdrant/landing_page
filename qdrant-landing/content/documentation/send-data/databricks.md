@@ -1,7 +1,7 @@
 ---
 title: Databricks Ingestion
-short_description: "Vectorize and ingest Databricks datasets into Qdrant using Apache Spark and the Qdrant Spark connector for large-scale embedding workflows."
-description: "Generate dense and sparse embeddings on Databricks with Spark and load them into Qdrant using the Spark connector for scalable vector ingestion pipelines."
+short_description: "Generate dense and sparse embeddings in Databricks and load them into Qdrant with the Spark connector."
+description: "Use FastEmbed on Databricks to generate dense and sparse vectors, upload a 100-row dataset to Qdrant, and verify the ingestion."
 weight: 5
 hideInSidebar: true
 learning_kind: examples
@@ -30,7 +30,9 @@ All code is included on this page. Copy each Python block into its own cell in a
 
 ## Set Up a Databricks Project
 
-- Set up [Databricks dedicated compute](https://docs.databricks.com/aws/en/compute/dedicated-overview). This example uses the Python RDD API (`.rdd.mapPartitions`), which is not supported on standard or serverless compute. Use a Databricks Runtime compatible with the connector and Python dependencies.
+- Set up [Databricks dedicated compute](https://docs.databricks.com/aws/en/compute/dedicated-overview) with [Databricks Runtime 16.4 LTS, Scala 2.13 variant](https://docs.databricks.com/aws/en/release-notes/runtime/16.4lts), which includes Spark 3.5.2 and Python 3.12.3. Select the Scala 2.13 image to match the connector.
+
+- This example uses the Python Resilient Distributed Dataset (RDD) API (`.rdd.mapPartitions`), which is not supported on standard or serverless compute. [Databricks Free Edition](https://docs.databricks.com/aws/en/getting-started/free-edition) only provides serverless compute and cannot run this example.
 
 - Install the [Qdrant Spark connector](/documentation/data-management/spark/) as a library:
   - Navigate to the `Libraries` section in your cluster dashboard.
@@ -125,7 +127,7 @@ Apply `vectorize` to the DataFrame's partitions to generate embeddings.
 embeddings = dataset_df.rdd.mapPartitions(vectorize)
 ```
 
-The `mapPartitions()` method returns a [Resilient Distributed Dataset (RDD)](https://www.databricks.com/glossary/what-is-rdd). Convert it back to a Spark DataFrame using the schema in the next step.
+The `mapPartitions()` method returns a [Resilient Distributed Dataset (RDD)](https://www.databricks.com/blog/what-is-rdd). Convert it back to a Spark DataFrame using the schema in the next step.
 
 ### Build the DataFrame with Vectors
 
@@ -161,7 +163,7 @@ embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
 Choose a new collection name and replace `{collection_name}` in the HTTP requests with that name. Use the same name in the upload options.
 
 - **Create a Qdrant collection:**
-  - [Create a new collection](/documentation/manage-data/collections/#create-a-collection) using the Qdrant API console. The dense vector has 384 dimensions. The `Qdrant/bm25` model requires the sparse vector's [IDF modifier](/documentation/manage-data/indexing/#idf-modifier): Qdrant maintains document-frequency statistics and applies IDF weighting during sparse queries.
+  - [Create a new collection](/documentation/manage-data/collections/#create-a-collection) using the Qdrant API console. The dense vector has 384 dimensions. The `Qdrant/bm25` model requires the sparse vector's [inverse document frequency (IDF) modifier](/documentation/manage-data/indexing/#idf-modifier): Qdrant maintains document-frequency statistics and applies IDF weighting during sparse queries.
 
   ```http
   PUT /collections/{collection_name}
@@ -210,7 +212,7 @@ If `id_field` is not specified, the connector generates random UUIDs. Running th
 
 ## Verify the Ingestion
 
-In the Qdrant API console, count the points in the collection:
+In the Qdrant API console, count the points in the collection. The connector can return before all points are visible. If the count is below 100, wait briefly and repeat this count request; do not repeat the write:
 
 ```http
 POST /collections/{collection_name}/points/count
@@ -221,6 +223,8 @@ Content-Type: application/json
 }
 ```
 
-For one successful write of this 100-row sample to an empty collection, expect `result.count` to be `100`. This is an expected result, not a recorded benchmark. Inspect a point in the Qdrant dashboard to confirm that it has `dense` and `sparse` vectors and both source sentences in its payload.
+For one successful write of this 100-row sample to an empty collection, expect `result.count` to be `100`. Inspect a point in the Qdrant dashboard to confirm that it has `dense` and `sparse` vectors and both source sentences in its payload.
+
+**Validation:** On October 12, 2026, the core ingestion code passed a local integration test using Apache Spark 3.5.2 (Scala 2.13.8), Python 3.12.13, Java 17.0.20.1, `io.qdrant:spark:2.2.0`, FastEmbed 0.9.0, Datasets 5.1.0, and Qdrant 1.19.2. The test confirmed 100 points, both vector types, matching source payloads, and the IDF modifier. The Databricks Runtime 16.4 LTS setup above has not yet been validated on dedicated compute.
 
 You can now use these representations for [hybrid queries](/documentation/search/hybrid-queries/), embedding each query with the same dense and sparse models used during ingestion.
