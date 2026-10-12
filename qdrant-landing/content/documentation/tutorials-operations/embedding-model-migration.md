@@ -173,7 +173,7 @@ All searches are now performed using the new embeddings. If the old collection i
 
 ## Migrate Using Named Vectors
 
-If your collection uses [named vectors](/documentation/manage-data/points/#named-vectors/) and your deployment is running version 1.18 or later, you can migrate to a new embedding model without creating a second collection. Instead, [add the new model as an additional named vector to the existing collection's schema](/documentation/manage-data/collections/#update-vector-schema), re-embed points in the background, switch the `using` parameter in your search queries, and then delete the old named vector.
+If your collection uses [named vectors](/documentation/manage-data/points/#named-vectors) and your deployment is running version 1.18 or later, you can migrate to a new embedding model without creating a second collection. Instead, [add the new model as an additional named vector to the existing collection's schema](/documentation/manage-data/collections/#update-vector-schema), re-embed points in the background, switch the `using` parameter in your search queries, and then delete the old named vector.
 
 This approach only works when your collection was created with named vectors and your deployment is running version 1.18 or later. If not, use a [blue-green migration](#blue-green-migration) instead.
 

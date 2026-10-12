@@ -81,7 +81,7 @@ To implement this approach:
 
 *Available as of v1.19.0*
 
-[BM25](/documentation/search/text-search/full-text-search/#bm25) and [miniCOIL](/documentation/search/text-search/full-text-search/#minicoil) sparse vector searches use the [inverse document frequency (IDF)](documentation/manage-data/indexing/#idf-modifier) to score matching documents, giving rarer terms more weight than common ones. Calculating the IDF requires two statistics: the total number of documents and the number of documents containing each term.
+[BM25](/documentation/search/text-search/full-text-search/#bm25) and [miniCOIL](/documentation/search/text-search/full-text-search/#minicoil) sparse vector searches use the [inverse document frequency (IDF)](/documentation/manage-data/indexing/#idf-modifier) to score matching documents, giving rarer terms more weight than common ones. Calculating the IDF requires two statistics: the total number of documents and the number of documents containing each term.
 
 By default, these statistics are computed across the entire shard being queried. When using payload-filter-based multitenancy, this blends every tenant's vocabulary into one set of statistics, so a term's IDF no longer reflects its rarity within a specific tenant's data.
 
