@@ -1,4 +1,4 @@
-config,rescoring,kb_per_page,bytes_per_vector,ram_vs_float32,retained_ndcg_pct
-"Original vectors, 856 KB",float32,856,512,1x,100.0
-"1-bit TurboQuant, 40 KB",no rescoring,40,24,21x less,96.5
-"1-bit TurboQuant, 40 KB",rescoring,40,24,21x less,99.9
+config,rescoring,kb_per_page,bytes_per_vector,compression_vs_float32,retained_ndcg_pct
+Original vectors,baseline,856,512,1x,100.0
+1-bit TurboQuant,no rescoring,40,24,21x less,96.5
+1-bit TurboQuant,with rescoring,40,24,21x less,99.9

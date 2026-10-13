@@ -1,5 +1,5 @@
 {
-  "title": "Retained nDCG@10 by storage per page image, original vectors and 1-bit TurboQuant",
+  "title": "Page Vectors: Size and Retrieval Quality",
   "kind": "columns-2panel",
   "horizontal": true,
   "labelTop": "config",
@@ -9,21 +9,38 @@
     1,
     0
   ],
-  "height": 320,
-  "width": 540,
-  "yMax": 100,
-  "panels": [
+  "height": 280,
+  "width": 400,
+  "views": [
     {
-      "title": "Retained nDCG@10 by storage per page image",
-      "subtitle": "pplx-embed-v2-late-9b, ViDoRe v3, % of exact float32 search",
-      "y": "retained_ndcg_pct",
-      "axis": "% of nDCG@10 retained (rescoring: oversampling 4)",
-      "unit": ""
+      "label": "Vector Size",
+      "yMax": 900,
+      "panels": [
+        {
+          "title": "Page Vectors: 21x Smaller",
+          "subtitle": "Per page image; lower is better",
+          "y": "kb_per_page",
+          "axis": "KB per page",
+          "unit": "KB"
+        }
+      ]
+    },
+    {
+      "label": "Retrieval Quality",
+      "yMax": 100,
+      "panels": [
+        {
+          "title": "Retrieval Quality Retained",
+          "subtitle": "Four ViDoRe v3 sets; higher is better",
+          "y": "retained_ndcg_pct",
+          "axis": "% of float32 nDCG@10 retained",
+          "unit": "%"
+        }
+      ]
     }
   ],
   "tooltip": {
-    "retained_ndcg_pct": "% nDCG@10 retained",
     "kb_per_page": "KB per page image",
-    "bytes_per_vector": "bytes per token vector"
+    "retained_ndcg_pct": "% of retrieval quality retained"
   }
 }
