@@ -6,7 +6,7 @@ short_description: "Search PDF pages as images with pplx-embed-v2. Qdrant TurboQ
 description: "Search PDF pages with pplx-embed-v2 and Qdrant TurboQuant: 21x smaller vectors, retaining 96.5% of retrieval quality in our tests."
 preview_image: /blog/pplx-embed-v2/hero.jpg
 social_preview_image: /blog/pplx-embed-v2/preview/social_preview.jpg
-date: 2026-10-12
+date: 2026-10-13
 author: Dylan Couzon, Anush Shetty
 featured: false
 tags:
