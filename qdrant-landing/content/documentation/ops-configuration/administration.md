@@ -75,7 +75,7 @@ Strict mode ensures a more predictable and responsive service when you do not ha
 
 The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters. As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically. 
 
-Simply enabling strict mode without specifying a specific restriction does not have any effect. You need to explicitly set the restrictions you want to enforce.
+Simply enabling strict mode without specifying a specific restriction does not have any effect. You need to explicitly set the restrictions you want to enforce. The exception is [substring match](/documentation/search/filtering/#substring-match) conditions, which Qdrant rejects whenever strict mode is enabled.
 
 On Qdrant Cloud, strict mode is enabled by default for new collections. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/) for the specific restrictions.
 
