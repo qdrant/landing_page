@@ -47,8 +47,11 @@ In late 2025, Kolja evaluated Typesense and the usual managed vector offerings. 
 {{< quote
   text="What tipped it for Qdrant: it is a pro tool. Everything is tunable, which means you can either shoot yourself in the foot or build something seriously fast, and we did both. At the same time it stays easy to use, the docs are good, and coding agents find their way around it without hand-holding."
   name="Kolja Martens"
+  name_url="https://www.linkedin.com/in/kolja-martens-762b47160/"
   role="Co-Founder and CTO"
   company="Poliscope"
+  avatar="/img/customers/kolja-martens.png"
+  logo="/img/customers-case-studies-logo/poliscope.svg"
   featured="true" >}}
 
 ## From 20-Second Searches to Under a Second Over 130 Million Points
@@ -77,7 +80,7 @@ The table shows Poliscope's before and after measurements for each step, with la
 |---|---|:---:|:---:|
 | Binary 2-bit to TurboQuant 1.5-bit (in-RAM index) | Quantized index size | 45.9 GiB | 35.1 GiB |
 | Binary 2-bit to TurboQuant 1.5-bit (in-RAM index) | P50 latency | 16.8 ms | 11.7 ms |
-| Binary 2-bit to TurboQuant 1.5-bit (in-RAM index) | Recall@10 without rescoring | 0.695 | 0.751 |
+| Binary 2-bit to TurboQuant 1.5-bit (in-RAM index) | Recall@10 without rescoring | 69.5% | 75.1% |
 | float32 to `turbo4` (originals on disk) | Disk footprint | 1,174 GiB | 531 GiB |
 | float32 to `turbo4` (originals on disk) | P50 latency | 12.6 ms | 8.5 ms |
 | float32 to `turbo4` (originals on disk) | P95 latency | 23.9 ms | 12.5 ms |
@@ -89,8 +92,11 @@ Today the Qdrant query takes 8.5 ms at P50 and 12.5 ms at P95 in Poliscope's ben
 {{< quote
   text="That still gives me a bit of a kick: one search box, and you see every council in the country that touched your topic last week. Monitoring at the municipal level went from practically impossible to something as easy as a Google search."
   name="Kolja Martens"
+  name_url="https://www.linkedin.com/in/kolja-martens-762b47160/"
   role="Co-Founder and CTO"
-  company="Poliscope" >}}
+  company="Poliscope"
+  avatar="/img/customers/kolja-martens.png"
+  logo="/img/customers-case-studies-logo/poliscope.svg" >}}
 
 ## How a Query Moves Through Poliscope
 
@@ -113,8 +119,11 @@ Documentation carried a lot of that weight. Kolja develops with coding agents an
 {{< quote
   text="Qdrant lets us make all of German local politics semantically searchable on a single server with only a small team. Every scaling problem we ran into had a knob for it, and the knob was well documented."
   name="Kolja Martens"
+  name_url="https://www.linkedin.com/in/kolja-martens-762b47160/"
   role="Co-Founder and CTO"
-  company="Poliscope" >}}
+  company="Poliscope"
+  avatar="/img/customers/kolja-martens.png"
+  logo="/img/customers-case-studies-logo/poliscope.svg" >}}
 
 ## What's Next: Ten More Years of Data and a Second Node
 
