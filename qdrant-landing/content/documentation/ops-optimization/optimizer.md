@@ -18,9 +18,6 @@ For efficiency reasons, Qdrant, like many databases, applies data changes in bat
 These rebuilds are handled by the optimizer, which works at the segment level.
 It selects one or more segments that can be improved and rebuilds them into a single new segment, for example to index it, compact it, or reduce the number of segments.
 The segments being optimized remain readable while the rebuild is in progress.
-
-![Segment optimization](/articles_data/immutable-data-structures/optimization.png)
-
 The availability is achieved by wrapping the segment into a proxy that transparently handles data changes.
 Changed data is placed in the copy-on-write segment, which has priority for retrieval and subsequent updates.
 
@@ -31,6 +28,14 @@ Qdrant has four optimizers, described in the following sections. In each round o
 The Vacuum Optimizer helps manage storage by handling deleted points. When a point is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked points can build up, wasting memory and slowing down the system.
 
 The Vacuum Optimizer solves this problem by permanently removing marked points and reorganizing storage. This cleanup saves memory and keeps the system running smoothly, especially when large amounts of deleted data build up in the database.
+
+{{< island
+    path="content/documentation/headless/optimizer/vacuum"
+    ratio="760 / 349"
+    title="Deleted points are initially only marked as deleted. Once the number of deleted points in a segment exceeds the `deleted_threshold`, the Vacuum Optimizer rebuilds the segment without them."
+>}}
+![A segment with 20 points, five of them marked as deleted, is rebuilt as a new segment with the 15 remaining points.](/documentation/ops-optimization/optimizer-vacuum.svg)
+{{< /island >}}
 
 The criteria for starting the optimizer are defined in the configuration file. Two key parameters control its behavior:
 
@@ -56,6 +61,14 @@ Qdrant uses the Merge Optimizer to manage the number of segments in its storage 
 Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the Merge Optimizer works to reduce the number of segments when there are more than optimal.
 
 The target number of segments is specified by the `default_segment_number` parameter, whose default depends on the number of available CPUs. When there are more segments than this target, the optimizer merges the smallest segments into larger ones, without exceeding the maximum segment size.
+
+{{< island
+    path="content/documentation/headless/optimizer/merge"
+    ratio="760 / 349"
+    title="The shard has more segments than the target, so the Merge Optimizer rebuilds the smallest ones as a single new segment."
+>}}
+![Four small segments with five points each are merged into one segment with all 20 points.](/documentation/ops-optimization/optimizer-merge.svg)
+{{< /island >}}
 
 To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Adjusting this parameter helps strike a balance between indexing speed and search efficiency, especially when dealing with large datasets. When `max_segment_size_kb` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
 
@@ -97,6 +110,14 @@ So, for example, if the number of points is less than 10000, using any index wou
 
 The Indexing Optimizer is used to implement the enabling of indexes when the minimal amount of records is reached.
 
+{{< island
+    path="content/documentation/headless/optimizer/indexing"
+    ratio="760 / 349"
+    title="The appendable segment grows until it crosses the indexing threshold. The Indexing Optimizer then builds an HNSW index for it, and a new appendable segment takes the new points."
+>}}
+![A full appendable segment without an index is rebuilt as an indexed segment that is no longer appendable.](/documentation/ops-optimization/optimizer-indexing.svg)
+{{< /island >}}
+
 The Indexing Optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
 
 The criteria for starting the optimizer are defined in the configuration file.
@@ -117,6 +138,14 @@ storage:
 ## Config Mismatch Optimizer
 
 When you [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters), existing segments keep the configuration they were built with. The Config Mismatch Optimizer finds segments whose configuration no longer matches the collection configuration and rebuilds them with the new settings.
+
+{{< island
+    path="content/documentation/headless/optimizer/config-mismatch"
+    ratio="760 / 506"
+    title="After a change to the HNSW configuration, new segments are indexed with the new configuration, and the Config Mismatch Optimizer rebuilds older segments one at a time, largest first."
+>}}
+![A segment built with configuration 1 is rebuilt with configuration 2 after a configuration change.](/documentation/ops-optimization/optimizer-config-mismatch.svg)
+{{< /island >}}
 
 The optimizer rebuilds a segment when any of the following differs from the collection configuration:
 
