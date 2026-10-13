@@ -385,7 +385,7 @@ sections:
         answer: Yes. Qdrant's horizontal scaling with auto-sharding handles 4x-100x traffic spikes without manual intervention. Add nodes and the operator auto-distributes shards. Quantization (scalar for 4x compression, binary for 32x) keeps memory costs predictable even at peak load.
       - id: 1
         question: What Deployment Options Work for Multi-Region E-Commerce?
-        answer: Qdrant supports managed cloud, BYOC (any cloud with Kubernetes), hybrid cloud, on-prem, and edge deployments. SOC2 and GDPR compliant. EU-based company. Multi-AZ deployment with zero-downtime upgrades for 99.99% availability.
+        answer: Qdrant supports managed cloud, BYOC (any cloud with Kubernetes), hybrid cloud, on-prem, and edge deployments. SOC2 and GDPR compliant. EU-based company. Multi-AZ deployment and zero-downtime upgrades, with an uptime SLA of up to 99.95% on Premium multi-AZ clusters. Custom SLAs are available on request.
       - id: 2
         question: How Does Multi-Tenancy Work for Marketplace Platforms?
         answer: Qdrant supports payload-based multi-tenancy that scales to 100k+ tenants in a single collection. Per-tenant HNSW indexes with disabled global indexing prevent cross-tenant interference. Large tenants can be promoted to dedicated shards. This avoids the file descriptor limits of collection-per-tenant approaches.
