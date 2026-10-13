@@ -1,0 +1,60 @@
+{{- /*
+  Machine-readable index of every published page in the documentation,
+  articles, blog, and course, served at /docs-manifest.json. The docs MCP
+  server at search.qdrant.tech/mcp (qdrant/page-search, in
+  rust_search/src/docs_mcp/) reads it to list pages and resolve aliases, so
+  treat the field names as a public contract: add fields freely, but do not
+  rename or remove them without updating the server.
+
+  Sections with `build: render: never` group pages in the sidebar without a
+  page of their own. They are listed with "rendered": false and no URLs.
+*/ -}}
+{{- $sections := slice "documentation" "articles" "blog" "course" -}}
+{{- $pages := slice -}}
+{{- range site.Pages.ByWeight -}}
+  {{- if not (in (slice "page" "section") .Kind) -}}{{- continue -}}{{- end -}}
+  {{- $rendered := true -}}
+  {{- with .Params.build -}}
+    {{- $render := .render | default "always" -}}
+    {{- if eq $render "link" -}}{{- continue -}}{{- end -}}
+    {{- if eq $render "never" -}}{{- $rendered = false -}}{{- end -}}
+  {{- end -}}
+  {{- /* An unrendered page has no permalink, so its path comes from the content tree. */ -}}
+  {{- $path := .RelPermalink -}}
+  {{- if not $rendered -}}
+    {{- if ne .Kind "section" -}}{{- continue -}}{{- end -}}
+    {{- $path = printf "%s/" .Path -}}
+  {{- end -}}
+  {{- /* Path check, not .Section: see "Two traps in the templates" in AGENTS.md. */ -}}
+  {{- if not (in $sections (index (split (strings.Trim $path "/") "/") 0)) -}}{{- continue -}}{{- end -}}
+  {{- if eq .Params.sitemapExclude true -}}{{- continue -}}{{- end -}}
+  {{- if .Sitemap.Disable -}}{{- continue -}}{{- end -}}
+  {{- if eq .Title "" -}}{{- continue -}}{{- end -}}
+  {{- $description := "" -}}
+  {{- with .Description -}}
+    {{- $description = . | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+  {{- else -}}
+    {{- $description = .Summary | plainify | replaceRE `\s+` " " | strings.TrimSpace | truncate 200 "" -}}
+  {{- end -}}
+  {{- $aliases := slice -}}
+  {{- range .Aliases -}}{{- $aliases = $aliases | append . -}}{{- end -}}
+  {{- $entry := dict
+    "path" $path
+    "title" .Title
+    "description" $description
+    "kind" .Kind
+    "partition" (partial "get-partition.html" (dict "page" .) | default "")
+    "weight" .Weight
+    "aliases" $aliases
+  -}}
+  {{- if $rendered -}}
+    {{- $entry = merge $entry (dict "url" .Permalink "markdown_url" (printf "%sindex.md" .Permalink)) -}}
+  {{- else -}}
+    {{- $entry = merge $entry (dict "rendered" false) -}}
+  {{- end -}}
+  {{- with .Params.external_url -}}{{- $entry = merge $entry (dict "external_url" .) -}}{{- end -}}
+  {{- if not .Date.IsZero -}}{{- $entry = merge $entry (dict "date" (.Date.Format "2006-01-02")) -}}{{- end -}}
+  {{- if not .Lastmod.IsZero -}}{{- $entry = merge $entry (dict "lastmod" (.Lastmod.Format "2006-01-02")) -}}{{- end -}}
+  {{- $pages = $pages | append $entry -}}
+{{- end -}}
+{{- dict "version" 1 "base_url" site.BaseURL "pages" $pages | jsonify (dict "indent" "  ") -}}
