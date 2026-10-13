@@ -20,7 +20,7 @@ tags:
 
 A number in a financial report needs its row, column, and unit to mean anything. A chart needs its labels. When you build search over PDFs, that context is part of what you want to retrieve.
 
-Perplexity released [pplx-embed-v2-late](https://huggingface.co/collections/perplexity-ai/pplx-embed-v2), two late interaction models that search document pages as images. A page goes into the model as a picture, so its tables, charts, and layout reach the embedding together. You can skip the optical character recognition (OCR) step and search the page as it appears.
+Perplexity released [pplx-embed-v2-late](https://huggingface.co/collections/perplexity-ai/pplx-embed-v2), two late interaction models that search document pages as images. The model embeds the page image, including its tables, charts, and layout. You can skip the optical character recognition (OCR) step and search the page as it appears.
 
 The catch is the size of that representation. We tested how far we could shrink it in Qdrant while keeping the retrieval quality.
 
@@ -34,7 +34,7 @@ That's 856 KB per page in float32. A million pages would need over 800 GB for th
 
 Qdrant's [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) stores each vector in a few bits. At 1 bit, the compressed vectors take 40 KB per page instead of 856 KB. That's a 21x reduction without removing tokens or converting the page to text.
 
-Search with those compressed vectors kept 96.5% of the original retrieval quality in our tests. Rescoring checks the top candidates against the original vectors and raises that to 99.9%.
+In our tests, searching the compressed vectors retained 96.5% of the retrieval quality we got with float32. Rescoring checks the top candidates against the original vectors and raises that to 99.9%.
 
 {{< chart id="pplx-embed-v2/page-size-vs-retention" caption="Per-page vector size for pplx-embed-v2-late-9b. The 40 KB counts compressed vectors only; Qdrant also stores the originals. Rescoring uses four times as many candidates." caption2="Retrieval quality retained against exact float32 search, averaged over four ViDoRe v3 sets. Rescoring uses four times as many candidates. Higher is better." >}}
 
@@ -44,13 +44,13 @@ At the same 1-bit setting without rescoring, binary quantization kept 76.4% of r
 
 ## Index Big. Query Small.
 
-You can reuse a document embedding across searches. Every new query needs its own. We believe those two jobs deserve different compute budgets, and we tested that idea with [Constella](/blog/constella-research-preview/), our own model family, currently in research preview.
+You can reuse a document embedding across searches. Every new query needs its own. We think it makes sense to spend more compute on indexing than on each query. We tested that idea with [Constella](/blog/constella-research-preview/), our own model family, currently in research preview.
 
 Perplexity's models give you the same choice. The two models share one embedding space, so you can index pages once with the 9b and embed queries with the 0.6b, which has about 20x fewer active parameters. On page images, this pairing scored 0.670 nDCG@10, between 0.666 for the 0.6b alone and 0.681 for the 9b.
 
 ## What This Means for OCR
 
-We think OCR should become optional for document retrieval. For visually rich PDFs, we'd test searching page images before building a text-extraction pipeline. OCR still has a role when your application needs extracted text or structured fields.
+We think OCR should become optional for document retrieval. For visually rich PDFs, we'd test searching page images before building a text-extraction pipeline. You still need OCR if your application needs extracted text or structured fields.
 
 In our tests, page images scored 0.681 nDCG@10 with the 9b, against 0.671 for the same pages converted to Markdown. A Markdown page took 14 KB of compressed vectors, compared with 40 KB for a page image. Keep the page image when its layout matters; test Markdown when text carries the information you need.
 
