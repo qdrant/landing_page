@@ -215,14 +215,14 @@ Conversely, in the absence of a target, a rigid integer-by-integer function does
 
 We can directly associate the score function to a loss function, where 0.0 is the maximum score a point can have, which means it is only in positive areas. As soon as a point exists closer to a negative example, its loss will simply be the difference of the positive and negative similarities.
 
-That raw loss is then mapped, pair by pair, through a monotonic compression $f(x) = x / (1 + |x|)$ so that the reported scores stay meaningfully bounded between -1.0 and 0.0:
+That raw loss is mapped, pair by pair, through a monotonic compression $f(x) = x / (1 + |x|)$ so that the reported scores stay meaningfully bounded between -1.0 and 0.0:
 
 $$
-\text{context score} = \sum_i f\big(\min(s(v^+_i) - s(v^-_i) - \varepsilon, 0.0)\big),
+\text{context score} = \sum_i f\big(\min(s(v^+_i) - s(v^-_i), 0.0)\big),
 \qquad f(x) = \frac{x}{1 + |x|}
 $$
 
-Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair and $s(v)$ is the similarity function.
+Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair, and $s(v)$ is the similarity function.
 
 Using this kind of search, you can expect the output to not necessarily be around a single point, but rather, to be any point that isn’t closer to a negative example, which creates a constrained diverse result. So, even when the API is not called [`recommend`](#recommendation-api), recommendation systems can also use this approach and adapt it for their specific use-cases.
 
