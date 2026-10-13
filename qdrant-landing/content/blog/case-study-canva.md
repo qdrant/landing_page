@@ -50,8 +50,6 @@ The team had been working with another vector search provider. Canva has strict 
 
 Canva ran a structured internal evaluation, shortlisting several vector search options and testing three of them on the same production use cases. The criteria were demanding: the team needed to balance cost, latency, and the flexibility to tune each workload independently. Across those tests, Qdrant came out fastest and cheapest.
 
-*[PLACEHOLDER: relative speed and cost numbers against the other two vendors tested, pending Canva]*
-
 Just as important was the operating model. Canva runs on a self-serve infrastructure philosophy: the engineers who use a system own it, including its maintenance, cost optimization, and security. That ruled out heavier, database-style architectures aimed at teams that want to hand off operational concerns.
 
 Qdrant fit the self-serve model, giving individual teams the control they needed across many different workloads. Provisioning through the [Qdrant Cloud Terraform provider](https://qdrant.tech/documentation/cloud-tools/terraform/) meant infrastructure could be managed without handing every engineer access to the cloud console, one less friction point in an organization already wary of operational overhead.
