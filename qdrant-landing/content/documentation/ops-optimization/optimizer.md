@@ -15,29 +15,29 @@ Qdrant [stores](/documentation/manage-data/storage/) the points of a collection 
 
 For efficiency reasons, Qdrant, like many databases, applies data changes in batches rather than one point at a time. Some of its data structures, such as vector indexes, are hard to update in place, so Qdrant rebuilds them in the background when needed, or when you call [`optimize`](/documentation/edge/edge-api/configuration/#optimize) on Qdrant Edge.
 
-These rebuilds are handled by the optimizer, which works at the segment level.
+The optimizer handles these rebuilds and works at the segment level.
 It selects one or more segments that can be improved and rebuilds them into a single new segment, for example to index it, compact it, or reduce the number of segments.
 The segments being optimized remain readable while the rebuild is in progress.
-The availability is achieved by wrapping the segment into a proxy that transparently handles data changes.
-Changed data is placed in the copy-on-write segment, which has priority for retrieval and subsequent updates.
+To keep them available, Qdrant wraps each segment in a proxy that transparently handles data changes.
+The proxy writes changed data to a copy-on-write segment, which has priority for retrieval and subsequent updates.
 
-Qdrant has four optimizers, described in the following sections. In each round of optimization, a segment is selected by at most one optimizer. Every rebuild removes deleted points and applies the current collection configuration, whichever optimizer selected the segment.
+Qdrant has four optimizers, described in the following sections. In each round of optimization, at most one optimizer selects a given segment. Every rebuild removes deleted points and applies the current collection configuration, whichever optimizer selected the segment.
 
 ## Vacuum Optimizer
 
-The Vacuum Optimizer helps manage storage by handling deleted points. When a point is deleted, it isn't removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked points can build up, wasting memory and slowing down the system.
+The vacuum optimizer helps manage storage by handling deleted points. When you delete a point, Qdrant doesn't remove it right away but marks it as deleted, to avoid slow disk operations during queries. While this improves performance, over time, these marked points can build up, wasting memory and slowing down the system.
 
-The Vacuum Optimizer solves this problem by permanently removing marked points and reorganizing storage. This cleanup saves memory and keeps the system running smoothly, especially when large amounts of deleted data build up in the database.
+The vacuum optimizer solves this problem by permanently removing marked points and reorganizing storage. This cleanup saves memory, especially when large amounts of deleted data build up in the database.
 
 {{< island
     path="content/documentation/headless/optimizer/vacuum"
     ratio="760 / 349"
-    title="Deleted points are initially only marked as deleted. Once the number of deleted points in a segment exceeds the `deleted_threshold`, the Vacuum Optimizer rebuilds the segment without them."
+    title="Deleted points are initially only marked as deleted. Once the number of deleted points in a segment exceeds the `deleted_threshold`, the vacuum optimizer rebuilds the segment without them."
 >}}
 ![A segment with 20 points, five of them marked as deleted, is rebuilt as a new segment with the 15 remaining points.](/documentation/ops-optimization/optimizer-vacuum.svg)
 {{< /island >}}
 
-The criteria for starting the optimizer are defined in the configuration file. Two key parameters control its behavior:
+Two parameters in the configuration file control when the optimizer runs:
 
 ```yaml
 storage:
@@ -49,30 +49,30 @@ storage:
 ```
 
 - `deleted_threshold` sets the minimum fraction of deleted points in a segment required to initiate optimization. For example, a value of 0.2 means that more than 20% of a segment's points must be marked as deleted for the optimizer to consider running.
-- `vacuum_min_vector_number` specifies the minimum number of points a segment must contain to qualify for optimization. For instance, a value of 1000 ensures that only segments with at least 1,000 points are optimized.
+- `vacuum_min_vector_number` specifies the minimum number of points a segment must contain to qualify for optimization. For example, a value of 1000 ensures that only segments with at least 1,000 points are optimized.
 - Both parameters also apply to each vector index in a segment, counting vectors deleted from points that still exist.
 
-When these criteria are met, the Optimizer processes the segment by removing deleted points and reorganizing the data to improve efficiency. This process not only enhances the database's query performance but also reduces memory usage by eliminating redundant data.
+When a segment meets these criteria, the optimizer rebuilds it without the deleted points.
 
 ## Merge Optimizer
 
-Qdrant uses the Merge Optimizer to manage the number of segments in its storage system, ensuring efficient data organization and query performance. Temporary segments may be created during processes like optimization, such as copy-on-write segments, which help facilitate operations.
+Qdrant uses the merge optimizer to manage the number of segments in its storage system, ensuring efficient data organization and query performance. Optimization itself creates temporary segments, such as copy-on-write segments.
 
-Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the Merge Optimizer works to reduce the number of segments when there are more than optimal.
+Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the merge optimizer reduces the number of segments when there are more than optimal.
 
-The target number of segments is specified by the `default_segment_number` parameter, whose default depends on the number of available CPUs. When there are more segments than this target, the optimizer merges the smallest segments into larger ones, without exceeding the maximum segment size.
+The `default_segment_number` parameter specifies the target number of segments. Its default depends on the number of available CPUs. When there are more segments than this target, the optimizer merges the smallest segments into larger ones, without exceeding the maximum segment size.
 
 {{< island
     path="content/documentation/headless/optimizer/merge"
     ratio="760 / 349"
-    title="The shard has more segments than the target, so the Merge Optimizer rebuilds the smallest ones as a single new segment."
+    title="The shard has more segments than the target, so the merge optimizer rebuilds the smallest ones as a single new segment."
 >}}
 ![Four small segments with five points each are merged into one segment with all 20 points.](/documentation/ops-optimization/optimizer-merge.svg)
 {{< /island >}}
 
-To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Adjusting this parameter helps strike a balance between indexing speed and search efficiency, especially when dealing with large datasets. When `max_segment_size_kb` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
+To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Use this parameter to balance indexing speed against search efficiency, especially with large datasets. When `max_segment_size_kb` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
 
-The criteria for starting the optimizer are defined in the configuration file. Here is an example of parameter values:
+You can set these parameters in the configuration file. For example:
 
 ```yaml
 storage:
@@ -101,28 +101,24 @@ storage:
 - `default_segment_number` ensures that segments align with the search thread count, enabling even distribution of processing across threads.
 - `max_segment_size_kb` controls segment size to optimize both indexing and search performance, depending on system priorities.
 
-Proper configuration of these parameters allows Qdrant to maintain an efficient and responsive storage system.
-
 ## Indexing Optimizer
 
 Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
-So, for example, if the number of points is less than 10000, using any index would be less efficient than a brute force scan.
+So, for example, if the number of points is fewer than 10,000, using any index would be less efficient than a brute force scan.
 
-The Indexing Optimizer is used to implement the enabling of indexes when the minimal amount of records is reached.
+The indexing optimizer builds a vector index for a segment once its vector data exceeds the indexing threshold.
 
 {{< island
     path="content/documentation/headless/optimizer/indexing"
     ratio="760 / 349"
-    title="The appendable segment grows until it crosses the indexing threshold. The Indexing Optimizer then builds an HNSW index for it, and a new appendable segment takes the new points."
+    title="The appendable segment grows until it crosses the indexing threshold. The indexing optimizer then builds an HNSW index for it, and a new appendable segment takes the new points."
 >}}
 ![A full appendable segment without an index is rebuilt as an indexed segment that is no longer appendable.](/documentation/ops-optimization/optimizer-indexing.svg)
 {{< /island >}}
 
-The Indexing Optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
+The indexing optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
 
-The criteria for starting the optimizer are defined in the configuration file.
-
-Here is an example of parameter values:
+You can set the indexing threshold in the configuration file. For example:
 
 ```yaml
 storage:
@@ -137,12 +133,12 @@ storage:
 
 ## Config Mismatch Optimizer
 
-When you [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters), existing segments keep the configuration they were built with. The Config Mismatch Optimizer finds segments whose configuration no longer matches the collection configuration and rebuilds them with the new settings.
+When you [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters), existing segments keep the configuration they were built with. The config mismatch optimizer finds segments whose configuration no longer matches the collection configuration and rebuilds them with the new settings.
 
 {{< island
     path="content/documentation/headless/optimizer/config-mismatch"
     ratio="760 / 506"
-    title="After a change to the HNSW configuration, new segments are indexed with the new configuration, and the Config Mismatch Optimizer rebuilds older segments one at a time, largest first."
+    title="After a change to the HNSW configuration, new segments are indexed with the new configuration, and the config mismatch optimizer rebuilds older segments one at a time, largest first."
 >}}
 ![A segment built with configuration 1 is rebuilt with configuration 2 after a configuration change.](/documentation/ops-optimization/optimizer-config-mismatch.svg)
 {{< /island >}}
@@ -177,15 +173,15 @@ For guidance on balancing optimization against search load, see [Troubleshoot Re
 
 *Available as of v1.17.1*
 
-<aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases and it must be used with care.</aside>
+<aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases, so use it with care.</aside>
 
-When a collection receives a high volume of updates, for example, during nightly batch updates or when processing a large backlog of updates after a period of downtime, the optimizer might not be able to index new points fast enough to keep up. When this happens, searches may slow down as Qdrant has to scan through large amounts of unindexed data for every query.
+Sometimes a collection receives a high volume of updates, for example, during nightly batch updates or while processing a backlog of updates after a period of downtime. The optimizer might then be unable to index new points fast enough to keep up. When this happens, searches may slow down, because Qdrant has to scan large amounts of unindexed data for every query.
 
-To address this, Qdrant supports [querying indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only), by setting `indexed_only` to `true`. A side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again ("blinking" points).
+To address this, Qdrant supports [querying indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only), by setting `indexed_only` to `true`. A side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until Qdrant indexes it again (**blinking** points).
 
-To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` (or `max_segment_size`, if that's set and smaller) are accepted and durably stored but are not visible in search results. These "deferred" points only become visible after the optimizer has indexed the segment.
+To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When it's enabled, Qdrant accepts and durably stores points written to an unindexed segment that is larger than `indexing_threshold` (or `max_segment_size`, if that's set and smaller), but does not return them in search results. These **deferred** points only become visible after the optimizer has indexed the segment.
 
-`prevent_unoptimized` can be enabled per collection, or globally in the configuration file.
+You can enable `prevent_unoptimized` per collection, or globally in the configuration file.
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/prevent-unoptimized/" >}}
 
@@ -197,13 +193,13 @@ With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not nece
 
 ### Effect on `wait=true`
 
-Write requests support a [`wait` parameter](/documentation/manage-data/points/#awaiting-result) that, when set to `true`, causes the request to return only after the update has been applied and is visible for search. If `prevent_unoptimized` is enabled, `wait` should be set to `false` to avoid potential timeouts and delays.
+Write requests support a [`wait` parameter](/documentation/manage-data/points/#awaiting-result) that, when set to `true`, causes the request to return only after the update has been applied and is visible for search. If `prevent_unoptimized` is enabled, set `wait` to `false` to avoid potential timeouts and delays.
 
-This is particularly important for the Python, TypeScript/JavaScript, .NET, and Java clients, that set `wait` to `true` by default. The Go and Rust clients and the REST API interface already default to `false`, so no change is needed when using those clients.
+This is particularly important for the Python, TypeScript/JavaScript, .NET, and Java clients, which set `wait` to `true` by default. The Go and Rust clients and the REST API already default to `false`, so you don't need to change anything when using those.
 
-Qdrant processes updates in strict order: each update is written to the write-ahead log and then applied sequentially by the update worker, preserving this order.
+Qdrant processes updates in strict order: it writes each update to the write-ahead log, and the update worker then applies the updates sequentially, preserving this order.
 
-Under normal conditions, setting `wait=true` on a write request returns after the update has been applied to a segment. After enabling `prevent_unoptimized`, the response is held until every deferred point, including the current update, has been indexed and is visible for search. Depending on the volume of pending updates in the update queue and the speed of the optimizer, this can take a significant amount of time and will likely lead to timeouts on the client side. If the client times out, the update can be expected to be durably stored and eventually indexed, but the client will not receive a confirmation for that specific request.
+Under normal conditions, a write request with `wait=true` returns after Qdrant has applied the update to a segment. With `prevent_unoptimized` enabled, Qdrant holds the response until it has indexed every deferred point, including the current update, and made them visible for search. Depending on the volume of pending updates in the update queue and the speed of the optimizer, this can take a significant amount of time. It will likely lead to timeouts on the client side. If the client times out, Qdrant still stores the update durably and eventually indexes it, but the client will not receive a confirmation for that specific request.
 
 Because the update worker must finish indexing before continuing to consume the queue, a blocked `wait=true` request also delays all subsequent updates that use `wait=true`. Updates with `wait=false` are written to the write-ahead log immediately, but they are not applied until the blocked request unblocks. This head-of-line blocking means that `wait=true` can stall the entire update pipeline for as long as indexing takes. Use it with caution when `prevent_unoptimized` is enabled and the cluster is under heavy write load.
 
@@ -211,7 +207,7 @@ A consequence of enabling `prevent_unoptimized` and setting `wait=false` is even
 
 ### Monitoring Deferred Points
 
-You can check the number of deferred points in a collection via the `update_queue` section in the response of the [collection info API](/documentation/manage-data/collections/#collection-info). The same information is also available in [telemetry and metrics](/documentation/ops-monitoring/monitoring/), enabling dashboards and alerting.
+You can check the number of deferred points in a collection in the `update_queue` section of the response from the [collection info API](/documentation/manage-data/collections/#collection-info). The same information is also available in [telemetry and metrics](/documentation/ops-monitoring/monitoring/), enabling dashboards and alerting.
 
 A non-zero deferred point count means the optimizer is processing a backlog. This is expected under heavy write load; monitor the count to confirm that it is decreasing over time.
 
@@ -240,7 +236,7 @@ Furthermore, the [collection info API](/documentation/manage-data/collections/#c
 
 ### Web UI
 
-The same information is also accessible via the **Optimizations** tab within the **Collections** interface in [the Web UI](/documentation/web-ui/). For a specific collection, this tab provides an overview of the current optimization status and a timeline of current and past optimization cycles:
+The same information is also available in the **Optimizations** tab of the **Collections** interface in [the Web UI](/documentation/web-ui/). For a specific collection, this tab provides an overview of the current optimization status and a timeline of current and past optimization cycles:
 
 ![The Optimizations tab in Web UI shows progress and a timeline of optimization cycles](/docs/web-ui-optimizations-progress-timeline.png)
 
