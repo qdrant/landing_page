@@ -28,31 +28,31 @@ The catch is the size of that representation. We tested how far we could shrink 
 
 Late interaction models keep one vector per token. pplx-embed-v2-late turns each page image into about 1,700 vectors of 128 dimensions. MaxSim scores a page by finding the best document-vector match for each query token and summing those matches.
 
-That's 856 KB per page in float32. A million pages would need over 800 GB for their vectors alone. The page stays intact, but its vector footprint grows quickly.
+That's 856 KB per page in float32. A million pages would need over 800 GB for their vectors alone.
 
-## 21x Smaller Vectors. What Do We Lose?
+## 21x Smaller Vectors, 96.5% of the Quality
 
 Qdrant's [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) stores each vector in a few bits. At 1 bit, the compressed vectors take 40 KB per page instead of 856 KB. That's a 21x reduction without removing tokens or converting the page to text.
 
-**Search with those compressed vectors kept 96.5% of the original retrieval quality in our tests.** That percentage compares ranking quality with uncompressed search. Rescoring checks the top candidates against the original vectors and brings it to 99.9%.
+Search with those compressed vectors kept 96.5% of the original retrieval quality in our tests. Rescoring checks the top candidates against the original vectors and raises that to 99.9%.
 
 {{< chart id="pplx-embed-v2/page-size-vs-retention" caption="Per-page vector size for pplx-embed-v2-late-9b. The 40 KB counts compressed vectors only; Qdrant also stores the originals. Rescoring uses four times as many candidates." caption2="Retrieval quality retained against exact float32 search, averaged over four ViDoRe v3 sets. Rescoring uses four times as many candidates. Higher is better." >}}
 
 For a million pages, the compressed representation is about 40 GB, with original vectors stored separately. To reduce RAM use, [keep compressed vectors in RAM and originals on disk](/documentation/manage-data/quantization/#memory-and-speed-tuning).
 
-Compression choice matters, too. At the same 1-bit setting without rescoring, binary quantization kept 76.4% of retrieval quality. TurboQuant kept 96.5%. The [full results](#full-results) include the other bit widths and rescoring settings.
+At the same 1-bit setting without rescoring, binary quantization kept 76.4% of retrieval quality and TurboQuant kept 96.5%. The [full results](#full-results) include the other bit widths and rescoring settings.
 
 ## Index Big. Query Small.
 
 You can reuse a document embedding across searches. Every new query needs its own. We believe those two jobs deserve different compute budgets, and we tested that idea with [Constella](/blog/constella-research-preview/), our own model family, currently in research preview.
 
-Perplexity's models give you the same choice. The two models share one embedding space, so you can index pages once with the 9b and embed queries with the 0.6b. The larger model does the document encoding, while the smaller model handles incoming queries. In our tests, this pairing scored between the two single-model setups.
+Perplexity's models give you the same choice. The two models share one embedding space, so you can index pages once with the 9b and embed queries with the 0.6b, which has about 20x fewer active parameters. On page images, this pairing scored 0.670 nDCG@10, between 0.666 for the 0.6b alone and 0.681 for the 9b.
 
 ## What This Means for OCR
 
 We think OCR should become optional for document retrieval. For visually rich PDFs, we'd test searching page images before building a text-extraction pipeline. OCR still has a role when your application needs extracted text or structured fields.
 
-Page images retrieved slightly better than the same pages converted to Markdown in our tests. A Markdown page took 14 KB of compressed vectors, compared with 40 KB for a page image. Keep the page image when its layout matters; test Markdown when text carries the information you need.
+In our tests, page images scored 0.681 nDCG@10 with the 9b, against 0.671 for the same pages converted to Markdown. A Markdown page took 14 KB of compressed vectors, compared with 40 KB for a page image. Keep the page image when its layout matters; test Markdown when text carries the information you need.
 
 ## Full Results
 
@@ -87,7 +87,7 @@ The table shows exact float32 nDCG@10 for each model pairing. Page results are a
 | Page Markdown | 0.653 | 0.658 | 0.671 |
 | FiQA text | 0.522 | 0.588 | 0.622 |
 
-The 0.6b has about 20x fewer active parameters than the 9b. The gain over using the smaller model alone was modest on page images and larger on FiQA text retrieval. With 1-bit TurboQuant, the mixed setup kept 96.6% without rescoring and 100% with it, compared with the same pairing in float32.
+The gain over using the smaller model alone was modest on page images and larger on FiQA text retrieval. With 1-bit TurboQuant, the mixed setup kept 96.6% without rescoring and 100% with it, compared with the same pairing in float32.
 
 </details>
 
