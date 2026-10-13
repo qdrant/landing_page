@@ -222,9 +222,7 @@ $$
 \qquad f(x) = \frac{x}{1 + |x|}
 $$
 
-Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair, $s(v)$ is the similarity function, and $\varepsilon$ is a negligible margin (a single float epsilon) subtracted from each pair's difference.
-
-Because $f$ is strictly increasing, the compression does not change the ranking of results, but it does change the score values that are returned: a raw pair loss of `-1.6` is reported as approximately `-0.615`, and `-0.4` as approximately `-0.286`.
+Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair and $s(v)$ is the similarity function.
 
 Using this kind of search, you can expect the output to not necessarily be around a single point, but rather, to be any point that isn’t closer to a negative example, which creates a constrained diverse result. So, even when the API is not called [`recommend`](#recommendation-api), recommendation systems can also use this approach and adapt it for their specific use-cases.
 
