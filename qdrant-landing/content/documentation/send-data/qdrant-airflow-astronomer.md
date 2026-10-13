@@ -6,6 +6,11 @@ weight: 10
 hideInSidebar: true
 aliases:
   - /documentation/examples/qdrant-airflow-astronomer/
+goal: Operations
+stack:
+  - Python
+  - Airflow
+learning_kind: examples
 ---
 
 # Qdrant Semantic Querying with Airflow and Astronomer
@@ -27,7 +32,8 @@ Please make sure you have the following ready:
 
 - A running Qdrant instance. We'll be using a free instance from <https://cloud.qdrant.io>
 - The Astronomer CLI. Find the installation instructions [here](https://docs.astronomer.io/astro/cli/install-cli).
-- A [HuggingFace token](https://huggingface.co/docs/hub/en/security-tokens) to generate embeddings.
+
+The embeddings are generated locally in the DAG with [FastEmbed](https://github.com/qdrant/fastembed), so you do not need an account with an embedding provider. The first run downloads the embedding model.
 
 ## Implementation
 
@@ -44,10 +50,11 @@ astro dev init
 
 This command generates all of the project files you need to run Airflow locally. You can find a directory called `dags`, which is where we can place our Python DAG files.
 
-To use Qdrant within Airflow, install the Qdrant Airflow provider by adding the following to the `requirements.txt` file
+To use Qdrant within Airflow, install the Qdrant Airflow provider and FastEmbed by adding the following to the `requirements.txt` file
 
 ```text
 apache-airflow-providers-qdrant
+fastembed
 ```
 
 ### Configure credentials
@@ -57,13 +64,16 @@ We can set up provider connections using the Airflow UI, environment variables o
 Add the following to the `.env` file in the project. Replace the values as per your credentials.
 
 ```env
-HUGGINGFACE_TOKEN="<YOUR_HUGGINGFACE_ACCESS_TOKEN>"
 AIRFLOW_CONN_QDRANT_DEFAULT='{
     "conn_type": "qdrant",
-    "host": "xyz-example.eu-central.aws.cloud.qdrant.io:6333",
-    "password": "<YOUR_QDRANT_API_KEY>"
+    "password": "<YOUR_QDRANT_API_KEY>",
+    "extra": {
+        "url": "https://xyz-example.eu-central.aws.cloud.qdrant.io:6333"
+    }
 }'
 ```
+
+The API key goes in `password`, and the full URL of your cluster, including the scheme and the port, goes in `url`.
 
 ### Add the data corpus
 
@@ -89,14 +99,12 @@ Now, the hacking part - writing our Airflow DAG!
 We'll add the following content to a `books_recommend.py` file within the `dags` directory. Let's go over what it does for each task.
 
 ```python
-import os
-import requests
+from functools import lru_cache
 
-from airflow.decorators import dag, task
-from airflow.models.baseoperator import chain
-from airflow.models.param import Param
 from airflow.providers.qdrant.hooks.qdrant import QdrantHook
 from airflow.providers.qdrant.operators.qdrant import QdrantIngestOperator
+from airflow.sdk import Param, chain, dag, task
+from fastembed import TextEmbedding
 from pendulum import datetime
 from qdrant_client import models
 
@@ -110,14 +118,13 @@ EMBEDDING_DIMENSION = 384
 SIMILARITY_METRIC = models.Distance.COSINE
 
 
+@lru_cache(maxsize=1)
+def get_model() -> TextEmbedding:
+    return TextEmbedding(EMBEDDING_MODEL_ID)
+
+
 def embed(text: str) -> list:
-    HUGGINFACE_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{EMBEDDING_MODEL_ID}"
-    response = requests.post(
-        HUGGINFACE_URL,
-        headers={"Authorization": f"Bearer {os.getenv('HUGGINGFACE_TOKEN')}"},
-        json={"inputs": [text], "options": {"wait_for_model": True}},
-    )
-    return response.json()[0]
+    return next(iter(get_model().embed([text]))).tolist()
 
 
 @dag(
@@ -125,7 +132,9 @@ def embed(text: str) -> list:
     start_date=datetime(2023, 10, 18),
     schedule=None,
     catchup=False,
-    params={"preference": Param("Something suspenseful and thrilling.", type="string")},
+    params={
+        "preference": Param("Something suspenseful and thrilling.", type="string")
+    },
 )
 def recommend_book():
     @task
@@ -147,7 +156,7 @@ def recommend_book():
     @task
     def init_collection():
         hook = QdrantHook(conn_id=QDRANT_CONNECTION_ID)
-        if not  hook.conn..collection_exists(COLLECTION_NAME):
+        if not hook.conn.collection_exists(COLLECTION_NAME):
             hook.conn.create_collection(
                 COLLECTION_NAME,
                 vectors_config=models.VectorParams(
@@ -207,11 +216,11 @@ recommend_book()
 
 `init_collection`: This task initializes a collection in the Qdrant database, where we will store the vector representations of the book descriptions.
 
-`embed_description`: This is a dynamic task that creates one mapped task instance for each book in the list. The task uses the `embed` function to generate vector embeddings for each description. To use a different embedding model, you can adjust the `EMBEDDING_MODEL_ID`, `EMBEDDING_DIMENSION` values.
+`embed_description`: This is a dynamic task that creates one mapped task instance for each book in the list. The task uses the `embed` function to generate vector embeddings for each description with FastEmbed. To use a different embedding model, you can adjust the `EMBEDDING_MODEL_ID`, `EMBEDDING_DIMENSION` values.
 
-`embed_user_preference`: Here, we take a user's input and convert it into a vector using the same pre-trained model used for the book descriptions.
+`embed_preference`: Here, we take a user's input and convert it into a vector using the same pre-trained model used for the book descriptions.
 
-`qdrant_vector_ingest`: This task ingests the book data into the Qdrant collection using the [QdrantIngestOperator](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/1.0.0/), associating each book description with its corresponding vector embeddings.
+`qdrant_vector_ingest`: This task ingests the book data into the Qdrant collection using the [QdrantIngestOperator](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html), associating each book description with its corresponding vector embeddings.
 
 `search_qdrant`: Finally, this task performs a search in the Qdrant database using the vectorized user preference. It finds the most relevant book in the collection based on vector similarity.
 
@@ -222,15 +231,24 @@ Head over to your terminal and run
 
 A local Airflow container should spawn. You can now access the Airflow UI at <http://localhost:8080>. Visit our DAG by clicking on `books_recommend`.
 
-![DAG](/documentation/examples/airflow/demo-dag.png)
+{{< island
+    path="content/documentation/headless/airflow/books-dag"
+    ratio="3 / 2"
+    title="The books_recommend DAG. Select a stage to see which tasks have finished and which one is running."
+>}}
+![The books_recommend DAG in the Airflow UI: import_books, init_collection, embed_description, qdrant_vector_ingest, embed_preference, and search_qdrant](/documentation/examples/airflow/demo-dag.png)
+{{< /island >}}
 
 Hit the PLAY button on the right to run the DAG. You'll be asked for input about your preference, with the default value already filled in.
 
 ![Preference](/documentation/examples/airflow/preference-input.png)
 
-After your DAG run completes, you should be able to see the output of your search in the logs of the `search_qdrant` task.
+After your DAG run completes, you should be able to see the output of your search in the logs of the `search_qdrant` task. With the default preference, the task prints these two lines (Airflow adds a timestamp and a log level in front of each):
 
-![Output](/documentation/examples/airflow/output.png)
+```text
+Book recommendation: The Da Vinci Code (2003)
+Description: Dan Brown's gripping thriller follows symbologist Robert Langdon as he unravels clues hidden in art and history while trying to solve a murder mystery with far-reaching implications.
+```
 
 There you have it, an Airflow pipeline that interfaces with Qdrant! Feel free to fiddle around and explore Airflow. There are references below that might come in handy.
 

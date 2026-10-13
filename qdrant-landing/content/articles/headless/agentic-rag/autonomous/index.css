@@ -1,0 +1,77 @@
+/* autonomous island. Scoped under .ag-au. The tool called in the current step is outlined. */
+.ag-au {
+  --ag-orange: #e98a15;
+  --ag-purple: #8547ff;
+  display: block;
+}
+.ag-au__box {
+  stroke-width: 1.5;
+  fill-opacity: 0.16;
+}
+.ag-au__box.is-msg {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.ag-au__box.is-agent {
+  fill: var(--ag-orange);
+  fill-opacity: 0.18;
+  stroke: var(--ag-orange);
+}
+.ag-au__box.is-llm,
+.ag-au__box.is-rag {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cat-1);
+}
+.ag-au__box.is-web {
+  fill: var(--ag-orange);
+  stroke: var(--ag-orange);
+}
+.ag-au__box.is-api {
+  fill: var(--ag-purple);
+  stroke: var(--ag-purple);
+}
+.ag-au__box.is-world {
+  fill: var(--qi-accent);
+  stroke: var(--qi-accent);
+}
+.ag-au__box.is-on {
+  fill-opacity: 0.4;
+  stroke-width: 3;
+}
+.ag-au__box.is-off {
+  opacity: 0.4;
+}
+.ag-au__panel {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+}
+.ag-au__label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.ag-au__sub {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+}
+.ag-au__edge {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.ag-au__edge.is-on {
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+.ag-au__head {
+  fill: var(--qi-muted);
+}
+.ag-au.ag-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

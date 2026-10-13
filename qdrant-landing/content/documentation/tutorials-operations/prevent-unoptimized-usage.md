@@ -1,8 +1,15 @@
 ---
 title: Prevent Unoptimized Usage
+date: 2026-08-21T16:37:03+02:00
 short_description: "Defer visibility of unindexed points to stop bulk uploads from slowing down search."
 description: "Use the prevent_unoptimized optimizer setting to stop bulk uploads and config changes from slowing down search, and see what it costs in recall."
 weight: 34
+goal: Operations
+stack:
+  - Python
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/prevent_unoptimized_usage/prevent_unoptimized.ipynb
 ---
 
 # Prevent Unoptimized Usage
@@ -197,7 +204,7 @@ On a replicated collection, `prevent_unoptimized` also makes points blink across
 
 ## Related Reading
 
-- A deep dive on the Qdrant optimizer and its impact on latency: [Tuning Qdrant Optimizer for Predictable Search Latency](/articles/tuning-qdrant-optimizer/)
+- A deep dive on the Qdrant optimizer and its impact on latency: [Tuning Qdrant Optimizer for Predictable Search Latency](/documentation/production-operations/predictable-search-latency/)
 - Both mechanisms compared side by side: [Query Indexed Data Only](/documentation/search/low-latency-search/#query-indexed-data-only)
 - Full mechanics and configuration: [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments)
 - Deferred point counts and optimizer telemetry: [Monitoring](/documentation/ops-monitoring/monitoring/)

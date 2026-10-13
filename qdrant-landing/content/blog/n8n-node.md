@@ -42,7 +42,7 @@ This toy example walks you through fusing dense and lexical hybrid search result
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sYP_kHWptHY?si=t4GTxVCfTNiXEE4S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
 
-Naturally, you don't have to stop at a simple example! Everything we suggested in our [Hybrid Search article](https://qdrant.tech/articles/hybrid-search/) is now possible to use natively, even our latest [Score-Boosting Reranker](https://qdrant.tech/blog/qdrant-1.14.x/#score-boosting-reranker), which allows for complete customization of the rescoring formula.
+Naturally, you don't have to stop at a simple example! Everything we suggested in our [Hybrid Search article](https://qdrant.tech/documentation/search-tuning/hybrid-search/) is now possible to use natively, even our latest [Score-Boosting Reranker](https://qdrant.tech/blog/qdrant-1.14.x/#score-boosting-reranker), which allows for complete customization of the rescoring formula.
 
 ## Explore More and Get Involved
 

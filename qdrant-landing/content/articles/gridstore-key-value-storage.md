@@ -20,7 +20,7 @@ When we started building Qdrant, we needed to pick something ready for the task.
   <p>It is mature, reliable, and well-documented.</p>
 </div>
 
-Over time, we ran into issues. Its architecture required compaction (uses [LSMT](https://en.wikipedia.org/wiki/Log-structured_merge-tree)), which caused random latency spikes. It handles generic keys, while we only use it for sequential IDs. Having lots of configuration options makes it versatile, but accurately tuning it was a headache. Finally, interoperating with C++ slowed us down (although we will still support it for quite some time 😭).
+Over time, we ran into issues. Its architecture required compaction (uses [LSMT](https://en.wikipedia.org/wiki/Log-structured_merge-tree)), which caused random latency spikes. It handles generic keys, while we only use it for sequential IDs. Having lots of configuration options makes it versatile, but accurately tuning it was a headache. Finally, interoperating with C++ slowed us down (although we will still support it for quite some time).
 
 While there are already some good options written in Rust that we could leverage, we needed something custom. Nothing out there fit our needs in the way we wanted. We didn’t require generic keys. We wanted full control over when and which data was written and flushed. Our system already has crash recovery mechanisms built-in. Online compaction isn’t a priority, we already have optimizers for that. Debugging misconfigurations was not a great use of our time.
 
@@ -39,7 +39,6 @@ So we built our own storage. As of [**Qdrant Version 1.13**](/blog/qdrant-1.13.x
 **Our first challenge?** Figuring out the best way to handle sequential keys and variable-sized data.
 
 ## Gridstore Architecture: Three Main Components
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-2.png)
 
 Gridstore’s architecture is built around three key components that enable fast lookups and efficient space management:
 | Component                  | Description                                                                                   |
@@ -48,12 +47,18 @@ Gridstore’s architecture is built around three key components that enable fast
 | The Mask Layer                 | Uses a bitmask to track which blocks are in use and which are available.                      |
 | The Gaps Layer | Manages block availability at a higher level, allowing for quick space allocation.            |
 
+The diagram shows all three layers on one small page of 48 blocks. Switch layers to add each one, hover a key to follow its pointer, and in the gaps layer pick a value size to watch the search for free space.
+
+{{< island path="content/articles/headless/gridstore-key-value-storage/layers"
+    ratio="76 / 47"
+    title="The complete architecture of Gridstore on a small illustrative page: the tracker and data grid, the bitmask of used blocks, and the array of region gap summaries. Keys, value sizes, and free space are illustrative." >}}
+![Gridstore tracker, 48-block data grid, bitmask, and six region summaries scanned in adjacent windows; regions two and three fit six blocks at offsets 20 to 25](/articles_data/gridstore-key-value-storage/architecture.svg)
+{{< /island >}}
+
 ### 1. The Data Layer for Fast Retrieval
 At the core of Gridstore is **The Data Layer**, which is designed to store and retrieve values quickly based on their keys. This layer allows us to do efficient reads and lets us store variable-sized data. The main two components of this layer are **The Tracker** and **The Data Grid**.
 
 Since internal IDs are always sequential integers (0, 1, 2, 3, 4, ...), the tracker is an array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
-
-{{< figure src="/articles_data/gridstore-key-value-storage/data-layer.png" alt="The Data Layer" caption="The Data Layer uses an array of pointers to quickly retrieve data." >}}
 
 This makes lookups incredibly fast. For example, finding key 3 is just a matter of jumping to the third position in the tracker, and following the pointer to find the value in the data grid. 
 
@@ -61,8 +66,6 @@ However, because values are of variable size, the data itself is stored separate
 
 ### 2. The Mask Layer Reuses Space
 **The Mask Layer** helps Gridstore handle updates and deletions without the need for expensive data compaction. Instead of maintaining complex metadata for each block, Gridstore tracks usage with a bitmask, where each bit represents a block, with 1 for used, 0 for free.  
-
-{{< figure src="/articles_data/gridstore-key-value-storage/mask-layer.png" alt="The Mask Layer" caption="The bitmask efficiently tracks block usage." >}}
 
 This makes it easy to determine where new values can be written. When a value is removed, it gets soft-deleted at its pointer, and the corresponding blocks in the bitmask are marked as available. Similarly, when updating a value, the new version is written elsewhere, and the old blocks are freed at the bitmask.
 
@@ -73,14 +76,11 @@ To further optimize update handling, Gridstore introduces **The Gaps Layer**, wh
 
 Instead of scanning the entire bitmask, Gridstore splits the bitmask into regions and keeps track of the largest contiguous free space within each region, known as **The Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values.
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture.png" alt="The Gaps Layer" caption="The complete architecture of Gridstore" >}}
-
 This layered approach allows Gridstore to locate available space quickly, scaling down the work required for scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient, even in large segments.
 
-Given the default configuration, the gaps layer is scoped out in a millionth fraction of the actual storage size. This means that for each 1GB of data, the gaps layer only requires scanning 6KB of metadata. With this mechanism, the other operations can be executed in virtually constant-time complexity.
+Given the default configuration, the gaps layer is scoped out in a few millionths of the actual storage size. This means that for each 1GB of data, the gaps layer only requires scanning about 6KB of metadata. With this mechanism, the other operations can be executed in virtually constant-time complexity.
 
 ## Gridstore in Production: Maintaining Data Integrity 
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-1.png)
 
 Gridstore’s architecture introduces multiple interdependent structures that must remain in sync to ensure data integrity:
 - **The Data Layer** holds the data and associates each key with its location in storage, including page ID, block offset, and the size of its value.
@@ -105,14 +105,12 @@ The storage system must be designed so that reapplying the same operation after 
 
 ### The Grand Solution: Lazy Updates
 To achieve this, **Gridstore completes updates lazily**, prioritizing the most critical part of the write: the data itself. 
-|                                                                                                                |
-|-----------------------------------------------------------------------------------------------------------------------------|
-| 👉 Instead of immediately updating all metadata structures, it writes the new value first while keeping lightweight pending changes in a buffer. |
-| 👉 The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted. |
-| 👉 In the worst-case scenario, Gridstore may need to write the same data twice, leading to a minor space overhead, but it will never corrupt the storage by overwriting valid data. |
+
+- Instead of immediately updating all metadata structures, it writes the new value first while keeping lightweight pending changes in a buffer.
+- The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted.
+- In the worst-case scenario, Gridstore may need to write the same data twice, leading to a minor space overhead, but it will never corrupt the storage by overwriting valid data.
 
 ## How We Tested the Final Product 
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-3.png)
 
 ### First... Model Testing 
 
@@ -139,7 +137,7 @@ enum Operation {
 impl Operation {
     fn random(rng: &mut impl Rng, max_point_offset: u32) -> Self {
         let point_offset = rng.random_range(0..=max_point_offset);
-        let operation = rng.gen_range(0..3);
+        let operation = rng.random_range(0..3);
         match operation {
             0 => {
                 let size_factor = rng.random_range(1..10);
@@ -174,7 +172,6 @@ Crasher runs a loop that continuously writes data, then randomly crashes Qdrant.
 This aggressive yet simple approach has uncovered real-world issues when run for extended periods. While we also use chaos testing for distributed setups, Crasher excels at fast, repeatable failure testing in a local environment.
 
 ## Testing Gridstore Performance: Benchmarks
-![gridstore](/articles_data/gridstore-key-value-storage/gridstore-4.png)
 
 To measure the impact of our new storage engine, we used [**Bustle, a key-value storage benchmarking framework**](https://github.com/jonhoo/bustle), to compare Gridstore against RocksDB. We tested three workloads:
 
@@ -188,13 +185,13 @@ To measure the impact of our new storage engine, we used [**Bustle, a key-value 
 
 Average latency for all kinds of workloads is lower across the board, particularly for inserts. 
 
-![image.png](/articles_data/gridstore-key-value-storage/1.png)
+![Gridstore and RocksDB average latency across read-heavy, insert-heavy, and update-heavy workloads](/articles_data/gridstore-key-value-storage/1.png)
 
 This shows a clear boost in performance. As we can see, the investment in Gridstore is paying off.
 
 ### End-to-End Benchmarking
 
-Now, let’s test the impact on a real Qdrant instance. So far, we’ve only integrated Gridstore for [**payloads**](/documentation/manage-data/payload/) and [**sparse vectors**](/documentation/manage-data/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
+Now, let’s test the impact on a real Qdrant instance. At the time of this benchmark, we had integrated Gridstore only for [**payloads**](/documentation/manage-data/payload/) and [**sparse vectors**](/documentation/manage-data/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
 
 For benchmarking, we used our in-house [**bfb tool**](https://github.com/qdrant/bfb) to generate a workload. Our configuration:
 
@@ -234,9 +231,9 @@ We ran this against Qdrant 1.12.6, toggling between the old and new storage back
 
 ### Final Result 
 
-Data ingestion is **twice as fast and with a smoother throughput** — a massive win! 😍
+Data ingestion is **twice as fast and with a smoother throughput** — a massive win!
 
-![image.png](/articles_data/gridstore-key-value-storage/2.png)
+![Qdrant ingestion throughput with Gridstore and RocksDB during the payload and sparse-vector benchmark](/articles_data/gridstore-key-value-storage/2.png)
 
 We optimized for speed, and it paid off—but what about storage size?
 - Gridstore: 2333MB
@@ -246,11 +243,11 @@ Strictly speaking, RocksDB is slightly smaller, but the difference is negligible
 
 ## Trying Out Gridstore
 
-Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures. It is already used as a storage backend for on-disk payloads and sparse vectors.
+Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures. It was first used as the storage backend for on-disk payloads and sparse vectors in 1.13, and since 1.15 it is the default for new deployments (see the [1.15 release notes](/blog/qdrant-1.15.x/#migration-to-gridstore)).
 
-👉 It’s important to note that Gridstore remains tightly integrated with Qdrant and, as such, has not been released as a standalone crate. 
+It’s important to note that Gridstore remains tightly integrated with Qdrant and, as such, has not been released as a standalone crate. 
 
-Its API is still evolving, and we are focused on refining it within our ecosystem to ensure maximum stability and performance. That said, we recognize the value this innovation could bring to the wider Rust community. In the future, once the API stabilizes and we decouple it enough from Qdrant, we will consider publishing it as a contribution to the community ❤️.
+Its API is still evolving, and we are focused on refining it within our ecosystem to ensure maximum stability and performance. That said, we recognize the value this innovation could bring to the wider Rust community. In the future, once the API stabilizes and we decouple it enough from Qdrant, we will consider publishing it as a contribution to the community.
 
 For now, Gridstore continues to drive improvements in Qdrant, demonstrating the benefits of a custom-tailored storage engine designed with modern demands in mind. Stay tuned for further updates and potential community releases as we keep pushing the boundaries of performance and reliability.
 

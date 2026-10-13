@@ -1,0 +1,110 @@
+/* edge-shard island. Scoped under .qi-edge. Controls, frame, labels and status
+   come from the shared island design system (islands.scss); this file only
+   styles the device shells, the two wires and the travelling packet. Operation
+   hues are constant across themes (design-system palette, see Colors). */
+
+.qi-edge {
+  --edge-ingest: #6047ff; /* neon-blue-500 */
+  --edge-query: #00838f; /* cyan-800 */
+  --edge-lost: #dc244c; /* amaranth-500 */
+  --edge-op: var(--qi-line);
+
+  display: block;
+}
+
+.qi-edge.is-ingest {
+  --edge-op: var(--edge-ingest);
+}
+.qi-edge.is-query {
+  --edge-op: var(--edge-query);
+}
+
+/* Chip swatches carry the operation hue so the wire colour is legible before
+   anything moves. */
+.qi-edge__op[data-op='ingest'] {
+  --swatch: var(--edge-ingest);
+}
+.qi-edge__op[data-op='query'] {
+  --swatch: var(--edge-query);
+}
+
+/* Device and server shells: the outer boundary of a machine. */
+.qi-edge__shell {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+
+/* Process and storage boxes nested inside a shell. */
+.qi-edge__box {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-edge__box--store {
+  stroke: var(--qi-line);
+  stroke-dasharray: none;
+}
+
+/* The network boundary, and the cross that marks it as down. */
+.qi-edge__net {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+.qi-edge.is-offline .qi-edge__net {
+  stroke: var(--edge-lost);
+}
+.qi-edge.is-offline .qi-edge__net-label {
+  fill: var(--edge-lost);
+}
+
+.qi-edge__cross {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.qi-edge__cross line {
+  stroke: var(--edge-lost);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.qi-edge.is-lost .qi-edge__cross {
+  opacity: 1;
+}
+
+/* Wires. Both carry the current operation hue, so the eye compares length. */
+.qi-edge__wire {
+  fill: none;
+  stroke: var(--edge-op);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke 0.2s ease;
+}
+.qi-edge.is-offline.is-lost .qi-edge__wire--a {
+  stroke: var(--edge-lost);
+}
+
+.qi-edge__wire-label {
+  fill: var(--qi-muted);
+}
+
+/* The packet. Hidden until an operation runs, red when it dies at the boundary. */
+.qi-edge__packet {
+  fill: var(--edge-op);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.qi-edge__packet.is-on {
+  opacity: 1;
+}
+.qi-edge__packet.is-lost {
+  fill: var(--edge-lost);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-edge__wire,
+  .qi-edge__cross,
+  .qi-edge__packet {
+    transition: none;
+  }
+}

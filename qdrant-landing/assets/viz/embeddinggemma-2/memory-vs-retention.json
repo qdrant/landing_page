@@ -1,0 +1,24 @@
+{
+  "title": "Retained nDCG@10 by vector RAM, with and without rescoring",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "labelTop": "config",
+  "labelBottom": "rescoring",
+  "colors": ["muted", 1, 0, 1, 0, 1, 0],
+  "height": 480,
+  "width": 540,
+  "yMax": 100,
+  "panels": [
+    {
+      "title": "Retained nDCG@10 by vector RAM",
+      "subtitle": "1-bit TurboQuant, % of exact 768d float32 search",
+      "y": "retained_ndcg_pct",
+      "axis": "% of nDCG@10 retained (rescoring: oversampling 4)",
+      "unit": ""
+    }
+  ],
+  "tooltip": {
+    "retained_ndcg_pct": "% nDCG@10 retained",
+    "bytes_per_vector": "bytes per vector"
+  }
+}

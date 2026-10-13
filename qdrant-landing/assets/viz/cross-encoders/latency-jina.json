@@ -1,0 +1,31 @@
+{
+  "title": "jinaai/jina-reranker-v2-base-multilingual: inference latency",
+  "kind": "grouped-columns",
+  "group": "statistic",
+  "series": "library",
+  "colors": [
+    0,
+    1,
+    "muted"
+  ],
+  "height": 520,
+  "views": [
+    {
+      "label": "Per request",
+      "subtitle": "about 30 query-document pairs per request, lower is better",
+      "y": "per_request_ms",
+      "yLabel": "latency per request (ms)",
+      "yMax": 600
+    },
+    {
+      "label": "Per document",
+      "subtitle": "request latency divided by its document count, lower is better",
+      "y": "per_document_ms",
+      "yLabel": "latency per document (ms)",
+      "yMax": 20
+    }
+  ],
+  "width": 960,
+  "textScale": 1.8,
+  "legendLayout": "row"
+}

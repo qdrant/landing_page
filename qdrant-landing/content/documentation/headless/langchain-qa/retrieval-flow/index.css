@@ -1,0 +1,174 @@
+/* retrieval-flow island. Scoped under .qi-lc. Controls, labels and status come
+   from the shared island design system (islands.scss); this file only styles
+   the participants, messages, and the stacked step list. Participant hues are
+   constant across themes. */
+
+.qi-lc {
+  --lc-user: var(--qi-muted);
+  --lc-langchain: var(--qi-cat-1);
+  --lc-embedding: var(--qi-cat-3);
+  --lc-qdrant: var(--qi-cat-4);
+  --lc-llm: var(--qi-cat-2);
+
+  display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+}
+
+.qi-lc .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+.qi-lc code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+.qi-lc .qi-label {
+  font-size: 13px;
+}
+
+.qi-lc__c--user {
+  --lc-c: var(--lc-user);
+}
+.qi-lc__c--langchain {
+  --lc-c: var(--lc-langchain);
+}
+.qi-lc__c--embedding {
+  --lc-c: var(--lc-embedding);
+}
+.qi-lc__c--qdrant {
+  --lc-c: var(--lc-qdrant);
+}
+.qi-lc__c--llm {
+  --lc-c: var(--lc-llm);
+}
+
+/* --- Sequence diagram --- */
+.qi-lc__life {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.qi-lc__pill {
+  fill: color-mix(in srgb, var(--lc-c) 14%, transparent);
+  stroke: var(--lc-c);
+  stroke-width: 1.5;
+}
+.qi-lc__pill-name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.qi-lc__msg {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-lc__msg:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 2px;
+}
+.qi-lc__msg.is-dim {
+  opacity: 0.35;
+}
+.qi-lc__arrow {
+  stroke: var(--lc-c);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.qi-lc__arrow.is-return {
+  stroke-dasharray: 6 4;
+}
+.qi-lc__head {
+  fill: var(--lc-c);
+}
+.qi-lc__msg.is-active .qi-lc__arrow {
+  stroke-width: 4;
+}
+.qi-lc__msg-label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-lc__num {
+  fill: var(--qi-surface);
+  stroke: var(--lc-c);
+  stroke-width: 1.5;
+}
+.qi-lc__num-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-lc__msg.is-active .qi-lc__num {
+  fill: var(--lc-c);
+}
+.qi-lc__msg.is-active .qi-lc__num-text {
+  fill: var(--qi-accent-ink);
+}
+
+/* --- Stacked steps (narrow containers) --- */
+.qi-lc__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-lc__step {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 2px 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--qi-border);
+  border-left: 4px solid var(--lc-c);
+  border-radius: var(--qi-radius);
+  background: transparent;
+  color: var(--qi-fg);
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.15s ease;
+}
+.qi-lc__step:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 1px;
+}
+.qi-lc__step.is-active {
+  background: var(--qi-surface);
+  border-color: var(--lc-c);
+}
+.qi-lc__step.is-dim {
+  opacity: 0.45;
+}
+.qi-lc__badge {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--lc-c);
+  border-radius: 50%;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-lc__path {
+  font-size: 13px;
+}
+.qi-lc__step code {
+  font-size: 13px;
+  color: var(--qi-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-lc__msg,
+  .qi-lc__step {
+    transition: none;
+  }
+}

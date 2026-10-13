@@ -32,6 +32,22 @@ html[data-theme='dark'] .viz-tip {
   @include qi-dark-tokens;
 }
 
+// Blog posts have a light-only surface, independent of OS preference.
+// Keep this policy local; documentation and articles retain their theme.
+html .qdrant-blog-post .viz-figure,
+html .viz-tip[data-viz-theme='light'] {
+  @include qi-light-tokens;
+}
+
+html .viz-tip[data-viz-theme='light'] {
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+  border-color: var(--qi-border);
+
+  .viz-tip__title { border-color: var(--qi-border); }
+  .viz-tip__k { color: var(--qi-muted); }
+}
+
 .viz-figure {
   margin: 2rem 0;
   padding: 1.25rem 1.25rem 1rem;
@@ -101,8 +117,8 @@ html[data-theme='dark'] .viz-tip {
   pointer-events: none;
 }
 
-// The tooltip stays dark in both themes: it floats above the page rather than
-// sitting in it, so it reads as an overlay rather than a second surface.
+// Preserve the original dark overlay on theme-aware pages. Light-only blog
+// hosts opt into their surface colors through data-viz-theme above.
 .viz-tip {
   position: fixed;
   z-index: 1000;
@@ -115,8 +131,7 @@ html[data-theme='dark'] .viz-tip {
   background: #111824; // neutral-900
   border: 1px solid #303547; // neutral-800
   color: #e2e7f5; // neutral-100
-  font-family: var(--qi-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.45;
   box-shadow: 0 8px 24px rgba(11, 15, 25, 0.45);
 
@@ -167,6 +182,12 @@ html[data-theme='dark'] .viz-tip {
     max-width: none;
   }
 
+  // Already drawn narrow, so scrolling would only hide columns.
+  .viz-figure--narrow .viz-figure__svg {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .viz-figure .viz-figure__caption {
     font-size: 0.8125rem;
   }
@@ -179,7 +200,6 @@ html[data-theme='dark'] .viz-tip {
   justify-content: flex-end;
   flex-wrap: wrap;
   margin: 8px 0 12px;
-  font-family: var(--qi-mono);
 }
 
 .viz-toggle__btn {
@@ -190,7 +210,7 @@ html[data-theme='dark'] .viz-tip {
   background: transparent;
   color: var(--qi-muted);
   font-family: inherit;
-  font-size: 11px;
+  font-size: 0.8125rem;
   line-height: 1;
   font-weight: 400;
   cursor: pointer;

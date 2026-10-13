@@ -1,0 +1,9 @@
+{{ $articles := site.GetPage "/articles" }}
+{{ $topics := slice }}
+{{ range $articles.Sections }}
+  {{ if .Params.isCategoryPage }}{{ $topics = $topics | append .Params.category }}{{ end }}
+{{ end }}
+{{ $pages := where $articles.RegularPages "Params.category" "in" $topics }}
+{{ $pages = where $pages "Params.hideFromList" "ne" true }}
+{{ with .Params.category }}{{ $pages = where $pages "Params.category" . }}{{ end }}
+{{ return $pages.ByPublishDate.Reverse }}

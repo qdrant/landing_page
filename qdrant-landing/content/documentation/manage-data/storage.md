@@ -49,7 +49,7 @@ This is the recommended way when your Qdrant instance operates with fast disks a
   There are two ways to do this:
 
   1. You can set the threshold globally in the [configuration file](/documentation/ops-configuration/configuration/). The parameter is called `memmap_threshold` (previously `memmap_threshold_kb`).
-  2. You can set the threshold for each collection separately during [creation](/documentation/manage-data/collections/#create-collection) or [update](/documentation/manage-data/collections/#update-collection-parameters).
+  2. You can set the threshold for each collection separately during [creation](/documentation/manage-data/collections/#create-a-collection) or [update](/documentation/manage-data/collections/#update-collection-parameters).
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-optimizer-config/" >}}
 
@@ -78,7 +78,7 @@ If you need to query vectors with some payload-based conditions - checking value
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
 Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
 
-You can specify the desired memory tier with the [configuration file](/documentation/ops-configuration/configuration/) or with collection parameter `payload.memory` during [creation](/documentation/manage-data/collections/#create-collection) of the collection.
+You can specify the desired memory tier with the [configuration file](/documentation/ops-configuration/configuration/) or with collection parameter `payload.memory` during [creation](/documentation/manage-data/collections/#create-a-collection) of the collection.
 
 ## Versioning
 

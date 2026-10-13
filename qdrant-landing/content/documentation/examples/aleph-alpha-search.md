@@ -4,6 +4,10 @@ short_description: "Run multimodal semantic search by pairing Aleph Alpha embedd
 description: "Build a multimodal semantic search system with Aleph Alpha and Qdrant, querying image collections using natural-language text in a shared vector space."
 weight: 10
 draft: true
+goal: Multimodal Search
+stack:
+  - Python
+  - Aleph Alpha
 ---
 
 # Multimodal Semantic Search with Aleph Alpha

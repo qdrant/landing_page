@@ -1,7 +1,7 @@
 ---
-title: "Hyperbolic Embeddings in Qdrant"
-short_description: "Why hierarchical data suits a curved space, and what that buys you."
-description: "Why hierarchical data suits hyperbolic embeddings, and how to search them with Qdrant."
+title: "Why Hyperbolic Embeddings Matter for Hierarchical Data"
+short_description: "An early look at hierarchical data in curved space, and how to search it in Qdrant."
+description: "What hyperbolic embeddings buy you on hierarchical data, where they break, and how to search them in Qdrant today."
 preview_dir: /articles_data/hyperbolic-embeddings-qdrant/preview
 social_preview_image: /articles_data/hyperbolic-embeddings-qdrant/preview/social_preview.jpg
 weight: -220
@@ -88,27 +88,37 @@ One of the nicest properties of a hierarchy-aware hyperbolic embedding is that r
 
 Closer to the center, you can place broad concepts. Farther out, you can place more specific descendants. Direction separates branches; radius helps organize depth.
 
-For a catalog, “footwear” covers many possible items. “Boots” narrows that set. “Red leather ankle boots” narrows it further. A representation that captures this structure has room for both semantic similarity and different levels of detail.
+For a catalog, "footwear" covers many possible items. "Boots" narrows that set. "Red leather ankle boots" narrows it further. A representation that captures this structure has room for both semantic similarity and different levels of detail.
 
 Hyper3-CLIP, a hyperbolic image and text embedding model from [hyper³labs](https://hyper3labs.com/), brings this idea to visual retrieval. [[7]](#references) It is trained to capture general-to-specific relationships alongside similarity. This gives radius a role in organizing broad descriptions and specific visual content. [[2]](#references) It follows earlier work on hyperbolic image and text representations. [[3]](#references)
 
-Consider the black Chelsea boot below. A traversal toward the origin illustrates a move from the specific product to broader concepts: black Chelsea boots, Chelsea boots, boots, and footwear.
+Hyper3-CLIP appears here to illustrate what radius can carry. It is not the model benchmarked later: the tests below use a small embedding we trained ourselves on a single taxonomy.
+
+Consider the black Chelsea boot in the next figure. A traversal toward the origin illustrates a move from the specific product to broader concepts: black Chelsea boots, Chelsea boots, boots, and footwear.
 
 ![Conceptual inward traversal with progressively broader product examples beside each level](/articles_data/hyperbolic-embeddings-qdrant/radius-traversal-products.png)
 
 *Conceptual traversal inspired by a catalog product from Amazon Berkeley Objects. Product imagery is AI-illustrated; descriptions and positions are illustrative, not model retrieval results. [[6]](#references)*
 
-We can also look at how the model organizes product images. Below are conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
+We can also look at how the model organizes product images. The next figure compares conventional CLIP [[8]](#references) and Hyper3-CLIP embeddings of the same catalog subset.
 
-<iframe src="https://qdrant-geometry-viewer.vercel.app/clip-embed.html" width="100%" height="700" style="border:0;border-radius:8px" loading="lazy" title="The same 165 products under CLIP and Hyper3-CLIP"></iframe>
+<link rel="stylesheet" href="/articles_data/hyperbolic-embeddings-qdrant/figures.css">
 
-*The same 165 Amazon Berkeley Objects product images [[10]](#references) in six categories, shown through UMAP [[9]](#references) projections of conventional CLIP and Hyper3-CLIP embeddings. Colors identify product types. These projections illustrate neighborhoods; they do not measure specificity or establish retrieval quality.*
+<figure class="article-figure">
+  <img src="/articles_data/hyperbolic-embeddings-qdrant/clip-hyper3-precision.svg"
+       alt="Precision at 10 for six product types under conventional CLIP and Hyper3-CLIP. Sandal rises from 53 to 75 percent, Table from 84 to 93, Chair from 75 to 84, Sofa from 89 to 91 and Boot from 84 to 85. Shoes falls from 77 to 70. Across all types, 78 percent rises to 83." width="640" height="452" loading="lazy">
+  <img class="article-figure__dark" src="/articles_data/hyperbolic-embeddings-qdrant/clip-hyper3-precision.dark.svg"
+       alt="Precision at 10 for six product types under conventional CLIP and Hyper3-CLIP. Sandal rises from 53 to 75 percent, Table from 84 to 93, Chair from 75 to 84, Sofa from 89 to 91 and Boot from 84 to 85. Shoes falls from 77 to 70. Across all types, 78 percent rises to 83." width="640" height="452" loading="lazy">
+  <figcaption>Precision@10 on 165 Amazon Berkeley Objects product images across six types, measured on the 512-dimensional vectors. Five types improve and one, Shoes, does not.</figcaption>
+</figure>
+
+This is a retrieval measurement rather than a picture of a layout. Neighborhoods are taken from the 512-dimensional vectors, not from any projection of them, so nothing here depends on how the points were arranged for display. The gain is not uniform: Sandal improves by 22 points, Shoes gets worse by 7, and the average over all six types moves from `0.778` to `0.834`. [[9]](#references)
 
 ## Testing Hyperbolic Embeddings
 
-WordNet is useful for showing why hyperbolic embeddings work, but we also wanted to see what happens on something closer to a real application. So we tested the same idea on the Google Product Taxonomy: 5,595 categories, seven levels, and 17,312 relationships. [[11]](#references)
+WordNet is useful for showing why hyperbolic embeddings work, but we also wanted to see what happens on something closer to a real application. So we tested the same idea on the Google Product Taxonomy: 5,595 categories, seven levels, and 17,312 relationships. [[10]](#references)
 
-Both embeddings used the same data and optimizer. The main difference was the geometry.
+We trained both embeddings ourselves so that the data, the dimension, and the optimizer are held constant and only the geometry changes. An off-the-shelf model would have varied all of them at once. They are deliberately small: five dimensions is a research setting, not a production recommendation.
 
 We scored them with mean average precision, written MAP from here on. It asks how close each category's true parents land to the top of its results. Higher is better, and `1.000 MAP` would mean every parent came back first.
 
@@ -134,11 +144,9 @@ Getting a good embedding was only half the problem. The next question was how to
 
 Hyperbolic distance can be converted into an inner product by adding two extra dimensions. Under brute force search in Faiss, that worked well. Across 82,115 WordNet nouns it found `0.986` of the correct nearest neighbors in its top 10, a measure we write as recall@10.
 
-Then we put the same vectors behind HNSW. Recall@10 dropped to `0.020`, even with `ef=1024`.
+Then we put the same vectors behind Faiss's HNSW index. Recall@10 dropped to `0.020`, even with `ef=1024`. That figure is Faiss, not Qdrant.
 
-The conversion was still mathematically correct, but the resulting vectors had norms spread across roughly a 600x range. That made HNSW a poor fit for the ranking we actually wanted.
-
-Grouping vectors by norm helped, but recall@10 only reached `0.410`.
+The conversion was still mathematically correct, but the resulting vectors had norms spread across roughly a 600x range, which is hard on a proximity graph built from inner products. Grouping vectors by norm helped, but recall@10 only reached `0.410`. Both figures are from the same Faiss setup.
 
 So instead of forcing the converted vectors into HNSW, we changed the search strategy.
 
@@ -160,9 +168,11 @@ client.create_payload_index(
 
 Without that payload index the rescore turns into a full scan.
 
-Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/search-relevance/) rescores those candidates with the real hyperbolic distance in the same request. [[5]](#references)
+Qdrant first uses Euclidean HNSW to pull a candidate set from the original Poincaré coordinates. Then a [Formula Query](/documentation/search/hybrid-queries/#custom-scoring-with-a-formula-query) rescores those candidates with the real hyperbolic distance in the same request. [[5]](#references)
 
-The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query does not have that operator. [[4]](#references) It does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
+Euclidean is the prefetch metric here because away from the edge of the ball it tracks hyperbolic distance closely enough to gather candidates. Cosine is the obvious alternative, and which one wins depends on how wide the prefetch is. At a prefetch of 50 cosine is ahead, `0.505` against `0.472`. At the prefetch of 1,000 this article recommends it is behind, `0.876` against `0.920`, and it does not catch up: cosine's recall saturates near `0.875` at every width we tried. Direction alone finds the right neighborhood but cannot separate depths inside it, which is what the rescore is for.
+
+The geodesic, meaning the shortest path between two points in the curved space, is the true hyperbolic distance. Computing it needs `acosh`, the inverse hyperbolic cosine, and Formula Query did not have that operator when we ran these tests. An `acosh` expression was merged into Qdrant in August 2026 [[4]](#references), but it was not part of a stable release as of v1.19.1. Formula Query does have `ln` and `sqrt`, and since `acosh(x)` is `ln(x + sqrt(x^2 - 1))`, the distance is expressible as it stands. The inner term is:
 
 ```json
 {
@@ -191,7 +201,7 @@ The geodesic, meaning the shortest path between two points in the curved space, 
 }
 ```
 
-We tested this against a live Qdrant collection with all 5,595 taxonomy points.
+We tested this against a live Qdrant collection with all 5,595 taxonomy points. At that size Qdrant serves the collection by exact search rather than building a graph, so these are exact-search numbers. Forcing the graph on changes them by at most 0.002.
 
 | Prefetch | Euclidean Only | With Rescore |
 | -------- | -------------: | -----------: |
@@ -201,25 +211,48 @@ We tested this against a live Qdrant collection with all 5,595 taxonomy points.
 | 300 | 0.266 | 0.783 |
 | 1000 | 0.266 | 0.920 |
 
-Euclidean HNSW alone finds about a quarter of the correct hyperbolic neighbors. With a prefetch of 1,000 and Formula Query rescoring, recall@10 reaches `0.920`. And the whole search stays inside Qdrant in one server side request.
+Euclidean prefetch alone finds about a quarter of the correct hyperbolic neighbors. With a prefetch of 1,000 and Formula Query rescoring, recall@10 reaches `0.920`. And the whole search stays inside Qdrant in one server side request.
 
 The prefetch size matters. If the right neighbors never make it into the candidate set, rescoring cannot recover them.
 
 There is one more tradeoff. As the embedding gets better, the prefetch usually needs to get wider.
 
-Comparing two embeddings offline, the stronger one at `0.905 MAP` recovered `0.498` of the true neighbors from a prefetch of 50, while a weaker one at `0.724 MAP` recovered `0.789` of them. Those offline numbers sit a little above what the live index returns, because HNSW is approximate.
+Comparing two embeddings offline, the stronger one at `0.905 MAP` recovered `0.498` of the true neighbors from a prefetch of 50, while a weaker one at `0.724 MAP` recovered `0.789` of them.
 
 Better hyperbolic embeddings push more points toward the edge of the Poincaré ball, where Euclidean distance becomes a weaker shortcut. So if you improve the embedding, retest the retrieval settings too.
+
+### What About a Production 512-Dimensional Model?
+
+Everything above uses a five dimensional embedding we trained on one taxonomy. A fair question is what changes if you reach for a pretrained 512 dimensional hyperbolic model instead, such as Hyper3-CLIP. [[2]](#references) Mostly the answer is that you need less of this article, not more, and the reason is where in the space those vectors sit.
+
+We measured the hyperbolic radius of the output of two open hyperbolic CLIP models. Every point lands in a thin shell close to the origin:
+
+| Model | Median hyperbolic radius | Spread (max/min) |
+| ----- | -----------------------: | ---------------: |
+| HyCoCLIP-ViT-S | 0.627 | 1.04 |
+| MERU-ViT-S | 0.872 | 1.10 |
+
+Across six very different image classes the per-class standard deviation was about `0.005` on a mean of `0.63`. That is a shell, not a distribution, which suggests the concentration is a property of the model rather than of the images.
+
+Near the origin, hyperbolic space is almost flat, so radius carries almost no information and ordinary metrics recover the true ranking anyway. On 300 real vectors compared all against all, plain cosine over the raw vector reached `0.9997` recall@10 against the exact geodesic.
+
+Every failure described in this article is a crowding effect that appears far from the origin, and the taxonomy embedding we trained sits out there. A pretrained hyperbolic CLIP does not. So the practical test is one measurement: take the median hyperbolic radius of your own corpus. Below roughly `2`, treat the space as flat and use an ordinary metric. Above it, the prefetch and rescore route is the one you want.
+
+One property makes these models easier to serve than expected. For a model on the hyperboloid, ranking by the Lorentz inner product is rank identical to ranking by geodesic distance. Across 40 queries the Spearman correlation was `1.000000` every time, so `acosh` is never needed for ranking. Negate the time coordinate before you store the vector and `Distance.DOT` returns exact hyperbolic order with no rescoring step at all. This is also why such a model can offer a Lorentz score as its default retrieval mode: on the hyperboloid that score already is the hyperbolic ordering.
+
+Two caveats. These numbers come from HyCoCLIP-ViT-S and MERU-ViT-S rather than `hyper3-clip-v1`, which is gated, and from exact comparison over a few hundred vectors rather than a full index. Treat the radius test as the finding and the rest as a starting point.
 
 ## Exploring the Results
 
 To make the difference easier to see, we built a [live viewer](https://qdrant-geometry-viewer.vercel.app) against the same Qdrant collection.
 
-<iframe src="https://qdrant-geometry-viewer.vercel.app/embed.html" width="100%" height="1425" style="border:0;border-radius:8px" loading="lazy" title="One category in three geometries, live"></iframe>
+{{< island path="content/articles/headless/hyperbolic-embeddings-qdrant/geometry-viewer"
+    ratio="16 / 7"
+    title="The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart." >}}
+![The same category and its parents in three geometries: the hyperbolic Poincare disk, the flat Euclidean embedding, and the text embedding.](/articles_data/hyperbolic-embeddings-qdrant/viewer-three-panels.jpg)
+{{< /island >}}
 
-*The same category and its parents, left to right: the hyperbolic Poincaré disk, the flat Euclidean embedding, and the text embedding. In the Poincaré disk the chain runs cleanly from the center to the rim. The other two have run out of room to keep the levels apart.*
-
-Pick a category and it runs three searches, one per panel: the exact hyperbolic distance, Euclidean distance over the flat trained coordinates, and cosine similarity over a text embedding.
+**[Open the interactive viewer →](https://qdrant-geometry-viewer.vercel.app)** Pick any of the 5,595 categories and watch all three panels redraw. It runs three searches, one per panel: exact hyperbolic distance, Euclidean distance over the flat trained coordinates, and cosine similarity over a text embedding. The Product Images tab does the same for the CLIP comparison above.
 
 The distances shown in the viewer come directly from Qdrant. Nothing is recalculated in the browser.
 
@@ -229,13 +262,17 @@ We checked the same calculations outside Qdrant, and they matched within `4.7e-0
 
 If your data naturally forms a hierarchy, we would test a small hyperbolic embedding before automatically reaching for a much larger Euclidean one. On the product taxonomy, a 5 dimensional Poincaré embedding reached `0.905 MAP`. A 50 dimensional Euclidean embedding reached `0.658 MAP`.
 
-The harder part is serving it. We would not convert the vectors and index them directly with HNSW. That worked under brute force search, but recall@10 dropped to `0.020` once HNSW was involved.
+This pays off when the hierarchy is genuinely deep and parent-to-child structure is what you are searching on. A general catalogue where people type product names is not that case, and a flat model will serve it better.
+
+The harder part is serving it. Converting the vectors and indexing them directly worked under brute force search but collapsed to `0.020` under Faiss's HNSW, which is why we went looking for another route.
 
 Instead, use HNSW to find candidates and let Qdrant rescore them with the real hyperbolic distance. On this collection, that moved recall@10 from `0.266` to `0.920` with a prefetch of 1,000.
 
 You may also need to widen the prefetch as the embedding improves because Euclidean distance becomes less reliable near the edge of the Poincaré ball.
 
 The main point is simple. If the data is hierarchical, Qdrant gives you a practical way to store the coordinates, use HNSW for candidate retrieval, and apply the real geometry during rescoring without adding a separate search system.
+
+If you want to try this on your own hierarchy, the transform and the two-stage search are packaged in [qdrant-hyperbolic-transform](https://github.com/jkupchanko/qdrant-hyperbolic-transform). [[11]](#references) It is a preprocessing layer rather than a change to Qdrant: you convert your vectors, create an ordinary collection with `Distance.DOT`, and search it normally.
 
 ## References
 
@@ -247,6 +284,6 @@ The main point is simple. If the data is hierarchical, Qdrant gives you a practi
 6. Amazon Berkeley Objects. [Product image](https://amazon-berkeley-objects.s3.amazonaws.com/images/small/ff/ffb123bf.jpg), item `B06XCPVVPS`, image `71KwV3JHT9L`.
 7. hyper³labs. [The Geometry Mistake Behind Modern Embedding Models](https://hyper3labs.com/blog/the-geometry-mistake/).
 8. Radford, A. et al. (2021). [Learning Transferable Visual Models From Natural Language Supervision (CLIP)](https://arxiv.org/abs/2103.00020).
-9. McInnes, L., Healy, J. and Melville, J. (2018). [UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction](https://arxiv.org/abs/1802.03426).
-10. Amazon Berkeley Objects. [Dataset and documentation](https://amazon-berkeley-objects.s3.amazonaws.com/index.html).
-11. Google. [Google Product Taxonomy](https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt).
+9. Amazon Berkeley Objects. [Dataset and documentation](https://amazon-berkeley-objects.s3.amazonaws.com/index.html).
+10. Google. [Google Product Taxonomy](https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt).
+11. Kupchanko, J. [qdrant-hyperbolic-transform](https://github.com/jkupchanko/qdrant-hyperbolic-transform). Reference implementation of the transform and the prefetch-and-rescore search.

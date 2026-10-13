@@ -1,0 +1,35 @@
+{
+  "title": "Steady-state search latency by segment configuration",
+  "kind": "columns-2panel",
+  "labelTop": "configuration",
+  "labelBottom": "setting",
+  "colors": [
+    0,
+    "muted",
+    1,
+    2
+  ],
+  "height": 400,
+  "panels": [
+    {
+      "title": "Median (p50) latency once settled",
+      "subtitle": "lower is better",
+      "y": "steady_p50_ms",
+      "axis": "search latency, ms",
+      "unit": "ms",
+      "yMax": 30
+    },
+    {
+      "title": "95th percentile (p95) latency once settled",
+      "subtitle": "lower is better",
+      "y": "steady_p95_ms",
+      "axis": "search latency, ms",
+      "unit": "ms",
+      "yMax": 30
+    }
+  ],
+  "tooltip": {
+    "steady_p50_ms": "steady p50",
+    "steady_p95_ms": "steady p95"
+  }
+}

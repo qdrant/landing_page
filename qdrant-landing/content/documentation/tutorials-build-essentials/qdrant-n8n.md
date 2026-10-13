@@ -8,7 +8,15 @@ social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_previe
 aliases:
   - /blog/qdrant-n8n-beyond-simple-similarity-search/
   - /documentation/qdrant-n8n/
-
+goal: RAG & Agents
+stack:
+  - n8n
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 <!-- ![n8n-qdrant](/documentation/examples/qdrant-n8n-2/cover.png) -->
@@ -91,7 +99,7 @@ The combination of similarity and dissimilarity metrics in vector space expands 
 
 When searching for new music, films, books, or food, it can be difficult to articulate exactly what we want. Instead, we often rely on discovering new content through comparison to examples of what we like or dislike.
 
-The [Qdrant Recommendation API](https://qdrant.tech/articles/new-recommendation-api/) is built to make these discovery searches possible by using positive and negative examples as anchors. It helps find new relevant results based on your preferences.
+The [Qdrant Recommendation API](/documentation/search/explore/#recommendation-api) is built to make these discovery searches possible by using positive and negative examples as anchors. It helps find new relevant results based on your preferences.
 
 ![recommendations](/documentation/examples/qdrant-n8n-2/recommendations.png)
 
@@ -166,7 +174,7 @@ With the release of the [official Qdrant node](https://github.com/qdrant/n8n-nod
 An [1/3 Uploading Images to Qdrant Template Workflow](https://n8n.io/workflows/2654-vector-database-as-a-big-data-analysis-tool-for-ai-agents-13-anomaly12-knn/) consists of the following blocks:
 
 1. **Check Collection**: Verifies if a collection with the specified name exists in Qdrant. If not, it creates one.
-2. **Payload Index**: Adds a [payload index](/documentation/manage-data/indexing/#payload-index) on the `crop_name` payload (metadata) field. This field stores crop class labels, and indexing it improves the speed of filterable searches in Qdrant. It changes the way a vector index is constructed, adapting it for fast vector search under filtering constraints. For more details, refer to this [guide on filtering in Qdrant](https://qdrant.tech/articles/vector-search-filtering/).
+2. **Payload Index**: Adds a [payload index](/documentation/manage-data/indexing/#payload-index) on the `crop_name` payload (metadata) field. This field stores crop class labels, and indexing it improves the speed of filterable searches in Qdrant. It changes the way a vector index is constructed, adapting it for fast vector search under filtering constraints. For more details, refer to this [guide on filtering in Qdrant](https://qdrant.tech/documentation/search-patterns/vector-search-filtering/).
 3. **Fetch Images**: Fetches images from Google Cloud Storage using the [Google Cloud Storage node](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudstorage).
 4. **Generate IDs**: Assigns UUIDs to each data point.
 5. **Embed Images**: Embeds the images using the Voyage API.

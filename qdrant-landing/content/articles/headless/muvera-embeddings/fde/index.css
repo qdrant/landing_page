@@ -1,0 +1,66 @@
+/* fde island. Scoped under .mu-fde. Token identities use four categorical
+   hues that read in both themes; the aggregate is Qdrant red. */
+
+.mu-fde {
+  --mu-t1: var(--qi-cat-1);
+  --mu-t2: var(--qi-cat-3);
+  --mu-t3: #e08a00;
+  --mu-t4: var(--qi-cat-2);
+  --mu-agg: var(--qi-accent);
+  display: block;
+}
+
+.mu-fde__cell {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+.mu-fde__cell.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.mu-fde__dot {
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+.mu-fde__dot.is-copy {
+  opacity: 0.45;
+}
+.mu-fde__dot.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.mu-fde__t1 {
+  fill: var(--mu-t1);
+}
+.mu-fde__t2 {
+  fill: var(--mu-t2);
+}
+.mu-fde__t3 {
+  fill: var(--mu-t3);
+}
+.mu-fde__t4 {
+  fill: var(--mu-t4);
+}
+.mu-fde__agg {
+  fill: var(--mu-agg);
+}
+.mu-fde__tlabel {
+  pointer-events: none;
+}
+.mu-fde__zero {
+  fill: var(--qi-muted);
+  font-size: 16px;
+}
+
+/* Labels render at about 12px at the article width; the compact layout is
+   capped so it is not scaled up past a comfortable size. */
+.mu-fde .qi-label {
+  font-size: 13px;
+}
+.mu-fde.mu-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

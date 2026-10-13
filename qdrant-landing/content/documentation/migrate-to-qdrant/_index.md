@@ -9,11 +9,31 @@ partition: ecosystem
 
 # Migrate to Qdrant
 
-The [Qdrant Migration Tool](https://github.com/qdrant/migration) is a CLI that moves your vectors, metadata, and sparse embeddings from other vector databases into Qdrant. It runs as a Docker container, streams data in batches, and can resume interrupted migrations.
+The [Qdrant Migration Tool](https://github.com/qdrant/migration) is a CLI that moves your vectors, metadata, and sparse embeddings from other vector databases into Qdrant. It streams data in batches and can resume interrupted migrations.
+
+## Installation
+
+The tool is distributed as a container image and as a standalone binary.
+
+### Container Image
+
+The container image runs with Docker, Podman, or any similar container runtime. It supports every source, and the examples in this documentation use it.
 
 ```bash
 docker pull registry.cloud.qdrant.io/library/qdrant-migration
 ```
+
+### Binary
+
+On macOS and Linux, install the binary with [Homebrew](https://brew.sh):
+
+```bash
+brew install qdrant/tap/qdrant-migration
+```
+
+Alternatively, download the archive for your operating system and CPU architecture from [GitHub Releases](https://github.com/qdrant/migration/releases), extract it, and place the `qdrant-migration` binary in a directory on your `PATH`.
+
+To run an example from this documentation with the binary, replace `docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration`, along with any `-e` or `-v` options, with `qdrant-migration`.
 
 ## Supported Sources
 
@@ -27,6 +47,7 @@ docker pull registry.cloud.qdrant.io/library/qdrant-migration
 | [Azure AI Search](/documentation/migrate-to-qdrant/from-azure-search/) | `azure` | Yes |
 | [pgvector](/documentation/migrate-to-qdrant/from-pgvector/) | `pg` | Yes |
 | [S3 Vectors](/documentation/migrate-to-qdrant/from-s3-vectors/) | `s3` | Yes |
+| [Amazon DynamoDB](/documentation/migrate-to-qdrant/from-dynamodb/) | `dynamodb` | Yes |
 | [Chroma](/documentation/migrate-to-qdrant/from-chroma/) | `chroma` | Yes |
 | [Redis](/documentation/migrate-to-qdrant/from-redis/) | `redis` | No (must pre-create) |
 | [MongoDB](/documentation/migrate-to-qdrant/from-mongodb/) | `mongodb` | No (must pre-create) |

@@ -1,0 +1,3 @@
+configuration,setting,draining_p50_ms,draining_p95_ms,steady_p50_ms,steady_p95_ms
+continuous indexing,default,780,2000,4.3,7.6
+indexing disabled,HNSW threshold raised,275.5,535.1,256.6,1400

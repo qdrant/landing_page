@@ -1,0 +1,28 @@
+.embedding-model-figure {
+  margin: 1.5rem 0;
+  max-width: 640px;
+}
+
+.embedding-model-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.embedding-model-figure .embedding-model-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .embedding-model-figure img:not(.embedding-model-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .embedding-model-figure .embedding-model-figure__dark {
+  display: block;
+}
+
+.embedding-model-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

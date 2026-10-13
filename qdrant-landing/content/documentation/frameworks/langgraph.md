@@ -35,7 +35,7 @@ from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_qdrant import FastEmbedSparse, QdrantVectorStore, RetrievalMode
 
 # We'll set up Qdrant to retrieve documents using Hybrid search.
-# Learn more at https://qdrant.tech/articles/hybrid-search/
+# Learn more at https://qdrant.tech/documentation/search-tuning/hybrid-search/
 retriever = QdrantVectorStore.from_texts(
     url="http://localhost:6333/",
     collection_name="langgraph-collection",

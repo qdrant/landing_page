@@ -85,7 +85,7 @@ Here is how you can take a snapshot and recover a collection:
    - In the response, you'll see the name of the snapshot.
 2. Delete and recreate the collection.
 3. Recover the snapshot:
-   - Call the [recover endpoint](/documentation/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
+   - Call the [recover endpoint](/documentation/snapshots/#recover-from-a-url-or-local-file). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
 
 ## Backup Considerations
 

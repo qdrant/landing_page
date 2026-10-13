@@ -89,7 +89,7 @@ You can also check out how **abstract syntax trees can be used to parse and chun
 
 Embedding text equals generating a numerical representation of it. For example, as a target representation, you could choose *dense* or *sparse* vectors. The difference is in what they capture: dense embeddings are the best at broadly catching the semantic nuances of the text, while sparse embeddings precisely pick up its keywords.
 
-The good news is you don't have to pick one with a [hybrid search](https://qdrant.tech/articles/hybrid-search/). Hybrid search combines results from both a dense (semantic) search and a sparse (keyword) search.
+The good news is you don't have to pick one with a [hybrid search](https://qdrant.tech/documentation/search-tuning/hybrid-search/). Hybrid search combines results from both a dense (semantic) search and a sparse (keyword) search.
 
 But how to combine?
 

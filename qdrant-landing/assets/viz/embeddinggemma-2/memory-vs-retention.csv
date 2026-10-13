@@ -1,0 +1,8 @@
+config,rescoring,dims,bytes_per_vector,ram_vs_float32,retained_ndcg_pct
+"float32, 768d",baseline,768,3072,1x,100.0
+"30x less RAM, 768d",no rescoring,768,104,30x less,99.0
+"30x less RAM, 768d",rescoring,768,104,30x less,99.7
+"43x less RAM, 512d",no rescoring,512,72,43x less,97.3
+"43x less RAM, 512d",rescoring,512,72,43x less,98.8
+"77x less RAM, 256d",no rescoring,256,40,77x less,88.1
+"77x less RAM, 256d",rescoring,256,40,77x less,94.5

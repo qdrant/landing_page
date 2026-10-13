@@ -1,0 +1,63 @@
+/* agent island. Scoped under .ag-ag. The selected tool is outlined and has a return arrow. */
+.ag-ag {
+  --ag-orange: #e98a15;
+  --ag-purple: #8547ff;
+  display: block;
+}
+.ag-ag__box {
+  stroke-width: 1.5;
+  fill-opacity: 0.16;
+}
+.ag-ag__box.is-user {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.ag-ag__box.is-agent {
+  fill: var(--ag-orange);
+  fill-opacity: 0.18;
+  stroke: var(--ag-orange);
+}
+.ag-ag__box.is-llm,
+.ag-ag__box.is-rag {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cat-1);
+}
+.ag-ag__box.is-web {
+  fill: var(--ag-orange);
+  stroke: var(--ag-orange);
+}
+.ag-ag__box.is-api {
+  fill: var(--ag-purple);
+  stroke: var(--ag-purple);
+}
+.ag-ag__box.is-world {
+  fill: var(--qi-accent);
+  stroke: var(--qi-accent);
+}
+.ag-ag__box.is-on {
+  fill-opacity: 0.4;
+  stroke-width: 3;
+}
+.ag-ag__label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.ag-ag__edge {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.ag-ag__edge.is-on {
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.ag-ag__head {
+  fill: var(--qi-muted);
+}
+.ag-ag.ag-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

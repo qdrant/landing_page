@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -16 732 238"
+    aria-label="The distribution of one dimension's float32 values. Quantile 0.99 keeps the range from -2.0 to +5.0; the values outside it are outliers that get clipped."><style>
+  .qi-label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+  .qi-label--strong { fill: #303547; }
+  .qi-axis { stroke: #abb1c7; stroke-width: 1.5; }
+  .qi-sq__cell { stroke: rgba(17, 24, 36, 0.3); stroke-width: 1; }
+  .qi-sq__cell--int { fill: #00838f; }
+  .qi-sq__band { fill: #6047ff; }
+  .qi-sq__guide { stroke: #abb1c7; stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .qi-sq__threshold { stroke: #dc244c; stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .qi-sq__threshold-label { fill: #dc244c; }
+  </style><rect x="-16" y="-16" width="732" height="238" fill="#ffffff"/>
+    <text class="qi-label" x="0" y="14">Distribution of float32 values · one dimension</text>
+    <rect class="qi-sq__cell" x="200.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="240.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="240.0" y="111" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="280.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="280.0" y="111" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="280.0" y="89" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="280.0" y="67" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="320.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="320.0" y="111" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="320.0" y="89" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="320.0" y="67" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="320.0" y="45" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="360.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="360.0" y="111" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="360.0" y="89" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="360.0" y="67" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="360.0" y="45" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="400.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="400.0" y="111" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="400.0" y="89" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="400.0" y="67" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="440.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="440.0" y="111" width="20" height="20" rx="2" fill="#6047ff"/><rect class="qi-sq__cell" x="480.0" y="133" width="20" height="20" rx="2" fill="#6047ff"/>
+    <line class="qi-axis" x1="24" y1="156" x2="676" y2="156"/>
+    <line class="qi-sq__threshold" x1="146.36363636363637" y1="30" x2="146.36363636363637" y2="178"/>
+    <line class="qi-sq__threshold" x1="553.6363636363636" y1="30" x2="553.6363636363636" y2="178"/>
+    <text class="qi-label qi-sq__threshold-label" x="140.36363636363637" y="44" text-anchor="end">-2.0</text>
+    <text class="qi-label qi-sq__threshold-label" x="559.6363636363636" y="44">+5.0</text>
+    <rect class="qi-sq__band" x="146.36363636363637" y="166" width="407.27272727272725" height="12" rx="3"/>
+    <text class="qi-label qi-label--strong" x="350" y="196" text-anchor="middle">quantile 0.99 · kept range</text>
+    <text class="qi-label" x="30" y="196">outliers</text>
+    <text class="qi-label" x="670" y="196" text-anchor="end">outliers</text>
+  </svg>

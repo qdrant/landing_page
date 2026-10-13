@@ -34,4 +34,4 @@ Shortlist size is the cost knob, because the model runs once per candidate: tens
 
 - [Multi-Stage Queries](/documentation/search/hybrid-queries/#multi-stage-queries): the prefetch and rescore syntax, in every client language.
 - [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/): running a cross-encoder over the shortlist, with a worked example.
-- [Hybrid Search with Qdrant's Query API](/articles/hybrid-search/): fusion and reranking as competing designs, with the reasoning behind the Query API.
+- [Hybrid Search with Qdrant's Query API](/documentation/search-tuning/hybrid-search/): fusion and reranking as competing designs, with the reasoning behind the Query API.

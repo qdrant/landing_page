@@ -6,6 +6,9 @@ weight: 181
 aliases:
   - /blog/static-embeddings/
   - /documentation/database-tutorials/static-embeddings/
+goal: Search Quality
+stack:
+  - Python
 ---
 # Static Embeddings in Practice
 

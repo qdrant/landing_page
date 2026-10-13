@@ -1,0 +1,65 @@
+/* renorm island. Scoped under .tq-rn. Dark: x, grey: x quantized, red: the
+   renormalized vector. */
+.tq-rn {
+  display: block;
+}
+.tq-rn__axis {
+  stroke: var(--qi-fg);
+  stroke-width: 1.2;
+}
+.tq-rn__arc {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 4;
+}
+.tq-rn__x {
+  stroke: var(--qi-fg);
+  stroke-width: 3;
+}
+.tq-rn__xd,
+.tq-rn__origin {
+  fill: var(--qi-fg);
+}
+.tq-rn__xlab {
+  fill: var(--qi-fg);
+  font-weight: 600;
+}
+.tq-rn__q {
+  stroke: var(--qi-muted);
+  stroke-width: 2.6;
+  stroke-dasharray: 5 4;
+}
+.tq-rn__qd,
+.tq-rn__qlab {
+  fill: var(--qi-muted);
+}
+.tq-rn__qlab {
+  font-weight: 600;
+}
+.tq-rn__r {
+  stroke: var(--qi-accent);
+  stroke-width: 3;
+}
+.tq-rn__rd,
+.tq-rn__rlab {
+  fill: var(--qi-accent);
+}
+.tq-rn__rlab {
+  font-weight: 600;
+}
+.tq-rn__err {
+  stroke: var(--qi-line);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 3;
+}
+.tq-rn__err.is-small {
+  stroke: var(--qi-accent);
+}
+.tq-rn .qi-label {
+  font-size: 13px;
+}
+.tq-rn.tq-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

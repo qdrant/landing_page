@@ -23,7 +23,7 @@ tags:
 
 Qdrant's vector database quickly grew due to its ability to make Generative AI more effective. On its own, an LLM can be used to build a process-altering invention. With Qdrant, you can turn this invention into a production-level app that brings real business value.
 
-The use of vector search in GenAI now has a name: **Retrieval Augmented Generation (RAG)**. [In our previous article](/articles/rag-is-dead/), we argued why RAG is an essential component of AI setups, and why large-scale AI can't operate without it. Numerous case studies explain that AI applications are simply too costly and resource-intensive to run using only LLMs. 
+The use of vector search in GenAI now has a name: **Retrieval Augmented Generation (RAG)**. [In our previous article](/articles/rag-is-dead/), we compared long context windows with retrieval on quality, cost, and latency, and explained when each approach fits. Numerous case studies explain that AI applications are simply too costly and resource-intensive to run using only LLMs. 
 
 > Going forward, the solution is to leverage composite systems that use models and vector databases.
 
@@ -52,7 +52,7 @@ When supported by LangChain, Qdrant can help you set up effective question-answe
 Integrating Qdrant and LangChain can revolutionize your AI applications. Let's take a look at what this integration can do for you: 
 
 *Enhance Natural Language Processing (NLP):* 
-LangChain is great for developing question-answering **chatbots**, where Qdrant is used to contextualize and retrieve results for the LLM. We cover this in [our article](/articles/langchain-integration/), and in OpenAI's [cookbook examples](https://cookbook.openai.com/examples/vector_databases/qdrant/qa_with_langchain_qdrant_and_openai) that use LangChain and GPT to process natural language.
+LangChain is great for developing question-answering **chatbots**, where Qdrant is used to contextualize and retrieve results for the LLM. We cover this in [our article](/documentation/tutorials-build-essentials/question-answering-langchain/), and in OpenAI's [cookbook examples](https://cookbook.openai.com/examples/vector_databases/qdrant/qa_with_langchain_qdrant_and_openai) that use LangChain and GPT to process natural language.
 
 *Improve Recommendation Systems:*
 Food delivery services thrive on indecisive customers. Businesses need to accomodate a multi-aim search process, where customers seek recommendations though semantic search. With LangChain you can build systems for **e-commerce, content sharing, or even dating apps**.
@@ -88,7 +88,7 @@ If you are looking to scale up and keep the same level of performance, Qdrant an
 
 Whether you are building a bank fraud-detection system, RAG for e-commerce, or services for the federal government - you will need to leverage a scalable architecture for your product. Qdrant offers different features to help you considerably increase your application’s performance and lower your hosting costs.
 
-> Read more about out how we foster [best practices for large-scale deployments](/articles/multitenancy/). 
+> Read more about out how we foster [best practices for large-scale deployments](/documentation/production-operations/multitenant-search/).
 
 ## Next Steps
 

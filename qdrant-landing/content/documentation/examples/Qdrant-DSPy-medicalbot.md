@@ -3,6 +3,13 @@ title: Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy
 short_description: "Build a trustworthy medical chatbot with Qdrant and DSPy, combining RAG, dense vectors, and ColBERT multivector retrieval for grounded answers."
 description: "Build a chain-of-thought medical chatbot with Qdrant and DSPy using RAG, dense embeddings, and ColBERT multivectors for accurate, citation-backed answers."
 weight: 20
+goal: RAG & Agents
+stack:
+  - Python
+  - DSPy
+example_resources:
+  - label: View Notebook
+    url: https://github.com/qdrant/examples/blob/master/DSPy-medical-bot/medical_bot_DSPy_Qdrant.ipynb
 ---
 # Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy
 

@@ -35,7 +35,7 @@ Shardul Aggarwal, CEO of ConvoSearch, highlighted, “Latency and customizabilit
 
 ### Implementing a Powerful Vector Search Infrastructure
 
-ConvoSearch transitioned to Qdrant for its powerful vector search capabilities, including low-latency queries, expansive metadata storage, and advanced customizability. With Qdrant, queries returned in just 10ms—significantly faster than the previous solution. Qdrant’s [robust metadata handling](https://qdrant.tech/articles/vector-search-filtering/) allowed ConvoSearch to incorporate extensive product data and user interactions seamlessly, dramatically improving recommendation accuracy.
+ConvoSearch transitioned to Qdrant for its powerful vector search capabilities, including low-latency queries, expansive metadata storage, and advanced customizability. With Qdrant, queries returned in just 10ms—significantly faster than the previous solution. Qdrant’s [robust metadata handling](https://qdrant.tech/documentation/search-patterns/vector-search-filtering/) allowed ConvoSearch to incorporate extensive product data and user interactions seamlessly, dramatically improving recommendation accuracy.
 
 The transition to Qdrant enabled ConvoSearch to host its infrastructure on dedicated servers, leveraging NVIDIA GPUs for computationally intensive re-ranking tasks. This provided significant cost savings, better resource optimization, and exceptional speed.
 

@@ -1,0 +1,36 @@
+<section class="docs-core__data guide-directory" aria-labelledby="guides-title">
+  <h2 id="guides-title">Browse Guides by Topic</h2>
+  <p>Open a guide directly, or explore a topic for related examples and references.</p>
+  <form class="guide-directory__filters" role="search" aria-label="Find a Guide" hidden>
+    <div>
+      <label for="guide-query">Search Guides</label>
+      <input id="guide-query" name="q" type="search" placeholder="Try reranking, multitenancy, or memory" autocomplete="off">
+    </div>
+    <button type="reset" class="button button_outlined button_sm">Clear Search</button>
+  </form>
+  <p data-guide-count role="status" aria-live="polite" aria-atomic="true" hidden></p>
+  <p data-guide-empty hidden>No guides match your search. Try a broader term or clear the search.</p>
+  <div class="row g-4 g-lg-3">
+    {{ range where (site.GetPage "/documentation").Sections.ByWeight "Params.learning_kind" "guides" }}
+      <div class="col-12 col-lg-6" data-guide-topic>
+        <div class="docs-card">
+          {{ with .Params.guide_icon }}<img class="docs-card__icon" src="{{ . }}" alt="" />{{ end }}
+          <h3 class="docs-card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p class="docs-card__description">{{ .Params.short_description }}</p>
+          {{ $part := 0 }}
+          <ul class="guide-directory__links" role="list">
+            {{ range .RegularPages.ByWeight }}
+              {{ if .Params.guide_series }}{{ $part = add $part 1 }}{{ end }}
+              <li data-guide data-search="{{ printf "%s %s" .Title (.Params.short_description | default .Description) | lower }}">
+                <a href="{{ .RelPermalink }}">
+                  <span>{{ if .Params.guide_series }}<span class="guide-directory__part">Part {{ $part }}</span>{{ end }}{{ .Title }}</span>
+                  <span class="guide-directory__arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</section>

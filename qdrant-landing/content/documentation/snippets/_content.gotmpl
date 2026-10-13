@@ -1,0 +1,70 @@
+{{- /*
+  Snippet pages (Markdown-only) for the docs mirror / LLMs.
+
+  For every snippet leaf folder under content/documentation/headless/snippets/
+  and every block inside it, emit one page at /documentation/snippets/<rel>[/<block>]/
+  containing all languages. Rendered docs pages (index.md) show only the first
+  language inline and link here for the rest. HTML pages are unaffected: these
+  pages declare outputs=[Markdown] only, so no HTML twin is produced.
+
+  File reading is shared with layouts/shortcodes/code-snippet.markdown.md via
+  the snippet-files / snippet-deployments partials.
+*/ -}}
+
+{{- $base := "content/documentation/headless/snippets" -}}
+{{- $order := slice "json" "http" "bash" "python" "typescript" "rust" "java" "csharp" "go" -}}
+
+{{- $dirs := partial "snippet-dirs.html" $base -}}
+{{- range $dir := $dirs -}}
+  {{- $rel := strings.TrimPrefix (printf "%s/" $base) $dir -}}
+  {{- $descFile := printf "%s/_description.md" $dir -}}
+  {{- $desc := "" -}}
+  {{- if fileExists $descFile -}}{{- $desc = trim (readFile $descFile) "\n " -}}{{- end -}}
+
+  {{- /* Folder page: whole-file snippets. */ -}}
+  {{- $body := partial "snippet-body.html" (dict "dir" $dir "block" "" "order" $order) -}}
+  {{- if trim $body "\n " -}}
+    {{- $.AddPage (dict
+      "kind" "page"
+      "type" "snippet"
+      "path" $rel
+      "title" $rel
+      "params" (dict "snippetDescription" $desc)
+      "content" (dict "mediaType" "text/markdown" "value" $body)
+      "outputs" (slice "Markdown")
+      "build" (dict "render" "always" "list" "never" "publishResources" false)
+    ) -}}
+  {{- end -}}
+
+  {{- /* One page per block. Blocks live in `generated/` or, for snippets with
+         deployment-type variants, in `<variant>/generated/`. */ -}}
+  {{- $blocks := slice -}}
+  {{- $genDirs := slice (printf "%s/generated" $dir) -}}
+  {{- range (readDir $dir) -}}
+    {{- if and .IsDir (strings.HasPrefix .Name "_") -}}
+      {{- $genDirs = $genDirs | append (printf "%s/%s/generated" $dir .Name) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $genDirs -}}
+    {{- if fileExists . -}}
+      {{- range (readDir .) -}}
+        {{- if .IsDir -}}{{- $blocks = $blocks | append .Name -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $block := uniq $blocks -}}
+    {{- $bbody := partial "snippet-body.html" (dict "dir" $dir "block" $block "order" $order) -}}
+    {{- if trim $bbody "\n " -}}
+      {{- $.AddPage (dict
+        "kind" "page"
+        "type" "snippet"
+        "path" (printf "%s/%s" $rel $block)
+        "title" (printf "%s/%s" $rel $block)
+        "params" (dict "snippetDescription" $desc)
+        "content" (dict "mediaType" "text/markdown" "value" $bbody)
+        "outputs" (slice "Markdown")
+        "build" (dict "render" "always" "list" "never" "publishResources" false)
+      ) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

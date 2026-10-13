@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="214" viewBox="0 0 680 214" role="img" aria-labelledby="t d">
+<title id="t">Fixed-size chunks and Jev chunks for the same document</title>
+<desc id="d">For the question What language is this dataset in?, the same document is cut two ways. Fixed-size chunks cut at regular intervals, and one cut falls inside the answer, so the answer is split across two chunks. Jev cuts where the topic changes, so the whole answer sits in one chunk.</desc>
+<rect width="680" height="214" fill="#f0f3fa"/>
+<g font-family="'Mona Sans', -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#28324D">
+<text x="14" y="22">Question: <tspan font-weight="700">"What language is this dataset in?"</tspan></text>
+<text x="495.6" y="46" text-anchor="middle" fill="#576280" font-size="13">answer</text>
+<text x="14" y="66" font-weight="700">Fixed-size chunks</text>
+<text x="14" y="86" fill="#576280">cut at a fixed size</text>
+<rect x="242.0" y="54" width="81.2" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="327.2" y="54" width="81.2" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="412.4" y="54" width="81.2" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="497.6" y="54" width="81.2" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="582.8" y="54" width="81.2" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="453.0" y="59" width="85.2" height="24" rx="3" fill="#B99AFF"/><rect x="493.6" y="50" width="4" height="42" fill="#f0f3fa"/>
+<text x="240" y="112" font-weight="700" fill="#93000D">✗ Answer split across two chunks</text>
+<text x="14" y="154" font-weight="700">Jev chunks</text>
+<text x="14" y="174" fill="#576280">cut where the topic changes</text>
+<rect x="242.0" y="142" width="59.9" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="305.9" y="142" width="123.8" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="433.7" y="142" width="136.6" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="574.3" y="142" width="89.7" height="34" rx="4" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/><rect x="453.0" y="147" width="85.2" height="24" rx="3" fill="#B99AFF"/>
+<text x="240" y="200" font-weight="700" fill="#00522F">✓ Answer in one chunk</text>
+</g></svg>

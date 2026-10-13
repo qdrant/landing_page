@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="448" viewBox="0 0 640 448" role="img" aria-labelledby="title desc">
+  <title id="title">MiniLM WordPiece splits words into smaller tokens</title>
+  <desc id="desc">Revolutionized becomes revolution and ##ized. Unsupervised becomes un, ##su, ##per, ##vis, and ##ed. Each resulting token receives an input vector.</desc>
+  <rect x="1" y="1" width="638" height="446" rx="12" fill="#121b2a" stroke="#42506a" stroke-width="2"/>
+  <text x="26" y="47" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27" font-weight="700">WordPiece: input → tokens → vectors</text>
+  <rect x="20" y="69" width="600" height="146" rx="9" fill="#1d293b" stroke="#42506a" stroke-width="2"/>
+  <text x="36" y="111" fill="#f1f4fa" font-family="monospace" font-size="27">revolutionized</text>
+  <path d="M320 118 V137" stroke="#aeb9cd" stroke-width="3"/>
+  <path d="M313 130 L320 138 L327 130" fill="none" stroke="#aeb9cd" stroke-width="3"/>
+  <rect x="171" y="151" width="179" height="47" rx="6" fill="#302958" stroke="#a794ff" stroke-width="2"/>
+  <text x="179" y="183" fill="#f1f4fa" font-family="monospace" font-size="27">revolution</text>
+  <rect x="361" y="151" width="125" height="47" rx="6" fill="#302958" stroke="#a794ff" stroke-width="2"/>
+  <text x="371" y="183" fill="#f1f4fa" font-family="monospace" font-size="27">##ized</text>
+  <rect x="20" y="229" width="600" height="146" rx="9" fill="#1d293b" stroke="#42506a" stroke-width="2"/>
+  <text x="36" y="271" fill="#f1f4fa" font-family="monospace" font-size="27">unsupervised</text>
+  <path d="M320 278 V297" stroke="#aeb9cd" stroke-width="3"/>
+  <path d="M313 290 L320 298 L327 290" fill="none" stroke="#aeb9cd" stroke-width="3"/>
+  <rect x="96" y="311" width="55" height="47" rx="6" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="104" y="343" fill="#f1f4fa" font-family="monospace" font-size="27">un</text>
+  <rect x="160" y="311" width="79" height="47" rx="6" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="168" y="343" fill="#f1f4fa" font-family="monospace" font-size="27">##su</text>
+  <rect x="248" y="311" width="91" height="47" rx="6" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="256" y="343" fill="#f1f4fa" font-family="monospace" font-size="27">##per</text>
+  <rect x="348" y="311" width="91" height="47" rx="6" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="356" y="343" fill="#f1f4fa" font-family="monospace" font-size="27">##vis</text>
+  <rect x="448" y="311" width="79" height="47" rx="6" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="456" y="343" fill="#f1f4fa" font-family="monospace" font-size="27">##ed</text>
+  <text x="320" y="420" fill="#f1f4fa" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700">Each token gets an input vector</text>
+</svg>

@@ -192,6 +192,14 @@ It is an extension to the regular HNSW search algorithm, based on the ACORN-1 al
 During graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out.
 This improves search accuracy at the cost of performance.
 
+{{< island
+    path="content/documentation/headless/search/acorn"
+    width="620" ratio="6 / 5"
+    title="Filtered search in an HNSW graph, without and with ACORN."
+>}}
+![Filtering and the HNSW graph without ACORN (left) and with ACORN (right)](/blog/qdrant-1.16.x/hnsw-acorn.png)
+{{< /island >}}
+
 Enable it as follows:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-acorn/" >}}
@@ -422,6 +430,14 @@ The groups are ordered by the score of the top point in the group. Inside each g
 
 If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`), the point can be included in multiple groups (e.g. `"document_id": "a"` and `document_id: "b"`).
 
+{{< island
+    path="content/documentation/headless/search/grouping"
+    ratio="760 / 387"
+    title="Grouping the example points by `document_id`, with a `group_size` of 2."
+>}}
+![Points grouped by document ID. Group a holds points 0 and 1, group b holds point 1, group 123 holds points 3 and 4, and group -10 holds point 5.](/docs/search-groups.svg)
+{{< /island >}}
+
 <aside role="status">This feature relies heavily on the `group_by` key provided. To improve performance, make sure to create a dedicated index for it.</aside>
 
 **Limitations**:
@@ -435,7 +451,13 @@ When the points in a group share large fields like titles, abstracts, or full do
 
 `with_lookup` solves this. Store the shared data once in a separate collection, then attach it to each group at query time using the [groups API](#grouping-api).
 
-![Group id matches point id](/docs/lookup_id_linking.png)
+{{< island
+    path="content/documentation/headless/search/lookup"
+    ratio="760 / 320"
+    title="With `with_lookup`, each group gets the point from the lookup collection whose ID equals the group ID."
+>}}
+![Groups 200 and 201 each get the point with the same ID from the documents collection as their lookup. Document 202 matches no group.](/docs/search-groups-lookup.svg)
+{{< /island >}}
 
 <aside role="status">Store only document-level metadata (e.g., titles, abstracts) in the lookup collection, not chunks or duplicated data.</aside>
 

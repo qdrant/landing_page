@@ -1,0 +1,69 @@
+/* hnsw island. Scoped under .dv-hn. Red: points, blue: the search path. */
+.dv-hn {
+  --dv-path: #2f6ff0;
+  display: block;
+}
+.dv-hn__plane {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.dv-hn__edge {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  opacity: 0.7;
+}
+.dv-hn__vert {
+  stroke: var(--qi-line);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+}
+.dv-hn__node {
+  fill: var(--qi-accent);
+  stroke: #91012a;
+  stroke-width: 1.5;
+}
+.dv-hn__ghost {
+  fill: var(--qi-line);
+  stroke: var(--qi-muted);
+  stroke-width: 1.2;
+}
+.dv-hn__query {
+  fill: var(--qi-fg);
+  stroke: var(--qi-surface);
+  stroke-width: 2;
+}
+.dv-hn__entry {
+  fill: none;
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.dv-hn__path {
+  stroke: var(--dv-path);
+  stroke-width: 2.6;
+}
+.dv-hn__drop {
+  stroke: var(--dv-path);
+  stroke-width: 2.2;
+  stroke-dasharray: 5 4;
+}
+.dv-hn__head {
+  fill: var(--dv-path);
+}
+.dv-hn .qi-label {
+  font-size: 14px;
+}
+/* Keep labels legible where they cross edges or plane outlines. */
+.dv-hn .qi-label {
+  paint-order: stroke;
+  stroke: var(--qi-surface);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.dv-hn.dv-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
+.dv-hn.dv-narrow .qi-label {
+  font-size: 15px;
+}

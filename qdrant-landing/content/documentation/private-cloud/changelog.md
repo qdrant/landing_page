@@ -7,6 +7,25 @@ weight: 35
 
 # Changelog
 
+## 1.10.0 (2026-10-06)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.38.0 |
+| operator                | 2.35.1  |
+| qdrant-cluster-manager  | v0.3.23 |
+| qdrant-cluster-exporter | 1.8.2   |
+
+Latest validated Qdrant version: 1.19.1
+
+* Added global quota enforcement. For Qdrant 1.20.0 and newer, the operator sets a flat 90% quota through the Qdrant quotas API and keeps quota fields it does not manage.
+* Added a configurable Kubernetes cluster domain, so clusters that do not use `cluster.local` work.
+* Data PVCs are now kept for a configurable TTL after a `QdrantCluster` is deleted. Snapshot volumes are removed right away.
+* Fixed status version parsing for GPU and custom registry images.
+* The operator no longer logs Kubernetes patch conflicts, which greatly reduces log noise.
+* Improved qdrant-cluster-manager performance.
+* Updated operator to 2.35.1, qdrant-cluster-manager to v0.3.23, qdrant-cluster-exporter to 1.8.2, and qdrant-kubernetes-api to v1.38.0.
+
 ## 1.9.15 (2026-09-04)
 
 | Component               | Version |

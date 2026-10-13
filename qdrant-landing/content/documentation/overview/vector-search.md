@@ -69,8 +69,8 @@ Vector search is an exciting alternative to sparse methods. It solves the issues
 [**Tutorial 1 - Qdrant for Complete Beginners**](/documentation/tutorials-basics/search-beginners/)
 Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](/documentation/tutorials-basics/search-beginners/) will show you how.
 
-[**Tutorial 2 - Question and Answer System**](/articles/qa-with-cohere-and-qdrant/)
-However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer System tutorial](/articles/qa-with-cohere-and-qdrant/).
+[**Tutorial 2 - Retrieval-Augmented Generation**](/documentation/tutorials-build-essentials/rag-deepseek/)
+To build a question-answering application, follow the [RAG with DeepSeek and Qdrant tutorial](/documentation/tutorials-build-essentials/rag-deepseek/). It combines embeddings, vector search, and a language model to answer questions using retrieved documents.
 
 There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with vector embeddings.
 

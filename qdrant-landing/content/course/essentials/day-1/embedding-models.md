@@ -383,7 +383,7 @@ client.create_payload_index(
 
 When filters are highly selective, Qdrant's query planner may bypass vector indexing entirely and use payload indexes for faster results.
 
-For comprehensive filtering examples and advanced usage patterns, see the [Filtering Documentation](/documentation/search/filtering/) and [Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/).
+For comprehensive filtering examples and advanced usage patterns, see the [Filtering Documentation](/documentation/search/filtering/) and [Complete Guide to Filtering in Vector Search](/documentation/search-patterns/vector-search-filtering/).
 
 ## Key Takeaways
 

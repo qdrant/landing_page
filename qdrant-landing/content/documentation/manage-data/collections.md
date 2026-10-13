@@ -227,8 +227,6 @@ use `""` as name:
 
 To move vector data to the `cold` memory tier for a collection that **does have** named vectors:
 
-Note: To create a vector name, follow the procedure from our [Points](/documentation/manage-data/points/#create-vector-name).
-
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/vectors-to-disk-named/" >}}
 

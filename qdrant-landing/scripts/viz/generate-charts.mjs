@@ -4,11 +4,12 @@
 //
 // Design language borrowed from ~/projects/blog components/BarChart.jsx:
 //   - no frame around the plot; faint hairline gridlines carry the structure
-//   - monospace for every numeric/label glyph, so digits align in a column
+//   - the page's own font, so chart text reads like the prose around it
 //   - value labels sit INSIDE the top of each bar, not floating above it
 //   - title + muted subtitle, centred
 //   - plain rotated y-axis label, no arrow
 // Colours stay Qdrant's (data/viz.json), not that blog's terminal-green.
+import { chartLayout } from './chart-layout.mjs';
 import * as Plot from '@observablehq/plot';
 import { JSDOM } from 'jsdom';
 import { csvParse } from 'd3-dsv';
@@ -16,21 +17,46 @@ import { readFileSync, writeFileSync, mkdirSync, globSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
+const baseType = { ...viz.type };
+let readableType = false;
+let flexibleLayout = null;
+let viewIndex = 0;
 
 // One spec per chart, beside its data. The id is the path.
 const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   const id = p.replace(/^assets\/viz\//, '').replace(/\.json$/, '');
   const spec = JSON.parse(readFileSync(p, 'utf8'));
-  // The shortcode builds the viewBox from the shared width, so a per-chart one
-  // would draw at its own size inside a 980-wide box and stretch.
-  if ('width' in spec) {
-    throw new Error(`${p}: charts share one width (data/viz.json chart.width). Remove "width".`);
+  // Opt-in sizes must also be used by the Hugo wrapper's viewBox.
+  if ('width' in spec && (!Number.isInteger(spec.width) || spec.width < 320)) {
+    throw new Error(`${p}: width must be an integer of at least 320`);
+  }
+  if ('legendRoom' in spec && (!Number.isInteger(spec.legendRoom) || spec.legendRoom <= 0)) {
+    throw new Error(`${p}: legendRoom must be a positive integer`);
+  }
+  if (spec.readableType && spec.kind !== 'grouped-columns') {
+    throw new Error(`${p}: readableType is supported only for grouped-columns`);
+  }
+  if ('horizontal' in spec && (spec.horizontal !== true || spec.kind !== 'columns-2panel')) {
+    throw new Error(`${p}: horizontal must be true and is supported only for columns-2panel`);
+  }
+  const flexible = 'textScale' in spec || 'legendLayout' in spec;
+  if (flexible && spec.kind !== 'grouped-columns') throw new Error(`${p}: textScale and legendLayout are supported only for grouped-columns`);
+  if ('textScale' in spec && (!Number.isFinite(spec.textScale) || spec.textScale < 0.75 || spec.textScale > 2.5)) throw new Error(`${p}: textScale must be a number from 0.75 to 2.5`);
+  if ('legendLayout' in spec && !['auto', 'row', 'stacked'].includes(spec.legendLayout)) throw new Error(`${p}: legendLayout must be auto, row, or stacked`);
+  if (flexible && (!Number.isInteger(spec.height) || spec.height <= 0)) throw new Error(`${p}: height must be a positive integer`);
+  for (const view of spec.views ?? []) {
+    if (flexible && (view.data !== undefined || (view.series !== undefined && view.series !== spec.series) || (view.kind !== undefined && view.kind !== spec.kind))) {
+      throw new Error(`${p}: flexible views must share the data, chart kind, and series field`);
+    }
+    if (['width', 'height', 'legendRoom', 'readableType', 'textScale', 'legendLayout'].some(key => key in view)) {
+      throw new Error(`${p}: geometry and typography options must be top-level, not per-view`);
+    }
   }
   return { id, data: `assets/viz/${id}.csv`, width: viz.chart.width, ...spec };
 });
 
 const dom = new JSDOM('');
-const MONO = viz.type.mono;
+const FONT = viz.type.family;
 
 // Theme-following chrome. Defined in components/_viz.scss for light and again
 // under [data-theme='dark']; the articles section really does have a dark mode.
@@ -39,26 +65,54 @@ const MUTED = 'var(--qi-muted)';
 const GRIDC = 'var(--qi-line)';
 
 // Shared layout, so two charts in different posts read as the same object.
-// One width for the same reason: the SVG scales to the column, so a wider
-// viewBox renders identical font sizes smaller.
+// Default width and layout remain unchanged. Grouped-column charts can opt
+// into larger type and a matching smaller viewBox for narrow article columns.
 const LAYOUT = {
   top: 62, right: 36, bottom: 68, left: 74,
   gap: 44, titleY: 20, subtitleY: 38,
 };
 
 // Panel heading, shared so the title/subtitle block sits identically everywhere.
-const panelHead = (w, title, subtitle) =>
-  `<text x="${w / 2}" y="${LAYOUT.titleY}" text-anchor="middle" font-family="${MONO}"`
+// Larger type needs wrapped headings; keep source strings intact in the spec.
+function readableHeading(w, title, subtitle) {
+  let y = 30;
+  let output = '';
+  for (const [value, size, weight] of [
+    [title, viz.type.title, 700],
+    [subtitle, viz.type.subtitle, 400],
+  ]) {
+    if (!value) continue;
+    const limit = Math.floor((w - 72) / (size * 0.62));
+    const words = value.split(' ').flatMap((word) =>
+      word.length > limit ? word.match(new RegExp(`.{1,${limit}}`, 'g')) : [word]);
+    const lines = [''];
+    for (const word of words) {
+      const i = lines.length - 1;
+      if ((lines[i] + ' ' + word).trim().length > limit && lines[i]) lines.push(word);
+      else lines[i] = (lines[i] + ' ' + word).trim();
+    }
+    for (const line of lines) {
+      output += `<text x="${w / 2}" y="${y}" text-anchor="middle" font-family="${FONT}"`
+        + ` font-size="${size}" font-weight="${weight}" fill="${INK}">${esc(line)}</text>`;
+      y += size * 1.5;
+    }
+  }
+  return output;
+}
+const panelHead = (w, title, subtitle) => flexibleLayout
+  ? flexibleLayout.headings[viewIndex].lines.map(line => `<text x="${w / 2}" y="${line.y}" text-anchor="middle" font-family="${FONT}" font-size="${line.size}" font-weight="${line.weight}" fill="${INK}">${esc(line.text)}</text>`).join('')
+  : readableType ? readableHeading(w,title,subtitle) :
+  `<text x="${w / 2}" y="${LAYOUT.titleY}" text-anchor="middle" font-family="${FONT}"`
   + ` font-size="${viz.type.title}" font-weight="700" fill="${INK}">${esc(title)}</text>`
   + (subtitle
-    ? `<text x="${w / 2}" y="${LAYOUT.subtitleY}" text-anchor="middle" font-family="${MONO}"`
+    ? `<text x="${w / 2}" y="${LAYOUT.subtitleY}" text-anchor="middle" font-family="${FONT}"`
       + ` font-size="${viz.type.subtitle}" fill="${MUTED}">${esc(subtitle)}</text>`
     : '');
 
 // Rotated y-axis label, shared for the same reason.
 const yAxisLabel = (h, text) =>
-  `<text transform="translate(13,${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
-  + ` text-anchor="middle" font-family="${MONO}" font-size="${viz.type.label}"`
+  `<text transform="translate(${readableType || flexibleLayout ? 28 : 13},${(LAYOUT.top + (h - LAYOUT.bottom)) / 2}) rotate(-90)"`
+  + ` text-anchor="middle" font-family="${FONT}" font-size="${viz.type.label}"`
   + ` fill="${MUTED}">${esc(text)}</text>`;
 
 // csvParse, not split(','): a label containing a comma would shift every
@@ -84,9 +138,10 @@ const readableInk = (hex) => {
 // of that is thrown away and every axis label falls back to SVG's default black.
 // On the dark theme that is unreadable. Re-apply it on a wrapping <g>; marks
 // that set their own fill still win.
+// Mona Sans' tabular figures slash the zero, so drop Plot's tick default.
 const wrapPlot = (inner) =>
-  `<g fill="currentColor" style="color:${MUTED}" font-family="${MONO}"`
-  + ` font-size="${viz.type.axis}" text-anchor="middle">${inner}</g>`;
+  `<g fill="currentColor" style="color:${MUTED}" font-family="${FONT}"`
+  + ` font-size="${viz.type.axis}" text-anchor="middle">${inner.replaceAll(' font-variant="tabular-nums"', '')}</g>`;
 
 // Which CSV columns label a bar. Defaults keep the diskbbq chart working.
 const topCol = (c) => c.labelTop || 'engine';
@@ -102,7 +157,7 @@ const decades = ([lo, hi]) => {
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 // Tooltip units come from the column name suffix.
-const UNITS = { _qps: 'QPS', _ms: 'ms' };
+const UNITS = { _qps: 'QPS', _ms: 'ms', _s: 's' };
 const unitOf = (field) =>
   Object.entries(UNITS).find(([suf]) => field.endsWith(suf))?.[1] ?? '';
 
@@ -118,7 +173,7 @@ function panel(c, p, data, w, h) {
     document: dom.window.document,
     width: w, height: h,
     marginLeft, marginRight, marginTop, marginBottom,
-    style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none',
+    style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none',
              color: MUTED },
     x: { label: null, domain: data.map(barKey), tickFormat: () => '', tickSize: 0 },
     // A panel may override the shared max: nDCG and recall live on very
@@ -126,19 +181,19 @@ function panel(c, p, data, w, h) {
     y: { label: null, domain: [0, p.yMax ?? c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: data.map(barKey), range: colors },
     marks: [
-      Plot.barY(data, { x: barKey, y: p.y, fill: barKey, rx: 1.5, inset: 14 }),
+      Plot.barY(data, { x: barKey, y: p.y, fill: barKey, rx: 1.5, insetLeft: 14, insetRight: 14 }),
       // value label above the bar. Tried inside-the-bar (as ~/projects/blog does)
       // but on this light theme the white-on-fill sits right at the bar's top
       // edge and reads poorly; the original PNG put values above, in ink.
-      Plot.text(data, { x: barKey, y: p.y, dy: -9, textAnchor: 'middle', fontFamily: MONO,
+      Plot.text(data, { x: barKey, y: p.y, dy: -9, textAnchor: 'middle', fontFamily: FONT,
         text: (d, i) => `${values[i]}${p.unit ? ' ' + p.unit : ''}`,
         fill: { value: () => INK, scale: null },
         fontSize: viz.type.axis, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 24, frameAnchor: 'bottom', textAnchor: 'middle',
-        fontFamily: MONO, text: (d) => d[topCol(c)],
+        fontFamily: FONT, text: (d) => d[topCol(c)],
         fill: INK, fontSize: viz.type.axis, fontWeight: 600 }),
       Plot.text(data, { x: barKey, dy: 40, frameAnchor: 'bottom', textAnchor: 'middle',
-        fontFamily: MONO, text: (d) => d[botCol(c)],
+        fontFamily: FONT, text: (d) => d[botCol(c)],
         fill: MUTED, fontSize: viz.type.label }),
     ],
   });
@@ -177,6 +232,60 @@ function panel(c, p, data, w, h) {
   return panelHead(w, p.title, p.subtitle) + yAxisLabel(h, p.axis) + wrapPlot(plotted) + zones;
 }
 
+// Same panel with bars running left to right: names on the left, value at the bar's end.
+function panelH(c, p, data, w, h) {
+  const barKey = keyOf(c);
+  const values = rawCol(c.data, p.y);
+  const colors = c.colors
+    ? c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]))
+    : [viz.palette.muted, viz.palette.categorical[0], viz.palette.categorical[1]];
+  const longest = Math.max(...data.flatMap((d) => [d[topCol(c)].length, d[botCol(c)].length]));
+  const marginLeft = Math.round(longest * viz.type.axis * 0.6) + 24;
+  const marginRight = 96, marginTop = LAYOUT.top, marginBottom = 56;
+
+  const plot = Plot.plot({
+    document: dom.window.document,
+    width: w, height: h,
+    marginLeft, marginRight, marginTop, marginBottom,
+    style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
+    y: { label: null, domain: data.map(barKey), tickFormat: () => '', tickSize: 0, padding: 0.3 },
+    x: { label: null, domain: [0, p.yMax ?? c.yMax], grid: true, nice: false, tickSize: 0 },
+    color: { domain: data.map(barKey), range: colors },
+    marks: [Plot.barX(data, { y: barKey, x: p.y, fill: barKey, rx: 1.5 })],
+  });
+  const svg = plot.tagName.toLowerCase() === 'svg' ? plot : plot.querySelector('svg');
+  let plotted = svg.innerHTML.replace(/(<g aria-label="bar"[^>]*>)([\s\S]*?)(<\/g>)/, (m, open, body, close) => {
+    let i = 0;
+    return open + body.replace(/<rect /g, () => `<rect data-viz-key="${esc(barKey(data[i++]))}" `) + close;
+  });
+
+  // Written by hand: Plot drops textAnchor on text marks (see panel above).
+  const x = plot.scale('x'), y = plot.scale('y');
+  const mid = (d) => y.apply(barKey(d)) + y.bandwidth / 2;
+  const labels = data.map((d, i) =>
+    `<text x="${marginLeft - 12}" y="${mid(d) - 2}" text-anchor="end" font-family="${FONT}" font-size="${viz.type.axis}" font-weight="600" fill="${INK}">${esc(d[topCol(c)])}</text>`
+    + `<text x="${marginLeft - 12}" y="${mid(d) + viz.type.label + 2}" text-anchor="end" font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(d[botCol(c)])}</text>`
+    + `<text x="${x.apply(num(values[i])) + 8}" y="${mid(d) + viz.type.axis * 0.35}" font-family="${FONT}" font-size="${viz.type.axis}" font-weight="600" fill="${INK}">${esc(values[i] + (p.unit ? ' ' + p.unit : ''))}</text>`).join('');
+  const xlab = `<text x="${marginLeft + (w - marginLeft - marginRight) / 2}" y="${h - 12}" text-anchor="middle" font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(p.axis)}</text>`;
+
+  // Full-width hit zones: you hover the row, not the bar.
+  const step = y.step;
+  const zones = data.map((d, i) => {
+    const rows = Object.entries(c.tooltip).map(([field, label]) => ({
+      k: label,
+      v: `${rawCol(c.data, field)[i]}${unitOf(field) ? ' ' + unitOf(field) : ''}`,
+      c: colors[i],
+    }));
+    return `<rect data-viz-zone data-viz-key="${esc(barKey(d))}"`
+      + ` data-viz-title="${esc(d[topCol(c)] + ' · ' + d[botCol(c)])}"`
+      + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
+      + ` tabindex="0" role="button" aria-label="${esc(d[topCol(c)] + ' ' + d[botCol(c)])}"`
+      + ` x="0" y="${mid(d) - step / 2}" width="${w}" height="${step}" fill="transparent"/>`;
+  }).join('');
+
+  return panelHead(w, p.title, p.subtitle) + wrapPlot(plotted) + labels + xlab + zones;
+}
+
 
 // ── lines-facet ────────────────────────────────────────────────────────────
 // One small-multiple panel per facet value; two or more series per panel.
@@ -195,7 +304,7 @@ function linesFacet(c) {
       width: pw, height: c.height,
       marginLeft: LAYOUT.left, marginRight: LAYOUT.right,
       marginTop: LAYOUT.top, marginBottom: LAYOUT.bottom,
-      style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none',
+      style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none',
                color: MUTED },
       x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]), tickSize: 0,
            tickFormat: (v) => `${v}${c.xSuffix ?? ''}` },
@@ -211,7 +320,7 @@ function linesFacet(c) {
         ...(c.refLine
           ? [Plot.ruleY([c.refLine.value], { stroke: MUTED, strokeDasharray: '4 3', strokeWidth: 1 }),
              Plot.text([c.refLine], { y: 'value', frameAnchor: 'right', dx: -6, dy: -8,
-               textAnchor: 'end', fontFamily: MONO, fontSize: viz.type.label,
+               textAnchor: 'end', fontFamily: FONT, fontSize: viz.type.label,
                text: (d) => d.label, fill: { value: () => MUTED, scale: null } })]
           : []),
       ].concat(c.series.flatMap((sName, si) => [
@@ -265,7 +374,7 @@ function linesFacet(c) {
     }).join('');
 
     const head = panelHead(pw, c.facetLabel.replace('{}', fv), c.subtitle);
-    const xlab = `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${MONO}"`
+    const xlab = `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${FONT}"`
       + ` font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
     const ylab = yAxisLabel(c.height, (c.yLabels && c.yLabels[fv]) || c.yLabel);
     return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${wrapPlot(plotted)}${crosshair}${zones}${xlab}</g>`;
@@ -279,7 +388,7 @@ function legend(c, w) {
   return items.map((name, i) =>
     `<g transform="translate(${startX + i * itemW},${c.height + 16})">`
     + `<rect width="11" height="11" rx="2" fill="${viz.palette.categorical[i]}"/>`
-    + `<text x="18" y="10" font-family="${MONO}" font-size="${viz.type.label}"`
+    + `<text x="18" y="10" font-family="${FONT}" font-size="${viz.type.label}"`
     + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
 }
 
@@ -289,8 +398,12 @@ function legend(c, w) {
 // kinds cannot express: N categories x M methods.
 function groupedColumns(c) {
   const data = readCsv(c.data);
+  if (readableType && !flexibleLayout && c.height < 480) throw new Error(`${c.id}: readableType needs height >= 480`);
   const groups = [...new Set(data.map((d) => d[c.group]))];
   const series = [...new Set(data.map((d) => d[c.series]))];
+  if (readableType && !flexibleLayout && (c.legendRoom ?? viz.chart.legendRoom) < series.length * 34 + 18) {
+    throw new Error(`${c.id}: readableType needs legendRoom >= ${series.length * 34 + 18}`);
+  }
   const colors = c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]));
   const { top: mT, bottom: mB, left: mL, right: mR } = LAYOUT;
 
@@ -298,13 +411,13 @@ function groupedColumns(c) {
     document: dom.window.document,
     width: c.width, height: c.height,
     marginLeft: mL, marginRight: mR, marginTop: mT, marginBottom: mB,
-    style: { fontFamily: MONO, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
+    style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
     x: { axis: null, domain: series },
     fx: { label: null, domain: groups, tickFormat: (v) => v, tickSize: 0 },
-    y: { label: null, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
+    y: { label: null, ticks: readableType || flexibleLayout ? 5 : undefined, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: series, range: colors },
     marks: [
-      Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, inset: 2 }),
+      Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, insetLeft: 2, insetRight: 2 }),
     ],
   });
   const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
@@ -336,10 +449,20 @@ function groupedColumns(c) {
       + ` height="${c.height - mT - mB}" fill="transparent"/>`;
   }).join('');
 
+  if (flexibleLayout) {
+    const legendMarks = flexibleLayout.legend.map((item, i) =>
+      `<g data-viz-legend transform="translate(${item.x},${item.y})">`
+      + `<rect y="-10" width="11" height="11" rx="2" fill="${colors[i]}"/>`
+      + item.lines.map((line, j) => `<text x="18" y="${j * viz.type.label * 1.5}" font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(line)}</text>`).join('')
+      + '</g>').join('');
+    return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel) + wrapPlot(plotted) + zones + legendMarks;
+  }
+
+  const legendWidth = readableType ? Math.max(...series.map(name => name.length)) * viz.type.label * 0.62 + 42 : 190;
   const legendRow = series.map((name, i) =>
-    `<g transform="translate(${(c.width - series.length * 190) / 2 + i * 190},${c.height + 14})">`
+    `<g transform="translate(${readableType ? (c.width - (name.length * viz.type.label * 0.62 + 18)) / 2 : (c.width - series.length * legendWidth) / 2 + i * legendWidth},${c.height + 14 + (readableType ? i * 34 : 0)})">`
     + `<rect width="11" height="11" rx="2" fill="${colors[i]}"/>`
-    + `<text x="18" y="10" font-family="${MONO}" font-size="${viz.type.label}"`
+    + `<text x="18" y="10" font-family="${FONT}" font-size="${viz.type.label}"`
     + ` fill="${MUTED}">${esc(name)}</text></g>`).join('');
 
   return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel)
@@ -355,7 +478,7 @@ function draw(c) {
   const pw = (c.width - gap * (c.panels.length - 1)) / c.panels.length;
   // No frame: gridlines carry the structure, so nothing can touch a border.
   return c.panels.map((p, i) =>
-    `<g transform="translate(${i * (pw + gap)},0)">${panel(c, p, data, pw, c.height)}</g>`).join('');
+    `<g transform="translate(${i * (pw + gap)},0)">${(c.horizontal ? panelH : panel)(c, p, data, pw, c.height)}</g>`).join('');
 }
 
 // Every view ships in one SVG, so switching never fetches and the first view
@@ -363,6 +486,7 @@ function draw(c) {
 function render(c) {
   if (!c.views) return draw(c);
   return c.views.map((v, i) => {
+    viewIndex = i;
     const merged = { ...c, ...v, views: undefined };
     // `hidden` is ignored on SVG elements; inline so it holds with no CSS.
     return `<g data-viz-view="${i}"${i === 0 ? '' : ' style="display:none"'}>`
@@ -371,8 +495,28 @@ function render(c) {
 }
 
 for (const c of manifest) {
+  readableType = c.readableType === true;
+  const scale = c.textScale ?? (readableType ? 1.8 : 1);
+  flexibleLayout = null;
+  viewIndex = 0;
+  viz.type = Object.fromEntries(Object.entries(baseType).map(([key,value]) => [key, typeof value === 'number' ? value * scale : value]));
+  LAYOUT.top = readableType ? 224 : 62;
+  LAYOUT.left = readableType ? 100 : 74;
+  LAYOUT.bottom = 68;
+  if ('textScale' in c || 'legendLayout' in c) {
+    const rows = readCsv(c.data);
+    const series = [...new Set(rows.map(row => row[c.series]))];
+    const groups = [...new Set(rows.map(row => row[c.group]))];
+    flexibleLayout = chartLayout(c, series, viz.type, groups);
+    LAYOUT.top = flexibleLayout.top;
+    LAYOUT.bottom = flexibleLayout.bottom;
+    LAYOUT.left = flexibleLayout.left;
+  }
+
   const out = `assets/viz/${c.id}.svg`;
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, `${render(c)}\n`);
+  const content = render(c);
+  // The wrapper consumes the generated height, so layout is calculated once.
+  writeFileSync(out, flexibleLayout ? `<g data-viz-height="${flexibleLayout.height}">${content}</g>\n` : `${content}\n`);
   console.log(`wrote ${out}`);
 }

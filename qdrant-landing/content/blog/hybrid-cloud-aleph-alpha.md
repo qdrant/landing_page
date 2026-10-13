@@ -39,7 +39,7 @@ To get you started, we created a comprehensive tutorial that shows how to build 
 
 Learn how to develop an AI system that reads lengthy contracts and gives complex answers based on stored content. This system is completely hosted inside of Germany for GDPR compliance purposes. The tutorial shows how enterprises with a vast number of stored contract documents can leverage AI in a closed environment that doesn’t leave the hosting region, thus ensuring data sovereignty and security.
 
-[Try the Tutorial](/documentation/examples/rag-contract-management-stackit-aleph-alpha/)
+[Try the Tutorial](/documentation/examples/rag-contract-management-stackit-cohere/)
 
 #### Documentation: Deploy Qdrant in a Few Clicks
 

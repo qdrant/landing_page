@@ -18,6 +18,15 @@ tags:
   - hybrid search
   - CPU resource management
   - text field index
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v1.8.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v1.8.0"
 ---
 
 # Unlocking Next-Level Search: Exploring Qdrant 1.8.0's Advanced Search Capabilities
@@ -25,7 +34,7 @@ tags:
 [Qdrant 1.8.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.8.0).
 This time around, we have focused on Qdrant's internals. Our goal was to optimize performance so that your existing setup can run faster and save on compute. Here is what we've been up to:
 
-- **Faster [sparse vectors](https://qdrant.tech/articles/sparse-vectors/):** [Hybrid search](https://qdrant.tech/articles/hybrid-search/) is up to 16x faster now!
+- **Faster [sparse vectors](https://qdrant.tech/articles/sparse-vectors/):** [Hybrid search](https://qdrant.tech/documentation/search-tuning/hybrid-search/) is up to 16x faster now!
 - **CPU resource management:** You can allocate CPU threads for faster indexing. 
 - **Better indexing performance:** We optimized text [indexing](https://qdrant.tech/documentation/manage-data/indexing/) on the backend.
 

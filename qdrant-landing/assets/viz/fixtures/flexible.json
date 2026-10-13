@@ -1,0 +1,31 @@
+{
+  "title": "Illustrative fixture: independent chart layout",
+  "kind": "grouped-columns",
+  "group": "statistic",
+  "series": "series",
+  "colors": [
+    0,
+    1,
+    "muted"
+  ],
+  "height": 400,
+  "width": 800,
+  "views": [
+    {
+      "label": "Total",
+      "subtitle": "Illustrative data, lower is better",
+      "y": "total_ms",
+      "yLabel": "time (ms)",
+      "yMax": 100
+    },
+    {
+      "label": "Per item",
+      "subtitle": "Illustrative data divided by ten items",
+      "y": "per_item_ms",
+      "yLabel": "time per item (ms)",
+      "yMax": 10
+    }
+  ],
+  "textScale": 1.4,
+  "legendLayout": "auto"
+}

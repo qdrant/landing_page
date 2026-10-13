@@ -146,7 +146,7 @@ When you create a collection, Qdrant splits the collection into `shard_number` s
 
 To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
 
-> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
+> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/documentation/production-operations/multitenant-search/).
 
 We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. [Resharding](/documentation/cloud/cluster-scaling/#resharding) is possible on Qdrant Cloud, but should be avoided if hosting elsewhere as it would require creating a new collection.
 

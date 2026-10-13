@@ -6,7 +6,7 @@ questions:
 - question: Do I have to build my own dashboards?
   answer: "No. Qdrant ships a pre-built Grafana dashboard as importable JSON with built-in views and graphs for monitoring your clusters. Import it, then customize as needed. Get the dashboard: <a href='https://github.com/qdrant/qdrant-cloud-grafana-dashboard' target='_blank'>https://github.com/qdrant/qdrant-cloud-grafana-dashboard</a>"
 - question: Can I use my existing Prometheus and Grafana setup?
-  answer: "Yes. Point your Prometheus instance at the metrics endpoints using a read-only API key (supported as a Bearer token), and import the pre-built dashboard into Grafana. The docs include ready-to-use ScrapeConfig examples for Managed Cloud and ServiceMonitor examples for Hybrid Cloud. Learn more: <a href='/documentation/ops-monitoring/managed-cloud-prometheus/'>https://qdrant.tech/documentation/ops-monitoring/managed-cloud-prometheus/</a>"
+  answer: "Yes. Point your Prometheus instance at the metrics endpoints using a read-only API key (supported as a Bearer token), and import the pre-built dashboard into Grafana. The docs include ready-to-use ScrapeConfig examples for Managed Cloud and ServiceMonitor examples for Hybrid Cloud. Learn more: <a href='/documentation/production-operations/managed-cloud-prometheus/'>https://qdrant.tech/documentation/production-operations/managed-cloud-prometheus/</a>"
 - question: Does Qdrant integrate with Datadog?
   answer: Yes. Configure the Datadog Agent's OpenMetrics check to scrape Qdrant's endpoints; the documentation includes a worked Autodiscovery configuration. Any other platform that ingests Prometheus/OpenMetrics data connects the same way.
 - question: How does observability work on Hybrid Cloud versus Managed Cloud?

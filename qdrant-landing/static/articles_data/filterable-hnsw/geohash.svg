@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 425" role="img" aria-labelledby="description">
+  <desc id="description">Original geohash map, with street geography, cell identifiers, neighboring cells, and the selected region preserved.</desc>
+  <rect width="640" height="425" rx="12" fill="#f0f1f8"/>
+  <image class="filterable-hnsw-map" href="/articles_data/filterable-hnsw/geohash.png" x="12" y="12" width="616" height="401" preserveAspectRatio="xMidYMid meet"/>
+</svg>

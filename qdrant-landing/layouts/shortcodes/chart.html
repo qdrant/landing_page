@@ -13,7 +13,8 @@
   the fix, including the exact command to regenerate.
 
   Usage: a "chart" shortcode taking id= and caption=, where id is the path to
-  a chart's three files: assets/viz/<id>.{json,csv,svg}.
+  a chart's three files: assets/viz/<id>.{json,csv,svg}. Add table="false"
+  when the post already shows the same table; the Markdown output then skips it.
 */ -}}
 {{- $c := partial "viz-chart-spec.html" . -}}
 {{- $spec := $c.spec -}}
@@ -27,4 +28,11 @@
 {{- else if eq $spec.kind "lines-facet" -}}
   {{- $room = cond (gt (len $spec.series) 1) $cfg.legendRoom $cfg.facetRoom -}}
 {{- end -}}
-{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" (int $cfg.width) (add (int $spec.height) (int $room))) "caption" $c.caption "id" (replace $c.id "/" "-") "class" "viz-figure--chart" "views" $c.views "captions" $c.captions) -}}
+{{- $height := add (int $spec.height) (int ($spec.legendRoom | default $room)) -}}
+{{- if or (isset $spec "textScale") (isset $spec "legendLayout") -}}
+  {{- $metadata := findRE `data-viz-height="[0-9]+"` $res.Content 1 -}}
+  {{- if not $metadata -}}{{ errorf "chart %s: generated layout metadata missing; run npm run viz:charts" $c.id }}{{ end -}}
+  {{- range $metadata -}}{{ $height = int (replaceRE `[^0-9]` "" .) }}{{ end -}}
+{{- end -}}
+{{- $width := int ($spec.width | default $cfg.width) -}}
+{{- partial "viz-figure.html" (dict "svg" $res.Content "viewBox" (printf "0 0 %d %d" $width $height) "caption" $c.caption "id" (replace $c.id "/" "-") "class" (cond (lt $width 720) "viz-figure--chart viz-figure--narrow" "viz-figure--chart") "views" $c.views "captions" $c.captions) -}}

@@ -6,6 +6,14 @@ weight: 70
 social_preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
+goal: RAG & Agents
+stack:
+  - LangChain
+  - OpenAI
+  - Scaleway
+example_resources:
+  - label: View Notebook
+    url: https://github.com/qdrant/examples/blob/langchain-lcel-rag/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb
 ---
 
 # Blog-Reading Chatbot with GPT-4o

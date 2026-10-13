@@ -1,0 +1,71 @@
+/* exclusion island. Scoped under .ml-ex. Orange: rule anchors, green: the
+   query, blue: references. */
+.ml-ex {
+  --ml-anchor: #e8590c;
+  --ml-q: #2e9e5b;
+  display: block;
+}
+.ml-ex__radius {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.ml-ex__rule {
+  stroke: var(--ml-anchor);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  opacity: 0.5;
+}
+.ml-ex__rule.is-on {
+  opacity: 1;
+  stroke-width: 2.5;
+}
+.ml-ex__anchor {
+  fill: var(--ml-anchor);
+}
+.ml-ex__ref {
+  fill: var(--qi-cat-1);
+}
+.ml-ex__ref.is-excluded {
+  fill: var(--qi-line);
+}
+.ml-ex__x {
+  fill: none;
+  stroke: var(--qi-accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.ml-ex__ring {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.ml-ex__q {
+  fill: var(--ml-q);
+  stroke: var(--qi-surface);
+  stroke-width: 2;
+}
+.ml-ex__qhit {
+  fill: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+.ml-ex__lab {
+  fill: var(--qi-fg);
+  paint-order: stroke;
+  stroke: var(--qi-surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.ml-ex__lab.is-q {
+  fill: var(--ml-q);
+  font-weight: 600;
+}
+.ml-ex .qi-label {
+  font-size: 13px;
+}
+.ml-ex.ml-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

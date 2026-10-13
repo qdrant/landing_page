@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="267" viewBox="0 0 640 267" role="img" aria-labelledby="title desc">
+  <title id="title">Accent normalization produces the same WordPiece tokens</title>
+  <desc id="desc">The MiniLM tokenizer maps both crème brûlée and creme brulee to cr, ##eme, br, ##ule, ##e.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#aeb9cd" stroke-width="1.6"/></marker>
+  </defs>
+  <rect x="1" y="1" width="638" height="265" rx="12" fill="#121b2a" stroke="#42506a" stroke-width="2"/>
+  <rect x="24" y="38" width="252" height="73" rx="8" fill="#1d293b" stroke="#42506a" stroke-width="2"/>
+  <text x="39" y="84" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27">crème brûlée</text>
+  <rect x="24" y="154" width="252" height="73" rx="8" fill="#1d293b" stroke="#42506a" stroke-width="2"/>
+  <text x="39" y="200" fill="#f1f4fa" font-family="Arial, sans-serif" font-size="27">creme brulee</text>
+  <path d="M276 74 H305 L324 133 H352" fill="none" stroke="#aeb9cd" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M276 190 H305 L324 133" fill="none" stroke="#aeb9cd" stroke-width="3"/>
+  <rect x="365" y="63" width="251" height="180" rx="8" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="384" y="106" fill="#8be5ec" font-family="Arial, sans-serif" font-size="27" font-weight="700">Same tokens</text>
+  <text x="384" y="145" fill="#f1f4fa" font-family="monospace" font-size="27">cr · ##eme</text>
+  <text x="384" y="180" fill="#f1f4fa" font-family="monospace" font-size="27">br · ##ule</text>
+  <text x="384" y="215" fill="#f1f4fa" font-family="monospace" font-size="27">##e</text>
+</svg>

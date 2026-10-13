@@ -1,0 +1,91 @@
+/* governance island. Scoped under .qi-gv. Controls, labels and the status line
+   come from the shared island design system (islands.scss); this file styles
+   the checks and connections. Checks use --qi-cat-1, the admitted or kept
+   outcome --qi-cat-3, and the rejected or removed outcome --qi-cat-4. The path
+   a scenario follows is drawn with full-strength outlines; the rest of the
+   column stays visible but muted. */
+
+.qi-gv {
+  display: block;
+}
+
+.qi-gv .qi-fig {
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+}
+
+/* Essential labels render at 14px at the normal article width. */
+.qi-gv .qi-label,
+.qi-gv .qi-title {
+  font-size: 14px;
+}
+.qi-gv__svg {
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+.qi-gv .qi-hint {
+  margin-inline-end: 4px;
+}
+
+.qi-gv__rect {
+  fill: var(--qi-surface);
+  stroke: var(--qi-cat-1);
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease;
+}
+.qi-gv__node--ok .qi-gv__rect {
+  stroke: var(--qi-cat-3);
+}
+.qi-gv__node--bad .qi-gv__rect {
+  stroke: var(--qi-cat-4);
+}
+.qi-gv__text {
+  fill: var(--qi-fg);
+}
+.qi-gv__sub {
+  fill: var(--qi-muted);
+}
+
+.qi-gv__edge {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+  transition: stroke 0.25s ease;
+}
+.qi-gv__head {
+  fill: var(--qi-muted);
+}
+.qi-gv__edge.is-on {
+  stroke: var(--qi-fg);
+  stroke-width: 2.5;
+}
+.qi-gv__edge--bad.is-on {
+  stroke: var(--qi-cat-4);
+}
+
+/* Nodes outside the selected path stay readable, with a dashed outline. */
+.qi-gv__node {
+  transition: opacity 0.25s ease;
+}
+.qi-gv__node.is-off {
+  opacity: 0.6;
+}
+.qi-gv__node.is-off .qi-gv__rect {
+  stroke-dasharray: 5 4;
+}
+.qi-gv__node.is-on .qi-gv__rect {
+  stroke-width: 3.5;
+}
+
+.qi-gv .qi-status {
+  min-height: calc(3 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-gv__rect,
+  .qi-gv__edge,
+  .qi-gv__node {
+    transition: none;
+  }
+}

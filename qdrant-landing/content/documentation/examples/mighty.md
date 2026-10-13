@@ -13,6 +13,10 @@ keywords:
   - mighty
   - rust
   - semantic search
+goal: Search Quality
+stack:
+  - Rust
+  - Mighty
 ---
 
 # Semantic Search with Mighty and Qdrant

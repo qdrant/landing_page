@@ -3,6 +3,18 @@ title: Incremental Embedding Updates
 short_description: "Sync embeddings with raw text data that changes over time."
 description: "Keep embeddings in the Qdrant search engine in sync with documentation that changes over time, for up-to-date vector search."
 weight: 32
+date: 2026-07-21T20:27:01+02:00
+goal: Operations
+stack:
+  - Python
+  - TypeScript
+  - Rust
+  - Java
+  - C#
+  - Go
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/temporal-data-drift/sync_raw_data_to_embeddings.ipynb
 ---
 
 # Incremental Embedding Updates
@@ -39,11 +51,15 @@ The tutorial has an accompanying [notebook](https://github.com/qdrant/examples/b
 <p>A follow-up post will cover a version that groups chunks into hash buckets and checks only the buckets that changed, so cost stays flat as the corpus grows.</p>
 </aside>
 
+Whether this pattern suits your corpus is the first question, not the last. The Sync embeddings with changing source prompt has an agent check that, then design the chunk ID and fingerprint around your source rather than this one.
+
+{{< prompt "sync-embeddings-with-source" >}}
+
 ## Prerequisites
 
 Install the [Qdrant client of your choice](/documentation/interfaces/#client-libraries).
 
-We use Qdrant Cloud and its [Free Embedding Inference](/documentation/cloud/inference/#free-embedding-models).  
+We use Qdrant Cloud and its [Free Embedding Inference](/documentation/cloud/inference/#qdrant-hosted-models).  
 Create a Free Tier [Qdrant Cloud cluster](https://cloud.qdrant.io/) and set `QDRANT_URL` and `QDRANT_API_KEY` in your environment.
 
 
@@ -115,7 +131,7 @@ normalize(text):
 
 Let's configure a collection for chunks.
 
-We'll use `sentence-transformers/all-MiniLM-L6-v2`: it's one of the [free embedding models](/documentation/cloud/inference/#free-embedding-models) on Qdrant Cloud Inference.  
+We'll use `sentence-transformers/all-MiniLM-L6-v2`: it's one of the [free embedding models](/documentation/cloud/inference/#qdrant-hosted-models) on Qdrant Cloud Inference.  
 Its output dimension is 384, its context window is 256 tokens, which is exactly why long sections got chunked above: over-window input is silently truncated.
 
 ### Collection Metadata

@@ -1,0 +1,56 @@
+.qi-vsd {
+  display: block;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.qi-vsd .qi-vsd__svg .qi-label,
+.qi-vsd .qi-vsd__svg .qi-frame-label {
+  font-size: var(--vsd-label-size, 18px);
+}
+
+.qi-vsd__panel {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+
+.qi-vsd__connector,
+.qi-vsd__learning {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+
+.qi-vsd__motion {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  opacity: 0.85;
+}
+
+.qi-vsd__ghost {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  opacity: 0.55;
+}
+
+#qi-vsd-arrow path { fill: var(--qi-muted); }
+.qi-vsd__distance { stroke: var(--qi-line); stroke-width: 1.5; }
+.qi-vsd__distance-tick,
+.qi-vsd__margin { stroke: var(--qi-fg); stroke-width: 2; }
+
+.qi-vsd__point circle {
+  stroke: var(--qi-surface);
+  stroke-width: 3;
+}
+.qi-vsd__point--anchor circle { fill: var(--qi-cat-1); }
+.qi-vsd__point--positive circle { fill: var(--qi-cat-3); }
+.qi-vsd__point--negative circle { fill: var(--qi-cat-4); }
+
+.qi-vsd__guide { stroke: var(--qi-muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
+
+@media (max-width: 560px) { .qi-vsd .qi-vsd__svg text { font-size: 36px; } }

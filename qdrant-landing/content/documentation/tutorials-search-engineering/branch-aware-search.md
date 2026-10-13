@@ -5,6 +5,16 @@ description: "Index a versioned document corpus in Qdrant and scope each query t
 weight: 12
 aliases:
   - /documentation/tutorials/branch-aware-search/
+goal: Data & Filtering
+stack:
+  - Python
+keywords:
+  - versioned
+  - documents
+  - branches
+  - filters
+  - inherited
+  - data
 ---
 
 # Branch-Aware Search Over Versioned Documents

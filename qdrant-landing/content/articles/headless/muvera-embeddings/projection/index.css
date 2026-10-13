@@ -1,0 +1,47 @@
+/* projection island. Scoped under .mu-pr. Blue for the inputs, cyan for the
+   projected output, grey for the unprojected size. */
+
+.mu-pr {
+  display: block;
+}
+.mu-pr__block {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.18;
+  stroke: var(--qi-cat-1);
+  stroke-width: 1.5;
+  transition: all 0.3s ease;
+}
+.mu-pr__block--matrix {
+  fill-opacity: 0.08;
+  stroke-dasharray: 4 3;
+}
+.mu-pr__block--out {
+  fill: var(--qi-cat-3);
+  fill-opacity: 0.35;
+  stroke: var(--qi-cat-3);
+}
+.mu-pr__bar--before {
+  fill: var(--qi-line);
+}
+.mu-pr__bar--after {
+  fill: var(--qi-cat-3);
+}
+.mu-pr__bar {
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mu-pr__block,
+  .mu-pr__bar {
+    transition: none;
+  }
+}
+
+/* Labels render at about 12px at the article width; the compact layout is
+   capped so it is not scaled up past a comfortable size. */
+.mu-pr .qi-label {
+  font-size: 13px;
+}
+.mu-pr.mu-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

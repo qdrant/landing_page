@@ -78,6 +78,22 @@ while (!reachedEnd) {
     reachedEnd = lastOffset == null;
 }
 
+await client.updateCollectionAliases({
+  actions: [
+    {
+      delete_alias: {
+        alias_name: "prod",
+      },
+    },
+    {
+      create_alias: {
+        collection_name: NEW_COLLECTION,
+        alias_name: "prod",
+      },
+    },
+  ],
+});
+
 const results = await client.query(OLD_COLLECTION, {
     query: {
         text: "my query",
@@ -158,6 +174,17 @@ const oldVectorResults = await client.query(COLLECTION, {
     },
     using: OLD_VECTOR,
     limit: 10,
+});
+
+await client.count(COLLECTION, {
+    filter: {
+        must_not: [
+            {
+                has_vector: NEW_VECTOR,
+            },
+        ],
+    },
+    exact: true,
 });
 
 const newVectorResults = await client.query(COLLECTION, {

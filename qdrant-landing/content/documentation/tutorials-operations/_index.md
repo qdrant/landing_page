@@ -8,6 +8,8 @@ aliases:
   - how-to
   - tutorials
 partition: develop
+cascade:
+  learning_kind: examples
 ---
 
 ### Operations & Scale Tutorials
@@ -18,5 +20,5 @@ partition: develop
 
 <!-- KEEP BELOW FOR REFERENCE -->
 
-<!-- | [Qdrant Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> | -->
+<!-- | [Qdrant Cloud Prometheus Monitoring](/documentation/production-operations/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> | -->
 <!-- | [Self-Hosted Prometheus Monitoring](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> | -->

@@ -1,0 +1,30 @@
+{
+  "title": "Model load time: ONNX session creation only",
+  "kind": "grouped-columns",
+  "group": "statistic",
+  "series": "library",
+  "colors": [
+    0,
+    1
+  ],
+  "height": 520,
+  "views": [
+    {
+      "label": "MiniLM",
+      "subtitle": "Xenova/ms-marco-MiniLM-L-6-v2, 41 runs, lower is better",
+      "y": "minilm_ms",
+      "yLabel": "load time (ms)",
+      "yMax": 45
+    },
+    {
+      "label": "Jina",
+      "subtitle": "jinaai/jina-reranker-v2-base-multilingual, 41 runs, lower is better",
+      "y": "jina_ms",
+      "yLabel": "load time (ms)",
+      "yMax": 420
+    }
+  ],
+  "width": 960,
+  "textScale": 1.8,
+  "legendLayout": "row"
+}
