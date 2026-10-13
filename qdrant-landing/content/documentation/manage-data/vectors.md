@@ -8,7 +8,6 @@ aliases:
   - /vectors
 ---
 
-
 # Vectors
 
 Vectors (or embeddings) are the core concept of the Qdrant Vector Search engine. 
@@ -26,12 +25,10 @@ The neural network is usually [trained](/articles/metric-learning-tips/) on a pa
 
 By using this property of vectors, you can explore your data in a number of ways; for example, by searching for similar objects, clustering objects, and more.
 
-
 ## Vector Types
 
 Modern neural networks can output vectors in different shapes and sizes, and Qdrant supports most of them.
 Let's take a look at the most common types of vectors supported by Qdrant.
-
 
 ### Dense Vectors
 
@@ -60,6 +57,8 @@ It looks like this:
 ]
 ```
 
+A dense vector can have between 1 and 65,536 dimensions.
+
 The majority of neural networks create dense vectors, so you can use them with Qdrant without any additional processing.
 Although compatible with most embedding models out there, Qdrant has been tested with the following [verified embedding providers](/documentation/embeddings/).
 
@@ -84,7 +83,6 @@ In order to define a sparse vector, you need to provide a list of non-zero eleme
 Sparse vectors in Qdrant are kept in special storage and indexed in a separate index, so their configuration is different from dense vectors.
 
 To create a collection with sparse vectors:
-
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector/" >}}
 
@@ -184,7 +182,6 @@ For example:
 
 Refer to [Update Vector Schema](/documentation/manage-data/collections/#update-vector-schema) for more details.
 
-
 ## Inference
 
 Instead of providing vectors explicitly when ingesting or querying data, Qdrant can also generate vectors using a process called [inference](/documentation/inference/). Inference is the process of creating vector embeddings from text, images, or other data types using a machine learning model.
@@ -275,7 +272,6 @@ This quantized representation can be used to quickly select candidates for resco
 Quantization is applied in the background, during the optimization process.
 
 More information about the quantization process can be found in the [Quantization](/documentation/manage-data/quantization/) section.
-
 
 ## Vector Storage
 
