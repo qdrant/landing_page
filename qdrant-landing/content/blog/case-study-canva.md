@@ -100,12 +100,6 @@ On the Qdrant side, the team provisions clusters through the Terraform provider,
   role="Senior Software Engineer"
   company="Canva" >}}
 
-## What's Next: New Modalities and Larger Datasets
-
-There's room to grow on the multimodal side. Face matching, which lets users tag a person in a photo and surface every photo of them, currently runs on in-memory indexes, but it's a candidate to move onto Qdrant as it scales.
-
-The broader direction is consistent. As Canva's AI features expand across more modalities and larger datasets, the vector search layer is built to expand with them.
-
 ## Vector Search Tuned to Each Workload
 
 Canva set out to make search work across a sprawling set of use cases, from media discovery to private documents, all under strict latency and cost constraints. Those workloads needed per-workload tuning and the flexible multitenancy that private content depends on, and full self-hosting carried too much operational weight. Qdrant Cloud gave the team the balance it needed: managed infrastructure with per-workload control over quantization, hybrid retrieval, and filtering, on a self-serve model that fits how Canva's engineers already work. As new modalities and larger datasets arrive, that foundation is built to keep scaling.
