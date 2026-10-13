@@ -453,7 +453,7 @@ When the points in a group share large fields like titles, abstracts, or full do
 
 {{< island
     path="content/documentation/headless/search/lookup"
-    ratio="760 / 368"
+    ratio="760 / 320"
     title="With `with_lookup`, each group gets the point from the lookup collection whose ID equals the group ID."
 >}}
 ![Groups 200 and 201 each get the point with the same ID from the documents collection as their lookup. Document 202 matches no group.](/docs/search-groups-lookup.svg)

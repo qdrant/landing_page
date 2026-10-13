@@ -29,17 +29,19 @@ const GROUPS = [
   { id: 201, hits: [{ id: 1, score: 0.85 }] },
 ];
 
-// Geometry (viewBox 760 x 270). Groups on the left, documents on the right.
+// Geometry (viewBox 760 x 222). Groups on the left, documents on the right.
+// Each group's lookup slot sits in its header, next to the group ID, because
+// the lookup belongs to the group as a whole and not to any one hit.
 const VB_W = 760;
-const VB_H = 270;
-const GROUP = { x: 0, w: 380, gap: 12, hitsY: 34, pitch: 34, pad: 8 };
-const HIT = { dx: 15, w: 350, h: 28 };
+const VB_H = 222;
+const GROUP = { x: 0, w: 420, gap: 12, hitsY: 44, pitch: 34, pad: 8, labelY: 26, chipY: 12 };
+const HIT = { dx: 15, w: 390, h: 28 };
 const SCORE = { x: 90, y: 9, h: 10, max: 160 };
 const DOC = { w: 280, h: 30, pitch: 40 };
 const CHIP = { x: 8, y: 6, w: 48, h: 18 };
 const TITLE = { x: 64, w: 206 };
-const LOOKUP = { labelDx: 24, dx: 85 };
-const DOCS_FRAME = { x: 440, w: 320, rowsY: 34 };
+const LOOKUP = { dx: 125, dy: 6 };
+const DOCS_FRAME = { x: 460, w: 300, rowsY: 34 };
 DOCS_FRAME.h = DOCS_FRAME.rowsY + DOCS.length * DOC.pitch;
 DOCS_FRAME.y = (VB_H - DOCS_FRAME.h) / 2;
 
@@ -111,13 +113,16 @@ export function mount(node) {
     return g;
   });
 
-  // The groups, each with its hits and an empty lookup slot.
+  // The groups, each with an empty lookup slot in its header and its hits.
   let y = 2;
   const copies = GROUPS.map((grp, gi) => {
-    const h = GROUP.hitsY + (grp.hits.length + 1) * GROUP.pitch + GROUP.pad;
+    const h = GROUP.hitsY + grp.hits.length * GROUP.pitch + GROUP.pad;
     el('rect', { class: 'qi-frame', x: GROUP.x, y, width: GROUP.w, height: h, rx: 6 }, framesG);
-    el('text', { class: 'qi-frame-label', x: GROUP.x + 14, y: y + 22 }, framesG, 'Group');
-    chip(framesG, grp.id, GROUP.x + 68, y + 8);
+    el('text', { class: 'qi-frame-label', x: GROUP.x + 14, y: y + GROUP.labelY }, framesG, 'Group');
+    chip(framesG, grp.id, GROUP.x + 68, y + GROUP.chipY);
+    const slot = { x: GROUP.x + LOOKUP.dx, y: y + LOOKUP.dy };
+    el('rect', { class: 'qi-lk__slot', x: slot.x, y: slot.y, width: DOC.w, height: DOC.h, rx: 6 }, framesG);
+    el('text', { class: 'qi-label qi-lk__slot-label', x: slot.x + DOC.w / 2, y: slot.y + 20, 'text-anchor': 'middle' }, framesG, 'lookup');
     grp.hits.forEach((hit, k) => {
       const hy = y + GROUP.hitsY + k * GROUP.pitch;
       const g = el('g', { transform: `translate(${GROUP.x + HIT.dx} ${hy})` }, framesG);
@@ -126,9 +131,6 @@ export function mount(node) {
       el('rect', { class: 'qi-lk__score', x: SCORE.x, y: SCORE.y, width: hit.score * SCORE.max, height: SCORE.h, rx: 2 }, g);
       el('text', { class: 'qi-label', x: SCORE.x + hit.score * SCORE.max + 8, y: 19 }, g, hit.score.toFixed(2));
     });
-    const slotY = y + GROUP.hitsY + grp.hits.length * GROUP.pitch;
-    el('text', { class: 'qi-label qi-lk__slot-label', x: GROUP.x + LOOKUP.labelDx, y: slotY + 20 }, framesG, 'lookup');
-    el('rect', { class: 'qi-lk__slot', x: GROUP.x + LOOKUP.dx, y: slotY, width: DOC.w, height: DOC.h, rx: 6 }, framesG);
     y += h + GROUP.gap;
 
     // The copy that travels from documents into this group's slot. Drawn
@@ -137,7 +139,7 @@ export function mount(node) {
     const copy = docRow(copiesG, DOCS[di]);
     copy.classList.add('qi-lk__copy');
     copy.style.transitionDelay = `${gi * STAGGER_MS}ms`;
-    return { el: copy, from: docAt(di), to: { x: GROUP.x + LOOKUP.dx, y: slotY }, doc: docEls[di] };
+    return { el: copy, from: docAt(di), to: slot, doc: docEls[di] };
   });
   const unused = docEls.filter((_, i) => !GROUPS.some((g) => g.id === DOCS[i].id));
 

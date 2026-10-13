@@ -58,7 +58,7 @@
   transition: opacity 0.3s ease;
 }
 .qi-lk.is-on .qi-lk__slot-label {
-  opacity: 1;
+  opacity: 0;
 }
 
 /* A copy starts hidden on top of its document and slides into the group.
