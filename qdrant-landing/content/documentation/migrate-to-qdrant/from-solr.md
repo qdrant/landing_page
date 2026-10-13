@@ -47,7 +47,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
     --qdrant.api-key 'your-qdrant-api-key' \
     --qdrant.collection 'your-collection' \
-    --migration.create-collection false
+    --migration.create-collection=false
 ```
 
 ### All Solr-Specific Flags

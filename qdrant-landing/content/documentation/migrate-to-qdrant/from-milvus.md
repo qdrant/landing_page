@@ -83,7 +83,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
-| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `field1:euclid,field2:dot`). The tool does not read the metric from Milvus, so set it for every `L2` or `IP` field |
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `field1=euclid;field2=dot`). The tool does not read the metric from Milvus, so set it for every `L2` or `IP` field |
 
 ## Gotchas
 
