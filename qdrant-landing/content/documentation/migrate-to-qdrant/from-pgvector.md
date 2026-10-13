@@ -19,9 +19,9 @@ partition: ecosystem
 | :--- | :--- | :--- |
 | Table | Collection | One-to-one mapping |
 | Row | Point | Each row becomes a point |
-| `vector` column | Vector | Mapped automatically |
+| `vector` or `halfvec` column | Vector | Mapped automatically |
 | Other columns | Payload | All non-vector columns become payload fields |
-| `vector_cosine_ops` | `Cosine` | The tool creates `Cosine` by default. pgvector returns distance (1 - similarity); Qdrant returns similarity |
+| `vector_cosine_ops` | `Cosine` | The tool creates `Cosine` by default. pgvector returns distance (1 - similarity). Qdrant returns similarity |
 | `vector_l2_ops` | `Euclid` | Not detected. Set `--qdrant.distance-metric` explicitly |
 | `vector_ip_ops` | `Dot` | Not detected. Set `--qdrant.distance-metric` explicitly. pgvector uses negative inner product for ordering; scores will be inverted |
 
@@ -66,7 +66,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
-| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `embedding:euclid`). The tool does not read the operator class, so set it for every `L2` or `IP` column |
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `embedding=euclid`). The tool does not read the operator class, so set it for every `L2` or `IP` column |
 
 ## Gotchas
 
