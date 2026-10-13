@@ -27,7 +27,7 @@ The following table lists what changes when you move from Standard to Premium. T
 | Migration support | Not included | Dedicated engineering support |
 | [Multi-AZ clusters](#multi-az-clusters) | Not included | Available in regions with 3 or more zones, at a higher rate than single-AZ |
 | [Enterprise SSO](#enterprise-single-sign-on-sso) | Not included | Included, for Cloud Console sign-in |
-| [Private network connectivity](#private-network-connectivity) | Not included | AWS PrivateLink and GCP Private Service Connect |
+| [Private network connectivity](#private-network-connectivity) | Not included | AWS PrivateLink, GCP Private Service Connect, and Azure Private Link |
 | [Customer-managed encryption keys](#customer-managed-encryption-keys) | Not included | AWS KMS, GCP Cloud KMS, and Azure Key Vault |
 | Pricing | Usage-based, paid as you go or under a committed-spend contract | Premium tier rates, under a committed-spend contract with an annual minimum |
 
@@ -106,7 +106,7 @@ To turn on SSO for your account, open a ticket in the [Qdrant support portal](ht
 
 ## Private Network Connectivity
 
-Premium clusters on AWS and GCP can accept traffic from your own VPC over AWS PrivateLink or GCP Private Service Connect. Traffic between your application and the cluster then stays on the cloud provider's network instead of crossing the public internet. Private connectivity isn't available on Azure.
+Premium clusters can accept traffic from your own virtual network over AWS PrivateLink, GCP Private Service Connect, or Azure Private Link. Traffic between your application and the cluster then stays on the cloud provider's network instead of crossing the public internet.
 
 To set up a private connection, open a support ticket. Before you route production traffic to a new cluster, confirm with Qdrant Support that your private connection covers it, especially if the cluster is in a new region, you connect from a different cloud account, or the cluster is multi-AZ. Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only, so check your region before you create the cluster.
 
