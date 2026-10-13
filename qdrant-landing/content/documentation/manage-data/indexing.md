@@ -26,7 +26,7 @@ Creating an index requires additional computational resources and memory, so cho
 
 The following field types support payload indexing:
 
-* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions. Can optionally enable [prefix matching](#prefix-matching-in-keyword-indices).
+* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) and [Substring Match](/documentation/search/filtering/#substring-match) filtering conditions. Can optionally enable [prefix matching](#prefix-matching-in-keyword-indices).
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
 * `float` - for [float](/documentation/manage-data/payload/#float) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions.
 * `bool` - for [bool](/documentation/manage-data/payload/#bool) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions (available as of v1.4.0).
@@ -110,7 +110,7 @@ supports only range filters:
 
 *Available as of v1.19.0*
 
-By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition.
+By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition. The `prefix` flag also speeds up [Substring Match](/documentation/search/filtering/#substring-match) conditions.
 
 This is useful for prefix filtering over identifier-like values such as URLs, paths, or SKUs, and for building filter-value autocompletion (for example, combining a facet request with a prefix filter on the same field). A `text` index is not a good fit for these cases: tokenization breaks identifiers apart, and a `text` schema loses exact keyword matching.
 

@@ -208,6 +208,24 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
     For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#prefix-matching-in-keyword-indices">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
 </aside>
 
+#### Substring Match
+
+*Available as of v1.20.0*
+
+A match `substring` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that contain the specified string anywhere in the value.
+
+For example, the substring `"qdrant.tech/"` matches the value `"https://qdrant.tech/documentation"`.
+
+Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It is also case-sensitive, consistent with exact keyword and prefix matching. Values that aren't strings never match. Unlike [Full Text Match](#full-text-match) and [Full Text Any](#full-text-any), substring matching doesn't tokenize the value or the query, so the query can span word boundaries and punctuation. This makes it well suited to identifiers such as URLs, paths, or SKUs.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-substring/" >}}
+
+A [keyword index](/documentation/manage-data/indexing/#payload-index) on the field speeds up substring matching, especially with the [`prefix` option](/documentation/manage-data/indexing/#prefix-matching-in-keyword-indices) enabled. Either way, Qdrant checks every distinct value of the field, so the cost grows with the number of distinct values. Without a keyword index, the condition still works but reads the payload of each point. A full-text index can't serve the condition, because it stores tokens rather than whole values.
+
+<aside role="status">
+    When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled, Qdrant rejects substring match conditions on any field, regardless of its indexes. Strict mode is enabled by default on Qdrant Cloud. Use a <a href="#prefix-match">prefix match</a> or a <a href="#full-text-match">full-text match</a> instead.
+</aside>
+
 ### Text Match
 
 #### Full Text Match
