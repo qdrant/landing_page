@@ -1,0 +1,1 @@
+Update the merge optimizer parameters of an existing collection: keep a target of four segments, and limit each segment to 1,000,000 KB of vector data.

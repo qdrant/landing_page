@@ -32,21 +32,12 @@ The vacuum optimizer solves this problem by permanently removing marked points a
 {{< island
     path="content/documentation/headless/optimizer/vacuum"
     ratio="760 / 349"
-    title="Deleted points are initially only marked as deleted. Once the number of deleted points in a segment exceeds the `deleted_threshold`, the vacuum optimizer rebuilds the segment without them."
+    title="Deleted points are initially only marked as deleted. Once the fraction of deleted points in a segment exceeds the `deleted_threshold`, the vacuum optimizer rebuilds the segment without them."
 >}}
 ![A segment with 20 points, five of them marked as deleted, is rebuilt as a new segment with the 15 remaining points.](/documentation/ops-optimization/optimizer-vacuum.svg)
 {{< /island >}}
 
-Two parameters in the configuration file control when the optimizer runs:
-
-```yaml
-storage:
-  optimizers:
-    # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
-    deleted_threshold: 0.2
-    # The minimal number of vectors in a segment, required to perform segment optimization
-    vacuum_min_vector_number: 1000
-```
+Two parameters control when the optimizer runs:
 
 - `deleted_threshold` sets the minimum fraction of deleted points in a segment required to initiate optimization. For example, a value of 0.2 means that more than 20% of a segment's points must be marked as deleted for the optimizer to consider running.
 - `vacuum_min_vector_number` specifies the minimum number of points a segment must contain to qualify for optimization. For example, a value of 1000 ensures that only segments with at least 1,000 points are optimized.
@@ -54,9 +45,13 @@ storage:
 
 When a segment meets these criteria, the optimizer rebuilds it without the deleted points.
 
+To set these parameters for an existing collection:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/vacuum-thresholds/" >}}
+
 ## Merge Optimizer
 
-Qdrant uses the merge optimizer to manage the number of segments in its storage system, ensuring efficient data organization and query performance. Optimization itself creates temporary segments, such as copy-on-write segments.
+Qdrant uses the merge optimizer to manage the number of segments in its storage system, ensuring efficient data organization and query performance.
 
 Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the merge optimizer reduces the number of segments when there are more than optimal.
 
@@ -70,36 +65,11 @@ The `default_segment_number` parameter specifies the target number of segments. 
 ![Four small segments with five points each are merged into one segment with all 20 points.](/documentation/ops-optimization/optimizer-merge.svg)
 {{< /island >}}
 
-To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Use this parameter to balance indexing speed against search efficiency, especially with large datasets. When `max_segment_size_kb` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
+To prevent oversized segments that could slow down indexing, the `max_segment_size` parameter sets a limit on segment size, in kilobytes. Larger segments may improve search performance but can take longer to index. Use this parameter to balance indexing speed against search efficiency, especially with large datasets. When `max_segment_size` is unset, the limit scales with the number of available CPUs, so it differs between machines. Set it explicitly when you need a predictable segment size.
 
-You can set these parameters in the configuration file. For example:
+To set these parameters for an existing collection:
 
-```yaml
-storage:
-  optimizers:
-    # Target amount of segments optimizer will try to keep.
-    # Real amount of segments may vary depending on multiple parameters:
-    #  - Amount of stored points
-    #  - Current write RPS
-    #
-    # It is recommended to select default number of segments as a factor of the number of search threads,
-    # so that each segment would be handled evenly by one of the threads.
-    # If `default_segment_number = 0`, will be automatically selected by the number of available CPUs
-    default_segment_number: 0
-
-    # Do not create segments larger this size (in KiloBytes).
-    # Large segments might require disproportionately long indexation times,
-    # therefore it makes sense to limit the size of segments.
-    #
-    # If indexation speed have more priority for your - make this parameter lower.
-    # If search speed is more important - make this parameter higher.
-    # Note: 1Kb = 1 vector of size 256
-    # If not set, will be automatically selected considering the number of available CPUs.
-    max_segment_size_kb: null
-```
-
-- `default_segment_number` ensures that segments align with the search thread count, enabling even distribution of processing across threads.
-- `max_segment_size_kb` controls segment size to optimize both indexing and search performance, depending on system priorities.
+{{< code-snippet path="/documentation/headless/snippets/update-collection/segment-number-and-size/" >}}
 
 ## Indexing Optimizer
 
@@ -118,18 +88,9 @@ The indexing optimizer builds a vector index for a segment once its vector data 
 
 The indexing optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
 
-You can set the indexing threshold in the configuration file. For example:
+The `indexing_threshold` parameter sets the indexing threshold, in kilobytes. For example, to set it for an existing collection:
 
-```yaml
-storage:
-  optimizers:
-    # Maximum size (in KiloBytes) of vectors allowed for plain index.
-    # Default value based on experiments and observations.
-    # Note: 1Kb = 1 vector of size 256
-    # To explicitly disable vector indexing, set to `0`.
-    # If not set, the default value will be used.
-    indexing_threshold_kb: 10000
-```
+{{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
 
 ## Config Mismatch Optimizer
 
@@ -153,17 +114,70 @@ Each rebuild is a full optimization of the segment, so changing these parameters
 
 This optimizer has no configuration parameters.
 
-## Per-Collection Optimizer Configuration
+<span id="per-collection-optimizer-configuration"></span>
+## Optimizer Configuration
 
-The configuration file determines global defaults for all collections. You can also configure optimizer parameters per collection at [creation time](/documentation/manage-data/collections/#create-a-collection), or [update](/documentation/manage-data/collections/#update-collection-parameters)  them later. For example:
+You can configure optimizer parameters per collection at [creation time](/documentation/manage-data/collections/#create-a-collection), or [update](/documentation/manage-data/collections/#update-collection-parameters) them later. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
+
+Self-hosted Qdrant also supports setting global defaults for all collections in the [configuration file](/documentation/ops-configuration/configuration/). Qdrant applies these defaults when it creates a collection, so changing them doesn't affect existing collections. For example:
+
+```yaml
+storage:
+  performance:
+    # CPU budget, how many CPUs (threads) to allocate for an optimization job.
+    # If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size
+    # If negative - subtract this number of CPUs from the available CPUs.
+    # If positive - use this exact number of CPUs.
+    optimizer_cpu_budget: 0
+
+  optimizers:
+    # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
+    deleted_threshold: 0.2
+
+    # The minimal number of vectors in a segment, required to perform segment optimization
+    vacuum_min_vector_number: 1000
+
+    # Target amount of segments optimizer will try to keep.
+    # Real amount of segments may vary depending on multiple parameters:
+    #  - Amount of stored points
+    #  - Current write RPS
+    #
+    # It is recommended to select default number of segments as a factor of the number of search threads,
+    # so that each segment would be handled evenly by one of the threads.
+    # If `default_segment_number = 0`, will be automatically selected by the number of available CPUs
+    default_segment_number: 0
+
+    # Do not create segments larger than this size (in KiloBytes).
+    # Large segments might require disproportionately long indexation times,
+    # therefore it makes sense to limit the size of segments.
+    #
+    # If indexation speed have more priority for your - make this parameter lower.
+    # If search speed is more important - make this parameter higher.
+    # Note: 1Kb = 1 vector of size 256
+    # If not set, will be automatically selected considering the number of available CPUs.
+    max_segment_size_kb: null
+
+    # Maximum size (in KiloBytes) of vectors allowed for plain index.
+    # Default value based on experiments and observations.
+    # Note: 1Kb = 1 vector of size 256
+    # To explicitly disable vector indexing, set to `0`.
+    # If not set, the default value will be used.
+    indexing_threshold_kb: 10000
+
+    # Max number of threads (jobs) for running optimizations per shard.
+    # Note: each optimization job will also use `max_indexing_threads` threads by itself for index building.
+    # If null - have no limit and choose dynamically to saturate CPU.
+    # If 0 - no optimization threads, optimizations will be disabled.
+    max_optimization_threads: null
+```
 
 ## Optimizer Resource Usage
 
 Three settings control how much CPU the optimizer uses:
 
-- `optimizer_cpu_budget`: the number of CPUs available to all optimization jobs on a node. By default, Qdrant leaves one or more CPUs free, depending on the number of CPUs. Set it in the configuration file under `storage.performance`.
+- `optimizer_cpu_budget`: the number of CPUs available to all optimization jobs on a node. By default, Qdrant leaves one or more CPUs free, depending on the number of CPUs. Set it in the Cloud Console or in the configuration file under `storage.performance`.
 - `max_optimization_threads`: the maximum number of optimization jobs that run in parallel per shard. By default, there's no limit other than `optimizer_cpu_budget`.
 - `max_indexing_threads`: the number of threads each optimization job uses to build the HNSW index. Set it in the [HNSW configuration](/documentation/manage-data/indexing/#vector-index). By default, it depends on the number of available CPUs.
 
