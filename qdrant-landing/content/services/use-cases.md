@@ -1,6 +1,6 @@
 ---
 title: What We Help You Build
-description: "Our certified partners deliver end-to-end projects on Qdrant, from architecture and prototyping to production rollout and ongoing support."
+description: "Our certified partners deliver end-to-end projects on Qdrant, from architecture and prototyping to production rollout and ongoing maintenance."
 cards:
   - id: 0
     title: Search

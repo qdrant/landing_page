@@ -5,6 +5,8 @@
     {{ partial "common-hero" . }}
   {{ end }}
 
+  {{ partial "services/partners" . }}
+
   {{ with (.Site.GetPage "/services/use-cases") }}
     {{ partial "services/cards" (dict "context" . "class" "services-use-cases") }}
   {{ end }}

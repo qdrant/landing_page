@@ -4,7 +4,7 @@ description: "Qdrant routes your request to the best-fit partner from our ecosys
 cards:
   - id: 0
     title: Tell Us About Your Project
-    description: Share your use case, the kind of support you need, and your region in the short form on this page.
+    description: Share your use case, the kind of help you need, and your region in the short form on this page.
   - id: 1
     title: We Match You With a Partner
     description: Our Partnerships team reviews your brief and introduces you to a certified partner with relevant experience.
