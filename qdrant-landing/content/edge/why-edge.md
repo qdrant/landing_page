@@ -6,12 +6,12 @@ demoLink:
 steps:
   - id: 0
     tag: WORKS OFFLINE
-    title: Connectivity issues don't stop search.
-    description: Qdrant Edge is built for limited or intermittent connectivity. Search runs locally whether the link is up or down, and your application can queue writes for the server until it returns.
+    title: Built for limited or intermittent connectivity.
+    description: Search runs locally whether the link is up or down, and your application can queue writes for the server until it returns.
   - id: 1
     tag: ULTRA-LOW LATENCY
     title: No network round trip.
-    description: Qdrant Edge runs inside your application process, so the network never enters the critical path.
+    description: Qdrant Edge runs inside your application process, so a query reads straight from local disk.
   - id: 2
     tag: DATA PRIVACY
     title: Data stays on the device.
