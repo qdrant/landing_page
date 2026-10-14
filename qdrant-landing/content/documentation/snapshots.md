@@ -256,7 +256,7 @@ storage:
 
     gcs_config:
       # Bucket name
-      # Can also be specified in the `QDRANT_STORAGE_SNAPSHOTS_CONFIG_GCS_CONFIG_BUCKET` environment variable.
+      # Can also be specified in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__GCS_CONFIG__BUCKET` environment variable.
       bucket: your_bucket_here
 
       # Optional: path to a service account JSON key file
@@ -296,7 +296,7 @@ storage:
       container: your_container_here
 
       # Optional: shared access key of the storage account
-      # Can also be specified in the `QDRANT_STORAGE_SNAPSHOTS_CONFIG_AZURE_CONFIG_ACCESS_KEY` environment variable.
+      # Can also be specified in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__AZURE_CONFIG__ACCESS_KEY` environment variable.
       access_key: your_access_key_here
 
       # Optional: custom endpoint, for example for an emulator such as Azurite
@@ -331,7 +331,7 @@ storage:
       prefix: staging-eu
 ```
 
-Or use an environment variable.
+Or use an environment variable, for example `QDRANT__STORAGE__SNAPSHOTS_CONFIG__AZURE_CONFIG__PREFIX`.
 
 Qdrant drops leading, trailing, and repeated slashes from the prefix. An empty prefix has no effect, and omitting it keeps the current layout. Snapshot names that the API returns don't include the prefix.
 
