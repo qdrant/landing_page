@@ -39,7 +39,8 @@
       gap: $spacer * 1.5 pxToRem(20);
       margin-top: 0;
 
-      & > div:first-of-type {
+      // Hide a leading form heading if HubSpot adds one, but never the first field.
+      & > div:first-of-type:not(.hs-form-field) {
         display: none;
       }
 
@@ -55,7 +56,9 @@
         }
       }
 
-      & > div:not(.hs-form-field):not(.hs-submit) {
+      // .hs-dependent-field wraps questions with an "Other, please specify" input;
+      // keep those in place and only push the legal text below the fields.
+      & > div:not(.hs-form-field):not(.hs-submit):not(.hs-dependent-field) {
         width: 100%;
         order: 1
       }
@@ -76,7 +79,8 @@
       }
     }
 
-    .hs-form-field {
+    .hs-form-field,
+    .hs-dependent-field {
       width: 100%;
     }
 

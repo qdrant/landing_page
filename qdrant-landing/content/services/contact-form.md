@@ -8,6 +8,7 @@ form:
     "portalId": "139603372",
     "formId": "ffd8cecd-3c1a-4f8a-b4e2-9af2a5b5a359",
     "submitButtonClass": "button button_contained",
+    "css": "",
   }'
 sitemapExclude: true
 ---
