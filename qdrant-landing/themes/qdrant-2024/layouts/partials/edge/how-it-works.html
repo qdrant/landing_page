@@ -3,14 +3,14 @@
     <div class="edge-how-it-works__overlay"></div>
     <div class="container edge-how-it-works__container">
       <p class="edge-how-it-works__label">{{ .Params.label }}</p>
-      <h3 class="edge-how-it-works__title">{{ .Params.title }}</h3>
+      <h2 class="edge-how-it-works__title">{{ .Params.title }}</h2>
       <div class="edge-how-it-works__steps">
         {{ range $index, $element := .Params.steps }}
           <div class="edge-how-it-works__step">
             <div class="edge-how-it-works__step-icon">
               <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
             </div>
-            <h5 class="edge-how-it-works__step-title">{{ .title }}</h5>
+            <h3 class="edge-how-it-works__step-title">{{ .title }}</h3>
             <p class="edge-how-it-works__step-description">{{ .description }}</p>
           </div>
         {{ end }}

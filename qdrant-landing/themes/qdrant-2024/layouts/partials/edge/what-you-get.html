@@ -3,7 +3,7 @@
     <div class="container">
       <p class="edge-what-you-get__label">{{ .Params.label }}</p>
       <div class="d-lg-flex align-items-lg-center justify-content-lg-between gap-lg-4 mb-5 mb-lg-6">
-        <h3 class="edge-what-you-get__title">{{ .Params.title | safeHTML }}</h3>
+        <h2 class="edge-what-you-get__title">{{ .Params.title | safeHTML }}</h2>
         <p class="edge-what-you-get__description">{{ .Params.description }}</p>
       </div>
       <div class="row gy-5 g-lg-0">
@@ -11,7 +11,7 @@
           <div class="col-12 col-lg-3">
             <div class="edge-what-you-get__card">
               <img class="edge-what-you-get__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-              <h5 class="edge-what-you-get__card-title">{{ .title }}</h5>
+              <h3 class="edge-what-you-get__card-title">{{ .title }}</h3>
               <p class="edge-what-you-get__card-description">{{ .description }}</p>
             </div>
           </div>
