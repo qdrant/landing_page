@@ -112,7 +112,7 @@ Set a default for the missing prefetch score to keep it from winning the compari
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-max-defaults/" >}}
 
-<aside role="alert">
+<aside role="status">
 
 Place `defaults` alongside `formula`, and include the `$` in each score key. Qdrant silently ignores `defaults` inside formula or a key without the `$`.
 
@@ -245,7 +245,7 @@ Internally, Qdrant combines the feedback list into pairs, based on the relevance
 
 The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need to be customized for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](https://pypi.org/project/qdrant-relevance-feedback/).
 
-<aside role="alert">When using point IDs for <code>target</code> or <code>example</code>, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.</aside>
+<aside role="status">When using point IDs for <code>target</code> or <code>example</code>, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.</aside>
 
 For a hands-on tutorial on determining the parameters, using them with the Relevance Feedback Query, and evaluating the results, check out [Relevance Feedback in Qdrant](/documentation/tutorials-search-engineering/using-relevance-feedback/).
 
