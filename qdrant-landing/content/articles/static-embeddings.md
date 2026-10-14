@@ -1,20 +1,28 @@
 ---
-title: Static Embeddings
-short_description: "Use static embeddings in Qdrant for fast, low-resource semantic search with minimal quality trade-offs versus transformer models."
-description: "Tutorial: apply static embedding models in Qdrant to deliver fast, low-resource semantic search with quality close to transformer-based embeddings."
-weight: 181
+title: Static Embeddings in Practice
+short_description: "How static embeddings behave in Qdrant: fast, low-resource encoding, Binary Quantization results, and the quality trade-offs against transformer models."
+description: "An evaluation of static embedding models in Qdrant: encoding speed on a laptop CPU, Binary Quantization effects on NDCG@10, and quality close to transformer-based embeddings."
+weight: 35
+author: Qdrant Team
+author_link: https://qdrant.tech
+date: 2025-01-17T00:00:00+00:00
+draft: false
 aliases:
   - /blog/static-embeddings/
   - /documentation/database-tutorials/static-embeddings/
-goal: Search Quality
-stack:
-  - Python
+  - /documentation/tutorials-search-engineering/static-embeddings/
+category: embedding-research
+keywords:
+  - static embeddings
+  - model2vec
+  - binary quantization
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
-# Static Embeddings in Practice
-
-| Time: 20 min | Level: Intermediate |
-| --- | ----------- |
-
 In the world of resource-constrained computing, a quiet revolution is taking place. While transformers dominate 
 leaderboards with their impressive capabilities, static embeddings are making an unexpected comeback, offering 
 remarkable speed improvements with surprisingly small quality trade-offs. **We evaluated how Qdrant users can benefit

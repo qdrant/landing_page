@@ -66,7 +66,7 @@ This approach gives you full control over the process and enables you to apply a
 
 ### Option B: Use the Migration Tool
 
-If you prefer a streaming transfer over a one-shot restore, for example when you want to reshard as part of the move, use the [Qdrant Migration Tool](/documentation/tutorials-operations/migration/).
+If you prefer a streaming transfer over a one-shot restore, for example when you want to reshard as part of the move, use the [Qdrant Migration Tool](/documentation/migrate-to-qdrant/).
 
 ```shell
 docker run --rm -it \
