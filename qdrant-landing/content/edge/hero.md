@@ -17,11 +17,24 @@ notice:
     alt: Alert
 codeBar: python
 code: |
-  from pathlib import Path
+  pip install qdrant-edge-py
 
-  SHARD_DIRECTORY = "./qdrant-edge-directory"
+  from qdrant_edge import (
+      Distance, EdgeConfig, EdgeShard,
+      EdgeVectorParams, Query, QueryRequest,
+  )
 
-  Path(SHARD_DIRECTORY).mkdir(parents=True, exist_ok=True)
+  config = EdgeConfig(
+      vectors={"my-vector": EdgeVectorParams(size=4, distance=Distance.Cosine)}
+  )
+  shard = EdgeShard.create("./qdrant-edge-directory", config)
+
+  results = shard.query(
+      QueryRequest(
+          query=Query.Nearest([0.2, 0.1, 0.9, 0.7], using="my-vector"),
+          limit=10,
+      )
+  )
 sitemapExclude: true
 ---
 
