@@ -30,6 +30,15 @@ This is the layer of politics that people feel most directly: a zoning decision 
 
 Poliscope crawls all of them, runs optical character recognition (OCR) over every PDF, and puts the result behind one search box. Its first customers were renewable energy project developers, who need to know the moment a council starts zoning a new area for wind or solar so they can reach landowners first. Journalists, city planners, and companies that sell to municipalities followed. Today the corpus covers about 532,000 meetings, 5.5 million agenda items, and 5.6 million documents, with about 20,000 new meetings arriving every month. In Qdrant that is 130 million points, 117 million of them document chunks.
 
+In the following demo, a search for "Windkraft" (wind power) runs across every council in Germany for the current year, narrows to the state of Schleswig-Holstein, and opens one council meeting at the agenda item that matched.
+
+<figure>
+  <video autoplay muted loop playsinline controls preload="metadata" width="100%" poster="/blog/case-study-poliscope/poliscope-demo-poster.jpg" aria-label="Screen recording of a Poliscope search for Windkraft across Germany, narrowed to Schleswig-Holstein">
+    <source src="/blog/case-study-poliscope/poliscope-demo.mp4" type="video/mp4">
+  </video>
+  <figcaption>A Poliscope search for "Windkraft" across Germany, narrowed to Schleswig-Holstein.</figcaption>
+</figure>
+
 ## Before Qdrant, There Was No Search
 
 Poliscope's first version did not search anything. Each meeting got a language-model relevance score for a handful of fixed topics, wind and solar among them, based only on agenda item titles. Nobody looked inside the PDFs. That was enough for the first customers, because those were the only topics they cared about, but it could not stretch to "search for anything."
