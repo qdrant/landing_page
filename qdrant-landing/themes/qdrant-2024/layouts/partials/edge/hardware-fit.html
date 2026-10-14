@@ -26,6 +26,8 @@
                   {{ partial "code-window" (dict
                     "block" "edge-hardware-fit"
                     "code" $tab.code
+                    "language" (or $tab.language (lower $tab.title))
+                    "id" (printf "edge-hardware-fit-%d" $index)
                   ) }}
                 </div>
               {{ end }}

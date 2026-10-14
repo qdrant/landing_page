@@ -1,6 +1,6 @@
 ---
 label: WHAT YOU GET
-title: Search Locally,</br>Sync Centrally
+title: Search Locally, </br>Sync Centrally
 description: Running on the device doesn't mean the device is on its own. Each Edge Shard is self-contained, manages its own vector and payload storage, and runs search locally. Sync it with a collection on a central Qdrant server.
 cards:
 - id: 0
@@ -8,7 +8,7 @@ cards:
     src: /img/edge/cards/index-card.svg
     alt: Index
   title: Build the index where the compute is.
-  description: Indexing is expensive, and an edge device is the wrong place to pay for it. Write your points to a Qdrant server as well as the local shard, let the server build the index, and sync back only the segments that changed.
+  description: Building an index takes more compute than an edge device has. Write your points to a Qdrant server as well as the local shard, let the server build the index, and sync back only the segments that changed.
 - id: 1
   image:
     src: /img/edge/cards/backup-card.svg

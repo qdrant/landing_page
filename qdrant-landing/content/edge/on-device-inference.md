@@ -1,7 +1,7 @@
 ---
 label: ON-DEVICE INFERENCE
 title: Everything Runs On The Device
-description: Qdrant Edge keeps Qdrant's full retrieval surface. The same query primitives run in your process on the device as they do server-side.
+description: Dense, sparse, and multivector search, hybrid queries, and payload filtering run in your process on the device, with the same query primitives as Qdrant server.
 features:
   - id: 0
     title: Embed With FastEmbed

@@ -1,5 +1,5 @@
 ---
-label: HOW IT WORKS
+label: HOW TO GET STARTED
 title: From Install To First Query
 steps:
   - id: 0

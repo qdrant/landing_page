@@ -1,12 +1,12 @@
 ---
 label: EDGE VECTOR SEARCH
-title: Run Vector Search Where Your Data Lives
+title: Run Vector Search On Device
 subtitle: Run Vector Search Inside Embedded and Edge AI Systems
 description1: Qdrant Edge is an embedded vector search engine that runs inside your application process, with no Docker, no background service, and an install footprint of around 11 MB.
 description2: Ship it on robots, kiosks, home assistants, and mobile phones, or anywhere connectivity is limited or intermittent, then sync with a central Qdrant server when you need to.
 containedButton:
-  text: pip install qdrant-edge-py
-  url: https://pypi.org/project/qdrant-edge-py/
+  text: Get Started
+  url: /documentation/edge/edge-quickstart/
 outlinedButton:
   text: Read Documentation
   url: /documentation/edge/
@@ -17,11 +17,24 @@ notice:
     alt: Alert
 codeBar: python
 code: |
-  from pathlib import Path
+  pip install qdrant-edge-py
 
-  SHARD_DIRECTORY = "./qdrant-edge-directory"
+  from qdrant_edge import (
+      Distance, EdgeConfig, EdgeShard,
+      EdgeVectorParams, Query, QueryRequest,
+  )
 
-  Path(SHARD_DIRECTORY).mkdir(parents=True, exist_ok=True)
+  config = EdgeConfig(
+      vectors={"text": EdgeVectorParams(size=384, distance=Distance.Cosine)}
+  )
+  shard = EdgeShard.create("./edge", config)
+
+  results = shard.query(
+      QueryRequest(
+          query=Query.Nearest(query_vector, using="text"),
+          limit=10,
+      )
+  )
 sitemapExclude: true
 ---
 
