@@ -6,9 +6,9 @@ short_description: "A desk robot that recognizes you, recalls yesterday's conver
 description: "How we built on-device memory for Reachy Mini with Qdrant Edge: three shards, searched in under a millisecond on a Raspberry Pi."
 preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.jpg
 social_preview_image: /blog/reachy-robot-memory-qdrant-edge/preview/social_preview.jpg
-date: 2026-10-01
+date: 2026-10-14
 author: Sasha Denisov & Chadha Sridi
-featured: true
+featured: false
 tags:
   - qdrant-edge
   - on-device-vector-search
@@ -20,7 +20,7 @@ tags:
 
 [Reachy Mini](https://www.pollen-robotics.com/reachy-mini/) is an open-source robot from Pollen Robotics and Hugging Face, run by a Raspberry Pi with 4 GB of RAM. We wanted it to do what a good host does: greet you by name the second time you walk in, remember what you talked about, and tell you what it saw while you were gone. A robot that talks through a language model can't do any of that on its own. The model only knows what's in its context: restart the robot and it knows nobody, talk long enough and the start of the conversation falls out, and nothing in it can be searched.
 
-So we gave Reachy a memory of its own, stored as vectors in [Qdrant Edge](/edge/) on the robot's disk. On the robot rather than on a server, because that memory is pictures of a room and of the people in it, and it shouldn't leave the house unless you decide it can. It also means a search takes a fraction of a millisecond and keeps working when the Wi-Fi doesn't. We showed the result live on the Vector Space Stream:
+So we gave Reachy a memory of its own, stored locally on the robot using [Qdrant Edge](/edge/). On the robot rather than on a server, because that memory is pictures of a room and of the people in it, and it shouldn't leave the house unless you decide it can. It also means a search takes a fraction of a millisecond and keeps working when the Wi-Fi doesn't. We showed the result live on the Vector Space Stream:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PxGlBlqTxJI?start=3709" title="Reachy Mini and Qdrant Edge on the Vector Space Stream" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
