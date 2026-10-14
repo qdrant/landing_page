@@ -45,12 +45,13 @@ Before we dive into the implementation, make sure to set up all the necessary ac
 
 #### Libraries
 
-We are going to use a few Python libraries. Of course, LangChain will be our main framework, but the Cohere models on
-OCI are accessible via the [OCI SDK](https://docs.oracle.com/en-us/iaas/tools/python/2.125.1/). Let's install all the
-necessary libraries:
+We are going to use a few Python libraries. LangChain will be our main framework. The Cohere models on OCI are
+accessible through the [`langchain-oci`](https://github.com/oracle/langchain-oracle) integration, which is built on top
+of the [OCI SDK](https://docs.oracle.com/en-us/iaas/tools/python/latest/), and Qdrant through `langchain-qdrant`. Let's
+install all the necessary libraries:
 
 ```shell
-pip install langchain oci qdrant-client langchainhub
+pip install langchain-oci langchain-qdrant langchain-community langchain-text-splitters beautifulsoup4
 ```
 
 #### Oracle Cloud
@@ -68,7 +69,9 @@ linked tutorials to grasp the basics of using Cohere models there.
 
 Accessing the models programmatically requires knowing the compartment OCID. Please refer to the [documentation that
 describes how to find it](https://docs.oracle.com/en-us/iaas/Content/GSG/Tasks/contactingsupport_topic-Locating_Oracle_Cloud_Infrastructure_IDs.htm#Finding_the_OCID_of_a_Compartment).
-For the further reference, we will assume that the compartment OCID is stored in the environment variable:
+The OCI SDK authenticates with the API key stored in `~/.oci/config` by default. If you have not set it up yet, follow
+the [SDK configuration guide](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdkconfig.htm). For the further
+reference, we will assume that the compartment OCID is stored in the environment variable:
 
 ```shell
 export COMPARTMENT_OCID="<your-compartment-ocid>"
@@ -95,9 +98,9 @@ export QDRANT_API_KEY="your-api-key"
 *Optional:* Whenever you use LangChain, you can also [configure LangSmith](https://docs.smith.langchain.com/), which will help us trace, monitor and debug LangChain applications. You can sign up for LangSmith [here](https://smith.langchain.com/).
 
 ```shell
-export LANGCHAIN_TRACING_V2=true
-export LANGCHAIN_API_KEY="your-api-key"
-export LANGCHAIN_PROJECT="your-project"  # if not specified, defaults to "default"
+export LANGSMITH_TRACING=true
+export LANGSMITH_API_KEY="your-api-key"
+export LANGSMITH_PROJECT="your-project"  # if not specified, defaults to "default"
 ```
 
 Now you can get started:
@@ -110,20 +113,20 @@ os.environ["QDRANT_API_KEY"] = "your-api-key"
 ```
 
 Let's create the collection that will store the indexed documents. We will use the `qdrant-client` library, and our
-collection will be named `oracle-cloud-website`. Our embedding model, `cohere.embed-english-v3.0`, produces embeddings
-of size 1024, and we have to specify that when creating the collection.
+collection will be named `oracle-cloud-website`. Our embedding model, `cohere.embed-v4.0`, produces embeddings of size
+1536 by default, and we have to specify that when creating the collection.
 
 ```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
-    location=os.environ.get("QDRANT_URL"),
+    url=os.environ.get("QDRANT_URL"),
     api_key=os.environ.get("QDRANT_API_KEY"),
 )
 client.create_collection(
     collection_name="oracle-cloud-website",
     vectors_config=models.VectorParams(
-        size=1024,
+        size=1536,
         distance=models.Distance.COSINE,
     ),
 )
@@ -145,7 +148,7 @@ each subpage. Instead, we will use the `WebBaseLoader` that just loads the HTML 
 to text. 
 
 ```python
-from langchain_community.document_loaders.web_base import WebBaseLoader
+from langchain_community.document_loaders import WebBaseLoader
 
 loader = WebBaseLoader("https://www.oracle.com/cloud/free/faq/")
 documents = loader.load()
@@ -165,34 +168,35 @@ split_documents = splitter.split_documents(documents)
 ```
 
 Our documents might be now indexed, but we need to convert them into vectors. Let's configure the embeddings so the 
-`cohere.embed-english-v3.0` is used. Not all the regions support the Generative AI Service, so we need to specify the
-region where the models are stored. We will use the `us-chicago-1`, but please check the 
-[documentation](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm#regions) for the most up-to-date 
-list of supported regions.
+`cohere.embed-v4.0` is used. Not all the regions offer every model, so we need to specify the region where the models
+are hosted. We will use the `us-chicago-1`, which serves both models used in this tutorial, but please check the
+[models by region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm) and the
+[model retirement dates](https://docs.oracle.com/en-us/iaas/Content/generative-ai/deprecating-on-demand.htm) for the
+most up-to-date information.
 
 ```python
-from langchain_community.embeddings.oci_generative_ai import OCIGenAIEmbeddings
+from langchain_oci import OCIGenAIEmbeddings
 
 embeddings = OCIGenAIEmbeddings(
-    model_id="cohere.embed-english-v3.0",
+    model_id="cohere.embed-v4.0",
     service_endpoint="https://inference.generativeai.us-chicago-1.oci.oraclecloud.com",
     compartment_id=os.environ.get("COMPARTMENT_OCID"),
 )
 ```
 
-Now we can embed the documents and store them in Qdrant. We will create an instance of `Qdrant` and add the split
-documents to the collection.
+Now we can embed the documents and store them in Qdrant. We will create an instance of `QdrantVectorStore` and add the
+split documents to the collection.
 
 ```python
-from langchain.vectorstores.qdrant import Qdrant
+from langchain_qdrant import QdrantVectorStore
 
-qdrant = Qdrant(
+vector_store = QdrantVectorStore(
     client=client,
     collection_name="oracle-cloud-website",
-    embeddings=embeddings,
+    embedding=embeddings,
 )
 
-qdrant.add_documents(split_documents, batch_size=20)
+vector_store.add_documents(split_documents, batch_size=20)
 ```
 
 Our documents should be now indexed and ready for searching. Let's move to the next step.
@@ -200,115 +204,114 @@ Our documents should be now indexed and ready for searching. Let's move to the n
 ### Speaking to the website
 
 The intended method of interaction with the website is through the chatbot. Large Language Model, in our case [Cohere
-Command](https://cohere.com/command), will be answering user's questions based on the relevant documents that Qdrant
+Command A](https://cohere.com/command), will be answering user's questions based on the relevant documents that Qdrant
 will return using the question as a query. Our LLM is also hosted on OCI, so we can access it similarly to the embedding
 model:
 
 ```python
-from langchain_community.llms.oci_generative_ai import OCIGenAI
+from langchain_oci import ChatOCIGenAI
 
-llm = OCIGenAI(
-    model_id="cohere.command",
+llm = ChatOCIGenAI(
+    model_id="cohere.command-a-03-2025",
     service_endpoint="https://inference.generativeai.us-chicago-1.oci.oraclecloud.com",
     compartment_id=os.environ.get("COMPARTMENT_OCID"),
+    model_kwargs={"temperature": 0, "max_tokens": 500},
 )
 ```
 
-Connection to Qdrant might be established in the same way as we did during the indexing process. We can use it to create
-a retrieval chain, which implements the question-answering process. The retrieval chain also requires an additional
-chain that will combine retrieved documents before sending them to an LLM. 
+Connection to Qdrant might be established in the same way as we did during the indexing process. We turn the vector
+store into a retriever and compose a retrieval chain from it, which implements the question-answering process: the
+retriever finds the most relevant chunks for the question, and the LLM answers based on them. The prompt instructs the
+model to rely on the provided context only.
 
 ```python
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains.retrieval import create_retrieval_chain
-from langchain import hub
+from operator import itemgetter
 
-retriever = qdrant.as_retriever()
-combine_docs_chain = create_stuff_documents_chain(
-    llm=llm,
-    # Default prompt is loaded from the hub, but we can also modify it
-    prompt=hub.pull("langchain-ai/retrieval-qa-chat"),
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+
+retriever = vector_store.as_retriever(search_kwargs={"k": 4})
+
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "Answer the user's question using only the provided context. "
+            "If the context does not contain the answer, say that you don't know.\n\n"
+            "<context>\n{context}\n</context>",
+        ),
+        ("human", "{input}"),
+    ]
 )
-retrieval_qa_chain = create_retrieval_chain(
-    retriever=retriever,
-    combine_docs_chain=combine_docs_chain,
+
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+
+retrieval_qa_chain = RunnablePassthrough.assign(
+    context=itemgetter("input") | retriever,
+).assign(
+    answer=(
+        RunnablePassthrough.assign(context=lambda x: format_docs(x["context"]))
+        | prompt
+        | llm
+        | StrOutputParser()
+    ),
 )
 response = retrieval_qa_chain.invoke({"input": "What is the Oracle Cloud Free Tier?"})
 ```
 
-The output of the `.invoke` method is a dictionary-like structure with the query and answer, but we can also access the 
-source documents used to generate the response. This might be useful for debugging or for further processing.
+The output of the `.invoke` method is a dictionary with the question, the answer, and the source documents used to
+generate the response. The source documents might be useful for debugging or for further processing.
 
 ```python
-{   
+print(response["answer"])
+
+for doc in response["context"]:
+    print(doc.metadata["source"], doc.page_content)
+```
+
+The response has the following structure:
+
+```python
+{
     'input': 'What is the Oracle Cloud Free Tier?',
-    'context': [   
+    'context': [
         Document(
-            page_content='* Free Tier is generally available in regions where commercial Oracle Cloud Infrastructure service is available. See the data regions page for detailed service availability (the exact regions available for Free Tier may differ during the sign-up process). The US$300 cloud credit is available in', 
             metadata={
-                'language': 'en-US', 
-                'source': 'https://www.oracle.com/cloud/free/faq/', 
-                'title': "FAQ on Oracle's Cloud Free Tier", 
-                '_id': 'c8cf98e0-4b88-4750-be42-4157495fed2c', 
+                'source': 'https://www.oracle.com/cloud/free/faq/',
+                'title': "FAQ on Oracle's Cloud Free Tier",
+                'language': 'en-US',
+                '_id': 'dc291430-ff7b-4181-944a-39f6e7a0de69',
                 '_collection_name': 'oracle-cloud-website'
-            }
+            },
+            page_content='Oracle Cloud Free Tier allows you to sign up for an Oracle Cloud account which provides ...'
         ),
-        Document(
-            page_content='Oracle Cloud Free Tier allows you to sign up for an Oracle Cloud account which provides a number of Always Free services and a Free Trial with US$300 of free credit to use on all eligible Oracle Cloud Infrastructure services for up to 30 days. The Always Free services are available for an unlimited', 
-            metadata={
-                'language': 'en-US', 
-                'source': 'https://www.oracle.com/cloud/free/faq/', 
-                'title': "FAQ on Oracle's Cloud Free Tier", 
-                '_id': 'dc291430-ff7b-4181-944a-39f6e7a0de69', 
-                '_collection_name': 'oracle-cloud-website'
-            }
-        ),
-        Document(
-            page_content='Oracle Cloud Free Tier does not include SLAs. Community support through our forums is available to all customers. Customers using only Always Free resources are not eligible for Oracle Support. Limited support is available for Oracle Cloud Free Tier with Free Trial credits. After you use all of', 
-            metadata={
-                'language': 'en-US', 
-                'source': 'https://www.oracle.com/cloud/free/faq/', 
-                'title': "FAQ on Oracle's Cloud Free Tier", 
-                '_id': '9e831039-7ccc-47f7-9301-20dbddd2fc07', 
-                '_collection_name': 'oracle-cloud-website'
-            }
-        ),
-        Document(
-            page_content='looking to test things before moving to cloud, a student wanting to learn, or an academic developing curriculum in the cloud, Oracle Cloud Free Tier enables you to learn, explore, build and test for free.', 
-            metadata={
-                'language': 'en-US', 
-                'source': 'https://www.oracle.com/cloud/free/faq/', 
-                'title': "FAQ on Oracle's Cloud Free Tier", 
-                '_id': 'e2dc43e1-50ee-4678-8284-6df60a835cf5', 
-                '_collection_name': 'oracle-cloud-website'
-            }
-        )
+        # ... three more documents
     ],
-    'answer': ' Oracle Cloud Free Tier is a subscription that gives you access to Always Free services and a Free Trial with $300 of credit that can be used on all eligible Oracle Cloud Infrastructure services for up to 30 days. \n\nThrough this Free Tier, you can learn, explore, build, and test for free. It is aimed at those who want to experiment with cloud services before making a commitment, as wellTheir use cases range from testing prior to cloud migration to learning and academic curriculum development. '
+    'answer': 'Oracle Cloud Free Tier gives you access to Always Free services and a Free Trial ...'
 }
 ```
 
 #### Other experiments
 
 Asking the basic questions is just the beginning. What you want to avoid is a hallucination, where the model generates
-an answer that is not based on the actual content. The default prompt of LangChain should already prevent this, but you
-might still want to check it. Let's ask a question that is not directly answered on the FAQ page:
+an answer that is not based on the actual content. Our prompt tells the model to answer from the retrieved context only
+and to admit when the answer is missing, but you might still want to check it. Let's ask a question that is not
+directly answered on the FAQ page:
 
 ```python
-response = retrieval_qa.invoke({
+response = retrieval_qa_chain.invoke({
     "input": "Is Oracle Generative AI Service included in the free tier?"
 })
+print(response["answer"])
 ```
 
-Output:
-
-> Oracle Generative AI Services are not specifically mentioned as being available in the free tier. As per the text, the 
-> $300 free credit can be used on all eligible services for up to 30 days. To confirm if Oracle Generative AI Services 
-> are included in the free credit offer, it is best to check the official Oracle Cloud website or contact their support.
-
-It seems that Cohere Command model could not find the exact answer in the provided documents, but it tried to interpret 
-the context and provide a reasonable answer, without making up the information. This is a good sign that the model is 
-not hallucinating in that case.
+A well-grounded answer says that the FAQ page does not mention the Generative AI Service explicitly, instead of
+inventing a yes or no. If the model makes up details that are not in `response["context"]`, tighten the system prompt
+or retrieve more chunks by increasing `k`.
 
 ## Wrapping up
 
