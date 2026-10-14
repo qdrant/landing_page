@@ -7,7 +7,7 @@ talkToUs:
   url: /contact-us/
 quickstartLink:
   text: See the Quickstart
-  url: /
+  url: /documentation/hybrid-cloud/hybrid-cloud-setup/
 steps:
   - id: 0
     description: Open the Qdrant Cloud Console and start the Hybrid Cloud setup.

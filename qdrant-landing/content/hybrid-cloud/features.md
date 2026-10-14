@@ -13,7 +13,7 @@ featureLarge:
     alt: Card visual
   link:
     text: Start Free on Managed Qdrant Cloud
-    url: /
+    url: https://cloud.qdrant.io/signup
 featuresSmall:
   - id: 0
     icon:
