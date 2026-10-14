@@ -33,7 +33,7 @@ The following table lists what changes when you move from Standard to Premium. T
 
 ## Uptime SLA
 
-Premium commits to 99.9% quarterly uptime for clusters in a single availability zone and 99.95% for [multi-AZ clusters](#multi-az-clusters). Standard commits to 99.5%. Uptime is measured per cluster over each calendar quarter.
+Premium commits to 99.9% quarterly uptime for clusters in a single availability zone and 99.95% for [multi-AZ clusters](#multi-az-clusters). Standard commits to 99.5%. Uptime is measured per cluster over each calendar quarter. If you need a higher commitment than 99.95%, [contact the Qdrant team](/contact-us/) about a custom SLA.
 
 Downtime is a period of at least 5 consecutive minutes in which 100% of requests to the cluster's database API can't reach it, as measured by Qdrant's monitoring. The following don't count as downtime:
 
@@ -110,7 +110,7 @@ Premium clusters can accept traffic from your own virtual network over AWS Priva
 
 To set up a private connection, open a support ticket. Before you route production traffic to a new cluster, confirm with Qdrant Support that your private connection covers it, especially if the cluster is in a new region, you connect from a different cloud account, or the cluster is multi-AZ. Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only, so check your region before you create the cluster.
 
-If you're replacing a cluster, see [Private Link or Private Service Connect on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-link-or-private-service-connect-on-qdrant-cloud) in the blue-green deployment guide.
+If you're replacing a cluster, see [Private Connections on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-connections-on-qdrant-cloud) in the blue-green deployment guide.
 
 ## Customer-Managed Encryption Keys
 
