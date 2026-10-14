@@ -60,7 +60,9 @@
   &__code-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    // stretch, not center: the code window fills the masked area so a longer
+    // snippet shows in full instead of scrolling behind a hidden scrollbar
+    align-items: stretch;
     width: 100%;
     max-width: pxToRem(450);
     margin: 0 auto;
@@ -75,7 +77,12 @@
   &__code {
     overflow: hidden;
     width: 100%;
-    height: pxToRem(236);
+    // was a fixed 236px, which cut the snippet off. The header is a fixed
+    // height and the content area takes the rest, so the window grows with
+    // the container rather than with a magic number.
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     border-radius: $spacer * 0.5;
     background-color: $neutral-10;
     border: pxToRem(1) solid $neutral-20;
@@ -84,6 +91,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex: 0 0 auto;
       height: $spacer * 2.5;
       padding: 0 $spacer * 1.5;
       background-color: $neutral-10;
@@ -123,9 +131,10 @@
     &-content {
       display: flex;
       align-items: flex-start;
-      height: pxToRem(196);
+      flex: 1 1 auto;
+      min-height: 0;
       margin: 0 math.div($spacer, 4);
-      padding: $spacer * 1.5 pxToRem(28) $spacer pxToRem(28);
+      padding: $spacer pxToRem(28);
       background: linear-gradient($neutral-20, #0e1424);
       border-right: pxToRem(1) solid $neutral-20;
       border-left: pxToRem(1) solid $neutral-20;

@@ -25,13 +25,13 @@ code: |
   )
 
   config = EdgeConfig(
-      vectors={"my-vector": EdgeVectorParams(size=4, distance=Distance.Cosine)}
+      vectors={"text": EdgeVectorParams(size=384, distance=Distance.Cosine)}
   )
-  shard = EdgeShard.create("./qdrant-edge-directory", config)
+  shard = EdgeShard.create("./edge", config)
 
   results = shard.query(
       QueryRequest(
-          query=Query.Nearest([0.2, 0.1, 0.9, 0.7], using="my-vector"),
+          query=Query.Nearest(query_vector, using="text"),
           limit=10,
       )
   )
