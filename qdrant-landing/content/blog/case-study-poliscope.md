@@ -33,7 +33,7 @@ Poliscope crawls all of them, runs optical character recognition (OCR) over ever
 In the following demo, a search for "Windkraft" (wind power) runs across every council in Germany for the current year, narrows to the state of Schleswig-Holstein, and opens one council meeting at the agenda item that matched.
 
 <figure>
-  <video autoplay muted loop playsinline controls preload="metadata" width="100%" poster="/blog/case-study-poliscope/poliscope-demo-poster.jpg" aria-label="Screen recording of a Poliscope search for Windkraft across Germany, narrowed to Schleswig-Holstein">
+  <video autoplay muted loop playsinline controls preload="metadata" width="100%" poster="/blog/case-study-poliscope/poliscope-demo-poster.jpg" aria-label="Captioned screen recording of a Poliscope search for Windkraft across Germany, narrowed to Schleswig-Holstein, ending on the matching agenda item in one council meeting">
     <source src="/blog/case-study-poliscope/poliscope-demo.mp4" type="video/mp4">
   </video>
   <figcaption>A Poliscope search for "Windkraft" across Germany, narrowed to Schleswig-Holstein.</figcaption>
