@@ -246,7 +246,7 @@ Fields you leave unset in `s3_config` are read from the `AWS_*` environment vari
 
 *Available as of v1.20.0*
 
-To store snapshots in Google Cloud Storage (GCS), set `snapshots_storage` to `gcs` (or its alias `gcp`) and configure `gcs_config` in the [configuration](/documentation/ops-configuration/configuration/) file:
+To store snapshots in Google Cloud Storage (GCS), set `snapshots_storage` to `gcs` and configure `gcs_config` in the [configuration](/documentation/ops-configuration/configuration/) file:
 
 ```yaml
 storage:
