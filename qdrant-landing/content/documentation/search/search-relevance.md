@@ -51,8 +51,8 @@ There are multiple expressions available. Check the [API docs for specific detai
 - **condition** - A filtering condition. If the condition is met, it becomes `1.0`, otherwise `0.0`.
 - **mult** - Multiply an array of expressions.
 - **sum** - Sum an array of expressions.
-- **max** - Largest of an array of expressions. Available as of v1.19.1.
-- **min** - Smallest of an array of expressions. Available as of v1.19.1.
+- **max** - Largest of an array of expressions. Available as of v1.19.1. [See more](#max-and-min).
+- **min** - Smallest of an array of expressions. Available as of v1.19.1. [See more](#max-and-min).
 - **div** - Divide an expression by another expression.
 - **abs** - Absolute value of an expression.
 - **pow** - Raise an expression to the power of another expression.
@@ -87,15 +87,13 @@ _Available as of v1.19.1_
 
 `max` and `min` take an array of expressions and return the largest or the smallest value. An empty array returns an error.
 
-Use `max` to keep each point's best score when searching across several variants of a field. Run one prefetch per variant. In this example, `$score[0]` and `$score[1]` refer to the scores from the first and second prefetch:
+Use `max` to search across several fields and keep each point's best score. Run one prefetch per field. In this example, `$score[0]` and `$score[1]` refer to the scores from the first and second prefetch. It runs a BM25 query against a `title-bm25` and a `body-bm25` vector, and multiplies the title score by 3 to boost title matches:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-best-of-variants/" >}}
 
 Use `min` to limit how much a boost affects the ranking. This example adds a popularity boost of at most `2.0` to the score:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-capped-popularity/" >}}
-
-Combine the two to clamp a value `x` into the range from `lo` to `hi`, with `max(lo, min(hi, x))`. This example clamps a payload value `rating` into the range from 0 to 1:
 
 Combine `max` and `min` to keep a value (`x`) within a range: `max(lo, min(hi, x))`. This example clamps the payload value `rating` between 0 and 1:
 

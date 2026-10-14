@@ -2,11 +2,24 @@
 POST /collections/{collection_name}/points/query
 {
     "prefetch": [
-        { "query": [0.2, 0.8, ...], "using": "title", "limit": 50 },
-        { "query": [0.2, 0.8, ...], "using": "summary", "limit": 50 }
+        {
+            "query": { "text": "vector database", "model": "qdrant/bm25" },
+            "using": "title-bm25",
+            "limit": 50
+        },
+        {
+            "query": { "text": "vector database", "model": "qdrant/bm25" },
+            "using": "body-bm25",
+            "limit": 50
+        }
     ],
     "query": {
-        "formula": { "max": ["$score[0]", "$score[1]"] }
+        "formula": {
+            "max": [
+                { "mult": [3.0, "$score[0]"] },
+                "$score[1]"
+            ]
+        }
     }
 }
 ```

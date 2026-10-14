@@ -11,12 +11,29 @@ public class Snippet
 		    collectionName: "{collection_name}",
 		    prefetch:
 		    [
-		        new PrefetchQuery { Query = new float[] { 0.01f, 0.45f, 0.67f }, Using = "title", Limit = 50 },
-		        new PrefetchQuery { Query = new float[] { 0.01f, 0.45f, 0.67f }, Using = "summary", Limit = 50 },
+		        new PrefetchQuery
+		        {
+		            Query = new Document { Text = "vector database", Model = "qdrant/bm25" },
+		            Using = "title-bm25",
+		            Limit = 50,
+		        },
+		        new PrefetchQuery
+		        {
+		            Query = new Document { Text = "vector database", Model = "qdrant/bm25" },
+		            Using = "body-bm25",
+		            Limit = 50,
+		        },
 		    ],
 		    query: new Formula
 		    {
-		        Expression = new MaxExpression { Max = { "$score[0]", "$score[1]" } },
+		        Expression = new MaxExpression
+		        {
+		            Max =
+		            {
+		                new MultExpression { Mult = { 3.0f, "$score[0]" } }, // boost title matches
+		                "$score[1]",
+		            },
+		        },
 		    },
 		    limit: 10
 		);

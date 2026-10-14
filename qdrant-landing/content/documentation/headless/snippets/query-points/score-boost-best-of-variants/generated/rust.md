@@ -1,28 +1,32 @@
 ```rust
 use qdrant_client::qdrant::{
-    Expression, FormulaBuilder, PrefetchQueryBuilder, QueryPointsBuilder,
+    Document, Expression, FormulaBuilder, PrefetchQueryBuilder, Query, QueryPointsBuilder,
 };
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-let _best_match = client
+let _best_fields = client
     .query(
         QueryPointsBuilder::new("{collection_name}")
             .add_prefetch(
                 PrefetchQueryBuilder::default()
-                    .query(vec![0.01, 0.45, 0.67])
-                    .using("title")
+                    .query(Query::new_nearest(Document::new("vector database", "qdrant/bm25")))
+                    .using("title-bm25")
                     .limit(50u64),
             )
             .add_prefetch(
                 PrefetchQueryBuilder::default()
-                    .query(vec![0.01, 0.45, 0.67])
-                    .using("summary")
+                    .query(Query::new_nearest(Document::new("vector database", "qdrant/bm25")))
+                    .using("body-bm25")
                     .limit(50u64),
             )
             .query(FormulaBuilder::new(Expression::max_with([
-                Expression::variable("$score[0]"),
+                // boost title matches
+                Expression::mult_with([
+                    Expression::constant(3.0),
+                    Expression::variable("$score[0]"),
+                ]),
                 Expression::variable("$score[1]"),
             ])))
             .limit(10),

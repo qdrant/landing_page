@@ -18,20 +18,36 @@ func Main() {
 		CollectionName: "{collection_name}",
 		Prefetch: []*qdrant.PrefetchQuery{
 			{
-				Query: qdrant.NewQuery(0.01, 0.45, 0.67),
-				Using: qdrant.PtrOf("title"),
+				Query: qdrant.NewQueryNearest(
+					qdrant.NewVectorInputDocument(&qdrant.Document{
+						Text:  "vector database",
+						Model: "qdrant/bm25",
+					}),
+				),
+				Using: qdrant.PtrOf("title-bm25"),
 				Limit: qdrant.PtrOf(uint64(50)),
 			},
 			{
-				Query: qdrant.NewQuery(0.01, 0.45, 0.67),
-				Using: qdrant.PtrOf("summary"),
+				Query: qdrant.NewQueryNearest(
+					qdrant.NewVectorInputDocument(&qdrant.Document{
+						Text:  "vector database",
+						Model: "qdrant/bm25",
+					}),
+				),
+				Using: qdrant.PtrOf("body-bm25"),
 				Limit: qdrant.PtrOf(uint64(50)),
 			},
 		},
 		Query: qdrant.NewQueryFormula(&qdrant.Formula{
 			Expression: qdrant.NewExpressionMax(&qdrant.MaxExpression{
 				Max: []*qdrant.Expression{
-					qdrant.NewExpressionVariable("$score[0]"),
+					// boost title matches
+					qdrant.NewExpressionMult(&qdrant.MultExpression{
+						Mult: []*qdrant.Expression{
+							qdrant.NewExpressionConstant(3.0),
+							qdrant.NewExpressionVariable("$score[0]"),
+						},
+					}),
 					qdrant.NewExpressionVariable("$score[1]"),
 				},
 			}),
