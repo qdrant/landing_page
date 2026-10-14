@@ -8,7 +8,7 @@ cards:
     src: /img/edge/cards/index-card.svg
     alt: Index
   title: Build the index where the compute is.
-  description: Indexing is expensive, and an edge device is the wrong place to pay for it. Write your points to a Qdrant server as well as the local shard, let the server build the index, and sync back only the segments that changed.
+  description: Write your points to a Qdrant server as well as the local shard, let the server build the index, and sync back only the segments that changed.
 - id: 1
   image:
     src: /img/edge/cards/backup-card.svg

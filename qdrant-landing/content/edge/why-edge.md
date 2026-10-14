@@ -1,22 +1,22 @@
 ---
 label: WHY EDGE VECTOR SEARCH
-title: Three Reasons Teams Move Search Onto The Device
+title: Why Use Qdrant Edge
 demoLink: 
   url: https://github.com/qdrant/qdrant-edge-demo
   text: Check Our Demo
 steps:
   - id: 0
-    tag: NO NETWORK
-    title: There's no network.
-    description: Qdrant Edge is built for limited or intermittent connectivity. Search locally whether the link is up or down, and queue writes until it returns.
+    tag: WORKS OFFLINE
+    title: Connectivity issues don't stop search.
+    description: Search runs locally whether the link is up or down. Your application syncs with a central server when it's back.
   - id: 1
-    tag: LOW LATENCY
-    title: The answer can't wait for a round trip.
-    description: Qdrant Edge runs inside your application process. Search where your code and its data already sit.
+    tag: ULTRA-LOW LATENCY
+    title: No network round trip.
+    description: Qdrant Edge runs inside your application process, so queries return in under a millisecond in our on-device demos.
   - id: 2
     tag: DATA PRIVACY
-    title: The data never leaves the device.
-    description: Qdrant Edge stores and queries data on the device. Nothing goes to an external server unless your application syncs it.
+    title: Data stays on the device.
+    description: Nothing goes to an external server unless your application syncs it.
 sitemapExclude: true
 ---
 

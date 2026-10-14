@@ -17,6 +17,9 @@ questions:
   question: Is Qdrant Edge ready for production?
   answer: Qdrant Edge is in beta as of August 2026, and the API and functionality may change in future releases. It's publicly available and you can start building with it today. Talk to us about your device class and timeline if you need stability guarantees.
 - id: 5
+  question: Which Qdrant features does Qdrant Edge support?
+  answer: "Qdrant Edge supports dense, sparse, and multivector search, named vectors, hybrid search, quantization, HNSW indexing, and payload indexes on all field types. It differs from Qdrant server in operations: you run optimization and indexing yourself, and there's no replication or distributed mode. See <a href=\"/documentation/edge/edge-vs-qdrant-cluster/\">Edge vs. Qdrant Cluster</a> for the full comparison."
+- id: 6
   question: What can an Edge Shard do?
   answer: An Edge Shard manages its own vector and payload storage and performs search and retrieval locally. The API covers creating and loading a shard, updating and querying data, faceting, scrolling, counting, retrieving by ID, flushing to disk, optimizing, reading shard metadata, and applying snapshots.
 sitemapExclude: true
