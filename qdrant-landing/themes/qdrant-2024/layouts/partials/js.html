@@ -127,7 +127,7 @@
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "qdrant-cloud" "security" "resilience" "quantization" "observability" "gpu-indexing" "cloud-inference") .Section }}
+{{ if in (slice "qdrant-cloud" "security" "resilience" "quantization" "observability" "gpu-indexing" "cloud-inference" "hybrid-cloud" "edge") .Section }}
   {{ $cjpTrackingJs := resources.Get "js/cjp-tracking.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $cjpTrackingJs.RelPermalink }}"></script>
 {{ end }}
