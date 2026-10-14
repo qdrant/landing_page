@@ -1,5 +1,5 @@
 ---
-title: "Perplexity's New Visual Retriever Has a Size Problem. We Fixed It."
+title: "Perplexity's New Late-Interaction Models Meet Qdrant's 21x Vector Compression"
 draft: false
 slug: pplx-embed-v2
 short_description: "Search PDF pages as images with pplx-embed-v2. Qdrant TurboQuant shrinks their vectors 21x while retaining 96.5% of retrieval quality in our tests."
