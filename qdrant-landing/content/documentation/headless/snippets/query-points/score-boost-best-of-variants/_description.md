@@ -1,0 +1,1 @@
+The snippet demonstrates how to use the `max` expression to rank one query against several variants of a field and keep each point's best match. There is one prefetch per variant, using named vectors `title` and `summary`, and `$score[0]` and `$score[1]` refer to their scores.
