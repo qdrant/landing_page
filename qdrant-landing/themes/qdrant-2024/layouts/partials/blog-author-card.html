@@ -1,0 +1,38 @@
+{{- with partial "blog-author-profile.html" . -}}
+  {{ $name := .name }}
+  <aside class="blog-author-card" aria-labelledby="blog-author-name">
+    <img
+      class="blog-author-card__portrait"
+      src="{{ .image | relURL }}"
+      alt="Portrait of {{ .name }}"
+      width="64"
+      height="64"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="blog-author-card__details">
+      <p class="blog-author-card__label">About the Author</p>
+      <p class="blog-author-card__name" id="blog-author-name">{{ .name }}</p>
+      {{ with .role }}<p class="blog-author-card__role">{{ . }}</p>{{ end }}
+    </div>
+    <p class="blog-author-card__bio">{{ .bio }}</p>
+    {{ if or .linkedin .x }}
+      <div class="blog-author-card__links">
+        {{ with .linkedin }}
+          <a href="{{ . }}" aria-label="{{ $name }} on LinkedIn" title="{{ $name }} on LinkedIn">
+            <span aria-hidden="true"
+              >{{ partial "svg.html" (dict "icon" "linkedin" "path" "static/img/components/icons/" "fill" "currentColor") }}</span
+            >
+          </a>
+        {{ end }}
+        {{ with .x }}
+          <a href="{{ . }}" aria-label="{{ $name }} on X" title="{{ $name }} on X">
+            <span aria-hidden="true"
+              >{{ partial "svg.html" (dict "icon" "x" "path" "static/img/components/icons/" "fill" "currentColor") }}</span
+            >
+          </a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </aside>
+{{- end -}}

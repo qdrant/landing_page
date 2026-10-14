@@ -12,4 +12,12 @@
 {{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
 {{- /* Rewrite internal relative links: ](../page/) or (./page/) → same with index.md */}}
 {{- $content = replaceRE `\]\((\.\.?/[^):]*/)([\)#?])` `](https://qdrant.tech/${1}index.md${2}` $content -}}
-{{ $content }}
+{{ $content }}{{ with partial "blog-author-profile.html" . }}
+## About the Author
+
+{{ .name }}{{ with .role }} | {{ . }}{{ end }}
+
+{{ .bio }}
+
+{{ with .linkedin }}[LinkedIn]({{ . }}){{ end }}{{ if and .linkedin .x }} | {{ end }}{{ with .x }}[X]({{ . }}){{ end }}
+{{ end -}}
