@@ -1,9 +1,8 @@
 ---
-label: WHY EDGE VECTOR SEARCH
 title: Why Use Qdrant Edge
 demoLink: 
   url: https://github.com/qdrant/qdrant-edge-demo
-  text: Check Our Demo
+  text: Check Out Our Demo
 steps:
   - id: 0
     tag: WORKS OFFLINE
