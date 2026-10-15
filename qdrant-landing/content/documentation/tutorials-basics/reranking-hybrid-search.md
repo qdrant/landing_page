@@ -53,7 +53,7 @@ Let's start by breaking down the architecture:
 
 You'll start by ingesting a CSV file containing information about science fiction books. Each row is a **document**, corresponding to a book, with fields for the title, author, and description. Each book description will be processed to generate three types of embeddings:
 - **Dense embeddings** capture the deeper, semantic meanings behind the text.
-- **Sparse embeddings** support more traditional, keyword-based methods. Specifically, you'll use [BM25](/documentation/search/text-search/full-text-search/#bm25), a probabilistic retrieval model. BM25 ranks documents based on how relevant their terms are to a given query, taking into account how often terms appear, document length, and how common the term is across all documents. It's perfect for keyword-heavy searches.
+- **Sparse embeddings** support more traditional, keyword-based methods. Specifically, you'll use [BM25](/documentation/search/text-search/sparse-vector-search/#bm25), a probabilistic retrieval model. BM25 ranks documents based on how relevant their terms are to a given query, taking into account how often terms appear, document length, and how common the term is across all documents. It's perfect for keyword-heavy searches.
 - **Late interaction embeddings** capture the nuanced interactions between query and document terms. You'll use a ColBERT model, which uses a two-stage approach. First, it generates contextualized embeddings for both queries and documents using BERT, and then it performs late interaction, matching those embeddings efficiently to fine-tune relevance. Learn more about late interaction models in the [Multivector Representations for Reranking in Qdrant](/documentation/tutorials-search-engineering/using-multivector-representations/) tutorial and the [Multi-Vector Search](/course/multi-vector-search/) course.
 
 The data, including all the embeddings, is stored in Qdrant, a **vector search engine**. This enables you to efficiently search, retrieve, and rerank your documents based on multiple layers of relevance.
@@ -157,7 +157,7 @@ The top 5 results are:
 
 The sparse BM25 model performs keyword matching with stemming. As a result, it returns books whose descriptions contain variants of the words "time" and "travel". For instance, "Station Eleven" and "Hyperion" mention "traveling" and "travelers" but aren't primarily about time travel.
 
-<aside role="status">This example keeps BM25's default average document length (<code>avg_len</code>, 256 words). The book descriptions are about 10 words long, so on your own data, set <code>avg_len</code> to the average length of the field you index; see <a href="/documentation/search/text-search/full-text-search/#configuring-bm25-parameters">Configuring BM25 Parameters</a>.</aside>
+<aside role="status">This example keeps BM25's default average document length (<code>avg_len</code>, 256 words). The book descriptions are about 10 words long, so on your own data, set <code>avg_len</code> to the average length of the field you index; see <a href="/documentation/search/text-search/sparse-vector-search/#configuring-bm25-parameters">Configuring BM25 Parameters</a>.</aside>
 
 **Hybrid search** can be used to prefetch the dense and sparse results and next merge them using [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
 
