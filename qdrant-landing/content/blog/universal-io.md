@@ -218,4 +218,4 @@ Universal I/O started with a narrow question, which was how to read the data str
 
 With that interface in place, the storage backend really is hot-swappable: the same search code reads vectors from a local `mmap` file on a laptop and from S3 in serverless mode, and the local path keeps using `mmap`. The price on our side was having to create a complex set of interdependent traits to generalize the I/O interface, but we think it is a trade worth making, since every new backend can now plug into Qdrant without touching the data structures that use it.
 
-If you want to see how it fits together, start with the [`universal_io` module](github.com/qdrant/qdrant/tree/master/lib/common/common/src/universal_io) in the Qdrant repository.
+If you want to see how it fits together, start with the [`universal_io` module](https://github.com/qdrant/qdrant/tree/master/lib/common/common/src/universal_io) in the Qdrant repository.
