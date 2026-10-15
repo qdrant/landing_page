@@ -75,13 +75,13 @@ To implement this approach:
 ### Limitations
 
 - Global requests (without the `group_id` filter) are slower, since they require scanning all groups to identify the nearest neighbors.
-- When using [sparse vector search](/documentation/search/text-search/full-text-search/) with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), payload-based partitioning alone doesn't isolate IDF statistics. By default, all tenants share the same shard-wide term frequencies. Use the [`idf` search parameter](#per-tenant-idf-statistics) to scope statistics to a single tenant.
+- When using [sparse vector search](/documentation/search/text-search/sparse-vector-search/) with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), payload-based partitioning alone doesn't isolate IDF statistics. By default, all tenants share the same shard-wide term frequencies. Use the [`idf` search parameter](#per-tenant-idf-statistics) to scope statistics to a single tenant.
 
 ### Per-Tenant IDF Statistics
 
 *Available as of v1.19.0*
 
-[BM25](/documentation/search/text-search/full-text-search/#bm25) and [miniCOIL](/documentation/search/text-search/full-text-search/#minicoil) sparse vector searches use the [inverse document frequency (IDF)](documentation/manage-data/indexing/#idf-modifier) to score matching documents, giving rarer terms more weight than common ones. Calculating the IDF requires two statistics: the total number of documents and the number of documents containing each term.
+[BM25](/documentation/search/text-search/sparse-vector-search/#bm25) and [miniCOIL](/documentation/search/text-search/sparse-vector-search/#minicoil) sparse vector searches use the [inverse document frequency (IDF)](documentation/manage-data/indexing/#idf-modifier) to score matching documents, giving rarer terms more weight than common ones. Calculating the IDF requires two statistics: the total number of documents and the number of documents containing each term.
 
 By default, these statistics are computed across the entire shard being queried. When using payload-filter-based multitenancy, this blends every tenant's vocabulary into one set of statistics, so a term's IDF no longer reflects its rarity within a specific tenant's data.
 
