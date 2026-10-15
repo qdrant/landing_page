@@ -35,7 +35,7 @@ The following table lists what changes when you move from Standard to Premium. T
 
 Premium commits to 99.9% quarterly uptime for clusters in a single availability zone and 99.95% for [multi-AZ clusters](#multi-az-clusters). Standard commits to 99.5%. Uptime is measured per cluster over each calendar quarter. If you need a higher commitment than 99.95%, [contact the Qdrant team](/contact-us/) about a custom SLA.
 
-Downtime is a period of at least 5 consecutive minutes in which 100% of requests to the cluster's database API can't reach it, as measured by Qdrant's monitoring. The following don't count as downtime:
+Downtime is a period of at least 5 consecutive minutes in which 100% of requests to the cluster's database API can't reach it, as measured by Qdrant's monitoring. Exclusions include:
 
 - Elevated latency, a partial node failure, or a Cloud Console issue on its own
 - Scheduled maintenance announced at least 5 working days ahead, up to 4 hours per quarter
@@ -44,7 +44,7 @@ Downtime is a period of at least 5 consecutive minutes in which 100% of requests
 
 The SLA covers clusters on Qdrant Managed Cloud only. It doesn't apply to [Hybrid Cloud](/documentation/hybrid-cloud/) or [Private Cloud](/documentation/private-cloud/) clusters, which run on your own infrastructure. For the full list of exclusions, see the [Qdrant Cloud SLA](https://qdrant.to/sla/).
 
-If a cluster misses its uptime commitment, you can claim service credits against future invoices. Open a support ticket within 5 working days of the incident and include the details listed in the [Support](/documentation/support/) guide. The SLA sets the credit percentage for each uptime band.
+If a cluster misses its uptime commitment, you may be eligible for service credits against future invoices. To claim them, open a support ticket within 3 working days of the incident on Standard, or 5 working days on Premium, and include the information listed in section 9 of the [Qdrant Cloud SLA](https://qdrant.to/sla/). Credits are capped at the equivalent of one monthly fee per calendar year. The SLA sets the credit percentage for each uptime band.
 
 <aside role="status">To keep a cluster available through node restarts, upgrades, and failures, run at least 3 nodes with a replication factor of 2 or more. See <a href="/documentation/scaling/resilience/#setting-up-a-resilient-qdrant-cluster">Setting Up a Resilient Qdrant Cluster</a>.</aside>
 
