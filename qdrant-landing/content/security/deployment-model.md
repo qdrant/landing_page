@@ -44,11 +44,11 @@ tables:
         hybridOrPrivateCloud: Built-in, Hybrid only
         selfHosted: Not applicable
       - name: Single sign-on (SSO)
-        qdrantCloud: Premium add-on
-        hybridOrPrivateCloud: Premium add-on<br>(Hybrid only)
+        qdrantCloud: Included with Premium
+        hybridOrPrivateCloud: Available on request<br>(Hybrid only)
         selfHosted: Not applicable
-      - name: VPC PrivateLink
-        qdrantCloud: Premium add-on
+      - name: Private network connectivity
+        qdrantCloud: Included with Premium
         hybridOrPrivateCloud: Not applicable
         selfHosted: Not applicable
       - name: Compliance documentation (SOC 2 Type 2, HIPAA)
