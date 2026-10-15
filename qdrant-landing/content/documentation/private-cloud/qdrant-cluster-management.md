@@ -43,6 +43,8 @@ To upgrade the Qdrant version of a database cluster, update the `version` field 
 
 Note, that you should not skip minor versions when upgrading. For example, if you are running version `v1.11.3`, you can upgrade to `v1.11.5` or `v1.12.6`, but not directly to `v1.13.0`.
 
+Upgrade the cluster first, then update the client SDKs. This prevents your applications from using features that the older cluster version does not support yet. Keep your client SDK within one minor version of your cluster version.
+
 ## Exposing a Cluster
 
 By default, a QdrantCluster will be exposed through an internal `ClusterIP` service. To expose the cluster to the outside world, you can create a `NodePort` service, a `LoadBalancer` service or an `Ingress` resource.
