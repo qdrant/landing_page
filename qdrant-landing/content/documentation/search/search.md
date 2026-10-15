@@ -38,6 +38,9 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Order By](/documentation/manage-data/points/#order-points-by-payload-key) | Order points by payload key |
 | [Hybrid Search](/documentation/search/hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
 | [Multi-Stage Search](/documentation/search/hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
+| [Score Boosting](/documentation/search/search-relevance/#score-boosting) | Rescore results with a custom formula based on scores and payload values |
+| [Maximal Marginal Relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) | Improve the diversity of results |
+| [Relevance Feedback](/documentation/search/search-relevance/#relevance-feedback) | Rescore results using feedback from a model on their relevance to the query |
 | [Random Sampling](#random-sampling) | Get random points from the collection |
 
 **Nearest Neighbors Search**
