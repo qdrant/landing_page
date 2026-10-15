@@ -30,6 +30,7 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | --- | --- |
 | Nearest Neighbors Search | Vector Similarity Search, also known as k-NN |
 | Search By Id | Search by an already stored vector - skip embedding model inference |
+| [Full-Text Search](/documentation/search/text-search/full-text-search/) | Rank points by BM25 relevance of a text field to a query |
 | [Recommendations](/documentation/search/explore/#recommendation-api) | Provide positive and negative examples |
 | [Discovery Search](/documentation/search/explore/#discovery-api) | Guide the search using context as a one-shot training set |
 | [Scroll](/documentation/manage-data/points/#scroll-points) | Get all points with optional filtering |
@@ -37,6 +38,9 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Order By](/documentation/manage-data/points/#order-points-by-payload-key) | Order points by payload key |
 | [Hybrid Search](/documentation/search/hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
 | [Multi-Stage Search](/documentation/search/hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
+| [Score Boosting](/documentation/search/search-relevance/#score-boosting) | Rescore results with a custom formula based on scores and payload values |
+| [Maximal Marginal Relevance](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) | Improve the diversity of results |
+| [Relevance Feedback](/documentation/search/search-relevance/#relevance-feedback) | Rescore results using feedback from a model on their relevance to the query |
 | [Random Sampling](#random-sampling) | Get random points from the collection |
 
 **Nearest Neighbors Search**
@@ -46,6 +50,10 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 **Search By Id**
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id/" >}}
+
+**Full-Text Search**
+
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-title-bm25/" >}}
 
 ## Metrics
 
