@@ -5,7 +5,11 @@ weight: 20
 
 # Server-side Inference: BM25
 
-[BM25](/documentation/search/text-search/full-text-search/#bm25) (Best Matching 25) is a ranking function for text search. BM25 uses sparse vectors that represent documents, where each dimension corresponds to a word. Qdrant can generate these sparse embeddings from input text directly on the server.
+<aside role="status">
+We recommend running <a href="/documentation/search/text-search/full-text-search/#bm25">BM25 on a full-text index</a> rather than with the BM25 model. A <a href="/documentation/manage-data/indexing/#bm25-scoring">full-text index with scoring enabled</a> works on text already stored in the payload and doesn't require generating embeddings.
+</aside>
+
+[BM25](https://en.wikipedia.org/wiki/Okapi_BM25) (Best Matching 25) is a ranking function for text search. While we recommend running [BM25 on a full-text index](/documentation/search/text-search/full-text-search/#bm25), you can also run BM25 on sparse vectors, where each dimension corresponds to a word. Qdrant can generate these sparse vectors from input text directly on the server with the `qdrant/bm25` model.
 
 While upserting points, provide the text and the `qdrant/bm25` embedding model:
 
@@ -39,4 +43,4 @@ Similarly, use the BM25 model at query time by providing the query string and th
 
 {{< code-snippet path="/documentation/headless/snippets/inference/query/" >}}
 
-Read more about full-text search with BM25 in the [text search guide](/documentation/search/text-search/full-text-search/).
+Read more about the sparse vector BM25 model in [Sparse Vector Search](/documentation/search/text-search/sparse-vector-search/#bm25).
