@@ -189,19 +189,30 @@ Principal optimization is supported for following types:
 
 ## Full-Text Index
 
-Qdrant supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering) on string payload fields, enabling word- and phrase-level matches.
+A full-text index makes the words in string payload fields searchable. You can use it to:
 
-For efficient full-text filtering, first create a full-text index on the fields you want to filter on. The index configuration controls how text is processed before matching: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
+- [Filter](/documentation/search/text-search/text-filtering/#full-text-filtering) points on the words and phrases their text contains. See [Full Text Match](/documentation/search/filtering/#full-text-match) for examples.
+- [Rank](#bm25-scoring) points by the relevance of their text to a query, using BM25.
 
-See [Full Text match](/documentation/search/filtering/#full-text-match) for examples of filtering with a full-text index.
+The index configuration controls how text is processed: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
 
 To create a full-text index for a field, create a payload index of type `text`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
 
-<aside role="status">
-A full-text index does not affect BM25 queries. To configure text processing for BM25, see <a href="/documentation/search/text-search/full-text-search/#bm25-text-processing">BM25 Text Processing</a>.
-</aside>
+### BM25 Scoring
+
+*Available as of v1.20.0*
+
+With scoring enabled, a full-text index can rank points by how relevant their text is to a query, using the [BM25](/documentation/search/text-search/full-text-search/#bm25) ranking function. To enable scoring, set `scoring` to `true` when you create the index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text/" >}}
+
+The index's text processing settings, such as the [tokenizer](#tokenizers), [lowercasing](#lowercasing), [stemming](#stemmer), and [stopwords](#stopwords), apply to both the indexed text and the text of BM25 queries on the field. The BM25 parameters `k` and `b` are set per query, not on the index.
+
+When scoring is enabled, the index records the length of each document, so Qdrant computes the average document length from your data. Scoring also enables [phrase matching](#phrase-matching), because Qdrant derives term frequencies from the token positions that phrase matching stores. As a result, a full-text index with scoring uses more memory and disk space than one without.
+
+You can enable or disable scoring on an existing full-text index by creating the index again with a different `scoring` value. Qdrant then rebuilds the index from the stored payload, so you don't need to upload your data again. On large collections, rebuilding the index can take a while.
 
 ### Tokenizers
 
@@ -271,6 +282,8 @@ For efficient phrase matching, Qdrant requires building an additional data struc
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/phrase-full-text/" >}}
 
 Use the [Phrase Match](/documentation/search/filtering/#phrase-match) condition to filter on phrases.
+
+Enabling [BM25 scoring](#bm25-scoring) also enables phrase matching.
 
 ## Vector Index
 
