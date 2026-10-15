@@ -1,0 +1,14 @@
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new RecommendInput {
+        Positive = { 100, 231 },
+        Negative = { 718 }
+    },
+    usingVector: "image",
+    limit: 10
+);
+```
