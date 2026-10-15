@@ -1,20 +1,25 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
-  {{ with (.Site.GetPage "/recommendations/recommendations-hero") }}
-    {{ partial "use-cases-vector-hero" . }}
+
+  {{ partial "recommendations/hero" . }}
+
+  {{ partial "recommendations/what-you-get" . }}
+
+  {{ with (.Site.GetPage "/recommendations/how-it-works") }}
+    {{ partial "landing/steps-icon-flow" . }}
   {{ end }}
 
-  {{ partial "recommendations-features" . }}
-
-  {{ partial "recommendations-api" . }}
+  {{ partial "recommendations/cross-domain-recommendations" . }}
 
   {{ with (.Site.GetPage "/recommendations/recommendations-use-cases") }}
     {{ partial "use-cases-vector-cases" (dict "context" . "class" "recommendations-use-cases") }}
   {{ end }}
 
-  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
-    {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
-  {{ end }}
+  {{ partial "recommendations/honest-limits" . }}
 
-  {{ partial "get-started" . }}
+  {{ partial "recommendations/faq" . }}
+
+  {{ with (.Site.GetPage "/recommendations/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
 {{ end }}
