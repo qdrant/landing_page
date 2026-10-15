@@ -235,7 +235,7 @@ For example, a query for `good cheap` matches `cheap hardware` as well as `good 
 
 For efficient matching, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for the field. The index configuration determines how the text is [processed](/documentation/search/text-search/text-filtering/#text-processing) before matching. For example, a full-text index can be configured to support [case insensitive matching](/documentation/manage-data/indexing/#lowercasing), apply [stemming](/documentation/manage-data/indexing/#stemmer), or ignore [stop words](/documentation/manage-data/indexing/#stopwords).
 
-Without a full-text index, Qdrant splits the query on whitespace and performs a case-sensitive substring match for each token.
+Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
 
 #### Phrase Match
 
