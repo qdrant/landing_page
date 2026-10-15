@@ -400,6 +400,34 @@ hugo new --kind blog-post blog/<post-title>.md
 
 You'll see a file named `content/blog/<post-title>.md`. Open it and edit the front matter.
 
+### Author Cards
+
+Author cards appear after a blog post's content. Each post must opt in with an `author_profile` key.
+
+1. Save an optimized portrait in `qdrant-landing/static/authors/`, using the author's profile key as the filename. Resize and compress the photo before adding it.
+2. Add a profile to `qdrant-landing/data/authors.yaml`. Choose a unique lowercase key with hyphens, such as `dylan-couzon`. Replace the example values:
+
+```yaml
+your-profile-key:
+  name: Your Name
+  role: Your Role at Qdrant
+  bio: Write one or two sentences in your own voice.
+  image: /authors/your-profile-key.jpg
+  linkedin: https://www.linkedin.com/in/your-handle/
+  # x: https://x.com/your-handle
+```
+
+The `name`, `bio`, and `image` fields are required. Keep bios within 300 characters, including spaces and punctuation. Longer bios fail the build. The `role`, `linkedin`, and `x` fields are optional. Include only the social links the author uses.
+
+3. Add the profile key to the blog post's front matter. For Dylan's card, use:
+
+```yaml
+author: Dylan Couzon
+author_profile: dylan-couzon
+```
+
+Keep the existing `author` byline, including any coauthors. The `author_profile` key selects one person's card. Reuse that key across posts to update the bio in one place. Unknown keys fail the build. Posts without `author_profile` keep their existing layout. The Markdown output includes the bio and social links.
+
 ### Images
 
 Store images for blog posts in the following subdirectory: `static/blog/<post-title>`. You can add nested directories if needed. For social media previews, use images of at least 1200x600px.
