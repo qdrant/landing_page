@@ -69,7 +69,7 @@ By default, a full-text index uses the `word` tokenizer and lowercasing, without
 
 ### Corpus Statistics
 
-Qdrant computes the BM25 statistics, such as the number of documents, the number of documents containing each term, and the average document length, over all points in the shard being queried. In a collection with multiple shards, each shard uses its own statistics, so the same document can score slightly differently depending on the shard it's stored in. To compute statistics over a subset of the data, such as a single tenant, see [Per-Tenant IDF Statistics](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics).
+Qdrant computes the BM25 statistics, such as the number of documents, the number of documents containing each term, and the average document length, over all points in the shard being queried. In a collection with multiple shards, each shard uses its own statistics, so the same document can score slightly differently depending on the shard it's stored in. To compute statistics over a subset of the data, such as a single tenant, see [Per-Tenant Scoring Statistics](/documentation/manage-data/multitenancy/#per-tenant-scoring-statistics).
 
 After points are deleted or updated, the statistics can include outdated data until the optimizer rebuilds the affected segments. As a result, scores can shift slightly until optimization. Deleted points never appear in the results.
 

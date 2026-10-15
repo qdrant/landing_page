@@ -10,8 +10,8 @@ public class Snippet
 
         await client.QueryAsync(
             collectionName: "{collection_name}",
-            query: new Document { Text = "time travel", Model = "qdrant/bm25" },
-            usingVector: "title-bm25",
+            query: new Query { Text = new TextQuery { Query = "time travel" } },
+            usingVector: "title",
             filter: new Filter
             {
                 Must =
