@@ -75,26 +75,32 @@ To implement this approach:
 ### Limitations
 
 - Global requests (without the `group_id` filter) are slower, since they require scanning all groups to identify the nearest neighbors.
-- When using [sparse vector search](/documentation/search/text-search/sparse-vector-search/) with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), payload-based partitioning alone doesn't isolate IDF statistics. By default, all tenants share the same shard-wide term frequencies. Use the [`idf` search parameter](#per-tenant-idf-statistics) to scope statistics to a single tenant.
+- When using [BM25 full-text search](/documentation/search/text-search/full-text-search/), or [sparse vector search](/documentation/search/text-search/sparse-vector-search/) with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), payload-based partitioning alone doesn't isolate scoring statistics. By default, all tenants share the same shard-wide statistics. Use the [`idf` search parameter](#per-tenant-scoring-statistics) to scope statistics to a single tenant.
 
-### Per-Tenant IDF Statistics
+<span id="per-tenant-idf-statistics"></span>
+
+### Per-Tenant Scoring Statistics
 
 *Available as of v1.19.0*
 
-[BM25](/documentation/search/text-search/sparse-vector-search/#bm25) and [miniCOIL](/documentation/search/text-search/sparse-vector-search/#minicoil) sparse vector searches use the [inverse document frequency (IDF)](documentation/manage-data/indexing/#idf-modifier) to score matching documents, giving rarer terms more weight than common ones. Calculating the IDF requires two statistics: the total number of documents and the number of documents containing each term.
+[BM25 full-text search](/documentation/search/text-search/full-text-search/) and sparse vector searches with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), such as [miniCOIL](/documentation/search/text-search/sparse-vector-search/#minicoil), score matching documents with statistics computed over the stored data:
 
-By default, these statistics are computed across the entire shard being queried. When using payload-filter-based multitenancy, this blends every tenant's vocabulary into one set of statistics, so a term's IDF no longer reflects its rarity within a specific tenant's data.
+- The total number of documents and the number of documents containing each term. Together, these determine the inverse document frequency (IDF), which gives rarer terms more weight than common ones.
+- The average document length, which BM25 full-text search uses to normalize scores for document length.
 
-The `idf` search parameter lets you correct this by narrowing the population — the *IDF corpus* — that Qdrant computes statistics over. It accepts a payload filter that scopes the data.
+By default, these statistics are computed across the entire shard being queried. When using payload-filter-based multitenancy, this blends every tenant's data into one set of statistics, so a term's IDF no longer reflects its rarity within a specific tenant's data.
 
-This filter is independent of the retrieval filter. The filter that determines the IDF corpus is typically broader than the retrieval filter. For example, here, the IDF is calculated over all of a tenant's data even when the retrieval filter narrows further by year:
+The `idf` search parameter lets you correct this by narrowing the population that Qdrant computes statistics over, called the *statistics corpus*. It accepts a payload filter that scopes the data.
+
+This filter is independent of the retrieval filter. The filter that determines the statistics corpus is typically broader than the retrieval filter. For example, here, the statistics are calculated over all of a tenant's data even when the retrieval filter narrows further by year:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-idf-corpus/" >}}
 
 - `idf` defaults to `global` (shard-wide statistics), the same as omitting it.
 - [Create a payload index](/documentation/manage-data/indexing/#create-a-payload-index) and/or [tenant index](/documentation/manage-data/indexing/#tenant-index) for any fields you want to use in the `idf` filter. On Qdrant Cloud, [strict mode is enabled by default](/documentation/cloud/configure-cluster/) and filters on unindexed fields are rejected.
-- Only applicable to queries on a sparse vector with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier) enabled; using `idf` on a vector without it returns an error.
-- If the corpus filter matches no points, IDF statistics do not fall back to shard-wide statistics. Instead, every term gets the same constant weight, so ranking degenerates to plain TF with no rarity signal.
+- Applies to [BM25 text queries](/documentation/search/text-search/full-text-search/#query-a-text-field) and to queries on a sparse vector with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier) enabled. Using `idf` on a sparse vector without the IDF modifier returns an error.
+- The corpus filter only affects the statistics. Points outside the corpus can still be returned if they match the query and the retrieval filter.
+- If the corpus filter matches no points, the statistics do not fall back to shard-wide statistics. Instead, every term gets the same constant weight, so ranking degenerates to plain TF with no rarity signal. For BM25 text queries, document length normalization is also disabled.
 - When using [user-defined sharding](#user-defined-sharding), routing a search request to a single tenant's dedicated shard already scopes IDF to that tenant's data. This shard locality also applies to the `idf` filter: if it matches points that live in a different shard than the one being queried, Qdrant does not reach across shards to satisfy it. It silently computes statistics from whatever overlap exists locally, which can be empty or partial.
 
 ## User-Defined Sharding
