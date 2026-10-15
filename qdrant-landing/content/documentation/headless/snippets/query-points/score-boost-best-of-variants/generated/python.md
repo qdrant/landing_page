@@ -5,13 +5,13 @@ best_fields = client.query_points(
     collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
-            query=models.Document(text="vector database", model="qdrant/bm25"),
-            using="title-bm25",
+            query=models.TextQuery(text="vector database"),
+            using="title",
             limit=50,
         ),
         models.Prefetch(
-            query=models.Document(text="vector database", model="qdrant/bm25"),
-            using="body-bm25",
+            query=models.TextQuery(text="vector database"),
+            using="body",
             limit=50,
         ),
     ],

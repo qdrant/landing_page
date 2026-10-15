@@ -1,7 +1,7 @@
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, Modifier, SparseVectorParamsBuilder,
-    SparseVectorsConfigBuilder, VectorParamsBuilder, VectorsConfigBuilder,
+    CreateCollectionBuilder, CreateFieldIndexCollectionBuilder, Distance, FieldType,
+    TextIndexParamsBuilder, TokenizerType, VectorParamsBuilder, VectorsConfigBuilder,
 };
 
 pub async fn main() -> anyhow::Result<()> {
@@ -13,17 +13,18 @@ pub async fn main() -> anyhow::Result<()> {
         VectorParamsBuilder::new(384, Distance::Cosine),
     );
 
-    let mut sparse = SparseVectorsConfigBuilder::default();
-    sparse.add_named_vector_params(
-        "isbn-bm25",
-        SparseVectorParamsBuilder::default().modifier(Modifier::Idf),
-    );
+    client
+        .create_collection(CreateCollectionBuilder::new("books").vectors_config(vectors))
+        .await?;
 
     client
-        .create_collection(
-            CreateCollectionBuilder::new("books")
-                .vectors_config(vectors)
-                .sparse_vectors_config(sparse),
+        .create_field_index(
+            CreateFieldIndexCollectionBuilder::new("books", "title", FieldType::Text)
+                .field_index_params(
+                    TextIndexParamsBuilder::new(TokenizerType::Word)
+                        .bm25_scoring()
+                        .build(),
+                ),
         )
         .await?;
 
