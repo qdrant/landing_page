@@ -2,14 +2,14 @@
 title: Configure Clusters
 short_description: "Tune Qdrant Cloud clusters with collection defaults, strict mode, replication factor, and advanced optimizer settings."
 description: "Configure Qdrant Cloud clusters with collection defaults, strict mode, replication factors, and advanced optimizer settings tailored to your workload."
-weight: 25
+weight: 20
 ---
 
 # Configure Qdrant Cloud Clusters
 
 Qdrant Cloud offers several advanced configuration options to optimize clusters for your specific needs. You can access these options from the Cluster Details page in the Qdrant Cloud console.
 
-The cloud platform does not expose all [configuration options](/documentation/ops-configuration/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
+The cloud platform does not expose all [configuration options](/documentation/ops-configuration/configuration/) available in Qdrant. We have selected the relevant options that are explained in this page.
 
 In addition, the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
 

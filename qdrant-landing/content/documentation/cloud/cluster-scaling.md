@@ -2,7 +2,7 @@
 title: Scale Clusters
 short_description: "Scale Qdrant Cloud clusters vertically or horizontally with automatic shard rebalancing as your data and traffic grow."
 description: "Scale Qdrant Cloud clusters vertically or horizontally with automatic shard rebalancing to match growing vector data volumes and query workloads."
-weight: 20
+weight: 25
 ---
 
 # Scaling Qdrant Cloud Clusters
