@@ -1,8 +1,8 @@
 ```python
 results = client.query_points(
     collection_name,
-    query=models.Document(text=query, model=sparse_embedding_model),
-    using="sparse",
+    query=models.TextQuery(text=query),
+    using="description",
     limit=10,
 )
 

@@ -1,6 +1,8 @@
 ```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
 var denseModel = "sentence-transformers/all-minilm-l6-v2";
-var bm25Model = "qdrant/bm25";
 // NOTE: LoadDataset is a user-defined function.
 // Implement it to handle dataset loading as needed.
 var dataset = LoadDataset("miriad/miriad-4.4M", "train[0:100]");
@@ -19,20 +21,17 @@ foreach (var item in dataset)
             {
                 Text = passage,
                 Model = denseModel
-            },
-            ["bm25_sparse_vector"] = new Document
-            {
-                Text = passage,
-                Model = bm25Model
             }
         },
+        // Used for BM25
+        Payload = { ["passage_text"] = passage }
     };
 
     points.Add(point);
 }
 
 await client.UpsertAsync(
-    collectionName: "{collectionName}",
+    collectionName: "{collection_name}",
     points: points
 );
 ```

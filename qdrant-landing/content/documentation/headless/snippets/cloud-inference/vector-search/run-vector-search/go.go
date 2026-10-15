@@ -1,7 +1,10 @@
 package snippet
 
-import "context" // @hide
-import "github.com/qdrant/go-client/qdrant" // @hide
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
 
 func Main() {
 	// @hide-start
@@ -12,16 +15,16 @@ func Main() {
 	if err != nil { panic(err) }
 	queryText := "{query_text}"
 	denseModel := "{dense_model_name}"
-	bm25Model := "{bm25_model_name}"
 	// @hide-end
 
 	prefetch := []*qdrant.PrefetchQuery{
 		{
-			Query: qdrant.NewQueryDocument(&qdrant.Document{
-				Text:  queryText,
-				Model: bm25Model,
-			}),
-			Using: qdrant.PtrOf("bm25_sparse_vector"),
+			Query: &qdrant.Query{
+				Variant: &qdrant.Query_Text{
+					Text: &qdrant.TextQuery{Query: queryText},
+				},
+			},
+			Using: qdrant.PtrOf("passage_text"),
 		},
 		{
 			Query: qdrant.NewQueryDocument(&qdrant.Document{

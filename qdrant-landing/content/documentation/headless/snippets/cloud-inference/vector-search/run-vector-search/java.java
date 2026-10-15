@@ -6,7 +6,9 @@ import static io.qdrant.client.QueryFactory.nearest;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.Fusion;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.Query;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.TextQuery;
 
 public class Snippet {
         public static void run() throws Exception {
@@ -15,7 +17,6 @@ public class Snippet {
                     new io.qdrant.client.QdrantClient(io.qdrant.client.QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
                 String queryText = "{query_text}";
                 String denseModel = "{dense_model_name}";
-                String bm25Model = "{bm25_model_name}";
                 // @hide-end
 
                 PrefetchQuery densePrefetch =
@@ -27,8 +28,11 @@ public class Snippet {
 
                 PrefetchQuery bm25Prefetch =
                     PrefetchQuery.newBuilder()
-                        .setQuery(nearest(Document.newBuilder().setText(queryText).setModel(bm25Model).build()))
-                        .setUsing("bm25_sparse_vector")
+                        .setQuery(
+                            Query.newBuilder()
+                                .setText(TextQuery.newBuilder().setQuery(queryText).build())
+                                .build())
+                        .setUsing("passage_text")
                         .build();
 
                 QueryPoints request =
