@@ -20,7 +20,7 @@ Sizing a Qdrant cluster means estimating how much storage and memory your collec
 - Your collections' replication settings.
 - Whether you're using quantization and how you’ve set it up.
 
-<aside role="status">To size your deployment interactively, try the <a href="https://sizing.qdrant.tech/">Qdrant Sizing Calculator</a>.</aside>
+<aside role="status">To size your deployment interactively, try the <a href="https://sizing.qdrant.tech/estimate">Qdrant Sizing Calculator</a>.</aside>
 
 ## Calculating RAM and Disk Size
 
@@ -194,7 +194,7 @@ Disk = dense_size + hnsw_size + disk_size (payload) + id_tracker_size
      * 1.2 headroom ≈ 10.76 GB to plan for
 ```
 
-These are still estimates. For exact numbers on your own data, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/) or test with a representative sample.
+These are still estimates. For exact numbers on your own data, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/estimate) or test with a representative sample.
 
 Repeat this calculation for every collection, then sum the RAM and disk totals across all of them to size the cluster as a whole.
 
