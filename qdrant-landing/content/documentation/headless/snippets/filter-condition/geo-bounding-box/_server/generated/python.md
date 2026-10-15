@@ -1,0 +1,17 @@
+```python
+from qdrant_client import models
+
+models.FieldCondition(
+    key="location",
+    geo_bounding_box=models.GeoBoundingBox(
+        bottom_right=models.GeoPoint(
+            lon=13.455868,
+            lat=52.495862,
+        ),
+        top_left=models.GeoPoint(
+            lon=13.403683,
+            lat=52.520711,
+        ),
+    ),
+)
+```
