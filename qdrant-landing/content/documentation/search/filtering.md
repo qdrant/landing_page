@@ -212,6 +212,10 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
 
 *Available as of v1.20.0*
 
+<aside role="status">
+    Substring matching is computationally expensive. Qdrant rejects substring match conditions on any field whenever <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled, which it is by default on Qdrant Cloud. Use a <a href="#prefix-match">prefix match</a> or a <a href="#full-text-match">full-text match</a> instead where possible.
+</aside>
+
 A match `substring` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that contain the specified string anywhere in the value.
 
 For example, the substring `"qdrant.tech/"` matches the value `"https://qdrant.tech/documentation"`.
@@ -221,10 +225,6 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/match-substring/" >}}
 
 A [keyword index](/documentation/manage-data/indexing/#payload-index) on the field speeds up substring matching, especially with the [`prefix` option](/documentation/manage-data/indexing/#prefix-matching-in-keyword-indices) enabled. Either way, Qdrant checks every distinct value of the field, so the cost grows with the number of distinct values. Without a keyword index, the condition still works but reads the payload of each point. A full-text index can't serve the condition, because it stores tokens rather than whole values.
-
-<aside role="status">
-    When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled, Qdrant rejects substring match conditions on any field, regardless of its indexes. Strict mode is enabled by default on Qdrant Cloud. Use a <a href="#prefix-match">prefix match</a> or a <a href="#full-text-match">full-text match</a> instead.
-</aside>
 
 ### Text Match
 
