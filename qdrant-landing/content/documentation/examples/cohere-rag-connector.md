@@ -9,6 +9,13 @@ goal: RAG & Agents
 stack:
   - Python
   - Cohere
+retired_note: "It builds on Cohere RAG connectors, which Cohere deprecated on September 15, 2025."
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 # Implement custom connector for Cohere RAG

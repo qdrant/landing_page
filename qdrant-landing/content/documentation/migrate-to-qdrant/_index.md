@@ -3,6 +3,9 @@ title: Migration Tool
 short_description: "Move vectors, payloads, and sparse embeddings into Qdrant from other vector databases with the Qdrant Migration Tool."
 description: "Use the Qdrant Migration Tool to stream vectors, payloads, and sparse embeddings from external vector databases into Qdrant with batched, resumable transfers."
 weight: 200
+aliases:
+  - /documentation/tutorials-operations/migration/
+  - /documentation/database-tutorials/migration/
 is_empty: false
 partition: ecosystem
 ---
@@ -34,6 +37,18 @@ brew install qdrant/tap/qdrant-migration
 Alternatively, download the archive for your operating system and CPU architecture from [GitHub Releases](https://github.com/qdrant/migration/releases), extract it, and place the `qdrant-migration` binary in a directory on your `PATH`.
 
 To run an example from this documentation with the binary, replace `docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration`, along with any `-e` or `-v` options, with `qdrant-migration`.
+
+## Migration Tool or Snapshots
+
+Qdrant [snapshots](/documentation/snapshots/) are low-level disk operations built for same-cluster recovery and local backups. They require snapshot consistency across nodes and can be hard to port across machines or cloud zones. The Migration Tool:
+
+- Streams data in live batches.
+- Resumes interrupted migrations.
+- Works while data is still being inserted.
+- Supports collection reconfiguration, such as changing replication settings or quantization.
+- Reads from other vector databases, not only from Qdrant.
+
+To choose between the two, see [Migration and Recovery Options](/documentation/migration-recovery-options/).
 
 ## Supported Sources
 

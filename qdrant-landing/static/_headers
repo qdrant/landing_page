@@ -93,3 +93,42 @@
 
 /blog/qdrant-n8n-beyond-simple-similarity-search/*
   X-Robots-Tag: noindex
+
+/documentation/examples/rag-chatbot-scaleway/*
+  X-Robots-Tag: noindex
+/documentation/examples/rag-chatbot-scaleway.md
+  X-Robots-Tag: noindex
+/documentation/tutorials/rag-chatbot-scaleway/*
+  X-Robots-Tag: noindex
+
+/documentation/examples/cohere-rag-connector/*
+  X-Robots-Tag: noindex
+/documentation/examples/cohere-rag-connector.md
+  X-Robots-Tag: noindex
+/documentation/tutorials/cohere-rag-connector/*
+  X-Robots-Tag: noindex
+
+/documentation/examples/rag-customer-support-cohere-airbyte-aws/*
+  X-Robots-Tag: noindex
+/documentation/examples/rag-customer-support-cohere-airbyte-aws.md
+  X-Robots-Tag: noindex
+/documentation/tutorials/rag-customer-support-cohere-airbyte-aws/*
+  X-Robots-Tag: noindex
+
+/documentation/examples/recommendation-system-ovhcloud/*
+  X-Robots-Tag: noindex
+/documentation/examples/recommendation-system-ovhcloud.md
+  X-Robots-Tag: noindex
+/documentation/tutorials/recommendation-system-ovhcloud/*
+  X-Robots-Tag: noindex
+
+/articles/static-embeddings/*
+  X-Robots-Tag: noindex
+/articles/static-embeddings.md
+  X-Robots-Tag: noindex
+/blog/static-embeddings/*
+  X-Robots-Tag: noindex
+/documentation/database-tutorials/static-embeddings/*
+  X-Robots-Tag: noindex
+/documentation/tutorials-search-engineering/static-embeddings/*
+  X-Robots-Tag: noindex

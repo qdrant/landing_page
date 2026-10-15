@@ -199,3 +199,17 @@
 # alias stub is a real file and so keeps serving the HTML, and this rule applies
 # where there is no file to shadow it.
 /documentation/skills/*    /documentation/agentic-tools/skills/:splat    301
+
+# Data Migration tutorial merged into Migrate to Qdrant
+/documentation/tutorials-operations/migration/*   /documentation/migrate-to-qdrant/:splat   301!
+/documentation/tutorials-operations/migration     /documentation/migrate-to-qdrant/         301!
+/documentation/database-tutorials/migration/*     /documentation/migrate-to-qdrant/:splat   301!
+/documentation/database-tutorials/migration       /documentation/migrate-to-qdrant/         301!
+
+# Static Embeddings moved from tutorials to articles
+/documentation/tutorials-search-engineering/static-embeddings/*   /articles/static-embeddings/:splat   301!
+/documentation/tutorials-search-engineering/static-embeddings     /articles/static-embeddings/         301!
+/documentation/database-tutorials/static-embeddings/*             /articles/static-embeddings/:splat   301!
+/documentation/database-tutorials/static-embeddings               /articles/static-embeddings/         301!
+/blog/static-embeddings/*                                         /articles/static-embeddings/:splat   301!
+/blog/static-embeddings                                           /articles/static-embeddings/         301!
