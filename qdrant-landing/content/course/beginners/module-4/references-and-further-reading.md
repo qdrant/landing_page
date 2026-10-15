@@ -10,7 +10,7 @@ isLesson: true
 
 # References and Further Reading
 
-- [Sizing Tool](https://sizing.qdrant.tech) How much memory and disk a collection needs, before you commit to a node.
+- [Sizing Tool](https://sizing.qdrant.tech/estimate) How much memory and disk a collection needs, before you commit to a node.
 - [What Is RAG](/articles/what-is-rag-in-ai/) The retrieval and generation pattern in depth.
 - [Qdrant Cloud](https://cloud.qdrant.io/) Create a free cluster before Module 5, so the capstone runs against a real server.
 
