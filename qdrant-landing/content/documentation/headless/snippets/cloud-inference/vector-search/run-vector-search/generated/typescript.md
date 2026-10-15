@@ -1,4 +1,6 @@
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
 const results = await client.query("{collection_name}", {
     prefetch: [
         {
@@ -11,9 +13,8 @@ const results = await client.query("{collection_name}", {
         {
             query: {
                 text: queryText,
-                model: bm25Model,
             },
-            using: "bm25_sparse_vector",
+            using: "passage_text",
         },
     ],
     query: {

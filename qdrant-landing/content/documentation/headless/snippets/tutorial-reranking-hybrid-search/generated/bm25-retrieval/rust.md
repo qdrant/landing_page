@@ -2,8 +2,8 @@
 let results = client
     .query(
         QueryPointsBuilder::new(collection_name)
-            .query(Query::new_nearest(Document::new(query, sparse_embedding_model)))
-            .using("sparse")
+            .query(Query::new_text(query))
+            .using("description")
             .limit(10),
     )
     .await?;

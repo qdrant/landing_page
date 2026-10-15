@@ -33,14 +33,30 @@ client.createCollectionAsync(
                                         .build())
                                 .build())
                         .build()))
-        .setSparseVectorsConfig(
-            SparseVectorConfig.newBuilder()
-                .putMap(
-                    "sparse",
-                    SparseVectorParams.newBuilder()
-                        .setModifier(Modifier.Idf)
-                        .build())
-                .build())
         .build()
+).get();
+
+client.createPayloadIndexAsync(
+    collectionName,
+    "description",
+    PayloadSchemaType.Text,
+    PayloadIndexParams.newBuilder()
+        .setTextIndexParams(
+            TextIndexParams.newBuilder()
+                .setTokenizer(TokenizerType.Word)
+                .setStemmer(
+                    StemmingAlgorithm.newBuilder()
+                        .setSnowball(
+                            SnowballParams.newBuilder().setLanguage("english").build())
+                        .build())
+                .setStopwords(StopwordsSet.newBuilder().addLanguages("english").build())
+                // Enable BM25 scoring
+                .setScoring(
+                    TextScoringParams.newBuilder().setType(TextScoringType.Bm25).build())
+                .build())
+        .build(),
+    null,
+    null,
+    null
 ).get();
 ```

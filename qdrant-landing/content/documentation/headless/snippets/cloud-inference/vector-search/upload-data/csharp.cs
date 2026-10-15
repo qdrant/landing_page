@@ -1,5 +1,5 @@
-using Qdrant.Client; // @hide
-using Qdrant.Client.Grpc; // @hide
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
 public class Snippet
 {
@@ -8,7 +8,6 @@ public class Snippet
 		var client = new QdrantClient("localhost", 6334); // @hide
 
 		var denseModel = "sentence-transformers/all-minilm-l6-v2";
-		var bm25Model = "qdrant/bm25";
 		// NOTE: LoadDataset is a user-defined function.
 		// Implement it to handle dataset loading as needed.
 		// @hide-start
@@ -33,20 +32,17 @@ public class Snippet
 		            {
 		                Text = passage,
 		                Model = denseModel
-		            },
-		            ["bm25_sparse_vector"] = new Document
-		            {
-		                Text = passage,
-		                Model = bm25Model
 		            }
 		        },
+		        // Used for BM25
+		        Payload = { ["passage_text"] = passage }
 		    };
 
 		    points.Add(point);
 		}
 
 		await client.UpsertAsync(
-		    collectionName: "{collectionName}",
+		    collectionName: "{collection_name}",
 		    points: points
 		);
 	}

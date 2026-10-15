@@ -7,8 +7,8 @@ let dense_prefetch = PrefetchQueryBuilder::default()
     .build();
 
 let bm25_prefetch = PrefetchQueryBuilder::default()
-    .query(Query::new_nearest(Document::new(query_text, bm25_model)))
-    .using("bm25_sparse_vector")
+    .query(Query::new_text(query_text))
+    .using("passage_text")
     .build();
 
 let query_request = QueryPointsBuilder::new("{collection_name}")

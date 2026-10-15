@@ -1,7 +1,7 @@
 ---
 title: Hybrid Search
-short_description: "Step-by-step tutorial: build hybrid search in Qdrant combining dense semantic and sparse keyword retrieval with reciprocal rank fusion."
-description: "Build a hybrid search engine on Qdrant Cloud that fuses dense embeddings with BM25 sparse vectors using reciprocal rank fusion for higher-precision retrieval."
+short_description: "Step-by-step tutorial: build hybrid search in Qdrant combining dense semantic retrieval and BM25 keyword retrieval with reciprocal rank fusion."
+description: "Build a hybrid search engine on Qdrant Cloud that fuses dense embeddings with BM25 full-text search using reciprocal rank fusion for higher-precision retrieval."
 weight: 40
 aliases:
   - /documentation/tutorials-and-examples/cloud-inference-hybrid-search/
@@ -17,7 +17,7 @@ stack:
 
 In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant Cloud's built-in [inference](/documentation/cloud/inference/) capabilities. You'll learn how to:
 - Automatically embed your data using [cloud Inference](/documentation/cloud/inference/) without needing to run local models,
-- Combine dense semantic embeddings with [sparse BM25 keywords](/documentation/tutorials-basics/reranking-hybrid-search/),  and
+- Combine dense semantic embeddings with [BM25 keyword search](/documentation/search/text-search/full-text-search/#bm25),  and
 - Perform hybrid search using  [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/) to retrieve the most relevant results.
 
 ## Initialize the Client
@@ -26,7 +26,7 @@ Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentat
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/initialize-client/" >}}
 
 ## Create a Collection
-Qdrant stores vectors and associated metadata in collections. A collection requires vector parameters to be set during creation. In this case, let's set up a collection using `BM25` for sparse vectors and `all-minilm-l6-v2` for dense vectors. BM25 uses the Inverse Document Frequency to reduce the weight of common terms that appear in many documents while boosting the importance of rare terms that are more discriminative for retrieval. Qdrant will handle the calculations of the IDF term if we enable that in the configuration of the `bm25_sparse_vector` named sparse vector.
+Qdrant stores vectors and associated metadata in collections. A collection requires vector parameters to be set during creation. In this case, let's set up a collection with a dense vector for `all-minilm-l6-v2` embeddings. For keyword search, create a [full-text index](/documentation/manage-data/indexing/#full-text-index) with [BM25 scoring](/documentation/manage-data/indexing/#bm25-scoring) enabled on the `passage_text` payload field. BM25 uses the Inverse Document Frequency to reduce the weight of common terms that appear in many documents while boosting the importance of rare terms that are more discriminative for retrieval. Qdrant computes these statistics from the indexed text, so you don't need to generate embeddings for BM25.
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/create-collection/" >}}
 
