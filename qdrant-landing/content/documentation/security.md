@@ -367,9 +367,9 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 
 ## Audit Logging
 
-*Available as of v1.17.0* 
+*Available as of v1.17.0*
 
-Audit logging records all API operations that require authentication or authorization, and writes them to a log file in JSON format.
+Audit logging records all API operations that require authentication or authorization, and writes them in JSON format, by default to log files.
 
 Audit logging is not enabled by default. To enable it, use the following configuration options:
 
@@ -384,11 +384,33 @@ audit:
   # the TCP connection. Enabling this on a publicly reachable instance allows
   # clients to spoof their IP address in audit logs.
   trust_forwarded_headers: false
+  # Where to write audit log entries: file, stdout, stderr, file_and_stdout, or file_and_stderr
+  output: file
 ```
 
 By default, audit logs are rotated daily, and the seven most recent log files are kept. To configure hourly rotation, set `rotation` to `hourly`. When the number of log files exceeds `max_log_files`, the oldest log file is deleted.
 
-<aside role="alert">Audit logging is verbose and audit logs can grow in size rapidly. Ensure that you have sufficient disk space.</aside>
+<aside role="state">When Qdrant writes audit logs to files, they are verbose and can grow in size rapidly. Ensure that you have sufficient disk space.</aside>
+
+### Audit Log Output
+
+*Available as of v1.20.0*
+
+The `output` setting controls where Qdrant writes audit log entries:
+
+| Value | Behavior |
+|---|---|
+| `file` (default) | Writes rolling log files in `dir`. |
+| `stdout` or `stderr` | Writes only to that stream. Qdrant writes nothing to `dir` and doesn't create the directory. |
+| `file_and_stdout` or `file_and_stderr` | Writes to both the log files and the stream. |
+
+Writing to `stdout` or `stderr` is useful when you collect logs from a container's output instead of a mounted directory.
+
+`output` is a single value, so you can also set it with an environment variable.
+
+The `rotation` and `max_log_files` settings apply only when Qdrant writes to files.
+
+Qdrant adds `"kind": "audit"` to every audit log line. Use this field to identify audit entries when they share a stream with regular logs. The field appears only in the written logs., not in entries returned by the [`/audit/logs` API](#query-audit-logs). Older log files without this field remain readable.
 
 ### Tracing IDs
 
@@ -404,7 +426,7 @@ Qdrant reads the tracing ID from the first matching header in the following orde
 
 *Available as of v1.18.0*
 
-The audit log can be queried via the `/audit/logs` API (requires [manage-level access](#table-of-access)). For example:
+The audit log can be queried via the `/audit/logs` API (requires [manage-level access](#table-of-access)). The API reads the entries that Qdrant wrote to files. If `output` is `stdout` or `stderr`, there are no local files to read, so the API returns no entries for that node. It doesn't serve old files left over from an earlier `file` configuration. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/audit-logging/query/" >}}
 
