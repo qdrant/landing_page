@@ -2,10 +2,9 @@
 POST /collections/{collection_name}/points/query
 {
     "query": {
-        "text": "time travel",
-        "model": "qdrant/bm25"
+        "text": "time travel"
     },
-    "using": "title-bm25",
+    "using": "title",
     "filter": {
         "must": [
             { "key": "group_id", "match": { "value": "user_1" } },
