@@ -42,7 +42,7 @@ Instantiate a BM25 embedder with a language setting. The embedder applies stemmi
 | `min_token_len` | Minimum token length to include. |
 | `max_token_len` | Maximum token length to include. |
 
-For a full description of each parameter, see [Configuring BM25 Parameters](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters).
+For a full description of each parameter, see [Configuring BM25 Parameters](/documentation/search/text-search/sparse-vector-search/#configuring-bm25-parameters).
 
 ## Embed and Upsert Documents
 
