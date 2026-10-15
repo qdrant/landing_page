@@ -4,8 +4,7 @@ use qdrant_edge::*;
 use qdrant_edge::internal::*;
 
 let sync_timestamp = SystemTime::now()
-    .duration_since(UNIX_EPOCH)
-    .unwrap()
+    .duration_since(UNIX_EPOCH)?
     .as_secs_f64();
 
 let current_manifest = immutable_shard.snapshot_manifest()?;
