@@ -4,11 +4,8 @@ POST /collections/{collection_name}/points/query
     "prefetch": {
         "prefetch": [
             {
-                "query": {
-                    "indices": [1, 42],    // <┐
-                    "values": [0.22, 0.8]  // <┴─sparse vector
-                },
-                "using": "sparse",
+                "query": { "text": "time travel" }, // <-- BM25 text query
+                "using": "title",
                 "limit": 100
             },
             {

@@ -19,10 +19,20 @@ public class Snippet
                         Distance = Distance.Cosine,
                     },
                 },
-            },
-            sparseVectorsConfig: new SparseVectorConfig
+            }
+        );
+
+        await client.CreatePayloadIndexAsync(
+            collectionName: "books",
+            fieldName: "title",
+            schemaType: PayloadSchemaType.Text,
+            indexParams: new PayloadIndexParams
             {
-                Map = { ["isbn-bm25"] = new SparseVectorParams { Modifier = Modifier.Idf } },
+                TextIndexParams = new TextIndexParams
+                {
+                    Tokenizer = TokenizerType.Word,
+                    Scoring = new TextScoringParams { Type = TextScoringType.Bm25 },
+                },
             }
         );
     }
