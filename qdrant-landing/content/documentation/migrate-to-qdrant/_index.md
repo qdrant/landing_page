@@ -63,6 +63,7 @@ To choose between the two, see [Migration and Recovery Options](/documentation/m
 | [pgvector](/documentation/migrate-to-qdrant/from-pgvector/) | `pg` | Yes |
 | [S3 Vectors](/documentation/migrate-to-qdrant/from-s3-vectors/) | `s3` | Yes |
 | [Amazon DynamoDB](/documentation/migrate-to-qdrant/from-dynamodb/) | `dynamodb` | Yes |
+| [Turbopuffer](/documentation/migrate-to-qdrant/from-turbopuffer/) | `turbopuffer` | Yes |
 | [Chroma](/documentation/migrate-to-qdrant/from-chroma/) | `chroma` | Yes |
 | [Redis](/documentation/migrate-to-qdrant/from-redis/) | `redis` | No (must pre-create) |
 | [MongoDB](/documentation/migrate-to-qdrant/from-mongodb/) | `mongodb` | No (must pre-create) |
