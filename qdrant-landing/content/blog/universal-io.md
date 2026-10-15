@@ -59,7 +59,7 @@ After a few iterations, we settled on a middle ground, a `ReadPipeline` abstract
 
 ## Filesystems, Files, and Pipelines
 
-Universal I/O is built on a set of interdependent Rust traits (similar to interfaces in Go or protocols in Python), and three of them matter for the rest of this blog:
+Universal I/O is built on a set of interdependent Rust traits, and three of them matter for the rest of this blog:
 
 - `UniversalReadFs` is a filesystem handle, which checks whether files exist, lists them, and opens them.
 - `UniversalRead` is a file handle that does the actual reading. The caller picks the element type `T`, such as `f32` or `u32`, and passes a hint about the access pattern (sequential or random), and when a backend returns a buffer it allocated itself, it aligns that buffer for `T`, so the bytes can be cast to a slice of `T` without copying.
@@ -218,4 +218,4 @@ Universal I/O started with a narrow question, which was how to read the data str
 
 With that interface in place, the storage backend really is hot-swappable: the same search code reads vectors from a local `mmap` file on a laptop and from S3 in serverless mode, and the local path keeps using `mmap`. The price on our side was having to create a complex set of interdependent traits to generalize the I/O interface, but we think it is a trade worth making, since every new backend can now plug into Qdrant without touching the data structures that use it.
 
-If you want to see how it fits together, start with the [`universal_io` module](https://github.com/qdrant/qdrant/tree/master/lib/common/common/src/universal_io) in the Qdrant repository.
+If you want to see how it fits together, start with the [`universal_io` module](https://github.com/qdrant/qdrant/tree/master/lib/common/common/src/universal_io) in the Qdrant repository and, if you have any questions about it, join our [Discord Community](https://discord.gg/qdrant) and we'll try to answer there!
