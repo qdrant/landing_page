@@ -19,5 +19,8 @@ client.createCollection("{collection_name}", {
   payload: {
     memory: "cached",
   },
+  id_tracker: {
+    memory: "cached",
+  },
 });
 ```

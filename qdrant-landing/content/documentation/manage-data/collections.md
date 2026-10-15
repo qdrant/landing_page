@@ -170,7 +170,7 @@ The following parameters can be updated:
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config`, and [`memory`](/documentation/ops-configuration/memory-tiers/) tier settings.
-* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor`, and the payload's [`memory`](/documentation/ops-configuration/memory-tiers/) tier.
+* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor`, and the [`memory`](/documentation/ops-configuration/memory-tiers/) tiers of the payload and the ID tracker.
 * `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
