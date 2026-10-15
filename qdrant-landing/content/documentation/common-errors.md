@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-short_description: "Diagnose and resolve common Qdrant errors, from open-file limits and quota rejections to incompatible file systems and corrupted collection metadata."
+short_description: "Diagnose and resolve common Qdrant errors, from open-file limits, quota rejections, and 401 and 403 authentication failures to incompatible file systems and corrupted collection metadata."
 description: "Troubleshoot common Qdrant runtime errors: open-file limits, HTTP 507 quota rejections, POSIX file system requirements, and recovery from corrupted collection metadata."
 partition: deploy
 weight: 150
@@ -59,6 +59,22 @@ To resolve it, either free the resource or raise the limit:
 - Raise the limit with `PUT /quotas`, if the quota is set lower than the node can actually handle.
 
 Writes don't resume the instant usage drops. A tripped limit clears only once usage has fallen under the [release margin](/documentation/ops-configuration/quotas/#release-margin), which defaults to 5 percentage points under the limit.
+
+## Unauthorized and forbidden (HTTP 401 and 403)
+
+When API key authentication is enabled, which is always the case on Qdrant Cloud, Qdrant rejects a request with `401` when it can't identify the key, and with `403` when the key is known but not allowed to do what the request asks. Response messages start with `Unauthorized:` or `Forbidden:`, followed by the text in the table.
+
+| Status | Message | Cause | Fix |
+|---|---|---|---|
+| 401 | `Must provide an API key or an Authorization bearer token` | The request has neither an `api-key` header nor an `Authorization: Bearer` header. | Send the key with every request. |
+| 401 | `Invalid API key or JWT` | The value is not a key this cluster recognizes, for example a mistyped or truncated key, or a Cloud Management Key. | Copy the key again. On Qdrant Cloud, use a [Database API key](/documentation/cloud/authentication/) from the target cluster. |
+| 403 | A message naming an expired or invalid signature | A granular access key has passed its expiration, or it was created for a different cluster. | Create a new key on the cluster you connect to, and set a replacement date before the key expires. |
+| 403 | `Access to collection <name> is required` | The key is restricted to collections and does not include this one. | Create a key that includes the collection. |
+| 403 | `Write access to collection <name> is required` | The key has read-only access to the collection, and the request writes to it. | Create a key with read-write access to the collection. |
+| 403 | `Manage access for this operation is required` | The operation, such as creating a collection, needs manage permission. | Use a manage key. See the [Table of Access](/documentation/security/#table-of-access). |
+| 403 | `Global access is required` or `Global manage access is required` | A key restricted to specific collections called an operation that applies to the whole cluster. | Use a cluster-wide key. |
+
+On Qdrant Cloud, a key that was created moments ago can return `403`. Wait a few seconds and retry. If connections fail before any `401` or `403` response, check the port, TLS, and [IP restrictions](/documentation/cloud/cluster-access/#troubleshooting-connections).
 
 ## Incompatible file system
 
