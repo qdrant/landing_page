@@ -6,7 +6,7 @@ pub async fn main() -> anyhow::Result<()> {
 
     let dense_prefetch = PrefetchQueryBuilder::default()
         .query(Query::new_nearest(Document::new(
-            "9780553213515",
+            "time travel",
             "sentence-transformers/all-minilm-l6-v2",
         )))
         .using("description-dense")
@@ -14,11 +14,8 @@ pub async fn main() -> anyhow::Result<()> {
         .build();
 
     let bm25_prefetch = PrefetchQueryBuilder::default()
-        .query(Query::new_nearest(Document::new(
-            "9780553213515",
-            "Qdrant/bm25",
-        )))
-        .using("isbn-bm25")
+        .query(Query::new_text("time travel"))
+        .using("title")
         .build();
 
     client

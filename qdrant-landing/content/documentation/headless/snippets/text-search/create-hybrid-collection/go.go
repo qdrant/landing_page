@@ -1,15 +1,13 @@
 package snippet
 
-// @hide-start
 import (
 	"context"
 
 	"github.com/qdrant/go-client/qdrant"
 )
 
-// @hide-end
 func Main() {
-	//@hide-start
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
@@ -26,10 +24,18 @@ func Main() {
 			map[string]*qdrant.VectorParams{
 				"description-dense": {Size: 384, Distance: qdrant.Distance_Cosine},
 			}),
-		SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
-			map[string]*qdrant.SparseVectorParams{
-				"isbn-bm25": {Modifier: qdrant.Modifier_Idf.Enum()},
-			}),
 	})
 
+	client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+		CollectionName: "books",
+		FieldName:      "title",
+		FieldType:      qdrant.FieldType_FieldTypeText.Enum(),
+		FieldIndexParams: qdrant.NewPayloadIndexParamsText(
+			&qdrant.TextIndexParams{
+				Tokenizer: qdrant.TokenizerType_Word,
+				Scoring: &qdrant.TextScoringParams{
+					Type: qdrant.TextScoringType_Bm25,
+				},
+			}),
+	})
 }

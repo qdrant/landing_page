@@ -3,13 +3,13 @@ POST /collections/{collection_name}/points/query
 {
     "prefetch": [
         {
-            "query": { "text": "vector database", "model": "qdrant/bm25" },
-            "using": "title-bm25",
+            "query": { "text": "vector database" },
+            "using": "title",
             "limit": 50
         },
         {
-            "query": { "text": "vector database", "model": "qdrant/bm25" },
-            "using": "body-bm25",
+            "query": { "text": "vector database" },
+            "using": "body",
             "limit": 50
         }
     ],
