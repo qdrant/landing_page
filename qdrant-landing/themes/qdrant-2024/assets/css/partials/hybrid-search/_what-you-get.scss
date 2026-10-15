@@ -1,0 +1,19 @@
+@use '../../helpers/functions' as *;
+
+.hybrid-search-what-you-get {
+  @include hybrid-search-band(false, 5, 5);
+  @include hybrid-search-header('hybrid-search-what-you-get', false, true);
+  @include hybrid-search-header-centered('hybrid-search-what-you-get');
+  @include hybrid-search-item('hybrid-search-what-you-get');
+  @include hybrid-search-callout('hybrid-search-what-you-get', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2.5; }
+  &__visual { border-radius: pxToRem(8); overflow: hidden; img { display: block; width: 100%; height: auto; } }
+  @include hybrid-search-code('hybrid-search-what-you-get');
+  &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
+  &__grid--text .hybrid-search-what-you-get__list { max-width: pxToRem(760); margin: 0 auto; }
+  &__link { margin-top: $spacer * 2; }
+  @include media-breakpoint-up(lg) {
+    &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: center; }
+    &__grid--text { grid-template-columns: 1fr; }
+  }
+}
