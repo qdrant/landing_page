@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/filterable-hnsw/faq") }}
+  <section class="filterable-hnsw-faq">
+    <div class="container">
+      <h2 class="filterable-hnsw-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

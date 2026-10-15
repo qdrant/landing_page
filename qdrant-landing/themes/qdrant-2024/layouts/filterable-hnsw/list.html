@@ -1,0 +1,23 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "filterable-hnsw/hero" . }}
+
+  {{ partial "filterable-hnsw/metadata-filtering-paths" . }}
+
+  {{ with (.Site.GetPage "/filterable-hnsw/how-it-works") }}
+    {{ partial "landing/steps-icon-flow" . }}
+  {{ end }}
+
+  {{ partial "filterable-hnsw/acorn-graph-traversal" . }}
+
+  {{ partial "filterable-hnsw/payload-type-filtering" . }}
+
+  {{ partial "filterable-hnsw/honest-limits" . }}
+
+  {{ partial "filterable-hnsw/faq" . }}
+
+  {{ with (.Site.GetPage "/filterable-hnsw/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

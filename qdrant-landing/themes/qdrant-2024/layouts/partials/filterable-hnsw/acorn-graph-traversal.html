@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/filterable-hnsw/acorn-graph-traversal") }}
+  <section class="filterable-hnsw-acorn-graph-traversal">
+    <div class="container">
+      <div class="filterable-hnsw-acorn-graph-traversal__header">
+        <div class="filterable-hnsw-acorn-graph-traversal__heading">
+          {{ with .Params.label }}<p class="filterable-hnsw-acorn-graph-traversal__label">{{ . }}</p>{{ end }}
+          <h2 class="filterable-hnsw-acorn-graph-traversal__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="filterable-hnsw-acorn-graph-traversal__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}
+      <div class="filterable-hnsw-acorn-graph-traversal__grid{{ if eq $n 1 }} filterable-hnsw-acorn-graph-traversal__grid--single{{ end }}">
+        {{ range .Params.cards }}
+          <div class="filterable-hnsw-acorn-graph-traversal__cell{{ if eq $n 1 }} filterable-hnsw-acorn-graph-traversal__cell--wide{{ end }}">
+            {{ with .icon }}<img class="filterable-hnsw-acorn-graph-traversal__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
+            <h3 class="filterable-hnsw-acorn-graph-traversal__cell-title">{{ .title }}</h3>
+            <p class="filterable-hnsw-acorn-graph-traversal__cell-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="filterable-hnsw-acorn-graph-traversal__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link filterable-hnsw-acorn-graph-traversal__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
