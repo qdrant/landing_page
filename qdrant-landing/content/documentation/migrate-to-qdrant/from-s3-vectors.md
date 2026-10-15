@@ -46,11 +46,6 @@ AWS credentials are passed via environment variables or the default AWS credenti
 | :--- | :--- | :--- |
 | `--qdrant.id-field` | `__id__` | Payload field name for original S3 vector IDs |
 
-## Gotchas
-
-- **Credential handling:** AWS credentials must be available inside the container. Pass them as environment variables with `-e` flags or mount your `~/.aws` directory.
-- **Region matters:** Ensure the `AWS_REGION` environment variable matches the region of your S3 bucket.
-
 ## Next Steps
 
 After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

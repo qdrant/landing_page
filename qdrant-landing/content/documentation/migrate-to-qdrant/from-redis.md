@@ -71,8 +71,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Named vectors:** If your Redis index has multiple vector fields, all are migrated as named vectors. Ensure your pre-created Qdrant collection has a matching named vector configuration.
-- **ID mapping:** Redis document keys are converted to Qdrant point IDs. The original key is stored in the payload under `--qdrant.id-field`.
+- **Named vectors:** Every vector field becomes a named vector with the field's name, even when there is only one. Pre-create the collection with a named vector for each field.
 
 ## Next Steps
 

@@ -68,8 +68,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Named vectors:** If your Solr schema has multiple dense vector fields, all are migrated as named vectors. Ensure your pre-created collection has matching named vector configurations.
-- **ID mapping:** Solr document IDs (strings) are converted to Qdrant UUIDs. The original Solr ID is stored in payload under `--qdrant.id-field`.
+- **Named vectors:** Every vector field becomes a named vector with the field's name, even when there is only one. Pre-create the collection with a named vector for each field.
 
 ## Next Steps
 

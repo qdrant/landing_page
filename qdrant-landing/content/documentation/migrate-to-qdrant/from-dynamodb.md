@@ -38,19 +38,12 @@ docker run --net=host --rm -it \
 | `--dynamodb.table` | Yes | DynamoDB table name |
 | `--dynamodb.index` | Yes | DynamoDB vector index name |
 
-AWS credentials are passed via environment variables or the default AWS credential chain, not CLI flags.
-
 ### Qdrant-Side Options
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
 | `--qdrant.id-field` | `__id__` | Payload field name for the original DynamoDB primary key |
 | `--qdrant.vector-name` | (empty) | Target vector name. When empty, the unnamed vector is used |
-
-## Gotchas
-
-- **Credential handling:** AWS credentials must be available inside the container. Pass them as environment variables with `-e` flags or mount your `~/.aws` directory.
-- **Region matters:** Ensure the `AWS_REGION` environment variable matches the region of your DynamoDB table.
 
 ## Next Steps
 
