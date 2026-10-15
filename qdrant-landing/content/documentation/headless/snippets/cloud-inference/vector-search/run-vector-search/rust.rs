@@ -8,7 +8,6 @@ pub async fn main() -> anyhow::Result<()> {
     let client = qdrant_client::Qdrant::from_url("http://localhost:6334").build()?;
     let query_text = "{query_text}";
     let dense_model = "{dense_model_name}";
-    let bm25_model = "{bm25_model_name}";
     // @hide-end
 
     let dense_prefetch = PrefetchQueryBuilder::default()
@@ -17,8 +16,8 @@ pub async fn main() -> anyhow::Result<()> {
         .build();
 
     let bm25_prefetch = PrefetchQueryBuilder::default()
-        .query(Query::new_nearest(Document::new(query_text, bm25_model)))
-        .using("bm25_sparse_vector")
+        .query(Query::new_text(query_text))
+        .using("passage_text")
         .build();
 
     let query_request = QueryPointsBuilder::new("{collection_name}")

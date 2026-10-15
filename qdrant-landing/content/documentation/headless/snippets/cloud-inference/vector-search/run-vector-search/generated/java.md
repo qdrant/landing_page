@@ -5,7 +5,9 @@ import static io.qdrant.client.QueryFactory.nearest;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.Fusion;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.Query;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.TextQuery;
 
 PrefetchQuery densePrefetch =
     PrefetchQuery.newBuilder()
@@ -16,8 +18,11 @@ PrefetchQuery densePrefetch =
 
 PrefetchQuery bm25Prefetch =
     PrefetchQuery.newBuilder()
-        .setQuery(nearest(Document.newBuilder().setText(queryText).setModel(bm25Model).build()))
-        .setUsing("bm25_sparse_vector")
+        .setQuery(
+            Query.newBuilder()
+                .setText(TextQuery.newBuilder().setQuery(queryText).build())
+                .build())
+        .setUsing("passage_text")
         .build();
 
 QueryPoints request =

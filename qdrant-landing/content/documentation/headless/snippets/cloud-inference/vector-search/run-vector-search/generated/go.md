@@ -1,11 +1,18 @@
 ```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
 prefetch := []*qdrant.PrefetchQuery{
 	{
-		Query: qdrant.NewQueryDocument(&qdrant.Document{
-			Text:  queryText,
-			Model: bm25Model,
-		}),
-		Using: qdrant.PtrOf("bm25_sparse_vector"),
+		Query: &qdrant.Query{
+			Variant: &qdrant.Query_Text{
+				Text: &qdrant.TextQuery{Query: queryText},
+			},
+		},
+		Using: qdrant.PtrOf("passage_text"),
 	},
 	{
 		Query: qdrant.NewQueryDocument(&qdrant.Document{

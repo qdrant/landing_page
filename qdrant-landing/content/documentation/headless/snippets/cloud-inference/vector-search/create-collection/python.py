@@ -1,6 +1,6 @@
-client = QdrantClient(url="http://localhost:6333")  # @hide
-
 from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")  # @hide
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -9,10 +9,14 @@ client.create_collection(
             size=384,
             distance=models.Distance.COSINE
         )
-    },
-    sparse_vectors_config={
-        "bm25_sparse_vector": models.SparseVectorParams(
-            modifier=models.Modifier.IDF # Enable Inverse Document Frequency
-        )
     }
+)
+
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="passage_text",
+    field_schema=models.TextIndexParams(
+        type=models.TextIndexType.TEXT,
+        scoring=True,  # Enable BM25 scoring
+    ),
 )
