@@ -1,0 +1,192 @@
+{{- /* Four-question deployment router.
+
+  Behavior lives in /js/deployment-quiz.js, gated on `.HasShortcode "deployment-quiz"`
+  in partials/js.html. All CSS is scoped under .qdq so it cannot collide with theme
+  styles, and Mona Sans comes from the theme.
+
+  Questions, options and all three result cards are rendered server-side. JS only
+  toggles which step is visible and which result card is revealed, so without JS the
+  block degrades to a readable static questionnaire with every outcome shown.
+*/ -}}
+
+<style>
+  .qdq{
+    --qdq-red:#dc244c; --qdq-red-dark:#9e0d38; --qdq-teal:#009688;
+    --qdq-bg:#0b0f19; --qdq-s1:#111824; --qdq-s2:#141a2a;
+    --qdq-text:#f0f3fa; --qdq-dim:#656b7f; --qdq-muted:#abb1c7; --qdq-bd:#2a3142;
+    --qdq-mono:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    box-sizing:border-box; margin:2rem auto; padding:clamp(24px,4vw,40px);
+    background:var(--qdq-bg); color:var(--qdq-text); border-radius:16px;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .qdq *,.qdq *::before,.qdq *::after{ box-sizing:border-box; }
+  .qdq-inner{ width:100%; max-width:680px; margin:0 auto; }
+
+  .qdq-track{ height:4px; background:var(--qdq-s2); border-radius:999px; margin-bottom:32px; overflow:hidden; }
+  .qdq-fill{ height:100%; background:var(--qdq-red); width:0; transition:width .35s ease; border-radius:999px; }
+  .qdq:not(.is-ready) .qdq-track{ display:none; }
+
+  /* Without JS every step stays visible. JS adds .is-ready and drives .is-active. */
+  .qdq.is-ready .qdq-step{ display:none; }
+  .qdq.is-ready .qdq-step.is-active{ display:block; animation:qdq-fade .35s ease; }
+  .qdq-step + .qdq-step{ margin-top:36px; }
+  .qdq.is-ready .qdq-step + .qdq-step{ margin-top:0; }
+  @keyframes qdq-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .qdq-eyebrow{ font-size:12px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--qdq-red); margin-bottom:12px; }
+  .qdq .qdq-h1{ font-size:clamp(24px,3.2vw,30px); font-weight:600; letter-spacing:-.5px; margin:0 0 14px; color:var(--qdq-text); }
+  .qdq .qdq-h2{ font-size:clamp(19px,2.6vw,23px); font-weight:600; letter-spacing:-.4px; margin:0 0 24px; color:var(--qdq-text); }
+  .qdq-lead{ font-size:16px; color:var(--qdq-muted); margin:0 0 32px; }
+
+  .qdq-options{ display:flex; flex-direction:column; gap:12px; }
+  .qdq-option{
+    text-align:left; background:var(--qdq-s1); border:1px solid var(--qdq-bd); border-radius:10px;
+    padding:18px 20px; cursor:pointer; color:var(--qdq-text); font:inherit; font-size:15.5px; font-weight:500;
+    transition:border-color .18s, background .18s, transform .12s; width:100%;
+  }
+  .qdq-option:hover{ border-color:var(--qdq-dim); background:var(--qdq-s2); transform:translateY(-1px); }
+  .qdq-option:focus-visible{ outline:2px solid var(--qdq-red); outline-offset:2px; }
+  .qdq-option .qdq-sub{ display:block; font-size:13px; font-weight:400; color:var(--qdq-dim); margin-top:4px; }
+
+  .qdq-btn{
+    display:inline-block; background:var(--qdq-red); color:#fff; border:none; font:inherit;
+    font-size:15px; font-weight:600; cursor:pointer; padding:14px 28px; border-radius:8px;
+    text-decoration:none; transition:background .18s;
+  }
+  .qdq-btn:hover{ background:var(--qdq-red-dark); color:#fff; text-decoration:none; }
+  .qdq-btn-ghost{ background:transparent; color:var(--qdq-muted); border:1px solid var(--qdq-bd); }
+  .qdq-btn-ghost:hover{ background:var(--qdq-s2); color:var(--qdq-text); }
+
+  .qdq-back{ background:none; border:none; color:var(--qdq-dim); font:inherit; font-size:13.5px; cursor:pointer; margin-top:22px; padding:4px 0; }
+  .qdq-back:hover{ color:var(--qdq-text); }
+  .qdq:not(.is-ready) .qdq-back{ display:none; }
+
+  .qdq-card{ background:var(--qdq-s1); border:1px solid var(--qdq-bd); border-radius:14px; padding:clamp(22px,3vw,32px); }
+  .qdq-card.is-rec{ border-color:var(--qdq-red); }
+  .qdq-card + .qdq-card{ margin-top:16px; }
+  .qdq.is-ready .qdq-card{ display:none; }
+  .qdq.is-ready .qdq-card.is-shown{ display:block; }
+  .qdq-tag{ display:inline-block; font-size:11px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--qdq-red); margin-bottom:8px; }
+  .qdq-name{ font-size:clamp(22px,3vw,28px); font-weight:600; letter-spacing:-.5px; margin-bottom:8px; }
+  .qdq-why{ font-size:15.5px; color:var(--qdq-muted); margin:0 0 24px; }
+  .qdq-points{ list-style:none; margin:0 0 24px; padding:0; }
+  .qdq-points li{ font-size:14.5px; padding:7px 0 7px 24px; position:relative; }
+  .qdq-points li::before{ content:""; position:absolute; left:0; top:14px; width:6px; height:6px; border-radius:50%; background:var(--qdq-teal); }
+  .qdq-proof{ background:var(--qdq-s2); border-radius:8px; padding:14px 16px; font-size:13.5px; color:var(--qdq-muted); margin-bottom:26px; }
+  .qdq-proof b{ color:var(--qdq-text); }
+  .qdq-proof a{ color:var(--qdq-muted); text-decoration:underline; }
+  .qdq-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .qdq-note{ margin-top:22px; font-size:13.5px; color:var(--qdq-dim); text-align:center; }
+</style>
+
+<div class="qdq" data-deployment-quiz>
+  <div class="qdq-inner">
+    <div class="qdq-track"><div class="qdq-fill" data-qdq-progress></div></div>
+
+    <div class="qdq-step is-active" data-qdq-step="0">
+      <div class="qdq-eyebrow">2-minute assessment</div>
+      <p class="qdq-h1">Find the right Qdrant deployment for your team</p>
+      <p class="qdq-lead">Four questions about your team, your infrastructure, and your priorities. We'll point you to the deployment model that fits, and show you why.</p>
+      <button class="qdq-btn" type="button" data-qdq-act="next">Start &rarr;</button>
+    </div>
+
+    <div class="qdq-step" data-qdq-step="1">
+      <div class="qdq-eyebrow">Question 1 of 4</div>
+      <p class="qdq-h2">Does your team already run distributed systems in production?</p>
+      <div class="qdq-options">
+        <button class="qdq-option" type="button" data-qdq-q="q1" data-qdq-v="expert">Yes, deep expertise<span class="qdq-sub">We run Kubernetes and distributed databases, and operating them is a strength.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q1" data-qdq-v="some">Some, but it's not our focus<span class="qdq-sub">We can manage infrastructure, but we'd rather not expand it.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q1" data-qdq-v="none">No, or we'd prefer not to<span class="qdq-sub">We don't have dedicated infra or ops capacity to spare.</span></button>
+      </div>
+      <button class="qdq-back" type="button" data-qdq-act="prev">&larr; Back</button>
+    </div>
+
+    <div class="qdq-step" data-qdq-step="2">
+      <div class="qdq-eyebrow">Question 2 of 4</div>
+      <p class="qdq-h2">Do you have requirements that dictate where your data must live?</p>
+      <div class="qdq-options">
+        <button class="qdq-option" type="button" data-qdq-q="q2" data-qdq-v="hard">Yes, a strict residency or VPC mandate<span class="qdq-sub">Data must stay inside our own cloud or perimeter for compliance or security.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q2" data-qdq-v="soft">Some compliance needs, but flexible<span class="qdq-sub">We have requirements, but standard certifications likely cover them.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q2" data-qdq-v="none">No specific constraints<span class="qdq-sub">We're open to where the database is hosted.</span></button>
+      </div>
+      <button class="qdq-back" type="button" data-qdq-act="prev">&larr; Back</button>
+    </div>
+
+    <div class="qdq-step" data-qdq-step="3">
+      <div class="qdq-eyebrow">Question 3 of 4</div>
+      <p class="qdq-h2">Where does your team's competitive advantage come from?</p>
+      <div class="qdq-options">
+        <button class="qdq-option" type="button" data-qdq-q="q3" data-qdq-v="infra">Our infrastructure and operational capabilities<span class="qdq-sub">Running systems exceptionally well is part of how we win.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q3" data-qdq-v="both">A balance of both<span class="qdq-sub">We invest in infrastructure and product roughly equally.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q3" data-qdq-v="product">Our search quality and product experience<span class="qdq-sub">Relevance and UX are what differentiate us.</span></button>
+      </div>
+      <button class="qdq-back" type="button" data-qdq-act="prev">&larr; Back</button>
+    </div>
+
+    <div class="qdq-step" data-qdq-step="4">
+      <div class="qdq-eyebrow">Question 4 of 4</div>
+      <p class="qdq-h2">How soon do you need to be in production?</p>
+      <div class="qdq-options">
+        <button class="qdq-option" type="button" data-qdq-q="q4" data-qdq-v="slow">We have time to build operational capabilities<span class="qdq-sub">Getting the infrastructure right matters more than speed.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q4" data-qdq-v="mid">A reasonable timeline<span class="qdq-sub">We want to move efficiently without cutting corners.</span></button>
+        <button class="qdq-option" type="button" data-qdq-q="q4" data-qdq-v="fast">As fast as possible<span class="qdq-sub">Time to production is a priority.</span></button>
+      </div>
+      <button class="qdq-back" type="button" data-qdq-act="prev">&larr; Back</button>
+    </div>
+
+    <div class="qdq-step" data-qdq-step="5">
+      <div class="qdq-card is-rec" data-qdq-result="mc">
+        <span class="qdq-tag">Recommended for your team</span>
+        <div class="qdq-name">Qdrant Cloud</div>
+        <p class="qdq-why">You don't have hard infrastructure constraints, and your time is better spent on search quality than on running a database. Qdrant Cloud removes the operational overhead so your engineers can focus on what differentiates your product.</p>
+        <ul class="qdq-points">
+          <li>Qdrant handles scaling, upgrades, backups, and monitoring</li>
+          <li>Managed resharding, <code>/sys_metrics</code>, and pre-configured alerts, which self-hosted does not provide</li>
+          <li>Zero-downtime updates, including multi-version upgrades</li>
+          <li>Compliance reports (SOC 2 Type II, HIPAA, GDPR) available under NDA</li>
+        </ul>
+        <div class="qdq-proof"><b>Cosmos</b> chose Qdrant Cloud to keep its team on product rather than operations, delivering text, color, and hybrid search with sub-second latency and 79% faster processing. <a href="/blog/case-study-cosmos/">Read the case study</a></div>
+        <div class="qdq-actions">
+          <a class="qdq-btn" href="https://cloud.qdrant.io/signup">Start free &rarr;</a>
+          <button class="qdq-btn qdq-btn-ghost" type="button" data-qdq-act="restart">Retake</button>
+        </div>
+      </div>
+
+      <div class="qdq-card is-rec" data-qdq-result="hc">
+        <span class="qdq-tag">Recommended for your team</span>
+        <div class="qdq-name">Qdrant Hybrid Cloud</div>
+        <p class="qdq-why">Your data residency or VPC requirements rule out standard managed cloud, but you'd rather not build vector database operations in-house. Hybrid Cloud gives you managed operations inside your own infrastructure.</p>
+        <ul class="qdq-points">
+          <li>Managed database operations within your own VPC</li>
+          <li>Data stays in your cloud, which meets residency and compliance mandates</li>
+          <li>Deploys via a Kubernetes Operator into a cluster you already run</li>
+          <li>Automatic scaling and optimization, infrastructure control retained</li>
+        </ul>
+        <div class="qdq-proof"><b>Frankfurter Allgemeine Zeitung</b> runs Hybrid Cloud inside its own Azure Kubernetes Service environment, indexing over 14 million vectors across decades of archive with a target of 40 to 50 million. <a href="/blog/case-study-faz/">Read the case study</a></div>
+        <div class="qdq-actions">
+          <a class="qdq-btn" href="/hybrid-cloud/">Explore Hybrid Cloud &rarr;</a>
+          <button class="qdq-btn qdq-btn-ghost" type="button" data-qdq-act="restart">Retake</button>
+        </div>
+      </div>
+
+      <div class="qdq-card" data-qdq-result="sh">
+        <span class="qdq-tag">Best fit for your team</span>
+        <div class="qdq-name">Qdrant Self-Hosted</div>
+        <p class="qdq-why">You have deep infrastructure expertise and want vector search to follow your existing operational patterns. Self-hosting lets you use capabilities your team has already built, with full control over deployment and tuning.</p>
+        <ul class="qdq-points">
+          <li>Full control over deployment, tuning, and operational procedures</li>
+          <li>Integrates with your existing monitoring and ops tooling</li>
+          <li>Apache 2.0 licensed, with migration tooling if you move later</li>
+          <li>Complete control over data location and upgrade timing</li>
+        </ul>
+        <div class="qdq-proof"><b>Kakao</b> self-hosted Qdrant on its existing Kubernetes to keep internal documentation inside its own perimeter, combining dense and sparse vectors with Reciprocal Rank Fusion for its Service Desk Agent. <a href="/blog/case-study-kakao/">Read the case study</a></div>
+        <div class="qdq-actions">
+          <a class="qdq-btn" href="/documentation/quickstart/">Get started &rarr;</a>
+          <button class="qdq-btn qdq-btn-ghost" type="button" data-qdq-act="restart">Retake</button>
+        </div>
+      </div>
+
+      <div class="qdq-note">Every model runs the same engine and API, and <a href="https://github.com/qdrant/migration">moving between them</a> is reversible.</div>
+    </div>
+  </div>
+</div>
