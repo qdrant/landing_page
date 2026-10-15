@@ -1,0 +1,1 @@
+Creates a full-text index with BM25 scoring enabled on the `title` field of the `books` collection.

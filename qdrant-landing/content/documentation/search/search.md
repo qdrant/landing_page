@@ -30,6 +30,7 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | --- | --- |
 | Nearest Neighbors Search | Vector Similarity Search, also known as k-NN |
 | Search By Id | Search by an already stored vector - skip embedding model inference |
+| [Full-Text Search](/documentation/search/text-search/full-text-search/) | Rank points by BM25 relevance of a text field to a query |
 | [Recommendations](/documentation/search/explore/#recommendation-api) | Provide positive and negative examples |
 | [Discovery Search](/documentation/search/explore/#discovery-api) | Guide the search using context as a one-shot training set |
 | [Scroll](/documentation/manage-data/points/#scroll-points) | Get all points with optional filtering |
@@ -46,6 +47,10 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 **Search By Id**
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id/" >}}
+
+**Full-Text Search**
+
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-title-bm25/" >}}
 
 ## Metrics
 

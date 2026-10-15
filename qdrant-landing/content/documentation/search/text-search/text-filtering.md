@@ -90,7 +90,7 @@ These text processing steps can be configured when creating a [full-text index](
 When filtering using this index, Qdrant automatically applies the same text processing steps to the filter string before matching it against the indexed tokens.
 
 <aside role="status">
-A full-text index does not affect BM25 queries. To configure text processing for BM25, see <a href="/documentation/search/text-search/sparse-vector-search/#bm25-text-processing">BM25 Text Processing</a>.
+The same text processing applies to <a href="/documentation/search/text-search/full-text-search/#bm25">BM25 queries</a> on a full-text index with scoring enabled.
 </aside>
 
 ## Filter on Text Strings
