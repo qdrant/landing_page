@@ -53,15 +53,22 @@ If configured, only the chosen IP ranges will be allowed to access the cluster. 
 
 ![Cluster node endpoints](/documentation/cloud/cloud-ip-restrictions.png)
 
-## Restart Mode
+## Restarts and Downtime
 
-The cloud platform will automatically choose the optimal restart mode during version upgrades or maintenance for your cluster. If you have a multi-node cluster and one or more collections with a replication factor of at least 2, the cloud platform will use the rolling restart mode. This means that nodes in the cluster will be restarted one at a time, ensuring that the cluster remains available during the restart process.
+Some operations restart the nodes of a cluster: version upgrades, vertical scaling (CPU, memory, or disk size), enabling Database API keys with granular access control, and enabling or disabling [Cloud Inference](/documentation/cloud/inference/). Downtime during these restarts depends on the configuration of your cluster and its collections:
 
-If you have a multi-node cluster, but all collections have a replication factor of 1, the cloud platform will use the parallel restart mode. This means that nodes in the cluster will be restarted simultaneously, which will result in a short downtime period, but will be faster than a rolling restart.
+| Cluster | Restart mode | Downtime |
+|---|---|---|
+| Multi-node, with at least one collection that has a replication factor of 2 or more | Rolling: nodes restart one at a time | None for replicated collections. The cluster stays available |
+| Multi-node, with all collections at a replication factor of 1 | Parallel: all nodes restart at the same time | A short downtime, but a faster restart |
+| Single node | Not applicable | A short downtime while the node restarts |
+| Free tier | Not applicable | Version upgrades happen with downtime |
 
-It is possible to override your cluster's default restart mode in the advanced configuration section of the Cluster Details page.
+The cloud platform chooses the restart mode automatically. To override the default, use the restart mode setting in the advanced configuration section of the Cluster Details page.
 
 ![Cluster node endpoints](/documentation/cloud/cloud-restart-mode.png)
+
+To avoid downtime, run at least 2 nodes, and set a replication factor of at least 2 on the collections that must stay available. See [Scale Clusters](/documentation/cloud/cluster-scaling/) and [Update Clusters](/documentation/cloud/cluster-upgrades/) for the steps.
 
 ## Shard Rebalancing
 
