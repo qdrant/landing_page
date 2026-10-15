@@ -89,7 +89,7 @@ A successful request returns the server title, version, and commit. Granular acc
 
 ## Prepare for Production
 
-A cluster is production-ready when it meets these minimums:
+A cluster is production-ready when it meets these minimums. The [Cloud Production Checklist](/documentation/cloud/production-checklist/) covers every setting in full.
 
 | Area | Minimum | Where to set it |
 |---|---|---|
