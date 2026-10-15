@@ -1,0 +1,160 @@
+/* Async bridge island. Scoped under .qi-br. Frames, chips, labels and the
+   status line come from the shared island design system (islands.scss); this
+   file styles the caller timeline, worker bars, and arrows. Each read keeps one
+   categorical color: A Neon Blue, B Purple, C Cyan. */
+
+.qi-br {
+  display: block;
+}
+.qi-br .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+.qi-br__num {
+  color: var(--qi-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-br__req--a {
+  --br-c: var(--qi-cat-1);
+}
+.qi-br__req--b {
+  --br-c: var(--qi-cat-2);
+}
+.qi-br__req--c {
+  --br-c: var(--qi-cat-3);
+}
+
+/* Anything tied to a step is hidden until that step is reached. */
+.qi-br [data-step] {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.qi-br [data-step].is-shown {
+  opacity: 1;
+}
+
+.qi-br__base {
+  stroke: var(--qi-border);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.qi-br__seg {
+  stroke: var(--qi-fg);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.qi-br__seg--blocked {
+  stroke: var(--qi-muted);
+  stroke-dasharray: 3 6;
+}
+.qi-br__legend .qi-br__seg {
+  opacity: 1;
+}
+.qi-br [data-step].qi-br__seg.is-now {
+  stroke-width: 3.5;
+}
+.qi-br__tick {
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+
+.qi-br__dot circle {
+  fill: var(--br-c);
+}
+.qi-br__dot text {
+  fill: #ffffff;
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.qi-br__bar {
+  fill: var(--br-c);
+  fill-opacity: 0.16;
+  stroke: var(--br-c);
+  stroke-width: 1.5;
+  transition: fill-opacity 0.25s ease;
+}
+.qi-br__req.is-done .qi-br__bar {
+  fill-opacity: 0.06;
+  stroke-opacity: 0.6;
+}
+.qi-br__bar-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+}
+
+.qi-br__arrow {
+  fill: none;
+  stroke: var(--br-c);
+  stroke-width: 1.8;
+  /* A thin surface halo keeps arrows readable where they cross a worker bar. */
+  paint-order: stroke;
+}
+.qi-br__arrow--reply {
+  stroke-dasharray: none;
+}
+.qi-br__arrowhead {
+  fill: var(--qi-muted);
+}
+.qi-br__wait.is-now .qi-br__arrow {
+  stroke-width: 2.6;
+}
+
+.qi-br .qi-label {
+  font-size: 13px;
+}
+.qi-br__status code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+/* Compact composition (island narrower than 560px): the drawing is 360 units
+   wide, so 14px labels render at about 12px on a phone. The status line gets
+   more reserved lines because it wraps more. */
+.qi-br.is-compact .qi-label,
+.qi-br.is-compact .qi-br__bar-text {
+  font-size: 14px;
+}
+.qi-br.is-compact .qi-status--3 {
+  min-height: calc(7 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-br [data-step],
+  .qi-br__bar {
+    transition: none;
+  }
+}
+
+/* Light-only blog surface, same policy as the other blog islands. */
+html .island[data-island='content/headless/blog/universal-io/async-bridge'] {
+  --qi-fg: #303547;
+  --qi-muted: #656b7f;
+  --qi-surface: #f0f3fa;
+  --qi-border: #d3d9eb;
+  --qi-line: #abb1c7;
+  --qi-hot: #303547;
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.island[data-island='content/headless/blog/universal-io/async-bridge'].is-ready .island__stage {
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+}
+html .island[data-island='content/headless/blog/universal-io/async-bridge'] .island__caption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--qi-border);
+}
+
+/* Tighter card padding on phones; last so it wins over the card rule above. */
+@media (max-width: 640px) {
+  html .island[data-island='content/headless/blog/universal-io/async-bridge'] {
+    padding: 1rem 0.75rem 0.75rem;
+  }
+}

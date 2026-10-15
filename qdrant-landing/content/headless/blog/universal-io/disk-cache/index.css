@@ -1,0 +1,191 @@
+/* DiskCache island. Scoped under .qi-dc. Frames, chips, labels and the status
+   line come from the shared island design system (islands.scss); this file
+   styles the block rows, bitmap, and range overlays. Blocks that are local use
+   the Cyan ramp, our own fetch is Neon Blue, and a fetch already in flight is
+   Purple. */
+
+.qi-dc {
+  display: block;
+}
+.qi-dc .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+
+/* Blocks: the remote file is always complete; a mirror block is a dashed
+   ghost until its bytes are local. */
+.qi-dc__block rect {
+  stroke-width: 1;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+.qi-dc__block text {
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.qi-dc__block--remote rect {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+}
+.qi-dc__block--remote text {
+  fill: var(--qi-fg);
+}
+.qi-dc__block--mirror rect {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-dasharray: 3 3;
+}
+.qi-dc__block--mirror text {
+  fill: var(--qi-muted);
+}
+.qi-dc__block--mirror.is-local rect {
+  fill: var(--qi-cat-3-soft);
+  stroke: var(--qi-cat-3);
+  stroke-dasharray: none;
+}
+.qi-dc__block--mirror.is-local text {
+  fill: var(--qi-fg);
+}
+
+.qi-dc__bit {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.qi-dc__bit.is-set {
+  fill: var(--qi-fg);
+  font-weight: 600;
+}
+
+/* Range overlays. */
+.qi-dc__ov {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.qi-dc__ov.is-shown {
+  opacity: 1;
+}
+.qi-dc__ov rect {
+  fill: none;
+  stroke-width: 2;
+}
+.qi-dc__ov text {
+  font-family: var(--qi-mono);
+  font-size: 13px;
+}
+.qi-dc__ov--req rect {
+  stroke: var(--qi-fg);
+}
+.qi-dc__ov--slice rect {
+  stroke: var(--qi-accent);
+}
+.qi-dc__ov--slice text {
+  fill: var(--qi-accent);
+}
+.qi-dc__ov--own rect {
+  stroke: var(--qi-cat-1);
+}
+.qi-dc__ov--flight rect {
+  stroke: var(--qi-cat-2);
+  stroke-dasharray: 5 4;
+}
+.qi-dc__ov--flight text {
+  fill: var(--qi-cat-2);
+}
+
+.qi-dc__arrow {
+  fill: none;
+  stroke: var(--qi-cat-1);
+  stroke-width: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.qi-dc__arrow.is-shown {
+  opacity: 1;
+}
+.qi-dc__arrowhead {
+  fill: var(--qi-cat-1);
+}
+.qi-dc__arrow-label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.qi-dc__arrow-label.is-shown {
+  opacity: 1;
+}
+
+.qi-dc__badge {
+  fill: var(--qi-cat-3);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.qi-dc__badge.is-shown {
+  opacity: 1;
+}
+
+.qi-dc__status code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+/* Compact composition (island narrower than 560px): the drawing is 360 units
+   wide, so 14px labels render at about 12px on a phone. The status line gets
+   more reserved lines because it wraps more. */
+.qi-dc.is-compact .qi-dc__block text,
+.qi-dc.is-compact .qi-dc__bit,
+.qi-dc.is-compact .qi-dc__ov text,
+.qi-dc.is-compact .qi-dc__arrow-label,
+.qi-dc.is-compact .qi-dc__badge {
+  font-size: 14px;
+}
+.qi-dc.is-compact .qi-status--3 {
+  min-height: calc(9 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-dc__block rect,
+  .qi-dc__ov,
+  .qi-dc__arrow,
+  .qi-dc__arrow-label,
+  .qi-dc__badge {
+    transition: none;
+  }
+}
+
+/* Light-only blog surface, same policy as the other blog islands. */
+html .island[data-island='content/headless/blog/universal-io/disk-cache'] {
+  --qi-fg: #303547;
+  --qi-muted: #656b7f;
+  --qi-surface: #f0f3fa;
+  --qi-border: #d3d9eb;
+  --qi-line: #abb1c7;
+  --qi-hot: #303547;
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.island[data-island='content/headless/blog/universal-io/disk-cache'].is-ready .island__stage {
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+}
+html .island[data-island='content/headless/blog/universal-io/disk-cache'] .island__caption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--qi-border);
+}
+
+/* Tighter card padding on phones; last so it wins over the card rule above. */
+@media (max-width: 640px) {
+  html .island[data-island='content/headless/blog/universal-io/disk-cache'] {
+    padding: 1rem 0.75rem 0.75rem;
+  }
+}
