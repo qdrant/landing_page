@@ -27,7 +27,7 @@ Once you sign in, the Qdrant Cloud Console is organized around three areas:
 
 * The **left navigation** gives you access to your account resources like the account's clusters, backups, access management, or billing.
 * The **account switcher** at the top left lets you switch between the accounts you own or have been invited to, create new accounts, and open the accounts overview.
-* The **user menu** at the bottom left contains your personal, user-level options — like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
+* The **user menu** at the bottom left contains your personal, user-level options, like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
 
 ![Qdrant Cloud Console overview](/documentation/cloud/console-overview.png)
 
@@ -47,9 +47,9 @@ Multiple accounts are useful when you want to separate clusters across different
 
 When creating an account you provide:
 
-* **Account Name** — a descriptive name such as *Development*, *Production*, or *Testing*.
-* **Company Name** — optional, associates the account with your organization.
-* **Make Default** — optionally set this account as the one selected when you log in.
+* **Account Name**: a descriptive name such as *Development*, *Production*, or *Testing*.
+* **Company Name**: optional, associates the account with your organization.
+* **Make Default**: optionally set this account as the one selected when you log in.
 
 Each user can own up to **5 accounts**. The dialog shows how many you have created (for example, *4/5 Accounts Created*).
 
@@ -77,7 +77,7 @@ Use **Edit Account Details** to rename an account or update its company name. If
 
 Every account has exactly one owner. The owner has full admin permissions plus the unique ability to delete the account or transfer its ownership.
 
-To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member — invite them first from the [Access Management](/documentation/cloud-rbac/) page if needed.
+To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member, so invite them first from the [Access Management](/documentation/cloud-rbac/) page if needed.
 
 ### Deleting an Account
 

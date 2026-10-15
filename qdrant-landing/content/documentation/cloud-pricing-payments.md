@@ -2,7 +2,7 @@
 title: Billing & Payments
 short_description: "Understand Qdrant Cloud pricing based on CPU, memory, and storage, and pay by credit card or AWS, GCP, or Azure Marketplace."
 description: "Qdrant Cloud billing explained: usage-based pricing for CPU, memory, and disk, with payment via credit card or AWS, GCP, and Azure Marketplaces."
-weight: 255
+weight: 235
 partition: deploy
 aliases:
   - aws-marketplace
@@ -44,7 +44,7 @@ To subscribe:
 
 1. Go to Billing Details screen in the [Qdrant Cloud Console](https://cloud.qdrant.io/)
 2. Select **AWS Marketplace** as the payment method. You will be redirected to the AWS Marketplace listing for Qdrant.
-3. Click the bright orange button - **View purchase options**. 
+3. Click **View purchase options**. 
 4. On the next screen, under Purchase, click **Subscribe**.
 5. Up top, on the green banner, click **Set up your account**.
 

@@ -163,7 +163,7 @@ driver: pd.csi.storage.gke.io
 
 ![Microsoft Azure](/documentation/cloud/cloud-providers/azure.jpg)
 
-## Mircrosoft Azure
+## Microsoft Azure
 
 With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products/kubernetes-service), you can start developing and deploying cloud-native apps in Azure, data centres, or at the edge. Get unified management and governance for on-premises, edge, and multi-cloud Kubernetes clusters. Interoperate with Azure security, identity, cost management, and migration services.
 
