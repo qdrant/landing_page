@@ -32,4 +32,5 @@ curl -LJO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSI
     rm "${SASS_ARCHIVE}" && \
     export PATH="${CURRENT_DIR}/dart-sass:${PATH}" && \
     cd qdrant-landing && npm install && hugo --gc --minify --config config.toml,config-theme.toml --buildFuture -b ${DEPLOY_PRIME_URL} && \
-    ./scripts/emit-md-aliases.sh public
+    ./scripts/emit-md-aliases.sh public && \
+    ./scripts/emit-agent-skills.py public
