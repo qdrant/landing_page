@@ -2,9 +2,9 @@
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
 > Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
-{{- $content := .RenderShortcodes -}}
+{{ $content := .RenderShortcodes -}}
 {{- if .Params.retired -}}
-  {{- $content = printf "\n\n> %s\n\n%s" (partial "retirement-notice.html" .) $content -}}
+  {{- $content = printf "> %s\n\n%s" (partial "retirement-notice.html" .) $content -}}
 {{- end -}}
 {{- if not (strings.TrimSpace $content) }}# {{ .Title }}
 {{ end -}}
