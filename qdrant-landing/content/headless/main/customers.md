@@ -26,6 +26,7 @@ logoRows:
       link: /blog/case-study-hubspot/
     - name: Bayer
       src: /img/home-customers-logo/bayer.svg
+      link: /blog/case-study-bayer/
     - name: Dust
       src: /img/home-customers-logo/dust.svg
       link: /blog/case-study-dust-v2/
@@ -35,12 +36,12 @@ logoRows:
     - name: Zscaler
       src: /img/home-customers-logo/zscaler.svg
   - logos:
-    - name: "&AI"
-      src: /img/home-customers-logo/&ai.svg
-      link: /blog/case-study-and-ai/
-    - name: Cosmos
-      src: /img/home-customers-logo/cosmos.svg
-      link: /blog/case-study-cosmos/
+    - name: Flipkart
+      src: /img/home-customers-logo/flipkart.svg
+      link: /blog/case-study-flipkart/
+    - name: Bazaarvoice
+      src: /img/home-customers-logo/bazaarvoice.svg
+      link: /blog/case-study-bazaarvoice/
     - name: Zepto
       src: /img/home-customers-logo/zepto.svg
     - name: Dailymotion
