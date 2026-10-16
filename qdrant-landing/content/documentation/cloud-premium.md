@@ -108,15 +108,28 @@ To turn on SSO for your account, open a ticket in the [Qdrant support portal](ht
 
 Premium clusters can accept traffic from your own virtual network over AWS PrivateLink, GCP Private Service Connect, or Azure Private Link. Traffic between your application and the cluster then stays on the cloud provider's network instead of crossing the public internet.
 
-To set up a private connection, open a support ticket. Before you route production traffic to a new cluster, confirm with Qdrant Support that your private connection covers it, especially if the cluster is in a new region, you connect from a different cloud account, or the cluster is multi-AZ. Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only, so check your region before you create the cluster.
+Qdrant Support sets up private connections. To get one:
 
-If you're replacing a cluster, see [Private Connections on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-connections-on-qdrant-cloud) in the blue-green deployment guide.
+1. Check the region of the cluster first. Private connections to [multi-AZ clusters](#multi-az-clusters) are available in selected regions only.
+2. Open a ticket in the [Qdrant support portal](https://support.qdrant.io/), and say which cluster and which network need the connection.
+3. Wait for Support to confirm that the cluster is reachable over your private connection before you route production traffic to it.
+
+An existing connection often covers a new single-AZ cluster in the same region, but not every cluster. Confirm coverage with Support in these situations:
+
+| Situation | Is a new setup needed? |
+|---|---|
+| A new single-AZ cluster in the same region as your existing connection | Often not. Confirm before you route traffic |
+| A cluster in a different region | It can need its own setup |
+| You connect from a different cloud account | It can need its own setup |
+| A multi-AZ cluster | It can need its own setup |
+
+If you're replacing a cluster, ask for this when you create the new one. See [Private Connections on Qdrant Cloud](/documentation/tutorials-operations/blue-green-deployment/#private-connections-on-qdrant-cloud) in the blue-green deployment guide.
 
 ## Customer-Managed Encryption Keys
 
 Qdrant Cloud encrypts every storage volume at rest by default. Premium customers can encrypt their cluster's volumes with a key they own in their cloud provider's key management service (KMS): AWS KMS, GCP Cloud KMS, or Azure Key Vault. The key must be in the same region as the cluster.
 
-Setup runs through a support ticket. Qdrant recommends enabling it on an empty cluster, because volumes that already hold data have to be recreated with encryption, which takes longer the more data they hold. For the steps on each cloud provider, see [Encryption at Rest](/documentation/cloud/encryption/).
+Setup runs through a support ticket. For the steps on each cloud provider, and why to start with an empty cluster, see [Encryption at Rest](/documentation/cloud/encryption/).
 
 ## Upgrade to Premium
 
@@ -124,4 +137,13 @@ Premium is a committed-usage plan with a minimum spend that you agree with Qdran
 
 Premium applies to a whole Qdrant Cloud account, not to individual clusters, so every cluster in a Premium account runs on the Premium tier and is billed at Premium rates. To keep development or staging clusters on the Standard tier, run them in a separate account. One contract can cover both accounts.
 
-After your account moves to Premium, you enable SSO, private connections, and customer-managed encryption keys through support tickets. Multi-AZ can only be chosen when you create a cluster, so to move an existing workload to multi-AZ, create a new multi-AZ cluster and migrate to it, for example with a [blue-green deployment](/documentation/tutorials-operations/blue-green-deployment/).
+After your account moves to Premium, you enable each feature as follows:
+
+| Feature | How to enable it | When |
+|---|---|---|
+| [Multi-AZ clusters](#multi-az-clusters) | The **Multi AZ Deployment** option at cluster creation | Only when you create the cluster |
+| [Enterprise SSO](#enterprise-single-sign-on-sso) | A support ticket | Any time |
+| [Private network connectivity](#private-network-connectivity) | A support ticket | Any time. Check the region first for multi-AZ clusters |
+| [Customer-managed encryption keys](#customer-managed-encryption-keys) | A support ticket, then the steps in [Encryption at Rest](/documentation/cloud/encryption/) | Best on an empty cluster |
+
+Multi-AZ can't be turned on for an existing cluster. To move an existing workload to multi-AZ, create a new multi-AZ cluster and migrate to it, for example with a [blue-green deployment](/documentation/tutorials-operations/blue-green-deployment/).
