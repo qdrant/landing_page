@@ -128,6 +128,10 @@ Avoid putting the HNSW vector index in the `cold` tier. If you must store it on 
 
 Enabling inline storage can significantly increase the size of the HNSW index. Do not use inline storage if the HNSW index is in RAM ([`pinned` or `cached` tiers](/documentation/ops-configuration/memory-tiers/)). To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method [that compresses to at most 4 bits per dimension](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method), such as TurboQuant.
 
+As of v1.20.0, Qdrant stores original vectors only in the HNSW index file for segments that use inline storage. Their memory tier is controlled by `hnsw_config.memory`, Qdrant ignores the `vectors.memory` setting for these vectors.
+
+Quantized vectors keep their own placement setting. Segments that the optimizer has not yet rebuilt, along with small appendable segments, still use regular vector storage and follow `vectors.memory`. For more details, refer to [Inline Storage in HNSW Index](/documentation/ops-optimization/optimize/#where-qdrant-stores-the-vectors).
+
 ## Migrating
 
 When migrating from a pre-1.19 version to a newer version, Qdrant doesn't automatically convert any [legacy settings](#legacy-settings) that control memory placement to the new `memory` setting. The legacy settings have only been deprecated, not removed, so your existing settings remain working. A pre-1.19 collection with legacy settings will continue to work on newer versions without having to change its configuration.
