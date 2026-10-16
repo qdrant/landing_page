@@ -111,6 +111,8 @@ Multi-AZ clusters, available on the Premium tier, can only be chosen at creation
 | `qcloud` CLI | Terminal and CI workflows | [Cloud CLI](/documentation/cloud-cli/) |
 | Terraform and Pulumi | Version-controlled infrastructure | [Infrastructure Tools](/documentation/cloud-tools/) |
 
+For the same workflow in each tool, see [Automate Qdrant Cloud](/documentation/cloud-automation/).
+
 ## Next Steps
 
 | To do this | Read |
