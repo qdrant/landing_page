@@ -212,9 +212,9 @@ Note that datatypes are distinct from the [quantization feature](/documentation/
 ### Float32
 
 This is the default datatype for vectors in Qdrant. It is a 32-bit (4 bytes) floating-point number. 
-The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in Float32.
+The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in `float32`.
 
-You don't need to explicitly specify this datatype for vectors in Qdrant, as it is set to Float32 by default.
+You don't need to explicitly specify this datatype for vectors in Qdrant, as it is set to `float32` by default.
 
 ### TurboQuant Datatypes
 
@@ -276,8 +276,7 @@ You can combine any TurboQuant datatype with the [quantization feature](/documen
 
 ### Float16
 
-This is a 16-bit (2 bytes) floating-point number. It is also known as half-precision float.
-Intuitively, it looks like this:
+The `float16` datatype stores each dimension as a 16-bit (2-byte) floating-point number, also known as a half-precision float. This shrinks vector storage to half of its original size, with a small loss of precision per value:
 
 ```text
 float32 -> float16 delta (float32 - float16).abs
@@ -289,21 +288,20 @@ float32 -> float16 delta (float32 - float16).abs
 0.6616839  -> 0.6616211  delta 0.000062823296
 ```
 
-The main advantage of Float16 is that it requires half the memory of Float32, while having virtually no impact on the quality of vector search.
+The main advantage of `float16` is that it requires half the memory of `float32`, while having virtually no impact on the quality of vector search.
 
-To use Float16, you need to specify the datatype for vectors in the collection configuration when creating a collection or when adding a new vector to an existing collection's schema:
+To use `float16`, you need to specify the datatype for vectors in the collection configuration when creating a collection or when adding a new vector to an existing collection's schema:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-float16-sparse-and-dense/" >}}
 
 ### Uint8
 
-Another step towards memory optimization is to use the Uint8 datatype for vectors.
-Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255. The impact of this range depends on whether you use dense or sparse vectors:
+The `uint8` datatype stores each dimension as an unsigned 8-bit integer (1 byte), with values from 0 to 255. This shrinks vector storage to one-quarter of its original size. The impact of this range depends on whether you use dense or sparse vectors:
 
-- Dense vectors are required to be in the range from 0 to 255. Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using Uint8 datatype. 
+- Dense vectors are required to be in the range from 0 to 255. Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using the `uint8` datatype. 
 - Sparse vectors can be quantized in-flight.
 
-In order to convert a number from float range to Uint8 range, you need to apply a process called quantization. Some embedding providers may provide embeddings in a pre-quantized format. One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings). For other embeddings, you will need to apply quantization yourself.
+For dense vectors, `uint8` is only useful if they have already been quantized to this range. Some embedding providers offer embeddings in this format, such as [Cohere's 8-bit integer embeddings](https://cohere.com/blog/int8-binary-embeddings). To reduce the size of regular floating-point vectors, use a [TurboQuant datatype](#turboquant-datatypes) instead.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
 
