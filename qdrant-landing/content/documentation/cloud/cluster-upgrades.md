@@ -17,10 +17,6 @@ Update the cluster first, then update the client SDKs. This prevents your applic
 
 ![Cluster Updates](/documentation/cloud/cluster-upgrades.png)
 
-If you have a multi-node cluster and if your collections have a replication factor of at least **2**, the update process will be zero-downtime and done in a rolling fashion. You will be able to use your database cluster normally. 
-
-If you have a single-node cluster or a collection with a replication factor of **1**, the update process will require a short downtime period to restart your cluster with the new version.
-
-See also [Restart Mode](/documentation/cloud/configure-cluster/#restart-mode) for more details.
+On a multi-node cluster whose collections have a replication factor of at least **2**, the update is zero-downtime and rolling. On a single-node cluster, or for a collection with a replication factor of **1**, the update needs a short downtime period to restart the cluster with the new version. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime) for the full rules.
 
 We advise taking a [backup](/documentation/cloud/backups/) before updating to allow for rollbacks.
