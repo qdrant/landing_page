@@ -11,9 +11,9 @@ As soon as a new Qdrant version is available. Qdrant Cloud will show you an upda
 
 To update to a new version, go to the Cluster Details page, choose the new version from the version dropdown and click **Update**.
 
-If you are several versions behind, multiple updates might be required to reach the latest version. In this case, Qdrant Cloud will automatically perform the required intermediate updates to ensure a supported update path. You need to ensure that your client applications and used SDKs are compatible with the target version.
+If you are several versions behind, multiple updates might be required to reach the latest version. In this case, Qdrant Cloud will automatically perform the required intermediate updates to ensure a supported update path. You need to ensure that your client applications and used SDKs are compatible with the target version. Keep your client SDK within one minor version of your cluster version. Larger gaps might work, but are not tested.
 
-We recommend first updating the client SDKs, and after that update the cluster to ensure a smooth update process. All client SDKs are tested to be backwards compatible with the latest 3 minor versions of Qdrant.
+Update the cluster first, then update the client SDKs. This prevents your applications from using features that the older cluster version does not support yet. If you upgrade across several minor versions, for example from 1.15 to 1.19, update the client SDKs after Qdrant Cloud completes all intermediate updates and the cluster reaches the target version.
 
 ![Cluster Updates](/documentation/cloud/cluster-upgrades.png)
 
