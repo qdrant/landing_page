@@ -75,7 +75,7 @@ Restoring a backup into the same cluster makes the cluster unavailable while it 
 | Check | Value | Set in |
 |---|---|---|
 | Supported version | The latest minor version, or one of the 3 minor versions before it | Version dropdown on the Cluster Detail page. See [Update Clusters](/documentation/cloud/cluster-upgrades/) |
-| Upgrade order | Update client SDKs first, take a backup, then update the cluster. Each SDK is tested against the latest 3 minor versions of Qdrant | Your application dependencies, then the Cluster Detail page. See [Update Clusters](/documentation/cloud/cluster-upgrades/) and [Backups](/documentation/cloud/backups/) |
+| Upgrade order | Take a backup, update the cluster, then update the client SDKs. Keep each SDK within one minor version of the cluster | Cluster Detail page, then your application dependencies. See [Update Clusters](/documentation/cloud/cluster-upgrades/) and [Backups](/documentation/cloud/backups/) |
 | Zero-downtime upgrades | Multiple nodes and a replication factor of at least 2 | See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime) |
 
 On an older version, you get an email alert, and support requests are not covered by the SLA.
