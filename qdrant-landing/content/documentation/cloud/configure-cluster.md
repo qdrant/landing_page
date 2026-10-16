@@ -55,7 +55,17 @@ If configured, only the chosen IP ranges will be allowed to access the cluster. 
 
 ## Restarts and Downtime
 
-Some operations restart the nodes of a cluster: version upgrades, vertical scaling (CPU, memory, or disk size), enabling Database API keys with granular access control, and enabling or disabling [Cloud Inference](/documentation/cloud/inference/). Downtime during these restarts depends on the configuration of your cluster and its collections:
+These operations restart the nodes of a cluster:
+
+- Version upgrades.
+- Vertical scaling: changing CPU, memory, or disk size.
+- Changing the collection defaults and the advanced settings of the cluster: replication factor, write consistency factor, async scorer, optimizer CPU budget, vectors on disk, log level, and audit logging.
+- Enabling Database API keys with granular access control.
+- Enabling or disabling [Cloud Inference](/documentation/cloud/inference/).
+
+These changes take effect without a restart: client IP restrictions, the restart mode itself, the shard rebalance strategy, the disk speed tier, the cost allocation label, and cluster labels.
+
+Downtime during a restart depends on the configuration of your cluster and its collections:
 
 | Cluster | Restart mode | Downtime |
 |---|---|---|
