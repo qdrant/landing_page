@@ -6,6 +6,10 @@ weight: 255
 partition: deploy
 ---
 
+# Infrastructure Tools
+
+Manage Qdrant Cloud clusters as code. Both tools use the same provider and authenticate with a [Cloud Management Key](/documentation/cloud-api/#authentication). For a comparison with the `qcloud` CLI and the Cloud API, see [Automate Qdrant Cloud](/documentation/cloud-automation/).
+
 ## Cloud Tools
 
 | Integration                         | Description                                                                                 |
