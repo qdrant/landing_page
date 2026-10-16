@@ -101,6 +101,10 @@ output "key" {
 }
 ```
 
+## Back Up the Cluster
+
+To schedule backups for the cluster, add a `qdrant-cloud_accounts_backup_schedule` resource that refers to it. See [Schedule With Terraform](/documentation/cloud/backups/#schedule-with-terraform).
+
 ## Further Reading
 
 The provider documentation contains more details on the available resources and data sources, including additional examples:
