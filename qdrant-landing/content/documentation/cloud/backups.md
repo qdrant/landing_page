@@ -47,8 +47,9 @@ qcloud backup schedule list
 The [Cloud API](/documentation/cloud-api/) creates a schedule with a `POST` request. The `retentionPeriod` is a duration in seconds, from `86400s` (1 day) to `31536000s` (365 days). If you leave it out, backups are kept indefinitely.
 
 ```sh
-curl -X POST \
-  "https://api.cloud.qdrant.io/api/cluster/backup/v1/accounts/<ACCOUNT_ID>/backup_schedules" \
+API=https://api.cloud.qdrant.io/api/cluster/backup/v1/accounts/<ACCOUNT_ID>
+
+curl -X POST "$API/backup_schedules" \
   -H "Authorization: apikey <CLOUD_MANAGEMENT_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
