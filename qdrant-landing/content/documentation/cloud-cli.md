@@ -66,6 +66,48 @@ qcloud cluster describe <CLUSTER_ID>
 qcloud cluster key create <CLUSTER_ID> --name my-key
 ```
 
+## Command Groups
+
+| Command | Manages |
+|---|---|
+| `qcloud cluster` | Clusters: create, describe, list, scale, update, restart, suspend, delete, logs, alerts, API keys, and Qdrant versions |
+| `qcloud backup` | Backups, backup schedules, and restores |
+| `qcloud account` | Accounts |
+| `qcloud iam` | Identity and access management resources |
+| `qcloud inference` | Inference resources |
+| `qcloud hybrid` | Hybrid Cloud environments |
+| `qcloud cloud-provider`, `qcloud cloud-region`, `qcloud package` | The providers, regions, and node packages you can choose from |
+| `qcloud context` | Named configuration contexts |
+
+Run `qcloud <command> --help` for the flags of each command.
+
+## Common Tasks
+
+```sh
+# Scale: more RAM and nodes, plus extra disk (disk cannot be reduced)
+qcloud cluster scale <CLUSTER_ID> --ram 16Gi --nodes 3 --disk 100Gi
+
+# Upgrade the Qdrant version (a rolling restart)
+qcloud cluster version list
+qcloud cluster update <CLUSTER_ID> --version <VERSION>
+
+# Restrict client IP ranges (takes effect without a restart)
+qcloud cluster update <CLUSTER_ID> --allowed-ip 10.0.0.0/8
+
+# Create a read-only key that expires at the end of a day (UTC)
+qcloud cluster key create <CLUSTER_ID> --name read-key \
+  --access-type read-only --expires 2027-06-30
+
+# Create a new cluster from a backup, and wait until it is healthy
+qcloud cluster create-from-backup --backup-id <BACKUP_ID> --name restored --wait
+
+# Check what needs attention
+qcloud cluster alert list <CLUSTER_ID>
+qcloud cluster logs <CLUSTER_ID> --since 6h
+```
+
+Reducing RAM is allowed, but `qcloud cluster scale` warns you first if the cluster's memory usage does not fit the smaller package. For the same workflow in every tool, see [Automate Qdrant Cloud](/documentation/cloud-automation/).
+
 ## Configuration
 
 `qcloud` can be configured in three ways, listed here from lowest to highest precedence:
@@ -92,7 +134,7 @@ Environment variables override the active context and take the highest precedenc
 |---|---|
 | `QDRANT_CLOUD_API_KEY` | API key for authentication |
 | `QDRANT_CLOUD_ACCOUNT_ID` | Account ID to operate against |
-| `QDRANT_CLOUD_ENDPOINT` | API endpoint URL (defaults to Qdrant Cloud) |
+| `QDRANT_CLOUD_ENDPOINT` | gRPC API endpoint (defaults to `grpc.cloud.qdrant.io:443`) |
 | `QDRANT_CLOUD_CONTEXT` | Name of the context to use |
 
 Pass `--json` to any command for machine-readable output.
