@@ -207,7 +207,7 @@ tabs:
           alt: Activity
         title: Prometheus Metrics
         description: OpenMetrics-compatible /metrics and /sys_metrics endpoints on every cluster.
-        link: /documentation/production-operations/managed-cloud-prometheus/
+        link: /documentation/cloud/cluster-monitoring-prometheus/
       - id: 1
         icon:
           src: /icons/outline/chart-line-burgundy.svg
