@@ -37,17 +37,22 @@ check_link_header() {
 
 curl -s "$BASE/robots.txt" | grep -q '^Sitemap:' && ok "robots.txt has a Sitemap line" || bad "robots.txt has no Sitemap line"
 
-llms=$(curl -s -w '\n%{http_code}' "$BASE/llms.txt")
-[ "${llms##*$'\n'}" = 200 ] && ok "/llms.txt returns 200" || bad "/llms.txt returns ${llms##*$'\n'}"
-llms="${llms%$'\n'*}"
+code=$(status "$BASE/llms.txt")
+[ "$code" = 200 ] && ok "/llms.txt returns 200" || bad "/llms.txt returns $code"
+llms=$(curl -s "$BASE/llms.txt")
 
 [ "$(curl -s "$BASE/.well-known/llms.txt")" = "$llms" ] && ok "/.well-known/llms.txt serves llms.txt" || bad "/.well-known/llms.txt does not serve llms.txt"
 
-# Links in llms.txt point at production; check the same paths on BASE.
-broken=$(grep -oE '\]\(https://qdrant\.tech[^)]*\)' <<<"$llms" | sed -E 's/^\]\(https:\/\/qdrant\.tech//; s/\)$//' | sort -u |
-  BASE="$BASE" xargs -P 16 -n 1 sh -c 'c=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$1"); [ "$c" = 200 ] || echo "$c $1"' _) ||
-  bad "could not check the links in llms.txt"
-if [ -z "$broken" ]; then ok "every link in llms.txt returns 200"; else bad "links in llms.txt that do not return 200:"; echo "$broken" | sed 's/^/      /'; fi
+# Links to this site, whichever host it was built for (production or a deploy
+# preview), are checked as paths on BASE. Links to other hosts are not checked.
+paths=$(grep -oE '\]\(https?://[^)]*\)' <<<"$llms" | sed -E 's/^\]\(//; s/\)$//' |
+  grep -E "^(https://qdrant\.tech|$BASE)/" | sed -E 's#^https?://[^/]+##' | sort -u)
+if [ -z "$paths" ]; then
+  bad "found no links to this site in llms.txt"
+else
+  broken=$(BASE="$BASE" xargs -P 16 -n 1 sh -c 'c=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$1"); [ "$c" = 200 ] || echo "$c $1"' _ <<<"$paths")
+  if [ -z "$broken" ]; then ok "all $(wc -l <<<"$paths" | tr -d ' ') links to this site in llms.txt return 200"; else bad "links in llms.txt that do not return 200:"; echo "$broken" | sed 's/^/      /'; fi
+fi
 
 for path in / /llms.txt /documentation/ /documentation/overview/ /articles/; do
   check_link_header "$BASE$path"
