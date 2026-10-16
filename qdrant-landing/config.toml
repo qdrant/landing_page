@@ -3,7 +3,10 @@ languageCode = "en-us"
 title = "Qdrant - Vector Search Engine"
 theme = "qdrant-2024"
 
-enableRobotsTXT = true
+# Off so static/robots.txt is served. With it on, Hugo's generated robots.txt
+# and the static one race for the same output path, and production served the
+# generated one, which has no Sitemap line.
+enableRobotsTXT = false
 canonifyURLs = true
 
 keywords = "search engine, vector database, neural network, matching, filter, SaaS, approximate nearest neighbor search, image search, recommender system, vectors, knn algorithm, hnsw, vector search, embeddings, similarity"
