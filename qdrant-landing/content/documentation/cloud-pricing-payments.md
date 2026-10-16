@@ -15,6 +15,18 @@ aliases:
 
 Qdrant database clusters in Qdrant Cloud are priced based on CPU, memory, and disk storage usage. To get a clearer idea for the pricing structure, based on the amounts of vectors you want to store, please use our [Pricing Calculator](https://cloud.qdrant.io/calculator).
 
+## What You Pay For
+
+| Item | How it is billed |
+|---|---|
+| Cluster | CPU, memory, and disk. Free clusters need no credit card. Estimate with the [Pricing Calculator](https://cloud.qdrant.io/calculator) |
+| Multi-AZ clusters (Premium) | At a higher rate than single-AZ clusters, to cover the cost of traffic between zones |
+| Backups | On AWS and GCP, backups are incremental, so each one stores only the data that changed since the previous one. On Azure, the cost is half of the disk usage when the backup was taken. See [Backups](/documentation/cloud/backups/#backup-considerations) |
+| Paid inference models | Per 1,000,000 tokens that the model processes. Free models cost nothing. External providers bill you directly through your own API key. See [Inference](/documentation/cloud/inference/) |
+| Premium | Premium tier rates under a committed-spend contract with an annual minimum. See [Premium Tier](/documentation/cloud-premium/) |
+
+You can attach a [label](/documentation/cloud/configure-cluster/#adding-labels-to-a-cluster) to a cluster and use it for cost attribution in consumption reports.
+
 ## Billing
 
 You can pay for your Qdrant Cloud database clusters either with a credit card or through an AWS, GCP, or Azure Marketplace subscription.
