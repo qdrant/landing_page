@@ -92,8 +92,6 @@ To enable inline storage, quantization must be enabled. Multivectors are not sup
 
 #### Where Qdrant Stores the Vectors
 
-*Changed in v1.20.0*
-
 Before v1.20.0, inline storage kept the original vectors in the regular vector storage and added a copy to the HNSW index file.
 
 As of v1.20.0, when the optimizer builds an indexed segment with inline storage, it writes the original vectors to the HNSW index file and deletes the regular vector storage. This leaves a single copy on disk.
