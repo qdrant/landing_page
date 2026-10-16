@@ -74,8 +74,8 @@
 /documentation/tutorials-and-examples/hybrid-cloud-prometheus/*   /documentation/ops-monitoring/hybrid-cloud-prometheus/:splat      301
 
 # Managed Cloud Prometheus tutorial moved into the Learn / Production & Operations guide topic
-/documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/production-operations/managed-cloud-prometheus/:splat  301!
-/documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/production-operations/managed-cloud-prometheus/:splat  301!
+/documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/cloud/cluster-monitoring-prometheus/:splat  301!
+/documentation/ops-monitoring/managed-cloud-prometheus/*          /documentation/cloud/cluster-monitoring-prometheus/:splat  301!
 
 # Search tutorials reorg
 /documentation/tutorials/slicing-filter/*  /documentation/tutorials-search-engineering/slicing-filter/:splat  301!
@@ -213,3 +213,9 @@
 /documentation/database-tutorials/static-embeddings               /articles/static-embeddings/         301!
 /blog/static-embeddings/*                                         /articles/static-embeddings/:splat   301!
 /blog/static-embeddings                                           /articles/static-embeddings/         301!
+
+# Managed Cloud Prometheus monitoring moved into the Cloud documentation
+/documentation/production-operations/managed-cloud-prometheus/*   /documentation/cloud/cluster-monitoring-prometheus/:splat   301!
+/documentation/production-operations/managed-cloud-prometheus     /documentation/cloud/cluster-monitoring-prometheus/         301!
+/documentation/tutorials-and-examples/managed-cloud-prometheus    /documentation/cloud/cluster-monitoring-prometheus/         301!
+/documentation/ops-monitoring/managed-cloud-prometheus            /documentation/cloud/cluster-monitoring-prometheus/         301!
