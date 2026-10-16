@@ -5,7 +5,7 @@ short_description: "Poliscope runs hybrid search over 130M points of German muni
 description: "How Poliscope indexed about 4,800 German council portals into one self-hosted Qdrant collection of 130M points: hybrid search, tenant and prefix filtering, and TurboQuant on one bare-metal server, taking mean search time from 20 seconds to 0.87 seconds."
 preview_image: /blog/case-study-poliscope/social_preview.png
 social_preview_image: /blog/case-study-poliscope/social_preview.png
-date: 2026-10-13T00:00:00.000Z
+date: 2026-10-15T00:00:00.000Z
 author: Daniel Azoulai
 featured: false
 tags:
