@@ -1,5 +1,6 @@
 ---
 title: brand-resources
+linkTitle: "Brand Resources"
 description: brand-resources
 build:
   render: always

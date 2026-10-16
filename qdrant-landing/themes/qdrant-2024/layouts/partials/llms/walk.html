@@ -1,0 +1,18 @@
+{{- /* llms.txt lines for a section and everything under it, in the order the
+       docs sidebar uses: the section itself, then its pages and subsections
+       by weight, depth first. A section's own page is listed only when it has
+       a description, which keeps out utility sections with nothing to say. */ -}}
+{{- $p := . -}}
+{{- $lines := slice -}}
+{{- if and $p.IsSection $p.Params.description -}}
+  {{- with partial "llms/entry.html" $p -}}{{- $lines = $lines | append . -}}{{- end -}}
+{{- end -}}
+{{- range $p.Pages.ByWeight -}}
+  {{- if in (slice "delimiter" "reference") .Params.type -}}{{- continue -}}{{- end -}}
+  {{- if .IsSection -}}
+    {{- range partial "llms/walk.html" . -}}{{- $lines = $lines | append . -}}{{- end -}}
+  {{- else -}}
+    {{- with partial "llms/entry.html" . -}}{{- $lines = $lines | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $lines -}}

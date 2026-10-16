@@ -1,24 +1,124 @@
-# {{ .Site.BaseURL }}
-## Overall Summary
-> {{ .Site.Params.description }}
-{{ range .Site.Sections.ByWeight -}}
-{{- $header := printf "\n## %s\n" .Title -}}
-{{/* The section's own landing page is not a RegularPage, so every section
-     index (/edge/, /security/, /cloud-inference/ ...) was being dropped.
-     Require a description: utility sections like debug.skip and
-     get_anonymous_id have none and should not be advertised to models. */}}
-{{- $own := where (slice .) "Params.description" "!=" nil -}}
-{{- range $own | append .RegularPagesRecursive.ByWeight -}}
-{{- $include := true -}}
-{{- if eq .Params.sitemapExclude true -}}{{- $include = false -}}{{- end -}}
-{{- if .Sitemap.Disable -}}{{- $include = false -}}{{- end -}}
-{{- with .Params.build -}}
-  {{- $render := .render | default "always" -}}
-  {{- if in (slice "never" "link") $render -}}{{- $include = false -}}{{- end -}}
+{{- /*
+  /llms.txt: the index agents read to find their way around qdrant.tech.
+
+  Every link points at a page's Markdown output (<permalink>index.md). The
+  documentation follows the sidebar: one group per partition, split at its
+  delimiters, pages in sidebar order. Other top-level sections are grouped by
+  the lists in $company and $optional; anything not named there is product.
+  A new section therefore shows up under Product until someone files it.
+
+  Pages are left out when they are retired, hidden from listings, excluded
+  from the sitemap, or never rendered (see partials/llms/entry.html).
+*/ -}}
+{{- $partitions := slice
+  (dict "key" "develop" "label" "Documentation")
+  (dict "key" "deploy" "label" "Deployment")
+  (dict "key" "ecosystem" "label" "Ecosystem")
+  (dict "key" "learn" "label" "Guides")
+-}}
+{{- $handled := slice "documentation" "learn" "course" "articles" "blog" -}}
+{{- $company := slice "about-us" "customers" "partners" "services" "qdrant-for-startups" "community" "contact-us" -}}
+{{- $optional := slice "legal" "agenda" "events" "vsd" "vsd-recap" "stars" "subscribe" "subscribe-confirmation" "brand-resources" -}}
+
+{{- $lines := slice
+  "# Qdrant"
+  ""
+  "> Qdrant is an open-source vector search engine and vector database written in Rust. It runs self-hosted, as a managed service on Qdrant Cloud, in your own infrastructure with Hybrid Cloud and Private Cloud, and embedded on devices with Qdrant Edge."
+  ""
+  "Every link in this file points to the Markdown version of a page. For any other page on qdrant.tech, append `index.md` to its URL."
+  ""
+  "## Start here"
+  ""
+-}}
+{{- range slice "/documentation" "/documentation/overview" "/documentation/quickstart" "/documentation/cloud-quickstart" "/documentation/interfaces" -}}
+  {{- with site.GetPage . -}}{{- with partial "llms/entry.html" . -}}{{- $lines = $lines | append . -}}{{- end -}}{{- end -}}
 {{- end -}}
-{{- if and $include (ne .Title "") (ne .Permalink "") -}}
-{{ $header }}{{- $header = "" -}}
-- [{{ .Title }}]({{ .Permalink }}index.md): {{ with .Description }}{{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ else }}{{ .Summary | plainify | replaceRE "\\s+" " " | strings.TrimSpace | truncate 200 "" }}{{ end }}
-{{ end -}}
+{{- $lines = $lines | append
+  "- [Agent skills](https://skills.qdrant.tech/llms.txt): Skills that teach coding agents how to design, build, and run Qdrant, one SKILL.md each."
+  "- [API reference](https://api.qdrant.tech/llms.txt): The REST and gRPC API reference, with a Markdown version of every endpoint."
+-}}
+{{- /* TODO: add the documentation MCP server (search.qdrant.tech/mcp) once it is ready. */ -}}
+
+{{- $docs := site.GetPage "/documentation" -}}
+{{- range $part := $partitions -}}
+  {{- $heading := printf "## %s" $part.label -}}
+  {{- range $docs.Pages.ByWeight -}}
+    {{- if ne .Params.partition $part.key -}}{{- continue -}}{{- end -}}
+    {{- if eq .Params.type "delimiter" -}}
+      {{- $heading = printf "## %s: %s" $part.label .Title -}}
+      {{- continue -}}
+    {{- end -}}
+    {{- if eq .Params.type "reference" -}}{{- continue -}}{{- end -}}
+    {{- $entries := slice -}}
+    {{- if .IsSection -}}
+      {{- $entries = partial "llms/walk.html" . -}}
+    {{- else -}}
+      {{- with partial "llms/entry.html" . -}}{{- $entries = slice . -}}{{- end -}}
+    {{- end -}}
+    {{- if $entries -}}
+      {{- with $heading -}}{{- $lines = $lines | append "" . "" -}}{{- end -}}
+      {{- $heading = "" -}}
+      {{- range $entries -}}{{- $lines = $lines | append . -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
+
+{{- /* Learn lists the course landing pages; the lessons go under Optional. */ -}}
+{{- $learn := slice -}}
+{{- range partial "llms/walk.html" (site.GetPage "/learn") -}}{{- $learn = $learn | append . -}}{{- end -}}
+{{- $lessons := slice -}}
+{{- with site.GetPage "/course" -}}
+  {{- with partial "llms/entry.html" . -}}{{- $learn = $learn | append . -}}{{- end -}}
+  {{- range .Sections.ByWeight -}}
+    {{- with partial "llms/entry.html" . -}}{{- $learn = $learn | append . -}}{{- end -}}
+    {{- range .RegularPagesRecursive.ByWeight -}}
+      {{- with partial "llms/entry.html" . -}}{{- $lessons = $lessons | append . -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
+{{- $groups := slice (dict "title" "Learn" "entries" $learn) -}}
+{{- $articles := slice -}}
+{{- with site.GetPage "/articles" -}}
+  {{- with partial "llms/entry.html" . -}}{{- $articles = $articles | append . -}}{{- end -}}
+  {{- range .RegularPagesRecursive.ByDate.Reverse -}}
+    {{- with partial "llms/entry.html" . -}}{{- $articles = $articles | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $groups = $groups | append (dict "title" "Articles" "entries" $articles) -}}
+
+{{- $product := slice -}}
+{{- $companyLines := slice -}}
+{{- $optionalLines := slice -}}
+{{- range site.Sections.ByWeight -}}
+  {{- if in $handled .Section -}}{{- continue -}}{{- end -}}
+  {{- $section := .Section -}}
+  {{- range partial "llms/walk.html" . -}}
+    {{- if in $company $section -}}
+      {{- $companyLines = $companyLines | append . -}}
+    {{- else if in $optional $section -}}
+      {{- $optionalLines = $optionalLines | append . -}}
+    {{- else -}}
+      {{- $product = $product | append . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $groups = $groups | append (dict "title" "Product" "entries" $product) (dict "title" "Company" "entries" $companyLines) -}}
+
+{{- /* Optional: course lessons, the blog newest first, then the rest. */ -}}
+{{- $blog := $lessons -}}
+{{- with site.GetPage "/blog" -}}
+  {{- with partial "llms/entry.html" . -}}{{- $blog = $blog | append . -}}{{- end -}}
+  {{- range .RegularPagesRecursive.ByDate.Reverse -}}
+    {{- with partial "llms/entry.html" . -}}{{- $blog = $blog | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range $optionalLines -}}{{- $blog = $blog | append . -}}{{- end -}}
+{{- $groups = $groups | append (dict "title" "Optional" "entries" $blog) -}}
+
+{{- range $groups -}}
+  {{- if .entries -}}
+    {{- $lines = $lines | append "" (printf "## %s" .title) "" -}}
+    {{- range .entries -}}{{- $lines = $lines | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- delimit $lines "\n" }}

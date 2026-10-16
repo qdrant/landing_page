@@ -1,0 +1,23 @@
+{{- /* One llms.txt line for a page, or "" when the page should not be
+       advertised to agents. */ -}}
+{{- $p := . -}}
+{{- $include := and (ne $p.Title "") (ne $p.Permalink "") -}}
+{{- if or (eq $p.Params.sitemapExclude true) $p.Sitemap.Disable $p.Params.retired $p.Params.hideFromList -}}
+  {{- $include = false -}}
+{{- end -}}
+{{- with $p.Params.build -}}
+  {{- if in (slice "never" "link") (.render | default "always") -}}{{- $include = false -}}{{- end -}}
+{{- end -}}
+{{- $out := "" -}}
+{{- if $include -}}
+  {{- $url := printf "%sindex.md" $p.Permalink -}}
+  {{- if eq $p.Params.type "external-link" -}}{{- $url = $p.Params.external_url -}}{{- end -}}
+  {{- $desc := $p.Description | default ($p.Summary | plainify | truncate 200 "") -}}
+  {{- $desc = $desc | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+  {{- /* First sentence only: the description is there to help an agent pick
+         a page, and descriptions are most of this file's size. */ -}}
+  {{- $desc = index (split $desc ". ") 0 | strings.TrimSuffix "." -}}
+  {{- $out = printf "- [%s](%s)" $p.LinkTitle $url -}}
+  {{- with $desc -}}{{- $out = printf "%s: %s" $out . -}}{{- end -}}
+{{- end -}}
+{{- return $out -}}
