@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="410" viewBox="0 0 800 410" role="img" aria-labelledby="title desc">
+  <title id="title">miniCOIL vectors in a sparse representation</title>
+  <desc id="desc">A bag-of-words vector reserves one coordinate per word. miniCOIL reserves four. Contextualized dense word embeddings produce four-dimensional meaning vectors, which are copied into each word's reserved coordinates. Absent words stay zero. Cell shading is illustrative.</desc>
+  <rect x="1" y="1" width="798" height="408" rx="12" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="2"/>
+  <text x="20" y="32" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Bag-of-words</text>
+  <rect x="40" y="56" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="94" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="132" width="30" height="30" rx="3" fill="#6b7fd6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="170" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="208" width="30" height="30" rx="3" fill="#6b7fd6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="246" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="284" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="40" y="322" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="20" y="392" fill="#4e5366" font-family="Arial, Helvetica, sans-serif" font-size="17">One cell per word</text>
+  <rect x="270" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="306" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="342" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="378" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="414" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="450" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="486" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="522" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="558" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="594" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="630" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="666" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="702" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="738" y="330" width="30" height="30" rx="3" fill="#dbe2f6" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="518" y="388" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sparse vector</text>
+  <rect x="116" y="130" width="180" height="34" rx="8" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <text x="206" y="153" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Word's 4D vector</text>
+  <path d="M300 147 L542 147" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M542 153 L552 147 L542 141" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="558" y="122" fill="#006b75" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Meaning vector</text>
+  <rect x="558" y="132" width="30" height="30" rx="3" fill="#006b75" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="558" y="330" width="30" height="30" rx="3" fill="#006b75" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M573 168 L573 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M567 314 L573 324 L579 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="594" y="132" width="30" height="30" rx="3" fill="#d8f3f5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="594" y="330" width="30" height="30" rx="3" fill="#d8f3f5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M609 168 L609 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M603 314 L609 324 L615 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="630" y="132" width="30" height="30" rx="3" fill="#33aab5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="630" y="330" width="30" height="30" rx="3" fill="#33aab5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M645 168 L645 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M639 314 L645 324 L651 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="666" y="132" width="30" height="30" rx="3" fill="#9fdde3" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="666" y="330" width="30" height="30" rx="3" fill="#9fdde3" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M681 168 L681 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M675 314 L681 324 L687 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="116" y="206" width="180" height="34" rx="8" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <text x="206" y="229" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Word's 4D vector</text>
+  <path d="M300 223 L362 223" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M362 229 L372 223 L362 217" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="378" y="198" fill="#006b75" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Meaning vector</text>
+  <rect x="378" y="208" width="30" height="30" rx="3" fill="#9fdde3" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="378" y="330" width="30" height="30" rx="3" fill="#9fdde3" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M393 244 L393 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M387 314 L393 324 L399 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="414" y="208" width="30" height="30" rx="3" fill="#d8f3f5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="414" y="330" width="30" height="30" rx="3" fill="#d8f3f5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M429 244 L429 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M423 314 L429 324 L435 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="450" y="208" width="30" height="30" rx="3" fill="#006b75" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="450" y="330" width="30" height="30" rx="3" fill="#006b75" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M465 244 L465 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M459 314 L465 324 L471 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="486" y="208" width="30" height="30" rx="3" fill="#d8f3f5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="486" y="330" width="30" height="30" rx="3" fill="#d8f3f5" stroke="#656b7f" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M501 244 L501 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M495 314 L501 324 L507 314" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+</svg>

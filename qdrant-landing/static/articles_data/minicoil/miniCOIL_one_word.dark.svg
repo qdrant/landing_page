@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="215" viewBox="0 0 800 215" role="img" aria-labelledby="title desc">
+  <title id="title">miniCOIL architecture on a word level</title>
+  <desc id="desc">A dense word embedding of input dimension, shown as five illustrative numbers, goes into a miniCOIL word model. The model is one linear layer of size input DIM by miniCOIL DIM, followed by a Tanh activation that maps values to between minus one and one. It outputs a miniCOIL vector of four illustrative numbers. The numbers are illustrative.</desc>
+  <rect x="1" y="1" width="798" height="213" rx="12" fill="#111824" stroke="#303547" stroke-width="2"/>
+  <text x="16" y="62" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Dense word embedding</text>
+  <rect x="16" y="105" width="210" height="44" rx="5" fill="#303547" stroke="#9494ff" stroke-width="2"/>
+  <text x="37" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M58 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="79" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">-0.1</text>
+  <path d="M100 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="121" y="133" fill="#b9c0d4" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">...</text>
+  <path d="M142 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="163" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M184 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="205" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <path d="M250 127 L264 127" fill="none" stroke="#b9c0d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M264 133 L274 127 L264 121" fill="none" stroke="#b9c0d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="429" y="62" fill="#b2ebf2" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">miniCOIL word model</text>
+  <rect x="278" y="78" width="302" height="98" rx="8" fill="none" stroke="#4dd0e1" stroke-width="2" stroke-dasharray="7 6"/>
+  <rect x="288" y="94" width="150" height="66" rx="8" fill="#112f35" stroke="#4dd0e1" stroke-width="2"/>
+  <text x="363" y="123" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">Input DIM ×</text>
+  <text x="363" y="145" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">miniCOIL DIM</text>
+  <path d="M442 127 L450 127" fill="none" stroke="#4dd0e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M450 133 L460 127 L450 121" fill="none" stroke="#4dd0e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="464" y="94" width="106" height="66" rx="8" fill="#112f35" stroke="#4dd0e1" stroke-width="2"/>
+  <text x="517" y="123" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">Tanh</text>
+  <text x="517" y="145" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">(−1, 1)</text>
+  <path d="M584 127 L596 127" fill="none" stroke="#b9c0d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M596 133 L606 127 L596 121" fill="none" stroke="#b9c0d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="698" y="62" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">miniCOIL vector</text>
+  <rect x="612" y="105" width="176" height="44" rx="5" fill="#303547" stroke="#9494ff" stroke-width="2"/>
+  <text x="634" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.3</text>
+  <path d="M656 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="678" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M700 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="722" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">-0.1</text>
+  <path d="M744 105 V149" stroke="#9494ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="766" y="133" fill="#e2e7f5" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.7</text>
+
+</svg>

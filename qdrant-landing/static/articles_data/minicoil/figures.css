@@ -1,0 +1,78 @@
+/* Static theme variants follow the selected article theme, without JavaScript. */
+.minicoil-figure {
+  margin: 1.5rem auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+.minicoil-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.minicoil-figure .minicoil-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .minicoil-figure img:not(.minicoil-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .minicoil-figure .minicoil-figure__dark {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']):not([data-theme='dark']) .minicoil-figure img:not(.minicoil-figure__dark) {
+    display: none;
+  }
+
+  html:not([data-theme='light']):not([data-theme='dark']) .minicoil-figure .minicoil-figure__dark {
+    display: block;
+  }
+}
+
+.minicoil-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Preserve the original scatterplot pixels: no source coordinates are available.
+   Inversion makes white pixels black; screen compositing places them on the
+   dark surface. Hue rotation keeps the points in the blue color family. */
+.minicoil-plot {
+  width: 80%;
+  margin: 1.5rem auto;
+}
+
+.minicoil-plot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #ffffff;
+}
+
+html[data-theme='dark'] .minicoil-plot {
+  isolation: isolate;
+  background: #111824;
+}
+
+html[data-theme='dark'] .minicoil-plot img {
+  filter: invert(1) hue-rotate(180deg);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']):not([data-theme='dark']) .minicoil-plot {
+    isolation: isolate;
+    background: #111824;
+  }
+
+  html:not([data-theme='light']):not([data-theme='dark']) .minicoil-plot img {
+    filter: invert(1) hue-rotate(180deg);
+    mix-blend-mode: screen;
+  }
+}

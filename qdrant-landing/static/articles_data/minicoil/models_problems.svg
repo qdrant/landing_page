@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="540" viewBox="0 0 800 540" role="img" aria-labelledby="title desc">
+  <title id="title">Problems of modern sparse neural retrievers</title>
+  <desc id="desc">The same retriever map with problems marked. COIL has storage overhead. Sparse encoders such as DeepImpact have poor out-of-domain accuracy. SPLADE is slow because the model generates new tokens.</desc>
+  <rect x="1" y="1" width="798" height="538" rx="12" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="2"/>
+  <rect x="18" y="40" width="164" height="84" rx="8" fill="#eeeaff" stroke="#6047ff" stroke-width="2"/>
+  <text x="100" y="66" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Word</text>
+  <text x="100" y="88" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">embeddings</text>
+  <text x="100" y="110" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">word2vec</text>
+  <rect x="218" y="40" width="164" height="84" rx="8" fill="#eeeaff" stroke="#6047ff" stroke-width="2"/>
+  <text x="300" y="66" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sentence</text>
+  <text x="300" y="88" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">embeddings</text>
+  <text x="300" y="110" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">SBERT</text>
+  <rect x="418" y="40" width="164" height="84" rx="8" fill="#fff0f3" stroke="#dc244c" stroke-width="2"/>
+  <text x="500" y="66" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Contextualized</text>
+  <text x="500" y="88" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">inverted list</text>
+  <text x="500" y="110" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">COIL</text>
+  <rect x="618" y="40" width="164" height="84" rx="8" fill="#eeeaff" stroke="#6047ff" stroke-width="2"/>
+  <text x="700" y="66" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Late</text>
+  <text x="700" y="88" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">interaction</text>
+  <text x="700" y="110" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">ColBERT</text>
+  <rect x="18" y="240" width="164" height="84" rx="8" fill="#eeeaff" stroke="#6047ff" stroke-width="2"/>
+  <text x="100" y="277" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Bag-of-words</text>
+  <text x="100" y="299" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">BM25 / TF-IDF</text>
+  <rect x="218" y="240" width="164" height="84" rx="8" fill="#fff0f3" stroke="#dc244c" stroke-width="2"/>
+  <text x="300" y="277" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sparse encoders</text>
+  <text x="300" y="299" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">DeepImpact &amp; co</text>
+  <rect x="608" y="378" width="164" height="84" rx="8" fill="#fff3dc" stroke="#d98200" stroke-width="2"/>
+  <text x="690" y="415" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sparse encoders</text>
+  <text x="690" y="437" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">SPLADE</text>
+  <path d="M186 82 L204 82" fill="none" stroke="#6047ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M204 88 L214 82 L204 76" fill="none" stroke="#6047ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M386 82 L404 82" fill="none" stroke="#dc244c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M404 88 L414 82 L404 76" fill="none" stroke="#dc244c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M586 82 L604 82" fill="none" stroke="#6047ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M604 88 L614 82 L604 76" fill="none" stroke="#6047ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M186 282 L204 282" fill="none" stroke="#dc244c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M204 288 L214 282 L204 276" fill="none" stroke="#dc244c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M430 282 L430 406 Q430 420 444 420 L594 420" fill="none" stroke="#d98200" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M594 426 L604 420 L594 414" fill="none" stroke="#d98200" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M386 282 L486 282 Q500 282 500 268 L500 138" fill="none" stroke="#dc244c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M506 138 L500 128 L494 138" fill="none" stroke="#dc244c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="512" y="152" fill="#bb1841" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Storage overhead</text>
+  <text x="300" y="352" fill="#bb1841" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Poor out-of-domain</text>
+  <text x="300" y="374" fill="#bb1841" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">accuracy</text>
+  <text x="690" y="490" fill="#8a4b00" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Slow generation</text>
+
+</svg>

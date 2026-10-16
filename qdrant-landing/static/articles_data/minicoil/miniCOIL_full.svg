@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="342" viewBox="0 0 800 342" role="img" aria-labelledby="title desc">
+  <title id="title">miniCOIL model</title>
+  <desc id="desc">A dense encoder produces a stack of four dense word embeddings, each a row of numbers. The stack passes through the miniCOIL word models, one small model per word, and comes out as four miniCOIL vectors of four numbers each. The numbers are illustrative.</desc>
+  <rect x="1" y="1" width="798" height="340" rx="12" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="2"/>
+  <rect x="14" y="148" width="110" height="80" rx="8" fill="#fff3dc" stroke="#d98200" stroke-width="2"/>
+  <text x="69" y="183" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Dense</text>
+  <text x="69" y="205" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">encoder</text>
+  <path d="M128 188 L152 188" fill="none" stroke="#d98200" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M152 194 L162 188 L152 182" fill="none" stroke="#d98200" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="285" y="50" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Dense word embeddings</text>
+  <rect x="180" y="70" width="210" height="44" rx="5" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+  <text x="201" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M222 70 V114" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="243" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">-0.1</text>
+  <path d="M264 70 V114" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="285" y="98" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">...</text>
+  <path d="M306 70 V114" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="327" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M348 70 V114" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="369" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <rect x="180" y="134" width="210" height="44" rx="5" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+  <text x="201" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M222 134 V178" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="243" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">-0.1</text>
+  <path d="M264 134 V178" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="285" y="162" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">...</text>
+  <path d="M306 134 V178" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="327" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M348 134 V178" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="369" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <rect x="180" y="198" width="210" height="44" rx="5" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+  <text x="201" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M222 198 V242" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="243" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">-0.1</text>
+  <path d="M264 198 V242" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="285" y="226" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">...</text>
+  <path d="M306 198 V242" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="327" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M348 198 V242" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="369" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <rect x="180" y="262" width="210" height="44" rx="5" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+  <text x="201" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M222 262 V306" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="243" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">-0.1</text>
+  <path d="M264 262 V306" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="285" y="290" fill="#4e5366" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">...</text>
+  <path d="M306 262 V306" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="327" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M348 262 V306" stroke="#6047ff" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="369" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <path d="M178 70 H172 V306 H178" fill="none" stroke="#656b7f" stroke-width="2"/>
+  <path d="M392 70 H398 V306 H392" fill="none" stroke="#656b7f" stroke-width="2"/>
+  <path d="M598 70 H592 V306 H598" fill="none" stroke="#656b7f" stroke-width="2"/>
+  <path d="M172 188 L162 188" fill="none" stroke="#d98200" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M398 188 L436 188" fill="none" stroke="#656b7f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M436 194 L446 188 L436 182" fill="none" stroke="#656b7f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="496" y="62" fill="#006b75" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">miniCOIL</text>
+  <text x="496" y="84" fill="#006b75" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle">word models</text>
+  <rect x="452" y="104" width="64" height="120" rx="6" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <rect x="460" y="112" width="64" height="120" rx="6" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <rect x="468" y="120" width="64" height="120" rx="6" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <rect x="476" y="128" width="64" height="120" rx="6" fill="#e1f7f9" stroke="#00838f" stroke-width="2"/>
+  <path d="M540 188 L576 188" fill="none" stroke="#00838f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>
+  <path d="M576 194 L586 188 L576 182" fill="none" stroke="#00838f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="684" y="50" fill="#303547" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">miniCOIL vectors</text>
+  <rect x="600" y="70" width="168" height="44" rx="5" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+  <text x="621" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.9</text>
+  <path d="M642 70 V114" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="663" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M684 70 V114" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="705" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <path d="M726 70 V114" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="747" y="98" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.3</text>
+  <rect x="600" y="134" width="168" height="44" rx="5" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+  <text x="621" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.9</text>
+  <path d="M642 134 V178" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="663" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M684 134 V178" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="705" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <path d="M726 134 V178" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="747" y="162" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.3</text>
+  <rect x="600" y="198" width="168" height="44" rx="5" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+  <text x="621" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.9</text>
+  <path d="M642 198 V242" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="663" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M684 198 V242" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="705" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <path d="M726 198 V242" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="747" y="226" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.3</text>
+  <rect x="600" y="262" width="168" height="44" rx="5" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+  <text x="621" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.9</text>
+  <path d="M642 262 V306" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="663" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.2</text>
+  <path d="M684 262 V306" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="705" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.1</text>
+  <path d="M726 262 V306" stroke="#00838f" stroke-width="1" stroke-opacity="0.55"/>
+  <text x="747" y="290" fill="#303547" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">0.3</text>
+
+</svg>

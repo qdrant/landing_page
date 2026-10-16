@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480" role="img" aria-labelledby="title desc">
+  <title id="title">The idea behind miniCOIL</title>
+  <desc id="desc">miniCOIL combines two lines of development. It takes small contextualized vectors from COIL, and it keeps the BM25 formula from bag-of-words retrieval, adding context to it. It avoids the storage overhead of COIL and the poor out-of-domain accuracy of sparse encoders.</desc>
+  <rect x="1" y="1" width="798" height="478" rx="12" fill="#111824" stroke="#303547" stroke-width="2"/>
+  <rect x="18" y="40" width="164" height="84" rx="8" fill="#272143" stroke="#9494ff" stroke-width="2"/>
+  <text x="100" y="66" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Word</text>
+  <text x="100" y="88" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">embeddings</text>
+  <text x="100" y="110" fill="#b9c0d4" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">word2vec</text>
+  <rect x="218" y="40" width="164" height="84" rx="8" fill="#272143" stroke="#9494ff" stroke-width="2"/>
+  <text x="300" y="66" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sentence</text>
+  <text x="300" y="88" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">embeddings</text>
+  <text x="300" y="110" fill="#b9c0d4" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">SBERT</text>
+  <rect x="418" y="40" width="164" height="84" rx="8" fill="#3a1c2a" stroke="#ff8792" stroke-width="2"/>
+  <text x="500" y="66" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Contextualized</text>
+  <text x="500" y="88" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">inverted list</text>
+  <text x="500" y="110" fill="#b9c0d4" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">COIL</text>
+  <rect x="18" y="240" width="164" height="84" rx="8" fill="#272143" stroke="#9494ff" stroke-width="2"/>
+  <text x="100" y="277" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Bag-of-words</text>
+  <text x="100" y="299" fill="#b9c0d4" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">BM25 / TF-IDF</text>
+  <rect x="218" y="240" width="164" height="84" rx="8" fill="#3a1c2a" stroke="#ff8792" stroke-width="2"/>
+  <text x="300" y="277" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Sparse encoders</text>
+  <text x="300" y="299" fill="#b9c0d4" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">DeepImpact &amp; co</text>
+  <rect x="595" y="160" width="190" height="112" rx="8" fill="#112f35" stroke="#4dd0e1" stroke-width="2"/>
+  <text x="690" y="192" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">miniCOIL</text>
+  <text x="690" y="218" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">Contextualized word</text>
+  <text x="690" y="238" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">embeddings with</text>
+  <text x="690" y="258" fill="#e2e7f5" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">BM25 weights</text>
+  <path d="M186 82 L204 82" fill="none" stroke="#9494ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M204 88 L214 82 L204 76" fill="none" stroke="#9494ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M386 82 L404 82" fill="none" stroke="#ff8792" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M404 88 L414 82 L404 76" fill="none" stroke="#ff8792" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M186 282 L204 282" fill="none" stroke="#ff8792" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M204 288 L214 282 L204 276" fill="none" stroke="#ff8792" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M386 282 L486 282 Q500 282 500 268 L500 138" fill="none" stroke="#ff8792" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M506 138 L500 128 L494 138" fill="none" stroke="#ff8792" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M586 82 L676 82 Q690 82 690 96 L690 146" fill="none" stroke="#4dd0e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M684 146 L690 156 L696 146" fill="none" stroke="#4dd0e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M100 328 L100 410 Q100 424 114 424 L676 424 Q690 424 690 410 L690 286" fill="none" stroke="#4dd0e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M696 286 L690 276 L684 286" fill="none" stroke="#4dd0e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="604" y="126" fill="#b2ebf2" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Small</text>
+  <text x="604" y="148" fill="#b2ebf2" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">vectors</text>
+  <text x="395" y="452" fill="#b2ebf2" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Use BM25 formula, add context</text>
+
+</svg>

@@ -16,6 +16,8 @@ keywords:
 category: embedding-research
 ---
 
+<link rel="stylesheet" href="/articles_data/minicoil/figures.css">
+
 Have you ever heard of sparse neural retrieval? If so, have you used it in production? 
 
 It's a field with excellent potential -- who wouldn't want to use an approach that combines the strengths of dense and term-based text retrieval? Yet it's not so popular. Is it due to the common curse of  *“What looks good on paper is not going to work in practice”?*?
@@ -28,7 +30,11 @@ Learning from the mistakes of previous attempts, we created **miniCOIL**, a new 
 
 Sparse neural retrieval is not so well known, as opposed to methods it's based on -- term-based and dense retrieval. Their weaknesses motivated this field's development, guiding its evolution. Let's follow its path.
 
-{{< figure src="/articles_data/minicoil/models_evolution.png" alt="Retrievers evolution" caption="Retrievers evolution" width="100%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/models_evolution.svg" alt="Retriever evolution. Dense: word embeddings add context to become sentence embeddings, which embed per word to become COIL, which matches all words to become ColBERT. Sparse: BM25 and TF-IDF gain model-assigned weights to become sparse encoders such as DeepImpact, which either turn a single weight into a vector, reaching COIL, or generate new tokens, reaching SPLADE." width="800" height="540" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/models_evolution.dark.svg" alt="Retriever evolution. Dense: word embeddings add context to become sentence embeddings, which embed per word to become COIL, which matches all words to become ColBERT. Sparse: BM25 and TF-IDF gain model-assigned weights to become sparse encoders such as DeepImpact, which either turn a single weight into a vector, reaching COIL, or generate new tokens, reaching SPLADE." width="800" height="540" loading="lazy">
+  <figcaption>Retrievers evolution</figcaption>
+</figure>
 
 ### Term-based Retrieval
 
@@ -69,7 +75,11 @@ Of course, we want the best of both worlds, fused in one model, no drawbacks inc
 - Why **neural**? Instead of deriving an importance score for a word based on its statistics, let's use machine learning models capable of encoding words' meaning.
 
 **So why is it not widely used?**
-{{< figure src="/articles_data/minicoil/models_problems.png" alt="Problems of modern sparse neural retrievers" caption="Problems of modern sparse neural retrievers" width="100%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/models_problems.svg" alt="The same retriever map with problems marked: COIL has storage overhead, sparse encoders such as DeepImpact have poor out-of-domain accuracy, and SPLADE is slow because it generates new tokens." width="800" height="540" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/models_problems.dark.svg" alt="The same retriever map with problems marked: COIL has storage overhead, sparse encoders such as DeepImpact have poor out-of-domain accuracy, and SPLADE is slow because it generates new tokens." width="800" height="540" loading="lazy">
+  <figcaption>Problems of modern sparse neural retrievers</figcaption>
+</figure>
 
 The detailed history of sparse neural retrieval makes for [a whole other article](https://qdrant.tech/articles/modern-sparse-neural-retrieval/). Summing a big part of it up, there were many attempts to map a word representation produced by a dense encoder to a single-valued importance score, and most of them never saw the real world outside of research papers (**DeepImpact**, **TILDEv2**, **uniCOIL**).
 
@@ -94,7 +104,11 @@ To be usable in production, the minimal criteria a sparse neural retriever shoul
 - **Producing lightweight sparse representations (it's in the name!).** Inheriting the perks of term-based retrieval, it should be lightweight and simple. For broader semantic search, there are dense retrievers.
 - **Being better than BM25 at ranking in different domains.** The goal is a term-based retriever capable of distinguishing word meanings — what BM25 can't do — preserving BM25's out-of-domain, time-proven performance.
 
-{{< figure src="/articles_data/minicoil/minicoil.png" alt="The idea behind miniCOIL" caption="The idea behind miniCOIL" width="100%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/minicoil.svg" alt="miniCOIL combines small contextualized vectors from COIL with the BM25 formula from bag-of-words retrieval, adding context to it." width="800" height="480" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/minicoil.dark.svg" alt="miniCOIL combines small contextualized vectors from COIL with the BM25 formula from bag-of-words retrieval, adding context to it." width="800" height="480" loading="lazy">
+  <figcaption>The idea behind miniCOIL</figcaption>
+</figure>
 
 ### Inspired by COIL
 
@@ -131,7 +145,11 @@ Then, if we manage to capture a word's meaning, our solution alone could work li
 - It could see the difference between homographs;
 - When used with word stems, it could distinguish parts of speech.
 
-{{< figure src="/articles_data/minicoil/examples.png" alt="Meaning component" caption="Meaning component" width="100%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/examples.svg" alt="Meaning vectors of four cells per word for the stem inform and the word bat. Words used in the same meaning, such as bat cave and fruit bat, get similar vectors. Cell shading is illustrative." width="800" height="380" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/examples.dark.svg" alt="Meaning vectors of four cells per word for the stem inform and the word bat. Words used in the same meaning, such as bat cave and fruit bat, get similar vectors. Cell shading is illustrative." width="800" height="380" loading="lazy">
+  <figcaption>Meaning component</figcaption>
+</figure>
 
 And if our model stumbles upon a word it hasn't "seen" during training, we can just fall back to the original BM25 formula!
 
@@ -142,7 +160,11 @@ COIL uses 32 values to describe one term. Do we need this many? How many words w
 Yet, even if we use fewer values in COIL representations, the initial problem of dense vectors not fitting into a classical inverted index persists.  
 Unless... We perform a simple trick!
 
-{{< figure src="/articles_data/minicoil/bow_4D.png" alt="miniCOIL vectors to sparse representation" caption="miniCOIL vectors to sparse representation" width="80%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/bow_4D.svg" alt="Contextualized dense word embeddings produce four-dimensional meaning vectors. Each vector fills four coordinates reserved for its word in the sparse vector; absent words stay zero. BM25 uses one coordinate per word. Cell shading is illustrative." width="800" height="410" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/bow_4D.dark.svg" alt="Contextualized dense word embeddings produce four-dimensional meaning vectors. Each vector fills four coordinates reserved for its word in the sparse vector; absent words stay zero. BM25 uses one coordinate per word. Cell shading is illustrative." width="800" height="410" loading="lazy">
+  <figcaption>miniCOIL vectors to sparse representation. Contextualized dense word embeddings produce the four-dimensional vectors; the bag-of-words cells identify their reserved coordinates.</figcaption>
+</figure>
 
 Imagine a bag-of-words sparse vector. Every word from the vocabulary takes up one cell. If the word is present in the encoded text — we assign some weight; if it isn't — it equals zero.
 
@@ -178,7 +200,7 @@ Let’s test our assumption and take a look at the word *“bat”*.
 
 We took several thousand sentences with this word, which we sampled from [OpenWebText dataset](https://paperswithcode.com/dataset/openwebtext) and vectorized with a [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) encoder. The goal was to check if we could distinguish any clusters containing sentences where *“bat”* shares the same meaning.
 
-{{< figure src="/articles_data/minicoil/bat.png" alt="Sentences with \"bat\" in 2D" caption="Sentences with \"bat\" in 2D. <br>A very important observation: *Looks like a bat*:)" width="80%" >}}
+{{< figure src="/articles_data/minicoil/bat.png" alt="Two-dimensional projection of sentence embeddings containing bat, with a broad curved cluster and smaller branches. Each point represents a sentence." caption="Sentences with \"bat\" in 2D. <br>A very important observation: *Looks like a bat*:)" class="minicoil-plot" width="100%" >}}
 
 The result had two big clusters related to *"bat"* as an animal and *"bat"* as a sports equipment, and two smaller ones related to fluttering motion and the verb used in sports. Seems like it could work!
 
@@ -190,11 +212,19 @@ We have a training pool of sentences containing the word *"bat"* in different me
 
 We're dealing with only one word, so it should be enough to use just one linear layer for dimensionality reduction, with a [`Tanh activation`](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html) on top, mapping values of compressed vectors to (-1, 1) range. The activation function choice is made to align miniCOIL representations with dense encoder ones, which are mainly compared through `cosine similarity`.
 
-{{< figure src="/articles_data/minicoil/miniCOIL_one_word.png" alt="miniCOIL architecture on a word level" caption="miniCOIL architecture on a word level" width="100%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/miniCOIL_one_word.svg" alt="A dense word embedding goes through the miniCOIL word model, one linear layer from the input dimension to the miniCOIL dimension followed by Tanh, and comes out as a four-value miniCOIL vector. Numerical values are illustrative." width="800" height="215" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/miniCOIL_one_word.dark.svg" alt="A dense word embedding goes through the miniCOIL word model, one linear layer from the input dimension to the miniCOIL dimension followed by Tanh, and comes out as a four-value miniCOIL vector. Numerical values are illustrative." width="800" height="215" loading="lazy">
+  <figcaption>miniCOIL architecture on a word level. Numerical values are illustrative.</figcaption>
+</figure>
 
 As a training objective, we can select the minimization of [triplet loss](https://qdrant.tech/articles/triplet-loss/), where triplets are picked and aligned based on distances between [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) sentence embeddings. We rely on the confidence (size of the margin) of [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) to guide our *"bat"* miniCOIL compression.
 
-{{< figure src="/articles_data/minicoil/training_objective.png" alt="miniCOIL training" caption="miniCOIL training" width="80%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/training_objective.svg" alt="Triplet loss training for the word bat. In the sentence embedding space, the anchor 'This fruit bat is cute' is closer to the positive 'A bat slept in a cave' than to the negative 'I bought a baseball bat'. The miniCOIL representations are trained to reproduce that ordering by pulling the positive closer and pushing the negative away." width="800" height="470" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/training_objective.dark.svg" alt="Triplet loss training for the word bat. In the sentence embedding space, the anchor 'This fruit bat is cute' is closer to the positive 'A bat slept in a cave' than to the negative 'I bought a baseball bat'. The miniCOIL representations are trained to reproduce that ordering by pulling the positive closer and pushing the negative away." width="800" height="470" loading="lazy">
+  <figcaption>miniCOIL training. Positions are illustrative.</figcaption>
+</figure>
 
 <aside role="status">
 Since miniCOIL vectors are trained to reflect spatial relationships based on cosine similarity, they should be normalized before inserting them into bag-of-words sparse vectors (compared though dot product).
@@ -214,7 +244,11 @@ What if we keep it simple and continue training a model per word? It has certain
 
 Then we could train all the words we're interested in and simply combine (stack) all models into one big miniCOIL.
 
-{{< figure src="/articles_data/minicoil/miniCOIL_full.png" alt="miniCOIL model" caption="miniCOIL model" width="100%" >}}
+<figure class="minicoil-figure">
+  <img src="/articles_data/minicoil/miniCOIL_full.svg" alt="A dense encoder produces dense word embeddings, one row per word. Stacked miniCOIL word models, one small model per word, turn them into four-value miniCOIL vectors. Numerical values are illustrative." width="800" height="342" loading="lazy">
+  <img class="minicoil-figure__dark" src="/articles_data/minicoil/miniCOIL_full.dark.svg" alt="A dense encoder produces dense word embeddings, one row per word. Stacked miniCOIL word models, one small model per word, turn them into four-value miniCOIL vectors. Numerical values are illustrative." width="800" height="342" loading="lazy">
+  <figcaption>miniCOIL model. Numerical values are illustrative.</figcaption>
+</figure>
 
 ### Implementation Details 
 
