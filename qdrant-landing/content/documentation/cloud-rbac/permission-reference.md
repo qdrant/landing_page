@@ -48,6 +48,7 @@ Permissions for API Keys, backups, clusters, and backup schedules.
 | `read:backups` | View backups in the **Backups page** and **Cluster details > Backups tab**. |
 | `write:backups` | Create backups from the **Backups page** and **Cluster details > Backups tab**. |
 | `delete:backups` | Remove backups from the **Backups page** and **Cluster details > Backups tab**. |
+| `restore:backups` | Restore a backup into a cluster, or create a cluster from a backup. |
 
 ### **Clusters**
 | Permission | Description |
