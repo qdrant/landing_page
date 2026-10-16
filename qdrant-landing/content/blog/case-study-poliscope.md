@@ -115,7 +115,7 @@ Today the Qdrant query takes 8.5 ms at P50 and 12.5 ms at P95 in Poliscope's ben
 
 **Query.** Search serves Poliscope's on-platform search, its Model Context Protocol (MCP) server, agents, and monitoring services. The query parser supports OR sub-queries in hybrid mode, plus AND, NOT, and exact phrases in keyword mode. A [hybrid](https://qdrant.tech/documentation/search/hybrid-queries/) prefetch runs BM25 and dense search in one request, with the dense side served from the 1.5-bit TurboQuant index and rescored against the `turbo4` originals at 3x oversampling, and fuses the two with distribution-based score fusion (DBSF). Results are grouped by meeting or by proposal, then a Jina cross-encoder (`jina-reranker-v2-base-multilingual`) reranks them. Every hit carries its PDF page range, so results deep-link to the right page of the source document.
 
-**Setup.** Qdrant 1.19, a single node with 12 shards and one collection of 130 million points, on a Hetzner bare-metal server in Germany: an AMD EPYC 9454, 256 GB of RAM, and two 1.9 TB NVMe drives. The database, the API, and Qdrant share this server. The collection takes about 550 GiB on disk. Of about 200 GB of RAM in use, 83 GB is Qdrant's own memory: 38 GB of quantized vectors, about 37 GB of payload indexes, and 5 GB for the ID tracker. Another 114 GB sits in the page cache, including the full 44 GB HNSW graph.
+**Setup.** Qdrant 1.19 open source runs as a single node, with one collection of 130 million points across 12 shards, on a Hetzner bare-metal server in Germany with 256 GB of RAM. The database and the API share the same machine.
 
 ## Small Team, One Server
 
