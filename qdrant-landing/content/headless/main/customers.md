@@ -8,8 +8,8 @@ logoRows:
   - logos:
     - name: Discord
       src: /img/home-customers-logo/discord.svg
-    - name: Perplexity
-      src: /img/home-customers-logo/perplexity.svg
+    - name: Disney
+      src: /img/home-customers-logo/disney.svg
     - name: Servicenow
       src: /img/home-customers-logo/servicenow.svg
     - name: Tripadvisor
