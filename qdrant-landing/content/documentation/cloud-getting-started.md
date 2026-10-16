@@ -99,7 +99,7 @@ A cluster is production-ready when it meets these minimums:
 | Access | One key per application with an expiration, and the narrowest permission each needs | **API Keys** tab. Restrict client networks with [IP ranges](/documentation/cloud/configure-cluster/#client-ip-restrictions) |
 | Disk speed (AWS) | **Balanced** tier for disks of 32 GiB or more, **Performance** tier for 256 GiB or more | Cluster creation |
 | Monitoring | Alert emails reaching the account owner, and metrics scraped from `/metrics` and `/sys_metrics` | See [Monitoring](/documentation/cloud/cluster-monitoring/) |
-| Upgrades | Update client SDKs first, take a backup, then update the cluster | See [Updating Clusters](/documentation/cloud/cluster-upgrades/) |
+| Upgrades | Take a backup, update the cluster, then update the client SDKs. Keep each SDK within one minor version of the cluster | See [Updating Clusters](/documentation/cloud/cluster-upgrades/) |
 
 Multi-AZ clusters, available on the Premium tier, can only be chosen at creation. They need a multiple of 3 nodes. For the reasoning behind each setting, see [Vector Search in Production](/documentation/production-operations/vector-search-in-production/).
 
