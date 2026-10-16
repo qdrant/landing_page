@@ -42,7 +42,7 @@ To configure in-memory quantization, with on-disk original vectors, you need to 
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/turbo-quantization-in-ram/" >}}
 
-**Note**: These examples use the `turbo4` datatype. `turbo4` stores each vector dimension as a 4-bit value instead of the full 32-bit value, which improves storage efficiency but can reduce recall and search quality. Weigh these trade-offs before you use `turbo4` in your vector search setup.
+**Note**: These examples use the `turbo4` datatype. `turbo4` stores each vector dimension as a 4-bit value instead of the full 32-bit value, which improves storage efficiency but can reduce recall and search quality. Weigh these trade-offs before you use `turbo4` in your vector search setup. For higher recall at twice the size, use [`turbo8`](/documentation/manage-data/vectors/#turbo8) instead.
 
 ### Disable Rescoring for Faster Search (optional)
 
