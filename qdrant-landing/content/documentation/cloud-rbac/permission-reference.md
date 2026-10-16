@@ -108,6 +108,6 @@ Permissions for accessing personal profile information.
 
 | Permission | Description |
 |------------|------------|
-| `read:profile` | View the user’s own profile information.<br> **(Assigned to all users by default)** |
+| `read:profile` | View the user's own profile information.<br> **(Assigned to all users by default)** |
 
 ---
