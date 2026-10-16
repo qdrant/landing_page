@@ -1,0 +1,27 @@
+<figure class="sef-figure" id="sef-iphone" aria-labelledby="sef-iphone-caption">
+  <div class="sef-artwork">
+    <div class="sef-box sef-query">
+      <span class="sef-label">Search</span>
+      <span class="sef-mono">"iPhone 15 Pro Max <strong>256GB</strong>"</span>
+    </div>
+    <div class="sef-comparison">
+      <div class="sef-box sef-mismatch">
+        <span class="sef-label">Dense Retrieval</span>
+        <div class="sef-product">
+          <img class="sef-phone" src="/documentation/tutorials/sparse-embeddings-ecommerce/phone.svg" width="32" height="48" alt="">
+          <div><span>iPhone 15 Pro Max</span><strong class="sef-storage sef-negative">128GB <span class="sef-status" aria-label="Mismatch">&#215;</span></strong></div>
+        </div>
+        <p class="sef-note">Dense: cosine <span class="sef-mono">0.97</span></p>
+      </div>
+      <div class="sef-box sef-match">
+        <span class="sef-label">Sparse Retrieval</span>
+        <div class="sef-product">
+          <img class="sef-phone" src="/documentation/tutorials/sparse-embeddings-ecommerce/phone.svg" width="32" height="48" alt="">
+          <div><span>iPhone 15 Pro Max</span><strong class="sef-storage sef-positive">256GB <span class="sef-status" aria-label="Match">&#10003;</span></strong></div>
+        </div>
+        <p class="sef-note">Sparse: exact match</p>
+      </div>
+    </div>
+  </div>
+  <figcaption class="sef-caption" id="sef-iphone-caption">Dense retrieval shows 128GB; sparse retrieval shows 256GB for the 256GB query.</figcaption>
+</figure>

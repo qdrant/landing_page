@@ -16,6 +16,15 @@ tags:
   - Similarity Search
 category: mastering-search
 weight: 90
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Multi-Representation Search Tutorial"
+  url: "/documentation/tutorials-search-engineering/multi-representation-search/"
 ---
 
 # How to Optimize Vector Storage by Storing Multiple Vectors Per Object

@@ -37,7 +37,7 @@
 
 
       <div class="qdrant-post__content">
-        {{ partial "article-content" .context }}
+        {{ partial "article-content" .context }}{{ if eq .variant "blog-post" }}{{ partial "blog-author-card.html" .context }}{{ end }}
       </div>
 
       {{ if eq .variant "centered" }}

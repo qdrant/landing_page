@@ -1,7 +1,5 @@
 const NS = 'http://www.w3.org/2000/svg';
-const DESKTOP = { width: 900, height: 570 };
-const MOBILE = { width: 354, height: 760 };
-const STACK_AT = 560;
+const VIEW = { width: 900, height: 570 };
 const PHOTOS = '/articles_data/vector-similarity-beyond-search/photos/';
 const CLOUD = [
   [300, 135], [330, 230], [360, 280], [460, 120], [500, 195], [530, 300],
@@ -33,17 +31,6 @@ const OFFICE_CHAIR = { id: 'office chair', point: [470, 535], label: 'office cha
 const DESKTOP_REFERENCE_POINTS = REFERENCES.map((ref) => ref.point);
 const DESKTOP_SCORED = [CANDIDATES[0], CANDIDATES[1], OFFICE_CHAIR];
 
-// The narrow layout redraws every point at different pixel positions (see
-// drawMobile), so it needs its own set of coordinates to tell the same
-// best_score/sum_scores story — computeRankings() asserts this layout too,
-// not just the desktop one.
-const MOBILE_REFERENCE_POINTS = [[90, 190], [155, 390], [225, 500]];
-const MOBILE_SCORED = [
-  { id: 'caster wheels', point: [250, 175] },
-  { id: 'egg chair', point: [148, 290] },
-  { id: 'office chair', point: [245, 535] },
-];
-
 function svg(name, attrs = {}, text) {
   const element = document.createElementNS(NS, name);
   Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
@@ -56,10 +43,7 @@ function distance(a, b) {
 }
 
 // --- Ranking: similarity = -euclidean distance, so the nearest/summed
-// reference distance stands in for a score, as relative-distance does. Both
-// helpers and computeRankings() below take referencePoints/scored as
-// arguments so the same logic can validate the desktop and the mobile
-// layout independently (see computeRankings() call sites in mount()). -----
+// reference distance stands in for a score, as relative-distance does. -----
 function minDistanceToReferences(point, referencePoints) {
   return Math.min(...referencePoints.map((ref) => distance(point, ref)));
 }
@@ -121,12 +105,15 @@ function computeRankings(referencePoints, scored, layoutName) {
   };
 }
 
-function addLink(parent, from, to, endInset = 14, startInset = 0) {
+// Two kinds of line: 'assoc' (dotted, faint) ties a photo to its point in
+// the embedding space; 'near' (solid, in the item's color) measures the
+// distance from a scored item to a reference.
+function addLink(parent, from, to, endInset = 12, startInset = 0, kind = 'assoc', role = 'plain') {
   const length = distance(from, to);
   const ux = (to[0] - from[0]) / length;
   const uy = (to[1] - from[1]) / length;
   parent.appendChild(svg('line', {
-    class: 'qi-outlier__link',
+    class: kind === 'assoc' ? 'qi-outlier__link' : `qi-outlier__near qi-outlier__near--${role}`,
     x1: from[0] + ux * startInset,
     y1: from[1] + uy * startInset,
     x2: to[0] - ux * endInset,
@@ -142,7 +129,7 @@ function addPoint(parent, point, role = 'plain', ringed = role !== 'plain') {
   if (ringed) {
     parent.appendChild(svg('circle', {
       class: `qi-outlier__ring qi-outlier__ring--${role}`,
-      cx: point[0], cy: point[1], r: 15,
+      cx: point[0], cy: point[1], r: 11,
     }));
   }
 }
@@ -160,9 +147,10 @@ function addTile(parent, image, x, y, width, height, role) {
   }));
 }
 
-function addLabel(parent, x, y, value, anchor) {
+function addLabel(parent, x, y, value, anchor, extraClass = '') {
   // The stylesheet centers labels; an inline style is the only way to override it.
-  const attrs = anchor ? { class: 'qi-label', x, y, style: `text-anchor: ${anchor}` } : { class: 'qi-label', x, y };
+  const cls = `qi-label ${extraClass}`.trim();
+  const attrs = anchor ? { class: cls, x, y, style: `text-anchor: ${anchor}` } : { class: cls, x, y };
   parent.appendChild(svg('text', attrs, value));
 }
 
@@ -189,25 +177,52 @@ export function mount(node) {
   const drawing = node.querySelector('.qi-outlier__draw');
   const status = node.querySelector('.qi-outlier__status');
   const controls = [...node.querySelectorAll('[data-mode]')];
-  // Both layouts must independently tell the same story (same margins), so
-  // both get asserted; the flagged sets are identical by construction, and
-  // either one drives both renderers.
   const flaggedByMode = computeRankings(DESKTOP_REFERENCE_POINTS, DESKTOP_SCORED, 'desktop');
-  computeRankings(MOBILE_REFERENCE_POINTS, MOBILE_SCORED, 'mobile');
   const desktopNearest = nearestReferenceIndices(DESKTOP_REFERENCE_POINTS, DESKTOP_SCORED);
-  const mobileNearest = nearestReferenceIndices(MOBILE_REFERENCE_POINTS, MOBILE_SCORED);
   let mode = 'best_score';
-  let stacked = null;
-  let lastWidth = 0;
+  // Which scored item's closeness lines are emphasized; the rest are dimmed.
+  // `pinned` is set by a click or tap, `hovered` by a mouse. Under
+  // sum_scores nine lines overlap, so the office chair, the item that mode
+  // is about, is emphasized until the reader picks another.
+  const DEFAULT_FOCUS = { best_score: null, sum_scores: 'office chair' };
+  let pinned = DEFAULT_FOCUS[mode];
+  let hovered = null;
+  let nearLayer = null;
 
-  // best_score: one line to the nearest reference. sum_scores: one line to
-  // every reference (the candidate's score is their sum).
-  function drawReferenceLinks(item, referencePoints, nearest) {
-    if (mode === 'best_score') {
-      addLink(drawing, item.point, referencePoints[nearest[item.id]], 16, 16);
-    } else {
-      referencePoints.forEach((refPoint) => addLink(drawing, item.point, refPoint, 16, 16));
-    }
+  // Closeness is drawn for every scored item, flagged or not, so the reader
+  // can compare them. best_score: one line to the nearest reference.
+  // sum_scores: one line to every reference (the score is their sum).
+  function drawReferenceLinks(item, referencePoints, nearest, role) {
+    const targets = mode === 'best_score' ? [referencePoints[nearest[item.id]]] : referencePoints;
+    const group = nearLayer.appendChild(svg('g', { 'data-item': item.id }));
+    targets.forEach((refPoint) => addLink(group, item.point, refPoint, 12, 12, 'near', role));
+  }
+
+  // A group for one scored item's point, photo, and labels. It is the hover
+  // and tap target, with an invisible circle that enlarges the point's.
+  function itemGroup(item) {
+    const group = drawing.appendChild(svg('g', { class: 'qi-outlier__item', 'data-item': item.id }));
+    group.appendChild(svg('circle', { class: 'qi-outlier__hit', cx: item.point[0], cy: item.point[1], r: 22 }));
+    return group;
+  }
+
+  function applyFocus() {
+    const focus = hovered ?? pinned;
+    drawing.classList.toggle('has-focus', focus != null);
+    drawing.querySelectorAll('[data-item]').forEach((element) => {
+      const active = element.dataset.item === focus;
+      element.classList.toggle('is-focus', active);
+      // Emphasized lines go on top of the dimmed ones.
+      if (active && element.parentNode === nearLayer) nearLayer.appendChild(element);
+    });
+  }
+
+  // The number the active mode ranks by, in units of 100 canvas pixels.
+  function scoreText(point, referencePoints) {
+    const value = mode === 'best_score'
+      ? minDistanceToReferences(point, referencePoints)
+      : sumDistanceToReferences(point, referencePoints);
+    return `${mode === 'best_score' ? 'nearest' : 'sum'}: ${(value / 100).toFixed(1)}`;
   }
 
   function drawDesktop() {
@@ -227,6 +242,7 @@ export function mount(node) {
     const referencePoints = REFERENCES.map((ref) => ref.point);
 
     CLOUD.forEach((point) => addPoint(drawing, point));
+    nearLayer = drawing.appendChild(svg('g'));
 
     const candidateTiles = [
       { ...CANDIDATES[0], x: 730, y: 205, width: 140, height: 108, labelY: 340 },
@@ -236,11 +252,13 @@ export function mount(node) {
       const active = flagged.has(item.id);
       const role = roleFor(item, flagged);
       const tileEdge = [item.x, item.y + item.height / 2];
-      addLink(drawing, item.point, tileEdge, 0, 16);
-      if (active) drawReferenceLinks(item, referencePoints, desktopNearest);
-      addPoint(drawing, item.point, role, active);
-      addTile(drawing, item.image, item.x, item.y, item.width, item.height, role);
-      addLabel(drawing, item.x + item.width / 2, item.labelY, item.label);
+      drawReferenceLinks(item, referencePoints, desktopNearest, role);
+      const group = itemGroup(item);
+      addLink(group, item.point, tileEdge, 0, 12);
+      addPoint(group, item.point, role, active);
+      addTile(group, item.image, item.x, item.y, item.width, item.height, role);
+      addLabel(group, item.x + item.width / 2, item.labelY, item.label);
+      addLabel(group, item.x + item.width / 2, item.labelY + 22, scoreText(item.point, referencePoints), null, `qi-outlier__score qi-outlier__score--${role}`);
     });
 
     // Office chair: a labeled cloud point, no photo (see OFFICE_CHAIR above).
@@ -248,94 +266,51 @@ export function mount(node) {
     // unambiguously its own, clear of Reference #3's tile/ring and of the
     // egg chair, which now sits far away near References #1/#2.
     const officeActive = flagged.has(OFFICE_CHAIR.id);
-    if (officeActive) drawReferenceLinks(OFFICE_CHAIR, referencePoints, desktopNearest);
-    addPoint(drawing, OFFICE_CHAIR.point, roleFor(OFFICE_CHAIR, flagged), officeActive);
-    addLabel(drawing, OFFICE_CHAIR.point[0] + 20, OFFICE_CHAIR.point[1] + 5, OFFICE_CHAIR.label, 'start');
-  }
-
-  function drawMobile() {
-    const flagged = flaggedByMode[mode];
-    // Reference tiles stay in their fixed grid slots; the reference points
-    // below (MOBILE_REFERENCE_POINTS) are independent of tile position, same
-    // as the desktop layout.
-    REFERENCES.forEach((item, index) => {
-      const x = [8, 126, 276][index];
-      const width = index === 2 ? 70 : 92;
-      const labelX = index === 2 ? 300 : x + width / 2;
-      addLabel(drawing, labelX, 30, `Reference #${index + 1}`);
-      addTile(drawing, item.image, x, 42, width, 92, 'reference');
-    });
-
-    const mobilePoints = [
-      [65, 250], [120, 295], [180, 240], [240, 270], [290, 320], [75, 355],
-      // [225, 455] moved to [200, 430]: it sat directly under the "office
-      // chair" label after References #1/#3 moved.
-      [155, 390], [275, 410], [100, 455], [200, 430], [120, 500], [240, 500],
-    ];
-    mobilePoints.forEach((point) => addPoint(drawing, point));
-    MOBILE_REFERENCE_POINTS.forEach((point, index) => {
-      addLink(drawing, [54 + index * 116, 134], point);
-      addPoint(drawing, point, 'reference');
-    });
-
-    // Candidate points use MOBILE_SCORED's coordinates (see top of file):
-    // wheels far from every reference, egg chair between References #1/#2
-    // (close to none), office chair right beside Reference #3. Tiles stay
-    // in their fixed slots; only the dashed connector to each gets longer.
-    const mobileCandidates = [
-      { ...CANDIDATES[0], point: MOBILE_SCORED[0].point, x: 26, y: 565, width: 150, height: 112, labelY: 710 },
-      { ...CANDIDATES[1], point: MOBILE_SCORED[1].point, x: 210, y: 565, width: 118, height: 116, labelY: 710 },
-    ];
-    mobileCandidates.forEach((item) => {
-      const active = flagged.has(item.id);
-      const role = roleFor(item, flagged);
-      addLink(drawing, item.point, [item.x + item.width / 2, item.y], 0, 16);
-      if (active) drawReferenceLinks(item, MOBILE_REFERENCE_POINTS, mobileNearest);
-      addPoint(drawing, item.point, role, active);
-      addTile(drawing, item.image, item.x, item.y, item.width, item.height, role);
-      addLabel(drawing, item.x + item.width / 2, item.labelY, item.label);
-    });
-
-    // Office chair: same story as drawDesktop, repositioned for this layout
-    // (see MOBILE_SCORED[2]). Label sits level with the point, just to its
-    // left, so it cannot be read as Reference #3's label.
-    const officePoint = MOBILE_SCORED[2].point;
-    const officeActive = flagged.has(OFFICE_CHAIR.id);
-    if (officeActive) drawReferenceLinks({ ...OFFICE_CHAIR, point: officePoint }, MOBILE_REFERENCE_POINTS, mobileNearest);
-    addPoint(drawing, officePoint, roleFor(OFFICE_CHAIR, flagged), officeActive);
-    addLabel(drawing, officePoint[0] - 20, officePoint[1] + 6, OFFICE_CHAIR.label, 'end');
+    const officeRole = roleFor(OFFICE_CHAIR, flagged);
+    drawReferenceLinks(OFFICE_CHAIR, referencePoints, desktopNearest, officeRole);
+    const officeGroup = itemGroup(OFFICE_CHAIR);
+    addPoint(officeGroup, OFFICE_CHAIR.point, officeRole, officeActive);
+    addLabel(officeGroup, OFFICE_CHAIR.point[0] + 20, OFFICE_CHAIR.point[1] - 4, OFFICE_CHAIR.label, 'start');
+    addLabel(officeGroup, OFFICE_CHAIR.point[0] + 20, OFFICE_CHAIR.point[1] + 18, scoreText(OFFICE_CHAIR.point, referencePoints), 'start', `qi-outlier__score qi-outlier__score--${officeRole}`);
   }
 
   function draw() {
     drawing.replaceChildren();
-    if (stacked) drawMobile();
-    else drawDesktop();
+    drawDesktop();
+    applyFocus();
     status.textContent = mode === 'best_score'
       ? 'best_score: an item counts as normal if it is close to any one reference. The caster wheels and the egg chair are flagged.'
-      : 'sum_scores: an item far from most references scores low even when it sits next to one. The office chair next to Reference #3 is flagged instead of the egg chair.';
+      : 'sum_scores: an item far from most references scores low even when it sits next to one. The office chair next to Reference #3 is flagged instead of the egg chair. Hover over or tap an item to see its distances.';
     controls.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
-  }
-
-  function setLayout(width) {
-    stacked = width < STACK_AT;
-    const layout = stacked ? MOBILE : DESKTOP;
-    svgRoot.setAttribute('viewBox', `0 0 ${layout.width} ${layout.height}`);
-    draw();
   }
 
   controls.forEach((button) => button.addEventListener('click', () => {
     mode = button.dataset.mode;
+    pinned = DEFAULT_FOCUS[mode];
     draw();
   }));
 
-  const observer = new ResizeObserver((entries) => {
-    const width = entries[0]?.contentRect.width || node.getBoundingClientRect().width;
-    if (width > 0 && (Math.abs(width - lastWidth) > 1 || (width < STACK_AT) !== stacked)) {
-      lastWidth = width;
-      setLayout(width);
-    }
+  // Mouse hover previews an item; a click or tap pins it, and a click on
+  // empty canvas returns to the mode's default.
+  const itemAt = (event) => event.target.closest?.('[data-item]')?.dataset.item ?? null;
+  svgRoot.addEventListener('pointerover', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    hovered = itemAt(event);
+    applyFocus();
   });
-  observer.observe(node);
-  setLayout(node.getBoundingClientRect().width || DESKTOP.width);
+  svgRoot.addEventListener('pointerleave', () => {
+    hovered = null;
+    applyFocus();
+  });
+  svgRoot.addEventListener('click', (event) => {
+    pinned = itemAt(event) ?? DEFAULT_FOCUS[mode];
+    applyFocus();
+  });
+
+  // A single layout at every width: the SVG scales down on narrow screens
+  // rather than switching to a rearranged layout, which made the
+  // reference/candidate relationships hard to follow.
+  svgRoot.setAttribute('viewBox', `0 0 ${VIEW.width} ${VIEW.height}`);
+  draw();
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

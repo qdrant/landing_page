@@ -1,0 +1,52 @@
+{
+  "title": "Draining phase with and without prevent_unoptimized",
+  "kind": "columns-2panel",
+  "labelTop": "configuration",
+  "labelBottom": "setting",
+  "colors": [
+    "muted",
+    0
+  ],
+  "height": 400,
+  "views": [
+    {
+      "label": "Draining latency",
+      "panels": [
+        {
+          "title": "Median (p50) latency while draining",
+          "subtitle": "lower is better",
+          "y": "draining_p50_ms",
+          "axis": "search latency, ms",
+          "unit": "ms",
+          "yMax": 900
+        },
+        {
+          "title": "95th percentile (p95) latency while draining",
+          "subtitle": "lower is better",
+          "y": "draining_p95_ms",
+          "axis": "search latency, ms",
+          "unit": "ms",
+          "yMax": 2200
+        }
+      ]
+    },
+    {
+      "label": "Drain duration",
+      "panels": [
+        {
+          "title": "Time until the optimization backlog cleared",
+          "subtitle": "lower is better",
+          "y": "drain_duration_s",
+          "axis": "drain duration, seconds",
+          "unit": "s",
+          "yMax": 800
+        }
+      ]
+    }
+  ],
+  "tooltip": {
+    "draining_p50_ms": "draining p50",
+    "draining_p95_ms": "draining p95",
+    "drain_duration_s": "drain duration"
+  }
+}

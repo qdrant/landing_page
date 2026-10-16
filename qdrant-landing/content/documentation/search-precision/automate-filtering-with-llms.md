@@ -3,9 +3,15 @@ title: LLM-Powered Filter Automation
 short_description: "Use LLMs to translate natural-language queries into Qdrant payload filters for precise, conversational search."
 description: "Automate filter construction in Qdrant by using an LLM to convert natural-language queries into structured payload filter conditions for precise vector search."
 weight: 10
-alias:
+aliases:
     - /documentation/database-tutorials/automate-filtering-with-llms/
 hideInSidebar: true
+learning_kind: examples
+goal: Data & Filtering
+stack:
+  - Python
+  - FastEmbed
+  - Anthropic
 ---
 
 # LLM-Powered Filter Automation with Qdrant
@@ -54,7 +60,7 @@ play with different LLM providers and restrict their output to a specific struct
 already choose a provider we'll use in this tutorial:
 
 ```shell
-pip install "instructor[anthropic]"
+pip install "instructor[anthropic]" "qdrant-client[fastembed]"
 ```
 
 Anthropic is not the only option out there, as Instructor supports many other providers including OpenAI, Ollama,
@@ -73,9 +79,12 @@ from anthropic import Anthropic
 anthropic_client = instructor.from_anthropic(
     client=Anthropic(
         api_key="YOUR_API_KEY",
-    )
+    ),
+    mode=instructor.Mode.ANTHROPIC_JSON,
 )
 ```
+
+The `ANTHROPIC_JSON` mode asks the model for JSON that matches the Pydantic model.
 
 A decorated client slightly modifies the original API, so you can pass the `response_model` parameter to the 
 `.messages.create` method. This parameter should be a Pydantic model that defines the structure of the output. In case
@@ -85,7 +94,7 @@ of Qdrant filters, it should be a `Filter` model:
 from qdrant_client import models
 
 qdrant_filter = anthropic_client.messages.create(
-    model="claude-3-5-sonnet-latest",
+    model="claude-sonnet-5-5",
     response_model=models.Filter,
     max_tokens=1024,
     messages=[
@@ -103,29 +112,33 @@ Here is how the output looks like:
 
 ```python
 Filter(
-    should=None, 
-    min_should=None, 
+    should=None,
+    min_should=None,
     must=[
         FieldCondition(
-            key="color", 
-            match=MatchValue(value="red"), 
-            range=None, 
-            geo_bounding_box=None, 
-            geo_radius=None, 
-            geo_polygon=None, 
-            values_count=None
-        ), 
+            key="color",
+            match=MatchValue(value="red"),
+            range=None,
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
         FieldCondition(
-            key="type", 
-            match=MatchValue(value="t-shirt"), 
-            range=None, 
-            geo_bounding_box=None, 
-            geo_radius=None, 
-            geo_polygon=None, 
-            values_count=None
-        )
-    ], 
-    must_not=None
+            key="type",
+            match=MatchValue(value="T-shirt"),
+            range=None,
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+    ],
+    must_not=None,
 )
 ```
 
@@ -137,12 +150,70 @@ to automatically determine the indexed fields and restrict the output to them.
 ### Restricting the available fields
 
 Qdrant collection info contains a list of the indexes created on a particular collection. You can use this information
-to automatically determine the fields that can be used for filtering. Here is how you can do it:
+to automatically determine the fields that can be used for filtering.
+
+To follow along, create a small sample collection **with indexes on the fields we want to filter by**. We'll embed data locally with
+[FastEmbed](/documentation/fastembed/):
+
+<details>
+<summary>Create the sample collection</summary>
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient("http://localhost:6333")
+
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+
+client.create_collection(
+    collection_name="test_filter",
+    vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
+)
+
+for field_name, field_type in [
+    ("color", models.PayloadSchemaType.KEYWORD),
+    ("fabric", models.PayloadSchemaType.KEYWORD),
+    ("price", models.PayloadSchemaType.FLOAT),
+    ("city.name", models.PayloadSchemaType.KEYWORD),
+    ("city.location", models.PayloadSchemaType.GEO),
+]:
+    client.create_payload_index(
+        collection_name="test_filter",
+        field_name=field_name,
+        field_schema=field_type,
+    )
+
+products = [
+    {"name": "Classic white T-shirt", "color": "white", "fabric": "cotton", "price": 12.5,
+     "city": {"name": "Watford", "location": {"lon": -0.3963, "lat": 51.6565}}},
+    {"name": "White sports T-shirt", "color": "white", "fabric": "polyester", "price": 9.9,
+     "city": {"name": "Guildford", "location": {"lon": -0.5704, "lat": 51.2362}}},
+    {"name": "White linen T-shirt", "color": "white", "fabric": "linen", "price": 14.0,
+     "city": {"name": "London", "location": {"lon": -0.1276, "lat": 51.5072}}},
+    {"name": "Red cotton T-shirt", "color": "red", "fabric": "cotton", "price": 11.0,
+     "city": {"name": "Oxford", "location": {"lon": -1.2577, "lat": 51.7520}}},
+    {"name": "White organic T-shirt", "color": "white", "fabric": "cotton", "price": 19.0,
+     "city": {"name": "St Albans", "location": {"lon": -0.3366, "lat": 51.7550}}},
+]
+
+client.upload_points(
+    collection_name="test_filter",
+    points=[
+        models.PointStruct(
+            id=idx,
+            vector=models.Document(text=product["name"], model=EMBEDDING_MODEL),
+            payload=product,
+        )
+        for idx, product in enumerate(products)
+    ],
+)
+```
+
+</details>
+
+Now read the indexes back from the collection info:
+
+```python
 collection_info = client.get_collection(collection_name="test_filter")
 indexes = collection_info.payload_schema
 print(indexes)
@@ -191,10 +262,10 @@ Output:
 
 ```text
 - fabric - KEYWORD
+- city.location - GEO
 - city.name - KEYWORD
 - color - KEYWORD
 - price - FLOAT
-- city.location - GEO
 ```
 
 **It's a good idea to cache the list of the available fields and their types**, as they are not supposed to change 
@@ -202,7 +273,7 @@ often. Our interactions with the LLM should be slightly different now:
 
 ```python
 qdrant_filter = anthropic_client.messages.create(
-    model="claude-3-5-sonnet-latest",
+    model="claude-sonnet-5-5",
     response_model=models.Filter,
     max_tokens=1024,
     messages=[
@@ -221,18 +292,20 @@ Output:
 
 ```python
 Filter(
-    should=None, 
-    min_should=None, 
+    should=None,
+    min_should=None,
     must=FieldCondition(
-        key="color", 
-        match=MatchValue(value="red"), 
-        range=None, 
-        geo_bounding_box=None, 
-        geo_radius=None, 
-        geo_polygon=None, 
-        values_count=None
-    ), 
-    must_not=None
+        key="color",
+        match=MatchValue(value="red"),
+        range=None,
+        geo_bounding_box=None,
+        geo_radius=None,
+        geo_polygon=None,
+        values_count=None,
+        is_empty=None,
+        is_null=None,
+    ),
+    must_not=None,
 )
 ```
 
@@ -241,48 +314,8 @@ fields that don't exist in the collection.
 
 ### Testing the LLM output
 
-Although the LLMs are quite powerful, they are not perfect. If you plan to automate filtering, it makes sense to run
-some tests to see how well they perform. Especially edge cases, like queries that cannot be expressed as filters. Let's 
-see how the LLM will handle the following query:
-
-```python
-qdrant_filter = anthropic_client.messages.create(
-    model="claude-3-5-sonnet-latest",
-    response_model=models.Filter,
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": (
-                "<query>fruit salad with no more than 100 calories</query>"
-                f"<indexes>\n{formatted_indexes}\n</indexes>"
-            )
-        }
-    ],
-)
-```
-
-Output:
-
-```python
-Filter(
-    should=None, 
-    min_should=None, 
-    must=FieldCondition(
-        key="price", 
-        match=None, 
-        range=Range(lt=None, gt=None, gte=None, lte=100.0), 
-        geo_bounding_box=None, 
-        geo_radius=None, 
-        geo_polygon=None, 
-        values_count=None
-    ), 
-    must_not=None
-)
-```
-
-Surprisingly, the LLM extracted the calorie information from the query and generated a filter based on the price field.
-It somehow extracts any numerical information from the query and tries to match it with the available fields. 
+If you plan to automate filtering, it makes sense to run
+some tests to see how well LLMs perform. Especially edge cases, like queries that cannot be expressed as filters.
 
 Generally, giving model some more guidance on how to interpret the query may lead to better results. Adding a system
 prompt that defines the rules for the query interpretation may help the model to do a better job. Here is how you can
@@ -295,27 +328,22 @@ You are extracting filters from a text query. Please follow the following rules:
 2. Available indexes are put at the end of the text in the form of a list enclosed in <indexes> tags.
 3. You cannot use any field that is not available in the indexes.
 4. Generate a filter only if you are certain that user's intent matches the field name.
-5. Prices are always in USD.
-6. It's better not to generate a filter than to generate an incorrect one.
+5. It's better not to generate a filter than to generate an incorrect one.
 """
+```
 
+To see the difference, take a vague query that doesn't name any field directly. Without the system prompt:
+
+```python
 qdrant_filter = anthropic_client.messages.create(
-    model="claude-3-5-sonnet-latest",
+    model="claude-sonnet-5-5",
     response_model=models.Filter,
     max_tokens=1024,
     messages=[
         {
             "role": "user",
-            "content": SYSTEM_PROMPT.strip(),
-        },
-        {
-            "role": "assistant",
-            "content": "Okay, I will follow all the rules."
-        },
-        {
-            "role": "user",
             "content": (
-                "<query>fruit salad with no more than 100 calories</query>"
+                "<query>something cheap and cozy for winter</query>"
                 f"<indexes>\n{formatted_indexes}\n</indexes>"
             )
         }
@@ -323,16 +351,68 @@ qdrant_filter = anthropic_client.messages.create(
 )
 ```
 
-Current output:
+Output:
 
 ```python
 Filter(
-    should=None, 
-    min_should=None, 
-    must=None, 
-    must_not=None
+    should=None,
+    min_should=None,
+    must=[
+        FieldCondition(
+            key="price",
+            match=None,
+            range=Range(lt=50.0, gt=None, gte=None, lte=None),
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+        FieldCondition(
+            key="fabric",
+            match=MatchAny(any=["wool", "fleece", "flannel", "cashmere"]),
+            range=None,
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+    ],
+    must_not=None,
 )
 ```
+
+The model turned "cheap" into a price limit and "cozy" into a list of fabrics, guesses the user never stated. The
+exact values vary between runs. Now pass the rules as a system prompt:
+
+```python
+qdrant_filter = anthropic_client.messages.create(
+    model="claude-sonnet-5-5",
+    response_model=models.Filter,
+    max_tokens=1024,
+    system=SYSTEM_PROMPT.strip(),
+    messages=[
+        {
+            "role": "user",
+            "content": (
+                "<query>something cheap and cozy for winter</query>"
+                f"<indexes>\n{formatted_indexes}\n</indexes>"
+            )
+        }
+    ],
+)
+```
+
+Output:
+
+```python
+Filter(should=None, min_should=None, must=None, must_not=None)
+```
+
+With the rules, the model returns no filter instead of guessing.
 
 ### Handling complex queries
 
@@ -341,18 +421,11 @@ complex queries. For example, let's see how it will handle the following query:
 
 ```python
 qdrant_filter = anthropic_client.messages.create(
-    model="claude-3-5-sonnet-latest",
+    model="claude-sonnet-5-5",
     response_model=models.Filter,
     max_tokens=1024,
+    system=SYSTEM_PROMPT.strip(),
     messages=[
-        {
-            "role": "user",
-            "content": SYSTEM_PROMPT.strip(),
-        },
-        {
-            "role": "assistant",
-            "content": "Okay, I will follow all the rules."
-        },
         {
             "role": "user",
             "content": (
@@ -373,64 +446,98 @@ It might be surprising, but Anthropic Claude is able to generate even such compl
 
 ```python
 Filter(
-    should=None, 
-    min_should=None, 
+    should=None,
+    min_should=None,
     must=[
         FieldCondition(
-            key="color", 
-            match=MatchValue(value="white"), 
-            range=None, 
-            geo_bounding_box=None, 
-            geo_radius=None, 
-            geo_polygon=None, 
-            values_count=None
-        ), 
-        FieldCondition(
-            key="city.location", 
-            match=None, 
-            range=None, 
-            geo_bounding_box=None, 
-            geo_radius=GeoRadius(
-                center=GeoPoint(lon=-0.1276, lat=51.5074), 
-                radius=48280.0
-            ), 
-            geo_polygon=None, 
-            values_count=None
-        ), 
-        FieldCondition(
-            key="price", 
-            match=None, 
-            range=Range(lt=15.7, gt=None, gte=None, lte=None), 
+            key="color",
+            match=MatchValue(value="white"),
+            range=None,
             geo_bounding_box=None,
-            geo_radius=None, 
-            geo_polygon=None, 
-            values_count=None
-        )
-    ], must_not=[
-        FieldCondition(
-            key="city.name", 
-            match=MatchValue(value="London"), 
-            range=None, 
-            geo_bounding_box=None, 
-            geo_radius=None, 
-            geo_polygon=None, 
-            values_count=None
-        ), 
-        FieldCondition(
-            key="fabric", 
-            match=MatchValue(value="polyester"),
-            range=None, 
-            geo_bounding_box=None, 
             geo_radius=None,
-            geo_polygon=None, 
-            values_count=None
-        )
-    ]
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+        FieldCondition(
+            key="city.location",
+            match=None,
+            range=None,
+            geo_bounding_box=None,
+            geo_radius=GeoRadius(center=GeoPoint(lon=-0.1278, lat=51.5074), radius=48280.32),
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+        FieldCondition(
+            key="price",
+            match=None,
+            range=Range(lt=15.7, gt=None, gte=None, lte=None),
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+    ],
+    must_not=[
+        FieldCondition(
+            key="city.name",
+            match=MatchValue(value="London"),
+            range=None,
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+        FieldCondition(
+            key="fabric",
+            match=MatchValue(value="polyester"),
+            range=None,
+            geo_bounding_box=None,
+            geo_radius=None,
+            geo_polygon=None,
+            values_count=None,
+            is_empty=None,
+            is_null=None,
+        ),
+    ],
 )
 ```
 
 The model even knows the coordinates of London and uses them to generate the geo filter. It isn't the best idea to
 rely on the model to generate such complex filters, but it's quite impressive that it can do it.
+
+## Search with the generated filter
+
+The generated filter is a regular `models.Filter`, so you can pass it straight to `query_points` and combine it with
+a semantic query:
+
+```python
+results = client.query_points(
+    collection_name="test_filter",
+    query=models.Document(text="white T-shirt", model=EMBEDDING_MODEL),
+    query_filter=qdrant_filter,
+    limit=5,
+)
+
+for point in results.points:
+    print(point.payload["name"], point.payload["city"]["name"], point.payload["price"])
+```
+
+Output:
+
+```text
+Classic white T-shirt Watford 12.5
+```
+
+Only one of the five T-shirts meets every condition: the polyester one, the one in London, and the one above $15.70
+are filtered out, and the red one doesn't match the color.
 
 ## Further steps
 

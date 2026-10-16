@@ -18,7 +18,7 @@ Before creating a cluster, make sure you have a Qdrant Cloud account. Detailed i
 
 You also need to provide [payment details](/documentation/cloud-pricing-payments/). If you have a custom payment agreement, first create your account, then [contact our Support Team](https://support.qdrant.io/) to finalize the setup.
 
-Premium Plan subscribers can enable single sign-on (SSO) for their organizations. To activate SSO, please reach out to the Support Team at [https://support.qdrant.io/](https://support.qdrant.io/) for guidance.
+[Premium Tier](/documentation/cloud-premium/) customers can enable single sign-on (SSO) for Cloud Console sign-in. To turn it on, open a ticket in the [Qdrant support portal](https://support.qdrant.io/).
 
 ## Cluster Sizing
 
@@ -30,7 +30,7 @@ After setting up your account, you can create a Qdrant Cluster by following the 
 
 ## Preparing for Production
 
-For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. More details are available in the [Distributed Deployment](/documentation/scaling/distributed_deployment/) guide. For more information on how to create a production-ready cluster, see our [Vector Search in Production](/articles/vector-search-production/) article.
+For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. More details are available in the [Distributed Deployment](/documentation/scaling/distributed_deployment/) guide. For more information on how to create a production-ready cluster, see our [Vector Search in Production](/documentation/production-operations/vector-search-in-production/) article.
 
 If you are looking to optimize costs, you can reduce memory usage through [Quantization](/documentation/manage-data/quantization/) or by moving vectors to the [`cold` memory tier](/documentation/manage-data/storage/#configuring-memmap-storage).
 

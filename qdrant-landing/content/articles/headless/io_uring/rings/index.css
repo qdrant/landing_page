@@ -1,0 +1,71 @@
+/* rings island. Scoped under .iu-rg. Purple: queued requests, cyan: completed
+   responses, red: requests in flight. */
+.iu-rg {
+  display: block;
+}
+.iu-rg__divider {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.iu-rg__slot {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.iu-rg__slot.is-queued {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.25;
+  stroke: var(--qi-cat-1);
+}
+.iu-rg__slot.is-done {
+  fill: var(--qi-cat-3);
+  fill-opacity: 0.25;
+  stroke: var(--qi-cat-3);
+}
+.iu-rg__slot.is-flight {
+  fill: var(--qi-accent);
+  fill-opacity: 0.2;
+  stroke: var(--qi-accent);
+}
+.iu-rg__flow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.iu-rg__head {
+  fill: var(--qi-muted);
+}
+.iu-rg__mark.is-head {
+  fill: var(--qi-surface);
+  stroke: var(--qi-cat-3);
+  stroke-width: 2;
+}
+.iu-rg__mark.is-tail {
+  fill: var(--qi-accent);
+  stroke: var(--qi-accent);
+}
+.iu-rg__letter {
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+.iu-rg__letter.is-head {
+  fill: var(--qi-fg);
+}
+.iu-rg__letter.is-tail {
+  fill: var(--qi-accent-ink);
+}
+.iu-rg .qi-label,
+.iu-rg .qi-title {
+  font-size: 14px;
+}
+.iu-rg.iu-narrow .qi-label,
+.iu-rg.iu-narrow .qi-title {
+  font-size: 13px;
+}
+.iu-rg.iu-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

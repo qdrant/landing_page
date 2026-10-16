@@ -1,0 +1,5 @@
+configuration,setting,drain_duration_s
+1 segment,segment count,3602.1
+default,1 per core,1026.9
+4x cores,segment count,479.5
+"100,000 KB",segment size,283.9

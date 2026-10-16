@@ -91,7 +91,7 @@ For roles and permissions, see [Cloud RBAC](/documentation/cloud-rbac/).
 
 ## Enterprise Single-Sign-On (SSO)
 
-Qdrant Cloud supports Enterprise Single-Sign-On for Premium Tier customers. The following providers are supported:
+Qdrant Cloud supports enterprise single sign-on (SSO) for [Premium Tier](/documentation/cloud-premium/) customers. SSO covers Cloud Console sign-in only. Applications and users that send requests to a cluster still authenticate with [Database API keys](/documentation/cloud/authentication/). The following providers are supported:
 
 * Active Directory/LDAP
 * ADFS
@@ -103,6 +103,6 @@ Qdrant Cloud supports Enterprise Single-Sign-On for Premium Tier customers. The 
 * SAML
 * Azure Active Directory
 
-Enterprise Sign-On is available as an add-on for [Premium Tier](/documentation/cloud-premium/) customers. If you are interested in using SSO, please [contact us](/contact-us/).
+SSO is included with the Premium Tier. To turn it on, open a ticket in the [Qdrant support portal](https://support.qdrant.io/). If you're not on Premium yet, [contact us](/contact-us/).
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=-u31oU5R0FkVrspN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

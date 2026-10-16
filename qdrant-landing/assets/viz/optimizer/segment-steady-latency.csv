@@ -1,0 +1,5 @@
+configuration,setting,steady_p50_ms,steady_p95_ms
+1 segment,segment count,3.2,4.6
+default,1 per core,4.1,5.0
+4x cores,segment count,18.5,23.9
+"100,000 KB",segment size,17.3,21.2

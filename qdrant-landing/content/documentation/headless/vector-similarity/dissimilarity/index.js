@@ -1,6 +1,6 @@
 const NS = 'http://www.w3.org/2000/svg';
 const DESKTOP = { width: 900, height: 560 };
-const MOBILE = { width: 354, height: 280 };
+const MOBILE = { width: 354, height: 205 };
 const STACK_AT = 560;
 const QUERY = { x: 450, y: 280 };
 const POINTS = [

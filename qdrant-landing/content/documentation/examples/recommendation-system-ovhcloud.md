@@ -13,6 +13,13 @@ stack:
 example_resources:
   - label: View Notebook
     url: https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-OVH.ipynb
+retired_note: "The [Collaborative Filtering tutorial](/documentation/tutorials-search-engineering/collaborative-filtering/) covers the same sparse-vector recommendation method and is maintained."
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 # Movie Recommendation System 

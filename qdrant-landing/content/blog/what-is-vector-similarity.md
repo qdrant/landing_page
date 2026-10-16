@@ -137,7 +137,7 @@ Here’s how we have taken on some of the key challenges that vector search appl
 
 ### Efficiency
 
-Our [choice of Rust](/articles/why-rust/) significantly contributes to the efficiency of Qdrant’s vector similarity search capabilities. Rust’s emphasis on safety and performance, without the need for a garbage collector, helps with better handling of memory and resources. Rust is renowned for its performance and safety features, particularly in concurrent processing, and we leverage it heavily to handle high loads efficiently.
+Our [choice of Rust](/blog/why-rust/) significantly contributes to the efficiency of Qdrant’s vector similarity search capabilities. Rust’s emphasis on safety and performance, without the need for a garbage collector, helps with better handling of memory and resources. Rust is renowned for its performance and safety features, particularly in concurrent processing, and we leverage it heavily to handle high loads efficiently.
 
 Also, a key feature of Qdrant is that we leverage both vector and traditional indexes (payload index). This means that vector index helps speed up vector search, while traditional indexes help filter the results.
 
@@ -163,7 +163,7 @@ To help with data sovereignty, Qdrant can be run in a [Hybrid Cloud](/hybrid-clo
 
 ## Optimizing Similarity Search Performance
 
-In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.**FastEmbed**: Qdrant supports [FastEmbed](/articles/fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
+In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.**FastEmbed**: Qdrant supports [FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
 
 **Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
 

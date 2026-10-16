@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="184" viewBox="0 0 680 184" role="img" aria-labelledby="t d">
+<title id="t">Building product categories from the collection</title>
+<desc id="d">Four steps: group similar products, let an LLM name each group, let Jev check that the name fits the group's products, and keep the names that fit as the product categories. For example, the name women's clothing fits its group and is kept, while the name Greeting Cards does not fit and is dropped.</desc>
+<rect width="680" height="184" fill="#f0f3fa"/>
+<g font-family="'Mona Sans', -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#28324D">
+<rect x="10" y="10" width="145" height="60" rx="8" fill="#ffffff" stroke="#D4D9E6" stroke-width="1.5"/>
+<text x="82.5" y="36" text-anchor="middle" font-weight="600">Group similar</text><text x="82.5" y="55" text-anchor="middle" font-weight="600">products</text>
+<path d="M159 40h22m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<rect x="185" y="10" width="145" height="60" rx="8" fill="#ffffff" stroke="#D4D9E6" stroke-width="1.5"/>
+<text x="257.5" y="36" text-anchor="middle" font-weight="600">An LLM names</text><text x="257.5" y="55" text-anchor="middle" font-weight="600">each group</text>
+<path d="M334 40h22m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<rect x="360" y="10" width="145" height="60" rx="8" fill="#ffffff" stroke="#038585" stroke-width="2"/>
+<text x="432.5" y="36" text-anchor="middle" font-weight="600">Jev checks the</text><text x="432.5" y="55" text-anchor="middle" font-weight="600">name fits</text>
+<path d="M509 40h22m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<rect x="535" y="10" width="145" height="60" rx="8" fill="#ffffff" stroke="#D4D9E6" stroke-width="1.5"/>
+<text x="607.5" y="36" text-anchor="middle" font-weight="600">Kept names are</text><text x="607.5" y="55" text-anchor="middle" font-weight="600">the categories</text>
+<text x="16" y="110" fill="#576280">For example:</text>
+<rect x="191" y="96" width="133" height="30" rx="15" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/>
+<text x="257.5" y="116" text-anchor="middle">women's clothing</text>
+<path d="M328 111h38m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<text x="372" y="116" font-weight="700" fill="#00522F">✓ kept</text>
+<rect x="191" y="140" width="133" height="30" rx="15" fill="#ffffff" stroke="#B4BACC" stroke-width="1.5"/>
+<text x="257.5" y="160" text-anchor="middle">Greeting Cards</text>
+<path d="M328 155h38m-6-5 6 5-6 5" fill="none" stroke="#576280" stroke-width="2"/>
+<text x="372" y="160" font-weight="700" fill="#93000D">✗ dropped</text>
+</g></svg>

@@ -133,7 +133,7 @@ What Qdrant can do:
 
 - Search with full-text filters
 - Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
-- Do prefix search and semantic [search-as-you-type](/articles/search-as-you-type/)
+- Do prefix search and semantic [search-as-you-type](/documentation/tutorials-develop/search-as-you-type/)
 - Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
 - [Multi-vectors](/documentation/manage-data/vectors/#multivectors), for example ColBERT and other late-interaction models
 - Combination of the [multiple searches](/documentation/search/hybrid-queries/)
