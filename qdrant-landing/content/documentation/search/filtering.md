@@ -424,10 +424,13 @@ The key should point to an array of objects and can be used with or without the 
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause/" >}}
 
-The matching logic is modified to be applied at the level of an array element within the payload.
+A nested filter is applied to each element of the array separately, as if each element were its own document. A point matches if at least one element matches the whole nested filter.
 
-Nested filters work in the same way as if the nested filter was applied to a single element of the array at a time.
-Parent document is considered to match the condition if at least one element of the array matches the nested filter.
+**Performance**
+
+Because a nested filter checks each element separately, Qdrant needs to know which element a value belongs to. Regular payload indexes don't record that: an index on `diet[].food` maps each food to the points that have it in any element. So regular indexes can only narrow down the candidates, and Qdrant then reads the payload of each remaining candidate to check the nested filter. This is slow when many candidates remain.
+
+To speed up nested filters, create [per-element indexes](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) on the fields of the array. Qdrant then answers a nested filter from the indexes alone if every condition in it is a match, range, geo, or full-text condition on a field with a per-element index of the same array. The filter can still combine these conditions with `must`, `should`, `min_should`, and `must_not` clauses. If any condition isn't covered, Qdrant reads payloads to check the whole nested filter, including the conditions that have per-element indexes.
 
 **Limitations**
 
