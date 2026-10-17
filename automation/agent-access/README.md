@@ -20,4 +20,5 @@ It needs the network and exits non-zero on any failure.
 
 The `Link` headers themselves are written at build time by
 `qdrant-landing/scripts/emit-md-link-headers.sh`, which appends one rule per
-`index.md` to `public/_headers`.
+page to `public/_headers`, naming the page's `/path.md` alias. It runs after
+`emit-md-aliases.sh`, which writes those aliases.
