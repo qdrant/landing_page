@@ -1,5 +1,5 @@
 ```rust
-use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 
 let dense_prefetch = PrefetchQueryBuilder::default()
     .query(Query::new_nearest(Document::new(query_text, dense_model)))
@@ -15,6 +15,7 @@ let query_request = QueryPointsBuilder::new("{collection_name}")
     .add_prefetch(dense_prefetch)
     .add_prefetch(bm25_prefetch)
     .query(Query::new_fusion(Fusion::Rrf))
+    .limit(5)
     .with_payload(true)
     .build();
 
