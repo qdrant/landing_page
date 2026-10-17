@@ -38,9 +38,9 @@ function watchNarrow(node, onChange, below = 700) {
 
 // Label placement: try several spots around a point and take the first that stays inside the
 // bounds and clears every obstacle (points as circles, lines as segments) and earlier labels.
-function makePlacer(bounds, obstacles) {
+function makePlacer(bounds, obstacles, fontSize) {
   const placed = [];
-  const H = 14;
+  const H = Math.ceil(fontSize * 1.1);
   const segHits = (o, r) => {
     const len = Math.hypot(o.x2 - o.x1, o.y2 - o.y1);
     const n = Math.max(2, Math.ceil(len / 5));
@@ -55,7 +55,7 @@ function makePlacer(bounds, obstacles) {
     obstacles.some((o) => (o.s ? segHits(o, r) : o.x > r.x - o.r && o.x < r.x + r.w + o.r && o.y > r.y - o.r && o.y < r.y + r.h + o.r)) ||
     placed.some((o) => r.x < o.x + o.w + 3 && r.x + r.w + 3 > o.x && r.y < o.y + o.h + 2 && r.y + r.h + 2 > o.y);
   return function place(p, text, rad = 14) {
-    const w = text.length * 7.9;
+    const w = text.length * fontSize * 0.61;
     const rings = [0, 14, 30];
     let best = null;
     for (const extra of rings) {
@@ -192,7 +192,7 @@ export function mount(node) {
     // Labels avoid points, rings, and the rule line.
     const obstacles = [...REFS.map(P), pa, pe, pq].map((p) => ({ x: p[0], y: p[1], r: 14 }));
     obstacles.push({ s: true, x1: pa[0], y1: pa[1], x2: pe[0], y2: pe[1] });
-    const place = makePlacer({ x0: G.fx + 4, y0: G.fy + 4, x1: G.fx + G.fw - 4, y1: G.fy + G.fh - 4 }, obstacles);
+    const place = makePlacer({ x0: G.fx + 4, y0: G.fy + 4, x1: G.fx + G.fw - 4, y1: G.fy + G.fh - 4 }, obstacles, narrow ? 13 : 15);
     [[[pa[0], pa[1] - R_ANCHOR * s], 'Rule anchor radius', '', 4], [[pe[0], pe[1] + R_EFFECT * s], 'Rule effect radius', '', 4], [pq, 'Query', 'is-q', 12]].forEach(([pt, text, cls, rad]) => {
       const pl = place(pt, text, rad);
       g.appendChild(el('text', { class: `qi-label ml-ex__lab ${cls}`, x: pl.x, y: pl.y }, text));

@@ -48,9 +48,9 @@ So, we first took some time to study and categorize different methods — just i
 The resulting taxonomy isn't set in stone, but we aim to make it useful.
 
 {{< island path="content/articles/headless/relevance-feedback/types"
-    ratio="19 / 7"
+    ratio="760 / 974"
     title="The same ranked results labeled by three kinds of feedback: pseudo-relevance, binary feedback, and re-scored feedback. Scores are illustrative." >}}
-![Types of relevance feedback](/articles_data/search-feedback-loop/relevance-feedback.png)
+![Types of relevance feedback](/articles_data/search-feedback-loop/fallbacks/types.svg)
 {{< /island >}}
 
 ### Pseudo-Relevance Feedback (PRF)
@@ -100,9 +100,9 @@ Retrieval as a recipe can be broken down into three main ingredients:
 Click a node in the taxonomy to expand it, or highlight the methods built for lexical or neural search.
 
 {{< island path="content/articles/headless/search-feedback-loop/taxonomy"
-    ratio="380 / 176"
+    ratio="760 / 692"
     title="Research field taxonomy: relevance feedback can update the query, the documents, or the similarity scoring, and below each, how." >}}
-![Research field taxonomy overview](/articles_data/search-feedback-loop/taxonomy-overview.png)
+![Research field taxonomy overview](/articles_data/search-feedback-loop/fallbacks/taxonomy.svg)
 {{< /island >}}
 
 Query formulation is a subjective process – it can be done in infinite configurations, making the relevance of a document unpredictable until the query is formulated and submitted to the system.
@@ -132,9 +132,9 @@ Well-known methods of those times come from the family of [Relevance Models](htt
 The most famous one, `RM3` – interpolation of expansion terms probability with their probability in a query – is still appearing in papers of the last few years as a (noticeably decent) baseline in term-based retrieval, usually as part of [anserini](https://github.com/castorini/anserini).
 
 {{< island path="content/articles/headless/search-feedback-loop/rm3"
-    ratio="76 / 25"
+    ratio="760 / 250"
     title="Simplified query expansion with a relevance model such as RM3: terms are picked from the first results, and the expanded query returns better results. The terms and results are illustrative." >}}
-![Simplified query expansion](/articles_data/search-feedback-loop/relevance-models.png)
+![Simplified query expansion](/articles_data/search-feedback-loop/fallbacks/rm3.svg)
 {{< /island >}}
 
 With the time approaching the modern machine learning era, [multiple](https://aclanthology.org/2020.findings-emnlp.424.pdf) [studies](https://dl.acm.org/doi/10.1145/1390334.1390377) began claiming that these traditional ways of query expansion are not as effective as they could be.
@@ -154,9 +154,9 @@ It definitely works if **query refining is done by a model operating in the same
 The goal is to extend the query encoder input to also include feedback documents, producing an adjusted query embedding. Examples include [`ANCE-PRF`](https://arxiv.org/pdf/2108.13454) and [`ColBERT-PRF`](https://dl.acm.org/doi/10.1145/3572405) – ANCE and ColBERT fine-tuned extensions. 
 
 {{< island path="content/articles/headless/search-feedback-loop/encoder"
-    ratio="190 / 93"
+    ratio="760 / 372"
     title="Generating a new relevance-aware query vector: a plain query encoder next to an encoder that also takes the feedback. Vectors and results are illustrative." >}}
-![Generating a new relevance-aware query vector](/articles_data/search-feedback-loop/updated-encoder.png)
+![Generating a new relevance-aware query vector](/articles_data/search-feedback-loop/fallbacks/encoder.svg)
 {{< /island >}}
 
 The reason why you’re most probably not familiar with these models – their absence in the industry – is that their **training** itself is a **high upfront cost**, and even though it was “paid”, these models [struggle with generalization](https://arxiv.org/abs/2108.13454), performing poorly on out-of-domain tasks (datasets they haven’t seen during training).
@@ -172,9 +172,9 @@ It is  easily applicable across modalities and suitable for both lexical and neu
 Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf) in 1965 for his relevance feedback experiments operated on bag-of-words vector representations of text.
 
 {{< island path="content/articles/headless/search-feedback-loop/rocchio"
-    ratio="38 / 17"
+    ratio="760 / 340"
     title="Rocchio's relevance feedback method: the query moves toward the centroid of the relevant documents and away from the centroid of the non-relevant ones. The plane is a 2D illustration with seeded points." >}}
-![Rocchio's relevance feedback method](/articles_data/search-feedback-loop/Roccio.png)
+![Rocchio's relevance feedback method](/articles_data/search-feedback-loop/fallbacks/rocchio.svg)
 {{< /island >}}
 
 **Rocchio’s idea** — to update the query vector by adding a difference between the centroids of relevant and non-relevant documents — seems to translate well to modern dual encoders-based dense retrieval systems.
@@ -192,9 +192,9 @@ TOUR adapts a query vector over multiple iterations of retrieval and reranking (
 The next iteration of gradient-based methods of query refinement – [`ReFit`](https://arxiv.org/abs/2305.11744) – proposed in 2023 a lighter, production-friendly alternative to TOUR, limiting *retrieve → rerank → gradient descent* sequence to only one iteration. The retriever’s query vector is updated through matching (via [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)) retriever and cross-encoder’s similarity scores distribution over feedback documents. ReFit is model- and language-independent and stably improves Recall@100 metric on 2–3%. 
 
 {{< island path="content/articles/headless/search-feedback-loop/refit"
-    ratio="76 / 33"
+    ratio="760 / 910"
     title="An overview of ReFit, a gradient-based method for query refinement, step by step. Scores are illustrative; the distributions and divergences are computed from them." >}}
-![An overview of ReFit](/articles_data/search-feedback-loop/refit.png)
+![Illustrative ReFit comparison: matching retriever and cross-encoder distributions reduces KL divergence from 0.71 to 0.03 after a query update](/articles_data/search-feedback-loop/fallbacks/refit.svg)
 {{< /island >}}
 
 Gradient descent-based methods seem like a production-viable option, an alternative to finetuning the retriever (distilling it from a reranker).

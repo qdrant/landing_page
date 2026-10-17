@@ -1,8 +1,8 @@
 /* taxonomy island. Scoped under .sf-tx. Green: lexical search, orange: neural
    search, split: both. */
 .sf-tx {
-  --sf-lex: #2e9e5b;
-  --sf-neu: #e08a00;
+  --sf-lex: var(--qi-cat-3);
+  --sf-neu: #ff9800;
   display: block;
 }
 .sf-tx__k--lex,
@@ -48,8 +48,11 @@
 .sf-tx__node.is-muted .sf-tx__lab {
   fill: var(--qi-muted);
 }
-.sf-tx__node.is-dim {
-  opacity: 0.3;
+.sf-tx__node.is-dim .sf-tx__box {
+  stroke-dasharray: 4 3;
+}
+.sf-tx__node.is-dim .sf-tx__lab {
+  fill: var(--qi-muted);
 }
 .sf-tx__lab {
   fill: var(--qi-fg);
@@ -60,7 +63,7 @@
 }
 .sf-tx__edge {
   fill: none;
-  stroke: var(--qi-line);
+  stroke: var(--qi-muted);
   stroke-width: 1.5;
 }
 .sf-tx__edge.is-muted {
@@ -70,9 +73,13 @@
   fill: var(--qi-muted);
 }
 .sf-tx .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .sf-tx.sf-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.sf-tx.sf-narrow .qi-label {
+  font-size: 13px;
 }

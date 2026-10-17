@@ -1,0 +1,23 @@
+{
+  "source": "gate-histogram.png",
+  "source_sha256": "c06ace74c62eae708c5a93b6dc0df3235bdecbfb271b7d4f29996df716cc2703",
+  "data_marks": "unchanged raster from the published figure; no values digitized",
+  "crop": [
+    100,
+    81,
+    1150,
+    485
+  ],
+  "plot_rectangle": [
+    86,
+    40,
+    620,
+    302
+  ],
+  "source_to_display_scale": [
+    0.5391304347826087,
+    0.622680412371134
+  ],
+  "color_matrix": "0.99230972 -2.5198264 2.4689487 0 -0.00025559264 -1.1174285 -1.1827536 3.2533952 0 -0.00027192776 -0.70697864 -0.67574821 2.3633047 0 -0.00018573343 0 0 0 1 0",
+  "description": "Published dense_variance gate distribution; floor 0.039"
+}

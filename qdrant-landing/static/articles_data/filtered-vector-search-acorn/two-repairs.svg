@@ -1,151 +1,186 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 430" font-family="Inter, -apple-system, 'Helvetica Neue', Arial, sans-serif">
-  <defs>
-    <marker id="acorn-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2F6FF0"/>
-    </marker>
-    <marker id="acorn-arrow-light" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#89A9FF"/>
-    </marker>
-  </defs>
-  <rect x="0" y="0" width="1220" height="430" fill="#FFFFFF"/>
-
-  <!-- panel titles -->
-  <text x="210" y="40" text-anchor="middle" font-size="19" font-weight="600" fill="#161E33">Plain Graph Under a Filter</text>
-  <text x="610" y="40" text-anchor="middle" font-size="19" font-weight="600" fill="#161E33">ACORN at Search Time</text>
-  <text x="1010" y="40" text-anchor="middle" font-size="19" font-weight="600" fill="#161E33">Filterable HNSW at Index Time</text>
-
-  <!-- ============ panel 1 ============ -->
-  <g transform="translate(20,62)">
-    <g stroke="#D4D9E6" stroke-width="1.8">
-      <line x1="45" y1="110" x2="125" y2="45"/><line x1="45" y1="110" x2="75" y2="190"/>
-      <line x1="125" y1="45" x2="210" y2="35"/><line x1="125" y1="45" x2="165" y2="120"/>
-      <line x1="210" y1="35" x2="290" y2="60"/><line x1="210" y1="35" x2="165" y2="120"/>
-      <line x1="290" y1="60" x2="335" y2="140"/><line x1="335" y1="140" x2="255" y2="150"/>
-      <line x1="335" y1="140" x2="320" y2="225"/><line x1="255" y1="150" x2="165" y2="120"/>
-      <line x1="255" y1="150" x2="235" y2="235"/><line x1="165" y1="120" x2="75" y2="190"/>
-      <line x1="75" y1="190" x2="150" y2="255"/><line x1="150" y1="255" x2="235" y2="235"/>
-      <line x1="235" y1="235" x2="320" y2="225"/><line x1="235" y1="235" x2="285" y2="290"/>
-      <line x1="320" y1="225" x2="285" y2="290"/>
-    </g>
-    <g stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" fill="none">
-      <line x1="45" y1="110" x2="88" y2="75"/>
-      <line x1="45" y1="110" x2="61" y2="153"/>
-    </g>
-    <g stroke="#E02828" stroke-width="2.5" stroke-linecap="round">
-      <line x1="94" y1="61" x2="104" y2="71"/><line x1="104" y1="61" x2="94" y2="71"/>
-      <line x1="62" y1="159" x2="72" y2="169"/><line x1="72" y1="159" x2="62" y2="169"/>
-    </g>
-    <g>
-      <circle cx="125" cy="45" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="210" cy="35" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="290" cy="60" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="255" cy="150" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="165" cy="120" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="75" cy="190" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="235" cy="235" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="320" cy="225" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="45" cy="110" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="335" cy="140" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="150" cy="255" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="285" cy="290" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-    </g>
-  </g>
-
-  <!-- ============ panel 2 ============ -->
-  <g transform="translate(420,62)">
-    <g stroke="#D4D9E6" stroke-width="1.8">
-      <line x1="45" y1="110" x2="125" y2="45"/><line x1="45" y1="110" x2="75" y2="190"/>
-      <line x1="125" y1="45" x2="210" y2="35"/><line x1="125" y1="45" x2="165" y2="120"/>
-      <line x1="210" y1="35" x2="290" y2="60"/><line x1="210" y1="35" x2="165" y2="120"/>
-      <line x1="290" y1="60" x2="335" y2="140"/><line x1="335" y1="140" x2="255" y2="150"/>
-      <line x1="335" y1="140" x2="320" y2="225"/><line x1="255" y1="150" x2="165" y2="120"/>
-      <line x1="255" y1="150" x2="235" y2="235"/><line x1="165" y1="120" x2="75" y2="190"/>
-      <line x1="75" y1="190" x2="150" y2="255"/><line x1="150" y1="255" x2="235" y2="235"/>
-      <line x1="235" y1="235" x2="320" y2="225"/><line x1="235" y1="235" x2="285" y2="290"/>
-      <line x1="320" y1="225" x2="285" y2="290"/>
-    </g>
-    <g stroke="#89A9FF" stroke-width="2" stroke-dasharray="4 4" fill="none" opacity="0.75">
-      <line x1="235" y1="235" x2="245" y2="200" marker-end="url(#acorn-arrow-light)"/>
-      <line x1="235" y1="235" x2="281" y2="229" marker-end="url(#acorn-arrow-light)"/>
-    </g>
-    <g stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" fill="none">
-      <line x1="45" y1="110" x2="75" y2="190"/>
-      <line x1="75" y1="190" x2="139" y2="246" marker-end="url(#acorn-arrow)"/>
-      <line x1="150" y1="255" x2="235" y2="235"/>
-      <line x1="235" y1="235" x2="276" y2="280" marker-end="url(#acorn-arrow)"/>
-    </g>
-    <g>
-      <circle cx="125" cy="45" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="210" cy="35" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="290" cy="60" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="255" cy="150" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="165" cy="120" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="75" cy="190" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="235" cy="235" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="320" cy="225" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="45" cy="110" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="335" cy="140" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="150" cy="255" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="285" cy="290" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-    </g>
-    <circle cx="75" cy="190" r="15" fill="none" stroke="#2F6FF0" stroke-width="1.5" stroke-dasharray="3 3"/>
-    <circle cx="235" cy="235" r="15" fill="none" stroke="#2F6FF0" stroke-width="1.5" stroke-dasharray="3 3"/>
-  </g>
-
-  <!-- ============ panel 3 ============ -->
-  <g transform="translate(820,62)">
-    <g stroke="#D4D9E6" stroke-width="1.8">
-      <line x1="45" y1="110" x2="125" y2="45"/><line x1="45" y1="110" x2="75" y2="190"/>
-      <line x1="125" y1="45" x2="210" y2="35"/><line x1="125" y1="45" x2="165" y2="120"/>
-      <line x1="210" y1="35" x2="290" y2="60"/><line x1="210" y1="35" x2="165" y2="120"/>
-      <line x1="290" y1="60" x2="335" y2="140"/><line x1="335" y1="140" x2="255" y2="150"/>
-      <line x1="335" y1="140" x2="320" y2="225"/><line x1="255" y1="150" x2="165" y2="120"/>
-      <line x1="255" y1="150" x2="235" y2="235"/><line x1="165" y1="120" x2="75" y2="190"/>
-      <line x1="75" y1="190" x2="150" y2="255"/><line x1="150" y1="255" x2="235" y2="235"/>
-      <line x1="235" y1="235" x2="320" y2="225"/><line x1="235" y1="235" x2="285" y2="290"/>
-      <line x1="320" y1="225" x2="285" y2="290"/>
-    </g>
-    <g stroke="#8547FF" stroke-width="3" fill="none">
-      <path d="M 45 110 Q 30 230 150 255"/>
-      <path d="M 150 255 Q 215 290 285 290"/>
-      <path d="M 285 290 Q 365 240 335 140"/>
-    </g>
-    <g stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" fill="none">
-      <path d="M 45 110 Q 8 240 137 254" marker-end="url(#acorn-arrow)"/>
-      <path d="M 150 255 Q 220 312 273 294" marker-end="url(#acorn-arrow)"/>
-      <path d="M 285 290 Q 390 248 341 152" marker-end="url(#acorn-arrow)"/>
-    </g>
-    <g>
-      <circle cx="125" cy="45" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="210" cy="35" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="290" cy="60" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="255" cy="150" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="165" cy="120" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="75" cy="190" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="235" cy="235" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="320" cy="225" r="9" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-      <circle cx="45" cy="110" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="335" cy="140" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="150" cy="255" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-      <circle cx="285" cy="290" r="10" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-    </g>
-  </g>
-
-  <!-- ============ legend ============ -->
-  <g font-size="14" fill="#3D4866">
-    <circle cx="100" cy="397" r="8" fill="#DC244C" stroke="#91012A" stroke-width="1.5"/>
-    <text x="116" y="402">matches the filter</text>
-    <circle cx="280" cy="397" r="8" fill="#E1E5F0" stroke="#8F98B2" stroke-width="1.5"/>
-    <text x="296" y="402">filtered out</text>
-    <line x1="420" y1="397" x2="458" y2="397" stroke="#D4D9E6" stroke-width="1.8"/>
-    <text x="468" y="402">base HNSW edge</text>
-    <line x1="610" y1="397" x2="648" y2="397" stroke="#8547FF" stroke-width="3"/>
-    <text x="658" y="402">extra HNSW edge</text>
-    <line x1="805" y1="397" x2="843" y2="397" stroke="#2F6FF0" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#acorn-arrow)"/>
-    <text x="858" y="402">search path</text>
-    <g stroke="#E02828" stroke-width="2.5" stroke-linecap="round">
-      <line x1="970" y1="392" x2="980" y2="402"/><line x1="980" y1="392" x2="970" y2="402"/>
-    </g>
-    <text x="992" y="402">blocked</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+<title id="title">The same graph, repaired two ways. ACORN steps through filtered-out neighbors at search time; filterable HNSW adds extra edges at index time that a filtered query can walk directly. The graph is a toy; the traversals are computed on it.</title>
+<desc id="desc">Plain graph: the entry point's 2 neighbors are both filtered out, so the search is blocked and reaches 1 of 4 matching points. ACORN steps through filtered-out neighbors at search time (3 here, circled) and reaches 4 of 4 matching points. The repair costs extra distance computations on every query. Filterable HNSW adds 3 extra edges at index time between points that share an indexed value, so the search walks them directly and reaches 4 of 4. The repair costs build time and memory instead of query time.</desc>
+<rect width="760" height="360" rx="6" fill="#f0f3fa"/>
+<text x="125" y="24" text-anchor="middle" font-family="monospace" font-size="17" fill="#303547">Plain graph</text>
+<svg x="5" y="36" width="245" height="230" viewBox="0 0 470 440">    <defs>
+<marker id="p0-ac-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="rgb(0, 131, 143)"/>
+</marker>
+</defs>    <g>
+<line x1="90.4" y1="153.20000000000002" x2="180" y2="80.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="90.4" y1="153.20000000000002" x2="124.00000000000001" y2="242.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="180" y1="80.4" x2="275.20000000000005" y2="69.2" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="180" y1="80.4" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="275.20000000000005" y1="69.2" x2="364.8" y2="97.2" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="275.20000000000005" y1="69.2" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="364.8" y1="97.2" x2="415.20000000000005" y2="186.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="415.20000000000005" y1="186.8" x2="325.6" y2="198.00000000000003" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="415.20000000000005" y1="186.8" x2="398.40000000000003" y2="282" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="325.6" y1="198.00000000000003" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="325.6" y1="198.00000000000003" x2="303.20000000000005" y2="293.20000000000005" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="224.8" y1="164.4" x2="124.00000000000001" y2="242.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="124.00000000000001" y1="242.8" x2="208.00000000000003" y2="315.6" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="208.00000000000003" y1="315.6" x2="303.20000000000005" y2="293.20000000000005" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="398.40000000000003" y2="282" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="359.20000000000005" y2="354.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="398.40000000000003" y1="282" x2="359.20000000000005" y2="354.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="90.4" y1="153.20000000000002" x2="139.68" y2="113.16000000000001" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<path d="M133.68 107.16000000000001 L145.68 119.16000000000001 M133.68 119.16000000000001 L145.68 107.16000000000001" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.6px"/>
+<line x1="90.4" y1="153.20000000000002" x2="108.88000000000001" y2="202.48000000000002" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<path d="M102.88000000000001 196.48000000000002 L114.88000000000001 208.48000000000002 M102.88000000000001 208.48000000000002 L114.88000000000001 196.48000000000002" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.6px"/>
+<circle cx="90.4" cy="153.20000000000002" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="180" cy="80.4" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="275.20000000000005" cy="69.2" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="364.8" cy="97.2" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="325.6" cy="198.00000000000003" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="224.8" cy="164.4" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="124.00000000000001" cy="242.8" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="303.20000000000005" cy="293.20000000000005" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="398.40000000000003" cy="282" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="415.20000000000005" cy="186.8" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="208.00000000000003" cy="315.6" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="359.20000000000005" cy="354.8" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="90.4" cy="153.20000000000002" r="16" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="510" cy="86" r="8" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<text x="530" y="90" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">matches the filter</text>
+<circle cx="510" cy="114" r="8" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="530" y="118" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">filtered out</text>
+<line x1="500" y1="142" x2="522" y2="142" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<text x="530" y="146" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">base HNSW edge</text>
+<line x1="500" y1="170" x2="522" y2="170" fill="none" stroke="rgb(96, 71, 255)" stroke-width="3px"/>
+<text x="530" y="174" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">extra HNSW edge</text>
+<line x1="500" y1="198" x2="522" y2="198" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<text x="530" y="202" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">search path</text>
+<path d="M504 221 L516 233 M504 233 L516 221" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.6px"/>
+<text x="530" y="230" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">blocked</text>
+</g>  </svg>
+<text x="125" y="280" text-anchor="middle" font-family="monospace" font-size="16" fill="#303547">1 / 4 reached</text>
+<text x="375" y="24" text-anchor="middle" font-family="monospace" font-size="17" fill="#303547">ACORN</text>
+<svg x="255" y="36" width="245" height="230" viewBox="0 0 470 440">    <defs>
+<marker id="p1-ac-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="rgb(0, 131, 143)"/>
+</marker>
+</defs>    <g>
+<line x1="90.4" y1="153.20000000000002" x2="180" y2="80.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="90.4" y1="153.20000000000002" x2="124.00000000000001" y2="242.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="180" y1="80.4" x2="275.20000000000005" y2="69.2" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="180" y1="80.4" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="275.20000000000005" y1="69.2" x2="364.8" y2="97.2" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="275.20000000000005" y1="69.2" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="364.8" y1="97.2" x2="415.20000000000005" y2="186.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="415.20000000000005" y1="186.8" x2="325.6" y2="198.00000000000003" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="415.20000000000005" y1="186.8" x2="398.40000000000003" y2="282" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="325.6" y1="198.00000000000003" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="325.6" y1="198.00000000000003" x2="303.20000000000005" y2="293.20000000000005" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="224.8" y1="164.4" x2="124.00000000000001" y2="242.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="124.00000000000001" y1="242.8" x2="208.00000000000003" y2="315.6" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="208.00000000000003" y1="315.6" x2="303.20000000000005" y2="293.20000000000005" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="398.40000000000003" y2="282" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="359.20000000000005" y2="354.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="398.40000000000003" y1="282" x2="359.20000000000005" y2="354.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="90.4" y1="153.20000000000002" x2="124.00000000000001" y2="242.8" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<line x1="124.00000000000001" y1="242.8" x2="198.1760419237324" y2="307.08590300056807" fill="none" marker-end="url(#p1-ac-arrow)" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<circle cx="124.00000000000001" cy="242.8" r="17" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="3px, 3px" stroke-width="1.5px"/>
+<line x1="208.00000000000003" y1="315.6" x2="303.20000000000005" y2="293.20000000000005" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="350.455253678048" y2="345.1807790458528" fill="none" marker-end="url(#p1-ac-arrow)" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<circle cx="303.20000000000005" cy="293.20000000000005" r="17" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="3px, 3px" stroke-width="1.5px"/>
+<line x1="359.20000000000005" y1="354.8" x2="398.40000000000003" y2="282" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<line x1="398.40000000000003" y1="282" x2="412.9407906591824" y2="199.6021862646332" fill="none" marker-end="url(#p1-ac-arrow)" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<circle cx="398.40000000000003" cy="282" r="17" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="3px, 3px" stroke-width="1.5px"/>
+<circle cx="90.4" cy="153.20000000000002" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="180" cy="80.4" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="275.20000000000005" cy="69.2" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="364.8" cy="97.2" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="325.6" cy="198.00000000000003" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="224.8" cy="164.4" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="124.00000000000001" cy="242.8" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="303.20000000000005" cy="293.20000000000005" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="398.40000000000003" cy="282" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="415.20000000000005" cy="186.8" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="208.00000000000003" cy="315.6" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="359.20000000000005" cy="354.8" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="90.4" cy="153.20000000000002" r="16" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="510" cy="86" r="8" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<text x="530" y="90" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">matches the filter</text>
+<circle cx="510" cy="114" r="8" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="530" y="118" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">filtered out</text>
+<line x1="500" y1="142" x2="522" y2="142" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<text x="530" y="146" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">base HNSW edge</text>
+<line x1="500" y1="170" x2="522" y2="170" fill="none" stroke="rgb(96, 71, 255)" stroke-width="3px"/>
+<text x="530" y="174" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">extra HNSW edge</text>
+<line x1="500" y1="198" x2="522" y2="198" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<text x="530" y="202" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">search path</text>
+<path d="M504 221 L516 233 M504 233 L516 221" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.6px"/>
+<text x="530" y="230" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">blocked</text>
+</g>  </svg>
+<text x="375" y="280" text-anchor="middle" font-family="monospace" font-size="16" fill="#303547">4 / 4 reached</text>
+<text x="625" y="24" text-anchor="middle" font-family="monospace" font-size="17" fill="#303547">Filterable HNSW</text>
+<svg x="505" y="36" width="245" height="230" viewBox="0 0 470 440">    <defs>
+<marker id="p2-ac-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="rgb(0, 131, 143)"/>
+</marker>
+</defs>    <g>
+<line x1="90.4" y1="153.20000000000002" x2="180" y2="80.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="90.4" y1="153.20000000000002" x2="124.00000000000001" y2="242.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="180" y1="80.4" x2="275.20000000000005" y2="69.2" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="180" y1="80.4" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="275.20000000000005" y1="69.2" x2="364.8" y2="97.2" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="275.20000000000005" y1="69.2" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="364.8" y1="97.2" x2="415.20000000000005" y2="186.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="415.20000000000005" y1="186.8" x2="325.6" y2="198.00000000000003" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="415.20000000000005" y1="186.8" x2="398.40000000000003" y2="282" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="325.6" y1="198.00000000000003" x2="224.8" y2="164.4" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="325.6" y1="198.00000000000003" x2="303.20000000000005" y2="293.20000000000005" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="224.8" y1="164.4" x2="124.00000000000001" y2="242.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="124.00000000000001" y1="242.8" x2="208.00000000000003" y2="315.6" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="208.00000000000003" y1="315.6" x2="303.20000000000005" y2="293.20000000000005" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="398.40000000000003" y2="282" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="303.20000000000005" y1="293.20000000000005" x2="359.20000000000005" y2="354.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<line x1="398.40000000000003" y1="282" x2="359.20000000000005" y2="354.8" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<path d="M90.4 153.20000000000002 Q189.6971060771511 205.0745093924079 208.00000000000003 315.6" fill="none" stroke="rgb(96, 71, 255)" stroke-width="3px"/>
+<path d="M208.00000000000003 315.6 Q273.561513648651 373.9198759266321 359.20000000000005 354.8" fill="none" stroke="rgb(96, 71, 255)" stroke-width="3px"/>
+<path d="M359.20000000000005 354.8 Q349.2526680779795 258.15088935932647 415.20000000000005 186.8" fill="none" stroke="rgb(96, 71, 255)" stroke-width="3px"/>
+<path d="M90.4 153.20000000000002 Q189.6971060771511 205.0745093924079 205.87613931182906 302.7746650812838" fill="none" marker-end="url(#p2-ac-arrow)" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<path d="M208.00000000000003 315.6 Q273.561513648651 373.9198759266321 346.51236988198605 357.63267399968015" fill="none" marker-end="url(#p2-ac-arrow)" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<path d="M359.20000000000005 354.8 Q349.2526680779795 258.15088935932647 406.3762217601015 196.34677629218854" fill="none" marker-end="url(#p2-ac-arrow)" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<circle cx="90.4" cy="153.20000000000002" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="180" cy="80.4" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="275.20000000000005" cy="69.2" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="364.8" cy="97.2" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="325.6" cy="198.00000000000003" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="224.8" cy="164.4" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="124.00000000000001" cy="242.8" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="303.20000000000005" cy="293.20000000000005" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="398.40000000000003" cy="282" r="9.5" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<circle cx="415.20000000000005" cy="186.8" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="208.00000000000003" cy="315.6" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="359.20000000000005" cy="354.8" r="11" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<circle cx="90.4" cy="153.20000000000002" r="16" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="510" cy="86" r="8" fill="rgb(220, 36, 76)" stroke="rgb(48, 53, 71)" stroke-width="1.5px"/>
+<text x="530" y="90" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">matches the filter</text>
+<circle cx="510" cy="114" r="8" fill="rgb(171, 177, 199)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="530" y="118" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">filtered out</text>
+<line x1="500" y1="142" x2="522" y2="142" stroke="rgb(101, 107, 127)" stroke-width="1.8px"/>
+<text x="530" y="146" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">base HNSW edge</text>
+<line x1="500" y1="170" x2="522" y2="170" fill="none" stroke="rgb(96, 71, 255)" stroke-width="3px"/>
+<text x="530" y="174" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">extra HNSW edge</text>
+<line x1="500" y1="198" x2="522" y2="198" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="6px, 4px" stroke-width="2.6px"/>
+<text x="530" y="202" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">search path</text>
+<path d="M504 221 L516 233 M504 233 L516 221" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.6px"/>
+<text x="530" y="230" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">blocked</text>
+</g>  </svg>
+<text x="625" y="280" text-anchor="middle" font-family="monospace" font-size="16" fill="#303547">4 / 4 reached</text>
+<circle cx="24" cy="316" r="7" fill="#dc244c" stroke="#303547"/>
+<text x="40" y="322" font-family="monospace" font-size="16" fill="#303547">Matches filter</text>
+<circle cx="274" cy="316" r="7" fill="#d3d9eb" stroke="#656b7f"/>
+<text x="290" y="322" font-family="monospace" font-size="16" fill="#303547">Filtered out</text>
+<path d="M520 316 h25" stroke="#656b7f" stroke-width="2"/>
+<text x="555" y="322" font-family="monospace" font-size="16" fill="#303547">Base edge</text>
+<path d="M16 346 h25" stroke="#6047ff" stroke-width="3"/>
+<text x="50" y="352" font-family="monospace" font-size="16" fill="#303547">Extra edge</text>
+<path d="M266 346 h25" stroke="#00838f" stroke-width="3" stroke-dasharray="4 3"/>
+<text x="300" y="352" font-family="monospace" font-size="16" fill="#303547">Search path</text>
+<path d="M520 340 l12 12 M532 340 l-12 12" stroke="#dc244c" stroke-width="2"/>
+<text x="548" y="352" font-family="monospace" font-size="16" fill="#303547">Blocked</text>
 </svg>

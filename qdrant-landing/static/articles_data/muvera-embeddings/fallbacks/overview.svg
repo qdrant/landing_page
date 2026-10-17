@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 384" role="img" aria-labelledby="title desc">
+<title id="title">MUVERA turns a list of token vectors of any length, for a document or a query, into one fixed-length vector. Numbers are illustrative.</title>
+<desc id="desc">A document of 5 token vectors and a query of 3 both become a single vector of the same dimension. Their dot product approximates the multi-vector similarity, so ordinary single-vector search can fetch candidates for reranking.</desc>
+<rect width="760" height="384" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="26" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Document: token vectors</text>
+<text x="10" y="258" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Query: token vectors</text>
+<rect x="10" y="34" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="50" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.0</text>
+<rect x="54" y="34" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="50" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.1</text>
+<rect x="98" y="34" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="50" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.2</text>
+<rect x="142" y="34" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="50" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.2</text>
+<text x="192" y="50" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="62" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="78" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.6</text>
+<rect x="54" y="62" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="78" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.2</text>
+<rect x="98" y="62" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="78" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.2</text>
+<rect x="142" y="62" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="78" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.9</text>
+<text x="192" y="78" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="90" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.1</text>
+<rect x="54" y="90" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.7</text>
+<rect x="98" y="90" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.1</text>
+<rect x="142" y="90" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.1</text>
+<text x="192" y="106" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="118" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="134" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.9</text>
+<rect x="54" y="118" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="134" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.9</text>
+<rect x="98" y="118" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="134" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.0</text>
+<rect x="142" y="118" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="134" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.7</text>
+<text x="192" y="134" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="146" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="162" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.5</text>
+<rect x="54" y="146" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="162" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.8</text>
+<rect x="98" y="146" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="162" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.8</text>
+<rect x="142" y="146" width="44" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="162" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.9</text>
+<text x="192" y="162" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="266" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.7</text>
+<rect x="54" y="266" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.0</text>
+<rect x="98" y="266" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.3</text>
+<rect x="142" y="266" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.1</text>
+<text x="192" y="282" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="294" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.2</text>
+<rect x="54" y="294" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.9</text>
+<rect x="98" y="294" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.7</text>
+<rect x="142" y="294" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.3</text>
+<text x="192" y="310" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="10" y="322" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="32" y="338" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">2.0</text>
+<rect x="54" y="322" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="76" y="338" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.6</text>
+<rect x="98" y="322" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="120" y="338" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.1</text>
+<rect x="142" y="322" width="44" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="164" y="338" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.1</text>
+<text x="192" y="338" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<line x1="240" y1="102" x2="414" y2="102" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="2px"/>
+<polygon points="420,102 412,97.5 412,106.5" fill="rgb(101, 107, 127)"/>
+<text x="330" y="94" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">MUVERA</text>
+<line x1="240" y1="306" x2="414" y2="306" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="2px"/>
+<polygon points="420,306 412,301.5 412,310.5" fill="rgb(101, 107, 127)"/>
+<text x="330" y="298" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">MUVERA</text>
+<rect x="430" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="449" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.5</text>
+<rect x="468" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="487" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.3</text>
+<rect x="506" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="525" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.2</text>
+<rect x="544" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="563" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.4</text>
+<rect x="582" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="601" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.0</text>
+<rect x="620" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="639" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.3</text>
+<rect x="658" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="677" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.4</text>
+<rect x="696" y="90" width="38" height="24" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="715" y="106" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.4</text>
+<text x="738" y="106" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<rect x="430" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="449" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.3</text>
+<rect x="468" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="487" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.1</text>
+<rect x="506" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="525" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.9</text>
+<rect x="544" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="563" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.9</text>
+<rect x="582" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="601" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.6</text>
+<rect x="620" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="639" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1.6</text>
+<rect x="658" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="677" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.9</text>
+<rect x="696" y="294" width="38" height="24" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="715" y="310" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.3</text>
+<text x="738" y="310" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">…</text>
+<text x="430" y="82" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Document: one fixed-length vector</text>
+<text x="430" y="286" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Query: one fixed-length vector</text>
+</g>  </g>
+</svg>

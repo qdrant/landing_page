@@ -4,7 +4,7 @@
 .mu-fde {
   --mu-t1: var(--qi-cat-1);
   --mu-t2: var(--qi-cat-3);
-  --mu-t3: #e08a00;
+  --mu-t3: #ff9800;
   --mu-t4: var(--qi-cat-2);
   --mu-agg: var(--qi-accent);
   display: block;
@@ -21,12 +21,12 @@
   stroke-width: 2.5;
 }
 .mu-fde__dot {
-  stroke: var(--qi-surface);
+  stroke: var(--qi-muted);
   stroke-width: 1.5;
   cursor: pointer;
 }
 .mu-fde__dot.is-copy {
-  opacity: 0.45;
+  fill-opacity: 0.45;
 }
 .mu-fde__dot.is-hot {
   stroke: var(--qi-hot);
@@ -55,12 +55,15 @@
   font-size: 16px;
 }
 
-/* Labels render at about 12px at the article width; the compact layout is
-   capped so it is not scaled up past a comfortable size. */
+/* Keep desktop labels readable within the article column. */
 .mu-fde .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .mu-fde.mu-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.mu-fde.mu-narrow .qi-label {
+  font-size: 13px;
 }

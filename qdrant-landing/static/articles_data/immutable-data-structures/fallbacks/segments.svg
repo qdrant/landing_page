@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 378" role="img" aria-labelledby="title desc">
+<title id="title">The optimization process, step by step: a proxy holds the old segment, the optimized segment being built, and a copy-on-write segment for new writes.</title>
+<desc id="desc">While a segment is being optimized, a proxy holds the old segment, which keeps serving reads, the optimized segment being built from it, and a copy-on-write segment that receives new writes.</desc>
+<rect width="760" height="378" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<rect x="300" y="10" width="160" height="40" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="380" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Register</text>
+<path d="M380 50 V75 H380 V92" fill="none" stroke="rgb(101, 107, 127)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<polygon points="380,100 375,91 385,91" fill="rgb(101, 107, 127)"/>
+<text x="392" y="82" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">owns</text>
+<rect x="24" y="100" width="712" height="262" rx="8" fill="none" stroke="rgb(101, 107, 127)" stroke-dasharray="2px, 4px" stroke-width="1.5px"/>
+<text x="40" y="124" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Proxy segment</text>
+<rect x="56" y="144" width="200" height="112" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="156" y="172" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Old segment</text>
+<text x="156" y="194" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">serves reads</text>
+<rect x="280" y="144" width="200" height="112" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<text x="380" y="172" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Optimized segment</text>
+<text x="380" y="194" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">built from the old one</text>
+<rect x="504" y="144" width="200" height="112" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="604" y="172" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Copy-on-write segment</text>
+<text x="604" y="194" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">receives new writes</text>
+</g>  </g>
+</svg>

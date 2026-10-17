@@ -213,11 +213,11 @@ export function mount(node) {
     if (mode === 'recommendation') items.push(['is-result', 'top results']);
     let lx = G.px;
     items.forEach(([cls, t]) => {
-      const width = 34 + t.length * 8 + (narrow ? 0 : 20);
+      const width = 34 + t.length * (narrow ? 8 : 9) + (narrow ? 0 : 20);
       if (lx + width > G.px + G.pw) { lx = G.px; ly += 28; }
       g.appendChild(el('circle', { class: `ds-pl__ctx ${cls}`, cx: lx + 8, cy: ly - 4, r: 8 }));
       g.appendChild(el('text', { class: 'qi-label', x: lx + 22, y: ly }, t));
-      lx += 34 + t.length * 8 + (narrow ? 0 : 20);
+      lx += 34 + t.length * (narrow ? 8 : 9) + (narrow ? 0 : 20);
     });
     if (lx + 110 > G.px + G.pw) { lx = G.px; ly += 28; }
     g.appendChild(el('line', { class: 'ds-pl__plane', x1: lx, y1: ly - 4, x2: lx + 22, y2: ly - 4 }));

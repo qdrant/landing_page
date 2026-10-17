@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 974" role="img" aria-labelledby="title desc">
+<title id="title">The same ranked results labeled by three kinds of feedback: pseudo-relevance, binary feedback, and re-scored feedback. Scores are illustrative.</title>
+<desc id="desc">Pseudo-relevance feedback takes the top results of the first retrieval and treats them as relevant. No one has to look at the documents. Binary feedback: a user or a classifier marks some of the results as relevant or not relevant, and leaves the rest unlabeled. Re-scored feedback: a feedback model scores every result, so each one gets a graded relevance instead of a yes or no. Scores shown are illustrative.</desc>
+<rect width="760" height="974" rx="6" fill="#f0f3fa"/>
+<text x="16" y="22" font-family="monospace" font-size="17" fill="#303547">Pseudo-relevance feedback</text>
+<g transform="translate(0 34) scale(1)">    <g>
+<rect x="10" y="100" width="80" height="44" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="50" y="127" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Query</text>
+<line x1="90" y1="122" x2="109" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="116,122 108,117.5 108,126.5" fill="rgb(101, 107, 127)"/>
+<rect x="118" y="100" width="90" height="44" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="163" y="127" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Retriever</text>
+<line x1="208" y1="122" x2="227" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="234,122 226,117.5 226,126.5" fill="rgb(101, 107, 127)"/>
+<text x="236" y="46" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Ranked results</text>
+<rect x="236" y="56" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<rect x="236" y="90" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<rect x="236" y="124" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<rect x="236" y="158" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<rect x="236" y="192" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+<line x1="366" y1="122" x2="385" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="392,122 384,117.5 384,126.5" fill="rgb(101, 107, 127)"/>
+<rect x="394" y="90" width="150" height="64" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="2px"/>
+<text x="469" y="120" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Top-K</text>
+<text x="469" y="138" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">the top results</text>
+<line x1="544" y1="122" x2="559" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="566,122 558,117.5 558,126.5" fill="rgb(101, 107, 127)"/>
+<text x="568" y="46" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Feedback</text>
+<rect x="568" y="56" width="182" height="24" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<text x="742" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">relevant</text>
+<rect x="568" y="90" width="182" height="24" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<text x="742" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">relevant</text>
+<rect x="568" y="124" width="182" height="24" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<text x="742" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">relevant</text>
+<rect x="568" y="158" width="182" height="24" rx="4" fill="rgb(171, 177, 199)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<rect x="568" y="192" width="182" height="24" rx="4" fill="rgb(171, 177, 199)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+</g>  </g>
+<text x="16" y="352" font-family="monospace" font-size="17" fill="#303547">Binary feedback</text>
+<g transform="translate(0 364) scale(1)">    <g>
+<rect x="10" y="100" width="80" height="44" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="50" y="127" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Query</text>
+<line x1="90" y1="122" x2="109" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="116,122 108,117.5 108,126.5" fill="rgb(101, 107, 127)"/>
+<rect x="118" y="100" width="90" height="44" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="163" y="127" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Retriever</text>
+<line x1="208" y1="122" x2="227" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="234,122 226,117.5 226,126.5" fill="rgb(101, 107, 127)"/>
+<text x="236" y="46" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Ranked results</text>
+<rect x="236" y="56" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<rect x="236" y="90" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<rect x="236" y="124" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<rect x="236" y="158" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<rect x="236" y="192" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+<line x1="366" y1="122" x2="385" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="392,122 384,117.5 384,126.5" fill="rgb(101, 107, 127)"/>
+<rect x="394" y="90" width="150" height="64" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="2px"/>
+<text x="469" y="120" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">User or classifier</text>
+<text x="469" y="138" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">relevant or not</text>
+<line x1="544" y1="122" x2="559" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="566,122 558,117.5 558,126.5" fill="rgb(101, 107, 127)"/>
+<text x="568" y="46" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Feedback</text>
+<rect x="568" y="56" width="182" height="24" rx="4" fill="rgb(171, 177, 199)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<rect x="568" y="90" width="182" height="24" rx="4" fill="rgb(220, 36, 76)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<text x="742" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">not relevant</text>
+<rect x="568" y="124" width="182" height="24" rx="4" fill="rgb(171, 177, 199)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<rect x="568" y="158" width="182" height="24" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<text x="742" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">relevant</text>
+<rect x="568" y="192" width="182" height="24" rx="4" fill="rgb(171, 177, 199)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+</g>  </g>
+<text x="16" y="682" font-family="monospace" font-size="17" fill="#303547">Re-scored feedback</text>
+<g transform="translate(0 694) scale(1)">    <g>
+<rect x="10" y="100" width="80" height="44" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="50" y="127" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Query</text>
+<line x1="90" y1="122" x2="109" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="116,122 108,117.5 108,126.5" fill="rgb(101, 107, 127)"/>
+<rect x="118" y="100" width="90" height="44" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="163" y="127" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Retriever</text>
+<line x1="208" y1="122" x2="227" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="234,122 226,117.5 226,126.5" fill="rgb(101, 107, 127)"/>
+<text x="236" y="46" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Ranked results</text>
+<rect x="236" y="56" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<rect x="236" y="90" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<rect x="236" y="124" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<rect x="236" y="158" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<rect x="236" y="192" width="130" height="24" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="244" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+<line x1="366" y1="122" x2="385" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="392,122 384,117.5 384,126.5" fill="rgb(101, 107, 127)"/>
+<rect x="394" y="90" width="150" height="64" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="2px"/>
+<text x="469" y="120" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Feedback model</text>
+<text x="469" y="138" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">a score per result</text>
+<line x1="544" y1="122" x2="559" y2="122" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="566,122 558,117.5 558,126.5" fill="rgb(101, 107, 127)"/>
+<text x="568" y="46" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Feedback</text>
+<rect x="568" y="56" width="182" height="24" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<text x="742" y="73" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">+0.3</text>
+<rect x="568" y="90" width="182" height="24" rx="4" fill="rgb(0, 131, 143)" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<text x="742" y="107" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">+0.9</text>
+<rect x="568" y="124" width="182" height="24" rx="4" fill="rgb(220, 36, 76)" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<text x="742" y="141" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">-0.8</text>
+<rect x="568" y="158" width="182" height="24" rx="4" fill="rgb(220, 36, 76)" fill-opacity="0.4" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<text x="742" y="175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">-0.3</text>
+<rect x="568" y="192" width="182" height="24" rx="4" fill="rgb(171, 177, 199)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="576" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+<text x="742" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">0.0</text>
+</g>  </g>
+</svg>

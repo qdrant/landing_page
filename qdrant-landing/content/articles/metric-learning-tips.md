@@ -73,8 +73,8 @@ Candidates were complaining that they couldn't find the right category for them.
 Training the classifier for new categories would be too long and require new training data for each new category.
 Switching to metric learning allowed us to overcome these limitations, the resulting solution could compare any pair position descriptions, even if we don't have this category reference yet.
 
-![T-SNE with job samples](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/embeddings.png)
-> T-SNE with job samples, Image by Author. Play with [Embedding Projector](https://projector.tensorflow.org/?config=https://gist.githubusercontent.com/generall/7e712425e3b340c2c4dbc1a29f515d91/raw/b45b2b6f6c1d5ab3d3363c50805f3834a85c8879/config.json) yourself.
+![A new t-SNE projection of the author's 126 job embeddings, with selected occupations labeled](/articles_data/metric-learning-tips/jobs-tsne.svg)
+> New t-SNE projection of the author's job embeddings, with unit normalization, 50-component PCA, perplexity 15, and seed 42. Two-dimensional distances do not reproduce distances in the original embedding space. [Projection data](/articles_data/metric-learning-tips/jobs-tsne.csv), [settings and source](/articles_data/metric-learning-tips/jobs-tsne.json), and the author's [Embedding Projector](https://projector.tensorflow.org/?config=https://gist.githubusercontent.com/generall/7e712425e3b340c2c4dbc1a29f515d91/raw/b45b2b6f6c1d5ab3d3363c50805f3834a85c8879/config.json).
 
 With metric learning, we learn not a concrete job type but how to match job descriptions from a candidate's CV and a vacancy.
 Secondly, with metric learning, it is easy to add more reference occupations without model retraining.
@@ -170,9 +170,9 @@ If the trained model is good enough, you can even try to interpret the values of
 
 
 {{< island path="content/articles/headless/metric-learning-tips/features"
-    ratio="760 / 380"
+    ratio="760 / 1274"
     title="Softmax feature embeddings: a regular embedder next to a feature groups embedder, whose softmax groups show how confident the model is. Image adapted from the author; values are illustrative." >}}
-![Softmax feature embeddings](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/feature_embedding.png)
+![Softmax feature embeddings](/articles_data/metric-learning-tips/fallbacks/features.svg)
 {{< /island >}}
 > Softmax feature embeddings, Image by Author.
 
@@ -190,9 +190,9 @@ Rules consist of 2 object anchors encoded into vector space.
 If the target object falls into one of the anchors' effects area - it triggers the rule. It will exclude all objects in the second anchor area from the prediction result.
 
 {{< island path="content/articles/headless/metric-learning-tips/exclusion"
-    ratio="76 / 33"
+    ratio="760 / 676"
     title="Neural exclusion rules: drag the query into the anchor radius to fire the rule and exclude the references in the effect radius. Points are illustrative." >}}
-![Exclusion rules](https://gist.githubusercontent.com/generall/4821e3c6b5eee603d56729e7a156e461/raw/b0eb4ea5d088fe1095e529eb12708ac69f304ce3/exclusion_rule.png)
+![Exclusion rules](/articles_data/metric-learning-tips/fallbacks/exclusion.svg)
 {{< /island >}}
 > Neural exclusion rules, Image by Author.
 

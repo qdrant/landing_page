@@ -175,7 +175,7 @@ export function mount(node) {
     const fit = showGaps ? findFit(find) : null;
 
     // Tracker
-    g.appendChild(el('text', { class: 'qi-label', x: G.tx, y: 14 }, narrow ? 'Tracker: pointer per key' : 'Tracker: one pointer per key'));
+    g.appendChild(el('text', { class: 'qi-label', x: G.tx, y: 18 }, narrow ? 'Tracker: pointer per key' : 'Tracker: one pointer per key'));
     for (let i = 0; i < TRACKER_CELLS; i++) {
       const x = G.tx + i * 36;
       const used = i < KEYS.length;

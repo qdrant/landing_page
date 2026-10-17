@@ -30,9 +30,9 @@ speed of single-vector search with the accuracy of multi-vector retrieval. Reran
 is much faster when applied to a small set of candidates rather than the entire dataset.
 
 {{< island path="content/articles/headless/muvera-embeddings/overview"
-    ratio="19 / 8"
+    ratio="760 / 384"
     title="MUVERA turns a list of token vectors of any length, for a document or a query, into one fixed-length vector. Numbers are illustrative." >}}
-![High-level idea of MUVERA embeddings](/articles_data/muvera-embeddings/muvera-high-level.png)
+![High-level idea of MUVERA embeddings](/articles_data/muvera-embeddings/fallbacks/overview.svg)
 {{< /island >}}
 
 [FastEmbed 0.7.2 introduces support for MUVERA embeddings](#muvera-in-fastembed), and this article explains the concept 
@@ -65,9 +65,9 @@ hyperplanes divide the vector space into `2^k_sim` regions, because each vector 
 hyperplane. Here is what such a space division could look like for `k_sim=3`:
 
 {{< island path="content/articles/headless/muvera-embeddings/simhash"
-    ratio="38 / 17"
+    ratio="760 / 340"
     title="SimHash with k_sim hyperplanes. Each hyperplane gives a token vector one bit, and the bits together are its cluster ID. The plane is a 2D illustration with seeded points: lines through the origin cut it into only 2 × k wedges, while in hundreds of dimensions all 2^k_sim clusters occur." >}}
-![SimHash cluster assignment](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
+![SimHash cluster assignment](/articles_data/muvera-embeddings/fallbacks/simhash.svg)
 {{< /island >}}
 
 Each token vector is now assigned to one of these regions based on which side of each hyperplane it falls on. This is 
@@ -82,9 +82,9 @@ process is slightly different for documents and queries. In both cases, we'll en
 with the same number of dimensions, but the way we compute these vectors differs.
 
 {{< island path="content/articles/headless/muvera-embeddings/fde"
-    ratio="38 / 19"
+    ratio="760 / 760"
     title="Aggregating token vectors per cluster. Switch between a document, which averages and fills empty clusters, and a query, which sums and leaves them as zero vectors. Cluster contents are illustrative." >}}
-![FDE document processing](/articles_data/muvera-embeddings/fde-document-processing.png)
+![FDE document processing](/articles_data/muvera-embeddings/fallbacks/fde.svg)
 {{< /island >}}
 
 #### Document clustering
@@ -99,9 +99,7 @@ As a result we get `2^k_sim` vectors, each of them being `dim`-dimensional.
 #### Query clustering
 
 Query processing is slightly different. Instead of computing the average vector for each cluster, we compute the sum of
-all vectors in each cluster. This means that the resulting vectors will have larger magnitudes for clusters with more
-assigned vectors. The idea is that it preserves the natural distribution of query terms, which can be beneficial for
-retrieval. Unlike with documents, we do not fill empty clusters for queries. Queries are typically shorter than 
+all vectors in each cluster. Summing preserves each query token's contribution to the dot product. Unlike with documents, we do not fill empty clusters for queries. Queries are typically shorter than
 documents, so it's more likely that some clusters will be empty. Filling them could introduce noise and distort the
 representation, as each term would contribute to the dot product multiple times.
 
@@ -123,9 +121,9 @@ matrix with entries from `{-1, +1}` and applying a scaling factor of `1/√(dim_
 have a size of `r_reps * 2^k_sim * dim_proj`.
 
 {{< island path="content/articles/headless/muvera-embeddings/projection"
-    ratio="19 / 8"
+    ratio="760 / 366"
     title="Random projection of one repetition, drawn to scale for 128-dimensional token vectors, and the resulting FDE size for 20 repetitions." >}}
-![Random projection](/articles_data/muvera-embeddings/random-projection.png)
+![Random projection](/articles_data/muvera-embeddings/fallbacks/projection.svg)
 {{< /island >}}
 
 The results from all repetitions are then concatenated to form the final FDE. This repetition helps to create a more 

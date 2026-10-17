@@ -1,0 +1,21 @@
+{
+  "title": "Signal separation across three corpora",
+  "subtitle": "Published AUC values, rounded to two decimal places",
+  "kind": "grouped-columns",
+  "group": "corpus",
+  "series": "signal",
+  "colors": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "y": "auc",
+  "yLabel": "Separation AUC",
+  "yMax": 1,
+  "width": 700,
+  "height": 440,
+  "textScale": 1.4,
+  "legendLayout": "stacked"
+}

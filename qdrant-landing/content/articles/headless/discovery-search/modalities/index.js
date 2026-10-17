@@ -40,9 +40,9 @@ function watchNarrow(node, onChange, below = 700) {
 
 // Label placement: try several spots around a point and take the first that stays inside the
 // bounds and clears every obstacle (points as circles, lines as segments) and earlier labels.
-function makePlacer(bounds, obstacles) {
+function makePlacer(bounds, obstacles, fontSize) {
   const placed = [];
-  const H = 14;
+  const H = Math.ceil(fontSize * 1.1);
   const segHits = (o, r) => {
     const len = Math.hypot(o.x2 - o.x1, o.y2 - o.y1);
     const n = Math.max(2, Math.ceil(len / 5));
@@ -57,7 +57,7 @@ function makePlacer(bounds, obstacles) {
     obstacles.some((o) => (o.s ? segHits(o, r) : o.x > r.x - o.r && o.x < r.x + r.w + o.r && o.y > r.y - o.r && o.y < r.y + r.h + o.r)) ||
     placed.some((o) => r.x < o.x + o.w + 3 && r.x + r.w + 3 > o.x && r.y < o.y + o.h + 2 && r.y + r.h + 2 > o.y);
   return function place(p, text, rad = 14) {
-    const w = text.length * 7.9;
+    const w = text.length * fontSize * 0.61;
     const rings = [0, 14, 30];
     let best = null;
     for (const extra of rings) {
@@ -186,7 +186,7 @@ export function mount(node) {
     g.appendChild(el('circle', { class: 'ds-md__ring is-query', cx: q[0], cy: q[1], r: 12 }));
     const obstacles = [...imgP, ...txtP].map((p) => ({ x: p[0], y: p[1], r: 11 }));
     if (two) [0, 3, 7, 10].forEach((i) => obstacles.push({ s: true, x1: imgP[i][0], y1: imgP[i][1], x2: txtP[i][0], y2: txtP[i][1] }));
-    const place = makePlacer({ x0: 2, y0: 2, x1: G.VB_W - 2, y1: G.H - 24 }, obstacles);
+    const place = makePlacer({ x0: 2, y0: 2, x1: G.VB_W - 2, y1: G.H - 24 }, obstacles, narrow ? 13 : 15);
     const labelsM = [[q, 'Image of a chair']];
     if (two) labelsM.push([txtP[0], 'Text "Chair"']);
     labelsM.forEach(([pt, text]) => {

@@ -35,9 +35,13 @@
 /* Labels render at about 12px at the article width; the compact layout is
    capped so it is not scaled up past a comfortable size. */
 .mu-ov .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .mu-ov.mu-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.mu-ov.mu-narrow .qi-label {
+  font-size: 13px;
 }

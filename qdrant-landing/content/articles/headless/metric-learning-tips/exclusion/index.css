@@ -1,8 +1,8 @@
 /* exclusion island. Scoped under .ml-ex. Orange: rule anchors, green: the
    query, blue: references. */
 .ml-ex {
-  --ml-anchor: #e8590c;
-  --ml-q: #2e9e5b;
+  --ml-anchor: var(--qi-cat-2);
+  --ml-q: var(--qi-cat-3);
   display: block;
 }
 .ml-ex__radius {
@@ -59,13 +59,17 @@
   stroke-linejoin: round;
 }
 .ml-ex__lab.is-q {
-  fill: var(--ml-q);
+  fill: color-mix(in srgb, var(--ml-q) 75%, var(--qi-fg) 25%);
   font-weight: 600;
 }
 .ml-ex .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .ml-ex.ml-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.ml-ex.ml-narrow .qi-label {
+  font-size: 13px;
 }

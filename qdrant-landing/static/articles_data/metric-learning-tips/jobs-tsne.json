@@ -1,0 +1,25 @@
+{
+  "source": {
+    "tensorName": "Jobs",
+    "tensorShape": [
+      126,
+      512
+    ],
+    "tensorPath": "https://gist.githubusercontent.com/generall/7e712425e3b340c2c4dbc1a29f515d91/raw/5ae28fa80b07211d06bc02e1cb7ccbcab463a5d8/vectors.tsv",
+    "metadataPath": "https://gist.githubusercontent.com/generall/7e712425e3b340c2c4dbc1a29f515d91/raw/5ae28fa80b07211d06bc02e1cb7ccbcab463a5d8/description.tsv"
+  },
+  "source_sha256": "37d6ff0f1cf33c1ed34aad9993d864c63ff795ab68600a256c0352c13c78f7ba",
+  "metadata_sha256": "a2d35b5e83850a054497b367c73cd862c345c96c41b3f5d859e1a9c28b4170f3",
+  "normalization": "unit L2 norm per vector",
+  "pca_components": 50,
+  "pca_solver": "full",
+  "projection": "t-SNE",
+  "perplexity": 15,
+  "init": "pca",
+  "learning_rate": "auto",
+  "max_iter": 1500,
+  "random_state": 42,
+  "method": "exact",
+  "scikit_learn": "1.9.1",
+  "description": "New projection of the original 126 job embeddings. Coordinates do not reproduce the original screenshot. Category IDs come from the author."
+}

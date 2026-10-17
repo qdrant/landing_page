@@ -57,9 +57,13 @@
   stroke: var(--qi-accent);
 }
 .tq-rn .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .tq-rn.tq-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.tq-rn.tq-narrow .qi-label {
+  font-size: 13px;
 }

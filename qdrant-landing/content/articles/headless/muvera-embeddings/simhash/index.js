@@ -20,7 +20,7 @@ const PS = 300; // plane side
 const HALF = PS / 2;
 const PY = 22;
 // Desktop: plane on the left, cluster cells on the right. Narrow: stacked.
-const WIDE = { VB_W: 760, VB_H: 340, PX: 34, SX: 390, SW: 360, STRIP_Y: 122, STRIP_H: 84, CELL_MAX: 90, TITLE_Y: 14 };
+const WIDE = { VB_W: 760, VB_H: 340, PX: 34, SX: 390, SW: 360, STRIP_Y: 122, STRIP_H: 84, CELL_MAX: 90, TITLE_Y: 18 };
 const NARROW = { VB_W: 350, VB_H: 512, PX: 24, SX: 12, SW: 326, STRIP_Y: 372, STRIP_H: 84, CELL_MAX: 90, TITLE_Y: 342 };
 
 const ANGLES = [28, 82, 142].map((d) => (d * Math.PI) / 180);
@@ -180,7 +180,7 @@ export function mount(node) {
     clipRect.setAttribute('x', PX);
     const n = 2 ** k;
     titlesG.replaceChildren(
-      el('text', { class: 'qi-label', x: PX, y: 14 }, narrow ? 'Token vector space (2D)' : 'Token vector space (2D illustration)'),
+      el('text', { class: 'qi-label', x: PX, y: 18 }, narrow ? 'Token vector space (2D)' : 'Token vector space (2D illustration)'),
       el('text', { class: 'qi-label', x: SX, y: TITLE_Y }, 'Cluster IDs: one bit per hyperplane'),
     );
     regionsG.replaceChildren();

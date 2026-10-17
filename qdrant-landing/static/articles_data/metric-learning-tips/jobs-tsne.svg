@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" role="img" aria-labelledby="title desc"><title id="title">Job description embeddings</title><desc id="desc">A new seeded t-SNE projection of the author's 126 job embeddings. Each point is one job description. Labels identify selected jobs. The linked CSV contains every job and projected coordinate. Two-dimensional distances are a projection, not the original embedding distances.</desc><rect width="760" height="500" rx="6" fill="#f0f3fa"/>
+<circle cx="467.945" cy="129.347" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CPO</title></circle>
+<circle cx="545.704" cy="141.304" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Finance Manager</title></circle>
+<circle cx="136.486" cy="95.754" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Python Developer</title></circle>
+<circle cx="432.812" cy="231.299" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Account Management</title></circle>
+<circle cx="398.767" cy="420.704" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Advertising</title></circle>
+<circle cx="464.043" cy="380.582" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Affiliate Marketing</title></circle>
+<circle cx="350.008" cy="409.672" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Content Editing</title></circle>
+<circle cx="401.263" cy="399.069" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Content Marketing</title></circle>
+<circle cx="372.662" cy="410.578" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Copywriting</title></circle>
+<circle cx="426.804" cy="397.355" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Offline Marketing</title></circle>
+<circle cx="439.443" cy="431.081" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Online Marketing (SMM; SEM; SEA; SEO)</title></circle>
+<circle cx="448.967" cy="410.985" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Performance Marketing</title></circle>
+<circle cx="443.993" cy="364.224" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Product Marketing</title></circle>
+<circle cx="372.703" cy="343.165" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Public Relations Management</title></circle>
+<circle cx="634.519" cy="228.957" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Sales</title></circle>
+<circle cx="210.209" cy="72.770" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>(Big) Data Engineering</title></circle>
+<circle cx="281.160" cy="60.509" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>BI Analysis</title></circle>
+<circle cx="242.652" cy="61.949" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Data Analysis</title></circle>
+<circle cx="223.543" cy="63.064" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Data Science</title></circle>
+<circle cx="200.796" cy="50.000" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Machine Learning/AI</title></circle>
+<circle cx="450.315" cy="323.538" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Product Management</title></circle>
+<circle cx="323.073" cy="243.955" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Project Management</title></circle>
+<circle cx="132.866" cy="80.847" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Java/Scala Developer</title></circle>
+<circle cx="456.064" cy="394.589" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Strategic Marketing</title></circle>
+<circle cx="572.188" cy="180.838" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Assistant</title></circle>
+<circle cx="479.845" cy="171.346" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Buyer</title></circle>
+<circle cx="115.416" cy="92.766" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Erlang Developer</title></circle>
+<circle cx="433.295" cy="260.610" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CRM Management</title></circle>
+<circle cx="476.333" cy="268.217" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>QA Management</title></circle>
+<circle cx="612.633" cy="257.579" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Merchandiser</title></circle>
+<circle cx="171.279" cy="122.447" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>BI Development</title></circle>
+<circle cx="626.488" cy="245.438" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Retail Sales</title></circle>
+<circle cx="206.016" cy="131.465" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>SAP Engineer</title></circle>
+<circle cx="291.861" cy="165.789" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Engineering Manager</title></circle>
+<circle cx="83.609" cy="133.660" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Android Developer</title></circle>
+<circle cx="109.683" cy="155.023" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>C/C++ Developer</title></circle>
+<circle cx="70.000" cy="137.237" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>iOS Developer</title></circle>
+<circle cx="104.597" cy="74.041" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Node.js Developer</title></circle>
+<circle cx="82.534" cy="91.084" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>JavaScript Developer</title></circle>
+<circle cx="110.303" cy="123.353" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Go Developer</title></circle>
+<circle cx="105.084" cy="168.410" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>PHP Developer</title></circle>
+<circle cx="84.655" cy="167.515" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Front-end Developer</title></circle>
+<circle cx="131.045" cy="108.727" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Ruby Developer</title></circle>
+<circle cx="96.443" cy="101.664" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>PERL Developer</title></circle>
+<circle cx="269.703" cy="186.542" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>QA/Test Engineer</title></circle>
+<circle cx="252.951" cy="158.942" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>DevOps Engineer</title></circle>
+<circle cx="240.890" cy="141.777" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>System Administrator</title></circle>
+<circle cx="211.589" cy="178.034" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Security Engineer</title></circle>
+<circle cx="248.741" cy="125.097" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>DB Administrator</title></circle>
+<circle cx="274.420" cy="172.301" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Automation Engineer</title></circle>
+<circle cx="175.629" cy="150.209" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Solution Architect</title></circle>
+<circle cx="322.928" cy="121.330" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Hardware/IoT Engineer</title></circle>
+<circle cx="324.111" cy="131.152" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Electronics Engineer</title></circle>
+<circle cx="234.479" cy="373.543" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Chip Designer</title></circle>
+<circle cx="336.367" cy="164.446" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Civil Engineer</title></circle>
+<circle cx="325.268" cy="156.376" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Mechanical Engineer</title></circle>
+<circle cx="228.304" cy="154.180" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Systems Engineer</title></circle>
+<circle cx="218.610" cy="167.930" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Network Engineer</title></circle>
+<circle cx="313.562" cy="237.986" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Technical Project Manager</title></circle>
+<circle cx="294.767" cy="250.837" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Scrum Master/Agile Coach</title></circle>
+<circle cx="426.787" cy="440.000" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Growth Hacker</title></circle>
+<circle cx="375.738" cy="352.004" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Communications Manager</title></circle>
+<circle cx="513.052" cy="86.461" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Risk Analyst</title></circle>
+<circle cx="653.759" cy="119.320" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Entrepreneur in Residence</title></circle>
+<circle cx="615.017" cy="104.683" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CEO</title></circle>
+<circle cx="586.378" cy="119.289" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CFO</title></circle>
+<circle cx="573.443" cy="102.274" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CMO</title></circle>
+<circle cx="616.652" cy="115.183" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>COO</title></circle>
+<circle cx="174.104" cy="160.999" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CTO</title></circle>
+<circle cx="126.998" cy="142.139" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Salesforce Developer</title></circle>
+<circle cx="549.847" cy="101.165" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Investment Banking</title></circle>
+<circle cx="523.454" cy="245.730" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Asset Management</title></circle>
+<circle cx="518.755" cy="97.438" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Credit Analysis</title></circle>
+<circle cx="581.464" cy="149.546" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Auditing</title></circle>
+<circle cx="561.306" cy="158.590" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Accounting</title></circle>
+<circle cx="560.362" cy="132.616" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Corporate Finance</title></circle>
+<circle cx="539.682" cy="244.979" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Real Estate Management</title></circle>
+<circle cx="569.261" cy="212.046" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Legal Counsel</title></circle>
+<circle cx="577.670" cy="204.482" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Paralegal</title></circle>
+<circle cx="465.308" cy="120.056" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>CSO</title></circle>
+<circle cx="640.468" cy="109.001" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Founder / Co-founder</title></circle>
+<circle cx="477.089" cy="237.967" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Office Management</title></circle>
+<circle cx="413.921" cy="180.957" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Supply Chain Management</title></circle>
+<circle cx="424.492" cy="294.903" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Brand Management</title></circle>
+<circle cx="506.833" cy="244.568" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Community Management</title></circle>
+<circle cx="508.934" cy="214.292" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Partner Management</title></circle>
+<circle cx="295.075" cy="60.662" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Business Analysis</title></circle>
+<circle cx="678.318" cy="184.207" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Business Development</title></circle>
+<circle cx="422.605" cy="248.749" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Customer Relation Management</title></circle>
+<circle cx="396.296" cy="233.096" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Customer Care</title></circle>
+<circle cx="393.970" cy="253.669" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Customer Success</title></circle>
+<circle cx="435.637" cy="286.491" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>E-commerce Management</title></circle>
+<circle cx="664.619" cy="213.918" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Enterprise Sales</title></circle>
+<circle cx="648.476" cy="227.885" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Inside Sales</title></circle>
+<circle cx="690.000" cy="179.527" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>International Business Development</title></circle>
+<circle cx="487.887" cy="387.220" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Market Research</title></circle>
+<circle cx="667.733" cy="171.452" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Venture Development</title></circle>
+<circle cx="252.249" cy="77.056" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Data Warehousing</title></circle>
+<circle cx="264.340" cy="407.669" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Animation</title></circle>
+<circle cx="283.491" cy="405.392" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Art Direction</title></circle>
+<circle cx="259.558" cy="363.120" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Fashion Design</title></circle>
+<circle cx="241.903" cy="396.953" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Game Design</title></circle>
+<circle cx="258.421" cy="429.261" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Game Production</title></circle>
+<circle cx="275.237" cy="378.382" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Graphic Design</title></circle>
+<circle cx="246.075" cy="353.694" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Interior Design</title></circle>
+<circle cx="217.175" cy="366.995" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Product Design</title></circle>
+<circle cx="216.938" cy="394.074" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>UX/UI Design</title></circle>
+<circle cx="274.459" cy="429.872" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Video Production</title></circle>
+<circle cx="257.452" cy="382.129" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Visual Design</title></circle>
+<circle cx="467.118" cy="169.125" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Procurement</title></circle>
+<circle cx="617.139" cy="207.155" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Executive Assistance</title></circle>
+<circle cx="516.558" cy="202.650" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Human Resources Management</title></circle>
+<circle cx="415.303" cy="189.867" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Logistics Management</title></circle>
+<circle cx="462.659" cy="248.981" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Operations Management</title></circle>
+<circle cx="667.535" cy="242.687" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Recruitment</title></circle>
+<circle cx="128.500" cy="161.296" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>.NET Developer</title></circle>
+<circle cx="450.799" cy="338.826" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Product Sales Manager</title></circle>
+<circle cx="419.956" cy="416.405" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Social Media Marketing</title></circle>
+<circle cx="517.031" cy="117.656" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Controlling</title></circle>
+<circle cx="403.622" cy="302.907" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Category Manager</title></circle>
+<circle cx="330.431" cy="413.088" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Multimedia/Digital Producer</title></circle>
+<circle cx="455.175" cy="291.263" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Event Management</title></circle>
+<circle cx="434.790" cy="381.874" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Marketing Manager</title></circle>
+<circle cx="544.767" cy="123.153" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Financial Analysis</title></circle>
+<circle cx="218.720" cy="211.132" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Technical Support</title></circle>
+<circle cx="217.124" cy="225.250" r="4" fill="#6047ff" stroke="#303547" stroke-width="0.6"><title>Technical Writer</title></circle>
+<path d="M136.486 95.754 L136.486 50.754" stroke="#656b7f" stroke-width="1.5"/><rect x="12.000" y="25.754" width="162.4" height="25" rx="3" fill="#fff"/><text x="18.000" y="43.754" font-family="monospace" font-size="16" fill="#303547">Python Developer</text>
+<path d="M223.543 63.064 L237.543 48.064" stroke="#656b7f" stroke-width="1.5"/><rect x="237.543" y="23.064" width="124.80000000000001" height="25" rx="3" fill="#fff"/><text x="243.543" y="41.064" font-family="monospace" font-size="16" fill="#303547">Data Science</text>
+<path d="M545.704 141.304 L559.704 96.304" stroke="#656b7f" stroke-width="1.5"/><rect x="559.704" y="71.304" width="153.0" height="25" rx="3" fill="#fff"/><text x="565.704" y="89.304" font-family="monospace" font-size="16" fill="#303547">Finance Manager</text>
+<path d="M401.263 399.069 L387.263 444.069" stroke="#656b7f" stroke-width="1.5"/><rect x="215.463" y="444.069" width="171.8" height="25" rx="3" fill="#fff"/><text x="221.463" y="462.069" font-family="monospace" font-size="16" fill="#303547">Content Marketing</text>
+<path d="M615.017 104.683 L629.017 59.683" stroke="#656b7f" stroke-width="1.5"/><rect x="629.017" y="34.683" width="40.2" height="25" rx="3" fill="#fff"/><text x="635.017" y="52.683" font-family="monospace" font-size="16" fill="#303547">CEO</text>
+</svg>

@@ -1,27 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" role="img" aria-label="2D illustration of length renormalization">
-<defs>
-  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-    <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
-  </marker>
-  <marker id="arrow-axis" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-    <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
-  </marker>
-</defs>
-<rect width="100%" height="100%" fill="#ffffff"/>
-<text x="380.0" y="30" text-anchor="middle" font-size="16" font-weight="600" fill="#0F172A">Length renormalization in 2D</text>
-<line x1="110" y1="380" x2="500.0" y2="380.0" stroke="#0F172A" stroke-width="1.2" marker-end="url(#arrow-axis)"/>
-<line x1="110" y1="380" x2="110.0" y2="20.0" stroke="#0F172A" stroke-width="1.2" marker-end="url(#arrow-axis)"/>
-<path d="M 425.0 380.0 A 315.0 315.0 0 0 0 110.0 65.0" fill="none" stroke="#0F172A" stroke-width="1.4" stroke-dasharray="4 4"/>
-<line x1="303.9" y1="131.8" x2="215.7" y2="311.4" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 3"/>
-<line x1="303.9" y1="131.8" x2="374.2" y2="208.4" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 3"/>
-<line x1="110" y1="380" x2="374.2" y2="208.4" stroke="#DC244C" stroke-width="3" marker-end="url(#arrow)"/>
-<line x1="110" y1="380" x2="215.7" y2="311.4" stroke="#64748B" stroke-width="2.6" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
-<line x1="110" y1="380" x2="303.9" y2="131.8" stroke="#1E293B" stroke-width="3" marker-end="url(#arrow)"/>
-<circle cx="110" cy="380" r="3" fill="#0F172A"/>
-<circle cx="303.9" cy="131.8" r="4" fill="#1E293B"/>
-<circle cx="374.2" cy="208.4" r="4" fill="#DC244C"/>
-<circle cx="215.7" cy="311.4" r="4" fill="#64748B"/>
-<text x="315.9" y="123.8" text-anchor="start" font-size="16" font-weight="600" fill="#1E293B">x</text>
-<text x="388.2" y="212.4" text-anchor="start" font-size="16" font-weight="600" fill="#DC244C">ratio · x quantized</text>
-<text x="229.7" y="329.4" text-anchor="start" font-size="16" font-weight="600" fill="#64748B">x quantized</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" role="img" aria-labelledby="title desc">
+<title id="title">2D illustration of length renormalization: the quantized vector is short and slightly rotated, and multiplying it by the stored ratio puts it back on the circle of radius |x|. Angles and lengths are illustrative.</title>
+<desc id="desc">Scaling x quantized by ratio = |x| / |x quantized| puts it back on the circle. The angular error stays, but the length error goes: the error against x drops from 48% to 24% of |x|. Angles and lengths are illustrative.</desc>
+<rect width="760" height="380" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<line x1="90" y1="350" x2="420" y2="350" stroke="rgb(48, 53, 71)" stroke-width="1.2px"/>
+<line x1="90" y1="350" x2="90" y2="26" stroke="rgb(48, 53, 71)" stroke-width="1.2px"/>
+<path d="M390 350 A300 300 0 0 0 90 50" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="4px, 4px" stroke-width="1.4px"/>
+<text x="382" y="370" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">|x|</text>
+<line x1="90" y1="350" x2="274.6984425976975" y2="113.5967739179834" stroke="rgb(48, 53, 71)" stroke-width="3px"/>
+<circle cx="274.6984425976975" cy="113.5967739179834" r="5" fill="rgb(48, 53, 71)"/>
+<text x="284.6984425976975" y="105.5967739179834" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">x</text>
+<circle cx="90" cy="350" r="3" fill="rgb(48, 53, 71)"/>
+<line x1="90" y1="350" x2="220.02177434510915" y2="248.4158565712664" stroke="rgb(101, 107, 127)" stroke-dasharray="5px, 4px" stroke-width="2.6px"/>
+<circle cx="220.02177434510915" cy="248.4158565712664" r="5" fill="rgb(101, 107, 127)"/>
+<line x1="274.6984425976975" y1="113.5967739179834" x2="220.02177434510915" y2="248.4158565712664" stroke="rgb(171, 177, 199)" stroke-dasharray="3px, 3px" stroke-width="1.4px"/>
+<text x="230.02177434510915" y="268.41585657126643" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" font-weight="600">x quantized</text>
+<line x1="90" y1="350" x2="326.4032260820166" y2="165.30155740230254" stroke="rgb(220, 36, 76)" stroke-width="3px"/>
+<circle cx="326.4032260820166" cy="165.30155740230254" r="5" fill="rgb(220, 36, 76)"/>
+<line x1="274.6984425976975" y1="113.5967739179834" x2="326.4032260820166" y2="165.30155740230254" stroke="rgb(220, 36, 76)" stroke-dasharray="3px, 3px" stroke-width="1.4px"/>
+<text x="340.4032260820166" y="169.30155740230254" fill="rgb(220, 36, 76)" font-family="monospace" font-size="15px" font-weight="600">ratio · x quantized</text>
+</g>  </g>
 </svg>

@@ -43,9 +43,9 @@ So most search quality-boosting tools aim to adjust/align/guide these simple ret
 It can be provided by a human or a model, be binary (relevant–irrelevant) or granular, rescoring top documents by their relative relevance to the query. 
 
 {{< island path="content/articles/headless/relevance-feedback/types"
-    ratio="19 / 7"
+    ratio="760 / 974"
     title="The same ranked results labeled by three kinds of feedback: pseudo-relevance, binary feedback, and re-scored feedback. Scores are illustrative." >}}
-![Types of relevance feedback: pseudo-relevance, binary feedback, and re-scored feedback](/articles_data/relevance-feedback/relevance_feedback_types.png)
+![Types of relevance feedback: pseudo-relevance, binary feedback, and re-scored feedback](/articles_data/relevance-feedback/fallbacks/types.svg)
 {{< /island >}}
 
 Based on this feedback, one of the retrieval components is adjusted: the query or the scoring method between the query and documents. The next retrieval iteration is done with this aligned component.
@@ -154,9 +154,9 @@ With two documents, this model could already judge which one is closer to what t
 Step through the example below: it picks a context pair, measures its confidence, computes a candidate's delta, and combines them into a score.
 
 {{< island path="content/articles/headless/relevance-feedback/scoring"
-    ratio="38 / 21"
+    ratio="760 / 856"
     title="From feedback scores to a new score: the context pair, its confidence, a candidate's delta, and the feedback-based score. All numbers are illustrative." >}}
-![How context pairs are formed from feedback scores](/articles_data/relevance-feedback/context_pair.png)
+![Illustrative scoring: confidence is 0.54; adding the confidence-weighted similarity delta changes candidate order from 1, 2, 3 to 2, 1, 3](/articles_data/relevance-feedback/fallbacks/scoring.svg)
 {{< /island >}}
 
 ### Context Pair's Confidence
@@ -313,9 +313,9 @@ We want to check if relevance feedback-based retrieval increases relevance recal
 Any document in the list **outside the top-K** whose feedback model score **exceeded this threshold** was considered a **desired result** for "the next retrieval iteration".
 
 {{< island path="content/articles/headless/relevance-feedback/metric"
-    ratio="76 / 33"
+    ratio="760 / 338"
     title="How the abovethreshold@N metric is computed, step by step: the retriever ranking and its top K, the feedback model's scores with the threshold and the desired results, and the count after the top K for the vanilla and feedback-based rankings. Scores are illustrative." >}}
-![How the desired results are defined](/articles_data/relevance-feedback/goal.png)
+![After the top 10 context documents, feedback rescoring finds two of two desired results in the next 10 positions; the original ranking finds zero](/articles_data/relevance-feedback/fallbacks/metric.svg)
 {{< /island >}}
 
 **What we wanted to measure**  

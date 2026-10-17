@@ -3,7 +3,7 @@
  *
  * TurboQuant's codebook is fixed for a N(0,1) distribution (here the 8
  * Lloyd-Max centroids). Real rotated coordinates are shifted and stretched
- * relative to it, so a long tail falls past the outermost centroid and is lost.
+ * relative to it, so a long tail falls past the outermost centroid and maps to it.
  * A per-coordinate (shift, scale) maps the data back onto the codebook grid.
  * Switch between before and after. The data distribution is illustrative (a
  * normal with a mean of 0.6 and a standard deviation of 1.5); the shares outside
@@ -54,7 +54,7 @@ const erf = (x) => {
 const cdf = (x, mu, s) => 0.5 * (1 + erf((x - mu) / (s * Math.SQRT2)));
 const outside = (mu, s) => 1 - (cdf(OUTER, mu, s) - cdf(-OUTER, mu, s));
 
-const WIDE = { VB_W: 760, VB_H: 320, x0: 40, x1: 720, base: 250, h: 190 };
+const WIDE = { VB_W: 760, VB_H: 350, x0: 40, x1: 720, base: 250, h: 190 };
 const NARROW = { VB_W: 340, VB_H: 300, x0: 16, x1: 324, base: 220, h: 150 };
 
 export function mount(node) {
@@ -113,16 +113,19 @@ export function mount(node) {
     CENTROIDS.forEach((c) => g.appendChild(el('circle', { class: 'tq-cb__cent', cx: X(c), cy: G.base, r: 5 })));
     [-OUTER, 0, OUTER].forEach((v) => g.appendChild(el('text', { class: 'qi-label', x: X(v), y: G.base + 24, 'text-anchor': 'middle' }, v === 0 ? '0' : `${v < 0 ? '−' : '+'}${OUTER}`)));
 
-    g.appendChild(el('text', { class: 'qi-label qi-label--strong', x: G.x0, y: 24 }, after ? 'After (shift, scale): data aligns with the N(0,1) codebook' : 'Before calibration: data drifts off the codebook grid'));
+    const heading = narrow
+      ? (after ? 'After: aligned with N(0,1)' : 'Before: shifted and stretched data')
+      : (after ? 'After (shift, scale): data aligns with the N(0,1) codebook' : 'Before calibration: data drifts off the codebook grid');
+    g.appendChild(el('text', { class: 'qi-label qi-label--strong', x: G.x0, y: 24 }, heading));
     // Legend
     const ly = G.base + 52;
     const lg = [['tq-cb__sw-ref', 'N(0,1) reference'], ['tq-cb__sw-cent', 'codebook centroids'], ['tq-cb__sw-in', 'data inside'], ['tq-cb__sw-out', 'data outside']];
     let lx = G.x0;
-    const perRow = narrow ? 2 : 4;
+    const perRow = 2;
     lg.forEach(([cls, t], i) => {
       const col = i % perRow;
       const row = Math.floor(i / perRow);
-      const x = G.x0 + col * (narrow ? 150 : 170);
+      const x = G.x0 + col * (narrow ? 150 : 340);
       const y = ly + row * 22;
       g.appendChild(el('rect', { class: cls, x, y: y - 11, width: 12, height: 12, rx: 2 }));
       g.appendChild(el('text', { class: 'qi-label', x: x + 18, y }, t));
@@ -132,7 +135,7 @@ export function mount(node) {
     const pOut = outside(mu, sg);
     statusEl.innerHTML = after
       ? `After a per-coordinate <b>(shift, scale)</b>, the data matches N(0,1) and only <b>${(pOut * 100).toFixed(1)}%</b> of values fall past the outermost centroids.`
-      : `Here the data is shifted and stretched relative to the codebook: <b>${(pOut * 100).toFixed(1)}%</b> of values fall past the outermost centroids (±${OUTER}) and are lost. The distribution is illustrative.`;
+      : `Here the data is shifted and stretched relative to the codebook: <b>${(pOut * 100).toFixed(1)}%</b> of values fall past the outermost centroids (±${OUTER}) and map to the outer centroids with quantization error. The distribution is illustrative.`;
   }
 
   function setAfter(a) {

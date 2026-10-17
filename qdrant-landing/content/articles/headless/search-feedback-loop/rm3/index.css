@@ -1,6 +1,6 @@
 /* rm3 island. Scoped under .sf-rm. Greens mark relevance, blue the query. */
 .sf-rm {
-  --sf-rel: #2e9e5b;
+  --sf-rel: var(--qi-cat-3);
   display: block;
 }
 .sf-rm__box {
@@ -44,9 +44,13 @@
   fill: var(--qi-muted);
 }
 .sf-rm .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .sf-rm.sf-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.sf-rm.sf-narrow .qi-label {
+  font-size: 13px;
 }

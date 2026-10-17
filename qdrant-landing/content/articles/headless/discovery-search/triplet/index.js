@@ -41,9 +41,9 @@ function watchNarrow(node, onChange, below = 700) {
 
 // Label placement: try several spots around a point and take the first that stays inside the
 // bounds and clears every obstacle (points as circles, lines as segments) and earlier labels.
-function makePlacer(bounds, obstacles) {
+function makePlacer(bounds, obstacles, fontSize) {
   const placed = [];
-  const H = 14;
+  const H = Math.ceil(fontSize * 1.1);
   const segHits = (o, r) => {
     const len = Math.hypot(o.x2 - o.x1, o.y2 - o.y1);
     const n = Math.max(2, Math.ceil(len / 5));
@@ -58,7 +58,7 @@ function makePlacer(bounds, obstacles) {
     obstacles.some((o) => (o.s ? segHits(o, r) : o.x > r.x - o.r && o.x < r.x + r.w + o.r && o.y > r.y - o.r && o.y < r.y + r.h + o.r)) ||
     placed.some((o) => r.x < o.x + o.w + 3 && r.x + r.w + 3 > o.x && r.y < o.y + o.h + 2 && r.y + r.h + 2 > o.y);
   return function place(p, text, rad = 14) {
-    const w = text.length * 7.9;
+    const w = text.length * fontSize * 0.61;
     const rings = [0, 14, 30];
     let best = null;
     for (const extra of rings) {
@@ -167,7 +167,7 @@ export function mount(node) {
       ring(pts.c, pts.good ? 'is-good' : 'is-bad', pts.good ? 'Better candidate' : 'Worse candidate');
     }
     const obstacles = [...segs, ...pending.map((q) => ({ x: q.p[0], y: q.p[1], r: 13 }))];
-    const placer = makePlacer({ x0: ox + 4, y0: oy + 4, x1: ox + G.pw - 4, y1: oy + G.ph - 4 }, obstacles);
+    const placer = makePlacer({ x0: ox + 4, y0: oy + 4, x1: ox + G.pw - 4, y1: oy + G.ph - 4 }, obstacles, isNarrow() ? 13 : 15);
     pending.forEach((q) => {
       const pl = placer(q.p, q.label, 12);
       g.appendChild(el('text', { class: `qi-label ds-tr__lab ${q.cls}`, x: pl.x, y: pl.y }, q.label));

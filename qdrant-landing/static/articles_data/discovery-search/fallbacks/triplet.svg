@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 696" role="img" aria-labelledby="title desc">
+<title id="title">Triplet loss in learning and in searching: training pulls a positive closer to the anchor than a negative, and the context score measures how much closer a candidate is to a negative than to a positive. Positions are illustrative.</title>
+<desc id="desc">Before training, the anchor is closer to the negative (0.49) than to the positive (0.72). Training moves the points until d(anchor, positive) + margin &lt; d(anchor, negative): 0.34 + 0.4 &lt; 0.84. Positions are illustrative. At search time the same idea scores a candidate by how much closer it is to a negative than to a positive. The worse candidate is closer to the negative (0.36 vs 0.60): score -0.24. The better one is closer to the positive: score 0.00.</desc>
+<rect width="760" height="696" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="30" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Before training</text>
+<rect x="10" y="40" width="360" height="240" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<line x1="77.98362896892891" y1="166.26434906477047" x2="210.06076620291626" y2="194.56659275776778" stroke="rgb(0, 131, 143)" stroke-width="2px"/>
+<polygon points="218.86098792961295,196.45235455634565 209.11788530362733,198.96670362111612 211.00364710220518,190.16648189441943" fill="rgb(0, 131, 143)" stroke="rgb(0, 131, 143)"/>
+<line x1="74.73528137423857" y1="155.26471862576142" x2="135.10050506338834" y2="94.89949493661166" stroke="rgb(220, 36, 76)" stroke-width="2px"/>
+<polygon points="141.46446609406726,88.53553390593274 138.2824855787278,98.08147545195112 131.91852454804888,91.7175144212722" fill="rgb(220, 36, 76)" stroke="rgb(220, 36, 76)"/>
+<circle cx="66.25" cy="163.75" r="9" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="4px"/>
+<circle cx="66.25" cy="163.75" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="223.75" cy="197.5" r="9" fill="rgb(240, 243, 250)" stroke="rgb(0, 131, 143)" stroke-width="4px"/>
+<circle cx="223.75" cy="197.5" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="145" cy="85" r="9" fill="rgb(240, 243, 250)" stroke="rgb(220, 36, 76)" stroke-width="4px"/>
+<circle cx="145" cy="85" r="3.5" fill="rgb(48, 53, 71)"/>
+<text x="72.25" y="203.75" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Anchor</text>
+<text x="237.75" y="203" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Positive</text>
+<text x="159" y="90.5" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Negative</text>
+<text x="390" y="30" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">After training</text>
+<rect x="390" y="40" width="360" height="240" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<line x1="468.73595013082854" y1="156.7134812990607" x2="516.3913915140333" y2="174.58427181776253" stroke="rgb(0, 131, 143)" stroke-width="2px"/>
+<polygon points="524.8183541121547,177.74438279205805 514.8113360268856,178.79775311682323 517.9714470011811,170.37079051870182" fill="rgb(0, 131, 143)" stroke="rgb(0, 131, 143)"/>
+<line x1="468.95375973642035" y1="148.92070008236863" x2="624.1372803075096" y2="100.42584990390326" stroke="rgb(220, 36, 76)" stroke-width="2px"/>
+<polygon points="632.727600109825,97.74137496567974 625.4795177766214,104.72100980506089 622.7950428383979,96.13069000274562" fill="rgb(220, 36, 76)" stroke="rgb(220, 36, 76)"/>
+<circle cx="457.5" cy="152.5" r="9" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="4px"/>
+<circle cx="457.5" cy="152.5" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="529.5" cy="179.5" r="9" fill="rgb(240, 243, 250)" stroke="rgb(0, 131, 143)" stroke-width="4px"/>
+<circle cx="529.5" cy="179.5" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="637.5" cy="96.25" r="9" fill="rgb(240, 243, 250)" stroke="rgb(220, 36, 76)" stroke-width="4px"/>
+<circle cx="637.5" cy="96.25" r="3.5" fill="rgb(48, 53, 71)"/>
+<text x="463.5" y="123.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Anchor</text>
+<text x="543.5" y="185" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Positive</text>
+<text x="651.5" y="101.75" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Negative</text>
+</g>  </g>
+<g transform="translate(0 356) scale(1)">    <g>
+<text x="10" y="30" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Worse candidate</text>
+<rect x="10" y="40" width="360" height="240" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<line x1="63.968911824203914" y1="115.47236606595904" x2="145.78626953842877" y2="188.19890625638112" stroke="rgb(0, 131, 143)" stroke-width="2px"/>
+<polygon points="152.51295340658172,194.1781808058504 142.79663226369414,191.56224819045758 148.7759068131634,184.83556432230466" fill="rgb(0, 131, 143)" stroke="rgb(0, 131, 143)"/>
+<line x1="66.53828737168988" y1="104.20334646523146" x2="120.28866473302847" y2="88.8460957905633" stroke="rgb(220, 36, 76)" stroke-width="2px"/>
+<polygon points="128.94238026179588,86.3736056394869 121.52490980856668,93.172953554947 119.05241965749026,84.5192380261796" fill="rgb(220, 36, 76)" stroke="rgb(220, 36, 76)"/>
+<circle cx="156.25" cy="197.5" r="9" fill="rgb(240, 243, 250)" stroke="rgb(0, 131, 143)" stroke-width="4px"/>
+<circle cx="156.25" cy="197.5" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="133.75" cy="85" r="9" fill="rgb(240, 243, 250)" stroke="rgb(220, 36, 76)" stroke-width="4px"/>
+<circle cx="133.75" cy="85" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="55" cy="107.5" r="9" fill="rgb(240, 243, 250)" stroke="rgb(101, 107, 127)" stroke-width="4px"/>
+<circle cx="55" cy="107.5" r="3.5" fill="rgb(48, 53, 71)"/>
+<text x="170.25" y="203" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Positive</text>
+<text x="147.75" y="90.5" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Negative</text>
+<text x="99" y="113" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Worse candidate</text>
+<text x="390" y="30" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Better candidate</text>
+<rect x="390" y="40" width="360" height="240" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<line x1="648.0079260246429" y1="201.5639245827143" x2="550.24075297125" y2="198.0087546535" stroke="rgb(0, 131, 143)" stroke-width="2px"/>
+<polygon points="541.2466974897321,197.68169809053572 550.4042812527322,193.51172691274107 550.0772246897678,202.50578239425894" fill="rgb(0, 131, 143)" stroke="rgb(0, 131, 143)"/>
+<line x1="650.6295742866837" y1="194.5036594293469" x2="524.6821633322024" y2="93.74573066576194" stroke="rgb(220, 36, 76)" stroke-width="2px"/>
+<polygon points="517.6543440472152,88.12347523777213 527.4932910461973,90.23182102326831 521.8710356182075,97.25964030825557" fill="rgb(220, 36, 76)" stroke="rgb(220, 36, 76)"/>
+<circle cx="536.25" cy="197.5" r="9" fill="rgb(240, 243, 250)" stroke="rgb(0, 131, 143)" stroke-width="4px"/>
+<circle cx="536.25" cy="197.5" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="513.75" cy="85" r="9" fill="rgb(240, 243, 250)" stroke="rgb(220, 36, 76)" stroke-width="4px"/>
+<circle cx="513.75" cy="85" r="3.5" fill="rgb(48, 53, 71)"/>
+<circle cx="660" cy="202" r="9" fill="rgb(240, 243, 250)" stroke="rgb(0, 131, 143)" stroke-width="4px"/>
+<circle cx="660" cy="202" r="3.5" fill="rgb(48, 53, 71)"/>
+<text x="449.05" y="203" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Positive</text>
+<text x="527.75" y="90.5" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Negative</text>
+<text x="507.6" y="242" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Better candidate</text>
+</g>  </g>
+</svg>

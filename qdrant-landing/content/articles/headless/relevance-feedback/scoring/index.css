@@ -1,7 +1,7 @@
 /* scoring island. Scoped under .rf-sc. Blue: retriever, green: positive and
    feedback, red: negative. */
 .rf-sc {
-  --rf-pos: #2e9e5b;
+  --rf-pos: var(--qi-cat-3);
   --rf-neg: var(--qi-cat-4);
   display: block;
 }
@@ -42,11 +42,11 @@
 }
 .rf-sc__poslab,
 .rf-sc__conflab {
-  fill: var(--rf-pos);
+  fill: color-mix(in srgb, var(--rf-pos) 75%, var(--qi-fg) 25%);
   font-weight: 600;
 }
 .rf-sc__neglab {
-  fill: var(--rf-neg);
+  fill: color-mix(in srgb, var(--rf-neg) 75%, var(--qi-fg) 25%);
   font-weight: 600;
 }
 .rf-sc__conf-line {
@@ -70,9 +70,13 @@
   stroke: var(--rf-pos);
 }
 .rf-sc .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .rf-sc.rf-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.rf-sc.rf-narrow .qi-label {
+  font-size: 13px;
 }

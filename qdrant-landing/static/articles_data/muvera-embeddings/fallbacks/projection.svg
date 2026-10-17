@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 366" role="img" aria-labelledby="title desc">
+<title id="title">Random projection of one repetition, drawn to scale for 128-dimensional token vectors, and the resulting FDE size for 20 repetitions.</title>
+<desc id="desc">With k_sim = 6 and dim_proj = 32, each repetition shrinks from 64 × 128 to 64 × 32, and the final FDE has 40,960 dimensions instead of 163,840: 4× smaller.</desc>
+<rect width="760" height="366" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<rect x="40" y="196.4" width="134.4" height="108.8" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.18" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="40" y="323.2" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">2^k_sim × dim = 64 × 128</text>
+<rect x="188.4" y="40" width="33.6" height="134.4" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.08" stroke="rgb(96, 71, 255)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<text x="188.4" y="32" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">dim × dim_proj = 128 × 32</text>
+<rect x="188.4" y="196.4" width="33.6" height="108.8" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.35" stroke="rgb(0, 131, 143)" stroke-width="1.5px"/>
+<text x="40" y="343.2" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">2^k_sim × dim_proj = 64 × 32</text>
+<text x="181.4" y="254.8" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">×</text>
+<text x="205.20000000000002" y="190.4" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">=</text>
+</g>    <g>
+<text x="470" y="54" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">FDE size with r_reps = 20</text>
+<text x="470" y="86" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Without projection</text>
+<rect x="470" y="96" width="270" height="20" rx="3" fill="rgb(171, 177, 199)"/>
+<text x="470" y="136" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">20 × 64 × 128 = 163,840</text>
+<text x="470" y="182" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">With projection</text>
+<rect x="470" y="192" width="67.5" height="20" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="470" y="232" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">20 × 64 × 32 = 40,960</text>
+</g>  </g>
+</svg>

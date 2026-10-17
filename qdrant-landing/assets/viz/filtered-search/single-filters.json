@@ -1,10 +1,14 @@
 {
   "title": "Single-field filters at hnsw_ef=64",
   "kind": "grouped-columns",
-  "group": "filter",
+  "group": "label",
   "series": "strategy",
-  "colors": ["muted", 1, 0],
-  "height": 400,
+  "colors": [
+    "muted",
+    1,
+    0
+  ],
+  "height": 460,
   "views": [
     {
       "label": "Recall@10",
@@ -20,5 +24,8 @@
       "yLabel": "latency (ms)",
       "yMax": 6
     }
-  ]
+  ],
+  "width": 700,
+  "textScale": 1.5,
+  "legendLayout": "stacked"
 }

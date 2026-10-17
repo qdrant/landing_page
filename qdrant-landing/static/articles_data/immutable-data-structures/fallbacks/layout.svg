@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 292" role="img" aria-labelledby="title desc">
+<title id="title">The same twelve cells read in order, scattered and linked by pointers or contiguous in an array. Positions are illustrative.</title>
+<desc id="desc">Read the twelve cells in order. When they are scattered, each address is known only after the previous cell has been read. When they are contiguous, the next cell sits right after the current one. Hover a cell to compare.</desc>
+<rect width="760" height="292" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="20" y="24" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Scattered, linked by pointers</text>
+<rect x="20" y="34" width="350" height="220" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<line x1="179.49428395055486" y1="153.8519756627869" x2="184.10200495208588" y2="178.42548524133312" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="185.20777973659085,184.32271019260918 179.80193005640018,177.1969267805777 187.6648966581016,175.72256040123779" fill="rgb(101, 107, 127)"/>
+<line x1="202.99989463883045" y1="191.31483185153482" x2="278.58361121772396" y2="135.44445545596344" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="283.4085414006322,131.87793772432926 279.35297964451064,139.84991482178035 274.59762266899844,133.41667457790268" fill="rgb(101, 107, 127)"/>
+<line x1="279.8835038247001" y1="121.09972397506658" x2="132.50253188952252" y2="120.4556584387589" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="126.50258918130355,120.4294382539722 134.5199929154533,116.46443669487516 134.485032669071,124.46436030583376" fill="rgb(101, 107, 127)"/>
+<line x1="103.33357601910969" y1="137.5925736051349" x2="89.84385146858605" y2="182.58749559629484" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="88.12078978940706,188.33476089813578 86.58669516041844,179.52303270956187 94.24971556287302,181.82044828180054" fill="rgb(101, 107, 127)"/>
+<line x1="100.95000615589684" y1="205.3366674551545" x2="255.66176508519933" y2="203.27461193020267" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="261.66123221987493,203.19464881403462 253.71525145108615,207.3009110587091 253.6086339628621,199.30162154580827" fill="rgb(101, 107, 127)"/>
+<line x1="272.97495712380066" y1="186.24203676427695" x2="242.95703156735559" y2="111.19259108292587" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="240.7288060673219,105.62168351584134 247.41371177875652,111.5640766052649 239.9858350226438,114.53504393864317" fill="rgb(101, 107, 127)"/>
+<line x1="216.13834999605695" y1="87.0696517190602" x2="79.92100125723013" y2="73.07719707567439" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="73.95240806684218,72.46409404383186 82.31926767525448,69.30250262602993 81.50179696613111,77.26062687988053" fill="rgb(101, 107, 127)"/>
+<line x1="74.04637133769657" y1="70.52856841535852" x2="144.4795055447213" y2="70.15207237108815" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="150.47941982539405,70.12000019343957 142.50091556959612,74.16270595075285 142.45815266606465,66.16282024318919" fill="rgb(101, 107, 127)"/>
+<rect x="160.17695959703997" y="120.16030080895871" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="176.17695959703997" y="141.1603008089587" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1</text>
+<rect x="172.52510409010574" y="186.01438504643738" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="188.52510409010574" y="207.01438504643738" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">2</text>
+<rect x="281.88333194935694" y="105.1783845294267" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="297.88333194935694" y="126.1783845294267" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">3</text>
+<rect x="92.5027610566467" y="104.35077769961208" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="108.5027610566467" y="125.35077769961208" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">4</text>
+<rect x="66.95160475187004" y="189.5765568036586" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="82.95160475187004" y="210.5765568036586" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">5</text>
+<rect x="263.65963362390175" y="186.95475946553051" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="279.65963362390175" y="207.95475946553051" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">6</text>
+<rect x="218.0441295672208" y="72.90896081458777" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="234.0441295672208" y="93.90896081458777" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">7</text>
+<rect x="40.046628495678306" y="54.624784948304296" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="56.046628495678306" y="75.6247849483043" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">8</text>
+<rect x="152.4791626674123" y="54.02378366049379" width="32" height="32" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="168.4791626674123" y="75.02378366049379" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">9</text>
+<text x="390" y="24" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Contiguous array</text>
+<rect x="390" y="34" width="350" height="220" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<rect x="419" y="84" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="435" y="105" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">1</text>
+<rect x="471" y="84" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="487" y="105" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">2</text>
+<rect x="523" y="84" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="539" y="105" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">3</text>
+<rect x="575" y="84" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="591" y="105" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">4</text>
+<rect x="627" y="84" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="643" y="105" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">5</text>
+<rect x="679" y="84" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="695" y="105" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">6</text>
+<rect x="419" y="146" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="435" y="167" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">7</text>
+<rect x="471" y="146" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="487" y="167" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">8</text>
+<rect x="523" y="146" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="539" y="167" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">9</text>
+<rect x="575" y="146" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="591" y="167" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">10</text>
+<rect x="627" y="146" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="643" y="167" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">11</text>
+<rect x="679" y="146" width="32" height="32" rx="4" fill="rgb(0, 131, 143)" fill-opacity="0.3" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="695" y="167" pointer-events="none" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">12</text>
+<text x="565" y="242" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">one sequential pass</text>
+</g>  </g>
+</svg>

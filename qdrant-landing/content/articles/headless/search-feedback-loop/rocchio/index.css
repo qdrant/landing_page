@@ -49,25 +49,25 @@
   fill: var(--qi-cat-1);
 }
 .sf-ro__qn {
-  fill: #2e9e5b;
+  fill: var(--qi-cat-3);
   stroke: var(--qi-fg);
   stroke-width: 1.5;
   stroke-dasharray: 3 2;
 }
 .sf-ro__qnlab,
 .sf-ro__poslab {
-  fill: var(--sf-pos);
+  fill: color-mix(in srgb, var(--sf-pos) 75%, var(--qi-fg) 25%);
   font-weight: 600;
 }
 .sf-ro__qnlab {
-  fill: #2e9e5b;
+  fill: color-mix(in srgb, var(--qi-cat-3) 75%, var(--qi-fg) 25%);
 }
 .sf-ro__neglab {
-  fill: var(--sf-neg);
+  fill: color-mix(in srgb, var(--sf-neg) 75%, var(--qi-fg) 25%);
   font-weight: 600;
 }
 .sf-ro .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .sf-ro.sf-narrow .qi-svg {
   max-width: 420px;
@@ -78,4 +78,8 @@
   stroke: var(--qi-surface);
   stroke-width: 4px;
   stroke-linejoin: round;
+}
+
+.sf-ro.sf-narrow .qi-label {
+  font-size: 13px;
 }

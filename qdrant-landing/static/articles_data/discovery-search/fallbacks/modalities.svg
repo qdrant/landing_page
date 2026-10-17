@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 432" role="img" aria-labelledby="title desc">
+<title id="title">Mental model of CLIP embeddings: text and images are not mixed in one space but sit on separate planes. Points are seeded and illustrative.</title>
+<desc id="desc">With a modality gap, images and texts sit on separate planes. The chair image's three nearest neighbors are another image, another image, another image, and its own text &quot;Chair&quot; is far away on the other plane. Positions are illustrative.</desc>
+<rect width="760" height="432" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<ellipse cx="380" cy="96" rx="340" ry="66" fill="rgb(240, 243, 250)" stroke="rgb(101, 107, 127)" stroke-dasharray="8px, 5px" stroke-width="2px"/>
+<text x="716" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">Images plane</text>
+<ellipse cx="380" cy="306" rx="340" ry="66" fill="rgb(240, 243, 250)" stroke="rgb(101, 107, 127)" stroke-dasharray="8px, 5px" stroke-width="2px"/>
+<text x="716" y="232" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">Texts plane</text>
+<line x1="491.86" y1="98.772" x2="495.46647196419536" y2="302.83966125099175" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="236.93227121727836" y1="88.54384916054588" x2="264.33772699250204" y2="297.04034794632287" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="267.2798427555825" y1="60.464985818033064" x2="273.83624954241543" y2="275.33599101095547" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="589.6417694667009" y1="106.8514385923256" x2="573.6746104153273" y2="323.94081314547515" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<circle cx="491.86" cy="98.772" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="461.5935072735385" cy="133.5688412331848" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="461.5935072735385" cy="133.5688412331848" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<circle cx="385.66216776763684" cy="81.57846171307729" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="236.93227121727836" cy="88.54384916054588" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="295.0362154747761" cy="136.9733570932391" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="423.4004682550134" cy="118.47154696496824" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="364.40149760230247" cy="57.35225165018415" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="267.2798427555825" cy="60.464985818033064" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="217.23223396143402" cy="73.05076811513821" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="204.46215042388934" cy="116.45169365400824" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="589.6417694667009" cy="106.8514385923256" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="211.8693200483812" cy="132.66569656444273" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="546.2056555276132" cy="124.96880465197968" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="546.2056555276132" cy="124.96880465197968" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<circle cx="551.0274703325824" cy="80.07678708526608" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="551.0274703325824" cy="80.07678708526608" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<rect x="490.46647196419536" y="297.83966125099175" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="454.9403283769698" y="343.39043091019266" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="350.2262339632925" y="291.03655759826654" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="259.33772699250204" y="292.04034794632287" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="315.9386816256336" y="338.80841824393895" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="404.8902977603974" y="324.39728787726597" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="347.54719398350255" y="255.9792609080223" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="268.83624954241543" y="270.33599101095547" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="204.1259598130592" y="278.6716003120854" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="203.8218636210722" y="323.48164215512946" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="568.6746104153273" y="318.94081314547515" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="202.18738009095995" y="344.79996326818065" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="546.2519099493466" y="330.8530526796005" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="556.3296646252767" y="281.56251982310715" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<circle cx="491.86" cy="98.772" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2.5px"/>
+<text x="497.86" y="51.772000000000006" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Image of a chair</text>
+<text x="369.66647196419535" y="308.33966125099175" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Text "Chair"</text>
+<circle cx="48" cy="408" r="6" fill="rgb(96, 71, 255)"/>
+<text x="62" y="412" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">image</text>
+<rect x="120" y="403" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<text x="136" y="412" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">text</text>
+<circle cx="190" cy="408" r="8" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<text x="204" y="412" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">nearest neighbors</text>
+</g>  </g>
+</svg>

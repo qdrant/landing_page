@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1274" role="img" aria-labelledby="title desc">
+<title id="title">Softmax feature embeddings: a regular embedder next to a feature groups embedder, whose softmax groups show how confident the model is. Image adapted from the author; values are illustrative.</title>
+<desc id="desc">With feature groups, each softmax block is like a one-hot feature. A clear peak in a group (the &quot;max&quot; labels) means the model is confident about that feature, the same reading as a classifier with a softmax. With feature groups, each softmax block is like a one-hot feature. A clear peak in a group (the &quot;max&quot; labels) means the model is confident about that feature, the same reading as a classifier with a softmax. The same groups on an unsure prediction: the values in each group are close to each other and no peak stands out (low &quot;max&quot; values), so the model is not confident about those features.</desc>
+<rect width="760" height="1274" rx="6" fill="#f0f3fa"/>
+<text x="16" y="22" font-family="monospace" font-size="17" fill="#303547">Regular embedder</text>
+<g transform="translate(0 34) scale(1)">    <g>
+<text x="510" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Embedding vector</text>
+<rect x="520" y="30" width="1.5" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="43" width="2.5933308969039004" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="56" width="1.5" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="69" width="136.6600172115436" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="82" width="2.2256643050801985" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="95" width="2.1342687596047663" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="108" width="1.5" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="121" width="2.814642508014863" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="148" width="1.5" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="161" width="1.7688954430011836" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="174" width="1.9140580310877011" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="187" width="1.6758980209922103" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="200" width="1.5" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="213" width="139.34972125124034" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="226" width="1.5" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="239" width="1.9895972948490113" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="266" width="3.225954306731846" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="279" width="126.61917755734503" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="292" width="2.839180324053976" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="305" width="4.3832299957841325" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="318" width="4.2187148192223916" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="331" width="2.5786177118643323" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="344" width="4.260068233634945" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="357" width="1.8750570513633826" height="10" fill="rgb(220, 36, 76)"/>
+<text x="682" y="86" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.91</text>
+<text x="682" y="204" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.93</text>
+<text x="682" y="322" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.84</text>
+<rect x="20" y="160" width="90" height="50" rx="6" fill="rgb(96, 71, 255)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="65" y="190" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Encoder</text>
+<path d="M110 185 C 150 185 150 95 182 95" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,95 181,99.5 181,90.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="70" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="100" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="95" x2="288" y2="95" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,95 287,99.5 287,90.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="70" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="100" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="95" x2="416.48631894396044" y2="177.81292511264638" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 412.0043791878191,178.89098634574944 420.08983843609195,174.93809515770496" fill="rgb(101, 107, 127)"/>
+<path d="M110 185 C 150 185 150 205 182 205" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,205 181,209.5 181,200.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="180" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="210" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="205" x2="288" y2="205" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,205 287,209.5 287,200.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="180" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="210" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="205" x2="412.7170681802992" y2="188.31042355440948" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 413.6688149521919,192.82087564729238 409.94458845348123,184.62757735012894" fill="rgb(101, 107, 127)"/>
+<path d="M110 185 C 150 185 150 315 182 315" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,315 181,319.5 181,310.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="290" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="320" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="315" x2="288" y2="315" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,315 287,319.5 287,310.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="290" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="320" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="315" x2="417.43523060546494" y2="192.57772775658088" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 421.3771062942248,194.96762651057946 412.85216256807126,192.0822609417275" fill="rgb(101, 107, 127)"/>
+<rect x="420" y="150" width="80" height="70" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="1.2px"/>
+<text x="460" y="190" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Concat</text>
+<line x1="500" y1="185" x2="504" y2="185" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="512,185 503,189.5 503,180.5" fill="rgb(101, 107, 127)"/>
+</g>  </g>
+<text x="16" y="452" font-family="monospace" font-size="17" fill="#303547">Feature groups: confident</text>
+<g transform="translate(0 464) scale(1)">    <g>
+<text x="510" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Embedding vector</text>
+<rect x="520" y="30" width="1.5" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="43" width="2.5933308969039004" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="56" width="1.5" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="69" width="136.6600172115436" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="82" width="2.2256643050801985" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="95" width="2.1342687596047663" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="108" width="1.5" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="121" width="2.814642508014863" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="148" width="1.5" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="161" width="1.7688954430011836" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="174" width="1.9140580310877011" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="187" width="1.6758980209922103" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="200" width="1.5" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="213" width="139.34972125124034" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="226" width="1.5" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="239" width="1.9895972948490113" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="266" width="3.225954306731846" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="279" width="126.61917755734503" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="292" width="2.839180324053976" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="305" width="4.3832299957841325" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="318" width="4.2187148192223916" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="331" width="2.5786177118643323" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="344" width="4.260068233634945" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="357" width="1.8750570513633826" height="10" fill="rgb(220, 36, 76)"/>
+<text x="682" y="86" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.91</text>
+<text x="682" y="204" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.93</text>
+<text x="682" y="322" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.84</text>
+<rect x="20" y="160" width="90" height="50" rx="6" fill="rgb(96, 71, 255)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="65" y="190" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Encoder</text>
+<path d="M110 185 C 150 185 150 95 182 95" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,95 181,99.5 181,90.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="70" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="100" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="95" x2="288" y2="95" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,95 287,99.5 287,90.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="70" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="100" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="95" x2="416.48631894396044" y2="177.81292511264638" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 412.0043791878191,178.89098634574944 420.08983843609195,174.93809515770496" fill="rgb(101, 107, 127)"/>
+<path d="M110 185 C 150 185 150 205 182 205" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,205 181,209.5 181,200.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="180" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="210" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="205" x2="288" y2="205" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,205 287,209.5 287,200.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="180" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="210" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="205" x2="412.7170681802992" y2="188.31042355440948" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 413.6688149521919,192.82087564729238 409.94458845348123,184.62757735012894" fill="rgb(101, 107, 127)"/>
+<path d="M110 185 C 150 185 150 315 182 315" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,315 181,319.5 181,310.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="290" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="320" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="315" x2="288" y2="315" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,315 287,319.5 287,310.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="290" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="320" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="315" x2="417.43523060546494" y2="192.57772775658088" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 421.3771062942248,194.96762651057946 412.85216256807126,192.0822609417275" fill="rgb(101, 107, 127)"/>
+<rect x="420" y="150" width="80" height="70" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="1.2px"/>
+<text x="460" y="190" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Concat</text>
+<line x1="500" y1="185" x2="504" y2="185" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="512,185 503,189.5 503,180.5" fill="rgb(101, 107, 127)"/>
+</g>  </g>
+<text x="16" y="882" font-family="monospace" font-size="17" fill="#303547">Feature groups: unsure</text>
+<g transform="translate(0 894) scale(1)">    <g>
+<text x="510" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Embedding vector</text>
+<rect x="520" y="30" width="10.178733922721321" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="43" width="22.27085533688288" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="56" width="9.50620991804983" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="69" width="35.43967635101587" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="82" width="19.11342969232431" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="95" width="18.328548374576197" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="108" width="10.991124162911017" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="121" width="24.171422241518567" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="148" width="9.78371203916545" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="161" width="17.857678886022438" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="174" width="19.32315096611034" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="187" width="16.918834192835522" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="200" width="11.749382885817328" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="213" width="42.48134552300313" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="226" width="11.800146660504854" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="239" width="20.085748846540938" height="10" fill="rgb(96, 71, 255)"/>
+<rect x="520" y="266" width="17.787318177147693" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="279" width="21.08244925755861" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="292" width="15.65471763839314" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="305" width="24.168323282178143" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="318" width="23.261216884431946" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="331" width="14.218023362093467" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="344" width="23.48923199869831" height="10" fill="rgb(220, 36, 76)"/>
+<rect x="520" y="357" width="10.338719399498679" height="10" fill="rgb(220, 36, 76)"/>
+<text x="682" y="86" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.24</text>
+<text x="682" y="204" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.28</text>
+<text x="682" y="322" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">max 0.16</text>
+<rect x="20" y="160" width="90" height="50" rx="6" fill="rgb(96, 71, 255)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="65" y="190" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Encoder</text>
+<path d="M110 185 C 150 185 150 95 182 95" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,95 181,99.5 181,90.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="70" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="100" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="95" x2="288" y2="95" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,95 287,99.5 287,90.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="70" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="100" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="95" x2="416.48631894396044" y2="177.81292511264638" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 412.0043791878191,178.89098634574944 420.08983843609195,174.93809515770496" fill="rgb(101, 107, 127)"/>
+<path d="M110 185 C 150 185 150 205 182 205" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,205 181,209.5 181,200.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="180" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="210" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="205" x2="288" y2="205" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,205 287,209.5 287,200.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="180" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="210" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="205" x2="412.7170681802992" y2="188.31042355440948" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 413.6688149521919,192.82087564729238 409.94458845348123,184.62757735012894" fill="rgb(101, 107, 127)"/>
+<path d="M110 185 C 150 185 150 315 182 315" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="190,315 181,319.5 181,310.5" fill="rgb(101, 107, 127)"/>
+<rect x="190" y="290" width="80" height="50" rx="6" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="230" y="320" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Linear</text>
+<line x1="270" y1="315" x2="288" y2="315" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="296,315 287,319.5 287,310.5" fill="rgb(101, 107, 127)"/>
+<rect x="296" y="290" width="80" height="50" rx="6" fill="rgb(255, 152, 0)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.2px"/>
+<text x="336" y="320" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Softmax</text>
+<line x1="376" y1="315" x2="417.43523060546494" y2="192.57772775658088" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="420,185 421.3771062942248,194.96762651057946 412.85216256807126,192.0822609417275" fill="rgb(101, 107, 127)"/>
+<rect x="420" y="150" width="80" height="70" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="1.2px"/>
+<text x="460" y="190" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Concat</text>
+<line x1="500" y1="185" x2="504" y2="185" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<polygon points="512,185 503,189.5 503,180.5" fill="rgb(101, 107, 127)"/>
+</g>  </g>
+</svg>

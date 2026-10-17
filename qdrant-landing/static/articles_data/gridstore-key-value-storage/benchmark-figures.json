@@ -1,0 +1,48 @@
+[
+  {
+    "source": "1.png",
+    "source_sha256": "a40dd0dbba60edf680cae105c3643670b9b1676a13f73221d011ade9d0a26784",
+    "data_marks": "unchanged raster from the published figure; no values digitized",
+    "crop": [
+      86,
+      84,
+      801,
+      302
+    ],
+    "plot_rectangle": [
+      86,
+      40,
+      620,
+      302
+    ],
+    "source_to_display_scale": [
+      0.7740324594257179,
+      1.0
+    ],
+    "color_matrix": "-2.9306355 4.0608509 -3.3288494 0 3.026085 -3.5365094 4.9169529 -3.05254 0 2.5230769 -1.5823939 1.579314 -0.42941362 0 1.3540622 0 0 0 1 0",
+    "description": "Average operation latency in the published Bustle benchmark"
+  },
+  {
+    "source": "2.png",
+    "source_sha256": "e35d454e3538eb708f16e8797d6d7ea786240fdc6d267b875d63037ac0dd6ae8",
+    "data_marks": "unchanged raster from the published figure; no values digitized",
+    "crop": [
+      87,
+      43,
+      800,
+      339
+    ],
+    "plot_rectangle": [
+      86,
+      40,
+      620,
+      302
+    ],
+    "source_to_display_scale": [
+      0.775,
+      0.8908554572271387
+    ],
+    "color_matrix": "-2.9306355 4.0608509 -3.3288494 0 3.026085 -3.5365094 4.9169529 -3.05254 0 2.5230769 -1.5823939 1.579314 -0.42941362 0 1.3540622 0 0 0 1 0",
+    "description": "Batch upsert latency over time in the published Qdrant 1.12.6 benchmark"
+  }
+]

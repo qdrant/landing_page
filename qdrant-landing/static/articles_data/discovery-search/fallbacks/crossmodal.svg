@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 442" role="img" aria-labelledby="title desc">
+<title id="title">Cross-modal search with discovery: a text target ranks images, and an image context pair keeps the results on the wanted side. Points are hand-placed and illustrative.</title>
+<desc id="desc">The context pair (two images) draws a hyperplane in the images plane, so only the 6 images on the positive side are eligible. The text target then ranks them: all 4 top results are on the positive side. Points are illustrative.</desc>
+<rect width="760" height="442" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <defs>
+<clipPath id="p0-ds-cm-clip-0">
+<ellipse cx="380" cy="106" rx="340" ry="70"/>
+</clipPath>
+</defs>    <g>
+<ellipse cx="380" cy="106" rx="340" ry="70" fill="rgb(240, 243, 250)" stroke="rgb(171, 177, 199)" stroke-dasharray="8px, 5px" stroke-width="2px"/>
+<text x="716" y="28" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">Images plane</text>
+<ellipse cx="380" cy="316" rx="340" ry="70" fill="rgb(240, 243, 250)" stroke="rgb(171, 177, 199)" stroke-dasharray="8px, 5px" stroke-width="2px"/>
+<text x="716" y="238" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="end">Texts plane</text>
+<path clip-path="url(#p0-ds-cm-clip-0)" d="M-35.5 29.6L586.0 29.6L247.4 182.4L-35.5 182.4Z" fill="rgb(0, 131, 143)" fill-opacity="0.14"/>
+<line x1="58.197744443797546" y1="267.89269226334824" x2="781.7022555562024" y2="-58.83269226334821" clip-path="url(#p0-ds-cm-clip-0)" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-dasharray="5px, 4px" stroke-width="1.8px"/>
+<line x1="469.488" y1="316" x2="332.06" y2="103.06" stroke="rgb(96, 71, 255)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="469.488" y1="316" x2="300.1" y2="129.52" stroke="rgb(96, 71, 255)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="469.488" y1="316" x2="364.02" y2="70.72" stroke="rgb(96, 71, 255)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="469.488" y1="316" x2="268.14" y2="67.78" stroke="rgb(96, 71, 255)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<rect x="151.28000000000003" y="328.64" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="279.12" y="281.6" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="534.8" y="340.4" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="630.68" y="293.36" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="343.04" y="337.46" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="678.62" y="316.88" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="103.34000000000003" y="299.24" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<rect x="390.98" y="299.24" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<circle cx="204.21999999999997" cy="88.36" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="635.68" cy="120.7" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="332.06" cy="103.06" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="332.06" cy="103.06" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<circle cx="300.1" cy="129.52" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="300.1" cy="129.52" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<circle cx="475.88" cy="91.3" r="6" fill="rgb(96, 71, 255)" opacity="0.3"/>
+<circle cx="523.8199999999999" cy="123.64" r="6" fill="rgb(96, 71, 255)" opacity="0.3"/>
+<circle cx="124.32000000000002" cy="117.76" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="268.14" cy="67.78" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="268.14" cy="67.78" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<circle cx="411.96" cy="138.34" r="6" fill="rgb(96, 71, 255)" opacity="0.3"/>
+<circle cx="578.152" cy="76.6" r="6" fill="rgb(96, 71, 255)" opacity="0.3"/>
+<circle cx="364.02" cy="70.72" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="364.02" cy="70.72" r="11" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<circle cx="683.62" cy="94.24" r="6" fill="rgb(96, 71, 255)" opacity="0.3"/>
+<circle cx="156.28000000000003" cy="144.22" r="6" fill="rgb(96, 71, 255)"/>
+<circle cx="443.92" cy="111.88" r="6" fill="rgb(96, 71, 255)" opacity="0.3"/>
+<circle cx="204.21999999999997" cy="88.36" r="11" fill="none" stroke="rgb(0, 131, 143)" stroke-width="2.5px"/>
+<circle cx="635.68" cy="120.7" r="11" fill="none" stroke="rgb(220, 36, 76)" stroke-width="2.5px"/>
+<circle cx="469.488" cy="316" r="12" fill="none" stroke="rgb(96, 71, 255)" stroke-width="2.5px"/>
+<text x="115.01999999999997" y="93.86" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Positive</text>
+<text x="651.68" y="126.19999999999999" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Negative</text>
+<text x="485.488" y="321.5" fill="color(srgb 0.329412 0.260784 0.819608)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Target: text "Chair"</text>
+<circle cx="48" cy="418" r="6" fill="rgb(96, 71, 255)"/>
+<text x="62" y="422" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">image</text>
+<rect x="120" y="413" width="10" height="10" rx="2" fill="rgb(0, 131, 143)"/>
+<text x="136" y="422" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">text</text>
+<circle cx="190" cy="418" r="8" fill="none" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-width="2.5px"/>
+<text x="204" y="422" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">top results</text>
+</g>  </g>
+</svg>

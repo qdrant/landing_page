@@ -1,8 +1,8 @@
 /* pages island. Scoped under .im-pg. Four workspace hues. */
 .im-pg {
   --im-w1: var(--qi-cat-1);
-  --im-w2: #2e9e5b;
-  --im-w3: #e08a00;
+  --im-w2: var(--qi-cat-3);
+  --im-w3: #ff9800;
   --im-w4: var(--qi-cat-4);
   display: block;
 }
@@ -39,9 +39,13 @@
   font-weight: 600;
 }
 .im-pg .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .im-pg.im-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.im-pg.im-narrow .qi-label {
+  font-size: 13px;
 }

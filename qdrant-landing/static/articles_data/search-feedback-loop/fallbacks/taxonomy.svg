@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 692" role="img" aria-labelledby="title desc">
+<title id="title">Research field taxonomy: relevance feedback can update the query, the documents, or the similarity scoring, and below each, how.</title>
+<desc id="desc">Relevance feedback can update the query, the documents, or the similarity scoring. Click a node to expand it.</desc>
+<rect width="760" height="692" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<path d="M160 381.5 H182.5 V203 H201" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<path d="M345 203 H367.5 V101 H386" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<path d="M560 101 H575 V33 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="4" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="29" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Query term</text>
+<text x="618" y="44" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">expansion</text>
+<rect x="598" y="26" width="14" height="14" rx="2" fill="rgb(0, 131, 143)"/>
+</g>
+<path d="M560 101 H575 V101 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="72" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="97" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Re-formulate</text>
+<text x="618" y="112" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">query</text>
+<polygon points="598,94 612,94 598,108" fill="rgb(0, 131, 143)"/>
+<polygon points="612,94 612,108 598,108" fill="rgb(255, 152, 0)"/>
+</g>
+<path d="M560 101 H575 V169 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="140" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="165" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Extend and</text>
+<text x="618" y="180" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">re-encode</text>
+<rect x="598" y="162" width="14" height="14" rx="2" fill="rgb(255, 152, 0)"/>
+</g>
+<g>
+<rect x="390" y="72" width="170" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="400" y="104.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">As text</text>
+<text x="546" y="106" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">−</text>
+</g>
+<path d="M345 203 H367.5 V305 H386" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<path d="M560 305 H575 V237 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="208" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="225.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Algebra with</text>
+<text x="618" y="240.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">feedback</text>
+<text x="618" y="255.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">vectors</text>
+<polygon points="598,230 612,230 598,244" fill="rgb(0, 131, 143)"/>
+<polygon points="612,230 612,244 598,244" fill="rgb(255, 152, 0)"/>
+</g>
+<path d="M560 305 H575 V305 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="276" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="301" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Query gradient</text>
+<text x="618" y="316" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">descent</text>
+<rect x="598" y="298" width="14" height="14" rx="2" fill="rgb(255, 152, 0)"/>
+</g>
+<path d="M560 305 H575 V373 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="344" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="369" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Second stage</text>
+<text x="618" y="384" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">encoder</text>
+<rect x="598" y="366" width="14" height="14" rx="2" fill="rgb(255, 152, 0)"/>
+</g>
+<g>
+<rect x="390" y="276" width="170" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="400" y="308.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">As vector</text>
+<text x="546" y="310" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">−</text>
+</g>
+<g>
+<rect x="205" y="174" width="140" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="215" y="206.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Query</text>
+<text x="331" y="208" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">−</text>
+</g>
+<path d="M160 381.5 H182.5 V441 H201" fill="none" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<g>
+<rect x="205" y="412" width="140" height="58" rx="6" fill="rgb(240, 243, 250)" fill-opacity="0.5" stroke="rgb(211, 217, 235)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<text x="215" y="444.5" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Documents</text>
+</g>
+<path d="M160 381.5 H182.5 V560 H201" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<path d="M345 560 H367.5 V509 H386" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="390" y="480" width="170" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="400" y="505" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Whole documents</text>
+<text x="400" y="520" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">collection</text>
+</g>
+<path d="M345 560 H367.5 V611 H386" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<path d="M560 611 H575 V577 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="548" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="565.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Combine</text>
+<text x="618" y="580.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">similarity</text>
+<text x="618" y="595.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">scores</text>
+<polygon points="598,570 612,570 598,584" fill="rgb(0, 131, 143)"/>
+<polygon points="612,570 612,584 598,584" fill="rgb(255, 152, 0)"/>
+</g>
+<path d="M560 611 H575 V645 H586" fill="none" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<g>
+<rect x="590" y="616" width="160" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="618" y="648.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Adapt reranker</text>
+<polygon points="598,638 612,638 598,652" fill="rgb(0, 131, 143)"/>
+<polygon points="612,638 612,652 598,652" fill="rgb(255, 152, 0)"/>
+</g>
+<g>
+<rect x="390" y="582" width="170" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="400" y="607" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Subset (i.e.</text>
+<text x="400" y="622" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">reranking)</text>
+<text x="546" y="616" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">−</text>
+</g>
+<g>
+<rect x="205" y="531" width="140" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="215" y="556" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Similarity</text>
+<text x="215" y="571" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">scoring</text>
+<text x="331" y="565" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">−</text>
+</g>
+<g>
+<rect x="10" y="352.5" width="150" height="58" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="2.5px"/>
+<text x="20" y="377.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Relevance</text>
+<text x="20" y="392.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">feedback</text>
+<text x="146" y="386.5" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">−</text>
+</g>
+</g>  </g>
+</svg>

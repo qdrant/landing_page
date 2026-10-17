@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 338" role="img" aria-labelledby="title desc">
+<title id="title">How the abovethreshold@N metric is computed, step by step: the retriever ranking and its top K, the feedback model’s scores with the threshold and the desired results, and the count after the top K for the vanilla and feedback-based rankings. Scores are illustrative.</title>
+<desc id="desc">Counting desired results in the 10 positions after the top 10: the vanilla retriever surfaces 0 of 2, feedback-based rescoring surfaces 2 of 2. Scores are illustrative.</desc>
+<rect width="760" height="338" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="26" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Vanilla second retrieval: positions 11 to 20</text>
+<line x1="46" y1="130" x2="710" y2="130" stroke="rgb(171, 177, 199)" stroke-width="1.5px"/>
+<rect x="158" y="30" width="112" height="100" rx="3" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="3px, 3px" stroke-width="1.5px"/>
+<rect x="50" y="51.376000000000005" width="8" height="78.624" fill="rgb(96, 71, 255)"/>
+<rect x="61" y="69.4238037825232" width="8" height="60.576196217476806" fill="rgb(96, 71, 255)"/>
+<rect x="72" y="73.60767144081724" width="8" height="56.39232855918276" fill="rgb(96, 71, 255)"/>
+<rect x="83" y="78.5325150500731" width="8" height="51.46748494992689" fill="rgb(96, 71, 255)"/>
+<rect x="94" y="74.56009923752947" width="8" height="55.43990076247053" fill="rgb(96, 71, 255)"/>
+<rect x="105" y="66.84204627928602" width="8" height="63.15795372071398" fill="rgb(96, 71, 255)"/>
+<rect x="116" y="80.42729027829189" width="8" height="49.57270972170811" fill="rgb(96, 71, 255)"/>
+<rect x="127" y="53.839745094061385" width="8" height="76.16025490593861" fill="rgb(96, 71, 255)"/>
+<rect x="138" y="64.97866525493642" width="8" height="65.02133474506358" fill="rgb(96, 71, 255)"/>
+<rect x="149" y="63.38012043923162" width="8" height="66.61987956076838" fill="rgb(96, 71, 255)"/>
+<rect x="160" y="61.50712670619734" width="8" height="68.49287329380266" fill="rgb(171, 177, 199)"/>
+<rect x="171" y="74.02451077986645" width="8" height="55.975489220133554" fill="rgb(171, 177, 199)"/>
+<rect x="182" y="63.47645090763518" width="8" height="66.52354909236482" fill="rgb(171, 177, 199)"/>
+<rect x="193" y="59.56929886324882" width="8" height="70.43070113675118" fill="rgb(171, 177, 199)"/>
+<rect x="204" y="70.4846671222472" width="8" height="59.515332877752805" fill="rgb(171, 177, 199)"/>
+<rect x="215" y="64.40583187875033" width="8" height="65.59416812124967" fill="rgb(171, 177, 199)"/>
+<rect x="226" y="74.53287989512732" width="8" height="55.46712010487268" fill="rgb(171, 177, 199)"/>
+<rect x="237" y="72.84965624646074" width="8" height="57.150343753539254" fill="rgb(171, 177, 199)"/>
+<rect x="248" y="65.81433168956816" width="8" height="64.18566831043184" fill="rgb(171, 177, 199)"/>
+<rect x="259" y="60.304361520265175" width="8" height="69.69563847973482" fill="rgb(171, 177, 199)"/>
+<rect x="270" y="59.20323895912837" width="8" height="70.79676104087163" fill="rgb(171, 177, 199)"/>
+<rect x="281" y="74.94061083155782" width="8" height="55.05938916844218" fill="rgb(171, 177, 199)"/>
+<rect x="292" y="79.03620814706798" width="8" height="50.963791852932026" fill="rgb(171, 177, 199)"/>
+<rect x="303" y="66.08581305893608" width="8" height="63.914186941063925" fill="rgb(171, 177, 199)"/>
+<rect x="314" y="82.1283496013145" width="8" height="47.8716503986855" fill="rgb(171, 177, 199)"/>
+<rect x="325" y="67.87583436029158" width="8" height="62.124165639708416" fill="rgb(171, 177, 199)"/>
+<rect x="336" y="75.0149225983956" width="8" height="54.98507740160441" fill="rgb(171, 177, 199)"/>
+<rect x="347" y="44.31999999999999" width="8" height="85.68" fill="rgb(255, 152, 0)"/>
+<rect x="358" y="77.86405862694804" width="8" height="52.135941373051956" fill="rgb(171, 177, 199)"/>
+<rect x="369" y="91.65512574966829" width="8" height="38.344874250331706" fill="rgb(171, 177, 199)"/>
+<rect x="380" y="77.63514569546365" width="8" height="52.36485430453636" fill="rgb(171, 177, 199)"/>
+<rect x="391" y="76.31297656555691" width="8" height="53.6870234344431" fill="rgb(171, 177, 199)"/>
+<rect x="402" y="69.87017442995575" width="8" height="60.12982557004425" fill="rgb(171, 177, 199)"/>
+<rect x="413" y="90.40599151892647" width="8" height="39.59400848107353" fill="rgb(171, 177, 199)"/>
+<rect x="424" y="69.19679380210626" width="8" height="60.80320619789374" fill="rgb(171, 177, 199)"/>
+<rect x="435" y="81.70128126243337" width="8" height="48.29871873756663" fill="rgb(171, 177, 199)"/>
+<rect x="446" y="84.26642499724584" width="8" height="45.733575002754165" fill="rgb(171, 177, 199)"/>
+<rect x="457" y="78.00213365252296" width="8" height="51.997866347477036" fill="rgb(171, 177, 199)"/>
+<rect x="468" y="93.02629262824797" width="8" height="36.97370737175202" fill="rgb(171, 177, 199)"/>
+<rect x="479" y="76.30075401299018" width="8" height="53.69924598700982" fill="rgb(171, 177, 199)"/>
+<rect x="490" y="87.05094123891284" width="8" height="42.94905876108716" fill="rgb(171, 177, 199)"/>
+<rect x="501" y="78.92946892672134" width="8" height="51.07053107327866" fill="rgb(171, 177, 199)"/>
+<rect x="512" y="91.627022566431" width="8" height="38.372977433569005" fill="rgb(171, 177, 199)"/>
+<rect x="523" y="67.52702895403371" width="8" height="62.4729710459663" fill="rgb(171, 177, 199)"/>
+<rect x="534" y="44.31999999999999" width="8" height="85.68" fill="rgb(255, 152, 0)"/>
+<rect x="545" y="69.09220051189268" width="8" height="60.90779948810731" fill="rgb(171, 177, 199)"/>
+<rect x="556" y="86.65758166055227" width="8" height="43.342418339447725" fill="rgb(171, 177, 199)"/>
+<rect x="567" y="91.9012892853519" width="8" height="38.09871071464811" fill="rgb(171, 177, 199)"/>
+<rect x="578" y="77.89985572355432" width="8" height="52.100144276445675" fill="rgb(171, 177, 199)"/>
+<rect x="589" y="83.02443503379618" width="8" height="46.97556496620382" fill="rgb(171, 177, 199)"/>
+<rect x="600" y="96.34595114320267" width="8" height="33.65404885679733" fill="rgb(171, 177, 199)"/>
+<rect x="611" y="75.47194548492786" width="8" height="54.52805451507215" fill="rgb(171, 177, 199)"/>
+<rect x="622" y="70.02418489784431" width="8" height="59.97581510215569" fill="rgb(171, 177, 199)"/>
+<rect x="633" y="99.10373673491543" width="8" height="30.896263265084574" fill="rgb(171, 177, 199)"/>
+<rect x="644" y="84.94026167229227" width="8" height="45.059738327707734" fill="rgb(171, 177, 199)"/>
+<rect x="655" y="72.4123718659055" width="8" height="57.587628134094494" fill="rgb(171, 177, 199)"/>
+<rect x="666" y="79.2456689112907" width="8" height="50.7543310887093" fill="rgb(171, 177, 199)"/>
+<rect x="677" y="83.54254204997272" width="8" height="46.457457950027276" fill="rgb(171, 177, 199)"/>
+<rect x="688" y="70.87524001254602" width="8" height="59.12475998745399" fill="rgb(171, 177, 199)"/>
+<rect x="699" y="92.12585113977192" width="8" height="37.874148860228075" fill="rgb(171, 177, 199)"/>
+<line x1="46" y1="51.376000000000005" x2="710" y2="51.376000000000005" stroke="rgb(48, 53, 71)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<text x="710" y="46.376000000000005" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" text-anchor="end">threshold</text>
+<text x="710" y="148" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="end">abovethreshold@10 = 0</text>
+<text x="10" y="188" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">With feedback-based scoring</text>
+<line x1="46" y1="292" x2="710" y2="292" stroke="rgb(171, 177, 199)" stroke-width="1.5px"/>
+<rect x="158" y="192" width="112" height="100" rx="3" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="3px, 3px" stroke-width="1.5px"/>
+<rect x="50" y="213.376" width="8" height="78.624" fill="rgb(96, 71, 255)"/>
+<rect x="61" y="231.42380378252318" width="8" height="60.576196217476806" fill="rgb(96, 71, 255)"/>
+<rect x="72" y="235.60767144081723" width="8" height="56.39232855918276" fill="rgb(96, 71, 255)"/>
+<rect x="83" y="240.5325150500731" width="8" height="51.46748494992689" fill="rgb(96, 71, 255)"/>
+<rect x="94" y="236.56009923752947" width="8" height="55.43990076247053" fill="rgb(96, 71, 255)"/>
+<rect x="105" y="228.84204627928602" width="8" height="63.15795372071398" fill="rgb(96, 71, 255)"/>
+<rect x="116" y="242.42729027829188" width="8" height="49.57270972170811" fill="rgb(96, 71, 255)"/>
+<rect x="127" y="215.83974509406139" width="8" height="76.16025490593861" fill="rgb(96, 71, 255)"/>
+<rect x="138" y="226.9786652549364" width="8" height="65.02133474506358" fill="rgb(96, 71, 255)"/>
+<rect x="149" y="225.38012043923163" width="8" height="66.61987956076838" fill="rgb(96, 71, 255)"/>
+<rect x="160" y="206.32" width="8" height="85.68" fill="rgb(255, 152, 0)"/>
+<rect x="171" y="206.32" width="8" height="85.68" fill="rgb(255, 152, 0)"/>
+<rect x="182" y="221.56929886324883" width="8" height="70.43070113675118" fill="rgb(171, 177, 199)"/>
+<rect x="193" y="223.50712670619734" width="8" height="68.49287329380266" fill="rgb(171, 177, 199)"/>
+<rect x="204" y="221.20323895912838" width="8" height="70.79676104087163" fill="rgb(171, 177, 199)"/>
+<rect x="215" y="225.47645090763518" width="8" height="66.52354909236482" fill="rgb(171, 177, 199)"/>
+<rect x="226" y="222.30436152026516" width="8" height="69.69563847973482" fill="rgb(171, 177, 199)"/>
+<rect x="237" y="226.40583187875035" width="8" height="65.59416812124967" fill="rgb(171, 177, 199)"/>
+<rect x="248" y="227.81433168956818" width="8" height="64.18566831043184" fill="rgb(171, 177, 199)"/>
+<rect x="259" y="228.08581305893608" width="8" height="63.914186941063925" fill="rgb(171, 177, 199)"/>
+<rect x="270" y="232.4846671222472" width="8" height="59.515332877752805" fill="rgb(171, 177, 199)"/>
+<rect x="281" y="236.02451077986643" width="8" height="55.975489220133554" fill="rgb(171, 177, 199)"/>
+<rect x="292" y="229.87583436029158" width="8" height="62.124165639708416" fill="rgb(171, 177, 199)"/>
+<rect x="303" y="234.84965624646074" width="8" height="57.150343753539254" fill="rgb(171, 177, 199)"/>
+<rect x="314" y="236.53287989512734" width="8" height="55.46712010487268" fill="rgb(171, 177, 199)"/>
+<rect x="325" y="231.87017442995574" width="8" height="60.12982557004425" fill="rgb(171, 177, 199)"/>
+<rect x="336" y="231.19679380210624" width="8" height="60.80320619789374" fill="rgb(171, 177, 199)"/>
+<rect x="347" y="236.94061083155782" width="8" height="55.05938916844218" fill="rgb(171, 177, 199)"/>
+<rect x="358" y="229.5270289540337" width="8" height="62.4729710459663" fill="rgb(171, 177, 199)"/>
+<rect x="369" y="237.0149225983956" width="8" height="54.98507740160441" fill="rgb(171, 177, 199)"/>
+<rect x="380" y="231.09220051189268" width="8" height="60.90779948810731" fill="rgb(171, 177, 199)"/>
+<rect x="391" y="241.03620814706798" width="8" height="50.963791852932026" fill="rgb(171, 177, 199)"/>
+<rect x="402" y="238.3129765655569" width="8" height="53.6870234344431" fill="rgb(171, 177, 199)"/>
+<rect x="413" y="239.86405862694804" width="8" height="52.135941373051956" fill="rgb(171, 177, 199)"/>
+<rect x="424" y="239.63514569546365" width="8" height="52.36485430453636" fill="rgb(171, 177, 199)"/>
+<rect x="435" y="232.0241848978443" width="8" height="59.97581510215569" fill="rgb(171, 177, 199)"/>
+<rect x="446" y="244.12834960131448" width="8" height="47.8716503986855" fill="rgb(171, 177, 199)"/>
+<rect x="457" y="238.30075401299018" width="8" height="53.69924598700982" fill="rgb(171, 177, 199)"/>
+<rect x="468" y="240.00213365252296" width="8" height="51.997866347477036" fill="rgb(171, 177, 199)"/>
+<rect x="479" y="232.87524001254602" width="8" height="59.12475998745399" fill="rgb(171, 177, 199)"/>
+<rect x="490" y="234.4123718659055" width="8" height="57.587628134094494" fill="rgb(171, 177, 199)"/>
+<rect x="501" y="240.92946892672134" width="8" height="51.07053107327866" fill="rgb(171, 177, 199)"/>
+<rect x="512" y="237.47194548492786" width="8" height="54.52805451507215" fill="rgb(171, 177, 199)"/>
+<rect x="523" y="243.70128126243338" width="8" height="48.29871873756663" fill="rgb(171, 177, 199)"/>
+<rect x="534" y="239.8998557235543" width="8" height="52.100144276445675" fill="rgb(171, 177, 199)"/>
+<rect x="545" y="246.26642499724585" width="8" height="45.733575002754165" fill="rgb(171, 177, 199)"/>
+<rect x="556" y="241.2456689112907" width="8" height="50.7543310887093" fill="rgb(171, 177, 199)"/>
+<rect x="567" y="245.02443503379618" width="8" height="46.97556496620382" fill="rgb(171, 177, 199)"/>
+<rect x="578" y="249.05094123891286" width="8" height="42.94905876108716" fill="rgb(171, 177, 199)"/>
+<rect x="589" y="253.6551257496683" width="8" height="38.344874250331706" fill="rgb(171, 177, 199)"/>
+<rect x="600" y="252.40599151892647" width="8" height="39.59400848107353" fill="rgb(171, 177, 199)"/>
+<rect x="611" y="248.65758166055227" width="8" height="43.342418339447725" fill="rgb(171, 177, 199)"/>
+<rect x="622" y="245.54254204997272" width="8" height="46.457457950027276" fill="rgb(171, 177, 199)"/>
+<rect x="633" y="246.94026167229225" width="8" height="45.059738327707734" fill="rgb(171, 177, 199)"/>
+<rect x="644" y="255.02629262824797" width="8" height="36.97370737175202" fill="rgb(171, 177, 199)"/>
+<rect x="655" y="253.62702256643098" width="8" height="38.372977433569005" fill="rgb(171, 177, 199)"/>
+<rect x="666" y="253.90128928535188" width="8" height="38.09871071464811" fill="rgb(171, 177, 199)"/>
+<rect x="677" y="254.12585113977192" width="8" height="37.874148860228075" fill="rgb(171, 177, 199)"/>
+<rect x="688" y="258.3459511432027" width="8" height="33.65404885679733" fill="rgb(171, 177, 199)"/>
+<rect x="699" y="261.1037367349154" width="8" height="30.896263265084574" fill="rgb(171, 177, 199)"/>
+<line x1="46" y1="213.376" x2="710" y2="213.376" stroke="rgb(48, 53, 71)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<text x="710" y="208.376" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600" text-anchor="end">threshold</text>
+<text x="710" y="310" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="end">abovethreshold@10 = 2</text>
+</g>  </g>
+</svg>

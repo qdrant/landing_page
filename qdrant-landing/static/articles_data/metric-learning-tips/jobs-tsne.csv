@@ -1,0 +1,127 @@
+id,name,category_id,x,y
+131,CPO,11,9.6426573,-12.669743
+129,Finance Manager,13,18.358044,-10.914825
+8,Python Developer,1,-27.508169,-17.600212
+65,Account Management,4,5.7048364,2.2939641
+53,Advertising,2,1.8890051,30.093224
+54,Affiliate Marketing,2,9.2052498,24.204412
+63,Content Editing,2,-3.576015,28.474054
+59,Content Marketing,2,2.1687665,26.917801
+64,Copywriting,2,-1.0369444,28.607044
+55,Offline Marketing,2,5.0314536,26.666264
+57,Online Marketing (SMM; SEM; SEA; SEO),2,6.4480381,31.61632
+56,Performance Marketing,2,7.5155411,28.666786
+60,Product Marketing,2,6.958056,21.803551
+58,Public Relations Management,2,-1.0323825,18.712629
+67,Sales,4,28.312679,1.9502374
+40,(Big) Data Engineering,6,-19.245073,-20.973696
+36,BI Analysis,6,-11.292671,-22.773241
+37,Data Analysis,6,-15.608852,-22.56184
+38,Data Science,6,-17.750566,-22.39818
+39,Machine Learning/AI,6,-20.300148,-24.315651
+50,Product Management,8,7.6666141,15.831967
+48,Project Management,8,-6.5949464,4.151443
+14,Java/Scala Developer,1,-27.9139,-19.788235
+132,Strategic Marketing,2,8.3109932,26.26033
+134,Assistant,10,21.326435,-5.1124086
+136,Buyer,4,10.976457,-6.5054569
+138,Erlang Developer,1,-29.869734,-18.038752
+142,CRM Management,2,5.7589874,6.5959759
+144,QA Management,5,10.582795,7.7124419
+146,Merchandiser,4,25.859703,6.1511064
+35,BI Development,6,-23.608519,-13.682492
+148,Retail Sales,4,27.412577,4.369184
+149,SAP Engineer,7,-19.715109,-12.358906
+151,Engineering Manager,5,-10.093296,-7.3211617
+12,Android Developer,1,-33.434765,-12.036659
+13,C/C++ Developer,1,-30.512333,-8.9012823
+16,iOS Developer,1,-34.960098,-11.511703
+17,Node.js Developer,1,-31.082352,-20.787159
+18,JavaScript Developer,1,-33.555237,-18.285702
+19,Go Developer,1,-30.442806,-13.549569
+20,PHP Developer,1,-31.027796,-6.9364829
+21,Front-end Developer,1,-33.317535,-7.0677104
+22,Ruby Developer,1,-28.118,-15.696262
+24,PERL Developer,1,-31.996267,-16.73291
+27,QA/Test Engineer,5,-12.576857,-4.2751455
+28,DevOps Engineer,5,-14.454412,-8.326066
+29,System Administrator,5,-15.806273,-10.845328
+30,Security Engineer,5,-19.090437,-5.5239081
+31,DB Administrator,5,-14.92633,-13.29351
+32,Automation Engineer,5,-12.048104,-6.3653288
+34,Solution Architect,5,-23.120893,-9.6078711
+41,Hardware/IoT Engineer,7,-6.6112218,-13.846467
+42,Electronics Engineer,7,-6.4787145,-12.404831
+43,Chip Designer,7,-16.524899,23.171246
+44,Civil Engineer,7,-5.1050119,-7.5181818
+45,Mechanical Engineer,7,-6.3489556,-8.702611
+46,Systems Engineer,7,-17.216938,-9.0250187
+47,Network Engineer,7,-18.303444,-7.0069294
+49,Technical Project Manager,8,-7.6610308,3.2754331
+51,Scrum Master/Agile Coach,8,-9.7675638,5.1615314
+61,Growth Hacker,2,5.0295463,32.925312
+62,Communications Manager,2,-0.69211757,20.009998
+69,Risk Analyst,4,14.69838,-18.964212
+84,Entrepreneur in Residence,10,30.4692,-14.141461
+94,CEO,11,26.126841,-16.289671
+95,CFO,11,22.916946,-14.145951
+96,CMO,11,21.467091,-16.643301
+97,COO,11,26.310167,-14.748635
+98,CTO,11,-23.29188,-8.0241442
+99,Salesforce Developer,1,-28.57164,-10.79226
+100,Investment Banking,13,18.822407,-16.806023
+101,Asset Management,13,15.864256,4.4120331
+102,Credit Analysis,13,15.337538,-17.353094
+103,Auditing,13,22.366133,-9.7050619
+104,Accounting,13,20.106754,-8.3777103
+105,Corporate Finance,13,20.000959,-12.189973
+106,Real Estate Management,13,17.683071,4.3017135
+107,Legal Counsel,13,20.998405,-0.53193235
+108,Paralegal,13,21.940941,-1.6421063
+109,CSO,11,9.3470268,-14.033354
+110,Founder / Co-founder,11,28.979445,-15.656022
+90,Office Management,10,10.667552,3.2725356
+111,Supply Chain Management,10,3.5874698,-5.0948248
+112,Brand Management,2,4.7722583,11.629196
+113,Community Management,2,14.001321,4.2414217
+114,Partner Management,2,14.236841,-0.20229562
+115,Business Analysis,4,-9.7330494,-22.750813
+116,Business Development,4,33.221794,-4.6179328
+117,Customer Relation Management,4,4.5607953,4.8550925
+118,Customer Care,4,1.6120132,2.5576625
+119,Customer Success,4,1.3513427,5.5772572
+121,E-commerce Management,4,6.0214844,10.394596
+122,Enterprise Sales,4,31.68644,-0.25719774
+123,Inside Sales,4,29.876999,1.7927697
+124,International Business Development,4,34.531162,-5.3047218
+125,Market Research,4,11.877769,25.178627
+126,Venture Development,4,32.035366,-6.4899249
+127,Data Warehousing,6,-14.533089,-20.34465
+76,Animation,9,-13.177971,28.180079
+77,Art Direction,9,-11.031448,27.845884
+79,Fashion Design,9,-13.713936,21.641438
+75,Game Design,9,-15.692728,26.607286
+81,Game Production,9,-13.841377,31.349075
+71,Graphic Design,9,-11.956596,23.881489
+78,Interior Design,9,-15.225142,20.257996
+80,Product Design,9,-18.464378,22.210258
+72,UX/UI Design,9,-18.490906,26.184744
+73,Video Production,9,-12.043764,31.438778
+74,Visual Design,9,-13.949973,24.431463
+128,Procurement,10,9.5499706,-6.8314362
+89,Executive Assistance,10,26.3647,-1.2497096
+92,Human Resources Management,10,15.091357,-1.9109406
+86,Logistics Management,10,3.7424145,-3.7871883
+85,Operations Management,10,9.0501671,4.8891888
+91,Recruitment,10,32.013264,3.965416
+130,.NET Developer,1,-28.403301,-7.9805827
+3,Product Sales Manager,4,7.7208381,18.07585
+7,Social Media Marketing,2,4.263957,29.462215
+133,Controlling,13,15.144362,-14.3857
+135,Category Manager,10,2.4331863,12.803868
+137,Multimedia/Digital Producer,9,-5.7702618,28.975389
+139,Event Management,2,8.2113028,11.0949
+143,Marketing Manager,2,5.9264994,24.394072
+147,Financial Analysis,13,18.25305,-13.578826
+120,Technical Support,5,-18.291128,-0.66602653
+150,Technical Writer,5,-18.470015,1.4060293

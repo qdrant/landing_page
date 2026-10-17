@@ -1,0 +1,27 @@
+{
+  "title": "Defragmentation: 5k-vector tenant",
+  "kind": "lines-facet",
+  "facet": "tenant",
+  "facetLabel": "Tenant size: {} vectors",
+  "x": "hot_pct",
+  "xLabel": "% of collection in the hot subset",
+  "yLabel": "RPS (log scale)",
+  "yScale": "log",
+  "yDomain": [
+    0.2,
+    700
+  ],
+  "series": [
+    "defragmented",
+    "non_defragmented"
+  ],
+  "seriesLabels": [
+    "defragmented",
+    "non-defragmented"
+  ],
+  "height": 400,
+  "unit": "RPS",
+  "subtitle": "higher is better",
+  "xSuffix": "%",
+  "width": 700
+}

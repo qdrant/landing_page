@@ -34,10 +34,10 @@
   stroke-linejoin: round;
 }
 .ds-tr__lab.is-pos {
-  fill: var(--ds-pos);
+  fill: color-mix(in srgb, var(--ds-pos) 75%, var(--qi-fg) 25%);
 }
 .ds-tr__lab.is-neg {
-  fill: var(--ds-neg);
+  fill: color-mix(in srgb, var(--ds-neg) 75%, var(--qi-fg) 25%);
 }
 .ds-tr__arrow {
   stroke: var(--qi-fg);
@@ -61,9 +61,13 @@
   fill: var(--ds-neg);
 }
 .ds-tr .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .ds-tr.ds-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.ds-tr.ds-narrow .qi-label {
+  font-size: 13px;
 }

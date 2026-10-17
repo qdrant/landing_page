@@ -1,0 +1,16 @@
+corpus,signal,auc
+MuSiQue,dense_variance,0.73
+MuSiQue,max_score,0.66
+MuSiQue,retriever_divergence,0.52
+MuSiQue,dense_agreement,0.51
+MuSiQue,evidence_coverage,0.59
+NFCorpus,dense_variance,0.77
+NFCorpus,max_score,0.75
+NFCorpus,retriever_divergence,0.76
+NFCorpus,dense_agreement,0.73
+NFCorpus,evidence_coverage,0.52
+SciFact,dense_variance,0.75
+SciFact,max_score,0.76
+SciFact,retriever_divergence,0.54
+SciFact,dense_agreement,0.53
+SciFact,evidence_coverage,0.51

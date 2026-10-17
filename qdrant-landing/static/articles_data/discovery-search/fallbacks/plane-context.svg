@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" role="img" aria-labelledby="title desc">
+<title id="title">Context search: with no target, the zone defined by the context pairs is the result. Add pairs to narrow it.</title>
+<desc id="desc">Context search: no target, so every point in the shaded zone (5) is an equally good result, and points outside score lower the farther they are on the negative side. More pairs narrow the zone further. Hover a point for its score.</desc>
+<rect width="760" height="380" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <defs>
+<clipPath id="p0-ds-clip-2">
+<rect x="10" y="10" width="740" height="320"/>
+</clipPath>
+</defs>    <g>
+<rect x="10" y="10" width="740" height="320" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<path d="M359.0 10.0L518.0 10.0L623.3 216.0L339.6 189.8Z" fill="rgb(0, 131, 143)" fill-opacity="0.12"/>
+<line x1="-1692.8982684704124" y1="1.7864101664866894" x2="2290.0982684704127" y2="370.2135898335133" clip-path="url(#p0-ds-clip-2)" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-dasharray="5px, 4px" stroke-width="1.8px"/>
+<line x1="306" y1="106" x2="291.2" y2="266" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="565.3636859601836" y1="-1898.4140951316986" x2="135.4363140398164" y2="2078.4140951316986" clip-path="url(#p0-ds-clip-2)" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-dasharray="5px, 4px" stroke-width="1.8px"/>
+<line x1="498.40000000000003" y1="106" x2="202.4" y2="74" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<line x1="1486.2450214759015" y1="1904.508767984096" x2="-334.0450214759013" y2="-1657.3087679840962" clip-path="url(#p0-ds-clip-2)" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-dasharray="5px, 4px" stroke-width="1.8px"/>
+<line x1="454" y1="186" x2="698.2" y2="61.2" stroke="rgb(101, 107, 127)" stroke-dasharray="3px, 3px" stroke-width="1.3px"/>
+<circle cx="499.82135432912037" cy="268.90251342058184" r="6" fill="rgb(48, 53, 71)" opacity="0.88"/>
+<circle cx="553.6638111489825" cy="37.20120550096035" r="6" fill="rgb(48, 53, 71)" opacity="0.91"/>
+<circle cx="84.54512228555977" cy="297.04551666080954" r="6" fill="rgb(48, 53, 71)" opacity="0.23"/>
+<circle cx="597.3554945472628" cy="218.1558047294617" r="6" fill="rgb(48, 53, 71)" opacity="0.99"/>
+<circle cx="255.08688972359525" cy="237.78224964737893" r="6" fill="rgb(48, 53, 71)" opacity="0.46"/>
+<circle cx="528.8165369761176" cy="246.6415685385466" r="6" fill="rgb(48, 53, 71)" opacity="0.93"/>
+<circle cx="619.6990960917435" cy="106.28920860290528" r="6" fill="rgb(48, 53, 71)" opacity="0.75"/>
+<circle cx="644.1284271186217" cy="268.09231207668785" r="6" fill="rgb(48, 53, 71)" opacity="0.94"/>
+<circle cx="569.4351027381606" cy="259.44507589936256" r="6" fill="rgb(48, 53, 71)" opacity="0.93"/>
+<circle cx="697.881725154724" cy="215.63462975025178" r="6" fill="rgb(48, 53, 71)" opacity="0.75"/>
+<circle cx="473.7571432262659" cy="33.09507722258567" r="6" fill="rgb(48, 53, 71)"/>
+<circle cx="152.5226530157961" cy="75.63752133250236" r="6" fill="rgb(48, 53, 71)" opacity="0.2"/>
+<circle cx="225.2415033003315" cy="221.13915044367315" r="6" fill="rgb(48, 53, 71)" opacity="0.44"/>
+<circle cx="483.9188450200483" cy="312.21769171655177" r="6" fill="rgb(48, 53, 71)" opacity="0.8"/>
+<circle cx="601.5864680112339" cy="268.31891529858115" r="6" fill="rgb(48, 53, 71)" opacity="0.93"/>
+<circle cx="646.8466270118021" cy="120.25841860473156" r="6" fill="rgb(48, 53, 71)" opacity="0.66"/>
+<circle cx="79.6263305792585" cy="268.64811389744284" r="6" fill="rgb(48, 53, 71)" opacity="0.23"/>
+<circle cx="37.78169561810792" cy="142.4302413135767" r="6" fill="rgb(48, 53, 71)" opacity="0.24"/>
+<circle cx="63.72589431973174" cy="155.1347233444452" r="6" fill="rgb(48, 53, 71)" opacity="0.26"/>
+<circle cx="649.2496082226745" cy="309.5666559427977" r="6" fill="rgb(48, 53, 71)" opacity="0.9"/>
+<circle cx="136.4525875337422" cy="304.4940873593092" r="6" fill="rgb(48, 53, 71)" opacity="0.26"/>
+<circle cx="536.5045474586077" cy="306.2012033313513" r="6" fill="rgb(48, 53, 71)" opacity="0.85"/>
+<circle cx="588.6361432116478" cy="142.9314454674721" r="6" fill="rgb(48, 53, 71)" opacity="0.99"/>
+<circle cx="672.9489984219894" cy="161.78326263427735" r="6" fill="rgb(48, 53, 71)" opacity="0.69"/>
+<circle cx="188.04683831743895" cy="251.72206089496615" r="6" fill="rgb(48, 53, 71)" opacity="0.33"/>
+<circle cx="143.29883381901308" cy="269.84278832376003" r="6" fill="rgb(48, 53, 71)" opacity="0.27"/>
+<circle cx="403.0856131888926" cy="297.8318350940943" r="6" fill="rgb(48, 53, 71)" opacity="0.73"/>
+<circle cx="367.49853464122856" cy="159.8129858791828" r="6" fill="rgb(48, 53, 71)"/>
+<circle cx="367.0635145876556" cy="120.37611616551877" r="6" fill="rgb(48, 53, 71)"/>
+<circle cx="114.87084773089738" cy="200.15738542675973" r="6" fill="rgb(48, 53, 71)" opacity="0.28"/>
+<circle cx="381.3662663007155" cy="189.45591911971573" r="6" fill="rgb(48, 53, 71)"/>
+<circle cx="159.04440744705497" cy="180.54451824426653" r="6" fill="rgb(48, 53, 71)" opacity="0.35"/>
+<circle cx="640.8894104533829" cy="159.59165139496326" r="6" fill="rgb(48, 53, 71)" opacity="0.8"/>
+<circle cx="347.8520094248466" cy="258.6777857214213" r="6" fill="rgb(48, 53, 71)" opacity="0.73"/>
+<circle cx="437.9881711006165" cy="56.93960936367512" r="6" fill="rgb(48, 53, 71)"/>
+<circle cx="259.76031706724314" cy="76.0344892024994" r="6" fill="rgb(48, 53, 71)" opacity="0.51"/>
+<circle cx="306" cy="106" r="11" fill="none" stroke="rgb(0, 131, 143)" stroke-width="2.5px"/>
+<circle cx="291.2" cy="266" r="11" fill="none" stroke="rgb(220, 36, 76)" stroke-width="2.5px"/>
+<circle cx="306" cy="106" r="5" fill="rgb(48, 53, 71)"/>
+<circle cx="291.2" cy="266" r="5" fill="rgb(48, 53, 71)"/>
+<circle cx="498.40000000000003" cy="106" r="11" fill="none" stroke="rgb(0, 131, 143)" stroke-width="2.5px"/>
+<circle cx="202.4" cy="74" r="11" fill="none" stroke="rgb(220, 36, 76)" stroke-width="2.5px"/>
+<circle cx="498.40000000000003" cy="106" r="5" fill="rgb(48, 53, 71)"/>
+<circle cx="202.4" cy="74" r="5" fill="rgb(48, 53, 71)"/>
+<circle cx="454" cy="186" r="11" fill="none" stroke="rgb(0, 131, 143)" stroke-width="2.5px"/>
+<circle cx="698.2" cy="61.2" r="11" fill="none" stroke="rgb(220, 36, 76)" stroke-width="2.5px"/>
+<circle cx="454" cy="186" r="5" fill="rgb(48, 53, 71)"/>
+<circle cx="698.2" cy="61.2" r="5" fill="rgb(48, 53, 71)"/>
+<circle cx="18" cy="354" r="8" fill="none" stroke="rgb(0, 131, 143)" stroke-width="2.5px"/>
+<text x="32" y="358" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">positive</text>
+<circle cx="144" cy="354" r="8" fill="none" stroke="rgb(220, 36, 76)" stroke-width="2.5px"/>
+<text x="158" y="358" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">negative</text>
+<line x1="262" y1="354" x2="284" y2="354" stroke="color(srgb 0.527059 0.163922 0.607843)" stroke-dasharray="5px, 4px" stroke-width="1.8px"/>
+<text x="292" y="358" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">hyperplane</text>
+</g>  </g>
+</svg>

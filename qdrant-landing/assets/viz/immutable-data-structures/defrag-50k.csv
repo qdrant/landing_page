@@ -1,0 +1,5 @@
+hot_pct,tenant,non_defragmented,defragmented
+2.5,50k,1.5,304
+12.5,50k,0.47,279
+25,50k,0.4,63
+50,50k,0.3,8

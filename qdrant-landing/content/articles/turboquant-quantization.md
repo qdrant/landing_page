@@ -56,6 +56,8 @@ Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets: [arx
 
 **1. TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 
+Chart labels abbreviate the benchmark datasets: arxiv-instructorxl-768, dbpedia-gemini, dbpedia-openai-ada, and wiki-cohere-v3-1024. The data tables retain their full names.
+
 {{< chart id="turboquant/at-a-glance-4bit" caption="float32 baseline, SQ (4x compression), and TurboQuant 4-bit (8x compression)." >}}
 
 **2. TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16x storage.
@@ -103,7 +105,7 @@ The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** ra
 Step through the three stages below to see the error before and after renormalization.
 
 {{< island path="content/articles/headless/turboquant-quantization/renorm"
-    ratio="2 / 1"
+    ratio="760 / 380"
     title="2D illustration of length renormalization: the quantized vector is short and slightly rotated, and multiplying it by the stored ratio puts it back on the circle of radius |x|. Angles and lengths are illustrative." >}}
 ![2D illustration of length renormalization](/articles_data/turboquant/length-renormalization.svg)
 {{< /island >}}
@@ -115,7 +117,7 @@ TurboQuant's PROD variant spends an entire QJL random projection plus extra bits
 The rotation step gives every coordinate a roughly N(0, 1) distribution **on isotropic data**. The proof is based on uniformly distributed vectors across the sphere and does not extend to anisotropic embeddings, where a few directions concentrate most of the variance. After rotation those high-variance directions get spread across coordinates, but the per-coordinate distributions are not all identical Gaussians. They have different scales, different shapes, sometimes heavy tails. The Lloyd-Max codebook is fitted once for N(0, 1) and stays fixed, so coordinates that drift off the codebook grid waste centroid positions and lose recall.
 
 {{< island path="content/articles/headless/turboquant-quantization/calibration"
-    ratio="19 / 8"
+    ratio="760 / 716"
     title="One rotated coordinate against the fixed N(0,1) codebook, before and after per-coordinate calibration. The data distribution is illustrative." >}}
 ![Per-coordinate calibration before and after (shift, scale)](/articles_data/turboquant/per-coordinate-calibration.svg)
 {{< /island >}}

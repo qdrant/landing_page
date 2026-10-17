@@ -1,9 +1,9 @@
 /* features island. Scoped under .ml-ft. Blue: encoder, green: linear, yellow:
    softmax, red: the embedding values. */
 .ml-ft {
-  --ml-enc: #4f9dff;
-  --ml-lin: #4cd98a;
-  --ml-soft: #f5d36a;
+  --ml-enc: var(--qi-cat-1);
+  --ml-lin: var(--qi-cat-3);
+  --ml-soft: #ff9800;
   display: block;
 }
 .ml-ft__box {
@@ -49,9 +49,13 @@
   font-weight: 600;
 }
 .ml-ft .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .ml-ft.ml-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.ml-ft.ml-narrow .qi-label {
+  font-size: 13px;
 }

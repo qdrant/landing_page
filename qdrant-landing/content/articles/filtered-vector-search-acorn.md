@@ -40,7 +40,7 @@ Qdrant builds those edges per payload field, never per combination, so an `AND` 
 Switch between the three searches to see how each handles the same filter.
 
 {{< island path="content/articles/headless/filtered-vector-search-acorn/repairs"
-    ratio="19 / 11"
+    ratio="760 / 360"
     title="The same graph, repaired two ways. ACORN steps through filtered-out neighbors at search time; filterable HNSW adds extra edges at index time that a filtered query can walk directly. The graph is a toy; the traversals are computed on it." >}}
 ![The same graph, repaired two ways](/articles_data/filtered-vector-search-acorn/two-repairs.svg)
 {{< /island >}}

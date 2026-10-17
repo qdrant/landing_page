@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" role="img" aria-labelledby="title desc">
+<title id="title">SimHash with k_sim hyperplanes. Each hyperplane gives a token vector one bit, and the bits together are its cluster ID. The plane is a 2D illustration with seeded points: lines through the origin cut it into only 2 × k wedges, while in hundreds of dimensions all 2^k_sim clusters occur.</title>
+<desc id="desc">k_sim = 3: 3 random hyperplanes give each token vector 3 bits, one per side it falls on, so it lands in one of 8 clusters. Hover a token to see its bits.</desc>
+<rect width="760" height="340" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">
+<defs>
+<clipPath id="p0-mu-sh-clip">
+<rect x="34" y="22" width="300" height="300"/>
+</clipPath>
+</defs>    <g>
+<text x="34" y="18" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Token vector space (2D illustration)</text>
+<text x="390" y="18" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Cluster IDs: one bit per hyperplane</text>
+</g>    <g>
+<rect x="34" y="22" width="300" height="300" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<path d="M334.0 54.8L334.0 251.8L184.0 172.0L184.0 172.0Z" fill="rgb(96, 71, 255)" fill-opacity="0.1625" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="259" y="166.64089269330353" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<path d="M162.9 22.0L334.0 22.0L334.0 54.8L184.0 172.0L184.0 172.0Z" fill="rgb(96, 71, 255)" fill-opacity="0.225" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="239.78377495892826" y="92.56143120479847" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<path d="M34.0 22.0L162.9 22.0L184.0 172.0L34.0 92.2Z" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="103.72971869866032" y="81.06089631269455" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<path d="M334.0 251.8L334.0 322.0L205.1 322.0L184.0 172.0Z" fill="rgb(96, 71, 255)" fill-opacity="0.4125" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="264.27028130133965" y="270.9391036873054" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<path d="M205.1 322.0L34.0 322.0L34.0 289.2L184.0 172.0L184.0 172.0Z" fill="rgb(96, 71, 255)" fill-opacity="0.5375" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="128.21622504107174" y="259.43856879520155" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<path d="M34.0 289.2L34.0 92.2L184.0 172.0L184.0 172.0Z" fill="rgb(96, 71, 255)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="109" y="185.35910730669647" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+</g>    <g>
+<line x1="376.0411014468166" y1="274.11006490593127" x2="-8.041101446816612" y2="69.88993509406875" clip-path="url(#p0-mu-sh-clip)" stroke="rgb(220, 36, 76)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<line x1="214.27014945881427" y1="387.3833049512915" x2="153.72985054118573" y2="-43.383304951291535" clip-path="url(#p0-mu-sh-clip)" stroke="rgb(220, 36, 76)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<line x1="12.607661090537988" y1="305.90637088333074" x2="355.392338909462" y2="38.09362911666929" clip-path="url(#p0-mu-sh-clip)" stroke="rgb(220, 36, 76)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<text x="28" y="96.24358525077818" fill="rgb(220, 36, 76)" font-family="monospace" font-size="15px" text-anchor="end">h1</text>
+<text x="156.91887479464125" y="26" fill="rgb(220, 36, 76)" font-family="monospace" font-size="15px" text-anchor="end">h2</text>
+<text x="340" y="58.80715602399236" fill="rgb(220, 36, 76)" font-family="monospace" font-size="15px">h3</text>
+</g>    <g>
+<circle cx="51.1836928576231" cy="52.85264606028795" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="118.12583259865642" cy="78.41795499250293" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="255.8324491456151" cy="177.0054924339056" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="127.76327591389418" cy="181.449150942266" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="128.60182752087712" cy="302.00134041905403" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="115.32913763821125" cy="274.756049990654" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="68.26892051100731" cy="284.3198725730181" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="232.98472690209746" cy="298.7491994276643" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="273.11494771018624" cy="46.87414490431547" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="175.47623487189412" cy="293.372158434242" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="239.29245537519455" cy="223.21691117063165" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="85.75120773166418" cy="72.25576675310731" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+</g>    <g>
+<rect x="391" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.1625" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="412.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<circle cx="402" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<text x="412.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">1</text>
+<rect x="436" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.225" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="457.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="447" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<text x="457.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">1</text>
+<rect x="481" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.2875" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="502.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<text x="502.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">none</text>
+<rect x="526" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.35" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="547.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<circle cx="537" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="553" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="537" cy="154" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<text x="547.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">3</text>
+<rect x="571" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.4125" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="592.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<circle cx="582" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="598" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<text x="592.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">2</text>
+<rect x="616" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.475" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="637.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<text x="637.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">none</text>
+<rect x="661" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.5375" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="682.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<circle cx="672" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="688" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="672" cy="154" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<circle cx="688" cy="154" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<text x="682.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">4</text>
+<rect x="706" y="122" width="43" height="84" rx="4" fill="rgb(96, 71, 255)" fill-opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-width="1.5px"/>
+<text x="727.5" y="114" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<circle cx="717" cy="138" r="6" fill="rgb(48, 53, 71)" stroke="rgb(240, 243, 250)" stroke-width="1.5px"/>
+<text x="727.5" y="224" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">1</text>
+<text x="390" y="248" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Token vectors per cluster</text>
+</g>  </g>
+</svg>

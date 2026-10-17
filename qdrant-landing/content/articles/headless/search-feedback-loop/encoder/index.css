@@ -1,7 +1,7 @@
 /* encoder island. Scoped under .sf-en. Blue: query and encoders, green:
    relevance. */
 .sf-en {
-  --sf-rel: #2e9e5b;
+  --sf-rel: var(--qi-cat-3);
   display: block;
 }
 .sf-en__box,
@@ -58,9 +58,13 @@
   fill: var(--sf-rel);
 }
 .sf-en .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .sf-en.sf-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.sf-en.sf-narrow .qi-label {
+  font-size: 13px;
 }

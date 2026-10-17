@@ -28,9 +28,13 @@
   fill: var(--qi-muted);
 }
 .im-lay .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .im-lay.im-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.im-lay.im-narrow .qi-label {
+  font-size: 13px;
 }

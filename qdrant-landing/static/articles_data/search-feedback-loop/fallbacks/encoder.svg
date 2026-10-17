@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 372" role="img" aria-labelledby="title desc">
+<title id="title">Generating a new relevance-aware query vector: a plain query encoder next to an encoder that also takes the feedback. Vectors and results are illustrative.</title>
+<desc id="desc">A relevance-aware query encoder takes the query and the feedback from the first results. Its vector (0.7, 0.8, ...) differs from the plain one, and it retrieves results closer to what the feedback marked as relevant. Vectors and results are illustrative.</desc>
+<rect width="760" height="372" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="20" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Query</text>
+<rect x="10" y="30" width="150" height="40" rx="5" fill="rgb(96, 71, 255)" fill-opacity="0.2" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="85" y="55" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">"Vector"</text>
+<text x="10" y="112" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">First results (feedback)</text>
+<rect x="10" y="124" width="190" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="105" y="145" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Vector Search</text>
+<rect x="10" y="164" width="190" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="105" y="185" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Euclidean Vector</text>
+<rect x="10" y="204" width="190" height="32" rx="5" fill="rgb(171, 177, 199)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="105" y="225" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Vector Graphics</text>
+<line x1="200" y1="140" x2="285" y2="100" stroke="rgb(0, 131, 143)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="292,100 284,95.5 284,104.5" fill="rgb(0, 131, 143)" stroke="rgb(0, 131, 143)"/>
+<line x1="160" y1="50" x2="285" y2="71" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="292,78 284,73.5 284,82.5" fill="rgb(101, 107, 127)"/>
+<rect x="294" y="60" width="200" height="50" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.22" stroke="rgb(0, 131, 143)" stroke-width="2px"/>
+<text x="394" y="90" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Relevance-aware encoder</text>
+<line x1="394" y1="110" x2="394" y2="139" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="394,146 389.5,138 398.5,138" fill="rgb(101, 107, 127)"/>
+<rect x="306" y="146" width="44" height="30" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.2" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="328" y="166" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.7</text>
+<rect x="350" y="146" width="44" height="30" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.2" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="372" y="166" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.8</text>
+<rect x="394" y="146" width="44" height="30" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.2" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="416" y="166" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">0.1</text>
+<rect x="438" y="146" width="44" height="30" rx="3" fill="rgb(0, 131, 143)" fill-opacity="0.2" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="460" y="166" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">...</text>
+<line x1="394" y1="176" x2="394" y2="203" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="394,210 389.5,202 398.5,202" fill="rgb(101, 107, 127)"/>
+<text x="294" y="228" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Results</text>
+<rect x="294" y="238" width="200" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="394" y="259" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Qdrant Search</text>
+<rect x="294" y="278" width="200" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="394" y="299" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Semantic Search</text>
+<rect x="294" y="318" width="200" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="394" y="339" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Euclidean Distance</text>
+</g>  </g>
+</svg>

@@ -131,10 +131,10 @@ export function mount(node) {
     const fmtP = (v) => `${Math.round(v * 100)}%`;
     const x0 = 10;
     if (step === 1) {
-      txt(x0, 22, 'Retriever scores for the feedback documents', 'qi-label--strong');
+      txt(x0, 22, narrow ? 'Retriever scores for feedback documents' : 'Retriever scores for the feedback documents', 'qi-label--strong');
       rows(G, x0, 44, [{ vals: S0, cls: 'sf-rf__bar--s', max: 1, fmt: fmtS }]);
     } else if (step === 2) {
-      txt(x0, 22, 'Same documents, scored by a cross-encoder', 'qi-label--strong');
+      txt(x0, 22, narrow ? 'Cross-encoder scores for same documents' : 'Same documents, scored by a cross-encoder', 'qi-label--strong');
       legend(x0, 44, [{ cls: 'sf-rf__bar--s', t: 'retriever', dx: narrow ? 100 : 130 }, { cls: 'sf-rf__bar--c', t: 'cross-encoder' }]);
       rows(G, x0, 62, [{ vals: S0, cls: 'sf-rf__bar--s', max: 1, fmt: fmtS }, { vals: CE, cls: 'sf-rf__bar--c', max: 1, fmt: fmtS }]);
     } else if (step === 3) {

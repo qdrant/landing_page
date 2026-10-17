@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" role="img" aria-labelledby="title desc">
+<title id="title">Aggregating token vectors per cluster. Switch between a document, which averages and fills empty clusters, and a query, which sums and leaves them as zero vectors. Cluster contents are illustrative.</title>
+<desc id="desc">A document averages the token vectors in each cluster, then fills each empty cluster with the vector of the nearest non-empty one by Hamming distance. Result: 8 vectors, none of them empty. A query sums the token vectors in each cluster, so each token contributes to the cluster vector, and leaves empty clusters as zero vectors. Result: 8 vectors, some of them zero.</desc>
+<rect width="760" height="760" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="40" y="20" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Token vectors by cluster</text>
+<rect x="636" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="677.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<rect x="551" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="592.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="592.5" cy="78" r="8" fill="rgb(156, 39, 176)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="592.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t4</text>
+<rect x="466" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="507.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<circle cx="507.5" cy="78" r="8" fill="rgb(255, 152, 0)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="507.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t3</text>
+<rect x="381" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="422.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<rect x="296" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="337.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<rect x="211" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="252.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<circle cx="240.5" cy="78" r="8" fill="rgb(96, 71, 255)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="240.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t1</text>
+<circle cx="264.5" cy="78" r="8" fill="rgb(0, 131, 143)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="264.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t2</text>
+<rect x="126" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="167.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<rect x="41" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="82.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<text x="40" y="142" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Aggregated per cluster: average</text>
+<rect x="636" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="677.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<rect x="551" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="592.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="592.5" cy="200" r="8" fill="rgb(156, 39, 176)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="466" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="507.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<circle cx="507.5" cy="200" r="8" fill="rgb(255, 152, 0)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="381" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="422.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<rect x="296" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="337.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<rect x="211" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="252.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<circle cx="252.5" cy="200" r="8" fill="rgb(220, 36, 76)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="252.5" y="229" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">average</text>
+<rect x="126" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="167.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<rect x="41" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="82.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<text x="40" y="264" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Empty clusters filled from the nearest non-empty one</text>
+<rect x="636" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="677.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<circle cx="677.5" cy="322" r="8" fill="rgb(156, 39, 176)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="677.5" y="351" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">← 001</text>
+<rect x="551" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="592.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="592.5" cy="322" r="8" fill="rgb(156, 39, 176)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="466" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="507.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<circle cx="507.5" cy="322" r="8" fill="rgb(255, 152, 0)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="381" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="422.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<circle cx="422.5" cy="322" r="8" fill="rgb(156, 39, 176)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="422.5" y="351" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">← 001</text>
+<rect x="296" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="337.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<circle cx="337.5" cy="322" r="8" fill="rgb(220, 36, 76)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="337.5" y="351" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">← 101</text>
+<rect x="211" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="252.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<circle cx="252.5" cy="322" r="8" fill="rgb(220, 36, 76)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="126" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="167.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<circle cx="167.5" cy="322" r="8" fill="rgb(255, 152, 0)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="167.5" y="351" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">← 010</text>
+<rect x="41" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="82.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<circle cx="82.5" cy="322" r="8" fill="rgb(220, 36, 76)" fill-opacity="0.45" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="82.5" y="351" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">← 101</text>
+</g>  </g>
+<g transform="translate(0 388) scale(1)">    <g>
+<text x="40" y="20" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Token vectors by cluster</text>
+<rect x="636" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="677.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<rect x="551" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="592.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="592.5" cy="78" r="8" fill="rgb(156, 39, 176)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="592.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t4</text>
+<rect x="466" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="507.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<circle cx="507.5" cy="78" r="8" fill="rgb(255, 152, 0)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="507.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t3</text>
+<rect x="381" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="422.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<rect x="296" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="337.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<rect x="211" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="252.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<circle cx="240.5" cy="78" r="8" fill="rgb(96, 71, 255)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="240.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t1</text>
+<circle cx="264.5" cy="78" r="8" fill="rgb(0, 131, 143)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="264.5" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">t2</text>
+<rect x="126" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="167.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<rect x="41" y="46" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="82.5" y="38" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<text x="40" y="142" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Aggregated per cluster: sum</text>
+<rect x="636" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="677.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<rect x="551" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="592.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="592.5" cy="200" r="8" fill="rgb(156, 39, 176)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="466" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="507.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<circle cx="507.5" cy="200" r="8" fill="rgb(255, 152, 0)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="381" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="422.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<rect x="296" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="337.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<rect x="211" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="252.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<circle cx="252.5" cy="200" r="14" fill="rgb(220, 36, 76)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<text x="252.5" y="229" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">sum</text>
+<rect x="126" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="167.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<rect x="41" y="168" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="82.5" y="160" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<text x="40" y="264" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Empty clusters stay zero vectors</text>
+<rect x="636" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="677.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">000</text>
+<text x="677.5" y="327" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">0</text>
+<rect x="551" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="592.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">001</text>
+<circle cx="592.5" cy="322" r="8" fill="rgb(156, 39, 176)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="466" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="507.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">010</text>
+<circle cx="507.5" cy="322" r="8" fill="rgb(255, 152, 0)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="381" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="422.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">011</text>
+<text x="422.5" y="327" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">0</text>
+<rect x="296" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="337.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">100</text>
+<text x="337.5" y="327" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">0</text>
+<rect x="211" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="252.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">101</text>
+<circle cx="252.5" cy="322" r="14" fill="rgb(220, 36, 76)" stroke="rgb(101, 107, 127)" stroke-width="1.5px"/>
+<rect x="126" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="167.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">110</text>
+<text x="167.5" y="327" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">0</text>
+<rect x="41" y="290" width="83" height="64" rx="4" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="82.5" y="282" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">111</text>
+<text x="82.5" y="327" pointer-events="none" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px" text-anchor="middle">0</text>
+</g>  </g>
+</svg>

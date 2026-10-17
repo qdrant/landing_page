@@ -31,7 +31,7 @@
   stroke-width: 2;
 }
 .im-qt .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .im-qt.im-narrow .qi-svg {
   max-width: 420px;
@@ -41,4 +41,8 @@
   .im-qt * {
     transition: none;
   }
+}
+
+.im-qt.im-narrow .qi-label {
+  font-size: 13px;
 }

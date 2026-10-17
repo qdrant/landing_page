@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" role="img" aria-labelledby="title desc">
+<title id="title">Simplified query expansion with a relevance model such as RM3: terms are picked from the first results, and the expanded query returns better results. The terms and results are illustrative.</title>
+<desc id="desc">The query becomes &quot;Euclidean Vector Search&quot;, and the new results are all closer to the intended meaning.</desc>
+<rect width="760" height="250" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="22" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Query</text>
+<rect x="10" y="34" width="190" height="40" rx="5" fill="rgb(96, 71, 255)" fill-opacity="0.2" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="105" y="59" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">"Vector"</text>
+<line x1="170" y1="74" x2="170" y2="111" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="170,118 165.5,110 174.5,110" fill="rgb(101, 107, 127)"/>
+<text x="10" y="112" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">First results</text>
+<rect x="10" y="124" width="190" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="105" y="145" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Vector Search</text>
+<rect x="10" y="164" width="190" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="105" y="185" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Euclidean Vector</text>
+<rect x="10" y="204" width="190" height="32" rx="5" fill="rgb(171, 177, 199)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="105" y="225" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Vector Graphics</text>
+<line x1="200" y1="140" x2="255" y2="140" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="262,140 254,135.5 254,144.5" fill="rgb(101, 107, 127)"/>
+<text x="264" y="112" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Relevance model (RM3)</text>
+<rect x="264" y="124" width="150" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="339" y="145" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Search</text>
+<rect x="264" y="164" width="150" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="339" y="185" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Euclidean</text>
+<rect x="264" y="204" width="150" height="32" rx="5" fill="rgb(171, 177, 199)" fill-opacity="0.25" opacity="0.6" stroke="rgba(17, 24, 36, 0.3)" stroke-dasharray="4px, 3px"/>
+<text x="339" y="225" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Graphics</text>
+<text x="424" y="225" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">dropped</text>
+<line x1="414" y1="140" x2="483" y2="140" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="490,140 482,135.5 482,144.5" fill="rgb(101, 107, 127)"/>
+<text x="492" y="22" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">Expanded query</text>
+<rect x="492" y="34" width="250" height="40" rx="5" fill="rgb(96, 71, 255)" fill-opacity="0.2" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="617" y="59" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">"Euclidean Vector Search"</text>
+<line x1="710" y1="74" x2="710" y2="111" stroke="rgb(101, 107, 127)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<polygon points="710,118 705.5,110 714.5,110" fill="rgb(101, 107, 127)"/>
+<text x="492" y="112" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">New results</text>
+<rect x="492" y="124" width="250" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="617" y="145" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Qdrant Vector Search</text>
+<rect x="492" y="164" width="250" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.55" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="617" y="185" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Vector Search Metric</text>
+<rect x="492" y="204" width="250" height="32" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.25" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="617" y="225" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Euclidean Vector Space</text>
+</g>  </g>
+</svg>

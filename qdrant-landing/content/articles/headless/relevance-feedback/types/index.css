@@ -1,6 +1,6 @@
 /* types island. Scoped under .rf-ty. Green for relevant, red for not relevant. */
 .rf-ty {
-  --rf-pos: #2e9e5b;
+  --rf-pos: var(--qi-cat-3);
   --rf-neg: var(--qi-cat-4);
   display: block;
 }
@@ -45,10 +45,14 @@
   fill: var(--qi-fg);
 }
 .rf-ty .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .rf-ty.rf-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.rf-ty.rf-narrow .qi-label {
+  font-size: 13px;
 }

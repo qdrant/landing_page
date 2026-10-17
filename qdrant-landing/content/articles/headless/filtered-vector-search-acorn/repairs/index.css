@@ -2,14 +2,14 @@
    filtered out, purple: extra HNSW edges, blue: the search path. */
 .ac-rp {
   --ac-match: #dc244c;
-  --ac-extra: #8547ff;
-  --ac-path: #2f6ff0;
+  --ac-extra: var(--qi-cat-1);
+  --ac-path: var(--qi-cat-3);
   display: block;
 }
 .ac-rp__edge {
-  stroke: var(--qi-line);
+  stroke: var(--qi-muted);
   stroke-width: 1.8;
-  opacity: 0.8;
+  opacity: 1;
 }
 .ac-rp__extra {
   fill: none;
@@ -27,7 +27,7 @@
 }
 .ac-rp__x {
   fill: none;
-  stroke: #e02828;
+  stroke: var(--qi-accent);
   stroke-width: 2.6;
   stroke-linecap: round;
 }
@@ -39,7 +39,7 @@
 }
 .ac-rp__node.is-match {
   fill: var(--ac-match);
-  stroke: #91012a;
+  stroke: var(--qi-fg);
   stroke-width: 1.5;
 }
 .ac-rp__node.is-out {
@@ -54,12 +54,16 @@
   stroke-width: 2;
 }
 .ac-rp .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .ac-rp.ac-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
 }
 .ac-rp .qi-label.ac-rp__leg {
-  font-size: 11px;
+  font-size: 15px;
+}
+
+.ac-rp.ac-narrow .qi-label {
+  font-size: 13px;
 }

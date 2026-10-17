@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 856" role="img" aria-labelledby="title desc">
+<title id="title">From feedback scores to a new score: the context pair, its confidence, a candidate’s delta, and the feedback-based score. All numbers are illustrative.</title>
+<desc id="desc">Among the top results, the feedback model scores Doc#2 highest and Doc#5 lowest. They form the context pair: Doc#2 is the positive, Doc#5 the negative. Scores are illustrative. F = a · score + confidenceb · c · delta, here with a = b = c = 1. By score alone the order is #1, #2, #3; with feedback it becomes #2, #1, #3. Numbers are illustrative.</desc>
+<rect width="760" height="856" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="24" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Feedback model rescores the top results</text>
+<rect x="460" y="13" width="14" height="12" rx="3" fill="rgb(96, 71, 255)"/>
+<text x="480" y="24" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">retriever score</text>
+<rect x="610" y="13" width="14" height="12" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="630" y="24" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">feedback score</text>
+<rect x="10" y="52" width="80" height="40" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="50" y="77" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#1</text>
+<rect x="102" y="52" width="216" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="102" y="74" width="153.89999999999998" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="324" y="66" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.80</text>
+<text x="261.9" y="88" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.57</text>
+<rect x="10" y="118" width="80" height="40" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(0, 131, 143)" stroke-width="2.5px"/>
+<text x="50" y="143" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#2</text>
+<rect x="102" y="118" width="194.4" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="102" y="140" width="229.5" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="302.4" y="132" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.72</text>
+<text x="337.5" y="154" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.85</text>
+<rect x="10" y="184" width="80" height="40" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="50" y="209" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#3</text>
+<rect x="102" y="184" width="156.6" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="102" y="206" width="121.5" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="264.6" y="198" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.58</text>
+<text x="229.5" y="220" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.45</text>
+<rect x="10" y="250" width="80" height="40" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="50" y="275" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#4</text>
+<rect x="102" y="250" width="148.5" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="102" y="272" width="189" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="256.5" y="264" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.55</text>
+<text x="297" y="286" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.70</text>
+<rect x="10" y="316" width="80" height="40" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(220, 36, 76)" stroke-width="2.5px"/>
+<text x="50" y="341" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#5</text>
+<rect x="102" y="316" width="113.39999999999999" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="102" y="338" width="83.7" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="221.39999999999998" y="330" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.42</text>
+<text x="191.7" y="352" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.31</text>
+<text x="470" y="82" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Context pair</text>
+<rect x="470" y="96" width="110" height="48" rx="5" fill="rgb(0, 131, 143)" fill-opacity="0.15" stroke="rgb(0, 131, 143)" stroke-width="2px"/>
+<text x="525" y="116" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" text-anchor="middle">Positive</text>
+<text x="525" y="134" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#2</text>
+<rect x="600" y="96" width="110" height="48" rx="5" fill="rgb(220, 36, 76)" fill-opacity="0.15" stroke="rgb(220, 36, 76)" stroke-width="2px"/>
+<text x="655" y="116" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600" text-anchor="middle">Negative</text>
+<text x="655" y="134" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Doc#5</text>
+<text x="470" y="172" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">highest feedback score: 0.85</text>
+<text x="470" y="192" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">lowest feedback score: 0.31</text>
+</g>  </g>
+<g transform="translate(0 436) scale(1)">    <g>
+<text x="10" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Candidates scored against the context pair (Doc#2 positive, Doc#5 negative)</text>
+<rect x="10" y="44" width="120" height="66" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="70" y="82" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Candidate#1</text>
+<rect x="142" y="44" width="207.5" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="142" y="68" width="130" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<rect x="142" y="92" width="165" height="18" rx="3" fill="rgb(220, 36, 76)"/>
+<text x="355.5" y="58" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.83 to query</text>
+<text x="278" y="82" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.52 to positive</text>
+<text x="313" y="106" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.66 to negative</text>
+<rect x="272" y="68" width="35" height="18" rx="3" fill="none" stroke="rgb(220, 36, 76)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<text x="142" y="128" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600">delta = 0.52 − 0.66 = −0.14</text>
+<text x="142" y="148" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">F = 0.83 − 0.54 × 0.14 = 0.75, rank 2 (was 1)</text>
+<rect x="10" y="160" width="120" height="66" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="70" y="198" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Candidate#2</text>
+<rect x="142" y="160" width="137.5" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="142" y="184" width="202.5" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<rect x="142" y="208" width="95" height="18" rx="3" fill="rgb(220, 36, 76)"/>
+<text x="285.5" y="174" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.55 to query</text>
+<text x="350.5" y="198" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.81 to positive</text>
+<text x="243" y="222" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.38 to negative</text>
+<rect x="237" y="208" width="107.50000000000001" height="18" rx="3" fill="none" stroke="rgb(0, 131, 143)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<text x="142" y="244" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600">delta = 0.81 − 0.38 = +0.43</text>
+<text x="142" y="264" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">F = 0.55 + 0.54 × 0.43 = 0.78, rank 1 (was 2)</text>
+<rect x="10" y="276" width="120" height="66" rx="5" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1.5px"/>
+<text x="70" y="314" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" text-anchor="middle">Candidate#3</text>
+<rect x="142" y="276" width="75" height="18" rx="3" fill="rgb(96, 71, 255)"/>
+<rect x="142" y="300" width="87.5" height="18" rx="3" fill="rgb(0, 131, 143)"/>
+<rect x="142" y="324" width="145" height="18" rx="3" fill="rgb(220, 36, 76)"/>
+<text x="223" y="290" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.30 to query</text>
+<text x="235.5" y="314" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.35 to positive</text>
+<text x="293" y="338" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">0.58 to negative</text>
+<rect x="229.5" y="300" width="57.49999999999999" height="18" rx="3" fill="none" stroke="rgb(220, 36, 76)" stroke-dasharray="4px, 3px" stroke-width="1.5px"/>
+<text x="142" y="360" fill="color(srgb 0.694118 0.157843 0.293137)" font-family="monospace" font-size="15px" font-weight="600">delta = 0.35 − 0.58 = −0.23</text>
+<text x="142" y="380" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">F = 0.30 − 0.54 × 0.23 = 0.18, rank 3 (was 3)</text>
+</g>  </g>
+</svg>

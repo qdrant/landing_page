@@ -23,9 +23,9 @@ Those who took programming courses might remember that there is no such thing as
 Some structures are good at accessing elements by index (like arrays), while others shine in terms of insertion efficiency (like linked lists).
 
 {{< island path="content/articles/headless/immutable-data-structures/layout"
-    ratio="380 / 146"
+    ratio="760 / 292"
     title="The same twelve cells read in order, scattered and linked by pointers or contiguous in an array. Positions are illustrative." >}}
-![Hardware-optimized data structure](/articles_data/immutable-data-structures/hardware-optimized.png)
+![Hardware-optimized data structure](/articles_data/immutable-data-structures/fallbacks/layout.svg)
 {{< /island >}}
 
 However, when we move from theoretical data structures to real-world systems, and particularly in performance-critical areas such as [vector search](/use-cases/), things become more complex. [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) provides a good abstraction, but it doesn’t account for the realities of modern hardware: cache misses, memory layout, disk I/O, and other low-level considerations that influence actual performance.
@@ -89,9 +89,9 @@ More complex data structures might require additional statistics to be collected
 A Qdrant-related example of this is [Scalar Quantization](/articles/scalar-quantization/#conversion-to-integers): in order to select proper quantization levels, we have to know the distribution of the data.
 
 {{< island path="content/articles/headless/immutable-data-structures/quantile"
-    ratio="380 / 161"
+    ratio="760 / 322"
     title="Scalar quantization bounds. The quantile sets the bounds, the quantization levels are spread evenly between them, and the extreme values outside are clamped. The curve is a normal distribution, and 8 of the 256 levels are drawn." >}}
-![Scalar Quantization Quantile](/articles_data/immutable-data-structures/quantization-quantile.png)
+![Scalar Quantization Quantile](/articles_data/immutable-data-structures/fallbacks/quantile.svg)
 {{< /island >}}
 
 
@@ -176,9 +176,9 @@ If we knew some additional information about the data, we could combine all rele
 Pick the workspace a query uses, and switch between scattered and defragmented storage to see how many pages it has to read.
 
 {{< island path="content/articles/headless/immutable-data-structures/pages"
-    ratio="76 / 33"
+    ratio="760 / 696"
     title="Disk pages holding vectors from four workspaces, scattered or grouped by workspace. A real 4 KB page holds about 21 binary-quantized 1536d vectors of 192 bytes; the picture uses 8 per page. The arrangement is illustrative." >}}
-![Defragmentation](/articles_data/immutable-data-structures/defragmentation.png)
+![Defragmentation](/articles_data/immutable-data-structures/fallbacks/pages.svg)
 {{< /island >}}
 
 This additional information is available to Qdrant via the [payload index](/documentation/manage-data/indexing/#payload-index).
@@ -192,7 +192,9 @@ The capacity of such a deployment is typically defined by the size of the hot su
 > Grouping relevant vectors together allows us to optimize the size of the hot subset by avoiding caching of irrelevant data.
 The following benchmark data compares RPS for defragmented and non-defragmented storage:
 
-{{< chart id="defrag/rps" caption="Defragmentation matters most when the hot subset is small: at 2.5% of a 50k-vector tenant it lifts throughput from 1.5 to 304 RPS. The advantage narrows as the hot subset grows toward the whole collection." >}}
+{{< chart id="immutable-data-structures/defrag-50k" caption="For the 50k-vector tenant, defragmentation raises throughput from 1.5 to 304 RPS at a 2.5% hot subset. Both curves use the same logarithmic scale." >}}
+
+{{< chart id="immutable-data-structures/defrag-5k" caption="For the 5k-vector tenant, defragmentation raises throughput from 56 to 490 RPS at a 2.5% hot subset. The advantage narrows as the hot subset grows." >}}
 
 | % of hot subset | Tenant Size (vectors) | RPS, Non-defragmented | RPS, Defragmented |
 |-----------------|-----------------------|-----------------------|-------------------|
@@ -227,9 +229,9 @@ In Qdrant, storage is divided into segments, which might be either mutable or im
 New data is always written to the mutable segment, which is later converted to the immutable one by the optimization process.
 
 {{< island path="content/articles/headless/immutable-data-structures/segments"
-    ratio="38 / 17"
+    ratio="760 / 378"
     title="The optimization process, step by step: a proxy holds the old segment, the optimized segment being built, and a copy-on-write segment for new writes." >}}
-![Optimization process](/articles_data/immutable-data-structures/optimization.png)
+![Optimization process](/articles_data/immutable-data-structures/fallbacks/segments.svg)
 {{< /island >}}
 
 If we need to update the data in the immutable or currently optimized segment, instead of changing the data in place, we perform a copy-on-write operation, move the data to the mutable segment, and update it there.

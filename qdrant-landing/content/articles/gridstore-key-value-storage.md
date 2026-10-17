@@ -50,7 +50,7 @@ Gridstore’s architecture is built around three key components that enable fast
 The diagram shows all three layers on one small page of 48 blocks. Switch layers to add each one, hover a key to follow its pointer, and in the gaps layer pick a value size to watch the search for free space.
 
 {{< island path="content/articles/headless/gridstore-key-value-storage/layers"
-    ratio="76 / 47"
+    ratio="760 / 470"
     title="The complete architecture of Gridstore on a small illustrative page: the tracker and data grid, the bitmask of used blocks, and the array of region gap summaries. Keys, value sizes, and free space are illustrative." >}}
 ![Gridstore tracker, 48-block data grid, bitmask, and six region summaries scanned in adjacent windows; regions two and three fit six blocks at offsets 20 to 25](/articles_data/gridstore-key-value-storage/architecture.svg)
 {{< /island >}}
@@ -185,7 +185,7 @@ To measure the impact of our new storage engine, we used [**Bustle, a key-value 
 
 Average latency for all kinds of workloads is lower across the board, particularly for inserts. 
 
-![Gridstore and RocksDB average latency across read-heavy, insert-heavy, and update-heavy workloads](/articles_data/gridstore-key-value-storage/1.png)
+{{< figure src="/articles_data/gridstore-key-value-storage/workload-latency.svg" alt="Average operation latency for RocksDB and Gridstore in three Bustle workloads, measured in microseconds" caption="Published Bustle benchmark. The data marks are preserved from the original plot; the raw measurements are unavailable." >}}
 
 This shows a clear boost in performance. As we can see, the investment in Gridstore is paying off.
 
@@ -233,7 +233,7 @@ We ran this against Qdrant 1.12.6, toggling between the old and new storage back
 
 Data ingestion is **twice as fast and with a smoother throughput** — a massive win!
 
-![Qdrant ingestion throughput with Gridstore and RocksDB during the payload and sparse-vector benchmark](/articles_data/gridstore-key-value-storage/2.png)
+{{< figure src="/articles_data/gridstore-key-value-storage/upsert-latency.svg" alt="Batch upsert latency in milliseconds over elapsed seconds, with lower latency and earlier completion for Gridstore" caption="Batch upsert latency on Qdrant 1.12.6. Each point records request latency over elapsed time. Raw request logs are unavailable." >}}
 
 We optimized for speed, and it paid off—but what about storage size?
 - Gridstore: 2333MB

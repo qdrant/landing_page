@@ -167,7 +167,7 @@ export function mount(node) {
   function defaultStatus() {
     return mode === 'doc'
       ? 'A <b>document</b> averages the token vectors in each cluster, then fills each empty cluster with the vector of the nearest non-empty one by Hamming distance. Result: <b>8 vectors</b>, none of them empty.'
-      : 'A <b>query</b> sums the token vectors in each cluster, so a busier cluster gets a larger magnitude, and leaves empty clusters as zero vectors. Result: <b>8 vectors</b>, some of them zero.';
+      : 'A <b>query</b> sums the token vectors in each cluster, so each token contributes to the cluster vector, and leaves empty clusters as zero vectors. Result: <b>8 vectors</b>, some of them zero.';
   }
 
   function highlight() {
@@ -197,8 +197,8 @@ export function mount(node) {
     } else {
       statusEl.innerHTML =
         mode === 'doc'
-          ? `Cluster ${code} holds ${names}. Its vector is their <b>average</b>, so it stays the size of a single token vector.`
-          : `Cluster ${code} holds ${names}. Its vector is their <b>sum</b>, so it is ${m.length} tokens' worth in magnitude.`;
+          ? `Cluster ${code} holds ${names}. Its vector is their <b>average</b>, so each token contributes equally to the cluster representation.`
+          : `Cluster ${code} holds ${names}. Its vector is their <b>sum</b>, so it is ${m.length} times the average vector for this cluster.`;
     }
   }
 

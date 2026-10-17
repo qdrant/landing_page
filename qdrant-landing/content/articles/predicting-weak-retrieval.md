@@ -104,7 +104,9 @@ The agreement signals are not free: `dense_agreement` runs the extra dense model
 
 Score each signal by how well it separates good from weak retrievals on a labeled split, using AUC (0.5 chance, 1.0 perfect). We ran all of them on three corpora that fail differently: [MuSiQue](https://github.com/StonyBrookNLP/musique) (multi-hop QA), and the [BEIR](https://github.com/beir-cellar/beir) sets NFCorpus (medical jargon) and SciFact (scientific claims).
 
-{{< figure src="/articles_data/predicting-weak-retrieval/signal-by-corpus.png" alt="Grouped bar chart of separation AUC for five signals across MuSiQue, NFCorpus, and SciFact. dense_variance stays at 0.73 to 0.77 on all three; the other signals help only on specific corpora." caption="Separation AUC per signal, per corpus. Dense spread transfers across all three; the others help only where the corpus fails their way. Stack: bge-base + miniCOIL fused with RRF, plus mxbai-embed-large and arctic-embed-m for the agreement signals; windows are per corpus, so compare within a column, not across." width="100%" >}}
+{{< chart id="predicting-weak-retrieval/signal-by-corpus" caption="Published separation AUC across MuSiQue, NFCorpus, and SciFact. AUC 0.5 is chance; dense_variance ranges from 0.73 to 0.77." >}}
+
+The chart preserves the values printed in the [original figure](/articles_data/predicting-weak-retrieval/signal-by-corpus.png), rounded to two decimal places. The stack uses bge-base and miniCOIL fused with RRF, plus mxbai-embed-large and arctic-embed-m for agreement signals. Windows differ by corpus, so compare signals within each corpus.
 
 No single signal was best on all three, and which ones were worth computing tracked how the corpus failed:
 
@@ -139,7 +141,7 @@ def retrieval_is_weak(result):
 
 The floor is a tradeoff: raise it to catch more weak retrievals and escalate more, lower it to escalate less and miss more. A solid default maximizes catch rate minus false-alarm rate on the calibration set (the [Youden point](https://en.wikipedia.org/wiki/Youden%27s_J_statistic)); when a miss costs more than an extra escalation, target a recall instead, say 90%. If two signals separate well and barely correlate, gate on either firing.
 
-{{< figure src="/articles_data/predicting-weak-retrieval/gate-histogram.png" alt="Histogram of a signal's value for good and weak retrievals, with the calibrated floor marked. Most weak retrievals fall below the floor." caption="The chosen signal's distribution for good and weak retrievals, with the calibrated floor. The shaded region escalates." width="85%" >}}
+{{< figure src="/articles_data/predicting-weak-retrieval/gate-distribution.svg" alt="Published dense_variance histogram for good and weak retrievals, with a gate floor of 0.039" caption="The published floor catches 78% of weak retrievals and escalates 49% of queries. The original histogram bins and gate position are preserved as a raster layer; raw bin counts are unavailable." width="100%" >}}
 
 ## Acting on a Weak Retrieval
 

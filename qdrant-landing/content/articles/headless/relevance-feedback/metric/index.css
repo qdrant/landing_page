@@ -1,7 +1,7 @@
 /* metric island. Scoped under .rf-mt. Blue: top K, grey: the rest, orange:
    desired results. */
 .rf-mt {
-  --rf-desired: #e08a00;
+  --rf-desired: #ff9800;
   display: block;
 }
 .rf-mt__bar {
@@ -14,12 +14,12 @@
   fill: var(--rf-desired);
 }
 .rf-mt__thr {
-  stroke: var(--rf-desired);
+  stroke: var(--qi-fg);
   stroke-width: 1.5;
   stroke-dasharray: 5 4;
 }
 .rf-mt__thrlab {
-  fill: var(--rf-desired);
+  fill: var(--qi-fg);
   font-weight: 600;
 }
 .rf-mt__window {
@@ -29,9 +29,13 @@
   stroke-dasharray: 3 3;
 }
 .rf-mt .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .rf-mt.rf-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.rf-mt.rf-narrow .qi-label {
+  font-size: 13px;
 }

@@ -3,8 +3,8 @@
 
 .gs {
   --gs-k1: var(--qi-cat-1);
-  --gs-k2: #e08a00;
-  --gs-k3: #2e9e5b;
+  --gs-k2: #ff9800;
+  --gs-k3: #2e7d32;
   --gs-k4: var(--qi-cat-2);
   --gs-k5: var(--qi-cat-3);
   --gs-k6: var(--qi-cat-4);
@@ -103,7 +103,7 @@
 }
 
 .gs .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .gs.gs-narrow .qi-svg {
   max-width: 420px;
@@ -114,4 +114,8 @@
   .gs * {
     transition: none;
   }
+}
+
+.gs.gs-narrow .qi-label {
+  font-size: 13px;
 }

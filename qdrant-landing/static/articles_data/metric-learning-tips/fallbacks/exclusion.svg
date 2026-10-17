@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 676" role="img" aria-labelledby="title desc">
+<title id="title">Neural exclusion rules: drag the query into the anchor radius to fire the rule and exclude the references in the effect radius. Points are illustrative.</title>
+<desc id="desc">The query is inside the rule's anchor radius, so the rule fires and the 2 references inside the effect radius are excluded (crossed out). The ringed references are the nearest three that remain. The query is outside the rule's anchor radius, so the rule does not fire. All references stay in play, and the ringed ones are the nearest three. Drag the query into the anchor radius to trigger the rule.</desc>
+<rect width="760" height="676" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<rect x="10" y="10" width="740" height="300" rx="8" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<circle cx="158.00000000000003" cy="118" r="60" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<circle cx="542.8" cy="214.00000000000003" r="57" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<line x1="158.00000000000003" y1="118" x2="542.8" y2="214.00000000000003" stroke="rgb(156, 39, 176)" stroke-dasharray="5px, 4px" stroke-width="2.5px"/>
+<circle cx="498.40000000000003" cy="232" r="7" fill="rgb(171, 177, 199)"/>
+<path d="M493.40000000000003 227 L503.40000000000003 237 M493.40000000000003 237 L503.40000000000003 227" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.2px"/>
+<circle cx="587.2" cy="196" r="7" fill="rgb(171, 177, 199)"/>
+<path d="M582.2 191 L592.2 201 M582.2 201 L592.2 191" fill="none" stroke="rgb(220, 36, 76)" stroke-linecap="round" stroke-width="2.2px"/>
+<circle cx="397.14724304573616" cy="34.590573742985725" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="488.6721667214298" cy="84.94500063639134" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="50.022202464286245" cy="266.07345315068955" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="50.022202464286245" cy="266.07345315068955" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="693.3900565891528" cy="86.93332024291158" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="61.88631802704187" cy="46.988204068504274" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="61.88631802704187" cy="46.988204068504274" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="348.69525223085657" cy="231.62699467223135" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="704.9279530989007" cy="272.17282322235405" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="226.23907131282618" cy="272.10944881755853" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="226.23907131282618" cy="272.10944881755853" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="158.00000000000003" cy="118" r="8" fill="rgb(156, 39, 176)"/>
+<circle cx="542.8" cy="214.00000000000003" r="8" fill="rgb(156, 39, 176)"/>
+<circle cx="135.8" cy="136" r="9" fill="rgb(0, 131, 143)" stroke="rgb(240, 243, 250)" stroke-width="2px"/>
+<circle cx="135.8" cy="136" r="22" fill="rgba(0, 0, 0, 0)"/>
+<text x="164.00000000000003" y="63.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Rule anchor radius</text>
+<text x="372.09999999999997" y="276.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Rule effect radius</text>
+<text x="76.05000000000001" y="141.5" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Query</text>
+</g>  </g>
+<g transform="translate(0 346) scale(1)">    <g>
+<rect x="10" y="10" width="740" height="300" rx="8" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)"/>
+<circle cx="158.00000000000003" cy="118" r="60" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<circle cx="542.8" cy="214.00000000000003" r="57" fill="none" stroke="rgb(48, 53, 71)" stroke-dasharray="5px, 4px" stroke-width="1.5px"/>
+<line x1="158.00000000000003" y1="118" x2="542.8" y2="214.00000000000003" opacity="0.5" stroke="rgb(156, 39, 176)" stroke-dasharray="5px, 4px" stroke-width="2px"/>
+<circle cx="498.40000000000003" cy="232" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="587.2" cy="196" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="397.14724304573616" cy="34.590573742985725" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="397.14724304573616" cy="34.590573742985725" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="488.6721667214298" cy="84.94500063639134" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="488.6721667214298" cy="84.94500063639134" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="50.022202464286245" cy="266.07345315068955" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="693.3900565891528" cy="86.93332024291158" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="61.88631802704187" cy="46.988204068504274" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="348.69525223085657" cy="231.62699467223135" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="348.69525223085657" cy="231.62699467223135" r="12" fill="none" stroke="rgb(48, 53, 71)" stroke-width="2px"/>
+<circle cx="704.9279530989007" cy="272.17282322235405" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="226.23907131282618" cy="272.10944881755853" r="7" fill="rgb(96, 71, 255)"/>
+<circle cx="158.00000000000003" cy="118" r="8" fill="rgb(156, 39, 176)"/>
+<circle cx="542.8" cy="214.00000000000003" r="8" fill="rgb(156, 39, 176)"/>
+<circle cx="343.00000000000006" cy="70" r="9" fill="rgb(0, 131, 143)" stroke="rgb(240, 243, 250)" stroke-width="2px"/>
+<circle cx="343.00000000000006" cy="70" r="22" fill="rgba(0, 0, 0, 0)"/>
+<text x="164.00000000000003" y="63.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Rule anchor radius</text>
+<text x="372.09999999999997" y="276.5" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Rule effect radius</text>
+<text x="357.00000000000006" y="75.5" fill="color(srgb 0.0470588 0.437255 0.490196)" font-family="monospace" font-size="15px" font-weight="600" paint-order="stroke" stroke="rgb(240, 243, 250)" stroke-linejoin="round" stroke-width="4px">Query</text>
+</g>  </g>
+</svg>

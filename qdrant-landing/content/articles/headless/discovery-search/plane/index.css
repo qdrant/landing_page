@@ -17,7 +17,7 @@
   stroke-dasharray: 5 4;
 }
 .ds-pl__link {
-  stroke: var(--qi-line);
+  stroke: var(--qi-muted);
   stroke-width: 1.3;
   stroke-dasharray: 3 3;
 }
@@ -25,7 +25,7 @@
   stroke: var(--ds-target);
   stroke-width: 1.3;
   stroke-dasharray: 3 3;
-  opacity: 0.7;
+  opacity: 1;
 }
 .ds-pl__pt {
   fill: var(--qi-fg);
@@ -58,9 +58,13 @@
   stroke: var(--ds-plane);
 }
 .ds-pl .qi-label {
-  font-size: 13px;
+  font-size: 15px;
 }
 .ds-pl.ds-narrow .qi-svg {
   max-width: 420px;
   margin-inline: auto;
+}
+
+.ds-pl.ds-narrow .qi-label {
+  font-size: 13px;
 }

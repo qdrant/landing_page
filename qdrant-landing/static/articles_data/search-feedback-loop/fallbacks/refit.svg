@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 910" role="img" aria-labelledby="title desc">
+<title id="title">An overview of ReFit, a gradient-based method for query refinement, step by step. Scores are illustrative; the distributions and divergences are computed from them.</title>
+<desc id="desc">Both sets of scores become probability distributions, and the Kullback–Leibler divergence measures how far the retriever's is from the cross-encoder's: 0.71. Gradient descent changes the query vector to shrink that divergence. After the update, a new vector search matches the cross-encoder much more closely: KL 0.71 → 0.03. The updated scores are illustrative.</desc>
+<rect width="760" height="910" rx="6" fill="#f0f3fa"/>
+<g transform="translate(0 0) scale(1)">    <g>
+<text x="10" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Scores as probability distributions</text>
+<rect x="10" y="33" width="14" height="12" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="30" y="44" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">retriever</text>
+<rect x="180" y="33" width="14" height="12" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="200" y="44" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">cross-encoder</text>
+<text x="10" y="86" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<rect x="62" y="62" width="171.5266298061605" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="239.5266298061605" y="75" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">40%</text>
+<rect x="62" y="82" width="20.174559932288265" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="88.17455993228826" y="95" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">5%</text>
+<text x="10" y="144" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<rect x="62" y="120" width="100.6254489210808" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="168.62544892108082" y="133" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">23%</text>
+<rect x="62" y="140" width="290.35057380206536" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="358.35057380206536" y="153" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">68%</text>
+<text x="10" y="202" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<rect x="62" y="178" width="77.07188288932026" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="145.07188288932025" y="191" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">18%</text>
+<rect x="62" y="198" width="7.421805833769976" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="75.42180583376998" y="211" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">2%</text>
+<text x="10" y="260" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<rect x="62" y="236" width="59.03153919605186" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="127.03153919605185" y="249" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">14%</text>
+<rect x="62" y="256" width="106.81400683411152" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="174.81400683411152" y="269" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">25%</text>
+<text x="10" y="318" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+<rect x="62" y="294" width="20.315927758815267" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="88.31592775881526" y="307" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">5%</text>
+<rect x="62" y="314" width="3.8104821691934645" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="71.81048216919346" y="327" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">1%</text>
+<text x="10" y="366" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">KL divergence: 0.71</text>
+</g>  </g>
+<g transform="translate(0 406) scale(1)">    <g>
+<text x="10" y="22" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Query vector, before and after one update</text>
+<text x="10" y="58" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">before</text>
+<rect x="66" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.29" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="106" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.64" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="146" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.43" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="186" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.78" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="226" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.36" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="266" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.57" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="306" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.22" stroke="rgba(17, 24, 36, 0.3)"/>
+<rect x="346" y="38" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.71" stroke="rgba(17, 24, 36, 0.3)"/>
+<text x="10" y="102" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">after</text>
+<rect x="66" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.395" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="106" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.535" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="146" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.5" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="186" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.675" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="226" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.29" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="266" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.605" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="306" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.325" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<rect x="346" y="82" width="38" height="30" rx="3" fill="rgb(96, 71, 255)" fill-opacity="0.64" stroke="rgb(96, 71, 255)" stroke-width="1.5px"/>
+<text x="10" y="148" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">New vector search, against the cross-encoder</text>
+<rect x="10" y="157" width="14" height="12" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="30" y="168" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">retriever</text>
+<rect x="180" y="157" width="14" height="12" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="200" y="168" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">cross-encoder</text>
+<text x="10" y="208" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 1</text>
+<rect x="62" y="184" width="40.07259702198884" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="108.07259702198884" y="197" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">9%</text>
+<rect x="62" y="204" width="20.174559932288265" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="88.17455993228826" y="217" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">5%</text>
+<text x="10" y="266" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 2</text>
+<rect x="62" y="242" width="259.1376535348083" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="327.1376535348083" y="255" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">60%</text>
+<rect x="62" y="262" width="290.35057380206536" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="358.35057380206536" y="275" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">68%</text>
+<text x="10" y="324" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 3</text>
+<rect x="62" y="300" width="15.49771718476375" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="83.49771718476376" y="313" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">4%</text>
+<rect x="62" y="320" width="7.421805833769976" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="75.42180583376998" y="333" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">2%</text>
+<text x="10" y="382" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 4</text>
+<rect x="62" y="358" width="107.12818070541995" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="175.12818070541994" y="371" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">25%</text>
+<rect x="62" y="378" width="106.81400683411152" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="174.81400683411152" y="391" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">25%</text>
+<text x="10" y="440" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px">Doc 5</text>
+<rect x="62" y="416" width="6.735280124447687" height="16" rx="3" fill="rgb(0, 131, 143)"/>
+<text x="74.73528012444768" y="429" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">2%</text>
+<rect x="62" y="436" width="3.8104821691934645" height="16" rx="3" fill="rgb(255, 152, 0)"/>
+<text x="71.81048216919346" y="449" fill="rgb(101, 107, 127)" font-family="monospace" font-size="15px">1%</text>
+<text x="10" y="488" fill="rgb(48, 53, 71)" font-family="monospace" font-size="15px" font-weight="600">KL divergence: 0.71 → 0.03</text>
+</g>  </g>
+</svg>
