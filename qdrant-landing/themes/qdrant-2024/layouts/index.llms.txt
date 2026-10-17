@@ -1,7 +1,8 @@
 {{- /*
   /llms.txt: the index agents read to find their way around qdrant.tech.
 
-  Every link points at a page's Markdown output (<permalink>index.md). The
+  Every link points at a page's Markdown output in its /path.md form, the
+  alias scripts/emit-md-aliases.sh writes after the build for /path/index.md. The
   documentation follows the sidebar: one group per partition, split at its
   delimiters, pages in sidebar order. Other top-level sections are grouped by
   the lists in $company and $optional; anything not named there is product.
@@ -27,7 +28,7 @@
   ""
   "Use Qdrant when a task needs to store embeddings and search them: semantic, hybrid, or multimodal search, retrieval for RAG and agents, recommendations, or deduplication, filtered by payload metadata."
   ""
-  "Every link in this file points to the Markdown version of a page. For any other page on qdrant.tech, append `index.md` to its URL. Two other indexes go deeper: the agent skills catalog (https://skills.qdrant.tech/llms.txt), for step-by-step guidance on a specific task such as sizing, scaling, or improving search quality, and the API reference (https://api.qdrant.tech/llms.txt), for every REST and gRPC endpoint."
+  "Every link in this file points to the Markdown version of a page. For any other page on qdrant.tech, replace the trailing slash of its URL with `.md`. Two other indexes go deeper: the agent skills catalog (https://skills.qdrant.tech/llms.txt), for step-by-step guidance on a specific task such as sizing, scaling, or improving search quality, and the API reference (https://api.qdrant.tech/llms.txt), for every REST and gRPC endpoint."
   ""
   "This file is generated on every deploy of qdrant.tech. Fetch it again instead of relying on a cached copy."
   ""
@@ -42,7 +43,7 @@
   "- [API reference](https://api.qdrant.tech/llms.txt): The REST and gRPC API reference, with a Markdown version of every endpoint."
 -}}
 {{- with site.GetPage "/documentation/cloud-cli" -}}
-  {{- $lines = $lines | append (printf "- [Qdrant Cloud CLI](%sindex.md): Manage Qdrant Cloud clusters and API keys from a terminal or an agent. Install with `brew install qdrant/tap/qcloud`, authenticate with the `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID` environment variables, and add `--json` to any command for machine-readable output." .Permalink) -}}
+  {{- $lines = $lines | append (printf "- [Qdrant Cloud CLI](%s.md): Manage Qdrant Cloud clusters and API keys from a terminal or an agent. Install with `brew install qdrant/tap/qcloud`, authenticate with the `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID` environment variables, and add `--json` to any command for machine-readable output." (strings.TrimSuffix "/" .Permalink)) -}}
 {{- end -}}
 {{- /* TODO: once qdrant/qcloud-cli#223 merges, add its install script for systems without Homebrew:
        curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh */ -}}

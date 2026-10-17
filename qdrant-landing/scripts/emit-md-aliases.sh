@@ -2,7 +2,8 @@
 #
 # Publish every /path/index.md a second time as /path.md, the guessable form a
 # client can build from a URL without fetching the HTML first. Additions, never
-# moves: /llms.txt advertises the index.md URLs.
+# moves: both forms stay published. /llms.txt links the /path.md form, so its
+# links depend on this step.
 #
 # A build step rather than a Netlify redirect because a splat has to be
 # terminal, so /articles/*.md is not a pattern Netlify accepts.

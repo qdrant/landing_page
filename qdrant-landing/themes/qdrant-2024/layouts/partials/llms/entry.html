@@ -10,7 +10,8 @@
 {{- end -}}
 {{- $out := "" -}}
 {{- if $include -}}
-  {{- $url := printf "%sindex.md" $p.Permalink -}}
+  {{- /* /path.md, the alias scripts/emit-md-aliases.sh writes for /path/index.md. */ -}}
+  {{- $url := printf "%s.md" (strings.TrimSuffix "/" $p.Permalink) -}}
   {{- if eq $p.Params.type "external-link" -}}{{- $url = $p.Params.external_url -}}{{- end -}}
   {{- $desc := $p.Description | default ($p.Summary | plainify | truncate 200 "") -}}
   {{- $desc = $desc | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
