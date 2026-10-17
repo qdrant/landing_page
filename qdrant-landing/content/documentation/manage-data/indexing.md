@@ -187,6 +187,36 @@ Principal optimization is supported for following types:
 * `float`
 * `datetime`
 
+#### Per-Element Index for Arrays of Objects
+
+*Available as of v1.20.0*
+
+Payloads often contain arrays of objects. For example, an e-commerce platform might store each product with several offers, each with its own shop and price. A [nested object filter](/documentation/search/filtering/#nested-object-filter) finds points where a single element matches all conditions, such as an offer from a specific shop below a certain price.
+
+Regular payload indexes can't answer these filters on their own. An index on `offers[].shop` maps each shop to the points that have it in any of their offers, and an index on `offers[].price` does the same for prices. Because neither index records which offer a value belongs to, together they can only narrow down the candidates. Qdrant then has to read the payload of each remaining candidate to check the conditions per offer, which is slow when many candidates remain.
+
+Per-element indexes solve this by indexing each array element separately, so they record which offer each value belongs to. When every condition in a nested filter uses a field with a per-element index on the same array, Qdrant answers the filter from the indexes alone, without reading any payloads. See [Nested Object Filter](/documentation/search/filtering/#nested-object-filter) for the conditions that can be answered from per-element indexes.
+
+To create a per-element index, set the `nested` parameter to the key of the array. The parameter uses the same key as the nested filter, and `offers` and `offers[]` are both accepted. Every index type supports it:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/per-element-nested/" >}}
+
+Per-element indexes have the following constraints:
+
+* The field must be inside the elements of the array, such as `offers[].price` for the array `offers`.
+* Only one array level is supported. `nested` can't point to an array inside another array, such as `a[].b[]`.
+* A per-element index can't also be a [tenant index](#tenant-index) or a [principal index](#principal-index).
+* Changing `nested` on an existing index rebuilds the index.
+* Per-element indexes aren't supported in Qdrant Edge yet.
+
+##### Per-Element Full-Text Indexes
+
+Outside nested filters, a per-element index answers queries like a regular index of the field. Full-text indexes are the exception: a per-element [full-text index](#full-text-index) treats each element as a separate document, for every query on the field. This is useful when elements are independent texts, such as reviews or passages of a long document.
+
+A full-text condition matches a point only if a single element matches it. For example, `match: { text: "red shoes" }` doesn't match a point with "red" in one element and "shoes" in another.
+
+With BM25 scoring enabled, each element is scored separately, and a point gets the score of its best-matching element. Corpus statistics count each element as a separate document, so the average document length is the average length of an element.
+
 ## Full-Text Index
 
 Qdrant supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering) on string payload fields, enabling word- and phrase-level matches.
