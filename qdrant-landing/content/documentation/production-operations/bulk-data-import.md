@@ -106,7 +106,7 @@ Quantization can help balance this tradeoff. Instead of keeping full-size dense 
 
 ![Diagram: original full-size vectors stay on disk while a compressed copy is kept in RAM, so search stays fast with lower memory use.](/articles_data/bulk-uploads-in-qdrant/option3-quantization.png)
 
-In Python, configure TurboQuant when creating the collection. The `bits` parameter sets the compression level: `BITS4` (the default) stays closest to full precision, while `BITS1` gives the most compression.
+In Python, configure TurboQuant when creating the collection. The `bits` parameter sets the compression level: `BITS8` stays closest to full precision, `BITS4` is the default, and `BITS1` gives the most compression.
 
 ```python
 client.create_collection(
