@@ -37,6 +37,11 @@
   "- [Agent skills](https://skills.qdrant.tech/llms.txt): Skills that teach coding agents how to design, build, and run Qdrant, one SKILL.md each."
   "- [API reference](https://api.qdrant.tech/llms.txt): The REST and gRPC API reference, with a Markdown version of every endpoint."
 -}}
+{{- with site.GetPage "/documentation/cloud-cli" -}}
+  {{- $lines = $lines | append (printf "- [Qdrant Cloud CLI](%sindex.md): Manage Qdrant Cloud clusters and API keys from a terminal or an agent. Install with `brew install qdrant/tap/qcloud`, authenticate with the `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID` environment variables, and add `--json` to any command for machine-readable output." .Permalink) -}}
+{{- end -}}
+{{- /* TODO: once qdrant/qcloud-cli#223 merges, add its install script for systems without Homebrew:
+       curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh */ -}}
 {{- /* TODO: add the documentation MCP server (search.qdrant.tech/mcp) once it is ready. */ -}}
 
 {{- $docs := site.GetPage "/documentation" -}}
