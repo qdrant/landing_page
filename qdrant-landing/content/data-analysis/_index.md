@@ -1,5 +1,6 @@
 ---
 title: Advanced Data Analysis with Anomaly Detection & Entity Matching
+linkTitle: "Data Analysis"
 description: Qdrant revolutionizes data analysis and anomaly detection with advanced entity matching techniques. Learn more today.
 url: data-analysis-anomaly-detection
 build:

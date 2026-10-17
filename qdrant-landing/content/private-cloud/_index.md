@@ -1,5 +1,6 @@
 ---
 title: private-cloud
+linkTitle: "Qdrant Private Cloud"
 description: private-cloud
 build:
   render: always

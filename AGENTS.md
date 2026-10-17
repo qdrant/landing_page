@@ -65,6 +65,11 @@ one. `code-snippet`, `include`, `prompt`, and `prompt-index` all do this.
 
 - **`weight` in front matter orders the docs sidebar.** Adding a page without
   one puts it in an unpredictable position.
+- **A new top-level section lands under Product in `llms.txt`.** If it is
+  company, event, or legal material, add it to the `$company` or `$optional`
+  list in `themes/qdrant-2024/layouts/index.llms.txt`. A page's `linkTitle`
+  is its label there, and the first sentence of its `description` is its
+  summary.
 - **Moving or renaming a page needs `aliases`** in the destination's front
   matter. Old URLs are linked from blog posts, from articles, and from the
   pointers prepended to every documentation `index.md`.
