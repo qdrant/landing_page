@@ -1,9 +1,12 @@
 ```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
 var denseModel = "sentence-transformers/all-minilm-l6-v2";
 var bm25Model = "qdrant/bm25";
 // NOTE: LoadDataset is a user-defined function.
-// Implement it to handle dataset loading as needed.
-var dataset = LoadDataset("miriad/miriad-4.4M", "train[0:100]");
+// Implement it to return 100 random rows with distinct passages, as the Python version does.
+var dataset = LoadDataset("miriad/miriad-4.4M", "train");
 var points = new List<PointStruct>();
 
 foreach (var item in dataset)
@@ -32,7 +35,7 @@ foreach (var item in dataset)
 }
 
 await client.UpsertAsync(
-    collectionName: "{collectionName}",
+    collectionName: "{collection_name}",
     points: points
 );
 ```

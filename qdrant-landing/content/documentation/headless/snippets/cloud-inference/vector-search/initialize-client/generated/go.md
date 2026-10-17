@@ -7,4 +7,6 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	APIKey: "<paste-your-api-key-here>",
 	UseTLS: true,
 })
+
+if err != nil { panic(err) }
 ```
