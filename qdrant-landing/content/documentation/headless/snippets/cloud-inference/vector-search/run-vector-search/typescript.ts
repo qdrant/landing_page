@@ -28,4 +28,5 @@ const results = await client.query("{collection_name}", {
     query: {
         fusion: "rrf",
     },
+    limit: 5,
 });

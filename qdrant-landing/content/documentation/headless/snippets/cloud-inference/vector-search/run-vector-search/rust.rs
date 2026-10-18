@@ -1,4 +1,7 @@
-use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+// @hide-start
+use qdrant_client::qdrant::Document;
+// @hide-end
+use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
@@ -22,6 +25,7 @@ pub async fn main() -> anyhow::Result<()> {
         .add_prefetch(dense_prefetch)
         .add_prefetch(bm25_prefetch)
         .query(Query::new_fusion(Fusion::Rrf))
+        .limit(5)
         .with_payload(true)
         .build();
 

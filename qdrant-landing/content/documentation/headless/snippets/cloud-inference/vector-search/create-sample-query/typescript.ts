@@ -1,1 +1,1 @@
-let query_text = "What is relapsing polychondritis?";
+const queryText = "Why does stoma closure fail?";
