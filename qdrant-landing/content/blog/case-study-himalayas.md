@@ -7,7 +7,7 @@ preview_image: /blog/case-study-himalayas/social_preview.png
 social_preview_image: /blog/case-study-himalayas/social_preview.png
 date: 2026-09-18T00:00:00.000Z
 author: Daniel Azoulai
-featured: true
+featured: false
 tags:
   - Himalayas
   - case study
