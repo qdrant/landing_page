@@ -5,7 +5,7 @@ short_description: "Doing cross-encoder inference in Rust, and how it compares t
 description: "Learnings from writing a cross-encoder inference library in Rust and comparing it with existing Python packages."
 date: 2026-09-25T00:00:00Z
 author: Clelia Bertelli
-featured: false
+featured: true
 preview_image: /blog/oxidizing-cross-encoders/preview/social_preview.jpg
 social_image: /blog/oxidizing-cross-encoders/preview/social_preview.png
 tags:

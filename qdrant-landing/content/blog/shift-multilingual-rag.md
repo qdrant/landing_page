@@ -10,7 +10,7 @@ title_preview_image: /blog/shift-multilingual-rag/preview/title.jpg
 date: 2026-09-16T09:00:00+02:00
 author: Evgeniya Sukhodolskaya
 author_profile: evgeniya-sukhodolskaya
-featured: false
+featured: true
 tags:
   - multilingual
   - rag

@@ -7,7 +7,7 @@ preview_image: /blog/case-study-lucy/social_preview.png
 social_preview_image: /blog/case-study-lucy/social_preview.png
 date: 2026-09-21T00:00:00.000Z
 author: Daniel Azoulai
-featured: false
+featured: true
 tags:
   - Lucy
   - case study

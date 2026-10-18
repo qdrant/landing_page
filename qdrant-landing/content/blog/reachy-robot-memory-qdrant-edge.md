@@ -8,7 +8,7 @@ preview_image: /blog/reachy-robot-memory-qdrant-edge/hero-image.jpg
 social_preview_image: /blog/reachy-robot-memory-qdrant-edge/preview/social_preview.jpg
 date: 2026-10-14
 author: Sasha Denisov & Chadha Sridi
-featured: false
+featured: true
 tags:
   - qdrant-edge
   - on-device-vector-search
