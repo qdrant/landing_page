@@ -10,7 +10,7 @@ title_preview_image: /blog/constella-research-preview/preview/title.jpg
 preview_dir: /blog/constella-research-preview/preview
 date: 2026-09-29
 author: Dylan Couzon
-featured: false
+featured: true
 weight: 0
 tags:
   - embeddings

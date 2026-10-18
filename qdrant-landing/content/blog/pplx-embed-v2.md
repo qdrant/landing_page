@@ -9,7 +9,7 @@ social_preview_image: /blog/pplx-embed-v2/preview/social_preview.jpg
 date: 2026-10-13
 author: Dylan Couzon, Anush Shetty
 author_profile: dylan-couzon
-featured: false
+featured: true
 weight: 0
 tags:
   - embeddings
