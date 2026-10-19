@@ -24,17 +24,17 @@ To rank points with BM25, create a full-text index on the field you want to sear
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-title-bm25-index/" >}}
 
-If the collection already contains data, Qdrant builds the index from the text stored in the payload, so you don't need to upload your data again.
+If your points already contain the field, Qdrant builds the index from the text stored in the payload, so you don't need to upload your data again.
 
 ### Query a Text Field
 
-To run a BM25 query, use a `text` query and set `using` to the name of the indexed payload field. The following example searches for books with "time travel" in the title:
+To run a BM25 query, use a text query on the indexed payload field. The following example searches for books with "time travel" in the title:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-title-bm25/" >}}
 
 A point matches the query if its text contains at least one of the query terms. Points that contain none of the terms are not returned. To require or exclude specific terms, add a [full-text filter](/documentation/search/filtering/#full-text-match) to the query. Query terms that appear more than once count only once.
 
-A `text` query can also be used as a [prefetch](/documentation/search/hybrid-queries/), for example, to combine BM25 with dense vector search in [hybrid search](/documentation/search/text-search/hybrid-search/).
+A text query can also be used as a [prefetch](/documentation/search/hybrid-queries/), for example, to combine BM25 with dense vector search in [hybrid search](/documentation/search/text-search/hybrid-search/).
 
 ### Configuring BM25 Parameters
 
@@ -75,7 +75,7 @@ After points are deleted or updated, the statistics can include outdated data un
 
 ### Score Elements of an Array Separately
 
-If a text field is inside an array of objects, such as `reviews[].text`, a regular full-text index treats the tokens of all elements as if they were in a single document. When the elements are independent texts, such as reviews or passages of a long document, you may want to score each element as its own document instead. To do so, set the `nested` parameter when you create the index, which makes it a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects). A `text` query then scores each element separately, and a point gets the score of its best-matching element. Corpus statistics count each element as a separate document, so the average document length is the average length of an element.
+If a text field is inside an array of objects, such as `reviews[].text`, a regular full-text index treats the tokens of all elements as if they were in a single document. When the elements are independent texts, such as reviews or passages of a long document, you may want to score each element as its own document instead. To do so, set the `nested` parameter when you create the index, which makes it a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects). A text query then scores each element separately, and a point gets the score of its best-matching element. Corpus statistics count each element as a separate document, so the average document length is the average length of an element.
 
 ### Migrate from Sparse Vector BM25
 
@@ -83,6 +83,6 @@ If you use the sparse vector [BM25 model](/documentation/search/text-search/spar
 
 1. Create a full-text index with scoring enabled on the payload field that holds the text.
 2. Configure the same text processing as the sparse vector BM25 model. The model uses English stemming and stopword removal by default, while a full-text index doesn't. If you use the default BM25 sparse vector model settings, set the `english` Snowball stemmer and `english` stopwords on the index. If you don't use the default settings, make sure the index uses the same tokenizer, stemmer, stopwords, and ASCII folding settings as your sparse vector BM25 model.
-3. Replace queries on the sparse vector with [`text` queries](#query-a-text-field), setting `using` to the payload field instead of the sparse vector name.
+3. Replace queries on the sparse vector with [text queries](#query-a-text-field) on the payload field.
 
 The full-text index computes the average document length from your data, so you no longer need to set `avg_len`. Scores can differ from the sparse vector BM25 model, especially if `avg_len` didn't match your data.
