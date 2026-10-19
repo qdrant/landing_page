@@ -73,8 +73,8 @@ The search returns the five results with the highest RRF scores. Each line shows
 ```text
 1.000  What are the leading reasons for the failure of stoma closure after laparoscopic low anterior resection?
 0.500  What are some considerations when deciding whether to perform salvage surgery for aggressive tumors in critical neurovascular structures?
-0.450  How does the pedicled anterolateral thigh (ALT) flap compare to other flaps in terms of advantages and donor site morbidity?
 0.333  What are the potential reasons for the elevated risks of second ovarian and kidney cancers found after follow-up within one year of endometrial cancer diagnosis?
+0.250  How do leukocytes and microparticles contribute to the transfer of tissue factor (TF) between different cell types in thrombosis?
 0.250  What are the benefits of a multidisciplinary team approach in the management of patients with endometriosis?
 ```
 
@@ -84,11 +84,11 @@ RRF ignores the raw scores and looks only at where each result lands in the two 
 |---|---|---|---|
 | Stoma closure failure | 1 | 1 | 1/2 + 1/2 = 1.000 |
 | Salvage surgery | 5 | 2 | 1/6 + 1/3 = 0.500 |
-| ALT flap | 4 | 3 | 1/5 + 1/4 = 0.450 |
 | Second ovarian and kidney cancers | 2 | not in top 5 | 1/3 = 0.333 |
+| Leukocytes and tissue factor | not in top 5 | 3 | 1/4 = 0.250 |
 | Endometriosis team approach | 3 | not in top 5 | 1/4 = 0.250 |
 
-The salvage surgery passage is only fifth for the dense model, but BM25 ranks it second, so it beats passages that only the dense model found.
+The salvage surgery passage is only fifth for the dense model, but BM25 ranks it second, so it beats passages that only one of the two methods found. The last two results have the same score, so they can be returned in either order.
 
 ## Clean Up
 
