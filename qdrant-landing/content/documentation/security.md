@@ -140,7 +140,7 @@ Or with the environment variable:
 export QDRANT__SERVICE__ENFORCE_INTERNAL_AUTH=false
 ```
 
-Every peer must accept the key its peers send. Set the same `api_key` on every peer. Requests to a peer fail if the sending peer has no `api_key` or `alt_api_key` configured, or uses a different one. Rolling upgrades from v1.19.2 are safe, because peers have attached their key to internal requests since v1.18.0. See the list below for the exceptions.
+Every peer must accept the key its peers send. Set the same `api_key` on every peer. Requests to a peer fail if the sending peer has no `api_key` or `alt_api_key` configured, or uses a different one. Rolling upgrades from v1.19.2 are safe, because peers have attached their key to internal requests since v1.18.0. Refer to the following list for the exceptions.
 
 <aside role="alert">
 
