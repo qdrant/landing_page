@@ -21,7 +21,7 @@ Update the cluster first, then update the client SDKs. This prevents your applic
 
 ## Upgrading to v1.20
 
-As of v1.20.0, the internal gRPC API enforces authentication by default when an API key is configured. If your cluster sets only `read_only_api_key`, peers lose peer-to-peer communication after the upgrade. Set `api_key`, or set `enforce_internal_auth` to `false`. External tools that call the internal port must send the `api-key` header. For details, see [Enforce Authentication on Internal Communication](/documentation/security/#enforce-authentication-on-internal-communication).
+As of v1.20.0, the internal gRPC API enforces authentication by default when an API key is configured. If your cluster sets only `read_only_api_key`, peers lose peer-to-peer communication after the upgrade. Set `api_key`, or set `enforce_internal_auth` to `false`. If your cluster sets only `alt_api_key` and runs v1.19.0 or v1.19.1, upgrade to v1.19.2 first, because earlier versions don't forward `alt_api_key` on internal requests. External tools that call the internal port must send the `api-key` header. For details, see [Enforce Authentication on Internal Communication](/documentation/security/#enforce-authentication-on-internal-communication).
 
 ## Qdrant Cloud
 

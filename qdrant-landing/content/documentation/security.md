@@ -120,9 +120,9 @@ To rotate an API key without downtime:
 
 *Available as of v1.18.0. Enabled by default as of v1.20.0.*
 
-In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Every peer attaches its admin `api_key` to outgoing internal requests. As of v1.20.0, if `api_key` is unset, peers send `alt_api_key` instead, so a configuration with only an `alt_api_key` works.
+In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Every peer attaches its admin `api_key` to outgoing internal requests. As of v1.19.2, if `api_key` is unset, peers send `alt_api_key` instead, so a configuration with only an `alt_api_key` works.
 
-As of v1.20.0, the receiving peer checks the key by default, because the `enforce_internal_auth` setting is `true`. The internal gRPC API rejects requests that do not carry a valid `api_key` or `alt_api_key`. It accepts only these two read-write keys. It rejects the [read-only API key](#read-only-api-key) and all JWTs, including JWTs with manage access.
+As of v1.20.0, the receiving peer checks the key by default, because the `enforce_internal_auth` setting is `true`. The internal gRPC API rejects requests that do not carry a valid `api_key` or `alt_api_key`. As of v1.19.2, it accepts only these two read-write keys. It rejects the [read-only API key](#read-only-api-key) and all JWTs, including JWTs with manage access.
 
 If you don't configure an API key, Qdrant installs no authentication layer and the setting has no effect. Single-node deployments have no internal API, so they are not affected.
 
@@ -140,13 +140,14 @@ Or with the environment variable:
 export QDRANT__SERVICE__ENFORCE_INTERNAL_AUTH=false
 ```
 
-Every peer must accept the key its peers send. Set the same `api_key` on every peer. Requests to a peer fail if the sending peer has no `api_key` or `alt_api_key` configured, or uses a different one. Rolling upgrades from v1.19 are safe, because peers have attached their key to internal requests since v1.18.0.
+Every peer must accept the key its peers send. Set the same `api_key` on every peer. Requests to a peer fail if the sending peer has no `api_key` or `alt_api_key` configured, or uses a different one. Rolling upgrades from v1.19.2 are safe, because peers have attached their key to internal requests since v1.18.0. See the list below for the exceptions.
 
 <aside role="alert">
 
 **Upgrading to v1.20.0 can break these setups:**
 
 - **A cluster with only `read_only_api_key` set.** The internal API accepts only read-write keys, so peers have no key to authenticate with and lose peer-to-peer communication. Qdrant logs a warning at startup, but doesn't fail. To fix this, set `api_key`, or set `enforce_internal_auth` to `false`.
+- **A cluster with only `alt_api_key` set, upgrading from v1.19.0 or v1.19.1.** Those versions don't forward `alt_api_key` on internal requests, so v1.20.0 peers reject them. Upgrade to v1.19.2 first, and then to v1.20.0.
 - **External tools that call the internal port.** Any tool that calls port 6335 must send the `api-key` header.
 
 </aside>
