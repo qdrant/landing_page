@@ -75,7 +75,7 @@ Not just yet. In these tests, chunks still found details better. We'd keep them 
 
 UltraBERT gives us room to try retrieval at different scales. We could search whole documents to find the right topic, then search their chunks for the answer. That's worth testing, especially since combining both searches didn't consistently help here.
 
-Whole-document vectors still have a cost. Embedding SummScreenFD's transcripts whole took about 3x as long as embedding 512-token chunks on our NVIDIA L4. We used PyTorch's SDPA; the recommended FlashAttention 2 might narrow that gap, but we haven't timed it.
+Whole-document vectors still have a cost. Embedding SummScreenFD's transcripts whole took about 3x as long as embedding 512-token chunks on our NVIDIA L4.
 
 For detail search, we'd start with 512-token chunks and test 256 for single facts. Compression makes the extra vectors more affordable, though quality and rescoring latency still need testing on your own queries.
 
