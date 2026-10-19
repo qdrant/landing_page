@@ -1,13 +1,8 @@
 ```python
-from qdrant_edge import (
-    EdgeConfig,
-    EdgeShard,
-    EdgeSparseVectorParams,
-    Modifier,
-)
+from qdrant_edge import Distance, EdgeConfig, EdgeShard, EdgeVectorParams
 
 config = EdgeConfig(
-    sparse_vectors={"text": EdgeSparseVectorParams(modifier=Modifier.Idf)},
+    vectors={"embedding": EdgeVectorParams(size=4, distance=Distance.Cosine)},
 )
 
 shard = EdgeShard.create(SHARD_DIRECTORY, config)

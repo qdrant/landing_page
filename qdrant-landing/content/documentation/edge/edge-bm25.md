@@ -1,59 +1,52 @@
 ---
 title: "BM25"
-short_description: "Generate BM25 sparse embeddings for keyword search with Qdrant Edge, compatible with server-side BM25 collections."
-description: "Use the built-in BM25 embedder in Qdrant Edge to generate sparse text embeddings on-device for keyword search, without an internet connection or external model server."
+short_description: "Rank points by BM25 relevance with Qdrant Edge, using a full-text index on a payload field."
+description: "Run BM25 keyword search on-device with Qdrant Edge: create a full-text index with scoring, query text fields, tune k and b, and configure language-specific text processing."
 weight: 16
 partition: develop
 ---
 
 # BM25 with Qdrant Edge
 
-[BM25](/documentation/search/text-search/full-text-search/#bm25) (Best Matching 25) is a popular sparse-vector ranking algorithm for full-text search. Qdrant Edge includes a built-in BM25 embedder, so you can run keyword search without an internet connection or external embedding service.
+[BM25](https://en.wikipedia.org/wiki/Okapi_BM25) (Best Matching 25) is a popular ranking algorithm for keyword search. Qdrant Edge computes BM25 scores from a [full-text index](/documentation/manage-data/indexing/#full-text-index) on a payload field, so you can run keyword search on-device without an embedding model or an internet connection. The index holds everything BM25 needs, including the length of each document, so Qdrant Edge derives all statistics from your data.
 
-The BM25 embedder is compatible with server-side BM25: vectors produced by the Qdrant Edge embedder use the same token IDs and scoring formula as Qdrant Server's [text search](/documentation/search/text-search/full-text-search/#bm25) pipeline. You can initialize an Edge Shard from a server snapshot and query it with locally produced BM25 vectors without re-indexing.
+<aside role="status">Qdrant Edge also includes a BM25 embedder that generates sparse vectors, compatible with sparse vector BM25 on Qdrant Server. In Python, use the <code>Bm25</code> class. In Rust, use <code>EdgeBm25</code> from the <code>qdrant_edge::bm25_embed</code> module. Refer to <a href="/documentation/search/text-search/sparse-vector-search/#bm25">Sparse Vector Search</a>.</aside>
 
-In Python, use the `Bm25` and `Bm25Config` classes. In Rust, use `EdgeBm25` and `EdgeBm25Config` from the `qdrant_edge::bm25_embed` module.
+## Create a Full-Text Index with Scoring
 
-## Configure a Sparse Vector
-
-To get started with BM25, create an Edge Shard with a sparse vector field and `Modifier.Idf`. The IDF modifier enables inverse document frequency weighting, which is required for BM25 scoring:
+An Edge Shard requires at least one vector. This example configures a small dense vector, which you can also use for [hybrid search](/documentation/search/text-search/hybrid-search/):
 
 {{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="configure-bm25-shard" >}}
 
-## Create a BM25 Embedder
+To rank points with BM25, create a full-text index on the field you want to search and enable `scoring`. For example, to search the titles of books:
 
-Instantiate a BM25 embedder with a language setting. The embedder applies stemming and stopword filtering for the specified language:
+{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="create-bm25-index" >}}
 
-{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="create-bm25" >}}
+This index also applies English stemming and stopword removal, which improves BM25 results for English text. Refer to [Text Processing](/documentation/search/text-search/full-text-search/#text-processing).
 
-`Bm25Config` accepts the following parameters:
+## Add Points
 
-| Parameter | Description |
-|---|---|
-| `language` | Language for stemming and stopwords (for example, `"english"`, `"german"`). Defaults to `None`, which falls back to English stemming and stopwords. |
-| `k` | Term frequency saturation parameter. Default: `1.2`. |
-| `b` | Document length normalization factor. Default: `0.75`. |
-| `avg_len` | Expected average document length in tokens. Default: `256`. |
-| `lowercase` | Convert tokens to lowercase before embedding. Default: `true`. |
-| `ascii_folding` | Normalize accented characters to ASCII equivalents. Default: `false`. |
-| `stemmer` | Override the stemming algorithm. |
-| `stopwords` | Override the stopword list. |
-| `tokenizer` | Tokenizer used to break down text into individual tokens (words). Can be `"prefix"`, `"whitespace"`, `"word"`, or `"multilingual"`. Default: `"word"`. |
-| `min_token_len` | Minimum token length to include. |
-| `max_token_len` | Maximum token length to include. |
+Store the text in the indexed payload field:
 
-For a full description of each parameter, see [Configuring BM25 Parameters](/documentation/search/text-search/sparse-vector-search/#configuring-bm25-parameters).
+{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="upsert-points" >}}
 
-## Embed and Upsert Documents
+## Query a Text Field
 
-Use `embed_document` to generate a sparse vector for each document, then upsert the points. Call `optimize` after bulk inserts to build the sparse index:
+To run a BM25 query, use a `TextQuery` with the name of the indexed payload field and the query text. The following example searches for books with "time travel" in the title:
 
-{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="embed-and-upsert" >}}
+{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="query-bm25" >}}
 
-## Query
+A point matches the query if its text contains at least one of the query terms. Points that contain none of the terms are not returned. To require or exclude specific terms, add a [full-text filter](/documentation/search/filtering/#full-text-match) to the query.
 
-Use `embed_query` to generate a sparse vector for the query text, then query the shard:
+A `TextQuery` can also be used in a prefetch, for example, to combine BM25 with dense vector search in [hybrid search](/documentation/search/text-search/hybrid-search/).
 
-{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="query-with-bm25" >}}
+### Configure BM25 Parameters
 
-Always use `embed_query` for query text and `embed_document` for document text. Using the wrong function produces incorrect results, since BM25 applies different term weighting depending on the input type.
+The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking_function) has two parameters that you can set per query:
+
+- `k`. Controls term frequency saturation. Higher values increase the influence of term frequency. Must be 0 or greater. Defaults to 1.2.
+- `b`. Controls document length normalization. Ranges from 0 (no normalization) to 1 (full normalization). A higher value means longer documents have less impact. Defaults to 0.75.
+
+Because these parameters are set per query, you can change them without rebuilding the index:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/bm25/" block="query-bm25-params" >}}
