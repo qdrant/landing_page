@@ -19,6 +19,8 @@ aliases:
   - /articles/data-privacy/
 ---
 
+# Data Privacy with Qdrant's Role-Based Access Control (RBAC)
+
 Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures are critical to safeguarding this data. If the data stored in a vector database is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
 
 Strict compliance regulations govern data stored in vector databases across various industries. For instance, healthcare must comply with HIPAA, which dictates how protected health information (PHI) is stored, transmitted, and secured. Similarly, the financial services industry follows PCI DSS to safeguard sensitive financial data. These regulations require developers to ensure data storage and transmission comply with industry-specific legal frameworks across different regions. **As a result, features that enable data privacy, security and sovereignty are deciding factors when choosing the right vector database.**

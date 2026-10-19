@@ -133,7 +133,7 @@ What Qdrant can do:
 
 - Search with full-text filters
 - Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
-- Do prefix search and semantic [search-as-you-type](/articles/search-as-you-type/)
+- Do prefix search and semantic [search-as-you-type](/documentation/tutorials-develop/search-as-you-type/)
 - Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
 - [Multi-vectors](/documentation/manage-data/vectors/#multivectors), for example ColBERT and other late-interaction models
 - Combination of the [multiple searches](/documentation/search/hybrid-queries/)
@@ -303,7 +303,7 @@ data is automatically migrated to the newer storage format. This migration is no
 
 ### How do I avoid issues when updating to the latest version?
 
-We only guarantee compatibility if you update between consecutive versions. You would need to upgrade versions one at a time: `1.1 -> 1.2`, then `1.2 -> 1.3`, then `1.3 -> 1.4`.
+We only guarantee compatibility when you upgrade from one minor version to the next. If you are more than one minor version behind, upgrade the cluster to the latest patch version of each intermediate minor version before upgrading to the target version. For example, to upgrade from 1.17.x to 1.19.0, first upgrade to the latest 1.18.x patch version. Update your client SDKs after the cluster reaches the target version. See [Upgrades](/documentation/upgrades/) for details.
 
 ### Should I create payload indexes before or after uploading? 
 

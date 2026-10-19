@@ -1,3 +1,3 @@
 ```rust
-let query_text = "What is relapsing polychondritis?";
+let query_text = "Why does stoma closure fail?";
 ```

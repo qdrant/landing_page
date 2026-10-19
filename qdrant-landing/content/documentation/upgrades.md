@@ -11,13 +11,13 @@ aliases:
 
 # Upgrading Qdrant
 
-If you are several versions behind, multiple updates might be required to reach the latest version. When upgrading Qdrant, upgrade to the latest patch version of each intermediate minor version first. For example, if you are running version 1.15 and want to upgrade to 1.17, you must first upgrade all cluster nodes to 1.16.3 before upgrading to 1.17. A Qdrant node with version 1.17 will be compatible with a node with version 1.16, but not with a node with version 1.15. If you run a single node cluster, you also can not skip versions to ensure that all data migrations are properly applied. Qdrant Cloud does this automatically for you.
+If you are several versions behind, multiple updates might be required to reach the latest version. When upgrading Qdrant, upgrade to the latest patch version of each intermediate minor version first. For example, if you are running version 1.15 and want to upgrade to 1.17, you must first upgrade all cluster nodes to 1.16.3 before upgrading to 1.17. A Qdrant node with version 1.17 will be compatible with a node with version 1.16, but not with a node with version 1.15. If you run a single node cluster, you also cannot skip versions to ensure that all data migrations are properly applied. Qdrant Cloud does this automatically for you.
 
 If all collections of a cluster have a replication factor of at least **2**, the update process will be zero-downtime as long as you restart the Qdrant nodes in a rolling fashion. This means that you should restart the nodes one after another, allowing the cluster to maintain availability during the update process. If you have a single-node cluster or a collection with a replication factor of **1**, the update process will require a short downtime period to restart your cluster with the new version.
 
-You need to ensure that your client applications and used SDKs are compatible with the target version.
+You need to ensure that your client applications and used SDKs are compatible with the target version. Keep your client SDK within one minor version of your cluster version. Larger gaps might work, but are not tested.
 
-We recommend first updating the client SDKs, and after that update the cluster to ensure a smooth update process. All client SDKs are tested to be backwards compatible with the latest 3 minor versions of Qdrant.
+Update the cluster first, then update the client SDKs. This prevents your applications from using features that the older cluster version does not support yet. If you upgrade across several minor versions, for example from 1.15 to 1.19, update the client SDKs after the cluster reaches the target version.
 
 ## Qdrant Cloud
 

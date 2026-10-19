@@ -19,6 +19,8 @@ aliases:
   - /articles/tuning-qdrant-optimizer/
 ---
 
+# Configure Qdrant's Optimizer for Predictable Search Latency
+
 A bulk load finishes, and the collection looks ready: every point is in, and the upload call has returned. Then the first queries land, and search takes hundreds of milliseconds, sometimes several seconds at a stretch, while Qdrant's indexing, merge, and vacuum optimizers work through the backlog the upload left behind. How long that lasts, and what it costs each query, depends on settings most people never touch.
 
 Qdrant's [optimizer docs](/documentation/ops-optimization/optimizer/) and [read-write contention guide](/documentation/ops-optimization/read-write-contention/) already describe that trade-off qualitatively. To put numbers on it, we built a benchmark harness:

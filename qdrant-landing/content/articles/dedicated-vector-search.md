@@ -183,7 +183,7 @@ Many discussions about the purpose of vector databases focus on Retrieval-Augmen
 
 ### Discovery
 
-The strength of vector search lies in its ability to facilitate [**discovery**](/articles/discovery-search/). Vector search allows you to refine your choices as you search rather than starting with a fixed query. Say, [**you're ordering food not knowing exactly what you want**](/articles/food-discovery-demo/) — just that it should contain meat & not a burger, or that it should be meat with cheese & not tacos. Instead of searching for a specific dish, vector search helps you navigate options based on similarity and dissimilarity, guiding you toward something that matches your taste without requiring you to define it upfront.
+The strength of vector search lies in its ability to facilitate [**discovery**](/articles/discovery-search/). Vector search allows you to refine your choices as you search rather than starting with a fixed query. Say, [**you're ordering food not knowing exactly what you want**](/documentation/tutorials-search-engineering/food-discovery-recommendations/) — just that it should contain meat & not a burger, or that it should be meat with cheese & not tacos. Instead of searching for a specific dish, vector search helps you navigate options based on similarity and dissimilarity, guiding you toward something that matches your taste without requiring you to define it upfront.
 
 ### Recommendations
 

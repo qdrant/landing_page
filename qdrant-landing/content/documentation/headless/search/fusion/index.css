@@ -1,0 +1,103 @@
+/* fusion island. Scoped under .qi-fu. Controls and labels come from the shared
+   island design system (islands.scss); this file only styles the result rows,
+   the document chips and the score bars. Document hues are constant across
+   themes; the two retrievers are told apart by two neutral tones, so they
+   never compete with the document colors. */
+
+.qi-fu {
+  --fu-0: #6047ff; /* neon-blue-500 */
+  --fu-1: #388e3c; /* green-700 */
+  --fu-2: #ef6c00; /* warning-800 */
+  --fu-3: #dc244c; /* amaranth-500 */
+  --fu-4: #00838f; /* cyan-800 */
+  --fu-5: #9c27b0; /* purple-500 */
+
+  display: block;
+}
+
+/* --- Rows --- */
+.qi-fu__row {
+  cursor: default;
+}
+.qi-fu__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-fu__row.is-hot .qi-fu__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-fu__fused-row {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Score bars: dense dark, sparse light --- */
+.qi-fu__bar--dense {
+  fill: var(--qi-muted);
+}
+.qi-fu__bar--sparse {
+  fill: var(--qi-line);
+}
+.qi-fu__fused-row .qi-fu__bar,
+.qi-fu__value {
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1), x 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Flow from the prefetches into the fused list --- */
+.qi-fu__arrow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.qi-fu__head {
+  fill: var(--qi-muted);
+}
+.qi-fu__pill {
+  fill: var(--qi-surface);
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.qi-fu__pill-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* --- Document chips --- */
+.qi-fu__chip text {
+  fill: #fff;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-fu__chip--0 rect {
+  fill: var(--fu-0);
+}
+.qi-fu__chip--1 rect {
+  fill: var(--fu-1);
+}
+.qi-fu__chip--2 rect {
+  fill: var(--fu-2);
+}
+.qi-fu__chip--3 rect {
+  fill: var(--fu-3);
+}
+.qi-fu__chip--4 rect {
+  fill: var(--fu-4);
+}
+.qi-fu__chip--5 rect {
+  fill: var(--fu-5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-fu__fused-row,
+  .qi-fu__fused-row .qi-fu__bar,
+  .qi-fu__value {
+    transition: none;
+  }
+}

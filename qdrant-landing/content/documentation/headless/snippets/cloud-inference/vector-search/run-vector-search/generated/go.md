@@ -20,5 +20,6 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Prefetch:       prefetch,
 	Query:          qdrant.NewQueryFusion(qdrant.Fusion_RRF),
+	Limit:          qdrant.PtrOf(uint64(5)),
 })
 ```

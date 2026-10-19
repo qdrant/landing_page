@@ -1,12 +1,12 @@
 ---
-title: From S3 Vectors
+title: From Amazon S3 Vectors
 short_description: "Migrate vector data stored in Amazon S3 Vectors into Qdrant collections for richer filtering and search APIs."
-description: "Migrate from S3 Vectors to Qdrant by streaming vectors, metadata, and indexes out of S3 Vectors into Qdrant collections with the Qdrant Migration Tool."
+description: "Migrate from Amazon S3 Vectors to Qdrant by streaming vectors, metadata, and indexes out of S3 Vectors into Qdrant collections with the Qdrant Migration Tool."
 weight: 35
 partition: ecosystem
 ---
 
-# Migrate from S3 Vectors to Qdrant
+# Migrate from Amazon S3 Vectors to Qdrant
 
 ## What You Need from AWS
 
@@ -45,11 +45,6 @@ AWS credentials are passed via environment variables or the default AWS credenti
 | Flag | Default | Description |
 | :--- | :--- | :--- |
 | `--qdrant.id-field` | `__id__` | Payload field name for original S3 vector IDs |
-
-## Gotchas
-
-- **Credential handling:** AWS credentials must be available inside the container. Pass them as environment variables with `-e` flags or mount your `~/.aws` directory.
-- **Region matters:** Ensure the `AWS_REGION` environment variable matches the region of your S3 bucket.
 
 ## Next Steps
 

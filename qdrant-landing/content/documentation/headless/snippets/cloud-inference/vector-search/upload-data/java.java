@@ -27,8 +27,8 @@ public class Snippet {
                 String denseModel = "sentence-transformers/all-minilm-l6-v2";
                 String bm25Model = "qdrant/bm25";
                 // NOTE: loadDataset is a user-defined function.
-                // Implement it to handle dataset loading as needed.
-                List<Map<String, String>> dataset = loadDataset("miriad/miriad-4.4M", "train[0:100]");
+                // Implement it to return 100 random rows with distinct passages, as the Python version does.
+                List<Map<String, String>> dataset = loadDataset("miriad/miriad-4.4M", "train");
                 List<PointStruct> points = new ArrayList<>();
 
                 for (Map<String, String> item : dataset) {

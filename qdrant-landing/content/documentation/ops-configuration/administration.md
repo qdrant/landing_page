@@ -73,7 +73,7 @@ Strict mode is a feature to restrict certain type of operations on a collection 
 
 Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed. Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
-The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters. As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically. 
+The `strict_mode_config` can be enabled when [creating](/documentation/manage-data/collections/#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters. As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically. 
 
 Simply enabling strict mode without specifying a specific restriction does not have any effect. You need to explicitly set the restrictions you want to enforce.
 

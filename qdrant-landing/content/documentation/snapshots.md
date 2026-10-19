@@ -347,4 +347,4 @@ Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://g
 - Migrating vectors from other providers into Qdrant.
 - Migrating from Qdrant OSS to Qdrant Cloud.
 
-Follow our [migration guide](/documentation/tutorials-operations/migration/) to learn how to effectively use the Qdrant Migration tool.
+Follow our [migration guide](/documentation/migrate-to-qdrant/) to learn how to effectively use the Qdrant Migration tool.

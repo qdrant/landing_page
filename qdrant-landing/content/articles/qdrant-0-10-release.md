@@ -10,6 +10,15 @@ author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2022-09-19T13:30:00+02:00
 draft: false
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v0.10.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v0.10.0"
 ---
 
 [Qdrant 0.10 is a new version](https://github.com/qdrant/qdrant/releases/tag/v0.10.0) that brings a lot of performance 

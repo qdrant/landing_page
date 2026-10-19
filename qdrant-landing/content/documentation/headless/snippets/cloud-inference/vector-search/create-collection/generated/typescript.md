@@ -1,5 +1,7 @@
 ```typescript
-client.createCollection("{collection_name}", {
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+await client.createCollection("{collection_name}", {
   vectors: {
     dense_vector: { size: 384, distance: "Cosine" },
   },

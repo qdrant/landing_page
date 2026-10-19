@@ -90,9 +90,10 @@ Renaming a cluster does not affect its functionality or configuration. The clust
 
 ## Adding Labels to a Cluster
 
-You can add labels to a Qdrant Cluster from the cluster's detail page. Labels are key-value pairs that help you organize and manage your clusters.
+You can add labels to a Qdrant Cluster from the cluster's detail page. Labels are key-value pairs that help you organize and manage your clusters. You can also configure which label will be used for cost attribution and shown in consumption reports.
 
 ![Cluster Labels](/documentation/cloud/cloud-cluster-labels.png)
+![Cluster Labels Cost Allocation](/documentation/cloud/cloud-cluster-labels-cost-allocation.png)
 
 ## Audit Logging
 

@@ -50,7 +50,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
     --qdrant.api-key 'your-qdrant-api-key' \
     --qdrant.collection 'your-collection' \
-    --migration.create-collection false
+    --migration.create-collection=false
 ```
 
 ### All MongoDB-Specific Flags
@@ -70,8 +70,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Vector field names are required:** MongoDB has no schema-level marker for vector fields. You must explicitly list them via `--mongodb.vector-fields`.
-- **ID mapping:** MongoDB `_id` values (ObjectId or string) are converted to Qdrant UUIDs. The original value is stored in payload under `--qdrant.id-field`.
+- **Named vectors:** Every vector field becomes a named vector with the field's name, even when there is only one. Pre-create the collection with a named vector for each field.
 
 ## Next Steps
 

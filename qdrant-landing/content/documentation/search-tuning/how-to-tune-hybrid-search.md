@@ -26,6 +26,10 @@ Before you tune fusion, use the [pre-tuning checks](/documentation/search-tuning
 
 Hybrid search retrieves dense and sparse candidate lists, then fuses them into one ranking. The dense prefetch finds similar meaning; the sparse prefetch finds matching keywords. Fusion reorders the candidates the prefetches return, so a document missing from both lists cannot appear in the result.
 
+To run this sweep with an agent, the Tune hybrid search prompt walks it through the same order and holds it to your labels rather than to a default.
+
+{{< prompt "tune-hybrid-search" >}}
+
 ## Confirm Fusion Beats Either Prefetch
 
 Before tuning, compare dense retrieval, sparse retrieval, and default [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) (RRF) at `k=2` and equal weights. Score all three with `nDCG@10`, which grades the top 10 results and gives more credit to relevant documents near the top.

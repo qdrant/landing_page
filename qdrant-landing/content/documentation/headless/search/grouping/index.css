@@ -1,0 +1,82 @@
+/* grouping island. Scoped under .qi-sg. Controls, frames and labels come from
+   the shared island design system (islands.scss); this file only styles the
+   result rows, the document_id chips and the score bars. Group hues are
+   constant across themes. */
+
+.qi-sg {
+  --sg-0: #6047ff; /* neon-blue-500 */
+  --sg-1: #388e3c; /* green-700 */
+  --sg-2: #ef6c00; /* warning-800 */
+  --sg-3: #9c27b0; /* purple-500 */
+
+  display: block;
+}
+
+/* The group frames only exist once grouped; the list headings only before. */
+.qi-sg__frame {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.qi-sg.is-grouped .qi-sg__frame {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+.qi-sg__head {
+  transition: opacity 0.3s ease;
+}
+.qi-sg.is-grouped .qi-sg__head {
+  opacity: 0;
+}
+
+/* --- Rows --- */
+.qi-sg__row {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+.qi-sg__row.is-hidden {
+  opacity: 0;
+}
+.qi-sg__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-sg__score {
+  fill: var(--qi-muted);
+}
+
+/* --- document_id chips --- */
+.qi-sg__chip text {
+  fill: #fff;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+.qi-sg__chip--0 rect {
+  fill: var(--sg-0);
+}
+.qi-sg__chip--1 rect {
+  fill: var(--sg-1);
+}
+.qi-sg__chip--2 rect {
+  fill: var(--sg-2);
+}
+.qi-sg__chip--3 rect {
+  fill: var(--sg-3);
+}
+/* Inside a group, a chip for another group is dimmed. */
+.qi-sg__chip {
+  transition: opacity 0.4s ease;
+}
+.qi-sg.is-grouped .qi-sg__chip.is-other {
+  opacity: 0.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-sg__row,
+  .qi-sg__frame,
+  .qi-sg__head,
+  .qi-sg__chip {
+    transition: none;
+  }
+}

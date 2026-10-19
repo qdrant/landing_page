@@ -1,8 +1,8 @@
-import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-client.createCollection("{collection_name}", {
+await client.createCollection("{collection_name}", {
   vectors: {
     dense_vector: { size: 384, distance: "Cosine" },
   },

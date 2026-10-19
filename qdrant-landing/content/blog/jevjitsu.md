@@ -6,7 +6,7 @@ short_description: "Trying Jev on reranking, query understanding, near-duplicate
 description: "We applied the Jev generalized classifier to reranking, query understanding, near-duplicate removal, and semantic chunking."
 date: 2026-10-08T00:00:00Z
 author: Andrei Cristea & Chadha Sridi
-featured: false
+featured: true
 preview_image: /blog/jevjitsu/preview_image.jpg
 social_preview_image: /blog/jevjitsu/preview_image.jpg
 tags:

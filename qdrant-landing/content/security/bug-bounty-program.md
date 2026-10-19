@@ -73,5 +73,5 @@ Follow these guidelines when disclosing vulnerabilities to us:
 ### Contact
 For questions about the program or to report security issues, contact:
 - Web Portal: [Bug Bounty Program Support Portal](https://get.support.qdrant.io/servicedesk/customer/portal/35)
-- Email: [security@qdrant.com](mailto:security@qdrant.com)
+- Email: [bug.bounty@qdrant.com](mailto:bug.bounty@qdrant.com)
 - PGP Key Fingerprint: [07E3 6646 E0D0 A3BF 0AFC B302 26C5 016B 97EB 804B](/misc/qdrant-security-public-key.asc)

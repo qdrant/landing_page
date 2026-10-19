@@ -72,9 +72,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Document text:** Chroma stores raw document text alongside embeddings. Use `--qdrant.document-field` to preserve this text as a payload field in Qdrant.
-- **ID mapping:** Chroma uses string IDs. The migration tool maps these to Qdrant point IDs and stores the original Chroma ID in a payload field (default: `__id__`).
-- **Distance metric:** Chroma defaults to L2 distance. Verify which metric your collection uses and set `--qdrant.distance-metric` accordingly.
+- **Distance metric:** The tool does not read the collection's distance function and defaults to `euclid`, which matches Chroma's default `l2`. If your collection uses `cosine` or `ip`, set `--qdrant.distance-metric`.
 
 ## Next Steps
 

@@ -1,0 +1,16 @@
+{{- /* Explicit opt-in keeps existing posts unchanged. Shared by HTML and Markdown. */ -}}
+{{- $profile := dict -}}
+{{- if eq .Section "blog" -}}
+  {{- with .Params.author_profile -}}
+    {{- with index hugo.Data.authors . -}}
+      {{- $bioLength := len (findRE "(?s)." .bio) -}}
+      {{- if gt $bioLength 300 -}}
+        {{- errorf "Author profile %q has a %d-character bio; maximum is 300." $.Params.author_profile $bioLength -}}
+      {{- end -}}
+      {{- $profile = . -}}
+    {{- else -}}
+      {{- errorf "Unknown author_profile %q in %s. Add it to data/authors.yaml." . $.File.Path -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $profile -}}

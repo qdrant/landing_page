@@ -12,6 +12,7 @@ social_preview_image: /blog/colpali-optimization/preview-2.png # Optional image 
 
 date: 2024-11-27T00:40:24-03:00
 author: Evgeniya Sukhodolskaya, Sabrina Aquino # Change this
+author_profile: evgeniya-sukhodolskaya
 featured: yes # if true, this post will be featured on the blog page
 tags: # Change this, related by tags posts will be shown on the blog page
   - colpali

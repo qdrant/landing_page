@@ -12,6 +12,7 @@ preview_image: /blog/Article-Image.png # Change this
 
 date: {{ .Date }}
 author: John Doe # Change this
+# author_profile: your-profile-key # Optional card; use a key from data/authors.yaml
 featured: false # if true, this post will be featured on the blog page
 tags: # Change this, related by tags posts will be shown on the blog page
   - news

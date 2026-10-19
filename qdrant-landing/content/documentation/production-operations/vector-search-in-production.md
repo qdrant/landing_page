@@ -13,6 +13,8 @@ aliases:
   - /articles/vector-search-resource-optimization/
 ---
 
+# Vector Search in Production: Scaling, HA & Tuning Guide
+
 ## What Does it Take to Run Search in Production?
 
 A mid-sized e-commerce company launched a vector search pilot to improve product discovery. During testing, everything ran smoothly. But in production, their queries began failing intermittently: memory errors, disk I/O spikes, and search delays sprang up unexpectedly.

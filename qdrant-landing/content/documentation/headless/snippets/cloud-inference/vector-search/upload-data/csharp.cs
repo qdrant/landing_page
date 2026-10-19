@@ -1,5 +1,5 @@
-using Qdrant.Client; // @hide
-using Qdrant.Client.Grpc; // @hide
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
 public class Snippet
 {
@@ -10,14 +10,14 @@ public class Snippet
 		var denseModel = "sentence-transformers/all-minilm-l6-v2";
 		var bm25Model = "qdrant/bm25";
 		// NOTE: LoadDataset is a user-defined function.
-		// Implement it to handle dataset loading as needed.
+		// Implement it to return 100 random rows with distinct passages, as the Python version does.
 		// @hide-start
 		List<Dictionary<string, object>> LoadDataset(string path, string slice)
 		{
 		    return new List<Dictionary<string, object>> {};
 		}
 		// @hide-end
-		var dataset = LoadDataset("miriad/miriad-4.4M", "train[0:100]");
+		var dataset = LoadDataset("miriad/miriad-4.4M", "train");
 		var points = new List<PointStruct>();
 
 		foreach (var item in dataset)
@@ -46,7 +46,7 @@ public class Snippet
 		}
 
 		await client.UpsertAsync(
-		    collectionName: "{collectionName}",
+		    collectionName: "{collection_name}",
 		    points: points
 		);
 	}

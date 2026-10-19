@@ -32,4 +32,6 @@ results = client.query_points(
     with_payload=True
 )
 
-print(results.points)
+for point in results.points:
+    assert point.payload is not None  # @hide
+    print(f"{point.score:.3f}  {point.payload['question'].strip()}")

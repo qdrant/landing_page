@@ -82,7 +82,9 @@
 /documentation/database-tutorials/automate-filtering-with-llms/*  /documentation/search-precision/automate-filtering-with-llms/:splat  301!
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
 /documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
-/documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
+/documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat  301!
+/documentation/tutorials/neural-search/*  /documentation/tutorials-develop/neural-search/:splat  301!
+/documentation/beginner-tutorials/neural-search/*  /documentation/tutorials-develop/neural-search/:splat  301!
 /documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
 /documentation/search-precision/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
 /documentation/advanced-tutorials/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301!
@@ -132,6 +134,10 @@
 # "Building Performant, Scaled Agentic Vector Search with Qdrant" merged into the agentic RAG article (HTML and Markdown).
 /articles/agentic-builders-guide/*  /articles/agentic-rag/:splat  301!
 
+# Semantic caching article moved to Tutorials (HTML and Markdown).
+/articles/semantic-cache-ai-data-retrieval/*  /documentation/tutorials-build-essentials/semantic-cache/:splat  301!
+/blog/semantic-cache-ai-data-retrieval/*  /documentation/tutorials-build-essentials/semantic-cache/:splat  301!
+
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301
 /articles/machine-learning/        /articles/embedding-research/    301
@@ -152,11 +158,17 @@
 /articles/bulk-uploads-in-qdrant/*  /documentation/production-operations/bulk-data-import/:splat  301!
 /articles/candidate-depth/*  /documentation/search-tuning/candidate-depth/:splat  301!
 /articles/data-privacy/*  /documentation/production-operations/access-control/:splat  301!
+/articles/food-discovery-demo/*  /documentation/tutorials-search-engineering/food-discovery-recommendations/:splat  301!
+/articles/fastembed/*  /documentation/tutorials-basics/generate-embeddings-fastembed/:splat  301!
 /articles/how-to-choose-an-embedding-model/*  /documentation/search-patterns/choose-embedding-model/:splat  301!
 /articles/how-to-tune-hybrid-search/*  /documentation/search-tuning/how-to-tune-hybrid-search/:splat  301!
 /articles/hybrid-search/*  /documentation/search-tuning/hybrid-search/:splat  301!
+/articles/langchain-integration/*  /documentation/tutorials-build-essentials/question-answering-langchain/:splat  301!
 /articles/memory-tiers-in-qdrant-what-to-use-and-when/*  /documentation/production-operations/memory-tiers/:splat  301!
 /articles/multitenancy/*  /documentation/production-operations/multitenant-search/:splat  301!
+/articles/new-recommendation-api/*  /documentation/tutorials-search-engineering/food-discovery-recommendations/:splat  301!
+/articles/search-as-you-type/*  /documentation/tutorials-develop/search-as-you-type/:splat  301!
+/articles/serverless/*  /documentation/tutorials-develop/serverless-semantic-search/:splat  301!
 /articles/tuning-qdrant-optimizer/*  /documentation/production-operations/predictable-search-latency/:splat  301!
 /articles/vector-search-production/*  /documentation/production-operations/vector-search-in-production/:splat  301!
 /articles/vector-search-resource-optimization/*  /documentation/production-operations/vector-search-in-production/:splat  301!
@@ -165,6 +177,16 @@
 /articles/why_rust/*  /blog/why-rust/:splat  301!
 /articles/when-a-reranker-is-worth-it/*  /documentation/search-tuning/when-a-reranker-is-worth-it/:splat  301!
 /articles/when-your-collection-outgrows-ram/*  /documentation/search-tuning/when-your-collection-outgrows-ram/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-1/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-1/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-2/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-2/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-3/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-3/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-4/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-4/:splat  301!
+/articles/sparse-embeddings-ecommerce-part-5/*  /documentation/tutorials-search-engineering/sparse-embeddings-ecommerce-part-5/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-1/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-1/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-2/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-2/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-3/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-3/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-4/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-4/:splat  301!
+/articles_data/sparse-embeddings-ecommerce-part-5/*  /documentation/tutorials/sparse-embeddings-ecommerce-part-5/:splat  301!
 /documentation/improve-search/pipeline-output-quality/*  /documentation/search-evaluation/pipeline-output-quality/:splat  301!
 /documentation/improve-search/query-decomposition/*  /documentation/tutorials-search-engineering/query-decomposition/:splat  301!
 /documentation/improve-search/retrieval-relevance/*  /documentation/search-evaluation/retrieval-relevance/:splat  301!
@@ -179,3 +201,17 @@
 # alias stub is a real file and so keeps serving the HTML, and this rule applies
 # where there is no file to shadow it.
 /documentation/skills/*    /documentation/agentic-tools/skills/:splat    301
+
+# Data Migration tutorial merged into Migrate to Qdrant
+/documentation/tutorials-operations/migration/*   /documentation/migrate-to-qdrant/:splat   301!
+/documentation/tutorials-operations/migration     /documentation/migrate-to-qdrant/         301!
+/documentation/database-tutorials/migration/*     /documentation/migrate-to-qdrant/:splat   301!
+/documentation/database-tutorials/migration       /documentation/migrate-to-qdrant/         301!
+
+# Static Embeddings moved from tutorials to articles
+/documentation/tutorials-search-engineering/static-embeddings/*   /articles/static-embeddings/:splat   301!
+/documentation/tutorials-search-engineering/static-embeddings     /articles/static-embeddings/         301!
+/documentation/database-tutorials/static-embeddings/*             /articles/static-embeddings/:splat   301!
+/documentation/database-tutorials/static-embeddings               /articles/static-embeddings/         301!
+/blog/static-embeddings/*                                         /articles/static-embeddings/:splat   301!
+/blog/static-embeddings                                           /articles/static-embeddings/         301!

@@ -19,9 +19,9 @@ partition: ecosystem
 | :--- | :--- | :--- |
 | Table | Collection | One-to-one mapping |
 | Row | Point | Each row becomes a point |
-| `vector` column | Vector | Mapped automatically |
+| `vector` or `halfvec` column | Vector | Mapped automatically |
 | Other columns | Payload | All non-vector columns become payload fields |
-| `vector_cosine_ops` | `Cosine` | The tool creates `Cosine` by default. pgvector returns distance (1 - similarity); Qdrant returns similarity |
+| `vector_cosine_ops` | `Cosine` | The tool creates `Cosine` by default. pgvector returns distance (1 - similarity). Qdrant returns similarity |
 | `vector_l2_ops` | `Euclid` | Not detected. Set `--qdrant.distance-metric` explicitly |
 | `vector_ip_ops` | `Dot` | Not detected. Set `--qdrant.distance-metric` explicitly. pgvector uses negative inner product for ordering; scores will be inverted |
 
@@ -66,14 +66,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
-| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `embedding:euclid`). The tool does not read the operator class, so set it for every `L2` or `IP` column |
-
-## Gotchas
-
-- **Partition structure:** If you had manual partitions in pgvector (common at scale), verify that all partitions were migrated, not just the primary table.
-- **NULL handling:** PostgreSQL NULLs may be dropped during export. Check that optional fields are represented correctly in Qdrant payloads.
-- **Index type and recall:** pgvector supports IVFFlat and HNSW. If your baseline was captured with IVFFlat (lower recall), Qdrant's HNSW may return better results. This looks like a "mismatch" but is an improvement.
-- **Row count approximation:** Postgres's `n_live_tup` is an estimate, not an exact count. Use `SELECT COUNT(*) FROM your_table` for accurate comparison during [migration verification](/documentation/migration-guidance/).
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `embedding=euclid`). The tool does not read the operator class, so set it for every `L2` or `IP` column |
 
 ## After Migration: Keeping Postgres and Qdrant in Sync
 

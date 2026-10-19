@@ -26,6 +26,7 @@ QueryPoints request =
         .addPrefetch(densePrefetch)
         .addPrefetch(bm25Prefetch)
         .setQuery(fusion(Fusion.RRF))
+        .setLimit(5)
         .build();
 
 client.queryAsync(request).get();

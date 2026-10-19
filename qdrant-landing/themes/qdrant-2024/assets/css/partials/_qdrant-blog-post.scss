@@ -71,3 +71,103 @@
     }
   }
 }
+
+// Keep card typography independent of the article's generic element rules.
+.qdrant-post__content .blog-author-card {
+  display: grid;
+  grid-template-columns: pxToRem(64) minmax(0, 1fr) auto;
+  gap: $spacer * 0.75 $spacer;
+  align-items: center;
+  margin-top: $spacer * 3;
+  padding: $spacer * 1.5;
+  border: 1px solid $neutral-90;
+  border-radius: $spacer * 0.75;
+  background: $neutral-100;
+
+  .blog-author-card__portrait {
+    width: pxToRem(64);
+    height: pxToRem(64);
+    margin: 0;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .blog-author-card__label {
+    margin: 0 0 $spacer * 0.25;
+    font-size: pxToRem(12);
+    line-height: 1.5;
+    color: $neutral-50;
+  }
+
+  .blog-author-card__name {
+    margin: 0;
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.3;
+    color: $neutral-20;
+  }
+
+  .blog-author-card__role {
+    margin: $spacer * 0.25 0 0;
+    font-size: pxToRem(13);
+    line-height: 1.5;
+    color: $neutral-50;
+  }
+
+  .blog-author-card__bio {
+    grid-column: 2 / -1;
+    margin: 0;
+    font-size: pxToRem(15);
+    line-height: 1.6;
+    color: $neutral-30;
+  }
+
+  .blog-author-card__links {
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    gap: $spacer * 0.25;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: pxToRem(36);
+      height: pxToRem(36);
+      border-radius: $spacer * 0.5;
+      color: $neutral-50;
+
+      &:hover {
+        color: $primary-50;
+      }
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+    }
+
+    svg {
+      display: block;
+      width: pxToRem(18);
+      height: pxToRem(18);
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: pxToRem(48) minmax(0, 1fr);
+    padding: $spacer;
+
+    .blog-author-card__portrait {
+      width: pxToRem(48);
+      height: pxToRem(48);
+    }
+
+    .blog-author-card__bio {
+      grid-column: 1 / -1;
+    }
+    .blog-author-card__links {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+  }
+}
