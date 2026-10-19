@@ -351,6 +351,12 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/lyzr.svg
       alt: Lyzr logo
+  - id: minima
+    name: Minima
+    industry: Technology
+    use_cases: ["RAG", "Hybrid search", "Generative AI"]
+    title: "Qdrant and Minima Deliver 2.92x More Agentic RAG Tasks per GPU-Hour"
+    blog_path: /blog/case-study-minima
   - id: mixpeek
     name: Mixpeek
     industry: Media and entertainment
