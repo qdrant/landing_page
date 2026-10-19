@@ -218,9 +218,9 @@ You don't need to explicitly specify this datatype for vectors in Qdrant, as it 
 
 ### TurboQuant Datatypes
 
-TurboQuant datatypes store each vector in a compressed form, using fewer bits per dimension than a 32-bit float. They're built on TurboQuant, [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). Each vector is first rotated mathematically, spreading each dimension's information evenly across the whole vector so no single dimension loses a disproportionate share of detail during compression. Each rotated value is then stored with fewer bits.
+TurboQuant datatypes store each vector in a compressed form, using fewer bits per dimension than a 32-bit float. They're built on [TurboQuant](/articles/turboquant-quantization/). Each vector is first rotated mathematically, spreading each dimension's information evenly across the whole vector so no single dimension loses a disproportionate share of detail during compression. Each rotated value is then stored with fewer bits.
 
-TurboQuant datatypes accept regular floating-point vectors and compress them when they're stored. They're only supported for dense vectors and cannot be used to configure sparse vectors.
+TurboQuant datatypes accept regular floating-point vectors and compress them when they're stored. They're supported for dense vectors and [multivectors](#multivectors), but can't be used to configure sparse vectors.
 
 <aside role="status">
 Don't confuse TurboQuant datatypes with <a href="/documentation/manage-data/quantization/#turboquant-quantization">TurboQuant quantization</a>. Quantization keeps the original vectors and adds a compressed copy alongside them. A TurboQuant datatype replaces the original vectors with their compressed form, so no full-precision copy is kept.
