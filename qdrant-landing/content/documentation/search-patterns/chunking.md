@@ -9,7 +9,7 @@ draft: false
 ---
 
 # How to Choose a Chunking Strategy
-Chunking became the go-to way to split large collections of documents. Imagine a library of books stored in a vector search engine: to answer a question about one chapter, you need to reach that chapter, not the whole book. Chunking is mostly used in the retrieval step of a [RAG pipeline](/articles/what-is-rag-in-ai). But is it that useful?
+Chunking became the go-to way to split large collections of documents. Imagine a library of books stored in a vector search engine: to answer a question about one chapter, you need to reach that chapter, not the whole book. Chunking is mostly used in the retrieval step of a [RAG pipeline](/articles/what-is-rag-in-ai/). But is it that useful?
 
 Long context windows keep reviving the claim that RAG, and chunking with it, is no longer needed: just put the whole context into the LLM. Even Qdrant has asked the question ([RIP Chunking?](/blog/ultrabert-embed/)). When you read one of these takes, it's important to keep a cool head and think about what chunking does for your system.
 
