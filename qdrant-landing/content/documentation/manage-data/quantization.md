@@ -40,7 +40,7 @@ Depending on your requirements for recall, compression, and distance metrics, co
 
 | Compression | Method      |
 |-------------|-------------|
-| 4           | Use 8-bit **TurboQuant**. In our benchmarks, the 8-bit TurboQuant encoding matched or exceeded the recall of scalar quantization at the same compression, with similar speed. <br/><br/>When using the Manhattan (L1) distance metric, use **Scalar Quantization** instead. It is a well-established quantization method with a good balance between recall and compression. |
+| 4           | Use 8-bit **TurboQuant**. In our benchmarks, the 8-bit TurboQuant encoding matched or exceeded the recall of scalar quantization at the same compression, with similar speed. <br/><br/>When using the Manhattan (L1) distance metric, use **Scalar Quantization** instead. |
 | 8           | Use 4-bit **TurboQuant**. It offers a good balance between recall and compression. <br/><br/>When using the Manhattan (L1) distance metric, consider using another quantization method. |
 | 16          | **2-bit TurboQuant** and **2-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | ~21         | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
