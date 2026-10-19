@@ -207,7 +207,6 @@ Per-element indexes have the following constraints:
 * Only one array level is supported. `nested` can't point to an array inside another array, such as `a[].b[]`.
 * A per-element index can't also be a [tenant index](#tenant-index) or a [principal index](#principal-index).
 * Changing `nested` on an existing index rebuilds the index.
-* Per-element indexes aren't supported in Qdrant Edge yet.
 
 ##### Differences from Regular Indexes
 
