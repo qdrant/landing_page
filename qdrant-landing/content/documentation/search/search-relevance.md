@@ -125,7 +125,13 @@ The `acosh` expression returns the inverse hyperbolic cosine of a single express
 
 The input must be at least 1, and `acosh(1)` returns `0`. A smaller input returns a non-finite number error. Qdrant doesn't clamp values that are only slightly below 1. If rounding could push the input below 1, add a small epsilon.
 
-This example rescores prefetch results with `acosh` to return hyperbolic geodesic distance as the score:
+The formula you need depends on how you ingest and query the vectors. This example uses the Lorentz model with a curvature of 1:
+
+1. Create the collection with the `Dot` distance metric.
+2. Store the points as Lorentz-model vectors.
+3. Query with a vector of the same kind, but flip the sign of its first element.
+
+The dot product, which is the `$score`, is then the Lorentzian inner product of the query and the point, and the geodesic distance is `acosh(-$score)`. Formula results are sorted in descending order, so the example negates the distance to rank the closest points first:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-hyperbolic-distance/" >}}
 

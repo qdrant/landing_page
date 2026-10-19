@@ -14,25 +14,17 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Prefetch: []*qdrant.PrefetchQuery{
 		{
-			// the time coordinate (the first value) is negated
-			Query: qdrant.NewQuery(-3.2, 0.3, 0.4),
+			// the sign of the first element is flipped
+			Query: qdrant.NewQuery(-1.118, 0.3, 0.4),
 			Limit: qdrant.PtrOf(uint64(100)),
 		},
 	},
 	Query: qdrant.NewQueryFormula(&qdrant.Formula{
-		Expression: qdrant.NewExpressionMult(&qdrant.MultExpression{
-			Mult: []*qdrant.Expression{
-				qdrant.NewExpressionConstant(-3.1622776601683795), // -1 / sqrt(0.1)
-				qdrant.NewExpressionAcosh(
-					qdrant.NewExpressionMult(&qdrant.MultExpression{
-						Mult: []*qdrant.Expression{
-							qdrant.NewExpressionConstant(0.1),
-							qdrant.NewExpressionNeg(qdrant.NewExpressionVariable("$score")),
-						},
-					}),
-				),
-			},
-		}),
+		Expression: qdrant.NewExpressionNeg(
+			qdrant.NewExpressionAcosh(
+				qdrant.NewExpressionNeg(qdrant.NewExpressionVariable("$score")),
+			),
+		),
 	}),
 })
 ```
