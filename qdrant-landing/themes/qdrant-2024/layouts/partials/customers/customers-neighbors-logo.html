@@ -1,0 +1,12 @@
+{{- /* A case study logo recolored for the dark map: the file is used as a
+     mask over a flat fill, so any logo color reads the same, and the mask is
+     sized to show only the drawn part of the file, without its padding. Case studies
+     without a logo file get a wordmark. */ -}}
+{{- $p := .point -}}
+{{- if $p.logo -}}
+{{- $style := printf "--h: %v; aspect-ratio: %v; --logo: url('%s');" $p.h $p.aspect $p.logo -}}
+{{- with $p.mask_size }}{{ $style = printf "%s --logo-size: %s; --logo-pos: %s;" $style . $p.mask_pos }}{{ end -}}
+<span class="{{ .class }} customers-neighbors__logo" role="img" aria-label="{{ $p.name }}" style="{{ $style | safeCSS }}"></span>
+{{- else -}}
+<span class="{{ .class }} customers-neighbors__logo customers-neighbors__logo_wordmark" style="{{ printf "--h: %v;" $p.h | safeCSS }}">{{ $p.name }}</span>
+{{- end -}}

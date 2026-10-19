@@ -1,0 +1,2222 @@
+{
+  "_generated_by": "automation/case-study-space/build_space.py",
+  "model": "BAAI/bge-small-en-v1.5",
+  "projection": "mean-centered, UMAP cosine, n_neighbors=6, min_dist=0.35, seed 42, de-overlapped",
+  "width": 1000,
+  "height": 760,
+  "points": [
+    {
+      "id": "alhena",
+      "name": "Alhena AI",
+      "url": "/blog/case-study-alhena/",
+      "industry": "E-commerce",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Customer support",
+        "E-commerce discovery",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/alhena.svg",
+      "hits": [
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.23
+        },
+        {
+          "id": "lyzr",
+          "cosine": 0.167
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.134
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.115
+        }
+      ],
+      "aspect": 3.623,
+      "mask_size": "101.1% 131.8%",
+      "mask_pos": "50.0% 49.6%",
+      "h": 29.5,
+      "x": 0.6582,
+      "y": 0.2165,
+      "px": 0.2283,
+      "py": 0.6441
+    },
+    {
+      "id": "and-ai",
+      "name": "&AI",
+      "url": "/blog/case-study-and-ai/",
+      "industry": "Legal tech",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Patent and legal research",
+        "RAG",
+        "Hybrid search"
+      ],
+      "logo": "/img/customers-case-studies-logo/and-ai.svg",
+      "hits": [
+        {
+          "id": "garden-intel",
+          "cosine": 0.368
+        },
+        {
+          "id": "lawme",
+          "cosine": 0.325
+        },
+        {
+          "id": "aracor",
+          "cosine": 0.216
+        },
+        {
+          "id": "trust-graph",
+          "cosine": 0.106
+        }
+      ],
+      "aspect": 2.1,
+      "mask_size": "102.9% 197.7%",
+      "mask_pos": "50.0% 50.6%",
+      "h": 38.7,
+      "x": 0.3114,
+      "y": 0.8864,
+      "px": 0.9426,
+      "py": 0.2854
+    },
+    {
+      "id": "anima-health",
+      "name": "Anima Health",
+      "url": "/blog/case-study-anima-health/",
+      "industry": "Healthcare",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Customer support",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/anima-health.svg",
+      "hits": [
+        {
+          "id": "sunny-health",
+          "cosine": 0.339
+        },
+        {
+          "id": "sapu",
+          "cosine": 0.241
+        },
+        {
+          "id": "visua",
+          "cosine": 0.108
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.076
+        }
+      ],
+      "aspect": 2.5,
+      "h": 35.5,
+      "x": 0.4124,
+      "y": 0.8348,
+      "px": 0.7796,
+      "py": 0.4036
+    },
+    {
+      "id": "aracor",
+      "name": "Aracor",
+      "url": "/blog/case-study-aracor/",
+      "industry": "Legal tech",
+      "product": "Hybrid",
+      "use_cases": [
+        "Patent and legal research",
+        "Hybrid search",
+        "RAG"
+      ],
+      "logo": "/img/customers-case-studies-logo/aracor.svg",
+      "hits": [
+        {
+          "id": "lawme",
+          "cosine": 0.361
+        },
+        {
+          "id": "and-ai",
+          "cosine": 0.216
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.191
+        },
+        {
+          "id": "nyris",
+          "cosine": 0.187
+        }
+      ],
+      "aspect": 2.281,
+      "h": 37.2,
+      "x": 0.1033,
+      "y": 0.8386,
+      "px": 0.8866,
+      "py": 0.1598
+    },
+    {
+      "id": "bayer",
+      "name": "Bayer",
+      "url": "/blog/case-study-bayer/",
+      "industry": "Life sciences",
+      "product": "Hybrid",
+      "logo": "/img/home-customers-logo/bayer.svg",
+      "hits": [
+        {
+          "id": "goperfect",
+          "cosine": 0.198
+        },
+        {
+          "id": "bloop",
+          "cosine": 0.156
+        },
+        {
+          "id": "himalayas",
+          "cosine": 0.15
+        },
+        {
+          "id": "glassdollar",
+          "cosine": 0.129
+        }
+      ],
+      "aspect": 1.0,
+      "h": 40.0,
+      "x": 0.8908,
+      "y": 0.8855,
+      "px": 0.9447,
+      "py": 0.8852
+    },
+    {
+      "id": "bazaarvoice",
+      "name": "Bazaarvoice",
+      "url": "/blog/case-study-bazaarvoice/",
+      "industry": "E-commerce",
+      "product": "Hybrid",
+      "use_cases": [
+        "E-commerce discovery",
+        "Recommendations",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/bazaarvoice-horizontal.svg",
+      "hits": [
+        {
+          "id": "gooddata",
+          "cosine": 0.186
+        },
+        {
+          "id": "dust",
+          "cosine": 0.177
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.154
+        },
+        {
+          "id": "dragonfruit",
+          "cosine": 0.131
+        }
+      ],
+      "aspect": 4.154,
+      "h": 27.5,
+      "x": 0.7599,
+      "y": 0.4491,
+      "px": 0.4346,
+      "py": 0.7599
+    },
+    {
+      "id": "bloop",
+      "name": "Bloop",
+      "url": "/blog/case-study-bloop/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "Semantic search",
+        "RAG"
+      ],
+      "logo": "/case-studies/bloop/bloop-logo.png",
+      "hits": [
+        {
+          "id": "himalayas",
+          "cosine": 0.181
+        },
+        {
+          "id": "bayer",
+          "cosine": 0.156
+        },
+        {
+          "id": "voiceflow",
+          "cosine": 0.14
+        },
+        {
+          "id": "faz",
+          "cosine": 0.123
+        }
+      ],
+      "aspect": 2.686,
+      "h": 34.2,
+      "x": 0.947,
+      "y": 0.8073,
+      "px": 0.8073,
+      "py": 0.9176
+    },
+    {
+      "id": "convosearch",
+      "name": "ConvoSearch",
+      "url": "/blog/case-study-convosearch/",
+      "industry": "E-commerce",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Recommendations",
+        "E-commerce discovery",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/convosearch.svg",
+      "hits": [
+        {
+          "id": "glassdollar",
+          "cosine": 0.235
+        },
+        {
+          "id": "open-table",
+          "cosine": 0.185
+        },
+        {
+          "id": "tripadvisor",
+          "cosine": 0.169
+        },
+        {
+          "id": "bazaarvoice",
+          "cosine": 0.154
+        }
+      ],
+      "aspect": 6.107,
+      "mask_size": "101.3% 173.7%",
+      "mask_pos": "0.0% 62.6%",
+      "h": 22.7,
+      "x": 0.4674,
+      "y": 0.5115,
+      "px": 0.5245,
+      "py": 0.4491
+    },
+    {
+      "id": "cosmos",
+      "name": "Cosmos",
+      "url": "/blog/case-study-cosmos/",
+      "industry": "Media and entertainment",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Multimodal search",
+        "Hybrid search",
+        "Media search"
+      ],
+      "logo": "/img/customers-case-studies-logo/cosmos.svg",
+      "hits": [
+        {
+          "id": "faz",
+          "cosine": 0.162
+        },
+        {
+          "id": "data-graphs",
+          "cosine": 0.155
+        },
+        {
+          "id": "himalayas",
+          "cosine": 0.147
+        },
+        {
+          "id": "pento",
+          "cosine": 0.145
+        }
+      ],
+      "aspect": 6.187,
+      "mask_size": "101.1% 215.2%",
+      "mask_pos": "50.0% 49.6%",
+      "h": 22.6,
+      "x": 0.5873,
+      "y": 0.7929,
+      "px": 0.8206,
+      "py": 0.5873
+    },
+    {
+      "id": "dailymotion",
+      "name": "Dailymotion",
+      "url": "/blog/case-study-dailymotion/",
+      "industry": "Media and entertainment",
+      "product": "Self-managed",
+      "use_cases": [
+        "Recommendations",
+        "Media search",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/dailymotion.svg",
+      "hits": [
+        {
+          "id": "pento",
+          "cosine": 0.305
+        },
+        {
+          "id": "kairoswealth",
+          "cosine": 0.162
+        },
+        {
+          "id": "visua",
+          "cosine": 0.155
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.14
+        }
+      ],
+      "aspect": 6.509,
+      "mask_size": "101.1% 231.4%",
+      "mask_pos": "50.0% 49.5%",
+      "h": 22.0,
+      "x": 0.0786,
+      "y": 0.5863,
+      "px": 0.6092,
+      "py": 0.053
+    },
+    {
+      "id": "data-graphs",
+      "name": "Data Graphs",
+      "url": "/blog/case-study-datagraphs/",
+      "industry": "Developer tools",
+      "product": "Hybrid",
+      "use_cases": [
+        "Customer support",
+        "Graph RAG",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/data-graphs.svg",
+      "hits": [
+        {
+          "id": "trust-graph",
+          "cosine": 0.32
+        },
+        {
+          "id": "lettria",
+          "cosine": 0.266
+        },
+        {
+          "id": "kakao",
+          "cosine": 0.159
+        },
+        {
+          "id": "cosmos",
+          "cosine": 0.155
+        }
+      ],
+      "aspect": 3.844,
+      "h": 28.6,
+      "x": 0.6048,
+      "y": 0.6009,
+      "px": 0.6009,
+      "py": 0.5811
+    },
+    {
+      "id": "deutsche-telekom",
+      "name": "Deutsche Telekom",
+      "url": "/blog/case-study-deutsche-telekom/",
+      "industry": "Telecommunications",
+      "product": "Qdrant Enterprise",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/telekom.svg",
+      "hits": [
+        {
+          "id": "pienso",
+          "cosine": 0.249
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.241
+        },
+        {
+          "id": "kakao",
+          "cosine": 0.235
+        },
+        {
+          "id": "alhena",
+          "cosine": 0.23
+        }
+      ],
+      "aspect": 4.503,
+      "mask_size": "101.6% 154.1%",
+      "mask_pos": "66.7% 49.0%",
+      "h": 26.4,
+      "x": 0.5299,
+      "y": 0.1968,
+      "px": 0.1968,
+      "py": 0.5255
+    },
+    {
+      "id": "dragonfruit",
+      "name": "Dragonfruit AI",
+      "url": "/blog/case-study-dragonfruit/",
+      "industry": "Security",
+      "product": "Self-managed",
+      "use_cases": [
+        "Multimodal search",
+        "Real-time analytics",
+        "Threat detection"
+      ],
+      "logo": "/img/customers-case-studies-logo/dragonfruit.svg",
+      "hits": [
+        {
+          "id": "visua",
+          "cosine": 0.233
+        },
+        {
+          "id": "nyris",
+          "cosine": 0.148
+        },
+        {
+          "id": "bazaarvoice",
+          "cosine": 0.131
+        },
+        {
+          "id": "hubspot",
+          "cosine": 0.112
+        }
+      ],
+      "aspect": 7.234,
+      "mask_size": "100.7% 154.3%",
+      "mask_pos": "50.0% 50.0%",
+      "h": 20.7,
+      "x": 0.082,
+      "y": 0.7187,
+      "px": 0.6711,
+      "py": 0.0163
+    },
+    {
+      "id": "dust",
+      "name": "Dust",
+      "url": "/blog/case-study-dust-v2/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Semantic search",
+        "Customer support"
+      ],
+      "logo": "/img/customers-case-studies-logo/dust.svg",
+      "hits": [
+        {
+          "id": "minima",
+          "cosine": 0.19
+        },
+        {
+          "id": "bazaarvoice",
+          "cosine": 0.177
+        },
+        {
+          "id": "lettria",
+          "cosine": 0.157
+        },
+        {
+          "id": "voiceflow",
+          "cosine": 0.127
+        }
+      ],
+      "aspect": 4.0,
+      "mask_size": "101.8% 228.6%",
+      "mask_pos": "50.0% 50.0%",
+      "h": 28.1,
+      "x": 0.9073,
+      "y": 0.483,
+      "px": 0.483,
+      "py": 0.9073
+    },
+    {
+      "id": "faz",
+      "name": "FAZ",
+      "url": "/blog/case-study-faz/",
+      "industry": "Media and entertainment",
+      "product": "Hybrid",
+      "use_cases": [
+        "Hybrid search",
+        "Media search",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/faz.svg",
+      "hits": [
+        {
+          "id": "lucy",
+          "cosine": 0.21
+        },
+        {
+          "id": "cosmos",
+          "cosine": 0.162
+        },
+        {
+          "id": "sapu",
+          "cosine": 0.145
+        },
+        {
+          "id": "bayer",
+          "cosine": 0.128
+        }
+      ],
+      "aspect": 7.275,
+      "mask_size": "100.8% 178.4%",
+      "mask_pos": "0.0% 50.0%",
+      "h": 20.6,
+      "x": 0.6539,
+      "y": 0.8399,
+      "px": 0.8837,
+      "py": 0.7184
+    },
+    {
+      "id": "fieldy",
+      "name": "Fieldy AI",
+      "url": "/blog/case-study-fieldy/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Hybrid search",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/fieldy.svg",
+      "hits": [
+        {
+          "id": "lucy",
+          "cosine": 0.144
+        },
+        {
+          "id": "lyzr",
+          "cosine": 0.134
+        },
+        {
+          "id": "minima",
+          "cosine": 0.13
+        },
+        {
+          "id": "sayone",
+          "cosine": 0.082
+        }
+      ],
+      "aspect": 4.5,
+      "mask_size": "100.0% 200.0%",
+      "mask_pos": "0.0% 50.0%",
+      "h": 26.5,
+      "x": 0.7878,
+      "y": 0.6533,
+      "px": 0.6807,
+      "py": 0.8406
+    },
+    {
+      "id": "flipkart",
+      "name": "Flipkart",
+      "url": "/blog/case-study-flipkart/",
+      "industry": "E-commerce",
+      "product": "Self-managed",
+      "use_cases": [
+        "Threat detection",
+        "Multimodal search",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/flipkart.svg",
+      "hits": [
+        {
+          "id": "aracor",
+          "cosine": 0.191
+        },
+        {
+          "id": "trust-graph",
+          "cosine": 0.186
+        },
+        {
+          "id": "mixpeek",
+          "cosine": 0.161
+        },
+        {
+          "id": "shakudo",
+          "cosine": 0.151
+        }
+      ],
+      "aspect": 3.717,
+      "mask_size": "101.3% 150.6%",
+      "mask_pos": "50.0% 46.5%",
+      "h": 29.1,
+      "x": 0.3272,
+      "y": 0.7138,
+      "px": 0.7138,
+      "py": 0.2432
+    },
+    {
+      "id": "garden-intel",
+      "name": "Garden",
+      "url": "/blog/case-study-garden-intel/",
+      "industry": "Legal tech",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Patent and legal research",
+        "Semantic search",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/garden.svg",
+      "hits": [
+        {
+          "id": "and-ai",
+          "cosine": 0.368
+        },
+        {
+          "id": "sapu",
+          "cosine": 0.163
+        },
+        {
+          "id": "bazaarvoice",
+          "cosine": 0.125
+        },
+        {
+          "id": "lettria",
+          "cosine": 0.116
+        }
+      ],
+      "aspect": 4.471,
+      "mask_size": "101.1% 160.7%",
+      "mask_pos": "50.0% 49.6%",
+      "h": 26.5,
+      "x": 0.4257,
+      "y": 0.8944,
+      "px": 0.9205,
+      "py": 0.4125
+    },
+    {
+      "id": "glassdollar",
+      "name": "GlassDollar",
+      "url": "/blog/case-study-glassdollar/",
+      "industry": "Financial services",
+      "product": "Self-managed",
+      "use_cases": [
+        "Semantic search",
+        "RAG",
+        "Recommendations"
+      ],
+      "logo": "/img/customers-case-studies-logo/glassdollar.svg",
+      "hits": [
+        {
+          "id": "lucy",
+          "cosine": 0.249
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.235
+        },
+        {
+          "id": "himalayas",
+          "cosine": 0.194
+        },
+        {
+          "id": "bayer",
+          "cosine": 0.129
+        }
+      ],
+      "aspect": 5.873,
+      "mask_size": "100.4% 167.8%",
+      "mask_pos": "0.0% 58.0%",
+      "h": 23.2,
+      "x": 0.7995,
+      "y": 0.7785,
+      "px": 0.7696,
+      "py": 0.7995
+    },
+    {
+      "id": "goperfect",
+      "name": "GoPerfect",
+      "url": "/blog/case-study-go-perfect/",
+      "industry": "HR tech",
+      "product": "Qdrant Cloud",
+      "hits": [
+        {
+          "id": "pariti",
+          "cosine": 0.203
+        },
+        {
+          "id": "bayer",
+          "cosine": 0.198
+        },
+        {
+          "id": "himalayas",
+          "cosine": 0.147
+        },
+        {
+          "id": "iris-agent",
+          "cosine": 0.14
+        }
+      ],
+      "h": 30.4,
+      "x": 0.8055,
+      "y": 0.8918,
+      "px": 0.9295,
+      "py": 0.8105
+    },
+    {
+      "id": "gooddata",
+      "name": "GoodData",
+      "url": "/blog/case-study-gooddata/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "Real-time analytics",
+        "RAG",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/gooddata.svg",
+      "hits": [
+        {
+          "id": "bazaarvoice",
+          "cosine": 0.186
+        },
+        {
+          "id": "lyzr",
+          "cosine": 0.14
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.139
+        },
+        {
+          "id": "data-graphs",
+          "cosine": 0.099
+        }
+      ],
+      "aspect": 4.55,
+      "mask_size": "102.4% 140.0%",
+      "mask_pos": "0.0% 50.0%",
+      "h": 26.3,
+      "x": 0.777,
+      "y": 0.3297,
+      "px": 0.2774,
+      "py": 0.7743
+    },
+    {
+      "id": "himalayas",
+      "name": "Himalayas",
+      "url": "/blog/case-study-himalayas/",
+      "industry": "Technology",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Semantic search",
+        "Recommendations",
+        "Hybrid search"
+      ],
+      "logo": "/img/customers-case-studies-logo/himalayas.svg",
+      "hits": [
+        {
+          "id": "glassdollar",
+          "cosine": 0.194
+        },
+        {
+          "id": "bloop",
+          "cosine": 0.181
+        },
+        {
+          "id": "pariti",
+          "cosine": 0.152
+        },
+        {
+          "id": "sunny-health",
+          "cosine": 0.152
+        }
+      ],
+      "aspect": 6.616,
+      "mask_size": "100.6% 100.0%",
+      "mask_pos": "45.8% 0.0%",
+      "h": 21.8,
+      "x": 0.815,
+      "y": 0.8265,
+      "px": 0.8158,
+      "py": 0.8777
+    },
+    {
+      "id": "hubspot",
+      "name": "HubSpot",
+      "url": "/blog/case-study-hubspot/",
+      "industry": "Customer support",
+      "product": "Qdrant Enterprise",
+      "use_cases": [
+        "Customer support",
+        "Recommendations",
+        "RAG"
+      ],
+      "logo": "/img/customers-case-studies-logo/hubspot.svg",
+      "hits": [
+        {
+          "id": "lyzr",
+          "cosine": 0.171
+        },
+        {
+          "id": "iris-agent",
+          "cosine": 0.168
+        },
+        {
+          "id": "qovery",
+          "cosine": 0.144
+        },
+        {
+          "id": "sprinklr",
+          "cosine": 0.139
+        }
+      ],
+      "aspect": 3.527,
+      "mask_size": "100.0% 147.5%",
+      "mask_pos": "0.0% 49.6%",
+      "h": 29.9,
+      "x": 0.4526,
+      "y": 0.0289,
+      "px": 0.0716,
+      "py": 0.4724
+    },
+    {
+      "id": "kairoswealth",
+      "name": "Kairoswealth",
+      "url": "/blog/case-study-kairoswealth/",
+      "industry": "Financial services",
+      "product": "Self-managed",
+      "use_cases": [
+        "Recommendations",
+        "RAG",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/kairos.svg",
+      "hits": [
+        {
+          "id": "nyris",
+          "cosine": 0.226
+        },
+        {
+          "id": "portfolio-mind",
+          "cosine": 0.208
+        },
+        {
+          "id": "dailymotion",
+          "cosine": 0.162
+        },
+        {
+          "id": "pathwork",
+          "cosine": 0.158
+        }
+      ],
+      "aspect": 5.507,
+      "mask_size": "101.2% 212.3%",
+      "mask_pos": "50.0% 50.2%",
+      "h": 23.9,
+      "x": 0.0729,
+      "y": 0.4564,
+      "px": 0.4277,
+      "py": 0.0503
+    },
+    {
+      "id": "kakao",
+      "name": "Kakao",
+      "url": "/blog/case-study-kakao/",
+      "industry": "Technology",
+      "product": "Self-managed",
+      "use_cases": [
+        "Customer support",
+        "Hybrid search",
+        "RAG"
+      ],
+      "logo": "/img/customers-case-studies-logo/kakao.svg",
+      "hits": [
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.235
+        },
+        {
+          "id": "my-askai",
+          "cosine": 0.199
+        },
+        {
+          "id": "sayone",
+          "cosine": 0.171
+        },
+        {
+          "id": "shakudo",
+          "cosine": 0.163
+        }
+      ],
+      "aspect": 3.279,
+      "mask_size": "101.5% 159.0%",
+      "mask_pos": "50.0% 50.5%",
+      "h": 31.0,
+      "x": 0.594,
+      "y": 0.1011,
+      "px": 0.1016,
+      "py": 0.6027
+    },
+    {
+      "id": "kern",
+      "name": "Kern AI",
+      "url": "/blog/case-study-kern/",
+      "industry": "Financial services",
+      "product": "Self-managed",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/kern-ai.svg",
+      "hits": [
+        {
+          "id": "pienso",
+          "cosine": 0.183
+        },
+        {
+          "id": "xaver",
+          "cosine": 0.158
+        },
+        {
+          "id": "kairoswealth",
+          "cosine": 0.142
+        },
+        {
+          "id": "sunny-health",
+          "cosine": 0.132
+        }
+      ],
+      "aspect": 2.734,
+      "h": 33.9,
+      "x": 0.2998,
+      "y": 0.2708,
+      "px": 0.2708,
+      "py": 0.2846
+    },
+    {
+      "id": "lawme",
+      "name": "Lawme",
+      "url": "/blog/case-study-lawme/",
+      "industry": "Legal tech",
+      "product": "Hybrid",
+      "use_cases": [
+        "Patent and legal research",
+        "Hybrid search",
+        "RAG"
+      ],
+      "logo": "/img/customers-case-studies-logo/lawme-ai.svg",
+      "hits": [
+        {
+          "id": "aracor",
+          "cosine": 0.361
+        },
+        {
+          "id": "and-ai",
+          "cosine": 0.325
+        },
+        {
+          "id": "pathwork",
+          "cosine": 0.215
+        },
+        {
+          "id": "visua",
+          "cosine": 0.1
+        }
+      ],
+      "aspect": 2.958,
+      "mask_size": "101.3% 124.6%",
+      "mask_pos": "50.0% 47.5%",
+      "h": 32.6,
+      "x": 0.2081,
+      "y": 0.8904,
+      "px": 0.9336,
+      "py": 0.2049
+    },
+    {
+      "id": "lettria",
+      "name": "Lettria",
+      "url": "/blog/case-study-lettria-v2/",
+      "industry": "Legal tech",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Hybrid search",
+        "Patent and legal research"
+      ],
+      "logo": "/img/customers-case-studies-logo/lettria.svg",
+      "hits": [
+        {
+          "id": "data-graphs",
+          "cosine": 0.266
+        },
+        {
+          "id": "lucy",
+          "cosine": 0.176
+        },
+        {
+          "id": "dust",
+          "cosine": 0.157
+        },
+        {
+          "id": "trust-graph",
+          "cosine": 0.127
+        }
+      ],
+      "aspect": 3.613,
+      "mask_size": "101.5% 133.3%",
+      "mask_pos": "38.8% 50.0%",
+      "h": 29.5,
+      "x": 0.613,
+      "y": 0.6784,
+      "px": 0.6537,
+      "py": 0.6218
+    },
+    {
+      "id": "lucy",
+      "name": "Lucy",
+      "url": "/blog/case-study-lucy/",
+      "industry": "Financial services",
+      "hits": [
+        {
+          "id": "glassdollar",
+          "cosine": 0.249
+        },
+        {
+          "id": "faz",
+          "cosine": 0.21
+        },
+        {
+          "id": "lettria",
+          "cosine": 0.176
+        },
+        {
+          "id": "pariti",
+          "cosine": 0.161
+        }
+      ],
+      "h": 30.4,
+      "x": 0.7464,
+      "y": 0.7243,
+      "px": 0.7126,
+      "py": 0.7416
+    },
+    {
+      "id": "lyzr",
+      "name": "Lyzr",
+      "url": "/blog/case-study-lyzr/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Generative AI",
+        "Customer support"
+      ],
+      "logo": "/img/customers-case-studies-logo/lyzr.svg",
+      "hits": [
+        {
+          "id": "qovery",
+          "cosine": 0.28
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.26
+        },
+        {
+          "id": "minima",
+          "cosine": 0.2
+        },
+        {
+          "id": "hubspot",
+          "cosine": 0.171
+        }
+      ],
+      "aspect": 2.521,
+      "mask_size": "101.6% 126.0%",
+      "mask_pos": "50.0% 45.4%",
+      "h": 35.3,
+      "x": 0.8121,
+      "y": 0.2169,
+      "px": 0.2169,
+      "py": 0.8169
+    },
+    {
+      "id": "minima",
+      "name": "Minima",
+      "url": "/blog/case-study-minima/",
+      "industry": "AI infrastructure",
+      "hits": [
+        {
+          "id": "tavus",
+          "cosine": 0.229
+        },
+        {
+          "id": "lyzr",
+          "cosine": 0.2
+        },
+        {
+          "id": "dust",
+          "cosine": 0.19
+        },
+        {
+          "id": "lucy",
+          "cosine": 0.143
+        }
+      ],
+      "h": 30.4,
+      "x": 0.8388,
+      "y": 0.5463,
+      "px": 0.5306,
+      "py": 0.8388
+    },
+    {
+      "id": "mixpeek",
+      "name": "Mixpeek",
+      "url": "/blog/case-study-mixpeek/",
+      "industry": "Media and entertainment",
+      "product": "Self-managed",
+      "use_cases": [
+        "Multimodal search",
+        "RAG",
+        "Media search"
+      ],
+      "logo": "/img/customers-case-studies-logo/mixpeek.svg",
+      "hits": [
+        {
+          "id": "pento",
+          "cosine": 0.177
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.161
+        },
+        {
+          "id": "visua",
+          "cosine": 0.127
+        },
+        {
+          "id": "cosmos",
+          "cosine": 0.116
+        }
+      ],
+      "aspect": 4.187,
+      "mask_size": "101.0% 133.3%",
+      "mask_pos": "50.0% 50.0%",
+      "h": 27.4,
+      "x": 0.1525,
+      "y": 0.6585,
+      "px": 0.6796,
+      "py": 0.1525
+    },
+    {
+      "id": "my-askai",
+      "name": "My AskAI",
+      "url": "/blog/case-study-my-askai/",
+      "industry": "Customer support",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Hybrid search"
+      ],
+      "logo": "/img/customers-case-studies-logo/my-askai.svg",
+      "hits": [
+        {
+          "id": "iris-agent",
+          "cosine": 0.354
+        },
+        {
+          "id": "kakao",
+          "cosine": 0.199
+        },
+        {
+          "id": "sunny-health",
+          "cosine": 0.135
+        },
+        {
+          "id": "sayone",
+          "cosine": 0.116
+        }
+      ],
+      "aspect": 5.094,
+      "mask_size": "103.1% 200.0%",
+      "mask_pos": "60.0% 50.0%",
+      "h": 24.9,
+      "x": 0.5841,
+      "y": 0.0256,
+      "px": 0.0842,
+      "py": 0.5633
+    },
+    {
+      "id": "nyris",
+      "name": "Nyris",
+      "url": "/blog/case-study-nyris/",
+      "industry": "E-commerce",
+      "product": "Self-managed",
+      "use_cases": [
+        "Multimodal search",
+        "E-commerce discovery",
+        "Media search"
+      ],
+      "logo": "/img/customers-case-studies-logo/nyris.svg",
+      "hits": [
+        {
+          "id": "visua",
+          "cosine": 0.316
+        },
+        {
+          "id": "kairoswealth",
+          "cosine": 0.226
+        },
+        {
+          "id": "aracor",
+          "cosine": 0.187
+        },
+        {
+          "id": "pathwork",
+          "cosine": 0.167
+        }
+      ],
+      "aspect": 3.861,
+      "mask_size": "101.3% 162.6%",
+      "mask_pos": "50.0% 40.6%",
+      "h": 28.6,
+      "x": 0.0621,
+      "y": 0.7767,
+      "px": 0.8463,
+      "py": 0.0199
+    },
+    {
+      "id": "open-table",
+      "name": "OpenTable",
+      "url": "/blog/case-study-opentable/",
+      "industry": "Hospitality",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Generative AI",
+        "RAG",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/opentable.svg",
+      "hits": [
+        {
+          "id": "tripadvisor",
+          "cosine": 0.204
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.185
+        },
+        {
+          "id": "pento",
+          "cosine": 0.169
+        },
+        {
+          "id": "sunny-health",
+          "cosine": 0.128
+        }
+      ],
+      "aspect": 4.475,
+      "mask_size": "100.4% 119.8%",
+      "mask_pos": "0.0% 49.3%",
+      "h": 26.5,
+      "x": 0.3227,
+      "y": 0.5208,
+      "px": 0.5666,
+      "py": 0.341
+    },
+    {
+      "id": "pariti",
+      "name": "Pariti",
+      "url": "/blog/case-study-pariti/",
+      "industry": "Technology",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Recommendations",
+        "Semantic search",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/pariti.svg",
+      "hits": [
+        {
+          "id": "goperfect",
+          "cosine": 0.203
+        },
+        {
+          "id": "lucy",
+          "cosine": 0.161
+        },
+        {
+          "id": "himalayas",
+          "cosine": 0.152
+        },
+        {
+          "id": "pathwork",
+          "cosine": 0.141
+        }
+      ],
+      "aspect": 3.449,
+      "mask_size": "101.3% 145.2%",
+      "mask_pos": "50.0% 50.2%",
+      "h": 30.2,
+      "x": 0.6806,
+      "y": 0.892,
+      "px": 0.9291,
+      "py": 0.6745
+    },
+    {
+      "id": "pathwork",
+      "name": "Pathwork",
+      "url": "/blog/case-study-pathwork/",
+      "industry": "Financial services",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "RAG",
+        "Recommendations",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/pathwork.svg",
+      "hits": [
+        {
+          "id": "lawme",
+          "cosine": 0.215
+        },
+        {
+          "id": "aracor",
+          "cosine": 0.182
+        },
+        {
+          "id": "nyris",
+          "cosine": 0.167
+        },
+        {
+          "id": "kairoswealth",
+          "cosine": 0.158
+        }
+      ],
+      "aspect": 5.983,
+      "mask_size": "101.1% 203.7%",
+      "mask_pos": "50.0% 49.1%",
+      "h": 22.9,
+      "x": 0.0768,
+      "y": 0.8967,
+      "px": 0.9095,
+      "py": 0.0944
+    },
+    {
+      "id": "pento",
+      "name": "Pento",
+      "url": "/blog/case-study-pento/",
+      "industry": "Technology",
+      "product": "Self-managed",
+      "use_cases": [
+        "Recommendations",
+        "Semantic search",
+        "Multimodal search"
+      ],
+      "logo": "/img/customers-case-studies-logo/pento.svg",
+      "hits": [
+        {
+          "id": "dailymotion",
+          "cosine": 0.305
+        },
+        {
+          "id": "mixpeek",
+          "cosine": 0.177
+        },
+        {
+          "id": "open-table",
+          "cosine": 0.169
+        },
+        {
+          "id": "cosmos",
+          "cosine": 0.145
+        }
+      ],
+      "aspect": 4.592,
+      "mask_size": "101.1% 158.0%",
+      "mask_pos": "50.0% 48.2%",
+      "h": 26.2,
+      "x": 0.172,
+      "y": 0.5346,
+      "px": 0.5193,
+      "py": 0.1717
+    },
+    {
+      "id": "pienso",
+      "name": "Pienso",
+      "url": "/blog/case-study-pienso/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "Generative AI",
+        "RAG",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/pienso.svg",
+      "hits": [
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.249
+        },
+        {
+          "id": "shakudo",
+          "cosine": 0.223
+        },
+        {
+          "id": "kern",
+          "cosine": 0.183
+        },
+        {
+          "id": "iris-agent",
+          "cosine": 0.162
+        }
+      ],
+      "aspect": 4.357,
+      "mask_size": "100.7% 121.0%",
+      "mask_pos": "50.0% 42.8%",
+      "h": 26.9,
+      "x": 0.4191,
+      "y": 0.2645,
+      "px": 0.2645,
+      "py": 0.4126
+    },
+    {
+      "id": "portfolio-mind",
+      "name": "PortfolioMind",
+      "url": "/blog/case-study-portfolio-mind/",
+      "industry": "Financial services",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Real-time analytics",
+        "Recommendations",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/spoon-os.svg",
+      "hits": [
+        {
+          "id": "kairoswealth",
+          "cosine": 0.208
+        },
+        {
+          "id": "xaver",
+          "cosine": 0.175
+        },
+        {
+          "id": "pienso",
+          "cosine": 0.136
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.135
+        }
+      ],
+      "aspect": 6.978,
+      "mask_size": "100.7% 159.5%",
+      "mask_pos": "50.0% 58.5%",
+      "h": 21.2,
+      "x": 0.1287,
+      "y": 0.3836,
+      "px": 0.3836,
+      "py": 0.1287
+    },
+    {
+      "id": "qatech",
+      "name": "QA.tech",
+      "url": "/blog/case-study-qatech/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "Real-time analytics",
+        "RAG",
+        "Threat detection"
+      ],
+      "logo": "/img/customers-case-studies-logo/qa.tech.svg",
+      "hits": [
+        {
+          "id": "lyzr",
+          "cosine": 0.26
+        },
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.241
+        },
+        {
+          "id": "xaver",
+          "cosine": 0.165
+        },
+        {
+          "id": "trust-graph",
+          "cosine": 0.144
+        }
+      ],
+      "aspect": 4.201,
+      "mask_size": "101.4% 181.7%",
+      "mask_pos": "0.0% 49.0%",
+      "h": 27.4,
+      "x": 0.6629,
+      "y": 0.2749,
+      "px": 0.2673,
+      "py": 0.6857
+    },
+    {
+      "id": "qovery",
+      "name": "Qovery",
+      "url": "/blog/case-study-qovery/",
+      "industry": "Developer tools",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/qovery.svg",
+      "hits": [
+        {
+          "id": "lyzr",
+          "cosine": 0.28
+        },
+        {
+          "id": "sayone",
+          "cosine": 0.215
+        },
+        {
+          "id": "hubspot",
+          "cosine": 0.144
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.131
+        }
+      ],
+      "aspect": 3.682,
+      "mask_size": "101.0% 114.9%",
+      "mask_pos": "50.0% 50.0%",
+      "h": 29.2,
+      "x": 0.7754,
+      "y": 0.1215,
+      "px": 0.1069,
+      "py": 0.7733
+    },
+    {
+      "id": "sapu",
+      "name": "Sapu",
+      "url": "/blog/case-study-sapu/",
+      "industry": "Life sciences",
+      "product": "Qdrant Cloud",
+      "logo": "/img/resilience/sapu-logo.svg",
+      "hits": [
+        {
+          "id": "anima-health",
+          "cosine": 0.241
+        },
+        {
+          "id": "garden-intel",
+          "cosine": 0.163
+        },
+        {
+          "id": "faz",
+          "cosine": 0.145
+        },
+        {
+          "id": "pariti",
+          "cosine": 0.137
+        }
+      ],
+      "aspect": 4.104,
+      "mask_size": "112.1% 160.0%",
+      "mask_pos": "51.5% 50.0%",
+      "h": 27.7,
+      "x": 0.5579,
+      "y": 0.8936,
+      "px": 0.9235,
+      "py": 0.5412
+    },
+    {
+      "id": "sayone",
+      "name": "SayOne",
+      "url": "/blog/case-study-sayone/",
+      "industry": "Technology",
+      "product": "Hybrid",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/sayone.svg",
+      "hits": [
+        {
+          "id": "qovery",
+          "cosine": 0.215
+        },
+        {
+          "id": "kakao",
+          "cosine": 0.171
+        },
+        {
+          "id": "pienso",
+          "cosine": 0.162
+        },
+        {
+          "id": "lyzr",
+          "cosine": 0.142
+        }
+      ],
+      "aspect": 5.893,
+      "mask_size": "101.1% 214.3%",
+      "mask_pos": "50.0% 50.0%",
+      "h": 23.1,
+      "x": 0.7299,
+      "y": 0.0672,
+      "px": 0.0899,
+      "py": 0.7179
+    },
+    {
+      "id": "shakudo",
+      "name": "Shakudo",
+      "url": "/blog/case-study-shakudo/",
+      "industry": "Developer tools",
+      "product": "Hybrid",
+      "use_cases": [
+        "Semantic search",
+        "RAG",
+        "Recommendations"
+      ],
+      "logo": "/img/customers-case-studies-logo/shakudo.svg",
+      "hits": [
+        {
+          "id": "pienso",
+          "cosine": 0.223
+        },
+        {
+          "id": "kakao",
+          "cosine": 0.163
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.151
+        },
+        {
+          "id": "visua",
+          "cosine": 0.139
+        }
+      ],
+      "aspect": 3.934,
+      "mask_size": "100.1% 118.3%",
+      "mask_pos": "97.1% 42.0%",
+      "h": 28.3,
+      "x": 0.4715,
+      "y": 0.3706,
+      "px": 0.3576,
+      "py": 0.4715
+    },
+    {
+      "id": "sprinklr",
+      "name": "Sprinklr",
+      "url": "/blog/case-study-sprinklr/",
+      "industry": "Customer support",
+      "product": "Qdrant Enterprise",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/sprinklr.svg",
+      "hits": [
+        {
+          "id": "iris-agent",
+          "cosine": 0.173
+        },
+        {
+          "id": "hubspot",
+          "cosine": 0.139
+        },
+        {
+          "id": "voiceflow",
+          "cosine": 0.135
+        },
+        {
+          "id": "tripadvisor",
+          "cosine": 0.13
+        }
+      ],
+      "aspect": 3.328,
+      "h": 30.8,
+      "x": 0.3418,
+      "y": 0.1408,
+      "px": 0.1206,
+      "py": 0.3418
+    },
+    {
+      "id": "sunny-health",
+      "name": "Sunny Health",
+      "url": "/blog/case-study-sunny-health-ai/",
+      "industry": "Healthcare",
+      "hits": [
+        {
+          "id": "anima-health",
+          "cosine": 0.339
+        },
+        {
+          "id": "himalayas",
+          "cosine": 0.152
+        },
+        {
+          "id": "my-askai",
+          "cosine": 0.135
+        },
+        {
+          "id": "kern",
+          "cosine": 0.132
+        }
+      ],
+      "h": 30.4,
+      "x": 0.447,
+      "y": 0.7075,
+      "px": 0.6476,
+      "py": 0.3849
+    },
+    {
+      "id": "tavus",
+      "name": "Tavus",
+      "url": "/blog/case-study-tavus/",
+      "industry": "Media and entertainment",
+      "product": "Self-managed",
+      "use_cases": [
+        "Generative AI",
+        "RAG",
+        "Real-time analytics"
+      ],
+      "logo": "/img/customers-case-studies-logo/tavus.svg",
+      "hits": [
+        {
+          "id": "minima",
+          "cosine": 0.229
+        },
+        {
+          "id": "lucy",
+          "cosine": 0.096
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.091
+        },
+        {
+          "id": "trust-graph",
+          "cosine": 0.074
+        }
+      ],
+      "aspect": 5.081,
+      "mask_size": "101.2% 203.2%",
+      "mask_pos": "50.0% 49.2%",
+      "h": 24.9,
+      "x": 0.7768,
+      "y": 0.6007,
+      "px": 0.5961,
+      "py": 0.7817
+    },
+    {
+      "id": "tripadvisor",
+      "name": "Tripadvisor",
+      "url": "/blog/case-study-tripadvisor/",
+      "industry": "Hospitality",
+      "product": "Qdrant Enterprise",
+      "use_cases": [
+        "Recommendations",
+        "Generative AI",
+        "Multimodal search"
+      ],
+      "logo": "/img/customers-case-studies-logo/tripadvisor.svg",
+      "hits": [
+        {
+          "id": "open-table",
+          "cosine": 0.204
+        },
+        {
+          "id": "convosearch",
+          "cosine": 0.169
+        },
+        {
+          "id": "sprinklr",
+          "cosine": 0.13
+        },
+        {
+          "id": "kairoswealth",
+          "cosine": 0.111
+        }
+      ],
+      "aspect": 6.638,
+      "mask_size": "101.0% 212.4%",
+      "mask_pos": "50.0% 47.2%",
+      "h": 21.8,
+      "x": 0.3477,
+      "y": 0.4355,
+      "px": 0.3896,
+      "py": 0.3477
+    },
+    {
+      "id": "trust-graph",
+      "name": "TrustGraph",
+      "url": "/blog/case-study-trustgraph/",
+      "industry": "Developer tools",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Generative AI",
+        "Semantic search"
+      ],
+      "logo": "/img/customers-case-studies-logo/trust-graph.svg",
+      "hits": [
+        {
+          "id": "data-graphs",
+          "cosine": 0.32
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.186
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.144
+        },
+        {
+          "id": "pienso",
+          "cosine": 0.128
+        }
+      ],
+      "aspect": 3.656,
+      "h": 29.4,
+      "x": 0.4801,
+      "y": 0.6342,
+      "px": 0.6342,
+      "py": 0.495
+    },
+    {
+      "id": "visua",
+      "name": "VISUA",
+      "url": "/blog/case-study-visua/",
+      "industry": "Security",
+      "product": "Self-managed",
+      "use_cases": [
+        "Multimodal search",
+        "Threat detection",
+        "Media search"
+      ],
+      "logo": "/img/customers-case-studies-logo/visua.svg",
+      "hits": [
+        {
+          "id": "nyris",
+          "cosine": 0.316
+        },
+        {
+          "id": "dragonfruit",
+          "cosine": 0.233
+        },
+        {
+          "id": "dailymotion",
+          "cosine": 0.155
+        },
+        {
+          "id": "aracor",
+          "cosine": 0.148
+        }
+      ],
+      "aspect": 2.469,
+      "h": 35.7,
+      "x": 0.215,
+      "y": 0.7336,
+      "px": 0.7336,
+      "py": 0.094
+    },
+    {
+      "id": "voiceflow",
+      "name": "Voiceflow",
+      "url": "/blog/case-study-voiceflow/",
+      "industry": "Customer support",
+      "product": "Qdrant Cloud",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/voiceflow.svg",
+      "hits": [
+        {
+          "id": "bloop",
+          "cosine": 0.14
+        },
+        {
+          "id": "sprinklr",
+          "cosine": 0.135
+        },
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.128
+        },
+        {
+          "id": "dust",
+          "cosine": 0.127
+        }
+      ],
+      "aspect": 5.494,
+      "mask_size": "101.0% 175.8%",
+      "mask_pos": "50.0% 47.1%",
+      "h": 23.9,
+      "x": 0.9272,
+      "y": 0.6456,
+      "px": 0.6456,
+      "py": 0.9222
+    },
+    {
+      "id": "xaver",
+      "name": "Xaver",
+      "url": "/blog/case-study-xaver/",
+      "industry": "Financial services",
+      "product": "Self-managed",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Recommendations"
+      ],
+      "logo": "/img/customers-case-studies-logo/xaver.svg",
+      "hits": [
+        {
+          "id": "portfolio-mind",
+          "cosine": 0.175
+        },
+        {
+          "id": "qatech",
+          "cosine": 0.165
+        },
+        {
+          "id": "kern",
+          "cosine": 0.158
+        },
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.137
+        }
+      ],
+      "aspect": 4.556,
+      "mask_size": "101.5% 214.4%",
+      "mask_pos": "50.0% 49.8%",
+      "h": 26.3,
+      "x": 0.1798,
+      "y": 0.3008,
+      "px": 0.3008,
+      "py": 0.2016
+    },
+    {
+      "id": "iris-agent",
+      "name": "IrisAgent",
+      "url": "/blog/iris-agent-qdrant/",
+      "industry": "Customer support",
+      "product": "Self-managed",
+      "use_cases": [
+        "Customer support",
+        "RAG",
+        "Generative AI"
+      ],
+      "logo": "/img/customers-case-studies-logo/iris-agent.svg",
+      "hits": [
+        {
+          "id": "my-askai",
+          "cosine": 0.354
+        },
+        {
+          "id": "deutsche-telekom",
+          "cosine": 0.198
+        },
+        {
+          "id": "sprinklr",
+          "cosine": 0.173
+        },
+        {
+          "id": "hubspot",
+          "cosine": 0.168
+        }
+      ],
+      "aspect": 4.354,
+      "mask_size": "101.7% 162.0%",
+      "mask_pos": "0.0% 48.6%",
+      "h": 26.9,
+      "x": 0.432,
+      "y": 0.0846,
+      "px": 0.0786,
+      "py": 0.432
+    }
+  ],
+  "queries": [
+    {
+      "id": "commerce",
+      "label": "E-commerce search",
+      "text": "E-commerce product search and discovery for online shoppers",
+      "x": 0.2224,
+      "y": 0.7082,
+      "hits": [
+        {
+          "id": "nyris",
+          "cosine": 0.725
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.723
+        },
+        {
+          "id": "dailymotion",
+          "cosine": 0.695
+        },
+        {
+          "id": "bazaarvoice",
+          "cosine": 0.69
+        }
+      ]
+    },
+    {
+      "id": "support",
+      "label": "RAG for support",
+      "text": "Retrieval-augmented generation for customer support assistants and help desks",
+      "x": 0.4505,
+      "y": 0.0904,
+      "hits": [
+        {
+          "id": "iris-agent",
+          "cosine": 0.733
+        },
+        {
+          "id": "my-askai",
+          "cosine": 0.705
+        },
+        {
+          "id": "sprinklr",
+          "cosine": 0.687
+        },
+        {
+          "id": "pienso",
+          "cosine": 0.686
+        }
+      ]
+    },
+    {
+      "id": "recs",
+      "label": "Recommendations",
+      "text": "Personalized recommendations for users based on behavior and content",
+      "x": 0.1074,
+      "y": 0.5739,
+      "hits": [
+        {
+          "id": "dailymotion",
+          "cosine": 0.765
+        },
+        {
+          "id": "pento",
+          "cosine": 0.745
+        },
+        {
+          "id": "flipkart",
+          "cosine": 0.69
+        },
+        {
+          "id": "kairoswealth",
+          "cosine": 0.675
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "label": "Media & entertainment",
+      "text": "Search and recommendations for video, news, and media content",
+      "x": 0.0859,
+      "y": 0.5889,
+      "hits": [
+        {
+          "id": "dailymotion",
+          "cosine": 0.757
+        },
+        {
+          "id": "faz",
+          "cosine": 0.657
+        },
+        {
+          "id": "lucy",
+          "cosine": 0.646
+        },
+        {
+          "id": "cosmos",
+          "cosine": 0.633
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "label": "Pharma & research",
+      "text": "Search over scientific literature and research documents for pharma, biotech, and healthcare",
+      "x": 0.6206,
+      "y": 0.8844,
+      "hits": [
+        {
+          "id": "sapu",
+          "cosine": 0.741
+        },
+        {
+          "id": "bayer",
+          "cosine": 0.718
+        },
+        {
+          "id": "anima-health",
+          "cosine": 0.699
+        },
+        {
+          "id": "faz",
+          "cosine": 0.69
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "label": "AI agents",
+      "text": "Retrieval for autonomous AI agents and agentic workflows",
+      "x": 0.5482,
+      "y": 0.334,
+      "hits": [
+        {
+          "id": "iris-agent",
+          "cosine": 0.747
+        },
+        {
+          "id": "trust-graph",
+          "cosine": 0.74
+        },
+        {
+          "id": "voiceflow",
+          "cosine": 0.729
+        },
+        {
+          "id": "my-askai",
+          "cosine": 0.722
+        }
+      ]
+    },
+    {
+      "id": "legal",
+      "label": "Legal & finance",
+      "text": "Search over legal documents, patents, and financial filings",
+      "x": 0.2611,
+      "y": 0.8471,
+      "hits": [
+        {
+          "id": "aracor",
+          "cosine": 0.71
+        },
+        {
+          "id": "and-ai",
+          "cosine": 0.705
+        },
+        {
+          "id": "lucy",
+          "cosine": 0.684
+        },
+        {
+          "id": "lawme",
+          "cosine": 0.683
+        }
+      ]
+    }
+  ]
+}

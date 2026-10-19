@@ -3,6 +3,8 @@
 
   {{ partial "customers/customers-hero" . }}
 
+  {{ partial "customers/customers-neighbors" . }}
+
   {{ with (.Site.GetPage "/customers/clients") }}
     {{ partial "customers/customers-case-studies" . }}
   {{ end }}

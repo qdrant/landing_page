@@ -1,0 +1,372 @@
+@use '../../helpers/functions' as *;
+
+// Nearest neighbors explorer. Always dark: it is a picture of an embedding
+// space, not page chrome, so it does not follow the light theme.
+$nn-bg: #0b0f19;
+$nn-panel: #0e1422;
+$nn-border: #1e2638;
+$nn-chip-border: #2b3550;
+$nn-logo: $neutral-80;
+$nn-muted: $neutral-70;
+$nn-text: #e7e9f0;
+$nn-strong: #f5f6fa;
+$nn-accent: $primary-50;
+
+.customers-neighbors {
+  padding: $spacer * 3 0;
+  background-color: $nn-bg;
+  color: $nn-logo;
+
+  @include media-breakpoint-up(lg) {
+    padding: $spacer * 4 0;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: $spacer * 3;
+    }
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(28);
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 pxToRem(360);
+    }
+
+    @include media-breakpoint-up(xl) {
+      flex-basis: pxToRem(400);
+    }
+  }
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(12);
+  }
+
+  &__code {
+    margin: 0;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(13);
+    color: $primary-70;
+    overflow-wrap: anywhere;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: pxToRem(28);
+    line-height: 1.15;
+    font-weight: 600;
+    color: $nn-strong;
+
+    @include media-breakpoint-up(md) {
+      font-size: pxToRem(34);
+    }
+  }
+
+  &__description {
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: pxToRem(8);
+  }
+
+  &__chip {
+    min-height: pxToRem(44);
+    padding: pxToRem(10) pxToRem(16);
+    border: 1px solid $nn-chip-border;
+    border-radius: 999px;
+    background: transparent;
+    color: $nn-text;
+    font: inherit;
+    font-size: pxToRem(14);
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      border-color: $nn-muted;
+    }
+
+    &[aria-pressed='true'] {
+      background-color: $nn-accent;
+      border-color: $nn-accent;
+      color: $neutral-100;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-70;
+      outline-offset: 2px;
+    }
+  }
+
+  &__results {
+    border-top: 1px solid $nn-border;
+  }
+
+  &__results-head {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: pxToRem(12) 0;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(12);
+    color: $nn-muted;
+  }
+
+  &__hits {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__hit {
+    display: flex;
+    align-items: center;
+    gap: $spacer;
+    min-height: pxToRem(56);
+    border-top: 1px solid $nn-border;
+  }
+
+  &__hit-link {
+    display: flex;
+    align-items: center;
+    gap: $spacer;
+    flex-grow: 1;
+    min-height: pxToRem(44);
+    color: $nn-text;
+    font-size: pxToRem(14);
+    text-decoration: none;
+
+    &:hover {
+      --logo-color: #{$neutral-100};
+      color: $neutral-100;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-70;
+      outline-offset: 2px;
+    }
+  }
+
+  &__hit-logo-slot {
+    display: flex;
+    align-items: center;
+    width: pxToRem(120);
+    height: pxToRem(28);
+    flex-shrink: 0;
+  }
+
+  &__hit-logo {
+    // --h is the logo's height in panel units, 20 to 40.
+    height: calc(var(--h) * 0.7px);
+    max-width: 100%;
+
+    &.customers-neighbors__logo_wordmark {
+      font-size: pxToRem(15);
+    }
+  }
+
+  &__hit-score {
+    font-family: $font-family-monospace;
+    font-size: pxToRem(14);
+    color: $nn-strong;
+  }
+
+  // A logo file used as a mask over a flat fill, so every logo shares one color.
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--logo-color, #{$nn-logo});
+    -webkit-mask: var(--logo) var(--logo-pos, center) / var(--logo-size, contain) no-repeat;
+    mask: var(--logo) var(--logo-pos, center) / var(--logo-size, contain) no-repeat;
+  }
+
+  &__logo_wordmark {
+    background: none;
+    -webkit-mask: none;
+    mask: none;
+    color: var(--logo-color, #{$nn-logo});
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  &__figure {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(12);
+  }
+
+  &__panel {
+    // Panel units are 1000 x 760. Points carry --x and --y as fractions.
+    // --unit is one panel unit. A logo's --h is its height in units, matching
+    // the boxes the generator de-overlaps.
+    --unit: 0.1cqw;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1000 / 760;
+    container-type: inline-size;
+    overflow: hidden;
+    border: 1px solid $nn-border;
+    border-radius: pxToRem(16);
+    background-color: $nn-panel;
+    background-image: radial-gradient($nn-border 1px, transparent 1px);
+    background-size: pxToRem(24) pxToRem(24);
+    cursor: crosshair;
+
+    &:focus-visible {
+      outline: 2px solid $primary-70;
+      outline-offset: 2px;
+    }
+
+    // Phones: draw the map transposed so it fits a portrait screen. Points
+    // carry --px and --py for this orientation.
+    @include media-breakpoint-down(sm) {
+      // Matches PORTRAIT_SCALE in the generator.
+      --unit: calc(90cqw / 760);
+      aspect-ratio: 760 / 1000;
+    }
+  }
+
+  &__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    line {
+      stroke: $nn-accent;
+      stroke-width: 1;
+      stroke-dasharray: 4 4;
+      opacity: 0.75;
+    }
+  }
+
+  &__point {
+    position: absolute;
+    left: calc(var(--x) * 100%);
+    top: calc(var(--y) * 100%);
+    display: flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: opacity 0.25s;
+
+    // Phones: positions de-overlapped separately for the portrait map.
+    @include media-breakpoint-down(sm) {
+      left: calc(var(--px) * 100%);
+      top: calc(var(--py) * 100%);
+    }
+
+    // Tap target larger than the drawn logo.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+    }
+
+    .has-query & {
+      opacity: 0.22;
+    }
+
+    .has-query &.is-neighbor {
+      --logo-color: #{$neutral-100};
+      opacity: 1;
+      z-index: 1;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__point-logo {
+    height: calc(var(--h) * var(--unit));
+    max-width: calc(150 * var(--unit));
+
+    &.customers-neighbors__logo_wordmark {
+      font-size: calc(var(--h) * var(--unit) * 0.6);
+      line-height: calc(var(--h) * var(--unit));
+    }
+  }
+
+  &__dot,
+  &__ring {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition:
+      left 0.35s ease,
+      top 0.35s ease;
+  }
+
+  &__dot {
+    z-index: 2;
+    width: pxToRem(12);
+    height: pxToRem(12);
+    background-color: $nn-accent;
+  }
+
+  &__ring {
+    z-index: 2;
+    width: pxToRem(36);
+    height: pxToRem(36);
+    border: 1px solid $nn-accent;
+    opacity: 0.6;
+  }
+
+  &__hint {
+    position: absolute;
+    left: pxToRem(16);
+    bottom: pxToRem(12);
+    margin: 0;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(12);
+    color: $nn-muted;
+    pointer-events: none;
+
+    // Too long for a phone-width panel; the intro already says to click.
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  &__caption {
+    font-size: pxToRem(13);
+    line-height: 1.5;
+    color: $nn-muted;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__chip,
+    &__point,
+    &__dot,
+    &__ring {
+      transition: none;
+    }
+  }
+}
