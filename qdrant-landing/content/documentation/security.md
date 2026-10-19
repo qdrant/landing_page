@@ -492,7 +492,7 @@ QDRANT__SERVICE__HOST=127.0.0.1 ./qdrant
 
 ### Bind the Internal Port
 
-*Available as of v1.20.0*
+*Available as of v1.19.2*
 
 In a distributed deployment, peers talk to each other over the internal gRPC port (`6335` by default). By default, the REST, gRPC, and internal ports all bind to `service.host`, so the internal port is reachable on whichever interface serves the public API.
 
