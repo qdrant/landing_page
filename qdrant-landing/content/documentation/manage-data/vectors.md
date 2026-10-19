@@ -236,7 +236,7 @@ To use `turbo16`, specify the `turbo16` datatype for the vector when creating a 
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo16/" >}}
 
-Compared to [`float16`](#float16), `turbo16` has the same size, but lower error. `float16` keeps the same relative error for every value, so embeddings with a few very large values lose precision. This is common for models like OpenAI's `text-embedding-ada-002`, CLIP, and Cohere. Because each vector is rotated first, its values have a similar spread, so a single 16-bit scale per vector covers them well.
+Compared to [`float16`](#float16), `turbo16` is nearly the same size but stays about 7.5x closer to your original `float32` vectors. `float16` keeps the same relative error for every value, so in embeddings where a few very large values dominate the score, their rounding errors don't cancel out. This happens with models like OpenAI's `text-embedding-ada-002`, CLIP, and Cohere. Because each vector is rotated first, its values have a similar spread, so a 16-bit grid with one scale per vector covers them well.
 
 #### Turbo8
 
@@ -267,10 +267,6 @@ The TurboQuant datatypes trade vector size for recall:
 | `turbo16` | 2 | You want the recall of `float32` at half the size. |
 | `turbo8` | 1 | You want recall close to `float32` at one-quarter of the size. |
 | `turbo4` | 0.5 | Storage is the main constraint, and you can accept lower recall at one-eighth of the size. |
-
-`turbo4` and `turbo8` compress each vector relative to its own length. If most of a vector's length lies in a direction that queries don't use, the remaining dimensions lose precision. This can happen, for example, when vectors are extended with an extra dimension to turn a dot product search into a Euclidean distance search. For such data, use `turbo16` or `float32`.
-
-With `turbo8` and `turbo16`, Qdrant compresses vectors when you upload them, which makes ingestion slower.
 
 You can combine any TurboQuant datatype with the [quantization feature](/documentation/manage-data/quantization/#turboquant-quantization) for memory-efficient rescoring. For example, adding 1-bit TurboQuant on top of `turbo4` uses a compact index for the initial search, then rescores against the 4-bit `turbo4` vectors. This is more storage-efficient than pairing 1-bit quantization with full-precision vectors, at the cost of rescoring precision.
 
