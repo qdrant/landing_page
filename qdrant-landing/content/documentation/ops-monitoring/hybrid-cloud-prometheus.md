@@ -89,7 +89,7 @@ spec:
       app.kubernetes.io/name: operator
 ```
 
-The example above assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
+This example assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
 
 The `release: prometheus` label must match the name of your Helm release. By default, `kube-prometheus-stack` only picks up `ServiceMonitor` resources labeled with its own release name. If you installed the chart under a different name, change the label to match.
 
@@ -142,14 +142,53 @@ kubectl --namespace monitoring port-forward $POD_NAME 3000
 
 Now you can open your web browser and go to `http://localhost:3000`. Log in with the username `admin` and the password you retrieved earlier.
 
-## Step 5: Import Qdrant Dashboard
+## Step 5: Import the Qdrant Dashboards
 
-Qdrant provides example Grafana dashboards in the [qdrant-cloud-grafana-dashboard repository](https://github.com/qdrant/qdrant-cloud-grafana-dashboard). They come with built-in views and graphs to help you get started monitoring your Qdrant clusters. For Hybrid and Private Cloud, use `qdrant_cloud_operator_dashboard.json`, which covers the control plane metrics you scraped in Step 2.
+Qdrant publishes two example Grafana dashboards in the [qdrant-cloud-grafana-dashboard repository](https://github.com/qdrant/qdrant-cloud-grafana-dashboard). For Hybrid Cloud, import both:
 
-To import the dashboard:
+| Dashboard file | Shows | Needs |
+|---|---|---|
+| `qdrant_cloud_dashboard.json` (Qdrant Cloud Public Dashboard) | One database cluster: the database metrics, the cluster status reported by the Operator, Pod and volume state, container resource use, and request traffic | The database metrics, the Operator metrics, kube-state-metrics, cAdvisor and kubelet volume metrics, and Traefik or Envoy request metrics |
+| `qdrant_cloud_operator_dashboard.json` (Qdrant Operator V2 Dashboard) | The Operator and the cluster manager | The Operator metrics, kube-state-metrics, and the cluster manager process metrics |
+
+For Private Cloud, use the Operator dashboard.
+
+The dashboards are not versioned per Operator release. One Operator file covers Operator v2, and its queries expect Pods named `qdrant-operator-v2-*`, so they do not match Operator v1. The `version` field inside a dashboard JSON is Grafana's own revision counter. Always import the current files from the repository.
+
+To import a dashboard:
 
 1. In Grafana, go to "Dashboards", then click "New" and "Import".
 2. Upload the dashboard JSON file from the repository, or paste its contents.
-3. Select your Prometheus data source, then click "Import".
+3. Select the Prometheus data source that scrapes your Qdrant namespace, then click "Import".
 
-The dashboards need the cloud-specific metrics scraped above. They do not work with metrics from the open-source Qdrant container image.
+The dashboards need the cloud-specific metrics scraped in Step 2. They do not work with metrics from the open-source Qdrant container image.
+
+## Troubleshooting: Panels Show No Data
+
+A blank panel usually means that the series of its query are not in the Prometheus data source you selected. Work through these checks:
+
+1. **Check the data source.** Select the Prometheus that scrapes the Hybrid Cloud namespace when you import. Copies of the dashboards from before October 2026 have internal data source IDs hardcoded, which leaves every panel empty in another Grafana. Import the current files.
+2. **Check the cluster dropdown.** The database dashboard lists clusters from `qdrant_operator_cluster_info_total`. If the Operator target on port 9290 is down, every panel on that dashboard is blank. Only Operator v2 exposes this metric.
+3. **Check the targets.** Every Qdrant target must be `UP`, as in Step 3. A ServiceMonitor whose `release` label does not match your Prometheus Helm release never becomes a target.
+4. **Check the names and the network.** The queries expect Operator Pods named `qdrant-operator-v2-*` and database Pods named `qdrant-<cluster-id>-*`. A different Helm release name, or a network policy that blocks Prometheus from the Operator metrics port, gives the same empty result.
+5. **Find the missing metric.** Open the empty panel, choose "Edit", copy the metric name from the query, and run it in Prometheus. For example:
+
+```promql
+qdrant_operator_cluster_info_total
+container_memory_working_set_bytes{namespace="qdrant"}
+kubelet_volume_stats_used_bytes{namespace="qdrant"}
+kube_pod_container_info
+```
+
+Missing one source blanks only the panels that use it:
+
+| Metric prefix | Source | Fix |
+|---|---|---|
+| `qdrant_operator_`, `controller_runtime_`, `workqueue_`, `rest_client_` | The Qdrant Operator | Apply the `qdrant-operator` ServiceMonitor from Step 2 |
+| Database metrics such as `qdrant_collection_` and `qdrant_node_` | The Qdrant cluster exporter, or the database Pods on port 6333 | Apply the `qdrant-cluster-exporter` ServiceMonitor from Step 2 |
+| `kube_pod_`, `kube_deployment_` | kube-state-metrics | Scrape kube-state-metrics. The Qdrant namespace runs one on port 8080, see [Networking, Logging & Monitoring](/documentation/hybrid-cloud/networking-logging-monitoring/#monitoring) |
+| `container_`, `kubelet_volume_stats_` | The kubelet | Scrape the kubelet. `kube-prometheus-stack` does this by default |
+| Request traffic panels | Traefik or Envoy | Scrape the proxy that serves your ingress |
+| Operator dashboard process panels | The cluster manager | Scrape the cluster manager metrics |
+
+If you use Chronosphere, panels that use Grafana's classic transformations, such as `JoinByField`, stay empty even when the metrics exist. See the [open issue](https://github.com/qdrant/qdrant-cloud-grafana-dashboard/issues/8) in the dashboard repository.
