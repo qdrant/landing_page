@@ -100,7 +100,7 @@ pub fn builder() -> EdgeSparseVectorParamsBuilder
 | --- | --- |
 | `full_scan_threshold` | Threshold below which a full scan is used instead of the sparse index. |
 | `on_disk` | Whether to cache sparse vector indexes in RAM for faster access, or serve them from disk.  |
-| `modifier` | Score modifier. Set to `Modifier.Idf` for BM25 scoring. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
+| `modifier` | Score modifier. Set to `Modifier.Idf` for [sparse vector queries](/documentation/search/text-search/sparse-vector-search/) that weight terms by inverse document frequency. |
 | `datatype` | Storage datatype for the vector. |
 
 ## Optimizer Parameters

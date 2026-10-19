@@ -54,7 +54,7 @@ To retrieve a point by ID, use the [`retrieve`](/documentation/edge/edge-api/rea
 
 You can add or remove named vectors to an existing Edge Shard's schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
 
-For example, to add a sparse vector for [BM25 keyword search](/documentation/edge/edge-bm25/):
+For example, to add a [sparse vector](/documentation/search/text-search/sparse-vector-search/) with the IDF modifier:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="modify-vector-schema" >}}
 
