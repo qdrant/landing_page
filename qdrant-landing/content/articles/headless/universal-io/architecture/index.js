@@ -1,5 +1,5 @@
 /*
- * Universal I/O architecture island for blog/universal-io.
+ * Universal I/O architecture island for articles/universal-io.
  *
  * One consumer layer, one set of traits, three backends. The reader picks a
  * backend to see what sits underneath the same consumer code, and "Send reads"

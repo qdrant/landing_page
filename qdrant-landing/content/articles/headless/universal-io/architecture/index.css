@@ -123,7 +123,7 @@
 }
 
 /* Light-only blog surface, same policy as the other blog islands. */
-html .island[data-island='content/headless/blog/universal-io/architecture'] {
+html .island[data-island='content/articles/headless/universal-io/architecture'] {
   --qi-fg: #303547;
   --qi-muted: #656b7f;
   --qi-surface: #f0f3fa;
@@ -136,23 +136,23 @@ html .island[data-island='content/headless/blog/universal-io/architecture'] {
   border: 1px solid var(--qi-border);
   border-radius: var(--qi-radius);
 }
-.island[data-island='content/headless/blog/universal-io/architecture'].is-ready .island__stage {
+.island[data-island='content/articles/headless/universal-io/architecture'].is-ready .island__stage {
   max-width: 100% !important;
   aspect-ratio: auto !important;
 }
-html .island[data-island='content/headless/blog/universal-io/architecture'] .island__caption {
+html .island[data-island='content/articles/headless/universal-io/architecture'] .island__caption {
   margin-top: 0.9rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--qi-border);
 }
-html .island[data-island='content/headless/blog/universal-io/architecture'] .qi-ab__box,
-html .island[data-island='content/headless/blog/universal-io/architecture'] .qi-ab__box-rect {
+html .island[data-island='content/articles/headless/universal-io/architecture'] .qi-ab__box,
+html .island[data-island='content/articles/headless/universal-io/architecture'] .qi-ab__box-rect {
   fill: #ffffff;
 }
 
 /* Tighter card padding on phones; last so it wins over the card rule above. */
 @media (max-width: 640px) {
-  html .island[data-island='content/headless/blog/universal-io/architecture'] {
+  html .island[data-island='content/articles/headless/universal-io/architecture'] {
     padding: 1rem 0.75rem 0.75rem;
   }
 }

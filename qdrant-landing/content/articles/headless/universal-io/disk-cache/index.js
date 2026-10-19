@@ -1,5 +1,5 @@
 /*
- * DiskCache island for blog/universal-io.
+ * DiskCache island for articles/universal-io.
  *
  * A remote file is mirrored into a local mmap file of the same size, split into
  * 16 KiB blocks, with a bitmap recording which blocks are already local. The

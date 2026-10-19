@@ -1,5 +1,5 @@
 /*
- * Async bridge island for blog/universal-io.
+ * Async bridge island for articles/universal-io.
  *
  * Traces three reads through the bridge between the synchronous pipeline and
  * the Tokio runtime. The caller thread schedules A, B, and C, then calls wait()

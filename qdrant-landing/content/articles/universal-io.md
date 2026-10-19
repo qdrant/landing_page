@@ -3,17 +3,18 @@ draft: false
 title: "Universal I/O in Qdrant"
 short_description: "How Qdrant talks to different storage backends through a unified I/O interface"
 description: "A deep dive into Qdrant's Universal I/O, which allows consumer code to interact with different storage backends (mmap, io_uring, network-backed) through a unified interface"
+social_preview_image: /articles_data/universal-io/preview/social_preview.jpg
+preview_dir: /articles_data/universal-io/preview
+weight: 1
+author: Luis Cossío, Clelia Bertelli
 date: 2026-10-12T00:00:00Z
-author: Clelia Bertelli, Luis Cossío
-featured: false
-preview_image: /blog/universal-io/preview/social_preview.jpg
-social_image: /blog/universal-io/preview/social_preview.png
-tags:
+keywords:
   - rust
   - io
   - mmap
   - io_uring
   - s3
+category: qdrant-internals
 ---
 
 Most software is built on an unspoken assumption: data lives on disk, and is read from and written to it. The assumption usually holds, until a new way (or need) of storing data appears.
@@ -50,11 +51,11 @@ Because of this gap in cost, the design of the interface seemed to be limited to
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
 {{< island
-    path="content/headless/blog/universal-io/architecture"
+    path="content/articles/headless/universal-io/architecture"
     width="760" ratio="760 / 430"
     title="The consumers are written once against the Universal I/O traits. Only the backend underneath changes, and with it the pipeline depth: 1 for `mmap`, 16 for `io_uring`, and up to 256 for network I/O."
 >}}
-![Consumer code (vector storage, HNSW graph links, and payload indexes) calls the Universal I/O traits UniversalReadFs, UniversalRead, and ReadPipeline. Three backends implement them: mmap with pipeline depth 1, io_uring with depth 16, and network I/O with depth up to 256.](/blog/universal-io/uio-architecture.svg)
+![Consumer code (vector storage, HNSW graph links, and payload indexes) calls the Universal I/O traits UniversalReadFs, UniversalRead, and ReadPipeline. Three backends implement them: mmap with pipeline depth 1, io_uring with depth 16, and network I/O with depth up to 256.](/articles_data/universal-io/uio-architecture.svg)
 {{< /island >}}
 
 ## Filesystems, Files, and Pipelines
@@ -154,11 +155,11 @@ Here is a simplified view of how a read flows through the bridge:
 The following diagram shows the whole flow:
 
 {{< island
-    path="content/headless/blog/universal-io/async-bridge"
+    path="content/articles/headless/universal-io/async-bridge"
     width="760" ratio="760 / 376"
     title="`schedule()` returns immediately while Tokio workers run the reads, and `wait()` hands results back in the order they finish, here B, C, then A, each matched to its user data through its slot."
 >}}
-![A synchronous caller thread schedules reads A, B, and C, each spawned onto a Tokio worker. It then calls wait() three times, blocking each time until a reply arrives. Replies return in finish order: B, then C, then A.](/blog/universal-io/uio-async-bridge.svg)
+![A synchronous caller thread schedules reads A, B, and C, each spawned onto a Tokio worker. It then calls wait() three times, blocking each time until a reply arrives. Replies return in finish order: B, then C, then A.](/articles_data/universal-io/uio-async-bridge.svg)
 {{< /island >}}
 
 ## Mirroring Remote Object Storage to Local Disk
@@ -176,11 +177,11 @@ A read through `DiskCache` then goes like this:
 3. **Write to the mirror, then read from it.** When a remote read returns, we write the bytes into the local mmap, mark the blocks in the bitmap, and return a slice borrowed from the `MmapFile` instead of the remote buffer, so that hits and misses return the same kind of result.
 
 {{< island
-    path="content/headless/blog/universal-io/disk-cache"
+    path="content/articles/headless/universal-io/disk-cache"
     width="760" ratio="760 / 350"
     title="A `DiskCache` read in three outcomes: a hit returns a slice of the local mmap, a miss fetches the whole covering range once, and a read already covered by an in-flight fetch waits for it instead of sending its own request."
 >}}
-![A remote file of 16 blocks is mirrored into a local mmap file of the same size. A bitmap records which blocks are local, and only blocks 0 and 1 are in this example. A read of local blocks returns a slice of the mirror, while a read of a missing block fetches the covering range from object storage first.](/blog/universal-io/uio-disk-cache.svg)
+![A remote file of 16 blocks is mirrored into a local mmap file of the same size. A bitmap records which blocks are local, and only blocks 0 and 1 are in this example. A read of local blocks returns a slice of the mirror, while a read of a missing block fetches the covering range from object storage first.](/articles_data/universal-io/uio-disk-cache.svg)
 {{< /island >}}
 
 Put together, the whole flow looks like this, where the real pipeline splits scheduling and waiting into separate calls but follows the same logic:
