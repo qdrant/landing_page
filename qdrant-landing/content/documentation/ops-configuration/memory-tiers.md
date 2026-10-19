@@ -128,9 +128,11 @@ Avoid putting the HNSW vector index in the `cold` tier. If you must store it on 
 
 Enabling inline storage can significantly increase the size of the HNSW index. Do not use inline storage if the HNSW index is in RAM ([`pinned` or `cached` tiers](/documentation/ops-configuration/memory-tiers/)). To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method [that compresses to at most 4 bits per dimension](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method), such as TurboQuant.
 
-As of v1.20.0, Qdrant stores original vectors only in the HNSW index file for segments that use inline storage. Their memory tier is controlled by `hnsw_config.memory`, Qdrant ignores the `vectors.memory` setting for these vectors.
+As of v1.20.0, segments with an HNSW index and inline storage keep the original vectors only in the HNSW index file. The memory tier of these vectors is controlled by `hnsw_config.memory`. Qdrant ignores the `vectors.memory` setting for them.
 
-Quantized vectors keep their own placement setting. Segments that the optimizer has not yet rebuilt, along with small appendable segments, still use regular vector storage and follow `vectors.memory`. For more details, refer to [Inline Storage in HNSW Index](/documentation/ops-optimization/optimize/#where-qdrant-stores-the-vectors).
+This also affects quantized vectors. If quantization has an explicit `memory` setting, Qdrant uses it. Otherwise, quantized vectors follow `hnsw_config.memory`. They're placed on disk when the HNSW index is `cold`, and pinned in RAM in any other tier. Because the HNSW index defaults to `cached`, set `memory` on quantization explicitly when you use inline storage.
+
+Segments without an HNSW index, such as small appendable segments, and segments that the optimizer has not yet rebuilt still use regular vector storage and follow `vectors.memory`. For more details, refer to [Inline Storage in HNSW Index](/documentation/ops-optimization/optimize/#where-qdrant-stores-the-vectors).
 
 ## Migrating
 

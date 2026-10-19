@@ -94,13 +94,13 @@ To enable inline storage, quantization must be enabled. Multivectors are not sup
 
 Before v1.20.0, inline storage kept the original vectors in the regular vector storage and added a copy to the HNSW index file.
 
-As of v1.20.0, when the optimizer builds an indexed segment with inline storage, it writes the original vectors to the HNSW index file and deletes the regular vector storage. This leaves a single copy on disk.
+As of v1.20.0, when the optimizer builds an HNSW index for a segment with inline storage, it writes the original vectors to the HNSW index file and deletes the regular vector storage. This leaves a single copy of the original vectors on disk.
 
-- Quantized vectors still use separate storage.
-- Small, appendable segments still use regular vector storage.
-- Existing segments switch to the new layout when the optimizer rebuilds them. Segments that already use the new layout remain readable.
+- Quantized vectors are still kept in their own storage. The HNSW index file also contains quantized copies of each point's neighbors.
+- Segments without an HNSW index still use regular vector storage. This includes small appendable segments and any segment below the [indexing threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer).
+- Existing segments switch to the new layout when the optimizer rebuilds them.
 
-For segments that use this layout, `hnsw_config.memory` controls the memory tier of the original vectors. Qdrant ignores the `vectors.memory` setting. Refer to [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
+For segments that use this layout, `hnsw_config.memory` controls the memory tier of the original vectors, and Qdrant ignores `vectors.memory`. If you don't set `memory` for quantized vectors, they also follow `hnsw_config.memory` instead of `vectors.memory`. To keep quantized vectors in a specific tier, set their `memory` explicitly. Refer to [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
 
 ## 3. High Precision with High-Speed Search
 
