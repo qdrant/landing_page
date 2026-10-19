@@ -7,7 +7,7 @@ description: "Search PDF pages with pplx-embed-v2 and Qdrant TurboQuant: 21x sma
 preview_image: /blog/pplx-embed-v2/hero.jpg
 social_preview_image: /blog/pplx-embed-v2/preview/social_preview.jpg
 date: 2026-10-13
-author: Dylan Couzon, Anush Shetty
+author: Dylan Couzon, Anush
 author_profile: dylan-couzon
 featured: true
 weight: 0
