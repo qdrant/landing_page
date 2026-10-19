@@ -3,17 +3,11 @@
 
   {{ partial "filterable-hnsw/hero" . }}
 
-  {{ partial "filterable-hnsw/metadata-filtering-paths" . }}
-
-  {{ with (.Site.GetPage "/filterable-hnsw/how-it-works") }}
-    {{ partial "landing/steps-icon-flow" . }}
+  {{ range $slug := slice "what-you-get" "how-it-works" "considerations" }}
+    {{ with ($.Site.GetPage (printf "/filterable-hnsw/%s" $slug)) }}
+      {{ partial "filterable-hnsw/section" (dict "page" . "block" (printf "filterable-hnsw-%s" $slug)) }}
+    {{ end }}
   {{ end }}
-
-  {{ partial "filterable-hnsw/acorn-graph-traversal" . }}
-
-  {{ partial "filterable-hnsw/payload-type-filtering" . }}
-
-  {{ partial "filterable-hnsw/honest-limits" . }}
 
   {{ partial "filterable-hnsw/faq" . }}
 

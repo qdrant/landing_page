@@ -13,6 +13,7 @@
             <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
           {{ end }}
         </div>
+        {{ with .Params.note }}<p class="filterable-hnsw-hero__note">{{ . | safeHTML }}</p>{{ end }}
       </div>
     </div>
   </section>

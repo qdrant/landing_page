@@ -8,3 +8,4 @@
   &__description { margin-bottom: $spacer * 1.5; font-size: $font-size-l; line-height: 1.5; color: $neutral-80; }
   &__actions { display: flex; flex-wrap: wrap; gap: $spacer; }
 }
+.filterable-hnsw-hero__note { margin: $spacer * 1.5 0 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-70; a { color: $neutral-98; } }

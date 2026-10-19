@@ -1,6 +1,6 @@
 ---
-title: 'Tune HNSW Performance Across Every Filter Strength | Qdrant'
-description: 'Qdrant keeps HNSW performance benchmarking honest across the full selectivity range: weak filters run straight through the index, strict filters get a dedicated filtered graph, and strict mode blocks queries on unindexed fields before they degrade results.'
+title: 'Filter Inside Search, and Find Your True Nearest Match | Qdrant'
+description: 'Qdrant applies your filters during search. A built-in planner picks the best strategy for every query, including filters your agents write, so scoped queries return your true nearest matches.'
 build:
   render: always
 cascade:
