@@ -306,6 +306,10 @@ The following color statuses are possible:
 - ⚫ `grey`: collection is pending optimization ([help](#grey-collection-status))
 - 🔴 `red`: an error occurred which the engine could not recover from
 
+*Available as of v1.20.0*
+
+Collection info also includes a `created_at` field with the time Qdrant created the collection. REST returns it as a date-time, and gRPC as a `google.protobuf.Timestamp`. Collections created before v1.20.0 have no creation time, so the field is absent for them. Recovering a collection from a snapshot keeps the original value.
+
 ### Grey Collection Status
 
 _Available as of v1.9.0_
