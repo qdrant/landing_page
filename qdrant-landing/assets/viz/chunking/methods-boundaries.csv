@@ -1,0 +1,22 @@
+method,dataset,recall_1000
+Recursive,SQuAD,86.3
+Recursive,RepliQA,76.9
+Recursive,Qasper,50.8
+128 tokens,SQuAD,87.7
+128 tokens,RepliQA,84.3
+128 tokens,Qasper,45.6
+510 tokens,SQuAD,65.2
+510 tokens,RepliQA,58.9
+510 tokens,Qasper,40.0
+Fixed,SQuAD,69.3
+Fixed,RepliQA,63.2
+Fixed,Qasper,36.9
+Semantic,SQuAD,85.7
+Semantic,RepliQA,73.6
+Semantic,Qasper,47.7
+Sections,SQuAD,86.3
+Sections,RepliQA,76.9
+Sections,Qasper,56.2
+Overlap,SQuAD,86.5
+Overlap,RepliQA,77.5
+Overlap,Qasper,52.2

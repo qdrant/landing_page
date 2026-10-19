@@ -1,0 +1,19 @@
+{
+  "title": "Recall at a 1,000-token budget: where to cut and how big",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "dataset",
+  "colors": [
+    0,
+    1,
+    2
+  ],
+  "y": "recall_1000",
+  "yLabel": "recall (%)",
+  "yMax": 100,
+  "subtitle": "recursive splitting at 256 tokens unless named; fixed windows ignore structure; overlap is 64 tokens. Higher is better",
+  "width": 980,
+  "height": 480,
+  "textScale": 1.2,
+  "legendLayout": "row"
+}
