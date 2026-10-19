@@ -1,0 +1,13 @@
+task,representation,vectors_per_doc,score
+SummScreen,Whole document,1.0,0.974
+SummScreen,512-token chunks,18.2,0.954
+2Wiki,Whole document,1.0,0.929
+2Wiki,512-token chunks,19.4,0.991
+QMSum,Whole document,1.0,0.536
+QMSum,512-token chunks,27.6,0.712
+Passkey,Whole document,1.0,0.993
+Passkey,512-token chunks,15.5,1.000
+Needle,Whole document,1.0,0.660
+Needle,512-token chunks,15.1,0.713
+MLDR,Whole document,1.0,0.509
+MLDR,512-token chunks,7.1,0.683
