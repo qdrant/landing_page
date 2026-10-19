@@ -1,6 +1,6 @@
 ---
-title: 'Combine Keyword and Vector Search in One Query | Qdrant'
-description: Qdrant merges sparse and dense vector results into a single ranked list using Reciprocal Rank Fusion, so your keyword search and semantic search work together across the same collection.
+title: 'Hybrid Search That Fits Your Whole Retrieval Pipeline | Qdrant'
+description: 'Run keyword and semantic search in one request, with filters, several vector types, and reranking in the same query. Qdrant merges the results on the server, so your application gets one ranked list.'
 build:
   render: always
 cascade:

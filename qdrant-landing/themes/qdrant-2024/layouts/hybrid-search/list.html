@@ -3,19 +3,15 @@
 
   {{ partial "hybrid-search/hero" . }}
 
-  {{ partial "hybrid-search/what-you-get" . }}
-
-  {{ with (.Site.GetPage "/hybrid-search/how-it-works") }}
-    {{ partial "landing/steps-icon-flow" . }}
+  {{ range $slug := slice "filter-both" "representations" "keyword-model" "merge-and-rerank" "replace-keyword-engine" "customer-proof" }}
+    {{ with ($.Site.GetPage (printf "/hybrid-search/%s" $slug)) }}
+      {{ partial "hybrid-search/section" (dict "page" . "block" (printf "hybrid-search-%s" $slug)) }}
+    {{ end }}
   {{ end }}
-
-  {{ partial "hybrid-search/reciprocal-rank-fusion-rrf" . }}
-
-  {{ partial "hybrid-search/honest-limits" . }}
 
   {{ partial "hybrid-search/faq" . }}
 
-  {{ with (.Site.GetPage "/hybrid-search/cta-banner") }}
-    {{ partial "cta-banner" . }}
+  {{ with (.Site.GetPage "/hybrid-search/final-cta") }}
+    {{ partial "hybrid-search/section" (dict "page" . "block" "hybrid-search-final-cta") }}
   {{ end }}
 {{ end }}
