@@ -22,8 +22,8 @@ Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access t
 
 - **Kubernetes nodes:** You need enough CPU and memory capacity for the Qdrant database clusters that you create. A small amount of resources is also needed for the Hybrid Cloud control plane components. Qdrant Hybrid Cloud supports x86_64 and ARM64 architectures.
 - **Permissions:** To install the Qdrant Cloud Agent you need to have `cluster-admin` access in your Kubernetes cluster.
-- **Connection:** The Qdrant Cloud Agent in your cluster needs to be able to connect to Qdrant Cloud. It will create an outgoing connection to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` on port `443`.
-- **Locations:** By default, all container images and helm charts are pulled from `registry.cloud.qdrant.io`. For a complete list see [Mirroring images and charts](#mirroring-images-and-charts).
+- **Connection:** Your cluster needs outgoing connections on port `443` to `grpc.cloud.qdrant.io`, where the Qdrant Cloud Agent receives management instructions, and to `api.cloud.qdrant.io`, where metrics and events are sent. See [Network Requirements](/documentation/hybrid-cloud/#network-requirements).
+- **Locations:** By default, the kubelet and the Helm source controller pull all container images and helm charts from `registry.cloud.qdrant.io`. For a complete list see [Mirroring images and charts](#mirroring-images-and-charts).
 
 > **Note:** You can also mirror these images and charts into your own registry and pull them from there.
 
@@ -176,12 +176,12 @@ skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-cha
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/kubernetes-event-exporter your-registry.example.com/qdrant-charts/kubernetes-event-exporter
 ```
 
-With the above configuration, you can add the following values to the advanced section of your Hybrid Cloud Environment:
+With this configuration, you can add the following values to the advanced section of your Hybrid Cloud Environment:
 
 * Container registry URL: `your-registry.example.com/qdrant`
 * Chart repository URL: `oci://your-registry.example.com/qdrant-charts`
 
-If your registry requires authentication, you can create and reference the secret the same way as described above.
+If your registry requires authentication, you can create and reference the secret the same way as in Automatic replication.
 
 ## Rotating Secrets
 

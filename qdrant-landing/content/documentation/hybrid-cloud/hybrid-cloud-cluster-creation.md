@@ -199,7 +199,7 @@ When creating a Qdrant database cluster, Qdrant Cloud schedules Pods with specif
 
 By default, Qdrant Cloud will reserve 20% of available CPU and memory on each Pod. This is done to leave room for the operating system, Kubernetes, and system components. This conservative default may need adjustment depending on node size, whereby smaller nodes might require more, and larger nodes less resources reserved. 
 
-You can modify this reservation in the “Configuration” section of the Qdrant Cluster detail page.
+You can modify this reservation in the "Configuration" section of the Qdrant Cluster detail page.
 
 If you want to check how much resources are available on an empty Kubernetes node, you can use the following command:
 

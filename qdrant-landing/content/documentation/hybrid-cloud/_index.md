@@ -22,11 +22,23 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 
 **Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
+## At a Glance
+
+| Question | Answer |
+|---|---|
+| Where do the databases run? | In your Kubernetes cluster, on your own storage and compute. |
+| Who creates and manages clusters? | You, in the Qdrant Cloud Console. The Operator in your cluster carries out the changes. |
+| What can Qdrant Cloud access? | Telemetry, metrics, and status information only. It does not connect to the API of your Kubernetes cluster, your cloud provider, or any other platform, and it cannot read your data. |
+| What network access does it need? | Outbound connections on port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io`. No inbound ports, no exposure of your Kubernetes cluster, and no Kubernetes or cloud provider credentials. See [Network Requirements](#network-requirements). |
+| What does it need from Kubernetes? | A standard compliant cluster, CSI block storage (with volume expansion for vertical scaling and snapshots for backups), x86_64 or ARM64 nodes, and `cluster-admin` access for the installation. See [Setup](/documentation/hybrid-cloud/hybrid-cloud-setup/#prerequisites). |
+| How are the components updated? | After onboarding, Qdrant Cloud controls their lifecycle through the built-in Helm controller. |
+| How do I get access? | Hybrid Cloud is part of the Enterprise plan. [Contact us](/contact-us/). |
+
 ## Hybrid Cloud Architecture
 
 The Hybrid Cloud onboarding will install a Kubernetes Operator, a Cloud Agent and a Prometheus Agent into your Kubernetes cluster.
 
-Both the Cloud Agent and the Prometheus Agent will establish an outgoing connection to `cloud.qdrant.io` on port `443` to transport telemetry and receive management instructions. It will also interact with the Kubernetes API through a ServiceAccount to create, read, update and delete the necessary Qdrant CRs (Custom Resources) based on the configuration setup in the Qdrant Cloud Console.
+The Cloud Agent establishes an outgoing connection to the Qdrant Cloud control plane to receive management instructions. Telemetry is sent over HTTPS: the Prometheus Agent writes metrics, and the Kubernetes event exporter posts events. See [Network Requirements](#network-requirements) for the hosts. The Cloud Agent also interacts with the Kubernetes API through a ServiceAccount to create, read, update and delete the necessary Qdrant CRs (Custom Resources) based on the configuration setup in the Qdrant Cloud Console.
 
 The Qdrant Kubernetes Operator will manage the Qdrant databases within your Kubernetes cluster. Based on the Qdrant CRs, it will interact with the Kubernetes API through a ServiceAccount to create and manage the necessary resources to deploy and run Qdrant databases, such as Pods, Services, ConfigMaps, and Secrets.
 
@@ -48,6 +60,18 @@ After the initial onboarding, the lifecycle of these components will be controll
 You don't need to expose your Kubernetes Cluster to the Qdrant Cloud platform, you don't need to open any ports for incoming traffic, and you don't need to provide any Kubernetes or cloud provider credentials to the Qdrant Cloud platform.
 
 ![hybrid-cloud-architecture](/blog/hybrid-cloud/hybrid-cloud-architecture.png)
+
+## Network Requirements
+
+Hybrid Cloud only needs outbound connections on port `443`. Allow these hosts in your firewall or proxy:
+
+| Host | Used by | Purpose |
+|---|---|---|
+| `grpc.cloud.qdrant.io` | The Cloud Agent | The control plane. The Agent receives management instructions here. It is the only host the Agent process connects to |
+| `api.cloud.qdrant.io` | The Prometheus Agent and the Kubernetes event exporter | Telemetry. Metrics and Kubernetes events are posted here |
+| `registry.cloud.qdrant.io` | The kubelet and the Helm source controller | The default registry for container images and Helm charts. You can point the environment at your own registry mirror instead. See [Mirroring images and charts](/documentation/hybrid-cloud/hybrid-cloud-setup/#mirroring-images-and-charts) |
+
+The Cloud Console at `cloud.qdrant.io` is only for people using a browser. Your Kubernetes cluster does not need to reach it.
 
 ## Getting Access to Hybrid Cloud
 
