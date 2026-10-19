@@ -209,9 +209,13 @@ Per-element indexes have the following constraints:
 * Changing `nested` on an existing index rebuilds the index.
 * Per-element indexes aren't supported in Qdrant Edge yet.
 
-##### Per-Element Full-Text Indexes
+##### Differences from Regular Indexes
 
-Outside nested filters, a per-element index answers queries like a regular index of the field. Full-text indexes are the exception: a per-element [full-text index](#full-text-index) treats each element as a separate document, for every query on the field. This is useful when elements are independent texts, such as reviews or passages of a long document.
+Outside nested filters, a per-element index answers most queries like a regular index of the field. Two kinds of conditions behave differently, because a per-element index evaluates them per element, for every query on the field.
+
+An [`is_empty`](/documentation/search/filtering/#is-empty) condition matches a point if any of its elements lacks the field, and never matches a point without elements. With a regular index, it matches a point only if none of its elements has the field.
+
+A per-element [full-text index](#full-text-index) treats each element as a separate document. This is useful when elements are independent texts, such as reviews or passages of a long document.
 
 A full-text condition matches a point only if a single element matches it. For example, `match: { text: "red shoes" }` doesn't match a point with "red" in one element and "shoes" in another.
 

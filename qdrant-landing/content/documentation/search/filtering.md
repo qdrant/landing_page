@@ -424,7 +424,7 @@ A nested filter is applied to each element of the array separately, as if each e
 
 Because a nested filter checks each element separately, Qdrant needs to know which element a value belongs to. Regular payload indexes don't record that: an index on `diet[].food` maps each food to the points that have it in any element. So regular indexes can only narrow down the candidates, and Qdrant then reads the payload of each remaining candidate to check the nested filter. This is slow when many candidates remain.
 
-To speed up nested filters, create [per-element indexes](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) on the fields of the array. Qdrant then answers a nested filter from the indexes alone if every condition in it is a match, range, geo, or full-text condition on a field with a per-element index of the same array. The filter can still combine these conditions with `must`, `should`, `min_should`, and `must_not` clauses. If any condition isn't covered, Qdrant reads payloads to check the whole nested filter, including the conditions that have per-element indexes.
+To speed up nested filters, create [per-element indexes](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) on the fields of the array. Qdrant then answers a nested filter from the indexes alone if every condition in it is a match, range, geo, full-text, `is_empty`, or `is_null` condition on a field with a per-element index of the same array. The filter can still combine these conditions with `must`, `should`, `min_should`, and `must_not` clauses. If any condition isn't covered, Qdrant reads payloads to check the whole nested filter, including the conditions that have per-element indexes.
 
 **Limitations**
 
@@ -465,6 +465,8 @@ The `IsEmpty` condition may help you with that:
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/is-empty/" >}}
 
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
+
+If the field is inside an array of objects, such as `offers[].price`, and has a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects), the condition is checked for each element. It matches a point if any of its elements lacks the field, and never matches a point without elements.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
 
