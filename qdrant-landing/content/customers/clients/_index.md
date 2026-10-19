@@ -49,6 +49,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/aracor.svg
       alt: Aracor logo
+  - id: bayer
+    name: Bayer
+    industry: Life sciences
+    product: Hybrid
+    company_size: 1000+
+    location: Global
+    use_cases: ["Hybrid search", "RAG", "Multimodal search"]
+    title: "How Bayer Built an Enterprise-Scale Search Engine with Qdrant"
+    blog_path: /blog/case-study-bayer
+    logo:
+      src: /img/healthcare/logo-bayer.svg
+      alt: Bayer logo
   - id: bazaarvoice
     name: Bazaarvoice
     industry: E-commerce
@@ -217,6 +229,13 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/glassdollar.svg
       alt: GlassDollar logo
+  - id: go-perfect
+    name: GoPerfect
+    industry: Recruiting
+    product: Qdrant Cloud
+    use_cases: ["Hybrid search", "Semantic search", "Generative AI"]
+    title: "How GoPerfect Built an Agentic Recruiting Workforce with Qdrant Cloud"
+    blog_path: /blog/case-study-go-perfect
   - id: gooddata
     name: GoodData
     industry: Developer tools
@@ -313,6 +332,13 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/lettria.svg
       alt: Lettria logo
+  - id: lucy
+    name: Lucy
+    industry: Financial services
+    product: Self-managed
+    use_cases: ["RAG", "Hybrid search", "Semantic search"]
+    title: "How Lucy Built a Source-of-Truth Retrieval Layer for 2.8M+ SEC and DART Filings with Qdrant"
+    blog_path: /blog/case-study-lucy
   - id: lyzr
     name: Lyzr
     industry: Developer tools
@@ -469,6 +495,17 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/qovery.svg
       alt: Qovery logo
+  - id: sapu
+    name: Sapu
+    industry: Life sciences
+    product: Qdrant Cloud
+    location: North America
+    use_cases: ["RAG", "Semantic search", "Hybrid search"]
+    title: "How Sapu Indexed 28 Million PubMed Abstracts to Accelerate Cancer Research with Qdrant"
+    blog_path: /blog/case-study-sapu
+    logo:
+      src: /img/resilience/sapu-logo.svg
+      alt: Sapu logo
   - id: sayone
     name: SayOne
     industry: Technology
@@ -505,6 +542,12 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/sprinklr.svg
       alt: Sprinklr logo
+  - id: sunny-health-ai
+    name: Sunny Health
+    industry: Healthcare
+    use_cases: ["Hybrid search", "Semantic search", "Generative AI"]
+    title: "How Sunny Health Built an AI Healthcare Concierge with Qdrant"
+    blog_path: /blog/case-study-sunny-health-ai
   - id: tavus
     name: Tavus
     industry: Media and entertainment
