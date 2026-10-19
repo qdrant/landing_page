@@ -21,8 +21,8 @@ Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access t
 | **Storage** | CSI block storage. Create a `StorageClass` beforehand. Scaling needs volume expansion, and backups need CSI snapshots and restores, with a `VolumeSnapshotClass` that you also create beforehand. NFS and S3 are not supported. Disk speed matters for bulk loads and on-disk search. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) and [Capacity Planning](/documentation/capacity-planning/#storage-focused-configuration) |
 | **Nodes** | x86_64 or ARM64. The smallest Qdrant node needs 2 GiB of RAM, 0.5 vCPU, and 8 GiB of disk. Add capacity for the Hybrid Cloud control plane components. Plan more CPU for heavy ingestion. See [Capacity Planning](/documentation/capacity-planning/#cpu) |
 | **Permissions** | `cluster-admin` access to install the Qdrant Cloud Agent |
-| **Connection** | Outbound port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` |
-| **Images and charts** | Pulled from `registry.cloud.qdrant.io` by default. You can mirror them. See [Mirroring images and charts](#mirroring-images-and-charts) |
+| **Connection** | Outbound port 443 to `grpc.cloud.qdrant.io`, where the Qdrant Cloud Agent receives management instructions, and to `api.cloud.qdrant.io`, where metrics and events are sent. See [Network Requirements](/documentation/hybrid-cloud/#network-requirements) |
+| **Images and charts** | The kubelet and the Helm source controller pull them from `registry.cloud.qdrant.io` by default. You can mirror them. See [Mirroring images and charts](#mirroring-images-and-charts) |
 
 ### CLI tools
 
@@ -206,12 +206,12 @@ skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-cha
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/kubernetes-event-exporter your-registry.example.com/qdrant-charts/kubernetes-event-exporter
 ```
 
-With the above configuration, you can add the following values to the advanced section of your Hybrid Cloud Environment:
+With this configuration, you can add the following values to the advanced section of your Hybrid Cloud Environment:
 
 * Container registry URL: `your-registry.example.com/qdrant`
 * Chart repository URL: `oci://your-registry.example.com/qdrant-charts`
 
-If your registry requires authentication, you can create and reference the secret the same way as described above.
+If your registry requires authentication, you can create and reference the secret the same way as in Automatic replication.
 
 ## Rotating Secrets
 
