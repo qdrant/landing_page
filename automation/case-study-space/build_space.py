@@ -43,22 +43,34 @@ LOGO_OVERRIDES = {
 }
 
 # Published case studies that are not in the /customers grid data yet.
-# Everything else comes from content/customers/clients/_index.md.
+# Everything else comes from content/customers/clients/_index.md. These
+# values mirror the grid entries added on branch
+# customers-grid-missing-case-studies, so the output does not change when
+# that branch merges. Once it has, delete these entries: the grid wins for
+# any slug it already has.
 EXTRAS = {
     "case-study-bayer": dict(
         id="bayer", name="Bayer", industry="Life sciences", product="Hybrid",
-        logo="/img/home-customers-logo/bayer.svg"),
+        use_cases=["Hybrid search", "RAG", "Multimodal search"],
+        logo="/img/healthcare/logo-bayer.svg"),
     "case-study-go-perfect": dict(
-        id="goperfect", name="GoPerfect", industry="HR tech", product="Qdrant Cloud"),
+        id="go-perfect", name="GoPerfect", industry="Recruiting",
+        product="Qdrant Cloud",
+        use_cases=["Hybrid search", "Semantic search", "Generative AI"]),
     "case-study-lucy": dict(
-        id="lucy", name="Lucy", industry="Financial services"),
+        id="lucy", name="Lucy", industry="Financial services",
+        product="Self-managed",
+        use_cases=["RAG", "Hybrid search", "Semantic search"]),
     "case-study-minima": dict(
-        id="minima", name="Minima", industry="AI infrastructure"),
+        id="minima", name="Minima", industry="Technology",
+        use_cases=["RAG", "Hybrid search", "Generative AI"]),
     "case-study-sapu": dict(
         id="sapu", name="Sapu", industry="Life sciences", product="Qdrant Cloud",
+        use_cases=["RAG", "Semantic search", "Hybrid search"],
         logo="/img/resilience/sapu-logo.svg"),
     "case-study-sunny-health-ai": dict(
-        id="sunny-health", name="Sunny Health", industry="Healthcare"),
+        id="sunny-health-ai", name="Sunny Health", industry="Healthcare",
+        use_cases=["Hybrid search", "Semantic search", "Generative AI"]),
 }
 
 # Case studies superseded by a newer version of the same story.
@@ -127,7 +139,7 @@ def load_case_studies():
                         product=c.get("product"), use_cases=c.get("use_cases", []),
                         logo=c.get("logo", {}).get("src"))
         elif slug in EXTRAS:
-            meta = dict(use_cases=[], **EXTRAS[slug])
+            meta = dict(EXTRAS[slug])
         else:
             sys.exit(f"{slug} is published but has no metadata: add it to EXTRAS")
         meta["url"] = f"/blog/{slug}/"

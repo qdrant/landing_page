@@ -78,7 +78,7 @@
       "mask_size": "102.9% 197.7%",
       "mask_pos": "50.0% 50.6%",
       "h": 38.7,
-      "x": 0.3114,
+      "x": 0.3106,
       "y": 0.8864,
       "px": 0.9426,
       "py": 0.2854
@@ -97,7 +97,7 @@
       "logo": "/img/customers-case-studies-logo/anima-health.svg",
       "hits": [
         {
-          "id": "sunny-health",
+          "id": "sunny-health-ai",
           "cosine": 0.339
         },
         {
@@ -115,7 +115,7 @@
       ],
       "aspect": 2.5,
       "h": 35.5,
-      "x": 0.4124,
+      "x": 0.4099,
       "y": 0.8348,
       "px": 0.7796,
       "py": 0.4036
@@ -152,7 +152,7 @@
       ],
       "aspect": 2.281,
       "h": 37.2,
-      "x": 0.1033,
+      "x": 0.1022,
       "y": 0.8386,
       "px": 0.8866,
       "py": 0.1598
@@ -163,10 +163,15 @@
       "url": "/blog/case-study-bayer/",
       "industry": "Life sciences",
       "product": "Hybrid",
-      "logo": "/img/home-customers-logo/bayer.svg",
+      "use_cases": [
+        "Hybrid search",
+        "RAG",
+        "Multimodal search"
+      ],
+      "logo": "/img/healthcare/logo-bayer.svg",
       "hits": [
         {
-          "id": "goperfect",
+          "id": "go-perfect",
           "cosine": 0.198
         },
         {
@@ -182,11 +187,13 @@
           "cosine": 0.129
         }
       ],
-      "aspect": 1.0,
-      "h": 40.0,
-      "x": 0.8908,
-      "y": 0.8855,
-      "px": 0.9447,
+      "aspect": 3.415,
+      "mask_size": "100.0% 182.1%",
+      "mask_pos": "0.0% 50.4%",
+      "h": 30.4,
+      "x": 0.9145,
+      "y": 0.8919,
+      "px": 0.9294,
       "py": 0.8852
     },
     {
@@ -258,8 +265,8 @@
       "aspect": 2.686,
       "h": 34.2,
       "x": 0.947,
-      "y": 0.8073,
-      "px": 0.8073,
+      "y": 0.7838,
+      "px": 0.7952,
       "py": 0.9176
     },
     {
@@ -336,7 +343,7 @@
       "mask_pos": "50.0% 49.6%",
       "h": 22.6,
       "x": 0.5873,
-      "y": 0.7929,
+      "y": 0.7921,
       "px": 0.8206,
       "py": 0.5873
     },
@@ -530,7 +537,7 @@
       "h": 28.1,
       "x": 0.9073,
       "y": 0.483,
-      "px": 0.483,
+      "px": 0.481,
       "py": 0.9073
     },
     {
@@ -567,8 +574,8 @@
       "mask_size": "100.8% 178.4%",
       "mask_pos": "0.0% 50.0%",
       "h": 20.6,
-      "x": 0.6539,
-      "y": 0.8399,
+      "x": 0.7182,
+      "y": 0.8394,
       "px": 0.8837,
       "py": 0.7184
     },
@@ -684,7 +691,7 @@
       "mask_size": "101.1% 160.7%",
       "mask_pos": "50.0% 49.6%",
       "h": 26.5,
-      "x": 0.4257,
+      "x": 0.4244,
       "y": 0.8944,
       "px": 0.9205,
       "py": 0.4125
@@ -724,16 +731,21 @@
       "mask_pos": "0.0% 58.0%",
       "h": 23.2,
       "x": 0.7995,
-      "y": 0.7785,
+      "y": 0.7862,
       "px": 0.7696,
       "py": 0.7995
     },
     {
-      "id": "goperfect",
+      "id": "go-perfect",
       "name": "GoPerfect",
       "url": "/blog/case-study-go-perfect/",
-      "industry": "HR tech",
+      "industry": "Recruiting",
       "product": "Qdrant Cloud",
+      "use_cases": [
+        "Hybrid search",
+        "Semantic search",
+        "Generative AI"
+      ],
       "hits": [
         {
           "id": "pariti",
@@ -753,7 +765,7 @@
         }
       ],
       "h": 30.4,
-      "x": 0.8055,
+      "x": 0.7958,
       "y": 0.8918,
       "px": 0.9295,
       "py": 0.8105
@@ -823,7 +835,7 @@
           "cosine": 0.152
         },
         {
-          "id": "sunny-health",
+          "id": "sunny-health-ai",
           "cosine": 0.152
         }
       ],
@@ -831,9 +843,9 @@
       "mask_size": "100.6% 100.0%",
       "mask_pos": "45.8% 0.0%",
       "h": 21.8,
-      "x": 0.815,
-      "y": 0.8265,
-      "px": 0.8158,
+      "x": 0.8804,
+      "y": 0.8392,
+      "px": 0.7645,
       "py": 0.8777
     },
     {
@@ -979,7 +991,7 @@
           "cosine": 0.142
         },
         {
-          "id": "sunny-health",
+          "id": "sunny-health-ai",
           "cosine": 0.132
         }
       ],
@@ -1024,7 +1036,7 @@
       "mask_size": "101.3% 124.6%",
       "mask_pos": "50.0% 47.5%",
       "h": 32.6,
-      "x": 0.2081,
+      "x": 0.2074,
       "y": 0.8904,
       "px": 0.9336,
       "py": 0.2049
@@ -1073,6 +1085,12 @@
       "name": "Lucy",
       "url": "/blog/case-study-lucy/",
       "industry": "Financial services",
+      "product": "Self-managed",
+      "use_cases": [
+        "RAG",
+        "Hybrid search",
+        "Semantic search"
+      ],
       "hits": [
         {
           "id": "glassdollar",
@@ -1093,7 +1111,7 @@
       ],
       "h": 30.4,
       "x": 0.7464,
-      "y": 0.7243,
+      "y": 0.7298,
       "px": 0.7126,
       "py": 0.7416
     },
@@ -1140,7 +1158,12 @@
       "id": "minima",
       "name": "Minima",
       "url": "/blog/case-study-minima/",
-      "industry": "AI infrastructure",
+      "industry": "Technology",
+      "use_cases": [
+        "RAG",
+        "Hybrid search",
+        "Generative AI"
+      ],
       "hits": [
         {
           "id": "tavus",
@@ -1226,7 +1249,7 @@
           "cosine": 0.199
         },
         {
-          "id": "sunny-health",
+          "id": "sunny-health-ai",
           "cosine": 0.135
         },
         {
@@ -1308,7 +1331,7 @@
           "cosine": 0.169
         },
         {
-          "id": "sunny-health",
+          "id": "sunny-health-ai",
           "cosine": 0.128
         }
       ],
@@ -1335,7 +1358,7 @@
       "logo": "/img/customers-case-studies-logo/pariti.svg",
       "hits": [
         {
-          "id": "goperfect",
+          "id": "go-perfect",
           "cosine": 0.203
         },
         {
@@ -1355,7 +1378,7 @@
       "mask_size": "101.3% 145.2%",
       "mask_pos": "50.0% 50.2%",
       "h": 30.2,
-      "x": 0.6806,
+      "x": 0.6778,
       "y": 0.892,
       "px": 0.9291,
       "py": 0.6745
@@ -1600,6 +1623,11 @@
       "url": "/blog/case-study-sapu/",
       "industry": "Life sciences",
       "product": "Qdrant Cloud",
+      "use_cases": [
+        "RAG",
+        "Semantic search",
+        "Hybrid search"
+      ],
       "logo": "/img/resilience/sapu-logo.svg",
       "hits": [
         {
@@ -1623,7 +1651,7 @@
       "mask_size": "112.1% 160.0%",
       "mask_pos": "51.5% 50.0%",
       "h": 27.7,
-      "x": 0.5579,
+      "x": 0.5546,
       "y": 0.8936,
       "px": 0.9235,
       "py": 0.5412
@@ -1744,10 +1772,15 @@
       "py": 0.3418
     },
     {
-      "id": "sunny-health",
+      "id": "sunny-health-ai",
       "name": "Sunny Health",
       "url": "/blog/case-study-sunny-health-ai/",
       "industry": "Healthcare",
+      "use_cases": [
+        "Hybrid search",
+        "Semantic search",
+        "Generative AI"
+      ],
       "hits": [
         {
           "id": "anima-health",
@@ -1960,7 +1993,7 @@
       "h": 23.9,
       "x": 0.9272,
       "y": 0.6456,
-      "px": 0.6456,
+      "px": 0.6441,
       "py": 0.9222
     },
     {
@@ -2122,8 +2155,8 @@
       "id": "media",
       "label": "Media & entertainment",
       "text": "Search and recommendations for video, news, and media content",
-      "x": 0.0859,
-      "y": 0.5889,
+      "x": 0.0863,
+      "y": 0.589,
       "hits": [
         {
           "id": "dailymotion",
@@ -2147,8 +2180,8 @@
       "id": "research",
       "label": "Pharma & research",
       "text": "Search over scientific literature and research documents for pharma, biotech, and healthcare",
-      "x": 0.6206,
-      "y": 0.8844,
+      "x": 0.6265,
+      "y": 0.8857,
       "hits": [
         {
           "id": "sapu",
@@ -2197,8 +2230,8 @@
       "id": "legal",
       "label": "Legal & finance",
       "text": "Search over legal documents, patents, and financial filings",
-      "x": 0.2611,
-      "y": 0.8471,
+      "x": 0.2603,
+      "y": 0.8478,
       "hits": [
         {
           "id": "aracor",
