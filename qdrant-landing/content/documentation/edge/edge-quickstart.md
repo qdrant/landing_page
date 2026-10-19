@@ -120,7 +120,7 @@ After closing an Edge Shard, you can reopen it by loading its data and configura
 
 ## Custom WAL Size
 
-Qdrant Edge uses a Write-Ahead Log (WAL) to record every update before it's applied to storage. The WAL file is pre-allocated to 32 MB by default, inflating backup sizes and OS storage reports. To reduce the size, set `wal_options` on `EdgeConfig` when calling `new` or `load`. WAL options are only available in Rust.
+Qdrant Edge uses a Write-Ahead Log (WAL) to record every update before it's applied to storage. The WAL file is pre-allocated to 32 MB by default, inflating backup sizes and OS storage reports. To reduce the size, set `wal_options` on `EdgeConfig` when calling `new` or `load`. WAL options are only available in Rust. To skip the WAL entirely, set `wal_enabled` to `False` (`.wal_enabled(false)` in Rust) when you create the shard. This works in both Python and Rust. Without a WAL, updates are durable only once `flush` returns. Refer to [Disable the WAL](/documentation/edge/edge-api/configuration/#disable-the-wal).
 
 For example, to set the WAL size to 4 MB:
 
