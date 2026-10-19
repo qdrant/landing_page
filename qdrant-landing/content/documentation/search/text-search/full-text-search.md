@@ -73,6 +73,10 @@ Qdrant computes the BM25 statistics, such as the number of documents, the number
 
 After points are deleted or updated, the statistics can include outdated data until the optimizer rebuilds the affected segments. As a result, scores can shift slightly until optimization. Deleted points never appear in the results.
 
+### Score Elements of an Array Separately
+
+If a text field is inside an array of objects, such as `reviews[].text`, a regular full-text index treats the tokens of all elements as if they were in a single document. When the elements are independent texts, such as reviews or passages of a long document, you may want to score each element as its own document instead. To do so, set the `nested` parameter when you create the index, which makes it a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects). A `text` query then scores each element separately, and a point gets the score of its best-matching element. Corpus statistics count each element as a separate document, so the average document length is the average length of an element.
+
 ### Migrate from Sparse Vector BM25
 
 If you use the sparse vector [BM25 model](/documentation/search/text-search/sparse-vector-search/#bm25), you can switch to BM25 on a full-text index without uploading your data again, as long as the text is stored in the payload:
