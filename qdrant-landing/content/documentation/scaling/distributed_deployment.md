@@ -28,6 +28,8 @@ cluster:
   p2p:
     # Port for internal communication between peers
     port: 6335
+    # Optional: IP address to bind the internal port to. Defaults to `service.host`.
+    # host: <internal IP of this node>
 
   # Configuration related to distributed consensus algorithm
   consensus:
