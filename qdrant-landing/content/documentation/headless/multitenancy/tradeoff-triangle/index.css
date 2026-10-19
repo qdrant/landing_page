@@ -1,0 +1,92 @@
+/* tradeoff-triangle island. Scoped under .qi-tt. Controls, status line and
+   text classes come from the shared island design system (islands.scss);
+   this file only styles the triangle outline and the three points.
+   Architecture hues are the shared categorical tokens (_qi-tokens.scss), so
+   they read the same across themes: Silo = --qi-cat-1, Bridge = --qi-cat-2,
+   Pool = --qi-cat-3. */
+
+.qi-tt {
+  display: block;
+}
+
+.qi-tt__chip--silo {
+  --swatch: var(--qi-cat-1);
+}
+.qi-tt__chip--bridge {
+  --swatch: var(--qi-cat-2);
+}
+.qi-tt__chip--pool {
+  --swatch: var(--qi-cat-3);
+}
+
+.qi-tt__triangle {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+
+.qi-tt__vertex-label {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+}
+
+.qi-tt__point-label {
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* The SVG scales down with its container (viewBox 400x360), so a narrower
+   layout shrinks these text sizes along with everything else. Below ~900px
+   the figure is narrow enough (e.g. the shortcode's width="70%" on a phone)
+   that the default sizes above would render under 12px; bump the user-unit
+   font size there to keep labels legible. */
+@media (max-width: 900px) {
+  .qi-tt__vertex-label {
+    font-size: 22px;
+  }
+  .qi-tt__point-label {
+    font-size: 21px;
+  }
+}
+
+.qi-tt__dot {
+  r: 8px;
+  opacity: 1;
+  transition: r 0.15s ease, opacity 0.15s ease;
+}
+
+.qi-tt__point-label {
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+.qi-tt__point--silo .qi-tt__dot,
+.qi-tt__point--silo .qi-tt__point-label {
+  fill: var(--qi-cat-1);
+}
+.qi-tt__point--bridge .qi-tt__dot,
+.qi-tt__point--bridge .qi-tt__point-label {
+  fill: var(--qi-cat-2);
+}
+.qi-tt__point--pool .qi-tt__dot,
+.qi-tt__point--pool .qi-tt__point-label {
+  fill: var(--qi-cat-3);
+}
+
+.qi-tt__point.is-active .qi-tt__dot {
+  r: 11px;
+  opacity: 1;
+}
+.qi-tt__point.is-dim .qi-tt__dot,
+.qi-tt__point.is-dim .qi-tt__point-label {
+  opacity: 0.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-tt__dot,
+  .qi-tt__point-label {
+    transition: none;
+  }
+}

@@ -1,0 +1,83 @@
+/* disk-locality island. Scoped under .qi-dl. Controls, frame and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the legend, the paired bars, gridlines, and the value readouts. Index-type
+   colors come from the shared categorical tokens (--qi-cat-1, --qi-cat-3)
+   and stay constant across both bars and both themes. Both bars render
+   together for the selected tenant size; index type is a legend, not a
+   control, since there is nothing to toggle between. */
+
+.qi-dl {
+  --dl-keyword: var(--qi-cat-3); /* cyan-800 */
+  --dl-tenant: var(--qi-cat-1); /* neon-blue-500 */
+
+  display: block;
+}
+
+.qi-dl__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.qi-dl__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  color: var(--qi-muted);
+}
+.qi-dl__legend-item--keyword {
+  --swatch: var(--dl-keyword);
+}
+.qi-dl__legend-item--tenant {
+  --swatch: var(--dl-tenant);
+}
+
+.qi-dl__gridline {
+  stroke: var(--qi-line);
+  stroke-width: 1;
+  opacity: 0.4;
+}
+.qi-dl__tick {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The shared qi-label/qi-frame-label sizes (12px/14px) render below 12px at
+   the mobile column width this island ships at (~320px for a 90%-wide,
+   ~560-unit viewBox). Scoped, larger overrides keep every label legible on
+   small screens; see the island's mandatory mobile verification pass. */
+.qi-dl .qi-label,
+.qi-dl .qi-frame-label {
+  font-size: 22px;
+}
+
+.qi-dl__bar {
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), y 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    x 0.4s cubic-bezier(0.4, 0, 0.2, 1), fill 0.2s ease;
+}
+.qi-dl__bar--keyword {
+  fill: var(--dl-keyword);
+}
+.qi-dl__bar--tenant {
+  fill: var(--dl-tenant);
+}
+
+.qi-dl__value {
+  font-family: var(--qi-mono);
+  font-size: 26px;
+  font-weight: 700;
+  fill: var(--qi-fg);
+  font-variant-numeric: tabular-nums;
+  transition: x 0.4s cubic-bezier(0.4, 0, 0.2, 1), y 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qi-dl__setup {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-dl__bar,
+  .qi-dl__value {
+    transition: none;
+  }
+}

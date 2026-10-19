@@ -1,0 +1,87 @@
+/* per-tenant-graphs island. Scoped under .qi-ptg. One real production run
+   (164,365 points, Qdrant Cloud 2 vCPU / 6.9 GB RAM): toggles the `m=0` +
+   `payload_m=16` per-tenant-graphs HNSW setting and shows the measured
+   tradeoff as two bar gauges, not SVG (see index-timing) — the numbers are
+   the point, and SVG text set in viewBox units shrinks with the figure's
+   rendered width. Ordinary HTML text stays legible at any width.
+
+   Bar color is fixed per metric (--qi-cat-1 setup time, --qi-cat-4 recall),
+   not conditional on the value, so both bars read the same way in either
+   toggle state.
+
+   container-type lets the value text shrink on a narrow phone based on the
+   island's own rendered width, not the viewport. */
+
+.qi-ptg {
+  display: block;
+  container-type: inline-size;
+}
+
+.qi-ptg__gauges {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.qi-ptg__gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qi-ptg__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.qi-ptg__label {
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  color: var(--qi-muted);
+}
+
+.qi-ptg__value {
+  font-family: var(--qi-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--qi-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-ptg__track {
+  position: relative;
+  height: 36px;
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  overflow: hidden;
+}
+
+.qi-ptg__fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  border-radius: var(--qi-radius) 0 0 var(--qi-radius);
+  transition: width 0.3s ease;
+}
+.qi-ptg__fill--setup {
+  background: var(--qi-cat-1);
+}
+.qi-ptg__fill--recall {
+  background: var(--qi-cat-4);
+}
+
+@container (max-width: 420px) {
+  .qi-ptg__value {
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ptg__fill {
+    transition: none;
+  }
+}

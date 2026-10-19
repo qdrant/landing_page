@@ -1,0 +1,194 @@
+/* model-picker island. Scoped under .qi-mp. Controls and status line come
+   from the shared island design system (islands.scss). Everything else is
+   plain HTML: a CSS grid of row labels, the plot, and column labels, with
+   the plot itself a percentage-positioned stack of divs inside a fixed
+   aspect-ratio box. Nothing here is SVG, deliberately — see index.js for
+   why. Model colors are the theme-independent categorical tokens
+   (--qi-cat-1..4), never the status-style green/orange hues. */
+
+.qi-mp {
+  display: block;
+  user-select: none;
+}
+
+.qi-mp__chart-wrap {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.qi-mp__y-title {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+  white-space: nowrap;
+}
+
+.qi-mp__chart {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  row-gap: 8px;
+}
+
+.qi-mp__row-labels {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+}
+.qi-mp__row-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--qi-muted);
+  max-width: 7.5em;
+}
+
+.qi-mp__plot {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 16 / 11;
+  border-radius: var(--qi-radius);
+  border: 1px solid var(--qi-border);
+  overflow: hidden;
+}
+
+.qi-mp__zones,
+.qi-mp__gridlines {
+  position: absolute;
+  inset: 0;
+}
+
+.qi-mp__zone {
+  position: absolute;
+  background: var(--zone-color);
+  opacity: 0.22;
+  transition: opacity 0.2s ease;
+}
+/* 0.08 read as "dimmed" in dark theme (a saturated color still shows faintly
+   against a near-black background) but as "blank" in light theme (the same
+   opacity against a near-white background is imperceptible). This value is
+   checked in both themes, not just the default dark one. */
+.qi-mp__zones.is-muted .qi-mp__zone {
+  opacity: 0.12;
+}
+
+.qi-mp__gridline {
+  position: absolute;
+  background: var(--qi-border);
+}
+.qi-mp__gridline--v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.qi-mp__gridline--h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.qi-mp__crosshair-h,
+.qi-mp__crosshair-v {
+  position: absolute;
+  border-color: var(--qi-line);
+  border-style: dashed;
+  border-width: 0;
+}
+.qi-mp__crosshair-h {
+  left: 0;
+  height: 0;
+  border-top-width: 1px;
+}
+.qi-mp__crosshair-v {
+  width: 0;
+  border-left-width: 1px;
+}
+
+.qi-mp__marker {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px;
+  border-radius: 50%;
+  background: var(--marker-color, var(--qi-fg));
+  border: 3px solid var(--qi-surface);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* No background scrim here: the zones underneath are already dimmed to 0.08
+   opacity via .is-muted on .qi-mp__zones. A second translucent layer on top
+   of that compounded badly in light theme specifically — 70% of a light
+   surface color over already-faint zone colors washed the whole chart out
+   to near white, which read as the figure breaking rather than dimming. */
+.qi-mp__override {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.qi-mp__override.is-active {
+  display: flex;
+}
+.qi-mp__override-pill {
+  background: var(--qi-cat-4);
+  color: #fff;
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.qi-mp__corner {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.qi-mp__col-labels {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+}
+.qi-mp__col-label {
+  flex: 1;
+  text-align: center;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+  padding: 0 2px;
+}
+
+.qi-mp__x-title {
+  text-align: center;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-mp__marker {
+    transition: none;
+  }
+}

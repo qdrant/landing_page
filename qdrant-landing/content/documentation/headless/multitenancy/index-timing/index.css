@@ -1,0 +1,81 @@
+/* index-timing island. Scoped under .qi-it. Controls, frame and status line
+   come from the shared island design system (islands.scss); this file only
+   styles the two bar gauges.
+
+   Bar color is the state's categorical token (--qi-cat-1 "index from the
+   start", --qi-cat-4 "no index", --qi-cat-2 "index added after loading"),
+   set inline from index.js since it depends on the selected state. The
+   recall bar overrides to --qi-accent when recall drops to the warn
+   threshold or below — a secondary color cue on top of the numeric label,
+   never the only signal.
+
+   container-type lets the value text shrink on a narrow phone based on the
+   island's own rendered width, not the viewport. */
+
+.qi-it {
+  display: block;
+  container-type: inline-size;
+}
+
+.qi-it__gauges {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.qi-it__gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qi-it__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.qi-it__label {
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  color: var(--qi-muted);
+}
+
+.qi-it__value {
+  font-family: var(--qi-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--qi-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-it__track {
+  position: relative;
+  height: 36px;
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  overflow: hidden;
+}
+
+.qi-it__fill {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  border-radius: var(--qi-radius) 0 0 var(--qi-radius);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+@container (max-width: 420px) {
+  .qi-it__value {
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-it__fill {
+    transition: none;
+  }
+}
