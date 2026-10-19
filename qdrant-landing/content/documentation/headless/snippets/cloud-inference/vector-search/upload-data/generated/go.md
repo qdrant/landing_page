@@ -23,7 +23,10 @@ for _, item := range dataset {
 			}),
 		}),
 		// Used for BM25
-		Payload: qdrant.NewValueMap(map[string]any{"passage_text": passage}),
+		Payload: qdrant.NewValueMap(map[string]any{
+			"passage_text": passage,
+			"question":     item["question"],
+		}),
 	}
 	points = append(points, point)
 }
@@ -31,4 +34,7 @@ _, err = client.Upsert(context.Background(), &qdrant.UpsertPoints{
 	CollectionName: "{collection_name}",
 	Points:         points,
 })
+if err != nil {
+	panic(err)
+}
 ```

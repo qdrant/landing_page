@@ -24,7 +24,7 @@ foreach (var item in dataset)
             }
         },
         // Used for BM25
-        Payload = { ["passage_text"] = passage }
+        Payload = { ["passage_text"] = passage, ["question"] = item["question"].ToString() }
     };
 
     points.Add(point);

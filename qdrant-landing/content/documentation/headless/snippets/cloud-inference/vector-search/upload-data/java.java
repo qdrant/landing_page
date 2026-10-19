@@ -43,7 +43,10 @@ public class Snippet {
                                       vector(
                                           Document.newBuilder().setText(passage).setModel(denseModel).build()))))
                           // Used for BM25
-                          .putAllPayload(Map.of("passage_text", value(passage)))
+                          .putAllPayload(
+                              Map.of(
+                                  "passage_text", value(passage),
+                                  "question", value(item.get("question"))))
                           .build();
                   points.add(point);
                 }

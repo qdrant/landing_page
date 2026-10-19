@@ -1,14 +1,17 @@
 ```rust
-use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+use anyhow::Context;
+use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 
 let dense_prefetch = PrefetchQueryBuilder::default()
     .query(Query::new_nearest(Document::new(query_text, dense_model)))
     .using("dense_vector")
+    .limit(5u64)
     .build();
 
 let bm25_prefetch = PrefetchQueryBuilder::default()
     .query(Query::new_text(query_text))
     .using("passage_text")
+    .limit(5u64)
     .build();
 
 let query_request = QueryPointsBuilder::new("{collection_name}")
@@ -20,4 +23,13 @@ let query_request = QueryPointsBuilder::new("{collection_name}")
     .build();
 
 let results = client.query(query_request).await?;
+
+for point in results.result {
+    let question = point
+        .payload
+        .get("question")
+        .and_then(|v| v.as_str())
+        .context("point has no question in its payload")?;
+    println!("{:.3}  {}", point.score, question.trim());
+}
 ```

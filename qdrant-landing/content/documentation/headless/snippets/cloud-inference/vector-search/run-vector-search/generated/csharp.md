@@ -2,7 +2,7 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-await client.QueryAsync(
+var results = await client.QueryAsync(
 collectionName: "{collection_name}", prefetch: new List <PrefetchQuery> {
   new() {
     Query = new Query { Text = new TextQuery { Query = queryText } },
@@ -19,6 +19,13 @@ collectionName: "{collection_name}", prefetch: new List <PrefetchQuery> {
   }
 },
 query: Fusion.Rrf,
+payloadSelector: true,
 limit: 5
 );
+
+foreach (var point in results)
+{
+  var question = point.Payload["question"].StringValue;
+  Console.WriteLine($"{point.Score:F3}  {question.Trim()}");
+}
 ```

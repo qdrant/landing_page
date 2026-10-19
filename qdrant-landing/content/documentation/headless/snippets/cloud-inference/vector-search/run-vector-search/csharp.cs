@@ -11,7 +11,7 @@ public class Snippet
 		var denseModel = "{dense_model_name}";
 		// @hide-end
 
-		await client.QueryAsync(
+		var results = await client.QueryAsync(
 		collectionName: "{collection_name}", prefetch: new List <PrefetchQuery> {
 		  new() {
 		    Query = new Query { Text = new TextQuery { Query = queryText } },
@@ -28,7 +28,14 @@ public class Snippet
 		  }
 		},
 		query: Fusion.Rrf,
+		payloadSelector: true,
 		limit: 5
 		);
+
+		foreach (var point in results)
+		{
+		  var question = point.Payload["question"].StringValue;
+		  Console.WriteLine($"{point.Score:F3}  {question.Trim()}");
+		}
 	}
 }

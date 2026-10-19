@@ -7,7 +7,7 @@ const denseModel = "sentence-transformers/all-minilm-l6-v2";
 // NOTE: loadDataset is a user-defined function.
 // Implement it to return 100 random rows with distinct passages, as the Python version does.
 // @hide-start
-function loadDataset(name: string, slice: string): Array<{ passage_text: string }> {
+function loadDataset(name: string, slice: string): Array<{ passage_text: string; question: string }> {
     return [];
 }
 // @hide-end
@@ -26,6 +26,7 @@ const points = dataset.map((item) => {
     },
     payload: {
       passage_text: passage, // used for BM25
+      question: item.question,
     },
   };
 });

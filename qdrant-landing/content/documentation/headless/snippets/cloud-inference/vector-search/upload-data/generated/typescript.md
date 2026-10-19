@@ -20,6 +20,7 @@ const points = dataset.map((item) => {
     },
     payload: {
       passage_text: passage, // used for BM25
+      question: item.question,
     },
   };
 });
