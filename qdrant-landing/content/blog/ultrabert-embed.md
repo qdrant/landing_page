@@ -8,6 +8,7 @@ preview_image: /blog/ultrabert-embed/hero.jpg
 social_preview_image: /blog/ultrabert-embed/preview/social_preview.jpg
 date: 2026-10-19
 author: Dylan Couzon, Anush
+author_profile: dylan-couzon
 featured: true
 weight: 0
 tags:
@@ -68,18 +69,17 @@ Against exact search, the compressed vectors kept 95% of the quality, and 98% wi
 
 A whole-document vector compresses less well than chunk vectors. On MLDR, it kept 89% of its quality at 1 bit. At 2 bits, it scored the same as the uncompressed vector in the same index, so start it there, or keep rescoring on.
 
-## What This Means for Chunking
+## So Is Chunking Dead?
 
-We think long-context models don't make chunking obsolete. A whole-document vector is a good fit when queries describe whole documents. It also costs more to compute. On an NVIDIA L4 GPU, embedding SummScreenFD's transcripts whole took about 3x as long as embedding them in 512-token chunks. That's with PyTorch's SDPA attention. We didn't time FlashAttention 2, which the model card recommends. But to find a detail in a long document, chunks still win. At 1 bit, they're also cheap.
+Not just yet. In these tests, chunks still found details better. We'd keep them as the starting point for detail search, even when the whole document fits.
 
-So how big should a chunk be? With a 32K model, the token limit no longer decides that for you. It becomes a choice about how small a detail you need to find. Halving chunks to 256 tokens raised Needle from 71% to 86%. On the other LongEmbed tasks, it cost at most 0.025 nDCG@10. It doubles the number of vectors, which is where compression pays off.
+UltraBERT gives us room to try retrieval at different scales. We could search whole documents to find the right topic, then search their chunks for the answer. That's worth testing, especially since combining both searches didn't consistently help here.
 
-Here's what we'd do:
+Whole-document vectors still have a cost. Embedding SummScreenFD's transcripts whole took about 3x as long as embedding 512-token chunks on our NVIDIA L4. We used PyTorch's SDPA; the recommended FlashAttention 2 might narrow that gap, but we haven't timed it.
 
-1. Split documents into 512-token chunks, or 256 if your queries target single facts, and embed them with UltraBERT.
-2. Store each chunk as its own point, compressed with 1-bit TurboQuant, and [group the results](/documentation/search/search/#search-groups) by document.
-3. Compare against an unquantized collection on your own queries. Qdrant rescores 1-bit TurboQuant by default, so test once with [rescoring disabled](/documentation/manage-data/quantization/#searching-with-quantization), then with rescoring at 2x oversampling.
-4. Add a whole-document vector only if your queries are about whole documents.
+For detail search, we'd start with 512-token chunks and test 256 for single facts. Compression makes the extra vectors more affordable, though quality and rescoring latency still need testing on your own queries.
+
+The 32K-token window gives us more freedom over what each vector represents. The next question is how to use that freedom to find better answers.
 
 ## Full Results
 
