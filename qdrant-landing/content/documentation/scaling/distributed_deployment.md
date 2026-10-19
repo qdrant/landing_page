@@ -41,7 +41,7 @@ cluster:
 
 By default, Qdrant will use port `6335` for its internal communication.
 All peers should be accessible on this port from within the cluster, but make sure to isolate this port from outside access, as it might be used to perform write operations.
-If you configure an API key, peers authenticate to each other on this port. As of v1.20.0, this is enforced by default. For details, including how to opt out, see [Enforce Authentication on Internal Communication](/documentation/security/#enforce-authentication-on-internal-communication).
+If you configure an API key, peers authenticate to each other on this port. As of v1.20.0, this is enforced by default. For details, including how to opt out, refer to [Enforce Authentication on Internal Communication](/documentation/security/#enforce-authentication-on-internal-communication).
 
 Additionally, you must provide the `--uri` flag to the first peer so it can tell other nodes how it should be reached:
 
