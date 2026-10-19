@@ -44,6 +44,7 @@ The `query` parameter accepts several kinds of scoring:
 | Kind | Purpose |
 | --- | --- |
 | `Query` | Vector similarity: nearest neighbor, recommendation, discovery, context, or feedback. |
+| `TextQuery` | BM25 ranking over a full-text index on a payload field. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
 | `Fusion` | Combine the results of multiple prefetches. Refer to [Hybrid Queries](/documentation/search/hybrid-queries/). |
 | `OrderBy` | Order by a payload field instead of by similarity. |
 | `Formula` | Rescore prefetch results with an expression over payload and score. |

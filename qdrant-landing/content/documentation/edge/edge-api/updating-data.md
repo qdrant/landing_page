@@ -57,6 +57,8 @@ The `update` operation also enables you to create and delete payload indexes.
 | `create_field_index` | `field_name`, `schema` | Index a payload field. |
 | `delete_field_index` | `field_name` | Remove a payload field index. |
 
+To rank points with BM25 on a text field, create a full-text index with `scoring` enabled. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/#create-a-full-text-index-with-scoring).
+
 ### Modify the Vector Schema
 
 Add or remove named vectors to an existing Edge Shard’s schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
