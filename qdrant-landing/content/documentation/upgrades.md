@@ -19,6 +19,10 @@ You need to ensure that your client applications and used SDKs are compatible wi
 
 Update the cluster first, then update the client SDKs. This prevents your applications from using features that the older cluster version does not support yet. If you upgrade across several minor versions, for example from 1.15 to 1.19, update the client SDKs after the cluster reaches the target version.
 
+## Upgrading to v1.20
+
+As of v1.20.0, the internal gRPC API enforces authentication by default when an API key is configured. If your cluster sets only `read_only_api_key`, peers lose peer-to-peer communication after the upgrade. Set `api_key`, or set `enforce_internal_auth` to `false`. External tools that call the internal port must send the `api-key` header. For details, see [Enforce Authentication on Internal Communication](/documentation/security/#enforce-authentication-on-internal-communication).
+
 ## Qdrant Cloud
 
 For Qdrant Cloud, see [Cluster Upgrades](/documentation/cloud/cluster-upgrades/).
