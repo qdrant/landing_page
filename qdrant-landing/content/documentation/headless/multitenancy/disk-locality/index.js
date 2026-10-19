@@ -1,186 +1,161 @@
 /*
- * disk-locality island — interactive replacement for disk-locality.png.
+ * disk-locality island: a theme-aware figure for the multitenant search guide
+ * (content/documentation/production-operations/multitenant-search.md).
  *
- * Measured p50 approximate-search latency (ms), on disk, from one production
- * run: 164,365 points, Qdrant Cloud 2 vCPU / 6.9 GB RAM. Compares a plain
- * keyword payload index against Qdrant's `is_tenant` tenant index across six
- * tenant sizes. The tenant index co-locates a tenant's points on disk, so a
- * filtered query reads fewer disk pages; the paired bars and the status
- * line make that gap visible as it narrows and widens across tenant sizes.
+ * Measured, one run (164,365 points, vectors on disk, Qdrant Cloud, 2 vCPU,
+ * 6.9 GB RAM): p50 filtered-search latency for six tenant sizes with a plain
+ * keyword index against the is_tenant tenant index, and each setup's
+ * one-time load and indexing time (results/experiment_a, keyword_on_disk and
+ * is_tenant_on_disk). A static table.
  *
- * Both bars render together for whichever tenant size is selected — the
- * index type is not a toggle. An earlier version let the reader switch
- * between "keyword" and "tenant" as mutually exclusive views, which hid the
- * comparison itself: the point is to see both numbers side by side, not to
- * flip a control and remember the previous one.
- *
- * Pure SVG + CSS on the shared island design system (islands.scss). Both
- * series are a static lookup table: no latency value here is computed.
+ * The size chips label one pair and move the highlight. Opens on 5,000
+ * points, the size the guide's text cites. Two compositions: desktop, and a
+ * stacked one below 640px of figure width.
  */
 
-const NS = 'http://www.w3.org/2000/svg';
+const LABEL =
+  'On disk, p50 filtered-search latency by tenant size, keyword index against tenant index: 500 points 0.95 against 0.71 ms; 2,000: 1.80 against 1.13; 5,000: 3.25 against 1.79; 10,000: 2.04 against 1.78; 20,000: 2.11 against 1.96; 40,000: 1.47 against 1.36. One-time setup: keyword index 250 s (197 s load, 53 s indexing), tenant index 203 s (167 s load, 36 s indexing).';
 
-const SIZES = [
-  { value: 500, label: '500' },
-  { value: 2000, label: '2,000' },
-  { value: 5000, label: '5,000' },
-  { value: 10000, label: '10,000' },
-  { value: 20000, label: '20,000' },
-  { value: 40000, label: '40,000' },
+const SIZES = [500, 2000, 5000, 10000, 20000, 40000];
+const SIZE_LABEL = ['500', '2k', '5k', '10k', '20k', '40k'];
+const KEYWORD = [0.95, 1.8, 3.25, 2.04, 2.11, 1.47];
+const TENANT = [0.71, 1.13, 1.79, 1.78, 1.96, 1.36];
+const SETUP = [
+  { label: 'keyword index', load: 197, index: 53, color: 'blue' },
+  { label: 'tenant index', load: 167, index: 36, color: 'cyan' },
 ];
+const MAX_MS = 3.5;
+const MAX_S = 250;
 
-// p50 approximate-search latency in milliseconds, on disk. Measured, not
-// computed: a static lookup table keyed by tenant size.
-const LATENCY_MS = {
-  500: { keyword: 0.95, tenant: 0.71 },
-  2000: { keyword: 1.8, tenant: 1.13 },
-  5000: { keyword: 3.25, tenant: 1.79 },
-  10000: { keyword: 2.04, tenant: 1.78 },
-  20000: { keyword: 2.11, tenant: 1.96 },
-  40000: { keyword: 1.47, tenant: 1.36 },
+const GEO = {
+  d: {
+    w: 960, h: 548,
+    lat: { x0: 100, x1: 590, top: 236, bottom: 440, titleX: 40, titleY: 170, bar: 26, gap: 6 },
+    setup: { x0: 660, x1: 920, titleY: 170, rows: [246, 340], barH: 34 },
+    legend: [[40, 124], [260, 124]],
+    caption: 500,
+  },
+  m: {
+    w: 480, h: 930,
+    lat: { x0: 74, x1: 456, top: 290, bottom: 500, titleX: 24, titleY: 222, bar: 20, gap: 4 },
+    setup: { x0: 24, x1: 456, titleY: 640, rows: [700, 810], barH: 34 },
+    legend: [[24, 150], [24, 180]],
+    caption: 560,
+  },
 };
 
-// Total one-time setup, in seconds: load + indexing. Fixed, not per tenant size.
-const SETUP = {
-  keyword: { total: 250, load: 197, index: 53 },
-  tenant: { total: 203, load: 167, index: 36 },
-};
+const pretty = (n) => n.toLocaleString('en-US');
 
-const INDEXES = [
-  { id: 'keyword', label: 'Keyword index' },
-  { id: 'tenant', label: 'Tenant index (<code>is_tenant</code>)' },
-];
-
-// Geometry (SVG user units).
-const VB_W = 560;
-const VB_H = 220;
-const CHART_X0 = 56; // baseline / axis x
-const CHART_X1 = 530; // chart right edge
-const CHART_TOP = 70; // y for SCALE_MAX (leaves clearance under the frame label for bumped-up text)
-const CHART_BOTTOM = 182; // y for 0 ms
-const SCALE_MAX = 3.5; // ms, headroom above the largest measured value (3.25)
-const BAR_W = 90;
-const BAR_GAP = 40;
-const PAIR_W = BAR_W * 2 + BAR_GAP;
-
-function el(name, attrs) {
-  const node = document.createElementNS(NS, name);
-  for (const k in attrs) node.setAttribute(k, attrs[k]);
-  return node;
+function ratioText(i) {
+  const r = KEYWORD[i] / TENANT[i];
+  return r >= 1.15 ? `about ${r.toFixed(1)} times as fast` : 'slightly faster';
 }
 
-function fmt(ms) {
-  return ms.toFixed(2);
+function latency(v) {
+  const g = GEO[v].lat;
+  const sy = (ms) => g.bottom - (ms / MAX_MS) * (g.bottom - g.top);
+  const step = (g.x1 - g.x0) / SIZES.length;
+  let out = `<text class="mts-head" x="${g.titleX}" y="${g.titleY}">p50 latency, ms</text>`;
+  out += `<rect data-k="${v}-band" x="${g.x0}" y="${g.top - 58}" width="${step}" height="${g.bottom - g.top + 58}" rx="8" style="fill:var(--mts-card)"/>`;
+  [0, 1, 2, 3].forEach((t) => {
+    const y = sy(t);
+    out += `<line x1="${g.x0}" x2="${g.x1}" y1="${y}" y2="${y}" class="mts-grid"/>`;
+    out += `<text class="mts-note" x="${g.x0 - 14}" y="${y + 6}" text-anchor="end">${t}</text>`;
+  });
+  SIZES.forEach((_, i) => {
+    const cx = g.x0 + step * (i + 0.5);
+    const kx = cx - g.gap / 2 - g.bar;
+    const tx = cx + g.gap / 2;
+    out += `<rect x="${kx}" y="${sy(KEYWORD[i])}" width="${g.bar}" height="${sy(0) - sy(KEYWORD[i])}" rx="3" style="fill:var(--mts-blue)"/>`;
+    out += `<rect x="${tx}" y="${sy(TENANT[i])}" width="${g.bar}" height="${sy(0) - sy(TENANT[i])}" rx="3" style="fill:var(--mts-cyan)"/>`;
+    out += `<text class="mts-note" x="${cx}" y="${g.bottom + 28}" text-anchor="middle">${SIZE_LABEL[i]}</text>`;
+    out += `<g data-k="${v}-vals-${i}">`;
+    // Values sit in a reserved row above the plot, so they never cross a bar.
+    out += `<text class="mts-note" x="${cx}" y="${g.top - 34}" text-anchor="middle" style="fill:var(--mts-blue-ink);font-weight:600">${KEYWORD[i].toFixed(2)}</text>`;
+    out += `<text class="mts-note" x="${cx}" y="${g.top - 10}" text-anchor="middle" style="fill:var(--mts-cyan-ink);font-weight:600">${TENANT[i].toFixed(2)}</text>`;
+    out += '</g>';
+  });
+  out += `<path d="M${g.x0} ${g.top} V${g.bottom} H${g.x1}" class="mts-axis"/>`;
+  out += `<text class="mts-note" x="${(g.x0 + g.x1) / 2}" y="${GEO[v].caption}" text-anchor="middle">tenant size, points</text>`;
+  return out;
 }
 
-// Describes how much faster/slower `ratio` (always >= 1) makes something.
-function phrase(ratio, word) {
-  if (ratio >= 1.9) return `twice as ${word}`;
-  if (ratio >= 1.5) return `almost twice as ${word}`;
-  if (ratio >= 1.15) return `${ratio.toFixed(2)}× as ${word}`;
-  return word === 'fast' ? 'slightly faster' : 'slightly slower';
+function setup(v) {
+  const g = GEO[v].setup;
+  const sx = (s) => (s * (g.x1 - g.x0)) / MAX_S;
+  let out = `<text class="mts-head" x="${g.x0}" y="${g.titleY}">One-time setup, s</text>`;
+  SETUP.forEach((s, i) => {
+    const y = g.rows[i];
+    const wl = sx(s.load);
+    const wi = sx(s.index);
+    out += `<text class="mts-small" x="${g.x0}" y="${y - 12}">${s.label}: ${s.load + s.index} s</text>`;
+    out += `<rect x="${g.x0}" y="${y}" width="${wl}" height="${g.barH}" rx="4" style="fill:var(--mts-${s.color})"/>`;
+    out += `<rect x="${g.x0 + wl + 2}" y="${y}" width="${wi - 2}" height="${g.barH}" rx="4" style="fill:var(--mts-${s.color}-t)"/>`;
+    out += `<text class="mts-note" x="${g.x0 + 10}" y="${y + 24}" style="fill:#fff">${s.load} s</text>`;
+    const fits = wi > 52;
+    out += `<text class="mts-note" x="${fits ? g.x0 + wl + 10 : g.x0 + wl + wi + 8}" y="${y + 24}" style="fill:var(--mts-${s.color}-ink)">${s.index} s</text>`;
+  });
+  const ly = g.rows[1] + g.barH + 40;
+  out += `<text class="mts-note" x="${g.x0}" y="${ly}">solid: loading</text>`;
+  out += `<text class="mts-note" x="${g.x0}" y="${ly + 24}">light: indexing</text>`;
+  return out;
+}
+
+function legend(v) {
+  const [[x1, y1], [x2, y2]] = GEO[v].legend;
+  return (
+    `<rect x="${x1}" y="${y1 - 15}" width="16" height="16" rx="2" style="fill:var(--mts-blue)"/>` +
+    `<text class="mts-note" x="${x1 + 26}" y="${y1}" style="fill:var(--qi-fg)">keyword index</text>` +
+    `<rect x="${x2}" y="${y2 - 15}" width="16" height="16" rx="2" style="fill:var(--mts-cyan)"/>` +
+    `<text class="mts-note" x="${x2 + 26}" y="${y2}" style="fill:var(--qi-fg)">tenant index (is_tenant)</text>`
+  );
+}
+
+function head(v) {
+  if (v === 'd') {
+    return (
+      `<text class="mts-head" x="40" y="56">On disk: a plain keyword index against the tenant index</text>` +
+      `<text class="mts-note" x="40" y="84">164,365 points with vectors on disk; filtered-search latency and setup time</text>`
+    );
+  }
+  return (
+    `<text class="mts-head" x="24" y="44">On disk: a keyword index</text>` +
+    `<text class="mts-head" x="24" y="70">against the tenant index</text>` +
+    `<text class="mts-note" x="24" y="98">164,365 points, vectors on disk</text>`
+  );
+}
+
+function update(node, i) {
+  for (const v of ['d', 'm']) {
+    const g = GEO[v].lat;
+    const step = (g.x1 - g.x0) / SIZES.length;
+    node.querySelector(`[data-k="${v}-band"]`).setAttribute('x', g.x0 + step * i);
+    SIZES.forEach((_, j) => node.querySelector(`[data-k="${v}-vals-${j}"]`).classList.toggle('is-off', j !== i));
+  }
+  node.querySelectorAll('[data-size]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.size) === SIZES[i])));
+  node.querySelector('.qi-status').textContent =
+    `At ${pretty(SIZES[i])} points, the tenant index answered in ${TENANT[i].toFixed(2)} ms against ${KEYWORD[i].toFixed(2)} ms, ${ratioText(i)}. It also loaded and indexed faster, 203 s against 250 s.`;
+}
+
+function svg(v) {
+  const { w, h } = GEO[v];
+  return `<svg class="qi-svg qi-mts__${v}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${LABEL}">${head(v)}${legend(v)}${latency(v)}${setup(v)}</svg>`;
 }
 
 export function mount(node) {
-  node.classList.add('qi-dl');
-
-  node.innerHTML = [
-    '<div class="qi-fig">',
-    '  <div class="qi-controls">',
-    '    <div class="qi-dl__legend" aria-hidden="true">',
-    INDEXES.map((i) => `<span class="qi-dl__legend-item qi-dl__legend-item--${i.id}"><span class="qi-chip__swatch"></span>${i.label}</span>`).join(''),
-    '    </div>',
-    '  </div>',
-    '  <div class="qi-controls">',
-    '    <span class="qi-hint">Tenant size:</span>',
-    '    <div class="qi-group" role="group" aria-label="Tenant size, in points">',
-    SIZES.map((s) => `<button type="button" class="qi-chip qi-dl__size" data-size="${s.value}" aria-pressed="false">${s.label}</button>`).join(''),
-    '    </div>',
-    '  </div>',
-    `  <svg class="qi-svg qi-dl__svg" viewBox="0 0 ${VB_W} ${VB_H}" role="img" aria-label="Paired bar chart of on-disk filtered-search p50 latency in milliseconds, a keyword payload index against Qdrant's is_tenant tenant index, at the selected tenant size.">`,
-    `    <rect class="qi-frame" x="2" y="8" width="${VB_W - 4}" height="196" rx="6"/>`,
-    '    <text class="qi-frame-label" x="18" y="30">On-disk p50 latency</text>',
-    '    <g class="qi-dl__grid"></g>',
-    `    <line class="qi-axis" x1="${CHART_X0}" y1="${CHART_BOTTOM}" x2="${CHART_X1}" y2="${CHART_BOTTOM}"/>`,
-    '    <rect class="qi-dl__bar qi-dl__bar--keyword" rx="4"/>',
-    '    <text class="qi-dl__value qi-dl__value--keyword" text-anchor="middle"></text>',
-    '    <rect class="qi-dl__bar qi-dl__bar--tenant" rx="4"/>',
-    '    <text class="qi-dl__value qi-dl__value--tenant" text-anchor="middle"></text>',
-    '  </svg>',
-    '  <p class="qi-hint qi-dl__setup"></p>',
-    '  <p class="qi-status qi-dl__status" role="status" aria-live="polite"></p>',
-    '</div>',
-  ].join('');
-
-  const gridG = node.querySelector('.qi-dl__grid');
-  const bars = { keyword: node.querySelector('.qi-dl__bar--keyword'), tenant: node.querySelector('.qi-dl__bar--tenant') };
-  const valueTexts = { keyword: node.querySelector('.qi-dl__value--keyword'), tenant: node.querySelector('.qi-dl__value--tenant') };
-  const setupEl = node.querySelector('.qi-dl__setup');
-  const statusEl = node.querySelector('.qi-dl__status');
-  const sizeChips = [...node.querySelectorAll('.qi-dl__size')];
-
-  // Baseline tick (0 ms).
-  const zeroTick = el('text', { class: 'qi-label qi-dl__tick', x: CHART_X0 - 10, y: CHART_BOTTOM + 4, 'text-anchor': 'end' });
-  zeroTick.textContent = '0';
-  gridG.appendChild(zeroTick);
-
-  // Lighter gridlines at 1, 2, 3 ms.
-  [1, 2, 3].forEach((ms) => {
-    const y = CHART_BOTTOM - (ms / SCALE_MAX) * (CHART_BOTTOM - CHART_TOP);
-    gridG.appendChild(el('line', { class: 'qi-dl__gridline', x1: CHART_X0, y1: y, x2: CHART_X1, y2: y }));
-    const tick = el('text', { class: 'qi-label qi-dl__tick', x: CHART_X0 - 10, y: y + 4, 'text-anchor': 'end' });
-    tick.textContent = String(ms);
-    gridG.appendChild(tick);
-  });
-
-  const unit = el('text', { class: 'qi-label', x: CHART_X0, y: CHART_TOP - 14 });
-  unit.textContent = 'ms';
-  gridG.appendChild(unit);
-
-  setupEl.innerHTML =
-    `Setup time (one time): keyword index ${SETUP.keyword.total} s ` +
-    `(${SETUP.keyword.load} s load + ${SETUP.keyword.index} s indexing); ` +
-    `tenant index ${SETUP.tenant.total} s (${SETUP.tenant.load} s load + ${SETUP.tenant.index} s indexing).`;
-
-  let size = 5000;
-
-  function render() {
-    const data = LATENCY_MS[size];
-    const pairX0 = CHART_X0 + (CHART_X1 - CHART_X0 - PAIR_W) / 2;
-    const barX = { keyword: pairX0, tenant: pairX0 + BAR_W + BAR_GAP };
-
-    ['keyword', 'tenant'].forEach((kind) => {
-      const ms = data[kind];
-      const h = Math.max(2, (ms / SCALE_MAX) * (CHART_BOTTOM - CHART_TOP));
-      const y = CHART_BOTTOM - h;
-      const x = barX[kind];
-
-      bars[kind].setAttribute('x', x);
-      bars[kind].setAttribute('width', BAR_W);
-      bars[kind].setAttribute('y', y);
-      bars[kind].setAttribute('height', h);
-
-      valueTexts[kind].setAttribute('x', x + BAR_W / 2);
-      valueTexts[kind].setAttribute('y', y - 10);
-      valueTexts[kind].textContent = `${fmt(ms)} ms`;
-    });
-
-    sizeChips.forEach((c) => c.setAttribute('aria-pressed', String(Number(c.dataset.size) === size)));
-
-    const sizeLabel = SIZES.find((s) => s.value === size).label;
-    const ratio = Math.max(data.keyword, data.tenant) / Math.min(data.keyword, data.tenant);
-    const tenantFaster = data.tenant <= data.keyword;
-    statusEl.textContent = `At ${sizeLabel} points, the tenant index is ${phrase(ratio, tenantFaster ? 'fast' : 'slow')} (${fmt(data.tenant)} ms against ${fmt(data.keyword)} ms).`;
-  }
-
-  sizeChips.forEach((chip) =>
-    chip.addEventListener('click', () => {
-      size = Number(chip.dataset.size);
-      render();
-    }),
-  );
-
-  render();
-
+  node.classList.add('qi-mts', 'is-init');
+  node.innerHTML =
+    '<div class="qi-fig">' +
+    '<div class="qi-controls"><div class="qi-group" role="group" aria-label="Tenant size, in points"><span class="qi-hint">Tenant size:</span>' +
+    SIZES.map((n) => `<button type="button" class="qi-chip" data-size="${n}" aria-pressed="false">${pretty(n)}</button>`).join('') +
+    '</div></div>' +
+    svg('d') +
+    svg('m') +
+    '<p class="qi-status qi-status--2" role="status" aria-live="polite"></p>' +
+    '</div>';
+  node.querySelectorAll('[data-size]').forEach((b) => b.addEventListener('click', () => update(node, SIZES.indexOf(Number(b.dataset.size)))));
+  update(node, 2);
+  node.getBoundingClientRect();
+  node.classList.remove('is-init');
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

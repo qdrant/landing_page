@@ -1,23 +1,19 @@
 /*
- * model-picker island — a decision tool, not measured data.
+ * model-picker island: a theme-aware decision figure for the multitenant
+ * search guide (content/documentation/production-operations/multitenant-search.md).
  *
- * The decision lives on two axes: how many tenants you have (x), and how
- * unevenly sized they are (y). Each of the three pool models owns a region
- * of that plane; a fourth control ("different configs needed") overrides
- * both axes, since it forces Collection per tenant regardless of tenant
- * count or size. The reader picks a point and a marker lands in the
- * matching region, with the plane itself showing the boundary structure
- * (e.g. "one dominant tenant" is a full-width band: that choice always
- * means Shard per tenant, whatever the tenant count is).
+ * A decision guide, not measured data. Tenant count runs along x, how unevenly
+ * tenants are sized along y, and each model owns a region of that plane (the
+ * rules in pickModel, unchanged from the earlier version of this figure). The
+ * reader picks a cell and the marker moves there; "different configs needed"
+ * overrides both axes, since it forces a collection per tenant.
  *
- * No SVG anywhere in this island, deliberately, after two rounds of
- * viewBox-scaling bugs (desktop ballooning when the viewBox was kept narrow
- * for mobile, then mobile label clipping once it was widened back). Every
- * zone, gridline, the marker, and the crosshair are plain divs positioned by
- * CSS percentage inside an aspect-ratio box, which has no scale factor to
- * reason about at any width. Axis labels are plain HTML text for the same
- * reason index-timing and per-tenant-graphs are plain HTML.
+ * Two compositions: desktop, and a stacked one below 640px of figure width.
+ * The zones are labeled in place so the map reads without the colors.
  */
+
+const LABEL =
+  'Decision guide, not measured. One dominant tenant: shard per tenant at any tenant count. Around 10 tenants otherwise: a collection per tenant. From about 1,000 tenants: a payload field with a tenant index when sizes are similar, tiered multitenancy when a few are big. Different embedding models or collection settings per tenant: a collection per tenant.';
 
 const COUNTS = [
   { id: '10', label: '~10' },
@@ -25,29 +21,19 @@ const COUNTS = [
   { id: '10k', label: '~10,000' },
   { id: '100k', label: '~100,000+' },
 ];
-
 // Rows, top to bottom (top = most skewed).
 const DISTS = [
-  { id: 'dominant', label: 'One dominant tenant' },
-  { id: 'few-big', label: 'A few big, many small' },
-  { id: 'similar', label: 'Similar sizes' },
+  { id: 'dominant', label: 'One dominant', rows: ['One dominant', 'tenant'] },
+  { id: 'few-big', label: 'A few big', rows: ['A few big,', 'many small'] },
+  { id: 'similar', label: 'Similar sizes', rows: ['Similar', 'sizes'] },
 ];
-const ROW_PCT = 100 / DISTS.length;
-const COL_PCT = 100 / COUNTS.length;
-
 const MODELS = {
-  payload: { name: 'Payload field with a tenant index', cat: '--qi-cat-1' },
-  tiered: { name: 'Tiered multitenancy', cat: '--qi-cat-2' },
-  shard: { name: 'Shard per tenant', cat: '--qi-cat-3' },
-  collection: { name: 'Collection per tenant', cat: '--qi-cat-4' },
+  payload: { name: 'Payload field with a tenant index', tone: 'blue' },
+  tiered: { name: 'Tiered multitenancy', tone: 'purple' },
+  shard: { name: 'Shard per tenant', tone: 'cyan' },
+  collection: { name: 'Collection per tenant', tone: 'orange' },
 };
 
-// Decision table (final — mirrors the prose decision table in the guide):
-//  - "Different configs needed" -> always Collection per tenant.
-//  - "One dominant tenant" -> always Shard per tenant, any count.
-//  - ~10 tenants (and not dominant) -> Collection per tenant.
-//  - >=1,000 tenants, "Similar sizes" -> Payload field with a tenant index.
-//  - >=1,000 tenants, "A few big, many small" -> Tiered multitenancy.
 function pickModel(count, dist, configsNeeded) {
   if (configsNeeded) return 'collection';
   if (dist === 'dominant') return 'shard';
@@ -56,156 +42,168 @@ function pickModel(count, dist, configsNeeded) {
 }
 
 function reason(count, dist, configsNeeded) {
-  const countLabel = COUNTS.find((c) => c.id === count).label;
+  const n = COUNTS.find((c) => c.id === count).label;
   if (configsNeeded) {
     const base = 'Different embedding models or collection settings per tenant force separate collections, whatever the tenant count.';
-    return count === '100k' ? `${base} That is unusual at ${countLabel} tenants — double-check the tenant count.` : base;
+    return count === '100k' ? `${base} That is unusual at ${n} tenants, so double-check the count.` : base;
   }
-  if (dist === 'dominant') {
-    return `${countLabel} tenants, but one dominates the load — give it a shard of its own instead of crowding a shared collection.`;
+  if (dist === 'dominant') return `${n} tenants, but one dominates the load: give it a shard of its own instead of crowding a shared collection.`;
+  if (count === '10') return `Only ${n} tenants: too few to share a collection, so give each one its own.`;
+  if (dist === 'similar') return `${n} similarly sized tenants fit in one collection, partitioned by a tenant payload index.`;
+  return `${n} tenants with a few big ones: give the big tenants their own shards and let the rest share a fallback shard.`;
+}
+
+// Plot geometry: column widths (the first is wider on narrow screens so its
+// zone label fits), row height, origin.
+const GEO = {
+  d: { w: 960, h: 540, x0: 270, cols: [162, 162, 162, 164], y0: 128, rowH: 100, rowLabelX: 40 },
+  m: { w: 480, h: 640, x0: 24, cols: [126, 102, 102, 102], y0: 150, rowH: 120, rowLabelX: null },
+};
+
+function colX(g, i) {
+  return g.x0 + g.cols.slice(0, i).reduce((a, b) => a + b, 0);
+}
+function zones(g) {
+  const right = colX(g, 4);
+  const c1 = colX(g, 1);
+  const r = (i) => g.y0 + i * g.rowH;
+  return [
+    ['shard', g.x0, r(0), right - g.x0, g.rowH],
+    ['collection', g.x0, r(1), c1 - g.x0, 2 * g.rowH],
+    ['tiered', c1, r(1), right - c1, g.rowH],
+    ['payload', c1, r(2), right - c1, g.rowH],
+  ];
+}
+
+function zoneLabel(v, key, x, y, w, h) {
+  const name = MODELS[key].name;
+  const ink = `var(--mts-${MODELS[key].tone}-ink)`;
+  const cx = x + w / 2;
+  let lines = [name];
+  if (key === 'collection') lines = ['Collection', 'per tenant'];
+  if (key === 'payload' && v === 'm') lines = ['Payload field with', 'a tenant index'];
+  const top = y + h / 2 - ((lines.length - 1) * 26) / 2 + 7 + (v === 'm' ? 12 : 0);
+  return lines
+    .map((l, i) => `<text class="mts-small" x="${cx}" y="${top + i * 26}" text-anchor="middle" style="fill:${ink};font-weight:600">${l}</text>`)
+    .join('');
+}
+
+function plot(v) {
+  const g = GEO[v];
+  let out = '';
+  zones(g).forEach(([key, x, y, w, h]) => {
+    out += `<rect data-k="${v}-zone-${key}" x="${x + 2}" y="${y + 2}" width="${w - 4}" height="${h - 4}" rx="8" style="fill:var(--mts-${MODELS[key].tone}-t)"/>`;
+  });
+  // The selected cell: a soft fill under the zone labels, so it never covers text.
+  out += `<rect data-k="${v}-marker" x="${g.x0}" y="${g.y0}" width="${g.cols[0]}" height="${g.rowH}" rx="8" style="fill:var(--qi-fg);opacity:0.16"/>`;
+  zones(g).forEach(([key, x, y, w, h]) => {
+    out += `<g data-k="${v}-zl-${key}">${zoneLabel(v, key, x, y, w, h)}</g>`;
+  });
+  // Row labels: beside the plot on desktop, inside each row on narrow screens.
+  DISTS.forEach((d, i) => {
+    const y = g.y0 + i * g.rowH;
+    if (g.rowLabelX != null) {
+      d.rows.forEach((l, j) => {
+        out += `<text class="mts-small" x="${g.rowLabelX}" y="${y + g.rowH / 2 - 6 + j * 24}">${l}</text>`;
+      });
+    } else {
+      out += `<text class="mts-note" x="${colX(g, 4) - 12}" y="${y + 26}" text-anchor="end" style="fill:var(--qi-fg)">${d.rows.join(' ')}</text>`;
+    }
+  });
+  const bottom = g.y0 + 3 * g.rowH;
+  COUNTS.forEach((c, i) => {
+    out += `<text class="mts-note" x="${colX(g, i) + g.cols[i] / 2}" y="${bottom + 30}" text-anchor="middle">${c.label}</text>`;
+  });
+  out += `<text class="mts-note" x="${(g.x0 + colX(g, 4)) / 2}" y="${bottom + 62}" text-anchor="middle">tenant count →</text>`;
+  const mid = (g.x0 + colX(g, 4)) / 2;
+  const cy = g.y0 + 1.5 * g.rowH;
+  const pill = 'Different configs: collection per tenant';
+  const pw = v === 'd' ? pill.length * 12 + 32 : 300;
+  out += `<g data-k="${v}-override"><rect x="${mid - pw / 2}" y="${cy - 26}" width="${pw}" height="52" rx="26" style="fill:var(--mts-orange)"/>`;
+  if (v === 'd') {
+    out += `<text class="mts-small" x="${mid}" y="${cy + 7}" text-anchor="middle" style="fill:#fff;font-weight:600">${pill}</text></g>`;
+  } else {
+    out += `<text class="mts-note" x="${mid}" y="${cy - 5}" text-anchor="middle" style="fill:#fff;font-weight:600">Different configs:</text>`;
+    out += `<text class="mts-note" x="${mid}" y="${cy + 21}" text-anchor="middle" style="fill:#fff;font-weight:600">collection per tenant</text></g>`;
   }
-  if (count === '10') {
-    return `Only ${countLabel} tenants — too few to bother sharing a collection; give each one its own.`;
+  return out;
+}
+
+function head(v) {
+  if (v === 'd') {
+    return (
+      `<text class="mts-head" x="40" y="56">Pick a model by tenant count and size skew</text>` +
+      `<text class="mts-note" x="40" y="84">a decision guide, not measured</text>`
+    );
   }
-  if (dist === 'similar') {
-    return `${countLabel} similarly sized tenants fit cleanly in one collection, partitioned by a tenant_id payload index.`;
+  return (
+    `<text class="mts-head" x="24" y="44">Pick a model by tenant</text>` +
+    `<text class="mts-head" x="24" y="70">count and size skew</text>` +
+    `<text class="mts-note" x="24" y="98">a decision guide, not measured</text>`
+  );
+}
+
+function update(node, s) {
+  const key = pickModel(s.count, s.dist, s.configs);
+  for (const v of ['d', 'm']) {
+    const g = GEO[v];
+    const ci = COUNTS.findIndex((c) => c.id === s.count);
+    const ri = DISTS.findIndex((d) => d.id === s.dist);
+    const marker = node.querySelector(`[data-k="${v}-marker"]`);
+    marker.setAttribute('x', colX(g, ci) + 2);
+    marker.setAttribute('y', g.y0 + ri * g.rowH + 2);
+    marker.setAttribute('width', g.cols[ci] - 4);
+    marker.setAttribute('height', g.rowH - 4);
+    marker.classList.toggle('is-off', s.configs);
+    Object.keys(MODELS).forEach((k) => {
+      const zone = node.querySelector(`[data-k="${v}-zone-${k}"]`);
+      const label = node.querySelector(`[data-k="${v}-zl-${k}"]`);
+      const on = s.configs ? false : k === key;
+      zone.classList.toggle('is-faint', s.configs || !on);
+      label.classList.toggle('is-off', s.configs);
+    });
+    node.querySelector(`[data-k="${v}-override"]`).classList.toggle('is-off', !s.configs);
   }
-  return `${countLabel} tenants with a few big ones — dedicate shards to the big tenants and let the rest share a fallback shard.`;
+  node.querySelectorAll('[data-count]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.count === s.count)));
+  node.querySelectorAll('[data-dist]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.dist === s.dist)));
+  node.querySelector('[data-configs]').setAttribute('aria-pressed', String(s.configs));
+  const status = node.querySelector('.qi-status');
+  status.textContent = '';
+  const b = document.createElement('b');
+  b.textContent = MODELS[key].name;
+  status.append(b, `. ${reason(s.count, s.dist, s.configs)}`);
+}
+
+function svg(v) {
+  const { w, h } = GEO[v];
+  return `<svg class="qi-svg qi-mts__${v}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${LABEL}">${head(v)}${plot(v)}</svg>`;
 }
 
 export function mount(node) {
-  node.classList.add('qi-mp');
-
-  node.innerHTML = [
-    '<div class="qi-fig">',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group qi-mp__counts" role="group" aria-label="About how many tenants do you have? (x-axis)">',
-    '      <span class="qi-hint">Tenants:</span>',
-    COUNTS.map((c) => `<button type="button" class="qi-chip qi-mp__count" data-count="${c.id}" aria-pressed="false">${c.label}</button>`).join(''),
-    '    </div>',
-    '    <div class="qi-group qi-mp__dists" role="group" aria-label="How are tenant sizes distributed? (y-axis)">',
-    '      <span class="qi-hint">Sizes:</span>',
+  node.classList.add('qi-mts', 'is-init');
+  node.innerHTML =
+    '<div class="qi-fig">' +
+    '<div class="qi-controls">' +
+    '<div class="qi-group" role="group" aria-label="About how many tenants do you have?"><span class="qi-hint">Tenants:</span>' +
+    COUNTS.map((c) => `<button type="button" class="qi-chip" data-count="${c.id}" aria-pressed="false">${c.label}</button>`).join('') +
+    '</div>' +
+    '<div class="qi-group" role="group" aria-label="How are tenant sizes distributed?"><span class="qi-hint">Sizes:</span>' +
     DISTS.slice()
       .reverse()
-      .map((d) => `<button type="button" class="qi-chip qi-mp__dist" data-dist="${d.id}" aria-pressed="false">${d.label}</button>`)
-      .join(''),
-    '      <button type="button" class="qi-chip qi-mp__configs" aria-pressed="false">Different configs needed</button>',
-    '    </div>',
-    '  </div>',
-    '  <div class="qi-mp__chart-wrap">',
-    '    <div class="qi-mp__y-title">Size skew</div>',
-    '    <div class="qi-mp__chart">',
-    '      <div class="qi-mp__row-labels">',
-    DISTS.map((d) => `<div class="qi-mp__row-label">${d.label}</div>`).join(''),
-    '      </div>',
-    '      <div class="qi-mp__plot" role="img" aria-label="Tenant count on the x-axis against how skewed tenant sizes are on the y-axis, with a marker at the reader\'s selection.">',
-    '        <div class="qi-mp__zones"></div>',
-    '        <div class="qi-mp__gridlines"></div>',
-    '        <div class="qi-mp__crosshair-h"></div>',
-    '        <div class="qi-mp__crosshair-v"></div>',
-    '        <div class="qi-mp__marker"></div>',
-    '        <div class="qi-mp__override">',
-    '          <span class="qi-mp__override-pill">Different configs → Collection per tenant</span>',
-    '        </div>',
-    '      </div>',
-    '      <div class="qi-mp__corner"></div>',
-    '      <div class="qi-mp__col-labels">',
-    COUNTS.map((c) => `<div class="qi-mp__col-label">${c.label}</div>`).join(''),
-    '      </div>',
-    '    </div>',
-    '  </div>',
-    '  <div class="qi-mp__x-title">Tenant count</div>',
-    '  <p class="qi-status qi-mp__status" role="status" aria-live="polite"></p>',
-    '</div>',
-  ].join('');
-
-  const zonesEl = node.querySelector('.qi-mp__zones');
-  const gridEl = node.querySelector('.qi-mp__gridlines');
-  const marker = node.querySelector('.qi-mp__marker');
-  const crosshairH = node.querySelector('.qi-mp__crosshair-h');
-  const crosshairV = node.querySelector('.qi-mp__crosshair-v');
-  const overrideEl = node.querySelector('.qi-mp__override');
-  const statusEl = node.querySelector('.qi-mp__status');
-  const countChips = [...node.querySelectorAll('.qi-mp__count')];
-  const distChips = [...node.querySelectorAll('.qi-mp__dist')];
-  const configsChip = node.querySelector('.qi-mp__configs');
-
-  const zoneDiv = (cat, left, top, width, height) => {
-    const d = document.createElement('div');
-    d.className = 'qi-mp__zone';
-    d.style.setProperty('--zone-color', `var(${cat})`);
-    d.style.left = `${left}%`;
-    d.style.top = `${top}%`;
-    d.style.width = `${width}%`;
-    d.style.height = `${height}%`;
-    return d;
-  };
-
-  // --- Zones: 5 rectangles, derived from pickModel, not per-cell lookup. ---
-  // Row 0 (dominant) is one full-width Shard band. Rows 1-2 split into a
-  // Collection strip (count === '10', the first column) and a
-  // Payload/Tiered block covering the other three columns.
-  const dominantRow = DISTS.findIndex((d) => d.id === 'dominant');
-  zonesEl.appendChild(zoneDiv(MODELS.shard.cat, 0, dominantRow * ROW_PCT, 100, ROW_PCT));
-  ['few-big', 'similar'].forEach((distId) => {
-    const r = DISTS.findIndex((d) => d.id === distId);
-    const model = distId === 'similar' ? 'payload' : 'tiered';
-    zonesEl.appendChild(zoneDiv(MODELS.collection.cat, 0, r * ROW_PCT, COL_PCT, ROW_PCT));
-    zonesEl.appendChild(zoneDiv(MODELS[model].cat, COL_PCT, r * ROW_PCT, 100 - COL_PCT, ROW_PCT));
-  });
-
-  for (let i = 1; i < COUNTS.length; i++) {
-    const l = document.createElement('div');
-    l.className = 'qi-mp__gridline qi-mp__gridline--v';
-    l.style.left = `${i * COL_PCT}%`;
-    gridEl.appendChild(l);
-  }
-  for (let i = 1; i < DISTS.length; i++) {
-    const l = document.createElement('div');
-    l.className = 'qi-mp__gridline qi-mp__gridline--h';
-    l.style.top = `${i * ROW_PCT}%`;
-    gridEl.appendChild(l);
-  }
-
-  let count = '10';
-  let dist = 'similar';
-  let configsNeeded = false;
-
-  function render() {
-    countChips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.count === count)));
-    distChips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.dist === dist)));
-    configsChip.setAttribute('aria-pressed', String(configsNeeded));
-
-    const ci = COUNTS.findIndex((c) => c.id === count);
-    const ri = DISTS.findIndex((d) => d.id === dist);
-    const mx = ci * COL_PCT + COL_PCT / 2;
-    const my = ri * ROW_PCT + ROW_PCT / 2;
-    const key = pickModel(count, dist, configsNeeded);
-
-    overrideEl.classList.toggle('is-active', configsNeeded);
-    zonesEl.classList.toggle('is-muted', configsNeeded);
-    marker.style.display = configsNeeded ? 'none' : '';
-    crosshairH.style.display = configsNeeded ? 'none' : '';
-    crosshairV.style.display = configsNeeded ? 'none' : '';
-
-    if (!configsNeeded) {
-      marker.style.left = `${mx}%`;
-      marker.style.top = `${my}%`;
-      marker.style.setProperty('--marker-color', `var(${MODELS[key].cat})`);
-      crosshairH.style.top = `${my}%`;
-      crosshairH.style.width = `${mx}%`;
-      crosshairV.style.left = `${mx}%`;
-      crosshairV.style.top = `${my}%`;
-      crosshairV.style.height = `${100 - my}%`;
-    }
-
-    statusEl.innerHTML = `<b>${MODELS[key].name}</b>. ${reason(count, dist, configsNeeded)}`;
-  }
-
-  countChips.forEach((b) => b.addEventListener('click', () => ((count = b.dataset.count), render())));
-  distChips.forEach((b) => b.addEventListener('click', () => ((dist = b.dataset.dist), render())));
-  configsChip.addEventListener('click', () => ((configsNeeded = !configsNeeded), render()));
-
-  render();
+      .map((d) => `<button type="button" class="qi-chip" data-dist="${d.id}" aria-pressed="false">${d.label}</button>`)
+      .join('') +
+    '<button type="button" class="qi-chip" data-configs aria-pressed="false">Different configs needed</button>' +
+    '</div></div>' +
+    svg('d') +
+    svg('m') +
+    '<p class="qi-status qi-status--2" role="status" aria-live="polite"></p>' +
+    '</div>';
+  const state = { count: '10k', dist: 'similar', configs: false };
+  node.querySelectorAll('[data-count]').forEach((b) => b.addEventListener('click', () => ((state.count = b.dataset.count), update(node, state))));
+  node.querySelectorAll('[data-dist]').forEach((b) => b.addEventListener('click', () => ((state.dist = b.dataset.dist), update(node, state))));
+  node.querySelector('[data-configs]').addEventListener('click', () => ((state.configs = !state.configs), update(node, state)));
+  update(node, state);
+  node.getBoundingClientRect();
+  node.classList.remove('is-init');
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

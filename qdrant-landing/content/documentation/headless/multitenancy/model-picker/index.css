@@ -1,194 +1,147 @@
-/* model-picker island. Scoped under .qi-mp. Controls and status line come
-   from the shared island design system (islands.scss). Everything else is
-   plain HTML: a CSS grid of row labels, the plot, and column labels, with
-   the plot itself a percentage-positioned stack of divs inside a fixed
-   aspect-ratio box. Nothing here is SVG, deliberately — see index.js for
-   why. Model colors are the theme-independent categorical tokens
-   (--qi-cat-1..4), never the status-style green/orange hues. */
+/* Multitenant search figures. Scoped under .qi-mts; chrome (fg, muted, border,
+   line) comes from the shared --qi-* tokens on .island, which already follow
+   the page theme. This file maps the figure's own colors for light and dark
+   and swaps in the stacked composition when the figure is narrower than
+   640px. Same structure as the memory tiers figures. Entity hues stay
+   constant across themes: shared collection and fallback shard neon blue,
+   own shard cyan, tenants blue/purple/cyan, regressions amaranth. */
 
-.qi-mp {
+.qi-mts {
+  --mts-blue: #6047ff; /* neon-blue-500 */
+  --mts-purple: #9c27b0; /* purple-500 */
+  --mts-cyan: #00838f; /* cyan-800 */
+  --mts-red: #dc244c; /* amaranth-500 */
+  --mts-orange: #ef6c00; /* orange-800 */
+
+  --mts-card: #f0f3fa; /* neutral-50 */
+  --mts-inset: #ffffff;
+
+  --mts-blue-t: #c2c5ff; /* neon-blue-200 */
+  --mts-purple-t: #e1bee7; /* purple-100 */
+  --mts-cyan-t: #b2ebf2; /* cyan-100 */
+  --mts-red-t: #ffb2b7; /* amaranth-200 */
+  --mts-orange-t: #ffe0b2; /* orange-100 */
+
+  --mts-blue-ink: #392689; /* neon-blue-900 */
+  --mts-purple-ink: #6a1b9a; /* purple-800 */
+  --mts-cyan-ink: #006064; /* cyan-900 */
+  --mts-red-ink: #9e0d38; /* amaranth-800 */
+  --mts-orange-ink: #7a4100;
+
   display: block;
-  user-select: none;
+  container-type: inline-size;
+  /* A frame, so the figure reads as a unit next to the prose. The fallback
+     PNG carries its own. */
+  padding: 20px 24px;
+  border: 1px solid var(--qi-line);
+  border-radius: 12px;
 }
 
-.qi-mp__chart-wrap {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-mts {
+    --mts-card: #111824; /* neutral-900 */
+    --mts-inset: #0b0f19;
+    --mts-blue-t: #392689;
+    --mts-purple-t: #4a148c; /* purple-900 */
+    --mts-cyan-t: #006064;
+    --mts-red-t: #850d35; /* amaranth-900 */
+    --mts-orange-t: #663c00;
+    --mts-blue-ink: #c2c5ff;
+    --mts-purple-ink: #e1bee7;
+    --mts-cyan-ink: #b2ebf2;
+    --mts-red-ink: #ffb2b7;
+    --mts-orange-ink: #ffe0b2;
+  }
+}
+html[data-theme='dark'] .qi-mts {
+  --mts-card: #111824;
+  --mts-inset: #0b0f19;
+  --mts-blue-t: #392689;
+  --mts-purple-t: #4a148c;
+  --mts-cyan-t: #006064;
+  --mts-red-t: #850d35;
+  --mts-orange-t: #663c00;
+  --mts-blue-ink: #c2c5ff;
+  --mts-purple-ink: #e1bee7;
+  --mts-cyan-ink: #b2ebf2;
+  --mts-red-ink: #ffb2b7;
+  --mts-orange-ink: #ffe0b2;
 }
 
-.qi-mp__y-title {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+.qi-mts text {
   font-family: var(--qi-mono);
-  font-size: 12px;
-  color: var(--qi-muted);
-  white-space: nowrap;
+  fill: var(--qi-fg);
 }
+.qi-mts .mts-title { font-size: 23px; font-weight: 600; }
+.qi-mts .mts-head { font-size: 21px; font-weight: 600; }
+.qi-mts .mts-label { font-size: 21px; }
+.qi-mts .mts-small { font-size: 20px; }
+.qi-mts .mts-note { font-size: 19px; fill: var(--qi-muted); }
+.qi-mts .mts-muted { fill: var(--qi-muted); }
+.qi-mts .mts-axis { stroke: var(--qi-line); stroke-width: 1.5; fill: none; }
+.qi-mts .mts-grid { stroke: var(--qi-border); stroke-width: 1; }
+.qi-mts .mts-rule { stroke: var(--qi-border); }
 
-.qi-mp__chart {
-  flex: 1;
-  min-width: 0;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 10px;
-  row-gap: 8px;
-}
-
-.qi-mp__row-labels {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-}
-.qi-mp__row-label {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: right;
-  font-family: var(--qi-mono);
-  font-size: 13px;
-  line-height: 1.25;
-  color: var(--qi-muted);
-  max-width: 7.5em;
-}
-
-.qi-mp__plot {
-  grid-column: 2;
-  grid-row: 1;
-  position: relative;
-  min-width: 0;
-  aspect-ratio: 16 / 11;
-  border-radius: var(--qi-radius);
-  border: 1px solid var(--qi-border);
-  overflow: hidden;
-}
-
-.qi-mp__zones,
-.qi-mp__gridlines {
-  position: absolute;
-  inset: 0;
-}
-
-.qi-mp__zone {
-  position: absolute;
-  background: var(--zone-color);
-  opacity: 0.22;
-  transition: opacity 0.2s ease;
-}
-/* 0.08 read as "dimmed" in dark theme (a saturated color still shows faintly
-   against a near-black background) but as "blank" in light theme (the same
-   opacity against a near-white background is imperceptible). This value is
-   checked in both themes, not just the default dark one. */
-.qi-mp__zones.is-muted .qi-mp__zone {
-  opacity: 0.12;
-}
-
-.qi-mp__gridline {
-  position: absolute;
-  background: var(--qi-border);
-}
-.qi-mp__gridline--v {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-}
-.qi-mp__gridline--h {
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-.qi-mp__crosshair-h,
-.qi-mp__crosshair-v {
-  position: absolute;
-  border-color: var(--qi-line);
-  border-style: dashed;
-  border-width: 0;
-}
-.qi-mp__crosshair-h {
-  left: 0;
-  height: 0;
-  border-top-width: 1px;
-}
-.qi-mp__crosshair-v {
-  width: 0;
-  border-left-width: 1px;
-}
-
-.qi-mp__marker {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  margin: -8px;
-  border-radius: 50%;
-  background: var(--marker-color, var(--qi-fg));
-  border: 3px solid var(--qi-surface);
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* No background scrim here: the zones underneath are already dimmed to 0.08
-   opacity via .is-muted on .qi-mp__zones. A second translucent layer on top
-   of that compounded badly in light theme specifically — 70% of a light
-   surface color over already-faint zone colors washed the whole chart out
-   to near white, which read as the figure breaking rather than dimming. */
-.qi-mp__override {
-  position: absolute;
-  inset: 0;
+/* Desktop drawing by default; the stacked one below 640px of figure width,
+   where the desktop text would drop under 13px. */
+.qi-mts__m {
   display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
 }
-.qi-mp__override.is-active {
-  display: flex;
-}
-.qi-mp__override-pill {
-  background: var(--qi-cat-4);
-  color: #fff;
-  font-family: var(--qi-mono);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 16px;
-  text-align: center;
+@container (max-width: 640px) {
+  .qi-mts__d {
+    display: none;
+  }
+  .qi-mts__m {
+    display: block;
+    max-width: 520px;
+    margin-inline: auto;
+  }
 }
 
-.qi-mp__corner {
-  grid-column: 1;
-  grid-row: 2;
+.island:is(
+    [data-island='content/documentation/headless/multitenancy/tradeoff-triangle'],
+    [data-island='content/documentation/headless/multitenancy/model-picker'],
+    [data-island='content/documentation/headless/multitenancy/index-timing'],
+    [data-island='content/documentation/headless/multitenancy/disk-locality'],
+    [data-island='content/documentation/headless/multitenancy/per-tenant-graphs'],
+    [data-island='content/documentation/headless/multitenancy/isolation-tradeoff'],
+    [data-island='content/documentation/headless/multitenancy/noisy-neighbor'],
+    [data-island='content/documentation/headless/multitenancy/promotion-timeline'],
+    [data-island='content/documentation/headless/multitenancy/membership-visibility']
+  ) {
+  margin-block: 2.5rem;
 }
 
-.qi-mp__col-labels {
-  grid-column: 2;
-  grid-row: 2;
-  display: flex;
+/* Interactive states. Elements keep their identity across states and only
+   their position, size, opacity, or color changes, so a state change reads as
+   movement (same approach as tenant-promotion). The first render skips
+   transitions via .is-init. */
+.qi-mts .qi-fig {
+  gap: 12px;
 }
-.qi-mp__col-label {
-  flex: 1;
-  text-align: center;
-  font-family: var(--qi-mono);
-  font-size: 12px;
-  color: var(--qi-muted);
-  padding: 0 2px;
+.qi-mts [data-k] {
+  transition: opacity 0.35s ease, cx 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    x 0.5s cubic-bezier(0.4, 0, 0.2, 1), y 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.3s ease, stroke 0.3s ease, stroke-width 0.3s ease;
 }
-
-.qi-mp__x-title {
-  text-align: center;
-  font-family: var(--qi-mono);
-  font-size: 12px;
-  color: var(--qi-muted);
-  margin-top: 4px;
+.qi-mts.is-init [data-k] {
+  transition: none;
 }
-
+.qi-mts .is-dim {
+  opacity: 0.18;
+}
+.qi-mts .is-faint {
+  opacity: 0.5;
+}
+.qi-mts .is-off {
+  opacity: 0;
+}
+.qi-mts .qi-chip__swatch {
+  background: var(--swatch);
+}
 @media (prefers-reduced-motion: reduce) {
-  .qi-mp__marker {
+  .qi-mts [data-k] {
     transition: none;
   }
 }

@@ -1,92 +1,147 @@
-/* tradeoff-triangle island. Scoped under .qi-tt. Controls, status line and
-   text classes come from the shared island design system (islands.scss);
-   this file only styles the triangle outline and the three points.
-   Architecture hues are the shared categorical tokens (_qi-tokens.scss), so
-   they read the same across themes: Silo = --qi-cat-1, Bridge = --qi-cat-2,
-   Pool = --qi-cat-3. */
+/* Multitenant search figures. Scoped under .qi-mts; chrome (fg, muted, border,
+   line) comes from the shared --qi-* tokens on .island, which already follow
+   the page theme. This file maps the figure's own colors for light and dark
+   and swaps in the stacked composition when the figure is narrower than
+   640px. Same structure as the memory tiers figures. Entity hues stay
+   constant across themes: shared collection and fallback shard neon blue,
+   own shard cyan, tenants blue/purple/cyan, regressions amaranth. */
 
-.qi-tt {
+.qi-mts {
+  --mts-blue: #6047ff; /* neon-blue-500 */
+  --mts-purple: #9c27b0; /* purple-500 */
+  --mts-cyan: #00838f; /* cyan-800 */
+  --mts-red: #dc244c; /* amaranth-500 */
+  --mts-orange: #ef6c00; /* orange-800 */
+
+  --mts-card: #f0f3fa; /* neutral-50 */
+  --mts-inset: #ffffff;
+
+  --mts-blue-t: #c2c5ff; /* neon-blue-200 */
+  --mts-purple-t: #e1bee7; /* purple-100 */
+  --mts-cyan-t: #b2ebf2; /* cyan-100 */
+  --mts-red-t: #ffb2b7; /* amaranth-200 */
+  --mts-orange-t: #ffe0b2; /* orange-100 */
+
+  --mts-blue-ink: #392689; /* neon-blue-900 */
+  --mts-purple-ink: #6a1b9a; /* purple-800 */
+  --mts-cyan-ink: #006064; /* cyan-900 */
+  --mts-red-ink: #9e0d38; /* amaranth-800 */
+  --mts-orange-ink: #7a4100;
+
   display: block;
+  container-type: inline-size;
+  /* A frame, so the figure reads as a unit next to the prose. The fallback
+     PNG carries its own. */
+  padding: 20px 24px;
+  border: 1px solid var(--qi-line);
+  border-radius: 12px;
 }
 
-.qi-tt__chip--silo {
-  --swatch: var(--qi-cat-1);
-}
-.qi-tt__chip--bridge {
-  --swatch: var(--qi-cat-2);
-}
-.qi-tt__chip--pool {
-  --swatch: var(--qi-cat-3);
-}
-
-.qi-tt__triangle {
-  fill: none;
-  stroke: var(--qi-line);
-  stroke-width: 1.5;
-}
-
-.qi-tt__vertex-label {
-  fill: var(--qi-muted);
-  font-family: var(--qi-mono);
-  font-size: 15px;
-}
-
-.qi-tt__point-label {
-  font-family: var(--qi-mono);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-/* The SVG scales down with its container (viewBox 400x360), so a narrower
-   layout shrinks these text sizes along with everything else. Below ~900px
-   the figure is narrow enough (e.g. the shortcode's width="70%" on a phone)
-   that the default sizes above would render under 12px; bump the user-unit
-   font size there to keep labels legible. */
-@media (max-width: 900px) {
-  .qi-tt__vertex-label {
-    font-size: 22px;
-  }
-  .qi-tt__point-label {
-    font-size: 21px;
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-mts {
+    --mts-card: #111824; /* neutral-900 */
+    --mts-inset: #0b0f19;
+    --mts-blue-t: #392689;
+    --mts-purple-t: #4a148c; /* purple-900 */
+    --mts-cyan-t: #006064;
+    --mts-red-t: #850d35; /* amaranth-900 */
+    --mts-orange-t: #663c00;
+    --mts-blue-ink: #c2c5ff;
+    --mts-purple-ink: #e1bee7;
+    --mts-cyan-ink: #b2ebf2;
+    --mts-red-ink: #ffb2b7;
+    --mts-orange-ink: #ffe0b2;
   }
 }
-
-.qi-tt__dot {
-  r: 8px;
-  opacity: 1;
-  transition: r 0.15s ease, opacity 0.15s ease;
+html[data-theme='dark'] .qi-mts {
+  --mts-card: #111824;
+  --mts-inset: #0b0f19;
+  --mts-blue-t: #392689;
+  --mts-purple-t: #4a148c;
+  --mts-cyan-t: #006064;
+  --mts-red-t: #850d35;
+  --mts-orange-t: #663c00;
+  --mts-blue-ink: #c2c5ff;
+  --mts-purple-ink: #e1bee7;
+  --mts-cyan-ink: #b2ebf2;
+  --mts-red-ink: #ffb2b7;
+  --mts-orange-ink: #ffe0b2;
 }
 
-.qi-tt__point-label {
-  opacity: 1;
-  transition: opacity 0.15s ease;
+.qi-mts text {
+  font-family: var(--qi-mono);
+  fill: var(--qi-fg);
+}
+.qi-mts .mts-title { font-size: 23px; font-weight: 600; }
+.qi-mts .mts-head { font-size: 21px; font-weight: 600; }
+.qi-mts .mts-label { font-size: 21px; }
+.qi-mts .mts-small { font-size: 20px; }
+.qi-mts .mts-note { font-size: 19px; fill: var(--qi-muted); }
+.qi-mts .mts-muted { fill: var(--qi-muted); }
+.qi-mts .mts-axis { stroke: var(--qi-line); stroke-width: 1.5; fill: none; }
+.qi-mts .mts-grid { stroke: var(--qi-border); stroke-width: 1; }
+.qi-mts .mts-rule { stroke: var(--qi-border); }
+
+/* Desktop drawing by default; the stacked one below 640px of figure width,
+   where the desktop text would drop under 13px. */
+.qi-mts__m {
+  display: none;
+}
+@container (max-width: 640px) {
+  .qi-mts__d {
+    display: none;
+  }
+  .qi-mts__m {
+    display: block;
+    max-width: 520px;
+    margin-inline: auto;
+  }
 }
 
-.qi-tt__point--silo .qi-tt__dot,
-.qi-tt__point--silo .qi-tt__point-label {
-  fill: var(--qi-cat-1);
-}
-.qi-tt__point--bridge .qi-tt__dot,
-.qi-tt__point--bridge .qi-tt__point-label {
-  fill: var(--qi-cat-2);
-}
-.qi-tt__point--pool .qi-tt__dot,
-.qi-tt__point--pool .qi-tt__point-label {
-  fill: var(--qi-cat-3);
-}
-
-.qi-tt__point.is-active .qi-tt__dot {
-  r: 11px;
-  opacity: 1;
-}
-.qi-tt__point.is-dim .qi-tt__dot,
-.qi-tt__point.is-dim .qi-tt__point-label {
-  opacity: 0.3;
+.island:is(
+    [data-island='content/documentation/headless/multitenancy/tradeoff-triangle'],
+    [data-island='content/documentation/headless/multitenancy/model-picker'],
+    [data-island='content/documentation/headless/multitenancy/index-timing'],
+    [data-island='content/documentation/headless/multitenancy/disk-locality'],
+    [data-island='content/documentation/headless/multitenancy/per-tenant-graphs'],
+    [data-island='content/documentation/headless/multitenancy/isolation-tradeoff'],
+    [data-island='content/documentation/headless/multitenancy/noisy-neighbor'],
+    [data-island='content/documentation/headless/multitenancy/promotion-timeline'],
+    [data-island='content/documentation/headless/multitenancy/membership-visibility']
+  ) {
+  margin-block: 2.5rem;
 }
 
+/* Interactive states. Elements keep their identity across states and only
+   their position, size, opacity, or color changes, so a state change reads as
+   movement (same approach as tenant-promotion). The first render skips
+   transitions via .is-init. */
+.qi-mts .qi-fig {
+  gap: 12px;
+}
+.qi-mts [data-k] {
+  transition: opacity 0.35s ease, cx 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    x 0.5s cubic-bezier(0.4, 0, 0.2, 1), y 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.3s ease, stroke 0.3s ease, stroke-width 0.3s ease;
+}
+.qi-mts.is-init [data-k] {
+  transition: none;
+}
+.qi-mts .is-dim {
+  opacity: 0.18;
+}
+.qi-mts .is-faint {
+  opacity: 0.5;
+}
+.qi-mts .is-off {
+  opacity: 0;
+}
+.qi-mts .qi-chip__swatch {
+  background: var(--swatch);
+}
 @media (prefers-reduced-motion: reduce) {
-  .qi-tt__dot,
-  .qi-tt__point-label {
+  .qi-mts [data-k] {
     transition: none;
   }
 }

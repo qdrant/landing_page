@@ -1,83 +1,147 @@
-/* disk-locality island. Scoped under .qi-dl. Controls, frame and labels come
-   from the shared island design system (islands.scss); this file only styles
-   the legend, the paired bars, gridlines, and the value readouts. Index-type
-   colors come from the shared categorical tokens (--qi-cat-1, --qi-cat-3)
-   and stay constant across both bars and both themes. Both bars render
-   together for the selected tenant size; index type is a legend, not a
-   control, since there is nothing to toggle between. */
+/* Multitenant search figures. Scoped under .qi-mts; chrome (fg, muted, border,
+   line) comes from the shared --qi-* tokens on .island, which already follow
+   the page theme. This file maps the figure's own colors for light and dark
+   and swaps in the stacked composition when the figure is narrower than
+   640px. Same structure as the memory tiers figures. Entity hues stay
+   constant across themes: shared collection and fallback shard neon blue,
+   own shard cyan, tenants blue/purple/cyan, regressions amaranth. */
 
-.qi-dl {
-  --dl-keyword: var(--qi-cat-3); /* cyan-800 */
-  --dl-tenant: var(--qi-cat-1); /* neon-blue-500 */
+.qi-mts {
+  --mts-blue: #6047ff; /* neon-blue-500 */
+  --mts-purple: #9c27b0; /* purple-500 */
+  --mts-cyan: #00838f; /* cyan-800 */
+  --mts-red: #dc244c; /* amaranth-500 */
+  --mts-orange: #ef6c00; /* orange-800 */
+
+  --mts-card: #f0f3fa; /* neutral-50 */
+  --mts-inset: #ffffff;
+
+  --mts-blue-t: #c2c5ff; /* neon-blue-200 */
+  --mts-purple-t: #e1bee7; /* purple-100 */
+  --mts-cyan-t: #b2ebf2; /* cyan-100 */
+  --mts-red-t: #ffb2b7; /* amaranth-200 */
+  --mts-orange-t: #ffe0b2; /* orange-100 */
+
+  --mts-blue-ink: #392689; /* neon-blue-900 */
+  --mts-purple-ink: #6a1b9a; /* purple-800 */
+  --mts-cyan-ink: #006064; /* cyan-900 */
+  --mts-red-ink: #9e0d38; /* amaranth-800 */
+  --mts-orange-ink: #7a4100;
 
   display: block;
+  container-type: inline-size;
+  /* A frame, so the figure reads as a unit next to the prose. The fallback
+     PNG carries its own. */
+  padding: 20px 24px;
+  border: 1px solid var(--qi-line);
+  border-radius: 12px;
 }
 
-.qi-dl__legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-mts {
+    --mts-card: #111824; /* neutral-900 */
+    --mts-inset: #0b0f19;
+    --mts-blue-t: #392689;
+    --mts-purple-t: #4a148c; /* purple-900 */
+    --mts-cyan-t: #006064;
+    --mts-red-t: #850d35; /* amaranth-900 */
+    --mts-orange-t: #663c00;
+    --mts-blue-ink: #c2c5ff;
+    --mts-purple-ink: #e1bee7;
+    --mts-cyan-ink: #b2ebf2;
+    --mts-red-ink: #ffb2b7;
+    --mts-orange-ink: #ffe0b2;
+  }
 }
-.qi-dl__legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+html[data-theme='dark'] .qi-mts {
+  --mts-card: #111824;
+  --mts-inset: #0b0f19;
+  --mts-blue-t: #392689;
+  --mts-purple-t: #4a148c;
+  --mts-cyan-t: #006064;
+  --mts-red-t: #850d35;
+  --mts-orange-t: #663c00;
+  --mts-blue-ink: #c2c5ff;
+  --mts-purple-ink: #e1bee7;
+  --mts-cyan-ink: #b2ebf2;
+  --mts-red-ink: #ffb2b7;
+  --mts-orange-ink: #ffe0b2;
+}
+
+.qi-mts text {
   font-family: var(--qi-mono);
-  font-size: 14px;
-  color: var(--qi-muted);
-}
-.qi-dl__legend-item--keyword {
-  --swatch: var(--dl-keyword);
-}
-.qi-dl__legend-item--tenant {
-  --swatch: var(--dl-tenant);
-}
-
-.qi-dl__gridline {
-  stroke: var(--qi-line);
-  stroke-width: 1;
-  opacity: 0.4;
-}
-.qi-dl__tick {
-  font-variant-numeric: tabular-nums;
-}
-
-/* The shared qi-label/qi-frame-label sizes (12px/14px) render below 12px at
-   the mobile column width this island ships at (~320px for a 90%-wide,
-   ~560-unit viewBox). Scoped, larger overrides keep every label legible on
-   small screens; see the island's mandatory mobile verification pass. */
-.qi-dl .qi-label,
-.qi-dl .qi-frame-label {
-  font-size: 22px;
-}
-
-.qi-dl__bar {
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), y 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    x 0.4s cubic-bezier(0.4, 0, 0.2, 1), fill 0.2s ease;
-}
-.qi-dl__bar--keyword {
-  fill: var(--dl-keyword);
-}
-.qi-dl__bar--tenant {
-  fill: var(--dl-tenant);
-}
-
-.qi-dl__value {
-  font-family: var(--qi-mono);
-  font-size: 26px;
-  font-weight: 700;
   fill: var(--qi-fg);
-  font-variant-numeric: tabular-nums;
-  transition: x 0.4s cubic-bezier(0.4, 0, 0.2, 1), y 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.qi-mts .mts-title { font-size: 23px; font-weight: 600; }
+.qi-mts .mts-head { font-size: 21px; font-weight: 600; }
+.qi-mts .mts-label { font-size: 21px; }
+.qi-mts .mts-small { font-size: 20px; }
+.qi-mts .mts-note { font-size: 19px; fill: var(--qi-muted); }
+.qi-mts .mts-muted { fill: var(--qi-muted); }
+.qi-mts .mts-axis { stroke: var(--qi-line); stroke-width: 1.5; fill: none; }
+.qi-mts .mts-grid { stroke: var(--qi-border); stroke-width: 1; }
+.qi-mts .mts-rule { stroke: var(--qi-border); }
+
+/* Desktop drawing by default; the stacked one below 640px of figure width,
+   where the desktop text would drop under 13px. */
+.qi-mts__m {
+  display: none;
+}
+@container (max-width: 640px) {
+  .qi-mts__d {
+    display: none;
+  }
+  .qi-mts__m {
+    display: block;
+    max-width: 520px;
+    margin-inline: auto;
+  }
 }
 
-.qi-dl__setup {
-  margin: 0;
+.island:is(
+    [data-island='content/documentation/headless/multitenancy/tradeoff-triangle'],
+    [data-island='content/documentation/headless/multitenancy/model-picker'],
+    [data-island='content/documentation/headless/multitenancy/index-timing'],
+    [data-island='content/documentation/headless/multitenancy/disk-locality'],
+    [data-island='content/documentation/headless/multitenancy/per-tenant-graphs'],
+    [data-island='content/documentation/headless/multitenancy/isolation-tradeoff'],
+    [data-island='content/documentation/headless/multitenancy/noisy-neighbor'],
+    [data-island='content/documentation/headless/multitenancy/promotion-timeline'],
+    [data-island='content/documentation/headless/multitenancy/membership-visibility']
+  ) {
+  margin-block: 2.5rem;
 }
 
+/* Interactive states. Elements keep their identity across states and only
+   their position, size, opacity, or color changes, so a state change reads as
+   movement (same approach as tenant-promotion). The first render skips
+   transitions via .is-init. */
+.qi-mts .qi-fig {
+  gap: 12px;
+}
+.qi-mts [data-k] {
+  transition: opacity 0.35s ease, cx 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    x 0.5s cubic-bezier(0.4, 0, 0.2, 1), y 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.3s ease, stroke 0.3s ease, stroke-width 0.3s ease;
+}
+.qi-mts.is-init [data-k] {
+  transition: none;
+}
+.qi-mts .is-dim {
+  opacity: 0.18;
+}
+.qi-mts .is-faint {
+  opacity: 0.5;
+}
+.qi-mts .is-off {
+  opacity: 0;
+}
+.qi-mts .qi-chip__swatch {
+  background: var(--swatch);
+}
 @media (prefers-reduced-motion: reduce) {
-  .qi-dl__bar,
-  .qi-dl__value {
+  .qi-mts [data-k] {
     transition: none;
   }
 }
