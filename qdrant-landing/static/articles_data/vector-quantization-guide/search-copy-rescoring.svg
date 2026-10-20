@@ -6,6 +6,7 @@
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#576280"/>
     </marker>
   </defs>
+  <rect width="100%" height="100%" fill="#FFFFFF" rx="12"/>
   <style>
     .h { font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif; font-weight: 600; font-size: 16px; fill: #161E33; }
     .b { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; fill: #28324D; }

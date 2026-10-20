@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 285" width="980" height="285" role="img" aria-labelledby="t2 d2">
   <title id="t2">Three ways to shrink a vector collection in Qdrant</title>
   <desc id="d2">Dimensionality reduction stores fewer coordinates. A quantized search copy keeps the originals and adds a compact copy for candidate search. A storage datatype such as turbo4 changes how the originals themselves are stored, so nothing remains to rescore against at full precision.</desc>
+  <rect width="100%" height="100%" fill="#FFFFFF" rx="12"/>
   <style>
     .h { font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif; font-weight: 600; font-size: 16px; fill: #161E33; }
     .b { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; fill: #28324D; }
