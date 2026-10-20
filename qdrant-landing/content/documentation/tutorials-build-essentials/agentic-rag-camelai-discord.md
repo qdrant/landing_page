@@ -16,15 +16,15 @@ stack:
 
 | Level | Stack | Time |
 | --- | --- | --- |
-| Intermediate | Python, Qdrant, CAMEL-AI, OpenAI, discord.py | 45 minutes |
+| Intermediate | Python, Qdrant, CAMEL-AI, OpenAI, discord.py | About 45 minutes, excluding account setup |
 
-Unlike traditional RAG techniques, which passively retrieve context and generate responses, agentic RAG involves active decision-making and multi-step reasoning by the chatbot. Instead of just fetching data, the chatbot makes decisions, dynamically interacts with various data sources, and adapts based on context, giving it a much more dynamic and intelligent approach.
+Build a Discord bot that answers questions from Qdrant documentation using retrieval-augmented generation (RAG). Qdrant is the vector search engine that stores document chunks and their embeddings. [CAMEL-AI](https://www.camel-ai.org/) connects retrieval to an [OpenAI](https://openai.com/) model that drafts the answer.
 
-In this tutorial, we’ll develop a fully functional chatbot using Qdrant, [CAMEL-AI](https://www.camel-ai.org/), and [OpenAI](https://openai.com/). By the end, you can ask `!ask What is quantization in Qdrant?`, inspect the source chunks, and check whether the answer is supported by them.
+The application controls the sequence. Each `!ask` question triggers one retrieval, followed by one generation call when usable context is found. The model receives the original question and retrieved text. It has no retrieval tools and does not decide whether to search again.
 
-![Discord RAG bot architecture using Qdrant and CAMEL-AI](/documentation/examples/agentic-rag-camelai-discord/ragbot.png)
+By the end, you can ask `!ask What is quantization in Qdrant?`, inspect the source chunks, and check whether the answer is supported by them.
 
-Let’s get started!
+![Discord bot answers a scalar-quantization question and links to Qdrant documentation](/documentation/examples/agentic-rag-camelai-discord/ragbot.png)
 
 ## Prerequisites
 
@@ -163,10 +163,43 @@ html[data-theme='dark'] .qi-discord-rag {
   .qi-discord-rag .qi-discord-rag__box { transition: none; }
 }
 
+/* At narrow article widths, the same entities become a readable ordered flow.
+   Both paths are static HTML too, so the fallback never depends on JavaScript. */
+.qi-discord-rag .qi-discord-rag__narrow { display: none; }
+.qi-discord-rag .qi-discord-rag__mobile-list { list-style: none; margin: 0; padding: 0; }
+.qi-discord-rag .qi-discord-rag__mobile-list > li { margin: 0; padding: 0; }
+.qi-discord-rag .qi-discord-rag__mobile-node {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0;
+  padding: 12px 14px; border: 1.5px solid var(--qi-border);
+  border-left: 4px solid var(--rag-category, var(--qi-muted)); border-radius: 6px;
+  background: var(--qi-surface); color: var(--qi-fg); text-align: left;
+  font-family: var(--qi-mono); line-height: 1.45; overflow-wrap: anywhere;
+}
+.qi-discord-rag button.qi-discord-rag__mobile-node { cursor: pointer; }
+.qi-discord-rag .qi-discord-rag__mobile-node.is-emphasized,
+.qi-discord-rag .qi-discord-rag__mobile-node.is-pinned { border-color: var(--qi-hot); border-left-color: var(--rag-category, var(--qi-muted)); }
+.qi-discord-rag .qi-discord-rag__mobile-node:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-discord-rag .qi-discord-rag__mobile-owner,
+.qi-discord-rag .qi-discord-rag__mobile-sub { display: block; font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__mobile-name { display: block; font-size: 16px; font-weight: 600; }
+.qi-discord-rag .qi-discord-rag__transfer { margin: 7px 0 12px; font-size: 14px; line-height: 1.45; color: var(--qi-fg); overflow-wrap: anywhere; }
+.qi-discord-rag .qi-discord-rag__branch { margin: 0 0 10px; padding: 10px 12px; border: 1px dashed var(--qi-muted); font-size: 14px; line-height: 1.45; color: var(--qi-fg); }
+.qi-discord-rag .qi-discord-rag__static-flow + .qi-discord-rag__static-flow { margin-top: 24px; }
+.qi-discord-rag .qi-discord-rag__static-flow h3 { margin: 0 0 12px; font-size: 16px; line-height: 1.4; color: var(--qi-fg); }
+#discord-rag-inline[data-ready] ~ .qi-discord-rag__fallback-narrow { display: none; }
+@container discord-rag (max-width: 560px) {
+  .qi-discord-rag .qi-discord-rag__svg { display: none; }
+  .qi-discord-rag .qi-discord-rag__narrow { display: block; }
+  #discord-rag-inline:not([data-ready]) .qi-fig { display: none; }
+  .qi-discord-rag .qi-status { min-height: calc(4 * 1.45em); }
+}
+
 </style>
 
 <figure class="qi-discord-rag" aria-label="Discord RAG flow">
 <div id="discord-rag-inline"><div class="qi-fig"><div class="qi-controls"></div><div class="qi-discord-rag__stage"><svg class="qi-svg qi-discord-rag__svg" viewBox="-3 -3 676 586" role="img" aria-label="Fixed retrieval and generation flow for a Discord question" aria-describedby="qi-discord-rag-fallback-description"><desc id="qi-discord-rag-fallback-description">The application embeds a Discord question, searches Qdrant, and sends matching text plus the original question to a fresh ChatAgent. Without usable context, generation is skipped. The answer returns to Discord.</desc><defs><marker id="qi-discord-rag-fallback-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L9 5L0 10Z" class="qi-discord-rag__arrowhead"></path></marker></defs><rect x="48" y="96" width="282" height="392" class="qi-frame qi-discord-rag__boundary" rx="6"></rect><text x="66" y="120" class="qi-frame-label qi-discord-rag__owner">CAMEL-AI</text><text x="440" y="120" class="qi-frame-label qi-discord-rag__owner">External services</text><g class="qi-discord-rag__edge" data-from="input" data-to="embed" aria-hidden="true"><path d="M188 68V142" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="91" class="qi-label qi-discord-rag__edge-label" text-anchor="start">question</text></g><g class="qi-discord-rag__edge" data-from="embed" data-to="embedding-service" aria-hidden="true"><path d="M310 164H436" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="155" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">text</text></g><g class="qi-discord-rag__edge" data-from="embedding-service" data-to="embed" aria-hidden="true"><path d="M440 192H314" class="qi-discord-rag__arrow is-return" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="216" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">vector</text></g><g class="qi-discord-rag__edge" data-from="embed" data-to="storage" aria-hidden="true"><path d="M188 210V270" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="246" class="qi-label qi-discord-rag__edge-label" text-anchor="start">query vector</text></g><g class="qi-discord-rag__edge" data-from="storage" data-to="cloud" aria-hidden="true"><path d="M310 292H436" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="283" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">query</text></g><g class="qi-discord-rag__edge" data-from="cloud" data-to="storage" aria-hidden="true"><path d="M440 320H314" class="qi-discord-rag__arrow is-return" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="344" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">matches</text></g><g class="qi-discord-rag__edge" data-from="storage" data-to="agent" aria-hidden="true"><path d="M188 338V398" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="374" class="qi-label qi-discord-rag__edge-label" text-anchor="start">text + sources</text></g><g class="qi-discord-rag__edge" data-from="input" data-to="agent" aria-hidden="true"><path d="M66 38H24V434H62" class="qi-discord-rag__arrow is-bypass" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="15" y="255" class="qi-label qi-discord-rag__edge-label" text-anchor="middle" transform="rotate(-90 15 255)">original question</text></g><g class="qi-discord-rag__edge" data-from="agent" data-to="chat-service" aria-hidden="true"><path d="M310 420H436" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="411" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">prompt</text></g><g class="qi-discord-rag__edge" data-from="chat-service" data-to="agent" aria-hidden="true"><path d="M440 448H314" class="qi-discord-rag__arrow is-return" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="472" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">answer</text></g><g class="qi-discord-rag__edge" data-from="agent" data-to="reply" aria-hidden="true"><path d="M188 466V516" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="508" class="qi-label qi-discord-rag__edge-label" text-anchor="start">reply</text></g><g class="qi-discord-rag__node qi-discord-rag__node--discord" data-node="input"><rect x="66" y="8" width="244" height="60" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="9" width="4" height="58" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="33" class="qi-discord-rag__name">Discord user</text><text x="81" y="55" class="qi-label qi-discord-rag__sub">!ask followed by a question</text></g><g class="qi-discord-rag__node qi-discord-rag__node--camel" data-node="embed"><rect x="66" width="244" height="64" y="146" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="147" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="171" class="qi-discord-rag__name">OpenAIEmbedding</text><text x="81" y="193" class="qi-label qi-discord-rag__sub">question → query vector</text></g><g class="qi-discord-rag__node qi-discord-rag__node--openai" data-node="embedding-service"><rect x="440" width="214" height="64" y="146" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="441" y="147" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="455" y="171" class="qi-discord-rag__name">OpenAI</text><text x="455" y="193" class="qi-label qi-discord-rag__sub">text-embedding-3-large</text></g><g class="qi-discord-rag__node qi-discord-rag__node--camel" data-node="storage"><rect x="66" width="244" height="64" y="274" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="275" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="299" class="qi-discord-rag__name">QdrantStorage</text><text x="81" y="321" class="qi-label qi-discord-rag__sub">search the collection</text></g><g class="qi-discord-rag__node qi-discord-rag__node--qdrant" data-node="cloud"><rect x="440" width="214" height="64" y="274" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="441" y="275" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="455" y="299" class="qi-discord-rag__name">Qdrant Cloud</text><text x="455" y="321" class="qi-label qi-discord-rag__sub">document collection</text></g><g class="qi-discord-rag__node qi-discord-rag__node--camel" data-node="agent"><rect x="66" width="244" height="64" y="402" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="403" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="427" class="qi-discord-rag__name">Fresh ChatAgent</text><text x="81" y="449" class="qi-label qi-discord-rag__sub">question + retrieved text</text></g><g class="qi-discord-rag__node qi-discord-rag__node--openai" data-node="chat-service"><rect x="440" width="214" height="64" y="402" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="441" y="403" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="455" y="427" class="qi-discord-rag__name">OpenAI</text><text x="455" y="449" class="qi-label qi-discord-rag__sub">gpt-4o-mini</text></g><g class="qi-discord-rag__node qi-discord-rag__node--discord" data-node="reply"><rect x="66" y="520" width="244" height="44" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="521" width="4" height="42" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="548" class="qi-discord-rag__name">Answer in Discord</text></g></svg></div><p class="qi-status qi-status--2 qi-discord-rag__status" aria-atomic="true">With matching chunks, ChatAgent receives the question and retrieved text. Without usable context, generation is skipped.</p></div></div>
+<div class="qi-discord-rag__narrow qi-discord-rag__fallback-narrow"><section class="qi-discord-rag__static-flow" aria-label="Index documents"><h3>Index Documents</h3><ol class="qi-discord-rag__mobile-list" role="list"><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--source"><span class="qi-discord-rag__mobile-owner">Source</span><strong class="qi-discord-rag__mobile-name">Documentation URLs</strong><span class="qi-discord-rag__mobile-sub">public source pages</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Fetch the source pages</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--camel"><span class="qi-discord-rag__mobile-owner">CAMEL-AI adapter</span><strong class="qi-discord-rag__mobile-name">Extract + chunk</strong><span class="qi-discord-rag__mobile-sub">VectorRetriever.process()</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Pass chunk text to the embedding adapter</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--camel"><span class="qi-discord-rag__mobile-owner">CAMEL-AI adapter</span><strong class="qi-discord-rag__mobile-name">OpenAIEmbedding</strong><span class="qi-discord-rag__mobile-sub">document text → vectors</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Send chunk text to OpenAI</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--openai"><span class="qi-discord-rag__mobile-owner">External service</span><strong class="qi-discord-rag__mobile-name">OpenAI</strong><span class="qi-discord-rag__mobile-sub">text-embedding-3-large</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Return vectors to the CAMEL adapter</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--camel"><span class="qi-discord-rag__mobile-owner">CAMEL-AI adapter</span><strong class="qi-discord-rag__mobile-name">QdrantStorage</strong><span class="qi-discord-rag__mobile-sub">upsert vectors + payload</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Upsert vectors with chunk text and full source URLs</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--qdrant"><span class="qi-discord-rag__mobile-owner">External service</span><strong class="qi-discord-rag__mobile-name">Qdrant Cloud</strong><span class="qi-discord-rag__mobile-sub">vectors · text · source</span></div></li></ol></section><section class="qi-discord-rag__static-flow" aria-label="Answer question"><h3>Answer a Question</h3><ol class="qi-discord-rag__mobile-list" role="list"><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--discord"><span class="qi-discord-rag__mobile-owner">Discord</span><strong class="qi-discord-rag__mobile-name">Discord user</strong><span class="qi-discord-rag__mobile-sub">!ask followed by a question</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Pass the question to the embedding adapter</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--camel"><span class="qi-discord-rag__mobile-owner">CAMEL-AI adapter</span><strong class="qi-discord-rag__mobile-name">OpenAIEmbedding</strong><span class="qi-discord-rag__mobile-sub">question → query vector</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Send question text to OpenAI</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--openai"><span class="qi-discord-rag__mobile-owner">External service</span><strong class="qi-discord-rag__mobile-name">OpenAI</strong><span class="qi-discord-rag__mobile-sub">text-embedding-3-large</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Return the query vector to the adapter</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--camel"><span class="qi-discord-rag__mobile-owner">CAMEL-AI adapter</span><strong class="qi-discord-rag__mobile-name">QdrantStorage</strong><span class="qi-discord-rag__mobile-sub">search the collection</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Search the stored vectors</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--qdrant"><span class="qi-discord-rag__mobile-owner">External service</span><strong class="qi-discord-rag__mobile-name">Qdrant Cloud</strong><span class="qi-discord-rag__mobile-sub">document collection</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Return matching text and sources through QdrantStorage</p></li><li><p class="qi-discord-rag__branch">The original Discord question joins the retrieved text here. With no usable context, skip generation and send an insufficient-context reply.</p><div class="qi-discord-rag__mobile-node qi-discord-rag__node--camel"><span class="qi-discord-rag__mobile-owner">CAMEL-AI adapter</span><strong class="qi-discord-rag__mobile-name">Fresh ChatAgent</strong><span class="qi-discord-rag__mobile-sub">question + retrieved text</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Send original question + retrieved text as the prompt</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--openai"><span class="qi-discord-rag__mobile-owner">External service</span><strong class="qi-discord-rag__mobile-name">OpenAI</strong><span class="qi-discord-rag__mobile-sub">gpt-4o-mini</span></div><p class="qi-discord-rag__transfer"><span aria-hidden="true">↓ </span>Return the answer through ChatAgent</p></li><li><div class="qi-discord-rag__mobile-node qi-discord-rag__node--discord"><span class="qi-discord-rag__mobile-owner">Discord</span><strong class="qi-discord-rag__mobile-name">Answer in Discord</strong></div></li></ol></section></div>
+<figcaption class="qi-discord-rag__caption">CAMEL runs the fixed application flow. OpenAI embeds and generates; Qdrant stores and retrieves the supporting text.</figcaption>
 </figure>
 
 <script>
@@ -258,6 +291,32 @@ const FLOWS = {
   },
 };
 
+const MOBILE_OWNERS = {
+  "source": "Source",
+  "discord": "Discord",
+  "camel": "CAMEL-AI adapter",
+  "openai": "External service",
+  "qdrant": "External service"
+};
+const MOBILE_TRANSFERS = {
+  "index": {
+    "input": "Fetch the source pages",
+    "extract": "Pass chunk text to the embedding adapter",
+    "embed": "Send chunk text to OpenAI",
+    "embedding-service": "Return vectors to the CAMEL adapter",
+    "storage": "Upsert vectors with chunk text and full source URLs"
+  },
+  "answer": {
+    "input": "Pass the question to the embedding adapter",
+    "embed": "Send question text to OpenAI",
+    "embedding-service": "Return the query vector to the adapter",
+    "storage": "Search the stored vectors",
+    "cloud": "Return matching text and sources through QdrantStorage",
+    "agent": "Send original question + retrieved text as the prompt",
+    "chat-service": "Return the answer through ChatAgent"
+  }
+};
+
 function el(name, attrs = {}, text) {
   const item = document.createElementNS(NS, name);
   Object.entries(attrs).forEach(([key, value]) => item.setAttribute(key, value));
@@ -297,6 +356,68 @@ function mount(node) {
     });
     status.textContent = selected ? flow.nodes.find((item) => item.id === selected).detail : flow.status;
     buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.flow === mode)));
+  }
+
+  function bindNode(group, item) {
+    const pick = () => { pinned = pinned === item.id ? null : item.id; update(); };
+    group.addEventListener('click', pick);
+    group.addEventListener('pointerenter', (event) => { if (event.pointerType !== 'touch') { hovered = item.id; update(); } });
+    group.addEventListener('pointerleave', () => { hovered = null; update(); });
+    group.addEventListener('focus', () => { focused = item.id; update(); });
+    group.addEventListener('blur', () => { focused = null; update(); });
+    group.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); pick(); }
+      if (event.key === 'Escape') { pinned = null; hovered = null; focused = null; update(); }
+    });
+  }
+
+  function drawMobile(flow) {
+    const list = document.createElement('ol');
+    list.className = 'qi-discord-rag__narrow qi-discord-rag__mobile-list';
+    list.setAttribute('role', 'list');
+    list.setAttribute('aria-label', flow.label);
+    flow.nodes.forEach((item) => {
+      const li = document.createElement('li');
+      if (mode === 'answer' && item.id === 'agent') {
+        const branch = document.createElement('p');
+        branch.className = 'qi-discord-rag__branch';
+        branch.textContent = 'The original Discord question joins the retrieved text here. With no usable context, skip generation and send an insufficient-context reply.';
+        li.appendChild(branch);
+      }
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'qi-discord-rag__node qi-discord-rag__mobile-node qi-discord-rag__node--' + item.kind;
+      button.dataset.node = item.id;
+      button.setAttribute('aria-pressed', 'false');
+      button.setAttribute('aria-label', item.title + (item.sub ? ': ' + item.sub : '') + '. Select for details.');
+      const owner = document.createElement('span');
+      owner.className = 'qi-discord-rag__mobile-owner';
+      owner.textContent = MOBILE_OWNERS[item.kind];
+      const name = document.createElement('strong');
+      name.className = 'qi-discord-rag__mobile-name';
+      name.textContent = item.title;
+      button.append(owner, name);
+      if (item.sub) {
+        const sub = document.createElement('span');
+        sub.className = 'qi-discord-rag__mobile-sub';
+        sub.textContent = item.sub;
+        button.appendChild(sub);
+      }
+      bindNode(button, item);
+      li.appendChild(button);
+      const transfer = MOBILE_TRANSFERS[mode][item.id];
+      if (transfer) {
+        const text = document.createElement('p');
+        text.className = 'qi-discord-rag__transfer';
+        const arrow = document.createElement('span');
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '↓ ';
+        text.append(arrow, document.createTextNode(transfer));
+        li.appendChild(text);
+      }
+      list.appendChild(li);
+    });
+    return list;
   }
 
   function draw() {
@@ -339,19 +460,10 @@ function mount(node) {
       group.appendChild(el('rect', { x: box.x + 1, y: box.y + 1, width: 4, height: box.height - 2, rx: 2, class: 'qi-discord-rag__stripe' }));
       group.appendChild(el('text', { x: box.x + 15, y: box.y + (item.sub ? 25 : 28), class: 'qi-discord-rag__name' }, item.title));
       if (item.sub) group.appendChild(el('text', { x: box.x + 15, y: box.y + 47, class: 'qi-label qi-discord-rag__sub' }, item.sub));
-      const pick = () => { pinned = pinned === item.id ? null : item.id; update(); };
-      group.addEventListener('click', pick);
-      group.addEventListener('pointerenter', (event) => { if (event.pointerType !== 'touch') { hovered = item.id; update(); } });
-      group.addEventListener('pointerleave', () => { hovered = null; update(); });
-      group.addEventListener('focus', () => { focused = item.id; update(); });
-      group.addEventListener('blur', () => { focused = null; update(); });
-      group.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); pick(); }
-        if (event.key === 'Escape') { pinned = null; hovered = null; focused = null; update(); }
-      });
+      bindNode(group, item);
       svg.appendChild(group);
     });
-    stage.replaceChildren(svg);
+    stage.replaceChildren(svg, drawMobile(flow));
     update();
   }
 
@@ -385,8 +497,6 @@ There are two separate paths:
 | --- | --- | --- |
 | Ingestion, before starting the bot | `VectorRetriever.process()` reads each URL, splits its text into chunks, and embeds those chunks with OpenAI. | Qdrant stores vectors with the chunk text, source URL, and metadata in the payload. |
 | Answering, for each `!ask` message | `VectorRetriever.query()` embeds the question and searches Qdrant. The application passes matching text and the original question to `ChatAgent.step()`. | Qdrant returns matching records and similarity scores. The language model receives their text, not their vectors. |
-
-
 
 ## Step 1: Install the Dependencies
 
@@ -534,8 +644,6 @@ NO_CONTEXT = "I don't know from the indexed Qdrant documentation."
 
 
 def retrieve_context(retriever: VectorRetriever, question: str) -> str:
-    if not retriever.storage.status().vector_count:
-        raise ValueError("The collection is empty. Run ingestion first.")
     results = retriever.query(query=question, top_k=5, similarity_threshold=0.3)
     chunks = []
     for result in results:
@@ -635,7 +743,7 @@ async def run_bot(retriever: VectorRetriever) -> None:
         await client.start(required_env("DISCORD_BOT_TOKEN"))
 ```
 
-Only messages beginning with `!ask` trigger the pipeline. `asyncio.to_thread()` runs synchronous retrieval and model calls away from Discord's event loop, keeping the connection responsive while the response is generated. The lock processes one question at a time, which keeps this demo simple for a test server. The handler splits long answers to fit Discord's message limit and prevents generated text from triggering mentions.
+Only messages beginning with `!ask ` trigger question answering. A bare `!ask` returns a usage hint. `asyncio.to_thread()` runs synchronous retrieval and model calls away from Discord's event loop, keeping the connection responsive while the response is generated. The lock processes one question at a time, which keeps this demo simple for a test server. The handler splits long answers to fit Discord's message limit and prevents generated text from triggering mentions.
 
 Add the command-line entry point:
 
@@ -706,23 +814,14 @@ If the answer is unsupported, inspect these chunks first. Missing evidence may m
 
 | Symptom | Check |
 | --- | --- |
-| Missing configuration or authentication error | Confirm `.env` is loaded from the working directory, the keys belong to the right services, and the Qdrant endpoint is copied in full. |
+| Missing configuration or authentication error | Confirm `.env` is beside the script, the keys belong to the right services, and the Qdrant endpoint is copied in full. |
 | Vector-size mismatch | Use a new collection when changing embedding models or output dimensions, then ingest again. |
 | Ingestion refuses to run | The target collection already has points. Reuse it with `bot`, or select a new collection for a fresh ingestion. |
 | Gateway close code `4014` or `PrivilegedIntentsRequired` | Enable **Message Content Intent** for the Discord application that owns your bot token, save the setting, and restart the bot. |
 | HTTP `403`, Discord code `50001` (`Missing Access`) | The bot cannot access the channel. Install it in the correct server, verify the channel ID, and grant **View Channel** and **Send Messages**, including channel permission overrides. |
-| Bot is online but ignores commands | Enable Message Content Intent in both the portal and code, check channel permissions, and start the message with `!ask`. |
+| Bot is online but ignores commands | Enable Message Content Intent in both the portal and code, check channel permissions, and use `!ask ` followed by a question. |
 | Repeated insufficient-context answers | Inspect the retrieved text and scores before adjusting the threshold or adding source pages. |
 
-### Conclusion
-Nice work! You’ve built an agentic RAG-powered Discord bot that retrieves relevant information with Qdrant, generates smart responses with OpenAI, and handles multi-step reasoning using CAMEL-AI. Here’s a quick recap:
+## Adapt the Bot
 
-- Smart Knowledge Retrieval: Your chatbot can now pull relevant info from large datasets using Qdrant’s vector search.
-
-- Autonomous Reasoning with CAMEL-AI: Enables multi-step reasoning instead of just regurgitating text.
-
-- Live Discord Deployment: You launched the chatbot on Discord, making it interactive and ready to help real users.
-
-One of the biggest advantages of CAMEL-AI is the abstraction it provides, allowing you to focus on designing intelligent interactions rather than worrying about low-level implementation details.
-
-You’re now well-equipped to tackle more complex real-world problems that require scalable, autonomous knowledge systems.
+To answer questions about your own documentation, replace `QDRANT_URLS` with your source URLs, choose a new `QDRANT_COLLECTION`, and run ingestion. Try questions with known answers and inspect the retrieved chunks before changing `top_k` or the similarity threshold. Keep the bot process running while people use it; the Discord application alone does not host your Python code.
