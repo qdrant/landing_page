@@ -35,7 +35,7 @@ These changes take effect without a restart: allowed IP ranges, the restart mode
 | Change | Restart | Notes |
 |---|---|---|
 | CPU or memory, up or down | Always | Qdrant reads its memory and CPU count once, at startup, so the Operator restarts the pods |
-| Disk, increase only | No, by default | Uses online volume expansion. Whether the resize is online depends on your storage provider, and most cloud providers support it. An Operator setting switches it to a restart if your storage needs one |
+| Disk, increase only | No, by default | Uses online volume expansion. Whether the resize is online depends on your storage provider, and most cloud providers support it. If your storage needs a restart, as with some Azure disks, set `volumeExpansionMode` to `Offline` in the [Operator configuration](/documentation/hybrid-cloud/operator-configuration/). The default is `Online` |
 | Disk, decrease | Not possible | Once you have increased the disk, you cannot reduce it, so provision disk with caution |
 | Number of nodes | | See [Scale Clusters](/documentation/cloud/cluster-scaling/#horizontal-scaling) for shard rebalancing and [resharding](/documentation/cloud/cluster-scaling/#resharding) |
 
