@@ -509,6 +509,13 @@ cluster:
     # Port for internal communication between peers
     port: 6335
 
+    # IP address to bind the internal (p2p) gRPC listener to.
+    # Defaults to `service.host` when unset. Set this to an internal
+    # interface to keep the internal port off the interface that serves
+    # the public API. Must be an IP address, not a hostname.
+    # When set, the node's peer URI (`--uri`) must point to the same address.
+    # host: <internal IP of this node>
+
     # Use TLS for communication between peers
     enable_tls: false
 

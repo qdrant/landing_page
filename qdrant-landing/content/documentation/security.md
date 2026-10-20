@@ -490,6 +490,39 @@ environment variable like this:
 QDRANT__SERVICE__HOST=127.0.0.1 ./qdrant
 ```
 
+### Bind the Internal Port
+
+*Available as of v1.19.2*
+
+In a distributed deployment, peers talk to each other over the internal gRPC port (`6335` by default). By default, the REST, gRPC, and internal ports all bind to `service.host`, so the internal port is reachable on whichever interface serves the public API.
+
+To bind the internal port to a different address, set `cluster.p2p.host`. When it is unset, Qdrant falls back to `service.host`, so existing configurations don't change. For example, to keep the public API on all interfaces and the internal port on a private IP address:
+
+```yaml
+service:
+  host: 0.0.0.0
+
+cluster:
+  enabled: true
+  p2p:
+    host: 10.0.0.5
+```
+
+Or use an environment variable:
+
+```bash
+QDRANT__CLUSTER__P2P__HOST=10.0.0.5 ./qdrant
+```
+
+<aside role="status">
+
+- The value must be an IP address.
+- When you set `cluster.p2p.host`, the node's peer URI must point to the same address. Set the URI with the `--uri` flag, for example `--uri http://10.0.0.5:6335`.
+
+</aside>
+
+Binding the internal port to an internal interface doesn't replace [authentication](#enforce-authentication-on-internal-communication) or [TLS](#tls) for internal communication.
+
 Managed Qdrant Cloud deployments are always secure by default. They are publicly
 accessible and bound to the endpoint that is assigned to the cluster. You may
 configure authentication with [API keys](/documentation/cloud/authentication/),
