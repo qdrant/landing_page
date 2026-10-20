@@ -74,4 +74,24 @@
       }
     }
   }
+
+  &__more {
+    flex-direction: row;
+    gap: pxToRem(4);
+    font-size: pxToRem(11);
+    line-height: 1.3;
+    font-family: 'Geist Mono', $font-family-monospace;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $neutral-98;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      color: $neutral-98;
+      opacity: 1;
+      text-decoration: underline;
+    }
+  }
 }
