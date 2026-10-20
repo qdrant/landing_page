@@ -52,6 +52,9 @@
     }
 
     switchLanguage(lang) {
+      // standalone code blocks have no tabs to switch
+      if (!this.langButtons) return;
+
       const activeTab = this.tabs.find((t) => {
         return t.querySelectorAll(`code.language-${lang}`).length > 0;
       });
