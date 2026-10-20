@@ -23,7 +23,7 @@ example_resources:
 
 | Level | Stack | Time | |
 | :--- | :--- | :--- |  :--- |
-| Intermediate | Python, Elasticsearch, Qdrant Migration Tool, Qdrant; Docker for the container command | About 20 minutes, plus downloads, for the notebook example |[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb)|
+| Intermediate | Python, Elasticsearch, Qdrant Migration Tool | 20 minutes |[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb)|
 
 The [Qdrant Migration Tool](https://github.com/qdrant/migration) copies dense vectors and document fields from an Elasticsearch index into a Qdrant collection. This page covers the Elasticsearch connector in [v0.6.12](https://github.com/qdrant/migration/releases/tag/v0.6.12).
 
