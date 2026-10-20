@@ -44,7 +44,7 @@ base = number_of_points * replication_factor
 dense_size = base * dimensions * bytes_per_dim
 ```
 
-Where `bytes_per_dim` depends on the [datatype](/documentation/manage-data/vectors/#datatypes): `float32` = 4 bytes (default), `float16` = 2 bytes, `uint8` = 1 byte, `turbo4` = 0.5 bytes. Dense vectors count toward RAM if the vectors are in the default `cached` tier. If you move them to `cold`, only actively-read pages get cached by the OS opportunistically, so you don't need to budget RAM for them up front.
+Where `bytes_per_dim` depends on the [datatype](/documentation/manage-data/vectors/#datatypes): `float32` = 4 bytes (default), `float16` = 2 bytes, `turbo16` = 2 bytes, `uint8` = 1 byte, `turbo8` = 1 byte, `turbo4` = 0.5 bytes. Dense vectors count toward RAM if the vectors are in the default `cached` tier. If you move them to `cold`, only actively-read pages get cached by the OS opportunistically, so you don't need to budget RAM for them up front.
 
 Example: one million points, 768 dimensions, a replication factor of two, `float32`, default `cached` tier:
 

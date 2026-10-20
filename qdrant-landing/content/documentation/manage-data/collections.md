@@ -94,7 +94,7 @@ Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vecto
 
 *Available as of v1.9.0*
 
-By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or `turbo4` (4 bits).
+By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or one of the TurboQuant datatypes: `turbo4` (4 bits), `turbo8` (8 bits), or `turbo16` (16 bits).
 
 For example, to create a collection with `uint8` embeddings:
 
