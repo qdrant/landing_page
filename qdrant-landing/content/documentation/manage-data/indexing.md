@@ -209,12 +209,23 @@ Tokenizers are algorithms used to split text into smaller units called tokens, w
 In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient filtering.
 The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviours such as prefix or phrase matching.
 
-Available tokenizers are:
+#### Word
 
-* `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
-* `whitespace` - splits the string into words, separated by spaces.
-* `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
-* `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+The `word` tokenizer is the default. It splits the string into words, separated by spaces, punctuation marks, and special characters.
+
+#### Whitespace
+
+The `whitespace` tokenizer splits the string on whitespace, such as spaces, tabs, and newlines. Punctuation and special characters stay part of the tokens. For example, `hello, world!` is tokenized as `hello,` and `world!`.
+
+#### Prefix
+
+The `prefix` tokenizer splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example, `hello` is indexed as `h`, `he`, `hel`, `hell`, and `hello`.
+
+#### Multilingual
+
+The `multilingual` tokenizer is based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters.
+
+See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
 
 ### Lowercasing
 
