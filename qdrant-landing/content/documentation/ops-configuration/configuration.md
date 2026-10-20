@@ -134,6 +134,7 @@ log_level: INFO
 # Logging configuration
 # Qdrant logs to stdout. You may configure to also write logs to a file on disk.
 # Be aware that this file may grow indefinitely.
+# Log timestamps are in UTC, set the `TZ` environment variable to use a different timezone.
 # logger:
 #   # Logging format, supports `text` and `json`
 #   format: text
@@ -153,13 +154,50 @@ storage:
   snapshots_path: ./snapshots
 
   snapshots_config:
-    # "local" or "s3" - where to store snapshots
+    # Where to store snapshots: "local", "s3", "gcs" or "azure"
     snapshots_storage: local
+
+    # Amazon S3 or any S3-compatible storage. Fields left unset are resolved
+    # from the AWS_* environment and the default credential chain.
     # s3_config:
     #   bucket: ""
+    #   # Optional key prefix, objects become <prefix>/snapshots/...
+    #   prefix: ""
     #   region: ""
     #   access_key: ""
     #   secret_key: ""
+    #   # Custom endpoint, for MinIO and similar
+    #   endpoint_url: ""
+
+    # Google Cloud Storage. Without credential fields, Application Default
+    # Credentials are used: GOOGLE_* environment, gcloud config or the
+    # metadata server on GCE and GKE.
+    # gcs_config:
+    #   bucket: ""
+    #   # Optional object name prefix, objects become <prefix>/snapshots/...
+    #   prefix: ""
+    #   # Use at most one of the following
+    #   service_account_path: ""
+    #   service_account_key: ""
+    #   application_credentials_path: ""
+    #   # Custom endpoint, for fake-gcs-server and similar
+    #   endpoint_url: ""
+
+    # Azure Blob Storage. Without credential fields, the default chain is
+    # used: AZURE_* environment, managed identity or the Azure CLI.
+    # azure_config:
+    #   account: ""
+    #   container: ""
+    #   # Optional blob name prefix, blobs become <prefix>/snapshots/...
+    #   prefix: ""
+    #   # Use one authentication method
+    #   access_key: ""
+    #   sas_token: ""
+    #   client_id: ""
+    #   client_secret: ""
+    #   tenant_id: ""
+    #   # Custom endpoint, for Azurite and similar
+    #   endpoint_url: ""
 
   # Where to store temporary files
   # If null, temporary snapshots are stored in: storage/snapshots_temp/
@@ -180,6 +218,19 @@ storage:
   #   # Memory placement of the payload storage: cold or cached.
   #   memory: cold
 
+  # Load-time memory mode. Only affects how segments are loaded on startup;
+  # does not modify any persisted configuration. Intended as a recovery knob
+  # when a node crash-loops on out-of-memory.
+  #
+  # Options:
+  # - disabled (default): load segments as persisted.
+  # - no_resident: downgrade components to their on-disk variants where
+  #   possible — quantization loads as if always_ram=false, payload field
+  #   indexes as if on_disk=true, payload storage as mmap (not populated).
+  # - no_populate: same as no_resident, plus skip mmap prefault on load for
+  #   vectors, HNSW graph and payload storage.
+  #low_memory_mode: disabled
+
   # Maximum number of concurrent updates to shard replicas
   # If `null` - maximum concurrency is used.
   update_concurrency: null
@@ -191,6 +242,9 @@ storage:
 
     # Number of WAL segments to create ahead of actual data requirement
     wal_segments_ahead: 0
+
+    # Number of closed WAL segments to keep
+    wal_retain_closed: 1
 
   # Normal node - receives all updates and answers all queries
   node_type: "Normal"
@@ -266,7 +320,7 @@ storage:
     # If `default_segment_number = 0`, will be automatically selected by the number of available CPUs
     default_segment_number: 0
 
-    # Do not create segments larger this size (in KiloBytes).
+    # Do not create segments larger than this size (in KiloBytes).
     # Large segments might require disproportionately long indexation times,
     # therefore it makes sense to limit the size of segments.
     #
@@ -306,6 +360,9 @@ storage:
   # Default parameters of HNSW Index. Could be overridden for each collection or named vector individually
   hnsw_index:
     # Number of edges per node in the index graph. Larger the value - more accurate the search, more space required.
+    # Set to 0 to disable the main HNSW graph. Additional payload-aware links
+    # may still be built when the effective payload M is positive (see payload_m).
+    # This setting alone does not guarantee exact search.
     m: 16
 
     # Number of neighbours to consider during the index building. Larger the value - more accurate the search, more time required to build index.
@@ -333,7 +390,9 @@ storage:
     # Overrides the deprecated `on_disk` flag if both are set.
     # memory: cached
 
-    # Custom M param for hnsw graph built for payload index. If not set, default M will be used.
+    # Number of additional payload-aware links per node. If unset, the value of m is used.
+    # An effective value of 0 disables these additional links. A positive value allows
+    # them for indexed payload fields with HNSW enabled, even when m is 0.
     payload_m: null
 
   # Default shard transfer method to use if none is defined.
@@ -408,6 +467,10 @@ storage:
   # writes again. Without that margin a resource resting on its limit would put the node in and out
   # of service on the noise between two readings, restarting a shard recovery every time.
   #
+  # These values only seed the quota manager on the first start. Afterwards the quota config is read
+  # from (and written to) `quota.json` in the storage directory, which is kept in sync across the
+  # cluster through consensus and can be changed with the `PUT /quotas` API.
+  #
   # If this section is absent - no quota is enforced.
   #quotas:
     # Whether the limits below are enforced.
@@ -433,7 +496,8 @@ service:
   # Maximum size of POST data in a single request in megabytes
   max_request_size_mb: 32
 
-  # Number of parallel workers used for serving the api. If 0 - equal to the number of available cores.
+  # Number of parallel workers used for serving the api.
+  # If 0 - available cores minus one, with a minimum of 1.
   # If missing - Same as storage.max_search_threads
   max_workers: 0
 
@@ -443,9 +507,22 @@ service:
   # HTTP(S) port to bind the service on
   http_port: 6333
 
+  # Keep-alive timeout for incoming HTTP connections in seconds.
+  # Default: 5
+  # http_keep_alive_timeout_sec: 5
+
+  # Timeout for reading HTTP request data from clients in seconds.
+  # Default: 5
+  # http_client_request_timeout_sec: 5
+
+  # Timeout for client disconnect handling in seconds.
+  # Default: 5
+  # http_client_disconnect_timeout_sec: 5
+
   # gRPC port to bind the service on.
-  # If `null` - gRPC is disabled. Default: null
-  # Comment to disable gRPC:
+  # If `null` - gRPC is disabled. Default: 6334
+  # Commenting this key in an overlay does not disable gRPC; the base config
+  # still supplies 6334. Set `null` to disable.
   grpc_port: 6334
 
   # Enable CORS headers in REST API.
@@ -488,6 +565,19 @@ service:
   #
   # jwt_rbac: true
 
+  # Enforce API key authentication on the internal (p2p) gRPC API.
+  # Only `api_key` and `alt_api_key` are accepted there; the read-only key
+  # and JWT tokens are rejected, since peers joining consensus and moving
+  # shards must hold the read-write key.
+  # Peers forward `api_key` (or `alt_api_key` if `api_key` is unset) on
+  # internal requests, so every node must accept the key the others send.
+  # To rotate it, first set the new key as `alt_api_key` on every node, then
+  # swap the two.
+  # Enabled by default, has no effect without an API key.
+  #
+  # Uncomment to disable.
+  # enforce_internal_auth: false
+
   # Hardware reporting adds information to the API responses with a
   # hint on how many resources were used to execute the request.
   #
@@ -499,6 +589,13 @@ service:
   # Uncomment to enable.
   # Prefix for the names of metrics in the /metrics API.
   # metrics_prefix: qdrant_
+
+  # Allow snapshot recovery from remote HTTP/HTTPS URLs.
+  # If disabled, snapshot recovery will only work with local files and uploads.
+  # Disabling this can mitigate SSRF risks in environments where the Qdrant node
+  # has access to internal resources that should not be reachable by users.
+  # Default: true
+  # enable_snapshot_url_recovery: true
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
