@@ -227,6 +227,22 @@ The `multilingual` tokenizer is based on multiple packages like [charabia](https
 
 See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
 
+#### Code
+
+*Available as of v1.20.0*
+
+The `code` tokenizer is designed for source code. It splits identifiers into their parts, so a name matches regardless of its naming convention. For example, filtering on `getUserName`, `get_user_name`, or `user name` finds text that contains any of these spellings.
+
+The `code` tokenizer splits text as follows:
+
+* First, the text is split into identifiers on any character that isn't a letter, digit, or underscore. For example, `config.max_size` becomes `config` and `max_size`.
+* Identifiers are then split on underscores and case changes, including acronyms. For example, `get_user_name` and `getUserName` both become `get`, `user`, and `name`, and `XMLHttpRequest` becomes `xml`, `http`, and `request`.
+* Digits stay with their letters, so `utf8`, `k8s`, and `sha256` are not split. A word that starts with a digit is a number and is not split. Its underscores are removed, so `1_000_000` becomes `1000000`.
+
+When indexing text, the tokenizer also adds each camelCase word as a single token. For example, `HashMap::new` is indexed as `hash`, `map`, `new`, and `hashmap`. This lets a lowercase query like `hashmap` or `getusername` find `HashMap` or `getUserName`. Only camelCase words are joined, because snake_case words like `get_user_name` are usually typed with their underscores. Joined tokens are not added when [lowercasing](#lowercasing) is disabled.
+
+With [phrase matching](#phrase-matching), a joined token only matches a phrase that consists of that token alone. For example, the phrase `hashmap new` doesn't match `HashMap::new`, but `hash map new` does.
+
 ### Lowercasing
 
 By default, full-text filtering in Qdrant is case-insensitive. For example, you can filter for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
