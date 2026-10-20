@@ -83,14 +83,11 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
-| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `field1:euclid,field2:dot`). The tool does not read the metric from Milvus, so set it for every `L2` or `IP` field |
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format, e.g., `field1=euclid;field2=dot`). The tool does not read the metric from Milvus, so set it for every `L2` or `IP` field |
 
 ## Gotchas
 
-- **Partition handling:** Milvus partitions can map to Qdrant collections or payload filters. If you merge partitions into a single collection, add a partition name as a payload field for filtering.
-- **Vector types:** The tool creates a Qdrant vector for each dense float vector field. Check that sparse, binary, and float16 vector fields in your Milvus schema made it across, and recreate any that did not.
-- **Schema strictness:** Milvus enforces schema on write; Qdrant is schema-flexible. Verify that the schema-less flexibility didn't cause payload fields to drift during migration.
-- **Dynamic fields:** Milvus dynamic fields (introduced in 2.3) may serialize differently. Check that JSON-typed dynamic fields survived the migration with correct structure.
+- **Partitions:** The tool does not record which partition a point came from, so points from all migrated partitions are indistinguishable in the target collection.
 
 ## Next Steps
 

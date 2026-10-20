@@ -1,7 +1,6 @@
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [Snapshots](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
-| [Data Migration](/documentation/tutorials-operations/migration/) | Move embeddings to Qdrant. | <span class="pill">CLI</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Embedding Model Migration](/documentation/tutorials-operations/embedding-model-migration/) | Use your new model with zero downtime. | <span class="pill">Any</span> | 40m | <span class="text-yellow">Intermediate</span> |
 | [Blue-Green Cluster Deployment](/documentation/tutorials-operations/blue-green-deployment/) | Deploy changes to a new cluster and switch traffic with zero production risk. | <span class="pill">Any</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Time-Based Sharding](/documentation/tutorials-operations/time-based-sharding/) | Efficiently manage time-series data with user-defined sharding. | <span class="pill">Any</span> | 1h | <span class="text-yellow">Intermediate</span> |

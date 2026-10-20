@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -16 732 124"
+    aria-label="Two 8-bit integer types of 256 values each: signed int8 from -128 to +127, and unsigned uint8 from 0 to +255."><style>
+  .qi-label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+  .qi-label--strong { fill: #303547; }
+  .qi-axis { stroke: #abb1c7; stroke-width: 1.5; }
+  .qi-sq__cell { stroke: rgba(17, 24, 36, 0.3); stroke-width: 1; }
+  .qi-sq__cell--int { fill: #00838f; }
+  .qi-sq__band { fill: #6047ff; }
+  .qi-sq__guide { stroke: #abb1c7; stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .qi-sq__threshold { stroke: #dc244c; stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .qi-sq__threshold-label { fill: #dc244c; }
+  </style><rect x="-16" y="-16" width="732" height="124" fill="#ffffff"/>
+    <text class="qi-label" x="0" y="14">int8 · signed · 256 values</text>
+    <rect class="qi-sq__cell qi-sq__cell--int" x="0" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="21" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="42" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="63" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="84" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="105" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="126" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="147" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="168" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="189" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="210" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="231" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="252" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="273" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="294" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="315" y="26" width="18" height="24" rx="3"/>
+    <text class="qi-label qi-label--strong" x="0" y="70">-128</text>
+    <text class="qi-label qi-label--strong" x="333" y="70" text-anchor="end">+127</text>
+    <text class="qi-label" x="367" y="14">uint8 · unsigned · 256 values</text>
+    <rect class="qi-sq__cell qi-sq__cell--int" x="367" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="388" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="409" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="430" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="451" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="472" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="493" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="514" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="535" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="556" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="577" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="598" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="619" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="640" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="661" y="26" width="18" height="24" rx="3"/><rect class="qi-sq__cell qi-sq__cell--int" x="682" y="26" width="18" height="24" rx="3"/>
+    <text class="qi-label qi-label--strong" x="367" y="70">0</text>
+    <text class="qi-label qi-label--strong" x="700" y="70" text-anchor="end">+255</text>
+  </svg>

@@ -97,6 +97,13 @@ menuItems:
             name: Healthcare Tech
             icon: healthcare.svg
             url: /healthcare/
+      - id: mainMenu-1-2
+        name: Services
+        subMenuItems:
+          - id: subMenu-1-10
+            name: Implementation Partners
+            icon: qdrant-enterprise-solutions.svg
+            url: /services/
   - id: menu-2
     name: Developers
     mainMenuItems: 
@@ -130,6 +137,18 @@ menuItems:
             name: Security
             icon: security.svg
             url: /security/
+          - id: subMenu-2-7
+            name: Observability
+            icon: observability.svg
+            url: /observability/
+          - id: subMenu-2-8
+            name: Quantization
+            icon: quantization.svg
+            url: /quantization/
+          - id: subMenu-2-9
+            name: Resilience
+            icon: resilience.svg
+            url: /resilience/
   - id: menu-3
     name: Resources
     mainMenuItems:

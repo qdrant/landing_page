@@ -43,7 +43,7 @@ The process has five stages:
 
 - A running Qdrant cluster serving production traffic (the blue cluster).  
 - Access to [Qdrant Cloud](https://cloud.qdrant.io/) or your self-hosted infrastructure to spin up a new cluster.  
-- If you use private link on Qdrant Cloud, read the [private link note](#private-link-or-private-service-connect-on-qdrant-cloud) before you start. You need to request the Private Link setup for the new cluster before cutover.
+- If you use a private connection on Qdrant Cloud, read [Private Connections on Qdrant Cloud](#private-connections-on-qdrant-cloud) before you start. You may need to request a new connection for the green cluster before cutover.
 
 ## Step 1: Create the New Cluster
 
@@ -66,7 +66,7 @@ This approach gives you full control over the process and enables you to apply a
 
 ### Option B: Use the Migration Tool
 
-If you prefer a streaming transfer over a one-shot restore, for example when you want to reshard as part of the move, use the [Qdrant Migration Tool](/documentation/tutorials-operations/migration/).
+If you prefer a streaming transfer over a one-shot restore, for example when you want to reshard as part of the move, use the [Qdrant Migration Tool](/documentation/migrate-to-qdrant/).
 
 ```shell
 docker run --rm -it \
@@ -128,15 +128,15 @@ How you deploy this change depends on your application stack: a config map updat
 
 After the switch, monitor error rates and latency before decommissioning the blue cluster. Keep the blue cluster running until you are confident the green cluster is healthy. 
 
-### Private Link or Private Service Connect on Qdrant Cloud
+### Private Connections on Qdrant Cloud
 
-If you use private link (AWS) or private service connect (GCP) on Qdrant Cloud, the endpoint switch is more involved. These connections are set up per-cluster and require a support ticket. The green cluster needs its own private link or private service connect configured **before** you can route production traffic to it.
+If you reach Qdrant Cloud over a private connection (AWS PrivateLink, GCP Private Service Connect, or Azure Private Link), check that it covers the green cluster **before** you route production traffic to it. An existing connection often covers new single-AZ clusters in the same region. A green cluster in a different region, one you reach from a different cloud account, or a multi-AZ cluster can need its own setup.
 
 Plan for this ahead of time:
 
-1. When you create the green cluster, immediately open a support ticket to set up a private link or private service connect for it.  
-2. Do not start the cutover until the private link or private service connect for the green cluster is confirmed.  
-3. Update your private link or private service connect configuration to point to the green cluster's connection before changing your application config.
+1. When you create the green cluster, open a support ticket. Ask Qdrant Support to confirm that your private connection covers the green cluster, or to set up a new one.  
+2. Do not start the cutover until Support confirms that the green cluster is reachable over your private connection.  
+3. If the green cluster needed a new connection, update your network configuration to use it before you change your application config.
 
 ## Step 5 (optional): Decommission the Old Cluster
 

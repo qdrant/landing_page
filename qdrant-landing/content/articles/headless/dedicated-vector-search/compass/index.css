@@ -1,0 +1,30 @@
+/* compass island. Scoped under .dv-cp. */
+.dv-cp {
+  display: block;
+}
+.dv-cp__axis {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.dv-cp__head {
+  fill: var(--qi-line);
+}
+.dv-cp__dot {
+  fill: var(--qi-fg);
+}
+.dv-cp__ring {
+  fill: none;
+  stroke: var(--qi-cat-3);
+  stroke-width: 3;
+}
+.dv-cp__sys {
+  cursor: pointer;
+}
+.dv-cp .qi-label {
+  font-size: 14px;
+}
+.dv-cp.dv-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

@@ -75,7 +75,6 @@ partition: develop
 | [Hybrid Search with Reranking](/documentation/tutorials-basics/reranking-hybrid-search/) | Combine dense and sparse retrieval, then rerank with late interaction embeddings. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
 | [Semantic Search for Code](/documentation/tutorials-search-engineering/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) | Fuse title, summary, chunk, and tag vectors with named vectors and the Query API. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
-| [Static Embeddings](/documentation/tutorials-search-engineering/static-embeddings/) | Evaluate the renaissance of static embeddings. | <span class="pill">Python</span> | 20m | <span class="text-yellow">Intermediate</span> |
 | [Branch-Aware Search](/documentation/tutorials-search-engineering/branch-aware-search/) | Scope search to a branch's live view in a versioned corpus, inherited from its ancestors. | <span class="pill">Python</span> | 25m | <span class="text-yellow">Intermediate</span> |
 | [Indexing Payloads of Random Shape](/documentation/tutorials-search-engineering/index-dynamic-payloads/) | Index open-ended payload keys with one nested key-value array instead of one index per key. | <span class="pill">Python</span> | 25m | <span class="text-yellow">Intermediate</span> |
 
@@ -90,6 +89,7 @@ partition: develop
 | [Agentic RAG with CrewAI](/documentation/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
 | [Agentic RAG with LangGraph](/documentation/agentic-rag-langgraph/) | Build AI agents to answer library documentation. | <span class="pill">LangGraph</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Discord RAG Bot](/documentation/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Semantic Caching for RAG](/documentation/tutorials-build-essentials/semantic-cache/) | Reuse answers to repeated questions and invalidate stale ones. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [LLM-Powered Filter Automation](/documentation/search-precision/automate-filtering-with-llms/) | Use LLM structured output for dynamic filters. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 
 ---
@@ -100,8 +100,7 @@ partition: develop
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [Snapshots](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
-| [Cloud Inference Hybrid Search](/documentation/tutorials-and-examples/cloud-inference-hybrid-search/) | Hybrid search using Qdrant's built-in inference. | <span class="pill">Any</span> | 20m | <span class="text-green">Beginner</span> |
-| [Data Migration](/documentation/tutorials-operations/migration/) | Move dense and sparse embeddings to Qdrant. | <span class="pill">CLI</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Hybrid Search](/documentation/tutorials-basics/cloud-inference-hybrid-search/) | Hybrid search using Qdrant's built-in inference. | <span class="pill">Any</span> | 15m | <span class="text-green">Beginner</span> |
 | [Qdrant Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Monitoring with Grafana and Prometheus](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | <span class="pill">None</span> | 2 days | <span class="text-red">Advanced</span> |

@@ -1,0 +1,27 @@
+.documentation-article .graphrag-figure {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.graphrag-figure picture,
+.graphrag-figure img {
+  display: block;
+  width: 100%;
+}
+
+.graphrag-figure img {
+  height: auto;
+  margin: 0;
+}
+
+.graphrag-figure .graphrag-figure__light {
+  display: none;
+}
+
+html[data-theme='light'] .graphrag-figure .graphrag-figure__dark {
+  display: none;
+}
+
+html[data-theme='light'] .graphrag-figure .graphrag-figure__light {
+  display: block;
+}

@@ -7,7 +7,7 @@ preview_image: /blog/embeddinggemma-2/hero.jpg
 social_preview_image: /blog/embeddinggemma-2/hero.jpg
 date: 2026-10-06
 author: Qdrant Team
-featured: false
+featured: true
 tags:
   - embeddings
   - quantization

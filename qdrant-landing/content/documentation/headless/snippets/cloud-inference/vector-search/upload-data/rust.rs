@@ -10,13 +10,13 @@ pub async fn main() -> anyhow::Result<()> {
     let dense_model = "sentence-transformers/all-minilm-l6-v2";
     let bm25_model = "qdrant/bm25";
     // NOTE: load_dataset is a user-defined function.
-    // Implement it to handle dataset loading as needed.
+    // Implement it to return 100 random rows with distinct passages, as the Python version does.
     // @hide-start
     fn load_dataset(_path: &str, _slice: &str) -> Vec<serde_json::Value> {
         vec![]
     }
     // @hide-end
-    let dataset: Vec<_> = load_dataset("miriad/miriad-4.4M", "train[0:100]");
+    let dataset: Vec<_> = load_dataset("miriad/miriad-4.4M", "train");
 
     let points: Vec<PointStruct> = dataset
         .iter()

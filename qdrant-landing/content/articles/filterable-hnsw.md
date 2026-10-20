@@ -39,8 +39,8 @@ We need to build a navigation graph among all indexed points so that the greedy 
 This graph is constructed by sequentially adding points that are connected by a fixed number of edges to previously added points.
 In the resulting graph, the number of edges at each point does not exceed a given threshold $m$ and always contains the nearest considered points.
 
-{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 425" title="The navigation graph connects indexed points; arrows illustrate traversal from the entry point toward the query." >}}
-![NSW graph with indexed points, a query, an entry point, and arrows showing the original illustrated traversal.](/articles_data/filterable-hnsw/nsw.svg)
+{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 425" title="The navigation graph connects indexed points; arrows illustrate the greedy traversal from the entry point toward the query." >}}
+![NSW graph with indexed points, a query, an entry point, and arrows showing the greedy traversal.](/articles_data/filterable-hnsw/nsw.svg)
 {{< /island >}}
 
 ### How can we modify it?
@@ -59,13 +59,13 @@ Therefore, the theoretical conclusions obtained in the [Percolation theory](http
 
 The 2019 experiments report `precision@10`, the fraction of returned neighbors among the true 10 nearest points.
 
-{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 470" title="In the 2019 experiment, more edges shifted the accuracy drop toward higher removal thresholds. The horizontal axis preserves the original mask-threshold parameter." >}}
+{{< island path="content/headless/filterable-hnsw/figure" ratio="616 / 376" title="In the 2019 experiment, more edges shifted the accuracy drop toward higher removal thresholds. The horizontal axis preserves the original mask-threshold parameter." >}}
 ![Historical precision@10 curves for m values of 8, 16, 24, and 32. Larger m shifts the sharp accuracy drop toward higher removal thresholds.](/articles_data/filterable-hnsw/edge-count.svg)
 {{< /island >}}
 
 {{< include "content/headless/filterable-hnsw/edge-count.md" >}}
 
-{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 470" title="The three collection sizes reached similar accuracy thresholds in the 2019 experiment." >}}
+{{< island path="content/headless/filterable-hnsw/figure" ratio="616 / 376" title="The three collection sizes reached similar accuracy thresholds in the 2019 experiment." >}}
 ![Historical precision@10 curves for 10,000, 20,000, and 30,000 points. All three curves drop at similar removal thresholds.](/articles_data/filterable-hnsw/point-count.svg)
 {{< /island >}}
 
@@ -91,7 +91,7 @@ In this case, the total number of edges will increase by no more than 2 times, r
 
 Second case is a little harder. A connection may be lost between two categories if they lie in different clusters.
 
-{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 460" title="Filtering out other categories can remove the connections between category A and category B." >}}
+{{< island path="content/headless/filterable-hnsw/figure" ratio="591 / 430" title="Filtering out other categories can remove the connections between category A and category B." >}}
 ![A query near category A circles and an entry point in category B squares, with dashed gray nodes in other categories connecting the graph.](/articles_data/filterable-hnsw/categories.svg)
 {{< /island >}}
 
@@ -99,7 +99,7 @@ The idea here is to build same navigation graph but not between nodes, but betwe
 Distance between two categories might be defined as distance between category entry points (or, for precision, as the average distance between a random sample). Now we can estimate expected graph connectivity by number of excluded categories, not nodes. 
 It still does not guarantee that two random categories will be connected, but allows us to switch to multiple searches in each category if  connectivity threshold passed. In some cases, multiple searches can be even faster if you take advantage of parallel processing.
 
-{{< island path="content/headless/filterable-hnsw/figure" ratio="640 / 470" title="The original interpretation attributes the initial accuracy to within-category connectivity, the dip to a connectivity gap, and the recovery to a larger connected component. Increasing m was proposed to narrow that gap." >}}
+{{< island path="content/headless/filterable-hnsw/figure" ratio="616 / 376" title="The original interpretation attributes the initial accuracy to within-category connectivity, the dip to a connectivity gap, and the recovery to a larger connected component. Increasing m was proposed to narrow that gap." >}}
 ![Historical precision@10 falls from 1.0 to 0.96 as the search-group parameter increases, then returns to 1.0. The vertical axis is restricted to show this gap.](/articles_data/filterable-hnsw/category-count.svg)
 {{< /island >}}
 

@@ -29,24 +29,24 @@
     color: $neutral-30;
   }
   
-  &__preview {
-    width: 100%;
-    margin-top: $spacer * 2.5;
+  &__header {
     margin-bottom: $spacer * 2.5;
-    
-    &-image {
-      display: none;
-    }
-    
-    &-image-mobile {
-      display: block;
-      width: 100%;
-      max-width: pxToRem(450);
-      margin: 0 auto;
-    }
   }
-  
+
   &__card {
+    height: 100%;
+    padding: $spacer * 1.5;
+    background-color: $neutral-98;
+    border: pxToRem(1) solid $neutral-90;
+    border-radius: pxToRem(8);
+
+    &-icon {
+      display: block;
+      width: $spacer * 2;
+      height: $spacer * 2;
+      margin-bottom: $spacer * 2.5;
+    }
+
     &-title {
       font-size: $h6-font-size;
       line-height: $spacer * 2;
@@ -67,6 +67,7 @@
     padding-bottom: $spacer * 5;
     
     &__header {
+      margin-bottom: $spacer * 7.5;
       display: flex;
       justify-content: space-between;
       gap: $spacer;
@@ -86,19 +87,6 @@
     &__description {
       font-size: $font-size-l;
       line-height: $line-height-lg;
-    }
-
-    &__preview {
-      margin-top: $spacer * 5;
-
-      &-image {
-        display: block;
-        width: 100%;
-      }
-
-      &-image-mobile {
-        display: none;
-      }
     }
   }
 }
