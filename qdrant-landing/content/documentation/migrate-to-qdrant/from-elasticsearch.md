@@ -4,13 +4,51 @@ short_description: "Migrate Elasticsearch dense vectors and document fields into
 description: "Reference for Elasticsearch-to-Qdrant migration: field mappings, score conversion, Docker networking, authentication, and result verification."
 weight: 20
 partition: ecosystem
+learning_kind: examples
+goal: Operations
+stack:
+  - Python
+  - Elasticsearch
+  - Qdrant Migration Tool
+  - Qdrant
+  - Docker
+example_resources:
+  - label: Open Notebook
+    url: https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb
+  - label: Notebook Source
+    url: https://github.com/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb
 ---
 
-# Migrate from Elasticsearch to Qdrant
+# Migrate From Elasticsearch to Qdrant
+
+| Level | Stack | Time |
+| :--- | :--- | :--- |
+| Intermediate | Python, Elasticsearch, Qdrant Migration Tool, Qdrant; Docker for the container command | 20 minutes|
+
+[![Open in Colab](/documentation/tutorials/from-elasticsearch/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb)
 
 The [Qdrant Migration Tool](https://github.com/qdrant/migration) copies dense vectors and document fields from an Elasticsearch index into a Qdrant collection. This page covers the Elasticsearch connector in [v0.6.12](https://github.com/qdrant/migration/releases/tag/v0.6.12).
 
 For an executable migration and verification example, [open the notebook in Colab](https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb) or [view its source in `qdrant/examples`](https://github.com/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb). It migrates five documents and compares counts, IDs, payloads, vectors, rankings, and cosine scores. The notebook runs pinned native binaries in a Linux CPU runtime without Docker; the Docker options on this page apply when running the migration tool in a container.
+
+## Run the Verification Example
+
+Start with a fresh Colab CPU runtime, or a native Linux x86-64 or ARM64 runtime with Python **3.12 or newer**, at least **4 GB available RAM**, and **5 GB free disk space**. No existing database, Docker installation, or API key is needed for the notebook. It downloads about **900 MB** of pinned binaries and uses HTTPX **0.28.1** for HTTP requests.
+
+1. Open the notebook and select a CPU runtime. Run sections **1–4** in order to install the HTTP client, download and verify the binaries, and start temporary Elasticsearch and Qdrant services.
+2. Run sections **5–6** to create the five-document, single-shard source index and migrate it. The tool creates a Qdrant collection with the named vector `embedding` and preserves each original document ID in the `__id__` payload field.
+3. Run section **7** to compare the source and destination. Every document's ID, payload, vector, ranking, and converted cosine score must pass the assertions. The [comparison table](#validated-small-migration) shows the expected results.
+4. Run section **8** to stop the notebook's database processes and remove its temporary files, including if a previous cell failed. To repeat the example, rerun from section **2** after cleanup.
+
+Successful verification prints:
+
+```text
+PASS: 5 source documents = 5 destination points.
+PASS: original IDs, payloads, unit vectors, configuration, and ranking match.
+PASS: all converted scores match within absolute tolerance 1e-6.
+```
+
+The example demonstrates named vectors, payload preservation, exact vector queries, and score verification. For your own index, use the requirements, mappings, and options in this reference and repeat the [verification checks](#verify-the-migration) before cutover.
 
 ## Requirements
 
@@ -143,7 +181,7 @@ For production cutover and broader search-quality checks, use the [Migration Ver
 
 ### Validated Small Migration
 
-The [verification notebook](https://github.com/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb) provides a runnable version of this comparison with the same fixture and checks. It uses Python **3.12 or newer** and HTTPX **0.28.1** in a native Linux x86-64 or ARM64 CPU runtime, with at least **4 GB available RAM** and **5 GB free disk space**. In hosted Colab, select a CPU runtime and run the cells in order.
+The [verification notebook](https://github.com/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb) provides a runnable version of this comparison with the same fixture and checks. Follow [Run the Verification Example](#run-the-verification-example) for its starting requirements and execution order.
 
 On October 20, 2026, a five-document migration passed using Elasticsearch **9.5.5**, Qdrant **1.19.2**, and Migration Tool **v0.6.12**, running as Linux ARM64 containers on a shared Docker network through Docker Desktop **4.67.0** on macOS.
 
