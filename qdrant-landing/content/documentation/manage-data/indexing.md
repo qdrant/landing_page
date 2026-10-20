@@ -200,6 +200,8 @@ To create a full-text index for a field, create a payload index of type `text`. 
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
 
+Every full-text index supports filtering on words. Filtering on phrases requires [phrase matching](#phrase-matching), and ranking with BM25 requires [BM25 scoring](#bm25-scoring). The two are independent, so you can enable either or both.
+
 ### BM25 Scoring
 
 *Available as of v1.20.0*
@@ -210,7 +212,7 @@ With scoring enabled, a full-text index can rank points by how relevant their te
 
 The index's text processing settings, such as the [tokenizer](#tokenizers), [lowercasing](#lowercasing), [stemming](#stemmer), and [stopwords](#stopwords), apply to both the indexed text and the text of BM25 queries on the field. The BM25 parameters `k` and `b` are set per query, not on the index.
 
-When scoring is enabled, the index records the length of each document, so Qdrant computes the average document length from your data. Scoring also enables [phrase matching](#phrase-matching), because Qdrant derives term frequencies from the token positions that phrase matching stores. As a result, a full-text index with scoring uses more memory and disk space than one without.
+When scoring is enabled, the index records the length of each document and how often each term appears in it, so Qdrant computes BM25 statistics, such as the average document length, from your data. As a result, a full-text index with scoring uses more memory and disk space than one without.
 
 You can enable or disable scoring on an existing full-text index by creating the index again with a different `scoring` value. Qdrant then rebuilds the index from the stored payload, so you don't need to upload your data again. On large collections, rebuilding the index can take a while.
 
@@ -282,8 +284,6 @@ For efficient phrase matching, Qdrant requires building an additional data struc
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/phrase-full-text/" >}}
 
 Use the [Phrase Match](/documentation/search/filtering/#phrase-match) condition to filter on phrases.
-
-Enabling [BM25 scoring](#bm25-scoring) also enables phrase matching.
 
 ## Vector Index
 
