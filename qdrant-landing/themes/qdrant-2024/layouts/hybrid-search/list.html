@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "hybrid-search/hero" . }}
+
+  {{ range $slug := slice "filter-both" "representations" "keyword-model" "merge-and-rerank" "replace-keyword-engine" "customer-proof" }}
+    {{ with ($.Site.GetPage (printf "/hybrid-search/%s" $slug)) }}
+      {{ partial "hybrid-search/section" (dict "page" . "block" (printf "hybrid-search-%s" $slug)) }}
+    {{ end }}
+  {{ end }}
+
+  {{ partial "hybrid-search/faq" . }}
+
+  {{ with (.Site.GetPage "/hybrid-search/final-cta") }}
+    {{ partial "hybrid-search/section" (dict "page" . "block" "hybrid-search-final-cta") }}
+  {{ end }}
+{{ end }}

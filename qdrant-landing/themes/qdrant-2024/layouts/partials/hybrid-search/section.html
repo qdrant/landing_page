@@ -1,0 +1,60 @@
+{{/* One section renderer for the page: header, optional visual (image or code), cards, optional table, callout, notes, links.
+     Call with (dict "page" $p "block" "hybrid-search-<slug>"). Layout variant comes from the page's `variant` param. */}}
+{{ $p := .page }}{{ $b := .block }}
+{{ $n := len (default (slice) $p.Params.cards) }}
+<section class="{{ $b }} hybrid-search-section hybrid-search-section--{{ $p.Params.variant | default "grid" }}" style="--cols: {{ cond (gt $n 4) 3 (cond (eq $n 0) 1 $n) }}">
+  <div class="container">
+    <div class="{{ $b }}__header hybrid-search-section__header">
+      {{ with $p.Params.label }}<p class="{{ $b }}__label">{{ . }}</p>{{ end }}
+      <h2 class="{{ $b }}__title">{{ $p.Params.title }}</h2>
+      {{ with $p.Params.description }}<p class="{{ $b }}__description">{{ . | safeHTML }}</p>{{ end }}
+    </div>
+    <div class="hybrid-search-section__body">
+      {{ with $p.Params.snippet }}
+        <div class="hybrid-search-section__visual hybrid-search-section__visual--code">
+          <pre class="hybrid-search-section__code"><code>{{ .code }}</code></pre>
+          {{ with .caption }}<p class="hybrid-search-section__caption">{{ . | safeHTML }}</p>{{ end }}
+          {{ with .source }}<a class="link" href="{{ . }}">{{ $p.Params.snippet.label | default "See the full example" }}</a>{{ end }}
+        </div>
+      {{ end }}
+      {{ with $p.Params.image }}
+        <figure class="hybrid-search-section__visual">
+          <img src="{{ .src }}" alt="{{ .alt }}" loading="lazy" decoding="async" />
+          {{ with .caption }}<figcaption class="hybrid-search-section__caption">{{ . | safeHTML }}</figcaption>{{ end }}
+        </figure>
+      {{ end }}
+      {{ if $n }}
+      <ul class="hybrid-search-section__cards">
+        {{ range $p.Params.cards }}
+          <li class="hybrid-search-section__card">
+            {{ with .icon }}<span class="hybrid-search-section__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            {{ with .eyebrow }}<p class="hybrid-search-section__card-eyebrow">{{ . }}</p>{{ end }}
+            <h3 class="hybrid-search-section__card-title">{{ .title }}</h3>
+            {{ with .description }}<p class="hybrid-search-section__card-description">{{ . | safeHTML }}</p>{{ end }}
+            {{ with .code }}<pre class="hybrid-search-section__card-code"><code>{{ . }}</code></pre>{{ end }}
+            {{ range .links }}<a class="link hybrid-search-section__card-link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>{{ end }}
+          </li>
+        {{ end }}
+      </ul>
+      {{ end }}
+    </div>
+    {{ with $p.Params.table }}
+      <div class="hybrid-search-section__table">
+        {{ with .title }}<h3 class="hybrid-search-section__table-title">{{ . }}</h3>{{ end }}
+        {{ partial "features-table" (dict "cols" .cols "features" .features "featureCellWidth" (.featureCellWidth | default "16rem")) }}
+      </div>
+    {{ end }}
+    {{ range $p.Params.notes }}<p class="hybrid-search-section__note">{{ . | safeHTML }}</p>{{ end }}
+    {{ with $p.Params.callout }}
+      <blockquote class="{{ $b }}__callout hybrid-search-section__callout">
+        {{ .text }}
+        {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+      </blockquote>
+    {{ end }}
+    {{ with $p.Params.links }}
+      <div class="hybrid-search-section__links">
+        {{ range . }}<a class="link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>{{ end }}
+      </div>
+    {{ end }}
+  </div>
+</section>

@@ -1,0 +1,53 @@
+@use '../../helpers/functions' as *;
+
+// Shared layout for every hybrid-search/section partial. Colour and type come from the primitives
+// in _section-header.scss; each section's own file only picks the band and the header colour.
+.hybrid-search-section {
+  &__body { display: grid; gap: $spacer * 2.5; }
+  &__cards { display: grid; gap: $spacer * 2 $spacer * 1.5; margin: 0; padding: 0; list-style: none; }
+  &__card { display: flex; flex-direction: column; align-items: flex-start; }
+  &__card-icon { @include hybrid-search-tile; margin-bottom: $spacer * 1.5; }
+  &__card-eyebrow { @include hybrid-search-eyebrow; margin-bottom: $spacer * 0.5; }
+  &__card-title { margin-bottom: $spacer * 0.5; font-size: $font-size-xl; font-weight: $font-weight-semibold; line-height: 1.5; letter-spacing: -0.2px; }
+  &__card-description { margin-bottom: 0; font-size: $font-size-md; line-height: 1.5; }
+  &__card-code { margin: $spacer 0 0; padding: $spacer * 0.75 $spacer; border-radius: pxToRem(8); background: $neutral-10; font-family: $font-family-monospace; font-size: pxToRem(13); color: $neutral-98; white-space: pre; overflow-x: auto; code { font: inherit; color: inherit; background: none; padding: 0; } }
+  &__card-link { margin-top: $spacer; margin-right: $spacer * 1.5; }
+  &__visual { margin: 0; border-radius: pxToRem(8); overflow: hidden; img { display: block; width: 100%; height: auto; } }
+  &__visual--code { display: flex; flex-direction: column; gap: $spacer; padding: $spacer * 1.5; background: $neutral-10; border: 1px solid $neutral-20; .link { align-self: flex-start; } }
+  &__code { margin: 0; overflow-x: auto; font-family: $font-family-monospace; font-size: pxToRem(13); line-height: 1.6; color: $neutral-98; white-space: pre; code { font: inherit; color: inherit; background: none; padding: 0; } }
+  &__caption { margin: 0; font-size: $font-size-sm; line-height: 1.5; color: $neutral-70; }
+  &__table { margin-top: $spacer * 2.5; }
+  &__table-title { margin-bottom: $spacer * 1.5; font-size: $font-size-xl; font-weight: $font-weight-semibold; line-height: 1.5; }
+  &__note { margin: $spacer * 2 0 0; font-size: $font-size-md; line-height: 1.5; }
+  &__links { display: flex; flex-wrap: wrap; gap: $spacer $spacer * 2.5; margin-top: $spacer * 2.5; }
+
+  @include media-breakpoint-up(md) { &__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @include media-breakpoint-up(lg) {
+    &__cards { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); }
+    // visual: image or code on the left, a single column of cards on the right
+    &--visual &__body { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: start; }
+    &--visual &__cards { grid-template-columns: 1fr; }
+    // list: no visual, cards stacked in one narrow column
+    &--list &__cards { grid-template-columns: 1fr; max-width: pxToRem(760); }
+  }
+}
+
+// dark band: hairline cells instead of free-standing cards
+@mixin hybrid-search-section-dark($block) {
+  @include hybrid-search-band(true);
+  @include hybrid-search-header($block, true, true);
+  @include hybrid-search-callout($block, $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  .hybrid-search-section__cards { gap: 0; border-top: 1px solid $neutral-20; border-left: 1px solid $neutral-20; }
+  .hybrid-search-section__card { padding: $spacer * 2 $spacer * 1.5; border-right: 1px solid $neutral-20; border-bottom: 1px solid $neutral-20; }
+  .hybrid-search-section__card-title, .hybrid-search-section__table-title { color: $neutral-98; }
+  .hybrid-search-section__card-description, .hybrid-search-section__note { color: $neutral-70; }
+  .hybrid-search-section__card-eyebrow { color: $neutral-70; }
+}
+
+@mixin hybrid-search-section-light($block) {
+  @include hybrid-search-band(false, 5, 5);
+  @include hybrid-search-header($block, false, true);
+  @include hybrid-search-callout($block, $secondary-blue-50, $neutral-98, $neutral-30);
+  .hybrid-search-section__card-title, .hybrid-search-section__table-title { color: $neutral-20; }
+  .hybrid-search-section__card-description, .hybrid-search-section__note { color: $neutral-30; }
+}
