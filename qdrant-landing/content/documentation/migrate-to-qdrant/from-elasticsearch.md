@@ -23,9 +23,9 @@ example_resources:
 
 | Level | Stack | Time |
 | :--- | :--- | :--- |
-| Intermediate | Python, Elasticsearch, Qdrant Migration Tool, Qdrant; Docker for the container command | 20 minutes|
+| Intermediate | Python, Elasticsearch, Qdrant Migration Tool, Qdrant; Docker for the container command | About 20 minutes, plus downloads, for the notebook example |
 
-[![Open in Colab](/documentation/tutorials/from-elasticsearch/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-elastic-migration/elasticsearch-migration/elasticsearch-migration.ipynb)
 
 The [Qdrant Migration Tool](https://github.com/qdrant/migration) copies dense vectors and document fields from an Elasticsearch index into a Qdrant collection. This page covers the Elasticsearch connector in [v0.6.12](https://github.com/qdrant/migration/releases/tag/v0.6.12).
 
@@ -101,7 +101,7 @@ For example, an Elasticsearch `_score` of `0.9` corresponds to a Qdrant cosine s
 
 This conversion applies to the vector-only kNN score. A custom `script_score`, boost, lexical clause, or hybrid fusion can change the final `_score`; derive the conversion from that query instead. Elasticsearch's kNN `similarity` cutoff uses the underlying similarity, not the transformed `_score`, so do not apply this conversion to that cutoff. See the [Elasticsearch kNN query reference](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-knn-query).
 
-For float vectors with `l2_norm`, Elasticsearch uses `1 / (1 + distance²)`, whereas Qdrant `Euclid` returns distance, with smaller values ranking first. For float `dot_product`, Elasticsearch uses `(1 + dot_product) / 2`, whereas Qdrant `Dot` returns the dot product. Metric mapping therefore does not make raw scores or application thresholds interchangeable. See the [Elasticsearch similarity definitions](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector#similarity) and [Qdrant distance metrics](/documentation/search/search/#metrics).
+For float vectors with `l2_norm`, Elasticsearch uses `1 / (1 + distance²)`, whereas Qdrant `Euclid` returns distance, with smaller values ranking first. For float `dot_product`, Elasticsearch uses `(1 + dot_product) / 2`, whereas Qdrant `Dot` returns the dot product. Metric mapping therefore does not make raw scores or application thresholds interchangeable. See the [Elasticsearch similarity definitions](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/dense-vector#similarity) and [Qdrant distance metrics](https://qdrant.tech/documentation/search/search/#metrics).
 
 ## Docker Networking
 
@@ -166,7 +166,7 @@ For local services, add the network option from [Docker Networking](#docker-netw
 | `--qdrant.collection` | None | Required destination collection name. |
 | `--qdrant.id-field` | `__id__` | Payload field that preserves each Elasticsearch document's original `_id`. |
 
-See [general migration options](/documentation/migrate-to-qdrant/#universal-cli-options) for collection creation, batching, and resuming interrupted migrations.
+See [general migration options](https://qdrant.tech/documentation/migrate-to-qdrant/#universal-cli-options) for collection creation, batching, and resuming interrupted migrations.
 
 ## Verify the Migration
 
@@ -177,7 +177,7 @@ Before cutover, compare a stable source index with the destination:
 3. Query both services with identical vectors and equivalent filters. Specify the migrated vector name in Qdrant's `using` parameter. For a small comparison, use an exact baseline to separate migration errors from approximate-search differences.
 4. Compare result IDs and ordering, then compare scores using the applicable conversion. Retune application thresholds and test the full hybrid query separately.
 
-For production cutover and broader search-quality checks, use the [Migration Verification Guide](/documentation/migration-guidance/).
+For production cutover and broader search-quality checks, use the [Migration Verification Guide](https://qdrant.tech/documentation/migration-guidance/).
 
 ### Validated Small Migration
 
@@ -214,6 +214,6 @@ The runtime check covers the shared Docker network on macOS. The Linux and Windo
 
 ## Hybrid Search
 
-The migration copies dense vectors and document fields. It does not transfer Elasticsearch's inverted index, analyzers, or BM25 statistics. Generate [sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) separately if you need sparse retrieval in Qdrant, then combine dense and sparse results with [hybrid queries and Reciprocal Rank Fusion](/documentation/search/hybrid-queries/).
+The migration copies dense vectors and document fields. It does not transfer Elasticsearch's inverted index, analyzers, or BM25 statistics. Generate [sparse vectors](https://qdrant.tech/documentation/manage-data/vectors/#sparse-vectors) separately if you need sparse retrieval in Qdrant, then combine dense and sparse results with [hybrid queries and Reciprocal Rank Fusion](https://qdrant.tech/documentation/search/hybrid-queries/).
 
 Revalidate hybrid ranking on representative queries. Copying dense vectors does not reproduce an Elasticsearch BM25 + kNN scoring configuration.
