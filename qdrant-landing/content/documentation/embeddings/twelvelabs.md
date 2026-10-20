@@ -1,224 +1,83 @@
 ---
-title: Twelve Labs
-short_description: "Embed video, text, image, and audio in a unified vector space with Twelve Labs and search across modalities using Qdrant."
-description: "Use Twelve Labs Embed API with Qdrant to index video, text, image, and audio in one vector space and run any-to-any cross-modal similarity search."
+title: TwelveLabs
+weight: 100
+short_description: "Embed video, audio, images, and text with TwelveLabs Marengo 3.5 in one vector space, and run cross-modal search over the vectors in Qdrant."
+description: "Use TwelveLabs Marengo 3.5 with Qdrant: model dimensions, asynchronous video embedding, text, audio, and image queries, and smaller vectors with embedding_dimension."
+directory:
+  summary: "Marengo models that embed video, audio, images, text, and documents in one vector space."
+  input: [Text, Image, Video, Audio, PDF]
+  vectors: [Dense]
+  runs: [Provider API]
 ---
 
-# Twelve Labs
+# TwelveLabs
 
-[Twelve Labs](https://twelvelabs.io) Embed API provides powerful embeddings that represent videos, texts, images, and audio in a unified vector space. This space enables any-to-any searches across different types of content.
+[TwelveLabs](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings) provides Marengo, an embedding model that places video, audio, images, text, and documents in one vector space, so a query in one modality can find content in another. There are two ways to use Marengo with Qdrant:
 
-By natively processing all modalities, it captures interactions like visual expressions, speech, and context, enabling advanced applications such as sentiment analysis, anomaly detection, and recommendation systems with precision and efficiency.
+- Call the TwelveLabs Embed API v2 from your application and send the vectors to Qdrant. This is what this page covers.
+- Call Marengo 3.0 through [Amazon Bedrock](/documentation/embeddings/bedrock/) in your AWS account.
 
-We'll look at how to work with Twelve Labs embeddings in Qdrant via the Python and Node SDKs.
+## Models
 
-### Installing the SDKs
+| Model | Dimensions | Max Text Tokens | Input |
+|---|---|---|---|
+| `marengo3.5` | 512 (default), 256, or 128 | 2,000 | Video, audio, image, text, and PDF, plain text, or Markdown documents |
+| `marengo3.0` | 512 | 500 | Video, audio, image, and text |
 
-```python
-$ pip install twelvelabs qdrant-client
-```
+Use `marengo3.5` for new projects. It has no length limit for video and audio, while Marengo 3.0 accepts up to 4 hours. Marengo 2.7 (`Marengo-retrieval-2.7`) and the Embed API v1 are previous generations. Embeddings from different Marengo versions are not compatible, so re-embed your content when you switch models.
 
-```typescript
-$ npm install twelvelabs-js @qdrant/js-client-rest
-```
+TwelveLabs lists cosine similarity as the metric for Marengo, so create the collection with the Cosine distance.
 
-### Setting up the clients
+## Setup
 
-```python
-from twelvelabs import TwelveLabs
-from qdrant_client import QdrantClient
+Install the TwelveLabs SDK and the Qdrant client:
 
-# Get your API keys from:
-# https://playground.twelvelabs.io/dashboard/api-key
-TL_API_KEY = "<YOUR_TWELVE_LABS_API_KEY>"
+- Python: `pip install twelvelabs qdrant-client`
+- TypeScript: `npm install twelvelabs-js @qdrant/js-client-rest`
 
-twelvelabs_client = TwelveLabs(api_key=TL_API_KEY)
-qdrant_client = QdrantClient(url="http://localhost:6333/")
-```
+Create both clients and a collection sized for the model. These examples read your API key from the `TWELVE_LABS_API_KEY` environment variable. The Node.js SDK also reads it when you omit `apiKey`, but the Python SDK requires the `api_key` argument.
 
-```typescript
-import { QdrantClient } from '@qdrant/js-client-rest';
-import { TwelveLabs, EmbeddingsTask, SegmentEmbedding } from 'twelvelabs-js';
+{{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="setup" >}}
 
-// Get your API keys from:
-// https://playground.twelvelabs.io/dashboard/api-key
-const TL_API_KEY = "<YOUR_TWELVE_LABS_API_KEY>"
+## Embed Videos
 
-const twelveLabsClient = new TwelveLabs({ apiKey: TL_API_KEY });
-const qdrantClient = new QdrantClient({ url: 'http://localhost:6333' });
-```
+TwelveLabs embeds video asynchronously. Create an embedding task, poll it until its status is `ready`, and read the embeddings from its `data` field. With `embedding_scope` set to `clip`, Marengo splits the video into segments and returns embeddings for each one. By default, Marengo 3.5 returns two embeddings per segment, one `visual` and one `audio`, and both are in the same vector space. The response has no index field, so this example uses the position in `data` as the point ID, and stores the modality and time range of each segment in the payload:
 
-The following example uses the `"Marengo-retrieval-2.7"` model to embed a video. It generates vector embeddings of 1024 dimensionality and works with cosine similarity.
+{{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="embed-videos" >}}
 
-You can use the same model to embed audio, text and images into a common vector space. Enabling cross-modality searches!
+Each task embeds one file. Video URLs must be direct links to the raw file and can point to files up to 4 GB. To embed a local file, upload it first with `assets.create`, which accepts up to 200 MB, and pass the asset ID in `media_source`. The optional `segmentation` field sets fixed-length or scene-based segments. TwelveLabs keeps task results for seven days, so store the vectors in Qdrant when the task finishes. Audio files, images, and documents use the same task flow with `input_type` set to `audio`, `image`, or `document`.
 
-### Embedding videos
+## Embed Queries
 
-```python
-task = twelvelabs_client.embed.task.create(
-    model_name="Marengo-retrieval-2.7",
-    video_url="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_2mb.mp4"
-)
+Marengo has no separate query mode. Embed queries with the synchronous `embed.v_2.create` method and the same model as your content. It returns the embedding in the response instead of creating a task:
 
-task.wait_for_done(sleep_interval=3)
+{{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="embed-queries" >}}
 
-task_result = twelvelabs_client.embed.task.retrieve(task.id)
-```
+The synchronous method accepts up to 2,000 tokens of text and up to 10 media sources per request. Each media source can be up to 32 MB, and video and audio up to 30 seconds. For longer files, use an embedding task.
 
-```typescript
-const task = await twelveLabsClient.embed.task.create("Marengo-retrieval-2.7", {
-    url: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_2mb.mp4"
-})
+## Search Across Modalities
 
-await task.waitForDone(3)
+Because all modalities share one vector space, a query can be an audio clip or an image instead of text. Pass the file in `media_sources`. These examples also filter on the `embedding_option` payload field: the audio query searches the audio embeddings of the video, and the image query searches the visual embeddings.
 
-const taskResult = await twelveLabsClient.embed.task.retrieve(task.id)
-```
+To search with an audio clip:
 
-### Converting the model outputs to Qdrant points
+{{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="search-across-modalities" >}}
 
-```python
-from qdrant_client.models import PointStruct
+To search with an image:
 
-points = [
-    PointStruct(
-        id=idx,
-        vector=v.embeddings_float,
-        payload={
-            "start_offset_sec": v.start_offset_sec,
-            "end_offset_sec": v.end_offset_sec,
-            "embedding_scope": v.embedding_scope,
-        },
-    )
-    for idx, v in enumerate(task_result.video_embedding.segments)
-]
-```
+{{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="search-across-modalities-2" >}}
 
-```typescript
-let points = taskResult.videoEmbedding.segments.map((data, i) => {
-    return {
-        id: i,
-        vector: data.embeddingsFloat,
-        payload: {
-            startOffsetSec: data.startOffsetSec,
-            endOffsetSec: data.endOffsetSec,
-            embeddingScope: data.embeddingScope
-        }
-    }
-})
-```
+A single query can also combine text with media. Set both `input_text` and `media_sources`, give a media source a `name`, and refer to it in the text as `<@name>`. The result is one embedding.
 
-### Creating a collection to insert the vectors
+## Reduce Vector Size
 
-```python
-from qdrant_client.models import VectorParams, Distance
+Marengo 3.5 accepts an `embedding_dimension` parameter of `512`, `256`, or `128`. Shorter vectors make the index smaller and search faster, and longer vectors give better retrieval quality. Set the collection's `size` to the same value, and pass the same `embedding_dimension` when you embed queries:
 
-collection_name = "twelve_labs_collection"
+{{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="reduce-vector-size" >}}
 
-qdrant_client.create_collection(
-    collection_name,
-    vectors_config=VectorParams(
-        size=1024,
-        distance=Distance.COSINE,
-    ),
-)
-qdrant_client.upsert(collection_name, points)
-```
+## Next Steps
 
-```typescript
-const COLLECTION_NAME = "twelve_labs_collection"
-
-await qdrantClient.createCollection(COLLECTION_NAME, {
-    vectors: {
-        size: 1024,
-        distance: 'Cosine',
-    }
-});
-
-await qdrantClient.upsert(COLLECTION_NAME, {
-    wait: true,
-    points
-})
-```
-
-## Perform a search
-
-Once the vectors are added, you can run semantic searches across different modalities. Let's try text.
-
-```python
-text_segment = twelvelabs_client.embed.create(
-    model_name="Marengo-retrieval-2.7",
-    text="<YOUR_QUERY_TEXT>",
-).text_embedding.segments[0]
-
-qdrant_client.query_points(
-    collection_name=collection_name,
-    query=text_segment.embeddings_float,
-)
-```
-
-```typescript
-const textSegment = (await twelveLabsClient.embed.create({
-    modelName: "Marengo-retrieval-2.7",
-    text: "<YOUR_QUERY_TEXT>"
-})).textEmbedding.segments[0]
-
-await qdrantClient.query(COLLECTION_NAME, {
-    query: textSegment.embeddingsFloat,
-});
-```
-
-Let's try audio:
-
-```python
-audio_segment = twelvelabs_client.embed.create(
-    model_name="Marengo-retrieval-2.7",
-    audio_url="https://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3",
-).audio_embedding.segments[0]
-
-qdrant_client.query_points(
-    collection_name=collection_name,
-    query=audio_segment.embeddings_float,
-)
-```
-
-```typescript
-const audioSegment = (await twelveLabsClient.embed.create({
-    modelName: "Marengo-retrieval-2.7",
-    audioUrl: "https://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3"
-})).audioEmbedding.segments[0]
-
-await qdrantClient.query(COLLECTION_NAME, {
-    query: audioSegment.embeddingsFloat,
-});
-```
-
-Similarly, querying by image:
-
-```python
-image_segment = twelvelabs_client.embed.create(
-    model_name="Marengo-retrieval-2.7",
-    image_url="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-1170x780.jpg",
-).image_embedding.segments[0]
-
-qdrant_client.query_points(
-    collection_name=collection_name,
-    query=image_segment.embeddings_float,
-)
-```
-
-```typescript
-const imageSegment = (await twelveLabsClient.embed.create({
-    modelName: "Marengo-retrieval-2.7",
-    imageUrl: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-1170x780.jpg"
-})).imageEmbedding.segments[0]
-
-await qdrantClient.query(COLLECTION_NAME, {
-    query: imageSegment.embeddingsFloat,
-});
-```
-
-## Further Reading
-
-- [Twelve Labs Documentation](https://docs.twelvelabs.io/)
-- [Twelve Labs Examples](https://docs.twelvelabs.io/docs/sample-applications)
+- [Filter search results](/documentation/search/filtering/) by payload fields such as `embedding_option`, `video_url`, or the segment time range.
+- [Create a collection](/documentation/manage-data/collections/#create-a-collection) with named vectors to store visual and audio embeddings of a segment in one point.
+- [Upload points](/documentation/manage-data/points/#upload-points) in batches when you embed a large video library.
+- Read the TwelveLabs guides to [embed content at scale](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings/at-scale) and to [embed a query](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings/query).

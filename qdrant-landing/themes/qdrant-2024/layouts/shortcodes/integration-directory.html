@@ -1,0 +1,53 @@
+{{- /*
+  Filterable directory of the current section's pages.
+
+  Usage: {{< integration-directory facets="input:Input|vectors:Vectors|runs:Runs On" noun="provider" >}}
+  All parameters are optional. `plural` overrides the default plural of `noun` (noun + "s").
+
+  The page list, ordering, and front matter checks live in
+  partials/integration-directory.html, shared with the Markdown variant.
+*/ -}}
+{{- $data := partialCached "integration-directory.html" . (printf "%s|%v|%v|%v" .Page.Path (.Get "facets") (.Get "noun") (.Get "plural")) -}}
+{{- $id := printf "directory-%d" .Ordinal -}}
+{{- $count := len $data.pages -}}
+<section class="integration-directory">
+  <form class="integration-directory__filters" aria-label="Filter {{ $data.plural }}" hidden>
+    {{- range $i, $facet := $data.facets }}
+      {{- $key := .key }}
+      <div>
+        <label for="{{ $id }}-{{ $i }}">{{ .label }}</label>
+        <select id="{{ $id }}-{{ $i }}" name="{{ $key }}" data-facet="{{ $i }}">
+          <option value="">Any</option>
+          {{- range .values }}
+          <option value="{{ . }}">{{ . }}</option>
+          {{- end }}
+        </select>
+      </div>
+    {{- end }}
+    <button type="reset" class="button button_outlined button_sm">Clear Filters</button>
+  </form>
+  <p data-directory-count data-noun="{{ $data.noun }}" data-plural="{{ $data.plural }}" role="status" aria-live="polite" aria-atomic="true">{{ $count }} {{ cond (eq $count 1) $data.noun $data.plural }}</p>
+  <p data-directory-empty hidden>No {{ $data.plural }} match these filters. Try another option or clear the filters.</p>
+  <div class="row g-4">
+    {{- range $data.pages }}
+      {{- $directory := .Params.directory }}
+      <div class="col-12 col-lg-6" data-directory-item
+        {{- /* Attribute names use the facet's position, not its key: html/template replaces a dynamic
+               attribute name such as `runs_on` or `online` with ZgotmplZ. */}}
+        {{- range $i, $facet := $data.facets }} data-facet-{{ $i }}="{{ delimit (index $directory .key) "|" }}"{{ end }}>
+        <article class="docs-card integration-directory__card">
+          <h3 class="docs-card__title"><a class="stretched-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p class="docs-card__description">{{ $directory.summary }}</p>
+          <dl class="integration-directory__facets">
+            {{- range $data.facets }}
+            <div>
+              <dt>{{ .label }}</dt>
+              <dd>{{ delimit (index $directory .key) ", " }}</dd>
+            </div>
+            {{- end }}
+          </dl>
+        </article>
+      </div>
+    {{- end }}
+  </div>
+</section>

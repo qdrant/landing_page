@@ -1,92 +1,115 @@
 ---
 title: "Nomic"
-short_description: "Generate long-context Nomic text embeddings via the Nomic SDK or FastEmbed and index them in Qdrant for high-quality semantic search."
-description: "Use open-source Nomic text embeddings with Qdrant via the Nomic SDK or FastEmbed to build long-context semantic search and retrieval pipelines."
+weight: 100
+short_description: "Embed text and images with nomic-embed-text-v1.5 and nomic-embed-vision-v1.5 through the Nomic API or FastEmbed, and search them in Qdrant."
+description: "Use nomic-embed-text-v1.5 and nomic-embed-vision-v1.5 with Qdrant: dimensions, task types, Matryoshka sizes, image search, and local inference with FastEmbed."
+directory:
+  summary: "Open text and image embedding models with Matryoshka sizes, through the Nomic API or FastEmbed."
+  input: [Text, Image]
+  vectors: [Dense]
+  runs: [Provider API, Self-hosted]
 ---
 
 # Nomic
 
-The `nomic-embed-text-v1` model is an open source [8192 context length](https://github.com/nomic-ai/contrastors) text encoder.
-While you can find it on the [Hugging Face Hub](https://huggingface.co/nomic-ai/nomic-embed-text-v1), 
-you may find it easier to obtain them through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
-Once installed, you can configure it with the official Python client, FastEmbed or through direct HTTP requests.
+[Nomic](https://docs.nomic.ai/atlas/embeddings-and-retrieval/text-embedding) publishes open-weight text and image embedding models. There are two ways to use them with Qdrant:
 
-<aside role="status">Using Nomic Embeddings via the Nomic API/SDK requires configuring the <a href="https://atlas.nomic.ai/cli-login">Nomic API token</a>.</aside>
+- Call the Nomic API with the `nomic` Python SDK or over HTTP, and send the vectors to Qdrant. Most of this page covers this path.
+- [Run the models locally with FastEmbed](#run-locally-with-fastembed), with no API key.
 
-You can use Nomic embeddings directly in Qdrant client calls. There is a difference in the way the embeddings
-are obtained for documents and queries.
+Both paths support `nomic-embed-text-v1.5` and `nomic-embed-vision-v1.5`. Embed documents and queries through the same path.
 
-#### Upsert using [Nomic SDK](https://github.com/nomic-ai/nomic)
+## Models
 
-The `task_type` parameter defines the embeddings that you get.
-For documents, set the `task_type` to `search_document`:
+| Model | Dimensions | Max Input | Input |
+|---|---|---|---|
+| `nomic-embed-text-v1.5` | 768 (or 512, 256, 128, 64) | 8192 tokens | Text |
+| `nomic-embed-vision-v1.5` | 768 | One PNG, JPEG, or WebP image | Image |
 
-```python
-from qdrant_client import QdrantClient, models
-from nomic import embed
+`nomic-embed-vision-v1.5` shares an embedding space with `nomic-embed-text-v1.5`, so text queries can retrieve images. `nomic-embed-text-v1` and `nomic-embed-vision-v1` are the previous generation. Use the v1.5 models for new projects. The multilingual `nomic-embed-text-v2-moe` is available on [Hugging Face](https://huggingface.co/nomic-ai/nomic-embed-text-v2-moe), but neither the Nomic API nor FastEmbed serves it.
 
-output = embed.text(
-    texts=["Qdrant is the best vector database!"],
-    model="nomic-embed-text-v1",
-    task_type="search_document",
-)
+FastEmbed returns text vectors that are not normalized to length 1, so use the Cosine distance metric, which ignores vector length.
 
-client = QdrantClient()
-client.upsert(
-    collection_name="my-collection",
-    points=models.Batch(
-        ids=[1],
-        vectors=output["embeddings"],
-    ),
-)
+## Setup
+
+Install the Nomic SDK and the Qdrant client:
+
+- Python: `pip install nomic qdrant-client`
+- TypeScript: `npm install @qdrant/js-client-rest`
+
+Create an API key in [Nomic Atlas](https://atlas.nomic.ai/cli-login) and store it in the `NOMIC_API_KEY` environment variable. The Python SDK reads the credentials that `nomic login` saves, so run `nomic login $NOMIC_API_KEY` once. The TypeScript example calls the REST API directly and sends the key as a bearer token.
+
+Create the Qdrant client and a collection sized for `nomic-embed-text-v1.5`:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="setup" >}}
+
+## Embed Documents
+
+Set `task_type` to `search_document` for the texts you store. The response lists embeddings in input order, so this example uses each input's position as the point ID:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="embed-documents" >}}
+
+Nomic does not document a per-request limit. The Python SDK splits long lists into requests of 10 texts, so batch large datasets in a similar way when you call the REST API directly. See [Upload Points](/documentation/manage-data/points/#upload-points) for batching on the Qdrant side.
+
+## Embed Queries
+
+Set `task_type` to `search_query` for the query:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="embed-queries" >}}
+
+Nomic Embed models were trained with a task prefix on every input, and the API adds the prefix that matches `task_type`: `search_document: ` for stored texts and `search_query: ` for queries. The API also accepts `classification` and `clustering`.
+
+## Reduce Vector Size
+
+`nomic-embed-text-v1.5` was trained with Matryoshka representation learning. To store shorter vectors, pass `dimensionality` with one of the Matryoshka sizes and set the collection's `size` to match. Pass the same `dimensionality` when you embed queries:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="reduce-vector-size" >}}
+
+Quality drops as the vectors get shorter. These are the MTEB scores from the [model card](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5):
+
+| Dimensions | MTEB Score |
+|---|---|
+| 768 | 62.28 |
+| 512 | 61.96 |
+| 256 | 61.04 |
+| 128 | 59.34 |
+| 64 | 56.10 |
+
+## Embed Images
+
+`embed.image` accepts file paths, URLs, or Pillow images. Image-to-text scores are much lower than text-to-text scores, so store image vectors in a collection of their own instead of mixing them with text documents. This example embeds images and searches them with a text query:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="embed-images" >}}
+
+## Run Locally with FastEmbed
+
+[FastEmbed](/documentation/fastembed/) runs `nomic-ai/nomic-embed-text-v1.5` and `nomic-ai/nomic-embed-vision-v1.5` on your CPU with ONNX Runtime. The models download from Hugging Face on first use, and no API key is needed. `nomic-ai/nomic-embed-text-v1.5-Q` is a quantized variant at 0.13 GB instead of 0.52 GB. These examples use their own collections, so you can run them next to the Nomic API examples.
+
+```bash
+pip install fastembed qdrant-client
 ```
 
-#### Upsert using [FastEmbed](https://github.com/qdrant/fastembed)
+### Documents and Queries
 
-```python
-from fastembed import TextEmbedding
-from client import QdrantClient, models
+The model was trained with task prefixes, and FastEmbed passes text to it unchanged, so add the `search_document: ` and `search_query: ` prefixes yourself:
 
-model = TextEmbedding("nomic-ai/nomic-embed-text-v1")
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="documents-and-queries" >}}
 
-output = model.embed(["Qdrant is the best vector database!"])
+### Shorter Vectors
 
-client = QdrantClient()
-client.upsert(
-    collection_name="my-collection",
-    points=models.Batch(
-        ids=[1],
-        vectors=[embeddings.tolist() for embeddings in output],
-    ),
-)
-```
+FastEmbed always returns 768 dimensions. To get a Matryoshka size, apply layer normalization, keep the first dimensions, and normalize the result, which is the procedure on the model card. Apply it to documents and queries alike, and size the collection to match:
 
-#### Search using [Nomic SDK](https://github.com/nomic-ai/nomic)
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="shorter-vectors" >}}
 
-To query the collection, set the `task_type` to `search_query`:
+### Images
 
-```python
-output = embed.text(
-    texts=["What is the best vector database?"],
-    model="nomic-embed-text-v1",
-    task_type="search_query",
-)
+Image vectors from FastEmbed share the text model's embedding space, so a `search_query: ` text vector retrieves them:
 
-client.query_points(
-    collection_name="my-collection",
-    query=output["embeddings"][0],
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="images" >}}
 
-#### Search using [FastEmbed](https://github.com/qdrant/fastembed)
+## Next Steps
 
-```python
-output = next(model.embed("What is the best vector database?"))
-
-client.query_points(
-    collection_name="my-collection",
-    query=output.tolist(),
-)
-```
-
-For more information, see the Nomic documentation on [Text embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to keep text and image vectors on the same points.
+- [Combine Nomic vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Learn more about FastEmbed](/documentation/fastembed/) and the other models it runs locally.
+- Read the Nomic documentation on [text embeddings](https://docs.nomic.ai/atlas/embeddings-and-retrieval/text-embedding) and [image embeddings](https://docs.nomic.ai/atlas/embeddings-and-retrieval/image-embedding).

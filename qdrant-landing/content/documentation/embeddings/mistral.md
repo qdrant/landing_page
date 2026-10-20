@@ -1,98 +1,63 @@
 ---
-title: Mistral 
-short_description: "Embed documents with Mistral and store vectors in Qdrant to run semantic search at scale, optionally compressed with binary quantization."
-description: "Use Mistral Embed with Qdrant for semantic search and RAG, and apply binary quantization to shrink vector storage while preserving retrieval quality."
+title: Mistral
+weight: 100
+short_description: "Embed text with Mistral Embed and code with Codestral Embed, then search the vectors in Qdrant, directly or through Qdrant Cloud Inference."
+description: "Use Mistral Embed and Codestral Embed with Qdrant: model dimensions, document and query embedding, output_dimension, binary quantization recall, and Cloud Inference."
+directory:
+  summary: "Text and code embedding models through the Mistral API, or through OpenRouter on Qdrant Cloud."
+  input: [Text]
+  vectors: [Dense]
+  runs: [Provider API, Qdrant Cloud Inference]
 ---
 
-| Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/mistral-getting-started/mistral-embed-getting-started/mistral_qdrant_getting_started.ipynb)   |
-| --- | ----------- | ----------- |
-
 # Mistral
-Qdrant is compatible with the new released Mistral Embed and its official Python SDK that can be installed as any other package:
+
+[Mistral AI](https://docs.mistral.ai/studio/knowledge-rag/embeddings/text_embeddings) provides a text embedding model and a code embedding model through its Embeddings API. There are two ways to use them with Qdrant:
+
+- Call the Mistral API from your application and send the vectors to Qdrant. This works with any Qdrant deployment, and it's what most of this page covers.
+- On Qdrant Cloud, pass text to Qdrant and let [Qdrant Cloud Inference](#qdrant-cloud-inference) call Mistral Embed through OpenRouter for you.
+
+## Models
+
+| Model | Dimensions | Reducible | Max Tokens per Input |
+|---|---|---|---|
+| `mistral-embed` | 1024 | No | 8192 |
+| `codestral-embed` | 1536 (up to 3072) | Yes | 8192 |
+
+`mistral-embed` is for general text. `codestral-embed` is for code retrieval. To pin a version, use `mistral-embed-2312` or `codestral-embed-2505`.
+
+Mistral embeddings are normalized to length 1, so the Cosine, Dot, and Euclidean distance metrics rank results identically. This page uses Cosine.
 
 ## Setup
 
-### Install the client
+Install the Mistral SDK and the Qdrant client:
 
-```bash
-pip install mistralai
-```
+- Python: `pip install mistralai qdrant-client`
+- TypeScript: `npm install @mistralai/mistralai @qdrant/js-client-rest`
 
-And then we set this up:
+Create both clients and a collection sized for the model. The Mistral client reads your API key from the `MISTRAL_API_KEY` environment variable.
 
-```python
-from mistralai.client import MistralClient
-from qdrant_client import QdrantClient
-from qdrant_client.models import PointStruct, VectorParams, Distance
+{{< code-snippet path="/documentation/headless/snippets/embeddings/mistral/" block="setup" >}}
 
-collection_name = "example_collection"
+## Embed Documents
 
-MISTRAL_API_KEY = "your_mistral_api_key"
-client = QdrantClient(":memory:")
-mistral_client = MistralClient(api_key=MISTRAL_API_KEY)
-texts = [
-    "Qdrant is the best vector search engine!",
-    "Loved by Enterprises and everyone building for low latency, high performance, and scale.",
-]
-```
+One request embeds a list of inputs. Each item in the response carries the `index` of its input, which this example uses as the point ID. The SDKs type `index` and `embedding` as optional, so the example asserts that they're set:
 
-Let's see how to use the Embedding Model API to embed a document for retrieval. 
+{{< code-snippet path="/documentation/headless/snippets/embeddings/mistral/" block="embed-documents" >}}
 
-The following example shows how to embed a document with the `models/embedding-001` with the `retrieval_document` task type:
+## Embed Queries
 
-## Embedding a document
+Mistral models have no separate query mode. Embed the query with the same model you used for the documents:
 
-```python
-result = mistral_client.embeddings(
-    model="mistral-embed",
-    input=texts,
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/embeddings/mistral/" block="embed-queries" >}}
 
-The returned result has a data field with a key: `embedding`. The value of this key is a list of floats representing the embedding of the document.
+## Reduce Vector Size
 
-### Converting this into Qdrant Points
+`codestral-embed` accepts an `output_dimension` parameter of up to 3072. Its dimensions are ordered by relevance, so a smaller value keeps the most informative ones. Set the collection's `size` to the same value, and pass the same `output_dimension` when you embed queries:
 
-```python
-points = [
-    PointStruct(
-        id=idx,
-        vector=response.embedding,
-        payload={"text": text},
-    )
-    for idx, (response, text) in enumerate(zip(result.data, texts))
-]
-```
+{{< code-snippet path="/documentation/headless/snippets/embeddings/mistral/" block="reduce-vector-size" >}}
 
-## Create a collection and Insert the documents
-
-```python
-client.create_collection(collection_name, vectors_config=VectorParams(
-        size=1024,
-        distance=Distance.COSINE,
-    )
-)
-client.upsert(collection_name, points)
-```
-
-## Searching for documents with Qdrant
-
-Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
-
-```python
-client.query_points(
-    collection_name=collection_name,
-    query=mistral_client.embeddings(
-        model="mistral-embed", input=["What is the best to use for vector search scaling?"]
-    ).data[0].embedding,
-)
-```
-
-## Using Mistral Embedding Models with Binary Quantization
-
-You can use Mistral Embedding Models with [Binary Quantization](/articles/binary-quantization/) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much. 
-
-At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
+`mistral-embed` always returns 1024 dimensions. To store its vectors in less memory, use [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization), which shrinks each vector by 32 times. In this test of `mistral-embed`, recall against the exact nearest neighbors reaches 94.5% at an oversampling of 3 and a limit of 100, with rescoring enabled:
 
 | Oversampling |         | 1        | 1        | 2        | 2        | 3        | 3            |
 |--------------|---------|----------|----------|----------|----------|----------|--------------|
@@ -103,4 +68,22 @@ At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact
 | 50           |         | 0.492222 | 0.834444 | 0.492222 | 0.903556 | 0.492889 | 0.940889     |
 | 100          |         | 0.499111 | 0.845444 | 0.498556 | 0.918333 | 0.497667 | **0.944556** |
 
-That's it! You can now use Mistral Embedding Models with Qdrant!
+## Qdrant Cloud Inference
+
+On Qdrant Cloud, Qdrant can call Mistral Embed for you through [OpenRouter](https://openrouter.ai/mistralai/mistral-embed-2312). Instead of a vector, send a `Document` with the model name `openrouter/mistralai/mistral-embed-2312`. Pass your OpenRouter API key in the `openrouter-api-key` request header or in the `options` object. Qdrant does not store the key, so send it with every request. The collection's vector size must be 1024.
+
+To ingest documents:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/openrouter-upsert/" >}}
+
+To search:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/openrouter-query/" >}}
+
+For other ways to pass the key, see [External Providers](/documentation/inference/external-inference-providers/#openrouter).
+
+## Next Steps
+
+- [Combine Mistral vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- Read Mistral's [code embeddings guide](https://docs.mistral.ai/studio/knowledge-rag/embeddings/code_embeddings) for the `codestral-embed` output types.

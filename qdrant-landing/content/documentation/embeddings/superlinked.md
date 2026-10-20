@@ -1,240 +1,100 @@
 ---
 title: Superlinked
-short_description: "Serve dense, sparse, and multivector embeddings from a single Superlinked endpoint and feed them into Qdrant for hybrid and ColBERT-style retrieval."
-description: "Use Superlinked's self-hosted inference engine to generate dense, sparse, and multivector embeddings, and store them in Qdrant for hybrid vector search."
+weight: 100
+short_description: "Serve dense, sparse, and ColBERT embeddings such as bge-m3 from the Superlinked Inference Engine (SIE) and search them in Qdrant, including hybrid search."
+description: "Use the Superlinked Inference Engine (SIE) with Qdrant: the sie-qdrant package, bge-m3 dense and sparse vectors, hybrid search with RRF, and ColBERT multivectors."
+directory:
+  summary: "Open-source inference server for 100+ dense, sparse, and multivector models, self-hosted or serverless."
+  input: [Text]
+  vectors: [Dense, Sparse, Multivector]
+  runs: [Self-hosted, Provider API]
 ---
 
 # Superlinked
 
-[Superlinked](https://superlinked.com) is a self-hosted inference engine (SIE) that serves 85+ embedding models (dense, sparse, and multivector / ColBERT) from a single endpoint. The `sie-qdrant` package lets you use SIE as the embedding provider for Qdrant collections. SIE encodes your text into vectors, and you store and search them in Qdrant.
+The [Superlinked Inference Engine (SIE)](https://superlinked.com/docs) is an open-source server, under the Apache 2.0 license, that runs open embedding models behind one API. One model can return dense, sparse, and multivector (ColBERT) vectors from the same request. The `sie-qdrant` Python package wraps the SIE client and returns vectors in the format Qdrant expects. TypeScript applications use the SIE SDK, `@superlinked/sie-sdk`, directly. There are two ways to run SIE:
 
-> `sie-qdrant` is currently Python only. TypeScript support is not yet available.
+- Self-host the SIE server with Docker or Kubernetes. The examples on this page connect to `http://localhost:8080`.
+- Call [SIE Serverless](https://superlinked.com/serverless) at `https://api.superlinked.com`, which reads your API key from the `SIE_API_KEY` environment variable.
 
-## Installation
+## Models
+
+The [Model Catalog](https://superlinked.com/models) lists every model SIE serves and the output types each one supports. These cover the examples on this page:
+
+| Model | Output | Dimensions | Max Tokens |
+|---|---|---|---|
+| `BAAI/bge-m3` (the default) | Dense, sparse, multivector | 1024 | 8,192 |
+| `Qwen/Qwen3-Embedding-0.6B` | Dense | 1024 | 32,768 |
+| `jinaai/jina-colbert-v2` | Multivector | 128 per token | 8,192 |
+
+Check each model's license before you use it. For example, `BAAI/bge-m3` is MIT-licensed, while `jinaai/jina-colbert-v2` is licensed for non-commercial use only (CC BY-NC 4.0).
+
+Use the Cosine distance metric for dense vectors. It gives correct results whether or not a model normalizes its output.
+
+## Setup
+
+Start an SIE server, here the CPU image:
 
 ```bash
-pip install sie-qdrant
+docker run -p 8080:8080 ghcr.io/superlinked/sie-server:latest-cpu-default
 ```
 
-This installs `sie-sdk` and `qdrant-client` (v1.7+) as dependencies. You also need a running SIE instance; see the [Superlinked quickstart](https://superlinked.com/docs) for deployment options (Docker, GPU).
+Install the SIE integration and the Qdrant client. In Python, `sie-qdrant` installs `sie-sdk` and `qdrant-client` as dependencies:
 
-## Vectorizer
+- Python: `pip install sie-qdrant`
+- TypeScript: `npm install @superlinked/sie-sdk @qdrant/js-client-rest`
 
-`SIEVectorizer` calls SIE and returns dense vectors as `list[float]`, ready to pass into Qdrant's `PointStruct(vector=...)` and `query_points()`:
+Create the SIE vectorizer, the Qdrant client, and a collection sized for the model. To use SIE Serverless instead, set `SIE_API_KEY` and pass `base_url="https://api.superlinked.com"` in Python, or call `new SIEClient()` with no URL in TypeScript.
 
-```python
-from sie_qdrant import SIEVectorizer
+{{< code-snippet path="/documentation/headless/snippets/embeddings/superlinked/" block="setup" >}}
 
-vectorizer = SIEVectorizer(
-    base_url="http://localhost:8080",
-    model="NovaSearch/stella_en_400M_v5",
-)
-```
+## Embed Documents
 
-Any model SIE supports for dense embeddings works, just change the `model` parameter:
+One call embeds a list of documents and returns the vectors in input order. This example uses the position of each document as the point ID:
 
-```python
-# Nomic MoE (768-dim, multilingual)
-vectorizer = SIEVectorizer(model="nomic-ai/nomic-embed-text-v2-moe")
+{{< code-snippet path="/documentation/headless/snippets/embeddings/superlinked/" block="embed-documents" >}}
 
-# E5 (1024-dim, instruction-tuned - SIE handles query vs document encoding automatically)
-vectorizer = SIEVectorizer(model="intfloat/e5-large-v2")
+## Embed Queries
 
-# BGE-M3 (1024-dim, also supports sparse output for hybrid search)
-vectorizer = SIEVectorizer(model="BAAI/bge-m3")
-```
+`embed_query` marks the text as a query, so SIE applies query-specific encoding for models that need it, such as E5. In TypeScript, pass `isQuery: true`. For models without a query prompt, such as `BAAI/bge-m3`, queries and documents are embedded the same way.
 
-See the [Model Catalog](https://superlinked.com/models) for all supported models.
+{{< code-snippet path="/documentation/headless/snippets/embeddings/superlinked/" block="embed-queries" >}}
 
-## Full example
+## Hybrid Search with Dense and Sparse Vectors
 
-Create a Qdrant collection, embed documents with SIE, and search:
+`SIENamedVectorizer` asks for several output types in one SIE call and returns a dictionary keyed by output type. With `BAAI/bge-m3`, one call returns a dense vector and a learned sparse vector. Sparse vectors come back as `indices` and `values`, which is the format Qdrant stores natively.
 
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams, PointStruct
-from sie_qdrant import SIEVectorizer
+Create a separate collection with a named dense vector and a named sparse vector, and upsert both:
 
-vectorizer = SIEVectorizer(
-    base_url="http://localhost:8080",
-    model="NovaSearch/stella_en_400M_v5",
-)
+{{< code-snippet path="/documentation/headless/snippets/embeddings/superlinked/" block="hybrid-search-with-dense-and-sparse-vectors" >}}
 
-client = QdrantClient("http://localhost:6333")
+To search, run a dense and a sparse query as prefetches and merge their results with Reciprocal Rank Fusion (RRF):
 
-client.create_collection(
-    collection_name="documents",
-    vectors_config=VectorParams(size=1024, distance=Distance.COSINE),
-)
+{{< code-snippet path="/documentation/headless/snippets/embeddings/superlinked/" block="hybrid-search-with-dense-and-sparse-vectors-2" >}}
 
-texts = [
-    "Machine learning is a subset of artificial intelligence.",
-    "Neural networks are inspired by biological neurons.",
-    "Deep learning uses multiple layers of neural networks.",
-    "Python is popular for machine learning development.",
-]
+## ColBERT Multivectors
 
-vectors = vectorizer.embed_documents(texts)
+Late-interaction models such as `jinaai/jina-colbert-v2` return one vector per token. Qdrant stores them as a [multivector](/documentation/manage-data/vectors/#multivectors) and scores them with MaxSim on the server, so you don't compute late-interaction scores in your application. Store them in a separate collection:
 
-client.upsert(
-    collection_name="documents",
-    points=[
-        PointStruct(id=i, vector=v, payload={"text": t})
-        for i, (t, v) in enumerate(zip(texts, vectors))
-    ],
-)
+{{< code-snippet path="/documentation/headless/snippets/embeddings/superlinked/" block="colbert-multivectors" >}}
 
-query_vec = vectorizer.embed_query("What is deep learning?")
+## Vectorizer Options
 
-results = client.query_points(
-    collection_name="documents",
-    query=query_vec,
-    limit=2,
-)
+`SIEVectorizer` and `SIENamedVectorizer` accept the same options. `SIENamedVectorizer` also takes `output_types`, which defaults to `["dense", "sparse"]` and must match the named vectors in your collection.
 
-for point in results.points:
-    print(point.payload["text"])
-```
+| Parameter | Default | Description |
+|---|---|---|
+| `base_url` | `http://localhost:8080` | SIE server URL |
+| `model` | `BAAI/bge-m3` | Model to use, from the [Model Catalog](https://superlinked.com/models) |
+| `instruction` | `None` | Instruction prefix for instruction-tuned models |
+| `output_dtype` | `None` | Output data type: `float32`, `float16`, `int8`, or `binary` |
+| `gpu` | `None` | GPU type to route requests to |
+| `options` | `None` | Model-specific options |
+| `timeout_s` | `180.0` | Request timeout in seconds |
 
-## Named vectors (dense + sparse)
+## Next Steps
 
-For hybrid search, `SIENamedVectorizer` produces multiple vector types in a single SIE call. The model must support all requested output types: `BAAI/bge-m3` supports both dense and sparse, `jinaai/jina-colbert-v2` supports dense and multivector.
-
-SIE sparse vectors (from SPLADE or BGE-M3) are learned sparse representations that capture semantic similarity, not just term overlap. Qdrant stores them natively in its compact `indices + values` format.
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.models import (
-    Distance, VectorParams, PointStruct,
-    SparseVectorParams, SparseVector,
-)
-from sie_qdrant import SIENamedVectorizer
-
-# One SIE call produces both dense and sparse vectors
-vectorizer = SIENamedVectorizer(
-    base_url="http://localhost:8080",
-    model="BAAI/bge-m3",
-    output_types=["dense", "sparse"],
-)
-
-client = QdrantClient("http://localhost:6333")
-
-client.create_collection(
-    collection_name="documents",
-    vectors_config={"dense": VectorParams(size=1024, distance=Distance.COSINE)},
-    sparse_vectors_config={"sparse": SparseVectorParams()},
-)
-
-texts = ["First document", "Second document"]
-named_vectors = vectorizer.embed_documents(texts)
-
-client.upsert(
-    collection_name="documents",
-    points=[
-        PointStruct(
-            id=i,
-            vector={
-                "dense": v["dense"],
-                "sparse": SparseVector(**v["sparse"]),
-            },
-            payload={"text": t},
-        )
-        for i, (t, v) in enumerate(zip(texts, named_vectors))
-    ],
-)
-```
-
-### Hybrid search with Reciprocal Rank Fusion
-
-Combine dense and sparse results via Qdrant's prefetch + RRF fusion:
-
-```python
-from qdrant_client.models import Prefetch, FusionQuery, Fusion, SparseVector
-
-query = vectorizer.embed_query("search text")
-
-results = client.query_points(
-    collection_name="documents",
-    prefetch=[
-        Prefetch(query=query["dense"], using="dense", limit=20),
-        Prefetch(query=SparseVector(**query["sparse"]), using="sparse", limit=20),
-    ],
-    query=FusionQuery(fusion=Fusion.RRF),
-    limit=5,
-)
-```
-
-## Multivector (ColBERT) and late interaction
-
-Qdrant supports native MaxSim retrieval for ColBERT-style late-interaction models via `MultiVectorConfig`. Combined with `SIENamedVectorizer`, this enables true late-interaction retrieval without client-side scoring:
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.models import (
-    Distance, VectorParams, PointStruct,
-    MultiVectorConfig, MultiVectorComparator,
-)
-from sie_qdrant import SIENamedVectorizer
-
-vectorizer = SIENamedVectorizer(
-    base_url="http://localhost:8080",
-    model="jinaai/jina-colbert-v2",
-    output_types=["dense", "multivector"],
-)
-
-client = QdrantClient("http://localhost:6333")
-client.create_collection(
-    collection_name="documents",
-    vectors_config={
-        "dense": VectorParams(size=768, distance=Distance.COSINE),
-        "multivector": VectorParams(
-            size=128,
-            distance=Distance.COSINE,
-            multivector_config=MultiVectorConfig(
-                comparator=MultiVectorComparator.MAX_SIM,
-            ),
-        ),
-    },
-)
-
-texts = ["First document", "Second document"]
-named_vectors = vectorizer.embed_documents(texts)
-
-client.upsert(
-    collection_name="documents",
-    points=[
-        PointStruct(
-            id=i,
-            vector={"dense": v["dense"], "multivector": v["multivector"]},
-            payload={"text": t},
-        )
-        for i, (t, v) in enumerate(zip(texts, named_vectors))
-    ],
-)
-
-query = vectorizer.embed_query("search text")
-results = client.query_points(
-    collection_name="documents",
-    query=query["multivector"],
-    using="multivector",
-    limit=5,
-)
-```
-
-## Configuration
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `base_url` | `str` | `http://localhost:8080` | SIE server URL |
-| `model` | `str` | `BAAI/bge-m3` | Model to use for embeddings ([catalog](https://superlinked.com/models)) |
-| `instruction` | `str` | `None` | Instruction prefix for instruction-tuned models (e.g. E5) |
-| `output_dtype` | `str` | `None` | Output dtype: `float32`, `float16`, `int8`, `binary` |
-| `gpu` | `str` | `None` | Target GPU type for routing |
-| `options` | `dict` | `None` | Model-specific options |
-| `timeout_s` | `float` | `180.0` | Request timeout in seconds |
-
-## Further reading
-
-- [Superlinked docs](https://superlinked.com/docs)
-- [`sie-qdrant` on PyPI](https://pypi.org/project/sie-qdrant/)
-- [Superlinked on GitHub](https://github.com/superlinked/sie)
+- [Learn how hybrid queries work](/documentation/search/hybrid-queries/), including other fusion methods.
+- [Configure multivectors](/documentation/manage-data/vectors/#multivectors) for ColBERT and other late-interaction models.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- Read the [SIE Qdrant integration guide](https://superlinked.com/docs/integrations/qdrant) and the [SIE quickstart](https://superlinked.com/docs/quickstart).

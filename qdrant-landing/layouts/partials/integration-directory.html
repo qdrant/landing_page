@@ -1,0 +1,73 @@
+{{- /*
+  Data for the `integration-directory` shortcode, shared by its HTML and
+  Markdown variants so both list the same pages in the same order. Call it
+  with partialCached, keyed by the page and the shortcode parameters, so the
+  page scan and checks run once per directory rather than once per output.
+
+  Takes the shortcode context and returns a dict:
+    noun, plural  the entry name for counts ("provider", "providers")
+    facets        slice of dict "key" "label" "values" from the optional
+                  `facets="key:Label|..."`; `values` are the sorted options
+    pages         the section's pages: `directory.featured: true` first, then by title
+
+  Each listed page describes itself in front matter, and the build fails with
+  a clear message when a page is missing a summary or a facet list, when the
+  title or summary spans several lines (it would break the Markdown table), or
+  when a facet value contains "|", which separates values in the card markup:
+
+    directory:
+      summary: "One sentence on what the integration offers."
+      input: [Text, Image]
+      vectors: [Dense]
+      runs: [Provider API, Qdrant Cloud Inference]
+*/ -}}
+{{- $noun := .Get "noun" | default "result" -}}
+{{- $plural := .Get "plural" | default (printf "%ss" $noun) -}}
+{{- $specs := slice -}}
+{{- with .Get "facets" -}}{{- $specs = split . "|" -}}{{- end -}}
+{{- $keys := slice -}}
+{{- $labels := dict -}}
+{{- range $specs -}}
+  {{- $pair := split . ":" -}}
+  {{- if ne (len $pair) 2 -}}
+    {{- errorf "integration-directory: facet %q must be written as key:Label" . -}}
+  {{- end -}}
+  {{- /* Hugo lowercases front matter keys, so `runsOn` is stored as `runson`. */ -}}
+  {{- $key := lower (index $pair 0) -}}
+  {{- $keys = $keys | append $key -}}
+  {{- $labels = merge $labels (dict $key (index $pair 1)) -}}
+{{- end -}}
+{{- $byTitle := .Page.RegularPages.ByTitle -}}
+{{- $pages := union (where $byTitle "Params.directory.featured" true) $byTitle -}}
+{{- $options := dict -}}
+{{- range $pages -}}
+  {{- $page := . -}}
+  {{- $directory := .Params.directory -}}
+  {{- if not $directory.summary -}}
+    {{- errorf "integration-directory: %s has no directory.summary in its front matter" .File.Path -}}
+  {{- end -}}
+  {{- if or (strings.Contains $directory.summary "\n") (strings.Contains .Title "\n") -}}
+    {{- errorf "integration-directory: %s needs a one-line title and directory.summary" .File.Path -}}
+  {{- end -}}
+  {{- if or (ne .Title (strings.TrimSpace .Title)) (ne $directory.summary (strings.TrimSpace $directory.summary)) -}}
+    {{- errorf "integration-directory: %s has leading or trailing spaces in its title or directory.summary" .File.Path -}}
+  {{- end -}}
+  {{- range $keys -}}
+    {{- $key := . -}}
+    {{- $values := index $directory $key -}}
+    {{- if not (and (reflect.IsSlice $values) $values) -}}
+      {{- errorf "integration-directory: %s needs directory.%s as a non-empty list, for example [Text]" $page.File.Path $key -}}
+    {{- end -}}
+    {{- range $values -}}
+      {{- if strings.Contains . "|" -}}
+        {{- errorf "integration-directory: %s has %q in directory.%s; facet values can't contain |" $page.File.Path . $key -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $options = merge $options (dict $key ((index $options $key | default slice) | append $values)) -}}
+  {{- end -}}
+{{- end -}}
+{{- $facets := slice -}}
+{{- range $keys -}}
+  {{- $facets = $facets | append (dict "key" . "label" (index $labels .) "values" (sort (uniq (index $options . | default slice)))) -}}
+{{- end -}}
+{{- return dict "noun" $noun "plural" $plural "facets" $facets "pages" $pages -}}
