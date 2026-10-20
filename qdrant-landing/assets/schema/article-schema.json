@@ -3,15 +3,21 @@
   "@id": "{{- .Permalink -}}#article",
   "name": "{{- .Params.title | htmlEscape -}}",
   "headline": "{{- .Params.title | htmlEscape -}}",
-  "image": [
-    "{{- if .Params.social_preview_image -}}{{- .Params.social_preview_image | absURL -}}{{- end -}}"
-  ],
+  {{- $schemaImage := "" -}}
+  {{- with .Params.social_preview_image -}}{{- $schemaImage = . | absURL -}}{{- end -}}
+  {{- if and (not $schemaImage) .Params.preview_image -}}{{- $schemaImage = .Params.preview_image | absURL -}}{{- end -}}
+  {{- if and (not $schemaImage) .Site.Params.preview_image -}}{{- $schemaImage = .Site.Params.preview_image | absURL -}}{{- end -}}
+  {{- if $schemaImage }}
+  "image": ["{{- $schemaImage -}}"],
+  {{- end }}
   "url": "{{- .Permalink -}}",
   "description": {{ $description := printf "%s" (.Params.description | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $description -}}",
   "abstract": {{- $abstract := .Summary -}}{{- if .Params.description -}}{{- $abstract = .Params.description -}}{{- end -}}{{ $processedAbstract := printf "%s" ($abstract | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $processedAbstract -}}",
   "wordCount": "{{- .WordCount -}}",
-  "datePublished": "{{ .Date }}" ,
-  "dateModified": "{{ .Date }}",{{- if .Params.author -}}
+  {{- if not .Date.IsZero }}
+  "datePublished": "{{- .Date.Format "2006-01-02T15:04:05Z07:00" -}}",
+  "dateModified": "{{- .Date.Format "2006-01-02T15:04:05Z07:00" -}}",
+  {{- end }}{{- if .Params.author -}}
   "author": {
     "@type": "Person",
     "name": "{{- .Params.author | htmlEscape -}}"

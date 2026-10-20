@@ -97,7 +97,7 @@
 {{ if .Params.seo_schema }}
   <!-- if schema is defined in front matter -->
 <script type="application/ld+json">
-    {{ .Params.seo_schema | jsonify | unmarshal }}
+    {{ .Params.seo_schema | jsonify | safeJS }}
 </script>
 {{ end }}
 
@@ -135,7 +135,7 @@
 {{ $image := .Site.Params.preview_image }}
 
 {{ if .Params.preview_image }}
-  {{ $image := .Params.preview_image }}
+  {{ $image = .Params.preview_image }}
 {{ end }}
 
 {{ $slug := .Params.slug }}
@@ -204,9 +204,13 @@
 
 <meta name="image" property="og:image" content="{{ $image | absURL }}" />
 <meta name="image" property="og:image:secure_url" content="{{ $image | absURL }}" />
-<meta property="og:image:type" content="image/jpeg" />
+{{ $imageExt := lower (path.Ext $image) }}
+{{ $imageType := "image/jpeg" }}
+{{ if eq $imageExt ".png" }}{{ $imageType = "image/png" }}{{ else if eq $imageExt ".webp" }}{{ $imageType = "image/webp" }}{{ else if eq $imageExt ".gif" }}{{ $imageType = "image/gif" }}{{ end }}
+<meta property="og:image:type" content="{{ $imageType }}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta name="twitter:image" content="{{ $image | absURL }}" />
 <meta name="twitter:image:src" content="{{ $image | absURL }}" />
 
 <!-- Author -->
