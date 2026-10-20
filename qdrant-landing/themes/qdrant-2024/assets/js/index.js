@@ -2,7 +2,7 @@ import scrollHandler from './scroll-handler';
 import { initTabSync } from './tab-sync';
 import { XXL_BREAKPOINT } from './constants';
 import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
-import { handleSegmentReady } from './segment-helpers';
+import { handleSegmentReady, trackStoredInteractions } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
       await window.analytics.track('onetrust_consent_preference_updated', {
         onetrust_active_groups: window.OnetrustActiveGroups ?? '',
       });
+
+      trackStoredInteractions();
     });
 
     handleSegmentReady();
