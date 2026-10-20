@@ -33,9 +33,9 @@ This guide starts from the payload model, the one built for many small tenants, 
 
 Like most architecture decisions, multitenancy comes down to tradeoffs, and choosing a design requires both engineering and business knowledge of your application: how many customers you have, whether their contracts require dedicated infrastructure, and what isolation your pricing tiers promise. Three axes shape the design:
 
-- Isolation level: how much tenants share, such as nodes, collections, and other resources, and therefore how far one tenant's load or one mistake can spread.
+- Isolation level: how much tenants share, such as nodes, collections, and other resources, and therefore how far one tenant's load can spread.
 - Infrastructure cost: what you pay to run the deployment, in money on a managed service or in operations time when self-hosted.
-- Enforcement effort: how much of the isolation your own code must enforce, for example by applying the tenant filter on every request.
+- Enforcement effort: whether Qdrant's access control keeps tenants out of each other's data, or your own code does, for example by applying the tenant filter on every request.
 
 No design wins on all three. The cheaper the infrastructure, the more tenants share, and in the cheapest design your own code has to enforce the boundary between them.
 
@@ -68,11 +68,24 @@ Once tenants share a collection, the next decision is engineering rather than bu
 
 Start with the payload model, but decide one thing before creating the collection, because it cannot change later: whether it uses custom sharding. An auto-sharded collection spreads the shared tenants across shards and nodes, but giving a tenant its own shard later means migrating every point to a new collection. A custom-sharded collection with one shared `default` shard key can promote a tenant at any time, but all shared tenants then live in that single shard, which has to fit on one node.
 
+## Enforce the Boundary on Every Request
+
+In every model, your code still enforces the boundary: every request carries the tenant filter, the shard key, or both. Each of these fails silently, with no error to warn you:
+
+- A query missing the tenant filter does not return nothing, it returns every tenant's points, since similarity search always ranks the nearest vectors and has no concept of "no match."
+- Retrieving a point by its ID ignores the tenant filter entirely, so a guessed or leaked ID returns that point regardless of who owns it. Scope ID lookups with a `has_id` condition combined with the tenant filter, never `has_id` alone.
+- An upsert that reuses another tenant's point ID in the same shard key overwrites it outright: tenant A's write to an ID already held by tenant B replaces B's point with no trace of the original.
+- A request without a shard key runs on every shard, so in a custom-sharded collection it reads or writes every tenant's shard.
+
+Treat the tenant field as a hard filter everywhere, including in anything you build on top of Qdrant, such as a semantic cache, never as a similarity signal.
+
+Qdrant's access control cannot carry this boundary for you inside a shared collection: JWT tokens grant read or write access per collection, not per tenant, so the tenant filter must come from your backend, never from the client. Only a collection or a cluster per tenant moves the boundary into Qdrant itself. A dedicated shard does not: a shard key routes a request, it does not authorize it.
+
 ## Payload Field with a Tenant Index
 
 ### Set It Up
 
-Consider a blogging platform where every author gets a personal subdomain: a visitor can search the whole site at `blogplatform.com`, or one author's work at `authorname.blogplatform.com`. Both searches hit the same collection; the subdomain only tells your backend which author to filter by, and on `blogplatform.com` that filter is simply absent. One collection, one code path, and a filter that is present or not: a natural fit for payload partitioning.
+Consider a blogging platform where every author gets a personal subdomain: a visitor can search the whole site at `blogplatform.com`, or one author's work at `authorname.blogplatform.com`. Both searches hit the same collection; the subdomain only tells your backend which author to filter by, and on `blogplatform.com` that filter is simply absent. One collection, one code path, and a filter that is present or not: a natural fit for payload partitioning. Articles are public, so leaving the filter out is a feature here. In a B2B product, where each tenant's data is private, the same setup applies, but a query without the filter is a data leak.
 
 The example here uses the [`fabiochiu/medium-articles`](https://huggingface.co/datasets/fabiochiu/medium-articles) dataset, which has two properties worth noting before setting it up:
 
@@ -91,7 +104,7 @@ client.create_payload_index(
 )
 ```
 
-`is_tenant` tells Qdrant to store each author's points together on disk. Upload points as you normally would, with one change: each (article, author) pair needs its own ID.
+`is_tenant` tells Qdrant to store each author's points together on disk, so a filtered query reads them in one sequential pass. Upload points as you normally would, with one change: each (article, author) pair needs its own ID.
 
 ```python
 from uuid import uuid5, NAMESPACE_URL
@@ -131,7 +144,7 @@ client.query_points(
 )
 ```
 
-This setup needs no extra shards, no distributed mode, and no extra collections, so it is the lightest of the three models to run. It is not automatically fast: without the index, a tenant filter took more than 80 ms for tenants of up to 5,000 points, against 0.7 to 1.7 ms with it.
+This setup needs no extra shards, no distributed mode, and no extra collections, so it is the lightest of the three models to run.
 
 ### Create the Index Before the Data
 
@@ -141,12 +154,12 @@ The tenant index does its job when it exists from the start: filtered queries on
 
 On Qdrant Cloud, strict mode is on by default and rejects filters on unindexed fields, so the no-index case fails with an error there instead of slowing down; these runs turned strict mode off to measure its cost.
 
-| Setup | Setup time | Unfiltered query | 10,000-point tenant |
-|---|---|---|---|
-| Tenant index from the start | 306 s | 1.72 ms, recall 0.996 | 1.81 ms, recall 1.00 |
-| No index | 175 s | 1.81 ms, recall 0.99 | 3.88 ms, recall 0.05 |
-| Index added after loading | 175 s + 8 s | 1.79 ms, recall 0.99 | 0.83 ms, recall 0.05 |
-| Per-tenant graphs (`m=0`) | 286 s | 1.51 ms, recall 0.24 | 1.48 ms, recall 0.998 |
+| Setup | Unfiltered recall | 10,000-point tenant |
+|---|---|---|
+| Tenant index from the start | 0.996 | 1.81 ms, recall 1.00 |
+| No index | 0.99 | 3.88 ms, recall 0.05 |
+| Index added after loading | 0.99 | 0.83 ms, recall 0.05 |
+| Per-tenant graphs (`m=0`) | 0.24 | 1.48 ms, recall 0.998 |
 
 {{< island path="content/documentation/headless/multitenancy/index-timing" ratio="960 / 660" >}}
 ![Below about 6,500 points of 384 dimensions every setup scans exactly and keeps recall 1.00; above it, only the index created before loading kept full recall at 10,000 and 20,000 points, and at 40,000 points all three fell to 0.84 or 0.85](/docs/index-timing.png)
@@ -156,7 +169,7 @@ If a collection already has data when you add the index, rebuild the HNSW graph 
 
 ### Skip the Global Graph If Nothing Searches Across Tenants
 
-Per-tenant graphs are a different setup: `m=0` disables the single global graph, and `payload_m` builds a separate, smaller graph per tenant instead. Its setup time, 286 s, fell within the run-to-run spread of the regular setup, 254 to 306 s. Filtered queries kept their recall, and at 40,000 points, the largest synthetic tenant, they held 0.996 while every setup with a global graph fell to between 0.82 and 0.85. Unfiltered queries ran slightly faster, but with no graph linking the tenants, they returned only 24% of the right answers. That rules it out for the blogging platform, whose site-wide search runs without a tenant filter.
+Per-tenant graphs are a different setup: `m=0` disables the single global graph, and `payload_m` builds a separate, smaller graph per tenant instead. It did not measurably shorten setup. Filtered queries kept their recall, and at 40,000 points, the largest synthetic tenant, they held 0.996 while every setup with a global graph fell to between 0.82 and 0.85. Unfiltered queries ran slightly faster, but with no graph linking the tenants, they returned only 24% of the right answers. That rules it out for the blogging platform, whose site-wide search runs without a tenant filter, but not for a B2B product, where nothing should.
 
 {{< island path="content/documentation/headless/multitenancy/per-tenant-graphs" ratio="960 / 640" >}}
 ![Illustrative: one global graph connects every tenant, while per-tenant graphs have no edges between tenants; measured, unfiltered recall fell from 0.996 to 0.24 while filtered recall held](/docs/per-tenant-graphs.png)
@@ -174,30 +187,9 @@ client.create_collection(
 
 An existing collection can switch with `update_collection`, which rebuilds its HNSW index.
 
-### Keep Each Tenant's Points Together on Disk
-
-With vectors on disk, `is_tenant` came out ahead in a single run: loading and indexing took 203 s against 250 s for a plain keyword index, and a 5,000-point tenant was served in 1.79 ms against 3.25 ms. Storing a tenant's points next to each other lets a filtered query read them sequentially instead of seeking across the segment.
-
-{{< island path="content/documentation/headless/multitenancy/disk-locality" ratio="960 / 630" >}}
-![On disk, the tenant index answered faster than a plain keyword index at each of the six synthetic tenant sizes and finished loading and indexing in 203 s against 250 s](/docs/disk-locality.png)
-{{< /island >}}
-
-### Enforce the Boundary on Every Request
-
-In every model, your code still enforces the boundary: every request carries the tenant filter, the shard key, or both. Each of these fails silently, with no error to warn you:
-
-- A query missing the tenant filter does not return nothing, it returns every tenant's points, since similarity search always ranks the nearest vectors and has no concept of "no match."
-- Retrieving a point by its ID ignores the tenant filter entirely, so a guessed or leaked ID returns that point regardless of who owns it. Scope ID lookups with a `has_id` condition combined with the tenant filter, never `has_id` alone.
-- An upsert that reuses another tenant's point ID in the same shard key overwrites it outright: tenant A's write to an ID already held by tenant B replaces B's point with no trace of the original.
-- A request without a shard key runs on every shard, so in a custom-sharded collection it reads or writes every tenant's shard.
-
-Treat the tenant field as a hard filter everywhere, including in anything you build on top of Qdrant, such as a semantic cache, never as a similarity signal.
-
-Qdrant's access control cannot carry this boundary for you inside a shared collection: JWT tokens grant read or write access per collection, not per tenant, so the tenant filter must come from your backend, never from the client. Only a collection or a cluster per tenant moves the boundary into Qdrant itself.
-
 ### Articles That Belong to Several Tenants
 
-A follow-up experiment tenanted articles on both their authors and the publication they appeared in (covering 58% of articles) and tested one point per article, with a list of tenants, instead of one point per tenant. Recall held at 1.00 for every kind of tenant, and the list-valued layout stored 161,413 points against 257,726, about 37% fewer. The cost was slower queries for a large publication, 2.36 ms against 1.63 ms at p95, since a point can sit next to only one of its tenants on disk. It holds only while every tenant stays in the shared collection, as [When a Tenant Outgrows the Shared Collection](#when-a-tenant-outgrows-the-shared-collection) shows.
+A follow-up experiment tenanted articles on both their authors and their publication, and tested one point per article, with a list of tenants, instead of one point per tenant. Recall held at 1.00 for every kind of tenant, and the list stored about 37% fewer points, at the cost of slower queries for a large publication, since a point can sit next to only one of its tenants on disk. It holds only while every tenant stays in the shared collection, as [When a Tenant Outgrows the Shared Collection](#when-a-tenant-outgrows-the-shared-collection) shows.
 
 ## When a Tenant Outgrows the Shared Collection
 
@@ -205,13 +197,13 @@ Three measurements show what outgrowing the payload model looks like:
 
 - A tenant holding 90% of the collection does not hurt a small tenant's own queries while nothing else is happening, but the dominant tenant's own recall drifts down to 0.985.
 - Loading a new 100,000-point tenant raised the other tenants' p95 from 0.74 to 6.84 ms when the load finished in 2 minutes, but only from 0.78 to 0.95 ms when it took 15: in a shared collection, the noisy-neighbor cost grows with write speed. On a shard of its own, a 4-minute load left them flat.
-- Removing a tenant by filter pushed other tenants' queries as high as 198 ms while the delete ran (on two to four probes, too few for a precise number); dropping a tenant's shard key took a fraction of a second.
+- Removing a tenant by filter caused latency spikes for other tenants while the delete ran; dropping a tenant's shard key took a fraction of a second.
 
 {{< island path="content/documentation/headless/multitenancy/noisy-neighbor" ratio="960 / 556" >}}
 ![While a new 100,000-point tenant loaded, the shared collection's p95 for other tenants rose to 0.95 ms during a 15-minute load and 6.84 ms during a 2-minute one; on its own shard, during a 4-minute load, it stayed at 0.73 ms](/docs/noisy-neighbor.png)
 {{< /island >}}
 
-Before moving any tenant out, settle how points shared by several tenants are stored. A point lives in exactly one shard, so an article stored once as `[A, B]` disappears for B once A has a shard of their own: only 245 of 482 memberships stayed visible with a shard per author, and 3 of 240 for co-authors left behind by a promotion. One copy per tenant kept all of them, at a cost: a site-wide search returns a co-authored article once per author, so deduplicate those results, for example by URL.
+Before moving any tenant out, settle how points shared by several tenants are stored. A point lives in exactly one shard, so an article stored once as `[A, B]` disappears for B once A has a shard of their own: only about half the memberships stayed visible with a shard per author, and almost none for co-authors left behind by a promotion. One copy per tenant kept all of them, at a cost: a site-wide search returns a co-authored article once per author, so deduplicate those results, for example by URL.
 
 {{< island path="content/documentation/headless/multitenancy/membership-visibility" ratio="960 / 692" >}}
 ![A co-authored article stored once as [A, B] stays visible to both co-authors in the payload model, but only 245 of 482 memberships survive a shard per tenant and 3 of 240 survive a promotion; one copy per tenant keeps all of them](/docs/membership-visibility.png)
@@ -239,7 +231,7 @@ client.create_shard_key(ARTICLES_COLLECTION, "{tenant_id}")
 
 Every write and query for that tenant then carries `shard_key_selector="{tenant_id}"`.
 
-On the single-node cluster used here, moving the dominant tenant onto its own shard mostly helped that tenant: its recall rose from 0.985 to 0.997. A mid-sized tenant got faster, 1.71 to 1.18 ms, but its recall fell from 0.999 to 0.981; the two numbers come from separate runs, so treat the drop as a warning rather than a precise figure. The small tenant this isolation was meant to protect barely moved, 0.52 to 0.55 ms: on one node, a dedicated shard still shares the node's CPU, RAM, and disk.
+On the single-node cluster used here, moving the dominant tenant onto its own shard mostly helped that tenant: its recall rose from 0.985 to 0.997. A mid-sized tenant got faster but lost some recall, and the small tenant barely moved: on one node, a dedicated shard still shares the node's CPU, RAM, and disk.
 
 {{< island path="content/documentation/headless/multitenancy/isolation-tradeoff" ratio="960 / 672" >}}
 ![Moving the whale onto its own shard raised its recall from 0.985 to 0.997; the mid tenant got faster but its recall fell from 0.999 to 0.981; the tiny tenant barely moved](/docs/isolation-tradeoff.png)
@@ -249,7 +241,7 @@ Real isolation needs the shard on its own node, set with the `placement` argumen
 
 ## Promote Growing Tenants with Tiered Multitenancy
 
-Tiered multitenancy keeps the payload model's low cost for most tenants while giving the few that outgrow it their own shard, without the application needing to know which case it is talking to: every request names a `target` shard key, the tenant, and a `fallback` key, the shared shard everyone starts in, and Qdrant routes to whichever one is active.
+Tiered multitenancy, available as of Qdrant 1.16, keeps the payload model's low cost for most tenants while giving the few that outgrow it their own shard, without the application needing to know which case it is talking to: every request names a `target` shard key, the tenant, and a `fallback` key, the shared shard everyone starts in, and Qdrant routes to whichever one is active.
 
 It needs a custom-sharded collection with the tenant index, and a fallback shard key with a single shard:
 
@@ -299,10 +291,18 @@ def shard_state(shard_key):
     info = client.collection_cluster_info(ARTICLES_COLLECTION)
     return next(s.state for s in info.local_shards + info.remote_shards if s.shard_key == shard_key)
 
+deadline = time.monotonic() + 3600
 while shard_state("{tenant_id}") != models.ReplicaState.ACTIVE:
+    if time.monotonic() > deadline:
+        raise TimeoutError("not Active yet; the fallback still holds every point")
     time.sleep(1)
 
-# 4. Remove the now-duplicated points from the fallback shard; Qdrant does not do this automatically
+# 4. Check the copy before removing anything
+copied = client.count(ARTICLES_COLLECTION, count_filter=tenant_filter, shard_key_selector="{tenant_id}").count
+original = client.count(ARTICLES_COLLECTION, count_filter=tenant_filter, shard_key_selector="default").count
+assert copied >= original, f"{original - copied} points missing from the new shard"
+
+# 5. Remove the old copies from the fallback; new writes already go to the new shard
 client.delete(
     ARTICLES_COLLECTION,
     points_selector=models.FilterSelector(filter=tenant_filter),
@@ -310,7 +310,7 @@ client.delete(
 )
 ```
 
-Deleting earlier can remove points the copy has not reached yet, and replicas for the new shard can be added only once it is Active. In one run, copying 98,619 points took 10 seconds, during which the other tenants' p95 rose to about 32 ms. The delete call itself returned in half a second, and the background cleanup that followed took about two minutes, with one 25 ms spike. In a separate run, all 200 writes made before and during the copy were visible afterward.
+Deleting earlier can remove points the copy has not reached yet, and replicas for the new shard can be added only once it is Active. In one run, copying 98,619 points took 10 seconds, during which the other tenants' p95 rose to about 32 ms. The delete call itself returned in half a second, and the background cleanup that followed took about two minutes, with one 25 ms spike. In a separate run, all 200 writes made before and during the copy were visible afterward. Neither run tested a failed copy, the tenant's own reads during the copy, or a copy between nodes, so rehearse a promotion on a staging collection first.
 
 {{< island path="content/documentation/headless/multitenancy/promotion-timeline" ratio="960 / 820" >}}
 ![Promotion in three steps: a Partial shard, a 10-second copy that raised other tenants' p95 to 32 ms, and a half-second delete followed by about 2 minutes of background cleanup with one 25 ms spike; 200 of 200 writes were kept](/docs/promotion-timeline.png)
@@ -340,7 +340,8 @@ Before committing to a model, run the same checks against your own data: load a 
 ## How We Measured
 
 - **Data:** the [`fabiochiu/medium-articles`](https://huggingface.co/datasets/fabiochiu/medium-articles) dataset, one point per article and author, 164,365 points for 85,119 authors, embedded with `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions). For the tenant-size sweep, random points were relabeled into six synthetic tenants of 500 to 40,000 points.
-- **Cluster:** Qdrant Cloud, one node with 2 vCPU and 6.9 GB of RAM. Vectors stayed in RAM except in the on-disk comparison.
+- **Search:** dense vectors only, no hybrid search. A sparse BM25 vector adds one more tenant concern: by default its term statistics span every tenant in the shard, and Qdrant 1.19 and later can scope them to one tenant with the [`idf` search parameter](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics).
+- **Cluster:** Qdrant Cloud, one node with 2 vCPU and 6.9 GB of RAM. Vectors stayed in RAM.
 - **Probes:** during loads, deletes, and promotions, other tenants' queries ran continuously, and each phase reports their latency. Latencies are server-side; client round trips to the cluster took about 200 ms on top.
 - **Noise:** most results come from a single run, so treat small differences, such as the mid tenant's recall change, as indicative. The two shared-collection load runs differed sevenfold in write speed, and their p95 by a similar factor.
 - **Not measured:** isolation across several nodes, data residency, clusters near the 1,000-shard guidance, whether 20,000 points is the right promotion point for this dataset, and the quality of answers built on the search results.
