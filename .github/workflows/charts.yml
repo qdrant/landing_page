@@ -1,0 +1,82 @@
+name: Check Charts
+
+on:
+  pull_request:
+    paths:
+      - 'qdrant-landing/assets/viz/**'
+      - 'qdrant-landing/data/viz.json'
+      - 'qdrant-landing/data/viz-charts.json'
+      - 'qdrant-landing/scripts/viz/**'
+      - 'qdrant-landing/test/viz/**'
+      # Tests 6 and 7 render this page and assert on its HTML and Markdown output.
+      - 'qdrant-landing/content/blog/viz-fixtures.md'
+      - 'qdrant-landing/layouts/shortcodes/chart*'
+      - 'qdrant-landing/layouts/partials/viz-figure.html'
+      - 'qdrant-landing/themes/qdrant-2024/assets/css/viz.scss'
+      - 'qdrant-landing/themes/qdrant-2024/assets/js/viz.js'
+      - 'qdrant-landing/package.json'
+      - 'qdrant-landing/package-lock.json'
+      - '.github/workflows/charts.yml'
+  workflow_dispatch:
+
+jobs:
+  charts:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: qdrant-landing
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The tests shell out to `hugo` (test/viz/helpers.mjs) to build the site
+      # into a temp dir, so Hugo has to be here, at the version netlify.toml pins.
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@2752ce1d29631191ea3f27c23495fa06139a5b78 # v3.2.1
+        with:
+          hugo-version: "0.160.1"
+          extended: true
+
+      # css.html asks for transpiler "dartsass", which needs the real Dart Sass
+      # binary on PATH. Hugo extended embeds libsass, NOT Dart Sass, so extended
+      # alone is not enough: the build dies with "no Dart Sass binary found in
+      # $PATH". Same version install-and-build.sh pins; keep the two in step.
+      - name: Setup Dart Sass
+        working-directory: ${{ runner.temp }}
+        env:
+          DART_SASS_VERSION: '1.70.0'
+        run: |
+          ARCHIVE="dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          curl -sSfLO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/${ARCHIVE}"
+          tar -xf "${ARCHIVE}"
+          echo "${RUNNER_TEMP}/dart-sass" >> "$GITHUB_PATH"
+
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: '22'
+
+      # Not just for the generator: css.html passes includePaths "node_modules"
+      # to the SCSS transpiler, so the Hugo build inside the tests needs these too.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run chart tests
+        run: npm run viz:test
+
+      # Charts are generated on a laptop and committed, so a CSV can be edited
+      # without anyone re-running the generator. Hugo would not notice: it fails
+      # on a MISSING svg, not a stale one, so the post would publish a chart
+      # drawn from the old numbers. Output is byte-deterministic, so regenerating
+      # and diffing is exact.
+      - name: Regenerate charts
+        run: npm run viz:charts
+
+      - name: Check the committed SVGs are up to date
+        run: |
+          if [ -n "$(git status --porcelain assets/viz)" ]; then
+            git status --short assets/viz
+            echo
+            echo "The committed chart SVGs do not match their CSVs."
+            echo "Please run 'npm run viz:charts' in qdrant-landing/ and commit the results."
+            exit 1
+          fi
