@@ -34,7 +34,8 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
         X-Content-Type-Options = "nosniff"
         X-Frame-Options = "DENY"
         Referrer-Policy = "no-referrer-when-downgrade"
-        Link = '<index.md>; rel="alternate"; type="text/markdown"'
+# The Markdown Link header is per page, written to _headers by Hugo from
+# layouts/index.netlifyheaders, so it only points at /path.md aliases that exist.
 
 [[headers]]
     for = "/web-ui-info.json"
