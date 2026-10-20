@@ -1,0 +1,21 @@
+configuration,workload,recall,storage_mb
+float32,SciFact / Cohere 1024-d,1.000,130.8
+float32+4-bit copy,SciFact / Cohere 1024-d,1.000,142.5
+turbo4 only,SciFact / Cohere 1024-d,0.963,41.9
+float32+1-bit copy,SciFact / Cohere 1024-d,0.945,128.8
+turbo4+1-bit copy,SciFact / Cohere 1024-d,0.929,45.6
+float32,SciFact / BGE 384-d,1.000,46.3
+float32+4-bit copy,SciFact / BGE 384-d,1.000,48.5
+turbo4 only,SciFact / BGE 384-d,0.922,16.4
+float32+1-bit copy,SciFact / BGE 384-d,0.838,46.2
+turbo4+1-bit copy,SciFact / BGE 384-d,0.816,18.0
+float32,NFCorpus / Cohere 1024-d,0.996,81.0
+float32+4-bit copy,NFCorpus / Cohere 1024-d,0.996,89.9
+turbo4 only,NFCorpus / Cohere 1024-d,0.954,27.9
+float32+1-bit copy,NFCorpus / Cohere 1024-d,0.931,88.8
+turbo4+1-bit copy,NFCorpus / Cohere 1024-d,0.904,31.3
+float32,NFCorpus / BGE 384-d,0.994,28.4
+float32+4-bit copy,NFCorpus / BGE 384-d,0.996,31.2
+turbo4 only,NFCorpus / BGE 384-d,0.897,10.9
+float32+1-bit copy,NFCorpus / BGE 384-d,0.816,29.4
+turbo4+1-bit copy,NFCorpus / BGE 384-d,0.786,12.0

@@ -1,0 +1,27 @@
+{
+  "title": "turbo4 storage versus float32 originals with a TurboQuant search copy, k=10, rescoring on, oversampling 2",
+  "kind": "grouped-columns",
+  "group": "configuration",
+  "series": "workload",
+  "colors": [0, 1, 2, 3],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "auto",
+  "views": [
+    {
+      "label": "Recall@10",
+      "subtitle": "Recall@10 against exact float32 search, 150 held-out queries, higher is better",
+      "y": "recall",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "Collection size on disk",
+      "subtitle": "Allocated bytes of the whole collection after indexing: vectors, quantized copy, HNSW graph, and WAL, lower is better",
+      "y": "storage_mb",
+      "yLabel": "collection size (MB)",
+      "yMax": 150
+    }
+  ]
+}

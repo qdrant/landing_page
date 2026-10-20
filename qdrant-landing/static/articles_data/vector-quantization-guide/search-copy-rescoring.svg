@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="980" height="420" role="img" aria-labelledby="t d">
+  <title id="t">How a quantized search copy answers a query in Qdrant</title>
+  <desc id="d">The quantized copy sits pinned in RAM and is searched first. It returns limit times oversampling candidates. The original float32 vectors, in the cold tier on disk, rescore those candidates. The top k results are returned.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#576280"/>
+    </marker>
+  </defs>
+  <style>
+    .h { font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif; font-weight: 600; font-size: 16px; fill: #161E33; }
+    .b { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; fill: #28324D; }
+    .s { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; fill: #576280; }
+    .tag { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; fill: #FFFFFF; }
+    .ln { stroke: #576280; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+  </style>
+
+  <!-- RAM region -->
+  <text x="40" y="38" class="s">RAM</text>
+  <line x1="40" y1="46" x2="470" y2="46" stroke="#B4BACC" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- Query -->
+  <rect x="40" y="90" width="150" height="64" rx="10" fill="#F0F3FA" stroke="#B4BACC"/>
+  <text x="115" y="117" class="h" text-anchor="middle">Query</text>
+  <text x="115" y="138" class="b" text-anchor="middle">full precision</text>
+
+  <!-- Quantized copy -->
+  <rect x="260" y="70" width="210" height="104" rx="10" fill="#FFDADB" stroke="#DC244C"/>
+  <text x="365" y="100" class="h" text-anchor="middle" fill="#91012A">Quantized copy</text>
+  <text x="365" y="122" class="b" text-anchor="middle" fill="#91012A">memory: pinned</text>
+  <text x="365" y="142" class="b" text-anchor="middle" fill="#91012A">HNSW search, asymmetric</text>
+  <text x="365" y="162" class="s" text-anchor="middle" fill="#91012A">1 to 8 bits per dimension</text>
+
+  <!-- Candidates -->
+  <rect x="560" y="90" width="170" height="64" rx="10" fill="#F0F3FA" stroke="#B4BACC"/>
+  <text x="645" y="117" class="h" text-anchor="middle">Candidates</text>
+  <text x="645" y="138" class="b" text-anchor="middle">limit x oversampling</text>
+
+  <!-- Results -->
+  <rect x="790" y="90" width="150" height="64" rx="10" fill="#C0F0F0" stroke="#038585"/>
+  <text x="865" y="117" class="h" text-anchor="middle" fill="#004F4F">Top k</text>
+  <text x="865" y="138" class="b" text-anchor="middle" fill="#004F4F">returned</text>
+
+  <!-- Disk region -->
+  <text x="40" y="258" class="s">Disk (page cache when warm)</text>
+  <line x1="40" y1="266" x2="940" y2="266" stroke="#B4BACC" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- Original vectors -->
+  <rect x="540" y="300" width="210" height="84" rx="10" fill="#D9E2FE" stroke="#2F6FF0"/>
+  <text x="645" y="330" class="h" text-anchor="middle" fill="#0040A1">Original vectors</text>
+  <text x="645" y="352" class="b" text-anchor="middle" fill="#0040A1">float32 or turbo4 datatype</text>
+  <text x="645" y="372" class="b" text-anchor="middle" fill="#0040A1">memory: cold or cached</text>
+
+  <!-- Connectors -->
+  <path class="ln" d="M 190 122 L 258 122"/>
+  <path class="ln" d="M 470 122 L 558 122"/>
+  <path class="ln" d="M 730 122 L 788 122"/>
+  <!-- rescoring loop -->
+  <path class="ln" d="M 645 154 L 645 298"/>
+  <path class="ln" d="M 750 342 L 865 342 L 865 156"/>
+
+  <!-- tags on connectors -->
+  <rect x="300" y="194" width="130" height="22" rx="11" fill="#DC244C"/>
+  <text x="365" y="209" class="tag" text-anchor="middle">1. search copy</text>
+  <rect x="470" y="194" width="140" height="22" rx="11" fill="#576280"/>
+  <text x="540" y="209" class="tag" text-anchor="middle">2. oversample</text>
+  <rect x="655" y="214" width="120" height="22" rx="11" fill="#2F6FF0"/>
+  <text x="715" y="229" class="tag" text-anchor="middle">3. rescore</text>
+  <rect x="775" y="284" width="150" height="22" rx="11" fill="#038585"/>
+  <text x="850" y="299" class="tag" text-anchor="middle">4. rank and return</text>
+
+  <text x="40" y="405" class="s">rescore: false skips step 3 and never touches the originals; the top k come straight from the quantized scores.</text>
+</svg>

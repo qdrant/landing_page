@@ -1,0 +1,21 @@
+method,workload,recall,server_p95_ms,target_met,point
+SQ int8,SciFact / Cohere 1024-d,0.984,0.21,yes,ef 64 rescore off x1
+TQ 4-bit,SciFact / Cohere 1024-d,0.965,0.19,yes,ef 64 rescore off x1
+BQ 1-bit,SciFact / Cohere 1024-d,0.977,0.25,yes,ef 128 rescore on x8
+PQ x8,SciFact / Cohere 1024-d,0.996,0.93,yes,ef 64 rescore on x2
+float32,SciFact / Cohere 1024-d,0.996,0.30,yes,ef 64
+SQ int8,SciFact / BGE 384-d,0.992,0.18,yes,ef 64 rescore on x4
+TQ 4-bit,SciFact / BGE 384-d,0.993,0.17,yes,ef 64 rescore on x4
+BQ 1-bit,SciFact / BGE 384-d,0.860,0.18,no,ef 64 rescore on x8
+PQ x8,SciFact / BGE 384-d,0.992,0.45,yes,ef 64 rescore on x4
+float32,SciFact / BGE 384-d,0.994,0.20,yes,ef 64
+SQ int8,NFCorpus / Cohere 1024-d,0.957,0.21,yes,ef 64 rescore off x1
+TQ 4-bit,NFCorpus / Cohere 1024-d,0.967,0.20,yes,ef 64 rescore on x2
+BQ 1-bit,NFCorpus / Cohere 1024-d,0.936,0.32,no,ef 256 rescore on x8
+PQ x8,NFCorpus / Cohere 1024-d,0.979,0.93,yes,ef 64 rescore on x4
+float32,NFCorpus / Cohere 1024-d,0.970,0.28,yes,ef 64
+SQ int8,NFCorpus / BGE 384-d,0.956,0.17,yes,ef 64 rescore on x2
+TQ 4-bit,NFCorpus / BGE 384-d,0.964,0.18,yes,ef 64 rescore on x2
+BQ 1-bit,NFCorpus / BGE 384-d,0.823,0.21,no,ef 128 rescore on x8
+PQ x8,NFCorpus / BGE 384-d,0.962,0.43,yes,ef 64 rescore on x4
+float32,NFCorpus / BGE 384-d,0.987,0.27,yes,ef 128

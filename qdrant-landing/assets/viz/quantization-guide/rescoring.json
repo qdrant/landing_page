@@ -1,0 +1,41 @@
+{
+  "title": "Recall@10 with and without rescoring, oversampling 2, hnsw_ef 256",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "rescore",
+  "colors": ["muted", 0],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "row",
+  "views": [
+    {
+      "label": "SciFact, Cohere 1024-d",
+      "subtitle": "SciFact, 5,183 documents, Cohere embed-english-v3.0 (1,024-d), 150 test queries, higher is better",
+      "y": "recall_scifact_cohere",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "SciFact, BGE 384-d",
+      "subtitle": "SciFact, 5,183 documents, BGE-small-en-v1.5 (384-d), 150 test queries, higher is better",
+      "y": "recall_scifact_bge",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "NFCorpus, Cohere 1024-d",
+      "subtitle": "NFCorpus, 3,633 documents, Cohere embed-english-v3.0 (1,024-d), 150 test queries, higher is better",
+      "y": "recall_nfcorpus_cohere",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "NFCorpus, BGE 384-d",
+      "subtitle": "NFCorpus, 3,633 documents, BGE-small-en-v1.5 (384-d), 150 test queries, higher is better",
+      "y": "recall_nfcorpus_bge",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    }
+  ]
+}

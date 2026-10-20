@@ -1,0 +1,27 @@
+{
+  "title": "Development-selected operating points, evaluated on held-out test queries at k=10",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "workload",
+  "colors": [0, 1, 2, 3],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "auto",
+  "views": [
+    {
+      "label": "Recall@10",
+      "subtitle": "Fastest dev point with recall >= 0.95 and nDCG@10 within 0.01 of exact, then measured on 150 held-out queries, higher is better",
+      "y": "recall",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "Server p95 latency",
+      "subtitle": "Server-side p95 at the same frozen points, concurrency 1, 3 index builds x 5 passes, lower is better",
+      "y": "server_p95_ms",
+      "yLabel": "server p95 (ms)",
+      "yMax": 1.0
+    }
+  ]
+}
