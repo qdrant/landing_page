@@ -3,7 +3,6 @@ title: Discord RAG Bot
 short_description: "Build a Discord bot that answers questions from Qdrant documentation using vector search and CAMEL-AI."
 description: "Build a Discord RAG bot with Qdrant, CAMEL-AI, and OpenAI. Retrieve documentation chunks and use them to answer questions."
 weight: 20
-draft: true
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 aliases:
   - /documentation/agentic-rag-camelai-discord/
@@ -13,7 +12,7 @@ stack:
   - CAMEL-AI
 example_resources:
   - label: Open Notebook
-    url: discord_rag_bot.ipynb
+    url: /documentation/tutorials-build-essentials/agentic-rag-camelai-discord/discord_rag_bot.ipynb
 ---
 
 # Discord RAG Bot
@@ -22,9 +21,9 @@ example_resources:
 | --- | --- | --- |
 | Intermediate | Python, Qdrant, CAMEL-AI, OpenAI, discord.py | About 45 minutes, excluding account setup |
 
-[Download the matching notebook](discord_rag_bot.ipynb) and upload it through [Colab](https://colab.research.google.com/).
+[Download the matching notebook](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/discord_rag_bot.ipynb) and upload it through [Colab](https://colab.research.google.com/).
 
-<!-- Publication gate: merge the notebook into qdrant/examples, then replace this local resource URL and header link with the verified GitHub-backed Colab badge. The previous Drive notebook has not been updated. -->
+<!-- Publication gate: merge the notebook into qdrant/examples, then replace this bundled resource URL and header link with the verified GitHub-backed Colab badge. The previous Drive notebook has not been updated. -->
 
 Build a Discord bot that answers questions from a small set of Qdrant documentation pages. You will store document chunks and their embeddings in Qdrant, retrieve relevant chunks for each question, and pass the question and retrieved text to a CAMEL-AI `ChatAgent` for an answer.
 
@@ -44,6 +43,16 @@ Use a dedicated collection for this tutorial. The notebook can run in Colab whil
 
 ## Understand the RAG Flow
 
+Select **Index documents** or **Answer a question** to trace the two paths. Hover over a step, focus it with the keyboard, or select it to keep its explanation visible.
+
+{{< island
+    path="content/documentation/headless/agentic-rag-camelai-discord/rag-flow"
+    width="670" ratio="670 / 685.4"
+    title="Index documentation before starting the bot. With matching context, ChatAgent receives the original question and retrieved text after retrieval."
+>}}
+![A Discord question is embedded, searched against Qdrant, and sent with retrieved text to a CAMEL ChatAgent, which returns an answer to Discord.](/documentation/tutorials/agentic-rag-camelai-discord/rag-flow.svg)
+{{< /island >}}
+
 There are two separate paths:
 
 | Path | What Runs | What Qdrant Stores or Returns |
@@ -55,7 +64,7 @@ Qdrant is the vector search engine. CAMEL-AI connects ingestion, retrieval, and 
 
 ## Step 1: Install the Dependencies
 
-The complete [Python script](discord_rag_bot.py) and [requirements file](requirements.txt) accompany the notebook. For a local run, install [uv](https://docs.astral.sh/uv/getting-started/installation/) and create an environment:
+The complete [Python script](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/discord_rag_bot.py) and [requirements file](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/requirements.txt) accompany the notebook. For a local run, install [uv](https://docs.astral.sh/uv/getting-started/installation/) and create an environment:
 
 ```bash
 uv venv --python 3.12
@@ -369,6 +378,8 @@ If the answer is unsupported, inspect these chunks first. Missing evidence may m
 | Missing configuration or authentication error | Confirm `.env` is loaded from the working directory, the keys belong to the right services, and the Qdrant endpoint is copied in full. |
 | Vector-size mismatch | Use a new collection when changing embedding models or output dimensions, then ingest again. |
 | Ingestion refuses to run | The target collection already has points. Reuse it with `bot`, or select a new collection for a fresh ingestion. |
+| Gateway close code `4014` or `PrivilegedIntentsRequired` | Enable **Message Content Intent** for the Discord application that owns your bot token, save the setting, and restart the bot. |
+| HTTP `403`, Discord code `50001` (`Missing Access`) | The bot cannot access the channel. Install it in the correct server, verify the channel ID, and grant **View Channel** and **Send Messages**, including channel permission overrides. |
 | Bot is online but ignores commands | Enable Message Content Intent in both the portal and code, check channel permissions, and start the message with `!ask`. |
 | Repeated insufficient-context answers | Inspect the retrieved text and scores before adjusting the threshold or adding source pages. |
 
