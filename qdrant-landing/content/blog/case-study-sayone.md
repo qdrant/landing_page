@@ -23,7 +23,8 @@ partition: case-studies
 ## How SayOne Enhanced Government AI Services with Qdrant
 
 
-![SayOne Enhanced Government AI Services](/blog/case-study-sayone/case-study-sayone-summary-dark.jpg)
+{{< case-study-summary
+  results=" | Improved Latency; | Global Privacy Compliance; | Enhanced Developer Productivity" >}}
 
 
 ### The Challenge
@@ -31,6 +32,8 @@ partition: case-studies
 
 SayOne is an information technology and digital services company headquartered in India. They create end-to-end customized digital solutions, and have completed over 200 projects for clients worldwide. When SayOne embarked on building advanced AI solutions for government institutions, their initial choice was Pinecone, primarily due to its prevalence within AI documentation. However, SayOne soon discovered significant limitations impacting their projects. Key challenges included escalating costs, restrictive customization options, and considerable scalability issues. Furthermore, reliance on external cloud infrastructure posed critical data privacy concerns, especially since governmental entities demanded stringent data sovereignty and privacy controls.
 
+
+![SayOne Enhanced Government AI Services](/blog/case-study-sayone/case-study-sayone-summary-dark.jpg)
 
 ### Evaluation Process
 
