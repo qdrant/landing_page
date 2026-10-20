@@ -123,7 +123,7 @@ Each one of these parts plays an important role in how a point is stored, retrie
 
 #### 1. The ID: The Point's Unique Identifier
 
-Just like in a relational database, each point in a vector database gets a unique ID that ensures it can be easily found later. When a vector is added to the database, the ID is created automatically.
+Just like in a relational database, each point in a vector database gets a unique ID that ensures it can be easily found later. In Qdrant, you provide the ID when you add a point, as either a 64-bit unsigned integer or a UUID. If IDs are not provided, Qdrant Client will automatically generate them as random UUIDs.
 
 While the ID itself doesn't play a part in the similarity search (which operates on the vector's numerical data), it is essential for associating the vector with its corresponding "real-world" data, whether that’s a document, an image, or a sound file. 
 
@@ -173,9 +173,11 @@ These metrics define how similarity between vectors is calculated. The choice of
 
 ### RAM-Based and Memmap Storage
 
-By default, Qdrant stores vectors in RAM, delivering incredibly fast access for datasets that fit comfortably in memory. But when your dataset exceeds RAM capacity, Qdrant offers Memmap as an alternative.
+Qdrant persists all collection data to disk. Starting with Qdrant v1.19, the `memory` parameter controls caching behavior for each supported data structure and replaces the deprecated `on_disk` setting. The `cached` and `cold` tiers use memory-mapped files.
 
-Memmap allows you to store vectors **on disk**, yet still access them efficiently by mapping the data directly into memory if you have enough RAM. To enable it, you only need to set `"on_disk": true` when you are **creating a collection:**
+By default, dense vectors use `cached`: Qdrant preloads them into the operating system's page cache at startup. The OS can evict those pages under memory pressure.
+
+With `cold`, Qdrant skips preloading. Pages are read from disk when accessed and cached by the OS, which can increase query latency. To configure dense vectors this way when creating a collection, set `"memory": "cold"` within their vector configuration.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -185,12 +187,12 @@ client = QdrantClient(url='http://localhost:6333')
 client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(
-        size=768, distance=models.Distance.COSINE, on_disk=True
+        size=768, distance=models.Distance.COSINE, memory=models.Memory.COLD
     ),
 )
 ```
 
-For other configurations like `hnsw_config.on_disk` or `memmap_threshold`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/manage-data/storage/)
+For other configurations like `hnsw_config.memory` or `memmap_threshold`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/manage-data/storage/)
 
 ### SDKs
 
@@ -366,8 +368,8 @@ As your vector dataset grows larger, so do the memory and compute demands of sea
 
 Qdrant 1.18 ships [**TurboQuant**](https://qdrant.tech/articles/turboquant-quantization/), a rotation-based vector quantization method from Google Research, with extensions that make it work on real production embeddings.
 
-Instead of storing each dimension of your vectors at full 32-bit precision, quantization compresses it down to just a few bits. TurboQuant's 4-bit variant gives you 8x compression while matching Scalar Quantization's recall at half the memory. 
-When you need to squeeze memory further, the 2-bit and 1-bit variants push the compression rate to 16x and 32x while still beating Binary Quantization at the same storage budget.
+Instead of storing each dimension of your vectors at full 32-bit precision, quantization compresses it down to just a few bits. TurboQuant's 4-bit variant gives you 8x compression, half the memory of Scalar Quantization, with recall within about 2 percentage points of it on most datasets we benchmarked and higher on some. 
+When you need to squeeze memory further, the 2-bit and 1-bit variants push the compression rate to 16x and 32x, and delivered higher recall than Binary Quantization at the same storage budget on every dataset in our benchmarks. Results depend on the embedding model, so test on a subset of your own data first.
 
 <img src="/articles_data/what-is-a-vector-database/TQ.png" alt="TurboQuant vs Scalar Quantization vs full precision baseline" width="700">
 
@@ -384,13 +386,13 @@ client.create_collection(
     # Enable TurboQuant (4-bit by default)
     quantization_config=models.TurboQuantization(
         turbo=models.TurboQuantQuantizationConfig(
-            always_ram=True,  # Keep quantized vectors in RAM for faster access
+            memory=models.Memory.PINNED,  # Keep quantized vectors in RAM for faster access
         ),
     ),
 )
 ```
 
-You can store the original vectors on disk within `vectors_config` by setting `on_disk=True` to save RAM, while keeping the quantized vectors in RAM for faster access.
+Qdrant keeps both the original and the quantized vectors. To save RAM, set `memory=models.Memory.COLD` in `vectors_config` so the originals stay on disk, while the pinned quantized vectors stay in RAM for fast search.
 
 TurboQuant isn't the only option. [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/) is the most aggressive choice for speed, converting each dimension to a single bit so that search speeds can improve by up to 40x with memory reduced by 32x, at an accuracy cost that oversampling and rescoring can recover. [**Scalar Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#product-quantization) round out the alternatives. Check out our [Vector Quantization guide](https://qdrant.tech/articles/what-is-vector-quantization/) for a full breakdown and tips on **optimizing performance** for your use case.
 
@@ -460,9 +462,32 @@ Sharding efficiently distributes data across nodes, while replication guarantees
 
 <img src="/articles_data/what-is-a-vector-database/multitenancy.png" alt="Multitenancy dividing data between 2 tenants" width="1000">
 
-In the backend, Qdrant can store `Tenant 1`’s data in Shard 1 located in Canada (perhaps for compliance reasons like GDPR), while `Tenant 2`’s data is stored in Shard 2 located in Germany. The data will be physically separated but still within the same infrastructure.
+In a self-hosted deployment, custom sharding also allows you to keep `Tenant 1`’s data in Shard 1 on a node in Canada, while `Tenant 2`’s data is stored in Shard 2 on a node in Germany (perhaps to keep EU personal data in the EU and simplify GDPR compliance). To do this, you run nodes in both regions and move each shard to the node in its region. Note that cross-region coordination adds latency. Qdrant Cloud doesn't currently support multi-region clusters, so there you would create a cluster in each region, each with its own collection.
 
-To implement this, you tag each vector with a tenant-specific `group_id` during the upsert operation:
+To implement this, create the collection with custom sharding, add a shard key per region, and index `group_id` as the tenant field:
+
+```python
+client.create_collection(
+    collection_name="tenant_data",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    # number of physical shards per shard key, not the number of shard keys
+    shard_number=1,
+    sharding_method=models.ShardingMethod.CUSTOM,
+)
+client.create_shard_key("tenant_data", "canada")
+client.create_shard_key("tenant_data", "germany")
+
+client.create_payload_index(
+    collection_name="tenant_data",
+    field_name="group_id",
+    field_schema=models.KeywordIndexParams(
+        type=models.KeywordIndexType.KEYWORD,
+        is_tenant=True,
+    ),
+)
+```
+
+Then tag each vector with a tenant-specific `group_id` during the upsert operation:
 
 ```python
 client.upsert(
@@ -470,9 +495,22 @@ client.upsert(
     points=[models.PointStruct(
         id=2, 
         payload={"group_id": "tenant_1"}, 
-        vector=[0.1, 0.9, 0.1]
+        vector=embedding  # 768-dimensional vector from your embedding model
     )],
     shard_key_selector="canada"
+)
+```
+
+At query time, filter by `group_id` so each tenant only sees their own points, and pass the shard key to search only that tenant's shard:
+
+```python
+client.query_points(
+    collection_name="tenant_data",
+    query=query_embedding,
+    query_filter=models.Filter(
+        must=[models.FieldCondition(key="group_id", match=models.MatchValue(value="tenant_1"))]
+    ),
+    shard_key_selector="canada",
 )
 ```
 
