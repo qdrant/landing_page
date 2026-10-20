@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 226" role="img" aria-labelledby="description">
+  <desc id="description">Three pairs of vectors A and B. Similar vectors point in nearly the same direction with a small angle between them. Unrelated vectors are at a right angle. Opposite vectors point in opposite directions.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="225" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="113" y="40" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">similar</text>
+    <line x1="29" y1="132" x2="197" y2="132" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="113" y1="60" x2="113" y2="204" stroke="#abb1c7" stroke-width="1.5"/>
+    <path d="M113 132 L130.6 66.3" fill="none" stroke="#303547" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="134.223" y="57.7941" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">A</text>
+    <path d="M113 132 L149.0 74.3" fill="none" stroke="#303547" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="156.453" y="67.4601" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">B</text>
+    <path d="M125.7 111.6 A24 24 0 0 0 119.2 108.8" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="320" y="40" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">unrelated</text>
+    <line x1="236" y1="132" x2="404" y2="132" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="320" y1="60" x2="320" y2="204" stroke="#abb1c7" stroke-width="1.5"/>
+    <path d="M320 132 L271.9 83.9" fill="none" stroke="#303547" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="262.017" y="79.0172" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">A</text>
+    <path d="M320 132 L368.1 83.9" fill="none" stroke="#303547" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="377.983" y="79.0172" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">B</text>
+    <path d="M337.0 115.0 A24 24 0 0 0 303.0 115.0" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="527" y="40" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">opposite</text>
+    <line x1="443" y1="132" x2="611" y2="132" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="527" y1="60" x2="527" y2="204" stroke="#abb1c7" stroke-width="1.5"/>
+    <path d="M527 132 L471.3 171.0" fill="none" stroke="#303547" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="459.83" y="184.033" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">A</text>
+    <path d="M527 132 L582.7 93.0" fill="none" stroke="#303547" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="594.17" y="89.9667" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">B</text>
+    <path d="M546.7 118.2 A24 24 0 0 0 507.3 145.8" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+  </g>
+</svg>

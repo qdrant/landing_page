@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 246" role="img" aria-labelledby="description">
+  <desc id="description">The vector search workflow. Ingestion path: 1, an embedding model turns raw data into vectors; 2, Qdrant stores and indexes them. Query path: 3, the same embedding model turns the user query into a query vector; 4, Qdrant searches the indexed vectors and returns the top-k hits.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="245" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="20" y="44" font-size="12" fill="#656b7f">ingestion path</text>
+    <text x="20" y="166" font-size="12" fill="#656b7f">query path</text>
+    <rect x="20" y="56" width="112" height="48" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="76" y="85" font-size="14" text-anchor="middle" fill="#303547">Raw data</text>
+    <rect x="20" y="178" width="112" height="48" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="76" y="207" font-size="14" text-anchor="middle" fill="#303547">User query</text>
+    <rect x="170" y="56" width="112" height="170" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="226" y="136" font-size="14" text-anchor="middle" fill="#303547">Embedding</text>
+    <text x="226" y="156" font-size="14" text-anchor="middle" fill="#303547">model</text>
+    <rect x="320" y="56" width="96" height="48" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="368" y="85" font-size="14" text-anchor="middle" fill="#303547">Vectors</text>
+    <rect x="320" y="178" width="96" height="48" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="368" y="197" font-size="14" text-anchor="middle" fill="#303547">Query</text>
+    <text x="368" y="217" font-size="14" text-anchor="middle" fill="#303547">vector</text>
+    <rect x="454" y="56" width="92" height="170" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="500" y="116" font-size="14" text-anchor="middle" fill="#303547">Qdrant</text>
+    <text x="500" y="136" font-size="12" text-anchor="middle" fill="#656b7f">store</text>
+    <text x="500" y="156" font-size="12" text-anchor="middle" fill="#656b7f">index</text>
+    <text x="500" y="176" font-size="12" text-anchor="middle" fill="#656b7f">search</text>
+    <rect x="566" y="178" width="56" height="48" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <text x="594" y="197" font-size="13" text-anchor="middle" fill="#303547">Top-k</text>
+    <text x="594" y="217" font-size="13" text-anchor="middle" fill="#303547">hits</text>
+    <path d="M132 80 H166" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <circle cx="149" cy="80" r="10" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="149" y="84.5" font-size="12" text-anchor="middle" fill="#303547" font-weight="600">1</text>
+    <path d="M132 202 H166" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <circle cx="149" cy="202" r="10" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="149" y="206.5" font-size="12" text-anchor="middle" fill="#303547" font-weight="600">3</text>
+    <path d="M282 80 H316" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M282 202 H316" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M416 80 H450" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <circle cx="433" cy="80" r="10" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="433" y="84.5" font-size="12" text-anchor="middle" fill="#303547" font-weight="600">2</text>
+    <path d="M416 202 H450" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <circle cx="433" cy="202" r="10" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="433" y="206.5" font-size="12" text-anchor="middle" fill="#303547" font-weight="600">4</text>
+    <path d="M546 202 H562" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+  </g>
+</svg>

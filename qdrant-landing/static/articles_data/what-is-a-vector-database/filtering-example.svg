@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-labelledby="description">
+  <desc id="description">Points in vector space. Points that fail the payload filter are drawn as hollow circles and are filtered out. The query's three nearest neighbors are chosen only from the points that pass the filter.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="399" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <line x1="326.1" y1="124" x2="267.8" y2="94" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="326.1" y1="124" x2="245.4" y2="137.5" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="326.1" y1="124" x2="299.2" y2="164" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="292.2" cy="72.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="332.5" cy="99" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="282.6" cy="124" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="366.4" cy="140.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="104.6" cy="125.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="181.4" cy="152" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="225" cy="166" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="298.6" cy="195.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="54.1" cy="180.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="155.8" cy="195.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="514.9" cy="184.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="590.4" cy="199.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="143" cy="311.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="132.2" cy="339" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="381.8" cy="333" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="245.4" cy="362.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="440.6" cy="368" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="482.2" cy="305.5" r="7" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="338.2" cy="43" r="7" fill="#656b7f"/>
+    <circle cx="403.5" cy="68.5" r="7" fill="#656b7f"/>
+    <circle cx="500.2" cy="96.5" r="7" fill="#656b7f"/>
+    <circle cx="134.7" cy="152" r="7" fill="#656b7f"/>
+    <circle cx="239" cy="201" r="7" fill="#656b7f"/>
+    <circle cx="76.5" cy="218" r="7" fill="#656b7f"/>
+    <circle cx="482.2" cy="160" r="7" fill="#656b7f"/>
+    <circle cx="568" cy="180" r="7" fill="#656b7f"/>
+    <circle cx="486.1" cy="222" r="7" fill="#656b7f"/>
+    <circle cx="353" cy="252" r="7" fill="#656b7f"/>
+    <circle cx="318.4" cy="329" r="7" fill="#656b7f"/>
+    <circle cx="498.9" cy="356.5" r="7" fill="#656b7f"/>
+    <circle cx="341.4" cy="376.5" r="7" fill="#656b7f"/>
+    <circle cx="267.8" cy="94" r="7" fill="#00838f"/>
+    <circle cx="267.8" cy="94" r="12" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="245.4" cy="137.5" r="7" fill="#00838f"/>
+    <circle cx="245.4" cy="137.5" r="12" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="299.2" cy="164" r="7" fill="#00838f"/>
+    <circle cx="299.2" cy="164" r="12" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="326.1" cy="124" r="10" fill="#f0f3fa" stroke="#dc244c" stroke-width="2.5"/>
+    <circle cx="326.1" cy="124" r="4" fill="#dc244c"/>
+    <text x="344.1" y="129" font-size="14" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+    <text x="247.8" y="99" font-size="14" text-anchor="end" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">nearest neighbors</text>
+    <text x="159" y="316.5" font-size="14" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">filtered out</text>
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 284" role="img" aria-labelledby="description">
+  <desc id="description">Documents and text queries pass through the same embedding model. Document vectors are upserted into Qdrant's vector index; the query vector, together with an optional payload filter, searches it, and Qdrant returns the top-scored documents.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="283" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="20" y="36" width="136" height="44" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="88.0" y="63" font-size="14" text-anchor="middle" fill="#303547">Documents</text>
+    <rect x="20" y="128" width="136" height="44" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="88.0" y="155" font-size="14" text-anchor="middle" fill="#303547">Text query</text>
+    <rect x="20" y="220" width="136" height="44" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="88.0" y="247" font-size="14" text-anchor="middle" fill="#303547">Payload filter</text>
+    <rect x="186" y="36" width="142" height="136" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="257.0" y="99" font-size="14" text-anchor="middle" fill="#303547">Embedding</text>
+    <text x="257.0" y="119" font-size="14" text-anchor="middle" fill="#303547">model</text>
+    <rect x="392" y="36" width="100" height="228" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="442.0" y="145" font-size="14" text-anchor="middle" fill="#303547">Qdrant</text>
+    <text x="442.0" y="165" font-size="12" text-anchor="middle" fill="#656b7f">vector index</text>
+    <rect x="514" y="118" width="108" height="64" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <text x="568.0" y="145" font-size="14" text-anchor="middle" fill="#303547">Top-scored</text>
+    <text x="568.0" y="165" font-size="14" text-anchor="middle" fill="#303547">documents</text>
+    <path d="M156 58 H182" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M156 150 H182" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M328 58 H388" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="360" y="50" font-size="12" text-anchor="middle" fill="#656b7f">upsert</text>
+    <path d="M328 150 H388" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="360" y="142" font-size="12" text-anchor="middle" fill="#656b7f">search</text>
+    <path d="M156 242 H388" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="272" y="234" font-size="12" text-anchor="middle" fill="#656b7f">filter</text>
+    <path d="M492 150 H510" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+  </g>
+</svg>

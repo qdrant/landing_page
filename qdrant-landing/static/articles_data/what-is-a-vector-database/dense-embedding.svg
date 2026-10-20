@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 144" role="img" aria-labelledby="description">
+  <desc id="description">The sentence "I love Vector Similarity" becomes a dense vector in which every dimension has a value. Values are illustrative.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="143" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="320" y="40" font-size="14" text-anchor="middle" fill="#303547">“I love Vector Similarity”</text>
+    <path d="M320 52 V78" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="56" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="86" y="109" font-size="14" text-anchor="middle" fill="#303547">0.01</text>
+    <rect x="122" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="152" y="109" font-size="14" text-anchor="middle" fill="#303547">0.19</text>
+    <rect x="188" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="218" y="109" font-size="14" text-anchor="middle" fill="#303547">0.88</text>
+    <rect x="254" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="284" y="109" font-size="14" text-anchor="middle" fill="#303547">0.72</text>
+    <rect x="320" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="350" y="109" font-size="14" text-anchor="middle" fill="#303547">−0.21</text>
+    <rect x="386" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="416" y="109" font-size="14" text-anchor="middle" fill="#303547">0.11</text>
+    <rect x="452" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="482" y="109" font-size="14" text-anchor="middle" fill="#303547">−0.37</text>
+    <rect x="518" y="84" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="548" y="109" font-size="14" text-anchor="middle" fill="#303547">0.44</text>
+  </g>
+</svg>

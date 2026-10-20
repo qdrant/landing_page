@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-labelledby="description">
+  <desc id="description">A tokenizer splits "I love Vector Similarity" into the tokens i, love, vector, similar, and ity. A vocabulary maps each token to an ID, and a lexical model assigns each ID a weight, giving the sparse vector 193: 0.04, 9182: 0.12, 15012: 0.73, 6731: 0.69, 454: 0.21.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="299" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="20" y="38" font-size="14" fill="#303547">“I love Vector Similarity”</text>
+    <path d="M70 50 V70" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="20" y="74" width="120" height="36" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <text x="80" y="97" font-size="14" text-anchor="middle" fill="#303547">tokenizer</text>
+    <path d="M70 110 V130" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="20" y="146" font-size="13" fill="#656b7f">{</text>
+    <text x="34" y="166" font-size="13" fill="#303547">“i”,</text>
+    <text x="34" y="186" font-size="13" fill="#303547">“love”,</text>
+    <text x="34" y="206" font-size="13" fill="#303547">“vector”,</text>
+    <text x="34" y="226" font-size="13" fill="#303547">“similar”,</text>
+    <text x="34" y="246" font-size="13" fill="#303547">“ity”</text>
+    <text x="20" y="266" font-size="13" fill="#656b7f">}</text>
+    <rect x="150" y="186" width="100" height="36" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <text x="200" y="209" font-size="14" text-anchor="middle" fill="#303547">vocabulary</text>
+    <path d="M128 204 H146" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M250 204 H268" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="274" y="146" font-size="13" fill="#656b7f">{</text>
+    <text x="288" y="166" font-size="13" fill="#303547">193,</text>
+    <text x="288" y="186" font-size="13" fill="#303547">9182,</text>
+    <text x="288" y="206" font-size="13" fill="#303547">15012,</text>
+    <text x="288" y="226" font-size="13" fill="#303547">6731,</text>
+    <text x="288" y="246" font-size="13" fill="#303547">454</text>
+    <text x="274" y="266" font-size="13" fill="#656b7f">}</text>
+    <rect x="362" y="186" width="120" height="36" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="422" y="209" font-size="14" text-anchor="middle" fill="#303547">lexical model</text>
+    <path d="M340 204 H358" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M482 204 H496" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="502" y="146" font-size="13" fill="#656b7f">{</text>
+    <text x="516" y="166" font-size="13" fill="#303547">193: 0.04,</text>
+    <text x="516" y="186" font-size="13" fill="#303547">9182: 0.12,</text>
+    <text x="516" y="206" font-size="13" fill="#303547">15012: 0.73,</text>
+    <text x="516" y="226" font-size="13" fill="#303547">6731: 0.69,</text>
+    <text x="516" y="246" font-size="13" fill="#303547">454: 0.21</text>
+    <text x="502" y="266" font-size="13" fill="#656b7f">}</text>
+  </g>
+</svg>
