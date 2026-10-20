@@ -7,7 +7,7 @@ preview_dir: /articles_data/vector-quantization-guide/preview
 author: Ewa Szyszka
 author_link: https://www.linkedin.com/in/ewaszyszka/
 date: 2026-11-04T10:00:00+01:00
-draft: true
+draft: false
 category: production-ops
 weight: 9
 keywords:
