@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/recommendations/hero") }}
+  <section class="recommendations-hero">
+    <div class="container">
+      <div class="recommendations-hero__copy">
+        <p class="recommendations-hero__label">{{ .Params.label }}</p>
+        <h1 class="recommendations-hero__title">{{ .Params.title }}</h1>
+        <p class="recommendations-hero__description">{{ .Params.description }}</p>
+        <div class="recommendations-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+          {{ with .Params.outlineButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

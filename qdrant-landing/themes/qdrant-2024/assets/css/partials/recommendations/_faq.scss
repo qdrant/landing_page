@@ -1,0 +1,7 @@
+@use '../../helpers/functions' as *;
+
+.recommendations-faq {
+  @include recommendations-band(false, 5, 5);
+  &__title { @include recommendations-title(false, true); margin-bottom: $spacer * 2.5; text-align: center; }
+  @include media-breakpoint-up(lg) { &__title { margin-bottom: $spacer * 4; } }
+}

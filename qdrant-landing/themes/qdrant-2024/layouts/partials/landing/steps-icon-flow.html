@@ -1,0 +1,33 @@
+<section class="landing-steps landing-steps--icon-flow">
+  <div class="container">
+  <div class="landing-steps__header">
+    {{ with .Params.label }}<p class="landing-steps__label">{{ . }}</p>{{ end }}
+    <h2 class="landing-steps__title">{{ .Params.title }}</h2>
+    {{ with .Params.description }}<p class="landing-steps__description">{{ . }}</p>{{ end }}
+  </div>
+    <div class="landing-steps__flow">
+      <ol class="landing-steps__list">
+        {{ range $i, $s := .Params.steps }}
+          <li class="landing-steps__item" data-index="{{ $i }}">
+            <span class="landing-steps__icon" aria-hidden="true">{{ with $s.icon }}<img src="{{ .src }}" alt="" loading="lazy" />{{ end }}</span>
+            <h3 class="landing-steps__item-title">{{ $s.title }}</h3>
+            <p class="landing-steps__item-description">{{ $s.description }}</p>
+          </li>
+        {{ end }}
+      </ol>
+    </div>
+    {{ with .Params.callout }}
+      <blockquote class="landing-steps__callout">
+        {{ .text }}
+        {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+      </blockquote>
+    {{ end }}
+    {{ with .Params.button }}
+      <div class="landing-steps__banner">
+        <div class="landing-steps__banner-links">
+          <a class="link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</section>
