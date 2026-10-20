@@ -27,7 +27,7 @@ jobs:
           export PATH="${CURRENT_DIR}/dart-sass:${PATH}"
           cd qdrant-landing
           hugo --gc -b 'http://localhost:1314'
-          hugo serve --port 1314 &
+          hugo serve -e production --port 1314 &
           for i in {1..60}; do
             curl -sf http://localhost:1314/ >/dev/null && break
             sleep 1
