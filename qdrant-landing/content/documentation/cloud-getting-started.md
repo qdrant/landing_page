@@ -44,7 +44,7 @@ dense_size = points * replication_factor * dimensions * bytes_per_dim
 
 `bytes_per_dim` is 4 for `float32` (the default), 2 for `float16`, 1 for `uint8`, and 0.5 for `turbo4`. For example, one million 768-dimension `float32` points with a replication factor of 2 need about 5.7 GB. Add the HNSW index, payloads, payload indexes, and quantized copies on top of that.
 
-- **Start with the estimate, not the maximum.** You can scale RAM and CPU up or down later. If your collections are not replicated, vertical scaling restarts every node and causes a short downtime.
+- **Start with the estimate, not the maximum.** You can scale RAM and CPU up or down later. Changing RAM or CPU restarts every node, which causes a short downtime if your collections are not replicated. Increasing only the disk size does not restart the nodes.
 - **Disk only grows.** You can add disk space but not remove it, so add it in steps.
 - **Trade RAM for disk when cost matters.** [Quantization](/documentation/manage-data/quantization/) and the `cold` [memory tier](/documentation/manage-data/storage/#configuring-memmap-storage) reduce memory use. Plan more disk per GB of RAM when you use them.
 
