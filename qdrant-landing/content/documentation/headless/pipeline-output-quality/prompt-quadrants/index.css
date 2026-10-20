@@ -1,0 +1,55 @@
+/* Prompt quadrants inherit the host palette. Only the cell marks are
+   categorical; text and controls retain the shared neutral treatment. */
+.qi-pq .qi-label {
+  font-size: 15px;
+}
+
+.qi-pq .qi-hint,
+.qi-pq .qi-chip {
+  font-size: 14px;
+}
+
+.qi-pq .qi-pq__cell {
+  fill: color-mix(in srgb, var(--pq-color) 4%, var(--qi-surface));
+  stroke: color-mix(in srgb, var(--pq-color) 35%, var(--qi-border));
+}
+
+.qi-pq .qi-pq__diagnosis {
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.qi-pq .qi-pq__count {
+  fill: var(--qi-fg);
+  font-size: 44px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-pq .qi-pq__dot {
+  fill: var(--pq-color);
+}
+
+/* Reserve the longer explanation so toggling does not move the article. */
+.qi-pq .qi-status {
+  margin: 0;
+  min-height: calc(3 * 1.45em);
+}
+
+.qi-pq--narrow .qi-label {
+  font-size: 12px;
+}
+
+.qi-pq--narrow .qi-pq__count {
+  font-size: 32px;
+}
+
+.qi-pq--narrow .qi-status {
+  min-height: calc(6 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-pq .qi-chip {
+    transition: none;
+  }
+}
