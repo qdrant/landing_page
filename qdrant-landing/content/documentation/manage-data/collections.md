@@ -94,7 +94,7 @@ Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vecto
 
 *Available as of v1.9.0*
 
-By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or `turbo4` (4 bits).
+By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or one of the TurboQuant datatypes: `turbo4` (4 bits), `turbo8` (8 bits), or `turbo16` (16 bits).
 
 For example, to create a collection with `uint8` embeddings:
 
@@ -305,6 +305,10 @@ The following color statuses are possible:
 - 🟡 `yellow`: collection is optimizing
 - ⚫ `grey`: collection is pending optimization ([help](#grey-collection-status))
 - 🔴 `red`: an error occurred which the engine could not recover from
+
+*Available as of v1.20.0*
+
+Collection info also includes a `created_at` field with the time Qdrant created the collection. Collections created before v1.20.0 have no creation time, so the field is absent for them. Recovering a collection from a snapshot keeps the original value.
 
 ### Grey Collection Status
 

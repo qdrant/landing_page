@@ -59,6 +59,7 @@ There are multiple expressions available. Check the [API docs for specific detai
 - **sqrt** - Square root of an expression.
 - **log10** - Base 10 logarithm of an expression.
 - **ln** - Natural logarithm of an expression.
+- **acosh** - Inverse hyperbolic cosine of an expression. The input must be 1 or greater. Available as of v1.19.1. [See more](#hyperbolic-distance).
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
 - **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#decay-functions).
@@ -115,6 +116,24 @@ Set a default for the missing prefetch score to keep it from winning the compari
 Place `defaults` alongside `formula`, and include the `$` in each score key. Qdrant silently ignores `defaults` inside formula or a key without the `$`.
 
 </aside>
+
+### Hyperbolic Distance
+
+_Available as of v1.19.1_
+
+The `acosh` expression returns the inverse hyperbolic cosine of a single expression, like `sqrt`, `ln`, and `exp`. Use it to rescore hyperbolic embeddings, which place hierarchical data in the Poincaré ball or on the Lorentz hyperboloid, by their exact geodesic distance.
+
+The input must be at least 1, and `acosh(1)` returns `0`. A smaller input returns a non-finite number error. Qdrant doesn't clamp values that are only slightly below 1. If rounding could push the input below 1, add a small epsilon.
+
+The formula you need depends on how you ingest and query the vectors. This example uses the Lorentz model with a curvature of 1:
+
+1. Create the collection with the `Dot` distance metric.
+2. Store the points as Lorentz-model vectors.
+3. Query with a vector of the same kind, but flip the sign of its first element.
+
+The dot product, which is the `$score`, is then the Lorentzian inner product of the query and the point, and the geodesic distance is `acosh(-$score)`. Formula results are sorted in descending order, so the example negates the distance to rank the closest points first:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-hyperbolic-distance/" >}}
 
 ### Decay Functions
 
