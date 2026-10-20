@@ -23,6 +23,16 @@
       margin-bottom: $spacer * 1.5;
     }
 
+    // Optional standfirst, set via the `subline` front-matter param. A post with
+    // one leads with it in place of the hero image.
+    &__subline {
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-40;
+      font-size: pxToRem(19);
+      line-height: 1.55;
+      text-align: left;
+    }
+
     &__header {
       padding-top: 0;
       padding-bottom: $spacer * 1.5;
@@ -50,6 +60,14 @@
       &__about {
         justify-content: center;
         margin-bottom: $spacer * 2.5;
+      }
+
+      &__subline {
+        max-width: pxToRem(780);
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: $spacer * 2.5;
+        text-align: center;
       }
 
       &__header {
