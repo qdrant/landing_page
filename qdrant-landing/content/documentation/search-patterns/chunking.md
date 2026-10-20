@@ -20,17 +20,13 @@ In the RepliQA dataset, for example, the answer to "What support does Vertex Dyn
 
 ![One document split two ways. At paragraph breaks, the answer sits inside one chunk and search returns it whole. With fixed 128-token windows, a boundary falls inside the answer, so search returns one chunk and the rest of the answer stays in the other.](/articles_data/chunking-guide/good-and-bad-split.svg)
 
-*The same document and question, split at paragraph breaks and into fixed 128-token windows. Chunk widths are proportional to their token counts.*
+*Chunk widths are proportional to their token counts.*
 
-A useful chunk holds one answerable piece of information, completely, and little else around it. From our perspective chunking is useful when:
-- The partial is more important than the whole: focused answers are more important than generic claims.
-- The budget is limited: the LLM is small or local, every token costs money, or vector search is already part of the system.
+A useful chunk holds one answerable piece of information, completely, and little else around it. Two things decide how to chunk: how many tokens you can send per answer, which this guide calls the context budget, and how much a passage depends on the rest of its document, which it calls context dependency.
 
-Two things decide how to chunk: how many tokens you can send per answer, which this guide calls the context budget, and how much a passage depends on the rest of its document, which it calls context dependency.
+**The setup that worked for us:** recursive splitting, 256-token chunks, no overlap, top-k ≈ budget ÷ chunk size, hybrid search, and no chunk crossing a heading. With a 1,000-token budget, it got the answer to the model for 95% of SQuAD questions, 92% of RepliQA, and 60% of Qasper. The rest of the guide is why.
 
-The numbers come from three public datasets with human-labeled answer passages: SQuAD (Wikipedia articles), RepliQA (company policies, incident reports, and local news about made-up entities), and Qasper (NLP research papers), whose context dependency ranges from low to high in that order. We compare chunking strategies under the same retrieved-text budget (for example, 1,000 tokens) rather than the same number of chunks, because that is how you pay. The metric is recall at a token budget: the percentage of questions for which at least 80% of the relevant evidence reaches the model, regardless of whether it produces the correct answer.
-
-**The setup that worked for us:** recursive splitting, 256-token chunks (128 if your passages stand alone), no overlap, top-k = budget ÷ chunk size, hybrid search, and no chunk crossing a heading. At 1,000 tokens it found the answer for 95% of SQuAD questions, 92% of RepliQA, and 60% of Qasper. The rest of the guide is why.
+*About the numbers:* they come from SQuAD, RepliQA, and Qasper, three public datasets whose context dependency runs from low to high in that order; [How We Measured](#how-we-measured) describes them. Every setup gets the same budget of retrieved text, not the same number of chunks, because that is how you pay. A question counts as found when at least 80% of its answer passage, counted in characters, reaches the model, whether or not the model then answers correctly. The share of questions found is recall at a token budget, the metric behind every table and chart here.
 
 ## Configure Your Chunks
 
@@ -40,7 +36,7 @@ Two settings, chunk size and overlap, sit between two limits, the context budget
 
 Your context budget is how many tokens of retrieved text you can afford per answer, after your instructions and the question. The model's context window is the hard limit, but cost and latency usually set a much lower one.
 
-![Two 1,000-token prompts filled in rank order. Eight chunks of up to 128 tokens fit, and the answer, ranked fifth, is sent. Only one chunk of up to 510 tokens fits, and the answer, ranked second in a 530-token chunk, is not sent.](/articles_data/chunking-guide/budget-filling.svg)
+![Two 1,000-token prompts filled in rank order. Eight chunks of up to 128 tokens fit, and the answer, ranked fifth, is sent. Only one chunk of up to 510 tokens fits, a 500-token chunk, and the answer, ranked second in a 505-token chunk, is not sent.](/articles_data/chunking-guide/budget-filling.svg)
 
 *How a 1,000-token budget is filled, with illustrative chunk sizes.*
 
@@ -53,7 +49,7 @@ Two different token limits appear in this guide:
 
 ### Chunk Size
 
-A chunk size setting is a maximum: the splitter cuts at paragraph or line breaks, so most chunks are shorter. A 1,000-token budget usually holds seven or eight chunks of up to 128 tokens, four or five of up to 256, and one or two of up to 510.
+A chunk size setting is a maximum: the splitter cuts at paragraph or line breaks, so most chunks are shorter. Recursive chunks averaged about 90, 190, and 410 tokens at those maximums, so a 1,000-token budget holds about ten chunks of up to 128 tokens, about five of up to 256, and about two of up to 510.
 
 | Maximum chunk size | SQuAD | RepliQA | Qasper | Tokens sent |
 |---|---|---|---|---|
@@ -63,25 +59,25 @@ A chunk size setting is a maximum: the splitter cuts at paragraph or line breaks
 
 *Small chunks give the model more separate search results in the same space. On Qasper, where passages depend on their paper, 256 tokens beat 128.*
 
-{{< chart id="chunking/recall-by-budget" caption="Small chunks lead at small budgets on SQuAD and RepliQA, and the gap closes as the budget grows. On Qasper, 256-token chunks lead at every budget." >}}
+{{< chart id="chunking/recall-by-budget" caption="Small chunks lead at small budgets on SQuAD and RepliQA, and the gap closes as the budget grows. On Qasper, 256-token chunks lead by 5 to 7 points at 1,000 and 2,000 tokens, and by less than the noise at 500 and 4,000." >}}
 
-When your budget grows, send more chunks rather than bigger ones. Single facts suit small chunks, and answers spread over more than one paragraph suit larger ones, which is why Qasper prefers 256.
+When your budget grows, send more chunks rather than bigger ones. Single facts suit small chunks, and answers spread over more than one paragraph suit larger ones: on Qasper, whose answers span paragraphs, 256 beat 128.
 
 ### Overlap
 
-Overlap is a setting, not a method: a sliding window repeats the end of one chunk at the start of the next, with any splitter. It is the most common default advice, often 10% to 20%. With 64 tokens of overlap on 256-token chunks, recall at 1,000 tokens moved by less than two points on every dataset (86.3% to 86.5% on SQuAD, 76.9% to 77.5% on RepliQA, 50.8% to 52.2% on Qasper), within the noise. Overlap protects answers cut in half by a boundary, and a splitter that cuts at paragraph breaks rarely does that: about 6% of RepliQA answer passages crossed one, against 66% with fixed 128-token windows. Overlap may matter more with those windows, which this guide tested without it.
+Overlap repeats the end of one chunk at the start of the next, and the common advice is 10% to 20%. With 64 tokens of overlap on 256-token chunks, recall at 1,000 tokens moved by less than 2 points on every dataset (86.3% to 86.5% on SQuAD, 76.9% to 77.5% on RepliQA, 50.8% to 52.2% on Qasper), within the noise. Overlap protects answers cut in half by a boundary, and a splitter that cuts at paragraph breaks rarely does that: about 6% of RepliQA answer passages crossed one with 256-token recursive chunks, against 32% with 256-token fixed windows. Overlap may matter more with fixed windows, which we tested without it.
 
 ### The Embedding Model's Input Limit
 
-Many open embedding models stop reading at 512 tokens or fewer and drop the rest without warning: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) reads 256 and [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) reads 512. Most splitters count characters by default, so measure chunks with the model's own tokenizer. Every chunk in this guide stayed within 512 tokens, including those with added context.
+Many open embedding models stop reading at 512 tokens or fewer and drop the rest without warning: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) reads 256 and [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) reads 512. Most splitters, LangChain's included, count characters unless you pass a token counter ([splitter docs](https://docs.langchain.com/oss/python/integrations/splitters)), so measure chunks with the model's own tokenizer. Every chunk in this guide stayed within 512 tokens, including those with added context.
 
-Long-context models such as [UltraBERT-Embed](/blog/ultrabert-embed/) read 32,000 tokens, but a higher limit is not a reason for bigger chunks: when the answer is a detail inside a long document, smaller chunks find it more often.
+Long-context models such as [UltraBERT-Embed](/blog/ultrabert-embed/) read 32,000 tokens, but with bge-small, smaller chunks found a detail inside a long document more often, and we didn't test whether that holds for long-context models.
 
 ### How Much Context Your Documents Carry
 
 A chunk depends on its document when it can't be understood on its own. It might refer back to something defined earlier ("the employee", "our model"), need the document's structure, or be ambiguous without the title ("revenue grew 3%" for which company?). These categories come from the [ConTEB benchmark](https://arxiv.org/abs/2505.24782).
 
-Two LLMs read the chunk that holds the answer for 100 random questions per dataset, without its document, and judged whether it made sense on its own. A person checked 30 of the labels and agreed more often with the first model, so its rate comes first and the second model's is in brackets. Details are in How We Measured.
+Two LLMs judged whether the chunk holding the answer made sense without its document, for 100 random questions per dataset. The first model's rate comes first and the second's in brackets; [How We Measured](#how-we-measured) has the check against a person.
 
 | Dataset | Self-contained answer chunks | With title and section prefix |
 |---|---|---|
@@ -89,9 +85,7 @@ Two LLMs read the chunk that holds the answer for 100 random questions per datas
 | RepliQA (policies, reports, news) | 60% (74%) | 71% (82%) |
 | Qasper (research papers) | 10% (23%) | 22% (30%) |
 
-*Most failures are references back to earlier text: 25% of SQuAD chunks, 35% of RepliQA chunks, and 90% of Qasper chunks.*
-
-To test your own documents, read 20 random chunks without their documents and count how many you could answer a question from. If most fail, as with research papers or contracts, treat them as high dependency.
+*Most failures are references back to earlier text: 25% of SQuAD chunks, 35% of RepliQA chunks, and 90% of Qasper chunks. Treat research papers as high dependency; contracts likely are too, though we didn't test them.*
 
 ## Choose a Method
 
@@ -99,25 +93,25 @@ Start with recursive splitting. It is the default in most libraries, it cuts at 
 
 ### Where to Cut
 
-{{< chart id="chunking/methods-boundaries" caption="Fixed-size windows and 510-token chunks lose on every dataset. Section boundaries help only Qasper, the one dataset with headings. Semantic chunking and overlap stay within about three points of recursive splitting." >}}
+{{< chart id="chunking/methods-boundaries" caption="Fixed-size windows lose on every dataset. Section boundaries help only Qasper, the one dataset with headings. The semantic method tested here scores lower than recursive splitting on every dataset, by up to 3 points." >}}
 
-Fixed-size windows cut every 128 tokens regardless of sentences and paragraphs, which is what split the Magical Toolkit answer in the introduction. They lost on every dataset: 69% against 86% on SQuAD, 63% against 77% on RepliQA, 37% against 51% on Qasper. Section boundaries add one rule to recursive splitting: a chunk never crosses a heading, so it never mixes the end of Method with the start of Results. Only Qasper has headings, and there the rule raised recall from 51% to 56%. The semantic method tested here cuts where the distance between neighboring sentences is in a document's top 5%, the LangChain default. It needs an extra embedding pass over every sentence and gave nothing back, which matches [published results](https://arxiv.org/abs/2410.13070). Other semantic methods were not tested.
+Fixed-size windows cut every N tokens regardless of sentences and paragraphs, which is what split the *Magical Toolkit answer* in the [introduction](#how-to-choose-a-chunking-strategy). At 256 tokens they lost on every dataset against 256-token recursive chunks: 69% against 86% on SQuAD, 63% against 77% on RepliQA, 37% against 51% on Qasper. Section boundaries add one rule to recursive splitting: a chunk never crosses a heading, so it never mixes the end of Method with the start of Results. Only Qasper has headings, and there the rule raised recall from 51% to 56%. The semantic method tested here cuts where the distance between neighboring sentences is in a document's top 5%, LangChain's default threshold, comparing single sentences. It needs an extra embedding pass over every sentence and gave nothing back, which matches [published results](https://arxiv.org/abs/2410.13070).
 
-The common tools implement these methods under their own names: LangChain's `RecursiveCharacterTextSplitter` and the [n8n Recursive Character Text Splitter node](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.textsplitterrecursivecharactertextsplitter/) for recursive splitting, LangChain's `TokenTextSplitter` for fixed windows, and `MarkdownHeaderTextSplitter`, [Docling's `HybridChunker`](https://docling-project.github.io/docling/concepts/chunking/), and Unstructured's [chunk by title](https://unstructured.io/blog/chunking-for-rag-best-practices) for section boundaries. LangChain's splitters count characters unless you pass a token counter ([splitter docs](https://docs.langchain.com/oss/python/integrations/splitters)). Whatever the tool, keep a parsed PDF in reading order, keep a table inside one chunk or repeat its header row in each part, and store the document ID, section, and position in the payload so an answer can cite its source and a [payload filter](/documentation/search-patterns/vector-search-filtering/) can narrow the search.
+Most tools ship all three methods under their own names. In LangChain, `RecursiveCharacterTextSplitter` is recursive splitting, `TokenTextSplitter` is fixed windows, and `MarkdownHeaderTextSplitter` splits at headings, and n8n's text splitter nodes are built on the same splitters. For PDFs and HTML, Unstructured's `by_title` strategy and [Docling's `HybridChunker`](https://docling-project.github.io/docling/concepts/chunking/) split at the headings their parsers find. The [chunking lesson](/course/essentials/day-1/chunking-strategies/) in the Qdrant course has code for each method, the [Unstructured integration](/documentation/data-management/unstructured/) chunks by title straight into a Qdrant collection, and the [LangChain](/documentation/frameworks/langchain/) and [n8n](/documentation/platforms/n8n/) integrations take your chunks from there into Qdrant. Whatever the tool, keep a parsed PDF in reading order, keep a table in one chunk or repeat its header row, and store the document ID, section, and position in the payload so an answer can cite its source and a [payload filter](/documentation/search-patterns/vector-search-filtering/) can narrow the search.
 
 ### How Chunks Are Searched
 
-{{< chart id="chunking/methods-search" caption="Hybrid search leads on all three datasets, most on Qasper when combined with section boundaries. Sending the neighbors of each hit lowers recall at a fixed budget, and sending the parent chunk helps only RepliQA." >}}
+{{< chart id="chunking/methods-search" caption="At 1,000 tokens, hybrid search scores highest on every dataset, 1 to 4 points over BM25, and most on Qasper with section boundaries." >}}
 
-The search method moved recall more than any chunking choice. SQuAD and RepliQA questions reuse the wording of their passages, which favors keyword search: when an LLM reworded the questions (see When Chunking Is Not Worth It), BM25 fell to 50% to 54%. At the same 128-token chunk size, hybrid and dense search tied on reworded questions, while hybrid led by 5 points on the original wording. In Qdrant, BM25 is a sparse vector with the IDF modifier, and [hybrid search](/documentation/search/hybrid-queries/) combines it with dense vectors in one query through prefetch and Reciprocal Rank Fusion (RRF). Hybrid search was the best setup on every dataset. Section boundaries change nothing on SQuAD and RepliQA, which have no headings, but on Qasper they lift hybrid search from 55% to 60%, against the 51% baseline.
+The search method moved recall more than any chunking choice. SQuAD and RepliQA questions reuse the wording of their passages, which favors keyword search: when an LLM reworded the questions (see [When Chunking Is Not Worth It](#when-chunking-is-not-worth-it)), BM25 fell to 50% to 54%. With 128-token chunks, hybrid led dense search by 5 points on the original wording and was within the noise on the reworded. In Qdrant, BM25 is a sparse vector with the IDF modifier, and [hybrid search](/documentation/search/hybrid-queries/) combines it with dense vectors in one query through prefetch and Reciprocal Rank Fusion (RRF). Hybrid search scored highest of the search methods on every dataset. Section boundaries change nothing on SQuAD and RepliQA, which have no headings, but on Qasper they lift hybrid search from 55% to 60%, against the 51% baseline.
 
 ### Adding Context to Chunks
 
-Context methods put information from the rest of the document into each chunk: a title and section prefix, an LLM-written summary of the document, or Anthropic's [Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval), where an LLM writes a short context for each chunk. The added text can go into the embedding only, so it helps search while the model receives the original chunk, or it can also be sent, where it uses budget. For Qasper, these runs used 100 papers.
+Context methods put part of the document into each chunk: a title and section prefix, an LLM-written document summary, or Anthropic's [Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval), an LLM-written context per chunk. The added text can go into the embedding only, or also be sent, where it uses budget.
 
 ![Two 1,000-token prompts. When added context goes into the embedding only, the prompt receives the original chunks and four fit. When the context is also sent, each chunk carries it into the prompt and only three fit.](/articles_data/chunking-guide/context-embedded-vs-sent.svg)
 
-*Sending the added context uses budget, so fewer chunks reach the model. Sizes are illustrative.*
+*Sent context uses budget, so fewer chunks fit. Sizes are illustrative.*
 
 | Context method | SQuAD | RepliQA | Qasper (100 papers) |
 |---|---|---|---|
@@ -129,7 +123,7 @@ Context methods put information from the rest of the document into each chunk: a
 | LLM context per chunk, sent | 84% | 76% | 50% |
 | LLM context per chunk, embedded only | 86% | 79% | 58% |
 
-Per-chunk context in the embedding only raised recall by 2.5 points on RepliQA and 5 on Qasper, and did nothing on SQuAD, whose chunks mostly stand alone. Sending it erased the gain. It is also the most expensive method to index: 26,527 LLM calls and about 60 million input tokens for our three datasets, about $11 with DeepSeek v4.1 Flash. A document summary costs one call per document but did not help. Sending the neighbors of each hit, or the 510-token parent of a 128-token hit, lowered recall on most datasets because each hit uses more budget, though both can still help the model answer, which this guide does not measure. In Qdrant, the [Grouping API](/documentation/search/search/#grouping-api) returns the best hits per document, and `with_lookup` attaches a parent stored once in another collection.
+Per-chunk context in the embedding only raised recall by 2.5 points on RepliQA and about 5 on Qasper, at the edge of the noise for 100 papers, and did nothing on SQuAD, whose chunks mostly stand alone; sending it erased the gain. It is also the most expensive to index: 26,527 LLM calls and about 60 million input tokens, about $11 with DeepSeek v4.1 Flash. A document summary, one call per document, did not help. Sending each hit's neighbors lowered recall to 73%, 68%, and 38% against 86%, 77%, and 51%, and sending the 510-token parent of a 128-token hit lowered it to 81%, 83%, and 45% against 88%, 84%, and 46%, because each hit uses more budget. Both can still help the model answer, which we didn't measure. In Qdrant, the [Grouping API](/documentation/search/search/#grouping-api) returns the best hits per document, and `with_lookup` attaches a parent stored once in another collection.
 
 ## Recommendations
 
@@ -137,7 +131,7 @@ These starting points come from one embedding model (bge-small-en-v1.5), budgets
 
 | Your documents | Start with |
 |---|---|
-| Short, self-contained entries (FAQs, tickets, catalog items) | Recursive chunks of 128 to 256 tokens, hybrid search |
+| Short, self-contained entries (FAQs, tickets, catalog items) | Recursive chunks of 256 tokens, hybrid search |
 | Documents with headings (manuals, reports, papers) | Section boundaries, then recursive chunks of 256 tokens, hybrid search |
 | Long documents where most chunks depend on context | The same, plus per-chunk LLM context in the embedding only, if the indexing cost fits |
 
@@ -152,19 +146,23 @@ Inspect the chunks before you run a query:
 - Each chunk carries its document ID and position in the payload.
 - Most of 20 random chunks, read on their own, make sense without their document.
 
-Then test retrieval with 30 to 50 questions that look like the ones your users ask, each paired with the passage that answers it. For each question, fill your budget with the search results in rank order and check whether that passage is in what you would send. The misses fall into three causes, each with its own fix. When the answer is cut by a chunk boundary, try section-aware boundaries or a larger chunk. If the right document was found but other parts of it ranked higher, hybrid search or a reranker helps. A document that was not found at all, for a question that uses different words from the text, points at the embedding model, or at missing keyword search if your users look for exact terms.
+Then test retrieval with 30 to 50 questions like the ones your users ask, each paired with the passage that answers it: fill your budget with the results in rank order and check whether that passage is in what you would send. The misses fall into three causes:
 
-Finding the evidence is not the same as answering correctly. This guide measures the first. The answer also depends on the model and on whether the context it needs came along with the chunk, so once retrieval looks right, read a sample of answers against the passages they came from.
+- The answer is cut by a chunk boundary: try section-aware boundaries or a larger chunk.
+- The right document was found but other parts of it ranked higher: try hybrid search or a reranker.
+- The document was not found and the question uses other words than the text: check the embedding model, or add keyword search for exact terms.
+
+Finding the evidence is not the same as answering correctly, and this guide measures the first. Once retrieval looks right, read a sample of answers against the passages they came from.
 
 ## When Chunking Is Not Worth It
 
-Sending the whole document is enough when you already know which document holds the answer and it fits your budget. An average RepliQA document is about 1,250 tokens, so sending it whole is cheap; an average SQuAD article is about 8,000 and a Qasper paper about 5,000. Most applications do not know which document holds the answer, and finding it in a large collection is the problem retrieval solves.
+Sending the whole document is enough when you know which document holds the answer and it fits your budget: an average RepliQA document is about 1,250 tokens, a SQuAD article about 6,900, a Qasper paper about 5,000. Most applications do not know which document holds the answer, and finding it in a large collection is the problem retrieval solves.
 
-The other way to skip chunking is to let an agent grep the raw files. Plain grep found the answer within a 1,000-token budget for 75% of SQuAD questions and 86% of RepliQA questions, but those questions were written by people reading the passage, so they reuse its words. To test the realistic case, an LLM rewrote 300 questions per dataset in other words, keeping names and numbers, and the share of question words that also appear in the answer passage fell from about 60% to about 20%. The chart compares the same 300 RepliQA questions in both wordings for grep, keyword search (BM25), vector search over chunks, and an agent that reads the files with grep and can rephrase its own searches. Switch the view to see what each approach costs per answer.
+The other way to skip chunking is to grep the raw files. Plain grep found the answer within a 1,000-token budget for 75% of SQuAD questions and 86% of RepliQA questions, but those questions reuse the words of the passage they were written from. So an LLM rewrote 300 questions per dataset, keeping names and numbers, until about 17% to 22% of question words appeared in the answer passage, down from 56% to 66%. The chart compares the same 300 RepliQA questions in both wordings, including an agent that greps and can rephrase its searches; switch the view for the cost per answer.
 
-{{< chart id="chunking/wording-vs-cost" caption="When the wording changes, grep loses two thirds of its hits and BM25 half, while vector search over chunks loses the least. The agent recovers almost everything." caption2="Retrieval sends about 900 tokens in one call. The agent uses a median of 5,100 to 7,600 tokens across three to four calls, and its mean is far higher because a few questions run long." >}}
+{{< chart id="chunking/wording-vs-cost" caption="When the wording changes, grep loses two thirds of its hits and BM25 almost half, while vector search over chunks loses 16 to 20 points. The agent loses 4, at several times the tokens." caption2="Retrieval sends about 900 tokens in one call. The agent uses a median of 5,100 to 7,600 tokens across three to four calls, and its mean is far higher because a few questions run long." >}}
 
-SQuAD shows the same pattern: grep fell from 74% to 30% and dense search from 88% to 75%. The agent's accuracy also depends on the model, which is a retrieval architecture choice beyond this guide. Grep is enough for a small collection, rare questions, or exact identifiers. Chunk when users ask in their own words, when you answer many questions over a large collection, or when you need a predictable cost per answer.
+The same 300 SQuAD questions show the pattern: grep fell from 74% to 30%, dense search with 128-token chunks from 90% to 81%. Grep is enough for a small collection, rare questions, or exact identifiers. Chunk when users ask in their own words, when you answer many questions over a large collection, or when cost per answer must be predictable.
 
 ## When to Adjust
 
@@ -174,13 +172,9 @@ The same two questions apply beyond text. With audio and video, the budget is ti
 
 ## How We Measured
 
-- **Datasets:** SQuAD v1.1 validation (48 articles, 10,570 questions), RepliQA split 0 (3,591 documents, 14,083 questions), and Qasper validation and test (697 papers, 1,976 questions). SQuAD and RepliQA search the whole collection. Qasper searches within its own paper, because its questions assume the paper is open.
-- **Setup:** bge-small-en-v1.5 through FastEmbed, Qdrant, and LangChain's recursive splitter sized in the model's tokens. Budgets are counted with the same tokenizer, so your LLM will count the same text slightly differently.
-- **Context dependency:** [DeepSeek v4.1 Flash](https://www.deepseek.com/en/news/deepseek-v4-1-flash/) and [Claude Haiku 5.5](https://www.anthropic.com/claude-haiku-5-5) labeled the same chunks. A person labeled 30 of them and agreed with DeepSeek on 27 and with Claude Haiku on 23, so DeepSeek's rates lead the table. Thirty chunks is a small sample.
-- **Noise:** differences of one or two points are meaningful for SQuAD and RepliQA, Qasper's confidence intervals are about 4 points wide, and results on 300 or 100 questions need differences over 5 points.
-- **Not measured or covered:** answer correctness, other embedding models, reranking, parsing PDFs and tables, and [late chunking](https://arxiv.org/abs/2409.04701). [NVIDIA's benchmark](https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/) measures answer accuracy on PDFs, where page-level chunks did well.
+The datasets have human-labeled answer passages: SQuAD v1.1 validation (Wikipedia, 48 articles, 10,570 questions), RepliQA split 0 (company policies, incident reports, and local news about made-up entities, 3,591 documents, 14,083 questions), and Qasper validation and test (NLP research papers, 697 papers, 1,976 questions). SQuAD and RepliQA search the whole collection; Qasper searches within its own paper, because its questions assume the paper is open. The setup is bge-small-en-v1.5 through FastEmbed, Qdrant, and LangChain's recursive splitter sized in the model's tokens. Budgets are counted with the same tokenizer, so your LLM will count the same text slightly differently. Differences of one or two points are meaningful on SQuAD and RepliQA, Qasper's confidence intervals are about 4 points wide, and results on 300 or 100 questions need differences over 5 points.
 
-Code, notebooks, and all results are in the [companion repository](https://github.com/qdrant-labs/chunking-guide-methods).
+For context dependency, [DeepSeek v4.1 Flash](https://www.deepseek.com/en/news/deepseek-v4-1-flash/) and [Claude Haiku 5.5](https://www.anthropic.com/claude-haiku-5-5) labeled the same chunks. A person labeled 30 of them, a small sample, and agreed with DeepSeek on 27 and with Claude Haiku on 23, so DeepSeek's rates lead the table. Not measured or covered: answer correctness, other embedding models and semantic chunkers, reranking, parsing PDFs and tables, and [late chunking](https://arxiv.org/abs/2409.04701); [NVIDIA's benchmark](https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/) measures answer accuracy on PDFs, where page-level chunks did well. Code, notebooks, and all results are in the [companion repository](https://github.com/qdrant-labs/chunking-guide-methods).
 
 ## Related Reading
 
