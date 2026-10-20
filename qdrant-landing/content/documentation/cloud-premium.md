@@ -31,6 +31,10 @@ The following table lists what changes when you move from Standard to Premium. T
 | [Customer-managed encryption keys](#customer-managed-encryption-keys) | Not included | AWS KMS, GCP Cloud KMS, and Azure Key Vault |
 | Pricing | Usage-based, paid as you go or under a committed-spend contract | Premium tier rates, under a committed-spend contract with an annual minimum |
 
+## Premium on Hybrid Cloud
+
+SSO, 24/7 support, and migration support also apply to [Hybrid Cloud](/documentation/hybrid-cloud/) clusters. The uptime SLA does not, as described in [Uptime SLA](#uptime-sla). For who is responsible for what on Hybrid Cloud, see [Shared Responsibility](/documentation/shared-responsibility/).
+
 ## Uptime SLA
 
 Premium commits to 99.9% quarterly uptime for clusters in a single availability zone and 99.95% for [multi-AZ clusters](#multi-az-clusters). Standard commits to 99.5%. Uptime is measured per cluster over each calendar quarter. If you need a higher commitment than 99.95%, [contact the Qdrant team](/contact-us/) about a custom SLA.

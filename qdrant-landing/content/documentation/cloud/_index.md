@@ -24,6 +24,8 @@ To create your first cluster, start with [Getting Started](/documentation/cloud-
 | Where your data lives | Qdrant-managed volumes, [encrypted at rest](/documentation/cloud-security/) | Inside your network | Inside your network |
 | Read more | This section | [Hybrid Cloud](/documentation/hybrid-cloud/) | [Private Cloud](/documentation/private-cloud/) |
 
+For who is responsible for what in each model, see [Shared Responsibility](/documentation/shared-responsibility/).
+
 ## Choose a Tier
 
 | | Free | Standard | Premium |
