@@ -22,7 +22,7 @@ Unlike traditional RAG techniques, which passively retrieve context and generate
 
 In this tutorial, we’ll develop a fully functional chatbot using Qdrant, [CAMEL-AI](https://www.camel-ai.org/), and [OpenAI](https://openai.com/). By the end, you can ask `!ask What is quantization in Qdrant?`, inspect the source chunks, and check whether the answer is supported by them.
 
-![Discord RAG architecture](/documentation/tutorials/agentic-rag-camelai-discord/ragbot.png)
+![Discord RAG bot architecture using Qdrant and CAMEL-AI](/documentation/examples/agentic-rag-camelai-discord/ragbot.png)
 
 Let’s get started!
 
