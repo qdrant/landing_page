@@ -27,7 +27,7 @@ const SERIES = [
     lat: [0.91, 1.72, 3.03, 0.83, 1.37, 1.36], rec: [1, 1, 1, 0.05, 0.5, 0.85] },
 ];
 const STATUS = {
-  all: 'Below about 6,500 points every setup scans exactly, so recall is 1.00. Above it, only the index created before loading kept full recall at 10,000 and 20,000 points.',
+  all: 'Below about 6,500 points every setup scans exactly, so recall is 1.00. Above it, only the index created before loading kept full recall at 10,000 and 20,000 points; at 40,000, all three fell to 0.84 or 0.85.',
   start: 'Index from the start: 0.68 to 1.98 ms throughout, with recall 1.00 up to 20,000 points and 0.84 at 40,000.',
   none: 'No index: small tenants are exact but take 80 to 83 ms. From 10,000 points queries are fast, but recall falls to 0.05, then 0.50 at 20,000.',
   after: 'Index added after loading: fast at every size, yet recall still falls to 0.05 at 10,000 points, the same as no index. The graph was built without it.',

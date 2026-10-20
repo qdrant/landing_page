@@ -4,10 +4,10 @@
  *
  * Measured, one cluster (Qdrant Cloud, 2 vCPU, 6.9 GB RAM): p95 latency of the
  * existing tenants' queries before, during, and after a new 100,000-point
- * tenant loads. Two runs of the same shared-collection setup
- * (results/experiment_c) and one with the new tenant on its own shard
- * (results/experiment_s2). Load durations are each run's loading phase. All
- * values are a static table.
+ * tenant loads. Two runs of the same shared-collection setup whose loads ran
+ * at rates seven times apart (results/experiment_c) and one with the new
+ * tenant on its own shard (results/experiment_s2). Load durations are each
+ * run's loading phase. All values are a static table.
  *
  * The phase chips move each setup's marker; the hollow marker stays at idle.
  * Opens on "during the load", the state the guide's text describes. Two
@@ -29,7 +29,7 @@ const PHASES = [
 ];
 const STATUS = {
   idle: "Idle: all three setups answer the other tenants' queries in under 0.8 ms at p95.",
-  load: 'During the load: the shared collection rose to 0.95 ms on one run and 6.84 ms on the other, from the same setup; the own shard stayed at 0.73 ms.',
+  load: 'During the load: the shared collection rose to 0.95 ms while the load took 15 minutes and to 6.84 ms while it took 2; the own shard, loading in 4 minutes, stayed at 0.73 ms.',
   after: 'After the load: every setup is back near idle, 0.71 to 0.88 ms. The cost is paid only while the new tenant loads.',
 };
 const MAX_MS = 7;

@@ -5,7 +5,7 @@
  * The three steps of promoting a tenant out of the fallback shard. The stage
  * is schematic (bar counts are illustrative); the step costs are measured in
  * one run (results/experiment_t2: 98,619 points; other tenants' p95 0.67 ms at
- * idle, 31.8 ms while copying; delete call 0.3 s; 125 s of cleanup with p95
+ * idle, 31.8 ms while copying; delete call 0.5 s; 125 s of cleanup with p95
  * 0.96 ms and one 25.4 ms spike). Write safety comes from a separate run
  * (results/experiment_t3, a 49,309-point tenant): 100 writes before the copy
  * and 100 during it, all 200 visible after cleanup.
@@ -18,7 +18,7 @@
  */
 
 const LABEL =
-  "Promoting a tenant out of the fallback shard in three steps. One: create the tenant's shard in Partial state; its queries stay on the fallback. Two: copy its 98,619 points with replicate_points in 10 seconds; the shard turns Active and the tenant's queries switch to it; other tenants' p95 latency rose from 0.67 to 32 ms. Three: delete the copies from the fallback; the call took 0.3 seconds, cleanup about 2 minutes, with one 25 ms latency spike. In a separate run, 200 of 200 writes made before and during the copy were visible afterward.";
+  "Promoting a tenant out of the fallback shard in three steps. One: create the tenant's shard in Partial state; its queries stay on the fallback. Two: copy its 98,619 points with replicate_points in 10 seconds; the shard turns Active and the tenant's queries switch to it; other tenants' p95 latency rose from 0.67 to 32 ms. Three: delete the copies from the fallback; the call returned in half a second, and background cleanup took about 2 minutes, with one 25 ms latency spike. In a separate run, 200 of 200 writes made before and during the copy were visible afterward.";
 
 const STEPS = [
   {
@@ -45,10 +45,10 @@ const STEPS = [
     chip: '3 Clean fallback',
     title: 'Clean fallback',
     code: 'delete(filter)',
-    body: ['delete call: 0.3 s', 'cleanup: about 2 min'],
-    bodyM: ['delete 0.3 s, cleanup about 2 min'],
+    body: ['delete: 0.5 s, then', '2 min of cleanup'],
+    bodyM: ['delete 0.5 s, then 2 min of cleanup'],
     pill: { text: 'one 25 ms spike', tone: 'orange' },
-    status: 'Step 3: deleting the old copies from the fallback took 0.3 s, then about 2 minutes of cleanup with one 25 ms spike. Until then, the fallback keeps a stale copy.',
+    status: 'Step 3: the delete call for the old copies returned in 0.5 s, then background cleanup ran for about 2 minutes, with one 25 ms spike. Until then, the fallback keeps a stale copy.',
   },
 ];
 

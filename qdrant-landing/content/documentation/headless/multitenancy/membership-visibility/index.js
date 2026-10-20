@@ -25,7 +25,7 @@ const LAYOUTS = [
 ];
 const STATUS = {
   once: 'Stored once with a list-valued tenant field, the article lives in one place. A co-author whose queries are routed elsewhere can no longer see it.',
-  dup: "Stored once per tenant, each co-author's copy sits where their own queries go, so nothing is lost. The price is storage: 60% more points in the payload model.",
+  dup: "Stored once per tenant, each co-author's copy sits where their own queries go, so nothing is lost. The price: 60% more points in the payload model, and a site-wide search that returns the article once per co-author.",
 };
 
 const A_INK = 'var(--mts-blue-ink)';
@@ -113,14 +113,11 @@ function panel(v, kind, x, y, w) {
 }
 
 function band(v, layout, x, y, w, icon, lines) {
-  const color = icon === 'check' ? 'var(--mts-cyan)' : 'var(--mts-orange)';
+  const color = icon === 'fix' ? 'var(--mts-blue)' : 'var(--mts-orange)';
   let out = `<g data-k="${v}-band-${layout}">`;
   out += `<rect x="${x}" y="${y}" width="${w}" height="${24 + lines.length * 26}" rx="12" style="fill:var(--mts-card);stroke:var(--qi-border)"/>`;
   out += `<circle cx="${x + 30}" cy="${y + 30}" r="12" style="fill:${color}"/>`;
-  out +=
-    icon === 'check'
-      ? `<path d="M${x + 24} ${y + 30} l4 4 l8 -9" stroke-width="2.5" fill="none" style="stroke:var(--mts-inset)"/>`
-      : `<text class="mts-note" x="${x + 30}" y="${y + 37}" text-anchor="middle" style="fill:var(--mts-inset);font-weight:700">!</text>`;
+  out += `<text class="mts-note" x="${x + 30}" y="${y + 37}" text-anchor="middle" style="fill:var(--mts-inset);font-weight:700">${icon === 'fix' ? '→' : '!'}</text>`;
   lines.forEach(([cls, text], i) => {
     out += `<text class="${cls}" x="${x + 56}" y="${y + 37 + i * 26}">${text}</text>`;
   });
@@ -136,9 +133,9 @@ function desktop() {
   out += panel('d', 'payload', 40, 140, 260);
   out += panel('d', 'shard', 350, 140, 260);
   out += panel('d', 'tiered', 660, 140, 260);
-  out += band('d', 'once', 40, 516, 880, 'check', [
-    ['mts-small', 'Stored as one copy per tenant, every co-author kept every article'],
-    ['mts-note', 'in all three models: 482 of 482 sharded, 240 of 240 after promotion'],
+  out += band('d', 'once', 40, 516, 880, 'fix', [
+    ['mts-small', 'The fix: one copy per tenant keeps every membership'],
+    ['mts-note', 'measured: 482 of 482 sharded, 240 of 240 after promotion'],
   ]);
   out += band('d', 'dup', 40, 516, 880, 'cost', [
     ['mts-small', 'The price is storage: 257,726 points instead of 161,413'],
@@ -158,10 +155,10 @@ function mobile() {
     out += panel('m', k, 24, tops[i], 432);
     if (i < 2) out += `<line x1="24" x2="456" y1="${tops[i] + 356}" y2="${tops[i] + 356}" class="mts-rule"/>`;
   });
-  out += band('m', 'once', 24, 1320, 432, 'check', [
-    ['mts-small', 'One copy per tenant kept'],
-    ['mts-small', 'every membership'],
-    ['mts-note', 'in all three: 482 of 482'],
+  out += band('m', 'once', 24, 1320, 432, 'fix', [
+    ['mts-small', 'The fix: one copy per'],
+    ['mts-small', 'tenant keeps them all'],
+    ['mts-note', 'measured: 482 of 482'],
     ['mts-note', 'sharded, 240 of 240 tiered'],
   ]);
   out += band('m', 'dup', 24, 1320, 432, 'cost', [

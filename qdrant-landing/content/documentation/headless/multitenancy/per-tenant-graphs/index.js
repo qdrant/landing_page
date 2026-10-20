@@ -7,8 +7,9 @@
  * one global HNSW graph whose edges cross tenants. Right, `m=0` with
  * `payload_m=16`: a separate graph per tenant and no edges between them. The
  * recall lines under the panels are measured (the guide's per-setup table,
- * 10,000-point tenant run): unfiltered 1.00 against 0.24, tenant-filtered
- * 1.00 in both.
+ * 10,000-point tenant run): unfiltered 0.996 against 0.24, tenant-filtered
+ * 1.00 against 0.998. The figure does not claim how Qdrant runs an unfiltered
+ * query without a global graph, only that no edges link the tenants.
  *
  * The query chips pick an unfiltered query or one tenant's filtered query and
  * highlight what each structure has to traverse. Two compositions: desktop,
@@ -16,7 +17,7 @@
  */
 
 const LABEL =
-  "Illustrative. Left: one global HNSW graph with edges between tenants. Right: m=0 with payload_m=16, a separate graph per tenant. An unfiltered query walks the global graph once but must search each per-tenant graph and merge; measured unfiltered recall 1.00 against 0.24. A tenant-filtered query passes through other tenants' points in the global graph but searches only its own per-tenant graph; measured recall 1.00 in both.";
+  "Illustrative. Left: one global HNSW graph with edges between tenants. Right: m=0 with payload_m=16, a separate graph per tenant and no edges between them. Measured unfiltered recall 0.996 against 0.24. A tenant-filtered query passes through other tenants' points in the global graph but searches only its own per-tenant graph; measured recall for a 10,000-point tenant 1.00 against 0.998, and at 40,000 points 0.84 against 0.996.";
 
 const COLOR = { a: 'var(--mts-blue)', b: 'var(--mts-purple)', c: 'var(--mts-cyan)' };
 const NAME = { a: 'A', b: 'B', c: 'C' };
@@ -45,8 +46,6 @@ const CLUSTERS = {
   c: [[160, 140], [235, 135], [245, 205], [165, 210]],
 };
 const CLUSTER_EDGES = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 2]];
-// Where each cluster's "search n" badge sits, in local coordinates.
-const BADGE = { a: [78, 150], b: [322, 150], c: [120, 238] };
 
 const QUERIES = [
   { id: 'all', label: 'Unfiltered' },
@@ -58,17 +57,17 @@ const QUERIES = [
 const TEXT = {
   all: {
     left: ['An unfiltered query walks', 'one connected graph.'],
-    right: ['An unfiltered query searches', "each tenant's graph and", 'merges the results.'],
-    leftRecall: ['measured unfiltered recall: 1.00', 'cyan'],
+    right: ['No edges link the tenant', 'graphs, so an unfiltered query', 'misses most true neighbors.'],
+    leftRecall: ['measured unfiltered recall: 0.996', 'cyan'],
     rightRecall: ['measured unfiltered recall: 0.24', 'red'],
-    status: 'Unfiltered: one walk through the global graph, but one search per tenant graph and a merge. Measured unfiltered recall: 1.00 against 0.24.',
+    status: 'Unfiltered: the global graph links every tenant, while the per-tenant graphs have no edges between them. Measured unfiltered recall: 0.996 against 0.24.',
   },
   tenant: (t) => ({
     left: ['A filtered query passes', "through other tenants' points", `to reach tenant ${NAME[t]}'s.`],
     right: ['A filtered query searches', `only tenant ${NAME[t]}'s graph.`, ''],
     leftRecall: ['measured filtered recall: 1.00', 'cyan'],
-    rightRecall: ['measured filtered recall: 1.00', 'cyan'],
-    status: `Tenant ${NAME[t]}'s filtered query: the global graph steps through other tenants' points, while the per-tenant graph searches only ${NAME[t]}'s. Both reached recall 1.00 for a 10,000-point tenant.`,
+    rightRecall: ['measured filtered recall: 0.998', 'cyan'],
+    status: `Tenant ${NAME[t]}'s filtered query: the global graph steps through other tenants' points, while the per-tenant graph searches only ${NAME[t]}'s. Recall for a 10,000-point tenant: 1.00 against 0.998; at 40,000 points, 0.84 against 0.996.`,
   }),
 };
 
@@ -100,9 +99,6 @@ function tenantGraphs(v, ox, oy) {
       out += `<circle cx="${ox + x}" cy="${oy + y}" r="10" stroke-width="3" style="fill:${COLOR[t]};stroke:var(--mts-inset)"/>`;
     });
     out += '</g>';
-    const [bx, by] = BADGE[t];
-    out += `<g data-k="${v}-badge-${t}"><circle cx="${ox + bx}" cy="${oy + by}" r="13" style="fill:var(--qi-fg)"/>`;
-    out += `<text class="mts-note" x="${ox + bx}" y="${oy + by + 6}" text-anchor="middle" style="fill:var(--mts-inset);font-weight:600">${['a', 'b', 'c'].indexOf(t) + 1}</text></g>`;
   });
   return out;
 }
@@ -180,7 +176,6 @@ function update(node, query) {
     });
     ['a', 'b', 'c'].forEach((t) => {
       q(`tc-${t}`).classList.toggle('is-dim', query !== 'all' && query !== t);
-      q(`badge-${t}`).classList.toggle('is-off', query !== 'all');
     });
     ['left', 'right'].forEach((side) => {
       text[side].forEach((line, i) => {

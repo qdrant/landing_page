@@ -134,7 +134,7 @@ function update(node, i) {
   }
   node.querySelectorAll('[data-size]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.size) === SIZES[i])));
   node.querySelector('.qi-status').textContent =
-    `At ${pretty(SIZES[i])} points, the tenant index answered in ${TENANT[i].toFixed(2)} ms against ${KEYWORD[i].toFixed(2)} ms, ${ratioText(i)}. It also loaded and indexed faster, 203 s against 250 s.`;
+    `At ${pretty(SIZES[i])} points, the tenant index answered in ${TENANT[i].toFixed(2)} ms against ${KEYWORD[i].toFixed(2)} ms, ${ratioText(i)}. In this single run it also loaded and indexed faster, 203 s against 250 s.`;
 }
 
 function svg(v) {

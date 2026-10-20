@@ -3,17 +3,18 @@
  * search guide (content/documentation/production-operations/multitenant-search.md).
  *
  * A decision guide, not measured data. Tenant count runs along x, how unevenly
- * tenants are sized along y, and each model owns a region of that plane (the
- * rules in pickModel, unchanged from the earlier version of this figure). The
- * reader picks a cell and the marker moves there; "different configs needed"
- * overrides both axes, since it forces a collection per tenant.
+ * tenants are sized along y, and each model owns a band of that plane: inside a
+ * shared collection the size skew decides the model at any tenant count, while
+ * the count changes the limits named in the status line. The reader picks a
+ * cell and the marker moves there; "different configs needed" overrides both
+ * axes, since it forces a collection per tenant.
  *
  * Two compositions: desktop, and a stacked one below 640px of figure width.
  * The zones are labeled in place so the map reads without the colors.
  */
 
 const LABEL =
-  'Decision guide, not measured. One dominant tenant: shard per tenant at any tenant count. Around 10 tenants otherwise: a collection per tenant. From about 1,000 tenants: a payload field with a tenant index when sizes are similar, tiered multitenancy when a few are big. Different embedding models or collection settings per tenant: a collection per tenant.';
+  'Decision guide, not measured. At any tenant count: one dominant tenant gets its own shard while the rest share one, a few big tenants among many small ones call for tiered multitenancy, and similar sizes fit a payload field with a tenant index. Different embedding models or collection settings per tenant: a collection per tenant, and Qdrant Cloud allows 1,000 collections per cluster by default.';
 
 const COUNTS = [
   { id: '10', label: '~10' },
@@ -30,14 +31,13 @@ const DISTS = [
 const MODELS = {
   payload: { name: 'Payload field with a tenant index', tone: 'blue' },
   tiered: { name: 'Tiered multitenancy', tone: 'purple' },
-  shard: { name: 'Shard per tenant', tone: 'cyan' },
+  shard: { name: 'Its own shard, the rest shared', tone: 'cyan' },
   collection: { name: 'Collection per tenant', tone: 'orange' },
 };
 
 function pickModel(count, dist, configsNeeded) {
   if (configsNeeded) return 'collection';
   if (dist === 'dominant') return 'shard';
-  if (count === '10') return 'collection';
   return dist === 'similar' ? 'payload' : 'tiered';
 }
 
@@ -45,34 +45,27 @@ function reason(count, dist, configsNeeded) {
   const n = COUNTS.find((c) => c.id === count).label;
   if (configsNeeded) {
     const base = 'Different embedding models or collection settings per tenant force separate collections, whatever the tenant count.';
-    return count === '100k' ? `${base} That is unusual at ${n} tenants, so double-check the count.` : base;
+    return ['10k', '100k'].includes(count) ? `${base} At ${n} tenants, that passes Qdrant Cloud's default of 1,000 collections per cluster.` : base;
   }
-  if (dist === 'dominant') return `${n} tenants, but one dominates the load: give it a shard of its own instead of crowding a shared collection.`;
-  if (count === '10') return `Only ${n} tenants: too few to share a collection, so give each one its own.`;
+  if (dist === 'dominant') return `${n} tenants, but one dominates the load: give it a shard of its own and keep the rest together in a shared one.`;
   if (dist === 'similar') return `${n} similarly sized tenants fit in one collection, partitioned by a tenant payload index.`;
-  return `${n} tenants with a few big ones: give the big tenants their own shards and let the rest share a fallback shard.`;
+  return `${n} tenants with a few big ones: every tenant starts in a shared fallback shard, and the big ones are promoted to shards of their own.`;
 }
 
-// Plot geometry: column widths (the first is wider on narrow screens so its
-// zone label fits), row height, origin.
+// Plot geometry: column widths, row height, origin.
 const GEO = {
   d: { w: 960, h: 540, x0: 270, cols: [162, 162, 162, 164], y0: 128, rowH: 100, rowLabelX: 40 },
-  m: { w: 480, h: 640, x0: 24, cols: [126, 102, 102, 102], y0: 150, rowH: 120, rowLabelX: null },
+  m: { w: 480, h: 640, x0: 24, cols: [108, 108, 108, 108], y0: 150, rowH: 120, rowLabelX: null },
 };
 
 function colX(g, i) {
   return g.x0 + g.cols.slice(0, i).reduce((a, b) => a + b, 0);
 }
+// One band per row; a collection per tenant is reached only through the override.
+const ZONES = ['shard', 'tiered', 'payload'];
 function zones(g) {
-  const right = colX(g, 4);
-  const c1 = colX(g, 1);
-  const r = (i) => g.y0 + i * g.rowH;
-  return [
-    ['shard', g.x0, r(0), right - g.x0, g.rowH],
-    ['collection', g.x0, r(1), c1 - g.x0, 2 * g.rowH],
-    ['tiered', c1, r(1), right - c1, g.rowH],
-    ['payload', c1, r(2), right - c1, g.rowH],
-  ];
+  const w = colX(g, 4) - g.x0;
+  return ZONES.map((key, i) => [key, g.x0, g.y0 + i * g.rowH, w, g.rowH]);
 }
 
 function zoneLabel(v, key, x, y, w, h) {
@@ -80,7 +73,6 @@ function zoneLabel(v, key, x, y, w, h) {
   const ink = `var(--mts-${MODELS[key].tone}-ink)`;
   const cx = x + w / 2;
   let lines = [name];
-  if (key === 'collection') lines = ['Collection', 'per tenant'];
   if (key === 'payload' && v === 'm') lines = ['Payload field with', 'a tenant index'];
   const top = y + h / 2 - ((lines.length - 1) * 26) / 2 + 7 + (v === 'm' ? 12 : 0);
   return lines
@@ -155,7 +147,7 @@ function update(node, s) {
     marker.setAttribute('width', g.cols[ci] - 4);
     marker.setAttribute('height', g.rowH - 4);
     marker.classList.toggle('is-off', s.configs);
-    Object.keys(MODELS).forEach((k) => {
+    ZONES.forEach((k) => {
       const zone = node.querySelector(`[data-k="${v}-zone-${k}"]`);
       const label = node.querySelector(`[data-k="${v}-zl-${k}"]`);
       const on = s.configs ? false : k === key;
