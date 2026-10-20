@@ -43,6 +43,12 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
         Access-Control-Allow-Origin = "*"
 
 [[redirects]]
+    from = "/.well-known/llms.txt"
+    to = "/llms.txt"
+    status = 200
+    force = true
+
+[[redirects]]
     from = "/surveys/hybrid-saas"
     to = "https://hybrid-cloud.qdrant.tech/"
     status = 301
