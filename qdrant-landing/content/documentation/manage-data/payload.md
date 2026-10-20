@@ -182,7 +182,9 @@ Notes about the format:
 *Available as of v1.11.0*
 
 In addition to the basic `keyword` type, Qdrant supports `uuid` type for storing UUID values.
-Functionally, it works the same as `keyword`, internally stores parsed UUID values.
+It stores the parsed UUID value, so a `match` on a `uuid`-indexed field compares UUIDs, not strings.
+Every spelling of the same UUID matches: lowercase, uppercase, without hyphens, or as `urn:uuid:`.
+Without the index, `match` compares the stored string exactly, so a collection can return different points for the same filter once a `uuid` index is created.
 
 ```json
 {
