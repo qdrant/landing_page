@@ -1,0 +1,1 @@
+Rescores prefetch results with `acosh` to return hyperbolic geodesic distance as the score.
