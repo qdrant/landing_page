@@ -48,8 +48,7 @@
   stroke-linejoin: round;
 }
 
-.qi-sm .qi-sm__pipeline,
-.qi-sm .qi-sm__document {
+.qi-sm .qi-sm__pipeline {
   stroke: var(--qi-muted);
 }
 
@@ -79,4 +78,12 @@
 
 .qi-sm .qi-sm__svg--narrow .qi-sm__metric {
   font-size: 14px;
+}
+
+.qi-sm .qi-sm__svg--narrow .qi-sm__box-label {
+  font-size: 14px;
+}
+
+.qi-sm .qi-sm__svg--narrow .qi-sm__gloss {
+  font-size: 12px;
 }

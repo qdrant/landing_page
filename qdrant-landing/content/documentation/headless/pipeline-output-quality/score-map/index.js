@@ -1,5 +1,5 @@
 // Each score connects only the two artifacts it reads. Components use rounded,
-// filled boxes; artifacts use square outlines with an inset document rule.
+// filled boxes; artifacts use square outlines.
 const NS = 'http://www.w3.org/2000/svg';
 const DESCRIPTION = 'Answer relevancy compares the Answer with the Question. Faithfulness compares the Answer with the Top 10 passages. Recall at 10 compares the Top 10 passages with the Golden set relevance labels. Context precision compares the Top 10 passages with the Golden set reference answer.';
 let instance = 0;
@@ -24,14 +24,13 @@ function path(parent, d, kind, marker) {
   parent.append(line);
 }
 
-function box(parent, x, y, width, title, subtitle) {
+function box(parent, x, y, width, title, subtitle, height = 56) {
   parent.append(element('rect', {
-    x, y, width, height: 64, rx: subtitle ? 9 : 2,
+    x, y, width, height, rx: subtitle ? 9 : 0,
     class: subtitle ? 'qi-sm__component' : 'qi-sm__artifact',
   }));
-  if (!subtitle) path(parent, `M ${x + 6} ${y + 10} V ${y + 54}`, 'document');
-  label(parent, x + width / 2, y + (subtitle ? 27 : 38), title, 'qi-label--strong qi-sm__box-label', 'middle');
-  if (subtitle) label(parent, x + width / 2, y + 48, subtitle, 'qi-sm__gloss', 'middle');
+  label(parent, x + width / 2, y + height / 2 + (subtitle ? -5 : 6), title, 'qi-label--strong qi-sm__box-label', 'middle');
+  if (subtitle) label(parent, x + width / 2, y + height / 2 + 16, subtitle, 'qi-sm__gloss', 'middle');
 }
 
 function metric(parent, x, y, name, gloss, kind, anchor = 'middle') {
@@ -46,59 +45,62 @@ function goldenFrame(parent, x, y, width, height) {
 }
 
 function desktop(svg, arrow) {
-  label(svg, 16, 26, 'Answer scores', 'qi-sm__heading');
-  metric(svg, 350, 60, 'answer_relevancy', 'addresses the question', 'answer');
-  path(svg, 'M 58 210 V 100 H 654 V 210', 'answer');
-  metric(svg, 490, 136, 'faithfulness', 'claims the passages support', 'answer');
-  path(svg, 'M 350 210 V 176 H 632 V 210', 'answer');
+  // Every label keeps at least 10 px of clearance from every line: glosses
+  // sit above their own bracket's run, and the retrieval runs stay above the
+  // Golden set frame instead of sliding along its top edge.
+  label(svg, 16, 22, 'Answer scores', 'qi-sm__heading');
+  metric(svg, 350, 50, 'answer_relevancy', 'addresses the question', 'answer');
+  path(svg, 'M 58 176 V 88 H 654 V 176', 'answer');
+  metric(svg, 490, 112, 'faithfulness', 'claims the passages support', 'answer');
+  path(svg, 'M 350 176 V 150 H 632 V 176', 'answer');
 
   const boxes = [
     [16, 88, 'Question'], [136, 104, 'Qdrant', 'retrieval'],
-    [280, 148, 'Top 10 passages'], [468, 112, 'Generator', 'LLM + prompt'],
+    [262, 184, 'Top 10 passages'], [468, 112, 'Generator', 'LLM + prompt'],
     [620, 76, 'Answer'],
   ];
   boxes.forEach(([x, width, title, subtitle], index) => {
-    box(svg, x, 210, width, title, subtitle);
-    if (index < boxes.length - 1) path(svg, `M ${x + width} 242 H ${boxes[index + 1][0]}`, 'pipeline', arrow);
+    box(svg, x, 176, width, title, subtitle);
+    if (index < boxes.length - 1) path(svg, `M ${x + width} 204 H ${boxes[index + 1][0]}`, 'pipeline', arrow);
   });
 
-  label(svg, 16, 312, 'Retrieval scores', 'qi-sm__heading');
-  metric(svg, 158, 352, 'recall@10', 'labeled passages found, no judge', 'retrieval');
-  metric(svg, 548, 352, 'context_precision', 'supporting passages ranked first', 'retrieval');
-  goldenFrame(svg, 32, 424, 648, 118);
-  path(svg, 'M 330 274 V 396 H 174 V 464', 'retrieval');
-  path(svg, 'M 378 274 V 396 H 538 V 464', 'retrieval');
-  box(svg, 64, 464, 220, 'Relevance labels');
-  box(svg, 428, 464, 220, 'Reference answer');
+  label(svg, 16, 258, 'Retrieval scores', 'qi-sm__heading');
+  metric(svg, 174, 282, 'recall@10', 'labeled passages found, no judge', 'retrieval');
+  metric(svg, 538, 282, 'context_precision', 'supporting passages ranked first', 'retrieval');
+  goldenFrame(svg, 32, 332, 648, 104);
+  path(svg, 'M 323 232 V 318 H 174 V 372', 'retrieval');
+  path(svg, 'M 385 232 V 318 H 538 V 372', 'retrieval');
+  box(svg, 64, 372, 220, 'Relevance labels', undefined, 50);
+  box(svg, 428, 372, 220, 'Reference answer', undefined, 50);
 }
 
 function narrow(svg, arrow) {
   label(svg, 16, 26, 'Answer scores', 'qi-sm__heading');
   // Left-side answer brackets are nested; the vertical pipeline stays intact.
-  path(svg, 'M 182 84 H 12 V 476 H 182', 'answer');
-  path(svg, 'M 182 280 H 34 V 458 H 182', 'answer');
-  metric(svg, 24, 132, 'answer_relevancy', ['addresses', 'the question'], 'answer', 'start');
-  metric(svg, 46, 344, 'faithfulness', ['claims the', 'passages support'], 'answer', 'start');
+  path(svg, 'M 166 77 H 12 V 406 H 166', 'answer');
+  path(svg, 'M 166 233 H 34 V 390 H 166', 'answer');
+  metric(svg, 24, 116, 'answer_relevancy', ['addresses', 'the question'], 'answer', 'start');
+  metric(svg, 46, 278, 'faithfulness', ['claims the', 'passages support'], 'answer', 'start');
 
   const boxes = [
-    [52, 'Question'], [150, 'Qdrant', 'retrieval'], [248, 'Top 10 passages'],
-    [346, 'Generator', 'LLM + prompt'], [444, 'Answer'],
+    [52, 'Question'], [130, 'Qdrant', 'retrieval'], [208, 'Top 10 passages'],
+    [286, 'Generator', 'LLM + prompt'], [364, 'Answer'],
   ];
   boxes.forEach(([y, title, subtitle], index) => {
-    box(svg, 182, y, 144, title, subtitle);
-    if (index < boxes.length - 1) path(svg, `M 254 ${y + 64} V ${boxes[index + 1][0]}`, 'pipeline', arrow);
+    box(svg, 166, y, 144, title, subtitle, 50);
+    if (index < boxes.length - 1) path(svg, `M 238 ${y + 50} V ${boxes[index + 1][0]}`, 'pipeline', arrow);
   });
 
-  label(svg, 16, 552, 'Retrieval scores', 'qi-sm__heading');
-  goldenFrame(svg, 24, 796, 302, 224);
-  // Separate outside gutters preserve both comparisons without passing through
-  // pipeline components, answer brackets, or the other metric's annotation.
-  path(svg, 'M 194 312 V 328 H 166 V 574 H 12 V 866 H 44', 'retrieval');
-  path(svg, 'M 326 294 H 342 V 958 H 306', 'retrieval');
-  metric(svg, 28, 620, 'recall@10', ['labeled passages found,', 'no judge'], 'retrieval', 'start');
-  metric(svg, 326, 722, 'context_precision', ['supporting passages', 'ranked first'], 'retrieval', 'end');
-  box(svg, 44, 834, 262, 'Relevance labels');
-  box(svg, 44, 926, 262, 'Reference answer');
+  label(svg, 16, 438, 'Retrieval scores', 'qi-sm__heading');
+  goldenFrame(svg, 24, 444, 300, 248);
+  // Separate right-side lanes keep retrieval comparisons clear of the answer
+  // brackets. The longer comparison leaves first, outside the shorter lane.
+  path(svg, 'M 310 244 H 332 V 553 H 310', 'retrieval');
+  path(svg, 'M 310 222 H 344 V 653 H 310', 'retrieval');
+  metric(svg, 44, 494, 'recall@10', 'labeled passages found, no judge', 'retrieval', 'start');
+  metric(svg, 44, 594, 'context_precision', 'supporting passages ranked first', 'retrieval', 'start');
+  box(svg, 44, 528, 266, 'Relevance labels', undefined, 50);
+  box(svg, 44, 628, 266, 'Reference answer', undefined, 50);
 }
 
 export function mount(node) {
@@ -112,7 +114,7 @@ export function mount(node) {
     previousLayout = small;
     const svg = element('svg', {
       class: `qi-svg qi-sm__svg${small ? ' qi-sm__svg--narrow' : ''}`,
-      viewBox: small ? '0 0 350 1036' : '0 0 712 558',
+      viewBox: small ? '0 0 350 704' : '0 0 712 440',
       role: 'img', 'aria-label': DESCRIPTION,
     });
     const defs = element('defs');

@@ -30,9 +30,11 @@ Four scores cover the two halves of the pipeline. `recall@10` and `context_preci
 - `faithfulness` measures how close the answer is to what the retriever returned: the share of its claims those passages support. It drops when the generator hallucinates or answers from training knowledge, even when that knowledge is correct.
 - `answer_relevancy` checks whether the answer addresses the question: the judge writes questions from the answer and compares their embeddings with the original question. It drops when the generator pads, dodges, or drifts off-topic, and scores 0 for a noncommittal answer such as "the context does not contain the answer".
 
+Supported, relevant, and correct are three separate properties, and neither answer score checks the third. If the question is "What caused the outage?" and the passage names a database connection failure, the answer "The service had an outage" is fully faithful and still useless. A faithful, relevant answer can also be wrong when the passages are wrong. Only a reference-based metric such as `FactualCorrectness` scores correctness.
+
 {{< island
     path="content/documentation/headless/pipeline-output-quality/score-map"
-    ratio="2 / 1"
+    ratio="712 / 440"
     title="Retrieval scores compare the retrieved passages with the golden set. Answer scores compare the answer with the passages and the question."
 >}}
 ![The RAG pipeline runs from the question through Qdrant retrieval to the top 10 passages, then through the generator to the answer. recall@10 compares the passages with the relevance labels, context_precision compares them with the reference answer, faithfulness compares the answer with the passages, and answer_relevancy compares the answer with the question.](/docs/pipeline-output-quality-score-map.png)
@@ -40,12 +42,12 @@ Four scores cover the two halves of the pipeline. `recall@10` and `context_preci
 
 What you can measure depends on what your golden set contains. Relevance labels are the IDs of the passages that answer each question, and they are the ground truth for retrieval. Reference answers are the correct answers written out as text, and they are the ground truth for the answer itself. Neither is perfect: labels miss passages, and a reference answer is only as good as whoever wrote it.
 
-| Your golden set has | Retrieval scores | Answer scores | Can you tell which half failed? |
+| Your golden set has | Retrieval scores | Answer scores | How well you can tell which half failed |
 |---|---|---|---|
-| Labels and reference answers | `recall@10`, `context_precision` | `faithfulness`, `answer_relevancy`, correctness such as `FactualCorrectness` | Yes |
-| Labels only | `recall@10` | `faithfulness`, `answer_relevancy` | Yes |
-| Reference answers only | `context_precision` | `faithfulness`, `answer_relevancy`, correctness | Yes, pair `context_precision` with `faithfulness` |
-| Neither, for example sampled production traffic | `ContextPrecisionWithoutReference`, which depends on the answer | `faithfulness`, `answer_relevancy` | No |
+| Labels and reference answers | `recall@10`, `context_precision` | `faithfulness`, `answer_relevancy`, correctness such as `FactualCorrectness` | Strong |
+| Labels only | `recall@10` | `faithfulness`, `answer_relevancy` | Strong |
+| Reference answers only | `context_precision` | `faithfulness`, `answer_relevancy`, correctness | Partial: the judge checks whether some passages support the reference, not whether retrieval found all the evidence |
+| Neither, for example sampled production traffic | `ContextPrecisionWithoutReference`, which depends on the answer | `faithfulness`, `answer_relevancy` | Limited: the retrieval score depends on the answer |
 
 If retrieval feeds something other than an LLM, such as a ranker, a search UI, or an agent, Ragas metrics do not fit. Score the end-to-end output with a task metric instead, such as normalized discounted cumulative gain (NDCG) for a ranker, click-through rate for a UI, or task-completion rate for an agent, and keep the same method: hold one component fixed and change the other.
 
@@ -57,7 +59,7 @@ Score retrieval and the answer on the same questions, and every question has a r
 |---|---|---|
 | High | High | Retrieval met its target and the answer stays within the passages. `faithfulness` does not check correctness, so score against the reference answers with `FactualCorrectness` and read a sample before you ship. |
 | High | Low | Generator, prompt, or judge problem. Retrieval surfaced the right passages, so read the `faithfulness` verdicts: either the answer adds unsupported claims, or the judge rejected a valid answer that combines several passages. |
-| Low | Low | Fix retrieval first. The passages may lack the answer, and a generator allowed to use its own knowledge fills the gap. In the worked example, this row grew from 5 to 16 questions under the open-book prompt. |
+| Low | Low | Inspect retrieval first for missing evidence, then check the answer for unsupported claims. The passages may lack the answer and the generator fills the gap, or retrieval found evidence the labels miss while the generator hallucinates on its own. In the worked example, this row grew from 5 to 16 questions under the open-book prompt. |
 | Low | High | Check the labels first. Retrieval may have found passages the labels miss, or the question has too many labeled passages to reach the target in 10 results. |
 
 This split is the reason to keep retrieval and pipeline-output evaluation separate. Collapsing them into one end-to-end score tells you the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
@@ -75,12 +77,12 @@ To find which component failed, hold one fixed and change the other. This run ke
 | `faithfulness` | 0.940 | 0.830 |
 | `answer_relevancy` | 0.698 | 0.759 (98 questions) |
 
-Higher is better on all four. Both runs reuse the same passages, so `recall@10` and `context_precision` carry over unchanged, and any movement in the answer metrics comes from generation. With targets of 0.5 for `recall@10` and 0.8 for `faithfulness`, High recall, Low faithfulness answers grew from 6 to 18 of 99. `answer_relevancy` rose too, but partly because the grounded prompt's declines score 0 on it. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain.
+Higher is better on all four. Both runs reuse the same passages, so `recall@10` and `context_precision` carry over unchanged, and any movement in the answer metrics comes from generation. With targets of 0.5 for `recall@10` and 0.8 for `faithfulness`, High recall, Low faithfulness answers grew from 6 to 18 of 99. These targets are illustrative, so set yours against your own golden set and what your application needs. `answer_relevancy` rose too, but partly because the grounded prompt's declines score 0 on it. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain.
 
 {{< island
     path="content/documentation/headless/pipeline-output-quality/prompt-quadrants"
-    ratio="3 / 2"
-    title="With retrieval fixed, the open-book prompt moves questions into the low-faithfulness row: High recall, Low faithfulness grows from 6 to 18 of 99, and Low recall, Low faithfulness from 5 to 16."
+    ratio="712 / 543"
+    title="With retrieval fixed, switching to the open-book prompt moves questions into the low-faithfulness row. Each dot is one question."
 >}}
 ![A 2x2 grid of recall@10 against faithfulness, counting 99 questions per prompt. Grounded prompt: 67 High recall and High faithfulness, 6 High recall and Low faithfulness, 21 Low recall and High faithfulness, and 5 Low recall and Low faithfulness. Open-book prompt: 55, 18, 10, and 16.](/docs/pipeline-output-quality-prompt-quadrants.png)
 {{< /island >}}
@@ -97,7 +99,7 @@ Check the source data before you score anything. In <a href="https://huggingface
 
 ## Running in CI
 
-If you ship pipeline changes regularly, run this evaluation in CI against a fixed golden set. It catches regressions from prompt edits, model swaps, or chunking changes before they reach production. Set a target per metric and fail the job when a mean falls under it, with a margin under your current baseline, because judge scores move between runs. Score a sample on every change and the full golden set on release candidates, as Cost Scaling explains. Keep the generator prompt in version control, so a prompt change shows up as a reviewable diff next to the score change it caused.
+If you ship pipeline changes regularly, run this evaluation in CI against a fixed golden set. It catches regressions from prompt edits, model swaps, or chunking changes before they reach production. Set a target per metric and fail the job when a mean falls under it, with a margin under your current baseline, because judge scores move between runs. Before a borderline drop blocks a release, rerun it or compare the two runs question by question on the same golden set, which separates a real regression from judge noise. Score a sample on every change and the full golden set on release candidates, as Cost Scaling explains. Keep the generator prompt in version control, so a prompt change shows up as a reviewable diff next to the score change it caused.
 
 ## Pitfalls to Watch For
 
@@ -114,5 +116,3 @@ The run was recorded on October 8, 2026, with 100 questions from <a href="https:
 ## Wrapping Up
 
 Score retrieval and generation separately, pair the scores per question, and you can tell which half of the pipeline a regression came from. To try it on your own data, start from the [companion notebook](https://github.com/qdrant/examples/blob/andrei/rag-pipeline-evaluation/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb) or <a href="https://githubtocolab.com/qdrant/examples/blob/andrei/rag-pipeline-evaluation/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb" target="_blank">open it in Colab</a>, and replace the corpus, the golden set, and the model IDs in its configuration cell.
-
-<!-- island-refresh-2580-529 -->

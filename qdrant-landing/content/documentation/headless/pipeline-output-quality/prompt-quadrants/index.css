@@ -10,8 +10,8 @@
 }
 
 .qi-pq .qi-pq__cell {
-  fill: color-mix(in srgb, var(--pq-color) 4%, var(--qi-surface));
-  stroke: color-mix(in srgb, var(--pq-color) 35%, var(--qi-border));
+  fill: color-mix(in srgb, var(--pq-frame) 4%, var(--qi-surface));
+  stroke: color-mix(in srgb, var(--pq-frame) 35%, var(--qi-border));
 }
 
 .qi-pq .qi-pq__diagnosis {
@@ -30,10 +30,18 @@
   fill: var(--pq-color);
 }
 
-/* Reserve the longer explanation so toggling does not move the article. */
-.qi-pq .qi-status {
+/* Both explanations share one grid cell, so it is as tall as the longer one. */
+.qi-pq .qi-pq__status {
+  display: grid;
+}
+
+.qi-pq .qi-pq__status > .qi-status {
+  grid-area: 1 / 1;
   margin: 0;
-  min-height: calc(3 * 1.45em);
+}
+
+.qi-pq .qi-pq__status-ghost {
+  visibility: hidden;
 }
 
 .qi-pq--narrow .qi-label {
@@ -42,10 +50,6 @@
 
 .qi-pq--narrow .qi-pq__count {
   font-size: 32px;
-}
-
-.qi-pq--narrow .qi-status {
-  min-height: calc(6 * 1.45em);
 }
 
 @media (prefers-reduced-motion: reduce) {

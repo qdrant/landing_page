@@ -4,9 +4,9 @@ const NS = 'http://www.w3.org/2000/svg';
 const TOTAL = 99;
 const CAPACITY = 67;
 const CELLS = [
-  { recall: 'Low', faithfulness: 'High', label: 'Check the labels', narrow: ['Check the labels'], color: '--qi-cat-1' },
+  { recall: 'Low', faithfulness: 'High', label: 'Check the labels', narrow: ['Check the labels'], color: '--qi-muted', frame: '--qi-line' },
   { recall: 'High', faithfulness: 'High', label: 'Answer stays in the passages', narrow: ['Answer stays in', 'the passages'], color: '--qi-cat-3' },
-  { recall: 'Low', faithfulness: 'Low', label: 'Fix retrieval first', narrow: ['Fix retrieval', 'first'], color: '--qi-cat-2' },
+  { recall: 'Low', faithfulness: 'Low', label: 'Inspect retrieval first', narrow: ['Inspect retrieval', 'first'], color: '--qi-cat-2' },
   { recall: 'High', faithfulness: 'Low', label: 'Generation problem', narrow: ['Generation', 'problem'], color: '--qi-accent' },
 ];
 const PROMPTS = {
@@ -57,11 +57,20 @@ export function mount(node) {
         </div>
       </div>
       <svg class="qi-svg" role="img"></svg>
-      <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="qi-pq__status">
+        <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <p class="qi-status qi-pq__status-ghost" aria-hidden="true"></p>
+      </div>
     </div>`;
 
   const svg = node.querySelector('svg');
   const status = node.querySelector('.qi-status');
+  // An invisible copy of the longest explanation shares the status grid cell,
+  // so the cell is always as tall as either state and toggling never moves
+  // the article, at any width, without measuring text.
+  node.querySelector('.qi-pq__status-ghost').textContent = Object.values(PROMPTS)
+    .map((prompt) => prompt.status)
+    .reduce((longest, text) => (text.length > longest.length ? text : longest));
   const buttons = [...node.querySelectorAll('button')];
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let selected = 'grounded';
@@ -74,7 +83,7 @@ export function mount(node) {
     const left = narrow ? 50 : 108;
     const gap = narrow ? 8 : 12;
     const cellWidth = (viewWidth - left - gap - 2) / 2;
-    const cellHeight = narrow ? 264 : 218;
+    const cellHeight = narrow ? 206 : 166;
     const top = 70;
     const height = top + cellHeight * 2 + gap + 30;
     const inset = narrow ? 12 : 18;
@@ -109,7 +118,9 @@ export function mount(node) {
     CELLS.forEach((cell, index) => {
       const x = left + (index % 2) * (cellWidth + gap);
       const y = top + Math.floor(index / 2) * (cellHeight + gap);
-      const group = element('g', { style: `--pq-color: var(${cell.color})` });
+      const group = element('g', {
+        style: `--pq-color: var(${cell.color}); --pq-frame: var(${cell.frame || cell.color})`,
+      });
       svg.appendChild(group);
       group.appendChild(element('rect', {
         class: 'qi-frame qi-pq__cell', x, y, width: cellWidth, height: cellHeight, rx: 6,
@@ -119,26 +130,32 @@ export function mount(node) {
 
       const values = element('g', { class: 'qi-pq__values' });
       group.appendChild(values);
-      const countY = y + (narrow ? 91 : 83);
-      label(values, x + inset, countY, String(prompt.counts[index]), 'qi-pq__count');
-      label(values, x + inset + (narrow ? 48 : 66), countY, 'of 99');
+      // Counts sit under the tallest diagnosis label in the layout, so they
+      // line up across cells. Tspans keep "of 99" after the number without
+      // measuring text, which is unreliable before the web font loads.
+      const countY = y + (narrow ? 83 : 80);
+      const count = label(values, x + inset, countY, '');
+      count.append(element('tspan', { class: 'qi-pq__count' }, String(prompt.counts[index])));
+      count.append(element('tspan', { dx: 8 }, 'of 99'));
       if (selected === 'open-book') {
-        label(values, x + inset + (narrow ? 0 : 126), narrow ? countY + 23 : countY,
-          `${narrow ? '' : '· '}was ${PROMPTS.grounded.counts[index]}`);
+        const was = `was ${PROMPTS.grounded.counts[index]}`;
+        if (narrow) label(values, x + inset, countY + 20, was);
+        else count.append(element('tspan', { dx: 8 }, `· ${was}`));
       }
 
-      const columns = narrow ? 8 : 14;
-      const pitch = narrow ? 14 : 18;
-      const dotTop = y + (narrow ? 137 : 112);
+      const columns = narrow ? 10 : 17;
+      const pitch = narrow ? 12 : 15;
+      const radius = narrow ? 3.5 : 4;
+      const dotTop = y + (narrow ? 118 : 102);
       // All cells reserve the same 67 slots in both states. Only populated
       // slots are drawn; no absent question is represented by a ghost dot.
       for (let slot = 0; slot < CAPACITY; slot++) {
         if (slot >= prompt.counts[index]) continue;
         values.appendChild(element('circle', {
           class: 'qi-pq__dot',
-          cx: x + inset + 4 + (slot % columns) * pitch,
+          cx: x + inset + radius + (slot % columns) * pitch,
           cy: dotTop + Math.floor(slot / columns) * pitch,
-          r: 4,
+          r: radius,
         }));
       }
       // Replace aggregate marks and fade them in place. No timers or moving
