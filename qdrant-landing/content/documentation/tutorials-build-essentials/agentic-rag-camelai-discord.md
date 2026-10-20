@@ -24,9 +24,7 @@ example_resources:
 
 | Level | Stack | Time |
 | --- | --- | --- |
-| Intermediate | Python, Qdrant, CAMEL-AI, OpenAI, discord.py | About 45 minutes, excluding account setup |
-
-[![Open in Colab](/documentation/tutorials/agentic-rag-camelai-discord/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb)
+| Intermediate | Python, Qdrant, CAMEL-AI, OpenAI, discord.py | 45 minutes |[![Open in Colab](/documentation/tutorials/agentic-rag-camelai-discord/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb)|
 
 Build a Discord bot that answers questions from Qdrant documentation using retrieval-augmented generation (RAG). Qdrant is the vector search engine that stores document chunks and their embeddings. [CAMEL-AI](https://www.camel-ai.org/) connects retrieval to an [OpenAI](https://openai.com/) model that drafts the answer.
 
