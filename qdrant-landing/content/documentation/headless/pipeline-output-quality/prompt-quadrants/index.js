@@ -13,12 +13,12 @@ const PROMPTS = {
   grounded: {
     label: 'Grounded',
     counts: [21, 67, 5, 6],
-    status: 'Grounded prompt: 67 of 99 questions meet both targets, and 6 have High recall but Low faithfulness.',
+    status: 'Grounded: 11 of 99 questions fall below the faithfulness target. Counts compare Grounded → Open-book; dots show Grounded.',
   },
   'open-book': {
     label: 'Open-book',
     counts: [10, 55, 16, 18],
-    status: 'Open-book prompt: High recall, Low faithfulness grows from 6 to 18 of 99, and Low recall, Low faithfulness from 5 to 16. Retrieval did not change, so the shift comes from generation.',
+    status: 'Open-book: 34 of 99 questions fall below the faithfulness target, 23 more than Grounded. Retrieval is unchanged.',
   },
 };
 
@@ -49,11 +49,14 @@ export function mount(node) {
   node.classList.add('qi-pq');
   node.innerHTML = `
     <div class="qi-fig">
-      <div class="qi-controls">
+      <div class="qi-controls qi-controls--split">
         <div class="qi-group" role="group" aria-label="Generator prompt">
           <span class="qi-hint">Prompt:</span>
-          <button type="button" class="qi-chip" data-prompt="grounded" aria-pressed="true">Grounded</button>
-          <button type="button" class="qi-chip" data-prompt="open-book" aria-pressed="false">Open-book</button>
+          <button type="button" class="qi-chip" data-prompt="grounded" aria-pressed="false">Grounded</button>
+          <button type="button" class="qi-chip" data-prompt="open-book" aria-pressed="true">Open-book</button>
+        </div>
+        <div class="qi-pq__summary" aria-label="Low faithfulness grows from 11 to 34 of 99 questions, an increase of 23">
+          <span>Low faithfulness</span><strong>11 → 34</strong><span class="qi-pq__increase">+23 of 99</span>
         </div>
       </div>
       <svg class="qi-svg" role="img"></svg>
@@ -73,27 +76,33 @@ export function mount(node) {
     .reduce((longest, text) => (text.length > longest.length ? text : longest));
   const buttons = [...node.querySelectorAll('button')];
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let selected = 'grounded';
+  let selected = 'open-book';
   let layoutWidth = 0;
 
   function render(animate = false) {
     const width = node.getBoundingClientRect().width || 712;
     const narrow = width < 520;
     const viewWidth = narrow ? width : 712;
-    const left = narrow ? 50 : 108;
+    const left = narrow ? 50 : 96;
     const gap = narrow ? 8 : 12;
     const cellWidth = (viewWidth - left - gap - 2) / 2;
-    const cellHeight = narrow ? 206 : 166;
-    const top = 70;
-    const height = top + cellHeight * 2 + gap + 30;
-    const inset = narrow ? 12 : 18;
+    const inset = narrow ? 12 : 16;
+    const pitch = narrow ? 9 : 11;
+    const radius = narrow ? 2.8 : 3.5;
+    const columns = Math.max(1, Math.floor((cellWidth - inset * 2 - radius * 2) / pitch) + 1);
+    const dotOffset = narrow ? 114 : 86;
+    // Pack the largest recorded cell tightly, keeping geometry stable on toggle.
+    const cellHeight = Math.ceil(dotOffset + Math.floor((CAPACITY - 1) / columns) * pitch + radius + 12);
+    const top = 62;
+    const height = top + cellHeight * 2 + gap + 24;
     const prompt = PROMPTS[selected];
     layoutWidth = width;
     node.classList.toggle('qi-pq--narrow', narrow);
+    node.dataset.prompt = selected;
     svg.setAttribute('viewBox', `0 0 ${viewWidth} ${height}`);
     svg.setAttribute('aria-label', `${prompt.label} prompt, ${TOTAL} questions. ` +
       CELLS.map((cell, i) => `${cell.recall} recall and ${cell.faithfulness.toLowerCase()} faithfulness: ${prompt.counts[i]} questions`).join('; ') +
-      '. Recall target: 0.5. Faithfulness target: 0.8. Each dot represents one question; question identities across prompts were not recorded.');
+      '. Counts compare Grounded to Open-book: 21 to 10, 67 to 55, 5 to 16, and 6 to 18 in the same quadrant order. Low faithfulness increases from 11 to 34 of 99 questions. Recall target: 0.5. Faithfulness target: 0.8. Each dot represents one question; question identities across prompts were not recorded.');
     svg.replaceChildren();
 
     label(svg, left + (viewWidth - left) / 2, 18, 'recall@10', 'qi-label--strong', 'middle');
@@ -130,23 +139,18 @@ export function mount(node) {
 
       const values = element('g', { class: 'qi-pq__values' });
       group.appendChild(values);
-      // Counts sit under the tallest diagnosis label in the layout, so they
-      // line up across cells. Tspans keep "of 99" after the number without
-      // measuring text, which is unreliable before the web font loads.
-      const countY = y + (narrow ? 83 : 80);
-      const count = label(values, x + inset, countY, '');
-      count.append(element('tspan', { class: 'qi-pq__count' }, String(prompt.counts[index])));
-      count.append(element('tspan', { dx: 8 }, 'of 99'));
-      if (selected === 'open-book') {
-        const was = `was ${PROMPTS.grounded.counts[index]}`;
-        if (narrow) label(values, x + inset, countY + 20, was);
-        else count.append(element('tspan', { dx: 8 }, `· ${was}`));
-      }
-
-      const columns = narrow ? 10 : 17;
-      const pitch = narrow ? 12 : 15;
-      const radius = narrow ? 3.5 : 4;
-      const dotTop = y + (narrow ? 118 : 102);
+      // Keep both prompt counts visible. Only the selected mode gets the large
+      // count and dots, so comparison never depends on remembering a prior view.
+      const countY = y + (narrow ? 76 : 62);
+      const before = PROMPTS.grounded.counts[index];
+      const after = PROMPTS['open-book'].counts[index];
+      const delta = after - before;
+      label(values, x + inset, countY, String(before), `qi-pq__before ${selected === 'grounded' ? 'qi-pq__count' : 'qi-pq__comparison'}`);
+      label(values, x + inset + (narrow ? 38 : 48), countY - 3, '→', 'qi-pq__comparison');
+      label(values, x + inset + (narrow ? 62 : 78), countY, String(after), `qi-pq__after ${selected === 'open-book' ? 'qi-pq__count' : 'qi-pq__comparison'}`);
+      label(values, narrow ? x + inset : x + cellWidth - inset, narrow ? countY + 22 : countY - 3,
+        `${delta > 0 ? '+' : '−'}${Math.abs(delta)}`, 'qi-pq__delta', narrow ? 'start' : 'end');
+      const dotTop = y + dotOffset;
       // All cells reserve the same 67 slots in both states. Only populated
       // slots are drawn; no absent question is represented by a ghost dot.
       for (let slot = 0; slot < CAPACITY; slot++) {
@@ -164,7 +168,7 @@ export function mount(node) {
         values.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, easing: 'ease-out' });
       }
     });
-    label(svg, left, height - 5, '1 dot = 1 question');
+    label(svg, left, height - 4, 'Grounded → Open-book · 1 dot = 1 question', 'qi-pq__legend');
     status.textContent = prompt.status;
     buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.prompt === selected)));
   }

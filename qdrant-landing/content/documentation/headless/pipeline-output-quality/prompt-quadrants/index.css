@@ -21,7 +21,7 @@
 
 .qi-pq .qi-pq__count {
   fill: var(--qi-fg);
-  font-size: 44px;
+  font-size: 34px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -57,3 +57,21 @@
     transition: none;
   }
 }
+
+/* The comparison stays visible while the selected prompt's dots change. */
+.qi-pq .qi-pq__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 7px;
+  color: var(--qi-fg);
+  font-size: 14px;
+}
+
+.qi-pq .qi-pq__summary strong { font-size: 24px; font-variant-numeric: tabular-nums; }
+.qi-pq .qi-pq__increase { color: color-mix(in srgb, var(--qi-accent) 65%, var(--qi-fg)); font-weight: 600; }
+.qi-pq .qi-pq__comparison { font-size: 20px; }
+.qi-pq .qi-pq__delta { fill: color-mix(in srgb, var(--pq-color) 55%, var(--qi-fg)); font-size: 16px; font-weight: 600; }
+.qi-pq .qi-pq__legend { font-size: 14px; }
+.qi-pq--narrow .qi-pq__delta { font-size: 13px; }
+.qi-pq--narrow .qi-pq__legend { font-size: 11px; }

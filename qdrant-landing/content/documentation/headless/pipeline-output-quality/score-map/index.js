@@ -3,6 +3,12 @@
 const NS = 'http://www.w3.org/2000/svg';
 const DESCRIPTION = 'Answer relevancy compares the Answer with the Question. Faithfulness compares the Answer with the Top 10 passages. Recall at 10 compares the Top 10 passages with the Golden set relevance labels. Context precision compares the Top 10 passages with the Golden set reference answer.';
 let instance = 0;
+const METRICS = {
+  'recall@10': 'The share of labeled passages found in the top 10 results. No LLM judge needed.',
+  context_precision: 'An LLM checks which passages support the reference answer and rewards ranking them first. Needs reference answers, but no passage labels.',
+  faithfulness: "The share of the answer's claims supported by the retrieved passages. Even correct claims lower the score if the passages do not support them.",
+  answer_relevancy: 'Does the answer address the question? Off-topic content, evasions, and refusals lower the score.',
+};
 
 function element(tag, attributes = {}) {
   const result = document.createElementNS(NS, tag);
@@ -105,6 +111,31 @@ function narrow(svg, arrow) {
 
 export function mount(node) {
   node.classList.add('qi-sm', 'qi-fig');
+  node.innerHTML = `
+    <div class="qi-controls">
+      <div class="qi-group" role="group" aria-label="Metric explanation">
+        ${Object.keys(METRICS).map((name) => `<button type="button" class="qi-chip" data-metric="${name}" aria-pressed="false">${name}</button>`).join('')}
+      </div>
+    </div>
+    <div class="qi-sm__diagram"></div>
+    <div class="qi-sm__details">
+      <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      ${Object.values(METRICS).map((text) => `<p class="qi-status qi-sm__reserve" aria-hidden="true">${text}</p>`).join('')}
+    </div>`;
+  const diagram = node.querySelector('.qi-sm__diagram');
+  const status = node.querySelector('[role="status"]');
+  const buttons = [...node.querySelectorAll('button')];
+  let selected = 'recall@10';
+
+  function select(name) {
+    selected = name;
+    status.textContent = METRICS[name];
+    buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.metric === name)));
+    diagram.querySelectorAll('.qi-sm__metric').forEach((text) => {
+      text.classList.toggle('qi-sm__selected', text.textContent === name);
+    });
+  }
+  buttons.forEach((button) => button.addEventListener('click', () => select(button.dataset.metric)));
   const arrow = `qi-sm-arrow-${++instance}`;
   let previousLayout;
 
@@ -126,7 +157,8 @@ export function mount(node) {
     defs.append(marker);
     svg.append(defs);
     (small ? narrow : desktop)(svg, arrow);
-    node.replaceChildren(svg);
+    diagram.replaceChildren(svg);
+    select(selected);
   }
 
   render(node.getBoundingClientRect().width);
