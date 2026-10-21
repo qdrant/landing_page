@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="792" height="311" viewBox="0 0 792 311">
+<rect width="792" height="311" fill="#f0f3fa"/>
+<text x="16" y="32.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">Text</text>
+<text x="16" y="72.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">Query</text>
+<text x="16" y="111.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">Match</text>
+<text x="16" y="148.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">Indexed tokens</text>
+<text x="16" y="211.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">Query tokens</text>
+<rect x="64.6" y="16.5" width="710.9" height="31.0" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1"/>
+<text x="73.1" y="32.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(48, 53, 71)">let map = HashMap::new();</text>
+<rect x="64.6" y="56.5" width="710.9" height="31.0" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(211, 217, 235)" stroke-width="1"/>
+<text x="73.1" y="72.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(48, 53, 71)">hash map new</text>
+<rect x="64.6" y="96.5" width="49.9" height="29.0" rx="6" fill="none" stroke="rgb(211, 217, 235)" stroke-width="1"/>
+<text x="75.1" y="111.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">text</text>
+<rect x="121.5" y="96.5" width="64.4" height="29.0" rx="6" fill="rgb(240, 243, 250)" stroke="rgb(48, 53, 71)" stroke-width="1"/>
+<text x="132.0" y="111.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(48, 53, 71)">phrase</text>
+<rect x="603.05" y="140.75" width="14.5" height="14.5" rx="3" fill="none" stroke="rgb(67, 37, 174)" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="624.3" y="148.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12px" fill="rgb(101, 107, 127)">joined camelCase word</text>
+<rect x="16.0" y="162.0" width="43.5" height="28.0" rx="6" fill="rgb(221, 224, 255)" stroke="none" stroke-width="0"/>
+<text x="26.0" y="176.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">let</text>
+<rect x="65.5" y="162.0" width="43.5" height="28.0" rx="6" fill="rgb(221, 224, 255)" stroke="none" stroke-width="0"/>
+<text x="75.5" y="176.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">map</text>
+<rect x="116.0" y="163.0" width="49.3" height="26.0" rx="6" fill="rgb(221, 224, 255)" stroke="rgb(48, 53, 71)" stroke-width="2"/>
+<rect x="116" y="163" width="49.3125" height="26" rx="6" fill="none" stroke="#303547" stroke-width="2"/>
+<text x="125.0" y="176.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">hash</text>
+<rect x="173.3" y="163.0" width="41.5" height="26.0" rx="6" fill="rgb(221, 224, 255)" stroke="rgb(48, 53, 71)" stroke-width="2"/>
+<rect x="173.3" y="163" width="41.484375" height="26" rx="6" fill="none" stroke="#303547" stroke-width="2"/>
+<text x="182.3" y="176.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">map</text>
+<rect x="222.8" y="163.0" width="41.5" height="26.0" rx="6" fill="rgb(221, 224, 255)" stroke="rgb(48, 53, 71)" stroke-width="2"/>
+<rect x="222.8" y="163" width="41.484375" height="26" rx="6" fill="none" stroke="#303547" stroke-width="2"/>
+<text x="231.8" y="176.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">new</text>
+<rect x="271.8" y="162.5" width="73.8" height="27.0" rx="6" fill="none" stroke="rgb(67, 37, 174)" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="281.3" y="176.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">hashmap</text>
+<rect x="17.0" y="225.0" width="49.3" height="26.0" rx="6" fill="rgb(221, 224, 255)" stroke="rgb(48, 53, 71)" stroke-width="2"/>
+<rect x="17" y="225" width="49.3125" height="26" rx="6" fill="none" stroke="#303547" stroke-width="2"/>
+<text x="26.0" y="238.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">hash</text>
+<rect x="74.3" y="225.0" width="41.5" height="26.0" rx="6" fill="rgb(221, 224, 255)" stroke="rgb(48, 53, 71)" stroke-width="2"/>
+<rect x="74.3" y="225" width="41.484375" height="26" rx="6" fill="none" stroke="#303547" stroke-width="2"/>
+<text x="83.3" y="238.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">map</text>
+<rect x="123.8" y="225.0" width="41.5" height="26.0" rx="6" fill="rgb(221, 224, 255)" stroke="rgb(48, 53, 71)" stroke-width="2"/>
+<rect x="123.8" y="225" width="41.484375" height="26" rx="6" fill="none" stroke="#303547" stroke-width="2"/>
+<text x="132.8" y="238.0" dominant-baseline="central" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13px" fill="rgb(67, 37, 174)">new</text>
+<text x="16" y="284.5" dominant-baseline="central" font-family="Inter, system-ui, sans-serif" font-size="14px" fill="rgb(48, 53, 71)"><tspan font-weight="700">Match:</tspan> the query tokens are indexed next to each other, in this order.</text>
+</svg>

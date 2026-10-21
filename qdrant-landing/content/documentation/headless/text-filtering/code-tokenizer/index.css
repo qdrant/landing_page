@@ -1,0 +1,133 @@
+/* code-tokenizer island. Scoped under .qi-ct. Chips, hints and the status
+   line come from the shared island design system (islands.scss); this file
+   only styles the inputs and the token boxes. Token boxes use the Neon Blue
+   ramp, like the text-processing island. */
+
+.qi-ct {
+  --ct-box-bg: #dde0ff; /* neon-blue-100 */
+  --ct-box-fg: #4325ae; /* neon-blue-800 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-ct {
+    --ct-box-bg: #392689; /* neon-blue-900 */
+    --ct-box-fg: #dde0ff; /* neon-blue-100 */
+  }
+}
+html[data-theme='dark'] .qi-ct {
+  --ct-box-bg: #392689; /* neon-blue-900 */
+  --ct-box-fg: #dde0ff; /* neon-blue-100 */
+}
+
+.qi-ct [hidden] {
+  display: none;
+}
+
+/* Text, Query and Match: hint labels in one column, controls in the other. */
+.qi-ct__fields {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 12px;
+}
+.qi-ct__input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 20px;
+}
+.qi-ct__input:focus-visible {
+  outline: 2px solid var(--qi-hot);
+  outline-offset: 1px;
+}
+
+.qi-ct__out {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.qi-ct__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+.qi-ct__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.qi-ct__key {
+  width: 14px;
+  height: 14px;
+  border: 1.5px dashed var(--ct-box-fg);
+  border-radius: 3px;
+}
+
+/* Tokens: scoped under .qi-ct to outrank the docs list styles. Reserve one
+   row so an empty list doesn't collapse while typing. */
+.qi-ct .qi-ct__tokens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: 28px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+.qi-ct .qi-ct__token {
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: var(--qi-radius);
+  background: var(--ct-box-bg);
+  color: var(--ct-box-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+  box-shadow: inset 0 0 0 1.5px transparent;
+  transition: box-shadow 0.15s ease, opacity 0.15s ease;
+}
+.qi-ct .qi-ct__token.is-joined {
+  background: transparent;
+  outline: 1.5px dashed var(--ct-box-fg);
+  outline-offset: -1.5px;
+}
+.qi-ct .qi-ct__token.is-hot {
+  box-shadow: inset 0 0 0 2px var(--qi-hot);
+}
+.qi-ct .qi-ct__token.is-missing {
+  opacity: 0.45;
+}
+.qi-ct .qi-ct__empty {
+  margin: 0;
+  line-height: 28px;
+}
+
+.qi-ct__status code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+@media (max-width: 640px) {
+  .qi-ct__fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ct .qi-ct__token {
+    transition: none;
+  }
+}

@@ -243,6 +243,18 @@ When indexing text, the tokenizer also adds each camelCase word as a single toke
 
 With [phrase matching](#phrase-matching), a joined token only matches a phrase that consists of that token alone. For example, the phrase `hashmap new` doesn't match `HashMap::new`, but `hash map new` does.
 
+##### Try the Code Tokenizer
+
+Enter code and a query to see how the `code` tokenizer splits them, and whether a text or phrase match finds the code.
+
+{{< island
+    path="content/documentation/headless/text-filtering/code-tokenizer"
+    ratio="2 / 1"
+    title="The `code` tokenizer with lowercasing on and no other text processing."
+>}}
+![The text "let map = HashMap::new();" is indexed as let, map, hash, map, new, and the joined token hashmap. The phrase query "hash map new" is tokenized as hash, map, new, and matches the indexed tokens hash, map, new.](/docs/code-tokenizer.svg)
+{{< /island >}}
+
 ### Lowercasing
 
 By default, full-text filtering in Qdrant is case-insensitive. For example, you can filter for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
