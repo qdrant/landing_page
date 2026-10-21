@@ -87,7 +87,7 @@ Until now, payload indexes couldn't answer these filters on their own. Indexes o
 
 With version 1.20, every [payload index](/documentation/manage-data/indexing/#payload-index) type gets a new `nested` parameter, which creates a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) that stores each array element separately. When every condition in a nested filter uses a field with a per-element index on the same array, Qdrant can answer the filter from the indexes alone, without reading any payloads. The search API doesn't change, so existing nested filters get faster as soon as you create the indexes.
 
-We benchmarked three nested filters on 100,000 points, comparing regular indexes plus payload checks with per-element indexes. With payloads served from a warm page cache, per-element indexes made nested filters 7 to 38 times faster. When payloads have to be read from disk instead of the page cache, the payload check gets slower, so the gap is likely even larger.
+We benchmarked per-element indexes against regular indexes with payload reads, using three nested filters on 100,000 points. Even with every payload already in memory, the best case for reading payloads, per-element indexes were 7 to 38 times faster. Because they skip payload reads entirely, the gap is likely larger when payloads have to come from disk.
 
 ## 16-Bit and 8-Bit TurboQuant
 
