@@ -2,7 +2,7 @@
 title: Premium Tier
 short_description: "Qdrant Cloud Premium adds a 99.9% uptime SLA (99.95% multi-AZ), 24/7 support, SSO, private networking, and customer-managed encryption keys."
 description: "Compare Qdrant Cloud Premium with Standard: uptime SLA, support response times by severity, multi-AZ clusters, SSO, private links, encryption keys, and how to upgrade."
-weight: 260
+weight: 240
 partition: deploy
 aliases:
   - /documentation/cloud/premium/

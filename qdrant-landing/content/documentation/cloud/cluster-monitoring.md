@@ -154,7 +154,7 @@ The account owner will receive automatic alerts via email if your cluster has an
   content: |
     **Why am I getting this alert?**
     
-    Your cluster’s nodes have been marked as unhealthy for over 5 minutes.
+    Your cluster's nodes have been marked as unhealthy for over 5 minutes.
     
     **What does this mean for me?**
     
@@ -162,7 +162,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **What can I do to resolve this?**
     
-    There are many reasons for a cluster’s workloads to become unhealthy. We send proactive alerts for common scenarios and recommend checking for other alerts. It is also important to validate any available monitoring statistics for both Qdrant and your application.
+    There are many reasons for a cluster's workloads to become unhealthy. We send proactive alerts for common scenarios and recommend checking for other alerts. It is also important to validate any available monitoring statistics for both Qdrant and your application.
     
     We recommend checking any recent changes to client code, or configuration in your environment, looking for increases in search or write requests, to ensure no recent changes are the cause.
 
@@ -194,7 +194,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **What does this mean for me?**
     
-    Requests using an expired key won’t be successful, which could lead to failed queries and application failures.
+    Requests using an expired key won't be successful, which could lead to failed queries and application failures.
     
     **What can I do to resolve this?**
     
