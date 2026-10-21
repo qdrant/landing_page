@@ -175,8 +175,7 @@ retired_resource:
 `retired` adds the same archive notice to HTML and Markdown. Use `retired_note`
 for necessary historical context. `hideFromList` excludes article cards, and
 `build.list: never` excludes automatic collections, including RSS feeds.
-`sitemapExclude` adds HTML `noindex` and excludes the page from the sitemap and
-`llms.txt`.
+`sitemapExclude` adds HTML `noindex` and excludes the page from the sitemap.
 
 Add `X-Robots-Tag: noindex` rules in `qdrant-landing/assets/netlify/_headers` for
 `/articles/<slug>/*` and `/articles/<slug>.md`. The wildcard covers HTML and

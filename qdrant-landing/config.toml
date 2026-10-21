@@ -122,13 +122,6 @@ disableKinds = ["taxonomy", "term"]
   isHTML = false
   rel = "alternate"
 
-[outputFormats.LLMs]
-  mediaType = "text/plain"
-  baseName = "llms"
-  isPlainText = true
-  isHTML = false
-  notAlternative = true
-
 # Machine-readable index of the documentation, articles, blog, and course at
 # /docs-manifest.json, read by the docs MCP server at search.qdrant.tech/mcp.
 [outputFormats.DocsManifest]
@@ -152,7 +145,7 @@ disableKinds = ["taxonomy", "term"]
 [outputs]
   page = ["HTML", "Markdown"]
   section = ["HTML", "RSS", "Markdown"]
-  home = ["HTML", "RSS", "LLMs", "DocsManifest", "NetlifyHeaders"]
+  home = ["HTML", "RSS", "DocsManifest", "NetlifyHeaders"]
 
 [services]
   [services.googleAnalytics]

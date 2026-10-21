@@ -10,6 +10,6 @@
 {{- $content = printf "%s\nChoose an example that matches your data, stack, and operating requirements.\n" $content -}}
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
-> Use this file to discover all available pages: https://qdrant.tech/llms.txt
+> Start here for setup, core usage, and the main documentation pages: https://qdrant.tech/llms.txt
 
 {{ $content -}}

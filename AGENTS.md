@@ -6,8 +6,9 @@ the documentation.
 
 This file is about editing the repository. It is not the agent-facing entry
 point for the published site, which is
-[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt), generated from
-`themes/qdrant-2024/layouts/index.llms.txt`.
+[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt), a hand-written file at
+`qdrant-landing/static/llms.txt`. It is not generated: when a page it links
+moves or a command it shows changes, edit it there.
 
 ## Build and serve
 
@@ -51,7 +52,7 @@ holds the per-output-format variants while the theme holds the HTML ones.
 ## Every page has two outputs
 
 A content page renders as HTML and as Markdown at `<url>/index.md`. The Markdown
-output is what AI agents consume, and `qdrant.tech/llms.txt` indexes it. It is
+output is what AI agents consume, and `qdrant.tech/llms.txt` points agents to it. It is
 not a format conversion of the HTML: `layouts/_default/single.markdown.md`
 prepends pointers to the skills catalog and rewrites internal links to their
 `index.md` form.
