@@ -10,15 +10,21 @@ public class Snippet
 		// @hide-end
 
 		await client.CreateCollectionAsync(
-			collectionName: "{collection_name}",
-			vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, Memory = Memory.Cached },
-			hnswConfig: new HnswConfigDiff { Memory = Memory.Cold },
-			quantizationConfig: new QuantizationConfig
+			new CreateCollection
 			{
-				Scalar = new ScalarQuantization { Type = QuantizationType.Int8, Memory = Memory.Pinned }
-			},
-			onDiskPayload: false,
-			idTracker: new IdTrackerParams { Memory = Memory.Cached }
+				CollectionName = "{collection_name}",
+				VectorsConfig = new VectorsConfig
+				{
+					Params = new VectorParams { Size = 768, Distance = Distance.Cosine, Memory = Memory.Cached }
+				},
+				HnswConfig = new HnswConfigDiff { Memory = Memory.Cold },
+				QuantizationConfig = new QuantizationConfig
+				{
+					Scalar = new ScalarQuantization { Type = QuantizationType.Int8, Memory = Memory.Pinned }
+				},
+				Payload = new PayloadStorageParams { Memory = Memory.Cached },
+				IdTracker = new IdTrackerParams { Memory = Memory.Cached }
+			}
 		);
 	}
 }
