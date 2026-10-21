@@ -7,6 +7,19 @@ weight: 35
 
 # Changelog
 
+## 1.12.0 (2026-10-21)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.39.0 |
+| operator                | 2.36.1  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.19.2
+
+* Updated qdrant-cluster-manager to v0.3.25 and qdrant-cluster-exporter to 1.8.3.
+
 ## 1.11.0 (2026-10-16)
 
 | Component               | Version |
