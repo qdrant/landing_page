@@ -68,21 +68,19 @@ Neither is perfect: labels miss passages, and a reference answer is only as good
 
 ## Reading the Scores
 
-Reading the scores is as important as choosing the right ones. A diagnosis map connects symptoms to the components worth inspecting.
+Reading the scores is as important as choosing the right ones. Collapsing multiple metrics into one end-to-end score might tell you that the pipeline got worse, but not which component caused it. Without separate signals, the next iteration becomes guesswork.
 
-Start with `recall@10` and `faithfulness`: did the evidence arrive, and did the answer stick to it? Select a symptom to see where to inspect. Here, high and low are relative to the target you set for each metric.
+That's why we start with recall@10 and faithfulness: did the evidence arrive, and did the answer stick to it? Select a symptom to see where to inspect. Here, high and low are relative to the target you set for each metric.
 
 {{< island
     path="content/documentation/headless/pipeline-output-quality/diagnosis"
     ratio="712 / 680"
-    title="Trace a symptom through the RAG system. Numbered checkpoints suggest where to inspect; they do not prove which component failed."
+    title="Trace a symptom through the RAG system"
 >}}
 ![Start with recall@10 and faithfulness. High recall and low faithfulness: compare the unsupported claims with the passages and the prompt, then read the judge verdicts. Low recall and low faithfulness: inspect retrieval for the missing evidence and the setting that lost it, then the answer for unsupported claims. Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results, then retrieval. High recall and high faithfulness: check whether low context_precision means supporting passages rank below irrelevant ones, whether low answer_relevancy means evasive, off-topic, or padded answers, and then correctness against reference answers.](/docs/pipeline-output-quality-diagnosis.svg)
 {{< /island >}}
 
-Once both scores meet their targets (both are high), the map moves on to `context_precision`, `answer_relevancy`, and correctness. `context_precision` refines the retrieval check by asking whether the supporting passages rank first, while `answer_relevancy` and correctness both judge the final answer, so they cover the whole system end to end. Treat them as a litmus test, and go back if the final results are not good enough.
-
-Collapsing the four scores into one end-to-end score adds little, since `answer_relevancy` and correctness already score the final answer. Applied early, it tells you that the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
+Once both scores meet their targets (both are high), the map moves on to `context_precision`, `answer_relevancy`, and correctness. Context precision refines the retrieval check by asking whether supporting passages rank first, while answer relevancy and correctness check whether the final answer addresses the question and is factually correct. Treat them as a final quality check, and go back if the results are not good enough.
 
 This analysis can fail when your RAG system is more complicated than a two-component architecture. Some tips:
 
