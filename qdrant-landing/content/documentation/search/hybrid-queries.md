@@ -163,9 +163,15 @@ You can combine the previous techniques in a single query:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-multistage/" >}}
 
+#### Re-Score BM25 Results with a Dense Vector
+
+Fetch 100 results with a [BM25 text query](/documentation/search/text-search/full-text-search/) on the `title` payload field, then re-score them using a dense vector to get the top 10.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-text-prefetch/" >}}
+
 #### Re-Score with BM25
 
-Fetch 100 results using a dense vector, then re-score them with a [BM25 text query](/documentation/search/text-search/full-text-search/) on the `title` payload field to get the top 10. Candidates that contain none of the query terms are dropped, so the result can contain fewer points than the `limit`.
+Fetch 100 results using a dense vector, then re-score them with a BM25 text query on the `title` payload field to get the top 10. Candidates that contain none of the query terms are dropped, so the result can contain fewer points than the `limit`.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-text/" >}}
 
