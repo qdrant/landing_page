@@ -1,1 +1,1 @@
-This code snippet creates a collection configured for hybrid search using Qdrant's Cloud Inference. It defines a sparse BM25 vector and a dense vector for MiniLM. This setup allows Qdrant to perform hybrid search using the dense and sparse vectors. 
+This code snippet creates a collection configured for hybrid search using Qdrant's Cloud Inference. It defines a dense vector for MiniLM and creates a full-text index with BM25 scoring on the `passage_text` payload field. This setup allows Qdrant to perform hybrid search using the dense vector and BM25.

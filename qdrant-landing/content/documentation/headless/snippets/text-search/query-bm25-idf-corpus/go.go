@@ -1,15 +1,13 @@
 package snippet
 
-// @hide-start
 import (
 	"context"
 
 	"github.com/qdrant/go-client/qdrant"
 )
 
-// @hide-end
 func Main() {
-	//@hide-start
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
@@ -22,13 +20,12 @@ func Main() {
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
-		Query: qdrant.NewQueryNearest(
-			qdrant.NewVectorInputDocument(&qdrant.Document{
-				Model: "qdrant/bm25",
-				Text:  "time travel",
-			}),
-		),
-		Using: qdrant.PtrOf("title-bm25"),
+		Query: &qdrant.Query{
+			Variant: &qdrant.Query_Text{
+				Text: &qdrant.TextQuery{Query: "time travel"},
+			},
+		},
+		Using: qdrant.PtrOf("title"),
 		Filter: &qdrant.Filter{
 			Must: []*qdrant.Condition{
 				qdrant.NewMatch("group_id", "user_1"),

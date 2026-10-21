@@ -7,8 +7,8 @@ const rerankedResults = await client.query(collectionName, {
             limit: 20,
         },
         {
-            query: { text: query, model: sparseEmbeddingModel },
-            using: "sparse",
+            query: { text: query },
+            using: "description",
             limit: 20,
         },
     ],

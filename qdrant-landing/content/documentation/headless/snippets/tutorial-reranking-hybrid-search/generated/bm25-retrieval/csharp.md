@@ -1,8 +1,8 @@
 ```csharp
 results = await client.QueryAsync(
 	collectionName: collectionName,
-	query: new Document { Text = query, Model = sparseEmbeddingModel },
-	usingVector: "sparse",
+	query: new Query { Text = new TextQuery { Query = query } },
+	usingVector: "description",
 	limit: 10
 );
 
