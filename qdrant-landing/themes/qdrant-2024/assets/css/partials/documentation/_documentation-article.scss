@@ -32,11 +32,14 @@
       color: $neutral-98;
     }
 
+    // Author and date on one side, page actions on the other.
     .documentation-article__header-about {
       margin-bottom: $spacer * 2;
       display: flex;
-      justify-content: flex-start;
-      gap: $spacer * 0.5;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: pxToRem(8) $spacer;
       font-size: pxToRem(14);
       line-height: pxToRem(21);
       color: $neutral-90;
@@ -44,6 +47,26 @@
       p {
         margin-bottom: 0;
       }
+
+      .copy-markdown {
+        margin-left: auto;
+      }
+
+      // On phones the actions go on their own row, aligned to the left.
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: $spacer;
+
+        .copy-markdown {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .documentation-article__header-byline {
+      display: flex;
+      gap: $spacer * 0.5;
     }
 
     .documentation-article__header-preview {

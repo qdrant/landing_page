@@ -1,6 +1,7 @@
 {{- /*
   The row at the top of a docs, article, or course page: breadcrumbs on one
-  side, page actions on the other.
+  side, page actions on the other. Pass "actions" false when the page renders
+  its actions elsewhere, as articles do next to the author and date.
 
   Usage: {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" true) }}
 */ -}}
@@ -8,7 +9,9 @@
   {{ if .breadcrumbs }}
     {{ partial "documentation/breadcrumbs" .page }}
   {{ end }}
-  <div class="docs-page-top__actions">
-    {{ partial "copy-markdown-button.html" .page }}
-  </div>
+  {{ if ne .actions false }}
+    <div class="docs-page-top__actions">
+      {{ partial "copy-markdown-button.html" .page }}
+    </div>
+  {{ end }}
 </div>
