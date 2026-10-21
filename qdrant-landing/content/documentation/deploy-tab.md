@@ -125,6 +125,7 @@ build:
 
 - [Managed Cloud](/documentation/cloud/index.md) — Run Qdrant as a managed service on AWS, GCP, or Azure with automatic scaling, backups, and zero-downtime upgrades.
 - [Create a Cluster](/documentation/cloud/create-cluster/index.md) — Launch a free or standard cluster on your preferred cloud provider.
+- [Cloud Production Checklist](/documentation/cloud/production-checklist/index.md) — Verify availability, data layout, capacity, recovery, access, monitoring, and upgrade settings before production.
 - [Authentication](/documentation/cloud/authentication/index.md) — Create, scope, rotate, and revoke Database API keys, and tell them apart from Cloud Management Keys.
 - [Connect to a Cluster](/documentation/cloud/cluster-access/index.md) — Find your endpoint and ports, use node-specific endpoints, restrict access by IP, and troubleshoot connections.
 - [Configure Clusters](/documentation/cloud/configure-cluster/index.md) — Tune collection defaults, strict mode, replication factor, and optimizer settings.
