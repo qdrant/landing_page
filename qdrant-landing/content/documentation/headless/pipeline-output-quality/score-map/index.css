@@ -1,26 +1,4 @@
 /* Static score comparisons. All colors inherit the host's island tokens. */
-.qi-sm .qi-chip {
-  font-size: 14px;
-}
-
-.qi-sm .qi-sm__details {
-  display: grid;
-}
-
-.qi-sm .qi-sm__details > .qi-status {
-  grid-area: 1 / 1;
-  margin: 0;
-}
-
-.qi-sm .qi-sm__reserve {
-  visibility: hidden;
-}
-
-.qi-sm .qi-sm__selected {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
 .qi-sm .qi-label {
   font-family: inherit;
   font-size: 15px;
