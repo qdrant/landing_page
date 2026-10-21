@@ -1,6 +1,6 @@
 ```typescript
 const documents = [
-  "Qdrant is a vector database and similarity search engine.",
+  "Qdrant is a vector search engine.",
   "Upstage Solar Embedding models turn text into dense vectors.",
 ];
 

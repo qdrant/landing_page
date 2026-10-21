@@ -1,8 +1,8 @@
 ---
 title: Superlinked
 weight: 100
-short_description: "Serve dense, sparse, and ColBERT embeddings such as bge-m3 from the Superlinked Inference Engine (SIE) and search them in Qdrant, including hybrid search."
-description: "Use the Superlinked Inference Engine (SIE) with Qdrant: the sie-qdrant package, bge-m3 dense and sparse vectors, hybrid search with RRF, and ColBERT multivectors."
+short_description: "Serve dense, sparse, and ColBERT embeddings from the Superlinked Inference Engine (SIE) and search them in Qdrant, including hybrid search."
+description: "Use the Superlinked Inference Engine (SIE) with Qdrant: sie-qdrant package, bge-m3 dense and sparse vectors, hybrid search with RRF, and ColBERT multivectors."
 directory:
   summary: "Open-source inference server for 100+ dense, sparse, and multivector models, self-hosted or serverless."
   input: [Text]
@@ -92,9 +92,14 @@ Late-interaction models such as `jinaai/jina-colbert-v2` return one vector per t
 | `options` | `None` | Model-specific options |
 | `timeout_s` | `180.0` | Request timeout in seconds |
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
 - [Learn how hybrid queries work](/documentation/search/hybrid-queries/), including other fusion methods.
 - [Configure multivectors](/documentation/manage-data/vectors/#multivectors) for ColBERT and other late-interaction models.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
 - Read the [SIE Qdrant integration guide](https://superlinked.com/docs/integrations/qdrant) and the [SIE quickstart](https://superlinked.com/docs/quickstart).
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

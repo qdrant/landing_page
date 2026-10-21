@@ -108,9 +108,8 @@
                   {{ $sectionLink = (index (.RegularPages) 0).Permalink }}
                 {{ end }}
 
-                {{/* A section with nothing to list, such as a directory whose pages are all hidden, is a single link.
-                     External links always show in the list, and an is_empty section links to its first page, so both keep the list. */}}
-                {{ if and (not .Params.is_empty) (not (where .Pages "Params.hideInSidebar" "!=" true)) (not (where .Pages "Params.type" "external-link")) }}
+                {{/* Filterable directories expose their entries through the directory page. */}}
+                {{ if .HasShortcode "integration-directory" }}
                 <div class="docs-menu__links-group {{ if $isActive }}active{{ end }}">
                   <div class="docs-menu__links-group-heading">
                     <a href="{{ $sectionLink }}">{{ .Title }}</a>

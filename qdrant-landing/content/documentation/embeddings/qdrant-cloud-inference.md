@@ -1,9 +1,10 @@
 ---
 title: Qdrant Cloud Inference
 weight: 10
-short_description: "Generate dense, sparse, multivector, and image embeddings inside Qdrant Cloud with hosted models, or route to OpenAI, Cohere, Jina AI, and OpenRouter."
+short_description: "Generate dense, sparse, multivector, and image embeddings in Qdrant Cloud, or route to OpenAI, Cohere, Jina AI, and OpenRouter."
 description: "Use Qdrant Cloud Inference to embed text and images server-side: hosted dense, sparse, and multivector models, plus OpenAI, Cohere, Jina AI, and OpenRouter."
 directory:
+  model_catalog: cloud-inference
   summary: "Embedding models hosted by Qdrant Cloud, plus external providers, called through the Qdrant API with no embedding service to run."
   input: [Text, Image]
   vectors: [Dense, Sparse, Multivector]
@@ -73,9 +74,16 @@ Prefix the model name with the provider, and pass your provider API key in a req
 
 See [External Providers](/documentation/inference/external-inference-providers/) for every option.
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
 - [Inference in Qdrant Managed Cloud](/documentation/cloud/inference/): enabling inference on a cluster, inference regions, and billing.
 - [Inference API](/documentation/inference/inference-api/): the `Document`, `Image`, and `Object` inference objects.
 - [Matryoshka Models](/documentation/inference/matryoshka-models/): store several vector sizes from one inference request.
 - [Choose an inference approach](/documentation/inference/): compare Cloud Inference with embedding in your application.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine dense and sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

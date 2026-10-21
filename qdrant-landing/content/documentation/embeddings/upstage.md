@@ -2,7 +2,7 @@
 title: Upstage
 weight: 100
 short_description: "Embed documents and queries with Upstage solar-embedding-2 passage and query models through the OpenAI SDK, and search them in Qdrant."
-description: "Use Upstage solar-embedding-2-passage and solar-embedding-2-query with Qdrant: model dimensions, OpenAI-compatible API, document and query embedding, and migration."
+description: "Use Upstage solar-embedding-2-passage and solar-embedding-2-query with Qdrant: dimensions, OpenAI-compatible API, document and query embedding, and migration."
 directory:
   summary: "Solar text embeddings with paired passage and query models, through an OpenAI-compatible API."
   input: [Text]
@@ -50,9 +50,13 @@ Embed queries with the query model. The query model is tuned for short questions
 
 {{< code-snippet path="/documentation/headless/snippets/embeddings/upstage/" block="embed-queries" >}}
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Combine Upstage vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
 - [Use Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) to store vectors in less memory.
 - [Upstage embeddings documentation](https://console.upstage.ai/docs/capabilities/embed).
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Upstage vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.

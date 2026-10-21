@@ -69,9 +69,14 @@ NVIDIA publishes `nvidia/nemotron-3-embed-1b` as a NIM container, `nvcr.io/nim/n
 
 The [NeMo Retriever Embedding NIM support matrix](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/support-matrix.html) lists the models each NIM release serves, including Nemotron 3.5 Embed models that the hosted API doesn't offer.
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Create a collection](/documentation/manage-data/collections/#create-a-collection) with named vectors to keep text and image vectors on the same points.
-- [Combine NVIDIA vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to keep text and image vectors on the same points.
 - Read the [NVIDIA Embedding NIM API guide](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/use-the-api-openai.html) for embedding types, modality, and truncation options.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine NVIDIA vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

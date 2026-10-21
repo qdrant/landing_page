@@ -1,6 +1,6 @@
 ```python
 documents = [
-    "Qdrant is a vector database and similarity search engine.",
+    "Qdrant is a vector search engine.",
     "Voyage AI embedding models turn text into dense vectors.",
 ]
 

@@ -2,7 +2,7 @@
 title: TwelveLabs
 weight: 100
 short_description: "Embed video, audio, images, and text with TwelveLabs Marengo 3.5 in one vector space, and run cross-modal search over the vectors in Qdrant."
-description: "Use TwelveLabs Marengo 3.5 with Qdrant: model dimensions, asynchronous video embedding, text, audio, and image queries, and smaller vectors with embedding_dimension."
+description: "Use TwelveLabs Marengo 3.5 with Qdrant: dimensions, asynchronous video embedding, text, audio, and image queries, and smaller vectors with embedding_dimension."
 directory:
   summary: "Marengo models that embed video, audio, images, text, and documents in one vector space."
   input: [Text, Image, Video, Audio, PDF]
@@ -75,9 +75,14 @@ Marengo 3.5 accepts an `embedding_dimension` parameter of `512`, `256`, or `128`
 
 {{< code-snippet path="/documentation/headless/snippets/embeddings/twelvelabs/" block="reduce-vector-size" >}}
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
 - [Filter search results](/documentation/search/filtering/) by payload fields such as `embedding_option`, `video_url`, or the segment time range.
-- [Create a collection](/documentation/manage-data/collections/#create-a-collection) with named vectors to store visual and audio embeddings of a segment in one point.
-- [Upload points](/documentation/manage-data/points/#upload-points) in batches when you embed a large video library.
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to store visual and audio embeddings of a segment in one point.
 - Read the TwelveLabs guides to [embed content at scale](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings/at-scale) and to [embed a query](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings/query).
+- [Combine dense and sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

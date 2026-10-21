@@ -2,7 +2,7 @@
 title: OpenAI
 weight: 100
 short_description: "Embed documents and queries with OpenAI text-embedding-3 models and search them in Qdrant, directly or through Qdrant Cloud Inference."
-description: "Use OpenAI text-embedding-3 models with Qdrant: model dimensions, document and query embedding, dimension reduction, binary quantization, and Qdrant Cloud Inference."
+description: "Use OpenAI text-embedding-3 models with Qdrant: dimensions, document and query embedding, dimension reduction, binary quantization, and Qdrant Cloud Inference."
 aliases: [ ../integrations/openai/ ]
 directory:
   summary: "Text embedding models with adjustable dimensions, through the OpenAI API or Qdrant Cloud Inference."
@@ -84,8 +84,13 @@ To search:
 
 For other ways to pass the key, see [External Providers](/documentation/inference/external-inference-providers/#openai).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Create a collection](/documentation/manage-data/collections/#create-a-collection) with named vectors to store OpenAI vectors next to other vector types.
-- [Combine OpenAI vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to store OpenAI vectors next to other vector types.
 - [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine OpenAI vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

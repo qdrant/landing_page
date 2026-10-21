@@ -2,7 +2,7 @@
 title: Gemini
 weight: 100
 short_description: "Embed text, images, video, audio, and PDFs with Google gemini-embedding-2 and search them in Qdrant, with adjustable vector dimensions."
-description: "Use Google gemini-embedding-2 and gemini-embedding-001 with Qdrant: model dimensions, document and query embedding, task prefixes, multimodal input, and dimension reduction."
+description: "Use Google gemini-embedding-2 and gemini-embedding-001 with Qdrant: dimensions, embedding, task prefixes, multimodal input, and dimension reduction."
 directory:
   summary: "Multimodal embedding model for text, images, video, audio, and PDFs, with adjustable dimensions."
   input: [Text, Image, Video, Audio, PDF]
@@ -92,8 +92,13 @@ Both models use Matryoshka Representation Learning, so `output_dimensionality` c
 
 To keep the full vectors but store them in less memory, use [quantization](/documentation/manage-data/quantization/).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Combine Gemini vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
 - [Filter search results](/documentation/search/filtering/) by payload fields, for example to search only PDFs.
 - [Gemini embeddings documentation](https://ai.google.dev/gemini-api/docs/embeddings) and the [embeddings quickstart notebook](https://github.com/google-gemini/cookbook/blob/main/quickstarts/Embeddings.ipynb).
+- [Combine Gemini vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

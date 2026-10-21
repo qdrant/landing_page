@@ -2,7 +2,7 @@
 title: Mistral
 weight: 100
 short_description: "Embed text with Mistral Embed and code with Codestral Embed, then search the vectors in Qdrant, directly or through Qdrant Cloud Inference."
-description: "Use Mistral Embed and Codestral Embed with Qdrant: model dimensions, document and query embedding, output_dimension, binary quantization recall, and Cloud Inference."
+description: "Use Mistral Embed and Codestral Embed with Qdrant: dimensions, document and query embedding, output_dimension, binary quantization recall, and Cloud Inference."
 directory:
   summary: "Text and code embedding models through the Mistral API, or through OpenRouter on Qdrant Cloud."
   input: [Text]
@@ -82,8 +82,13 @@ To search:
 
 For other ways to pass the key, see [External Providers](/documentation/inference/external-inference-providers/#openrouter).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Combine Mistral vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
 - Read Mistral's [code embeddings guide](https://docs.mistral.ai/studio/knowledge-rag/embeddings/code_embeddings) for the `codestral-embed` output types.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Mistral vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

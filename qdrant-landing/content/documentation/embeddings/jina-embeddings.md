@@ -1,7 +1,7 @@
 ---
 title: Jina AI
 weight: 100
-short_description: "Embed text, images, video, audio, and PDFs with Jina AI jina-embeddings-v5 models and search them in Qdrant, directly or through Qdrant Cloud Inference."
+short_description: "Embed text, images, video, audio, and PDFs with Jina AI jina-embeddings-v5 models and search them in Qdrant, through Qdrant Cloud Inference."
 description: "Use Jina AI jina-embeddings-v5 text and omni models with Qdrant: dimensions, task adapters, multimodal input, ColBERT multivectors, and Qdrant Cloud Inference."
 aliases:
   - /documentation/integrations/jina-embeddings/
@@ -106,8 +106,13 @@ To search with text:
 
 For other ways to pass the key, see [External Providers](/documentation/inference/external-inference-providers/#jina-ai).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Combine Jina AI vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
 - [Filter search results](/documentation/search/filtering/) by payload fields, for example to search only images.
 - [Jina AI Embedding API documentation](https://jina.ai/embeddings/), which lists every model, input type, and parameter.
+- [Combine Jina AI vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

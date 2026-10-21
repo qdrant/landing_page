@@ -13,7 +13,7 @@ await client.createCollection("{collection_name}", {
 
 // @block-start embed-documents
 const documents = [
-  "Qdrant is a vector database and similarity search engine.",
+  "Qdrant is a vector search engine.",
   "Ollama runs open models on your own hardware.",
 ];
 

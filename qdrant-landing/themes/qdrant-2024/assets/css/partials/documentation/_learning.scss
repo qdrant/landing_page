@@ -37,16 +37,6 @@
       color-scheme: dark;
     }
 
-    // Draw the arrow so it sits inside the field instead of against the border.
-    select {
-      appearance: none;
-      padding-right: $spacer * 2.5;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M1.333 4.667 8 11.333l6.667-6.666' stroke='%23D4D9E6' stroke-width='1.333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-position: right $spacer center;
-      background-repeat: no-repeat;
-      background-size: $spacer;
-    }
-
     :focus-visible {
       outline: pxToRem(2) solid $secondary-blue-50;
       outline-offset: pxToRem(3);
@@ -74,13 +64,9 @@
   [data-theme='light'] & {
     input,
     select {
-      background-color: $neutral-98;
+      background: $neutral-98;
       color: $neutral-10;
       color-scheme: light;
-    }
-
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M1.333 4.667 8 11.333l6.667-6.666' stroke='%233D4866' stroke-width='1.333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
   }
 }
@@ -149,6 +135,24 @@
 }
 
 .integration-directory {
+  &__filters > .integration-directory__search { flex-basis: 100%; }
+
+  &__matches { overflow-wrap: anywhere; }
+
+  // Keep select arrows inside the embedding directory's fields.
+  &__filters select {
+    appearance: none;
+    padding-right: $spacer * 2.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M1.333 4.667 8 11.333l6.667-6.666' stroke='%23D4D9E6' stroke-width='1.333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right $spacer center;
+    background-repeat: no-repeat;
+    background-size: $spacer;
+  }
+
+  [data-theme='light'] & .integration-directory__filters select {
+    background: $neutral-98 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M1.333 4.667 8 11.333l6.667-6.666' stroke='%233D4866' stroke-width='1.333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right $spacer center / $spacer;
+  }
+
   // The title link is a Bootstrap .stretched-link, so the whole card is clickable
   // while the title stays the card's only link for keyboard and screen reader users.
   &__card {
@@ -209,5 +213,20 @@
       font-size: pxToRem(14);
       color: $neutral-70;
     }
+  }
+}
+
+// Reuse documentation cards for the shared embedding workflow.
+.embedding-next-steps {
+  margin-bottom: $spacer * 2;
+
+  p.docs-card__description {
+    font-size: pxToRem(16);
+    line-height: 1.5;
+  }
+
+  .docs-card:focus-visible {
+    outline: pxToRem(2) solid $secondary-blue-50;
+    outline-offset: pxToRem(4);
   }
 }
