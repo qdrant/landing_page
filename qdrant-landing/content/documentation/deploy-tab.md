@@ -130,9 +130,12 @@ build:
 - [Connect to a Cluster](/documentation/cloud/cluster-access/index.md) — Find your endpoint and ports, use node-specific endpoints, restrict access by IP, and troubleshoot connections.
 - [Configure Clusters](/documentation/cloud/configure-cluster/index.md) — Tune collection defaults, strict mode, replication factor, and optimizer settings.
 - [Scale Clusters](/documentation/cloud/cluster-scaling/index.md) — Scale vertically or horizontally with automatic shard rebalancing.
-- [Monitor Clusters](/documentation/cloud/cluster-monitoring/index.md) — Monitor cluster health with built-in metrics, logs, and email alerts.
-- [Backup Clusters](/documentation/cloud/backups/index.md) — Schedule snapshots and restore clusters for disaster recovery.
-- [Update Clusters](/documentation/cloud/cluster-upgrades/index.md) — Zero-downtime rolling upgrades on multi-node clusters.
+- [Monitor Clusters](/documentation/cloud/cluster-monitoring/index.md) — Watch cluster health in the Console, by email alerts, and through Prometheus-compatible endpoints.
+- [Cluster Alerts](/documentation/cloud/cluster-alerts/index.md) — Look up each alert's trigger, meaning, and fix.
+- [Scrape Metrics with Prometheus and Grafana](/documentation/cloud/cluster-monitoring-prometheus/index.md) — Scrape cluster metrics and import the Grafana dashboard.
+- [Cluster Metrics Reference](/documentation/cloud/cluster-metrics-reference/index.md) — Every metric exposed by the `/sys_metrics` endpoint.
+- [Backup Clusters](/documentation/cloud/backups/index.md) — Schedule backups with the Console, CLI, API, or Terraform, and pick the right restore method.
+- [Update Clusters](/documentation/cloud/cluster-upgrades/index.md) — Checks before updating, the update steps, verification, and rollback.
 - [Cloud Inference](/documentation/cloud/inference/index.md) — Generate embeddings inside Qdrant Cloud or proxy to OpenAI, Cohere, and Jina.
 
 ## Hybrid Cloud
