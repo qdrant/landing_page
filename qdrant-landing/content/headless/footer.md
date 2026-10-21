@@ -104,6 +104,18 @@ menuItems:
       - id: 6
         name: Certification
         url: http://train.qdrant.dev/
+      - id: 7
+        name: Security
+        url: /security/
+      - id: 8
+        name: Observability
+        url: /observability/
+      - id: 9
+        name: Quantization
+        url: /quantization/
+      - id: 10
+        name: Resilience
+        url: /resilience/
   - title: Resources
     items:
       - id: 0
