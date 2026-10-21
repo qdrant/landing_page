@@ -65,7 +65,7 @@
   <text x="16" y="24" fill="#303547" font-family="Arial, sans-serif" font-size="18" font-weight="600">Symptom: high recall, low faithfulness</text>
   <text x="16" y="416" fill="#303547" font-family="Arial, sans-serif" font-size="16" font-weight="600">1 Inspect the generator. 2 Read the judge verdicts.</text>
   <text x="16" y="449" fill="#303547" font-family="Arial, sans-serif" font-size="16">Low recall + low faithfulness: inspect retrieval, then generation.</text>
-  <text x="16" y="478" fill="#303547" font-family="Arial, sans-serif" font-size="16">Low recall + high faithfulness: check labels and the recall target.</text>
-  <text x="16" y="507" fill="#303547" font-family="Arial, sans-serif" font-size="16">High recall + high faithfulness: check correctness against reference answers.</text>
+  <text x="16" y="478" fill="#303547" font-family="Arial, sans-serif" font-size="16">Low recall + high faithfulness: check the labels, then retrieval.</text>
+  <text x="16" y="507" fill="#303547" font-family="Arial, sans-serif" font-size="16">High recall + high faithfulness: check ranking, relevancy, then correctness.</text>
   <text x="16" y="545" fill="#303547" font-family="Arial, sans-serif" font-size="16">Highlighted checkpoints suggest an investigation, not a proven cause.</text>
 </svg>

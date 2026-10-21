@@ -59,32 +59,30 @@ What you can measure depends on what your golden set contains.
 - Relevance labels are the IDs of the passages that answer each question, and they are the ground truth for retrieval.
 - Reference answers are the correct answers written out as text, and they are the ground truth for the answer itself.
 
-Neither is perfect: labels miss passages, and a reference answer is only as good as whoever wrote it.
+Neither is perfect: labels miss passages, and a reference answer is only as good as whoever wrote it. `faithfulness` and `answer_relevancy` need neither, so you can always score the answer. The rest of your golden set decides which other scores you get:
 
-| Your golden set has | Retrieval scores | Answer scores | How well you can tell which half failed |
-| --- | --- | --- | --- |
-| Labels and reference answers | `recall@10`, `context_precision` | `faithfulness`, `answer_relevancy`, correctness such as `FactualCorrectness` | Strong |
-| Labels only | `recall@10` | `faithfulness`, `answer_relevancy` | Strong |
-| Reference answers only | `context_precision` | `faithfulness`, `answer_relevancy`, correctness | Partial: the judge cannot check whether the retrieval found all the evidence |
-| Neither, for example sampled production traffic | `ContextPrecisionWithoutReference`, which depends on the answer | `faithfulness`, `answer_relevancy` | Limited: the retrieval score depends on the answer |
-
-Ragas evaluation is meant for RAG systems. For other systems, score the end-to-end output with a task metric instead, such as normalized discounted cumulative gain (NDCG) for a ranker, click-through rate for a UI, or task-completion rate for an agent, and keep the same method: hold one component fixed and change the other.
+- **Labels and reference answers:** Supports `recall@10`, `context_precision`, and correctness such as `FactualCorrectness`.
+- **Labels only:** Supports `recall@10`.
+- **Reference answers only:** Supports `context_precision` and correctness. You can only partly tell which half failed, since the judge cannot check whether retrieval found all the evidence.
+- **Neither, for example sampled production traffic:** Supports only `ContextPrecisionWithoutReference`. Telling which half failed is limited, since this retrieval score depends on the answer.
 
 ## Reading the Scores
 
 Reading the scores is as important as choosing the right ones. A diagnosis map connects symptoms to the components worth inspecting.
 
-Select a symptom to trace where to inspect, from retrieval and generation to the labels and judge. High and Low are relative to the target you set for each metric.
+Start with `recall@10` and `faithfulness`: did the evidence arrive, and did the answer stick to it? Select a symptom to see where to inspect. Here, high and low are relative to the target you set for each metric.
 
 {{< island
     path="content/documentation/headless/pipeline-output-quality/diagnosis"
     ratio="712 / 680"
     title="Trace a symptom through the RAG system. Numbered checkpoints suggest where to inspect; they do not prove which component failed."
 >}}
-![Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results. High recall and high faithfulness: check correctness against reference answers. Low recall and low faithfulness: inspect retrieval for missing evidence, then the answer for unsupported claims. High recall and low faithfulness: inspect the answer, prompt, and judge verdicts.](/docs/pipeline-output-quality-diagnosis.svg)
+![Start with recall@10 and faithfulness. High recall and low faithfulness: compare the unsupported claims with the passages and the prompt, then read the judge verdicts. Low recall and low faithfulness: inspect retrieval for the missing evidence and the setting that lost it, then the answer for unsupported claims. Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results, then retrieval. High recall and high faithfulness: check whether low context_precision means supporting passages rank below irrelevant ones, whether low answer_relevancy means evasive, off-topic, or padded answers, and then correctness against reference answers.](/docs/pipeline-output-quality-diagnosis.svg)
 {{< /island >}}
 
-Collapsing the four scores into one end-to-end score tells you the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
+Once both scores meet their targets (both are high), the map moves on to `context_precision`, `answer_relevancy`, and correctness. `context_precision` refines the retrieval check by asking whether the supporting passages rank first, while `answer_relevancy` and correctness both judge the final answer, so they cover the whole system end to end. Treat them as a litmus test, and go back if the final results are not good enough.
+
+Collapsing the four scores into one end-to-end score adds little, since `answer_relevancy` and correctness already score the final answer. Applied early, it tells you that the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
 
 This analysis can fail when your RAG system is more complicated than a two-component architecture. Some tips:
 
@@ -95,20 +93,22 @@ This analysis can fail when your RAG system is more complicated than a two-compo
 
 ## Worked Example: Diagnostics in Reverse
 
-To find which component failed, hold one fixed and change the other. Here we keep retrieval fixed on 100 questions and change the generator prompt.
+To find which component failed, hold one fixed and change the other. Here we run the diagnosis in reverse: we plant a cause, then check whether the scores lead back to it. Retrieval stays fixed on 100 questions, and only the generator prompt changes.
 
-The grounded prompt requires answers to be supported by the retrieved passages and to say when they are not. The open-book prompt lets the LLM use its own knowledge as well.
+The grounded prompt requires answers to be supported by the retrieved passages and to say when they are not. The open-book prompt lets the LLM use its own knowledge as well. Read the results as if you did not know which one changed.
 
 | Metric | Grounded prompt | Open-book prompt |
 | --- | --- | --- |
-| `recall@10` | 0.668 | 0.668 (same passages) |
-| `context_precision` | 0.626 | 0.626 (same passages) |
+| `recall@10` | 0.668 | 0.668 |
+| `context_precision` | 0.626 | 0.626 |
 | `faithfulness` | 0.940 | 0.830 |
-| `answer_relevancy` | 0.698 | 0.759 (98 questions) |
+| `answer_relevancy` | 0.698 | 0.759 |
 
-*Higher is better on all four.*
+*Higher is better on all four. The open-book `answer_relevancy` covers 98 questions after one more judge timeout.*
 
-Both runs end up with similar results, but `faithfulness` declined on average. Following our own advice, we look at the 2x2 matrix, which shows more answers with high recall and low faithfulness. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain. For better results, use several runs and confidence intervals to see what is statistically significant.
+The retrieval scores are identical because the passages are identical, so whatever changed happened after retrieval. `faithfulness` dropped from 0.940 to 0.830, while `answer_relevancy` rose slightly. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain. For better results, use several runs and confidence intervals to see what is statistically significant.
+
+Following our own advice, we look past the average to the 2x2 matrix:
 
 {{< island
     path="content/documentation/headless/pipeline-output-quality/prompt-quadrants"
@@ -118,9 +118,11 @@ Both runs end up with similar results, but `faithfulness` declined on average. F
 ![A 2x2 grid of recall@10 against faithfulness, counting 99 questions per prompt. Grounded prompt: 67 High recall and High faithfulness, 6 High recall and Low faithfulness, 21 Low recall and High faithfulness, and 5 Low recall and Low faithfulness. Open-book prompt: 55, 18, 10, and 16. Low faithfulness grows from 11 to 34 of 99 (+23), including High recall and Low faithfulness from 6 to 18 (+12).](/docs/pipeline-output-quality-prompt-quadrants.png)
 {{< /island >}}
 
-The 2x2 points at generation, which of course it would: the open-book prompt let the generator add claims the passages do not support. Retrieval work would not fix unanswered questions, because their passages already met the recall target.
+Even when retrieval found the right passages, low-faithfulness answers tripled from 6 to 18. **The problem was generation, not retrieval:** the open-book prompt, as expected, encouraged the LLM to use its own knowledge instead of the provided evidence.
 
-In your setup, the process runs in reverse: you get results, try a new hypothesis, look at the answers, and try again.
+Since retrieval was identical in both runs, it cannot explain the difference. But it can still improve: `recall@10` of 0.668 means some relevant evidence remains missing.
+
+In your setup, nobody plants the cause: you start from the symptom, form a hypothesis, test the fix, and measure again.
 
 ## Running in CI
 
@@ -134,9 +136,7 @@ Treat retrieval and generation independently. Update the evaluation when the tec
 
 ## Building the Golden Set
 
-Your golden set should contain questions, relevant passage IDs, and reference answers when required. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to build one.
-
-Not every metric needs reference answers, but those that do require answers supported by the source documents.
+Your golden set should contain questions, relevant passage IDs, and, when a metric requires them, reference answers supported by the source documents. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to build one.
 
 Check your data before trusting the scores. In <a href="https://huggingface.co/datasets/rag-datasets/rag-mini-bioasq" target="_blank">rag-mini-bioasq</a>, thousands of passages contain missing text but are still labeled relevant. Without cleaning them, your evaluation measures data errors instead of retrieval quality.
 
