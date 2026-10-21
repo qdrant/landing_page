@@ -54,7 +54,7 @@ If you're submitting a ticket for a **Hybrid Cloud** or **Private Cloud** enviro
 
 To streamline this, we recommend using our [support bundle script](https://github.com/qdrant/qdrant-cloud-support-tools/tree/main/support-bundle). It collects environment metadata (but **no user data or API keys**) and helps us troubleshoot more efficiently. The bundle includes collection names and configuration details.
 
-Please attach it to your ticket if applicable.
+Please attach it to your ticket if applicable. For Hybrid Cloud, see [Troubleshooting Hybrid Cloud](/documentation/hybrid-cloud/troubleshooting/) for what to check and collect first.
 
 ### Priority & SLA
 
