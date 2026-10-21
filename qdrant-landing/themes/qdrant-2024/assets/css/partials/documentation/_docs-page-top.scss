@@ -1,0 +1,25 @@
+@use '../../helpers/functions' as *;
+
+// Breadcrumbs and page actions sharing the top row of a page.
+.docs-page-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: pxToRem(8) $spacer;
+  margin: 0 0 $spacer * 2.5 0;
+
+  // The row owns the spacing below it.
+  .docs-breadcrumbs {
+    flex: 1 1 pxToRem(240);
+    min-width: 0;
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    flex: none;
+    gap: pxToRem(8);
+    margin-left: auto;
+  }
+}

@@ -12,9 +12,7 @@
       <div class="documentation__content">
         <div class="documentation__content-wrapper">
           <div class="documentation__article-wrapper">
-            {{ if not (eq .RelPermalink "/course/") }}
-              {{ partial "documentation/breadcrumbs" . }}
-            {{ end }}
+            {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" (ne .RelPermalink "/course/")) }}
 
 
             <article class="documentation-article">
