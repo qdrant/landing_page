@@ -37,7 +37,7 @@ A shard cannot be split across nodes, so a shard count that is not a multiple of
 | Disk usage | Under 80% of node disk. An email alert fires above 80% for 5 minutes | Add disk. Disk can be increased but not reduced |
 | Headroom | An extra 20% on top of your RAM and disk estimate, for the write-ahead log, snapshots, and optimizer segments | Sizing. See [Choose the Resources](/documentation/cloud/create-cluster/#choose-the-resources) |
 | Migration target | Twice the disk that the source collection uses. With the Migration Tool, also twice the RAM | Sizing the target cluster before a snapshot restore or a migration |
-| Disk speed (AWS) | **Balanced** for 32 GiB or more, **Performance** for 256 GiB or more | Cluster creation |
+| Disk speed (AWS) | **Balanced** for 32 GiB or more, **Performance** for 256 GiB or more | Cluster creation. See [Capacity Planning](/documentation/capacity-planning/#storage-focused-configuration) |
 | Indexing speed (AWS) | A GPU on each node for write-heavy workloads | Cluster creation. See [GPUs for Indexing](/documentation/ops-configuration/running-with-gpu/) |
 
 When the vectors no longer fit in RAM, move them to the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/) and add disk to match. Only the vectors that queries read often stay in RAM, and the rest are read from disk. The more reads go to disk, the slower search gets. It gets much slower when RAM is almost full, because the operating system then evicts pages that queries need again right away. The same data is read from disk, loaded into RAM, and evicted over and over.
