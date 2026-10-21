@@ -1,21 +1,21 @@
 method,dataset,recall_cohere,recall_bge,p95_cohere,p95_bge
-SQ int8,Quora 522,931,0.976,0.954,0.36,0.24
-TQ 4-bit,Quora 522,931,0.965,0.950,0.29,0.22
-BQ 1-bit,Quora 522,931,0.964,0.964,0.24,0.27
-PQ x8,Quora 522,931,0.990,0.989,1.16,0.55
-float32,Quora 522,931,0.983,0.988,0.72,0.43
-SQ int8,FiQA 57,638,0.969,0.958,0.32,0.27
-TQ 4-bit,FiQA 57,638,0.979,0.951,0.29,0.21
-BQ 1-bit,FiQA 57,638,0.945,0.783,0.29,0.65
-PQ x8,FiQA 57,638,0.982,0.979,1.17,0.64
-float32,FiQA 57,638,0.981,0.956,0.66,0.36
-SQ int8,NFCorpus 3,633,0.957,0.956,0.21,0.17
-TQ 4-bit,NFCorpus 3,633,0.967,0.964,0.20,0.18
-BQ 1-bit,NFCorpus 3,633,0.936,0.823,0.32,0.21
-PQ x8,NFCorpus 3,633,0.979,0.962,0.93,0.43
-float32,NFCorpus 3,633,0.970,0.987,0.28,0.27
-SQ int8,SciFact 5,183,0.984,0.992,0.21,0.18
-TQ 4-bit,SciFact 5,183,0.965,0.993,0.19,0.17
-BQ 1-bit,SciFact 5,183,0.977,0.860,0.25,0.18
-PQ x8,SciFact 5,183,0.996,0.992,0.93,0.45
-float32,SciFact 5,183,0.996,0.994,0.30,0.20
+SQ int8,Quora 523k docs,0.976,0.954,0.36,0.24
+TQ 4-bit,Quora 523k docs,0.965,0.950,0.29,0.22
+BQ 1-bit,Quora 523k docs,0.964,0.964,0.24,0.27
+PQ x8,Quora 523k docs,0.990,0.989,1.16,0.55
+float32,Quora 523k docs,0.983,0.988,0.72,0.43
+SQ int8,FiQA 58k docs,0.969,0.958,0.32,0.27
+TQ 4-bit,FiQA 58k docs,0.979,0.951,0.29,0.21
+BQ 1-bit,FiQA 58k docs,0.945,0.783,0.29,0.65
+PQ x8,FiQA 58k docs,0.982,0.979,1.17,0.64
+float32,FiQA 58k docs,0.981,0.956,0.66,0.36
+SQ int8,NFCorpus 3.6k docs,0.957,0.956,0.21,0.17
+TQ 4-bit,NFCorpus 3.6k docs,0.967,0.964,0.20,0.18
+BQ 1-bit,NFCorpus 3.6k docs,0.936,0.823,0.32,0.21
+PQ x8,NFCorpus 3.6k docs,0.979,0.962,0.93,0.43
+float32,NFCorpus 3.6k docs,0.970,0.987,0.28,0.27
+SQ int8,SciFact 5.2k docs,0.984,0.992,0.21,0.18
+TQ 4-bit,SciFact 5.2k docs,0.965,0.993,0.19,0.17
+BQ 1-bit,SciFact 5.2k docs,0.977,0.860,0.25,0.18
+PQ x8,SciFact 5.2k docs,0.996,0.992,0.93,0.45
+float32,SciFact 5.2k docs,0.996,0.994,0.30,0.20
