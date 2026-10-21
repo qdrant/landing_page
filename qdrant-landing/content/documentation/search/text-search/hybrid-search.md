@@ -23,5 +23,5 @@ You are not limited to prefetching just two queries. Examples include, but are n
 
 - Fuse multiple lexical queries across the `title` and `author` fields alongside a semantic query to achieve a comprehensive search across all data.
 - Prefetch using BM25, dense vectors, or filters, and [rescore with dense vectors or BM25](/documentation/search/hybrid-queries/#multi-stage-queries).
-- [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/tutorials-basics/reranking-hybrid-search/?q=late+interaction).
+- [Prefetch with dense vectors and BM25, and rerank using late interaction embeddings](/documentation/tutorials-basics/reranking-hybrid-search/?q=late+interaction).
 - Combine dense vectors with [learned sparse vectors](/documentation/search/text-search/sparse-vector-search/), such as SPLADE++ or miniCOIL, instead of BM25.

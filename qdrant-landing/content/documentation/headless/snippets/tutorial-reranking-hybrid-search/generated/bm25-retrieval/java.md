@@ -3,12 +3,10 @@ results = client.queryAsync(
     QueryPoints.newBuilder()
         .setCollectionName(collectionName)
         .setQuery(
-            nearest(
-                Document.newBuilder()
-                    .setText(query)
-                    .setModel(sparseEmbeddingModel)
-                    .build()))
-        .setUsing("sparse")
+            Query.newBuilder()
+                .setText(TextQuery.newBuilder().setQuery(query).build())
+                .build())
+        .setUsing("description")
         .setLimit(10)
         .build()
 ).get();
