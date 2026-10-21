@@ -190,6 +190,12 @@ We recommend upgrading versions one by one. Qdrant Cloud does this automatically
 
 Need help with your upgrade? The [Qdrant Advisor agent skill](/documentation/agentic-tools/skills/) can help you navigate upgrades, troubleshoot configurations, and answer questions about your Qdrant setup, whether you're on Qdrant Cloud or self-hosting.
 
+## Manage Qdrant Cloud from the Terminal
+
+![Section 10](/blog/qdrant-1.20.x/section-10.png)
+
+[`qcloud`](/documentation/cloud-cli/), the Qdrant Cloud CLI, lets you manage clusters, API keys, backups, and Cloud Inference from your terminal. Every command is scriptable, so `qcloud` fits into CI pipelines and gives AI agents a way to operate your Cloud setup. You can also use it to upgrade: `qcloud cluster update <cluster-id> --version v1.20.0` moves a cluster to 1.20 with a rolling restart.
+
 ## Engage
 
 ![Section 9](/blog/qdrant-1.20.x/section-9.png)
