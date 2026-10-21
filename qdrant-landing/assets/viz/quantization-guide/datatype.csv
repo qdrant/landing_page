@@ -1,21 +1,21 @@
-configuration,workload,recall,storage_mb
-float32,SciFact / Cohere 1024-d,1.000,130.8
-float32+4-bit copy,SciFact / Cohere 1024-d,1.000,142.5
-turbo4 only,SciFact / Cohere 1024-d,0.963,41.9
-float32+1-bit copy,SciFact / Cohere 1024-d,0.945,128.8
-turbo4+1-bit copy,SciFact / Cohere 1024-d,0.929,45.6
-float32,SciFact / BGE 384-d,1.000,46.3
-float32+4-bit copy,SciFact / BGE 384-d,1.000,48.5
-turbo4 only,SciFact / BGE 384-d,0.922,16.4
-float32+1-bit copy,SciFact / BGE 384-d,0.838,46.2
-turbo4+1-bit copy,SciFact / BGE 384-d,0.816,18.0
-float32,NFCorpus / Cohere 1024-d,0.996,81.0
-float32+4-bit copy,NFCorpus / Cohere 1024-d,0.996,89.9
-turbo4 only,NFCorpus / Cohere 1024-d,0.954,27.9
-float32+1-bit copy,NFCorpus / Cohere 1024-d,0.931,88.8
-turbo4+1-bit copy,NFCorpus / Cohere 1024-d,0.904,31.3
-float32,NFCorpus / BGE 384-d,0.994,28.4
-float32+4-bit copy,NFCorpus / BGE 384-d,0.996,31.2
-turbo4 only,NFCorpus / BGE 384-d,0.897,10.9
-float32+1-bit copy,NFCorpus / BGE 384-d,0.816,29.4
-turbo4+1-bit copy,NFCorpus / BGE 384-d,0.786,12.0
+configuration,workload,recall,originals_mb,copy_mb
+float32,Quora / Cohere 1024-d,0.994,2142,0
+float32+4-bit copy,Quora / Cohere 1024-d,0.992,2142,272
+turbo4 only,Quora / Cohere 1024-d,0.969,270,0
+float32+1-bit copy,Quora / Cohere 1024-d,0.976,2142,71
+turbo4+1-bit copy,Quora / Cohere 1024-d,0.962,270,71
+float32,Quora / BGE 384-d,0.996,803,0
+float32+4-bit copy,Quora / BGE 384-d,0.995,803,105
+turbo4 only,Quora / BGE 384-d,0.946,103,0
+float32+1-bit copy,Quora / BGE 384-d,0.937,803,29
+turbo4+1-bit copy,Quora / BGE 384-d,0.906,102,29
+float32,FiQA / Cohere 1024-d,0.996,236,0
+float32+4-bit copy,FiQA / Cohere 1024-d,0.997,236,30
+turbo4 only,FiQA / Cohere 1024-d,0.959,30,0
+float32+1-bit copy,FiQA / Cohere 1024-d,0.948,236,8
+turbo4+1-bit copy,FiQA / Cohere 1024-d,0.922,30,8
+float32,FiQA / BGE 384-d,0.991,89,0
+float32+4-bit copy,FiQA / BGE 384-d,0.988,89,12
+turbo4 only,FiQA / BGE 384-d,0.902,11,0
+float32+1-bit copy,FiQA / BGE 384-d,0.793,89,3
+turbo4+1-bit copy,FiQA / BGE 384-d,0.767,11,3

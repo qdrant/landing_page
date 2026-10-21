@@ -1,0 +1,30 @@
+{
+  "title": "Quora, Cohere 1,024-d: the development sweep at k=10 with rescoring on",
+  "kind": "lines-facet",
+  "facet": "method",
+  "facetLabel": "{}",
+  "x": "hnsw_ef",
+  "xLabel": "hnsw_ef",
+  "xSuffix": "",
+  "seriesLabels": ["oversampling 1", "oversampling 2", "oversampling 4", "oversampling 8"],
+  "height": 300,
+  "views": [
+    {
+      "label": "Recall@10",
+      "series": ["recall_x1", "recall_x2", "recall_x4", "recall_x8"],
+      "yLabel": "recall@10 vs exact float32",
+      "yScale": "linear",
+      "yDomain": [0.78, 1.0],
+      "refLine": {"value": 0.95, "label": "target 0.95"},
+      "unit": ""
+    },
+    {
+      "label": "Server p95 latency",
+      "series": ["p95_x1", "p95_x2", "p95_x4", "p95_x8"],
+      "yLabel": "server p95 (ms)",
+      "yScale": "linear",
+      "yDomain": [0, 4],
+      "unit": "ms"
+    }
+  ]
+}

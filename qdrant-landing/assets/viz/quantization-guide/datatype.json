@@ -3,7 +3,12 @@
   "kind": "grouped-columns",
   "group": "configuration",
   "series": "workload",
-  "colors": [0, 1, 2, 3],
+  "colors": [
+    0,
+    1,
+    2,
+    3
+  ],
   "height": 430,
   "width": 980,
   "textScale": 1.0,
@@ -17,11 +22,11 @@
       "yMax": 1.0
     },
     {
-      "label": "Collection size on disk",
-      "subtitle": "Allocated bytes of the whole collection after indexing: vectors, quantized copy, HNSW graph, and WAL, lower is better",
-      "y": "storage_mb",
-      "yLabel": "collection size (MB)",
-      "yMax": 150
+      "label": "Stored originals on disk",
+      "subtitle": "Bytes of the stored vectors in the merged segment; the search copy and HNSW graph are extra, lower is better",
+      "y": "originals_mb",
+      "yLabel": "stored vectors (MB)",
+      "yMax": 2300
     }
   ]
 }
