@@ -135,6 +135,10 @@
 }
 
 .integration-directory {
+  &__filters > .integration-directory__search { flex-basis: 100%; }
+
+  &__matches { overflow-wrap: anywhere; }
+
   // Keep select arrows inside the embedding directory's fields.
   &__filters select {
     appearance: none;

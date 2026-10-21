@@ -8,6 +8,7 @@
     noun, plural  the entry name for counts ("provider", "providers")
     facets        slice of dict "key" "label" "values" from the optional
                   `facets="key:Label|..."`; `values` are the sorted options
+    models        model names and facets from each page's optional directory.model_catalog
     pages         the section's pages: `directory.featured: true` first by weight, then the rest by title
 
   Each listed page describes itself in front matter, and the build fails with
@@ -40,6 +41,7 @@
 {{- $byTitle := .Page.RegularPages.ByTitle -}}
 {{- $pages := union (where .Page.RegularPages.ByWeight "Params.directory.featured" true) $byTitle -}}
 {{- $options := dict -}}
+{{- $modelsByPage := dict -}}
 {{- range $pages -}}
   {{- $page := . -}}
   {{- $directory := .Params.directory -}}
@@ -65,9 +67,37 @@
     {{- end -}}
     {{- $options = merge $options (dict $key ((index $options $key | default slice) | append $values)) -}}
   {{- end -}}
+  {{- $catalog := dict -}}
+  {{- with $directory.model_catalog -}}
+    {{- if eq . "fastembed" -}}
+      {{- $catalog = hugo.Data.fastembed_models.models -}}
+    {{- else if eq . "cloud-inference" -}}
+      {{- $catalog = hugo.Data.cloud_inference_models -}}
+    {{- else -}}
+      {{- errorf "integration-directory: unknown model catalog %q in %s" . $page.File.Path -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $models := slice -}}
+  {{- range $kind, $entries := $catalog -}}
+    {{- $inputs := slice "Text" -}}
+    {{- $vectors := title $kind -}}
+    {{- if eq $kind "image" -}}
+      {{- $inputs = slice "Image" -}}
+      {{- $vectors = "Dense" -}}
+    {{- else if eq $kind "multimodal" -}}
+      {{- $inputs = slice "Text" "Image" -}}
+      {{- $vectors = "Multivector" -}}
+    {{- end -}}
+    {{- range $entries -}}
+      {{- $modelInputs := $inputs -}}
+      {{- with .modality -}}{{- $modelInputs = slice . -}}{{- end -}}
+      {{- $models = $models | append (dict "name" .model "input" $modelInputs "vectors" (slice $vectors)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $modelsByPage = merge $modelsByPage (dict $page.RelPermalink (sort $models "name")) -}}
 {{- end -}}
 {{- $facets := slice -}}
 {{- range $keys -}}
   {{- $facets = $facets | append (dict "key" . "label" (index $labels .) "values" (sort (uniq (index $options . | default slice)))) -}}
 {{- end -}}
-{{- return dict "noun" $noun "plural" $plural "facets" $facets "pages" $pages -}}
+{{- return dict "noun" $noun "plural" $plural "facets" $facets "pages" $pages "models" $modelsByPage -}}

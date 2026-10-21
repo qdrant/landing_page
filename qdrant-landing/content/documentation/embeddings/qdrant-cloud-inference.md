@@ -4,6 +4,7 @@ weight: 10
 short_description: "Generate dense, sparse, multivector, and image embeddings in Qdrant Cloud, or route to OpenAI, Cohere, Jina AI, and OpenRouter."
 description: "Use Qdrant Cloud Inference to embed text and images server-side: hosted dense, sparse, and multivector models, plus OpenAI, Cohere, Jina AI, and OpenRouter."
 directory:
+  model_catalog: cloud-inference
   summary: "Embedding models hosted by Qdrant Cloud, plus external providers, called through the Qdrant API with no embedding service to run."
   input: [Text, Image]
   vectors: [Dense, Sparse, Multivector]

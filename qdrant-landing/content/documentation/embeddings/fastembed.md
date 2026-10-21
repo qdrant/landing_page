@@ -4,6 +4,7 @@ weight: 20
 short_description: "Browse FastEmbed's supported dense, sparse, image, and multivector embedding models, with dimensions, licenses, and links to setup guides."
 description: "Choose a FastEmbed embedding model for local inference with Qdrant. Compare supported models, dimensions, and licenses, then follow the setup guides."
 directory:
+  model_catalog: fastembed
   summary: "Qdrant's Python library for running dense, sparse, image, and multivector embedding models on your own hardware."
   input: [Text, Image]
   vectors: [Dense, Sparse, Multivector]
