@@ -13,7 +13,7 @@ client.create_collection(
 )
 
 documents = [
-    "Qdrant is a vector database and similarity search engine.",
+    "Qdrant is a vector search engine.",
     "Ollama runs open models on your own hardware.",
 ]
 

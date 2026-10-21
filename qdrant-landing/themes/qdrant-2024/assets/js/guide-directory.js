@@ -1,5 +1,3 @@
-import { bindFilterForm } from './filter-form';
-
 const directory = document.querySelector('.guide-directory');
 if (directory) {
   const form = directory.querySelector('form');
@@ -9,7 +7,7 @@ if (directory) {
   const count = directory.querySelector('[data-guide-count]');
   const empty = directory.querySelector('[data-guide-empty]');
 
-  function filter() {
+  function filter(updateURL = true) {
     const terms = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
     let visible = 0;
     guides.forEach(guide => {
@@ -21,8 +19,28 @@ if (directory) {
     });
     count.textContent = `${visible} ${visible === 1 ? 'guide' : 'guides'}`;
     empty.hidden = visible !== 0;
+    if (updateURL) {
+      const url = new URL(window.location.href);
+      if (query.value.trim()) url.searchParams.set('q', query.value.trim());
+      else url.searchParams.delete('q');
+      window.history.replaceState(null, '', url);
+    }
   }
 
-  count.hidden = false;
-  bindFilterForm(form, [query], filter, { onReset: () => query.focus() });
+  function readURL() {
+    query.value = new URLSearchParams(window.location.search).get('q') || '';
+    filter(false);
+  }
+
+  form.hidden = count.hidden = false;
+  readURL();
+  form.addEventListener('submit', event => { event.preventDefault(); filter(); });
+  query.addEventListener('input', () => filter());
+  form.addEventListener('reset', event => {
+    event.preventDefault();
+    query.value = '';
+    filter();
+    query.focus();
+  });
+  window.addEventListener('popstate', readURL);
 }

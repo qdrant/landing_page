@@ -64,9 +64,13 @@ Set `embeddingPurpose` to `GENERIC_INDEX` when you index content of any type. Fo
 
 An inline request can be up to 25 MB after base64 encoding. Larger files, and video or audio longer than 30 seconds, go through the asynchronous `StartAsyncInvoke` API with input and output in Amazon S3. See [Using Amazon Nova Embeddings](https://docs.aws.amazon.com/nova/latest/nova2-userguide/embeddings.html) and the [request and response schema](https://docs.aws.amazon.com/nova/latest/userguide/embeddings-schema.html).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Create a collection](/documentation/manage-data/collections/#create-a-collection) with named vectors to keep Titan and Nova vectors on the same points.
-- [Upload points in batches](/documentation/manage-data/points/#upload-points) when you index a large dataset.
-- [Combine Bedrock vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to keep Titan and Nova vectors on the same points.
 - [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Bedrock vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

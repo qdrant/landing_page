@@ -27,7 +27,7 @@ client.create_collection(
 
 # @block-start embed-documents
 documents = [
-    "Qdrant is a vector database and similarity search engine.",
+    "Qdrant is a vector search engine.",
     "Jina AI embedding models turn text, images, and video into dense vectors.",
 ]
 

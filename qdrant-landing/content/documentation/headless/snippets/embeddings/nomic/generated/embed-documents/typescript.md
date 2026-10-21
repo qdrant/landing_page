@@ -1,6 +1,6 @@
 ```typescript
 const documents = [
-  "Qdrant is a vector database and similarity search engine.",
+  "Qdrant is a vector search engine.",
   "Nomic Embed models turn text into dense vectors.",
   "Paris is the capital of France.",
 ];

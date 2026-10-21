@@ -107,9 +107,15 @@ Image vectors from FastEmbed share the text model's embedding space, so a `searc
 
 {{< code-snippet path="/documentation/headless/snippets/embeddings/nomic/" block="images" >}}
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
 - [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to keep text and image vectors on the same points.
-- [Combine Nomic vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
 - [Learn more about FastEmbed](/documentation/fastembed/) and the other models it runs locally.
 - Read the Nomic documentation on [text embeddings](https://docs.nomic.ai/atlas/embeddings-and-retrieval/text-embedding) and [image embeddings](https://docs.nomic.ai/atlas/embeddings-and-retrieval/image-embedding).
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Nomic vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

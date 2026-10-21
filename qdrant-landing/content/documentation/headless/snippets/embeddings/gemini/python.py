@@ -17,7 +17,7 @@ client.create_collection(
 # @block-start embed-documents
 documents: list[types.ContentUnion]  # @hide
 documents = [
-    "Qdrant is a vector database and similarity search engine.",
+    "Qdrant is a vector search engine.",
     "Gemini embedding models map text, images, video, audio, and PDFs into one vector space.",
 ]
 

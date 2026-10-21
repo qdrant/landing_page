@@ -58,21 +58,21 @@ build:
 
 ## Migration
 
-- [Migration Tool](/documentation/migrate-to-qdrant/index.md): Move vectors, payloads, and sparse embeddings from Chroma, Pinecone, Weaviate, Milvus, pgvector, Elasticsearch, and OpenSearch.
-- [Migration Guidance](/documentation/migration-guidance/index.md): Structured framework for verifying migrations and catching silent data and search regressions.
-- [Data Synchronization](/documentation/data-synchronization/index.md): Keep Qdrant in sync with source databases using CDC, batch reindexing, or dual-write patterns for fresh search results.
+- [Migration Tool](/documentation/migrate-to-qdrant/index.md) — Move vectors, payloads, and sparse embeddings from Chroma, Pinecone, Weaviate, Milvus, pgvector, Elasticsearch, and OpenSearch.
+- [Migration Guidance](/documentation/migration-guidance/index.md) — Structured framework for verifying migrations and catching silent data and search regressions.
+- [Data Synchronization](/documentation/data-synchronization/index.md) — Keep Qdrant in sync with source databases using CDC, batch reindexing, or dual-write patterns for fresh search results.
 
 ## Integrations
 
-- [Data Management](/documentation/data-management/index.md): Connect Qdrant to ETL and streaming tools to ingest, transform, and sync vectors at scale.
+- [Data Management](/documentation/data-management/index.md) — Connect Qdrant to ETL and streaming tools to ingest, transform, and sync vectors at scale.
 - [Embedding Providers](/documentation/embeddings/index.md): Find an embedding provider by input type, vector type, and where it runs: Qdrant Cloud Inference, OpenAI, Cohere, Gemini, Amazon Bedrock, Voyage AI, Ollama, and more.
-- [Frameworks](/documentation/frameworks/index.md): Integrations with 40+ AI agent and RAG frameworks: LangChain, LlamaIndex, Haystack, CrewAI, AutoGen, Spring AI, and more.
-- [Observability](/documentation/observability/index.md): Connect Qdrant to Datadog, OpenLIT, and OpenLLMetry to monitor performance and traces.
-- [Platforms](/documentation/platforms/index.md): No-code and low-code integrations with n8n, Make, MuleSoft, Pipedream, Power Apps, and more.
+- [Frameworks](/documentation/frameworks/index.md) — Integrations with 40+ AI agent and RAG frameworks: LangChain, LlamaIndex, Haystack, CrewAI, AutoGen, Spring AI, and more.
+- [Observability](/documentation/observability/index.md) — Connect Qdrant to Datadog, OpenLIT, and OpenLLMetry to monitor performance and traces.
+- [Platforms](/documentation/platforms/index.md) — No-code and low-code integrations with n8n, Make, MuleSoft, Pipedream, Power Apps, and more.
 
 ## Ecosystem Guides
 
-- [Essential Examples](/documentation/tutorials-build-essentials/index.md): Hands-on tutorials for agentic RAG, multimodal search, data ingestion, and automation integrations.
-- [Build Prototypes](/documentation/examples/index.md): End-to-end code samples for RAG pipelines, hybrid search, multitenancy, recommendations, and multimodal search.
-- [Search Evaluation](/documentation/search-evaluation/index.md): Techniques for improving retrieval relevance and pipeline output quality.
-- [Practice Datasets](/documentation/datasets/index.md): Ready-made Qdrant snapshots of public datasets you can import and explore without the embedding step.
+- [Essential Examples](/documentation/tutorials-build-essentials/index.md) — Hands-on tutorials for agentic RAG, multimodal search, data ingestion, and automation integrations.
+- [Build Prototypes](/documentation/examples/index.md) — End-to-end code samples for RAG pipelines, hybrid search, multitenancy, recommendations, and multimodal search.
+- [Search Evaluation](/documentation/search-evaluation/index.md) — Techniques for improving retrieval relevance and pipeline output quality.
+- [Practice Datasets](/documentation/datasets/index.md) — Ready-made Qdrant snapshots of public datasets you can import and explore without the embedding step.

@@ -2,7 +2,7 @@
 title: Mixedbread
 weight: 100
 short_description: "Run Mixedbread mxbai embedding models with sentence-transformers or on Qdrant Cloud Inference, and search the vectors in Qdrant."
-description: "Use Mixedbread mxbai-embed-large-v1 and other open mxbai models with Qdrant: dimensions, query prompts, self-hosting, Cloud Inference, and the legacy Mixedbread API."
+description: "Use Mixedbread mxbai-embed-large-v1 and open mxbai models with Qdrant: dimensions, query prompts, self-hosting, Cloud Inference, and the legacy Mixedbread API."
 directory:
   summary: "Open-weight text embedding models to run yourself, on Qdrant Cloud Inference, or through a legacy API."
   input: [Text]
@@ -86,9 +86,14 @@ On Qdrant Cloud, Qdrant hosts `mixedbread-ai/mxbai-embed-large-v1` as a paid mod
 
 For search queries, start the text with `Represent this sentence for searching relevant passages: `. Qdrant Cloud Inference [leaves text that already starts with a model's prefix unchanged](/documentation/inference/cloud-inference/#automatic-query-and-passage-prefixes), so the prompt is never added twice. For setup and billing, see [Cloud Inference](/documentation/inference/cloud-inference/).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
 - [Run `mxbai-embed-large-v1` with FastEmbed](/documentation/fastembed/), Qdrant's ONNX-based embedding library.
-- [Combine Mixedbread vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
 - Browse [Mixedbread's models on Hugging Face](https://huggingface.co/mixedbread-ai).
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Mixedbread vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

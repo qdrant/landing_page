@@ -1,5 +1,3 @@
-import { bindFilterForm } from './filter-form';
-
 const library = document.querySelector('.example-library');
 if (library) {
   const form = library.querySelector('form');
@@ -11,7 +9,16 @@ if (library) {
   const count = library.querySelector('[data-example-count]');
   const empty = library.querySelector('[data-example-empty]');
 
-  function filter() {
+  function readURL() {
+    const params = new URLSearchParams(window.location.search);
+    query.value = params.get('q') || '';
+    for (const select of [goal, stack]) {
+      const value = params.get(select.name) || '';
+      select.value = [...select.options].some(option => option.value === value) ? value : '';
+    }
+  }
+
+  function filter(updateURL = true) {
     const terms = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
     let visible = 0;
     cards.forEach(card => {
@@ -34,7 +41,26 @@ if (library) {
       if (active) link.setAttribute('aria-current', goal.value ? 'location' : 'page');
       else link.removeAttribute('aria-current');
     });
+    if (updateURL) {
+      const url = new URL(window.location.href);
+      for (const control of [query, goal, stack]) {
+        const value = control.value.trim();
+        if (value) url.searchParams.set(control.name, value);
+        else url.searchParams.delete(control.name);
+      }
+      window.history.replaceState(null, '', url);
+    }
   }
 
-  bindFilterForm(form, [query, goal, stack], filter);
+  form.hidden = false;
+  readURL();
+  filter(false);
+  form.addEventListener('submit', event => { event.preventDefault(); filter(); });
+  form.addEventListener('input', () => filter());
+  form.addEventListener('change', () => filter());
+  form.addEventListener('reset', () => {
+    query.value = goal.value = stack.value = '';
+    filter();
+  });
+  window.addEventListener('popstate', () => { readURL(); filter(false); });
 }

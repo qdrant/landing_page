@@ -87,8 +87,13 @@ Pass `voyage-4-nano` as the model, with the same calls as the API models. Becaus
 
 To run without the API entirely, embed the documents with `voyage-4-nano` too.
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Combine Voyage AI vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
 - Read the [Voyage AI embeddings documentation](https://docs.voyageai.com/docs/embeddings) for model details.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Voyage AI vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

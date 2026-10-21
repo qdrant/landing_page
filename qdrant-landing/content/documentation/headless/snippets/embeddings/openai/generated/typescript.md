@@ -12,7 +12,7 @@ await client.createCollection("{collection_name}", {
 });
 
 const documents = [
-  "Qdrant is a vector database and similarity search engine.",
+  "Qdrant is a vector search engine.",
   "OpenAI embedding models turn text into dense vectors.",
 ];
 

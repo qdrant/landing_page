@@ -71,8 +71,6 @@ Embed v5 and v4 models accept an `output_dimension` parameter (`outputDimension`
 
 {{< code-snippet path="/documentation/headless/snippets/embeddings/cohere/" block="reduce-vector-size" >}}
 
-To keep the full vectors but store them in less memory, use [Quantization](/documentation/manage-data/quantization/).
-
 ## Qdrant Cloud Inference
 
 On Qdrant Cloud, Qdrant can call Cohere for you. Instead of a vector, send a `Document` or an `Image` with the model name prefixed with `cohere/`. Pass your Cohere API key in the `cohere-api-key` request header or in the `options` object. Qdrant does not store the key, so send it with every request. Cohere parameters such as `output_dimension` also go in `options`, and the collection's vector size must match them, which is 512 in these examples. These examples use `embed-v4.0`, and images must be base64 data URLs.
@@ -87,8 +85,13 @@ To search with text:
 
 For other ways to pass the key, see [External Providers](/documentation/inference/external-inference-providers/#cohere).
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
 - [Rerank search results](/documentation/search-precision/reranking-semantic-search/) by combining Qdrant retrieval with Cohere reranking.
-- [Combine Cohere vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
 - [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Cohere vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Use quantization](/documentation/manage-data/quantization/) to reduce memory use while keeping the model's vector dimensions.

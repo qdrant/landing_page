@@ -20,7 +20,7 @@ client.create_collection(
 
 # @block-start embed-documents
 documents = [
-    "Qdrant is a vector database and similarity search engine.",
+    "Qdrant is a vector search engine.",
     "NVIDIA Nemotron embedding models turn text into dense vectors.",
 ]
 

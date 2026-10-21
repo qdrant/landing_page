@@ -2,7 +2,7 @@
 title: Ollama
 weight: 100
 short_description: "Embed documents and queries locally with Ollama models such as qwen3-embedding and embeddinggemma-2, and search them in Qdrant."
-description: "Use Ollama embedding models with Qdrant: qwen3-embedding, embeddinggemma-2, and bge-m3 dimensions, query prompts, the /api/embed endpoint, and dimension reduction."
+description: "Use Ollama embedding models with Qdrant: qwen3-embedding, embeddinggemma-2, and bge-m3 dimensions, query prompts, /api/embed endpoint, and dimension reduction."
 directory:
   summary: "Runs open embedding models such as Qwen3 Embedding and EmbeddingGemma 2 on your own hardware."
   input: [Text]
@@ -77,9 +77,13 @@ Other models use different prompts. Add them in your code, because Ollama does n
 
 {{< code-snippet path="/documentation/headless/snippets/embeddings/ollama/" block="reduce-vector-size" >}}
 
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
 ## Next Steps
 
-- [Upload points](/documentation/manage-data/points/#upload-points) in batches for larger datasets.
-- [Combine Ollama vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
-- [Filter search results](/documentation/search/filtering/) by payload fields.
 - Read the [Ollama embeddings guide](https://docs.ollama.com/capabilities/embeddings) and the [`/api/embed` reference](https://docs.ollama.com/api/embed).
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Ollama vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

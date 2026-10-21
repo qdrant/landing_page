@@ -4,7 +4,7 @@ import Mixedbread from "@mixedbread/sdk";
 const mxbai = new Mixedbread();
 
 const documents = [
-  "Qdrant is a vector database and similarity search engine.",
+  "Qdrant is a vector search engine.",
   "Mixedbread publishes open-weight embedding models on Hugging Face.",
 ];
 
