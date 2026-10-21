@@ -231,6 +231,12 @@ Shard count is a tradeoff between scalability headroom and per-node efficiency:
 
 Qdrant can't split a shard across nodes, so a shard count that isn't a multiple of your node count leaves capacity unused. See [Choosing the right number of shards](/documentation/scaling/distributed_deployment/#choosing-the-right-number-of-shards).
 
+### CPU
+
+CPU matters most during ingestion, when a node uploads and indexes at the same time. The [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) tutorial found 8 CPU cores, 64 GB of RAM, and 1 TB of disk to be a minimal configuration for indexing and exploring a dataset of 400 million vectors on a single node, and notes that production setups can need more.
+
+By default, Qdrant uses up to 16 threads for indexing. If your nodes have more than 16 cores, raise the number of indexing threads explicitly. See [Vector Search in Production](/documentation/production-operations/vector-search-in-production/#other-solutions-to-alleviate-indexing-bottleneck). Sustained CPU throttling during ingestion is a sign that the nodes need more cores.
+
 ## Choosing Disk over RAM
 
 Only frequently accessed data should be cached in RAM. The rest can be offloaded to disk. For example, payload fields that you don't use for filtering don't need a payload index that's pinned in RAM. 
@@ -241,7 +247,7 @@ If your priority is to handle large volumes of vectors with average search laten
 
 The amount of available RAM greatly impacts search performance. As a general rule, if you store half as many vectors in RAM, search latency will roughly double.
 
-Disk speed is also crucial. [Contact us](/documentation/support/) if you have specific requirements for high-volume searches in our Cloud.
+Disk speed is also crucial. Use local SSDs with at least 50k IOPS for on-disk vector storage. In the [memory benchmark](/articles/memory-consumption/), a network-mounted disk with about 6,400 IOPS and 25 MiB/s was too slow, a local disk with about 63,000 IOPS and 247 MiB/s was much faster, and a local SSD with about 183,000 IOPS and 716 MiB/s was faster still. Default volume performance is a baseline, not a target. For example, AWS gp3 volumes start at 3,000 IOPS and 125 MiB/s, so provision more for bulk loads and on-disk search. [Contact us](/documentation/support/) if you have specific requirements for high-volume searches in our Cloud.
 
 ### Subgroup-Oriented Configuration
 

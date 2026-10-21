@@ -15,17 +15,14 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access to Qdrant Hybrid Cloud, please [contact us](/contact-us/).
 
-- **Kubernetes Cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud (e.g. EKS), on-premise (e.g. vSphere), or edge environment (e.g. vSphere).  See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
-- **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. The `StorageClass` needs to be created beforehand. For backups and restores, the driver needs to support CSI snapshots and restores. The `VolumeSnapshotClass` needs to be created beforehand. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
-
-<aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
-
-- **Kubernetes nodes:** You need enough CPU and memory capacity for the Qdrant database clusters that you create. A small amount of resources is also needed for the Hybrid Cloud control plane components. Qdrant Hybrid Cloud supports x86_64 and ARM64 architectures.
-- **Permissions:** To install the Qdrant Cloud Agent you need to have `cluster-admin` access in your Kubernetes cluster.
-- **Connection:** The Qdrant Cloud Agent in your cluster needs to be able to connect to Qdrant Cloud. It will create an outgoing connection to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` on port `443`.
-- **Locations:** By default, all container images and helm charts are pulled from `registry.cloud.qdrant.io`. For a complete list see [Mirroring images and charts](#mirroring-images-and-charts).
-
-> **Note:** You can also mirror these images and charts into your own registry and pull them from there.
+| Requirement | Details |
+|---|---|
+| **Kubernetes cluster** | A [standard compliant](https://www.cncf.io/training/certification/software-conformance/) cluster, in any cloud, on premises, or at the edge. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) |
+| **Storage** | CSI block storage with a `StorageClass`. Scaling needs volume expansion, and backups need volume snapshots. NFS and S3 are not supported. Disk speed matters for bulk loads and on-disk search. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) and [Capacity Planning](/documentation/capacity-planning/#storage-focused-configuration) |
+| **Nodes** | x86_64 or ARM64. The smallest Qdrant node needs 2 GiB of RAM, 0.5 vCPU, and 8 GiB of disk. Add capacity for the Hybrid Cloud control plane components. Plan more CPU for heavy ingestion. See [Capacity Planning](/documentation/capacity-planning/#cpu) |
+| **Permissions** | `cluster-admin` access to install the Qdrant Cloud Agent |
+| **Connection** | Outbound port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` |
+| **Images and charts** | Pulled from `registry.cloud.qdrant.io` by default. You can mirror them. See [Mirroring images and charts](#mirroring-images-and-charts) |
 
 ### CLI tools
 
@@ -82,6 +79,39 @@ It will:
 You need this command only for the initial installation. After that, you can update the agent and operator using the Qdrant Cloud Console.
 
 > **Note:** If you generate the installation command a second time, it will re-generate the included secrets, and you will have to apply the command again to update them.
+
+## Verify the Installation
+
+After you run the installation command, check that the components are running.
+
+In the Qdrant Cloud Console, open your Hybrid Cloud Environment. The overview shows the status of the environment, **Ready** or **Not Ready**, and the state and version of each component: **Operator State**, **Agent State**, **Cluster Manager State**, and **Prometheus State**. While a component is starting, it shows **Not Ready**. Until all of them are ready, the Console shows "Your environment is not yet ready to create clusters", and **Create Cluster** is disabled.
+
+Each component runs as a pod in the namespace that you chose. List the pods to see the same state in Kubernetes:
+
+```sh
+kubectl get pods -n <your-qdrant-namespace>
+```
+
+```text
+NAME                                                  READY   STATUS    RESTARTS   AGE
+qdrant-cloud-agent-699c98c697-cjjng                   1/1     Running   0          2m
+qdrant-cluster-exporter-6c495865d4-96677              1/1     Running   0          92s
+qdrant-cluster-manager-5cb467bd68-lmc5k               1/1     Running   0          92s
+qdrant-operator-v2-5477457974-zd88x                   1/1     Running   0          96s
+qdrant-prometheus-kube-state-metrics-cb6996fc-d7vz6   1/1     Running   0          61s
+qdrant-prometheus-server-6969df77dc-8jn9f             2/2     Running   0          61s
+```
+
+| Console | Pod |
+|---|---|
+| Operator | `qdrant-operator-v2` |
+| Agent | `qdrant-cloud-agent` |
+| Cluster Manager | `qdrant-cluster-manager` |
+| Prometheus | `qdrant-prometheus-server` and `qdrant-prometheus-kube-state-metrics` |
+
+The `qdrant-cluster-exporter` pod also runs in the namespace. When you create clusters, their pods appear here too.
+
+If a component stays **Not Ready**, check its pod with `kubectl describe pod` and `kubectl logs`. If you open a support ticket, attach the output and the [support bundle](/documentation/support/).
 
 ## Advanced configuration
 

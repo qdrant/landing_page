@@ -38,7 +38,7 @@ First, consult AWS' managed Kubernetes instructions below. Then, **to set up Qdr
 For a good balance between performance and cost, we recommend:
 
 * Depending on your cluster resource configuration either general purpose (m6*, m7*, or m8*), memory optimized (r6*, r7*, or r8*) or cpu optimized (c6*, c7*, or c8*) instance types. Qdrant Hybrid Cloud also supports AWS Graviton ARM64 instances.
-* At least gp3 EBS volumes for storage
+* At least gp3 EBS volumes for storage. gp3 starts at 3,000 IOPS and 125 MiB/s, so provision more for bulk loads and on-disk search. See [Capacity Planning](/documentation/capacity-planning/#storage-focused-configuration)
 
 ### More on Amazon Elastic Kubernetes Service
 
