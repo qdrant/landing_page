@@ -19,17 +19,18 @@ public class Snippet {
             .setQuery(
                 nearest(
                     Document.newBuilder()
-                        .setText("9780553213515")
+                        .setText("time travel")
                         .setModel("sentence-transformers/all-minilm-l6-v2")
                         .build()))
             .build();
 
     PrefetchQuery bm25Prefetch =
         PrefetchQuery.newBuilder()
-            .setUsing("isbn-bm25")
+            .setUsing("title")
             .setQuery(
-                nearest(
-                    Document.newBuilder().setText("9780553213515").setModel("Qdrant/bm25").build()))
+                Query.newBuilder()
+                    .setText(TextQuery.newBuilder().setQuery("time travel").build())
+                    .build())
             .build();
 
     client

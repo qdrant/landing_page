@@ -4,19 +4,16 @@ import static io.qdrant.client.ExpressionFactory.max;
 import static io.qdrant.client.ExpressionFactory.mult;
 import static io.qdrant.client.ExpressionFactory.variable;
 import static io.qdrant.client.QueryFactory.formula;
-import static io.qdrant.client.QueryFactory.nearest;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.Formula;
 import io.qdrant.client.grpc.Points.MaxExpression;
 import io.qdrant.client.grpc.Points.MultExpression;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.Query;
 import io.qdrant.client.grpc.Points.QueryPoints;
-
-QdrantClient client =
-  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+import io.qdrant.client.grpc.Points.TextQuery;
 
 client
   .queryAsync(
@@ -25,23 +22,19 @@ client
       .addPrefetch(
         PrefetchQuery.newBuilder()
           .setQuery(
-            nearest(
-              Document.newBuilder()
-                .setText("vector database")
-                .setModel("qdrant/bm25")
-                .build()))
-          .setUsing("title-bm25")
+            Query.newBuilder()
+              .setText(TextQuery.newBuilder().setQuery("vector database"))
+              .build())
+          .setUsing("title")
           .setLimit(50)
           .build())
       .addPrefetch(
         PrefetchQuery.newBuilder()
           .setQuery(
-            nearest(
-              Document.newBuilder()
-                .setText("vector database")
-                .setModel("qdrant/bm25")
-                .build()))
-          .setUsing("body-bm25")
+            Query.newBuilder()
+              .setText(TextQuery.newBuilder().setQuery("vector database"))
+              .build())
+          .setUsing("body")
           .setLimit(50)
           .build())
       .setQuery(

@@ -2,7 +2,6 @@ package com.example.snippets_amalgamation;
 
 import static io.qdrant.client.ConditionFactory.match;
 import static io.qdrant.client.ConditionFactory.matchKeyword;
-import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 import io.qdrant.client.QdrantClient;
@@ -20,12 +19,10 @@ public class Snippet {
             QueryPoints.newBuilder()
                 .setCollectionName("{collection_name}")
                 .setQuery(
-                    nearest(
-                        Document.newBuilder()
-                            .setText("time travel")
-                            .setModel("qdrant/bm25")
-                            .build()))
-                .setUsing("title-bm25")
+                    Query.newBuilder()
+                        .setText(TextQuery.newBuilder().setQuery("time travel").build())
+                        .build())
+                .setUsing("title")
                 .setFilter(
                     Filter.newBuilder()
                         .addMust(matchKeyword("group_id", "user_1"))

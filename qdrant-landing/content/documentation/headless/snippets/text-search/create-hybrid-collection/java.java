@@ -25,13 +25,25 @@ public class Snippet {
                                         .build())
                                 .build())
                         .build())
-                .setSparseVectorsConfig(
-                    SparseVectorConfig.newBuilder()
-                        .putMap(
-                            "isbn-bm25",
-                            SparseVectorParams.newBuilder().setModifier(Modifier.Idf).build())
-                        .build())
                 .build())
+        .get();
+
+    client
+        .createPayloadIndexAsync(
+            "books",
+            "title",
+            PayloadSchemaType.Text,
+            PayloadIndexParams.newBuilder()
+                .setTextIndexParams(
+                    TextIndexParams.newBuilder()
+                        .setTokenizer(TokenizerType.Word)
+                        .setScoring(
+                            TextScoringParams.newBuilder().setType(TextScoringType.Bm25).build())
+                        .build())
+                .build(),
+            null,
+            null,
+            null)
         .get();
   }
 }

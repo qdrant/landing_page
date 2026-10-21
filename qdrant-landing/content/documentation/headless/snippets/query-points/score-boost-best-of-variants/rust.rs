@@ -1,24 +1,24 @@
 use qdrant_client::qdrant::{
-    Document, Expression, FormulaBuilder, PrefetchQueryBuilder, Query, QueryPointsBuilder,
+    Expression, FormulaBuilder, PrefetchQueryBuilder, Query, QueryPointsBuilder,
 };
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let _best_fields = client
         .query(
             QueryPointsBuilder::new("{collection_name}")
                 .add_prefetch(
                     PrefetchQueryBuilder::default()
-                        .query(Query::new_nearest(Document::new("vector database", "qdrant/bm25")))
-                        .using("title-bm25")
+                        .query(Query::new_text("vector database"))
+                        .using("title")
                         .limit(50u64),
                 )
                 .add_prefetch(
                     PrefetchQueryBuilder::default()
-                        .query(Query::new_nearest(Document::new("vector database", "qdrant/bm25")))
-                        .using("body-bm25")
+                        .query(Query::new_text("vector database"))
+                        .using("body")
                         .limit(50u64),
                 )
                 .query(FormulaBuilder::new(Expression::max_with([
