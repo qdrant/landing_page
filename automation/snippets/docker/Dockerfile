@@ -48,6 +48,8 @@ WORKDIR /workspace/automation/snippets
 # Build tools put their caches in $HOME
 ENV HOME=/workspace/automation/snippets/cache \
     # gradle ignores $HOME
-    GRADLE_USER_HOME=/workspace/automation/snippets/cache/.gradle
+    GRADLE_USER_HOME=/workspace/automation/snippets/cache/.gradle \
+    # .NET named mutexes need a runtime directory for UIDs without a passwd entry.
+    XDG_RUNTIME_DIR=/tmp/snippet-checker-runtime
 
-ENTRYPOINT ["/bin/bash", "-c", "mkdir -p $HOME && \"$@\"", "--"]
+ENTRYPOINT ["/bin/bash", "-c", "mkdir -p \"$HOME\" && mkdir -p -m 700 \"$XDG_RUNTIME_DIR\" && exec \"$@\"", "--"]

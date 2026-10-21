@@ -1,0 +1,4 @@
+config,rescoring,kb_per_doc,ram_vs_float32,retained_pct
+Original vectors,uncompressed,21.4,1x,98.9
+1-bit TurboQuant,no rescoring,0.724,30x less,95.3
+1-bit TurboQuant,with rescoring,0.724,30x less,98.2

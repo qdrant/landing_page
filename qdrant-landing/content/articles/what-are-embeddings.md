@@ -131,7 +131,7 @@ The model creates a vector embedding for "biophilic design" that encapsulates th
 
 ### Integration with embedding APIs
 
-The embedding model you pick sets the quality of your search. Qdrant has integration guides for many embedding providers, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), and [AWS Bedrock](/documentation/embeddings/bedrock/), and the [embeddings overview](/documentation/embeddings/) lists the rest. To create embeddings on your own machine, [FastEmbed](/documentation/fastembed/) is Qdrant's lightweight Python library for generating embeddings locally.
+The embedding model you pick sets the quality of your search. Qdrant has integration guides for many embedding providers, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), and [AWS Bedrock](/documentation/embeddings/bedrock/), and the [embeddings overview](/documentation/embeddings/) lists the rest. To create embeddings on your own machine, [FastEmbed](/documentation/fastembed/) is Qdrant's lightweight Python library for generating embeddings locally.
 
 The right model depends on your data, latency budget, and cost. [How to Choose an Embedding Model](/documentation/search-patterns/choose-embedding-model/) shows how to build a test set from your own data and compare candidate models on it.
 

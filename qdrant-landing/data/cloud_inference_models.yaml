@@ -1,0 +1,37 @@
+# Embedding models hosted on Qdrant Cloud Inference.
+# Rendered by the `cloud-inference-models` shortcode on
+# /documentation/cloud/inference/ and /documentation/embeddings/qdrant-cloud-inference/.
+# Prices are shown in the Inference tab of the Cloud Console, not here.
+dense:
+  - model: sentence-transformers/all-minilm-l6-v2
+    modality: Text
+    dimensions: 384
+    cost: Free
+  - model: intfloat/multilingual-e5-small
+    modality: Text
+    dimensions: 384
+    cost: Free
+  - model: mixedbread-ai/mxbai-embed-large-v1
+    modality: Text
+    dimensions: 1024
+    cost: Paid
+  - model: qdrant/clip-vit-b-32-text
+    modality: Text
+    dimensions: 512
+    cost: Paid
+  - model: qdrant/clip-vit-b-32-vision
+    modality: Image
+    dimensions: 512
+    cost: Paid
+sparse:
+  - model: qdrant/bm25
+    modality: Text
+    cost: Free
+  - model: prithivida/splade_pp_en_v1
+    modality: Text
+    cost: Paid
+multivector:
+  - model: answerdotai/answerai-colbert-small-v1
+    modality: Text
+    dimensions: 96
+    cost: Free

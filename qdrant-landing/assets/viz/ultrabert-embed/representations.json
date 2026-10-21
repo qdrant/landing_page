@@ -1,0 +1,18 @@
+{
+  "title": "Whole Document or Chunks",
+  "kind": "grouped-columns",
+  "subtitle": "UltraBERT-Embed-150M. nDCG@10, or recall@1 for Passkey and Needle. Higher is better.",
+  "group": "task",
+  "series": "representation",
+  "y": "score",
+  "yLabel": "Score",
+  "yMax": 1.0,
+  "colors": [
+    1,
+    0
+  ],
+  "width": 760,
+  "height": 420,
+  "textScale": 1.1,
+  "legendLayout": "auto"
+}
