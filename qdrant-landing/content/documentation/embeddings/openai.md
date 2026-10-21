@@ -93,7 +93,7 @@ client.query_points(
 
 ## Using OpenAI Embedding Models with Qdrant's Binary Quantization
 
-You can use OpenAI embedding Models with [Binary Quantization](/articles/binary-quantization/) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much.
+You can use OpenAI embedding Models with [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much.
 
 
 |Method|Dimensionality|Test Dataset|Recall|Oversampling|

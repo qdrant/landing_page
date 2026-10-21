@@ -90,7 +90,7 @@ client.query_points(
 
 ## Using Mistral Embedding Models with Binary Quantization
 
-You can use Mistral Embedding Models with [Binary Quantization](/articles/binary-quantization/) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much. 
+You can use Mistral Embedding Models with [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much. 
 
 At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
 

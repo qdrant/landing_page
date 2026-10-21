@@ -132,3 +132,8 @@
   X-Robots-Tag: noindex
 /documentation/tutorials-search-engineering/static-embeddings/*
   X-Robots-Tag: noindex
+
+/articles/binary-quantization/*
+  X-Robots-Tag: noindex
+/articles/binary-quantization.md
+  X-Robots-Tag: noindex

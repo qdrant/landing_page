@@ -34,7 +34,7 @@ This article walks through what TurboQuant is, what we added on top to make it p
 Before TurboQuant, Qdrant offered two primary production-grade quantization paths:
 
 * **[Scalar Quantization (SQ)](https://qdrant.tech/articles/scalar-quantization/)** — int8 per coordinate. 4x compression. Recall is essentially indistinguishable from float32 on most embeddings. The default first step when memory matters.
-* **[Binary Quantization (BQ)](https://qdrant.tech/articles/binary-quantization/)** — 1-, 1.5-, or 2-bit storage (32x, ~21x, or 16x compression). Recall depends heavily on the embedding model; it works beautifully on isotropic, well-trained models.
+* **[Binary Quantization (BQ)](https://qdrant.tech/documentation/manage-data/quantization/#binary-quantization)** — 1-, 1.5-, or 2-bit storage (32x, ~21x, or 16x compression). Recall depends heavily on the embedding model; it works beautifully on isotropic, well-trained models.
 
 TurboQuant adds a new path with four operating points: 8x (4 bits/dim), 16x (2 bits/dim), ~21x (1.5 bits/dim), and 32x (1 bit/dim).
 
@@ -227,7 +227,7 @@ TurboQuant gives Qdrant a new path on the compression ladder: 8x compression at 
 * [RaBitQ paper (arXiv:2405.12497)](https://arxiv.org/abs/2405.12497) — Gao & Long.
 * [Interactive TurboQuant explainer](https://arkaung.github.io/interactive-turboquant/) by Arkar Min Aung — a hands-on, step-by-step walkthrough of the algorithm with interactive visualizations. The clearest high-level explanation of TurboQuant available, and a great place to build intuition before reading the paper.
 * [Scalar Quantization in Qdrant](https://qdrant.tech/articles/scalar-quantization/) — the int8 baseline this post refers to.
-* [Binary Quantization in Qdrant](https://qdrant.tech/articles/binary-quantization/) — the 1-bit baseline this post refers to.
+* [Binary Quantization in Qdrant](https://qdrant.tech/documentation/manage-data/quantization/#binary-quantization) — the 1-bit baseline this post refers to.
 
 **Qdrant in agent memory:**
 
