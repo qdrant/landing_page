@@ -39,7 +39,7 @@ Top-k is fine for running a search. The problem is using a fixed number of chunk
 | Fixed top-5 | Up to 640 tokens | Up to 2,550 tokens |
 | Fixed 1,000-token budget | Up to 1,000 tokens | Up to 1,000 tokens |
 
-A fixed top-5 gives the larger chunks four times as much text, so they can win for a reason that has nothing to do with where they cut. A fixed budget puts both under the same constraint, which is also how you pay. Most published chunking benchmarks compare at a fixed top-k; every number in this guide uses a fixed budget.
+A fixed top-5 gives the larger chunks four times as much text, so they can win for a reason that has nothing to do with where they cut. A fixed budget puts both under the same upper limit, which is also how you pay. Most published chunking benchmarks compare at a fixed top-k; every number in this guide uses a fixed budget.
 
 Search results go into the prompt in rank order until the next chunk would not fit, and a question counts as found when at least 80% of its answer passage, counted in characters, is in that text. The share of questions found is recall at a token budget. It measures whether the evidence reached the model, not whether the model answered correctly.
 
@@ -95,7 +95,7 @@ In Qdrant, [hybrid search](/documentation/search/hybrid-queries/) combines dense
 
 *Small chunks give the model more separate search results in the same space. On Qasper, where passages depend on their paper, 256 tokens beat 128.*
 
-There is rarely a reason to make chunks bigger: the bigger the chunk, the more likely it mixes topics. The advantage of the smallest chunks disappears once keyword matching is added. With hybrid search, which the recommendations use, 256 tokens beat 128 on all three datasets: 95% against 93% on SQuAD, 92% against 90% on RepliQA, and 55% against 49% on Qasper. So we recommend 256 by default.
+Bigger chunks are not necessarily better: they can mix unrelated topics and leave room for fewer search results in the same budget. But chunks that are too small can separate information that belongs together. The advantage of the smallest chunks disappears once keyword matching is added. With hybrid search, which the recommendations use, 256 tokens beat 128 on all three datasets: 95% against 93% on SQuAD, 92% against 90% on RepliQA, and 55% against 49% on Qasper. So we recommend 256 by default.
 
 {{< chart id="chunking/recall-by-budget" caption="Small chunks lead at small budgets on SQuAD and RepliQA, and the gap closes as the budget grows. On Qasper, 256-token chunks lead by 5 to 7 points at 1,000 and 2,000 tokens, and by less than the noise at 500 and 4,000." >}}
 
@@ -115,7 +115,7 @@ Measure chunks with the model's own tokenizer. Every chunk in this guide stayed 
 
 Another important part is context dependency of the document. A chunk depends on its document when it cannot be understood on its own. It might refer back to something defined earlier ("the elephant", "cocktails"), need the document's structure, or be ambiguous without the title ("revenue grew 3%" for which company?). These categories come from the [ConTEB benchmark](https://arxiv.org/abs/2505.24782).
 
-Dependency decides how hard chunking is. An LLM judged whether the chunk holding the answer made sense without its document, for 100 random questions per dataset. Qasper, the least self-contained, scored lowest and gained the most from a bigger budget: 51% at 1,000 tokens, 73% at 2,000, and 93% at 4,000.
+Context dependency is one factor that makes chunking harder. An LLM judged whether the chunk holding the answer made sense without its document, for 100 random questions per dataset. Qasper was the least self-contained and scored lowest, though its papers also differ from the other datasets in structure, answer length, and search scope. It gained the most from a bigger budget: 51% at 1,000 tokens, 73% at 2,000, and 93% at 4,000.
 
 | Dataset | Self-contained answer chunks | With title and section prefix |
 |---|---|---|
@@ -190,9 +190,9 @@ The same trade-offs apply beyond text. With audio and video, the budget is tight
 ### Datasets
 We tested three datasets with human-labeled answer passages:
 
-- **SQuAD v1.1** (validation): Wikipedia articles — 48 articles, 10,570 questions.
-- **RepliQA** (split 0): Fictional company policies, incident reports, and local news — 3,591 documents, 14,083 questions.
-- **Qasper** (validation and test): NLP research papers — 697 papers, 1,976 questions.
+- **SQuAD v1.1** (validation): Wikipedia articles (48 articles, 10,570 questions).
+- **RepliQA** (split 0): Fictional company policies, incident reports, and local news (3,591 documents, 14,083 questions).
+- **Qasper** (validation and test): NLP research papers (697 papers, 1,976 questions).
 
 ### Setup and statistical confidence
 - **Tools:** `bge-small-en-v1.5` via FastEmbed, Qdrant, and LangChain's recursive splitter, using embedding-model tokens for chunk sizes and budgets.
