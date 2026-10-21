@@ -21,6 +21,14 @@
             {{ end }}
           {{ end }}
         {{ end }}
+        {{ with .Params.moreCustomers }}
+          <a href="{{ .url }}" class="customers__logo customers__more">
+            {{ .text }}
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
+              <path d="M1.6665 3.99996H6.33317M3.99984 6.33329L6.33317 3.99996L3.99984 1.66663" stroke="#F0F3FA" stroke-width="0.666667" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {{ end }}
       </div>
     </div>
   </section>
