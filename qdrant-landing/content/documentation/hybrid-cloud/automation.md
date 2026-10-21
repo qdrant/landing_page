@@ -29,11 +29,11 @@ The namespace cannot be changed after bootstrapping. Optional flags set the defa
 
 Each run of `qcloud hybrid bootstrap` creates new Qdrant Cloud access tokens and registry credentials, so run it only for a Kubernetes cluster that is not registered to the environment yet. The credentials are printed to stderr, and you should treat them as secrets.
 
-To create a cluster in the environment, set the cloud provider to `hybrid` and the cloud region to the environment that you created with `qcloud hybrid`. Hybrid Cloud has no predefined regions. The list from `qcloud cloud-region list --cloud-provider hybrid` contains your own Hybrid Cloud environments:
+To create a cluster in the environment, set the cloud provider to `hybrid` and the cloud region to the ID of the environment that you created with `qcloud hybrid`. The ID is a UUID, not the name of the environment. Hybrid Cloud has no predefined regions. `qcloud hybrid list` shows your environments and their IDs:
 
 ```sh
 qcloud cluster create \
-  --cloud-provider hybrid --cloud-region my-hybrid-env \
+  --cloud-provider hybrid --cloud-region <ENV_ID> \
   --cpu 2 --ram 8Gi --service-type load-balancer --wait
 ```
 
@@ -63,7 +63,46 @@ resource "qdrant-cloud_accounts_hybrid_cloud_environment" "example" {
 }
 ```
 
-The [resource documentation](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs/resources/accounts_hybrid_cloud_environment) shows how to write the bootstrap commands to a script file. The commands contain credentials, so keep the file private. For the provider setup, see [Terraform](/documentation/cloud-tools/terraform/).
+The [resource documentation](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs/resources/accounts_hybrid_cloud_environment) shows how to write the bootstrap commands to a script file. The commands contain credentials, so keep the file private. Run the script against your Kubernetes cluster, and wait until the environment is healthy before you create a cluster. Changing `bootstrap_commands_version` generates new commands and rotates the credentials, so you must run them against the cluster again. For the provider setup, see [Terraform](/documentation/cloud-tools/terraform/).
+
+To create a cluster in the environment, set `cloud_provider` to `"hybrid"`, and set `cloud_region` to the ID of the environment. It is not a region name:
+
+```terraform
+data "qdrant-cloud_booking_packages" "hybrid" {
+  cloud_provider = "hybrid"
+  cloud_region   = qdrant-cloud_accounts_hybrid_cloud_environment.example.id
+}
+
+locals {
+  desired_package = [
+    for pkg in data.qdrant-cloud_booking_packages.hybrid.packages : pkg
+    if pkg.resource_configuration[0].cpu == "2000m"
+    && pkg.resource_configuration[0].ram == "8Gi"
+  ]
+}
+
+resource "qdrant-cloud_accounts_cluster" "db" {
+  name           = "my-hybrid-cluster"
+  cloud_provider = "hybrid"
+  cloud_region   = qdrant-cloud_accounts_hybrid_cloud_environment.example.id
+
+  configuration {
+    number_of_nodes = 1
+
+    node_configuration {
+      package_id = local.desired_package[0].id
+    }
+  }
+}
+```
+
+If the package lookup does not fit your setup, list the packages with `qcloud package list --cloud-provider hybrid` and pass the package ID directly. The `configuration` block has options for Hybrid Cloud:
+
+- `service_type`: `CLUSTER_SERVICE_TYPE_CLUSTER_IP` (the default), `CLUSTER_SERVICE_TYPE_LOAD_BALANCER`, or `CLUSTER_SERVICE_TYPE_NODE_PORT`
+- `node_selector`, `tolerations`, `topology_spread_constraints`, `annotations`, `service_annotations`, and `pod_labels`
+- `cluster_storage_configuration`, with `database_storage_class`, `snapshot_storage_class`, and `volume_snapshot_class` if they differ from the environment default
+
+A new cluster is exposed only inside Kubernetes and has no API key. Before you use a load balancer or a node port, configure an API key. See [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#authentication-to-your-qdrant-clusters).
 
 ## Cloud API
 
