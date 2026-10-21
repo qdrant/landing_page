@@ -87,7 +87,7 @@ When vectors and the HNSW index are in the `cold` memory tier, you can improve s
 With inline storage, Qdrant stores vectors directly within the HNSW index file.
 It makes searches faster by reducing the number of IO operations, at the cost of increased storage usage.
 As of v1.20.0, the HNSW index file holds the only copy of the original vectors.
-See [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
+Refer to [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
 Inline storage requires quantization and doesn't support multivectors.
 Otherwise, Qdrant ignores the option and reports a warning in the log and in the collection info.
 
