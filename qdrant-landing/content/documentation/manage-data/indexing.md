@@ -209,12 +209,51 @@ Tokenizers are algorithms used to split text into smaller units called tokens, w
 In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient filtering.
 The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviours such as prefix or phrase matching.
 
-Available tokenizers are:
+#### Word
 
-* `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
-* `whitespace` - splits the string into words, separated by spaces.
-* `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
-* `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+The `word` tokenizer is the default. It splits the string into words, separated by spaces, punctuation marks, and special characters.
+
+#### Whitespace
+
+The `whitespace` tokenizer splits the string on whitespace, such as spaces, tabs, and newlines. Punctuation and special characters stay part of the tokens. For example, `hello, world!` is tokenized as `hello,` and `world!`.
+
+#### Prefix
+
+The `prefix` tokenizer splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example, `hello` is indexed as `h`, `he`, `hel`, `hell`, and `hello`.
+
+#### Multilingual
+
+The `multilingual` tokenizer is based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters.
+
+See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+
+#### Code
+
+*Available as of v1.20.0*
+
+The `code` tokenizer is designed for source code. It splits identifiers into their parts, so a name matches regardless of its naming convention. For example, filtering on `getUserName`, `get_user_name`, or `user name` finds text that contains any of these spellings.
+
+The `code` tokenizer splits text as follows:
+
+* First, the text is split into identifiers on any character that isn't a letter, digit, or underscore. For example, `config.max_size` becomes `config` and `max_size`.
+* Identifiers are then split on underscores and case changes, including acronyms. For example, `get_user_name` and `getUserName` both become `get`, `user`, and `name`, and `XMLHttpRequest` becomes `xml`, `http`, and `request`.
+* Digits stay with their letters, so `utf8`, `k8s`, and `sha256` are not split. A word that starts with a digit is a number and is not split. Its underscores are removed, so `1_000_000` becomes `1000000`.
+
+When indexing text, the tokenizer also adds each camelCase word as a single token. For example, `HashMap::new` is indexed as `hash`, `map`, `new`, and `hashmap`. This lets a lowercase query like `hashmap` or `getusername` find `HashMap` or `getUserName`. Only camelCase words are joined, because snake_case words like `get_user_name` are usually typed with their underscores. Joined tokens are not added when [lowercasing](#lowercasing) is disabled.
+
+With [phrase matching](#phrase-matching), a joined token only matches a phrase that consists of that token alone. For example, the phrase `hashmap new` doesn't match `HashMap::new`, but `hash map new` does.
+
+##### Try the Code Tokenizer
+
+Enter a query to see which code snippets a text or phrase match finds with the `code` tokenizer. You can also edit the snippets.
+
+{{< island
+    path="content/documentation/headless/text-filtering/code-tokenizer"
+    width="90%" ratio="7 / 6"
+    title="The `code` tokenizer with lowercasing on and no other text processing."
+>}}
+![The text query "get user name" is tokenized as get, user, and name. It matches 3 of 7 snippets: getUserName(id), get_user_name(id), and GET_USER_NAME, which all have the tokens get, user, and name. getUserName(id) also has the joined token getusername. The other snippets don't match: xhr = new XMLHttpRequest(), let map = HashMap::new();, MAX_BUFFER_SIZE = 1_000_000, and sha256(utf8Bytes).](/docs/code-tokenizer.svg)
+{{< /island >}}
 
 ### Lowercasing
 
