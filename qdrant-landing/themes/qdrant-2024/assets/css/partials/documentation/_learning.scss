@@ -1,7 +1,8 @@
 @use '../../helpers/functions' as *;
 
 .example-library,
-.guide-directory {
+.guide-directory,
+.integration-directory {
   scroll-margin-top: $spacer * 7;
 
   &__filters {
@@ -133,6 +134,61 @@
   }
 }
 
+.integration-directory {
+  &__filters > .integration-directory__search { flex-basis: 100%; }
+
+  &__matches { overflow-wrap: anywhere; }
+
+  // Keep select arrows inside the embedding directory's fields.
+  &__filters select {
+    appearance: none;
+    padding-right: $spacer * 2.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M1.333 4.667 8 11.333l6.667-6.666' stroke='%23D4D9E6' stroke-width='1.333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right $spacer center;
+    background-repeat: no-repeat;
+    background-size: $spacer;
+  }
+
+  [data-theme='light'] & .integration-directory__filters select {
+    background: $neutral-98 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M1.333 4.667 8 11.333l6.667-6.666' stroke='%233D4866' stroke-width='1.333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right $spacer center / $spacer;
+  }
+
+  // The title link is a Bootstrap .stretched-link, so the whole card is clickable
+  // while the title stays the card's only link for keyboard and screen reader users.
+  &__card {
+    position: relative;
+    transition: border-color 0.2s;
+
+    &:hover,
+    &:focus-within {
+      border-color: $secondary-blue-50;
+    }
+  }
+
+  dl.integration-directory__facets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 0.5 $spacer * 1.5;
+    width: 100%;
+    margin: auto 0 0;
+    font-size: pxToRem(14);
+
+    dt {
+      color: $neutral-70;
+      font-size: pxToRem(12);
+      font-weight: normal;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  [data-theme='light'] & dl.integration-directory__facets dt {
+    color: $neutral-50;
+  }
+}
+
 // Leave room for the disclosure arrow when a guide topic wraps.
 .guide-topic > summary > a {
   padding-right: $spacer * 2.5;
@@ -157,5 +213,20 @@
       font-size: pxToRem(14);
       color: $neutral-70;
     }
+  }
+}
+
+// Reuse documentation cards for the shared embedding workflow.
+.embedding-next-steps {
+  margin-bottom: $spacer * 2;
+
+  p.docs-card__description {
+    font-size: pxToRem(16);
+    line-height: 1.5;
+  }
+
+  .docs-card:focus-visible {
+    outline: pxToRem(2) solid $secondary-blue-50;
+    outline-offset: pxToRem(4);
   }
 }

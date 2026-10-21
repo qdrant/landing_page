@@ -108,7 +108,14 @@
                   {{ $sectionLink = (index (.RegularPages) 0).Permalink }}
                 {{ end }}
 
-
+                {{/* Filterable directories expose their entries through the directory page. */}}
+                {{ if .HasShortcode "integration-directory" }}
+                <div class="docs-menu__links-group {{ if $isActive }}active{{ end }}">
+                  <div class="docs-menu__links-group-heading">
+                    <a href="{{ $sectionLink }}">{{ .Title }}</a>
+                  </div>
+                </div>
+                {{ else }}
                 <details
                   class="docs-menu__links-group link-group {{ if $isActive }}active{{ end }}"
                   {{ if $isActive }}open{{ end }}
@@ -169,6 +176,7 @@
                     </ul>
                   </nav>
                 </details>
+                {{ end }}
               {{ end }}
             {{ end }}
           {{ end }}

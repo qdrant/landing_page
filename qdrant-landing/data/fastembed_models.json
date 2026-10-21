@@ -1,0 +1,315 @@
+{
+  "version": "0.9.0",
+  "models": {
+    "dense": [
+      {
+        "model": "BAAI/bge-base-en",
+        "license": "mit",
+        "dimensions": 768
+      },
+      {
+        "model": "BAAI/bge-base-en-v1.5",
+        "license": "mit",
+        "dimensions": 768
+      },
+      {
+        "model": "BAAI/bge-large-en-v1.5",
+        "license": "mit",
+        "dimensions": 1024
+      },
+      {
+        "model": "BAAI/bge-small-en",
+        "license": "mit",
+        "dimensions": 384
+      },
+      {
+        "model": "BAAI/bge-small-en-v1.5",
+        "license": "mit",
+        "dimensions": 384
+      },
+      {
+        "model": "BAAI/bge-small-zh-v1.5",
+        "license": "mit",
+        "dimensions": 512
+      },
+      {
+        "model": "google/embeddinggemma-300m",
+        "license": "gemma",
+        "dimensions": 768
+      },
+      {
+        "model": "google/siglip2-base-patch16-224",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "ibm-granite/granite-embedding-small-english-r2",
+        "license": "apache-2.0",
+        "dimensions": 384
+      },
+      {
+        "model": "intfloat/multilingual-e5-large",
+        "license": "mit",
+        "dimensions": 1024
+      },
+      {
+        "model": "jinaai/jina-clip-v1",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-embeddings-v2-base-code",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-embeddings-v2-base-de",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-embeddings-v2-base-en",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-embeddings-v2-base-es",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-embeddings-v2-base-zh",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-embeddings-v2-small-en",
+        "license": "apache-2.0",
+        "dimensions": 512
+      },
+      {
+        "model": "jinaai/jina-embeddings-v3",
+        "license": "cc-by-nc-4.0",
+        "dimensions": 1024
+      },
+      {
+        "model": "minishlab/potion-base-8M",
+        "license": "mit",
+        "dimensions": 256
+      },
+      {
+        "model": "minishlab/potion-multilingual-128M",
+        "license": "mit",
+        "dimensions": 256
+      },
+      {
+        "model": "minishlab/potion-retrieval-32M",
+        "license": "mit",
+        "dimensions": 512
+      },
+      {
+        "model": "mixedbread-ai/mxbai-embed-large-v1",
+        "license": "apache-2.0",
+        "dimensions": 1024
+      },
+      {
+        "model": "nomic-ai/nomic-embed-text-v1",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "nomic-ai/nomic-embed-text-v1.5",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "nomic-ai/nomic-embed-text-v1.5-Q",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "Qdrant/clip-ViT-B-32-text",
+        "license": "mit",
+        "dimensions": 512
+      },
+      {
+        "model": "Qdrant/constella-nano",
+        "license": "mit",
+        "dimensions": 1024
+      },
+      {
+        "model": "Qdrant/constella-zero",
+        "license": "mit",
+        "dimensions": 1024
+      },
+      {
+        "model": "Qdrant/stella-en-400M-v5-doc-onnx",
+        "license": "mit",
+        "dimensions": 1024
+      },
+      {
+        "model": "Qwen/Qwen3-Embedding-0.6B",
+        "license": "apache-2.0",
+        "dimensions": 1024
+      },
+      {
+        "model": "Qwen/Qwen3-Embedding-0.6B-Q",
+        "license": "apache-2.0",
+        "dimensions": 1024
+      },
+      {
+        "model": "sentence-transformers/all-MiniLM-L6-v2",
+        "license": "apache-2.0",
+        "dimensions": 384
+      },
+      {
+        "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "license": "apache-2.0",
+        "dimensions": 384
+      },
+      {
+        "model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "snowflake/snowflake-arctic-embed-l",
+        "license": "apache-2.0",
+        "dimensions": 1024
+      },
+      {
+        "model": "snowflake/snowflake-arctic-embed-m",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "snowflake/snowflake-arctic-embed-m-long",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "snowflake/snowflake-arctic-embed-s",
+        "license": "apache-2.0",
+        "dimensions": 384
+      },
+      {
+        "model": "snowflake/snowflake-arctic-embed-xs",
+        "license": "apache-2.0",
+        "dimensions": 384
+      },
+      {
+        "model": "thenlper/gte-base",
+        "license": "mit",
+        "dimensions": 768
+      },
+      {
+        "model": "thenlper/gte-large",
+        "license": "mit",
+        "dimensions": 1024
+      }
+    ],
+    "sparse": [
+      {
+        "model": "opensearch-project/opensearch-neural-sparse-encoding-doc-v3-gte",
+        "license": "apache-2.0"
+      },
+      {
+        "model": "prithivida/Splade_PP_en_v1",
+        "license": "apache-2.0"
+      },
+      {
+        "model": "Qdrant/bm25",
+        "license": "apache-2.0"
+      },
+      {
+        "model": "Qdrant/bm42-all-minilm-l6-v2-attentions",
+        "license": "apache-2.0"
+      },
+      {
+        "model": "Qdrant/minicoil-v1",
+        "license": "apache-2.0"
+      }
+    ],
+    "multivector": [
+      {
+        "model": "answerdotai/answerai-colbert-small-v1",
+        "license": "apache-2.0",
+        "dimensions": 96
+      },
+      {
+        "model": "colbert-ir/colbertv2.0",
+        "license": "mit",
+        "dimensions": 128
+      },
+      {
+        "model": "jinaai/jina-colbert-v2",
+        "license": "cc-by-nc-4.0",
+        "dimensions": 128
+      },
+      {
+        "model": "lightonai/LateOn",
+        "license": "apache-2.0",
+        "dimensions": 128
+      },
+      {
+        "model": "lightonai/mLateOn",
+        "license": "apache-2.0",
+        "dimensions": 128
+      }
+    ],
+    "image": [
+      {
+        "model": "google/siglip2-base-patch16-224",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "jinaai/jina-clip-v1",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "nomic-ai/nomic-embed-vision-v1.5",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "nomic-ai/nomic-embed-vision-v1.5-Q",
+        "license": "apache-2.0",
+        "dimensions": 768
+      },
+      {
+        "model": "Qdrant/clip-ViT-B-32-vision",
+        "license": "mit",
+        "dimensions": 512
+      },
+      {
+        "model": "Qdrant/resnet50-onnx",
+        "license": "apache-2.0",
+        "dimensions": 2048
+      },
+      {
+        "model": "Qdrant/Unicom-ViT-B-16",
+        "license": "mit",
+        "dimensions": 768
+      },
+      {
+        "model": "Qdrant/Unicom-ViT-B-32",
+        "license": "mit",
+        "dimensions": 512
+      }
+    ],
+    "multimodal": [
+      {
+        "model": "Qdrant/colmodernvbert",
+        "license": "mit",
+        "dimensions": 128
+      },
+      {
+        "model": "Qdrant/colpali-v1.3-fp16",
+        "license": "gemma",
+        "dimensions": 128
+      }
+    ]
+  }
+}

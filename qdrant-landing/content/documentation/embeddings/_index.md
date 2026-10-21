@@ -1,35 +1,25 @@
 ---
 title: Embeddings
-short_description: "Connect Qdrant to text, image, and multimodal embedding providers including OpenAI, Cohere, Jina, Mistral, AWS Bedrock, Voyage, and many more."
-description: "Browse Qdrant integrations with embedding providers and models for dense, sparse, and multimodal vectors, including OpenAI, Cohere, Jina, Mistral, and Bedrock."
+short_description: "Find an embedding provider for Qdrant by input, vector type, and where it runs, from Qdrant Cloud Inference and OpenAI to self-hosted models."
+description: "Directory of embedding providers for Qdrant, filterable by input, vector type, and deployment, including Qdrant Cloud Inference and FastEmbed."
 weight: 700
 partition: ecosystem
+cascade:
+  - target:
+      kind: page
+    hideInSidebar: true
 ---
 
-# Supported Embedding Providers & Models
+# Embedding Providers
 
-Qdrant supports all available text and multimodal dense vector embedding models as well as vector embedding services without any limitations.
+Qdrant stores and searches vectors from any embedding model. Each provider page covers setup, model dimensions, document and query embedding, and the requirements specific to that provider.
 
-## Code samples
+## Generate Embeddings with Qdrant
 
-| Embeddings Providers                                  | Description                                                      |
-| ----------------------------------------------------- | ---------------------------------------------------------------- |
-| [Aleph Alpha](/documentation/embeddings/aleph-alpha/) | Multilingual embeddings focused on European languages.           |
-| [Bedrock](/documentation/embeddings/bedrock/)         | AWS managed service for foundation models and embeddings.        |
-| [Cohere](/documentation/embeddings/cohere/)           | Language model embeddings for NLP tasks.                         |
-| [Fusion Embedding 2](/documentation/embeddings/fusion-embedding-2/) | Open-weight multimodal embeddings across text, image, video, and audio. |
-| [Gemini](/documentation/embeddings/gemini/)           | Google Gemini embeddings for semantic search, classification.    |
-| [Jina AI](/documentation/embeddings/jina-embeddings/) | Customizable embeddings for neural search.                       |
-| [Mistral](/documentation/embeddings/mistral/)         | Open-source, efficient language model embeddings.                |
-| [MixedBread](/documentation/embeddings/mixedbread/)   | Lightweight embeddings for constrained environments.             |
-| [Mixpeek](/documentation/embeddings/mixpeek/)         | Managed SDK for video chunking, embedding, and post-processing. ​ |
-| [Nomic](/documentation/embeddings/nomic/)             | Embeddings for data visualization.                               |
-| [Nvidia](/documentation/embeddings/nvidia/)           | GPU-optimized embeddings from Nvidia.                            |
-| [Ollama](/documentation/embeddings/ollama/)           | Embeddings for conversational AI.                                |
-| [OpenAI](/documentation/embeddings/openai/)           | Industry-leading embeddings for NLP.                             |
-| [Prem AI](/documentation/embeddings/premai/)          | Precise language embeddings.                                     |
-| [Twelve Labs](/documentation/embeddings/twelvelabs/)  | Multimodal embeddings from Twelve labs.                          |
-| [Snowflake](/documentation/embeddings/snowflake/)     | Scalable embeddings for big data.                                |
-| [Superlinked](/documentation/embeddings/superlinked/) | Self-hosted inference engine serving 85+ dense, sparse, and multivector (ColBERT) embedding models from a single endpoint. |
-| [Upstage](/documentation/embeddings/upstage/)         | Embeddings for speech and language tasks.                        |
-| [Voyage AI](/documentation/embeddings/voyage/)        | Navigation and spatial understanding embeddings.                 |
+{{< embedding-options >}}
+
+[Choose an inference approach](/documentation/inference/) to compare generating embeddings in your application, in the Qdrant cluster, and on Qdrant Cloud.
+
+## Explore All Providers
+
+{{< integration-directory facets="input:Input|vectors:Vectors|runs:Runs On" noun="provider" >}}

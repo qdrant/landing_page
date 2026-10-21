@@ -1,115 +1,76 @@
 ---
-title: AWS Bedrock
-short_description: "Generate embeddings with AWS Bedrock and store them in Qdrant to run semantic search and RAG fully within your AWS environment."
-description: "Combine AWS Bedrock embedding models with Qdrant for scalable semantic search and retrieval-augmented generation across your AWS-hosted data."
+title: Amazon Bedrock
+weight: 100
+short_description: "Embed text with Amazon Titan Text Embeddings V2 and images with Amazon Nova Multimodal Embeddings on Amazon Bedrock, then search them in Qdrant."
+description: "Use Amazon Bedrock embedding models with Qdrant: Titan Text Embeddings V2 for documents and queries, Nova Multimodal Embeddings for images, and model choices."
+directory:
+  summary: "Amazon Titan, Amazon Nova, Cohere, and TwelveLabs embedding models through Amazon Bedrock, in your AWS account."
+  input: [Text, Image, Video, Audio]
+  vectors: [Dense]
+  runs: [Provider API]
 ---
 
-# Bedrock Embeddings
+# Amazon Bedrock
 
-You can use [AWS Bedrock](https://aws.amazon.com/bedrock/) with Qdrant. AWS Bedrock supports multiple [embedding model providers](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html).
+[Amazon Bedrock](https://aws.amazon.com/bedrock/) serves embedding models from Amazon, Cohere, and TwelveLabs through the AWS SDKs, inside your AWS account. Call Bedrock from your application and send the vectors to Qdrant.
 
-You'll need the following information from your AWS account:
+## Models
 
-- Region
-- Access key ID
-- Secret key
+| Model | Model ID | Dimensions | Max Input | Input |
+|---|---|---|---|---|
+| Amazon Titan Text Embeddings V2 | `amazon.titan-embed-text-v2:0` | 1024 (default), 512, 256 | 8,192 tokens | Text |
+| Amazon Nova Multimodal Embeddings | `amazon.nova-2-multimodal-embeddings-v1:0` | 3072 (default), 1024, 384, 256 | 8K tokens, or 30 seconds of video or audio per request | Text, document image, image, video, audio |
+| Cohere Embed v4 | `cohere.embed-v4:0` | 1536 (default), 1024, 512, 256 | 128K tokens | Text, image |
+| TwelveLabs Marengo Embed 3.0 | `twelvelabs.marengo-embed-3-0-v1:0` | 512 | 500 tokens of text | Text, image, video, audio |
 
-To configure your credentials, review the following AWS article: [How do I create an AWS access key](https://repost.aws/knowledge-center/create-access-key).
+Each model has its own request and response format, documented on its [model card](https://docs.aws.amazon.com/bedrock/latest/userguide/model-cards.html). This page uses Titan Text Embeddings V2 for text and Nova Multimodal Embeddings for images. Titan Text Embeddings V2 succeeds Titan Embeddings G1 - Text (`amazon.titan-embed-text-v1`). Titan Multimodal Embeddings G1 (`amazon.titan-embed-image-v1`) and Cohere Embed English and Multilingual v3 (`cohere.embed-english-v3`, `cohere.embed-multilingual-v3`) are also previous generations. Use Nova Multimodal Embeddings or Cohere Embed v4 in their place.
 
-With the following code sample, you can generate embeddings using the [Titan Embeddings G1 - Text model](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html) which produces sentence embeddings of size 1536.
+Titan Text Embeddings V2 returns normalized vectors by default (`normalize: true`), so the Cosine and Dot distance metrics rank results identically. This page uses Cosine.
 
-```python
-# Install the required dependencies
-# pip install boto3 qdrant_client
+## Setup
 
-import json
-import boto3
+Install the AWS SDK and the Qdrant client:
 
-from qdrant_client import QdrantClient, models
+- Python: `pip install boto3 qdrant-client`
+- TypeScript: `npm install @aws-sdk/client-bedrock-runtime @qdrant/js-client-rest`
 
-session = boto3.Session()
+The AWS SDKs read credentials from the default credential chain, such as the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables, the shared credentials file, AWS IAM Identity Center, or an IAM role when the code runs on AWS. They also accept an [Amazon Bedrock API key](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html) in the `AWS_BEARER_TOKEN_BEDROCK` environment variable. The identity needs the `bedrock:InvokeModel` permission. For details, see [Credentials](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html) for Python and [Setting Credentials in Node.js](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/setting-credentials-node.html) for JavaScript.
 
-bedrock_client = session.client(
-    "bedrock-runtime",
-    region_name="<YOUR_AWS_REGION>",
-    aws_access_key_id="<YOUR_AWS_ACCESS_KEY_ID>",
-    aws_secret_access_key="<YOUR_AWS_SECRET_KEY>",
-)
+The examples use `us-east-1`, where both models on this page are available. Create both clients, a helper that embeds one text, and a collection sized for the model:
 
-qdrant_client = QdrantClient(url="http://localhost:6333")
+{{< code-snippet path="/documentation/headless/snippets/embeddings/bedrock/" block="setup" >}}
 
-qdrant_client.create_collection(
-    "{collection_name}",
-    vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
-)
+## Embed Documents
 
-body = json.dumps({"inputText": "Some text to generate embeddings for"})
+Titan Text Embeddings V2 embeds one text per request, so this example calls the helper for each document and uses the input order as the point ID:
 
-response = bedrock_client.invoke_model(
-    body=body,
-    modelId="amazon.titan-embed-text-v1",
-    accept="application/json",
-    contentType="application/json",
-)
+{{< code-snippet path="/documentation/headless/snippets/embeddings/bedrock/" block="embed-documents" >}}
 
-response_body = json.loads(response.get("body").read())
+Each text can be up to 8,192 tokens or 50,000 characters. For large datasets, [batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html) processes many records as one job.
 
-qdrant_client.upsert(
-    "{collection_name}",
-    points=[models.PointStruct(id=1, vector=response_body["embedding"])],
-)
-```
+## Embed Queries
 
-```javascript
-// Install the required dependencies
-// npm install @aws-sdk/client-bedrock-runtime @qdrant/js-client-rest
+Titan Text Embeddings V2 has no separate query mode. Embed the query with the same model and `dimensions` as the documents:
 
-import {
-    BedrockRuntimeClient,
-    InvokeModelCommand,
-} from "@aws-sdk/client-bedrock-runtime";
-import { QdrantClient } from '@qdrant/js-client-rest';
+{{< code-snippet path="/documentation/headless/snippets/embeddings/bedrock/" block="embed-queries" >}}
 
-const main = async () => {
-    const bedrockClient = new BedrockRuntimeClient({
-        region: "<YOUR_AWS_REGION>",
-        credentials: {
-            accessKeyId: "<YOUR_AWS_ACCESS_KEY_ID>",,
-            secretAccessKey: "<YOUR_AWS_SECRET_KEY>",
-        },
-    });
+## Embed Images
 
-    const qdrantClient = new QdrantClient({ url: 'http://localhost:6333' });
+Nova Multimodal Embeddings maps text, images, documents, video, and audio into one vector space, so a text query can find an image. Its vectors don't share a space with Titan's, so store them in a separate collection.
 
-    await qdrantClient.createCollection("{collection_name}", {
-        vectors: {
-            size: 1536,
-            distance: 'Cosine',
-        }
-    });
+Set `embeddingPurpose` to `GENERIC_INDEX` when you index content of any type. For queries, pick the purpose that matches the indexed content, such as `IMAGE_RETRIEVAL` for images or `GENERIC_RETRIEVAL` for a mix of types. This example uses 1024 dimensions:
 
-    const response = await bedrockClient.send(
-        new InvokeModelCommand({
-            modelId: "amazon.titan-embed-text-v1",
-            body: JSON.stringify({
-                inputText: "Some text to generate embeddings for",
-            }),
-            contentType: "application/json",
-            accept: "application/json",
-        })
-    );
+{{< code-snippet path="/documentation/headless/snippets/embeddings/bedrock/" block="embed-images" >}}
 
-    const body = new TextDecoder().decode(response.body);
+An inline request can be up to 25 MB after base64 encoding. Larger files, and video or audio longer than 30 seconds, go through the asynchronous `StartAsyncInvoke` API with input and output in Amazon S3. See [Using Amazon Nova Embeddings](https://docs.aws.amazon.com/nova/latest/nova2-userguide/embeddings.html) and the [request and response schema](https://docs.aws.amazon.com/nova/latest/userguide/embeddings-schema.html).
 
-    await qdrantClient.upsert("{collection_name}", {
-        points: [
-            {
-                id: 1,
-                vector: JSON.parse(body).embedding,
-            },
-        ],
-    });
-}
+## Store and Search the Vectors
 
-main();
-```
+{{< embedding-next-steps >}}
+
+## Next Steps
+
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to keep Titan and Nova vectors on the same points.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Bedrock vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).
