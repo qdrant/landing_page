@@ -30,7 +30,7 @@ Technically speaking, we encode the documents and queries into so-called sparse 
 
 {{< island
     path="content/documentation/headless/vector-search/sparse-query"
-    width="90%" ratio="2 / 1"
+    width="90%" ratio="16 / 5"
     title="A query is split into words, stopwords are dropped, and the words are reduced to their root form. The resulting tokens become a sparse vector: 1.0 at the position of each word in the dictionary, 0.0 everywhere else."
 >}}
 ![An example of a query vectorized to sparse format.](/docs/gettingstarted/query.png)
