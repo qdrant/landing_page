@@ -65,6 +65,10 @@ Here is an example of RRF for a query containing two prefetches: a BM25 text que
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf/" >}}
 
+You can fuse any combination of queries as prefetches. For example, this query fuses a sparse vector query with a dense vector query:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-sparse/" >}}
+
 #### Setting RRF Constant k
 _Available as of v1.16.0_
 
