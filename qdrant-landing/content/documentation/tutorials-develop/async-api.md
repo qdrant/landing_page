@@ -44,7 +44,9 @@ Please refer to the <a href="https://docs.python.org/3/library/asyncio.html">asy
 
 ### Using Qdrant asynchronously
 
-The simplest way of running asynchronous code is to use define `async` function and use the `asyncio.run` in the following way to run it:
+To follow along, you need a Qdrant instance running at `localhost:6333`, as set up in the [Local Quickstart](/documentation/quickstart/), and the client library: `pip install qdrant-client`.
+
+The simplest way to run asynchronous code is to define an `async` function and pass it to `asyncio.run`:
 
 ```python
 from qdrant_client import models
@@ -77,17 +79,27 @@ async def main():
     )
 
     # Search for nearest neighbors
-    points = await client.query_points(
+    response = await client.query_points(
         collection_name="my_collection",
         query=[0.9, 0.1, 0.1, 0.5],
         limit=2,
-    ).points
+    )
+    print(response.points)
 
     # Your async code using AsyncQdrantClient might be put here
     # ...
 
+    # Delete the collection so the example can run again
+    await client.delete_collection(collection_name="my_collection")
+
 
 asyncio.run(main())
+```
+
+The script prints the stored point with a score of 1.0, since the query vector is identical to it:
+
+```text
+[ScoredPoint(id='5c56c793-69f3-4fbf-87e6-c4bf54c28c26', version=1, score=1.0, payload={'color': 'red'}, vector=None, shard_key=None, order_value=None)]
 ```
 
 The `AsyncQdrantClient` provides the same methods as the synchronous counterpart `QdrantClient`. If you already have a synchronous
