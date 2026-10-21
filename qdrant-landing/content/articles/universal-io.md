@@ -52,10 +52,10 @@ After a few iterations, we settled on a middle ground, a `ReadPipeline` abstract
 
 {{< island
     path="content/articles/headless/universal-io/architecture"
-    width="760" ratio="760 / 430"
-    title="The consumers are written once against the Universal I/O traits. Only the backend underneath changes, and with it the pipeline depth: 1 for `mmap`, 16 for `io_uring`, and up to 256 for network I/O."
+    width="760" ratio="760 / 450"
+    title="The consumers are written once against the Universal I/O traits. `mmap` returns a borrowed slice directly, `io_uring` exchanges reads with the Linux kernel through submission and completion ring buffers, and network I/O runs remote requests as Tokio tasks."
 >}}
-![Consumer code (vector storage, HNSW graph links, and payload indexes) calls the Universal I/O traits UniversalReadFs, UniversalRead, and ReadPipeline. Three backends implement them: mmap with pipeline depth 1, io_uring with depth 16, and network I/O with depth up to 256.](/articles_data/universal-io/uio-architecture.svg)
+![Consumer code calls the same Universal I/O traits for three different read paths: mmap returns a borrowed slice directly at depth 1; io_uring submits local disk reads to the Linux kernel through a submission ring and receives them through a completion ring at depth 16; network I/O runs up to 256 remote object-storage requests as Tokio tasks.](/articles_data/universal-io/uio-architecture.svg)
 {{< /island >}}
 
 ## Filesystems, Files, and Pipelines
@@ -145,8 +145,10 @@ Here is a simplified view of how a read flows through the bridge:
     ```rust
     fn wait(&mut self) {
         if self.slots.is_empty() { return None }
-        let response = self.rx.blocking_recv();            // sync code blocks on an async channel
-        let user_data = self.slots.remove(response.slot);  // reunite result with its tag
+        // Block until a worker replies.
+        let response = self.rx.blocking_recv();
+        // Reunite the result with its tag.
+        let user_data = self.slots.remove(response.slot);
         Some((user_data, response.result))
     }
     ```

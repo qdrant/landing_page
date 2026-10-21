@@ -111,7 +111,9 @@ export function mount(node) {
   const playBtn = node.querySelector('[data-play]');
   const resetBtn = node.querySelector('[data-reset]');
 
-  let step = 0;
+  // Start with the complete flow visible. The previous empty initial state made
+  // the worker frame look like unused whitespace until a reader interacted.
+  let step = STEPS.length;
   let timer = null;
   let compact = null;
 

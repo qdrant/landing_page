@@ -122,14 +122,9 @@
   }
 }
 
-/* Light-only blog surface, same policy as the other blog islands. */
+/* Article card chrome. Colors come from the shared island tokens so the
+   diagram follows both the explicit site theme and the OS preference. */
 html .island[data-island='content/articles/headless/universal-io/architecture'] {
-  --qi-fg: #303547;
-  --qi-muted: #656b7f;
-  --qi-surface: #f0f3fa;
-  --qi-border: #d3d9eb;
-  --qi-line: #abb1c7;
-  --qi-hot: #303547;
   margin: 2rem 0;
   padding: 1.25rem 1.25rem 1rem;
   background: var(--qi-surface);
@@ -145,11 +140,6 @@ html .island[data-island='content/articles/headless/universal-io/architecture'] 
   padding-top: 0.75rem;
   border-top: 1px solid var(--qi-border);
 }
-html .island[data-island='content/articles/headless/universal-io/architecture'] .qi-ab__box,
-html .island[data-island='content/articles/headless/universal-io/architecture'] .qi-ab__box-rect {
-  fill: #ffffff;
-}
-
 /* Tighter card padding on phones; last so it wins over the card rule above. */
 @media (max-width: 640px) {
   html .island[data-island='content/articles/headless/universal-io/architecture'] {

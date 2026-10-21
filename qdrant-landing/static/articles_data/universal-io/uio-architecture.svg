@@ -1,63 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="t d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
-<title id="t">Universal I/O architecture</title><desc id="d">Consumer code calls the Universal I/O traits, which are implemented by three backends: mmap with pipeline depth 1, io_uring with depth 16, and network I/O with depth up to 256.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" role="img" aria-labelledby="t d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<title id="t">Universal I/O architecture</title><desc id="d">Consumer code uses one interface. mmap returns a borrowed slice directly, io_uring exchanges local disk reads with the Linux kernel through submission and completion ring buffers, and network I/O runs remote object-storage requests as Tokio tasks.</desc>
 <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#656b7f"/></marker></defs>
-<rect width="760" height="430" fill="#f0f3fa"/>
+<rect width="760" height="450" fill="#f0f3fa"/>
 <rect x="130" y="10" width="500" height="76" rx="6" fill="#fff" stroke="#abb1c7"/>
 <text x="380" y="34" font-size="14" fill="#303547" text-anchor="middle" font-weight="600">Consumers</text>
-<text x="380" y="54" font-size="13" fill="#303547" text-anchor="middle" font-weight="400">vectors · HNSW links · payload indexes</text>
-<text x="380" y="73" font-size="13" fill="#656b7f" text-anchor="middle" font-weight="400">written once, generic over the backend</text>
+<text x="380" y="54" font-size="13" fill="#303547" text-anchor="middle">vectors · HNSW links · payload indexes</text>
+<text x="380" y="73" font-size="13" fill="#656b7f" text-anchor="middle">written once, generic over the backend</text>
 <rect x="130" y="132" width="500" height="84" rx="6" fill="#fff" stroke="#656b7f"/>
 <text x="380" y="156" font-size="14" fill="#303547" text-anchor="middle" font-weight="600">Universal I/O traits</text>
-<text x="380" y="177" font-size="13" fill="#303547" text-anchor="middle" font-weight="400">UniversalReadFs · UniversalRead · ReadPipeline</text>
-<text x="380" y="197" font-size="13" fill="#656b7f" text-anchor="middle" font-weight="400">schedule() · wait()</text>
+<text x="380" y="177" font-size="13" fill="#303547" text-anchor="middle">UniversalReadFs · UniversalRead · ReadPipeline</text>
+<text x="380" y="197" font-size="13" fill="#656b7f" text-anchor="middle">schedule() · wait()</text>
 <path d="M380 86V128" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<path d="M380 216V254H132V286" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<rect x="16" y="290" width="232" height="132" rx="6" fill="#fff" stroke="#abb1c7"/>
-<text x="28" y="318" font-size="14" fill="#303547" text-anchor="start" font-weight="600">mmap</text>
-<text x="28" y="338" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">synchronous</text>
-<rect x="28" y="352" width="10" height="14" rx="2" fill="none" stroke="#6047ff"/>
-<text x="28" y="394" font-size="13" fill="#303547" text-anchor="start" font-weight="400">depth 1</text>
-<path d="M380 216V254H380V286" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<rect x="264" y="290" width="232" height="132" rx="6" fill="#fff" stroke="#abb1c7"/>
-<text x="276" y="318" font-size="14" fill="#303547" text-anchor="start" font-weight="600">io_uring</text>
-<text x="276" y="338" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">queued</text>
-<rect x="276" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="289" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="302" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="315" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="328" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="341" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="354" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="367" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="380" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="393" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="406" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="419" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="432" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="445" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="458" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<rect x="471" y="352" width="10" height="14" rx="2" fill="none" stroke="#00838f"/>
-<text x="276" y="394" font-size="13" fill="#303547" text-anchor="start" font-weight="400">depth 16</text>
-<path d="M380 216V254H628V286" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<rect x="512" y="290" width="232" height="132" rx="6" fill="#fff" stroke="#abb1c7"/>
-<text x="524" y="318" font-size="14" fill="#303547" text-anchor="start" font-weight="600">Network I/O</text>
-<text x="524" y="338" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">asynchronous</text>
-<rect x="524" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="537" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="550" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="563" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="576" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="589" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="602" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="615" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="628" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="641" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="654" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="667" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="680" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="693" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="706" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<rect x="719" y="352" width="10" height="14" rx="2" fill="none" stroke="#9c27b0"/>
-<text x="524" y="394" font-size="13" fill="#303547" text-anchor="start" font-weight="400">depth up to 256</text>
-<text x="524" y="412" font-size="13" fill="#656b7f" text-anchor="start" font-weight="400">16 of 256 slots drawn</text>
+<path d="M380 216V250H132V282" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<path d="M380 216V282" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<path d="M380 216V250H628V282" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+
+<rect x="16" y="286" width="232" height="156" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="28" y="312" font-size="14" fill="#303547" font-weight="600">mmap</text>
+<text x="28" y="334" font-size="13" fill="#656b7f">local memory map</text>
+<text x="28" y="354" font-size="13" fill="#303547" font-weight="600">caller reads directly</text>
+<text x="28" y="377" font-size="13" fill="#656b7f">caller → borrowed slice</text>
+<rect x="28" y="389" width="12" height="12" rx="2" fill="none" stroke="#6047ff"/>
+<text x="28" y="431" font-size="13" fill="#303547" font-weight="600">depth 1</text>
+
+<rect x="264" y="286" width="232" height="156" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="276" y="312" font-size="14" fill="#303547" font-weight="600">io_uring</text>
+<text x="276" y="334" font-size="13" fill="#656b7f">local disk</text>
+<text x="276" y="354" font-size="13" fill="#303547" font-weight="600">Linux kernel queues</text>
+<g fill="none" stroke="#00838f">
+<path d="M333.70 361.83 A24 24 0 0 1 352.06 361.83 L348.24 371.07 A14 14 0 0 0 337.52 371.07 Z"/>
+<path d="M352.06 361.83 A24 24 0 0 1 365.05 374.82 L355.81 378.64 A14 14 0 0 0 348.24 371.07 Z"/>
+<path d="M365.05 374.82 A24 24 0 0 1 365.05 393.18 L355.81 389.36 A14 14 0 0 0 355.81 378.64 Z"/>
+<path d="M365.05 393.18 A24 24 0 0 1 352.06 406.17 L348.24 396.93 A14 14 0 0 0 355.81 389.36 Z"/>
+<path d="M352.06 406.17 A24 24 0 0 1 333.70 406.17 L337.52 396.93 A14 14 0 0 0 348.24 396.93 Z"/>
+<path d="M333.70 406.17 A24 24 0 0 1 320.71 393.18 L329.95 389.36 A14 14 0 0 0 337.52 396.93 Z"/>
+<path d="M320.71 393.18 A24 24 0 0 1 320.71 374.82 L329.95 378.64 A14 14 0 0 0 329.95 389.36 Z"/>
+<path d="M320.71 374.82 A24 24 0 0 1 333.70 361.83 L337.52 371.07 A14 14 0 0 0 329.95 378.64 Z"/>
+<path d="M417.22 361.83 A24 24 0 0 1 435.58 361.83 L431.76 371.07 A14 14 0 0 0 421.04 371.07 Z"/>
+<path d="M435.58 361.83 A24 24 0 0 1 448.57 374.82 L439.33 378.64 A14 14 0 0 0 431.76 371.07 Z"/>
+<path d="M448.57 374.82 A24 24 0 0 1 448.57 393.18 L439.33 389.36 A14 14 0 0 0 439.33 378.64 Z"/>
+<path d="M448.57 393.18 A24 24 0 0 1 435.58 406.17 L431.76 396.93 A14 14 0 0 0 439.33 389.36 Z"/>
+<path d="M435.58 406.17 A24 24 0 0 1 417.22 406.17 L421.04 396.93 A14 14 0 0 0 431.76 396.93 Z"/>
+<path d="M417.22 406.17 A24 24 0 0 1 404.23 393.18 L413.47 389.36 A14 14 0 0 0 421.04 396.93 Z"/>
+<path d="M404.23 393.18 A24 24 0 0 1 404.23 374.82 L413.47 378.64 A14 14 0 0 0 413.47 389.36 Z"/>
+<path d="M404.23 374.82 A24 24 0 0 1 417.22 361.83 L421.04 371.07 A14 14 0 0 0 413.47 378.64 Z"/>
+</g>
+<text x="342.88" y="389" font-size="13" fill="#303547" text-anchor="middle" font-weight="600">SQ</text>
+<text x="426.4" y="389" font-size="13" fill="#303547" text-anchor="middle" font-weight="600">CQ</text>
+<text x="276" y="431" font-size="13" fill="#303547" font-weight="600">depth 16</text>
+
+<rect x="512" y="286" width="232" height="156" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="524" y="312" font-size="14" fill="#303547" font-weight="600">Network I/O</text>
+<text x="524" y="334" font-size="13" fill="#656b7f">remote object storage</text>
+<text x="524" y="354" font-size="13" fill="#303547" font-weight="600">Tokio async tasks</text>
+<text x="524" y="378" font-size="13" fill="#656b7f">Tokio task pool</text>
+<g fill="none" stroke="#9c27b0">
+<rect x="524" y="385" width="8" height="12" rx="2"/><rect x="534" y="385" width="8" height="12" rx="2"/><rect x="544" y="385" width="8" height="12" rx="2"/><rect x="554" y="385" width="8" height="12" rx="2"/><rect x="564" y="385" width="8" height="12" rx="2"/><rect x="574" y="385" width="8" height="12" rx="2"/><rect x="584" y="385" width="8" height="12" rx="2"/><rect x="594" y="385" width="8" height="12" rx="2"/><rect x="604" y="385" width="8" height="12" rx="2"/><rect x="614" y="385" width="8" height="12" rx="2"/><rect x="624" y="385" width="8" height="12" rx="2"/><rect x="634" y="385" width="8" height="12" rx="2"/><rect x="644" y="385" width="8" height="12" rx="2"/><rect x="654" y="385" width="8" height="12" rx="2"/><rect x="664" y="385" width="8" height="12" rx="2"/><rect x="674" y="385" width="8" height="12" rx="2"/>
+</g>
+<text x="524" y="436" font-size="13" fill="#303547" font-weight="600">depth up to 256 · 16 drawn</text>
 </svg>

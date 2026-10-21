@@ -17,11 +17,12 @@
 let instanceId = 0;
 const NS = 'http://www.w3.org/2000/svg';
 const COMPACT_BELOW = 560;
+const RING_SLOTS = 8;
 
 const BACKENDS = [
-  { id: 'mmap', title: 'mmap', sub: 'synchronous', depth: 1, shown: 1, depthLabel: 'depth 1' },
-  { id: 'uring', title: 'io_uring', sub: 'queued', depth: 16, shown: 16, depthLabel: 'depth 16' },
-  { id: 'net', title: 'Network I/O', sub: 'asynchronous', depth: 256, shown: 16, depthLabel: 'depth up to 256', note: '16 of 256 slots drawn', noteShort: '16 of 256 drawn' },
+  { id: 'mmap', title: 'mmap', sub: 'local memory map', mechanism: 'caller reads directly', depth: 1, shown: 1, depthLabel: 'depth 1' },
+  { id: 'uring', title: 'io_uring', sub: 'local disk', mechanism: 'Linux kernel queues', depth: 16, shown: 16, depthLabel: 'depth 16' },
+  { id: 'net', title: 'Network I/O', sub: 'remote object storage', mechanism: 'Tokio async tasks', depth: 256, shown: 16, depthLabel: 'depth up to 256 · 16 drawn' },
 ];
 
 const STATUS = {
@@ -36,6 +37,15 @@ function el(name, attrs, text) {
   for (const k in attrs) node.setAttribute(k, attrs[k]);
   if (text !== undefined) node.textContent = text;
   return node;
+}
+
+const rad = (degrees) => (degrees * Math.PI) / 180;
+function ringSector(cx, cy, innerRadius, outerRadius, slot) {
+  const halfSlot = 360 / RING_SLOTS / 2;
+  const start = rad(-90 + slot * (360 / RING_SLOTS) - halfSlot);
+  const end = rad(-90 + slot * (360 / RING_SLOTS) + halfSlot);
+  const point = (radius, angle) => `${cx + radius * Math.cos(angle)} ${cy + radius * Math.sin(angle)}`;
+  return `M${point(outerRadius, start)} A${outerRadius} ${outerRadius} 0 0 1 ${point(outerRadius, end)} L${point(innerRadius, end)} A${innerRadius} ${innerRadius} 0 0 0 ${point(innerRadius, start)} Z`;
 }
 
 export function mount(node) {
@@ -98,26 +108,26 @@ export function mount(node) {
     // The two compositions differ only in geometry; everything is keyed by backend id.
     const g = isCompact
       ? {
-          W: 360, H: 520, cx: 180,
+          W: 360, H: 640, cx: 180,
           cons: { x: 8, y: 8, w: 344, h: 80 },
           traits: { x: 8, y: 108, w: 344, h: 92 },
           consLines: ['vectors · HNSW · payload indexes', 'written once, any backend'],
           traitLines: ['UniversalReadFs', 'UniversalRead · ReadPipeline', 'schedule() · wait()'],
           consWire: 'M 180 88 V 104',
-          box: (i) => ({ x: 44, y: 222 + i * 100, w: 308, h: 88 }),
-          wire: (i) => ({ d: `M 24 ${i === 0 ? 200 : 222 + (i - 1) * 100 + 44} V ${222 + i * 100 + 44} H 40` }),
-          cell: { w: 12, gap: 3, h: 14 },
+          box: (i) => ({ x: 44, y: 218 + i * 140, w: 308, h: 128 }),
+          wire: (i) => ({ d: `M 180 200 H 24 V ${218 + i * 140 + 64} H 40` }),
+          pos: { mechanism: 48, row1: 70, row2: 94, depth: 118 },
         }
       : {
-          W: 760, H: 430, cx: 380,
+          W: 760, H: 450, cx: 380,
           cons: { x: 130, y: 10, w: 500, h: 76 },
           traits: { x: 130, y: 132, w: 500, h: 84 },
           consLines: ['vectors · HNSW links · payload indexes', 'written once, generic over the backend'],
           traitLines: ['UniversalReadFs · UniversalRead · ReadPipeline', 'schedule() · wait()'],
           consWire: 'M 380 86 V 128',
-          box: (i) => ({ x: 16 + i * 248, y: 290, w: 232, h: 132 }),
-          wire: (i) => ({ d: `M 380 216 V 254 H ${16 + i * 248 + 116} V 286` }),
-          cell: { w: 10, gap: 3, h: 14 },
+          box: (i) => ({ x: 16 + i * 248, y: 286, w: 232, h: 156 }),
+          wire: (i) => ({ d: `M 380 216 V 250 H ${16 + i * 248 + 116} V 282` }),
+          pos: { mechanism: 68, row1: 91, row2: 116, depth: 145 },
         };
 
     svg.setAttribute('viewBox', `0 0 ${g.W} ${g.H}`);
@@ -152,23 +162,43 @@ export function mount(node) {
       grp.appendChild(text(r.x + 14, r.y + 26, b.title, 'qi-title'));
       if (isCompact) {
         grp.appendChild(text(r.x + r.w - 14, r.y + 26, b.sub, 'qi-label', 'end'));
+        grp.appendChild(text(r.x + 14, r.y + g.pos.mechanism, b.mechanism, 'qi-label'));
       } else {
         grp.appendChild(text(r.x + 14, r.y + 48, b.sub, 'qi-label'));
+        grp.appendChild(text(r.x + 14, r.y + g.pos.mechanism, b.mechanism, 'qi-label qi-label--strong'));
       }
-      const cellY = r.y + (isCompact ? 40 : 62);
       cells[b.id] = [];
-      for (let k = 0; k < b.shown; k++) {
-        const c = el('rect', { class: 'qi-ab__cell', x: r.x + 14 + k * (g.cell.w + g.cell.gap), y: cellY, width: g.cell.w, height: g.cell.h, rx: 2 });
-        cells[b.id].push(c);
-        grp.appendChild(c);
-      }
-      if (isCompact) {
-        grp.appendChild(text(r.x + 14, r.y + 78, b.depthLabel, 'qi-label qi-label--strong'));
-        if (b.noteShort) grp.appendChild(text(r.x + r.w - 14, r.y + 78, b.noteShort, 'qi-label', 'end'));
+
+      const addCells = (count, x, y, width = 8, gap = 2) => {
+        for (let k = 0; k < count; k++) {
+          const c = el('rect', { class: 'qi-ab__cell', x: x + k * (width + gap), y, width, height: 12, rx: 2 });
+          cells[b.id].push(c);
+          grp.appendChild(c);
+        }
+      };
+
+      const addRing = (cx, cy, innerRadius, outerRadius, label) => {
+        for (let k = 0; k < RING_SLOTS; k++) {
+          const c = el('path', { class: 'qi-ab__cell', d: ringSector(cx, cy, innerRadius, outerRadius, k) });
+          cells[b.id].push(c);
+          grp.appendChild(c);
+        }
+        grp.appendChild(text(cx, cy + 5, label, 'qi-label qi-label--strong', 'middle'));
+      };
+
+      if (b.id === 'mmap') {
+        grp.appendChild(text(r.x + 14, r.y + g.pos.row1, 'caller → borrowed slice', 'qi-label'));
+        addCells(1, r.x + 14, r.y + g.pos.row2 - 11, 12, 0);
+      } else if (b.id === 'uring') {
+        const ringY = r.y + (isCompact ? 82 : 98);
+        const ringRadius = isCompact ? [12, 20] : [14, 24];
+        addRing(r.x + r.w * 0.34, ringY, ringRadius[0], ringRadius[1], 'SQ');
+        addRing(r.x + r.w * 0.7, ringY, ringRadius[0], ringRadius[1], 'CQ');
       } else {
-        grp.appendChild(text(r.x + 14, r.y + 104, b.depthLabel, 'qi-label qi-label--strong'));
-        if (b.note) grp.appendChild(text(r.x + 14, r.y + 122, b.note, 'qi-label'));
+        grp.appendChild(text(r.x + 14, r.y + g.pos.row1, 'Tokio task pool', 'qi-label'));
+        addCells(16, r.x + 14, r.y + g.pos.row1 + 7);
       }
+      grp.appendChild(text(r.x + 14, r.y + g.pos.depth, b.depthLabel, 'qi-label qi-label--strong'));
       boxes[b.id] = grp;
       layer.appendChild(grp);
     });
