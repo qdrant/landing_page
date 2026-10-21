@@ -1,0 +1,299 @@
+/* sparse-query island. Scoped under .qi-sq. Chips, hints and the status line
+   come from the shared island design system (islands.scss); this file styles
+   the word-to-token cards and the two sparse vectors. Token boxes use the
+   Neon Blue ramp, like the text-processing island. */
+
+.qi-sq {
+  --sq-box-bg: #dde0ff; /* neon-blue-100 */
+  --sq-box-fg: #4325ae; /* neon-blue-800 */
+  --sq-root: var(--qi-cat-1);
+  --sq-stop: var(--qi-accent);
+  --sq-shared: #388e3c; /* green-700 */
+  --sq-shared-bg: #e8f5e9; /* green-50 */
+  --sq-cell: 40px;
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-sq {
+    --sq-box-bg: #392689; /* neon-blue-900 */
+    --sq-box-fg: #dde0ff; /* neon-blue-100 */
+    --sq-root: #9494ff; /* neon-blue-300 */
+    --sq-shared: #81c784; /* green-300 */
+    --sq-shared-bg: #1b3a1e;
+  }
+}
+html[data-theme='dark'] .qi-sq {
+  --sq-box-bg: #392689; /* neon-blue-900 */
+  --sq-box-fg: #dde0ff; /* neon-blue-100 */
+  --sq-root: #9494ff; /* neon-blue-300 */
+  --sq-shared: #81c784; /* green-300 */
+  --sq-shared-bg: #1b3a1e;
+}
+
+.qi-sq code {
+  font-family: var(--qi-mono);
+  font-size: 0.9em;
+}
+
+/* --- Words and the tokens they become --- */
+.qi-sq__texts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  gap: 10px 16px;
+}
+.qi-sq__text {
+  display: contents;
+}
+.qi-sq__text > .qi-hint {
+  padding-top: 2px;
+}
+.qi-sq .qi-sq__words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  /* Room for two rows of cards, so switching queries never reflows. */
+  min-height: 52px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-sq .qi-sq__word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 20px;
+}
+.qi-sq__in {
+  color: var(--qi-muted);
+  font-size: 12px;
+  line-height: 16px;
+}
+.qi-sq__out {
+  padding: 2px 10px;
+  border-radius: var(--qi-radius);
+  background: var(--sq-box-bg);
+  color: var(--sq-box-fg);
+  box-shadow: inset 0 0 0 1.5px transparent;
+}
+/* Reduced to its root form. */
+.qi-sq__word.is-root .qi-sq__out {
+  box-shadow: inset 0 0 0 1.5px var(--sq-root);
+}
+/* Stopword: dropped. */
+.qi-sq__word.is-stop .qi-sq__out {
+  background: transparent;
+  color: var(--sq-stop);
+  box-shadow: inset 0 0 0 1.5px var(--sq-stop);
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+/* --- Sparse vectors --- */
+.qi-sq__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin-top: 16px;
+}
+.qi-sq__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 11px;
+}
+.qi-sq__swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+.qi-sq__swatch.is-one {
+  margin-left: 0;
+  background: var(--sq-box-bg);
+}
+.qi-sq__swatch.is-root {
+  margin-left: 0;
+  background: var(--sq-box-bg);
+  box-shadow: inset 0 0 0 1.5px var(--sq-root);
+}
+.qi-sq__swatch.is-stop {
+  box-shadow: inset 0 0 0 1.5px var(--sq-stop);
+}
+.qi-sq__wordkey {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.qi-sq__swatch.is-shared {
+  background: var(--sq-shared-bg);
+  box-shadow: inset 0 0 0 1.5px var(--sq-shared);
+}
+
+.qi-sq__vector {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.qi-sq__heads,
+.qi-sq__col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.qi-sq__head {
+  height: var(--sq-cell);
+  display: flex;
+  align-items: center;
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qi-sq__cols {
+  display: flex;
+  gap: 4px;
+  min-width: 0;
+}
+.qi-sq__cell {
+  width: var(--sq-cell);
+  height: var(--sq-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--qi-radius);
+  box-shadow: inset 0 0 0 1px var(--qi-border);
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.qi-sq__cell.is-one {
+  background: var(--sq-box-bg);
+  color: var(--sq-box-fg);
+  box-shadow: none;
+  font-weight: 600;
+}
+.qi-sq__col.is-shared .qi-sq__cell {
+  background: var(--sq-shared-bg);
+  color: var(--sq-shared);
+  box-shadow: inset 0 0 0 1.5px var(--sq-shared);
+}
+/* Dictionary word, read bottom to top under its column. */
+.qi-sq__term {
+  height: 96px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: right;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qi-sq__col.is-shared .qi-sq__term {
+  color: var(--sq-shared);
+  font-weight: 600;
+}
+.qi-sq__col--gap {
+  width: 14px;
+}
+.qi-sq__dots {
+  height: var(--sq-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--qi-line);
+}
+.qi-sq__col.is-new .qi-sq__cell {
+  animation: qi-sq-in 0.5s ease-out;
+}
+@keyframes qi-sq-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* Narrow screens: one dictionary word per row, compact. */
+@media (max-width: 640px) {
+  .qi-sq {
+    --sq-cell: 28px;
+  }
+  .qi-sq__cell,
+  .qi-sq__head,
+  .qi-sq__col--gap .qi-sq__dots {
+    width: 64px;
+  }
+  .qi-sq__wordkey {
+    justify-content: flex-start;
+  }
+  .qi-sq .qi-sq__words {
+    min-height: 0;
+  }
+  .qi-sq__texts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .qi-sq__vector {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .qi-sq__cols {
+    gap: 2px;
+  }
+  .qi-sq__heads,
+  .qi-sq__col {
+    flex-direction: row;
+    align-items: center;
+  }
+  .qi-sq__heads {
+    padding-left: 120px;
+  }
+  .qi-sq__head {
+    height: auto;
+    justify-content: center;
+    font-size: 10px;
+  }
+  .qi-sq__head--label {
+    display: none;
+  }
+  .qi-sq__cols {
+    flex-direction: column;
+  }
+  .qi-sq__term {
+    order: -1;
+    width: 112px;
+    height: auto;
+    writing-mode: horizontal-tb;
+    transform: none;
+    text-align: left;
+  }
+  .qi-sq__col--gap {
+    width: auto;
+    height: 8px;
+  }
+  .qi-sq__col--gap .qi-sq__dots {
+    height: 8px;
+    line-height: 0;
+  }
+  .qi-sq__col--gap .qi-sq__term {
+    display: none;
+  }
+  .qi-sq__col--gap {
+    padding-left: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-sq__col.is-new .qi-sq__cell {
+    animation: none;
+  }
+}

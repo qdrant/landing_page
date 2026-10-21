@@ -26,11 +26,15 @@ If you are looking for a specific topic in a particular book, you can try to fin
 
 Time passed, and we haven’t had much change in that area for quite a long time. But our textual data collection started to grow at a greater pace. So we also started building up many processes around those inverted indexes. For example, we allowed our users to provide many words and started splitting them into pieces. That allowed finding some documents which do not necessarily contain all the query words, but possibly part of them. We also started converting words into their root forms to cover more cases, removing stopwords, etc. Effectively we were becoming more and more user-friendly. Still, the idea behind the whole process is derived from the most straightforward keyword-based search known since the Middle Ages, with some tweaks.
 
-{{< figure src=/docs/gettingstarted/tokenization.png caption="The process of tokenization with an additional stopwords removal and conversion to root form of a word." >}}
-
 Technically speaking, we encode the documents and queries into so-called sparse vectors where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
 
-{{< figure src=/docs/gettingstarted/query.png caption="An example of a query vectorized to sparse format." >}}
+{{< island
+    path="content/documentation/headless/vector-search/sparse-query"
+    width="90%" ratio="4 / 3"
+    title="A document and a query go through the same keyword pipeline: stopwords are dropped and words are reduced to their root form. Each becomes a sparse vector. Pick a query to see which words it shares with the document."
+>}}
+![An example of a query vectorized to sparse format.](/docs/gettingstarted/query.png)
+{{< /island >}}
 
 Sparse vectors have relatively **high dimensionality**; equal to the size of the dictionary. And the dictionary is obtained automatically from the input data. So if we have a vector, we are able to partially reconstruct the words used in the text that created that vector.
 
