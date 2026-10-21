@@ -1,7 +1,7 @@
 ---
 title: Memory Tiers
-short_description: "Control how vectors, indexes, quantized data, and payloads are cached in RAM: pinned, warmed into a disk cache, or left on disk."
-description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, and payloads."
+short_description: "Control how vectors, indexes, quantized data, payloads, and the ID tracker are cached in RAM: pinned, warmed into a disk cache, or left on disk."
+description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, payloads, and the ID tracker."
 weight: 12
 aliases:
   - disk-vs-ram
@@ -27,6 +27,7 @@ Each collection in Qdrant is backed by several independent structures:
 - **The [sparse vector index](/documentation/manage-data/indexing/#sparse-vector-index)** is an exact, inverted-index-style structure built over sparse vectors.
 - **[Payloads](/documentation/manage-data/collections/#create-a-collection)** are the JSON documents attached to each point.
 - **[Payload indexes](/documentation/manage-data/indexing/#payload-index)** are per-field indexes that speed up filtering.
+- **The [ID tracker](/documentation/capacity-planning/#id-tracker)** maps each point's ID to its internal storage location and current version.
 
 Each of these structures accepts a `memory` parameter that controls how it is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed. The available tiers are:
 
@@ -53,12 +54,13 @@ If you don't explicitly set `memory` on a structure, Qdrant defaults to the foll
 | Sparse vector index | `pinned` |
 | Payloads | `cold` |
 | Payload indexes | `pinned` |
+| ID tracker | `pinned` |
 
 [Low Memory Mode](/documentation/ops-configuration/administration/#low-memory-mode) can degrade these defaults at startup under memory constraints, without changing the persisted collection configuration.
 
 ## Example
 
-This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload is cached:
+This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload and the ID tracker are cached:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-memory-tiers/" >}}
 
@@ -193,3 +195,7 @@ The legacy parameter is `on_disk`, set on each field index.
 | `pinned` | `on_disk: false` |
 | `cached` | No legacy equivalent |
 | `cold` | `on_disk: true` |
+
+#### ID Tracker
+
+The ID tracker has no legacy parameter. Before version 1.20, it was always `pinned`.

@@ -10,6 +10,7 @@ await client.CreateCollectionAsync(
 	{
 		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, Memory = Memory.Pinned }
 	},
-	onDiskPayload: false
+	onDiskPayload: false,
+	idTracker: new IdTrackerParams { Memory = Memory.Cached }
 );
 ```

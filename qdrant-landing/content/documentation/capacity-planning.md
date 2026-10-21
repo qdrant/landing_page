@@ -16,7 +16,7 @@ Sizing a Qdrant cluster means estimating how much storage and memory your collec
 
 - The number of vectors, their dimensions, and their datatype.
 - Payload sizes and their payload indexes.
-- Which memory tier you use for vectors, indexes, and payloads.
+- Which memory tier you use for vectors, indexes, payloads, and the ID tracker.
 - Your collections' replication settings.
 - Whether you're using quantization and how you’ve set it up.
 
@@ -149,7 +149,7 @@ Only index the fields you filter on: indexing everything wastes RAM.
 
 ### ID Tracker
 
-The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and keeps it resident in RAM at all times:
+The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and, in the default `pinned` tier, also keeps it in RAM:
 
 ```text
 id_tracker_size = base * 52 bytes
@@ -161,6 +161,8 @@ For example, with one million points and a replication factor of two:
 id_tracker_size = 2,000,000 * 52 bytes ≈ 0.10 GB
 ```
 
+In the `cached` tier, the ID tracker still counts toward RAM, but the OS can evict it under memory pressure. In the `cold` tier, you don't need to budget RAM for it up front.
+
 ## Putting It Together
 
 Add up the components that apply to your setup, based on the tiers you've chosen:
@@ -170,7 +172,7 @@ Add up the components that apply to your setup, based on the tiers you've chosen
   - The HNSW vector indexes (`cached` by default)
   - Quantized vectors and the sparse indexes (`pinned` by default)
   - Payload indexes (`pinned` by default)
-  - The ID tracker, which is always resident
+  - The ID tracker (`pinned` by default)
 - **Disk**: everything, regardless of tier:
   - Dense vectors and quantized vectors
   - The HNSW vector indexes
