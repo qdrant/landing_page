@@ -1,0 +1,59 @@
+/* chunk-split island. Scoped under .qi-cs. Visual language of the
+   filter-order island: no outer frame, mono labels, cyan (--qi-cat-3) for the
+   answer passage, Qdrant red (--qi-accent) for the boundary that cuts it,
+   neon blue (--qi-cat-1) for vectors. */
+
+.qi-cs {
+  display: block;
+  container-type: inline-size;
+  container-name: qi-cs;
+}
+.qi-cs__svg--narrow {
+  display: none;
+}
+/* Below ~560px the wide drawing shrinks its labels under 12px. */
+@container qi-cs (max-width: 560px) {
+  .qi-cs__svg--wide {
+    display: none;
+  }
+  .qi-cs__svg--narrow {
+    display: block;
+  }
+}
+
+.qi-cs .qi-label {
+  font-size: 14px;
+}
+.qi-cs__chunk {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-cs__text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.qi-cs__answer {
+  fill: var(--qi-cat-3);
+}
+/* White on cyan-800 passes 4.5:1 in both themes. */
+.qi-cs__text--answer {
+  fill: #ffffff;
+}
+.qi-cs__returned {
+  fill: none;
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.qi-cs__vector {
+  fill: var(--qi-cat-1);
+}
+.qi-cs__cut {
+  stroke: var(--qi-accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.qi-cs__result--lost {
+  fill: var(--qi-accent);
+}
