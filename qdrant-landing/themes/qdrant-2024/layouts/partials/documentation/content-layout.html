@@ -17,7 +17,7 @@
               {{ partial "documentation/articles/category" . }}
             {{ else }}
               <div class="documentation__article-wrapper">
-                {{ partial "documentation/breadcrumbs" . }}
+                {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" true) }}
 
 
                 <article class="documentation-article">
@@ -74,9 +74,7 @@
             {{ else }}
 
               <div class="documentation__article-wrapper">
-                {{ if not (eq .Params.breadcrumb false) }}
-                  {{ partial "documentation/breadcrumbs" . }}
-                {{ end }}
+                {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" (ne .Params.breadcrumb false)) }}
 
 
                 <article class="documentation-article">
