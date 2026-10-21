@@ -10,7 +10,7 @@ cards:
   content: Scalar, Product, and unique Binary Quantization features significantly reduce memory usage and improve search performance (40x) for high-dimensional vectors.
   link:
     text: Quantization
-    url: /articles/binary-quantization/
+    url: /documentation/manage-data/quantization/#binary-quantization
 - id: 1
   icon:
     src: /icons/outline/cloud-managed-blue.svg

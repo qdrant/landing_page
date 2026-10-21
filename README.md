@@ -178,9 +178,10 @@ for necessary historical context. `hideFromList` excludes article cards, and
 `sitemapExclude` adds HTML `noindex` and excludes the page from the sitemap and
 `llms.txt`.
 
-Add `X-Robots-Tag: noindex` rules in `qdrant-landing/static/_headers` for
+Add `X-Robots-Tag: noindex` rules in `qdrant-landing/assets/netlify/_headers` for
 `/articles/<slug>/*` and `/articles/<slug>.md`. The wildcard covers HTML and
-`index.md`; the separate rule covers the Markdown copy generated after the build.
+`index.md`; the separate rule covers the `/path.md` copy Hugo also publishes.
+Hugo writes that file into `public/_headers`, so do not add one to `static/`.
 Preserve existing alias routes and cover their HTML paths too. Do not block
 crawling in `robots.txt`: crawlers need to fetch the indexing directive.
 Replace active recommendations with maintained content; historical references

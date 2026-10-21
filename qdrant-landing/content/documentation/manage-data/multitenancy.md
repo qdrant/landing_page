@@ -8,6 +8,7 @@ aliases:
   - ../tutorials/multiple-partitions
   - /tutorials/multiple-partitions/
 ---
+
 # Configure Multitenancy
 
 Many applications serve multiple users, customers, or organizations ("tenants") from a shared deployment. Each tenant's data must stay isolated: when a tenant searches, they should only see their own data. Qdrant offers several solutions for keeping tenants' data separated within a shared deployment.
@@ -67,10 +68,12 @@ By adopting this strategy, Qdrant indexes vectors for each tenant independently,
 
 To implement this approach:
 
-1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
+1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16. If you leave `payload_m` unset, Qdrant uses the value of `m`, so setting `m` to 0 in the next step would also disable the payload-aware links.
 2. Set `m` in the HNSW configuration to 0. This disables the global index for the collection.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-disabled-global-hnsw/" >}}
+
+Setting `m` to 0 isn't the same as exact search. If the effective `payload_m` is positive, Qdrant still builds payload-aware links for indexed payload fields with HNSW enabled.
 
 ### Limitations
 

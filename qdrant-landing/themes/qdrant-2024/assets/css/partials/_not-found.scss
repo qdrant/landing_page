@@ -25,6 +25,16 @@
     margin-bottom: $spacer * 1.5;
   }
 
+  &__help {
+    color: $neutral-80;
+    margin-bottom: $spacer * 1.5;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
+
   &__buttons {
     display: flex;
     flex-direction: column;

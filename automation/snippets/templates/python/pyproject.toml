@@ -3,10 +3,23 @@ name = "snippets-amalgamation"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "boto3>=1.43",
+    "cohere>=7.2",
     "datasets>=4.4.1",
     "fastembed",
+    "google-genai>=2.31",
+    "mistralai>=3.2",
+    "mixedbread>=0.54",
+    "nomic>=3.9",
+    "ollama>=0.6.3",
+    "openai>=3.35",
+    "pillow>=12.3.0",
     "qdrant-client",
-    "qdrant-edge-py==0.8.0"
+    "qdrant-edge-py==0.8.0",
+    "requests>=2.32.5",
+    "sie-qdrant>=0.10.1",
+    "twelvelabs>=1.3.6",
+    "voyageai>=0.5",
 ]
 
 [tool.uv.sources]
@@ -14,9 +27,21 @@ qdrant-client = { git = "https://github.com/qdrant/qdrant-client", branch = "pre
 
 [dependency-groups]
 dev = [
+    "boto3-stubs[bedrock-runtime]>=1.43.115",
     "mypy>=1.18.2",
+    "types-requests>=2.33.0.20261006",
 ]
 
 [[tool.mypy.overrides]]
 module = ["datasets", "qdrant_edge"]
 ignore_missing_imports = true
+
+# Embedding provider snippets: sentence-transformers would pull in PyTorch just for type checking.
+[[tool.mypy.overrides]]
+module = ["sentence_transformers"]
+ignore_missing_imports = true
+
+# sie-qdrant and sie-sdk ship type hints without a py.typed marker.
+[[tool.mypy.overrides]]
+module = ["sie_qdrant", "sie_qdrant.*", "sie_sdk", "sie_sdk.*"]
+follow_untyped_imports = true
