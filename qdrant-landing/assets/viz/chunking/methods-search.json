@@ -11,7 +11,7 @@
   "y": "recall_1000",
   "yLabel": "recall (%)",
   "yMax": 100,
-  "subtitle": "256-token recursive chunks; Hybrid+sect. adds section boundaries. Higher is better",
+  "subtitle": "256-token recursive chunks; in Hybrid+structure, no chunk crosses a heading. Higher is better",
   "width": 980,
   "height": 480,
   "textScale": 1.2,

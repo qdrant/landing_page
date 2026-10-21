@@ -11,7 +11,7 @@
   "y": "recall_1000",
   "yLabel": "recall (%)",
   "yMax": 100,
-  "subtitle": "256-token chunks; fixed windows ignore structure, sections never cross a heading. Higher is better",
+  "subtitle": "256-token chunks; Overlap adds 64 tokens to recursive chunks. Higher is better",
   "width": 980,
   "height": 480,
   "textScale": 1.2,

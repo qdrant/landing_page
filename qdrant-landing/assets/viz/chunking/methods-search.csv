@@ -8,6 +8,6 @@ BM25,Qasper,51.1
 Hybrid,SQuAD,95.1
 Hybrid,RepliQA,92.5
 Hybrid,Qasper,54.8
-Hybrid+sect.,SQuAD,95.1
-Hybrid+sect.,RepliQA,92.5
-Hybrid+sect.,Qasper,59.7
+Hybrid+structure,SQuAD,95.1
+Hybrid+structure,RepliQA,92.5
+Hybrid+structure,Qasper,59.7

@@ -78,7 +78,10 @@ function row(r, budget, L, y, hatch) {
     const w = r.sizes[n] * s;
     const cls = n === r.answer ? 'qi-cb__next qi-cb__next--answer' : 'qi-cb__next';
     parts.push(`<rect class="${cls}" x="${x + 3}" y="${y + BAR_Y + 3}" width="${w - 6}" height="${BAR_H - 6}" rx="3"/>`);
-    if (w > 130) parts.push(`<text class="qi-cb__next-label" x="${x + 12}" y="${y + BAR_Y + 25}">rank ${n + 1} · ${r.sizes[n]} tokens</text>`);
+    // Label it only where the whole label stays inside the plot (12px mono, 7.2px a character).
+    const label = `rank ${n + 1} · ${r.sizes[n]} tokens`;
+    const fits = Math.min(x + w, L.x0 + L.plotW) - (x + 8) >= label.length * 7.2 + 2;
+    if (fits) parts.push(`<text class="qi-cb__next-label" x="${x + 8}" y="${y + BAR_Y + 25}">${label}</text>`);
   }
   parts.push(`<line class="qi-cb__limit" x1="${L.x0 + budget * s}" y1="${y + BAR_Y - 6}" x2="${L.x0 + budget * s}" y2="${y + BAR_Y + BAR_H + 6}"/>`);
   const detail = L.detail ? ` · answer ranked ${ordinal(r.answer + 1)}` : '';
