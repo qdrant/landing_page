@@ -45,11 +45,9 @@ Use a dedicated collection for this tutorial. Run the bot as a persistent proces
 
 ## Run in Colab or Locally
 
-The [Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb) contains the same application code and dependency pins as this tutorial. Use a fresh Python 3 CPU runtime; a GPU is not needed. Enter your Qdrant endpoint and credentials at the notebook's hidden prompts, ingest the six documentation pages, and inspect the retrieved sources before generating an answer. The [notebook source](https://github.com/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb) is maintained in `qdrant/examples`.
+The [Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb) runs the same code with the same dependency pins as this page. Open it on a CPU runtime, enter your keys at the hidden prompts, and run the cells in order. Colab keeps the bot online only while the runtime stays connected.
 
-The notebook has separate cells to start and stop the Discord client using Colab's existing event loop. Configure the Discord application and permissions before starting it. Send the test messages yourself in your test server. Colab runs the bot only while its runtime remains connected; use the local script for a persistent process.
-
-For local execution, follow Steps 1 through 7.
+For a bot that stays online, run it on your own machine: follow Steps 1 through 7.
 
 ## Understand the RAG Flow
 
@@ -59,12 +57,9 @@ Select **Index documents** or **Answer a question** to trace the two paths. Hove
 ![The application embeds a Discord question, searches Qdrant, and sends matching text with the original question to a fresh ChatAgent. Generation is skipped without usable context.](/documentation/tutorials/agentic-rag-camelai-discord/answer-flow.svg)
 {{< /island >}}
 
-There are two separate paths:
+Ingestion runs once, before the bot starts. `VectorRetriever.process()` reads each URL, splits the text into chunks, and embeds the chunks with OpenAI. Qdrant stores each vector together with the chunk text, its source URL, and other metadata in the payload.
 
-| Path | What Runs | What Qdrant Stores or Returns |
-| --- | --- | --- |
-| Ingestion, before starting the bot | `VectorRetriever.process()` reads each URL, splits its text into chunks, and embeds those chunks with OpenAI. | Qdrant stores vectors with the chunk text, source URL, and metadata in the payload. |
-| Answering, for each `!ask` message | `VectorRetriever.query()` embeds the question and searches Qdrant. The application passes matching text and the original question to `ChatAgent.step()`. | Qdrant returns matching records and similarity scores. The language model receives their text, not their vectors. |
+Answering runs for every `!ask` message. `VectorRetriever.query()` embeds the question and searches Qdrant, which returns the matching records with their similarity scores. The application hands the matching text and the original question to `ChatAgent.step()`. The language model only ever sees text; the vectors stay in Qdrant.
 
 ## Step 1: Install the Dependencies
 
@@ -123,7 +118,7 @@ Create the embedding model, storage adapter, and retriever:
 
 {{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="retriever" >}}
 
-`QdrantStorage` is imported explicitly, and the connection values come from the environment. `get_output_dim()` sets the collection's vector size to match the embedding model. Use the same model for documents and questions; if you change it, choose a new collection and ingest the documents again.
+`QdrantStorage` is the retriever's connection to your cluster: the endpoint and key from the environment, the collection to read and write, and the vector size. The size comes from `get_output_dim()`, so the collection matches the embedding model. Documents and questions must use the same model. If you switch models, create a new collection and ingest the documents again.
 
 ## Step 3: Ingest the Documentation
 

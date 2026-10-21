@@ -26,11 +26,13 @@ from dotenv import load_dotenv
 logger = logging.getLogger(__name__)
 
 
+# @hide-start
 def required_env(name: str) -> str:
     value = os.getenv(name, "").strip()
     if not value:
         raise ValueError(f"Set {name} in your environment or .env file.")
     return value
+# @hide-end
 # @block-end imports
 
 # @block-start retriever

@@ -18,12 +18,6 @@ from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
-def required_env(name: str) -> str:
-    value = os.getenv(name, "").strip()
-    if not value:
-        raise ValueError(f"Set {name} in your environment or .env file.")
-    return value
-
 def build_retriever() -> VectorRetriever:
     load_dotenv()
     embedding = OpenAIEmbedding(
