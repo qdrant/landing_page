@@ -86,21 +86,12 @@ Inline storage can increase the HNSW index size significantly. Only use it when 
 When vectors and the HNSW index are in the `cold` memory tier, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
 With inline storage, Qdrant stores vectors directly within the HNSW index file.
 It makes searches faster by reducing the number of IO operations, at the cost of increased storage usage.
-To enable inline storage, quantization must be enabled. Multivectors are not supported. If either condition isn't met, Qdrant ignores the option and logs a warning.
+As of v1.20.0, the HNSW index file holds the only copy of the original vectors.
+See [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
+Inline storage requires quantization and doesn't support multivectors.
+Otherwise, Qdrant ignores the option and reports a warning in the log and in the collection info.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >}}
-
-#### Where Qdrant Stores the Vectors
-
-Before v1.20.0, inline storage kept the original vectors in the regular vector storage and added a copy to the HNSW index file.
-
-As of v1.20.0, when the optimizer builds an HNSW index for a segment with inline storage, it writes the original vectors to the HNSW index file and deletes the regular vector storage. This leaves a single copy of the original vectors on disk.
-
-- Quantized vectors are still kept in their own storage. The HNSW index file also contains quantized copies of each point's neighbors.
-- Segments without an HNSW index still use regular vector storage. This includes small appendable segments and any segment below the [indexing threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer).
-- Existing segments switch to the new layout when the optimizer rebuilds them.
-
-For segments that use this layout, `hnsw_config.memory` controls the memory tier of the original vectors, and Qdrant ignores `vectors.memory`. If you don't set `memory` for quantized vectors, they also follow `hnsw_config.memory` instead of `vectors.memory`. To keep quantized vectors in a specific tier, set their `memory` explicitly. Refer to [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
 
 ## 3. High Precision with High-Speed Search
 
