@@ -11,7 +11,7 @@ aliases:
 
 # Optimizing Qdrant Performance: Three Scenarios
 
-Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs. 
+Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs.
 
 This guide will walk you three main optimization strategies:
 
@@ -84,9 +84,12 @@ Inline storage can increase the HNSW index size significantly. Only use it when 
 </aside>
 
 When vectors and the HNSW index are in the `cold` memory tier, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
-With inline storage, Qdrant stores copies of vectors directly within the HNSW index file.
+With inline storage, Qdrant stores vectors directly within the HNSW index file.
 It makes searches faster by reducing the number of IO operations, at the cost of increased storage usage.
-To enable inline storage, quantization must be enabled.
+As of v1.20.0, the HNSW index file holds the only copy of the original vectors.
+Refer to [Inline Storage](/documentation/ops-configuration/memory-tiers/#inline-storage) in the memory tiers documentation.
+Inline storage requires quantization and doesn't support multivectors.
+Otherwise, Qdrant ignores the option and reports a warning in the log and in the collection info.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >}}
 
