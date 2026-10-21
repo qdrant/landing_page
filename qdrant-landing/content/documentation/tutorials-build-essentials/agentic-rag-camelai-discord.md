@@ -31,7 +31,7 @@ The application controls the sequence. Each `!ask` question triggers one retriev
 
 By the end, you can ask `!ask What is quantization in Qdrant?`, inspect the source chunks, and check whether the answer is supported by them.
 
-![Discord bot answers a scalar-quantization question and links to Qdrant documentation](/documentation/examples/agentic-rag-camelai-discord/ragbot.png)
+![Discord bot answers a scalar-quantization question and links to Qdrant documentation](/documentation/tutorials/agentic-rag-camelai-discord/ragbot.png)
 
 ## Prerequisites
 
@@ -105,7 +105,7 @@ Create `discord_rag_bot.py` in the same directory. Append each Python block in S
 
 Create a `.env` file beside your script:
 
-```dotenv
+```ini
 OPENAI_API_KEY=your-openai-api-key
 QDRANT_CLOUD_URL=https://your-cluster.cloud.qdrant.io:6333
 QDRANT_CLOUD_API_KEY=your-qdrant-api-key
@@ -210,6 +210,8 @@ If the answer is unsupported, inspect these chunks first. Missing evidence may m
 | Repeated insufficient-context answers | Inspect the retrieved text and scores before adjusting the threshold or adding source pages. |
 
 ## Adapt the Bot
+
+The same loop works for product support, community FAQs, or project onboarding. Point the bot at the pages people keep asking about and let the retrieved chunks show where the answer came from.
 
 To answer questions about your own documentation, replace `QDRANT_URLS` with your source URLs, choose a new `QDRANT_COLLECTION`, and run ingestion. Try questions with known answers and inspect the retrieved chunks before changing `top_k` or the similarity threshold. Keep the bot process running while people use it; the Discord application alone does not host your Python code.
 
