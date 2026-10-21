@@ -13,22 +13,22 @@ aliases:
 
 # Evaluating Pipeline Output Quality
 
-Imagine yourself as a doctor of a well known patient - RAG pipeline. The worst thing you can do is immediately start with the treatment. However, the treatment or for software - solution, cannot be created without diagnosys. And for RAG systems being already so long with us there are exist standardized approaches for that.
+Imagine you are the doctor of a well-known patient: a RAG pipeline. The worst thing you can do is start the treatment right away. A treatment (for software, a solution) cannot be created without a diagnosis, and RAG systems have been around long enough that standardized approaches exist for it.
 
-To measure which system's component is working not as indended (maybe it is its every component) we need:
+To find which component of the system is not working as intended (maybe every component), we need:
 
-1. Golden set: A collection of test questions with known correct answers — our reference for healthy behavior.
+1. Golden set: A collection of test questions with known correct answers, which is our reference for healthy behavior.
 2. Pipeline results: What our RAG system actually retrieved and answered for those questions.
-3. LLM-as-a-Judge: The evaluator if the results and helps identify where things went wrong.
+3. LLM-as-a-Judge: An evaluator that scores the results and helps identify where things went wrong.
 
-Since we make medical analogies, the numbers are also coming from public biomedical dataset, described in [How We Measured](#how-we-measured).
+Keeping with the medical analogy, the numbers come from a public biomedical dataset, described in [How We Measured](#how-we-measured).
 
 Two related pages cover the other retrieval-evaluation concerns:
 
-- [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) - does the approximate nearest neighbor index return the same results as exact search?
-- [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) - do the top-k results match query intent?
+- [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/): does the approximate nearest neighbor index return the same results as exact search?
+- [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/): do the top-k results match query intent?
 
-## Choosing Which Metrics are Useful
+## Choosing Which Metrics Are Useful
 
 Several frameworks score RAG output with an LLM as the judge, including <a href="https://docs.ragas.io/" target="_blank">Ragas</a> and <a href="https://deepeval.com/" target="_blank">DeepEval</a>. This guide uses Ragas metric names because Ragas ships every judged metric the guide scores. The workflow is the same in another framework or when you call the judge LLM directly.
 
@@ -54,12 +54,12 @@ Four scores cover the two halves of the pipeline. `recall@10` and `context_preci
 
 Supported and relevant does not necessarily mean correct. An answer can faithfully repeat an error in the passages. To evaluate correctness against a reference answer, use a metric such as `FactualCorrectness`.
 
-What you can measure depends on what your golden set contains. The more information we have the more likely we are on the right track.
+What you can measure depends on what your golden set contains.
 
 - Relevance labels are the IDs of the passages that answer each question, and they are the ground truth for retrieval.
 - Reference answers are the correct answers written out as text, and they are the ground truth for the answer itself.
 
-**Neither is perfect**: labels miss passages, and a reference answer is only as good as whoever wrote it.
+Neither is perfect: labels miss passages, and a reference answer is only as good as whoever wrote it.
 
 | Your golden set has | Retrieval scores | Answer scores | How well you can tell which half failed |
 | --- | --- | --- | --- |
@@ -68,11 +68,11 @@ What you can measure depends on what your golden set contains. The more informat
 | Reference answers only | `context_precision` | `faithfulness`, `answer_relevancy`, correctness | Partial: the judge cannot check whether the retrieval found all the evidence |
 | Neither, for example sampled production traffic | `ContextPrecisionWithoutReference`, which depends on the answer | `faithfulness`, `answer_relevancy` | Limited: the retrieval score depends on the answer |
 
-Importantly, Ragas evaluation is meant for the RAG systems. Score the end-to-end output with a task metric instead, such as normalized discounted cumulative gain (NDCG) for a ranker, click-through rate for a UI, or task-completion rate for an agent, and keep the same method: hold one component fixed and change the other.
+Ragas evaluation is meant for RAG systems. For other systems, score the end-to-end output with a task metric instead, such as normalized discounted cumulative gain (NDCG) for a ranker, click-through rate for a UI, or task-completion rate for an agent, and keep the same method: hold one component fixed and change the other.
 
 ## Reading the Scores
 
-Reading the scores is as important as establishing the right ones. Fortunately, we already have a map of correlation here - the map from symptoms to potential issues.
+Reading the scores is as important as choosing the right ones. A diagnosis map connects symptoms to the components worth inspecting.
 
 Select a symptom to trace where to inspect, from retrieval and generation to the labels and judge. High and Low are relative to the target you set for each metric.
 
@@ -84,20 +84,20 @@ Select a symptom to trace where to inspect, from retrieval and generation to the
 ![Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results. High recall and high faithfulness: check correctness against reference answers. Low recall and low faithfulness: inspect retrieval for missing evidence, then the answer for unsupported claims. High recall and low faithfulness: inspect the answer, prompt, and judge verdicts.](/docs/pipeline-output-quality-diagnosis.svg)
 {{< /island >}}
 
-More independent scores lead to better established correlations. Collapsing them into one end-to-end score tells you the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
+Collapsing the four scores into one end-to-end score tells you the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
 
-However, sometimes the analysis like these can fail. It is because your RAG system might be more compecating than just two-component architecture we have. Several tips there:
+This analysis can fail when your RAG system is more complicated than a two-component architecture. Some tips:
 
 1. Do not trust averages alone. They hide individual failures.
 2. Do not treat metrics as definitive diagnoses. Two low scores do not necessarily mean the answer is bad.
-3. Do not ignore failed calls. They're failures of the pipeline, not missing data.
-4. Don not misinterpret refusals. A correct refusal can receive a low answer-relevancy score.
+3. Do not ignore failed calls. They are failures of the pipeline, not missing data.
+4. Do not misinterpret refusals. A correct refusal can receive a low answer-relevancy score.
 
 ## Worked Example: Diagnostics in Reverse
 
-To find which component failed, hold one fixed and change the other. Here we will keep retrieval fixed on 100 questions and will change the generator prompt.
+To find which component failed, hold one fixed and change the other. Here we keep retrieval fixed on 100 questions and change the generator prompt.
 
-The grounded prompt demands answers to be supported by the retrieved passages, and say when they do not. The open-book prompt lets LLM use its own knowledge as well.
+The grounded prompt requires answers to be supported by the retrieved passages and to say when they are not. The open-book prompt lets the LLM use its own knowledge as well.
 
 | Metric | Grounded prompt | Open-book prompt |
 | --- | --- | --- |
@@ -108,7 +108,7 @@ The grounded prompt demands answers to be supported by the retrieved passages, a
 
 *Higher is better on all four.*
 
-Both runs end up with simular results, however what we can see is that `faithfulness` has declined in average. We use our own advice and look for the 2x2 matrix. From there we can see the increased amount of **high recall - low faithulness** answers. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain. For better results use several runs and confidence intervals to see what is statistically significant.
+Both runs end up with similar results, but `faithfulness` declined on average. Following our own advice, we look at the 2x2 matrix, which shows more answers with high recall and low faithfulness. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain. For better results, use several runs and confidence intervals to see what is statistically significant.
 
 {{< island
     path="content/documentation/headless/pipeline-output-quality/prompt-quadrants"
@@ -120,21 +120,21 @@ Both runs end up with simular results, however what we can see is that `faithful
 
 The 2x2 points at generation, which of course it would: the open-book prompt let the generator add claims the passages do not support. Retrieval work would not fix unanswered questions, because their passages already met the recall target.
 
-In your setups, the reverse will happen - you will get results, try a new hypothesis, look at the answers and try more. Eventually the right patterns can emerge for your business case.
+In your setup, the process runs in reverse: you get results, try a new hypothesis, look at the answers, and try again.
 
 ## Running in CI
 
-The right strategy once the baseline works as indended is to cement its progress, and remove the dependency `features ~ more issues`.
+Once the baseline works as intended, lock in that progress so new features do not quietly add new issues.
 
-Treat evaluation as an input for the CI against a fixed golden set (next section about how to get it). It catches regressions from prompt edits, model swaps, or chunking changes before they reach production.
+Treat evaluation as an input for continuous integration (CI) against a fixed golden set (see [Building the Golden Set](#building-the-golden-set)). It catches regressions from prompt edits, model swaps, or chunking changes before they reach production.
 
-Set a target per metric and fail the job when a mean falls under it, with a margin under your current baseline. This margin should be inferred from statistical significance each metrics drift shows. Keep logging the generator prompt in version content, so a prompt change shows up as a reviewable diff next to the score change it caused.
+Set a target per metric and fail the job when a mean falls under it, with a margin under your current baseline. Choose the margin from how much each metric drifts between identical runs. Keep the generator prompt in version control, so a prompt change shows up as a reviewable diff next to the score change it caused.
 
-And importantly, treat two systems independently. Patch evaluations once the technical requirements change, not when latest merge fails on particularly important feature.
+Treat retrieval and generation independently. Update the evaluation when the technical requirements change, not when the latest merge fails on a particularly important feature.
 
 ## Building the Golden Set
 
-A reliable diagnosis needs reliable data. Your golden set should contain questions, relevant passage IDs, and reference answers when required. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to build one.
+Your golden set should contain questions, relevant passage IDs, and reference answers when required. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to build one.
 
 Not every metric needs reference answers, but those that do require answers supported by the source documents.
 
@@ -144,7 +144,7 @@ Check your data before trusting the scores. In <a href="https://huggingface.co/d
 
 **Judge bias.** LLM judges can favor [longer answers](https://arxiv.org/abs/2306.05685), prefer [certain answer positions](https://aclanthology.org/2025.ijcnlp-long.18/), or show [scoring bias](https://arxiv.org/abs/2610.05094), systematically scoring too high, too low, or [toward the middle](https://arxiv.org/abs/2605.16386). A good solution is to compare their scores against human evaluations, then refine the rubric or calibrate the judge using human feedback. This can be an [iterative process](https://pmc.ncbi.nlm.nih.gov/articles/PMC13237853/) as new disagreements emerge.
 
-**Self-judging contamination.** You want trust yourself to judge your own work. Same with LLM judges - they score their own outputs higher than other outputs of equal quality, and that preference grows with how well the model recognizes its own text (<a href="https://arxiv.org/abs/2404.13076" target="_blank">Panickssery et al., 2024</a>). Pick a different model family for the judge than for the generator (preferably even different vendor), and record both versions in every run so score shifts cannot be blamed on a silent upgrade.
+**Self-judging contamination.** You do not want to trust yourself to judge your own work. LLM judges have the same problem: they score their own outputs higher than other outputs of equal quality, and that preference grows with how well the model recognizes its own text (<a href="https://arxiv.org/abs/2404.13076" target="_blank">Panickssery et al., 2024</a>). Pick a different model family for the judge than for the generator (preferably even a different vendor), and record both versions in every run so score shifts cannot be blamed on a silent upgrade.
 
 **Cost scaling.** LLM-based evaluation can be expensive: with 10 retrieved passages, Ragas makes around 15 judge calls per question. Start with 50–100 questions and a cheaper judge, then run the full golden set before releases. You can also use simpler retrieval signals to identify likely failures without an LLM. See [Predicting Weak Retrieval Without an LLM](/articles/predicting-weak-retrieval/).
 
@@ -154,8 +154,6 @@ The run was recorded on October 8, 2026, with 100 questions from <a href="https:
 
 ## Wrapping Up
 
-As Warren Buffett said, "It takes 20 years to build a reputation and five minutes to ruin it."; same applies to software: one failing component can undermine the entire system.
-
-Evaluation helps identify these failures, but a diagnosis is only a hypothesis until you've tested the fix. **The goal isn't good scores in testing, but a reliable system in production.**
+Evaluation helps identify failing components, but a diagnosis is only a hypothesis until you have tested the fix.
 
 Try it with your own data using the [companion notebook](https://github.com/qdrant/examples/blob/andrei/rag-pipeline-evaluation/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb) or [open it in Colab](https://githubtocolab.com/qdrant/examples/blob/andrei/rag-pipeline-evaluation/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb).
