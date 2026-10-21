@@ -36,7 +36,7 @@ Version 1.20 solves these challenges with BM25 scoring directly on a [full-text 
 
 ### How It Works
 
-To rank points with BM25 on a full-text index, use the new [`text` query](/documentation/search/text-search/full-text-search/#query-a-text-field). For example, to search a books dataset by title, first create a full-text index on the `title` field with `scoring` enabled:
+To rank points with BM25 on a full-text index, use the new [`text` query](/documentation/search/text-search/full-text-search/#query-a-text-field). For example, to search a books dataset by title, first create a full-text index on the `title` field with the `bm25` scoring type:
 
 ```http
 PUT /collections/books/index
@@ -44,7 +44,9 @@ PUT /collections/books/index
   "field_name": "title",
   "field_schema": {
     "type": "text",
-    "scoring": true
+    "scoring": {
+      "type": "bm25"
+    }
   }
 }
 ```
