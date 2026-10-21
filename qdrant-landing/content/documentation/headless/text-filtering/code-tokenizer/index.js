@@ -1,9 +1,10 @@
 /*
- * code-tokenizer island — try the `code` tokenizer on your own text.
+ * code-tokenizer island — filter a few code snippets with the `code` tokenizer.
  *
- * The reader edits a text and a query. The island shows the tokens the index
- * stores for the text, the tokens of the query, and whether a `text` or
- * `phrase` match finds the text.
+ * A list of editable snippets is shown with the tokens the index stores for
+ * each. Every snippet shows whether a `text` or `phrase` match on the query
+ * finds it, so different spellings of the same name can be compared side by
+ * side.
  *
  * The tokenizer is a port of Qdrant's tokenizers/code.rs with the default
  * processing: lowercasing on, no stopwords, stemming, or length limits.
@@ -123,13 +124,25 @@ function phraseHits(doc, query) {
   return hits;
 }
 
-const EXAMPLES = [
-  { label: 'Naming conventions', text: 'name = getUserName(user_id)', query: 'get_user_name', mode: 'text' },
-  { label: 'Acronyms', text: 'xhr = new XMLHttpRequest()', query: 'http request', mode: 'phrase' },
-  { label: 'Joined token', text: 'let map = HashMap::new();', query: 'hashmap', mode: 'text' },
-  { label: 'Joined token in a phrase', text: 'let map = HashMap::new();', query: 'hashmap new', mode: 'phrase' },
-  { label: 'Numbers', text: 'MAX_BUFFER_SIZE = 1_000_000', query: 'buffer size 1000000', mode: 'phrase' },
-  { label: 'Digits', text: 'digest = sha256(utf8Bytes)', query: 'sha 256', mode: 'text' },
+const SNIPPETS = [
+  'getUserName(id)',
+  'get_user_name(id)',
+  'GET_USER_NAME',
+  'xhr = new XMLHttpRequest()',
+  'let map = HashMap::new();',
+  'MAX_BUFFER_SIZE = 1_000_000',
+  'sha256(utf8Bytes)',
+];
+// Size the snippet inputs to fit the longest snippet.
+const SNIPPET_SIZE = Math.max(...SNIPPETS.map((s) => s.length));
+
+const QUERIES = [
+  { query: 'get user name', mode: 'text' },
+  { query: 'getusername', mode: 'text' },
+  { query: 'hash map new', mode: 'phrase' },
+  { query: 'hashmap new', mode: 'phrase' },
+  { query: 'http request', mode: 'phrase' },
+  { query: '1000000', mode: 'text' },
 ];
 
 const esc = (s) =>
@@ -139,80 +152,120 @@ const list = (items) =>
   items.length < 3
     ? items.join(' and ')
     : `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+const unique = (items) => [...new Set(items)];
 
-function verdict(doc, query, mode, hits) {
-  if (!query.length) return 'Type a query to see whether it matches the text.';
-  const docTexts = new Set(doc.map((t) => t.text));
-  const missing = [...new Set(query.filter((q) => !docTexts.has(q)))];
-  if (missing.length) {
-    const what = missing.length === 1 ? 'isn\'t an indexed token' : 'aren\'t indexed tokens';
-    return `<b>No match:</b> ${list(missing.map(code))} ${what}.`;
-  }
-  if (mode === 'text') {
-    return '<b>Match:</b> every query token is an indexed token.';
-  }
-  if (hits.size) {
-    return query.length === 1
-      ? '<b>Match:</b> the query token is an indexed token.'
-      : '<b>Match:</b> the query tokens are indexed next to each other, in this order.';
-  }
+// Match one snippet. `hits` are the indexes of the tokens the match covers.
+function match(text, query, mode) {
+  const doc = tokenizeDoc(text);
+  const all = new Set(doc.map((t) => t.text));
   const subwords = new Set(doc.filter((t) => !t.joined).map((t) => t.text));
-  const joinedOnly = [...new Set(query.filter((q) => !subwords.has(q)))];
+  let hits = new Set();
+  if (query.length && query.every((q) => all.has(q))) {
+    hits =
+      mode === 'phrase'
+        ? phraseHits(doc, query)
+        : new Set(doc.flatMap((t, i) => (query.includes(t.text) ? [i] : [])));
+  }
+  return { doc, all, subwords, hits, matched: hits.size > 0 };
+}
+
+// One line on why the query matches the snippets it does.
+function explain(results, query, mode) {
+  if (!query.length) return 'Enter a query to filter the snippets.';
+  const matched = results.filter((r) => r.matched);
+
+  // Phrase: all tokens are there, but one of them is only a joined token.
+  if (mode === 'phrase' && query.length > 1) {
+    const blocked = results.find(
+      (r) => !r.matched && query.every((q) => r.all.has(q)) && query.some((q) => !r.subwords.has(q)),
+    );
+    if (blocked) {
+      const joined = unique(query.filter((q) => !blocked.subwords.has(q)));
+      const what = joined.length === 1 ? 'is a joined token' : 'are joined tokens';
+      return `${list(joined.map(code))} ${what}, and a joined token only matches a phrase that consists of that token alone.`;
+    }
+  }
+  // A query token that only matches joined tokens finds camelCase words only.
+  const joinedOnly = unique(query.filter((q) => matched.length && matched.every((r) => !r.subwords.has(q))));
   if (joinedOnly.length) {
     const what = joinedOnly.length === 1 ? 'is a joined token' : 'are joined tokens';
-    return `<b>No match:</b> ${list(joinedOnly.map(code))} ${what}, and a joined token only matches a phrase that consists of that token alone.`;
+    return `${list(joinedOnly.map(code))} ${what}. Joined tokens are only added for camelCase words, so other spellings don't match.`;
   }
-  return '<b>No match:</b> the query tokens are indexed, but not next to each other in this order.';
+  if (!matched.length) {
+    const missing = unique(query.filter((q) => results.every((r) => !r.all.has(q))));
+    if (missing.length) {
+      const what = missing.length === 1 ? 'isn\'t an indexed token' : 'aren\'t indexed tokens';
+      return `${list(missing.map(code))} ${what} in any snippet.`;
+    }
+    return mode === 'phrase'
+      ? 'No snippet has the query tokens next to each other, in this order.'
+      : 'No snippet has every query token.';
+  }
+  return mode === 'phrase'
+    ? 'Matching snippets have the query tokens next to each other, in this order.'
+    : 'Matching snippets have every query token, in any order.';
 }
+
+const CHECK =
+  '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" ' +
+  'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7"/></svg>';
 
 export function mount(node) {
   node.classList.add('qi-ct');
   const id = `qi-ct-${Math.random().toString(36).slice(2, 8)}`;
-  const state = { ...EXAMPLES[0] };
+  const state = { ...QUERIES[0], snippets: [...SNIPPETS] };
+
+  const row = (_, i) =>
+    `<li class="qi-ct__row">` +
+    '<span class="qi-ct__mark"></span>' +
+    `<input class="qi-ct__input qi-ct__snippet" type="text" size="${SNIPPET_SIZE}" maxlength="120" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Snippet ${i + 1}">` +
+    '<ul class="qi-ct__tokens" aria-label="Indexed tokens"></ul>' +
+    '</li>';
 
   node.innerHTML = [
     '<div class="qi-fig">',
-    '  <div class="qi-group qi-ct__examples">',
-    '    <span class="qi-hint">Examples</span>',
-    EXAMPLES.map((e, i) => `<button type="button" class="qi-chip" data-example="${i}">${e.label}</button>`).join(''),
-    '  </div>',
     '  <div class="qi-ct__fields">',
-    `    <label class="qi-hint" for="${id}-text">Text</label>`,
-    `    <input id="${id}-text" class="qi-ct__input" type="text" maxlength="200" spellcheck="false" autocomplete="off" autocapitalize="off">`,
     `    <label class="qi-hint" for="${id}-query">Query</label>`,
-    `    <input id="${id}-query" class="qi-ct__input" type="text" maxlength="200" spellcheck="false" autocomplete="off" autocapitalize="off">`,
-    '    <span class="qi-hint">Match</span>',
-    '    <div class="qi-group" role="group" aria-label="Match type">',
-    '      <button type="button" class="qi-chip" data-mode="text">text</button>',
-    '      <button type="button" class="qi-chip" data-mode="phrase">phrase</button>',
+    '    <div class="qi-ct__query-row">',
+    `      <input id="${id}-query" class="qi-ct__input" type="text" maxlength="120" spellcheck="false" autocomplete="off" autocapitalize="off">`,
+    '      <div class="qi-group" role="group" aria-label="Match type">',
+    '        <button type="button" class="qi-chip" data-mode="text">text</button>',
+    '        <button type="button" class="qi-chip" data-mode="phrase">phrase</button>',
+    '      </div>',
     '    </div>',
-    '  </div>',
-    '  <div class="qi-ct__out">',
-    '    <div class="qi-ct__head">',
-    '      <span class="qi-hint">Indexed tokens</span>',
-    '      <span class="qi-hint qi-ct__legend"><span class="qi-ct__key" aria-hidden="true"></span>joined camelCase word</span>',
-    '    </div>',
-    '    <ul class="qi-ct__tokens qi-ct__doc" aria-label="Indexed tokens"></ul>',
-    '    <span class="qi-hint">Query tokens</span>',
+    '    <span class="qi-hint">Tokens</span>',
     '    <ul class="qi-ct__tokens qi-ct__query" aria-label="Query tokens"></ul>',
+    '    <span class="qi-hint qi-ct__top">Try</span>',
+    '    <div class="qi-group">',
+    QUERIES.map((q, i) => `<button type="button" class="qi-chip" data-query="${i}">${esc(q.query)}</button>`).join(''),
+    '    </div>',
     '  </div>',
+    '  <div class="qi-ct__head">',
+    '    <span class="qi-group">',
+    '      <span class="qi-hint">Snippets and their indexed tokens</span>',
+    '      <button type="button" class="qi-chip qi-ct__reset" hidden>Reset snippets</button>',
+    '    </span>',
+    '    <span class="qi-hint qi-ct__legend"><span class="qi-ct__key" aria-hidden="true"></span>joined camelCase word</span>',
+    '  </div>',
+    `  <ul class="qi-ct__rows">${SNIPPETS.map(row).join('')}</ul>`,
     '  <p class="qi-status qi-status--2 qi-ct__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
-  const textInput = node.querySelector(`#${id}-text`);
   const queryInput = node.querySelector(`#${id}-query`);
-  const exampleBtns = [...node.querySelectorAll('[data-example]')];
-  const modeBtns = [...node.querySelectorAll('[data-mode]')];
-  const docList = node.querySelector('.qi-ct__doc');
+  const snippetInputs = [...node.querySelectorAll('.qi-ct__snippet')];
+  const resetBtn = node.querySelector('.qi-ct__reset');
   const queryList = node.querySelector('.qi-ct__query');
+  const rows = [...node.querySelectorAll('.qi-ct__row')];
+  const modeBtns = [...node.querySelectorAll('[data-mode]')];
+  const queryBtns = [...node.querySelectorAll('[data-query]')];
   const statusEl = node.querySelector('.qi-ct__status');
 
-  function tokenItems(tokens, empty) {
+  function tokenItems(tokens) {
     if (!tokens.length) {
       const li = document.createElement('li');
       li.className = 'qi-hint qi-ct__empty';
-      li.textContent = empty;
+      li.textContent = 'No tokens';
       return [li];
     }
     return tokens.map((t) => {
@@ -221,57 +274,56 @@ export function mount(node) {
       li.textContent = t.text;
       if (t.joined) li.classList.add('is-joined');
       if (t.hot) li.classList.add('is-hot');
-      if (t.missing) li.classList.add('is-missing');
       return li;
     });
   }
 
   function render() {
-    const doc = tokenizeDoc(state.text);
     const query = tokenizeQuery(state.query);
-    const docTexts = new Set(doc.map((t) => t.text));
-    const queryTexts = new Set(query);
+    const results = state.snippets.map((text) => match(text, query, state.mode));
 
-    let hits;
-    if (!query.length) hits = new Set();
-    else if (state.mode === 'phrase') hits = phraseHits(doc, query);
-    else hits = new Set(doc.flatMap((t, i) => (queryTexts.has(t.text) ? [i] : [])));
-
-    docList.replaceChildren(
-      ...tokenItems(doc.map((t, i) => ({ ...t, hot: hits.has(i) })), 'No tokens'),
-    );
-    const matched = hits.size > 0 && (state.mode === 'phrase' || query.every((q) => docTexts.has(q)));
-    queryList.replaceChildren(
-      ...tokenItems(
-        query.map((q) => ({ text: q, hot: matched, missing: !docTexts.has(q) })),
-        'No tokens',
-      ),
-    );
-    statusEl.innerHTML = verdict(doc, query, state.mode, hits);
-
-    modeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode)));
-    exampleBtns.forEach((b) => {
-      const e = EXAMPLES[b.dataset.example];
-      b.classList.toggle(
-        'is-active',
-        e.text === state.text && e.query === state.query && e.mode === state.mode,
+    queryList.replaceChildren(...tokenItems(query.map((q) => ({ text: q }))));
+    rows.forEach((li, i) => {
+      const r = results[i];
+      li.classList.toggle('is-match', r.matched);
+      const mark = li.querySelector('.qi-ct__mark');
+      mark.innerHTML = r.matched ? CHECK : '';
+      mark.setAttribute('role', 'img');
+      mark.setAttribute('aria-label', r.matched ? 'Match' : 'No match');
+      li.querySelector('.qi-ct__tokens').replaceChildren(
+        ...tokenItems(r.doc.map((t, j) => ({ ...t, hot: r.hits.has(j) }))),
       );
     });
+
+    const count = results.filter((r) => r.matched).length;
+    const lead = query.length ? `<b>${count} of ${results.length} match.</b> ` : '';
+    statusEl.innerHTML = lead + explain(results, query, state.mode);
+
+    modeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode)));
+    queryBtns.forEach((b) => {
+      const q = QUERIES[b.dataset.query];
+      b.classList.toggle('is-active', q.query === state.query && q.mode === state.mode);
+    });
+    resetBtn.hidden = state.snippets.every((s, i) => s === SNIPPETS[i]);
   }
 
-  function load(example) {
-    Object.assign(state, example);
-    textInput.value = state.text;
-    queryInput.value = state.query;
-    render();
+  function showSnippets() {
+    snippetInputs.forEach((input, i) => (input.value = state.snippets[i]));
   }
 
-  textInput.addEventListener('input', () => {
-    state.text = textInput.value;
-    render();
-  });
   queryInput.addEventListener('input', () => {
     state.query = queryInput.value;
+    render();
+  });
+  snippetInputs.forEach((input, i) =>
+    input.addEventListener('input', () => {
+      state.snippets[i] = input.value;
+      render();
+    }),
+  );
+  resetBtn.addEventListener('click', () => {
+    state.snippets = [...SNIPPETS];
+    showSnippets();
     render();
   });
   modeBtns.forEach((b) =>
@@ -280,9 +332,17 @@ export function mount(node) {
       render();
     }),
   );
-  exampleBtns.forEach((b) => b.addEventListener('click', () => load(EXAMPLES[b.dataset.example])));
+  queryBtns.forEach((b) =>
+    b.addEventListener('click', () => {
+      Object.assign(state, QUERIES[b.dataset.query]);
+      queryInput.value = state.query;
+      render();
+    }),
+  );
 
-  load(EXAMPLES[0]);
+  queryInput.value = state.query;
+  showSnippets();
+  render();
 
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

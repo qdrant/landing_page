@@ -1,7 +1,7 @@
 /* code-tokenizer island. Scoped under .qi-ct. Chips, hints and the status
    line come from the shared island design system (islands.scss); this file
-   only styles the inputs and the token boxes. Token boxes use the Neon Blue
-   ramp, like the text-processing island. */
+   only styles the inputs, the snippet rows and the token boxes. Token boxes
+   use the Neon Blue ramp, like the text-processing island. */
 
 .qi-ct {
   --ct-box-bg: #dde0ff; /* neon-blue-100 */
@@ -24,12 +24,23 @@ html[data-theme='dark'] .qi-ct {
   display: none;
 }
 
-/* Text, Query and Match: hint labels in one column, controls in the other. */
+/* Query, its tokens and the example queries: hint labels in one column,
+   controls in the other. */
 .qi-ct__fields {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 8px 12px;
+}
+.qi-ct__fields > .qi-ct__top {
+  align-self: start;
+  line-height: 30px;
+}
+.qi-ct__query-row {
+  display: flex;
+  align-items: center;
+  gap: 8px 12px;
+  min-width: 0;
 }
 .qi-ct__input {
   box-sizing: border-box;
@@ -45,21 +56,28 @@ html[data-theme='dark'] .qi-ct {
   font-size: 13px;
   line-height: 20px;
 }
+.qi-ct__input::placeholder {
+  color: var(--qi-muted);
+}
 .qi-ct__input:focus-visible {
   outline: 2px solid var(--qi-hot);
   outline-offset: 1px;
 }
-
-.qi-ct__out {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.qi-ct__query-row .qi-ct__input {
+  flex: 1;
 }
+.qi-ct__query-row .qi-group {
+  flex: none;
+}
+
 .qi-ct__head {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
+  min-height: 30px; /* room for Reset, so showing it doesn't shift the rows */
   gap: 4px 16px;
+  margin-bottom: -8px;
 }
 .qi-ct__legend {
   display: inline-flex;
@@ -73,30 +91,71 @@ html[data-theme='dark'] .qi-ct {
   border-radius: 3px;
 }
 
-/* Tokens: scoped under .qi-ct to outrank the docs list styles. Reserve one
-   row so an empty list doesn't collapse while typing. */
-.qi-ct .qi-ct__tokens {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 6px;
-  min-height: 28px;
-  margin: 0 0 8px;
+/* Snippet rows: match mark | snippet | its indexed tokens. The rows share
+   the list's columns through subgrid, so the snippet column is as wide as the
+   longest snippet. Rows that don't match are dimmed. Lists are scoped under
+   .qi-ct to outrank the docs list styles. */
+.qi-ct .qi-ct__rows {
+  display: grid;
+  grid-template-columns: 16px minmax(0, max-content) minmax(0, 1fr);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-.qi-ct .qi-ct__token {
+.qi-ct .qi-ct__row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--qi-border);
+}
+.qi-ct__mark {
+  display: flex;
+  color: var(--qi-fg);
+}
+/* Snippet inputs are outlined only, so seven of them don't outweigh the
+   query field. */
+.qi-ct__input.qi-ct__snippet {
+  background: transparent;
+}
+.qi-ct__row > .qi-ct__snippet,
+.qi-ct__row > .qi-ct__tokens {
+  transition: opacity 0.15s ease;
+}
+.qi-ct__row:not(.is-match) > .qi-ct__snippet:not(:focus),
+.qi-ct__row:not(.is-match) > .qi-ct__tokens {
+  opacity: 0.45;
+}
+
+.qi-ct .qi-ct__tokens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
   margin: 0;
-  padding: 4px 10px;
+  padding: 0;
+  list-style: none;
+}
+/* The docs give every list item but the last a bottom margin
+   (.documentation-article li:not(:last-of-type)), which would push all tokens
+   but the last one out of line. The `ul` outranks that selector. */
+.qi-ct ul.qi-ct__rows > li,
+.qi-ct ul.qi-ct__tokens > li {
+  margin: 0;
+}
+.qi-ct .qi-ct__token {
+  padding: 2px 8px;
   border-radius: var(--qi-radius);
   background: var(--ct-box-bg);
   color: var(--ct-box-fg);
   font-family: var(--qi-mono);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 20px;
   overflow-wrap: anywhere;
   box-shadow: inset 0 0 0 1.5px transparent;
-  transition: box-shadow 0.15s ease, opacity 0.15s ease;
 }
 .qi-ct .qi-ct__token.is-joined {
   background: transparent;
@@ -106,12 +165,8 @@ html[data-theme='dark'] .qi-ct {
 .qi-ct .qi-ct__token.is-hot {
   box-shadow: inset 0 0 0 2px var(--qi-hot);
 }
-.qi-ct .qi-ct__token.is-missing {
-  opacity: 0.45;
-}
 .qi-ct .qi-ct__empty {
-  margin: 0;
-  line-height: 28px;
+  line-height: 24px;
 }
 
 .qi-ct__status code {
@@ -119,15 +174,29 @@ html[data-theme='dark'] .qi-ct {
   font-size: 0.9em;
 }
 
+/* Narrow screens: labels over controls, and each snippet over its tokens. */
 @media (max-width: 640px) {
   .qi-ct__fields {
     grid-template-columns: minmax(0, 1fr);
     gap: 4px;
   }
+  .qi-ct__fields > .qi-ct__top {
+    line-height: inherit;
+  }
+  .qi-ct__query-row {
+    flex-wrap: wrap;
+  }
+  .qi-ct .qi-ct__rows {
+    grid-template-columns: 16px minmax(0, 1fr);
+  }
+  .qi-ct__row > .qi-ct__tokens {
+    grid-column: 2;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .qi-ct .qi-ct__token {
+  .qi-ct__row > .qi-ct__snippet,
+  .qi-ct__row > .qi-ct__tokens {
     transition: none;
   }
 }

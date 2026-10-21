@@ -245,14 +245,14 @@ With [phrase matching](#phrase-matching), a joined token only matches a phrase t
 
 ##### Try the Code Tokenizer
 
-Enter code and a query to see how the `code` tokenizer splits them, and whether a text or phrase match finds the code.
+Enter a query to see which code snippets a text or phrase match finds with the `code` tokenizer. You can also edit the snippets.
 
 {{< island
     path="content/documentation/headless/text-filtering/code-tokenizer"
-    ratio="2 / 1"
+    width="90%" ratio="7 / 6"
     title="The `code` tokenizer with lowercasing on and no other text processing."
 >}}
-![The text "let map = HashMap::new();" is indexed as let, map, hash, map, new, and the joined token hashmap. The phrase query "hash map new" is tokenized as hash, map, new, and matches the indexed tokens hash, map, new.](/docs/code-tokenizer.svg)
+![The text query "get user name" is tokenized as get, user, and name. It matches 3 of 7 snippets: getUserName(id), get_user_name(id), and GET_USER_NAME, which all have the tokens get, user, and name. getUserName(id) also has the joined token getusername. The other snippets don't match: xhr = new XMLHttpRequest(), let map = HashMap::new();, MAX_BUFFER_SIZE = 1_000_000, and sha256(utf8Bytes).](/docs/code-tokenizer.svg)
 {{< /island >}}
 
 ### Lowercasing
