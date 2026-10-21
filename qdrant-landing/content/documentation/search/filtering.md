@@ -20,7 +20,7 @@ Examples include a variety of business requirements: stock availability, user lo
 For performant filtering, create <a href="/documentation/manage-data/indexing/#payload-index">payload indexes</a> for the fields you plan to filter on. For best results, create payload indexes before ingesting data. Refer to <a href="/documentation/manage-data/indexing/#create-a-payload-index">Create a Payload Index</a> for more information.
 </aside>
 
-## Filtering clauses
+## Filtering Clauses
 
 Qdrant allows you to combine conditions in clauses.
 Clauses are different logical operations, such as `OR`, `AND`, and `NOT`.
@@ -96,7 +96,7 @@ Filtered points would be:
 ]
 ```
 
-### Clauses combination
+### Clauses Combination
 
 It is also possible to use several clauses simultaneously:
 
@@ -129,12 +129,12 @@ Filtered points would be:
 ]
 ```
 
-## Filtering conditions
+## Filtering Conditions
 
 Different types of values in payload correspond to different kinds of queries that we can apply to them.
 Let's look at the existing condition variants and what types of data they apply to.
 
-### Exact `Match` conditions
+### Exact `Match` Conditions
 
 #### Match
 
@@ -228,7 +228,7 @@ A [keyword index](/documentation/manage-data/indexing/#payload-index) on the fie
 
 ### Text Match
 
-#### Full Text Match
+#### Full-Text Match
 
 *Available as of v0.10.0*
 
@@ -241,7 +241,7 @@ For efficient matching, create a [full-text index](/documentation/manage-data/in
 
 Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
 
-#### Full Text Any
+#### Full-Text Any
 
 *Available as of v1.16.0*
 
@@ -327,15 +327,13 @@ A match is considered any point location inside or on the boundaries of the give
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset.
 These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
 
-### Nested key
+### Nested Key
 
 *Available as of v1.1.0*
 
-Payloads being arbitrary JSON object, it is likely that you will need to filter on a nested field.
+Payloads are JSON objects. A field you want to filter on can be nested inside another object or an array. To filter on a nested field, set the condition's `key` to the path of the field. The path syntax is similar to [jq](https://jqlang.github.io/jq/manual/#basic-filters): use a dot (`.`) to step into an object, and `[]` to step into the elements of an array.
 
-For convenience, we use a syntax similar to what can be found in the [Jq](https://stedolan.github.io/jq/manual/#Basicfilters) project.
-
-Suppose we have a set of points with the following payload:
+For example, take a set of points with the following payload:
 
 ```json
 [
@@ -392,13 +390,13 @@ And the leaf nested field can also be an array.
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-on-nested-array-match/" >}}
 
-This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
+This query would only output the point with id 2 as only Japan has a city with the "Osaka Castle" as part of the sightseeing.
 
-#### Nested object filter
+#### Nested Object Filter
 
 *Available as of v1.2.0*
 
-By default, the conditions are taking into account the entire payload of a point.
+By default, each condition in a filter is checked against the whole payload of a point. If a filter has several conditions on fields inside the same array, each condition can match a different element of the array.
 
 For instance, given two points with the following payload:
 
@@ -432,20 +430,19 @@ This happens because both points are matching the two conditions:
 - the "t-rex" matches food=meat on `diet[1].food` and likes=true on `diet[1].likes`
 - the "diplodocus" matches food=meat on `diet[1].food` and likes=true on `diet[0].likes`
 
-To retrieve only the points which are matching the conditions on an array element basis, that is the point with id 1 in this example, you would need to use a nested object filter.
+To match only points where a single element of the array meets all conditions, use a nested object filter. In this example, that's the point with ID 1.
 
-Nested object filters allow arrays of objects to be queried independently of each other.
-
-It is achieved by using the `nested` condition type formed by a payload key to focus on and a filter to apply.
-
-The key should point to an array of objects and can be used with or without the bracket notation ("data" or "data[]").
+A `nested` condition has two parts: a `key` that points to an array of objects, and a `filter` with the conditions that a single element must meet. You can write the key with or without brackets, for example `diet` or `diet[]`.
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause/" >}}
 
-The matching logic is modified to be applied at the level of an array element within the payload.
+A nested filter is applied to each element of the array separately, as if each element were its own document. A point matches if at least one element matches the whole nested filter.
 
-Nested filters work in the same way as if the nested filter was applied to a single element of the array at a time.
-Parent document is considered to match the condition if at least one element of the array matches the nested filter.
+**Performance**
+
+Because a nested filter checks each element separately, Qdrant needs to know which element a value belongs to. Regular payload indexes don't record that: an index on `diet[].food` maps each food to the points that have it in any element. So regular indexes can only narrow down the candidates, and Qdrant then reads the payload of each remaining candidate to check the nested filter. This is slow when many candidates remain.
+
+To speed up nested filters, create [per-element indexes](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) on the fields of the array. Qdrant then answers a nested filter from the indexes alone if every condition in it is a match, range, geo, full-text, `is_empty`, or `is_null` condition on a field with a per-element index of the same array. The filter can still combine these conditions with `must`, `should`, `min_should`, and `must_not` clauses. If any condition isn't covered, Qdrant reads payloads to check the whole nested filter, including the conditions that have per-element indexes.
 
 **Limitations**
 
@@ -453,7 +450,7 @@ The `has_id` and `slice` conditions are not supported within the nested object f
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause-and-has-id/" >}}
 
-### Values count
+### Values Count
 
 In addition to the direct value comparison, it is also possible to filter by the amount of values.
 
@@ -487,6 +484,8 @@ The `IsEmpty` condition may help you with that:
 
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
+If the field is inside an array of objects, such as `offers[].price`, and has a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects), the condition is checked for each element. It matches a point if any of its elements lacks the field, and never matches a point without elements.
+
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
 
 ### Is Null
@@ -499,7 +498,7 @@ We have to use `IsNull` condition instead:
 This condition will match all records where the field `reports` exists and has `NULL` value.
 
 
-### Has id
+### Has ID
 
 This type of query is not related to payload, but can be very useful in some situations.
 For example, the user could mark some specific search results as irrelevant, or we want to search only among the specified points.
@@ -517,7 +516,7 @@ Filtered points would be:
 ```
 
 
-### Has vector
+### Has Vector
 
 *Available as of v1.13.0*
 

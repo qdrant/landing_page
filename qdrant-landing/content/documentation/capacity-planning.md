@@ -147,6 +147,8 @@ payload_index_size ≈ indexed_payload_size * 2
 
 Only index the fields you filter on: indexing everything wastes RAM.
 
+A [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) also keeps a map from array elements to points in RAM, whatever its memory tier. Budget about 4 bytes per point for each per-element index.
+
 ### ID Tracker
 
 The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and, in the default `pinned` tier, also keeps it in RAM:
