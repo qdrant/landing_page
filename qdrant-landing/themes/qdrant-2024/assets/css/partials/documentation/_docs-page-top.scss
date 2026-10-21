@@ -22,4 +22,16 @@
     gap: pxToRem(8);
     margin-left: auto;
   }
+
+  // On phones the actions take their own row after the breadcrumbs,
+  // aligned to the left.
+  @include media-breakpoint-down(md) {
+    row-gap: $spacer;
+    margin-bottom: $spacer * 1.5;
+
+    &__actions {
+      flex-basis: 100%;
+      margin-left: 0;
+    }
+  }
 }

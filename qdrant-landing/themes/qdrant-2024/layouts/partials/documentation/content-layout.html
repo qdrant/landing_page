@@ -17,7 +17,7 @@
               {{ partial "documentation/articles/category" . }}
             {{ else }}
               <div class="documentation__article-wrapper">
-                {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" true) }}
+                {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" true "actions" false) }}
 
 
                 <article class="documentation-article">
@@ -40,9 +40,12 @@
                     </a>
                     <h1 class="documentation-article__header-title">{{ .Params.title }}</h1>
                     <div class="documentation-article__header-about">
-                      <p>{{ .Params.author }}</p>
-                      <span>&middot;</span>
-                      <p>{{ time.Format "January 02, 2006" .Date }}</p>
+                      <div class="documentation-article__header-byline">
+                        <p>{{ .Params.author }}</p>
+                        <span>&middot;</span>
+                        <p>{{ time.Format "January 02, 2006" .Date }}</p>
+                      </div>
+                      {{ partial "copy-markdown-button.html" . }}
                     </div>
                     {{ if .Params.preview_dir }}
                       <picture class="documentation-article__header-preview">
