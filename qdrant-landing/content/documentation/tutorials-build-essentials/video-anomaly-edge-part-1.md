@@ -32,6 +32,8 @@ example_resources:
 
 In this tutorial, you will learn how to build a real-time video anomaly detection system that monitors live surveillance cameras across multiple sites, automatically detecting unusual events without training on specific anomaly types. You'll see how Qdrant Edge integrates with Twelve Labs and NVIDIA Metropolis VSS to create a production-grade edge-to-cloud detection pipeline deployed on Vultr Cloud GPUs.
 
+**Before you start:** the Docker Compose setup needs an NVIDIA GPU, even for the core stack. The optional NVIDIA VSS tier needs a GPU that VSS supports and NVIDIA NGC access. Twelve Labs has a free plan, while the Vultr Cloud GPUs that run the cloud tier are paid. See [Prerequisites](#prerequisites) for the full list.
+
 ## Introduction
 
 What if your surveillance cameras could autonomously detect any type of anomaly (fights, accidents, intrusions, equipment failures) without ever being trained on those specific events? What if instead of manually reviewing hours of footage, operators received instant alerts with severity scores, incident timelines, and natural-language explanations of what happened?
@@ -92,15 +94,28 @@ In this series you will:
 
 ## Prerequisites
 
+**Software**
+
 - **Python 3.12+**: [Download Python](https://python.org/downloads/)
 - **Node.js 20+**: [Download Node.js](https://nodejs.org/)
 - **uv** (Python package manager): [Install uv](https://docs.astral.sh/uv/)
 - **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Twelve Labs API Key**: [Authentication](https://docs.twelvelabs.io/docs/authentication)
-- **Qdrant Cloud Account** (or local instance): [Qdrant Cloud](https://cloud.qdrant.io/)
-- **Vultr Account** (for GPU instances): [Vultr Cloud GPUs](https://www.vultr.com/products/cloud-gpu/)
-- **FFmpeg**: [Download FFmpeg](https://ffmpeg.org/download.html) — Required for video chunking
+- **FFmpeg**: [Download FFmpeg](https://ffmpeg.org/download.html), required for video chunking
 - Intermediate understanding of Python, vector databases, and REST APIs.
+
+**Hardware**
+
+- **NVIDIA GPU** (required for the Docker Compose setup), on your machine or on a [Vultr Cloud GPU](https://www.vultr.com/products/cloud-gpu/) instance, which is what the architecture's cloud tier runs on. The host needs the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html): `docker compose up` reserves a GPU for the VideoMAE model server and does not start without one.
+- **NVIDIA GPU supported by VSS** (optional): needed only for the NVIDIA VSS tier, available on Vultr Cloud GPUs. Supported models change between VSS versions, so check [NVIDIA's VSS prerequisites](https://docs.nvidia.com/vss/latest/prerequisites.html).
+- **Room for a large download**: the full [UCF-Crime dataset](https://www.crcv.ucf.edu/projects/real-world/) used for the baseline is 128 hours of video (1,900 videos).
+- The architecture targets NVIDIA Jetson for the edge tier, but the series runs the edge detector as a regular Python process ([Part 3](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)).
+
+**Accounts and costs**
+
+- **Twelve Labs API key** (required for cloud re-analysis, search, and Q&A): the [Free plan](https://www.twelvelabs.io/pricing) includes 600 minutes of video and needs no credit card. Larger baselines need a paid plan. See [Authentication](https://docs.twelvelabs.io/api-reference/authentication).
+- **Qdrant**: the Docker Compose stack runs a local Qdrant instance. A [Qdrant Cloud](https://cloud.qdrant.io/) cluster is optional and has a free tier.
+- **NVIDIA NGC account and API key** (VSS tier only): needed to pull the VSS container image from `nvcr.io`. Sign up at [NGC](https://ngc.nvidia.com/).
+- **Vultr account** (paid): needed when you run the GPU hardware on Vultr. Vultr bills by usage, so check current pricing before you start.
 
 ---
 
@@ -158,10 +173,10 @@ git clone https://github.com/qdrant/twelvelabs-nvidia-vss
 **5.** Start the full stack with Docker Compose.
 
 ```bash
-# Core services (backend, Qdrant, frontend)
+# Core services (model server, backend, Qdrant, frontend); the model server needs an NVIDIA GPU
 docker compose up
 
-# With NVIDIA VSS (requires GPU)
+# With NVIDIA VSS (requires a GPU that VSS supports and NGC access)
 docker compose -f docker-compose.yml -f docker-compose.vss.yml up
 ```
 
