@@ -185,3 +185,7 @@ multiprocessing.set_start_method("forkserver")  # or "spawn"
 ```
 
 Alternatively, you can switch to `REST` API, async client, or use built-in parallelization in the Python client - functions like `qdrant.upload_points(...)`
+
+## Hybrid Cloud problems
+
+For timeouts, transport errors, dead replicas, pods stuck in Pending, and CPU throttling on Hybrid Cloud, see [Troubleshooting Hybrid Cloud](/documentation/hybrid-cloud/troubleshooting/).
