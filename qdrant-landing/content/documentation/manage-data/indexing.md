@@ -206,15 +206,19 @@ Every full-text index supports filtering on words. Filtering on phrases requires
 
 *Available as of v1.20.0*
 
-With scoring enabled, a full-text index can rank points by how relevant their text is to a query, using the [BM25](/documentation/search/text-search/full-text-search/#bm25) ranking function. To enable scoring, set `scoring` to `true` when you create the index:
+With scoring enabled, a full-text index can rank points by how relevant their text is to a query, using the [BM25](/documentation/search/text-search/full-text-search/#bm25) ranking function. To enable scoring, set the `scoring` type to `bm25` when you create the index:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text/" >}}
+
+With the REST API and some clients, you can set `scoring` to `true` as a shorthand for the `bm25` scoring type:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text-shorthand/" >}}
 
 The index's text processing settings, such as the [tokenizer](#tokenizers), [lowercasing](#lowercasing), [stemming](#stemmer), and [stopwords](#stopwords), apply to both the indexed text and the text of BM25 queries on the field. The BM25 parameters `k` and `b` are set per query, not on the index.
 
 When scoring is enabled, the index records the length of each document and how often each term appears in it, so Qdrant computes BM25 statistics, such as the average document length, from your data. As a result, a full-text index with scoring uses more memory and disk space than one without.
 
-You can enable or disable scoring on an existing full-text index by creating the index again with a different `scoring` value. Qdrant then rebuilds the index from the stored payload, so you don't need to upload your data again. On large collections, rebuilding the index can take a while.
+To enable scoring on an existing full-text index, create the index again with `scoring` set. To disable it, create the index again without `scoring`. Qdrant then rebuilds the index from the stored payload, so you don't need to upload your data again. On large collections, rebuilding the index can take a while.
 
 ### Tokenizers
 

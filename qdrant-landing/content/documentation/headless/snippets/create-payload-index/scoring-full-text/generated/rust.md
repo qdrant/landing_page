@@ -2,6 +2,7 @@
 use qdrant_client::qdrant::{
     CreateFieldIndexCollectionBuilder,
     TextIndexParamsBuilder,
+    TextScoringType,
     FieldType,
     TokenizerType,
 };
@@ -9,7 +10,7 @@ use qdrant_client::Qdrant;
 
 let text_index_params = TextIndexParamsBuilder::new(TokenizerType::Word)
     .lowercase(true)
-    .bm25_scoring();
+    .scoring(TextScoringType::Bm25);
 
 client
     .create_field_index(

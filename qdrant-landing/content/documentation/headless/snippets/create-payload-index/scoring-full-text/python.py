@@ -9,6 +9,6 @@ client.create_payload_index(
         type=models.TextIndexType.TEXT,
         tokenizer=models.TokenizerType.WORD,
         lowercase=True,
-        scoring=True,
+        scoring=models.TextScoringParams(type=models.TextScoringType.BM25),
     ),
 )

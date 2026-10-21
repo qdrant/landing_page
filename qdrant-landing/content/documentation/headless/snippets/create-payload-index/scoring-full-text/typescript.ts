@@ -8,6 +8,6 @@ client.createPayloadIndex("{collection_name}", {
     type: "text",
     tokenizer: "word",
     lowercase: true,
-    scoring: true,
+    scoring: { type: "bm25" },
   },
 });

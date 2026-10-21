@@ -6,7 +6,9 @@ PUT /collections/{collection_name}/index
         "type": "text",
         "tokenizer": "word",
         "lowercase": true,
-        "scoring": true
+        "scoring": {
+            "type": "bm25"
+        }
     }
 }
 ```
