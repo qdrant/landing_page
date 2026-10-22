@@ -27,7 +27,7 @@
         {{ if .OutputFormats.Get "markdown" }}
           <ul class="table-of-contents__external-links">
             <li class="table-of-contents__link">
-              {{ partial "copy-markdown-button.html" . }}
+              {{ partial "copy-markdown-button.html" (dict "page" . "glyph" "outline") }}
             </li>
           </ul>
         {{ end }}
@@ -53,7 +53,7 @@
             </li>
             {{ if .OutputFormats.Get "markdown" }}
               <li class="table-of-contents__link">
-                {{ partial "copy-markdown-button.html" . }}
+                {{ partial "copy-markdown-button.html" (dict "page" . "glyph" "outline") }}
               </li>
             {{ end }}
             <li class="table-of-contents__link">

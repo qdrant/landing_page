@@ -320,8 +320,16 @@
 [data-theme='dark'] .table-of-contents .table-of-contents__link .copy-markdown {
   color: $neutral-70;
 
+  .copy-markdown__icon {
+    color: $neutral-98;
+  }
+
   &:hover {
     color: $neutral-98;
+
+    .copy-markdown__label {
+      text-decoration: underline;
+    }
   }
 }
 
