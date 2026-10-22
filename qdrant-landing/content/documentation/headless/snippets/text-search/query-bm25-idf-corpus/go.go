@@ -20,11 +20,7 @@ func Main() {
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
-		Query: &qdrant.Query{
-			Variant: &qdrant.Query_Text{
-				Text: &qdrant.TextQuery{Query: "time travel"},
-			},
-		},
+		Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: "time travel"}),
 		Using: qdrant.PtrOf("title"),
 		Filter: &qdrant.Filter{
 			Must: []*qdrant.Condition{

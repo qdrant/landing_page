@@ -22,11 +22,7 @@ func Main() {
 			{
 				Prefetch: []*qdrant.PrefetchQuery{
 					{
-						Query: &qdrant.Query{
-							Variant: &qdrant.Query_Text{
-								Text: &qdrant.TextQuery{Query: "time travel"},
-							},
-						},
+						Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: "time travel"}),
 						Using: qdrant.PtrOf("title"),
 						Limit: qdrant.PtrOf(uint64(100)),
 					},

@@ -29,12 +29,10 @@ func Main() {
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "books",
-		Query: qdrant.NewQueryNearest(
-			qdrant.NewVectorInputDocument(&qdrant.Document{
-				Model: "sentence-transformers/all-minilm-l6-v2",
-				Text:  "space opera",
-			}),
-		),
+		Query: qdrant.NewQueryDocument(&qdrant.Document{
+			Model: "sentence-transformers/all-minilm-l6-v2",
+			Text:  "space opera",
+		}),
 		Using:       qdrant.PtrOf("description-dense"),
 		WithPayload: qdrant.NewWithPayload(true),
 		Filter:      &andFilter,

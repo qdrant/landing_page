@@ -21,11 +21,7 @@ func Main() {
 
 	prefetch := []*qdrant.PrefetchQuery{
 		{
-			Query: &qdrant.Query{
-				Variant: &qdrant.Query_Text{
-					Text: &qdrant.TextQuery{Query: queryText},
-				},
-			},
+			Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: queryText}),
 			Using: qdrant.PtrOf("passage_text"),
 			Limit: qdrant.PtrOf(uint64(5)),
 		},

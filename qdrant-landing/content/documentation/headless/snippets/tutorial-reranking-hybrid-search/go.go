@@ -201,11 +201,7 @@ func Main() {
 	// @block-start bm25-retrieval
 	results, err = client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: collectionName,
-		Query: &qdrant.Query{
-			Variant: &qdrant.Query_Text{
-				Text: &qdrant.TextQuery{Query: query},
-			},
-		},
+		Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: query}),
 		Using: qdrant.PtrOf("description"),
 		Limit: qdrant.PtrOf(uint64(10)),
 	})
@@ -234,11 +230,7 @@ func Main() {
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
 			{
-				Query: &qdrant.Query{
-					Variant: &qdrant.Query_Text{
-						Text: &qdrant.TextQuery{Query: query},
-					},
-				},
+				Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: query}),
 				Using: qdrant.PtrOf("description"),
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
@@ -272,11 +264,7 @@ func Main() {
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
 			{
-				Query: &qdrant.Query{
-					Variant: &qdrant.Query_Text{
-						Text: &qdrant.TextQuery{Query: query},
-					},
-				},
+				Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: query}),
 				Using: qdrant.PtrOf("description"),
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
