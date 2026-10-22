@@ -4,19 +4,16 @@
 {{- range slice "Develop" "Deploy" "Ecosystem" }}
 ## {{ . }}
 {{ $partition := lower . -}}
-{{- /* `llmsExclude: true` on a sidebar heading (a delimiter page) drops that heading and the entries under it. */ -}}
-{{- $skip := false -}}
+{{- /* `llmsTopLevelOnly: true` on a sidebar heading (a delimiter page) lists its entries without the pages under them. */ -}}
+{{- $flat := false -}}
 {{- range where (where $docs.Pages.ByWeight "Params.partition" $partition) "Params.hideInSidebar" "!=" true -}}
 {{- if eq .Params.type "delimiter" -}}
-{{- $skip = .Params.llmsExclude -}}
-{{- if not $skip }}
+{{- $flat = eq .Params.llmsTopLevelOnly true }}
 ### {{ .Title }}
-{{ end -}}
-{{- else if $skip -}}
-{{- else if eq .Params.type "reference" -}}
-{{ partial "llms-tree" (dict "page" (site.GetPage .Params.reference) "indent" "") }}
+{{ else if eq .Params.type "reference" -}}
+{{ partial "llms-tree" (dict "page" (site.GetPage .Params.reference) "indent" "" "flat" $flat) }}
 {{- else -}}
-{{ partial "llms-tree" (dict "page" . "indent" "") }}
+{{ partial "llms-tree" (dict "page" . "indent" "" "flat" $flat) }}
 {{- end -}}
 {{- end -}}
 {{- end }}
@@ -30,7 +27,7 @@
 {{ partial "llms-entry" (site.GetPage "/legal/terms_and_conditions") -}}
 - [Trust Center](https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9): Qdrant security, compliance reports, and certifications.
 
-{{- /* A page's title (its H1) as a link, then every page under it, nested. */ -}}
+{{- /* A page's title (its H1) as a link, then every page under it, nested, unless `flat`. */ -}}
 {{- define "_partials/llms-tree" -}}
 {{- $p := .page -}}
 {{- $include := and $p (not $p.Params.sitemapExclude) (not $p.Sitemap.Disable) -}}
@@ -43,8 +40,10 @@
 {{ else if and (ne $p.Title "") (ne $p.Permalink "") -}}
 {{ .indent }}- [{{ $p.Title }}]({{ $p.Permalink }}index.md)
 {{ end -}}
+{{- if not .flat -}}
 {{- $indent := printf "%s  " .indent -}}
 {{- range $p.Pages.ByWeight }}{{ partial "llms-tree" (dict "page" . "indent" $indent) }}{{ end -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 

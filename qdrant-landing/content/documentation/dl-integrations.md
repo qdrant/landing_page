@@ -10,5 +10,5 @@ build:
   publishResources: false
   render: never
 partition: ecosystem
-llmsExclude: true # leave this group out of llms.txt
+llmsTopLevelOnly: true # llms.txt lists these entries, not the pages under them
 ---
