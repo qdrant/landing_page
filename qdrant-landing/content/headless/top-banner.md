@@ -10,7 +10,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant 1.20: BM25 keyword ranking without the sparse pipeline"
+text: "Qdrant 1.20: BM25 keyword ranking without sparse vectors"
 link:
   text: Read the release notes
   url: https://qdrant.tech/blog/qdrant-1.20.x/
