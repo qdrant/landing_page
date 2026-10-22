@@ -97,13 +97,6 @@ menuItems:
             name: Healthcare Tech
             icon: healthcare.svg
             url: /healthcare/
-      - id: mainMenu-1-2
-        name: Services
-        subMenuItems:
-          - id: subMenu-1-10
-            name: Implementation Partners
-            icon: qdrant-enterprise-solutions.svg
-            url: /services/
   - id: menu-2
     name: Developers
     mainMenuItems: 
