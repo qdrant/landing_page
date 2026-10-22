@@ -29,7 +29,7 @@ sitemapExclude: true
 build:
   list: never
   render: always
-retired_note: The rescoring and oversampling results from this article, with their setup and limits, now live in the Quantization documentation.
+retired_note: "This article duplicates the Binary Quantization section of the Quantization documentation, which now carries its rescoring and oversampling results with their setup and limits."
 retired_resource:
   title: Quantization Documentation
   url: /documentation/manage-data/quantization/#rescoring-and-oversampling-results
