@@ -38,7 +38,7 @@
 {{- if eq $p.Params.type "external-link" -}}
 {{ .indent }}- [{{ $p.Title }}]({{ $p.Params.external_url }})
 {{ else if and (ne $p.Title "") (ne $p.Permalink "") -}}
-{{ .indent }}- [{{ $p.Title }}]({{ $p.Permalink }}index.md)
+{{ .indent }}- [{{ $p.Title }}]({{ strings.TrimSuffix "/" $p.Permalink }}.md)
 {{ end -}}
 {{- if not .flat -}}
 {{- $indent := printf "%s  " .indent -}}
@@ -48,5 +48,5 @@
 {{- end -}}
 
 {{- define "_partials/llms-entry" -}}
-- [{{ .Title }}]({{ .Permalink }}index.md){{ with .Description }}: {{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ end }}
+- [{{ .Title }}]({{ strings.TrimSuffix "/" .Permalink }}.md){{ with .Description }}: {{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ end }}
 {{ end -}}
