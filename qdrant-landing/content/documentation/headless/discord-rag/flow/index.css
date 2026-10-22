@@ -1,0 +1,97 @@
+/* Discord RAG flow island. Scoped under .qi-discord-rag. Tokens, the controls
+   row, chips, the status line, frames and labels come from the shared island
+   styles; this file holds the diagram's own drawing and its narrow fallback. */
+.qi-discord-rag {
+  --rag-camel: var(--qi-cat-1);
+  --rag-discord: var(--qi-cat-2);
+  --rag-openai: var(--qi-cat-3);
+  --rag-qdrant: var(--qi-cat-4);
+  display: block;
+  width: 100%;
+  color: var(--qi-fg);
+  container: discord-rag / inline-size;
+}
+.qi-discord-rag *, .qi-discord-rag *::before, .qi-discord-rag *::after { box-sizing: border-box; }
+
+/* Readability adjustments on the shared controls: the two path chips are the
+   only controls, so they sit centered at body text size. */
+.qi-discord-rag .qi-controls { justify-content: center; min-height: 36px; }
+.qi-discord-rag .qi-chip { min-height: 36px; font-size: 14px; color: var(--qi-fg); }
+
+/* Wide drawing. */
+.qi-discord-rag .qi-discord-rag__svg { overflow: visible; }
+.qi-discord-rag .qi-discord-rag__boundary { fill: none; stroke: var(--qi-muted); stroke-dasharray: 5 4; }
+.qi-discord-rag .qi-discord-rag__owner { font-size: 14px; fill: var(--qi-fg); }
+.qi-discord-rag .qi-discord-rag__node { cursor: pointer; outline: none; }
+.qi-discord-rag .qi-discord-rag__box { stroke-width: 1.5; transition: stroke 140ms ease; }
+.qi-discord-rag .qi-discord-rag__node.is-emphasized .qi-discord-rag__box,
+.qi-discord-rag .qi-discord-rag__node:focus-visible .qi-discord-rag__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-discord-rag .qi-discord-rag__node.is-pinned .qi-discord-rag__box { stroke: var(--qi-hot); }
+.qi-discord-rag .qi-discord-rag__stripe { fill: var(--rag-category, var(--qi-muted)); }
+.qi-discord-rag .qi-discord-rag__node--camel { --rag-category: var(--rag-camel); }
+.qi-discord-rag .qi-discord-rag__node--discord { --rag-category: var(--rag-discord); }
+.qi-discord-rag .qi-discord-rag__node--openai { --rag-category: var(--rag-openai); }
+.qi-discord-rag .qi-discord-rag__node--qdrant { --rag-category: var(--rag-qdrant); }
+.qi-discord-rag .qi-discord-rag__name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+.qi-discord-rag .qi-discord-rag__sub { fill: var(--qi-fg); font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__edge-label { fill: var(--qi-fg); font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__arrow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.qi-discord-rag .qi-discord-rag__arrow.is-return { stroke-dasharray: 4 4; }
+.qi-discord-rag .qi-discord-rag__arrowhead { fill: var(--qi-muted); }
+.qi-discord-rag .qi-discord-rag__edge.is-emphasized .qi-discord-rag__arrow { stroke: var(--qi-hot); stroke-width: 2.5; }
+.qi-discord-rag .qi-discord-rag__edge.is-emphasized .qi-discord-rag__edge-label { font-weight: 600; }
+
+@container discord-rag (max-width: 450px) {
+  .qi-discord-rag .qi-status { min-height: calc(4 * 1.45em); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-discord-rag .qi-discord-rag__box { transition: none; }
+}
+
+/* At narrow widths the same entities become an ordered list. */
+.qi-discord-rag .qi-discord-rag__narrow { display: none; }
+.qi-discord-rag .qi-discord-rag__mobile-list { list-style: none; margin: 0; padding: 0; }
+.qi-discord-rag .qi-discord-rag__mobile-list > li { margin: 0; padding: 0; }
+.qi-discord-rag .qi-discord-rag__mobile-node {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0;
+  padding: 12px 14px; border: 1.5px solid var(--qi-border);
+  border-left: 4px solid var(--rag-category, var(--qi-muted)); border-radius: var(--qi-radius);
+  background: var(--qi-surface); color: var(--qi-fg); text-align: left;
+  font-family: var(--qi-mono); line-height: 1.45; overflow-wrap: anywhere;
+}
+.qi-discord-rag button.qi-discord-rag__mobile-node { cursor: pointer; }
+.qi-discord-rag .qi-discord-rag__mobile-node.is-emphasized,
+.qi-discord-rag .qi-discord-rag__mobile-node.is-pinned { border-color: var(--qi-hot); border-left-color: var(--rag-category, var(--qi-muted)); }
+.qi-discord-rag .qi-discord-rag__mobile-node:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-discord-rag .qi-discord-rag__mobile-owner,
+.qi-discord-rag .qi-discord-rag__mobile-sub { display: block; font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__mobile-name { display: block; font-size: 16px; font-weight: 600; }
+.qi-discord-rag .qi-discord-rag__transfer { margin: 7px 0 12px; font-size: 14px; line-height: 1.45; color: var(--qi-fg); overflow-wrap: anywhere; }
+.qi-discord-rag .qi-discord-rag__branch { margin: 0 0 10px; padding: 10px 12px; border: 1px dashed var(--qi-muted); font-size: 14px; line-height: 1.45; color: var(--qi-fg); }
+@container discord-rag (max-width: 560px) {
+  .qi-discord-rag .qi-discord-rag__svg { display: none; }
+  .qi-discord-rag .qi-discord-rag__narrow { display: block; }
+  .qi-discord-rag .qi-status { min-height: calc(4 * 1.45em); }
+}
+
+.island[data-island='content/documentation/headless/discord-rag/flow'] .island__mount {
+  width: 100%;
+}
+.island[data-island='content/documentation/headless/discord-rag/flow'] .island__stage {
+  overflow: visible;
+}

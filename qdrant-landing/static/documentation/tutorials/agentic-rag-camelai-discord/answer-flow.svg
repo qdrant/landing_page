@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-discord-rag qi-svg qi-discord-rag__svg" viewBox="-3 -3 676 586" role="img" aria-label="Fixed retrieval and generation flow for a Discord question" aria-describedby="qi-discord-rag-fallback-description"><style>/* Local layout and controls: all selectors are scoped to this figure. */
+.qi-discord-rag {
+  --qi-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+figure.qi-discord-rag {
+  max-width: 670px;
+  margin: 1.5rem auto;
+  background: var(--rag-background);
+}
+.qi-discord-rag *, .qi-discord-rag *::before, .qi-discord-rag *::after { box-sizing: border-box; }
+.qi-discord-rag .qi-fig { display: flex; flex-direction: column; gap: 14px; }
+.qi-discord-rag .qi-controls, .qi-discord-rag .qi-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.qi-discord-rag .qi-controls { min-height: 36px; }
+.qi-discord-rag .qi-chip {
+  padding: 5px 10px; border: 1px solid var(--qi-border); border-radius: 6px;
+  background: transparent; font-family: var(--qi-mono); line-height: 18px;
+  cursor: pointer; white-space: nowrap;
+}
+.qi-discord-rag .qi-chip[aria-pressed='true'] { border-color: var(--qi-fg); background: var(--qi-surface); }
+.qi-discord-rag .qi-chip:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-discord-rag .qi-svg { display: block; width: 100%; height: auto; }
+.qi-discord-rag .qi-frame { fill: var(--qi-surface); stroke: var(--qi-border); }
+.qi-discord-rag .qi-label, .qi-discord-rag .qi-frame-label { font-family: var(--qi-mono); }
+.qi-discord-rag .qi-status { font-size: 14px; line-height: 1.45; color: var(--qi-fg); }
+.qi-discord-rag .qi-discord-rag__caption {
+  margin: .6rem 0 0; font-size: 14px; line-height: 1.4; text-align: center; color: var(--qi-muted);
+}
+#discord-rag-inline:not([data-ready]) .qi-discord-rag__node { cursor: default; }
+
+/* Article-local chrome follows the current qi tokens. Category colors retain
+   their meaning in both themes; text, frames and interaction stay neutral. */
+.qi-discord-rag {
+  --rag-background: #ffffff;
+  --qi-fg: #303547;
+  --qi-muted: #656b7f;
+  --qi-surface: #f0f3fa;
+  --qi-border: #d3d9eb;
+  --qi-line: #abb1c7;
+  --qi-hot: #303547;
+  --rag-camel: #6047ff;
+  --rag-discord: #9c27b0;
+  --rag-openai: #00838f;
+  --rag-qdrant: #dc244c;
+  display: block;
+  width: 100%;
+  color: var(--qi-fg);
+  container: discord-rag / inline-size;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-discord-rag {
+    --rag-background: #090e1a;
+  --qi-fg: #e2e7f5;
+    --qi-muted: #898ea3;
+    --qi-surface: #111824;
+    --qi-border: #303547;
+    --qi-line: #4e5366;
+    --qi-hot: #f0f3fa;
+  }
+}
+html[data-theme='dark'] .qi-discord-rag {
+  --rag-background: #090e1a;
+  --qi-fg: #e2e7f5;
+  --qi-muted: #898ea3;
+  --qi-surface: #111824;
+  --qi-border: #303547;
+  --qi-line: #4e5366;
+  --qi-hot: #f0f3fa;
+}
+
+.qi-discord-rag .qi-controls { justify-content: center; }
+.qi-discord-rag .qi-chip { min-height: 36px; font-size: 14px; color: var(--qi-fg); }
+.qi-discord-rag .qi-chip:hover:not(:disabled) { color: var(--qi-fg); border-color: var(--qi-muted); }
+.qi-discord-rag .qi-chip:focus-visible { outline-color: var(--qi-hot); }
+.qi-discord-rag .qi-status { min-height: calc(2 * 1.45em); margin: 0; }
+.qi-discord-rag .qi-discord-rag__svg { overflow: visible; }
+.qi-discord-rag .qi-discord-rag__boundary { fill: none; stroke: var(--qi-muted); stroke-dasharray: 5 4; }
+.qi-discord-rag .qi-discord-rag__owner { font-size: 14px; fill: var(--qi-fg); }
+.qi-discord-rag .qi-discord-rag__node { cursor: pointer; outline: none; }
+.qi-discord-rag .qi-discord-rag__box { stroke-width: 1.5; transition: stroke 140ms ease; }
+.qi-discord-rag .qi-discord-rag__node.is-emphasized .qi-discord-rag__box,
+.qi-discord-rag .qi-discord-rag__node:focus-visible .qi-discord-rag__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-discord-rag .qi-discord-rag__node.is-pinned .qi-discord-rag__box { stroke: var(--qi-hot); }
+.qi-discord-rag .qi-discord-rag__stripe { fill: var(--rag-category, var(--qi-muted)); }
+.qi-discord-rag .qi-discord-rag__node--camel { --rag-category: var(--rag-camel); }
+.qi-discord-rag .qi-discord-rag__node--discord { --rag-category: var(--rag-discord); }
+.qi-discord-rag .qi-discord-rag__node--openai { --rag-category: var(--rag-openai); }
+.qi-discord-rag .qi-discord-rag__node--qdrant { --rag-category: var(--rag-qdrant); }
+.qi-discord-rag .qi-discord-rag__name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+.qi-discord-rag .qi-discord-rag__sub { fill: var(--qi-fg); font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__edge-label { fill: var(--qi-fg); font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__arrow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.qi-discord-rag .qi-discord-rag__arrow.is-return { stroke-dasharray: 4 4; }
+.qi-discord-rag .qi-discord-rag__arrowhead { fill: var(--qi-muted); }
+.qi-discord-rag .qi-discord-rag__edge.is-emphasized .qi-discord-rag__arrow { stroke: var(--qi-hot); stroke-width: 2.5; }
+.qi-discord-rag .qi-discord-rag__edge.is-emphasized .qi-discord-rag__edge-label { font-weight: 600; }
+
+@container discord-rag (max-width: 450px) {
+  .qi-discord-rag .qi-status { min-height: calc(4 * 1.45em); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-discord-rag .qi-discord-rag__box { transition: none; }
+}
+
+/* At narrow article widths, the same entities become a readable ordered flow.
+   Both paths are static HTML too, so the fallback never depends on JavaScript. */
+.qi-discord-rag .qi-discord-rag__narrow { display: none; }
+.qi-discord-rag .qi-discord-rag__mobile-list { list-style: none; margin: 0; padding: 0; }
+.qi-discord-rag .qi-discord-rag__mobile-list > li { margin: 0; padding: 0; }
+.qi-discord-rag .qi-discord-rag__mobile-node {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0;
+  padding: 12px 14px; border: 1.5px solid var(--qi-border);
+  border-left: 4px solid var(--rag-category, var(--qi-muted)); border-radius: 6px;
+  background: var(--qi-surface); color: var(--qi-fg); text-align: left;
+  font-family: var(--qi-mono); line-height: 1.45; overflow-wrap: anywhere;
+}
+.qi-discord-rag button.qi-discord-rag__mobile-node { cursor: pointer; }
+.qi-discord-rag .qi-discord-rag__mobile-node.is-emphasized,
+.qi-discord-rag .qi-discord-rag__mobile-node.is-pinned { border-color: var(--qi-hot); border-left-color: var(--rag-category, var(--qi-muted)); }
+.qi-discord-rag .qi-discord-rag__mobile-node:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-discord-rag .qi-discord-rag__mobile-owner,
+.qi-discord-rag .qi-discord-rag__mobile-sub { display: block; font-size: 14px; }
+.qi-discord-rag .qi-discord-rag__mobile-name { display: block; font-size: 16px; font-weight: 600; }
+.qi-discord-rag .qi-discord-rag__transfer { margin: 7px 0 12px; font-size: 14px; line-height: 1.45; color: var(--qi-fg); overflow-wrap: anywhere; }
+.qi-discord-rag .qi-discord-rag__branch { margin: 0 0 10px; padding: 10px 12px; border: 1px dashed var(--qi-muted); font-size: 14px; line-height: 1.45; color: var(--qi-fg); }
+.qi-discord-rag .qi-discord-rag__static-flow + .qi-discord-rag__static-flow { margin-top: 24px; }
+.qi-discord-rag .qi-discord-rag__static-flow h3 { margin: 0 0 12px; font-size: 16px; line-height: 1.4; color: var(--qi-fg); }
+#discord-rag-inline[data-ready] ~ .qi-discord-rag__fallback-narrow { display: none; }
+@container discord-rag (max-width: 560px) {
+  .qi-discord-rag .qi-discord-rag__svg { display: none; }
+  .qi-discord-rag .qi-discord-rag__narrow { display: block; }
+  #discord-rag-inline:not([data-ready]) .qi-fig { display: none; }
+  .qi-discord-rag .qi-status { min-height: calc(4 * 1.45em); }
+}</style><rect x="-3" y="-3" width="676" height="586" fill="#fff"/><desc id="qi-discord-rag-fallback-description">The application embeds a Discord question, searches Qdrant, and sends matching text plus the original question to a fresh ChatAgent. Without usable context, generation is skipped. The answer returns to Discord.</desc><defs><marker id="qi-discord-rag-fallback-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L9 5L0 10Z" class="qi-discord-rag__arrowhead"></path></marker></defs><rect x="48" y="96" width="282" height="392" class="qi-frame qi-discord-rag__boundary" rx="6"></rect><text x="66" y="120" class="qi-frame-label qi-discord-rag__owner">CAMEL-AI</text><text x="440" y="120" class="qi-frame-label qi-discord-rag__owner">External services</text><g class="qi-discord-rag__edge" data-from="input" data-to="embed" aria-hidden="true"><path d="M188 68V142" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="91" class="qi-label qi-discord-rag__edge-label" text-anchor="start">question</text></g><g class="qi-discord-rag__edge" data-from="embed" data-to="embedding-service" aria-hidden="true"><path d="M310 164H436" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="155" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">text</text></g><g class="qi-discord-rag__edge" data-from="embedding-service" data-to="embed" aria-hidden="true"><path d="M440 192H314" class="qi-discord-rag__arrow is-return" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="216" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">vector</text></g><g class="qi-discord-rag__edge" data-from="embed" data-to="storage" aria-hidden="true"><path d="M188 210V270" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="246" class="qi-label qi-discord-rag__edge-label" text-anchor="start">query vector</text></g><g class="qi-discord-rag__edge" data-from="storage" data-to="cloud" aria-hidden="true"><path d="M310 292H436" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="283" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">query</text></g><g class="qi-discord-rag__edge" data-from="cloud" data-to="storage" aria-hidden="true"><path d="M440 320H314" class="qi-discord-rag__arrow is-return" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="344" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">matches</text></g><g class="qi-discord-rag__edge" data-from="storage" data-to="agent" aria-hidden="true"><path d="M188 338V398" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="374" class="qi-label qi-discord-rag__edge-label" text-anchor="start">text + sources</text></g><g class="qi-discord-rag__edge" data-from="input" data-to="agent" aria-hidden="true"><path d="M66 38H24V434H62" class="qi-discord-rag__arrow is-bypass" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="15" y="255" class="qi-label qi-discord-rag__edge-label" text-anchor="middle" transform="rotate(-90 15 255)">original question</text></g><g class="qi-discord-rag__edge" data-from="agent" data-to="chat-service" aria-hidden="true"><path d="M310 420H436" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="411" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">prompt</text></g><g class="qi-discord-rag__edge" data-from="chat-service" data-to="agent" aria-hidden="true"><path d="M440 448H314" class="qi-discord-rag__arrow is-return" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="375" y="472" class="qi-label qi-discord-rag__edge-label" text-anchor="middle">answer</text></g><g class="qi-discord-rag__edge" data-from="agent" data-to="reply" aria-hidden="true"><path d="M188 466V516" class="qi-discord-rag__arrow" marker-end="url(#qi-discord-rag-fallback-arrow)"></path><text x="204" y="508" class="qi-label qi-discord-rag__edge-label" text-anchor="start">reply</text></g><g class="qi-discord-rag__node qi-discord-rag__node--discord" data-node="input"><rect x="66" y="8" width="244" height="60" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="9" width="4" height="58" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="33" class="qi-discord-rag__name">Discord user</text><text x="81" y="55" class="qi-label qi-discord-rag__sub">!ask followed by a question</text></g><g class="qi-discord-rag__node qi-discord-rag__node--camel" data-node="embed"><rect x="66" width="244" height="64" y="146" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="147" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="171" class="qi-discord-rag__name">OpenAIEmbedding</text><text x="81" y="193" class="qi-label qi-discord-rag__sub">question → query vector</text></g><g class="qi-discord-rag__node qi-discord-rag__node--openai" data-node="embedding-service"><rect x="440" width="214" height="64" y="146" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="441" y="147" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="455" y="171" class="qi-discord-rag__name">OpenAI</text><text x="455" y="193" class="qi-label qi-discord-rag__sub">text-embedding-3-large</text></g><g class="qi-discord-rag__node qi-discord-rag__node--camel" data-node="storage"><rect x="66" width="244" height="64" y="274" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="275" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="299" class="qi-discord-rag__name">QdrantStorage</text><text x="81" y="321" class="qi-label qi-discord-rag__sub">search the collection</text></g><g class="qi-discord-rag__node qi-discord-rag__node--qdrant" data-node="cloud"><rect x="440" width="214" height="64" y="274" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="441" y="275" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="455" y="299" class="qi-discord-rag__name">Qdrant Cloud</text><text x="455" y="321" class="qi-label qi-discord-rag__sub">document collection</text></g><g class="qi-discord-rag__node qi-discord-rag__node--camel" data-node="agent"><rect x="66" width="244" height="64" y="402" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="403" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="427" class="qi-discord-rag__name">Fresh ChatAgent</text><text x="81" y="449" class="qi-label qi-discord-rag__sub">question + retrieved text</text></g><g class="qi-discord-rag__node qi-discord-rag__node--openai" data-node="chat-service"><rect x="440" width="214" height="64" y="402" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="441" y="403" width="4" height="62" rx="2" class="qi-discord-rag__stripe"></rect><text x="455" y="427" class="qi-discord-rag__name">OpenAI</text><text x="455" y="449" class="qi-label qi-discord-rag__sub">gpt-4o-mini</text></g><g class="qi-discord-rag__node qi-discord-rag__node--discord" data-node="reply"><rect x="66" y="520" width="244" height="44" rx="5" class="qi-frame qi-discord-rag__box"></rect><rect x="67" y="521" width="4" height="42" rx="2" class="qi-discord-rag__stripe"></rect><text x="81" y="548" class="qi-discord-rag__name">Answer in Discord</text></g></svg>
