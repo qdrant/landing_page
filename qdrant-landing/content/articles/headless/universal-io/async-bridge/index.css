@@ -7,7 +7,7 @@
   display: block;
 }
 .qi-br .qi-status--3 {
-  min-height: calc(3 * 1.45em);
+  min-height: 0;
 }
 .qi-br__num {
   color: var(--qi-muted);
@@ -117,9 +117,6 @@
 .qi-br.is-compact .qi-br__bar-text {
   font-size: 14px;
 }
-.qi-br.is-compact .qi-status--3 {
-  min-height: calc(7 * 1.45em);
-}
 
 @media (prefers-reduced-motion: reduce) {
   .qi-br [data-step],
@@ -132,7 +129,7 @@
    diagram follows both the explicit site theme and the OS preference. */
 html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
   margin: 2rem 0;
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 0.875rem;
   background: var(--qi-surface);
   border: 1px solid var(--qi-border);
   border-radius: var(--qi-radius);
@@ -142,14 +139,14 @@ html .island[data-island='content/articles/headless/universal-io/async-bridge'] 
   aspect-ratio: auto !important;
 }
 html .island[data-island='content/articles/headless/universal-io/async-bridge'] .island__caption {
-  margin-top: 0.9rem;
-  padding-top: 0.75rem;
+  margin-top: 0.375rem;
+  padding-top: 0.5rem;
   border-top: 1px solid var(--qi-border);
 }
 
 /* Tighter card padding on phones; last so it wins over the card rule above. */
 @media (max-width: 640px) {
   html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
-    padding: 1rem 0.75rem 0.75rem;
+    padding: 0.75rem 0.5rem;
   }
 }

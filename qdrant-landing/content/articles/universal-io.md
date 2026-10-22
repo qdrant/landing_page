@@ -52,7 +52,7 @@ After a few iterations, we settled on a middle ground, a `ReadPipeline` abstract
 
 {{< island
     path="content/articles/headless/universal-io/architecture"
-    width="760" ratio="760 / 450"
+    width="760" ratio="760 / 414"
     title="The consumers are written once against the Universal I/O traits. `mmap` returns a borrowed slice directly, `io_uring` exchanges reads with the Linux kernel through submission and completion ring buffers, and network I/O runs remote requests as Tokio tasks."
 >}}
 ![Consumer code calls the same Universal I/O traits for three different read paths: mmap returns a borrowed slice directly at depth 1; io_uring submits local disk reads to the Linux kernel through a submission ring and receives them through a completion ring at depth 16; network I/O runs up to 256 remote object-storage requests as Tokio tasks.](/articles_data/universal-io/uio-architecture.svg)
@@ -180,7 +180,7 @@ A read through `DiskCache` then goes like this:
 
 {{< island
     path="content/articles/headless/universal-io/disk-cache"
-    width="760" ratio="760 / 350"
+    width="760" ratio="760 / 288"
     title="A `DiskCache` read in three outcomes: a hit returns a slice of the local mmap, a miss fetches the whole covering range once, and a read already covered by an in-flight fetch waits for it instead of sending its own request."
 >}}
 ![A remote file of 16 blocks is mirrored into a local mmap file of the same size. A bitmap records which blocks are local, and only blocks 0 and 1 are in this example. A read of local blocks returns a slice of the mirror, while a read of a missing block fetches the covering range from object storage first.](/articles_data/universal-io/uio-disk-cache.svg)

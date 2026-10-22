@@ -28,20 +28,20 @@ const INITIAL = [0, 1];
 // Geometry per composition. `base` is the y of the first row of each zone.
 const GEO = {
   wide: {
-    W: 760, H: 350, bx0: 28, step: 44, cols: 16, bw: 40, bh: 36, rowGap: 0,
-    base: { remote: 44, mirror: 208, bit: 332 },
-    frames: [[6, 96, 'remote file · object storage'], [172, 112, 'local mmap mirror · 16 KiB blocks'], [296, 50, 'bitmap · which blocks are local']],
-    labelY: { flight: 100, slice: 266 },
-    arrow: { y1: 108, y2: 200, labelY: 148 },
-    badge: { x: 744, y: 194, anchor: 'end' },
+    W: 760, H: 288, bx0: 28, step: 44, cols: 16, bw: 40, bh: 36, rowGap: 0,
+    base: { remote: 40, mirror: 164, bit: 266 },
+    frames: [[6, 82, 'remote file · object storage'], [126, 92, 'local mmap mirror · 16 KiB blocks'], [230, 52, 'bitmap · which blocks are local']],
+    labelY: { flight: 84, slice: 214 },
+    arrow: { y1: 94, y2: 156, labelY: 124 },
+    badge: { x: 744, y: 252, anchor: 'end' },
   },
   compact: {
-    W: 360, H: 468, bx0: 12, step: 42, cols: 8, bw: 36, bh: 32, rowGap: 40,
-    base: { remote: 42, mirror: 244, bit: 412 },
-    frames: [[6, 130, 'remote file · object storage'], [208, 140, 'local mmap mirror · 16 KiB blocks'], [360, 100, 'bitmap · which blocks are local']],
-    labelY: { flight: 132, slice: 336 },
-    arrow: { y1: 140, y2: 204, labelY: 176 },
-    badge: { x: 16, y: 452, anchor: 'start' },
+    W: 360, H: 416, bx0: 12, step: 42, cols: 8, bw: 36, bh: 32, rowGap: 40,
+    base: { remote: 42, mirror: 208, bit: 376 },
+    frames: [[6, 130, 'remote file · object storage'], [172, 140, 'local mmap mirror · 16 KiB blocks'], [324, 86, 'bitmap · which blocks are local']],
+    labelY: { flight: 132, slice: 300 },
+    arrow: { y1: 140, y2: 168, labelY: 158 },
+    badge: { x: 16, y: 404, anchor: 'start' },
     bitRowGap: 22,
   },
 };
@@ -73,9 +73,18 @@ export function mount(node) {
 
   node.innerHTML = [
     '<div class="qi-fig">',
+    '  <svg class="qi-svg qi-dc__svg" viewBox="0 0 760 288" role="img"',
+    '    aria-label="DiskCache mirrors a remote file into a local mmap file of 16 blocks and keeps a bitmap of the blocks that are local. A read of local blocks returns a slice of the mirror. A read of a missing block fetches the covering range from object storage, writes it to the mirror, marks the bitmap, and returns a slice of the mirror.">',
+    '    <defs>',
+    `      <marker id="${arrowId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">`,
+    '        <path class="qi-dc__arrowhead" d="M 0 0 L 10 5 L 0 10 z"/>',
+    '      </marker>',
+    '    </defs>',
+    '    <g class="qi-dc__layer"></g>',
+    '  </svg>',
     '  <div class="qi-controls">',
     '    <div class="qi-group">',
-    '      <span class="qi-hint">Read:</span>',
+    '      <span class="qi-hint">Explore:</span>',
     READS.map(
       (r) =>
         `<button type="button" class="qi-chip" data-read="${r.id}" aria-pressed="false">${r.label}${r.hint ? `<small>${r.hint}</small>` : ''}</button>`,
@@ -85,15 +94,6 @@ export function mount(node) {
     '      <button type="button" class="qi-chip" data-reset>Reset</button>',
     '    </div>',
     '  </div>',
-    '  <svg class="qi-svg qi-dc__svg" viewBox="0 0 760 350" role="img"',
-    '    aria-label="DiskCache mirrors a remote file into a local mmap file of 16 blocks and keeps a bitmap of the blocks that are local. A read of local blocks returns a slice of the mirror. A read of a missing block fetches the covering range from object storage, writes it to the mirror, marks the bitmap, and returns a slice of the mirror.">',
-    '    <defs>',
-    `      <marker id="${arrowId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">`,
-    '        <path class="qi-dc__arrowhead" d="M 0 0 L 10 5 L 0 10 z"/>',
-    '      </marker>',
-    '    </defs>',
-    '    <g class="qi-dc__layer"></g>',
-    '  </svg>',
     '  <p class="qi-status qi-status--3 qi-dc__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');

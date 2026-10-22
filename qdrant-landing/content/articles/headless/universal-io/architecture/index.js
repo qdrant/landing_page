@@ -20,13 +20,13 @@ const COMPACT_BELOW = 560;
 const RING_SLOTS = 8;
 
 const BACKENDS = [
-  { id: 'mmap', title: 'mmap', sub: 'local memory map', mechanism: 'caller reads directly', depth: 1, shown: 1, depthLabel: 'depth 1' },
-  { id: 'uring', title: 'io_uring', sub: 'local disk', mechanism: 'Linux kernel queues', depth: 16, shown: 16, depthLabel: 'depth 16' },
-  { id: 'net', title: 'Network I/O', sub: 'remote object storage', mechanism: 'Tokio async tasks', depth: 256, shown: 16, depthLabel: 'depth up to 256 · 16 drawn' },
+  { id: 'mmap', title: 'mmap', detail: 'local · direct mapped slice', depth: 1, shown: 1, depthLabel: 'depth 1' },
+  { id: 'uring', title: 'io_uring', detail: 'local · kernel SQ/CQ rings', depth: 16, shown: 16, depthLabel: 'depth 16' },
+  { id: 'net', title: 'Network I/O', detail: 'remote · Tokio task pool', depth: 256, shown: 16, depthLabel: 'depth up to 256 · 16 drawn' },
 ];
 
 const STATUS = {
-  none: 'The consumers are written once against the traits. Pick a backend to see what runs underneath, or send reads to all three.',
+  none: 'One consumer contract, three backend-specific paths: a direct mapped slice, kernel SQ/CQ rings, or a Tokio task pool. Use the controls to explore the details.',
   mmap: '<code>mmap</code> has depth 1: <code>schedule()</code> slices the mapped file and <code>wait()</code> hands the slice back, so it is synchronous. Cheap when the data is in RAM, but a cold read blocks on a page fault, around 100 µs on an SSD.',
   uring: '<code>io_uring</code> has depth 16: reads queue up and run concurrently, but only on recent Linux kernels. A full pipeline accepts no more reads until <code>wait()</code> returns one.',
   net: 'Network I/O has depth up to 256: each read is an async request, 10 to 100 ms per round trip when the data is not cached, so many have to be in flight at once.',
@@ -54,19 +54,7 @@ export function mount(node) {
 
   node.innerHTML = [
     '<div class="qi-fig">',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group">',
-    '      <span class="qi-hint">Backend:</span>',
-    BACKENDS.map(
-      (b) => `<button type="button" class="qi-chip" data-backend-btn="${b.id}" aria-pressed="false"><span class="qi-chip__swatch qi-ab__swatch--${b.id}"></span>${b.title}</button>`,
-    ).join(''),
-    '    </div>',
-    '    <div class="qi-group">',
-    '      <button type="button" class="qi-chip" data-send>Send reads</button>',
-    '      <button type="button" class="qi-chip" data-reset>Reset</button>',
-    '    </div>',
-    '  </div>',
-    '  <svg class="qi-svg qi-ab__svg" viewBox="0 0 760 430" role="img"',
+    '  <svg class="qi-svg qi-ab__svg" viewBox="0 0 760 414" role="img"',
     '    aria-label="Universal I/O architecture. Consumer code (vector storage, HNSW graph links, payload indexes) calls the Universal I/O traits, which are implemented by three backends: mmap with pipeline depth 1, io_uring with depth 16, and network I/O with depth up to 256.">',
     '    <defs>',
     `      <marker id="${arrowId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">`,
@@ -75,6 +63,18 @@ export function mount(node) {
     '    </defs>',
     '    <g class="qi-ab__layer"></g>',
     '  </svg>',
+    '  <div class="qi-controls">',
+    '    <div class="qi-group">',
+    '      <span class="qi-hint">Explore:</span>',
+    BACKENDS.map(
+      (b) => `<button type="button" class="qi-chip" data-backend-btn="${b.id}" aria-pressed="false"><span class="qi-chip__swatch qi-ab__swatch--${b.id}"></span>${b.title}</button>`,
+    ).join(''),
+    '    </div>',
+    '    <div class="qi-group">',
+    '      <button type="button" class="qi-chip" data-send>Animate reads</button>',
+    '      <button type="button" class="qi-chip" data-reset>Reset</button>',
+    '    </div>',
+    '  </div>',
     '  <p class="qi-status qi-status--3 qi-ab__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
@@ -108,26 +108,26 @@ export function mount(node) {
     // The two compositions differ only in geometry; everything is keyed by backend id.
     const g = isCompact
       ? {
-          W: 360, H: 640, cx: 180,
+          W: 360, H: 628, cx: 180,
           cons: { x: 8, y: 8, w: 344, h: 80 },
           traits: { x: 8, y: 108, w: 344, h: 92 },
           consLines: ['vectors · HNSW · payload indexes', 'written once, any backend'],
           traitLines: ['UniversalReadFs', 'UniversalRead · ReadPipeline', 'schedule() · wait()'],
           consWire: 'M 180 88 V 104',
-          box: (i) => ({ x: 44, y: 218 + i * 140, w: 308, h: 128 }),
-          wire: (i) => ({ d: `M 180 200 H 24 V ${218 + i * 140 + 64} H 40` }),
-          pos: { mechanism: 48, row1: 70, row2: 94, depth: 118 },
+          box: (i) => ({ x: 44, y: 218 + i * 136, w: 308, h: 124 }),
+          wire: (i) => ({ d: `M 180 200 H 24 V ${218 + i * 136 + 62} H 40` }),
+          pos: { detail: 50, row1: 70, row2: 88, depth: 114 },
         }
       : {
-          W: 760, H: 450, cx: 380,
+          W: 760, H: 414, cx: 380,
           cons: { x: 130, y: 10, w: 500, h: 76 },
           traits: { x: 130, y: 132, w: 500, h: 84 },
           consLines: ['vectors · HNSW links · payload indexes', 'written once, generic over the backend'],
           traitLines: ['UniversalReadFs · UniversalRead · ReadPipeline', 'schedule() · wait()'],
           consWire: 'M 380 86 V 128',
-          box: (i) => ({ x: 16 + i * 248, y: 286, w: 232, h: 156 }),
-          wire: (i) => ({ d: `M 380 216 V 250 H ${16 + i * 248 + 116} V 282` }),
-          pos: { mechanism: 68, row1: 91, row2: 116, depth: 145 },
+          box: (i) => ({ x: 16 + i * 248, y: 278, w: 232, h: 128 }),
+          wire: (i) => ({ d: `M 380 216 V 246 H ${16 + i * 248 + 116} V 274` }),
+          pos: { detail: 50, row1: 70, row2: 88, depth: 116 },
         };
 
     svg.setAttribute('viewBox', `0 0 ${g.W} ${g.H}`);
@@ -160,13 +160,7 @@ export function mount(node) {
       const grp = el('g', { class: `qi-ab__backend qi-ab__backend--${b.id}` });
       grp.appendChild(rect(r.x, r.y, r.w, r.h, 'qi-ab__box-rect'));
       grp.appendChild(text(r.x + 14, r.y + 26, b.title, 'qi-title'));
-      if (isCompact) {
-        grp.appendChild(text(r.x + r.w - 14, r.y + 26, b.sub, 'qi-label', 'end'));
-        grp.appendChild(text(r.x + 14, r.y + g.pos.mechanism, b.mechanism, 'qi-label'));
-      } else {
-        grp.appendChild(text(r.x + 14, r.y + 48, b.sub, 'qi-label'));
-        grp.appendChild(text(r.x + 14, r.y + g.pos.mechanism, b.mechanism, 'qi-label qi-label--strong'));
-      }
+      grp.appendChild(text(r.x + 14, r.y + g.pos.detail, b.detail, 'qi-label qi-label--strong'));
       cells[b.id] = [];
 
       const addCells = (count, x, y, width = 8, gap = 2) => {
@@ -187,15 +181,13 @@ export function mount(node) {
       };
 
       if (b.id === 'mmap') {
-        grp.appendChild(text(r.x + 14, r.y + g.pos.row1, 'caller → borrowed slice', 'qi-label'));
         addCells(1, r.x + 14, r.y + g.pos.row2 - 11, 12, 0);
       } else if (b.id === 'uring') {
-        const ringY = r.y + (isCompact ? 82 : 98);
-        const ringRadius = isCompact ? [12, 20] : [14, 24];
+        const ringY = r.y + (isCompact ? 79 : 80);
+        const ringRadius = isCompact ? [11, 18] : [12, 20];
         addRing(r.x + r.w * 0.34, ringY, ringRadius[0], ringRadius[1], 'SQ');
         addRing(r.x + r.w * 0.7, ringY, ringRadius[0], ringRadius[1], 'CQ');
       } else {
-        grp.appendChild(text(r.x + 14, r.y + g.pos.row1, 'Tokio task pool', 'qi-label'));
         addCells(16, r.x + 14, r.y + g.pos.row1 + 7);
       }
       grp.appendChild(text(r.x + 14, r.y + g.pos.depth, b.depthLabel, 'qi-label qi-label--strong'));

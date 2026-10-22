@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" role="img" aria-labelledby="t d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
-<title id="t">Universal I/O architecture</title><desc id="d">Consumer code uses one interface. mmap returns a borrowed slice directly, io_uring exchanges local disk reads with the Linux kernel through submission and completion ring buffers, and network I/O runs remote object-storage requests as Tokio tasks.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 414" role="img" aria-labelledby="t d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<title id="t">Universal I/O architecture</title><desc id="d">The same consumer code and ReadPipeline use three backend-specific paths: a direct mapped slice, io_uring submission and completion rings, or a Tokio task pool.</desc>
 <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#656b7f"/></marker></defs>
-<rect width="760" height="450" fill="#f0f3fa"/>
+<rect width="760" height="414" fill="#f0f3fa"/>
 <rect x="130" y="10" width="500" height="76" rx="6" fill="#fff" stroke="#abb1c7"/>
 <text x="380" y="34" font-size="14" fill="#303547" text-anchor="middle" font-weight="600">Consumers</text>
 <text x="380" y="54" font-size="13" fill="#303547" text-anchor="middle">vectors · HNSW links · payload indexes</text>
@@ -11,51 +11,30 @@
 <text x="380" y="177" font-size="13" fill="#303547" text-anchor="middle">UniversalReadFs · UniversalRead · ReadPipeline</text>
 <text x="380" y="197" font-size="13" fill="#656b7f" text-anchor="middle">schedule() · wait()</text>
 <path d="M380 86V128" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<path d="M380 216V250H132V282" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<path d="M380 216V282" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
-<path d="M380 216V250H628V282" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<path d="M380 216V246H132V274" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<path d="M380 216V274" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
+<path d="M380 216V246H628V274" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#ah)"/>
 
-<rect x="16" y="286" width="232" height="156" rx="6" fill="#fff" stroke="#abb1c7"/>
-<text x="28" y="312" font-size="14" fill="#303547" font-weight="600">mmap</text>
-<text x="28" y="334" font-size="13" fill="#656b7f">local memory map</text>
-<text x="28" y="354" font-size="13" fill="#303547" font-weight="600">caller reads directly</text>
-<text x="28" y="377" font-size="13" fill="#656b7f">caller → borrowed slice</text>
-<rect x="28" y="389" width="12" height="12" rx="2" fill="none" stroke="#6047ff"/>
-<text x="28" y="431" font-size="13" fill="#303547" font-weight="600">depth 1</text>
+<rect x="16" y="278" width="232" height="128" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="30" y="304" font-size="14" fill="#303547" font-weight="600">mmap</text>
+<text x="30" y="328" font-size="13" fill="#303547" font-weight="600">local · direct mapped slice</text>
+<rect x="30" y="355" width="12" height="12" rx="2" fill="none" stroke="#6047ff"/>
+<text x="30" y="394" font-size="13" fill="#303547" font-weight="600">depth 1</text>
 
-<rect x="264" y="286" width="232" height="156" rx="6" fill="#fff" stroke="#abb1c7"/>
-<text x="276" y="312" font-size="14" fill="#303547" font-weight="600">io_uring</text>
-<text x="276" y="334" font-size="13" fill="#656b7f">local disk</text>
-<text x="276" y="354" font-size="13" fill="#303547" font-weight="600">Linux kernel queues</text>
+<rect x="264" y="278" width="232" height="128" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="278" y="304" font-size="14" fill="#303547" font-weight="600">io_uring</text>
+<text x="278" y="328" font-size="13" fill="#303547" font-weight="600">local · kernel SQ/CQ rings</text>
 <g fill="none" stroke="#00838f">
-<path d="M333.70 361.83 A24 24 0 0 1 352.06 361.83 L348.24 371.07 A14 14 0 0 0 337.52 371.07 Z"/>
-<path d="M352.06 361.83 A24 24 0 0 1 365.05 374.82 L355.81 378.64 A14 14 0 0 0 348.24 371.07 Z"/>
-<path d="M365.05 374.82 A24 24 0 0 1 365.05 393.18 L355.81 389.36 A14 14 0 0 0 355.81 378.64 Z"/>
-<path d="M365.05 393.18 A24 24 0 0 1 352.06 406.17 L348.24 396.93 A14 14 0 0 0 355.81 389.36 Z"/>
-<path d="M352.06 406.17 A24 24 0 0 1 333.70 406.17 L337.52 396.93 A14 14 0 0 0 348.24 396.93 Z"/>
-<path d="M333.70 406.17 A24 24 0 0 1 320.71 393.18 L329.95 389.36 A14 14 0 0 0 337.52 396.93 Z"/>
-<path d="M320.71 393.18 A24 24 0 0 1 320.71 374.82 L329.95 378.64 A14 14 0 0 0 329.95 389.36 Z"/>
-<path d="M320.71 374.82 A24 24 0 0 1 333.70 361.83 L337.52 371.07 A14 14 0 0 0 329.95 378.64 Z"/>
-<path d="M417.22 361.83 A24 24 0 0 1 435.58 361.83 L431.76 371.07 A14 14 0 0 0 421.04 371.07 Z"/>
-<path d="M435.58 361.83 A24 24 0 0 1 448.57 374.82 L439.33 378.64 A14 14 0 0 0 431.76 371.07 Z"/>
-<path d="M448.57 374.82 A24 24 0 0 1 448.57 393.18 L439.33 389.36 A14 14 0 0 0 439.33 378.64 Z"/>
-<path d="M448.57 393.18 A24 24 0 0 1 435.58 406.17 L431.76 396.93 A14 14 0 0 0 439.33 389.36 Z"/>
-<path d="M435.58 406.17 A24 24 0 0 1 417.22 406.17 L421.04 396.93 A14 14 0 0 0 431.76 396.93 Z"/>
-<path d="M417.22 406.17 A24 24 0 0 1 404.23 393.18 L413.47 389.36 A14 14 0 0 0 421.04 396.93 Z"/>
-<path d="M404.23 393.18 A24 24 0 0 1 404.23 374.82 L413.47 378.64 A14 14 0 0 0 413.47 389.36 Z"/>
-<path d="M404.23 374.82 A24 24 0 0 1 417.22 361.83 L421.04 371.07 A14 14 0 0 0 413.47 378.64 Z"/>
+<path d="M335.23 339.52 A20 20 0 0 1 350.53 339.52 L347.47 346.91 A12 12 0 0 0 338.29 346.91 Z"/><path d="M350.53 339.52 A20 20 0 0 1 361.36 350.35 L353.97 353.41 A12 12 0 0 0 347.47 346.91 Z"/><path d="M361.36 350.35 A20 20 0 0 1 361.36 365.65 L353.97 362.59 A12 12 0 0 0 353.97 353.41 Z"/><path d="M361.36 365.65 A20 20 0 0 1 350.53 376.48 L347.47 369.09 A12 12 0 0 0 353.97 362.59 Z"/><path d="M350.53 376.48 A20 20 0 0 1 335.23 376.48 L338.29 369.09 A12 12 0 0 0 347.47 369.09 Z"/><path d="M335.23 376.48 A20 20 0 0 1 324.40 365.65 L331.79 362.59 A12 12 0 0 0 338.29 369.09 Z"/><path d="M324.40 365.65 A20 20 0 0 1 324.40 350.35 L331.79 353.41 A12 12 0 0 0 331.79 362.59 Z"/><path d="M324.40 350.35 A20 20 0 0 1 335.23 339.52 L338.29 346.91 A12 12 0 0 0 331.79 353.41 Z"/>
+<path d="M418.75 339.52 A20 20 0 0 1 434.05 339.52 L430.99 346.91 A12 12 0 0 0 421.81 346.91 Z"/><path d="M434.05 339.52 A20 20 0 0 1 444.88 350.35 L437.49 353.41 A12 12 0 0 0 430.99 346.91 Z"/><path d="M444.88 350.35 A20 20 0 0 1 444.88 365.65 L437.49 362.59 A12 12 0 0 0 437.49 353.41 Z"/><path d="M444.88 365.65 A20 20 0 0 1 434.05 376.48 L430.99 369.09 A12 12 0 0 0 437.49 362.59 Z"/><path d="M434.05 376.48 A20 20 0 0 1 418.75 376.48 L421.81 369.09 A12 12 0 0 0 430.99 369.09 Z"/><path d="M418.75 376.48 A20 20 0 0 1 407.92 365.65 L415.31 362.59 A12 12 0 0 0 421.81 369.09 Z"/><path d="M407.92 365.65 A20 20 0 0 1 407.92 350.35 L415.31 353.41 A12 12 0 0 0 415.31 362.59 Z"/><path d="M407.92 350.35 A20 20 0 0 1 418.75 339.52 L421.81 346.91 A12 12 0 0 0 415.31 353.41 Z"/>
 </g>
-<text x="342.88" y="389" font-size="13" fill="#303547" text-anchor="middle" font-weight="600">SQ</text>
-<text x="426.4" y="389" font-size="13" fill="#303547" text-anchor="middle" font-weight="600">CQ</text>
-<text x="276" y="431" font-size="13" fill="#303547" font-weight="600">depth 16</text>
+<text x="342.88" y="363" font-size="13" fill="#303547" text-anchor="middle" font-weight="600">SQ</text>
+<text x="426.4" y="363" font-size="13" fill="#303547" text-anchor="middle" font-weight="600">CQ</text>
+<text x="278" y="394" font-size="13" fill="#303547" font-weight="600">depth 16</text>
 
-<rect x="512" y="286" width="232" height="156" rx="6" fill="#fff" stroke="#abb1c7"/>
-<text x="524" y="312" font-size="14" fill="#303547" font-weight="600">Network I/O</text>
-<text x="524" y="334" font-size="13" fill="#656b7f">remote object storage</text>
-<text x="524" y="354" font-size="13" fill="#303547" font-weight="600">Tokio async tasks</text>
-<text x="524" y="378" font-size="13" fill="#656b7f">Tokio task pool</text>
-<g fill="none" stroke="#9c27b0">
-<rect x="524" y="385" width="8" height="12" rx="2"/><rect x="534" y="385" width="8" height="12" rx="2"/><rect x="544" y="385" width="8" height="12" rx="2"/><rect x="554" y="385" width="8" height="12" rx="2"/><rect x="564" y="385" width="8" height="12" rx="2"/><rect x="574" y="385" width="8" height="12" rx="2"/><rect x="584" y="385" width="8" height="12" rx="2"/><rect x="594" y="385" width="8" height="12" rx="2"/><rect x="604" y="385" width="8" height="12" rx="2"/><rect x="614" y="385" width="8" height="12" rx="2"/><rect x="624" y="385" width="8" height="12" rx="2"/><rect x="634" y="385" width="8" height="12" rx="2"/><rect x="644" y="385" width="8" height="12" rx="2"/><rect x="654" y="385" width="8" height="12" rx="2"/><rect x="664" y="385" width="8" height="12" rx="2"/><rect x="674" y="385" width="8" height="12" rx="2"/>
-</g>
-<text x="524" y="436" font-size="13" fill="#303547" font-weight="600">depth up to 256 · 16 drawn</text>
+<rect x="512" y="278" width="232" height="128" rx="6" fill="#fff" stroke="#abb1c7"/>
+<text x="526" y="304" font-size="14" fill="#303547" font-weight="600">Network I/O</text>
+<text x="526" y="328" font-size="13" fill="#303547" font-weight="600">remote · Tokio task pool</text>
+<g fill="none" stroke="#9c27b0"><rect x="526" y="355" width="8" height="12" rx="2"/><rect x="536" y="355" width="8" height="12" rx="2"/><rect x="546" y="355" width="8" height="12" rx="2"/><rect x="556" y="355" width="8" height="12" rx="2"/><rect x="566" y="355" width="8" height="12" rx="2"/><rect x="576" y="355" width="8" height="12" rx="2"/><rect x="586" y="355" width="8" height="12" rx="2"/><rect x="596" y="355" width="8" height="12" rx="2"/><rect x="606" y="355" width="8" height="12" rx="2"/><rect x="616" y="355" width="8" height="12" rx="2"/><rect x="626" y="355" width="8" height="12" rx="2"/><rect x="636" y="355" width="8" height="12" rx="2"/><rect x="646" y="355" width="8" height="12" rx="2"/><rect x="656" y="355" width="8" height="12" rx="2"/><rect x="666" y="355" width="8" height="12" rx="2"/><rect x="676" y="355" width="8" height="12" rx="2"/></g>
+<text x="526" y="394" font-size="13" fill="#303547" font-weight="600">depth up to 256 · 16 drawn</text>
 </svg>

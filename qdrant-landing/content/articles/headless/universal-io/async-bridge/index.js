@@ -79,18 +79,6 @@ export function mount(node) {
 
   node.innerHTML = [
     '<div class="qi-fig">',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group">',
-    '      <span class="qi-hint">Step:</span>',
-    STEPS.map(
-      (s, i) => `<button type="button" class="qi-chip" data-step-btn="${i + 1}" aria-pressed="false"><span class="qi-br__num">${i + 1}</span>${s.label}</button>`,
-    ).join(''),
-    '    </div>',
-    '    <div class="qi-group">',
-    '      <button type="button" class="qi-chip" data-play>Play</button>',
-    '      <button type="button" class="qi-chip" data-reset>Reset</button>',
-    '    </div>',
-    '  </div>',
     '  <svg class="qi-svg qi-br__svg" viewBox="0 0 760 376" role="img"',
     '    aria-label="The bridge between the synchronous caller thread and the async Tokio workers. The caller schedules reads A, B, and C, each spawned onto a worker. It then calls wait() three times, blocking each time until a reply arrives. Replies return in the order the reads finish: B, then C, then A.">',
     '    <defs>',
@@ -100,6 +88,18 @@ export function mount(node) {
     '    </defs>',
     '    <g class="qi-br__layer"></g>',
     '  </svg>',
+    '  <div class="qi-controls">',
+    '    <div class="qi-group">',
+    '      <span class="qi-hint">Explore:</span>',
+    STEPS.map(
+      (s, i) => `<button type="button" class="qi-chip" data-step-btn="${i + 1}" aria-pressed="false"><span class="qi-br__num">${i + 1}</span>${s.label}</button>`,
+    ).join(''),
+    '    </div>',
+    '    <div class="qi-group">',
+    '      <button type="button" class="qi-chip" data-play>Play</button>',
+    '      <button type="button" class="qi-chip" data-reset>Reset</button>',
+    '    </div>',
+    '  </div>',
     '  <p class="qi-status qi-status--3 qi-br__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
