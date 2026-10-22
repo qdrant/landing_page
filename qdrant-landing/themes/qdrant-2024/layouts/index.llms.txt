@@ -1,5 +1,8 @@
 {{- /*
-  /llms.txt and the full indexes it links, /llms/<part>.txt.
+  /llms.txt and the files it links: the full index of each part at
+  /llms/<part>.txt, and /llms-full.txt, which is the static part followed by
+  every part's full index in one file, parts as ## and their sidebar groups
+  or article categories as ###.
 
   /llms.txt is the static part (edit content/headless/llms.md), then one
   section per part of the site listing its top-level pages. Each section ends
@@ -10,9 +13,11 @@
   published from this template with resources.FromString, so they need no
   output format of their own.
 */ -}}
-{{ (site.GetPage "/headless/llms").RawContent | strings.TrimSpace }}
+{{ $brief := (site.GetPage "/headless/llms").RawContent | strings.TrimSpace -}}
+{{- $everything := "" -}}
+{{ $brief }}
 
-**How to navigate.** Each section lists the main pages of one part of the site, each with a one-line summary. When the page you need is not listed, open that part's full index, the last link in each section: it lists every page in the part, nested in sidebar order. The link says what to open it for. For step-by-step guidance on a task instead of a page, search the skills at https://skills.qdrant.tech/search?query=your+query+here.
+**How to navigate.** Each section lists the main pages of one part of the site, each with a one-line summary. When the page you need is not listed, open that part's full index, the last link in each section: it lists every page in the part, nested in sidebar order. The link says what to open it for. To load every page at once instead, fetch {{ absURL "llms-full.txt" }}: this brief followed by every part's full index in one file. For step-by-step guidance on a task instead of a page, search the skills at https://skills.qdrant.tech/search?query=your+query+here.
 {{ $docs := site.GetPage "/documentation" -}}
 {{- range slice
   (dict "name" "Develop" "key" "develop" "landing" "/documentation" "hint" "a specific data, indexing, or search feature, the Inference API, Qdrant Edge, FastEmbed, or a tutorial")
@@ -36,6 +41,7 @@
 {{ partial "llms-entry" (site.GetPage .landing) -}}
 {{ $top }}
 {{ partial "llms-index-link" (dict "part" . "body" $full) }}
+{{- $everything = printf "%s\n## %s\n\n%s%s" $everything .name (partial "llms-entry" (site.GetPage .landing)) (replaceRE `(?m)^## ` "### " $full) -}}
 {{- end }}
 ## Learn
 
@@ -43,10 +49,11 @@
 {{- $learnFull := "" -}}
 {{- range (slice (site.GetPage "/learn")) | append (where $docs.Sections.ByWeight "Params.learning_kind" "guides") | append (slice (site.GetPage "/course")) -}}
   {{- $learnTop = printf "%s%s" $learnTop (partial "llms-tree" (dict "page" . "indent" "" "flat" true)) -}}
-  {{- $learnFull = printf "%s%s" $learnFull (partial "llms-tree" (dict "page" . "indent" "")) -}}
+  {{- $learnFull = printf "%s\n## %s\n\n%s" $learnFull .Title (partial "llms-tree" (dict "page" . "indent" "")) -}}
 {{- end -}}
 {{ $learnTop }}
 {{ partial "llms-index-link" (dict "part" (dict "name" "Learn" "key" "learn" "hint" "a guide on evaluating, tuning, or running search in production, or a Qdrant Academy lesson") "body" $learnFull) }}
+{{- $everything = printf "%s\n## Learn\n\n%s%s" $everything (partial "llms-entry" (site.GetPage "/documentation/guides-tab")) (replaceRE `(?m)^## ` "### " $learnFull) -}}
 ## Articles
 
 {{ $articles := site.GetPage "/articles" -}}
@@ -61,11 +68,15 @@
   {{- end }}
 {{ end }}
 {{ partial "llms-index-link" (dict "part" (dict "name" "Articles" "key" "articles" "label" "Every article" "hint" "an article on a specific technique or research topic, such as quantization, sparse vectors, or filtering, grouped by category") "body" $articlesFull) }}
+{{- $everything = printf "%s\n## Articles\n\n%s%s" $everything (partial "llms-entry" $articles) (replaceRE `(?m)^## ` "### " $articlesFull) -}}
 ## Pricing
 
-{{ partial "llms-entry" (site.GetPage "/pricing") -}}
-{{ partial "llms-entry" (site.GetPage "/pricing/comparison") }}
+{{ $pricing := printf "%s%s" (partial "llms-entry" (site.GetPage "/pricing")) (partial "llms-entry" (site.GetPage "/pricing/comparison")) -}}
+{{ $pricing }}
+{{- $everything = printf "%s\n## Pricing\n\n%s" $everything $pricing -}}
 ## Optional
+
+{{ partial "llms-full" (dict "brief" $brief "body" $everything) -}}
 
 {{ partial "llms-entry" (site.GetPage "/documentation/agentic-tools/skills") -}}
 - [API Reference](https://api.qdrant.tech/llms.txt): REST and gRPC API reference for Qdrant, every endpoint in Markdown.
@@ -124,6 +135,15 @@
 {{- end -}}
 {{- $d -}}
 {{- end -}}
+
+{{- /* Publish /llms-full.txt, the brief and every part's full index, and link it. */ -}}
+{{- define "_partials/llms-full" -}}
+{{- $count := len (findRE `(?m)^\s*- \[` .body) -}}
+{{- $intro := printf "**About this file.** It is the brief from %s followed by every page of each part of qdrant.tech: Develop, Deploy, Ecosystem, Learn, Articles, and Pricing. Each part is a `##` heading and each of its sidebar groups or article categories a `###` heading. Pages are nested in sidebar order, each with a one-line summary. The same lists, one part per file, are linked from %s." (absURL "llms.txt") (absURL "llms.txt") -}}
+{{- $file := printf "%s\n\n%s\n%s" .brief $intro .body -}}
+{{- $_ := (resources.FromString "llms-full.txt" $file).Publish -}}
+- [Every page in one file]({{ absURL "llms-full.txt" }}): this brief followed by all {{ $count }} pages of every part, about {{ math.Round (div (float (len $file)) 1024) }} KB.
+{{ end -}}
 
 {{- /* Publish a part's full index at /llms/<key>.txt and link it. */ -}}
 {{- define "_partials/llms-index-link" -}}
