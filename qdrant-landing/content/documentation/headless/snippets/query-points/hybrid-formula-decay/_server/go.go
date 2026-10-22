@@ -7,12 +7,14 @@ import (
 )
 
 func Main() {
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) } // @hide
+	if err != nil { panic(err) }
+	// @hide-end
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
@@ -20,8 +22,12 @@ func Main() {
 			{
 				Prefetch: []*qdrant.PrefetchQuery{
 					{
-						Query: qdrant.NewQuerySparse([]uint32{1, 42}, []float32{0.22, 0.8}),
-						Using: qdrant.PtrOf("sparse"),
+						Query: &qdrant.Query{
+							Variant: &qdrant.Query_Text{
+								Text: &qdrant.TextQuery{Query: "time travel"},
+							},
+						},
+						Using: qdrant.PtrOf("title"),
 						Limit: qdrant.PtrOf(uint64(100)),
 					},
 					{

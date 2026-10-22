@@ -5,32 +5,25 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Prefetch: []*qdrant.PrefetchQuery{
 		{
-			Query: qdrant.NewQueryNearest(
-				qdrant.NewVectorInputDocument(&qdrant.Document{
-					Text:  "vector database",
-					Model: "qdrant/bm25",
-				}),
-			),
-			Using: qdrant.PtrOf("title-bm25"),
+			Query: &qdrant.Query{
+				Variant: &qdrant.Query_Text{
+					Text: &qdrant.TextQuery{Query: "vector database"},
+				},
+			},
+			Using: qdrant.PtrOf("title"),
 			Limit: qdrant.PtrOf(uint64(50)),
 		},
 		{
-			Query: qdrant.NewQueryNearest(
-				qdrant.NewVectorInputDocument(&qdrant.Document{
-					Text:  "vector database",
-					Model: "qdrant/bm25",
-				}),
-			),
-			Using: qdrant.PtrOf("body-bm25"),
+			Query: &qdrant.Query{
+				Variant: &qdrant.Query_Text{
+					Text: &qdrant.TextQuery{Query: "vector database"},
+				},
+			},
+			Using: qdrant.PtrOf("body"),
 			Limit: qdrant.PtrOf(uint64(50)),
 		},
 	},

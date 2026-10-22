@@ -87,7 +87,7 @@ _Available as of v1.19.1_
 
 `max` and `min` take an array of expressions and return the largest or the smallest value. An empty array returns an error.
 
-Use `max` to search across several fields and keep each point's best score. Run one prefetch per field. In this example, `$score[0]` and `$score[1]` refer to the scores from the first and second prefetch. It runs a BM25 query against a `title-bm25` and a `body-bm25` vector, and multiplies the title score by 3 to boost title matches:
+Use `max` to search across several fields and keep each point's best score. Run one prefetch per field. In this example, `$score[0]` and `$score[1]` refer to the scores from the first and second prefetch. It runs a [BM25 text query](/documentation/search/text-search/full-text-search/) against the `title` and `body` payload fields, and multiplies the title score by 3 to boost title matches:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-best-of-variants/" >}}
 

@@ -1,20 +1,28 @@
 ```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "books",
 	Prefetch: []*qdrant.PrefetchQuery{
 		{
 			Using: qdrant.PtrOf("description-dense"),
 			Query: qdrant.NewQueryDocument(&qdrant.Document{
-				Text:  "9780553213515",
+				Text:  "time travel",
 				Model: "sentence-transformers/all-minilm-l6-v2",
 			}),
+			ScoreThreshold: qdrant.PtrOf(float32(0.5)),
 		},
 		{
-			Using: qdrant.PtrOf("isbn-bm25"),
-			Query: qdrant.NewQueryDocument(&qdrant.Document{
-				Text:  "9780553213515",
-				Model: "qdrant/bm25",
-			}),
+			Using: qdrant.PtrOf("title"),
+			Query: &qdrant.Query{
+				Variant: &qdrant.Query_Text{
+					Text: &qdrant.TextQuery{Query: "time travel"},
+				},
+			},
 		},
 	},
 	Query:       qdrant.NewQueryFusion(qdrant.Fusion_RRF),

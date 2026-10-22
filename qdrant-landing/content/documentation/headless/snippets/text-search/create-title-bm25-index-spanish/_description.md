@@ -1,0 +1,1 @@
+Creates a full-text index with BM25 scoring on the `title` field of the `books` collection, with Spanish stemming and stopword removal applied to both the indexed titles and BM25 queries.
