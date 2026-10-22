@@ -10,4 +10,5 @@ build:
   publishResources: false
   render: never
 partition: ecosystem
+llmsExclude: true # leave this group out of llms.txt
 ---

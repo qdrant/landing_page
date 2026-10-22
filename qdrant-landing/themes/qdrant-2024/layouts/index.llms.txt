@@ -4,10 +4,16 @@
 {{- range slice "Develop" "Deploy" "Ecosystem" }}
 ## {{ . }}
 {{ $partition := lower . -}}
+{{- /* `llmsExclude: true` on a sidebar heading (a delimiter page) drops that heading and the entries under it. */ -}}
+{{- $skip := false -}}
 {{- range where (where $docs.Pages.ByWeight "Params.partition" $partition) "Params.hideInSidebar" "!=" true -}}
-{{- if eq .Params.type "delimiter" }}
+{{- if eq .Params.type "delimiter" -}}
+{{- $skip = .Params.llmsExclude -}}
+{{- if not $skip }}
 ### {{ .Title }}
-{{ else if eq .Params.type "reference" -}}
+{{ end -}}
+{{- else if $skip -}}
+{{- else if eq .Params.type "reference" -}}
 {{ partial "llms-tree" (dict "page" (site.GetPage .Params.reference) "indent" "") }}
 {{- else -}}
 {{ partial "llms-tree" (dict "page" . "indent" "") }}
