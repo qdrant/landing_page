@@ -41,7 +41,7 @@ create it, along with the DOI (Digital Object Identifier).
 ```
 
 You can find a detailed description of the dataset in the [Practice Datasets](/documentation/datasets/#journal-article-titles) 
-section. If you prefer loading the dataset from a Qdrant snapshot, it also linked there.
+section. If you prefer loading the dataset from a Qdrant snapshot, it is also linked there.
 
 The recommended way to load it is streaming. With `streaming=True`, `load_dataset` does not download the dataset first; records are fetched from the Hub as you iterate, so you can start ingesting within seconds and nothing is written to the local cache ahead of time. You can read more about it in the [Hugging Face documentation](https://huggingface.co/docs/datasets/stream).
 
@@ -80,7 +80,7 @@ The rest of this page uses the streamed dataset. The ingestion code is the same 
 ### Loading the Dataset into Qdrant
 
 You can load the dataset into Qdrant using the [Python SDK](https://github.com/qdrant/qdrant-client).
-The embeddings are already precomputed, so you can store them in a collection, that we're going
+The embeddings are already precomputed, so you can store them in a collection that we're going
 to create in a second:
 
 ```python
