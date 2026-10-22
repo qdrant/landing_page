@@ -1,0 +1,60 @@
+{
+  "title": "Query encoding time on an Apple M5 Pro CPU",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "height": 320,
+  "width": 700,
+  "labelTop": "encoder",
+  "labelBottom": "size",
+  "colors": [
+    0,
+    0,
+    0
+  ],
+  "views": [
+    {
+      "label": "Warm query",
+      "yMax": 45,
+      "panels": [
+        {
+          "title": "Warm p50, 20-word query",
+          "y": "warm_p50_ms",
+          "axis": "time (ms)",
+          "unit": "ms",
+          "subtitle": "lower is better"
+        }
+      ]
+    },
+    {
+      "label": "First query",
+      "yMax": 60,
+      "panels": [
+        {
+          "title": "First query after loading",
+          "y": "first_query_ms",
+          "axis": "time (ms)",
+          "unit": "ms",
+          "subtitle": "lower is better"
+        }
+      ]
+    },
+    {
+      "label": "Model loading",
+      "yMax": 1.5,
+      "panels": [
+        {
+          "title": "Model loading",
+          "y": "model_loading_s",
+          "axis": "time (s)",
+          "unit": "s",
+          "subtitle": "lower is better"
+        }
+      ]
+    }
+  ],
+  "tooltip": {
+    "warm_p50_ms": "warm p50",
+    "first_query_ms": "first query",
+    "model_loading_s": "model loading"
+  }
+}

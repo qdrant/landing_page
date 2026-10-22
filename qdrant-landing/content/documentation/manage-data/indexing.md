@@ -26,7 +26,7 @@ Creating an index requires additional computational resources and memory, so cho
 
 The following field types support payload indexing:
 
-* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions. Can optionally enable [prefix matching](#keyword-index).
+* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) and [Substring Match](/documentation/search/filtering/#substring-match) filtering conditions. Can optionally enable [prefix matching](#prefix-matching-in-keyword-indices).
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
 * `float` - for [float](/documentation/manage-data/payload/#float) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions.
 * `bool` - for [bool](/documentation/manage-data/payload/#bool) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions (available as of v1.4.0).
@@ -110,7 +110,7 @@ supports only range filters:
 
 *Available as of v1.19.0*
 
-By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition.
+By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition. The `prefix` flag also speeds up [Substring Match](/documentation/search/filtering/#substring-match) conditions.
 
 This is useful for prefix filtering over identifier-like values such as URLs, paths, or SKUs, and for building filter-value autocompletion (for example, combining a facet request with a prefix filter on the same field). A `text` index is not a good fit for these cases: tokenization breaks identifiers apart, and a `text` schema loses exact keyword matching.
 
@@ -187,21 +187,71 @@ Principal optimization is supported for following types:
 * `float`
 * `datetime`
 
+#### Per-Element Index for Arrays of Objects
+
+*Available as of v1.20.0*
+
+Payloads often contain arrays of objects. For example, an e-commerce platform might store each product with several offers, each with its own shop and price. A [nested object filter](/documentation/search/filtering/#nested-object-filter) finds points where a single element matches all conditions, such as an offer from a specific shop below a certain price.
+
+Regular payload indexes can't answer these filters on their own. An index on `offers[].shop` maps each shop to the points that have it in any of their offers, and an index on `offers[].price` does the same for prices. Because neither index records which offer a value belongs to, together they can only narrow down the candidates. Qdrant then has to read the payload of each remaining candidate to check the conditions per offer, which is slow when many candidates remain.
+
+Per-element indexes solve this by indexing each array element separately, so they record which offer each value belongs to. When every condition in a nested filter uses a field with a per-element index on the same array, Qdrant answers the filter from the indexes alone, without reading any payloads. See [Nested Object Filter](/documentation/search/filtering/#nested-object-filter) for the conditions that can be answered from per-element indexes.
+
+To create a per-element index, set the `nested` parameter to the key of the array. The parameter uses the same key as the nested filter, and `offers` and `offers[]` are both accepted. Every index type supports it:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/per-element-nested/" >}}
+
+Per-element indexes have the following constraints:
+
+* The field must be inside the elements of the array, such as `offers[].price` for the array `offers`.
+* Only one array level is supported. `nested` can't point to an array inside another array, such as `a[].b[]`.
+* A per-element index can't also be a [tenant index](#tenant-index) or a [principal index](#principal-index).
+* Changing `nested` on an existing index rebuilds the index.
+
+##### Differences from Regular Indexes
+
+Outside nested filters, a per-element index answers most queries like a regular index of the field. Two kinds of conditions behave differently, because a per-element index evaluates them per element, for every query on the field.
+
+An [`is_empty`](/documentation/search/filtering/#is-empty) condition matches a point if any of its elements lacks the field, and never matches a point without elements. With a regular index, it matches a point only if none of its elements has the field.
+
+A per-element [full-text index](#full-text-index) treats each element as a separate document. This is useful when elements are independent texts, such as reviews or passages of a long document.
+
+A full-text condition matches a point only if a single element matches it. For example, `match: { text: "red shoes" }` doesn't match a point with "red" in one element and "shoes" in another.
+
+With BM25 scoring enabled, each element is scored separately, and a point gets the score of its best-matching element. Corpus statistics count each element as a separate document, so the average document length is the average length of an element.
+
 ## Full-Text Index
 
-Qdrant supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering) on string payload fields, enabling word- and phrase-level matches.
+A full-text index makes the words in string payload fields searchable. You can use it to:
 
-For efficient full-text filtering, first create a full-text index on the fields you want to filter on. The index configuration controls how text is processed before matching: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
+- [Filter](/documentation/search/text-search/text-filtering/#full-text-filtering) points on the words and phrases their text contains. See [Full Text Match](/documentation/search/filtering/#full-text-match) for examples.
+- [Rank](#bm25-scoring) points by the relevance of their text to a query, using BM25.
 
-See [Full Text match](/documentation/search/filtering/#full-text-match) for examples of filtering with a full-text index.
+The index configuration controls how text is processed: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
 
 To create a full-text index for a field, create a payload index of type `text`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
 
-<aside role="status">
-A full-text index does not affect BM25 queries. To configure text processing for BM25, see <a href="/documentation/search/text-search/full-text-search/#bm25-text-processing">BM25 Text Processing</a>.
-</aside>
+Every full-text index supports filtering on words. Filtering on phrases requires [phrase matching](#phrase-matching), and ranking with BM25 requires [BM25 scoring](#bm25-scoring). The two are independent, so you can enable either or both.
+
+### BM25 Scoring
+
+*Available as of v1.20.0*
+
+With scoring enabled, a full-text index can rank points by how relevant their text is to a query, using the [BM25](/documentation/search/text-search/full-text-search/#bm25) ranking function. To enable scoring, set the `scoring` type to `bm25` when you create the index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text/" >}}
+
+With the REST API and some clients, you can set `scoring` to `true` as a shorthand for the `bm25` scoring type:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text-shorthand/" >}}
+
+The index's text processing settings, such as the [tokenizer](#tokenizers), [lowercasing](#lowercasing), [stemming](#stemmer), and [stopwords](#stopwords), apply to both the indexed text and the text of BM25 queries on the field. The BM25 parameters `k` and `b` are set per query, not on the index.
+
+When scoring is enabled, the index records the length of each document and how often each term appears in it, so Qdrant computes BM25 statistics, such as the average document length, from your data. As a result, a full-text index with scoring uses more memory and disk space than one without.
+
+To enable scoring on an existing full-text index, create the index again with `scoring` set. To disable it, create the index again without `scoring`. Qdrant then rebuilds the index from the stored payload, so you don't need to upload your data again. On large collections, rebuilding the index can take a while.
 
 ### Tokenizers
 
@@ -209,12 +259,51 @@ Tokenizers are algorithms used to split text into smaller units called tokens, w
 In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient filtering.
 The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviours such as prefix or phrase matching.
 
-Available tokenizers are:
+#### Word
 
-* `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
-* `whitespace` - splits the string into words, separated by spaces.
-* `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
-* `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+The `word` tokenizer is the default. It splits the string into words, separated by spaces, punctuation marks, and special characters.
+
+#### Whitespace
+
+The `whitespace` tokenizer splits the string on whitespace, such as spaces, tabs, and newlines. Punctuation and special characters stay part of the tokens. For example, `hello, world!` is tokenized as `hello,` and `world!`.
+
+#### Prefix
+
+The `prefix` tokenizer splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example, `hello` is indexed as `h`, `he`, `hel`, `hell`, and `hello`.
+
+#### Multilingual
+
+The `multilingual` tokenizer is based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization for multiple languages, including those with non-Latin alphabets and non-space delimiters.
+
+See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+
+#### Code
+
+*Available as of v1.20.0*
+
+The `code` tokenizer is designed for source code. It splits identifiers into their parts, so a name matches regardless of its naming convention. For example, filtering on `getUserName`, `get_user_name`, or `user name` finds text that contains any of these spellings.
+
+The `code` tokenizer splits text as follows:
+
+* First, the text is split into identifiers on any character that isn't a letter, digit, or underscore. For example, `config.max_size` becomes `config` and `max_size`.
+* Identifiers are then split on underscores and case changes, including acronyms. For example, `get_user_name` and `getUserName` both become `get`, `user`, and `name`, and `XMLHttpRequest` becomes `xml`, `http`, and `request`.
+* Digits stay with their letters, so `utf8`, `k8s`, and `sha256` are not split. A word that starts with a digit is a number and is not split. Its underscores are removed, so `1_000_000` becomes `1000000`.
+
+When indexing text, the tokenizer also adds each camelCase word as a single token. For example, `HashMap::new` is indexed as `hash`, `map`, `new`, and `hashmap`. This lets a lowercase query like `hashmap` or `getusername` find `HashMap` or `getUserName`. Only camelCase words are joined, because snake_case words like `get_user_name` are usually typed with their underscores. Joined tokens are not added when [lowercasing](#lowercasing) is disabled.
+
+With [phrase matching](#phrase-matching), a joined token only matches a phrase that consists of that token alone. For example, the phrase `hashmap new` doesn't match `HashMap::new`, but `hash map new` does.
+
+##### Try the Code Tokenizer
+
+Enter a query to see which code snippets a text or phrase match finds with the `code` tokenizer. You can also edit the snippets.
+
+{{< island
+    path="content/documentation/headless/text-filtering/code-tokenizer"
+    width="90%" ratio="7 / 6"
+    title="The `code` tokenizer with lowercasing on and no other text processing."
+>}}
+![The text query "get user name" is tokenized as get, user, and name. It matches 3 of 7 snippets: getUserName(id), get_user_name(id), and GET_USER_NAME, which all have the tokens get, user, and name. getUserName(id) also has the joined token getusername. The other snippets don't match: xhr = new XMLHttpRequest(), let map = HashMap::new();, MAX_BUFFER_SIZE = 1_000_000, and sha256(utf8Bytes).](/docs/code-tokenizer.svg)
+{{< /island >}}
 
 ### Lowercasing
 
@@ -434,4 +523,4 @@ Where:
 - `N` is the total number of documents in the shard.
 - `n` is the number of documents containing non-zero values for the given vector element.
 
-By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Tenant IDF Statistics](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics).
+By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Tenant Scoring Statistics](/documentation/manage-data/multitenancy/#per-tenant-scoring-statistics).

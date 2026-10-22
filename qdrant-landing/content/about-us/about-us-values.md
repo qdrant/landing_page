@@ -17,7 +17,7 @@ values:
   icon:
     src: /img/about-us/rust-logo.svg
     alt: rust-logo
-  link: /articles/why-rust/
+  link: /blog/why-rust/
 - id: 3
   title: 9k Members
   icon:

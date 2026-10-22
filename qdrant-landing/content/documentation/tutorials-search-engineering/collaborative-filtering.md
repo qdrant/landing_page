@@ -25,7 +25,7 @@ Every time Spotify recommends the next song from a band you've never heard of, i
 
 Unlike content-based recommendations, collaborative filtering excels when the objects' semantics are loosely or unrelated to users' preferences. This adaptability is what makes it so fascinating. Movie, music, or book recommendations are good examples of such use cases. After all, we rarely choose which book to read purely based on the plot twists.
 
-The traditional way to build a collaborative filtering engine involves training a model that converts the sparse matrix of user-to-item relations into a compressed, dense representation of user and item vectors. Some of the most commonly referenced algorithms for this purpose include [SVD (Singular Value Decomposition)](https://en.wikipedia.org/wiki/Singular_value_decomposition) and [Factorization Machines](https://en.wikipedia.org/wiki/Matrix_factorization_(recommender_systems)). However, the model training approach requires significant resource investments. Model training necessitates data, regular re-training, and a mature infrastructure.
+The traditional way to build a collaborative filtering engine involves training a model that converts the sparse matrix of user-to-item relations into a compressed, dense representation of user and item vectors. Some of the most commonly referenced algorithms for this purpose include [SVD (Singular Value Decomposition)](https://en.wikipedia.org/wiki/Singular_value_decomposition) and [Matrix Factorization](https://en.wikipedia.org/wiki/Matrix_factorization_(recommender_systems)). However, the model training approach requires significant resource investments. Model training necessitates data, regular re-training, and a mature infrastructure.
 
 ## Methodology
 
@@ -42,18 +42,23 @@ Notebook: [You can try this code here](https://githubtocolab.com/qdrant/examples
 
 ### Setup 
 
+Before you start, you need:
+
+- A Qdrant instance: a free [Qdrant Cloud](https://cloud.qdrant.io/) cluster or a local one. Set `QDRANT_HOST` and `QDRANT_API_KEY`.
+- Python 3.10 or later, with these packages:
+
+```bash
+pip install qdrant-client pandas
+```
+
 You have to first import the necessary libraries and define the environment.
 
 ```python
 import os
 import pandas as pd
-import requests
 from qdrant_client import QdrantClient, models
-from qdrant_client.models import PointStruct, SparseVector, NamedSparseVector
+from qdrant_client.models import PointStruct, SparseVector
 from collections import defaultdict
-
-# OMDB API Key - for movie posters
-omdb_api_key = os.getenv("OMDB_API_KEY")
 
 # Collection name
 collection_name = "movies"
@@ -65,27 +70,21 @@ qdrant_client = QdrantClient(
 )
 ```
 
-### Define output
-
-Here, you will configure the recommendation engine to retrieve movie posters as output.
-
-```python
-# Function to get movie poster using OMDB API
-def get_movie_poster(imdb_id, api_key):
-    url = f"https://www.omdbapi.com/?i={imdb_id}&apikey={api_key}"
-    data = requests.get(url).json()
-    return data.get('Poster'), data
-```
-
 ### Prepare the data
 
-Load the movie datasets. These include three main CSV files: user ratings, movie titles, and OMDB IDs.
+This tutorial uses the [MovieLens Small](https://files.grouplens.org/datasets/movielens/ml-latest-small.zip) dataset: about 100,000 ratings of 9,700 movies by 610 users. Download it and unpack it into a `data` folder:
+
+```bash
+wget https://files.grouplens.org/datasets/movielens/ml-latest-small.zip
+unzip ml-latest-small.zip && mv ml-latest-small data
+```
+
+Load the movie datasets. These include two main CSV files: user ratings and movie titles.
 
 ```python
 # Load CSV files
 ratings_df = pd.read_csv('data/ratings.csv', low_memory=False)
 movies_df = pd.read_csv('data/movies.csv', low_memory=False)
-
 # Convert movieId in ratings_df and movies_df to string
 ratings_df['movieId'] = ratings_df['movieId'].astype(str)
 movies_df['movieId'] = movies_df['movieId'].astype(str)
@@ -127,15 +126,34 @@ for row in ratings_agg_df.itertuples():
     user_sparse_vectors[row.userId]["indices"].append(int(row.movieId))
 ```
 
-![collaborative-filtering](/blog/collaborative-filtering/collaborative-filtering.png)
+<link rel="stylesheet" href="/documentation/tutorials/collaborative-filtering/figures.css">
 
+<figure class="collaborative-filtering-figure">
+  <picture>
+    <source media="(max-width: 600px)" srcset="/documentation/tutorials/collaborative-filtering/collaborative-filtering.mobile.svg" width="856" height="570">
+    <img src="/documentation/tutorials/collaborative-filtering/collaborative-filtering.svg" alt="Illustrative user-by-movie matrix: rows are users, columns are movie IDs, filled cells are normalized ratings, and empty cells are movies the user has not rated." width="1480" height="570" loading="lazy">
+  </picture>
+  <picture class="collaborative-filtering-figure__dark">
+    <source media="(max-width: 600px)" srcset="/documentation/tutorials/collaborative-filtering/collaborative-filtering.mobile.dark.svg" width="856" height="570">
+    <img class="collaborative-filtering-figure__dark" src="/documentation/tutorials/collaborative-filtering/collaborative-filtering.dark.svg" alt="Illustrative user-by-movie matrix: rows are users, columns are movie IDs, filled cells are normalized ratings, and empty cells are movies the user has not rated." width="1480" height="570" loading="lazy">
+  </picture>
+</figure>
 
 ### Upload the data
 
 Here, you will initialize the Qdrant client and create a new collection to store the data. 
-Convert the user ratings to sparse vectors and include the `movieId` in the payload.
+Convert the user ratings to sparse vectors, one point per user.
 
 ```python
+# Create a collection with one named sparse vector
+qdrant_client.create_collection(
+    collection_name=collection_name,
+    vectors_config={},
+    sparse_vectors_config={
+        "ratings": models.SparseVectorParams()
+    }
+)
+
 # Define a data generator
 def data_generator():
     for user_id, sparse_vector in user_sparse_vectors.items():
@@ -145,7 +163,7 @@ def data_generator():
                 indices=sparse_vector["indices"],
                 values=sparse_vector["values"]
             )},
-            payload={"user_id": user_id, "movie_id": sparse_vector["indices"]}
+            payload={"user_id": user_id}
         )
 
 # Upload points using the data generator
@@ -163,18 +181,19 @@ Let's describe our preferences by providing ratings for some of our favorite mov
 `1` indicates that we like the movie, `-1` indicates that we dislike it.
 
 ```python
+# Keys are MovieLens movieId values, the same IDs as in the uploaded vectors
 my_ratings = {
-    603: 1,     # Matrix
-    13475: 1,   # Star Trek
-    11: 1,      # Star Wars
-    1091: -1,   # The Thing
-    862: 1,     # Toy Story
-    597: -1,    # Titanic
-    680: -1,    # Pulp Fiction
-    13: 1,      # Forrest Gump
-    120: 1,     # Lord of the Rings
-    87: -1,     # Indiana Jones
-    562: -1     # Die Hard
+    2571: 1,    # The Matrix
+    68358: 1,   # Star Trek
+    260: 1,     # Star Wars
+    2288: -1,   # The Thing
+    1: 1,       # Toy Story
+    1721: -1,   # Titanic
+    296: -1,    # Pulp Fiction
+    356: 1,     # Forrest Gump
+    4993: 1,    # Lord of the Rings
+    2115: -1,   # Indiana Jones
+    1036: -1    # Die Hard
 }
 
 ```
@@ -208,6 +227,7 @@ results = qdrant_client.query_points(
     collection_name=collection_name,
     query=to_vector(my_ratings),
     using="ratings",
+    with_vectors=True,  # return each similar user's ratings
     limit=20
 ).points
 ```
@@ -215,27 +235,58 @@ results = qdrant_client.query_points(
 Now we can find the movies liked by the other similar users, but we haven't seen yet.
 Let's combine the results from found users, filter out seen movies, and sort by the score.
 
+Each similar user votes for the movies they rated: their likes push a movie up, their dislikes push it down.
+
 ```python
 # Convert results to scores and sort by score
-def results_to_scores(results):
+def results_to_scores(results, my_ratings):
     movie_scores = defaultdict(lambda: 0)
     for result in results:
-        for movie_id in result.payload["movie_id"]:
-            movie_scores[movie_id] += result.score
+        user_ratings = result.vector["ratings"]
+        for movie_id, rating in zip(user_ratings.indices, user_ratings.values):
+            if movie_id in my_ratings:
+                continue  # skip movies you have already rated => seen
+            movie_scores[movie_id] += result.score * rating
     return movie_scores
 
 # Convert results to scores and sort by score
-movie_scores = results_to_scores(results)
+movie_scores = results_to_scores(results, my_ratings)
 top_movies = sorted(movie_scores.items(), key=lambda x: x[1], reverse=True)
+
+# Print the top 5 recommendations with their titles
+titles = movies_df.set_index('movieId')['title']
+for movie_id, score in top_movies[:5]:
+    print(f"{titles[str(movie_id)]}, Score: {score:.2f}")
 ```
 
 <details>
 
-<summary> Visualize results in Jupyter Notebook </summary>
- 
-Finally, we display the top 5 recommended movies along with their posters and titles.
+<summary>Optional: show movie posters in a Jupyter Notebook</summary>
+
+To fetch posters, you need an [OMDB API key](https://www.omdbapi.com/apikey.aspx) (free tier) set as `OMDB_API_KEY`, and two more packages:
+
+```bash
+pip install requests ipython
+```
+
+OMDB looks movies up by IMDb ID, which MovieLens provides in `links.csv`:
 
 ```python
+import requests
+from IPython.display import display, HTML
+
+omdb_api_key = os.getenv("OMDB_API_KEY")
+
+links = pd.read_csv('data/links.csv')
+# Format IMDb IDs the way OMDB expects them, for example tt0114709
+links['imdbId'] = 'tt' + links['imdbId'].astype(str).str.zfill(7)
+
+# Function to get movie poster using OMDB API
+def get_movie_poster(imdb_id, api_key):
+    url = f"https://www.omdbapi.com/?i={imdb_id}&apikey={api_key}"
+    data = requests.get(url).json()
+    return data.get('Poster'), data
+
 # Create HTML to display top 5 results
 html_content = "<div class='movies-container'>"
 
@@ -265,15 +316,17 @@ display(HTML(html_content))
 
 ## Recommendations
 
-For a complete display of movie posters, check the [notebook output](https://github.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb). Here are the results without html content.
+Running the code prints the top 5 recommendations:
 
 ```text
-Toy Story, Score: 131.2033799 
-Monty Python and the Holy Grail, Score: 131.2033799 
-Star Wars: Episode V - The Empire Strikes Back, Score: 131.2033799  
-Star Wars: Episode VI - Return of the Jedi, Score: 131.2033799 
-Men in Black, Score: 131.2033799
+Star Wars: Episode VI - Return of the Jedi (1983), Score: 98.03
+Star Wars: Episode V - The Empire Strikes Back (1980), Score: 97.58
+Shawshank Redemption, The (1994), Score: 78.51
+Dark Knight, The (2008), Score: 73.24
+Lord of the Rings: The Return of the King, The (2003), Score: 70.92
 ```
+
+Your list can differ slightly between runs: several users are equally similar to the query at the 20-result cutoff.
 
 On top of collaborative filtering, we can further enhance the recommendation system by incorporating other features like user demographics, movie genres, or movie tags.
 

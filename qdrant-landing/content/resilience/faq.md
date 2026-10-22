@@ -42,7 +42,7 @@ list:
         answer: Check the Multi-AZ Deployment checkbox when you create the cluster. Multi-AZ clusters need a minimum of 3 nodes and scale in multiples of 3. Multi-AZ is available on the Premium tier.
       - id: 2
         question: Can I add Multi-AZ to an existing cluster?
-        answer: No. Multi-AZ can't be added to an existing cluster. To move an existing workload onto Multi-AZ, create a new Multi-AZ cluster and migrate your data. Talk to engineering if you need help.
+        answer: No. Multi-AZ can't be added to an existing cluster. To move an existing workload onto Multi-AZ, create a new Multi-AZ cluster and migrate your data. Talk to the team if you need help.
       - id: 3
         question: Is Qdrant replication primary/secondary?
         answer: There is no primary, no leader, and no write hot spot. Every replica is equal and any node accepts reads and writes. You set a replication factor and Qdrant keeps that many copies of each shard across your nodes. Write consistency is governed by the consistency factor you configure.
@@ -57,7 +57,7 @@ list:
         answer: Yes. Restore a backup into the same cluster to revert it, or restore into a new cluster.
       - id: 2
         question: What does a restore actually recover to?
-        answer: A restore returns your cluster to the exact state captured in the backup, including its CPU, memory, node count, and Qdrant version at that time. Any changes made after the backup date are lost. The cluster is unavailable while the restore is in progress, and restore time depends on the size of your data. For recovery-time guidance on your workload, talk to engineering.
+        answer: A restore returns your cluster to the exact state captured in the backup, including its CPU, memory, node count, and Qdrant version at that time. Any changes made after the backup date are lost. The cluster is unavailable while the restore is in progress, and restore time depends on the size of your data. For recovery-time guidance on your workload, talk to the team.
   - id: 4
     title: Upgrades
     questions:

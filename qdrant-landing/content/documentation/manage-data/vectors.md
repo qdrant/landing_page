@@ -8,7 +8,6 @@ aliases:
   - /vectors
 ---
 
-
 # Vectors
 
 Vectors (or embeddings) are the core concept of the Qdrant Vector Search engine. 
@@ -26,12 +25,10 @@ The neural network is usually [trained](/articles/metric-learning-tips/) on a pa
 
 By using this property of vectors, you can explore your data in a number of ways; for example, by searching for similar objects, clustering objects, and more.
 
-
 ## Vector Types
 
 Modern neural networks can output vectors in different shapes and sizes, and Qdrant supports most of them.
 Let's take a look at the most common types of vectors supported by Qdrant.
-
 
 ### Dense Vectors
 
@@ -60,6 +57,8 @@ It looks like this:
 ]
 ```
 
+A dense vector can have between 1 and 65,536 dimensions.
+
 The majority of neural networks create dense vectors, so you can use them with Qdrant without any additional processing.
 Although compatible with most embedding models out there, Qdrant has been tested with the following [verified embedding providers](/documentation/embeddings/).
 
@@ -84,7 +83,6 @@ In order to define a sparse vector, you need to provide a list of non-zero eleme
 Sparse vectors in Qdrant are kept in special storage and indexed in a separate index, so their configuration is different from dense vectors.
 
 To create a collection with sparse vectors:
-
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector/" >}}
 
@@ -182,7 +180,7 @@ For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-named-vector/dense/" >}}
 
-Refer to [Update Vectors](/documentation/manage-data/collections/#update-vectors) for more details.
+Refer to [Update Vector Schema](/documentation/manage-data/collections/#update-vector-schema) for more details.
 
 
 ## Inference
@@ -207,21 +205,74 @@ By default, Qdrant stores each vector dimension as a 32-bit floating-point numbe
 
 Storing vectors as 32-bit floats has a cost: memory and storage grow linearly with dimensionality. For example, with OpenAI's `text-embedding-3-large` model, vectors can reach 3072 dimensions, which adds up fast.
 
-To reduce vector size or efficiently store vectors that are already lower precision, you can configure a per-vector datatype: [Float32](#float32) (default), [Float16](#float16), [Uint8](#uint8), or [Turbo4](#turbo4).
+To reduce vector size or efficiently store vectors that are already lower precision, you can configure a per-vector datatype: [Float32](#float32) (default), one of the [TurboQuant datatypes](#turboquant-datatypes) ([Turbo16](#turbo16), [Turbo8](#turbo8), or [Turbo4](#turbo4)), [Float16](#float16), or [Uint8](#uint8).
 
 Note that datatypes are distinct from the [quantization feature](/documentation/manage-data/quantization/). Quantization creates a separate quantized representation of vectors alongside the original ones, while datatypes determine the representation of the original vectors themselves.
 
 ### Float32
 
 This is the default datatype for vectors in Qdrant. It is a 32-bit (4 bytes) floating-point number. 
-The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in Float32.
+The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in `float32`.
 
-You don't need to explicitly specify this datatype for vectors in Qdrant, as it is set to Float32 by default.
+You don't need to explicitly specify this datatype for vectors in Qdrant, as it is set to `float32` by default.
+
+### TurboQuant Datatypes
+
+TurboQuant datatypes store each vector in a compressed form, using fewer bits per dimension than a 32-bit float. They're built on [TurboQuant](/articles/turboquant-quantization/). Each vector is first rotated mathematically, spreading each dimension's information evenly across the whole vector so no single dimension loses a disproportionate share of detail during compression. Each rotated value is then stored with fewer bits.
+
+TurboQuant datatypes accept regular floating-point vectors and compress them when they're stored. They're supported for dense vectors and [multivectors](#multivectors), but can't be used to configure sparse vectors.
+
+<aside role="status">
+Don't confuse TurboQuant datatypes with <a href="/documentation/manage-data/quantization/#turboquant-quantization">TurboQuant quantization</a>. Quantization keeps the original vectors and adds a compressed copy alongside them. A TurboQuant datatype replaces the original vectors with their compressed form, so no full-precision copy is kept.
+</aside>
+
+#### Turbo16
+
+*Available as of v1.20.0*
+
+The `turbo16` datatype stores each vector as a 16-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about half of its original size.
+
+To use `turbo16`, specify the `turbo16` datatype for the vector when creating a collection or when adding a new vector to an existing collection's schema:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo16/" >}}
+
+Compared to [`float16`](#float16), `turbo16` is nearly the same size but stays about 7.5x closer to your original `float32` vectors. `float16` keeps the same relative error for every value, so in embeddings where a few very large values dominate the score, their rounding errors don't cancel out. This happens with models like OpenAI's `text-embedding-ada-002`, CLIP, and Cohere. Because each vector is rotated first, its values have a similar spread, so a 16-bit grid with one scale per vector covers them well.
+
+#### Turbo8
+
+*Available as of v1.20.0*
+
+The `turbo8` datatype stores each vector as an 8-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about one-quarter of its original size.
+
+To use `turbo8`, specify the `turbo8` datatype for the vector when creating a collection or when adding a new vector to an existing collection's schema:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo8/" >}}
+
+#### Turbo4
+
+*Available as of v1.19.0*
+
+The `turbo4` datatype stores each vector as a compact 4-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about one-eighth of its original size. Each rotated value is stored as one of 16 levels (the maximum 4 bits can represent).
+
+To use `turbo4`, specify the `turbo4` datatype for the vector when creating a collection or when adding a new vector to an existing collection's schema:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo4/" >}}
+
+#### Choosing a TurboQuant Datatype
+
+The TurboQuant datatypes trade vector size for recall:
+
+| Datatype | Bytes per dimension | Use it when |
+|---|---|---|
+| `turbo16` | 2 | You want the recall of `float32` at half the size. |
+| `turbo8` | 1 | You want recall close to `float32` at one-quarter of the size. |
+| `turbo4` | 0.5 | Storage is the main constraint, and you can accept lower recall at one-eighth of the size. |
+
+You can combine any TurboQuant datatype with the [quantization feature](/documentation/manage-data/quantization/#turboquant-quantization) for memory-efficient rescoring. For example, adding 1-bit TurboQuant on top of `turbo4` uses a compact index for the initial search, then rescores against the 4-bit `turbo4` vectors. This is more storage-efficient than pairing 1-bit quantization with full-precision vectors, at the cost of rescoring precision.
 
 ### Float16
 
-This is a 16-bit (2 bytes) floating-point number. It is also known as half-precision float.
-Intuitively, it looks like this:
+The `float16` datatype stores each dimension as a 16-bit (2-byte) floating-point number, also known as a half-precision float. This shrinks vector storage to half of its original size, with a small loss of precision per value:
 
 ```text
 float32 -> float16 delta (float32 - float16).abs
@@ -233,39 +284,22 @@ float32 -> float16 delta (float32 - float16).abs
 0.6616839  -> 0.6616211  delta 0.000062823296
 ```
 
-The main advantage of Float16 is that it requires half the memory of Float32, while having virtually no impact on the quality of vector search.
+The main advantage of `float16` is that it requires half the memory of `float32`, while having virtually no impact on the quality of vector search.
 
-To use Float16, you need to specify the datatype for vectors in the collection configuration when creating a collection or when adding a new vector to an existing collection's schema:
+To use `float16`, you need to specify the datatype for vectors in the collection configuration when creating a collection or when adding a new vector to an existing collection's schema:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-float16-sparse-and-dense/" >}}
 
 ### Uint8
 
-Another step towards memory optimization is to use the Uint8 datatype for vectors.
-Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255. The impact of this range depends on whether you use dense or sparse vectors:
+The `uint8` datatype stores each dimension as an unsigned 8-bit integer (1 byte), with values from 0 to 255. This shrinks vector storage to one-quarter of its original size. The impact of this range depends on whether you use dense or sparse vectors:
 
-- Dense vectors are required to be in the range from 0 to 255. Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using Uint8 datatype. 
+- Dense vectors are required to be in the range from 0 to 255. Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using the `uint8` datatype. 
 - Sparse vectors can be quantized in-flight.
 
-In order to convert a number from float range to Uint8 range, you need to apply a process called quantization. Some embedding providers may provide embeddings in a pre-quantized format. One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings). For other embeddings, you will need to apply quantization yourself.
+For dense vectors, `uint8` is only useful if they have already been quantized to this range. Some embedding providers offer embeddings in this format, such as [Cohere's 8-bit integer embeddings](https://cohere.com/blog/int8-binary-embeddings). To reduce the size of regular floating-point vectors, use a [TurboQuant datatype](#turboquant-datatypes) instead.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
-
-### Turbo4
-
-*Available as of v1.19.0*
-
-The `turbo4` datatype stores each vector as a compact 4-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about one-eighth of its original size.
-
-`turbo4` is built on TurboQuant, [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). Each vector is first rotated mathematically, spreading each dimension's information evenly across the whole vector so no single dimension loses a disproportionate share of detail during compression. Each rotated value is then stored as one of 16 levels (the maximum 4 bits can represent).
-
-To use `turbo4`, specify the `turbo4` datatype for the vector when creating a collection or when adding a new vector to an existing collection's schema:
-
-{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo4/" >}}
-
-The `turbo4` datatype is only supported for dense vectors. It cannot be used to configure sparse vectors.
-
-You can combine `turbo4` with the [quantization feature](/documentation/manage-data/quantization/#turboquant-quantization) for memory-efficient rescoring. For example, adding 1-bit TurboQuant on top of `turbo4` uses a compact index for the initial search, then rescores against the 4-bit `turbo4` vectors. This is more storage-efficient than pairing 1-bit quantization with full-precision vectors, at the cost of rescoring precision.
 
 ## Quantization
 
@@ -275,7 +309,6 @@ This quantized representation can be used to quickly select candidates for resco
 Quantization is applied in the background, during the optimization process.
 
 More information about the quantization process can be found in the [Quantization](/documentation/manage-data/quantization/) section.
-
 
 ## Vector Storage
 

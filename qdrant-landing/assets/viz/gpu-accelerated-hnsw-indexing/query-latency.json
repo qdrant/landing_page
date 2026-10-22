@@ -1,0 +1,12 @@
+{
+  "title": "Query latency while indexing ran",
+  "kind": "grouped-columns",
+  "subtitle": "same 100,000-vector collection, Qdrant v1.19, lower is better",
+  "group": "percentile",
+  "series": "cluster",
+  "y": "latency_ms",
+  "yLabel": "latency (ms)",
+  "yMax": 320,
+  "colors": [2, 1],
+  "height": 380
+}

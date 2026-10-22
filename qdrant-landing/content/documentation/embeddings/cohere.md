@@ -1,91 +1,97 @@
 ---
 title: Cohere
-short_description: "Index documents and queries with Cohere embeddings in Qdrant to power high-quality semantic search, classification, and RAG applications."
-description: "Use Cohere embedding models with Qdrant for semantic search, RAG, and classification, indexing documents and queries with task-specific input types."
+weight: 100
+short_description: "Embed text and images with Cohere Embed v5 and v4 models and search them in Qdrant, directly or through Qdrant Cloud Inference."
+description: "Use Cohere Embed v5 and v4 with Qdrant: model dimensions, document and query input types, image embedding, vector size reduction, and Qdrant Cloud Inference."
 aliases: [ ../integrations/cohere/ ]
+directory:
+  summary: "Multimodal Embed models for text and images, with separate document and query input types."
+  input: [Text, Image]
+  vectors: [Dense]
+  runs: [Provider API, Qdrant Cloud Inference]
 ---
 
 # Cohere
 
-Qdrant is compatible with Cohere [co.embed API](https://docs.cohere.ai/reference/embed) and its official Python SDK that
-might be installed as any other package:
+[Cohere](https://docs.cohere.com/docs/cohere-embed) provides multimodal embedding models through its [Embed API](https://docs.cohere.com/reference/embed). There are two ways to use them with Qdrant:
 
-```bash
-pip install cohere
-```
+- Call the Cohere API from your application and send the vectors to Qdrant. This works with any Qdrant deployment, and it's what most of this page covers.
+- On Qdrant Cloud, pass text or images to Qdrant and let [Qdrant Cloud Inference](#qdrant-cloud-inference) call Cohere for you.
 
-The embeddings returned by co.embed API might be used directly in the Qdrant client's calls:
+## Models
 
-```python
-import cohere
-import qdrant_client
-from qdrant_client.models import Batch
+| Model | Dimensions | Context | Input |
+|---|---|---|---|
+| `embed-v5.0-pro` | 2048 (default), 1536, 1024, 768, 512, 256 | 128k tokens | Text, images, mixed |
+| `embed-v5.0-fast` | 2048 (default), 1536, 1024, 768, 512, 256 | 128k tokens | Text, images, mixed |
+| `embed-v4.0` | 1536 (default), 1024, 512, 256 | 128k tokens | Text, images, mixed |
 
-cohere_client = cohere.Client("<< your_api_key >>")
-qdrant_client = qdrant_client.QdrantClient()
-qdrant_client.upsert(
-    collection_name="MyCollection",
-    points=Batch(
-        ids=[1],
-        vectors=cohere_client.embed(
-            model="large",
-            texts=["The best vector database"],
-        ).embeddings,
-    ),
-)
-```
+`embed-v5.0-pro` targets retrieval quality and `embed-v5.0-fast` targets latency. The two share an embedding space, and Cohere recommends indexing with Pro and querying with Fast. The v3 models, such as `embed-english-v3.0` and `embed-multilingual-v3.0`, are the previous generation, with fixed dimensions and a 512-token context. Use an Embed v5 model for new projects.
 
-If you are interested in seeing an end-to-end project created with co.embed API and Qdrant, please check out the
-"[Question Answering as a Service with Cohere and Qdrant](/articles/qa-with-cohere-and-qdrant/)" article.
+Cohere lists cosine similarity, dot product, and Euclidean distance as supported metrics, and doesn't document whether its vectors are normalized. These examples use Cosine, which doesn't depend on vector length.
 
-## Embed v3
+## Setup
 
-Embed v3 is a new family of Cohere models, released in November 2023. The new models require passing an additional 
-parameter to the API call: `input_type`. It determines the type of task you want to use the embeddings for.
+Install the Cohere SDK and the Qdrant client:
 
-- `input_type="search_document"` - for documents to store in Qdrant
-- `input_type="search_query"` - for search queries to find the most relevant documents
-- `input_type="classification"` - for classification tasks
-- `input_type="clustering"` - for text clustering
+- Python: `pip install cohere qdrant-client`
+- TypeScript: `npm install cohere-ai @qdrant/js-client-rest`
 
-While implementing semantic search applications, such as RAG, you should use `input_type="search_document"` for the
-indexed documents and `input_type="search_query"` for the search queries. The following example shows how to index
-documents with the Embed v3 model:
+Create both clients and a collection sized for the model. The Cohere client reads your API key from the `CO_API_KEY` environment variable.
 
-```python
-import cohere
-import qdrant_client
-from qdrant_client.models import Batch
+{{< code-snippet path="/documentation/headless/snippets/embeddings/cohere/" block="setup" >}}
 
-cohere_client = cohere.Client("<< your_api_key >>")
-client = qdrant_client.QdrantClient()
-client.upsert(
-    collection_name="MyCollection",
-    points=Batch(
-        ids=[1],
-        vectors=cohere_client.embed(
-            model="embed-english-v3.0",  # New Embed v3 model
-            input_type="search_document",  # Input type for documents
-            texts=["Qdrant is the a vector database written in Rust"],
-        ).embeddings,
-    ),
-)
-```
+## Embed Documents
 
-Once the documents are indexed, you can search for the most relevant documents using the Embed v3 model:
+Set `input_type` to `search_document` for content you store. The response returns one vector per input, in input order, so this example uses the input position as the point ID:
 
-```python
-client.query_points(
-    collection_name="MyCollection",
-    query=cohere_client.embed(
-        model="embed-english-v3.0",  # New Embed v3 model
-        input_type="search_query",  # Input type for search queries
-        texts=["The best vector database"],
-    ).embeddings[0],
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/embeddings/cohere/" block="embed-documents" >}}
 
-<aside role="status">
-According to Cohere's documentation, all v3 models can use dot product, cosine similarity, 
-and Euclidean distance as the similarity metric, as all metrics return identical rankings.
-</aside>
+A request accepts up to 96 texts. Split larger datasets into several requests, and see [Upload Points](/documentation/manage-data/points/#upload-points) for batching on the Qdrant side.
+
+## Embed Queries
+
+Set `input_type` to `search_query` for search queries. The input type tells the model how a vector will be used, so pair `search_document` for stored content with `search_query` for queries. This example embeds the query with `embed-v5.0-fast`, which shares the embedding space of `embed-v5.0-pro`:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/cohere/" block="embed-queries" >}}
+
+The `classification` and `clustering` input types prepare vectors for those tasks instead of search.
+
+## Embed Images
+
+Embed v5 and v4 models place images in the same embedding space as text, so a text query can find an image. Pass images as base64 data URLs in `images`. This example adds an image to the collection from [Embed Documents](#embed-documents):
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/cohere/" block="embed-images" >}}
+
+The images in one request can total up to 20 MB, in JPEG, PNG, WebP, or GIF format. To embed text and images together as one vector, use the `inputs` parameter, described in the [Embed API reference](https://docs.cohere.com/reference/embed).
+
+## Reduce Vector Size
+
+Embed v5 and v4 models accept an `output_dimension` parameter (`outputDimension` in TypeScript) that returns a shorter vector. Set the collection's `size` to the same value, and pass the same `output_dimension` when you embed queries:
+
+{{< code-snippet path="/documentation/headless/snippets/embeddings/cohere/" block="reduce-vector-size" >}}
+
+## Qdrant Cloud Inference
+
+On Qdrant Cloud, Qdrant can call Cohere for you. Instead of a vector, send a `Document` or an `Image` with the model name prefixed with `cohere/`. Pass your Cohere API key in the `cohere-api-key` request header or in the `options` object. Qdrant does not store the key, so send it with every request. Cohere parameters such as `output_dimension` also go in `options`, and the collection's vector size must match them, which is 512 in these examples. These examples use `embed-v4.0`, and images must be base64 data URLs.
+
+To ingest an image:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/cohere-upsert/" >}}
+
+To search with text:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/cohere-query/" >}}
+
+For other ways to pass the key, see [External Providers](/documentation/inference/external-inference-providers/#cohere).
+
+## Store and Search the Vectors
+
+{{< embedding-next-steps >}}
+
+## Next Steps
+
+- [Rerank search results](/documentation/search-precision/reranking-semantic-search/) by combining Qdrant retrieval with Cohere reranking.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine Cohere vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Use quantization](/documentation/manage-data/quantization/) to reduce memory use while keeping the model's vector dimensions.

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" role="img" aria-labelledby="title desc"><title id="title">TOUR query optimization</title><desc id="desc">The query encoder produces q0. Repeated retrieval and reranking update the query through q1, q2, and q3. Context candidates are years 1894, 1990, 2003, and 1983. Color indicates reranking score from 0 to 1. Adapted from Sung et al., 2023.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs><rect width="760" height="470" rx="8" fill="#f0f3fa"/>
+<text x="330" y="28" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">When was the first commercial cell phone released?</text>
+<rect x="235" y="50" width="190" height="48" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="330.0" y="79.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Query Encoder</text>
+<path d="M330 32L330 48" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M330 98L180 165" fill="none" stroke="#656b7f" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<circle cx="180" cy="165" r="10" fill="#303547"/>
+<text x="160" y="190" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">q0</text>
+<path d="M180 165L275 240" fill="none" stroke="#656b7f" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<circle cx="275" cy="240" r="10" fill="#303547"/>
+<text x="255" y="265" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">q1</text>
+<path d="M275 240L410 265" fill="none" stroke="#656b7f" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<circle cx="410" cy="265" r="10" fill="#303547"/>
+<text x="440" y="290" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">q2</text>
+<path d="M410 265L535 315" fill="none" stroke="#656b7f" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<circle cx="535" cy="315" r="10" fill="#303547"/>
+<text x="515" y="340" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">q3</text>
+<path d="M110 250L120 260L110 270L100 260Z" fill="#d9d5ff" stroke="#6047ff"/>
+<text x="110" y="241" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">1894</text>
+<path d="M300 170L310 180L300 190L290 180Z" fill="#b8afff" stroke="#6047ff"/>
+<text x="300" y="161" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">2003</text>
+<path d="M320 320L330 330L320 340L310 330Z" fill="#c6bfff" stroke="#6047ff"/>
+<text x="320" y="311" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">1990</text>
+<path d="M550 230L560 240L550 250L540 240Z" fill="#6047ff" stroke="#6047ff"/>
+<text x="550" y="221" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">1983</text>
+<path d="M180 165L110 260" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M180 165L300 180" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M275 240L110 260" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M275 240L300 180" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M275 240L320 330" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M410 265L300 180" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M410 265L320 330" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M410 265L550 240" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M535 315L550 240" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<circle cx="180" cy="165" r="10" fill="#303547"/>
+<circle cx="275" cy="240" r="10" fill="#303547"/>
+<circle cx="410" cy="265" r="10" fill="#303547"/>
+<circle cx="535" cy="315" r="10" fill="#303547"/>
+<rect x="665" y="255" width="20" height="35" fill="#d9d5ff"/>
+<rect x="665" y="220" width="20" height="35" fill="#c6bfff"/>
+<rect x="665" y="185" width="20" height="35" fill="#b8afff"/>
+<rect x="665" y="150" width="20" height="35" fill="#6047ff"/>
+<text x="675" y="95" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">Reranking</text>
+<text x="675" y="115" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">Score</text>
+<text x="710" y="157" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">1.0</text>
+<text x="710" y="290" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">0.0</text>
+<circle cx="35" cy="407" r="9" fill="#303547"/>
+<text x="53" y="413" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="start">Query vector</text>
+<path d="M35 440l9-9 9 9-9 9Z" fill="#6047ff"/>
+<text x="61" y="445" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="start">Context vector</text>
+<path d="M255 407L295 407" fill="none" stroke="#656b7f" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="309" y="413" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="start">Query update</text>
+<path d="M255 439L295 439" fill="none" stroke="#00838f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="309" y="445" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="start">Retrieval</text>
+</svg>

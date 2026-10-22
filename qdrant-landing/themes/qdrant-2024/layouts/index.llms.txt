@@ -3,7 +3,12 @@
 > {{ .Site.Params.description }}
 {{ range .Site.Sections.ByWeight -}}
 {{- $header := printf "\n## %s\n" .Title -}}
-{{- range .RegularPagesRecursive.ByWeight -}}
+{{/* The section's own landing page is not a RegularPage, so every section
+     index (/edge/, /security/, /cloud-inference/ ...) was being dropped.
+     Require a description: utility sections like debug.skip and
+     get_anonymous_id have none and should not be advertised to models. */}}
+{{- $own := where (slice .) "Params.description" "!=" nil -}}
+{{- range $own | append .RegularPagesRecursive.ByWeight -}}
 {{- $include := true -}}
 {{- if eq .Params.sitemapExclude true -}}{{- $include = false -}}{{- end -}}
 {{- if .Sitemap.Disable -}}{{- $include = false -}}{{- end -}}

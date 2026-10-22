@@ -58,12 +58,13 @@ Even with filterable HNSW graphs, there are instances where the quality of searc
 
 To address these limitations, in version 1.16 we are introducing support for [ACORN](/documentation/search/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). With ACORN enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
 
-<figure>
-  <img src="/blog/qdrant-1.16.x/hnsw-acorn.png">
-  <figcaption>
-    Filtering and the HNSW graph without ACORN (left) and with ACORN (right).
-  </figcaption>
-</figure>
+{{< island
+    path="content/documentation/headless/search/acorn"
+    width="620" ratio="6 / 5"
+    title="Filtered search in an HNSW graph, without and with ACORN."
+>}}
+![Filtering and the HNSW graph without ACORN (left) and with ACORN (right)](/blog/qdrant-1.16.x/hnsw-acorn.png)
+{{< /island >}}
 
 You can enable ACORN on a per-query basis, via the optional [query-time `acorn` parameter](/documentation/search/search/#acorn-search-algorithm). This doesn't require any changes at index time.
 

@@ -27,4 +27,5 @@ worked_examples:
   - /documentation/tutorials-search-engineering/index-dynamic-payloads/
   - /documentation/tutorials-search-engineering/branch-aware-search/
   - /documentation/tutorials-operations/embedding-model-migration/
+  - /documentation/tutorials-operations/data-streaming-kafka-qdrant/
 ---

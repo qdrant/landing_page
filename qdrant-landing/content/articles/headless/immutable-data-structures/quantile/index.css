@@ -1,0 +1,44 @@
+/* quantile island. Scoped under .im-qt. */
+.im-qt {
+  display: block;
+}
+.im-qt__curve {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 2.5;
+}
+.im-qt__core {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.18;
+}
+.im-qt__tail,
+.im-qt__swatch {
+  fill: var(--qi-accent);
+  fill-opacity: 0.5;
+}
+.im-qt__level {
+  stroke: var(--qi-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.im-qt__level.is-bound {
+  stroke: var(--qi-cat-1);
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+.im-qt__dim {
+  stroke: var(--qi-cat-1);
+  stroke-width: 2;
+}
+.im-qt .qi-label {
+  font-size: 13px;
+}
+.im-qt.im-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .im-qt * {
+    transition: none;
+  }
+}

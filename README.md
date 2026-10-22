@@ -154,6 +154,39 @@ keywords: # Keywords for SEO
 ---
 ```
 
+### Retiring an Article Without Breaking Links
+
+Keep the article, its original URL, aliases, publication date, and assets. Add
+the following front matter to archive it while keeping HTML and Markdown available:
+
+```yaml
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+# Optional resource for readers; this does not redirect the archived page.
+retired_resource:
+  title: Full-Text Search Documentation
+  url: /documentation/search/text-search/full-text-search/
+```
+
+`retired` adds the same archive notice to HTML and Markdown. Use `retired_note`
+for necessary historical context. `hideFromList` excludes article cards, and
+`build.list: never` excludes automatic collections, including RSS feeds.
+`sitemapExclude` adds HTML `noindex` and excludes the page from the sitemap and
+`llms.txt`.
+
+Add `X-Robots-Tag: noindex` rules in `qdrant-landing/assets/netlify/_headers` for
+`/articles/<slug>/*` and `/articles/<slug>.md`. The wildcard covers HTML and
+`index.md`; the separate rule covers the `/path.md` copy Hugo also publishes.
+Hugo writes that file into `public/_headers`, so do not add one to `static/`.
+Preserve existing alias routes and cover their HTML paths too. Do not block
+crawling in `robots.txt`: crawlers need to fetch the indexing directive.
+Replace active recommendations with maintained content; historical references
+can continue linking to the archive.
+
 ### Preview image mechanism
 
 Preview image for each page is selected based on the following places in the following order:
@@ -367,6 +400,34 @@ hugo new --kind blog-post blog/<post-title>.md
 ```
 
 You'll see a file named `content/blog/<post-title>.md`. Open it and edit the front matter.
+
+### Author Cards
+
+Author cards appear after a blog post's content. Each post must opt in with an `author_profile` key.
+
+1. Save an optimized portrait in `qdrant-landing/static/authors/`, using the author's profile key as the filename. Resize and compress the photo before adding it.
+2. Add a profile to `qdrant-landing/data/authors.yaml`. Choose a unique lowercase key with hyphens, such as `dylan-couzon`. Replace the example values:
+
+```yaml
+your-profile-key:
+  name: Your Name
+  role: Your Role at Qdrant
+  bio: Write one or two sentences in your own voice.
+  image: /authors/your-profile-key.jpg
+  linkedin: https://www.linkedin.com/in/your-handle/
+  # x: https://x.com/your-handle
+```
+
+The `name`, `bio`, and `image` fields are required. Keep bios within 300 characters, including spaces and punctuation. Longer bios fail the build. The `role`, `linkedin`, and `x` fields are optional. Include only the social links the author uses.
+
+3. Add the profile key to the blog post's front matter. For Dylan's card, use:
+
+```yaml
+author: Dylan Couzon
+author_profile: dylan-couzon
+```
+
+Keep the existing `author` byline, including any coauthors. The `author_profile` key selects one person's card. Reuse that key across posts to update the bio in one place. Unknown keys fail the build. Posts without `author_profile` keep their existing layout. The Markdown output includes the bio and social links.
 
 ### Images
 

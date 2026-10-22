@@ -107,8 +107,25 @@
   <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>
 {{ end }}
 
+{{/* Set by partials/copy-markdown-button.html, which renders in the body before
+     this partial runs. */}}
+{{ if .Store.Get "hasCopyMarkdown" }}
+  {{ $copyMarkdownJs := resources.Get "js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $copyMarkdownJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if .HasShortcode "integration-directory" }}
+  {{ $integrationDirectoryJs := resources.Get "js/integration-directory.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $integrationDirectoryJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "industries" }}
   {{ $customersJs := resources.Get "js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "edge" }}
+  {{ $customersJs := resources.Get "js/edge.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
@@ -122,6 +139,11 @@
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if in (slice "qdrant-cloud" "security" "resilience" "quantization" "observability" "gpu-indexing" "cloud-inference" "hybrid-cloud" "edge") .Section }}
+  {{ $cjpTrackingJs := resources.Get "js/cjp-tracking.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $cjpTrackingJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "qdrant-cloud" }}
   {{ $customersJs := resources.Get "js/qdrant-cloud.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
@@ -132,7 +154,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "quantization" "docs" "documentation") .Section }}
+{{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "qdrant-cloud" "quantization" "edge" "docs" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
@@ -141,6 +163,9 @@
 
   {{ $langSwitcherJs := resources.Get "/js/lang-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $langSwitcherJs.RelPermalink }}"></script>
+
+  {{ $deploymentSwitcherJs := resources.Get "/js/deployment-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $deploymentSwitcherJs.RelPermalink }}"></script>
 
   <!-- MathJax support -->
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

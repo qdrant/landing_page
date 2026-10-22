@@ -1,0 +1,56 @@
+/* simhash island. Scoped under .mu-sh. Chrome comes from the shared island
+   design system; categorical blue (--qi-cat-1) tints the regions and cells. */
+
+.mu-sh {
+  display: block;
+}
+
+.mu-sh__region,
+.mu-sh__cell {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+}
+.mu-sh__cell {
+  stroke-width: 1.5;
+}
+.mu-sh__region.is-hot,
+.mu-sh__cell.is-hot {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+}
+.mu-sh__region-label {
+  pointer-events: none;
+}
+.mu-sh__plane {
+  stroke: var(--qi-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  pointer-events: none;
+}
+.mu-sh__plane-label {
+  fill: var(--qi-accent);
+  pointer-events: none;
+}
+.mu-sh__pt {
+  fill: var(--qi-fg);
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+.mu-sh__pt.is-hot {
+  fill: var(--qi-accent);
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+
+/* Labels render at about 12px at the article width; the compact layout is
+   capped so it is not scaled up past a comfortable size. */
+.mu-sh .qi-label {
+  font-size: 13px;
+}
+.mu-sh.mu-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

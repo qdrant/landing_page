@@ -22,6 +22,8 @@ guide_series: true
 
 # Hybrid Search in Qdrant
 
+![A spaceship streaks through space between a red wall of fire and a stream of blue light.](/articles_data/hybrid-search/preview/title.webp)
+
 A search result can look plausible and still be wrong. Dense retrieval can return a document on the right topic but miss an exact identifier copied into the query. Sparse retrieval can miss a relevant document when the query describes it with terms the corpus doesn't use. Either way, your logs record a successful query.
 
 Hybrid search runs dense and sparse retrieval over the same query, then merges their result lists. Dense retrieval adds semantic similarity, so paraphrases can rank together. Sparse retrieval adds weighted term matching for exact words and identifiers.
@@ -53,9 +55,9 @@ In Qdrant, a prefetch runs a search and passes its candidates to the main query.
 
 Dense similarity and BM25 scores use different scales. Dense similarity is bounded, while BM25's magnitude depends on how many query terms match and how rare they are in the corpus. A fixed weight on the raw scores may balance one query but let BM25 dominate another. No single raw-score weight preserves the same balance across both.
 
+{{< island path="content/documentation/headless/search-tuning/linear-combination" ratio="10 / 7" title="The dense scale stays similar, but the BM25 scale shifts across queries." >}}
 ![Two scatterplots compare candidate scores for Query A and Query B on identical axes. Dense similarity spans 0.6 to 0.9 in both panels. Query A's relevant and non-relevant documents have BM25 scores below 20, while Query B's documents spread from roughly 20 to 80.](/articles_data/hybrid-search/linear-combination.png)
-
-_The dense scale stays similar, but the BM25 scale shifts across queries._
+{{< /island >}}
 
 RRF avoids the scale mismatch by discarding score magnitude. DBSF normalizes each score distribution per query.
 
@@ -71,17 +73,17 @@ Fusion only reorders. It works on the union of what the two prefetches returned,
 
 If a relevant document falls below a prefetch cutoff, increasing one or both prefetch limits can expose it to fusion. A larger limit adds retrieval work, and it does not help if the retrievers still miss the document at greater depth. [Candidate depth](/documentation/search-tuning/candidate-depth/) explains how to test the limits, and the [hybrid query documentation](/documentation/search/hybrid-queries/) covers how prefetches feed fusion.
 
+{{< island path="content/documentation/headless/search-tuning/candidate-boundary" ratio="3 / 1" title="The pale documents were never retrieved. If the right answer is one of them, no fusion method reaches it." >}}
 ![A collection drawn as a field of documents with two overlapping oval regions over it. Documents inside the left oval are red and labeled dense prefetch, documents inside the right oval are blue and labeled sparse prefetch, documents in the overlap are dark, and roughly a third of the documents sit outside both ovals in pale grey. A note reading candidate union passed to fusion points into the retrieved region.](/articles_data/hybrid-search/candidate-boundary.png)
-
-_The pale documents were never retrieved. If the right answer is one of them, no fusion method reaches it._
+{{< /island >}}
 
 ## What a Second Retriever Costs
 
 The setup that follows starts with a dense-only collection and adds BM25 as the second retriever. That means adding a sparse vector per point, a second index, and another search on every query. On one container serving one request at a time, the extra search raised median query latency by 0.60 to 1.47 ms. Measure the cost under your own concurrency and shard layout.
 
-Adding a sparse vector to an existing dense-only collection requires a new collection and a full reindex because the vector configuration is fixed at collection creation.
+Since Qdrant v1.18, you can add the sparse vector to an existing dense-only collection with `create_vector_name`, without recreating the collection. Existing points have no sparse value until you upsert them again, so adding BM25 still means one pass over your data. [Update Vector Schema](/documentation/manage-data/collections/#update-vector-schema) covers the call.
 
-The new collection declares both vector types. The sparse vector needs the IDF modifier, which gives rare terms more weight than common ones. Without it, a common word can count as much as a part number.
+A new collection declares both vector types from the start. The sparse vector needs the IDF modifier, which gives rare terms more weight than common ones. Without it, a common word can count as much as a part number.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -106,7 +108,7 @@ client.create_collection(
 The [hybrid search documentation](/documentation/search/text-search/hybrid-search/) covers indexing text and producing BM25 sparse vectors in every supported language.
 
 ```python
-from your_embedding_models import dense_embed, sparse_embed
+from your_embedding_models import dense_embed
 
 query_text = "Samsung Galaxy S24 Ultra 512GB"
 
@@ -120,8 +122,8 @@ results = client.query_points(
             limit=100,
         ),
         models.Prefetch(
-            # The same query, embedded for the sparse retriever.
-            query=sparse_embed(query_text),
+            # Qdrant turns the same query into a BM25 vector on the server.
+            query=models.Document(text=query_text, model="Qdrant/bm25"),
             using="bm25",
             limit=100,
         ),
@@ -134,13 +136,13 @@ results = client.query_points(
 
 `using` selects the named vector for each prefetch, and `FusionQuery` merges the two lists. Both prefetch limits start at 100.
 
+`models.Document` with `Qdrant/bm25` makes Qdrant compute the BM25 vector itself, so the sparse side needs no client library. It requires Qdrant v1.15.3 or later. Upsert your documents the same way so indexed and query vectors come from the same model.
+
 ## Measure Whether It Helps
 
 Across five public datasets, default RRF beat the stronger individual retriever on four.
 
-![A grouped bar chart of nDCG@10 across five datasets, with three bars per dataset for dense only, sparse only, and both fused. SciFact reads 0.6239, 0.6886, and 0.7175. ArguAna reads 0.4905, 0.4224, and 0.5216. WANDS reads 0.6921, 0.7098, and 0.7254. CodeSearchNet reads 0.6299, 0.5126, and 0.6555. DBPedia-entity reads 0.4677, 0.3857, and 0.4638, the one dataset where the fused bar sits below the dense bar.](/articles_data/hybrid-search/fusion-vs-single.png)
-
-_DBPedia-entity is the exception: fusion scores lower than dense retrieval._
+{{< chart id="hybrid/fusion" caption="DBPedia-entity is the exception: fusion scores lower than dense retrieval." >}}
 
 Run the same labeled queries with dense retrieval, sparse retrieval, and fusion. Keep the models and candidate limits unchanged. Score each run with `nDCG@10`, which gives more credit to relevant documents near the top.
 

@@ -1,0 +1,32 @@
+{
+  "title": "The 1% double filter across hnsw_ef",
+  "kind": "grouped-columns",
+  "group": "hnsw_ef",
+  "series": "strategy",
+  "colors": [
+    "muted",
+    1,
+    0,
+    2
+  ],
+  "textScale": 1.5,
+  "legendLayout": "stacked",
+  "height": 460,
+  "views": [
+    {
+      "label": "Recall@10",
+      "subtitle": "one million points, 500 queries per setting",
+      "y": "recall",
+      "yLabel": "Recall@10 (%)",
+      "yMax": 100
+    },
+    {
+      "label": "Latency",
+      "subtitle": "mean server-side latency, lower is better",
+      "y": "latency_ms",
+      "yLabel": "latency (ms)",
+      "yMax": 22
+    }
+  ],
+  "width": 700
+}

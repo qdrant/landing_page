@@ -44,7 +44,7 @@ The heavy multivector representations produced by VLLMs make PDF retrieval at sc
 
 **ColPali** generates over **1,000 vectors per PDF page**, while its successor, **ColQwen**, generates slightly fewer — up to **768 vectors**, dynamically adjusted based on the image size. Typically, ColQwen produces **~700 vectors per page**.
 
-To understand the impact, consider the construction of an [**HNSW index**](/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
+To understand the impact, consider the construction of an [**HNSW index**](/articles/what-is-a-vector-database/#11-hnsw-indexing), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
 
 - **Vectors per page:** ~700 (ColQwen) or ~1,000 (ColPali)
 - **[ef_construct](/documentation/manage-data/indexing/#vector-index):** 100 (default)
@@ -99,9 +99,10 @@ In the following sections, we will demonstrate an optimized retrieval algorithm 
 Install & import required libraries
 
 ```python
-# pip install colpali_engine>=0.3.1
+# pip install "colpali_engine>=0.3.1" "qdrant-client>=1.12.0"
+
+import torch
 from colpali_engine.models import ColPali, ColPaliProcessor
-# pip install qdrant-client>=1.12.0
 from qdrant_client import QdrantClient, models
 ```
 
@@ -109,9 +110,11 @@ To run these experiments, we’re using a **Qdrant cluster**. If you’re just g
 
 ```python
 client = QdrantClient(
-    url=<YOUR CLUSTER URL>,
-    api_key=<YOUR API KEY>
+    url="<YOUR CLUSTER URL>",
+    api_key="<YOUR API KEY>"
 )
+
+collection_name = "pdf-retrieval"
 ```
 
 Download **ColPali** model along with its input processors. Make sure to select the backend that suits your setup.
@@ -209,13 +212,13 @@ For example, that's how ColQwen multivector output is formed.
 
 ![that's how ColQwen multivector output is formed](/documentation/tutorials/pdf-retrieval-at-scale/ColQwen-preprocessing.png)
 
-The `get_patches` function is to get the number of `x_patches` (rows) and `y_patches` (columns) ColPali/ColQwen2 models will divide a PDF page into.
+The `get_n_patches` function is to get the number of `x_patches` (rows) and `y_patches` (columns) ColPali/ColQwen2 models will divide a PDF page into.
 For ColPali, the numbers will always be 32 by 32; ColQwen will define them dynamically based on the PDF page size.
 
 ```python
-x_patches, y_patches = model_processor.get_n_patches(
+x_patches, y_patches = colpali_processor.get_n_patches(
     image_size, 
-    patch_size=model.patch_size
+    patch_size=colpali_model.patch_size
 )
 ```
 
@@ -223,10 +226,10 @@ x_patches, y_patches = model_processor.get_n_patches(
 <summary> For <b>ColQwen</b> model </summary>
 
 ```python
-model_processor.get_n_patches(
+colqwen_processor.get_n_patches(
     image_size, 
-    patch_size=model.patch_size,
-    spatial_merge_size=model.spatial_merge_size
+    patch_size=colqwen_model.patch_size,
+    spatial_merge_size=colqwen_model.spatial_merge_size
 )
 ```
 </details>
@@ -241,9 +244,9 @@ Simplified version of pooling for **ColPali** model:
 
 ```python
 
-processed_images = model_processor.process_images(image_batch) 
+processed_images = colpali_processor.process_images(image_batch) 
 # Image embeddings of shape (batch_size, 1030, 128)
-image_embeddings = model(**processed_images)
+image_embeddings = colpali_model(**processed_images)
 
 # (1030, 128)
 image_embedding = image_embeddings[0] # take the first element of the batch
@@ -252,21 +255,21 @@ image_embedding = image_embeddings[0] # take the first element of the batch
 # It can be done by selecting tokens corresponding to special `image_token_id`
 
 # (1030, ) - boolean mask (for the first element in the batch), True for image tokens 
-mask = processed_images.input_ids[0] == model_processor.image_token_id
+mask = processed_images.input_ids[0] == colpali_processor.image_token_id
 
 # For convenience, we now select only image tokens 
 #   and reshape them to (x_patches, y_patches, dim)
 
 # (x_patches, y_patches, 128)
-image_patch_embeddings = image_embedding[mask].view(x_patches, y_patches, model.dim)
+image_patch_embeddings = image_embedding[mask].view(x_patches, y_patches, colpali_model.dim)
 
 # Now we can apply mean pooling by rows and columns
 
 # (x_patches, 128)
-pooled_by_rows = image_patch_embeddings.mean(dim=0)
+pooled_by_rows = image_patch_embeddings.mean(dim=1)
 
 # (y_patches, 128)
-pooled_by_columns = image_patch_embeddings.mean(dim=1)
+pooled_by_columns = image_patch_embeddings.mean(dim=0)
 
 # [Optionally] we can also concatenate special tokens to the pooled representations, 
 # For ColPali, it's only postfix
@@ -277,8 +280,6 @@ pooled_by_rows = torch.cat([pooled_by_rows, image_embedding[~mask]])
 # (y_patches + 6, 128)
 pooled_by_columns = torch.cat([pooled_by_columns, image_embedding[~mask]])
 ```
-
-</details>
 
 ## Upload to Qdrant
 
@@ -294,10 +295,10 @@ After indexing PDF documents, we can move on to querying them using our two-stag
 
 ```python
 query = "Lee Harvey Oswald's involvement in the JFK assassination"
-processed_queries = model_processor.process_queries([query]).to(model.device)
+processed_queries = colpali_processor.process_queries([query]).to(colpali_model.device)
 
 # Resulting query embedding is a tensor of shape (22, 128)
-query_embedding = model(**processed_queries)[0]
+query_embedding = colpali_model(**processed_queries)[0]
 ```
 
 Now let's design a function for the two-stage retrieval with multivectors produced by VLLMs:
@@ -330,7 +331,7 @@ response = client.query_points(
     ],
     limit=search_limit,
     with_payload=True,
-    with_vector=False,
+    with_vectors=False,
     using="original"
 )
 ```

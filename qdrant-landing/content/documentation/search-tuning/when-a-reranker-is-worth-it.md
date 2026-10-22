@@ -36,6 +36,10 @@ Every candidate takes a forward pass at query time, which rules a cross-encoder 
 <strong>Note:</strong> The measurements in this article use five public datasets chosen to vary in corpus size, document and query shape, and relevance task, so read these reranker deltas as directional. They range from 5,183 to 100,000 documents, and each collection was built in one batch on one shard, unquantized and unfiltered, with <code>all-MiniLM-L6-v2</code> for dense retrieval and Qdrant's core BM25 for sparse retrieval. Four cross-encoders reranked the fused candidates at counts from 10 through 200, scored on 200 queries per dataset. <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/#check-the-winner-on-fresh-queries">Held-out validation</a> explains the split, and <a href="/documentation/search-tuning/before-tuning-a-qdrant-collection/#make-sure-your-labels-can-detect-a-gain">building a labeled set</a> explains the labels.
 </aside>
 
+The Decide whether to rerank prompt hands this call to an agent, starting with the cheaper alternative worth ruling out before you add a model.
+
+{{< prompt "decide-whether-to-rerank" >}}
+
 ## Test a Reranker in Three Steps
 
 1. Establish the baseline the reranker has to beat: [tuned fusion](/documentation/search-tuning/how-to-tune-hybrid-search/) if you run hybrid search, your current ranking if you run dense-only or sparse-only. Confirm the documents your labels mark relevant reach the candidate list. A reranker only reorders what it receives; missing documents are a [candidate depth](/documentation/search-tuning/candidate-depth/) or retrieval problem.
@@ -131,11 +135,18 @@ If you find a mismatch, swap in a model whose window and training data fit your 
 
 ## Set Candidate Count After a Win
 
-Start with 10 candidates, and confirm on your labeled queries that the reranker beats tuned fusion before you change the count. Every configuration that trailed tuned fusion at 10 candidates still trailed it at 200, so a deeper list does not rescue a reranker that loses at 10. `nDCG@10` grades the same top 10 results at every count, so the count changes only what the reranker gets to choose from.
+Start with 10 candidates, and confirm on your labeled queries that the reranker beats tuned fusion before you change the count. In these five datasets, every configuration that trailed tuned fusion at 10 candidates still trailed it at 200, so a deeper list did not rescue a reranker that lost at 10; treat that as a finding to check against your own labels and not as an always-valid guarantee. `nDCG@10` grades the same top 10 results at every count, so the count changes only what the reranker gets to choose from.
 
-![Five small line charts, one per dataset, showing the best nDCG@10 change over tuned fusion at candidate counts 10, 25, 50, 100, and 200. SciFact, CodeSearchNet, and DBPedia-entity stay above the zero line, WANDS stays below it at every count, and ArguAna peaks at 25 then falls to zero by 200.](/articles_data/when-a-reranker-is-worth-it/reranker-gain-by-candidate-count.png)
+{{< island path="content/documentation/headless/reranker/gain" ratio="760 / 372" title="The best nDCG@10 change over tuned fusion among four models, by candidate count. A line above zero is a reranker win; WANDS never crosses it." >}}
+![Five dataset lines share one plot of reranker gain over tuned fusion. CodeSearchNet and DBPedia-entity gain most as candidate count increases. WANDS stays negative, and ArguAna peaks at 25 then falls slightly below zero at 200.](/documentation/reranker/gain.svg)
+{{< /island >}}
 
-_The best nDCG@10 change over tuned fusion among the four models, by candidate count. A line above zero is a reranker win; WANDS never crosses it._
+<details>
+<summary>Chart data</summary>
+
+{{< include "content/documentation/headless/reranker/gain/data.md" >}}
+
+</details>
 
 Step 1 confirmed that your relevant documents reach the candidate list. Run that same check at each count you are considering, before you run the reranker at any of them. The share of queries whose relevant documents are already in the candidate list limits how much increasing the count can help. Beyond that point, extra candidates only add documents that can push the relevant ones out of the top 10.
 
@@ -151,7 +162,7 @@ The shape you get depends on how many relevant documents your queries have and h
 
 Once relevance has settled the candidate count and the model, measure query-candidate pairs per second and tail latency on the hardware you plan to deploy, using representative document lengths and concurrency.
 
-The table shows CPU throughput for the four [FastEmbed cross-encoders](/documentation/fastembed/fastembed-rerankers/), listed by their full model IDs and measured in one process on an Apple M5 Pro with 15 threads. The last column converts that rate to whole queries at 100 candidates each.
+The table shows CPU throughput for the four [FastEmbed cross-encoders](/documentation/fastembed/fastembed-rerankers/), listed by their full model IDs and measured in one process on an Apple M5 Pro with 15 threads, on FastEmbed 0.8.x. A different version can move these rates, so a good practice to reproduce them is to pin the minor version (`fastembed>=0.8,<0.9`), or directly re-time your own candidates on the version you plan to serve. The last column converts that rate to whole queries at 100 candidates each.
 
 | Model | Size | Docs per Second | Queries per Second |
 |---|---|---|---|
@@ -170,7 +181,7 @@ Some models only reach a usable rate on a GPU. The `jina-reranker-v2` ONNX expor
 
 ## Use Other Stages for Different Problems
 
-Match the stage to the symptom you see in your results.
+Match the stage to the symptom you see in your results. Each of these stages adds latency or storage, so before adding one, confirm the gap it would close is real: [measure retrieval quality](/documentation/search-evaluation/retrieval-relevance/) on your own labeled queries, and verify the applicability of the fixes reported here.
 
 | Symptom | Stage |
 |---|---|

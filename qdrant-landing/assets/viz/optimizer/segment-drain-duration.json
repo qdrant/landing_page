@@ -1,0 +1,26 @@
+{
+  "title": "Time to clear the optimization backlog by segment configuration",
+  "kind": "columns-2panel",
+  "labelTop": "configuration",
+  "labelBottom": "setting",
+  "colors": [
+    0,
+    "muted",
+    1,
+    2
+  ],
+  "height": 400,
+  "panels": [
+    {
+      "title": "Time until the optimization backlog cleared",
+      "subtitle": "lower is better",
+      "y": "drain_duration_s",
+      "axis": "drain duration, seconds",
+      "unit": "s",
+      "yMax": 4000
+    }
+  ],
+  "tooltip": {
+    "drain_duration_s": "drain duration"
+  }
+}

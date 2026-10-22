@@ -61,7 +61,7 @@ Nyris has found several aspects of Qdrant particularly beneficial in their produ
 - **Seamless Scalability**: Qdrant's ability to [scale effortlessly across nodes](https://qdrant.tech/documentation/scaling/distributed_deployment/) ensures consistent high performance, even as Nyris's data volume grows.
 - **Flexible Search Options**: The availability of both graph-based and brute-force search methods offers Nyris the flexibility to tailor the search approach to specific use case requirements.
 - **Versatile Data Handling**: Qdrant imposes almost no restrictions on data types and vector sizes, allowing Nyris to manage diverse and complex datasets effectively.
-- **Built with Rust**: The use of [Rust](https://qdrant.tech/articles/why-rust/) ensures superior performance and future-proofing, while its open-source nature allows Nyris to inspect and customize the code as necessary.
+- **Built with Rust**: The use of [Rust](/blog/why-rust/) ensures superior performance and future-proofing, while its open-source nature allows Nyris to inspect and customize the code as necessary.
 - **Cost-Effective High Performance Search**: Qdrant’s efficient search capabilities ensure that Nyris can maintain high performance at a reasonable cost. With Qdrant, Nyris can search through extensive datasets efficiently, making it a crucial part of their technology stack.
 
 By hosting Qdrant on Google Cloud within their Kubernetes Cluster, Nyris benefits from the scalability and reliability essential for their demanding operations, ensuring a robust and efficient visual search solution.

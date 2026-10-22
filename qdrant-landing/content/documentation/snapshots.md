@@ -175,14 +175,12 @@ For example:
 
 ## Storage
 
-Created, uploaded and recovered snapshots are stored as `.snapshot` files. By
-default, they're stored on the [local file system](#local-file-system). You may
-also configure to use an [S3 storage](#s3) service for them.
+Created, uploaded and recovered snapshots are stored as `.snapshot` files. By default, they're stored on the [local file system](#local-file-system). You may
+also configure to use an [S3 storage](#s3) service for them. As of v1.20.0, you can also use [Google Cloud Storage](#google-cloud-storage) or [Azure Blob Storage](#azure-blob-storage).
 
 ### Local file system
 
-By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when
-using our Docker image.
+By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when using our Docker image.
 
 The target directory can be controlled through the [configuration](/documentation/ops-configuration/configuration/):
 
@@ -242,9 +240,111 @@ storage:
       endpoint_url: your_url_here
 ```
 
-Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://github.com/qdrant/migration) that supports: 
-- Migration between Qdrant Cloud instances. 
+Fields you leave unset in `s3_config` are read from the `AWS_*` environment variables and the default AWS credential chain.
+
+### Google Cloud Storage
+
+*Available as of v1.20.0*
+
+To store snapshots in Google Cloud Storage (GCS), set `snapshots_storage` to `gcs` and configure `gcs_config` in the [configuration](/documentation/ops-configuration/configuration/) file:
+
+```yaml
+storage:
+  snapshots_config:
+    # Use 'gcs' to store snapshots on Google Cloud Storage
+    snapshots_storage: gcs
+
+    gcs_config:
+      # Bucket name
+      # Can also be specified in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__GCS_CONFIG__BUCKET` environment variable.
+      bucket: your_bucket_here
+
+      # Optional: path to a service account JSON key file
+      service_account_path: /path/to/service-account.json
+
+      # Optional: custom endpoint, for example for an emulator such as fake-gcs-server
+      # endpoint_url: your_url_here
+```
+
+Use one of these authentication options:
+
+- `service_account_path`: path to a service account JSON key file.
+- `service_account_key`: the contents of a service account JSON key, inline.
+- `application_credentials_path`: path to an application credentials file.
+
+If you set none of them, Qdrant uses Application Default Credentials. These come from the `GOOGLE_*` environment variables, the gcloud configuration, or the metadata server on Compute Engine and GKE.
+
+You can also set each option with an environment variable.
+
+### Azure Blob Storage
+
+*Available as of v1.20.0*
+
+To store snapshots in an Azure Blob Storage container, set `snapshots_storage` to `azure` and configure `azure_config` in the [configuration](/documentation/ops-configuration/configuration/) file:
+
+```yaml
+storage:
+  snapshots_config:
+    # Use 'azure' to store snapshots on Azure Blob Storage
+    snapshots_storage: azure
+
+    azure_config:
+      # Storage account name, without the `.blob.core.windows.net` suffix
+      account: your_account_here
+
+      # Container name
+      container: your_container_here
+
+      # Optional: shared access key of the storage account
+      # Can also be specified in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__AZURE_CONFIG__ACCESS_KEY` environment variable.
+      access_key: your_access_key_here
+
+      # Optional: custom endpoint, for example for an emulator such as Azurite
+      # endpoint_url: your_url_here
+```
+
+`account` and `container` are required. Use one of these authentication methods:
+
+- `access_key`: the shared access key of the storage account.
+- `sas_token`: a shared access signature token.
+- `client_id`, `client_secret`, and `tenant_id`: a Microsoft Entra ID service principal.
+
+If you set none of them, Qdrant uses the default credential chain. This chain reads the `AZURE_*` environment variables, then falls back to a managed identity or the Azure CLI.
+
+You can also set each option with an environment variable.
+
+### Share a bucket between deployments
+
+*Available as of v1.20.0*
+
+Each of `s3_config`, `gcs_config`, and `azure_config` accepts an optional `prefix`. Qdrant stores objects as `<prefix>/snapshots/...`, so several deployments can share one bucket or container without overwriting each other's snapshots.
+
+```yaml
+storage:
+  snapshots_config:
+    snapshots_storage: gcs
+
+    gcs_config:
+      bucket: your_bucket_here
+
+      # Snapshots are stored under `staging-eu/snapshots/`
+      prefix: staging-eu
+```
+
+Or use an environment variable, for example `QDRANT__STORAGE__SNAPSHOTS_CONFIG__AZURE_CONFIG__PREFIX`.
+
+Qdrant drops leading, trailing, and repeated slashes from the prefix. An empty prefix has no effect, and omitting it keeps the current layout. Snapshot names that the API returns don't include the prefix.
+
+<aside role="status">
+
+If a configuration block is present for a backend that `snapshots_storage` doesn't select, Qdrant logs a warning at startup and ignores the block.
+
+</aside>
+
+Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://github.com/qdrant/migration) that supports:
+
+- Migration between Qdrant Cloud instances.
 - Migrating vectors from other providers into Qdrant.
 - Migrating from Qdrant OSS to Qdrant Cloud.
 
-Follow our [migration guide](/documentation/tutorials-operations/migration/) to learn how to effectively use the Qdrant Migration tool. 
+Follow our [migration guide](/documentation/migrate-to-qdrant/) to learn how to effectively use the Qdrant Migration tool.

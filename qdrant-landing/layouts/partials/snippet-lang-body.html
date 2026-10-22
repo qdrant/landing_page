@@ -1,0 +1,6 @@
+{{- /* Markdown body for one language of a snippet.
+       Param: a dict from snippet-files.html (lang, content, supported).
+       Snippets pass through as-is; a plain-text "not supported" message is
+       emitted as italic text so it reads as prose, not as code.
+       Hugo allows one `return` per partial, hence the `cond`. */ -}}
+{{- return (cond .supported .content (printf "*%s*\n" (strings.TrimSpace .content))) -}}

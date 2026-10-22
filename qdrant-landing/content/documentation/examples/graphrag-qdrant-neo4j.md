@@ -5,12 +5,14 @@ aliases:
 short_description: "Integrating Qdrant and Neo4j for Graph Retrieval-Augmented Generation (GraphRAG) with structured and unstructured data."
 description: "A step-by-step guide on implementing GraphRAG with Qdrant and Neo4j, combining vector search with knowledge graphs for enhanced retrieval."
 weight: 5
+date: 2025-02-04T18:29:42-05:00
 preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_preview.png
 social_preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_preview.png
 goal: RAG & Agents
 stack:
   - Python
   - Neo4j
+  - OpenAI
 example_resources:
   - label: View Code
     url: https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py
@@ -18,14 +20,14 @@ example_resources:
 
 # Build a GraphRAG Agent with Neo4j and Qdrant
 
-![image0](/documentation/examples/graphrag-qdrant-neo4j/image0.png)
+![](/documentation/examples/graphrag-qdrant-neo4j/image0.png)
 
-| Time: 30 min | Level: Intermediate |Output: [GitHub](https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py)|   
-| --- | ----------- | ----------- | 
+| Time: 30 min | Level: Intermediate |Output: [GitHub](https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py)|
+| --- | ----------- | ----------- |
 
 To make Artificial Intelligence (AI) systems more intelligent and reliable, we face a paradox: Large Language Models (LLMs) possess remarkable reasoning capabilities, yet they struggle to connect information in ways humans find intuitive. While groundbreaking, Retrieval-Augmented Generation (RAG) approaches often fall short when tasked with complex information synthesis. When asked to connect disparate pieces of information or understand holistic concepts across large documents, these systems frequently miss crucial connections that would be obvious to human experts.
 
-To solve these problems, Microsoft introduced **GraphRAG,** which uses Knowledge Graphs (KGs) instead of vectors as a context for LLMs. GraphRAG depends mainly on LLMs for creating KGs and querying them. However, this reliance on LLMs can lead to many problems. We will address these challenges by combining vector databases with graph-based databases.
+To solve these problems, Microsoft introduced **GraphRAG,** which uses Knowledge Graphs (KGs) instead of vectors as a context for LLMs. GraphRAG depends mainly on LLMs for creating KGs and querying them. However, this reliance on LLMs can lead to many problems. We will address these challenges by combining vector search engines with graph-based databases.
 
 This tutorial will demonstrate how to build a GraphRAG system with vector search using Neo4j and Qdrant.
 
@@ -40,10 +42,10 @@ This tutorial will demonstrate how to build a GraphRAG system with vector search
 
 # RAG & Its Challenges
 
-[RAG](https://qdrant.tech/rag/) combines retrieval-based and generative AI to enhance LLMs with relevant, up-to-date information from a knowledge base, like a vector database. However, RAG faces several challenges:
+[RAG](https://qdrant.tech/rag/) combines retrieval-based and generative AI to enhance LLMs with relevant, up-to-date information from a knowledge base, like a vector search engine. However, RAG faces several challenges:
 
 1. **Understanding Context:** Models may misinterpret queries, particularly when the context is complex or ambiguous, leading to incorrect or irrelevant answers.
-2. **Balancing Similarity vs. Relevance:** RAG systems can struggle to ensure that retrieved information is similar and contextually relevant.
+2. **Balancing Similarity vs. Relevance:** RAG systems can struggle to ensure that retrieved information is contextually relevant.
 3. **Answer Completeness:** Traditional RAGs might not be able to capture all relevant details for complex queries that require LLMs to find relationships in the context that are not explicitly present.
 
 # Introduction to GraphRAG
@@ -59,16 +61,16 @@ The workflow of GraphRAG is as follows:
 2. A bottom-up clustering algorithm organizes the KG into hierarchical semantic groups. This creates meaningful segments of related information, enabling understanding at different levels of abstraction.
 3. GraphRAG uses both the KG and semantic clusters to select a relevant context for the LLM when answering queries.
 
-![image2](/documentation/examples/graphrag-qdrant-neo4j/image2.png)
+![Microsoft's GraphRAG pipeline. At indexing time, source documents are split into text chunks, summarized into element instances and element summaries, and grouped into graph communities by community detection. At query time, community summaries produce community answers, which are summarized into a global answer.](/documentation/examples/graphrag-qdrant-neo4j/image2.png)
 
-[Fig](https://arxiv.org/pdf/2404.16130) 1: A Complete Picture of GraphRAG Ingestion and Retrieval
+Figure 1 from [Edge et al., 2024, *From Local to Global: A Graph RAG Approach to Query-Focused Summarization*](https://arxiv.org/abs/2404.16130): Graph RAG pipeline using an LLM-derived graph index of source document text.
 
 ### Challenges of GraphRAG
 
 Despite its advantages, the LLM-centric GraphRAG approach faces several challenges:
 
-- **KG Construction with LLMs:** Since the LLM is responsible for constructing the knowledge graph, there are risks such as inconsistencies, propagation of biases or errors, and lack of control over the ontology used. However, we used a LLM to extract the ontology in our implementation.
-- **Querying KG with LLMs:** Once the graph is constructed, an LLM translates the human query into Cypher (Neo4j's declarative query language). However, crafting complex queries in Cypher may result in inaccurate outcomes.
+- **KG Construction with LLMs:** Since the LLM is responsible for constructing the knowledge graph, there are risks such as inconsistencies, propagation of biases or errors, and lack of control over the ontology used.
+- **Querying KG with LLMs:** Once the graph is constructed, an LLM translates the human query into a declarative query language. However, crafting complex queries may result in inaccurate outcomes.
 - **Scalability & Cost Consideration:** To be practical, applications must be both scalable and cost-effective. Relying on LLMs increases costs and decreases scalability, as they are used every time data is added, queried, or generated.
 
 To address these challenges, a more controlled and structured knowledge representation system may be required for GraphRAG to function optimally at scale.
@@ -77,13 +79,24 @@ To address these challenges, a more controlled and structured knowledge represen
 
 The architecture has two main components: **Ingestion** and **Retrieval & Generation**. Ingestion processes raw data into structured knowledge and vector representations, while Retrieval and Generation enable efficient querying and response generation.
 
-This process is divided into two steps: **Ingestion**, where data is prepared and stored, and **Retrieval and Generation**, where the prepared data is queried and utilized. Let’s start with Ingestion.
+Let’s start with Ingestion.
 
 ## Ingestion
 
-The GraphRAG ingestion pipeline combines a **Graph Database** and a **Vector Database** to improve RAG workflows.
+The GraphRAG ingestion pipeline combines a **Graph Database** and a **Vector Search Engine** to improve RAG workflows.
 
-![image1](/documentation/examples/graphrag-qdrant-neo4j/image1.png)
+<link rel="stylesheet" href="/documentation/examples/graphrag-qdrant-neo4j/figures.css">
+
+<figure class="graphrag-figure">
+  <picture class="graphrag-figure__light">
+    <source media="(max-width: 600px)" srcset="/documentation/examples/graphrag-qdrant-neo4j/image1.mobile.svg" width="2048" height="1230">
+    <img src="/documentation/examples/graphrag-qdrant-neo4j/image1.svg" alt="Raw Data follows two ingestion paths. An OpenAI large language model creates an Ontology for the Neo4j Graph Database. An OpenAI embedding model creates Vectors for the Qdrant Vector Search Engine. A curved arrow connects Raw Data to Vectors. A dashed link labeled Interlinked with same IDs connects the graph and vector search engines." width="2048" height="1230" loading="lazy">
+  </picture>
+  <picture class="graphrag-figure__dark">
+    <source media="(max-width: 600px)" srcset="/documentation/examples/graphrag-qdrant-neo4j/image1.mobile.dark.svg" width="2048" height="1230">
+    <img src="/documentation/examples/graphrag-qdrant-neo4j/image1.dark.svg" alt="Raw Data follows two ingestion paths. An OpenAI large language model creates an Ontology for the Neo4j Graph Database. An OpenAI embedding model creates Vectors for the Qdrant Vector Search Engine. A curved arrow connects Raw Data to Vectors. A dashed link labeled Interlinked with same IDs connects the graph and vector search engines." width="2048" height="1230" loading="lazy">
+  </picture>
+</figure>
 
 Fig 2: Overview of Ingestion Pipeline
 
@@ -93,21 +106,30 @@ Let’s break it down:
 2. **Ontology Creation:** An **LLM** processes the raw data into an **ontology**, structuring entities, relationships, and hierarchies. Better approaches exist to extracting more structured information from raw data, like using NER to identify the names of people, organizations, and places. Unlike LLMs, this method creates.
 3. **Graph Database:** The ontology is stored in a **Graph database** to capture complex relationships.
 4. **Vector Embeddings:** An **Embedding model** converts the raw data into high-dimensional vectors capturing semantic similarities.
-5. **Vector Database:** These embeddings are stored in a **Vector database** for similarity-based retrieval.
-6. **Database Interlinking:** The **Graph database** (e.g., Neo4j) and **Vector database** (e.g., Qdrant) share unique IDs, enabling cross-referencing between ontology-based and vector-based results.
+5. **Vector Search Engine:** These embeddings are stored in a **Vector search engine** for similarity-based retrieval.
+6. **Database Interlinking:** The **Graph database** (e.g., Neo4j) and **Vector search engine** (e.g., Qdrant) share unique IDs, enabling cross-referencing between ontology-based and vector-based results.
 
 ## Retrieval & Generation
 
 The **Retrieval and Generation** process is designed to handle user queries by leveraging both semantic search and graph-based context extraction.
 
-![image3](/documentation/examples/graphrag-qdrant-neo4j/image3.png)
+<figure class="graphrag-figure">
+  <picture class="graphrag-figure__light">
+    <source media="(max-width: 600px)" srcset="/documentation/examples/graphrag-qdrant-neo4j/image3.mobile.svg" width="2048" height="1575">
+    <img src="/documentation/examples/graphrag-qdrant-neo4j/image3.svg" alt="Query becomes a Vector through an OpenAI embedding model and feeds Semantic search in Qdrant. Semantic search leads to Extract IDs, then Query graph in Neo4j, then Graph Context. Graph Context feeds Generation using an OpenAI large language model, which produces Results. A separate curved arrow also sends the original Query directly to Generation." width="2048" height="1575" loading="lazy">
+  </picture>
+  <picture class="graphrag-figure__dark">
+    <source media="(max-width: 600px)" srcset="/documentation/examples/graphrag-qdrant-neo4j/image3.mobile.dark.svg" width="2048" height="1575">
+    <img src="/documentation/examples/graphrag-qdrant-neo4j/image3.dark.svg" alt="Query becomes a Vector through an OpenAI embedding model and feeds Semantic search in Qdrant. Semantic search leads to Extract IDs, then Query graph in Neo4j, then Graph Context. Graph Context feeds Generation using an OpenAI large language model, which produces Results. A separate curved arrow also sends the original Query directly to Generation." width="2048" height="1575" loading="lazy">
+  </picture>
+</figure>
 
 Fig 3: Overview of Retrieval and Generation Pipeline
 
 The architecture can be broken down into the following steps:
 
-1. **Query Vectorization:** An embedding model converts The user query into a high-dimensional vector.
-2. **Semantic Search:** The vector performs a similarity-based search in the **Vector database**, retrieving relevant documents or entries.
+1. **Query Vectorization:** An embedding model converts a user query into a high-dimensional vector.
+2. **Semantic Search:** The vector performs a similarity-based search in the **Vector search engine**, retrieving relevant documents or entries.
 3. **ID Extraction:** Extracted IDs from the semantic search results are used to query the **Graph database**.
 4. **Graph Context Retrieval:** The **Graph database** provides contextual information, including relationships and entities linked to the extracted IDs.
 5. **Response Generation:** The context retrieved from the graph is passed to an LLM to generate a final response.
@@ -115,9 +137,9 @@ The architecture can be broken down into the following steps:
 
 This architecture combines the strengths of both databases:
 
-1. **Semantic Search with Vector Database:** The user query is first processed semantically to identify the most relevant data points without needing explicit keyword matches.
-2. **Contextual Expansion with Graph Database:** IDs or entities retrieved from the vector database query the graph database for detailed relationships, enriching the retrieved data with structured context.
-3. **Enhanced Generation:** The architecture combines semantic relevance (from the vector database) and graph-based context to enable the LLM to generate more informed, accurate, and contextually rich responses.
+1. **Semantic Search with Vector Search Engine:** The user query is first processed semantically to identify the most relevant data points without needing explicit keyword matches.
+2. **Contextual Expansion with Graph Database:** IDs or entities retrieved from the vector search engine query the graph database for detailed relationships, enriching the retrieved data with structured context.
+3. **Enhanced Generation:** The architecture combines semantic relevance (from the vector search engine) and graph-based context to enable the LLM to generate more informed, accurate, and contextually rich responses.
 
 # Implementation
 
@@ -135,26 +157,49 @@ Let’s start with setting up instances with Qdrant and Neo4j.
 
 ### Qdrant Setup
 
-To create a Qdrant instance, you can use their **managed service** (Qdrant Cloud) or set up a self-hosted cluster. For simplicity, we will use Qdrant cloud:
+You can use [Qdrant Cloud](/documentation/cloud-quickstart/) or [run Qdrant yourself](/documentation/quickstart/). This tutorial uses Qdrant Cloud:
 
-- Go to [Qdrant Cloud](https://qdrant.tech/) and sign up or log in.
+- Go to [Qdrant Cloud](https://cloud.qdrant.io/) and sign up or log in.
 - Once logged in, click on **Create New Cluster**.
 - Follow the on-screen instructions to create your cluster.
 - Once your cluster is created, you'll be given a **Cluster URL** and **API Key**, which you will use in the client to interact with Qdrant.
 
 ### Neo4j Setup
 
-To set up a Neo4j instance, you can use **Neo4j Aura** (cloud service) or host it yourself. We will use Neo4j Aura:
+You can use [Neo4j Aura](https://neo4j.com/product/auradb/), Neo4j's managed service, or host Neo4j yourself. This tutorial uses Neo4j Aura:
 
-- Go to Neo4j Aura and sign up/log in.
+- Go to the [Neo4j Aura console](https://console.neo4j.io/) and sign up or log in.
 - After setting up, an instance will be created if it is the first time.
 - After the database is set up, you’ll receive a **connection URI**, **username**, and **password**.
 
-We can add the following in the .env file for security purposes.
+<details><summary>Install packages and set credentials</summary>
+
+Install the Python packages:
+
+```shell
+pip install "neo4j-graphrag[qdrant]" openai python-dotenv
+```
+
+Then put the credentials in a `.env` file next to your script:
+
+```text
+QDRANT_URL=https://<your-cluster>.cloud.qdrant.io
+QDRANT_KEY=<your-qdrant-api-key>
+NEO4J_URI=neo4j+s://<your-instance>.databases.neo4j.io
+NEO4J_USERNAME=<your-neo4j-username>
+NEO4J_PASSWORD=<your-neo4j-password>
+OPENAI_API_KEY=<your-openai-api-key>
+```
+
+This tutorial was tested in October 2026 on Qdrant Cloud and Neo4j Aura, with qdrant-client 1.19.1, neo4j 6.4.0, neo4j-graphrag 1.22.0, and openai 3.24.0.
+
+</details>
 
 ### Imports
 
 First, we import the required libraries for working with Neo4j, Qdrant, OpenAI, and other utility functions.
+
+<details><summary>Show code</summary>
 
 ```python
 from neo4j import GraphDatabase
@@ -162,16 +207,17 @@ from qdrant_client import QdrantClient, models
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from openai import OpenAI
-from collections import defaultdict
 from neo4j_graphrag.retrievers import QdrantNeo4jRetriever
 import uuid
 import os
 ```
 
+</details>
+
 ---
 
 - **Neo4j:** Used to store and query the graph database.
-- **Qdrant:** A vector database used for semantic similarity search.
+- **Qdrant:** A vector search engine used for semantic similarity search.
 - **dotenv:** Loads environment variables for credentials and API keys.
 - **Pydantic:** Ensures data is structured properly when interacting with the graph data.
 - **OpenAI:** Interfaces with the OpenAI API to generate responses and embeddings.
@@ -180,6 +226,8 @@ import os
 ### Setting Up Environment Variables
 
 Before initializing the clients, we load the necessary credentials from environment variables.
+
+<details><summary>Show code</summary>
 
 ```python
 # Load environment variables
@@ -194,6 +242,8 @@ neo4j_password = os.getenv("NEO4J_PASSWORD")
 openai_key = os.getenv("OPENAI_API_KEY")
 ```
 
+</details>
+
 ---
 
 This ensures that sensitive information (like API keys and database credentials) is securely stored in environment variables.
@@ -201,6 +251,8 @@ This ensures that sensitive information (like API keys and database credentials)
 ### Initializing Neo4j and Qdrant Clients
 
 Now, we initialize the Neo4j and Qdrant clients using the credentials.
+
+<details><summary>Show code</summary>
 
 ```python
 # Initialize Neo4j driver
@@ -213,10 +265,12 @@ qdrant_client = QdrantClient(
 )
 ```
 
+</details>
+
 ---
 
 - **Neo4j:** We set up a connection to the Neo4j graph database.
-- **Qdrant:** We initialize the connection to the Qdrant vector store.
+- **Qdrant:** We initialize the connection to the Qdrant vector search engine.
 
 This will connect with Neo4j and Qdrant, and we can now start with Ingestion.
 
@@ -251,27 +305,27 @@ client = OpenAI()
 
 def openai_llm_parser(prompt):
     completion = client.chat.completions.create(
-        model="gpt-4o-2024-08-06",
+        model="gpt-5-mini",
         response_format={"type": "json_object"},
         messages=[
             {
                 "role": "system",
-                "content": 
-                   
-                """ You are a precise graph relationship extractor. Extract all 
-                    relationships from the text and format them as a JSON object 
+                "content":
+
+                """ You are a precise graph relationship extractor. Extract all
+                    relationships from the text and format them as a JSON object
                     with this exact structure:
                     {
                         "graph": [
-                            {"node": "Person/Entity", 
-                             "target_node": "Related Entity", 
+                            {"node": "Person/Entity",
+                             "target_node": "Related Entity",
                              "relationship": "Type of Relationship"},
                             ...more relationships...
                         ]
                     }
-                    Include ALL relationships mentioned in the text, including 
+                    Include ALL relationships mentioned in the text, including
                     implicit ones. Be thorough and precise. """
-                    
+
             },
             {
                 "role": "user",
@@ -279,20 +333,16 @@ def openai_llm_parser(prompt):
             }
         ]
     )
-    
+
     return GraphComponents.model_validate_json(completion.choices[0].message.content)
-    
+
 ```
 ---
 
-This function sends a prompt to the LLM, asking it to extract graph components (nodes and relationships) from the provided text. The response is parsed into structured graph data.
-
 ### Extracting Graph Components
 
-The function extract_graph_components processes raw data, extracting the nodes and relationships as graph components.
-
 ```python
-def extract_graph_components(raw_data):
+def extract_graph_components(raw_data, node_ids):
     prompt = f"Extract nodes and relationships from the following text:\n{raw_data}"
 
     parsed_response = openai_llm_parser(prompt)  # Assuming this returns a list of dictionaries
@@ -306,12 +356,11 @@ def extract_graph_components(raw_data):
         target_node = entry.target_node  # Get target node if available
         relationship = entry.relationship  # Get relationship if available
 
-        # Add nodes to the dictionary with a unique ID
-        if node not in nodes:
-            nodes[node] = str(uuid.uuid4())
+        # Reuse the ID of an entity already seen in an earlier paragraph
+        nodes[node] = node_ids.setdefault(node, str(uuid.uuid4()))
 
-        if target_node and target_node not in nodes:
-            nodes[target_node] = str(uuid.uuid4())
+        if target_node:
+            nodes[target_node] = node_ids.setdefault(target_node, str(uuid.uuid4()))
 
         # Add relationship to the relationships list with node IDs
         if target_node and relationship:
@@ -326,25 +375,31 @@ def extract_graph_components(raw_data):
 
 ---
 
-This function takes raw data, uses the LLM to parse it into graph components, and then assigns unique IDs to nodes and relationships.
+The pipeline calls this function once per paragraph. `node_ids` keeps one ID per entity name across paragraphs, so an entity mentioned in several paragraphs becomes a single node.
 
 ### Ingesting Data to Neo4j
 
-The function ingest_to_neo4j ingests the extracted graph data (nodes and relationships) into Neo4j.
+Each paragraph becomes a `Chunk` node, linked to the entities it mentions by `MENTIONS` relationships. The chunk's ID is what connects Neo4j to Qdrant.
 
 ```python
-def ingest_to_neo4j(nodes, relationships):
+def ingest_to_neo4j(nodes, relationships, chunk_id):
     """
-    Ingest nodes and relationships into Neo4j.
+    Ingest a paragraph's nodes and relationships into Neo4j,
+    linked to a Chunk node that represents the paragraph.
     """
 
     with neo4j_driver.session() as session:
-        # Create nodes in Neo4j
+        session.run("CREATE (c:Chunk {id: $id})", id=chunk_id)
+
+        # Create nodes in Neo4j, once per entity, and link them to the chunk
         for name, node_id in nodes.items():
             session.run(
-                "CREATE (n:Entity {id: $id, name: $name})",
+                "MERGE (n:Entity {id: $id, name: $name}) "
+                "WITH n MATCH (c:Chunk {id: $chunk_id}) "
+                "CREATE (c)-[:MENTIONS]->(n)",
                 id=node_id,
-                name=name
+                name=name,
+                chunk_id=chunk_id
             )
 
         # Create relationships in Neo4j
@@ -362,15 +417,13 @@ def ingest_to_neo4j(nodes, relationships):
 
 ---
 
-Here, we create nodes and relationships in the Neo4j graph database. Nodes are entities, and relationships link these entities.
+To look at the result, run `MATCH (e:Entity)-[r:RELATIONSHIP]->(n:Entity) RETURN e, r, n LIMIT 15` in the Neo4j Aura console. With this tutorial's sample data, part of the graph looks like this:
 
-This will ingest the data into Neo4j and on a sample dataset it looks something like this:
-
-![image4](/documentation/examples/graphrag-qdrant-neo4j/image4.png)
+![Part of the knowledge graph in the Neo4j Aura console: entity nodes Alice, Carol, Dave, Seattle, TechCorp, TechCorp's Seattle office, and data scientist, connected by RELATIONSHIP edges.](/documentation/examples/graphrag-qdrant-neo4j/image4.png)
 
 Fig 4: Visualization of the Knowledge Graph
 
-Let's explore how to map nodes with their IDs and integrate this information, along with vectors, into Qdrant. First, let’s create a Qdrant collection.
+Next, store each paragraph's embedding in Qdrant under the same chunk ID. First, create a Qdrant collection.
 
 ### Creating Qdrant Collection
 
@@ -378,34 +431,18 @@ You can create a collection once you have set up your Qdrant instance. A collect
 
 ```python
 def create_collection(client, collection_name, vector_dimension):
-```
+    if client.collection_exists(collection_name):
+        print(f"Skipping creating collection; '{collection_name}' already exists.")
+        return
 
-try:
-
-```python
-# Try to fetch the collection status
-try:
-    collection_info = client.get_collection(collection_name)
-    print(f"Skipping creating collection; '{collection_name}' already exists.")
-except Exception as e:
-    # If collection does not exist, an error will be thrown, so we create the collection
-    if 'Not found: Collection' in str(e):
-        print(f"Collection '{collection_name}' not found. Creating it now...")
-
-        client.create_collection(
-            collection_name=collection_name,
-            vectors_config=models.VectorParams(size=vector_dimension, distance=models.Distance.COSINE)
-        )
-
-        print(f"Collection '{collection_name}' created successfully.")
-    else:
-        print(f"Error while checking collection: {e}")
+    client.create_collection(
+        collection_name=collection_name,
+        vectors_config=models.VectorParams(size=vector_dimension, distance=models.Distance.COSINE)
+    )
+    print(f"Collection '{collection_name}' created successfully.")
 ```
 
 ---
-
-- **Qdrant Client:** The QdrantClient is used to connect to the Qdrant instance.
-- **Creating Collection:** The create_collection function checks if a collection exists. If not, it creates one with a specified vector dimension and distance metric (cosine similarity in this case).
 
 ### Generating Embeddings
 
@@ -417,38 +454,33 @@ def openai_embeddings(text):
         input=text,
         model="text-embedding-3-small"
     )
-    
+
     return response.data[0].embedding
 ```
 
 ---
 
-This function uses OpenAI's embedding model to transform input text into vector representations.
-
 ### Ingesting into Qdrant
 
-Let’s ingest the data into the vector database.
+Let’s ingest the data into the vector search engine.
 
 ```python
-def ingest_to_qdrant(collection_name, raw_data, node_id_mapping):
-    embeddings = [openai_embeddings(paragraph) for paragraph in raw_data.split("\n")]
-
+def ingest_to_qdrant(collection_name, chunk_id, paragraph):
     qdrant_client.upsert(
         collection_name=collection_name,
         points=[
-            {
-                "id": str(uuid.uuid4()),
-                "vector": embedding,
-                "payload": {"id": node_id}
-            }
-            for node_id, embedding in zip(node_id_mapping.values(), embeddings)
+            models.PointStruct(
+                id=chunk_id,
+                vector=openai_embeddings(paragraph),
+                payload={"id": chunk_id, "text": paragraph}
+            )
         ]
     )
 ```
 
 ---
 
-The ingest_to_qdrant function generates embeddings for each paragraph in the raw data and stores them in a Qdrant collection. It associates each embedding with a unique ID and its corresponding node ID from the node_id_mapping dictionary, ensuring proper linkage for later retrieval.
+Each point uses the chunk ID as its point ID and stores it in the payload as `id`. The retriever reads that payload field to find the matching `Chunk` node in Neo4j.
 
 
 ---
@@ -471,8 +503,8 @@ def retriever_search(neo4j_driver, qdrant_client, collection_name, query):
         id_property_neo4j="id",
     )
 
-    results = retriever.search(query_vector=openai_embeddings(query), top_k=5)
-    
+    results = retriever.get_search_results(query_vector=openai_embeddings(query), top_k=5)
+
     return results
 ```
 
@@ -484,30 +516,32 @@ The [QdrantNeo4jRetriever](https://qdrant.tech/documentation/frameworks/neo4j-gr
 
 - **`qdrant_client`** connects to Qdrant for efficient vector similarity search.
 - **`collection_name`** specifies where vectors are stored.
-- **`id_property_external="id"`** maps the external entity’s ID for retrieval.
+- **`id_property_external="id"`** names the payload field that holds the chunk ID.
 
 **Graph Fetching:**
 
 - **`neo4j_driver`** connects to Neo4j for querying graph data.
-- **`id_property_neo4j="id"`** ensures the entity IDs from Qdrant match the graph nodes in Neo4j.
+- **`id_property_neo4j="id"`** names the Neo4j node property to match, here the `Chunk` node's `id`.
+
+`get_search_results` returns the matched Neo4j records, so the pipeline reads each chunk ID from `record["node"]`.
 
 ### Querying Neo4j for Related Graph Data
 
-We need to fetch subgraph data from a Neo4j database based on specific entity IDs after the retriever has provided the relevant IDs.
+Starting from the chunks the retriever found, fetch the entities they mention and the relationships around them.
 
 ```python
-def fetch_related_graph(neo4j_client, entity_ids):
+def fetch_related_graph(neo4j_client, chunk_ids):
     query = """
-    MATCH (e:Entity)-[r1]-(n1)-[r2]-(n2)
-    WHERE e.id IN $entity_ids
+    MATCH (c:Chunk)-[:MENTIONS]->(e:Entity)-[r1:RELATIONSHIP]-(n1:Entity)-[r2:RELATIONSHIP]-(n2:Entity)
+    WHERE c.id IN $chunk_ids
     RETURN e, r1 as r, n1 as related, r2, n2
     UNION
-    MATCH (e:Entity)-[r]-(related)
-    WHERE e.id IN $entity_ids
+    MATCH (c:Chunk)-[:MENTIONS]->(e:Entity)-[r:RELATIONSHIP]-(related:Entity)
+    WHERE c.id IN $chunk_ids
     RETURN e, r, related, null as r2, null as n2
     """
     with neo4j_client.session() as session:
-        result = session.run(query, entity_ids=entity_ids)
+        result = session.run(query, chunk_ids=chunk_ids)
         subgraph = []
         for record in result:
             subgraph.append({
@@ -527,7 +561,7 @@ def fetch_related_graph(neo4j_client, entity_ids):
 
 ---
 
-The function fetch_related_graph takes in a Neo4j client and a list of entity_ids. It runs a Cypher query to find related nodes (entities) and their relationships based on the given entity IDs. The query matches entities (e:Entity) and finds related nodes through any relationship [r]. The function returns a list of subgraph data, where each record contains the entity, relationship, and related_node.
+The query follows `MENTIONS` from each chunk to its entities, then returns their relationships up to two hops away. It only follows `RELATIONSHIP` edges, so chunk nodes don't end up in the context.
 
 This subgraph is essential for generating context to answer user queries.
 
@@ -550,16 +584,16 @@ def format_graph_context(subgraph):
 
         edges.append(f"{entity['name']} {relationship['type']} {related['name']}")
 
-    return {"nodes": list(nodes), "edges": edges}
+    return {"nodes": list(nodes), "edges": list(dict.fromkeys(edges))}  # drop repeated edges
 ```
 
 ---
 
-The function format_graph_context processes a subgraph returned by a Neo4j query. It extracts the graph's entities (nodes) and relationships (edges). The nodes set ensures each entity is added only once. The edges list captures the relationships in a readable format: *Entity1 relationship Entity2*.
+The two-hop query returns the same edge many times, so the function keeps each edge once.
 
 ### Integrating with the LLM
 
-Now that we have the graph context, we need to generate a prompt for a language model like GPT-4. This is where the core of the Retrieval-Augmented Generation (RAG) happens — we combine the graph data and the user query into a comprehensive prompt for the model.
+Now that we have the graph context, we need to generate a prompt for the LLM. This is where the core of the Retrieval-Augmented Generation (RAG) happens: we combine the graph data and the user query into a comprehensive prompt for the model.
 
 ```python
 def graphRAG_run(graph_context, user_query):
@@ -576,24 +610,23 @@ def graphRAG_run(graph_context, user_query):
 
     User Query: "{user_query}"
     """
-    
+
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-5-mini",
             messages=[
                 {"role": "system", "content": "Provide the answer for the following question:"},
                 {"role": "user", "content": prompt}
             ]
         )
-        return response.choices[0].message
-    
+        return response.choices[0].message.content
+
     except Exception as e:
         return f"Error querying LLM: {str(e)}"
 ```
 
 ---
 
-The function graphRAG_run takes the graph context (nodes and edges) and the user query, combining them into a structured prompt for the LLM. The nodes and edges are formatted as readable strings to form part of the LLM input. The LLM is then queried with the generated prompt, asking it to refine the user query using the graph context and provide an answer. If the model successfully generates a response, it returns the answer.
 
 ### End-to-End Pipeline
 
@@ -602,26 +635,14 @@ Finally, let’s integrate everything into an end-to-end pipeline where we inges
 ```python
 if __name__ == "__main__":
     print("Script started")
-    print("Loading environment variables...")
-    load_dotenv('.env.local')
-    print("Environment variables loaded")
-    
-    print("Initializing clients...")
-    neo4j_driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_username, neo4j_password))
-    qdrant_client = QdrantClient(
-        url=qdrant_url,
-        api_key=qdrant_key
-    )
-    print("Clients initialized")
-    
     print("Creating collection...")
-    collection_name = "graphRAGstoreds"
+    collection_name = "graphrag"
     vector_dimension = 1536
     create_collection(qdrant_client, collection_name, vector_dimension)
     print("Collection created/verified")
-    
+
     print("Extracting graph components...")
-    
+
     raw_data = """Alice is a data scientist at TechCorp's Seattle office.
     Bob and Carol collaborate on the Alpha project.
     Carol transferred to the New York office last year.
@@ -648,35 +669,33 @@ if __name__ == "__main__":
     Carol's team grew significantly after moving to New York.
     Seattle remains the technology hub for TechCorp."""
 
-    nodes, relationships = extract_graph_components(raw_data)
-    print("Nodes:", nodes)
-    print("Relationships:", relationships)
-    
-    print("Ingesting to Neo4j...")
-    node_id_mapping = ingest_to_neo4j(nodes, relationships)
-    print("Neo4j ingestion complete")
-    
-    print("Ingesting to Qdrant...")
-    ingest_to_qdrant(collection_name, raw_data, node_id_mapping)
-    print("Qdrant ingestion complete")
+    node_ids = {}  # entity name -> ID, shared across paragraphs
+    for paragraph in raw_data.split("\n"):
+        paragraph = paragraph.strip()
+        chunk_id = str(uuid.uuid4())
+
+        nodes, relationships = extract_graph_components(paragraph, node_ids)
+        ingest_to_neo4j(nodes, relationships, chunk_id)
+        ingest_to_qdrant(collection_name, chunk_id, paragraph)
+    print("Ingested", len(node_ids), "entities to Neo4j and Qdrant")
 
     query = "How is Bob connected to New York?"
     print("Starting retriever search...")
     retriever_result = retriever_search(neo4j_driver, qdrant_client, collection_name, query)
     print("Retriever results:", retriever_result)
-    
-    print("Extracting entity IDs...")
-    entity_ids = [item.content.split("'id': '")[1].split("'")[0] for item in retriever_result.items]
-    print("Entity IDs:", entity_ids)
-    
+
+    print("Extracting chunk IDs...")
+    chunk_ids = [record["node"]["id"] for record in retriever_result.records]
+    print("Chunk IDs:", chunk_ids)
+
     print("Fetching related graph...")
-    subgraph = fetch_related_graph(neo4j_driver, entity_ids)
+    subgraph = fetch_related_graph(neo4j_driver, chunk_ids)
     print("Subgraph:", subgraph)
-    
+
     print("Formatting graph context...")
     graph_context = format_graph_context(subgraph)
     print("Graph context:", graph_context)
-    
+
     print("Running GraphRAG...")
     answer = graphRAG_run(graph_context, query)
     print("Final Answer:", answer)
@@ -688,27 +707,42 @@ if __name__ == "__main__":
 Here’s what’s happening:
 
 - First, the user query is defined ("How is Bob connected to New York?").
-- The QdrantNeo4jRetriever searches for related entities in the Qdrant vector database based on the user query’s embedding. It retrieves the top 5 results (top_k=5).
-- The entity_ids are extracted from the retriever result.
+- The QdrantNeo4jRetriever finds the 5 paragraphs most similar to the query (`top_k=5`) and matches them to their `Chunk` nodes in Neo4j.
+- The chunk IDs are read from the retriever result.
 - The fetch_related_graph function retrieves related entities and their relationships from the Neo4j database.
 - The format_graph_context function prepares the graph data in a format the LLM can understand.
 - Finally, the graphRAG_run function is called to generate and query the language model, producing an answer based on the retrieved graph context.
 
-With this, we have successfully created GraphRAG, a system capable of capturing complex relationships and delivering improved performance compared to the baseline RAG approach.
+The answer varies between runs. In our test run, it was:
 
-# Advantages of Qdrant + Neo4j GraphRAG
+```text
+Final Answer: Bob is connected to New York in several ways:
 
-Combining Qdrant with Neo4j in a GraphRAG architecture offers several compelling advantages, particularly regarding recall and precision combo, contextual understanding, adaptability to complex queries, and better cost and scalability.
+- He worked on the Alpha project, which is managed from New York and by the New York management team; Bob's expertise was crucial to that project.
+- He collaborates with Carol, who transferred to and leads the New York office / East Coast team.
+- His contributions to those efforts are primarily remote.
+```
 
-1. **Improved Recall and Precision:** By leveraging Qdrant, a highly efficient vector search engine, alongside Neo4j’s robust graph database, the system benefits from both semantic search and relationship-based retrieval. Qdrant identifies relevant vectors and captures the similarity between queries and stored data. At the same time, Neo4j adds a layer of connectivity through its graph structure, ensuring that relevant and contextually linked information is retrieved. This combination improves recall (retrieving a broader set of relevant results) and precision (delivering more accurate and contextually relevant results), addressing a common challenge in traditional retrieval-based AI systems.
-2. **Enhanced Contextual Understanding:** Neo4j enhances contextual understanding by representing information as a graph, where entities and their relationships are naturally modeled. When integrated with Qdrant, the system can retrieve similar items based on vector embeddings and those that fit within the desired relational context, leading to more nuanced and meaningful responses.
-3. **Adaptability to Complex Queries:** Combining Qdrant and Neo4j makes the system highly adaptable to complex queries. While Qdrant handles the vector search for relevant data, Neo4j’s graph capabilities enable sophisticated querying through relationships. This allows for multi-hop reasoning and handling complex, structured queries that would be challenging for traditional search engines.
-4. **Better Cost & Scalability:** GraphRAG, on its own, demands significant resources, as it relies on LLMs to construct and query knowledge graphs. It also employs clustering algorithms to create semantic clusters for local searches. These can hinder scalability and increase costs. Qdrant addresses the issue of local search through vector search, while Neo4j’s knowledge graph is queried for more precise answers, enhancing both efficiency and accuracy. Furthermore, instead of using an LLM, Named Entity Recognition (NER)-based techniques can reduce the cost further, but it depends mainly on the dataset.
+## Clean up
+
+To delete the data this tutorial created, remove the Qdrant collection and the Neo4j nodes:
+
+```python
+qdrant_client.delete_collection(collection_name)
+
+with neo4j_driver.session() as session:
+    session.run("MATCH (n:Entity|Chunk) DETACH DELETE n")
+```
+
+# Retrieval Behavior and Limits
+
+- Qdrant searches paragraph embeddings, and `QdrantNeo4jRetriever` matches the hits to Neo4j `Chunk` nodes by ID. These nodes link paragraphs to extracted entities.
+- A Cypher query follows entity relationships up to two hops. It has no result limit, so the graph context can grow with the number of connected entities.
+- Ingestion makes an LLM extraction call for each paragraph to populate Neo4j. This adds per-paragraph indexing cost, and the graph context depends on the quality of the extracted entities and relationships.
+- Entities are merged by name, so two different entities with the same name, such as two people called Alice, become one node. Separating them requires entity resolution, for example a stable key or an extra LLM step that uses the surrounding text.
 
 # Conclusion
 
-GraphRAG with Neo4j and Qdrant marks an important step forward in retrieval-augmented generation. This hybrid approach delivers significant advantages by combining vector search and graph databases. Qdrant's semantic search capabilities enhance recall accuracy, while Neo4j's relationship modeling provides deeper context understanding.
+This example uses vector search to select paragraphs, expands their entities' graph neighborhoods, and passes the resulting context to an LLM for answer generation.
 
-The implementation template we've explored offers a foundation for your projects. You can adapt and customize it based on your specific needs, whether for document analysis, knowledge management, or other information retrieval tasks.
-
-As AI systems evolve, this combination of technologies shows how we can build smarter, more efficient solutions. We encourage you to experiment with this approach and discover how it can enhance your applications.
+This implementation template we've explored offers a foundation for your projects. You can adapt and customize it based on your specific needs, whether for document analysis, knowledge management, or other information retrieval tasks.

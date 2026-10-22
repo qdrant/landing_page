@@ -1,0 +1,69 @@
+/* triplet island. Scoped under .ds-tr. Cyan: positive, red: negative, dark:
+   anchor. */
+.ds-tr {
+  --ds-pos: var(--qi-cat-3);
+  --ds-neg: var(--qi-cat-4);
+  display: block;
+}
+.ds-tr__ring {
+  fill: var(--qi-surface);
+  stroke-width: 4;
+}
+.ds-tr__ring.is-pos,
+.ds-tr__ring.is-good {
+  stroke: var(--ds-pos);
+}
+.ds-tr__ring.is-neg {
+  stroke: var(--ds-neg);
+}
+.ds-tr__ring.is-anchor {
+  stroke: var(--qi-fg);
+}
+.ds-tr__ring.is-bad {
+  stroke: var(--qi-muted);
+}
+.ds-tr__dot {
+  fill: var(--qi-fg);
+}
+.ds-tr__lab {
+  fill: var(--qi-fg);
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--qi-surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.ds-tr__lab.is-pos {
+  fill: var(--ds-pos);
+}
+.ds-tr__lab.is-neg {
+  fill: var(--ds-neg);
+}
+.ds-tr__arrow {
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.ds-tr__head {
+  fill: var(--qi-fg);
+}
+.ds-tr__arrow.is-pos,
+.ds-tr__head.is-pos {
+  stroke: var(--ds-pos);
+}
+.ds-tr__head.is-pos {
+  fill: var(--ds-pos);
+}
+.ds-tr__arrow.is-neg,
+.ds-tr__head.is-neg {
+  stroke: var(--ds-neg);
+}
+.ds-tr__head.is-neg {
+  fill: var(--ds-neg);
+}
+.ds-tr .qi-label {
+  font-size: 13px;
+}
+.ds-tr.ds-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

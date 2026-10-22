@@ -255,7 +255,7 @@ By using Relari’s evaluation framework alongside Qdrant’s [vector search](/a
 
 In conversational applications like [chatbots](/rag/), **Auto Prompt Optimization (APO)** enhances the chatbot's communication effectiveness by continuously refining how it interacts with users. APO learns from previous interactions to adjust and improve the phrasing of responses, resulting in more accurate, engaging, and user-friendly dialogues.
 
-For instance, in a [customer service chatbot](/documentation/examples/rag-customer-support-cohere-airbyte-aws/), the way a question is phrased can greatly impact user satisfaction. While the same information may be conveyed, how it’s expressed matters. Think of ordering in a Parisian café: ordering in French may result in a more pleasant interaction than in English, even though the request is the same. Similarly, APO helps chatbots find the optimal way to frame questions or responses to ensure users feel understood and engaged, enhancing the overall experience.
+For instance, in a customer service chatbot, the way a question is phrased can greatly impact user satisfaction. While the same information may be conveyed, how it’s expressed matters. Think of ordering in a Parisian café: ordering in French may result in a more pleasant interaction than in English, even though the request is the same. Similarly, APO helps chatbots find the optimal way to frame questions or responses to ensure users feel understood and engaged, enhancing the overall experience.
 
 Over time, APO fine-tunes the prompts used by the chatbot to optimize interactions, making the system more responsive to user needs and context, improving the quality of the generated answers, and ultimately increasing user satisfaction.
 

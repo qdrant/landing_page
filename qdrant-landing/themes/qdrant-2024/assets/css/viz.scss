@@ -131,8 +131,7 @@ html .viz-tip[data-viz-theme='light'] {
   background: #111824; // neutral-900
   border: 1px solid #303547; // neutral-800
   color: #e2e7f5; // neutral-100
-  font-family: var(--qi-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.45;
   box-shadow: 0 8px 24px rgba(11, 15, 25, 0.45);
 
@@ -183,6 +182,12 @@ html .viz-tip[data-viz-theme='light'] {
     max-width: none;
   }
 
+  // Already drawn narrow, so scrolling would only hide columns.
+  .viz-figure--narrow .viz-figure__svg {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .viz-figure .viz-figure__caption {
     font-size: 0.8125rem;
   }
@@ -195,7 +200,6 @@ html .viz-tip[data-viz-theme='light'] {
   justify-content: flex-end;
   flex-wrap: wrap;
   margin: 8px 0 12px;
-  font-family: var(--qi-mono);
 }
 
 .viz-toggle__btn {
@@ -206,7 +210,7 @@ html .viz-tip[data-viz-theme='light'] {
   background: transparent;
   color: var(--qi-muted);
   font-family: inherit;
-  font-size: 11px;
+  font-size: 0.8125rem;
   line-height: 1;
   font-weight: 400;
   cursor: pointer;

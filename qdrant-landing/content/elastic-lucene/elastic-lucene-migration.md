@@ -11,7 +11,7 @@ image:
   alt: Migration Tool Illustration
 button:
   text: Migrate Now
-  url: /documentation/database-tutorials/migration/
+  url: /documentation/migrate-to-qdrant/
 sitemapExclude: true
 ---
 

@@ -1,0 +1,13 @@
+```java
+client.updateAliasesAsync(List.of(
+    AliasOperations.newBuilder()
+        .setDeleteAlias(DeleteAlias.newBuilder().setAliasName("prod").build())
+        .build(),
+    AliasOperations.newBuilder()
+        .setCreateAlias(CreateAlias.newBuilder()
+            .setAliasName("prod")
+            .setCollectionName(NEW_COLLECTION)
+            .build())
+        .build()
+)).get();
+```

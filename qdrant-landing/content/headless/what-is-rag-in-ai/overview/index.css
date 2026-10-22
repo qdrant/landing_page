@@ -1,0 +1,20 @@
+/* Only the RAG article's process figures use these styles. */
+.qi-rag-process { container-type: inline-size; }
+.qi-rag-process .qi-rag-process__mobile { display: none; }
+.qi-rag-process .qi-rag-process__label {
+  fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 18px;
+}
+.qi-rag-process .qi-rag-process__frame { stroke-width: 2; }
+.qi-rag-process .qi-rag-process__query { stroke: var(--qi-cat-3); }
+.qi-rag-process .qi-rag-process__data { stroke: var(--qi-cat-2); }
+.qi-rag-process .qi-rag-process__model { stroke: var(--qi-cat-1); }
+.qi-rag-process .qi-rag-process__database { stroke: var(--qi-cat-4); }
+.qi-rag-process .qi-rag-process__edge {
+  fill: none; stroke: var(--qi-muted); stroke-width: 2;
+}
+.qi-rag-process .qi-rag-process__arrowhead { fill: var(--qi-muted); }
+@container (max-width: 640px) {
+  .qi-rag-process .qi-rag-process__desktop { display: none; }
+  .qi-rag-process .qi-rag-process__mobile { display: block; }
+  .qi-rag-process .qi-rag-process__label { font-size: 16px; }
+}

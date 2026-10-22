@@ -1,7 +1,7 @@
 ---
 title: Hybrid Queries
-short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and multi-stage rescoring with Formula Query."
-description: "Run hybrid queries in Qdrant: fuse dense, sparse, and multivector results with RRF or DBSF, layer custom scoring with Formula Query, and pick the right method for your data."
+short_description: "Combine dense, sparse, multivector, and BM25 queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and multi-stage rescoring with Formula Query."
+description: "Run hybrid queries in Qdrant: fuse dense, sparse, multivector, and BM25 results with RRF or DBSF, layer custom scoring with Formula Query, and pick the right method for your data."
 weight: 15
 cta: "Run hybrid queries on a free Cloud cluster."
 aliases:
@@ -13,17 +13,12 @@ hideInSidebar: false
 
 _Available as of v1.10.0_
 
-With the introduction of [multiple named vectors per point](/documentation/manage-data/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
-or by performing the search in more than one stage.
+You can search the same data in several ways: with dense vectors for semantic search, with sparse vectors from learned models like SPLADE++, and with [BM25 full-text search](/documentation/search/text-search/full-text-search/) on text payload fields that have a [full-text index](/documentation/manage-data/indexing/#full-text-index). Often, the best results come from combining these queries, or from searching in more than one stage, for example, fetching candidates with a fast query and re-scoring them with a more accurate one.
 
-Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
+Qdrant supports this through the Query API ([API reference](https://api.qdrant.tech/api-reference/search/query-points)). Its main building block is the `prefetch` parameter, which lets a query run sub-requests. Whenever a query has at least one prefetch, Qdrant:
 
-The main component for making the combinations of queries possible is the `prefetch` parameter, which enables making sub-requests.
-
-Specifically, whenever a query has at least one prefetch, Qdrant will:
-
-1. Perform the prefetch query (or queries),
-2. Apply the main query over the results of its prefetch(es).
+1. Runs the prefetch queries.
+2. Applies the main query to the results of the prefetches.
 
 Additionally, prefetches can have prefetches themselves, so you can have nested prefetches.
 
@@ -33,11 +28,17 @@ Additionally, prefetches can have prefetches themselves, so you can have nested 
 
 One of the most common problems when you have different representations of the same data is to combine the queried points for each representation into a single result.
 
-{{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
-
-For example, in text search, it is often useful to combine dense and sparse vectors to get the best of both worlds: semantic understanding from dense vectors and precise word matching from sparse vectors.
+For example, in text search, it is often useful to combine dense vectors with [BM25 full-text search](/documentation/search/text-search/full-text-search/) to get the best of both worlds: semantic understanding from dense vectors and precise word matching from BM25.
 
 Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
+
+{{< island
+    path="content/documentation/headless/search/fusion"
+    ratio="760 / 566"
+    title="Fusing dense and sparse results into a single ranked list with RRF or DBSF."
+>}}
+![Dense and sparse results for documents A to F, fused into a single list. With RRF, document A ranks first.](/docs/hybrid-fusion.svg)
+{{< /island >}}
 
 ### Reciprocal Rank Fusion (RRF)
 
@@ -60,9 +61,13 @@ Because $w_r$ defaults to 1, without setting explicit weights, the formula can b
 
 $$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + r_d} $$
 
-Here is an example of RRF for a query containing two prefetches against different named vectors configured to hold sparse and dense vectors, respectively.
+Here is an example of RRF for a query containing two prefetches: a BM25 text query on the `title` payload field and a dense vector query.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf/" >}}
+
+You can fuse any combination of queries as prefetches. For example, this query fuses a sparse vector query with a dense vector query:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-sparse/" >}}
 
 #### Setting RRF Constant k
 _Available as of v1.16.0_
@@ -115,7 +120,7 @@ DBSF is a reasonable choice when you trust your retrievers' raw scores to carry 
 
 For a deeper breakdown of when to prefer each, see the [FAQ on RRF vs. DBSF](/documentation/faq/qdrant-fundamentals/#when-should-i-use-reciprocal-rank-fusion-rrf-vs-distribution-based-score-fusion-dbsf-for-hybrid-search). To layer business logic (recency, popularity, geo) on top of a fused result, see [Custom scoring with a formula query](#custom-scoring-with-a-formula-query).
 
-<aside role="status">A common request is "alpha-weighted linear combination of dense and sparse scores." This is unreliable without first normalizing the scores: dense (cosine, bounded) and sparse (BM25, unbounded) scores live on different scales that also shift per query, so a fixed alpha over raw scores tends to be dominated by whichever retriever has larger raw magnitudes on a given query. RRF sidesteps this by using ranks. DBSF sidesteps it by normalizing distributions.</aside>
+<aside role="status">A common request is "alpha-weighted linear combination of dense and BM25 scores." This is unreliable without first normalizing the scores: dense (cosine, bounded) and BM25 (unbounded) scores live on different scales that also shift per query, so a fixed alpha over raw scores tends to be dominated by whichever retriever has larger raw magnitudes on a given query. RRF sidesteps this by using ranks. DBSF sidesteps it by normalizing distributions.</aside>
 
 
 ## Multi-Stage Queries
@@ -140,17 +145,35 @@ such that the coarse results are fetched first, and then they are refined later 
 
 ### Re-Scoring Examples
 
+#### Re-Score with the Full Vector
+
 Fetch 1000 results using a shorter MRL byte vector, then re-score them using the full vector and get the top 10.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring/" >}}
+
+#### Re-Score with a Multi-Vector
 
 Fetch 100 results using the default vector, then re-score them using a multi-vector to get the top 10.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-multivector/" >}}
 
-You can combine all of these techniques in a single query:
+#### Combine Re-Scoring Stages
+
+You can combine the previous techniques in a single query:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-multistage/" >}}
+
+#### Re-Score BM25 Results with a Dense Vector
+
+Fetch 100 results with a [BM25 text query](/documentation/search/text-search/full-text-search/) on the `title` payload field, then re-score them using a dense vector to get the top 10.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-text-prefetch/" >}}
+
+#### Re-Score with BM25
+
+Fetch 100 results using a dense vector, then re-score them with a BM25 text query on the `title` payload field to get the top 10. Candidates that contain none of the query terms are dropped, so the result can contain fewer points than the `limit`.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-text/" >}}
 
 ### Custom Scoring with a Formula Query
 

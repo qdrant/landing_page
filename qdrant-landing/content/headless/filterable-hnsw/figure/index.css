@@ -1,0 +1,32 @@
+/* The static SVGs carry the light island tokens as literal colors so the
+   fallback image matches; inline, they are remapped to the theme tokens. */
+.filterable-hnsw-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Theme `lg` breakpoint: narrower on wide screens, full width on tablet and mobile. */
+@media (min-width: 992px) {
+  .filterable-hnsw-figure svg {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+.filterable-hnsw-figure [font-family] { font-family: var(--qi-mono); }
+.filterable-hnsw-figure [fill='#303547'] { fill: var(--qi-fg); }
+.filterable-hnsw-figure [stroke='#303547'] { stroke: var(--qi-fg); }
+.filterable-hnsw-figure [fill='#656b7f'] { fill: var(--qi-muted); }
+.filterable-hnsw-figure [stroke='#656b7f'] { stroke: var(--qi-muted); }
+.filterable-hnsw-figure [fill='#f0f3fa'] { fill: var(--qi-surface); }
+.filterable-hnsw-figure [stroke='#d3d9eb'] { stroke: var(--qi-border); }
+.filterable-hnsw-figure [fill='#b2ebf2'] { fill: var(--qi-cat-3-soft); }
+.filterable-hnsw-figure [stroke='#00838f'] { stroke: var(--qi-cat-3); }
+.filterable-hnsw-figure .filterable-hnsw-map { filter: none; }
+html[data-theme='dark'] .filterable-hnsw-figure .filterable-hnsw-map {
+  filter: invert(1) hue-rotate(180deg);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .filterable-hnsw-figure .filterable-hnsw-map {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}

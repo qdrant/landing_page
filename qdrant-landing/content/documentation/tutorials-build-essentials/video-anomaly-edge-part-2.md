@@ -43,10 +43,10 @@ The key capabilities we use:
 - **Snapshot sync**: Download an HNSW-indexed shard from the cloud server and unpack it locally with `EdgeShard.unpack_snapshot()`. Partial snapshots keep the edge updated incrementally.
 - **Offline operation**: Edge shards work without any network connectivity. Data queued locally gets synced when the connection returns.
 
-Install the package:
+Install the package. This tutorial uses version 0.8.0, and the API differs in earlier releases:
 
 ```bash
-pip install qdrant-edge-py
+pip install "qdrant-edge-py==0.8.0"
 ```
 
 ## Two-Shard Edge Architecture
@@ -72,18 +72,19 @@ from qdrant_edge import (
     Distance as EdgeDistance,
     EdgeConfig,
     EdgeShard,
+    EdgeVectorParams,
     FieldCondition,
     Filter,
     Point,
     Query,
     RangeFloat,
+    ScrollRequest,
     SearchRequest,
     UpdateOperation,
-    VectorDataConfig,
 )
 
 SHARD_CONFIG = EdgeConfig(
-    vector_data=VectorDataConfig(
+    vectors=EdgeVectorParams(
         size=EDGE_EMBEDDING_DIM,
         distance=EdgeDistance.Cosine,
     )
@@ -97,16 +98,19 @@ class EdgeDetector:
 
         self._mutable_dir.mkdir(parents=True, exist_ok=True)
 
-        # Mutable shard: created fresh with config
-        self._mutable_shard = EdgeShard(str(self._mutable_dir), SHARD_CONFIG)
+        # Mutable shard: created with config on first run, loaded on restart
+        if (self._mutable_dir / "edge_config.json").exists():
+            self._mutable_shard = EdgeShard.load(str(self._mutable_dir))
+        else:
+            self._mutable_shard = EdgeShard.create(str(self._mutable_dir), SHARD_CONFIG)
 
         # Immutable shard: loaded from snapshot (None until first sync)
         self._immutable_shard: Optional[EdgeShard] = None
         if self._immutable_dir.exists():
-            self._immutable_shard = EdgeShard(str(self._immutable_dir), None)
+            self._immutable_shard = EdgeShard.load(str(self._immutable_dir))
 ```
 
-Note the asymmetry: the mutable shard is created with a config (it needs to know vector dimensions and distance). The immutable shard is opened with `None` because its config was baked in when the snapshot was created on the server.
+Note the asymmetry: the mutable shard is created with a config (it needs to know vector dimensions and distance) and reloaded from its persisted `edge_config.json` on restart. The immutable shard is always loaded without a config because its config was baked in when the snapshot was created on the server.
 
 ### Query Path
 
@@ -294,18 +298,22 @@ Three consecutive escalations add +0.2 to the score. This helps sustained events
 When the edge processes a clip, it stores the embedding in the mutable shard and queues it for cloud sync:
 
 ```python
-def store_clip(self, embedding: np.ndarray, metadata: dict | None = None) -> str:
+def store_clip(
+    self, embedding: np.ndarray, metadata: dict | None = None, anomaly_score: float = 0.0
+) -> str:
     clip_id = uuid.uuid4().hex
     vector = embedding.tolist()
     payload = metadata or {}
     payload["sync_timestamp"] = time.time()
+    payload["anomaly_score"] = anomaly_score
+    payload["synced"] = False
 
     self._mutable_shard.update(
         UpdateOperation.upsert_points(
             [Point(id=clip_id, vector=vector, payload=payload)]
         )
     )
-    # Queue for async cloud sync
+    # Queue for async cloud sync (a persistqueue.SQLiteAckQueue, so it survives crashes)
     self._upload_queue.put({"id": clip_id, "vector": vector, "payload": payload})
     return clip_id
 ```
@@ -327,7 +335,7 @@ def sync_from_server(self, full: bool = False) -> None:
                 f.write(chunk)
 
         EdgeShard.unpack_snapshot(str(snapshot_path), str(self._immutable_dir))
-        self._immutable_shard = EdgeShard(str(self._immutable_dir), None)
+        self._immutable_shard = EdgeShard.load(str(self._immutable_dir))
     else:
         # Incremental: send current manifest, get only changed segments
         manifest = self._immutable_shard.snapshot_manifest()
@@ -446,7 +454,15 @@ Caps the mutable shard at `RETENTION_MAX_POINTS`. Unsynced points with anomaly s
 
 ```python
 def _evict_by_score_priority(self) -> None:
-    all_points = list(self._mutable_shard.scroll(with_payload=True, with_vectors=False))
+    all_points = []
+    offset = None
+    while True:
+        records, offset = self._mutable_shard.scroll(
+            ScrollRequest(offset=offset, limit=256, with_payload=True, with_vector=False)
+        )
+        all_points.extend(records)
+        if offset is None:
+            break
     if len(all_points) <= RETENTION_MAX_POINTS:
         return
 

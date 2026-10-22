@@ -1,0 +1,42 @@
+{{- /*
+  "Copy as Markdown" button. Copies the page's own Markdown output (the
+  index.md that agents read) rather than converting the rendered HTML, so the
+  clipboard gets the same text an agent would: code snippets in every language,
+  internal links rewritten to their index.md form. copy-markdown.js does the
+  fetch and the copy.
+
+  Usage: {{ partial "copy-markdown-button.html" . }}
+
+  Renders nothing for a page without a Markdown output format. When it does
+  render, it sets the page's hasCopyMarkdown flag, which js.html reads to load
+  copy-markdown.js on exactly the pages that show the button.
+
+  data-copy-markdown-src is the URL of the Markdown to copy. It is a page today,
+  but the script only cares about the URL, so a button copying a
+  single section can reuse the same markup with a different source.
+*/ -}}
+{{- with .OutputFormats.Get "markdown" -}}
+  {{- $.Store.Set "hasCopyMarkdown" true -}}
+  <button
+    type="button"
+    class="copy-markdown js-copy-markdown d-print-none"
+    data-copy-markdown-src="{{ .RelPermalink }}"
+    data-state="idle"
+    data-metric-loc="copy_as_markdown"
+  >
+    <span class="copy-markdown__icon" aria-hidden="true">
+      <svg class="copy-markdown__glyph copy-markdown__glyph_idle" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 10.5C2.17 10.5 1.5 9.83 1.5 9V3C1.5 2.17 2.17 1.5 3 1.5H9C9.83 1.5 10.5 2.17 10.5 3M7 5.5H13C13.83 5.5 14.5 6.17 14.5 7V13C14.5 13.83 13.83 14.5 13 14.5H7C6.17 14.5 5.5 13.83 5.5 13V7C5.5 6.17 6.17 5.5 7 5.5Z" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg class="copy-markdown__glyph copy-markdown__glyph_loading" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-opacity="0.25" stroke-width="1.5" />
+        <path d="M14 8C14 4.69 11.31 2 8 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+      <svg class="copy-markdown__glyph copy-markdown__glyph_done" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.5 4.5L6.5 11.5L3 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+    <span class="copy-markdown__label">Copy as Markdown</span>
+    <span class="copy-markdown__status visually-hidden" role="status"></span>
+  </button>
+{{- end -}}

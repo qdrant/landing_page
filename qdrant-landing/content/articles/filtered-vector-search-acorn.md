@@ -17,7 +17,7 @@ keywords:
   - query planning
 ---
 
-Filtered vector search breaks when metadata filters turn a healthy nearest-neighbor graph into scattered islands. HNSW's `m` parameter controls how many links each point gets. At Qdrant's default `m=16`, the one-million-point collection benchmarked below averaged about 21 links per node on layer 0. Filter out 96% of the points and fewer than one link per node survives on average, so traversal can get stranded before it reaches the true nearest matches.
+Filtered vector search breaks when metadata filters turn a healthy nearest-neighbor graph into scattered islands. HNSW's `m` parameter controls how many links each point gets. At Qdrant's default `m=16`, the one-million-point collection benchmarked in this article averaged about 21 links per node on layer 0. Filter out 96% of the points and fewer than one link per node survives on average, so traversal can get stranded before it reaches the true nearest matches.
 
 Qdrant repairs that damage in two places. Filterable HNSW adds extra edges at index time; ACORN steps through neighbors of neighbors at search time. Both run on the same collection. ACORN earns its cost where the extra edges don't reach: values too common to link, `AND` filters no single field's edges cover, and payload fields the build skipped silently.
 
@@ -37,7 +37,13 @@ Those edges cost build time. On our one-million-point collection, the HNSW index
 
 Qdrant builds those edges per payload field, never per combination, so an `AND` filter lands on an intersection that no single field's edges cover. ACORN-1 covers that gap and pays at query time instead of build time. Qdrant's [query planner](/documentation/search/search/#query-planning) chooses automatically between ACORN, full scan, retrieval straight from the payload index, and filterable HNSW.
 
-{{< figure src="/articles_data/filtered-vector-search-acorn/two-repairs.svg" alt="Three panels of the same 12-point HNSW graph with a search path drawn in each. In the first, the path leaves a matching point and is blocked at its filtered-out neighbors. In the second, ACORN carries the path through two filtered-out neighbors to reach the other matching points. In the third, the path follows extra edges that filterable HNSW added between points sharing an indexed value." caption="The same graph, repaired two ways. ACORN steps through filtered-out neighbors at search time; filterable HNSW adds extra edges at index time that a filtered query can walk directly." width="100%" >}}
+Switch between the three searches to see how each handles the same filter.
+
+{{< island path="content/articles/headless/filtered-vector-search-acorn/repairs"
+    ratio="19 / 11"
+    title="The same graph, repaired two ways. ACORN steps through filtered-out neighbors at search time; filterable HNSW adds extra edges at index time that a filtered query can walk directly. The graph is a toy; the traversals are computed on it." >}}
+![The same graph, repaired two ways](/articles_data/filtered-vector-search-acorn/two-repairs.svg)
+{{< /island >}}
 
 ## The Benchmark
 
@@ -54,11 +60,11 @@ Every filter matches one keyword value on a payload field. The collection carrie
 
 Most filters are independent of the vectors. The Correlated (10%) row is the easy case, where points that pass the filter also sit near each other in vector space.
 
-Every number below was measured on Qdrant v1.18.2, on one laptop-class machine, queried serially. Read the ratios, not the absolute milliseconds. The [reproduction kit](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark) documents the hardware and the full methodology.
+Every number in this article was measured on Qdrant v1.18.2, on one laptop-class machine, queried serially. Read the ratios, not the absolute milliseconds. The [reproduction kit](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark) documents the hardware and the full methodology.
 
 ## Single Filters: Extra Edges Win
 
-`hnsw_ef`, shortened to `ef` below, is the number of candidates the search evaluates, so raising it improves recall and slows the query. Selectivity is the fraction of points that pass the filter.
+`hnsw_ef`, shortened to `ef` in this article, is the number of candidates the search evaluates, so raising it improves recall and slows the query. Selectivity is the fraction of points that pass the filter.
 
 This table compares the first three strategies. [`full_scan_threshold`](/documentation/manage-data/indexing/#vector-index) tells Qdrant when a filtered result set is small enough to scan directly. The value is measured in kilobytes of vector data, and Qdrant skips the HNSW graph when the matching vectors fall below it.<br>
 We pinned it low for these three strategies so every query stayed on the graph; Planner + ACORN runs with the default threshold. Each cell shows `Recall@10` and mean server-side latency at `hnsw_ef=64`.
@@ -72,9 +78,9 @@ We pinned it low for these three strategies so every query stayed on the graph; 
 
 The plain graph collapses as filters tighten, and only the correlated filter holds up. ACORN pulls recall back at 2.1x to 2.9x the plain graph's latency, then stalls on the 1% filter, the weakness the [RACORN-1 follow-up paper](https://arxiv.org/abs/2607.00768) targets. The one filter ACORN wins, at 20%, runs on a payload field that got no extra edges, and the next section explains why.
 
-{{< figure src="/articles_data/filtered-vector-search-acorn/single-filters.png" alt="Bar chart of recall at hnsw_ef=64 on four single-field filters, with each bar's mean server-side latency, comparing plain graph, plain graph with ACORN, and filterable HNSW." caption="Bars show Recall@10; the label on each bar is its mean server-side latency. Extra edges hold the top recall at about 1ms; ACORN pays 3 to 5x that." width="100%" >}}
+{{< chart id="filtered-search/single-filters" caption="Recall@10 at hnsw_ef=64 on four single-field filters. Extra edges hold the top recall." caption2="Mean server-side latency for the same runs. Filterable HNSW stays near 1ms while ACORN pays 3 to 5 times that." >}}
 
-Qdrant's planner sits above all three. It estimates how many points a filter passes, then picks a path per query: the graph, ACORN on the graph, or the payload index once the estimate falls below `full_scan_threshold`. Planner + ACORN, the fourth strategy, holds 99.9% to 100% recall on all four filters, at 7.2ms to 10.9ms on the graph and 1.5ms on the 1% filter, where all 500 queries came from the payload index.
+Qdrant's planner chooses among all three. It estimates how many points a filter passes, then picks a path per query: the graph, ACORN on the graph, or the payload index once the estimate falls below `full_scan_threshold`. Planner + ACORN, the fourth strategy, holds 99.9% to 100% recall on all four filters, at 7.2ms to 10.9ms on the graph and 1.5ms on the 1% filter, where all 500 queries came from the payload index.
 
 ## Why Some Payload Fields Get No Extra Edges
 
@@ -111,7 +117,9 @@ The plain graph, dropped from this table, scored 0.1% and 0.0% on the first two 
 
 Raising `ef` breaks the tie on the 1% intersection. At `ef=512`, filterable HNSW reaches 91.2% recall at 4.9ms while ACORN needs 20.1ms to reach 90.3%. Repairing the graph at search time costs four times the latency for slightly less recall here. The 4% intersection is the exception, where both fields exceeded the cap and ACORN leads 99.6% to 92.5%.
 
-{{< figure src="/articles_data/filtered-vector-search-acorn/ef-sweep.png" alt="Recall versus server-side latency for four filtered-search strategies as hnsw_ef sweeps from 64 to 512." caption="Recall vs server-side latency on the 1% double filter alone, hnsw_ef swept from 64 to 512." width="100%" >}}
+{{< chart id="filtered-search/ef-sweep" caption="Recall@10 for four strategies on the 1% double filter at hnsw_ef=64, 128, 256, and 512." caption2="Mean server-side latency for the same four strategies and hnsw_ef settings." >}}
+
+The chart uses the reproduction kit's [full1 run data](https://github.com/qdrant-labs/acorn-filterable-hnsw-benchmark/tree/7e87b48a65a9b79843beaf75f1910543bf87600b/results), with repeat 0 and the double_a10b10 filter. Each bar averages 500 queries.
 
 At 0.012%, roughly 120 points match in a million, and the graph stops being the right tool. Planner + ACORN wins that row by reading the payload index instead. The choice happens per query: on the 1% intersection it sent 29 of the 500 queries to the graph and 471 to the payload index, and at 4% it stayed on the graph throughout.
 

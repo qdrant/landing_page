@@ -1,0 +1,13 @@
+dataset,variant,recall
+arxiv-instructorxl-768,float32,0.9419
+arxiv-instructorxl-768,SQ (4x),0.9285
+arxiv-instructorxl-768,TQ 4-bit (8x),0.9193
+dbpedia-gemini,float32,0.9167
+dbpedia-gemini,SQ (4x),0.9134
+dbpedia-gemini,TQ 4-bit (8x),0.9020
+dbpedia-openai-ada,float32,0.9625
+dbpedia-openai-ada,SQ (4x),0.8839
+dbpedia-openai-ada,TQ 4-bit (8x),0.9299
+wiki-cohere-v3-1024,float32,0.9446
+wiki-cohere-v3-1024,SQ (4x),0.9014
+wiki-cohere-v3-1024,TQ 4-bit (8x),0.9271

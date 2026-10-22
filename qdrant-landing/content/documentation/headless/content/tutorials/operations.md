@@ -1,7 +1,6 @@
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [Snapshots](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
-| [Data Migration](/documentation/tutorials-operations/migration/) | Move embeddings to Qdrant. | <span class="pill">CLI</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Embedding Model Migration](/documentation/tutorials-operations/embedding-model-migration/) | Use your new model with zero downtime. | <span class="pill">Any</span> | 40m | <span class="text-yellow">Intermediate</span> |
 | [Blue-Green Cluster Deployment](/documentation/tutorials-operations/blue-green-deployment/) | Deploy changes to a new cluster and switch traffic with zero production risk. | <span class="pill">Any</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Time-Based Sharding](/documentation/tutorials-operations/time-based-sharding/) | Efficiently manage time-series data with user-defined sharding. | <span class="pill">Any</span> | 1h | <span class="text-yellow">Intermediate</span> |
@@ -11,6 +10,8 @@
 | [Incremental Embedding Updates](/documentation/tutorials-operations/incremental-embedding-updates/) | Sync embeddings with changing raw text data. | <span class="pill">Any</span> | 25m | <span class="text-green">Beginner</span> |
 | [Prevent Unoptimized Usage](/documentation/tutorials-operations/prevent-unoptimized-usage/) | Stop bulk uploads from slowing down search without losing data. | <span class="pill">Python</span> | 20m | <span class="text-yellow">Intermediate</span> |
 | [Scaling and Monitoring Hybrid Cloud](/documentation/tutorials-operations/scaling-and-monitoring-pods/) | Resize CPU, memory, and disk, and know what to monitor first. | <span class="pill">Kubernetes</span> | 25m | <span class="text-yellow">Intermediate</span> |
+| [Securing and Exposing a Hybrid Cloud Cluster](/documentation/tutorials-operations/secure-and-expose-hybrid-cloud/) | Set up API key authentication, database-level TLS, and TLS-terminating ingress on a self-managed Hybrid Cloud cluster. | <span class="pill">Kubernetes</span> | 25m | <span class="text-yellow">Intermediate</span> |
 | [Qdrant Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
-| [Self-Hosted Prometheus Monitoring](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
-| [Monitoring Hybrid/Private Cloud with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) | Observability for hybrid/private cloud setups with Datadog. | <span class="pill">Datadog</span> | 20m | <span class="text-yellow">Intermediate</span> |
+| [Monitoring with Grafana and Prometheus](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Monitoring with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) | Observability for hybrid/private cloud setups with Datadog. | <span class="pill">Datadog</span> | 20m | <span class="text-yellow">Intermediate</span> |
+| [Kafka Streaming into Qdrant](/documentation/tutorials-operations/data-streaming-kafka-qdrant/) | Stream real-time data into Qdrant with the Kafka Sink Connector. | <span class="pill">Kafka</span> | 60m | <span class="text-red">Advanced</span> |

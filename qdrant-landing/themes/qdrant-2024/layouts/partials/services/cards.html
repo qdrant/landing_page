@@ -1,0 +1,22 @@
+{{/* Card grid shared by the Services page sections. Expects "context" (a page) and "class" (section class). */}}
+<section class="services-cards {{ .class }}">
+  <div class="container">
+    <div class="services-cards__header">
+      <h2 class="services-cards__title">{{ .context.Params.title }}</h2>
+      {{ with .context.Params.description }}
+        <p class="services-cards__description">{{ . }}</p>
+      {{ end }}
+    </div>
+    <div class="row g-2">
+      {{ range $i, $card := .context.Params.cards }}
+        <div class="col-12 col-lg-4 services-cards__card">
+          <div class="card">
+            <div class="services-cards__card-tag">0{{ add $i 1 }}</div>
+            <h5 class="services-cards__card-title">{{ $card.title }}</h5>
+            <p class="services-cards__card-description">{{ $card.description }}</p>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

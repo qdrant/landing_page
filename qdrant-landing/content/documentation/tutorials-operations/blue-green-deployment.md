@@ -43,7 +43,7 @@ The process has five stages:
 
 - A running Qdrant cluster serving production traffic (the blue cluster).  
 - Access to [Qdrant Cloud](https://cloud.qdrant.io/) or your self-hosted infrastructure to spin up a new cluster.  
-- If you use private link on Qdrant Cloud, read the [private link note](#private-link-or-private-service-connect-on-qdrant-cloud) before you start. You need to request the Private Link setup for the new cluster before cutover.
+- If you use a private connection on Qdrant Cloud, read [Private Connections on Qdrant Cloud](#private-connections-on-qdrant-cloud) before you start. You may need to request a new connection for the green cluster before cutover.
 
 ## Step 1: Create the New Cluster
 
@@ -66,7 +66,7 @@ This approach gives you full control over the process and enables you to apply a
 
 ### Option B: Use the Migration Tool
 
-If you prefer a live, streaming migration, for example, to keep the green cluster closer to up-to-date with the blue cluster while you test or when you want to reshard,  use the [Qdrant Migration Tool](/documentation/tutorials-operations/migration/).
+If you prefer a streaming transfer over a one-shot restore, for example when you want to reshard as part of the move, use the [Qdrant Migration Tool](/documentation/migrate-to-qdrant/).
 
 ```shell
 docker run --rm -it \
@@ -79,7 +79,7 @@ docker run --rm -it \
     --target.collection 'your-collection'
 ```
 
-The migration tool streams data in batches and can resume if interrupted. It also supports collection reconfiguration, such as changing replication settings or quantization or changing shard count, as part of the migration.
+The migration tool streams data in batches and can resume if interrupted. It also supports collection reconfiguration, such as changing replication settings or quantization, as part of the migration.
 
 ### Option C: Restore from a Snapshot
 
@@ -92,6 +92,19 @@ Follow the [Snapshots tutorial](/documentation/tutorials-operations/create-snaps
 If you take disk-level backups of the Qdrant storage volume, for example, EBS snapshots on AWS, persistent disk snapshots on GCP, or equivalent block storage snapshots on other platforms, [you can restore one of those to the green cluster's storage volume directly](/documentation/cloud/backups/#restore-a-backup).
 
 This is the fastest way to populate a new cluster for large datasets, because it is a block-level copy that bypasses any Qdrant-level data transfer entirely. It restores all collections, their configurations, indexes, and the write-ahead log in one operation.
+
+### What Happens to Blue Cluster Writes During This Step
+
+Loading the green cluster does not affect blue's ability to serve reads and writes. The blue cluster keeps running at full capacity throughout Step 2, because every option above (ingestion script, migration tool, snapshot restore, or volume backup) only reads from blue or from your original data source.
+
+The gap you do need to plan for is data freshness: none of the loading options mirror new writes into green automatically. A snapshot or volume backup captures blue at a single point in time. The migration tool performs a batch copy of what exists at the time you run it; it is not a live replication stream, so it does not pick up writes that land on blue after the copy starts. Any write to blue during or after the migration will be missing from green unless you handle it explicitly.
+
+You have two ways to close this gap:
+
+- **Application-level dual writes.** Have your application write to both blue and green for the duration of the migration, in addition to whatever bulk copy populates green's initial data. This keeps blue fully available with no freeze, but it adds complexity: your application needs dual-write logic, and you need to handle the case where a write succeeds on one cluster and fails on the other.
+- **A brief write freeze.** Bulk-copy the bulk of the data to green first (using any of the options in Step 2), then briefly pause writes to blue, copy over the remaining writes that landed on blue since the bulk copy started, and only then switch traffic. Because the bulk copy has already happened, the freeze only needs to cover the small remaining delta, not the full dataset. This is simpler to implement than dual writes, but it does mean a short window where writes to blue are rejected or queued.
+
+There is no way to get both continuous availability and automatic write mirroring with the tools described in Step 2. Pick dual writes if you cannot tolerate any write downtime and can afford the application complexity, or a short write freeze if an application-level dual-write path is not practical. If your dataset only changes on a known schedule, for example a nightly batch load, you may be able to time the migration so writes to blue simply do not occur during the window and avoid this problem entirely.
 
 ## Step 3: Test and Validate
 
@@ -115,15 +128,15 @@ How you deploy this change depends on your application stack: a config map updat
 
 After the switch, monitor error rates and latency before decommissioning the blue cluster. Keep the blue cluster running until you are confident the green cluster is healthy. 
 
-### Private Link or Private Service Connect on Qdrant Cloud
+### Private Connections on Qdrant Cloud
 
-If you use private link (AWS) or private service connect (GCP) on Qdrant Cloud, the endpoint switch is more involved. These connections are set up per-cluster and require a support ticket. The green cluster needs its own private link or private service connect configured **before** you can route production traffic to it.
+If you reach Qdrant Cloud over a private connection (AWS PrivateLink, GCP Private Service Connect, or Azure Private Link), check that it covers the green cluster **before** you route production traffic to it. An existing connection often covers new single-AZ clusters in the same region. A green cluster in a different region, one you reach from a different cloud account, or a multi-AZ cluster can need its own setup.
 
 Plan for this ahead of time:
 
-1. When you create the green cluster, immediately open a support ticket to set up a private link or private service connect for it.  
-2. Do not start the cutover until the private link or private service connect for the green cluster is confirmed.  
-3. Update your private link or private service connect configuration to point to the green cluster's connection before changing your application config.
+1. When you create the green cluster, open a support ticket. Ask Qdrant Support to confirm that your private connection covers the green cluster, or to set up a new one.  
+2. Do not start the cutover until Support confirms that the green cluster is reachable over your private connection.  
+3. If the green cluster needed a new connection, update your network configuration to use it before you change your application config.
 
 ## Step 5 (optional): Decommission the Old Cluster
 

@@ -83,7 +83,7 @@ content:
           url: /documentation/production-operations/
           text: Explore Production & Operations
       - title: Choose Search Patterns
-        description: Choose embedding models, plan query decomposition, and filter results for your application.
+        description: Choose embedding models and filter results for your application.
         link:
           url: /documentation/search-patterns/
           text: Explore Search Patterns

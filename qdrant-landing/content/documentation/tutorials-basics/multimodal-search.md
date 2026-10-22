@@ -9,6 +9,7 @@ aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
   - /documentation/advanced-tutorials/multimodal-search-fastembed/
   - /documentation/multimodal-search/
+  - /documentation/tutorials-build-essentials/multimodal-search/
 goal: Multimodal Search
 stack:
   - Python
@@ -37,6 +38,10 @@ This tutorial works with two modalities: image and text data. You can build a se
 > The **semantic gap** refers to the difference between low-level features, such as brightness, and high-level concepts, such as cuteness.
 
 [Cohere Embed 4.0](https://cohere.com/blog/embed-4), for example, is built for multimodal and multilingual embedding, and supports more than 100 languages. Instead of running the model yourself, this tutorial calls it through [Qdrant Cloud Inference](/documentation/inference/inference-api/), so Qdrant generates the embeddings and stores them in a [collection](/documentation/manage-data/collections/) in one step.
+
+Cohere Embed 4 is one model that bridges image and text. The Choose a multimodal model prompt has an agent work out which model fits your own modalities and languages, and how to check the fit before you embed everything.
+
+{{< prompt "choose-a-multimodal-model" >}}
 
 ## Setup
 
@@ -94,7 +99,7 @@ See what image comes back for the query "*Plane components*". Wrap the query in 
 
 ### Multilingual Search
 
-Now run the same query in Italian, one of the 30+ languages Cohere Embed 4.0 supports, and compare the results:
+Now run the same query in Italian, one of the more than 100 languages Cohere Embed 4.0 supports, and compare the results:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-multimodal-search/" block="multilingual-search" >}}
 

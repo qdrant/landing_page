@@ -130,6 +130,18 @@ menuItems:
             name: Security
             icon: security.svg
             url: /security/
+          - id: subMenu-2-7
+            name: Observability
+            icon: observability.svg
+            url: /observability/
+          - id: subMenu-2-8
+            name: Quantization
+            icon: quantization.svg
+            url: /quantization/
+          - id: subMenu-2-9
+            name: Resilience
+            icon: resilience.svg
+            url: /resilience/
   - id: menu-3
     name: Resources
     mainMenuItems:
@@ -181,10 +193,14 @@ menuItems:
             icon: partners.svg
             url: /partners/
           - id: subMenu-4-3
+            name: Services
+            icon: qdrant-enterprise-solutions.svg
+            url: /services/
+          - id: subMenu-4-4
             name: Careers
             icon: careers.svg
             url: https://qdrant.to/jobs
-          - id: subMenu-4-4
+          - id: subMenu-4-5
             name: Contact us
             icon: contact-us.svg
             url: /contact-us/

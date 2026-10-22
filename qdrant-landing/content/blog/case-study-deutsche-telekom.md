@@ -71,7 +71,7 @@ LMOS architecture powering AI agent collaboration and lifecycle management in a 
 
 When Deutsche Telekom began searching for a scalable, high-performance vector database, they faced operational challenges with their initial choice. Seeking a solution better suited to their PaaS-first approach and multitenancy requirements, they evaluated alternatives, and [Qdrant](https://qdrant.tech/qdrant-vector-database/) quickly stood out.
 
-"I was looking for open-source components with deep technical expertise behind them," Arun recalls. "I looked at Qdrant and immediately loved the simplicity, [Rust-based efficiency](https://qdrant.tech/articles/why-rust/), and [memory management capabilities](https://qdrant.tech/articles/memory-consumption/). These guys knew what they were doing."
+"I was looking for open-source components with deep technical expertise behind them," Arun recalls. "I looked at Qdrant and immediately loved the simplicity, [Rust-based efficiency](/blog/why-rust/), and [memory management capabilities](https://qdrant.tech/articles/memory-consumption/). These guys knew what they were doing."
 
 The team structured its evaluation around two key metrics:
 

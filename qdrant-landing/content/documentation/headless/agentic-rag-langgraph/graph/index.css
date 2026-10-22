@@ -1,0 +1,18 @@
+/* A successful stylesheet response must also apply this scoped marker. */
+.qi-lg-graph { --qi-lg-ready: 1; }
+/* Geometry and contrast adjustments only; typography and colors inherit
+   the shared qi design system. The diagrams have no interactive state. */
+.qi-lg-graph .qi-lg__node { stroke: var(--qi-muted); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.qi-lg-graph .qi-lg__node--agent, .qi-lg-graph .qi-lg__node--end { stroke: var(--qi-cat-1); }
+.qi-lg-graph .qi-lg__node--rag { stroke: var(--qi-cat-3); }
+.qi-lg-graph .qi-lg__node--web { stroke: var(--qi-cat-2); }
+.qi-lg-graph .qi-lg__node--db { stroke: var(--qi-cat-4); }
+.qi-lg-graph .qi-lg__label { font-size: 17px; font-weight: 600; text-anchor: middle; }
+.qi-lg-graph .qi-lg__sub { font-size: 16px; text-anchor: middle; }
+.qi-lg-graph .qi-lg__edge-label { font-size: 16px; text-anchor: middle; }
+.qi-lg-graph .qi-lg__edge { fill: none; stroke: var(--qi-muted); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.qi-lg-graph .qi-lg__edge--strong { stroke: var(--qi-fg); }
+.qi-lg-graph .qi-lg__edge--dashed { stroke-dasharray: 6 5; }
+.qi-lg-graph .qi-lg__head { fill: var(--qi-muted); }
+.qi-lg-graph .qi-lg__head--strong { fill: var(--qi-fg); }
+.qi-lg-graph .qi-lg__icon { stroke: var(--qi-fg); stroke-width: 2; vector-effect: non-scaling-stroke; }

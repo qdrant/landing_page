@@ -1,0 +1,58 @@
+/* clustering island. Scoped under .pq-cl. Each region takes the color of its centroid. */
+.pq-cl {
+  display: block;
+}
+.pq-cl__cell {
+  fill-opacity: 0.22;
+  stroke: none;
+}
+.pq-cl__axis {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.pq-cl__centroid {
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+.pq-cl__id {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.pq-cl__point {
+  fill: var(--qi-surface);
+  stroke: var(--qi-fg);
+  stroke-width: 2.5;
+}
+.pq-cl__link {
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.pq-cl__bracket {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+.pq-cl__out {
+  fill-opacity: 0.25;
+  stroke-width: 2;
+}
+.pq-cl__outval {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 18px;
+  font-weight: 700;
+}
+.pq-cl .qi-label,
+.pq-cl .qi-title {
+  font-size: 14px;
+}
+.pq-cl svg {
+  cursor: crosshair;
+}
+.pq-cl.pq-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

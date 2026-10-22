@@ -1,12 +1,17 @@
-import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-client.createCollection("books", {
+await client.createCollection("books", {
   vectors: {
     "description-dense": { size: 384, distance: "Cosine" },
   },
-  sparse_vectors: {
-    "isbn-bm25": { modifier: "idf" },
+});
+
+await client.createPayloadIndex("books", {
+  field_name: "title",
+  field_schema: {
+    type: "text",
+    scoring: true,
   },
 });

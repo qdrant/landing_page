@@ -1,0 +1,52 @@
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Prefetch: []*qdrant.PrefetchQuery{
+		{
+			Prefetch: []*qdrant.PrefetchQuery{
+				{
+					Query: &qdrant.Query{
+						Variant: &qdrant.Query_Text{
+							Text: &qdrant.TextQuery{Query: "time travel"},
+						},
+					},
+					Using: qdrant.PtrOf("title"),
+					Limit: qdrant.PtrOf(uint64(100)),
+				},
+				{
+					Query: qdrant.NewQueryDense([]float32{0.01, 0.45, 0.67}),
+					Using: qdrant.PtrOf("dense"),
+					Limit: qdrant.PtrOf(uint64(100)),
+				},
+			},
+			Query: qdrant.NewQueryRRF(&qdrant.Rrf{}),
+			Limit: qdrant.PtrOf(uint64(100)),
+		},
+	},
+	Query: qdrant.NewQueryFormula(&qdrant.Formula{
+		Expression: qdrant.NewExpressionSum(&qdrant.SumExpression{
+			Sum: []*qdrant.Expression{
+				qdrant.NewExpressionVariable("$score"), // the fused score from the RRF prefetch
+				qdrant.NewExpressionMult(&qdrant.MultExpression{
+					Mult: []*qdrant.Expression{
+						qdrant.NewExpressionConstant(0.1), // caps decay contribution
+						qdrant.NewExpressionExpDecay(&qdrant.DecayParamsExpression{
+							X:        qdrant.NewExpressionDatetimeKey("published_at"),
+							Target:   qdrant.NewExpressionDatetime("YYYY-MM-DDT00:00:00Z"),
+							Scale:    qdrant.PtrOf(float32(86400 * 180)), // 180 days in seconds
+							Midpoint: qdrant.PtrOf(float32(0.5)),
+						}),
+					},
+				}),
+			},
+		}),
+	}),
+	Limit: qdrant.PtrOf(uint64(10)),
+})
+```

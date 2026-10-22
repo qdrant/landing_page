@@ -1,0 +1,122 @@
+/* architecture island. Scoped under .qi-oa. Controls, labels and the status
+   line come from the shared island design system (islands.scss); this file
+   styles the OpenShift frame, containers, nodes and links. Node colors are the
+   shared categorical tokens: --qi-cat-4 (Qdrant red) for Qdrant, --qi-cat-1
+   for Haystack, --qi-cat-2 for Hayhooks and --qi-cat-3 for the model server. */
+
+.qi-oa {
+  --oa-qd: var(--qi-cat-4);
+  --oa-hs: var(--qi-cat-1);
+  --oa-hh: var(--qi-cat-2);
+  --oa-llm: var(--qi-cat-3);
+  display: block;
+}
+
+.qi-oa .qi-fig {
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+}
+
+/* Essential labels render at 14px at the normal article width. */
+.qi-oa .qi-label,
+.qi-oa .qi-title {
+  font-size: 14px;
+}
+.qi-oa__svg.is-narrow {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.qi-oa__frame {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-oa__container {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+.qi-oa__caption {
+  fill: var(--qi-muted);
+}
+
+.qi-oa__rect {
+  fill: var(--qi-surface);
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease, fill 0.25s ease;
+}
+.qi-oa__rect--qd {
+  stroke: var(--oa-qd);
+}
+.qi-oa__rect--hs {
+  stroke: var(--oa-hs);
+}
+.qi-oa__rect--hh {
+  stroke: var(--oa-hh);
+}
+.qi-oa__rect--llm {
+  stroke: var(--oa-llm);
+}
+.qi-oa__text {
+  fill: var(--qi-fg);
+}
+.qi-oa__person {
+  fill: var(--qi-muted);
+}
+
+.qi-oa__line {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  transition: stroke 0.25s ease;
+}
+.qi-oa__head {
+  fill: var(--qi-line);
+}
+.qi-oa__edge-label {
+  fill: var(--qi-muted);
+}
+
+/* The links and nodes used at the selected step stand out; the rest stay visible but muted. */
+.qi-oa__node,
+.qi-oa__edge {
+  opacity: 0.6;
+  transition: opacity 0.25s ease;
+}
+.qi-oa__node.is-active,
+.qi-oa__edge.is-active {
+  opacity: 1;
+}
+.qi-oa__node.is-active .qi-oa__rect {
+  stroke-width: 3.5;
+}
+.qi-oa__node.is-active .qi-oa__person {
+  fill: var(--qi-fg);
+}
+.qi-oa__edge.is-active .qi-oa__line {
+  stroke: var(--qi-fg);
+  stroke-dasharray: none;
+  stroke-width: 2.5;
+}
+.qi-oa__edge.is-active .qi-oa__head {
+  fill: var(--qi-fg);
+}
+.qi-oa__edge.is-active .qi-oa__edge-label {
+  fill: var(--qi-fg);
+}
+
+.qi-oa .qi-status {
+  min-height: calc(3 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-oa__rect,
+  .qi-oa__line,
+  .qi-oa__node,
+  .qi-oa__edge {
+    transition: none;
+  }
+}

@@ -1,0 +1,28 @@
+{{- /*
+  Returns a Markdown table of the Qdrant Cloud Inference models of one type
+  (dense, sparse, or multivector) from data/cloud_inference_models.yaml.
+
+  The Dimensions column appears when the type's models have a `dimensions`
+  field. Every model of a type must have it or none may, so a forgotten value
+  fails the build instead of printing an empty cell.
+
+  Shared by the HTML and Markdown variants of the `cloud-inference-models`
+  shortcode, so both outputs list the same models.
+*/ -}}
+{{- $type := . -}}
+{{- $models := index hugo.Data.cloud_inference_models $type -}}
+{{- if not $models -}}
+  {{- errorf "cloud-inference-models: no %q models in data/cloud_inference_models.yaml" $type -}}
+{{- end -}}
+{{- $withDimensions := where $models "dimensions" "!=" nil -}}
+{{- $hasDimensions := gt (len $withDimensions) 0 -}}
+{{- if and $hasDimensions (ne (len $withDimensions) (len $models)) -}}
+  {{- errorf "cloud-inference-models: every %s model in data/cloud_inference_models.yaml needs `dimensions`, or none may have it" $type -}}
+{{- end -}}
+{{- $rows := slice (printf "| Model | Modality |%s Cost |" (cond $hasDimensions " Dimensions |" "")) (printf "|---|---|%s---|" (cond $hasDimensions "---|" "")) -}}
+{{- range $models -}}
+  {{- $dimensions := "" -}}
+  {{- if $hasDimensions -}}{{- $dimensions = printf " %v |" .dimensions -}}{{- end -}}
+  {{- $rows = $rows | append (printf "| `%s` | %s |%s %s |" .model .modality $dimensions .cost) -}}
+{{- end -}}
+{{- return delimit $rows "\n" -}}

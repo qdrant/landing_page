@@ -12,13 +12,31 @@ partition: deploy
 
 ## Installation
 
+### With Homebrew
+
+On macOS and Linux, install from the Qdrant tap:
+
+```sh
+brew install qdrant/tap/qcloud
+```
+
+Homebrew also installs shell completions for bash, zsh, and fish. Update with `brew upgrade qcloud`.
+
+### From the install script
+
+For systems without Homebrew, such as CI runners, containers, and sandboxed agents:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh
+```
+
+The script installs the latest release for your OS and CPU architecture to `~/.local/bin`, after checking the archive against the release's `checksums.txt`. Set `QCLOUD_VERSION` (for example `v0.32.0`) to pin a release, or `QCLOUD_INSTALL_DIR` to install somewhere else. It needs `curl` or `wget`, `sha256sum` or `shasum`, and `tar`.
+
 ### From GitHub Releases
 
-Download the latest release from [GitHub Releases](https://github.com/qdrant/qcloud-cli/releases).
+Download the latest release from [GitHub Releases](https://github.com/qdrant/qcloud-cli/releases). Releases are available for macOS and Linux on x86-64 and ARM64, and for Windows on x86-64. The macOS binaries are signed and notarized.
 
-Select the archive that matches your OS and CPU architecture, extract it, and place the `qcloud` binary somewhere in your `PATH` (e.g. `~/.local/bin` or `/usr/local/bin`).
-
-> **macOS:** The binary is currently not signed. If macOS blocks it, run `xattr -d com.apple.quarantine qcloud` after extracting.
+Select the archive that matches your OS and CPU architecture, extract it, and place the `qcloud` binary somewhere in your `PATH` (e.g. `~/.local/bin` or `/usr/local/bin`). Each release includes a `checksums.txt` file with the SHA-256 of every archive.
 
 ### From Source
 

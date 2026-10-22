@@ -1,0 +1,52 @@
+/* rm3 island. Scoped under .sf-rm. Greens mark relevance, blue the query. */
+.sf-rm {
+  --sf-rel: #2e9e5b;
+  display: block;
+}
+.sf-rm__box {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+}
+.sf-rm__box.is-query {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.2;
+  stroke: var(--qi-cat-1);
+  stroke-width: 1.5;
+}
+.sf-rm__box.is-strong {
+  fill: var(--sf-rel);
+  fill-opacity: 0.55;
+}
+.sf-rm__box.is-light {
+  fill: var(--sf-rel);
+  fill-opacity: 0.25;
+}
+.sf-rm__box.is-none {
+  fill: var(--qi-line);
+  fill-opacity: 0.25;
+}
+.sf-rm__box.is-drop {
+  stroke-dasharray: 4 3;
+  opacity: 0.6;
+}
+.sf-rm__t {
+  fill: var(--qi-fg);
+}
+.sf-rm__drop {
+  fill: var(--qi-muted);
+}
+.sf-rm__arrow {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.sf-rm__head {
+  fill: var(--qi-muted);
+}
+.sf-rm .qi-label {
+  font-size: 13px;
+}
+.sf-rm.sf-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

@@ -1,0 +1,208 @@
+@use '../../helpers/functions' as *;
+
+.edge-how-it-works {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+  position: relative;
+
+  &__container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+    text-align: center;
+  }
+  
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 4.5;
+    padding: pxToRem(20);
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-90;
+    background: $neutral-98;
+  }
+  
+  &__step {
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: $spacer * 3.5;
+      width: $spacer * 3.5;
+      margin-bottom: $spacer;
+      border-radius: pxToRem(12);
+      border: pxToRem(1) solid $secondary-violet-70;
+      background: $secondary-violet-90;
+      position: relative;
+      z-index: 1;
+    }
+    
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      color: $neutral-20;
+    }
+    
+    &-description {
+      margin: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+    }
+    
+    &:nth-of-type(2) {
+      .edge-how-it-works__step-icon {
+        border: pxToRem(1) solid $secondary-blue-70;
+        background: $secondary-blue-90;
+      }
+    }
+    
+    &:nth-of-type(3) {
+      .edge-how-it-works__step-icon {
+        border: pxToRem(1) solid $secondary-teal-70;
+        background: $secondary-teal-90;
+      }
+    }
+  }
+  
+  &__banner {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    margin-top: pxToRem(20);
+    padding: pxToRem(20);
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-90;
+    background: $neutral-98;
+    
+    &-content {
+      display: flex;
+      gap: $spacer;
+    }
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      height: $spacer * 3.5;
+      width: $spacer * 3.5;
+      margin-bottom: $spacer;
+      border-radius: pxToRem(12);
+      border: pxToRem(1) solid $secondary-blue-50;
+      background: $secondary-blue-90;
+    }
+    
+    &-description {
+      margin: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+    }
+    
+    a {
+      font-size: pxToRem(13);
+      line-height: pxToRem(19);
+    }
+  }
+  
+  &__overlay {
+    display: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 4;
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+    }
+
+    &__steps {
+      flex-direction: row;
+      gap: $spacer * 4.5;
+      padding: $spacer * 3 $spacer * 2.5;
+      border-radius: $spacer;
+      position: relative;
+      
+      &::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: calc(100% - $spacer * 5);
+        height: pxToRem(2);
+        left: $spacer * 2.5;
+        top: pxToRem(75);
+        background-color: $neutral-94;
+      }
+    }
+    
+    &__step {
+      width:  33.333%;
+
+      &-icon {
+        margin-bottom: $spacer * 1.5;
+      }
+    }
+
+    &__banner {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: $spacer * 2;
+      padding: $spacer * 2;
+      border-radius: $spacer;
+      
+      &-content {
+        gap: $spacer * 1.5;
+        max-width: pxToRem(550);
+        align-items: center;
+      }
+      
+      a {
+        text-align: right;
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+      }
+      
+      &-icon {
+        margin-bottom: 0;
+      }
+    }
+    
+    &__overlay {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: $spacer * 4;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background-image: url("/img/background-mask-2.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
+}
