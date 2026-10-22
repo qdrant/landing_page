@@ -3,14 +3,15 @@
 > Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
 {{ if .IsSection -}}
-{{/* The pricing page is assembled from the headless pages under content/pricing/, as in themes/qdrant-2024/layouts/pricing/list.html. */}}
-{{- with site.GetPage "/pricing/qdrant-pricing-hero" -}}
+{{- /* Sections and their order come from `sections` in content/pricing/_index.md, as for the HTML page. */ -}}
+{{- range $name := .Params.sections -}}
+{{- with site.GetPage (printf "/pricing/%s" $name) -}}
+{{- if eq $name "qdrant-pricing-hero" -}}
 # {{ .Title }}
 
 {{ .Description }}
 
-{{ end -}}
-{{- with site.GetPage "/pricing/qdrant-pricing-doors-b" -}}
+{{ else if eq $name "qdrant-pricing-doors-b" -}}
 {{- range .Params.tabs }}
 ## {{ .label }}
 {{ range $tier := .tiers }}
@@ -33,29 +34,33 @@
 {{ end -}}
 {{- end -}}
 {{- end }}
-{{ end -}}
-{{- with site.GetPage "/pricing/qdrant-pricing-calculator" }}
+{{ else if eq $name "qdrant-pricing-calculator" }}
 {{ .Title }} {{ .Params.linkPrefix }} [{{ .Params.link.text }}]({{ .Params.link.url }}).
-{{ end -}}
-{{- with site.GetPage "/pricing/qdrant-pricing-features" }}
+{{ else if eq $name "qdrant-pricing-features" }}
 ## {{ .Title }}
 {{ range .Params.tables }}
 {{ partial "markdown-page/pricing-table.md" . }}
 {{- end }}
 [{{ .Params.compareButton.text }}](https://qdrant.tech{{ .Params.compareButton.url }}index.md)
-{{ end -}}
-{{- with site.GetPage "/pricing/qdrant-pricing-support-reliability" }}
+{{ else if eq $name "qdrant-pricing-support-reliability" }}
 ## {{ .Title }}
 
 {{ partial "markdown-page/pricing-table.md" .Params }}
-{{- end -}}
-{{- with site.GetPage "/pricing/qdrant-pricing-faq" }}
+{{- else if eq $name "qdrant-pricing-faq" }}
 ## {{ .Title }}
 {{ range .Params.questions }}
 ### {{ .question }}
 
 {{ .answer }}
 {{ end -}}
+{{- else if eq $name "qdrant-pricing-cta" -}}
+{{- /* A sign-up banner, nothing for agents to read. */ -}}
+{{- else -}}
+{{- errorf "pricing section %q has no Markdown renderer in layouts/partials/markdown-page/pricing.md" $name -}}
+{{- end -}}
+{{- else -}}
+{{- errorf "pricing section %q has no page content/pricing/%s.md" $name $name -}}
+{{- end -}}
 {{- end -}}
 {{- else -}}
 # {{ .Title }}
