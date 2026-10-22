@@ -276,7 +276,11 @@ Whatever you pick, leave the originals as `cold`, pin the quantized copy, and le
 
 ## Measure It on Your Data
 
-Every number above came from embeddings that are not yours. The procedure transfers; the numbers do not. Here is the minimum that catches the mistakes we see most often.
+Every number above came from embeddings that are not yours. The procedure transfers; the numbers do not. The companion notebook runs the procedure below on SciFact against any Qdrant 1.19 cluster, with no embedding API key:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
+
+Here is the minimum that catches the mistakes we see most often.
 
 Compute exact float32 neighbors once, outside the index, for a few hundred queries. Qdrant's `exact=True` with quantization ignored does this against a live collection:
 
