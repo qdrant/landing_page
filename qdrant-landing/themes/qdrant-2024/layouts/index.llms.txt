@@ -1,55 +1,119 @@
-{{- /* Static part: edit content/headless/llms.md. Everything after it is generated. */ -}}
+{{- /*
+  /llms.txt and the full indexes it links, /llms/<part>.txt.
+
+  /llms.txt is the static part (edit content/headless/llms.md), then one
+  section per part of the site listing only its top-level pages, titles only.
+  Each section ends with a link to that part's full index: every page, nested
+  in sidebar order, with the first sentence of its description. The full
+  indexes are published from this template with resources.FromString, so they
+  need no output format of their own.
+*/ -}}
 {{ (site.GetPage "/headless/llms").RawContent | strings.TrimSpace }}
+
+Each section lists the main pages of one part of the site. Its last link is a file with every page in that part, nested in sidebar order, each with a one-line summary.
 {{ $docs := site.GetPage "/documentation" -}}
-{{- range slice "Develop" "Deploy" "Ecosystem" }}
-## {{ . }}
-{{ $partition := lower . -}}
-{{- /* `llmsTopLevelOnly: true` on a sidebar heading (a delimiter page) lists its entries without the pages under them. */ -}}
-{{- $flat := false -}}
-{{- range where (where $docs.Pages.ByWeight "Params.partition" $partition) "Params.hideInSidebar" "!=" true -}}
-{{- if eq .Params.type "delimiter" -}}
-{{- $flat = eq .Params.llmsTopLevelOnly true }}
-### {{ .Title }}
-{{ else if eq .Params.type "reference" -}}
-{{ partial "llms-tree" (dict "page" (site.GetPage .Params.reference) "indent" "" "flat" $flat) }}
-{{- else -}}
-{{ partial "llms-tree" (dict "page" . "indent" "" "flat" $flat) }}
-{{- end -}}
-{{- end -}}
+{{- range slice
+  (dict "name" "Develop" "key" "develop" "landing" "/documentation")
+  (dict "name" "Deploy" "key" "deploy" "landing" "/documentation/deploy-tab")
+  (dict "name" "Ecosystem" "key" "ecosystem" "landing" "/documentation/ecosystem-tab") }}
+{{- $top := "" -}}
+{{- $full := "" -}}
+{{- range where (where $docs.Pages.ByWeight "Params.partition" .key) "Params.hideInSidebar" "!=" true -}}
+  {{- if eq .Params.type "delimiter" -}}
+    {{- $top = printf "%s\n### %s\n" $top .Title -}}
+    {{- $full = printf "%s\n## %s\n\n" $full .Title -}}
+  {{- else -}}
+    {{- $p := . -}}
+    {{- if eq .Params.type "reference" }}{{ $p = site.GetPage .Params.reference }}{{ end -}}
+    {{- $top = printf "%s%s" $top (partial "llms-tree" (dict "page" $p "indent" "" "flat" true)) -}}
+    {{- $full = printf "%s%s" $full (partial "llms-tree" (dict "page" $p "indent" "" "desc" true)) -}}
+  {{- end -}}
+{{- end }}
+## {{ .name }}
+
+{{ partial "llms-entry" (site.GetPage .landing) -}}
+{{ $top }}
+{{ partial "llms-index-link" (dict "part" . "body" $full) }}
 {{- end }}
 ## Learn
-{{ partial "llms-tree" (dict "page" (site.GetPage "/learn") "indent" "") -}}
-{{- range where $docs.Sections.ByWeight "Params.learning_kind" "guides" }}{{ partial "llms-tree" (dict "page" . "indent" "") }}{{ end }}
+
+{{ $learnTop := partial "llms-entry" (site.GetPage "/documentation/guides-tab") -}}
+{{- $learnFull := "" -}}
+{{- range (slice (site.GetPage "/learn")) | append (where $docs.Sections.ByWeight "Params.learning_kind" "guides") | append (slice (site.GetPage "/course")) -}}
+  {{- $learnTop = printf "%s%s" $learnTop (partial "llms-tree" (dict "page" . "indent" "" "flat" true)) -}}
+  {{- $learnFull = printf "%s%s" $learnFull (partial "llms-tree" (dict "page" . "indent" "" "desc" true)) -}}
+{{- end -}}
+{{ $learnTop }}
+{{ partial "llms-index-link" (dict "part" (dict "name" "Learn" "key" "learn") "body" $learnFull) }}
 ## Articles
-{{ partial "llms-tree" (dict "page" (site.GetPage "/articles") "indent" "") }}
+
+{{ $articles := site.GetPage "/articles" -}}
+{{ partial "llms-entry" $articles -}}
+{{- $articlesFull := "" -}}
+{{- range where $articles.Sections.ByWeight "Params.isCategoryPage" true -}}
+  {{- $cat := .Params.category -}}
+- [{{ .Title }}]({{ strings.TrimSuffix "/" .Permalink }}.md)
+  {{- $articlesFull = printf "%s\n## %s\n\n%s" $articlesFull .Title (partial "llms-entry" (dict "page" . "desc" true)) -}}
+  {{- range (where $articles.RegularPages "Params.category" $cat).ByDate.Reverse -}}
+    {{- $articlesFull = printf "%s%s" $articlesFull (partial "llms-tree" (dict "page" . "indent" "" "desc" true)) -}}
+  {{- end }}
+{{ end }}
+{{ partial "llms-index-link" (dict "part" (dict "name" "Articles" "key" "articles" "label" "Every article") "body" $articlesFull) }}
 ## Pricing
-{{ partial "llms-tree" (dict "page" (site.GetPage "/pricing") "indent" "") }}
+
+{{ partial "llms-entry" (site.GetPage "/pricing") -}}
+{{ partial "llms-entry" (site.GetPage "/pricing/comparison") }}
 ## Optional
+
 {{ partial "llms-entry" (site.GetPage "/documentation/agentic-tools/skills") -}}
-- [API Reference](https://api.qdrant.tech/api-reference): REST and gRPC API reference for Qdrant.
+- [API Reference](https://api.qdrant.tech/llms.txt): REST and gRPC API reference for Qdrant, every endpoint in Markdown.
 {{ partial "llms-entry" (site.GetPage "/legal/terms_and_conditions") -}}
 - [Trust Center](https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9): Qdrant security, compliance reports, and certifications.
 
-{{- /* A page's title (its H1) as a link, then every page under it, nested, unless `flat`. */ -}}
+{{- /*
+  A page as a link, then every page under it, nested, unless `flat`. With
+  `desc`, each link carries the first sentence of the page's description.
+  A section that is never rendered itself (an `is_empty` group such as the
+  FAQ) is not listed, but its pages are, even when `flat`.
+*/ -}}
 {{- define "_partials/llms-tree" -}}
 {{- $p := .page -}}
-{{- $include := and $p (not $p.Params.sitemapExclude) (not $p.Sitemap.Disable) -}}
-{{- with and $include $p.Params.build -}}
-  {{- if in (slice "never" "link") (.render | default "always") -}}{{- $include = false -}}{{- end -}}
+{{- $listed := and $p (not $p.Params.sitemapExclude) (not $p.Sitemap.Disable) -}}
+{{- $rendered := $listed -}}
+{{- with and $listed $p.Params.build -}}
+  {{- if in (slice "never" "link") (.render | default "always") -}}{{- $rendered = false -}}{{- end -}}
 {{- end -}}
-{{- if $include -}}
+{{- $indent := .indent -}}
+{{- if $rendered -}}
 {{- if eq $p.Params.type "external-link" -}}
 {{ .indent }}- [{{ $p.Title }}]({{ $p.Params.external_url }})
 {{ else if and (ne $p.Title "") (ne $p.Permalink "") -}}
-{{ .indent }}- [{{ $p.Title }}]({{ strings.TrimSuffix "/" $p.Permalink }}.md)
-{{ end -}}
-{{- if not .flat -}}
-{{- $indent := printf "%s  " .indent -}}
-{{- range $p.Pages.ByWeight }}{{ partial "llms-tree" (dict "page" . "indent" $indent) }}{{ end -}}
+{{ .indent }}{{ partial "llms-entry" (dict "page" $p "desc" .desc) }}
 {{- end -}}
+{{- $indent = printf "%s  " .indent -}}
+{{- end -}}
+{{- if and $listed (or (not .flat) (not $rendered)) -}}
+{{- $desc := .desc -}}{{- $flat := .flat -}}
+{{- range $p.Pages.ByWeight }}{{ partial "llms-tree" (dict "page" . "indent" $indent "desc" $desc "flat" $flat) }}{{ end -}}
 {{- end -}}
 {{- end -}}
 
+{{- /* One link. Given a page, or a dict with `page` and `desc`: the description
+       always for a bare page, its first sentence only for `desc`. */ -}}
 {{- define "_partials/llms-entry" -}}
-- [{{ .Title }}]({{ strings.TrimSuffix "/" .Permalink }}.md){{ with .Description }}: {{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ end }}
+{{- $p := . -}}{{- $short := false -}}{{- $withDesc := true -}}
+{{- if reflect.IsMap . }}{{ $p = .page }}{{ $short = true }}{{ $withDesc = .desc }}{{ end -}}
+{{- $d := $p.Description | plainify | replaceRE "\\s+" " " | strings.TrimSpace -}}
+{{- if $short }}{{ $d = index (split $d ". ") 0 | strings.TrimSuffix "." }}{{ end -}}
+- [{{ $p.Title }}]({{ strings.TrimSuffix "/" $p.Permalink }}.md){{ if and $withDesc $d }}: {{ $d }}{{ end }}
+{{ end -}}
+
+{{- /* Publish a part's full index at /llms/<key>.txt and link it. */ -}}
+{{- define "_partials/llms-index-link" -}}
+{{- $name := .part.name -}}
+{{- $count := len (findRE `(?m)^\s*- \[` .body) -}}
+{{- $file := printf "%s\n\n> Every page in the %s part of qdrant.tech, nested in sidebar order, each with a one-line summary. Links point to the Markdown version of each page. For setup, core usage, and rules, start at %s.\n%s" (printf "# Qdrant %s: every page" $name) $name (absURL "llms.txt") .body -}}
+{{- $path := printf "llms/%s.txt" .part.key -}}
+{{- $_ := (resources.FromString $path $file).Publish -}}
+- [{{ .part.label | default (printf "Every %s page" $name) }}]({{ absURL $path }}): all {{ $count }} pages, each with a one-line summary
 {{ end -}}
