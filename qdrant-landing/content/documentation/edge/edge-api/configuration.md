@@ -42,7 +42,7 @@ let config = EdgeConfig::builder()
 | `vectors` | Dense vector configuration. In Python, a single `EdgeVectorParams` configures the default unnamed vector. Optional if `sparse_vectors` is given. |
 | `sparse_vectors` | Sparse vector configuration. |
 | `payload_memory` | [Memory tier](#memory-tiers) of the payload storage. Default: `Cold`. |
-| `id_tracker_memory` | [Memory tier](#memory-tiers) of the point ID tracker in non-appendable segments. Defaults to the deployment default when unset. |
+| `id_tracker_memory` | [Memory tier](#memory-tiers) of the point ID tracker in non-appendable segments. Default: `Pinned`. |
 | `hnsw_config` | Global HNSW parameters, used when building the HNSW index. Override per vector with `EdgeVectorParams.hnsw_config`. |
 | `quantization_config` | Global quantization. Override per vector with `EdgeVectorParams.quantization_config`. Refer to [Quantization](/documentation/manage-data/quantization/). |
 | `optimizers` | Optimizer parameters. Refer to [Optimizer Parameters](#optimizer-parameters). |
@@ -115,7 +115,7 @@ The `memory` parameter, and the `payload_memory` and `id_tracker_memory` paramet
 | --- | --- |
 | `Cold` | Not pre-loaded from disk. Pages are read on demand. |
 | `Cached` | Pre-loaded into the page cache when the shard opens. The OS can evict it under memory pressure. |
-| `Pinned` | Loaded onto the heap and never evicted. |
+| `Pinned` | Loaded in RAM and never evicted. The component must fit in RAM at all times. |
 
 Not every component supports every tier. Dense vectors and payload storage can't be pinned, and `Pinned` is treated as `Cached` there. Refer to [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for the tiers each component supports.
 
@@ -184,7 +184,7 @@ pub fn optimize_with_budget(&self, budget: ResourceBudget) -> OperationResult<bo
 
 **Returns** `True` if any segment was optimized, and `False` if the shard was already optimal.
 
-`optimize_with_budget` waits until a permit is available. Clones of a `ResourceBudget` share permits, so using the same budget for concurrent calls, such as calls across shards, limits their combined resource usage. `optimize` gives each optimization all the indexing threads it requests.
+Create a budget with `ResourceBudget::new(cpu_budget, io_budget)`. `optimize_with_budget` waits until a permit is available. Clones of a `ResourceBudget` share permits, so using the same budget for concurrent calls, such as calls across shards, limits their combined resource usage. `optimize` gives each optimization all the indexing threads it requests.
 
 Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/shard-lifecycle/#get-shard-information).
 
@@ -196,7 +196,7 @@ Qdrant Edge records every update in a write-ahead log (WAL) before applying it t
 
 Set `wal_enabled` to `False` (`.wal_enabled(false)` in Rust) to disable the WAL. This setting is saved when the shard is created. Loading the shard with a different value fails. The WAL is enabled by default.
 
-With the WAL disabled, updates are durable only after [`flush`](/documentation/edge/edge-api/shard-lifecycle/#flush-pending-changes) returns. If Edge finds a WAL when loading the shard, such as one included in a restored Qdrant snapshot, it replays the operations, persists them to the segments, and removes the WAL.
+With the WAL disabled, a crash loses every update since the last [`flush`](/documentation/edge/edge-api/shard-lifecycle/#flush-pending-changes), and `wal_options` is ignored. If Edge finds a WAL when loading the shard, such as one included in a restored Qdrant snapshot, it replays the operations, persists them to the segments, and removes the WAL.
 
 ### WalOptions
 

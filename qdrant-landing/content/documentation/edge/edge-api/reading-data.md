@@ -65,6 +65,8 @@ def query_batch(self, request: QueryBatchRequest) -> List[List[ScoredPoint]]
 pub fn query_batch(&self, request: QueryBatchRequest) -> OperationResult<Vec<Vec<ScoredPoint>>>
 ```
 
+`QueryBatchRequest` accepts the following parameters. In Rust, create one with `QueryBatchRequest::new(queries)`.
+
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `queries` | list of `QueryRequest` | The queries to run together. Each accepts the parameters described in [`query`](#query). |
