@@ -53,12 +53,11 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 The **Security** page is where you protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting — it applies to your user wherever you sign in, across every account you belong to.
 
-Enabling MFA is your choice: until you set up a method, nothing changes about how you log in. Once a method is enabled, you are asked to complete it on every subsequent login. Two methods are available, and you can enable both:
+Enabling MFA is your choice: until you set up a method, nothing changes about how you log in. Once a method is enabled, you are asked to complete it on every subsequent login. One method is available:
 
 * **Authenticator App** — a one-time code from an authenticator app of your choice.
-* **Passkey** — a fingerprint, face scan, screen lock, or hardware security key.
 
-Setting up either method sends you back through the login screen, because that is where your app or device is registered. When it completes, you land back on the **Security** page.
+Setting it up sends you back through the login screen, because that is where your app or device is registered. When it completes, you land back on the **Security** page.
 
 ![User Security Page](/documentation/cloud/user-security-page.png)
 
