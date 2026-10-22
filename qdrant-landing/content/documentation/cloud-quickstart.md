@@ -1012,12 +1012,10 @@ queryText := "vegetarian dishes"
 // search for similar menu items
 results, err := client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "items",
-	Query: qdrant.NewQueryNearest(
-		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Text:  queryText,
-			Model: "sentence-transformers/all-MiniLM-L6-v2",
-		}),
-	),
+	Query: qdrant.NewQueryDocument(&qdrant.Document{
+		Text:  queryText,
+		Model: "sentence-transformers/all-MiniLM-L6-v2",
+	}),
 	WithPayload: qdrant.NewWithPayload(true),
 	Limit:       qdrant.PtrOf(uint64(5)),
 })
