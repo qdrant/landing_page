@@ -183,8 +183,8 @@ Notes about the format:
 
 In addition to the basic `keyword` type, Qdrant supports `uuid` type for storing UUID values.
 It stores the parsed UUID value, so a `match` on a `uuid`-indexed field compares UUIDs, not strings.
-Every spelling of the same UUID matches: lowercase, uppercase, without hyphens, or as `urn:uuid:`.
-Without the index, `match` compares the stored string exactly, so a collection can return different points for the same filter once a `uuid` index is created.
+Every spelling of the same UUID matches, in uppercase or lowercase: hyphenated, without hyphens, in braces ({...}), or with a urn:uuid: prefix.
+Without a `uuid` index, `match` compares strings exactly. If you store UUIDs in more than one spelling, a filter can return different points before and after you create a `uuid` index.
 
 ```json
 {
