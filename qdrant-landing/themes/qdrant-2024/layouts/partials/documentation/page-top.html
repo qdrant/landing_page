@@ -1,7 +1,9 @@
 {{- /*
   The row at the top of a docs, article, or course page: breadcrumbs on one
   side, page actions on the other. Pass "actions" false when the page renders
-  its actions elsewhere, as articles do next to the author and date.
+  its actions elsewhere, as articles do next to the author and date. The
+  actions show only below the xl breakpoint; on wider screens the table of
+  contents carries them.
 
   Usage: {{ partial "documentation/page-top.html" (dict "page" . "breadcrumbs" true) }}
 */ -}}

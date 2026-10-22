@@ -23,6 +23,15 @@
       {{ $toc | safeHTML }}
 
       {{ if eq .Section "course" }}
+        {{/* Courses get only the copy button, not the docs' edit and issue links. */}}
+        {{ if .OutputFormats.Get "markdown" }}
+          <ul class="table-of-contents__external-links">
+            <li class="table-of-contents__link">
+              {{ partial "copy-markdown-button.html" (dict "page" . "glyph" "outline") }}
+            </li>
+          </ul>
+        {{ end }}
+
         {{ $subject := . }}
 
         {{ if and $subject.Params $subject.Params.content $subject.Params.content.getStarted }}
@@ -42,6 +51,11 @@
                 View as Markdown
               </a>
             </li>
+            {{ if .OutputFormats.Get "markdown" }}
+              <li class="table-of-contents__link">
+                {{ partial "copy-markdown-button.html" (dict "page" . "glyph" "outline") }}
+              </li>
+            {{ end }}
             <li class="table-of-contents__link">
               <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
                 {{ partial "svg" "github.svg" }}

@@ -97,7 +97,9 @@
       }
     }
 
-    svg {
+    // Scoped to the links: the Copy as Markdown button's glyphs toggle their
+    // own display and are stroke-only.
+    a svg {
       display: block;
       width: pxToRem(16);
       height: pxToRem(16);
@@ -261,6 +263,14 @@
         display: flex;
         margin-top: $spacer * 1.5;
       }
+      // Courses follow the links with their get-started button instead of the
+      // CTA, so the links draw the divider themselves.
+      &__external-links:has(+ .table-of-contents__button) {
+        border-bottom: 1px solid $neutral-90;
+      }
+      &__external-links + &__button {
+        margin-top: $spacer * 1.5;
+      }
     }
   }
 
@@ -289,4 +299,42 @@
       }
     }
   }
+}
+
+// "Copy as Markdown" among the external links, styled as one of them rather
+// than as the outlined button. Written out longhand so it outranks the
+// button's own theme rules.
+.table-of-contents .table-of-contents__link .copy-markdown {
+  height: auto;
+  padding: 0 math.div($spacer, 2);
+  gap: calc($spacer / 2);
+  box-shadow: none;
+  color: $neutral-30;
+
+  &:hover {
+    box-shadow: none;
+    color: $primary-50;
+  }
+}
+
+[data-theme='dark'] .table-of-contents .table-of-contents__link .copy-markdown {
+  color: $neutral-70;
+
+  .copy-markdown__icon {
+    color: $neutral-98;
+  }
+
+  &:hover {
+    color: $neutral-98;
+
+    .copy-markdown__label {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Dark counterpart of the course divider in the scoped styles, written out
+// longhand to outrank it.
+[data-theme='dark'] .documentation .table-of-contents__external-links:has(+ .table-of-contents__button) {
+  border-bottom-color: $neutral-20;
 }

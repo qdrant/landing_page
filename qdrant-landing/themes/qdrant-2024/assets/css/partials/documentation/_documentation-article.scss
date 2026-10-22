@@ -52,6 +52,13 @@
         margin-left: auto;
       }
 
+      // From xl the table of contents shows the actions instead.
+      @include media-breakpoint-up(xl) {
+        .copy-markdown {
+          display: none;
+        }
+      }
+
       // On phones the actions go on their own row, aligned to the left.
       @include media-breakpoint-down(md) {
         flex-direction: column;
