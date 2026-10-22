@@ -1,8 +1,8 @@
 ---
 title: User Profile
 short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, and user deletion."
-description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations and user deletion."
-weight: 212
+description: "Manage your personal Qdrant Cloud user profile: profile details, appearance and color scheme, cookie consent, pending account invitations and user deletion."
+weight: 215
 partition: deploy
 ---
 
@@ -12,17 +12,17 @@ Your user profile holds personal, user-level settings that apply to you across e
 
 Open the **user menu** at the bottom left of the Qdrant Cloud Console to access:
 
-* **Get Started** — the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
-* **Preferences** — your profile details, color scheme, and cookie consent.
-* **Invitations** — pending invitations to join other accounts.
-* **Accounts** — the accounts overview. See [Managing Accounts](/documentation/cloud-account-setup/#managing-accounts).
+* **Get Started**: the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
+* **Preferences**: your profile details, color scheme, and cookie consent.
+* **Invitations**: pending invitations to join other accounts.
+* **Accounts**: the accounts overview. See [Managing Accounts](/documentation/cloud-account-setup/#managing-accounts).
 * **Logout**.
 
 ![User menu and Explore Qdrant Cloud](/documentation/cloud/user-menu.png)
 
 ## Profile Details
 
-On the **Preferences** page, the **Your details** section shows your personal information — first name, last name, email address, and the date you became a member. Use **Edit Profile Details** to update how your name is displayed across the platform.
+On the **Preferences** page, the **Your details** section shows your personal information: first name, last name, email address, and the date you became a member. Use **Edit Profile Details** to update how your name is displayed across the platform.
 
 ![Profile details and preferences](/documentation/cloud/profile-preferences.png)
 
@@ -32,7 +32,7 @@ The Qdrant Cloud Console supports light and dark appearances. Under **Color Sche
 
 * **Light Mode**
 * **Dark Mode**
-* **System Sync** — follow your operating system's appearance setting.
+* **System Sync**: follow your operating system's appearance setting.
 
 Your selection applies to the Console on your current device.
 

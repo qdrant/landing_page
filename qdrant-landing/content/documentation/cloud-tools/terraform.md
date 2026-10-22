@@ -1,6 +1,6 @@
 ---
 title: Terraform
-short_description: "Manage the Qdrant Cloud lifecycle declaratively with the Terraform provider — version, share, and reuse vector database infrastructure across teams."
+short_description: "Manage the Qdrant Cloud lifecycle declaratively with the Terraform provider: version, share, and reuse vector database infrastructure across teams."
 description: "Provision Qdrant Cloud clusters and database keys with the official Terraform provider to manage vector database infrastructure as code on AWS, GCP, and Azure."
 weight: 10
 aliases:
@@ -57,7 +57,7 @@ locals {
   ]
 }
 
-// Create a cluster (for the sake of having an ID, see below)
+// Create a cluster (for the sake of having an ID, used by the key that follows)
 resource "qdrant-cloud_accounts_cluster" "example" {
   name           = "tf-example-cluster"
   cloud_provider = data.qdrant-cloud_booking_packages.all_packages.cloud_provider
@@ -75,7 +75,7 @@ resource "qdrant-cloud_accounts_cluster" "example" {
   }
 }
 
-// Create an V2 Database Key, which refers to the cluster provided above
+// Create an V2 Database Key, which refers to the cluster provided earlier
 resource "qdrant-cloud_accounts_database_api_key_v2" "example" {
   cluster_id   = qdrant-cloud_accounts_cluster.example.id
   name         = "example-key"
