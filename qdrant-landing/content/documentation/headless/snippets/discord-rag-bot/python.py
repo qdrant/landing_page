@@ -25,14 +25,6 @@ from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
-
-# @hide-start
-def required_env(name: str) -> str:
-    value = os.getenv(name, "").strip()
-    if not value:
-        raise ValueError(f"Set {name} in your environment or .env file.")
-    return value
-# @hide-end
 # @block-end imports
 
 # @block-start retriever
@@ -40,14 +32,14 @@ def build_retriever() -> VectorRetriever:
     load_dotenv()
     embedding = OpenAIEmbedding(
         model_type=EmbeddingModelType.TEXT_EMBEDDING_3_LARGE,
-        api_key=required_env("OPENAI_API_KEY"),
+        api_key=os.environ["OPENAI_API_KEY"],
     )
     storage = QdrantStorage(
         vector_dim=embedding.get_output_dim(),
         collection_name=os.getenv("QDRANT_COLLECTION", "qdrant-discord-docs-v1"),
         url_and_api_key=(
-            required_env("QDRANT_CLOUD_URL"),
-            required_env("QDRANT_CLOUD_API_KEY"),
+            os.environ["QDRANT_CLOUD_URL"],
+            os.environ["QDRANT_CLOUD_API_KEY"],
         ),
         timeout=60,
     )
@@ -108,7 +100,7 @@ def create_agent() -> ChatAgent:
         model_platform=ModelPlatformType.OPENAI,
         model_type=ModelType.GPT_4O_MINI,
         model_config_dict=ChatGPTConfig(temperature=0.2).as_dict(),
-        api_key=required_env("OPENAI_API_KEY"),
+        api_key=os.environ["OPENAI_API_KEY"],
     )
     return ChatAgent(system_message=SYSTEM_MESSAGE, model=model)
 
@@ -172,7 +164,7 @@ def create_discord_client(retriever: VectorRetriever) -> DiscordRAGBot:
 async def run_bot(retriever: VectorRetriever) -> None:
     client = create_discord_client(retriever)
     async with client:
-        await client.start(required_env("DISCORD_BOT_TOKEN"))
+        await client.start(os.environ["DISCORD_BOT_TOKEN"])
 # @block-end discord-handler
 
 # @block-start entry-point

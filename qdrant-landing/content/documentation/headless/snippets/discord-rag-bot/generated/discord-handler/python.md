@@ -42,5 +42,5 @@ def create_discord_client(retriever: VectorRetriever) -> DiscordRAGBot:
 async def run_bot(retriever: VectorRetriever) -> None:
     client = create_discord_client(retriever)
     async with client:
-        await client.start(required_env("DISCORD_BOT_TOKEN"))
+        await client.start(os.environ["DISCORD_BOT_TOKEN"])
 ```

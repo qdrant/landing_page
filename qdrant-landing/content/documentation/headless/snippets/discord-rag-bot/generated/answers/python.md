@@ -23,7 +23,7 @@ def create_agent() -> ChatAgent:
         model_platform=ModelPlatformType.OPENAI,
         model_type=ModelType.GPT_4O_MINI,
         model_config_dict=ChatGPTConfig(temperature=0.2).as_dict(),
-        api_key=required_env("OPENAI_API_KEY"),
+        api_key=os.environ["OPENAI_API_KEY"],
     )
     return ChatAgent(system_message=SYSTEM_MESSAGE, model=model)
 
