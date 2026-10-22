@@ -1,10 +1,10 @@
 // A static map, not a toggle: all four comparisons are relevant at once, so
-// every score shows its connecting line and the two artifacts it reads
+// every score shows its connecting line and the two artifacts it compares
 // together. Mounted as an island (not a plain image) only because that is
 // this host's one way to inherit live theme tokens and reflow at narrow
 // widths; there is no interactive state to select.
 const NS = 'http://www.w3.org/2000/svg';
-const DESCRIPTION = 'Each score compares two artifacts. Answer relevancy compares the Answer with the Question. Faithfulness compares the Answer with the Top 10 passages. Recall at 10 compares the Top 10 passages with the Golden set relevance labels. Context precision compares the Top 10 passages with the Golden set reference answer.';
+const DESCRIPTION = 'Each line shows a score\'s main comparison. Answer relevancy compares the Answer with the Question. Faithfulness compares the Answer with the Top 10 passages. Recall at 10 compares the Top 10 passages with the Golden set relevance labels. Context precision compares the Top 10 passages with the Golden set reference answer. The judges also use the Question.';
 
 function element(tag, attributes = {}) {
   const result = document.createElementNS(NS, tag);
