@@ -6,7 +6,7 @@ short_description: "Version 1.20 of Qdrant brings BM25 scoring to full-text inde
 description: "Version 1.20 of Qdrant brings BM25 scoring on full-text indexes, a code tokenizer, faster nested filters, 16-bit and 8-bit TurboQuant, and cluster security hardening."
 preview_image: /blog/qdrant-1.20.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.20.x/social_preview.jpg
-date: 2026-10-20T00:00:00-01:00
+date: 2026-10-22T00:00:00-01:00
 author: Andrey Vasnetsov
 featured: true
 tags:
