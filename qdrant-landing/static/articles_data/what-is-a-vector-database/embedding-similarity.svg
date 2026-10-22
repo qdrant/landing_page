@@ -1,54 +1,54 @@
 <?xml version="1.0" ?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" role="img" aria-labelledby="description">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 262" role="img" aria-labelledby="description">
   <desc id="description">Two similar sentences, "striped blue shirt made from cotton" and "cotton-made maritime shirt", pass through the same embedding model. The two resulting vectors have nearly identical values.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
     </marker>
   </defs>
-  <rect x="0.5" y="0.5" width="639" height="309" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="639" height="261" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
   <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <circle cx="48" cy="36" r="6" fill="#6047ff"/>
-    <text x="64" y="41" font-size="14" fill="#303547">“striped blue shirt made from cotton”</text>
-    <circle cx="48" cy="64" r="6" fill="#dc244c"/>
-    <text x="64" y="69" font-size="14" fill="#303547">“cotton-made maritime shirt”</text>
-    <line x1="320" y1="82" x2="320" y2="110" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <rect x="40" y="114" width="562" height="48" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="321" y="143" font-size="14" text-anchor="middle" fill="#303547">Embedding model</text>
-    <line x1="320" y1="162" x2="320" y2="186" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <circle cx="48" cy="212" r="6" fill="#6047ff"/>
-    <rect x="72" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="102" y="217" font-size="14" text-anchor="middle" fill="#303547">0.1</text>
-    <rect x="138" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="168" y="217" font-size="14" text-anchor="middle" fill="#303547">−0.2</text>
-    <rect x="204" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="234" y="217" font-size="14" text-anchor="middle" fill="#303547">0.91</text>
-    <rect x="270" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="300" y="217" font-size="14" text-anchor="middle" fill="#303547">0.7</text>
-    <rect x="336" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="366" y="217" font-size="14" text-anchor="middle" fill="#303547">−0.21</text>
-    <rect x="402" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="432" y="217" font-size="14" text-anchor="middle" fill="#303547">0.1</text>
-    <rect x="468" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="498" y="217" font-size="14" text-anchor="middle" fill="#303547">−0.7</text>
-    <rect x="534" y="192" width="60" height="40" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="564" y="217" font-size="14" text-anchor="middle" fill="#303547">0.4</text>
-    <circle cx="48" cy="266" r="6" fill="#dc244c"/>
-    <rect x="72" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="102" y="271" font-size="14" text-anchor="middle" fill="#303547">0.11</text>
-    <rect x="138" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="168" y="271" font-size="14" text-anchor="middle" fill="#303547">−0.21</text>
-    <rect x="204" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="234" y="271" font-size="14" text-anchor="middle" fill="#303547">0.87</text>
-    <rect x="270" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="300" y="271" font-size="14" text-anchor="middle" fill="#303547">0.71</text>
-    <rect x="336" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="366" y="271" font-size="14" text-anchor="middle" fill="#303547">−0.19</text>
-    <rect x="402" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="432" y="271" font-size="14" text-anchor="middle" fill="#303547">0.08</text>
-    <rect x="468" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="498" y="271" font-size="14" text-anchor="middle" fill="#303547">−0.67</text>
-    <rect x="534" y="246" width="60" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="564" y="271" font-size="14" text-anchor="middle" fill="#303547">0.36</text>
+    <circle cx="73.0" cy="34" r="6" fill="#6047ff"/>
+    <text x="91" y="39" font-size="14" fill="#303547">“striped blue shirt made from cotton”</text>
+    <circle cx="73.0" cy="60" r="6" fill="#dc244c"/>
+    <text x="91" y="65" font-size="14" fill="#303547">“cotton-made maritime shirt”</text>
+    <path d="M320 76 V98" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="91" y="102" width="458" height="42" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="320" y="128" font-size="14" text-anchor="middle" fill="#303547">Embedding model</text>
+    <path d="M320 144 V166" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <circle cx="73.0" cy="187" r="6" fill="#6047ff"/>
+    <rect x="91" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="117" y="191.68" font-size="13" text-anchor="middle" fill="#303547">0.1</text>
+    <rect x="149" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="175" y="191.68" font-size="13" text-anchor="middle" fill="#303547">−0.2</text>
+    <rect x="207" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="233" y="191.68" font-size="13" text-anchor="middle" fill="#303547">0.91</text>
+    <rect x="265" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="291" y="191.68" font-size="13" text-anchor="middle" fill="#303547">0.7</text>
+    <rect x="323" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="349" y="191.68" font-size="13" text-anchor="middle" fill="#303547">−0.21</text>
+    <rect x="381" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="407" y="191.68" font-size="13" text-anchor="middle" fill="#303547">0.1</text>
+    <rect x="439" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="465" y="191.68" font-size="13" text-anchor="middle" fill="#303547">−0.7</text>
+    <rect x="497" y="172" width="52" height="30" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="523" y="191.68" font-size="13" text-anchor="middle" fill="#303547">0.4</text>
+    <circle cx="73.0" cy="225" r="6" fill="#dc244c"/>
+    <rect x="91" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="117" y="229.68" font-size="13" text-anchor="middle" fill="#303547">0.11</text>
+    <rect x="149" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="175" y="229.68" font-size="13" text-anchor="middle" fill="#303547">−0.21</text>
+    <rect x="207" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="233" y="229.68" font-size="13" text-anchor="middle" fill="#303547">0.87</text>
+    <rect x="265" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="291" y="229.68" font-size="13" text-anchor="middle" fill="#303547">0.71</text>
+    <rect x="323" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="349" y="229.68" font-size="13" text-anchor="middle" fill="#303547">−0.19</text>
+    <rect x="381" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="407" y="229.68" font-size="13" text-anchor="middle" fill="#303547">0.08</text>
+    <rect x="439" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="465" y="229.68" font-size="13" text-anchor="middle" fill="#303547">−0.67</text>
+    <rect x="497" y="210" width="52" height="30" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="523" y="229.68" font-size="13" text-anchor="middle" fill="#303547">0.36</text>
   </g>
 </svg>
