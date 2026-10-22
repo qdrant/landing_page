@@ -30,6 +30,12 @@ We are excited to have trusted industry players support the launch of Qdrant Hyb
 
 Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. These tutorials demonstrate that Qdrant Hybrid Cloud is the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
 
+**RAG System for Employee Onboarding** with Qdrant Hybrid Cloud, Oracle Cloud Infrastructure (OCI), Cohere, and LangChain
+
+> This tutorial demonstrates how to use Oracle Cloud Infrastructure (OCI) for a secure setup that integrates Cohere's language models with Qdrant Hybrid Cloud, using LangChain to orchestrate natural language search for corporate documents, enhancing resource discovery and onboarding.
+
+[View Tutorial](/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
+
 **Hybrid Search for Product PDF Manuals** with Qdrant Hybrid Cloud, LlamaIndex, and JinaAI
 
 > Create a RAG-based chatbot that enhances customer support by parsing product PDF manuals using Qdrant Hybrid Cloud, LlamaIndex, and JinaAI, with DigitalOcean as the cloud host. This tutorial will guide you through the setup and integration process, enabling your system to deliver precise, context-aware responses for household appliance inquiries.
