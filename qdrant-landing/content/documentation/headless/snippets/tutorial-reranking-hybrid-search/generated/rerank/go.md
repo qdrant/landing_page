@@ -11,11 +11,7 @@ results, err = client.Query(context.Background(), &qdrant.QueryPoints{
 			Limit: qdrant.PtrOf(uint64(20)),
 		},
 		{
-			Query: &qdrant.Query{
-				Variant: &qdrant.Query_Text{
-					Text: &qdrant.TextQuery{Query: query},
-				},
-			},
+			Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: query}),
 			Using: qdrant.PtrOf("description"),
 			Limit: qdrant.PtrOf(uint64(20)),
 		},

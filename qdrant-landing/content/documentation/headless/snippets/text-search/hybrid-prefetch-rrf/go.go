@@ -31,11 +31,7 @@ func Main() {
 			},
 			{
 				Using: qdrant.PtrOf("title"),
-				Query: &qdrant.Query{
-					Variant: &qdrant.Query_Text{
-						Text: &qdrant.TextQuery{Query: "time travel"},
-					},
-				},
+				Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: "time travel"}),
 			},
 		},
 		Query:       qdrant.NewQueryFusion(qdrant.Fusion_RRF),

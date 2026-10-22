@@ -20,20 +20,12 @@ func Main() {
 		CollectionName: "{collection_name}",
 		Prefetch: []*qdrant.PrefetchQuery{
 			{
-				Query: &qdrant.Query{
-					Variant: &qdrant.Query_Text{
-						Text: &qdrant.TextQuery{Query: "vector database"},
-					},
-				},
+				Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: "vector database"}),
 				Using: qdrant.PtrOf("title"),
 				Limit: qdrant.PtrOf(uint64(50)),
 			},
 			{
-				Query: &qdrant.Query{
-					Variant: &qdrant.Query_Text{
-						Text: &qdrant.TextQuery{Query: "vector database"},
-					},
-				},
+				Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: "vector database"}),
 				Using: qdrant.PtrOf("body"),
 				Limit: qdrant.PtrOf(uint64(50)),
 			},

@@ -14,11 +14,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 			Limit: qdrant.PtrOf(uint64(100)),
 		},
 	},
-	Query: &qdrant.Query{
-		Variant: &qdrant.Query_Text{
-			Text: &qdrant.TextQuery{Query: "time travel"},
-		},
-	},
+	Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: "time travel"}),
 	Using: qdrant.PtrOf("title"),
 	Limit: qdrant.PtrOf(uint64(10)),
 })
