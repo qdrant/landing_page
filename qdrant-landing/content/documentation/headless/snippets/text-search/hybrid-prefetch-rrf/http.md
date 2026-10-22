@@ -4,7 +4,7 @@ POST /collections/books/points/query
   "prefetch": [
     {
       "query": {
-        "text": "9780553213515",
+        "text": "time travel",
         "model": "sentence-transformers/all-minilm-l6-v2"
       },
       "using": "description-dense",
@@ -12,10 +12,9 @@ POST /collections/books/points/query
     },
     {
       "query": {
-        "text": "9780553213515",
-        "model": "Qdrant/bm25"
+        "text": "time travel"
       },
-      "using": "isbn-bm25"
+      "using": "title"
     }
   ],
   "query": {

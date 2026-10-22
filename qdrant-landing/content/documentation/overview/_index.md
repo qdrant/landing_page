@@ -22,7 +22,7 @@ Vector search is a transformative information retrieval technique that goes beyo
 
 ![Workflow Overview](/docs/gettingstarted/Orientation-Guide-Diagram-1.png)
 
-While dense vectors excel at capturing context, they can sometimes miss specific technical terms or unique identifiers. To bridge this gap, Qdrant also utilizes **sparse vectors** designed to capture precise **lexical matches** for specific keywords. Learn more in [this guide](/documentation/search/text-search/). 
+While dense vectors excel at capturing context, they can sometimes miss specific technical terms or unique identifiers. To bridge this gap, Qdrant also supports **lexical search**, which captures precise matches for specific keywords. [BM25 full-text search](/documentation/search/text-search/full-text-search/) ranks points by the keywords in a text field, and [sparse vectors](/documentation/search/text-search/sparse-vector-search/) from models like SPLADE++ and miniCOIL add learned term weights. Learn more in [Text Search](/documentation/search/text-search/). 
 
 The process of generating embeddings from unstructured data is called [inference](/documentation/inference/). On Qdrant Cloud, you can use [Cloud Inference](/documentation/cloud/inference/) to let Qdrant generate embeddings on the server side. Alternatively, you can use a library like [FastEmbed](/documentation/fastembed/) to generate embeddings on the client side.
 

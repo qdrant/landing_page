@@ -1,13 +1,18 @@
 ```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryNearest(
-		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Model: "qdrant/bm25",
-			Text:  "time travel",
-		}),
-	),
-	Using: qdrant.PtrOf("title-bm25"),
+	Query: &qdrant.Query{
+		Variant: &qdrant.Query_Text{
+			Text: &qdrant.TextQuery{Query: "time travel"},
+		},
+	},
+	Using: qdrant.PtrOf("title"),
 	Filter: &qdrant.Filter{
 		Must: []*qdrant.Condition{
 			qdrant.NewMatch("group_id", "user_1"),

@@ -12,18 +12,15 @@ client.query_points(
     prefetch=[
         models.Prefetch(
             query=models.Document(
-                    text="9780553213515",
-                    model="sentence-transformers/all-minilm-l6-v2"
+                text="time travel",
+                model="sentence-transformers/all-minilm-l6-v2",
             ),
             using="description-dense",
             score_threshold=0.5,
         ),
         models.Prefetch(
-            query=models.Document(
-                text="9780553213515", 
-                model="Qdrant/bm25",
-            ),
-            using="isbn-bm25",
+            query=models.TextQuery(text="time travel"),
+            using="title",
         ),
     ],
     query=models.FusionQuery(fusion=models.Fusion.RRF),

@@ -11,15 +11,15 @@ await client.QueryAsync(
             Using = "description-dense",
             Query = new Document
             {
-                Text = "9780553213515",
+                Text = "time travel",
                 Model = "sentence-transformers/all-minilm-l6-v2",
             },
             ScoreThreshold = 0.5f,
         },
         new()
         {
-            Using = "isbn-bm25",
-            Query = new Document { Text = "9780553213515", Model = "Qdrant/bm25" },
+            Using = "title",
+            Query = new Query { Text = new TextQuery { Query = "time travel" } },
         },
     },
     query: Fusion.Rrf,
