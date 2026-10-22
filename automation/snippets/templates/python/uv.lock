@@ -2431,7 +2431,7 @@ wheels = [
 [[package]]
 name = "qdrant-client"
 version = "1.19.2.dev0"
-source = { git = "https://github.com/qdrant/qdrant-client?branch=prepare-1.20#b4c2cebf2ae49662bafd49ca86ff83e8c2a7f156" }
+source = { git = "https://github.com/qdrant/qdrant-client?branch=prepare-1.20#656ed14a3ff41ab6af968fc88c87928201c97385" }
 dependencies = [
     { name = "grpcio" },
     { name = "httpx", extra = ["http2"] },
