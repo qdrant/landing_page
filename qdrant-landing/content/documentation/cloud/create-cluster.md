@@ -132,7 +132,7 @@ To allow your cluster to easily scale horizontally, you should configure at leas
 
 If you did not configure enough shards in a collection, you can use the [**Resharding**](/documentation/cloud/cluster-scaling/#resharding) feature to change the number of shards in an existing collection.
 
-For more information on how to create a production-ready cluster, see our [**Vector Search in Production**](/documentation/production-operations/vector-search-in-production/) article.
+For more information on how to create a production-ready cluster, see our [**Vector Search in Production**](/documentation/deploy-and-scale/vector-search-in-production/) article.
 
 ## Deleting a Cluster
 

@@ -24,7 +24,7 @@ features:
   description: Properly use a multitenant architecture to scale your product.
   link:
     text: Read about Multitenancy
-    url: /documentation/production-operations/multitenant-search/
+    url: /documentation/deploy-and-scale/multitenant-search/
 sitemapExclude: true
 ---
 
