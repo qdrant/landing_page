@@ -1,4 +1,13 @@
 /* Static score comparisons. All colors inherit the host's island tokens. */
+.qi-sm .qi-sm__diagram {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.qi-sm .qi-sm__svg--narrow {
+  min-width: 350px;
+}
+
 .qi-sm .qi-label {
   font-family: inherit;
   font-size: 15px;

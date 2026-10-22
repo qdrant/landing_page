@@ -17,17 +17,19 @@ You are building an assistant for a historical archive. You ask who was the firs
 
 A correct answer can hide a broken pipeline. Did retrieval miss the relevant evidence? Did the assistant fill the gap from its own knowledge? Both can happen, and checking the final answer alone will not reveal either problem.
 
+In retrieval-augmented generation (RAG), retrieval finds passages for a question, and generation uses those passages to write an answer.
+
 This guide shows how to evaluate retrieval and generation separately, identify which component needs attention, and test whether a proposed fix improves the results.
 
-To find which component of the system is not working as intended (maybe every component), we use three things:
+The guide focuses on interpreting results. The [companion notebook](https://github.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb) contains the runnable retrieval, generation, and scoring workflow.
+
+To follow the evaluation, you need three things:
 
 1. Golden set: Test questions with labeled relevant passages and, where needed, reference answers. This is our reference for healthy behavior.
 2. Pipeline results: What our RAG system actually retrieved and answered for those questions.
 3. LLM-as-a-Judge: An evaluator that scores the results and helps identify where things went wrong.
 
-> **Note:** Prepare a golden set for the full diagnosis: record the IDs of relevant passages for each question, and add reference answers for the metrics that need them. Quality matters as much as coverage: relevance labels can miss passages, and a reference answer is only as good as whoever wrote it. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to construct and validate the labels. Without a golden set, you can still check answer support and relevancy, as the metric choices explain.
-
-The worked example uses a public biomedical dataset, described in [How We Measured](#how-we-measured).
+For the full diagnosis, record the IDs of relevant passages for each question and add reference answers for the metrics that need them. Validate both: labels can miss relevant passages, and reference answers can contain errors. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to construct and validate the labels. The metric choices also cover what you can measure without either kind of reference data.
 
 ## Choosing Which Metrics Are Useful
 
@@ -43,15 +45,10 @@ Four scores cover the two halves of the pipeline. `recall@10` and `context_preci
 ![The RAG pipeline runs from the question through Qdrant retrieval to the top 10 passages, then through the generator to the answer. recall@10 compares the passages with the relevance labels, context_precision compares them with the reference answer, faithfulness compares the answer with the passages, and answer_relevancy compares the answer with the question.](/docs/pipeline-output-quality-score-map.png)
 {{< /island >}}
 
-<details>
-<summary>Metric Definitions</summary>
-
 - `recall@10`: The share of labeled passages found in the top 10 results. No LLM judge needed. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for the calculation. [ANN recall](/documentation/tutorials-search-engineering/ann-recall/) is a separate check of whether the approximate index matches exact search.
 - `context_precision`: An LLM checks which passages support the reference answer and rewards ranking them first. Needs reference answers, but no passage labels.
 - `faithfulness`: The share of the answer's claims supported by the retrieved passages. Even correct claims lower the score if the passages do not support them.
 - `answer_relevancy`: Does the answer address the question? Off-topic content, evasions, and refusals lower the score.
-
-</details>
 
 Supported and relevant does not necessarily mean correct. An answer can faithfully repeat an error in the passages. To evaluate correctness against a reference answer, use a metric such as `FactualCorrectness`.
 
@@ -68,6 +65,8 @@ Reading the scores is as important as choosing the right ones. Collapsing multip
 
 With passage labels, we start with `recall@10` and `faithfulness`: did the evidence arrive, and did the answer stick to it? Without labels, you can inspect answer scores, but you need to label the relevant passages before using this diagnostic map. Select a symptom to see where to inspect. Here, high and low are relative to the target you set for each metric.
 
+Set initial targets from your application's requirements and a sample of answers reviewed by people familiar with the domain. Decide which failures are acceptable, then check whether the targets flag the unacceptable ones. Check that recall targets are reachable: a question with more than 10 labeled passages cannot reach perfect `recall@10`. Repeated baseline runs then establish how much variation to allow when comparing changes; they do not determine what quality is acceptable.
+
 {{< island
     path="content/documentation/headless/pipeline-output-quality/diagnosis"
     ratio="712 / 680"
@@ -76,20 +75,19 @@ With passage labels, we start with `recall@10` and `faithfulness`: did the evide
 ![Start with recall@10 and faithfulness. High recall and low faithfulness: compare the unsupported claims with the passages and the prompt, then read the judge verdicts. Low recall and low faithfulness: inspect retrieval for the missing evidence and the setting that lost it, then the answer for unsupported claims. Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results, then retrieval. High recall and high faithfulness: check whether low context_precision means supporting passages rank below irrelevant ones, whether low answer_relevancy means evasive, off-topic, or padded answers, and then correctness against reference answers.](/docs/pipeline-output-quality-diagnosis.svg)
 {{< /island >}}
 
-Once both scores meet their targets (both are high), the map moves on to `context_precision`, `answer_relevancy`, and correctness. `context_precision` refines the retrieval check by asking whether supporting passages rank first, `answer_relevancy` checks whether the final answer addresses the question, and correctness checks it against a reference answer. Treat them as a final quality check, and go back if the results are not good enough.
+The map suggests an inspection order, rather than a rule for which scores to collect. Measure and report all metrics relevant to your requirements together, even when recall or faithfulness falls short. Scores are clues: inspect individual answers, passages, and judge verdicts before attributing a failure to a component.
 
-Even in this two-component pipeline, scores are clues, not a diagnosis. Some tips:
+## Worked Example: Relaxing the Grounding Prompt
 
-1. Do not trust averages alone. They hide individual failures.
-2. Do not treat metrics as definitive diagnoses. Two low scores do not necessarily mean the answer is bad.
+One practical decision is whether to let the generator use outside knowledge to answer more questions. If your application requires every claim to be supported by retrieved passages, keep that grounding requirement. If outside knowledge is acceptable, evaluate correctness and usefulness alongside grounding before choosing a prompt.
 
-## Worked Example: Diagnostics in Reverse
+To test this choice, hold retrieval fixed and change only the generator prompt. The example uses 100 questions from `rag-mini-bioasq`, a public biomedical dataset with passages, passage relevance labels, and reference answers. We removed passages with missing text and the labels pointing to them before retrieval and scoring. The labels support `recall@10`, and the reference answers support `context_precision`. See [How We Measured](#how-we-measured) for the full setup and scoring coverage.
 
-To find which component failed, hold one fixed and change the other. Here we run the diagnosis in reverse: we plant a cause, then check whether the scores lead back to it. Retrieval stays fixed on 100 questions, and only the generator prompt changes.
+Run the comparison in the companion notebook, or [open it in Colab](https://githubtocolab.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb).
 
-Follow along in the [companion notebook](https://github.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb) or [open it in Colab](https://githubtocolab.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb).
+The grounded prompt requires answers to be supported by the retrieved passages and to say when they are not. The open-book prompt lets the LLM use its own knowledge as well.
 
-The grounded prompt requires answers to be supported by the retrieved passages and to say when they are not. The open-book prompt lets the LLM use its own knowledge as well. Read the results as if you did not know which one changed.
+This comparison measures grounding and answer relevancy; it does not score correctness against reference answers or measure usefulness directly.
 
 | Metric | Grounded prompt | Open-book prompt |
 | --- | --- | --- |
@@ -98,13 +96,13 @@ The grounded prompt requires answers to be supported by the retrieved passages a
 | `faithfulness` | 0.940 | 0.830 |
 | `answer_relevancy` | 0.698 | 0.759 |
 
-*These are mean scores. Higher means more of the property being measured; an appropriate refusal can still lower `answer_relevancy`*
+*These are mean scores. Higher means more of the property being measured.*
 
 For the per-question comparison, this worked example calls `recall@10` high at 0.5 or greater and `faithfulness` high at 0.8 or greater. These are illustrative targets; set your own based on your own data.
 
-The retrieval scores are identical because the passages are identical; `context_precision` was not rescored, only carried over, since nothing about retrieval changed. Whatever changed happened after retrieval. `faithfulness` dropped, while `answer_relevancy` rose. That is the observed trade-off in this run. Before treating either change as reliable, rerun both configurations on the same questions and measure how much the generator and judge vary.
+The retrieval scores are identical because the passages are identical; `context_precision` was not rescored, only carried over, since nothing about retrieval changed. Whatever changed happened after retrieval. `faithfulness` dropped, while `answer_relevancy` rose. This shows reduced grounding and greater responsiveness in this run, but does not establish a change in factual correctness or usefulness. Use the repeat-run checks in [Test the Fix](#test-the-fix) before treating the differences as reliable.
 
-The mean recall and faithfulness scores still clear their illustrative targets in both runs. Yet low-faithfulness answers increased from 11 to 34 of the 99 scored answers per prompt. **Averages can hide failures on individual questions.** To understand what went wrong, read those answers alongside their retrieved passages and the judge verdicts.
+The mean recall and faithfulness scores still clear their illustrative targets in both runs. Yet low-faithfulness answers increased from 11 to 34 of the 99 scored answers per prompt. Averages can hide failures on individual questions. To understand what went wrong, read those answers alongside their retrieved passages and the judge verdicts.
 
 These two illustrative patterns show what to look for when relaxing the prompt. They are possible changes in individual answers, not measured transitions from this run:
 
@@ -113,9 +111,7 @@ These two illustrative patterns show what to look for when relaxing the prompt. 
 | High recall, high faithfulness → high recall, low faithfulness | The retrieved evidence stays the same, but the answer introduces unsupported claims. | Finding relevant evidence does not guarantee the generator will use it faithfully. |
 | Low recall, high faithfulness → low recall, low faithfulness | A limited, supported answer becomes more expansive, filling gaps with unsupported information. | Generation can make an existing retrieval weakness harder to notice. Retrieval itself did not change. |
 
-Either pattern can produce an answer that addresses the question more directly and scores higher on `answer_relevancy`. That improvement does not compensate for unsupported claims. This is why we check answer relevancy after retrieval and faithfulness: a more responsive answer can still be a worse pipeline output.
-
-Retrieval still misses some labeled evidence. Check what is missing, but remember that questions with more than 10 labeled passages cannot reach perfect recall in 10 results.
+Either pattern can produce an answer that addresses the question more directly and scores higher on `answer_relevancy`. For an application that requires passage support, that improvement does not compensate for unsupported claims.
 
 ## What to Check Next
 
@@ -145,7 +141,7 @@ Version the pipeline configuration, generator prompt, generator and judge models
 
 ## How We Measured
 
-The run was recorded on October 8, 2026, with 100 questions from <a href="https://huggingface.co/datasets/rag-datasets/rag-mini-bioasq" target="_blank">rag-mini-bioasq</a>, a public subset of the BioASQ Task 11b biomedical question-answering data, repackaged for RAG with a passage corpus, relevance labels, and reference answers. About 30% of its passages contain missing text but are still labeled relevant; we dropped those passages and the labels pointing at them before scoring, since an uncleaned corpus mixes data errors with retrieval quality (<a href="https://huggingface.co/datasets/enelpol/rag-mini-bioasq" target="_blank">enelpol/rag-mini-bioasq</a> fills the gaps instead, if you would rather keep every passage). Thirteen of the 100 questions have more than 10 labeled passages, so they cannot reach a `recall@10` of 1.0 even with perfect retrieval.
+The run was recorded on October 8, 2026, with 100 questions from <a href="https://huggingface.co/datasets/rag-datasets/rag-mini-bioasq" target="_blank">rag-mini-bioasq</a>, a public subset of the BioASQ Task 11b biomedical question-answering data, repackaged for RAG with a passage corpus, relevance labels, and reference answers. About 30% of its passages contain missing text but are still labeled relevant; we dropped those passages and the labels pointing at them before retrieval and scoring, since an uncleaned corpus mixes data errors with retrieval quality (<a href="https://huggingface.co/datasets/enelpol/rag-mini-bioasq" target="_blank">enelpol/rag-mini-bioasq</a> fills the gaps instead, if you would rather keep every passage). Thirteen of the 100 questions have more than 10 labeled passages and are subject to the recall ceiling described in [Reading the Scores](#reading-the-scores).
 
 Retrieval used `BAAI/bge-small-en-v1.5` locally through Qdrant's FastEmbed integration. The generator was `anthropic/claude-haiku-5.5`, and the judge was `openai/gpt-5.4-nano` with `openai/text-embedding-3-small` embeddings. The generator and judge models were reached through <a href="https://openrouter.ai/" target="_blank">OpenRouter</a>, using Ragas 0.4.3 for scoring.
 

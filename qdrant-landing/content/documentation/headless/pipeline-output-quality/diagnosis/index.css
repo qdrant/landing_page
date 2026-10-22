@@ -69,6 +69,15 @@
 .qi-diagnosis .qi-diagnosis__details p { margin: 7px 0 0; font-size: 14px; line-height: 1.45; white-space: pre-line; }
 .qi-diagnosis .qi-diagnosis__reserve { visibility: hidden; }
 
+.qi-diagnosis .qi-diagnosis__system {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+@media (max-width: 390px) {
+  .qi-diagnosis .qi-svg { min-width: 358px; }
+}
+
 @media (max-width: 600px) {
   .qi-diagnosis .qi-diagnosis__symptom { padding: 10px; font-size: 14px; }
 }

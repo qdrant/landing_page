@@ -21,11 +21,11 @@ const CASES = [
     detail: 'Useful evidence may be missing from the labels, and more than 10 labeled passages can put the recall target out of reach. If the labels hold up, check which passages retrieval missed and why.',
   },
   {
-    // Once both primary scores pass, the remaining two metrics and correctness
-    // become the checks, numbered in the same order as the detail lines.
+    // Passing the primary scores still leaves ranking, relevancy, and correctness
+    // to inspect. All relevant metrics should be collected for every run.
     symptom: 'Both scores meet target', recall: 'High', faithfulness: 'High',
     inspect: ['passages', 'answer', 'reference'], routes: ['correctness'],
-    heading: 'Then check ranking, relevancy, and correctness',
+    heading: 'Inspect ranking, relevancy, and correctness',
     detail: '1. Low context_precision: check whether supporting passages rank below irrelevant ones.\n'
       + '2. Low answer_relevancy: look for evasive, off-topic, or padded answers. Correct refusals score low too.\n'
       + '3. Compare with reference answers using FactualCorrectness and review a sample: the passages can be wrong.',
