@@ -15,6 +15,9 @@ stack:
 
 # Load Hugging Face Datasets into Qdrant
 
+| Time: 15 min | Level: Beginner | Stack: Python, Hugging Face |
+| --- | ----------- | ----------- |
+
 [Hugging Face](https://huggingface.co/) provides a platform for sharing and using ML models and
 datasets. [Qdrant](https://huggingface.co/Qdrant) also publishes datasets along with the
 embeddings that you can use to practice with Qdrant and build your applications based on semantic
@@ -60,7 +63,7 @@ dataset.features
 {'id': Value('string'), 'title': Value('string'), 'DOI': Value('string'), 'vector': List(Value('float32'))}
 ```
 
-### Downloading the dataset instead
+### Downloading the Dataset Instead
 
 If you want a local copy, for example to iterate over it several times, call `load_dataset` without `streaming=True`:
 
@@ -74,7 +77,7 @@ dataset = load_dataset("Qdrant/arxiv-titles-instructorxl-embeddings")
 
 The rest of this page uses the streamed dataset. The ingestion code is the same for a downloaded one, except that a downloaded `load_dataset` call without `split` returns a dictionary of splits, so iterate over `dataset["train"]`.
 
-### Loading the dataset into Qdrant
+### Loading the Dataset into Qdrant
 
 You can load the dataset into Qdrant using the [Python SDK](https://github.com/qdrant/qdrant-client).
 The embeddings are already precomputed, so you can store them in a collection, that we're going
