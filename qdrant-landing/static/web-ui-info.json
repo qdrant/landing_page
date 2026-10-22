@@ -1,6 +1,6 @@
 {
   "banner": {
-    "message": "Qdrant 1.20: BM25 without sparse vectors, a code tokenizer, faster nested filters, and 8-bit TurboQuant",
+    "message": "Qdrant 1.20: BM25 hybrid search without sparse vectors; a code tokenizer, faster nested filters, and more.",
     "link": "https://qdrant.tech/blog/qdrant-1.20.x/",
     "link_text": "Release notes"
   },
