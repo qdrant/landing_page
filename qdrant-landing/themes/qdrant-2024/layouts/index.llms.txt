@@ -16,8 +16,7 @@
 {{- end }}
 ## Learn
 {{ partial "llms-tree" (dict "page" (site.GetPage "/learn") "indent" "") -}}
-{{- range where $docs.Sections.ByWeight "Params.learning_kind" "guides" }}{{ partial "llms-tree" (dict "page" . "indent" "") }}{{ end -}}
-{{- partial "llms-tree" (dict "page" (site.GetPage "/course") "indent" "") }}
+{{- range where $docs.Sections.ByWeight "Params.learning_kind" "guides" }}{{ partial "llms-tree" (dict "page" . "indent" "") }}{{ end }}
 ## Articles
 {{ partial "llms-tree" (dict "page" (site.GetPage "/articles") "indent" "") }}
 ## Pricing
