@@ -112,9 +112,9 @@ Search embeds the question with the same `models.Document` call and uses `query_
 For the sample question, the three closest meetings and their cosine scores are:
 
 ```text
-0.764  Marketing Strategy Review (2026-09-02, 45 min)
-0.657  Marketing and Sales Alignment (2026-09-16, 50 min)
-0.629  Marketing Weekly Sync (2026-09-09, 30 min)
+0.739  Marketing Strategy Review (2026-09-02, 45 min)
+0.632  Marketing Weekly Sync (2026-09-09, 30 min)
+0.613  Marketing and Sales Alignment (2026-09-16, 50 min)
 ```
 
 All three marketing meetings come back ahead of the product, engineering and support meetings, with the one that records the Q4 decision on top.
@@ -155,13 +155,78 @@ Ask the question:
 python meeting_crew.py --ask "What did the marketing meetings decide about the Q4 campaign, and how long did they run on average?"
 ```
 
-<!-- TRACE_ANSWER -->
+The script prints the retrieval result first, then the crew log, then the answer. Trimmed to the first and last part:
+
+```text
+Retrieved for the question:
+  0.739  Marketing Strategy Review (2026-09-02, 45 min)
+  0.632  Marketing Weekly Sync (2026-09-09, 30 min)
+  0.613  Marketing and Sales Alignment (2026-09-16, 50 min)
+
+...
+
+Answer:
+Only the Marketing Strategy Review (2026-09-02) formally decided anything about the Q4 campaign: it approved 100k of the 120k requested, with Michael proposing to hold the remaining 20k until the October numbers are in, and it focused wave one on the developer newsletter and two conference sponsorships, with a review on 15 October. The Marketing and Sales Alignment meeting (2026-09-16) also agreed, though not as a formal decision, that the Q4 campaign landing pages will carry a use-case field so sales can route leads to different reps. The Marketing Weekly Sync (2026-09-09) never mentions the Q4 campaign and only planned to propose Lisbon at the strategy review, so neither conference is confirmed. The three marketing meetings averaged (45 + 30 + 50) / 3 = 41.7 minutes (Strategy Review 2026-09-02, Weekly Sync 2026-09-09, Sales Alignment 2026-09-16), or (45 + 50) / 2 = 47.5 minutes counting only the two that name the Q4 campaign. The transcripts do not show the outcome of the 15 October review, whether the 20k was released, or any meetings after 2026-09-16.
+```
 
 ## Trace the Question Through the System
 
 With `verbose=True` on both agents, CrewAI prints each step. Here is what moved between the parts for the question above, trimmed to the lines that matter.
 
-<!-- TRACE_BODY -->
+**1. The researcher turns the question into a search.** It called `search_meetings` twice, with these queries:
+
+```text
+marketing meeting Q4 campaign decision
+Q4 campaign budget review October marketing
+```
+
+**2. Qdrant returns the three closest meetings.** This is the exact text the tool handed back for the first query. The second query returned the same three meetings with slightly different scores, so this is the only meeting data either agent ever sees:
+
+```text
+- Marketing Strategy Review on 2026-09-02, 45 min, score 0.811: Emily: The Q4 campaign budget request is 120k. Michael: Approve 100k now and hold 20k until the October numbers are in. Sarah: Agreed. We focus the first wave on the developer newsletter and two conference sponsorships. Emily: Decision recorded: 100k approved, developer newsletter and two conferences for wave one, review on 15 October.
+- Marketing Weekly Sync on 2026-09-09, 30 min, score 0.694: Sarah: Newsletter open rate went from 31 to 38 percent after the redesign. Emily: Good. The conference shortlist is down to Berlin and Lisbon. Sarah: Lisbon has the better developer audience. Emily: Let's propose Lisbon at the strategy review. Social video is paused until we hire.
+- Marketing and Sales Alignment on 2026-09-16, 50 min, score 0.694: Daniel: Sales needs leads tagged by use case, not just by source. Emily: We can add a use-case field to the newsletter signup. Sarah: The Q4 campaign landing pages will carry the same field. Daniel: Then sales can route retrieval and recommendation leads to different reps.
+```
+
+**3. The researcher writes its findings.** This is the full output of the research task, which becomes the writer's context:
+
+```text
+I found three marketing meetings. Only one recorded a formal decision on the Q4 campaign. The three meetings ran 41.7 minutes on average.
+
+**Relevant meetings**
+
+- **Marketing Strategy Review, 2026-09-02, 45 min.** This is the only meeting that formally decided anything about the Q4 campaign.
+  - "Emily: The Q4 campaign budget request is 120k."
+  - "Michael: Approve 100k now and hold 20k until the October numbers are in."
+  - "Sarah: Agreed. We focus the first wave on the developer newsletter and two conference sponsorships."
+  - "Emily: Decision recorded: 100k approved, developer newsletter and two conferences for wave one, review on 15 October."
+
+- **Marketing and Sales Alignment, 2026-09-16, 50 min.** This meeting set a detail of the Q4 campaign pages, though nobody called it a formal decision.
+  - "Daniel: Sales needs leads tagged by use case, not just by source."
+  - "Emily: We can add a use-case field to the newsletter signup."
+  - "Sarah: The Q4 campaign landing pages will carry the same field."
+  - "Daniel: Then sales can route retrieval and recommendation leads to different reps."
+
+- **Marketing Weekly Sync, 2026-09-09, 30 min.** This meeting never says "Q4 campaign." It's only loosely related because it discusses conferences and the newsletter, the two channels chosen for wave one. Even so, the transcript doesn't link these lines to the campaign, and it only plans to propose Lisbon rather than deciding on it.
+  - "Sarah: Newsletter open rate went from 31 to 38 percent after the redesign."
+  - "Emily: Good. The conference shortlist is down to Berlin and Lisbon."
+  - "Sarah: Lisbon has the better developer audience."
+  - "Emily: Let's propose Lisbon at the strategy review. Social video is paused until we hire."
+
+**What was decided:** The team approved 100k of the 120k requested and held back 20k until the October numbers come in. Wave one will focus on the developer newsletter and two conference sponsorships, with a review on 15 October. The campaign landing pages will also include a use-case field so sales can route leads.
+
+**Average length:**
+- All three marketing meetings: (45 + 30 + 50) / 3 = **41.7 minutes**.
+- Only the two that mention the Q4 campaign by name: (45 + 50) / 2 = **47.5 minutes**.
+
+**Not in the transcripts:**
+- What happened at the 15 October review.
+- Whether the held-back 20k was released.
+- Which two conferences were finally chosen. Lisbon was only planned as a proposal.
+- Any meetings after 2026-09-16.
+```
+
+**4. The writer receives the question and the findings, nothing else.** Its output is the answer printed at the end of Step 9. Compare the two: every meeting, date, quote and number in the answer appears in the findings above, and the last sentence carries over what the researcher marked as not in the transcripts.
 
 Two things to notice. The writer never saw the collection; it saw only the researcher's list, so the answer cannot contain a meeting that was not retrieved. And the average is computed from durations that came out of the payload, not from the model's memory of the transcript.
 
