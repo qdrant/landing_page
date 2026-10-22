@@ -2,8 +2,6 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-var client = new QdrantClient("localhost", 6334);
-
 await client.QueryAsync(
     collectionName: "{collection_name}",
     prefetch:
@@ -11,8 +9,8 @@ await client.QueryAsync(
         new PrefetchQuery {
             Prefetch = {
                 new PrefetchQuery {
-                    Query = new(float, uint)[] { (0.22f, 1), (0.8f, 42) },
-                    Using = "sparse",
+                    Query = new Query { Text = new TextQuery { Query = "time travel" } },
+                    Using = "title",
                     Limit = 100
                 },
                 new PrefetchQuery {

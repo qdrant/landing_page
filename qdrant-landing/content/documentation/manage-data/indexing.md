@@ -222,19 +222,36 @@ With BM25 scoring enabled, each element is scored separately, and a point gets t
 
 ## Full-Text Index
 
-Qdrant supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering) on string payload fields, enabling word- and phrase-level matches.
+A full-text index makes the words in string payload fields searchable. You can use it to:
 
-For efficient full-text filtering, first create a full-text index on the fields you want to filter on. The index configuration controls how text is processed before matching: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
+- [Filter](/documentation/search/text-search/text-filtering/#full-text-filtering) points on the words and phrases their text contains. See [Full Text Match](/documentation/search/filtering/#full-text-match) for examples.
+- [Rank](#bm25-scoring) points by the relevance of their text to a query, using BM25.
 
-See [Full Text match](/documentation/search/filtering/#full-text-match) for examples of filtering with a full-text index.
+The index configuration controls how text is processed: how it's tokenized (split into searchable _tokens_), whether matching is case-insensitive, and whether stemming or stopwords are applied.
 
 To create a full-text index for a field, create a payload index of type `text`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
 
-<aside role="status">
-A full-text index does not affect BM25 queries. To configure text processing for BM25, see <a href="/documentation/search/text-search/full-text-search/#bm25-text-processing">BM25 Text Processing</a>.
-</aside>
+Every full-text index supports filtering on words. Filtering on phrases requires [phrase matching](#phrase-matching), and ranking with BM25 requires [BM25 scoring](#bm25-scoring). The two are independent, so you can enable either or both.
+
+### BM25 Scoring
+
+*Available as of v1.20.0*
+
+With scoring enabled, a full-text index can rank points by how relevant their text is to a query, using the [BM25](/documentation/search/text-search/full-text-search/#bm25) ranking function. To enable scoring, set the `scoring` type to `bm25` when you create the index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text/" >}}
+
+With the REST API and some clients, you can set `scoring` to `true` as a shorthand for the `bm25` scoring type:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/scoring-full-text-shorthand/" >}}
+
+The index's text processing settings, such as the [tokenizer](#tokenizers), [lowercasing](#lowercasing), [stemming](#stemmer), and [stopwords](#stopwords), apply to both the indexed text and the text of BM25 queries on the field. The BM25 parameters `k` and `b` are set per query, not on the index.
+
+When scoring is enabled, the index records the length of each document and how often each term appears in it, so Qdrant computes BM25 statistics, such as the average document length, from your data. As a result, a full-text index with scoring uses more memory and disk space than one without.
+
+To enable scoring on an existing full-text index, create the index again with `scoring` set. To disable it, create the index again without `scoring`. Qdrant then rebuilds the index from the stored payload, so you don't need to upload your data again. On large collections, rebuilding the index can take a while.
 
 ### Tokenizers
 
@@ -506,4 +523,4 @@ Where:
 - `N` is the total number of documents in the shard.
 - `n` is the number of documents containing non-zero values for the given vector element.
 
-By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Tenant IDF Statistics](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics).
+By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Tenant Scoring Statistics](/documentation/manage-data/multitenancy/#per-tenant-scoring-statistics).

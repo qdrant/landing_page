@@ -4,10 +4,9 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
 import io.qdrant.client.grpc.Collections.TextIndexParams;
+import io.qdrant.client.grpc.Collections.TextScoringParams;
+import io.qdrant.client.grpc.Collections.TextScoringType;
 import io.qdrant.client.grpc.Collections.TokenizerType;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
     .createPayloadIndexAsync(
@@ -21,6 +20,10 @@ client
                     .setMinTokenLen(2)
                     .setMaxTokenLen(10)
                     .setLowercase(true)
+                    .setScoring(
+                        TextScoringParams.newBuilder()
+                            .setType(TextScoringType.Bm25)
+                            .build())
                     .build())
             .build(),
         null,

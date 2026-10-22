@@ -99,7 +99,7 @@ Each named vector has its own HNSW vector index. If you have multiple named vect
 
 ### Sparse Vectors
 
-[Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) back keyword-style [full-text search](/documentation/search/text-search/full-text-search/). They also have an index, which is an inverted-index-style structure.
+[Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) back [sparse vector search](/documentation/search/text-search/sparse-vector-search/). They also have an index, which is an inverted-index-style structure.
 
 If you're using sparse vectors, size them separately using their non-zero element count (`nnz`) instead of `dimensions`:
 

@@ -1,8 +1,10 @@
 ```python
+from qdrant_client import QdrantClient, models
+
 client.query_points(
     collection_name="{collection_name}",
-    query=models.Document(text="time travel", model="qdrant/bm25"),
-    using="title-bm25",
+    query=models.TextQuery(text="time travel"),
+    using="title",
     query_filter=models.Filter(
         must=[
             models.FieldCondition(key="group_id", match=models.MatchValue(value="user_1")),

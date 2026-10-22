@@ -1,12 +1,12 @@
 ```csharp
-await client.QueryAsync(
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var results = await client.QueryAsync(
 collectionName: "{collection_name}", prefetch: new List <PrefetchQuery> {
   new() {
-    Query = new Document {
-      Text = queryText,
-      Model = bm25Model
-    },
-    Using = "bm25_sparse_vector",
+    Query = new Query { Text = new TextQuery { Query = queryText } },
+    Using = "passage_text",
     Limit = 5
   },
   new() {
@@ -19,6 +19,13 @@ collectionName: "{collection_name}", prefetch: new List <PrefetchQuery> {
   }
 },
 query: Fusion.Rrf,
+payloadSelector: true,
 limit: 5
 );
+
+foreach (var point in results)
+{
+  var question = point.Payload["question"].StringValue;
+  Console.WriteLine($"{point.Score:F3}  {question.Trim()}");
+}
 ```

@@ -85,7 +85,7 @@ These settings apply whether the collection has thousands of documents or billio
 
 **[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)** Use this modifier for sparse vectors from BM25 or miniCOIL. Both leave inverse document frequency (IDF) to Qdrant, which computes it per shard for each query term and weights the term by it. SPLADE already includes corpus-level term weighting, so applying the modifier would count rarity twice.
 
-**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)** Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/full-text-search/#bm25-text-processing). BM25 uses this value to adjust for document length. Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256. Measure it using the same stemmer and stopword settings as the collection.
+**[BM25 avg_len](/documentation/search/text-search/sparse-vector-search/#configuring-bm25-parameters)** Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/sparse-vector-search/#bm25-text-processing). BM25 uses this value to adjust for document length. Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256. Measure it using the same stemmer and stopword settings as the collection.
 
 ### Hybrid Search
 

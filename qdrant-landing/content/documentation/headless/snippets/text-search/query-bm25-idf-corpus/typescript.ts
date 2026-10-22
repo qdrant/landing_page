@@ -1,13 +1,12 @@
-import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
 client.query("{collection_name}", {
   query: {
     text: "time travel",
-    model: "qdrant/bm25",
   },
-  using: "title-bm25",
+  using: "title",
   filter: {
     must: [
       { key: "group_id", match: { value: "user_1" } },
