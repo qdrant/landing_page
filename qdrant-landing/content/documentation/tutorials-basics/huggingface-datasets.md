@@ -65,7 +65,7 @@ dataset.features
 
 ### Downloading the Dataset Instead
 
-If you want a local copy, for example to iterate over it several times, call `load_dataset` without `streaming=True`:
+If you want a local copy, for example to iterate over it more than once, call `load_dataset` without `streaming=True`:
 
 ```python
 from datasets import load_dataset
