@@ -1,13 +1,13 @@
 ---
 title: "Reading Data"
-short_description: "Read from a Qdrant Edge Shard with query, scroll, retrieve, count, and facet."
-description: "Reference for reading data from a Qdrant Edge Shard: similarity search with query, paging with scroll, grouping, retrieving points by ID, counting, and faceting payload fields."
+short_description: "Read from a Qdrant Edge Shard with query, query_batch, scroll, retrieve, count, and facet."
+description: "Reference for reading data from a Qdrant Edge Shard: similarity search with query and query_batch, paging with scroll, grouping, retrieving points by ID, counting, and faceting payload fields."
 weight: 40
 ---
 
 # Reading Data
 
-An Edge Shard offers several ways to read data. `query` is the similarity search entry point, supporting prefetches, fusion, and reranking. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
+An Edge Shard offers several ways to read data. `query` is the similarity search entry point, supporting prefetches, fusion, and reranking, and `query_batch` runs several queries as one batch. `scroll` pages through points without scoring them, and `retrieve`, `count`, and `facet` read points and payload statistics directly.
 
 <aside role="status">In Rust, <code>query_groups</code> and <code>search_matrix</code> require the <code>EdgeShardRead</code> trait in scope: <code>use qdrant_edge::EdgeShardRead;</code></aside>
 
@@ -48,9 +48,28 @@ The `query` parameter accepts several kinds of scoring:
 | `OrderBy` | Order by a payload field instead of by similarity. |
 | `Formula` | Rescore prefetch results with an expression over payload and score. |
 | `Mmr` | Maximal marginal relevance, trading similarity against diversity. |
+| `TextQuery` | BM25 over the full-text index of a payload field. The field's index must be created with `scoring` enabled. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
 | `Sample` | Return a sample of points. |
 
 `Prefetch` takes `query`, `limit`, `filter`, `score_threshold`, `params`, and its own nested `prefetches`, so prefetches can be nested to build multi-stage retrieval.
+
+## query_batch
+
+Runs several queries in one batch. This is cheaper than calling `query` for each request: Qdrant plans the queries together so they share a single pass over the segments. Queries that differ only in their vector are also scored together.
+
+```python
+def query_batch(self, request: QueryBatchRequest) -> List[List[ScoredPoint]]
+```
+
+```rust
+pub fn query_batch(&self, request: QueryBatchRequest) -> OperationResult<Vec<Vec<ScoredPoint>>>
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `queries` | list of `QueryRequest` | The queries to run together. Each accepts the parameters described in [`query`](#query). |
+
+**Returns** one list of `ScoredPoint` per query, in the same order as `queries`.
 
 ## scroll
 
