@@ -10,5 +10,4 @@ build:
   publishResources: false
   render: never
 partition: ecosystem
-llmsTopLevelOnly: true # llms.txt lists these entries, not the pages under them
 ---
