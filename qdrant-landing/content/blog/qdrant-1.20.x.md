@@ -106,6 +106,8 @@ Until now, Qdrant offered three lower-precision datatypes. The [`turbo4` datatyp
 
 This release adds two TurboQuant datatypes. [`turbo16`](/documentation/manage-data/vectors/#turbo16) uses the same 16 bits as `float16`, but with lower error, and cuts the storage of `float32` vectors in half with no loss in accuracy. [`turbo8`](/documentation/manage-data/vectors/#turbo8) uses 8 bits per dimension like `uint8`, but takes regular float vectors and quantizes them for you. It halves storage again, with recall close to `float16`. Version 1.20 also brings the 8-bit encoding to [TurboQuant quantization](/documentation/manage-data/quantization/#turboquant-quantization).
 
+![You upload float32 vectors, and TurboQuant rotates them and rounds them to an integer grid. turbo16 has the same recall as float32, turbo8 comes close to float16, and turbo4 is smallest, but recall can drop.](/blog/qdrant-1.20.x/turboquant-datatypes.svg)
+
 ### `turbo16` Datatype
 
 `turbo16` uses 2 bytes per dimension, the same as `float16`. `float16` keeps the same relative precision for every coordinate, so a large coordinate gets a large rounding error. That costs precision on embeddings with a few very large coordinates, such as OpenAI's text-embedding-ada-002, CLIP, and Cohere. `turbo16` fixes that by first applying the TurboQuant rotation, which spreads values evenly across coordinates, and then storing each vector on a single 16-bit integer grid.
