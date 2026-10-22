@@ -1,24 +1,51 @@
-# {{ .Site.BaseURL }}
-## Overall Summary
-> {{ .Site.Params.description }}
-{{ range .Site.Sections.ByWeight -}}
-{{- $header := printf "\n## %s\n" .Title -}}
-{{/* The section's own landing page is not a RegularPage, so every section
-     index (/edge/, /security/, /cloud-inference/ ...) was being dropped.
-     Require a description: utility sections like debug.skip and
-     get_anonymous_id have none and should not be advertised to models. */}}
-{{- $own := where (slice .) "Params.description" "!=" nil -}}
-{{- range $own | append .RegularPagesRecursive.ByWeight -}}
-{{- $include := true -}}
-{{- if eq .Params.sitemapExclude true -}}{{- $include = false -}}{{- end -}}
-{{- if .Sitemap.Disable -}}{{- $include = false -}}{{- end -}}
-{{- with .Params.build -}}
-  {{- $render := .render | default "always" -}}
-  {{- if in (slice "never" "link") $render -}}{{- $include = false -}}{{- end -}}
+{{- /* Static part: edit content/headless/llms.md. Everything after it is generated. */ -}}
+{{ (site.GetPage "/headless/llms").RawContent | strings.TrimSpace }}
+{{ $docs := site.GetPage "/documentation" -}}
+{{- range slice "Develop" "Deploy" "Ecosystem" }}
+## {{ . }}
+{{ $partition := lower . -}}
+{{- range where (where $docs.Pages.ByWeight "Params.partition" $partition) "Params.hideInSidebar" "!=" true -}}
+{{- if eq .Params.type "delimiter" }}
+### {{ .Title }}
+{{ else if eq .Params.type "reference" -}}
+{{ partial "llms-tree" (dict "page" (site.GetPage .Params.reference) "indent" "") }}
+{{- else -}}
+{{ partial "llms-tree" (dict "page" . "indent" "") }}
 {{- end -}}
-{{- if and $include (ne .Title "") (ne .Permalink "") -}}
-{{ $header }}{{- $header = "" -}}
-- [{{ .Title }}]({{ .Permalink }}index.md): {{ with .Description }}{{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ else }}{{ .Summary | plainify | replaceRE "\\s+" " " | strings.TrimSpace | truncate 200 "" }}{{ end }}
+{{- end -}}
+{{- end }}
+## Learn
+{{ partial "llms-tree" (dict "page" (site.GetPage "/learn") "indent" "") -}}
+{{- range where $docs.Sections.ByWeight "Params.learning_kind" "guides" }}{{ partial "llms-tree" (dict "page" . "indent" "") }}{{ end -}}
+{{- partial "llms-tree" (dict "page" (site.GetPage "/course") "indent" "") }}
+## Articles
+{{ partial "llms-tree" (dict "page" (site.GetPage "/articles") "indent" "") }}
+## Pricing
+{{ partial "llms-tree" (dict "page" (site.GetPage "/pricing") "indent" "") }}
+## Optional
+{{ partial "llms-entry" (site.GetPage "/documentation/agentic-tools/skills") -}}
+- [API Reference](https://api.qdrant.tech/api-reference): REST and gRPC API reference for Qdrant.
+{{ partial "llms-entry" (site.GetPage "/legal/terms_and_conditions") -}}
+- [Trust Center](https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9): Qdrant security, compliance reports, and certifications.
+
+{{- /* A page's title (its H1) as a link, then every page under it, nested. */ -}}
+{{- define "_partials/llms-tree" -}}
+{{- $p := .page -}}
+{{- $include := and $p (not $p.Params.sitemapExclude) (not $p.Sitemap.Disable) -}}
+{{- with and $include $p.Params.build -}}
+  {{- if in (slice "never" "link") (.render | default "always") -}}{{- $include = false -}}{{- end -}}
+{{- end -}}
+{{- if $include -}}
+{{- if eq $p.Params.type "external-link" -}}
+{{ .indent }}- [{{ $p.Title }}]({{ $p.Params.external_url }})
+{{ else if and (ne $p.Title "") (ne $p.Permalink "") -}}
+{{ .indent }}- [{{ $p.Title }}]({{ $p.Permalink }}index.md)
 {{ end -}}
+{{- $indent := printf "%s  " .indent -}}
+{{- range $p.Pages.ByWeight }}{{ partial "llms-tree" (dict "page" . "indent" $indent) }}{{ end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "_partials/llms-entry" -}}
+- [{{ .Title }}]({{ .Permalink }}index.md){{ with .Description }}: {{ . | plainify | replaceRE "\\s+" " " | strings.TrimSpace }}{{ end }}
+{{ end -}}

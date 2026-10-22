@@ -2,7 +2,7 @@
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
 > Use this file to discover all available pages: https://qdrant.tech/llms.txt
 
-{{- $content := printf "# %s\n\n" .Title -}}
+{{ $content := printf "# %s\n\n" .Title -}}
 {{- range (partial "documentation/articles/list" .) -}}
   {{- $content = printf "%s- [%s](%s)\n" $content .Title .RelPermalink -}}
 {{- end -}}
