@@ -23,6 +23,13 @@
     margin-left: auto;
   }
 
+  // From xl the table of contents shows the actions instead.
+  @include media-breakpoint-up(xl) {
+    &__actions {
+      display: none;
+    }
+  }
+
   // On phones the actions take their own row after the breadcrumbs,
   // aligned to the left.
   @include media-breakpoint-down(md) {
