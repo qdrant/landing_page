@@ -148,7 +148,7 @@ You can now choose a [memory tier for the ID tracker](/documentation/ops-configu
 
 ### Inline Storage Without Duplicate Vectors
 
-[Inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) speeds up searches on an HNSW index that's stored on disk, by placing the original vectors in the index file next to the graph links. Until now, Qdrant stored those vectors twice: once in the regular vector storage and once in the index file. Qdrant now stores the original vectors [only in the HNSW index file](/documentation/ops-optimization/optimize/#where-qdrant-stores-the-vectors), which reduces disk usage.
+[Inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) speeds up searches on an HNSW index that's stored on disk, by placing the original vectors in the index file next to the graph links. Until now, Qdrant stored those vectors twice: once in the regular vector storage and once in the index file. Qdrant now stores the original vectors [only in the HNSW index file](/documentation/ops-configuration/memory-tiers/#inline-storage), which reduces disk usage.
 
 Because the vectors are now part of the index, they follow the memory tier of the index instead of their own. For example, if the vectors are `cold` and the index is `pinned`, the vectors are now pinned in RAM along with the index, which increases RAM usage. The reverse also applies: a `cold` index makes its vectors `cold`. Before upgrading, check that the memory tier of the index fits these vectors.
 
