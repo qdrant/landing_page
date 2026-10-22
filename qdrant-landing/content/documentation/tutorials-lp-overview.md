@@ -122,7 +122,7 @@ partition: develop
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [S3 Ingestion](/documentation/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">Python</span> | 30m | <span class="text-green">Beginner</span> |
-| [Hugging Face Dataset Ingestion](/documentation/tutorials-ecosystem/huggingface-datasets/) | Load and search public ML datasets. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
+| [Hugging Face Dataset Ingestion](/documentation/tutorials-basics/huggingface-datasets/) | Load and search public ML datasets. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
 | [Databricks Ingestion](/documentation/send-data/databricks/) | Vectorize datasets using FastEmbed on Databricks. | <span class="pill">Databricks</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Querying with Airflow](/documentation/send-data/qdrant-airflow-astronomer/) | Orchestrate data engineering workflows. | <span class="pill">Airflow</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [n8n Workflow Automation](/documentation/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
