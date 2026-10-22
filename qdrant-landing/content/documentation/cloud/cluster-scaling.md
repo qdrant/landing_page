@@ -19,7 +19,7 @@ You can start with a minimal cluster configuration and scale it up over time to 
 
 Note that vertical cluster scaling will require a short downtime, if the collections in your cluster are not replicated. This is because each node of the cluster needs to be restarted to apply the CPU, memory and disk size.
 
-If you want to scale your cluster down, the new, smaller memory size must be still sufficient to store all the data in the cluster. Otherwise, the database cluster could run out of memory and crash. Therefore, the new memory size must be at least as large as the current memory usage of the database cluster including a bit of buffer. Qdrant Cloud will automatically prevent you from scaling down the Qdrant database cluster with a too small memory size.
+When you scale down, the new memory size must still fit all the data in the cluster. Otherwise, the cluster can run out of memory and become unavailable until you scale it back up. The Qdrant Cloud Console and the `qcloud` CLI warn you when your cluster's recent peak memory usage, plus a buffer, is more than the new configuration provides, or when current usage can't be determined. The warning doesn't block the change. Other tools, such as the [Qdrant Cloud API](/documentation/cloud-api/), Terraform, or Pulumi, apply the change without a warning. Before you scale down with them, check your cluster's memory usage. See [Monitor Clusters](/documentation/cloud/cluster-monitoring/).
 
 Note, that it is not possible to scale down the disk space of the cluster due to technical limitations of the underlying cloud providers.
 

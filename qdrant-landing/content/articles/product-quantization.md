@@ -237,7 +237,7 @@ Qdrant now offers four quantization methods. The [quantization documentation](/d
 |---|---|
 | 4x | [Scalar Quantization](/articles/scalar-quantization/). 4-bit TurboQuant offers comparable recall at 8x. |
 | 8x | 4-bit TurboQuant. |
-| 16x to 32x | TurboQuant or [binary quantization](/articles/binary-quantization/) at the same bit depth. Binary quantization is faster, and TurboQuant has better recall. |
+| 16x to 32x | TurboQuant or [binary quantization](/documentation/manage-data/quantization/#binary-quantization) at the same bit depth. Binary quantization is faster, and TurboQuant has better recall. |
 | Up to 64x | Product Quantization. |
 
 Product Quantization has the highest compression, but it pays for it in accuracy and speed. Its distance calculations are not SIMD-friendly, so it is slower than Scalar Quantization, and it loses more accuracy, so it suits high-dimensional vectors. Indexing is slower too: in the benchmarks in this article, uploading and indexing took 1.2 to 2.8 times longer than without quantization.

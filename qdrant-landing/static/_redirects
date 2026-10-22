@@ -215,3 +215,30 @@
 /documentation/database-tutorials/static-embeddings               /articles/static-embeddings/         301!
 /blog/static-embeddings/*                                         /articles/static-embeddings/:splat   301!
 /blog/static-embeddings                                           /articles/static-embeddings/         301!
+
+# Retired embedding provider pages: the agent-facing index.md goes to the directory's index.md,
+# and the bare path and every other path under them, including a stray sub-path, go to the directory itself
+/documentation/embeddings/fusion-embedding-2/index.md  /documentation/embeddings/index.md  301!
+/documentation/embeddings/fusion-embedding-2/*         /documentation/embeddings/  301!
+/documentation/embeddings/fusion-embedding-2           /documentation/embeddings/  301!
+/documentation/embeddings/aleph-alpha/index.md         /documentation/embeddings/index.md  301!
+/documentation/embeddings/aleph-alpha/*                /documentation/embeddings/  301!
+/documentation/embeddings/aleph-alpha                  /documentation/embeddings/  301!
+/documentation/integrations/aleph-alpha/index.md       /documentation/embeddings/index.md  301!
+/documentation/integrations/aleph-alpha/*              /documentation/embeddings/  301!
+/documentation/integrations/aleph-alpha                /documentation/embeddings/  301!
+/documentation/examples/aleph-alpha-search/index.md    /documentation/embeddings/index.md  301!
+/documentation/examples/aleph-alpha-search/*           /documentation/embeddings/  301!
+/documentation/examples/aleph-alpha-search             /documentation/embeddings/  301!
+/documentation/tutorials/aleph-alpha-search/index.md   /documentation/embeddings/index.md  301!
+/documentation/tutorials/aleph-alpha-search/*          /documentation/embeddings/  301!
+/documentation/tutorials/aleph-alpha-search            /documentation/embeddings/  301!
+/documentation/embeddings/premai/index.md              /documentation/embeddings/index.md  301!
+/documentation/embeddings/premai/*                     /documentation/embeddings/  301!
+/documentation/embeddings/premai                       /documentation/embeddings/  301!
+/documentation/embeddings/mixpeek/index.md             /documentation/embeddings/index.md  301!
+/documentation/embeddings/mixpeek/*                    /documentation/embeddings/  301!
+/documentation/embeddings/mixpeek                      /documentation/embeddings/  301!
+/documentation/embeddings/snowflake/index.md           /documentation/embeddings/index.md  301!
+/documentation/embeddings/snowflake/*                  /documentation/embeddings/  301!
+/documentation/embeddings/snowflake                    /documentation/embeddings/  301!

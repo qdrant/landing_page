@@ -23,12 +23,25 @@ await client.CreateCollectionAsync(
 				HnswConfig = new HnswConfigDiff { M = 0 }, // Disable HNSW for reranking
 			},
 		}
-	},
-	sparseVectorsConfig: new SparseVectorConfig
+	}
+);
+
+await client.CreatePayloadIndexAsync(
+	collectionName: collectionName,
+	fieldName: "description",
+	schemaType: PayloadSchemaType.Text,
+	indexParams: new PayloadIndexParams
 	{
-		Map =
+		TextIndexParams = new TextIndexParams
 		{
-			["sparse"] = new SparseVectorParams { Modifier = Modifier.Idf }
+			Tokenizer = TokenizerType.Word,
+			Stemmer = new StemmingAlgorithm
+			{
+				Snowball = new SnowballParams { Language = "english" }
+			},
+			Stopwords = new StopwordsSet { Languages = { "english" } },
+			// Enable BM25 scoring
+			Scoring = new TextScoringParams { Type = TextScoringType.Bm25 }
 		}
 	}
 );

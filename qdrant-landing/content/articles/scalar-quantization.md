@@ -204,7 +204,7 @@ expensive setup if you can agree to a small decrease in the search precision.
 
 ## Where Scalar Quantization Fits Today
 
-Qdrant offers more quantization methods today than it did in 2023. Scalar quantization is still what the documentation recommends at 4x compression. Since v1.18, 4-bit [TurboQuant](/articles/turboquant-quantization/) gives comparable recall at 8x compression, unless you use the Manhattan (L1) distance. [Binary quantization](/articles/binary-quantization/) and [product quantization](/articles/product-quantization/) go further, up to 32x and 64x, at a larger accuracy cost. The [quantization guide](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) compares the methods by compression level.
+Qdrant offers more quantization methods today than it did in 2023. Scalar quantization is still what the documentation recommends at 4x compression. Since v1.18, 4-bit [TurboQuant](/articles/turboquant-quantization/) gives comparable recall at 8x compression, unless you use the Manhattan (L1) distance. [Binary quantization](/documentation/manage-data/quantization/#binary-quantization) and [product quantization](/articles/product-quantization/) go further, up to 32x and 64x, at a larger accuracy cost. The [quantization guide](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) compares the methods by compression level.
 
 To see how scalar quantization compares with 4-bit TurboQuant today, we reran Gist-960 in October 2026 on Qdrant v1.19.2. Every run used the same collection: HNSW with `m=16` and `ef_construct=100`, Euclidean distance, original vectors on disk, and quantized vectors in RAM. Recall@10 is measured against the dataset's ground-truth neighbors, and rescoring uses no oversampling.
 
@@ -228,7 +228,7 @@ lower memory footprint and even up to 2x performance increase.
 
 - [Quantization guide](/documentation/manage-data/quantization/): how to configure each method, and which one to choose at each compression level.
 - [TurboQuant in Qdrant](/articles/turboquant-quantization/): the 8x method compared with scalar quantization in this article.
-- [Binary Quantization](/articles/binary-quantization/) and [Product Quantization](/articles/product-quantization/): the options for higher compression.
+- [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) and [Product Quantization](/articles/product-quantization/): the options for higher compression.
 - [Minimal RAM to serve a million vectors](/articles/memory-consumption/): how on-disk storage and quantization reduce memory use.
 - [Gist-960 on ann-benchmarks](https://github.com/erikbern/ann-benchmarks/): the dataset and ground-truth neighbors used for the 2026 rerun.
 - [Reproduction kit](https://github.com/qdrant-labs/scalar-quantization-benchmark): the script and raw results to rerun the 2026 table on your Qdrant version.

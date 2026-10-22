@@ -6,11 +6,15 @@ PUT /collections/books
       "size": 384,
       "distance": "Cosine"
     }
-  },
-  "sparse_vectors": {
-    "isbn-bm25": {
-      "modifier": "idf"
-    }
+  }
+}
+
+PUT /collections/books/index?wait=true
+{
+  "field_name": "title",
+  "field_schema": {
+    "type": "text",
+    "scoring": true
   }
 }
 ```

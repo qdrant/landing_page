@@ -126,32 +126,31 @@ See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search]
 
 ### Does Qdrant support a full-text search or a hybrid search?
 
-Qdrant is a vector search engine in the first place, and we only implement full-text support as long as it doesn't compromise the vector search use case.
-That includes both the interface and the performance.
+Yes. Qdrant supports full-text search with BM25, full-text filtering, and hybrid search that combines them with vector search.
 
 What Qdrant can do:
 
-- Search with full-text filters
-- Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
+- Rank points by relevance to a text query with [BM25 full-text search](/documentation/search/text-search/full-text-search/) on a [full-text index](/documentation/manage-data/indexing/#full-text-index)
+- Search with [full-text filters](/documentation/search/text-search/text-filtering/)
+- Apply full-text filters to the vector search, for example, to run a vector search only among records with specific words or phrases
 - Do prefix search and semantic [search-as-you-type](/documentation/tutorials-develop/search-as-you-type/)
-- Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
-- [Multi-vectors](/documentation/manage-data/vectors/#multivectors), for example ColBERT and other late-interaction models
-- Combination of the [multiple searches](/documentation/search/hybrid-queries/)
+- Use [sparse vectors](/documentation/search/text-search/sparse-vector-search/), as used in [SPLADE](https://github.com/naver/splade) or similar models
+- Use [multi-vectors](/documentation/manage-data/vectors/#multivectors), for example ColBERT and other late-interaction models
+- Combine [multiple searches](/documentation/search/hybrid-queries/), such as BM25 and dense vector search, in a single query
 
 What Qdrant doesn't plan to support:
 
-- Non-vector-based retrieval or ranking functions
 - Built-in ontologies or knowledge graphs
 - Query analyzers and other NLP tools
 
-Of course, you can always combine Qdrant with any specialized tool you need, including full-text search engines.
+You can always combine Qdrant with other specialized tools you need.
 Read more about [our approach](/documentation/search-tuning/hybrid-search/) to hybrid search.
 
 ### When should I use Reciprocal Rank Fusion (RRF) vs. Distribution-Based Score Fusion (DBSF) for hybrid search?
 
-Both methods combine scores from multiple retrieval legs (for example, dense and sparse), but they work differently:
+Both methods combine scores from multiple retrieval legs (for example, dense and BM25), but they work differently:
 
-* **RRF (Reciprocal Rank Fusion)** combines ranked lists based on position, not score magnitude. It works well when scores from different retrieval methods are on incompatible scales (common with dense vs. sparse). Start here by default. [Tune weights and k](/documentation/search/hybrid-queries/#setting-rrf-constant-k) as needed.  
+* **RRF (Reciprocal Rank Fusion)** combines ranked lists based on position, not score magnitude. It works well when scores from different retrieval methods are on incompatible scales (common with dense vs. BM25). Start here by default. [Tune weights and k](/documentation/search/hybrid-queries/#setting-rrf-constant-k) as needed.  
 * **DBSF (Distribution-Based Score Fusion)** normalizes scores based on their statistical distribution per prefetch before combining them. It can produce better results when score distributions are well-behaved and you want absolute score values to influence the final ranking.
 
 For custom fusion, use the [Formula Query](/documentation/search/search-relevance/#score-boosting). For example, you can use decay functions to normalize both scores to a 0-1 range and then fuse them. This approach requires you to determine the approximate score distribution for each corpus, since you can't set decay function parameters dynamically. The Formula Query doesn't support custom rank-based fusion because it doesn't have access to prefetch ranks; only to the raw scores.
@@ -164,8 +163,8 @@ See also: the [Choosing a Fusion Method](/documentation/search/hybrid-queries/#c
 
 Work through these in order:
 
-1. **Check sparse preprocessing.** Poor sparse results are often a tokenization issue. For non-English text, configure language-specific stemming and stop-word lists in the [text search settings](/documentation/search/text-search/full-text-search/#bm25-text-processing).  
-2. **Isolate the legs.** Run your dense-only and sparse-only queries separately. If one leg is producing bad results in isolation, fix it before tuning fusion.  
+1. **Check lexical text processing.** Poor BM25 results are often a tokenization issue. For non-English text, configure language-specific stemming and stopwords on the [full-text index](/documentation/search/text-search/full-text-search/#text-processing).  
+2. **Isolate the legs.** Run your dense-only and lexical-only queries separately. If one leg is producing bad results in isolation, fix it before tuning fusion.  
 3. **Tune fusion weights.** If both legs look reasonable individually but fusion degrades quality, try adjusting the per-prefetch weights in your RRF configuration. There is no universal default. Evaluate against a small labeled query set.  
 4. **Add a reranking stage.** If precision matters more than latency, [reranking](/documentation/search/hybrid-queries/#multi-stage-queries) as a final stage can recover from imperfect retrieval.
 

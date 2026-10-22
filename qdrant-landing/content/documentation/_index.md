@@ -147,7 +147,7 @@ Qdrant is an AI-native vector search engine for storing, indexing, and searching
 ## Ecosystem
 
 - [Frameworks](/documentation/frameworks/index.md) — Integrations with 40+ AI agent and RAG frameworks: LangChain, LlamaIndex, Haystack, CrewAI, AutoGen, Spring AI, and more.
-- [Embedding Providers](/documentation/embeddings/index.md) — Connect to 30+ providers: OpenAI, Cohere, Jina, Mistral, AWS Bedrock, Voyage AI, Ollama, and more.
+- [Embedding Providers](/documentation/embeddings/index.md): Find an embedding provider by input type, vector type, and where it runs: Qdrant Cloud Inference, OpenAI, Cohere, Gemini, Amazon Bedrock, Voyage AI, Ollama, and more.
 - [Platforms](/documentation/platforms/index.md) — No-code and low-code integrations with n8n, Make, MuleSoft, Pipedream, and more.
 
 ## Tutorials & Examples

@@ -231,7 +231,7 @@ The two memory categories line up with the memory tiers:
 |---|---|---|---|
 | Original vectors (`FLOAT16`) | `cold` | 400Gb on disk | Neither. Read from disk only when rescoring |
 | Quantized vectors (binary) | `pinned` | 23.84Gb | Data memory |
-| ID tracker | Always on the heap | 12.4Gb | Data memory |
+| ID tracker | `pinned` (default) | 12.4Gb | Data memory |
 | HNSW index (`m=6`) | `cached` | 17.881Gb | Cache memory |
 | Payloads | `cold` (default) | 200Gb on disk | Neither. Read from disk only when returned |
 

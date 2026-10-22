@@ -107,6 +107,18 @@
   <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>
 {{ end }}
 
+{{/* Set by partials/copy-markdown-button.html, which renders in the body before
+     this partial runs. */}}
+{{ if .Store.Get "hasCopyMarkdown" }}
+  {{ $copyMarkdownJs := resources.Get "js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $copyMarkdownJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if .HasShortcode "integration-directory" }}
+  {{ $integrationDirectoryJs := resources.Get "js/integration-directory.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $integrationDirectoryJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "industries" }}
   {{ $customersJs := resources.Get "js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>

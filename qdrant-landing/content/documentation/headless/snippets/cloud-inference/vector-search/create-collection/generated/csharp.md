@@ -1,4 +1,7 @@
 ```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
 await client.CreateCollectionAsync(
   collectionName: "{collection_name}",
   vectorsConfig: new VectorParamsMap
@@ -8,14 +11,21 @@ await client.CreateCollectionAsync(
         Size = 384, Distance = Distance.Cosine
       },
     }
-  },
-  sparseVectorsConfig: new SparseVectorConfig
+  }
+);
+
+await client.CreatePayloadIndexAsync(
+  collectionName: "{collection_name}",
+  fieldName: "passage_text",
+  schemaType: PayloadSchemaType.Text,
+  indexParams: new PayloadIndexParams
   {
-      Map = {
-        ["bm25_sparse_vector"] = new() {
-    	  Modifier = Modifier.Idf,  // Enable Inverse Document Frequency
-  		}
-    }
+      TextIndexParams = new TextIndexParams
+      {
+          Tokenizer = TokenizerType.Word,
+          // Enable BM25 scoring
+          Scoring = new TextScoringParams { Type = TextScoringType.Bm25 }
+      }
   }
 );
 ```

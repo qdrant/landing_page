@@ -1,6 +1,6 @@
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    Condition, Document, Filter, IdfParamsBuilder, Query, QueryPointsBuilder, SearchParamsBuilder,
+    Condition, Filter, IdfParamsBuilder, Query, QueryPointsBuilder, SearchParamsBuilder,
 };
 
 pub async fn main() -> anyhow::Result<()> {
@@ -9,16 +9,16 @@ pub async fn main() -> anyhow::Result<()> {
     client
         .query(
             QueryPointsBuilder::new("{collection_name}")
-                .query(Query::new_nearest(Document::new("time travel", "qdrant/bm25")))
-                .using("title-bm25")
+                .query(Query::new_text("time travel"))
+                .using("title")
                 .filter(Filter::must([
                     Condition::matches("group_id", "user_1".to_string()),
                     Condition::matches("year", 2024),
                 ]))
                 .params(SearchParamsBuilder::default().idf(
                     IdfParamsBuilder::default().corpus(Filter::must([Condition::matches(
-                        "tenant",
-                        "acme".to_string(),
+                        "group_id",
+                        "user_1".to_string(),
                     )])),
                 ))
                 .limit(10)

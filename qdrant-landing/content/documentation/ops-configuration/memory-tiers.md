@@ -1,7 +1,7 @@
 ---
 title: Memory Tiers
-short_description: "Control how vectors, indexes, quantized data, and payloads are cached in RAM: pinned, warmed into a disk cache, or left on disk."
-description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, and payloads."
+short_description: "Control how vectors, indexes, quantized data, payloads, and the ID tracker are cached in RAM: pinned, warmed into a disk cache, or left on disk."
+description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, payloads, and the ID tracker."
 weight: 12
 aliases:
   - disk-vs-ram
@@ -27,6 +27,7 @@ Each collection in Qdrant is backed by several independent structures:
 - **The [sparse vector index](/documentation/manage-data/indexing/#sparse-vector-index)** is an exact, inverted-index-style structure built over sparse vectors.
 - **[Payloads](/documentation/manage-data/collections/#create-a-collection)** are the JSON documents attached to each point.
 - **[Payload indexes](/documentation/manage-data/indexing/#payload-index)** are per-field indexes that speed up filtering.
+- **The [ID tracker](/documentation/capacity-planning/#id-tracker)** maps each point's ID to its internal storage location and current version.
 
 Each of these structures accepts a `memory` parameter that controls how it is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed. The available tiers are:
 
@@ -53,12 +54,13 @@ If you don't explicitly set `memory` on a structure, Qdrant defaults to the foll
 | Sparse vector index | `pinned` |
 | Payloads | `cold` |
 | Payload indexes | `pinned` |
+| ID tracker | `pinned` |
 
 [Low Memory Mode](/documentation/ops-configuration/administration/#low-memory-mode) can degrade these defaults at startup under memory constraints, without changing the persisted collection configuration.
 
 ## Example
 
-This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload is cached:
+This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload and the ID tracker are cached:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-memory-tiers/" >}}
 
@@ -128,6 +130,17 @@ Avoid putting the HNSW vector index in the `cold` tier. If you must store it on 
 
 Enabling inline storage can significantly increase the size of the HNSW index. Do not use inline storage if the HNSW index is in RAM ([`pinned` or `cached` tiers](/documentation/ops-configuration/memory-tiers/)). To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method [that compresses to at most 4 bits per dimension](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method), such as TurboQuant.
 
+Before v1.20.0, inline storage kept the original vectors in the regular vector storage and added a copy to the HNSW index file.
+As of v1.20.0, an indexed segment with inline storage keeps the original vectors only in the HNSW index file, with no separate vector storage.
+Existing segments switch to this layout when the optimizer rebuilds them.
+
+For these segments, `hnsw_config.memory` controls the memory tier of the original vectors, and Qdrant ignores `vectors.memory`.
+Quantized vectors are still kept in their own storage, and the HNSW index file also contains quantized copies of each point's neighbors.
+Without an explicit `memory` setting, quantized vectors follow the [default tier](#default-tiers) rule with the HNSW index in place of the original vectors: `cold` when the index is `cold`, `pinned` in any other tier.
+
+Segments without an HNSW index still use regular vector storage and follow `vectors.memory`.
+This includes small appendable segments and any segment below the [indexing threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer).
+
 ## Migrating
 
 When migrating from a pre-1.19 version to a newer version, Qdrant doesn't automatically convert any [legacy settings](#legacy-settings) that control memory placement to the new `memory` setting. The legacy settings have only been deprecated, not removed, so your existing settings remain working. A pre-1.19 collection with legacy settings will continue to work on newer versions without having to change its configuration.
@@ -193,3 +206,7 @@ The legacy parameter is `on_disk`, set on each field index.
 | `pinned` | `on_disk: false` |
 | `cached` | No legacy equivalent |
 | `cold` | `on_disk: true` |
+
+#### ID Tracker
+
+The ID tracker has no legacy parameter. Before version 1.20, it was always `pinned`.

@@ -1,17 +1,17 @@
 import { QdrantClient } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
+const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
 const best_fields = await client.query("{collection_name}", {
   prefetch: [
     {
-      query: { text: "vector database", model: "qdrant/bm25" },
-      using: "title-bm25",
+      query: { text: "vector database" },
+      using: "title",
       limit: 50
     },
     {
-      query: { text: "vector database", model: "qdrant/bm25" },
-      using: "body-bm25",
+      query: { text: "vector database" },
+      using: "body",
       limit: 50
     }
   ],

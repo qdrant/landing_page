@@ -97,13 +97,6 @@ menuItems:
             name: Healthcare Tech
             icon: healthcare.svg
             url: /healthcare/
-      - id: mainMenu-1-2
-        name: Services
-        subMenuItems:
-          - id: subMenu-1-10
-            name: Implementation Partners
-            icon: qdrant-enterprise-solutions.svg
-            url: /services/
   - id: menu-2
     name: Developers
     mainMenuItems: 
@@ -200,10 +193,14 @@ menuItems:
             icon: partners.svg
             url: /partners/
           - id: subMenu-4-3
+            name: Services
+            icon: qdrant-enterprise-solutions.svg
+            url: /services/
+          - id: subMenu-4-4
             name: Careers
             icon: careers.svg
             url: https://qdrant.to/jobs
-          - id: subMenu-4-4
+          - id: subMenu-4-5
             name: Contact us
             icon: contact-us.svg
             url: /contact-us/

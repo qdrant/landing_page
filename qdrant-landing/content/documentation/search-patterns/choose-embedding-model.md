@@ -13,7 +13,7 @@ aliases:
   - /articles/how-to-choose-an-embedding-model/
 ---
 
-<link rel="stylesheet" href="/articles_data/how-to-choose-an-embedding-model/figures.css">
+<link rel="stylesheet" href="/articles_data/how-to-choose-an-embedding-model/figures.css?v=20261021">
 
 # How to Choose an Embedding Model: Evaluation & Tradeoffs
 
@@ -43,16 +43,16 @@ all the Transformer magic with assigning each token a specific input vector
 representation](/articles/late-interaction-models/#understanding-embedding-models). 
 
 <figure class="embedding-model-figure">
-  <img src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.svg" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="448" loading="lazy">
-  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.dark.svg" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="448" loading="lazy">
+  <img src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.svg?v=20261021" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="340" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/wordpiece-example.dark.svg?v=20261021" alt="MiniLM splits revolutionized into revolution and ##ized, and unsupervised into un, ##su, ##per, ##vis, and ##ed. Each token gets an input vector." width="640" height="340" loading="lazy">
   <figcaption>The <code>##</code> prefix marks a continuation of the same word. This example uses MiniLM's WordPiece tokenizer.</figcaption>
 </figure>
 
 One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). WordPiece tokenizers, like the one in `all-MiniLM-L6-v2`, replace any word they can't build from their vocabulary with a single `[UNK]` token, so `hello🌞world` becomes one `[UNK]` and the model loses "hello" and "world" too. If you analyze social media data, you might be surprised that the two weather sentences in this example reach the model as identical tokens. Byte-level tokenizers, like the ones in OpenAI's `text-embedding-3` models and Qwen3-Embedding, never produce an unknown token: they split unfamiliar characters into bytes, so the two sentences stay different.
 
 <figure class="embedding-model-figure">
-  <img src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.svg" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="534" loading="lazy">
-  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.dark.svg" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="534" loading="lazy">
+  <img src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.svg?v=20261021" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="370" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tokenizer-comparison.dark.svg?v=20261021" alt="The weather today is so 🌧️ and The weather today is so 🌞 have the same MiniLM WordPiece tokens ending in [UNK]. The byte-level tokenizer retains different token IDs for the two emoji." width="640" height="370" loading="lazy">
   <figcaption>MiniLM loses the distinction between the rain and sun emoji; the byte-level tokenizer keeps it.</figcaption>
 </figure>
 
@@ -63,8 +63,8 @@ Normalization can also erase differences in your text. The `all-MiniLM-L6-v2` to
 How do you know how the tokenizer treats your text? That's pretty easy for the Open Source models, as you can just run the tokenizer without the model and see what the yielded tokens look like. Try your own text and look at normalization, `[UNK]` tokens, and how words split. Commercial models are harder to inspect. Some providers publish their tokenizers: OpenAI's embedding models use the `cl100k_base` encoding from the open-source [tiktoken](https://github.com/openai/tiktoken) library. For the others, modify some of the suspected characters and compare the similarity between the original and modified text.
 
 <figure class="embedding-model-figure">
-  <img src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.svg" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="267" loading="lazy">
-  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.dark.svg" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="267" loading="lazy">
+  <img src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.svg?v=20261021" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="208" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/accent-normalization.dark.svg?v=20261021" alt="MiniLM maps both crème brûlée and creme brulee to the same tokens: cr, ##eme, br, ##ule, ##e." width="640" height="208" loading="lazy">
   <figcaption>Accent normalization makes these two inputs identical to MiniLM.</figcaption>
 </figure>
 
@@ -207,8 +207,8 @@ might prefer API-based solutions. Who knows? Maybe your project does not require
 smaller model will do the job just fine.
 
 <figure class="embedding-model-figure">
-  <img src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.svg" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="420" loading="lazy">
-  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.dark.svg" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="420" loading="lazy">
+  <img src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.svg?v=20261021" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="288" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/tradeoffs-triangle.dark.svg?v=20261021" alt="A triangle connects Fast, Cheap, and Precise. Pick two? is a reminder to evaluate the tradeoffs for your own workload." width="640" height="288" loading="lazy">
   <figcaption>"Pick two" is a useful heuristic, not a fixed rule. Measure speed, quality, and cost together for your workload.</figcaption>
 </figure>
 
@@ -225,8 +225,8 @@ Where the model runs affects latency and cost. Sending millions of documents to 
 **Qdrant Cloud Inference** generates dense, sparse, and multimodal embeddings inside Qdrant Cloud, or proxies requests to OpenAI, Cohere, and Jina, without requiring you to manage inference servers.
 
 <figure class="embedding-model-figure">
-  <img src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.svg" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="465" loading="lazy">
-  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.dark.svg" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="465" loading="lazy">
+  <img src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.svg?v=20261021" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="384" loading="lazy">
+  <img class="embedding-model-figure__dark" src="/articles_data/how-to-choose-an-embedding-model/cloud-inference-flow.dark.svg?v=20261021" alt="The client sends an upsert or query to Qdrant Cloud. Qdrant sends the document or image to an inference service with an embedding model, which returns embeddings to Qdrant." width="640" height="384" loading="lazy">
   <figcaption>Qdrant Cloud sends the input to the inference service and receives embeddings in return.</figcaption>
 </figure>
 
