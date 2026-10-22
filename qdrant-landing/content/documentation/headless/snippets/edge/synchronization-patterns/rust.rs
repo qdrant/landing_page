@@ -91,11 +91,11 @@ pub async fn main() -> anyhow::Result<()> {
 
     fs_err::create_dir_all(SHARD_DIRECTORY)?;
     let config = EdgeConfigBuilder::new()
-        .payload_memory(Memory::Cold)
+        .payload_memory(qdrant_edge::Memory::Cold)
         .vector(
             VECTOR_NAME,
             EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, qdrant_edge::Distance::Cosine)
-                .memory(Memory::Cold)
+                .memory(qdrant_edge::Memory::Cold)
                 .build(),
         )
         .build();
