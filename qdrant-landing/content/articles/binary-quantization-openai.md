@@ -3,7 +3,7 @@ title: "Enhance Search Efficiency with Binary Quantization"
 draft: false
 slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
-description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of OpenAI's Ada-003 embeddings. Learn best practices for real-time search applications.
+description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of OpenAI's text-embedding-3 embeddings. Learn best practices for real-time search applications.
 preview_dir: /articles_data/binary-quantization-openai/preview
 preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
@@ -23,9 +23,19 @@ weight: 40
 
 aliases: [ /blog/binary-quantization-openai/ ]
 category: search-quality
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_note: "This article duplicates the Binary Quantization section of the Quantization documentation, which now carries its rescoring and oversampling results with their setup and limits."
+retired_resource:
+  title: Quantization Documentation
+  url: /documentation/manage-data/quantization/#rescoring-and-oversampling-results
 ---
 
-OpenAI Ada-003 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.
+OpenAI text-embedding-3 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.
 
 In this post, we discuss:
 
@@ -41,7 +51,7 @@ You can also try out these techniques as described in [Binary Quantization OpenA
 
 ## New OpenAI embeddings: performance and changes
 
-As the technology of embedding models has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's Ada-003 embeddings offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
+As the technology of embedding models has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's text-embedding-3 models offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
 
 These models include multilingual support in over 100 languages. The transition from text-embedding-ada-002 to text-embedding-3-large has led to a significant jump in performance scores (from 31.4% to 54.9% on MIRACL).
 
@@ -81,7 +91,7 @@ For each record, we run a parameter sweep over the number of oversampling, resco
 
 - **Oversampling**: By oversampling, we can limit the loss of information inherent in quantization. This also helps to preserve the semantic richness of your OpenAI embeddings. We experimented with different oversampling factors, and identified the impact on the accuracy and efficiency of search. Spoiler: higher oversampling factors tend to improve the accuracy of searches. However, they usually require more computational resources.
 
-- **Rescoring**: Rescoring refines the first results of an initial binary search. This process leverages the original high-dimensional vectors to refine the search results, **always** improving accuracy. We toggled rescoring on and off to measure effectiveness, when combined with Binary Quantization. We also measured the impact on search performance. 
+- **Rescoring**: Rescoring refines the first results of an initial binary search. This process leverages the original high-dimensional vectors to refine the search results. It improved accuracy in every configuration we tested, though it can only reorder candidates the binary search already retrieved, and it reads the original vectors. We toggled rescoring on and off to measure effectiveness, when combined with Binary Quantization. We also measured the impact on search performance. 
 
 - **Search Limits**: We specify the number of results from the search process. We experimented with various search limits to measure their impact on the accuracy and efficiency. We explored the trade-offs between search depth and performance. The results provide insight for applications with different precision and speed requirements.
 

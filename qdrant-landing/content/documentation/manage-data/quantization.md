@@ -130,13 +130,35 @@ However, binary quantization is only efficient for high-dimensional vectors and 
 At the moment, binary quantization shows good accuracy results with the following models:
 
 - OpenAI `text-embedding-ada-002` - 1536d tested with [dbpedia dataset](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) achieving 0.98 recall@100 with 4x oversampling
+- OpenAI `text-embedding-3-large` - 3072d tested with [DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) achieving 0.9966 recall with 3x oversampling and rescoring
+- OpenAI `text-embedding-3-large` - 1536d tested with [DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M) achieving 0.9826 recall with 3x oversampling and rescoring
+- OpenAI `text-embedding-3-small` - 1536d tested with [DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K) achieving 0.9847 recall with 3x oversampling and rescoring
 - Cohere AI `embed-english-v2.0` - 4096d tested on Wikipedia embeddings - 0.98 recall@50 with 2x oversampling
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
-We recommend using binary quantization only with rescoring enabled, as this can significantly improve search quality. However, keep in mind that if the original vectors are stored on disk, rescoring can significantly decrease search speed.
+We recommend using binary quantization with rescoring enabled, because the binary pass alone loses accuracy that rescoring recovers. Keep in mind that if the original vectors are stored on disk, rescoring can significantly decrease search speed.
 
 Additionally, oversampling can be used to tune the tradeoff between search speed and search quality at query time.
+
+### Rescoring and Oversampling Results
+
+A 2024 sweep over the OpenAI `text-embedding-3` models shows what rescoring and oversampling do to binary quantization in practice. The numbers below come from that run, with the setup that produced them, so you can judge how far they carry to your data.
+
+**Setup.** 100,000 vectors sampled at random from the [DBpedia OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) dataset, embedded with `text-embedding-3-large` at 1024, 1536, and 3072 dimensions and `text-embedding-3-small` at 512, 1024, and 1536 dimensions. 100 randomly selected records served as queries. For each configuration the sweep toggled rescoring, varied the oversampling factor, and ran search limits of 10, 20, 50, and 100. Accuracy is the overlap between the quantized results and exact search, averaged over the queries. Limits 1 and 5 were excluded from the averages.
+
+**Results.** Rescoring improved accuracy in every configuration of this sweep, and the gap was largest at low dimensionality.
+
+| Model | Dimensions | Accuracy without rescoring | Accuracy with rescoring |
+|-------|------------|----------------------------|-------------------------|
+| `text-embedding-3-large` | 3072 | 76% to 77% | 97% to 99% |
+| `text-embedding-3-small` | 512 | 53% to 55% | 71% to 91% |
+
+Each range spans the search limits and oversampling factors tested. With rescoring on, raising the oversampling factor kept improving accuracy for the 3072-dimensional model. For the 512-dimensional model the gains from more oversampling were small, with or without rescoring. The improvement from rescoring itself was stable across search limits.
+
+**Limits of this run.** Treat the ranges as indicative, not as confidence intervals: 100 queries is a small sample. The run used 1-bit binary quantization only; the [1.5-bit and 2-bit encodings](#15-bit-and-2-bit-quantization) and [asymmetric quantization](#asymmetric-quantization) added in v1.15 were not part of it and are designed to reduce exactly the low-dimensional loss the 512-dimensional row shows. Rescoring is not a guarantee of accuracy: it can only reorder candidates the binary pass already retrieved, so it recovers less when the oversampling factor is low or the dimensionality is small, and it reads the original vectors, which costs disk I/O when they are stored on disk.
+
+**What to take from it.** Use the highest dimensionality the model offers, an oversampling factor of 3 as a starting point, and rescoring on. Keep the original vectors on disk and the quantized vectors in RAM; see [Memory and Speed Tuning](#memory-and-speed-tuning) for the memory tiers. Re-run the comparison in [Accuracy Tuning](#accuracy-tuning) on your own collection before fixing the parameters.
 
 ### Binary Quantization as Hamming Distance
 
