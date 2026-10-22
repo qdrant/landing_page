@@ -13,7 +13,7 @@ aliases:
 
 # Evaluating Pipeline Output Quality
 
-Imagine you are the doctor of a well-known patient: a RAG pipeline. The worst thing you can do is start the treatment right away. A treatment (for software, a solution) cannot be created without a diagnosis, and RAG systems have been around long enough that standardized approaches exist for it.
+Imagine you are the doctor of a well-known patient: a RAG pipeline. The worst thing you can do is start the treatment right away. A treatment (for software, a solution) cannot be created without a diagnosis, and RAG systems have been around long enough that standardized approaches exist for it. This guide shows how to separate retrieval failures from generation failures, identify which component to investigate, and test whether a proposed fix actually works.
 
 To find which component of the system is not working as intended (maybe every component), we need:
 
@@ -21,7 +21,7 @@ To find which component of the system is not working as intended (maybe every co
 2. Pipeline results: What our RAG system actually retrieved and answered for those questions.
 3. LLM-as-a-Judge: An evaluator that scores the results and helps identify where things went wrong.
 
-> **Note:** Build your golden set first: questions, the IDs of the passages that answer each one, and, for the metrics that need them, reference answers. Quality matters as much as coverage: relevance labels miss passages, and a reference answer is only as good as whoever wrote it. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to construct and validate one.
+> **Note:** Most of what follows needs a golden set: questions, the IDs of the passages that answer each one, and reference answers for the metrics that need them (`faithfulness` and `answer_relevancy` need neither, so you can start scoring answers today). Quality matters as much as coverage: relevance labels miss passages, and a reference answer is only as good as whoever wrote it. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to construct and validate one.
 
 Keeping with the medical analogy, the numbers come from a public biomedical dataset, described in [How We Measured](#how-we-measured).
 
@@ -58,10 +58,10 @@ Supported and relevant does not necessarily mean correct. An answer can faithful
 
 What you can measure depends on what your golden set contains. `faithfulness` and `answer_relevancy` need neither labels nor reference answers, so you can always score the answer. The rest decides which other scores you get:
 
-- **Labels and reference answers:** Supports `recall@10`, `context_precision`, and correctness such as `FactualCorrectness`.
-- **Labels only:** Supports `recall@10`.
-- **Reference answers only:** Supports `context_precision` and correctness. You can only partly tell which half failed, since the judge cannot check whether retrieval found all the evidence.
-- **Neither, for example sampled production traffic:** Supports only `ContextPrecisionWithoutReference`. Telling which half failed is limited, since this retrieval score depends on the answer.
+- **Labels and reference answers:** Adds `recall@10`, `context_precision`, and correctness such as `FactualCorrectness`.
+- **Labels only:** Adds `recall@10`.
+- **Reference answers only:** Adds `context_precision` and correctness. You can only partly tell which half failed, since the judge cannot check whether retrieval found all the evidence.
+- **Neither, for example sampled production traffic:** Adds `ContextPrecisionWithoutReference`, which checks support for the generated answer instead of a reference. Telling which half failed is limited, since this retrieval score depends on the answer.
 
 ## Reading the Scores
 
@@ -77,7 +77,7 @@ This is why we start with recall@10 and faithfulness: did the evidence arrive, a
 ![Start with recall@10 and faithfulness. High recall and low faithfulness: compare the unsupported claims with the passages and the prompt, then read the judge verdicts. Low recall and low faithfulness: inspect retrieval for the missing evidence and the setting that lost it, then the answer for unsupported claims. Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results, then retrieval. High recall and high faithfulness: check whether low context_precision means supporting passages rank below irrelevant ones, whether low answer_relevancy means evasive, off-topic, or padded answers, and then correctness against reference answers.](/docs/pipeline-output-quality-diagnosis.svg)
 {{< /island >}}
 
-Once both scores meet their targets (both are high), the map moves on to `context_precision`, `answer_relevancy`, and correctness. Context precision refines the retrieval check by asking whether supporting passages rank first, while answer relevancy and correctness check whether the final answer addresses the question and is factually correct. Treat them as a final quality check, and go back if the results are not good enough.
+Once both scores meet their targets (both are high), the map moves on to `context_precision`, `answer_relevancy`, and correctness. `context_precision` refines the retrieval check by asking whether supporting passages rank first, `answer_relevancy` checks whether the final answer addresses the question, and correctness checks it against a reference answer. Treat them as a final quality check, and go back if the results are not good enough.
 
 This analysis can fail when your RAG system is more complicated than a two-component architecture. Some tips:
 
@@ -99,7 +99,9 @@ The grounded prompt requires answers to be supported by the retrieved passages a
 
 *Higher is better on all four. The open-book `answer_relevancy` covers 98 questions after one more judge timeout.*
 
-The retrieval scores are identical because the passages are identical, so whatever changed happened after retrieval. `faithfulness` dropped from 0.940 to 0.830, while `answer_relevancy` rose slightly. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain. For better results, use several runs and confidence intervals to see what is statistically significant.
+This worked example calls recall@10 high at 0.5 or above and faithfulness high at 0.8 or above, the targets the figures below use; set your own based on your own data.
+
+The retrieval scores are identical because the passages are identical; `context_precision` was not rescored, only carried over, since nothing about retrieval changed. Whatever changed happened after retrieval. `faithfulness` dropped from 0.940 to 0.830, while `answer_relevancy` rose slightly. This is a single run, so trust the large `faithfulness` shift over the small `answer_relevancy` gain. For calibrated conclusions, run this 3 or more times and compute confidence intervals to see what is statistically significant.
 
 The average tells us `faithfulness` declined, but not how many questions were affected or where the failures landed. Following our own advice, we group the same 99 questions by recall and faithfulness to find where the new problems appeared:
 
@@ -111,7 +113,7 @@ The average tells us `faithfulness` declined, but not how many questions were af
 ![A 2x2 grid of recall@10 against faithfulness, counting 99 questions per prompt. Grounded prompt: 67 High recall and High faithfulness, 6 High recall and Low faithfulness, 21 Low recall and High faithfulness, and 5 Low recall and Low faithfulness. Open-book prompt: 55, 18, 10, and 16. Low faithfulness grows from 11 to 34 of 99 (+23), including High recall and Low faithfulness from 6 to 18 (+12).](/docs/pipeline-output-quality-prompt-quadrants.png)
 {{< /island >}}
 
-Among high-recall questions, where retrieval found the right passages, low-faithfulness answers tripled from 6 to 18: these are the questions worth inspecting first, comparing their generated claims against the retrieved passages and the generator prompt. **The problem traces to generation, not retrieval:** the open-book prompt, as expected, let the LLM draw on its own knowledge instead of the provided evidence.
+Among high-recall questions, where retrieval found the right passages, low-faithfulness answers tripled from 6 to 18: these are the questions worth inspecting first, comparing their generated claims against the retrieved passages and the generator prompt. The low-recall, low-faithfulness cell grew too, from 5 to 16. A reader following the map alone would send those 11 questions to retrieval; only the controlled setup tells us the cause was the same prompt change. **The problem traces to generation, not retrieval:** the open-book prompt, as expected, let the LLM draw on its own knowledge alongside the provided evidence.
 
 Since retrieval was identical in both runs, it cannot explain the difference. But it can still improve: `recall@10` of 0.668 means some relevant evidence remains missing.
 
@@ -119,20 +121,16 @@ In your setup, nobody plants the cause: you start from the symptom, form a hypot
 
 ## Running in CI
 
-Once the baseline works as intended, lock it in: run the evaluation in CI against a fixed golden set, and fail the build when a metric's mean drops below your baseline by more than its run-to-run drift. Keep the generator prompt and model versions in version control, so a change shows up as a diff next to the score it caused. Treat retrieval and generation independently, and update the thresholds when requirements change, not because a merge you need fails.
+Once the baseline works as intended, lock it in: run the evaluation in CI against a fixed golden set, and fail the build when a metric's mean drops below your baseline, or when the count of below-target questions rises, since an unchanged mean can still hide a growing cluster of failures. Set that margin above the swing you see from rerunning an unchanged configuration, so ordinary run-to-run variability does not fail the build on its own, only a real regression does. Keep the generator prompt and model versions in version control, so a change shows up as a diff next to the score it caused. Treat retrieval and generation independently, and update the thresholds when requirements change, not because a merge you need fails.
 
 ## Before You Trust the Scores
 
-- **Judge bias.** Judges can skew toward longer answers, certain positions, or systematic scoring bias (see [References](#references)). Compare a sample against human judgments, and recalibrate the rubric if they disagree.
+- **Judge bias.** Judges can skew toward longer answers, certain positions, or whichever model you picked as the judge (see [References](#references)). Compare a sample against human judgments, and recalibrate the rubric if they disagree.
 - **Self-judging contamination.** A judge tends to score its own model family's outputs higher. Use a judge from a different model family than the generator, ideally a different vendor, and record both versions in every run.
 - **Failed calls.** A dropped judge or generator call is a pipeline failure, not missing data. Count and report failures instead of silently excluding them from the average.
 - **Refusals.** A correct refusal can still score low on `answer_relevancy`. Check whether a low score is an evasion or an appropriate refusal before treating it as a failure.
 - **Evaluation cost.** With 10 retrieved passages, Ragas makes around 15 judge calls per question. Start with 50–100 questions and a cheaper judge, then run the full golden set before release. For an initial pass without an LLM judge, see [Predicting Weak Retrieval Without an LLM](/articles/predicting-weak-retrieval/).
 - **Score stability.** Both the generator and the judge sample their output, so a rerun shifts the numbers. Rerun identical configurations to see how much a score moves before treating a small difference as real.
-
-## How We Measured
-
-The run was recorded on October 8, 2026, with 100 questions from <a href="https://huggingface.co/datasets/rag-datasets/rag-mini-bioasq" target="_blank">rag-mini-bioasq</a>, a public subset of the BioASQ Task 11b biomedical question-answering data, repackaged for RAG with a passage corpus, relevance labels, and reference answers. Thousands of its passages contain missing text but are still labeled relevant; we dropped those passages and the labels pointing at them before scoring, since an uncleaned corpus measures data errors instead of retrieval quality. Retrieval used `BAAI/bge-small-en-v1.5` through Qdrant's FastEmbed integration. The generator was `anthropic/claude-haiku-5.5`, and the judge was `openai/gpt-5.4-nano` with `openai/text-embedding-3-small` embeddings, all reached through <a href="https://openrouter.ai/" target="_blank">OpenRouter</a>, on Ragas 0.4.3. One empty generator answer and one judge timeout leave the three judged metrics with 99 scored questions each. A rerun moves these numbers slightly.
 
 ## What to Check Next
 
@@ -148,11 +146,15 @@ However you got there, each symptom points to a specific place to inspect:
 
 ## Wrapping Up
 
-Evaluation helps identify failing components, but a diagnosis is only a hypothesis until you have tested the fix.
+Evaluation helps identify failing components, but a diagnosis is only a hypothesis until you have tested the fix: change one component at a time, run the same evaluation again, and check whether the suspected failures actually improve.
 
 Try it with your own data using the [companion notebook](https://github.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb) or [open it in Colab](https://githubtocolab.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb).
 
+## How We Measured
+
+The run was recorded on October 8, 2026, with 100 questions from <a href="https://huggingface.co/datasets/rag-datasets/rag-mini-bioasq" target="_blank">rag-mini-bioasq</a>, a public subset of the BioASQ Task 11b biomedical question-answering data, repackaged for RAG with a passage corpus, relevance labels, and reference answers. About 30% of its passages contain missing text but are still labeled relevant; we dropped those passages and the labels pointing at them before scoring, since an uncleaned corpus measures data errors instead of retrieval quality (<a href="https://huggingface.co/datasets/enelpol/rag-mini-bioasq" target="_blank">enelpol/rag-mini-bioasq</a> fills the gaps instead, if you would rather keep every passage). Thirteen of the 100 questions have more than 10 labeled passages, so they cannot reach a `recall@10` of 1.0 even with perfect retrieval. Retrieval used `BAAI/bge-small-en-v1.5` through Qdrant's FastEmbed integration. The generator was `anthropic/claude-haiku-5.5`, and the judge was `openai/gpt-5.4-nano` with `openai/text-embedding-3-small` embeddings, all reached through <a href="https://openrouter.ai/" target="_blank">OpenRouter</a>, on Ragas 0.4.3. In each run, one empty generator answer and one judge timeout leave the three judged metrics with 99 scored questions. We did not measure how much an identical rerun would move these numbers.
+
 ## References
 
-- LLM judges can favor [longer answers](https://arxiv.org/abs/2306.05685), prefer [certain answer positions](https://aclanthology.org/2025.ijcnlp-long.18/), or show [scoring bias](https://arxiv.org/abs/2610.05094), systematically scoring too high, too low, or [toward the middle](https://arxiv.org/abs/2605.16386). Calibrating the rubric against human feedback can be an [iterative process](https://pmc.ncbi.nlm.nih.gov/articles/PMC13237853/) as new disagreements emerge.
+- LLM judges can favor [longer answers](https://arxiv.org/abs/2306.05685) or prefer [certain answer positions](https://aclanthology.org/2025.ijcnlp-long.18/). Judge design choices, especially which model you pick, can also [shift scoring leniency](https://arxiv.org/abs/2610.05094) by tens of percentage points, and a related compression-toward-the-middle effect has been documented when LLMs score ordinal scales, [in a clinical setting](https://arxiv.org/abs/2605.16386). Calibrating the rubric against human feedback can be an [iterative process](https://pmc.ncbi.nlm.nih.gov/articles/PMC13237853/) as new disagreements emerge.
 - Judges score their own outputs higher than other outputs of equal quality, and that preference grows with how well the model recognizes its own text (<a href="https://arxiv.org/abs/2404.13076" target="_blank">Panickssery et al., 2024</a>).

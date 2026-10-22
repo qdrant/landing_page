@@ -3,11 +3,13 @@
 const NS = 'http://www.w3.org/2000/svg';
 const TOTAL = 99;
 const CAPACITY = 67;
+// Labels match the diagnosis island's symptom names (same four cases), so a
+// reader does not have to remap one figure's wording onto the other's.
 const CELLS = [
-  { recall: 'Low', faithfulness: 'High', label: 'Check the labels', narrow: ['Check the labels'], color: '--qi-muted', frame: '--qi-line' },
-  { recall: 'High', faithfulness: 'High', label: 'Answer stays in the passages', narrow: ['Answer stays in', 'the passages'], color: '--qi-cat-3' },
-  { recall: 'Low', faithfulness: 'Low', label: 'Inspect retrieval first', narrow: ['Inspect retrieval', 'first'], color: '--qi-cat-2' },
-  { recall: 'High', faithfulness: 'Low', label: 'Generation problem', narrow: ['Generation', 'problem'], color: '--qi-accent' },
+  { recall: 'Low', faithfulness: 'High', label: 'Low recall, supported answer', narrow: ['Low recall,', 'supported answer'], color: '--qi-muted', frame: '--qi-line' },
+  { recall: 'High', faithfulness: 'High', label: 'Both scores meet target', narrow: ['Both scores', 'meet target'], color: '--qi-cat-3' },
+  { recall: 'Low', faithfulness: 'Low', label: 'Evidence and support drop', narrow: ['Evidence and', 'support drop'], color: '--qi-cat-2' },
+  { recall: 'High', faithfulness: 'Low', label: 'Answer loses support', narrow: ['Answer loses', 'support'], color: '--qi-accent' },
 ];
 const PROMPTS = {
   grounded: {
@@ -146,8 +148,10 @@ export function mount(node) {
       const after = PROMPTS['open-book'].counts[index];
       const delta = after - before;
       label(values, x + inset, countY, String(before), `qi-pq__before ${selected === 'grounded' ? 'qi-pq__count' : 'qi-pq__comparison'}`);
-      label(values, x + inset + (narrow ? 38 : 48), countY - 3, '→', 'qi-pq__comparison');
-      label(values, x + inset + (narrow ? 62 : 78), countY, String(after), `qi-pq__after ${selected === 'open-book' ? 'qi-pq__count' : 'qi-pq__comparison'}`);
+      // Narrow offsets clear a 2-digit "before" count (e.g. 21, 67); a single
+      // digit left more room, but 38/62 let the arrow glyph touch two digits.
+      label(values, x + inset + (narrow ? 46 : 48), countY - 3, '→', 'qi-pq__comparison');
+      label(values, x + inset + (narrow ? 72 : 78), countY, String(after), `qi-pq__after ${selected === 'open-book' ? 'qi-pq__count' : 'qi-pq__comparison'}`);
       label(values, narrow ? x + inset : x + cellWidth - inset, narrow ? countY + 22 : countY - 3,
         `${delta > 0 ? '+' : '−'}${Math.abs(delta)}`, 'qi-pq__delta', narrow ? 'start' : 'end');
       const dotTop = y + dotOffset;
