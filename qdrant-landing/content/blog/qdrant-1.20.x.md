@@ -83,6 +83,13 @@ This release adds a new [`code` tokenizer](/documentation/manage-data/indexing/#
 
 Payloads often contain arrays of objects, such as a product with several offers, each with its own shop and price. A [nested filter](/documentation/search/filtering/#nested-object-filter) finds points where a single element matches all conditions, for example an offer from a specific shop below a certain price.
 
+{{< island
+    path="content/headless/blog/qdrant-1.20.x/nested-filter"
+    width="90%" ratio="684 / 263"
+>}}
+![A nested filter on offers requires shop A and a price under $100. Point 7 has a shop A offer and an offer under $100, but they're different offers, so it doesn't match. Point 9 has one shop A offer for $80, so it matches.](/blog/qdrant-1.20.x/nested-filter.svg)
+{{< /island >}}
+
 Until now, payload indexes couldn't answer these filters on their own. Indexes on `offers[].shop` and `offers[].price` could only narrow down the candidates. Qdrant then read the payload of every remaining candidate, usually from disk, to check the conditions per element. When many candidates remained, nested filters got slow.
 
 With version 1.20, every [payload index](/documentation/manage-data/indexing/#payload-index) type gets a new `nested` parameter, which creates a [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) that stores each array element separately. When every condition in a nested filter uses a field with a per-element index on the same array, Qdrant can answer the filter from the indexes alone, without reading any payloads. The search API doesn't change, so existing nested filters get faster as soon as you create the indexes.
