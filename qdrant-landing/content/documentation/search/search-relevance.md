@@ -51,12 +51,15 @@ There are multiple expressions available. Check the [API docs for specific detai
 - **condition** - A filtering condition. If the condition is met, it becomes `1.0`, otherwise `0.0`.
 - **mult** - Multiply an array of expressions.
 - **sum** - Sum an array of expressions.
+- **max** - Largest of an array of expressions. Available as of v1.19.1. [See more](#max-and-min).
+- **min** - Smallest of an array of expressions. Available as of v1.19.1. [See more](#max-and-min).
 - **div** - Divide an expression by another expression.
 - **abs** - Absolute value of an expression.
 - **pow** - Raise an expression to the power of another expression.
 - **sqrt** - Square root of an expression.
 - **log10** - Base 10 logarithm of an expression.
 - **ln** - Natural logarithm of an expression.
+- **acosh** - Inverse hyperbolic cosine of an expression. The input must be 1 or greater. Available as of v1.19.1. [See more](#hyperbolic-distance).
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
 - **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#decay-functions).
@@ -78,6 +81,59 @@ If there is no variable and no defined default, a default value of `0.0` is used
 - Multiplication and division are lazily evaluated, meaning that if a 0 is encountered, the rest of the operations don't execute (for example, `0.0 * condition` won't check the condition).
 - Payload variables used within the formula also benefit from having payload indices. Please try to always have a payload index set up for the variables used in the formula for better performance.
 </aside>
+
+### Max and Min
+
+_Available as of v1.19.1_
+
+`max` and `min` take an array of expressions and return the largest or the smallest value. An empty array returns an error.
+
+Use `max` to search across several fields and keep each point's best score. Run one prefetch per field. In this example, `$score[0]` and `$score[1]` refer to the scores from the first and second prefetch. It runs a [BM25 text query](/documentation/search/text-search/full-text-search/) against the `title` and `body` payload fields, and multiplies the title score by 3 to boost title matches:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-best-of-variants/" >}}
+
+Use `min` to limit how much a boost affects the ranking. This example adds a popularity boost of at most `2.0` to the score:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-capped-popularity/" >}}
+
+Combine `max` and `min` to keep a value (`x`) within a range: `max(lo, min(hi, x))`. This example clamps the payload value `rating` between 0 and 1:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-clamp/" >}}
+
+#### Points Missing from a Prefetch
+
+If a point is missing from a prefetch's results, its score for that prefetch is `0.0`. This can affect the result of `max` or `min`:
+
+- With `max`, the missing score wins over negative scores, such as negative dot product scores or negated Euclidean or Manhattan distances.
+- With `min`, the missing score wins over positive scores, including positive cosine scores.
+
+Set a default for the missing prefetch score to keep it from winning the comparison. Use a value below the expected score range for `max`, such as `-1e30`, or above it for `min`, such as `1e30`.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-max-defaults/" >}}
+
+<aside role="status">
+
+Place `defaults` alongside `formula`, and include the `$` in each score key. Qdrant silently ignores `defaults` inside formula or a key without the `$`.
+
+</aside>
+
+### Hyperbolic Distance
+
+_Available as of v1.19.1_
+
+The `acosh` expression returns the inverse hyperbolic cosine of a single expression, like `sqrt`, `ln`, and `exp`. Use it to rescore hyperbolic embeddings, which place hierarchical data in the Poincaré ball or on the Lorentz hyperboloid, by their exact geodesic distance.
+
+The input must be at least 1, and `acosh(1)` returns `0`. A smaller input returns a non-finite number error. Qdrant doesn't clamp values that are only slightly below 1. If rounding could push the input below 1, add a small epsilon.
+
+The formula you need depends on how you ingest and query the vectors. This example uses the Lorentz model with a curvature of 1:
+
+1. Create the collection with the `Dot` distance metric.
+2. Store the points as Lorentz-model vectors.
+3. Query with a vector of the same kind, but flip the sign of its first element.
+
+The dot product, which is the `$score`, is then the Lorentzian inner product of the query and the point, and the geodesic distance is `acosh(-$score)`. Formula results are sorted in descending order, so the example negates the distance to rank the closest points first:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-hyperbolic-distance/" >}}
 
 ### Decay Functions
 
@@ -206,7 +262,7 @@ Internally, Qdrant combines the feedback list into pairs, based on the relevance
 
 The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need to be customized for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](https://pypi.org/project/qdrant-relevance-feedback/).
 
-<aside role="alert">When using point IDs for <code>target</code> or <code>example</code>, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.</aside>
+<aside role="status">When using point IDs for <code>target</code> or <code>example</code>, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.</aside>
 
 For a hands-on tutorial on determining the parameters, using them with the Relevance Feedback Query, and evaluating the results, check out [Relevance Feedback in Qdrant](/documentation/tutorials-search-engineering/using-relevance-feedback/).
 

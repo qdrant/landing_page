@@ -100,7 +100,7 @@ Searching every data point is inefficient at scale. [Filtering](/documentation/s
 Under heavy write loads, large amounts of data may not be indexed immediately, which can slow down searches. To maintain consistent performance, only query indexed data.
 
 - **Evaluate whether [hybrid search](/documentation/search/hybrid-queries/) fits your use case.**
-Hybrid search casts a wide retrieval net, maximizing recall by using multiple retrieval methods, such as combining dense vector search (semantic similarity) with sparse vector search (keyword matching). Evaluate its effectiveness for your specific dataset and queries.
+Hybrid search casts a wide retrieval net, maximizing recall by using multiple retrieval methods, such as combining dense vector search (semantic similarity) with [BM25 full-text search](/documentation/search/text-search/full-text-search/) (keyword matching). Evaluate its effectiveness for your specific dataset and queries.
 
 - **Rerank for maximum search relevance.**
 After initial hybrid retrieval, [rerank](/documentation/search/hybrid-queries/#multi-stage-queries) the results using late interaction embeddings. Reranking can be computationally expensive, so aim for a balance between relevance and speed. To save memory, disable the HNSW index for vectors used only for rescoring and factor the rescoring vector into your capacity planning (disk and RAM).

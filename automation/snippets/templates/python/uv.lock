@@ -2430,8 +2430,8 @@ wheels = [
 
 [[package]]
 name = "qdrant-client"
-version = "1.19.0"
-source = { git = "https://github.com/qdrant/qdrant-client?tag=v1.19.0#425840be987cd470d19bbb4e2363e87754fbc914" }
+version = "1.20.0"
+source = { git = "https://github.com/qdrant/qdrant-client?tag=v1.20.0#bfb4438d1a4ff5a4fd4a1d9e4f4fe81b46d170d3" }
 dependencies = [
     { name = "grpcio" },
     { name = "httpx", extra = ["http2"] },
@@ -2734,7 +2734,7 @@ requires-dist = [
     { name = "ollama", specifier = ">=0.6.3" },
     { name = "openai", specifier = ">=3.35" },
     { name = "pillow", specifier = ">=12.3.0" },
-    { name = "qdrant-client", git = "https://github.com/qdrant/qdrant-client?tag=v1.19.0" },
+    { name = "qdrant-client", git = "https://github.com/qdrant/qdrant-client?tag=v1.20.0" },
     { name = "qdrant-edge-py", specifier = "==0.8.0" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "sie-qdrant", specifier = ">=0.10.1" },

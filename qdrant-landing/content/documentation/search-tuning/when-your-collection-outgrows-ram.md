@@ -26,7 +26,7 @@ Once a collection no longer fits in RAM, the kernel evicts vector pages, and the
 
 [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) is the method measured here. It rotates each vector before compressing it, which spreads the error evenly across coordinates, and its `bits` parameter sets the depth from `bits4` down to `bits1`. Start at `bits4`, a good default for many workloads at eight times compression.
 
-A lower-precision [datatype](/documentation/manage-data/vectors/#datatypes) such as `float16` shrinks the same vectors a different way. Quantization adds a compressed copy beside the originals, while a datatype changes the originals themselves, and that difference decides whether anything full-precision survives to rescore against.
+A lower-precision [datatype](/documentation/manage-data/vectors/#datatypes) such as `float16` or `turbo16` shrinks the same vectors a different way. Quantization adds a compressed copy beside the originals, while a datatype changes the originals themselves, and that difference decides whether anything full-precision survives to rescore against.
 
 Dense vectors take most of that memory in a single-vector collection. If you use a late interaction model, its multivectors dominate instead, at one vector per token.
 
@@ -166,7 +166,7 @@ That near-parity, at one-eighth the storage of `float32`, is most worth taking w
 - **Disk or memory is already tight.** Unquantized `turbo4` removes the full-precision copy rather than shrinking it further with rescoring, so it helps most once other quantization plus `cold` placement is still not enough headroom.
 - **The vectors themselves are expensive.** A late interaction model's multivectors cost one vector per token, so the same compression ratio saves far more in absolute terms there than on a single dense vector. That is also where `turbo4`'s no-quantization parity was measured directly against MaxSim rescoring, not only against dense-prefetch recall.
 
-Start from unquantized `turbo4` in either case, and validate carefully before switching to 1-bit quantized `turbo4`, since that benchmark found it the weakest of the configurations it tested.
+Start from unquantized `turbo4` in either case, and validate carefully before switching to 1-bit quantized `turbo4`, since that benchmark found it the weakest of the configurations it tested. If `turbo4` loses too much recall on your data, [`turbo8`](/documentation/manage-data/vectors/#turbo8) stores 8 bits per dimension, one-quarter of the original size, with recall closer to `float16`. This article does not measure `turbo8`.
 
 ## Verify It on Your Own Collection
 

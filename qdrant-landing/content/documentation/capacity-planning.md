@@ -16,7 +16,7 @@ Sizing a Qdrant cluster means estimating how much storage and memory your collec
 
 - The number of vectors, their dimensions, and their datatype.
 - Payload sizes and their payload indexes.
-- Which memory tier you use for vectors, indexes, and payloads.
+- Which memory tier you use for vectors, indexes, payloads, and the ID tracker.
 - Your collections' replication settings.
 - Whether you're using quantization and how you’ve set it up.
 
@@ -44,7 +44,7 @@ base = number_of_points * replication_factor
 dense_size = base * dimensions * bytes_per_dim
 ```
 
-Where `bytes_per_dim` depends on the [datatype](/documentation/manage-data/vectors/#datatypes): `float32` = 4 bytes (default), `float16` = 2 bytes, `uint8` = 1 byte, `turbo4` = 0.5 bytes. Dense vectors count toward RAM if the vectors are in the default `cached` tier. If you move them to `cold`, only actively-read pages get cached by the OS opportunistically, so you don't need to budget RAM for them up front.
+Where `bytes_per_dim` depends on the [datatype](/documentation/manage-data/vectors/#datatypes): `float32` = 4 bytes (default), `float16` = 2 bytes, `turbo16` = 2 bytes, `uint8` = 1 byte, `turbo8` = 1 byte, `turbo4` = 0.5 bytes. Dense vectors count toward RAM if the vectors are in the default `cached` tier. If you move them to `cold`, only actively-read pages get cached by the OS opportunistically, so you don't need to budget RAM for them up front.
 
 Example: one million points, 768 dimensions, a replication factor of two, `float32`, default `cached` tier:
 
@@ -99,7 +99,7 @@ Each named vector has its own HNSW vector index. If you have multiple named vect
 
 ### Sparse Vectors
 
-[Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) back keyword-style [full-text search](/documentation/search/text-search/full-text-search/). They also have an index, which is an inverted-index-style structure.
+[Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) back [sparse vector search](/documentation/search/text-search/sparse-vector-search/). They also have an index, which is an inverted-index-style structure.
 
 If you're using sparse vectors, size them separately using their non-zero element count (`nnz`) instead of `dimensions`:
 
@@ -147,9 +147,11 @@ payload_index_size ≈ indexed_payload_size * 2
 
 Only index the fields you filter on: indexing everything wastes RAM.
 
+A [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) also keeps a map from array elements to points in RAM, whatever its memory tier. Budget about 4 bytes per point for each per-element index.
+
 ### ID Tracker
 
-The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and keeps it resident in RAM at all times:
+The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and, in the default `pinned` tier, also keeps it in RAM:
 
 ```text
 id_tracker_size = base * 52 bytes
@@ -161,6 +163,8 @@ For example, with one million points and a replication factor of two:
 id_tracker_size = 2,000,000 * 52 bytes ≈ 0.10 GB
 ```
 
+In the `cached` tier, the ID tracker still counts toward RAM, but the OS can evict it under memory pressure. In the `cold` tier, you don't need to budget RAM for it up front.
+
 ## Putting It Together
 
 Add up the components that apply to your setup, based on the tiers you've chosen:
@@ -170,7 +174,7 @@ Add up the components that apply to your setup, based on the tiers you've chosen
   - The HNSW vector indexes (`cached` by default)
   - Quantized vectors and the sparse indexes (`pinned` by default)
   - Payload indexes (`pinned` by default)
-  - The ID tracker, which is always resident
+  - The ID tracker (`pinned` by default)
 - **Disk**: everything, regardless of tier:
   - Dense vectors and quantized vectors
   - The HNSW vector indexes

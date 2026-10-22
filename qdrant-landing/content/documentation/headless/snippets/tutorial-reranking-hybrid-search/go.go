@@ -77,7 +77,6 @@ func Main() {
 
 	// @block-start define-models
 	denseEmbeddingModel := "sentence-transformers/all-MiniLM-L6-v2"
-	sparseEmbeddingModel := "qdrant/bm25"
 	lateInteractionEmbeddingModel := "answerdotai/answerai-colbert-small-v1"
 	// @block-end define-models
 
@@ -108,11 +107,26 @@ func Main() {
 				},
 			},
 		),
-		SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
-			map[string]*qdrant.SparseVectorParams{
-				"sparse": {Modifier: qdrant.Modifier_Idf.Enum()},
-			},
-		),
+	})
+
+	client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+		CollectionName: collectionName,
+		FieldName:      "description",
+		FieldType:      qdrant.FieldType_FieldTypeText.Enum(),
+		FieldIndexParams: qdrant.NewPayloadIndexParamsText(
+			&qdrant.TextIndexParams{
+				Tokenizer: qdrant.TokenizerType_Word,
+				Stemmer: qdrant.NewStemmingAlgorithmSnowball(&qdrant.SnowballParams{
+					Language: "english",
+				}),
+				Stopwords: &qdrant.StopwordsSet{
+					Languages: []string{"english"},
+				},
+				// Enable BM25 scoring
+				Scoring: &qdrant.TextScoringParams{
+					Type: qdrant.TextScoringType_Bm25,
+				},
+			}),
 	})
 	// @block-end create-collection
 
@@ -131,9 +145,8 @@ func Main() {
 		buffer = append(buffer, &qdrant.PointStruct{
 			Id: qdrant.NewIDNum(idx),
 			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
-				"dense":  qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: denseEmbeddingModel}),
-				"sparse": qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: sparseEmbeddingModel}),
-				"multi":  qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: lateInteractionEmbeddingModel}),
+				"dense": qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: denseEmbeddingModel}),
+				"multi": qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: lateInteractionEmbeddingModel}),
 			}),
 			Payload: qdrant.NewValueMap(map[string]any{
 				"title":       title,
@@ -185,14 +198,15 @@ func Main() {
 	}
 	// @block-end dense-retrieval
 
-	// @block-start sparse-retrieval
+	// @block-start bm25-retrieval
 	results, err = client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: collectionName,
-		Query: qdrant.NewQueryDocument(&qdrant.Document{
-			Text:  query,
-			Model: sparseEmbeddingModel,
-		}),
-		Using: qdrant.PtrOf("sparse"),
+		Query: &qdrant.Query{
+			Variant: &qdrant.Query_Text{
+				Text: &qdrant.TextQuery{Query: query},
+			},
+		},
+		Using: qdrant.PtrOf("description"),
 		Limit: qdrant.PtrOf(uint64(10)),
 	})
 
@@ -205,7 +219,7 @@ func Main() {
 	for _, result := range results {
 		fmt.Println(result)
 	}
-	// @block-end sparse-retrieval
+	// @block-end bm25-retrieval
 
 	// @block-start hybrid-search
 	results, err = client.Query(context.Background(), &qdrant.QueryPoints{
@@ -220,11 +234,12 @@ func Main() {
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
 			{
-				Query: qdrant.NewQueryDocument(&qdrant.Document{
-					Text:  query,
-					Model: sparseEmbeddingModel,
-				}),
-				Using: qdrant.PtrOf("sparse"),
+				Query: &qdrant.Query{
+					Variant: &qdrant.Query_Text{
+						Text: &qdrant.TextQuery{Query: query},
+					},
+				},
+				Using: qdrant.PtrOf("description"),
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
 		},
@@ -257,11 +272,12 @@ func Main() {
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
 			{
-				Query: qdrant.NewQueryDocument(&qdrant.Document{
-					Text:  query,
-					Model: sparseEmbeddingModel,
-				}),
-				Using: qdrant.PtrOf("sparse"),
+				Query: &qdrant.Query{
+					Variant: &qdrant.Query_Text{
+						Text: &qdrant.TextQuery{Query: query},
+					},
+				},
+				Using: qdrant.PtrOf("description"),
 				Limit: qdrant.PtrOf(uint64(20)),
 			},
 		},

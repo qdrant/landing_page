@@ -27,7 +27,7 @@ The level of this tradeoff depends on the quantization method and its parameters
 
 Qdrant supports four quantization methods:
 
-- **[TurboQuant](#turboquant-quantization)** supports up to 32x compression, with strong recall across most embedding models.
+- **[TurboQuant](#turboquant-quantization)** supports 4x to 32x compression, with strong recall across most embedding models.
 - **[Scalar Quantization](#scalar-quantization)** compresses each vector component from a 32-bit float to an 8-bit integer, achieving 4x compression with minimal accuracy loss.
 - **[Binary Quantization](#binary-quantization)** reduces each vector component to one to two bits for up to 32x compression. Best suited for high-dimensional, centered vector distributions.
 - **[Product Quantization](#product-quantization)** enables up to 64x compression when minimizing memory is the top priority.
@@ -40,7 +40,7 @@ Depending on your requirements for recall, compression, and distance metrics, co
 
 | Compression | Method      |
 |-------------|-------------|
-| 4           | Use **Scalar Quantization**. It is a well-established quantization method with a good balance between recall and compression. <br/><br/>However, unless you need to use the Manhattan (L1) distance metric, consider using 4-bit **TurboQuant** instead of scalar quantization, as it offers comparable recall at double the compression. |
+| 4           | Use 8-bit **TurboQuant**. In our benchmarks, the 8-bit TurboQuant encoding matched or exceeded the recall of scalar quantization at the same compression, with similar speed. <br/><br/>When using the Manhattan (L1) distance metric, use **Scalar Quantization** instead. |
 | 8           | Use 4-bit **TurboQuant**. It offers a good balance between recall and compression. <br/><br/>When using the Manhattan (L1) distance metric, consider using another quantization method. |
 | 16          | **2-bit TurboQuant** and **2-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | ~21         | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
@@ -51,8 +51,6 @@ Depending on your requirements for recall, compression, and distance metrics, co
 
 *Available as of v1.18.0*
 
-<aside role="status">Test TurboQuant on your data before committing. We encourage you to try it on new collections.</aside>
-
 TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This allows applying a single pre-computed, globally optimized quantization mapping across the dataset, enabling TurboQuant to work effectively with any vector distribution and overcoming a key limitation found in binary quantization.
 
 [Qdrant's implementation of TurboQuant](/articles/turboquant-quantization/) extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings.
@@ -61,10 +59,11 @@ TurboQuant uses asymmetric quantization automatically: only stored vectors are c
 
 ### Encoding Options
 
-TurboQuant supports four bit depths:
+TurboQuant supports five bit depths:
 
 | Encoding | Bit Depth | Compression |
 |----------|-----------|-------------|
+| `bits8`           | 8 bits   | 4× |
 | `bits4` (default) | 4 bits   | 8× |
 | `bits2`           | 2 bits   | 16× |
 | `bits1_5`         | 1.5 bits | ~21× |
@@ -74,13 +73,29 @@ In our benchmarks, 4-bit TurboQuant, at twice the compression ratio of scalar qu
 
 Compared to binary quantization, TurboQuant offers better recall at lower speed and equivalent storage budgets.
 
-The default encoding is `bits4`, which offers the best accuracy.
+The default encoding is `bits4`. `bits8`, available as of v1.20.0, offers the highest accuracy at half the compression of `bits4`.
 
 ### Distance Metric Support
 
 TurboQuant fully supports Cosine, Dot, and Euclidean (L2) distance with SIMD-accelerated scoring.
 
 Manhattan (L1) distance is supported but requires full vector reconstruction per comparison, making it significantly slower than the other metrics. Use Cosine, Dot, or Euclidean distance for best performance with TurboQuant.
+
+### Rescoring
+
+Rescoring re-evaluates the top search results with the original vectors, which recovers accuracy lost to compression. It improves search quality, but it reads the original vectors, which can slow down search when they're served from disk.
+
+Lower bit depths lose more precision, so Qdrant rescores them by default:
+
+| Encoding | Rescoring by default |
+|----------|----------------------|
+| `bits8`   | No |
+| `bits4`   | No |
+| `bits2`   | Yes |
+| `bits1_5` | Yes |
+| `bits1`   | Yes |
+
+To override the default for a query, set the `rescore` search parameter. See [Searching with Quantization](#searching-with-quantization).
 
 ## Scalar Quantization
 
@@ -237,7 +252,7 @@ When enabling TurboQuant on an existing collection, use a PATCH request or the c
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant/" >}}
 
-`bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
+`bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits8`, `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
 
 `memory` - the [memory tier](/documentation/ops-configuration/memory-tiers/) for the quantized vectors. By default, depends on the placement of the original vectors. See [Default Tiers](/documentation/ops-configuration/memory-tiers/#default-tiers). Set to `pinned` to always keep quantized vectors in RAM. If you're using a version older than 1.19, see [Legacy Settings](/documentation/ops-configuration/memory-tiers/#legacy-settings).
 

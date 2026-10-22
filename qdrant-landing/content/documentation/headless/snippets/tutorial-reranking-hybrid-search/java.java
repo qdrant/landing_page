@@ -11,11 +11,17 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
 import io.qdrant.client.grpc.Collections.HnswConfigDiff;
-import io.qdrant.client.grpc.Collections.Modifier;
 import io.qdrant.client.grpc.Collections.MultiVectorComparator;
 import io.qdrant.client.grpc.Collections.MultiVectorConfig;
-import io.qdrant.client.grpc.Collections.SparseVectorConfig;
-import io.qdrant.client.grpc.Collections.SparseVectorParams;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.SnowballParams;
+import io.qdrant.client.grpc.Collections.StemmingAlgorithm;
+import io.qdrant.client.grpc.Collections.StopwordsSet;
+import io.qdrant.client.grpc.Collections.TextIndexParams;
+import io.qdrant.client.grpc.Collections.TextScoringParams;
+import io.qdrant.client.grpc.Collections.TextScoringType;
+import io.qdrant.client.grpc.Collections.TokenizerType;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Collections.VectorParamsMap;
 import io.qdrant.client.grpc.Collections.VectorsConfig;
@@ -25,6 +31,7 @@ import io.qdrant.client.grpc.Points.PointStruct;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.Query;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.TextQuery;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -96,7 +103,6 @@ public class Snippet {
 
         // @block-start define-models
         String denseEmbeddingModel = "sentence-transformers/all-MiniLM-L6-v2";
-        String sparseEmbeddingModel = "qdrant/bm25";
         String lateInteractionEmbeddingModel = "answerdotai/answerai-colbert-small-v1";
         // @block-end define-models
 
@@ -135,15 +141,31 @@ public class Snippet {
                                                 .build())
                                         .build())
                                 .build()))
-                .setSparseVectorsConfig(
-                    SparseVectorConfig.newBuilder()
-                        .putMap(
-                            "sparse",
-                            SparseVectorParams.newBuilder()
-                                .setModifier(Modifier.Idf)
-                                .build())
-                        .build())
                 .build()
+        ).get();
+
+        client.createPayloadIndexAsync(
+            collectionName,
+            "description",
+            PayloadSchemaType.Text,
+            PayloadIndexParams.newBuilder()
+                .setTextIndexParams(
+                    TextIndexParams.newBuilder()
+                        .setTokenizer(TokenizerType.Word)
+                        .setStemmer(
+                            StemmingAlgorithm.newBuilder()
+                                .setSnowball(
+                                    SnowballParams.newBuilder().setLanguage("english").build())
+                                .build())
+                        .setStopwords(StopwordsSet.newBuilder().addLanguages("english").build())
+                        // Enable BM25 scoring
+                        .setScoring(
+                            TextScoringParams.newBuilder().setType(TextScoringType.Bm25).build())
+                        .build())
+                .build(),
+            null,
+            null,
+            null
         ).get();
         // @block-end create-collection
 
@@ -171,12 +193,6 @@ public class Snippet {
                                         Document.newBuilder()
                                             .setText(description)
                                             .setModel(denseEmbeddingModel)
-                                            .build()),
-                                    "sparse",
-                                    vector(
-                                        Document.newBuilder()
-                                            .setText(description)
-                                            .setModel(sparseEmbeddingModel)
                                             .build()),
                                     "multi",
                                     vector(
@@ -225,17 +241,15 @@ public class Snippet {
         }
         // @block-end dense-retrieval
 
-        // @block-start sparse-retrieval
+        // @block-start bm25-retrieval
         results = client.queryAsync(
             QueryPoints.newBuilder()
                 .setCollectionName(collectionName)
                 .setQuery(
-                    nearest(
-                        Document.newBuilder()
-                            .setText(query)
-                            .setModel(sparseEmbeddingModel)
-                            .build()))
-                .setUsing("sparse")
+                    Query.newBuilder()
+                        .setText(TextQuery.newBuilder().setQuery(query).build())
+                        .build())
+                .setUsing("description")
                 .setLimit(10)
                 .build()
         ).get();
@@ -243,7 +257,7 @@ public class Snippet {
         for (var result : results) {
             System.out.println(result);
         }
-        // @block-end sparse-retrieval
+        // @block-end bm25-retrieval
 
         // @block-start hybrid-search
         results = client.queryAsync(
@@ -263,12 +277,10 @@ public class Snippet {
                 .addPrefetch(
                     PrefetchQuery.newBuilder()
                         .setQuery(
-                            nearest(
-                                Document.newBuilder()
-                                    .setText(query)
-                                    .setModel(sparseEmbeddingModel)
-                                    .build()))
-                        .setUsing("sparse")
+                            Query.newBuilder()
+                                .setText(TextQuery.newBuilder().setQuery(query).build())
+                                .build())
+                        .setUsing("description")
                         .setLimit(20)
                         .build())
                 .setQuery(Query.newBuilder().setFusion(Fusion.RRF).build())
@@ -300,12 +312,10 @@ public class Snippet {
                 .addPrefetch(
                     PrefetchQuery.newBuilder()
                         .setQuery(
-                            nearest(
-                                Document.newBuilder()
-                                    .setText(query)
-                                    .setModel(sparseEmbeddingModel)
-                                    .build()))
-                        .setUsing("sparse")
+                            Query.newBuilder()
+                                .setText(TextQuery.newBuilder().setQuery(query).build())
+                                .build())
+                        .setUsing("description")
                         .setLimit(20)
                         .build())
                 .setQuery(

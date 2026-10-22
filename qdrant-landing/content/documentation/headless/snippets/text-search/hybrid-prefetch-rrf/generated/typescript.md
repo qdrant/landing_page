@@ -1,14 +1,16 @@
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
 client.query("books", {
   prefetch: [
     {
-      query: { text: "9780553213515", model: "sentence-transformers/all-minilm-l6-v2" },
+      query: { text: "time travel", model: "sentence-transformers/all-minilm-l6-v2" },
       using: "description-dense",
       score_threshold: 0.5,
     },
     {
-      query: { text: "9780553213515", model: "Qdrant/bm25" },
-      using: "isbn-bm25",
+      query: { text: "time travel" },
+      using: "title",
     },
   ],
   query: { fusion: "rrf" },
