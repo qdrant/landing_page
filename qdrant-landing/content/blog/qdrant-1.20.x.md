@@ -144,6 +144,8 @@ The ID tracker maps each point's ID to its internal location and version. Until 
 
 You can now choose a [memory tier for the ID tracker](/documentation/ops-configuration/memory-tiers/#id-tracker) of each collection. `pinned` keeps the ID tracker in RAM and remains the default. `cold` keeps it on disk and reads it on demand. `cached` also keeps it on disk, but loads it into the page cache when Qdrant opens a segment.
 
+![The ID tracker can be pinned in RAM, which is the default, cached in the page cache when a segment opens, or cold, read from disk. Toward RAM gives faster lookups, toward disk uses less RAM.](/blog/qdrant-1.20.x/id-tracker-tiers.svg)
+
 ### Inline Storage Without Duplicate Vectors
 
 [Inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) speeds up searches on an HNSW index that's stored on disk, by placing the original vectors in the index file next to the graph links. Until now, Qdrant stored those vectors twice: once in the regular vector storage and once in the index file. Qdrant now stores the original vectors [only in the HNSW index file](/documentation/ops-optimization/optimize/#where-qdrant-stores-the-vectors), which reduces disk usage.
