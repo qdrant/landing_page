@@ -1,329 +1,80 @@
-/*
- * DiskCache island for articles/universal-io.
- *
- * A remote file is mirrored into a local mmap file of the same size, split into
- * 16 KiB blocks, with a bitmap recording which blocks are already local. The
- * reader picks a read and watches the three steps from the article: check the
- * bitmap, then either return a slice of the mirror (hit), or fetch the whole
- * covering range (miss), or wait for an in-flight fetch that already covers it
- * (piggyback), then write to the mirror, mark the bitmap, and return a slice
- * borrowed from the mirror.
- *
- * State persists between reads, so blocks fetched by one read are hits for the
- * next, and once every block is local the fully_populated flag takes over. The
- * 16-block file and the read ranges are illustrative.
- *
- * Two compositions share one state: a wide one with each file on a single row
- * (viewBox 760 wide) and a compact one with two rows of eight blocks (viewBox
- * 360 wide), used when the island is narrower than COMPACT_BELOW px so labels
- * stay near their real size on a phone. Pure SVG + CSS on the shared island
- * design system (islands.scss).
- */
-
-const NS = 'http://www.w3.org/2000/svg';
-const COMPACT_BELOW = 560;
-const N = 16;
-const INITIAL = [0, 1];
-
-// Geometry per composition. `base` is the y of the first row of each zone.
-const GEO = {
-  wide: {
-    W: 760, H: 288, bx0: 28, step: 44, cols: 16, bw: 40, bh: 36, rowGap: 0,
-    base: { remote: 40, mirror: 164, bit: 266 },
-    frames: [[6, 82, 'remote file · object storage'], [126, 92, 'local mmap mirror · 16 KiB blocks'], [230, 52, 'bitmap · which blocks are local']],
-    labelY: { flight: 84, slice: 214 },
-    arrow: { y1: 94, y2: 156, labelY: 124 },
-    badge: { x: 744, y: 252, anchor: 'end' },
-  },
-  compact: {
-    W: 360, H: 416, bx0: 12, step: 42, cols: 8, bw: 36, bh: 32, rowGap: 40,
-    base: { remote: 42, mirror: 208, bit: 376 },
-    frames: [[6, 130, 'remote file · object storage'], [172, 140, 'local mmap mirror · 16 KiB blocks'], [324, 86, 'bitmap · which blocks are local']],
-    labelY: { flight: 132, slice: 300 },
-    arrow: { y1: 140, y2: 168, labelY: 158 },
-    badge: { x: 16, y: 404, anchor: 'start' },
-    bitRowGap: 22,
-  },
-};
-
-// `inflight` is a fetch another read in the batch has already started.
-const READS = [
-  { id: 'r0', label: 'blocks 0–1', from: 0, to: 1 },
-  { id: 'r1', label: 'blocks 1–3', from: 1, to: 3 },
-  { id: 'r2', label: 'blocks 4–5', from: 4, to: 5 },
-  { id: 'r3', label: 'blocks 7–10', from: 7, to: 10, inflight: [6, 12], hint: 'with 6–12 in flight' },
-  { id: 'r4', label: 'blocks 13–15', from: 13, to: 15 },
-];
-
-const rng = (a, b) => (a === b ? `block ${a}` : `blocks ${a}–${b}`);
-
-const STATUS_IDLE =
-  'The remote file is mirrored into a local mmap file, split into 16 KiB blocks, and a bitmap records which blocks are local. Pick a read to see what <code>DiskCache</code> does.';
-
-function el(name, attrs, text) {
-  const node = document.createElementNS(NS, name);
-  for (const k in attrs) node.setAttribute(k, attrs[k]);
-  if (text !== undefined) node.textContent = text;
-  return node;
-}
+let instanceId = 0;
 
 export function mount(node) {
-  node.classList.add('qi-dc');
-  const arrowId = `qi-dc-arrow-${Math.random().toString(36).slice(2, 8)}`;
+  node.classList.add('uio-cache');
+  const id = ++instanceId;
+  const wideArrow = `uio-cache-arrow-wide-${id}`;
+  const compactArrow = `uio-cache-arrow-compact-${id}`;
+  const defs = (arrowId) => `<defs><marker id="${arrowId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="uio-arrowhead" d="M0 0L10 5L0 10Z"/></marker></defs>`;
 
-  node.innerHTML = [
-    '<div class="qi-fig">',
-    '  <svg class="qi-svg qi-dc__svg" viewBox="0 0 760 288" role="img"',
-    '    aria-label="DiskCache mirrors a remote file into a local mmap file of 16 blocks and keeps a bitmap of the blocks that are local. A read of local blocks returns a slice of the mirror. A read of a missing block fetches the covering range from object storage, writes it to the mirror, marks the bitmap, and returns a slice of the mirror.">',
-    '    <defs>',
-    `      <marker id="${arrowId}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">`,
-    '        <path class="qi-dc__arrowhead" d="M 0 0 L 10 5 L 0 10 z"/>',
-    '      </marker>',
-    '    </defs>',
-    '    <g class="qi-dc__layer"></g>',
-    '  </svg>',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group">',
-    '      <span class="qi-hint">Explore:</span>',
-    READS.map(
-      (r) =>
-        `<button type="button" class="qi-chip" data-read="${r.id}" aria-pressed="false">${r.label}${r.hint ? `<small>${r.hint}</small>` : ''}</button>`,
-    ).join(''),
-    '    </div>',
-    '    <div class="qi-group">',
-    '      <button type="button" class="qi-chip" data-reset>Reset</button>',
-    '    </div>',
-    '  </div>',
-    '  <p class="qi-status qi-status--3 qi-dc__status" role="status" aria-live="polite"></p>',
-    '</div>',
-  ].join('');
+  node.innerHTML = `
+    <div class="qi-fig">
+      <svg class="qi-svg uio-wide" viewBox="0 0 760 278" role="img" aria-label="DiskCache has three read paths. A cache hit reads the local mmap immediately. A miss fetches the missing range and writes it to the mmap. A read already covered by an in-flight fetch waits for that fetch. Every path returns a borrowed slice from the local mmap.">
+        ${defs(wideArrow)}
+        <text class="qi-title uio-heading" x="380" y="24" text-anchor="middle">Every path returns a local mmap slice</text>
+        <text class="qi-label" x="380" y="46" text-anchor="middle">the bitmap tracks which 16 KiB blocks are already local</text>
 
-  const svg = node.querySelector('.qi-dc__svg');
-  const layer = node.querySelector('.qi-dc__layer');
-  const statusEl = node.querySelector('.qi-dc__status');
-  const readBtns = [...node.querySelectorAll('[data-read]')];
-  const resetBtn = node.querySelector('[data-reset]');
+        <text class="uio-row-title is-hit" x="28" y="89">HIT</text>
+        <g class="uio-bits" transform="translate(112 70)"><rect x="0"/><rect x="24"/><rect x="48"/><text x="8" y="17">1</text><text x="32" y="17">1</text><text x="56" y="17">1</text></g>
+        <text class="qi-label" x="112" y="111">all blocks local</text>
+        <path class="uio-flow" d="M196 84H288" marker-end="url(#${wideArrow})"/>
+        <g class="uio-mmap" transform="translate(306 67)"><rect width="174" height="34" rx="5"/><text x="87" y="22" text-anchor="middle">local mmap</text></g>
+        <path class="uio-flow" d="M480 84H570" marker-end="url(#${wideArrow})"/>
+        <text class="qi-label qi-label--strong" x="588" y="89">borrowed slice</text>
 
-  // ── State shared by both compositions ──
-  let local = new Set(INITIAL);
-  let selected = null;
-  let timers = [];
-  let view = { req: null, slice: null, own: null, flight: null, arrow: null, text: STATUS_IDLE };
-  let g = GEO.wide;
-  let compact = null;
-  let mirror = [];
-  let bits = [];
-  let ov = {};
-  let arrow = null;
-  let arrowLabel = null;
-  let badge = null;
+        <line class="uio-divider" x1="20" y1="126" x2="740" y2="126"/>
+        <text class="uio-row-title is-miss" x="28" y="159">MISS</text>
+        <g class="uio-bits" transform="translate(112 140)"><rect x="0"/><rect class="is-missing" x="24"/><rect class="is-missing" x="48"/><text x="8" y="17">1</text><text x="32" y="17">0</text><text x="56" y="17">0</text></g>
+        <text class="qi-label" x="112" y="181">some blocks missing</text>
+        <path class="uio-flow" d="M196 154H252" marker-end="url(#${wideArrow})"/>
+        <g class="uio-remote" transform="translate(270 137)"><rect width="126" height="34" rx="5"/><text x="63" y="22" text-anchor="middle">fetch remote</text></g>
+        <path class="uio-flow is-accent" d="M396 154H444" marker-end="url(#${wideArrow})"/>
+        <g class="uio-mmap" transform="translate(462 137)"><rect width="118" height="34" rx="5"/><text x="59" y="22" text-anchor="middle">write mmap</text></g>
+        <path class="uio-flow" d="M580 154H626" marker-end="url(#${wideArrow})"/>
+        <text class="qi-label qi-label--strong" x="644" y="159">slice</text>
 
-  // Position of block i in a zone (remote, mirror).
-  const blockX = (i) => g.bx0 + (i % g.cols) * g.step;
-  const blockY = (zone, i) => g.base[zone] + Math.floor(i / g.cols) * g.rowGap;
+        <line class="uio-divider" x1="20" y1="196" x2="740" y2="196"/>
+        <text class="uio-row-title is-covered" x="28" y="229">COVERED</text>
+        <g class="uio-flight" transform="translate(112 203)"><rect width="166" height="42" rx="5"/><text x="83" y="18" text-anchor="middle"><tspan x="83">range covered by</tspan><tspan x="83" dy="14">in-flight fetch</tspan></text></g>
+        <path class="uio-flow" d="M278 224H340" marker-end="url(#${wideArrow})"/>
+        <text class="qi-label qi-label--strong" x="358" y="229">wait</text>
+        <path class="uio-flow" d="M398 224H470" marker-end="url(#${wideArrow})"/>
+        <g class="uio-mmap" transform="translate(488 207)"><rect width="112" height="34" rx="5"/><text x="56" y="22" text-anchor="middle">local mmap</text></g>
+        <path class="uio-flow" d="M600 224H646" marker-end="url(#${wideArrow})"/>
+        <text class="qi-label qi-label--strong" x="664" y="229">slice</text>
+      </svg>
 
-  // The highlight rectangles for blocks a..b: one per row they touch.
-  function segments(a, b, zone) {
-    const out = [];
-    for (let row = 0; row * g.cols < N; row++) {
-      const lo = Math.max(a, row * g.cols);
-      const hi = Math.min(b, row * g.cols + g.cols - 1);
-      if (lo <= hi) out.push({ x1: blockX(lo) - 3, x2: blockX(hi) + g.bw + 3, y: blockY(zone, lo) - 4 });
-    }
-    return out;
-  }
+      <svg class="qi-svg uio-compact" viewBox="0 0 360 448" role="img" aria-label="DiskCache returns every read as a local mmap slice. Hits read it directly, misses fetch and populate it first, and covered reads wait for the existing fetch.">
+        ${defs(compactArrow)}
+        <text class="qi-title uio-heading" x="180" y="24" text-anchor="middle">Every path returns a local mmap slice</text>
+        <text class="qi-label" x="180" y="45" text-anchor="middle">bitmap entries represent 16 KiB blocks</text>
 
-  function build(isCompact) {
-    g = isCompact ? GEO.compact : GEO.wide;
-    layer.replaceChildren();
-    svg.setAttribute('viewBox', `0 0 ${g.W} ${g.H}`);
+        <text class="uio-row-title is-hit" x="18" y="82">HIT</text>
+        <g class="uio-bits" transform="translate(86 64)"><rect x="0"/><rect x="24"/><rect x="48"/><text x="8" y="17">1</text><text x="32" y="17">1</text><text x="56" y="17">1</text></g>
+        <path class="uio-flow" d="M166 78H202" marker-end="url(#${compactArrow})"/>
+        <g class="uio-mmap" transform="translate(220 61)"><rect width="120" height="34" rx="5"/><text x="60" y="22" text-anchor="middle">mmap slice</text></g>
+        <text class="qi-label" x="86" y="112">all blocks are local</text>
 
-    g.frames.forEach(([y, h, label]) => {
-      layer.appendChild(el('rect', { class: 'qi-frame', x: 2, y, width: g.W - 4, height: h, rx: 6 }));
-      layer.appendChild(el('text', { class: 'qi-frame-label', x: 16, y: y + 22 }, label));
-    });
+        <line class="uio-divider" x1="18" y1="132" x2="342" y2="132"/>
+        <text class="uio-row-title is-miss" x="18" y="164">MISS</text>
+        <g class="uio-bits" transform="translate(86 146)"><rect x="0"/><rect class="is-missing" x="24"/><rect class="is-missing" x="48"/><text x="8" y="17">1</text><text x="32" y="17">0</text><text x="56" y="17">0</text></g>
+        <path class="uio-flow" d="M166 160H202" marker-end="url(#${compactArrow})"/>
+        <g class="uio-remote" transform="translate(220 143)"><rect width="120" height="34" rx="5"/><text x="60" y="22" text-anchor="middle">fetch remote</text></g>
+        <path class="uio-flow is-accent" d="M280 177V207" marker-end="url(#${compactArrow})"/>
+        <g class="uio-mmap" transform="translate(220 218)"><rect width="120" height="34" rx="5"/><text x="60" y="22" text-anchor="middle">write mmap</text></g>
+        <path class="uio-flow" d="M220 235H166" marker-end="url(#${compactArrow})"/>
+        <text class="qi-label qi-label--strong" x="86" y="240">return slice</text>
 
-    mirror = [];
-    bits = [];
-    for (let i = 0; i < N; i++) {
-      const r = el('g', { class: 'qi-dc__block qi-dc__block--remote' });
-      r.appendChild(el('rect', { x: blockX(i), y: blockY('remote', i), width: g.bw, height: g.bh, rx: 4 }));
-      r.appendChild(el('text', { x: blockX(i) + g.bw / 2, y: blockY('remote', i) + g.bh / 2 + 5, 'text-anchor': 'middle' }, String(i)));
-      layer.appendChild(r);
+        <line class="uio-divider" x1="18" y1="278" x2="342" y2="278"/>
+        <text class="uio-row-title is-covered" x="18" y="312">COVERED</text>
+        <g class="uio-flight" transform="translate(86 288)"><rect width="156" height="46" rx="5"/><text x="78" y="19" text-anchor="middle"><tspan x="78">range covered by</tspan><tspan x="78" dy="14">in-flight fetch</tspan></text></g>
+        <path class="uio-flow" d="M242 311H278" marker-end="url(#${compactArrow})"/>
+        <text class="qi-label qi-label--strong" x="296" y="316">wait</text>
+        <path class="uio-flow" d="M296 328V358" marker-end="url(#${compactArrow})"/>
+        <g class="uio-mmap" transform="translate(220 369)"><rect width="120" height="34" rx="5"/><text x="60" y="22" text-anchor="middle">mmap slice</text></g>
+        <text class="qi-label" x="110" y="392">reuse fetch</text>
+      </svg>
+    </div>`;
 
-      const m = el('g', { class: 'qi-dc__block qi-dc__block--mirror' });
-      m.appendChild(el('rect', { x: blockX(i), y: blockY('mirror', i), width: g.bw, height: g.bh, rx: 4 }));
-      m.appendChild(el('text', { x: blockX(i) + g.bw / 2, y: blockY('mirror', i) + g.bh / 2 + 5, 'text-anchor': 'middle' }, String(i)));
-      layer.appendChild(m);
-      mirror.push(m);
-
-      const by = g.base.bit + Math.floor(i / g.cols) * (g.bitRowGap || 0) + 4;
-      const b = el('text', { class: 'qi-dc__bit', x: blockX(i) + g.bw / 2, y: by, 'text-anchor': 'middle' }, '0');
-      layer.appendChild(b);
-      bits.push(b);
-    }
-
-    // Overlays, repositioned per phase: requested range and returned slice on
-    // the mirror, own and in-flight fetches on the remote file.
-    const overlay = (cls) => {
-      const grp = el('g', { class: `qi-dc__ov ${cls}` });
-      const rects = [0, 1].map(() => grp.appendChild(el('rect', { x: 0, y: 0, width: 0, height: g.bh + 8, rx: 6 })));
-      const label = grp.appendChild(el('text', { x: 0, y: 0, 'text-anchor': 'middle' }));
-      layer.appendChild(grp);
-      return { grp, rects, label };
-    };
-    ov = {
-      req: overlay('qi-dc__ov--req'),
-      slice: overlay('qi-dc__ov--slice'),
-      own: overlay('qi-dc__ov--own'),
-      flight: overlay('qi-dc__ov--flight'),
-    };
-
-    arrow = el('path', { class: 'qi-dc__arrow', d: '', 'marker-end': `url(#${arrowId})` });
-    arrowLabel = el('text', { class: 'qi-dc__arrow-label', x: 0, y: 0 });
-    layer.appendChild(arrow);
-    layer.appendChild(arrowLabel);
-
-    badge = el('text', { class: 'qi-dc__badge', x: g.badge.x, y: g.badge.y, 'text-anchor': g.badge.anchor }, 'fully_populated: reads skip the bitmap');
-    layer.appendChild(badge);
-  }
-
-  function place(o, range, zone, label, labelY) {
-    if (!range) return o.grp.classList.remove('is-shown');
-    const segs = segments(range[0], range[1], zone);
-    o.rects.forEach((rect, i) => {
-      const s = segs[i];
-      if (!s) return rect.setAttribute('display', 'none');
-      rect.removeAttribute('display');
-      rect.setAttribute('x', s.x1);
-      rect.setAttribute('y', s.y);
-      rect.setAttribute('width', s.x2 - s.x1);
-    });
-    const last = segs[segs.length - 1];
-    o.label.setAttribute('x', (last.x1 + last.x2) / 2);
-    o.label.setAttribute('y', labelY);
-    o.label.textContent = label;
-    o.grp.classList.add('is-shown');
-  }
-
-  function render() {
-    for (let i = 0; i < N; i++) {
-      mirror[i].classList.toggle('is-local', local.has(i));
-      bits[i].textContent = local.has(i) ? '1' : '0';
-      bits[i].classList.toggle('is-set', local.has(i));
-    }
-    badge.classList.toggle('is-shown', local.size === N);
-
-    place(ov.req, view.req, 'mirror', '', 0);
-    place(ov.slice, view.slice, 'mirror', 'slice returned', g.labelY.slice);
-    place(ov.own, view.own, 'remote', '', 0);
-    place(ov.flight, view.flight, 'remote', 'in flight', g.labelY.flight);
-
-    if (view.arrow) {
-      const [a, b, label] = view.arrow;
-      const segs = segments(a, b, 'remote');
-      const last = segs[segs.length - 1];
-      const mid = (last.x1 + last.x2) / 2;
-      arrow.setAttribute('d', `M ${mid} ${g.arrow.y1} V ${g.arrow.y2}`);
-      arrow.classList.add('is-shown');
-      // Keep the label inside the drawing when the arrow is near the right edge.
-      const flip = mid > g.W * 0.55;
-      arrowLabel.setAttribute('x', flip ? mid - 10 : mid + 10);
-      arrowLabel.setAttribute('text-anchor', flip ? 'end' : 'start');
-      arrowLabel.setAttribute('y', g.arrow.labelY);
-      arrowLabel.textContent = label;
-      arrowLabel.classList.add('is-shown');
-    } else {
-      arrow.classList.remove('is-shown');
-      arrowLabel.classList.remove('is-shown');
-    }
-    readBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.read === selected)));
-    statusEl.innerHTML = view.text;
-  }
-
-  // Rebuild the drawing when the island crosses the compact threshold.
-  function layout() {
-    const width = node.getBoundingClientRect().width;
-    if (width === 0) return;
-    const isCompact = width < COMPACT_BELOW;
-    if (isCompact === compact) return;
-    compact = isCompact;
-    node.classList.toggle('is-compact', isCompact);
-    build(isCompact);
-    render();
-  }
-
-  const clearTimers = () => {
-    timers.forEach((t) => clearTimeout(t));
-    timers = [];
-  };
-
-  function run(read) {
-    clearTimers();
-    selected = read.id;
-    const { from: a, to: b } = read;
-    const need = [];
-    for (let i = a; i <= b; i++) if (!local.has(i)) need.push(i);
-    const hit = need.length === 0;
-    const flight = read.inflight && !hit ? read.inflight : null;
-    const covered = flight && a >= flight[0] && b <= flight[1];
-    const fetchR = covered ? flight : [a, b];
-
-    const phases = [];
-    // 1. Check the bitmap.
-    phases.push({
-      view: { req: [a, b], flight: flight && covered ? flight : null, text: hit
-        ? `Check the bitmap: ${rng(a, b)} ${a === b ? 'is' : 'are all'} local. This is a cache hit.`
-        : `Check the bitmap: ${need.length === b - a + 1 ? `${rng(a, b)} ${a === b ? 'is' : 'are'} not local` : `${rng(need[0], need[need.length - 1])} ${need.length === 1 ? 'is' : 'are'} not local`}. Even one missing block means the whole covering range, ${rng(a, b)}, is fetched${need.length !== b - a + 1 ? ', including the blocks that are already local' : ''}.`,
-      },
-    });
-    if (!hit) {
-      if (covered) {
-        phases.push({
-          view: { req: [a, b], flight, text: `Another read in the batch is already fetching ${rng(flight[0], flight[1])}, which covers ${rng(a, b)}. This read waits for that request instead of sending its own.` },
-        });
-      } else {
-        phases.push({
-          view: { req: [a, b], own: [a, b], arrow: [a, b, `fetch ${rng(a, b)}`], text: `Send one request to object storage for ${rng(a, b)}. Each round trip takes 10 to 100 ms, so it is worth fetching the whole range at once.` },
-        });
-      }
-      phases.push({
-        fill: fetchR,
-        view: { req: [a, b], own: covered ? null : [a, b], flight: covered ? flight : null, arrow: [fetchR[0], fetchR[1], covered ? `fetched ${rng(fetchR[0], fetchR[1])}` : `fetched ${rng(a, b)}`], text: `The bytes arrive. Write them into the local mmap and mark ${rng(fetchR[0], fetchR[1])} in the bitmap. Remote files are immutable or append-only, so a fetched block never goes stale.` },
-      });
-    }
-    phases.push({
-      view: { req: null, slice: [a, b], text: hit
-        ? `Return a slice of the local mmap. No network round trip.`
-        : `Return a slice borrowed from the local mmap, not the remote buffer, so hits and misses give the same kind of result.` },
-      done: true,
-    });
-
-    phases.forEach((p, i) =>
-      timers.push(
-        setTimeout(() => {
-          if (p.fill) for (let k = p.fill[0]; k <= p.fill[1]; k++) local.add(k);
-          view = { req: null, slice: null, own: null, flight: null, arrow: null, ...p.view };
-          if (p.done && local.size === N) view.text += ' Every block is now local, so the <code>fully_populated</code> flag lets later reads skip the bitmap and its lock.';
-          render();
-        }, i === 0 ? 0 : i * 1700),
-      ),
-    );
-  }
-
-  readBtns.forEach((btn) => btn.addEventListener('click', () => run(READS.find((r) => r.id === btn.dataset.read))));
-  resetBtn.addEventListener('click', () => {
-    clearTimers();
-    local = new Set(INITIAL);
-    selected = null;
-    view = { req: null, slice: null, own: null, flight: null, arrow: null, text: STATUS_IDLE };
-    render();
-  });
-
-  build(false);
-  compact = false;
-  render();
-  layout();
-  if (window.ResizeObserver) new ResizeObserver(layout).observe(node);
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

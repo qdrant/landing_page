@@ -1,132 +1,79 @@
-/* Async bridge island. Scoped under .qi-br. Frames, chips, labels and the
-   status line come from the shared island design system (islands.scss); this
-   file styles the caller timeline, worker bars, and arrows. Each read keeps one
-   categorical color: A Neon Blue, B Purple, C Cyan. */
-
-.qi-br {
+.uio-bridge {
   display: block;
 }
-.qi-br .qi-status--3 {
-  min-height: 0;
+.uio-bridge .uio-compact {
+  display: none;
 }
-.qi-br__num {
-  color: var(--qi-muted);
-  font-variant-numeric: tabular-nums;
+.uio-bridge .qi-title {
+  font-size: 14px;
 }
-
-.qi-br__req--a {
-  --br-c: var(--qi-cat-1);
+.uio-bridge .qi-label {
+  font-size: 13px;
 }
-.qi-br__req--b {
-  --br-c: var(--qi-cat-2);
-}
-.qi-br__req--c {
-  --br-c: var(--qi-cat-3);
-}
-
-/* Anything tied to a step is hidden until that step is reached. */
-.qi-br [data-step] {
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-.qi-br [data-step].is-shown {
-  opacity: 1;
-}
-
-.qi-br__base {
-  stroke: var(--qi-border);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-.qi-br__seg {
+.uio-bridge .uio-lane {
+  fill: none;
   stroke: var(--qi-fg);
-  stroke-width: 2.5;
-  stroke-linecap: round;
+  stroke-width: 1.5;
 }
-.qi-br__seg--blocked {
-  stroke: var(--qi-muted);
-  stroke-dasharray: 3 6;
+.uio-bridge .uio-flow,
+.uio-bridge .uio-return {
+  fill: none;
+  stroke-width: 1.8;
 }
-.qi-br__legend .qi-br__seg {
-  opacity: 1;
+.uio-bridge .uio-flow.is-a,
+.uio-bridge .uio-return.is-a {
+  stroke: var(--qi-cat-1);
 }
-.qi-br [data-step].qi-br__seg.is-now {
-  stroke-width: 3.5;
+.uio-bridge .uio-flow.is-b,
+.uio-bridge .uio-return.is-b {
+  stroke: var(--qi-cat-2);
 }
-.qi-br__tick {
-  stroke: var(--qi-fg);
-  stroke-width: 2;
+.uio-bridge .uio-flow.is-c,
+.uio-bridge .uio-return.is-c {
+  stroke: var(--qi-cat-3);
 }
-
-.qi-br__dot circle {
-  fill: var(--br-c);
+.uio-bridge .uio-arrowhead {
+  fill: var(--qi-muted);
 }
-.qi-br__dot text {
-  fill: #ffffff;
+.uio-bridge .uio-request circle,
+.uio-bridge .uio-result circle {
+  stroke-width: 1.5;
+}
+.uio-bridge .uio-request.is-a circle,
+.uio-bridge .uio-result.is-a circle,
+.uio-bridge .uio-worker.is-a {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cat-1);
+}
+.uio-bridge .uio-request.is-b circle,
+.uio-bridge .uio-result.is-b circle,
+.uio-bridge .uio-worker.is-b {
+  fill: var(--qi-cat-2);
+  stroke: var(--qi-cat-2);
+}
+.uio-bridge .uio-request.is-c circle,
+.uio-bridge .uio-result.is-c circle,
+.uio-bridge .uio-worker.is-c {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.uio-bridge .uio-request circle,
+.uio-bridge .uio-result circle,
+.uio-bridge .uio-worker {
+  fill-opacity: 0.18;
+}
+.uio-bridge .uio-request text,
+.uio-bridge .uio-result text,
+.uio-bridge .uio-worker-label {
+  fill: var(--qi-fg);
   font-family: var(--qi-mono);
   font-size: 13px;
   font-weight: 600;
 }
-
-.qi-br__bar {
-  fill: var(--br-c);
-  fill-opacity: 0.16;
-  stroke: var(--br-c);
+.uio-bridge .uio-worker {
   stroke-width: 1.5;
-  transition: fill-opacity 0.25s ease;
-}
-.qi-br__req.is-done .qi-br__bar {
-  fill-opacity: 0.06;
-  stroke-opacity: 0.6;
-}
-.qi-br__bar-text {
-  fill: var(--qi-fg);
-  font-family: var(--qi-mono);
-  font-size: 13px;
 }
 
-.qi-br__arrow {
-  fill: none;
-  stroke: var(--br-c);
-  stroke-width: 1.8;
-  /* A thin surface halo keeps arrows readable where they cross a worker bar. */
-  paint-order: stroke;
-}
-.qi-br__arrow--reply {
-  stroke-dasharray: none;
-}
-.qi-br__arrowhead {
-  fill: var(--qi-muted);
-}
-.qi-br__wait.is-now .qi-br__arrow {
-  stroke-width: 2.6;
-}
-
-.qi-br .qi-label {
-  font-size: 13px;
-}
-.qi-br__status code {
-  font-family: var(--qi-mono);
-  font-size: 0.9em;
-}
-
-/* Compact composition (island narrower than 560px): the drawing is 360 units
-   wide, so 14px labels render at about 12px on a phone. The status line gets
-   more reserved lines because it wraps more. */
-.qi-br.is-compact .qi-label,
-.qi-br.is-compact .qi-br__bar-text {
-  font-size: 14px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .qi-br [data-step],
-  .qi-br__bar {
-    transition: none;
-  }
-}
-
-/* Article card chrome. Colors come from the shared island tokens so the
-   diagram follows both the explicit site theme and the OS preference. */
 html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
   margin: 2rem 0;
   padding: 0.875rem;
@@ -139,13 +86,18 @@ html .island[data-island='content/articles/headless/universal-io/async-bridge'] 
   aspect-ratio: auto !important;
 }
 html .island[data-island='content/articles/headless/universal-io/async-bridge'] .island__caption {
-  margin-top: 0.375rem;
+  margin-top: 0.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid var(--qi-border);
 }
 
-/* Tighter card padding on phones; last so it wins over the card rule above. */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
+  .uio-bridge .uio-wide {
+    display: none;
+  }
+  .uio-bridge .uio-compact {
+    display: block;
+  }
   html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
     padding: 0.75rem 0.5rem;
   }

@@ -1,126 +1,62 @@
-/* Universal I/O architecture island. Scoped under .qi-ab. Frames, chips,
-   labels and the status line come from the shared island design system
-   (islands.scss); this file styles the boxes, wires, and pipeline slots. Each
-   backend keeps one categorical color: mmap Neon Blue, io_uring Cyan, network
-   Purple. */
-
-.qi-ab {
+.uio-architecture {
   display: block;
 }
-.qi-ab .qi-status--3 {
-  min-height: 0;
+.uio-architecture .uio-compact {
+  display: none;
 }
-
-.qi-ab__swatch--mmap {
-  --swatch: var(--qi-cat-1);
-}
-.qi-ab__swatch--uring {
-  --swatch: var(--qi-cat-3);
-}
-.qi-ab__swatch--net {
-  --swatch: var(--qi-cat-2);
-}
-.qi-ab__backend--mmap {
-  --ab-c: var(--qi-cat-1);
-}
-.qi-ab__backend--uring {
-  --ab-c: var(--qi-cat-3);
-}
-.qi-ab__backend--net {
-  --ab-c: var(--qi-cat-2);
-}
-.qi-ab__wire--mmap {
-  --ab-c: var(--qi-cat-1);
-}
-.qi-ab__wire--uring {
-  --ab-c: var(--qi-cat-3);
-}
-.qi-ab__wire--net {
-  --ab-c: var(--qi-cat-2);
-}
-
-.qi-ab__box,
-.qi-ab__box-rect {
-  fill: var(--qi-surface);
-  stroke: var(--qi-line);
-  stroke-width: 1;
-  transition: stroke 0.15s ease, stroke-width 0.15s ease;
-}
-.qi-ab__box--traits {
-  stroke: var(--qi-muted);
-}
-.qi-ab__backend.is-on .qi-ab__box-rect {
-  stroke: var(--ab-c);
-  stroke-width: 2;
-}
-
-.qi-ab__wire {
-  fill: none;
-  stroke: var(--qi-muted);
-  stroke-width: 1.5;
-  transition: opacity 0.2s ease, stroke 0.15s ease;
-}
-.qi-ab__arrowhead {
-  fill: var(--qi-muted);
-}
-.qi-ab__wire.is-on {
-  stroke: var(--ab-c);
-  stroke-width: 2.5;
-}
-.qi-ab.has-selection .qi-ab__wire[data-backend]:not(.is-on) {
-  opacity: 0.35;
-}
-.qi-ab.has-selection .qi-ab__backend:not(.is-on) {
-  opacity: 0.55;
-}
-.qi-ab__backend {
-  transition: opacity 0.2s ease;
-}
-
-/* Pipeline slots: empty outline until a read occupies them. */
-.qi-ab__cell {
-  fill: none;
-  stroke: var(--qi-line);
-  stroke-width: 1;
-  transition: fill 0.12s ease, stroke 0.12s ease;
-}
-.qi-ab__cell.is-full {
-  fill: var(--ab-c);
-  stroke: var(--ab-c);
-}
-
-.qi-ab .qi-title {
+.uio-architecture .qi-title {
   font-size: 14px;
 }
-.qi-ab .qi-label {
+.uio-architecture .qi-label {
   font-size: 13px;
 }
-.qi-ab__status code {
+.uio-architecture .uio-heading {
+  font-size: 16px;
+}
+.uio-architecture .uio-pipeline {
+  stroke: var(--qi-fg);
+}
+.uio-architecture .uio-flow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.7;
+}
+.uio-architecture .uio-arrowhead {
+  fill: var(--qi-muted);
+}
+.uio-architecture .uio-divider {
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.uio-architecture .uio-slot {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.16;
+  stroke: var(--qi-cat-1);
+  stroke-width: 1.5;
+}
+.uio-architecture .uio-ring > circle:first-child {
+  fill: var(--qi-cat-3-soft);
+  stroke: var(--qi-cat-3);
+  stroke-width: 1.5;
+}
+.uio-architecture .uio-ring-hole {
+  fill: var(--qi-surface);
+  stroke: var(--qi-cat-3);
+  stroke-width: 1;
+}
+.uio-architecture .uio-ring text {
+  fill: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 0.9em;
+  font-size: 10px;
+  font-weight: 600;
+}
+.uio-architecture .uio-task-grid circle {
+  fill: var(--qi-cat-2);
+  fill-opacity: 0.16;
+  stroke: var(--qi-cat-2);
+  stroke-width: 1.2;
 }
 
-/* Compact composition (island narrower than 560px): the drawing is 360 units
-   wide, so 14px labels render at about 12px on a phone. The status line gets
-   more reserved lines because it wraps more. */
-.qi-ab.is-compact .qi-title {
-  font-size: 15px;
-}
-.qi-ab.is-compact .qi-label {
-  font-size: 14px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .qi-ab__wire,
-  .qi-ab__backend,
-  .qi-ab__cell,
-  .qi-ab__box,
-  .qi-ab__box-rect {
-    transition: none;
-  }
-}
-
-/* Article card chrome. Colors come from the shared island tokens so the
-   diagram follows both the explicit site theme and the OS preference. */
 html .island[data-island='content/articles/headless/universal-io/architecture'] {
   margin: 2rem 0;
   padding: 0.875rem;
@@ -133,12 +69,24 @@ html .island[data-island='content/articles/headless/universal-io/architecture'] 
   aspect-ratio: auto !important;
 }
 html .island[data-island='content/articles/headless/universal-io/architecture'] .island__caption {
-  margin-top: 0.375rem;
+  margin-top: 0.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid var(--qi-border);
 }
-/* Tighter card padding on phones; last so it wins over the card rule above. */
-@media (max-width: 640px) {
+
+@media (max-width: 560px) {
+  .uio-architecture .uio-wide {
+    display: none;
+  }
+  .uio-architecture .uio-compact {
+    display: block;
+  }
+  .uio-architecture .qi-title {
+    font-size: 14px;
+  }
+  .uio-architecture .qi-label {
+    font-size: 13px;
+  }
   html .island[data-island='content/articles/headless/universal-io/architecture'] {
     padding: 0.75rem 0.5rem;
   }

@@ -52,8 +52,8 @@ After a few iterations, we settled on a middle ground, a `ReadPipeline` abstract
 
 {{< island
     path="content/articles/headless/universal-io/architecture"
-    width="760" ratio="760 / 414"
-    title="The consumers are written once against the Universal I/O traits. `mmap` returns a borrowed slice directly, `io_uring` exchanges reads with the Linux kernel through submission and completion ring buffers, and network I/O runs remote requests as Tokio tasks."
+    width="760" ratio="760 / 286"
+    title="One `ReadPipeline` keeps consumer code unchanged while each backend chooses its own execution model and concurrency."
 >}}
 ![Consumer code calls the same Universal I/O traits for three different read paths: mmap returns a borrowed slice directly at depth 1; io_uring submits local disk reads to the Linux kernel through a submission ring and receives them through a completion ring at depth 16; network I/O runs up to 256 remote object-storage requests as Tokio tasks.](/articles_data/universal-io/uio-architecture.svg)
 {{< /island >}}
@@ -158,8 +158,8 @@ The following diagram shows the whole flow:
 
 {{< island
     path="content/articles/headless/universal-io/async-bridge"
-    width="760" ratio="760 / 376"
-    title="`schedule()` returns immediately while Tokio workers run the reads, and `wait()` hands results back in the order they finish, here B, C, then A, each matched to its user data through its slot."
+    width="760" ratio="760 / 258"
+    title="The synchronous pipeline schedules A, B, and C; Tokio finishes them B, C, then A, and slots match each result to its request."
 >}}
 ![A synchronous caller thread schedules reads A, B, and C, each spawned onto a Tokio worker. It then calls wait() three times, blocking each time until a reply arrives. Replies return in finish order: B, then C, then A.](/articles_data/universal-io/uio-async-bridge.svg)
 {{< /island >}}
@@ -180,10 +180,10 @@ A read through `DiskCache` then goes like this:
 
 {{< island
     path="content/articles/headless/universal-io/disk-cache"
-    width="760" ratio="760 / 288"
-    title="A `DiskCache` read in three outcomes: a hit returns a slice of the local mmap, a miss fetches the whole covering range once, and a read already covered by an in-flight fetch waits for it instead of sending its own request."
+    width="760" ratio="760 / 278"
+    title="Every `DiskCache` path returns a local mmap slice; misses populate the mirror first, and covered reads reuse an in-flight fetch."
 >}}
-![A remote file of 16 blocks is mirrored into a local mmap file of the same size. A bitmap records which blocks are local, and only blocks 0 and 1 are in this example. A read of local blocks returns a slice of the mirror, while a read of a missing block fetches the covering range from object storage first.](/articles_data/universal-io/uio-disk-cache.svg)
+![Three DiskCache paths converge on a local mmap slice: a hit reads local blocks directly, a miss fetches and writes missing blocks first, and a covered read waits for an existing in-flight fetch.](/articles_data/universal-io/uio-disk-cache.svg)
 {{< /island >}}
 
 Put together, the whole flow looks like this, where the real pipeline splits scheduling and waiting into separate calls but follows the same logic:

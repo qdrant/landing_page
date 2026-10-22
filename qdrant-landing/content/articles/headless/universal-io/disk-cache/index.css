@@ -1,163 +1,88 @@
-/* DiskCache island. Scoped under .qi-dc. Frames, chips, labels and the status
-   line come from the shared island design system (islands.scss); this file
-   styles the block rows, bitmap, and range overlays. Blocks that are local use
-   the Cyan ramp, our own fetch is Neon Blue, and a fetch already in flight is
-   Purple. */
-
-.qi-dc {
+.uio-cache {
   display: block;
 }
-.qi-dc .qi-status--3 {
-  min-height: 0;
+.uio-cache .uio-compact {
+  display: none;
 }
-
-/* Blocks: the remote file is always complete; a mirror block is a dashed
-   ghost until its bytes are local. */
-.qi-dc__block rect {
-  stroke-width: 1;
-  transition: fill 0.2s ease, stroke 0.2s ease;
-}
-.qi-dc__block text {
-  font-family: var(--qi-mono);
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-}
-.qi-dc__block--remote rect {
-  fill: var(--qi-surface);
-  stroke: var(--qi-line);
-}
-.qi-dc__block--remote text {
-  fill: var(--qi-fg);
-}
-.qi-dc__block--mirror rect {
-  fill: none;
-  stroke: var(--qi-line);
-  stroke-dasharray: 3 3;
-}
-.qi-dc__block--mirror text {
-  fill: var(--qi-muted);
-}
-.qi-dc__block--mirror.is-local rect {
-  fill: var(--qi-cat-3-soft);
-  stroke: var(--qi-cat-3);
-  stroke-dasharray: none;
-}
-.qi-dc__block--mirror.is-local text {
-  fill: var(--qi-fg);
-}
-
-.qi-dc__bit {
-  fill: var(--qi-muted);
-  font-family: var(--qi-mono);
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-}
-.qi-dc__bit.is-set {
-  fill: var(--qi-fg);
-  font-weight: 600;
-}
-
-/* Range overlays. */
-.qi-dc__ov {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.qi-dc__ov.is-shown {
-  opacity: 1;
-}
-.qi-dc__ov rect {
-  fill: none;
-  stroke-width: 2;
-}
-.qi-dc__ov text {
-  font-family: var(--qi-mono);
-  font-size: 13px;
-}
-.qi-dc__ov--req rect {
-  stroke: var(--qi-fg);
-}
-.qi-dc__ov--slice rect {
-  stroke: var(--qi-accent);
-}
-.qi-dc__ov--slice text {
-  fill: var(--qi-accent);
-}
-.qi-dc__ov--own rect {
-  stroke: var(--qi-cat-1);
-}
-.qi-dc__ov--flight rect {
-  stroke: var(--qi-cat-2);
-  stroke-dasharray: 5 4;
-}
-.qi-dc__ov--flight text {
-  fill: var(--qi-cat-2);
-}
-
-.qi-dc__arrow {
-  fill: none;
-  stroke: var(--qi-cat-1);
-  stroke-width: 2;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.qi-dc__arrow.is-shown {
-  opacity: 1;
-}
-.qi-dc__arrowhead {
-  fill: var(--qi-cat-1);
-}
-.qi-dc__arrow-label {
-  fill: var(--qi-fg);
-  font-family: var(--qi-mono);
-  font-size: 13px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.qi-dc__arrow-label.is-shown {
-  opacity: 1;
-}
-
-.qi-dc__badge {
-  fill: var(--qi-cat-3);
-  font-family: var(--qi-mono);
-  font-size: 13px;
-  font-weight: 600;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.qi-dc__badge.is-shown {
-  opacity: 1;
-}
-
-.qi-dc__status code {
-  font-family: var(--qi-mono);
-  font-size: 0.9em;
-}
-
-/* Compact composition (island narrower than 560px): the drawing is 360 units
-   wide, so 14px labels render at about 12px on a phone. The status line gets
-   more reserved lines because it wraps more. */
-.qi-dc.is-compact .qi-dc__block text,
-.qi-dc.is-compact .qi-dc__bit,
-.qi-dc.is-compact .qi-dc__ov text,
-.qi-dc.is-compact .qi-dc__arrow-label,
-.qi-dc.is-compact .qi-dc__badge {
+.uio-cache .qi-title {
   font-size: 14px;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .qi-dc__block rect,
-  .qi-dc__ov,
-  .qi-dc__arrow,
-  .qi-dc__arrow-label,
-  .qi-dc__badge {
-    transition: none;
-  }
+.uio-cache .qi-label {
+  font-size: 13px;
+}
+.uio-cache .uio-heading {
+  font-size: 16px;
+}
+.uio-cache .uio-row-title {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+.uio-cache .uio-row-title.is-hit {
+  fill: var(--qi-cat-3);
+}
+.uio-cache .uio-row-title.is-miss {
+  fill: var(--qi-accent);
+}
+.uio-cache .uio-row-title.is-covered {
+  fill: var(--qi-cat-2);
+}
+.uio-cache .uio-divider {
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.uio-cache .uio-flow {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.7;
+}
+.uio-cache .uio-flow.is-accent {
+  stroke: var(--qi-accent);
+  stroke-width: 2;
+}
+.uio-cache .uio-arrowhead {
+  fill: var(--qi-muted);
+}
+.uio-cache .uio-bits rect {
+  width: 18px;
+  height: 22px;
+  rx: 3px;
+  fill: var(--qi-cat-3-soft);
+  stroke: var(--qi-cat-3);
+}
+.uio-cache .uio-bits rect.is-missing {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-dasharray: 3 2;
+}
+.uio-cache .uio-bits text,
+.uio-cache .uio-mmap text,
+.uio-cache .uio-remote text,
+.uio-cache .uio-flight text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.uio-cache .uio-mmap rect {
+  fill: var(--qi-cat-3-soft);
+  stroke: var(--qi-cat-3);
+  stroke-width: 1.5;
+}
+.uio-cache .uio-remote rect {
+  fill: var(--qi-accent);
+  fill-opacity: 0.14;
+  stroke: var(--qi-accent);
+  stroke-width: 1.5;
+}
+.uio-cache .uio-flight rect {
+  fill: var(--qi-cat-2);
+  fill-opacity: 0.12;
+  stroke: var(--qi-cat-2);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
 }
 
-/* Article card chrome. Colors come from the shared island tokens so the
-   diagram follows both the explicit site theme and the OS preference. */
 html .island[data-island='content/articles/headless/universal-io/disk-cache'] {
   margin: 2rem 0;
   padding: 0.875rem;
@@ -170,13 +95,18 @@ html .island[data-island='content/articles/headless/universal-io/disk-cache'] {
   aspect-ratio: auto !important;
 }
 html .island[data-island='content/articles/headless/universal-io/disk-cache'] .island__caption {
-  margin-top: 0.375rem;
+  margin-top: 0.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid var(--qi-border);
 }
 
-/* Tighter card padding on phones; last so it wins over the card rule above. */
-@media (max-width: 640px) {
+@media (max-width: 560px) {
+  .uio-cache .uio-wide {
+    display: none;
+  }
+  .uio-cache .uio-compact {
+    display: block;
+  }
   html .island[data-island='content/articles/headless/universal-io/disk-cache'] {
     padding: 0.75rem 0.5rem;
   }
