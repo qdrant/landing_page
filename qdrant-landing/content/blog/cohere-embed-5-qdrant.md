@@ -4,7 +4,7 @@ draft: false
 slug: cohere-embed-5-qdrant
 author: Evgeniya Sukhodolskaya
 author_profile: evgeniya-sukhodolskaya
-date: 2026-10-21
+date: 2026-10-23
 preview_image: /blog/cohere-embed-5-qdrant/preview/preview.jpg
 social_preview_image: /blog/cohere-embed-5-qdrant/preview/social_preview.jpg
 featured: false
