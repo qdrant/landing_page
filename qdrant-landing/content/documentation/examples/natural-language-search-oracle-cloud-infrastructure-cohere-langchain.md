@@ -11,6 +11,13 @@ stack:
   - LangChain
   - Cohere
   - Oracle Cloud
+retired_note: "Its answer step uses `cohere.command`, which Oracle Cloud Infrastructure retired from on-demand mode on October 2, 2024."
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 # RAG System for Employee Onboarding

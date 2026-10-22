@@ -137,3 +137,10 @@
   X-Robots-Tag: noindex
 /articles/binary-quantization.md
   X-Robots-Tag: noindex
+
+/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/*
+  X-Robots-Tag: noindex
+/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain.md
+  X-Robots-Tag: noindex
+/documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/*
+  X-Robots-Tag: noindex
