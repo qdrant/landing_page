@@ -4,7 +4,7 @@ short_description: "Build a two-agent CrewAI flow that answers questions about m
 description: "Tutorial: store meeting transcripts in Qdrant with FastEmbed, retrieve them with the Query API, and let two CrewAI agents on Claude turn the results into a grounded answer."
 weight: 5
 partition: ecosystem
-social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
+social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.jpg
 aliases:
   - /documentation/agentic-rag-crewai-zoom/
 goal: RAG & Agents
@@ -32,13 +32,13 @@ By the end, you can ask `What did the marketing meetings decide about the Q4 cam
 You need Python 3.12 and:
 
 - A [Qdrant Cloud cluster](https://cloud.qdrant.io/) with its HTTPS endpoint and an API key, or Qdrant running locally with `docker run -p 6333:6333 qdrant/qdrant`.
-- An [Anthropic API key](https://console.anthropic.com/) with credit. Each question makes two to four Claude calls.
+- An [Anthropic API key](https://console.anthropic.com/) with credit. The sample question below made six Claude requests and used about 11,000 tokens.
 
 No OpenAI key is needed. Embeddings run locally through FastEmbed.
 
 ## How the Flow Works
 
-Ingestion runs once. The script embeds each meeting with FastEmbed and stores the vector together with the meeting's topic, date, duration, attendees and transcript as the point payload.
+Ingestion runs once. The script embeds each meeting with FastEmbed and stores the vector together with the meeting's topic, date, duration, attendees, and transcript as the point payload.
 
 Answering runs for each question. CrewAI gives the question to the researcher agent, whose only tool is a semantic search over the collection. The tool embeds the query with the same FastEmbed model, calls Qdrant's Query API and returns the closest meetings as text. The researcher writes a list of evidence. The writer agent receives that list and the question, and writes the answer. The writer has no tools, so it can only use what the researcher found.
 
@@ -59,7 +59,7 @@ Install the three packages this tutorial uses, with the versions it was tested a
 uv pip install "crewai[anthropic]==1.15.28" "qdrant-client[fastembed]==1.20.0" "python-dotenv==1.2.4"
 ```
 
-The `anthropic` extra gives CrewAI its native Claude provider. The `fastembed` extra lets the Qdrant client embed text locally.
+The `anthropic` extra gives CrewAI its native Claude provider. The `fastembed` extra lets the Qdrant client embed text locally. The install is large, about 150 packages and 760 MB, almost all of it CrewAI's own dependencies, so give it a few minutes.
 
 ## Step 2: Configure the Connections
 
@@ -81,7 +81,7 @@ Create `meeting_crew.py` and start with the imports and three constants:
 
 ## Step 3: Add the Sample Meetings
 
-Six short meetings are enough to see the agents work. Each one has a topic, a date, a duration in minutes, attendees and a transcript. Three are marketing meetings, which is what the sample question is about.
+Six short meetings are enough to see the agents work. Each one has a topic, a date, a duration in minutes, attendees, and a transcript. Three are marketing meetings, which is what the sample question is about.
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="data" >}}
 
@@ -117,11 +117,11 @@ For the sample question, the three closest meetings and their cosine scores are:
 0.613  Marketing and Sales Alignment (2026-09-16, 50 min)
 ```
 
-All three marketing meetings come back ahead of the product, engineering and support meetings, with the one that records the Q4 decision on top.
+All three marketing meetings come back ahead of the product, engineering, and support meetings, with the one that records the Q4 decision on top.
 
 ## Step 7: Wrap Retrieval as a CrewAI Tool
 
-CrewAI agents call tools that subclass `BaseTool`. The input schema tells the model what argument to pass. The tool formats each result as one line with the topic, date, duration, score and transcript, because the researcher agent reads this text and quotes from it.
+CrewAI agents call tools that subclass `BaseTool`. The input schema tells the model what argument to pass. The tool formats each result as one line with the topic, date, duration, score, and transcript, because the researcher agent reads this text and quotes from it.
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="tool" >}}
 
@@ -226,7 +226,7 @@ I found three marketing meetings. Only one recorded a formal decision on the Q4 
 - Any meetings after 2026-09-16.
 ```
 
-**4. The writer receives the question and the findings, nothing else.** Its output is the answer printed at the end of Step 9. Compare the two: every meeting, date, quote and number in the answer appears in the findings above, and the last sentence carries over what the researcher marked as not in the transcripts.
+**4. The writer receives the question and the findings, nothing else.** Its output is the answer printed at the end of Step 9. Compare the two: every meeting, date, quote, and number in the answer appears in the findings above, and the last sentence carries over what the researcher marked as not in the transcripts.
 
 Two things to notice. The writer never saw the collection; it saw only the researcher's list, so the answer cannot contain a meeting that was not retrieved. And the average is computed from durations that came out of the payload, not from the model's memory of the transcript.
 
