@@ -1,6 +1,6 @@
 ---
 title: "Scalable PDF Retrieval with Cohere Embed 5 and Qdrant Asymmetric Quantization"
-draft: true
+draft: false
 slug: cohere-embed-5-qdrant
 author: Evgeniya Sukhodolskaya
 author_profile: evgeniya-sukhodolskaya
@@ -249,35 +249,6 @@ We searched page images with one Embed 5 Pro vector per page, then combined Matr
 
 With [Qdrant Cloud Inference](/documentation/inference/external-inference-providers/), we can directly send the page image as a base64 data URI (the image encoded in a string) to Qdrant Cloud. Qdrant calls Cohere and stores the vector in the same request, so the client code needs no separate embedding step, and you save a separate round trip from your application to Cohere. For Matryoshka embeddings, the [inference service generates the full vector once](/documentation/inference/matryoshka-models/) and cuts it to each requested size with the `mrl` option. 
 
-<details><summary>Cloud Inference: upload full and Matryoshka vectors</summary>
-
-```python
-# page_id: an integer ID; page_data_url: the page image as "data:image/jpeg;base64,..."
-with headers({"cohere-api-key": COHERE_API_KEY}):
-    client.upsert(
-        collection_name="pdf_pages",
-        points=[
-            models.PointStruct(
-                id=page_id,
-                vector={
-                    # full 2048-dimensional vector
-                    "full": models.Image(
-                        image=page_data_url,
-                        model="cohere/embed-v5.0-pro",
-                    ),
-                    # first 512 dimensions of the same vector
-                    "small": models.Image(
-                        image=page_data_url,
-                        model="cohere/embed-v5.0-pro",
-                        options={"mrl": 512},
-                    ),
-                },
-            )
-        ],
-    )
-```
-
-</details>
 
 Besides asymmetric quantization, [TurboQuant](/articles/turboquant-quantization/) is another compression option to test; our [EmbeddingGemma 2 post](/blog/embeddinggemma-2/) and [quantization guide](/documentation/manage-data/quantization/) cover it, but we didn't measure it here.
 
