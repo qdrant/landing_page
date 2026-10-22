@@ -1,7 +1,7 @@
 ---
 title: Agentic RAG with CrewAI
-short_description: "Combine Qdrant vector search with CrewAI agents and Streamlit to extract insights from meeting transcripts and recordings."
-description: "Step-by-step tutorial: build an agentic RAG system with Qdrant and CrewAI to store, retrieve, and analyze meeting transcripts through coordinated AI agents."
+short_description: "Build a two-agent CrewAI flow that answers questions about meeting notes from Qdrant with FastEmbed and Claude."
+description: "Tutorial: store meeting transcripts in Qdrant with FastEmbed, retrieve them with the Query API, and let two CrewAI agents on Claude turn the results into a grounded answer."
 weight: 5
 partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
@@ -10,396 +10,171 @@ aliases:
 goal: RAG & Agents
 stack:
   - Python
+  - Qdrant
   - CrewAI
-  - Streamlit
----
-<!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png) -->
-
-# Qdrant Agentic RAG System with CrewAI
-
-| Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) |
-| --- | --- | --- |
-
-By combining the power of Qdrant for vector search and CrewAI for orchestrating modular agents, you can build systems that don't just answer questions but analyze, interpret, and act. 
-
-Traditional RAG systems focus on fetching data and generating responses, but they lack the ability to reason deeply or handle multi-step processes. 
-
-In this tutorial, we'll walk you through building an Agentic RAG system step by step. By the end, you'll have a working framework for storing data in a Qdrant Vector Database and extracting insights using CrewAI agents in conjunction with Vector Search over your data.
-
-We already built this app for you. [Clone this repository](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) and follow along with the tutorial. 
-
-## What You'll Build
-In this hands-on tutorial, we'll create a system that:
-
-1. Uses Qdrant to store and retrieve meeting transcripts as vector embeddings
-2. Leverages CrewAI agents to analyze and summarize meeting data  
-3. Presents insights in a simple Streamlit interface for easy interaction
-
-This project demonstrates how to build a Vector Search powered Agentic workflow to extract insights from meeting recordings. By combining Qdrant's vector search capabilities with CrewAI agents, users can search through and analyze their own meeting content. 
-
-The application first converts the meeting transcript into vector embeddings and stores them in a Qdrant vector database. It then uses CrewAI agents to query the vector database and extract insights from the meeting content. Finally, it uses Anthropic Claude to generate natural language responses to user queries based on the extracted insights from the vector database.
-
-### How Does It Work?
-
-When you interact with the system, here's what happens behind the scenes:
-
-First the user submits a query to the system. In this example, we want to find out the average length of Marketing meetings. Since one of the data points from the meetings is the duration of the meeting, the agent can calculate the average duration of the meetings by averaging the duration of all meetings with the keyword "Marketing" in the topic or content.
-
-![User Query Interface](/articles_data/agentic-rag-crewai-zoom/query1.png)
-
-Next, the agent used the `search_meetings` tool to search the Qdrant vector database for the most semantically similar meeting points. We asked about Marketing meetings, so the agent searched the database with the search meeting tool for all meetings with the keyword "Marketing" in the topic or content.
-
-![Vector Search Results](/articles_data/agentic-rag-crewai-zoom/output0.png)
-
-
-Next, the agent used the `calculator` tool to find the average duration of the meetings.
-
-![Duration Calculation](/articles_data/agentic-rag-crewai-zoom/output.png)
-
-Finally, the agent used the `Information Synthesizer` tool to synthesize the analysis and present it in a natural language format.
-
-![Synthesized Analysis](/articles_data/agentic-rag-crewai-zoom/output4.png)
-
-The user sees the final output in a chat-like interface.
-
-![Chat Interface](/articles_data/agentic-rag-crewai-zoom/app.png)
-
-The user can then continue to interact with the system by asking more questions.
-
-
-### Architecture
-
-The system is built on three main components:
-- **Qdrant Vector Database**: Stores meeting transcripts and summaries as vector embeddings, enabling semantic search
-- **CrewAI Framework**: Coordinates AI agents that handle different aspects of meeting analysis
-- **Anthropic Claude**: Powers the agents and the analysis tool with `claude-sonnet-5`
-
-1. **Data Processing Pipeline**  
-   - Processes meeting transcripts and metadata
-   - Creates embeddings with SentenceTransformer (`all-MiniLM-L6-v2`), the same model used for queries
-   - Manages Qdrant collection and data upload
-
-2. **AI Agent System**  
-   - Implements CrewAI agent logic
-   - Handles vector search integration
-   - Processes queries with Claude
-
-3. **User Interface**  
-   - Provides chat-like web interface
-   - Shows real-time processing feedback
-   - Maintains conversation history
-
+  - FastEmbed
+  - Claude
 ---
 
-## Getting Started
+# Agentic RAG with CrewAI
 
-<!--  ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-2.png) -->
+| Time: 30 min | Level: Beginner | Stack: Python, Qdrant, CrewAI, FastEmbed, Claude | Output: Python script |
+| --- | ----------- | ----------- | ----------- |
 
-1. **Get API Credentials for Qdrant**:
-   - Sign up for an account at [Qdrant Cloud](https://cloud.qdrant.io/signup).
-   - Create a new cluster and copy the **Cluster URL** (format: https://xxx.gcp.cloud.qdrant.io).
-   - Go to **Data Access Control** and generate an **API key**.
+Build a small system that answers questions about meeting notes. Qdrant is the vector search engine that stores each meeting with its transcript and metadata. [FastEmbed](https://github.com/qdrant/fastembed) turns text into vectors on your machine, for both the stored meetings and the questions. [CrewAI](https://www.crewai.com/) runs two agents on Claude: a researcher that searches Qdrant and quotes what it finds, and a writer that turns the findings into a short answer with citations.
 
-2. **Get an API Key for Claude**:
-   - Get an API key from the [Anthropic Console](https://console.anthropic.com/). Claude powers both the CrewAI agents and the analysis tool.
+The whole tutorial is one script and six sample meetings. You run it twice: once to load the meetings, once to ask a question. Nothing needs to be cloned.
 
----
+By the end, you can ask `What did the marketing meetings decide about the Q4 campaign, and how long did they run on average?` and get an answer that names the meetings, quotes the decision and shows the arithmetic.
 
-## Setup
+## Prerequisites
 
-1. **Clone the Repository**:
-```bash
-git clone https://github.com/qdrant/examples.git
-cd examples/agentic_rag_zoom_crewai
-```
+You need Python 3.12 and:
 
-2. **Create and Activate a Python Virtual Environment (Python 3.10 to 3.13)**:
-```bash
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-```
+- A [Qdrant Cloud cluster](https://cloud.qdrant.io/) with its HTTPS endpoint and an API key, or Qdrant running locally with `docker run -p 6333:6333 qdrant/qdrant`.
+- An [Anthropic API key](https://console.anthropic.com/) with credit. Each question makes two to four Claude calls.
 
-3. **Install Dependencies**:
-```bash
-pip install -r requirements.txt
-```
+No OpenAI key is needed. Embeddings run locally through FastEmbed.
 
-4. **Configure Environment Variables**:
-Create a `.env.local` file with:
+## How the Flow Works
+
+Ingestion runs once. The script embeds each meeting with FastEmbed and stores the vector together with the meeting's topic, date, duration, attendees and transcript as the point payload.
+
+Answering runs for each question. CrewAI gives the question to the researcher agent, whose only tool is a semantic search over the collection. The tool embeds the query with the same FastEmbed model, calls Qdrant's Query API and returns the closest meetings as text. The researcher writes a list of evidence. The writer agent receives that list and the question, and writes the answer. The writer has no tools, so it can only use what the researcher found.
+
+## Step 1: Install the Dependencies
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and create a local environment:
 
 ```bash
-ANTHROPIC_API_KEY=your_anthropic_key_here
-QDRANT_URL=your_qdrant_url_here
-QDRANT_API_KEY=your_qdrant_api_key_here
+uv venv --python 3.12
+source .venv/bin/activate
 ```
 
----
+On Windows PowerShell, activate the environment with `.venv\Scripts\Activate.ps1`.
 
-## Usage
-
-### 1. Process Meeting Data
-The [`data_loader.py`](https://github.com/qdrant/examples/blob/master/agentic_rag_zoom_crewai/vector/data_loader.py) script processes meeting data and stores it in Qdrant:
+Install the three packages this tutorial uses, with the versions it was tested against:
 
 ```bash
-python vector/data_loader.py
+uv pip install "crewai[anthropic]==1.15.28" "qdrant-client[fastembed]==1.20.0" "python-dotenv==1.2.4"
 ```
 
-After this script has run, you should see a new collection in your Qdrant Cloud account called `zoom_recordings`. This collection contains the vector embeddings of the meeting transcripts. The points in the collection contain the original meeting data, including the topic, content, and summary.
+The `anthropic` extra gives CrewAI its native Claude provider. The `fastembed` extra lets the Qdrant client embed text locally.
 
-### 2. Launch the Interface
-The [`streamlit_app.py`](https://github.com/qdrant/examples/blob/master/agentic_rag_zoom_crewai/vector/streamlit_app.py) is located in the `vector` folder. To launch it, run:
+## Step 2: Configure the Connections
+
+Create a `.env` file beside your script:
+
+```ini
+ANTHROPIC_API_KEY=your-anthropic-api-key
+QDRANT_URL=https://your-cluster.cloud.qdrant.io:6333
+QDRANT_API_KEY=your-qdrant-api-key
+```
+
+For a local Qdrant, set `QDRANT_URL=http://localhost:6333` and leave `QDRANT_API_KEY` out.
+
+Create `meeting_crew.py` and start with the imports and three constants:
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="imports" >}}
+
+`EMBEDDING_MODEL` is used in exactly two places, ingestion and search, so the stored vectors and the query vectors always come from the same model. `CLAUDE_MODEL` uses CrewAI's provider prefix; `claude-opus-5-5` is the current Opus model.
+
+## Step 3: Add the Sample Meetings
+
+Six short meetings are enough to see the agents work. Each one has a topic, a date, a duration in minutes, attendees and a transcript. Three are marketing meetings, which is what the sample question is about.
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="data" >}}
+
+To use your own notes later, replace this list with whatever loads them. Keep the same keys, since the search tool and the citations read them from the payload.
+
+## Step 4: Create the Collection
+
+The collection's vector size has to match the embedding model. Rather than hard-coding 384, ask the client for the model's size:
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="collection" >}}
+
+Cosine distance suits text embeddings from this model family. The function returns early if the collection exists, so running ingestion twice is safe.
+
+## Step 5: Ingest the Meetings
+
+Each meeting becomes one point. The text that gets embedded is the topic, the date and the transcript. The full meeting stays in the payload so the search tool can return dates and durations without a second lookup.
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="ingest" >}}
+
+Passing `models.Document` as the vector tells the client to run FastEmbed locally and send the resulting vector to Qdrant. The first run downloads the model, about 130 MB, and caches it. The point ids are derived from topic and date, so re-running ingestion updates the same points instead of adding duplicates.
+
+## Step 6: Retrieve With the Query API
+
+Search embeds the question with the same `models.Document` call and uses `query_points`, the current Query API. The function returns plain dictionaries so the tool and the trace below can print them.
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="search" >}}
+
+For the sample question, the three closest meetings and their cosine scores are:
+
+```text
+0.764  Marketing Strategy Review (2026-09-02, 45 min)
+0.657  Marketing and Sales Alignment (2026-09-16, 50 min)
+0.629  Marketing Weekly Sync (2026-09-09, 30 min)
+```
+
+All three marketing meetings come back ahead of the product, engineering and support meetings, with the one that records the Q4 decision on top.
+
+## Step 7: Wrap Retrieval as a CrewAI Tool
+
+CrewAI agents call tools that subclass `BaseTool`. The input schema tells the model what argument to pass. The tool formats each result as one line with the topic, date, duration, score and transcript, because the researcher agent reads this text and quotes from it.
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="tool" >}}
+
+## Step 8: Define the Agents and Tasks
+
+Two agents, two tasks, run in order. The researcher has the search tool and is told to quote evidence and to say when the transcripts do not answer something. The writer has no tools and receives the researcher's output as context, so every sentence in the answer traces back to a retrieved meeting.
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="agents" >}}
+
+Both agents share one `LLM` object. `Process.sequential` runs the tasks in list order, and `context=[research]` is what hands the researcher's findings to the writer.
+
+## Step 9: Run One Question
+
+The entry point takes two flags. `--ingest` creates the collection and loads the meetings. `--ask` prints what retrieval returns for the question, runs the crew, and prints the answer.
+
+{{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="run" >}}
+
+Load the meetings:
 
 ```bash
-streamlit run vector/streamlit_app.py
-```
-When you run this script, you will be able to interact with the system through a chat-like interface. Ask questions about the meeting content, and the system will use the AI agents to find the most relevant information and present it in a natural language format.
-
-
-### The Data Pipeline
-
-At the heart of our system is the data processing pipeline:
-
-```python
-EMBEDDING_MODEL_NAME = 'all-MiniLM-L6-v2'
-EMBEDDING_DIM = 384
-
-class MeetingData:
-    def _initialize(self):
-        self.data_dir = Path(__file__).parent.parent / 'data'
-        self.meetings = self._load_meetings()
-        
-        self.qdrant_client = QdrantClient(
-            url=os.getenv('QDRANT_URL'),
-            api_key=os.getenv('QDRANT_API_KEY')
-        )
-        self.embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+python meeting_crew.py --ingest
 ```
 
-The `zoom_recordings` collection is created with `size=EMBEDDING_DIM`, so every vector written to it or searched against it must come from this model.
-The singleton pattern in data_loader.py is implemented through a MeetingData class that uses Python's __new__ and __init__ methods. The class maintains a private _instance variable to track if an instance exists, and a _initialized flag to ensure the initialization code only runs once. When creating a new instance with MeetingData(), __new__ first checks if _instance exists - if it doesn't, it creates one and sets the initialization flag to False. The __init__ method then checks this flag, and if it's False, runs the initialization code and sets the flag to True. This ensures that all subsequent calls to MeetingData() return the same instance with the same initialized resources.
-
-When processing meetings, we need to consider both the content and context. Each meeting gets converted into a rich text representation before being transformed into a vector:
-
-```python
-text_to_embed = f"""
-    Topic: {meeting.get('topic', '')}
-    Content: {meeting.get('vtt_content', '')}
-    Summary: {json.dumps(meeting.get('summary', {}))}
-"""
+```text
+Loaded 6 meetings into 'meeting-notes'
 ```
 
-This structured format ensures our vector embeddings capture the full context of each meeting. But processing meetings one at a time would be inefficient. Instead, we batch process our data:
+Ask the question:
 
-```python
-batch_size = 100
-for i in range(0, len(points), batch_size):
-    batch = points[i:i + batch_size]
-    self.qdrant_client.upsert(
-        collection_name='zoom_recordings',
-        points=batch
-    )
+```bash
+python meeting_crew.py --ask "What did the marketing meetings decide about the Q4 campaign, and how long did they run on average?"
 ```
 
-### Building the AI Agent System
+<!-- TRACE_ANSWER -->
 
-Our AI system uses a tool-based approach. Let's start with the simplest tool - a calculator for meeting statistics:
+## Trace the Question Through the System
 
-```python
-class CalculatorTool(BaseTool):
-    name: str = "calculator"
-    description: str = "Perform basic mathematical calculations"
-    
-    def _run(self, a: int, b: int) -> dict:
-        return {
-            "addition": a + b,
-            "multiplication": a * b
-        }
-```
+With `verbose=True` on both agents, CrewAI prints each step. Here is what moved between the parts for the question above, trimmed to the lines that matter.
 
-But the real power comes from our vector search integration. This tool embeds the natural language query with the same `all-MiniLM-L6-v2` model that indexed the meetings and searches our meeting database. Using one model for both ingestion and queries matters: vectors from different models live in different spaces and have different sizes, so a query embedded with another model would either fail with a dimension error or return meaningless matches.
+<!-- TRACE_BODY -->
 
-```python
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+Two things to notice. The writer never saw the collection; it saw only the researcher's list, so the answer cannot contain a meeting that was not retrieved. And the average is computed from durations that came out of the payload, not from the model's memory of the transcript.
 
-class SearchMeetingsTool(BaseTool):
-    def _run(self, query: str) -> List[Dict]:
-        query_vector = embedding_model.encode(query).tolist()
-        
-        return qdrant_client.query_points(
-            collection_name='zoom_recordings',
-            query=query_vector,
-            limit=10,
-        ).points
-```
+## Troubleshooting
 
-The search results then feed into our analysis tool, which uses Claude to provide deeper insights. The example uses `claude-sonnet-5`. The Anthropic SDK reads `ANTHROPIC_API_KEY` from the environment, and the response text is collected from the message's text blocks:
+| Symptom | What to check |
+| --- | --- |
+| `Vector dimension error` on upsert or query | The collection was created with a different model. Delete it and run `--ingest` again, or change `EMBEDDING_MODEL` back to the model used at creation. |
+| `KeyError: 'QDRANT_URL'` | The `.env` file is not beside the script or the variable name differs. |
+| `credit balance is too low` or `authentication_error` from Anthropic | The key has no credit or is wrong. Check the Anthropic console. |
+| The researcher answers without calling the tool | Keep the sentence that tells it to use `search_meetings` at least once; CrewAI passes the task description to the model verbatim. |
+| Answers mention meetings that are not in the sample | The writer got findings that included guesses. Make the researcher's task stricter about quoting, or lower `limit` in `search_meetings`. |
 
-```python
-CLAUDE_MODEL = "claude-sonnet-5"
+## Adapt the Flow
 
-class MeetingAnalysisTool(BaseTool):
-    def _run(self, meeting_data: dict) -> Dict:
-        client = anthropic.Anthropic()
-        meetings_text = self._format_meetings(meeting_data)
-        
-        message = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=4096,
-            messages=[{
-                "role": "user", 
-                "content": f"Analyze these meetings:\n\n{meetings_text}"
-            }]
-        )
-        analysis = "".join(
-            block.text for block in message.content if block.type == "text"
-        )
-```
-
-### Orchestrating the Workflow
-
-The magic happens when we bring these tools together under our agent framework. Both agents run on the same Claude model through CrewAI's `LLM` class. We create two specialized agents:
-
-```python
-llm = LLM(model=f"anthropic/{CLAUDE_MODEL}", max_tokens=4096)
-
-researcher = Agent(
-    role='Research Assistant',
-    goal='Find and analyze relevant information',
-    tools=[calculator, searcher, analyzer],
-    llm=llm
-)
-
-synthesizer = Agent(
-    role='Information Synthesizer',
-    goal='Create comprehensive and clear responses',
-    llm=llm
-)
-```
-
-These agents work together in a coordinated workflow. The researcher gathers and analyzes information, while the synthesizer creates clear, actionable responses. This separation of concerns allows each agent to focus on its strengths.
-
-### Building the User Interface
-
-The Streamlit interface provides a clean, chat-like experience for interacting with our AI system. Let's start with the basic setup:
-
-```python
-st.set_page_config(
-    page_title="Meeting Assistant",
-    page_icon="🤖",
-    layout="wide"
-)
-```
-
-To make the interface more engaging, we add custom styling that makes the output easier to read:
-
-```python
-st.markdown("""
-    <style>
-    .stApp {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    .output-container {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 10px 0;
-    }
-    </style>
-""", unsafe_allow_html=True)
-```
-
-One of the key features is real-time feedback during processing. We achieve this with a custom output handler:
-
-```python
-class ConsoleOutput:
-    def __init__(self, placeholder):
-        self.placeholder = placeholder
-        self.buffer = []
-        self.update_interval = 0.5  # seconds
-        self.last_update = time.time()
-
-    def write(self, text):
-        self.buffer.append(text)
-        if time.time() - self.last_update > self.update_interval:
-            self._update_display()
-```
-
-This handler buffers the output and updates the display periodically, creating a smooth user experience. When a user sends a query, we process it with visual feedback:
-
-```python
-with st.chat_message("assistant"):
-    message_placeholder = st.empty()
-    progress_bar = st.progress(0)
-    console_placeholder = st.empty()
-    
-    try:
-        console_output = ConsoleOutput(console_placeholder)
-        with contextlib.redirect_stdout(console_output):
-            progress_bar.progress(0.3)
-            full_response = get_crew_response(prompt)
-            progress_bar.progress(1.0)
-```
-
-The interface maintains a chat history, making it feel like a natural conversation:
-
-```python
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-```
-
-We also include helpful examples and settings in the sidebar:
-
-```python
-with st.sidebar:
-    st.header("Settings")
-    search_limit = st.slider("Number of results", 1, 10, 5)
-    
-    analysis_depth = st.select_slider(
-        "Analysis Depth",
-        options=["Basic", "Standard", "Detailed"],
-        value="Standard"
-    )
-```
-
-This combination of features creates an interface that's both powerful and approachable. Users can see their query being processed in real-time, adjust settings to their needs, and maintain context through the chat history.
-
----
-## Conclusion
-
-<!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-3.png) -->
-
-This tutorial has demonstrated how to build a sophisticated meeting analysis system that combines vector search with AI agents. Let's recap the key components we've covered:
-
-1. **Vector Search Integration**
-   - Efficient storage and retrieval of meeting content using Qdrant
-   - Semantic search capabilities through vector embeddings
-   - Batched processing for optimal performance
-
-2. **AI Agent Framework**
-   - Tool-based approach for modular functionality
-   - Specialized agents for research and analysis
-   - Integration with Claude for intelligent insights
-
-3. **Interactive Interface**
-   - Real-time feedback and progress tracking
-   - Persistent chat history
-   - Configurable search and analysis settings
-
-The resulting system demonstrates the power of combining vector search with AI agents to create an intelligent meeting assistant. By following this tutorial, you've learned how to:
-- Process and store meeting data efficiently
-- Implement semantic search capabilities
-- Create specialized AI agents for analysis
-- Build an intuitive user interface
-
-This foundation can be extended in many ways, such as:
-- Adding more specialized agents
-- Implementing additional analysis tools
-- Enhancing the user interface
-- Integrating with other data sources
-
-The code is available in the [repository](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai), and we encourage you to experiment with your own modifications and improvements.
+Replace `MEETINGS` with a loader for your own transcripts, keep the same payload keys, and re-run `--ingest`. Add a date filter to `query_points` with `models.Filter` when the archive grows past a few hundred meetings, so questions about last quarter do not retrieve last year. A third agent is rarely needed; a second tool that fetches one meeting by id is usually more useful than another role.
