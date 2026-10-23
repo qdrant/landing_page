@@ -72,23 +72,18 @@
 }
 .uio-bridge .uio-worker {
   stroke-width: 1.5;
+  fill-opacity: 1;
 }
 
 html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
-  margin: 2rem 0;
-  padding: 0.875rem;
-  background: var(--qi-surface);
-  border: 1px solid var(--qi-border);
-  border-radius: var(--qi-radius);
+  margin: 1.75rem 0;
 }
 .island[data-island='content/articles/headless/universal-io/async-bridge'].is-ready .island__stage {
   max-width: 100% !important;
   aspect-ratio: auto !important;
 }
 html .island[data-island='content/articles/headless/universal-io/async-bridge'] .island__caption {
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--qi-border);
+  margin-top: 0.875rem;
 }
 
 @media (max-width: 560px) {
@@ -98,7 +93,30 @@ html .island[data-island='content/articles/headless/universal-io/async-bridge'] 
   .uio-bridge .uio-compact {
     display: block;
   }
-  html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
-    padding: 0.75rem 0.5rem;
+}
+
+/* Keep labels readable at the article column width. */
+@media (min-width: 561px) {
+  .uio-bridge .qi-title {
+    font-size: 16px;
   }
+  .uio-bridge .qi-label {
+    font-size: 15px;
+  }
+  .uio-bridge .uio-worker-label,
+  .uio-bridge .uio-request text,
+  .uio-bridge .uio-result text {
+    font-size: 15px;
+  }
+}
+
+/* Opaque task surfaces keep crossing request lines clear of their labels. */
+.uio-bridge .uio-worker.is-a {
+  fill: color-mix(in srgb, var(--qi-cat-1) 18%, var(--qi-surface));
+}
+.uio-bridge .uio-worker.is-b {
+  fill: color-mix(in srgb, var(--qi-cat-2) 18%, var(--qi-surface));
+}
+.uio-bridge .uio-worker.is-c {
+  fill: color-mix(in srgb, var(--qi-cat-3) 18%, var(--qi-surface));
 }

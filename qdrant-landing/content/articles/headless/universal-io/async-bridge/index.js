@@ -12,7 +12,7 @@ export function mount(node) {
       <svg class="qi-svg uio-wide" viewBox="0 0 760 258" role="img" aria-label="The synchronous caller schedules reads A, B, and C without waiting. Tokio workers finish them out of order: B, then C, then A. Each reply's slot maps it back to the original request.">
         ${defs(wideArrow)}
         <text class="qi-title" x="20" y="35">synchronous pipeline</text>
-        <text class="qi-label" x="20" y="88">schedule immediately</text>
+        <text class="qi-label" x="20" y="74"><tspan x="20">schedule</tspan><tspan x="20" dy="18">immediately</tspan></text>
         <text class="qi-label" x="440" y="30">wait() receives finish order</text>
 
         <g class="uio-request is-a"><circle cx="180" cy="54" r="12"/><text x="180" y="59" text-anchor="middle">A</text></g>
@@ -40,7 +40,7 @@ export function mount(node) {
         <text class="qi-label qi-label--strong" x="548" y="244" text-anchor="middle">finish order: B → C → A</text>
       </svg>
 
-      <svg class="qi-svg uio-compact" viewBox="0 0 360 470" role="img" aria-label="The synchronous caller schedules A, B, and C. Tokio workers finish B, C, and A in that order, and each slot maps the reply back to its request.">
+      <svg class="qi-svg uio-compact" viewBox="0 0 360 442" role="img" aria-label="The synchronous caller schedules A, B, and C. Tokio workers finish B, C, and A in that order, and each slot maps the reply back to its request.">
         ${defs(compactArrow)}
         <text class="qi-title" x="72" y="28" text-anchor="middle">sync caller</text>
         <text class="qi-title" x="245" y="28" text-anchor="middle">Tokio workers</text>
@@ -67,7 +67,7 @@ export function mount(node) {
         <g class="uio-result is-b"><circle cx="72" cy="240" r="12"/><text x="72" y="245" text-anchor="middle">B</text></g>
         <g class="uio-result is-c"><circle cx="72" cy="302" r="12"/><text x="72" y="307" text-anchor="middle">C</text></g>
         <g class="uio-result is-a"><circle cx="72" cy="374" r="12"/><text x="72" y="379" text-anchor="middle">A</text></g>
-        <text class="qi-label qi-label--strong" x="180" y="444" text-anchor="middle">finish order: B → C → A</text>
+        <text class="qi-label qi-label--strong" x="180" y="418" text-anchor="middle">finish order: B → C → A</text>
       </svg>
     </div>`;
 

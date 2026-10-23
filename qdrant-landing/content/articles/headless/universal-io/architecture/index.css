@@ -47,7 +47,7 @@
 .uio-architecture .uio-ring text {
   fill: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 .uio-architecture .uio-task-grid circle {
@@ -58,20 +58,14 @@
 }
 
 html .island[data-island='content/articles/headless/universal-io/architecture'] {
-  margin: 2rem 0;
-  padding: 0.875rem;
-  background: var(--qi-surface);
-  border: 1px solid var(--qi-border);
-  border-radius: var(--qi-radius);
+  margin: 1.75rem 0;
 }
 .island[data-island='content/articles/headless/universal-io/architecture'].is-ready .island__stage {
   max-width: 100% !important;
   aspect-ratio: auto !important;
 }
 html .island[data-island='content/articles/headless/universal-io/architecture'] .island__caption {
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--qi-border);
+  margin-top: 0.875rem;
 }
 
 @media (max-width: 560px) {
@@ -87,7 +81,14 @@ html .island[data-island='content/articles/headless/universal-io/architecture'] 
   .uio-architecture .qi-label {
     font-size: 13px;
   }
-  html .island[data-island='content/articles/headless/universal-io/architecture'] {
-    padding: 0.75rem 0.5rem;
+}
+
+/* Keep labels readable at the article column width. */
+@media (min-width: 561px) {
+  .uio-architecture .qi-title {
+    font-size: 16px;
+  }
+  .uio-architecture .qi-label {
+    font-size: 15px;
   }
 }

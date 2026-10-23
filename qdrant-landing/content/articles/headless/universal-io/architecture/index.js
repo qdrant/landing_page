@@ -50,7 +50,7 @@ export function mount(node) {
         </g>
       </svg>
 
-      <svg class="qi-svg uio-compact" viewBox="0 0 360 472" role="img" aria-label="The same consumer code uses one ReadPipeline and three backend-specific execution models: direct mmap slices, io_uring rings, or Tokio network tasks.">
+      <svg class="qi-svg uio-compact" viewBox="0 0 360 424" role="img" aria-label="The same consumer code uses one ReadPipeline and three backend-specific execution models: direct mmap slices, io_uring rings, or Tokio network tasks.">
         ${defs(compactArrow)}
         <text class="qi-title uio-heading" x="180" y="24" text-anchor="middle">Consumer code stays the same</text>
         <text class="qi-label" x="180" y="45" text-anchor="middle">vectors · HNSW · payload indexes</text>
@@ -58,7 +58,7 @@ export function mount(node) {
         <rect class="qi-frame uio-pipeline" x="35" y="74" width="290" height="54" rx="6"/>
         <text class="qi-title" x="180" y="97" text-anchor="middle">ReadPipeline</text>
         <text class="qi-label" x="180" y="117" text-anchor="middle">schedule() · wait()</text>
-        <path class="uio-flow" d="M180 128V150H28V425"/>
+        <path class="uio-flow" d="M180 128V150H28V404"/>
 
         <g transform="translate(48 156)">
           <path class="uio-flow" d="M-20 42H0" marker-end="url(#${compactArrow})"/>

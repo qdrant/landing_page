@@ -180,7 +180,7 @@ A read through `DiskCache` then goes like this:
 
 {{< island
     path="content/articles/headless/universal-io/disk-cache"
-    width="760" ratio="760 / 278"
+    width="760" ratio="760 / 270"
     title="Every `DiskCache` path returns a local mmap slice; misses populate the mirror first, and covered reads reuse an in-flight fetch."
 >}}
 ![Three DiskCache paths converge on a local mmap slice: a hit reads local blocks directly, a miss fetches and writes missing blocks first, and a covered read waits for an existing in-flight fetch.](/articles_data/universal-io/uio-disk-cache.svg)
