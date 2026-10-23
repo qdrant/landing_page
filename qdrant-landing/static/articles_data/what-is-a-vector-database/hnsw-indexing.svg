@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 306" role="img" aria-labelledby="description">
+  <desc id="description">An HNSW graph with three layers. Layer 2 holds a few points with long links, layer 1 holds more, and layer 0 holds all points with short links. A search starts at the entry point in the top layer, moves to the closest point in each layer, drops to the layer below, and finishes at the point nearest the query in layer 0.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="305" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <polygon points="140,232 470,232 430,292 100,292" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="508" y="260" font-size="14" fill="#303547" font-weight="600">layer 0</text>
+    <text x="508" y="279" font-size="13" fill="#656b7f">all points</text>
+    <line x1="148.5" y1="244" x2="177.5" y2="250" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="148.5" y1="244" x2="174.6" y2="269.2" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="177.5" y1="250" x2="245.5" y2="247" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="177.5" y1="250" x2="174.6" y2="269.2" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="174.6" y1="269.2" x2="201.2" y2="278.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="201.2" y1="278.8" x2="242.6" y2="286" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="174.6" y1="269.2" x2="266.5" y2="265" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="245.5" y1="247" x2="316.7" y2="239.2" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="245.5" y1="247" x2="266.5" y2="265" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="266.5" y1="265" x2="320" y2="259" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="316.7" y1="239.2" x2="320" y2="259" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="320" y1="259" x2="360.3" y2="272.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="266.5" y1="265" x2="242.6" y2="286" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="242.6" y1="286" x2="322.6" y2="284.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="322.6" y1="284.8" x2="360.3" y2="272.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="403.8" y1="262" x2="443" y2="242.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="403.8" y1="262" x2="427.3" y2="281.2" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="322.6" y1="284.8" x2="427.3" y2="281.2" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="320" y1="259" x2="403.8" y2="262" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="316.7" y1="239.2" x2="443" y2="242.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="148.5" cy="244" r="5" fill="#656b7f"/>
+    <circle cx="177.5" cy="250" r="5" fill="#656b7f"/>
+    <circle cx="201.2" cy="278.8" r="5" fill="#656b7f"/>
+    <circle cx="245.5" cy="247" r="5" fill="#656b7f"/>
+    <circle cx="266.5" cy="265" r="5" fill="#656b7f"/>
+    <circle cx="316.7" cy="239.2" r="5" fill="#656b7f"/>
+    <circle cx="320" cy="259" r="5" fill="#656b7f"/>
+    <circle cx="322.6" cy="284.8" r="5" fill="#656b7f"/>
+    <circle cx="360.3" cy="272.8" r="5" fill="#656b7f"/>
+    <circle cx="403.8" cy="262" r="5.5" fill="#00838f"/>
+    <circle cx="403.8" cy="262" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="443" cy="242.8" r="5" fill="#656b7f"/>
+    <circle cx="174.6" cy="269.2" r="5" fill="#656b7f"/>
+    <circle cx="242.6" cy="286" r="5" fill="#656b7f"/>
+    <circle cx="427.3" cy="281.2" r="5" fill="#656b7f"/>
+    <circle cx="437.8" cy="266" r="9" fill="#f0f3fa" stroke="#dc244c" stroke-width="2.5"/>
+    <circle cx="437.8" cy="266" r="3.5" fill="#dc244c"/>
+    <text x="451.8" y="271" font-size="14" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+    <polygon points="140,134 470,134 430,194 100,194" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="508" y="162" font-size="14" fill="#303547" font-weight="600">layer 1</text>
+    <text x="508" y="181" font-size="13" fill="#656b7f">more points</text>
+    <line x1="177.5" y1="152" x2="174.6" y2="171.2" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="177.5" y1="152" x2="245.5" y2="149" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="245.5" y1="149" x2="320" y2="161" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="360.3" y1="174.8" x2="443" y2="144.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <line x1="320" y1="161" x2="443" y2="144.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="177.5" cy="152" r="5" fill="#656b7f"/>
+    <circle cx="245.5" cy="149" r="5" fill="#656b7f"/>
+    <circle cx="320" cy="161" r="5" fill="#656b7f"/>
+    <circle cx="360.3" cy="174.8" r="5" fill="#656b7f"/>
+    <circle cx="443" cy="144.8" r="5" fill="#656b7f"/>
+    <circle cx="174.6" cy="171.2" r="5" fill="#656b7f"/>
+    <polygon points="140,36 470,36 430,96 100,96" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="508" y="64" font-size="14" fill="#303547" font-weight="600">layer 2</text>
+    <text x="508" y="83" font-size="13" fill="#656b7f">few points</text>
+    <line x1="320" y1="63" x2="443" y2="46.8" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="177.5" cy="54" r="5" fill="#656b7f"/>
+    <circle cx="320" cy="63" r="5" fill="#656b7f"/>
+    <circle cx="443" cy="46.8" r="5" fill="#656b7f"/>
+    <path d="M183.5 54.4 L311.0 62.4" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <path d="M320.0 69.0 L320.0 152.0" fill="none" stroke="#dc244c" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow-accent)"/>
+    <path d="M325.7 162.9 L351.8 171.9" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <path d="M360.3 180.8 L360.3 263.8" fill="none" stroke="#dc244c" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow-accent)"/>
+    <path d="M366.1 271.4 L395.1 264.2" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <circle cx="177.5" cy="54" r="10" fill="none" stroke="#dc244c" stroke-width="2"/>
+    <text x="161.5" y="59" font-size="14" text-anchor="end" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">entry point</text>
+  </g>
+</svg>

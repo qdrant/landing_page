@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" role="img" aria-labelledby="description">
+  <desc id="description">The vector search workflow. Source data such as documents, images, video, and audio goes through an embedding model into dense embeddings, which are generated and sent to Qdrant, a vector database and search engine that stores and indexes them and queries and retrieves them, returning results to an application such as search or a recommender. At query time, the query vector for "red shoes" is placed in the vector space, its nearest neighbors are found with a distance metric such as cosine or Euclidean, and the top-k results are returned.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="719" height="499" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="10" y="10" width="700" height="232" rx="10" fill="#abb1c7" fill-opacity="0.18"/>
+    <rect x="22" y="22" width="172" height="208" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <text x="36" y="46" font-size="14" fill="#303547" font-weight="600">Source Data</text>
+    <path d="M38 58 H48 L54 64 V78 H38 Z M48 58 V64 H54 M42 69 H50 M42 73 H50" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M66 58 H84 V78 H66 Z" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="71" cy="64" r="2" fill="none" stroke="#656b7f" stroke-width="1.5"/>
+    <path d="M66 75 L73 68 L79 74 L84 70" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M96 61 H110 V75 H96 Z M110 66 L118 61 V75 L110 70" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M134 74 V60 L146 58 V72" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="131" cy="74" r="3" fill="none" stroke="#656b7f" stroke-width="1.5"/><circle cx="143" cy="72" r="3" fill="none" stroke="#656b7f" stroke-width="1.5"/>
+    <path d="M108 86 V100" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <circle cx="44" cy="116" r="3" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <circle cx="36" cy="124" r="3" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <circle cx="52" cy="124" r="3" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <circle cx="44" cy="132" r="3" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <path d="M44 119 V129 M39 124 H49" fill="none" stroke="#6047ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="60" y="129" font-size="14" fill="#303547">Embedding Model</text>
+    <path d="M108 140 V154" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="36" y="160" width="34" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="53.0" y="177.5" font-size="13" text-anchor="middle" fill="#303547">0.6</text>
+    <rect x="74" y="160" width="34" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="91.0" y="177.5" font-size="13" text-anchor="middle" fill="#303547">0.3</text>
+    <rect x="112" y="160" width="34" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="129.0" y="177.5" font-size="13" text-anchor="middle" fill="#303547">0.8</text>
+    <rect x="150" y="160" width="34" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="167.0" y="177.5" font-size="13" text-anchor="middle" fill="#303547">…</text>
+    <text x="108" y="212" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Dense Embedding</text>
+    <text x="226" y="108" font-size="13" text-anchor="middle" fill="#656b7f">Generate</text>
+    <text x="226" y="124" font-size="13" text-anchor="middle" fill="#656b7f">&amp; Send</text>
+    <path d="M200 138 H250" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="256" y="34" width="232" height="184" rx="6" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="372" y="62" font-size="18" text-anchor="middle" fill="#303547" font-weight="700">Qdrant</text>
+    <text x="372" y="84" font-size="13" text-anchor="middle" fill="#656b7f">Vector Database &amp;</text>
+    <text x="372" y="100" font-size="13" text-anchor="middle" fill="#656b7f">Search Engine</text>
+    <ellipse cx="294" cy="132" rx="16" ry="5" fill="none" stroke="#dc244c" stroke-width="1.8"/>
+    <path d="M278 132 V158 A16 5 0 0 0 310 158 V132 M278 141 A16 5 0 0 0 310 141 M278 150 A16 5 0 0 0 310 150" fill="none" stroke="#dc244c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="294" y="182" font-size="13" text-anchor="middle" fill="#656b7f">Storage</text>
+    <text x="336" y="136" font-size="13" text-anchor="middle" fill="#dc244c">Index</text>
+    <path d="M318 146 H352" fill="none" stroke="#dc244c" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+    <rect x="356" y="112" width="120" height="96" rx="6" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="372" y="120" width="88" height="22" rx="4" fill="none" stroke="#abb1c7" stroke-width="1.2"/>
+    <circle cx="385" cy="130" r="4" fill="none" stroke="#656b7f" stroke-width="1.4"/>
+    <path d="M388 133 L391 136" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="398" y="135" font-size="13" fill="#303547">Query</text>
+    <rect x="380" y="150" width="14" height="14" rx="2" fill="#dc244c"/><rect x="438" y="150" width="14" height="14" rx="2" fill="#dc244c"/>
+    <path d="M398 157 H432" fill="none" stroke="#dc244c" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-accent)"/>
+    <text x="416" y="184" font-size="13" text-anchor="middle" fill="#656b7f">Query &amp;</text>
+    <text x="416" y="200" font-size="13" text-anchor="middle" fill="#656b7f">Retrieve</text>
+    <text x="522" y="108" font-size="13" text-anchor="middle" fill="#656b7f">Return</text>
+    <text x="522" y="124" font-size="13" text-anchor="middle" fill="#656b7f">Result</text>
+    <path d="M496 138 H546" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="552" y="46" width="146" height="160" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <rect x="586" y="64" width="40" height="27" rx="3" fill="none" stroke="#6047ff" stroke-width="2"/>
+    <path d="M606 91 V99 M597 99 H615" fill="none" stroke="#6047ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="636" y="66" width="15" height="27" rx="3" fill="none" stroke="#6047ff" stroke-width="2"/>
+    <text x="625" y="128" font-size="15" text-anchor="middle" fill="#303547" font-weight="600">Application</text>
+    <text x="625" y="150" font-size="13" text-anchor="middle" fill="#656b7f">(e.g., Search,</text>
+    <text x="625" y="168" font-size="13" text-anchor="middle" fill="#656b7f">Recommender)</text>
+    <path d="M360 246 V262" stroke="#6047ff" stroke-width="3"/><path d="M352 260 L360 270 L368 260 Z" fill="#6047ff"/>
+    <rect x="10" y="274" width="700" height="216" rx="10" fill="#abb1c7" fill-opacity="0.18"/>
+    <rect x="22" y="286" width="120" height="192" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <text x="34" y="308" font-size="14" fill="#303547" font-weight="600">Query Vector</text>
+    <rect x="32" y="318" width="100" height="40" rx="4" fill="none" stroke="#abb1c7" stroke-width="1.2"/>
+    <circle cx="44" cy="336" r="4" fill="none" stroke="#656b7f" stroke-width="1.4"/>
+    <path d="M47 339 L50 342" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="58" y="334" font-size="13" fill="#303547">“red</text>
+    <text x="58" y="350" font-size="13" fill="#303547">shoes”</text>
+    <rect x="32" y="368" width="22" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="43.0" y="385.5" font-size="12" text-anchor="middle" fill="#303547">0.6</text>
+    <rect x="58" y="368" width="22" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="69.0" y="385.5" font-size="12" text-anchor="middle" fill="#303547">0.3</text>
+    <rect x="84" y="368" width="22" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="95.0" y="385.5" font-size="12" text-anchor="middle" fill="#303547">0.1</text>
+    <rect x="110" y="368" width="22" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="121.0" y="385.5" font-size="12" text-anchor="middle" fill="#303547">…</text>
+    <path d="M144 382 H154" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="158" y="286" width="136" height="192" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <text x="226" y="308" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Vector Space</text>
+    <polygon points="226,404 276,424 226,444 176,424" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <path d="M226 336 V424 M184 404 L226 424 L270 402" fill="none" stroke="#656b7f" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="198" cy="368" r="4.5" fill="#03a9f4"/>
+    <circle cx="232" cy="356" r="4.5" fill="#00838f"/>
+    <circle cx="254" cy="374" r="4.5" fill="#03a9f4"/>
+    <circle cx="186" cy="396" r="4.5" fill="#dc244c"/>
+    <circle cx="240" cy="394" r="4.5" fill="#6047ff"/>
+    <circle cx="266" cy="410" r="4.5" fill="#dc244c"/>
+    <circle cx="214" cy="428" r="4.5" fill="#656b7f"/>
+    <circle cx="226" cy="420" r="4.5" fill="#656b7f"/>
+    <circle cx="238" cy="436" r="4.5" fill="#656b7f"/>
+    <path d="M296 382 H306" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="310" y="286" width="144" height="192" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <text x="382" y="308" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Nearest Neighbor</text>
+    <circle cx="336" cy="356" r="4.5" fill="#656b7f"/>
+    <circle cx="358" cy="354" r="4.5" fill="#03a9f4"/>
+    <circle cx="420" cy="358" r="4.5" fill="#03a9f4"/>
+    <circle cx="408" cy="400" r="4.5" fill="#6047ff"/>
+    <circle cx="338" cy="436" r="4.5" fill="#dc244c"/>
+    <circle cx="424" cy="432" r="4.5" fill="#dc244c"/>
+    <circle cx="362" cy="412" r="9" fill="#00838f" fill-opacity="0.2"/>
+    <circle cx="362" cy="412" r="5" fill="#00838f"/>
+    <circle cx="386" cy="386" r="9" fill="#00838f" fill-opacity="0.2"/>
+    <circle cx="386" cy="386" r="5" fill="#00838f"/>
+    <path d="M366 408 L380 393" fill="none" stroke="#00838f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M456 382 H466" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="470" y="286" width="116" height="192" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <path d="M480 308 L490 298 L497 305 L487 315 Z M484 304 L486.5 306.5 M487.5 300.5 L490 303 M491 297.5 L492 298.5" fill="none" stroke="#656b7f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="502" y="308" font-size="14" fill="#303547" font-weight="600">Distance</text>
+    <text x="502" y="326" font-size="14" fill="#303547" font-weight="600">Metric</text>
+    <line x1="500" y1="418" x2="572" y2="418" stroke="#00838f" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <circle cx="500" cy="418" r="9" fill="#00838f" fill-opacity="0.2"/>
+    <circle cx="500" cy="418" r="5" fill="#00838f"/>
+    <circle cx="566" cy="354" r="9" fill="#00838f" fill-opacity="0.2"/>
+    <circle cx="566" cy="354" r="5" fill="#00838f"/>
+    <path d="M500 418 L561 359" fill="none" stroke="#00838f" stroke-width="1.8" marker-end="url(#arrow)"/>
+    <path d="M518 418 A18 18 0 0 0 513 405" fill="none" stroke="#00838f" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="528" y="454" font-size="13" text-anchor="middle" fill="#656b7f">(e.g., Cosine,</text>
+    <text x="528" y="470" font-size="13" text-anchor="middle" fill="#656b7f">Euclidean)</text>
+    <path d="M588 382 H598" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="602" y="286" width="96" height="192" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.5"/>
+    <circle cx="616" cy="304" r="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <path d="M613 304 L615.5 306.5 L619.5 301.5" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="626" y="308" font-size="14" fill="#303547" font-weight="600">Top-K</text>
+    <text x="626" y="326" font-size="14" fill="#303547" font-weight="600">Results</text>
+    <rect x="610" y="338" width="80" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1" opacity="0.5"/>
+    <text x="618" y="355.5" font-size="13" fill="#303547" opacity="0.45">Result</text>
+    <path d="M676 351 L679.5 354.5 L685 347.5" fill="none" stroke="#303547" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
+    <rect x="610" y="372" width="80" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="618" y="389.5" font-size="13" fill="#303547">Result</text>
+    <path d="M676 385 L679.5 388.5 L685 381.5" fill="none" stroke="#303547" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="610" y="406" width="80" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="618" y="423.5" font-size="13" fill="#303547">Result</text>
+    <path d="M676 419 L679.5 422.5 L685 415.5" fill="none" stroke="#303547" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="610" y="440" width="80" height="26" rx="4" fill="#abb1c7" fill-opacity="0.25" stroke="#abb1c7" stroke-width="1"/>
+    <text x="618" y="457.5" font-size="13" fill="#303547">Result</text>
+    <path d="M676 453 L679.5 456.5 L685 449.5" fill="none" stroke="#303547" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>

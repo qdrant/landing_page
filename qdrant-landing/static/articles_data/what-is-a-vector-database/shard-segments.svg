@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 174" role="img" aria-labelledby="description">
+  <desc id="description">A collection with two shards, each divided into three segments. Each segment stores a subset of the shard's vectors and payloads.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="173" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="16" y="12" width="608" height="150" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="32" y="36" font-size="14" fill="#303547" font-weight="600">collection</text>
+    <rect x="32" y="48" width="280" height="100" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="48" y="72" font-size="14" fill="#303547">Shard 1</text>
+    <rect x="48" y="84" width="76" height="50" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="86" y="113.68" font-size="13" text-anchor="middle" fill="#303547"></text>
+    <text x="86" y="105" font-size="13" text-anchor="middle" fill="#303547">segment</text>
+    <text x="86" y="124" font-size="13" text-anchor="middle" fill="#656b7f">1</text>
+    <rect x="132" y="84" width="76" height="50" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="170" y="113.68" font-size="13" text-anchor="middle" fill="#303547"></text>
+    <text x="170" y="105" font-size="13" text-anchor="middle" fill="#303547">segment</text>
+    <text x="170" y="124" font-size="13" text-anchor="middle" fill="#656b7f">2</text>
+    <rect x="216" y="84" width="76" height="50" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="254" y="113.68" font-size="13" text-anchor="middle" fill="#303547"></text>
+    <text x="254" y="105" font-size="13" text-anchor="middle" fill="#303547">segment</text>
+    <text x="254" y="124" font-size="13" text-anchor="middle" fill="#656b7f">3</text>
+    <rect x="328" y="48" width="280" height="100" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="344" y="72" font-size="14" fill="#303547">Shard 2</text>
+    <rect x="344" y="84" width="76" height="50" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="382" y="113.68" font-size="13" text-anchor="middle" fill="#303547"></text>
+    <text x="382" y="105" font-size="13" text-anchor="middle" fill="#303547">segment</text>
+    <text x="382" y="124" font-size="13" text-anchor="middle" fill="#656b7f">4</text>
+    <rect x="428" y="84" width="76" height="50" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="466" y="113.68" font-size="13" text-anchor="middle" fill="#303547"></text>
+    <text x="466" y="105" font-size="13" text-anchor="middle" fill="#303547">segment</text>
+    <text x="466" y="124" font-size="13" text-anchor="middle" fill="#656b7f">5</text>
+    <rect x="512" y="84" width="76" height="50" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="550" y="113.68" font-size="13" text-anchor="middle" fill="#303547"></text>
+    <text x="550" y="105" font-size="13" text-anchor="middle" fill="#303547">segment</text>
+    <text x="550" y="124" font-size="13" text-anchor="middle" fill="#656b7f">6</text>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 276" role="img" aria-labelledby="description">
+  <desc id="description">Words with similar meanings sit close together in vector space, in three clusters: positive words such as pretty and elegant, negative words such as ugly and disgusting, and neutral words such as impartial and independent. The query word gorgeous lands next to the positive cluster, and its nearest neighbors are attractive, lovely, and beautiful.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="275" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="16" y="16" width="234" height="108" rx="6" fill="none" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="32" y="46" font-size="14" fill="#303547">pretty</text>
+    <text x="96" y="46" font-size="14" fill="#303547">attractive</text>
+    <text x="32" y="74" font-size="14" fill="#303547">nice</text>
+    <text x="80" y="74" font-size="14" fill="#303547">cute</text>
+    <text x="128" y="74" font-size="14" fill="#303547">lovely</text>
+    <text x="32" y="102" font-size="14" fill="#303547">elegant</text>
+    <text x="108" y="102" font-size="14" fill="#303547">beautiful</text>
+    <line x1="290" y1="74" x2="192" y2="41" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="290" y1="74" x2="190" y2="69" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="290" y1="74" x2="192" y2="97" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="300" cy="74" r="9" fill="#f0f3fa" stroke="#dc244c" stroke-width="2.5"/>
+    <circle cx="300" cy="74" r="3.5" fill="#dc244c"/>
+    <text x="316" y="79" font-size="14" fill="#303547" font-weight="600">“gorgeous”</text>
+    <text x="316" y="57" font-size="13" fill="#656b7f">query</text>
+    <rect x="424" y="16" width="200" height="132" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="440" y="46" font-size="14" fill="#303547">dirty</text>
+    <text x="494" y="46" font-size="14" fill="#303547">grisly</text>
+    <text x="562" y="46" font-size="14" fill="#303547">awful</text>
+    <text x="440" y="74" font-size="14" fill="#303547">ugly</text>
+    <text x="484" y="74" font-size="14" fill="#303547">hideous</text>
+    <text x="562" y="74" font-size="14" fill="#303547">messy</text>
+    <text x="440" y="102" font-size="14" fill="#303547">grotesque</text>
+    <text x="440" y="130" font-size="14" fill="#303547">disgusting</text>
+    <rect x="120" y="162" width="360" height="98" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="136" y="190" font-size="14" fill="#303547">neutral</text>
+    <text x="210" y="190" font-size="14" fill="#303547">impartial</text>
+    <text x="302" y="190" font-size="14" fill="#303547">fair</text>
+    <text x="352" y="190" font-size="14" fill="#303547">autonomous</text>
+    <text x="136" y="218" font-size="14" fill="#303547">independent</text>
+    <text x="248" y="218" font-size="14" fill="#303547">indifferent</text>
+    <text x="360" y="218" font-size="14" fill="#303547">sovereign</text>
+    <text x="136" y="246" font-size="14" fill="#303547">hands-off</text>
+    <text x="228" y="246" font-size="14" fill="#303547">nonpartisan</text>
+  </g>
+</svg>
