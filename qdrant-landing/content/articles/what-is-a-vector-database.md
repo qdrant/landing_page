@@ -94,8 +94,8 @@ Before diving into the individual concepts, it helps to see the full picture. Re
 
 5. **Power your application:** The retrieved results can then be used in applications such as semantic search, recommendation systems, anomaly detection, and Retrieval-Augmented Generation (RAG).
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 236" title="The ingestion path embeds and indexes data; the query path embeds the query with the same model and searches the index. Numbers match the steps in the text." >}}
-![Ingestion path: raw data goes through the embedding model into vectors with their payload, which Qdrant stores and indexes with HNSW. Query path: the user query goes through the same model into a query vector; Qdrant runs a similarity search and returns the top-k results](/articles_data/what-is-a-vector-database/workflow.svg)
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="720 / 500" title="Source data is embedded and sent to Qdrant, which stores, indexes, and retrieves it for your application. At query time, the query vector is matched against its nearest neighbors with a distance metric to return the top-k results." >}}
+![Top band: source data such as documents, images, video, and audio goes through an embedding model into dense embeddings, which are sent to Qdrant for storage, indexing, and retrieval, and results return to an application. Bottom band: the query vector for red shoes is placed in the vector space, its nearest neighbors are found with a distance metric such as cosine or Euclidean, and the top-k results are returned](/articles_data/what-is-a-vector-database/workflow.svg)
 {{< /island >}}
 
 ## Common Applications of Vector Search
@@ -117,8 +117,8 @@ Vector search enables a wide range of applications by allowing systems to retrie
 > A quick note on naming. You'll almost always hear these systems called vector databases, but the term is a little misleading. Traditional databases like Postgres or MySQL are built on ACID principles: transactions, strong consistency, and atomicity. Most "vector databases" aren't databases in that sense. They're really **vector search engines**, designed for horizontal scalability, low-latency queries, and high availability. Those priorities lead to different architectural decisions that are not reproducible in general-purpose databases. The label vector database stuck for marketing reasons, so we use it throughout this article, but vector search engine is the more accurate description.
 
 A vector database is made of multiple different entities and relations. Let's understand a bit of what's happening here:
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 300" title="Applications reach Qdrant through client SDKs. Each collection sets a distance metric, and each point holds an ID, one or more named vectors, and a JSON payload." >}}
-![Client SDKs connect to Qdrant, which holds collections with different distance metrics; one point is shown with ID 42, dense and sparse named vectors, and a JSON payload](/articles_data/what-is-a-vector-database/architecture.svg)
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="720 / 526" title="Programmers reach Qdrant through client libraries. Storage holds collections, each with a distance metric, made of points with an ID, a vector, and a payload. ML engineers train the models that produce those vectors." >}}
+![Programmers use Python, Rust, Go, and TypeScript clients to reach Qdrant. In storage, three collections each use a distance metric such as Euclidean distance, dot product, or cosine similarity; a collection holds points made of an idx, a vector, and a payload with fields such as species, URL, color, and fluffiness. ML engineers use data and Python files to train a deep learning model that classifies images as husky, cat, or hairy coo](/articles_data/what-is-a-vector-database/architecture.svg)
 {{< /island >}}
 
 ### Points

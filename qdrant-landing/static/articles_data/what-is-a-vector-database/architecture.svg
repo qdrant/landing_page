@@ -1,52 +1,294 @@
 <?xml version="1.0" ?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-labelledby="description">
-  <desc id="description">Applications connect to Qdrant through client SDKs for Python, TypeScript, Rust, Go, Java, and C#. Qdrant holds collections, each with its own distance metric. A collection holds points; one point is shown with ID 42, a dense and a sparse named vector, and a JSON payload with species and color fields.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 526" role="img" aria-labelledby="description">
+  <desc id="description">Programmers use client libraries for Python, Rust, Go, and TypeScript to talk to Qdrant. Qdrant storage holds collections 1, 2, and 3, using Euclidean distance, dot product, and cosine similarity. Collection 2 expands into points, each made of an idx, a vector, and a payload p; the payload holds fields such as species, URL, color, and fluffiness. Below, ML engineers use data and Python files to train a deep learning model that classifies images as husky, cat, or hairy coo; Qdrant storage connects to that model.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
     </marker>
-    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    <marker id="arrow-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#6047ff"/>
     </marker>
   </defs>
-  <rect x="0.5" y="0.5" width="639" height="299" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="719" height="525" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
   <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <rect x="16" y="62" width="112" height="176" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="72" y="88" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Client SDKs</text>
-    <text x="32" y="114" font-size="13" fill="#656b7f">Python</text>
-    <text x="32" y="136" font-size="13" fill="#656b7f">TypeScript</text>
-    <text x="32" y="158" font-size="13" fill="#656b7f">Rust</text>
-    <text x="32" y="180" font-size="13" fill="#656b7f">Go</text>
-    <text x="32" y="202" font-size="13" fill="#656b7f">Java</text>
-    <text x="32" y="224" font-size="13" fill="#656b7f">C#</text>
-    <path d="M128 150 H148" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <rect x="152" y="12" width="472" height="276" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <text x="168" y="36" font-size="14" fill="#303547" font-weight="600">Qdrant</text>
-    <rect x="168" y="52" width="136" height="62" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="184" y="78" font-size="14" fill="#303547">collection_a</text>
-    <text x="184" y="99" font-size="13" fill="#656b7f">Cosine</text>
-    <rect x="168" y="130" width="136" height="62" rx="6" fill="none" stroke="#303547" stroke-width="1.5"/>
-    <text x="184" y="156" font-size="14" fill="#303547">collection_b</text>
-    <text x="184" y="177" font-size="13" fill="#656b7f">Dot product</text>
-    <rect x="168" y="208" width="136" height="62" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="184" y="234" font-size="14" fill="#303547">collection_c</text>
-    <text x="184" y="255" font-size="13" fill="#656b7f">Euclidean</text>
-    <path d="M304 161 H324" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <rect x="340" y="64" width="268" height="212" rx="6" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
-    <rect x="334" y="58" width="268" height="212" rx="6" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
-    <rect x="328" y="52" width="268" height="212" rx="6" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="344" y="76" font-size="14" fill="#303547" font-weight="600">point</text>
-    <text x="344" y="108" font-size="13" fill="#656b7f">id</text>
-    <rect x="412" y="92" width="44" height="24" rx="4" fill="#00838f" fill-opacity="0.16"/>
-    <text x="434" y="109.04" font-size="14" text-anchor="middle" fill="#303547">42</text>
-    <text x="344" y="146" font-size="13" fill="#656b7f">vectors</text>
-    <rect x="412" y="130" width="172" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
-    <text x="420" y="146.68" font-size="13" fill="#303547">dense [0.12, …]</text>
-    <rect x="412" y="160" width="172" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
-    <text x="420" y="176.68" font-size="13" fill="#303547">sparse {193: 0.04}</text>
-    <text x="344" y="214" font-size="13" fill="#656b7f">payload</text>
-    <rect x="412" y="194" width="172" height="54" rx="4" fill="#9c27b0" fill-opacity="0.16"/>
-    <text x="418" y="216" font-size="13" fill="#303547">{"species": "husky",</text>
-    <text x="418" y="236" font-size="13" fill="#303547"> "color": "white"}</text>
+    <circle cx="40" cy="176" r="5" fill="none" stroke="#6047ff" stroke-width="1.8"/>
+    <path d="M31 192 A9 8 0 0 1 49 192" fill="none" stroke="#6047ff" stroke-width="1.8"/>
+    <path d="M49 171 A5 5 0 0 1 49 181 M53 184 A9 8 0 0 1 57 192" fill="none" stroke="#6047ff" stroke-width="1.8"/>
+    <text x="46" y="215" font-size="12" text-anchor="middle" fill="#303547" font-weight="600">Programmers</text>
+    <path d="M68 189 H86" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="140" y="111" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Clients</text>
+    <rect x="90" y="119" width="100" height="140" rx="5" fill="none" stroke="#6047ff" stroke-width="1.3" stroke-dasharray="4 3"/>
+    <rect x="96" y="127" width="88" height="24" rx="5" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.3"/>
+    <circle cx="105" cy="139" r="3.5" fill="#03a9f4"/>
+    <text x="113" y="143" font-size="12" fill="#303547">Python</text>
+    <rect x="96" y="159" width="88" height="24" rx="5" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.3"/>
+    <circle cx="105" cy="171" r="3.5" fill="#ff9800"/>
+    <text x="113" y="175" font-size="12" fill="#303547">Rust</text>
+    <rect x="96" y="191" width="88" height="24" rx="5" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.3"/>
+    <circle cx="105" cy="203" r="3.5" fill="#03a9f4"/>
+    <text x="113" y="207" font-size="12" fill="#303547">Go</text>
+    <rect x="96" y="223" width="88" height="24" rx="5" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1.3"/>
+    <circle cx="105" cy="235" r="3.5" fill="#6047ff"/>
+    <text x="113" y="239" font-size="12" fill="#303547">TypeScript</text>
+    <path d="M190 189 H200" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="204" y="172" width="72" height="34" rx="6" fill="#f0f3fa" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="240" y="195" font-size="16" text-anchor="middle" fill="#303547" font-weight="700">Qdrant</text>
+    <rect x="288" y="14" width="420" height="330" rx="8" fill="#6047ff" fill-opacity="0.04" stroke="#6047ff" stroke-width="1.3" stroke-dasharray="4 3"/>
+    <text x="304" y="38" font-size="15" fill="#303547" font-weight="700">Storage</text>
+    <text x="371" y="64" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Collections</text>
+    <text x="523" y="64" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Points</text>
+    <text x="657" y="64" font-size="13" text-anchor="middle" fill="#03a9f4" font-weight="600">Payload</text>
+    <rect x="334" y="80" width="74" height="38" rx="3" fill="#00838f" fill-opacity="0.12" stroke="#00838f" stroke-width="1.4"/>
+    <line x1="348.8" y1="80" x2="348.8" y2="118" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="363.6" y1="80" x2="363.6" y2="118" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="378.4" y1="80" x2="378.4" y2="118" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="393.2" y1="80" x2="393.2" y2="118" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="334" y1="92.7" x2="408" y2="92.7" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="334" y1="105.3" x2="408" y2="105.3" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <text x="371" y="105" font-size="16" text-anchor="middle" fill="#00838f" font-weight="600">1</text>
+    <rect x="298" y="126" width="146" height="22" rx="4" fill="#6047ff" fill-opacity="0.08" stroke="#6047ff" stroke-width="1.2"/>
+    <text x="371" y="141" font-size="12" text-anchor="middle" fill="#6047ff">Euclidean Distance</text>
+    <rect x="334" y="170" width="74" height="38" rx="3" fill="#00838f" fill-opacity="0.12" stroke="#00838f" stroke-width="1.4"/>
+    <line x1="348.8" y1="170" x2="348.8" y2="208" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="363.6" y1="170" x2="363.6" y2="208" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="378.4" y1="170" x2="378.4" y2="208" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="393.2" y1="170" x2="393.2" y2="208" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="334" y1="182.7" x2="408" y2="182.7" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="334" y1="195.3" x2="408" y2="195.3" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <text x="371" y="195" font-size="16" text-anchor="middle" fill="#00838f" font-weight="600">2</text>
+    <rect x="319" y="216" width="104" height="22" rx="4" fill="#6047ff" fill-opacity="0.08" stroke="#6047ff" stroke-width="1.2"/>
+    <text x="371" y="231" font-size="12" text-anchor="middle" fill="#6047ff">Dot Product</text>
+    <rect x="334" y="260" width="74" height="38" rx="3" fill="#00838f" fill-opacity="0.12" stroke="#00838f" stroke-width="1.4"/>
+    <line x1="348.8" y1="260" x2="348.8" y2="298" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="363.6" y1="260" x2="363.6" y2="298" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="378.4" y1="260" x2="378.4" y2="298" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="393.2" y1="260" x2="393.2" y2="298" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="334" y1="272.7" x2="408" y2="272.7" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <line x1="334" y1="285.3" x2="408" y2="285.3" stroke="#00838f" stroke-width="0.8" stroke-opacity="0.6"/>
+    <text x="371" y="285" font-size="16" text-anchor="middle" fill="#00838f" font-weight="600">3</text>
+    <rect x="300" y="306" width="142" height="22" rx="4" fill="#6047ff" fill-opacity="0.08" stroke="#6047ff" stroke-width="1.2"/>
+    <text x="371" y="321" font-size="12" text-anchor="middle" fill="#6047ff">Cosine Similarity</text>
+    <path d="M276 189 H294" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M294 99 V279" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M294 99 H330" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <path d="M294 189 H330" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <path d="M294 279 H330" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <path d="M408 189 H456" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M456 110 V250" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M456 110 H462" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="466" y="98" width="32" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="482" y="114.5" font-size="13" text-anchor="middle" fill="#dc244c">idx</text>
+    <rect x="502" y="98" width="60" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="532" y="114.5" font-size="13" text-anchor="middle" fill="#dc244c">vector</text>
+    <circle cx="576" cy="110" r="11" fill="none" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="576" y="114.5" font-size="13" text-anchor="middle" fill="#dc244c">p</text>
+    <path d="M456 148 H462" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="466" y="136" width="32" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="482" y="152.5" font-size="13" text-anchor="middle" fill="#dc244c">idx</text>
+    <rect x="502" y="136" width="60" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="532" y="152.5" font-size="13" text-anchor="middle" fill="#dc244c">vector</text>
+    <circle cx="576" cy="148" r="11" fill="none" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="576" y="152.5" font-size="13" text-anchor="middle" fill="#dc244c">p</text>
+    <path d="M456 186 H462" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="466" y="174" width="32" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="482" y="190.5" font-size="13" text-anchor="middle" fill="#dc244c">idx</text>
+    <rect x="502" y="174" width="60" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="532" y="190.5" font-size="13" text-anchor="middle" fill="#dc244c">vector</text>
+    <circle cx="576" cy="186" r="11" fill="none" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="576" y="190.5" font-size="13" text-anchor="middle" fill="#dc244c">p</text>
+    <path d="M456 250 H462" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="466" y="238" width="32" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="482" y="254.5" font-size="13" text-anchor="middle" fill="#dc244c">idx</text>
+    <rect x="502" y="238" width="60" height="24" rx="3" fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="532" y="254.5" font-size="13" text-anchor="middle" fill="#dc244c">vector</text>
+    <circle cx="576" cy="250" r="11" fill="none" stroke="#dc244c" stroke-width="1.2"/>
+    <text x="576" y="254.5" font-size="13" text-anchor="middle" fill="#dc244c">p</text>
+    <text x="482" y="222" font-size="15" text-anchor="middle" fill="#dc244c">⋮</text>
+    <text x="532" y="222" font-size="15" text-anchor="middle" fill="#dc244c">⋮</text>
+    <text x="576" y="222" font-size="15" text-anchor="middle" fill="#dc244c">⋮</text>
+    <line x1="594" y1="98" x2="594" y2="262" stroke="#abb1c7" stroke-width="1.5"/>
+    <path d="M594 189 H602" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M602 114 V252" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M602 114 H606" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="610" y="100" width="96" height="28" rx="14" fill="#03a9f4" fill-opacity="0.12" stroke="#03a9f4" stroke-width="1.2"/>
+    <text x="658" y="118.5" font-size="13" text-anchor="middle" fill="#303547">Species</text>
+    <path d="M602 160 H606" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="610" y="146" width="96" height="28" rx="14" fill="#03a9f4" fill-opacity="0.12" stroke="#03a9f4" stroke-width="1.2"/>
+    <text x="658" y="164.5" font-size="13" text-anchor="middle" fill="#303547">URL</text>
+    <path d="M602 206 H606" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="610" y="192" width="96" height="28" rx="14" fill="#03a9f4" fill-opacity="0.12" stroke="#03a9f4" stroke-width="1.2"/>
+    <text x="658" y="210.5" font-size="13" text-anchor="middle" fill="#303547">Color</text>
+    <path d="M602 252 H606" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="610" y="238" width="96" height="28" rx="14" fill="#03a9f4" fill-opacity="0.12" stroke="#03a9f4" stroke-width="1.2"/>
+    <text x="658" y="256.5" font-size="13" text-anchor="middle" fill="#303547">Fluffiness</text>
+    <path d="M420 344 V398" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <circle cx="50" cy="441" r="5" fill="none" stroke="#6047ff" stroke-width="1.8"/>
+    <path d="M41 457 A9 8 0 0 1 59 457" fill="none" stroke="#6047ff" stroke-width="1.8"/>
+    <path d="M59 436 A5 5 0 0 1 59 446 M63 449 A9 8 0 0 1 67 457" fill="none" stroke="#6047ff" stroke-width="1.8"/>
+    <text x="56" y="420" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">ML Engineers</text>
+    <path d="M78 444 H118" fill="none" stroke="#6047ff" stroke-width="2" stroke-dasharray="2 3"/>
+    <path d="M118 414 V474" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M118 414 H136" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <path d="M118 474 H136" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <ellipse cx="153" cy="404" rx="13" ry="4" fill="none" stroke="#ff9800" stroke-width="1.6"/>
+    <path d="M140 404 V422 A13 4 0 0 0 166 422 V404 M140 413 A13 4 0 0 0 166 413" fill="none" stroke="#ff9800" stroke-width="1.6"/>
+    <text x="176" y="418" font-size="13" fill="#303547" font-weight="600">Data</text>
+    <rect x="140" y="459" width="26" height="30" rx="3" fill="#ff9800" fill-opacity="0.1" stroke="#ff9800" stroke-width="1.3"/>
+    <text x="153" y="479" font-size="11" text-anchor="middle" fill="#ff9800" font-weight="600">PY</text>
+    <text x="176" y="478" font-size="13" fill="#303547">*.py files</text>
+    <path d="M222 414 H316" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M262 474 H316" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M316 414 V474" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <path d="M316 444 H340" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <line x1="352" y1="420" x2="376" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="420" x2="376" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="420" x2="376" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="420" x2="376" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="420" x2="376" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="436" x2="376" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="436" x2="376" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="436" x2="376" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="436" x2="376" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="436" x2="376" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="452" x2="376" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="452" x2="376" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="452" x2="376" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="452" x2="376" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="452" x2="376" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="468" x2="376" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="468" x2="376" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="468" x2="376" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="468" x2="376" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="352" y1="468" x2="376" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="412" x2="400" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="412" x2="400" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="412" x2="400" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="412" x2="400" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="412" x2="400" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="428" x2="400" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="428" x2="400" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="428" x2="400" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="428" x2="400" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="428" x2="400" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="444" x2="400" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="444" x2="400" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="444" x2="400" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="444" x2="400" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="444" x2="400" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="460" x2="400" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="460" x2="400" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="460" x2="400" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="460" x2="400" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="460" x2="400" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="476" x2="400" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="476" x2="400" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="476" x2="400" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="476" x2="400" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="376" y1="476" x2="400" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="412" x2="424" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="412" x2="424" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="412" x2="424" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="412" x2="424" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="412" x2="424" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="428" x2="424" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="428" x2="424" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="428" x2="424" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="428" x2="424" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="428" x2="424" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="444" x2="424" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="444" x2="424" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="444" x2="424" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="444" x2="424" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="444" x2="424" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="460" x2="424" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="460" x2="424" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="460" x2="424" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="460" x2="424" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="460" x2="424" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="476" x2="424" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="476" x2="424" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="476" x2="424" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="476" x2="424" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="400" y1="476" x2="424" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="412" x2="448" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="412" x2="448" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="412" x2="448" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="412" x2="448" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="412" x2="448" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="428" x2="448" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="428" x2="448" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="428" x2="448" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="428" x2="448" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="428" x2="448" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="444" x2="448" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="444" x2="448" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="444" x2="448" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="444" x2="448" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="444" x2="448" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="460" x2="448" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="460" x2="448" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="460" x2="448" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="460" x2="448" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="460" x2="448" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="476" x2="448" y2="412" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="476" x2="448" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="476" x2="448" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="476" x2="448" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="424" y1="476" x2="448" y2="476" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="412" x2="472" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="412" x2="472" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="412" x2="472" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="428" x2="472" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="428" x2="472" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="428" x2="472" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="444" x2="472" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="444" x2="472" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="444" x2="472" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="460" x2="472" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="460" x2="472" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="460" x2="472" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="476" x2="472" y2="428" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="476" x2="472" y2="444" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <line x1="448" y1="476" x2="472" y2="460" stroke="#6047ff" stroke-width="0.6" stroke-opacity="0.25"/>
+    <circle cx="352" cy="420" r="5" fill="#f0f3fa" stroke="#656b7f" stroke-width="1.3"/>
+    <circle cx="352" cy="436" r="5" fill="#f0f3fa" stroke="#656b7f" stroke-width="1.3"/>
+    <circle cx="352" cy="452" r="5" fill="#f0f3fa" stroke="#656b7f" stroke-width="1.3"/>
+    <circle cx="352" cy="468" r="5" fill="#f0f3fa" stroke="#656b7f" stroke-width="1.3"/>
+    <circle cx="376" cy="412" r="5" fill="#6047ff"/>
+    <circle cx="376" cy="428" r="5" fill="#6047ff"/>
+    <circle cx="376" cy="444" r="5" fill="#6047ff"/>
+    <circle cx="376" cy="460" r="5" fill="#6047ff"/>
+    <circle cx="376" cy="476" r="5" fill="#6047ff"/>
+    <circle cx="400" cy="412" r="5" fill="#dc244c"/>
+    <circle cx="400" cy="428" r="5" fill="#dc244c"/>
+    <circle cx="400" cy="444" r="5" fill="#dc244c"/>
+    <circle cx="400" cy="460" r="5" fill="#dc244c"/>
+    <circle cx="400" cy="476" r="5" fill="#dc244c"/>
+    <circle cx="424" cy="412" r="5" fill="#03a9f4"/>
+    <circle cx="424" cy="428" r="5" fill="#03a9f4"/>
+    <circle cx="424" cy="444" r="5" fill="#03a9f4"/>
+    <circle cx="424" cy="460" r="5" fill="#03a9f4"/>
+    <circle cx="424" cy="476" r="5" fill="#03a9f4"/>
+    <circle cx="448" cy="412" r="5" fill="#ff9800"/>
+    <circle cx="448" cy="428" r="5" fill="#ff9800"/>
+    <circle cx="448" cy="444" r="5" fill="#ff9800"/>
+    <circle cx="448" cy="460" r="5" fill="#ff9800"/>
+    <circle cx="448" cy="476" r="5" fill="#ff9800"/>
+    <circle cx="472" cy="428" r="5.5" fill="#00838f"/>
+    <circle cx="472" cy="444" r="5.5" fill="#ffb300"/>
+    <circle cx="472" cy="460" r="5.5" fill="#dc244c"/>
+    <text x="412" y="506" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Deep Learning Model</text>
+    <path d="M478 428 L512 400" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="516" y="386" width="30" height="28" rx="4" fill="#abb1c7" fill-opacity="0.2" stroke="#abb1c7" stroke-width="1.2"/>
+    <path d="M520 410 L528 401 L534 406 L538 402 L543 410" fill="none" stroke="#656b7f" stroke-width="1.2"/><circle cx="538" cy="394" r="2.5" fill="#656b7f"/>
+    <text x="556" y="405" font-size="13" fill="#303547">Husky</text>
+    <path d="M478 444 L512 444" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="516" y="430" width="30" height="28" rx="4" fill="#abb1c7" fill-opacity="0.2" stroke="#abb1c7" stroke-width="1.2"/>
+    <path d="M520 454 L528 445 L534 450 L538 446 L543 454" fill="none" stroke="#656b7f" stroke-width="1.2"/><circle cx="538" cy="438" r="2.5" fill="#656b7f"/>
+    <text x="556" y="449" font-size="13" fill="#303547">Cat</text>
+    <path d="M478 460 L512 488" fill="none" stroke="#6047ff" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-v)"/>
+    <rect x="516" y="474" width="30" height="28" rx="4" fill="#abb1c7" fill-opacity="0.2" stroke="#abb1c7" stroke-width="1.2"/>
+    <path d="M520 498 L528 489 L534 494 L538 490 L543 498" fill="none" stroke="#656b7f" stroke-width="1.2"/><circle cx="538" cy="482" r="2.5" fill="#656b7f"/>
+    <text x="556" y="493" font-size="13" fill="#303547">Hairy Coo</text>
   </g>
 </svg>
