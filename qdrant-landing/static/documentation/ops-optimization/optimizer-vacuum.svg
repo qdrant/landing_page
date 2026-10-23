@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 190" width="760" height="190" role="img" aria-label="A segment with 20 points, five of them marked as deleted, is rebuilt as a new segment with the 15 remaining points."><style>
+.seg { fill: #abb1c7; fill-opacity: 0.35; stroke: #d3d9eb; stroke-width: 1; }
+.seg.indexed, .seg.config-2 { fill: #9da3b8; fill-opacity: 1; }
+.seg.appendable { stroke: #303547; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.pt { fill: #6047ff; }
+.pt.deleted { fill: #abb1c7; }
+.name { fill: #303547; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; font-weight: 600; }
+.name.small { font-size: 9px; }
+.label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+.arrow { fill: none; stroke: #656b7f; stroke-width: 1.5; stroke-linecap: round; }
+.head { fill: #656b7f; }
+@media (prefers-color-scheme: dark) {
+  .seg { fill: #4e5366; stroke: #303547; }
+  .seg.indexed, .seg.config-2 { fill: #bfc5d9; }
+  .seg.appendable { stroke: #e2e7f5; }
+  .pt.deleted { fill: #656b7f; }
+  .name { fill: #e2e7f5; }
+  .name.on-light { fill: #303547; }
+  .label { fill: #898ea3; }
+  .arrow { stroke: #898ea3; }
+  .head { fill: #898ea3; }
+}
+</style><g transform="translate(120 20)"><rect class="seg " width="150" height="150" rx="6"/><text class="name" x="12" y="24">Segment 1</text><rect class="pt" x="16.95" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="29.15" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt deleted" x="41.35" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="53.55" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="65.75" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="77.95" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt deleted" x="90.15" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="102.35" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="114.55" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="126.75" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="16.95" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt deleted" x="29.15" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="41.35" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="53.55" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="65.75" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt deleted" x="77.95" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="90.15" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="102.35" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt deleted" x="114.55" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="126.75" y="92.00" width="6.3" height="40.00" rx="1.5"/></g><path class="arrow" d="M 300 95.0 H 454"/><polygon class="head" points="460,95.0 452,90.0 452,100.0"/><text class="label" x="380.0" y="69.0" text-anchor="middle">rebuilding without</text><text class="label" x="380.0" y="85.0" text-anchor="middle">deleted points</text><rect class="pt deleted" x="317" y="109.0" width="6" height="16" rx="1.5"/><text class="label" x="332" y="121.0">deleted point</text><g transform="translate(490 20)"><rect class="seg " width="150" height="150" rx="6"/><text class="name" x="12" y="24">Segment 2</text><rect class="pt" x="16.95" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="29.15" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="41.35" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="53.55" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="65.75" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="77.95" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="90.15" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="102.35" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="114.55" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="126.75" y="44.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="16.95" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="29.15" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="41.35" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="53.55" y="92.00" width="6.3" height="40.00" rx="1.5"/><rect class="pt" x="65.75" y="92.00" width="6.3" height="40.00" rx="1.5"/></g></svg>
