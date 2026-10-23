@@ -95,6 +95,7 @@ thing instead.
 ```bash
 automation/prompts/check-prompts.sh       # prompt rules, source only, seconds
 automation/prompts/check-skill-links.sh   # skill links resolve, needs network
+automation/check-content-images.sh        # blog and article front matter images exist
 automation/snippets/generate-md.py        # if you touched snippets, then commit the result
 ```
 
