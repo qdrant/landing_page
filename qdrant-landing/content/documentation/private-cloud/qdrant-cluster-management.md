@@ -35,7 +35,22 @@ There are lots more configuration options to configure scheduling, security, net
 
 To scale a cluster, update the CPU, memory and storage resources in the QdrantCluster spec. The Qdrant operator will automatically adjust the cluster configuration. This operation is highly available on a multi-node cluster with replicated collections.
 
-<aside role="status">Vertical scaling is only possible if your CSI driver and StorageClass allows volume expansion. Disk storage can not be downscaled.</aside>
+<aside role="status">Increasing disk storage is only possible if your CSI driver and StorageClass allow volume expansion.</aside>
+
+### Scaling Down Disk Space
+
+*Available as of Qdrant Private Cloud 1.13.0*
+
+You can reduce `storage` in the QdrantCluster spec as well as increase it. A volume cannot be shrunk in place, so the Operator replaces the nodes instead. For each node, the Operator creates a new node with the smaller volume, lets the cluster manager move all shards from the old node to the new node, and deletes the old node once the cluster manager confirms it is no longer needed. It repeats this one node at a time until every node has the new disk size.
+
+Disk scale-down is disabled by default in Private Cloud, because storage setups vary between installations. To enable it, set `diskScaleDown.enable: true` in the operator settings of your Helm values, see [Configuration](/documentation/private-cloud/configuration/). It also requires the [cluster manager](/documentation/private-cloud/configuration/), which is enabled by default, Qdrant v1.19.2 or later, and no `additionalVolumeClaimTemplates` on the cluster. If a requirement is missing, the Operator emits a `DiskScaleDownFailed` warning event on the QdrantCluster, keeps the current disks, and continues reconciling everything else.
+
+The process doesn't cause downtime on a multi-node cluster with replicated collections. Keep the following in mind:
+
+- The new disk size must still fit all the data on each node, with room to grow. Check the current disk usage before you scale down.
+- Local snapshots on the old node's snapshots volume are not transferred and are deleted with the old node. Copy them off the cluster first if you need them.
+- Replacing nodes can take a while, depending on how much data the cluster holds, and moving shards increases the disk I/O load until the process completes.
+- Restoring the previous `storage` value before the Operator deletes the old node cancels the replacement.
 
 ## Upgrading the Qdrant version
 
@@ -297,7 +312,7 @@ step certificate create mydomain.com qdrant-nodes.crt qdrant-nodes.key \
 
 *Available as of Qdrant v1.17.0*
 
-Audit logging records API operations that require authentication or authorization to JSON log files on the database volume. It is disabled by default. Enable it under `spec.config.audit` on the `QdrantCluster`:
+Audit logging records API operations that require authentication or authorization as JSON entries, by default to log files on the database volume. It is disabled by default. Enable it under `spec.config.audit` on the `QdrantCluster`:
 
 ```yaml
 apiVersion: qdrant.io/v1
@@ -326,13 +341,14 @@ spec:
       rotation: daily
       max_log_files: 7
       trust_forwarded_headers: false
+      output: file
 ```
 
 `trust_forwarded_headers` makes Qdrant take the client address from the `X-Forwarded-For` header instead of the TCP connection. Only enable it when the cluster sits behind a trusted reverse proxy or load balancer. On a publicly reachable instance it lets clients spoof their IP address in the audit log.
 
-Audit entries are written to files on the cluster's database volume (default `./storage/audit`), not to the container stdout that `kubectl logs` shows. Audit logging is verbose and the files can grow quickly, so size the PersistentVolume with enough headroom. For collecting them alongside application logs, see [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/#audit-logging).
+`output` selects where Qdrant writes audit entries: `file`, `stdout`, `stderr`, `file_and_stdout`, or `file_and_stderr`. If unset, Qdrant writes to `file`. With `file`, entries go to files on the cluster's database volume (default `./storage/audit`), not to the container output that `kubectl logs` shows. Audit logging is verbose and the files can grow quickly, so size the PersistentVolume with enough headroom. With `stdout` or `stderr`, every entry is one JSON line with `"kind": "audit"` in the container output, nothing is written to the volume, and `POST /audit/logs` returns no entries for that node. `dir`, `rotation`, and `max_log_files` only apply when the output includes `file`. For collecting audit entries alongside application logs, see [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/#audit-logging).
 
-The Operator only writes this configuration if the cluster runs Qdrant v1.17.0 or later. On an older version it is dropped silently: the `QdrantCluster` still shows `enabled: true`, but no audit log is written and no error is reported.
+The Operator only writes this configuration if the cluster runs Qdrant v1.17.0 or later, and only writes `output` from Qdrant v1.20.0. On an older version the setting is dropped silently: the `QdrantCluster` still shows it, but Qdrant does not apply it and no error is reported.
 
 From Qdrant v1.18.0, clients can send tracing IDs (for example `x-request-id`), and you can query entries with `POST /audit/logs`. Details, including rotation options and the query API, are in [Audit Logging](/documentation/security/#audit-logging). Field-level reference for `AuditConfig` is in the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig).
 
