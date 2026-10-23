@@ -44,43 +44,6 @@ menuItems:
       - id: 6
         name: Qdrant Serverless (Coming soon)
         url: /serverless/
-      - id: 7
-        name: Pricing
-        url: /pricing/
-  - title: Use Cases
-    items:
-      - id: 0
-        name: Advanced Search
-        url: /advanced-search/
-      - id: 1
-        name: Recommendation Systems
-        url: /recommendations/
-      - id: 2
-        name: Retrieval Augmented Generation
-        url: /rag/
-      - id: 3
-        name: Data Analysis & Anomaly Detection
-        url: /data-analysis-anomaly-detection/
-      - id: 4
-        name: AI Agents
-        url: /ai-agents/
-  - title: Industries
-    items:
-      - id: 0
-        name: E-commerce
-        url: /e-commerce/
-      - id: 1
-        name: Legal Tech
-        url: /legal-tech/
-      - id: 2
-        name: Hospitality & Travel
-        url: /hospitality-and-travel/
-      - id: 3
-        name: HR Tech
-        url: /hr-tech/
-      - id: subMenu-1-9
-        name: Healthcare Tech
-        url: /healthcare/
   - title: Developers
     items:
       - id: 0
@@ -124,9 +87,6 @@ menuItems:
       - id: 6
         name: Demos
         url: /demo/
-      - id: 7
-        name: Bug Bounty
-        url: /security/bug-bounty-program/
   - title: Company
     items:
       - id: 0
@@ -147,6 +107,29 @@ menuItems:
       - id: 5
         name: Contact Us
         url: /contact-us/
+  - title: Security & Legal
+    items:
+      - id: 0
+        name: Security
+        url: /security/
+      - id: 1
+        name: Bug Bounty Program
+        url: /security/bug-bounty-program/
+      - id: 2
+        name: Trust Center
+        url: http://qdrant.to/trust-center
+      - id: 3
+        name: Terms
+        url: /legal/terms_and_conditions/
+      - id: 4
+        name: Privacy Policy
+        url: /legal/privacy-policy/
+      - id: 5
+        name: Impressum
+        url: /legal/impressum/
+      - id: 6
+        name: Recruitment Privacy Policy
+        url: /legal/recruitment-privacy-policy/
 copyright: Qdrant.
 bottomLinks:
   - text: Terms
