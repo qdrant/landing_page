@@ -18,11 +18,75 @@ aliases:
 
 Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items embedded with the `sentence-transformers/all-MiniLM-L6-v2` model via [Cloud Inference](/documentation/inference/). This is one of the free embedding models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
+You can create, inspect, and delete your cluster in the Qdrant Cloud Console or from the terminal with `qcloud`, the Qdrant Cloud CLI. Working with data, from connecting to searching, uses the client SDKs.
+
 ## 1. Create a Cloud Cluster
 
-1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
-2. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
-3. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
+First, register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google, or GitHub credentials. Then create your cluster in the Cloud Console or from the terminal with the qcloud CLI.
+
+### Using the Cloud Console
+
+1. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
+2. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
+
+### Using the qcloud CLI
+
+1. In the Cloud Console, go to **Access Management** > **Cloud Management Keys** and create a management key. Also copy your **Account ID** from your account's **Settings** page. A management key manages your account, which is different from the cluster API key you create later in this section.
+2. Install `qcloud`. With Homebrew on macOS or Linux:
+
+    ```bash
+    brew install qdrant/tap/qcloud
+    ```
+
+    Without Homebrew, for example in CI runners, containers, or sandboxed agents:
+
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh
+    ```
+
+    Then confirm the installation with `qcloud version`.
+
+3. Save your credentials in a context. A context is a named, saved set of credentials. `qcloud` uses the active context, so you don't have to pass your credentials with each command. Create one called `quickstart`. Wrap the management key in single quotes, because it can contain characters such as `|` that the shell would otherwise interpret:
+
+    ```bash
+    qcloud context set quickstart --api-key '<YOUR_MANAGEMENT_KEY>' --account-id <YOUR_ACCOUNT_ID>
+    ```
+
+    A new context becomes active only if no other context is active. Run `qcloud context list` to see which one is marked as current, and `qcloud context use quickstart` to switch if needed.
+
+4. Create a free cluster and wait until it's healthy. Note the cluster ID that the command prints, because the next steps use it. If you lose it, run `qcloud cluster list`:
+
+    ```bash
+    qcloud cluster create \
+      --name quickstart \
+      --cloud-provider aws \
+      --cloud-region eu-central-1 \
+      --package free2 \
+      --wait
+    ```
+
+    This example uses AWS in `eu-central-1`. To choose a different provider, region, or size:
+
+    - `qcloud cloud-provider list` lists the supported cloud providers.
+    - `qcloud cloud-region list --cloud-provider aws` lists the regions of a provider. Use a region ID whose `AVAILABLE` column is `true`.
+    - `qcloud package list --cloud-provider aws --cloud-region eu-central-1` lists the Standard cluster sizes in a region, with their RAM, CPU, disk, and hourly price. The free `free2` package isn't included in this list.
+    - `qcloud inference models list --cloud-provider aws --cloud-region eu-central-1` lists the inference models available in a region.
+
+5. Create a cluster API key. Copy the key from the output and store it somewhere safe, as it won't be displayed again:
+
+    ```bash
+    qcloud cluster key create <CLUSTER_ID> --name quickstart-key --wait
+    ```
+
+6. Get the cluster URL from the `Endpoint` field:
+
+    ```bash
+    qcloud cluster describe <CLUSTER_ID>
+    ```
+
+    The command also shows the cluster's status, Qdrant version, region, REST and gRPC ports, and per-node resources.
+
+Add `--json` to any `qcloud` command for machine-readable output. For the full command reference, see the [Qdrant Cloud CLI documentation](/documentation/cloud-cli/).
 
 For detailed cluster setup instructions, see the [Cloud documentation](/documentation/deploy-intro/).
 
@@ -40,7 +104,7 @@ pip install qdrant-client                       # for Python projects
 
 ## 3. Connect to Qdrant Cloud
 
-Import the qdrant client and create a connection to your Qdrant Cloud cluster using your cluster URL and API key.
+Import the qdrant client and create a connection to your Qdrant Cloud cluster using your cluster URL (endpoint) and API key.
 
 ```python
 from qdrant_client import QdrantClient
@@ -1033,6 +1097,37 @@ for _, result := range results {
 ## That's Vector Search!
 
 You've just performed semantic search on real menu item data. The query "vegetarian dishes" returned similar menu items based on meaning, not just keyword matching.
+
+## 7. Back Up Your Collection
+
+This quickstart is a toy example that you could rebuild in seconds. A real collection might hold millions of embeddings that took hours of compute and fees for an embedding API to generate. A [snapshot](/documentation/snapshots/) is an archive of a collection's data and configuration that you can download and restore after an accidental deletion or a bad update.
+
+Free clusters support manual snapshots of a collection, which you can take from the cluster dashboard or through the [snapshot API](/documentation/snapshots/). Create a snapshot of the `items` collection.
+
+### Using the Cloud Console
+
+1. On the **Cluster Detail Page**, open the cluster's dashboard.
+2. Select the `items` collection, open its **Snapshots** tab, and create a snapshot.
+
+To open the dashboard from the terminal, run `qcloud cluster dashboard <CLUSTER_ID>`. The `qcloud` CLI manages clusters and has no snapshot commands, because snapshots are taken on the cluster itself.
+
+Snapshots are stored on the cluster, so [download](/documentation/snapshots/#retrieve-snapshot) any you want to keep before you delete the cluster in the next step. For backups of a whole cluster, which are available on Standard clusters, see [Backing up Qdrant Cloud Clusters](/documentation/cloud/backups/).
+
+## 8. Clean Up
+
+When you're done with the quickstart, you can delete the cluster. Deleting a cluster removes its data and can't be undone. An unused free cluster is suspended after 1 week and deleted after 4 weeks of inactivity.
+
+### Using the Cloud Console
+
+On the **Cluster Detail Page**, delete the cluster.
+
+### Using the qcloud CLI
+
+```bash
+qcloud cluster delete <CLUSTER_ID>
+```
+
+The command asks for confirmation. Add `--force` to skip the prompt, for example in scripts.
 
 ## What's Next?
 
