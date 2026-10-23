@@ -118,6 +118,10 @@ menuItems:
             name: Roadmap
             icon: roadmap.svg
             url: https://qdrant.to/roadmap
+          - id: subMenu-2-4
+            name: Change Log
+            icon: changelog.svg
+            url: https://github.com/qdrant/qdrant/releases
   - id: menu-3
     name: Resources
     mainMenuItems:
