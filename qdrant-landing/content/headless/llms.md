@@ -28,21 +28,24 @@ replace the trailing slash of its URL with `.md`. Fetch this file fresh: it chan
 
 **Set up Qdrant Cloud.** Signing up needs the human; everything after it can be the agent.
 
-1. Install the tools (local coding agents such as Claude Code, Cursor, or Codex):
+1. If the human asks for local setup (coding agents such as Claude Code, Cursor, or Codex),
+   install the tools:
 
 ```sh
+brew install qdrant/tap/qcloud
 npx skills add qdrant/skills/meta/qdrant-advisor
-curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh
 ```
 
-   `brew install qdrant/tap/qcloud` also works. In sandboxes and CI the installer needs
-   `github.com` and `raw.githubusercontent.com`; `QCLOUD_VERSION` pins a release.
+   Without Homebrew: `curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh`.
+   It checks the release archive against `checksums.txt`; `QCLOUD_VERSION` selects a release. In
+   sandboxes and CI it needs `github.com` and `raw.githubusercontent.com`.
 2. Ask the human to sign up at https://cloud.qdrant.io/signup. Then take one of two paths:
    - **Console:** they click **Create Free Cluster**, then copy the cluster endpoint and its API
      key into `.env` as `QDRANT_URL` and `QDRANT_API_KEY`.
    - **CLI:** they create a Cloud Management Key under **Access Management**, and put it and their
-     account ID in `.env` as `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID`. The agent does
-     the rest:
+     account ID in `.env` as `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID`. `qcloud` does
+     not read `.env`: export them into the shell that runs it with `set -a; . ./.env; set +a`. In
+     CI, export them from the secret store instead. The agent does the rest:
 
 ```sh
 qcloud package list --cloud-provider aws --cloud-region us-east-1   # the free package is free2 today
@@ -51,9 +54,12 @@ qcloud cluster describe <cluster-id> --json            # QDRANT_URL is state.end
 qcloud cluster key create <cluster-id> --name app --wait --json   # QDRANT_API_KEY is "key"
 ```
 
-3. Never ask for a key in chat. Write it to `.env` and add `.env` to `.gitignore`.
-4. Test with `GET $QDRANT_URL` and the `api-key` header. A new key can take a few seconds to
-   work; on a 403, retry.
+3. Never ask for a key in chat. Put keys in `.env`, add `.env` to `.gitignore`, and load it where
+   it is used: `load_dotenv()` from `python-dotenv`, `node --env-file=.env`, or
+   `set -a; . ./.env; set +a` in the shell.
+4. Test with `GET $QDRANT_URL` and the `api-key` header. A newly created key can return 403 for a
+   few seconds: retry up to 5 times, 2 seconds apart, then check the key and cluster ID. This is
+   an exception to the 4xx rule below.
 
 In a hosted assistant (claude.ai, ChatGPT), install nothing: guide the human through the Console
 path, and ask them to add `Use skills.qdrant.tech` to their prompt so the advisor's skills load.
@@ -63,9 +69,10 @@ the `api-key` header. Clients exist for Python, TypeScript, Rust, Go, Java, and 
 Inference, send text where a vector would go and name the model:
 
 ```python
+import os
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, cloud_inference=True)
+client = QdrantClient(url=os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"], cloud_inference=True)
 MODEL = "sentence-transformers/all-minilm-l6-v2"   # free, 384 dimensions
 
 client.create_collection("docs", vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE))
@@ -81,7 +88,8 @@ The Query API (`POST /collections/{name}/points/query`) also does recommendation
 search: give the collection named dense and sparse vectors or text data, run one `prefetch` per vector, and
 fuse them with `"query": { "rrf": {} }`.
 
-**Core usage: qcloud.** It reads `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID`; add
+**Core usage: qcloud.** It reads `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID` from the
+environment, not from `.env`; add
 `--json` to any command for machine-readable output. Beyond setup: `qcloud cluster list`,
 `cluster scale`, `cluster key create --access-type read-only`, `backup`, `cluster delete`, and
 `qcloud self-upgrade`.
@@ -96,13 +104,16 @@ fuse them with `"query": { "rrf": {} }`.
 - Take the vector size from the model (see Cloud Inference) and use the distance it was trained
   for. Neither can be changed after the collection is created.
 - For many users or customers, use one collection with a tenant field indexed with
-  `"is_tenant": true`, not one collection per tenant.
+  `"is_tenant": true`, not one collection per tenant. The index is not access control. Take the
+  tenant ID from the authenticated user on your server, add it as a filter to every query and
+  delete, set it on every upsert, and check it on lookups by point ID.
 - Free clusters are for prototyping: no backups, and suspended when idle. Before anything depends
   on it, size a Standard cluster with https://cloud.qdrant.io/calculator or the `qdrant-sizing`
   skill, and use 3 or more nodes with replication factor 2 for high availability.
 - Creating a paid cluster, scaling, and deleting cost money or destroy data. State what will
   happen and get the human's confirmation first. Disk cannot be scaled down later.
-- Free inference models run in the US. For EU data residency, use a paid model or embed first.
+- Free inference models run in the US. For EU data residency, use a cluster in an EU region with
+  a paid Qdrant-hosted model, or embed in the EU yourself and send the vectors.
 - A 4xx response is about the request: fix it instead of retrying. Retry 429 and 5xx with backoff.
 
 **Deep guidance: the Qdrant Advisor.** It ships no static content: for each problem it searches
