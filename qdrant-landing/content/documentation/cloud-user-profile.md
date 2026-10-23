@@ -51,26 +51,28 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 ## Security
 
-The **Security** page is where you protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting — it applies to your user wherever you sign in, across every account you belong to.
+Use the **Security** page to protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting. It applies to your user wherever you sign in, across every account you belong to.
 
-Enabling MFA is your choice: until you set up a method, nothing changes about how you log in. Once a method is enabled, you are asked to complete it on every subsequent login. One method is available:
+MFA is optional. Until you set up a method, your login works the same as before. Once you enable a method, Qdrant Cloud asks you to complete it every time you log in.
 
-* **Authenticator App** — a one-time code from an authenticator app of your choice.
-
-Setting it up sends you back through the login screen, because that is where your app or device is registered. When it completes, you land back on the **Security** page.
+Qdrant Cloud currently supports one MFA method: an authenticator app that generates one-time codes. You can use any authenticator app you like.
 
 ![User Security Page](/documentation/cloud/user-security-page.png)
 
 ### Authenticator App
 
-Select **Setup Authenticator App** to get started. You are taken back through login, where you scan a QR code with your authenticator app and confirm the code it generates.
+To set up an authenticator app:
 
-A **recovery code** always accompanies an authenticator app, and is issued in the same step. It is shown once, so store it somewhere safe — it is your way back in if you lose access to your authenticator app.
+1. Select **Set Up Authenticator App**.
+2. Scan the QR code with your authenticator app.
+3. Enter the code your app generates to confirm the setup.
 
-Once set up, the method is marked **Enabled** and two actions become available:
+Qdrant Cloud then shows you a **recovery code**. Use it to log in if you lose access to your authenticator app. The code is shown only once, so store it somewhere safe, such as a password manager.
 
-* **Regenerate recovery code** — disables your existing recovery code and sends you back through login to issue a new one.
-* **Disable** — removes the authenticator app across all devices, along with its recovery code. You can no longer use it for MFA.
+After setup, the method shows as **Enabled**, and two actions become available:
+
+* **Regenerate Recovery Code**: Invalidates your current recovery code. You're asked to log in again, and Qdrant Cloud then issues a new code.
+* **Disable**: Removes the authenticator app and its recovery code from your user. You're no longer asked for a code when you log in.
 
 ## Delete User
 
