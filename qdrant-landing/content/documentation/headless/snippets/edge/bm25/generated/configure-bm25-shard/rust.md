@@ -5,9 +5,7 @@ use std::path::*;
 use qdrant_edge::*;
 
 let config = EdgeConfigBuilder::new()
-    .sparse_vector("text", EdgeSparseVectorParamsBuilder::new()
-        .modifier(Modifier::Idf)
-        .build())
+    .vector("embedding", EdgeVectorParamsBuilder::new(4, Distance::Cosine).build())
     .build();
 
 let shard = EdgeShard::new(Path::new(SHARD_DIRECTORY), config)?;

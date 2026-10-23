@@ -1,68 +1,91 @@
 // @block-start configure-bm25-shard
 pub async fn main() -> anyhow::Result<()> {
     const SHARD_DIRECTORY: &str = "./qdrant-edge-bm25";
-    fs_err::create_dir_all(SHARD_DIRECTORY)?; // @hide
 
     use std::path::*;
     use qdrant_edge::*;
 
     let config = EdgeConfigBuilder::new()
-        .sparse_vector("text", EdgeSparseVectorParamsBuilder::new()
-            .modifier(Modifier::Idf)
-            .build())
+        .vector("embedding", EdgeVectorParamsBuilder::new(4, Distance::Cosine).build())
         .build();
 
     let shard = EdgeShard::new(Path::new(SHARD_DIRECTORY), config)?;
     // @block-end configure-bm25-shard
 
-    // @block-start create-bm25
-    use qdrant_edge::bm25_embed::*;
+    // @block-start create-bm25-index
+    use qdrant_edge::*;
 
-    let bm25 = EdgeBm25::new(EdgeBm25Config {
-        language: Some("english".to_string()),
-        ..Default::default()
-    })?;
-    // @block-end create-bm25
+    shard.update(UpdateOperation::FieldIndexOperation(
+        FieldIndexOperations::CreateIndex(CreateIndex {
+            field_name: "title".try_into().unwrap(),
+            field_schema: Some(PayloadFieldSchema::FieldParams(PayloadSchemaParams::Text(
+                TextIndexParamsBuilder::new()
+                    .scoring(TextScoringParams::default())
+                    .stemmer(StemmingAlgorithm::Snowball(SnowballParams {
+                        r#type: Snowball::Snowball,
+                        language: SnowballLanguage::English,
+                    }))
+                    .stopwords(StopwordsInterface::Language(Language::English))
+                    .build(),
+            ))),
+        }),
+    ))?;
+    // @block-end create-bm25-index
 
-    // @block-start embed-and-upsert
+    // @block-start upsert-points
     use qdrant_edge::external::serde_json::json;
     use qdrant_edge::*;
 
-    let docs = [
-        (1u64, "the quick brown fox", "Article 1"),
-        (2,    "a lazy dog sleeps",   "Article 2"),
-        (3,    "foxes are clever",    "Article 3"),
+    let books: [(u64, [f32; 4], &str); 3] = [
+        (1, [0.05, 0.61, 0.76, 0.74], "The Time Machine"),
+        (2, [0.19, 0.81, 0.75, 0.11], "Time Travel in Einstein's Universe"),
+        (3, [0.36, 0.55, 0.47, 0.94], "The Travels of Marco Polo"),
     ];
 
-    let points = docs.iter().map(|(id, text, title)| {
-        PointStruct::new(
-            *id,
-            Vectors::new_named([("text", bm25.embed_document(text))]),
-            json!({ "title": title }),
-        ).into()
-    }).collect();
+    let points = books
+        .iter()
+        .map(|(id, embedding, title)| {
+            PointStruct::new(
+                *id,
+                Vectors::new_named([("embedding", embedding.to_vec())]),
+                json!({ "title": title }),
+            )
+            .into()
+        })
+        .collect();
 
     shard.update(UpdateOperation::PointOperation(
         PointOperations::UpsertPoints(PointInsertOperations::PointsList(points)),
     ))?;
-    shard.optimize()?;
-    // @block-end embed-and-upsert
+    // @block-end upsert-points
 
-    // @block-start query-with-bm25
+    // @block-start query-bm25
     use qdrant_edge::*;
-
-    let query_vector = bm25.embed_query("clever fox");
 
     let results = shard.query(
         QueryRequestBuilder::new(3)
-            .query(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
-                query: VectorInternal::from(query_vector),
-                using: Some("text".to_string()),
-            })))
+            .query(TextQueryBuilder::new("title".try_into().unwrap(), "time travel").build())
             .with_payload(WithPayloadInterface::Bool(true))
             .build(),
     )?;
-    // @block-end query-with-bm25
+    // @block-end query-bm25
+
+    // @block-start query-bm25-params
+    use qdrant_edge::*;
+
+    let results = shard.query(
+        QueryRequestBuilder::new(3)
+            .query(
+                TextQueryBuilder::new("title".try_into().unwrap(), "time travel")
+                    .scoring(TextQueryScoring::Bm25(
+                        Bm25ParamsBuilder::new().k(1.5).b(0.5).build(),
+                    ))
+                    .build(),
+            )
+            .with_payload(WithPayloadInterface::Bool(true))
+            .build(),
+    )?;
+    // @block-end query-bm25-params
 
     Ok(())
 }

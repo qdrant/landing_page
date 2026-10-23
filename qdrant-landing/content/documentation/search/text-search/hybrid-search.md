@@ -9,7 +9,7 @@ weight: 4
 
 [Hybrid search](/documentation/search/hybrid-queries/#hybrid-search) enables you to combine semantic and lexical search in a single query, returning results that match the semantic meaning, the exact keywords, or both. This is useful when you don't know whether the user is looking for a specific keyword or a semantically similar document. For example, when a user searches for "time travel", semantic search finds books whose descriptions are about the concept of time travel, even if they use different words, while lexical search finds books with those exact words in the title. Hybrid queries enable you to return results for both cases in a single query.
 
-For example, you can combine a dense vector for semantic search with [BM25 full-text search](/documentation/search/text-search/full-text-search/) on a payload field for lexical search. To do so, create a collection with a dense vector, and create a full-text index with BM25 scoring enabled on the payload field you want to search:
+For example, you can combine a dense vector for semantic search with [BM25 full-text search](/documentation/search/text-search/full-text-search/) on a payload field for lexical search. To do so, configure a dense vector, and create a full-text index with BM25 scoring enabled on the payload field you want to search:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-hybrid-collection/" >}}
 
