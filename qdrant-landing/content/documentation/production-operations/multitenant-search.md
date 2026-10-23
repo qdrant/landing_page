@@ -1,13 +1,14 @@
 ---
 title: "How to Implement Multitenancy and Custom Sharding in Qdrant"
-short_description: "Explore how Qdrant's multitenancy and custom sharding streamline machine-learning operations, enhancing scalability and data security."
-description: "Discover how multitenancy and custom sharding in Qdrant can streamline your machine-learning operations. Learn how to scale efficiently and manage data securely."
+short_description: "Choose and implement the right Qdrant multitenancy model for your tenant shape, backed by measured benchmarks."
+description: "How to choose between Qdrant's multitenancy models, payload field with a tenant index, shard per tenant, and tiered multitenancy, and implement the one that fits your tenant shape, backed by measured benchmarks."
 social_preview_image: /articles_data/multitenancy/preview/social_preview.jpg
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/icon.svg
 weight: 60
-author: David Myriel
-date: 2024-02-06T13:21:00.000Z
+author: Andrei Cristea and David Myriel
+author_link: https://www.linkedin.com/in/andrei-cristea-it/
+date: 2026-10-19T10:00:00+02:00
 draft: false
 keywords:
   - multitenancy
@@ -18,181 +19,340 @@ aliases:
   - /articles/multitenancy/
 ---
 
-# Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant 
+# Serve Many Customers from One Qdrant Deployment with Multitenancy and Custom Sharding
 
-We are seeing the topics of [multitenancy](/documentation/manage-data/multitenancy/) and [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
+Once your application stores data for several customers, [multitenancy](/documentation/manage-data/multitenancy/) and [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) become inevitable topics for the engineering team. The two solve different problems. Multitenancy answers one specific question: how do I serve many customers from shared infrastructure while keeping each customer's data separate? Distributed deployment is about how much data and traffic you have, not whose data it is.
 
-Whether you are building a bank fraud-detection system, [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
-In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
+Multitenancy matters whenever different users see different data. In a B2B application, each business partner needs its own separate environment, since each can have users of its own. In a consumer app like Google Drive, the tenant is a single user, whose files must stay separate from everyone else's. A public product catalog, where every visitor searches the same items, needs no multitenancy at all.
 
-## Multitenancy & custom sharding with Qdrant
+In Qdrant, multitenancy means keeping many tenants in one collection, with a payload field or a dedicated shard keeping their data apart. Qdrant supports three models for this: a tenant field that every query filters on, a shard per tenant through custom sharding, and tiered multitenancy, which combines the two. Custom sharding is where the two topics overlap: it is a distributed-deployment feature that also gives a tenant its own shard.
 
-We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/manage-data/multitenancy/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding). 
+This guide starts from the payload model, the one built for many small tenants, and treats the other two as the way out when a tenant outgrows it. Apart from limits quoted from Qdrant's guidance, every number in it comes from experiments on one dataset and one small cluster, described in [How We Measured](#how-we-measured).
 
-Combining these two will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
+## Choose by Application Shape
 
-## One collection, many tenants
+Like most architecture decisions, multitenancy comes down to tradeoffs, and choosing a design requires both engineering and business knowledge of your application: how many customers you have, whether their contracts require dedicated infrastructure, and what isolation your pricing tiers promise. Three axes shape the design:
 
-When working with Qdrant, you can upsert all your data to a single collection, and then partition each vector via its payload. This means that all your users are leveraging the power of a single Qdrant cluster, but their data is still isolated within the collection. Let's take a look at a two-tenant collection:
+- Isolation level: how much tenants share, such as nodes, collections, and other resources, and therefore how far one tenant's load can spread.
+- Infrastructure cost: what you pay to run the deployment, in money on a managed service or in operations time when self-hosted.
+- Enforcement effort: whether Qdrant's access control keeps tenants out of each other's data, or your own code does, for example by applying the tenant filter on every request.
 
-**Figure 1:** Each individual vector is assigned a specific payload that denotes which tenant it belongs to. This is how a large number of different tenants can share a single Qdrant collection.
-![Qdrant Multitenancy](/articles_data/multitenancy/multitenancy-single.png)
+No design wins on all three. The cheaper the infrastructure, the more tenants share, and in the cheapest design your own code has to enforce the boundary between them.
 
-Qdrant is built to excel in a single collection with a vast number of tenants. You should only create multiple collections when your data is not homogenous or if users' vectors are created by different embedding models. Creating too many collections may result in resource overhead and cause dependencies. This can increase costs and affect overall performance. 
+In Qdrant terms, architectures sit on a gradient from Silo (a cluster per tenant, shared-nothing and the most expensive) through Bridge (a collection per tenant) to Pool (one shared collection, where your code routes every decision).
 
-## Sharding your database
+{{< island path="content/documentation/headless/multitenancy/tradeoff-triangle" ratio="960 / 620" >}}
+![Isolation and infrastructure cost fall from Silo to Bridge to Pool, while the enforcement your code carries rises at Pool](/docs/tradeoff-triangle.png)
+{{< /island >}}
 
-With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](/documentation/scaling/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
+Four questions from [The Tao of Qdrant Multi-Tenancy](https://medium.com/qdrant/the-tao-of-qdrant-multi-tenancy-162c71f830fb) settle most of the choice before any measurement:
 
-During vector search, your operations will be able to hit only the subset of shards they actually need. In massive-scale deployments, __this can significantly improve the performance of operations that do not require the whole collection to be scanned__.
+- **Models:** if tenants bring their own embedding models or collection settings, each needs a collection of its own, and a Qdrant Cloud cluster allows 1,000 collections by default.
+- **Location:** if a tenant's data must stay in a region, it needs shards or a cluster on nodes in that region.
+- **Scale:** if one tenant holds a disproportionate share of the data, plan for the escalations this guide covers.
+- **Isolation:** if logical separation is enough, tenants can share a collection; physical separation means a dedicated shard on its own node, or a cluster of its own.
 
-This works in the other direction as well. Whenever you search for something, you can specify a shard or several shards and Qdrant will know where to find them. It will avoid asking all machines in your cluster for results. This will minimize overhead and maximize performance. 
+## Pick a Qdrant Model for the Pool
 
-### Common use cases
+Once tenants share a collection, the next decision is engineering rather than business: how many tenants you have, and how evenly sized they are. Qdrant offers three models for a shared collection, and they form the same gradient on a smaller scale:
 
-A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](/documentation/scaling/distributed_deployment/#moving-shards).  
+| Qdrant model                      | Fits                                                | Isolation                                                             | Infrastructure cost                          |
+| -----------------------------------| -----------------------------------------------------| -----------------------------------------------------------------------| ----------------------------------------------|
+| Payload field with a tenant index | Many tenants of similar, modest size                | Lowest: tenants share the same shards                                 | Lowest: no per-tenant shards                 |
+| Tiered multitenancy               | Many small tenants plus a few large or growing ones | Mixed: small tenants share a fallback shard, large ones get their own | Grows with each promoted tenant              |
+| Shard per tenant                  | A few large tenants that need their own resources   | Highest: each tenant has its own shard, which can sit on its own node | Highest: each shard key adds physical shards |
 
-**Figure 2:** Users can both upsert and query shards that are relevant to them, all within the same collection. Regional sharding can help avoid cross-continental traffic. 
-![Qdrant Multitenancy](/articles_data/multitenancy/shards.png)
+{{< island path="content/documentation/headless/multitenancy/model-picker" ratio="960 / 680" >}}
+![Decision map: a payload field for many similar tenants, tiered multitenancy when a few are big, its own shard for one dominant tenant while the rest share, and a collection per tenant when tenants need different configurations](/docs/model-picker.png)
+{{< /island >}}
 
-Custom sharding also gives you precise control over other use cases. A time-based data placement means that data streams can index shards that represent latest updates. If you organize your shards by date, you can have great control over the recency of retrieved data. This is relevant for social media platforms, which greatly rely on time-sensitive data. 
+Start with the payload model, but decide one thing before creating the collection, because it cannot change later: whether it uses custom sharding. An auto-sharded collection spreads the shared tenants across shards and nodes, but giving a tenant its own shard later means migrating every point to a new collection. A custom-sharded collection with one shared `default` shard key can promote a tenant at any time, but all shared tenants then live in that single shard, which has to fit on one node.
 
-## Before I go any further.....how secure is my user data?
+## Enforce the Boundary on Every Request
 
-By design, Qdrant offers three levels of isolation. We initially introduced collection-based isolation, but your scaled setup has to move beyond this level. In this scenario, you will leverage payload-based isolation (from multitenancy) and resource-based isolation (from sharding). The ultimate goal is to have a single collection, where you can manipulate and customize placement of shards inside your cluster more precisely and avoid any kind of overhead. The diagram below shows the arrangement of your data within a two-tier isolation arrangement.
+In every model, your code still enforces the boundary: every request carries the tenant filter, the shard key, or both. Each of these fails silently, with no error to warn you:
 
-**Figure 3:** Users can query the collection based on two filters: the `group_id` and the individual `shard_key_selector`. This gives your data two additional levels of isolation.
-![Qdrant Multitenancy](/articles_data/multitenancy/multitenancy.png)
+- A query missing the tenant filter does not return nothing, it returns every tenant's points, since similarity search always ranks the nearest vectors and has no concept of "no match."
+- Retrieving a point by its ID ignores the tenant filter entirely, so a guessed or leaked ID returns that point regardless of who owns it. Scope ID lookups with a `has_id` condition combined with the tenant filter, never `has_id` alone.
+- An upsert that reuses another tenant's point ID in the same shard key overwrites it outright: tenant A's write to an ID already held by tenant B replaces B's point with no trace of the original.
+- A request without a shard key runs on every shard, so in a custom-sharded collection it reads or writes every tenant's shard.
 
-## Create custom shards for a single collection
+Treat the tenant field as a hard filter everywhere, including in anything you build on top of Qdrant, such as a semantic cache, never as a similarity signal.
 
-When creating a collection, you will need to configure user-defined sharding. This lets you control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations, since you won't need to go through the entire collection to retrieve data.
+Qdrant's access control cannot carry this boundary for you inside a shared collection: JWT tokens grant read or write access per collection, not per tenant, so the tenant filter must come from your backend, never from the client. Only a collection or a cluster per tenant moves the boundary into Qdrant itself. A dedicated shard does not: a shard key routes a request, it does not authorize it.
 
-```python
-client.create_collection(
-    collection_name="{tenant_data}",
-    # number of physical shards per shard key, not the number of shard keys
-    shard_number=1,
-    sharding_method=models.ShardingMethod.CUSTOM,
-    # ... other collection parameters
-)
-client.create_shard_key("{tenant_data}", "canada")
-client.create_shard_key("{tenant_data}", "germany")
-```
-In this example, your cluster is divided between Germany and Canada. Canadian and German law differ when it comes to international data transfer. Let's say you are creating a RAG application that supports the healthcare industry. Your Canadian customer data will have to be clearly separated for compliance purposes from your German customer. 
+## Payload Field with a Tenant Index
 
-Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](/documentation/scaling/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
+### Set It Up
 
-## Configure a multitenant setup for users
+Consider a blogging platform where every author gets a personal subdomain: a visitor can search the whole site at `blogplatform.com`, or one author's work at `authorname.blogplatform.com`. Both searches hit the same collection; the subdomain only tells your backend which author to filter by, and on `blogplatform.com` that filter is simply absent. One collection, one code path, and a filter that is present or not: a natural fit for payload partitioning. Articles are public, so leaving the filter out is a feature here. In a B2B product, where each tenant's data is private, the same setup applies, but a query without the filter is a data leak.
 
-Let's continue and start adding data. As you upsert your vectors to your new collection, you can add a `group_id` field to each vector. If you do this, Qdrant will assign each vector to its respective group. 
+The example here uses the [`fabiochiu/medium-articles`](https://huggingface.co/datasets/fabiochiu/medium-articles) dataset, which has two properties worth noting before setting it up:
 
-Additionally, each vector can now be allocated to a shard. You can specify the `shard_key_selector` for each individual vector. In this example, you are upserting data belonging to `tenant_1` to the Canadian region.
+- Articles can have more than one author, so a co-authored article needs a point per author.
+- The 85,119 authors are skewed, but none dominates: 71% publish exactly one article, 95% publish five or fewer, and no author holds a meaningful share of the 164,365 points. That shape is exactly what this model is for.
 
-```python
-client.upsert(
-    collection_name="{tenant_data}",
-    points=[
-        models.PointStruct(
-            id=1,
-            payload={"group_id": "tenant_1"},
-            vector=[0.9, 0.1, 0.1], 
-        ),
-        models.PointStruct(
-            id=2,
-            payload={"group_id": "tenant_1"},
-            vector=[0.1, 0.9, 0.1],
-        ),
-    ],
-    shard_key_selector="canada",
-)
-```
-Keep in mind that the data for each `group_id` is isolated. In the example below, `tenant_1` vectors are kept separate from `tenant_2`. The first tenant will be able to access their data in the Canadian portion of the cluster. However, as shown below `tenant_2 `might only be able to retrieve information hosted in Germany.
+Set this up by creating the collection as usual, then adding a keyword index on the author field with `is_tenant` set to `true`:
 
 ```python
-client.upsert(
-    collection_name="{tenant_data}",
-    points=[
-        models.PointStruct(
-            id=3,
-            payload={"group_id": "tenant_2"},
-            vector=[0.1, 0.1, 0.9],
-        ),
-    ],
-    shard_key_selector="germany",
+from qdrant_client.models import KeywordIndexParams, KeywordIndexType
+
+client.create_payload_index(
+    collection_name=ARTICLES_COLLECTION,
+    field_name='author_name',
+    field_schema=KeywordIndexParams(type=KeywordIndexType.KEYWORD, is_tenant=True),
 )
 ```
 
-## Retrieve data via filters
-
-The access control setup is completed as you specify the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. 
+`is_tenant` tells Qdrant to store each author's points together on disk, so a filtered query reads them in one sequential pass. Upload points as you normally would, with one change: each (article, author) pair needs its own ID.
 
 ```python
+from uuid import uuid5, NAMESPACE_URL
+
+points = (
+    PointStruct(
+        id=str(uuid5(NAMESPACE_URL, f"{item['url']}:{author}")),
+        vector=Document(text=item['text'], model="sentence-transformers/all-MiniLM-L6-v2"),
+        payload={
+            'text': item['text'],
+            'title': item['title'],
+            'url': item['url'],
+            'author_name': author,
+            'timestamp': item['timestamp'],
+            'tags': item['tags'],
+        },
+    )
+    for item in dataset
+    for author in item['authors']
+)
+```
+
+Deriving the ID from the article's URL and the author's name keeps every co-author's copy distinct. Reusing the article's row number instead would make the second author silently overwrite the first.
+
+A search on an author's subdomain then adds the author as a filter, and the site-wide search leaves it out:
+
+```python
+from qdrant_client.models import Filter, FieldCondition, MatchValue
+
+tenant_filter = Filter(must=[FieldCondition(key='author_name', match=MatchValue(value="{tenant_id}"))])
+
 client.query_points(
-    collection_name="{tenant_data}",
-    query_filter=models.Filter(
-        must=[
-            models.FieldCondition(
-                key="group_id",
-                match=models.MatchValue(
-                    value="tenant_1",
-                ),
-            ),
-        ]
-    ),
-    query=[0.1, 0.1, 0.9],
+    collection_name=ARTICLES_COLLECTION,
+    query=query_vector,
+    query_filter=tenant_filter,
     limit=10,
 )
 ```
 
-## Performance considerations
+This setup needs no extra shards, no distributed mode, and no extra collections, so it is the lightest of the three models to run.
 
-The speed of indexation may become a bottleneck if you are adding large amounts of data in this way, as each user's vector will be indexed into the same collection. To avoid this bottleneck, consider _bypassing the construction of a global vector index_ for the entire collection and building it only for individual groups instead.
+### Create the Index Before the Data
 
-By adopting this strategy, Qdrant will index vectors for each user independently, significantly accelerating the process.
+Two measurements recur from here on. Recall@10 is the share of a query's ten true nearest neighbors, found by exact search over the tenant's points, that the regular approximate search returned; 1.00 means nothing was missed. Latency is the median (p50) or 95th percentile (p95) over repeated queries, as measured by the server.
 
-To implement this approach, you should:
+The tenant index does its job when it exists from the start: filtered queries on a 10,000-point tenant come back in 1.81 ms with recall 1.00. Skip it, and the same query takes more than twice as long and returns only 5% of the right answers, because Qdrant's HNSW graph gains filter-aware edges for a field only when its payload index exists at indexing time. Adding the index after loading fixes the speed, since query planning can now estimate the filter's cardinality, but not the recall: the graph was already built without those edges.
 
-1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
-2. Set `m` in hnsw config to 0. This will disable building global index for the whole collection.
+On Qdrant Cloud, strict mode is on by default and rejects filters on unindexed fields, so the no-index case fails with an error there instead of slowing down; these runs turned strict mode off to measure its cost.
+
+| Setup | Unfiltered recall | 10,000-point tenant |
+|---|---|---|
+| Tenant index from the start | 0.996 | 1.81 ms, recall 1.00 |
+| No index | 0.99 | 3.88 ms, recall 0.05 |
+| Index added after loading | 0.99 | 0.83 ms, recall 0.05 |
+| Per-tenant graphs (`m=0`) | 0.24 | 1.48 ms, recall 0.998 |
+
+{{< island path="content/documentation/headless/multitenancy/index-timing" ratio="960 / 660" >}}
+![Below about 6,500 points of 384 dimensions every setup scans exactly and keeps recall 1.00; above it, only the index created before loading kept full recall at 10,000 and 20,000 points, and at 40,000 points all three fell to 0.84 or 0.85](/docs/index-timing.png)
+{{< /island >}}
+
+If a collection already has data when you add the index, rebuild the HNSW graph afterward, for example by bumping `hnsw_config.ef_construct` by one, which makes the optimizer re-index every segment.
+
+### Skip the Global Graph If Nothing Searches Across Tenants
+
+Per-tenant graphs are a different setup: `m=0` disables the single global graph, and `payload_m` builds a separate, smaller graph per tenant instead. It did not measurably shorten setup. Filtered queries kept their recall, and at 40,000 points, the largest synthetic tenant, they held 0.996 while every setup with a global graph fell to between 0.82 and 0.85. Unfiltered queries ran slightly faster, but with no graph linking the tenants, they returned only 24% of the right answers. That rules it out for the blogging platform, whose site-wide search runs without a tenant filter, but not for a B2B product, where nothing should.
+
+{{< island path="content/documentation/headless/multitenancy/per-tenant-graphs" ratio="960 / 640" >}}
+![Illustrative: one global graph connects every tenant, while per-tenant graphs have no edges between tenants; measured, unfiltered recall fell from 0.996 to 0.24 while filtered recall held](/docs/per-tenant-graphs.png)
+{{< /island >}}
 
 ```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient("localhost", port=6333)
+from qdrant_client.models import HnswConfigDiff
 
 client.create_collection(
-    collection_name="{tenant_data}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    hnsw_config=models.HnswConfigDiff(
-        payload_m=16,
-        m=0,
-    ),
+    collection_name=ARTICLES_COLLECTION,
+    vectors_config=VectorParams(size=384, distance=Distance.COSINE),
+    hnsw_config=HnswConfigDiff(m=0, payload_m=16),
 )
 ```
 
-3. Create keyword payload index for `group_id` field.
+An existing collection can switch with `update_collection`, which rebuilds its HNSW index.
+
+### Articles That Belong to Several Tenants
+
+A follow-up experiment tenanted articles on both their authors and their publication, and tested one point per article, with a list of tenants, instead of one point per tenant. Recall held at 1.00 for every kind of tenant, and the list stored about 37% fewer points, at the cost of slower queries for a large publication, since a point can sit next to only one of its tenants on disk. It holds only while every tenant stays in the shared collection, as [When a Tenant Outgrows the Shared Collection](#when-a-tenant-outgrows-the-shared-collection) shows.
+
+## When a Tenant Outgrows the Shared Collection
+
+Three measurements show what outgrowing the payload model looks like:
+
+- A tenant holding 90% of the collection does not hurt a small tenant's own queries while nothing else is happening, but the dominant tenant's own recall drifts down to 0.985.
+- Loading a new 100,000-point tenant raised the other tenants' p95 from 0.74 to 6.84 ms when the load finished in 2 minutes, but only from 0.78 to 0.95 ms when it took 15: in a shared collection, the noisy-neighbor cost grows with write speed. On a shard of its own, a 4-minute load left them flat.
+- Removing a tenant by filter caused latency spikes for other tenants while the delete ran; dropping a tenant's shard key took a fraction of a second.
+
+{{< island path="content/documentation/headless/multitenancy/noisy-neighbor" ratio="960 / 556" >}}
+![While a new 100,000-point tenant loaded, the shared collection's p95 for other tenants rose to 0.95 ms during a 15-minute load and 6.84 ms during a 2-minute one; on its own shard, during a 4-minute load, it stayed at 0.73 ms](/docs/noisy-neighbor.png)
+{{< /island >}}
+
+Before moving any tenant out, settle how points shared by several tenants are stored. A point lives in exactly one shard, so an article stored once as `[A, B]` disappears for B once A has a shard of their own: only about half the memberships stayed visible with a shard per author, and almost none for co-authors left behind by a promotion. One copy per tenant kept all of them, at a cost: a site-wide search returns a co-authored article once per author, so deduplicate those results, for example by URL.
+
+{{< island path="content/documentation/headless/multitenancy/membership-visibility" ratio="960 / 692" >}}
+![A co-authored article stored once as [A, B] stays visible to both co-authors in the payload model, but only 245 of 482 memberships survive a shard per tenant and 3 of 240 survive a promotion; one copy per tenant keeps all of them](/docs/membership-visibility.png)
+{{< /island >}}
+
+There are two ways out. A few large tenants you know about upfront can each get a shard of their own. When tenants grow over time, tiered multitenancy promotes them one at a time. Either way, Qdrant's guidance caps a cluster at around 1,000 dedicated shards, so with 85,119 authors, a shard for everyone is not an option.
+
+## Move a Dominant Tenant onto Its Own Shard
+
+Give a tenant its own shard once it is large or busy enough that sharing works against it, or when its data must disappear in one operation.
+
+Create the collection with custom sharding, then create a shard key for the tenant:
 
 ```python
-client.create_payload_index(
-    collection_name="{tenant_data}",
-    field_name="group_id",
-    field_schema=models.PayloadSchemaType.KEYWORD,
+from qdrant_client.models import VectorParams, Distance, ShardingMethod
+
+client.create_collection(
+    collection_name=ARTICLES_COLLECTION,
+    vectors_config=VectorParams(size=384, distance=Distance.COSINE),
+    shard_number=1,
+    sharding_method=ShardingMethod.CUSTOM,
+)
+client.create_shard_key(ARTICLES_COLLECTION, "{tenant_id}")
+```
+
+Every write and query for that tenant then carries `shard_key_selector="{tenant_id}"`.
+
+On the single-node cluster used here, moving the dominant tenant onto its own shard mostly helped that tenant: its recall rose from 0.985 to 0.997. A mid-sized tenant got faster but lost some recall, and the small tenant barely moved: on one node, a dedicated shard still shares the node's CPU, RAM, and disk.
+
+{{< island path="content/documentation/headless/multitenancy/isolation-tradeoff" ratio="960 / 672" >}}
+![Moving the whale onto its own shard raised its recall from 0.985 to 0.997; the mid tenant got faster but its recall fell from 0.999 to 0.981; the tiny tenant barely moved](/docs/isolation-tradeoff.png)
+{{< /island >}}
+
+Real isolation needs the shard on its own node, set with the `placement` argument of `create_shard_key`; on Qdrant Cloud, automatic [shard rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) can move it later unless you disable it. A shard key can also be a region instead of a tenant, which is how custom sharding keeps data in a region on a self-hosted cluster with nodes there. A Qdrant Cloud cluster runs in a single region, so on Cloud that takes a cluster per region.
+
+## Promote Growing Tenants with Tiered Multitenancy
+
+Tiered multitenancy, available as of Qdrant 1.16, keeps the payload model's low cost for most tenants while giving the few that outgrow it their own shard, without the application needing to know which case it is talking to: every request names a `target` shard key, the tenant, and a `fallback` key, the shared shard everyone starts in, and Qdrant routes to whichever one is active.
+
+It needs a custom-sharded collection with the tenant index, and a fallback shard key with a single shard:
+
+```python
+from qdrant_client.models import ShardKeyWithFallback
+
+client.create_shard_key(ARTICLES_COLLECTION, "default", shards_number=1)
+
+client.query_points(
+    collection_name=ARTICLES_COLLECTION,
+    query=query_vector,
+    query_filter=tenant_filter,
+    shard_key_selector=ShardKeyWithFallback(target="{tenant_id}", fallback="default"),
+    limit=10,
 )
 ```
-> Note: Keep in mind that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
 
-## Explore multitenancy and custom sharding in Qdrant for scalable solutions
+Promoting a tenant out of the fallback shard moves its points with `replicate_points` rather than a fresh upload:
 
-Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quickstart/) or read our [docs and tutorials](/documentation/).
+```python
+import time
+from qdrant_client import models
 
-To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
+# 1. Create the tenant's own shard in Partial state, so requests keep going to the fallback
+client.create_shard_key(
+    ARTICLES_COLLECTION,
+    shard_key="{tenant_id}",
+    shards_number=1,
+    replication_factor=1,
+    initial_state=models.ReplicaState.PARTIAL,
+)
 
-Get support or share ideas in our [Discord](https://qdrant.to/discord) community. This is where we talk about vector search theory, publish examples and demos and discuss vector database setups.
+# 2. Copy its points out of the fallback shard
+client.cluster_collection_update(
+    ARTICLES_COLLECTION,
+    cluster_operation=models.ReplicatePointsOperation(
+        replicate_points=models.ReplicatePoints(
+            from_shard_key="default",
+            to_shard_key="{tenant_id}",
+            filter=tenant_filter,
+        )
+    ),
+)
 
+# 3. Wait until the copy finishes: the shard turns Active and Qdrant starts routing to it
+def shard_state(shard_key):
+    info = client.collection_cluster_info(ARTICLES_COLLECTION)
+    return next(s.state for s in info.local_shards + info.remote_shards if s.shard_key == shard_key)
 
+deadline = time.monotonic() + 3600
+while shard_state("{tenant_id}") != models.ReplicaState.ACTIVE:
+    if time.monotonic() > deadline:
+        raise TimeoutError("not Active yet; the fallback still holds every point")
+    time.sleep(1)
 
+# 4. Check the copy before removing anything
+copied = client.count(ARTICLES_COLLECTION, count_filter=tenant_filter, shard_key_selector="{tenant_id}").count
+original = client.count(ARTICLES_COLLECTION, count_filter=tenant_filter, shard_key_selector="default").count
+assert copied >= original, f"{original - copied} points missing from the new shard"
 
+# 5. Remove the old copies from the fallback; new writes already go to the new shard
+client.delete(
+    ARTICLES_COLLECTION,
+    points_selector=models.FilterSelector(filter=tenant_filter),
+    shard_key_selector="default",
+)
+```
 
+Deleting earlier can remove points the copy has not reached yet, and replicas for the new shard can be added only once it is Active. In one run, copying 98,619 points took 10 seconds, during which the other tenants' p95 rose to about 32 ms. The delete call itself returned in half a second, and the background cleanup that followed took about two minutes, with one 25 ms spike. In a separate run, all 200 writes made before and during the copy were visible afterward. Neither run tested a failed copy, the tenant's own reads during the copy, or a copy between nodes, so rehearse a promotion on a staging collection first.
 
+{{< island path="content/documentation/headless/multitenancy/promotion-timeline" ratio="960 / 820" >}}
+![Promotion in three steps: a Partial shard, a 10-second copy that raised other tenants' p95 to 32 ms, and a half-second delete followed by about 2 minutes of background cleanup with one 25 ms spike; 200 of 200 writes were kept](/docs/promotion-timeline.png)
+{{< /island >}}
 
+Qdrant's guidance puts the point to promote a tenant at around 20,000 points.
+
+## Takeaways
+
+These come from one dataset and one small single-node cluster, so check them on your own data before relying on the exact numbers.
+
+| Situation | Start with |
+|---|---|
+| Many tenants, none dominant | A payload field with an `is_tenant` index, created before the first upload |
+| Tenant index added to a collection that already has data | Rebuild the HNSW index, for example by bumping `ef_construct` by one |
+| Nothing ever searches across tenants | Per-tenant graphs, `m=0` with `payload_m=16`, which also kept recall for the largest tenants |
+| Points shared by several tenants | One copy per tenant if any tenant may ever get its own shard; a list-valued tenant field saves about 37% of points otherwise |
+| One tenant far larger or busier than the rest | A shard of its own, on a separate node for real isolation |
+| Tenants that grow over time | Tiered multitenancy, promoting a tenant at around 20,000 points, per Qdrant's guidance |
+| Data that must stay in a region | A cluster per region on Qdrant Cloud; self-hosted, custom sharding keyed by region, on nodes in that region |
+| Different models or settings per tenant | A collection per tenant |
+
+## Check Your Choice
+
+Before committing to a model, run the same checks against your own data: load a representative slice onto a staging collection, at your actual tenant-size distribution rather than only the largest or average tenant, and measure filtered-query latency and recall with the tenant index in place and without it. Then confirm that none of the four silent failures in [Enforce the Boundary on Every Request](#enforce-the-boundary-on-every-request) is present in your own code.
+
+## How We Measured
+
+- **Data:** the [`fabiochiu/medium-articles`](https://huggingface.co/datasets/fabiochiu/medium-articles) dataset, one point per article and author, 164,365 points for 85,119 authors, embedded with `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions). For the tenant-size sweep, random points were relabeled into six synthetic tenants of 500 to 40,000 points.
+- **Search:** dense vectors only, no hybrid search. A sparse BM25 vector adds one more tenant concern: by default its term statistics span every tenant in the shard, and Qdrant 1.19 and later can scope them to one tenant with the [`idf` search parameter](/documentation/manage-data/multitenancy/#per-tenant-idf-statistics).
+- **Cluster:** Qdrant Cloud, one node with 2 vCPU and 6.9 GB of RAM. Vectors stayed in RAM.
+- **Probes:** during loads, deletes, and promotions, other tenants' queries ran continuously, and each phase reports their latency. Latencies are server-side; client round trips to the cluster took about 200 ms on top.
+- **Noise:** most results come from a single run, so treat small differences, such as the mid tenant's recall change, as indicative. The two shared-collection load runs differed sevenfold in write speed, and their p95 by a similar factor.
+- **Not measured:** isolation across several nodes, data residency, clusters near the 1,000-shard guidance, whether 20,000 points is the right promotion point for this dataset, and the quality of answers built on the search results.
+- **Code:** the notebooks in [qdrant-labs/multitenancy-qdrant-guide](https://github.com/qdrant-labs/multitenancy-qdrant-guide), which you can point at your own collection.
+
+## Adjacent Work
+
+- [Multitenancy](/documentation/manage-data/multitenancy/): the `is_tenant` index, user-defined sharding, and the tiered multitenancy reference, including promotion.
+- [Indexing](/documentation/manage-data/indexing/): payload indexes, filter-aware HNSW, and rebuilding the HNSW index.
+- [Distributed deployment](/documentation/scaling/distributed_deployment/#sharding): sharding beyond tenant isolation, including shard replication and placement.
+- [Security](/documentation/security/): API keys and JWT access control, which is granted per collection.
+- [Qdrant Cloud Dashboard](https://cloud.qdrant.io): manage clusters, collections, and shard keys without scripting the API.
+- [The Tao of Qdrant Multi-Tenancy](https://medium.com/qdrant/the-tao-of-qdrant-multi-tenancy-162c71f830fb): four architecture paths, from a collection per customer to a hybrid of them.
+- [qdrant-multitenancy agent skill](https://skills.qdrant.tech/qdrant-multitenancy/SKILL.md): the same decision rules, packaged for coding agents.
