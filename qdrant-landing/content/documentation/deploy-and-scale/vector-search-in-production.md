@@ -9,6 +9,7 @@ author_link:
 date: 2025-04-30T00:00:00.000Z
 weight: 20
 aliases:
+  - /documentation/production-operations/vector-search-in-production/
   - /articles/vector-search-production/
   - /articles/vector-search-resource-optimization/
 ---
@@ -57,7 +58,7 @@ This article will help you successfully deploy and maintain vector search system
 
 If not, move the colder structures to a lower [**memory tier**](/documentation/ops-configuration/memory-tiers/). Since Qdrant v1.19, each structure (dense vectors, the HNSW index, quantized vectors, payloads, and payload indexes) takes a `memory` parameter: `pinned` keeps it in RAM permanently, `cached` warms it into the disk cache at startup, and `cold` leaves it on disk until it is read. On earlier versions, the same choice is made with `on_disk` and `memmap_threshold`; the [legacy settings table](/documentation/ops-configuration/memory-tiers/#legacy-settings) maps one to the other.
 
-Keeping only the structures that every query touches in a faster tier minimizes disk access during queries. By monitoring query patterns and usage metrics, you can identify which subsets of your data deserve dedicated in-memory storage, reserving disk access for colder, less frequently queried data. [**Memory Tiers: What to Use and When**](/documentation/production-operations/memory-tiers/) compares the layouts with benchmarks.
+Keeping only the structures that every query touches in a faster tier minimizes disk access during queries. By monitoring query patterns and usage metrics, you can identify which subsets of your data deserve dedicated in-memory storage, reserving disk access for colder, less frequently queried data. [**Memory Tiers: What to Use and When**](/documentation/operate-and-maintain/memory-tiers/) compares the layouts with benchmarks.
 
 ||
 |-|
@@ -154,7 +155,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 **Use Batch Processes:** Increase the number of concurrent processes. Running 50-60 processes can significantly improve upload performance. Using just one or two processes won't allow you to see the true performance potential.
 
-**Batch your queries:** When several searches can run together, send them in one [batch request](/documentation/search/search/#batch-search-api) instead of one at a time. Batching saves network round trips, and the query planner can share intermediate results between requests that use the same filter, which cuts latency for non-trivial filters. For batching writes, see [bulk uploading](/documentation/production-operations/bulk-data-import/#batch-your-uploads).
+**Batch your queries:** When several searches can run together, send them in one [batch request](/documentation/search/search/#batch-search-api) instead of one at a time. Batching saves network round trips, and the query planner can share intermediate results between requests that use the same filter, which cuts latency for non-trivial filters. For batching writes, see [bulk uploading](/documentation/operate-and-maintain/bulk-data-import/#batch-your-uploads).
 
 **Be patient with indexing:** After uploading large datasets, there's a waiting period for indexing to complete. This is normal and can take time depending on your dataset size. 
 
@@ -172,7 +173,7 @@ If the maximum number of indexed points remains consistently low, this is likely
 
 One option is to [**set `indexed_only=true` in search requests**](https://qdrant.tech/documentation/search/search/#search-api). This will ensure fast searches by only considering indexed data, at the expense of eventual consistency (new data becomes searchable only after indexing).
 
-Alternatively, you can perform [**bulk vector uploads**](/documentation/production-operations/bulk-data-import/) during low-traffic periods to allow indexing to complete before increased traffic.
+Alternatively, you can perform [**bulk vector uploads**](/documentation/operate-and-maintain/bulk-data-import/) during low-traffic periods to allow indexing to complete before increased traffic.
 
 > A persistent increase in the number of indexed points indicates a problem. Potential solutions include: increasing hardware resources, optimizing indexing (e.g., smaller segments, HNSW tuning), or reducing the volume of data changes.
 
@@ -221,7 +222,7 @@ PUT /collections/{collection_name}/index
 ![One collection named tenant_data holds three points. Points 1 and 2 are tagged group_id tenant_1 and point 3 is tagged tenant_2, and each tenant reaches only its own points.](/articles_data/vector-search-production/multitenancy.png)
 {{< /island >}}
 
-> **Don't forget:** you can always create [**API keys in Qdrant Cloud (or JWT in OSS)**](/documentation/production-operations/access-control/) to enforce a certain filter via a payload constraint.
+> **Don't forget:** you can always create [**API keys in Qdrant Cloud (or JWT in OSS)**](/documentation/deploy-and-scale/access-control/) to enforce a certain filter via a payload constraint.
 
 ||
 |-|

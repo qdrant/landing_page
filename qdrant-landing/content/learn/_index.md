@@ -72,26 +72,31 @@ content:
         link:
           url: /documentation/tutorials-basics/search-beginners/
           text: Open the Example
+      - title: Design Your Search
+        description: Choose embedding models and filter results for your application.
+        link:
+          url: /documentation/search-design/
+          text: Explore Search Design
       - title: Evaluate Search Quality
         description: Choose an evaluation baseline before changing embeddings, retrieval, or ranking.
         link:
           url: /documentation/search-evaluation/
           text: Explore Search Evaluation
-      - title: Prepare for Production
-        description: Plan tenant growth and large imports around the workload you need to serve.
-        link:
-          url: /documentation/production-operations/
-          text: Explore Production & Operations
-      - title: Choose Search Patterns
-        description: Choose embedding models and filter results for your application.
-        link:
-          url: /documentation/search-patterns/
-          text: Explore Search Patterns
       - title: Tune Search Results
         description: Follow the retrieval tuning series to test candidate depth, fusion, reranking, and memory choices.
         link:
           url: /documentation/search-tuning/
           text: Explore Search Tuning
+      - title: Prepare for Production
+        description: Plan production architecture, tenant growth, and access control around the workload you need to serve.
+        link:
+          url: /documentation/deploy-and-scale/
+          text: Explore Deploy and Scale
+      - title: Operate and Maintain Qdrant
+        description: Plan bulk uploads, memory placement, indexing, and monitoring as your collections grow.
+        link:
+          url: /documentation/operate-and-maintain/
+          text: Explore Operate and Maintain
       - title: Watch Talks & Tutorials
         description: Learn from video walkthroughs, technical talks, and conversations with the Qdrant team.
         link:

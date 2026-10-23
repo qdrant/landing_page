@@ -16,6 +16,7 @@ keywords:
   - benchmark
 weight: 8
 aliases:
+  - /documentation/production-operations/memory-tiers/
   - /articles/memory-tiers-in-qdrant-what-to-use-and-when/
 ---
 
