@@ -86,7 +86,7 @@ partition: develop
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [Multimodal & Multilingual RAG](/documentation/multimodal-search/) | Search across image and text modalities. | <span class="pill">LlamaIndex</span> | 15m | <span class="text-green">Beginner</span> |
-| [Agentic RAG with CrewAI](/documentation/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
+| [Agentic RAG with CrewAI](/documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/) | Answer questions about meeting notes with two CrewAI agents on Claude, grounded in Qdrant retrieval with FastEmbed. | <span class="pill">CrewAI</span> | 30m | <span class="text-green">Beginner</span> |
 | [Agentic RAG with LangGraph](/documentation/agentic-rag-langgraph/) | Build AI agents to answer library documentation. | <span class="pill">LangGraph</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Discord RAG Bot](/documentation/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Semantic Caching for RAG](/documentation/tutorials-build-essentials/semantic-cache/) | Reuse answers to repeated questions and invalidate stale ones. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |

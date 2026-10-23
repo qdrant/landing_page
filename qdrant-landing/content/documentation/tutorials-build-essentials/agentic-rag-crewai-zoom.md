@@ -18,23 +18,22 @@ stack:
 
 # Agentic RAG with CrewAI
 
-| Time: 30 min | Level: Beginner | Stack: Python, Qdrant, CrewAI, FastEmbed, Claude | Output: Python script |
-| --- | ----------- | ----------- | ----------- |
+| Time: 30 min | Level: Beginner | Stack: Python, Qdrant, CrewAI, FastEmbed, Claude |
+| --- | ----------- | ----------- |
 
 Build a small system that answers questions about meeting notes. Qdrant is the vector search engine that stores each meeting with its transcript and metadata. [FastEmbed](https://github.com/qdrant/fastembed) turns text into vectors on your machine, for both the stored meetings and the questions. [CrewAI](https://www.crewai.com/) runs two agents on Claude: a researcher that searches Qdrant and quotes what it finds, and a writer that turns the findings into a short answer with citations.
 
 The whole tutorial is one script and six sample meetings. You run it twice: once to load the meetings, once to ask a question. Nothing needs to be cloned.
 
-By the end, you can ask `What did the marketing meetings decide about the Q4 campaign, and how long did they run on average?` and get an answer that names the meetings, quotes the decision and shows the arithmetic.
+By the end, you can ask what the marketing team decided about the Q4 campaign and how long those meetings ran. The agents find the right meetings, quote who said what, work out the average, and tell you what the notes do not cover.
 
 ## Prerequisites
 
 You need Python 3.12 and:
 
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) to create the environment and install the packages.
 - A [Qdrant Cloud cluster](https://cloud.qdrant.io/) with its HTTPS endpoint and an API key, or Qdrant running locally with `docker run -p 6333:6333 qdrant/qdrant`.
 - An [Anthropic API key](https://console.anthropic.com/) with credit. The sample question below made six Claude requests and used about 11,000 tokens.
-
-No OpenAI key is needed. Embeddings run locally through FastEmbed.
 
 ## How the Flow Works
 
@@ -44,7 +43,7 @@ Answering runs for each question. CrewAI gives the question to the researcher ag
 
 ## Step 1: Install the Dependencies
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and create a local environment:
+Create a local environment with uv:
 
 ```bash
 uv venv --python 3.12
