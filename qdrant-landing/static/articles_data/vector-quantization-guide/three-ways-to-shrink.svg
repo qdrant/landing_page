@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 285" width="980" height="285" role="img" aria-labelledby="t2 d2">
+  <title id="t2">Three ways to shrink a vector collection in Qdrant</title>
+  <desc id="d2">Dimensionality reduction stores fewer coordinates. A quantized search copy keeps the originals and adds a compact copy for candidate search. A storage datatype such as turbo4 changes how the originals themselves are stored, so nothing remains to rescore against at full precision.</desc>
+  <rect width="100%" height="100%" fill="#FFFFFF" rx="12"/>
+  <style>
+    .h { font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif; font-weight: 600; font-size: 16px; fill: #161E33; }
+    .b { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; fill: #28324D; }
+    .s { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; fill: #576280; }
+  </style>
+  <!-- Panel 1: dimensionality reduction -->
+  <text x="40" y="40" class="h">Fewer dimensions</text>
+  <g>
+    <rect x="40" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="70" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="100" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="130" y="60" width="26" height="26" fill="#2F6FF0"/>
+    <rect x="160" y="60" width="26" height="26" fill="none" stroke="#B4BACC" stroke-dasharray="3 3"/><rect x="190" y="60" width="26" height="26" fill="none" stroke="#B4BACC" stroke-dasharray="3 3"/><rect x="220" y="60" width="26" height="26" fill="none" stroke="#B4BACC" stroke-dasharray="3 3"/><rect x="250" y="60" width="26" height="26" fill="none" stroke="#B4BACC" stroke-dasharray="3 3"/>
+  </g>
+  <text x="40" y="112" class="b">Matryoshka cut or projection</text>
+  <text x="40" y="132" class="s">Decided before ingestion. Qdrant</text>
+  <text x="40" y="150" class="s">stores whatever length you send.</text>
+  <text x="40" y="180" class="s">Out of scope for this guide.</text>
+
+  <!-- Panel 2: search copy -->
+  <text x="360" y="40" class="h">Quantized search copy</text>
+  <g>
+    <rect x="360" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="390" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="420" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="450" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="480" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="510" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="540" y="60" width="26" height="26" fill="#2F6FF0"/><rect x="570" y="60" width="26" height="26" fill="#2F6FF0"/>
+    <rect x="360" y="94" width="26" height="10" fill="#DC244C"/><rect x="390" y="94" width="26" height="10" fill="#DC244C"/><rect x="420" y="94" width="26" height="10" fill="#DC244C"/><rect x="450" y="94" width="26" height="10" fill="#DC244C"/><rect x="480" y="94" width="26" height="10" fill="#DC244C"/><rect x="510" y="94" width="26" height="10" fill="#DC244C"/><rect x="540" y="94" width="26" height="10" fill="#DC244C"/><rect x="570" y="94" width="26" height="10" fill="#DC244C"/>
+  </g>
+  <text x="360" y="128" class="b">originals stay, a copy is added</text>
+  <text x="360" y="148" class="s">scalar, binary, product, TurboQuant</text>
+  <text x="360" y="166" class="s">Rescore candidates at full precision.</text>
+  <text x="360" y="196" class="s">The subject of this guide.</text>
+
+  <!-- Panel 3: datatype -->
+  <text x="680" y="40" class="h">Storage datatype</text>
+  <g>
+    <rect x="680" y="60" width="26" height="14" fill="#E0700D"/><rect x="710" y="60" width="26" height="14" fill="#E0700D"/><rect x="740" y="60" width="26" height="14" fill="#E0700D"/><rect x="770" y="60" width="26" height="14" fill="#E0700D"/><rect x="800" y="60" width="26" height="14" fill="#E0700D"/><rect x="830" y="60" width="26" height="14" fill="#E0700D"/><rect x="860" y="60" width="26" height="14" fill="#E0700D"/><rect x="890" y="60" width="26" height="14" fill="#E0700D"/>
+  </g>
+  <text x="680" y="112" class="b">float16, uint8, turbo4</text>
+  <text x="680" y="132" class="s">The originals themselves shrink.</text>
+  <text x="680" y="150" class="s">Rescoring can only recover what</text>
+  <text x="680" y="168" class="s">the datatype kept.</text>
+  <text x="680" y="196" class="s">Measured separately below.</text>
+
+  <text x="40" y="262" class="s">Each row is one vector. Height of a cell is bytes per dimension: float32 is 4 bytes, a 1-bit copy is 1/32 of that.</text>
+</svg>
