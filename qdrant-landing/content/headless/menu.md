@@ -127,10 +127,6 @@ menuItems:
     mainMenuItems:
       - id: mainMenu-3-0 
         subMenuItems:
-          - id: subMenu-3-0
-            name: Benchmarks
-            icon: benchmarks.svg
-            url: /benchmarks/
           - id: subMenu-3-1
             name: Blog
             icon: blog.svg
