@@ -43,13 +43,13 @@ spec:
 
 Qdrant can record API operations that require authentication or authorization as structured JSON. It is disabled by default and is enabled per cluster with `spec.config.audit` on the `QdrantCluster` — see [Audit Logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) for the configuration, and [Audit Logging](/documentation/security/#audit-logging) in the Security guide for the entry format and the query API.
 
-Audit entries are written to files on the cluster's database volume (default `./storage/audit`), not to the container stdout shown above, so they have to be collected separately.
+By default, audit entries are written to files on the cluster's database volume (default `./storage/audit`), not to the container output that `kubectl logs` shows, so they have to be collected separately. From Qdrant v1.20.0, you can set `spec.config.audit.output` to `stdout`, `stderr`, `file_and_stdout`, or `file_and_stderr` to write the entries to the container output instead of, or in addition to, the files. Each entry is one JSON line with `"kind": "audit"`, so you can tell audit entries apart from application logs in the same stream.
 
 ### Integrating with a log management system
 
 You can integrate the logs into any log management system that supports Kubernetes. There are no Qdrant specific configurations necessary. Just configure the agents of your system to collect the logs from all Pods in the Qdrant namespace.
 
-To collect audit logs as well, configure your agent to read the audit directory on each Qdrant Pod's database volume, or pull entries through the [`/audit/logs` API](/documentation/security/#query-audit-logs).
+To collect audit logs as well, set `spec.config.audit.output` to `stdout` or `file_and_stdout` so the agent that already collects Pod logs picks them up. With file output only, configure your agent to read the audit directory on each Qdrant Pod's database volume, or pull entries through the [`/audit/logs` API](/documentation/security/#query-audit-logs). The API reads files, so it returns no entries for a node whose output is `stdout` or `stderr` only.
 
 ## Monitoring
 

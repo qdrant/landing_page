@@ -7,6 +7,22 @@ weight: 35
 
 # Changelog
 
+## 1.13.0 (2026-10-23)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.41.0 |
+| operator                | 2.37.0  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.20.0
+
+* Support for Qdrant 1.20
+* Clusters running Qdrant v1.20.0 or later get `storage.performance.io_uring: auto` in their Qdrant configuration unless `spec.config.storage.performance.io_uring` is set on the `QdrantCluster`. Qdrant checks whether io_uring is usable on the node. Set it to `disabled` to turn it off. This is rendered into the configuration only, so running clusters are not restarted for it
+* Support for [scaling down disk space](/documentation/private-cloud/qdrant-cluster-management/#scaling-down-disk-space) by reducing `spec.resources.storage` on `QdrantCluster`. The Operator replaces the nodes one at a time with a smaller volume. Disabled by default, enable it with `diskScaleDown.enable: true` in the operator settings (requires the cluster manager, enabled by default, and Qdrant v1.19.2 or later)
+* Support for configuring the [audit log output](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) via `spec.config.audit.output` on `QdrantCluster`: `file`, `stdout`, `stderr`, `file_and_stdout`, or `file_and_stderr` (requires Qdrant v1.20.0 or later)
+
 ## 1.12.0 (2026-10-21)
 
 | Component               | Version |
