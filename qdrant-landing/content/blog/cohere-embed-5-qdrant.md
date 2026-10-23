@@ -99,6 +99,8 @@ We use the compressed vectors to find a short list of candidates, then rerank th
 
 Tested with Qdrant 1.19.2 and `qdrant-client` 1.20.0.
 
+Connect to Qdrant Cloud and load one page image:
+
 ```python
 import base64
 
@@ -117,6 +119,8 @@ page_id = 1
 with open("page.jpg", "rb") as f:
     page_data_url = "data:image/jpeg;base64," + base64.b64encode(f.read()).decode()
 ```
+
+Create the collection:
 
 ```python
 client.create_collection(
@@ -145,6 +149,8 @@ client.create_collection(
 )
 ```
 
+Upload a page:
+
 ```python
 with headers({"cohere-api-key": COHERE_API_KEY}):
     client.upsert(
@@ -169,6 +175,8 @@ with headers({"cohere-api-key": COHERE_API_KEY}):
         ],
     )
 ```
+
+Search:
 
 ```python
 query = "What drove the drop in posted workers in Germany in 2022?"
@@ -220,7 +228,7 @@ It keeps 99.2% of the full-vector quality at 64 B per page in RAM, 128x less tha
 
 Using [memory tiers](/documentation/ops-configuration/memory-tiers/) from Qdrant 1.19, we keep the original vectors `cold` on disk and pin the small binary vectors in RAM, as in our guide [When Your Collection Outgrows RAM](/documentation/search-tuning/when-your-collection-outgrows-ram/). RAM is the expensive part of the setup and the part fast search depends on, so that's what we optimize here; our sizes count only the vectors, not the index or payload. 
 
-Fetching vectors for re-scoring from disk slows us down, but only the candidates' full vectors are read (20 per shard).
+Fetching vectors for re-scoring from disk slows us down, but only the candidates' full vectors are read (20 per shard). These reads also go through the OS page cache, so over time the full vectors touched by re-scoring take up spare RAM as well; the OS gives that memory back when something else needs it.
 
 ![An 8-bit query searches compressed page vectors in RAM; 20 candidates are re-scored with full vectors on disk to return the top 10.](/blog/cohere-embed-5-qdrant/recipe-funnel.svg)
 
@@ -232,7 +240,7 @@ To search PDFs without OCR, we usually go for late interaction. Embed 5 Pro give
 
 Let's do some napkin math: For 10 million PDF pages, uncompressed ColPali float32 vectors would take about 4.8 TB, full Embed 5 float32 vectors about 76 GB, and our recipe's search vectors about 610 MB in RAM, with 99.2% of Embed 5 ranking quality on the 5 tested corpora, still above ColPali's score in the chart.
 
-*Disclaimer: The recipe also keeps about 95 GB of full and shortened float vectors on disk. ColPali can be compressed too; these are vector-byte calculations, excluding index and payload, with 1 KB = 1,024 bytes.*
+*Disclaimer: 610 MB is the starting RAM; full vectors read for re-scoring also fill the OS page cache over time. The recipe also keeps about 95 GB of full and shortened float vectors on disk. ColPali can be compressed too; these are vector-byte calculations, excluding index and payload, with 1 KB = 1,024 bytes.*
 
 ## Bonus: Cohere Rerank 5 (Pro & Fast)
 
