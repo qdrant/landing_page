@@ -1,0 +1,11 @@
+approach,wording,recall_1000,tokens_per_answer,tokens_k
+Grep,original,86.0,909,0.9
+Grep,reworded,28.7,905,0.9
+BM25,original,90.7,890,0.9
+BM25,reworded,49.7,890,0.9
+Dense 128,original,84.0,950,1.0
+Dense 128,reworded,68.0,954,1.0
+Hybrid 128,original,89.0,950,1.0
+Hybrid 128,reworded,68.7,951,1.0
+Grep agent,original,98.0,5144,5.1
+Grep agent,reworded,94.0,7618,7.6

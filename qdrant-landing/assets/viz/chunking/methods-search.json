@@ -1,0 +1,19 @@
+{
+  "title": "Recall at a 1,000-token budget: how chunks are searched",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "dataset",
+  "colors": [
+    0,
+    1,
+    2
+  ],
+  "y": "recall_1000",
+  "yLabel": "recall (%)",
+  "yMax": 100,
+  "subtitle": "256-token recursive chunks; in Hybrid+structure, no chunk crosses a heading. Higher is better",
+  "width": 980,
+  "height": 480,
+  "textScale": 1.2,
+  "legendLayout": "row"
+}

@@ -1,0 +1,74 @@
+/* budget-filling island. Scoped under .qi-cb. Same language as the
+   chunk-split island: neutral chunks, cyan (--qi-cat-3) for the chunk that
+   holds the answer, a dashed outline for the next chunk that would not fit,
+   and hatching for the part of the budget left unused. */
+
+.qi-cb {
+  display: block;
+  container-type: inline-size;
+  container-name: qi-cb;
+}
+.qi-cb__svg--narrow {
+  display: none;
+}
+/* Below ~560px the wide drawing shrinks its labels under 12px. */
+@container qi-cb (max-width: 560px) {
+  .qi-cb__svg--wide {
+    display: none;
+  }
+  .qi-cb__svg--narrow {
+    display: block;
+  }
+}
+
+.qi-cb .qi-label {
+  font-size: 14px;
+}
+.qi-cb__sub {
+  font-size: 13px;
+}
+.qi-cb__frame {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.qi-cb__limit {
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.qi-cb__hatch {
+  stroke: var(--qi-border);
+  stroke-width: 2;
+}
+.qi-cb__chunk {
+  fill: var(--qi-border);
+  stroke: var(--qi-surface);
+  stroke-width: 2;
+}
+.qi-cb__chunk--answer {
+  fill: var(--qi-cat-3);
+}
+.qi-cb__rank {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  text-anchor: middle;
+}
+.qi-cb__rank--answer {
+  fill: #ffffff;
+}
+.qi-cb__next {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.qi-cb__next-label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qi-cb__next--answer {
+  stroke: var(--qi-cat-3);
+  stroke-width: 2;
+}

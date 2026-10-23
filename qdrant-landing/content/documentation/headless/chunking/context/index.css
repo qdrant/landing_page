@@ -1,0 +1,45 @@
+/* context-sent island. Scoped under .qi-cx. Same language as the budget
+   island: neutral chunk text, neon blue (--qi-cat-1) for added context, and
+   hatching for the part of the budget left unused. */
+
+.qi-cx {
+  display: block;
+  container-type: inline-size;
+  container-name: qi-cx;
+}
+.qi-cx__svg--narrow {
+  display: none;
+}
+/* Below ~560px the wide drawing shrinks its labels under 12px. */
+@container qi-cx (max-width: 560px) {
+  .qi-cx__svg--wide {
+    display: none;
+  }
+  .qi-cx__svg--narrow {
+    display: block;
+  }
+}
+
+.qi-cx .qi-label {
+  font-size: 14px;
+}
+.qi-cx__sub {
+  font-size: 13px;
+}
+.qi-cx__frame {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.qi-cx__hatch {
+  stroke: var(--qi-border);
+  stroke-width: 2;
+}
+.qi-cx__part {
+  fill: var(--qi-border);
+  stroke: var(--qi-surface);
+  stroke-width: 2;
+}
+.qi-cx__part--context {
+  fill: var(--qi-cat-1);
+}

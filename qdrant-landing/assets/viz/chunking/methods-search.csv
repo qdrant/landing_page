@@ -1,0 +1,13 @@
+method,dataset,recall_1000
+Dense,SQuAD,86.3
+Dense,RepliQA,76.9
+Dense,Qasper,50.8
+BM25,SQuAD,93.2
+BM25,RepliQA,91.3
+BM25,Qasper,51.1
+Hybrid,SQuAD,95.1
+Hybrid,RepliQA,92.5
+Hybrid,Qasper,54.8
+Hybrid+structure,SQuAD,95.1
+Hybrid+structure,RepliQA,92.5
+Hybrid+structure,Qasper,59.7

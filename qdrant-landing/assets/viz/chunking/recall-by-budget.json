@@ -1,0 +1,28 @@
+{
+  "title": "Recall by context budget and chunk size",
+  "kind": "lines-facet",
+  "facet": "dataset",
+  "facetLabel": "{}",
+  "subtitle": "higher is better",
+  "x": "budget",
+  "xLabel": "context budget (tokens)",
+  "xSuffix": "",
+  "yLabel": "recall (%)",
+  "yScale": "linear",
+  "yDomain": [
+    0,
+    100
+  ],
+  "series": [
+    "chunks_128",
+    "chunks_256",
+    "chunks_510"
+  ],
+  "seriesLabels": [
+    "128-token chunks",
+    "256-token chunks",
+    "510-token chunks"
+  ],
+  "unit": "%",
+  "height": 340
+}

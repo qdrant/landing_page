@@ -1,0 +1,16 @@
+method,dataset,recall_1000
+Recursive,SQuAD,86.3
+Recursive,RepliQA,76.9
+Recursive,Qasper,50.8
+By structure,SQuAD,86.3
+By structure,RepliQA,76.9
+By structure,Qasper,56.2
+Fixed windows,SQuAD,69.3
+Fixed windows,RepliQA,63.2
+Fixed windows,Qasper,36.9
+Overlap,SQuAD,86.5
+Overlap,RepliQA,77.5
+Overlap,Qasper,52.2
+Semantic,SQuAD,85.7
+Semantic,RepliQA,73.6
+Semantic,Qasper,47.7

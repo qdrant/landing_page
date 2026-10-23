@@ -1,0 +1,30 @@
+{
+  "title": "RepliQA: the same 300 questions in the original and a reworded form",
+  "kind": "grouped-columns",
+  "group": "approach",
+  "series": "wording",
+  "colors": [
+    "muted",
+    0
+  ],
+  "width": 980,
+  "height": 480,
+  "textScale": 1.2,
+  "legendLayout": "row",
+  "views": [
+    {
+      "label": "Recall at 1,000 tokens",
+      "y": "recall_1000",
+      "yLabel": "recall (%)",
+      "yMax": 100,
+      "subtitle": "Share of questions whose answer passage reached the model. Retrieval at a 1,000-token budget; the agent reads files with grep for up to 10 steps. Higher is better"
+    },
+    {
+      "label": "Tokens per answer",
+      "y": "tokens_k",
+      "yLabel": "tokens, thousands",
+      "yMax": 8,
+      "subtitle": "Median tokens per answer, in thousands. Retrieval: retrieved text sent in one call. Agent: all tokens across its three to four calls, 100 questions. Lower is cheaper"
+    }
+  ]
+}

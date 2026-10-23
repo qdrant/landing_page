@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 400" role="img" aria-labelledby="title desc">
+  <title id="title">What color is an elephant?</title>
+  <desc id="desc">The same document split two ways. Split between sentences, the returned chunk contains the complete sentence, Elephants are usually gray. When a boundary splits that sentence, the returned chunk contains are usually gray, while Elephants stays in the chunk before it. This illustrates a possible retrieval failure, not a measured result. Dots represent vectors, and the dark outline marks the returned chunk.</desc>
+  <style>
+    text { fill: #303547; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 24px; }
+    .chunk { fill: #d3d9eb; stroke: #ffffff; stroke-width: 2; }
+    .answer { fill: #00838f; }
+    .answer-text { fill: #ffffff; }
+    .vector { fill: #6047ff; }
+    .returned { fill: none; stroke: #303547; stroke-width: 2.5; }
+    .boundary { stroke: #dc244c; stroke-width: 3; stroke-linecap: round; }
+  </style>
+  <rect width="620" height="400" fill="#ffffff"/>
+  <text x="20" y="36">What color is an elephant?</text>
+
+  <text x="20" y="86">Split between sentences</text>
+  <circle class="vector" cx="52" cy="108" r="4"/>
+  <circle class="vector" cx="310" cy="108" r="4"/>
+  <circle class="vector" cx="568" cy="108" r="4"/>
+  <rect class="chunk" x="20" y="120" width="64" height="48" rx="4"/>
+  <rect class="chunk answer" x="84" y="120" width="452" height="48" rx="4"/>
+  <rect class="chunk" x="536" y="120" width="64" height="48" rx="4"/>
+  <text class="answer-text" x="100" y="151">Elephants are usually gray.</text>
+  <rect class="returned" x="81" y="117" width="458" height="54" rx="6"/>
+  <text x="20" y="203">Returned: complete answer</text>
+
+  <text x="20" y="253">Split inside the sentence</text>
+  <circle class="vector" cx="52" cy="275" r="4"/>
+  <circle class="vector" cx="164" cy="275" r="4"/>
+  <circle class="vector" cx="390" cy="275" r="4"/>
+  <circle class="vector" cx="568" cy="275" r="4"/>
+  <rect class="chunk" x="20" y="287" width="64" height="48" rx="4"/>
+  <rect class="chunk answer" x="84" y="287" width="160" height="48" rx="4"/>
+  <rect class="chunk answer" x="244" y="287" width="292" height="48" rx="4"/>
+  <rect class="chunk" x="536" y="287" width="64" height="48" rx="4"/>
+  <text class="answer-text" x="96" y="318">Elephants</text>
+  <text class="answer-text" x="256" y="318">are usually gray.</text>
+  <rect class="returned" x="241" y="284" width="298" height="54" rx="6"/>
+  <line class="boundary" x1="244" y1="281" x2="244" y2="341"/>
+  <text x="20" y="373">Returned: gray, but not what is gray</text>
+</svg>
