@@ -1,28 +1,18 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ partial "pricing/qdrant-pricing-hero" . }}
-
-  {{ with (.Site.GetPage "/pricing/qdrant-pricing-doors-b") }}
-    {{ partial "pricing/qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-b") }}
-  {{ end }}
-
-  {{ partial "pricing/qdrant-pricing-calculator" . }}
-
-  {{ with (.Site.GetPage "/pricing/qdrant-pricing-features") }}
-    {{ partial "pricing/qdrant-pricing-features" . }}
-  {{ end }}
-
-  {{ with (.Site.GetPage "/pricing/qdrant-pricing-support-reliability") }}
-    {{ partial "pricing/qdrant-pricing-support-reliability" . }}
-  {{ end }}
-
-  {{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
-    {{ partial "pricing/qdrant-pricing-faq" . }}
-  {{ end }}
-
-  {{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
-    {{ partial "cta-banner" . }}
+  {{/* Sections and their order come from `sections` in content/pricing/_index.md. */}}
+  {{ range .Params.sections }}
+    {{ $page := site.GetPage (printf "/pricing/%s" .) }}
+    {{ if not $page }}
+      {{ errorf "pricing section %q has no page content/pricing/%s.md" . . }}
+    {{ else if hasPrefix . "qdrant-pricing-doors" }}
+      {{ partial "pricing/qdrant-pricing-doors" (dict "context" $page "class" .) }}
+    {{ else if eq . "qdrant-pricing-cta" }}
+      {{ partial "cta-banner" $page }}
+    {{ else }}
+      {{ partial (printf "pricing/%s" .) $page }}
+    {{ end }}
   {{ end }}
 
 {{ end }}
