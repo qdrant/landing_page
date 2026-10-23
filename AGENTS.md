@@ -69,10 +69,6 @@ one. `code-snippet`, `include`, `prompt`, and `prompt-index` all do this.
 - **Moving or renaming a page needs `aliases`** in the destination's front
   matter. Old URLs are linked from blog posts, from articles, and from the
   pointers prepended to every documentation `index.md`.
-- **Code samples belong in `documentation/headless/snippets/`**, not written
-  inline. They are compilable sources that CI type-checks against the real
-  client libraries, and `automation/snippets/generate-md.py` derives the
-  Markdown. See `automation/snippets/README.md`.
 - **Prompts belong in `documentation/headless/prompts/`**, one file per prompt,
   included with `{{< prompt "id" >}}`. A prompt body written inline on a page
   reaches the agent-facing `index.md`, where an instruction addressed to an
@@ -83,6 +79,35 @@ one. `code-snippet`, `include`, `prompt`, and `prompt-index` all do this.
   a path that exists in the `qdrant/skills` repository is not necessarily
   published. `https://skills.qdrant.tech/llms.txt` lists what is actually
   served.
+
+## Code snippets
+
+- **Code samples belong in `documentation/headless/snippets/`**, not written
+  inline. They are compilable sources that CI type-checks against the real
+  client libraries. See `automation/snippets/README.md` for authoring
+  conventions, deployment variants, and snippets for unreleased Qdrant
+  versions, and the root `README.md` for the `code-snippet` shortcode.
+- **`generated/` is derived, not written.** `automation/snippets/generate-md.py`
+  creates the Markdown in each `generated/` directory. Commit its output and
+  never edit it by hand.
+- **Check for deployment variants before editing a snippet.** Once a
+  `_server/`, `_edge/`, or `_serverless/` subdirectory exists, the shortcode
+  ignores the files at the top level of the snippet directory.
+- **Rust snippets use `?`, not `.unwrap()`.** Use `.context("...")?` (with
+  `use anyhow::Context;`) for `Option`s, a `for` loop instead of
+  `.map().collect()` when the body needs `?`, and `NonZeroU32::try_from(8)?`
+  instead of `NonZeroU32::new(8).unwrap()`. Keep `.unwrap()` only where the
+  error type doesn't implement `std::error::Error`. When sweeping for
+  `.unwrap()`, scan the existing files too, not just the diff.
+- **Go snippets use the SDK's helper constructors**, for example
+  `qdrant.NewQueryDocument(...)`, instead of building the nested structs by
+  hand.
+- **Edge snippets match the server snippet's functionality.** Don't simplify
+  them, and check them against the Qdrant Edge version pinned in
+  `automation/snippets/templates/`, not the `dev` branch of `qdrant`, which is
+  ahead of the release. For Rust, use docs.rs for the pinned version. For
+  Python, use the `qdrant_edge.pyi` stubs installed in
+  `automation/snippets/templates/python/.venv`.
 
 ## Writing style
 
