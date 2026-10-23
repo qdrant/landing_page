@@ -111,7 +111,8 @@ environment, not from `.env`; add
   on it, size a Standard cluster with https://cloud.qdrant.io/calculator or the `qdrant-sizing`
   skill, and use 3 or more nodes with replication factor 2 for high availability.
 - Creating a paid cluster, scaling, and deleting cost money or destroy data. State what will
-  happen and get the human's confirmation first. Disk cannot be scaled down later.
+  happen and get the human's confirmation first. Scaling disk down replaces every node, which
+  takes time and adds I/O load, and the data must still fit on the smaller disk.
 - Free inference models run in the US. For EU data residency, use a cluster in an EU region with
   a paid Qdrant-hosted model, or embed in the EU yourself and send the vectors.
 - A 4xx response is about the request: fix it instead of retrying. Retry 429 and 5xx with backoff.
