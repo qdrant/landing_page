@@ -1,4 +1,6 @@
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
 client.queryGroups("{collection_name}", {
     query: [1.1],
     group_by: "document_id",
