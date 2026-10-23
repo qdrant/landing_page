@@ -1,7 +1,7 @@
 ---
 title: "Configuration"
-short_description: "Configure a Qdrant Edge Shard with EdgeConfig: vector params, quantization, optimizers, WAL, and search threads."
-description: "Reference for Qdrant Edge configuration: EdgeConfig, dense and sparse vector parameters, optimizer settings and the optimize method, WAL options, and changing configuration on a live shard."
+short_description: "Configure a Qdrant Edge Shard with EdgeConfig: vector params, memory tiers, quantization, optimizers, WAL, and search threads."
+description: "Reference for Qdrant Edge configuration: EdgeConfig, dense and sparse vector parameters, memory tiers, optimizer settings and the optimize method, WAL options, and changing configuration on a live shard."
 weight: 20
 ---
 
@@ -17,12 +17,14 @@ Every parameter except `vectors` and `sparse_vectors` is optional. A parameter l
 EdgeConfig(
     vectors: Optional[Union[EdgeVectorParams, Dict[str, EdgeVectorParams]]] = None,
     sparse_vectors: Optional[Dict[str, EdgeSparseVectorParams]] = None,
-    on_disk_payload: Optional[bool] = None,
     hnsw_config: Optional[HnswIndexConfig] = None,
     quantization_config: Optional[QuantizationConfigType] = None,
     optimizers: Optional[EdgeOptimizersConfig] = None,
     max_search_threads: Optional[int] = None,
     search_pool_core: Optional[int] = None,
+    payload_memory: Optional[Memory] = None,
+    id_tracker_memory: Optional[Memory] = None,
+    wal_enabled: Optional[bool] = None,
 )
 ```
 
@@ -31,7 +33,7 @@ In Rust, `EdgeConfig` is a struct whose fields you can set directly, or build wi
 ```rust
 let config = EdgeConfig::builder()
     .vector("text", EdgeVectorParams::builder(384, Distance::Cosine).build())
-    .on_disk_payload(true)
+    .payload_memory(Memory::Cold)
     .build();
 ```
 
@@ -39,12 +41,14 @@ let config = EdgeConfig::builder()
 | --- | --- |
 | `vectors` | Dense vector configuration. In Python, a single `EdgeVectorParams` configures the default unnamed vector. Optional if `sparse_vectors` is given. |
 | `sparse_vectors` | Sparse vector configuration. |
-| `on_disk_payload` | Whether to cache payloads in RAM for faster access, or serve them from disk. |
+| `payload_memory` | [Memory tier](#memory-tiers) of the payload storage. Default: `Cold`. |
+| `id_tracker_memory` | [Memory tier](#memory-tiers) of the point ID tracker in non-appendable segments. Default: `Pinned`. |
 | `hnsw_config` | Global HNSW parameters, used when building the HNSW index. Override per vector with `EdgeVectorParams.hnsw_config`. |
 | `quantization_config` | Global quantization. Override per vector with `EdgeVectorParams.quantization_config`. Refer to [Quantization](/documentation/manage-data/quantization/). |
 | `optimizers` | Optimizer parameters. Refer to [Optimizer Parameters](#optimizer-parameters). |
 | `max_search_threads` | Size of the shard's search thread pool, which runs per-segment reads in parallel. Defaults to a count derived from the number of CPUs. |
 | `search_pool_core` | Pin every search pool thread to this CPU core, bounding the shard's search compute to one core while keeping the pool's I/O overlap. Best-effort. Defaults to OS scheduling. |
+| `wal_enabled` | Whether updates are written to a write-ahead log. Enabled when unset. Fixed when the shard is created. Refer to [WAL Options](#wal-options). |
 | `wal_options` | A `WalOptions` value carrying the write-ahead log parameters. Rust only. Refer to [WAL Options](#wal-options). |
 
 A new shard must define at least one of `vectors` or `sparse_vectors`; both are validated against the existing segments on `load`. Python raises `ValueError` if both are empty, so changing only a tunable parameter still requires redeclaring the vectors. Rust accepts a tunables-only configuration and takes the vectors from the shard.
@@ -57,11 +61,11 @@ A new shard must define at least one of `vectors` or `sparse_vectors`; both are 
 EdgeVectorParams(
     size: int,
     distance: Distance,
-    on_disk: Optional[bool] = None,
     multivector_config: Optional[MultiVectorConfig] = None,
     datatype: Optional[VectorStorageDatatype] = None,
     quantization_config: Optional[QuantizationConfigType] = None,
     hnsw_config: Optional[HnswIndexConfig] = None,
+    memory: Optional[Memory] = None,
 )
 ```
 
@@ -73,11 +77,11 @@ pub fn builder(size: usize, distance: Distance) -> EdgeVectorParamsBuilder
 | --- | --- |
 | `size` | Vector dimension. Required. |
 | `distance` | Distance metric. Required. |
-| `on_disk` | Whether to cache vectors in RAM for faster access, or serve them from disk. |
 | `multivector_config` | Multi-vector configuration, for late-interaction models. |
 | `datatype` | Storage datatype for the vector. |
 | `quantization_config` | Per-vector quantization, overriding the global setting. |
 | `hnsw_config` | Per-vector HNSW parameters, overriding the global setting. |
+| `memory` | [Memory tier](#memory-tiers) of the original vector storage. Default: `Cached`. `Pinned` isn't supported and is treated as `Cached`. |
 
 ## Sparse Vector Parameters
 
@@ -86,9 +90,9 @@ pub fn builder(size: usize, distance: Distance) -> EdgeVectorParamsBuilder
 ```python
 EdgeSparseVectorParams(
     full_scan_threshold: Optional[int] = None,
-    on_disk: Optional[bool] = None,
     modifier: Optional[Modifier] = None,
     datatype: Optional[VectorStorageDatatype] = None,
+    memory: Optional[Memory] = None,
 )
 ```
 
@@ -99,9 +103,23 @@ pub fn builder() -> EdgeSparseVectorParamsBuilder
 | Parameter | Description |
 | --- | --- |
 | `full_scan_threshold` | Threshold below which a full scan is used instead of the sparse index. |
-| `on_disk` | Whether to cache sparse vector indexes in RAM for faster access, or serve them from disk.  |
 | `modifier` | Score modifier. Set to `Modifier.Idf` for BM25 scoring. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/). |
 | `datatype` | Storage datatype for the vector. |
+| `memory` | [Memory tier](#memory-tiers) of the sparse index. Default: `Pinned`. |
+
+## Memory Tiers
+
+The `memory` parameter, and the `payload_memory` and `id_tracker_memory` parameters on `EdgeConfig`, control how a component is held in RAM. Data is always persisted on disk. The `Memory` enum has three values:
+
+| Tier | Behavior |
+| --- | --- |
+| `Cold` | Not pre-loaded from disk. Pages are read on demand. |
+| `Cached` | Pre-loaded into the page cache when the shard opens. The OS can evict it under memory pressure. |
+| `Pinned` | Loaded in RAM and never evicted. The component must fit in RAM at all times. |
+
+Not every component supports every tier. Dense vectors and payload storage can't be pinned, and `Pinned` is treated as `Cached` there. Refer to [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for the tiers each component supports.
+
+The `memory` parameter also applies to `hnsw_config`, to every quantization config, and to payload index schemas.
 
 ## Optimizer Parameters
 
@@ -157,17 +175,32 @@ def optimize(self) -> bool
 
 ```rust
 pub fn optimize(&self) -> OperationResult<bool>
+pub fn optimize_with_budget(&self, budget: ResourceBudget) -> OperationResult<bool>
 ```
 
+| Parameter | Description |
+| --- | --- |
+| `budget` | *Rust only.* The CPU and I/O budget that each optimization draws permits from. |
+
 **Returns** `True` if any segment was optimized, and `False` if the shard was already optimal.
+
+Create a budget with `ResourceBudget::new(cpu_budget, io_budget)`. `optimize_with_budget` waits until a permit is available. Clones of a `ResourceBudget` share permits, so using the same budget for concurrent calls, such as calls across shards, limits their combined resource usage. `optimize` gives each optimization all the indexing threads it requests.
 
 Call `optimize` at a point when blocking is acceptable, such as after a batch of upserts or during an idle period. Until it runs, newly written vectors are searchable but not yet indexed, which shows up as an `indexed_vectors_count` below `points_count` in [`info`](/documentation/edge/edge-api/shard-lifecycle/#get-shard-information).
 
 ## WAL Options
 
-*Rust only*
+Qdrant Edge records every update in a write-ahead log (WAL) before applying it to storage. You can configure the WAL with `wal_enabled` in Python and Rust, or with `WalOptions` through `EdgeConfig.wal_options` in Rust only.
 
-Qdrant Edge records every update in a write-ahead log before applying it to storage. `WalOptions` is available in Rust only, and is set through `EdgeConfig.wal_options`.
+### Disable the WAL
+
+Set `wal_enabled` to `False` (`.wal_enabled(false)` in Rust) to disable the WAL. This setting is saved when the shard is created. Loading the shard with a different value fails. The WAL is enabled by default.
+
+With the WAL disabled, a crash loses every update since the last [`flush`](/documentation/edge/edge-api/shard-lifecycle/#flush-pending-changes), and `wal_options` is ignored. If Edge finds a WAL when loading the shard, such as one included in a restored Qdrant snapshot, it replays the operations, persists them to the segments, and removes the WAL.
+
+### WalOptions
+
+*Rust only*
 
 ```rust
 pub struct WalOptions {
