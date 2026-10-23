@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 256" role="img" aria-labelledby="description">
-  <desc id="description">Points in vector space. Points that fail the payload filter are drawn as hollow circles and are filtered out. The query's three nearest neighbors are chosen only from the points that pass the filter.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 294" role="img" aria-labelledby="description">
+  <desc id="description">Photos in vector space. A payload filter keeps only photos taken in the last year (solid points) and excludes older ones (hollow points). The query's three nearest neighbors are chosen only from the photos that pass the filter.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
@@ -9,52 +9,59 @@
       <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
     </marker>
   </defs>
-  <rect x="0.5" y="0.5" width="639" height="255" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="639" height="293" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
   <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <line x1="326.1" y1="86" x2="267.8" y2="66.8" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <line x1="326.1" y1="86" x2="245.4" y2="94.6" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <line x1="326.1" y1="86" x2="299.2" y2="111.6" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <circle cx="292.2" cy="53" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="332.5" cy="70" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="282.6" cy="86" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="366.4" cy="96.6" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="104.6" cy="87" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="181.4" cy="103.9" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="225" cy="112.9" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="298.6" cy="131.8" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="54.1" cy="122.2" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="155.8" cy="131.8" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="514.9" cy="124.7" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="590.4" cy="134.3" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="143" cy="206" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="132.2" cy="223.6" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="381.8" cy="219.8" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="245.4" cy="238.6" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="440.6" cy="242.2" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="482.2" cy="202.2" r="5" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <circle cx="338.2" cy="34.2" r="5" fill="#656b7f"/>
-    <circle cx="403.5" cy="50.5" r="5" fill="#656b7f"/>
-    <circle cx="500.2" cy="68.4" r="5" fill="#656b7f"/>
-    <circle cx="134.7" cy="103.9" r="5" fill="#656b7f"/>
-    <circle cx="239" cy="135.3" r="5" fill="#656b7f"/>
-    <circle cx="76.5" cy="146.2" r="5" fill="#656b7f"/>
-    <circle cx="482.2" cy="109" r="5" fill="#656b7f"/>
-    <circle cx="568" cy="121.8" r="5" fill="#656b7f"/>
-    <circle cx="486.1" cy="148.7" r="5" fill="#656b7f"/>
-    <circle cx="353" cy="167.9" r="5" fill="#656b7f"/>
-    <circle cx="318.4" cy="217.2" r="5" fill="#656b7f"/>
-    <circle cx="498.9" cy="234.8" r="5" fill="#656b7f"/>
-    <circle cx="341.4" cy="247.6" r="5" fill="#656b7f"/>
-    <circle cx="267.8" cy="66.8" r="5" fill="#00838f"/>
-    <circle cx="267.8" cy="66.8" r="9" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <circle cx="245.4" cy="94.6" r="5" fill="#00838f"/>
-    <circle cx="245.4" cy="94.6" r="9" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <circle cx="299.2" cy="111.6" r="5" fill="#00838f"/>
-    <circle cx="299.2" cy="111.6" r="9" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <circle cx="326.1" cy="86" r="8" fill="#f0f3fa" stroke="#dc244c" stroke-width="2"/>
-    <circle cx="326.1" cy="86" r="3" fill="#dc244c"/>
-    <text x="342.1" y="90" font-size="13" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
-    <text x="251.8" y="70.8" font-size="13" text-anchor="end" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">nearest neighbors</text>
-    <text x="155" y="210" font-size="13" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">filtered out</text>
+    <line x1="326.1" y1="86" x2="267.8" y2="68" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="326.1" y1="86" x2="245.4" y2="94.1" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="326.1" y1="86" x2="299.2" y2="110" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="292.2" cy="55.1" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="332.5" cy="71" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="282.6" cy="86" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="366.4" cy="95.9" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="104.6" cy="86.9" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="181.4" cy="102.8" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="225" cy="111.2" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="298.6" cy="128.9" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="54.1" cy="119.9" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="155.8" cy="128.9" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="514.9" cy="122.3" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="590.4" cy="131.3" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="143" cy="198.5" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="132.2" cy="215" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="381.8" cy="211.4" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="245.4" cy="229.1" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="440.6" cy="232.4" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="482.2" cy="194.9" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="338.2" cy="37.4" r="5.5" fill="#656b7f"/>
+    <circle cx="403.5" cy="52.7" r="5.5" fill="#656b7f"/>
+    <circle cx="500.2" cy="69.5" r="5.5" fill="#656b7f"/>
+    <circle cx="134.7" cy="102.8" r="5.5" fill="#656b7f"/>
+    <circle cx="239" cy="132.2" r="5.5" fill="#656b7f"/>
+    <circle cx="76.5" cy="142.4" r="5.5" fill="#656b7f"/>
+    <circle cx="482.2" cy="107.6" r="5.5" fill="#656b7f"/>
+    <circle cx="568" cy="119.6" r="5.5" fill="#656b7f"/>
+    <circle cx="486.1" cy="144.8" r="5.5" fill="#656b7f"/>
+    <circle cx="353" cy="162.8" r="5.5" fill="#656b7f"/>
+    <circle cx="318.4" cy="209" r="5.5" fill="#656b7f"/>
+    <circle cx="498.9" cy="225.5" r="5.5" fill="#656b7f"/>
+    <circle cx="341.4" cy="237.5" r="5.5" fill="#656b7f"/>
+    <circle cx="267.8" cy="68" r="5.5" fill="#00838f"/>
+    <circle cx="267.8" cy="68" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="245.4" cy="94.1" r="5.5" fill="#00838f"/>
+    <circle cx="245.4" cy="94.1" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="299.2" cy="110" r="5.5" fill="#00838f"/>
+    <circle cx="299.2" cy="110" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="326.1" cy="86" r="9" fill="#f0f3fa" stroke="#dc244c" stroke-width="2.5"/>
+    <circle cx="326.1" cy="86" r="3.5" fill="#dc244c"/>
+    <text x="342.1" y="91" font-size="14" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+    <text x="251.8" y="73" font-size="14" text-anchor="end" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">nearest neighbors</text>
+    <line x1="16" y1="252" x2="624" y2="252" stroke="#d3d9eb" stroke-width="1.5"/>
+    <circle cx="40" cy="274" r="5.5" fill="#656b7f"/>
+    <text x="54" y="279" font-size="13" fill="#303547">taken last year: kept</text>
+    <circle cx="260" cy="274" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="274" y="279" font-size="13" fill="#303547">older: filtered out</text>
+    <circle cx="460" cy="274" r="5.5" fill="#00838f"/>
+    <circle cx="460" cy="274" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <text x="478" y="279" font-size="13" fill="#303547">nearest neighbor</text>
   </g>
 </svg>

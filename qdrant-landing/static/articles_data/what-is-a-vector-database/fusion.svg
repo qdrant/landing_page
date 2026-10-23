@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 236" role="img" aria-labelledby="description">
-  <desc id="description">Reciprocal Rank Fusion merges two ranked lists. Dense search ranks doc A, B, C; sparse search ranks doc C, A, D. RRF scores each document by its ranks in both lists, giving the fused order A, C, B, D.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 262" role="img" aria-labelledby="description">
+  <desc id="description">One Query API call runs a sparse and a dense prefetch. Sparse search ranks doc C, A, D; dense search ranks doc A, B, C. Reciprocal Rank Fusion scores each document by its ranks in both lists, so the fused order is A, C, B, D.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
@@ -9,45 +9,51 @@
       <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
     </marker>
   </defs>
-  <rect x="0.5" y="0.5" width="639" height="235" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="639" height="261" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
   <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <text x="24" y="44" font-size="14" fill="#303547" font-weight="600">dense</text>
-    <rect x="24" y="60" width="124" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="38" y="82" font-size="13" fill="#656b7f">1</text>
-    <text x="64" y="82" font-size="14" fill="#303547">doc A</text>
-    <rect x="24" y="102" width="124" height="34" rx="6" fill="none" stroke="#9c27b0" stroke-width="1.5"/>
-    <text x="38" y="124" font-size="13" fill="#656b7f">2</text>
-    <text x="64" y="124" font-size="14" fill="#303547">doc B</text>
-    <rect x="24" y="144" width="124" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="38" y="166" font-size="13" fill="#656b7f">3</text>
-    <text x="64" y="166" font-size="14" fill="#303547">doc C</text>
-    <text x="172" y="44" font-size="14" fill="#303547" font-weight="600">sparse</text>
-    <rect x="172" y="60" width="124" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="186" y="82" font-size="13" fill="#656b7f">1</text>
-    <text x="212" y="82" font-size="14" fill="#303547">doc C</text>
-    <rect x="172" y="102" width="124" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="186" y="124" font-size="13" fill="#656b7f">2</text>
-    <text x="212" y="124" font-size="14" fill="#303547">doc A</text>
-    <rect x="172" y="144" width="124" height="34" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="186" y="166" font-size="13" fill="#656b7f">3</text>
-    <text x="212" y="166" font-size="14" fill="#303547">doc D</text>
-    <path d="M86 186 V214 H362 V160" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <line x1="234" y1="186" x2="234" y2="214" stroke="#656b7f" stroke-width="1.5"/>
-    <rect x="322" y="120" width="80" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="362" y="145" font-size="14" text-anchor="middle" fill="#303547">RRF</text>
-    <path d="M402 140 H446" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <text x="452" y="44" font-size="14" fill="#303547" font-weight="600">fused</text>
-    <rect x="452" y="60" width="160" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="466" y="82" font-size="13" fill="#656b7f">1</text>
-    <text x="492" y="82" font-size="14" fill="#303547">doc A</text>
-    <rect x="452" y="102" width="160" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="466" y="124" font-size="13" fill="#656b7f">2</text>
-    <text x="492" y="124" font-size="14" fill="#303547">doc C</text>
-    <rect x="452" y="144" width="160" height="34" rx="6" fill="none" stroke="#9c27b0" stroke-width="1.5"/>
-    <text x="466" y="166" font-size="13" fill="#656b7f">3</text>
-    <text x="492" y="166" font-size="14" fill="#303547">doc B</text>
-    <rect x="452" y="186" width="160" height="34" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
-    <text x="466" y="208" font-size="13" fill="#656b7f">4</text>
-    <text x="492" y="208" font-size="14" fill="#303547">doc D</text>
+    <rect x="16" y="118" width="80" height="40" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="56" y="143.04" font-size="14" text-anchor="middle" fill="#303547">Query</text>
+    <rect x="116" y="12" width="508" height="238" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="608" y="36" font-size="13" text-anchor="end" fill="#656b7f">Qdrant Query API</text>
+    <text x="136" y="40" font-size="14" fill="#303547" font-weight="600">sparse prefetch</text>
+    <rect x="136" y="50" width="140" height="23" rx="4" fill="#00838f" fill-opacity="0.16"/>
+    <text x="146" y="66" font-size="13" fill="#656b7f">1</text>
+    <text x="168" y="66" font-size="14" fill="#303547">doc C</text>
+    <rect x="136" y="77" width="140" height="23" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="146" y="93" font-size="13" fill="#656b7f">2</text>
+    <text x="168" y="93" font-size="14" fill="#303547">doc A</text>
+    <rect x="136" y="104" width="140" height="23" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="146" y="120" font-size="13" fill="#656b7f">3</text>
+    <text x="168" y="120" font-size="14" fill="#303547">doc D</text>
+    <text x="136" y="152" font-size="14" fill="#303547" font-weight="600">dense prefetch</text>
+    <rect x="136" y="162" width="140" height="23" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="146" y="178" font-size="13" fill="#656b7f">1</text>
+    <text x="168" y="178" font-size="14" fill="#303547">doc A</text>
+    <rect x="136" y="189" width="140" height="23" rx="4" fill="#9c27b0" fill-opacity="0.16"/>
+    <text x="146" y="205" font-size="13" fill="#656b7f">2</text>
+    <text x="168" y="205" font-size="14" fill="#303547">doc B</text>
+    <rect x="136" y="216" width="140" height="23" rx="4" fill="#00838f" fill-opacity="0.16"/>
+    <text x="146" y="232" font-size="13" fill="#656b7f">3</text>
+    <text x="168" y="232" font-size="14" fill="#303547">doc C</text>
+    <path d="M96 138 H112 V77 H130" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M112 138 V189 H130" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="322" y="118" width="72" height="40" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="358" y="143.04" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">RRF</text>
+    <path d="M276 77 H298 V128 H318" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M276 189 H298 V148 H318" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M394 138 H432" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="440" y="84" font-size="14" fill="#303547" font-weight="600">fused</text>
+    <rect x="440" y="94" width="164" height="23" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="450" y="110" font-size="13" fill="#656b7f">1</text>
+    <text x="472" y="110" font-size="14" fill="#303547">doc A</text>
+    <rect x="440" y="121" width="164" height="23" rx="4" fill="#00838f" fill-opacity="0.16"/>
+    <text x="450" y="137" font-size="13" fill="#656b7f">2</text>
+    <text x="472" y="137" font-size="14" fill="#303547">doc C</text>
+    <rect x="440" y="148" width="164" height="23" rx="4" fill="#9c27b0" fill-opacity="0.16"/>
+    <text x="450" y="164" font-size="13" fill="#656b7f">3</text>
+    <text x="472" y="164" font-size="14" fill="#303547">doc B</text>
+    <rect x="440" y="175" width="164" height="23" rx="4" fill="#dc244c" fill-opacity="0.16"/>
+    <text x="450" y="191" font-size="13" fill="#656b7f">4</text>
+    <text x="472" y="191" font-size="14" fill="#303547">doc D</text>
   </g>
 </svg>

@@ -1,59 +1,52 @@
 <?xml version="1.0" ?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" role="img" aria-labelledby="description">
-  <desc id="description">Applications connect to Qdrant through client SDKs for Python, TypeScript, Rust, Go, Java, and C#. Qdrant holds collections, each with its own distance metric such as Cosine, Dot product, or Euclidean. A collection holds points, and each point has an ID, one or more vectors, and a payload.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-labelledby="description">
+  <desc id="description">Applications connect to Qdrant through client SDKs for Python, TypeScript, Rust, Go, Java, and C#. Qdrant holds collections, each with its own distance metric. A collection holds points; one point is shown with ID 42, a dense and a sparse named vector, and a JSON payload with species and color fields.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
     </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
   </defs>
-  <rect x="0.5" y="0.5" width="639" height="339" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="639" height="299" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
   <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-    <rect x="20" y="72" width="124" height="196" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="36" y="98" font-size="14" fill="#303547">Client SDKs</text>
-    <text x="36" y="128" font-size="13" fill="#656b7f">Python</text>
-    <text x="36" y="150" font-size="13" fill="#656b7f">TypeScript</text>
-    <text x="36" y="172" font-size="13" fill="#656b7f">Rust</text>
-    <text x="36" y="194" font-size="13" fill="#656b7f">Go</text>
-    <text x="36" y="216" font-size="13" fill="#656b7f">Java</text>
-    <text x="36" y="238" font-size="13" fill="#656b7f">C#</text>
-    <line x1="144" y1="170" x2="164" y2="170" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <rect x="168" y="20" width="452" height="300" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <text x="184" y="44" font-size="14" fill="#303547" font-weight="600">Qdrant</text>
-    <rect x="184" y="64" width="136" height="64" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="200" y="91" font-size="14" fill="#303547">collection_a</text>
-    <text x="200" y="112" font-size="12" fill="#656b7f">Cosine</text>
-    <rect x="184" y="152" width="136" height="64" rx="6" fill="none" stroke="#303547" stroke-width="1.5"/>
-    <text x="200" y="179" font-size="14" fill="#303547">collection_b</text>
-    <text x="200" y="200" font-size="12" fill="#656b7f">Dot product</text>
-    <rect x="184" y="240" width="136" height="64" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="200" y="267" font-size="14" fill="#303547">collection_c</text>
-    <text x="200" y="288" font-size="12" fill="#656b7f">Euclidean</text>
-    <line x1="320" y1="184" x2="344" y2="184" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <rect x="348" y="64" width="256" height="240" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="364" y="90" font-size="14" fill="#303547">points</text>
-    <rect x="364" y="108" width="44" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="386" y="130" font-size="13" text-anchor="middle" fill="#303547">ID</text>
-    <rect x="416" y="108" width="84" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="458" y="130" font-size="13" text-anchor="middle" fill="#303547">vectors</text>
-    <rect x="508" y="108" width="84" height="34" rx="6" fill="none" stroke="#9c27b0" stroke-width="1.5"/>
-    <text x="550" y="130" font-size="13" text-anchor="middle" fill="#303547">payload</text>
-    <rect x="364" y="154" width="44" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="386" y="176" font-size="13" text-anchor="middle" fill="#303547">ID</text>
-    <rect x="416" y="154" width="84" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="458" y="176" font-size="13" text-anchor="middle" fill="#303547">vectors</text>
-    <rect x="508" y="154" width="84" height="34" rx="6" fill="none" stroke="#9c27b0" stroke-width="1.5"/>
-    <text x="550" y="176" font-size="13" text-anchor="middle" fill="#303547">payload</text>
-    <rect x="364" y="200" width="44" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="386" y="222" font-size="13" text-anchor="middle" fill="#303547">ID</text>
-    <rect x="416" y="200" width="84" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="458" y="222" font-size="13" text-anchor="middle" fill="#303547">vectors</text>
-    <rect x="508" y="200" width="84" height="34" rx="6" fill="none" stroke="#9c27b0" stroke-width="1.5"/>
-    <text x="550" y="222" font-size="13" text-anchor="middle" fill="#303547">payload</text>
-    <rect x="364" y="246" width="44" height="34" rx="6" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="386" y="268" font-size="13" text-anchor="middle" fill="#303547">ID</text>
-    <rect x="416" y="246" width="84" height="34" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
-    <text x="458" y="268" font-size="13" text-anchor="middle" fill="#303547">vectors</text>
-    <rect x="508" y="246" width="84" height="34" rx="6" fill="none" stroke="#9c27b0" stroke-width="1.5"/>
-    <text x="550" y="268" font-size="13" text-anchor="middle" fill="#303547">payload</text>
+    <rect x="16" y="62" width="112" height="176" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="72" y="88" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Client SDKs</text>
+    <text x="32" y="114" font-size="13" fill="#656b7f">Python</text>
+    <text x="32" y="136" font-size="13" fill="#656b7f">TypeScript</text>
+    <text x="32" y="158" font-size="13" fill="#656b7f">Rust</text>
+    <text x="32" y="180" font-size="13" fill="#656b7f">Go</text>
+    <text x="32" y="202" font-size="13" fill="#656b7f">Java</text>
+    <text x="32" y="224" font-size="13" fill="#656b7f">C#</text>
+    <path d="M128 150 H148" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="152" y="12" width="472" height="276" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="168" y="36" font-size="14" fill="#303547" font-weight="600">Qdrant</text>
+    <rect x="168" y="52" width="136" height="62" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="184" y="78" font-size="14" fill="#303547">collection_a</text>
+    <text x="184" y="99" font-size="13" fill="#656b7f">Cosine</text>
+    <rect x="168" y="130" width="136" height="62" rx="6" fill="none" stroke="#303547" stroke-width="1.5"/>
+    <text x="184" y="156" font-size="14" fill="#303547">collection_b</text>
+    <text x="184" y="177" font-size="13" fill="#656b7f">Dot product</text>
+    <rect x="168" y="208" width="136" height="62" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="184" y="234" font-size="14" fill="#303547">collection_c</text>
+    <text x="184" y="255" font-size="13" fill="#656b7f">Euclidean</text>
+    <path d="M304 161 H324" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="340" y="64" width="268" height="212" rx="6" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <rect x="334" y="58" width="268" height="212" rx="6" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <rect x="328" y="52" width="268" height="212" rx="6" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="344" y="76" font-size="14" fill="#303547" font-weight="600">point</text>
+    <text x="344" y="108" font-size="13" fill="#656b7f">id</text>
+    <rect x="412" y="92" width="44" height="24" rx="4" fill="#00838f" fill-opacity="0.16"/>
+    <text x="434" y="109.04" font-size="14" text-anchor="middle" fill="#303547">42</text>
+    <text x="344" y="146" font-size="13" fill="#656b7f">vectors</text>
+    <rect x="412" y="130" width="172" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="420" y="146.68" font-size="13" fill="#303547">dense [0.12, …]</text>
+    <rect x="412" y="160" width="172" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="420" y="176.68" font-size="13" fill="#303547">sparse {193: 0.04}</text>
+    <text x="344" y="214" font-size="13" fill="#656b7f">payload</text>
+    <rect x="412" y="194" width="172" height="54" rx="4" fill="#9c27b0" fill-opacity="0.16"/>
+    <text x="418" y="216" font-size="13" fill="#303547">{"species": "husky",</text>
+    <text x="418" y="236" font-size="13" fill="#303547"> "color": "white"}</text>
   </g>
 </svg>
