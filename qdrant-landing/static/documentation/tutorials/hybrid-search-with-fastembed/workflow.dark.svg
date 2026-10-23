@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="206" viewBox="0 0 720 206" role="img" aria-labelledby="title desc">
+  <title id="title">Hybrid search tutorial workflow</title>
+  <desc id="desc">Four steps: transform the dataset into vectors, upload the vectors to a Qdrant collection, sort results by relevancy in a search API, and deploy that API with FastAPI.</desc>
+  <rect x="1" y="1" width="718" height="204" rx="12" fill="#111824" stroke="#303547" stroke-width="2"/>
+  <rect x="20" y="92" width="104" height="48" rx="8" fill="#1d293b" stroke="#898ea3" stroke-width="2"/>
+  <text x="72.0" y="122" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Dataset</text>
+  <rect x="164" y="92" width="104" height="48" rx="8" fill="#1d293b" stroke="#898ea3" stroke-width="2"/>
+  <text x="216.0" y="122" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Vectors</text>
+  <rect x="308" y="92" width="104" height="48" rx="8" fill="#dc244c" stroke="#dc244c" stroke-width="2"/>
+  <text x="360.0" y="122" fill="#ffffff" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Qdrant</text>
+  <rect x="452" y="92" width="104" height="48" rx="8" fill="#1d293b" stroke="#898ea3" stroke-width="2"/>
+  <text x="504.0" y="122" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Search API</text>
+  <rect x="596" y="92" width="104" height="48" rx="8" fill="#1d293b" stroke="#898ea3" stroke-width="2"/>
+  <text x="648.0" y="122" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">FastAPI</text>
+  <path d="M128 116.0 H160" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M151 110.0 L160 116.0 L151 122.0 Z" fill="#898ea3"/>
+  <path d="M144.0 62 V108.0" stroke="#898ea3" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="144.0" y="52" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">1. Transform data</text>
+  <path d="M272 116.0 H304" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M295 110.0 L304 116.0 L295 122.0 Z" fill="#898ea3"/>
+  <path d="M288.0 124.0 V170" stroke="#898ea3" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="288.0" y="190" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">2. Upload to collection</text>
+  <path d="M416 116.0 H448" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M439 110.0 L448 116.0 L439 122.0 Z" fill="#898ea3"/>
+  <path d="M432.0 62 V108.0" stroke="#898ea3" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="432.0" y="52" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">3. Sort by relevancy</text>
+  <path d="M560 116.0 H592" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M583 110.0 L592 116.0 L583 122.0 Z" fill="#898ea3"/>
+  <path d="M576.0 124.0 V170" stroke="#898ea3" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="576.0" y="190" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">4. Deploy functionality</text>
+</svg>
