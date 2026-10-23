@@ -122,35 +122,11 @@ menuItems:
             name: Change Log
             icon: changelog.svg
             url: https://github.com/qdrant/qdrant/releases
-          - id: subMenu-2-5
-            name: Certification
-            icon: certificate.svg
-            url: http://train.qdrant.dev/
-          - id: subMenu-2-6
-            name: Security
-            icon: security.svg
-            url: /security/
-          - id: subMenu-2-7
-            name: Observability
-            icon: observability.svg
-            url: /observability/
-          - id: subMenu-2-8
-            name: Quantization
-            icon: quantization.svg
-            url: /quantization/
-          - id: subMenu-2-9
-            name: Resilience
-            icon: resilience.svg
-            url: /resilience/
   - id: menu-3
     name: Resources
     mainMenuItems:
       - id: mainMenu-3-0 
         subMenuItems:
-          - id: subMenu-3-0
-            name: Benchmarks
-            icon: benchmarks.svg
-            url: /benchmarks/
           - id: subMenu-3-1
             name: Blog
             icon: blog.svg
@@ -171,10 +147,6 @@ menuItems:
             name: Startup Program
             icon: qdrant-for-startups.svg
             url: /qdrant-for-startups/
-          - id: subMenu-3-6
-            name: Bug Bounty Program
-            icon: bug-bounty-program.svg
-            url: /security/bug-bounty-program/
   - id: menu-4
     name: Company
     mainMenuItems:
