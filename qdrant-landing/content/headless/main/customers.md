@@ -45,5 +45,7 @@ logoRows:
     - name: Telekom
       src: /img/home-customers-logo/telekom.svg
       link: /blog/case-study-deutsche-telekom/
+    - name: Wordfully
+      src: /img/home-customers-logo/wordfully.svg
 sitemapExclude: true
 ---
