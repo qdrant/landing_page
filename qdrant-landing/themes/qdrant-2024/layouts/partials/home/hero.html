@@ -3,6 +3,7 @@
     <div class="hero__container">
       <div class="hero__grid"></div>
       <div class="hero__content">
+        <div class="hero__fade-top" aria-hidden="true"></div>
         <div class="hero__heading">
           <h1 class="hero__title">{{ .Params.title }}</h1>
           <p class="hero__subtitle">{{ .Params.subtitle }}</p>
@@ -92,7 +93,6 @@
         {{ end }}
       </div>
 
-      <div class="hero__fade-top"></div>
       <div class="hero__fade-bottom"></div>
       <div class="hero__fade-left"></div>
       <div class="hero__fade-right"></div>

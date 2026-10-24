@@ -10,7 +10,6 @@
   background: url('/img/home/hero/hero-bg-pattern.png') repeat $neutral-10;
   background-size: 400px 400px;
   padding: 0;
-  padding-bottom: 6rem;
 
   &__container {
     position: relative;
@@ -33,7 +32,7 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.12;
     mix-blend-mode: overlay;
     background: url('/img/home/hero/grid.svg') center top / cover no-repeat;
     will-change: transform;
@@ -66,6 +65,7 @@
     font-weight: 600;
     letter-spacing: -0.5px;
     width: 100%;
+    margin: 0;
   }
 
   &__subtitle {
@@ -73,6 +73,7 @@
     font-size: pxToRem(16);
     line-height: 1.5;
     width: 100%;
+    margin: 0;
   }
 
   &__buttons {
@@ -80,29 +81,48 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: pxToRem(16);
+    gap: pxToRem(12);
   }
 
   &__buttons a {
     min-width: pxToRem(180);
   }
 
+  // The secondary CTA is a text action, so the primary button is the only
+  // filled or framed object in the button row.
+  &__buttons .button_outlined {
+    box-shadow: none;
+    color: $neutral-90;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: pxToRem(4);
+
+    &:hover,
+    &:active {
+      box-shadow: none;
+      color: $neutral-98;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $neutral-90;
+      outline-offset: pxToRem(4);
+    }
+  }
+
   &__agent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: pxToRem(12);
+    gap: pxToRem(8);
     max-width: 100%;
-    margin-top: pxToRem(8);
   }
 
   &__agent-label {
     margin: 0;
-    color: $neutral-98;
+    color: $neutral-94;
     font-size: pxToRem(16);
     font-weight: 600;
     line-height: 1.4;
-    letter-spacing: -0.1px;
   }
 
   &__agent-snippet {
@@ -110,16 +130,15 @@
     align-items: center;
     gap: pxToRem(12);
     max-width: 100%;
-    padding: pxToRem(10) pxToRem(10) pxToRem(10) pxToRem(20);
-    border: 1px solid rgba($primary-60, 0.55);
-    border-radius: pxToRem(10);
-    background: rgba($neutral-10, 0.85);
-    box-shadow: 0 0 pxToRem(24) rgba($primary-50, 0.25);
-    backdrop-filter: blur(4px);
+    padding: pxToRem(4) pxToRem(4) pxToRem(4) pxToRem(16);
+    border: 1px solid $neutral-40;
+    border-radius: pxToRem(8);
+    background: $neutral-10;
   }
 
   &__agent-text {
-    color: $neutral-98;
+    min-width: 0;
+    color: $neutral-90;
     font-family: $font-family-monospace;
     font-size: pxToRem(15);
     line-height: 1.5;
@@ -133,8 +152,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: pxToRem(36);
-    height: pxToRem(36);
+    width: pxToRem(44);
+    height: pxToRem(44);
     padding: 0;
     border: 0;
     border-radius: pxToRem(6);
@@ -146,6 +165,11 @@
     &:focus-visible {
       background: rgba($neutral-98, 0.08);
       color: $neutral-98;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $neutral-90;
+      outline-offset: pxToRem(2);
     }
   }
 
@@ -177,10 +201,12 @@
     top: -6.67%;
     left: -6.32%;
     mix-blend-mode: plus-lighter;
+    opacity: 0.35;
   }
 
   &__planet-blur--alt {
     mix-blend-mode: plus-lighter;
+    opacity: 0.15;
   }
 
   &__planet-sphere {
@@ -209,6 +235,7 @@
     transform: translate3d(-50%, 0, 0);
     bottom: pxToRem(80);
     mix-blend-mode: lighten;
+    opacity: 0.35;
     z-index: 2;
     pointer-events: none;
     will-change: transform;
@@ -226,6 +253,7 @@
     z-index: 3;
     will-change: transform;
     transition: transform 0.1s linear;
+    filter: saturate(0.8);
 
     img {
       position: absolute;
@@ -237,20 +265,19 @@
     }
   }
 
+  // Inside .hero__content, behind its text, and as tall as it plus a fade,
+  // so wrapped text on narrow screens never sits on the bright illustration.
   &__fade-top {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: pxToRem(500);
+    inset: 0 0 pxToRem(-160);
+    z-index: -1;
     background: linear-gradient(
       to bottom,
-      $neutral-10 0%,
-      rgba($neutral-10, 0.7) 30%,
-      rgba($neutral-10, 0.3) 60%,
-      transparent 100%
+      rgba($neutral-10, 0.9) 0%,
+      rgba($neutral-10, 0.8) 55%,
+      rgba($neutral-10, 0.4) 80%,
+      rgba($neutral-10, 0) 100%
     );
-    z-index: 4;
     pointer-events: none;
   }
 
@@ -287,19 +314,18 @@
     background: linear-gradient(to left, $neutral-10 0%, rgba($neutral-10, 0.6) 40%, transparent 100%);
   }
 
+  // In their own row under the illustration, as plain icon and text.
   &__badges {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: pxToRem(12);
+    gap: pxToRem(12) pxToRem(24);
     z-index: 5;
-    padding: 0 pxToRem(16);
+    padding: pxToRem(24) pxToRem(20) pxToRem(32);
+    background: $neutral-10;
   }
 
   &__badge {
@@ -307,20 +333,12 @@
     align-items: center;
     justify-content: center;
     gap: pxToRem(8);
-    padding: pxToRem(4) pxToRem(10);
-    background-color: rgba(17, 24, 36, 0.8);
-    border-radius: pxToRem(4);
     white-space: nowrap;
     text-decoration: none;
     color: inherit;
-    transition: background-color 0.2s ease;
 
-    &--link:hover {
-      background-color: rgba(17, 24, 36, 1);
-
-      .hero__badge-text {
-        color: $neutral-98;
-      }
+    &--link:hover .hero__badge-text {
+      color: $neutral-98;
     }
   }
 
@@ -331,10 +349,10 @@
   }
 
   &__badge-text {
-    color: $neutral-90;
+    color: $neutral-80;
     font-size: pxToRem(14);
     line-height: 1.5;
-    font-weight: 500;
+    font-weight: 400;
     transition: color 0.2s ease;
   }
 
@@ -382,9 +400,6 @@
     line-height: pxToRem(21);
   }
 
-  @include media-breakpoint-up(xs) {
-    padding-bottom: $spacer * 2;
-  }
 
   @include media-breakpoint-up(md) {
     padding-left: $spacer * 2.5;
@@ -415,15 +430,9 @@
     }
   }
 
-  @include media-breakpoint-up(lg) {
-    &__badges {
-      bottom: pxToRem(60);
-    }
-  }
 
   @include media-breakpoint-up(xl) {
     padding: 0 $spacer * 2.5;
-    padding-bottom: 0;
 
     &__container {
       min-height: pxToRem(940);
@@ -448,10 +457,6 @@
     &__subtitle {
       font-size: pxToRem(20);
       letter-spacing: -0.2px;
-    }
-
-    &__agent-label {
-      font-size: pxToRem(18);
     }
 
     &__agent-text {
@@ -486,7 +491,6 @@
 
     &__badges {
       gap: pxToRem(40);
-      bottom: pxToRem(40);
       flex-wrap: nowrap;
     }
 
@@ -568,9 +572,6 @@
         transparent 100%
       );
     }
-    &__badges {
-      bottom: pxToRem(100);
-    }
   }
 
   @media (min-width: 2600px) {
@@ -586,9 +587,6 @@
     &__fade-bottom {
       height: 15vh;
       min-height: pxToRem(150);
-    }
-    &__badges {
-      bottom: pxToRem(120);
     }
   }
 }
