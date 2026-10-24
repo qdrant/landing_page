@@ -87,6 +87,73 @@
     min-width: pxToRem(180);
   }
 
+  &__agent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(8);
+    max-width: 100%;
+  }
+
+  &__agent-label {
+    margin: 0;
+    color: $neutral-80;
+    font-size: pxToRem(14);
+    line-height: 1.4;
+  }
+
+  &__agent-snippet {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(12);
+    max-width: 100%;
+    padding: pxToRem(8) pxToRem(8) pxToRem(8) pxToRem(16);
+    border: 1px solid rgba($neutral-98, 0.16);
+    border-radius: pxToRem(8);
+    background: rgba($neutral-10, 0.72);
+    backdrop-filter: blur(4px);
+  }
+
+  &__agent-text {
+    color: $neutral-94;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    // One click selects the whole prompt, for copying by hand.
+    user-select: all;
+  }
+
+  &__agent-copy {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(32);
+    height: pxToRem(32);
+    padding: 0;
+    border: 0;
+    border-radius: pxToRem(6);
+    background: transparent;
+    color: $neutral-80;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba($neutral-98, 0.08);
+      color: $neutral-98;
+    }
+  }
+
+  &__agent-icon--done,
+  &__agent-copy.is-copied &__agent-icon--copy {
+    display: none;
+  }
+
+  &__agent-copy.is-copied &__agent-icon--done {
+    display: block;
+  }
+
   &__planet {
     position: absolute;
     width: pxToRem(506);
