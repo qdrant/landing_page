@@ -1,0 +1,83 @@
+/* A symptom traces through the RAG system to numbered inspection points. */
+.qi-diagnosis {
+  --diagnosis-ink: color-mix(in srgb, var(--qi-accent) 65%, var(--qi-fg));
+}
+
+.qi-diagnosis .qi-diagnosis__symptoms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.qi-diagnosis .qi-diagnosis__symptom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 12px 14px;
+  white-space: normal;
+  text-align: left;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.qi-diagnosis .qi-diagnosis__symptom small {
+  color: var(--qi-muted);
+  font-size: 12px;
+  opacity: 1;
+}
+
+.qi-diagnosis .qi-diagnosis__symptom[aria-pressed='true'] {
+  border-color: var(--diagnosis-ink);
+  box-shadow: inset 3px 0 var(--diagnosis-ink);
+}
+
+.qi-diagnosis .qi-diagnosis__route {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.qi-diagnosis .qi-diagnosis__route--check { stroke-dasharray: 5 4; }
+.qi-diagnosis .qi-diagnosis__route--active { stroke: var(--diagnosis-ink); stroke-width: 2.5; }
+.qi-diagnosis .qi-diagnosis__arrow { fill: var(--qi-muted); }
+.qi-diagnosis .qi-diagnosis__body { fill: var(--qi-surface); stroke: var(--qi-muted); stroke-width: 1.5; }
+.qi-diagnosis .qi-diagnosis__organ--active .qi-diagnosis__body {
+  fill: color-mix(in srgb, var(--qi-accent) 7%, var(--qi-surface));
+  stroke: var(--diagnosis-ink);
+  stroke-width: 2.5;
+}
+
+.qi-diagnosis .qi-diagnosis__label { fill: var(--qi-fg); font-family: inherit; font-size: 14px; }
+.qi-diagnosis .qi-diagnosis__name { font-size: 16px; font-weight: 600; }
+.qi-diagnosis .qi-diagnosis__section { fill: var(--qi-muted); font-family: var(--qi-mono); }
+.qi-diagnosis .qi-diagnosis__small { font-size: 12px; }
+.qi-diagnosis .qi-diagnosis__number-bg { fill: var(--diagnosis-ink); }
+.qi-diagnosis .qi-diagnosis__number { fill: var(--qi-surface); font-family: var(--qi-mono); font-size: 14px; font-weight: 600; }
+
+.qi-diagnosis .qi-diagnosis__finding {
+  border-left: 3px solid var(--diagnosis-ink);
+  padding: 4px 0 4px 16px;
+}
+
+.qi-diagnosis .qi-diagnosis__eyebrow { color: var(--diagnosis-ink); font-family: var(--qi-mono); font-size: 12px; }
+.qi-diagnosis .qi-diagnosis__details { display: grid; margin-top: 7px; }
+.qi-diagnosis .qi-diagnosis__details > .qi-status { grid-area: 1 / 1; margin: 0; }
+.qi-diagnosis .qi-diagnosis__details strong { display: block; font-size: 16px; }
+.qi-diagnosis .qi-diagnosis__details p { margin: 7px 0 0; font-size: 14px; line-height: 1.45; white-space: pre-line; }
+.qi-diagnosis .qi-diagnosis__reserve { visibility: hidden; }
+
+.qi-diagnosis .qi-diagnosis__system {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+@media (max-width: 390px) {
+  .qi-diagnosis .qi-svg { min-width: 358px; }
+}
+
+@media (max-width: 600px) {
+  .qi-diagnosis .qi-diagnosis__symptom { padding: 10px; font-size: 14px; }
+}
