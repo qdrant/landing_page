@@ -136,27 +136,9 @@
 <div style="max-width: 720px">
 <h2 style="margin: 0; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.1; font-weight: 600; letter-spacing: -0.5px">Talk Your Migration Through With a Qdrant Engineer</h2>
 </div>
-<form style="width: 100%; max-width: 720px; background: #111824; border: 1px solid #262C3D; border-radius: 16px; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px">
-<div style="display: flex; flex-wrap: wrap; gap: 16px">
-<div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 8px">
-<label for="name" style="font-size: 14px; font-weight: 600">Name</label>
-<input id="name" type="text" style="background: #0B0F19; border: 1px solid #4E5366; border-radius: 8px; color: #F0F3FA; font: inherit; padding: 12px 14px; min-height: 48px; box-sizing: border-box">
+<div class="services-contact-form" style="width: 100%; max-width: 720px; padding: 0; background: none">
+{{ partial "contact-form" (dict "id" "chroma-migration-form" "hubspotFormOptions" `{"region": "eu1", "portalId": "139603372", "formId": "b2aee6a9-237d-46a1-9309-85ce0a1a2f36", "sfdcCampaignId": "701fI00000M2DkjQAF", "submitButtonClass": "button button_contained", "css": ""}`) }}
 </div>
-<div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 8px">
-<label for="company" style="font-size: 14px; font-weight: 600">Company</label>
-<input id="company" type="text" style="background: #0B0F19; border: 1px solid #4E5366; border-radius: 8px; color: #F0F3FA; font: inherit; padding: 12px 14px; min-height: 48px; box-sizing: border-box">
-</div>
-</div>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<label for="email" style="font-size: 14px; font-weight: 600">Work email</label>
-<input id="email" type="email" placeholder="you@company.com" style="background: #0B0F19; border: 1px solid #4E5366; border-radius: 8px; color: #F0F3FA; font: inherit; padding: 12px 14px; min-height: 48px; box-sizing: border-box">
-</div>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<label for="needs" style="font-size: 14px; font-weight: 600">Tell us about your Chroma setup and what you need</label>
-<textarea id="needs" rows="5" placeholder="Data size, features you use, deployment preferences, timeline" style="background: #0B0F19; border: 1px solid #4E5366; border-radius: 8px; color: #F0F3FA; font: inherit; padding: 12px 14px; min-height: 120px; box-sizing: border-box; resize: vertical"></textarea>
-</div>
-<button type="button" style="background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; padding: 14px 22px; min-height: 48px; cursor: pointer">Book a Call</button>
-</form>
 </div>
 </section>
 
