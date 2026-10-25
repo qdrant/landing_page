@@ -1,0 +1,1 @@
+List the snapshots that exist on this node for a single shard of a collection.

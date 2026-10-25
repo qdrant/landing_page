@@ -1,0 +1,1 @@
+Recover a shard from a snapshot that is available at a URL or stored on the node. The recovery overwrites the data that this node holds for the shard. The priority controls how the recovered shard is reconciled with its other replicas.
