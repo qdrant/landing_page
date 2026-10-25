@@ -51,9 +51,21 @@ client.create_payload_index(
 
 ### Step 3: Ingest Data
 
-```python
-!pip install fastembed
+Install FastEmbed using the command for your environment.
 
+In a Jupyter/IPython notebook cell:
+
+```python
+%pip install fastembed
+```
+
+Or, in your terminal using the Python environment that will run your script:
+
+```bash
+python -m pip install fastembed
+```
+
+```python
 from qdrant_client.models import PointStruct
 from fastembed import TextEmbedding
 
@@ -74,8 +86,10 @@ points = [
 ]
 # upload_points handles batching and retries automatically; preferred for lists of points.
 # upsert is the raw operation, better for single points or small real-time updates.
-client.upload_points(collection_name="articles", points=points)
+client.upload_points(collection_name="articles", points=points, wait=True)
 ```
+
+`wait=True` waits for the upload to be applied before running the query in Step 4.
 
 ### Step 4: Query
 
