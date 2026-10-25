@@ -127,24 +127,32 @@ A centroid is the mean of unit vectors, so it is not unit length itself. That co
 
 ### Reading a Cluster Back
 
-This is what indexing `cluster_id` bought you. One integer on each point turns a night of clustering into a view an analyst can page through:
+This is what indexing `cluster_id` bought you. One integer on each point turns a night of clustering into a view an analyst can page through. Keep following the offset until it is `None` so clusters larger than one page are returned in full:
 
 ```python
 def signals_in_cluster(supplier_id: str, cluster_id: int):
     """Every signal the daily job put in one cluster."""
-    points, _ = client.scroll(
-        collection_name="supplier_signals",
-        scroll_filter=models.Filter(
-            must=[
-                models.FieldCondition(
-                    key="supplier_id", match=models.MatchValue(value=supplier_id),
-                ),
-                models.FieldCondition(
-                    key="cluster_id", match=models.MatchValue(value=cluster_id),
-                ),
-            ]
-        ),
-        limit=50,
+    scroll_filter = models.Filter(
+        must=[
+            models.FieldCondition(
+                key="supplier_id", match=models.MatchValue(value=supplier_id),
+            ),
+            models.FieldCondition(
+                key="cluster_id", match=models.MatchValue(value=cluster_id),
+            ),
+        ]
     )
+
+    points, offset = [], None
+    while True:
+        batch, offset = client.scroll(
+            collection_name="supplier_signals",
+            scroll_filter=scroll_filter,
+            limit=50,
+            offset=offset,
+        )
+        points.extend(batch)
+        if offset is None:
+            break
     return points
 ```
