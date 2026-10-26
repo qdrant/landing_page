@@ -137,6 +137,15 @@
                                 {{ partial "svg" "external-link.svg" }}
                               </a>
                             </li>
+                          {{ else if eq .Params.type "reference" }}
+                            {{ $page := site.GetPage .Params.reference }}
+                            <li
+                              class="docs-menu__links-submenu-item{{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}
+                                active
+                              {{ end }}"
+                            >
+                              <a href="{{ $page.Permalink }}">{{ $page.Title }}</a>
+                            </li>
                           {{ else if not .Params.hideInSidebar }}
                             <li
                               class="docs-menu__links-submenu-item{{ if eq .File.UniqueID $currentNode.File.UniqueID }}
