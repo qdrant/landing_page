@@ -1,11 +1,8 @@
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["fastembed==0.9.0"]
+# dependencies = ["fastembed>=0.9.0"]
 # ///
-"""Refresh the docs catalog: uv run automation/update-fastembed-models.py.
-
-Update the dependency version before refreshing for a new release.
-Reads FastEmbed's model registries without downloading model weights.
+"""Refresh the docs catalog: uv run --upgrade automation/embedding-models/update-fastembed.py.
 """
 
 import json
@@ -44,7 +41,7 @@ def main():
             raise ValueError(f"FastEmbed returned an empty {name} registry")
         groups[name] = sorted(models, key=lambda model: model["model"].casefold())
     catalog = {"version": version("fastembed"), "models": groups}
-    output = Path(__file__).resolve().parents[1] / "qdrant-landing/data/fastembed_models.json"
+    output = Path(__file__).resolve().parents[2] / "qdrant-landing/data/fastembed_models.json"
     output.write_text(json.dumps(catalog, indent=2) + "\n")
     print(f"Updated {output.name}: {sum(map(len, groups.values()))} models, FastEmbed {catalog['version']}")
 
