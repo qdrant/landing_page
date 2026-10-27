@@ -1,0 +1,25 @@
+dataset,datatype,recall
+CLIP 512,float32,97.5
+CLIP 512,turbo16,97.8
+CLIP 512,turbo8,97.2
+CLIP 512,turbo4,90.8
+arXiv 768,float32,98.1
+arXiv 768,turbo16,98.7
+arXiv 768,turbo8,98.0
+arXiv 768,turbo4,89.8
+BGE-M3 1024,float32,99.1
+BGE-M3 1024,turbo16,99.0
+BGE-M3 1024,turbo8,99.1
+BGE-M3 1024,turbo4,94.5
+ada-002 1536,float32,97.1
+ada-002 1536,turbo16,98.9
+ada-002 1536,turbo8,97.6
+ada-002 1536,turbo4,92.6
+Coyo 2048,float32,99.2
+Coyo 2048,turbo16,99.2
+Coyo 2048,turbo8,99.4
+Coyo 2048,turbo4,96.1
+OpenAI 3072,float32,99.0
+OpenAI 3072,turbo16,98.1
+OpenAI 3072,turbo8,98.0
+OpenAI 3072,turbo4,95.7

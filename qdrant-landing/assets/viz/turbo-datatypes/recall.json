@@ -1,0 +1,15 @@
+{
+  "title": "Recall@10 by vector datatype",
+  "kind": "grouped-columns",
+  "subtitle": "six datasets by dimensions, HNSW, higher is better",
+  "group": "dataset",
+  "series": "datatype",
+  "y": "recall",
+  "yLabel": "recall@10 (%)",
+  "yMax": 100,
+  "colors": [2, 1, 0, "muted"],
+  "height": 420,
+  "width": 800,
+  "textScale": 1.0,
+  "legendLayout": "auto"
+}

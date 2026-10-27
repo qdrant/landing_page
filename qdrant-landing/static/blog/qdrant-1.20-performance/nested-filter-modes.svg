@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 484 516" width="484" height="516" font-family="ui-monospace, Menlo, monospace" font-size="14">
+  <rect width="484" height="516" fill="#ffffff"/>
+  <text x="14" y="28" font-weight="700" fill="#303547">Filter: first = Ada, last = Hopper</text>
+  <text x="14" y="58" fill="#303547">Point 1: Ada Lovelace, Grace Hopper</text>
+  <text x="14" y="80" fill="#303547">Point 2: Ada Hopper, Alan Turing</text>
+  <g stroke="#c7cbd6" fill="none"><rect x="1" y="104" width="482" height="122" rx="6"/><rect x="1" y="238" width="482" height="122" rx="6"/><rect x="1" y="372" width="482" height="140" rx="6"/></g>
+  <text x="14" y="130" font-weight="700" fill="#dc244c">Flat filter</text>
+  <text x="14" y="156" fill="#303547">Each condition is checked alone.</text>
+  <text x="14" y="178" fill="#303547">Points 1 and 2 match, and point 1</text>
+  <text x="14" y="200" fill="#303547">is a false match. Payload reads: 0.</text>
+  <text x="14" y="264" font-weight="700" fill="#303547">Nested, regular indexes</text>
+  <text x="14" y="290" fill="#303547">Indexes find points 1 and 2, then</text>
+  <text x="14" y="312" fill="#303547">both payloads are read. Only point 2</text>
+  <text x="14" y="334" fill="#303547">matches. Payload reads: 2.</text>
+  <text x="14" y="398" font-weight="700" fill="#303547">Nested, per-element index</text>
+  <text x="14" y="424" fill="#303547">The index stores one entry per author.</text>
+  <text x="14" y="446" fill="#303547">Only P2.0 is in both lists, so point 2</text>
+  <text x="14" y="468" fill="#303547">matches. Payload reads: 0.</text>
+</svg>

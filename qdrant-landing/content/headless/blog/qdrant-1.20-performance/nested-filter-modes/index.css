@@ -1,0 +1,88 @@
+/* nested filter modes island. Scoped under .qi-nm. Controls, the collection frame
+   and labels come from the shared island design system (islands.scss); this
+   file only styles the point rows, the author boxes, the pipeline chips and the
+   status line.
+   Condition hues are constant across themes. */
+
+.qi-nm {
+  --nm-first: var(--qi-cat-1); /* neon-blue-500 */
+  --nm-last: var(--qi-cat-3); /* cyan-800 */
+
+  display: block;
+}
+
+/* --- Point rows --- */
+.qi-nm__row {
+  transition: opacity 0.3s ease;
+}
+.qi-nm__row.is-miss {
+  opacity: 0.45;
+}
+.qi-nm__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+
+/* --- Authors --- */
+.qi-nm__author-box {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+/* --- Chips: neutral, or colored by the condition they meet --- */
+.qi-nm__chip rect {
+  fill: var(--qi-surface);
+}
+.qi-nm__chip text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qi-nm__chip--first rect {
+  fill: var(--nm-first);
+}
+.qi-nm__chip--last rect {
+  fill: var(--nm-last);
+}
+.qi-nm__chip--first text,
+.qi-nm__chip--last text {
+  fill: #fff;
+  font-weight: 600;
+}
+
+/* --- Pipeline chips: highlighted result, or a skipped step --- */
+.qi-nm__chip.is-hot rect {
+  stroke: var(--qi-hot);
+  stroke-width: 1.5;
+}
+.qi-nm__chip.is-dim {
+  opacity: 0.5;
+}
+.qi-nm__row.is-wrong .qi-nm__box {
+  stroke: var(--qi-cat-4);
+  stroke-width: 1.5;
+}
+.qi-nm__row.is-wrong .qi-nm__verdict {
+  fill: var(--qi-cat-4);
+}
+
+/* --- Status line ---
+   Scoped with the element to outrank `.qdrant-post__content p`, which sets the
+   size, line height and margin of every paragraph in a blog post. */
+.qi-nm p.qi-nm__status {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-style: italic;
+  min-height: calc(3 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-nm__row,
+  .qi-nm__author-box {
+    transition: none;
+  }
+}
