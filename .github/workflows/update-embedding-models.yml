@@ -1,0 +1,43 @@
+name: Update Embedding Models
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "00 17 * * 0"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - catalog: fastembed
+            title: Update FastEmbed models
+            data: qdrant-landing/data/fastembed_models.json
+          - catalog: cloud-inference
+            title: Update Cloud Inference models
+            data: qdrant-landing/data/cloud_inference_models.json
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+
+      # --upgrade resolves the latest FastEmbed release instead of a cached one.
+      - name: Run model catalog update script
+        run: uv run --upgrade automation/embedding-models/update-${{ matrix.catalog }}.py
+
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          commit-message: ${{ matrix.title }}
+          committer: "GitHub Actions <team@qdrant.com>"
+          author: "GitHub Actions <team@qdrant.com>"
+          branch: automation/update-${{ matrix.catalog }}-models
+          add-paths: ${{ matrix.data }}
+          delete-branch: true
+          title: ${{ matrix.title }}
+          body: "Automated weekly update of `${{ matrix.data }}`."
