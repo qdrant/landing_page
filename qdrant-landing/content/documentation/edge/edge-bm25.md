@@ -1,7 +1,7 @@
 ---
 title: "BM25"
 short_description: "Rank points by BM25 relevance with Qdrant Edge, using a full-text index on a payload field."
-description: "Run BM25 keyword search on-device with Qdrant Edge: create a full-text index with scoring, query text fields, tune k and b, and configure language-specific text processing."
+description: "Run BM25 keyword search on-device with Qdrant Edge: create a full-text index with scoring, query text fields, and tune k and b."
 weight: 16
 partition: develop
 ---
