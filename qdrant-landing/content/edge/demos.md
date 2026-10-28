@@ -1,7 +1,7 @@
 ---
 label: DEMOS
-title: See Qdrant Edge Work Before You Build
-description: "Four applications running Qdrant Edge on real footage: robots, wearables, camera networks, and field hardware that syncs to a central cluster. Open one, search it, then read the code."
+title: Same Search On The Device As In Your Cluster
+description: "The filters, hybrid queries and sync you run on a Qdrant server, running on robots, wearables, cameras and field hardware. Four applications on real footage: open one, search it, then read the code."
 demos:
   - id: edge-mission-control
     title: Edge Mission Control
