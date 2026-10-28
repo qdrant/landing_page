@@ -5,7 +5,7 @@ description: "The filters, hybrid queries and sync you run on a Qdrant server, r
 demos:
   - id: edge-mission-control
     title: Edge Mission Control
-    description: If you build robots, their memory can't depend on the Wi-Fi. This one recalls every object it saw, offline.
+    description: If you build robots, their memory can't depend on the Wi-Fi, so Qdrant Edge recalls every object seen, offline.
     image:
       src: /img/edge/demos/mission-control.jpg
       alt: Mission Control live feed with detection boxes over a home interior
@@ -22,7 +22,7 @@ demos:
     runs: Runs in the browser
   - id: smart-glasses
     title: Smart Glasses
-    description: Wearable makers need to search what the camera saw without footage leaving the device. This one does.
+    description: Wearable makers need to search what the camera saw without footage leaving the device.
     image:
       src: /img/edge/demos/smart-glasses.jpg
       alt: Smart Glasses demo searching a first-person store walkthrough on the device
@@ -54,7 +54,7 @@ demos:
     runs: Runs in the browser
   - id: edge-visual-search
     title: Edge Visual Search
-    description: If you run devices in the field, you need answers on site and the record at headquarters. This syncs both.
+    description: If you run devices in the field, you need answers on site and the record at headquarters. Qdrant Edge syncs both.
     image:
       src: /img/edge/demos/edge-visual-search.jpg
       alt: Edge Visual Search indexing an aerial feed and returning matching frames
