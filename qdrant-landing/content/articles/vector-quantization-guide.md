@@ -319,9 +319,9 @@ The [benchmark repository](https://github.com/qdrant-labs/quantization-compariso
 
 ## Where This Stops
 
-Two embedding models and four datasets establish the shape of the trade and a way to measure it, not universal rules. The sign-imbalance threshold comes from eight points; treat it as a test to run, not a constant. A third model is being added to check whether the threshold holds within one model family at a different size.
+Two embedding models and four datasets establish the shape of the trade and a way to measure it, not universal rules. The sign-imbalance threshold comes from eight points, so treat it as a test to run on your own embeddings, not a constant. We did not check whether it holds within one model family at a different size, and no third model at 768 dimensions is part of these results.
 
-Latency here comes from a machine that had nothing else to do, and the throughput run shares its CPUs between client and server. The relative ordering is robust; the absolute milliseconds and queries per second are not a capacity plan. The cold-start table prices the first touch of a cold disk; steady-state search with originals that permanently do not fit is the one measurement still pending.
+Latency here comes from a machine that had nothing else to do, and the throughput run shares its CPUs between client and server. The relative ordering is robust, but the absolute milliseconds and queries per second are not a capacity plan. The cold-start table prices the first touch of a cold disk. We did not measure steady-state search where the originals permanently do not fit in memory, so the cost of rescoring from disk under sustained load is the main open question. If your originals exceed RAM, run `scripts/memory-pressure.sh` from the benchmark repository on your own data before you rely on a rescoring setup.
 
 One build of 57 did not behave: on FiQA with BGE, `turbo4` storage with a 4-bit TurboQuant copy returned recall 0.0 on every query in one of its three builds and 0.90 in the other two. That build is excluded from the datatype figures and reported to the Qdrant engineers as a defect, not a trade-off.
 
