@@ -254,8 +254,6 @@ That is the trade in one table. A pinned copy is loaded with the process, so a q
 
 A first attempt capped the container at 1 GiB, below the 2.1 GB of originals, for the whole experiment. That measured something else: under the cap, the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, and a cap below them is a build problem before it is a search problem. The results are kept as a recorded outcome.
 
-*Pending: the corrected design builds each index under the normal cap and lowers the container cap in place to 1 GiB, or 512 MiB for BGE, only for the measured passes, so that rescoring has to read from disk. Those runs and the third embedding model at 768 dimensions are in progress and will replace this paragraph.*
-
 ## Choosing
 
 Start from three numbers: the RAM you will give Qdrant, the recall@10 you can accept against exact search, and the p95 you can afford. Then evaluate in this order and stop at the first configuration that meets all three.
