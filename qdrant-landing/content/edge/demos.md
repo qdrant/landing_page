@@ -1,10 +1,11 @@
 ---
-title: Demos
-description: "Four applications built on Qdrant Edge for teams that need search on the device: robots, wearables, camera networks, and field hardware that syncs to a central cluster."
+label: DEMOS
+title: See Qdrant Edge Work Before You Build
+description: "Four applications running Qdrant Edge on real footage: robots, wearables, camera networks, and field hardware that syncs to a central cluster. Open one, search it, then read the code."
 demos:
   - id: edge-mission-control
     title: Edge Mission Control
-    description: A home robot remembers every object it sees. Search its memory on the device, with or without a connection.
+    description: If you build robots, their memory can't depend on the Wi-Fi. This one recalls every object it saw, offline.
     image:
       src: /img/edge/demos/mission-control.jpg
       alt: Mission Control live feed with detection boxes over a home interior
@@ -21,7 +22,7 @@ demos:
     runs: Runs in the browser
   - id: smart-glasses
     title: Smart Glasses
-    description: Search what the wearer saw in plain language. Frames are embedded on the device and never leave it.
+    description: Wearable makers need to search what the camera saw without footage leaving the device. This one does.
     image:
       src: /img/edge/demos/smart-glasses.jpg
       alt: Smart Glasses demo searching a first-person store walkthrough on the device
@@ -36,7 +37,7 @@ demos:
     runs: Runs in the browser
   - id: sentinel
     title: Sentinel
-    description: Twelve campus cameras scored against a baseline of normal. Only clips far from it are escalated.
+    description: Security teams can't watch every camera. Sentinel scores twelve feeds against normal and escalates the rest.
     image:
       src: /img/edge/demos/sentinel.jpg
       alt: Sentinel dashboard with twelve campus camera feeds and the alert queue
@@ -53,7 +54,7 @@ demos:
     runs: Runs in the browser
   - id: edge-visual-search
     title: Edge Visual Search
-    description: Frames land in a local shard as they arrive and sync to a Qdrant server in the background.
+    description: If you run devices in the field, you need answers on site and the record at headquarters. This syncs both.
     image:
       src: /img/edge/demos/edge-visual-search.jpg
       alt: Edge Visual Search indexing an aerial feed and returning matching frames

@@ -1,6 +1,7 @@
 {{ with (.Site.GetPage "/edge/demos") }}
   <section class="edge-demos" id="demos">
     <div class="container">
+      <p class="edge-demos__label">{{ .Params.label }}</p>
       <h2 class="edge-demos__title">{{ .Params.title }}</h2>
       <p class="edge-demos__description">{{ .Params.description }}</p>
       <div class="row gy-4 gx-lg-4">

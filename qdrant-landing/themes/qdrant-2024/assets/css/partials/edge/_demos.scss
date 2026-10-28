@@ -4,6 +4,17 @@
   padding-top: $spacer * 2.5;
   padding-bottom: $spacer * 2.5;
   background-color: $neutral-10;
+  border-top: pxToRem(1) solid rgba($neutral-98, 0.1);
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-transform: uppercase;
+  }
 
   &__title {
     margin-bottom: $spacer;
