@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 400" width="520" height="400" font-family="ui-monospace, Menlo, monospace" font-size="12">
+<rect width="520" height="400" fill="#ffffff"/>
+<text x="0" y="16" fill="#656b7f">recall@100 (%), axis starts at 88</text>
+<line x1="56" x2="500" y1="340.0" y2="340.0" stroke="#d3d9eb"/><text x="48" y="344.0" text-anchor="end" fill="#656b7f">88</text>
+<line x1="56" x2="500" y1="285.5" y2="285.5" stroke="#d3d9eb"/><text x="48" y="289.5" text-anchor="end" fill="#656b7f">90</text>
+<line x1="56" x2="500" y1="230.9" y2="230.9" stroke="#d3d9eb"/><text x="48" y="234.9" text-anchor="end" fill="#656b7f">92</text>
+<line x1="56" x2="500" y1="176.4" y2="176.4" stroke="#d3d9eb"/><text x="48" y="180.4" text-anchor="end" fill="#656b7f">94</text>
+<line x1="56" x2="500" y1="121.8" y2="121.8" stroke="#d3d9eb"/><text x="48" y="125.8" text-anchor="end" fill="#656b7f">96</text>
+<line x1="56" x2="500" y1="67.3" y2="67.3" stroke="#d3d9eb"/><text x="48" y="71.3" text-anchor="end" fill="#656b7f">98</text>
+<text x="56.0" y="360" text-anchor="middle" fill="#656b7f">0</text>
+<text x="167.0" y="360" text-anchor="middle" fill="#656b7f">200</text>
+<text x="278.0" y="360" text-anchor="middle" fill="#656b7f">400</text>
+<text x="389.0" y="360" text-anchor="middle" fill="#656b7f">600</text>
+<text x="500.0" y="360" text-anchor="middle" fill="#656b7f">800</text>
+<line x1="56" x2="500" y1="340" y2="340" stroke="#abb1c7" stroke-width="1.5"/>
+<text x="278.0" y="384" text-anchor="middle" font-weight="700" fill="#303547">vector storage (MB)</text>
+<circle cx="380.7" cy="154.5" r="6" fill="#656b7f"/><text x="380.7" y="141.5" text-anchor="middle" font-size="13" font-weight="700" fill="#303547">float32</text>
+<circle cx="218.6" cy="149.1" r="6" fill="#00838f"/><text x="218.6" y="136.1" text-anchor="middle" font-size="13" font-weight="700" fill="#303547">turbo16</text>
+<circle cx="137.6" cy="138.2" r="6" fill="#dc244c"/><text x="137.6" y="125.2" text-anchor="middle" font-size="13" font-weight="700" fill="#303547">turbo8</text>
+<circle cx="97.1" cy="176.4" r="6" fill="#9c27b0"/><text x="97.1" y="163.4" text-anchor="middle" font-size="13" font-weight="700" fill="#303547">turbo4</text>
+<circle cx="462.3" cy="67.3" r="6" fill="#6047ff"/><text x="450.3" y="71.3" text-anchor="end" font-size="13" font-weight="700" fill="#303547">scalar int8</text>
+<circle cx="391.2" cy="307.3" r="6" fill="#ffffff" stroke="#656b7f" stroke-width="2.5"/><text x="403.2" y="311.3" text-anchor="start" font-size="13" font-weight="700" fill="#303547">binary 1-bit</text>
+</svg>

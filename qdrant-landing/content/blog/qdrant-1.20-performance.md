@@ -16,11 +16,45 @@ tags:
   - benchmark
 ---
 
-[Qdrant 1.20](/blog/qdrant-1.20.x/) ships with two main changes that can make your search cheaper and faster: new quantization-native datatypes (`turbo8` and `turbo16`) and advanced metadata indexing for nested fields. In this blog post, we explore how these improvements can impact your search workloads.
+[Qdrant 1.20](/blog/qdrant-1.20.x/) brings two changes that make your search cheaper and faster. The new `turbo8` datatype stores vectors in 75% less space at the same recall as `float32`, and per-element indexes cut the p95 latency of nested filters by 80%. In this blog post, we explore why that matters and how it works.
 
-## Smaller Vectors, Same Recall
+## 75% Less Vector Storage at the Same Recall
 
-A vector's [datatype](/documentation/manage-data/vectors/#datatypes) sets how many bits Qdrant spends on each dimension. Version 1.19 introduced [`turbo4`](/documentation/manage-data/vectors/#turbo4), which is the smallest option but loses recall on some datasets. Version 1.20 adds [`turbo8`](/documentation/manage-data/vectors/#turbo8) and [`turbo16`](/documentation/manage-data/vectors/#turbo16). You upload regular `float32` vectors, and Qdrant rotates them with TurboQuant and stores them on an 8-bit or 16-bit integer grid:
+Vectors take up most of the memory and disk in a collection, so shrinking them also reduces infrastructure costs. `turbo8` stores each dimension in 8 bits and `turbo16` in 16, which cuts vector storage by 75% and 50% compared to `float32`. Average recall@10 stays at 98.0% and 98.1%, against 97.9% for `float32`. The 4-bit `turbo4` datatype from version 1.19 saves even more, but drops to 93.7%.
+
+{{< island
+    path="content/headless/blog/qdrant-1.20-performance/datatype-storage"
+    width="85%" ratio="520 / 400"
+>}}
+![Scatter plot of recall@100 against vector storage in MB. turbo8 stores 147 MB, turbo16 293 MB, and turbo4 74 MB, all at about the recall of float32, which stores 585 MB. Scalar int8 and binary quantization store more than float32, because they keep the originals.](/blog/qdrant-1.20-performance/datatype-storage.svg)
+{{< /island >}}
+
+The figure plots 100,000 vectors with 1,536 dimensions: there, `float32` takes 585 MB, `turbo16` takes 293 MB, and `turbo8` takes 147 MB, all with recall in the same range. Quantization-native datatypes such as `turbo8` and `turbo16` _replace_ the original full-precision vectors, so nothing else is stored. Scalar and binary quantization, which we added for comparison, work differently: they keep the `float32` originals and add a smaller quantized copy next to them, which they often keep warm, in-memory, for faster access. That is why they take 732 MB and 604 MB, more than `float32` alone.
+
+### Latency
+
+Storage is only half of the story. The next figure shows recall against median search latency for the same datatypes. The latency axis is a log scale.
+
+{{< island
+    path="content/headless/blog/qdrant-1.20-performance/datatype-latency"
+    width="85%" ratio="520 / 400"
+>}}
+![Scatter plot of recall@100 against median server latency in ms, on a log scale. float32, turbo16, turbo8, and turbo4 answer in about 1 to 2 ms. Scalar int8 and binary quantization with rescoring take about 100 ms.](/blog/qdrant-1.20-performance/datatype-latency.svg)
+{{< /island >}}
+
+`turbo8` and `turbo16` answer in about 2 ms. This is within about 10% of `float32`. The small gap likely comes from the rotation of the query before scoring, a step that `float32` does not need. The search is a single pass over the compact vectors, and Qdrant reads nothing from disk.
+
+Scalar and binary quantization work in two passes. They search the quantized copy first, then they rescore the best candidates, which means they compare them with the `float32` originals. The second pass raises recall, but it also costs time: in our benchmark the originals are on disk, as in many setups with limited memory, so most rescoring operations are cold reads from disk.
+
+With a limit of 100 results and 2x oversampling (twice as many candidates as results), Qdrant reads 200 original vectors for each query, so latency rises to about 100 ms. Without rescoring, both methods answer in about 1 ms, but, for instance, binary quantization then drops to 71% recall. 
+
+In short, `turbo8` and `turbo16` give the recall of full-precision vectors at a fraction of the size, and they need no rescoring step. `turbo4` is smaller still, but its recall drops: use it when you want the smallest footprint and can accept a small drop in search quality.
+
+> We ran every datatype on 14 embedding datasets with 512 to 3,072 dimensions. HNSW is the index, and exact search gives the ground truth. The figures use the three datasets with 1,536 dimensions, at a limit of 100 results. The code is in the [modern-quantization-bench](https://github.com/qdrant-labs/modern-quantization-bench) repository.
+
+### Using the Datatypes
+
+A vector's [datatype](/documentation/manage-data/vectors/#datatypes) sets how many bits Qdrant spends on each dimension. Version 1.20 adds [`turbo8`](/documentation/manage-data/vectors/#turbo8) and [`turbo16`](/documentation/manage-data/vectors/#turbo16) next to [`turbo4`](/documentation/manage-data/vectors/#turbo4). You set the datatype when you create a collection, upload regular `float32` vectors, and Qdrant rotates them with TurboQuant and stores them on an 8-bit or 16-bit integer grid:
 
 ```http
 PUT /collections/{collection_name}
@@ -33,25 +67,25 @@ PUT /collections/{collection_name}
 }
 ```
 
-We compared the datatypes on 15 embedding datasets, from 512 to 3,072 dimensions, with HNSW and exact search as the ground truth. The code is in the [modern-quantization-bench](https://github.com/qdrant-labs/modern-quantization-bench) repository.
+Use `turbo16` instead to halve the vector storage with no loss in recall, or `turbo8` to cut it by a factor of four.
 
-{{< chart id="turbo-datatypes/recall" caption="Recall@10 for float32, turbo16, turbo8, and turbo4 on six of the 15 datasets, with the number of dimensions in each label." >}}
-
-`turbo16` and `turbo8` track `float32` on every dataset. Averaged over all 15, recall@10 was 97.9% for `float32` and `turbo8`, and 98.1% for `turbo16`. `turbo4` averaged 93.7%, and fell as far as 8.3 percentage points behind on the arXiv text embeddings.
-
-The savings come with no `float32` copy to keep around, because a datatype replaces the original vectors. For about 100,000 vectors with 1,536 dimensions, storage goes from 585 MB with `float32` to 293 MB with `turbo16`, and to 147 MB with `turbo8`. Search stays close to `float32` speed: median server-side latency was about 10% higher with `turbo16` and 6% higher with `turbo8`, which is likely due to the query being rotated before scoring, something `float32` doesn't need.
-
-In short, `turbo16` halves your vector storage and `turbo8` cuts it by four, and both are close to the full-precision vectors baseline in terms of recall and latency. You should reach for `turbo4` when you want the smallest footprint and can tolerate a relatively small drop in search quality.
-
-## Nested Filters Without Payload Reads
+## Nested Filters Up to 4x Faster
 
 Many payloads contain arrays of objects, like the authors of a paper. A [nested filter](/documentation/search/filtering/#nested-object-filter) requires that a single element meets all conditions, such as an author whose first name is Ada and whose last name is Hopper.
 
-Qdrant can answer that filter in three ways, and they differ in both speed and correctness. Select each one in the figure.
+We tested the new per-element indexes on 1 million arXiv papers, with filters on authors, revisions, and categories. For a filter on a revision created in a 90-day window, p95 latency dropped from 265 ms to 56 ms, and throughput went from 40 to 157 queries per second compared to regular nested filters. Filters that combine an author with a revision, or a revision with a category, saw p95 latency drop by 3.6 to 4.5 times.
+
+{{< chart id="nested-filters/modes" caption="p95 latency of flat filters, nested filters on regular indexes, and nested filters on a per-element index, on 1 million papers. Lower is better." caption2="Throughput of the same three modes with 16 concurrent clients. Higher is better." caption3="Recall@10 of the same three modes, scored against exact nested results. Flat filters return wrong points, so their recall is lower." >}}
+
+The per-element index was the fastest correct option on every filter, and the gain is largest when many candidates survive the index lookup. Compared with a flat filter, it is slightly slower, but it returns the right papers: flat filters reached a recall of only 64% to 80%, against 99.5% or higher for the per-element index. The code is in the [nested-filters-bench](https://github.com/qdrant-labs/nested-filters-bench) repository.
+
+### What Changed
+
+Qdrant can answer a filter on an array of objects in three ways, and they differ in both speed and correctness. Select each one in the figure.
 
 {{< island
     path="content/headless/blog/qdrant-1.20-performance/nested-filter-modes"
-    width="80%" ratio="484 / 516"
+    width="80%" ratio="484 / 426"
 >}}
 ![A flat filter returns points 1 and 2, and point 1 is a false match. A nested filter on regular indexes reads two payloads and returns point 2. A nested filter on a per-element index returns point 2 without reading any payload.](/blog/qdrant-1.20-performance/nested-filter-modes.svg)
 {{< /island >}}
@@ -72,14 +106,6 @@ PUT /collections/{collection_name}/index
 ```
 
 Create the same index for each field in the filter, and existing nested filters get faster without any change to the search request.
-
-We tested this on 1 million arXiv papers, with filters on authors, revisions, and categories. The code is in the [nested-filters-bench](https://github.com/qdrant-labs/nested-filters-bench) repository.
-
-{{< chart id="nested-filters/modes" caption="p95 latency of flat filters, nested filters on regular indexes, and nested filters on a per-element index, on 1 million papers. Lower is better." caption2="Throughput of the same three modes with 16 concurrent clients. Higher is better." caption3="Recall@10 of the same three modes, scored against exact nested results. Flat filters return wrong points, so their recall is lower." >}}
-
-The per-element index was the fastest correct option on every filter, and we observed that the gain is largest when many candidates survive the index lookup. For a filter on a revision created in a 90-day window, p95 latency dropped from 265 ms to 56 ms, and throughput went from 40 to 157 queries per second compared to regular nested filters. Filters that combine an author with a revision, or a revision with a category, saw p95 latency drop by 3.6 to 4.5 times.
-
-Compared with a flat filter, the per-element index is slightly slower, but it returns the right papers: flat filters reached a recall of only 64% to 80%, against 99.5% or higher for the per-element index.
 
 ## Try It
 

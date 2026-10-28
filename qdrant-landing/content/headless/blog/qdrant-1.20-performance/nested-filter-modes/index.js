@@ -29,7 +29,7 @@ const POINTS = [
   { id: 2, authors: [{ first: 'Ada', last: 'Hopper' }, { first: 'Alan', last: 'Turing' }] },
 ];
 
-// What each mode shows in the pipeline. `match` lists the points returned.
+// What each mode shows in the pipeline. `match` lists the verdict per point.
 const MODES = [
   {
     id: 'flat',
@@ -37,9 +37,8 @@ const MODES = [
     match: { 1: 'false match', 2: 'match' },
     reads: 0,
     steps: [
-      { label: '1 Look up', items: [{ text: 'first = Ada: P1, P2', cond: 'first' }, { text: 'last = Hopper: P1, P2', cond: 'last' }] },
-      { label: '2 Combine', items: [{ text: 'points in both lists: P1, P2' }] },
-      { label: '3 Read payloads', items: [{ text: 'skipped', dim: true }] },
+      { label: '1 Index lookup', items: [{ text: 'first = Ada: P1, P2', cond: 'first' }, { text: 'last = Hopper: P1, P2', cond: 'last' }] },
+      { label: '2 Payload reads', items: [{ text: 'none', dim: true }] },
     ],
     status:
       'A flat filter checks each condition on its own. Point 1 has an Ada and a Hopper, but they are different authors, so it is a false match. It is fast, and it returns the wrong points.',
@@ -50,12 +49,11 @@ const MODES = [
     match: { 1: 'no match', 2: 'match' },
     reads: 2,
     steps: [
-      { label: '1 Look up', items: [{ text: 'first = Ada: P1, P2', cond: 'first' }, { text: 'last = Hopper: P1, P2', cond: 'last' }] },
-      { label: '2 Combine', items: [{ text: 'candidates: P1, P2' }] },
-      { label: '3 Read payloads', items: [{ text: 'read P1: no author fits' }, { text: 'read P2: author 0 fits', hot: true }] },
+      { label: '1 Index lookup', items: [{ text: 'first = Ada: P1, P2', cond: 'first' }, { text: 'last = Hopper: P1, P2', cond: 'last' }] },
+      { label: '2 Payload reads', items: [{ text: 'read P1 and P2', hot: true }] },
     ],
     status:
-      'The regular indexes only narrow the candidates. Qdrant then reads each candidate payload, usually from disk, to check one author at a time. The result is correct, and the reads grow with the number of candidates.',
+      'The regular indexes only narrow the candidates to P1 and P2. Qdrant then reads their payloads, usually from disk, to check one author at a time. The result is correct, and the reads grow with the number of candidates.',
   },
   {
     id: 'indexed',
@@ -63,16 +61,15 @@ const MODES = [
     match: { 1: 'no match', 2: 'match' },
     reads: 0,
     steps: [
-      { label: '1 Look up', items: [{ text: 'first = Ada: P1.0, P2.0', cond: 'first' }, { text: 'last = Hopper: P1.1, P2.0', cond: 'last' }] },
-      { label: '2 Combine', items: [{ text: 'authors in both lists: P2.0', hot: true }] },
-      { label: '3 Read payloads', items: [{ text: 'skipped', dim: true }] },
+      { label: '1 Index lookup', items: [{ text: 'first = Ada: P1.0, P2.0', cond: 'first' }, { text: 'last = Hopper: P1.1, P2.0', cond: 'last' }] },
+      { label: '2 Payload reads', items: [{ text: 'none', dim: true }] },
     ],
     status:
-      'The per-element index stores each author as its own entry, written point.author. Intersecting the lists already happens per author, so only P2.0 survives and Qdrant reads no payload.',
+      'The per-element index stores each author as its own entry, written point.author. Only P2.0 is in both lists, so the filter is answered from the index and no payload is read.',
   },
 ];
 
-// Geometry (viewBox 480 x 506). Narrow on purpose, so the text renders large.
+// Geometry (viewBox 480 x 426). Narrow on purpose, so the text renders large.
 const VB_W = 480;
 const FILTER = { y: 2, h: 20, labelX: 0, x: 60, gap: 8, widths: [108, 124] };
 const FRAME = { y: 36, pad: 14, head: 34, pitch: 72 };
@@ -192,6 +189,6 @@ export function mount(node) {
 
   buttons.forEach((b) => b.addEventListener('click', () => select(b.dataset.mode)));
 
-  select('flat');
+  select('regular');
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }
