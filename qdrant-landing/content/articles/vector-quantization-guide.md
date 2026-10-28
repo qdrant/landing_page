@@ -21,6 +21,8 @@ keywords:
   - memory
 ---
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
+
 One hundred million 1,536-dimensional embeddings take 614 GB as float32 before you count the HNSW graph, payloads, or a single replica. Quantization is how Qdrant makes that searchable on hardware you can afford. It is also where most sizing mistakes get made, because every method advertises a compression ratio and none of them advertise what the ratio costs on your embeddings.
 
 This guide covers the four methods Qdrant ships, how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). Where a recommendation stops working, the guide says so.
@@ -274,9 +276,7 @@ Whatever you pick, leave the originals as `cold`, pin the quantized copy, and le
 
 ## Measure It on Your Data
 
-Every number above came from embeddings that are not yours. The procedure transfers; the numbers do not. The companion notebook runs the procedure below on SciFact against any Qdrant 1.19 cluster, with no embedding API key:
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
+Every number above came from embeddings that are not yours. The procedure transfers; the numbers do not. The companion notebook linked at the top of this guide runs the procedure below on SciFact against any Qdrant 1.19 cluster, with no embedding API key.
 
 Here is the minimum that catches the mistakes we see most often.
 
