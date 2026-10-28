@@ -1,6 +1,6 @@
 ---
 label: DEMOS
-title: Same Search On The Device As In Your Cluster
+title: Same Qdrant, Device Or Cluster
 description: "The filters, hybrid queries and sync you run on a Qdrant server, running on robots, wearables, cameras and field hardware. Four applications on real footage: open one, search it, then read the code."
 demos:
   - id: edge-mission-control
