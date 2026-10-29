@@ -1,0 +1,5 @@
+config,storage,bytes,ndcg10
+"0.6B, float32",uncompressed,4096,0.838
+"0.6B, 1-bit",TurboQuant,136,0.838
+"4B, float32",uncompressed,10240,0.877
+"4B, 1-bit",TurboQuant,328,0.877
