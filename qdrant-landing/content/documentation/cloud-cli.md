@@ -102,7 +102,7 @@ Run `qcloud <command> --help` for the flags of each command.
 ## Common Tasks
 
 ```sh
-# Scale: more RAM and nodes, plus extra disk (disk cannot be reduced)
+# Scale: more RAM and nodes, plus extra disk
 qcloud cluster scale <CLUSTER_ID> --ram 16Gi --nodes 3 --disk 100Gi
 
 # Upgrade the Qdrant version (a rolling restart)
