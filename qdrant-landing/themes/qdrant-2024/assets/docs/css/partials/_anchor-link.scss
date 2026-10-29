@@ -1,0 +1,36 @@
+// Bottom-of-screen "Copied" confirmation for the heading links added by
+// assets/js/vendor/anchor.js. That script creates and toggles the element.
+// Dark in both themes: a light chip is too bright against the dark theme.
+.anchor-copied-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 1000;
+  transform: translate(-50%, 8px);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: $neutral-98;
+  background: $neutral-30;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.anchor-copied-toast--visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+// Respect reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  .anchor-copied-toast {
+    transition: none;
+    transform: translate(-50%, 0);
+  }
+}

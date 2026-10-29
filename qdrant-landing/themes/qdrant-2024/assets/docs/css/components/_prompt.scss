@@ -1,0 +1,266 @@
+@use '../helpers/functions' as *;
+
+// Both themes are declared here so a palette change is a one-block edit.
+$prompt-border: $neutral-30;
+$prompt-text: $neutral-98;
+$prompt-text-secondary: $neutral-70;
+// The site's interactive red. Used for the disclosure caret and the skill-line
+// links, the only interactive marks in the component.
+$prompt-accent: $primary-50;
+// The dark card fill and the dark code block fill. Swapped from the usual
+// arrangement: the card is the lighter $neutral-20 and the code block recesses
+// to the $neutral-10 page tone.
+$prompt-surface: $neutral-20;
+$prompt-block-surface: $neutral-10;
+// The code text color Chroma uses on this site. The block text is dark in both
+// themes, so one value serves both.
+$prompt-body-text: $neutral-94;
+
+$prompt-border-light: $neutral-80;
+$prompt-text-light: $neutral-10;
+$prompt-text-secondary-light: $neutral-50;
+// The light card fill, and the light code block's own darker fill on top of it.
+$prompt-surface-light: $neutral-98;
+$prompt-block-surface-light: $neutral-20;
+
+.prompt {
+  // Dark: the card is the lighter $neutral-20 and the code block recesses to
+  // $neutral-10. Light overrides this below with its own card and code fills.
+  background: $prompt-surface;
+  border: 1px solid $prompt-border;
+  border-radius: pxToRem(12);
+  margin: pxToRem(24) 0;
+  overflow: hidden;
+  // Grayscale antialiasing for the summary text, so Mona Sans renders light and
+  // crisp rather than the heavier subpixel default on macOS.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(8);
+    padding: pxToRem(12) pxToRem(16);
+    cursor: pointer;
+    font-size: $font-size-md;
+    font-weight: 600;
+    // The title inherits this; the kind marker overrides it with the secondary
+    // tier below.
+    color: $prompt-text;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // Disclosure caret, drawn rather than an icon file. It sets its own color to
+    // the accent red and draws its borders in currentColor, so it stays red
+    // regardless of the summary text color.
+    &::before {
+      content: '';
+      flex: none;
+      width: pxToRem(8);
+      height: pxToRem(8);
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+      color: $prompt-accent;
+    }
+
+    // On hover the kind marker lifts to the prominent color (the `&__kind` hover
+    // rule below) and the title is only underlined, not recolored. Same in both
+    // themes.
+    &:hover {
+      .prompt__summary-label {
+        text-decoration: underline;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: -2px;
+    }
+  }
+
+  &[open] &__summary::before {
+    transform: rotate(45deg);
+  }
+
+  // The category label. It shares the title's type and differs only in color,
+  // dropping to the secondary tier, with the divider rule setting it apart.
+  &__kind {
+    flex: none;
+    color: $prompt-text-secondary;
+    // Separates the marker from the title without a divider glyph.
+    padding-right: pxToRem(12);
+    border-right: 1px solid $prompt-border;
+    transition: color 0.15s ease;
+  }
+
+  // The one part that changes color on hover: the kind marker rises from the
+  // secondary tier to the title's prominent color, while the title only gains an
+  // underline. Light mode overrides the target below, where the prominent text
+  // is dark. Beats the base and light-theme `&__kind` colors on specificity.
+  &__summary:hover &__kind {
+    color: $prompt-text;
+  }
+
+  &__summary-label {
+    // A prompt title can be long; wrap rather than overflow.
+    min-width: 0;
+    transition: color 0.15s ease;
+  }
+
+  // `.documentation-article summary` sets margin-bottom: 1rem for the sidebar
+  // disclosures. Inside this element that margin lands below the summary, and
+  // `overflow: hidden` keeps it inside the box, so a collapsed prompt is 16px
+  // taller than its content and the title sits above center. Written as a
+  // descendant selector because the plain BEM class loses to that rule on
+  // specificity: one class against a class plus an element.
+  & &__summary {
+    margin-bottom: 0;
+  }
+
+  // The skill line is a <p>, and the same rule catches it: the shorthand on
+  // `&__skill` already sets its bottom margin to zero, but
+  // `.documentation-article p` outranks a single class and puts 1rem back,
+  // which then stacks on the body's bottom padding and pushes the line off
+  // centre. Anything in here that the docs article also styles by tag name
+  // needs this descendant form to win.
+  & &__skill {
+    margin-bottom: 0;
+  }
+
+  &__body {
+    // The bottom padding matches the skill line's top margin, so that line
+    // sits centred between the prompt block and the bottom edge of the card.
+    padding: 0 pxToRem(16) pxToRem(16);
+  }
+
+  // The block Chroma emits inside the body. The card is transparent, so this
+  // is the only filled surface; it takes the card's corner radius itself
+  // rather than borrowing it from the card's overflow clip.
+  .highlight {
+    margin: 0;
+    border-radius: pxToRem(12);
+  }
+
+  // A prompt is prose, not code. Its line breaks come from how the author
+  // wrapped the source file, so a fixed-width <pre> clips every line at any
+  // window narrower than the wrap width instead of reflowing. Sideways
+  // scrolling is a fair bargain for code and a bad one for a paragraph.
+  // pre-wrap keeps the deliberate line structure in prompts that have one.
+  // Chroma wraps every line in `.line > .cl`, and syntax-highlight.scss makes
+  // `.line` a flex container. A flex item will not shrink below its min-content
+  // width, so the `overflow-wrap` set on the pre never reaches a long token
+  // inside `.cl` and a docker command or a URL is clipped instead of wrapped.
+  // Letting the item shrink is what makes the wrapping rule take effect;
+  // setting `word-break` on the pre does not, because the constraint is here.
+  .highlight .cl {
+    min-width: 0;
+  }
+
+  // copy-code.js gives its button a $neutral-20 fill, which shows as a grey chip
+  // against the surface behind it. Only the icon is wanted, so the fill goes.
+  .copy-code {
+    background: transparent;
+  }
+
+  // Chroma sets `.line` to font-size 16px with line-height 16px, a ratio of
+  // exactly 1, and supplies the breathing room with a margin between source
+  // lines. That works for code, where a line is short and never wraps. A
+  // prompt is prose: one long source line that pre-wrap breaks into many
+  // visual lines, and every one of those gets the 1.0 ratio with no margin at
+  // all, so the text packs into a slab. A real line height fixes it, and the
+  // margin goes so wrapped lines and source lines share one rhythm. Blank
+  // source lines still separate the steps in a structured prompt.
+  .highlight .line {
+    font-size: pxToRem(16);
+    line-height: 1.625;
+    color: $prompt-body-text;
+
+    &:not(:last-of-type) {
+      margin-bottom: 0;
+    }
+  }
+
+  .highlight > pre {
+    // On the pre, not on .highlight: Chroma puts class="chroma" on this
+    // element and syntax-highlight.scss gives .chroma its own background, so a
+    // color set on the parent is painted over and the change is invisible.
+    // $neutral-10 in dark, so the block recesses below the lighter card; light
+    // gives it a $neutral-20 fill below.
+    background: $prompt-block-surface;
+    // The pre carries the same radius as its .highlight wrapper so the fill's
+    // own corners are rounded, not just clipped by the wrapper.
+    border-radius: pxToRem(12);
+    padding: pxToRem(16);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    // copy-code.js absolutely positions its button at the top right of
+    // .highlight. Wrapped text now reaches the full width, so the first line
+    // would run underneath it.
+    padding-right: pxToRem(56);
+  }
+
+  &__skill {
+    font-size: $font-size-s;
+    color: $prompt-text-secondary;
+    margin: pxToRem(16) 0 0;
+    line-height: 1.5;
+
+    code {
+      font-family: $font-family-code;
+      font-size: pxToRem(12);
+    }
+
+    a {
+      color: $prompt-accent;
+      text-decoration: none;
+      text-underline-offset: pxToRem(2);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & &__skill a code:not([class]) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  [data-theme='light'] & {
+    background: $prompt-surface-light;
+    border-color: $prompt-border-light;
+  }
+}
+
+[data-theme='light'] .prompt__summary {
+  color: $prompt-text-light;
+}
+
+[data-theme='light'] .prompt__summary:hover .prompt__kind {
+  color: $prompt-text-light;
+}
+
+[data-theme='light'] .prompt__skill,
+[data-theme='light'] .prompt__kind {
+  color: $prompt-text-secondary-light;
+}
+
+[data-theme='light'] .prompt__kind {
+  border-right-color: $prompt-border-light;
+}
+
+[data-theme='light'] .prompt .highlight > pre {
+  background: $prompt-block-surface-light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt__summary::before {
+    transition: none;
+  }
+}
