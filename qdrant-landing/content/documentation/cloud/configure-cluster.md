@@ -59,6 +59,7 @@ These operations restart the nodes of a cluster:
 
 - Version upgrades.
 - Vertical scaling of the CPU or memory, up or down.
+- Decreasing the disk size. Each node is replaced by a smaller one and its shards are transferred.
 - Changing the collection defaults and the advanced settings of the cluster: replication factor, write consistency factor, async scorer, optimizer CPU budget, vectors on disk, log level, and audit logging.
 - Enabling Database API keys with granular access control.
 - Enabling or disabling [Cloud Inference](/documentation/cloud/inference/).

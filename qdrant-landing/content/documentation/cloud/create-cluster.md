@@ -76,7 +76,7 @@ Once provisioned, you can access your cluster on ports 443 and 6333 (REST) and 6
 | Number of nodes | Every node has the same size. Use at least 3 for production. |
 | High Availability | Sets up 3 or more nodes with replication, as described in [Creating a Production-Ready Cluster](#creating-a-production-ready-cluster). |
 | Multi AZ (Premium) | Spreads nodes across availability zones. Chosen at creation only. Needs at least 3 nodes, and the node count must be a multiple of 3. Available in regions with at least 3 availability zones, at a higher rate to cover cross-zone traffic. |
-| Additional disk | Add disk when your collection configuration needs more disk per GB of RAM, for example with the `cold` memory tier. You can add disk later, but you can't remove it. |
+| Additional disk | Add disk when your collection configuration needs more disk per GB of RAM, for example with the `cold` memory tier. You can add or remove disk later. |
 | Disk speed tier (AWS) | **Balanced** for disks of 32 GiB or more, **Performance** for disks of 256 GiB or more. Faster tiers help write-heavy workloads and configurations with a low RAM cache ratio. |
 
 ### Choose the Resources
@@ -97,7 +97,7 @@ Then size the nodes:
 
 | Decision | Rule |
 |---|---|
-| RAM per node | Keep usage under 80% of the node's RAM. Above that, the operating system evicts cached pages and latency drops sharply. |
+| RAM per node | Keep usage under 80% of the node's RAM. Above that, the operating system evicts cached pages and latency increases sharply. |
 | Number of nodes | `ceil(total_ram_estimate / (node_ram * 0.8))`, and at least 3 for production. A single node typically tops out around 100 million vectors, fewer for high-dimensional `float32` data. |
 | Shards per collection | At least 2 per node, so you can add nodes without resharding. 12 is a common choice because it divides evenly across 1, 2, 3, 4, 6, and 12 nodes. By default, a collection gets as many shards as the cluster has nodes. |
 | Memory-saving options | [Quantization](/documentation/manage-data/quantization/) reduces vector memory by a factor of 4 to 32. The `cold` [memory tier](/documentation/ops-configuration/memory-tiers/) reads vectors from memory-mapped files on demand instead of pre-loading them into RAM, so plan more disk per GB of RAM. |
