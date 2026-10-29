@@ -68,7 +68,9 @@
   </ul>
 </div>
 {{ if not $showAll }}
-  {{ $paginationJs := resources.Get "/js/pagination.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{/* Used by both the blog (marketing) and articles (documentation), so load the script from the page's own tree. */}}
+  {{ $paginationSrc := cond (partial "is-docs-part.html" page) "docs/js/pagination.js" "js/pagination.js" }}
+  {{ $paginationJs := resources.Get $paginationSrc | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $paginationJs.RelPermalink }}"></script>
 {{ end }}
 {{ end }}
