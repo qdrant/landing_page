@@ -17,15 +17,15 @@ Each Qdrant Cloud cluster exposes the metrics below at its `/sys_metrics` endpoi
 | `app_status_recovery_mode` | gauge | If Qdrant is currently started in recovery mode |
 | `cluster_commit` |  |  |
 | `cluster_enabled` |  | Indicates whether multi-node clustering is enabled |
-| `cluster_peers_total` | counter | Total number of cluster peers |
-| `cluster_pending_operations_total` | counter | Total number of pending operations in the cluster |
+| `cluster_peers_total` | gauge | Total number of cluster peers |
+| `cluster_pending_operations_total` | gauge | Total number of pending operations in the cluster |
 | `cluster_term` |  |  |
 | `cluster_voter` |  |  |
 | `collection_hardware_metric_cpu` |  |  |
 | `collection_hardware_metric_io_read` |  |  |
 | `collection_hardware_metric_io_write` |  |  |
-| `collections_total` | counter | Number of collections |
-| `collections_vector_total` | counter | Total number of vectors in all collections |
+| `collections_total` | gauge | Number of collections |
+| `collections_vector_total` | gauge | Total number of vectors in all collections |
 | `container_cpu_cfs_periods_total` |  |  |
 | `container_cpu_cfs_throttled_periods_total` | counter | Indicating that your CPU demand was higher than what your instance offers |
 | `container_cpu_usage_seconds_total` | counter | Total CPU usage in seconds |
