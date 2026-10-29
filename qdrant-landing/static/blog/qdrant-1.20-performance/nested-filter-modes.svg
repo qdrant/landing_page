@@ -1,19 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 484 426" width="484" height="426" font-family="ui-monospace, Menlo, monospace" font-size="14">
-  <rect width="484" height="426" fill="#ffffff"/>
-  <text x="14" y="24" font-weight="700" fill="#303547">Filter: first = Ada, last = Hopper</text>
-  <text x="14" y="50" fill="#303547">Point 1: Ada Lovelace, Grace Hopper</text>
-  <text x="14" y="72" fill="#303547">Point 2: Ada Hopper, Alan Turing</text>
-  <g stroke="#c7cbd6" fill="none"><rect x="1" y="86" width="482" height="104" rx="6"/><rect x="1" y="198" width="482" height="104" rx="6"/><rect x="1" y="310" width="482" height="112" rx="6"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 372" width="560" height="372" font-family="ui-monospace, Menlo, monospace" font-size="14">
+  <rect width="560" height="372" fill="#ffffff"/>
+  <text x="14" y="24" font-weight="700" fill="#303547">Filter: an author named Ada Hopper</text>
+  <text x="14" y="50" fill="#303547">P1: Ada Lovelace, Grace Hopper</text>
+  <text x="14" y="72" fill="#303547">P2: Ada Hopper, Alan Turing</text>
+  <g stroke="#c7cbd6" fill="none"><rect x="1" y="86" width="558" height="86" rx="6"/><rect x="1" y="180" width="558" height="86" rx="6"/><rect x="1" y="274" width="558" height="94" rx="6"/></g>
   <text x="14" y="110" font-weight="700" fill="#dc244c">Flat filter</text>
-  <text x="14" y="134" fill="#303547">Each condition is checked alone.</text>
-  <text x="14" y="154" fill="#303547">Point 1 is a false match.</text>
-  <text x="14" y="174" fill="#303547">Payload reads: 0.</text>
-  <text x="14" y="222" font-weight="700" fill="#303547">Nested, regular indexes</text>
-  <text x="14" y="246" fill="#303547">Indexes narrow to points 1 and 2.</text>
-  <text x="14" y="266" fill="#303547">Both payloads are read, point 2 matches.</text>
-  <text x="14" y="286" fill="#303547">Payload reads: 2.</text>
-  <text x="14" y="334" font-weight="700" fill="#303547">Nested, per-element index</text>
-  <text x="14" y="358" fill="#303547">One index entry per author.</text>
-  <text x="14" y="378" fill="#303547">Only P2.0 is in both lists, so point 2</text>
-  <text x="14" y="398" fill="#303547">matches. Payload reads: 0.</text>
+  <text x="14" y="134" fill="#303547">The index finds an Ada and a Hopper in P1 and in P2.</text>
+  <text x="14" y="154" fill="#303547">P1 passes by mistake. Payload reads: 0.</text>
+  <text x="14" y="204" font-weight="700" fill="#303547">Nested filter, regular indexes</text>
+  <text x="14" y="228" fill="#303547">The index finds P1 and P2, then Qdrant reads both</text>
+  <text x="14" y="248" fill="#303547">payloads and rejects P1. Payload reads: 2.</text>
+  <text x="14" y="298" font-weight="700" fill="#303547">Nested filter, per-element index</text>
+  <text x="14" y="322" fill="#303547">The index lists authors, and only P2.0 is in both lists.</text>
+  <text x="14" y="342" fill="#303547">Payload storage stays closed. Payload reads: 0.</text>
 </svg>

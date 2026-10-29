@@ -1,0 +1,4 @@
+datatype,bits,storage_mb,recall
+float32,32-bit,585,94.8
+turbo16,16-bit,293,95.0
+turbo8,8-bit,147,95.4

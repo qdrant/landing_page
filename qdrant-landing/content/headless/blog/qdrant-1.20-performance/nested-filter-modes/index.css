@@ -1,40 +1,21 @@
-/* nested filter modes island. Scoped under .qi-nm. Controls, the collection frame
-   and labels come from the shared island design system (islands.scss); this
-   file only styles the point rows, the author boxes, the pipeline chips and the
-   status line.
+/* nested filter modes island. Scoped under .qi-nm. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the chips, the payload cards, the lines and the status line.
    Condition hues are constant across themes. */
 
 .qi-nm {
   --nm-first: var(--qi-cat-1); /* neon-blue-500 */
   --nm-last: var(--qi-cat-3); /* cyan-800 */
+  --nm-bad: var(--qi-cat-4); /* amaranth-500 */
 
   display: block;
 }
 
-/* --- Point rows --- */
-.qi-nm__row {
-  transition: opacity 0.3s ease;
-}
-.qi-nm__row.is-miss {
-  opacity: 0.45;
-}
-.qi-nm__box {
-  fill: var(--qi-line);
-  fill-opacity: 0.35;
-  stroke: var(--qi-border);
-  stroke-width: 1;
-}
-
-/* --- Authors --- */
-.qi-nm__author-box {
-  fill: none;
-  stroke: var(--qi-border);
-  stroke-width: 1;
-  transition: stroke 0.2s ease, stroke-width 0.2s ease;
-}
-/* --- Chips: neutral, or colored by the condition they meet --- */
+/* --- Chips: neutral, or colored by the condition they stand for --- */
 .qi-nm__chip rect {
   fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
 }
 .qi-nm__chip text {
   fill: var(--qi-fg);
@@ -43,30 +24,111 @@
 }
 .qi-nm__chip--first rect {
   fill: var(--nm-first);
+  stroke: none;
 }
 .qi-nm__chip--last rect {
   fill: var(--nm-last);
+  stroke: none;
+}
+.qi-nm__chip--ok rect {
+  fill: var(--qi-fg);
+  stroke: none;
+}
+.qi-nm__chip--ok text {
+  fill: var(--qi-surface);
+  font-weight: 600;
+}
+.qi-nm__chip--bad rect {
+  fill: var(--nm-bad);
+  stroke: none;
 }
 .qi-nm__chip--first text,
-.qi-nm__chip--last text {
+.qi-nm__chip--last text,
+.qi-nm__chip--bad text {
   fill: #fff;
   font-weight: 600;
 }
-
-/* --- Pipeline chips: highlighted result, or a skipped step --- */
 .qi-nm__chip.is-hot rect {
   stroke: var(--qi-hot);
   stroke-width: 1.5;
 }
-.qi-nm__chip.is-dim {
-  opacity: 0.5;
+.qi-nm__chip {
+  transition: opacity 0.4s ease;
 }
-.qi-nm__row.is-wrong .qi-nm__box {
-  stroke: var(--qi-cat-4);
+.qi-nm__chip.is-hidden {
+  opacity: 0;
+}
+.qi-nm__chip.is-pulse rect {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+
+/* --- Payload cards: dim until Qdrant reads them --- */
+.qi-nm__card {
+  opacity: 0.45;
+  transition: opacity 0.4s ease;
+}
+.qi-nm__card.is-active {
+  opacity: 1;
+}
+.qi-nm__card.is-explain {
+  opacity: 1;
+}
+.qi-nm__card.is-explain .qi-nm__card-box {
+  stroke-dasharray: 4 3;
+}
+.qi-nm__card-box {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-nm__card.is-active .qi-nm__card.is-explain {
+  opacity: 1;
+}
+.qi-nm__card.is-explain .qi-nm__card-box {
+  stroke-dasharray: 4 3;
+}
+.qi-nm__card-box {
+  stroke: var(--qi-hot);
   stroke-width: 1.5;
 }
-.qi-nm__row.is-wrong .qi-nm__verdict {
-  fill: var(--qi-cat-4);
+.qi-nm__name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qi-nm__tag {
+  fill: var(--qi-fg);
+}
+.qi-nm__tag.is-bad {
+  fill: var(--nm-bad);
+}
+.qi-nm__dot {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+.qi-nm__dot.is-first {
+  fill: var(--nm-first);
+  stroke: var(--nm-first);
+}
+.qi-nm__dot.is-last {
+  fill: var(--nm-last);
+  stroke: var(--nm-last);
+}
+
+/* --- Lines from the index to payload storage --- */
+.qi-nm__link {
+  fill: none;
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.7s ease;
+}
+.qi-nm__link.is-drawn {
+  stroke-dashoffset: 0;
 }
 
 /* --- Status line ---
@@ -81,8 +143,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .qi-nm__row,
-  .qi-nm__author-box {
+  .qi-nm__chip,
+  .qi-nm__card,
+  .qi-nm__dot,
+  .qi-nm__link {
     transition: none;
   }
 }
