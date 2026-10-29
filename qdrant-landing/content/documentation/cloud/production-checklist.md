@@ -34,7 +34,7 @@ A shard cannot be split across nodes, so a shard count that is not a multiple of
 | Check | Value | Set in |
 |---|---|---|
 | RAM usage | Under 80% of node RAM. An email alert fires above 80% for 5 minutes | Resize the nodes, or reduce memory with [quantization](/documentation/manage-data/quantization/) |
-| Disk usage | Under 80% of node disk. An email alert fires above 80% for 5 minutes | Add disk. Disk can be increased but not reduced |
+| Disk usage | Under 80% of node disk. An email alert fires above 80% for 5 minutes | Add disk. |
 | Headroom | An extra 20% on top of your RAM and disk estimate, for the write-ahead log, snapshots, and optimizer segments | Sizing. See [Choose the Resources](/documentation/cloud/create-cluster/#choose-the-resources) |
 | Migration target | Twice the disk that the source collection uses. With the Migration Tool, also twice the RAM | Sizing the target cluster before a snapshot restore or a migration |
 | Disk speed (AWS) | **Balanced** for 32 GiB or more, **Performance** for 256 GiB or more | Cluster creation |
