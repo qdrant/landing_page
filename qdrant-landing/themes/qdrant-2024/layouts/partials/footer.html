@@ -87,7 +87,10 @@
               {{ end }}
             </div>
           </div>
-          {{ partial "footer-bottom-links.html" (dict "footer" . "wrapperClass" "col-12 col-lg-7 footer__bottom-links") }}
+          {{/* Legal links live in the "Security & Legal" column; bottomLinks still feeds the docs and RAG footers. */}}
+          <div class="col-12 col-lg-7 footer__bottom-links">
+            <a href="#" onClick="OneTrust.ToggleInfoDisplay();return false;">Cookie Consent</a>
+          </div>
         </div>
       </div>
     </div>

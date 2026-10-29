@@ -1,6 +1,7 @@
 {{- /*
   Returns a Markdown table of the Qdrant Cloud Inference models of one type
-  (dense, sparse, or multivector) from data/cloud_inference_models.yaml.
+  (dense, sparse, or multivector) from data/cloud_inference_models.json,
+  which automation/embedding-models/update-cloud-inference.py generates.
 
   The Dimensions column appears when the type's models have a `dimensions`
   field. Every model of a type must have it or none may, so a forgotten value
@@ -12,12 +13,12 @@
 {{- $type := . -}}
 {{- $models := index hugo.Data.cloud_inference_models $type -}}
 {{- if not $models -}}
-  {{- errorf "cloud-inference-models: no %q models in data/cloud_inference_models.yaml" $type -}}
+  {{- errorf "cloud-inference-models: no %q models in data/cloud_inference_models.json" $type -}}
 {{- end -}}
 {{- $withDimensions := where $models "dimensions" "!=" nil -}}
 {{- $hasDimensions := gt (len $withDimensions) 0 -}}
 {{- if and $hasDimensions (ne (len $withDimensions) (len $models)) -}}
-  {{- errorf "cloud-inference-models: every %s model in data/cloud_inference_models.yaml needs `dimensions`, or none may have it" $type -}}
+  {{- errorf "cloud-inference-models: every %s model in data/cloud_inference_models.json needs `dimensions`, or none may have it" $type -}}
 {{- end -}}
 {{- $rows := slice (printf "| Model | Modality |%s Cost |" (cond $hasDimensions " Dimensions |" "")) (printf "|---|---|%s---|" (cond $hasDimensions "---|" "")) -}}
 {{- range $models -}}

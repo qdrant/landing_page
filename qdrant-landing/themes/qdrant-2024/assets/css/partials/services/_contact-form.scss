@@ -88,6 +88,25 @@
       margin-top: 0;
     }
 
+    // The opt-in checkbox carries its own text, so its field label only repeats HubSpot's internal name.
+    .hs_explicit_opt_in > label {
+      display: none;
+    }
+
+    .hs-fieldtype-checkbox .inputs-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    // `form.hs-form > fieldset.form-columns-1 > div.hs-form-field div.input input { width: 100% }` in
+    // _hubspot-form.scss stretches checkboxes; this selector has to outrank it to keep them square.
+    form.hs-form > fieldset > div.hs-fieldtype-checkbox div.input input[type='checkbox'] {
+      flex: none;
+      width: pxToRem(16);
+      height: pxToRem(16);
+    }
+
     &__top-overlay {
       width: pxToRem(210);
       height: pxToRem(210);

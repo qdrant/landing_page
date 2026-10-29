@@ -6,8 +6,9 @@ the documentation.
 
 This file is about editing the repository. It is not the agent-facing entry
 point for the published site, which is
-[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt), generated from
-`themes/qdrant-2024/layouts/index.llms.txt`.
+[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt). Its hand-written opening
+lives in `qdrant-landing/content/headless/llms.md`; the generated rest comes
+from `themes/qdrant-2024/layouts/index.llms.txt`.
 
 ## Build and serve
 
@@ -95,6 +96,7 @@ thing instead.
 ```bash
 automation/prompts/check-prompts.sh       # prompt rules, source only, seconds
 automation/prompts/check-skill-links.sh   # skill links resolve, needs network
+automation/check-content-images.sh        # blog and article front matter images exist
 automation/snippets/generate-md.py        # if you touched snippets, then commit the result
 ```
 

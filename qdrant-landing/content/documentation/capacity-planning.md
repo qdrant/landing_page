@@ -259,8 +259,6 @@ See the [multitenancy](/documentation/manage-data/multitenancy/) documentation f
 
 Clusters supporting vector search require substantial disk space compared to other search systems. If you're running low on disk space, you can use the UI at [cloud.qdrant.io](https://cloud.qdrant.io/) to scale your cluster.
 
-<aside role="status">Note: If you increase disk space via the Qdrant UI, you can't reduce it later.</aside>
-
 When running low on disk space, consider the following benefits of scaling up:
 
 - **Larger Datasets**: Supports larger datasets, which can improve the relevance and quality of search results.

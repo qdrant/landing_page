@@ -7,7 +7,7 @@ weight: 30
 
 # Updating Data
 
-Every write to an Edge Shard goes through a single method, `update`, which takes one `UpdateOperation` describing what to change. The operation is written to the write-ahead log before it is applied to storage, so an update that has returned survives a crash.
+Every write to an Edge Shard goes through a single method, `update`, which takes one `UpdateOperation` describing what to change. The operation is written to the write-ahead log (WAL) before it is applied to storage, so with the WAL enabled, an update that has returned survives a crash. If you [disable the WAL](/documentation/edge/edge-api/configuration/#disable-the-wal), updates are durable only after [`flush`](/documentation/edge/edge-api/shard-lifecycle/#flush-pending-changes) returns.
 
 ## update
 
@@ -57,7 +57,14 @@ The `update` operation also enables you to create and delete payload indexes.
 | `create_field_index` | `field_name`, `schema` | Index a payload field. |
 | `delete_field_index` | `field_name` | Remove a payload field index. |
 
-To rank points with BM25 on a text field, create a full-text index with `scoring` enabled. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/#create-a-full-text-index-with-scoring).
+The `schema` of `create_field_index` takes the index parameters for the field type, for example `KeywordIndexParams` or `TextIndexParams`. Every index parameters type accepts:
+
+| Parameter | Description |
+| --- | --- |
+| `memory` | [Memory tier](/documentation/edge/edge-api/configuration/#memory-tiers) of the index. |
+| `nested` | Index each object of an array as a separate entry. `field_name` must be a path inside the array, for example `offers[].price` with `nested` set to `"offers"`. An `is_empty` condition on the field matches a point when one of the array's elements lacks the field. |
+
+`TextIndexParams` also takes `scoring`, which records document lengths and term frequencies so that a `TextQuery` can rank points over the field with BM25. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/#create-a-full-text-index-with-scoring).
 
 ### Modify the Vector Schema
 

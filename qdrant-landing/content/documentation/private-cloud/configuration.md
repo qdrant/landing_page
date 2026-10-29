@@ -171,6 +171,10 @@ operator:
               # Only supported on Linux, must be enabled in your kernel.
               # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
               asyncScorer: false
+              # Async I/O mode, overrides asyncScorer. Available options: auto, disabled
+              # Supported from Qdrant v1.19.0. Clusters on Qdrant v1.20.0 or later default to auto when not set.
+              # Default is not set
+              #ioUring: auto
           # Qdrant DB log level
           # Available options: DEBUG | INFO | WARN | ERROR
           # Default is "INFO"
@@ -294,6 +298,12 @@ operator:
         # Available options: Online, Offline
         # Default is Online
         volumeExpansionMode: Online
+        # Disk scale-down shrinks storage by replacing a node with a smaller volume.
+        # Requires the cluster manager (enabled by default) and Qdrant v1.19.2 or later.
+        diskScaleDown:
+          # Whether the operator may start a disk scale-down when the desired storage is smaller than an existing database volume.
+          # Default is false.
+          enable: false
       # BackupManagementConfig contains the settings for backup management
       backupManagement:
         # Whether or not the backup features are enabled.

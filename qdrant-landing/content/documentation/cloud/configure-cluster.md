@@ -113,6 +113,16 @@ You can configure the rotation (daily/hourly) and retention of your log files (h
 
 Audit log files will be stored on your cluster's encrypted storage disk. You need to ensure that you have enough storage capacity available. Storage capacity and usage can be viewed in your cluster metrics.
 
+### Audit Log Output on Hybrid Cloud
+
+On Hybrid Cloud clusters running Qdrant v1.20.0 or later, you can choose where audit log entries are written under "Write Audit Logs To": File, Stdout, or both. File is selected by default. Managed Cloud clusters always write to file.
+
+File stores the entries on the cluster storage disk. It is required for log download and the `/audit/logs` API. Rotation and Max Log Files apply to file output only.
+
+Stdout writes one JSON line per event to the standard output of the Qdrant container, so your log collector can pick it up together with the regular container logs. Every audit line carries `"kind": "audit"` to tell it apart from other log entries. With Stdout only, nothing is written to disk, and the `/audit/logs` API returns no entries. See [Audit Log Output](/documentation/security/#audit-log-output) for the details.
+
+You can also set the output through the Qdrant Cloud API (`output` in the audit logging configuration), the `output` attribute of the Terraform provider, and the `--audit-log-output` flag of the Qdrant Cloud CLI.
+
 You can download the audit logs from your cluster through the Qdrant API:
 
 ```sh

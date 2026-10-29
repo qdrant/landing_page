@@ -1,7 +1,7 @@
 ---
 title: User Profile
-short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, and user deletion."
-description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations and user deletion."
+short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, multi-factor authentication, and deactivation."
+description: "Manage your personal Qdrant Cloud user profile — profile details, appearance and color scheme, cookie consent, pending account invitations, multi-factor authentication and user deactivation."
 weight: 212
 partition: deploy
 ---
@@ -15,6 +15,7 @@ Open the **user menu** at the bottom left of the Qdrant Cloud Console to access:
 * **Get Started** — the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
 * **Preferences** — your profile details, color scheme, and cookie consent.
 * **Invitations** — pending invitations to join other accounts.
+* **Security** — secure your login with multi-factor authentication.
 * **Accounts** — the accounts overview. See [Managing Accounts](/documentation/cloud-account-setup/#managing-accounts).
 * **Logout**.
 
@@ -47,6 +48,31 @@ When someone invites you to their account, the invitation appears on your **Invi
 ![Pending invitations](/documentation/cloud/pending-invitations.png)
 
 > **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-rbac/user-management/#inviting-users-to-an-account).
+
+## Security
+
+Use the **Security** page to protect your login with multi-factor authentication (MFA). Like the rest of your profile, MFA is a personal setting. It applies to your user wherever you sign in, across every account you belong to.
+
+MFA is optional. Until you set up a method, your login works the same as before. Once you enable a method, Qdrant Cloud asks you to complete it every time you log in.
+
+Qdrant Cloud currently supports one MFA method: an authenticator app that generates one-time codes. You can use any authenticator app you like.
+
+![User Security Page](/documentation/cloud/user-security-page.png)
+
+### Authenticator App
+
+To set up an authenticator app:
+
+1. Select **Set Up Authenticator App**.
+2. Scan the QR code with your authenticator app.
+3. Enter the code your app generates to confirm the setup.
+
+Qdrant Cloud then shows you a **recovery code**. Use it to log in if you lose access to your authenticator app. The code is shown only once, so store it somewhere safe, such as a password manager.
+
+After setup, the method shows as **Enabled**, and two actions become available:
+
+* **Regenerate Recovery Code**: Invalidates your current recovery code. You're asked to log in again, and Qdrant Cloud then issues a new code.
+* **Disable**: Removes the authenticator app and its recovery code from your user. You're no longer asked for a code when you log in.
 
 ## Delete User
 
