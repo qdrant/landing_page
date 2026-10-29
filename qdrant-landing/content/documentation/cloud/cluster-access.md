@@ -22,7 +22,7 @@ Each cluster has one cluster endpoint, shown on the Cluster Detail page. It has 
 | REST | `https://<endpoint>` | `6333` or `443` |
 | gRPC | `<endpoint>` with TLS enabled | `6334` |
 
-Always use TLS. In the official clients, enable it with the `https` option (`https=True` in .NET, `UseTLS: true` in Go, `true` in the Java `QdrantGrpcClient` builder) or an `https://` URL. Pass the API key with every request. See [Authenticate With a Key](/documentation/cloud/authentication/#authenticate-with-a-key) for samples in every language.
+Always use TLS. In the official clients, enable it with the `https` option (`https: true` in .NET, `UseTLS: true` in Go, `true` in the Java `QdrantGrpcClient` builder) or an `https://` URL. Pass the API key with every request. See [Authenticate With a Key](/documentation/cloud/authentication/#authenticate-with-a-key) for samples in every language.
 
 ![Cluster cluster endpoint](/documentation/cloud/cloud-endpoint.png)
 
