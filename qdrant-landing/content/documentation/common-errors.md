@@ -68,7 +68,7 @@ When API key authentication is enabled, which is always the case on Qdrant Cloud
 |---|---|---|---|
 | 401 | `Must provide an API key or an Authorization bearer token` | The request has neither an `api-key` header nor an `Authorization: Bearer` header. | Send the key with every request. |
 | 401 | `Invalid API key or JWT` | The value is not a key this cluster recognizes, for example a mistyped or truncated key, or a Cloud Management Key. | Copy the key again. On Qdrant Cloud, use a [Database API key](/documentation/cloud/authentication/) from the target cluster. |
-| 403 | A message naming an expired or invalid signature | A granular access key has passed its expiration, or it was created for a different cluster. | Create a new key on the cluster you connect to, and set a replacement date before the key expires. |
+| 403 | A message naming an expired or invalid signature | A granular access key has passed its expiration, or it was created for a different cluster. | Create a new key on the cluster you connect to, and the rotate key before it expires. See [Rotate and Revoke Keys](/documentation/cloud/authentication/#rotate-and-revoke-keys). |
 | 403 | `Access to collection <name> is required` | The key is restricted to collections and does not include this one. | Create a key that includes the collection. |
 | 403 | `Write access to collection <name> is required` | The key has read-only access to the collection, and the request writes to it. | Create a key with read-write access to the collection. |
 | 403 | `Manage access for this operation is required` | The operation, such as creating a collection, needs manage permission. | Use a manage key. See the [Table of Access](/documentation/security/#table-of-access). |
