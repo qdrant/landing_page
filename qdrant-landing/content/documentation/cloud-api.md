@@ -33,7 +33,7 @@ You can find the API definitions and generated client libraries in our Qdrant Cl
 Most of the Qdrant Cloud API requests must be authenticated. Authentication is handled via API keys (so-called Cloud Management Keys), which should be passed in the Authorization header.
 **Cloud Management Keys**: `Authorization: apikey <YOUR_CLOUD_MANAGEMENT_KEY>`
 
-Replace `<YOUR_CLOUD_MANAGEMENT_KEY>` with a key created in the Qdrant Cloud Console.
+Replace `<YOUR_CLOUD_MANAGEMENT_KEY>` with a key created in the Qdrant Cloud Console or programmatically with `qcloud iam key create`.
 
 You can create a Cloud Management Keys in the Cloud Console UI. Go to **Access Management** > **Cloud Management Keys**.
 ![Authentication](/documentation/cloud/authentication.png)
