@@ -9,7 +9,7 @@ aliases:
 ---
 # Qdrant Cloud API: Powerful gRPC and Flexible REST/JSON Interfaces
 
-**Note:** This is not the Qdrant REST or gPRC API of the database itself. For database APIs & SDKs, see our list of [interfaces](/documentation/interfaces/)
+**Note:** This is not the Qdrant REST or gRPC API of the database itself. For database APIs & SDKs, see our list of [interfaces](/documentation/interfaces/)
 
 ## Introduction
 
@@ -33,7 +33,7 @@ You can find the API definitions and generated client libraries in our Qdrant Cl
 Most of the Qdrant Cloud API requests must be authenticated. Authentication is handled via API keys (so-called Cloud Management Keys), which should be passed in the Authorization header.
 **Cloud Management Keys**: `Authorization: apikey <YOUR_CLOUD_MANAGEMENT_KEY>`
 
-Replace <YOUR_MANAGEMENT_KEY> with the actual API key obtained from your Qdrant Cloud dashboard or generated programmatically.
+Replace `<YOUR_CLOUD_MANAGEMENT_KEY>` with a key created in the Qdrant Cloud Console or programmatically with `qcloud iam key create`.
 
 You can create a Cloud Management Keys in the Cloud Console UI. Go to **Access Management** > **Cloud Management Keys**.
 ![Authentication](/documentation/cloud/authentication.png)
@@ -44,9 +44,36 @@ You can create a Cloud Management Keys in the Cloud Console UI. Go to **Access M
     A Cloud Management Key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted, so it can still be used to manage the account even after its creator no longer has access. Revoke any Cloud Management Keys tied to a user before or when removing them from the account.
 </aside>
 
+Each method requires RBAC permissions, such as `read:clusters` to list clusters. A key can only call methods that its permissions allow. See the [permission reference](/documentation/cloud-rbac/permission-reference/).
+
+### First Request
+
+List the clusters in an account:
+
+```sh
+curl "https://api.cloud.qdrant.io/api/cluster/v1/accounts/<ACCOUNT_ID>/clusters" \
+  -H "Authorization: apikey <YOUR_CLOUD_MANAGEMENT_KEY>"
+```
+
+### Services
+
+The API is split into services. These are the ones you use most:
+
+| Service | Manages |
+|---|---|
+| `ClusterService` | Clusters, including restarts, suspending, and Qdrant releases |
+| `DatabaseApiKeyService` (v2) | Database API keys for a cluster. Version 1 is deprecated |
+| `BackupService` | Backups, backup schedules, and restores |
+| `BookingService` | Packages (node sizes), storage tiers, inference models, and price quotes |
+| `PlatformService` | Cloud providers and regions |
+| `AuthService` | Cloud Management Keys |
+| `IAMService` | Roles, users, and permissions |
+| `HybridCloudService` | Hybrid Cloud environments |
+| `MonitoringService` | Cluster metrics, logs, and events |
+
 ### Samples
 
-For samples on how to use the API, with a tool like grpcurl, curl or any of the provided SDKs, please see the [Qdrant Cloud Public API](https://github.com/qdrant/qdrant-cloud-public-api) repository.
+For a complete workflow with `curl`, see [Automate Qdrant Cloud](/documentation/cloud-automation/). For samples with `grpcurl` or the provided SDKs, see the [Qdrant Cloud Public API](https://github.com/qdrant/qdrant-cloud-public-api) repository.
 
 ## Terraform Provider
 
