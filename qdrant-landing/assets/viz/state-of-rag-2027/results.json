@@ -1,0 +1,44 @@
+{
+  "title": "Traditional RAG vs. agentic RAG on 1 million points",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "width": 700,
+  "height": 520,
+  "labelTop": "question_type",
+  "labelBottom": "pipeline",
+  "colors": [
+    1,
+    0,
+    1,
+    0,
+    1,
+    0,
+    1,
+    0
+  ],
+  "panels": [
+    {
+      "title": "Answered correctly",
+      "subtitle": "higher is better; for no answer available, said \"not found\"",
+      "y": "correct_pct",
+      "axis": "correct (%)",
+      "unit": "",
+      "yMax": 100
+    },
+    {
+      "title": "Search and open calls per question",
+      "subtitle": "lower is cheaper",
+      "y": "calls_per_q",
+      "axis": "calls",
+      "unit": "",
+      "yMax": 6.5
+    }
+  ],
+  "tooltip": {
+    "correct_pct": "correct (%)",
+    "correct_runs": "correct runs",
+    "runs": "runs",
+    "calls_per_q": "search and open calls",
+    "median_latency_est_s": "median latency, est."
+  }
+}

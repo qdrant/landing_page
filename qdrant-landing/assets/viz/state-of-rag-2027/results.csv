@@ -1,0 +1,9 @@
+question_type,pipeline,correct_pct,correct_runs,runs,calls_per_q,median_latency_est_s
+Straightforward,Traditional RAG,98.0,147,150,1.00,2.9
+Straightforward,Agentic RAG,96.7,145,150,1.12,2.8
+Worded differently,Traditional RAG,47.3,71,150,1.00,3.0
+Worded differently,Agentic RAG,92.0,138,150,1.69,3.4
+Two documents,Traditional RAG,22.7,34,150,1.00,3.5
+Two documents,Agentic RAG,69.3,104,150,3.15,6.4
+No answer available,Traditional RAG,100.0,150,150,1.00,2.9
+No answer available,Agentic RAG,98.0,147,150,5.93,15.2
