@@ -51,7 +51,7 @@ See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier l
 
 ## Cluster Lifecycle
 
-1. [Create a cluster](/documentation/cloud/create-cluster/).
+1. [Create a cluster](/documentation/cloud/create-cluster/) and verify it against the [production checklist](/documentation/cloud/production-checklist/).
 2. [Create a Database API key](/documentation/cloud/authentication/) and [connect](/documentation/cloud/cluster-access/).
 3. [Configure the cluster](/documentation/cloud/configure-cluster/) for your workload.
 4. [Scale](/documentation/cloud/cluster-scaling/), [monitor](/documentation/cloud/cluster-monitoring/), and [update](/documentation/cloud/cluster-upgrades/) it as it grows.

@@ -49,7 +49,7 @@ For step 1, this formula estimates the RAM needed to keep all `float32` dense ve
 RAM = number of vectors × vector dimensions × 4 bytes × 1.5
 ```
 
-The extra 50% covers metadata, indexes, point versions, and temporary segments created during optimization. Treat the result as a starting estimate, not a container limit. For a full estimate with payloads, indexes, and replication, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/).
+The extra 50% covers metadata, indexes, point versions, and temporary segments created during optimization. Treat the result as a starting estimate, not a container limit. For a full estimate with payloads, indexes, and replication, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/estimate).
 
 Qdrant [recommends pinning the quantized copy with `cold` originals](/documentation/manage-data/quantization/#memory-and-speed-tuning) to shrink the footprint while keeping search fast. The following two sections measure what that pairing costs in disk reads and what rescoring recovers.
 
