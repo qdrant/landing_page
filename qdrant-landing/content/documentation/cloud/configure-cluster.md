@@ -79,7 +79,7 @@ The cloud platform chooses the restart mode automatically. To override the defau
 
 ![Cluster node endpoints](/documentation/cloud/cloud-restart-mode.png)
 
-To avoid downtime, run at least 2 nodes, and set a replication factor of at least 2 on the collections that must stay available. See [Scale Clusters](/documentation/cloud/cluster-scaling/) and [Update Clusters](/documentation/cloud/cluster-upgrades/) for the steps.
+To avoid downtime, run at least 3 nodes, and set a replication factor of at least 2 on the collections that must stay available. See [Scale Clusters](/documentation/cloud/cluster-scaling/) and [Update Clusters](/documentation/cloud/cluster-upgrades/) for the steps.
 
 ## Shard Rebalancing
 
