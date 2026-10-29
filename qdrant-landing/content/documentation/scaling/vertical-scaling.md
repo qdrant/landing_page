@@ -42,8 +42,6 @@ RAM is the resource that most directly affects Qdrant's search performance, sinc
 
 How much RAM a collection needs depends on its vector dimensions and datatype, quantization, the replication factor, and which structures you keep in RAM with [memory tiers](/documentation/ops-configuration/memory-tiers/). To estimate it, follow [Capacity Planning](/documentation/capacity-planning/#calculating-ram-and-disk-size), which sizes each structure separately. To turn the cluster total into RAM per node, see [Node Count](/documentation/capacity-planning/#node-count).
 
-<aside role="status">To get a more detailed sizing estimate, try the <a href="https://sizing.qdrant.tech/">Qdrant Sizing Calculator</a>.</aside>
-
 Monitor actual memory usage before and after resizing. See [Monitor Collection Memory Usage](/documentation/ops-monitoring/memory-usage/).
 
 ## When Vertical Scaling Is No Longer Enough
