@@ -1,0 +1,32 @@
+{
+  "title": "Queries per second at the frozen points, 8 concurrent clients on the same 8-vCPU VM",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "workload",
+  "colors": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "auto",
+  "views": [
+    {
+      "label": "Queries per second",
+      "subtitle": "Held-out queries at each method's selected k=10 point, 3 builds x 5 passes; client and server share the CPUs, so about 7,000 QPS is the machine's ceiling, higher is better",
+      "y": "qps",
+      "yLabel": "queries per second",
+      "yMax": 9000
+    },
+    {
+      "label": "Server p95 under load",
+      "subtitle": "Server-side p95 at concurrency 8 for the same runs, lower is better",
+      "y": "server_p95_ms",
+      "yLabel": "server p95 (ms)",
+      "yMax": 3.0
+    }
+  ]
+}
