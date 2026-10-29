@@ -6,6 +6,7 @@ weight: 70
 date: 2026-09-29T10:00:00+02:00
 draft: false
 aliases:
+  - /documentation/production-operations/managed-cloud-prometheus/
   - /documentation/ops-monitoring/managed-cloud-prometheus
   - /documentation/tutorials-and-examples/managed-cloud-prometheus
 ---

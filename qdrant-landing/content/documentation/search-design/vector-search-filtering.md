@@ -9,6 +9,7 @@ author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
 aliases:
+  - /documentation/search-patterns/vector-search-filtering/
   - /articles/vector-search-filtering/
 ---
 
@@ -57,7 +58,7 @@ There are two traditional ways to combine a filter with vector search, and both 
 
 The diagram ranks five laptops by similarity to the query vector `[0.2, 0.1, 0.9, 0.7]`.
 
-{{< island path="content/documentation/headless/search-patterns/filter-order" ratio="700 / 286" title="Post-filtering takes the top 3 and then applies the price filter, so one of the three slots is lost. Pre-filtering applies the filter first and scores only the matches, so all three results fit the filter." >}}
+{{< island path="content/documentation/headless/search-design/filter-order" ratio="700 / 286" title="Post-filtering takes the top 3 and then applies the price filter, so one of the three slots is lost. Pre-filtering applies the filter first and scores only the matches, so all three results fit the filter." >}}
 ![Post-filtering returns two of three results; pre-filtering returns three](/articles_data/vector-search-filtering/filter-order.svg)
 {{< /island >}}
 
@@ -102,7 +103,7 @@ client.create_payload_index(
 
 For each filtered query, the [query planner](/documentation/search/search/#query-planning) estimates the **filter cardinality**, the number of points that satisfy the filter, from the payload indexes. It plans each segment of the collection separately.
 
-{{< island path="content/documentation/headless/search-patterns/query-planner" ratio="700 / 272" title="The query planner estimates how many points match, then scores them directly or searches the filterable HNSW graph. ACORN is an option for strict filter combinations." >}}
+{{< island path="content/documentation/headless/search-design/query-planner" ratio="700 / 272" title="The query planner estimates how many points match, then scores them directly or searches the filterable HNSW graph. ACORN is an option for strict filter combinations." >}}
 ![The query planner chooses between scoring the matches directly and searching the filterable HNSW graph](/articles_data/vector-search-filtering/query-planner.svg)
 {{< /island >}}
 
@@ -179,7 +180,7 @@ Filters also work outside search: you can [delete](/documentation/manage-data/po
 - [Query planning](/documentation/search/search/#query-planning): how Qdrant picks a search strategy for each segment.
 - [Filtered Vector Search: What ACORN Fixes, and What Fixes ACORN](/articles/filtered-vector-search-acorn/): benchmarks of ACORN and filterable HNSW on real filters.
 - [Filterable HNSW](/articles/filterable-hnsw/): the article behind Qdrant's extra filter edges.
-- [Multitenant search](/documentation/production-operations/multitenant-search/): how to serve many tenants from one collection.
+- [Multitenant search](/documentation/deploy-and-scale/multitenant-search/): how to serve many tenants from one collection.
 
 #### Try Filtering in a Live Cluster
 

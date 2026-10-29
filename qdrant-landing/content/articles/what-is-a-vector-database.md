@@ -152,7 +152,7 @@ For example, if you’re searching for a picture of a dog, the vector helps the 
 
 <img src="/articles_data/what-is-a-vector-database/filtering-example.png" alt="Filtering Example" width="500">
 
-The payload can help you narrow down those results by ignoring vectors that don't match your filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/documentation/search-patterns/vector-search-filtering/)
+The payload can help you narrow down those results by ignoring vectors that don't match your filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/documentation/search-design/vector-search-filtering/)
 
 ### Collections
 
@@ -478,7 +478,7 @@ client.upsert(
 
 Each tenant’s data remains isolated while still benefiting from the shared infrastructure. Optimizing for data privacy, compliance with local regulations, and scalability, without the need to create excessive collections or maintain separate clusters for each tenant.
 
-If you want to learn more about working with a multitenant setup in Qdrant, you can check out our [Multitenancy and Custom Sharding dedicated guide.](https://qdrant.tech/documentation/production-operations/multitenant-search/)
+If you want to learn more about working with a multitenant setup in Qdrant, you can check out our [Multitenancy and Custom Sharding dedicated guide.](https://qdrant.tech/documentation/deploy-and-scale/multitenant-search/)
 
 ## Data Security and Access Control
 

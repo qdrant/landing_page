@@ -16,6 +16,7 @@ keywords:
 date: 2026-07-14T00:00:00.000Z
 draft: false
 aliases:
+  - /documentation/production-operations/bulk-data-import/
   - /articles/bulk-uploads-in-qdrant/
 ---
 
@@ -55,7 +56,7 @@ Memory usage can become one of the first bottlenecks during a large upload. Dens
 
 When your vectors do not all fit in RAM, put them in the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/) when you create the collection. Qdrant then stores incoming vectors on disk from the start, instead of relying on the background optimizer to move them to disk later.
 
-{{< island path="content/documentation/headless/production-operations/bulk-memory" ratio="700 / 196" title="By default, dense vectors are cached in RAM. With the cold tier, incoming vectors are stored on disk from the start, which keeps RAM free for search." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-memory" ratio="700 / 196" title="By default, dense vectors are cached in RAM. With the cold tier, incoming vectors are stored on disk from the start, which keeps RAM free for search." >}}
 ![Dense vectors in the default cached tier compete for RAM; with memory set to cold they are stored on disk from the start.](/articles_data/bulk-uploads-in-qdrant/option1-memory.svg)
 {{< /island >}}
 
@@ -84,7 +85,7 @@ Create payload indexes before uploading points when you already know which field
 
 If those indexes are created after a large dataset has already been uploaded, the links do not exist, and filtered search falls back to slower query-time strategies until the HNSW graph is rebuilt. Rebuilding the graph after the fact is resource-intensive and can take a long time.
 
-{{< island path="content/documentation/headless/production-operations/bulk-payload-index" ratio="700 / 196" title="Create payload indexes before uploading, and filtered search is fast as soon as the upload finishes. Index afterward, and filtering stays slower until the HNSW graph is rebuilt." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-payload-index" ratio="700 / 196" title="Create payload indexes before uploading, and filtered search is fast as soon as the upload finishes. Index afterward, and filtering stays slower until the HNSW graph is rebuilt." >}}
 ![Creating the payload index before uploading makes filtered search fast immediately; indexing after upload needs an HNSW rebuild.](/articles_data/bulk-uploads-in-qdrant/option2-payload-index.svg)
 {{< /island >}}
 
@@ -110,7 +111,7 @@ Storing original vectors on disk can help reduce memory pressure during large up
 
 Quantization can help balance this tradeoff. Qdrant keeps a compressed copy of each vector pinned in RAM for search, while the original vectors stay on disk and are read only to rescore the top results.
 
-{{< island path="content/documentation/headless/production-operations/bulk-quantization" ratio="700 / 196" title="The original vectors stay on disk in the cold tier. A compressed TurboQuant copy is pinned in RAM, so search stays fast with lower memory use." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-quantization" ratio="700 / 196" title="The original vectors stay on disk in the cold tier. A compressed TurboQuant copy is pinned in RAM, so search stays fast with lower memory use." >}}
 ![Original vectors stay on disk while a compressed TurboQuant copy is pinned in RAM.](/articles_data/bulk-uploads-in-qdrant/option3-quantization.svg)
 {{< /island >}}
 
@@ -143,7 +144,7 @@ _Sparse vectors_
 
 For large sparse vector workloads, one option is to store the sparse vector index on disk. The sparse index is pinned in RAM by default, so this can help reduce memory usage when the index becomes large.
 
-{{< island path="content/documentation/headless/production-operations/bulk-sparse-index" ratio="700 / 196" title="The sparse index is pinned in RAM by default, so memory grows with the index. In the cold tier it stays on disk: less RAM, at the cost of some search latency." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-sparse-index" ratio="700 / 196" title="The sparse index is pinned in RAM by default, so memory grows with the index. In the cold tier it stays on disk: less RAM, at the cost of some search latency." >}}
 ![The sparse index pinned in RAM grows memory use; in the cold tier it stays on disk with lower memory use and some added latency.](/articles_data/bulk-uploads-in-qdrant/option4-sparse-ondisk.svg)
 {{< /island >}}
 
@@ -179,7 +180,7 @@ _Dense & sparse vectors_
 
 Each request carries overhead for the network round trip and the write path, so uploading points one at a time is slow. Upload points in batches instead.
 
-{{< island path="content/documentation/headless/production-operations/bulk-batching" ratio="700 / 196" title="One point per request pays the request overhead for every point. A batch of 64 to 256 points pays it once." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-batching" ratio="700 / 196" title="One point per request pays the request overhead for every point. A batch of 64 to 256 points pays it once." >}}
 ![Uploading one point per request creates high overhead, while batches of 64 to 256 points pay that overhead once.](/articles_data/bulk-uploads-in-qdrant/option5-batching.svg)
 {{< /island >}}
 
@@ -201,7 +202,7 @@ _Dense & sparse vectors_
 
 A single upload stream may not keep Qdrant's write path busy. Two to four workers, each sending its own stream of batches, can raise throughput, especially when the collection has multiple shards.
 
-{{< island path="content/documentation/headless/production-operations/bulk-parallel" ratio="700 / 196" title="One worker may leave write capacity unused. Two to four workers keep the write path busy, as long as CPU, memory, and disk can keep up." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-parallel" ratio="700 / 196" title="One worker may leave write capacity unused. Two to four workers keep the write path busy, as long as CPU, memory, and disk can keep up." >}}
 ![A single upload worker may underuse write capacity, while two to four workers keep the write path busy.](/articles_data/bulk-uploads-in-qdrant/option6-parallel.svg)
 {{< /island >}}
 
@@ -226,7 +227,7 @@ _Dense & sparse vectors_
 
 Each shard has its own write-ahead log and update worker, so a collection with multiple shards can process writes in parallel. Sharding matters most when you spread a collection across two or more nodes, or when one shard's write path is the bottleneck.
 
-{{< island path="content/documentation/headless/production-operations/bulk-sharding" ratio="700 / 196" title="One shard gives one write path. Two or more shards give independent write paths that parallel workers can use." >}}
+{{< island path="content/documentation/headless/operate-and-maintain/bulk-sharding" ratio="700 / 196" title="One shard gives one write path. Two or more shards give independent write paths that parallel workers can use." >}}
 ![A single shard has one write path, while multiple shards give independent write paths.](/articles_data/bulk-uploads-in-qdrant/option7-sharding.svg)
 {{< /island >}}
 
