@@ -31,7 +31,7 @@ To create your first cluster, start with [Getting Started](/documentation/cloud-
 | Use it for | Prototypes and tests | Production workloads | Production workloads with enterprise requirements |
 | Cluster | 1 node, 1 GB RAM, 4 GB disk | Dedicated, multi-node, scalable | Dedicated, multi-node, scalable |
 | Uptime SLA | Not included | 99.5% | 99.9%, or 99.95% for multi-AZ |
-| Support | Standard support | Business hours | 24/7 for Severity 1 and 2 issues |
+| Support | Best effort | Business hours | 24/7 for Severity 1 and 2 issues |
 
 See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier limits and [Premium Tier](/documentation/cloud-premium/) for the full comparison. Billing is usage-based on CPU, memory, and disk. See [Billing & Payments](/documentation/cloud-pricing-payments/).
 
