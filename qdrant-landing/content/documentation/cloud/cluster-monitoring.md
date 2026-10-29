@@ -29,7 +29,7 @@ The **Logs** section of the Cluster Details page shows the logs of the database 
 
 ## Alerts
 
-The account owner receives automatic emails when a cluster has a capacity, health, version, key, or load problem. Examples are memory or disk use above 80% for more than 5 minutes, a node that ran out of memory, and a Database API key that is about to expire. The [Cluster Alerts](/documentation/cloud/cluster-alerts/) reference lists every alert with its trigger, meaning, and fix.
+The account owner receives automatic emails when a cluster has a capacity, health, version, key, or load problem. Examples are memory or disk use above 80% for more than 5 minutes, a node that ran out of memory, and a Database API key that is about to expire. The [Cluster Alerts](/documentation/cloud/cluster-alerts/) reference lists every alert with its trigger, meaning, and fix. To read alerts from automation, use `qcloud cluster alert list` in the [Cloud CLI](/documentation/cloud-cli/) or the `ListClusterAlerts` method of the [Cloud API](/documentation/cloud-api/).
 
 ## Qdrant Database Metrics and Telemetry
 
