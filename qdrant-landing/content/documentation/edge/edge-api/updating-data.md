@@ -64,7 +64,7 @@ The `schema` of `create_field_index` takes the index parameters for the field ty
 | `memory` | [Memory tier](/documentation/edge/edge-api/configuration/#memory-tiers) of the index. |
 | `nested` | Index each object of an array as a separate entry. `field_name` must be a path inside the array, for example `offers[].price` with `nested` set to `"offers"`. An `is_empty` condition on the field matches a point when one of the array's elements lacks the field. |
 
-`TextIndexParams` also takes `scoring`, which records document lengths and term frequencies so that a `TextQuery` can rank points over the field with BM25. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/).
+`TextIndexParams` also takes `scoring`, which records document lengths and term frequencies so that a `TextQuery` can rank points over the field with BM25. Refer to [BM25 with Qdrant Edge](/documentation/edge/edge-bm25/#create-a-full-text-index-with-scoring).
 
 ### Modify the Vector Schema
 
