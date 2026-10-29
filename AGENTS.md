@@ -49,6 +49,21 @@ are generated and git-ignored. Never edit them, and never cite a path under
 Project layouts win over theme layouts, which is why `layouts/shortcodes/`
 holds the per-output-format variants while the theme holds the HTML ones.
 
+## Marketing and documentation have separate assets
+
+The site is split into two parts that share no CSS or JS source files, so the
+marketing part can be rewritten without breaking the documentation.
+
+| Part | Sections | Assets | Wiring |
+|---|---|---|---|
+| Documentation | `documentation`, `learn`, `course`, `articles` (everything reached from the docs header) | `themes/qdrant-2024/assets/docs/css/`, `.../assets/docs/js/` | `layouts/partials/documentation/{css,js,js-head}.html` |
+| Marketing | everything else, including the blog | `themes/qdrant-2024/assets/css/`, `.../assets/js/` | `layouts/partials/marketing/{css,js,js-head}.html` |
+
+`layouts/partials/is-docs-part.html` decides which part a page belongs to, and
+`css.html`, `js.html`, and `js-head.html` only dispatch on it. Never import a
+file from the other part's tree. A fix to a file that exists in both trees, such
+as `copy-code.js` or `_bootstrap-tools.scss`, has to be made in both copies.
+
 ## Every page has two outputs
 
 A content page renders as HTML and as Markdown at `<url>/index.md`. The Markdown

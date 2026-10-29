@@ -1,0 +1,52 @@
+// Sass configuration only — no CSS output.
+// Used by section bundles and shared mixins. Bootstrap CSS is compiled once in core.css.
+@use 'sass:math';
+@use 'helpers/functions' as *;
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'theme-variables';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities';
+
+// Drop utility groups whose classes are not used anywhere in layouts,
+// content or JS, so utilities/api (compiled in core.css) doesn't emit them.
+$utilities: map-remove(
+  $utilities,
+  'bg-opacity',
+  'border-end',
+  'border-opacity',
+  'border-start',
+  'focus-ring',
+  'font-family',
+  'font-size',
+  'font-style',
+  'font-weight',
+  'gradient',
+  'line-height',
+  'link-offset',
+  'link-opacity',
+  'link-underline',
+  'link-underline-opacity',
+  'max-height',
+  'max-width',
+  'min-viewport-height',
+  'min-viewport-width',
+  'object-fit',
+  'opacity',
+  'overflow',
+  'overflow-x',
+  'overflow-y',
+  'rounded-bottom',
+  'rounded-end',
+  'rounded-start',
+  'rounded-top',
+  'row-gap',
+  'text-opacity',
+  'translate-middle',
+  'user-select',
+  'viewport-height',
+  'viewport-width',
+  'word-wrap'
+);

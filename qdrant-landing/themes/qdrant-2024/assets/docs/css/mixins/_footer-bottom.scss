@@ -1,0 +1,38 @@
+@use '../bootstrap-tools' as *;
+@use '../helpers/functions' as *;
+
+@mixin base {
+  width: 100%;
+  padding: $spacer * 2.5 0;
+}
+
+@mixin content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacer * 1.5;
+}
+
+@mixin links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: $spacer $spacer * 2.5;
+
+  a {
+    font-size: pxToRem(12);
+    line-height: pxToRem(21);
+    color: $neutral-70;
+  }
+}
+
+@mixin content-lg {
+  flex-direction: row;
+  gap: $spacer * 2.5;
+}
+
+@mixin links-lg {
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}

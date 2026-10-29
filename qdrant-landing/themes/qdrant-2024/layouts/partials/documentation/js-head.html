@@ -1,0 +1,5 @@
+<!--Hubspot forms-->
+<script charset="utf-8" type="text/javascript" src="//js-eu1.hsforms.net/forms/embed/v2.js"></script>
+
+{{ $documentationJs := resources.Get "docs/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $documentationJs.RelPermalink }}"></script>

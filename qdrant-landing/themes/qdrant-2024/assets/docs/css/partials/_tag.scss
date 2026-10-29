@@ -1,0 +1,21 @@
+@use '../helpers/functions' as *;
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: pxToRem(12);
+  width: fit-content;
+  padding: $spacer * 0.5 $spacer;
+  background-color: $secondary-violet-30;
+  border-radius: $spacer * 2.5;
+
+  &_image {
+    height: $spacer;
+    width: $spacer;
+  }
+
+  &_title {
+    color: $secondary-violet-90;
+    margin-bottom: 0;
+  }
+}

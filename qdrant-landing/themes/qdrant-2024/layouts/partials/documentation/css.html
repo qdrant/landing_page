@@ -1,0 +1,38 @@
+{{/* Documentation part stylesheets. Everything comes from assets/docs/css/,
+     never from the marketing tree in assets/css/. */}}
+{{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
+
+<!--Shared foundation for the documentation part (fonts, Bootstrap, base, header/footer)-->
+{{ $coreCss := resources.Get "docs/css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
+
+{{ $pageSearchCss := resources.Get "docs/css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
+
+<!--Charts: CSS half (card, caption, hover affordances). Behavior half (js/viz.js) is in documentation/js.html.-->
+{{ if .HasShortcode "chart" }}
+  {{ $vizCss := resources.Get "docs/css/viz.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $vizCss.RelPermalink }}" rel="stylesheet" integrity="{{ $vizCss.Data.Integrity }}" />
+{{ end }}
+
+<!--Content islands: shell CSS half (wrapper/fallback/spinner). Behavior half (loader) is in documentation/js.html.
+    `.HasShortcode` is parse-derived, so it works here in <head> where .Store/hasIslands is not yet set.-->
+{{ if .HasShortcode "island" }}
+  {{/* Mark JS as available before the body paints, so islands can show a loader
+       (not the fallback image) while they load — avoids a fallback flash. */}}
+  <script>
+    document.documentElement.classList.add('islands-js');
+  </script>
+  {{ $islandsCss := resources.Get "docs/css/islands.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $islandsCss.RelPermalink }}" rel="stylesheet" integrity="{{ $islandsCss.Data.Integrity }}" />
+{{ end }}
+
+<!--Section bundles on top of core.css: articles also need the article listing and post styles-->
+{{ $bundles := slice "documentation" }}
+{{ if eq .Section "articles" }}
+  {{ $bundles = slice "documentation" "articles" }}
+{{ end }}
+{{ range $bundles }}
+  {{ $bundleCss := resources.Get (printf "docs/css/%s.scss" .) | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $bundleCss.RelPermalink }}" rel="stylesheet" integrity="{{ $bundleCss.Data.Integrity }}" />
+{{ end }}

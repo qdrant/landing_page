@@ -1,0 +1,6 @@
+{{/* The site is split into two parts with independent CSS and JS trees:
+     - documentation: the sections reached from the documentation header
+       (Develop, Deploy, Ecosystem, Learn). Assets live in assets/docs/.
+     - marketing: everything else. Assets live in assets/css/ and assets/js/.
+     Neither part imports files from the other's tree. */}}
+{{- return in (slice "documentation" "learn" "course" "articles") .Section -}}
