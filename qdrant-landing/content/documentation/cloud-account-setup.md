@@ -91,6 +91,6 @@ For roles and permissions, see [Cloud RBAC](/documentation/cloud-rbac/).
 
 ## Enterprise Single-Sign-On (SSO)
 
-SSO lets your team sign in to the Cloud Console through your identity provider. It is part of the [Premium Tier](/documentation/cloud-premium/#enterprise-single-sign-on-sso), which lists the supported identity providers and explains how to turn it on. SSO covers Console sign-in only.
+SSO lets your team sign in to the Cloud Console through your identity provider. It covers Console sign-in only and is part of the Premium Tier. See [Enterprise Single Sign-On](/documentation/cloud-premium/#enterprise-single-sign-on-sso) for the supported identity providers and how to turn it on.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=-u31oU5R0FkVrspN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
