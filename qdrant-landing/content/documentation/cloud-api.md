@@ -1,6 +1,6 @@
 ---
 title: Qdrant Cloud API
-short_description: "Automate Qdrant Cloud with the gRPC and REST/JSON management API — provision clusters, backups, auth, and Hybrid Cloud resources."
+short_description: "Automate Qdrant Cloud with the gRPC and REST/JSON management API: provision clusters, backups, auth, and Hybrid Cloud resources."
 description: "Use the Qdrant Cloud API over gRPC or REST/JSON to automate clusters, backups, authentication, and Hybrid Cloud environments programmatically."
 weight: 245
 partition: deploy
