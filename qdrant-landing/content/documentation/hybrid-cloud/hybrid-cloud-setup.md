@@ -18,7 +18,7 @@ Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access t
 | Requirement | Details |
 |---|---|
 | **Kubernetes cluster** | A [standard compliant](https://www.cncf.io/training/certification/software-conformance/) cluster, in any cloud, on premises, or at the edge. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) |
-| **Storage** | CSI block storage with a `StorageClass`. Scaling needs volume expansion, and backups need volume snapshots. NFS and S3 are not supported. Disk speed matters for bulk loads and on-disk search. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) and [Capacity Planning](/documentation/capacity-planning/#storage-focused-configuration) |
+| **Storage** | CSI block storage. Create a `StorageClass` beforehand. Scaling needs volume expansion, and backups need CSI snapshots and restores, with a `VolumeSnapshotClass` that you also create beforehand. NFS and S3 are not supported. Disk speed matters for bulk loads and on-disk search. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) and [Capacity Planning](/documentation/capacity-planning/#storage-focused-configuration) |
 | **Nodes** | x86_64 or ARM64. The smallest Qdrant node needs 2 GiB of RAM, 0.5 vCPU, and 8 GiB of disk. Add capacity for the Hybrid Cloud control plane components. Plan more CPU for heavy ingestion. See [Capacity Planning](/documentation/capacity-planning/#cpu) |
 | **Permissions** | `cluster-admin` access to install the Qdrant Cloud Agent |
 | **Connection** | Outbound port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` |
