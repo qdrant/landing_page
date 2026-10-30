@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 372" width="560" height="372" font-family="ui-monospace, Menlo, monospace" font-size="14">
+  <rect width="560" height="372" fill="#ffffff"/>
+  <text x="14" y="24" font-weight="700" fill="#303547">Filter: an author named Ada Hopper</text>
+  <text x="14" y="50" fill="#303547">P1: Ada Lovelace, Grace Hopper</text>
+  <text x="14" y="72" fill="#303547">P2: Ada Hopper, Alan Turing</text>
+  <g stroke="#c7cbd6" fill="none"><rect x="1" y="86" width="558" height="86" rx="6"/><rect x="1" y="180" width="558" height="86" rx="6"/><rect x="1" y="274" width="558" height="94" rx="6"/></g>
+  <text x="14" y="110" font-weight="700" fill="#dc244c">Flat filter</text>
+  <text x="14" y="134" fill="#303547">The index finds an Ada and a Hopper in P1 and in P2.</text>
+  <text x="14" y="154" fill="#303547">P1 passes by mistake. Payload reads: 0.</text>
+  <text x="14" y="204" font-weight="700" fill="#303547">Nested filter, regular indexes</text>
+  <text x="14" y="228" fill="#303547">The index finds P1 and P2, then Qdrant reads both</text>
+  <text x="14" y="248" fill="#303547">payloads and rejects P1. Payload reads: 2.</text>
+  <text x="14" y="298" font-weight="700" fill="#303547">Nested filter, per-element index</text>
+  <text x="14" y="322" fill="#303547">The index lists authors, and only P2.0 is in both lists.</text>
+  <text x="14" y="342" fill="#303547">Payload storage stays closed. Payload reads: 0.</text>
+</svg>
