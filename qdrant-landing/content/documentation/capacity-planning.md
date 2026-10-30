@@ -231,7 +231,7 @@ Shard count is a tradeoff between scalability headroom and per-node efficiency:
 
 Qdrant can't split a shard across nodes, so a shard count that isn't a multiple of your node count leaves capacity unused. See [Choosing the right number of shards](/documentation/scaling/distributed_deployment/#choosing-the-right-number-of-shards).
 
-### CPU
+## CPU
 
 CPU matters most during ingestion, when a node uploads and indexes at the same time. The [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) tutorial found 8 CPU cores, 64 GB of RAM, and 1 TB of disk to be a minimal configuration for indexing and exploring a dataset of 400 million vectors on a single node, and notes that production setups can need more.
 
