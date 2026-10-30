@@ -20,7 +20,7 @@ Qdrant Cloud comes in three deployment models. They differ in where the data pla
 | **Kubernetes management** | Qdrant | You | You |
 | **Qdrant components in your cluster** | Qdrant | Qdrant manages and updates them | You |
 | **Cluster management** | You, in the Console | You, in the Console | You, in the Kubernetes API |
-| **Access to your data by Qdrant** | Restricted and audited ([Trust Center](https://qdrant.to/trust-center)) | None | None |
+| **Access to your data by Qdrant** | Restricted and audited ([Trust Center](https://qdrant.to/trust-center)) | Telemetry and metadata only (see [Hybrid Cloud Architecture](/documentation/hybrid-cloud/#hybrid-cloud-architecture)) | None |
 | **Telemetry shared with Qdrant** | Yes | Yes | No |
 | **Integrated monitoring and alerting** | Yes | Yes | No |
 | **Air-gapped operation** | No | No | Yes |
@@ -54,7 +54,7 @@ In all three models, you choose when to upgrade a Qdrant cluster, and the Operat
 |---|---|---|---|
 | **Internal networking** | Qdrant. Premium adds [private connections](/documentation/cloud-premium/#private-network-connectivity) | You. The Operator sets the pod network policies | You. The Operator sets the pod network policies |
 | **IP restrictions** | You set the ranges in the Console | You set them on your load balancer or ingress | You |
-| **Firewall and ingress** | Qdrant | You. Allow outbound port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` | You |
+| **Firewall and ingress** | Qdrant | You. Allow outbound port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io`. Also allow `registry.cloud.qdrant.io` for images and Helm charts, unless you [mirror them](/documentation/hybrid-cloud/hybrid-cloud-setup/#mirroring-images-and-charts) | You |
 | **DNS** | Qdrant provisions the endpoint | You | You |
 
 ## Access Control
