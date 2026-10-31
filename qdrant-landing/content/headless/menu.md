@@ -144,11 +144,8 @@ menuItems:
     name: Company
     mainMenuItems:
       - id: mainMenu-4-0
+        name: Work With Us
         subMenuItems:
-          - id: subMenu-4-0
-            name: About us
-            icon: about-us.svg
-            url: /about-us/
           - id: subMenu-4-1
             name: Customers
             icon: customers.svg
@@ -161,12 +158,19 @@ menuItems:
             name: Services
             icon: qdrant-enterprise-solutions.svg
             url: /services/
+      - id: mainMenu-4-1
+        name: Get to Know Us
+        subMenuItems:
+          - id: subMenu-4-0
+            name: About Us
+            icon: about-us.svg
+            url: /about-us/
           - id: subMenu-4-4
             name: Careers
             icon: careers.svg
             url: https://qdrant.to/jobs
           - id: subMenu-4-5
-            name: Contact us
+            name: Contact Us
             icon: contact-us.svg
             url: /contact-us/
   - id: menu-5
