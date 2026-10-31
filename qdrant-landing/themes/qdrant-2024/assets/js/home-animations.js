@@ -1,5 +1,5 @@
 /**
- * Hero parallax for home page.
+ * Home page scripts: the hero parallax and copy buttons.
  * Only runs when on home page (script loaded conditionally).
  * Uses translate3d for Safari GPU acceleration and smooth rendering.
  */
@@ -38,4 +38,29 @@ function initHeroParallax() {
   updateParallax();
 }
 
-document.addEventListener('DOMContentLoaded', initHeroParallax);
+// Copy buttons that put their data-copy-text on the clipboard, such as the
+// agent prompt in the hero.
+function initCopyText() {
+  document.querySelectorAll('.js-copy-text').forEach((button) => {
+    const status = button.parentElement.parentElement.querySelector('[role="status"]');
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyText);
+      } catch (e) {
+        console.error(e);
+        return;
+      }
+      button.classList.add('is-copied');
+      if (status) status.textContent = 'Copied to clipboard';
+      setTimeout(() => {
+        button.classList.remove('is-copied');
+        if (status) status.textContent = '';
+      }, 1500);
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initHeroParallax();
+  initCopyText();
+});
