@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 402" role="img" aria-labelledby="description">
+  <desc id="description">A replica set manages copies of the same shard across nodes. On one node it holds a local shard, with a write-ahead log, segments, and an optimizer, and a remote shard, whose connection pool sends gRPC requests to the local shard on another node. Each segment has an ID mapping, vector storage and a vector index, and payload storage and a payload index.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="401" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="16" y="12" width="160" height="76" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="32" y="36" font-size="14" fill="#303547" font-weight="600">Replica Set</text>
+    <rect x="32" y="50" width="22" height="22" rx="4" fill="#6047ff" fill-opacity="0.85"/>
+    <rect x="62" y="50" width="22" height="22" rx="4" fill="#6047ff" fill-opacity="0.25"/>
+    <rect x="92" y="50" width="22" height="22" rx="4" fill="#6047ff" fill-opacity="0.25"/>
+    <rect x="504" y="12" width="120" height="76" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="520" y="36" font-size="14" fill="#303547" font-weight="600">Replica Set</text>
+    <rect x="520" y="50" width="22" height="22" rx="4" fill="#6047ff" fill-opacity="0.85"/>
+    <rect x="550" y="50" width="22" height="22" rx="4" fill="#6047ff" fill-opacity="0.25"/>
+    <rect x="580" y="50" width="22" height="22" rx="4" fill="#6047ff" fill-opacity="0.25"/>
+    <text x="200" y="40" font-size="13" fill="#656b7f">A replica set manages copies</text>
+    <text x="200" y="60" font-size="13" fill="#656b7f">of the same shard across nodes</text>
+    <rect x="16" y="116" width="296" height="112" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="32" y="140" font-size="14" fill="#303547" font-weight="600">Local Shard</text>
+    <rect x="32" y="152" width="96" height="8" rx="4" fill="#abb1c7"/>
+    <text x="140" y="161" font-size="13" fill="#656b7f">write-ahead log</text>
+    <rect x="32" y="176" width="108" height="38" rx="4" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <rect x="42" y="184" width="24" height="22" rx="3" fill="#6047ff" fill-opacity="0.75"/>
+    <rect x="74" y="184" width="24" height="22" rx="3" fill="#6047ff" fill-opacity="0.75"/>
+    <rect x="106" y="184" width="24" height="22" rx="3" fill="#6047ff" fill-opacity="0.75"/>
+    <path d="M80 160 V176" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="176" y="182" width="112" height="26" rx="13" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="232" y="200" font-size="13" text-anchor="middle" fill="#303547">optimizer</text>
+    <path d="M140 195 H176" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="336" y="116" width="120" height="112" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="396" y="140" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Remote Shard</text>
+    <rect x="352" y="154" width="88" height="18" rx="4" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="396" y="194" font-size="13" text-anchor="middle" fill="#656b7f">connection</text>
+    <text x="396" y="212" font-size="13" text-anchor="middle" fill="#656b7f">pool</text>
+    <rect x="504" y="116" width="120" height="112" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="520" y="140" font-size="14" fill="#303547" font-weight="600">Local Shard</text>
+    <path d="M456 172 H504" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="456" cy="172" r="3.5" fill="#656b7f"/>
+    <circle cx="504" cy="172" r="3.5" fill="#656b7f"/>
+    <text x="480" y="160" font-size="13" text-anchor="middle" fill="#656b7f">gRPC</text>
+    <path d="M40 88 V116" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M80 88 V102 H396 V116" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M564 88 V116" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="40" cy="88" r="3.5" fill="#656b7f"/>
+    <circle cx="40" cy="116" r="3.5" fill="#656b7f"/>
+    <circle cx="80" cy="88" r="3.5" fill="#656b7f"/>
+    <circle cx="396" cy="116" r="3.5" fill="#656b7f"/>
+    <circle cx="564" cy="88" r="3.5" fill="#656b7f"/>
+    <circle cx="564" cy="116" r="3.5" fill="#656b7f"/>
+    <path d="M40 228 V250" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="40" cy="228" r="3.5" fill="#656b7f"/>
+    <circle cx="40" cy="250" r="3.5" fill="#656b7f"/>
+    <rect x="16" y="250" width="296" height="140" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="32" y="274" font-size="14" fill="#303547" font-weight="600">Segment</text>
+    <rect x="32" y="286" width="264" height="24" rx="4" fill="#abb1c7" fill-opacity="0.16"/>
+    <text x="164" y="302.68" font-size="13" text-anchor="middle" fill="#303547">ID mapping</text>
+    <rect x="32" y="322" width="128" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="96" y="338.68" font-size="13" text-anchor="middle" fill="#303547">vector storage</text>
+    <rect x="32" y="356" width="128" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="96" y="372.68" font-size="13" text-anchor="middle" fill="#303547">vector index</text>
+    <path d="M96 310 V322" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M96 346 V356" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="168" y="322" width="128" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="232" y="338.68" font-size="13" text-anchor="middle" fill="#303547">payload storage</text>
+    <rect x="168" y="356" width="128" height="24" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="232" y="372.68" font-size="13" text-anchor="middle" fill="#303547">payload index</text>
+    <path d="M232 310 V322" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M232 346 V356" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+  </g>
+</svg>

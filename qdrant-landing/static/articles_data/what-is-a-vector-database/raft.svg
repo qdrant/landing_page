@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 212" role="img" aria-labelledby="description">
+  <desc id="description">A collection's points are split into three non-overlapping shards, one on each of three nodes. All nodes take part in Raft consensus, which keeps the cluster state in sync: the peers and their URIs, collections, shard-to-peer placement, shard status, and transfer status.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="211" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="16" y="12" width="184" height="80" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="32" y="36" font-size="14" fill="#303547" font-weight="600">Node 1</text>
+    <rect x="32" y="50" width="152" height="28" rx="4" fill="#6047ff" fill-opacity="0.16"/>
+    <text x="108" y="69.04" font-size="14" text-anchor="middle" fill="#303547">Shard 1</text>
+    <path d="M108 92 V116" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="228" y="12" width="184" height="80" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="244" y="36" font-size="14" fill="#303547" font-weight="600">Node 2</text>
+    <rect x="244" y="50" width="152" height="28" rx="4" fill="#00838f" fill-opacity="0.16"/>
+    <text x="320" y="69.04" font-size="14" text-anchor="middle" fill="#303547">Shard 2</text>
+    <path d="M320 92 V116" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="440" y="12" width="184" height="80" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="456" y="36" font-size="14" fill="#303547" font-weight="600">Node 3</text>
+    <rect x="456" y="50" width="152" height="28" rx="4" fill="#9c27b0" fill-opacity="0.16"/>
+    <text x="532" y="69.04" font-size="14" text-anchor="middle" fill="#303547">Shard 3</text>
+    <path d="M532 92 V116" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <rect x="16" y="116" width="608" height="84" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="320" y="142" font-size="14" text-anchor="middle" fill="#303547" font-weight="600">Raft consensus</text>
+    <text x="320" y="166" font-size="13" text-anchor="middle" fill="#656b7f">peers and their URIs · collections · shard-to-peer placement</text>
+    <text x="320" y="186" font-size="13" text-anchor="middle" fill="#656b7f">shard status · transfer status</text>
+  </g>
+</svg>

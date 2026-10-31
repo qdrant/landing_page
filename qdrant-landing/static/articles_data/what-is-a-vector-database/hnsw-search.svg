@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 278" role="img" aria-labelledby="description">
+  <desc id="description">A filtered HNSW search. Hollow nodes fail the payload filter and their links are dashed. The search starts at the entry point and follows links through nodes that pass the filter toward the query, reaching the closest matching node.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="277" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <line x1="600" y1="125.9" x2="547" y2="219.2" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="600" y1="125.9" x2="491.2" y2="66.5" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="600" y1="125.9" x2="485.6" y2="145.7" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="547" y1="219.2" x2="477.2" y2="175.2" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="547" y1="219.2" x2="401.9" y2="192.8" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="547" y1="219.2" x2="328.4" y2="248.2" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="491.2" y1="66.5" x2="314.5" y2="92.5" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="491.2" y1="66.5" x2="416.8" y2="114.9" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="491.2" y1="66.5" x2="485.6" y2="145.7" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="485.6" y1="145.7" x2="477.2" y2="175.2" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="485.6" y1="145.7" x2="416.8" y2="114.9" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="416.8" y1="114.9" x2="355.4" y2="146.6" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="355.4" y1="146.6" x2="314.5" y2="92.5" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="355.4" y1="146.6" x2="264.3" y2="158.9" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="314.5" y1="92.5" x2="341.5" y2="30" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="341.5" y1="30" x2="215.9" y2="48" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="314.5" y1="92.5" x2="215.9" y2="48" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="314.5" y1="92.5" x2="170.3" y2="119.8" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="215.9" y1="48" x2="50.4" y2="65.6" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="50.4" y1="65.6" x2="50.4" y2="139.6" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="300.5" y1="187.5" x2="241.9" y2="210" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="401.9" y1="192.8" x2="328.4" y2="248.2" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="170.3" y1="119.8" x2="175" y2="169" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="175" y1="169" x2="300.5" y2="187.5" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="175" y1="169" x2="241.9" y2="210" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="175" y1="169" x2="50.4" y2="139.6" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="416.8" y1="114.9" x2="314.5" y2="92.5" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="477.2" y1="175.2" x2="423.3" y2="152.3" stroke="#656b7f" stroke-width="1.5"/>
+    <line x1="423.3" y1="152.3" x2="401.9" y2="192.8" stroke="#656b7f" stroke-width="1.5"/>
+    <path d="M50.4 139.6 L161.4 121.3" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <path d="M170.3 119.8 L256.0 155.4" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <path d="M264.3 158.9 L293.4 181.9" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <path d="M300.5 187.5 L392.9 192.3" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <path d="M401.9 192.8 L468.4 177.2" fill="none" stroke="#dc244c" stroke-width="2.5" marker-end="url(#arrow-accent)"/>
+    <circle cx="600" cy="125.9" r="5" fill="#656b7f"/>
+    <circle cx="547" cy="219.2" r="5" fill="#656b7f"/>
+    <circle cx="491.2" cy="66.5" r="5" fill="#656b7f"/>
+    <circle cx="485.6" cy="145.7" r="5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="477.2" cy="175.2" r="5" fill="#00838f"/>
+    <circle cx="477.2" cy="175.2" r="9" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <circle cx="416.8" cy="114.9" r="5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="401.9" cy="192.8" r="5" fill="#656b7f"/>
+    <circle cx="355.4" cy="146.6" r="5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="328.4" cy="248.2" r="5" fill="#656b7f"/>
+    <circle cx="341.5" cy="30" r="5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="314.5" cy="92.5" r="5" fill="#656b7f"/>
+    <circle cx="300.5" cy="187.5" r="5" fill="#656b7f"/>
+    <circle cx="264.3" cy="158.9" r="5" fill="#656b7f"/>
+    <circle cx="241.9" cy="210" r="5" fill="#656b7f"/>
+    <circle cx="215.9" cy="48" r="5" fill="#656b7f"/>
+    <circle cx="170.3" cy="119.8" r="5" fill="#656b7f"/>
+    <circle cx="175" cy="169" r="5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <circle cx="50.4" cy="65.6" r="5" fill="#656b7f"/>
+    <circle cx="50.4" cy="139.6" r="5" fill="#656b7f"/>
+    <circle cx="423.3" cy="152.3" r="8" fill="#f0f3fa" stroke="#dc244c" stroke-width="2"/>
+    <circle cx="423.3" cy="152.3" r="3" fill="#dc244c"/>
+    <text x="423.3" y="136.3" font-size="13" text-anchor="middle" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+    <circle cx="50.4" cy="139.6" r="10" fill="none" stroke="#dc244c" stroke-width="2"/>
+    <text x="50.4" y="165.6" font-size="13" text-anchor="middle" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">entry point</text>
+    <text x="341.5" y="16" font-size="13" text-anchor="middle" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">filtered out</text>
+    <text x="491.2" y="179.2" font-size="13" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">result</text>
+  </g>
+</svg>
