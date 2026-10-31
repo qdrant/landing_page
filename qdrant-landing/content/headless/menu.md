@@ -110,10 +110,6 @@ menuItems:
             name: Migrate to Qdrant
             icon: migrate.svg
             url: /documentation/migration-guidance/
-          - id: subMenu-2-3
-            name: Interactive Demos
-            icon: demos.svg
-            url: /demo/
       - id: mainMenu-2-1
         name: Grow
         subMenuItems:
