@@ -93,49 +93,58 @@ menuItems:
     name: Resources
     mainMenuItems:
       - id: mainMenu-2-0
+        name: Build
         subMenuItems:
           - id: subMenu-2-0
             name: Documentation
             icon: documentation.svg
             url: /documentation/
           - id: subMenu-2-1
-            name: Community
-            icon: community.svg
-            url: /community/
-          - id: subMenu-2-2
-            name: GitHub
-            icon: github.svg
-            url: https://github.com/qdrant/qdrant
-          - id: subMenu-2-3
-            name: Roadmap
-            icon: roadmap.svg
-            url: https://qdrant.to/roadmap
-          - id: subMenu-2-4
-            name: Change Log
-            icon: changelog.svg
-            url: https://github.com/qdrant/qdrant/releases
-      - id: mainMenu-2-1
-        subMenuItems:
-          - id: subMenu-2-5
-            name: Blog
-            icon: blog.svg
-            url: /blog/
-          - id: subMenu-2-6
             name: Technical Articles
             icon: articles.svg
             url: /articles/
-          - id: subMenu-2-7
+          - id: subMenu-2-2
+            name: Migrate to Qdrant
+            icon: migrate.svg
+            url: /documentation/migration-guidance/
+          - id: subMenu-2-3
+            name: Interactive Demos
+            icon: demos.svg
+            url: /demo/
+      - id: mainMenu-2-1
+        name: Community
+        subMenuItems:
+          - id: subMenu-2-4
+            name: Community
+            icon: community.svg
+            url: /community/
+          - id: subMenu-2-5
             name: Events
             icon: partners.svg
             url: /events/
+          - id: subMenu-2-6
+            name: GitHub
+            icon: github.svg
+            url: https://github.com/qdrant/qdrant
+          - id: subMenu-2-7
+            name: Startup Program
+            icon: qdrant-for-startups.svg
+            url: /qdrant-for-startups/
+      - id: mainMenu-2-2
+        name: What's New
+        subMenuItems:
           - id: subMenu-2-8
-            name: Demos
-            icon: demos.svg
-            url: /demo/
+            name: Blog
+            icon: blog.svg
+            url: /blog/
           - id: subMenu-2-9
-            name: Migrate to Qdrant
-            icon: resilience.svg
-            url: /documentation/migration-guidance/
+            name: Change Log
+            icon: changelog.svg
+            url: https://github.com/qdrant/qdrant/releases
+          - id: subMenu-2-10
+            name: Roadmap
+            icon: roadmap.svg
+            url: https://qdrant.to/roadmap
   - id: menu-4
     name: Company
     mainMenuItems:
