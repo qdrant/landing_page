@@ -1,0 +1,21 @@
+name: Notify Slack on manual PR labels
+
+on:
+  # Fires only for labels added by people. Labels added by the labeler
+  # workflow are announced from labeler.yml instead.
+  pull_request_target:
+    types: [labeled]
+
+permissions: {}
+
+jobs:
+  notify:
+    if: github.event.label.name == 'documentation' || github.event.label.name == 'automation'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: ${{ toJSON(format(':label: *{0}* label added: <{1}|#{2} {3}> by {4}', github.event.label.name, github.event.pull_request.html_url, github.event.pull_request.number, github.event.pull_request.title, github.event.pull_request.user.login)) }}
