@@ -112,7 +112,7 @@ menuItems:
             icon: demos.svg
             url: /demo/
       - id: mainMenu-2-1
-        name: Community
+        name: Grow
         subMenuItems:
           - id: subMenu-2-4
             name: Community
@@ -122,14 +122,14 @@ menuItems:
             name: Events
             icon: partners.svg
             url: /events/
-          - id: subMenu-2-6
-            name: GitHub
-            icon: github.svg
-            url: https://github.com/qdrant/qdrant
           - id: subMenu-2-7
             name: Startup Program
             icon: qdrant-for-startups.svg
             url: /qdrant-for-startups/
+          - id: subMenu-2-11
+            name: Learn
+            icon: certificate.svg
+            url: /learn/
       - id: mainMenu-2-2
         name: What's New
         subMenuItems:
@@ -145,6 +145,10 @@ menuItems:
             name: Roadmap
             icon: roadmap.svg
             url: https://qdrant.to/roadmap
+          - id: subMenu-2-6
+            name: GitHub
+            icon: github.svg
+            url: https://github.com/qdrant/qdrant
   - id: menu-4
     name: Company
     mainMenuItems:
