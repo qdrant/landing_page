@@ -1,0 +1,1 @@
+Download a stored shard snapshot by name as a file, using the REST API.

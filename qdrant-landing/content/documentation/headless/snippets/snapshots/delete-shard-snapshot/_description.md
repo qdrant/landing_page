@@ -1,0 +1,1 @@
+Delete a stored shard snapshot by name from the node that receives the request.

@@ -1,0 +1,1 @@
+Recover a shard from a snapshot file that you upload with the request. The recovery overwrites the data that this node holds for the shard.
