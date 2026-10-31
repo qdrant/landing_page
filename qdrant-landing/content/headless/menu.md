@@ -2,6 +2,9 @@
 logIn:
   text: Log in
   url: https://cloud.qdrant.io/login
+githubStar:
+  text: Star us on GitHub
+  url: https://github.com/qdrant/qdrant
 startFree:
   text: Start Free
   url: https://cloud.qdrant.io/signup
@@ -100,9 +103,9 @@ menuItems:
             icon: documentation.svg
             url: /documentation/
           - id: subMenu-2-1
-            name: Technical Articles
-            icon: articles.svg
-            url: /articles/
+            name: Guidance
+            icon: certificate.svg
+            url: /learn/
           - id: subMenu-2-2
             name: Migrate to Qdrant
             icon: migrate.svg
@@ -126,10 +129,6 @@ menuItems:
             name: Startup Program
             icon: qdrant-for-startups.svg
             url: /qdrant-for-startups/
-          - id: subMenu-2-11
-            name: Learn
-            icon: certificate.svg
-            url: /learn/
       - id: mainMenu-2-2
         name: What's New
         subMenuItems:
@@ -145,10 +144,6 @@ menuItems:
             name: Roadmap
             icon: roadmap.svg
             url: https://qdrant.to/roadmap
-          - id: subMenu-2-6
-            name: GitHub
-            icon: github.svg
-            url: https://github.com/qdrant/qdrant
   - id: menu-4
     name: Company
     mainMenuItems:

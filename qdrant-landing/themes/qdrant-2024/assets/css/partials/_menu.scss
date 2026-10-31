@@ -167,6 +167,16 @@
     flex-wrap: nowrap;
     flex-shrink: 0;
     gap: $spacer;
+    white-space: nowrap;
+  }
+
+  // Below this width the GitHub badge shows only its icon, so the buttons fit beside the links.
+  &__star-text {
+    display: none;
+
+    @media (min-width: 1440px) {
+      display: inline;
+    }
   }
 }
 
