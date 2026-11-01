@@ -49,6 +49,18 @@
       {{ end }}
     </ul>
     <div class="menu-mobile__controls">
+      {{ with .Params.githubStar }}
+        <a
+          data-metric-loc="mobile_nav"
+          href="{{ .url }}"
+          class="menu-mobile__star"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ partial "svg" (dict "icon" "github" "fill" "currentColor") }}
+          <span>{{ .text }}</span>
+        </a>
+      {{ end }}
       <a
         data-metric-loc="mobile_nav"
         href="{{ .Params.logIn.url }}"
