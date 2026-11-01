@@ -17,7 +17,7 @@
 {{- $everything := "" -}}
 {{ $brief }}
 
-**How to navigate.** Each section lists the main pages of one part of the site, each with a one-line summary. When the page you need is not listed, open that part's full index, the last link in each section: it lists every page in the part, nested in sidebar order. The link says what to open it for. To load every page at once instead, fetch {{ absURL "llms-full.txt" }}: this brief followed by every part's full index in one file. For step-by-step guidance on a task instead of a page, search the skills at https://skills.qdrant.tech/search?query=your+query+here.
+**How to navigate.** Each section lists the main pages of one part of the site, each with a one-line summary. When the page you need is not listed, open that part's full index, the last link in each section: it lists every page in the part, nested in sidebar order. The link says what to open it for. To load every page at once instead, fetch {{ absURL "llms-full.txt" }}: this brief followed by every part's full index in one file. For step-by-step guidance on a task instead of a page, search the skills at https://skills.qdrant.tech/search?query=your+query+here. To install them, the Agent Skills Discovery index is at {{ absURL ".well-known/agent-skills/index.json" }}.
 {{ $docs := site.GetPage "/documentation" -}}
 {{- range slice
   (dict "name" "Develop" "key" "develop" "landing" "/documentation" "hint" "a specific data, indexing, or search feature, the Inference API, Qdrant Edge, FastEmbed, or a tutorial")
