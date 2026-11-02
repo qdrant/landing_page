@@ -1,4 +1,4 @@
-import 'qdrant-page-search/dist/js/search.min.js';
+// Uses window.initQdrantSearch from common/js/page-search.js, loaded first.
 
 (function () {
   // Try to read metadata tag for partition

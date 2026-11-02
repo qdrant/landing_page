@@ -6,6 +6,9 @@
 {{ $coreCss := resources.Get "docs/css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
 
+<!--Third-party page search styles, shared with the marketing part (assets/common/)-->
+{{ $vendorSearchCss := resources.Get "common/css/page-search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $vendorSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $vendorSearchCss.Data.Integrity }}" />
 {{ $pageSearchCss := resources.Get "docs/css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 

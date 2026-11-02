@@ -10,7 +10,8 @@ This tree is self-contained on purpose. The marketing part (`assets/css/`,
 it. Rules:
 
 - Import only from this directory or from `node_modules`. Never reach into
-  `assets/css/` or `assets/js/`.
+  `assets/css/` or `assets/js/`. Third-party libraries shared with marketing
+  live in `assets/common/` and are loaded by the templates, not imported.
 - Many files started as copies of marketing files. A fix to one of them, such as
   `js/copy-code.js` or `css/_bootstrap-tools.scss`, has to be made in both trees
   until the marketing rewrite replaces its copy.

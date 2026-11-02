@@ -65,6 +65,10 @@ marketing part can be rewritten without breaking the documentation.
 file from the other part's tree. A fix to a file that exists in both trees, such
 as `copy-code.js` or `_bootstrap-tools.scss`, has to be made in both copies.
 
+Third-party libraries both parts use (page search, anchor-js, Bootstrap Popover)
+live once in `themes/qdrant-2024/assets/common/` and expose a global that each
+part's own wrapper reads. Only third-party code goes there; see its README.
+
 ## Every page has two outputs
 
 A content page renders as HTML and as Markdown at `<url>/index.md`. The Markdown

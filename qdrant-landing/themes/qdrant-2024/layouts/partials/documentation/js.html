@@ -66,11 +66,18 @@
   <script src="{{ $islandsLoaderJs.RelPermalink }}"></script>
 {{ end }}
 
+{{/* Third-party libraries are shared with the marketing part (assets/common/) and
+     load before the docs scripts that use them. */}}
+{{ $vendorSearchJs := resources.Get "common/js/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $vendorSearchJs.RelPermalink }}" type="module"></script>
+{{ $popoverJs := resources.Get "common/js/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $popoverJs.RelPermalink }}"></script>
+
 {{ $pageSearchJs := resources.Get "docs/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 
 {{ if .IsPage }}
-  {{ $pageSearchScrollJs := resources.Get "docs/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pageSearchScrollJs := resources.Get "common/js/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
@@ -136,6 +143,8 @@
   });
 </script>
 
+{{ $anchorVendorJs := resources.Get "common/js/anchor-js.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $anchorVendorJs.RelPermalink }}"></script>
 {{ $anchorJs := resources.Get "docs/js/vendor/anchor.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $anchorJs.RelPermalink }}"></script>
 

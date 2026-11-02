@@ -85,18 +85,28 @@
 {{ end }}
 
 {{ if or (eq .Section "customers") (and (not .IsPage) (eq .Section "blog")) }}
+  {{ $vendorSearchJs := resources.Get "common/js/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $vendorSearchJs.RelPermalink }}" type="module"></script>
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
 
 {{ if and .IsPage (in (slice "blog" "benchmarks") .Section) }}
-  {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pageSearchScrollJs := resources.Get "common/js/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if in (slice "customers" "demo") .Section }}
   {{ $catalogFiltersJs := resources.Get "js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{/* Bootstrap Popover is shared with the documentation part (assets/common/) and is
+     needed by copy-markdown.js and copy-code.js, so it loads once before either. */}}
+{{ $copyCodeSections := slice "blog" "benchmarks" "qdrant-cloud" "quantization" "edge" }}
+{{ if or (.Store.Get "hasCopyMarkdown") (in $copyCodeSections .Section) }}
+  {{ $popoverJs := resources.Get "common/js/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $popoverJs.RelPermalink }}"></script>
 {{ end }}
 
 {{/* Set by partials/copy-markdown-button.html, which renders in the body before
@@ -141,7 +151,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "benchmarks" "qdrant-cloud" "quantization" "edge") .Section }}
+{{ if in $copyCodeSections .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
@@ -182,6 +192,8 @@
     });
   </script>
 
+  {{ $anchorVendorJs := resources.Get "common/js/anchor-js.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $anchorVendorJs.RelPermalink }}"></script>
   {{ $anchorJs := resources.Get "/js/vendor/anchor.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $anchorJs.RelPermalink }}"></script>
 {{ end }}

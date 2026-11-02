@@ -1,4 +1,5 @@
-import Popover from 'bootstrap/js/src/popover.js';
+// Popover comes from common/js/bootstrap-popover.js, loaded first.
+const { Popover } = window.bootstrap;
 
 // "Copy as Markdown" button, see partials/copy-markdown-button.html.
 //
