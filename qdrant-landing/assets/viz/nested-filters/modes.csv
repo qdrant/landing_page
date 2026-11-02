@@ -1,0 +1,13 @@
+profile,mode,p95_ms,qps,recall
+revision in 90 days,flat,138.7,194.8,63.9
+revision in 90 days,"nested, regular indexes",264.6,39.8,99.6
+revision in 90 days,"nested, per-element index",56.5,157.3,99.8
+author name,flat,46.4,171.6,79.8
+author name,"nested, regular indexes",141.7,132.7,100.0
+author name,"nested, per-element index",48.3,164.3,100.0
+author + revision,flat,48.2,135.7,76.7
+author + revision,"nested, regular indexes",283.7,72.5,100.0
+author + revision,"nested, per-element index",63.4,112.8,100.0
+revision + category,flat,33.6,183.7,74.0
+revision + category,"nested, regular indexes",229.2,61.5,99.0
+revision + category,"nested, per-element index",63.0,164.8,99.5

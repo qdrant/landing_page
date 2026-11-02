@@ -1,0 +1,30 @@
+{
+  "title": "Vector storage and recall by datatype",
+  "kind": "columns-2panel",
+  "height": 380,
+  "labelTop": "datatype",
+  "labelBottom": "bits",
+  "colors": ["muted", 1, 0],
+  "yMax": 600,
+  "panels": [
+    {
+      "title": "Vector storage",
+      "y": "storage_mb",
+      "axis": "storage (MB)",
+      "unit": "MB",
+      "subtitle": "lower is better"
+    },
+    {
+      "title": "Recall@100",
+      "y": "recall",
+      "axis": "recall@100 (%)",
+      "unit": "%",
+      "subtitle": "higher is better",
+      "yMax": 100
+    }
+  ],
+  "tooltip": {
+    "storage_mb": "storage",
+    "recall": "recall@100"
+  }
+}
