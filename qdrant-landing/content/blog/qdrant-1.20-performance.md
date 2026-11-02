@@ -6,7 +6,7 @@ short_description: "How the new turbo8 and turbo16 datatypes and per-element nes
 description: "Measurements of Qdrant 1.20 performance: turbo8 and turbo16 match float32 recall at a quarter and half of the storage, and per-element indexes make nested filters up to 4 times faster."
 preview_image: /blog/qdrant-1.20-performance/hero.jpg
 social_preview_image: /blog/qdrant-1.20-performance/preview/social_preview.jpg
-date: 2026-10-27T00:00:00-01:00
+date: 2026-11-02T00:00:00-01:00
 author: Clelia Bertelli
 author_profile: clelia-bertelli
 featured: false
