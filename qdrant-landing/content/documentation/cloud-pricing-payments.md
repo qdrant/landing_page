@@ -2,7 +2,7 @@
 title: Billing & Payments
 short_description: "Understand Qdrant Cloud pricing based on CPU, memory, and storage, and pay by credit card or AWS, GCP, or Azure Marketplace."
 description: "Qdrant Cloud billing explained: usage-based pricing for CPU, memory, and disk, with payment via credit card or AWS, GCP, and Azure Marketplaces."
-weight: 255
+weight: 235
 partition: deploy
 aliases:
   - aws-marketplace
@@ -14,6 +14,18 @@ aliases:
 # Qdrant Cloud Billing & Payments
 
 Qdrant database clusters in Qdrant Cloud are priced based on CPU, memory, and disk storage usage. To get a clearer idea for the pricing structure, based on the amounts of vectors you want to store, please use our [Pricing Calculator](https://cloud.qdrant.io/calculator).
+
+## What You Pay For
+
+| Item | How it is billed |
+|---|---|
+| Cluster | CPU, memory, and disk. Free clusters need no credit card. Estimate with the [Pricing Calculator](https://cloud.qdrant.io/calculator) |
+| Multi-AZ clusters (Premium) | At a higher rate than single-AZ clusters, to cover the cost of traffic between zones |
+| Backups | On AWS and GCP, backups are incremental, so each one stores only the data that changed since the previous one. On Azure, the cost is half of the disk usage when the backup was taken. See [Backups](/documentation/cloud/backups/#backup-considerations) |
+| Paid inference models | Per 1,000,000 tokens that the model processes. Free models cost nothing. External providers bill you directly through your own API key. See [Inference](/documentation/cloud/inference/) |
+| Premium | Premium tier rates under a committed-spend contract with an annual minimum. See [Premium Tier](/documentation/cloud-premium/) |
+
+You can attach a [label](/documentation/cloud/configure-cluster/#adding-labels-to-a-cluster) to a cluster and use it for cost attribution in consumption reports.
 
 ## Billing
 
@@ -44,7 +56,7 @@ To subscribe:
 
 1. Go to Billing Details screen in the [Qdrant Cloud Console](https://cloud.qdrant.io/)
 2. Select **AWS Marketplace** as the payment method. You will be redirected to the AWS Marketplace listing for Qdrant.
-3. Click the bright orange button - **View purchase options**. 
+3. Click **View purchase options**. 
 4. On the next screen, under Purchase, click **Subscribe**.
 5. Up top, on the green banner, click **Set up your account**.
 

@@ -207,7 +207,7 @@ curl -X PUT \
 ```
 
 ## 5. Populate the collection
-Next, we will populate the collection with menu items. Each item will be represented as a point in the collection with its associated metadata. Instead of generating embeddings locally, we pass a `Document` object with the text and model name — Qdrant Cloud Inference handles the embedding automatically.
+Next, we will populate the collection with menu items. Each item will be represented as a point in the collection with its associated metadata. Instead of generating embeddings locally, we pass a `Document` object with the text and model name, and Qdrant Cloud Inference handles the embedding automatically.
 
 ```python
 menu_items = [

@@ -2,7 +2,7 @@
 title: Cloud RBAC
 short_description: "Manage permissions for Qdrant Cloud resources with role-based access control across billing, IAM, clusters, and Hybrid Cloud."
 description: "Use Cloud RBAC to assign granular permissions across Qdrant Cloud billing, identity, clusters, and Hybrid Cloud so only authorized users access sensitive data."
-weight: 215
+weight: 225
 partition: deploy
 ---
 
@@ -24,7 +24,7 @@ Qdrant Cloud enables you to manage granular permissions for your cloud resources
 
 If you want to automate Qdrant Cloud with the Qdrant Cloud Management API, have a look at the [Cloud API](/documentation/cloud-api/) guide.
 
-For configuring Qdrant Cluster API Keys, please refer to the [Cluster API Key](/documentation/cloud/cluster-access/) guide.
+For configuring Qdrant Cluster API Keys, please refer to the [Authentication](/documentation/cloud/authentication/) guide.
 
 ## Guides
 

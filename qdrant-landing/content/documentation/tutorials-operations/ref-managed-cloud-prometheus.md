@@ -1,7 +1,7 @@
 ---
 #Reference files list pages from other sections in this section's sidebar.
 type: reference
-reference: /documentation/production-operations/managed-cloud-prometheus
+reference: /documentation/cloud/cluster-monitoring-prometheus
 weight: 50
 sitemapExclude: True
 learning_kind: reference

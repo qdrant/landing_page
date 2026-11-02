@@ -2,7 +2,7 @@
 title: Cloud Security
 short_description: "Run Qdrant Cloud on isolated, encrypted infrastructure with RBAC, API keys, IP allowlists, and SOC 2 and HIPAA compliance."
 description: "Qdrant Cloud security: isolated clusters, encryption at rest and in transit, RBAC, API key controls, IP restrictions, and SOC 2 and HIPAA compliance."
-weight: 240
+weight: 230
 partition: deploy
 aliases:
     - /documentation/cloud/security/
@@ -14,7 +14,22 @@ aliases:
 
 Qdrant is committed to maintaining high standards of security and compliance. We are both SOC2 Type 2 and HIPAA certified, ensuring that our systems and processes meet rigorous security criteria. You can find our compliance reports in our [Trust Center](https://qdrant.to/trust-center). The trust center also contains our internal security policies and procedures, so you can learn how we manage data protection, vulnerabilities, disaster recovery, incident responses, and more.
 
+## Managed Cloud Controls
+
+| Control | What it does | Read more |
+|---|---|---|
+| Cluster isolation | Runs each cluster in a hardened, unprivileged container with strict network policies and restricted outbound access | [Managed Cloud](#managed-cloud) |
+| Encryption in transit | Protects data with TLS | [Managed Cloud](#managed-cloud) |
+| Encryption at rest | Encrypts all storage volumes. Premium customers can use their own keys | [Encryption at Rest](/documentation/cloud/encryption/) |
+| IP restrictions | Allows connections only from the IP ranges you list | [Connect to a Cluster](/documentation/cloud/cluster-access/#restrict-access-by-ip-range) |
+| Database API keys | Grants per-collection or read-only access, with expiration. Keys are never stored in plaintext | [Authentication](/documentation/cloud/authentication/) |
+| Console access | Sets what each user can do with role-based access control. Premium customers can add SSO | [Cloud RBAC](/documentation/cloud-rbac/), [SSO](/documentation/cloud-premium/#enterprise-single-sign-on-sso) |
+| Audit logging | Records each API call with its action, time, key or user ID, result, and IP address. Available on paid clusters | [Configure Clusters](/documentation/cloud/configure-cluster/#audit-logging) |
+| Private network connectivity | Keeps traffic on the cloud provider's network. Premium only | [Premium Tier](/documentation/cloud-premium/#private-network-connectivity) |
+
 ## Security Considerations
+
+What you secure and what Qdrant secures depends on the deployment model. For a comparison by area, see [Shared Responsibility](/documentation/shared-responsibility/).
 
 ### Managed Cloud
 
@@ -26,9 +41,9 @@ Data in transit is protected with Transport-Layer-Security (TLS). It is possible
 
 Infrastructure access is restricted and audited according to the policies described in our [Trust Center](https://qdrant.to/trust-center). All infrastructure components are regularly patched and updated to ensure up to date security.
 
-Access to Qdrant Cloud accounts can be configured with granular [Role-Based Access Control](/documentation/cloud-rbac/). [Premium customers](/documentation/cloud-premium/) can also enable [Single Sign-On (SSO)](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso) with their identity provider.
+Access to Qdrant Cloud accounts can be configured with granular [Role-Based Access Control](/documentation/cloud-rbac/). [Premium customers](/documentation/cloud-premium/) can also enable [Single Sign-On (SSO)](/documentation/cloud-premium/#enterprise-single-sign-on-sso) with their identity provider.
 
-[API keys](/documentation/cloud-api/#authentication) can be configured with granular access controls and rotated at any time. API Keys are never stored in plaintext.
+[Database API keys](/documentation/cloud/authentication/) can be configured with granular access controls and rotated at any time. API Keys are never stored in plaintext.
 
 We recommend configuring an expiration date and rotating your API keys regularly as a security best practice.
 

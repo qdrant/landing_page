@@ -2,7 +2,7 @@
 title: Hybrid Cloud
 short_description: "Run Qdrant in your own Kubernetes cluster while managing it through Qdrant Cloud, keeping all data inside your network."
 description: "Deploy Qdrant Hybrid Cloud into your own Kubernetes cluster on any cloud, on-prem, or edge environment while managing it through Qdrant Cloud."
-weight: 225
+weight: 260
 partition: deploy
 ---
 

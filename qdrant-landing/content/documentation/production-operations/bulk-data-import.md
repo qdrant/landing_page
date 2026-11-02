@@ -302,4 +302,4 @@ Bulk uploads are not just about sending as much data as possible into Qdrant. As
 
 The safest approach is to choose the right strategy for the workload instead of relying on one universal configuration. Dense vectors, sparse vectors, and hybrid setups can all create different performance considerations during ingestion.
 
-By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. To size your deployment, use the [Qdrant sizing calculator](https://sizing.qdrant.tech/).
+By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. To size your deployment, use the [Qdrant sizing calculator](https://sizing.qdrant.tech/estimate).

@@ -1,31 +1,30 @@
 ---
-title: Managed Cloud Prometheus Monitoring
-short_description: "Monitor Qdrant Managed Cloud clusters with Prometheus and Grafana running in your own Kubernetes environment for full visibility."
+title: Scrape Metrics with Prometheus and Grafana
+short_description: "Scrape Qdrant Managed Cloud metrics with Prometheus and visualize them in Grafana, running in your own Kubernetes environment."
 description: "Configure Prometheus and Grafana in Kubernetes to scrape metrics from Qdrant Managed Cloud clusters and import the official monitoring dashboard."
-weight: 70
-date: 2026-09-29T10:00:00+02:00
-draft: false
+weight: 32
 aliases:
+  - /documentation/production-operations/managed-cloud-prometheus/
   - /documentation/ops-monitoring/managed-cloud-prometheus
   - /documentation/tutorials-and-examples/managed-cloud-prometheus
 ---
 
-# Monitoring Managed Cloud with Prometheus and Grafana
+# Scraping Managed Cloud Metrics with Prometheus and Grafana
 
-This tutorial will guide you through the process of setting up Prometheus and Grafana to monitor Qdrant databases running in Qdrant Managed Cloud.
+This page shows how to set up Prometheus and Grafana to monitor Qdrant databases running in Qdrant Managed Cloud.
 
 ## Prerequisites
 
-This tutorial assumes that you already have a Kubernetes cluster running where you want to deploy your monitoring stack, and a Qdrant database created in Qdrant Managed Cloud. You should also have `kubectl` and `helm` configured to interact with your cluster.
+You need a Kubernetes cluster running where you want to deploy your monitoring stack, and a Qdrant database created in Qdrant Managed Cloud. You should also have `kubectl` and `helm` configured to interact with your cluster.
 
 ## Cluster metrics versus node metrics
 
 Qdrant Managed Cloud exposes two Prometheus-compatible endpoints, and they answer different questions:
 
 - `/metrics` reports on a single Qdrant node: collection counts, point and vector counts, API response times, and process-level memory such as `memory_resident_bytes`. Each node only reports on itself, so scrape every node individually if you want a full picture. For the full list of node metrics, see [Monitoring & Telemetry](/documentation/ops-monitoring/monitoring/#node-metrics-metrics).
-- `/sys_metrics` is a Managed Cloud-only endpoint. It reports on the cluster as a whole, aggregating the same database metrics from every node plus infrastructure telemetry such as container CPU and memory usage, disk usage, and load balancer traffic. Query it once against the cluster's main endpoint. You don't need to scrape it per node, and doing so returns the same cluster-wide data each time. See [Cluster System Metrics](/documentation/cloud/cluster-monitoring/#cluster-system-metrics-sys_metrics) for the full list.
+- `/sys_metrics` is a Managed Cloud-only endpoint. It reports on the cluster as a whole, aggregating the same database metrics from every node plus infrastructure telemetry such as container CPU and memory usage, disk usage, and load balancer traffic. Query it once against the cluster's main endpoint. You don't need to scrape it per node, and doing so returns the same cluster-wide data each time. See [Cluster Metrics Reference](/documentation/cloud/cluster-metrics-reference/) for the full list.
 
-The `ScrapeConfig` in this tutorial targets `/sys_metrics`, so a single scrape job covers the whole cluster.
+The `ScrapeConfig` on this page targets `/sys_metrics`, so a single scrape job covers the whole cluster.
 
 To confirm your scrape config is working, query a metric that only `/sys_metrics` exposes, such as container memory usage per pod, in the Prometheus UI or with `curl`:
 
@@ -33,7 +32,7 @@ To confirm your scrape config is working, query a metric that only `/sys_metrics
 container_memory_working_set_bytes{job="prometheus"}
 ```
 
-If the scrape target in this tutorial is configured correctly, this returns one time series per pod in your cluster, each with a `pod` label and a byte value. Compare it against the node-level equivalent, `memory_resident_bytes` from `/metrics`, to see the difference between container-level and process-level memory reporting.
+If the scrape target is configured correctly, this returns one time series per pod in your cluster, each with a `pod` label and a byte value. Compare it against the node-level equivalent, `memory_resident_bytes` from `/metrics`, to see the difference between container-level and process-level memory reporting.
 
 ## Step 1: Install Prometheus and Grafana
 
