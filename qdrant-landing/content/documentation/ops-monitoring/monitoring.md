@@ -11,11 +11,13 @@ aliases:
 
 # Monitoring & Telemetry
 
+On Qdrant Cloud, you can watch a cluster in the Cloud Console, receive email alerts, and scrape metrics into your own monitoring system. Refer to [Monitoring Qdrant Cloud Clusters](/documentation/cloud/cluster-monitoring/) for the Console views and alerts, and [Scrape Metrics with Prometheus and Grafana](/documentation/cloud/cluster-monitoring-prometheus/) for a step-by-step setup. This page describes the metrics and telemetry endpoints that Qdrant itself provides, on Qdrant Cloud and when self-hosting.
+
 Qdrant exposes its metrics in [Prometheus](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format)/[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) format, so you can integrate them easily
 with the compatible tools and monitor Qdrant with your own monitoring system. You can
 use the `/metrics` endpoint and configure it as a scrape target.
 
-Metrics endpoint: <http://localhost:6333/metrics>
+Metrics endpoint: on Qdrant Cloud, the `/metrics` path of each [node endpoint](/documentation/cloud/cluster-access/#node-specific-endpoints), called with a Database API key. When self-hosting, <http://localhost:6333/metrics>.
 
 The integration with Qdrant is easy to
 [configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets)
@@ -31,9 +33,9 @@ Qdrant exposes various metrics in Prometheus/OpenMetrics format, commonly used t
 
 Two endpoints are available:
 
-- `/metrics` for metrics of a Qdrant node/peer, see [all metrics](#node-metrics-metrics).
-
 - `/sys_metrics` (Qdrant Cloud only) for metrics about your cluster, like CPU, memory, disk utilisation, collection metrics and load balancer telemetry. For more information, see [Qdrant Cloud Monitoring](/documentation/cloud/cluster-monitoring/).
+
+- `/metrics` for metrics of a Qdrant node/peer, refer to [all metrics](#node-metrics-metrics).
 
 Note that `/metrics` only reports metrics for the peer connected to. It is therefore important to scrape from each peer individually, even if a load balancer is involved.
 
