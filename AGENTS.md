@@ -65,7 +65,20 @@ marketing part can be rewritten without breaking the documentation.
 file from the other part's tree. A fix to a file that exists in both trees, such
 as `copy-code.js` or `_bootstrap-tools.scss`, has to be made in both copies.
 
-Third-party libraries both parts use (page search, anchor-js, Bootstrap Popover)
+Analytics and consent (HubSpot, OneTrust, Segment, Google) live once in
+`themes/qdrant-2024/assets/analytics/` and `layouts/partials/analytics/`. Every
+theme calls `partials/analytics/head.html` and `body.html`, or its pages ship
+without tracking or consent. See that README.
+
+Code blocks (syntax highlighting, copy button, language tabs) live once in
+`themes/qdrant-2024/assets/code-blocks/` and load through
+`layouts/partials/code-blocks/{css,js}.html`. A part replaces them by calling
+something else instead; see that README.
+
+Heading anchors work the same way, in `assets/heading-anchors/` with
+`layouts/partials/heading-anchors/{css,js}.html`.
+
+Third-party libraries both parts use (page search, Bootstrap Popover)
 live once in `themes/qdrant-2024/assets/common/` and expose a global that each
 part's own wrapper reads. Only third-party code goes there; see its README.
 

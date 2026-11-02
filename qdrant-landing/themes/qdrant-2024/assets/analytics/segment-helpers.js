@@ -1,4 +1,4 @@
-import { addGA4Properties, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
+import { addGA4Properties, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './tracking-helpers';
 import { registerAndCall, setOneTrustDataSubjectId } from './onetrust-helpers';
 
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';

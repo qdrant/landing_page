@@ -6,6 +6,12 @@
 {{ $coreCss := resources.Get "css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
 
+<!--Code blocks (assets/code-blocks/), shared by both parts-->
+{{ partial "code-blocks/css.html" . }}
+
+<!--Heading anchors (assets/heading-anchors/), shared by both parts-->
+{{ partial "heading-anchors/css.html" . }}
+
 <!--Shortcode styles for the shortcodes on this page (assets/shortcodes/), shared by both parts.
     Right after core so they keep the cascade position they had inside core.css.-->
 {{ partial "shortcode-assets/css.html" . }}

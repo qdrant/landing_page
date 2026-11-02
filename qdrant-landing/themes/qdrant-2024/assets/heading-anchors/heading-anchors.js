@@ -1,5 +1,5 @@
-// AnchorJS comes from common/js/anchor-js.js, loaded first.
-const { AnchorJS } = window;
+// Heading links for posts and documentation pages, shared by both parts. See README.md.
+import AnchorJS from 'anchor-js';
 
 const TOAST_CLASS = 'anchor-copied-toast';
 const TOAST_VISIBLE_CLASS = 'anchor-copied-toast--visible';

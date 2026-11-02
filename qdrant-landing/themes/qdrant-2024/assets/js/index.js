@@ -1,39 +1,13 @@
 import scrollHandler from './scroll-handler';
 import { initTabSync } from './tab-sync';
 import { XXL_BREAKPOINT } from './constants';
-import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
-import { handleSegmentReady } from './segment-helpers';
-import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
+import { initGoToTopButton } from './helpers';
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
 import { scrollIntoViewWithOffset } from './helpers';
 
-persistUTMParams();
-
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
-  addUTMToLinks();
-
-  const handleOneTrustLoaded = () => {
-    // One Trust Loaded
-    window.OneTrust.OnConsentChanged(async () => {
-      // One Trust Preference Updated
-      addOneTrustPreferencesToLinks();
-      registerAndCall();
-
-      await window.analytics.track('onetrust_consent_preference_updated', {
-        onetrust_active_groups: window.OnetrustActiveGroups ?? '',
-      });
-    });
-
-    handleSegmentReady();
-
-    // Only called once ∴ remove once called
-    document.removeEventListener('onetrust_loaded', handleOneTrustLoaded);
-  };
-
-  document.addEventListener('onetrust_loaded', handleOneTrustLoaded);
-
   // Top banner activation
   const topBanner = document.querySelector('.top-banner');
   if (topBanner) {

@@ -1,4 +1,6 @@
 // Uses window.initQdrantSearch from common/js/page-search.js, loaded first.
+// Search configuration for the documentation part: documentation, learn,
+// articles, and course. The marketing part has its own in assets/js/search/.
 
 (function () {
   // Try to read metadata tag for partition
@@ -28,15 +30,7 @@
     window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'articles', partition: partition });
   }
 
-  if (/blog/.test(window.location?.pathname)) {
-    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'blog', partition: partition });
-  }
-
   if (/course/.test(window.location?.pathname)) {
     window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'course', partition: partition });
-  }
-
-  if (/customers/.test(window.location?.pathname)) {
-    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'blog', partition: 'case-studies' });
   }
 })();

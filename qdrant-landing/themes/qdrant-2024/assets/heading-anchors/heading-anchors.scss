@@ -1,5 +1,7 @@
+@use '../shortcodes/tools' as *;
+
 // Bottom-of-screen "Copied" confirmation for the heading links added by
-// assets/js/vendor/anchor.js. That script creates and toggles the element.
+// heading-anchors.js. That script creates and toggles the element.
 // Dark in both themes: a light chip is too bright against the dark theme.
 .anchor-copied-toast {
   position: fixed;

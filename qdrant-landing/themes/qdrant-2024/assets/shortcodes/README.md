@@ -12,6 +12,7 @@ A page loads a shortcode's assets only when it uses that shortcode.
 ```
 assets/shortcodes/
   _tools.scss              Sass values, pxToRem, breakpoint mixins. Emits no CSS.
+                           Also used by assets/code-blocks/.
   _content-list.scss       .list body styles, used by accordion and course-card
   _qi-tokens.scss          --qi-* custom properties, used by chart and island
   <name>/<name>.scss       styles for the shortcode, optional
