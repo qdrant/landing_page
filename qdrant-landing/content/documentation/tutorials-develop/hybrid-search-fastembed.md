@@ -46,7 +46,7 @@ First, you will 1) download and prepare a sample dataset using a modified versio
 
 To complete this tutorial, you will need:
 
-- Docker - The easiest way to use Qdrant is to run a pre-built Docker image.  
+- A [Qdrant Cloud](https://cloud.qdrant.io) account for a Free Tier Qdrant Cloud Cluster. To run Qdrant on your own machine instead, you need Docker.
 - [Raw parsed data](https://storage.googleapis.com/generall-shared-data/startups_demo.json) from startups-list.com.
 - Python version >=3.9
 
@@ -66,11 +66,28 @@ Let's start by downloading the data and installing the necessary packages.
 wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
 ```
 
-## Run Qdrant in Docker
+## Create a Qdrant Cloud Cluster
 
 Next, you need to manage all of your data using a vector engine. Qdrant lets you store, update or delete created vectors. Most importantly, it lets you search for the nearest vectors via a convenient API. 
 
 > **Note:** Before you begin, create a project directory and a virtual python environment in it.
+
+1. Register for a [Qdrant Cloud account](https://cloud.qdrant.io) using your email, Google, or GitHub credentials.
+2. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
+3. Copy the **API key** when prompted and store it somewhere safe, as it won't be displayed again.
+4. Copy the **Cluster Endpoint**. It should look something like `https://xxx.cloud.qdrant.io`.
+5. Store both as environment variables in your terminal, so the code can read them.
+
+```bash
+export QDRANT_URL="https://xxx.cloud.qdrant.io"
+export QDRANT_API_KEY="your-api-key"
+```
+
+In this tutorial, FastEmbed generates the dense and sparse vectors in your Python process and uploads them to your cluster.
+
+### Run Qdrant Locally Instead
+
+To run Qdrant on your own machine, use Docker instead of a Cloud cluster.
 
 1. Download the Qdrant image from DockerHub.
 
@@ -96,6 +113,8 @@ Test the service by going to [http://localhost:6333/](http://localhost:6333/). Y
 
 All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and will be persisted even if you recreate the container.
 
+Then set `QDRANT_URL` to `http://localhost:6333` and leave `QDRANT_API_KEY` unset. Create the client in the next section with `QdrantClient(url=os.environ["QDRANT_URL"], api_key=os.environ.get("QDRANT_API_KEY"))`, which works for both setups.
+
 
 ## Upload data to Qdrant
 
@@ -106,17 +125,22 @@ pip install "qdrant-client[fastembed]>=1.14.2"
 ```
 > **Note:** This tutorial requires fastembed of version >=0.6.1.
 
-At this point, you should have startup records in the `startups_demo.json` file and Qdrant running on a local machine.
+At this point, you should have startup records in the `startups_demo.json` file and a Qdrant Cloud cluster.
 
 Now you need to write a script to upload all startup data and vectors into the search engine.
 
 2. Create a client object for Qdrant.
 
 ```python
+import os
+
 # Import client library
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url=os.environ["QDRANT_URL"],
+    api_key=os.environ.get("QDRANT_API_KEY"),
+)
 ```
 
 
@@ -272,6 +296,8 @@ Qdrant supports 2 fusion functions for combining the results: [reciprocal rank f
 1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
+import os
+
 from qdrant_client import QdrantClient, models
 
 
@@ -281,7 +307,10 @@ class HybridSearcher:
     
     def __init__(self, collection_name):
         self.collection_name = collection_name
-        self.qdrant_client = QdrantClient()
+        self.qdrant_client = QdrantClient(
+            url=os.environ["QDRANT_URL"],
+            api_key=os.environ.get("QDRANT_API_KEY"),
+        )
 ```
 
 2. Write the search function.
@@ -389,7 +418,7 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 ```
 
-3. Run the service.
+3. Run the service in the terminal where you set `QDRANT_URL` and `QDRANT_API_KEY`.
 
 ```bash
 python service.py
