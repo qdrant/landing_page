@@ -1,6 +1,6 @@
 {{/* Analytics and consent for every page: HubSpot tracking, OneTrust, Segment,
      Google, and the shared analytics bundle. Called first in each part's js.html,
-     before that part's index.js. Scripts come from assets/analytics/; see its README. */}}
+     before that part's index.js. Scripts come from assets/lib/analytics/; see its README. */}}
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/139603372.js"></script>
 
 <script>
@@ -45,10 +45,10 @@
 {{ end }}
 
 <!--Google Measurement ID-->
-{{ $googleJs := resources.Get "analytics/google-setup.js" | js.Build (dict "params" (dict "gaMeasurementId" .Site.Config.Services.GoogleAnalytics.ID)) | minify | resources.Fingerprint "sha512" }}
+{{ $googleJs := resources.Get "lib/analytics/google-setup.js" | js.Build (dict "params" (dict "gaMeasurementId" .Site.Config.Services.GoogleAnalytics.ID)) | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $googleJs.RelPermalink }}"></script>
 
-{{ $analyticsJs := resources.Get "analytics/analytics.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+{{ $analyticsJs := resources.Get "lib/analytics/analytics.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $analyticsJs.RelPermalink }}"></script>
 
 <!--Fills the hidden page and referrer fields of every HubSpot form once it is ready-->

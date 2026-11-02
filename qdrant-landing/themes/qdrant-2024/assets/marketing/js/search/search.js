@@ -1,4 +1,4 @@
-// Uses window.initQdrantSearch from common/js/page-search.js, loaded first.
+// Uses window.initQdrantSearch from lib/vendor/page-search.js, loaded first.
 // Search configuration for the marketing part: the blog list and customer
 // stories. The documentation part has its own in assets/docs/js/search/.
 

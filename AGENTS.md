@@ -50,43 +50,38 @@ are generated and git-ignored. Never edit them, and never cite a path under
 Project layouts win over theme layouts, which is why `layouts/shortcodes/`
 holds the per-output-format variants while the theme holds the HTML ones.
 
-## Marketing and documentation have separate assets
+## Assets are split by owner
 
-The site is split into two parts that share no CSS or JS source files, so the
-marketing part can be rewritten without breaking the documentation.
+`themes/qdrant-2024/assets/` holds four directories and nothing else:
 
-| Part | Sections | Assets | Wiring |
-|---|---|---|---|
-| Documentation | `documentation`, `learn`, `course`, `articles` (everything reached from the docs header) | `themes/qdrant-2024/assets/docs/css/`, `.../assets/docs/js/` | `layouts/partials/documentation/{css,js,js-head}.html` |
-| Marketing | everything else, including the blog | `themes/qdrant-2024/assets/css/`, `.../assets/js/` | `layouts/partials/marketing/{css,js,js-head}.html` |
+| Directory | What it holds | May import from |
+|---|---|---|
+| `lib/` | Part-neutral code: `analytics/`, `code-blocks/`, `heading-anchors/`, `vendor/` (third-party wrappers), and `_tools.scss` (shared Sass values) | `lib/`, `node_modules` |
+| `shortcodes/` | One folder per shortcode with its own styles or script | `shortcodes/`, `lib/`, `node_modules` |
+| `marketing/` | The marketing part: `css/` and `js/` | `marketing/`, `lib/`, `node_modules` |
+| `docs/` | The documentation part: `css/` and `js/` | `docs/`, `lib/`, `node_modules` |
 
-`layouts/partials/is-docs-part.html` decides which part a page belongs to, and
-`css.html`, `js.html`, and `js-head.html` only dispatch on it. Never import a
-file from the other part's tree. A fix to a file that exists in both trees, such
-as `copy-code.js` or `_bootstrap-tools.scss`, has to be made in both copies.
+Dependencies point toward `lib/`. `marketing/` and `docs/` never import from
+each other or from `shortcodes/`, so the marketing part can be rewritten without
+touching the documentation. A file that exists in both parts, such as
+`helpers.js` or `_bootstrap-tools.scss`, is a deliberate copy: fix it in both.
+See `assets/README.md`.
 
-Analytics and consent (HubSpot, OneTrust, Segment, Google) live once in
-`themes/qdrant-2024/assets/analytics/` and `layouts/partials/analytics/`. Every
-theme calls `partials/analytics/head.html` and `body.html`, or its pages ship
-without tracking or consent. See that README.
+The documentation part is the `documentation`, `learn`, `course`, and `articles`
+sections (everything reached from the docs header); the marketing part is
+everything else, including the blog. `layouts/partials/is-docs-part.html`
+decides, and `css.html`, `js.html`, and `js-head.html` dispatch to
+`partials/documentation/` or `partials/marketing/`.
 
-Code blocks (syntax highlighting, copy button, language tabs) live once in
-`themes/qdrant-2024/assets/code-blocks/` and load through
-`layouts/partials/code-blocks/{css,js}.html`. A part replaces them by calling
-something else instead; see that README.
+Each `lib/` component has a pair of partials that a part calls where it wants
+it, so a part can swap one for something else: `partials/analytics/`,
+`partials/code-blocks/`, `partials/heading-anchors/`. Every theme must call
+`partials/analytics/head.html` and `body.html`, or its pages ship without
+tracking or consent.
 
-Heading anchors work the same way, in `assets/heading-anchors/` with
-`layouts/partials/heading-anchors/{css,js}.html`.
-
-Third-party libraries both parts use (page search, Bootstrap Popover)
-live once in `themes/qdrant-2024/assets/common/` and expose a global that each
-part's own wrapper reads. Only third-party code goes there; see its README.
-
-Shortcodes own their assets, in `themes/qdrant-2024/assets/shortcodes/<name>/`,
-and a page loads them only when it uses the shortcode. The shortcode marks its
-root element with `data-shortcode="<name>"`, and
-`layouts/partials/shortcode-assets/` finds the markers in `.Content`. Shortcode
-styles import only `assets/shortcodes/_tools.scss`, never a part's theme. See
+Shortcode assets load only on pages that use the shortcode. The shortcode marks
+its root element with `data-shortcode="<name>"`, and
+`partials/shortcode-assets/` finds the markers in `.Content`. See
 `assets/shortcodes/README.md`.
 
 ## Every page has two outputs

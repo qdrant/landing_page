@@ -1,23 +1,23 @@
 {{/* Documentation part stylesheets. Everything comes from assets/docs/css/,
-     never from the marketing tree in assets/css/. */}}
+     never from the marketing tree in assets/marketing/css/. */}}
 {{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
 
 <!--Shared foundation for the documentation part (fonts, Bootstrap, base, header/footer)-->
 {{ $coreCss := resources.Get "docs/css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
 
-<!--Code blocks (assets/code-blocks/), shared by both parts-->
+<!--Code blocks (assets/lib/code-blocks/), shared by both parts-->
 {{ partial "code-blocks/css.html" . }}
 
-<!--Heading anchors (assets/heading-anchors/), shared by both parts-->
+<!--Heading anchors (assets/lib/heading-anchors/), shared by both parts-->
 {{ partial "heading-anchors/css.html" . }}
 
 <!--Shortcode styles for the shortcodes on this page (assets/shortcodes/), shared by both parts.
     Right after core so they keep the cascade position they had inside core.css.-->
 {{ partial "shortcode-assets/css.html" . }}
 
-<!--Third-party page search styles, shared with the marketing part (assets/common/)-->
-{{ $vendorSearchCss := resources.Get "common/css/page-search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<!--Third-party page search styles, shared with the marketing part (assets/lib/vendor/)-->
+{{ $vendorSearchCss := resources.Get "lib/vendor/page-search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $vendorSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $vendorSearchCss.Data.Integrity }}" />
 {{ $pageSearchCss := resources.Get "docs/css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />

@@ -1,21 +1,19 @@
 # Documentation part assets
 
 CSS and JS for the documentation part of the site: the `documentation`,
-`learn`, `course`, and `articles` sections. Pages in those sections load assets
-from this directory only, through `layouts/partials/documentation/css.html`,
-`js.html`, and `js-head.html`.
+`learn`, `course`, and `articles` sections. They load through
+`layouts/partials/documentation/css.html`, `js.html`, and `js-head.html`.
 
-This tree is self-contained on purpose. The marketing part (`assets/css/`,
-`assets/js/`) is going to be rewritten, and the documentation must not depend on
-it. Rules:
+This tree must not depend on the marketing part, which is going to be
+rewritten. Rules:
 
-- Import only from this directory or from `node_modules`. Never reach into
-  `assets/css/` or `assets/js/`. Code shared with marketing lives in
-  `assets/common/` (third-party libraries, loaded by the templates),
-  `assets/analytics/` (tracking and consent), `assets/code-blocks/`,
-  `assets/heading-anchors/`, and `assets/shortcodes/`.
-- Many files started as copies of marketing files. A fix to one of them, such as
-  `js/copy-code.js` or `css/_bootstrap-tools.scss`, has to be made in both trees
+- **Import only from `docs/`, `lib/`, or `node_modules`.** Never from
+  `marketing/` or `shortcodes/`.
+- **Many files are deliberate copies of marketing files,** such as
+  `js/helpers.js` or `css/_bootstrap-tools.scss`. A fix to one goes into both
   until the marketing rewrite replaces its copy.
-- `css/core.scss` and `css/documentation.scss` load on every documentation page.
-  `css/articles.scss` loads on top of them in the `articles` section.
+- **Code that is the same in both parts and belongs to neither goes in `lib/`,**
+  not here. See `assets/README.md`.
+
+`css/core.scss` and `css/documentation.scss` load on every documentation page.
+`css/articles.scss` loads on top of them in the `articles` section.

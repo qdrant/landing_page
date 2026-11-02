@@ -1,4 +1,4 @@
-@use '../tools' as *;
+@use '../../lib/tools' as *;
 
 // Descendants are nested (rather than written with `&__`) so each rule carries
 // two classes of specificity. The article stylesheet styles bare elements via

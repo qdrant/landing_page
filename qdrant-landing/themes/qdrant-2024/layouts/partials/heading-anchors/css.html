@@ -1,6 +1,6 @@
-{{- /* Heading anchor styles (the "Copied" toast). From assets/heading-anchors/;
+{{- /* Heading anchor styles (the "Copied" toast). From assets/lib/heading-anchors/;
        see its README. To replace heading anchors in a part, stop calling this
        partial there and call the replacement instead. */ -}}
 {{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}
-{{- $headingAnchorsCss := resources.Get "heading-anchors/heading-anchors.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+{{- $headingAnchorsCss := resources.Get "lib/heading-anchors/heading-anchors.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $headingAnchorsCss.RelPermalink }}" rel="stylesheet" integrity="{{ $headingAnchorsCss.Data.Integrity }}" />

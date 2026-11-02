@@ -1,5 +1,5 @@
 // Cookie, UTM, and cross-site ID helpers for analytics and consent. Shared by
-// both parts and any future theme; see assets/analytics/README.md.
+// both parts and any future theme; see assets/lib/analytics/README.md.
 
 const UTM_PARAMS_KEY = 'utm_params';
 

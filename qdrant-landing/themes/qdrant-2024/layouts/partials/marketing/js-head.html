@@ -2,8 +2,8 @@
 
 {{ if eq .Section "benchmarks" }}
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  {{ $benchmarksJs := resources.Get "/js/benchmarks/benchmarks.js" | minify | resources.Fingerprint "sha512" }}
+  {{ $benchmarksJs := resources.Get "marketing/js/benchmarks/benchmarks.js" | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $benchmarksJs.RelPermalink }}"></script>
-  {{ $filterChartJs := resources.Get "/js/benchmarks/benchmarks_filtered_search.js" | minify | resources.Fingerprint "sha512" }}
+  {{ $filterChartJs := resources.Get "marketing/js/benchmarks/benchmarks_filtered_search.js" | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $filterChartJs.RelPermalink }}"></script>
 {{ end }}

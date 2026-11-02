@@ -3,7 +3,7 @@
 .common-hero {
   padding-top: $spacer * 5;
   padding-bottom: $spacer * 5;
-  background: url('../img/serverless-hero-mobile.png') center top / cover no-repeat, $neutral-10;
+  background: url('/img/serverless-hero-mobile.png') center top / cover no-repeat, $neutral-10;
   position: relative;
   overflow: hidden;
 
@@ -57,7 +57,7 @@
   }
 
   @include media-breakpoint-up(md) {
-    background: url('../img/serverless-hero.png') center top / cover no-repeat, $neutral-10;
+    background: url('/img/serverless-hero.png') center top / cover no-repeat, $neutral-10;
     position: relative;
 
     &:before {

@@ -498,7 +498,7 @@ slots:
 Optional talk parameters:
 - `company_logo_offset` — adjust logo position with `placement` (top/bottom/left/right) and `value` (px)
 
-The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/css/partials/_agenda.scss`.
+The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/marketing/css/partials/_agenda.scss`.
 
 ## Demo
 

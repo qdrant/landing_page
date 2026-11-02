@@ -27,6 +27,6 @@ calling these.
 
 ## Rules
 
-- Styles import only `../shortcodes/tools`. Never a part's theme.
+- Styles import only `../tools`. Never a part's theme.
 - `anchor-js` is imported directly from `node_modules`. This is the only file
-  that uses it, so it does not need a global in `assets/common/`.
+  that uses it, so it does not need a global in `assets/lib/vendor/`.

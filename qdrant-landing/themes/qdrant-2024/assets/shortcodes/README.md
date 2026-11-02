@@ -11,8 +11,6 @@ A page loads a shortcode's assets only when it uses that shortcode.
 
 ```
 assets/shortcodes/
-  _tools.scss              Sass values, pxToRem, breakpoint mixins. Emits no CSS.
-                           Also used by assets/code-blocks/.
   _content-list.scss       .list body styles, used by accordion and course-card
   _qi-tokens.scss          --qi-* custom properties, used by chart and island
   <name>/<name>.scss       styles for the shortcode, optional
@@ -58,10 +56,11 @@ layer existed. Their assets live here, but the wiring is in each part's
 
 ## Rules
 
-- **Styles import only from this directory or `node_modules`.** Start with
-  `@use '../tools' as *;`. Never import a part's `_bootstrap-tools`,
-  `_theme-variables`, or anything else under `assets/css/` or `assets/docs/`.
-- **Add a value to `_tools.scss` instead of reaching for a theme variable.** Its
+- **Styles import only from `shortcodes/`, `lib/`, or `node_modules`.** Start
+  with `@use '../../lib/tools' as *;`. Never import a part's `_bootstrap-tools`,
+  `_theme-variables`, or anything else under `assets/marketing/` or
+  `assets/docs/`.
+- **Add a value to `lib/_tools.scss` instead of reaching for a theme variable.** Its
   values were copied from the themes when the shortcodes moved out. Changing
   one changes the shortcode everywhere it renders.
 - **Light mode keys off `[data-theme='light']` on `<html>`.** That attribute is

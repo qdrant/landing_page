@@ -1,6 +1,6 @@
-// Uses window.initQdrantSearch from common/js/page-search.js, loaded first.
+// Uses window.initQdrantSearch from lib/vendor/page-search.js, loaded first.
 // Search configuration for the documentation part: documentation, learn,
-// articles, and course. The marketing part has its own in assets/js/search/.
+// articles, and course. The marketing part has its own in assets/marketing/js/search/.
 
 (function () {
   // Try to read metadata tag for partition

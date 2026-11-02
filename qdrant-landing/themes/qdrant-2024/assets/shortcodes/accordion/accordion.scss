@@ -1,4 +1,4 @@
-@use '../tools' as *;
+@use '../../lib/tools' as *;
 // The .list body styles are shared with the other shortcodes that render lists.
 @use '../content-list';
 @use 'sass:math';

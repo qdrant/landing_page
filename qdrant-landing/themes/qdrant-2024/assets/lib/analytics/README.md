@@ -25,7 +25,7 @@ The inline third-party snippets live in two partials:
   `js-head.html`, and `analytics/body.html` first in its `js.html`, before the
   theme's own scripts. Without them, pages ship without tracking or consent.
 - **A part's own scripts may import from here** (for example
-  `assets/js/cjp-tracking.js` imports `segment-helpers.js`). Nothing here imports
+  `assets/marketing/js/cjp-tracking.js` imports `segment-helpers.js`). Nothing here imports
   from a part.
 - **Only analytics and consent code goes here.** UI helpers such as
   `initGoToTopButton` stay in each part's `helpers.js`.

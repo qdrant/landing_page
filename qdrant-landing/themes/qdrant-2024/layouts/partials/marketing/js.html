@@ -1,9 +1,9 @@
-{{/* Marketing part scripts. The part's own code comes from assets/js/; the
+{{/* Marketing part scripts. The part's own code comes from assets/marketing/js/; the
      documentation part has its own tree in assets/docs/ (see documentation/js.html).
-     Shared layers: analytics/, common/ (third-party), and shortcodes/. */}}
+     Shared code comes from assets/lib/ and assets/shortcodes/. */}}
 {{ partial "analytics/body.html" . }}
 
-{{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+{{ $indexJs := resources.Get "marketing/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
 {{ if .HasShortcode "chart" }}
@@ -22,87 +22,87 @@
 {{ end }}
 
 {{ if eq .Section "pricing" }}
-  {{ $pricingTableJs := resources.Get "/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pricingTableJs := resources.Get "marketing/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if .IsHome }}
-  {{ $homeAnimationsJs := resources.Get "/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $homeAnimationsJs := resources.Get "marketing/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $homeAnimationsJs.RelPermalink }}"></script>
 
-  {{ $scrollRevealJs := resources.Get "/js/scroll-reveal.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $scrollRevealJs := resources.Get "marketing/js/scroll-reveal.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $scrollRevealJs.RelPermalink }}"></script>
 
   <!--splide.js carousel-->
-  {{ $splideJs := resources.Get "/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $splideJs := resources.Get "marketing/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $splideJs.RelPermalink }}"></script>
 
 {{ end }}
 
 {{ if or (eq .Section "customers") (and (not .IsPage) (eq .Section "blog")) }}
-  {{ $vendorSearchJs := resources.Get "common/js/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $vendorSearchJs := resources.Get "lib/vendor/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $vendorSearchJs.RelPermalink }}" type="module"></script>
-  {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pageSearchJs := resources.Get "marketing/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
 
 {{ if and .IsPage (in (slice "blog" "benchmarks") .Section) }}
-  {{ $pageSearchScrollJs := resources.Get "common/js/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pageSearchScrollJs := resources.Get "lib/vendor/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if in (slice "customers" "demo") .Section }}
-  {{ $catalogFiltersJs := resources.Get "js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $catalogFiltersJs := resources.Get "marketing/js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{/* Bootstrap Popover is shared with the documentation part (assets/common/) and is
+{{/* Bootstrap Popover is shared with the documentation part (assets/lib/vendor/) and is
      needed by copy-markdown.js and copy-code.js, so it loads once before either. */}}
 {{ $copyCodeSections := slice "blog" "benchmarks" "qdrant-cloud" "quantization" "edge" }}
 {{ if or (.Store.Get "hasCopyMarkdown") (in $copyCodeSections .Section) }}
-  {{ $popoverJs := resources.Get "common/js/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $popoverJs := resources.Get "lib/vendor/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $popoverJs.RelPermalink }}"></script>
 {{ end }}
 
 {{/* Set by partials/copy-markdown-button.html, which renders in the body before
      this partial runs. */}}
 {{ if .Store.Get "hasCopyMarkdown" }}
-  {{ $copyMarkdownJs := resources.Get "js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $copyMarkdownJs := resources.Get "marketing/js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $copyMarkdownJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "industries" }}
-  {{ $customersJs := resources.Get "js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $customersJs := resources.Get "marketing/js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "edge" }}
-  {{ $customersJs := resources.Get "js/edge.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $customersJs := resources.Get "marketing/js/edge.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if in (slice "security" "resilience" "quantization" "observability" "cloud-inference") .Section }}
-  {{ $pricingTableJs := resources.Get "/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pricingTableJs := resources.Get "marketing/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if in (slice "resilience" "qdrant-cloud") .Section }}
-  {{ $pricingTableJs := resources.Get "/js/sticky-tabs.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pricingTableJs := resources.Get "marketing/js/sticky-tabs.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if in (slice "qdrant-cloud" "security" "resilience" "quantization" "observability" "gpu-indexing" "cloud-inference" "hybrid-cloud" "edge") .Section }}
-  {{ $cjpTrackingJs := resources.Get "js/cjp-tracking.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $cjpTrackingJs := resources.Get "marketing/js/cjp-tracking.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $cjpTrackingJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "qdrant-cloud" }}
-  {{ $customersJs := resources.Get "js/qdrant-cloud.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $customersJs := resources.Get "marketing/js/qdrant-cloud.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
           
 {{ if in (slice "qdrant-cloud" "resilience") .Section }}
-  {{ $customersJs := resources.Get "js/nested-accordion.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $customersJs := resources.Get "marketing/js/nested-accordion.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 

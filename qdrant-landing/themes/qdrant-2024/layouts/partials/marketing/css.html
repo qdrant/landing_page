@@ -1,15 +1,15 @@
-{{/* Marketing part stylesheets. Everything comes from assets/css/; the
+{{/* Marketing part stylesheets. Everything comes from assets/marketing/css/; the
      documentation part has its own tree in assets/docs/ (see documentation/css.html). */}}
 {{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
 
 <!--Shared foundation (fonts, Bootstrap, base, header/footer) - loaded on every page-->
-{{ $coreCss := resources.Get "css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+{{ $coreCss := resources.Get "marketing/css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
 
-<!--Code blocks (assets/code-blocks/), shared by both parts-->
+<!--Code blocks (assets/lib/code-blocks/), shared by both parts-->
 {{ partial "code-blocks/css.html" . }}
 
-<!--Heading anchors (assets/heading-anchors/), shared by both parts-->
+<!--Heading anchors (assets/lib/heading-anchors/), shared by both parts-->
 {{ partial "heading-anchors/css.html" . }}
 
 <!--Shortcode styles for the shortcodes on this page (assets/shortcodes/), shared by both parts.
@@ -18,15 +18,15 @@
 
 {{ if .IsHome }}
   <!--splide.js carousel core styles-->
-  {{ $splideCss := resources.Get "css/vendor/splide.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  {{ $splideCss := resources.Get "marketing/css/vendor/splide.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $splideCss.RelPermalink }}" rel="stylesheet" integrity="{{ $splideCss.Data.Integrity }}" />
 {{ end }}
 
 {{ if in (slice "blog" "customers") .Section }}
-  <!--Third-party page search styles, shared with the documentation part (assets/common/)-->
-  {{ $vendorSearchCss := resources.Get "common/css/page-search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <!--Third-party page search styles, shared with the documentation part (assets/lib/vendor/)-->
+  {{ $vendorSearchCss := resources.Get "lib/vendor/page-search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $vendorSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $vendorSearchCss.Data.Integrity }}" />
-  {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  {{ $pageSearchCss := resources.Get "marketing/css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 {{ end }}
 
@@ -68,6 +68,6 @@
   {{ $bundles = slice "partners-customers" }}
 {{ end }}
 {{ range $bundles }}
-  {{ $bundleCss := resources.Get (printf "css/%s.scss" .) | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  {{ $bundleCss := resources.Get (printf "marketing/css/%s.scss" .) | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $bundleCss.RelPermalink }}" rel="stylesheet" integrity="{{ $bundleCss.Data.Integrity }}" />
 {{ end }}

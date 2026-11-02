@@ -1,4 +1,4 @@
-@use '../tools' as *;
+@use '../../lib/tools' as *;
 
 // Both themes are declared here so a palette change is a one-block edit.
 $prompt-border: $neutral-30;

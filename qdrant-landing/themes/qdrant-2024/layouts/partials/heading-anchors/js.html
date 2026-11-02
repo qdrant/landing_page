@@ -1,5 +1,5 @@
 {{- /* Heading anchors: the "#" link next to post and documentation headings, which
-       copies the heading's URL. From assets/heading-anchors/; see its README. To
+       copies the heading's URL. From assets/lib/heading-anchors/; see its README. To
        replace heading anchors in a part, stop calling this partial there. */ -}}
-{{- $headingAnchorsJs := resources.Get "heading-anchors/heading-anchors.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+{{- $headingAnchorsJs := resources.Get "lib/heading-anchors/heading-anchors.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $headingAnchorsJs.RelPermalink }}"></script>

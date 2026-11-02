@@ -1,6 +1,6 @@
 {{/* Documentation part scripts. The part's own code comes from assets/docs/js/,
-     never from the marketing tree in assets/js/. Shared layers: analytics/,
-     common/ (third-party), and shortcodes/. */}}
+     never from the marketing tree in assets/marketing/js/. Shared code comes from
+     assets/lib/ and assets/shortcodes/. */}}
 
 {{ partial "analytics/body.html" . }}
 
@@ -22,18 +22,18 @@
   <script src="{{ $islandsLoaderJs.RelPermalink }}"></script>
 {{ end }}
 
-{{/* Third-party libraries are shared with the marketing part (assets/common/) and
+{{/* Third-party libraries are shared with the marketing part (assets/lib/vendor/) and
      load before the docs scripts that use them. */}}
-{{ $vendorSearchJs := resources.Get "common/js/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+{{ $vendorSearchJs := resources.Get "lib/vendor/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $vendorSearchJs.RelPermalink }}" type="module"></script>
-{{ $popoverJs := resources.Get "common/js/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+{{ $popoverJs := resources.Get "lib/vendor/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $popoverJs.RelPermalink }}"></script>
 
 {{ $pageSearchJs := resources.Get "docs/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 
 {{ if .IsPage }}
-  {{ $pageSearchScrollJs := resources.Get "common/js/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $pageSearchScrollJs := resources.Get "lib/vendor/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
