@@ -1,15 +1,15 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
   {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
-    {{ partial "use-cases-vector-hero" . }}
+    {{ partial "marketing/use-cases-vector-hero" . }}
   {{ end }}
 
-  {{ partial "advanced-search-features" . }}
-  {{ partial "advanced-search-use-cases" . }}
+  {{ partial "marketing/advanced-search-features" . }}
+  {{ partial "marketing/advanced-search-use-cases" . }}
 
   {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
-    {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
   {{ end }}
 
-  {{ partial "get-started" . }}
+  {{ partial "marketing/get-started" . }}
 {{ end }}

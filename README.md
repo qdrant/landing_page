@@ -868,7 +868,7 @@ The snippetsOrder parameter only works at the section level or deeper. If you're
 
 Structured data is a standardized format for providing information about a page and classifying the page content. It is used by search engines to understand the content of the page and to display rich snippets in search results.
 
-We use JSON-LD format for structured data. Data is stored in JSON files in the `/assets/schema` directory. If no specific schema is provided for a page, the default schema is used based on the page type as defined in the `qdrant-landing/themes/qdrant/layouts/partials/seo_schema.html` file.
+We use JSON-LD format for structured data. Data is stored in JSON files in the `/assets/schema` directory. If no specific schema is provided for a page, the default schema is used based on the page type as defined in the `qdrant-landing/themes/qdrant-2024/layouts/partials/common/seo_schema.html` file.
 
 To add schema to a specific page, use the `seo_schema` or `seo_schema_json` parameter in the front matter of content markdown files (directory `content`).
 

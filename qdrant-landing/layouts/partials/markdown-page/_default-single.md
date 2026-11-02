@@ -4,7 +4,7 @@
 
 {{ $content := .RenderShortcodes -}}
 {{- if .Params.retired -}}
-  {{- $content = printf "> %s\n\n%s" (partial "retirement-notice.html" .) $content -}}
+  {{- $content = printf "> %s\n\n%s" (partial "common/retirement-notice.html" .) $content -}}
 {{- end -}}
 {{- if not (strings.TrimSpace $content) }}# {{ .Title }}
 {{ end -}}
@@ -12,7 +12,7 @@
 {{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
 {{- /* Rewrite internal relative links: ](../page/) or (./page/) → same with index.md */}}
 {{- $content = replaceRE `\]\((\.\.?/[^):]*/)([\)#?])` `](https://qdrant.tech/${1}index.md${2}` $content -}}
-{{ $content }}{{ with partial "blog-author-profile.html" . }}
+{{ $content }}{{ with partial "common/blog-author-profile.html" . }}
 ## About the Author
 
 {{ .name }}{{ with .role }} | {{ . }}{{ end }}

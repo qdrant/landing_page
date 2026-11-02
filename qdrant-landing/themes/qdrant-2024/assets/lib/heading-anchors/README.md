@@ -13,8 +13,8 @@ documentation and the marketing part.
 
 Two partials, called by each part where it wants them:
 
-- `layouts/partials/heading-anchors/css.html`, after `code-blocks/css.html`.
-- `layouts/partials/heading-anchors/js.html`.
+- `layouts/partials/common/heading-anchors/css.html`, after `common/code-blocks/css.html`.
+- `layouts/partials/common/heading-anchors/js.html`.
 
 | Part | CSS | JS |
 |---|---|---|

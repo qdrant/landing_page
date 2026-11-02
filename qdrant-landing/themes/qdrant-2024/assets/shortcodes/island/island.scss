@@ -2,8 +2,8 @@
 // system every island builds on (tokens + controls + SVG text/frame classes).
 //
 // This is the CSS half of the content-islands feature; the behavior half (the
-// host loader) is emitted from partials/js.html. This file is loaded as a
-// <link> from partials/css.html, gated on `.HasShortcode "island"` so it only
+// host loader) is emitted from each part's js.html. This file is loaded as a
+// <link> from each part's css.html, gated on `.HasShortcode "island"` so it only
 // ships on pages that actually embed an island. It is deliberately NOT imported
 // into a section bundle (blog/documentation), to keep those under their CSS
 // budgets.

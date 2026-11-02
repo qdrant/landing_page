@@ -1,19 +1,19 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
-  {{ partial "cloud-inference/hero" . }}
-  {{ partial "cloud-inference/embedding-models" . }}
+  {{ partial "marketing/cloud-inference/hero" . }}
+  {{ partial "marketing/cloud-inference/embedding-models" . }}
 
   {{ with (.Site.GetPage "/cloud-inference/model-request-banner") }}
-    {{ partial "pricing-banner" . }}
+    {{ partial "marketing/pricing-banner" . }}
   {{ end }}
 
-  {{ partial "cloud-inference/what-you-get" . }}
-  {{ partial "cloud-inference/how-it-works" . }}
-  {{ partial "cloud-inference/approaches" . }}
-  {{ partial "cloud-inference/faq" . }}
+  {{ partial "marketing/cloud-inference/what-you-get" . }}
+  {{ partial "marketing/cloud-inference/how-it-works" . }}
+  {{ partial "marketing/cloud-inference/approaches" . }}
+  {{ partial "marketing/cloud-inference/faq" . }}
 
   {{ with (.Site.GetPage "/cloud-inference/cta-banner") }}
-    {{ partial "cta-banner" . }}
+    {{ partial "marketing/cta-banner" . }}
   {{ end }}
 {{ end }}

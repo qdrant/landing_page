@@ -1,0 +1,14 @@
+{{ $reAltTitleIn := "<img src=\"([^\"]+)\" alt=\"([^\"]*)\" title=\"([^\"]+)\">" }}
+{{ $reAltTitleOut := "<figure><img src=\"$1\" alt=\"$2\" title=\"$3\"><figcaption>$3</figcaption></figure>" }}
+{{ if .Params.retired }}
+  <aside role="status" aria-label="Archived content">
+    {{ partial "common/retirement-notice.html" . | markdownify }}
+  </aside>
+{{ end }}
+{{ $contentWithImgCaptures := .Content | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}
+
+{{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+{{ $contentWithWrappedTables := $contentWithImgCaptures | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+{{ $old := "<table>" }}
+{{ $new := printf "<table class=\"%s\">"  "table mb-5" }}
+{{ $contentWithWrappedTables | replaceRE $old $new | safeHTML }}

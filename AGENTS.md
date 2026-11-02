@@ -69,19 +69,33 @@ See `assets/README.md`.
 
 The documentation part is the `documentation`, `learn`, `course`, and `articles`
 sections (everything reached from the docs header); the marketing part is
-everything else, including the blog. `layouts/partials/is-docs-part.html`
+everything else, including the blog. `layouts/partials/common/is-docs-part.html`
 decides, and `css.html`, `js.html`, and `js-head.html` dispatch to
 `partials/documentation/` or `partials/marketing/`.
 
+`themes/qdrant-2024/layouts/partials/` is split the same way, into three
+directories and nothing else:
+
+| Directory | What it holds |
+|---|---|
+| `common/` | Partials both parts use: the page head and the `css.html`, `js.html`, and `js-head.html` dispatchers, the `lib/` component partials, and shared pieces such as `logo`, `svg`, `pagination`, and `table-of-contents` |
+| `documentation/` | Partials only documentation pages use |
+| `marketing/` | Partials only marketing pages use, in their section subfolders (`home/`, `pricing/`, `industries/`, ...) |
+
+Call a partial by its full path, for example `partial "common/logo.html"`. A
+partial that starts serving both parts moves to `common/`. The project-level
+`qdrant-landing/layouts/partials/` (Markdown output, snippets, charts) is a
+separate override layer and keeps its own layout.
+
 Each `lib/` component has a pair of partials that a part calls where it wants
-it, so a part can swap one for something else: `partials/analytics/`,
-`partials/code-blocks/`, `partials/heading-anchors/`. Every theme must call
-`partials/analytics/head.html` and `body.html`, or its pages ship without
-tracking or consent.
+it, so a part can swap one for something else: `partials/common/analytics/`,
+`partials/common/code-blocks/`, `partials/common/heading-anchors/`. Every theme
+must call `partials/common/analytics/head.html` and `body.html`, or its pages
+ship without tracking or consent.
 
 Shortcode assets load only on pages that use the shortcode. The shortcode marks
 its root element with `data-shortcode="<name>"`, and
-`partials/shortcode-assets/` finds the markers in `.Content`. See
+`partials/common/shortcode-assets/` finds the markers in `.Content`. See
 `assets/shortcodes/README.md`.
 
 ## Every page has two outputs

@@ -1,6 +1,6 @@
 @use '../helpers/functions' as *;
 
-// "Copy as Markdown" button, see partials/copy-markdown-button.html.
+// "Copy as Markdown" button, see partials/common/copy-markdown-button.html.
 // data-state is one of idle, loading, done; copy-markdown.js switches it.
 
 .copy-markdown {

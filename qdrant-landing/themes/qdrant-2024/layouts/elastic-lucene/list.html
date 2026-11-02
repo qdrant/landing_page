@@ -1,32 +1,32 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
   {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-hero") }}
-    {{ partial "elastic-lucene/hero" . }}
+    {{ partial "marketing/elastic-lucene/hero" . }}
   {{ end }}
 
-  {{ partial "elastic-lucene/why" . }}
+  {{ partial "marketing/elastic-lucene/why" . }}
 
   {{ $class := "rag-use-cases" }}
   <section class="grey-bg pt-6 pb-5">
     <div class="container">
       {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-callout.md") }}
-        {{ partial "callout" . }}
+        {{ partial "marketing/callout" . }}
       {{ end }}
     </div>
   </section>
 
-  {{ partial "elastic-lucene/optimization" . }}
+  {{ partial "marketing/elastic-lucene/optimization" . }}
 
-  {{ partial "elastic-lucene/features" . }}
+  {{ partial "marketing/elastic-lucene/features" . }}
 
-  {{ partial "elastic-lucene/migration" . }}
+  {{ partial "marketing/elastic-lucene/migration" . }}
 
-  {{ partial "elastic-lucene/cta-section.html" . }}
+  {{ partial "marketing/elastic-lucene/cta-section.html" . }}
 
-  {{ partial "elastic-lucene/lessons" . }}
+  {{ partial "marketing/elastic-lucene/lessons" . }}
 
   {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-get-started") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "get-started-small-database") }}
   {{ end }}
 
 {{ end }}

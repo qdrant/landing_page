@@ -1,6 +1,6 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
-  {{ partial "qdrant-articles-hero" . }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/qdrant-articles-hero" . }}
 
 
   <div class="container my-5">
@@ -24,16 +24,16 @@
               {{ end }}
 
               {{ if .Params.single_node_data }}
-                {{ partial "benchmark_chart"
+                {{ partial "marketing/benchmark_chart"
                   (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
                 }}
               {{ end }}
 
               {{ if .Params.filter_data }}
-                {{ partial "benchmark_filter_chart" . }}
+                {{ partial "marketing/benchmark_filter_chart" . }}
               {{ end }}
 
-              {{ partial "article-content" . }}
+              {{ partial "common/article-content" . }}
             </article>
           </div>
         </div>

@@ -1,14 +1,14 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
   {{ .Scratch.Set "withDate" "true" }}
-  {{ partial "qdrant-articles-hero" . }}
+  {{ partial "marketing/qdrant-articles-hero" . }}
 
 
   <div class="container my-5 benchmark">
     <div class="row">
       <div class="col-12 mb-5">
-        {{ partial "breadcrumbs" . }}
+        {{ partial "marketing/breadcrumbs" . }}
       </div>
     </div>
     <div class="row qdrant-post qdrant-post_centered">
@@ -16,7 +16,7 @@
         <article class="qdrant-post__content">
           {{ if .Params.single_node_data }}
             <section>
-              {{ partial "benchmark_chart"
+              {{ partial "marketing/benchmark_chart"
                 (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
               }}
             </section>
@@ -24,15 +24,15 @@
 
           {{ if .Params.filter_data }}
             <section>
-              {{ partial "benchmark_filter_chart" . }}
+              {{ partial "marketing/benchmark_filter_chart" . }}
             </section>
           {{ end }}
 
           {{ .Scratch.Set "scope" "single" }}
-          {{ partial "article-content" . }}
+          {{ partial "common/article-content" . }}
         </article>
         {{ .Scratch.Set "variant" "horizontal" }}
-        {{ partial "share-buttons" . }}
+        {{ partial "marketing/share-buttons" . }}
       </div>
     </div>
   </div>

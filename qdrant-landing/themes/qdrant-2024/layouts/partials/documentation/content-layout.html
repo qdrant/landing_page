@@ -2,7 +2,7 @@
 <section class="docs documentation">
   <div class="documentation__container">
     <div class="d-flex flex-column flex-xl-row">
-      {{ $partition := partial "get-partition.html" (dict "page" .) }}
+      {{ $partition := partial "common/get-partition.html" (dict "page" .) }}
 
       {{ partial "documentation/sidebar-menu" (dict "context" . "partition" $partition) }}
 
@@ -45,7 +45,7 @@
                         <span>&middot;</span>
                         <p>{{ time.Format "January 02, 2006" .Date }}</p>
                       </div>
-                      {{ partial "copy-markdown-button.html" . }}
+                      {{ partial "common/copy-markdown-button.html" . }}
                     </div>
                     {{ if .Params.preview_dir }}
                       <picture class="documentation-article__header-preview">
@@ -59,11 +59,11 @@
                     {{ end }}
                   </div>
 
-                  {{ partial "article-content.html" . }}
+                  {{ partial "common/article-content.html" . }}
                 </article>
                 {{ partial "documentation/feedback.html" . }}
               </div>
-              {{ partial "table-of-contents" . }}
+              {{ partial "common/table-of-contents" . }}
             {{ end }}
 
           {{ else }}
@@ -81,7 +81,7 @@
 
 
                 <article class="documentation-article">
-                  {{ partial "article-content.html" . }}
+                  {{ partial "common/article-content.html" . }}
                   {{ partial "documentation/guides/series-navigation" . }}
                 </article>
 
@@ -89,7 +89,7 @@
                   {{ partial "documentation/feedback.html" . }}
                 {{ end }}
               </div>
-              {{ partial "table-of-contents" . }}
+              {{ partial "common/table-of-contents" . }}
             {{ end }}
 
           {{ end }}

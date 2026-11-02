@@ -33,13 +33,13 @@ assets; see `shortcodes/README.md`.
 |---|---|
 | `marketing/` | `layouts/partials/marketing/{css,js,js-head}.html` |
 | `docs/` | `layouts/partials/documentation/{css,js,js-head}.html` |
-| `lib/analytics/` | `layouts/partials/analytics/{head,body}.html` |
-| `lib/code-blocks/` | `layouts/partials/code-blocks/{css,js}.html` |
-| `lib/heading-anchors/` | `layouts/partials/heading-anchors/{css,js}.html` |
+| `lib/analytics/` | `layouts/partials/common/analytics/{head,body}.html` |
+| `lib/code-blocks/` | `layouts/partials/common/code-blocks/{css,js}.html` |
+| `lib/heading-anchors/` | `layouts/partials/common/heading-anchors/{css,js}.html` |
 | `lib/vendor/` | each part's own `css.html` and `js.html` |
-| `shortcodes/` | `layouts/partials/shortcode-assets/{css,js}.html` |
+| `shortcodes/` | `layouts/partials/common/shortcode-assets/{css,js}.html` |
 
-`layouts/partials/is-docs-part.html` decides which part a page belongs to.
+`layouts/partials/common/is-docs-part.html` decides which part a page belongs to.
 
 ## Adding a file
 

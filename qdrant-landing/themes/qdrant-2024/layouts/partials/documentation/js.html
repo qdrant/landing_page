@@ -2,7 +2,7 @@
      never from the marketing tree in assets/marketing/js/. Shared code comes from
      assets/lib/ and assets/shortcodes/. */}}
 
-{{ partial "analytics/body.html" . }}
+{{ partial "common/analytics/body.html" . }}
 
 {{ $indexJs := resources.Get "docs/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
@@ -47,7 +47,7 @@
   <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>
 {{ end }}
 
-{{/* Set by partials/copy-markdown-button.html, which renders in the body before
+{{/* Set by partials/common/copy-markdown-button.html, which renders in the body before
      this partial runs. */}}
 {{ if .Store.Get "hasCopyMarkdown" }}
   {{ $copyMarkdownJs := resources.Get "docs/js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
@@ -62,11 +62,11 @@
 <!--popper.js for bootstrap-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
-{{ partial "code-blocks/js.html" . }}
+{{ partial "common/code-blocks/js.html" . }}
 
 {{/* Scripts for the shortcodes on this page (assets/shortcodes/), shared by both parts.
      They load after lang-switcher.js, where code-snippet's deployment switcher used to load. */}}
-{{ partial "shortcode-assets/js.html" . }}
+{{ partial "common/shortcode-assets/js.html" . }}
 
 <!-- MathJax support -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -96,7 +96,7 @@
   });
 </script>
 
-{{ partial "heading-anchors/js.html" . }}
+{{ partial "common/heading-anchors/js.html" . }}
 
 <script>
   document.addEventListener('keydown', function (event) {

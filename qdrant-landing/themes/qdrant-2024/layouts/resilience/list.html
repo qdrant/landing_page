@@ -1,17 +1,17 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
-  {{ partial "resilience/hero" . }}
-  {{ partial "resilience/how-it-works" . }}
-  {{ partial "resilience/cluster-configuration" . }}
-  {{ partial "resilience/capabilities" . }}
-  {{ partial "resilience/deployment-models" . }}
-  {{ partial "resilience/case-study" . }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/resilience/hero" . }}
+  {{ partial "marketing/resilience/how-it-works" . }}
+  {{ partial "marketing/resilience/cluster-configuration" . }}
+  {{ partial "marketing/resilience/capabilities" . }}
+  {{ partial "marketing/resilience/deployment-models" . }}
+  {{ partial "marketing/resilience/case-study" . }}
   
   {{ with (.Site.GetPage "/resilience/faq") }}
-    {{ partial "nested-accordion" (dict "context" . "class" "pt-5 pt-lg-6 pb-lg-5") }}
+    {{ partial "marketing/nested-accordion" (dict "context" . "class" "pt-5 pt-lg-6 pb-lg-5") }}
   {{ end }}
 
   {{ with (.Site.GetPage "/resilience/cta-banner") }}
-    {{ partial "cta-banner" . }}
+    {{ partial "marketing/cta-banner" . }}
   {{ end }}
 {{ end }}

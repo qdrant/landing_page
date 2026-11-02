@@ -1,14 +1,14 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
-  {{ partial "qdrant-vector-database-hero" . }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/qdrant-vector-database-hero" . }}
 
-  {{ partial "qdrant-vector-database-use-cases" . }}
-  {{ partial "feature-overview" . }}
+  {{ partial "marketing/qdrant-vector-database-use-cases" . }}
+  {{ partial "marketing/feature-overview" . }}
 
   {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-rocket") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "get-started-small-rocket") }}
   {{ end }}
 
-  {{ partial "additional-resources" . }}
-  {{ partial "get-started" . }}
+  {{ partial "marketing/additional-resources" . }}
+  {{ partial "marketing/get-started" . }}
 {{ end }}

@@ -1,9 +1,0 @@
-{{- /* Stylesheets for the shortcodes on this page, from assets/shortcodes/<name>/<name>.scss.
-       Shortcodes without a stylesheet are skipped. See assets/shortcodes/README.md. */ -}}
-{{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}
-{{- range partialCached "shortcode-assets/names.html" . .RelPermalink -}}
-  {{- with resources.Get (printf "shortcodes/%s/%s.scss" . .) }}
-    {{- $css := . | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-<link href="{{ $css.RelPermalink }}" rel="stylesheet" integrity="{{ $css.Data.Integrity }}" />
-  {{- end -}}
-{{- end -}}

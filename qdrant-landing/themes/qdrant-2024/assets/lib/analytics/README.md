@@ -14,15 +14,15 @@ cannot land in one part and silently miss the other.
 
 The inline third-party snippets live in two partials:
 
-- `layouts/partials/analytics/head.html`: the HubSpot forms embed.
-- `layouts/partials/analytics/body.html`: HubSpot tracking, the OneTrust stub,
+- `layouts/partials/common/analytics/head.html`: the HubSpot forms embed.
+- `layouts/partials/common/analytics/body.html`: HubSpot tracking, the OneTrust stub,
   the Segment snippet, `google-setup.js`, `analytics.js`, and the HubSpot form
   listener that fills the page and referrer fields.
 
 ## Rules
 
-- **Every theme calls both partials.** `analytics/head.html` from its
-  `js-head.html`, and `analytics/body.html` first in its `js.html`, before the
+- **Every theme calls both partials.** `common/analytics/head.html` from its
+  `js-head.html`, and `common/analytics/body.html` first in its `js.html`, before the
   theme's own scripts. Without them, pages ship without tracking or consent.
 - **A part's own scripts may import from here** (for example
   `assets/marketing/js/cjp-tracking.js` imports `segment-helpers.js`). Nothing here imports

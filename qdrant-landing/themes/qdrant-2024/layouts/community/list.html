@@ -1,16 +1,16 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
-  {{ partial "community-hero" . }}
-  {{ partial "community-features" . }}
+  {{ partial "marketing/community-hero" . }}
+  {{ partial "marketing/community-features" . }}
 
   {{ with (.Site.GetPage "/community/community-newsletter") }}
-    {{ partial "newsletter" (dict "context" . "class" "community-newsletter") }}
+    {{ partial "marketing/newsletter" (dict "context" . "class" "community-newsletter") }}
   {{ end }}
 
-  {{ partial "community-testimonials" . }}
+  {{ partial "marketing/community-testimonials" . }}
 
   {{ with (.Site.GetPage "/community/community-get-contacted") }}
-    {{ partial "get-contacted" (dict "context" . "class" "community-get-contacted") }}
+    {{ partial "marketing/get-contacted" (dict "context" . "class" "community-get-contacted") }}
   {{ end }}
 {{ end }}

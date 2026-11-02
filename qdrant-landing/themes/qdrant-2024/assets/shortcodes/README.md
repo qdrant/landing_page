@@ -16,7 +16,7 @@ assets/shortcodes/
   <name>/<name>.scss       styles for the shortcode, optional
   <name>/<name>.js         behavior for the shortcode, optional
 layouts/shortcodes/<name>.html         the template
-layouts/partials/shortcode-assets/     names.html, css.html, js.html
+layouts/partials/common/shortcode-assets/     names.html, css.html, js.html
 ```
 
 ## Shortcodes with assets
@@ -38,12 +38,12 @@ The example pages are in `SHORTCODE_ROUTES` in `qdrant-landing/tests/routes.ts`.
 ## How loading works
 
 1. The shortcode puts `data-shortcode="<name>"` on its root element.
-2. `partials/shortcode-assets/names.html` reads the page's rendered `.Content`
+2. `partials/common/shortcode-assets/names.html` reads the page's rendered `.Content`
    and returns the names it finds. Calling `.Content` in `<head>` renders the
    content early; Hugo caches it, so the body reuses the same result.
-3. `shortcode-assets/css.html` links `<name>/<name>.scss` for each name, right
+3. `common/shortcode-assets/css.html` links `<name>/<name>.scss` for each name, right
    after the part's `core.css` and before its section bundle.
-   `shortcode-assets/js.html` adds `<name>/<name>.js` after `lang-switcher.js`.
+   `common/shortcode-assets/js.html` adds `<name>/<name>.js` after `lang-switcher.js`.
    A missing file is skipped, so a shortcode can have CSS only, JS only, or
    neither.
 

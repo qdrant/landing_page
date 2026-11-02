@@ -1,7 +1,7 @@
 // Chart figures: the shell (card, caption, scroll) and the hover affordances.
 //
 // This is the CSS half of the charts feature; the behavior half (js/viz.js) is
-// emitted from partials/js.html. Loaded as a <link> from partials/css.html,
+// emitted from each part's js.html. Loaded as a <link> from each part's css.html,
 // gated on `.HasShortcode "chart"` so it ships only on pages that embed a
 // chart. Deliberately NOT imported into a section bundle — same reasoning as
 // islands.scss, and for the same budget.

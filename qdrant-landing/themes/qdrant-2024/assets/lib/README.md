@@ -6,9 +6,9 @@ to neither. Files here import only from `lib/` and `node_modules`.
 | Path | What it is | Loaded through |
 |---|---|---|
 | `_tools.scss` | Sass values, `pxToRem`, and breakpoint mixins. Emits no CSS. Used by every stylesheet in `lib/` and `shortcodes/` instead of a part's theme variables. | imported |
-| `analytics/` | Tracking and consent: HubSpot, OneTrust, Segment, Google | `partials/analytics/{head,body}.html`, called by every theme |
-| `code-blocks/` | Syntax highlighting, copy button, language tabs | `partials/code-blocks/{css,js}.html` |
-| `heading-anchors/` | The `#` link next to post and documentation headings | `partials/heading-anchors/{css,js}.html` |
+| `analytics/` | Tracking and consent: HubSpot, OneTrust, Segment, Google | `partials/common/analytics/{head,body}.html`, called by every theme |
+| `code-blocks/` | Syntax highlighting, copy button, language tabs | `partials/common/code-blocks/{css,js}.html` |
+| `heading-anchors/` | The `#` link next to post and documentation headings | `partials/common/heading-anchors/{css,js}.html` |
 | `vendor/` | Third-party libraries exposed as globals for each part's own wrappers | each part's `css.html` and `js.html` |
 
 Each component has its own README.
