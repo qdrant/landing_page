@@ -13,11 +13,11 @@ aliases:
 
 # Usage statistics
 
+<aside role="status">When using Qdrant Cloud, this setting does not apply and anonymized usage statistics are disabled by default. The rest of this page applies to self-hosted deployments.</aside>
+
 The Qdrant open-source container image collects anonymized usage statistics from users in order to improve the engine by default.  You can [deactivate](#deactivate-usage-statistics) at any time, and any data that has already been collected can be [deleted on request](#request-information-deletion). 
 
 Deactivating this will not affect your ability to monitor the Qdrant database yourself by accessing the `/metrics` or `/telemetry` endpoints of your database. It will just stop sending independent, anonymized usage statistics to the Qdrant team.
-
-<aside role="status">When using Qdrant Cloud, this setting does not apply and anonymized usage statistics are disabled by default.</aside>
 
 ## Why do we collect usage statistics?
 
