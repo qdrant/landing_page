@@ -143,7 +143,7 @@
 
 // Tokens live in _qi-tokens.scss, shared with the chart component so the two
 // in-content graphics features cannot drift apart.
-@import 'qi-tokens';
+@import '../qi-tokens';
 
 .island {
   @include qi-light-tokens;

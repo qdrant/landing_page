@@ -12,7 +12,7 @@
 // Data colours (bar and line fills) live in data/viz.json and arrive inside
 // the SVG — they carry meaning, so they do not follow the theme. Chrome colours
 // come from the shared --qi-* tokens, the same ones the island diagrams use.
-@import 'qi-tokens';
+@import '../qi-tokens';
 
 // Tokens go on both roots: the figure, and the tooltip, which js/viz.js appends
 // to <body> and so sits outside the figure's subtree.

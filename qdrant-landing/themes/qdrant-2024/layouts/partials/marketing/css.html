@@ -6,6 +6,10 @@
 {{ $coreCss := resources.Get "css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
 
+<!--Shortcode styles for the shortcodes on this page (assets/shortcodes/), shared by both parts.
+    Right after core so they keep the cascade position they had inside core.css.-->
+{{ partial "shortcode-assets/css.html" . }}
+
 {{ if .IsHome }}
   <!--splide.js carousel core styles-->
   {{ $splideCss := resources.Get "css/vendor/splide.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
@@ -22,11 +26,11 @@
 
 <!--Content islands: shell CSS half (wrapper/fallback/spinner). Behavior half (loader) is in marketing/js.html.
     `.HasShortcode` is parse-derived, so it works here in <head> where .Store/hasIslands is not yet set.-->
-<!--Charts: CSS half (card, caption, hover affordances). Behavior half (js/viz.js) is in marketing/js.html.
+<!--Charts: CSS half (card, caption, hover affordances). Behavior half (shortcodes/chart/chart.js) is in marketing/js.html.
     Gated on `.HasShortcode "chart"` so it ships only on the handful of pages that embed a chart,
     rather than riding along in core.css on all ~1100 pages.-->
 {{ if .HasShortcode "chart" }}
-  {{ $vizCss := resources.Get "css/viz.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  {{ $vizCss := resources.Get "shortcodes/chart/chart.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $vizCss.RelPermalink }}" rel="stylesheet" integrity="{{ $vizCss.Data.Integrity }}" />
 {{ end }}
 
@@ -36,7 +40,7 @@
   <script>
     document.documentElement.classList.add('islands-js');
   </script>
-  {{ $islandsCss := resources.Get "css/islands.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  {{ $islandsCss := resources.Get "shortcodes/island/island.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $islandsCss.RelPermalink }}" rel="stylesheet" integrity="{{ $islandsCss.Data.Integrity }}" />
 {{ end }}
 

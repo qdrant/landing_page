@@ -164,11 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('click', toggleAccordion);
   });
 
-  const accordionDarkButtons = Array.from(document.getElementsByClassName('accordion-dark__item-header'));
-  accordionDarkButtons.forEach((el) => {
-    el.addEventListener('click', toggleAccordion);
-  });
-
   // Pricing doors tabs
   const pricingDoorsTabs = document.querySelectorAll('.qdrant-pricing-doors-b__tab');
   const pricingDoorsContainers = document.querySelectorAll('[data-doors-tab]');

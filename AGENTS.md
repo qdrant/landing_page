@@ -69,6 +69,13 @@ Third-party libraries both parts use (page search, anchor-js, Bootstrap Popover)
 live once in `themes/qdrant-2024/assets/common/` and expose a global that each
 part's own wrapper reads. Only third-party code goes there; see its README.
 
+Shortcodes own their assets, in `themes/qdrant-2024/assets/shortcodes/<name>/`,
+and a page loads them only when it uses the shortcode. The shortcode marks its
+root element with `data-shortcode="<name>"`, and
+`layouts/partials/shortcode-assets/` finds the markers in `.Content`. Shortcode
+styles import only `assets/shortcodes/_tools.scss`, never a part's theme. See
+`assets/shortcodes/README.md`.
+
 ## Every page has two outputs
 
 A content page renders as HTML and as Markdown at `<url>/index.md`. The Markdown

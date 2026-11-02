@@ -1,0 +1,8 @@
+{{- /* Scripts for the shortcodes on this page, from assets/shortcodes/<name>/<name>.js.
+       Shortcodes without a script are skipped. See assets/shortcodes/README.md. */ -}}
+{{- range partialCached "shortcode-assets/names.html" . .RelPermalink -}}
+  {{- with resources.Get (printf "shortcodes/%s/%s.js" . .) }}
+    {{- $js := . | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $js.RelPermalink }}"></script>
+  {{- end -}}
+{{- end -}}
