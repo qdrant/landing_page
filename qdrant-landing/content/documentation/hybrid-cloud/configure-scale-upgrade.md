@@ -28,15 +28,15 @@ These changes restart the pods one at a time in a rolling restart:
 - Database settings, such as the replication factor, the write consistency factor, the async scorer, the optimizer CPU budget, vectors on disk, the log level, audit logging, TLS, and the API key secrets
 - Pod settings, such as the service type, node selectors, tolerations, topology spread constraints, annotations, pod labels, service annotations, the reserved CPU and memory percentages, and the storage classes
 
-These changes take effect without a restart: allowed IP ranges, the restart mode, the shard rebalance strategy, the disk speed tier, the cost allocation label, and cluster labels.
+These changes take effect without a restart: allowed IP ranges, the restart mode, the shard rebalance strategy, the cost allocation label, and cluster labels.
 
 ## Scale Clusters
 
 | Change | Restart | Notes |
 |---|---|---|
 | CPU or memory, up or down | Always | Qdrant reads its memory and CPU count once, at startup, so the Operator restarts the pods |
-| Disk, increase only | No, by default | Uses online volume expansion. Whether the resize is online depends on your storage provider, and most cloud providers support it. If your storage needs a restart, as with some Azure disks, set `volumeExpansionMode` to `Offline` in the [Operator configuration](/documentation/hybrid-cloud/operator-configuration/). The default is `Online` |
-| Disk, decrease | Not possible | Once you have increased the disk, you cannot reduce it, so provision disk with caution |
+| Disk, increase | No, by default | Uses online volume expansion. Whether the resize is online depends on your storage provider, and most cloud providers support it. If your storage needs a restart, as with some Azure disks, set `volumeExpansionMode` to `Offline` in the [Operator configuration](/documentation/hybrid-cloud/operator-configuration/). The default is `Online` |
+| Disk, decrease | Each node is replaced | Needs Qdrant v1.19.2 or later and an Operator that supports it. Each node is replaced by a smaller one and its shard data is transferred. This deletes the local snapshots of the cluster, so copy any you need first. With the CLI, pass `--allow-disk-decrease` and `--force` |
 | Number of nodes | | See [Scale Clusters](/documentation/cloud/cluster-scaling/#horizontal-scaling) for shard rebalancing and [resharding](/documentation/cloud/cluster-scaling/#resharding) |
 
 Online disk expansion needs a StorageClass with volume expansion enabled. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for your platform.
