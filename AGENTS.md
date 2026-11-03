@@ -87,6 +87,15 @@ partial that starts serving both parts moves to `common/`. The project-level
 `qdrant-landing/layouts/partials/` (Markdown output, snippets, charts) is a
 separate override layer and keeps its own layout.
 
+Page templates for the marketing part live in
+`themes/qdrant-2024/layouts/marketing/<section>/`, and the project's Markdown
+output templates for marketing sections in `qdrant-landing/layouts/marketing/<section>/`.
+Hugo finds them through `type`: each marketing section's `_index.md` sets
+`type: marketing/<section>` and repeats it under `cascade` for the pages inside.
+A new marketing section needs both lines, or its pages fall back to
+`layouts/_default/`. A page that sets its own `type` (event pages do, for their
+event kind) keeps it.
+
 Each `lib/` component has a pair of partials that a part calls where it wants
 it, so a part can swap one for something else: `partials/common/analytics/`,
 `partials/common/code-blocks/`, `partials/common/copy-markdown/`,
