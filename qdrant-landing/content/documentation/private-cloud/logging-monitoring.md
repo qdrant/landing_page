@@ -27,7 +27,7 @@ metadata:
     customer-id: "acme-industries"
 spec:
   id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.11.3"
+  version: "v1.20.0"
   size: 1
   resources:
     cpu: 100m
@@ -53,13 +53,11 @@ To collect audit logs as well, set `spec.config.audit.output` to `stdout` or `fi
 
 ## Monitoring
 
-The Qdrant Cloud console gives you access to basic metrics about CPU, memory and disk usage of your Qdrant clusters.
-
-If you want to integrate Qdrant metrics into your own monitoring system, configure it to scrape the following endpoints, which provide metrics in a Prometheus/OpenMetrics-compatible format:
+Private Cloud has no Qdrant Cloud Console and sends no telemetry to Qdrant, so there is no built-in metrics view or alerting. Run your own monitoring system and configure it to scrape the following endpoints, which provide metrics in a Prometheus/OpenMetrics-compatible format:
 
 * `/metrics` on port 6333 of every Qdrant database Pod. This provides metrics about each database and its internals.
 * `/metrics` on port 9290 of the Qdrant Operator Pod. This provides metrics about the Operator, as well as the status of Qdrant clusters and snapshots.
-* For metrics about the state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Hybrid Cloud namespace, we recommend using [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
+* For metrics about the state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Private Cloud namespace, we recommend using [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
 
 ### Grafana dashboard
 

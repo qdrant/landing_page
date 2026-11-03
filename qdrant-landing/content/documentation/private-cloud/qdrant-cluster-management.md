@@ -2,7 +2,7 @@
 title: Managing a Cluster
 short_description: "Manage Qdrant Private Cloud clusters declaratively with Kubernetes resources to scale, upgrade, and expose them via Service or Ingress."
 description: "Manage Qdrant Private Cloud clusters declaratively in Kubernetes to scale resources, upgrade Qdrant versions, and expose clusters via Service or Ingress."
-weight: 15
+weight: 10
 ---
 
 # Managing a Qdrant Cluster
@@ -19,7 +19,7 @@ metadata:
     customer-id: "acme-industries"
 spec:
   id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.11.3"
+  version: "v1.20.0"
   size: 1
   resources:
     cpu: 100m
@@ -76,7 +76,7 @@ metadata:
     customer-id: "acme-industries"
 spec:
   id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.11.3"
+  version: "v1.20.0"
   size: 1
   resources:
     cpu: 100m
@@ -96,12 +96,12 @@ Examples:
 * [Azure AKS Public LoadBalancer annotations](https://learn.microsoft.com/en-us/azure/aks/load-balancer-standard)
 * [Azure AKS Internal LoadBalancer annotations](https://learn.microsoft.com/en-us/azure/aks/internal-lb)
 * [GCP GKE LoadBalancer annotations](https://cloud.google.com/kubernetes-engine/docs/concepts/service-load-balancer-parameters)
-* 
-<aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, Qdrant Private Cloud deployes a strict NetworkPolicy to only allow communication on port 6335 between Qdrant Cluster nodes.</aside>
+
+<aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, Qdrant Private Cloud deploys a strict NetworkPolicy to only allow communication on port 6335 between Qdrant Cluster nodes.</aside>
 
 ## Authentication and Authorization
 
-<aside role="alert">By default, clusters in Hybrid Cloud are only exposed through a Kubernetes ClusterIP Service inside of the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
+<aside role="alert">By default, clusters in Private Cloud are only exposed through a Kubernetes ClusterIP Service inside of the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
 
 Authentication information is provided by Kubernetes secrets.
 
@@ -137,7 +137,7 @@ metadata:
     customer-id: "acme-industries"
 spec:
   id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.11.3"
+  version: "v1.20.0"
   size: 1
   resources:
     cpu: 100m
@@ -195,7 +195,7 @@ metadata:
   name: test-cluster
 spec:
   id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.11.3"
+  version: "v1.20.0"
   size: 1
   resources:
     cpu: 100m
