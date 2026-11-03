@@ -9,24 +9,19 @@ weight: 5
 
 ## Requirements
 
-- **Kubernetes cluster:** To install Qdrant Private Cloud, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
-- **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. For backups and restores, the driver needs to support CSI snapshots and restores.
+| Requirement | Details |
+|---|---|
+| **Kubernetes cluster** | A [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run it in any cloud, on-premise, or edge environment, with distributions that range from AWS EKS to VMware vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for platform-specific storage classes and snapshot classes. |
+| **Storage** | A Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the driver needs to support volume expansion. For backups and restores, it needs to support CSI snapshots and restores. |
+| **Nodes** | The smallest Qdrant database node needs 2 GiB of RAM, 0.5 vCPU, and 8 GiB of disk. Plan more CPU for heavy ingestion. See [Capacity Planning](/documentation/capacity-planning/) for RAM, disk, CPU, and IOPS guidance. |
+| **Operator components** | The Operator, cluster manager, and cluster exporter run one replica each. The chart sets no CPU or memory `resources` for them by default, so set requests and limits in your Helm values if your cluster requires them. |
+| **Permissions** | `cluster-admin` access in your Kubernetes cluster, to install the Qdrant Kubernetes Operator. |
+| **Registry access** | Credentials for the Qdrant container registry, which you receive when you are onboarded. By default, the Operator Helm charts and container images are served from `registry.cloud.qdrant.io`. You can [mirror them](#mirroring-images-and-charts) into your own registry instead. |
+| **Tools** | [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [helm](https://helm.sh/docs/intro/install/), configured to connect to your Kubernetes cluster. See the documentation of your Kubernetes distribution for details. |
 
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
 
-- **Permissions:** To install the Qdrant Kubernetes Operator you need to have `cluster-admin` access in your Kubernetes cluster.
-- **Locations:** By default, the Qdrant Operator Helm charts and container images are served from `registry.cloud.qdrant.io`.
-
-> **Note:** You can also mirror these images and charts into your own registry and pull them from there.
-
-### CLI tools
-
-During the onboarding, you will need to deploy the Qdrant Kubernetes Operator using Helm. Make sure you have the following tools installed:
-
-* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-* [helm](https://helm.sh/docs/intro/install/)
-
-You will need to have access to the Kubernetes cluster with `kubectl` and `helm` configured to connect to it. Please refer the documentation of your Kubernetes distribution for more information.
+Private Cloud makes no connection to Qdrant Cloud, so you do not need to open any outbound ports for it. The only traffic to Qdrant is pulling images and Helm charts from `registry.cloud.qdrant.io`, which you can avoid with a mirror. See [Mirroring images and charts](#mirroring-images-and-charts).
 
 ### Required artifacts
 
@@ -42,7 +37,9 @@ Open Containers Initiative (OCI) Helm charts:
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud`
 - `registry.cloud.qdrant.io/library/qdrant-kubernetes-api`
 
-- The specific versions for every private cloud version are documented in the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
+All four images are required. The cluster exporter is part of the Private Cloud chart and cannot be disabled.
+
+The specific versions for every Private Cloud version are documented in the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
 
 ## Installation
 
@@ -69,7 +66,7 @@ helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --pass
 4. Install the Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
 
 ```bash
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.41.0 --wait
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/library/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.41.0 --wait
 ```
 
 5. Install Qdrant Private Cloud:
@@ -88,6 +85,33 @@ Current default versions are:
 * qdrant-private-cloud 1.13.0
 
 For more information also see the [Helm Install Documentation](https://helm.sh/docs/helm/helm_install/).
+
+## Verify the Installation
+
+After the installation, check that the components are running. Each component runs as a pod in the namespace that you chose:
+
+```bash
+kubectl get pods --namespace qdrant-private-cloud
+```
+
+Expect one pod each for the Qdrant Operator (`qdrant-operator-v2`), the cluster manager (`qdrant-cluster-manager`), and the cluster exporter (`qdrant-cluster-exporter`), all with the status `Running` and all containers ready. The names carry a generated suffix. When you create clusters, their pods appear in the namespace too.
+
+Check that the Custom Resource Definitions exist:
+
+```bash
+kubectl get crd | grep qdrant.io
+```
+
+If a pod stays in `Pending`, `ImagePullBackOff`, or `CrashLoopBackOff`, look at its events and logs:
+
+```bash
+kubectl describe pod <pod-name> --namespace qdrant-private-cloud
+kubectl logs <pod-name> --namespace qdrant-private-cloud
+```
+
+`ImagePullBackOff` usually means that the registry credentials in the `qdrant-registry-creds` secret are wrong, or that the cluster cannot reach the registry or your mirror. If you need help, [contact support](/documentation/support/).
+
+Then create your first cluster. See [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/).
 
 ## Configuring Private Cloud
 
@@ -120,10 +144,14 @@ helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdran
 
 ## Upgrades
 
+Each Private Cloud release pairs one version of the `qdrant-kubernetes-api` CRD chart with one version of the `qdrant-private-cloud` chart. The [Private Cloud Changelog](/documentation/private-cloud/changelog/) lists the pair. You do not need to install every release in between: go directly to the release that you want, and install its paired versions together. Do not combine a CRD chart version with a Private Cloud chart version from a different release.
+
+Upgrading the charts does not upgrade your Qdrant databases. To upgrade those, change `spec.version` on the `QdrantCluster`, and do not skip minor versions. See [Upgrading the Qdrant version](/documentation/private-cloud/qdrant-cluster-management/#upgrading-the-qdrant-version).
+
 To upgrade Qdrant Private Cloud to a new version, first upgrade the Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
 
 ```bash
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.41.0 --wait
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/library/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.41.0 --wait
 ```
 
 Then upgrade the Qdrant Private Cloud Helm chart using the same configuration values, e.g.:
@@ -136,9 +164,13 @@ Note, that the image tag values are automatically derived from the chart's appVe
 
 For more information also see the [Helm Upgrade Documentation](https://helm.sh/docs/helm/helm_upgrade/).
 
-### Mirroring images and charts
+## Mirroring Images and Charts
 
-To mirror all necessary container images and Helm charts into your own registry, you can either use a replication feature that your registry provides, or you can manually sync the images with [Skopeo](https://github.com/containers/skopeo):
+By default, your cluster pulls images and Helm charts from `registry.cloud.qdrant.io`. This is the only connection that Private Cloud makes to Qdrant. Pulls happen on installation and upgrades, and whenever a node needs an image that it does not have yet, for example after you add a node, scale out, or change a version.
+
+The Operator, cluster manager, and Qdrant database images use the pull policy `IfNotPresent`. The cluster exporter uses `Always`, so without a mirror it pulls its image every time its pod restarts or moves to another node. To run without any connection to Qdrant, mirror all required artifacts into your own registry. No other Qdrant host is needed.
+
+To install from your mirror, use your registry host instead of `registry.cloud.qdrant.io` in the `helm` commands. To mirror all necessary container images and Helm charts into your own registry, you can either use a replication feature that your registry provides, or you can manually sync the images with [Skopeo](https://github.com/containers/skopeo):
 
 First login to the source registry:
 
@@ -158,13 +190,14 @@ To sync all container images:
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant your-registry.example.com/qdrant/qdrant
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/cluster-manager your-registry.example.com/qdrant/cluster-manager
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/operator your-registry.example.com/qdrant/operator
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter your-registry.example.com/qdrant/qdrant-cluster-exporter
 ```
 
 To sync all helm charts:
 
 ```shell
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud your-registry.example.com/qdrant-charts/qdrant-private-cloud
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api your-registry.example.com/qdrant-charts/qdrant-kubernetes-api
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/library/qdrant-kubernetes-api your-registry.example.com/library/qdrant-kubernetes-api
 ```
 
 During the installation or upgrade, you will need to adapt the image repository and imagePullSecret information in the Helm chart values, e.g.:
@@ -198,7 +231,7 @@ qdrant-cluster-exporter:
 
 See [Private Cloud Configuration](/documentation/private-cloud/configuration/) for details.
 
-### Scope of the operator
+## Scope of the Operator
 
 By default, the Qdrant Operator will only manage Qdrant clusters in the same Kubernetes namespace, where it is already deployed. The RoleBindings are also limited to this specific namespace. This default is chosen to limit the operator to the least amount of permissions necessary within a Kubernetes cluster. 
 
@@ -212,7 +245,7 @@ operator:
     # an empty list watches all namespaces.
     namespaces:
       - qdrant-private-cloud
-      - some-other-namespase
+      - some-other-namespace
   limitRBAC: true
 ```
 
