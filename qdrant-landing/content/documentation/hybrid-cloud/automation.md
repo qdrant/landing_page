@@ -25,7 +25,7 @@ qcloud hybrid create --name my-hybrid-env --namespace qdrant-hybrid
 qcloud hybrid bootstrap <ENV_ID> | bash
 ```
 
-The namespace cannot be changed after bootstrapping. Optional flags set the default database and snapshot storage classes (`--database-storage-class`, `--snapshot-storage-class`), the Kubernetes cluster domain (`--cluster-domain`), and the log level of the components (`--log-level`).
+The namespace cannot be changed after bootstrapping. Optional flags set the Kubernetes cluster domain (`--cluster-domain`) and the log level of the components (`--log-level`).
 
 Each run of `qcloud hybrid bootstrap` creates new Qdrant Cloud access tokens and registry credentials, so run it only for a Kubernetes cluster that is not registered to the environment yet. The credentials are printed to stderr, and you should treat them as secrets.
 
@@ -37,7 +37,7 @@ qcloud cluster create \
   --cpu 2 --ram 8Gi --service-type load-balancer --wait
 ```
 
-Hybrid Cloud clusters have extra flags for the settings in [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/), such as `--node-selector`, `--toleration`, `--database-storage-class`, `--snapshot-storage-class`, `--enable-tls`, and `--api-key-secret`.
+Hybrid Cloud clusters have extra flags for the settings in [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/), such as `--node-selector`, `--toleration`, `--database-storage-class`, `--snapshot-storage-class`, `--volume-snapshot-class`, `--enable-tls`, and `--api-key-secret`.
 
 Manage environments with these commands:
 
@@ -100,7 +100,7 @@ If the package lookup does not fit your setup, list the packages with `qcloud pa
 
 - `service_type`: `CLUSTER_SERVICE_TYPE_CLUSTER_IP` (the default), `CLUSTER_SERVICE_TYPE_LOAD_BALANCER`, or `CLUSTER_SERVICE_TYPE_NODE_PORT`
 - `node_selector`, `tolerations`, `topology_spread_constraints`, `annotations`, `service_annotations`, and `pod_labels`
-- `cluster_storage_configuration`, with `database_storage_class`, `snapshot_storage_class`, and `volume_snapshot_class` if they differ from the environment default
+- `cluster_storage_configuration`, with `database_storage_class`, `snapshot_storage_class`, and `volume_snapshot_class`. The environment has no storage defaults, so without these settings the cluster uses the defaults of your Kubernetes cluster
 
 A new cluster is exposed only inside Kubernetes and has no API key. Before you use a load balancer or a node port, configure an API key. See [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#authentication-to-your-qdrant-clusters).
 
