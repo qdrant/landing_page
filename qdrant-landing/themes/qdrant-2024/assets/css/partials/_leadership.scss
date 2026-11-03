@@ -29,7 +29,11 @@
 
   &__card-image {
     width: 100%;
+    aspect-ratio: 332 / 301;
+    object-fit: cover;
     border-radius: pxToRem(6);
+    // Backdrop for transparent headshots; older avatars have it baked in.
+    background: linear-gradient($neutral-30, #141b2e);
   }
 
   &__card-name {
