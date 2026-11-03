@@ -27,8 +27,8 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 | Question | Answer |
 |---|---|
 | Where do the databases run? | In your Kubernetes cluster, on your own storage and compute. |
-| Who creates and manages clusters? | You, in the Qdrant Cloud Console. The Operator in your cluster carries out the changes. |
-| What can Qdrant Cloud access? | Telemetry, metrics, and status information only. It does not connect to the API of your Kubernetes cluster, your cloud provider, or any other platform, and it cannot read your data. |
+| Who creates and manages Qdrant clusters? | You, in the Qdrant Cloud Console. The Operator in your Kubernetes cluster carries out the changes. |
+| What can Qdrant Cloud access? | Telemetry, metrics, and status information only. It does not connect to the API of your Kubernetes cluster, your cloud provider, or any other platform, and it cannot see any data stored inside your Qdrant clusters. |
 | What network access does it need? | Outbound connections on port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io`. No inbound ports, no exposure of your Kubernetes cluster, and no Kubernetes or cloud provider credentials. See [Network Requirements](#network-requirements). |
 | What does it need from Kubernetes? | A standard compliant cluster, CSI block storage (with volume expansion for vertical scaling and snapshots for backups), x86_64 or ARM64 nodes, and `cluster-admin` access for the installation. See [Setup](/documentation/hybrid-cloud/hybrid-cloud-setup/#prerequisites). |
 | How are the components updated? | After onboarding, Qdrant Cloud controls their lifecycle through the built-in Helm controller. |
