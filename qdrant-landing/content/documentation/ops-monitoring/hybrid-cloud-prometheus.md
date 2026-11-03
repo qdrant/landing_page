@@ -99,7 +99,7 @@ Apply both resources:
 kubectl apply -f servicemonitors.yaml
 ```
 
-These two monitors cover the cloud platform exporter and the Operator. To scrape the database Pods themselves (`/metrics` on port 6333) or other components, see [Networking, Logging & Monitoring](/documentation/hybrid-cloud/networking-logging-monitoring/).
+These two monitors cover the cloud platform exporter and the Operator. To scrape other components, see [Networking, Logging & Monitoring](/documentation/hybrid-cloud/networking-logging-monitoring/).
 
 ## Step 3: Check That Prometheus Sees the Targets
 
@@ -185,7 +185,7 @@ Missing one source blanks only the panels that use it:
 | Metric prefix | Source | Fix |
 |---|---|---|
 | `qdrant_operator_`, `controller_runtime_`, `workqueue_`, `rest_client_` | The Qdrant Operator | Apply the `qdrant-operator` ServiceMonitor from Step 2 |
-| Database metrics such as `qdrant_collection_` and `qdrant_node_` | The Qdrant cluster exporter, or the database Pods on port 6333 | Apply the `qdrant-cluster-exporter` ServiceMonitor from Step 2 |
+| Database metrics such as `qdrant_collection_` and `qdrant_node_` | The Qdrant cluster exporter | Apply the `qdrant-cluster-exporter` ServiceMonitor from Step 2 |
 | `kube_pod_`, `kube_deployment_` | kube-state-metrics | Scrape kube-state-metrics. The Qdrant namespace runs one on port 8080, see [Networking, Logging & Monitoring](/documentation/hybrid-cloud/networking-logging-monitoring/#monitoring) |
 | `container_`, `kubelet_volume_stats_` | The kubelet | Scrape the kubelet. `kube-prometheus-stack` does this by default |
 | Request traffic panels | Traefik or Envoy | Scrape the proxy that serves your ingress |

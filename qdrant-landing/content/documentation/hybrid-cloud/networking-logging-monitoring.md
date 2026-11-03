@@ -64,7 +64,8 @@ If you want to integrate Qdrant metrics into your own monitoring system, configu
 | Qdrant Operator | `/metrics` on port 9290 | Metrics about the Operator, and the status of Qdrant clusters and snapshots |
 | Qdrant Cloud Agent | `/metrics` on port 9090 | Metrics about the Agent and its connection to the Qdrant Cloud control plane |
 | [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) | `/metrics` on port 8080 | The state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Hybrid Cloud namespace. Useful if you are not running kube-state-metrics cluster-wide |
-| Database Pod (optional) | `/metrics` on port 6333 | The internals of one database. The cluster exporter already includes these metrics |
+
+Do not scrape the database Pods in addition to the cluster exporter. The exporter already includes their metrics, so scraping both duplicates every metric.
 
 For a step-by-step setup with Prometheus and Grafana, see [Monitoring with Grafana and Prometheus](/documentation/ops-monitoring/hybrid-cloud-prometheus/).
 
@@ -79,7 +80,6 @@ These alerts email you for Hybrid Cloud clusters:
 - A node is CPU throttled
 - Cluster has too many collections
 - Disk space overutilized and a node ran out of disk space: only when Prometheus scrapes the kubelet volume metrics
-- Database API key is about to expire
 - Cluster version is not covered by the SLA
 
 Qdrant does not email you when the Cloud Agent stops reporting, when a Hybrid Cloud component is not healthy, or when the Hybrid Cloud components fall behind on versions. To catch these, build your own alerts on the Operator and Agent metrics in the table.
