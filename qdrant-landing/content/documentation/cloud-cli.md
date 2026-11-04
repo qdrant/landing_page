@@ -58,7 +58,7 @@ qcloud version
 # 1. Authenticate
 qcloud auth login
 
-# 2. If you authenticated multiple accounts, pick the righ context for the account you want to use
+# 2. If you authenticated multiple accounts, pick the right context for the account you want to use
 qcloud context list
 qcloud context use <CONTEXT_NAME>
 
@@ -132,7 +132,7 @@ Reducing RAM is allowed, but `qcloud cluster scale` warns you first if the clust
 
 ### OAuth Authentication
 
-Run `qcloud auth login`, authenticate and authorize the CLI to access on or more of your Qdrant Cloud accounts. Each account will get a named context, to make it easy to switch between them.
+Run `qcloud auth login`, authenticate and authorize the CLI to access one or more of your Qdrant Cloud accounts. Each account will get a named context, to make it easy to switch between them.
 
 ```sh
 qcloud context list
