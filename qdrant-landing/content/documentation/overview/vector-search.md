@@ -48,13 +48,17 @@ Every once in a while, when we discover new problems with inverted indexes, we c
 
 The latest research in Machine Learning for NLP is heavily focused on training Deep Language Models. In this process, the neural network takes a large corpus of text as input and creates a mathematical representation of the words in the form of vectors. These vectors are created in such a way that words with similar meanings and occurring in similar contexts are grouped together and represented by similar vectors. And we can also take, for example, an average of all the word vectors to create the vector for a whole text (such as query, sentence, or paragraph).
 
-![deep neural](/docs/gettingstarted/deep-neural.png)
-
 We can take those **dense vectors** produced by the network and use them as a **different data representation**. They are dense because neural networks will rarely produce zeros at any position. In contrary to sparse ones, they have a relatively low dimensionality — hundreds or a few thousand only. Unfortunately, if we want to have a look and understand the content of the document by looking at the vector it’s no longer possible. Dimensions are no longer representing the presence of specific words.
 
 Dense vectors can capture the meaning, not the words used in a text. That being said, **Large Language Models can automatically handle synonyms**. More so, since those neural networks might have been trained with multilingual corpora, they translate the same sentence, written in different languages, to similar vector representations, also called **embeddings**. And we can compare them to find similar pieces of text by calculating the distance to other vectors in our database.
 
-{{< figure src=/docs/gettingstarted/input.png caption="Input queries contain different words, but they are still converted into similar vector representations, because the neural encoder can capture the meaning of the sentences. That feature can capture synonyms but also different languages.." >}}
+{{< island
+    path="content/documentation/headless/vector-search/dense-query"
+    width="100%" ratio="11 / 6"
+    title="A neural encoder turns each query into a dense vector. Pick a second query to compare its shared words with the first, as a sparse vector sees them, and the similarity of the two dense vectors."
+>}}
+![Input queries contain different words, but they are still converted into similar vector representations, because the neural encoder can capture the meaning of the sentences.](/docs/gettingstarted/input.png)
+{{< /island >}}
 
 **Vector search** is a process of finding similar objects based on their embeddings similarity. The good thing is, you don’t have to design and train your neural network on your own. Many pre-trained models are available, either on **HuggingFace** or by using libraries like [SentenceTransformers](https://www.sbert.net/?ref=hackernoon.com). If you, however, prefer not to get your hands dirty with neural models, you can also create the embeddings with SaaS tools, like [co.embed API](https://docs.cohere.com/reference/embed?ref=hackernoon.com).
 
@@ -62,7 +66,13 @@ Dense vectors can capture the meaning, not the words used in a text. That being 
 
 The challenge with vector search arises when we need to find similar documents in a big set of objects. If we want to find the closest examples, the naive approach would require calculating the distance to every document. That might work with dozens or even hundreds of examples but may become a bottleneck if we have more than that. When we work with relational data, we set up database indexes to speed things up and avoid full table scans. And the same is true for vector search. Qdrant is a fully-fledged vector database that speeds up the search process by using a graph-like structure to find the closest objects in sublinear time. So you don’t calculate the distance to every object from the database, but some candidates only.
 
-{{< figure src=/docs/gettingstarted/vector-search.png caption="Vector search with Qdrant. Thanks to HNSW graph we are able to compare the distance to some of the objects from the database, not to all of them." >}}
+{{< island
+    path="content/documentation/headless/vector-search/hnsw-graph"
+    width="100%" ratio="21 / 20"
+    title="Vector search with an HNSW graph. Short links connect nearby points, and long links from the graph's upper layers connect distant ones. The search starts at the entry point, jumps toward the query along long links, then finishes with short ones, so it computes the distance to only some of the points."
+>}}
+![Vector search with Qdrant. Thanks to HNSW graph we are able to compare the distance to some of the objects from the database, not to all of them.](/docs/gettingstarted/vector-search.png)
+{{< /island >}}
 
 While doing a semantic search at scale, because this is what we sometimes call the vector search done on texts, we need a specialized tool to do it effectively — a tool like Qdrant.
 

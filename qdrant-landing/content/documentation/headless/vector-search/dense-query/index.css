@@ -1,0 +1,176 @@
+/* dense-query island. Scoped under .qi-dq. Chips, hints and the status line
+   come from the shared island design system (islands.scss); this file styles
+   the query box, the dense vectors and the two score bars, matching the
+   sparse-query island. Positive values are shaded Neon Blue, negative values
+   orange, stronger for larger magnitudes. */
+
+.qi-dq {
+  --dq-box-bg: #dde0ff; /* neon-blue-100 */
+  --dq-box-fg: #4325ae; /* neon-blue-800 */
+  --dq-pos: #6047ff; /* neon-blue-500 */
+  --dq-neg: #ef6c00; /* warning-800 */
+  --dq-sparse: var(--qi-muted);
+  --dq-dense: #6047ff;
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-dq {
+    --dq-box-bg: #392689; /* neon-blue-900 */
+    --dq-box-fg: #dde0ff; /* neon-blue-100 */
+    --dq-pos: #7b6bff;
+    --dq-neg: #ff8a1f;
+    --dq-dense: #9494ff; /* neon-blue-300 */
+  }
+}
+html[data-theme='dark'] .qi-dq {
+  --dq-box-bg: #392689; /* neon-blue-900 */
+  --dq-box-fg: #dde0ff; /* neon-blue-100 */
+  --dq-pos: #7b6bff;
+  --dq-neg: #ff8a1f;
+  --dq-dense: #9494ff; /* neon-blue-300 */
+}
+
+/* Hint labels in one column, content in the other. */
+.qi-dq__fields {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px 24px;
+}
+.qi-dq__fields > .qi-hint {
+  font-size: 13px;
+}
+.qi-dq__fields > .qi-dq__top {
+  align-self: start;
+  line-height: 32px;
+}
+.qi-dq__fields > .qi-dq__note {
+  margin-top: -10px;
+  font-size: 12px;
+}
+
+.qi-dq__query {
+  padding: 8px 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* --- Dense vectors --- */
+.qi-dq .qi-dq__vector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-dq ul.qi-dq__vector > li {
+  margin: 0;
+}
+.qi-dq .qi-dq__cell {
+  min-width: 52px;
+  padding: 6px 8px;
+  border-radius: var(--qi-radius);
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  line-height: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  transition: background 0.3s ease;
+}
+.qi-dq .qi-dq__cell.is-pos {
+  background: color-mix(in srgb, var(--dq-pos) calc(var(--a) * 38%), transparent);
+}
+.qi-dq .qi-dq__cell.is-neg {
+  background: color-mix(in srgb, var(--dq-neg) calc(var(--a) * 38%), transparent);
+}
+.qi-dq .qi-dq__more {
+  color: var(--qi-line);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+}
+
+/* --- Score bars --- */
+.qi-dq__score {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.qi-dq__track {
+  position: relative;
+  flex: 0 1 280px;
+  height: 12px;
+  border-radius: 6px;
+  background: var(--qi-border);
+  overflow: hidden;
+}
+.qi-dq__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+.qi-dq__score--sparse .qi-dq__fill {
+  background: var(--dq-sparse);
+}
+.qi-dq__score--dense .qi-dq__fill {
+  background: var(--dq-dense);
+}
+.qi-dq__num {
+  flex: none;
+  white-space: nowrap;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-dq__status {
+  margin-top: 8px;
+}
+
+/* Narrow screens: labels over content. */
+@media (max-width: 640px) {
+  .qi-dq__fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .qi-dq__fields > .qi-dq__top {
+    line-height: inherit;
+  }
+  .qi-dq__fields > span:empty {
+    display: none;
+  }
+  .qi-dq__fields > .qi-dq__note {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+  .qi-dq__fields > :not(.qi-hint) + .qi-hint {
+    margin-top: 10px;
+  }
+  .qi-dq .qi-dq__cell {
+    min-width: 0;
+    padding: 4px 6px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+  .qi-dq__query {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-dq .qi-dq__cell,
+  .qi-dq__fill {
+    transition: none;
+  }
+}
