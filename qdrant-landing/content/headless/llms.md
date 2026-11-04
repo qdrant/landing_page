@@ -35,7 +35,9 @@ browser, and the agent creates clusters and keys itself, so no key passes throug
 Install it only once the human agrees. Otherwise, use the Console path.
 
 1. If the human has no account, ask them to sign up at https://cloud.qdrant.io/signup.
-2. Take one of two paths:
+2. Ask the human which cluster to use: a new free cluster to prototype on, a cluster they already
+   have, or a new paid one (see **Rules**). Create nothing until they choose.
+3. Take one of two paths:
    - **CLI (recommended):** install `qcloud` and the Qdrant Advisor, then log in:
 
      ```sh
@@ -51,22 +53,23 @@ Install it only once the human agrees. Otherwise, use the Console path.
      `curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh`, which
      needs `github.com` and `raw.githubusercontent.com` in sandboxes. The human completes the
      login and picks the accounts and access on the consent page. With several accounts, run
-     `qcloud context list` and `qcloud context use <name>`. The agent does the rest, and writes
-     the cluster endpoint and its database key to `.env` as `QDRANT_URL` and `QDRANT_API_KEY`:
+     `qcloud context list` and `qcloud context use <name>`. For an existing cluster, find its ID
+     with `qcloud cluster list`. The agent does the rest, and writes the cluster endpoint and its
+     database key to `.env` as `QDRANT_URL` and `QDRANT_API_KEY`. For a new free cluster:
 
      ```sh
      qcloud package list --cloud-provider aws --cloud-region us-east-1   # the free package is free2 today
-     qcloud cluster create --cloud-provider aws --cloud-region us-east-1 --package free2 --name dev --wait
+     qcloud cluster create --cloud-provider aws --cloud-region us-east-1 --package free2 --name demo --wait
      qcloud cluster describe <cluster-id> --json            # QDRANT_URL is state.endpoint.url
-     qcloud cluster key create <cluster-id> --name app --wait --json   # QDRANT_API_KEY is "key"
+     qcloud cluster key create <cluster-id> --name demo-key --wait --json   # QDRANT_API_KEY is "key"
      ```
 
-   - **Console:** the human clicks **Create Free Cluster**, then copies the cluster endpoint and
-     its API key into `.env` as `QDRANT_URL` and `QDRANT_API_KEY`. Never ask them to paste a key
-     into the chat.
-3. Add `.env` to `.gitignore` and load it where it is used: `load_dotenv()` from `python-dotenv`,
+   - **Console:** the human creates the cluster they chose (**Create Free Cluster** for a free
+     one) or opens an existing one, then copies the cluster endpoint and its API key into `.env`
+     as `QDRANT_URL` and `QDRANT_API_KEY`. Never ask them to paste a key into the chat.
+4. Add `.env` to `.gitignore` and load it where it is used: `load_dotenv()` from `python-dotenv`,
    `node --env-file=.env`, or `set -a; . ./.env; set +a` in the shell.
-4. Test with `GET $QDRANT_URL` and the `api-key` header. A newly created key can return 403 for a
+5. Test with `GET $QDRANT_URL` and the `api-key` header. A newly created key can return 403 for a
    few seconds: retry up to 5 times, 2 seconds apart, then check the key and cluster ID. This is
    an exception to the 4xx rule in **Rules**.
 
