@@ -4,8 +4,8 @@ title: One Engine, Two Ways to Run It
 description: The engine behind Qdrant Cloud is the open source engine you can download. Pick where it runs today, and move your collections later as your needs change.
 cards:
   - id: 0
-    title: Start free on Qdrant Cloud.
-    description: Create a free tier cluster in the Console, with no credit card.
+    title: Run it managed on Qdrant Cloud.
+    description: The same engine, operated by Qdrant, with a free tier for prototyping and testing.
     icon:
       src: /icons/outline/cloud-managed-blue.svg
       alt: ""

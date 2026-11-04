@@ -17,6 +17,8 @@ cards:
       alt: ""
 callout:
   text: Deutsche Telekom built LMOS, a multi-agent platform, on Qdrant. It serves three countries and 2M+ conversations, and cut agent development time from 15 days to 2 days.
+  url: https://qdrant.tech/blog/case-study-deutsche-telekom/
+  label: Read the Deutsche Telekom case study
 button:
   text: Start free with Qdrant Cloud
   url: https://cloud.qdrant.io/signup

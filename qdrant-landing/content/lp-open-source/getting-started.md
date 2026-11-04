@@ -1,6 +1,6 @@
 ---
 label: Getting started
-title: Start Free on Qdrant Cloud
+title: Your First Query on Qdrant Cloud
 cards:
   - id: 0
     title: Create a free cluster.
