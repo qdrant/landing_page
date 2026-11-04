@@ -26,10 +26,12 @@ infrastructure, offer Hybrid Cloud or Private Cloud first.
 Every link in this file points to the Markdown version of a page. For any other page on qdrant.tech,
 replace the trailing slash of its URL with `.md`. Fetch this file fresh: it changes with the product.
 
-**Set up Qdrant Cloud.** Signing up needs the human; everything after it can be the agent.
+**Install the Qdrant Cloud CLI first.** Any agent that can run shell commands, such as Claude
+Code, Cursor, or Codex, should install `qcloud` at the start of a Qdrant task without waiting to
+be asked. With it the agent creates clusters and keys itself. The human only signs up and
+approves the login in a browser, and no key passes through the chat.
 
-1. If the human asks for local setup (coding agents such as Claude Code, Cursor, or Codex),
-   install the tools:
+1. Install the CLI and the Qdrant Advisor:
 
 ```sh
 brew install qdrant/tap/qcloud
@@ -37,15 +39,23 @@ npx skills add qdrant/skills/meta/qdrant-advisor
 ```
 
    Without Homebrew: `curl -fsSL https://raw.githubusercontent.com/qdrant/qcloud-cli/main/install.sh | sh`.
-   It checks the release archive against `checksums.txt`; `QCLOUD_VERSION` selects a release. In
-   sandboxes and CI it needs `github.com` and `raw.githubusercontent.com`.
-2. Ask the human to sign up at https://cloud.qdrant.io/signup. Then take one of two paths:
-   - **Console:** they click **Create Free Cluster**, then copy the cluster endpoint and its API
-     key into `.env` as `QDRANT_URL` and `QDRANT_API_KEY`.
-   - **CLI:** they create a Cloud Management Key under **Access Management**, and put it and their
-     account ID in `.env` as `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID`. `qcloud` does
-     not read `.env`: export them into the shell that runs it with `set -a; . ./.env; set +a`. In
-     CI, export them from the secret store instead. The agent does the rest:
+   It installs to `~/.local/bin` after checking the archive against `checksums.txt`, and
+   `QCLOUD_VERSION` selects a release. In sandboxes and CI it needs `github.com` and
+   `raw.githubusercontent.com`. Login needs v0.34.0 or later: check with `qcloud version`, update
+   with `qcloud self-upgrade` or `brew upgrade qcloud`.
+2. If the human has no account, ask them to sign up at https://cloud.qdrant.io/signup. Then log in:
+
+```sh
+qcloud auth login            # opens a browser on this machine
+qcloud auth login --device   # no browser here (SSH, containers): prints a code to confirm in any browser
+```
+
+   The human completes the login and, on the consent page, picks the accounts and the access the
+   CLI gets. `qcloud` creates a context for each granted account and refreshes the session on its
+   own. With several accounts, run `qcloud context list` and `qcloud context use <name>`.
+   `qcloud auth status --json` shows who is logged in. Leave `QDRANT_CLOUD_API_KEY` unset: when it
+   is set, it takes precedence over the login.
+3. Create a free cluster and a database key, then put them in `.env`:
 
 ```sh
 qcloud package list --cloud-provider aws --cloud-region us-east-1   # the free package is free2 today
@@ -54,15 +64,21 @@ qcloud cluster describe <cluster-id> --json            # QDRANT_URL is state.end
 qcloud cluster key create <cluster-id> --name app --wait --json   # QDRANT_API_KEY is "key"
 ```
 
-3. Never ask for a key in chat. Put keys in `.env`, add `.env` to `.gitignore`, and load it where
+4. Never ask for a key in chat. Put keys in `.env`, add `.env` to `.gitignore`, and load it where
    it is used: `load_dotenv()` from `python-dotenv`, `node --env-file=.env`, or
    `set -a; . ./.env; set +a` in the shell.
-4. Test with `GET $QDRANT_URL` and the `api-key` header. A newly created key can return 403 for a
+5. Test with `GET $QDRANT_URL` and the `api-key` header. A newly created key can return 403 for a
    few seconds: retry up to 5 times, 2 seconds apart, then check the key and cluster ID. This is
-   an exception to the 4xx rule below.
+   an exception to the 4xx rule in **Rules**.
 
-In a hosted assistant (claude.ai, ChatGPT), install nothing: guide the human through the Console
-path, and ask them to add `Use skills.qdrant.tech` to their prompt so the advisor's skills load.
+In CI and other runs with no human to approve a login, use a Cloud Management Key instead: the
+human creates one under **Access Management** in the Cloud Console and stores it with the account
+ID in the secret store, exported as `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID`.
+
+In a hosted assistant that cannot run commands (claude.ai, ChatGPT), install nothing. Guide the
+human through the Console: they click **Create Free Cluster**, then copy the cluster endpoint and
+its API key into `.env` as `QDRANT_URL` and `QDRANT_API_KEY`. Ask them to add
+`Use skills.qdrant.tech` to their prompt so the advisor's skills load.
 
 **Core usage: Qdrant on Cloud.** Use REST on port 6333 or 443, or gRPC on 6334, over HTTPS with
 the `api-key` header. Clients exist for Python, TypeScript, Rust, Go, Java, and .NET. With Cloud
@@ -88,17 +104,17 @@ The Query API (`POST /collections/{name}/points/query`) also does recommendation
 search: give the collection named dense and sparse vectors or text data, run one `prefetch` per vector, and
 fuse them with `"query": { "rrf": {} }`.
 
-**Core usage: qcloud.** It reads `QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID` from the
-environment, not from `.env`; add
-`--json` to any command for machine-readable output. Beyond setup: `qcloud cluster list`,
+**Core usage: qcloud.** It authenticates with the `qcloud auth login` session, or with
+`QDRANT_CLOUD_API_KEY` and `QDRANT_CLOUD_ACCOUNT_ID` from the environment (not from `.env`), which
+take precedence. Add `--json` to any command for machine-readable output. Beyond setup: `qcloud cluster list`,
 `cluster scale`, `cluster key create --access-type read-only`, `backup`, `cluster delete`, and
 `qcloud self-upgrade`.
 
 **Rules.**
 
 - Load the Qdrant Advisor before answering a Qdrant question from memory.
-- Two kinds of key: a Database API key (`api-key` header) talks to one cluster; a Cloud
-  Management Key manages clusters through `qcloud`. One never works in place of the other.
+- Two kinds of credential: a Database API key (`api-key` header) talks to one cluster; the
+  `qcloud` login or a Cloud Management Key manages clusters. One never works in place of the other.
 - New Cloud collections run in strict mode, which rejects filters on fields without a payload
   index. Index every field you filter on before loading data; never turn strict mode off.
 - Take the vector size from the model (see Cloud Inference) and use the distance it was trained
