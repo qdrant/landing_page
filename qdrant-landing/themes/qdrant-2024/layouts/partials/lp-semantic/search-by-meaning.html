@@ -1,0 +1,44 @@
+{{ with (.Site.GetPage "/lp-semantic/search-by-meaning") }}
+  <section class="lp-semantic-search-by-meaning">
+    <div class="container">
+      <div class="lp-semantic-search-by-meaning__header">
+        <div class="lp-semantic-search-by-meaning__heading">
+          {{ with .Params.label }}<p class="lp-semantic-search-by-meaning__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-semantic-search-by-meaning__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-semantic-search-by-meaning__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="lp-semantic-search-by-meaning__grid{{ if not (or .Params.image .Params.snippet) }} lp-semantic-search-by-meaning__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="lp-semantic-search-by-meaning__visual lp-semantic-search-by-meaning__visual--code">
+            <pre class="lp-semantic-search-by-meaning__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link lp-semantic-search-by-meaning__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="lp-semantic-search-by-meaning__visual">{{ partial "picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="lp-semantic-search-by-meaning__list">
+            {{ range .Params.cards }}
+              <li class="lp-semantic-search-by-meaning__item">
+                <h3 class="lp-semantic-search-by-meaning__item-title">{{ .title }}</h3>
+                <p class="lp-semantic-search-by-meaning__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="lp-semantic-search-by-meaning__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-semantic-search-by-meaning__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

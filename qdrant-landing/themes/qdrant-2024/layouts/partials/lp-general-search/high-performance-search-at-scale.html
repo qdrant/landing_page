@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/lp-general-search/high-performance-search-at-scale") }}
+  <section class="lp-general-search-high-performance-search-at-scale">
+    <div class="container">
+      <div class="lp-general-search-high-performance-search-at-scale__header">
+        <div class="lp-general-search-high-performance-search-at-scale__heading">
+          {{ with .Params.label }}<p class="lp-general-search-high-performance-search-at-scale__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-general-search-high-performance-search-at-scale__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-general-search-high-performance-search-at-scale__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-general-search-high-performance-search-at-scale__grid{{ if eq $n 1 }} lp-general-search-high-performance-search-at-scale__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}
+          <div class="lp-general-search-high-performance-search-at-scale__card{{ if eq $n 1 }} lp-general-search-high-performance-search-at-scale__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-general-search-high-performance-search-at-scale__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-general-search-high-performance-search-at-scale__card-title">{{ .title }}</h3>
+            <p class="lp-general-search-high-performance-search-at-scale__card-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-general-search-high-performance-search-at-scale__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-general-search-high-performance-search-at-scale__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

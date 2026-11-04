@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "lp-ai/hero" . }}
+
+  {{ partial "lp-ai/ai-system-design" . }}
+
+  {{ partial "lp-ai/workflow-orchestration" . }}
+
+  {{ partial "lp-ai/deployment" . }}
+
+  {{ partial "lp-ai/build-ai-applications" . }}
+
+  {{ partial "lp-ai/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-ai/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

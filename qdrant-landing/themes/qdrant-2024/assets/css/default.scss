@@ -94,10 +94,10 @@
 @import 'partials/security';
 @import 'partials/resilience';
 @import 'partials/gpu-indexing';
-@import 'partials/lp-ai-workflow-orchestration';
+@import 'partials/lp-ai';
 @import 'partials/landing-steps';
-@import 'partials/lp-ai-agent-memory';
-@import 'partials/lp-search-database';
-@import 'partials/lp-retrieval-augmented-generation';
-@import 'partials/lp-semantic-search-tools';
-@import 'partials/lp-open-source-vector-database';
+@import 'partials/lp-ai-agents';
+@import 'partials/lp-general-search';
+@import 'partials/lp-ai-retrieval';
+@import 'partials/lp-semantic';
+@import 'partials/lp-open-source';

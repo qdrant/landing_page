@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-ai-retrieval-getting-started {
+  @include lp-ai-retrieval-band(false, 5, 7.5);
+  @include lp-ai-retrieval-header('lp-ai-retrieval-getting-started', false, true);
+  @include lp-ai-retrieval-item('lp-ai-retrieval-getting-started');
+  @include lp-ai-retrieval-callout('lp-ai-retrieval-getting-started', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2.5; }
+  &__header { margin-bottom: 0; }
+  &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
+  &__link { margin-top: $spacer * 2; }
+  @include media-breakpoint-up(lg) {
+    &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: start; }
+    &__header { display: block; margin-bottom: 0; }
+    &__description { margin-top: $spacer; }
+  }
+}

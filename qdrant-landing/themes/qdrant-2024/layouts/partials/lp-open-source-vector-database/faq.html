@@ -1,8 +1,0 @@
-{{ with (.Site.GetPage "/lp-open-source-vector-database/faq") }}
-  <section class="lp-open-source-vector-database-faq">
-    <div class="container">
-      <h2 class="lp-open-source-vector-database-faq__title">{{ .Params.title }}</h2>
-      {{ partial "accordion" . }}
-    </div>
-  </section>
-{{ end }}
