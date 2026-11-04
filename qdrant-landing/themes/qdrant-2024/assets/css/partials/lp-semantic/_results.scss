@@ -13,5 +13,5 @@
 }
 
 .lp-semantic-results__header { display: block; text-align: left; }
-.lp-semantic-results__heading, .lp-semantic-results__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-semantic-results__heading, .lp-semantic-results__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
 .lp-semantic-results__description { margin-top: $spacer; }

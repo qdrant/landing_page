@@ -18,5 +18,5 @@
 }
 
 .lp-general-search-hybrid-search__header { display: block; text-align: left; }
-.lp-general-search-hybrid-search__heading, .lp-general-search-hybrid-search__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-general-search-hybrid-search__heading, .lp-general-search-hybrid-search__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
 .lp-general-search-hybrid-search__description { margin-top: $spacer; }

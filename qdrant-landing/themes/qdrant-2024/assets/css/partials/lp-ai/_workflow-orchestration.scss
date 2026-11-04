@@ -13,5 +13,5 @@
 }
 
 .lp-ai-workflow-orchestration__header { display: block; text-align: left; }
-.lp-ai-workflow-orchestration__heading, .lp-ai-workflow-orchestration__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-ai-workflow-orchestration__heading, .lp-ai-workflow-orchestration__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
 .lp-ai-workflow-orchestration__description { margin-top: $spacer; }

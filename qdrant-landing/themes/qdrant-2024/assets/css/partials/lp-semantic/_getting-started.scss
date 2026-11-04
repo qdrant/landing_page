@@ -15,5 +15,5 @@
 }
 
 .lp-semantic-getting-started__header { display: block; text-align: left; }
-.lp-semantic-getting-started__heading, .lp-semantic-getting-started__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-semantic-getting-started__heading, .lp-semantic-getting-started__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
 .lp-semantic-getting-started__description { margin-top: $spacer; }

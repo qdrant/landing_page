@@ -15,5 +15,5 @@
 }
 
 .lp-open-source-migration__header { display: block; text-align: left; }
-.lp-open-source-migration__heading, .lp-open-source-migration__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-open-source-migration__heading, .lp-open-source-migration__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
 .lp-open-source-migration__description { margin-top: $spacer; }

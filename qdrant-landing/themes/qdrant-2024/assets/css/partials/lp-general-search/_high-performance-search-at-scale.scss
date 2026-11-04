@@ -15,5 +15,5 @@
 }
 
 .lp-general-search-high-performance-search-at-scale__header { display: block; text-align: left; }
-.lp-general-search-high-performance-search-at-scale__heading, .lp-general-search-high-performance-search-at-scale__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-general-search-high-performance-search-at-scale__heading, .lp-general-search-high-performance-search-at-scale__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
 .lp-general-search-high-performance-search-at-scale__description { margin-top: $spacer; }
