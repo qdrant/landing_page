@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "lp-search-database/hero" . }}
+
+  {{ partial "lp-search-database/hybrid-search" . }}
+
+  {{ partial "lp-search-database/search-api" . }}
+
+  {{ partial "lp-search-database/high-performance-search-at-scale" . }}
+
+  {{ partial "lp-search-database/results" . }}
+
+  {{ partial "lp-search-database/getting-started" . }}
+
+  {{ partial "lp-search-database/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-search-database/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/lp-open-source-vector-database/hero") }}
+  <section class="lp-open-source-vector-database-hero">
+    <div class="container">
+      <div class="lp-open-source-vector-database-hero__copy">
+        <p class="lp-open-source-vector-database-hero__label">{{ .Params.label }}</p>
+        <h1 class="lp-open-source-vector-database-hero__title">{{ .Params.title }}</h1>
+        <p class="lp-open-source-vector-database-hero__description">{{ .Params.description }}</p>
+        <div class="lp-open-source-vector-database-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+          {{ with .Params.outlineButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

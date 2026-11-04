@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "lp-retrieval-augmented-generation/hero" . }}
+
+  {{ partial "lp-retrieval-augmented-generation/ai-retrieval" . }}
+
+  {{ partial "lp-retrieval-augmented-generation/managed-by-qdrant-cloud" . }}
+
+  {{ partial "lp-retrieval-augmented-generation/frameworks-and-tenants" . }}
+
+  {{ partial "lp-retrieval-augmented-generation/getting-started" . }}
+
+  {{ partial "lp-retrieval-augmented-generation/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-retrieval-augmented-generation/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

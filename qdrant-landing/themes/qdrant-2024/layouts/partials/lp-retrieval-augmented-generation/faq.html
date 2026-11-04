@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/lp-retrieval-augmented-generation/faq") }}
+  <section class="lp-retrieval-augmented-generation-faq">
+    <div class="container">
+      <h2 class="lp-retrieval-augmented-generation-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

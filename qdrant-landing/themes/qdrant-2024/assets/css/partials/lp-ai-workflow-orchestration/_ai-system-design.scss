@@ -1,0 +1,19 @@
+@use '../../helpers/functions' as *;
+
+.lp-ai-workflow-orchestration-ai-system-design {
+  @include lp-ai-workflow-orchestration-band(false, 5, 5);
+  @include lp-ai-workflow-orchestration-header('lp-ai-workflow-orchestration-ai-system-design', false, true);
+  @include lp-ai-workflow-orchestration-header-centered('lp-ai-workflow-orchestration-ai-system-design');
+  @include lp-ai-workflow-orchestration-item('lp-ai-workflow-orchestration-ai-system-design');
+  @include lp-ai-workflow-orchestration-callout('lp-ai-workflow-orchestration-ai-system-design', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2.5; }
+  &__visual { border-radius: pxToRem(8); overflow: hidden; img { display: block; width: 100%; height: auto; } }
+  @include lp-ai-workflow-orchestration-code('lp-ai-workflow-orchestration-ai-system-design');
+  &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
+  &__grid--text .lp-ai-workflow-orchestration-ai-system-design__list { max-width: pxToRem(760); margin: 0 auto; }
+  &__link { margin-top: $spacer * 2; }
+  @include media-breakpoint-up(lg) {
+    &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: center; }
+    &__grid--text { grid-template-columns: 1fr; }
+  }
+}

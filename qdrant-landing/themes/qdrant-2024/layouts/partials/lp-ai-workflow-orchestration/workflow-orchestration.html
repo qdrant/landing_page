@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/lp-ai-workflow-orchestration/workflow-orchestration") }}
+  <section class="lp-ai-workflow-orchestration-workflow-orchestration">
+    <div class="container">
+      <div class="lp-ai-workflow-orchestration-workflow-orchestration__header">
+        <div class="lp-ai-workflow-orchestration-workflow-orchestration__heading">
+          {{ with .Params.label }}<p class="lp-ai-workflow-orchestration-workflow-orchestration__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-ai-workflow-orchestration-workflow-orchestration__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-ai-workflow-orchestration-workflow-orchestration__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}
+      <div class="lp-ai-workflow-orchestration-workflow-orchestration__grid{{ if eq $n 1 }} lp-ai-workflow-orchestration-workflow-orchestration__grid--single{{ end }}">
+        {{ range .Params.cards }}
+          <div class="lp-ai-workflow-orchestration-workflow-orchestration__cell{{ if eq $n 1 }} lp-ai-workflow-orchestration-workflow-orchestration__cell--wide{{ end }}">
+            {{ with .icon }}<img class="lp-ai-workflow-orchestration-workflow-orchestration__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
+            <h3 class="lp-ai-workflow-orchestration-workflow-orchestration__cell-title">{{ .title }}</h3>
+            <p class="lp-ai-workflow-orchestration-workflow-orchestration__cell-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-ai-workflow-orchestration-workflow-orchestration__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-ai-workflow-orchestration-workflow-orchestration__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

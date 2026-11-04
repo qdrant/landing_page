@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/lp-semantic-search-tools/faq") }}
+  <section class="lp-semantic-search-tools-faq">
+    <div class="container">
+      <h2 class="lp-semantic-search-tools-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

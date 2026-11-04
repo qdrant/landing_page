@@ -1,0 +1,34 @@
+{{ with (.Site.GetPage "/lp-semantic-search-tools/semantic-code-search") }}
+  <section class="lp-semantic-search-tools-semantic-code-search">
+    <div class="container">
+      <div class="lp-semantic-search-tools-semantic-code-search__grid">
+        <div class="lp-semantic-search-tools-semantic-code-search__header">
+          <div class="lp-semantic-search-tools-semantic-code-search__heading">
+            {{ with .Params.label }}<p class="lp-semantic-search-tools-semantic-code-search__label">{{ . }}</p>{{ end }}
+            <h2 class="lp-semantic-search-tools-semantic-code-search__title">{{ .Params.title }}</h2>
+          </div>
+          {{ with .Params.description }}<p class="lp-semantic-search-tools-semantic-code-search__description">{{ . }}</p>{{ end }}
+      {{ with .Params.callout }}
+        <blockquote class="lp-semantic-search-tools-semantic-code-search__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+        </div>
+        <div>
+          <ul class="lp-semantic-search-tools-semantic-code-search__list">
+            {{ range .Params.cards }}
+              <li class="lp-semantic-search-tools-semantic-code-search__item">
+                <h3 class="lp-semantic-search-tools-semantic-code-search__item-title">{{ .title }}</h3>
+                <p class="lp-semantic-search-tools-semantic-code-search__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.button }}
+        <a class="link lp-semantic-search-tools-semantic-code-search__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,14 @@
+@use '../../helpers/functions' as *;
+
+.lp-search-database-getting-started {
+  @include lp-search-database-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-search-database-header('lp-search-database-getting-started', true, true);
+  @include lp-search-database-header-centered('lp-search-database-getting-started');
+  @include lp-search-database-cell('lp-search-database-getting-started');
+  @include lp-search-database-single('lp-search-database-getting-started');
+  @include lp-search-database-callout('lp-search-database-getting-started', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}

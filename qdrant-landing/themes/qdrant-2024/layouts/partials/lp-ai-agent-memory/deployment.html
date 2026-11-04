@@ -1,0 +1,34 @@
+{{ with (.Site.GetPage "/lp-ai-agent-memory/deployment") }}
+  <section class="lp-ai-agent-memory-deployment">
+    <div class="container">
+      <div class="lp-ai-agent-memory-deployment__grid">
+        <div class="lp-ai-agent-memory-deployment__header">
+          <div class="lp-ai-agent-memory-deployment__heading">
+            {{ with .Params.label }}<p class="lp-ai-agent-memory-deployment__label">{{ . }}</p>{{ end }}
+            <h2 class="lp-ai-agent-memory-deployment__title">{{ .Params.title }}</h2>
+          </div>
+          {{ with .Params.description }}<p class="lp-ai-agent-memory-deployment__description">{{ . }}</p>{{ end }}
+      {{ with .Params.callout }}
+        <blockquote class="lp-ai-agent-memory-deployment__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+        </div>
+        <div>
+          <ul class="lp-ai-agent-memory-deployment__list">
+            {{ range .Params.cards }}
+              <li class="lp-ai-agent-memory-deployment__item">
+                <h3 class="lp-ai-agent-memory-deployment__item-title">{{ .title }}</h3>
+                <p class="lp-ai-agent-memory-deployment__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.button }}
+        <a class="link lp-ai-agent-memory-deployment__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

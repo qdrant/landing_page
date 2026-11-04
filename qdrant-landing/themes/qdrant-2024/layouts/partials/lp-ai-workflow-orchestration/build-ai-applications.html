@@ -1,0 +1,34 @@
+{{ with (.Site.GetPage "/lp-ai-workflow-orchestration/build-ai-applications") }}
+  <section class="lp-ai-workflow-orchestration-build-ai-applications">
+    <div class="container">
+      <div class="lp-ai-workflow-orchestration-build-ai-applications__grid">
+        <div class="lp-ai-workflow-orchestration-build-ai-applications__header">
+          <div class="lp-ai-workflow-orchestration-build-ai-applications__heading">
+            {{ with .Params.label }}<p class="lp-ai-workflow-orchestration-build-ai-applications__label">{{ . }}</p>{{ end }}
+            <h2 class="lp-ai-workflow-orchestration-build-ai-applications__title">{{ .Params.title }}</h2>
+          </div>
+          {{ with .Params.description }}<p class="lp-ai-workflow-orchestration-build-ai-applications__description">{{ . }}</p>{{ end }}
+      {{ with .Params.callout }}
+        <blockquote class="lp-ai-workflow-orchestration-build-ai-applications__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+        </div>
+        <div>
+          <ul class="lp-ai-workflow-orchestration-build-ai-applications__list">
+            {{ range .Params.cards }}
+              <li class="lp-ai-workflow-orchestration-build-ai-applications__item">
+                <h3 class="lp-ai-workflow-orchestration-build-ai-applications__item-title">{{ .title }}</h3>
+                <p class="lp-ai-workflow-orchestration-build-ai-applications__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.button }}
+        <a class="link lp-ai-workflow-orchestration-build-ai-applications__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,7 @@
+@use '../../helpers/functions' as *;
+
+.lp-search-database-faq {
+  @include lp-search-database-band(false, 5, 5);
+  &__title { @include lp-search-database-title(false, true); margin-bottom: $spacer * 2.5; text-align: center; }
+  @include media-breakpoint-up(lg) { &__title { margin-bottom: $spacer * 4; } }
+}
