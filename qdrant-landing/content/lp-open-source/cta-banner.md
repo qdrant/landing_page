@@ -1,5 +1,5 @@
 ---
-title: Get Open Source Qdrant, Managed on Qdrant Cloud
+title: Keep the Open Source Engine and Hand Off the Operations
 description: Run open source Qdrant as a managed service, on a free Qdrant Cloud cluster.
 button:
   text: Start Free

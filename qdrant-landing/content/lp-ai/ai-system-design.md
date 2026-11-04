@@ -1,6 +1,6 @@
 ---
 label: AI system design
-title: The Better the Retrieval, the Better the Answers
+title: Better Retrieval Gives Your AI App Better Answers
 description: Answer quality starts with retrieval. When the AI data layer returns the right context, the LLM has what it needs to answer well. Good AI system design treats retrieval as a first-class part of the architecture.
 cards:
   - id: 0

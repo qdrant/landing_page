@@ -1,6 +1,6 @@
 ---
 label: Open source vector search
-title: One Engine, Two Ways to Run It
+title: Run the Open Source Engine Wherever You Choose
 description: The engine behind Qdrant Cloud is the open source engine you can download. Pick where it runs today, and move your collections later as your needs change.
 cards:
   - id: 0
