@@ -1,0 +1,32 @@
+---
+label: AI system design
+title: Better Retrieval Gives Your AI App Better Answers
+description: Answer quality starts with retrieval. When the AI data layer returns the right context, the LLM has what it needs to answer well. Good AI system design treats retrieval as a first-class part of the architecture.
+cards:
+  - id: 0
+    title: Plug retrieval into AI workflow orchestration.
+    description: Qdrant integrates with CrewAI, LlamaIndex, Haystack, LangChain, and AutoGen, so you can run retrieval as a step inside your agent loops and orchestrated workflows.
+    icon:
+      src: /icons/outline/layers-blue.svg
+      alt: ""
+  - id: 1
+    title: Design your payload schema with your application.
+    description: Store metadata next to each vector and filter on it at query time. Consistent payload fields keep filtering and ranking stable as retrieval requirements change.
+    icon:
+      src: /icons/outline/puzzle-blue.svg
+      alt: ""
+  - id: 2
+    title: Combine retrieval primitives at query time.
+    description: Mix dense vectors, sparse vectors, metadata filters, and multi-vector representations in one query, with explicit control over the relevance, latency, and cost of each.
+    icon:
+      src: /icons/outline/binary-blue.svg
+      alt: ""
+callout:
+  text: Dust connects company data in Notion, Google Drive, and Slack to LLMs. Its retrieval runs on Qdrant across hundreds of thousands of collections and takes milliseconds.
+  url: https://qdrant.tech/blog/dust-and-qdrant/
+  label: Read the Dust case study
+button:
+  text: Start free with Qdrant Cloud
+  url: https://cloud.qdrant.io/signup
+sitemapExclude: true
+---

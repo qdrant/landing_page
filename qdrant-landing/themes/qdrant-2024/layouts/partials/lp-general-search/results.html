@@ -1,0 +1,39 @@
+{{ with (.Site.GetPage "/lp-general-search/results") }}
+  <section class="lp-general-search-results">
+    <div class="container">
+      <div class="lp-general-search-results__grid{{ if not .Params.cards }} lp-general-search-results__grid--full{{ end }}">
+        <div class="lp-general-search-results__header">
+          <div class="lp-general-search-results__heading">
+            {{ with .Params.label }}<p class="lp-general-search-results__label">{{ . }}</p>{{ end }}
+            <h2 class="lp-general-search-results__title">{{ .Params.title }}</h2>
+          </div>
+          {{ with .Params.description }}<p class="lp-general-search-results__description">{{ . }}</p>{{ end }}
+      {{ with .Params.callout }}
+        <blockquote class="lp-general-search-results__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+{{ if not .Params.cards }}      {{ with .Params.button }}
+        <a class="link lp-general-search-results__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+{{ end }}        </div>
+        {{ if .Params.cards }}
+        <div>
+          <ul class="lp-general-search-results__list">
+            {{ range .Params.cards }}
+              <li class="lp-general-search-results__item">
+                <h3 class="lp-general-search-results__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
+                <p class="lp-general-search-results__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.button }}
+        <a class="link lp-general-search-results__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

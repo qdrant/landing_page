@@ -1,0 +1,19 @@
+@use '../../helpers/functions' as *;
+
+.lp-ai-agents-multi-agent-systems {
+  @include lp-ai-agents-band(false, 5, 5);
+  @include lp-ai-agents-header('lp-ai-agents-multi-agent-systems');
+  @include lp-ai-agents-single('lp-ai-agents-multi-agent-systems');
+  @include lp-ai-agents-callout('lp-ai-agents-multi-agent-systems', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2 $spacer * 1.5; }
+  &__card { display: flex; flex-direction: column; align-items: flex-start; }
+  &__card-icon { @include lp-ai-agents-tile; margin-bottom: $spacer * 1.5; }
+  &__card-title { margin-bottom: $spacer * 0.5; font-size: $font-size-md; font-weight: $font-weight-semibold; line-height: 1.5; color: $neutral-20; }
+  &__card-description { margin-bottom: 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-30; }
+  @include media-breakpoint-up(md) { &__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @include media-breakpoint-up(lg) { &__grid { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); } }
+}
+
+.lp-ai-agents-multi-agent-systems__header { display: block; text-align: left; }
+.lp-ai-agents-multi-agent-systems__heading, .lp-ai-agents-multi-agent-systems__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-ai-agents-multi-agent-systems__description { margin-top: $spacer; }

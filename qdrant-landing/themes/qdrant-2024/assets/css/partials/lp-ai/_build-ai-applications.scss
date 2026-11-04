@@ -1,0 +1,22 @@
+@use '../../helpers/functions' as *;
+
+.lp-ai-build-ai-applications {
+  @include lp-ai-band(false, 5, 7.5);
+  @include lp-ai-header('lp-ai-build-ai-applications', false, true);
+  @include lp-ai-item('lp-ai-build-ai-applications');
+  @include lp-ai-callout('lp-ai-build-ai-applications', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2.5; }
+  &__header { margin-bottom: 0; }
+  &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
+  &__link { margin-top: $spacer * 2; }
+  @include media-breakpoint-up(lg) {
+    &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: start; }
+    &__grid--full { grid-template-columns: minmax(0, 1fr); }   // no items: the text takes the full width
+    &__header { display: block; margin-bottom: 0; }
+    &__description { margin-top: $spacer; }
+  }
+}
+
+.lp-ai-build-ai-applications__header { display: block; text-align: left; }
+.lp-ai-build-ai-applications__heading, .lp-ai-build-ai-applications__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-ai-build-ai-applications__description { margin-top: $spacer; }

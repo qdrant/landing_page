@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "lp-open-source/hero" . }}
+
+  {{ partial "lp-open-source/open-source-vector-search" . }}
+
+  {{ partial "lp-open-source/qdrant-cloud" . }}
+
+  {{ partial "lp-open-source/migration" . }}
+
+  {{ partial "lp-open-source/getting-started" . }}
+
+  {{ partial "lp-open-source/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-open-source/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}

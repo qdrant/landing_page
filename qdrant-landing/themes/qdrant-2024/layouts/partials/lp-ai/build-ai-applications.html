@@ -1,0 +1,39 @@
+{{ with (.Site.GetPage "/lp-ai/build-ai-applications") }}
+  <section class="lp-ai-build-ai-applications">
+    <div class="container">
+      <div class="lp-ai-build-ai-applications__grid{{ if not .Params.cards }} lp-ai-build-ai-applications__grid--full{{ end }}">
+        <div class="lp-ai-build-ai-applications__header">
+          <div class="lp-ai-build-ai-applications__heading">
+            {{ with .Params.label }}<p class="lp-ai-build-ai-applications__label">{{ . }}</p>{{ end }}
+            <h2 class="lp-ai-build-ai-applications__title">{{ .Params.title }}</h2>
+          </div>
+          {{ with .Params.description }}<p class="lp-ai-build-ai-applications__description">{{ . }}</p>{{ end }}
+      {{ with .Params.callout }}
+        <blockquote class="lp-ai-build-ai-applications__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+{{ if not .Params.cards }}      {{ with .Params.button }}
+        <a class="link lp-ai-build-ai-applications__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+{{ end }}        </div>
+        {{ if .Params.cards }}
+        <div>
+          <ul class="lp-ai-build-ai-applications__list">
+            {{ range .Params.cards }}
+              <li class="lp-ai-build-ai-applications__item">
+                <h3 class="lp-ai-build-ai-applications__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
+                <p class="lp-ai-build-ai-applications__item-description">{{ .description }}</p>
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.button }}
+        <a class="link lp-ai-build-ai-applications__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

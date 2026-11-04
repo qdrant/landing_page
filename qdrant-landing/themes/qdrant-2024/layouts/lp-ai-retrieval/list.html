@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "lp-ai-retrieval/hero" . }}
+
+  {{ partial "lp-ai-retrieval/ai-retrieval" . }}
+
+  {{ partial "lp-ai-retrieval/managed-by-qdrant-cloud" . }}
+
+  {{ partial "lp-ai-retrieval/frameworks-and-tenants" . }}
+
+  {{ partial "lp-ai-retrieval/getting-started" . }}
+
+  {{ partial "lp-ai-retrieval/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-ai-retrieval/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+{{ end }}
