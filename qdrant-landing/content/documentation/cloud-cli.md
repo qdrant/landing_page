@@ -54,19 +54,19 @@ qcloud version
 
 ## Quick Start
 
-Before using `qcloud`, create a [management API](/documentation/cloud-api/) key and note your account ID from the [Qdrant Cloud Console](https://cloud.qdrant.io).
-
 ```sh
-# 1. Create a context with your credentials
-qcloud context set my-cloud \
-  --api-key <YOUR_API_KEY> \
-  --account-id <YOUR_ACCOUNT_ID>
+# 1. Authenticate
+qcloud auth login
 
-# 2. List available cloud providers and regions
+# 2. If you authenticated multiple accounts, pick the righ context for the account you want to use
+qcloud context list
+qcloud context use <CONTEXT_NAME>
+
+# 3. List available cloud providers and regions
 qcloud cloud-provider list
 qcloud cloud-region list --cloud-provider aws
 
-# 3. Create a cluster by specifying resources (waits until healthy)
+# 4. Create a cluster by specifying resources (waits until healthy)
 #    Use --cpu, --ram, --disk to select a matching package automatically.
 qcloud cluster create \
   --cloud-provider aws \
@@ -77,10 +77,10 @@ qcloud cluster create \
   --name my-cluster \
   --wait
 
-# 4. Describe your new cluster
+# 5. Describe your new cluster
 qcloud cluster describe <CLUSTER_ID>
 
-# 5. Create an API key for it
+# 6. Create an API key for it
 qcloud cluster key create <CLUSTER_ID> --name my-key
 ```
 
@@ -130,19 +130,29 @@ Reducing RAM is allowed, but `qcloud cluster scale` warns you first if the clust
 
 `qcloud` can be configured in three ways, listed here from lowest to highest precedence:
 
-### Config File
+### OAuth Authentication
 
-The config file is stored at `~/.config/qcloud/config.yaml` by default. You can override the location with the `--config` flag. It stores named contexts so you can switch between accounts and environments.
+Run `qcloud auth login`, authenticate and authorize the CLI to access on or more of your Qdrant Cloud accounts. Each account will get a named context, to make it easy to switch between them.
+
+```sh
+qcloud context list
+qcloud context use my-account
+qcloud context show
+```
 
 ### Named Contexts
 
-Named contexts allow you to save and switch between sets of credentials:
+Named contexts allow you to also use Cloud Management API Keys for an account. Create a [management API](/documentation/cloud-api/) key and note your account ID from the [Qdrant Cloud Console](https://cloud.qdrant.io).
 
 ```sh
 qcloud context set my-cloud --api-key <KEY> --account-id <ID>
 qcloud context use my-cloud
 qcloud context show
 ```
+
+### Config File
+
+The config file is stored at `~/.config/qcloud/config.yaml` by default. You can override the location with the `--config` flag. It stores named contexts so you can switch between accounts and environments.
 
 ### Environment Variables
 
