@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg" viewBox="0 0 760 350" role="img" aria-label="Time to load 32.9 million MIRACL passages into Qdrant. potion-base-8M: embedding 35 minutes plus upload and ingestion 8.3 hours, 8.9 hours total. potion-retrieval-32M: 38 minutes plus 10.1 hours, 10.8 hours total. potion-multilingual-128M: 47 minutes plus 8.4 hours, 9.2 hours total. Embedding is under 9% of the total in every case."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.se-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.se-arrowhead { fill: #656b7f; }
+.se-chip { cursor: pointer; }
+.se-chip rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-chip text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.se-chip.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.se-chip:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.se-chip:focus { outline: none; }
+.se-box rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-box text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.c1 { fill: #6047ff; }
+.c2 { fill: #9c27b0; }
+.c3 { fill: #00838f; }
+.c4 { fill: #dc244c; }
+.pad { fill: none; stroke: #abb1c7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.muted { fill: #656b7f; }
+.dim { opacity: 0.35; }
+.se-num { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; text-anchor: middle; }
+.se-cell-box { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-cell-box.is-selected { stroke: #303547; stroke-width: 2.5; }
+.se-seg { stroke: none; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="350" fill="#fff"/>
+    
+    <g class="se-chip is-selected" data-i="0" role="button" tabindex="0" aria-pressed="true" aria-label="hours">
+      <rect x="20" y="14" width="140" height="28" rx="6"/>
+      <text x="32" y="33">hours</text>
+    </g>
+    <g class="se-chip" data-i="1" role="button" tabindex="0" aria-pressed="false" aria-label="share of total">
+      <rect x="170" y="14" width="140" height="28" rx="6"/>
+      <text x="182" y="33">share of total</text>
+    </g>
+    <text class="qi-label" x="250" y="86" text-anchor="middle">0 h</text><text class="qi-label" x="406.66666666666663" y="86" text-anchor="middle">4 h</text><text class="qi-label" x="563.3333333333333" y="86" text-anchor="middle">8 h</text><text class="qi-label" x="720" y="86" text-anchor="middle">12 h</text>
+    <text class="qi-label" x="20" y="116">potion-base-8M</text>
+      <rect class="se-seg c1" x="250" y="96" width="23.0" height="30" rx="3"/>
+      <rect class="se-seg c3" x="273.0" y="96" width="326.5" height="30" rx="3"/>
+      <text class="qi-label" x="250" y="148">embedding 35 min · upload and ingestion 8.3 h · total 8.9 h</text><text class="qi-label" x="20" y="198">potion-retrieval-32M</text>
+      <rect class="se-seg c1" x="250" y="178" width="24.8" height="30" rx="3"/>
+      <rect class="se-seg c3" x="274.8" y="178" width="396.8" height="30" rx="3"/>
+      <text class="qi-label" x="250" y="230">embedding 38 min · upload and ingestion 10.1 h · total 10.8 h</text><text class="qi-label" x="20" y="280">potion-multilingual-128M</text>
+      <rect class="se-seg c1" x="250" y="260" width="30.8" height="30" rx="3"/>
+      <rect class="se-seg c3" x="280.8" y="260" width="330.7" height="30" rx="3"/>
+      <text class="qi-label" x="250" y="312">embedding 47 min · upload and ingestion 8.4 h · total 9.2 h</text>
+    <rect class="se-seg c1" x="20" y="338" width="11" height="11" rx="2"/><text class="qi-label" x="38" y="348">embedding</text>
+    <rect class="se-seg c3" x="150" y="338" width="11" height="11" rx="2"/><text class="qi-label" x="168" y="348">upload through the network and Qdrant ingestion</text>
+  </svg>

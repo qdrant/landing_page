@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg" viewBox="0 0 760 240" role="img" aria-label="Padded batch: three texts of 5, 3, and 2 tokens fill 15 slots, 5 of which are padding."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.se-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.se-arrowhead { fill: #656b7f; }
+.se-chip { cursor: pointer; }
+.se-chip rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-chip text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.se-chip.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.se-chip:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.se-chip:focus { outline: none; }
+.se-box rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-box text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.c1 { fill: #6047ff; }
+.c2 { fill: #9c27b0; }
+.c3 { fill: #00838f; }
+.c4 { fill: #dc244c; }
+.pad { fill: none; stroke: #abb1c7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.muted { fill: #656b7f; }
+.dim { opacity: 0.35; }
+.se-num { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; text-anchor: middle; }
+.se-cell-box { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-cell-box.is-selected { stroke: #303547; stroke-width: 2.5; }
+.se-seg { stroke: none; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="240" fill="#fff"/>
+    
+    <g class="se-chip is-selected" data-i="0" role="button" tabindex="0" aria-pressed="true" aria-label="padded batch (ONNX)">
+      <rect x="20" y="20" width="220" height="28" rx="6"/>
+      <text x="32" y="39">padded batch (ONNX)</text>
+    </g>
+    <g class="se-chip" data-i="1" role="button" tabindex="0" aria-pressed="false" aria-label="flat array + lengths">
+      <rect x="250" y="20" width="220" height="28" rx="6"/>
+      <text x="262" y="39">flat array + lengths</text>
+    </g>
+    <text class="qi-label" x="20" y="115">text 1</text><rect class="c1" x="150" y="96" width="28" height="28" rx="4"/><rect class="c1" x="182" y="96" width="28" height="28" rx="4"/><rect class="c1" x="214" y="96" width="28" height="28" rx="4"/><rect class="c1" x="246" y="96" width="28" height="28" rx="4"/><rect class="c1" x="278" y="96" width="28" height="28" rx="4"/><text class="qi-label" x="20" y="155">text 2</text><rect class="c2" x="150" y="136" width="28" height="28" rx="4"/><rect class="c2" x="182" y="136" width="28" height="28" rx="4"/><rect class="c2" x="214" y="136" width="28" height="28" rx="4"/><rect class="pad" x="246" y="136" width="28" height="28" rx="4"/><rect class="pad" x="278" y="136" width="28" height="28" rx="4"/><text class="qi-label" x="20" y="195">text 3</text><rect class="c3" x="150" y="176" width="28" height="28" rx="4"/><rect class="c3" x="182" y="176" width="28" height="28" rx="4"/><rect class="pad" x="214" y="176" width="28" height="28" rx="4"/><rect class="pad" x="246" y="176" width="28" height="28" rx="4"/><rect class="pad" x="278" y="176" width="28" height="28" rx="4"/>
+      <text class="qi-label qi-label--strong" x="350" y="130">15 slots, 5 of them padding</text>
+      <text class="qi-label" x="350" y="150">every text is stretched to the longest one</text>
+  </svg>
