@@ -25,23 +25,26 @@ html[data-theme='dark'] .qi-sq {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px 12px;
+  gap: 18px 24px;
+}
+.qi-sq__fields > .qi-hint {
+  font-size: 13px;
 }
 .qi-sq__fields > .qi-sq__top {
   align-self: start;
-  line-height: 30px;
+  line-height: 36px;
 }
 
 /* The query, styled like the code-tokenizer's query field (read-only). */
 .qi-sq__query {
-  padding: 5px 8px;
+  padding: 8px 14px;
   border: 1px solid var(--qi-border);
   border-radius: var(--qi-radius);
   background: var(--qi-surface);
   color: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 13px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 /* Lists are scoped under .qi-sq to outrank the docs list styles, and their
@@ -51,8 +54,8 @@ html[data-theme='dark'] .qi-sq {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
-  min-height: 24px;
+  gap: 8px;
+  min-height: 32px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -64,13 +67,13 @@ html[data-theme='dark'] .qi-sq {
 
 .qi-sq .qi-sq__token,
 .qi-sq .qi-sq__cell {
-  padding: 2px 8px;
+  padding: 6px 12px;
   border-radius: var(--qi-radius);
   background: var(--sq-box-bg);
   color: var(--sq-box-fg);
   font-family: var(--qi-mono);
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 15px;
+  line-height: 24px;
 }
 /* Stopword: dashed and struck through, dropped before the next step. */
 .qi-sq .qi-sq__token.is-stop {
@@ -88,17 +91,18 @@ html[data-theme='dark'] .qi-sq {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 16px;
+  gap: 6px 24px;
+  font-size: 13px;
 }
 .qi-sq__keyitem {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   white-space: nowrap;
 }
 .qi-sq__key {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 3px;
 }
 .qi-sq__key.is-stop {
@@ -112,15 +116,17 @@ html[data-theme='dark'] .qi-sq {
 /* --- Sparse vector: a value over each dictionary word --- */
 .qi-sq .qi-sq__vector {
   align-items: flex-start;
-  gap: 8px 4px;
+  gap: 12px 4px;
 }
 .qi-sq .qi-sq__pos {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 2px;
+  gap: 6px;
 }
 .qi-sq .qi-sq__cell {
+  padding-left: 8px;
+  padding-right: 8px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
@@ -132,8 +138,8 @@ html[data-theme='dark'] .qi-sq {
 .qi-sq__term {
   color: var(--qi-muted);
   font-family: var(--qi-mono);
-  font-size: 11px;
-  line-height: 16px;
+  font-size: 13px;
+  line-height: 18px;
   text-align: center;
 }
 .qi-sq__pos.is-one .qi-sq__term {
@@ -142,15 +148,34 @@ html[data-theme='dark'] .qi-sq {
 .qi-sq .qi-sq__gap {
   color: var(--qi-line);
   font-family: var(--qi-mono);
-  font-size: 12px;
-  line-height: 24px;
+  font-size: 15px;
+  line-height: 36px;
+}
+.qi-sq__status {
+  margin-top: 8px;
 }
 
 /* Narrow screens: labels over content. */
 @media (max-width: 640px) {
   .qi-sq__fields {
     grid-template-columns: minmax(0, 1fr);
-    gap: 4px;
+    gap: 6px;
+  }
+  .qi-sq .qi-sq__token,
+  .qi-sq .qi-sq__cell {
+    padding: 4px 9px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+  .qi-sq__query {
+    font-size: 14px;
+  }
+  .qi-sq__term {
+    font-size: 12px;
+  }
+  .qi-sq .qi-sq__tokens,
+  .qi-sq .qi-sq__vector {
+    gap: 6px;
   }
   .qi-sq__fields > .qi-sq__top {
     line-height: inherit;
@@ -161,6 +186,6 @@ html[data-theme='dark'] .qi-sq {
   .qi-sq__fields > .qi-sq__tokens + .qi-hint,
   .qi-sq__fields > .qi-sq__query + .qi-hint,
   .qi-sq__fields > .qi-sq__legend + .qi-hint {
-    margin-top: 6px;
+    margin-top: 10px;
   }
 }
