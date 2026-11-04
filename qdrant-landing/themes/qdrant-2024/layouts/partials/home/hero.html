@@ -3,6 +3,7 @@
     <div class="hero__container">
       <div class="hero__grid"></div>
       <div class="hero__content">
+        <div class="hero__fade-top" aria-hidden="true"></div>
         <div class="hero__heading">
           <h1 class="hero__title">{{ .Params.title }}</h1>
           <p class="hero__subtitle">{{ .Params.subtitle }}</p>
@@ -13,6 +14,29 @@
           <a data-metric-loc="hero" href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg"
              data-metric-loc="hero">{{ .Params.learnMore.text }}</a>
         </div>
+        {{ with .Params.agentPrompt }}
+          <div class="hero__agent">
+            <p class="hero__agent-label" id="hero-agent-label">{{ .label }}</p>
+            <div class="hero__agent-snippet">
+              <code class="hero__agent-text" aria-labelledby="hero-agent-label">{{ .text }}</code>
+              <button
+                type="button"
+                class="hero__agent-copy js-copy-text"
+                data-copy-text="{{ .text }}"
+                data-metric-loc="hero"
+                aria-label="Copy the prompt"
+              >
+                <svg class="hero__agent-icon hero__agent-icon--copy" width="16" height="16" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <svg class="hero__agent-icon hero__agent-icon--done" width="16" height="16" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <span class="visually-hidden" role="status"></span>
+          </div>
+        {{ end }}
       </div>
 
       <div class="hero__planet">
@@ -69,7 +93,6 @@
         {{ end }}
       </div>
 
-      <div class="hero__fade-top"></div>
       <div class="hero__fade-bottom"></div>
       <div class="hero__fade-left"></div>
       <div class="hero__fade-right"></div>
