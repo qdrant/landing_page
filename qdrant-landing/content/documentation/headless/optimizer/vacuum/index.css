@@ -1,0 +1,95 @@
+/* vacuum island. Scoped under .qi-ov. Controls, frames and labels come from
+   the shared island design system (islands.scss); this file only styles the
+   segment squares and their points. The segment vocabulary (squares, constant
+   points, neutral highlight that pulses while a segment is being optimized)
+   is shared by all optimizer islands. Points are orange; a deleted point
+   turns gray. */
+
+.qi-ov {
+  --ov-point: #6047ff; /* neon-blue-500: points, as Tenant A in the multitenancy islands */
+  display: block;
+}
+
+/* --- Segments --- */
+.qi-ov__seg {
+  transition: opacity 0.4s ease;
+}
+.qi-ov__seg.is-gone {
+  opacity: 0;
+}
+.qi-ov__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-ov__seg.is-hot .qi-ov__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+  animation: qi-ov-optimizing 1.1s ease-in-out infinite;
+}
+/* The outline of the segment being optimized pulses until the rebuild is
+   done. While the loop is paused it stays solid, rather than freezing at a
+   faint point of the pulse. */
+.qi-ov.is-paused .qi-ov__seg.is-hot .qi-ov__box {
+  animation: none;
+}
+@keyframes qi-ov-optimizing {
+  0%,
+  100% {
+    stroke-opacity: 1;
+  }
+  50% {
+    stroke-opacity: 0.2;
+  }
+}
+
+/* --- Points --- */
+/* Points slide to their new slot when a segment is compacted. */
+.qi-ov__point {
+  fill: var(--ov-point);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, fill 0.3s ease;
+}
+.qi-ov__point.is-on {
+  opacity: 1;
+}
+/* A deleted point is only marked as deleted: it stays in place, gray, until
+   the segment is rebuilt. On dark backgrounds it uses a gray between the
+   line and muted tokens, so it reads as faded next to the blue points. */
+.qi-ov {
+  --ov-deleted: var(--qi-line);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-ov {
+    --ov-deleted: #656b7f; /* neutral-600 */
+  }
+}
+html[data-theme='dark'] .qi-ov {
+  --ov-deleted: #656b7f;
+}
+.qi-ov__point.is-deleted {
+  fill: var(--ov-deleted);
+}
+/* Set for one frame while the points are put back at the start of a loop. */
+.qi-ov__seg.is-instant .qi-ov__point {
+  transition: none;
+}
+
+/* --- Legend --- */
+.qi-ov__key--point {
+  fill: var(--ov-point);
+}
+.qi-ov__key--deleted {
+  fill: var(--ov-deleted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ov__seg,
+  .qi-ov__point {
+    transition: none;
+  }
+  .qi-ov__seg.is-hot .qi-ov__box {
+    animation: none;
+  }
+}

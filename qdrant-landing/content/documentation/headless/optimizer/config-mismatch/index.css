@@ -1,0 +1,136 @@
+/* config-mismatch island. Scoped under .qi-oc. Controls, frames and labels
+   come from the shared island design system (islands.scss); this file only
+   styles the segment squares and their points. The segment vocabulary
+   (squares, blue points, dashed = appendable, a neutral outline that pulses
+   while a segment is being optimized) is shared by all optimizer islands.
+   Here an indexed segment's background shows the configuration it was built
+   with. */
+
+.qi-oc {
+  --oc-point: #6047ff; /* neon-blue-500: points, as Tenant A in the multitenancy islands */
+  /* Configuration 1 uses the default segment background of the other
+     optimizer islands: --qi-line at 35%. */
+  --oc-config-1: var(--qi-line);
+  --oc-config-2: #9da3b8; /* between neutral-400 and -500: dark gray, still light
+                             enough for the blue points to stand out */
+  --oc-config-1-opacity: 0.35;
+  display: block;
+}
+/* Dark: configuration 2 uses a light gray, and its segment names switch to
+   dark text to stay readable. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-oc {
+    --oc-config-2: #bfc5d9; /* between neutral-200 and -400 */
+    --oc-config-2-text: #303547; /* neutral-800 */
+  }
+}
+html[data-theme='dark'] .qi-oc {
+  --oc-config-2: #bfc5d9;
+  --oc-config-2-text: #303547;
+}
+.qi-oc__seg.is-config-2 text {
+  fill: var(--oc-config-2-text, var(--qi-fg));
+}
+
+/* --- Segments --- */
+.qi-oc__seg {
+  transition: opacity 0.4s ease;
+}
+.qi-oc__seg.is-gone {
+  opacity: 0;
+}
+.qi-oc__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  /* A rebuilt segment changes color slowly, as the new configuration takes
+     over. */
+  transition: fill 1.2s ease, fill-opacity 1.2s ease;
+}
+.qi-oc__seg.is-config-1 .qi-oc__box {
+  fill: var(--oc-config-1);
+  fill-opacity: var(--oc-config-1-opacity);
+}
+.qi-oc__seg.is-config-2 .qi-oc__box {
+  fill: var(--oc-config-2);
+  fill-opacity: 1;
+}
+.qi-oc__seg.is-appendable .qi-oc__box {
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.qi-oc__seg.is-hot .qi-oc__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+  stroke-dasharray: none;
+  animation: qi-oc-optimizing 1.1s ease-in-out infinite;
+}
+/* The outline of the segment being optimized pulses until the rebuild is
+   done. While the writes are paused it stays solid, rather than freezing at
+   a faint point of the pulse. */
+.qi-oc.is-paused .qi-oc__seg.is-hot .qi-oc__box {
+  animation: none;
+}
+@keyframes qi-oc-optimizing {
+  0%,
+  100% {
+    stroke-opacity: 1;
+  }
+  50% {
+    stroke-opacity: 0.2;
+  }
+}
+
+/* Points, one bar each, growing up from the floor of the well as they
+   arrive. */
+.qi-oc__point {
+  fill: var(--oc-point);
+  opacity: 0;
+  transform: scaleY(0.25);
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.qi-oc__point.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Current configuration and legend --- */
+.qi-oc__key {
+  stroke: var(--qi-border);
+  transition: fill 0.4s ease;
+}
+.qi-oc__current.is-config-1 .qi-oc__key,
+.qi-oc__key--config-1 {
+  fill: var(--oc-config-1);
+  fill-opacity: var(--oc-config-1-opacity);
+}
+.qi-oc__current.is-config-2 .qi-oc__key,
+.qi-oc__key--config-2 {
+  fill: var(--oc-config-2);
+}
+.qi-oc__key--point {
+  fill: var(--oc-point);
+  stroke: none;
+}
+.qi-oc__key--appendable {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-oc__seg,
+  .qi-oc__box,
+  .qi-oc__point,
+  .qi-oc__key {
+    transition: none;
+  }
+  .qi-oc__seg.is-hot .qi-oc__box {
+    animation: none;
+  }
+}
