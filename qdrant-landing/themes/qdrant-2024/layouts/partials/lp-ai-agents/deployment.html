@@ -14,7 +14,11 @@
           {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
         </blockquote>
       {{ end }}
-        </div>
+{{ if not .Params.cards }}      {{ with .Params.button }}
+        <a class="link lp-ai-agents-deployment__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+{{ end }}        </div>
+        {{ if .Params.cards }}
         <div>
           <ul class="lp-ai-agents-deployment__list">
             {{ range .Params.cards }}
@@ -28,6 +32,7 @@
         <a class="link lp-ai-agents-deployment__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
       {{ end }}
         </div>
+        {{ end }}
       </div>
     </div>
   </section>

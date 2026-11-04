@@ -3,7 +3,6 @@
 .lp-semantic-search-by-meaning {
   @include lp-semantic-band(false, 5, 5);
   @include lp-semantic-header('lp-semantic-search-by-meaning', false, true);
-  @include lp-semantic-header-centered('lp-semantic-search-by-meaning');
   @include lp-semantic-item('lp-semantic-search-by-meaning');
   @include lp-semantic-callout('lp-semantic-search-by-meaning', $secondary-blue-50, $neutral-98, $neutral-30);
   &__grid { display: grid; gap: $spacer * 2.5; }

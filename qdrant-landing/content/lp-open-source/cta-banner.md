@@ -1,6 +1,6 @@
 ---
 title: Get Open Source Qdrant, Managed on Qdrant Cloud
-description: Create a free cluster, add your vectors, and run your first search in minutes.
+description: Run open source Qdrant as a managed service, on a free Qdrant Cloud cluster.
 button:
   text: Start Free
   url: https://cloud.qdrant.io/signup

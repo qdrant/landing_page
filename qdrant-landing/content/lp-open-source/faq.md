@@ -3,7 +3,7 @@ title: Common Questions
 questions:
   - id: 0
     question: How do I get started with Qdrant Cloud?
-    answer: Sign up at cloud.qdrant.io and create a free tier cluster in the Console, with no credit card. Then create a collection, add vectors, and run your first query.
+    answer: A free Qdrant Cloud cluster has 1 GB RAM, 0.5 vCPU, 4 GB disk, and one node, enough for about 1 M vectors of 768 dimensions, with no credit card. Move to a Standard cluster when you need dedicated resources, multi-node high availability, backups, and SLAs.
   - id: 1
     question: Is Qdrant really open source?
     answer: Yes. The Qdrant engine is open source under the Apache 2.0 license. The project has more than 35,000 GitHub stars and passed 250 million downloads across its packages.

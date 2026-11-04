@@ -6,7 +6,6 @@
     radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
     $neutral-10;
   @include lp-general-search-header('lp-general-search-getting-started', true, true);
-  @include lp-general-search-header-centered('lp-general-search-getting-started');
   @include lp-general-search-cell('lp-general-search-getting-started');
   @include lp-general-search-single('lp-general-search-getting-started');
   @include lp-general-search-callout('lp-general-search-getting-started', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);

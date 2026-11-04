@@ -3,7 +3,6 @@
 .lp-ai-retrieval-ai-retrieval {
   @include lp-ai-retrieval-band(false, 5, 5);
   @include lp-ai-retrieval-header('lp-ai-retrieval-ai-retrieval', false, true);
-  @include lp-ai-retrieval-header-centered('lp-ai-retrieval-ai-retrieval');
   @include lp-ai-retrieval-item('lp-ai-retrieval-ai-retrieval');
   @include lp-ai-retrieval-callout('lp-ai-retrieval-ai-retrieval', $secondary-blue-50, $neutral-98, $neutral-30);
   &__grid { display: grid; gap: $spacer * 2.5; }

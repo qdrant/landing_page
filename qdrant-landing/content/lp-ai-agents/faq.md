@@ -3,7 +3,7 @@ title: Common Questions
 questions:
   - id: 0
     question: How do I get started with Qdrant Cloud?
-    answer: Sign up and create a free cluster in the Console, with no credit card. Then connect your agent framework and store its first memories as vectors.
+    answer: A free Qdrant Cloud cluster has 1 GB RAM, 0.5 vCPU, and 4 GB disk, for about 1 M vectors of 768 dimensions. Upgrade to Standard for dedicated resources and SLAs.
   - id: 1
     question: How do I give my AI agents long-term memory?
     answer: Store what the agent learns as vectors in a Qdrant collection, with payload fields such as user, session, or date. At each step, the agent queries that collection with filters to pull back only the memory it needs.

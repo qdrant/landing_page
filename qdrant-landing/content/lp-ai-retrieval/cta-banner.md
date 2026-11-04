@@ -1,6 +1,6 @@
 ---
 title: Ground Your LLM in the Right Context
-description: Create a free cluster, load your documents, and run your first filtered search in minutes.
+description: Filter and rank your LLM's context in a single query, on a free Qdrant Cloud cluster.
 button:
   text: Start Free
   url: https://cloud.qdrant.io/signup

@@ -3,7 +3,6 @@
 .lp-ai-ai-system-design {
   @include lp-ai-band(false, 5, 5);
   @include lp-ai-header('lp-ai-ai-system-design', false, true);
-  @include lp-ai-header-centered('lp-ai-ai-system-design');
   @include lp-ai-item('lp-ai-ai-system-design');
   @include lp-ai-callout('lp-ai-ai-system-design', $secondary-blue-50, $neutral-98, $neutral-30);
   &__grid { display: grid; gap: $spacer * 2.5; }

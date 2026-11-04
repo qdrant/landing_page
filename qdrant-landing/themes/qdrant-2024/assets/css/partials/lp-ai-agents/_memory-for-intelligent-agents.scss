@@ -3,7 +3,6 @@
 .lp-ai-agents-memory-for-intelligent-agents {
   @include lp-ai-agents-band(false, 5, 5);
   @include lp-ai-agents-header('lp-ai-agents-memory-for-intelligent-agents', false, true);
-  @include lp-ai-agents-header-centered('lp-ai-agents-memory-for-intelligent-agents');
   @include lp-ai-agents-item('lp-ai-agents-memory-for-intelligent-agents');
   @include lp-ai-agents-callout('lp-ai-agents-memory-for-intelligent-agents', $secondary-blue-50, $neutral-98, $neutral-30);
   &__grid { display: grid; gap: $spacer * 2.5; }
