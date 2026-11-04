@@ -13,7 +13,7 @@
         {{ range .Params.cards }}
           <div class="lp-ai-deployment__card{{ if eq $n 1 }} lp-ai-deployment__card--wide{{ end }}">
             {{ with .icon }}<span class="lp-ai-deployment__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
-            <h3 class="lp-ai-deployment__card-title">{{ .title }}</h3>
+            <h3 class="lp-ai-deployment__card-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
             <p class="lp-ai-deployment__card-description">{{ .description }}</p>
           </div>
         {{ end }}

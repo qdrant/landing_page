@@ -1,6 +1,6 @@
 ---
 label: Getting started
-title: Build an AI Agent With Long-Term Memory in Three Steps
+title: Build an AI Agent With Long-Term Memory
 cards:
   - id: 0
     title: Create a cluster.

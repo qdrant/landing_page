@@ -23,7 +23,7 @@
           <ul class="lp-general-search-hybrid-search__list">
             {{ range .Params.cards }}
               <li class="lp-general-search-hybrid-search__item">
-                <h3 class="lp-general-search-hybrid-search__item-title">{{ .title }}</h3>
+                <h3 class="lp-general-search-hybrid-search__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
                 <p class="lp-general-search-hybrid-search__item-description">{{ .description }}</p>
               </li>
             {{ end }}

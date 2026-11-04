@@ -23,7 +23,7 @@
           <ul class="lp-ai-retrieval-getting-started__list">
             {{ range .Params.cards }}
               <li class="lp-ai-retrieval-getting-started__item">
-                <h3 class="lp-ai-retrieval-getting-started__item-title">{{ .title }}</h3>
+                <h3 class="lp-ai-retrieval-getting-started__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
                 <p class="lp-ai-retrieval-getting-started__item-description">{{ .description }}</p>
               </li>
             {{ end }}

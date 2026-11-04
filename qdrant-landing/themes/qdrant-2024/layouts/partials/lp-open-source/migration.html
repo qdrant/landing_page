@@ -13,7 +13,7 @@
         {{ range .Params.cards }}
           <div class="lp-open-source-migration__card{{ if eq $n 1 }} lp-open-source-migration__card--wide{{ end }}">
             {{ with .icon }}<span class="lp-open-source-migration__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
-            <h3 class="lp-open-source-migration__card-title">{{ .title }}</h3>
+            <h3 class="lp-open-source-migration__card-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
             <p class="lp-open-source-migration__card-description">{{ .description }}</p>
           </div>
         {{ end }}

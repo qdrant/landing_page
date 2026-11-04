@@ -1,6 +1,6 @@
 ---
 label: Getting started
-title: From Collection to Live Search in Three Steps
+title: From Collection to Live Search
 cards:
   - id: 0
     title: Create a collection.

@@ -13,7 +13,7 @@
         {{ range .Params.cards }}
           <div class="lp-semantic-results__cell{{ if eq $n 1 }} lp-semantic-results__cell--wide{{ end }}">
             {{ with .icon }}<img class="lp-semantic-results__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
-            <h3 class="lp-semantic-results__cell-title">{{ .title }}</h3>
+            <h3 class="lp-semantic-results__cell-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
             <p class="lp-semantic-results__cell-description">{{ .description }}</p>
           </div>
         {{ end }}

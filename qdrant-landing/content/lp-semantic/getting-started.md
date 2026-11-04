@@ -1,6 +1,6 @@
 ---
 label: Getting started
-title: Go From Sign-Up to First Semantic Query in Three Steps
+title: Go From Sign-Up to First Semantic Query
 cards:
   - id: 0
     title: Create a free cluster.
