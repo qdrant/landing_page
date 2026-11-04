@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/lp-open-source/getting-started") }}
   <section class="lp-open-source-getting-started">
     <div class="container">
-      <div class="lp-open-source-getting-started__grid">
+      <div class="lp-open-source-getting-started__grid{{ if not .Params.cards }} lp-open-source-getting-started__grid--full{{ end }}">
         <div class="lp-open-source-getting-started__header">
           <div class="lp-open-source-getting-started__heading">
             {{ with .Params.label }}<p class="lp-open-source-getting-started__label">{{ . }}</p>{{ end }}

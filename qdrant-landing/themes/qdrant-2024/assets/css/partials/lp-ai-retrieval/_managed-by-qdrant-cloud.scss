@@ -11,3 +11,7 @@
   @include lp-ai-retrieval-callout('lp-ai-retrieval-managed-by-qdrant-cloud', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
   &__label { color: $neutral-70; }
 }
+
+.lp-ai-retrieval-managed-by-qdrant-cloud__header { display: block; text-align: left; }
+.lp-ai-retrieval-managed-by-qdrant-cloud__heading, .lp-ai-retrieval-managed-by-qdrant-cloud__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-ai-retrieval-managed-by-qdrant-cloud__description { margin-top: $spacer; }

@@ -11,3 +11,7 @@
   @include lp-general-search-callout('lp-general-search-search-api', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
   &__label { color: $neutral-70; }
 }
+
+.lp-general-search-search-api__header { display: block; text-align: left; }
+.lp-general-search-search-api__heading, .lp-general-search-search-api__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-general-search-search-api__description { margin-top: $spacer; }

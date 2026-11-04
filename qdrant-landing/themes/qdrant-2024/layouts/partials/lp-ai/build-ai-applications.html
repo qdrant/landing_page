@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/lp-ai/build-ai-applications") }}
   <section class="lp-ai-build-ai-applications">
     <div class="container">
-      <div class="lp-ai-build-ai-applications__grid">
+      <div class="lp-ai-build-ai-applications__grid{{ if not .Params.cards }} lp-ai-build-ai-applications__grid--full{{ end }}">
         <div class="lp-ai-build-ai-applications__header">
           <div class="lp-ai-build-ai-applications__heading">
             {{ with .Params.label }}<p class="lp-ai-build-ai-applications__label">{{ . }}</p>{{ end }}

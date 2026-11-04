@@ -16,3 +16,7 @@
     &__grid--text { grid-template-columns: 1fr; }
   }
 }
+
+.lp-ai-agents-memory-for-intelligent-agents__header { display: block; text-align: left; }
+.lp-ai-agents-memory-for-intelligent-agents__heading, .lp-ai-agents-memory-for-intelligent-agents__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-ai-agents-memory-for-intelligent-agents__description { margin-top: $spacer; }

@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/lp-semantic/semantic-code-search") }}
   <section class="lp-semantic-semantic-code-search">
     <div class="container">
-      <div class="lp-semantic-semantic-code-search__grid">
+      <div class="lp-semantic-semantic-code-search__grid{{ if not .Params.cards }} lp-semantic-semantic-code-search__grid--full{{ end }}">
         <div class="lp-semantic-semantic-code-search__header">
           <div class="lp-semantic-semantic-code-search__heading">
             {{ with .Params.label }}<p class="lp-semantic-semantic-code-search__label">{{ . }}</p>{{ end }}

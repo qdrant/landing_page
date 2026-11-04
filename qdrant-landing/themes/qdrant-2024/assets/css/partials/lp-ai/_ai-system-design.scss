@@ -16,3 +16,7 @@
     &__grid--text { grid-template-columns: 1fr; }
   }
 }
+
+.lp-ai-ai-system-design__header { display: block; text-align: left; }
+.lp-ai-ai-system-design__heading, .lp-ai-ai-system-design__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-ai-ai-system-design__description { margin-top: $spacer; }

@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/lp-general-search/results") }}
   <section class="lp-general-search-results">
     <div class="container">
-      <div class="lp-general-search-results__grid">
+      <div class="lp-general-search-results__grid{{ if not .Params.cards }} lp-general-search-results__grid--full{{ end }}">
         <div class="lp-general-search-results__header">
           <div class="lp-general-search-results__heading">
             {{ with .Params.label }}<p class="lp-general-search-results__label">{{ . }}</p>{{ end }}

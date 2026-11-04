@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/lp-ai-retrieval/getting-started") }}
   <section class="lp-ai-retrieval-getting-started">
     <div class="container">
-      <div class="lp-ai-retrieval-getting-started__grid">
+      <div class="lp-ai-retrieval-getting-started__grid{{ if not .Params.cards }} lp-ai-retrieval-getting-started__grid--full{{ end }}">
         <div class="lp-ai-retrieval-getting-started__header">
           <div class="lp-ai-retrieval-getting-started__heading">
             {{ with .Params.label }}<p class="lp-ai-retrieval-getting-started__label">{{ . }}</p>{{ end }}

@@ -13,3 +13,7 @@
   @include media-breakpoint-up(md) { &__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @include media-breakpoint-up(lg) { &__grid { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); } }
 }
+
+.lp-semantic-getting-started__header { display: block; text-align: left; }
+.lp-semantic-getting-started__heading, .lp-semantic-getting-started__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-semantic-getting-started__description { margin-top: $spacer; }

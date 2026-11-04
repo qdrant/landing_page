@@ -16,3 +16,7 @@
     &__grid--text { grid-template-columns: 1fr; }
   }
 }
+
+.lp-semantic-search-by-meaning__header { display: block; text-align: left; }
+.lp-semantic-search-by-meaning__heading, .lp-semantic-search-by-meaning__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-semantic-search-by-meaning__description { margin-top: $spacer; }

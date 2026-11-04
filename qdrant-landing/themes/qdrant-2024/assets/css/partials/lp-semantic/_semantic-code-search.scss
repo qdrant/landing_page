@@ -11,7 +11,12 @@
   &__link { margin-top: $spacer * 2; }
   @include media-breakpoint-up(lg) {
     &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: start; }
+    &__grid--full { grid-template-columns: minmax(0, 1fr); }   // no items: the text takes the full width
     &__header { display: block; margin-bottom: 0; }
     &__description { margin-top: $spacer; }
   }
 }
+
+.lp-semantic-semantic-code-search__header { display: block; text-align: left; }
+.lp-semantic-semantic-code-search__heading, .lp-semantic-semantic-code-search__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-semantic-semantic-code-search__description { margin-top: $spacer; }

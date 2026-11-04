@@ -16,3 +16,7 @@
     &__grid--text { grid-template-columns: 1fr; }
   }
 }
+
+.lp-ai-retrieval-ai-retrieval__header { display: block; text-align: left; }
+.lp-ai-retrieval-ai-retrieval__heading, .lp-ai-retrieval-ai-retrieval__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-ai-retrieval-ai-retrieval__description { margin-top: $spacer; }

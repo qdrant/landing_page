@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/lp-ai-agents/deployment") }}
   <section class="lp-ai-agents-deployment">
     <div class="container">
-      <div class="lp-ai-agents-deployment__grid">
+      <div class="lp-ai-agents-deployment__grid{{ if not .Params.cards }} lp-ai-agents-deployment__grid--full{{ end }}">
         <div class="lp-ai-agents-deployment__header">
           <div class="lp-ai-agents-deployment__heading">
             {{ with .Params.label }}<p class="lp-ai-agents-deployment__label">{{ . }}</p>{{ end }}

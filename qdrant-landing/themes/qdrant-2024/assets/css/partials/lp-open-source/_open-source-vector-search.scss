@@ -16,3 +16,7 @@
     &__grid--text { grid-template-columns: 1fr; }
   }
 }
+
+.lp-open-source-open-source-vector-search__header { display: block; text-align: left; }
+.lp-open-source-open-source-vector-search__heading, .lp-open-source-open-source-vector-search__description { max-width: pxToRem(760); margin-left: 0; margin-right: 0; }
+.lp-open-source-open-source-vector-search__description { margin-top: $spacer; }
