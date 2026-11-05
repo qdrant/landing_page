@@ -1,5 +1,6 @@
 ---
 title: "Pricing for Cloud and Vector Database Solutions  Qdrant"
+type: marketing/pricing
 description: "Explore Qdrant Cloud and Enterprise solutions for your vector search applications. Choose the right deployment option and explore transparent pricing plans."
 url: pricing
 # Page sections, in order. Each is a page in content/pricing/. Both the HTML
@@ -16,6 +17,7 @@ sections:
 build:
   render: always
 cascade:
+- type: marketing/pricing
 - build:
     list: local
     publishResources: false

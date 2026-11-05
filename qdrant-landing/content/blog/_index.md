@@ -1,5 +1,6 @@
 ---
 title: Qdrant Blog
+type: marketing/blog
 subtitle: Check out our latest posts
 short_description: "News, releases, customer stories, and engineering posts from the Qdrant team on vector search, RAG, and AI agents."
 description: A place to learn how to become an expert traveler through vector space. Subscribe and we will update you on features and news.
@@ -71,4 +72,6 @@ aliases: # There is no need to add aliases for future new tags and categories!
   - /categories/vector-search
   - /categories/webinar
   - /categories/vector-space-talk
+cascade:
+  - type: marketing/blog
 ---

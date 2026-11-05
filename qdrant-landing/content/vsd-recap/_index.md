@@ -1,5 +1,6 @@
 ---
 title: Vector Space Day SF 2026 Recap
+type: marketing/vsd-recap
 description: Watch session recordings, meet the speakers, and relive Vector Space Day 2026 in San Francisco.
 url: /vector-space-day-sf-26-recap/
 social_preview_image: /vsd/vsd-link-preview.jpg
@@ -19,6 +20,7 @@ seo_schema_json:
 build:
   render: always
 cascade:
+  - type: marketing/vsd-recap
   - build:
       list: local
       publishResources: false
