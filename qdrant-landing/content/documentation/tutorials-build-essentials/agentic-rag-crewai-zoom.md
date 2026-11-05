@@ -33,13 +33,13 @@ You need Python 3.12 and:
 
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) to create the environment and install the packages.
 - A [Qdrant Cloud cluster](https://cloud.qdrant.io/) with its HTTPS endpoint and an API key, or Qdrant running locally with `docker run -p 6333:6333 qdrant/qdrant`.
-- An [Anthropic API key](https://console.anthropic.com/) with credit. The sample question below made six Claude requests and used about 11,000 tokens.
+- An [Anthropic API key](https://console.anthropic.com/) with credit.
 
 ## How the Flow Works
 
-Ingestion runs once. The script embeds each meeting with FastEmbed and stores the vector together with the meeting's topic, date, duration, attendees, and transcript as the point payload.
+Ingestion runs once. The script embeds each meeting with FastEmbed and stores the vector together with the meeting's topic, date, duration, attendees, and transcript as the point's [payload](/documentation/manage-data/payload/).
 
-Answering runs for each question. CrewAI gives the question to the researcher agent, whose only tool is a semantic search over the collection. The tool embeds the query with the same FastEmbed model, calls Qdrant's Query API and returns the closest meetings as text. The researcher writes a list of evidence. The writer agent receives that list and the question, and writes the answer. The writer has no tools, so it can only use what the researcher found.
+Answering runs for each question. CrewAI gives the question to the researcher agent, whose only tool is a semantic search over the collection. The tool embeds the query with the same FastEmbed model, calls Qdrant's Query API, and returns the closest meetings as text. The researcher writes a list of evidence. The writer agent receives that list and the question, and is instructed to answer from those findings. The writer has no retrieval tool of its own.
 
 ## Step 1: Install the Dependencies
 
@@ -58,7 +58,7 @@ Install the three packages this tutorial uses, with the versions it was tested a
 uv pip install "crewai[anthropic]==1.15.28" "qdrant-client[fastembed]==1.20.0" "python-dotenv==1.2.4"
 ```
 
-The `anthropic` extra gives CrewAI its native Claude provider. The `fastembed` extra lets the Qdrant client embed text locally. The install is large, about 150 packages and 760 MB, almost all of it CrewAI's own dependencies, so give it a few minutes.
+The `anthropic` extra gives CrewAI its native Claude provider. The `fastembed` extra lets the Qdrant client embed text locally. CrewAI has a large dependency tree, so allow a few minutes for installation.
 
 ## Step 2: Configure the Connections
 
@@ -76,7 +76,7 @@ Create `meeting_crew.py` and start with the imports and three constants:
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="imports" >}}
 
-`EMBEDDING_MODEL` is used in exactly two places, ingestion and search, so the stored vectors and the query vectors always come from the same model. `CLAUDE_MODEL` uses CrewAI's provider prefix; `claude-opus-5-5` is the current Opus model.
+`EMBEDDING_MODEL` determines the collection's vector size and supplies the model for both ingestion and search. This keeps stored vectors and query vectors compatible. `CLAUDE_MODEL` uses CrewAI's provider prefix to select Claude Opus 5.5.
 
 ## Step 3: Add the Sample Meetings
 
@@ -92,19 +92,19 @@ The collection's vector size has to match the embedding model. Rather than hard-
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="collection" >}}
 
-Cosine distance suits text embeddings from this model family. The function returns early if the collection exists, so running ingestion twice is safe.
+Cosine distance suits this embedding model. The function reuses an existing collection; use a new `COLLECTION` name if you change the embedding model. Ingestion uses stable point IDs, so rerunning it with the same sample data updates the same six points.
 
 ## Step 5: Ingest the Meetings
 
-Each meeting becomes one point. The text that gets embedded is the topic, the date and the transcript. The full meeting stays in the payload so the search tool can return dates and durations without a second lookup.
+Each meeting becomes one point. The text that gets embedded is the topic, the date, and the transcript. The full meeting stays in the payload so the search tool can return dates and durations without a second lookup.
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="ingest" >}}
 
-Passing `models.Document` as the vector tells the client to run FastEmbed locally and send the resulting vector to Qdrant. The first run downloads the model, about 130 MB, and caches it. The point ids are derived from topic and date, so re-running ingestion updates the same points instead of adding duplicates.
+Passing `models.Document` as the vector tells the client to run FastEmbed locally and send the resulting vector to Qdrant. The first run downloads and caches the model. The point IDs are derived from topic and date, so rerunning ingestion updates the same points instead of adding duplicates.
 
 ## Step 6: Retrieve With the Query API
 
-Search embeds the question with the same `models.Document` call and uses `query_points`, the current Query API. The function returns plain dictionaries so the tool and the trace below can print them.
+Search embeds the question with the same `models.Document` call and uses `query_points`, the [Query API](https://api.qdrant.tech/api-reference/search/query-points). The function returns plain dictionaries so the tool and the question trace can print them.
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="search" >}}
 
@@ -126,7 +126,7 @@ CrewAI agents call tools that subclass `BaseTool`. The input schema tells the mo
 
 ## Step 8: Define the Agents and Tasks
 
-Two agents, two tasks, run in order. The researcher has the search tool and is told to quote evidence and to say when the transcripts do not answer something. The writer has no tools and receives the researcher's output as context, so every sentence in the answer traces back to a retrieved meeting.
+Two agents, two tasks, run in order. The researcher has the search tool and is told to quote evidence and to say when the transcripts do not answer something. The writer has no tools and receives the researcher's output as context. These instructions encourage grounded answers, but they do not enforce factual correctness. Check the answer's citations and calculations against the retrieved notes.
 
 {{< code-snippet path="/documentation/headless/snippets/agentic-rag-crewai/" block="agents" >}}
 
@@ -154,7 +154,7 @@ Ask the question:
 python meeting_crew.py --ask "What did the marketing meetings decide about the Q4 campaign, and how long did they run on average?"
 ```
 
-The script prints the retrieval result first, then the crew log, then the answer. Trimmed to the first and last part:
+The script prints the retrieval result first, then the crew log, then the answer. The output and trace record a run from 22 October 2026 with the pinned versions. Agent-chosen queries and answer wording can vary between runs. Trimmed to the first and last part:
 
 ```text
 Retrieved for the question:
@@ -170,7 +170,7 @@ Only the Marketing Strategy Review (2026-09-02) formally decided anything about 
 
 ## Trace the Question Through the System
 
-With `verbose=True` on both agents, CrewAI prints each step. Here is what moved between the parts for the question above, trimmed to the lines that matter.
+With `verbose=True` on both agents, CrewAI prints each step. Here is what moved between the parts for the sample question, trimmed to the lines that matter.
 
 **1. The researcher turns the question into a search.** It called `search_meetings` twice, with these queries:
 
@@ -225,20 +225,24 @@ I found three marketing meetings. Only one recorded a formal decision on the Q4 
 - Any meetings after 2026-09-16.
 ```
 
-**4. The writer receives the question and the findings, nothing else.** Its output is the answer printed at the end of Step 9. Compare the two: every meeting, date, quote, and number in the answer appears in the findings above, and the last sentence carries over what the researcher marked as not in the transcripts.
+**4. The writer receives the question and the researcher's findings as task context.** Its output is the answer printed at the end of Step 9. Compare the two: every meeting, date, quote, and number in the answer appears in the researcher's findings, and the last sentence carries over what the researcher marked as not in the transcripts.
 
-Two things to notice. The writer never saw the collection; it saw only the researcher's list, so the answer cannot contain a meeting that was not retrieved. And the average is computed from durations that came out of the payload, not from the model's memory of the transcript.
+The useful boundary here is the handoff between retrieval and writing: you can inspect the researcher's evidence before checking the final answer. Separating the roles does not prevent either agent from inventing a claim. In this run, the cited meetings and durations match the retrieved payloads, and the two averages can be checked directly.
+
+All three marketing meetings in this sample were retrieved. In a larger archive, the three closest matches are not necessarily all relevant meetings, so their average describes only that retrieved set. For an archive-wide statistic, define the matching set with payload filters, retrieve every matching point with [paginated scroll](https://api.qdrant.tech/api-reference/points/scroll-points), and calculate the result in code.
 
 ## Troubleshooting
 
 | Symptom | What to check |
 | --- | --- |
-| `Vector dimension error` on upsert or query | The collection was created with a different model. Delete it and run `--ingest` again, or change `EMBEDDING_MODEL` back to the model used at creation. |
+| `Vector dimension error` on upsert or query | Use a new `COLLECTION` name for the new embedding model and run `--ingest`, or restore the model used to create the existing collection. |
 | `KeyError: 'QDRANT_URL'` | The `.env` file is not beside the script or the variable name differs. |
 | `credit balance is too low` or `authentication_error` from Anthropic | The key has no credit or is wrong. Check the Anthropic console. |
-| The researcher answers without calling the tool | Keep the sentence that tells it to use `search_meetings` at least once; CrewAI passes the task description to the model verbatim. |
-| Answers mention meetings that are not in the sample | The writer got findings that included guesses. Make the researcher's task stricter about quoting, or lower `limit` in `search_meetings`. |
+| The researcher answers without calling the tool | Check the verbose log for a `search_meetings` call and keep the task's instruction to use it. Treat an answer without retrieved evidence as unverified; the prompt alone does not guarantee tool use. |
+| Answers mention meetings that are not in the sample | Compare the tool output, research findings, and final answer to locate the unsupported claim. Verify each citation against the returned notes. Reducing the retrieval limit does not prevent hallucinations and may discard relevant evidence. |
 
 ## Adapt the Flow
 
-Replace `MEETINGS` with a loader for your own transcripts, keep the same payload keys, and re-run `--ingest`. Add a date filter to `query_points` with `models.Filter` when the archive grows past a few hundred meetings, so questions about last quarter do not retrieve last year. A third agent is rarely needed; a second tool that fetches one meeting by id is usually more useful than another role.
+To use your own transcripts, set `COLLECTION` to a new name, replace `MEETINGS` with your loader, keep the same payload keys, and run `--ingest`. Upsert updates points with matching IDs; it does not remove the sample meetings when you replace the list.
+
+Add a [payload filter](/documentation/search/filtering/) when a question has an explicit constraint, such as a named attendee. For date ranges, store RFC 3339 timestamps and use a [datetime range filter](/documentation/search/filtering/#datetime-range). Semantic similarity alone does not enforce those constraints. Choose any additional tool or agent around a specific missing capability: fetching a known meeting by ID needs a retrieval tool, while a separate review task may justify another agent.
