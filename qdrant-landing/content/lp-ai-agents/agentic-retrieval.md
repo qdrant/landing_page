@@ -15,8 +15,5 @@ cards:
     icon:
       src: /icons/outline/layers-blue.svg
       alt: ""
-button:
-  text: Explore Hybrid Search
-  url: https://qdrant.tech/documentation/search/hybrid-queries/
 sitemapExclude: true
 ---

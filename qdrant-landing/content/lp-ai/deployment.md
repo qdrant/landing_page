@@ -15,8 +15,5 @@ cards:
     icon:
       src: /icons/outline/layers-blue.svg
       alt: ""
-button:
-  text: Compare Deployment Options
-  url: https://qdrant.tech/documentation/cloud/
 sitemapExclude: true
 ---

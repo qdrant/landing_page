@@ -25,8 +25,5 @@ callout:
   text: Lettria scaled its Qdrant deployment to more than 100 million vectors.
   url: https://qdrant.tech/blog/case-study-lettria-v2/
   label: Read the Lettria case study
-button:
-  text: Read the Cluster Scaling Docs
-  url: https://qdrant.tech/documentation/cloud/cluster-scaling/
 sitemapExclude: true
 ---

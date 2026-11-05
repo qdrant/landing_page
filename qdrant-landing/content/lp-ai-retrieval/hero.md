@@ -1,12 +1,9 @@
 ---
 label: Qdrant Cloud for RAG
 title: Retrieval Augmented Generation That Finds the Right Context
-description: Your LLM answers only as well as the context you retrieve. Qdrant, the vector search engine, filters and ranks that context in a single query. Create a free Qdrant Cloud cluster with no credit card, then connect the framework you already use.
+description: Qdrant, the vector search engine, filters and ranks your LLM's context in a single query. Start free on Qdrant Cloud with no credit card.
 button:
   text: Start Free
   url: https://cloud.qdrant.io/signup
-outlineButton:
-  text: Read the Cloud Quickstart
-  url: https://qdrant.tech/documentation/cloud-quickstart/
 sitemapExclude: true
 ---

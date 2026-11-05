@@ -19,8 +19,5 @@ callout:
   text: Poliscope runs BM25 and dense search in one request across 130 million points. A search across all of Germany's local councils takes 0.87 seconds on average.
   url: https://qdrant.tech/blog/case-study-poliscope/
   label: Read the Poliscope case study
-button:
-  text: Read the Hybrid Search Docs
-  url: https://qdrant.tech/documentation/search/hybrid-queries
 sitemapExclude: true
 ---
