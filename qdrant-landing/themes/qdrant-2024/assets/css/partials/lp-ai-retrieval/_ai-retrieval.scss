@@ -9,7 +9,7 @@
   &__visual { border-radius: pxToRem(8); overflow: hidden; img { display: block; width: 100%; height: auto; } }
   @include lp-ai-retrieval-code('lp-ai-retrieval-ai-retrieval');
   &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
-  &__grid--text .lp-ai-retrieval-ai-retrieval__list { max-width: pxToRem(760); margin: 0 auto; }
+  &__grid--text .lp-ai-retrieval-ai-retrieval__list { max-width: pxToRem(760); margin: 0; }
   &__link { margin-top: $spacer * 2; }
   @include media-breakpoint-up(lg) {
     &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: center; }

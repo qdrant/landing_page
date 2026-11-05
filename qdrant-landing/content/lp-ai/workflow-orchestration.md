@@ -11,7 +11,7 @@ cards:
       alt: ""
   - id: 1
     title: Query Qdrant from n8n and Make.
-    description: Use the official Qdrant node for n8n to manage collections, upsert points, and search for similar vectors, or connect Qdrant to your Make scenarios.
+    description: Use the official Qdrant node for n8n to manage collections, upsert points, and search for similar vectors, or add the Qdrant app to your Make (make.com) scenarios.
     icon:
       src: /icons/outline/binary-blue.svg
       alt: ""

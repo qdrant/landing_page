@@ -1,0 +1,13 @@
+{{/* Paid landing pages: logo and the one call to action, no navigation (paid ads call, 2026-11-05: the page has a single goal, the Cloud signup) */}}
+<header class="site-header">
+  {{ with (.Site.GetPage "/headless/menu") }}
+    <div class="main-menu z-2">
+      <a href="/">
+        {{ partial "logo.html" . }}
+      </a>
+      <div class="main-menu__buttons" style="grid-column: 3; justify-self: end; margin-left: auto;">
+        <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">{{ .Params.startFree.text }}</a>
+      </div>
+    </div>
+  {{ end }}
+</header>

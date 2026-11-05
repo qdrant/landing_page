@@ -1,7 +1,10 @@
 ---
 label: Memory for intelligent agents
 title: Give Your AI Agents Accurate Memory Across Every Session
-description: A memory layer lets an agent pick up where its last session ended and reason over the right context at every step. Qdrant gives you long-term memory for AI agents with fast, accurate retrieval, so memory keeps up with the agent.
+description: A memory layer lets an agent pick up where its last session ended and reason over the right context at every step. Qdrant gives you long-term memory for AI agents with fast, accurate retrieval even under heavy filters, so memory keeps up with the agent.
+image:
+  src: /img/lp-ai-agents/feedback-loop.png
+  alt: An agent sends a filtered query to its memory in Qdrant, gets the right context back, and stores what it learned
 cards:
   - id: 0
     title: Persistent AI agent memory across sessions.
@@ -11,7 +14,7 @@ cards:
       alt: ""
   - id: 1
     title: Narrow memory to exactly what the agent needs.
-    description: Qdrant applies payload filters during the search, so an agent can scope memory to one user, project, or time window and get accurate results.
+    description: Qdrant applies payload filters inside the HNSW search, so an agent can scope memory to one user, project, or time window and still get fast, accurate results.
     icon:
       src: /icons/outline/layers-blue.svg
       alt: ""

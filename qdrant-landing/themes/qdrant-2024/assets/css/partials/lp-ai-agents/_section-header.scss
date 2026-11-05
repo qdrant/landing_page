@@ -140,7 +140,7 @@
     border-right: 1px solid $neutral-20; border-bottom: 1px solid $neutral-20;
   }
   .#{$block}__cell-icon { width: $spacer * 2; height: $spacer * 2; }
-  .#{$block}__cell-title { margin-bottom: 0; font-size: $h6-font-size; line-height: 1.3; letter-spacing: -0.5px; color: $neutral-98; }
+  .#{$block}__cell-title { margin-bottom: 0; font-size: $h6-font-size; line-height: 1.3; letter-spacing: -0.5px; color: $neutral-98; a { color: inherit; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba($neutral-98, 0.35); &:hover { color: $secondary-blue-50; } } }
   .#{$block}__cell-description { margin: -$spacer * 0.5 0 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-70; }
   @include media-breakpoint-up(md) { .#{$block}__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @include media-breakpoint-up(lg) { .#{$block}__grid { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); } }
