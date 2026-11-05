@@ -1,6 +1,6 @@
 ---
 label: Open-source AI search engine
-title: Fast Retrieval for AI Workflow Orchestration
+title: Fast Filtered Retrieval for AI Workflow Orchestration
 description: Call Qdrant, the open-source AI search engine built in Rust, from any step of your workflow to get real-time AI retrieval for RAG pipelines, AI agents, and AI search. Start free on Qdrant Cloud with no credit card, or run a single Docker container.
 button:
   text: Start Free
