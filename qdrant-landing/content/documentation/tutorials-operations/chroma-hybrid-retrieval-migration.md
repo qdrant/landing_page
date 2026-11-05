@@ -122,9 +122,7 @@ docker run --rm registry.cloud.qdrant.io/library/qdrant-migration chroma \
 
 The Qdrant URL here is the gRPC endpoint on port 6334.
 
-<aside role="alert">
-Point IDs are derived from the Chroma document ID, so if you point a second run at the same <code>--qdrant.collection</code>, for example to consolidate per-tenant Chroma collections, any document ID present in both sources resolves to the same Qdrant point, and the later run overwrites it. Compare the final target collection point count against the sum of your sources. Give each source its own target collection, or make the document IDs unique across sources before merging. See <a href="/documentation/manage-data/multitenancy/">Multitenancy</a> for how Qdrant separates tenants inside one collection.
-</aside>
+Point IDs are derived from the Chroma document ID, so a second run into the same `--qdrant.collection`, for example to consolidate per-tenant Chroma collections, overwrites any point whose ID appears in both sources. Compare the final point count against the sum of your sources, and give each source its own target collection or make the IDs unique first. See [Multitenancy](/documentation/manage-data/multitenancy/) for separating tenants inside one collection.
 
 The tool migrates indexed sparse vectors automatically, using each Chroma metadata key as the Qdrant vector name. For indexes configured for BM25, it also enables Qdrant's [IDF modifier](/documentation/search/text-search/sparse-vector-search/#bm25).
 
@@ -199,7 +197,7 @@ Hosted models require no additional provider API key. Relevant options from the 
 - `qdrant/bm25`: server-side BM25 sparse-vector generation; free. It replaces Chroma's BM25 functions on English text, but can tokenize accented and other non-ASCII characters differently. For other text, use FastEmbed or compare the vectors for a sample of documents first.
 
 <aside role="status">
-<strong>Optional: BM25 on a full-text index.</strong> Qdrant 1.20 can compute BM25 directly from a <a href="/documentation/search/text-search/full-text-search/">full-text index</a> on your migrated payload text, with no sparse vectors to generate and no re-upload. <a href="/documentation/inference/inference-bm25/">Qdrant recommends it</a> for new setups. This tutorial keeps the migrated sparse vectors, because switching changes scores. Once the application runs on Qdrant, follow the <a href="/documentation/search/text-search/full-text-search/#migrate-from-sparse-vector-bm25">migration path</a> to switch.
+<strong>Optional: BM25 on a full-text index.</strong> Qdrant 1.20 can compute BM25 from a <a href="/documentation/search/text-search/full-text-search/">full-text index</a> on the migrated text, with no sparse vectors to generate. To switch after cutover, follow the <a href="/documentation/search/text-search/full-text-search/#migrate-from-sparse-vector-bm25">migration path</a>.
 </aside>
 
 **External providers:** Qdrant Cloud forwards requests to [OpenAI, Cohere, Jina AI, and OpenRouter](/documentation/inference/external-inference-providers/). Specify the provider-prefixed model name, such as `openai/text-embedding-3-small`, and supply your provider API key.
@@ -297,7 +295,7 @@ Matching these settings preserves the query structure, but differences in candid
 Iterate over `points` and pass each point's `payload["document"]` to your answering step. Use `payload["__id__"]` and `payload["article_id"]` wherever your application needs the original record and article identifiers.
 
 <aside role="status">
-<strong>Using LangChain or LlamaIndex?</strong> You can keep the <code>query_points</code> call from this step and convert its results into framework documents or nodes, preserving the migrated payload layout and ranking settings. If you use a framework's Qdrant vector-store integration instead, configure its text field, vector names, embedding functions, and retrieval settings. LangChain reads metadata from a nested <code>metadata</code> key by default, so migrated top-level fields such as <code>article_id</code> come back empty, and documents it writes nest their metadata, mixing two payload layouts in one collection. See the <a href="/documentation/frameworks/langchain/">LangChain</a> and <a href="/documentation/frameworks/llama-index/">LlamaIndex</a> integrations.
+<strong>Using LangChain or LlamaIndex?</strong> Its Qdrant vector store reads metadata from a nested <code>metadata</code> key, so migrated top-level fields such as <code>article_id</code> come back empty. Wrap <code>query_points</code> results yourself, or see the <a href="/documentation/frameworks/langchain/">LangChain</a> and <a href="/documentation/frameworks/llama-index/">LlamaIndex</a> integrations to configure field and vector names.
 </aside>
 
 ## 4. Verify Retrieval Behavior
@@ -351,29 +349,35 @@ def point_id_for(chroma_id: str) -> str:
         return str(uuid.uuid5(uuid.NAMESPACE_URL, chroma_id))
 ```
 
-Using the same conversion targets the migrated record instead of creating another point, and new records stay addressable for later updates. Keep the vector names and payload fields consistent with the migrated collection, and regenerate both vectors when document text changes:
+Using the same conversion targets the migrated record instead of creating another point, and new records stay addressable for later updates. Keep the vector names and payload fields consistent with the migrated collection, and regenerate both vectors when document text changes. [`upload_points`](/documentation/manage-data/points/#upload-points) batches the writes and retries failed batches:
 
 ```python
-text = "RATE429 means you exceeded the Atlas request quota."
+# (Chroma ID, text, product, version, article ID) for each new or changed chunk
+records = [
+    ("atlas-2-ratelimit", "RATE429 means you exceeded the Atlas request quota.", "atlas", "2.0", "rate429"),
+    ("atlas-2-auth4019", "AUTH4019 means your Atlas API key was revoked.", "atlas", "2.0", "auth4019"),
+]
 
-client.upsert(
+client.upload_points(
     collection_name=COLLECTION,
     points=[
         models.PointStruct(
-            id=point_id_for("atlas-2-ratelimit"),
+            id=point_id_for(chroma_id),
             vector={
                 "": models.Document(text=text, model=DENSE_MODEL),
                 "sparse_embedding": models.Document(text=text, model=SPARSE_MODEL),
             },
             payload={
                 "document": text,
-                "__id__": "atlas-2-ratelimit",
-                "product": "atlas",
-                "version": "2.0",
-                "article_id": "rate429",
+                "__id__": chroma_id,
+                "product": product,
+                "version": version,
+                "article_id": article_id,
             },
         )
+        for chroma_id, text, product, version, article_id in records
     ],
+    max_retries=3,
     wait=True,
 )
 ```
