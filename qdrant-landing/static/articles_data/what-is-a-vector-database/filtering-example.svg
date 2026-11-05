@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 294" role="img" aria-labelledby="description">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 298" role="img" aria-labelledby="description">
   <desc id="description">Photos in vector space. A payload filter keeps only photos taken in the last year (solid points) and excludes older ones (hollow points). The query's three nearest neighbors are chosen only from the photos that pass the filter.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -8,8 +8,10 @@
     <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 Z" fill="#dc244c"/>
     </marker>
+    <marker id="arrow-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#6047ff"/>
+    </marker>
   </defs>
-  <rect x="0.5" y="0.5" width="639" height="293" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
   <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
     <line x1="326.1" y1="86" x2="267.8" y2="68" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
     <line x1="326.1" y1="86" x2="245.4" y2="94.1" stroke="#00838f" stroke-width="1.5" stroke-dasharray="4 4"/>
@@ -53,15 +55,15 @@
     <circle cx="299.2" cy="110" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
     <circle cx="326.1" cy="86" r="9" fill="#f0f3fa" stroke="#dc244c" stroke-width="2.5"/>
     <circle cx="326.1" cy="86" r="3.5" fill="#dc244c"/>
-    <text x="342.1" y="91" font-size="14" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
-    <text x="251.8" y="73" font-size="14" text-anchor="end" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">nearest neighbors</text>
+    <text x="342.1" y="91" font-size="13.5" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+    <text x="251.8" y="73" font-size="13.5" text-anchor="end" fill="#303547" stroke="#f0f3fa" stroke-width="5" stroke-linejoin="round" paint-order="stroke">nearest neighbors</text>
     <line x1="16" y1="252" x2="624" y2="252" stroke="#d3d9eb" stroke-width="1.5"/>
-    <circle cx="40" cy="274" r="5.5" fill="#656b7f"/>
-    <text x="54" y="279" font-size="13" fill="#303547">taken last year: kept</text>
-    <circle cx="260" cy="274" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
-    <text x="274" y="279" font-size="13" fill="#303547">older: filtered out</text>
-    <circle cx="460" cy="274" r="5.5" fill="#00838f"/>
-    <circle cx="460" cy="274" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
-    <text x="478" y="279" font-size="13" fill="#303547">nearest neighbor</text>
+    <circle cx="36" cy="276" r="5.5" fill="#656b7f"/>
+    <text x="50" y="281" font-size="12.5" fill="#303547">last year: kept</text>
+    <circle cx="232" cy="276" r="5.5" fill="#f0f3fa" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="246" y="281" font-size="12.5" fill="#303547">older: filtered out</text>
+    <circle cx="450" cy="276" r="5.5" fill="#00838f"/>
+    <circle cx="450" cy="276" r="10" fill="none" stroke="#00838f" stroke-width="1.5"/>
+    <text x="468" y="281" font-size="12.5" fill="#303547">nearest neighbor</text>
   </g>
 </svg>

@@ -27,7 +27,7 @@ Unstructured data lacks a strict format or schema, making it challenging for con
 
 Traditional [OLTP](https://www.ibm.com/topics/oltp) and [OLAP](https://www.ibm.com/topics/olap) databases have been the backbone of data storage for decades. They are great at managing structured data with well-defined schemas, like `name`, `address`, `phone number`, and `purchase history`.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 200" title="OLTP databases store data by row; OLAP databases store it by column. Both expect structured data with a fixed schema." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 212" title="OLTP databases store data by row; OLAP databases store it by column. Both expect structured data with a fixed schema." >}}
 ![Two tables with the same columns and rows: the OLTP table groups cells by row, the OLAP table groups cells by column](/articles_data/what-is-a-vector-database/oltp-vs-olap.svg)
 {{< /island >}}
 
@@ -37,7 +37,7 @@ You can always store the PDF file as raw data, perhaps with some metadata attach
 
 Also, this applies to more than just PDF documents. Think about the vast amounts of text, audio, and image data you generate every day. If a database can’t grasp the **meaning** of this data, how can you search for or find relationships within the data?
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 212" title="A vector database stores points: each has an ID, a vector, and a payload." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 224" title="A vector database stores points: each has an ID, a vector, and a payload." >}}
 ![Rows of points, each with an id, a vector of many dimensions, and a payload](/articles_data/what-is-a-vector-database/vector-database-structure.svg)
 {{< /island >}}
 
@@ -70,7 +70,7 @@ To represent textual data, for example, an embedding will encapsulate the nuance
 
 For that reason, when comparing two similar sentences, their embeddings will turn out to be very similar, because they have similar **linguistic elements**.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 216" title="An embedding model turns text into a vector, and similar sentences get similar vectors. Values are illustrative." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 230" title="An embedding model turns text into a vector, and similar sentences get similar vectors. Values are illustrative." >}}
 ![Two similar sentences pass through one embedding model and produce vectors with nearly identical values](/articles_data/what-is-a-vector-database/embedding-similarity.svg)
 {{< /island >}}
 
@@ -94,7 +94,7 @@ Before diving into the individual concepts, it helps to see the full picture. Re
 
 5. **Power your application:** The retrieved results can then be used in applications such as semantic search, recommendation systems, anomaly detection, and Retrieval-Augmented Generation (RAG).
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="720 / 500" title="Source data is embedded and sent to Qdrant, which stores, indexes, and retrieves it for your application. At query time, the query vector is matched against its nearest neighbors with a distance metric to return the top-k results." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="768 / 536" title="Source data is embedded and sent to Qdrant, which stores, indexes, and retrieves it for your application. At query time, the query vector is matched against its nearest neighbors with a distance metric to return the top-k results." >}}
 ![Top band: source data such as documents, images, video, and audio goes through an embedding model into dense embeddings, which are sent to Qdrant for storage, indexing, and retrieval, and results return to an application. Bottom band: the query vector for red shoes is placed in the vector space, its nearest neighbors are found with a distance metric such as cosine or Euclidean, and the top-k results are returned](/articles_data/what-is-a-vector-database/workflow.svg)
 {{< /island >}}
 
@@ -117,7 +117,7 @@ Vector search enables a wide range of applications by allowing systems to retrie
 > A quick note on naming. You'll almost always hear these systems called vector databases, but the term is a little misleading. Traditional databases like Postgres or MySQL are built on ACID principles: transactions, strong consistency, and atomicity. Most "vector databases" aren't databases in that sense. They're really **vector search engines**, designed for horizontal scalability, low-latency queries, and high availability. Those priorities lead to different architectural decisions that are not reproducible in general-purpose databases. The label vector database stuck for marketing reasons, so we use it throughout this article, but vector search engine is the more accurate description.
 
 A vector database is made of multiple different entities and relations. Let's understand a bit of what's happening here:
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="720 / 526" title="Programmers reach Qdrant through client libraries. Storage holds collections, each with a distance metric, made of points with an ID, a vector, and a payload. ML engineers train the models that produce those vectors." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="768 / 638" title="Programmers reach Qdrant through client libraries. Storage holds collections, each with a distance metric, made of points with an ID, a vector, and a payload. ML engineers train the models that produce those vectors." >}}
 ![Programmers use Python, Rust, Go, and TypeScript clients to reach Qdrant. In storage, three collections each use a distance metric such as Euclidean distance, dot product, or cosine similarity; a collection holds points made of an idx, a vector, and a payload with fields such as species, URL, color, and fluffiness. ML engineers use data and Python files to train a deep learning model that classifies images as husky, cat, or hairy coo](/articles_data/what-is-a-vector-database/architecture.svg)
 {{< /island >}}
 
@@ -156,7 +156,7 @@ It could be textual data like descriptions, tags, categories, or it could be num
 
 For example, if you’re searching for a picture of a dog, the vector helps the database find images that are visually similar. But let's say you want results showing only images taken within the last year, or those tagged with “vacation.”
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 294" title="A payload filter keeps only photos taken in the last year, so the nearest neighbors come only from points that match." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 298" title="A payload filter keeps only photos taken in the last year, so the nearest neighbors come only from points that match." >}}
 ![Photos in vector space; older photos are hollow and filtered out, and the query's three nearest neighbors are chosen from photos taken in the last year](/articles_data/what-is-a-vector-database/filtering-example.svg)
 {{< /island >}}
 
@@ -175,7 +175,7 @@ These metrics define how similarity between vectors is calculated. The choice of
 
 - **Cosine Similarity:** This one is about the angle, not the length. It measures how two vectors point in the same direction, so it works well for text or documents when you care more about meaning than magnitude. For example, if two things are *similar*, *opposite*, or *unrelated*:
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 186" title="Cosine similarity depends on the angle between vectors, not their length." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 190" title="Cosine similarity depends on the angle between vectors, not their length." >}}
 ![Three pairs of vectors A and B: similar with a small angle, unrelated at a right angle, and opposite pointing in opposite directions](/articles_data/what-is-a-vector-database/cosine-sim.svg)
 {{< /island >}}
 
@@ -221,7 +221,7 @@ Indexing your vectors is like creating an entry in a traditional database. But f
 
 It builds a multi-layered graph, where each vector is a node and connections represent similarity. The higher layers connect broadly similar vectors, while lower layers link vectors that are closely related, making searches progressively more refined as they go deeper.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 306" title="HNSW stacks layers from few points to all points. A search enters at the top layer, moves to the closest point on each layer, and drops down until it reaches the nearest neighbor of the query on layer 0." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 312" title="HNSW stacks layers from few points to all points. A search enters at the top layer, moves to the closest point on each layer, and drops down until it reaches the nearest neighbor of the query on layer 0." >}}
 ![Three HNSW layers with links; a red path runs from the entry point on layer 2, drops through layer 1, and ends at the point nearest the query on layer 0](/articles_data/what-is-a-vector-database/hnsw-indexing.svg)
 {{< /island >}}
 
@@ -231,7 +231,7 @@ When you run a search, HNSW starts at the top, quickly narrowing down the search
 
 In Qdrant, indexing is modular. You can configure indexes for **both vectors and payloads independently**. The payload index is responsible for optimizing filtering based on metadata. Each payload index is built for a specific field and allows you to quickly filter vectors based on specific conditions.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 278" title="With a payload index, the search follows only links through points that match the filter." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 290" title="With a payload index, the search follows only links through points that match the filter." >}}
 ![An HNSW graph in which filtered-out nodes are hollow with dashed links; a red path runs from the entry point through matching nodes to the result next to the query](/articles_data/what-is-a-vector-database/hnsw-search.svg)
 {{< /island >}}
 
@@ -243,7 +243,7 @@ You need to build the payload index for **each field** you'd like to search. The
 
 Similarity search allows you to search by **meaning**. This way you can do searches such as similar songs that evoke the same mood, finding images that match your artistic vision, or even exploring emotional patterns in text.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 276" title="Words with similar meanings end up close together in vector space, so a query such as gorgeous lands next to its nearest neighbors in meaning." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 296" title="Words with similar meanings end up close together in vector space, so a query such as gorgeous lands next to its nearest neighbors in meaning." >}}
 ![Three clusters of words, positive, negative, and neutral; the query gorgeous sits next to the positive cluster and links to attractive, lovely, and beautiful](/articles_data/what-is-a-vector-database/word-clusters.svg)
 {{< /island >}}
 
@@ -316,7 +316,7 @@ Sparse vectors operate differently. They focus only on the essentials. In most s
 
 In the image, you can see a sentence, *“I love Vector Similarity,”* broken down into tokens like *“i,” “love,” “vector”* through tokenization. Each token is assigned a unique `ID` from a large vocabulary. For example, *“i”* becomes `193`, and *“vector”* becomes `15012`.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 300" title="A tokenizer, a vocabulary, and a lexical model turn a sentence into token IDs with weights." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 306" title="A tokenizer, a vocabulary, and a lexical model turn a sentence into token IDs with weights." >}}
 ![A tokenizer splits I love Vector Similarity into tokens, a vocabulary maps them to IDs, and a lexical model assigns each ID a weight](/articles_data/what-is-a-vector-database/sparse-vector.svg)
 {{< /island >}}
 
@@ -342,7 +342,7 @@ Sparse vectors are ideal for tasks like **keyword search** where you need to che
 
 Qdrant uses **fusion** techniques to blend results from multiple search methods, such as dense and sparse. Some methods, like Distribution-Based Score Fusion (DBSF), first **normalize** each method's scores; others work on ranks alone. One common approach is **Reciprocal Rank Fusion (RRF)**, where results from different methods are merged, giving higher importance to items ranked highly by both methods.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 262" title="One Query API call runs a sparse and a dense prefetch, then RRF merges their rankings. Documents ranked high by both, like doc A and doc C, rise to the top." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 286" title="One Query API call runs a sparse and a dense prefetch, then RRF merges their rankings. Documents ranked high by both, like doc A and doc C, rise to the top." >}}
 ![Inside the Query API, sparse prefetch ranks doc C, A, D and dense prefetch ranks doc A, B, C; RRF fuses them into A, C, B, D](/articles_data/what-is-a-vector-database/fusion.svg)
 {{< /island >}}
 
@@ -416,7 +416,7 @@ In a distributed Qdrant cluster, data is split into smaller units called **shard
 
 Each collection can be split into non-overlapping subsets, which are then managed by different nodes.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 212" title="Each node holds a different shard of the collection. Raft consensus keeps every node's view of the cluster in sync, including where each shard lives." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 224" title="Each node holds a different shard of the collection. Raft consensus keeps every node's view of the cluster in sync, including where each shard lives." >}}
 ![Three nodes each hold one shard of a collection, and all take part in Raft consensus, which tracks peers and their URIs, collections, shard-to-peer placement, shard status, and transfer status](/articles_data/what-is-a-vector-database/raft.svg)
 {{< /island >}}
 
@@ -439,7 +439,7 @@ There are two main types of sharding:
 
 Each shard is divided into **segments**. They are a smaller storage unit within a shard, storing a subset of vectors and their associated payloads (metadata). When a query is executed, Qdrant searches the segments in parallel and merges their results.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 174" title="A collection is split into shards, and each shard is split into segments that store a subset of its vectors and payloads." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 184" title="A collection is split into shards, and each shard is split into segments that store a subset of its vectors and payloads." >}}
 ![A collection with two shards, each divided into three segments](/articles_data/what-is-a-vector-database/shard-segments.svg)
 {{< /island >}}
 
@@ -449,7 +449,7 @@ You don’t want a single failure to take down your system, right? Replication k
 
 In Qdrant, **Replica Sets** manage these copies of shards across different nodes. If one replica becomes unavailable, others are there to take over and keep the system running. Whether the data is local or remote is mainly influenced by how you've configured the cluster.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 402" title="A replica set manages replicas of the same shard. On each node, it contains an optional local shard and remote-shard proxies that forward requests over gRPC to replicas on other nodes." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 426" title="A replica set manages replicas of the same shard. On each node, it contains an optional local shard and remote-shard proxies that forward requests over gRPC to replicas on other nodes." >}}
 ![Replica set with a local shard and a remote-shard proxy. The proxy forwards requests to the corresponding shard replica on another node over gRPC using a connection pool. The local shard contains a write-ahead log, segments, and an optimizer. Each segment contains an ID mapping, vector storage and indexes, and payload storage and indexes.](/articles_data/what-is-a-vector-database/replication-diagram.svg)
 {{< /island >}}
 
@@ -476,7 +476,7 @@ Sharding efficiently distributes data across nodes, while replication guarantees
 
 **Multitenancy** allows you to keep data for different tenants (users, clients, or organizations) isolated within a single cluster. Instead of creating separate collections for `Tenant 1` and `Tenant 2`, you store their data in the same collection but tag each vector with a `group_id` to identify which tenant it belongs to.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="720 / 400" title="Both tenants share the tenant_data collection. The group_id payload separates their points logically, and the shard key places each tenant's points in its own shard." >}}
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 520" title="Both tenants share the tenant_data collection. The group_id payload separates their points logically, and the shard key places each tenant's points in its own shard." >}}
 ![The tenant_data collection with two isolation layers: points 1 and 2 carry group_id tenant_1 and point 3 carries tenant_2, and the shard key selector sends points 1 and 2 to shard 1, canada, and point 3 to shard 2, germany](/articles_data/what-is-a-vector-database/multitenancy.svg)
 {{< /island >}}
 
