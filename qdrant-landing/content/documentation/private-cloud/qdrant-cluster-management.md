@@ -1,7 +1,7 @@
 ---
 title: Managing a Cluster
-short_description: "Manage Qdrant Private Cloud clusters declaratively with Kubernetes resources to scale, upgrade, and expose them via Service or Ingress."
-description: "Manage Qdrant Private Cloud clusters declaratively in Kubernetes to scale resources, upgrade Qdrant versions, and expose clusters via Service or Ingress."
+short_description: "Manage Qdrant Private Cloud clusters declaratively with Kubernetes resources to configure, scale, and upgrade them."
+description: "Manage Qdrant Private Cloud clusters declaratively in Kubernetes to configure scheduling, scale resources, and upgrade Qdrant versions."
 weight: 10
 ---
 
@@ -40,9 +40,10 @@ The `QdrantCluster` spec has many settings. These are the common ones and where 
 | Node selectors, tolerations, and topology spread constraints | [Scheduling Pods to Nodes](#scheduling-pods-to-nodes) |
 | CPU, memory, and disk | [Scaling a Cluster](#scaling-a-cluster) |
 | Qdrant version | [Upgrading the Qdrant version](#upgrading-the-qdrant-version) |
-| Service type, annotations, and ingress | [Exposing a Cluster](#exposing-a-cluster) |
-| API keys | [Authentication and Authorization](#authentication-and-authorization) |
-| TLS | [Configuring TLS for Database Access](#configuring-tls-for-database-access) |
+| Service type, annotations, ingress, and source ranges | [Exposing a Cluster](/documentation/private-cloud/security-exposure/#exposing-a-cluster) |
+| Network policies | [Network Policies](/documentation/private-cloud/security-exposure/#network-policies) |
+| API keys | [Authentication and Authorization](/documentation/private-cloud/security-exposure/#authentication-and-authorization) |
+| TLS | [Configuring TLS for Database Access](/documentation/private-cloud/security-exposure/#configuring-tls-for-database-access) |
 | Audit logging | [Audit Logging](/documentation/private-cloud/logging-monitoring/#audit-logging) |
 | GPU indexing | [GPU support](#gpu-support) |
 | Snapshot storage | [Ephemeral Snapshot Volumes](#ephemeral-snapshot-volumes) |
@@ -137,251 +138,19 @@ Qdrant does not update the Operator for you. You update the Operator, the cluste
 
 ## Exposing a Cluster
 
-By default, a QdrantCluster will be exposed through an internal `ClusterIP` service. To expose the cluster to the outside world, you can create a `NodePort` service, a `LoadBalancer` service or an `Ingress` resource.
-
-This is an example on how to create a QdrantCluster with a `LoadBalancer` service:
-
-```yaml
-apiVersion: qdrant.io/v1
-kind: QdrantCluster
-metadata:
-  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
-  labels:
-    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-    customer-id: "acme-industries"
-spec:
-  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.20.0"
-  size: 1
-  resources:
-    cpu: 100m
-    memory: "1Gi"
-    storage: "2Gi"
-  service:
-    type: LoadBalancer
-    annotations:
-      service.beta.kubernetes.io/aws-load-balancer-type: nlb
-```
-
-Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configuration. Please refer to the documentation of your cloud provider for more details.
-
-Examples:
-
-* [AWS EKS LoadBalancer annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-* [Azure AKS Public LoadBalancer annotations](https://learn.microsoft.com/en-us/azure/aks/load-balancer-standard)
-* [Azure AKS Internal LoadBalancer annotations](https://learn.microsoft.com/en-us/azure/aks/internal-lb)
-* [GCP GKE LoadBalancer annotations](https://cloud.google.com/kubernetes-engine/docs/concepts/service-load-balancer-parameters)
-
-<aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, Qdrant Private Cloud deploys a strict NetworkPolicy to only allow communication on port 6335 between Qdrant Cluster nodes.</aside>
+By default, a QdrantCluster is exposed only through an internal `ClusterIP` Service. To expose it with a `LoadBalancer` or `NodePort` Service or an `Ingress`, and to restrict who can reach it, see [Exposing a Cluster](/documentation/private-cloud/security-exposure/#exposing-a-cluster) and [Network Policies](/documentation/private-cloud/security-exposure/#network-policies).
 
 ## Authentication and Authorization
 
-<aside role="alert">By default, clusters in Private Cloud are only exposed through a Kubernetes ClusterIP Service inside of the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
-
-Authentication information is provided by Kubernetes secrets.
-
-One way to create a secret is with kubectl:
-
-```shell
-kubectl create secret generic qdrant-api-key --from-literal=api-key=your-secret-api-key --from-literal=read-only-api-key=your-secret-read-only-api-key --namespace qdrant-private-cloud
-```
-
-The resulting secret will look like this:
-
-```yaml
-apiVersion: v1
-data:
-  api-key: ...
-  read-only-api-key: ...
-kind: Secret
-metadata:
-  name: qdrant-api-key
-  namespace: qdrant-private-cloud
-type: kubernetes.io/generic
-```
-
-You can reference the secret in the QdrantCluster spec:
-
-```yaml
-apiVersion: qdrant.io/v1
-kind: QdrantCluster
-metadata:
-  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
-  labels:
-    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-    customer-id: "acme-industries"
-spec:
-  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.20.0"
-  size: 1
-  resources:
-    cpu: 100m
-    memory: "1Gi"
-    storage: "2Gi"
-  config:
-    service:
-      api_key:
-        secretKeyRef:
-          name: qdrant-api-key
-          key: api-key
-      read_only_api_key:
-        secretKeyRef:
-          name: qdrant-api-key
-          key: read-only-api-key
-      jwt_rbac: true
-```
-
-If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/security/#granular-access-api-keys).
+Clusters have no API key by default. To set API keys, read-only keys, and JWT role based access control, see [Authentication and Authorization](/documentation/private-cloud/security-exposure/#authentication-and-authorization).
 
 ### Configuring TLS for Database Access
 
-If you want to configure TLS for accessing your Qdrant database, there are two options:
-
-* You can offload TLS at the ingress or loadbalancer level.
-* You can configure TLS directly in the Qdrant database.
-
-If you want to configure TLS directly in the Qdrant database, you can provide this as a secret.
-
-To create such a secret, you can use `kubectl`:
-
-```shell
- kubectl create secret tls qdrant-tls --cert=mydomain.com.crt --key=mydomain.com.key --namespace the-qdrant-namespace
-```
-
-The resulting secret will look like this:
-
-```yaml
-apiVersion: v1
-data:
-  tls.crt: ...
-  tls.key: ...
-kind: Secret
-metadata:
-  name: qdrant-tls
-  namespace: the-qdrant-namespace
-type: kubernetes.io/tls
-```
-You can reference the secret in the QdrantCluster spec:
-
-```yaml
-apiVersion: qdrant.io/v1
-kind: QdrantCluster
-metadata:
-  name: test-cluster
-spec:
-  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
-  version: "v1.20.0"
-  size: 1
-  resources:
-    cpu: 100m
-    memory: "1Gi"
-    storage: "2Gi"
-  config:
-    service:
-      enable_tls: true
-    tls:
-      cert:
-        secretKeyRef:
-          name: qdrant-tls
-          key: tls.crt
-      key:
-        secretKeyRef:
-          name: qdrant-tls
-          key: tls.key
-```
+See [Configuring TLS for Database Access](/documentation/private-cloud/security-exposure/#configuring-tls-for-database-access).
 
 ### Configuring TLS for Inter-cluster Communication
 
-*Available as of Operator v2.2.0*
-
-<aside role="alert">
-The feature can be enabled only at the cluster creation. Later changes are not possible.
-</aside>
-
-If you want to encrypt communication between Qdrant nodes, you need to enable TLS by providing
-certificate, key, and root CA certificate used for generating the former.
-
-Similar to the instruction stated in the previous section, you need to create a secret:
-
-```shell
- kubectl create secret generic qdrant-p2p-tls \
-        --from-file=tls.crt=qdrant-nodes.crt \
-        --from-file=tls.key=qdrant-nodes.key \
-        --from-file=ca.crt=root-ca.crt
-        --namespace the-qdrant-namespace
-```
-
-The resulting secret will look like this:
-
-```yaml
-apiVersion: v1
-data:
-  tls.crt: ...
-  tls.key: ...
-  ca.crt: ...
-kind: Secret
-metadata:
-  name: qdrant-p2p-tls
-  namespace: the-qdrant-namespace
-type: Opaque
-```
-You can reference the secret in the QdrantCluster spec:
-
-```yaml
-apiVersion: qdrant.io/v1
-kind: QdrantCluster
-metadata:
-  name: test-cluster
-  labels:
-    cluster-id: "my-cluster"
-    customer-id: "acme-industries"
-spec:
-  id: "my-cluster"
-  version: "v1.13.3"
-  size: 2
-  resources:
-    cpu: 100m
-    memory: "1Gi"
-    storage: "2Gi"
-  config:
-    service:
-      enable_tls: true
-    tls:
-      caCert:
-        secretKeyRef:
-          name: qdrant-p2p-tls
-          key: ca.crt
-      cert:
-        secretKeyRef:
-          name: qdrant-p2p-tls
-          key: tls.crt
-      key:
-        secretKeyRef:
-          name: qdrant-p2p-tls
-          key: tls.key
-```
-
-<aside role="status">
-The operator assigns the names to nodes in cluster according to the following convention:
-
-```
-qdrant-{spec.id}-{node-index}.qdrant-headless-{spec.id}
-```
-
-Therefore, in addition to the domain used for accessing the database, 
-the provided certificate must contain Subjective Alternative Names (SAN) for all foreseen nodes.
-It can be created with a tool of your choice, e.g., 
-using [step CLI](https://smallstep.com/docs/step-cli/installation/).
-Following the example `QdrantCluster`, the proper certificate can be obtained with:
-
-```shell
-step certificate create mydomain.com qdrant-nodes.crt qdrant-nodes.key \
-  --profile leaf --not-after 43800h \
-  --ca root-ca.crt --ca-key root-ca.key \
-  --san qdrant-my-cluster-0.qdrant-headless-my-cluster \
-  --san qdrant-my-cluster-1.qdrant-headless-my-cluster
-```
-</aside>
+See [Configuring TLS for Inter-cluster Communication](/documentation/private-cloud/security-exposure/#configuring-tls-for-inter-cluster-communication).
 
 ## Audit Logging
 
