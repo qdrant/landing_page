@@ -1,7 +1,9 @@
-@use '../helpers/functions' as *;
+@use '../tools' as *;
 
-// "Copy as Markdown" button, see partials/common/copy-markdown-button.html.
-// data-state is one of idle, loading, done; copy-markdown.js switches it.
+// "Copy as Markdown" button, see partials/common/copy-markdown/button.html and
+// README.md. data-state is one of idle, loading, done; copy-markdown.js
+// switches it. Each part restyles the button where it sits (the table of
+// contents, the documentation article header) in its own stylesheets.
 
 .copy-markdown {
   display: inline-flex;

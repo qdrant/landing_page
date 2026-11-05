@@ -9,7 +9,7 @@ downloads it once.
 | `page-search.js` | `qdrant-page-search`, defines `window.initQdrantSearch` | each part's `js/search/search.js` |
 | `page-search-scroll.js` | `qdrant-page-search` scroll behavior | loaded directly |
 | `page-search.scss` | `qdrant-page-search` styles | each part's `css/search/search.scss` overrides it |
-| `bootstrap-popover.js` | Bootstrap Popover with Popper, exposed as `window.bootstrap.Popover` | `lib/code-blocks/copy-code.js`, each part's `js/copy-markdown.js` |
+| `bootstrap-popover.js` | Bootstrap Popover with Popper, exposed as `window.bootstrap.Popover` | `lib/code-blocks/copy-code.js`, `lib/copy-markdown/copy-markdown.js` |
 
 ## Rules
 

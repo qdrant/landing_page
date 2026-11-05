@@ -64,12 +64,10 @@
   <script src="{{ $popoverJs.RelPermalink }}"></script>
 {{ end }}
 
-{{/* Set by partials/common/copy-markdown-button.html, which renders in the body before
-     this partial runs. */}}
-{{ if .Store.Get "hasCopyMarkdown" }}
-  {{ $copyMarkdownJs := resources.Get "marketing/js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $copyMarkdownJs.RelPermalink }}"></script>
-{{ end }}
+<!--"Copy as Markdown" button (assets/lib/copy-markdown/), shared by both parts. No marketing
+    page renders the button today; this keeps it working if one does. Call
+    common/copy-markdown/css.html in css.html too when that happens.-->
+{{ partial "common/copy-markdown/js.html" . }}
 
 {{ if eq .Section "industries" }}
   {{ $customersJs := resources.Get "marketing/js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}

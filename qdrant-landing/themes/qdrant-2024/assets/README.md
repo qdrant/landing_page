@@ -35,6 +35,7 @@ assets; see `shortcodes/README.md`.
 | `docs/` | `layouts/partials/documentation/{css,js,js-head}.html` |
 | `lib/analytics/` | `layouts/partials/common/analytics/{head,body}.html` |
 | `lib/code-blocks/` | `layouts/partials/common/code-blocks/{css,js}.html` |
+| `lib/copy-markdown/` | `layouts/partials/common/copy-markdown/{button,css,js}.html` |
 | `lib/heading-anchors/` | `layouts/partials/common/heading-anchors/{css,js}.html` |
 | `lib/vendor/` | each part's own `css.html` and `js.html` |
 | `shortcodes/` | `layouts/partials/common/shortcode-assets/{css,js}.html` |

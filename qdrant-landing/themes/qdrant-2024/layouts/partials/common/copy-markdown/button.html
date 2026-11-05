@@ -5,15 +5,17 @@
   internal links rewritten to their index.md form. copy-markdown.js does the
   fetch and the copy.
 
-  Usage: {{ partial "common/copy-markdown-button.html" . }}
-     or: {{ partial "common/copy-markdown-button.html" (dict "page" . "glyph" "outline") }}
+  Usage: {{ partial "common/copy-markdown/button.html" . }}
+     or: {{ partial "common/copy-markdown/button.html" (dict "page" . "glyph" "outline") }}
 
   "glyph" "outline" draws the idle icon from the icons/outline set, to match
   the links next to it in the table of contents.
 
   Renders nothing for a page without a Markdown output format. When it does
-  render, it sets the page's hasCopyMarkdown flag, which js.html reads to load
-  copy-markdown.js on exactly the pages that show the button.
+  render, it sets the page's hasCopyMarkdown flag, which
+  common/copy-markdown/js.html reads to load the script on exactly the pages
+  that show the button. Styles come from common/copy-markdown/css.html. See
+  assets/lib/copy-markdown/README.md.
 
   data-copy-markdown-src is the URL of the Markdown to copy. It is a page today,
   but the script only cares about the URL, so a button copying a

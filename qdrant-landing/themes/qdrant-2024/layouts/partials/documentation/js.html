@@ -47,12 +47,8 @@
   <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>
 {{ end }}
 
-{{/* Set by partials/common/copy-markdown-button.html, which renders in the body before
-     this partial runs. */}}
-{{ if .Store.Get "hasCopyMarkdown" }}
-  {{ $copyMarkdownJs := resources.Get "docs/js/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $copyMarkdownJs.RelPermalink }}"></script>
-{{ end }}
+<!--"Copy as Markdown" button (assets/lib/copy-markdown/), shared by both parts-->
+{{ partial "common/copy-markdown/js.html" . }}
 
 {{ if .HasShortcode "integration-directory" }}
   {{ $integrationDirectoryJs := resources.Get "docs/js/integration-directory.js" | js.Build | minify | resources.Fingerprint "sha512" }}

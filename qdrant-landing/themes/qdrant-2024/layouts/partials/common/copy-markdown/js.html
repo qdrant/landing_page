@@ -1,0 +1,10 @@
+{{- /* "Copy as Markdown" button behavior. From assets/lib/copy-markdown/; see its
+       README. Loads only when common/copy-markdown/button.html rendered on this
+       page, which sets hasCopyMarkdown, so call this after the page body. Needs
+       window.bootstrap.Popover, so the caller loads lib/vendor/bootstrap-popover.js
+       first, as for common/code-blocks/js.html. To replace the button in a part,
+       stop calling this partial there and call the replacement instead. */ -}}
+{{- if .Store.Get "hasCopyMarkdown" -}}
+  {{- $copyMarkdownJs := resources.Get "lib/copy-markdown/copy-markdown.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $copyMarkdownJs.RelPermalink }}"></script>
+{{- end -}}

@@ -56,7 +56,7 @@ holds the per-output-format variants while the theme holds the HTML ones.
 
 | Directory | What it holds | May import from |
 |---|---|---|
-| `lib/` | Part-neutral code: `analytics/`, `code-blocks/`, `heading-anchors/`, `vendor/` (third-party wrappers), and `_tools.scss` (shared Sass values) | `lib/`, `node_modules` |
+| `lib/` | Part-neutral code: `analytics/`, `code-blocks/`, `copy-markdown/`, `heading-anchors/`, `vendor/` (third-party wrappers), and `_tools.scss` (shared Sass values) | `lib/`, `node_modules` |
 | `shortcodes/` | One folder per shortcode with its own styles or script | `shortcodes/`, `lib/`, `node_modules` |
 | `marketing/` | The marketing part: `css/` and `js/` | `marketing/`, `lib/`, `node_modules` |
 | `docs/` | The documentation part: `css/` and `js/` | `docs/`, `lib/`, `node_modules` |
@@ -89,7 +89,8 @@ separate override layer and keeps its own layout.
 
 Each `lib/` component has a pair of partials that a part calls where it wants
 it, so a part can swap one for something else: `partials/common/analytics/`,
-`partials/common/code-blocks/`, `partials/common/heading-anchors/`. Every theme
+`partials/common/code-blocks/`, `partials/common/copy-markdown/`,
+`partials/common/heading-anchors/`. Every theme
 must call `partials/common/analytics/head.html` and `body.html`, or its pages
 ship without tracking or consent.
 

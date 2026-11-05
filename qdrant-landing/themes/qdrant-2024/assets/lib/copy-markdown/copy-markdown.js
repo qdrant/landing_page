@@ -1,7 +1,8 @@
-// Popover comes from lib/vendor/bootstrap-popover.js, loaded first.
+// Popover comes from lib/vendor/bootstrap-popover.js, which the part loads
+// before partials/common/copy-markdown/js.html.
 const { Popover } = window.bootstrap;
 
-// "Copy as Markdown" button, see partials/common/copy-markdown-button.html.
+// "Copy as Markdown" button, see partials/common/copy-markdown/button.html.
 //
 // The Markdown is fetched from data-copy-markdown-src and copied exactly as
 // published, agent pointers included. The fetch starts when the pointer or

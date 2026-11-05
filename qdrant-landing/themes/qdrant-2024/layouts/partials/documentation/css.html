@@ -40,12 +40,17 @@
   <link href="{{ $islandsCss.RelPermalink }}" rel="stylesheet" integrity="{{ $islandsCss.Data.Integrity }}" />
 {{ end }}
 
-<!--Section bundles on top of core.css: articles also need the article listing and post styles-->
-{{ $bundles := slice "documentation" }}
+<!--Section bundle on top of core.css-->
+{{ $documentationCss := resources.Get "docs/css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $documentationCss.RelPermalink }}" rel="stylesheet" integrity="{{ $documentationCss.Data.Integrity }}" />
+
+<!--"Copy as Markdown" button (assets/lib/copy-markdown/), shared by both parts.
+    Right after documentation.css, where these rules sat at the end of the bundle,
+    so the table of contents and article header overrides keep the same cascade.-->
+{{ partial "common/copy-markdown/css.html" . }}
+
+<!--Articles also need the article listing and post styles-->
 {{ if eq .Section "articles" }}
-  {{ $bundles = slice "documentation" "articles" }}
-{{ end }}
-{{ range $bundles }}
-  {{ $bundleCss := resources.Get (printf "docs/css/%s.scss" .) | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link href="{{ $bundleCss.RelPermalink }}" rel="stylesheet" integrity="{{ $bundleCss.Data.Integrity }}" />
+  {{ $articlesCss := resources.Get "docs/css/articles.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $articlesCss.RelPermalink }}" rel="stylesheet" integrity="{{ $articlesCss.Data.Integrity }}" />
 {{ end }}
