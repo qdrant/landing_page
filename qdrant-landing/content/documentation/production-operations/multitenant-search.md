@@ -1,7 +1,7 @@
 ---
-title: "How to Implement Multitenancy and Custom Sharding in Qdrant"
-short_description: "Explore how Qdrant's multitenancy and custom sharding streamline machine-learning operations, enhancing scalability and data security."
-description: "Discover how multitenancy and custom sharding in Qdrant can streamline your machine-learning operations. Learn how to scale efficiently and manage data securely."
+title: "Choose a Multitenancy Design"
+short_description: "Choose payload partitioning, dedicated shards, tiered multitenancy, or separate collections for your tenants."
+description: "Choose a Qdrant multitenancy design from tenant sizes, collection settings, resource requirements, and access controls."
 social_preview_image: /articles_data/multitenancy/preview/social_preview.jpg
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/icon.svg
@@ -18,181 +18,71 @@ aliases:
   - /articles/multitenancy/
 ---
 
-# Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant 
+# Choose a Multitenancy Design
 
-We are seeing the topics of [multitenancy](/documentation/manage-data/multitenancy/) and [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
+Choose a design from the number of tenants, their relative sizes, and their isolation requirements. Start with payload-based partitioning when many tenants share the same collection configuration. Use dedicated shards or collections when a tenant needs different capacity or configuration.
 
-Whether you are building a bank fraud-detection system, [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
-In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
+| Workload or constraint | Starting design | Main trade-off |
+| --- | --- | --- |
+| Many small tenants with similar data and vector configuration. | One collection with a tenant payload field and index. | Tenants share collection resources and configuration. |
+| A few large tenants and many small tenants. | Tiered multitenancy with shared and dedicated shards. | You must plan shard capacity and tenant promotion. |
+| A small number of tenants need separate collection configuration or collection-level permissions. | Separate collections. | Each collection adds resource and operational overhead. |
+| Data must reside on specific nodes or in specific regions. | Custom shard keys and explicit shard placement. | Routing keys alone do not enforce data residency or access permissions. |
 
-## Multitenancy & custom sharding with Qdrant
+These choices can be combined. For example, a region shard can contain several tenants separated by payload filters.
 
-We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/manage-data/multitenancy/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding). 
+## Keep Small Tenants in a Shared Collection
 
-Combining these two will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
+Add a tenant identifier, such as `group_id`, to every point's payload. Create a keyword index with `is_tenant: true` on that field. Qdrant can then organize points from the same tenant together. The flag is available from Qdrant 1.11.
 
-## One collection, many tenants
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
-When working with Qdrant, you can upsert all your data to a single collection, and then partition each vector via its payload. This means that all your users are leveraging the power of a single Qdrant cluster, but their data is still isolated within the collection. Let's take a look at a two-tenant collection:
+Include the tenant filter in each query, update, and delete operation that selects points by payload. Derive the tenant identity from the authenticated user, rather than accepting an unrestricted tenant ID from the request.
 
-**Figure 1:** Each individual vector is assigned a specific payload that denotes which tenant it belongs to. This is how a large number of different tenants can share a single Qdrant collection.
-![Qdrant Multitenancy](/articles_data/multitenancy/multitenancy-single.png)
+![Two tenants share one collection, with each point assigned to a tenant through its payload field.](/articles_data/multitenancy/multitenancy-single.png)
 
-Qdrant is built to excel in a single collection with a vast number of tenants. You should only create multiple collections when your data is not homogenous or if users' vectors are created by different embedding models. Creating too many collections may result in resource overhead and cause dependencies. This can increase costs and affect overall performance. 
+The tenant index helps storage and search. It does not authorize requests. A client with unrestricted credentials can omit the filter and access other tenants' points.
 
-## Sharding your database
+For setup and filtered query examples, follow [payload-based multitenancy](/documentation/manage-data/multitenancy/#partition-by-payload).
 
-With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](/documentation/scaling/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
+### Check Whether Shared Resources Fit
 
-During vector search, your operations will be able to hit only the subset of shards they actually need. In massive-scale deployments, __this can significantly improve the performance of operations that do not require the whole collection to be scanned__.
+A shared collection reduces collection overhead, but its tenants still share resources. Measure latency and indexing behavior for both small and large tenants under the expected concurrent workload.
 
-This works in the other direction as well. Whenever you search for something, you can specify a shard or several shards and Qdrant will know where to find them. It will avoid asking all machines in your cluster for results. This will minimize overhead and maximize performance. 
+If indexing is the bottleneck and every search uses a tenant filter, consider the [per-tenant HNSW configuration](/documentation/manage-data/multitenancy/#calibrate-performance). Setting `m: 0` disables the global graph. A positive `payload_m` retains payload-aware links. Queries without the tenant filter then become slower, so use this configuration only when that trade-off fits the workload.
 
-### Common use cases
+Sparse retrieval can also share scoring statistics across tenants. Follow [per-tenant scoring statistics](/documentation/manage-data/multitenancy/#per-tenant-scoring-statistics) when each tenant needs its own relevance statistics.
 
-A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](/documentation/scaling/distributed_deployment/#moving-shards).  
+## Give Large Tenants Dedicated Shards
 
-**Figure 2:** Users can both upsert and query shards that are relevant to them, all within the same collection. Regional sharding can help avoid cross-continental traffic. 
-![Qdrant Multitenancy](/articles_data/multitenancy/shards.png)
+Use custom sharding when queries should target a specific group of shards. Create the collection with user-defined sharding, create its shard keys, and send the appropriate shard key with reads and writes.
 
-Custom sharding also gives you precise control over other use cases. A time-based data placement means that data streams can index shards that represent latest updates. If you organize your shards by date, you can have great control over the recency of retrieved data. This is relevant for social media platforms, which greatly rely on time-sensitive data. 
+A shard key selects where an operation runs. A payload filter selects which points match within those shards. Use both when a shard contains several tenants.
 
-## Before I go any further.....how secure is my user data?
+Dedicated shards consume resources, so creating one for every small tenant can add unnecessary overhead. Prefer payload partitioning for the long tail of small tenants.
 
-By design, Qdrant offers three levels of isolation. We initially introduced collection-based isolation, but your scaled setup has to move beyond this level. In this scenario, you will leverage payload-based isolation (from multitenancy) and resource-based isolation (from sharding). The ultimate goal is to have a single collection, where you can manipulate and customize placement of shards inside your cluster more precisely and avoid any kind of overhead. The diagram below shows the arrangement of your data within a two-tier isolation arrangement.
+See [user-defined sharding](/documentation/manage-data/multitenancy/#user-defined-sharding) for the request sequence and [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) for shard placement.
 
-**Figure 3:** Users can query the collection based on two filters: the `group_id` and the individual `shard_key_selector`. This gives your data two additional levels of isolation.
-![Qdrant Multitenancy](/articles_data/multitenancy/multitenancy.png)
+### Plan for Uneven Tenant Growth
 
-## Create custom shards for a single collection
+Tiered multitenancy, available from Qdrant 1.16, combines shared and dedicated shards in one collection. Small tenants share a fallback shard. A large tenant can move to a dedicated shard while keeping the same collection.
 
-When creating a collection, you will need to configure user-defined sharding. This lets you control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations, since you won't need to go through the entire collection to retrieve data.
+Configure payload-based tenancy as well as shard routing. The tenant filter remains necessary when a request reaches the shared fallback shard. Follow the documented promotion procedure for moving points and validating the result.
 
-```python
-client.create_collection(
-    collection_name="{tenant_data}",
-    # number of physical shards per shard key, not the number of shard keys
-    shard_number=1,
-    sharding_method=models.ShardingMethod.CUSTOM,
-    # ... other collection parameters
-)
-client.create_shard_key("{tenant_data}", "canada")
-client.create_shard_key("{tenant_data}", "germany")
-```
-In this example, your cluster is divided between Germany and Canada. Canadian and German law differ when it comes to international data transfer. Let's say you are creating a RAG application that supports the healthcare industry. Your Canadian customer data will have to be clearly separated for compliance purposes from your German customer. 
+Choose custom sharding when creating the collection if this growth path is required. You cannot change an existing collection's sharding method in place. Plan capacity carefully: the shared fallback shard must fit on one node.
 
-Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](/documentation/scaling/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
+Use [tiered multitenancy](/documentation/manage-data/multitenancy/#tiered-multitenancy) for setup, routing, promotion, and current restrictions.
 
-## Configure a multitenant setup for users
+## Use Separate Collections for Different Requirements
 
-Let's continue and start adding data. As you upsert your vectors to your new collection, you can add a `group_id` field to each vector. If you do this, Qdrant will assign each vector to its respective group. 
+Separate collections are useful when a limited number of tenants need different vector schemas, collection settings, or collection-level permissions. They also add resource overhead and increase the number of collections to operate.
 
-Additionally, each vector can now be allocated to a shard. You can specify the `shard_key_selector` for each individual vector. In this example, you are upserting data belonging to `tenant_1` to the Canadian region.
+Prefer a shared collection when tenants use the same data model and can share its settings. Measure the cost of separate collections before choosing one per tenant.
 
-```python
-client.upsert(
-    collection_name="{tenant_data}",
-    points=[
-        models.PointStruct(
-            id=1,
-            payload={"group_id": "tenant_1"},
-            vector=[0.9, 0.1, 0.1], 
-        ),
-        models.PointStruct(
-            id=2,
-            payload={"group_id": "tenant_1"},
-            vector=[0.1, 0.9, 0.1],
-        ),
-    ],
-    shard_key_selector="canada",
-)
-```
-Keep in mind that the data for each `group_id` is isolated. In the example below, `tenant_1` vectors are kept separate from `tenant_2`. The first tenant will be able to access their data in the Canadian portion of the cluster. However, as shown below `tenant_2 `might only be able to retrieve information hosted in Germany.
+## Enforce Access and Placement Separately
 
-```python
-client.upsert(
-    collection_name="{tenant_data}",
-    points=[
-        models.PointStruct(
-            id=3,
-            payload={"group_id": "tenant_2"},
-            vector=[0.1, 0.1, 0.9],
-        ),
-    ],
-    shard_key_selector="germany",
-)
-```
+Keep Qdrant behind an authenticated application, or issue appropriately restricted credentials. The application must enforce tenant filters and shard routing for every operation it exposes. Qdrant also supports [granular access keys](/documentation/security/#granular-access-api-keys) for collection permissions. Keep administrative keys on trusted services.
 
-## Retrieve data via filters
+For regional placement, verify where shard replicas and backups are stored. Naming a shard key `canada` does not place its data in Canada. A managed Qdrant Cloud cluster runs in one region; a region key does not create a managed multi-region deployment.
 
-The access control setup is completed as you specify the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. 
-
-```python
-client.query_points(
-    collection_name="{tenant_data}",
-    query_filter=models.Filter(
-        must=[
-            models.FieldCondition(
-                key="group_id",
-                match=models.MatchValue(
-                    value="tenant_1",
-                ),
-            ),
-        ]
-    ),
-    query=[0.1, 0.1, 0.9],
-    limit=10,
-)
-```
-
-## Performance considerations
-
-The speed of indexation may become a bottleneck if you are adding large amounts of data in this way, as each user's vector will be indexed into the same collection. To avoid this bottleneck, consider _bypassing the construction of a global vector index_ for the entire collection and building it only for individual groups instead.
-
-By adopting this strategy, Qdrant will index vectors for each user independently, significantly accelerating the process.
-
-To implement this approach, you should:
-
-1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
-2. Set `m` in hnsw config to 0. This will disable building global index for the whole collection.
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient("localhost", port=6333)
-
-client.create_collection(
-    collection_name="{tenant_data}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    hnsw_config=models.HnswConfigDiff(
-        payload_m=16,
-        m=0,
-    ),
-)
-```
-
-3. Create keyword payload index for `group_id` field.
-
-```python
-client.create_payload_index(
-    collection_name="{tenant_data}",
-    field_name="group_id",
-    field_schema=models.PayloadSchemaType.KEYWORD,
-)
-```
-> Note: Keep in mind that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
-
-## Explore multitenancy and custom sharding in Qdrant for scalable solutions
-
-Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quickstart/) or read our [docs and tutorials](/documentation/).
-
-To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
-
-Get support or share ideas in our [Discord](https://qdrant.to/discord) community. This is where we talk about vector search theory, publish examples and demos and discuss vector database setups.
-
-
-
-
-
-
-
+Validate the chosen design with queries for separate tenants and with attempts to omit or change the tenant identifier. Check that small tenants keep acceptable latency while a large tenant ingests data. Use those results to decide whether shared resources, dedicated shards, or separate collections fit the workload.
