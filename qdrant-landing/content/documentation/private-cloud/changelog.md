@@ -7,6 +7,21 @@ weight: 35
 
 # Changelog
 
+## 1.15.0 (2026-11-05)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.41.0 |
+| operator                | 2.37.2  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.20.0
+
+* Fixed global quotas being re-enabled after a user disabled or changed them through the Qdrant quotas API. For Qdrant v1.20.0 and later, the operator now renders its default 90% quotas into `storage.quotas` in the Qdrant configuration instead of calling the quotas API. Quotas set through the API take precedence, so a user's change stays. Running pods are not restarted. They pick up the defaults when they are next recreated
+* The operator no longer writes `status.globalQuotas` on `QdrantCluster`
+* Updated operator to 2.37.2
+
 ## 1.14.0 (2026-11-03)
 
 | Component               | Version |
