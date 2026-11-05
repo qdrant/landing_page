@@ -20,6 +20,7 @@ tags:
 category: core-concepts
 ---
 
+
 Vector quantization is a data compression technique used to reduce the size of high-dimensional data. Compressing vectors reduces memory usage while maintaining nearly all of the essential information. This method allows for more efficient storage and faster search operations, particularly in large datasets.
 
 When working with high-dimensional vectors, such as embeddings from providers like OpenAI, a single 1536-dimensional vector requires **6 KB of memory**.
