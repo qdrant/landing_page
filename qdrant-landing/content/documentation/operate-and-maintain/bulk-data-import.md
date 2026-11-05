@@ -16,6 +16,7 @@ keywords:
 date: 2026-07-14T00:00:00.000Z
 draft: false
 aliases:
+  - /documentation/production-operations/bulk-data-import/
   - /articles/bulk-uploads-in-qdrant/
 ---
 

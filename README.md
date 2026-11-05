@@ -333,10 +333,11 @@ Choose the directory that matches the guide:
 
 | Topic | Directory under `content/documentation/` |
 | --- | --- |
+| Search Design | `search-design/` |
 | Search Evaluation | `search-evaluation/` |
-| Search Patterns | `search-patterns/` |
 | Search Tuning | `search-tuning/` |
-| Production & Operations | `production-operations/` |
+| Deploy and Scale | `deploy-and-scale/` |
+| Operate and Maintain | `operate-and-maintain/` |
 
 1. Fill in the title, `short_description` (card summary), `description` (search/social summary), and Markdown body. Keep the guide directly inside its topic directory.
 2. Set `date` to the publication date, remove or update any copied `publishDate`, and choose a unique positive `weight` within the topic. Lower weights appear first; gaps such as 10, 20, 30 make later insertions easier.

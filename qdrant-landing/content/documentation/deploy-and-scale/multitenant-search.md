@@ -15,6 +15,7 @@ keywords:
   - multiple partitions
   - vector database
 aliases:
+  - /documentation/production-operations/multitenant-search/
   - /articles/multitenancy/
 ---
 

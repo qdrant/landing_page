@@ -16,6 +16,7 @@ keywords:
   - Qdrant Data Security
   - Enterprise Data Compliance
 aliases:
+  - /documentation/production-operations/access-control/
   - /articles/data-privacy/
 ---
 

@@ -10,6 +10,7 @@ date: 2025-07-15T00:00:00.000Z
 draft: false
 weight: 10
 aliases:
+  - /documentation/search-patterns/choose-embedding-model/
   - /articles/how-to-choose-an-embedding-model/
 ---
 

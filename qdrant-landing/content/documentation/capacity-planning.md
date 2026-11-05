@@ -235,7 +235,7 @@ Qdrant can't split a shard across nodes, so a shard count that isn't a multiple 
 
 CPU matters most during ingestion, when a node uploads and indexes at the same time. The [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) tutorial found 8 CPU cores, 64 GB of RAM, and 1 TB of disk to be a minimal configuration for indexing and exploring a dataset of 400 million vectors on a single node, and notes that production setups can need more.
 
-By default, Qdrant uses up to 16 threads for indexing. If your nodes have more than 16 cores, raise the number of indexing threads explicitly. See [Vector Search in Production](/documentation/production-operations/vector-search-in-production/#other-solutions-to-alleviate-indexing-bottleneck). Sustained CPU throttling during ingestion is a sign that the nodes need more cores.
+By default, Qdrant uses up to 16 threads for indexing. If your nodes have more than 16 cores, raise the number of indexing threads explicitly. See [Vector Search in Production](/documentation/deploy-and-scale/vector-search-in-production/#other-solutions-to-alleviate-indexing-bottleneck). Sustained CPU throttling during ingestion is a sign that the nodes need more cores.
 
 ## Choosing Disk over RAM
 

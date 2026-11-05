@@ -16,6 +16,7 @@ keywords:
   - benchmark
 weight: 45
 aliases:
+  - /documentation/production-operations/predictable-search-latency/
   - /articles/tuning-qdrant-optimizer/
 ---
 
