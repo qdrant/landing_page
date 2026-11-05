@@ -7,6 +7,12 @@ weight: 35
 
 # Changelog
 
+Each release lists the component versions that ship together, and the latest Qdrant version that was validated with them.
+
+## Upgrading
+
+Each release pairs one version of the CRD chart (`qdrant-kubernetes-api`) with one version of the `qdrant-private-cloud` chart. To upgrade, install the CRD chart version from the table of the release you want, then the chart of that release, with the same values. You do not have to install every release in between. Do not skip minor versions of Qdrant itself. See [Upgrades](/documentation/private-cloud/private-cloud-setup/#upgrades) for the commands.
+
 ## 1.13.0 (2026-10-23)
 
 | Component               | Version |
