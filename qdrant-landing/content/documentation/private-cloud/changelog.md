@@ -7,6 +7,19 @@ weight: 35
 
 # Changelog
 
+## 1.14.0 (2026-11-03)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.41.0 |
+| operator                | 2.37.1  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.20.0
+
+* Resolved operator issue where pods in phase Failed were not deleted automatically.
+
 ## 1.13.0 (2026-10-23)
 
 | Component               | Version |
