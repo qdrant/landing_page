@@ -389,7 +389,7 @@ The sidebar lists each section of `content/course/` by `weight`. To add an exter
 
 #### Articles
 
-An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection.
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection. The five topics are Vector Search Fundamentals (`vector-search-fundamentals`), Embeddings & Machine Learning (`embedding-research`), Relevance & Evaluation (`relevance-and-evaluation`), Indexing & Storage (`qdrant-internals`), and RAG & Agents (`rag-and-agents`). Reassign articles before removing a category index, or the articles disappear from both listings.
 
 ## Blog
 

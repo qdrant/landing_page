@@ -21,7 +21,7 @@ tags:
 weight: 40
 
 aliases: [ /blog/binary-quantization-openai/ ]
-category: search-quality
+category: qdrant-internals
 retired: true
 hideFromList: true
 sitemapExclude: true

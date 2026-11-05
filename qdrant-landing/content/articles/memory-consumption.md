@@ -9,7 +9,7 @@ weight: 100
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2022-12-07T10:18:00.000Z
-category: production-ops
+category: qdrant-internals
 # aliases: [ /articles/memory-consumption/ ]
 ---
 

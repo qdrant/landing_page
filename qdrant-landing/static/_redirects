@@ -138,15 +138,8 @@
 /articles/semantic-cache-ai-data-retrieval/*  /documentation/tutorials-build-essentials/semantic-cache/:splat  301!
 /blog/semantic-cache-ai-data-retrieval/*  /documentation/tutorials-build-essentials/semantic-cache/:splat  301!
 
-# Articles category reorganization (technical articles taxonomy)
-/articles/vector-search-manuals/   /articles/mastering-search/      301
-/articles/machine-learning/        /articles/embedding-research/    301
-/articles/ecosystem/               /articles/demos-and-tutorials/   301
-/articles/practicle-examples/      /articles/demos-and-tutorials/   301
-/articles/rag-and-genai/           /articles/rag-and-agents/        301
-
 # Unpublished indexing-optimization article superseded by bulk-uploads-in-qdrant
-/articles/indexing-optimization/   /documentation/operate-and-maintain/bulk-data-import/   301
+/articles/indexing-optimization/*  /documentation/operate-and-maintain/bulk-data-import/:splat  301!
 
 # ACORN blog post converted into an internals article
 /blog/filtered-vector-search-acorn/   /articles/filtered-vector-search-acorn/   301
@@ -285,3 +278,59 @@
 /documentation/production-operations/  /documentation/operate-and-maintain/  301!
 /documentation/production-operations  /documentation/operate-and-maintain/  301!
 /documentation/search-patterns/*  /documentation/search-design/:splat  301!
+
+# Final Article topics. Preserve old category HTML and Markdown routes.
+/articles/core-concepts.md  /articles/vector-search-fundamentals.md  301!
+/articles/core-concepts/*  /articles/vector-search-fundamentals/:splat  301!
+/articles/core-concepts  /articles/vector-search-fundamentals/  301!
+/articles/mastering-search.md  /articles/embedding-research.md  301!
+/articles/mastering-search/*  /articles/embedding-research/:splat  301!
+/articles/mastering-search  /articles/embedding-research/  301!
+/articles/search-quality.md  /articles/relevance-and-evaluation.md  301!
+/articles/search-quality/*  /articles/relevance-and-evaluation/:splat  301!
+/articles/search-quality  /articles/relevance-and-evaluation/  301!
+/articles/production-ops.md  /articles/qdrant-internals.md  301!
+/articles/production-ops/*  /articles/qdrant-internals/:splat  301!
+/articles/production-ops  /articles/qdrant-internals/  301!
+/articles/data-exploration.md  /articles/relevance-and-evaluation.md  301!
+/articles/data-exploration/*  /articles/relevance-and-evaluation/:splat  301!
+/articles/data-exploration  /articles/relevance-and-evaluation/  301!
+/articles/demos-and-tutorials.md  /learn/examples.md  301!
+/articles/demos-and-tutorials/*  /learn/examples/:splat  301!
+/articles/demos-and-tutorials  /learn/examples/  301!
+/articles/vector-search-manuals.md  /articles/embedding-research.md  301!
+/articles/vector-search-manuals/*  /articles/embedding-research/:splat  301!
+/articles/vector-search-manuals  /articles/embedding-research/  301!
+/articles/machine-learning.md  /articles/embedding-research.md  301!
+/articles/machine-learning/*  /articles/embedding-research/:splat  301!
+/articles/machine-learning  /articles/embedding-research/  301!
+/articles/ecosystem.md  /learn/examples.md  301!
+/articles/ecosystem/*  /learn/examples/:splat  301!
+/articles/ecosystem  /learn/examples/  301!
+/articles/practicle-examples.md  /learn/examples.md  301!
+/articles/practicle-examples/*  /learn/examples/:splat  301!
+/articles/practicle-examples  /learn/examples/  301!
+/articles/rag-and-genai.md  /articles/rag-and-agents.md  301!
+/articles/rag-and-genai/*  /articles/rag-and-agents/:splat  301!
+/articles/rag-and-genai  /articles/rag-and-agents/  301!
+/articles/indexing-optimization.md  /documentation/operate-and-maintain/bulk-data-import.md  301!
+
+# Former Article guide URLs also published standalone Markdown aliases.
+/articles/how-to-choose-an-embedding-model.md  /documentation/search-design/choose-embedding-model.md  301!
+/articles/how-to-choose-an-embedding-model  /documentation/search-design/choose-embedding-model/  301!
+/articles/vector-search-filtering.md  /documentation/search-design/vector-search-filtering.md  301!
+/articles/vector-search-filtering  /documentation/search-design/vector-search-filtering/  301!
+/articles/vector-search-production.md  /documentation/deploy-and-scale/vector-search-in-production.md  301!
+/articles/vector-search-production  /documentation/deploy-and-scale/vector-search-in-production/  301!
+/articles/vector-search-resource-optimization.md  /documentation/deploy-and-scale/vector-search-in-production.md  301!
+/articles/vector-search-resource-optimization  /documentation/deploy-and-scale/vector-search-in-production/  301!
+/articles/data-privacy.md  /documentation/deploy-and-scale/access-control.md  301!
+/articles/data-privacy  /documentation/deploy-and-scale/access-control/  301!
+/articles/multitenancy.md  /documentation/deploy-and-scale/multitenant-search.md  301!
+/articles/multitenancy  /documentation/deploy-and-scale/multitenant-search/  301!
+/articles/bulk-uploads-in-qdrant.md  /documentation/operate-and-maintain/bulk-data-import.md  301!
+/articles/bulk-uploads-in-qdrant  /documentation/operate-and-maintain/bulk-data-import/  301!
+/articles/memory-tiers-in-qdrant-what-to-use-and-when.md  /documentation/operate-and-maintain/memory-tiers.md  301!
+/articles/memory-tiers-in-qdrant-what-to-use-and-when  /documentation/operate-and-maintain/memory-tiers/  301!
+/articles/tuning-qdrant-optimizer.md  /documentation/operate-and-maintain/predictable-search-latency.md  301!
+/articles/tuning-qdrant-optimizer  /documentation/operate-and-maintain/predictable-search-latency/  301!
