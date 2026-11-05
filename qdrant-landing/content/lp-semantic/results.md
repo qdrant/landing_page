@@ -10,16 +10,16 @@ cards:
       src: /icons/outline/layers-blue.svg
       alt: ""
   - id: 1
-    title: 'GlassDollar'
-    url: https://qdrant.tech/blog/case-study-glassdollar/
-    description: 'infrastructure costs dropped to about 60% of its previous setup after migrating its company search.'
+    title: 'Garden'
+    url: https://qdrant.tech/blog/case-study-garden-intel/
+    description: 200M+ patents searchable with p95 latency under 100 ms, at about 10x lower cost per stored GB on Qdrant Cloud.
     icon:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
   - id: 2
-    title: 'bloop'
-    url: https://qdrant.tech/blog/case-study-bloop/
-    description: semantic code search across the Rust codebase, more than 2.8 million lines.
+    title: 'Cosmos'
+    url: https://qdrant.tech/blog/case-study-cosmos/
+    description: 'text, color, and hybrid search across millions of elements, with 79% faster end-to-end processing on Qdrant Cloud.'
     icon:
       src: /icons/outline/shield-check-blue.svg
       alt: ""

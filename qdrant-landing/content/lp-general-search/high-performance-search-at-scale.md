@@ -22,9 +22,9 @@ cards:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
 callout:
-  text: 'Lawme moved its legal search to Qdrant and cut infrastructure costs by 75%.'
-  url: https://qdrant.tech/blog/case-study-lawme/
-  label: Read the Lawme case study
+  text: 'Bazaarvoice keeps billions of vectors on Qdrant Hybrid Cloud in its own VPC: about 100x less storage than in PostgreSQL, with sub-100 ms queries at about 98% nearest-neighbor accuracy.'
+  url: https://qdrant.tech/blog/case-study-bazaarvoice/
+  label: Read the Bazaarvoice case study
 button:
   text: Start free with Qdrant Cloud
   url: https://cloud.qdrant.io/signup

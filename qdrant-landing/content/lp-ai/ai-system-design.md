@@ -22,9 +22,9 @@ cards:
       src: /icons/outline/binary-blue.svg
       alt: ""
 callout:
-  text: Dust connects company data in Notion, Google Drive, and Slack to LLMs. Its retrieval runs on Qdrant across hundreds of thousands of collections and takes milliseconds.
-  url: https://qdrant.tech/blog/dust-and-qdrant/
-  label: Read the Dust case study
+  text: OpenTable built Concierge, an assistant that answers restaurant questions in natural language, on Qdrant Cloud. Each query filters reviews, metadata, and other structured restaurant data at once, and the launch was global from day one, served from one deployment.
+  url: https://qdrant.tech/blog/case-study-opentable/
+  label: Read the OpenTable case study
 button:
   text: Start free with Qdrant Cloud
   url: https://cloud.qdrant.io/signup

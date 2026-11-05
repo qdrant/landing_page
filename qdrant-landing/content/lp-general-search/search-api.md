@@ -16,8 +16,8 @@ cards:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
 callout:
-  text: Poliscope runs BM25 and dense search in one request across 130 million points. A search across all of Germany's local councils takes 0.87 seconds on average.
-  url: https://qdrant.tech/blog/case-study-poliscope/
-  label: Read the Poliscope case study
+  text: 'GoPerfect runs hybrid search over 200M+ profiles stored as multivectors on Qdrant Cloud. Match accuracy rose from the recruiting industry''s 30% baseline to 99.993% in internal benchmarks.'
+  url: https://qdrant.tech/blog/case-study-go-perfect/
+  label: Read the GoPerfect case study
 sitemapExclude: true
 ---

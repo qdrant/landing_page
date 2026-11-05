@@ -22,9 +22,9 @@ cards:
       src: /icons/outline/filter-blue.svg
       alt: ""
 callout:
-  text: 'Mixpeek cut its hybrid search code by 80% with native Reciprocal Rank Fusion in Qdrant.'
-  url: https://qdrant.tech/blog/case-study-mixpeek/
-  label: Read the Mixpeek case study
+  text: 'Himalayas runs semantic and keyword retrieval in one query with filters for location, time zone, and employment type: 25M+ requests a month at about 30 ms median inside Qdrant.'
+  url: https://qdrant.tech/blog/case-study-himalayas/
+  label: Read the Himalayas case study
 button:
   text: Start free with Qdrant Cloud
   url: https://cloud.qdrant.io/signup

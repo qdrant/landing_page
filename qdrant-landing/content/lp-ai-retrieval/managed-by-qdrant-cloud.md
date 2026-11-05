@@ -22,8 +22,8 @@ cards:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
 callout:
-  text: Lettria scaled its Qdrant deployment to more than 100 million vectors.
-  url: https://qdrant.tech/blog/case-study-lettria-v2/
-  label: Read the Lettria case study
+  text: Sapu indexed 28 million PubMed abstracts in a single collection on Qdrant Cloud, and runs 10 million parallel queries per research workflow.
+  url: https://qdrant.tech/blog/case-study-sapu/
+  label: Read the Sapu case study
 sitemapExclude: true
 ---

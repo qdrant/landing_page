@@ -22,9 +22,9 @@ cards:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
 callout:
-  text: 'Lucy reaches 94.7% Recall@10 on FinanceBench with retrieval on Qdrant.'
-  url: https://qdrant.tech/blog/case-study-lucy/
-  label: Read the Lucy case study
+  text: Pathwork runs retrieval augmented generation for insurance underwriting on Qdrant Cloud. Query latency fell from 9 seconds to 2, and mean squared error nearly halved, from 3.5 to 1.8.
+  url: https://qdrant.tech/blog/case-study-pathwork/
+  label: Read the Pathwork case study
 button:
   text: Start free with Qdrant Cloud
   url: https://cloud.qdrant.io/signup
