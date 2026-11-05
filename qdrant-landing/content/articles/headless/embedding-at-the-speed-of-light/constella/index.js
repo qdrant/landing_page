@@ -1,68 +1,42 @@
-const MODES = [
-  { chip: 'documents: stella', status: 'stella runs a transformer on every document, so it is paid once, offline, at indexing time.' },
-  { chip: 'queries: constella-zero', status: 'constella-zero only reads table rows, so embedding a query stays cheap at search time.' },
-];
 export function buildSvg(sel, arrowId) {
-  const tokens = (y0) => [0, 1, 2].map((k) => `<rect class="c${k + 1}" x="30" y="${y0 + k * 30}" width="22" height="22" rx="4"/>`).join('');
   const vec = (x, y) => Array.from({ length: 6 }, (_, k) => `<rect class="muted" x="${x + k * 22}" y="${y}" width="20" height="26" rx="3"/>`).join('');
+  const box = (x, y, w, h, text) => `<g class="se-box"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/><text x="${x + 12}" y="${y + h / 2 + 5}">${text}</text></g>`;
+  const arrow = (d) => `<path class="se-flow" d="${d}" marker-end="url(#${arrowId})"/>`;
 
-  // Lane 1: a network. Every node connects to every node in the next column.
-  const cols = [190, 250, 310, 370];
-  const ys = [94, 122, 150, 178];
+  // stella: a mesh of connected nodes, to suggest a neural network.
+  const cols = [165, 210, 255], ys = [74, 100, 126];
   let mesh = '';
-  for (let c = 0; c < cols.length - 1; c++) for (const a of ys) for (const b of ys) mesh += `M${cols[c]} ${a}L${cols[c + 1]} ${b}`;
-  const nodes = cols.map((x) => ys.map((y) => `<circle class="se-node" cx="${x}" cy="${y}" r="7"/>`).join('')).join('');
-  const ins = [0, 1, 2].map((k) => `<path class="se-curve c${k + 1}" d="M54 ${103 + k * 30}C120 ${103 + k * 30} 130 136 183 ${ys[k + 0] + (k === 2 ? 14 : 0)}" marker-end="url(#${arrowId})"/>`).join('');
-  const lane1 = `<g class="${sel === 0 ? '' : 'dim'}">
-      <text class="qi-title" x="20" y="70">stella_en_400M_v5 · documents</text>
-      ${tokens(92)}${ins}
-      <path class="se-mesh" d="${mesh}"/>${nodes}
-      <path class="se-flow" d="M380 136C430 136 450 136 508 136" marker-end="url(#${arrowId})"/>
-      ${vec(520, 123)}
-      <text class="qi-label" x="190" y="214">a neural network runs on every text</text></g>`;
+  for (let c = 0; c < 2; c++) for (const a of ys) for (const b of ys) mesh += `M${cols[c]} ${a}L${cols[c + 1]} ${b}`;
+  const nodes = cols.map((x) => ys.map((y) => `<circle class="se-node" cx="${x}" cy="${y}" r="6"/>`).join('')).join('');
+  // constella-zero: a table with a few rows picked.
+  const hit = { 1: 'c1', 3: 'c2' };
+  const rows = Array.from({ length: 5 }, (_, r) => `<rect class="${hit[r] ?? 'se-rowbar'}" x="165" y="${222 + r * 16}" width="90" height="12" rx="3"/>`).join('');
 
-  // Lane 2: a table. Each token reads one row, then rows are averaged.
-  const rowY = (r) => 262 + r * 17;
-  const hit = { 1: 1, 3: 2, 4: 3 };
-  const rows = Array.from({ length: 7 }, (_, r) => `<rect class="${hit[r] ? `c${hit[r]}` : 'se-rowbar'}" x="190" y="${rowY(r)}" width="140" height="13" rx="3"/>`).join('');
-  const reads = [1, 3, 4].map((r, k) => `<path class="se-curve c${k + 1}" d="M54 ${273 + k * 30}C110 ${273 + k * 30} 130 ${rowY(r) + 6} 183 ${rowY(r) + 6}" marker-end="url(#${arrowId})"/>`).join('');
-  const pools = [1, 3, 4].map((r, k) => `<path class="se-curve c${k + 1}" d="M330 ${rowY(r) + 6}C400 ${rowY(r) + 6} 420 300 468 300"/>`).join('');
-  const lane2 = `<g class="${sel === 1 ? '' : 'dim'}">
-      <text class="qi-title" x="20" y="242">constella-zero · queries</text>
-      ${tokens(262)}${reads}${rows}${pools}
-      <text class="qi-label" x="410" y="278">average</text>
-      <path class="se-flow" d="M470 300H508" marker-end="url(#${arrowId})"/>
-      ${vec(520, 287)}
-      <text class="qi-label" x="190" y="392">each token reads one row: no network to run</text></g>`;
-
-  return `<svg class="qi-svg" viewBox="0 0 760 430" role="img" aria-label="${MODES[sel].status} Schematic: stella passes the tokens of every text through a neural network to produce a vector. constella-zero reads one row per token from a lookup table and averages the rows into a vector.">
+  return `<svg class="qi-svg" viewBox="0 0 760 340" role="img" aria-label="Documents go through stella_en_400M_v5, a neural network, into document vectors stored in Qdrant. Queries go through constella-zero, a lookup table, into query vectors that Qdrant searches with.">
     ${defs(arrowId)}
-    ${MODES.map((m, i) => chip(i, m.chip, 20 + i * 210, 14, i === 0 ? 190 : 230, sel)).join('')}
-    ${lane1}${lane2}
-    <text class="qi-label qi-label--strong" x="20" y="424">${MODES[sel].status}</text>
+    <text class="qi-title" x="20" y="38">indexing: stella_en_400M_v5</text>
+    ${box(20, 82, 100, 36, 'documents')}${arrow('M120 100H150')}
+    <path class="se-mesh" d="${mesh}"/>${nodes}
+    ${arrow('M270 100H318')}
+    ${vec(325, 87)}${arrow('M470 100C540 100 560 140 604 150')}
+    <text class="qi-label" x="165" y="160">transformer, run once per document</text>
+
+    <text class="qi-title" x="20" y="198">querying: constella-zero</text>
+    ${box(20, 232, 100, 36, 'query')}${arrow('M120 250H150')}
+    ${rows}
+    ${arrow('M270 250H318')}
+    ${vec(325, 237)}${arrow('M470 250C540 250 560 210 604 200')}
+    <text class="qi-label" x="165" y="318">lookup table, no neural network</text>
+
+    <g class="se-box"><rect x="610" y="130" width="130" height="90" rx="8"/><text x="626" y="164">Qdrant</text><text class="qi-label" x="626" y="186">vectors</text><text class="qi-label" x="626" y="204">+ search</text></g>
   </svg>`;
 }
 
 let instanceId = 0;
-const chip = (i, label, x, y, w, selected) => `
-    <g class="se-chip${i === selected ? ' is-selected' : ''}" data-i="${i}" role="button" tabindex="0" aria-pressed="${i === selected}" aria-label="${label}">
-      <rect x="${x}" y="${y}" width="${w}" height="28" rx="6"/>
-      <text x="${x + 12}" y="${y + 19}">${label}</text>
-    </g>`;
 const defs = (id) => `<defs><marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="se-arrowhead" d="M0 0L10 5L0 10Z"/></marker></defs>`;
 
 export function mount(node) {
   node.classList.add('se-fig');
-  const arrowId = `se-arrow-${++instanceId}`;
-  let selected = 0;
-  const render = () => {
-    node.innerHTML = `<div class="qi-fig">${buildSvg(selected, arrowId)}</div>`;
-    node.querySelectorAll('.se-chip').forEach((g) => {
-      const pick = () => { selected = Number(g.dataset.i); render(); node.querySelector(`.se-chip[data-i="${selected}"]`)?.focus(); };
-      g.addEventListener('click', pick);
-      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
-    });
-  };
-  render();
+  node.innerHTML = `<div class="qi-fig">${buildSvg(0, `se-arrow-${++instanceId}`)}</div>`;
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }
