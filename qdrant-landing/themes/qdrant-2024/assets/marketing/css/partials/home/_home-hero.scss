@@ -273,9 +273,9 @@
     z-index: -1;
     background: linear-gradient(
       to bottom,
-      rgba($neutral-10, 0.9) 0%,
-      rgba($neutral-10, 0.8) 55%,
-      rgba($neutral-10, 0.4) 80%,
+      $neutral-10 0%,
+      rgba($neutral-10, 0.6) 40%,
+      rgba($neutral-10, 0.25) 70%,
       rgba($neutral-10, 0) 100%
     );
     pointer-events: none;
