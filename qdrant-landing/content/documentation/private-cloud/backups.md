@@ -92,10 +92,11 @@ spec:
 | Goal | How | Result |
 |---|---|---|
 | Roll the cluster back | A `QdrantClusterRestore` with `destination.create` unset or `false` | See [what a restore does](#what-a-restore-does) |
-| Test a restore, or recover without touching the source | A `QdrantClusterRestore` with `destination.create: true` and a new cluster name | A new cluster in the same Kubernetes cluster as the backup |
+| Test a restore, or recover without touching the source | A `QdrantClusterRestore` with `destination.create: true`, a new cluster name, and a new `cluster-id` label | A new cluster in the same Kubernetes cluster and namespace as the backup |
+| Restore into another namespace | Not supported | The snapshot resource, its volume snapshots, and the destination cluster must be in the same namespace. A persistent volume claim can only use a volume snapshot from its own namespace |
 | Move to another Kubernetes cluster or region | Not supported | A restore uses the volume snapshot in your Kubernetes cluster as its data source. It cannot cross Kubernetes clusters or regions, because snapshots are not copied between them |
 
-To restore from a backup, create a `QdrantClusterRestore` resource. `source` names the snapshot and its namespace, and `destination` names the cluster:
+To restore from a backup, create a `QdrantClusterRestore` resource. `source` names the snapshot and its namespace, and `destination` names the cluster. Both namespaces must be the namespace of the snapshot:
 
 ```yaml
 apiVersion: qdrant.io/v1
@@ -114,9 +115,14 @@ spec:
     namespace: qdrant-private-cloud
 ```
 
-To restore into a new cluster, set the destination to a name that does not exist yet, and add `create: true`:
+To restore into a new cluster, set the destination to a name that does not exist yet, add `create: true`, and set the `cluster-id` label to the ID of the new cluster:
 
 ```yaml
+metadata:
+  labels:
+    cluster-id: "restore-test"
+    customer-id: "acme-industries"
+spec:
   destination:
     name: qdrant-restore-test
     namespace: qdrant-private-cloud
@@ -145,6 +151,6 @@ Because a backup can only be restored in the Kubernetes cluster that holds it, t
 | Action | What happens to the backups |
 |---|---|
 | Delete a schedule | The schedule stops. Existing backups stay until their retention expires |
-| Delete a cluster | The backups can outlive the cluster, so that you can restore them into a new cluster. They stay until their retention expires or you delete them |
+| Delete a cluster | The schedules of the cluster go away with it. The snapshot resources are not owned by the cluster, so they stay until their retention expires, `retainUnsuccessful` expires, or you delete them. You can restore them into a new cluster in the same namespace |
 
 The snapshots live in your cloud account, so your provider bills you for their storage until they are deleted.
