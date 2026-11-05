@@ -38,7 +38,7 @@ When your dataset contains millions (or billions) of legal vectors, every unnece
 
 ![pre-filtering vectors](/blog/legal-tech-builders-guide/filterable-hnsw.png)
 
-*Figure: example of pre-filtering vectors ([source](https://qdrant.tech/documentation/search-design/vector-search-filtering/#pre-filtering))*
+*Figure: example of pre-filtering vectors ([source](https://qdrant.tech/documentation/search-design/vector-search-filtering/#filter-during-the-search-not-before-or-after))*
 
 #### Blend structured filters with semantic search for better case insights
 
