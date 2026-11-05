@@ -1,16 +1,16 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
-  {{ partial "edge/hero" . }}
-  {{ partial "edge/demos" . }}
-  {{ partial "edge/why-edge" . }}
-  {{ partial "edge/what-you-get" . }}
-  {{ partial "edge/how-it-works" . }}
-  {{ partial "edge/on-device-inference" . }}
-  {{ partial "edge/hardware-fit" . }}
-  {{ partial "edge/faq" . }}
+  {{ partial "marketing/edge/hero" . }}
+  {{ partial "marketing/edge/demos" . }}
+  {{ partial "marketing/edge/why-edge" . }}
+  {{ partial "marketing/edge/what-you-get" . }}
+  {{ partial "marketing/edge/how-it-works" . }}
+  {{ partial "marketing/edge/on-device-inference" . }}
+  {{ partial "marketing/edge/hardware-fit" . }}
+  {{ partial "marketing/edge/faq" . }}
 
   {{ with (.Site.GetPage "/edge/cta-banner") }}
-    {{ partial "cta-banner" . }}
+    {{ partial "marketing/cta-banner" . }}
   {{ end }}
 {{ end }}

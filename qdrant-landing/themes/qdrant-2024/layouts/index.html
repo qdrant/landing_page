@@ -1,20 +1,20 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
-  {{ partial "home/hero" . }}
-  {{ partial "home/customers" . }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/home/hero" . }}
+  {{ partial "marketing/home/customers" . }}
 
-  {{ partial "home/why-qdrant" . }}
-  {{ partial "home/case-studies" . }}
-  {{ partial "home/enterprise-capabilities" . }}
-  {{ partial "home/enterprise-ready" . }}
+  {{ partial "marketing/home/why-qdrant" . }}
+  {{ partial "marketing/home/case-studies" . }}
+  {{ partial "marketing/home/enterprise-capabilities" . }}
+  {{ partial "marketing/home/enterprise-ready" . }}
   {{ with (.Site.GetPage "/headless/main/canva") }}
-    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
+    {{ partial "marketing/testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
   {{ end }}
-  {{ partial "home/performance-by-design" . }}
-  {{ partial "home/engineered-for-builders" . }}
-  {{ partial "home/integrations-logos" . }}
-  {{ partial "home/solutions" . }}
+  {{ partial "marketing/home/performance-by-design" . }}
+  {{ partial "marketing/home/engineered-for-builders" . }}
+  {{ partial "marketing/home/integrations-logos" . }}
+  {{ partial "marketing/home/solutions" . }}
   {{ with (.Site.GetPage "/headless/main/cta-banner") }}
-    {{ partial "cta-banner" . }}
+    {{ partial "marketing/cta-banner" . }}
   {{ end }}
 {{ end }}

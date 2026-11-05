@@ -1,5 +1,5 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
   {{/* Sections and their order come from `sections` in content/pricing/_index.md. */}}
   {{ range .Params.sections }}
@@ -7,11 +7,11 @@
     {{ if not $page }}
       {{ errorf "pricing section %q has no page content/pricing/%s.md" . . }}
     {{ else if hasPrefix . "qdrant-pricing-doors" }}
-      {{ partial "pricing/qdrant-pricing-doors" (dict "context" $page "class" .) }}
+      {{ partial "marketing/pricing/qdrant-pricing-doors" (dict "context" $page "class" .) }}
     {{ else if eq . "qdrant-pricing-cta" }}
-      {{ partial "cta-banner" $page }}
+      {{ partial "marketing/cta-banner" $page }}
     {{ else }}
-      {{ partial (printf "pricing/%s" .) $page }}
+      {{ partial (printf "marketing/pricing/%s" .) $page }}
     {{ end }}
   {{ end }}
 

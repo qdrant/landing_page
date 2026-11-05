@@ -1,22 +1,22 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
-  {{ partial "enterprise-solutions-hero" . }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/enterprise-solutions-hero" . }}
 
-  {{ partial "enterprise-solutions-use-cases" . }}
+  {{ partial "marketing/enterprise-solutions-use-cases" . }}
 
   {{ with (.Site.GetPage "/customers/customers-testimonial-0") }}
-    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pt-1 pb-7") }}
+    {{ partial "marketing/testimonial-light" (dict "context" . "class" "customers-testimonial pt-1 pb-7") }}
   {{ end }}
 
-  {{ partial "enterprise-solutions-capabilities" . }}
+  {{ partial "marketing/enterprise-solutions-capabilities" . }}
 
-  {{ partial "enterprise-solutions-challenges" . }}
+  {{ partial "marketing/enterprise-solutions-challenges" . }}
 
-  {{ partial "enterprise-solutions-testimonials" . }}
+  {{ partial "marketing/enterprise-solutions-testimonials" . }}
 
   {{ with (.Site.GetPage "/headless/get-contacted-with-question-sales") }}
-    {{ partial "get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
+    {{ partial "marketing/get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
   {{ end }}
 
-  {{ partial "get-started" . }}
+  {{ partial "marketing/get-started" . }}
 {{ end }}

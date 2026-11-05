@@ -1,5 +1,5 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
   <section class="outlined-card-group grey-bg py-5">
     <div class="container">
       {{ if or (eq .File.BaseFileName "calendar") (eq .Type "elastic-lucene") }}
@@ -14,7 +14,7 @@
       {{ else }}
         <div class="qdrant-post">
           <article class="qdrant-post__content">
-            {{ partial "article-content" . }}
+            {{ partial "common/article-content" . }}
           </article>
         </div>
       {{ end }}

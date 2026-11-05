@@ -1,17 +1,17 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
-  {{ partial "our-story" . }}
-  {{ partial "mission" . }}
-  {{ partial "about-us-values" . }}
-  {{ partial "carousel" . }}
-  {{ partial "leadership" . }}
-  {{ partial "investors" . }}
+  {{ partial "marketing/our-story" . }}
+  {{ partial "marketing/mission" . }}
+  {{ partial "marketing/about-us-values" . }}
+  {{ partial "marketing/carousel" . }}
+  {{ partial "marketing/leadership" . }}
+  {{ partial "marketing/investors" . }}
   {{ with (.Site.GetPage "/about-us/about-us-get-started") }}
-    {{ partial "open-roles" . }}
+    {{ partial "marketing/open-roles" . }}
   {{ end }}
-  {{ partial "about-us-engineering-culture" . }}
+  {{ partial "marketing/about-us-engineering-culture" . }}
   {{ with (.Site.GetPage "/about-us/about-us-resources") }}
-    {{ partial "open-roles" . }}
+    {{ partial "marketing/open-roles" . }}
   {{ end }}
 {{ end }}

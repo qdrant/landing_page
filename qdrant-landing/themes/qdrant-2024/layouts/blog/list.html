@@ -1,15 +1,15 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
-  {{ partial "qdrant-articles-hero" . }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/qdrant-articles-hero" . }}
 
-  {{ partial "qdrant-blog-features" . }}
-  {{ partial "qdrant-blog-posts" . }}
+  {{ partial "marketing/qdrant-blog-features" . }}
+  {{ partial "marketing/qdrant-blog-posts" . }}
 
   {{ with (.Site.GetPage "/headless/get-started-blogs") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-blogs") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "get-started-blogs") }}
   {{ end }}
 
   {{ with (.Site.GetPage "/headless/newsletter") }}
-    {{ partial "newsletter" (dict "context" . "class" "") }}
+    {{ partial "marketing/newsletter" (dict "context" . "class" "") }}
   {{ end }}
 {{ end }}

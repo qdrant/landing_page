@@ -1,13 +1,13 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
   {{ with (.Site.GetPage "/serverless/hero") }}
-    {{ partial "common-hero" . }}
+    {{ partial "marketing/common-hero" . }}
   {{ end }}
 
-  {{ partial "serverless/what-is" . }}
-  {{ partial "serverless/to-use" . }}
-  {{ partial "serverless/not-to-use" . }}
-  {{ partial "serverless/contact-form" . }}
-  {{ partial "serverless/faq" . }}
+  {{ partial "marketing/serverless/what-is" . }}
+  {{ partial "marketing/serverless/to-use" . }}
+  {{ partial "marketing/serverless/not-to-use" . }}
+  {{ partial "marketing/serverless/contact-form" . }}
+  {{ partial "marketing/serverless/faq" . }}
 {{ end }}

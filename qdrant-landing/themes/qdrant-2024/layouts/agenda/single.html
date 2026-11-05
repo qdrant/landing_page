@@ -3,7 +3,7 @@
     <div class="container">
       {{ with .Params.hero_image }}
         <div class="agenda-page__hero">
-          {{ partial "picture.html" (dict
+          {{ partial "marketing/picture.html" (dict
             "src" .
             "alt" ""
             "class" "agenda-page__hero-img"
@@ -45,7 +45,7 @@
               <span class="agenda-page__break-title">{{ .title }}</span>
               <div class="agenda-page__slot-info">
                 <span class="agenda-page__slot-duration">
-                  {{ partial "svg" (dict "icon" "timer" "color" "currentColor") }}
+                  {{ partial "common/svg" (dict "icon" "timer" "color" "currentColor") }}
                   {{ .duration }}
                 </span>
                 <span class="agenda-page__slot-time">{{ .time }}</span>
@@ -65,7 +65,7 @@
                   {{ if .badge }}
                     <span class="agenda-page__badge agenda-page__badge--{{ .badge_type }}">
                       {{ with .badge_icon }}
-                        {{ partial "svg" (dict "icon" . "path" $.Params.badge_icons_path "color" "currentColor") }}
+                        {{ partial "common/svg" (dict "icon" . "path" $.Params.badge_icons_path "color" "currentColor") }}
                       {{ end }}
                       {{ .badge }}
                     </span>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="agenda-page__slot-info">
                   <span class="agenda-page__slot-duration">
-                  {{ partial "svg" (dict "icon" "timer" "color" "currentColor") }}
+                  {{ partial "common/svg" (dict "icon" "timer" "color" "currentColor") }}
                   {{ .duration }}
                 </span>
                 <span class="agenda-page__slot-time">{{ .time }}</span>

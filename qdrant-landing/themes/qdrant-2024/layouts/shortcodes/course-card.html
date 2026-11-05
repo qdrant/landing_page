@@ -3,7 +3,7 @@
 {{ $image := default "/icons/outline/training-white.svg" (.Get "image") }}
 {{ $link := .Get "link" }}
 {{ $button := default "Get Started" (.Get "button") }}
-<div class="course-card">
+<div class="course-card" data-shortcode="course-card">
   <h6 class="course-card__title">
     <img src="{{ $image }}" alt="Icon">
     {{ $title }}

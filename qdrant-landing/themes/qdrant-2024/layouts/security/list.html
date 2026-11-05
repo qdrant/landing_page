@@ -1,27 +1,27 @@
 {{ define "main" }}
-  {{ partial "site-header" . }}
+  {{ partial "marketing/site-header" . }}
 
   {{ with (.Site.GetPage "/security/hero") }}
-    {{ partial "common-hero" . }}
+    {{ partial "marketing/common-hero" . }}
   {{ end }}
 
-  {{ partial "security/deployment-model" . }}
-  {{ partial "security/isolation-and-encryption" . }}
+  {{ partial "marketing/security/deployment-model" . }}
+  {{ partial "marketing/security/isolation-and-encryption" . }}
 
   {{ with (.Site.GetPage "/security/read-more-banner") }}
-    {{ partial "pricing-banner" . }}
+    {{ partial "marketing/pricing-banner" . }}
   {{ end }}
 
-  {{ partial "security/enterprise-ready" . }}
-  {{ partial "security/access" . }}
+  {{ partial "marketing/security/enterprise-ready" . }}
+  {{ partial "marketing/security/access" . }}
 
   {{ with (.Site.GetPage "/security/compare-banner") }}
-    {{ partial "pricing-banner" . }}
+    {{ partial "marketing/pricing-banner" . }}
   {{ end }}
 
-  {{ partial "security/faq" . }}
+  {{ partial "marketing/security/faq" . }}
 
   {{ with (.Site.GetPage "/security/cta-banner") }}
-    {{ partial "cta-banner" . }}
+    {{ partial "marketing/cta-banner" . }}
   {{ end }}
 {{ end }}
