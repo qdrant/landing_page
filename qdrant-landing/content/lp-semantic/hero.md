@@ -2,7 +2,6 @@
 label: Qdrant Vector Search Engine
 title: Build Semantic Search Tools on Qdrant Cloud
 description: Send raw text or images to Qdrant Cloud, let Qdrant create the embeddings, and search by meaning in the same API call. Start free with no credit card, and use several embedding models at no cost on the free cluster.
-proof: '[Pariti](https://qdrant.tech/blog/case-study-pariti/) raised its hiring fill rate from 20% to 48% with semantic candidate search on Qdrant. [bloop](https://qdrant.tech/blog/case-study-bloop/) runs semantic code search on codebases as large as Rust''s 2.8 million lines.'
 button:
   text: Start Free
   url: https://cloud.qdrant.io/signup
