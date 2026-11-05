@@ -29,13 +29,74 @@ spec:
 
 The `id` should be unique across all Qdrant clusters in the same namespace, the `name` must follow the above pattern and the `cluster-id` and `customer-id` labels are mandatory.
 
-There are lots more configuration options to configure scheduling, security, networking, and more. For full details see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
+You change a cluster by editing its `QdrantCluster` resource, for example with `kubectl apply` or `kubectl edit`. The Operator applies the change. There is no Console, CLI, or Cloud API for Private Cloud.
+
+## Configuring a Cluster
+
+The `QdrantCluster` spec has many settings. These are the common ones and where to find them:
+
+| Setting | Find it in |
+|---|---|
+| Node selectors, tolerations, and topology spread constraints | [Scheduling Pods to Nodes](#scheduling-pods-to-nodes) |
+| CPU, memory, and disk | [Scaling a Cluster](#scaling-a-cluster) |
+| Qdrant version | [Upgrading the Qdrant version](#upgrading-the-qdrant-version) |
+| Service type, annotations, and ingress | [Exposing a Cluster](#exposing-a-cluster) |
+| API keys | [Authentication and Authorization](#authentication-and-authorization) |
+| TLS | [Configuring TLS for Database Access](#configuring-tls-for-database-access) |
+| Audit logging | [Audit Logging](#audit-logging) |
+| GPU indexing | [GPU support](#gpu-support) |
+| Snapshot storage | [Ephemeral Snapshot Volumes](#ephemeral-snapshot-volumes) |
+| Shard rebalancing | [Automatic Shard Rebalancing](#automatic-shard-rebalancing) |
+
+For every other field, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
+
+### Scheduling Pods to Nodes
+
+To run the database pods on dedicated nodes, or to spread them across failure domains, set `nodeSelector`, `tolerations`, and `topologySpreadConstraints` on the cluster:
+
+```yaml
+spec:
+  nodeSelector:
+    workload: qdrant
+  tolerations:
+    - key: workload
+      operator: Equal
+      value: qdrant
+      effect: NoSchedule
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app: qdrant
+```
+
+These fields work as in Kubernetes. See [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/). Spreading pods across zones does not by itself replicate your data across them. See [Multi-AZ Deployments](/documentation/scaling/resilience/#multi-az-deployments).
 
 ## Scaling a Cluster
 
-To scale a cluster, update the CPU, memory and storage resources in the QdrantCluster spec. The Qdrant operator will automatically adjust the cluster configuration. This operation is highly available on a multi-node cluster with replicated collections.
+To scale a cluster, update the CPU, memory, and storage resources in the `QdrantCluster` spec, or the number of nodes in `size`. The Operator applies the change.
 
-<aside role="status">Increasing disk storage is only possible if your CSI driver and StorageClass allow volume expansion.</aside>
+| Change | Restart | Notes |
+|---|---|---|
+| CPU or memory, up or down | Always | Qdrant reads its memory and CPU count once, at startup, so the Operator restarts the pods. |
+| Disk, increase | No, by default | Uses volume expansion. Whether the resize is online depends on your storage provider. If your storage needs a restart to resize, as with some Azure disks, set `volumeExpansionMode` to `Offline` in the [Operator configuration](/documentation/private-cloud/configuration/). The default is `Online`. |
+| Disk, decrease | Each node is replaced | Off by default. See [Scaling Down Disk Space](#scaling-down-disk-space). |
+| Number of nodes | | The Operator adds or removes pods. See [Automatic Shard Rebalancing](#automatic-shard-rebalancing). |
+
+Increasing disk storage is only possible if your CSI driver and StorageClass allow volume expansion. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for the storage classes of your platform.
+
+On a multi-node cluster with replicated collections, a restart rolls through the nodes one at a time and the cluster stays available. A single-node cluster, or a collection without replicas, is unavailable while its pod restarts. To restart all pods at once, which is faster but causes downtime, see `restartAllPodsConcurrently` in the [API Reference](/documentation/private-cloud/api-reference/).
+
+### Before You Scale
+
+- **Make sure the nodes have room.** The Operator does not add nodes to your Kubernetes cluster. The node pool needs capacity for the new pod size, and ideally one database pod fits one node.
+- **Check the actual usage.** Look at CPU throttling, memory against the pod limit, and disk usage against the volume capacity. See [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/).
+
+### Resource Reservation
+
+Private Cloud has no resource reservation. You set the CPU and memory in the spec, and Kubernetes tries to allocate exactly these resources for each pod. Because nothing is held back for you, leave room for the operating system and the Kubernetes system components when you choose the size of your nodes. See [Capacity Planning](/documentation/capacity-planning/) for sizing guidance.
 
 ### Scaling Down Disk Space
 
@@ -43,7 +104,7 @@ To scale a cluster, update the CPU, memory and storage resources in the QdrantCl
 
 You can reduce `storage` in the QdrantCluster spec as well as increase it. A volume cannot be shrunk in place, so the Operator replaces the nodes instead. For each node, the Operator creates a new node with the smaller volume, lets the cluster manager move all shards from the old node to the new node, and deletes the old node once the cluster manager confirms it is no longer needed. It repeats this one node at a time until every node has the new disk size.
 
-Disk scale-down is disabled by default in Private Cloud, because storage setups vary between installations. To enable it, set `diskScaleDown.enable: true` in the operator settings of your Helm values, see [Configuration](/documentation/private-cloud/configuration/). It also requires the [cluster manager](/documentation/private-cloud/configuration/), which is enabled by default, Qdrant v1.19.2 or later, and no `additionalVolumeClaimTemplates` on the cluster. If a requirement is missing, the Operator emits a `DiskScaleDownFailed` warning event on the QdrantCluster, keeps the current disks, and continues reconciling everything else.
+Disk scale-down works with all supported block storage solutions, but it is disabled by default in Private Cloud. When it is enabled, the Operator also shrinks a volume that someone resized by hand so that it no longer matches `storage` in the spec. Qdrant checked this behavior on Managed Cloud and Hybrid Cloud, but it cannot check it on your clusters. Enable it only if you do not resize volumes manually. To enable it, set `diskScaleDown.enable: true` in the operator settings of your Helm values, see [Configuration](/documentation/private-cloud/configuration/). It also requires the cluster manager, which is enabled by default, Qdrant v1.19.2 or later, and no `additionalVolumeClaimTemplates` on the cluster. If a requirement is missing, the Operator emits a `DiskScaleDownFailed` warning event on the QdrantCluster, keeps the current disks, and continues reconciling everything else.
 
 The process doesn't cause downtime on a multi-node cluster with replicated collections. Keep the following in mind:
 
@@ -54,11 +115,25 @@ The process doesn't cause downtime on a multi-node cluster with replicated colle
 
 ## Upgrading the Qdrant version
 
-To upgrade the Qdrant version of a database cluster, update the `version` field in the QdrantCluster spec. The Qdrant operator will automatically upgrade the cluster to the new version. The upgrade process is highly available on a multi-node cluster with replicated collections.
+To upgrade the Qdrant version of a database cluster, update the `version` field in the `QdrantCluster` spec. The Operator upgrades the cluster to the new version as a rolling restart. On a multi-node cluster with replicated collections, the upgrade runs with no downtime.
 
-Note, that you should not skip minor versions when upgrading. For example, if you are running version `v1.11.3`, you can upgrade to `v1.11.5` or `v1.12.6`, but not directly to `v1.13.0`.
+```yaml
+spec:
+  version: "v1.20.0"
+```
+
+Do not skip minor versions when upgrading. For example, if you are running version `v1.11.3`, you can upgrade to `v1.11.5` or `v1.12.6`, but not directly to `v1.13.0`.
+
+Before you upgrade:
+
+- Check the [Private Cloud Changelog](/documentation/private-cloud/changelog/) for the latest Qdrant version that your Private Cloud release is validated with.
+- If you [mirror](/documentation/private-cloud/private-cloud-setup/#mirroring-images-and-charts) the images, add the new `qdrant/qdrant` image tag to your registry first, so that the pods can pull it.
 
 Upgrade the cluster first, then update the client SDKs. This prevents your applications from using features that the older cluster version does not support yet. Keep your client SDK within one minor version of your cluster version.
+
+### Upgrading the Operator
+
+Qdrant does not update the Operator for you. You update the Operator, the cluster manager, and the cluster exporter with Helm: upgrade the CRD chart first, then the Private Cloud chart, using the paired versions from the changelog. See [Upgrades](/documentation/private-cloud/private-cloud-setup/#upgrades) for the commands. Upgrading the charts does not change the Qdrant version of your clusters.
 
 ## Exposing a Cluster
 
@@ -387,26 +462,10 @@ spec:
     gpuType: "nvidia"
 ```
 
-Once the cluster Pod has started, you can check in the logs if the GPU is detected:
+Once the cluster pod has started, check its logs for a line such as `Found GPU device: ...` to confirm that Qdrant detects the GPU:
 
 ```shell
-$ kubectl logs qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840-0
-
-Starting initializing for pod 0
-           _                 _
-  __ _  __| |_ __ __ _ _ __ | |_
- / _` |/ _` | '__/ _` | '_ \| __|
-| (_| | (_| | | | (_| | | | | |_
- \__, |\__,_|_|  \__,_|_| |_|\__|
-    |_|
-
-Version: 1.13.4, build: 7abc6843
-Access web UI at http://localhost:6333/dashboard
-
-2025-03-14T10:25:30.509636Z  INFO gpu::instance: Found GPU device: NVIDIA A16-2Q
-2025-03-14T10:25:30.509679Z  INFO gpu::instance: Found GPU device: llvmpipe (LLVM 15.0.7, 256 bits)
-2025-03-14T10:25:30.509734Z  INFO gpu::device: Create GPU device NVIDIA A16-2Q
-...
+kubectl logs qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840-0
 ```
 
 For more GPU configuration options, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
