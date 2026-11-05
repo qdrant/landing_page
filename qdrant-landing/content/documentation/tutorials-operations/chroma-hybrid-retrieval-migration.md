@@ -22,7 +22,7 @@ keywords:
 
 Migrating hybrid retrieval from Chroma Cloud to Qdrant Cloud involves transferring the collection and adapting the application's queries. The [Qdrant Migration Tool](/documentation/migrate-to-qdrant/from-chroma/) copies dense vectors, indexed sparse vectors, document text, and metadata. You then replace Chroma's embedding functions and translate the filters and ranking fusion into Qdrant's query API.
 
-This tutorial uses a support assistant as a worked example to show how to migrate dense retrieval, BM25 sparse retrieval, and product and version filters.
+This tutorial uses a support assistant as a worked example to show how to migrate dense retrieval, BM25 sparse retrieval, and exact and range metadata filters.
 
 <aside role="status">
 Chroma Cloud shutdown: writes stop on December 7, 2026, and reads stop on December 22, 2026. Redirect application writes before December 7, and complete your migration before December 22. See the <a href="https://www.trychroma.com/cloud-wind-down">official timeline</a>.
@@ -74,26 +74,27 @@ Before migrating, choose a representative set of queries and filters that covers
 
 This tutorial uses a support assistant for a fictional product called Atlas. Its Chroma collection contains six chunks, each with text and metadata for filtering and citations. Follow the parts that apply to your workflow and adapt as needed.
 
-| ID | Text | `product` | `version` | `article_id` |
-| --- | --- | --- | --- | --- |
-| `atlas-2-session` | Atlas 2.0 ends your session after 30 minutes of inactivity. | atlas | 2.0 | session-expiration |
-| `atlas-2-auth4017` | AUTH4017 means your Atlas API key has expired. Create a new key in Settings > API Keys. | atlas | 2.0 | auth4017 |
-| `atlas-2-auth4018` | AUTH4018 means your Atlas API key lacks permission for this operation. | atlas | 2.0 | auth4018 |
-| `atlas-2-backup` | To restore an Atlas 2.0 backup, open Settings > Backups, select a backup, and choose Restore. | atlas | 2.0 | restore-backup |
-| `atlas-1-backup` | To restore an Atlas 1.0 backup, open Admin > Recovery, upload the backup file, and choose Import. | atlas | 1.0 | restore-backup |
-| `boreal-2-backup` | To restore a Boreal 2.0 backup, open Workspace > Snapshots, select a snapshot, and choose Recover. | boreal | 2.0 | restore-backup |
+| ID | Text | `product` | `version_major` | `version_minor` | `article_id` |
+| --- | --- | --- | --- | --- | --- |
+| `atlas-2-session` | Atlas 2.0 ends your session after 30 minutes of inactivity. | atlas | 2 | 0 | session-expiration |
+| `atlas-2-auth4017` | AUTH4017 means your Atlas API key has expired. Create a new key in Settings > API Keys. | atlas | 2 | 0 | auth4017 |
+| `atlas-2-auth4018` | AUTH4018 means your Atlas API key lacks permission for this operation. | atlas | 2 | 0 | auth4018 |
+| `atlas-2-backup` | To restore an Atlas 2.0 backup, open Settings > Backups, select a backup, and choose Restore. | atlas | 2 | 0 | restore-backup |
+| `atlas-1-backup` | To restore an Atlas 1.0 backup, open Admin > Recovery, upload the backup file, and choose Import. | atlas | 1 | 0 | restore-backup |
+| `boreal-2-backup` | To restore a Boreal 2.0 backup, open Workspace > Snapshots, select a snapshot, and choose Recover. | boreal | 2 | 0 | restore-backup |
 
-Each record also stores its BM25 sparse vector in the `sparse_embedding` metadata field, with a sparse vector index enabled for that field. The two authentication errors have near-identical wording and different remedies, so only an exact identifier match separates them. The three backup records are close paraphrases distinguished by metadata alone.
+Each record also stores its BM25 sparse vector in the `sparse_embedding` metadata field, with a sparse vector index enabled for that field. The two authentication errors have near-identical wording and different remedies, so only an exact identifier match separates them. The three backup records are close paraphrases distinguished by metadata alone. Versions are stored as integer major and minor numbers, so filters can select a range such as version 2 and later, not only an exact version.
 
 The following queries illustrate the behaviors covered by this example. All use `product="atlas"`; the version filter varies as shown.
 
-| Question | `version` | Expected Top Result | Behavior Tested |
+| Question | Version Filter | Expected Top Result | Behavior Tested |
 | --- | --- | --- | --- |
-| "Why do I have to sign in again after leaving the app idle?" | `2.0` | `atlas-2-session` | Dense retrieval across different wording |
-| "How do I resolve AUTH4017?" | `2.0` | `atlas-2-auth4017` | Lexical matching on an error identifier |
-| "How do I restore a backup?" | `2.0` | `atlas-2-backup` | Filters excluding other products and versions |
-| "How do I restore a backup?" | `1.0` | `atlas-1-backup` | Version-specific instructions |
-| "How do I restore a backup?" | `9.0` | No results | A filter with no matching records |
+| "Why do I have to sign in again after leaving the app idle?" | 2.0 | `atlas-2-session` | Dense retrieval across different wording |
+| "How do I resolve AUTH4017?" | 2.0 | `atlas-2-auth4017` | Lexical matching on an error identifier |
+| "How do I restore a backup?" | 2.0 | `atlas-2-backup` | Filters excluding other products and versions |
+| "How do I restore a backup?" | 1.0 | `atlas-1-backup` | Version-specific instructions |
+| "How do I restore a backup?" | Major version 2 or later | `atlas-2-backup` | A range filter excluding older versions |
+| "How do I restore a backup?" | 9.0 | No results | A filter with no matching records |
 
 ## 1. Migrate the Collection
 
@@ -152,18 +153,23 @@ for record in records:
 
 If `sparse_embedding` is missing, check whether the Chroma schema has a sparse vector index on that key, and look for a skipped sparse vectors warning in the migration output.
 
-The remaining examples assume text in `document`, the original ID in `__id__`, root-level `product`, `version`, and `article_id` fields, one unnamed dense vector, and one named sparse vector called `sparse_embedding`. Substitute your own names.
+The remaining examples assume text in `document`, the original ID in `__id__`, top-level `product`, `version_major`, `version_minor`, and `article_id` fields, one unnamed dense vector, and one named sparse vector called `sparse_embedding`. Substitute your own names.
 
 ### Index the Filter Fields
 
-The migration tool does not create payload indexes. Create one for each field your filters use, here the product, version, and article fields. Qdrant builds them from the payload already in the collection:
+The migration tool does not create payload indexes. Create one for each field your filters use: keyword indexes for the product and article fields, and integer indexes, which support range filters, for the version numbers. Qdrant builds them from the payload already in the collection:
 
 ```python
-for field_name in ("product", "version", "article_id"):
+for field_name, field_schema in (
+    ("product", models.PayloadSchemaType.KEYWORD),
+    ("article_id", models.PayloadSchemaType.KEYWORD),
+    ("version_major", models.PayloadSchemaType.INTEGER),
+    ("version_minor", models.PayloadSchemaType.INTEGER),
+):
     client.create_payload_index(
         collection_name=COLLECTION,
         field_name=field_name,
-        field_schema=models.PayloadSchemaType.KEYWORD,
+        field_schema=field_schema,
         wait=True,
     )
 ```
@@ -234,22 +240,32 @@ question = "How do I resolve AUTH4017?"
 
 search = (
     Search()
-    .where((K("product") == "atlas") & (K("version") == "2.0"))
+    .where(
+        (K("product") == "atlas") & (K("version_major") == 2) & (K("version_minor") == 0)
+    )
     .rank(
         Rrf(
             ranks=[
-                Knn(query=question, key="#embedding", return_rank=True, limit=20, default=1000),
-                Knn(query=question, key="sparse_embedding", return_rank=True, limit=20, default=1000),
+                Knn(query=question, return_rank=True, limit=20, default=1000),
+                Knn(
+                    query=question,
+                    key="sparse_embedding",
+                    return_rank=True,
+                    limit=20,
+                    default=1000,
+                ),
             ],
             k=60,
         )
     )
     .limit(5)
-    .select(K.DOCUMENT, K.SCORE, "article_id", "product", "version")
+    .select(K.DOCUMENT, K.SCORE, "article_id", "product")
 )
 
 rows = collection.search(search).rows()[0]
 ```
+
+The range query in the baseline replaces the version conditions with `K("version_major") >= 2`.
 
 Each branch requests up to 20 candidates. [Reciprocal rank fusion](/documentation/search/hybrid-queries/) combines the rankings with `k=60`, and the query returns up to five results. The Qdrant query will use the same candidate limits, fusion constant, and result limit.
 
@@ -257,20 +273,12 @@ Each branch requests up to 20 candidates. [Reciprocal rank fusion](/documentatio
 
 ### Rewrite It for Qdrant
 
-Embed the same question with the models from step 2. A filter on the query applies to every prefetch, so both branches search only the requested product and version, as with Chroma's `where`:
+Embed the same question with the models from step 2. A filter on the query applies to every prefetch, so both branches search only the requested product and versions, as with Chroma's `where`. `MatchValue` translates Chroma's equality conditions, and `Range` translates `>=` and the other comparisons:
 
 ```python
-def hybrid_search(
-    question: str, product: str = "atlas", version: str = "2.0"
-) -> list[models.ScoredPoint]:
+def hybrid_search(question: str, scope: models.Filter) -> list[models.ScoredPoint]:
     query_vector = models.Document(text=question, model=DENSE_MODEL)
     sparse_query = models.Document(text=question, model=SPARSE_MODEL)
-    scope = models.Filter(
-        must=[
-            models.FieldCondition(key="product", match=models.MatchValue(value=product)),
-            models.FieldCondition(key="version", match=models.MatchValue(value=version)),
-        ]
-    )
     result = client.query_points(
         collection_name=COLLECTION,
         prefetch=[
@@ -285,7 +293,28 @@ def hybrid_search(
     return result.points
 
 
-points = hybrid_search("How do I resolve AUTH4017?")
+def match(key: str, value: str | int) -> models.FieldCondition:
+    return models.FieldCondition(key=key, match=models.MatchValue(value=value))
+
+
+def atlas_version(major: int, minor: int) -> models.Filter:
+    return models.Filter(
+        must=[
+            match("product", "atlas"),
+            match("version_major", major),
+            match("version_minor", minor),
+        ]
+    )
+
+
+atlas_2_and_later = models.Filter(
+    must=[
+        match("product", "atlas"),
+        models.FieldCondition(key="version_major", range=models.Range(gte=2)),
+    ]
+)
+
+points = hybrid_search("How do I resolve AUTH4017?", atlas_version(2, 0))
 ```
 
 The first prefetch searches the dense vector. The second searches `sparse_embedding`, the vector name the tool took from the Chroma metadata key. Set `k=60` explicitly, since Qdrant's default is `2`. See [hybrid queries](/documentation/search/hybrid-queries/) for the full API.
@@ -295,37 +324,40 @@ Matching these settings preserves the query structure, but differences in candid
 Iterate over `points` and pass each point's `payload["document"]` to your answering step. Use `payload["__id__"]` and `payload["article_id"]` wherever your application needs the original record and article identifiers.
 
 <aside role="status">
-<strong>Using LangChain or LlamaIndex?</strong> Its Qdrant vector store reads metadata from a nested <code>metadata</code> key, so migrated top-level fields such as <code>article_id</code> come back empty. Wrap <code>query_points</code> results yourself, or see the <a href="/documentation/frameworks/langchain/">LangChain</a> and <a href="/documentation/frameworks/llama-index/">LlamaIndex</a> integrations to configure field and vector names.
+<strong>Using LangChain?</strong> Its Qdrant vector store reads metadata from a nested <code>metadata</code> key, so migrated top-level fields such as <code>article_id</code> come back empty. Wrap <code>query_points</code> results yourself, or see the <a href="/documentation/frameworks/langchain/">LangChain</a> and <a href="/documentation/frameworks/llama-index/">LlamaIndex</a> integrations to configure field and vector names.
 </aside>
 
 ## 4. Verify Retrieval Behavior
 
 Run the baseline queries with the same filters against Qdrant. For this example, confirm that:
 
-- The semantic and error-identifier questions return their expected chunks first.
-- Every result matches the requested product and version.
+- Each question returns its expected chunk first.
+- No result comes from a product or version the filter excludes.
 - The absent-version query returns no results.
 
 This loop runs those checks against the example queries:
 
 ```python
+SIGN_IN = "Why do I have to sign in again after leaving the app idle?"
+AUTH = "How do I resolve AUTH4017?"
+BACKUP = "How do I restore a backup?"
+OTHER_BACKUPS = ("boreal-2-backup",)
+
 CHECKS = [
-    ("Why do I have to sign in again after leaving the app idle?", "2.0", "atlas-2-session"),
-    ("How do I resolve AUTH4017?", "2.0", "atlas-2-auth4017"),
-    ("How do I restore a backup?", "2.0", "atlas-2-backup"),
-    ("How do I restore a backup?", "1.0", "atlas-1-backup"),
-    ("How do I restore a backup?", "9.0", None),
+    # (question, filter, expected top result, chunks the filter must exclude)
+    (SIGN_IN, atlas_version(2, 0), "atlas-2-session", ()),
+    (AUTH, atlas_version(2, 0), "atlas-2-auth4017", ()),
+    (BACKUP, atlas_version(2, 0), "atlas-2-backup", ("atlas-1-backup", *OTHER_BACKUPS)),
+    (BACKUP, atlas_version(1, 0), "atlas-1-backup", ("atlas-2-backup", *OTHER_BACKUPS)),
+    (BACKUP, atlas_2_and_later, "atlas-2-backup", ("atlas-1-backup", *OTHER_BACKUPS)),
+    (BACKUP, atlas_version(9, 0), None, ()),
 ]
 
-for question, version, expected in CHECKS:
-    points = hybrid_search(question, version=version)
-    ids = [point.payload["__id__"] for point in points]
-    in_scope = all(
-        point.payload["product"] == "atlas" and point.payload["version"] == version
-        for point in points
-    )
-    passed = in_scope and (ids[:1] == [expected] if expected else not ids)
-    print("PASS" if passed else "FAIL", version, question, ids)
+for question, scope, expected, excluded in CHECKS:
+    ids = [point.payload["__id__"] for point in hybrid_search(question, scope)]
+    top_ok = ids[:1] == [expected] if expected else not ids
+    passed = top_ok and not set(excluded) & set(ids)
+    print("PASS" if passed else "FAIL", question, ids)
 ```
 
 Compare the rankings with Chroma's results, using the labeled examples to judge whether changes affect relevance.
@@ -352,10 +384,10 @@ def point_id_for(chroma_id: str) -> str:
 Using the same conversion targets the migrated record instead of creating another point, and new records stay addressable for later updates. Keep the vector names and payload fields consistent with the migrated collection, and regenerate both vectors when document text changes. [`upload_points`](/documentation/manage-data/points/#upload-points) batches the writes and retries failed batches:
 
 ```python
-# (Chroma ID, text, product, version, article ID) for each new or changed chunk
+# (Chroma ID, text, product, major version, minor version, article ID)
 records = [
-    ("atlas-2-ratelimit", "RATE429 means you exceeded the Atlas request quota.", "atlas", "2.0", "rate429"),
-    ("atlas-2-auth4019", "AUTH4019 means your Atlas API key was revoked.", "atlas", "2.0", "auth4019"),
+    ("atlas-2-ratelimit", "RATE429 means you exceeded your quota.", "atlas", 2, 0, "rate429"),
+    ("atlas-2-auth4019", "AUTH4019 means your API key was revoked.", "atlas", 2, 0, "auth4019"),
 ]
 
 client.upload_points(
@@ -371,11 +403,12 @@ client.upload_points(
                 "document": text,
                 "__id__": chroma_id,
                 "product": product,
-                "version": version,
+                "version_major": major,
+                "version_minor": minor,
                 "article_id": article_id,
             },
         )
-        for chroma_id, text, product, version, article_id in records
+        for chroma_id, text, product, major, minor, article_id in records
     ],
     max_retries=3,
     wait=True,
