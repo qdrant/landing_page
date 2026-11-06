@@ -2,7 +2,7 @@
 title: Configuration
 short_description: "Configure the Qdrant Private Cloud Helm chart for the Operator, networking, scheduling, ingress, and backup management."
 description: "Configure the Qdrant Private Cloud Helm chart with Operator settings, networking, scheduling, ingress, and backup management options for Kubernetes."
-weight: 10
+weight: 15
 ---
 
 # Private Cloud Configuration
