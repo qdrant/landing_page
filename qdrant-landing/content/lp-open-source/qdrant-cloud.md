@@ -22,8 +22,8 @@ cards:
       src: /icons/outline/chart-bar-blue.svg
       alt: ""
 callout:
-  text: '"Filterable HNSW was the deal-maker, but Qdrant Cloud''s managed Rust backbone sealed it. We kept source-level transparency while off-loading 24×7 ops." Garden'
-  url: https://qdrant.tech/blog/case-study-garden-intel/
-  label: Read the Garden case study
+  text: 'My AskAI standardized on Qdrant Cloud for its AI support agents after running hybrid search on separate AWS infrastructure. Scaling is two clicks in the dashboard, and the agents deflect about 75% of support requests.'
+  url: https://qdrant.tech/blog/case-study-my-askai/
+  label: Read the My AskAI case study
 sitemapExclude: true
 ---

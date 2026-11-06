@@ -11,7 +11,7 @@ cards:
       alt: ""
   - id: 1
     title: Keep context fresh.
-    description: '[GoodData]() runs its hybrid RAG assistant on Qdrant with more than 1,000 embedding updates per minute.'
+    description: 'Upsert new chunks while the collection keeps serving queries, so answers draw on the latest documents.'
     icon:
       src: /icons/outline/puzzle-blue.svg
       alt: ""

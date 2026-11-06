@@ -3,16 +3,16 @@ label: Results
 title: Measured Gains in Production
 cards:
   - id: 0
-    title: 'Cosmos'
-    url: https://qdrant.tech/blog/case-study-cosmos/
-    description: '79% faster end-to-end processing across millions of elements, with vectors stored directly in Qdrant Cloud.'
+    title: 'Tripadvisor'
+    url: https://qdrant.tech/blog/case-study-tripadvisor/
+    description: 'over a billion reviews and images indexed on Qdrant Cloud, and users of its AI trip planning features show 2 to 3x more revenue.'
     icon:
       src: /icons/outline/layers-blue.svg
       alt: ""
   - id: 1
-    title: 'PortfolioMind'
-    url: https://qdrant.tech/blog/case-study-portfolio-mind/
-    description: 'query latency down 70% under heavy multi-user load, and interaction relevance up 58%.'
+    title: 'Lyzr'
+    url: https://qdrant.tech/blog/case-study-lyzr/
+    description: 'query latency of 20 to 50 ms, over 90% faster than before, with hundreds of concurrent agents sending over 1,000 queries a minute.'
     icon:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
