@@ -21,6 +21,8 @@ A collection level snapshot only contains data within that collection, including
 
 For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials-operations/create-snapshot/).
 
+To snapshot or recover a single shard instead of a whole collection, see [Shard snapshots](#shard-snapshots).
+
 ## Create snapshot
 
 <aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data stored on the node on which the snapshot was created.</aside>
@@ -131,6 +133,81 @@ broken state.
 To recover from a URL, you specify an additional parameter in the request body:
 
 {{< code-snippet path="/documentation/headless/snippets/snapshots/recover-snapshot-with-priority/" >}}
+
+## Shard snapshots
+
+*Available as of v1.5.0*
+
+A collection snapshot contains every shard that a node stores for a collection. A shard snapshot contains a single shard. Use shard snapshots to back up, move, or repair one shard without touching the others, for example to restore a replica from a copy of its data.
+
+<aside role="status">Shard snapshot requests act on the node that receives them. Send a request to the node that stores the shard replica you want to snapshot or recover.</aside>
+
+<aside role="status">Shard snapshots are only available through the REST API for the time being.</aside>
+
+### Create shard snapshot
+
+To create a snapshot of a single shard:
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/create-shard-snapshot/" >}}
+
+By default, the request waits until the snapshot is created. To return immediately and let the snapshot finish in the background, set the `wait` query parameter to `false`. The response describes the new snapshot, including its name and size.
+
+### List shard snapshots
+
+To list the snapshots that are stored on this node for a shard:
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/list-shard-snapshots/" >}}
+
+### Download shard snapshot
+
+To download a stored shard snapshot as a file:
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/download-shard-snapshot/" >}}
+
+To download the current state of a shard in a single request, stream it instead:
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/stream-shard-snapshot/" >}}
+
+### Delete shard snapshot
+
+To delete a stored shard snapshot:
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/delete-shard-snapshot/" >}}
+
+### Recover a shard from a snapshot
+
+<aside role="alert">Recovering a shard overwrites the data that this node holds for that shard.</aside>
+
+To recover a shard from a snapshot, send the snapshot's location in the request body:
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/recover-shard-snapshot/" >}}
+
+The request body accepts these fields:
+
+- `location`: required. Either a URL that the node can download the snapshot from, or the name of a shard snapshot that is already stored on the node.
+- `priority`: optional. Controls how the recovered shard is reconciled with the other replicas of the shard. See [Shard snapshot priority](#shard-snapshot-priority).
+- `checksum`: optional. A SHA256 checksum. Qdrant verifies the snapshot against it before recovery.
+- `api_key`: optional. The API key to use when the snapshot is downloaded from a URL.
+
+Recovery from remote `http` and `https` URLs can be turned off with the `enable_snapshot_url_recovery` setting in the `service` section of the [configuration](/documentation/ops-configuration/configuration/). When it is turned off, shards can only be recovered from snapshots that are stored on the node or uploaded with the request.
+
+### Recover a shard from an uploaded snapshot
+
+To recover a shard from a snapshot file that you have on your machine, upload the file as `multipart/form-data`. The `wait`, `priority`, and `checksum` parameters are passed as query parameters.
+
+{{< code-snippet path="/documentation/headless/snippets/snapshots/upload-shard-snapshot/" >}}
+
+As with any shard recovery, the data that this node holds for the shard is overwritten.
+
+### Shard snapshot priority
+
+When other replicas of the shard are active, the `priority` setting decides which copy of the data is the source of truth after the recovery. If you omit it, Qdrant uses `snapshot`. The available priorities are:
+
+- `snapshot`: _(default)_ activate the recovered shard on this node and mark the other active replicas as dead.
+- `replica`: mark the recovered shard on this node as dead, so the existing active replicas stay the source of truth.
+- `no_sync`: activate the recovered shard on this node and leave the other replicas as they are. This is for specialized cases such as managing shards by hand. Using it incorrectly can leave the replicas of a shard with different data.
+
+If there are no other active replicas of the shard, Qdrant activates the recovered shard and the priority has no effect.
 
 ## Snapshots for the whole storage
 

@@ -1,0 +1,1 @@
+Stream the current state of a shard as a snapshot file in a single request, using the REST API.

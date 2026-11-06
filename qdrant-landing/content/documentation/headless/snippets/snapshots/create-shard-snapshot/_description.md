@@ -1,0 +1,1 @@
+Create a snapshot of a single shard of a collection on the node that receives the request. The request waits for the snapshot to finish by default.
