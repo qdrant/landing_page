@@ -328,18 +328,17 @@ hits = client.query_points(
 
 Output:
 
-| module        | file_name                  | score      | signature                                                                                                                                                                                                                                                                   |
-|---------------|----------------------------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| field_index   | geo_index.rs               | 0.73278356 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/geo_index.rs#L612)         |
-| numeric_index | mod.rs                     | 0.7254976  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/numeric_index/mod.rs#L322) |
-| map_index     | mod.rs                     | 0.7124739  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L315)     |
-| map_index     | mod.rs                     | 0.7124739  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L429)     |
-| fixtures      | payload_context_fixture.rs | 0.706204   | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn total_point_count`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/fixtures/payload_context_fixture.rs#L122)       |
+| module | file_name | score | signature |
+|---|---|---|---|
+| field_index | geo_index.rs | 0.7217573 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/geo_index.rs#L612) |
+| numeric_index | mod.rs | 0.7113211 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/numeric_index/mod.rs#L322) |
+| fixtures | payload_context_fixture.rs | 0.6993166 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn total_point_count`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/fixtures/payload_context_fixture.rs#L122) |
+| map_index | mod.rs | 0.6838597 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L429) |
+| map_index | mod.rs | 0.6838597 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L315) |
 
-While the scores retrieved by different models are not comparable, but we can
-see that the results are different. Code and text embeddings can capture
-different aspects of the codebase. We can use both models to query the collection
-and then combine the results to get the most relevant code snippets, from a single batch request.
+The scores of the two models are not comparable, but the results are clearly
+different. Code and text embeddings capture different aspects of the codebase.
+To run both queries in a single request, use `query_batch_points`:
 
 ```python
 responses = client.query_batch_points(
@@ -364,27 +363,88 @@ responses = client.query_batch_points(
     ],
 )
 
-results = [response.points for response in responses]
+text_hits, code_hits = [response.points for response in responses]
 ```
 
-Output:
+A batch request saves round trips, but it does not combine anything. Qdrant
+returns one result list per request, in the order of the requests, so
+`text_hits` and `code_hits` are the same two lists as in the previous tables.
+Each list is ranked by its own model's similarity score, and because those
+scores are on different scales, you can't merge the lists by sorting on score.
 
-| module             | file_name                  | score      | signature                                                                                                                                                                                                                                                                                 |
-|--------------------|----------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| toc                | point_ops.rs               | 0.59448624 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `pub async fn count`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/storage/src/content_manager/toc/point_ops.rs#L120)                          |
-| operations         | types.rs                   | 0.5493385  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `pub struct CountRequestInternal`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/collection/src/operations/types.rs#L831)                       |
-| collection_manager | segments_updater.rs        | 0.5121002  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `pub(crate) fn upsert_points<'a, T>`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/collection/src/collection_manager/segments_updater.rs#L339) |
-| collection         | point_ops.rs               | 0.5063539  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `pub async fn count`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/collection/src/collection/point_ops.rs#L213)                                |
-| map_index          | mod.rs                     | 0.49973983 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn get_points_with_value_count<Q>`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/map_index/mod.rs#L88)          |
-| field_index        | geo_index.rs               | 0.73278356 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/geo_index.rs#L612)                       |
-| numeric_index      | mod.rs                     | 0.7254976  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/numeric_index/mod.rs#L322)               |
-| map_index          | mod.rs                     | 0.7124739  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L315)                   |
-| map_index          | mod.rs                     | 0.7124739  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L429)                   |
-| fixtures           | payload_context_fixture.rs | 0.706204   | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn total_point_count`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/fixtures/payload_context_fixture.rs#L122)                     |
+### Combining both models into one ranking
 
-This is one example of how you can use different models and combine the results.
-In a real-world scenario, you might run some reranking and deduplication, as
-well as additional processing of the results.
+To get a single ranked list, let Qdrant merge the results on the server. Run
+each model as a `prefetch` and combine the candidates with [Reciprocal Rank
+Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
+
+```python
+hits = client.query_points(
+    "qdrant-sources",
+    prefetch=[
+        models.Prefetch(
+            query=models.Document(
+                text=query, model="sentence-transformers/all-MiniLM-L6-v2"
+            ),
+            using="text",
+            limit=20,
+        ),
+        models.Prefetch(
+            query=models.Document(
+                text=query, model="jinaai/jina-embeddings-v2-base-code"
+            ),
+            using="code",
+            limit=20,
+        ),
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
+    limit=5,
+).points
+```
+
+Output, with each point's position in the text and code candidate lists added
+for reference:
+
+| module | file_name | score | text rank | code rank | signature |
+|---|---|---|---|---|---|
+| toc | point_ops.rs | 0.5555556 | 1 | 17 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `pub async fn count`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/storage/src/content_manager/toc/point_ops.rs#L120) |
+| field_index | geo_index.rs | 0.5 |  | 1 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/geo_index.rs#L612) |
+| operations | types.rs | 0.33333334 | 2 |  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `pub struct CountRequestInternal`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/collection/src/operations/types.rs#L831) |
+| numeric_index | mod.rs | 0.33333334 |  | 2 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/numeric_index/mod.rs#L322) |
+| fixtures | payload_context_fixture.rs | 0.25 |  | 3 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn total_point_count`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/fixtures/payload_context_fixture.rs#L122) |
+
+RRF ignores the original similarity scores and uses only positions. A point
+receives `1 / (k + position)` from each candidate list it appears in, where
+`position` starts at 0 and `k` defaults to 2, and the contributions are added
+up. The top result of a list contributes 0.5, the second 0.33, and the third
+0.25.
+
+`pub async fn count` from the `toc` module is the only point in the top 5
+that both models found. It is first in the text list and 17th in the code
+list, so its score is 1/2 + 1/18 = 0.5556, which ranks it higher than the code
+model's top result (0.5). The code model's contribution counts only because
+each prefetch retrieves 20 candidates. With `limit=5` on the prefetches, the
+point would score 0.5 and tie with `fn count_indexed_points`.
+
+The remaining points were found by one model each, so they alternate between
+the two lists. Points at the same position in each list get the same score,
+and Qdrant does not break ties. `types.rs` and the `numeric_index` result can
+come back in either order, and the fifth place can go to either
+`fn total_point_count` (third in the code list) or
+`pub(crate) fn upsert_points` (third in the text list), both scored 0.25. To
+give one model more influence, use [weighted
+RRF](/documentation/search/hybrid-queries/#weighted-rrf).
+
+The two approaches answer different questions:
+
+- `query_batch_points` returns one list per model, each with that model's
+  similarity scores. Merging the lists is up to your application.
+- `prefetch` with `FusionQuery` returns one list, ranked by how highly the
+  models placed each point. The RRF score is meaningful only relative to
+  other RRF scores from the same query, not as a similarity value.
+
+In a real-world scenario, you might add deduplication of overlapping snippets
+or a reranking step on top of the fused results.
 
 ### Code search demo
 
@@ -430,13 +490,13 @@ results = client.query_points_groups(
 
 Output:
 
-| module        | file_name                  | score      | signature                                                                                                                                                                                                                                                                   |
-|---------------|----------------------------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| field_index   | geo_index.rs               | 0.73278356 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/geo_index.rs#L612)         |
-| numeric_index | mod.rs                     | 0.7254976  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/numeric_index/mod.rs#L322) |
-| map_index     | mod.rs                     | 0.7124739  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L315)     |
-| fixtures      | payload_context_fixture.rs | 0.706204   | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn total_point_count`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/fixtures/payload_context_fixture.rs#L122)       |
-| hnsw_index    | graph_links.rs             | 0.6998417  | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn num_points `](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/hnsw_index/graph_links.rs#L477)                 |
+| module | file_name | score | signature |
+|---|---|---|---|
+| field_index | geo_index.rs | 0.7217573 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/7aa164bd2dda1c0fc9bf3a0da42e656c95c2e52a/lib/segment/src/index/field_index/geo_index.rs#L612) |
+| numeric_index | mod.rs | 0.7113211 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/numeric_index/mod.rs#L322) |
+| fixtures | payload_context_fixture.rs | 0.6993166 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn total_point_count`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/fixtures/payload_context_fixture.rs#L122) |
+| map_index | mod.rs | 0.6838597 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/map_index/mod.rs#L429) |
+| full_text_index | text_index.rs | 0.6660148 | [<img src="/documentation/tutorials/code-search/github-mark.png" width="16" style="display: inline"> `fn count_indexed_points`](https://github.com/qdrant/qdrant/blob/3fbe1cae6cb7f51a0c5bb4b45cfe6749ac76ed59/lib/segment/src/index/field_index/full_text_index/text_index.rs#L175) |
 
 With the grouping feature, we get more diverse results.
 
