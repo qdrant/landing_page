@@ -231,8 +231,8 @@ When you run a search, HNSW starts at the top, quickly narrowing down the search
 
 In Qdrant, indexing is modular. You can configure indexes for **both vectors and payloads independently**. The payload index is responsible for optimizing filtering based on metadata. Each payload index is built for a specific field and allows you to quickly filter vectors based on specific conditions.
 
-{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 290" title="With a payload index, the search follows only links through points that match the filter." >}}
-![An HNSW graph in which filtered-out nodes are hollow with dashed links; a red path runs from the entry point through matching nodes to the result next to the query](/articles_data/what-is-a-vector-database/hnsw-search.svg)
+{{< island path="content/headless/what-is-a-vector-database/figure" ratio="640 / 298" title="With a payload index, the search follows only links through points that match the filter." >}}
+![A small HNSW graph: solid points match the payload filter and hollow points with dashed links are filtered out; a red search path runs from the entry point through matching points only to the result next to the query](/articles_data/what-is-a-vector-database/hnsw-search.svg)
 {{< /island >}}
 
 You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filterable HNSW](https://qdrant.tech/articles/filterable-hnsw/) and why it was built like this.
