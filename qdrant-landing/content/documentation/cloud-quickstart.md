@@ -18,7 +18,13 @@ aliases:
 
 Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items embedded with the `sentence-transformers/all-MiniLM-L6-v2` model via [Cloud Inference](/documentation/inference/). This is one of the free embedding models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
-> **Using a coding agent?** Give it the [Start building on Qdrant](/documentation/agentic-tools/) prompt, which walks it through this quickstart step by step, or point it to [qdrant.tech/llms.txt](https://qdrant.tech/llms.txt), for agent-ready setup guidance and a documentation index.
+## 0. Get Started with a Coding Agent
+
+We recommend copying the following into your agent to get started quickly and directly:
+
+```text
+set up qdrant with https://qdrant.tech/llms.txt
+```
 
 ## 1. Create a Cloud Cluster
 
