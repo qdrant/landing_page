@@ -1,12 +1,34 @@
-{{/* Paid landing pages: logo and the one call to action, no navigation (paid ads call, 2026-11-05: the page has a single goal, the Cloud signup) */}}
+{{/* Paid landing pages: the lead magnet page's header (retrieval-augmented-generation/single.html): logo, Log in, Start Free, no menu (Maddie and Meina, 2026-11-05) */}}
 <header class="site-header">
   {{ with (.Site.GetPage "/headless/menu") }}
     <div class="main-menu z-2">
       <a href="/">
         {{ partial "logo.html" . }}
       </a>
-      <div class="main-menu__buttons" style="grid-column: 3; justify-self: end; margin-left: auto;">
+
+      <div class="d-flex d-xl-none justify-content-end align-items-center gap-4">
+        <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
+      </div>
+
+      <div class="main-menu__buttons">
+        <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
         <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">{{ .Params.startFree.text }}</a>
+      </div>
+    </div>
+  {{ end }}
+
+  {{ with (.Site.GetPage "/headless/menu") }}
+    <div class="menu-mobile">
+      <div class="menu-mobile__header">
+        {{ partial "logo-dark.html" . }}
+        <button type="button" class="menu-mobile__close">{{ partial "svg" "close.svg" }}</button>
+      </div>
+
+      <div class="menu-mobile__controls">
+        <a data-metric-loc="mobile_nav" href="{{ .Params.logIn.url }}" class="button button_outlined button_lg menu-mobile__login"
+        >{{ .Params.logIn.text }}</a
+        >
+        <a data-metric-loc="mobile_nav" href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
       </div>
     </div>
   {{ end }}

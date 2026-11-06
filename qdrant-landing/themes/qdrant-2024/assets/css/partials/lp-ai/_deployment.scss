@@ -8,7 +8,8 @@
   &__grid { display: grid; gap: $spacer * 2 $spacer * 1.5; }
   &__card { display: flex; flex-direction: column; align-items: flex-start; }
   &__card-icon { @include lp-ai-tile; margin-bottom: $spacer * 1.5; }
-  &__card-title { margin-bottom: $spacer * 0.5; font-size: $font-size-md; font-weight: $font-weight-semibold; line-height: 1.5; color: $neutral-20; a { color: inherit; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba($neutral-20, 0.35); &:hover { color: $secondary-blue-50; } } }
+  &__card-title { margin-bottom: $spacer * 0.5; font-size: $font-size-md; font-weight: $font-weight-semibold; line-height: 1.5; color: $neutral-20; }
+  &__card-link { margin-top: $spacer * 0.5; }
   &__card-description { margin-bottom: 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-30; }
   @include media-breakpoint-up(md) { &__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @include media-breakpoint-up(lg) { &__grid { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); } }

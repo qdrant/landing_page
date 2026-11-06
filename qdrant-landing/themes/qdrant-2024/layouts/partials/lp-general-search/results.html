@@ -21,10 +21,11 @@
         {{ if .Params.cards }}
         <div>
           <ul class="lp-general-search-results__list">
-            {{ range .Params.cards }}
+            {{ range .Params.cards }}{{ $card := . }}
               <li class="lp-general-search-results__item">
-                <h3 class="lp-general-search-results__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
+                <h3 class="lp-general-search-results__item-title">{{ .title }}</h3>
                 <p class="lp-general-search-results__item-description">{{ .description }}</p>
+                {{ with .url }}<a class="link link_md link_light lp-general-search-results__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
               </li>
             {{ end }}
           </ul>
