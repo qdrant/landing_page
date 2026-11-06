@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg" viewBox="0 0 760 210" role="img" aria-label="Three texts of 5, 3, and 2 tokens. Padded to the longest text they fill 15 slots, 5 of them padding. Kept in a flat array with a lengths array [5, 3, 2], they take 10 slots."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.se-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.se-arrowhead { fill: #656b7f; }
+.se-chip { cursor: pointer; }
+.se-chip rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-chip text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.se-chip.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.se-chip:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.se-chip:focus { outline: none; }
+.se-box rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-box text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.c1 { fill: #6047ff; }
+.c2 { fill: #9c27b0; }
+.c3 { fill: #00838f; }
+.c4 { fill: #dc244c; }
+.pad { fill: none; stroke: #abb1c7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.muted { fill: #656b7f; }
+.dim { opacity: 0.35; }
+.se-num { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; text-anchor: middle; }
+.se-cell-box { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-cell-box.is-selected { stroke: #303547; stroke-width: 2.5; }
+.se-seg { stroke: none; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="210" fill="#fff"/>
+    <text class="qi-title" x="20" y="34">padded batch (ONNX)</text>
+    <rect class="c1" x="20" y="64" width="26" height="26" rx="4"/><rect class="c1" x="50" y="64" width="26" height="26" rx="4"/><rect class="c1" x="80" y="64" width="26" height="26" rx="4"/><rect class="c1" x="110" y="64" width="26" height="26" rx="4"/><rect class="c1" x="140" y="64" width="26" height="26" rx="4"/><rect class="c2" x="20" y="98" width="26" height="26" rx="4"/><rect class="c2" x="50" y="98" width="26" height="26" rx="4"/><rect class="c2" x="80" y="98" width="26" height="26" rx="4"/><rect class="pad" x="110" y="98" width="26" height="26" rx="4"/><rect class="pad" x="140" y="98" width="26" height="26" rx="4"/><rect class="c3" x="20" y="132" width="26" height="26" rx="4"/><rect class="c3" x="50" y="132" width="26" height="26" rx="4"/><rect class="pad" x="80" y="132" width="26" height="26" rx="4"/><rect class="pad" x="110" y="132" width="26" height="26" rx="4"/><rect class="pad" x="140" y="132" width="26" height="26" rx="4"/>
+    <text class="qi-label qi-label--strong" x="20" y="182">15 slots, 5 of them padding</text>
+    <text class="qi-title" x="330" y="34">flat array + lengths</text>
+    <rect class="c1" x="330" y="64" width="26" height="26" rx="4"/><rect class="c1" x="360" y="64" width="26" height="26" rx="4"/><rect class="c1" x="390" y="64" width="26" height="26" rx="4"/><rect class="c1" x="420" y="64" width="26" height="26" rx="4"/><rect class="c1" x="450" y="64" width="26" height="26" rx="4"/><rect class="c2" x="480" y="64" width="26" height="26" rx="4"/><rect class="c2" x="510" y="64" width="26" height="26" rx="4"/><rect class="c2" x="540" y="64" width="26" height="26" rx="4"/><rect class="c3" x="570" y="64" width="26" height="26" rx="4"/><rect class="c3" x="600" y="64" width="26" height="26" rx="4"/>
+    <text class="qi-title" x="330" y="126">lengths = [5, 3, 2]</text>
+    <text class="qi-label qi-label--strong" x="330" y="182">10 slots, no padding</text>
+  </svg>

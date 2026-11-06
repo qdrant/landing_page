@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg se-svg" viewBox="0 0 760 330" role="img" aria-label="A static embedding model tokenizes the text into IDs, reads one embedding row per ID from the weight table, averages the rows into one vector with mean pooling, then scales that vector to unit length."><style>{
+  display: block;
+}
+.qi-title {
+  font-size: 14px;
+}
+.qi-label {
+  font-size: 13px;
+}
+.se-flow {
+  fill: none;
+  stroke: #abb1c7;
+  stroke-width: 1.6;
+}
+.se-arrowhead {
+  fill: #656b7f;
+}
+.se-token {
+  cursor: pointer;
+}
+.se-token rect {
+  fill: #f0f3fa;
+  stroke: #d3d9eb;
+  stroke-width: 1.5;
+}
+.se-token text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  fill: #303547;
+}
+.se-token.is-selected rect {
+  stroke: #303547;
+  stroke-width: 2.5;
+}
+.se-token:focus-visible rect {
+  stroke: #dc244c;
+  stroke-width: 2.5;
+}
+.se-token:focus {
+  outline: none;
+}
+.se-cell {
+  stroke: none;
+  opacity: 0.45;
+}
+.se-row.is-selected .se-cell {
+  opacity: 1;
+}
+.se-dots {
+  font-size: 14px;
+  fill: #656b7f;
+}
+.se-row.is-1 .se-cell { fill: #6047ff; }
+.se-row.is-2 .se-cell { fill: #9c27b0; }
+.se-row.is-3 .se-cell { fill: #00838f; }
+.se-row.is-4 .se-cell { fill: #dc244c; }
+.se-pooled {
+  fill: #656b7f;
+}
+.se-final {
+  fill: #303547;
+}
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="330" fill="#fff"/>
+    <defs><marker id="se-arrow-fb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="se-arrowhead" d="M0 0L10 5L0 10Z"/></marker></defs>
+    <text class="qi-title" x="20" y="34">1 · tokenize</text>
+    <text class="qi-title" x="200" y="34">2 · look up rows</text>
+    <text class="qi-title" x="400" y="34">3 · mean pool</text>
+    <text class="qi-title" x="590" y="34">4 · L2 normalize</text>
+    <text class="qi-label" x="20" y="58">"vector search is fast"</text>
+    
+    <g class="se-token is-1 is-selected" data-token="0" role="button" tabindex="0" aria-pressed="true" aria-label="Token vector, ID 73">
+      <rect x="20" y="78" width="130" height="26" rx="6"/>
+      <text x="32" y="96">vector · 73</text>
+    </g>
+    <g class="se-token is-2" data-token="1" role="button" tabindex="0" aria-pressed="false" aria-label="Token search, ID 1204">
+      <rect x="20" y="130" width="130" height="26" rx="6"/>
+      <text x="32" y="148">search · 1,204</text>
+    </g>
+    <g class="se-token is-3" data-token="2" role="button" tabindex="0" aria-pressed="false" aria-label="Token is, ID 14">
+      <rect x="20" y="182" width="130" height="26" rx="6"/>
+      <text x="32" y="200">is · 14</text>
+    </g>
+    <g class="se-token is-4" data-token="3" role="button" tabindex="0" aria-pressed="false" aria-label="Token fast, ID 2891">
+      <rect x="20" y="234" width="130" height="26" rx="6"/>
+      <text x="32" y="252">fast · 2,891</text>
+    </g>
+    
+    <g class="se-row is-1 is-selected">
+      <rect class="se-cell" x="200" y="78" width="15" height="26" rx="3"/><rect class="se-cell" x="217" y="78" width="15" height="26" rx="3"/><rect class="se-cell" x="234" y="78" width="15" height="26" rx="3"/><rect class="se-cell" x="251" y="78" width="15" height="26" rx="3"/><rect class="se-cell" x="268" y="78" width="15" height="26" rx="3"/><rect class="se-cell" x="285" y="78" width="15" height="26" rx="3"/>
+      <text class="se-dots" x="304" y="96">…</text>
+    </g>
+    <path class="se-flow" d="M150 91H192" marker-end="url(#se-arrow-fb)"/>
+    <path class="se-flow" d="M318 91C360 91 360 143 392 143" marker-end="url(#se-arrow-fb)"/>
+    <g class="se-row is-2">
+      <rect class="se-cell" x="200" y="130" width="15" height="26" rx="3"/><rect class="se-cell" x="217" y="130" width="15" height="26" rx="3"/><rect class="se-cell" x="234" y="130" width="15" height="26" rx="3"/><rect class="se-cell" x="251" y="130" width="15" height="26" rx="3"/><rect class="se-cell" x="268" y="130" width="15" height="26" rx="3"/><rect class="se-cell" x="285" y="130" width="15" height="26" rx="3"/>
+      <text class="se-dots" x="304" y="148">…</text>
+    </g>
+    <path class="se-flow" d="M150 143H192" marker-end="url(#se-arrow-fb)"/>
+    <path class="se-flow" d="M318 143C360 143 360 143 392 143" marker-end="url(#se-arrow-fb)"/>
+    <g class="se-row is-3">
+      <rect class="se-cell" x="200" y="182" width="15" height="26" rx="3"/><rect class="se-cell" x="217" y="182" width="15" height="26" rx="3"/><rect class="se-cell" x="234" y="182" width="15" height="26" rx="3"/><rect class="se-cell" x="251" y="182" width="15" height="26" rx="3"/><rect class="se-cell" x="268" y="182" width="15" height="26" rx="3"/><rect class="se-cell" x="285" y="182" width="15" height="26" rx="3"/>
+      <text class="se-dots" x="304" y="200">…</text>
+    </g>
+    <path class="se-flow" d="M150 195H192" marker-end="url(#se-arrow-fb)"/>
+    <path class="se-flow" d="M318 195C360 195 360 143 392 143" marker-end="url(#se-arrow-fb)"/>
+    <g class="se-row is-4">
+      <rect class="se-cell" x="200" y="234" width="15" height="26" rx="3"/><rect class="se-cell" x="217" y="234" width="15" height="26" rx="3"/><rect class="se-cell" x="234" y="234" width="15" height="26" rx="3"/><rect class="se-cell" x="251" y="234" width="15" height="26" rx="3"/><rect class="se-cell" x="268" y="234" width="15" height="26" rx="3"/><rect class="se-cell" x="285" y="234" width="15" height="26" rx="3"/>
+      <text class="se-dots" x="304" y="252">…</text>
+    </g>
+    <path class="se-flow" d="M150 247H192" marker-end="url(#se-arrow-fb)"/>
+    <path class="se-flow" d="M318 247C360 247 360 143 392 143" marker-end="url(#se-arrow-fb)"/>
+    <rect class="se-pooled" x="400" y="130" width="116" height="26" rx="3"/>
+    <text class="qi-label" x="400" y="176">one row, averaged</text>
+    <text class="qi-label" x="400" y="194">per dimension</text>
+    <path class="se-flow" d="M516 143H582" marker-end="url(#se-arrow-fb)"/>
+    <rect class="se-final" x="590" y="130" width="116" height="26" rx="3"/>
+    <text class="qi-label" x="590" y="176">256 dimensions,</text>
+    <text class="qi-label" x="590" y="194">unit length</text>
+    <text class="qi-label qi-label--strong" x="20" y="300">row start for "vector" = 4 bytes × 256 dims × ID 73 = 74,752</text>
+  </svg>

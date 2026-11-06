@@ -1,0 +1,13 @@
+{
+  "title": "Recall@10 on MIRACL English with static embedding models",
+  "kind": "grouped-columns",
+  "subtitle": "32.9M passages, higher is better, no hybrid run for potion-multilingual-128M",
+  "group": "model",
+  "series": "pipeline",
+  "y": "recall_at_10",
+  "yLabel": "recall@10",
+  "yMin": 0,
+  "yMax": 0.5,
+  "colors": [1, 2],
+  "height": 400
+}
