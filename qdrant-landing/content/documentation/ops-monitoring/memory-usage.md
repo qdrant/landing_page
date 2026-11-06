@@ -11,7 +11,7 @@ weight: 7
 
 Qdrant lets you inspect a collection's disk space, RAM, and OS page cache usage, summed up across the whole cluster and broken down by component. Use this to plan capacity, diagnose memory pressure, or understand which parts of a collection are resident in memory.
 
-This information is available in the [Qdrant Web UI](/documentation/web-ui/) and through the API.
+This information is available in the [Qdrant Web UI](/documentation/web-ui/) and through the API. On Qdrant Cloud, it is available on clusters that run Qdrant v1.18.0 or later: open the Web UI from your cluster's [Cluster UI](/documentation/cloud/cluster-access/), or call the API at your cluster endpoint with a [Database API key](/documentation/cloud/authentication/).
 
 ## Web UI
 
