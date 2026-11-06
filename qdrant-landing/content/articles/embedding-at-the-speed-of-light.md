@@ -6,7 +6,7 @@ description: "How static embedding models turn tokenization into the only bottle
 social_preview_image: /articles_data/embedding-at-the-speed-of-light/preview/social_preview.jpg
 preview_dir: /articles_data/embedding-at-the-speed-of-light/preview
 weight: 1
-author: Clelia Bertelli, Stephan Tulkens
+author: Clelia Bertelli, Minish
 date: 2026-11-04T00:00:00Z
 keywords:
   - static embeddings
