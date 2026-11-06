@@ -1,0 +1,30 @@
+{
+  "title": "Quora, 522,931 vectors: what each search copy adds to the Qdrant heap, and what it costs per query",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "workload",
+  "colors": [
+    0,
+    1
+  ],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "row",
+  "views": [
+    {
+      "label": "Heap added by the copy",
+      "subtitle": "Allocator heap after search minus before indexing, mean of 3 builds; originals stay memory-mapped on disk (2,142 MB Cohere, 803 MB BGE), lower is better",
+      "y": "heap_mb",
+      "yLabel": "heap (MB)",
+      "yMax": 600
+    },
+    {
+      "label": "Server p95 at hnsw_ef 256",
+      "subtitle": "Rescoring on, oversampling 2, 150 held-out queries, concurrency 1, lower is better",
+      "y": "server_p95_ms",
+      "yLabel": "server p95 (ms)",
+      "yMax": 2.5
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+configuration,workload,recall,originals_mb,copy_mb
+float32,Quora / Cohere 1024-d,0.994,2142,0
+float32+4-bit copy,Quora / Cohere 1024-d,0.992,2142,272
+turbo4 only,Quora / Cohere 1024-d,0.969,270,0
+float32+1-bit copy,Quora / Cohere 1024-d,0.976,2142,71
+turbo4+1-bit copy,Quora / Cohere 1024-d,0.962,270,71
+float32,Quora / BGE 384-d,0.996,803,0
+float32+4-bit copy,Quora / BGE 384-d,0.995,803,105
+turbo4 only,Quora / BGE 384-d,0.946,103,0
+float32+1-bit copy,Quora / BGE 384-d,0.937,803,29
+turbo4+1-bit copy,Quora / BGE 384-d,0.906,102,29
+float32,FiQA / Cohere 1024-d,0.996,236,0
+float32+4-bit copy,FiQA / Cohere 1024-d,0.997,236,30
+turbo4 only,FiQA / Cohere 1024-d,0.959,30,0
+float32+1-bit copy,FiQA / Cohere 1024-d,0.948,236,8
+turbo4+1-bit copy,FiQA / Cohere 1024-d,0.922,30,8
+float32,FiQA / BGE 384-d,0.991,89,0
+float32+4-bit copy,FiQA / BGE 384-d,0.988,89,12
+turbo4 only,FiQA / BGE 384-d,0.902,11,0
+float32+1-bit copy,FiQA / BGE 384-d,0.793,89,3
+turbo4+1-bit copy,FiQA / BGE 384-d,0.767,11,3
