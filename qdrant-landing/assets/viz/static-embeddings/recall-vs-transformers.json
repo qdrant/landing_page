@@ -1,0 +1,23 @@
+{
+  "title": "Dense recall@10 on MIRACL English: static vs transformer-based models",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "height": 640,
+  "width": 800,
+  "labelTop": "model",
+  "labelBottom": "type",
+  "colors": ["muted", "muted", "muted", "muted", "muted", "muted", "muted", "muted", 0, 0],
+  "yMax": 80,
+  "panels": [
+    {
+      "title": "Dense retrieval only",
+      "subtitle": "higher is better, transformer scores from published MTEB results",
+      "y": "recall_at_10_pct",
+      "axis": "recall@10 (%)",
+      "unit": "%"
+    }
+  ],
+  "tooltip": {
+    "recall_at_10_pct": "recall@10 (%)"
+  }
+}
