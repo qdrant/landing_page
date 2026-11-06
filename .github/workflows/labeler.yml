@@ -14,6 +14,24 @@ jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
+      - id: labeler
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
         with:
           sync-labels: false
+
+      # Labels added with GITHUB_TOKEN don't trigger the "labeled" event, so
+      # notify from here. Manually added labels are handled by slack-notify.yml.
+      - id: matched
+        env:
+          NEW_LABELS: ${{ steps.labeler.outputs.new-labels }}
+        run: |
+          matched=$(echo "$NEW_LABELS" | tr -d ' ' | tr ',' '\n' | grep -xE 'documentation|automation' | paste -sd, - | sed 's/,/, /g' || true)
+          echo "labels=$matched" >> "$GITHUB_OUTPUT"
+
+      - if: steps.matched.outputs.labels != ''
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: ${{ toJSON(format(':label: *{0}* label added: <{1}|#{2} {3}> by {4}', steps.matched.outputs.labels, github.event.pull_request.html_url, github.event.pull_request.number, github.event.pull_request.title, github.event.pull_request.user.login)) }}
