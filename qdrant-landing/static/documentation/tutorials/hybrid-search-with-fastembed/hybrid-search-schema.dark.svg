@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="514" viewBox="0 0 720 514" role="img" aria-labelledby="title desc">
+  <title id="title">Hybrid search with dense and sparse vectors</title>
+  <desc id="desc">A query is encoded twice: a Sentence Transformer produces a dense vector and SPLADE produces a sparse vector. Each vector runs its own search, and fusion combines the two result lists into the hybrid search result.</desc>
+  <rect x="1" y="1" width="718" height="512" rx="12" fill="#111824" stroke="#303547" stroke-width="2"/>
+  <rect x="140" y="24" width="440" height="48" rx="8" fill="#1d293b" stroke="#303547" stroke-width="2"/>
+  <text x="360" y="54" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="400">“We are looking for Software Developers”</text>
+  <path d="M360 72 V90 H200 V108" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M194 99 L200 108 L206 99 Z" fill="#898ea3"/>
+  <path d="M360 72 V90 H520 V108" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M514 99 L520 108 L526 99 Z" fill="#898ea3"/>
+  <rect x="80" y="110" width="240" height="48" rx="8" fill="#302958" stroke="#a794ff" stroke-width="2"/>
+  <text x="200" y="140" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Sentence Transformer</text>
+  <rect x="400" y="110" width="240" height="48" rx="8" fill="#123c46" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="520" y="140" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">SPLADE</text>
+  <path d="M200 158 V180" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M194 171 L200 180 L206 171 Z" fill="#898ea3"/>
+  <path d="M520 158 V180" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M514 171 L520 180 L526 171 Z" fill="#898ea3"/>
+  <rect x="60" y="182" width="280" height="86" rx="8" fill="#1d293b" stroke="#a794ff" stroke-width="2"/>
+  <text x="200" y="204" fill="#898ea3" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">Dense vector</text>
+  <text x="200" y="230" fill="#a794ff" text-anchor="middle" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="400">[0.12, -0.61, 0.71,</text>
+  <text x="200" y="252" fill="#a794ff" text-anchor="middle" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="400"> 0.44, …, -0.92]</text>
+  <rect x="380" y="182" width="280" height="86" rx="8" fill="#1d293b" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="520" y="204" fill="#898ea3" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400">Sparse vector</text>
+  <text x="520" y="230" fill="#3cc4cf" text-anchor="middle" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="400">{193: 0.04, 9182: 0.12,</text>
+  <text x="520" y="252" fill="#3cc4cf" text-anchor="middle" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="400"> 15012: 0.73, …, 454: 0.21}</text>
+  <path d="M200 268 V290" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M194 281 L200 290 L206 281 Z" fill="#898ea3"/>
+  <path d="M520 268 V290" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M514 281 L520 290 L526 281 Z" fill="#898ea3"/>
+  <rect x="120" y="292" width="160" height="44" rx="8" fill="#1d293b" stroke="#a794ff" stroke-width="2"/>
+  <text x="200" y="320" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Search</text>
+  <rect x="440" y="292" width="160" height="44" rx="8" fill="#1d293b" stroke="#3cc4cf" stroke-width="2"/>
+  <text x="520" y="320" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Search</text>
+  <path d="M200 336 V354 H330 V372" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M324 363 L330 372 L336 363 Z" fill="#898ea3"/>
+  <path d="M520 336 V354 H390 V372" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M384 363 L390 372 L396 363 Z" fill="#898ea3"/>
+  <rect x="280" y="374" width="160" height="44" rx="8" fill="#dc244c" stroke="#dc244c" stroke-width="2"/>
+  <text x="360" y="402" fill="#ffffff" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Fusion</text>
+  <path d="M360 418 V440" fill="none" stroke="#898ea3" stroke-width="2" stroke-linejoin="round"/><path d="M354 431 L360 440 L366 431 Z" fill="#898ea3"/>
+  <rect x="240" y="442" width="240" height="48" rx="8" fill="#1d293b" stroke="#f0f3fa" stroke-width="2"/>
+  <text x="360" y="472" fill="#e2e7f5" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700">Hybrid Search Result</text>
+</svg>
