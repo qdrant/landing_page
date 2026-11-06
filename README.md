@@ -333,10 +333,11 @@ Choose the directory that matches the guide:
 
 | Topic | Directory under `content/documentation/` |
 | --- | --- |
+| Search Design | `search-design/` |
 | Search Evaluation | `search-evaluation/` |
-| Search Patterns | `search-patterns/` |
 | Search Tuning | `search-tuning/` |
-| Production & Operations | `production-operations/` |
+| Deploy and Scale | `deploy-and-scale/` |
+| Operate and Maintain | `operate-and-maintain/` |
 
 1. Fill in the title, `short_description` (card summary), `description` (search/social summary), and Markdown body. Keep the guide directly inside its topic directory.
 2. Set `date` to the publication date, remove or update any copied `publishDate`, and choose a unique positive `weight` within the topic. Lower weights appear first; gaps such as 10, 20, 30 make later insertions easier.
@@ -388,7 +389,7 @@ The sidebar lists each section of `content/course/` by `weight`. To add an exter
 
 #### Articles
 
-An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection.
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection. The five topics are Vector Search Fundamentals (`vector-search-fundamentals`), Embeddings & Machine Learning (`embedding-research`), Relevance & Evaluation (`relevance-and-evaluation`), Indexing & Storage (`qdrant-internals`), and RAG & Agents (`rag-and-agents`). Reassign articles before removing a category index, or the articles disappear from both listings.
 
 ## Blog
 

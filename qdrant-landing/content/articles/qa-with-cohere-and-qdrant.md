@@ -16,7 +16,7 @@ keywords:
   - cohere
   - co.embed
   - embeddings
-category: demos-and-tutorials
+category: rag-and-agents
 retired: true
 hideFromList: true
 sitemapExclude: true

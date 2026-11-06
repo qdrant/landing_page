@@ -151,3 +151,11 @@
   X-Robots-Tag: noindex
 /documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/*
   X-Robots-Tag: noindex
+
+# Preserved historical Neural Search walkthrough.
+/articles/neural-search-tutorial/*
+  X-Robots-Tag: noindex
+/articles/neural-search-tutorial.md
+  X-Robots-Tag: noindex
+/articles/neural-search-tutorial
+  X-Robots-Tag: noindex

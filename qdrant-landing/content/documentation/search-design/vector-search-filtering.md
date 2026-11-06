@@ -9,6 +9,7 @@ author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
 aliases:
+  - /documentation/search-patterns/vector-search-filtering/
   - /articles/vector-search-filtering/
 ---
 
@@ -179,7 +180,7 @@ Filters also work outside search: you can [delete](/documentation/manage-data/po
 - [Query planning](/documentation/search/search/#query-planning): how Qdrant picks a search strategy for each segment.
 - [Filtered Vector Search: What ACORN Fixes, and What Fixes ACORN](/articles/filtered-vector-search-acorn/): benchmarks of ACORN and filterable HNSW on real filters.
 - [Filterable HNSW](/articles/filterable-hnsw/): the article behind Qdrant's extra filter edges.
-- [Multitenant search](/documentation/production-operations/multitenant-search/): how to serve many tenants from one collection.
+- [Multitenant search](/documentation/deploy-and-scale/multitenant-search/): how to serve many tenants from one collection.
 
 #### Try Filtering in a Live Cluster
 

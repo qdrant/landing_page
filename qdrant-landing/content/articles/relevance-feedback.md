@@ -13,7 +13,7 @@ keywords:
   - reranking
   - query rewriting
   - relevance
-category: search-quality
+category: relevance-and-evaluation
 ---
 
 In March 2025, we dropped a statement-bomb in the “[Relevance Feedback in Information Retrieval](https://qdrant.tech/articles/search-feedback-loop/)” article and then went silent.

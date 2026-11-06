@@ -14,7 +14,7 @@ keywords:
   - vector search
   - binary quantization
   - memory optimization
-category: production-ops
+category: qdrant-internals
 retired: true
 hideFromList: true
 sitemapExclude: true
