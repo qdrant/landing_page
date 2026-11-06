@@ -1,8 +1,11 @@
 ---
 title: Evaluating Pipeline Output Quality
 short_description: "Separate retrieval failures from generation failures and evaluate whether your full pipeline produces supported, useful answers."
-description: "Evaluate retrieval and generation separately to identify why a Qdrant search pipeline returns an unsupported answer or misses the information users need."
+description: "Evaluate retrieval and generation separately to identify why a Qdrant RAG pipeline returns an unsupported or off-topic answer."
 weight: 7
+author: Dylan Couzon
+author_link: https://www.linkedin.com/in/dcouzon/
+date: 2026-05-11T00:00:00+03:00
 aliases:
   - /documentation/improve-search/pipeline-output-quality/
   - /documentation/tutorials/retrieval-quality-pipeline-output/
@@ -10,199 +13,145 @@ aliases:
 
 # Evaluating Pipeline Output Quality
 
-| Time: 45 min | Level: Intermediate |  |    |
-|--------------|---------------------|--|----|
+You are building an assistant for a historical archive. You ask who was the first president of the United States. It correctly answers "George Washington," but when you inspect the retrieved passages, none contains that information.
 
-This tutorial focuses on **pipeline output quality**: whether the full retrieval pipeline produces the right output once retrieved results reach a consumer, most often an LLM generator in a RAG system.
-To measure pipeline output quality, you run your golden set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
+A correct answer can hide a broken pipeline. Did retrieval miss the relevant evidence? Did the assistant fill the gap from its own knowledge? Both can happen, and checking the final answer alone will not reveal either problem.
 
-Two related pages cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) (do the top-k results match query intent?).
+In retrieval-augmented generation (RAG), retrieval finds passages for a question, and generation uses those passages to write an answer.
 
-**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/)), LLM access for generation and judging, and Python with `ragas` installed.
+This guide shows how to evaluate retrieval and generation separately, identify which component needs attention, and test whether a proposed fix improves the results.
 
-## Wiring the RAG Pipeline
+The guide focuses on interpreting results. The [companion notebook](https://github.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb) contains the runnable retrieval, generation, and scoring workflow.
 
-Several frameworks score RAG outputs with an LLM judge, including Ragas, <a href="https://docs.confident-ai.com/" target="_blank">DeepEval</a>, and others. We use Ragas here because it's the lightest setup for the three metrics this tutorial covers. If your team has standardized on a different framework or prefers to call the judge LLM directly, the same workflow applies.
+To follow the evaluation, you need three things:
 
-<a href="https://docs.ragas.io/" target="_blank">Ragas</a> is a Python library that uses an LLM as a judge to score RAG outputs (rating each answer against criteria like faithfulness and relevancy). It expects samples shaped as `(question, retrieved_context, answer)` triples, so you build a fresh evaluation set from your labeled data. Three steps: prepare the evaluation data, define a grounding prompt, and run the retrieve-generate-record loop.
+1. Golden set: Test questions with labeled relevant passages and, where needed, reference answers. This is our reference for healthy behavior.
+2. Pipeline results: What our RAG system actually retrieved and answered for those questions.
+3. LLM-as-a-Judge: An evaluator that scores the results and helps identify where things went wrong.
 
-**1. Prepare the evaluation data.** Each entry needs a `query_id`, a `query_text` (used for both prompting the generator and embedding for retrieval), and `labels`. For `context_precision` only, also include a `ground_truth` reference answer.
+For the full diagnosis, record the IDs of relevant passages for each question and add reference answers for the metrics that need them. Validate both: labels can miss relevant passages, and reference answers can contain errors. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for how to construct and validate the labels. The metric choices also cover what you can measure without either kind of reference data.
 
-Synthetic queries don't ship with ground-truth answers. If you're only scoring `faithfulness` and `answer_relevancy`, skip this step since both are reference-free. Otherwise, generate references by running each query through an LLM scoped to its source document. Have the model return `NO_ANSWER` when the source can't answer, and drop those rows before scoring, or `context_precision` ends up judging retrieval against a reference the source doc doesn't support.
+## Choosing Which Metrics Are Useful
 
-```python
-# Example of an evaluation-ready entry.
-{
-    "query_id": "q1",
-    "query_text": "how does X work",
-    "labels": {"doc_42": 1},
-    "ground_truth": "...",  # optional; required for context_precision only
-}
-```
+Several frameworks score RAG output with an LLM as the judge, including <a href="https://docs.ragas.io/" target="_blank">Ragas</a> and <a href="https://deepeval.com/" target="_blank">DeepEval</a>. This guide uses Ragas metric names because Ragas ships every judged metric the guide scores. The workflow is the same in another framework or when you call the judge LLM directly.
 
-Different golden-set sources (human annotation, log sampling, or LLM synthesis) produce different raw shapes. Normalize to this structure before running the loop.
+Four scores cover the two halves of the pipeline. `recall@10` and `context_precision` score retrieval, and `faithfulness` and `answer_relevancy` score the answer:
 
-**2. Define the grounding prompt.** The prompt is the seam between retrieval and generation. Keep it in a versioned string so you can swap models without touching the evaluation code:
+{{< island
+    path="content/documentation/headless/pipeline-output-quality/score-map"
+    ratio="712 / 580"
+    title="Each line shows a score's main comparison. The judges also use the question."
+>}}
+![The RAG pipeline runs from the question through Qdrant retrieval to the top 10 passages, then through the generator to the answer. recall@10 compares the passages with the relevance labels, context_precision compares them with the reference answer, faithfulness compares the answer with the passages, and answer_relevancy compares the answer with the question.](/docs/pipeline-output-quality-score-map.png)
+{{< /island >}}
 
-```python
-PROMPT_TEMPLATE = """You are answering questions using retrieved source material.
+- `recall@10`: The share of labeled passages found in the top 10 results. No LLM judge needed. See [Measuring Retrieval Relevance](/documentation/search-evaluation/retrieval-relevance/) for the calculation. [ANN recall](/documentation/tutorials-search-engineering/ann-recall/) is a separate check of whether the approximate index matches exact search.
+- `context_precision`: An LLM checks which passages support the reference answer and rewards ranking them first. Needs reference answers, but no passage labels.
+- `faithfulness`: The share of the answer's claims supported by the retrieved passages. Even correct claims lower the score if the passages do not support them.
+- `answer_relevancy`: Does the answer address the question? Off-topic content, evasions, and refusals lower the score.
 
-Answer the question below using only the provided context.
-If the context does not contain the answer, say so explicitly.
-Do not rely on outside knowledge.
+Supported and relevant does not necessarily mean correct. An answer can faithfully repeat an error in the passages. To evaluate correctness against a reference answer, use a metric such as `FactualCorrectness`.
 
-Context:
-{retrieved_context}
+What you can measure depends on the reference data you have. Given the question, retrieved passages, and generated answer, `faithfulness` and `answer_relevancy` need neither labels nor reference answers. The available reference data determines which other scores you can add:
 
-Question:
-{query_text}
-"""
-```
+- **Labels and reference answers:** Adds `recall@10`, `context_precision`, and correctness such as `FactualCorrectness`.
+- **Labels only:** Adds `recall@10`.
+- **Reference answers only:** Adds `context_precision` and correctness. You can only partly tell which half failed, since the judge cannot check whether retrieval found all the evidence.
+- **Neither, for example sampled production traffic:** Adds `ContextPrecisionWithoutReference`, which checks support for the generated answer instead of a reference. Telling which half failed is limited, since this retrieval score depends on the answer.
 
-The prompt above is a starting point; tune it for your domain: answer style, refusal behavior, whether outside knowledge is allowed, and output format.
+## Reading the Scores
 
-**3. Run retrieval and generation.** For each entry, retrieve the top-k chunks, pass them through the generator, and record a `SingleTurnSample` (Ragas's data class for one evaluation record: question, retrieved context, generated answer, and optional reference).
+Reading the scores is as important as choosing the right ones. Collapsing multiple metrics into one end-to-end score might tell you that the pipeline got worse, but not which component caused it. Without separate signals, the next iteration becomes guesswork.
 
+With passage labels, we start with `recall@10` and `faithfulness`: did the evidence arrive, and did the answer stick to it? Without labels, you can inspect answer scores, but you need to label the relevant passages before using this diagnostic map. Select a symptom to see where to inspect. Here, high and low are relative to the target you set for each metric.
 
-```python
-import os
+Set initial targets from your application's requirements and a sample of answers reviewed by people familiar with the domain. Decide which failures are acceptable, then check whether the targets flag the unacceptable ones. Check that recall targets are reachable: a question with more than 10 labeled passages cannot reach perfect `recall@10`. Repeated baseline runs then establish how much variation to allow when comparing changes; they do not determine what quality is acceptable.
 
-import anthropic
-from qdrant_client import QdrantClient
-from ragas import SingleTurnSample
+{{< island
+    path="content/documentation/headless/pipeline-output-quality/diagnosis"
+    ratio="712 / 680"
+    title="Trace a symptom through the RAG system"
+>}}
+![Start with recall@10 and faithfulness. High recall and low faithfulness: compare the unsupported claims with the passages and the prompt, then read the judge verdicts. Low recall and low faithfulness: inspect retrieval for the missing evidence and the setting that lost it, then the answer for unsupported claims. Low recall and high faithfulness: check label coverage and whether the number of labels makes the recall target reachable in 10 results, then retrieval. High recall and high faithfulness: check whether low context_precision means supporting passages rank below irrelevant ones, whether low answer_relevancy means evasive, off-topic, or padded answers, and then correctness against reference answers.](/docs/pipeline-output-quality-diagnosis.svg)
+{{< /island >}}
 
-from your_embedding_model import embed  # must match the model your Qdrant collection uses
+The map suggests an inspection order, rather than a rule for which scores to collect. Measure and report all metrics relevant to your requirements together, even when recall or faithfulness falls short. Scores are clues: inspect individual answers, passages, and judge verdicts before attributing a failure to a component.
 
-client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
+## Worked Example: Relaxing the Grounding Prompt
 
-# The example uses Anthropic, but any LLM provider works.
-anthropic_client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+One practical decision is whether to let the generator use outside knowledge to answer more questions. If your application requires every claim to be supported by retrieved passages, keep that grounding requirement. If outside knowledge is acceptable, evaluate correctness and usefulness alongside grounding before choosing a prompt.
 
+To test this choice, hold retrieval fixed and change only the generator prompt. The example uses 100 questions from `rag-mini-bioasq`, a public biomedical dataset with passages, passage relevance labels, and reference answers. We removed passages with missing text and the labels pointing to them before retrieval and scoring. The labels support `recall@10`, and the reference answers support `context_precision`. See [How We Measured](#how-we-measured) for the full setup and scoring coverage.
 
-def generate_answer(query_text: str, contexts: list) -> str:
-    """Fill the prompt template with context + question, then call the LLM."""
-    prompt = PROMPT_TEMPLATE.format(
-        retrieved_context="\n\n".join(contexts),
-        query_text=query_text,
-    )
-    response = anthropic_client.messages.create(
-        model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
-        max_tokens=512,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.content[0].text
+Run the comparison in the companion notebook, or [open it in Colab](https://githubtocolab.com/qdrant/examples/blob/master/rag-pipeline-evaluation/rag_pipeline_evaluation.ipynb).
 
+The grounded prompt requires answers to be supported by the retrieved passages and to say when they are not. The open-book prompt lets the LLM use its own knowledge as well.
 
-def build_eval_set(golden_set: list, collection: str, k: int = 10) -> list:
-    """For each labeled query: retrieve from Qdrant, generate an answer, package as a Ragas sample."""
-    samples = []
-    for entry in golden_set:
-        # Retrieve top-k chunks from Qdrant.
-        results = client.query_points(
-            collection_name=collection,
-            query=embed(entry["query_text"]),
-            limit=k,
-        ).points
-        contexts = [p.payload["text"] for p in results]  # adjust the payload key to match your schema
+This comparison measures grounding and answer relevancy; it does not score correctness against reference answers or measure usefulness directly.
 
-        # Generate an answer grounded in those chunks.
-        answer = generate_answer(entry["query_text"], contexts)
+| Metric | Grounded prompt | Open-book prompt |
+| --- | --- | --- |
+| `recall@10` | 0.668 | 0.668 |
+| `context_precision` | 0.626 | 0.626 |
+| `faithfulness` | 0.940 | 0.830 |
+| `answer_relevancy` | 0.698 | 0.759 |
 
-        # Package into a Ragas sample: question, context, answer, optional reference.
-        samples.append(SingleTurnSample(
-            user_input=entry["query_text"],
-            retrieved_contexts=contexts,
-            response=answer,
-            reference=entry.get("ground_truth", ""),
-        ))
-    return samples
-```
+*These are mean scores. Higher means more of the property being measured.*
 
-If an entry's `ground_truth` is empty, Ragas silently skips that sample for metrics that need a reference (like `context_precision`). Populate it only when you'll actually score those metrics.
+For the per-question comparison, this worked example calls `recall@10` high at 0.5 or greater and `faithfulness` high at 0.8 or greater. These are illustrative targets; set your own based on your own data.
 
-## Scoring with Ragas
+The retrieval scores are identical because the passages are identical; `context_precision` was not rescored, only carried over, since nothing about retrieval changed. Whatever changed happened after retrieval. `faithfulness` dropped, while `answer_relevancy` rose. This shows reduced grounding and greater responsiveness in this run, but does not establish a change in factual correctness or usefulness. Use the repeat-run checks in [Test the Fix](#test-the-fix) before treating the differences as reliable.
 
-Three Ragas metrics cover the common failure modes for pipeline output quality:
+The mean recall and faithfulness scores still clear their illustrative targets in both runs. Yet low-faithfulness answers increased from 11 to 34 of the 99 scored answers per prompt. Averages can hide failures on individual questions. To understand what went wrong, read those answers alongside their retrieved passages and the judge verdicts.
 
-- **`faithfulness`** checks whether the answer only makes claims supported by the retrieved context. It drops when the generator hallucinates or uses its training knowledge instead of the retrieved context.
-- **`answer_relevancy`** checks whether the answer addresses the question. It drops when the generator pads, dodges, or drifts off-topic.
-- **`context_precision`** checks whether the retrieved chunks are relevant to the ground-truth answer and ranked highly. It drops when retrieval surfaces noise that crowds out the useful chunks. `context_precision` compares against the `reference` field, so it only scores queries that carry a ground-truth answer.
+These two illustrative patterns show what to look for when relaxing the prompt. They are possible changes in individual answers, not measured transitions from this run:
 
-Pass the eval samples into `evaluate()` with those three metrics:
+| Case | What changes after relaxing the prompt | What it teaches |
+| --- | --- | --- |
+| High recall, high faithfulness → high recall, low faithfulness | The retrieved evidence stays the same, but the answer introduces unsupported claims. | Finding relevant evidence does not guarantee the generator will use it faithfully. |
+| Low recall, high faithfulness → low recall, low faithfulness | A limited, supported answer becomes more expansive, filling gaps with unsupported information. | Generation can make an existing retrieval weakness harder to notice. Retrieval itself did not change. |
 
-```python
-from anthropic import Anthropic
-from openai import OpenAI
-from ragas import EvaluationDataset, evaluate
-from ragas.embeddings.base import embedding_factory
-from ragas.llms import llm_factory
-from ragas.metrics.collections import AnswerRelevancy, ContextPrecision, Faithfulness
+Either pattern can produce an answer that addresses the question more directly and scores higher on `answer_relevancy`. For an application that requires passage support, that improvement does not compensate for unsupported claims.
 
-# Judge LLM, Use a different LLM family as the generator to avoid self-evaluation bias
-judge_client = OpenAI()  # reads OPENAI_API_KEY from the environment
-judge_llm = llm_factory("gpt-5.4", client=judge_client)
+## What to Check Next
 
-# This is the judge's question-similarity check; it does not need to match the retrieval embedder.
-judge_embeddings = embedding_factory("openai", model="text-embedding-3-large", client=judge_client)
+In your pipeline, start from the symptom, form a hypothesis, and test it. Inspect individual answers alongside their passages and judge verdicts, using the scores to choose where to look:
 
-metrics = [
-    Faithfulness(llm=judge_llm),
-    AnswerRelevancy(llm=judge_llm, embeddings=judge_embeddings),
-    ContextPrecision(llm=judge_llm),
-]
+| Observation | What to inspect next |
+| --- | --- |
+| Missing relevant evidence (low `recall@10`) | Retrieved passages, relevance labels, filters, retrieval configuration |
+| Supporting passages are absent or rank too low (low `context_precision`) | Passage relevance, ranking, hybrid search fusion, reranking |
+| Unsupported claims (low `faithfulness`) | Generator prompt, retrieved passages, individual claims, judge verdicts |
+| Answer does not address the question (low `answer_relevancy`) | Prompt instructions, evasions, irrelevant content, appropriate refusals |
+| Suspicious or unstable scores | Judge behavior, reference-data quality, failed calls, run-to-run variability |
 
-dataset = EvaluationDataset(samples=samples)
-scores = evaluate(dataset, metrics=metrics)
-```
+Before acting, check that the failure is real. An appropriate refusal can score low on `answer_relevancy`. Judges can favor longer answers, certain positions, or their own outputs (see [References](#references)). Use a judge from a different model family than the generator, compare a sample of verdicts with human judgments, and recalibrate the rubric if they disagree.
 
-`evaluate()` returns an `EvaluationResult` object. Its aggregate scores print like this:
+### Test the Fix
 
-```python
-{"faithfulness": 0.88, "answer_relevancy": 0.81, "context_precision": 0.74}
-```
+Change one component at a time and rerun the same questions. Check whether the individual failures improve as well as the averages. Keep judge settings fixed during the comparison, and rerun an unchanged configuration to estimate normal variation before treating a small score difference as an improvement. Count failed generator and judge calls separately instead of silently excluding them from the averages.
 
-Higher is better on all three. Aggregates hide the distribution that tells you what's breaking, so drop into the per-query view to find the worst-scoring samples:
+Start with 50–100 questions and a cheaper judge during iteration, then run the full golden set before release. With three judged metrics and 10 retrieved passages, this Ragas setup makes around 15 judge calls per question before retries. For an initial pass without an LLM judge, see [Predicting Weak Retrieval Without an LLM](/articles/predicting-weak-retrieval/).
 
-```python
-per_query = scores.to_pandas()  # row-per-query scores
-worst = per_query.nsmallest(10, "faithfulness")
-```
+### Keep Improvements in CI
 
-### Running in CI
+Once the baseline meets your requirements, run the evaluation in CI against a fixed golden set. Fail the build when a metric's mean drops or its count of below-target questions rises beyond an allowed margin. Set those margins from repeated baseline runs and report failed calls separately. Keep retrieval and generation checks separate.
 
-If you ship retrieval changes regularly, this evaluation earns its place in CI. Running it on every change against a fixed golden set catches generator regressions from prompt edits, model swaps, or chunking changes before they reach production. The usual pattern: set a target threshold per metric and fail the job when any score drops below.
+Version the pipeline configuration, generator prompt, generator and judge models, and judge settings alongside the scores. Update thresholds when requirements change, not because a merge you need fails.
 
-### Alternatives
+## How We Measured
 
-**Without a golden set.** `faithfulness` and `answer_relevancy` are reference-free; swap `context_precision` for `LLMContextPrecisionWithoutReference`. You can then score synthetic queries offline or sampled production traffic live, at the cost of no fixed baseline for regression gating.
+The run was recorded on October 8, 2026, with 100 questions from <a href="https://huggingface.co/datasets/rag-datasets/rag-mini-bioasq" target="_blank">rag-mini-bioasq</a>, a public subset of the BioASQ Task 11b biomedical question-answering data, repackaged for RAG with a passage corpus, relevance labels, and reference answers. About 30% of its passages contain missing text but are still labeled relevant; we dropped those passages and the labels pointing at them before retrieval and scoring, since an uncleaned corpus mixes data errors with retrieval quality (<a href="https://huggingface.co/datasets/enelpol/rag-mini-bioasq" target="_blank">enelpol/rag-mini-bioasq</a> fills the gaps instead, if you would rather keep every passage). Thirteen of the 100 questions have more than 10 labeled passages and are subject to the recall ceiling described in [Reading the Scores](#reading-the-scores).
 
-## Isolating Retrieval vs Generation
+Retrieval used `BAAI/bge-small-en-v1.5` locally through Qdrant's FastEmbed integration. The generator was `anthropic/claude-haiku-5.5`, and the judge was `openai/gpt-5.4-nano` with `openai/text-embedding-3-small` embeddings. The generator and judge models were reached through <a href="https://openrouter.ai/" target="_blank">OpenRouter</a>, using Ragas 0.4.3 for scoring.
 
-If you're also running [retrieval evaluation](/documentation/search-evaluation/retrieval-relevance/) against the same golden set, pairing the two scores on every run gives a diagnostic 2x2 for attributing score changes. When a metric drops after a change (new embedding model, new prompt, or new chunking strategy), the pair tells you which half of the pipeline to investigate.
+Each prompt run returned one empty answer, leaving 99 `faithfulness` scores. The grounded run also had one `context_precision` timeout; its 99 scores were carried over to the open-book comparison. `answer_relevancy` covered 99 grounded answers and 98 open-book answers after an additional timeout. The reported means exclude those unscored results; `recall@10` covers all 100 questions.
 
-Pair `recall@10` from the retrieval evaluation with `faithfulness` from the pipeline-output evaluation. In the table, High and Low are relative to the target thresholds you set per metric.
+## References
 
-| Recall@10 | Faithfulness | Diagnosis |
-|---|---|---|
-| High | High | Ready to ship. |
-| High | Low | Generator or prompt problem. Retrieval is surfacing the right context; something downstream (prompt, model, or temperature) is misusing it. |
-| Low | Low | Fix retrieval first. The generator can't be faithful to context it never saw. |
-| Low | High | Rare. Usually means either the golden-set labels are incomplete (retrieval found useful docs the label set doesn't cover) or the generator punted with a non-committal answer that has no claims to fail on. Read a sample of per-query outputs before acting. |
-
-This split is the reason to keep retrieval and pipeline-output evaluation separate. Collapsing them into one end-to-end score tells you the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
-
-## Non-RAG Use Cases
-
-Ragas's metrics assume the consumer is an LLM generator. If retrieval feeds something else (a ranker, a recommendation surface, an agent, a search UI), swap the metrics to match: CTR or dwell time for a UI, graded rubrics for a ranker, task-completion rate for an agent. The method stays the same: freeze the consumer, run the golden set through the full pipeline, score the end-to-end output. Only the metric changes.
-
-## Pitfalls to Watch For
-
-**Judge bias.** LLM judges reward verbose, confident, or well-formatted answers even when the underlying claim is weaker. Calibrate by running a sample of outputs through human raters and comparing; if judge and human scores disagree often, adjust the rubric or swap the judge model.
-
-**Self-judging contamination.** Using the same model to generate and to judge inflates scores because the judge recognizes and rewards its own output style. Pick a different model family for the judge than for the generator, and record both versions in every run so score shifts can't be blamed on a silent upgrade.
-
-**Cost scaling.** LLM-as-judge cost grows with queries times metrics times judge calls per metric, and Ragas makes multiple judge calls per sample. A 500-query golden set with three metrics runs into the thousands of judge-model calls per run. Sample 50 to 100 queries with a cheap judge (`claude-haiku-4-5` or `gpt-4o-mini`) during iteration; reserve the full sweep with the strong judge for release candidates.
-
-## Wrapping Up
-
-You now have a Ragas-based scoring loop for the full RAG pipeline, a 2x2 to attribute regressions to retrieval or generation, and a CI pattern to gate releases on `faithfulness`, `answer_relevancy`, and `context_precision`.
+- [Verbosity and other judge biases](https://arxiv.org/abs/2306.05685).
+- [Position bias in pairwise judging](https://aclanthology.org/2025.ijcnlp-long.18/).
+- [Effects of judge prompts, rating scales, and models](https://arxiv.org/abs/2610.05094).
+- [Central-tendency bias in clinical ordinal scoring](https://arxiv.org/abs/2605.16386).
+- [Judge reliability and calibration: a survey](https://pmc.ncbi.nlm.nih.gov/articles/PMC13237853/).
+- [Self-recognition and self-preference](https://arxiv.org/abs/2404.13076).

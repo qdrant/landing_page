@@ -1,0 +1,98 @@
+/* Static score comparisons. All colors inherit the host's island tokens. */
+.qi-sm .qi-sm__diagram {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.qi-sm .qi-sm__svg--narrow {
+  min-width: 350px;
+}
+
+.qi-sm .qi-label {
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.qi-sm .qi-sm__heading {
+  fill: var(--qi-fg);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.qi-sm .qi-sm__box-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.qi-sm .qi-sm__metric {
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.qi-sm .qi-sm__gloss {
+  fill: var(--qi-muted);
+  font-size: 14px;
+}
+
+.qi-sm .qi-frame-label {
+  font-family: var(--qi-mono);
+}
+
+.qi-sm .qi-sm__component {
+  fill: var(--qi-surface);
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+
+.qi-sm .qi-sm__artifact {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+
+.qi-sm .qi-sm__line {
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.qi-sm .qi-sm__pipeline {
+  stroke: var(--qi-muted);
+}
+
+.qi-sm .qi-sm__arrowhead {
+  fill: var(--qi-muted);
+}
+
+.qi-sm .qi-sm__answer {
+  color: var(--qi-cat-1);
+}
+
+.qi-sm .qi-sm__retrieval {
+  color: var(--qi-cat-3);
+}
+
+.qi-sm .qi-sm__line.qi-sm__answer,
+.qi-sm .qi-sm__line.qi-sm__retrieval {
+  stroke: currentColor;
+}
+
+/* The categorical tokens are fixed across themes. Mixing their text with the
+   inherited foreground preserves the hue while making small type readable. */
+.qi-sm .qi-sm__metric.qi-sm__answer,
+.qi-sm .qi-sm__metric.qi-sm__retrieval {
+  fill: color-mix(in srgb, currentColor 55%, var(--qi-fg));
+}
+
+.qi-sm .qi-sm__svg--narrow .qi-sm__metric {
+  font-size: 14px;
+}
+
+.qi-sm .qi-sm__svg--narrow .qi-sm__box-label {
+  font-size: 14px;
+}
+
+.qi-sm .qi-sm__svg--narrow .qi-sm__gloss {
+  font-size: 12px;
+}
