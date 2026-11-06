@@ -1,14 +1,16 @@
 ---
-title: "Qdrant MCP"
-short_description: "Manage Qdrant Cloud clusters, backups, and billing from your AI assistant, and search the Qdrant documentation, with the remote Qdrant MCP server."
-description: "Connect Claude Code, Claude Desktop, Codex, GitHub Copilot, or any MCP client to the Qdrant MCP server. Manage clusters, serverless spaces, backups, IAM, and billing in plain language, and search the Qdrant docs."
-weight: 305
+title: "Qdrant Cloud MCP"
+short_description: "Manage Qdrant Cloud clusters, backups, and billing from your AI assistant with the remote Qdrant Cloud MCP server."
+description: "Connect Claude Code, Claude Desktop, Codex, GitHub Copilot, or any MCP client to the Qdrant Cloud MCP server. Manage clusters, serverless spaces, backups, IAM, and billing in plain language, and search the Qdrant docs."
+weight: 10
+aliases:
+  - /documentation/qdrant-mcp-server/
 partition: develop
 ---
 
-# Qdrant MCP
+# Qdrant Cloud MCP
 
-The Qdrant MCP server lets your AI assistant manage your Qdrant Cloud account in plain language. It also searches the official Qdrant documentation, so your assistant can answer questions with current docs and code snippets.
+The Qdrant Cloud MCP server lets your AI assistant manage your Qdrant Cloud account in plain language. It also searches the official Qdrant documentation, so your assistant can answer questions with current docs and code snippets.
 
 It is a remote server: there is nothing to install or run, and you sign in with OAuth in your browser instead of pasting an API key into a config file.
 
@@ -16,7 +18,7 @@ It is a remote server: there is nothing to install or run, and you sign in with 
 - **Transport:** HTTP (streamable)
 - **Auth:** OAuth. Start with read-only access, and re-authorize with manage access when you want your assistant to make changes.
 
-> This server manages infrastructure only. It cannot read or write collections or points. Support for managing your data is in the works and is expected in the future.
+> This server manages infrastructure only. It cannot read or write collections or points. To store and retrieve data from your assistant, use the [open source Qdrant MCP server](/documentation/qdrant-mcp/oss/). To search the documentation without a Qdrant Cloud account, use the [Qdrant Docs MCP server](/documentation/qdrant-mcp/docs/).
 
 ## What You Can Do
 
