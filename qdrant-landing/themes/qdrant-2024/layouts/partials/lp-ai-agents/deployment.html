@@ -1,39 +1,33 @@
 {{ with (.Site.GetPage "/lp-ai-agents/deployment") }}
   <section class="lp-ai-agents-deployment">
     <div class="container">
-      <div class="lp-ai-agents-deployment__grid{{ if not .Params.cards }} lp-ai-agents-deployment__grid--full{{ end }}">
-        <div class="lp-ai-agents-deployment__header">
-          <div class="lp-ai-agents-deployment__heading">
-            {{ with .Params.label }}<p class="lp-ai-agents-deployment__label">{{ . }}</p>{{ end }}
-            <h2 class="lp-ai-agents-deployment__title">{{ .Params.title }}</h2>
+      <div class="lp-ai-agents-deployment__header">
+        <div class="lp-ai-agents-deployment__heading">
+          {{ with .Params.label }}<p class="lp-ai-agents-deployment__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-ai-agents-deployment__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-ai-agents-deployment__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-ai-agents-deployment__grid{{ if eq $n 1 }} lp-ai-agents-deployment__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-ai-agents-deployment__card{{ if eq $n 1 }} lp-ai-agents-deployment__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-ai-agents-deployment__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-ai-agents-deployment__card-title">{{ .title }}</h3>
+            <p class="lp-ai-agents-deployment__card-description">{{ .description }}</p>
+            {{ with .url }}<a class="link link_md lp-ai-agents-deployment__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
           </div>
-          {{ with .Params.description }}<p class="lp-ai-agents-deployment__description">{{ . }}</p>{{ end }}
+        {{ end }}
+      </div>
       {{ with .Params.callout }}
         <blockquote class="lp-ai-agents-deployment__callout">
           {{ .text }}
           {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
         </blockquote>
       {{ end }}
-{{ if not .Params.cards }}      {{ with .Params.button }}
-        <a class="link lp-ai-agents-deployment__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
-      {{ end }}
-{{ end }}        </div>
-        {{ if .Params.cards }}
-        <div>
-          <ul class="lp-ai-agents-deployment__list">
-            {{ range .Params.cards }}
-              <li class="lp-ai-agents-deployment__item">
-                <h3 class="lp-ai-agents-deployment__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
-                <p class="lp-ai-agents-deployment__item-description">{{ .description }}</p>
-              </li>
-            {{ end }}
-          </ul>
       {{ with .Params.button }}
         <a class="link lp-ai-agents-deployment__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
       {{ end }}
-        </div>
-        {{ end }}
-      </div>
     </div>
   </section>
 {{ end }}

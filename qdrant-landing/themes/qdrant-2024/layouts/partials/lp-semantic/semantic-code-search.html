@@ -1,39 +1,33 @@
 {{ with (.Site.GetPage "/lp-semantic/semantic-code-search") }}
   <section class="lp-semantic-semantic-code-search">
     <div class="container">
-      <div class="lp-semantic-semantic-code-search__grid{{ if not .Params.cards }} lp-semantic-semantic-code-search__grid--full{{ end }}">
-        <div class="lp-semantic-semantic-code-search__header">
-          <div class="lp-semantic-semantic-code-search__heading">
-            {{ with .Params.label }}<p class="lp-semantic-semantic-code-search__label">{{ . }}</p>{{ end }}
-            <h2 class="lp-semantic-semantic-code-search__title">{{ .Params.title }}</h2>
+      <div class="lp-semantic-semantic-code-search__header">
+        <div class="lp-semantic-semantic-code-search__heading">
+          {{ with .Params.label }}<p class="lp-semantic-semantic-code-search__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-semantic-semantic-code-search__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-semantic-semantic-code-search__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-semantic-semantic-code-search__grid{{ if eq $n 1 }} lp-semantic-semantic-code-search__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-semantic-semantic-code-search__card{{ if eq $n 1 }} lp-semantic-semantic-code-search__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-semantic-semantic-code-search__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-semantic-semantic-code-search__card-title">{{ .title }}</h3>
+            <p class="lp-semantic-semantic-code-search__card-description">{{ .description }}</p>
+            {{ with .url }}<a class="link link_md lp-semantic-semantic-code-search__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
           </div>
-          {{ with .Params.description }}<p class="lp-semantic-semantic-code-search__description">{{ . }}</p>{{ end }}
+        {{ end }}
+      </div>
       {{ with .Params.callout }}
         <blockquote class="lp-semantic-semantic-code-search__callout">
           {{ .text }}
           {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
         </blockquote>
       {{ end }}
-{{ if not .Params.cards }}      {{ with .Params.button }}
-        <a class="link lp-semantic-semantic-code-search__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
-      {{ end }}
-{{ end }}        </div>
-        {{ if .Params.cards }}
-        <div>
-          <ul class="lp-semantic-semantic-code-search__list">
-            {{ range .Params.cards }}
-              <li class="lp-semantic-semantic-code-search__item">
-                <h3 class="lp-semantic-semantic-code-search__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
-                <p class="lp-semantic-semantic-code-search__item-description">{{ .description }}</p>
-              </li>
-            {{ end }}
-          </ul>
       {{ with .Params.button }}
         <a class="link lp-semantic-semantic-code-search__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
       {{ end }}
-        </div>
-        {{ end }}
-      </div>
     </div>
   </section>
 {{ end }}
