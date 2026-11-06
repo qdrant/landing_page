@@ -8,26 +8,17 @@
         </div>
         {{ with .Params.description }}<p class="lp-open-source-open-source-vector-search__description">{{ . }}</p>{{ end }}
       </div>
-      <div class="lp-open-source-open-source-vector-search__grid{{ if not (or .Params.image .Params.snippet) }} lp-open-source-open-source-vector-search__grid--text{{ end }}">
-        {{ with .Params.snippet }}
-          <div class="lp-open-source-open-source-vector-search__visual lp-open-source-open-source-vector-search__visual--code">
-            <pre class="lp-open-source-open-source-vector-search__code"><code>{{ .code }}</code></pre>
-            {{ $lbl := .label | default "See the full example" }}
-            {{ with .source }}<a class="link lp-open-source-open-source-vector-search__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-open-source-open-source-vector-search__grid{{ if eq $n 1 }} lp-open-source-open-source-vector-search__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-open-source-open-source-vector-search__card{{ if eq $n 1 }} lp-open-source-open-source-vector-search__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-open-source-open-source-vector-search__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-open-source-open-source-vector-search__card-title">{{ .title }}</h3>
+            <p class="lp-open-source-open-source-vector-search__card-description">{{ .description }}</p>
+            {{ with .url }}<a class="link link_md lp-open-source-open-source-vector-search__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
           </div>
         {{ end }}
-        {{ with .Params.image }}
-          <div class="lp-open-source-open-source-vector-search__visual">{{ partial "picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
-        {{ end }}
-        <div>
-          <ul class="lp-open-source-open-source-vector-search__list">
-            {{ range .Params.cards }}
-              <li class="lp-open-source-open-source-vector-search__item">
-                <h3 class="lp-open-source-open-source-vector-search__item-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
-                <p class="lp-open-source-open-source-vector-search__item-description">{{ .description }}</p>
-              </li>
-            {{ end }}
-          </ul>
+      </div>
       {{ with .Params.callout }}
         <blockquote class="lp-open-source-open-source-vector-search__callout">
           {{ .text }}
@@ -37,8 +28,6 @@
       {{ with .Params.button }}
         <a class="link lp-open-source-open-source-vector-search__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
       {{ end }}
-        </div>
-      </div>
     </div>
   </section>
 {{ end }}

@@ -8,16 +8,27 @@
         </div>
         {{ with .Params.description }}<p class="lp-open-source-qdrant-cloud__description">{{ . }}</p>{{ end }}
       </div>
-      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
-      <div class="lp-open-source-qdrant-cloud__grid{{ if eq $n 1 }} lp-open-source-qdrant-cloud__grid--single{{ end }}" style="--cols: {{ $cols }}">
-        {{ range .Params.cards }}
-          <div class="lp-open-source-qdrant-cloud__cell{{ if eq $n 1 }} lp-open-source-qdrant-cloud__cell--wide{{ end }}">
-            {{ with .icon }}<img class="lp-open-source-qdrant-cloud__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
-            <h3 class="lp-open-source-qdrant-cloud__cell-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
-            <p class="lp-open-source-qdrant-cloud__cell-description">{{ .description }}</p>
+      <div class="lp-open-source-qdrant-cloud__grid{{ if not (or .Params.image .Params.snippet) }} lp-open-source-qdrant-cloud__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="lp-open-source-qdrant-cloud__visual lp-open-source-qdrant-cloud__visual--code">
+            <pre class="lp-open-source-qdrant-cloud__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link lp-open-source-qdrant-cloud__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
           </div>
         {{ end }}
-      </div>
+        {{ with .Params.image }}
+          <div class="lp-open-source-qdrant-cloud__visual">{{ partial "picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="lp-open-source-qdrant-cloud__list">
+            {{ range .Params.cards }}{{ $card := . }}
+              <li class="lp-open-source-qdrant-cloud__item">
+                <h3 class="lp-open-source-qdrant-cloud__item-title">{{ .title }}</h3>
+                <p class="lp-open-source-qdrant-cloud__item-description">{{ .description }}</p>
+                {{ with .url }}<a class="link link_md lp-open-source-qdrant-cloud__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+              </li>
+            {{ end }}
+          </ul>
       {{ with .Params.callout }}
         <blockquote class="lp-open-source-qdrant-cloud__callout">
           {{ .text }}
@@ -27,6 +38,8 @@
       {{ with .Params.button }}
         <a class="link lp-open-source-qdrant-cloud__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
       {{ end }}
+        </div>
+      </div>
     </div>
   </section>
 {{ end }}

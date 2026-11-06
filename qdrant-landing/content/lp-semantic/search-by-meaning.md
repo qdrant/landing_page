@@ -2,6 +2,9 @@
 label: Search by meaning
 title: Match Queries by Meaning When the Words Differ
 description: Semantic search compares embeddings, numeric representations of meaning, so a query finds documents that say the same thing in different words.
+image:
+  src: /img/lp-semantic/same-meaning.png
+  alt: Two phrasings with no words in common become embeddings that land next to each other, so one finds the other
 cards:
   - id: 0
     title: Find similar images in a large catalog.

@@ -1,25 +1,28 @@
 ---
-label: Qdrant Cloud
-title: Let Qdrant Cloud Handle the Upkeep of Self-Hosted Qdrant
-description: The open source engine is free, and self-hosting it means owning upgrades, shard balancing, backups, and on-call. Qdrant Cloud runs the same engine as a managed service on AWS, GCP, or Azure and handles that work for you.
+label: Deployment
+title: Run the Same Engine on Your Servers or on Qdrant Cloud
+description: The engine behind Qdrant Cloud is the open source engine you can download. Pick where it runs today, and move your collections later as your needs change.
+image:
+  src: /img/lp-open-source/same-engine.png
+  alt: One open source Qdrant engine runs in Docker, on Kubernetes, or on Qdrant Cloud, with the same client code pointing at any of them
 cards:
   - id: 0
-    title: Upgrade while you keep serving queries.
-    description: Qdrant Cloud runs zero-downtime rolling upgrades on multi-node clusters with replication.
+    title: Self-host with Docker or Kubernetes.
+    description: Run Qdrant with Docker, Docker Compose, or on Kubernetes. Turn on API keys and TLS before production.
     icon:
-      src: /icons/outline/layers-blue.svg
+      src: /icons/outline/container-blue.svg
       alt: ""
   - id: 1
-    title: Add nodes and keep shards balanced.
-    description: Qdrant Cloud rebalances shards across nodes automatically and can reshard a collection in place. On self-hosted Qdrant, you balance shards yourself, and changing the shard count means recreating the collection.
+    title: Let Qdrant Cloud run it for you.
+    description: The same engine as a managed service on AWS, GCP, or Azure, with a free tier, zero-downtime rolling upgrades on multi-node clusters, and automatic shard rebalancing.
     icon:
-      src: /icons/outline/puzzle-blue.svg
+      src: /icons/outline/cloud-managed-blue.svg
       alt: ""
   - id: 2
-    title: Scale when you need it.
-    description: 'Move to a paid tier for horizontal and vertical scaling, backup and disaster recovery, monitoring and log management, and a 99.5% uptime SLA.'
+    title: Build locally, then ship to Cloud.
+    description: Develop against Qdrant in Docker, then point the same client code at a Qdrant Cloud cluster URL and API key.
     icon:
-      src: /icons/outline/chart-bar-blue.svg
+      src: /icons/outline/code-xml-blue.svg
       alt: ""
 callout:
   text: 'My AskAI standardized on Qdrant Cloud for its AI support agents after running hybrid search on separate AWS infrastructure. Scaling is two clicks in the dashboard, and the agents deflect about 75% of support requests.'

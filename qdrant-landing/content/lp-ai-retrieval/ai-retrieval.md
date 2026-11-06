@@ -2,6 +2,9 @@
 label: AI retrieval
 title: Better Answers Start With Better Retrieval
 description: To turn a promising RAG demo into reliable answers, start with retrieval. When the search returns the right chunks, the LLM has what it needs to answer well. Qdrant gives the retrieval step of your RAG pipeline architecture the controls to get context right.
+image:
+  src: /img/lp-ai-retrieval/filter-and-rank.png
+  alt: A query with a filter runs against all chunks, the filter applies inside the search, and the ranked top chunks go to the LLM
 cards:
   - id: 0
     title: Filter on metadata during the search.

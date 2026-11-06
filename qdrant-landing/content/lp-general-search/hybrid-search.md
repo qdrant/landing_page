@@ -2,6 +2,9 @@
 label: Hybrid search
 title: Rank Keyword and Vector Matches in One Query
 description: Some queries need exact terms, like a part number or a legal phrase. Others need meaning. Run both in one hybrid search query and get a single ranked list back.
+image:
+  src: /img/lp-general-search/fused-lists.png
+  alt: One query produces a keyword ranking and a vector ranking, fused into one ranked list in the same request
 cards:
   - id: 0
     title: Index keywords and meaning in one collection.
