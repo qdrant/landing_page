@@ -1,6 +1,6 @@
 ---
 label: High-performance search at scale
-title: From Laptop to Billions of Vectors
+title: From Prototype to Billions of Vectors
 description: Qdrant is a vector search engine built entirely in-house, from the search algorithms to the storage engine. It's written in Rust.
 cards:
   - id: 0
