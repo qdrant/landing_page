@@ -1,11 +1,24 @@
-import { DOCS_HEADER_OFFSET } from './constants';
+import { DOCS_HEADER_OFFSET } from './constants.js';
 
 class TableOfContents {
   constructor(tocSelector, contentSelector) {
-    this.tocLinks = Array.from(document.querySelectorAll(`${tocSelector} a`));
-    this.headings = Array.from(
-      document.querySelectorAll(`${contentSelector} h1[id], ${contentSelector} h2[id], ${contentSelector} h3[id]`),
-    );
+    // Pair each link with the heading it points to. The TOC can leave out heading
+    // levels (toc_start_level, toc_end_level), so pairing by position would
+    // highlight the wrong link.
+    this.tocLinks = [];
+    this.headings = [];
+    document.querySelectorAll(`${tocSelector} a`).forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      let id = href.slice(1);
+      try {
+        id = decodeURIComponent(id);
+      } catch (_) {}
+      const heading = document.getElementById(id);
+      if (!heading || !heading.closest(contentSelector)) return;
+      this.tocLinks.push(link);
+      this.headings.push(heading);
+    });
     this.currentActiveIndex = -1; // Track the current active heading index
     this.currentActive = null; // Track the current active heading element
 
