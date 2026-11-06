@@ -334,3 +334,5 @@
 /articles/memory-tiers-in-qdrant-what-to-use-and-when  /documentation/operate-and-maintain/memory-tiers/  301!
 /articles/tuning-qdrant-optimizer.md  /documentation/operate-and-maintain/predictable-search-latency.md  301!
 /articles/tuning-qdrant-optimizer  /documentation/operate-and-maintain/predictable-search-latency/  301!
+/documentation/qdrant-mcp-server.md  /documentation/qdrant-mcp/cloud.md  301!
+/documentation/qdrant-mcp-server  /documentation/qdrant-mcp/cloud/  301!
