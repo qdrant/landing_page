@@ -49,6 +49,18 @@ Qdrant's Web UI includes an ANN Recall tab that measures the gap between approxi
 
 The tab reports average **recall@k** (1.0 = perfect overlap; 0.95+ is typical for well-tuned HNSW).
 
+A recall of 1.0 does not always mean the index is good. Qdrant builds an HNSW index for a segment only after it passes `indexing_threshold` (10,000 KB by default) and searches smaller segments with an exact scan, so approximate and exact search return the same results and changing `hnsw_ef` has no effect. Before you read the score, check [collection info](/documentation/manage-data/collections/#collection-info): `status` should be `green`, and `indexed_vectors_count` should be close to `points_count`. In the Web UI, run `GET collections/{collection_name}` from the Console. In Python:
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(url="http://localhost:6333")
+info = client.get_collection("my_collection")
+print(info.status, info.indexed_vectors_count, info.points_count)
+```
+
+An `indexed_vectors_count` of 0 means there is no index to measure. [What to Check Before Tuning a Qdrant Collection](/documentation/search-tuning/before-tuning-a-qdrant-collection/) explains how to read these counts.
+
 ## Tuning Search Recall
 
 Toggle **advanced mode** in the ANN Recall tab to tune search-time parameters inline. The main one is `hnsw_ef`: the number of candidates evaluated during a search. Raising it explores more of the graph, improving recall at the cost of higher query latency. To see the effect, raise `hnsw_ef` (for example, to 256) and run the evaluation again.
@@ -97,7 +109,7 @@ def avg_recall_at_k(
     return sum(recalls) / len(recalls)
 ```
 
-Wire it into CI and fail the job when recall falls below your target threshold. This catches regressions from embedding model swaps or index config changes before they reach production.
+Wire it into CI and fail the job when recall falls below your target threshold. This catches regressions from embedding model swaps or index config changes before they reach production. Run the collection info check before calling the helper, so a collection that is still indexing does not produce a misleading recall.
 
 ## Next Steps
 
