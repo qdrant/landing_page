@@ -157,6 +157,7 @@ build:
 - [Backups](/documentation/private-cloud/backups/index.md) — Configure backup and restore for Private Cloud clusters.
 - [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/index.md) — Set up observability for Private Cloud environments.
 - [Security & Exposure](/documentation/private-cloud/security-exposure/index.md) — Expose clusters, restrict access with network policies, and configure API keys and TLS in Private Cloud.
+- [Troubleshooting](/documentation/private-cloud/troubleshooting/index.md) — Diagnose Private Cloud problems with kubectl and know what to collect for support.
 - [API Reference](/documentation/private-cloud/api-reference/index.md) — Private Cloud management API reference.
 
 ## Operations
