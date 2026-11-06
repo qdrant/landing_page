@@ -13,12 +13,15 @@ keywords:
   - hybrid search
   - bm25
   - full-text index
+example_resources:
+  - label: Open Notebook
+    url: https://githubtocolab.com/qdrant/examples/blob/master/chroma-hybrid-retrieval-migration/chroma_hybrid_retrieval_migration.ipynb
 ---
 
 # Migrate Hybrid Search from Chroma Cloud to Qdrant Cloud
 
-| Time: 45 min | Level: Intermediate |
-| --- | ----------- |
+| Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/chroma-hybrid-retrieval-migration/chroma_hybrid_retrieval_migration.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/chroma-hybrid-retrieval-migration/chroma_hybrid_retrieval_migration.ipynb) |
+| --- | ----------- | ----------- | ----------- |
 
 Migrating hybrid retrieval from Chroma Cloud to Qdrant Cloud involves transferring the collection and adapting the application's queries. The [Qdrant Migration Tool](/documentation/migrate-to-qdrant/from-chroma/) copies dense vectors, indexed sparse vectors, document text, and metadata. You then replace Chroma's embedding functions and translate the filters and ranking fusion into Qdrant's query API.
 
