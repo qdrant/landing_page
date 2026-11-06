@@ -1,14 +1,14 @@
 ---
-title: "Qdrant Cloud MCP Server"
-short_description: "Manage Qdrant Cloud clusters, backups, and billing from your AI assistant, and search the Qdrant documentation, with the remote Qdrant Cloud MCP server."
-description: "Connect Claude Code, Claude Desktop, Codex, GitHub Copilot, or any MCP client to the Qdrant Cloud MCP server. Manage clusters, serverless spaces, backups, IAM, and billing in plain language, and search the Qdrant docs."
+title: "Qdrant MCP"
+short_description: "Manage Qdrant Cloud clusters, backups, and billing from your AI assistant, and search the Qdrant documentation, with the remote Qdrant MCP server."
+description: "Connect Claude Code, Claude Desktop, Codex, GitHub Copilot, or any MCP client to the Qdrant MCP server. Manage clusters, serverless spaces, backups, IAM, and billing in plain language, and search the Qdrant docs."
 weight: 305
 partition: develop
 ---
 
-# Qdrant Cloud MCP Server
+# Qdrant MCP
 
-The Qdrant Cloud MCP server lets your AI assistant manage your Qdrant Cloud account in plain language. It also searches the official Qdrant documentation, so your assistant can answer questions with current docs and code snippets.
+The Qdrant MCP server lets your AI assistant manage your Qdrant Cloud account in plain language. It also searches the official Qdrant documentation, so your assistant can answer questions with current docs and code snippets.
 
 It is a remote server: there is nothing to install or run, and you sign in with OAuth in your browser instead of pasting an API key into a config file.
 
