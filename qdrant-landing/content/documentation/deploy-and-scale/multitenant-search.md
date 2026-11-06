@@ -28,9 +28,9 @@ Choose a design from the number of tenants, their relative sizes, and their isol
 | Many small tenants with similar data and vector configuration. | One collection with a tenant payload field and index. | Tenants share collection resources and configuration. |
 | A few large tenants and many small tenants. | Tiered multitenancy with shared and dedicated shards. | You must plan shard capacity and tenant promotion. |
 | A small number of tenants need separate collection configuration or collection-level permissions. | Separate collections. | Each collection adds resource and operational overhead. |
-| Data must reside on specific nodes or in specific regions. | Custom shard keys and explicit shard placement. | Routing keys alone do not enforce data residency or access permissions. |
+| A tenant's data must reside on specific nodes. | Custom shard keys and explicit shard placement. | You must manage shard placement and capacity. |
 
-These choices can be combined. For example, a region shard can contain several tenants separated by payload filters.
+These choices can be combined. For example, a custom shard can contain several tenants separated by payload filters.
 
 ## Keep Small Tenants in a Shared Collection
 
@@ -38,13 +38,13 @@ Add a tenant identifier, such as `group_id`, to every point's payload. Create a 
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
-Include the tenant filter in each query, update, and delete operation that selects points by payload. Derive the tenant identity from the authenticated user, rather than accepting an unrestricted tenant ID from the request.
+Include the [tenant filter](/documentation/manage-data/multitenancy/#partition-by-payload) in each query, update, and delete operation that selects points by payload. Derive the tenant identity from the authenticated user, rather than accepting an unrestricted tenant ID from the request.
 
-![Two tenants share one collection, with each point assigned to a tenant through its payload field.](/articles_data/multitenancy/multitenancy-single.png)
+{{< island path="content/documentation/headless/multitenancy/shared-collection" ratio="720 / 278" title="Both tenants share one collection. The `group_id` payload field identifies which tenant owns each point." >}}
+![In the tenant_data collection, points 1 and 2 have group_id=tenant_1, and point 3 has group_id=tenant_2. Each point also has its own vector.](/articles_data/multitenancy/multitenancy-single.svg)
+{{< /island >}}
 
 The tenant index helps storage and search. It does not authorize requests. A client with unrestricted credentials can omit the filter and access other tenants' points.
-
-For setup and filtered query examples, follow [payload-based multitenancy](/documentation/manage-data/multitenancy/#partition-by-payload).
 
 ### Check Whether Shared Resources Fit
 
@@ -56,23 +56,19 @@ Sparse retrieval can also share scoring statistics across tenants. Follow [per-t
 
 ## Give Large Tenants Dedicated Shards
 
-Use custom sharding when queries should target a specific group of shards. Create the collection with user-defined sharding, create its shard keys, and send the appropriate shard key with reads and writes.
+Use [custom sharding](/documentation/manage-data/multitenancy/#user-defined-sharding) when queries should target a specific group of shards. Create the collection with user-defined sharding, create its shard keys, and send the appropriate shard key with reads and writes. Follow [moving shards](/documentation/scaling/distributed_deployment/#moving-shards) to control which nodes hold the replicas. Verify their locations with the collection cluster info API. On Qdrant Cloud, disable automatic shard rebalancing before manually controlling shard distribution.
 
 A shard key selects where an operation runs. A payload filter selects which points match within those shards. Use both when a shard contains several tenants.
 
 Dedicated shards consume resources, so creating one for every small tenant can add unnecessary overhead. Prefer payload partitioning for the long tail of small tenants.
 
-See [user-defined sharding](/documentation/manage-data/multitenancy/#user-defined-sharding) for the request sequence and [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) for shard placement.
-
 ### Plan for Uneven Tenant Growth
 
-Tiered multitenancy, available from Qdrant 1.16, combines shared and dedicated shards in one collection. Small tenants share a fallback shard. A large tenant can move to a dedicated shard while keeping the same collection.
+[Tiered multitenancy](/documentation/manage-data/multitenancy/#tiered-multitenancy), available from Qdrant 1.16, combines shared and dedicated shards in one collection. Small tenants share a fallback shard. A large tenant can move to a dedicated shard while keeping the same collection.
 
 Configure payload-based tenancy as well as shard routing. The tenant filter remains necessary when a request reaches the shared fallback shard. Follow the documented promotion procedure for moving points and validating the result.
 
 Choose custom sharding when creating the collection if this growth path is required. You cannot change an existing collection's sharding method in place. Plan capacity carefully: the shared fallback shard must fit on one node.
-
-Use [tiered multitenancy](/documentation/manage-data/multitenancy/#tiered-multitenancy) for setup, routing, promotion, and current restrictions.
 
 ## Use Separate Collections for Different Requirements
 
@@ -80,10 +76,8 @@ Separate collections are useful when a limited number of tenants need different 
 
 Prefer a shared collection when tenants use the same data model and can share its settings. Measure the cost of separate collections before choosing one per tenant.
 
-## Enforce Access and Placement Separately
+## Enforce Tenant Access
 
 Keep Qdrant behind an authenticated application, or issue appropriately restricted credentials. The application must enforce tenant filters and shard routing for every operation it exposes. Qdrant also supports [granular access keys](/documentation/security/#granular-access-api-keys) for collection permissions. Keep administrative keys on trusted services.
-
-For regional placement, verify where shard replicas and backups are stored. Naming a shard key `canada` does not place its data in Canada. A managed Qdrant Cloud cluster runs in one region; a region key does not create a managed multi-region deployment.
 
 Validate the chosen design with queries for separate tenants and with attempts to omit or change the tenant identifier. Check that small tenants keep acceptable latency while a large tenant ingests data. Use those results to decide whether shared resources, dedicated shards, or separate collections fit the workload.
