@@ -1,0 +1,199 @@
+/* hnsw-graph island. Scoped under .qi-hg. Chips, hints and the status line
+   come from the shared island design system (islands.scss); this file styles
+   the graph, the search marks and the score bars, matching the dense-query
+   island. */
+
+.qi-hg {
+  --hg-node: var(--qi-line);
+  --hg-short: var(--qi-border);
+  --hg-long: var(--qi-line);
+  --hg-seen: #9494ff; /* neon-blue-300 */
+  --hg-path: #6047ff; /* neon-blue-500 */
+  --hg-query: var(--qi-accent);
+  --hg-result: #388e3c; /* green-700 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-hg {
+    --hg-path: #9494ff;
+    --hg-seen: #6b5cff;
+    --hg-result: #81c784;
+  }
+}
+html[data-theme='dark'] .qi-hg {
+  --hg-path: #9494ff;
+  --hg-seen: #6b5cff;
+  --hg-result: #81c784;
+}
+
+.qi-hg__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Links: short ones faint, long ones (upper layers) bolder. */
+.qi-hg__edge {
+  stroke-linecap: round;
+}
+.qi-hg__edge--0 {
+  stroke: var(--hg-short);
+  stroke-width: 0.9;
+}
+.qi-hg__edge--0.is-key {
+  stroke: var(--qi-line);
+}
+.qi-hg__edge--1 {
+  stroke: var(--hg-long);
+  stroke-width: 1.3;
+  stroke-opacity: 0.8;
+}
+.qi-hg__edge--2 {
+  stroke: var(--hg-long);
+  stroke-width: 2.2;
+}
+
+/* Points: larger the higher the layer they reach. */
+.qi-hg__node {
+  fill: var(--hg-node);
+  r: 3px;
+  transition: fill 0.15s ease;
+}
+.qi-hg__node--1 {
+  r: 4.2px;
+}
+.qi-hg__node--2 {
+  r: 5.4px;
+}
+.qi-hg__node.is-seen {
+  fill: var(--hg-seen);
+}
+.qi-hg__node.is-current {
+  fill: var(--hg-path);
+  r: 6px;
+}
+.qi-hg__node.is-result {
+  fill: var(--hg-result);
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+  r: 7px;
+}
+.qi-hg__node.is-truth {
+  fill: none;
+  stroke: var(--hg-result);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 2;
+  r: 7px;
+}
+
+.qi-hg__probe {
+  stroke: var(--hg-seen);
+  stroke-width: 1.2;
+}
+.qi-hg__probe.is-long {
+  stroke-width: 2;
+}
+.qi-hg__path {
+  fill: none;
+  stroke: var(--hg-path);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.qi-hg__query {
+  stroke: var(--hg-query);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+.qi-hg__entry {
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.qi-hg__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.qi-hg__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.qi-hg__key svg {
+  overflow: visible;
+}
+
+/* --- Score bars, as in the dense-query island --- */
+.qi-hg__fields {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 16px;
+}
+.qi-hg__fields > .qi-hint {
+  font-size: 13px;
+}
+.qi-hg__score {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.qi-hg__track {
+  position: relative;
+  flex: 0 1 280px;
+  height: 12px;
+  border-radius: 6px;
+  background: var(--qi-border);
+  overflow: hidden;
+}
+.qi-hg__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 6px;
+  transition: width 0.15s ease;
+}
+.qi-hg__score--hnsw .qi-hg__fill {
+  background: var(--hg-path);
+}
+.qi-hg__score--scan .qi-hg__fill {
+  background: var(--qi-muted);
+}
+.qi-hg__num {
+  flex: none;
+  white-space: nowrap;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.qi-hg__status {
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .qi-hg__fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .qi-hg__fields > .qi-hint:not(:first-child) {
+    margin-top: 8px;
+  }
+  .qi-hg__num {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-hg__node,
+  .qi-hg__fill {
+    transition: none;
+  }
+}

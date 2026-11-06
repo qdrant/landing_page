@@ -1,0 +1,191 @@
+/* sparse-query island: a still diagram. Scoped under .qi-sq. Hints and the
+   status line come from the shared island design system (islands.scss); this
+   file styles the query box, the token boxes and the sparse vector, matching
+   the code-tokenizer island. Token boxes use the Neon Blue ramp. */
+
+.qi-sq {
+  --sq-box-bg: #dde0ff; /* neon-blue-100 */
+  --sq-box-fg: #4325ae; /* neon-blue-800 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-sq {
+    --sq-box-bg: #392689; /* neon-blue-900 */
+    --sq-box-fg: #dde0ff; /* neon-blue-100 */
+  }
+}
+html[data-theme='dark'] .qi-sq {
+  --sq-box-bg: #392689; /* neon-blue-900 */
+  --sq-box-fg: #dde0ff; /* neon-blue-100 */
+}
+
+/* Hint labels in one column, content in the other. */
+.qi-sq__fields {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px 24px;
+}
+.qi-sq__fields > .qi-hint {
+  font-size: 13px;
+}
+.qi-sq__fields > .qi-sq__top {
+  align-self: start;
+  line-height: 36px;
+}
+
+/* The query, styled like the code-tokenizer's query field (read-only). */
+.qi-sq__query {
+  padding: 8px 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Lists are scoped under .qi-sq to outrank the docs list styles, and their
+   items reset the docs' bottom margin on all but the last item. */
+.qi-sq .qi-sq__tokens,
+.qi-sq .qi-sq__vector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-sq ul.qi-sq__tokens > li,
+.qi-sq ul.qi-sq__vector > li {
+  margin: 0;
+}
+
+.qi-sq .qi-sq__token,
+.qi-sq .qi-sq__cell {
+  padding: 6px 12px;
+  border-radius: var(--qi-radius);
+  background: var(--sq-box-bg);
+  color: var(--sq-box-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  line-height: 24px;
+}
+/* Stopword: dashed and struck through, dropped before the next step. */
+.qi-sq .qi-sq__token.is-stop {
+  background: transparent;
+  outline: 1.5px dashed var(--sq-box-fg);
+  outline-offset: -1.5px;
+  text-decoration: line-through;
+}
+/* Reduced to its root form. */
+.qi-sq .qi-sq__token.is-root {
+  box-shadow: inset 0 0 0 2px var(--qi-hot);
+}
+
+.qi-sq__legend {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 24px;
+  font-size: 13px;
+}
+.qi-sq__keyitem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.qi-sq__key {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+.qi-sq__key.is-stop {
+  border: 1.5px dashed var(--sq-box-fg);
+}
+.qi-sq__key.is-root {
+  background: var(--sq-box-bg);
+  box-shadow: inset 0 0 0 2px var(--qi-hot);
+}
+
+/* --- Sparse vector: a value over each dictionary word --- */
+.qi-sq .qi-sq__vector {
+  align-items: flex-start;
+  gap: 12px 4px;
+}
+.qi-sq .qi-sq__pos {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.qi-sq .qi-sq__cell {
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.qi-sq__pos:not(.is-one) .qi-sq__cell {
+  background: transparent;
+  color: var(--qi-muted);
+  box-shadow: inset 0 0 0 1px var(--qi-border);
+}
+.qi-sq__term {
+  color: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+}
+.qi-sq__pos.is-one .qi-sq__term {
+  color: var(--qi-fg);
+}
+.qi-sq .qi-sq__gap {
+  color: var(--qi-line);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  line-height: 36px;
+}
+.qi-sq__status {
+  margin-top: 8px;
+}
+
+/* Narrow screens: labels over content. */
+@media (max-width: 640px) {
+  .qi-sq__fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .qi-sq .qi-sq__token,
+  .qi-sq .qi-sq__cell {
+    padding: 4px 9px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+  .qi-sq__query {
+    font-size: 14px;
+  }
+  .qi-sq__term {
+    font-size: 12px;
+  }
+  .qi-sq .qi-sq__tokens,
+  .qi-sq .qi-sq__vector {
+    gap: 6px;
+  }
+  .qi-sq__fields > .qi-sq__top {
+    line-height: inherit;
+  }
+  .qi-sq__fields > span:empty {
+    display: none;
+  }
+  .qi-sq__fields > .qi-sq__tokens + .qi-hint,
+  .qi-sq__fields > .qi-sq__query + .qi-hint,
+  .qi-sq__fields > .qi-sq__legend + .qi-hint {
+    margin-top: 10px;
+  }
+}
