@@ -2,7 +2,7 @@
 title: "Qdrant MCP"
 short_description: "Three Model Context Protocol servers from Qdrant: manage Qdrant Cloud, give your assistant a semantic memory, and search the Qdrant documentation."
 description: "Qdrant offers three MCP servers for AI assistants. The Qdrant Cloud MCP server manages clusters and billing, the open source Qdrant MCP server stores and retrieves data in a collection, and the Qdrant Docs MCP server searches the official documentation."
-weight: 305
+weight: 304
 partition: develop
 ---
 
