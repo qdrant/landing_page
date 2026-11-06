@@ -1,0 +1,60 @@
+name: Notify docs-automation
+
+# When a docs change lands on master, tell qdrant/docs-automation which PR it came from.
+# docs-automation then checks which agent skills in qdrant/skills the change affects and
+# opens an issue with proposed skill updates (qdrant/documentation#167).
+#
+# Triggers on push rather than on the merged pull_request: workflows for PRs from forks
+# get no secrets, while a push to master always runs in this repo's own context.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'qdrant-landing/content/documentation/**'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: find the merged PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HAS_APP: ${{ secrets.DOCS_BOT_CLIENT_ID != '' }}
+        run: |
+          if [ "$HAS_APP" != "true" ]; then
+            echo "::notice::DOCS_BOT_CLIENT_ID is not set; skipping until the GitHub App is configured."
+            exit 0
+          fi
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/pulls" --jq '.[0].number // empty')
+          if [ -z "$pr" ]; then
+            echo "::notice::$GITHUB_SHA isn't associated with a PR (a direct push); nothing to send."
+            exit 0
+          fi
+          echo "number=$pr" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        if: steps.pr.outputs.number != ''
+        id: app
+        with:
+          client-id: ${{ secrets.DOCS_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.DOCS_BOT_PRIVATE_KEY }}
+          owner: qdrant
+          repositories: docs-automation
+          permission-contents: write  # required by the repository_dispatch endpoint
+
+      - name: send docs-pr-merged to docs-automation
+        if: steps.pr.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          PR: ${{ steps.pr.outputs.number }}
+        run: |
+          gh api repos/qdrant/docs-automation/dispatches \
+            -f event_type=docs-pr-merged \
+            -f "client_payload[pr]=$PR"
+          echo "Sent landing_page#$PR to qdrant/docs-automation" >> "$GITHUB_STEP_SUMMARY"
