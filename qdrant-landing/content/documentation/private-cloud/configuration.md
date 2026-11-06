@@ -11,6 +11,17 @@ The Qdrant Private Cloud Helm chart has several configuration options. These con
 
 Settings that differ per cluster are not set here. API keys, TLS and [audit logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) (`spec.config.audit`) belong on the `QdrantCluster` resource; see [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/) and the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig). Audit logging has no Helm-level default and must be enabled on each cluster.
 
+## Settings That Affect Scaling
+
+Two operator settings change how cluster resources are scaled. See [Scaling a Cluster](/documentation/private-cloud/qdrant-cluster-management/#scaling-a-cluster).
+
+| Setting | Default | Effect |
+|---|---|---|
+| `operator.settings.features.clusterManagement.volumeExpansionMode` | `Online` | `Online` expands volumes without a restart. Set it to `Offline` if your storage provider needs a restart to resize a volume, as some Azure disks do. |
+| `operator.settings.features.clusterManagement.diskScaleDown.enable` | `false` | Lets the Operator reduce the disk size of a cluster by replacing its nodes. See [Scaling Down Disk Space](/documentation/private-cloud/qdrant-cluster-management/#scaling-down-disk-space). |
+
+## All Settings
+
 The following YAML shows all Helm chart configuration options with their default values:
 
 ```yaml
