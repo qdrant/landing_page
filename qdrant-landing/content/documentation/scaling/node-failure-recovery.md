@@ -9,6 +9,8 @@ weight: 25
 
 Sometimes hardware malfunctions might render some nodes of the Qdrant cluster unrecoverable. Several recovery scenarios allow Qdrant to stay available for requests and even avoid performance degradation. Let's walk through them from best to worst.
 
+On Qdrant Cloud, you usually don't need to do any of this manually. Qdrant Cloud [detects and replaces a failed node automatically](/documentation/scaling/resilience/), provided your cluster has enough replicas to tolerate the loss, and you can restore from [Backups](/documentation/cloud/backups/) if data is lost. The following procedures apply when you run Qdrant yourself.
+
 ## Recover with Replicated Collection
 
 If the number of failed nodes is less than the replication factor of the collection, then your cluster should [still be able to perform read, search, and update queries](/documentation/scaling/resilience/).
