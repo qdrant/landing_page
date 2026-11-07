@@ -104,7 +104,7 @@ QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 
 *Available as of v1.3.0.*
 
-An older setting that applies async I/O to vector rescoring only. Prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
+An older setting that applies async I/O to vector rescoring only. It is deprecated: prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -117,6 +117,8 @@ or via an environment variable:
 ```bash
 QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
 ```
+
+On managed Qdrant Cloud clusters, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab for Qdrant versions below v1.20.0. From v1.20.0, Qdrant Cloud sets the async I/O mode for you and `async_scorer` no longer has an effect.
 
 ### Local NVMe/SSD Storage
 
