@@ -22,14 +22,9 @@ learn about one of the most popular and fastest growing vector databases in the 
 
 ## What is Qdrant?
 
-[Qdrant](https://github.com/qdrant/qdrant) is a vector similarity search engine that provides a production-ready 
-service with a convenient API to store, search, and manage points (i.e. vectors) with an additional 
-payload. You can think of the payloads as additional pieces of information that can help you 
-hone in on your search and also receive useful information that you can give to your users.
+[Qdrant](https://github.com/qdrant/qdrant) is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload. You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.
 
-You can get started using Qdrant with the Python `qdrant-client`, by pulling the latest docker 
-image of `qdrant` and connecting to it locally, or by trying out [Qdrant's Cloud](https://cloud.qdrant.io/) 
-free tier option until you are ready to make the full switch.
+The quickest way to get started is [Qdrant Cloud](https://cloud.qdrant.io/): create a free cluster, connect with a [client](/documentation/interfaces/), and scale up when you are ready (refer to the [Cloud Quickstart](/documentation/cloud-quickstart/)). If you prefer to run Qdrant yourself, you can also pull the latest Docker image of `qdrant` and connect to it locally (see the [Local Quickstart](/documentation/quickstart/)).
 
 With that out of the way, let's talk about what are vector databases.
 

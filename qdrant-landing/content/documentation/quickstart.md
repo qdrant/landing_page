@@ -2,7 +2,7 @@
 title: Local Quickstart
 short_description: "Run Qdrant locally with Docker, connect a client SDK, and create your first collection for vector search."
 description: "Quickstart guide to running Qdrant locally with Docker, connecting an SDK, and building a first collection for semantic vector search."
-weight: 110
+weight: 115
 partition: develop
 aliases:
   - quick_start
@@ -10,6 +10,8 @@ aliases:
   - quickstart
 ---
 # How to Get Started with Qdrant Locally
+
+<aside role="status">The fastest way to get started is a free <a href="/documentation/cloud-quickstart/">Qdrant Cloud</a> cluster, with no Docker setup required. Use this guide to run Qdrant locally, for example for development or testing.</aside>
 
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 

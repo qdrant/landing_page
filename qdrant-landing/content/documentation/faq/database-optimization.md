@@ -19,6 +19,8 @@ Read more about [configuring the optimal](/documentation/ops-optimization/optimi
 
 ### How do you choose the machine configuration?
 
+On Qdrant Cloud, you choose the CPU, memory, and disk when you [create a cluster](/documentation/cloud/create-cluster/) and can change them later by [scaling the cluster](/documentation/cloud/cluster-scaling/). Use the [Sizing Calculator](https://sizing.qdrant.tech/) to estimate the resources you need, and the [Pricing Calculator](https://cloud.qdrant.io/calculator) for cost. For the two scenarios below, refer also to [Capacity Planning](/documentation/capacity-planning/).
+
 There are two main scenarios of Qdrant usage in terms of resource consumption:
 
 - **Performance-optimized** -- when you need to serve vector search as fast (many) as possible. In this case, you need to have as much vector data in RAM as possible. Use our [calculator](https://cloud.qdrant.io/calculator) to estimate the required RAM.
@@ -34,7 +36,7 @@ As a result, the Qdrant process might use more memory than the minimum required 
 
 > Unused RAM is wasted RAM
 
-If you want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
+On Qdrant Cloud, the memory available to Qdrant is determined by the [cluster size](/documentation/cloud/cluster-scaling/) you choose. If you self-host and want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
 
 ### My search latency increases under heavy write load. What should I do?
 
