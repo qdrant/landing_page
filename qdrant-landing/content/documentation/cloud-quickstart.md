@@ -18,6 +18,14 @@ aliases:
 
 Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items embedded with the `sentence-transformers/all-MiniLM-L6-v2` model via [Cloud Inference](/documentation/inference/). This is one of the free embedding models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
+## 0. Get Started with a Coding Agent
+
+We recommend copying the following into your agent to get started quickly and directly:
+
+```text
+set up qdrant with https://qdrant.tech/llms.txt
+```
+
 ## 1. Create a Cloud Cluster
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
@@ -1039,4 +1047,5 @@ You've just performed semantic search on real menu item data. The query "vegetar
 - Explore [filtering](/documentation/search/filtering/) to combine semantic search with structured queries
 - Learn about [collections](/documentation/manage-data/collections/) and advanced configuration options
 - Check out more [examples and tutorials](/documentation/tutorials-lp-overview/)
+- Install the [Qdrant Advisor skill](/documentation/agentic-tools/skills/#the-qdrant-advisor) so your coding agent gets current Qdrant guidance as you build
 - Run through the [Production Checklist](/documentation/production-checklist/) before deploying to production
