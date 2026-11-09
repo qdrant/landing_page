@@ -33,6 +33,8 @@ You can pay for your Qdrant Cloud database clusters either with a credit card or
 
 Your payment method is charged at the beginning of each month for the previous month's usage. There is no difference in pricing between the different payment methods.
 
+If a payment fails, your paid clusters can be suspended. See [Cluster Suspensions](#cluster-suspensions).
+
 If you choose to pay through a marketplace, the Qdrant Cloud usage costs are added as \\$0.01 Resource Usage Units to your existing billing for your cloud provider services.
 E.g. if you create a Qdrant Cluster that costs \\$85 in a month, 8,500 Resource Usage Units for Qdrant Cloud will be added to your cloud provider bill.  A detailed breakdown of your usage is available in the Qdrant Cloud Console.
 
@@ -90,3 +92,30 @@ To subscribe:
 6. Once the SaaS subscription is created, select **Configure account now**.
    
 You will be redirected to the Billing Details screen in the [Qdrant Cloud Console](https://cloud.qdrant.io/). From there you can start to create Qdrant database clusters.
+
+## Cluster Suspensions
+
+When a payment fails, you receive a payment failure notice, and your clusters are suspended 48 hours later. If you don't reactivate them, you get a deletion warning seven days after suspension. Clusters are deleted seven days after that.
+
+Free clusters can also be suspended. A free cluster is suspended after one week without use. If you don't reactivate it, it's deleted three weeks after the suspension notice. Paid clusters are never suspended for inactivity.
+
+A suspended cluster can't serve requests. Its data is kept until the cluster is deleted, but scheduled backups don't run. Once deleted, a cluster can't be recovered.
+
+### Reactivate a Suspended Cluster
+
+How you reactivate a cluster depends on why it was suspended.
+
+#### Free Clusters
+
+In the [Qdrant Cloud Console](https://cloud.qdrant.io/), open the cluster and select **Reactivate your cluster**, or select **Reactivate** in the cluster list. You can also use the [Cloud CLI](/documentation/cloud-cli/) (`qcloud cluster unsuspend <CLUSTER_ID>`) or the [Cloud API](/documentation/cloud-api/) (`POST /clusters/<CLUSTER_ID>/unsuspend`).
+
+#### Paid Clusters
+
+When Qdrant suspends your clusters for a failed payment, it removes the card on file. To reactivate your clusters:
+
+1. On the **Billing Details** screen in the [Qdrant Cloud Console](https://cloud.qdrant.io/), add a credit card. Use a different card from the one that failed.
+2. In the cluster list, select **Reactivate** for each suspended cluster. Adding a card doesn't automatically reactivate your clusters.
+
+Qdrant charges the new card in its next daily billing run. If that payment fails, your clusters can be suspended again.
+
+If you pay through the AWS, GCP, or Azure Marketplace, the same timeline applies. To reactivate your clusters, switch to a different, valid payment method on the **Billing Details** screen, then reactivate each cluster. If reactivation still fails, contact [Qdrant Support](https://support.qdrant.io/).
