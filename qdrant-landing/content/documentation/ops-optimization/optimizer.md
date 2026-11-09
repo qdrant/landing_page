@@ -25,10 +25,7 @@ Qdrant has four optimizers, described in the following sections. In each round o
 
 ## Indexing Optimizer
 
-Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
-So, for example, if the number of points is fewer than 10,000, using any index would be less efficient than a brute force scan.
-
-The indexing optimizer builds a vector index for a segment once its vector data exceeds the indexing threshold.
+The indexing optimizer builds a vector index for a segment once its vector data exceeds the indexing threshold. New points go to an appendable segment, which has no vector index. While a segment is small, a full scan is fast, and building an index would cost more than it saves. As the segment grows, scans get slower and an index starts to pay off.
 
 {{< island
     path="content/documentation/headless/optimizer/indexing"
