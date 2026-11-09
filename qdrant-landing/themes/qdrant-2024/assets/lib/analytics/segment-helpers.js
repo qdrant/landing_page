@@ -17,6 +17,15 @@ const storedPayload = () => {
     ...PAYLOAD_BOILERPLATE,
     storedEvent: true,
     storedTimestamp: now.toISOString(),
+    // Replayed on a later page load, where Segment would otherwise fill
+    // context.page from that page instead of the one the event happened on.
+    storedPage: {
+      path: window.location.pathname,
+      referrer: document.referrer,
+      search: window.location.search,
+      title: document.title,
+      url: window.location.href,
+    },
   }
 };
 
@@ -283,17 +292,18 @@ const trackStoredInteractions = () => {
 
 const trackEvent = (name, properties = {}) => {
   const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
+  const originalPage = properties.storedEvent ? properties.storedPage : null;
   delete properties['storedTimestamp'];
+  delete properties['storedPage'];
 
   addGA4Properties(properties);
 
+  const options = {};
+  if (originalTimestamp) options.timestamp = originalTimestamp;
+  if (originalPage) options.context = { page: originalPage };
+
   if(window.analytics) {
-    window.analytics.track({
-      event: name,
-      properties
-    }, 
-    originalTimestamp ? { timestamp: originalTimestamp } : null
-    )
+    window.analytics.track(name, properties, options);
   }
 }
 
