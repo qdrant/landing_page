@@ -197,7 +197,9 @@ To add a new sparse named vector to an existing collection:
 
 {{< code-snippet path="/documentation/headless/snippets/create-named-vector/sparse/" >}}
 
-The request body only accepts properties that define the vector space (size and distance for dense vectors). Quantization, storage type, and index configuration can be set afterward using the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) or [update vector parameters](/documentation/manage-data/collections/#update-vector-parameters) APIs.
+The request body only accepts properties that can't be changed after the vector is created. For dense vectors, these are size, distance, datatype, and multivector configuration. For sparse vectors, these are modifier and datatype.
+
+The new vector defaults to using the collection's quantization and HNSW index configuration. To configure quantization, storage type, or the index for this vector only, use the [update vector parameters](/documentation/manage-data/collections/#update-vector-parameters) API afterward. To change the collection-wide defaults, use the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) API.
 
 Existing points will not have values for the newly added vector until they are upserted again. The new vector can be queried immediately, but will return no results until it is populated.
 
