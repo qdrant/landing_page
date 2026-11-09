@@ -1,0 +1,47 @@
+{
+  "title": "papr-embed-code-1 in Qdrant: Size and Retrieval Quality",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "labelTop": "config",
+  "labelBottom": "storage",
+  "colors": [
+    "muted",
+    2,
+    "muted",
+    0
+  ],
+  "height": 300,
+  "width": 400,
+  "views": [
+    {
+      "label": "Vector Size",
+      "yMax": 11000,
+      "panels": [
+        {
+          "title": "RAM per Vector",
+          "subtitle": "Lower is better.",
+          "y": "bytes",
+          "axis": "Bytes per vector",
+          "unit": "B"
+        }
+      ]
+    },
+    {
+      "label": "Retrieval Quality",
+      "yMax": 1,
+      "panels": [
+        {
+          "title": "Retrieval Quality",
+          "subtitle": "Seven code tasks. Higher is better.",
+          "y": "ndcg10",
+          "axis": "nDCG@10",
+          "unit": ""
+        }
+      ]
+    }
+  ],
+  "tooltip": {
+    "bytes": "Bytes per vector in RAM",
+    "ndcg10": "nDCG@10"
+  }
+}
