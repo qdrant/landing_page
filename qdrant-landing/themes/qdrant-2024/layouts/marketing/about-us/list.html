@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ partial "marketing/our-story" . }}
+  {{ partial "marketing/mission" . }}
+  {{ partial "marketing/about-us-values" . }}
+  {{ partial "marketing/carousel" . }}
+  {{ partial "marketing/leadership" . }}
+  {{ partial "marketing/investors" . }}
+  {{ with (.Site.GetPage "/about-us/about-us-get-started") }}
+    {{ partial "marketing/open-roles" . }}
+  {{ end }}
+  {{ partial "marketing/about-us-engineering-culture" . }}
+  {{ with (.Site.GetPage "/about-us/about-us-resources") }}
+    {{ partial "marketing/open-roles" . }}
+  {{ end }}
+{{ end }}

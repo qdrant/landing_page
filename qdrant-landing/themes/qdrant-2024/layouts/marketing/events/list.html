@@ -1,0 +1,9 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ partial "marketing/events/events-list" . }}
+
+  {{ with (.Site.GetPage "/headless/newsletter") }}
+    {{ partial "marketing/newsletter" (dict "context" . "class" "") }}
+  {{ end }}
+{{ end }}

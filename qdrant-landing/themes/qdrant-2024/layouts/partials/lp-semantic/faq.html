@@ -1,8 +1,0 @@
-{{ with (.Site.GetPage "/lp-semantic/faq") }}
-  <section class="lp-semantic-faq">
-    <div class="container">
-      <h2 class="lp-semantic-faq__title">{{ .Params.title }}</h2>
-      {{ partial "accordion" . }}
-    </div>
-  </section>
-{{ end }}

@@ -29,7 +29,7 @@ keywords:
 | --- | ----------- |
 
 When building a semantic search application, you need to [choose an embedding 
-model](/documentation/search-patterns/choose-embedding-model/). Over time, you may want to switch to a different model for better
+model](/documentation/search-design/choose-embedding-model/). Over time, you may want to switch to a different model for better
 quality or cost-effectiveness. If your application is in production, this must be done with zero downtime to avoid 
 disrupting users. Switching models requires re-embedding all vectors in your collection, which can take time.
 

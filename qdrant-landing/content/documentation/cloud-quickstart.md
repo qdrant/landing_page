@@ -139,7 +139,7 @@ if err != nil {
 ```bash
 # test the connection
 curl -X GET \
-  'http://<your-qdrant-host>:6333/collections' \
+  'https://<your-qdrant-host>:6333/collections' \
   --header 'api-key: <api-key-value>'
 ```
 
@@ -195,7 +195,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 ```bash
 curl -X PUT \
-  'http://<your-qdrant-host>:6333/collections/items' \
+  'https://<your-qdrant-host>:6333/collections/items' \
   --header 'api-key: <api-key-value>' \
   --header 'Content-Type: application/json' \
   --data-raw '{

@@ -203,7 +203,7 @@ function panel(c, p, data, w, h) {
   // width right of the bar). Force it on the text groups it produces.
   let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
 
-  // Tag each bar with its row key (in data order) so js/viz.js can ring the
+  // Tag each bar with its row key (in data order) so shortcodes/chart/chart.js can ring the
   // same config in every panel at once. Purely additive — no JS, no effect.
   plotted = plotted.replace(/(<g aria-label="bar"[^>]*>)([\s\S]*?)(<\/g>)/, (m, open, body, close) => {
     let i = 0;

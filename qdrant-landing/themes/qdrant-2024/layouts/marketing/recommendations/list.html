@@ -1,0 +1,20 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ with (.Site.GetPage "/recommendations/recommendations-hero") }}
+    {{ partial "marketing/use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "marketing/recommendations-features" . }}
+
+  {{ partial "marketing/recommendations-api" . }}
+
+  {{ with (.Site.GetPage "/recommendations/recommendations-use-cases") }}
+    {{ partial "marketing/use-cases-vector-cases" (dict "context" . "class" "recommendations-use-cases") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+{{ end }}

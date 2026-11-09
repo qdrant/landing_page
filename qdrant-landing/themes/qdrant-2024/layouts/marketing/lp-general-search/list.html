@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-general-search/hero" . }}
+
+  {{ partial "marketing/lp-general-search/hybrid-search" . }}
+
+  {{ partial "marketing/lp-general-search/search-api" . }}
+
+  {{ partial "marketing/lp-general-search/high-performance-search-at-scale" . }}
+
+  {{ partial "marketing/lp-general-search/results" . }}
+
+  {{ partial "marketing/lp-general-search/getting-started" . }}
+
+  {{ partial "marketing/lp-general-search/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-general-search/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}
