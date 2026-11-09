@@ -105,11 +105,39 @@ The defaults differ by method. Rescoring is on by default for binary quantizatio
 
 ### Scalar Quantization
 
+<details>
+<summary>Strengths</summary>
+
+- 4x memory compression
+- [99% accuracy preservation](https://qdrant.tech/articles/scalar-quantization/)
+- No constraint on the
+- SIMD optimizations available for int8 operations, enable up to 2x speed improvements beyond the memory benefits
+
+</details>
+
+<details>
+<summary>Weaknesses</summary>
+
+- 
+- 
+
+</details>
+
 Each float32 coordinate becomes one `int8`, so the copy is one quarter the size of the originals. Qdrant calibrates the mapping per segment from the value distribution, and `quantile` controls how much of the tail it ignores: `0.99` clips the top and bottom percent so a handful of outliers do not spend most of the 256 levels on values nobody has. The comparisons run as integer SIMD instructions.
 
 Scalar is the method with the fewest assumptions. It does not care whether coordinates are centered or how many dimensions you have, and it is the method to use with Manhattan distance, which TurboQuant supports only on a slow path. Its limit is arithmetic: 4× is all it can give. If your RAM budget needs 8× or more, scalar cannot get there on its own.
 
 ### Binary Quantization
+
+- works best with high-dimensional vectors (≥1024 dimensions) e.g. OpenAI’s text-embedding-ada-002 and Cohere’s embed-english-v2.0
+
+<details>
+<summary>Weaknesses</summary>
+
+- Possible accuracy degradation in embeddings that do not have centered value distributions around zero 
+- Weak with handling values close to zero (best alternative: [1.5 bit and 2 bit binary quantization](https://qdrant.tech/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization))
+
+</details>
 
 The one-bit encoding keeps the sign of each coordinate and nothing else, so the copy is 1/32 the size of the originals and a comparison collapses to XOR and popcount over packed bits. That is the fastest scoring Qdrant has. The two-bit and 1.5-bit encodings add a "near zero" bucket, which costs compression (16× and about 21×) and buys back some of the recall that sign-only loses on small coordinates. `query_encoding` can keep the query side at `scalar8bits` or `scalar4bits` while the stored side stays binary.
 
