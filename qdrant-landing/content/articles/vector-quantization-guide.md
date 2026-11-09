@@ -237,9 +237,9 @@ At equal compression TurboQuant beats binary on every workload. At 32× on Quora
 
 Rescoring costs almost nothing when the originals are in the page cache. Across the Quora runs it added at most 0.04 ms to server p95, and the per-query vector read counter shows exactly why: 81,920 bytes per query, which is 20 candidates times 4,096 bytes per 1,024-dimensional float32 vector. Reading 20 vectors from RAM is not where the time goes.
 
-### Tune to a Target, Then Compare
+### When oversampling helps restore accuracy?
 
-A compression ratio does not pick a method. A quality target does. For each method we swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, on the 50 development queries only. The rule, fixed before the sweep: take the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. Then freeze it and run the 150 held-out queries once.
+For this experiment we set a quality target of 0.95 recall@10 vs exact float32. For each method we swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, on the 50 development queries only. We took the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. Then froze it and run the 150 held-out queries once.
 
 {{< chart id="quantization-guide/tradeoff" caption="The development sweep on Quora with Cohere vectors at k=10 with rescoring on: recall@10 by hnsw_ef, one line per oversampling setting. Above oversampling 1, hnsw_ef barely moves recall for scalar and TurboQuant; binary needs oversampling to clear the target at all." caption2="Server p95 for the same sweep. Search effort is what costs latency, and product quantization pays the most for it." >}}
 
