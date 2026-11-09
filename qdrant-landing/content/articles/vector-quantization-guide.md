@@ -23,9 +23,19 @@ keywords:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
 
-One hundred million 1,536-dimensional embeddings take 614 GB as float32 before you count the HNSW graph, payloads, or a single replica. Quantization is how Qdrant makes that searchable on hardware you can afford. It is also where most sizing mistakes get made, because every method advertises a compression ratio and none of them advertise what the ratio costs on your embeddings.
+While working on production-scale search applications the gold standard are high dimensional vector embeddings. The typical ranges are summarized in the table below:
 
-This guide covers the four methods Qdrant ships, how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). Where a recommendation stops working, the guide says so.
+| Dimensions | Example models | Best for |
+|---|---|---|
+| 384 | all-MiniLM-L6-v2, e5-small-v2 | Optimized for high speed, low memory usage, and mobile or lightweight systems |
+| 768 | BERT, standard open-source models | A balanced industry standard for general semantic search |
+| 1024 | e5-base-v2, bge-large-en-v1.5 | RAG pipelines, long-form queries, and complex contextual intent |
+| 1536 | OpenAI text-embedding-3-small | High-capacity enterprise standard (supports native dimension reduction via Matryoshka learning) |
+| 3072 | OpenAI text-embedding-3-large | Maximum nuance for complex technical documentation and multilingual details |
+
+To put those numbers into perspective 1 vector of 1536 dimensions would take 6KB of memory. If we were to store 1M of such 1536-dimensional vectors the memory load would be equal to about 6GB. This is before you count the HNSW graph, payloads, or a single replica. Quantization is a compression technique which makes the vectors take less storage while preserving the retrieval quality. To follow-along this guide we would use the [What is vector quantization](https://qdrant.tech/articles/what-is-vector-quantization/) as a prerequisite. 
+
+This guide covers the four methods available in Qdrant: Scalar Quantization , Binary Quantization, Product Quantization and TurboQuant, how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). At the end of this guide you can also find an interactive tool which can help you determine which quantization method is best for your use-case and vector shape.
 
 ## Three Ways to Shrink a Collection
 
