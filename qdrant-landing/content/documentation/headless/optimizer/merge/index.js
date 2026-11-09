@@ -2,20 +2,23 @@
  * merge island: what the merge optimizer does, as a loop.
  *
  * Same segment vocabulary as the indexing island: segments are squares,
- * points are vertical bars inside them, and an appendable segment has a
- * dashed outline. Indexing is left out, so this diagram is about merging only.
+ * points are vertical bars inside them, an appendable segment has a dotted
+ * outline, a segment waiting for an optimizer has an hourglass badge, and the
+ * outline of a segment being optimized blinks. Indexing is left out, so this
+ * diagram is about merging only.
  *
  * The shard starts with one large segment. Small segments appear one
  * at a time, drawn at half size in a 2 x 2 grid that takes up one large slot
  * (for example copy-on-write segments left over from other optimizations),
  * and new points fill them at the same rate as in the indexing island.
- * Once the shard has more segments than default_segment_number, the merge
- * optimizer packs the smallest segments, smallest first, while their total
- * stays under max_segment_size (merge_optimizer.rs), and rebuilds them as one
- * new segment. The small segments add up to indexing_threshold, so in
- * practice the merged segment gets an HNSW index (segment_optimizer.rs,
- * threshold_is_indexed) and isn't appendable; it's drawn with a solid outline
- * but without the indexed color. Writes go on while a merge runs: the next
+ * Once the shard has more segments than default_segment_number, a merge is
+ * pending: the merge optimizer packs the smallest segments, smallest first,
+ * while their total stays under max_segment_size (merge_optimizer.rs). The
+ * appendable one keeps taking points until the optimizer picks the group and
+ * rebuilds it as one new segment. The small segments add up to
+ * indexing_threshold, so in practice the merged segment gets an HNSW index
+ * (segment_optimizer.rs, threshold_is_indexed) and isn't appendable; it's
+ * drawn as a plain segment. Writes go on while a merge runs: the next
  * small segments appear in the next slot. The merged segment forms in place,
  * in the same square as the grid of small segments: their borders fade while
  * its outline draws around the square. The loop starts over a moment after
@@ -38,7 +41,10 @@ const MERGES = 2; // groups that get merged before the loop starts over
 const SMALL_POINTS = [5, 5, 5, 5]; // adds up to indexing_threshold (20)
 const PRESET = [0, 1]; // small segments of the first group that exist from the start
 const WRITE_MS = 175; // one incoming point
-const ARROW = { y1: 40, y2: SEG.y - 6 };
+const ARROW = { y1: 40, y2: SEG.y - 12 }; // stops above the pending badges
+// Hourglass icon (Lucide, ISC license) in a 24-unit box, for pending segments.
+const HOURGLASS =
+  'M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2';
 
 // Point layout per segment size. Points are the same size everywhere: a small
 // segment has room for one row of five.
@@ -62,6 +68,14 @@ function el(name, attrs, parent, text) {
   if (text != null) node.textContent = text;
   if (parent) parent.appendChild(node);
   return node;
+}
+
+// The pending badge: an hourglass in a circle, centered on (cx, cy).
+function badge(parent, cx, cy, cls) {
+  const g = el('g', { class: cls, transform: `translate(${cx} ${cy})` }, parent);
+  el('circle', { r: 9 }, g);
+  el('path', { d: HOURGLASS, transform: 'translate(-6 -6) scale(0.5)' }, g);
+  return g;
 }
 
 // One segment: a square with a name and rows of point bars. Its position is
@@ -90,12 +104,14 @@ function segment(parent, name, kind, at0) {
       }, g),
     );
   }
+  badge(g, L.size, 0, 'qi-om__badge');
   const s = { g };
   // `forming` plays the merge-in animation: the outline draws itself around
   // the segment while the background fades in.
-  s.set = ({ n, appendable, hot, forming, shown = true }) => {
+  s.set = ({ n, appendable, pending, hot, forming, shown = true }) => {
     if (n != null) bars.forEach((bar, b) => bar.classList.toggle('is-on', b < n));
     if (appendable != null) g.classList.toggle('is-appendable', appendable);
+    if (pending != null) g.classList.toggle('is-pending', pending);
     if (hot != null) g.classList.toggle('is-hot', hot);
     if (forming != null) g.classList.toggle('is-forming', forming);
     g.classList.toggle('is-gone', !shown);
@@ -115,7 +131,7 @@ export function mount(node) {
     '    <button type="button" class="qi-chip" data-play></button>',
     '  </div>',
     `  <svg class="qi-svg qi-om__svg" viewBox="-2 0 ${VB_W + 4} ${VB_H}" role="img"`,
-    '    aria-label="A shard with one large segment. Small segments appear four at a time, and the merge optimizer rebuilds each group of four as one new large segment, until the shard holds four large segments.">',
+    '    aria-label="A shard with one large segment. Small segments appear one at a time. Once there are too many, the four small segments wait for the merge optimizer, which rebuilds them as one new large segment.">',
     `    <rect class="qi-frame" x="0" y="2" width="${VB_W}" height="${VB_H - 4}" rx="6"/>`,
     '    <text class="qi-frame-label" x="14" y="26">Shard</text>',
     '    <g class="qi-om__legend"></g>',
@@ -146,19 +162,25 @@ export function mount(node) {
   const keys = [
     ['point', 'point'],
     ['appendable', 'appendable segment'],
+    ['pending', 'pending'],
+    ['hot', 'optimizing'],
   ];
   const KEY_GAP = 22;
   const CHAR_W = 7.3; // 12px Geist Mono
-  const keyW = ([, text]) => 18 + text.length * CHAR_W;
+  // The pending badge is wider than the other keys.
+  const keyIn = (kind) => (kind === 'pending' ? 24 : 18);
+  const keyW = ([kind, text]) => keyIn(kind) + text.length * CHAR_W;
   let lx = VB_W - 14 - keys.reduce((w, k) => w + keyW(k) + KEY_GAP, -KEY_GAP);
   keys.forEach((key) => {
     const [kind, text] = key;
     if (kind === 'point') {
       el('rect', { class: 'qi-om__key qi-om__key--point', x: lx + 3, y: 12, width: 6, height: 16, rx: 1.5 }, legendG);
+    } else if (kind === 'pending') {
+      badge(legendG, lx + 9, 20, 'qi-om__badge qi-om__key--pending');
     } else {
       el('rect', { class: `qi-om__key qi-om__key--${kind}`, x: lx, y: 14, width: 12, height: 12, rx: 2 }, legendG);
     }
-    el('text', { class: 'qi-label', x: lx + 18, y: 25 }, legendG, text);
+    el('text', { class: 'qi-label', x: lx + keyIn(kind), y: 25 }, legendG, text);
     lx += keyW(key) + KEY_GAP;
   });
 
@@ -178,9 +200,11 @@ export function mount(node) {
 
   // A small simulation on one clock, as in the indexing island. Every tick
   // writes a point: a new small segment first appears empty, then points fill
-  // it. When a group of four small segments is full, its merge starts and
-  // runs alongside the writes, which move on to the next slot. A merge goes
-  // through its stages at fixed ticks: picked (pulsing), formed in place (the
+  // it. The fourth small segment of a group takes the shard above
+  // default_segment_number, so the group's merge is pending from then on.
+  // When the group is full, the optimizer picks it and the merge runs
+  // alongside the writes, which move on to the next slot. A merge goes
+  // through its stages at fixed ticks: picked (blinking), formed in place (the
   // small segments fade while the merged segment's outline draws around the
   // same square), done. The loop ends a moment after the second merge.
   const say = (html) => (statusEl.innerHTML = html);
@@ -198,7 +222,7 @@ export function mount(node) {
   let fade; // ticks left in the fade, or 0
 
   function reset() {
-    all.forEach((seg) => seg.set({ n: 0, shown: false, hot: false, forming: false }));
+    all.forEach((seg) => seg.set({ n: 0, shown: false, pending: false, hot: false, forming: false }));
     s1.set({ n: 20, appendable: false });
     // Segments 2 and 3 are small but not appendable, for example left over
     // from earlier optimizations: the merge optimizer picks segments by size
@@ -252,6 +276,12 @@ export function mount(node) {
         small[k].set({ n: 0, appendable: true, hot: false });
         arrow(slot);
         n = 0;
+        if (k === small.length - 1 && group < MERGES) {
+          // One segment too many: the smallest segments wait to be merged.
+          small.forEach((seg) => seg.set({ pending: true }));
+          say('Above <code>default_segment_number</code>, the smallest segments wait to be merged into one.');
+          milestone = true;
+        }
       } else {
         small[k].set({ n: ++n });
       }
@@ -262,9 +292,9 @@ export function mount(node) {
       if (k === small.length) {
         if (group < MERGES) {
           // The group is full: the merge optimizer picks it, and writes move on.
-          small.forEach((seg) => seg.set({ hot: true, appendable: false }));
+          small.forEach((seg) => seg.set({ pending: false, hot: true, appendable: false }));
           merges.push({ c: group, t: 0 });
-          say('Above <code>default_segment_number</code>, the smallest segments are merged into one.');
+          say('The merge optimizer rebuilds the smallest segments as one.');
           milestone = true;
         }
         group++;

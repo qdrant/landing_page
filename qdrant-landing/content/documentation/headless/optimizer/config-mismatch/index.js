@@ -2,22 +2,25 @@
  * config-mismatch island: what the config mismatch optimizer does.
  *
  * Same segment vocabulary as the other optimizer islands: segments are
- * squares, points are vertical bars, an appendable segment has a dashed
- * outline, and the outline of a segment being optimized pulses. Here the
- * background of an indexed segment shows which HNSW configuration it was
- * built with: configuration 1 or 2.
+ * squares, points are vertical bars, an appendable segment has a dotted
+ * outline, a segment waiting for an optimizer has an hourglass badge, and the
+ * outline of a segment being optimized blinks. Segments have no color; the
+ * HNSW configuration a segment was built with shows as its background:
+ * plain for configuration 1, hatched for configuration 2.
  *
- * Points arrive continuously. When the appendable segment fills up, it is
+ * Points arrive continuously. When the appendable segment crosses the
+ * indexing threshold, its indexing is pending; when it fills up, it is
  * indexed with the collection's current configuration, and a new appendable
  * segment, created with the current configuration, takes the writes.
  *
  * "Change configuration" switches the collection between the two
  * configurations. Existing segments keep the configuration they were built
- * with; the config mismatch optimizer rebuilds the mismatched ones one at a
- * time, largest first (config_mismatch_optimizer.rs sorts by vector size and
- * plans one segment per batch). An existing appendable segment keeps the
- * configuration it was created with and isn't rebuilt: it has no HNSW index,
- * and the HNSW check skips plain segments. Only when it fills up and is
+ * with, so all mismatched ones are pending; the config mismatch optimizer
+ * rebuilds them one at a time, largest first (config_mismatch_optimizer.rs
+ * sorts by vector size and plans one segment per batch). An existing
+ * appendable segment keeps the configuration it was created with and isn't
+ * rebuilt: it has no HNSW index, and the HNSW check skips plain segments.
+ * Only when it fills up and is
  * indexed does the new segment get the current configuration. When all slots
  * are full, the loop starts over in the current configuration.
  *
@@ -27,6 +30,7 @@
  */
 
 const NS = 'http://www.w3.org/2000/svg';
+let mounts = 0; // for a unique hatch pattern id per island
 
 // Geometry (viewBox 760 x 410). Eight segment slots in two rows of four.
 const VB_W = 760;
@@ -34,11 +38,15 @@ const VB_H = 410;
 const SEG = { size: 150, x0: 40, pitch: 175, rowPitch: 170, y: 74 };
 const SLOTS = 8;
 const CAP = 20; // points per segment, in two rows of ten
+const THRESHOLD = 18; // points at which a segment crosses indexing_threshold
 const PER_ROW = 10;
 const WELL = { pad: 14, top: 44, h: 88, gap: 8 }; // point well, segment-local
 const BAR_SLOT = (SEG.size - 2 * WELL.pad) / PER_ROW;
 const BAR_W = 6.3;
 const ROW_H = (WELL.h - WELL.gap) / (CAP / PER_ROW);
+// Hourglass icon (Lucide, ISC license) in a 24-unit box, for pending segments.
+const HOURGLASS =
+  'M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2';
 
 const TICK_MS = 300; // one incoming point
 const START = [16, 20]; // indexed segments at the start, of different sizes
@@ -64,19 +72,30 @@ function el(name, attrs, parent, text) {
   return node;
 }
 
+// The pending badge: an hourglass in a circle, centered on (cx, cy).
+function badge(parent, cx, cy, cls) {
+  const g = el('g', { class: cls, transform: `translate(${cx} ${cy})` }, parent);
+  el('circle', { r: 9 }, g);
+  el('path', { d: HOURGLASS, transform: 'translate(-6 -6) scale(0.5)' }, g);
+  return g;
+}
+
 // One slot: a square with a name and up to 20 points. `config` (1 or 2) is
-// the configuration the segment was created or built with, and its color.
-// `indexed` is false for the appendable segment, which has no HNSW index.
-function slot(parent, i) {
+// the configuration the segment was created or built with. `indexed` is
+// false for the appendable segment, which has no HNSW index. The hatch layer
+// sits between the background and the points.
+function slot(parent, i, hatch) {
   const { x, y } = slotXY(i);
   const g = el('g', { class: 'qi-oc__seg is-gone', transform: `translate(${x} ${y})` }, parent);
   el('rect', { class: 'qi-oc__box', width: SEG.size, height: SEG.size, rx: 6 }, g);
+  el('rect', { class: 'qi-oc__hatch', width: SEG.size, height: SEG.size, rx: 6, fill: `url(#${hatch})` }, g);
   const name = el('text', { class: 'qi-label qi-label--strong', x: 12, y: 24 }, g);
   const bars = [];
   for (let p = 0; p < CAP; p++) {
     const { x: px, y: py } = pointAt(p);
     bars.push(el('rect', { class: 'qi-oc__point', x: px, y: py, width: BAR_W, height: ROW_H, rx: 1.5 }, g));
   }
+  badge(g, SEG.size, 0, 'qi-oc__badge');
   const s = { i, g, n: 0, config: 1, indexed: false };
   s.set = ({ n, config, indexed, name: text, hot, shown = true }) => {
     if (n != null) {
@@ -85,7 +104,6 @@ function slot(parent, i) {
     }
     if (config != null) {
       s.config = config;
-      g.classList.toggle('is-config-1', config === 1);
       g.classList.toggle('is-config-2', config === 2);
     }
     if (indexed != null) {
@@ -96,11 +114,13 @@ function slot(parent, i) {
     if (hot != null) g.classList.toggle('is-hot', hot);
     g.classList.toggle('is-gone', !shown);
   };
+  s.pending = (on) => g.classList.toggle('is-pending', on);
   return s;
 }
 
 export function mount(node) {
   node.classList.add('qi-oc');
+  const hatch = `qi-oc-hatch-${++mounts}`;
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   node.innerHTML = [
@@ -113,12 +133,18 @@ export function mount(node) {
     '    </button>',
     '  </div>',
     `  <svg class="qi-svg qi-oc__svg" viewBox="-2 0 ${VB_W + 4} ${VB_H}" role="img"`,
-    '    aria-label="A shard with segments drawn as squares, colored by the configuration they were indexed with. After a configuration change, new segments are indexed with the new configuration, and the config mismatch optimizer rebuilds older segments one at a time, largest first.">',
+    '    aria-label="A shard with segments drawn as squares, plain if built with configuration 1 and hatched if built with configuration 2. After a configuration change, new segments are indexed with the new configuration, and older segments wait for the config mismatch optimizer, which rebuilds them one at a time, largest first.">',
     `    <rect class="qi-frame" x="0" y="2" width="${VB_W}" height="${VB_H - 4}" rx="6"/>`,
+    '    <defs>',
+    `      <pattern id="${hatch}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">`,
+    '        <line class="qi-oc__hatch-line" x1="0" y1="0" x2="0" y2="7"/>',
+    '      </pattern>',
+    '    </defs>',
     '    <text class="qi-frame-label" x="14" y="26">Shard</text>',
     '    <g class="qi-oc__current">',
     '      <text class="qi-label" x="14" y="52">Current configuration:</text>',
     '      <rect class="qi-oc__key" x="186" y="41" width="12" height="12" rx="2"/>',
+    `      <rect class="qi-oc__key--hatch" x="186" y="41" width="12" height="12" rx="2" fill="url(#${hatch})"/>`,
     '      <text class="qi-label qi-label--strong qi-oc__current-name" x="204" y="52"></text>',
     '    </g>',
     '    <g class="qi-oc__legend"></g>',
@@ -144,32 +170,45 @@ export function mount(node) {
     ['config-1', 'config 1'],
     ['config-2', 'config 2'],
     ['appendable', 'appendable segment'],
+    ['pending', 'pending'],
+    ['hot', 'optimizing'],
   ];
   const KEY_GAP = 22;
   const CHAR_W = 7.3; // 12px Geist Mono
-  const keyW = ([, text]) => 18 + text.length * CHAR_W;
+  // The pending badge is wider than the other keys.
+  const keyIn = (kind) => (kind === 'pending' ? 24 : 18);
+  const keyW = ([kind, text]) => keyIn(kind) + text.length * CHAR_W;
   let lx = VB_W - 14 - keys.reduce((w, k) => w + keyW(k) + KEY_GAP, -KEY_GAP);
   keys.forEach((key) => {
     const [kind, text] = key;
     if (kind === 'point') {
       el('rect', { class: 'qi-oc__key qi-oc__key--point', x: lx + 3, y: 12, width: 6, height: 16, rx: 1.5 }, legendG);
+    } else if (kind === 'pending') {
+      badge(legendG, lx + 9, 20, 'qi-oc__badge qi-oc__key--pending');
+    } else if (kind === 'config-1' || kind === 'config-2') {
+      el('rect', { class: 'qi-oc__key', x: lx, y: 14, width: 12, height: 12, rx: 2 }, legendG);
+      if (kind === 'config-2') {
+        el('rect', { class: 'qi-oc__key--hatch', x: lx, y: 14, width: 12, height: 12, rx: 2, fill: `url(#${hatch})` }, legendG);
+      }
     } else {
       el('rect', { class: `qi-oc__key qi-oc__key--${kind}`, x: lx, y: 14, width: 12, height: 12, rx: 2 }, legendG);
     }
-    el('text', { class: 'qi-label', x: lx + 18, y: 25 }, legendG, text);
+    el('text', { class: 'qi-label', x: lx + keyIn(kind), y: 25 }, legendG, text);
     lx += keyW(key) + KEY_GAP;
   });
 
-  const slots = Array.from({ length: SLOTS }, (_, i) => slot(segsG, i));
+  const slots = Array.from({ length: SLOTS }, (_, i) => slot(segsG, i, hatch));
 
   // A small simulation on one clock. Every tick writes a point to the
-  // appendable segment. A full appendable segment is indexed with the current
-  // configuration, and the next slot becomes the appendable segment. One
-  // mismatched segment at a time is rebuilt, largest first.
+  // appendable segment. Its indexing is pending once it crosses the indexing
+  // threshold. A full appendable segment is indexed with the current
+  // configuration, and the next slot becomes the appendable segment.
+  // Mismatched segments are pending, and one at a time is rebuilt, largest
+  // first.
   const say = (html) => (statusEl.innerHTML = html);
   const SAY = {
     idle: 'New segments are indexed with the current configuration.',
-    rebuilding: 'Older segments are rebuilt one at a time, largest first.',
+    rebuilding: 'Mismatched segments wait to be rebuilt, one at a time, largest first.',
     done: 'All indexed segments match the configuration.',
   };
 
@@ -181,7 +220,6 @@ export function mount(node) {
   let fade;
 
   const showConfig = () => {
-    currentG.classList.toggle('is-config-1', config === 1);
     currentG.classList.toggle('is-config-2', config === 2);
     currentName.textContent = `config ${config}`;
   };
@@ -189,6 +227,12 @@ export function mount(node) {
   // without an HNSW index, so an appendable segment keeps the configuration
   // it was created with until it's indexed.
   const mismatched = () => slots.filter((s) => s.indexed && s.config !== config && s !== rebuild?.s);
+  // Badges: mismatched segments wait for a rebuild, and an appendable segment
+  // above the indexing threshold waits to be indexed.
+  const showPending = () => {
+    const waiting = mismatched();
+    slots.forEach((s) => s.pending(waiting.includes(s) || (s.i === cur && s.n >= THRESHOLD)));
+  };
 
   function reset() {
     slots.forEach((s, i) => {
@@ -202,6 +246,7 @@ export function mount(node) {
     nextName = SLOTS + 1;
     fade = 0;
     showConfig();
+    showPending();
     say(SAY.idle);
   }
 
@@ -254,6 +299,7 @@ export function mount(node) {
       fade = FADE_TICKS;
       milestone = true;
     }
+    showPending();
     return milestone;
   }
 
@@ -266,6 +312,7 @@ export function mount(node) {
   changeBtn.addEventListener('click', () => {
     config = config === 1 ? 2 : 1;
     showConfig();
+    showPending();
     say(mismatched().length ? SAY.rebuilding : SAY.idle);
   });
 

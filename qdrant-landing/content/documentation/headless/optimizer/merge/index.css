@@ -1,9 +1,9 @@
 /* merge island. Scoped under .qi-om. Controls, frames and labels come from
    the shared island design system (islands.scss); this file only styles the
    segment squares and their point bars. Same as the indexing island. The
-   segment vocabulary (squares on a grid, constant-color points, dashed =
-   appendable, neutral highlight) is shared by all optimizer islands; this
-   diagram leaves out the indexed color. */
+   segment vocabulary (squares on a grid, constant-color points, no color for
+   an optimized segment, dotted = appendable, an hourglass badge = pending, a
+   blinking outline = optimizing) is shared by all optimizer islands. */
 
 .qi-om {
   --om-point: #6047ff; /* neon-blue-500: points, as Tenant A in the multitenancy islands */
@@ -53,15 +53,18 @@
   stroke-width: 1;
   transition: fill 0.6s ease, fill-opacity 0.6s ease;
 }
+/* Appendable: a dotted outline. */
 .qi-om__seg.is-appendable .qi-om__box {
   stroke: var(--qi-fg);
-  stroke-width: 1.5;
-  stroke-dasharray: 5 4;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.01 5;
 }
 .qi-om__seg.is-hot .qi-om__box {
   stroke: var(--qi-hot);
   stroke-width: 2.5;
   stroke-dasharray: none;
+  stroke-linecap: butt;
   animation: qi-om-optimizing 1.1s ease-in-out infinite;
 }
 /* The outline of the segment being optimized pulses until the rebuild is
@@ -78,6 +81,28 @@
   50% {
     stroke-opacity: 0.2;
   }
+}
+
+/* Pending: an hourglass badge on the top-right corner. */
+.qi-om__badge {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-om__seg.is-pending .qi-om__badge,
+.qi-om__key--pending {
+  opacity: 1;
+}
+.qi-om__badge circle {
+  fill: var(--qi-surface);
+  stroke: var(--qi-fg);
+  stroke-width: 1.25;
+}
+.qi-om__badge path {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Points, one bar each, growing up from the floor of the well as they
@@ -118,7 +143,17 @@
   fill: none;
   stroke: var(--qi-fg);
   stroke-width: 1.5;
-  stroke-dasharray: 3 2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.01 3;
+}
+.qi-om__key--hot {
+  fill: none;
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+  animation: qi-om-optimizing 1.1s ease-in-out infinite;
+}
+.qi-om.is-paused .qi-om__key--hot {
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -126,7 +161,11 @@
   .qi-om__box,
   .qi-om__point,
   .qi-om__seg.is-hot .qi-om__box,
-  .qi-om__seg.is-forming .qi-om__box {
+  .qi-om__seg.is-forming .qi-om__box,
+  .qi-om__key--hot {
     animation: none;
+  }
+  .qi-om__badge {
+    transition: none;
   }
 }

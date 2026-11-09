@@ -1,7 +1,7 @@
 ---
 title: Optimizer
-short_description: "Understand how Qdrant's vacuum, merge, indexing, and config mismatch optimizers rebuild segments to maintain efficient storage."
-description: "See how Qdrant's optimizer reclaims deleted points, merges segments, builds indexes, and applies configuration changes to keep storage compact and search fast."
+short_description: "Understand how Qdrant's indexing, vacuum, merge, and config mismatch optimizers rebuild segments to maintain efficient storage."
+description: "See how Qdrant's optimizer builds indexes, reclaims deleted points, merges segments, and applies configuration changes to keep storage compact and search fast."
 weight: 10
 aliases:
   - /documentation/optimizer
@@ -22,6 +22,27 @@ To keep them available, Qdrant wraps each segment in a proxy that transparently 
 The proxy writes changed data to a copy-on-write segment, which has priority for retrieval and subsequent updates.
 
 Qdrant has four optimizers, described in the following sections. In each round of optimization, at most one optimizer selects a given segment. Every rebuild removes deleted points and applies the current collection configuration, whichever optimizer selected the segment.
+
+## Indexing Optimizer
+
+Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
+So, for example, if the number of points is fewer than 10,000, using any index would be less efficient than a brute force scan.
+
+The indexing optimizer builds a vector index for a segment once its vector data exceeds the indexing threshold.
+
+{{< island
+    path="content/documentation/headless/optimizer/indexing"
+    ratio="760 / 349"
+    title="The appendable segment grows until it crosses the indexing threshold. The indexing optimizer then builds an HNSW index for it, and a new appendable segment takes the new points."
+>}}
+![A full appendable segment without an index is rebuilt as an indexed segment that is no longer appendable.](/documentation/ops-optimization/optimizer-indexing.svg)
+{{< /island >}}
+
+The indexing optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
+
+The `indexing_threshold` parameter sets the indexing threshold, in kilobytes. For example, to set it for an existing collection:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
 
 ## Vacuum Optimizer
 
@@ -71,27 +92,6 @@ To set these parameters for an existing collection:
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/segment-number-and-size/" >}}
 
-## Indexing Optimizer
-
-Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
-So, for example, if the number of points is fewer than 10,000, using any index would be less efficient than a brute force scan.
-
-The indexing optimizer builds a vector index for a segment once its vector data exceeds the indexing threshold.
-
-{{< island
-    path="content/documentation/headless/optimizer/indexing"
-    ratio="760 / 349"
-    title="The appendable segment grows until it crosses the indexing threshold. The indexing optimizer then builds an HNSW index for it, and a new appendable segment takes the new points."
->}}
-![A full appendable segment without an index is rebuilt as an indexed segment that is no longer appendable.](/documentation/ops-optimization/optimizer-indexing.svg)
-{{< /island >}}
-
-The indexing optimizer also moves vectors to disk when their [memory placement](/documentation/ops-configuration/memory-tiers/) requires it, converts large sparse vector indexes from their mutable in-memory form to an immutable form, and rebuilds segments that hold [deferred points](#prevent-reads-from-large-unindexed-segments).
-
-The `indexing_threshold` parameter sets the indexing threshold, in kilobytes. For example, to set it for an existing collection:
-
-{{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
-
 ## Config Mismatch Optimizer
 
 When you [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters), existing segments keep the configuration they were built with. The config mismatch optimizer finds segments whose configuration no longer matches the collection configuration and rebuilds them with the new settings.
@@ -101,7 +101,7 @@ When you [update collection parameters](/documentation/manage-data/collections/#
     ratio="760 / 506"
     title="After a change to the HNSW configuration, new segments are indexed with the new configuration, and the config mismatch optimizer rebuilds older segments one at a time, largest first."
 >}}
-![A segment built with configuration 1 is rebuilt with configuration 2 after a configuration change.](/documentation/ops-optimization/optimizer-config-mismatch.svg)
+![A plain segment built with configuration 1 is rebuilt as a hatched segment with configuration 2 after a configuration change.](/documentation/ops-optimization/optimizer-config-mismatch.svg)
 {{< /island >}}
 
 The optimizer rebuilds a segment when any of the following differs from the collection configuration:

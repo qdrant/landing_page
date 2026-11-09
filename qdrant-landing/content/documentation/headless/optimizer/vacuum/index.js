@@ -2,13 +2,16 @@
  * vacuum island: what the vacuum optimizer does, as a loop.
  *
  * Same segment vocabulary as the other optimizer islands: segments are
- * squares and points are vertical bars inside them. A deleted point is only
- * marked as deleted, so it stays in place, gray.
+ * squares and points are vertical bars inside them, a segment waiting for an
+ * optimizer has an hourglass badge, and the outline of a segment being
+ * optimized blinks. A deleted point is only marked as deleted, so it stays in
+ * place, gray.
  *
  * Points are deleted one at a time across four segments. Once a segment's
  * deleted fraction is above deleted_threshold (0.2, so 5 of its 20 points),
- * the vacuum optimizer picks it and rebuilds it on its own
- * (vacuum_optimizer.rs plans one segment per batch): the deleted points are
+ * a vacuum is pending. Shortly after, the vacuum optimizer picks the segment
+ * and rebuilds it on its own (vacuum_optimizer.rs plans one segment per
+ * batch): the deleted points are
  * dropped, the remaining points close up, and the rebuilt segment gets a new
  * number. Deletes keep landing in the other segments meanwhile. Two segments
  * stay below the threshold and are left alone. The loop starts over a moment
@@ -40,6 +43,9 @@ const DELETES = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 3, 2, 1, 2, 3, 2];
 // Which point in a segment goes next, so deletes look scattered.
 const ORDER = [13, 4, 17, 8, 1, 11, 6, 19, 2, 15];
 const NEW_NAMES = { 0: 'Segment 5', 2: 'Segment 6' }; // rebuilt segments
+// Hourglass icon (Lucide, ISC license) in a 24-unit box, for pending segments.
+const HOURGLASS =
+  'M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2';
 
 const slotX = (i) => SEG.x0 + i * SEG.pitch;
 // Position of point slot p within a segment.
@@ -56,6 +62,14 @@ function el(name, attrs, parent, text) {
   return node;
 }
 
+// The pending badge: an hourglass in a circle, centered on (cx, cy).
+function badge(parent, cx, cy, cls) {
+  const g = el('g', { class: cls, transform: `translate(${cx} ${cy})` }, parent);
+  el('circle', { r: 9 }, g);
+  el('path', { d: HOURGLASS, transform: 'translate(-6 -6) scale(0.5)' }, g);
+  return g;
+}
+
 // One segment: a square with a name and 20 points. Each point keeps its
 // element, so it can slide to a new slot when the segment is compacted.
 function segment(parent, i) {
@@ -66,6 +80,7 @@ function segment(parent, i) {
   for (let p = 0; p < CAP; p++) {
     points.push(el('rect', { class: 'qi-ov__point is-on', x: 0, y: 0, width: BAR_W, height: ROW_H, rx: 1.5 }, g));
   }
+  badge(g, SEG.size, 0, 'qi-ov__badge');
   const s = { g, deleted: 0, name: `Segment ${i + 1}` };
   const place = (pt, p) => {
     const { x, y } = pointAt(p);
@@ -83,7 +98,7 @@ function segment(parent, i) {
     });
     g.getBoundingClientRect();
     g.classList.remove('is-instant');
-    g.classList.remove('is-hot');
+    g.classList.remove('is-hot', 'is-pending');
   };
   s.remove = (p) => {
     points[p].classList.add('is-deleted');
@@ -98,7 +113,8 @@ function segment(parent, i) {
     });
   };
   s.rename = (text) => (name.textContent = text);
-  s.set = ({ hot, shown }) => {
+  s.set = ({ pending, hot, shown }) => {
+    if (pending != null) g.classList.toggle('is-pending', pending);
     if (hot != null) g.classList.toggle('is-hot', hot);
     if (shown != null) g.classList.toggle('is-gone', !shown);
   };
@@ -115,7 +131,7 @@ export function mount(node) {
     '    <button type="button" class="qi-chip" data-play></button>',
     '  </div>',
     `  <svg class="qi-svg qi-ov__svg" viewBox="-2 0 ${VB_W + 4} ${VB_H}" role="img"`,
-    '    aria-label="A shard with four segments drawn as squares holding points. Points are deleted over time and stay in place, marked as deleted. When more than 20% of a segment is deleted, the vacuum optimizer rebuilds it without the deleted points.">',
+    '    aria-label="A shard with four segments drawn as squares holding points. Points are deleted over time and stay in place, marked as deleted. When more than 20% of a segment is deleted, it waits for the vacuum optimizer, which rebuilds it without the deleted points.">',
     `    <rect class="qi-frame" x="0" y="2" width="${VB_W}" height="${VB_H - 4}" rx="6"/>`,
     '    <text class="qi-frame-label" x="14" y="26">Shard</text>',
     '    <g class="qi-ov__legend"></g>',
@@ -135,24 +151,36 @@ export function mount(node) {
   const keys = [
     ['point', 'point'],
     ['deleted', 'deleted point'],
+    ['pending', 'pending'],
+    ['hot', 'optimizing'],
   ];
   const KEY_GAP = 22;
   const CHAR_W = 7.3; // 12px Geist Mono
-  const keyW = ([, text]) => 18 + text.length * CHAR_W;
+  // The pending badge is wider than the other keys.
+  const keyIn = (kind) => (kind === 'pending' ? 24 : 18);
+  const keyW = ([kind, text]) => keyIn(kind) + text.length * CHAR_W;
   let lx = VB_W - 14 - keys.reduce((w, k) => w + keyW(k) + KEY_GAP, -KEY_GAP);
   keys.forEach((key) => {
     const [kind, text] = key;
-    el('rect', { class: `qi-ov__key qi-ov__key--${kind}`, x: lx + 3, y: 12, width: 6, height: 16, rx: 1.5 }, legendG);
-    el('text', { class: 'qi-label', x: lx + 18, y: 25 }, legendG, text);
+    if (kind === 'pending') {
+      badge(legendG, lx + 9, 20, 'qi-ov__badge qi-ov__key--pending');
+    } else if (kind === 'hot') {
+      el('rect', { class: 'qi-ov__key qi-ov__key--hot', x: lx, y: 14, width: 12, height: 12, rx: 2 }, legendG);
+    } else {
+      el('rect', { class: `qi-ov__key qi-ov__key--${kind}`, x: lx + 3, y: 12, width: 6, height: 16, rx: 1.5 }, legendG);
+    }
+    el('text', { class: 'qi-label', x: lx + keyIn(kind), y: 25 }, legendG, text);
     lx += keyW(key) + KEY_GAP;
   });
 
   const segs = [0, 1, 2, 3].map((i) => segment(segsG, i));
 
   // A small simulation on one clock. Every tick deletes a point. A segment
-  // above deleted_threshold is picked (pulsing), then compacted, then done
-  // under a new number. Deletes go on meanwhile, in the other segments.
+  // above deleted_threshold is pending, then picked (blinking), then
+  // compacted, then done under a new number. Deletes go on meanwhile, in the
+  // other segments.
   const say = (html) => (statusEl.innerHTML = html);
+  const PENDING_TICKS = 3; // from crossing the threshold to the pick
   const COMPACT_AT = 4; // ticks after the pick
   const DONE_AT = COMPACT_AT + 3;
   const END_HOLD = 6;
@@ -160,7 +188,7 @@ export function mount(node) {
 
   let at; // next entry in DELETES
   let next; // per segment: how far into ORDER it is
-  let vacuums; // [{ i, t }] vacuums in progress
+  let vacuums; // [{ i, t }] vacuums pending (t < 0) or in progress
   let done; // vacuums finished
   let endIn;
   let fade;
@@ -182,6 +210,10 @@ export function mount(node) {
   function advance(v) {
     const s = segs[v.i];
     v.t++;
+    if (v.t === 0) {
+      s.set({ pending: false, hot: true });
+      say('The vacuum optimizer rebuilds the segment without its deleted points.');
+    }
     if (v.t === COMPACT_AT) s.compact();
     if (v.t === DONE_AT) {
       s.set({ hot: false });
@@ -210,9 +242,9 @@ export function mount(node) {
       const s = segs[i];
       s.remove(ORDER[next[i]++]);
       if (s.deleted / CAP > DELETED_THRESHOLD) {
-        s.set({ hot: true });
-        vacuums.push({ i, t: 0 });
-        say('Above <code>deleted_threshold</code>, a segment is rebuilt without its deleted points.');
+        s.set({ pending: true });
+        vacuums.push({ i, t: -PENDING_TICKS });
+        say('Above <code>deleted_threshold</code>, a segment waits to be rebuilt without its deleted points.');
         milestone = true;
       }
     }
