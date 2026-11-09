@@ -108,18 +108,19 @@ The defaults differ by method. Rescoring is on by default for binary quantizatio
 <details>
 <summary>Strengths</summary>
 
-- 4x memory compression
-- [99% accuracy preservation](https://qdrant.tech/articles/scalar-quantization/)
-- No constraint on the
-- SIMD optimizations available for int8 operations, enable up to 2x speed improvements beyond the memory benefits
+- 4x memory compression: the pinned copy took 566 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors)).
+- [99% accuracy preservation](https://qdrant.tech/articles/scalar-quantization/). In our runs rescored recall was 0.988 to 0.996 across Quora and FiQA with both models ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- No constraint on the shape of your embeddings: it met the 0.95 target on all eight held-out workloads, including the ones where binary failed ([selected points](#tune-to-a-target-then-compare)).
+- SIMD optimizations available for int8 operations, enable up to 2x speed improvements beyond the memory benefits: p95 was 0.96 ms against 2.10 ms for float32 HNSW, and throughput 5,567 against 4,187 queries per second on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load)).
 
 </details>
 
 <details>
 <summary>Weaknesses</summary>
 
-- 
-- 
+- Compression stops at 4x. At 8x, 4-bit TurboQuant matched its recall with a 300 MB copy against scalar's 566 MB ([memory chart](#memory-and-latency-at-523000-vectors)).
+- Rescoring is off by default and matters. Without it recall fell to 0.926 on FiQA with BGE, against 0.988 with it ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- Slower than binary at the selected points: 0.36 ms against 0.24 ms server p95 on Quora with Cohere, and 5,567 against 6,674 queries per second under eight clients ([selected points](#tune-to-a-target-then-compare), [throughput](#throughput-under-load)).
 
 </details>
 
@@ -129,13 +130,22 @@ Scalar is the method with the fewest assumptions. It does not care whether coord
 
 ### Binary Quantization
 
-- works best with high-dimensional vectors (≥1024 dimensions) e.g. OpenAI’s text-embedding-ada-002 and Cohere’s embed-english-v2.0
+<details>
+<summary>Strengths</summary>
+
+- Works best with high-dimensional vectors (≥1024 dimensions) e.g. OpenAI's text-embedding-ada-002 and Cohere's embed-english-v2.0. In our runs it passed the target on Quora with both models, where sign imbalance is lowest ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
+- The smallest copy: 95 MB of heap against 2,142 MB of originals on Quora with Cohere, which is 32x ([memory chart](#memory-and-latency-at-523000-vectors)).
+- The fastest method wherever it passed: p95 was 0.48 ms against 2.10 ms for float32 HNSW, and throughput 6,674 against 4,187 queries per second on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load)).
+
+</details>
 
 <details>
 <summary>Weaknesses</summary>
 
-- Possible accuracy degradation in embeddings that do not have centered value distributions around zero 
-- Weak with handling values close to zero (best alternative: [1.5 bit and 2 bit binary quantization](https://qdrant.tech/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization))
+- Possible accuracy degradation in embeddings that do not have centered value distributions around zero. Best rescored recall fell from 0.998 at a sign imbalance of 0.128 to 0.806 at 0.195, and beyond about 0.19 it never reached 0.95 ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
+- Weak with handling values close to zero (best alternative: [1.5 bit and 2 bit binary quantization](https://qdrant.tech/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization)). Even so, rescored 2-bit reached 0.766 on FiQA with BGE, where 2-bit TurboQuant reached 0.958 ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- Depends on rescoring and oversampling. Without rescoring recall was 0.42 to 0.79, and the selected points needed 4x to 8x oversampling every time. Only 4 of 8 workloads met the target ([rescoring chart](#rescoring-is-most-of-the-quality), [selected points](#tune-to-a-target-then-compare)).
+- Less recall than TurboQuant at equal compression: at 32x on Quora, 0.943 against 0.980 with Cohere and 0.838 against 0.938 with BGE ([rescoring chart](#rescoring-is-most-of-the-quality)).
 
 </details>
 
@@ -155,11 +165,51 @@ Binary only works when the sign of a coordinate carries information. The measure
 
 ### Product Quantization
 
+<details>
+<summary>Strengths</summary>
+
+- The largest ratios Qdrant offers, `x4` through `x64`. At `x8` the copy took 297 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors)).
+- High recall at `x8`: it met the 0.95 target on all eight held-out workloads, with held-out recall of 0.962 to 0.996 ([selected points](#tune-to-a-target-then-compare)).
+- No dependence on centered embeddings. Rescored `x8` recall was 0.987 on FiQA with BGE, where 1-bit binary reached 0.560 ([rescoring chart](#rescoring-is-most-of-the-quality)).
+
+</details>
+
+<details>
+<summary>Weaknesses</summary>
+
+- The slowest method at matched recall: 1.16 ms server p95 against 0.29 ms for 4-bit TurboQuant and 0.36 ms for scalar on Quora with Cohere. At fixed search effort it was slower than unquantized float32, 2.32 ms against 2.10 ms ([selected points](#tune-to-a-target-then-compare), [memory chart](#memory-and-latency-at-523000-vectors)).
+- The only method with lower throughput than unquantized float32: 2,720 queries per second against 4,187 for float32 and 6,138 for 4-bit TurboQuant, and its latency more than doubled with eight clients ([throughput](#throughput-under-load)).
+- Recall drops as the ratio grows. Rescored `x16` reached 0.905 on FiQA with BGE against 0.987 for `x8` ([rescoring chart](#rescoring-is-most-of-the-quality)). We did not measure `x32` or `x64`.
+- Training the codebook adds indexing time. We did not time it.
+
+</details>
+
 Product quantization splits each vector into sub-vectors and replaces each sub-vector with the index of its nearest centroid in a codebook learned from your data. With 256 centroids per sub-vector an index costs one byte. Against four bytes per float32 coordinate, `x8` compression means two coordinates share one byte and `x64` means sixteen do; Qdrant offers `x4` through `x64`. Because neighboring coordinates are encoded together, it captures structure the per-coordinate methods cannot.
 
 The price is paid at search time. Distances go through lookup tables rather than SIMD arithmetic, which makes product quantization the slowest method at any given recall in every run below. Training the codebook also adds indexing time. Choose it when fitting in memory is the only constraint that matters and query latency is not.
 
 ### TurboQuant
+
+<details>
+<summary>Strengths</summary>
+
+- 4-bit gives 8x with recall indistinguishable from scalar at half the memory: rescored recall was 0.994, 0.994, 0.996, and 0.988 against scalar's 0.993, 0.993, 0.996, and 0.988, with a 300 MB copy against 566 MB ([rescoring chart](#rescoring-is-most-of-the-quality), [memory chart](#memory-and-latency-at-523000-vectors)).
+- Fast: p95 was 0.69 ms against 2.10 ms for float32 HNSW and 0.96 ms for scalar, and throughput 6,138 against 5,567 queries per second for scalar on Quora with Cohere. It reached the target at `hnsw_ef` 64 on all eight workloads ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load), [selected points](#tune-to-a-target-then-compare)).
+- More recall than binary at equal compression. At 16x on Quora with BGE, 2-bit reached 0.985 against 0.920 for binary, and at 32x 1-bit reached 0.938 against 0.838 ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- No per-dataset calibration, so it holds up where binary stalls: rescored 1-bit recall was 0.791 on FiQA with BGE against binary's 0.560 ([rescoring chart](#rescoring-is-most-of-the-quality)).
+
+</details>
+
+<details>
+<summary>Weaknesses</summary>
+
+- Low bit depths depend on rescoring. Without it 1-bit recall was 0.610 to 0.863, against 0.791 to 0.980 with it ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- Low bit depths still miss on the hardest workload. On FiQA with BGE rescored recall was 0.840 at 1.5 bits and 0.791 at 1 bit ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- Manhattan distance works but takes a slow path, so [scalar wins there](https://qdrant.tech/documentation/manage-data/quantization/#distance-metric-support).
+- `turbo4` storage loses recall that nothing downstream restores: 0.969 against 0.994 on Quora with Cohere and 0.902 against 0.991 on FiQA with BGE ([storage datatypes](#storage-datatypes-are-a-different-trade)).
+- The newest method. One of three builds of `turbo4` storage with a 4-bit copy returned zero recall on FiQA with BGE, and the [docs](https://qdrant.tech/documentation/manage-data/quantization/#turboquant-quantization) advise testing it on your data first ([where this stops](#where-this-stops)).
+
+</details>
 
 TurboQuant applies a fast pseudo-random orthogonal rotation to every vector before encoding each rotated coordinate with a shared, precomputed codebook: 16 levels at 4 bits, 4 at 2 bits, 2 at 1 bit, with a 1.5-bit encoding in between. The rotation spreads variance evenly across coordinates, so one codebook fits every dataset instead of needing per-collection calibration. Qdrant's implementation adds length renormalization and per-coordinate anisotropy compensation; the [TurboQuant article](/articles/turboquant-quantization/) walks through both.
 
