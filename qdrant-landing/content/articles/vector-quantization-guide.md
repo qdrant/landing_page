@@ -353,6 +353,18 @@ Then tune on queries you will not report, freeze, and evaluate once. Keep the tu
 
 The [benchmark repository](https://github.com/qdrant-labs/quantization-comparison-bench) runs this whole protocol with one command per dataset and writes the tables in this guide. Point it at your own embeddings by replacing the prepared arrays; the format is a float32 matrix, an ID list, and a relevance file.
 
+## Pick a Method for Your Collection
+
+The selector applies the rules from [Choosing](#choosing) to your numbers. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target. Click any row to see that method's impact on its own.
+
+{{< island path="content/articles/headless/vector-quantization-guide/selector"
+    ratio="3 / 4"
+    title="Quantization selector. Memory is arithmetic on your inputs. Recall, p95, and throughput are estimated from the measurements in this guide." >}}
+This selector needs JavaScript. Without it, use the [decision table in the quantization docs](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) or the rules in [Choosing](#choosing).
+{{< /island >}}
+
+Memory is exact arithmetic. Recall, p95, and throughput are read from the measurements in this guide and interpolated, between the two embedding models by dimension count and between the corpora by sign imbalance, so a result for a collection unlike those workloads is an estimate. Methods the guide did not measure for latency show n/m. [Where This Stops](#where-this-stops) lists what the measurements cannot say.
+
 ## Where This Stops
 
 Two embedding models and four datasets establish the shape of the trade and a way to measure it, not universal rules. The sign-imbalance threshold comes from eight points, so treat it as a test to run on your own embeddings, not a constant. We did not check whether it holds within one model family at a different size, and no third model at 768 dimensions is part of these results.
