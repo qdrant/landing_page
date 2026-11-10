@@ -10,7 +10,7 @@ cards:
       alt: ""
   - id: 1
     title: Load a sample of your data.
-    description: Follow the Supernova quickstart to embed a sample of your data and load it into your cluster.
+    description: 'Follow the [Supernova quickstart](https://github.com/qdrant-labs/supernova#quickstart) to embed a sample of your data and load it into your cluster.'
     icon:
       src: /icons/outline/puzzle-blue.svg
       alt: ""
