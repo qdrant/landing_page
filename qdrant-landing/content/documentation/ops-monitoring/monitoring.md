@@ -11,7 +11,7 @@ aliases:
 
 # Monitoring & Telemetry
 
-On Qdrant Cloud, you can watch a cluster in the Cloud Console, receive email alerts, and scrape metrics into your own monitoring system. Refer to [Monitoring Qdrant Cloud Clusters](/documentation/cloud/cluster-monitoring/) for the Console views and alerts, and [Scrape Metrics with Prometheus and Grafana](/documentation/cloud/cluster-monitoring-prometheus/) for a step-by-step setup. This page describes the metrics and telemetry endpoints that Qdrant itself provides, on Qdrant Cloud and when self-hosting.
+On Qdrant Cloud, you can watch a cluster in the Cloud Console, receive email alerts, and scrape metrics into your own monitoring system. Refer to [Monitoring Qdrant Cloud Clusters](/documentation/cloud/cluster-monitoring/) for the Console views and alerts, and [Scrape Metrics with Prometheus and Grafana](/documentation/cloud/cluster-monitoring-prometheus/) for a step-by-step setup. To send metrics to a tool you already run, such as Datadog or New Relic, refer to the [Observability integrations](/documentation/observability/). This page describes the metrics and telemetry endpoints that Qdrant itself provides, on Qdrant Cloud and when self-hosting.
 
 Qdrant exposes its metrics in [Prometheus](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format)/[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) format, so you can integrate them easily
 with the compatible tools and monitor Qdrant with your own monitoring system. You can

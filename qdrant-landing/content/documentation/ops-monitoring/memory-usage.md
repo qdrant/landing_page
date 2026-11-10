@@ -54,7 +54,14 @@ These roughly map to the [memory tiers](/documentation/ops-configuration/memory-
 
 ## API
 
-You can retrieve the same data though Qdrant's API:
+You can retrieve the same data through Qdrant's API. On Qdrant Cloud, send the request to your cluster endpoint with a [Database API key](/documentation/cloud/authentication/). The key needs read access to the collection, so a read-only key is enough:
+
+```bash
+curl https://<cluster-endpoint>:6333/collections/{collection_name}/memory \
+  -H "api-key: <your-database-api-key>"
+```
+
+When you self-host, send the request to your own instance:
 
 ```bash
 curl http://localhost:6333/collections/{collection_name}/memory
