@@ -134,6 +134,7 @@ async def get_optimizations_progress(
 ) -> float:
     start = time.perf_counter()
     stable = 0
+    last_state = None
     while stable < stable_polls:
         optimizations, info = await asyncio.gather(
             client.get_optimizations(collection_name=collection_name, with_="queued"),
@@ -143,10 +144,14 @@ async def get_optimizations_progress(
         deferred = (queue.deferred_points or 0) if queue else 0
         running = len(optimizations.running)
         queued = len(optimizations.queued or [])
-        print(
-            f"Status: {info.status}, deferred points: {deferred}, "
-            f"running: {running}, queued: {queued}"
-        )
+        # print only when the status or the job counts change
+        state = (info.status, running, queued)
+        if state != last_state:
+            print(
+                f"Status: {info.status}, deferred points: {deferred}, "
+                f"running: {running}, queued: {queued}"
+            )
+            last_state = state
         done = (
             info.status == models.CollectionStatus.GREEN
             and deferred == 0
@@ -238,9 +243,10 @@ Uploads take about the same time with both settings, so the difference in total 
 The deferred point count shows what this costs. With `prevent_unoptimized=true`, the monitor reports a nonzero count that drains as segments finish optimizing:
 
 ```text
-Status: yellow, deferred points: 78998, running: 2, queued: 1
-Status: yellow, deferred points: 62332, running: 2, queued: 0
-Status: yellow, deferred points: 52666, running: 1, queued: 0
+Status: yellow, deferred points: 78990, running: 2, queued: 1
+Status: yellow, deferred points: 47332, running: 1, queued: 1
+Status: yellow, deferred points: 47332, running: 2, queued: 0
+Status: yellow, deferred points: 27666, running: 1, queued: 0
 Status: green, deferred points: 0, running: 0, queued: 0
 ```
 
