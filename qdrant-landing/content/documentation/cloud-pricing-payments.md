@@ -95,7 +95,7 @@ You will be redirected to the Billing Details screen in the [Qdrant Cloud Consol
 
 ## Cluster Suspensions
 
-When a payment fails, you receive a payment failure notice, and your clusters are suspended 48 hours later. If you don't reactivate them, you get a deletion warning seven days after suspension. Clusters are deleted seven days after that.
+When a payment fails, it will be retried several times. If it still fails after the retries, you receive a suspension notice, and your clusters are suspended 48 hours later. If you don't reactivate them, you get a deletion warning seven days after suspension. Clusters are deleted seven days after that.
 
 Free clusters can also be suspended. A free cluster is suspended after one week without use. If you don't reactivate it, it's deleted three weeks after the suspension notice. Paid clusters are never suspended for inactivity.
 
