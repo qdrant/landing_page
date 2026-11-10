@@ -116,6 +116,6 @@ When Qdrant suspends your clusters for a failed payment, it removes the card on 
 1. On the **Billing Details** screen in the [Qdrant Cloud Console](https://cloud.qdrant.io/), add a credit card. Use a different card from the one that failed.
 2. In the cluster list, select **Reactivate** for each suspended cluster. Adding a card doesn't automatically reactivate your clusters.
 
-Qdrant charges the new card in its next daily billing run. If that payment fails, your clusters can be suspended again.
+Qdrant charges the outstanding balance to the new card in its next daily billing run, so you don't need to pay it separately. If that payment fails, your clusters can be suspended again.
 
 If you pay through the AWS, GCP, or Azure Marketplace, the same timeline applies. To reactivate your clusters, switch to a different, valid payment method on the **Billing Details** screen, then reactivate each cluster. If reactivation still fails, contact [Qdrant Support](https://support.qdrant.io/).
