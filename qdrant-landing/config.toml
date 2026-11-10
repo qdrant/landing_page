@@ -41,6 +41,17 @@ defaultContentRoleInSubdir = false
 
 # Serverless gets the docs tree and the docs chrome, and nothing else: no
 # marketing pages, no blog, no articles.
+#
+# content-serverless is an overlay: a file there replaces the one at the same
+# path below, because the first mount to claim a target path wins. Keeping the
+# path identical is what lets Rotate "role" still pair the two as one logical
+# page, so the product strip keeps working across them.
+[[module.mounts]]
+  source = "content-serverless/documentation"
+  target = "content/documentation"
+  [module.mounts.sites.matrix]
+    roles = ["serverless"]
+
 [[module.mounts]]
   source = "content/documentation"
   target = "content/documentation"
