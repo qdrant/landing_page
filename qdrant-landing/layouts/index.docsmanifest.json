@@ -9,6 +9,9 @@
   Sections with `build: render: never` group pages in the sidebar without a
   page of their own. They are listed with "rendered": false and no URLs.
 */ -}}
+{{- /* Spans articles, blog, and course, which only the default role mounts.
+  A non-default role needs a manifest of its own: roles PoC, step 7. */ -}}
+{{- if site.Role.IsDefault -}}
 {{- $sections := slice "documentation" "articles" "blog" "course" -}}
 {{- $pages := slice -}}
 {{- range site.Pages.ByWeight -}}
@@ -58,3 +61,4 @@
   {{- $pages = $pages | append $entry -}}
 {{- end -}}
 {{- dict "version" 1 "base_url" site.BaseURL "pages" $pages | jsonify (dict "indent" "  ") -}}
+{{- end -}}

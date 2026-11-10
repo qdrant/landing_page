@@ -13,6 +13,46 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 
 disableKinds = ["taxonomy", "term"]
 
+# Roles build the docs twice from one content tree: Qdrant Server at
+# /documentation/ and Qdrant Serverless at /serverless/documentation/.
+# The default role is never prefixed, so Server URLs are unchanged.
+defaultContentRole = "server"
+defaultContentRoleInSubdir = false
+
+[roles.server]
+  weight = 10
+[roles.serverless]
+  weight = 20
+
+# A role's only setting is weight, so display names live here. The keys match
+# the _server / _serverless snippet directories.
+[params.roleLabels]
+  server = "Qdrant Server"
+  serverless = "Qdrant Serverless"
+
+# Declaring any content mount replaces Hugo's default one, so every content
+# source is listed explicitly. A file's roles come from the mounts that provide
+# it; front matter can only narrow that further.
+[[module.mounts]]
+  source = "content"
+  target = "content"
+  [module.mounts.sites.matrix]
+    roles = ["server"]
+
+# Serverless gets the docs tree and the docs chrome, and nothing else: no
+# marketing pages, no blog, no articles.
+[[module.mounts]]
+  source = "content/documentation"
+  target = "content/documentation"
+  [module.mounts.sites.matrix]
+    roles = ["serverless"]
+
+[[module.mounts]]
+  source = "content/headless"
+  target = "content/headless"
+  [module.mounts.sites.matrix]
+    roles = ["serverless"]
+
 [params]
   description = "Qdrant is an Open-Source Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
   keywords = ["vector search engine", "neural network", "matching", "SaaS",

@@ -22,7 +22,7 @@
   {{ with site.GetPage . }}
     {{ $description := .Params.short_description | default .Description }}
     {{ $examples = $examples | append (dict "title" .Title "description" $description "link" (dict "text" "Open Example" "url" .RelPermalink)) }}
-  {{ else }}{{ errorf "Unknown worked example %s" . }}{{ end }}
+  {{ else }}{{ if site.Role.IsDefault }}{{ errorf "Unknown worked example %s" . }}{{ else }}{{ warnf "Worked example %s absent from role %s" . site.Role.Name }}{{ end }}{{ end }}
 {{ end }}
 {{ if $examples }}
   {{ partial "documentation/sections/cards-section" (dict "title" "Apply These Techniques" "description" "Use a worked example to put the guidance into practice." "cardsPartial" "documentation/cards/docs-cards" "cards" $examples "button" (dict "text" "Browse Tutorials & Examples" "url" "/learn/examples/")) }}
@@ -32,7 +32,11 @@
   {{ with site.GetPage . }}
     {{ $references = $references | append (dict "title" .Title "description" .Params.short_description "link" (dict "text" "Explore Documentation" "url" .RelPermalink)) }}
   {{ else }}
-    {{ errorf "Unknown related page %s in %s" . $section.Path }}
+    {{ if site.Role.IsDefault }}
+      {{ errorf "Unknown related page %s in %s" . $section.Path }}
+    {{ else }}
+      {{ warnf "Related page %s in %s absent from role %s" . $section.Path site.Role.Name }}
+    {{ end }}
   {{ end }}
 {{ end }}
 {{ if $references }}
