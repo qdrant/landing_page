@@ -1,0 +1,17 @@
+{{- /*
+  Prose that belongs to some content roles and not others.
+
+  Roles filter whole pages, never part of one, so a paragraph that differs
+  between products needs this. Prefer a page-level sites matrix when a whole
+  page differs, and prefer wording that holds for every product over either.
+
+  Takes a comma-separated list of role names, matching the keys in config:
+  server, serverless.
+
+  Call it with the percent delimiters, not the angle ones, so the body is
+  parsed as Markdown and any heading in it reaches the table of contents.
+  See content/documentation/cloud-quickstart.md for a worked example.
+*/ -}}
+{{- $want := slice -}}
+{{- range split (.Get 0) "," }}{{ $want = $want | append (trim . " ") }}{{ end -}}
+{{- if in $want site.Role.Name }}{{ .Inner }}{{ end -}}

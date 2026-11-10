@@ -17,6 +17,12 @@ Securing a Qdrant deployment means controlling who can access your data, encrypt
 
 ## Secure Your Instance
 
+{{% only "serverless" %}}
+Serverless clusters are secured and operated by Qdrant. The self-hosted guidance
+in this section does not apply to them. Start from
+[Authentication](/documentation/cloud/authentication/) instead.
+{{% /only %}}
+
 <aside role="alert">Self-hosted open source deployments are <b>not</b> secure by default and are <b>not</b> production-ready. Qdrant Cloud deployments are always secure and production-ready.</aside>
 
 By default, all self-deployed Qdrant instances are not secure. They are open to
