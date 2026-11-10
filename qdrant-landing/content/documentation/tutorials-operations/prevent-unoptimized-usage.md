@@ -101,12 +101,14 @@ data = pl.read_parquet(
 )
 ```
 
-Upload the embeddings in batches of 1,000 points to each collection.
+Upload the embeddings in batches of 1,000 points to each collection, and time the upload. Optimization starts while points are still being uploaded, so the upload time is part of the total time to a green collection.
 
 ```python
+import time
 import uuid
 
-async def upload_points(collection_name: str, df: pl.DataFrame) -> None:
+async def upload_points(collection_name: str, df: pl.DataFrame) -> float:
+    start = time.perf_counter()
     for batch in df.iter_slices(1000):
         points = [
             models.PointStruct(id=str(uuid.uuid4()), vector=row["emb"])
@@ -115,6 +117,7 @@ async def upload_points(collection_name: str, df: pl.DataFrame) -> None:
         await client.upsert(
             collection_name=collection_name, points=points, wait=False
         )
+    return time.perf_counter() - start
 ```
 
 When uploading with `prevent_unoptimized` enabled, set `wait=False`. With `wait=True`, each upsert call blocks until its points become visible, which means until the segment they belong to finishes optimizing. On a bulk upload this stalls the whole loop and can time out the client. This does not apply to the Rust or Go SDKs, or to the REST API, since they default to `wait=False` already. See [Effect on `wait=true`](/documentation/ops-optimization/optimizer/#effect-on-waittrue) for the full explanation.
@@ -125,7 +128,6 @@ Poll `get_collection` for the collection status and the number of deferred point
 
 ```python
 import asyncio
-import time
 
 async def get_optimizations_progress(
     signal: asyncio.Event, collection_name: str, stable_polls: int = 3
@@ -185,10 +187,12 @@ async def query(
     return latencies, time.perf_counter() - start
 ```
 
-Run the experiment on one collection at a time, so the two do not compete for the same cluster resources. For each collection, upload the points, then run the query loop and the optimization monitor concurrently, so query latency is measured for the full duration of optimization.
+Run the experiment on one collection at a time, so the two do not compete for the same cluster resources. For each collection, upload the points and record the upload time, then run the query loop and the optimization monitor concurrently, so query latency is measured while the collection is still optimizing. The optimization time covers the period after the upload returns, and the total time adds the upload time to it.
 
 ```python
-async def query_and_optimize(collection_name: str, queries: list) -> dict:
+async def query_and_optimize(
+    collection_name: str, queries: list, upload_time: float
+) -> dict:
     # one signal per collection, so the two runs never interfere with each other
     signal = asyncio.Event()
     opt_time, (latencies, query_time) = await asyncio.gather(
@@ -196,16 +200,20 @@ async def query_and_optimize(collection_name: str, queries: list) -> dict:
         query(signal, collection_name, queries),
     )
     return {
+        "upload_time": upload_time,
         "total_optimization_time": opt_time,
+        "total_time": upload_time + opt_time,
         "total_query_time": query_time,
         "query_latencies": latencies,
     }
 
-await upload_points("prevent-unoptimized", data)
-stats_prevent = await query_and_optimize("prevent-unoptimized", queries)
+upload_time = await upload_points("prevent-unoptimized", data)
+stats_prevent = await query_and_optimize(
+    "prevent-unoptimized", queries, upload_time
+)
 
-await upload_points("allow-unoptimized", data)
-stats_unopt = await query_and_optimize("allow-unoptimized", queries)
+upload_time = await upload_points("allow-unoptimized", data)
+stats_unopt = await query_and_optimize("allow-unoptimized", queries, upload_time)
 ```
 
 ### Why We Poll and Query Concurrently
@@ -218,14 +226,14 @@ With `prevent_unoptimized=True`, watch `deferred_points` during this phase: a no
 
 ## Measured Result
 
-Against a 768-dimensional, 100,000-point collection on a Qdrant Cloud Free Tier cluster, `prevent_unoptimized` shortened the time to a green collection from 222.8 seconds to 191.7 seconds, and lowered query latency while the optimization was running:
+Against a 768-dimensional, 100,000-point collection on a Qdrant Cloud Free Tier cluster, `prevent_unoptimized` got the collection to green about 11% sooner and lowered query latency while the collection was optimizing. The total time covers the upload plus the optimization that remained after the upload returned, because optimization starts while points are still being uploaded:
 
-| Setting | Optimization Time | p50 Latency | p95 Latency | p99 Latency | Throughput |
-| --- | --- | --- | --- | --- | --- |
-| `prevent_unoptimized=true` | 191.7s | 0.117s | 0.181s | 0.185s | 7.33 qps |
-| `prevent_unoptimized=false` | 222.8s | 0.185s | 0.203s | 0.207s | 5.77 qps |
+| Setting | Upload | Optimization After Upload | Total to Green | p50 Latency | p95 Latency | p99 Latency | Throughput |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `prevent_unoptimized=true` | 35.0s | 198.9s | 233.8s | 0.117s | 0.181s | 0.185s | 7.34 qps |
+| `prevent_unoptimized=false` | 36.0s | 226.4s | 262.4s | 0.182s | 0.203s | 0.210s | 5.86 qps |
 
-Optimization finishes about 14% sooner, median latency is 37% lower, and throughput is 27% higher. The difference comes from the search path: with the setting off, queries scan large unindexed segments while the optimizer is still building the index, competing with it for CPU and I/O. With the setting on, those segments are skipped until they are indexed.
+Uploads take about the same time with both settings, so the difference in total time comes from optimization. Median latency is 36% lower and throughput is 25% higher. With the setting off, queries scan large unindexed segments while the optimizer is still building the index, competing with it for CPU and I/O. With the setting on, those segments are skipped until they are indexed.
 
 The deferred point count shows what this costs. With `prevent_unoptimized=true`, the monitor reports a nonzero count that drains as segments finish optimizing:
 
