@@ -2,8 +2,8 @@
   Prose that belongs to some content roles and not others.
 
   Roles filter whole pages, never part of one, so a paragraph that differs
-  between products needs this. Prefer a page-level sites matrix when a whole
-  page differs, and prefer wording that holds for every product over either.
+  between products needs this. For a page that differs wholesale, use a
+  content-serverless overlay instead: see config.toml.
 
   Takes a comma-separated list of role names, matching the keys in config:
   server, serverless.
@@ -11,7 +11,18 @@
   Call it with the percent delimiters, not the angle ones, so the body is
   parsed as Markdown and any heading in it reaches the table of contents.
   See content/documentation/cloud-quickstart.md for a worked example.
+
+  The dedent keeps nested shortcodes working. A percent shortcode's body goes
+  back through Goldmark, and a shortcode such as code-snippet emits its HTML
+  indented by its own template. Four spaces or a tab at the start of a line is
+  Markdown's indented-code-block marker, so Goldmark escaped that HTML and the
+  code blocks rendered as visible markup. Stripping that indentation where a
+  line opens a tag leaves the HTML as a block. It is deliberately limited to
+  four or more spaces: shallower indentation cannot start a code block, and
+  leaving it alone keeps HTML that is indented to sit inside a list item.
 */ -}}
 {{- $want := slice -}}
 {{- range split (.Get 0) "," }}{{ $want = $want | append (trim . " ") }}{{ end -}}
-{{- if in $want site.Role.Name }}{{ .Inner }}{{ end -}}
+{{- if in $want site.Role.Name -}}
+  {{- replaceRE `(?m)^(?:[ ]{4,}|\t+)<` "<" .Inner | safeHTML -}}
+{{- end -}}
