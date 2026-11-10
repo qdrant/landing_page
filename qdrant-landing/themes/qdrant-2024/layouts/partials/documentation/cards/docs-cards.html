@@ -8,7 +8,7 @@
 
 <div class="{{- $cardsPerRow -}}">
   <a
-    href="{{ .card.link.url }}"
+    href="{{ partial "common/role-url.html" .card.link.url }}"
     {{ if strings.HasPrefix .card.link.url "https://" }}target="_blank"{{ end }}
     class="docs-card"
   >

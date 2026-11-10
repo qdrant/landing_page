@@ -44,7 +44,7 @@
           <a href="https://skills.qdrant.tech/{{ $s }}/SKILL.md"><code>{{ $s }}</code></a>
         {{- end }}
         agent skill{{ if gt (len $skills) 1 }}s{{ end }}.
-        <a href="/documentation/agentic-tools/skills/">What are agent skills?</a>
+        <a href="{{ partial "common/role-url.html" "/documentation/agentic-tools/skills/" }}">What are agent skills?</a>
       </p>
     {{- end }}
   </div>

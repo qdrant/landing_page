@@ -7,7 +7,7 @@
     </div>
     {{ if .button }}
       <a
-        href="{{ .button.url }}"
+        href="{{ partial "common/role-url.html" .button.url }}"
         {{ if strings.HasPrefix .button.url "https://" }}target="_blank"{{ end }}
         class="button button_outlined button_sm"
       >

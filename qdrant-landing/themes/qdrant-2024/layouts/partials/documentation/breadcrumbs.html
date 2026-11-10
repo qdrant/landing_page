@@ -2,7 +2,7 @@
   {{ if eq .Params.learning_kind "guides" }}
     <li class="docs-breadcrumbs__crumb"><a href="/learn/">Learn</a></li>
     <li class="docs-breadcrumbs__crumb-separator"></li>
-    <li class="docs-breadcrumbs__crumb"><a href="/documentation/guides/">Guides</a></li>
+    <li class="docs-breadcrumbs__crumb"><a href="{{ partial "common/role-url.html" "/documentation/guides/" }}">Guides</a></li>
     <li class="docs-breadcrumbs__crumb-separator"></li>
     {{ if eq .Parent.Params.learning_kind "guides" }}
       <li class="docs-breadcrumbs__crumb"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></li>

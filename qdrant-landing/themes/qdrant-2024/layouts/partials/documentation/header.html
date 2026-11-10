@@ -19,7 +19,7 @@
             {{ if .url }}
               <a
                 class="menu-link {{- if eq (lower .name) $partition }}active{{- end -}}"
-                href="{{ .url }}"
+                href="{{ partial "common/role-url.html" .url }}"
                 {{ if (eq $index 4) }}target="_blank"{{ end }}
               >
                 {{ .name }}
@@ -32,7 +32,7 @@
               <ul class="main-menu__submenu">
                 {{ if .url }}
                   <li class="main-menu__section-link">
-                    <a class="link link_neutral link_sm" href="{{ .url }}">
+                    <a class="link link_neutral link_sm" href="{{ partial "common/role-url.html" .url }}">
                       {{ .name }}
                     </a>
                   </li>
@@ -40,7 +40,7 @@
                 {{ range .subMenuItems }}
                   <li class="main-menu__submenu-item">
                     <a
-                      href="{{ .url }}"
+                      href="{{ partial "common/role-url.html" .url }}"
                       {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
                     >
                       <img src="/img/menu/{{ .icon }}" draggable="false" />
@@ -109,7 +109,7 @@
             <div class="menu-mobile__item-content">
               <a
                 class="{{ if eq (lower .name) $partition }}active{{ end }}"
-                href="{{ .url }}"
+                href="{{ partial "common/role-url.html" .url }}"
                 {{ if (eq $index 4) }}target="_blank"{{ end }}
               >
                 {{ partial "common/svg" .icon }}
