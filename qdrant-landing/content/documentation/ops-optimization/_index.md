@@ -4,6 +4,13 @@ short_description: "Tune Qdrant for high-speed search, high precision, or low me
 description: "Optimize Qdrant for speed, precision, or memory efficiency, understand how the background optimizer rebuilds segments, and troubleshoot read-write contention under continuous ingestion."
 weight: 125
 partition: deploy
+cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Optimization

@@ -8,6 +8,9 @@ aliases:
   - quick_start
   - quick-start
   - quickstart
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 # How to Get Started with Qdrant Locally
 

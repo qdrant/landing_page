@@ -4,6 +4,13 @@ short_description: "Embed Qdrant Edge for in-process vector search on robots, ki
 description: "Embed Qdrant Edge for in-process vector search on robots, kiosks, and mobile devices, with offline-capable local retrieval and optional server sync."
 weight: 220
 partition: develop
+cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 <aside role="status">Qdrant Edge is in beta. The API and functionality may change in future releases.</aside>

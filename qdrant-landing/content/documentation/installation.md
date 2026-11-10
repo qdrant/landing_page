@@ -8,6 +8,9 @@ aliases:
   - /documentation/install
   - /documentation/installation
   - /documentation/operations/installation
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Installation requirements

@@ -4,6 +4,9 @@ short_description: "Run through the Qdrant production checklist — sharding, re
 description: "Production-readiness checklist for Qdrant: distributed sharding, replication, quantization, load balancing, and monitoring for stable vector search."
 partition: deploy
 weight: 147
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Things to Check Before Taking Qdrant into Production

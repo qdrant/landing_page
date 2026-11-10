@@ -9,6 +9,9 @@ aliases:
   - /documentation/cloud/capacity-sizing
   - /documentation/capacity-planning
   - /documentation/operations/capacity-planning
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 # Capacity Planning
 

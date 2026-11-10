@@ -7,6 +7,9 @@ weight: 135
 aliases:
   - /documentation/snapshots
   - /documentation/operations/snapshots
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Snapshots

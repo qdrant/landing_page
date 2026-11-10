@@ -5,6 +5,9 @@ description: Deploy and scale Qdrant with practical guidance on production archi
 partition: learn
 learning_kind: guides
 cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
   partition: learn
   learning_kind: guides
 layout: guides
@@ -23,4 +26,7 @@ content:
     section: /documentation/deploy-and-scale/
 worked_examples:
   - /documentation/tutorials-search-engineering/branch-aware-search/
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
