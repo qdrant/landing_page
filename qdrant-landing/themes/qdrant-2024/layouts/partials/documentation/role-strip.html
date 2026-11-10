@@ -1,0 +1,26 @@
+{{- /*
+  Links between the role variants of this page: Qdrant Server and Qdrant
+  Serverless.
+
+  Rendered only when the page exists in more than one role, so a page excluded
+  from a role shows no strip rather than a dead link. That matches how
+  code-snippet.html hides its own strip below two options.
+
+  Deliberately not styled like that deployment strip. Both appear on most Cloud
+  pages, and they do different things: that one picks which code sample shows
+  inside a page, this one moves between documentation sets.
+*/ -}}
+{{- $variants := .Rotate "role" -}}
+{{- if ge (len $variants) 2 -}}
+  <div class="role-strip">
+    <span class="role-strip__label">Product</span>
+    {{- range $variants -}}
+      {{- $label := index site.Params.roleLabels .Site.Role.Name | default .Site.Role.Name -}}
+      {{- if eq .Site.Role.Name site.Role.Name -}}
+        <span class="role-strip__item role-strip__item_current" aria-current="page">{{ $label }}</span>
+      {{- else -}}
+        <a class="role-strip__item" href="{{ .RelPermalink }}">{{ $label }}</a>
+      {{- end -}}
+    {{- end }}
+  </div>
+{{- end -}}
