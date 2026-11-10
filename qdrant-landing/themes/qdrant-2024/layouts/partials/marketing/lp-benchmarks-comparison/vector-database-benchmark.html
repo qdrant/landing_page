@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/lp-benchmarks-comparison/vector-database-benchmark") }}
+  <section class="lp-benchmarks-comparison-vector-database-benchmark">
+    <div class="container">
+      <div class="lp-benchmarks-comparison-vector-database-benchmark__header">
+        <div class="lp-benchmarks-comparison-vector-database-benchmark__heading">
+          {{ with .Params.label }}<p class="lp-benchmarks-comparison-vector-database-benchmark__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-benchmarks-comparison-vector-database-benchmark__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-benchmarks-comparison-vector-database-benchmark__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="lp-benchmarks-comparison-vector-database-benchmark__grid{{ if not (or .Params.image .Params.snippet) }} lp-benchmarks-comparison-vector-database-benchmark__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="lp-benchmarks-comparison-vector-database-benchmark__visual lp-benchmarks-comparison-vector-database-benchmark__visual--code">
+            <pre class="lp-benchmarks-comparison-vector-database-benchmark__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link lp-benchmarks-comparison-vector-database-benchmark__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="lp-benchmarks-comparison-vector-database-benchmark__visual">{{ partial "marketing/picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="lp-benchmarks-comparison-vector-database-benchmark__list">
+            {{ range .Params.cards }}{{ $card := . }}
+              <li class="lp-benchmarks-comparison-vector-database-benchmark__item">
+                <h3 class="lp-benchmarks-comparison-vector-database-benchmark__item-title">{{ .title }}</h3>
+                <p class="lp-benchmarks-comparison-vector-database-benchmark__item-description">{{ .description }}</p>
+                {{ with .url }}<a class="link link_md lp-benchmarks-comparison-vector-database-benchmark__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="lp-benchmarks-comparison-vector-database-benchmark__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-benchmarks-comparison-vector-database-benchmark__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

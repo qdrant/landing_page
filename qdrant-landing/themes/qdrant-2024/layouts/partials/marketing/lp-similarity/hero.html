@@ -1,0 +1,20 @@
+{{ with (.Site.GetPage "/lp-similarity/hero") }}
+  <section class="lp-similarity-hero">
+    <div class="container">
+      <div class="lp-similarity-hero__copy">
+        <p class="lp-similarity-hero__label">{{ .Params.label }}</p>
+        <h1 class="lp-similarity-hero__title">{{ .Params.title }}</h1>
+        <p class="lp-similarity-hero__description">{{ .Params.description }}</p>
+        {{ with .Params.proof }}<p class="lp-similarity-hero__description lp-similarity-hero__proof">{{ . | markdownify }}</p>{{ end }}
+        <div class="lp-similarity-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+          {{ with .Params.outlineButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

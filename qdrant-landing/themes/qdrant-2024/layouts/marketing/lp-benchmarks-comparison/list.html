@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/hero" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/vector-database-benchmark" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/filtered-search" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/vector-database-performance-comparison" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/results" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/how-to-benchmark" . }}
+
+  {{ partial "marketing/lp-benchmarks-comparison/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-benchmarks-comparison/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

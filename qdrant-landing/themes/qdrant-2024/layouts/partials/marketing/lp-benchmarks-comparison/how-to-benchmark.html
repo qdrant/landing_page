@@ -1,0 +1,33 @@
+{{ with (.Site.GetPage "/lp-benchmarks-comparison/how-to-benchmark") }}
+  <section class="lp-benchmarks-comparison-how-to-benchmark">
+    <div class="container">
+      <div class="lp-benchmarks-comparison-how-to-benchmark__header">
+        <div class="lp-benchmarks-comparison-how-to-benchmark__heading">
+          {{ with .Params.label }}<p class="lp-benchmarks-comparison-how-to-benchmark__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-benchmarks-comparison-how-to-benchmark__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-benchmarks-comparison-how-to-benchmark__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-benchmarks-comparison-how-to-benchmark__grid{{ if eq $n 1 }} lp-benchmarks-comparison-how-to-benchmark__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-benchmarks-comparison-how-to-benchmark__cell{{ if eq $n 1 }} lp-benchmarks-comparison-how-to-benchmark__cell--wide{{ end }}">
+            {{ with .icon }}<img class="lp-benchmarks-comparison-how-to-benchmark__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
+            <h3 class="lp-benchmarks-comparison-how-to-benchmark__cell-title">{{ .title }}</h3>
+            <p class="lp-benchmarks-comparison-how-to-benchmark__cell-description">{{ .description }}</p>
+            {{ with .url }}<a class="link link_md link_light lp-benchmarks-comparison-how-to-benchmark__cell-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-benchmarks-comparison-how-to-benchmark__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-benchmarks-comparison-how-to-benchmark__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

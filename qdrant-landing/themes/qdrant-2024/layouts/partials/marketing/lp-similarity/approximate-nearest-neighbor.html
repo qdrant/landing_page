@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/lp-similarity/approximate-nearest-neighbor") }}
+  <section class="lp-similarity-approximate-nearest-neighbor">
+    <div class="container">
+      <div class="lp-similarity-approximate-nearest-neighbor__header">
+        <div class="lp-similarity-approximate-nearest-neighbor__heading">
+          {{ with .Params.label }}<p class="lp-similarity-approximate-nearest-neighbor__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-similarity-approximate-nearest-neighbor__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-similarity-approximate-nearest-neighbor__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="lp-similarity-approximate-nearest-neighbor__grid{{ if not (or .Params.image .Params.snippet) }} lp-similarity-approximate-nearest-neighbor__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="lp-similarity-approximate-nearest-neighbor__visual lp-similarity-approximate-nearest-neighbor__visual--code">
+            <pre class="lp-similarity-approximate-nearest-neighbor__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link lp-similarity-approximate-nearest-neighbor__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="lp-similarity-approximate-nearest-neighbor__visual">{{ partial "marketing/picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="lp-similarity-approximate-nearest-neighbor__list">
+            {{ range .Params.cards }}{{ $card := . }}
+              <li class="lp-similarity-approximate-nearest-neighbor__item">
+                <h3 class="lp-similarity-approximate-nearest-neighbor__item-title">{{ .title }}</h3>
+                <p class="lp-similarity-approximate-nearest-neighbor__item-description">{{ .description }}</p>
+                {{ with .url }}<a class="link link_md lp-similarity-approximate-nearest-neighbor__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="lp-similarity-approximate-nearest-neighbor__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-similarity-approximate-nearest-neighbor__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

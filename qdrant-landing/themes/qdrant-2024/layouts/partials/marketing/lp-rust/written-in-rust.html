@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/lp-rust/written-in-rust") }}
+  <section class="lp-rust-written-in-rust">
+    <div class="container">
+      <div class="lp-rust-written-in-rust__header">
+        <div class="lp-rust-written-in-rust__heading">
+          {{ with .Params.label }}<p class="lp-rust-written-in-rust__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-rust-written-in-rust__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-rust-written-in-rust__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="lp-rust-written-in-rust__grid{{ if not (or .Params.image .Params.snippet) }} lp-rust-written-in-rust__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="lp-rust-written-in-rust__visual lp-rust-written-in-rust__visual--code">
+            <pre class="lp-rust-written-in-rust__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link lp-rust-written-in-rust__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="lp-rust-written-in-rust__visual">{{ partial "marketing/picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="lp-rust-written-in-rust__list">
+            {{ range .Params.cards }}{{ $card := . }}
+              <li class="lp-rust-written-in-rust__item">
+                <h3 class="lp-rust-written-in-rust__item-title">{{ .title }}</h3>
+                <p class="lp-rust-written-in-rust__item-description">{{ .description }}</p>
+                {{ with .url }}<a class="link link_md lp-rust-written-in-rust__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="lp-rust-written-in-rust__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-rust-written-in-rust__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

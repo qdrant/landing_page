@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-rust-getting-started {
+  @include lp-rust-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-rust-header('lp-rust-getting-started', true, true);
+  @include lp-rust-cell('lp-rust-getting-started');
+  @include lp-rust-single('lp-rust-getting-started');
+  @include lp-rust-callout('lp-rust-getting-started', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}
+
+.lp-rust-getting-started__header { display: block; text-align: left; }
+.lp-rust-getting-started__heading, .lp-rust-getting-started__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-rust-getting-started__description { margin-top: $spacer; }

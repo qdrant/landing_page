@@ -1,0 +1,33 @@
+{{ with (.Site.GetPage "/lp-rust/deployment") }}
+  <section class="lp-rust-deployment">
+    <div class="container">
+      <div class="lp-rust-deployment__header">
+        <div class="lp-rust-deployment__heading">
+          {{ with .Params.label }}<p class="lp-rust-deployment__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-rust-deployment__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-rust-deployment__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-rust-deployment__grid{{ if eq $n 1 }} lp-rust-deployment__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-rust-deployment__card{{ if eq $n 1 }} lp-rust-deployment__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-rust-deployment__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-rust-deployment__card-title">{{ .title }}</h3>
+            <p class="lp-rust-deployment__card-description">{{ .description }}</p>
+            {{ with .url }}<a class="link link_md lp-rust-deployment__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-rust-deployment__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-rust-deployment__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
