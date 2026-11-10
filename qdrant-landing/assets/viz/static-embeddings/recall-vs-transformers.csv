@@ -1,11 +1,6 @@
 model,type,recall_at_10_pct
-snowflake-arctic-embed-m-v1.5,transformer,65.6
-snowflake-arctic-embed-m,transformer,63.5
-snowflake-arctic-embed-l-v2.0,transformer,62.9
-snowflake-arctic-embed-xs,transformer,60.9
-snowflake-arctic-embed-s,transformer,60.4
-bge-small-en-v1.5,transformer,56.1
-e5-large,transformer,55.7
-stella_en_400M_v5,transformer,53.7
-potion-retrieval-32M,static,39.9
-potion-base-8M,static,15.8
+arctic-embed-m,transformer,63.5
+bge-small-v1.5,transformer,56.1
+stella-400M-v5,transformer,53.7
+potion-32M,static,39.9
+potion-8M,static,15.8

@@ -12,18 +12,20 @@
   "views": [
     {
       "label": "Wall time",
-      "subtitle": "2,048 documents, 307,200 tokens, lower is better",
+      "subtitle": "2,048 documents, tok = tokenizers version, lower is better",
       "y": "wall_ms",
       "yLabel": "wall time (ms)",
       "yMax": 600
     },
     {
       "label": "Share of total",
-      "subtitle": "percent of total wall time per batch",
+      "subtitle": "percent of total wall time per batch, tok = tokenizers version",
       "y": "share_pct",
       "yLabel": "share of wall time (%)",
       "yMax": 100
     }
   ],
-  "stacked": true
+  "stacked": true,
+  "textScale": 1.3,
+  "legendLayout": "auto"
 }
