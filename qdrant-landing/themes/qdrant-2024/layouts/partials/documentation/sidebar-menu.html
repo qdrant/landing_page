@@ -7,7 +7,11 @@
       {{ partial "documentation/learn-menu" $currentNode }}
     {{ else }}
 
-      {{ $pathSegments := split (trim $currentNode.RelPermalink "/") "/" }}
+      {{/* RelPermalink carries the role prefix outside the default role, which
+           would shift every level by one and leave the menu empty. Home's
+           RelPermalink is "/" in the default role, so this is a no-op there. */}}
+      {{ $relPath := strings.TrimPrefix site.Home.RelPermalink $currentNode.RelPermalink }}
+      {{ $pathSegments := split (trim $relPath "/") "/" }}
       {{ $numLevels := len $pathSegments }}
 
       {{ $subject := $currentNode }}
