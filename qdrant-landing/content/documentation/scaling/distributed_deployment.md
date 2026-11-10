@@ -122,12 +122,11 @@ Note that enabling distributed mode does not automatically replicate your data. 
 
 ## Making Use of a New Distributed Qdrant Cluster
 
-When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
+On Qdrant Cloud, when you scale up to two or more nodes, shards are [rebalanced](#rebalancing) onto the new nodes automatically. When you self-host, a new node starts out empty, and you need to [move shards](#moving-shards) onto it yourself.
 
-* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more and setting the [number of shards](#choosing-the-right-number-of-shards) to a multiple of your number of nodes.
-* If you have an existing collection which does not contain enough shards for each node, you must create a new collection as described in the previous bullet point.
-* If you already have enough shards for each node, and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
-* If you already have enough shards for each node, and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
+To keep your data available when a node fails, set the [replication_factor](#replication-factor) of your collections to 2 or more. On Qdrant Cloud, shards are replicated automatically to match the replication factor. When you self-host, you need to [create the shard replicas](#creating-new-shard-replicas) yourself.
+
+A collection can only use as many nodes as it has shards, so create your collections with enough shards for every node. Refer to [Choosing the Right Number of Shards](#choosing-the-right-number-of-shards). If an existing collection doesn't have enough shards, [reshard](#resharding) it on Qdrant Cloud, or create a new collection when you self-host.
 
 Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to keep the cluster topology and collection structure consistent across nodes. For how consensus works and what it means for availability, see [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling.
 
