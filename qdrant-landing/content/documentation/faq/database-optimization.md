@@ -19,7 +19,7 @@ Read more about [configuring the optimal](/documentation/ops-optimization/optimi
 
 ### How do you choose the machine configuration?
 
-On Qdrant Cloud, you choose the CPU, memory, and disk when you [create a cluster](/documentation/cloud/create-cluster/) and can change them later by [scaling the cluster](/documentation/cloud/cluster-scaling/). Use the [Sizing Calculator](https://sizing.qdrant.tech/) to estimate the resources you need, and the [Pricing Calculator](https://cloud.qdrant.io/calculator) for cost. For the two scenarios below, refer also to [Capacity Planning](/documentation/capacity-planning/).
+On Qdrant Cloud, you choose the CPU, memory, and disk when you [create a cluster](/documentation/cloud/create-cluster/) and can change them later by [scaling the cluster](/documentation/cloud/cluster-scaling/). Changing the CPU or memory restarts each node. Collections with a replication factor of 2 or more stay available during the restart, while collections without replicas have a short downtime. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime). Use the [Sizing Calculator](https://sizing.qdrant.tech/) to estimate the resources you need, and the [Pricing Calculator](https://cloud.qdrant.io/calculator) for cost. For the two scenarios below, refer also to [Capacity Planning](/documentation/capacity-planning/).
 
 There are two main scenarios of Qdrant usage in terms of resource consumption:
 
@@ -36,7 +36,7 @@ As a result, the Qdrant process might use more memory than the minimum required 
 
 > Unused RAM is wasted RAM
 
-On Qdrant Cloud, the memory available to Qdrant is determined by the [cluster size](/documentation/cloud/cluster-scaling/) you choose. If you self-host and want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
+On Qdrant Cloud, the memory available to Qdrant is determined by the [cluster size](/documentation/cloud/cluster-scaling/) you choose. If you scale a cluster down, the new memory must still fit all of your data, or the cluster can run out of memory and become unavailable until you scale it back up. If you self-host and want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
 
 ### My search latency increases under heavy write load. What should I do?
 
