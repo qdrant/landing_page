@@ -15,7 +15,7 @@ aliases:
 
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 
-<aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
+Before you start, please make sure Docker is installed and running on your system.
 
 ## Download and run
 
