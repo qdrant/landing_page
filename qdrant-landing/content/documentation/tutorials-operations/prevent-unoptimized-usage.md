@@ -66,11 +66,17 @@ Create two collections of 768-dimensional vectors, one with `prevent_unoptimized
 ```python
 from qdrant_client import models
 
-async def create_collection(collection_name: str, prevent_unoptimized: bool = True) -> None:
+async def create_collection(
+    collection_name: str, prevent_unoptimized: bool = True
+) -> None:
     await client.create_collection(
         collection_name=collection_name,
-        vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-        optimizers_config=models.OptimizersConfigDiff(prevent_unoptimized=prevent_unoptimized),
+        vectors_config=models.VectorParams(
+            size=768, distance=models.Distance.COSINE
+        ),
+        optimizers_config=models.OptimizersConfigDiff(
+            prevent_unoptimized=prevent_unoptimized
+        ),
     )
 
 await create_collection("prevent-unoptimized")
@@ -90,7 +96,9 @@ data_path = snapshot_download(
     repo_type="dataset",
     allow_patterns=["data/train-*-of-*.parquet"],
 )
-data = pl.read_parquet(source=f"{data_path}/data/train-*-of-*.parquet", columns=["emb"])
+data = pl.read_parquet(
+    source=f"{data_path}/data/train-*-of-*.parquet", columns=["emb"]
+)
 ```
 
 Upload the embeddings in batches of 1,000 points to each collection.
@@ -104,7 +112,9 @@ async def upload_points(collection_name: str, df: pl.DataFrame) -> None:
             models.PointStruct(id=str(uuid.uuid4()), vector=row["emb"])
             for row in batch.iter_rows(named=True)
         ]
-        await client.upsert(collection_name=collection_name, points=points, wait=False)
+        await client.upsert(
+            collection_name=collection_name, points=points, wait=False
+        )
 ```
 
 When uploading with `prevent_unoptimized` enabled, set `wait=False`. With `wait=True`, each upsert call blocks until its points become visible, which means until the segment they belong to finishes optimizing. On a bulk upload this stalls the whole loop and can time out the client. This does not apply to the Rust or Go SDKs, or to the REST API, since they default to `wait=False` already. See [Effect on `wait=true`](/documentation/ops-optimization/optimizer/#effect-on-waittrue) for the full explanation.
@@ -127,11 +137,20 @@ async def get_optimizations_progress(
             client.get_optimizations(collection_name=collection_name, with_="queued"),
             client.get_collection(collection_name=collection_name),
         )
-        deferred = (info.update_queue.deferred_points or 0) if info.update_queue else 0
+        queue = info.update_queue
+        deferred = (queue.deferred_points or 0) if queue else 0
         running = len(optimizations.running)
         queued = len(optimizations.queued or [])
-        print(f"Status: {info.status}, deferred points: {deferred}, running: {running}, queued: {queued}")
-        done = info.status == models.CollectionStatus.GREEN and deferred == 0 and running == 0 and queued == 0
+        print(
+            f"Status: {info.status}, deferred points: {deferred}, "
+            f"running: {running}, queued: {queued}"
+        )
+        done = (
+            info.status == models.CollectionStatus.GREEN
+            and deferred == 0
+            and running == 0
+            and queued == 0
+        )
         stable = stable + 1 if done else 0
         if stable < stable_polls:
             await asyncio.sleep(0.5)
@@ -149,7 +168,9 @@ While optimization runs, repeatedly query both collections with 1,000 sampled ve
 ```python
 queries = data.sample(1000)["emb"].to_list()
 
-async def query(signal: asyncio.Event, collection_name: str, queries: list) -> tuple[list[float], float]:
+async def query(
+    signal: asyncio.Event, collection_name: str, queries: list
+) -> tuple[list[float], float]:
     start = time.perf_counter()
     latencies = []
     while True:
@@ -174,7 +195,11 @@ async def query_and_optimize(collection_name: str, queries: list) -> dict:
         get_optimizations_progress(signal, collection_name),
         query(signal, collection_name, queries),
     )
-    return {"total_optimization_time": opt_time, "total_query_time": query_time, "query_latencies": latencies}
+    return {
+        "total_optimization_time": opt_time,
+        "total_query_time": query_time,
+        "query_latencies": latencies,
+    }
 
 await upload_points("prevent-unoptimized", data)
 stats_prevent = await query_and_optimize("prevent-unoptimized", queries)
