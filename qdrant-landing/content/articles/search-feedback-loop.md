@@ -16,7 +16,7 @@ keywords:
     - lexical search
     - search
     - information retrieval
-category: search-quality
+category: relevance-and-evaluation
 ---
 
 > A problem well stated is a problem half solved.
@@ -83,7 +83,7 @@ Nevertheless, automated re-scored feedback could be a scalable way to improve se
 Digging through research materials, we expected anything else but to discover that the first relevance feedback study dates back [*sixty years*](https://sigir.org/files/museum/pub-08/XXIII-1.pdf).
 In the midst of the neural search bubble, it's easy to forget that lexical (term-based) retrieval has been around for decades. Naturally, research in that field has had enough time to develop.
 
-**Neural search** — aka [vector search](https://qdrant.tech/articles/neural-search-tutorial/) — gained traction in the industry around 5 years ago. Hence, vector-specific relevance feedback techniques might still be in their early stages, awaiting production-grade validation and industry adoption. 
+**Neural search** — aka [vector search](/articles/what-are-embeddings/) — gained traction in the industry around 5 years ago. Hence, vector-specific relevance feedback techniques might still be in their early stages, awaiting production-grade validation and industry adoption.
 
 As a [dedicated vector search engine](https://qdrant.tech/articles/dedicated-vector-search/), we would like to be these adopters.
 Our focus is neural search, but approaches in both lexical and neural retrieval seem worth exploring, as cross-field studies are always insightful, with the potential to reuse well-established methods of one field in another. 

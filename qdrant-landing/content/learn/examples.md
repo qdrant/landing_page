@@ -17,4 +17,6 @@ content:
   - partial: documentation/recent-publications
     kind: examples
   - partial: documentation/examples/catalog
+aliases:
+  - /articles/demos-and-tutorials/
 ---

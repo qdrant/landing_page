@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/qdrant-cloud/qdrant-cloud-hero" . }}
+  {{ partial "marketing/qdrant-cloud/qdrant-cloud-why-qdrant" . }}
+  {{ partial "marketing/qdrant-cloud/qdrant-cloud-customers" . }}
+  {{ partial "marketing/qdrant-cloud/qdrant-cloud-capabilities" . }}
+  {{ partial "marketing/qdrant-cloud/qdrant-cloud-dev-experience" . }}
+
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-pricing") }}
+    {{ partial "marketing/pricing-banner" . }}
+  {{ end }}
+
+  {{ partial "marketing/qdrant-cloud/qdrant-cloud-resources" . }}
+
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-faq") }}
+    {{ partial "marketing/nested-accordion" (dict "context" . "class" "pt-5 pb-5 pb-lg-7") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-cta") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

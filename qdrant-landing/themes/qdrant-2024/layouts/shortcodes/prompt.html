@@ -22,7 +22,7 @@
 {{- if not $p -}}
   {{- errorf "prompt: no prompt file found for id %q (looked in content/documentation/headless/prompts/). Called from %s" $id .Page.RelPermalink -}}
 {{- end -}}
-<details class="prompt" id="prompt-{{ $id }}"{{ if $p.Params.open }} open{{ end }}>
+<details class="prompt" data-shortcode="prompt" id="prompt-{{ $id }}"{{ if $p.Params.open }} open{{ end }}>
   <summary class="prompt__summary">
     {{- /* Names the kind of thing this is while collapsed. The summary line is
          the only discovery surface a prompt has, so the type marker is placed

@@ -1,0 +1,11 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ partial "marketing/demo/demos-hero" . }}
+
+  {{ with (.Site.GetPage "/demo/items") }}
+    {{ partial "marketing/demo/demos-catalog" . }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+{{ end }}

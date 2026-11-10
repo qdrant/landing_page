@@ -235,7 +235,7 @@ The two memory categories line up with the memory tiers:
 | HNSW index (`m=6`) | `cached` | 17.881Gb | Cache memory |
 | Payloads | `cold` (default) | 200Gb on disk | Neither. Read from disk only when returned |
 
-Moving a structure to a colder tier trades RAM for latency. If the node had less RAM, the HNSW index is the first candidate to go from `cached` to `cold`, but it sits on the hot path of every query, so expect a large latency cost. See [Memory Tiers: What to Use and When](/documentation/production-operations/memory-tiers/) for how to choose.
+Moving a structure to a colder tier trades RAM for latency. If the node had less RAM, the HNSW index is the first candidate to go from `cached` to `cold`, but it sits on the hot path of every query, so expect a large latency cost. See [Memory Tiers: What to Use and When](/documentation/operate-and-maintain/memory-tiers/) for how to choose.
 
 
 ## Search

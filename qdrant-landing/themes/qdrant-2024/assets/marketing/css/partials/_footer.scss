@@ -1,0 +1,194 @@
+@use '../helpers/functions' as *;
+@use 'sass:math';
+@use '../mixins/footer-bottom' as footer-bottom;
+
+.footer {
+  background-color: $neutral-10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__top {
+    width: 100%;
+    padding: $spacer * 2.5 0;
+    border-bottom: pxToRem(1) solid $neutral-20;
+
+    &-logo {
+      height: $spacer * 2;
+      margin-bottom: $spacer * 2;
+    }
+
+    &-social-media-platforms {
+      display: flex;
+      gap: $spacer * 2.5;
+    }
+
+    &-social-media-link {
+      outline: none;
+      height: $spacer * 1.5;
+
+      &:hover svg path {
+        fill: $neutral-70;
+      }
+    }
+  }
+
+  &__menu {
+    width: 100%;
+    padding: $spacer * 4 0;
+    border-bottom: pxToRem(1) solid $neutral-20;
+
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: $spacer;
+    }
+
+    &-section {
+      width: calc(50% - math.div($spacer, 2));
+    }
+
+    &-section-title {
+      font-size: map-get($font-sizes-text, 'm');
+      line-height: pxToRem(24);
+      color: $neutral-98;
+      font-weight: bold;
+    }
+
+    &-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+    }
+
+    &-item:not(:last-of-type) {
+      margin-bottom: pxToRem(12);
+    }
+
+    &-item a {
+      color: $neutral-70;
+      text-decoration: none;
+    }
+
+    &-item a:hover {
+      color: $neutral-98;
+    }
+  }
+
+  &__middle {
+    width: 100%;
+    padding: $spacer * 2.5 0;
+    border-bottom: pxToRem(1) solid $neutral-20;
+
+    &-newsletter {
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-title {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: 1;
+      margin-bottom: $spacer * 0.5;
+      color: $neutral-98;
+    }
+
+    &-subtitle {
+      max-width: pxToRem(365);
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+      color: $neutral-70;
+    }
+
+    .subscribe-form {
+      .legal-consent-container {
+        a {
+          font-weight: 500;
+          color: $neutral-60;
+          border-bottom: pxToRem(1) solid $neutral-60;
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    @include footer-bottom.base;
+
+    &-content {
+      @include footer-bottom.content;
+    }
+
+    &-copyright {
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+      color: $neutral-70;
+    }
+
+    &-bages {
+      display: flex;
+      align-items: center;
+      gap: $spacer * 1.5;
+
+      img {
+        height: $spacer * 3;
+        width: $spacer * 3;
+      }
+    }
+
+    &-links {
+      @include footer-bottom.links;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__top {
+      &-logo {
+        margin-bottom: 0;
+      }
+
+      &-social-media-platforms {
+        justify-content: flex-end;
+      }
+    }
+
+    &__menu {
+      &-content {
+        flex-wrap: nowrap;
+      }
+
+      &-section {
+        width: auto;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__bottom {
+      &-content {
+        @include footer-bottom.content-lg;
+      }
+
+      &-links {
+        @include footer-bottom.links-lg;
+      }
+    }
+
+    &__middle {
+      .subscribe-form {
+        max-width: pxToRem(540);
+        margin-left: auto;
+
+        .legal-consent-container {
+          max-width: none;
+        }
+      }
+    }
+  }
+}
+
+@import 'subscribe-form';

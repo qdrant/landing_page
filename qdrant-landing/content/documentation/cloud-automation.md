@@ -35,11 +35,9 @@ The workflow is the same in every tool: create a cluster, then create a Database
 
 ### qcloud CLI
 
-Put the key in an environment variable instead of the command line, so that it stays out of your shell history:
-
 ```sh
-export QDRANT_CLOUD_API_KEY=<CLOUD_MANAGEMENT_KEY>
-export QDRANT_CLOUD_ACCOUNT_ID=<ACCOUNT_ID>
+# Authenticate
+qcloud auth login
 
 # Create a three-node cluster and wait until it is healthy
 qcloud cluster create \

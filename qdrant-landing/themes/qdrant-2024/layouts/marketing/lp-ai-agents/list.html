@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-ai-agents/hero" . }}
+
+  {{ partial "marketing/lp-ai-agents/memory-for-intelligent-agents" . }}
+
+  {{ partial "marketing/lp-ai-agents/agentic-retrieval" . }}
+
+  {{ partial "marketing/lp-ai-agents/multi-agent-systems" . }}
+
+  {{ partial "marketing/lp-ai-agents/deployment" . }}
+
+  {{ partial "marketing/lp-ai-agents/getting-started" . }}
+
+  {{ partial "marketing/lp-ai-agents/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-ai-agents/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

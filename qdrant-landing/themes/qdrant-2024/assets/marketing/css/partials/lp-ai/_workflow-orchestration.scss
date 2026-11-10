@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-ai-workflow-orchestration {
+  @include lp-ai-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-ai-header('lp-ai-workflow-orchestration', true, true);
+  @include lp-ai-cell('lp-ai-workflow-orchestration');
+  @include lp-ai-single('lp-ai-workflow-orchestration');
+  @include lp-ai-callout('lp-ai-workflow-orchestration', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}
+
+.lp-ai-workflow-orchestration__header { display: block; text-align: left; }
+.lp-ai-workflow-orchestration__heading, .lp-ai-workflow-orchestration__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-ai-workflow-orchestration__description { margin-top: $spacer; }

@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/lp-open-source/migration") }}
+  <section class="lp-open-source-migration">
+    <div class="container">
+      <div class="lp-open-source-migration__header">
+        <div class="lp-open-source-migration__heading">
+          {{ with .Params.label }}<p class="lp-open-source-migration__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-open-source-migration__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-open-source-migration__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-open-source-migration__grid{{ if eq $n 1 }} lp-open-source-migration__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}
+          <div class="lp-open-source-migration__card{{ if eq $n 1 }} lp-open-source-migration__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-open-source-migration__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-open-source-migration__card-title">{{ with .url }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ end }}{{ .title }}{{ with .url }}</a>{{ end }}</h3>
+            <p class="lp-open-source-migration__card-description">{{ .description }}</p>
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-open-source-migration__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-open-source-migration__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

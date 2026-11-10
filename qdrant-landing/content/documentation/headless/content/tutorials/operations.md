@@ -2,6 +2,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | [Snapshots](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
 | [Embedding Model Migration](/documentation/tutorials-operations/embedding-model-migration/) | Use your new model with zero downtime. | <span class="pill">Any</span> | 40m | <span class="text-yellow">Intermediate</span> |
+| [Migrate Hybrid Search from Chroma](/documentation/tutorials-operations/chroma-hybrid-retrieval-migration/) | Rebuild a Chroma Cloud hybrid retrieval app on Qdrant Cloud. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Blue-Green Cluster Deployment](/documentation/tutorials-operations/blue-green-deployment/) | Deploy changes to a new cluster and switch traffic with zero production risk. | <span class="pill">Any</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Time-Based Sharding](/documentation/tutorials-operations/time-based-sharding/) | Efficiently manage time-series data with user-defined sharding. | <span class="pill">Any</span> | 1h | <span class="text-yellow">Intermediate</span> |
 | [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | <span class="pill">Any</span> | 48h | <span class="text-red">Advanced</span> |
