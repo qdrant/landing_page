@@ -19,7 +19,7 @@ The log is per-node. Each node tracks operations on its own local shards. Queryi
 
 The Slow Request Log is enabled by default and cannot be disabled.
 
-On Qdrant Cloud, the log is available on clusters that run Qdrant v1.16.0 or later. Because the log is per-node, query each node through its [node-specific endpoint](/documentation/cloud/cluster-access/#node-specific-endpoints), using a [Database API key](/documentation/cloud/authentication/) that has `manage` access.
+On Qdrant Cloud, accessing the log requires a [Database API key](/documentation/cloud/authentication/) that has `manage` permissions.
 
 ## What Gets Captured
 
