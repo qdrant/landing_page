@@ -6,7 +6,7 @@
           {{ with .Params.label }}<p class="lp-rust-written-in-rust__label">{{ . }}</p>{{ end }}
           <h2 class="lp-rust-written-in-rust__title">{{ .Params.title }}</h2>
         </div>
-        {{ with .Params.description }}<p class="lp-rust-written-in-rust__description">{{ . }}</p>{{ end }}
+        {{ with .Params.description }}<p class="lp-rust-written-in-rust__description">{{ . | markdownify }}</p>{{ end }}
       </div>
       <div class="lp-rust-written-in-rust__grid{{ if not (or .Params.image .Params.snippet) }} lp-rust-written-in-rust__grid--text{{ end }}">
         {{ with .Params.snippet }}
@@ -24,7 +24,7 @@
             {{ range .Params.cards }}{{ $card := . }}
               <li class="lp-rust-written-in-rust__item">
                 <h3 class="lp-rust-written-in-rust__item-title">{{ .title }}</h3>
-                <p class="lp-rust-written-in-rust__item-description">{{ .description }}</p>
+                <p class="lp-rust-written-in-rust__item-description">{{ .description | markdownify }}</p>
                 {{ with .url }}<a class="link link_md lp-rust-written-in-rust__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
               </li>
             {{ end }}

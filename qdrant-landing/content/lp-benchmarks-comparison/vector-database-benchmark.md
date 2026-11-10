@@ -7,8 +7,8 @@ image:
   alt: Two throughput curves over precision, with the comparison read where both engines reach the same precision
 cards:
   - id: 0
-    title: Use the open source benchmark tool.
-    description: The vector-db-benchmark repository on GitHub tests engines under the same hardware constraints, with every dataset and engine setting in a plain configuration file.
+    title: Build the benchmark with Supernova.
+    description: '[Supernova](https://github.com/qdrant-labs/supernova) is Qdrant''s open source toolkit for vector search benchmarks. It embeds your dataset, computes exact ground truth, loads the vectors into Qdrant, and measures latency and recall under load.'
     icon:
       src: /icons/outline/layers-blue.svg
       alt: ""
@@ -19,8 +19,8 @@ cards:
       src: /icons/outline/award-blue.svg
       alt: ""
   - id: 2
-    title: Check recall against exact results.
-    description: 'Set exact: true on a query to run a full scan, then compare the approximate results with it.'
+    title: Test many index settings in one run.
+    description: Supernova sweeps loading and load tests across a matrix of index and search settings and combines them into one report.
     icon:
       src: /icons/outline/puzzle-blue.svg
       alt: ""

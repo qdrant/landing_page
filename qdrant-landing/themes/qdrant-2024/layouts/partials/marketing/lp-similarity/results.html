@@ -6,7 +6,7 @@
           {{ with .Params.label }}<p class="lp-similarity-results__label">{{ . }}</p>{{ end }}
           <h2 class="lp-similarity-results__title">{{ .Params.title }}</h2>
         </div>
-        {{ with .Params.description }}<p class="lp-similarity-results__description">{{ . }}</p>{{ end }}
+        {{ with .Params.description }}<p class="lp-similarity-results__description">{{ . | markdownify }}</p>{{ end }}
       </div>
       {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
       <div class="lp-similarity-results__grid{{ if eq $n 1 }} lp-similarity-results__grid--single{{ end }}" style="--cols: {{ $cols }}">
@@ -14,7 +14,7 @@
           <div class="lp-similarity-results__card{{ if eq $n 1 }} lp-similarity-results__card--wide{{ end }}">
             {{ with .icon }}<span class="lp-similarity-results__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
             <h3 class="lp-similarity-results__card-title">{{ .title }}</h3>
-            <p class="lp-similarity-results__card-description">{{ .description }}</p>
+            <p class="lp-similarity-results__card-description">{{ .description | markdownify }}</p>
             {{ with .url }}<a class="link link_md lp-similarity-results__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
           </div>
         {{ end }}

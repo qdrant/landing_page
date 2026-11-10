@@ -4,7 +4,7 @@
       <div class="lp-similarity-hero__copy">
         <p class="lp-similarity-hero__label">{{ .Params.label }}</p>
         <h1 class="lp-similarity-hero__title">{{ .Params.title }}</h1>
-        <p class="lp-similarity-hero__description">{{ .Params.description }}</p>
+        <p class="lp-similarity-hero__description">{{ .Params.description | markdownify }}</p>
         {{ with .Params.proof }}<p class="lp-similarity-hero__description lp-similarity-hero__proof">{{ . | markdownify }}</p>{{ end }}
         <div class="lp-similarity-hero__actions">
           {{ with .Params.button }}
