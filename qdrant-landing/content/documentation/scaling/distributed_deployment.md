@@ -16,13 +16,7 @@ aliases:
 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
-On Qdrant Cloud, you choose the number of nodes and Qdrant Cloud sets up distributed mode for you. It also rebalances shards, replicates them to match your replication factor, and puts your cluster behind a load balancer. Refer to [Scaling Qdrant Cloud Clusters](/documentation/cloud/cluster-scaling/). The sections on self-hosted Qdrant describe how to do these things yourself.
-
-## Enabling Distributed Mode in Qdrant Cloud
-
-To enable distributed mode, in the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Cluster" and select the desired node count.
-
-Additionally, Qdrant Cloud also offers the ability to automatically rebalance and to reshard your collections, which is not available in self-hosted Qdrant. Refer to the [Resharding](/documentation/cloud/cluster-scaling/#resharding) and [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) sections for more details.
+On Qdrant Cloud (managed, Hybrid, and Private Cloud), you don't need to enable distributed mode. You choose the number of nodes, and Qdrant Cloud rebalances shards across them and replicates shards to match your replication factor. You can also [reshard](/documentation/cloud/cluster-scaling/#resharding) your collections. Refer to [Scaling Qdrant Cloud Clusters](/documentation/cloud/cluster-scaling/) and [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing). The sections on self-hosted Qdrant describe how to do these things yourself.
 
 ## Enabling Distributed Mode in Self-Hosted Qdrant
 
@@ -438,7 +432,7 @@ Qdrant's clients don't distribute requests across nodes on their own. To take fu
 - Ensures replicas on all nodes serve reads.
 - Distributes the coordinator role across nodes. Each node that receives a request fans out the query to the relevant shards, merges the partial results, and returns the final response so the CPU and memory cost of aggregation is shared rather than concentrated on one node.
 
-On Qdrant Cloud, clusters are already behind a load balancer. Send all requests to the endpoint provided for each cluster, and Qdrant Cloud handles the load balancing. If you're self-hosting, you need to set up a load balancer yourself.
+On managed Qdrant Cloud, clusters are already behind a load balancer. Send all requests to the endpoint provided for each cluster, and Qdrant Cloud handles the load balancing. On Hybrid Cloud and Private Cloud, the cluster runs in your own Kubernetes environment, so you configure how it is exposed. Refer to [Exposing Qdrant clusters to your client applications](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#exposing-qdrant-clusters-to-your-client-applications) for Hybrid Cloud and [Exposing a Cluster](/documentation/private-cloud/qdrant-cluster-management/#exposing-a-cluster) for Private Cloud. If you're self-hosting, you need to set up a load balancer yourself.
 
 ## Listener Mode
 
