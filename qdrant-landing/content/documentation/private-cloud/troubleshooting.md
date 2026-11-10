@@ -133,4 +133,13 @@ kubectl get qdrantclusterrestore -n qdrant-private-cloud
 kubectl describe qdrantclustersnapshot <NAME> -n qdrant-private-cloud
 ```
 
+Then look at the `VolumeSnapshot` objects that the Operator created for the backup. Their events usually tell why a snapshot fails or does not start, because the CSI driver and the snapshot controller report their errors there:
+
+```sh
+kubectl get volumesnapshot -n qdrant-private-cloud
+kubectl describe volumesnapshot <NAME> -n qdrant-private-cloud
+```
+
+If a `VolumeSnapshot` stays not ready, also check the `VolumeSnapshotContent` that it points to, and the logs of your CSI snapshot controller.
+
 The usual causes of a snapshot that fails or is skipped are a `VolumeSnapshotClass` that does not exist or does not match the `StorageClass`, a CSI driver without snapshot support, and a backup feature that is turned off in the Operator values. The snapshot resource, the `VolumeSnapshot` objects, and the destination cluster must all be in the same namespace. Failed and skipped snapshots are deleted after `retainUnsuccessful`, 72 hours by default, so read them before then. See [Backups](/documentation/private-cloud/backups/).
