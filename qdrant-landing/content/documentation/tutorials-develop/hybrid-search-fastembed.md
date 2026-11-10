@@ -175,6 +175,16 @@ if not client.collection_exists("startups"):
 Qdrant requires vectors to have their own names and configurations.
 Parameters `size` and `distance` are mandatory, however, you can additionally  specify extended configuration for your vectors, like `quantization_config` or `hnsw_config`.
 
+Later in this tutorial, you will filter search results by `city`. Qdrant Cloud turns on [strict mode](/documentation/ops-configuration/administration/#strict-mode) for new collections, which rejects filtering on a payload field that has no [payload index](/documentation/manage-data/indexing/#payload-index). Create an index for the `city` field now:
+
+```python
+client.create_payload_index(
+    collection_name="startups",
+    field_name="city",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
+```
+
 
 4. Read data from the file.
 
