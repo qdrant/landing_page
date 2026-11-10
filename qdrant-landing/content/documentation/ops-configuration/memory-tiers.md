@@ -86,7 +86,9 @@ Async I/O lets Qdrant issue disk reads concurrently instead of one at a time, re
 
 *Available as of v1.19.0.* 
 
-Set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
+On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
+
+When self-hosting, set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
 
 ```yaml
 storage:

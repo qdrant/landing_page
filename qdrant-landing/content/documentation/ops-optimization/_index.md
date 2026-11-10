@@ -8,7 +8,7 @@ partition: deploy
 
 # Optimization
 
-These pages cover strategies and internal mechanisms for improving search performance, reducing memory usage, managing how Qdrant organizes data on disk, and troubleshooting read-write contention. On Qdrant Cloud, most of the settings they describe are set per collection through the API, and the node-level settings Cloud exposes are under **Advanced Optimizations** in the cluster configuration. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/#advanced-optimizations).
+These pages cover strategies and internal mechanisms for improving search performance, reducing memory usage, managing how Qdrant organizes data on disk, and troubleshooting read-write contention.
 
 ## Optimize Performance
 

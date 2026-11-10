@@ -11,8 +11,6 @@ Qdrant is designed to index and optimize data as it arrives. While serving searc
 
 This guide walks through a set of configuration changes to improve read latency under heavy write load. The steps are ordered by impact: start with step 1 and stop when your latency target is met. After each step, measure read latency and write throughput. If a change doesn't improve latency enough or causes unacceptable throughput loss, revert it and move to the next step.
 
-Most steps are per-collection API settings, they work the same on every deployment type. The node-level settings are limited on Qdrant Cloud: [Step 3](#step-3-lower-the-optimizers-cpu-budget) uses the **Optimizer CPU Budget** setting in the cluster configuration, and Qdrant Cloud handles async I/O in [Step 6](#step-6-try-async-io) on newer versions. Steps 8 and 9 map to scaling your cluster in the Cloud Console.
-
 ## Step 1: Prevent Reads from Large Unindexed Segments
 
 *Requires Qdrant v1.17.1 or later. `prevent_unoptimized` is an experimental feature.*
@@ -47,9 +45,9 @@ A smaller batch size is especially worth trying when your payloads are large. A 
 
 ## Step 3: Lower the Optimizer's CPU Budget
 
-By default, Qdrant auto-selects the number of CPU threads the optimizer can use, typically leaving one or two cores free and giving the rest to the optimizer. Under write pressure, this can leave little headroom for queries. Use the `optimizer_cpu_budget` setting to lower the optimizer's CPU budget.
+By default, Qdrant auto-selects the number of CPU threads the optimizer can use, typically leaving one or two cores free and giving the rest to the optimizer. Under write pressure, this can leave little headroom for queries.
 
-On Qdrant Cloud, set it as **Optimizer CPU Budget** under **Advanced Optimizations** in the cluster **Configuration** tab. When self-hosting, `optimizer_cpu_budget` is a node-level setting in the Qdrant configuration file, under `performance`:
+To lower the optimizer's CPU budget, on Qdrant Cloud, configure the **Optimizer CPU Budget** under **Advanced Optimizations** in the cluster **Configuration** tab. When self-hosting, `optimizer_cpu_budget` is a node-level setting in the Qdrant configuration file, under `performance`:
 
 ```yaml
 performance:
@@ -124,7 +122,9 @@ Async I/O relies on `io_uring`, so verify kernel support before enabling in prod
 
 *Available as of v1.19.0.* 
 
-Set `storage.performance.io_uring` to `auto` to apply async I/O to vector storage and payload storage when they're `cold`. You can enable it in the configuration file:
+On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
+
+When self-hosting, set `storage.performance.io_uring` to `auto` to apply async I/O to vector storage and payload storage when they're `cold`. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -184,15 +184,11 @@ The previous steps all operate within a fixed hardware budget: they reallocate C
 
 For example, a collection with three shards and a replication factor of two has six replicas total. On a three-node cluster, each node handles two replicas. A read request hits one replica per shard, so query load is spread evenly across all three nodes.
 
-On Qdrant Cloud, add nodes by [scaling your cluster](/documentation/cloud/cluster-scaling/#horizontal-scaling), and set the replication factor per collection or as a default in the cluster's [Collection Defaults](/documentation/cloud/configure-cluster/#collection-defaults).
-
 The tradeoff is cost and write latency. Every write must be replicated to all replicas of a shard before it's acknowledged, so a higher replication factor increases write latency. Adding nodes also means more hardware to provision and operate. Find the balance that fits your latency budget and write throughput requirements.
 
 ## Step 9: Scale Vertically
 
 Like Step 8, this step adds capacity rather than reallocating it. Where horizontal scaling distributes load across more nodes, vertical scaling gives each node more resources to work with.
-
-On Qdrant Cloud, [scale your cluster vertically](/documentation/cloud/cluster-scaling/#vertical-scaling) to change CPU, memory, and disk.
 
 **CPU.** More vCPUs mean the optimizer and queries share a larger pool. The ratios from Steps 3 and 4 still apply, but with 32 vCPUs instead of eight, even a 25% optimizer budget leaves more absolute cores for queries. Vertical CPU scaling amplifies the effect of the tuning you've already done.
 
