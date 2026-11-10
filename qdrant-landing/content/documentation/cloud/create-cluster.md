@@ -30,7 +30,7 @@ A free cluster includes:
 - Manual snapshots and restores through the API only
 - No dedicated resources
 
-If unused, free tier clusters are automatically suspended after 1 week, and deleted after 4 weeks of inactivity if not reactivated. You can upgrade to a standard cluster at any time.
+If unused, free tier clusters are automatically suspended after 1 week, and deleted after 4 weeks of inactivity if not reactivated. To reactivate a suspended cluster, see [Reactivate a Suspended Cluster](/documentation/cloud-pricing-payments/#reactivate-a-suspended-cluster). You can upgrade to a standard cluster at any time.
 
 ## Standard Clusters
 
