@@ -46,7 +46,7 @@ First, you will 1) download and prepare a sample dataset using a modified versio
 
 To complete this tutorial, you will need:
 
-- Docker - The easiest way to use Qdrant is to run a pre-built Docker image.  
+- A [Qdrant Cloud](https://cloud.qdrant.io) account for a Free Tier Qdrant Cloud Cluster. To run Qdrant on your own machine instead, you need Docker.
 - [Raw parsed data](https://storage.googleapis.com/generall-shared-data/startups_demo.json) from startups-list.com.
 - Python 3.10 or later
 
@@ -68,11 +68,30 @@ wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
 head -n 100 startups_demo.json > startups_sample.json
 ```
 
-## Run Qdrant in Docker
+## Create a Qdrant Cloud Cluster
 
 Next, you need to manage all of your data using a vector engine. Qdrant lets you store, update or delete created vectors. Most importantly, it lets you search for the nearest vectors via a convenient API. 
 
 > **Note:** Before you begin, create a project directory and a virtual python environment in it.
+
+1. Register for a [Qdrant Cloud account](https://cloud.qdrant.io) using your email, Google, or GitHub credentials.
+2. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
+3. Copy the **API key** when prompted and store it somewhere safe, as it won't be displayed again.
+4. Copy the **Cluster Endpoint**. It should look something like `https://xxx.cloud.qdrant.io`.
+5. Store both as environment variables in your terminal, so the code can read them.
+
+```bash
+export QDRANT_URL="https://xxx.cloud.qdrant.io"
+export QDRANT_API_KEY="your-api-key"
+```
+
+> **Note:** Free clusters are suspended automatically after 1 week without use, and deleted after 4 weeks of inactivity if you don't reactivate them. If your cluster stops responding when you return to this tutorial, check its status in the Cloud Console. Refer to [Free Clusters](/documentation/cloud/create-cluster/#free-clusters).
+
+In this tutorial, FastEmbed generates the dense and sparse vectors in your Python process and uploads them to your cluster.
+
+### Run Qdrant Locally Instead
+
+To run Qdrant on your own machine, use Docker instead of a Cloud cluster.
 
 1. Download the Qdrant image from DockerHub.
 
@@ -98,6 +117,8 @@ Test the service by going to [http://localhost:6333/](http://localhost:6333/). Y
 
 All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and will be persisted even if you recreate the container.
 
+Then set `QDRANT_URL` to `http://localhost:6333` and leave `QDRANT_API_KEY` unset. Create the client in the next section with `QdrantClient(url=os.environ["QDRANT_URL"], api_key=os.environ.get("QDRANT_API_KEY"))`, which works for both setups.
+
 
 ## Upload data to Qdrant
 
@@ -108,17 +129,22 @@ pip install "qdrant-client[fastembed]>=1.14.2" tqdm
 ```
 > **Note:** This tutorial requires fastembed of version >=0.6.1.
 
-At this point, you should have 100 startup records in the `startups_sample.json` file and Qdrant running on a local machine.
+At this point, you should have 100 startup records in the `startups_sample.json` file and a Qdrant Cloud cluster.
 
 Now you need to write a script to upload all startup data and vectors into the search engine.
 
 2. Create a client object for Qdrant.
 
 ```python
+import os
+
 # Import client library
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url=os.environ["QDRANT_URL"],
+    api_key=os.environ.get("QDRANT_API_KEY"),
+)
 ```
 
 
@@ -212,6 +238,8 @@ Qdrant supports 2 fusion functions for combining the results: [reciprocal rank f
 1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
+import os
+
 from qdrant_client import QdrantClient, models
 
 
@@ -223,7 +251,10 @@ class HybridSearcher:
 
     def __init__(self, collection_name):
         self.collection_name = collection_name
-        self.qdrant_client = QdrantClient(url="http://localhost:6333")
+        self.qdrant_client = QdrantClient(
+            url=os.environ["QDRANT_URL"],
+            api_key=os.environ.get("QDRANT_API_KEY"),
+        )
 
     def search(self, text: str):
         points = self.qdrant_client.query_points(
@@ -323,7 +354,7 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 ```
 
-3. Run the service.
+3. Run the service in the terminal where you set `QDRANT_URL` and `QDRANT_API_KEY`.
 
 ```bash
 python service.py
@@ -341,8 +372,8 @@ Test the API with a query such as `delivery`. The response contains a `result` l
 curl 'http://localhost:8000/api/search?q=delivery'
 ```
 
-The first upload and search download embedding models. This uses disk space and CPU time, but requires no paid API account. Stop the FastAPI process and the tutorial's Docker container when finished. Remove the tutorial's `qdrant_storage` directory only if you no longer need its data.
+The first upload and search download embedding models. This uses disk space and CPU time, but requires no paid API account. Stop the FastAPI process when finished. If you ran Qdrant locally, also stop the tutorial's Docker container, and remove the tutorial's `qdrant_storage` directory only if you no longer need its data. If you used a Qdrant Cloud cluster, you can [delete it](/documentation/cloud/create-cluster/#deleting-a-cluster) when you no longer need it.
 
-The 100-record workflow, repeat upload, hybrid API request, and city filter were tested on November 5, 2026 with Qdrant 1.20.0, qdrant-client 1.20.0, FastEmbed 0.9.1, FastAPI 0.162.0, and Python 3.12.
+The 100-record workflow, repeat upload, hybrid API request, and city filter were tested against a local Qdrant instance on November 5, 2026 with Qdrant 1.20.0, qdrant-client 1.20.0, FastEmbed 0.9.1, FastAPI 0.162.0, and Python 3.12.
 
 Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.
