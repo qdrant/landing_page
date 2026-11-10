@@ -111,33 +111,40 @@ When uploading with `prevent_unoptimized` enabled, set `wait=False`. With `wait=
 
 ## Monitor Optimization Progress
 
-Poll `get_collection` for the number of deferred points, and `get_optimizations` for running and queued optimization jobs, until both queues drain.
+Poll `get_collection` for the collection status and the number of deferred points, and `get_optimizations` for running and queued optimization jobs. Treat the optimization as finished only when the collection is green, no points are deferred, nothing is running or queued, and this has held for a few polls in a row. Checking running and queued jobs alone is not enough: right after a `wait=False` upload, updates can still be waiting in the update queue while no optimization has been scheduled yet.
 
 ```python
 import asyncio
 import time
 
-async def get_optimizations_progress(signal: asyncio.Event, collection_name: str) -> float:
+async def get_optimizations_progress(
+    signal: asyncio.Event, collection_name: str, stable_polls: int = 3
+) -> float:
     start = time.perf_counter()
-    while True:
+    stable = 0
+    while stable < stable_polls:
         optimizations, info = await asyncio.gather(
-            client.get_optimizations(collection_name=collection_name, with_="completed,queued,idle_segments"),
+            client.get_optimizations(collection_name=collection_name, with_="queued"),
             client.get_collection(collection_name=collection_name),
         )
-        deferred = info.update_queue.deferred_points if info.update_queue else 0
-        print(f"Deferred points: {deferred or 0}, running: {len(optimizations.running)}, queued: {len(optimizations.queued or [])}")
-        if len(optimizations.running) == 0 and len(optimizations.queued or []) == 0:
-            signal.set()
-            break
-        await asyncio.sleep(0.5)
-    return time.perf_counter() - start
+        deferred = (info.update_queue.deferred_points or 0) if info.update_queue else 0
+        running = len(optimizations.running)
+        queued = len(optimizations.queued or [])
+        print(f"Status: {info.status}, deferred points: {deferred}, running: {running}, queued: {queued}")
+        done = info.status == models.CollectionStatus.GREEN and deferred == 0 and running == 0 and queued == 0
+        stable = stable + 1 if done else 0
+        if stable < stable_polls:
+            await asyncio.sleep(0.5)
+    signal.set()
+    # do not count the polls spent confirming that the state is stable
+    return time.perf_counter() - start - (stable_polls - 1) * 0.5
 ```
 
 The same information is available without the client, with a `GET` request to `/collections/{collection_name}/optimizations`, or to `/collections/{collection_name}` and reading `.update_queue.deferred_points`. It also feeds [telemetry and metrics](/documentation/ops-monitoring/monitoring/), so the same numbers can back a dashboard or an alert.
 
 ## Send Search Queries During Optimization
 
-While optimization runs, repeatedly query both collections with 1,000 sampled vectors and record each query's latency, until the optimization signal fires.
+While optimization runs, repeatedly query both collections with 1,000 sampled vectors and record each query's latency, until the optimization signal fires. The loop checks the signal after every query, so no latency sample is collected after optimization has finished.
 
 ```python
 queries = data.sample(1000)["emb"].to_list()
@@ -150,15 +157,18 @@ async def query(signal: asyncio.Event, collection_name: str, queries: list) -> t
             q_start = time.perf_counter()
             await client.query_points(collection_name=collection_name, query=q)
             latencies.append(time.perf_counter() - q_start)
+            if signal.is_set():
+                break
         if signal.is_set():
             break
     return latencies, time.perf_counter() - start
 ```
 
-Run the upload against both collections, then run the query loop and the optimization monitor concurrently against each, so query latency is measured for the full duration of optimization.
+Run the experiment on one collection at a time, so the two do not compete for the same cluster resources. For each collection, upload the points, then run the query loop and the optimization monitor concurrently, so query latency is measured for the full duration of optimization.
 
 ```python
 async def query_and_optimize(collection_name: str, queries: list) -> dict:
+    # one signal per collection, so the two runs never interfere with each other
     signal = asyncio.Event()
     opt_time, (latencies, query_time) = await asyncio.gather(
         get_optimizations_progress(signal, collection_name),
@@ -166,35 +176,46 @@ async def query_and_optimize(collection_name: str, queries: list) -> dict:
     )
     return {"total_optimization_time": opt_time, "total_query_time": query_time, "query_latencies": latencies}
 
-await asyncio.gather(upload_points("prevent-unoptimized", data), upload_points("allow-unoptimized", data))
-stats_prevent, stats_unopt = await asyncio.gather(
-    query_and_optimize("prevent-unoptimized", queries),
-    query_and_optimize("allow-unoptimized", queries),
-)
+await upload_points("prevent-unoptimized", data)
+stats_prevent = await query_and_optimize("prevent-unoptimized", queries)
+
+await upload_points("allow-unoptimized", data)
+stats_unopt = await query_and_optimize("allow-unoptimized", queries)
 ```
 
 ### Why We Poll and Query Concurrently
 
 `query_and_optimize` runs `get_optimizations_progress` and `query` at the same time with `asyncio.gather`, rather than one after the other. This is deliberate and mirrors what actually happens in production. Searches don't pause while a collection drains its optimization backlog after a bulk load: traffic keeps coming, and it competes with indexing, merging, and vacuuming for the same CPU and I/O resources.
 
-Running the two loops concurrently is also what lets us measure the effect we actually care about: query latency while the collection is under optimization pressure. `get_optimizations_progress` polls `/collections/{collection_name}/optimizations` (plus `get_collection` for `deferred_points`) every 0.5 seconds and sets the `asyncio.Event` once nothing is running or queued. The `query` loop checks that same event after each sweep through `queries` and only stops once optimizations have fully drained, so every latency sample collected corresponds to a moment where the segments were still being worked on.
+Running the two loops concurrently is also what lets us measure the effect we actually care about: query latency while the collection is under optimization pressure. `get_optimizations_progress` polls `/collections/{collection_name}/optimizations` (plus `get_collection` for `deferred_points`) every 0.5 seconds and sets the `asyncio.Event` once the collection is green, nothing is running or queued, and no points are deferred. The `query` loop checks that same event after every query and stops as soon as optimizations have fully drained, so every latency sample collected corresponds to a moment where the segments were still being worked on.
 
 With `prevent_unoptimized=True`, watch `deferred_points` during this phase: a nonzero count is expected while segments are being optimized, since new points written to an optimizing segment are held back from search until that segment is ready. It is fine for this number to be high temporarily, as long as it drains to zero once the corresponding optimizations complete.
 
 ## Measured Result
 
-Against a 768-dimensional, 100,000-point collection on a Qdrant Cloud Free Tier cluster, `prevent_unoptimized` cut total optimization time from 88.1 seconds to 0.6 seconds and left query throughput and latency essentially unchanged:
+Against a 768-dimensional, 100,000-point collection on a Qdrant Cloud Free Tier cluster, `prevent_unoptimized` shortened the time to a green collection from 222.8 seconds to 191.7 seconds, and lowered query latency while the optimization was running:
 
 | Setting | Optimization Time | p50 Latency | p95 Latency | p99 Latency | Throughput |
 | --- | --- | --- | --- | --- | --- |
-| `prevent_unoptimized=true` | 0.56s | 0.117s | 0.187s | 0.206s | 7.16 qps |
-| `prevent_unoptimized=false` | 88.15s | 0.120s | 0.193s | 0.209s | 7.00 qps |
+| `prevent_unoptimized=true` | 191.7s | 0.117s | 0.181s | 0.185s | 7.33 qps |
+| `prevent_unoptimized=false` | 222.8s | 0.185s | 0.203s | 0.207s | 5.77 qps |
 
-The optimizer finishes 150 times faster because it is no longer competing with searches that are scanning large unindexed segments, and query latency does not regress in the meantime.
+Optimization finishes about 14% sooner, median latency is 37% lower, and throughput is 27% higher. The difference comes from the search path: with the setting off, queries scan large unindexed segments while the optimizer is still building the index, competing with it for CPU and I/O. With the setting on, those segments are skipped until they are indexed.
+
+The deferred point count shows what this costs. With `prevent_unoptimized=true`, the monitor reports a nonzero count that drains as segments finish optimizing:
+
+```text
+Status: yellow, deferred points: 78998, running: 2, queued: 1
+Status: yellow, deferred points: 62332, running: 2, queued: 0
+Status: yellow, deferred points: 52666, running: 1, queued: 0
+Status: green, deferred points: 0, running: 0, queued: 0
+```
+
+With `prevent_unoptimized=false`, the count stays at zero throughout, because every uploaded point is searchable, indexed or not. The optimization progresses in a similar way in both cases. What changes is how many points are searchable while it runs.
 
 ## Tradeoffs
 
-The faster optimization and steady query latency might suggest `prevent_unoptimized` is always the right call. It is not the full story: by definition, `prevent_unoptimized` withholds points in segments that have not finished optimizing, from search results.
+The faster optimization and lower query latency might suggest `prevent_unoptimized` is always the right call. It is not the full story: by definition, `prevent_unoptimized` withholds points in segments that have not finished optimizing, from search results.
 
 This means searches return fewer results, if any, and are limited to points that were uploaded first, which is also a freshness problem: recently written data will not show up until its segment is done optimizing.
 
