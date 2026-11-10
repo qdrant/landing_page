@@ -18,6 +18,9 @@ on:
     - cron: '0 6 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check-prompts:
     if: github.event_name != 'schedule'
