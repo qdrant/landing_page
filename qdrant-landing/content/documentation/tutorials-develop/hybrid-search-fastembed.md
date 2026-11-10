@@ -83,6 +83,8 @@ export QDRANT_URL="https://xxx.cloud.qdrant.io"
 export QDRANT_API_KEY="your-api-key"
 ```
 
+> **Note:** Free clusters are suspended automatically after 1 week without use, and deleted after 4 weeks of inactivity if you don't reactivate them. If your cluster stops responding when you return to this tutorial, check its status in the Cloud Console. Refer to [Free Clusters](/documentation/cloud/create-cluster/#free-clusters).
+
 In this tutorial, FastEmbed generates the dense and sparse vectors in your Python process and uploads them to your cluster.
 
 ### Run Qdrant Locally Instead
