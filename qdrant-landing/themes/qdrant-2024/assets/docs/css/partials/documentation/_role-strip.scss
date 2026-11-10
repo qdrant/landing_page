@@ -38,10 +38,14 @@
       text-decoration: none;
     }
 
+    // The current product is bold as well as filled. The fill alone carries
+    // the state in the dark theme, but reads weakly against the light one,
+    // and weight says "you are here" without relying on colour.
     &_current {
       background: $neutral-30;
       border-color: $neutral-30;
       color: $neutral-98;
+      font-weight: 600;
     }
   }
 
