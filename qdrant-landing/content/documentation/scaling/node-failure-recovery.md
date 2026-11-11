@@ -9,6 +9,8 @@ weight: 25
 
 Sometimes hardware malfunctions might render some nodes of the Qdrant cluster unrecoverable. Several recovery scenarios allow Qdrant to stay available for requests and even avoid performance degradation. Let's walk through them from best to worst.
 
+On Qdrant Cloud (managed, Hybrid, and Private Cloud), you usually don't need to do any of this manually. Qdrant Cloud [detects and replaces a failed node automatically](/documentation/scaling/resilience/), provided your cluster has enough replicas to tolerate the loss, and you can restore from [Backups](/documentation/cloud/backups/) if data is lost. The following procedures apply when you run Qdrant yourself.
+
 ## Recover with Replicated Collection
 
 If the number of failed nodes is less than the replication factor of the collection, then your cluster should [still be able to perform read, search, and update queries](/documentation/scaling/resilience/).
@@ -24,7 +26,7 @@ If a node fails and it's impossible to recover it, you should exclude the dead n
 1. To exclude failed nodes from the consensus, use [remove peer](https://api.qdrant.tech/master/api-reference/distributed/remove-peer) API. Apply the `force` flag if necessary.
 1. Create a new node, make sure to attach it to the existing cluster by specifying `--bootstrap` CLI parameter with the URL of any of the running cluster nodes.
 1. Once the new node is ready and synchronized with the cluster, verify that the collection shards are sufficiently replicated.
-1. When self-hosting, Qdrant will not automatically balance shards since this is an expensive operation. Use the [Replicate Shard Operation](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to create new replicas on the newly connected node. On Qdrant Cloud, the system will automatically replicate shards to the new node if the replication factor isn't met.
+1. When self-hosting, Qdrant will not automatically balance shards since this is an expensive operation. Use the [Replicate Shard Operation](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to create new replicas on the newly connected node. On Qdrant Cloud (managed, Hybrid, and Private Cloud), the system will automatically replicate shards to the new node if the replication factor isn't met.
 
 ## Recover from a Snapshot
 

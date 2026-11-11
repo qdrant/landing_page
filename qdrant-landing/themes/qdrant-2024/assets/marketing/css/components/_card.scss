@@ -1,0 +1,60 @@
+@use '../helpers/functions' as *;
+
+.card {
+  background-color: $neutral-98;
+  padding: $spacer * 1.5;
+  max-width: 100%;
+  min-height: 100%;
+  border-radius: calc($spacer / 2);
+  border: 1px solid $neutral-90;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &[href]:hover {
+    border-top: 1px solid $neutral-100;
+    background: $neutral-98;
+    box-shadow:
+      0 10px 20px 0 rgba(22, 30, 51, 0.1),
+      0 1px 2px 0 rgba(22, 30, 51, 0.1);
+
+    .link {
+      $icon-width: pxToRem(20);
+      padding-right: calc($icon-width + 6px);
+      &:after {
+        animation: dash 0.3s ease-in-out forwards;
+      }
+
+      &:before {
+        animation: dash 0.3s ease-in-out forwards;
+      }
+    }
+  }
+
+  &:hover {
+    .link.link_dark {
+      $link-color: $primary-50;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
+    }
+  }
+}
+
+.card__content-link {
+  cursor: pointer;
+  color: $primary-50;
+  &:hover {
+    color: $primary-60;
+  }
+}

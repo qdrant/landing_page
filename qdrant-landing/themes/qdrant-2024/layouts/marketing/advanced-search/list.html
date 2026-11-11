@@ -1,0 +1,15 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
+    {{ partial "marketing/use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "marketing/advanced-search-features" . }}
+  {{ partial "marketing/advanced-search-use-cases" . }}
+
+  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+{{ end }}

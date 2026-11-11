@@ -16,6 +16,8 @@ aliases:
 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
+On Qdrant Cloud (managed, Hybrid, and Private Cloud), you don't need to enable distributed mode. You choose the number of nodes, and Qdrant Cloud rebalances shards across them and replicates shards to match your replication factor. You can also [reshard](/documentation/cloud/cluster-scaling/#resharding) your collections. Refer to [Scaling Qdrant Cloud Clusters](/documentation/cloud/cluster-scaling/) and [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing). The sections on self-hosted Qdrant describe how to do these things yourself.
+
 ## Enabling Distributed Mode in Self-Hosted Qdrant
 
 To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/ops-configuration/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
@@ -118,22 +120,13 @@ Example result:
 
 Note that enabling distributed mode does not automatically replicate your data. See the section on [making use of a new distributed Qdrant cluster](#making-use-of-a-new-distributed-qdrant-cluster) for the next steps.
 
-## Enabling Distributed Mode in Qdrant Cloud
-
-For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. Older versions of Qdrant do support distributed mode, but improvements in v1.7.4 make distributed clusters more resilient during outages.
-
-To enable distributed mode, in the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Cluster" and select the desired node count.
-
-Additionally, Qdrant Cloud also offers the ability to automatically rebalance and to reshard your collections, which is not available in self-hosted Qdrant.  See the [Resharding](/documentation/cloud/cluster-scaling/#resharding) and [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) sections in for more details.
-
 ## Making Use of a New Distributed Qdrant Cluster
 
-When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
+On Qdrant Cloud, when you scale up to two or more nodes, shards are [rebalanced](#rebalancing) onto the new nodes automatically. When you self-host, a new node starts out empty, and you need to [move shards](#moving-shards) onto it yourself.
 
-* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more and setting the [number of shards](#choosing-the-right-number-of-shards) to a multiple of your number of nodes.
-* If you have an existing collection which does not contain enough shards for each node, you must create a new collection as described in the previous bullet point.
-* If you already have enough shards for each node, and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
-* If you already have enough shards for each node, and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
+To keep your data available when a node fails, set the [replication_factor](#replication-factor) of your collections to 2 or more. On Qdrant Cloud, shards are replicated automatically to match the replication factor. When you self-host, you need to [create the shard replicas](#creating-new-shard-replicas) yourself.
+
+A collection can only use as many nodes as it has shards, so create your collections with enough shards for every node. Refer to [Choosing the Right Number of Shards](#choosing-the-right-number-of-shards). If an existing collection doesn't have enough shards, [reshard](#resharding) it on Qdrant Cloud, or create a new collection when you self-host.
 
 Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to keep the cluster topology and collection structure consistent across nodes. For how consensus works and what it means for availability, see [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling.
 
@@ -149,7 +142,7 @@ When you create a collection, Qdrant splits the collection into `shard_number` s
 
 To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
 
-> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/documentation/production-operations/multitenant-search/).
+> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/documentation/deploy-and-scale/multitenant-search/).
 
 We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. [Resharding](/documentation/cloud/cluster-scaling/#resharding) is possible on Qdrant Cloud, but should be avoided if hosting elsewhere as it would require creating a new collection.
 
@@ -161,7 +154,7 @@ Shards are evenly distributed across all existing nodes when a collection is fir
 
 How existing shards get rebalanced across nodes depends on how you've deployed the cluster:
 
-- In Qdrant Cloud, shards are [rebalanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing) on an ongoing basis to keep total shard count and size even per node across all of your collections.
+- In Qdrant Cloud, shards are [rebalanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing) on an ongoing basis to keep total shard count and size even per node across all of your collections. You can choose to balance by count, by size, or by both (the default), or disable automatic rebalancing.
 - If your cluster is not running in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
 ### Resharding
@@ -380,7 +373,7 @@ Shards can be [replicated](/documentation/scaling/horizontal-scaling/#replicatio
 
 ### Replication Factor
 
-When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to `1`, meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options). You can change the default per-collection by setting the `replication_factor` when you create a collection.
+When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to `1`, meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options), or on Qdrant Cloud in the cluster's [Collection Defaults](/documentation/cloud/configure-cluster/#collection-defaults). You can change the default per-collection by setting the `replication_factor` when you create a collection.
 
 The `replication_factor` can be updated for an existing collection, but the effect of this depends on how you're running Qdrant. If you're hosting the open source version of Qdrant yourself, changing the replication factor after collection creation doesn't do anything. You can manually [create](#creating-new-shard-replicas) or drop shard replicas to achieve your desired replication factor. In Qdrant Cloud (including Hybrid Cloud, Private Cloud) your shards will automatically be replicated or dropped to match your configured replication factor.
 
@@ -438,7 +431,7 @@ Qdrant's clients don't distribute requests across nodes on their own. To take fu
 - Ensures replicas on all nodes serve reads.
 - Distributes the coordinator role across nodes. Each node that receives a request fans out the query to the relevant shards, merges the partial results, and returns the final response so the CPU and memory cost of aggregation is shared rather than concentrated on one node.
 
-On Qdrant Cloud, clusters are already behind a load balancer. Send all requests to the endpoint provided for each cluster, and Qdrant Cloud handles the load balancing. If you're self-hosting, you need to set up a load balancer yourself.
+On managed Qdrant Cloud, clusters are already behind a load balancer. Send all requests to the endpoint provided for each cluster, and Qdrant Cloud handles the load balancing. On Hybrid Cloud and Private Cloud, the cluster runs in your own Kubernetes environment, so you configure how it is exposed. Refer to [Exposing Qdrant clusters to your client applications](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#exposing-qdrant-clusters-to-your-client-applications) for Hybrid Cloud and [Exposing a Cluster](/documentation/private-cloud/qdrant-cluster-management/#exposing-a-cluster) for Private Cloud. If you're self-hosting, you need to set up a load balancer yourself.
 
 ## Listener Mode
 

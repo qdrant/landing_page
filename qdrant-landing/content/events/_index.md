@@ -1,5 +1,6 @@
 ---
 title: Events
+type: marketing/events
 description: Events
 icons:
   # Filenames under static/icons/outline/”
@@ -10,6 +11,7 @@ icons:
 build:
   render: always
 cascade:
+- type: marketing/events
 - build:
     list: local
     publishResources: false

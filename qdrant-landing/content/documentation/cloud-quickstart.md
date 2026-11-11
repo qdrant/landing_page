@@ -2,7 +2,7 @@
 title: Cloud Quickstart
 short_description: "Spin up a free Qdrant Cloud cluster, connect with the official SDKs, and run your first semantic search in minutes."
 description: "Create a free Qdrant Cloud cluster, install the client SDK, and run your first semantic search using built-in inference for vector embeddings."
-weight: 115
+weight: 110
 partition: develop
 aliases:
   - ../cloud-quick-start
@@ -17,6 +17,14 @@ aliases:
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 
 Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items embedded with the `sentence-transformers/all-MiniLM-L6-v2` model via [Cloud Inference](/documentation/inference/). This is one of the free embedding models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
+
+## 0. Get Started with a Coding Agent
+
+We recommend copying the following into your agent to get started quickly and directly:
+
+```text
+set up qdrant with https://qdrant.tech/llms.txt
+```
 
 ## 1. Create a Cloud Cluster
 
@@ -139,7 +147,7 @@ if err != nil {
 ```bash
 # test the connection
 curl -X GET \
-  'http://<your-qdrant-host>:6333/collections' \
+  'https://<your-qdrant-host>:6333/collections' \
   --header 'api-key: <api-key-value>'
 ```
 
@@ -195,7 +203,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 ```bash
 curl -X PUT \
-  'http://<your-qdrant-host>:6333/collections/items' \
+  'https://<your-qdrant-host>:6333/collections/items' \
   --header 'api-key: <api-key-value>' \
   --header 'Content-Type: application/json' \
   --data-raw '{
@@ -1039,4 +1047,5 @@ You've just performed semantic search on real menu item data. The query "vegetar
 - Explore [filtering](/documentation/search/filtering/) to combine semantic search with structured queries
 - Learn about [collections](/documentation/manage-data/collections/) and advanced configuration options
 - Check out more [examples and tutorials](/documentation/tutorials-lp-overview/)
+- Install the [Qdrant Advisor skill](/documentation/agentic-tools/skills/#the-qdrant-advisor) so your coding agent gets current Qdrant guidance as you build
 - Run through the [Production Checklist](/documentation/production-checklist/) before deploying to production

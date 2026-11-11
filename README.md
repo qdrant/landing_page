@@ -38,8 +38,8 @@
         - [📁 Directory Structure](#-directory-structure)
         - [▶️ Example Usage](#-example-usage)
         - [⚙️ Parameters](#-parameters)
-        - [⚠️ Notes](#-notes)
-        - [🚫 Limitations](#-limitations)
+        - [🖥️ Deployment Variants](#-deployment-variants)
+        - [📄 Markdown Output](#-markdown-output)
 
 
 
@@ -333,10 +333,11 @@ Choose the directory that matches the guide:
 
 | Topic | Directory under `content/documentation/` |
 | --- | --- |
+| Search Design | `search-design/` |
 | Search Evaluation | `search-evaluation/` |
-| Search Patterns | `search-patterns/` |
 | Search Tuning | `search-tuning/` |
-| Production & Operations | `production-operations/` |
+| Deploy and Scale | `deploy-and-scale/` |
+| Operate and Maintain | `operate-and-maintain/` |
 
 1. Fill in the title, `short_description` (card summary), `description` (search/social summary), and Markdown body. Keep the guide directly inside its topic directory.
 2. Set `date` to the publication date, remove or update any copied `publishDate`, and choose a unique positive `weight` within the topic. Lower weights appear first; gaps such as 10, 20, 30 make later insertions easier.
@@ -388,7 +389,7 @@ The sidebar lists each section of `content/course/` by `weight`. To add an exter
 
 #### Articles
 
-An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection.
+An article is listed under the category page in `content/articles/<category>/_index.md` that matches its `category`. The shared article-selection helper lives in `themes/qdrant-2024/layouts/partials/documentation/articles/list.html`, so HTML and Markdown use the same collection. The five topics are Vector Search Fundamentals (`vector-search-fundamentals`), Embeddings & Machine Learning (`embedding-research`), Relevance & Evaluation (`relevance-and-evaluation`), Indexing & Storage (`qdrant-internals`), and RAG & Agents (`rag-and-agents`). Reassign articles before removing a category index, or the articles disappear from both listings.
 
 ## Blog
 
@@ -498,7 +499,7 @@ slots:
 Optional talk parameters:
 - `company_logo_offset` — adjust logo position with `placement` (top/bottom/left/right) and `value` (px)
 
-The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/css/partials/_agenda.scss`.
+The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/marketing/css/partials/_agenda.scss`.
 
 ## Demo
 
@@ -822,45 +823,62 @@ Example:
 
 #### 🧩 Code Snippets Widget
 
-![](readme-assets/shortcode-snippets.png)
+![Code snippet widget with language tabs and a deployment type switcher set to Qdrant Server](readme-assets/shortcode-snippets.png)
 
-This shortcode renders a code snippets widget from a specified path.
-Use it when you want to manage code examples as a collection of separate Markdown files. The following parapghs refer to hand-written snippets. It's recommended to write code snippets as testable code instead. Refer to [automation/snippets/README.md](automation/snippets/README.md) for details.
+This shortcode renders a code snippet as a set of language tabs, read from a snippet directory under `qdrant-landing/content/documentation/headless/snippets/`.
+
+Write snippets as compilable source files (`python.py`, `rust.rs`, and so on) rather than hand-written Markdown. CI type-checks them against the Qdrant clients, and `automation/snippets/generate-md.py` generates the Markdown that the shortcode reads. Only HTTP and JSON snippets (`http.md`, `json.md`) are hand-written. For writing, testing, and generating snippets, see [automation/snippets/README.md](automation/snippets/README.md).
 
 ##### 📁 Directory Structure
-Place all code snippets for a single widget into one directory. Each file should be named after the programming language it represents:
+
+A snippet directory holds one file per language, plus the generated Markdown:
 
 ```
-points-id/
+create-collection/simple/
+├── _description.md
+├── generated/
+│   ├── python.md
+│   └── ...
 ├── http.md
-├── python.md
-├── go.md
+├── python.py
+└── ...
 ```
-File names are used for sorting. It's recommended to name files according to the language they contain (e.g., python.md, go.md). Sorting is controlled by the order parameter or the snippetsOrder parameter (see below).
 
-Each file should contain a code snippet in a fenced code block (```).
+A snippet with [deployment variants](#-deployment-variants) has one subdirectory per deployment type instead. Each subdirectory has the same structure as a regular snippet directory, and `_description.md` stays at the top level:
+
+```
+query-points/hybrid-rrf/
+├── _description.md
+├── _server/
+│   ├── generated/
+│   ├── http.md
+│   ├── python.py
+│   └── ...
+└── _edge/
+    ├── generated/
+    ├── python.py
+    └── rust.rs
+```
+
+The shortcode reads the `.md` files in the snippet directory (or in each variant directory) and in its `generated/` subdirectory. It ignores files whose names start with `_`. Hugo doesn't render the `headless/` section as pages. Hand-written snippet files contain a single fenced code block and no front matter.
 
 ##### ▶️ Example Usage
 ``` hugo
-{{< code-snippet path="/documentation/headless/snippets/points-id/" order="python http go" >}}
-``` 
+{{< code-snippet path="/documentation/headless/snippets/create-collection/simple/" >}}
+```
 
 ##### ⚙️ Parameters
-- `path` (required) – Path to the directory (inside content/) containing the snippet files.
-- `order` (optional) – Space-separated list of snippet names to display first. Remaining files will be rendered in the order they appear in the directory. Sorting is based on file names (without .md).
+- `path` (required): path to the snippet directory, relative to `content/`.
+- `order` (optional): space-separated list of languages to show first, for example `order="python http go"`. Without it, the shortcode uses the `snippetsOrder` list from the nearest section `_index.md`, which for all snippets is `headless/snippets/_index.md`. Languages not in the list follow in alphabetical order.
+- `block` (optional): name of a block defined with `@block-start` and `@block-end` in the source files. The shortcode then shows only that block.
 
-You can also define a global default snippet order using the snippetsOrder parameter in the relevant section’s _index.md.
+##### 🖥️ Deployment Variants
 
-##### ⚠️ Notes
-**Important:** Turn off rendering for the snippets directory if it's not already disabled in its parent section. Otherwise, Hugo will attempt to generate standalone pages for these files.
+A snippet can have a separate variant per deployment type, in the `_server/`, `_edge/`, and `_serverless/` subdirectories of the snippet directory. When a snippet has two or more variants, the widget shows a "Deployment type" switcher, with Qdrant Server as the default. Once any variant directory exists, the shortcode ignores the files at the top level of the snippet directory. See [Deployment variants](automation/snippets/README.md#deployment-variants-_server-_edge-_serverless) for details.
 
-You can include multiple snippets in a single Markdown file, but in that case, the order parameter has no effect—they will render in the order they appear in the file.
+##### 📄 Markdown Output
 
-##### 🚫 Limitations
-Snippet files must not contain front matter (---). Each code snippet should be a fenced code block (```).
-
-The snippetsOrder parameter only works at the section level or deeper. If you're adding snippets to a section for the first time, make sure to define snippetsOrder in that section’s or a child section’s _index.md.
-
+In the Markdown version of a page (`index.md`), the shortcode shows only the first language, and the first variant if there are several. It links to a standalone page with all languages under `/documentation/snippets/`.
 
 ## SEO
 
@@ -868,7 +886,7 @@ The snippetsOrder parameter only works at the section level or deeper. If you're
 
 Structured data is a standardized format for providing information about a page and classifying the page content. It is used by search engines to understand the content of the page and to display rich snippets in search results.
 
-We use JSON-LD format for structured data. Data is stored in JSON files in the `/assets/schema` directory. If no specific schema is provided for a page, the default schema is used based on the page type as defined in the `qdrant-landing/themes/qdrant/layouts/partials/seo_schema.html` file.
+We use JSON-LD format for structured data. Data is stored in JSON files in the `/assets/schema` directory. If no specific schema is provided for a page, the default schema is used based on the page type as defined in the `qdrant-landing/themes/qdrant-2024/layouts/partials/common/seo_schema.html` file.
 
 To add schema to a specific page, use the `seo_schema` or `seo_schema_json` parameter in the front matter of content markdown files (directory `content`).
 

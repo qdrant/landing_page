@@ -1,0 +1,10 @@
+{{- /* "Copy as Markdown" button styles. From assets/lib/copy-markdown/; see its
+       README. Renders nothing for a page without a Markdown output format, since
+       the button would not render there either. Each part calls this after the
+       stylesheets that restyle the button in place. To replace the button in a
+       part, stop calling this partial there and call the replacement instead. */ -}}
+{{- with .OutputFormats.Get "markdown" -}}
+  {{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}
+  {{- $copyMarkdownCss := resources.Get "lib/copy-markdown/copy-markdown.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $copyMarkdownCss.RelPermalink }}" rel="stylesheet" integrity="{{ $copyMarkdownCss.Data.Integrity }}" />
+{{- end -}}

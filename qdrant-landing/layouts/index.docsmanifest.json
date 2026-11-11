@@ -43,7 +43,7 @@
     "title" .Title
     "description" $description
     "kind" .Kind
-    "partition" (partial "get-partition.html" (dict "page" .) | default "")
+    "partition" (partial "common/get-partition.html" (dict "page" .) | default "")
     "weight" .Weight
     "aliases" $aliases
   -}}

@@ -11,6 +11,8 @@ Horizontal scaling means adding more nodes to a Qdrant cluster instead of making
 
 For what these mechanics buy you in terms of fault tolerance and failover, see [Resilience](/documentation/scaling/resilience/). For the practical configuration steps, see [Distributed Deployment](/documentation/scaling/distributed_deployment/).
 
+On Qdrant Cloud, you add or remove nodes by [scaling your cluster](/documentation/cloud/cluster-scaling/#horizontal-scaling) in the Cloud Console. When you add nodes, Qdrant Cloud rebalances shards across them. When you remove nodes, it first moves their shards to the remaining nodes. A single shard can't span nodes, so if a collection has fewer shards than your cluster has nodes, some nodes stay empty. In that case, [reshard](/documentation/scaling/distributed_deployment/#resharding) the collection to spread its data across all nodes.
+
 ## How Many Qdrant Nodes Should I Run?
 
 The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.

@@ -39,6 +39,12 @@ const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   if ('horizontal' in spec && (spec.horizontal !== true || spec.kind !== 'columns-2panel')) {
     throw new Error(`${p}: horizontal must be true and is supported only for columns-2panel`);
   }
+  if ('stacked' in spec && (spec.stacked !== true || spec.kind !== 'grouped-columns')) {
+    throw new Error(`${p}: stacked must be true and is supported only for grouped-columns`);
+  }
+  for (const key of ['stackTotals']) {
+    if (key in spec && (spec[key] !== true || spec.stacked !== true)) throw new Error(`${p}: ${key} must be true and requires stacked`);
+  }
   const flexible = 'textScale' in spec || 'legendLayout' in spec;
   if (flexible && spec.kind !== 'grouped-columns') throw new Error(`${p}: textScale and legendLayout are supported only for grouped-columns`);
   if ('textScale' in spec && (!Number.isFinite(spec.textScale) || spec.textScale < 0.75 || spec.textScale > 2.5)) throw new Error(`${p}: textScale must be a number from 0.75 to 2.5`);
@@ -203,7 +209,7 @@ function panel(c, p, data, w, h) {
   // width right of the bar). Force it on the text groups it produces.
   let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
 
-  // Tag each bar with its row key (in data order) so js/viz.js can ring the
+  // Tag each bar with its row key (in data order) so shortcodes/chart/chart.js can ring the
   // same config in every panel at once. Purely additive — no JS, no effect.
   plotted = plotted.replace(/(<g aria-label="bar"[^>]*>)([\s\S]*?)(<\/g>)/, (m, open, body, close) => {
     let i = 0;
@@ -406,18 +412,33 @@ function groupedColumns(c) {
   }
   const colors = c.colors.map((k) => (k === 'muted' ? viz.palette.muted : viz.palette.categorical[k]));
   const { top: mT, bottom: mB, left: mL, right: mR } = LAYOUT;
+  const stacked = c.stacked === true;
+  // A stack must fit its axis, otherwise the top segment would be silently cut off.
+  const totals = groups.map((g) => ({ group: g, total: data.filter((d) => d[c.group] === g).reduce((s, d) => s + d[c.y], 0) }));
+  if (stacked) {
+    const over = totals.find((tt) => tt.total > c.yMax);
+    if (over) throw new Error(`${c.id}: stack for "${over.group}" totals ${over.total}, above yMax ${c.yMax}`);
+  }
 
   const node = Plot.plot({
     document: dom.window.document,
     width: c.width, height: c.height,
     marginLeft: mL, marginRight: mR, marginTop: mT, marginBottom: mB,
     style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
-    x: { axis: null, domain: series },
+    x: { axis: null, domain: stacked ? [0] : series },
     fx: { label: null, domain: groups, tickFormat: (v) => v, tickSize: 0 },
     y: { label: null, ticks: readableType || flexibleLayout ? 5 : undefined, domain: [0, c.yMax], grid: true, nice: false, tickSize: 0 },
     color: { domain: series, range: colors },
     marks: [
-      Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, insetLeft: 2, insetRight: 2 }),
+      stacked
+        // One bar per group; the series stack bottom to top in CSV order.
+        ? Plot.barY(data, { fx: c.group, y: c.y, fill: c.series, rx: 1.5, insetLeft: 24, insetRight: 24 })
+        : Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, insetLeft: 2, insetRight: 2 }),
+      ...(stacked && c.stackTotals
+        ? [Plot.text(totals, { fx: 'group', y: 'total', dy: -9, textAnchor: 'middle', fontFamily: FONT,
+            text: (d) => `${d.total.toFixed(c.totalDecimals ?? 1)}${c.totalUnit ?? ''}`,
+            fill: { value: () => INK, scale: null }, fontSize: viz.type.axis, fontWeight: 600 })]
+        : []),
     ],
   });
   const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');

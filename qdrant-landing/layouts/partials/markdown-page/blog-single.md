@@ -13,7 +13,7 @@
 {{- /* Same link rewriting as layouts/_default/single.markdown.md */ -}}
 {{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
 {{- $content = replaceRE `\]\((\.\.?/[^):]*/)([\)#?])` `](https://qdrant.tech/${1}index.md${2}` $content -}}
-{{ $content }}{{ with partial "blog-author-profile.html" . }}
+{{ $content }}{{ with partial "common/blog-author-profile.html" . }}
 ## About the Author
 
 {{ .name }}{{ with .role }} | {{ . }}{{ end }}

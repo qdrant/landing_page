@@ -14,7 +14,7 @@ keywords:
   - vector search
   - scalar quantization
   - memory optimization
-category: production-ops
+category: qdrant-internals
 ---
 # Efficiency Unleashed: The Power of Scalar Quantization
 

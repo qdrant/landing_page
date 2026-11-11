@@ -1,0 +1,42 @@
+{{ with (.Site.GetPage "/edge/demos") }}
+  <section class="edge-demos" id="demos">
+    <div class="container">
+      <p class="edge-demos__label">{{ .Params.label }}</p>
+      <h2 class="edge-demos__title">{{ .Params.title }}</h2>
+      <p class="edge-demos__description">{{ .Params.description }}</p>
+      <div class="row gy-4 gx-lg-4">
+        {{ range .Params.demos }}
+          <div class="col-12 col-lg-6">
+            <article class="edge-demos__card">
+              <div class="edge-demos__chrome">
+                <span class="edge-demos__dots"><i></i><i></i><i></i></span>
+                <span class="edge-demos__slug">{{ .id }}</span>
+              </div>
+              {{ $poster := .image.src }}
+              {{ with .video }}
+                <video class="edge-demos__media" autoplay muted loop playsinline preload="metadata" poster="{{ $poster }}">
+                  <source src="{{ .webm }}" type="video/webm">
+                  <source src="{{ .mp4 }}" type="video/mp4">
+                </video>
+              {{ else }}
+                <img class="edge-demos__media" src="{{ .image.src }}" alt="{{ .image.alt }}" loading="lazy" width="1280" height="720">
+              {{ end }}
+              <div class="edge-demos__body">
+                <h3 class="edge-demos__card-title">{{ .title }}</h3>
+                <p class="edge-demos__card-description">{{ .description }}</p>
+                <div class="edge-demos__footer">
+                  <div class="edge-demos__links">
+                    {{ range .links }}
+                      <a href="{{ .url }}" class="edge-demos__link"{{ if strings.HasPrefix .url "http" }} target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+                    {{ end }}
+                  </div>
+                  <span class="edge-demos__runs">{{ .runs }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
