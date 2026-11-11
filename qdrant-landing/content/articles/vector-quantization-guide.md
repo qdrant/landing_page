@@ -43,55 +43,13 @@ The numbers above scale linearly. Set your own dimensions, vector count, and RAM
 ![Memory for 100M vectors at 1,536 dimensions against 256 GB of RAM: float32 needs 614 GB and exceeds it, scalar int8 needs 154 GB, TurboQuant 4-bit or product x8 needs 77 GB, and binary 1-bit needs 19 GB](/articles_data/vector-quantization-guide/memory-scale.svg)
 {{< /island >}}
 
-A smaller copy is also a rougher copy. The rest of this guide measures how much recall each method gives up, and how much rescoring against the originals wins back.
-
 ### Rescoring and Oversampling
 
 A quantized vector approximates the original, so searching the compressed copy can miss some of the true nearest neighbors. Oversampling and rescoring recover most of that loss. Both are set per query, so one collection can serve a cheap feed query and an expensive deduplication query.
 
 **Oversampling** widens the first pass. Qdrant searches the quantized copy through the HNSW graph and returns `limit × oversampling` candidates instead of `limit`. With `limit=10` and `oversampling=2.0` it returns 20, which gives a true neighbor ranked 14th by the rough scores a chance to survive.
 
-**Rescoring** corrects the scores. Qdrant recomputes the similarity between the query and each candidate using the original vectors, sorts the candidates by those exact scores, and returns the best `limit`. A candidate that ranked 14th under the compressed scores can land in the top 10 here. It stays cheap because only the candidates' originals are read, 20 vectors rather than the whole collection. With rescoring off, the quantized scores are final and the originals are never read. `query_vector` is your embedded query as a list of floats:
-
-```python
-hits = client.query_points(
-    collection_name="articles",
-    query=query_vector,
-    limit=10,
-    search_params=models.SearchParams(
-        hnsw_ef=128,
-        quantization=models.QuantizationSearchParams(
-            rescore=True,
-            oversampling=2.0,  # score 20 candidates, return 10
-        ),
-    ),
-).points
-```
-
-The defaults differ by method. Rescoring is on by default for binary quantization and for TurboQuant at 1, 1.5, and 2 bits, and off for scalar, product, and 4-bit TurboQuant. Set it explicitly in anything you benchmark, or you will compare a rescored method against an unrescored one without noticing.
-
-Two settings decide where the bytes live. The [memory tier](/documentation/ops-configuration/memory-tiers/) of the quantized copy should be `pinned`, so it is heap-allocated and never evicted. The originals can stay `cold`, which means a memory-mapped file that is read on demand, or `cached`, which pre-warms the page cache. Qdrant rejects `pinned` for dense originals. On a machine with spare RAM the page cache keeps cold originals hot anyway; the distinction only bites when the originals do not fit, which is the memory-pressure experiment near the end.
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.create_collection(
-    collection_name="articles",
-    vectors_config=models.VectorParams(
-        size=1024,
-        distance=models.Distance.COSINE,
-        memory=models.Memory.COLD,  # originals stay on disk until read
-    ),
-    quantization_config=models.TurboQuantization(
-        turbo=models.TurboQuantQuantizationConfig(
-            bits=models.TurboQuantBitSize.BITS4,
-            memory=models.Memory.PINNED,  # the search copy never leaves RAM
-        )
-    ),
-)
-```
+**Rescoring** corrects the scores. Qdrant recomputes the similarity between the query and each candidate using the original vectors, sorts the candidates by those exact scores, and returns the best `limit`. A candidate that ranked 14th under the compressed scores can land in the top 10 here. It stays cheap because only the candidates' originals are read, 20 vectors rather than the whole collection. With rescoring off, the quantized scores are final and the originals are never read. The experiments in this guide use both to recover the accuracy that quantization loses.
 
 ## The Four Methods
 
@@ -244,7 +202,7 @@ Switch the embedding model to see the originals shrink, and select a corpus to r
 ![Experimental setup: four BEIR corpora with their sizes, embedded with Cohere or BGE-small vectors, indexed in Qdrant under five configurations, and scored on recall, nDCG, latency, throughput, and memory](/articles_data/vector-quantization-guide/experimental-setup.svg)
 {{< /island >}}
 
-We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), and search with cosine distance on L2-normalized vectors. Qdrant v1.19.2 runs in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. Fifty development queries tune each setting and 150 held-out test queries report it. Quality is ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, with a separate throughput run at eight concurrent clients. Memory is the Qdrant allocator heap after indexing and a search pass; the originals are memory-mapped and show up in the page cache instead. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, and no recall moved by more than 0.025 and no pass or fail changed.
+We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), and search with cosine distance on L2-normalized vectors. Qdrant v1.19.2 runs in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. We set rescoring and oversampling explicitly on every query, because the defaults differ by method: rescoring is on by default for binary quantization and for TurboQuant at 1, 1.5, and 2 bits, and off for scalar, product, and 4-bit TurboQuant. The quantized copy is pinned in RAM and the originals stay `cold`, a memory-mapped file read on demand (see [memory tiers](/documentation/ops-configuration/memory-tiers/)). Fifty development queries tune each setting and 150 held-out test queries report it. Quality is ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, with a separate throughput run at eight concurrent clients. Memory is the Qdrant allocator heap after indexing and a search pass; the originals are memory-mapped and show up in the page cache instead. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, and no recall moved by more than 0.025 and no pass or fail changed.
 
 ### Rescoring Is Most of the Quality
 
