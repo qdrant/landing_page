@@ -55,6 +55,10 @@ A quantized vector approximates the original, so searching the compressed copy c
 
 ### Scalar Quantization
 
+{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="9 / 5" title="Scalar quantization of one illustrative vector: each coordinate becomes one of 256 int8 levels." >}}
+![Scalar quantization: twelve float32 coordinates stored as int8 codes in a quarter of the space, with an outlier stretching the range](/articles_data/vector-quantization-guide/method-scalar.svg)
+{{< /island >}}
+
 <details>
 <summary>Strengths</summary>
 
@@ -76,13 +80,13 @@ A quantized vector approximates the original, so searching the compressed copy c
 
 Each float32 coordinate becomes one `int8`, so the copy is one quarter the size of the originals. Qdrant calibrates the mapping per segment from the value distribution, and `quantile` controls how much of the tail it ignores: `0.99` clips the top and bottom percent so a handful of outliers do not spend most of the 256 levels on values nobody has. The comparisons run as integer SIMD instructions.
 
-{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="9 / 5" title="Scalar quantization of one illustrative vector: each coordinate becomes one of 256 int8 levels." >}}
-![Scalar quantization: twelve float32 coordinates stored as int8 codes in a quarter of the space, with an outlier stretching the range](/articles_data/vector-quantization-guide/method-scalar.svg)
-{{< /island >}}
-
 Scalar is the method with the fewest assumptions. It does not care whether coordinates are centered or how many dimensions you have, and it is the method to use with Manhattan distance, which TurboQuant supports only on a slow path. Its limit is arithmetic: 4× is all it can give. If your RAM budget needs 8× or more, scalar cannot get there on its own.
 
 ### Binary Quantization
+
+{{< island path="content/documentation/headless/quantization/bit-depth" width="80%" ratio="2 / 1" title="Binary quantization at 1, 1.5, and 2 bits per dimension." >}}
+![Binary quantization at 1, 1.5, and 2 bits per dimension](/docs/2-bit-quantization.png)
+{{< /island >}}
 
 <details>
 <summary>Strengths</summary>
@@ -105,10 +109,6 @@ Scalar is the method with the fewest assumptions. It does not care whether coord
 
 The one-bit encoding keeps the sign of each coordinate and nothing else, so the copy is 1/32 the size of the originals and a comparison collapses to XOR and popcount over packed bits. That is the fastest scoring Qdrant has. The two-bit and 1.5-bit encodings add a "near zero" bucket, which costs compression (16× and about 21×) and buys back some of the recall that sign-only loses on small coordinates. `query_encoding` can keep the query side at `scalar8bits` or `scalar4bits` while the stored side stays binary.
 
-{{< island path="content/documentation/headless/quantization/bit-depth" width="80%" ratio="2 / 1" title="Binary quantization at 1, 1.5, and 2 bits per dimension." >}}
-![Binary quantization at 1, 1.5, and 2 bits per dimension](/docs/2-bit-quantization.png)
-{{< /island >}}
-
 ```python
 quantization_config=models.BinaryQuantization(
     binary=models.BinaryQuantizationConfig(
@@ -122,6 +122,10 @@ quantization_config=models.BinaryQuantization(
 Binary only works when the sign of a coordinate carries information. The measurements below show that this is a property of the corpus and the model together, and that it can be measured before you build anything.
 
 ### Product Quantization
+
+{{< island path="content/articles/headless/vector-quantization-guide/product" ratio="9 / 5" title="Product quantization of one illustrative vector: each sub-vector becomes the id of its nearest centroid. The ids are examples." >}}
+![Product quantization: a 16-coordinate vector cut into eight sub-vectors, each replaced by a one-byte centroid id, 8 times smaller](/articles_data/vector-quantization-guide/method-product.svg)
+{{< /island >}}
 
 <details>
 <summary>Strengths</summary>
@@ -144,13 +148,13 @@ Binary only works when the sign of a coordinate carries information. The measure
 
 Product quantization splits each vector into sub-vectors and replaces each sub-vector with the index of its nearest centroid in a codebook learned from your data. With 256 centroids per sub-vector an index costs one byte. Against four bytes per float32 coordinate, `x8` compression means two coordinates share one byte and `x64` means sixteen do; Qdrant offers `x4` through `x64`. Because neighboring coordinates are encoded together, it captures structure the per-coordinate methods cannot.
 
-{{< island path="content/articles/headless/vector-quantization-guide/product" ratio="9 / 5" title="Product quantization of one illustrative vector: each sub-vector becomes the id of its nearest centroid. The ids are examples." >}}
-![Product quantization: a 16-coordinate vector cut into eight sub-vectors, each replaced by a one-byte centroid id, 8 times smaller](/articles_data/vector-quantization-guide/method-product.svg)
-{{< /island >}}
-
 The price is paid at search time. Distances go through lookup tables rather than SIMD arithmetic, which makes product quantization the slowest method at any given recall in every run below. Training the codebook also adds indexing time. Choose it when fitting in memory is the only constraint that matters and query latency is not.
 
 ### TurboQuant
+
+{{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" title="TurboQuant rotates a vector so one shared set of levels suits every coordinate. The vector and the levels are illustrative." >}}
+![TurboQuant: a vector with one large coordinate before rotation and an even spread after rotation, with the same length](/articles_data/vector-quantization-guide/method-turboquant.svg)
+{{< /island >}}
 
 <details>
 <summary>Strengths</summary>
@@ -174,10 +178,6 @@ The price is paid at search time. Distances go through lookup tables rather than
 </details>
 
 TurboQuant applies a fast pseudo-random orthogonal rotation to every vector before encoding each rotated coordinate with a shared, precomputed codebook: 16 levels at 4 bits, 4 at 2 bits, 2 at 1 bit, with a 1.5-bit encoding in between. The rotation spreads variance evenly across coordinates, so one codebook fits every dataset instead of needing per-collection calibration. Qdrant's implementation adds length renormalization and per-coordinate anisotropy compensation; the [TurboQuant article](/articles/turboquant-quantization/) walks through both.
-
-{{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" title="TurboQuant rotates a vector so one shared set of levels suits every coordinate. The vector and the levels are illustrative." >}}
-![TurboQuant: a vector with one large coordinate before rotation and an even spread after rotation, with the same length](/articles_data/vector-quantization-guide/method-turboquant.svg)
-{{< /island >}}
 
 Four-bit TurboQuant gives 8× compression and, in every run below, recall indistinguishable from scalar at half the memory. It supports cosine, dot, and Euclidean at SIMD speed. Manhattan distance works but is much slower, which is the one case where scalar still wins on method alone.
 
