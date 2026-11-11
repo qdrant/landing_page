@@ -41,44 +41,26 @@ menuItems:
       - id: 5
         name: Pricing
         url: /pricing/
-      - id: 6
-        name: Change Log
-        url: https://github.com/qdrant/qdrant/releases
-      - id: 7
-        name: Roadmap
-        url: https://qdrant.to/roadmap
   - title: Solutions
     items:
       - id: 0
+        name: Use Cases
+        url: /use-cases/
+      - id: 1
         name: RAG
         url: /rag/
-      - id: 1
-        name: Recommendation Systems
-        url: /recommendations/
       - id: 2
-        name: Advanced Search
-        url: /advanced-search/
-      - id: 3
-        name: Data Analysis & Anomaly Detection
-        url: /data-analysis-anomaly-detection/
-      - id: 4
         name: AI Agents
         url: /ai-agents/
+      - id: 3
+        name: Advanced Search
+        url: /advanced-search/
+      - id: 4
+        name: Recommendation Systems
+        url: /recommendations/
       - id: 5
         name: E-commerce
         url: /e-commerce/
-      - id: 6
-        name: Legal Tech
-        url: /legal-tech/
-      - id: 7
-        name: Hospitality & Travel
-        url: /hospitality-and-travel/
-      - id: 8
-        name: HR Tech
-        url: /hr-tech/
-      - id: 9
-        name: Healthcare Tech
-        url: /healthcare/
   - title: Developers
     items:
       - id: 0
@@ -91,72 +73,20 @@ menuItems:
         name: GitHub
         url: https://github.com/qdrant/qdrant
       - id: 3
+        name: Learn
+        url: /learn/
+      - id: 4
         name: Blog
         url: /blog/
-      - id: 4
-        name: Guides
-        url: /documentation/guides/
       - id: 5
-        name: Articles
-        url: /articles/
-      - id: 6
-        name: Courses
-        url: /course/
-      - id: 7
-        name: Tutorials
-        url: /learn/examples/
-      - id: 8
         name: Community
         url: /community/
-      - id: 9
-        name: Events
-        url: /events/
-      - id: 10
-        name: Qdrant Stars
-        url: /stars/
-      - id: 11
+      - id: 6
         name: Startup Program
         url: /qdrant-for-startups/
-      - id: 12
+      - id: 7
         name: Status Page
         url: https://status.qdrant.io/
-  - title: Resources
-    items:
-      - id: 0
-        name: Partners
-        url: /partners/
-      - id: 1
-        name: Services
-        url: /services/
-      - id: 2
-        name: Migration
-        url: /documentation/migration-guidance/
-      - id: 3
-        name: Benchmarks
-        url: /benchmarks/
-      - id: 4
-        name: Security
-        url: /security/
-      - id: 5
-        name: Bug Bounty Program
-        url: /security/bug-bounty-program/
-      - id: 6
-        name: Trust Center
-        url: https://qdrant.to/trust-center
-  - title: Legal
-    items:
-      - id: 0
-        name: Terms
-        url: /legal/terms_and_conditions/
-      - id: 1
-        name: Privacy Policy
-        url: /legal/privacy-policy/
-      - id: 2
-        name: Impressum
-        url: /legal/impressum/
-      - id: 3
-        name: Recruitment Privacy Policy
-        url: /legal/recruitment-privacy-policy/
   - title: Company
     items:
       - id: 0
@@ -166,11 +96,28 @@ menuItems:
         name: Customers
         url: /customers/
       - id: 2
+        name: Partners
+        url: /partners/
+      - id: 3
+        name: Services
+        url: /services/
+      - id: 4
         name: Careers
         url: https://qdrant.to/jobs
-      - id: 3
+      - id: 5
         name: Contact Us
         url: /contact-us/
+  - title: Trust
+    items:
+      - id: 0
+        name: Security
+        url: /security/
+      - id: 1
+        name: Trust Center
+        url: https://qdrant.to/trust-center
+      - id: 2
+        name: Bug Bounty Program
+        url: /security/bug-bounty-program/
 copyright: Qdrant.
 bottomLinks:
   - text: Terms
