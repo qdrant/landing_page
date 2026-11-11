@@ -80,7 +80,7 @@ const SCALE = 94 / 0.9; // px per unit value, so +-0.9 fills the plot
 
 export function render(rotated, bits, legend = true) {
   const { cols, lv } = encode(rotated, bits);
-  const out = [`<text class="qturbo-h" x="0" y="16">${rotated ? 'After rotation' : 'Before rotation'}: one unit-length vector, ${D} coordinates</text>`];
+  const out = [`<text class="qturbo-h" x="0" y="16">${rotated ? 'After rotation' : 'Before rotation'}: one illustrative unit-length vector, ${D} coordinates</text>`];
   lv.forEach((l) => {
     out.push(`<line class="qturbo-lvl" x1="${X0 - 12}" y1="${BASE - l * SCALE}" x2="${X0 + D * PITCH}" y2="${BASE - l * SCALE}"/>`);
   });

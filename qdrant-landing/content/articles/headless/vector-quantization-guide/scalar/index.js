@@ -100,7 +100,7 @@ const HIST = histogram();
 
 export function render(mode, x) {
   const e = encode(mode, x);
-  const out = [`<text class="qscalar-h" x="0" y="14">float32 values of one vector, 400 coordinates</text>`];
+  const out = [`<text class="qscalar-h" x="0" y="14">float32 values of one illustrative vector, 400 coordinates</text>`];
 
   // bounds lines and labels
   [[e.lo, 'lower'], [e.hi, 'upper']].forEach(([v, name]) => {

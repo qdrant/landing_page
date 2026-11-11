@@ -33,11 +33,11 @@ export function statusText(ratio) {
 export function render(ratio) {
   const r = RATIOS.find((x) => x.id === ratio) || RATIOS[1];
   const groups = D / r.per;
-  const out = [`<text class="qprod-h" x="0" y="14">float32 vector, ${D} coordinates, ${D * 32} bits</text>`];
+  const out = [`<text class="qprod-h" x="0" y="14">illustrative float32 vector, ${D} coordinates, ${D * 32} bits</text>`];
   for (let i = 0; i < D; i++) {
     out.push(`<rect class="qprod-cell" x="${X0 + i * PITCH}" y="24" width="${CELL}" height="28" rx="4"/>`);
   }
-  out.push(`<text class="qprod-h" x="0" y="96">Each sub-vector becomes the id of its nearest centroid</text>`);
+  out.push(`<text class="qprod-h" x="0" y="96">Each sub-vector becomes the id of its nearest centroid (example ids)</text>`);
   for (let g = 0; g < groups; g++) {
     const x = X0 + g * r.per * PITCH;
     const w = r.per * PITCH - (PITCH - CELL);
