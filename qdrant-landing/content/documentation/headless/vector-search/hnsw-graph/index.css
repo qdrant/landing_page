@@ -1,6 +1,6 @@
-/* hnsw-graph island. Scoped under .qi-hg. Styled like the acorn island on
-   the search page: chips, hints and the status line come from the shared
-   island design system (islands.scss); this file styles the graph, the
+/* hnsw-graph island: the acorn island's look without filtering. Scoped under
+   .qi-hg. Chips, hints, labels and the status line come from the shared
+   island design system (islands.scss); this file only styles the graph, the
    traversal arrows and the legend. Traversal colors follow the diagram
    component families (orange, teal) and are constant across themes. */
 
@@ -8,43 +8,42 @@
   --hg-orange: #ff9800; /* orange-500 */
   --hg-orange-soft: #ffb74d; /* orange-300 */
   --hg-teal: #009688; /* teal-500 */
-  /* Vectors are black; on the dark theme they flip to light so they stay
-     visible. Short links are grey. */
+  /* Vectors are black. On the dark theme they flip to light so they stay
+     visible. */
   --hg-ok: #111824; /* neutral-900 */
-  --hg-link: #abb1c7; /* neutral-400 */
 
   display: block;
 }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) .qi-hg {
     --hg-ok: var(--qi-fg);
-    --hg-link: #4e5366; /* neutral-700 */
   }
 }
 html[data-theme='dark'] .qi-hg {
   --hg-ok: var(--qi-fg);
-  --hg-link: #4e5366; /* neutral-700 */
 }
 
+/* All text uses the vector color, which is darker than the shared --qi-fg
+   and --qi-muted on the light theme. */
 .qi-hg .qi-chip,
 .qi-hg .qi-hg__status {
   color: var(--hg-ok);
 }
 
-/* --- Graph --- */
+/* --- Graph --- drawn at its natural size and centered, so the controls,
+   legend and status line keep the full island width. */
 .qi-hg__svg {
-  max-width: 560px;
+  max-width: 280px;
   margin-inline: auto;
 }
-.qi-hg__edge--short {
-  stroke: var(--hg-link);
-  stroke-width: 1.5;
-  stroke-dasharray: 5 4;
+.qi-hg__area {
+  fill: var(--hg-teal);
+  fill-opacity: 0.12;
 }
-.qi-hg__edge--long {
+.qi-hg__edge {
   stroke: var(--hg-ok);
   stroke-width: 1.5;
-  stroke-opacity: 0.7;
+  stroke-dasharray: 5 4;
 }
 
 .qi-hg__query {
@@ -54,9 +53,6 @@ html[data-theme='dark'] .qi-hg {
   fill: none;
   stroke: var(--hg-teal);
   stroke-width: 2;
-}
-.qi-hg__query-g {
-  transition: transform 0.4s ease;
 }
 .qi-hg__entry-ring {
   fill: none;
@@ -79,7 +75,7 @@ html[data-theme='dark'] .qi-hg {
   fill: var(--hg-teal);
 }
 
-/* Halo around the vector being expanded, and around the result. */
+/* Halo around the node being expanded, and around the final result. */
 .qi-hg__halo {
   fill: var(--hg-orange-soft);
   opacity: 0;
@@ -99,6 +95,7 @@ html[data-theme='dark'] .qi-hg {
   stroke: var(--hg-orange);
   stroke-width: 2;
   stroke-linecap: round;
+  stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 0.5s ease;
@@ -143,8 +140,7 @@ html[data-theme='dark'] .qi-hg {
 @media (prefers-reduced-motion: reduce) {
   .qi-hg__dot,
   .qi-hg__halo,
-  .qi-hg__arrow,
-  .qi-hg__query-g {
+  .qi-hg__arrow {
     transition: none;
   }
 }

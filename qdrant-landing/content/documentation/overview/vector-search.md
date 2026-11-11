@@ -68,8 +68,8 @@ The challenge with vector search arises when we need to find similar documents i
 
 {{< island
     path="content/documentation/headless/vector-search/hnsw-graph"
-    width="100%" ratio="20 / 13"
-    title="Vector search with an HNSW graph. Short links connect nearby vectors, and long links from the graph's upper layer connect distant ones. The search starts at the entry point and moves toward the query, so it computes the distance to only some of the vectors."
+    width="620" ratio="5 / 4"
+    title="Vector search in an HNSW graph. The search starts at the entry point and moves toward the query, so it computes the distance to only some of the vectors."
 >}}
 ![Vector search with Qdrant. Thanks to HNSW graph we are able to compare the distance to some of the objects from the database, not to all of them.](/docs/gettingstarted/vector-search.png)
 {{< /island >}}
