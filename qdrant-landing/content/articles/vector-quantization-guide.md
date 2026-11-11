@@ -21,8 +21,6 @@ keywords:
   - memory
 ---
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
-
 Production-scale search applications typically rely on high-dimensional vector embeddings. The typical ranges are summarized in this table:
 
 | Dimensions | Example models |
@@ -409,7 +407,9 @@ Whatever you pick, leave the originals as `cold`, pin the quantized copy, and le
 
 ## Measure It on Your Data
 
-Every number above came from embeddings that are not yours. The procedure transfers; the numbers do not. The companion notebook linked at the top of this guide runs the procedure below on SciFact against any Qdrant 1.19 cluster, with no embedding API key.
+Every number in this guide came from embeddings that are not yours. The procedure transfers; the numbers do not. The companion notebook runs the procedure in this section on SciFact against any Qdrant 1.19 cluster, with no embedding API key.
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
 
 Here is the minimum that catches the mistakes we see most often.
 
