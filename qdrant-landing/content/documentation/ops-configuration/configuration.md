@@ -11,11 +11,11 @@ aliases:
 
 # Configuration
 
-Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.
-
 <aside role="status">
-  Qdrant Cloud does not allow modifying the Qdrant configuration.
+  On managed Qdrant Cloud, you can't edit the configuration file or set environment variables. Instead, you set the default collection settings (replication factor, write consistency factor, and whether vectors are stored on disk) and the advanced optimizer settings on the Cluster Details page. Refer to <a href="/documentation/cloud/configure-cluster/">Configure Qdrant Cloud Clusters</a>. The rest of this page describes configuration files and environment variables for self-hosted deployments.
 </aside>
+
+Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.
 
 ## Configuration Files
 

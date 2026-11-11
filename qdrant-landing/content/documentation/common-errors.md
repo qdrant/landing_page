@@ -14,7 +14,40 @@ aliases:
 
 # Solving common errors
 
+This page covers errors you can run into on any Qdrant deployment, such as authentication failures, Cloud cluster health problems, and the Python gRPC `multiprocessing` error. Sections marked *Applies to self-hosted deployments* cover open-file limits, file systems, and storage directories that you manage yourself. For problems that are specific to Hybrid Cloud, refer to [Troubleshooting Hybrid Cloud](/documentation/hybrid-cloud/troubleshooting/).
+
+## Unauthorized and forbidden (HTTP 401 and 403)
+
+When API key authentication is enabled, which is always the case on Qdrant Cloud, Qdrant rejects a request with `401` when it can't identify the key, and with `403` when the key is known but not allowed to do what the request asks. Response messages start with `Unauthorized:` or `Forbidden:`, followed by the text in the table.
+
+| Status | Message | Cause | Fix |
+|---|---|---|---|
+| 401 | `Must provide an API key or an Authorization bearer token` | The request has neither an `api-key` header nor an `Authorization: Bearer` header. | Send the key with every request. |
+| 401 | `Invalid API key or JWT` | The value is not a key this cluster recognizes, for example a mistyped or truncated key, or a Cloud Management Key. | Copy the key again. On Qdrant Cloud, use a [Database API key](/documentation/cloud/authentication/) from the target cluster. |
+| 403 | A message naming an expired or invalid signature | A granular access key has passed its expiration, or it was created for a different cluster. | Create a new key on the cluster you connect to, and rotate the key before it expires. See [Rotate and Revoke Keys](/documentation/cloud/authentication/#rotate-and-revoke-keys). |
+| 403 | `Access to collection <name> is required` | The key is restricted to collections and does not include this one. | Create a key that includes the collection. |
+| 403 | `Write access to collection <name> is required` | The key has read-only access to the collection, and the request writes to it. | Create a key with read-write access to the collection. |
+| 403 | `Manage access for this operation is required` | The operation, such as creating a collection, needs manage permission. | Use a manage key. See the [Table of Access](/documentation/security/#table-of-access). |
+| 403 | `Global access is required` | A key restricted to specific collections called an operation that applies to the whole cluster. | Use a cluster-wide key. |
+| 403 | `Global manage access is required` | A read-only cluster-wide key called an operation that writes or manages. | Use a cluster-wide manage key. See the [Table of Access](/documentation/security/#table-of-access). |
+
+On Qdrant Cloud, a key that was created moments ago can return `403`. Wait a few seconds and retry. If connections fail before any `401` or `403` response, check the port, TLS, and [IP restrictions](/documentation/cloud/cluster-access/#troubleshooting-connections).
+
+## Cloud cluster health problems
+
+*Applies to Qdrant Cloud.*
+
+If a cluster has an unhealthy node, doesn't finish an update, or gets slower over several days, start in the Cloud Console. The **Metrics** and **Requests** sections of the Cluster Details page show how the cluster behaves, and [Alerts](/documentation/cloud/cluster-monitoring/#alerts) tell you what to fix. Refer to [Cluster Alerts](/documentation/cloud/cluster-alerts/) for every alert with its trigger, meaning, and resolution.
+
+- **A node is marked unhealthy.** The Cluster is Unhealthy alert triggers when one or more nodes have been unhealthy for more than 5 minutes. Check the other alerts first, such as memory, disk, CPU throttling, and recovery mode. Then look at recent client code or configuration changes, and at increases in search or write requests.
+- **A cluster stays in "Updating".** Version upgrades, vertical scaling, and changes to cluster settings restart the nodes. Refer to [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime). Replacing nodes, for example when you reduce the disk size, can take a while, depending on how much data the cluster holds. Refer to [Scaling Down Disk Space](/documentation/cloud/cluster-scaling/#scaling-down-disk-space). Give the operation time to finish while you watch the metrics and alerts.
+- **Latency keeps rising over several days.** Compare the trend in the Console metrics with the capacity alerts for memory use, disk use, and CPU throttling, and with the uneven load alerts. Scale the cluster or rebalance shards as the alert suggests. For write-heavy workloads, refer to [Troubleshoot Read-Write Contention](/documentation/ops-optimization/read-write-contention/).
+
+If a cluster is stuck and these steps don't help, contact support. Paying customers can open a ticket through the support portal in the Console. Refer to [Support](/documentation/support/).
+
 ## Too many files open (OS error 24)
+
+*Applies to self-hosted deployments.*
 
 Each collection segment needs some files to be open. At some point you may encounter the following errors in your server log:
 
@@ -60,24 +93,9 @@ To resolve it, either free the resource or raise the limit:
 
 Writes don't resume the instant usage drops. A tripped limit clears only once usage has fallen under the [release margin](/documentation/ops-configuration/quotas/#release-margin), which defaults to 5 percentage points under the limit.
 
-## Unauthorized and forbidden (HTTP 401 and 403)
-
-When API key authentication is enabled, which is always the case on Qdrant Cloud, Qdrant rejects a request with `401` when it can't identify the key, and with `403` when the key is known but not allowed to do what the request asks. Response messages start with `Unauthorized:` or `Forbidden:`, followed by the text in the table.
-
-| Status | Message | Cause | Fix |
-|---|---|---|---|
-| 401 | `Must provide an API key or an Authorization bearer token` | The request has neither an `api-key` header nor an `Authorization: Bearer` header. | Send the key with every request. |
-| 401 | `Invalid API key or JWT` | The value is not a key this cluster recognizes, for example a mistyped or truncated key, or a Cloud Management Key. | Copy the key again. On Qdrant Cloud, use a [Database API key](/documentation/cloud/authentication/) from the target cluster. |
-| 403 | A message naming an expired or invalid signature | A granular access key has passed its expiration, or it was created for a different cluster. | Create a new key on the cluster you connect to, and rotate the key before it expires. See [Rotate and Revoke Keys](/documentation/cloud/authentication/#rotate-and-revoke-keys). |
-| 403 | `Access to collection <name> is required` | The key is restricted to collections and does not include this one. | Create a key that includes the collection. |
-| 403 | `Write access to collection <name> is required` | The key has read-only access to the collection, and the request writes to it. | Create a key with read-write access to the collection. |
-| 403 | `Manage access for this operation is required` | The operation, such as creating a collection, needs manage permission. | Use a manage key. See the [Table of Access](/documentation/security/#table-of-access). |
-| 403 | `Global access is required` | A key restricted to specific collections called an operation that applies to the whole cluster. | Use a cluster-wide key. |
-| 403 | `Global manage access is required` | A read-only cluster-wide key called an operation that writes or manages. | Use a cluster-wide manage key. See the [Table of Access](/documentation/security/#table-of-access). |
-
-On Qdrant Cloud, a key that was created moments ago can return `403`. Wait a few seconds and retry. If connections fail before any `401` or `403` response, check the port, TLS, and [IP restrictions](/documentation/cloud/cluster-access/#troubleshooting-connections).
-
 ## Incompatible file system
+
+*Applies to self-hosted deployments.*
 
 Qdrant have a [set of requirements](/documentation/installation/#storage) for persistent file storage.
 The most important requirement is that file system **must** be [POSIX-compatible](https://www.quobyte.com/storage-explained/posix-filesystem/).
@@ -119,7 +137,6 @@ Service internal error: task XXX panicked with message
 
 It might be also possible that vector data will be lost (set to all zeros) after service restart.
 
-
 ### How to avoid Incompatible file system?
 
 Most common used configuration of incompatible file system is usage of WSL-baced Docker containers in Windows.
@@ -139,8 +156,9 @@ docker run --rm -it \
 
 The above keeps the volume inside the Linux container, preventing issues with a mount shared with Windows.
 
-
 ## Can't open Collections meta Wal
+
+*Applies to self-hosted deployments.*
 
 When starting a Qdrant instance as part of a distributed deployment, you may
 come across an error message similar to this:
@@ -161,7 +179,6 @@ all in the correct places for you. If using Kubernetes, each node must have
 their own volume. If using Docker, each node must have their own storage mount
 or volume. If using Qdrant directly, each node must have their own storage
 directory.
-
 
 ## Using python gRPC client with `multiprocessing`
 
