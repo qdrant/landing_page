@@ -4,16 +4,17 @@
  * islands.
  *
  * 120 points in a 2D space stand in for vectors. They are indexed in a small
- * layered graph in the spirit of HNSW: every point is on layer 0, about a
- * quarter also on layer 1, and a few on layer 2; on each layer every point is
- * linked to its nearest neighbors on that layer. The layers are drawn
- * flattened into one space: layer 0's short links faintly, the upper layers'
- * longer links bolder, and points on upper layers larger. That shows the
- * index as a single graph in vector space, with the upper layers as long-range
- * shortcuts.
+ * layered graph in the spirit of HNSW: every point is on layer 0 and about a
+ * quarter also on layer 1; on each layer every point is linked to its nearest
+ * neighbors on that layer. Real HNSW indexes have more layers; two keep the
+ * animation calm while still showing the idea. The layers are drawn
+ * flattened into one space: layer 0's short links faintly, layer 1's longer
+ * links bolder, and points on layer 1 larger. That shows the index as a single
+ * graph in vector space, with the upper layer as long-range shortcuts.
  *
- * A search starts at the entry point. On the upper layers it moves greedily
- * along long links to whichever neighbor is closer to the query, until no
+ * A search starts at the entry point, a layer-1 point near the middle of the
+ * space (HNSW's entry point is simply a point on the top layer). On layer 1 it
+ * moves greedily along long links to whichever neighbor is closer to the query, until no
  * neighbor is closer. On layer 0 it keeps a short list of the best candidates
  * (ef) and explores their neighbors. Every distance it computes is counted and
  * compared with a full scan, which computes all 120.
@@ -34,8 +35,8 @@
 
 const NS = 'http://www.w3.org/2000/svg';
 const N = 120;
-const TOP = 2;
-const LINKS = [5, 3, 3]; // neighbors per point, by layer
+const TOP = 1;
+const LINKS = [5, 3]; // neighbors per point, by layer
 const EF = 5; // candidate list size on layer 0
 const SPAN = 1.6; // width of the space; height is 1
 const VB = { w: 640, h: 412 };
@@ -79,7 +80,12 @@ function buildGraph() {
     });
     layers.push({ ids, links });
   }
-  return { pts, layers, entry: layers[TOP].ids[0] };
+  // Entry point: the top-layer point closest to the middle of the space, so
+  // searches start with short moves rather than a jump across the graph.
+  const mid = { x: SPAN / 2, y: 0.5 };
+  const toMid = (i) => Math.hypot(pts[i].x - mid.x, pts[i].y - mid.y);
+  const entry = layers[TOP].ids.reduce((a, b) => (toMid(b) < toMid(a) ? b : a));
+  return { pts, layers, entry };
 }
 
 // The search, recorded as a list of steps to animate.
@@ -159,7 +165,7 @@ export function mount(node) {
     '  </div>',
     `  <svg class="qi-svg qi-hg__svg" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-label="An HNSW graph of ${N} points in vector space. Short links connect nearby points; a few long links connect distant ones. A search starts at the entry point, follows long links toward the query, then short ones."></svg>`,
     '  <div class="qi-hg__legend qi-hint">',
-    '    <span class="qi-hg__key"><svg width="28" height="8" aria-hidden="true"><line class="qi-hg__edge qi-hg__edge--2" x1="2" y1="4" x2="26" y2="4"/></svg>long links (upper layers)</span>',
+    '    <span class="qi-hg__key"><svg width="28" height="8" aria-hidden="true"><line class="qi-hg__edge qi-hg__edge--2" x1="2" y1="4" x2="26" y2="4"/></svg>long links (upper layer)</span>',
     '    <span class="qi-hg__key"><svg width="28" height="8" aria-hidden="true"><line class="qi-hg__edge qi-hg__edge--0 is-key" x1="2" y1="4" x2="26" y2="4"/></svg>short links</span>',
     '    <span class="qi-hg__key"><svg width="14" height="14" aria-hidden="true"><circle class="qi-hg__node is-seen" cx="7" cy="7" r="4"/></svg>distance computed</span>',
     '  </div>',
@@ -197,7 +203,7 @@ export function mount(node) {
   const live = el('g', {}, svg);
   const dots = g.pts.map((p) => el('circle', { class: `qi-hg__node qi-hg__node--${p.level}`, cx: sx(p), cy: sy(p) }, svg));
   const e = g.pts[g.entry];
-  el('text', { class: 'qi-label qi-hg__entry', x: sx(e), y: sy(e) + (e.y > 0.85 ? -12 : 20), 'text-anchor': e.x > SPAN - 0.25 ? 'end' : e.x < 0.25 ? 'start' : 'middle' }, svg).textContent =
+  el('text', { class: 'qi-label qi-hg__entry', x: sx(e), y: sy(e) + (e.y < 0.12 ? 22 : -12), 'text-anchor': e.x > SPAN - 0.25 ? 'end' : e.x < 0.25 ? 'start' : 'middle' }, svg).textContent =
     'entry';
   const query = el('g', { class: 'qi-hg__query' }, svg);
   el('path', { d: 'M -6 -6 L 6 6 M -6 6 L 6 -6' }, query);
