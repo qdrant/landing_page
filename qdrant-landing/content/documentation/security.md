@@ -544,7 +544,7 @@ and restrict access to specific IP addresses through [Client IP
 Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions).
 [Hybrid Cloud](/documentation/hybrid-cloud/networking-logging-monitoring/) and
 [Private
-Cloud](/documentation/private-cloud/qdrant-cluster-management/#exposing-a-cluster)
+Cloud](/documentation/private-cloud/security-exposure/#exposing-a-cluster)
 deployments have their own kind of configuration.
 
 ## TLS
