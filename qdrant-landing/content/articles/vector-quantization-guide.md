@@ -25,13 +25,13 @@ keywords:
 
 While working on production-scale search applications the gold standard are high dimensional vector embeddings. The typical ranges are summarized in the table below:
 
-| Dimensions | Example models | Best for |
-|---|---|---|
-| 384 | all-MiniLM-L6-v2, e5-small-v2 | Optimized for high speed, low memory usage, and mobile or lightweight systems |
-| 768 | BERT, standard open-source models | A balanced industry standard for general semantic search |
-| 1024 | e5-base-v2, bge-large-en-v1.5 | RAG pipelines, long-form queries, and complex contextual intent |
-| 1536 | OpenAI text-embedding-3-small | High-capacity enterprise standard (supports native dimension reduction via Matryoshka learning) |
-| 3072 | OpenAI text-embedding-3-large | Maximum nuance for complex technical documentation and multilingual details |
+| Dimensions | Example models |
+|---|---|
+| 384 | all-MiniLM-L6-v2, e5-small-v2 |
+| 768 | BERT, standard open-source models |
+| 1024 | e5-base-v2, bge-large-en-v1.5 |
+| 1536 | OpenAI text-embedding-3-small |
+| 3072 | OpenAI text-embedding-3-large |
 
 To put those numbers into perspective 1 vector of 1536 dimensions would take 6KB of memory. If we were to store 1M of such 1536-dimensional vectors the memory load would be equal to about 6GB. This is before you count the HNSW graph, payloads, or a single replica. Quantization is a compression technique which makes the vectors take less storage while preserving the retrieval quality. To follow-along this guide we would use the [What is vector quantization](https://qdrant.tech/articles/what-is-vector-quantization/) as a prerequisite. 
 
@@ -110,7 +110,7 @@ The defaults differ by method. Rescoring is on by default for binary quantizatio
 
 - 4x memory compression: the pinned copy took 566 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors)).
 - [99% accuracy preservation](https://qdrant.tech/articles/scalar-quantization/). In our runs rescored recall was 0.988 to 0.996 across Quora and FiQA with both models ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- No constraint on the shape of your embeddings: it met the 0.95 target on all eight held-out workloads, including the ones where binary failed ([selected points](#tune-to-a-target-then-compare)).
+- No constraint on the shape of your embeddings: it met the 0.95 target on all eight held-out workloads, including the ones where binary failed ([selected points](#when-oversampling-helps-restore-accuracy)).
 - SIMD optimizations available for int8 operations, enable up to 2x speed improvements beyond the memory benefits: p95 was 0.96 ms against 2.10 ms for float32 HNSW, and throughput 5,567 against 4,187 queries per second on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load)).
 
 </details>
@@ -120,7 +120,7 @@ The defaults differ by method. Rescoring is on by default for binary quantizatio
 
 - Compression stops at 4x. At 8x, 4-bit TurboQuant matched its recall with a 300 MB copy against scalar's 566 MB ([memory chart](#memory-and-latency-at-523000-vectors)).
 - Rescoring is off by default and matters. Without it recall fell to 0.926 on FiQA with BGE, against 0.988 with it ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- Slower than binary at the selected points: 0.36 ms against 0.24 ms server p95 on Quora with Cohere, and 5,567 against 6,674 queries per second under eight clients ([selected points](#tune-to-a-target-then-compare), [throughput](#throughput-under-load)).
+- Slower than binary at the selected points: 0.36 ms against 0.24 ms server p95 on Quora with Cohere, and 5,567 against 6,674 queries per second under eight clients ([selected points](#when-oversampling-helps-restore-accuracy), [throughput](#throughput-under-load)).
 
 </details>
 
@@ -144,7 +144,7 @@ Scalar is the method with the fewest assumptions. It does not care whether coord
 
 - Possible accuracy degradation in embeddings that do not have centered value distributions around zero. Best rescored recall fell from 0.998 at a sign imbalance of 0.128 to 0.806 at 0.195, and beyond about 0.19 it never reached 0.95 ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
 - Weak with handling values close to zero (best alternative: [1.5 bit and 2 bit binary quantization](https://qdrant.tech/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization)). Even so, rescored 2-bit reached 0.766 on FiQA with BGE, where 2-bit TurboQuant reached 0.958 ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- Depends on rescoring and oversampling. Without rescoring recall was 0.42 to 0.79, and the selected points needed 4x to 8x oversampling every time. Only 4 of 8 workloads met the target ([rescoring chart](#rescoring-is-most-of-the-quality), [selected points](#tune-to-a-target-then-compare)).
+- Depends on rescoring and oversampling. Without rescoring recall was 0.42 to 0.79, and the selected points needed 4x to 8x oversampling every time. Only 4 of 8 workloads met the target ([rescoring chart](#rescoring-is-most-of-the-quality), [selected points](#when-oversampling-helps-restore-accuracy)).
 - Less recall than TurboQuant at equal compression: at 32x on Quora, 0.943 against 0.980 with Cohere and 0.838 against 0.938 with BGE ([rescoring chart](#rescoring-is-most-of-the-quality)).
 
 </details>
@@ -169,7 +169,7 @@ Binary only works when the sign of a coordinate carries information. The measure
 <summary>Strengths</summary>
 
 - The largest ratios Qdrant offers, `x4` through `x64`. At `x8` the copy took 297 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors)).
-- High recall at `x8`: it met the 0.95 target on all eight held-out workloads, with held-out recall of 0.962 to 0.996 ([selected points](#tune-to-a-target-then-compare)).
+- High recall at `x8`: it met the 0.95 target on all eight held-out workloads, with held-out recall of 0.962 to 0.996 ([selected points](#when-oversampling-helps-restore-accuracy)).
 - No dependence on centered embeddings. Rescored `x8` recall was 0.987 on FiQA with BGE, where 1-bit binary reached 0.560 ([rescoring chart](#rescoring-is-most-of-the-quality)).
 
 </details>
@@ -177,7 +177,7 @@ Binary only works when the sign of a coordinate carries information. The measure
 <details>
 <summary>Weaknesses</summary>
 
-- The slowest method at matched recall: 1.16 ms server p95 against 0.29 ms for 4-bit TurboQuant and 0.36 ms for scalar on Quora with Cohere. At fixed search effort it was slower than unquantized float32, 2.32 ms against 2.10 ms ([selected points](#tune-to-a-target-then-compare), [memory chart](#memory-and-latency-at-523000-vectors)).
+- The slowest method at matched recall: 1.16 ms server p95 against 0.29 ms for 4-bit TurboQuant and 0.36 ms for scalar on Quora with Cohere. At fixed search effort it was slower than unquantized float32, 2.32 ms against 2.10 ms ([selected points](#when-oversampling-helps-restore-accuracy), [memory chart](#memory-and-latency-at-523000-vectors)).
 - The only method with lower throughput than unquantized float32: 2,720 queries per second against 4,187 for float32 and 6,138 for 4-bit TurboQuant, and its latency more than doubled with eight clients ([throughput](#throughput-under-load)).
 - Recall drops as the ratio grows. Rescored `x16` reached 0.905 on FiQA with BGE against 0.987 for `x8` ([rescoring chart](#rescoring-is-most-of-the-quality)). We did not measure `x32` or `x64`.
 - Training the codebook adds indexing time. We did not time it.
@@ -194,7 +194,7 @@ The price is paid at search time. Distances go through lookup tables rather than
 <summary>Strengths</summary>
 
 - 4-bit gives 8x with recall indistinguishable from scalar at half the memory: rescored recall was 0.994, 0.994, 0.996, and 0.988 against scalar's 0.993, 0.993, 0.996, and 0.988, with a 300 MB copy against 566 MB ([rescoring chart](#rescoring-is-most-of-the-quality), [memory chart](#memory-and-latency-at-523000-vectors)).
-- Fast: p95 was 0.69 ms against 2.10 ms for float32 HNSW and 0.96 ms for scalar, and throughput 6,138 against 5,567 queries per second for scalar on Quora with Cohere. It reached the target at `hnsw_ef` 64 on all eight workloads ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load), [selected points](#tune-to-a-target-then-compare)).
+- Fast: p95 was 0.69 ms against 2.10 ms for float32 HNSW and 0.96 ms for scalar, and throughput 6,138 against 5,567 queries per second for scalar on Quora with Cohere. It reached the target at `hnsw_ef` 64 on all eight workloads ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load), [selected points](#when-oversampling-helps-restore-accuracy)).
 - More recall than binary at equal compression. At 16x on Quora with BGE, 2-bit reached 0.985 against 0.920 for binary, and at 32x 1-bit reached 0.938 against 0.838 ([rescoring chart](#rescoring-is-most-of-the-quality)).
 - No per-dataset calibration, so it holds up where binary stalls: rescored 1-bit recall was 0.791 on FiQA with BGE against binary's 0.560 ([rescoring chart](#rescoring-is-most-of-the-quality)).
 
@@ -237,7 +237,7 @@ At equal compression TurboQuant beats binary on every workload. At 32× on Quora
 
 Rescoring costs almost nothing when the originals are in the page cache. Across the Quora runs it added at most 0.04 ms to server p95, and the per-query vector read counter shows exactly why: 81,920 bytes per query, which is 20 candidates times 4,096 bytes per 1,024-dimensional float32 vector. Reading 20 vectors from RAM is not where the time goes.
 
-### When oversampling helps restore accuracy?
+### When Oversampling Helps Restore Accuracy
 
 For this experiment we set a quality target of 0.95 recall@10 vs exact float32. For each method we swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, on the 50 development queries only. We took the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. Then froze it and run the 150 held-out queries once.
 
