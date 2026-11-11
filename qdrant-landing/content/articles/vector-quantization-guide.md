@@ -23,7 +23,7 @@ keywords:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
 
-While working on production-scale search applications the gold standard are high dimensional vector embeddings. The typical ranges are summarized in the table below:
+Production-scale search applications typically rely on high-dimensional vector embeddings. The typical ranges are summarized in this table:
 
 | Dimensions | Example models |
 |---|---|
@@ -33,9 +33,9 @@ While working on production-scale search applications the gold standard are high
 | 1536 | OpenAI text-embedding-3-small |
 | 3072 | OpenAI text-embedding-3-large |
 
-To put those numbers into perspective 1 vector of 1536 dimensions would take 6KB of memory. If we were to store 1M of such 1536-dimensional vectors the memory load would be equal to about 6GB. This is before you count the HNSW graph, payloads, or a single replica. Quantization is a compression technique which makes the vectors take less storage while preserving the retrieval quality. To follow-along this guide we would use the [What is vector quantization](https://qdrant.tech/articles/what-is-vector-quantization/) as a prerequisite. 
+To put those numbers into perspective, one vector of 1536 dimensions takes 6KB of memory. If we were to store 1M of such 1536-dimensional vectors, the memory load would be about 6GB. This is before you count the HNSW graph, payloads, or a single replica. Quantization is a compression technique which makes the vectors take less storage while preserving the retrieval quality. To follow along with this guide, we recommend reading [What is vector quantization](https://qdrant.tech/articles/what-is-vector-quantization/) first.
 
-This guide covers the four methods available in Qdrant: Scalar Quantization , Binary Quantization, Product Quantization and TurboQuant, how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). At the end of this guide you can also find an interactive tool which can help you determine which quantization method is best for your use-case and vector shape.
+This guide covers the four methods available in Qdrant: Scalar Quantization, Binary Quantization, Product Quantization, and TurboQuant, how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). At the end of this guide you can also find an interactive tool that can help you determine which quantization method is best for your use case and vector shape.
 
 ## Three Ways to Shrink a Collection
 
@@ -133,7 +133,7 @@ Scalar is the method with the fewest assumptions. It does not care whether coord
 <details>
 <summary>Strengths</summary>
 
-- Works best with high-dimensional vectors (≥1024 dimensions) e.g. OpenAI's text-embedding-ada-002 and Cohere's embed-english-v2.0. In our runs it passed the target on Quora with both models, where sign imbalance is lowest ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
+- Works best with high-dimensional vectors (1024 dimensions or more), e.g. OpenAI's text-embedding-ada-002 and Cohere's embed-english-v2.0. In our runs the corpus mattered more than the dimension count: it passed the target on Quora with both models, including 384-dimensional BGE, where sign imbalance is lowest ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
 - The smallest copy: 95 MB of heap against 2,142 MB of originals on Quora with Cohere, which is 32x ([memory chart](#memory-and-latency-at-523000-vectors)).
 - The fastest method wherever it passed: p95 was 0.48 ms against 2.10 ms for float32 HNSW, and throughput 6,674 against 4,187 queries per second on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load)).
 
@@ -284,7 +284,7 @@ Rescoring costs almost nothing when the originals are in the page cache. Across 
 
 ### When Oversampling Helps Restore Accuracy
 
-For this experiment we set a quality target of 0.95 recall@10 vs exact float32. For each method we swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, on the 50 development queries only. We took the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. Then froze it and run the 150 held-out queries once.
+For this experiment we set a quality target of 0.95 recall@10 vs exact float32. For each method we swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, on the 50 development queries only. We took the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. Then we froze it and ran the 150 held-out queries once.
 
 {{< chart id="quantization-guide/tradeoff" caption="The development sweep on Quora with Cohere vectors at k=10 with rescoring on: recall@10 by hnsw_ef, one line per oversampling setting. Above oversampling 1, hnsw_ef barely moves recall for scalar and TurboQuant; binary needs oversampling to clear the target at all." caption2="Server p95 for the same sweep. Search effort is what costs latency, and product quantization pays the most for it." >}}
 
