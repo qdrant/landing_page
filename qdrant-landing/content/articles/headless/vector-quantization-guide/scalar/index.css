@@ -1,10 +1,22 @@
-/* scalar island. Scoped under .qscalar; controls and status come from .qi-*. */
+/* scalar island. Scoped under .qscalar; controls and status come from .qi-*.
+   Values inside the bounds are blue; values the bounds leave out are red and
+   are also named in the status line. */
 .qscalar { display: block; text-align: left; }
 .qscalar .qi-fig { gap: 16px; }
+.qscalar .qi-controls { justify-content: space-between; }
+.qscalar .qi-status--3 { min-height: calc(3 * 1.45em); }
+.qscalar .qscalar__val { display: inline-flex; align-items: center; gap: 8px; font-family: var(--qi-mono); font-size: 12px; color: var(--qi-muted); }
+.qscalar .qscalar__val input { width: 160px; margin: 0; accent-color: var(--qi-fg); cursor: pointer; }
+.qscalar .qscalar__val input:focus-visible { outline: 2px solid var(--qi-fg); outline-offset: 3px; }
+.qscalar .qscalar__val output { min-width: 3.2em; color: var(--qi-fg); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .qscalar .qscalar-h { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 14px; }
-.qscalar .qscalar-num { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
-.qscalar .qscalar-num.is-over { fill: var(--qi-accent); font-weight: 600; }
-.qscalar .qscalar-cell { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1; }
-.qscalar .qscalar-cell.is-hot { stroke: var(--qi-accent); stroke-width: 2; }
-.qscalar .qscalar-bar { fill: var(--qi-cat-1); }
-.qscalar .qscalar-bar.is-full { fill: var(--qi-line); }
+.qscalar .qscalar-bin.is-in { fill: var(--qi-cat-1); }
+.qscalar .qscalar-bin.is-out { fill: var(--qi-accent); }
+.qscalar .qscalar-bound { stroke: var(--qi-fg); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.qscalar .qscalar-funnel { fill: var(--qi-cat-1); fill-opacity: 0.12; stroke: var(--qi-cat-1); stroke-width: 1; stroke-opacity: 0.6; }
+.qscalar .qscalar-int8 { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1; }
+.qscalar .qscalar-mark { stroke: var(--qi-fg); stroke-width: 2; }
+.qscalar .qscalar-mark.is-over { stroke: var(--qi-accent); }
+.qscalar .qscalar-dot { fill: var(--qi-fg); }
+.qscalar .qscalar-dot.is-over { fill: var(--qi-accent); }
+.qscalar .qscalar-ign { fill: var(--qi-accent); font-family: var(--qi-mono); font-size: 14px; font-weight: 600; }

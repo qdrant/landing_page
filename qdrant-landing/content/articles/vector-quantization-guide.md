@@ -55,8 +55,8 @@ A quantized vector approximates the original, so searching the compressed copy c
 
 ### Scalar Quantization
 
-{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="9 / 5" title="Scalar quantization of one illustrative vector: each coordinate becomes one of 256 int8 levels." >}}
-![Scalar quantization: twelve float32 coordinates stored as int8 codes in a quarter of the space, with an outlier stretching the range](/articles_data/vector-quantization-guide/method-scalar.svg)
+{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="7 / 4" title="Scalar quantization of one illustrative vector: the bounds are stretched over 256 int8 levels. With a quantile, the most extreme values are ignored when choosing the bounds." >}}
+![Scalar quantization: a histogram of float32 values with lower and upper bounds stretched over 256 int8 levels; quantile 0.99 ignores the extreme 1% and makes each level about twice as fine](/articles_data/vector-quantization-guide/method-scalar.svg)
 {{< /island >}}
 
 <details>
@@ -108,16 +108,6 @@ Scalar is the method with the fewest assumptions. It does not care whether coord
 </details>
 
 The one-bit encoding keeps the sign of each coordinate and nothing else, so the copy is 1/32 the size of the originals and a comparison collapses to XOR and popcount over packed bits. That is the fastest scoring Qdrant has. The two-bit and 1.5-bit encodings add a "near zero" bucket, which costs compression (16× and about 21×) and buys back some of the recall that sign-only loses on small coordinates. `query_encoding` can keep the query side at `scalar8bits` or `scalar4bits` while the stored side stays binary.
-
-```python
-quantization_config=models.BinaryQuantization(
-    binary=models.BinaryQuantizationConfig(
-        encoding=models.BinaryQuantizationEncoding.TWO_BITS,
-        query_encoding=models.BinaryQuantizationQueryEncoding.SCALAR8BITS,
-        memory=models.Memory.PINNED,
-    )
-)
-```
 
 Binary only works when the sign of a coordinate carries information. The measurements below show that this is a property of the corpus and the model together, and that it can be measured before you build anything.
 
