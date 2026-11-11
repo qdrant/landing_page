@@ -35,27 +35,23 @@ To put those numbers into perspective, one vector of 1536 dimensions takes 6KB o
 
 This guide covers the four methods available in Qdrant: [Scalar Quantization](/documentation/manage-data/quantization/#scalar-quantization), [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization), [Product Quantization](/documentation/manage-data/quantization/#product-quantization), and [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). At the end of this guide you can also find an interactive tool that can help you determine which quantization method is best for your use case and vector shape.
 
-## Three Ways to Shrink a Collection
+## Why Quantization Matters
 
-Qdrant gives you three separate levers, and they are easy to confuse.
+The memory a collection needs grows with the number of vectors and with their dimensions. A float32 vector takes four bytes per dimension, so `N` vectors need `N × dimensions × 4` bytes before the HNSW graph, payloads, or replicas. The figure scales that up. Set the dimensions of your embeddings, the number of vectors, and the RAM you have, then compare what the float32 vectors need with what each quantized copy needs.
 
-![Three ways to shrink a vector collection: fewer dimensions, a quantized search copy, or a smaller storage datatype](/articles_data/vector-quantization-guide/three-ways-to-shrink.svg)
+{{< island path="content/articles/headless/vector-quantization-guide/scale"
+    ratio="9 / 5"
+    title="Memory for the vectors alone, as float32 and under each quantized copy. Sizes are arithmetic: vectors times dimensions times four bytes, divided by the compression ratio. They exclude the HNSW graph, payloads, and replicas." >}}
+![Memory for 100M vectors at 1,536 dimensions against 256 GB of RAM: float32 needs 614 GB and exceeds it, scalar int8 needs 154 GB, TurboQuant 4-bit or product x8 needs 77 GB, and binary 1-bit needs 19 GB](/articles_data/vector-quantization-guide/memory-scale.svg)
+{{< /island >}}
 
-**Fewer dimensions** is a decision about the embedding, not the engine. Matryoshka models let you keep the first 256 or 512 coordinates; Qdrant stores whatever length you send. Nothing in this guide changes if you do that first.
+Scalar quantization stores one byte per coordinate, 4-bit TurboQuant and product quantization at `x8` reach 8×, and 1-bit binary quantization reaches 32×. Those are the ratios the bars use. The heap we measured on Quora landed within 5 to 10% of them (see [Memory and Latency at 523,000 Vectors](#memory-and-latency-at-523000-vectors)). The catch is accuracy: a smaller copy is a rougher copy. The rest of this guide measures how much recall each method gives up and how much rescoring against the originals wins back.
 
-**A quantized search copy** is what people mean by quantization in Qdrant. The original vectors stay as they are. Qdrant builds a compact copy, searches that copy, and can rescore the best candidates against the originals. This is the lever the guide is about.
+This guide is about the quantized search copy. Two other levers shrink a collection and are not its subject. Fewer dimensions is a decision about the embedding, not the engine: Matryoshka models let you keep the first 256 or 512 coordinates, and Qdrant stores whatever length you send. A smaller storage datatype changes the originals themselves. `float16` halves them, `uint8` needs embeddings that already live in 0 to 255, and `turbo4`, new in v1.19, stores each coordinate in four bits, which is measured in [Storage Datatypes Are a Different Trade](#storage-datatypes-are-a-different-trade). The rest of this guide assumes cosine distance on L2-normalized embeddings. Qdrant normalizes cosine vectors on ingestion anyway, so cosine becomes a dot product on the inside.
 
-**A storage datatype** changes the originals themselves. `float16` halves them, `uint8` needs embeddings that already live in 0 to 255, and `turbo4`, new in v1.19, stores each coordinate in four bits. Once the originals are four bits, rescoring can only recover four bits of precision. That difference is measured in its own section, because it is the trade people most often make by accident.
+### Rescoring and Oversampling
 
-The rest of this guide assumes cosine distance on L2-normalized embeddings. Qdrant normalizes cosine vectors on ingestion anyway, so cosine becomes a dot product on the inside.
-
-## How a Search Copy Answers a Query
-
-Every quantized configuration in Qdrant runs the same four steps. The methods differ only in how step one encodes a vector and how cheap step one is.
-
-![How a quantized search copy answers a query: search the pinned copy, oversample, rescore against the originals, return the top k](/articles_data/vector-quantization-guide/search-copy-rescoring.svg)
-
-The quantized copy is searched through the HNSW graph. TurboQuant and product quantization score the full-precision query against the compressed stored vectors, so quantization noise lands on one side of each comparison. Scalar quantizes the query to `int8` as well, and binary reduces the query to bits unless `query_encoding` keeps it at eight or four bits. The search returns `limit × oversampling` candidates. If `rescore` is on, Qdrant scores those candidates again with the original vectors and returns the best `limit`. If it is off, the quantized scores are final and the originals are never read.
+A quantized configuration keeps the original vectors as they are, builds a compact copy, and searches that copy through the HNSW graph. TurboQuant and product quantization score the full-precision query against the compressed stored vectors, so quantization noise lands on one side of each comparison. Scalar quantizes the query to `int8` as well, and binary reduces the query to bits unless `query_encoding` keeps it at eight or four bits. The search returns `limit × oversampling` candidates. If `rescore` is on, Qdrant scores those candidates again with the original vectors and returns the best `limit`. If it is off, the quantized scores are final and the originals are never read.
 
 Two settings decide where the bytes live. The [memory tier](/documentation/ops-configuration/memory-tiers/) of the quantized copy should be `pinned`, so it is heap-allocated and never evicted. The originals can stay `cold`, which means a memory-mapped file that is read on demand, or `cached`, which pre-warms the page cache. Qdrant rejects `pinned` for dense originals. On a machine with spare RAM the page cache keeps cold originals hot anyway; the distinction only bites when the originals do not fit, which is the memory-pressure experiment near the end.
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -16 800 272" width="800" height="272" role="img" aria-labelledby="t4 d4">
+  <title id="t4">Memory for the vectors alone, float32 against quantized copies</title>
+  <desc id="d4">100M vectors at 1,536 dimensions take 614 GB as float32. That is 2.4 times the 256 GB of RAM. The first copy that fits is Scalar int8 at 154 GB. Scalar int8 is 4 times smaller at 154 GB, TurboQuant 4-bit and product x8 are 8 times smaller at 77 GB, and binary 1-bit is 32 times smaller at 19 GB. Sizes exclude the HNSW graph, payloads, and replicas.</desc>
+  <style>
+    text { font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qscale-h, .qscale-sub { fill: #656b7f; }
+    .qscale-name { fill: #303547; font-weight: 600; }
+    .qscale-num { fill: #303547; }
+    .qscale-num.is-over { fill: #dc244c; font-weight: 600; }
+    .qscale-bar.is-fit { fill: #6047ff; }
+    .qscale-bar.is-over { fill: #dc244c; }
+    .qscale-ram { stroke: #303547; stroke-width: 2; stroke-dasharray: 5 4; }
+  </style>
+  <rect x="-20" y="-16" width="800" height="272" fill="#FFFFFF" rx="12"/>
+  <text class="qscale-h" x="0" y="20">Vectors only, per method</text><text class="qscale-h" x="448.83333333333337" y="20" text-anchor="start">RAM 256 GB</text><line class="qscale-ram" x1="442.8" y1="28" x2="442.8" y2="222"/><text class="qscale-name" x="0" y="58">float32 originals</text><text class="qscale-sub" x="0" y="76">6,144 bytes per vector</text><rect class="qscale-bar is-over" x="322" y="46" width="290.0" height="20" rx="2"/><text class="qscale-num is-over" x="626" y="61">614 GB  exceeds</text><text class="qscale-name" x="0" y="104">Scalar int8 · 4×</text><text class="qscale-sub" x="0" y="122">1,536 bytes per vector</text><rect class="qscale-bar is-fit" x="322" y="92" width="72.5" height="20" rx="2"/><text class="qscale-num " x="626" y="107">154 GB</text><text class="qscale-name" x="0" y="150">TurboQuant 4-bit or product x8 · 8×</text><text class="qscale-sub" x="0" y="168">768 bytes per vector</text><rect class="qscale-bar is-fit" x="322" y="138" width="36.3" height="20" rx="2"/><text class="qscale-num " x="626" y="153">77 GB</text><text class="qscale-name" x="0" y="196">Binary 1-bit · 32×</text><text class="qscale-sub" x="0" y="214">192 bytes per vector</text><rect class="qscale-bar is-fit" x="322" y="184" width="9.1" height="20" rx="2"/><text class="qscale-num " x="626" y="199">19 GB</text>
+</svg>
