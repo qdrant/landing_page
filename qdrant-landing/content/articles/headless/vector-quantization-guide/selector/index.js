@@ -13,7 +13,7 @@
  *   p95, QPS    memory.csv and throughput.csv, Quora with both models, shown
  *               as a ratio to float32 HNSW. Only the five methods the guide
  *               measured have them
- *   choice      the "Choosing" rules: the least aggressive method that fits,
+ *   choice      the guide's selection rules: the least aggressive method that fits,
  *               with TurboQuant preferred for recall and binary for speed
  *
  * The model and the view are separate: estimate() and recommend() are pure and

@@ -53,28 +53,36 @@ A quantized vector approximates the original, so searching the compressed copy c
 
 ## The Four Methods
 
+<style>
+details.qgt { margin: 1.25rem 0; padding: 0.875rem 1.25rem; border-left: 5px solid var(--qgt-c); border-radius: 6px; background: var(--qgt-bg); }
+details.qgt--s { --qgt-c: #1a9d63; --qgt-bg: rgba(26, 157, 99, 0.14); }
+details.qgt--w { --qgt-c: #dc244c; --qgt-bg: rgba(220, 36, 76, 0.12); }
+details.qgt > summary.qgt__title { margin: 0 0 0.75rem; font-size: 1.125rem; font-weight: 700; cursor: pointer; }
+details.qgt:not([open]) > summary.qgt__title { margin-bottom: 0; }
+</style>
+
 ### Scalar Quantization
 
-{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="7 / 4" title="Scalar quantization of one illustrative vector: the bounds are stretched over 256 int8 levels. With a quantile, the most extreme values are ignored when choosing the bounds." >}}
+{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="7 / 4" >}}
 ![Scalar quantization: a histogram of float32 values with lower and upper bounds stretched over 256 int8 levels; quantile 0.99 ignores the extreme 1% and makes each level about twice as fine](/articles_data/vector-quantization-guide/method-scalar.svg)
 {{< /island >}}
 
-<details>
-<summary>Strengths</summary>
+<details class="qgt qgt--s">
+<summary class="qgt__title">Strengths</summary>
 
-- 4x memory compression: the pinned copy took 566 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors)).
-- [99% accuracy preservation](https://qdrant.tech/articles/scalar-quantization/). In our runs rescored recall was 0.988 to 0.996 across Quora and FiQA with both models ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- No constraint on the shape of your embeddings: it met the 0.95 target on all eight held-out workloads, including the ones where binary failed ([selected points](#when-oversampling-helps-restore-accuracy)).
-- SIMD optimizations available for int8 operations, enable up to 2x speed improvements beyond the memory benefits: p95 was 0.96 ms against 2.10 ms for float32 HNSW, and throughput 5,567 against 4,187 queries per second on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load)).
+- 4x memory compression: the pinned copy took 566 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#pinned-copies-ram-against-latency)).
+- [99% accuracy preservation](https://qdrant.tech/articles/scalar-quantization/). In our runs rescored recall was 0.988 to 0.996 across Quora and FiQA with both models ([rescoring chart](#rescoring-recall-against-extra-reads)).
+- No constraint on the shape of your embeddings: it met the 0.95 target on all eight held-out workloads, including the ones where binary failed ([selected points](#oversampling-recall-against-search-effort)).
+- SIMD optimizations available for int8 operations, enable up to 2x speed improvements beyond the memory benefits: p95 was 0.96 ms against 2.10 ms for float32 HNSW, and throughput 5,567 against 4,187 queries per second on Quora with Cohere ([memory chart](#pinned-copies-ram-against-latency), [throughput](#throughput-compression-against-queries-per-second)).
 
 </details>
 
-<details>
-<summary>Weaknesses</summary>
+<details class="qgt qgt--w">
+<summary class="qgt__title">Weaknesses</summary>
 
-- Compression stops at 4x. At 8x, 4-bit TurboQuant matched its recall with a 300 MB copy against scalar's 566 MB ([memory chart](#memory-and-latency-at-523000-vectors)).
-- Rescoring is off by default and matters. Without it recall fell to 0.926 on FiQA with BGE, against 0.988 with it ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- Slower than binary at the selected points: 0.36 ms against 0.24 ms server p95 on Quora with Cohere, and 5,567 against 6,674 queries per second under eight clients ([selected points](#when-oversampling-helps-restore-accuracy), [throughput](#throughput-under-load)).
+- Compression stops at 4x. At 8x, 4-bit TurboQuant matched its recall with a 300 MB copy against scalar's 566 MB ([memory chart](#pinned-copies-ram-against-latency)).
+- Rescoring is off by default and matters. Without it recall fell to 0.926 on FiQA with BGE, against 0.988 with it ([rescoring chart](#rescoring-recall-against-extra-reads)).
+- Slower than binary at the selected points: 0.36 ms against 0.24 ms server p95 on Quora with Cohere, and 5,567 against 6,674 queries per second under eight clients ([selected points](#oversampling-recall-against-search-effort), [throughput](#throughput-compression-against-queries-per-second)).
 
 </details>
 
@@ -84,26 +92,26 @@ Scalar is the method with the fewest assumptions. It does not care whether coord
 
 ### Binary Quantization
 
-{{< island path="content/documentation/headless/quantization/bit-depth" width="80%" ratio="2 / 1" title="Binary quantization at 1, 1.5, and 2 bits per dimension." >}}
+{{< island path="content/documentation/headless/quantization/bit-depth" width="80%" ratio="2 / 1" >}}
 ![Binary quantization at 1, 1.5, and 2 bits per dimension](/docs/2-bit-quantization.png)
 {{< /island >}}
 
-<details>
-<summary>Strengths</summary>
+<details class="qgt qgt--s">
+<summary class="qgt__title">Strengths</summary>
 
-- Works best with high-dimensional vectors (1024 dimensions or more), e.g. OpenAI's text-embedding-ada-002 and Cohere's embed-english-v2.0. In our runs the corpus mattered more than the dimension count: it passed the target on Quora with both models, including 384-dimensional BGE, where sign imbalance is lowest ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
-- The smallest copy: 95 MB of heap against 2,142 MB of originals on Quora with Cohere, which is 32x ([memory chart](#memory-and-latency-at-523000-vectors)).
-- The fastest method wherever it passed: p95 was 0.48 ms against 2.10 ms for float32 HNSW, and throughput 6,674 against 4,187 queries per second on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load)).
+- Works best with high-dimensional vectors (1024 dimensions or more), e.g. OpenAI's text-embedding-ada-002 and Cohere's embed-english-v2.0. In our runs the corpus mattered more than the dimension count: it passed the target on Quora with both models, including 384-dimensional BGE, where sign imbalance is lowest ([sign imbalance table](#binary-quantization-compression-against-recall)).
+- The smallest copy: 95 MB of heap against 2,142 MB of originals on Quora with Cohere, which is 32x ([memory chart](#pinned-copies-ram-against-latency)).
+- The fastest method wherever it passed: p95 was 0.48 ms against 2.10 ms for float32 HNSW, and throughput 6,674 against 4,187 queries per second on Quora with Cohere ([memory chart](#pinned-copies-ram-against-latency), [throughput](#throughput-compression-against-queries-per-second)).
 
 </details>
 
-<details>
-<summary>Weaknesses</summary>
+<details class="qgt qgt--w">
+<summary class="qgt__title">Weaknesses</summary>
 
-- Possible accuracy degradation in embeddings that do not have centered value distributions around zero. Best rescored recall fell from 0.998 at a sign imbalance of 0.128 to 0.806 at 0.195, and beyond about 0.19 it never reached 0.95 ([sign imbalance table](#when-binary-fails-and-how-to-tell-in-advance)).
-- Weak with handling values close to zero (best alternative: [1.5 bit and 2 bit binary quantization](https://qdrant.tech/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization)). Even so, rescored 2-bit reached 0.766 on FiQA with BGE, where 2-bit TurboQuant reached 0.958 ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- Depends on rescoring and oversampling. Without rescoring recall was 0.42 to 0.79, and the selected points needed 4x to 8x oversampling every time. Only 4 of 8 workloads met the target ([rescoring chart](#rescoring-is-most-of-the-quality), [selected points](#when-oversampling-helps-restore-accuracy)).
-- Less recall than TurboQuant at equal compression: at 32x on Quora, 0.943 against 0.980 with Cohere and 0.838 against 0.938 with BGE ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- Possible accuracy degradation in embeddings that do not have centered value distributions around zero. Best rescored recall fell from 0.998 at a sign imbalance of 0.128 to 0.806 at 0.195, and beyond about 0.19 it never reached 0.95 ([sign imbalance table](#binary-quantization-compression-against-recall)).
+- Weak with handling values close to zero (best alternative: [1.5 bit and 2 bit binary quantization](https://qdrant.tech/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization)). Even so, rescored 2-bit reached 0.766 on FiQA with BGE, where 2-bit TurboQuant reached 0.958 ([rescoring chart](#rescoring-recall-against-extra-reads)).
+- Depends on rescoring and oversampling. Without rescoring recall was 0.42 to 0.79, and the selected points needed 4x to 8x oversampling every time. Only 4 of 8 workloads met the target ([rescoring chart](#rescoring-recall-against-extra-reads), [selected points](#oversampling-recall-against-search-effort)).
+- Less recall than TurboQuant at equal compression: at 32x on Quora, 0.943 against 0.980 with Cohere and 0.838 against 0.938 with BGE ([rescoring chart](#rescoring-recall-against-extra-reads)).
 
 </details>
 
@@ -113,25 +121,25 @@ Binary only works when the sign of a coordinate carries information. The measure
 
 ### Product Quantization
 
-{{< island path="content/articles/headless/vector-quantization-guide/product" ratio="9 / 5" title="Product quantization of one illustrative vector: each sub-vector becomes the id of its nearest centroid. The ids are examples." >}}
+{{< island path="content/articles/headless/vector-quantization-guide/product" ratio="9 / 5" >}}
 ![Product quantization: a 16-coordinate vector cut into eight sub-vectors, each replaced by a one-byte centroid id, 8 times smaller](/articles_data/vector-quantization-guide/method-product.svg)
 {{< /island >}}
 
-<details>
-<summary>Strengths</summary>
+<details class="qgt qgt--s">
+<summary class="qgt__title">Strengths</summary>
 
-- The largest ratios Qdrant offers, `x4` through `x64`. At `x8` the copy took 297 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#memory-and-latency-at-523000-vectors)).
-- High recall at `x8`: it met the 0.95 target on all eight held-out workloads, with held-out recall of 0.962 to 0.996 ([selected points](#when-oversampling-helps-restore-accuracy)).
-- No dependence on centered embeddings. Rescored `x8` recall was 0.987 on FiQA with BGE, where 1-bit binary reached 0.560 ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- The largest ratios Qdrant offers, `x4` through `x64`. At `x8` the copy took 297 MB of heap against 2,142 MB of originals on Quora with Cohere ([memory chart](#pinned-copies-ram-against-latency)).
+- High recall at `x8`: it met the 0.95 target on all eight held-out workloads, with held-out recall of 0.962 to 0.996 ([selected points](#oversampling-recall-against-search-effort)).
+- No dependence on centered embeddings. Rescored `x8` recall was 0.987 on FiQA with BGE, where 1-bit binary reached 0.560 ([rescoring chart](#rescoring-recall-against-extra-reads)).
 
 </details>
 
-<details>
-<summary>Weaknesses</summary>
+<details class="qgt qgt--w">
+<summary class="qgt__title">Weaknesses</summary>
 
-- The slowest method at matched recall: 1.16 ms server p95 against 0.29 ms for 4-bit TurboQuant and 0.36 ms for scalar on Quora with Cohere. At fixed search effort it was slower than unquantized float32, 2.32 ms against 2.10 ms ([selected points](#when-oversampling-helps-restore-accuracy), [memory chart](#memory-and-latency-at-523000-vectors)).
-- The only method with lower throughput than unquantized float32: 2,720 queries per second against 4,187 for float32 and 6,138 for 4-bit TurboQuant, and its latency more than doubled with eight clients ([throughput](#throughput-under-load)).
-- Recall drops as the ratio grows. Rescored `x16` reached 0.905 on FiQA with BGE against 0.987 for `x8` ([rescoring chart](#rescoring-is-most-of-the-quality)). We did not measure `x32` or `x64`.
+- The slowest method at matched recall: 1.16 ms server p95 against 0.29 ms for 4-bit TurboQuant and 0.36 ms for scalar on Quora with Cohere. At fixed search effort it was slower than unquantized float32, 2.32 ms against 2.10 ms ([selected points](#oversampling-recall-against-search-effort), [memory chart](#pinned-copies-ram-against-latency)).
+- The only method with lower throughput than unquantized float32: 2,720 queries per second against 4,187 for float32 and 6,138 for 4-bit TurboQuant, and its latency more than doubled with eight clients ([throughput](#throughput-compression-against-queries-per-second)).
+- Recall drops as the ratio grows. Rescored `x16` reached 0.905 on FiQA with BGE against 0.987 for `x8` ([rescoring chart](#rescoring-recall-against-extra-reads)). We did not measure `x32` or `x64`.
 - Training the codebook adds indexing time. We did not time it.
 
 </details>
@@ -142,27 +150,27 @@ The price is paid at search time. Distances go through lookup tables rather than
 
 ### TurboQuant
 
-{{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" title="TurboQuant rotates a vector so one shared set of levels suits every coordinate. The vector and the levels are illustrative." >}}
+{{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" >}}
 ![TurboQuant: a vector with one large coordinate before rotation and an even spread after rotation, with the same length](/articles_data/vector-quantization-guide/method-turboquant.svg)
 {{< /island >}}
 
-<details>
-<summary>Strengths</summary>
+<details class="qgt qgt--s">
+<summary class="qgt__title">Strengths</summary>
 
-- 4-bit gives 8x with recall indistinguishable from scalar at half the memory: rescored recall was 0.994, 0.994, 0.996, and 0.988 against scalar's 0.993, 0.993, 0.996, and 0.988, with a 300 MB copy against 566 MB ([rescoring chart](#rescoring-is-most-of-the-quality), [memory chart](#memory-and-latency-at-523000-vectors)).
-- Fast: p95 was 0.69 ms against 2.10 ms for float32 HNSW and 0.96 ms for scalar, and throughput 6,138 against 5,567 queries per second for scalar on Quora with Cohere. It reached the target at `hnsw_ef` 64 on all eight workloads ([memory chart](#memory-and-latency-at-523000-vectors), [throughput](#throughput-under-load), [selected points](#when-oversampling-helps-restore-accuracy)).
-- More recall than binary at equal compression. At 16x on Quora with BGE, 2-bit reached 0.985 against 0.920 for binary, and at 32x 1-bit reached 0.938 against 0.838 ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- No per-dataset calibration, so it holds up where binary stalls: rescored 1-bit recall was 0.791 on FiQA with BGE against binary's 0.560 ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- 4-bit gives 8x with recall indistinguishable from scalar at half the memory: rescored recall was 0.994, 0.994, 0.996, and 0.988 against scalar's 0.993, 0.993, 0.996, and 0.988, with a 300 MB copy against 566 MB ([rescoring chart](#rescoring-recall-against-extra-reads), [memory chart](#pinned-copies-ram-against-latency)).
+- Fast: p95 was 0.69 ms against 2.10 ms for float32 HNSW and 0.96 ms for scalar, and throughput 6,138 against 5,567 queries per second for scalar on Quora with Cohere. It reached the target at `hnsw_ef` 64 on all eight workloads ([memory chart](#pinned-copies-ram-against-latency), [throughput](#throughput-compression-against-queries-per-second), [selected points](#oversampling-recall-against-search-effort)).
+- More recall than binary at equal compression. At 16x on Quora with BGE, 2-bit reached 0.985 against 0.920 for binary, and at 32x 1-bit reached 0.938 against 0.838 ([rescoring chart](#rescoring-recall-against-extra-reads)).
+- No per-dataset calibration, so it holds up where binary stalls: rescored 1-bit recall was 0.791 on FiQA with BGE against binary's 0.560 ([rescoring chart](#rescoring-recall-against-extra-reads)).
 
 </details>
 
-<details>
-<summary>Weaknesses</summary>
+<details class="qgt qgt--w">
+<summary class="qgt__title">Weaknesses</summary>
 
-- Low bit depths depend on rescoring. Without it 1-bit recall was 0.610 to 0.863, against 0.791 to 0.980 with it ([rescoring chart](#rescoring-is-most-of-the-quality)).
-- Low bit depths still miss on the hardest workload. On FiQA with BGE rescored recall was 0.840 at 1.5 bits and 0.791 at 1 bit ([rescoring chart](#rescoring-is-most-of-the-quality)).
+- Low bit depths depend on rescoring. Without it 1-bit recall was 0.610 to 0.863, against 0.791 to 0.980 with it ([rescoring chart](#rescoring-recall-against-extra-reads)).
+- Low bit depths still miss on the hardest workload. On FiQA with BGE rescored recall was 0.840 at 1.5 bits and 0.791 at 1 bit ([rescoring chart](#rescoring-recall-against-extra-reads)).
 - Manhattan distance works but takes a slow path, so [scalar wins there](https://qdrant.tech/documentation/manage-data/quantization/#distance-metric-support).
-- `turbo4` storage loses recall that nothing downstream restores: 0.969 against 0.994 on Quora with Cohere and 0.902 against 0.991 on FiQA with BGE ([storage datatypes](#storage-datatypes-are-a-different-trade)).
+- `turbo4` storage loses recall that nothing downstream restores: 0.969 against 0.994 on Quora with Cohere and 0.902 against 0.991 on FiQA with BGE ([storage datatypes](#storage-datatypes-disk-against-recall)).
 - The newest method. One of three builds of `turbo4` storage with a 4-bit copy returned zero recall on FiQA with BGE, and the [docs](https://qdrant.tech/documentation/manage-data/quantization/#turboquant-quantization) advise testing it on your data first ([experiment design limitations](#experiment-design-limitations)).
 
 </details>
@@ -173,7 +181,7 @@ Four-bit TurboQuant gives 8× compression and, in every run below, recall indist
 
 ## What We Measured
 
-BEIR (Benchmarking Information Retrieval) is a public collection of 18 English retrieval datasets, built so that a retriever is tested on text and query styles it was not tuned for ([Thakur et al., 2021](https://arxiv.org/abs/2104.08663)). Each dataset ships documents, queries, and human relevance judgments, and Cohere publishes `embed-english-v3.0` vectors for the corpora, so the Cohere runs need no API calls and anyone can rerun them. We use four datasets that differ in size, text length, and judgments per query.
+[BEIR (Benchmarking Information Retrieval)](https://github.com/beir-cellar/beir) is a public collection of 18 English retrieval datasets, built so that a retriever is tested on text and query styles it was not tuned for ([Thakur et al., 2021](https://arxiv.org/abs/2104.08663)). Each dataset ships documents, queries, and human relevance judgments, and Cohere publishes `embed-english-v3.0` vectors for the corpora, so the Cohere runs need no API calls and anyone can rerun them. We use four datasets that differ in size, text length, and judgments per query.
 
 ### The Four Datasets
 
@@ -184,7 +192,7 @@ BEIR (Benchmarking Information Retrieval) is a public collection of 18 English r
 | FiQA | Financial question answering | A StackExchange investment post that answers a question | 57,638 | 132 | 2.6 |
 | Quora | Duplicate question retrieval | Another question that asks the same thing | 522,931 | 11 | 1.6 |
 
-Counts and lengths come from Table 1 of the BEIR paper. Quora is larger than NFCorpus by a factor of 144, and at 1,024 dimensions its float32 originals take 2,142 MB, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, and it is the only symmetric task, so queries and documents share one encoding. Its embeddings are also the most centered, which is why binary quantization passes there (see [When Binary Fails, and How to Tell in Advance](#when-binary-fails-and-how-to-tell-in-advance)). NFCorpus averages 38.2 relevant documents per query against one to three elsewhere. That does not affect recall@10, which compares against exact float32 search, but it does affect nDCG@10, which is scored against the judgments.
+Counts and lengths come from Table 1 of the BEIR paper. Quora is larger than NFCorpus by a factor of 144, and at 1,024 dimensions its float32 originals take 2,142 MB, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, and it is the only symmetric task, so queries and documents share one encoding. Its embeddings are also the most centered, which is why binary quantization passes there (see [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall)). NFCorpus averages 38.2 relevant documents per query against one to three elsewhere. That does not affect recall@10, which compares against exact float32 search, but it does affect nDCG@10, which is scored against the judgments.
 
 Switch the embedding model to see the originals shrink, and select a corpus to read what its queries and documents are.
 
@@ -194,33 +202,35 @@ Switch the embedding model to see the originals shrink, and select a corpus to r
 
 We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), and search with cosine distance on L2-normalized vectors. Qdrant v1.19.2 runs in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. We set rescoring and oversampling explicitly on every query, because the defaults differ by method: rescoring is on by default for binary quantization and for TurboQuant at 1, 1.5, and 2 bits, and off for scalar, product, and 4-bit TurboQuant. The quantized copy is pinned in RAM and the originals stay `cold`, a memory-mapped file read on demand (see [memory tiers](/documentation/ops-configuration/memory-tiers/)). Fifty development queries tune each setting and 150 held-out test queries report it. Quality is ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, with a separate throughput run at eight concurrent clients. Memory is the Qdrant allocator heap after indexing and a search pass; the originals are memory-mapped and show up in the page cache instead. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, and no recall moved by more than 0.025 and no pass or fail changed.
 
-### Rescoring Is Most of the Quality
+A companion notebook runs this setup on SciFact against any Qdrant 1.19 cluster, with no embedding API key.
 
-The first question for any method is what it does with and without rescoring, at a fixed search effort. This is `hnsw_ef=256`, oversampling 2, every method, on the two larger corpora.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
 
-{{< chart id="quantization-guide/rescoring" caption="Recall@10 against exact float32 search for each method with rescoring off and on, Quora with Cohere 1,024-d vectors, 522,931 documents, Qdrant v1.19.2 on an 8-vCPU VM, hnsw_ef 256, oversampling 2, 150 held-out queries." caption2="Same configurations on Quora with BGE-small 384-d vectors. Every low-bit code loses more on the smaller model, and binary 1-bit stays below 0.85 even rescored." caption3="Same configurations on FiQA with Cohere 1,024-d vectors, 57,638 documents." caption4="Same configurations on FiQA with BGE-small 384-d vectors. Binary 1-bit with rescoring reaches 0.56, the lowest result in the study." >}}
+## Measured Tradeoffs
 
-Three patterns hold on every one of the eight workloads.
+Every method buys memory with recall, speed, or both. Each section takes one lever and prices it: what it saves and what it costs.
 
-Scalar, 4-bit TurboQuant, and product `x8` reach 0.99 recall with rescoring on and sit between 0.93 and 0.99 with it off. For those three, rescoring is a small, cheap correction.
+### Rescoring: Recall Against Extra Reads
 
-At 2 bits and below, rescoring is the method. On Quora with Cohere, TurboQuant 2-bit goes from 0.93 to 0.99, 1-bit from 0.86 to 0.98, and binary 1-bit from 0.79 to 0.94. On Quora with BGE the same three go from 0.87 to 0.99, 0.77 to 0.94, and 0.68 to 0.84. Without the originals to rescore against, a 1-bit copy misses one to two of the exact top ten on the large model and two to three on the small one.
+Rescoring buys back recall by reading original vectors. We ran every method with it off and on at `hnsw_ef=256` and oversampling 2, on the two larger corpora.
 
-At equal compression TurboQuant beats binary on every workload. At 32× on Quora with Cohere, rescored 1-bit TurboQuant returns 0.98 against binary's 0.94; at 16×, 2-bit TurboQuant returns 0.99 against 2-bit binary's 0.97. On BGE the gaps are wider: 0.94 against 0.84 and 0.99 against 0.92. The rotation is doing what the sign alone cannot.
+{{< chart id="quantization-guide/rescoring" caption="Recall@10 against exact float32 search with rescoring off and on, Quora with Cohere 1,024-d vectors (522,931 documents). Qdrant v1.19.2, 8-vCPU VM, hnsw_ef 256, oversampling 2, 150 held-out queries." caption2="Quora with BGE-small 384-d vectors. Low-bit codes lose more on the smaller model, and binary 1-bit stays below 0.85 even rescored." caption3="FiQA with Cohere 1,024-d vectors (57,638 documents)." caption4="FiQA with BGE-small 384-d vectors. Binary 1-bit with rescoring reaches 0.56, the lowest result in the study." >}}
 
-Rescoring costs almost nothing when the originals are in the page cache. Across the Quora runs it added at most 0.04 ms to server p95, and the per-query vector read counter shows exactly why: 81,920 bytes per query, which is 20 candidates times 4,096 bytes per 1,024-dimensional float32 vector. Reading 20 vectors from RAM is not where the time goes.
+**It matters most at low bit depths.** Scalar, 4-bit TurboQuant, and product `x8` reach 0.99 recall with rescoring and 0.93 to 0.99 without, so for them it is a small correction. At 2 bits and below it is the method. On Quora with Cohere, TurboQuant 2-bit goes from 0.93 to 0.99, TurboQuant 1-bit from 0.86 to 0.98, and binary 1-bit from 0.79 to 0.94. With BGE the same three go from 0.87 to 0.99, 0.77 to 0.94, and 0.68 to 0.84. Without the originals, a 1-bit copy misses one to two of the exact top ten on the large model and two to three on the small one.
 
-### When Oversampling Helps Restore Accuracy
+**At equal compression, TurboQuant beats binary on every workload.** At 32× on Quora with Cohere, rescored 1-bit TurboQuant returns 0.98 against binary's 0.94, and at 16× 2-bit TurboQuant returns 0.99 against 0.97. On BGE the gaps are 0.94 against 0.84 and 0.99 against 0.92.
 
-For this experiment we set a quality target of 0.95 recall@10 vs exact float32. For each method we swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, on the 50 development queries only. We took the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. Then we froze it and ran the 150 held-out queries once.
+**The cost is small.** Across the Quora runs rescoring added at most 0.04 ms to server p95. Each query reads 20 candidates at 4,096 bytes each, 81,920 bytes in total, and reading 20 vectors from the page cache is not where the time goes.
 
-{{< chart id="quantization-guide/tradeoff" caption="The development sweep on Quora with Cohere vectors at k=10 with rescoring on: recall@10 by hnsw_ef, one line per oversampling setting. Above oversampling 1, hnsw_ef barely moves recall for scalar and TurboQuant; binary needs oversampling to clear the target at all." caption2="Server p95 for the same sweep. Search effort is what costs latency, and product quantization pays the most for it." >}}
+### Oversampling: Recall Against Search Effort
 
-The sweep shows why the selection rule matters. For scalar and 4-bit TurboQuant, `hnsw_ef` 64 already clears 0.95 and every step up costs latency for recall you do not need. Binary 1-bit at oversampling 1 sits at 0.82 no matter how hard the graph searches; oversampling and rescoring are what lift it. Product quantization clears the bar everywhere and pays for it: 3.6 ms at `hnsw_ef` 512 against 1.2 ms for TurboQuant.
+A quality target turns the sweep into a choice: take the cheapest setting that reaches it. We set the target at 0.95 recall@10 against exact float32 and swept `hnsw_ef` over 64, 128, 256, and 512, oversampling over 1, 2, 4, and 8, and rescoring off and on, using the 50 development queries only. The rule picks the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32. We then froze it and ran the 150 held-out queries once.
+
+{{< chart id="quantization-guide/tradeoff" caption="Development sweep on Quora with Cohere vectors, k=10, rescoring on: recall@10 by hnsw_ef, one line per oversampling setting. Above oversampling 1, hnsw_ef barely moves recall for scalar and TurboQuant; binary needs oversampling to clear the target at all." caption2="Server p95 for the same sweep. Search effort is what costs latency, and product quantization pays the most for it." >}}
+
+**Search effort buys nothing once the target is met.** For scalar and 4-bit TurboQuant, `hnsw_ef` 64 already clears 0.95, and every step up costs latency for recall you do not need. **Oversampling does the work for binary.** Binary 1-bit at oversampling 1 sits at 0.82 however hard the graph searches, and only oversampling with rescoring lifts it. **Product quantization pays in latency.** It clears the bar everywhere, at 3.6 ms at `hnsw_ef` 512 against 1.2 ms for TurboQuant.
 
 {{< chart id="quantization-guide/selected" caption="Recall@10 on held-out queries at each method's development-selected point, Cohere 1,024-d vectors on four corpora. Binary 1-bit misses the 0.95 target on NFCorpus; the other methods meet it everywhere." caption2="The same on BGE-small 384-d vectors. Binary 1-bit misses on three of the four corpora and passes only on Quora." caption3="Server p95 at the frozen points with Cohere vectors, 8-vCPU VM, concurrency one. Product quantization costs 2 to 4 times TurboQuant and scalar at matched quality." caption4="Server p95 at the frozen points with BGE vectors." >}}
-
-The selected points say more than the bars.
 
 | Method | Where the sweep landed, k=10 | Met 0.95 on held-out |
 |---|---|---|
@@ -229,15 +239,13 @@ The selected points say more than the bars.
 | Product x8 | `hnsw_ef` 64 or 128, rescoring on, 2 to 4× | 8 of 8 |
 | Binary 1-bit | `hnsw_ef` 64 to 512, rescoring on, 4× to 8× every time | 4 of 8 |
 
-Scalar and 4-bit TurboQuant reach the target at the lowest search effort Qdrant was offered, at 0.17 to 0.36 ms server p95 depending on corpus size. Product `x8` met the target everywhere at 0.43 to 1.17 ms, two to four times slower than the others. Binary needed the top of the oversampling grid and still failed on SciFact, NFCorpus, and FiQA with BGE and on NFCorpus with Cohere.
+Scalar and 4-bit TurboQuant reach the target at the lowest search effort offered, at 0.17 to 0.36 ms server p95 depending on corpus size. Product `x8` meets it everywhere but takes 0.43 to 1.17 ms, two to four times longer. Binary needs the top of the oversampling grid and still fails on SciFact, NFCorpus, and FiQA with BGE and on NFCorpus with Cohere. Held-out recall tracked development recall within 0.03 at every selected point, so the rule generalizes. The sweep is 264 configurations per workload and took two minutes on 5,000 documents and half an hour on 523,000, cheap enough to copy.
 
-Held-out recall tracked development recall within 0.03 at every selected point, so the rule generalizes. The sweep is 264 configurations per workload; it took two minutes on 5,000 documents and half an hour on 523,000, which makes it cheap enough to copy.
+### Binary Quantization: Compression Against Recall
 
-### When Binary Fails, and How to Tell in Advance
+Binary gives the most compression, 32×, and it is the one method whose recall can collapse. It passed on both Quora models, including the 384-dimensional one, and failed on every other BGE workload, so dimensionality does not explain it. The sign of each coordinate does.
 
-Binary passed on both Quora models, including the 384-dimensional one, and failed on every other BGE workload. Dimensionality alone does not explain that. The sign of a coordinate does.
-
-For each corpus we measured how predictable the sign of each coordinate is: the mean absolute difference between the share of positive values in a coordinate and one half. Zero means every coordinate is positive exactly half the time, which is what a sign-only code needs. The number lines up with binary's best rescored recall in the sweep across all eight workloads.
+We measured the sign imbalance of each corpus: the mean absolute difference between the share of positive values in a coordinate and one half. Zero means every coordinate is positive exactly half the time, which is what a sign-only code needs. It lines up with binary's best rescored recall across all eight workloads.
 
 | Corpus and model | Sign imbalance | Best binary 1-bit recall@10 |
 |---|---|---|
@@ -250,19 +258,17 @@ For each corpus we measured how predictable the sign of each coordinate is: the 
 | SciFact, BGE 384-d | 0.207 | 0.886 |
 | NFCorpus, BGE 384-d | 0.235 | 0.806 |
 
-Above an imbalance of about 0.19, binary did not reach 0.95 at any point in the grid. Quora's question texts produce more centered embeddings than the scientific and financial corpora do, on both models, and that is why binary works there. The small model is worse on every corpus, so dimensionality matters too, but it is the corpus that moves a model across the line. This statistic takes seconds to compute on a sample of your vectors and is a better test than the dimension count.
+Above an imbalance of about 0.19, binary never reached 0.95 anywhere in the grid. Quora's question texts give more centered embeddings than the scientific and financial corpora, on both models, which is why binary works there. The small model is worse on every corpus, so dimensionality matters too, but the corpus is what moves a model across the line. The imbalance takes seconds to compute on a sample of your vectors and predicts the outcome better than the dimension count: below 0.15 binary is worth testing, and above 0.19 it did not pass here.
 
-### Storage Datatypes Are a Different Trade
+### Storage Datatypes: Disk Against Recall
 
-A storage datatype changes the originals themselves, not a copy of them. `turbo4`, new in v1.19, stores each coordinate in four bits, so rescoring can only recover four bits of precision. The datatype experiment compares five collections: float32 originals alone, float32 with a 4-bit TurboQuant copy, `turbo4` storage with no copy, float32 with a 1-bit copy, and `turbo4` storage with a 1-bit copy. The last one is the smallest configuration Qdrant can build.
+A storage datatype shrinks the originals themselves, so it saves disk but leaves nothing to rescore against at full precision. `turbo4`, new in v1.19, stores each coordinate in four bits, so rescoring can only recover four bits of precision. We compared five collections: float32 originals alone, float32 with a 4-bit TurboQuant copy, `turbo4` with no copy, float32 with a 1-bit copy, and `turbo4` with a 1-bit copy, the smallest configuration Qdrant can build.
 
 {{< chart id="quantization-guide/datatype" caption="Recall@10 at k=10 with rescoring on and oversampling 2 for float32 originals, turbo4 storage, and each with a TurboQuant search copy, Quora and FiQA with both models." caption2="Bytes of the stored vectors in the merged segment for the same configurations. turbo4 storage holds the originals in one eighth of the space; the search copy and the HNSW graph are extra." >}}
 
-`turbo4` storage cuts the stored vectors to one eighth, 270 MB instead of 2,142 MB on Quora with Cohere, and removes recall that nothing downstream can restore: 0.97 on its own against 0.99 for float32 with a 4-bit copy, and 0.95 against 1.00 on BGE. Add a 1-bit copy over `turbo4` and rescoring happens against 4-bit values, which lands at 0.96 on Cohere and 0.91 on BGE. The same 1-bit copy over float32 originals rescores to 0.98 and 0.94. The gap between those two rows is the precision the datatype threw away.
+**It saves 8× on disk and costs recall.** `turbo4` stores Quora with Cohere in 270 MB instead of 2,142 MB, and loses recall that nothing downstream restores: 0.97 on its own against 0.99 for float32 with a 4-bit copy, and 0.95 against 1.00 on BGE. **Rescoring against it inherits the loss.** A 1-bit copy over `turbo4` lands at 0.96 on Cohere and 0.91 on BGE, against 0.98 and 0.94 over float32 originals. Binary retrieval at 8× oversampling shows the same: 0.99 and 0.97 over float32 against 0.97 and 0.92 over `turbo4` on Quora, and 0.96 against 0.93 and 0.78 against 0.75 on FiQA. Every configuration that rescores against `turbo4` lands two to five points below the same one over float32.
 
-The same holds for binary retrieval. Rescored at 8× oversampling, 1-bit binary over float32 originals reaches 0.99 on Quora with Cohere and 0.97 on Quora with BGE; the identical search over `turbo4` storage reaches 0.97 and 0.92. On FiQA the pairs are 0.96 against 0.93 and 0.78 against 0.75. Every configuration that rescores against `turbo4` lands two to five points below the same configuration rescoring against float32.
-
-So `turbo4` is a storage decision. Take it when disk, not RAM, is the constraint and a 2 to 5 point recall loss on the large model, or 5 to 10 on the small one, is acceptable. It is not a replacement for a search copy over float32 originals, and it cannot be undone without re-ingesting.
+**So it is a disk decision.** Take it when disk, not RAM, is the constraint and a 2 to 5 point loss on the large model, or 5 to 10 on the small one, is acceptable. It does not replace a search copy over float32 originals, and undoing it means re-ingesting.
 
 ```python
 client.create_collection(
@@ -281,27 +287,27 @@ client.create_collection(
 )
 ```
 
-### Memory and Latency at 523,000 Vectors
+### Pinned Copies: RAM Against Latency
 
-Quora is large enough for the copies to cost real memory and for the graph to cost real time.
+A pinned copy costs RAM and buys speed. Quora is large enough for the copies to cost real memory and for the graph to cost real time.
 
 {{< chart id="quantization-guide/memory" caption="Heap added to the Qdrant process by each search copy on Quora, measured after indexing and a search pass: 566 MB for int8, 300 MB for 4-bit TurboQuant, 297 MB for product x8, and 95 MB for 1-bit binary against 2,142 MB of Cohere originals that stay memory-mapped on disk." caption2="Server p95 at hnsw_ef 256 with rescoring on and oversampling 2 for the same collections. Every quantized copy searches faster than float32 HNSW on the same graph." >}}
 
-The heap numbers land within 5 to 10% of what the arithmetic predicts: a quarter, an eighth, an eighth, and a thirty-second of 2,142 MB, plus a few megabytes of per-segment bookkeeping. That is the figure to put in a capacity plan for the pinned copy. The originals are a separate line: with the copy pinned and the originals `cold`, Qdrant's resident set after a search pass was 570 to 1,000 MB for the quantized collections against 1,818 MB for float32, because float32 HNSW has to pull vectors through the page cache to score anything.
+**RAM.** The heap lands within 5 to 10% of the arithmetic: a quarter, an eighth, an eighth, and a thirty-second of 2,142 MB, plus a few megabytes of per-segment bookkeeping. That is the figure for a capacity plan. With the copy pinned and the originals `cold`, the resident set after a search pass was 570 to 1,000 MB for the quantized collections against 1,818 MB for float32, which has to pull vectors through the page cache to score anything.
 
-That is also why every copy is faster than float32 HNSW on the same graph. At `hnsw_ef` 256 on Quora with Cohere, float32 reads 11.7 MB of vectors per query, about 2,850 of them, and answers in 2.1 ms at p95. The int8 copy answers in 0.96 ms, 4-bit TurboQuant in 0.69, 1-bit binary in 0.48. Product `x8` answers in 2.3 ms, slower than no quantization at all, which is the lookup-table cost made visible. At the selected points the ordering is the same with smaller numbers: 0.24 ms for binary, 0.29 for TurboQuant, 0.36 for scalar, 0.72 for float32, 1.16 for product.
+**Latency.** For that reason every copy answers faster than float32 HNSW on the same graph. At `hnsw_ef` 256 on Quora with Cohere, float32 reads about 2,850 vectors (11.7 MB) per query and answers in 2.1 ms at p95. The int8 copy takes 0.96 ms, 4-bit TurboQuant 0.69, and 1-bit binary 0.48. Product `x8` takes 2.3 ms, slower than no quantization, which is the lookup-table cost. At the selected points the order holds: 0.24 ms for binary, 0.29 for TurboQuant, 0.36 for scalar, 0.72 for float32, and 1.16 for product.
 
-### Throughput Under Load
+### Throughput: Compression Against Queries per Second
 
-Concurrency one measures the server; eight concurrent clients measure how much of the machine each method leaves for other queries.
+Concurrency one measures the server. Eight concurrent clients measure how much of the machine each method leaves for other queries.
 
 {{< chart id="quantization-guide/throughput" caption="Queries per second at each method's frozen k=10 point with eight concurrent clients on the same 8-vCPU VM, four workloads. The client and server share the CPUs, so about 7,000 QPS is the ceiling of the machine rather than of any method." caption2="Server p95 under the same load. Product quantization is the only method whose latency more than doubles when clients stack up." >}}
 
-On Quora with Cohere, 4-bit TurboQuant sustains 6,100 queries per second, binary 6,700, scalar 5,600, float32 HNSW 4,200, and product quantization 2,700. The ceiling is shared: the quantized methods bunch near it on every corpus because the client is competing for the same cores, so read the differences below the ceiling, not the absolute numbers. float32 HNSW delivers about 70% of the quantized throughput and product quantization under half, on both corpora large enough to matter.
+On Quora with Cohere, binary sustains 6,700 queries per second, 4-bit TurboQuant 6,100, scalar 5,600, float32 HNSW 4,200, and product quantization 2,700. The quantized methods bunch near the shared ceiling on every corpus, so read the differences below it, not the absolute numbers. Float32 HNSW delivers about 70% of the quantized throughput and product quantization under half, on both corpora large enough to matter.
 
-### Cold Start: The Disk Side of the Trade
+### Cold Start: RAM Against First-Query Latency
 
-Every number so far had the originals in the page cache. The cold-start run drops the host page cache and restarts the container before each of three passes, then sends the 150 queries once per pass with no warm-up. The first ten requests of a pass are the cold figure.
+Every number so far had the originals in the page cache. The cold-start run drops the host page cache and restarts the container before each of three passes, then sends the 150 queries once with no warm-up. The first ten requests are the cold figure.
 
 | Quora, Cohere 1,024-d, k=10 | First 10 requests after a cache drop, p50 / p95 | Remaining 140, p50 |
 |---|---|---|
@@ -311,81 +317,20 @@ Every number so far had the originals in the page cache. The cold-start run drop
 | Binary 1-bit | 9.1 / 24.3 ms | 8.7 ms |
 | Product x8 | 11.3 / 27.8 ms | 10.9 ms |
 
-That is the trade in one table. A pinned copy is loaded with the process, so a quantized collection answers its first cold query in about ten milliseconds, almost all of it the 20 rescoring reads from disk. float32 HNSW has nothing in RAM but the graph, pulls about 2,850 vectors from disk per query, and takes 1.3 seconds at p50 for the first ten requests and 0.6 seconds for the rest of the pass. On Quora with BGE the figures are 918 ms against 6 to 7 ms; on FiQA, 659 ms against 8 to 10 ms. The quantized collections do not finish warming within 150 queries either, which is why their tail stays near 9 ms instead of the 0.3 ms of the warm runs, but they start from a usable place and float32 does not.
+A pinned copy loads with the process, so a quantized collection answers its first cold query in about ten milliseconds, almost all of it the 20 rescoring reads from disk. Float32 HNSW keeps only the graph in RAM and pulls about 2,850 vectors from disk per query, taking 1.3 seconds at p50 for the first ten requests and 0.6 seconds for the rest of the pass. On Quora with BGE the figures are 918 ms against 6 to 7 ms, and on FiQA 659 ms against 8 to 10 ms. The quantized collections do not finish warming within 150 queries either, so their tail stays near 9 ms instead of the 0.3 ms of warm runs, but they start from a usable place and float32 does not.
 
-### When the Originals Do Not Fit
+### Memory Caps: Headroom Against Index Builds
 
-A first attempt capped the container at 1 GiB, below the 2.1 GB of originals, for the whole experiment. That measured something else: under the cap, the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, and a cap below them is a build problem before it is a search problem. The results are kept as a recorded outcome.
-
-## Choosing
-
-Start from three numbers: the RAM you will give Qdrant, the recall@10 you can accept against exact search, and the p95 you can afford. Then evaluate in this order and stop at the first configuration that meets all three.
-
-**If 4× is enough, or you need Manhattan distance,** scalar. It has no distribution assumptions and met the target on every workload, rescoring off on most of the Cohere ones. It stops working when your budget needs more than 4×.
-
-**If you need 8×,** 4-bit TurboQuant. On all eight workloads it matched scalar's recall at half the memory and ran slightly faster. The exception is Manhattan distance, where its scoring falls back to a slow path.
-
-**If you need 16× to 32× and query speed is the priority,** binary, with rescoring and 4× to 8× oversampling budgeted in. It was the fastest method on every workload where it passed. Check the sign imbalance of your corpus first: above roughly 0.19 it did not reach 0.95 anywhere in the grid, and that happened on three of four BGE corpora and one Cohere corpus.
-
-**If you need 16× to 32× and recall is the priority,** 2-bit or 1-bit TurboQuant with rescoring on. They reached 0.99 and 0.94 to 0.98 on the corpora where binary stalled. Turning rescoring off is what breaks them: without the originals, 1-bit TurboQuant loses 15 to 25% of the exact top ten.
-
-**If you need 64× and latency does not matter,** product quantization. A p95 target is what rules it out; at `x8` it was already the slowest method at matched recall in every run, slower than unquantized float32 at fixed search effort, and the only method whose latency more than doubled under eight concurrent clients.
-
-**If disk is the constraint rather than RAM,** `turbo4` storage, with the recall loss above priced in.
-
-Whatever you pick, leave the originals as `cold`, pin the quantized copy, and leave rescoring on until a measurement tells you it is not needed. Rescoring 20 candidates costs microseconds when the originals are in the page cache. The only reason to turn it off is that they are not, and you find that out by measuring, not by guessing.
-
-## Measure It on Your Data
-
-Every number in this guide came from embeddings that are not yours. The procedure transfers; the numbers do not. The companion notebook runs the procedure in this section on SciFact against any Qdrant 1.19 cluster, with no embedding API key.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
-
-Here is the minimum that catches the mistakes we see most often.
-
-Compute exact float32 neighbors once, outside the index, for a few hundred queries. Qdrant's `exact=True` with quantization ignored does this against a live collection:
-
-```python
-def top_ids(query, **params):
-    return [
-        point.id
-        for point in client.query_points(
-            collection_name="articles",
-            query=query,
-            limit=10,
-            search_params=models.SearchParams(**params),
-        ).points
-    ]
-
-exact = top_ids(
-    query_vector,
-    exact=True,
-    quantization=models.QuantizationSearchParams(ignore=True),
-)
-quantized = top_ids(
-    query_vector,
-    hnsw_ef=128,
-    quantization=models.QuantizationSearchParams(rescore=True, oversampling=2.0),
-)
-recall_at_10 = len(set(exact) & set(quantized)) / 10
-```
-
-Report unquantized HNSW too, so you can see how much error the graph adds before quantization does. At the selected points float32 HNSW scored 0.96 to 0.996 across the eight workloads, so part of the gap to 1.0 in the charts belongs to the graph, not the codes.
-
-Check the sign imbalance before you try binary. Over a sample of your stored vectors, take the share of positive values per coordinate, subtract one half, and average the absolute value. Below 0.15 binary is worth testing; above 0.19 it did not pass here.
-
-Then tune on queries you will not report, freeze, and evaluate once. Keep the tuning sweep small: `hnsw_ef` and oversampling are the two knobs that matter, rescoring is a switch you should test both ways, and three builds of the index tell you whether a 0.01 difference is real. On every workload here, build-to-build recall varied by less than 0.005.
-
-The [benchmark repository](https://github.com/qdrant-labs/quantization-comparison-bench) runs this whole protocol with one command per dataset and writes the tables in this guide. Point it at your own embeddings by replacing the prepared arrays; the format is a float32 matrix, an ID list, and a relevance file.
+The tradeoff here is the RAM cap against a build that finishes. A first attempt capped the container at 1 GiB, below the 2.1 GB of originals, for the whole experiment. Under the cap the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, so a cap below them is a build problem before it is a search problem. We kept the results as a recorded outcome.
 
 ## Pick a Method for Your Collection
 
-The selector applies the rules from [Choosing](#choosing) to your numbers. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target. Click any row to see that method's impact on its own.
+The selector turns the measurements in this guide into a recommendation for your collection. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target. Click any row to see that method's impact on its own.
 
 {{< island path="content/articles/headless/vector-quantization-guide/selector"
     ratio="3 / 4"
     title="Quantization selector. Memory is arithmetic on your inputs. Recall, p95, and throughput are estimated from the measurements in this guide." >}}
-This selector needs JavaScript. Without it, use the [decision table in the quantization docs](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) or the rules in [Choosing](#choosing).
+This selector needs JavaScript. Without it, use the [decision table in the quantization docs](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method).
 {{< /island >}}
 
 Memory is exact arithmetic. Recall, p95, and throughput are read from the measurements in this guide and interpolated, between the two embedding models by dimension count and between the corpora by sign imbalance, so a result for a collection unlike those workloads is an estimate. Methods the guide did not measure for latency show n/m. [Experiment Design Limitations](#experiment-design-limitations) lists what the measurements cannot say.
