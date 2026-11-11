@@ -14,7 +14,7 @@ aliases:
 
 # Solving common errors
 
-This page covers errors you can run into on any Qdrant deployment, such as authentication failures and the Python gRPC `multiprocessing` error. Sections marked *Applies to self-hosted deployments* cover open-file limits, file systems, and storage directories that you manage yourself. For problems that are specific to Hybrid Cloud, refer to [Troubleshooting Hybrid Cloud](/documentation/hybrid-cloud/troubleshooting/).
+This page covers errors you can run into on any Qdrant deployment, such as authentication failures, Cloud cluster health problems, and the Python gRPC `multiprocessing` error. Sections marked *Applies to self-hosted deployments* cover open-file limits, file systems, and storage directories that you manage yourself. For problems that are specific to Hybrid Cloud, refer to [Troubleshooting Hybrid Cloud](/documentation/hybrid-cloud/troubleshooting/).
 
 ## Unauthorized and forbidden (HTTP 401 and 403)
 
@@ -32,6 +32,18 @@ When API key authentication is enabled, which is always the case on Qdrant Cloud
 | 403 | `Global manage access is required` | A read-only cluster-wide key called an operation that writes or manages. | Use a cluster-wide manage key. See the [Table of Access](/documentation/security/#table-of-access). |
 
 On Qdrant Cloud, a key that was created moments ago can return `403`. Wait a few seconds and retry. If connections fail before any `401` or `403` response, check the port, TLS, and [IP restrictions](/documentation/cloud/cluster-access/#troubleshooting-connections).
+
+## Cloud cluster health problems
+
+*Applies to Qdrant Cloud.*
+
+If a cluster has an unhealthy node, doesn't finish an update, or gets slower over several days, start in the Cloud Console. The **Metrics** and **Requests** sections of the Cluster Details page show how the cluster behaves, and [Alerts](/documentation/cloud/cluster-monitoring/#alerts) tell you what to fix. Refer to [Cluster Alerts](/documentation/cloud/cluster-alerts/) for every alert with its trigger, meaning, and resolution.
+
+- **A node is marked unhealthy.** The Cluster is Unhealthy alert triggers when one or more nodes have been unhealthy for more than 5 minutes. Check the other alerts first, such as memory, disk, CPU throttling, and recovery mode. Then look at recent client code or configuration changes, and at increases in search or write requests.
+- **A cluster stays in "Updating".** Version upgrades, vertical scaling, and changes to cluster settings restart the nodes. Refer to [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime). Replacing nodes, for example when you reduce the disk size, can take a while, depending on how much data the cluster holds. Refer to [Scaling Down Disk Space](/documentation/cloud/cluster-scaling/#scaling-down-disk-space). Give the operation time to finish while you watch the metrics and alerts.
+- **Latency keeps rising over several days.** Compare the trend in the Console metrics with the capacity alerts for memory use, disk use, and CPU throttling, and with the uneven load alerts. Scale the cluster or rebalance shards as the alert suggests. For write-heavy workloads, refer to [Troubleshoot Read-Write Contention](/documentation/ops-optimization/read-write-contention/).
+
+If a cluster is stuck and these steps don't help, contact support. Paying customers can open a ticket through the support portal in the Console. Refer to [Support](/documentation/support/).
 
 ## Too many files open (OS error 24)
 

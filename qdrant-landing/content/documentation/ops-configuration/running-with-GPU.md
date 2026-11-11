@@ -13,7 +13,7 @@ aliases:
 
 # Running Qdrant with GPU Support
 
-<aside role="status">This page describes running Qdrant with GPU support yourself, with the dedicated Docker images. On Hybrid Cloud and Private Cloud, you enable GPU indexing by setting the GPU type in the cluster configuration instead. For Private Cloud, refer to the <a href="/documentation/private-cloud/qdrant-cluster-management/#gpu-support">Private Cloud GPU Support</a>.</aside>
+<aside role="status">This page describes running Qdrant with GPU support yourself, with the dedicated Docker images. On Hybrid Cloud and Private Cloud, you enable GPU indexing by setting the GPU type in the cluster configuration instead. For Private Cloud, refer to the <a href="/documentation/private-cloud/qdrant-cluster-management/#gpu-support">Private Cloud GPU Support</a>. On managed Qdrant Cloud, you can add a GPU to each node on AWS for higher RAM configurations when you create a cluster, and Qdrant Cloud configures all GPU settings automatically. Refer to <a href="/documentation/cloud/create-cluster/#cluster-options">Cluster Options</a>.</aside>
 
 Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
 
