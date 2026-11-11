@@ -25,26 +25,26 @@ html[data-theme='dark'] .qi-sq {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 18px 24px;
+  gap: 28px 32px;
 }
 .qi-sq__fields > .qi-hint {
-  font-size: 13px;
+  font-size: 12px;
 }
 .qi-sq__fields > .qi-sq__top {
   align-self: start;
-  line-height: 36px;
+  line-height: 28px;
 }
 
 /* The query, styled like the code-tokenizer's query field (read-only). */
 .qi-sq__query {
-  padding: 8px 14px;
+  padding: 7px 14px;
   border: 1px solid var(--qi-border);
   border-radius: var(--qi-radius);
   background: var(--qi-surface);
   color: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* Lists are scoped under .qi-sq to outrank the docs list styles, and their
@@ -54,7 +54,7 @@ html[data-theme='dark'] .qi-sq {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   min-height: 32px;
   margin: 0;
   padding: 0;
@@ -67,13 +67,13 @@ html[data-theme='dark'] .qi-sq {
 
 .qi-sq .qi-sq__token,
 .qi-sq .qi-sq__cell {
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: var(--qi-radius);
   background: var(--sq-box-bg);
   color: var(--sq-box-fg);
   font-family: var(--qi-mono);
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 13px;
+  line-height: 20px;
 }
 /* Stopword: dashed and struck through, dropped before the next step. */
 .qi-sq .qi-sq__token.is-stop {
@@ -91,8 +91,12 @@ html[data-theme='dark'] .qi-sq {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 24px;
-  font-size: 13px;
+  gap: 6px 28px;
+  font-size: 12px;
+}
+/* The legend explains the Words and Tokens rows, so it sits close under them. */
+.qi-sq__fields > .qi-sq__legend {
+  margin-top: -16px;
 }
 .qi-sq__keyitem {
   display: inline-flex;
@@ -116,13 +120,13 @@ html[data-theme='dark'] .qi-sq {
 /* --- Sparse vector: a value over each dictionary word --- */
 .qi-sq .qi-sq__vector {
   align-items: flex-start;
-  gap: 12px 4px;
+  gap: 12px 8px;
 }
 .qi-sq .qi-sq__pos {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 6px;
+  gap: 8px;
 }
 .qi-sq .qi-sq__cell {
   padding-left: 8px;
@@ -138,8 +142,8 @@ html[data-theme='dark'] .qi-sq {
 .qi-sq__term {
   color: var(--qi-muted);
   font-family: var(--qi-mono);
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 12px;
+  line-height: 16px;
   text-align: center;
 }
 .qi-sq__pos.is-one .qi-sq__term {
@@ -148,8 +152,8 @@ html[data-theme='dark'] .qi-sq {
 .qi-sq .qi-sq__gap {
   color: var(--qi-line);
   font-family: var(--qi-mono);
-  font-size: 15px;
-  line-height: 36px;
+  font-size: 13px;
+  line-height: 28px;
 }
 .qi-sq__status {
   margin-top: 8px;
@@ -160,6 +164,9 @@ html[data-theme='dark'] .qi-sq {
   .qi-sq__fields {
     grid-template-columns: minmax(0, 1fr);
     gap: 6px;
+  }
+  .qi-sq__fields > .qi-sq__legend {
+    margin-top: 0;
   }
   .qi-sq .qi-sq__token,
   .qi-sq .qi-sq__cell {

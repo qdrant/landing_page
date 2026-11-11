@@ -1,50 +1,44 @@
 /*
  * hnsw-graph island: interactive replacement for vector-search.png on the
- * vector search overview page. Styled like the sparse-query and dense-query
- * islands.
+ * vector search overview page. Styled like the acorn island on the search
+ * page (same node, arrow, halo and legend language).
  *
- * 120 points in a 2D space stand in for vectors. They are indexed in a small
- * layered graph in the spirit of HNSW: every point is on layer 0 and about a
- * quarter also on layer 1; on each layer every point is linked to its nearest
- * neighbors on that layer. Real HNSW indexes have more layers; two keep the
- * animation calm while still showing the idea. The layers are drawn
- * flattened into one space: layer 0's short links faintly, layer 1's longer
- * links bolder, and points on layer 1 larger. That shows the index as a single
- * graph in vector space, with the upper layer as long-range shortcuts.
+ * 40 vectors in a 2D space, indexed in a small graph in the spirit of HNSW:
+ * every vector is on layer 0, linked to its nearest neighbors (short, dashed
+ * links); about a quarter are also on layer 1, linked to their nearest
+ * layer-1 neighbors (long, solid links). Real HNSW indexes have more layers;
+ * two keep the animation calm while showing the idea. Both layers are drawn
+ * in one space.
  *
- * A search starts at the entry point, a layer-1 point near the middle of the
- * space (HNSW's entry point is simply a point on the top layer). On layer 1 it
- * moves greedily along long links to whichever neighbor is closer to the query, until no
- * neighbor is closer. On layer 0 it keeps a short list of the best candidates
- * (ef) and explores their neighbors. Every distance it computes is counted and
- * compared with a full scan, which computes all 120.
+ * The search starts at the entry point, a layer-1 vector near the middle. On
+ * layer 1 it moves greedily along long links to whichever neighbor is closer
+ * to the query. On layer 0 it runs a small beam search (as in HNSW's
+ * search_layer) along short links. Every vector whose distance it computes
+ * turns orange; the result turns teal. The traversal is not scripted: the
+ * island runs the search, so the animation always matches the algorithm.
  *
- * The result is usually the true nearest point; when it isn't, the status
- * says so (that is the "approximate" in approximate nearest neighbor search).
+ * The graph is a simplification: links are each vector's nearest neighbors
+ * on the layer, not built by HNSW's insertion with neighbor selection.
  *
- * The graph is a simplification: links are each point's nearest neighbors on
- * the layer, not built by HNSW's insertion with neighbor selection. The search
- * is the HNSW search. The space is 1.6 wide and 1 high, so the picture keeps
- * true distances.
- *
- * "New query" picks a random query. With reduced motion the search result is
- * shown at once.
- *
- * SVG + CSS on the shared island design system (islands.scss).
+ * Pure SVG + CSS on the shared island design system (islands.scss).
  */
 
 const NS = 'http://www.w3.org/2000/svg';
-const N = 120;
-const TOP = 1;
-const LINKS = [5, 3]; // neighbors per point, by layer
-const EF = 5; // candidate list size on layer 0
-const SPAN = 1.6; // width of the space; height is 1
-const VB = { w: 640, h: 412 };
-const PAD = 16;
-const SCALE = (VB.w - 2 * PAD) / SPAN;
-const STEP_MS = { eval: 160, move: 380, down: 420 };
 
-// Seeded random numbers, so the points are the same on every page load.
+const SEED = 249; // layout seed: picked so the entry point sits near the middle
+const N = 40;
+const W = 560; // viewBox
+const H = 336;
+const PAD = 22;
+const MIN_GAP = 46; // minimum distance between vectors, in viewBox units
+const LINKS = [3, 3]; // neighbors per vector, by layer
+const EF = 2; // beam width on layer 0: small, so every step is visible
+const R = 6; // node radius
+const RING = 11; // entry point and query rings
+const STEP_MS = 1300; // one expanded node per step
+const DRAW_MS = 500; // arrow draw-in
+
+// Seeded random numbers, so the graph is the same on every page load.
 function rng(seed) {
   return () => {
     seed |= 0;
@@ -56,91 +50,84 @@ function rng(seed) {
 }
 
 function buildGraph() {
-  const rand = rng(7);
-  const pts = Array.from({ length: N }, () => {
-    let level = 0;
-    while (level < TOP && rand() < 0.25) level++;
-    return { x: (0.03 + rand() * 0.94) * SPAN, y: 0.03 + rand() * 0.94, level };
-  });
-  if (!pts.some((p) => p.level === TOP)) pts[0].level = TOP;
+  const rand = rng(SEED);
+  const pts = [];
+  // Spread the vectors out so every one of them is easy to see.
+  while (pts.length < N) {
+    const p = { x: PAD + rand() * (W - 2 * PAD), y: PAD + rand() * (H - 2 * PAD) };
+    if (pts.every((q) => Math.hypot(p.x - q.x, p.y - q.y) >= MIN_GAP)) pts.push({ ...p, level: rand() < 0.25 ? 1 : 0 });
+  }
   const d = (a, b) => Math.hypot(pts[a].x - pts[b].x, pts[a].y - pts[b].y);
-  const layers = [];
-  for (let l = 0; l <= TOP; l++) {
+  const layers = [0, 1].map((l) => {
     const ids = pts.flatMap((p, i) => (p.level >= l ? [i] : []));
-    const links = new Map(ids.map((i) => [i, new Set()]));
-    ids.forEach((i) => {
+    const adj = new Map(ids.map((i) => [i, new Set()]));
+    ids.forEach((i) =>
       ids
         .filter((j) => j !== i)
         .sort((a, b) => d(i, a) - d(i, b))
         .slice(0, LINKS[l])
         .forEach((j) => {
-          links.get(i).add(j);
-          links.get(j).add(i);
-        });
-    });
-    layers.push({ ids, links });
-  }
-  // Entry point: the top-layer point closest to the middle of the space, so
-  // searches start with short moves rather than a jump across the graph.
-  const mid = { x: SPAN / 2, y: 0.5 };
+          adj.get(i).add(j);
+          adj.get(j).add(i);
+        }),
+    );
+    return { ids, adj };
+  });
+  // Entry point: the layer-1 vector closest to the middle, so searches start
+  // with moderate moves rather than a jump across the graph.
+  const mid = { x: W / 2, y: H / 2 };
   const toMid = (i) => Math.hypot(pts[i].x - mid.x, pts[i].y - mid.y);
-  const entry = layers[TOP].ids.reduce((a, b) => (toMid(b) < toMid(a) ? b : a));
+  const entry = layers[1].ids.reduce((a, b) => (toMid(b) < toMid(a) ? b : a));
   return { pts, layers, entry };
 }
 
-// The search, recorded as a list of steps to animate.
+/* The search, as a list of expansions to animate. Each step expands one
+   vector: it computes the distance to its unvisited neighbors (`checked`),
+   and draws an arrow to each one it keeps as a candidate (`added`). */
 function search(g, q) {
   const dist = (i) => Math.hypot(g.pts[i].x - q.x, g.pts[i].y - q.y);
+  const byDist = (a, b) => dist(a) - dist(b);
   const steps = [];
   let count = 1;
   let cur = g.entry;
-  steps.push({ type: 'start', layer: TOP, node: cur, count });
-  for (let l = TOP; l >= 1; l--) {
-    const seen = new Set([cur]);
-    let improved = true;
-    while (improved) {
-      improved = false;
-      let best = cur;
-      for (const n of g.layers[l].links.get(cur)) {
-        if (seen.has(n)) continue;
-        seen.add(n);
-        count++;
-        steps.push({ type: 'eval', layer: l, from: cur, node: n, count });
-        if (dist(n) < dist(best)) best = n;
-      }
-      if (best !== cur) {
-        steps.push({ type: 'move', layer: l, from: cur, node: best, count });
-        cur = best;
-        improved = true;
-      }
-    }
-    steps.push({ type: 'down', layer: l - 1, node: cur, count });
+
+  // Layer 1: greedy, along long links.
+  const seen1 = new Set([cur]);
+  for (;;) {
+    const checked = [...g.layers[1].adj.get(cur)].filter((n) => !seen1.has(n));
+    checked.forEach((n) => seen1.add(n));
+    count += checked.length;
+    const best = [cur, ...checked].sort(byDist)[0];
+    steps.push({ node: cur, checked, added: best !== cur ? [best] : [], long: true, count });
+    if (best === cur) break;
+    cur = best;
   }
-  const seen = new Set([cur]);
-  const cands = [cur];
-  const found = [cur];
-  while (cands.length) {
-    cands.sort((a, b) => dist(a) - dist(b));
-    const c = cands.shift();
-    if (found.length >= EF && dist(c) > dist(found[found.length - 1])) break;
-    if (c !== cur) steps.push({ type: 'move', layer: 0, from: cur, node: c, count });
-    cur = c;
-    for (const n of g.layers[0].links.get(c)) {
-      if (seen.has(n)) continue;
-      seen.add(n);
+
+  // Layer 0: beam search with EF candidates, along short links.
+  const visited = new Set([cur]);
+  const candidates = [cur];
+  const results = [cur];
+  while (candidates.length) {
+    candidates.sort(byDist);
+    const node = candidates.shift();
+    if (dist(node) > dist(results[results.length - 1])) break;
+    const checked = [...g.layers[0].adj.get(node)].filter((n) => !visited.has(n));
+    const added = [];
+    checked.forEach((n) => {
+      visited.add(n);
       count++;
-      steps.push({ type: 'eval', layer: 0, from: c, node: n, count });
-      if (found.length < EF || dist(n) < dist(found[found.length - 1])) {
-        cands.push(n);
-        found.push(n);
-        found.sort((a, b) => dist(a) - dist(b));
-        if (found.length > EF) found.pop();
+      if (results.length < EF || dist(n) < dist(results[results.length - 1])) {
+        candidates.push(n);
+        results.push(n);
+        results.sort(byDist);
+        if (results.length > EF) results.pop();
+        added.push(n);
       }
-    }
+    });
+    steps.push({ node, checked, added, long: false, count });
   }
-  const truth = g.pts.map((_, i) => i).sort((a, b) => dist(a) - dist(b))[0];
-  steps.push({ type: 'done', layer: 0, node: found[0], count, exact: found[0] === truth, truth });
-  return steps;
+  const nearest = g.pts.map((_, i) => i).sort(byDist)[0];
+  return { steps, result: results[0], nearest, count };
 }
 
 function el(name, attrs, parent) {
@@ -150,152 +137,205 @@ function el(name, attrs, parent) {
   return node;
 }
 
+// Arrow from one vector to another, trimmed to start and end at the rims.
+function arrowPath(a, b, fromRing) {
+  const len = Math.hypot(b.x - a.x, b.y - a.y);
+  const s = (fromRing ? RING + 3 : R + 4) / len;
+  const e = (R + 6) / len;
+  const p = (t) => `${(a.x + (b.x - a.x) * t).toFixed(1)} ${(a.y + (b.y - a.y) * t).toFixed(1)}`;
+  return `M ${p(s)} L ${p(1 - e)}`;
+}
+
+const LEGEND = [
+  { cls: 'query', label: 'Query' },
+  { cls: 'ok', label: 'Vector' },
+  { cls: 'visited', label: 'Distance computed' },
+  { cls: 'long', label: 'Long link (upper layer)', line: true },
+  { cls: 'short', label: 'Short link', line: true },
+];
+
+const START_MESSAGE =
+  'The search starts at the entry point and moves toward the query, first along long links, then along short ones. It computes the distance only to the vectors it visits.';
+
+// Query positions for "New query": in open space next to a vector, away from
+// the entry point. Each one finds the exact nearest vector (checked offline).
+const QUERIES = [
+  { x: 142, y: 248 },
+  { x: 490, y: 104 },
+  { x: 274, y: 50 },
+  { x: 352, y: 278 },
+  { x: 88, y: 74 },
+];
+
 export function mount(node) {
   node.classList.add('qi-hg');
-  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const g = buildGraph();
+  const ep = g.pts[g.entry];
 
   node.innerHTML = [
     '<div class="qi-fig">',
     '  <div class="qi-controls">',
     '    <div class="qi-group">',
     '      <button type="button" class="qi-chip" data-new>New query</button>',
-    '      <button type="button" class="qi-chip" data-replay>Replay</button>',
+    '      <button type="button" class="qi-chip" data-replay>',
+    '        <svg class="qi-chip__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>Replay',
+    '      </button>',
     '    </div>',
     '  </div>',
-    `  <svg class="qi-svg qi-hg__svg" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-label="An HNSW graph of ${N} points in vector space. Short links connect nearby points; a few long links connect distant ones. A search starts at the entry point, follows long links toward the query, then short ones."></svg>`,
-    '  <div class="qi-hg__legend qi-hint">',
-    '    <span class="qi-hg__key"><svg width="28" height="8" aria-hidden="true"><line class="qi-hg__edge qi-hg__edge--2" x1="2" y1="4" x2="26" y2="4"/></svg>long links (upper layer)</span>',
-    '    <span class="qi-hg__key"><svg width="28" height="8" aria-hidden="true"><line class="qi-hg__edge qi-hg__edge--0 is-key" x1="2" y1="4" x2="26" y2="4"/></svg>short links</span>',
-    '    <span class="qi-hg__key"><svg width="14" height="14" aria-hidden="true"><circle class="qi-hg__node is-seen" cx="7" cy="7" r="4"/></svg>distance computed</span>',
-    '  </div>',
-    '  <div class="qi-hg__fields">',
-    '    <span class="qi-hint">HNSW</span>',
-    '    <div class="qi-hg__score qi-hg__score--hnsw"><span class="qi-hg__track"><span class="qi-hg__fill"></span></span><b class="qi-hg__num"></b></div>',
-    '    <span class="qi-hint">Full scan</span>',
-    `    <div class="qi-hg__score qi-hg__score--scan"><span class="qi-hg__track"><span class="qi-hg__fill" style="width:100%"></span></span><b class="qi-hg__num">${N} distances</b></div>`,
-    '  </div>',
+    `  <svg class="qi-svg qi-hg__svg" viewBox="0 0 ${W} ${H}" role="img"`,
+    `    aria-label="An HNSW graph of ${N} vectors. A search starts at the entry point, follows long links and then short links toward the query, and computes the distance only to the vectors it visits.">`,
+    '    <defs>',
+    '      <marker id="qi-hg-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">',
+    '        <path class="qi-hg__head" d="M 0 0 L 10 5 L 0 10 z"/>',
+    '      </marker>',
+    '    </defs>',
+    '    <g class="qi-hg__edges"></g>',
+    '    <g class="qi-hg__trails"></g>',
+    '    <g class="qi-hg__marks"></g>',
+    '    <g class="qi-hg__nodes"></g>',
+    '  </svg>',
+    '  <ul class="qi-hg__legend">',
+    LEGEND.map(
+      (l) =>
+        `<li class="qi-hint"><svg width="${l.line ? 22 : 12}" height="12" aria-hidden="true">` +
+        (l.line
+          ? `<line class="qi-hg__edge qi-hg__edge--${l.cls}" x1="1" y1="6" x2="21" y2="6"/>`
+          : l.cls === 'query'
+            ? '<circle class="qi-hg__query-ring" cx="6" cy="6" r="5"/><circle class="qi-hg__query" cx="6" cy="6" r="2.5"/>'
+            : `<circle class="qi-hg__legend-dot qi-hg__legend-dot--${l.cls}" cx="6" cy="6" r="5"/>`) +
+        `</svg>${l.label}</li>`,
+    ).join(''),
+    '  </ul>',
     '  <p class="qi-status qi-status--2 qi-hg__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
-  const svg = node.querySelector('.qi-hg__svg');
-  const hnswFill = node.querySelector('.qi-hg__score--hnsw .qi-hg__fill');
-  const hnswNum = node.querySelector('.qi-hg__score--hnsw .qi-hg__num');
+  const edgesG = node.querySelector('.qi-hg__edges');
+  const trailsG = node.querySelector('.qi-hg__trails');
+  const marksG = node.querySelector('.qi-hg__marks');
+  const nodesG = node.querySelector('.qi-hg__nodes');
   const statusEl = node.querySelector('.qi-hg__status');
 
-  const sx = (p) => PAD + p.x * SCALE;
-  const sy = (p) => PAD + p.y * SCALE;
-
-  // Links: each pair once, drawn at the highest layer that links it; short
-  // links first so the long ones sit on top.
-  const pairs = new Map();
-  g.layers.forEach((layer, l) =>
-    layer.links.forEach((ns, i) =>
-      ns.forEach((j) => pairs.set(i < j ? `${i}-${j}` : `${j}-${i}`, Math.max(l, pairs.get(i < j ? `${i}-${j}` : `${j}-${i}`) ?? 0))),
-    ),
-  );
-  const edges = el('g', {}, svg);
-  [...pairs].sort((a, b) => a[1] - b[1]).forEach(([key, l]) => {
+  // Links: short ones dashed, long ones solid on top.
+  const short = new Set();
+  g.layers[0].adj.forEach((ns, i) => ns.forEach((j) => short.add(i < j ? `${i}-${j}` : `${j}-${i}`)));
+  const long = new Set();
+  g.layers[1].adj.forEach((ns, i) => ns.forEach((j) => long.add(i < j ? `${i}-${j}` : `${j}-${i}`)));
+  const line = (key, cls) => {
     const [i, j] = key.split('-').map(Number);
-    el('line', { class: `qi-hg__edge qi-hg__edge--${l}`, x1: sx(g.pts[i]), y1: sy(g.pts[i]), x2: sx(g.pts[j]), y2: sy(g.pts[j]) }, edges);
+    el('line', { class: `qi-hg__edge qi-hg__edge--${cls}`, x1: g.pts[i].x, y1: g.pts[i].y, x2: g.pts[j].x, y2: g.pts[j].y }, edgesG);
+  };
+  short.forEach((k) => !long.has(k) && line(k, 'short'));
+  long.forEach((k) => line(k, 'long'));
+
+  // Entry point ring and label, query ring and dot.
+  el('circle', { class: 'qi-hg__entry-ring', cx: ep.x, cy: ep.y, r: RING }, marksG);
+  // Label to the left of the ring, where this layout has open space.
+  el('text', { class: 'qi-label qi-hg__entry-label', x: ep.x - RING - 6, y: ep.y + 4, 'text-anchor': 'end' }, marksG).textContent = 'Entry point';
+  const queryG = el('g', { class: 'qi-hg__query-g' }, nodesG);
+  el('circle', { class: 'qi-hg__query-ring', r: RING }, queryG);
+  el('circle', { class: 'qi-hg__query', r: R }, queryG);
+
+  const nodeEls = g.pts.map((p) => {
+    const grp = el('g', { class: 'qi-hg__node' }, nodesG);
+    el('circle', { class: 'qi-hg__halo', cx: p.x, cy: p.y, r: R + 5 }, grp);
+    el('circle', { class: 'qi-hg__dot', cx: p.x, cy: p.y, r: R }, grp);
+    return grp;
   });
-  const live = el('g', {}, svg);
-  const dots = g.pts.map((p) => el('circle', { class: `qi-hg__node qi-hg__node--${p.level}`, cx: sx(p), cy: sy(p) }, svg));
-  const e = g.pts[g.entry];
-  el('text', { class: 'qi-label qi-hg__entry', x: sx(e), y: sy(e) + (e.y < 0.12 ? 22 : -12), 'text-anchor': e.x > SPAN - 0.25 ? 'end' : e.x < 0.25 ? 'start' : 'middle' }, svg).textContent =
-    'entry';
-  const query = el('g', { class: 'qi-hg__query' }, svg);
-  el('path', { d: 'M -6 -6 L 6 6 M -6 6 L 6 -6' }, query);
+  nodesG.appendChild(queryG);
 
-  // Default query: left of center, far from the entry.
-  let q = { x: 0.3 * SPAN, y: 0.7 };
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let q = QUERIES[0];
+  let qi = 0;
   let timers = [];
-  let steps = [];
+  let started = false;
+  const later = (ms, fn) => timers.push(window.setTimeout(fn, ms));
 
-  // Draw the search state after the first k steps.
-  function draw(k) {
-    live.innerHTML = '';
-    dots.forEach((d, i) => d.setAttribute('class', `qi-hg__node qi-hg__node--${g.pts[i].level}`));
-    const path = [];
-    let count = 0;
-    let last = null;
-    for (let s = 0; s < k; s++) {
-      const st = steps[s];
-      count = st.count;
-      last = st;
-      if (st.type === 'start') {
-        path.push(st.node);
-        dots[st.node].classList.add('is-seen');
-      } else if (st.type === 'eval') {
-        const a = g.pts[st.from];
-        const b = g.pts[st.node];
-        el('line', { class: `qi-hg__probe${st.layer ? ' is-long' : ''}`, x1: sx(a), y1: sy(a), x2: sx(b), y2: sy(b) }, live);
-        dots[st.node].classList.add('is-seen');
-      } else if (st.type === 'move') {
-        path.push(st.node);
-      }
-    }
-    if (path.length > 1) el('polyline', { class: 'qi-hg__path', points: path.map((i) => `${sx(g.pts[i])},${sy(g.pts[i])}`).join(' ') }, live);
-    if (path.length) dots[path[path.length - 1]].classList.add('is-current');
-    if (last && last.type === 'done') {
-      dots.forEach((d) => d.classList.remove('is-current'));
-      dots[last.node].classList.add('is-result');
-      if (!last.exact) dots[last.truth].classList.add('is-truth');
-    }
-    // Keep the marked dots above the links and probes.
-    dots.forEach((d) => d.classList.length > 2 && svg.appendChild(d));
-    svg.appendChild(query);
-    hnswFill.style.width = `${(count / N) * 100}%`;
-    hnswNum.textContent = `${count} distances`;
-    if (!last) {
-      statusEl.textContent = '';
-    } else if (last.type === 'done') {
-      statusEl.textContent = last.exact
-        ? `The search computed ${count} distances, not ${N}, and found the nearest point. A full scan would compare the query with every point.`
-        : `The search computed ${count} distances, not ${N}, and found a point close to the query but not the nearest one. That's the trade-off of approximate nearest neighbor search.`;
-    } else if (last.layer > 0 && last.type !== 'down') {
-      statusEl.textContent = 'The search starts at the entry point and follows long links, jumping toward the query.';
-    } else {
-      statusEl.textContent = 'Close to the query, it switches to short links and checks the neighbors of the best candidates so far.';
-    }
-  }
-
-  function run(next) {
-    timers.forEach(clearTimeout);
+  function reset() {
+    timers.forEach((t) => clearTimeout(t));
     timers = [];
-    if (next) q = next;
-    query.setAttribute('transform', `translate(${sx(q)} ${sy(q)})`);
-    steps = search(g, q);
-    if (reduced) return draw(steps.length);
-    let t = 0;
-    draw(0);
-    steps.forEach((st, k) => {
-      t += STEP_MS[st.type] || STEP_MS.move;
-      timers.push(setTimeout(() => draw(k + 1), t));
+    trailsG.textContent = '';
+    nodeEls.forEach((n) => n.classList.remove('is-visited', 'is-current', 'is-best', 'is-near'));
+    nodeEls[g.entry].classList.add('is-visited');
+    queryG.setAttribute('transform', `translate(${q.x} ${q.y})`);
+  }
+
+  function showCurrent(step) {
+    nodeEls.forEach((n) => n.classList.remove('is-current'));
+    nodeEls[step.node].classList.add('is-current');
+  }
+
+  function markChecked(step) {
+    step.checked.forEach((i) => nodeEls[i].classList.add('is-visited'));
+  }
+
+  function drawArrows(step, animate) {
+    step.added.forEach((i) => {
+      const arrow = el('path', { class: `qi-hg__arrow${step.long ? ' qi-hg__arrow--long' : ''}`, d: arrowPath(g.pts[step.node], g.pts[i], step.node === g.entry), pathLength: 1 }, trailsG);
+      if (!animate) return arrow.setAttribute('marker-end', 'url(#qi-hg-head)');
+      // Commit the undrawn state, then transition the stroke in; attach the
+      // arrowhead once the line reaches it.
+      arrow.classList.add('is-drawing');
+      void arrow.getBoundingClientRect();
+      arrow.classList.remove('is-drawing');
+      later(DRAW_MS, () => arrow.setAttribute('marker-end', 'url(#qi-hg-head)'));
     });
   }
 
-  node.querySelector('[data-new]').addEventListener('click', () =>
-    run({ x: (0.05 + Math.random() * 0.9) * SPAN, y: 0.05 + Math.random() * 0.9 }),
-  );
-  node.querySelector('[data-replay]').addEventListener('click', () => run());
+  function finish(run) {
+    nodeEls.forEach((n) => n.classList.remove('is-current'));
+    nodeEls[run.result].classList.add('is-best');
+    statusEl.innerHTML =
+      run.result === run.nearest
+        ? `The search computed the distance to <b>${run.count} of ${N}</b> vectors and found the one closest to the query. A full scan would compute all ${N}.`
+        : `The search computed the distance to <b>${run.count} of ${N}</b> vectors and found a vector close to the query, though not the closest. That is the trade-off of approximate search.`;
+  }
 
-  // Start the first search when the island scrolls into view.
-  if ('IntersectionObserver' in window && !reduced) {
-    query.setAttribute('transform', `translate(${sx(q)} ${sy(q)})`);
-    steps = search(g, q);
-    draw(0);
-    statusEl.textContent = 'Press Replay to run a search.';
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((x) => x.isIntersecting)) {
-        io.disconnect();
-        run();
-      }
+  function play() {
+    started = true;
+    reset();
+    const run = search(g, q);
+    if (reduceMotion) {
+      run.steps.forEach((s) => {
+        markChecked(s);
+        drawArrows(s, false);
+      });
+      return finish(run);
+    }
+    statusEl.innerHTML = START_MESSAGE;
+    let t = 500;
+    run.steps.forEach((s) => {
+      later(t, () => showCurrent(s));
+      later(t + 300, () => markChecked(s));
+      later(t + 300, () => drawArrows(s, true));
+      t += STEP_MS;
     });
+    later(t, () => finish(run));
+  }
+
+  node.querySelector('[data-new]').addEventListener('click', () => {
+    qi = (qi + 1) % QUERIES.length;
+    q = QUERIES[qi];
+    play();
+  });
+  node.querySelector('[data-replay]').addEventListener('click', play);
+
+  // Show the graph at rest; start the search once the reader can see it.
+  reset();
+  statusEl.innerHTML = START_MESSAGE;
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          if (!started) play();
+        }
+      },
+      { threshold: 0.5 },
+    );
     io.observe(node);
   } else {
-    run();
+    play();
   }
 
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
