@@ -27,66 +27,136 @@ menuItems:
         name: Qdrant Vector Search Engine
         url: /qdrant-vector-database/
       - id: 1
-        name: Qdrant Cloud
+        name: Qdrant Managed Cloud
         url: /cloud/
       - id: 2
         name: Qdrant Hybrid Cloud
         url: /hybrid-cloud/
       - id: 3
-        name: Qdrant Enterprise Solutions
-        url: /enterprise-solutions/
-      - id: 4
-        name: Qdrant Cloud Inference
-        url: /cloud-inference/
-      - id: 5
         name: Qdrant Edge (Beta)
         url: /edge/
-      - id: 6
-        name: Qdrant Serverless (Coming soon)
+      - id: 4
+        name: Qdrant Serverless (Waitlist)
         url: /serverless/
+      - id: 5
+        name: Pricing
+        url: /pricing/
+      - id: 6
+        name: Change Log
+        url: https://github.com/qdrant/qdrant/releases
+      - id: 7
+        name: Roadmap
+        url: https://qdrant.to/roadmap
+  - title: Solutions
+    items:
+      - id: 0
+        name: RAG
+        url: /rag/
+      - id: 1
+        name: Recommendation Systems
+        url: /recommendations/
+      - id: 2
+        name: Advanced Search
+        url: /advanced-search/
+      - id: 3
+        name: Data Analysis & Anomaly Detection
+        url: /data-analysis-anomaly-detection/
+      - id: 4
+        name: AI Agents
+        url: /ai-agents/
+      - id: 5
+        name: E-commerce
+        url: /e-commerce/
+      - id: 6
+        name: Legal Tech
+        url: /legal-tech/
+      - id: 7
+        name: Hospitality & Travel
+        url: /hospitality-and-travel/
+      - id: 8
+        name: HR Tech
+        url: /hr-tech/
+      - id: 9
+        name: Healthcare Tech
+        url: /healthcare/
   - title: Developers
     items:
       - id: 0
         name: Documentation
         url: /documentation/
       - id: 1
-        name: Community
-        url: /community/
+        name: API Reference
+        url: https://api.qdrant.tech/api-reference
       - id: 2
         name: GitHub
         url: https://github.com/qdrant/qdrant
       - id: 3
-        name: Roadmap
-        url: https://qdrant.to/roadmap
+        name: Blog
+        url: /blog/
       - id: 4
-        name: Change Log
-        url: https://github.com/qdrant/qdrant/releases
+        name: Guides
+        url: /documentation/guides/
       - id: 5
+        name: Articles
+        url: /articles/
+      - id: 6
+        name: Courses
+        url: /course/
+      - id: 7
+        name: Tutorials
+        url: /learn/examples/
+      - id: 8
+        name: Community
+        url: /community/
+      - id: 9
+        name: Events
+        url: /events/
+      - id: 10
+        name: Qdrant Stars
+        url: /stars/
+      - id: 11
+        name: Startup Program
+        url: /qdrant-for-startups/
+      - id: 12
         name: Status Page
         url: https://status.qdrant.io/
-      - id: 6
-        name: Certification
-        url: http://train.qdrant.dev/
   - title: Resources
     items:
       - id: 0
-        name: Blog
-        url: /blog/
+        name: Partners
+        url: /partners/
       - id: 1
+        name: Services
+        url: /services/
+      - id: 2
+        name: Migration
+        url: /documentation/migration-guidance/
+      - id: 3
         name: Benchmarks
         url: /benchmarks/
-      - id: 2
-        name: Technical Articles
-        url: /articles/
       - id: 4
-        name: Events
-        url: /events/
+        name: Security
+        url: /security/
       - id: 5
-        name: Startup Program
-        url: /qdrant-for-startups/
+        name: Bug Bounty Program
+        url: /security/bug-bounty-program/
       - id: 6
-        name: Demos
-        url: /demo/
+        name: Trust Center
+        url: https://qdrant.to/trust-center
+  - title: Legal
+    items:
+      - id: 0
+        name: Terms
+        url: /legal/terms_and_conditions/
+      - id: 1
+        name: Privacy Policy
+        url: /legal/privacy-policy/
+      - id: 2
+        name: Impressum
+        url: /legal/impressum/
+      - id: 3
+        name: Recruitment Privacy Policy
+        url: /legal/recruitment-privacy-policy/
   - title: Company
     items:
       - id: 0
@@ -96,40 +166,11 @@ menuItems:
         name: Customers
         url: /customers/
       - id: 2
-        name: Partners
-        url: /partners/
-      - id: 3
-        name: Services
-        url: /services/
-      - id: 4
         name: Careers
         url: https://qdrant.to/jobs
-      - id: 5
+      - id: 3
         name: Contact Us
         url: /contact-us/
-  - title: Security & Legal
-    items:
-      - id: 0
-        name: Security
-        url: /security/
-      - id: 1
-        name: Bug Bounty Program
-        url: /security/bug-bounty-program/
-      - id: 2
-        name: Trust Center
-        url: http://qdrant.to/trust-center
-      - id: 3
-        name: Terms
-        url: /legal/terms_and_conditions/
-      - id: 4
-        name: Privacy Policy
-        url: /legal/privacy-policy/
-      - id: 5
-        name: Impressum
-        url: /legal/impressum/
-      - id: 6
-        name: Recruitment Privacy Policy
-        url: /legal/recruitment-privacy-policy/
 copyright: Qdrant.
 bottomLinks:
   - text: Terms

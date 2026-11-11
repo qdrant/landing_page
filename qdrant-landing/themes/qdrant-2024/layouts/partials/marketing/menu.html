@@ -61,18 +61,8 @@
       {{ if eq $section "documentation" }}
         {{ partial "common/theme-switch" . }}
       {{ end }}
-      {{ with .Params.githubStar }}
-        <a
-          data-metric-loc="nav"
-          href="{{ .url }}"
-          class="main-menu__star"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="{{ .text }}"
-        >
-          {{ partial "common/svg" (dict "icon" "github" "fill" "currentColor") }}
-          <span class="main-menu__star-text">{{ .text }}</span>
-        </a>
+      {{ with .Params.contactUs }}
+        <a data-metric-loc="nav" href="{{ .url }}" class="menu-link">{{ .text }}</a>
       {{ end }}
       <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
       <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">
