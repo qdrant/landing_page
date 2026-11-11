@@ -44,7 +44,7 @@ const METHODS = ['float32 HNSW', 'scalar int8 · 4×', 'TurboQuant 4-bit · 8×'
 const RECORDED = ['recall@10 vs exact float32', 'nDCG@10 vs BEIR judgments', 'server p95 and QPS', 'heap after indexing'];
 
 const VB_W = 760;
-const VB_H = 424;
+const VB_H = 396;
 const ROW_Y0 = 40;
 const ROW_PITCH = 46;
 const BAR_X = 372;
@@ -116,9 +116,6 @@ export function render(modelId, corpusId) {
       `<polygon class="qset-arrowhead" points="${x2 - 4},${cy} ${x2 - 12},${cy - 5} ${x2 - 12},${cy + 5}"/>`,
     );
   });
-  out.push(
-    `<text class="qset-sub" x="0" y="${BAND_Y + BOX_H + 30}">50 development queries tune each setting. 150 held-out test queries report it.</text>`,
-  );
   return out.join('');
 }
 

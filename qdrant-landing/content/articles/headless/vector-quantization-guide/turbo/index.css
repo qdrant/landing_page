@@ -1,0 +1,10 @@
+/* turbo island. Scoped under .qturbo; controls and status come from .qi-*.
+   Bars that fall outside the codebook use Qdrant red and are also described in
+   the status line. */
+.qturbo { display: block; text-align: left; }
+.qturbo .qi-fig { gap: 16px; }
+.qturbo .qturbo-h { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 14px; }
+.qturbo .qturbo-bar { fill: var(--qi-cat-1); }
+.qturbo .qturbo-bar.is-over { fill: var(--qi-accent); }
+.qturbo .qturbo-dot { fill: var(--qi-fg); }
+.qturbo .qturbo-lvl { stroke: var(--qi-border); stroke-width: 1; }
