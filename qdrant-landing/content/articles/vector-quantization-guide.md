@@ -217,9 +217,54 @@ Four-bit TurboQuant gives 8× compression and, in every run below, recall indist
 
 ## What We Measured
 
-Four English BEIR datasets, each run as its own experiment: SciFact (5,183 documents), NFCorpus (3,633), FiQA (57,638), and Quora (522,931). Two embedding models over the same documents and queries: Cohere embed-english-v3.0 at 1,024 dimensions and BGE-small-en-v1.5 at 384 dimensions. Qdrant v1.19.2 in Docker on a dedicated 8-vCPU, 32 GiB VM, with the client on the same machine, one collection at a time, `m=16`, `ef_construct=100`, and eight indexing threads.
+### Why BEIR
 
-Two quality measures, kept separate. ANN recall@10 is the overlap between what a configuration returns and what exact float32 search returns, so it isolates the error quantization adds. nDCG@10 against the BEIR relevance judgments says whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one, five passes over 150 held-out test queries, three independently built indexes; a separate throughput run repeats the frozen points with eight concurrent clients. Fifty separate development queries were used for tuning and never for reporting. SciFact and NFCorpus were also rerun on their whole official test splits, 300 and 323 queries: no recall moved by more than 0.025 and no pass or fail changed, so the 150-query subset is representative. Memory is the Qdrant allocator heap after indexing and a search pass, which is what a pinned copy costs; the originals are memory-mapped and show up in the page cache instead.
+BEIR (Benchmarking Information Retrieval) is a public collection of 18 English retrieval datasets from nine tasks, built so that a retriever is tested on text and query styles it was not tuned for ([Thakur et al., 2021](https://arxiv.org/abs/2104.08663)). Each dataset ships with documents, queries, and human relevance judgments in one format, which is what a recall and nDCG comparison needs. Cohere also publishes `embed-english-v3.0` vectors for the BEIR corpora, so the Cohere results use no API calls and anyone can rerun them.
+
+We use four of the 18. How a quantized copy behaves depends on the distribution of the embeddings and on how many vectors there are, so we picked datasets that differ in three ways: the number of documents, the amount of text behind each vector, and the number of documents that count as correct for a query.
+
+### The Four Datasets
+
+| Dataset | Task | A query finds | Documents | Words per document | Relevant per query |
+|---|---|---|---|---|---|
+| SciFact | Scientific claim verification | An abstract that supports or refutes a claim | 5,183 | 214 | 1.1 |
+| NFCorpus | Medical information retrieval | PubMed papers for a short NutritionFacts.org topic | 3,633 | 232 | 38.2 |
+| FiQA | Financial question answering | A StackExchange investment post that answers a question | 57,638 | 132 | 2.6 |
+| Quora | Duplicate question retrieval | Another question that asks the same thing | 522,931 | 11 | 1.6 |
+
+Counts and lengths come from Table 1 of the BEIR paper. We recomputed SciFact and NFCorpus from the prepared corpora and they agree to within two words.
+
+**Size.** The corpora span a factor of 144, from 3,633 to 522,931 documents. At 1,024 dimensions the float32 originals take 15 MB for NFCorpus and 2,142 MB for Quora, so Quora is the only corpus large enough for the search copies to cost real memory.
+
+**Text length.** SciFact and NFCorpus documents are paper abstracts of 214 and 232 words, FiQA posts average 132 words, and Quora documents are questions of 11 words. Quora is also the only symmetric task: a query and its relevant document are the same kind of text, so both sides get the same encoding. It is the corpus with the most centered embeddings, which is why binary quantization passes there (see [When Binary Fails, and How to Tell in Advance](#when-binary-fails-and-how-to-tell-in-advance)).
+
+**Relevant documents per query.** SciFact, FiQA, and Quora average between one and three relevant documents per query. NFCorpus averages 38.2, and its queries are the shortest of the four at 3.3 words. Recall@10 compares against exact float32 search, so it does not depend on this number. nDCG@10 does, because it is scored against these judgments.
+
+The figure puts the setup in one place. Switch the embedding model to see the originals shrink from 4,096 to 1,536 bytes per vector, and select a corpus to read what its queries and documents are.
+
+{{< island path="content/articles/headless/vector-quantization-guide/setup"
+    ratio="7 / 5"
+    title="The experimental setup: four BEIR corpora, two embedding models, five Qdrant configurations, and what each run records. Float32 sizes are documents times dimensions times four bytes." >}}
+![Experimental setup: four BEIR corpora with their sizes, embedded with Cohere or BGE-small vectors, indexed in Qdrant under five configurations, and scored on recall, nDCG, latency, throughput, and memory](/articles_data/vector-quantization-guide/experimental-setup.svg)
+{{< /island >}}
+
+### Setup and Metrics
+
+Both embedding models run over the same documents and queries.
+
+| Setting | Value |
+|---|---|
+| Embedding models | Cohere embed-english-v3.0 at 1,024 dimensions, using the vectors supplied with the BEIR text. BGE-small-en-v1.5 at 384 dimensions, run locally with 512-token truncation |
+| Engine | Qdrant v1.19.2 in Docker on a dedicated 8-vCPU, 32 GiB VM, with the client on the same machine and one collection at a time |
+| Index | `m=16`, `ef_construct=100`, eight indexing threads, three independently built indexes per configuration |
+| Queries | 50 development queries for tuning, 150 held-out test queries for reporting |
+| Quality | ANN recall@10 against exact float32 search, and nDCG@10 against the BEIR judgments |
+| Latency | Server-side p95 at concurrency one, five passes over the 150 test queries. A separate throughput run repeats the frozen points with eight concurrent clients |
+| Memory | Qdrant allocator heap after indexing and a search pass |
+
+The two quality measures stay separate. ANN recall@10 is the overlap between what a configuration returns and what exact float32 search returns, so it isolates the error quantization adds. nDCG@10 against the BEIR judgments says whether that error changes what a user would see as relevant.
+
+The 50 development queries were used for tuning and never for reporting. SciFact and NFCorpus were also rerun on their whole official test splits, 300 and 323 queries: no recall moved by more than 0.025 and no pass or fail changed, so the 150-query subset is representative. Memory is what a pinned copy costs; the originals are memory-mapped and show up in the page cache instead.
 
 ### Rescoring Is Most of the Quality
 
