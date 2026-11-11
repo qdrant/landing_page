@@ -1,72 +1,10 @@
-/* setup island. Scoped under .qset. Controls, chips, frames and the status line
-   come from the shared .qi-* classes; this file styles the corpus rows, the
-   bars, and the pipeline boxes. Data color: the secondary brand blue
-   (--qi-cat-1) for the float32 originals. Labels are 14px so they render at
-   about 14 CSS px at article width. */
-
-.qset {
-  display: block;
-  text-align: left;
-}
-.qset .qi-fig {
-  gap: 16px;
-}
-.qset .qi-controls {
-  justify-content: space-between;
-}
-/* Three lines of status text, reserved so hover and selection never reflow. */
-.qset .qset__status {
-  min-height: calc(3 * 1.45em);
-}
-
-.qset .qset-h {
-  fill: var(--qi-muted);
-  font-family: var(--qi-mono);
-  font-size: 14px;
-}
-.qset .qset-name,
-.qset .qset-box-title {
-  fill: var(--qi-fg);
-  font-family: var(--qi-mono);
-  font-size: 14px;
-  font-weight: 600;
-}
-.qset .qset-sub {
-  fill: var(--qi-muted);
-  font-family: var(--qi-mono);
-  font-size: 14px;
-}
-.qset .qset-num,
-.qset .qset-line {
-  fill: var(--qi-fg);
-  font-family: var(--qi-mono);
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-}
-.qset .qset-line--strong {
-  font-weight: 600;
-}
-.qset .qset-bar {
-  fill: var(--qi-cat-1);
-}
-.qset .qset-row {
-  cursor: pointer;
-}
-.qset .qset-hit {
-  fill: transparent;
-  stroke: transparent;
-  stroke-width: 1.5;
-}
-.qset .qset-row:hover .qset-hit {
-  stroke: var(--qi-border);
-}
-.qset .qset-row.is-on .qset-hit {
-  stroke: var(--qi-hot);
-}
-.qset .qset-arrow {
-  stroke: var(--qi-line);
-  stroke-width: 2;
-}
-.qset .qset-arrowhead {
-  fill: var(--qi-line);
-}
+/* setup island. Scoped under .qset; the model chips and status line come from
+   the shared .qi-* classes. Data color: the secondary brand blue (--qi-cat-1)
+   for the float32 originals. Labels are 14px. */
+.qset { display: block; text-align: left; }
+.qset .qi-fig { gap: 16px; }
+.qset .qset-h, .qset .qset-sub { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 14px; }
+.qset .qset-name { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 600; }
+.qset .qset-task, .qset .qset-num { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.qset .qset-bar { fill: var(--qi-cat-1); }
+.qset .qset-sep { stroke: var(--qi-border); stroke-width: 1; }

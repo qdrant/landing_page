@@ -63,10 +63,6 @@ details.qgt:not([open]) > summary.qgt__title { margin-bottom: 0; }
 
 ### Scalar Quantization
 
-{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="7 / 4" >}}
-![Scalar quantization: a histogram of float32 values with lower and upper bounds stretched over 256 int8 levels; quantile 0.99 ignores the extreme 1% and makes each level about twice as fine](/articles_data/vector-quantization-guide/method-scalar.svg)
-{{< /island >}}
-
 <details class="qgt qgt--s">
 <summary class="qgt__title">Strengths</summary>
 
@@ -90,11 +86,11 @@ Each float32 coordinate becomes one `int8`, so the copy is one quarter the size 
 
 Scalar is the method with the fewest assumptions. It does not care whether coordinates are centered or how many dimensions you have, and it is the method to use with Manhattan distance, which TurboQuant supports only on a slow path. Its limit is arithmetic: 4× is all it can give. If your RAM budget needs 8× or more, scalar cannot get there on its own.
 
-### Binary Quantization
-
-{{< island path="content/documentation/headless/quantization/bit-depth" width="80%" ratio="2 / 1" >}}
-![Binary quantization at 1, 1.5, and 2 bits per dimension](/docs/2-bit-quantization.png)
+{{< island path="content/articles/headless/vector-quantization-guide/scalar" ratio="7 / 4" >}}
+![Scalar quantization: a histogram of float32 values with lower and upper bounds stretched over 256 int8 levels; quantile 0.99 ignores the extreme 1% and makes each level about twice as fine](/articles_data/vector-quantization-guide/method-scalar.svg)
 {{< /island >}}
+
+### Binary Quantization
 
 <details class="qgt qgt--s">
 <summary class="qgt__title">Strengths</summary>
@@ -119,11 +115,11 @@ The one-bit encoding keeps the sign of each coordinate and nothing else, so the 
 
 Binary only works when the sign of a coordinate carries information. The measurements below show that this is a property of the corpus and the model together, and that it can be measured before you build anything.
 
-### Product Quantization
-
-{{< island path="content/articles/headless/vector-quantization-guide/product" ratio="9 / 5" >}}
-![Product quantization: a 16-coordinate vector cut into eight sub-vectors, each replaced by a one-byte centroid id, 8 times smaller](/articles_data/vector-quantization-guide/method-product.svg)
+{{< island path="content/documentation/headless/quantization/bit-depth" width="80%" ratio="2 / 1" >}}
+![Binary quantization at 1, 1.5, and 2 bits per dimension](/docs/2-bit-quantization.png)
 {{< /island >}}
+
+### Product Quantization
 
 <details class="qgt qgt--s">
 <summary class="qgt__title">Strengths</summary>
@@ -148,11 +144,11 @@ Product quantization splits each vector into sub-vectors and replaces each sub-v
 
 The price is paid at search time. Distances go through lookup tables rather than SIMD arithmetic, which makes product quantization the slowest method at any given recall in every run below. Training the codebook also adds indexing time. Choose it when fitting in memory is the only constraint that matters and query latency is not.
 
-### TurboQuant
-
-{{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" >}}
-![TurboQuant: a vector with one large coordinate before rotation and an even spread after rotation, with the same length](/articles_data/vector-quantization-guide/method-turboquant.svg)
+{{< island path="content/articles/headless/vector-quantization-guide/product" ratio="9 / 5" >}}
+![Product quantization: a 16-coordinate vector cut into eight sub-vectors, each replaced by a one-byte centroid id, 8 times smaller](/articles_data/vector-quantization-guide/method-product.svg)
 {{< /island >}}
+
+### TurboQuant
 
 <details class="qgt qgt--s">
 <summary class="qgt__title">Strengths</summary>
@@ -179,34 +175,31 @@ TurboQuant applies a fast pseudo-random orthogonal rotation to every vector befo
 
 Four-bit TurboQuant gives 8× compression and, in every run below, recall indistinguishable from scalar at half the memory. It supports cosine, dot, and Euclidean at SIMD speed. Manhattan distance works but is much slower, which is the one case where scalar still wins on method alone.
 
-## What We Measured
+{{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" >}}
+![TurboQuant: a vector with one large coordinate before rotation and an even spread after rotation, with the same length](/articles_data/vector-quantization-guide/method-turboquant.svg)
+{{< /island >}}
+
+## Quantization Trade-Offs Experiment
 
 [BEIR (Benchmarking Information Retrieval)](https://github.com/beir-cellar/beir) is a public collection of 18 English retrieval datasets, built so that a retriever is tested on text and query styles it was not tuned for ([Thakur et al., 2021](https://arxiv.org/abs/2104.08663)). Each dataset ships documents, queries, and human relevance judgments, and Cohere publishes `embed-english-v3.0` vectors for the corpora, so the Cohere runs need no API calls and anyone can rerun them. We use four datasets that differ in size, text length, and judgments per query.
 
 ### The Four Datasets
 
-| Dataset | Task | A query finds | Documents | Words per document | Relevant per query |
-|---|---|---|---|---|---|
-| SciFact | Scientific claim verification | An abstract that supports or refutes a claim | 5,183 | 214 | 1.1 |
-| NFCorpus | Medical information retrieval | PubMed papers for a short NutritionFacts.org topic | 3,633 | 232 | 38.2 |
-| FiQA | Financial question answering | A StackExchange investment post that answers a question | 57,638 | 132 | 2.6 |
-| Quora | Duplicate question retrieval | Another question that asks the same thing | 522,931 | 11 | 1.6 |
-
-Counts and lengths come from Table 1 of the BEIR paper. Quora is larger than NFCorpus by a factor of 144, and at 1,024 dimensions its float32 originals take 2,142 MB, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, and it is the only symmetric task, so queries and documents share one encoding. Its embeddings are also the most centered, which is why binary quantization passes there (see [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall)). NFCorpus averages 38.2 relevant documents per query against one to three elsewhere. That does not affect recall@10, which compares against exact float32 search, but it does affect nDCG@10, which is scored against the judgments.
-
-Switch the embedding model to see the originals shrink, and select a corpus to read what its queries and documents are.
-
-{{< island path="content/articles/headless/vector-quantization-guide/setup" ratio="7 / 5" >}}
-![Experimental setup: four BEIR corpora with their sizes, embedded with Cohere or BGE-small vectors, indexed in Qdrant under five configurations, and scored on recall, nDCG, latency, throughput, and memory](/articles_data/vector-quantization-guide/experimental-setup.svg)
+{{< island path="content/articles/headless/vector-quantization-guide/setup" ratio="2 / 1" >}}
+![The four BEIR datasets: SciFact, NFCorpus, FiQA, and Quora, with their task, what a query finds, documents, words per document, relevant documents per query, and float32 storage at 1,024 dimensions](/articles_data/vector-quantization-guide/experimental-setup.svg)
 {{< /island >}}
 
-We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), and search with cosine distance on L2-normalized vectors. Qdrant v1.19.2 runs in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. We set rescoring and oversampling explicitly on every query, because the defaults differ by method: rescoring is on by default for binary quantization and for TurboQuant at 1, 1.5, and 2 bits, and off for scalar, product, and 4-bit TurboQuant. The quantized copy is pinned in RAM and the originals stay `cold`, a memory-mapped file read on demand (see [memory tiers](/documentation/ops-configuration/memory-tiers/)). Fifty development queries tune each setting and 150 held-out test queries report it. Quality is ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, with a separate throughput run at eight concurrent clients. Memory is the Qdrant allocator heap after indexing and a search pass; the originals are memory-mapped and show up in the page cache instead. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, and no recall moved by more than 0.025 and no pass or fail changed.
+Counts and lengths come from Table 1 of the BEIR paper. Quora is 144 times larger than NFCorpus, and at 1,024 dimensions its float32 originals take 2,142 MB, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, and it is the only symmetric task, so queries and documents share one encoding. Its embeddings are also the most centered, which is why binary quantization passes there (see [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall)). NFCorpus has 38.2 relevant documents per query against one to three elsewhere. That leaves recall@10 unchanged, since it compares against exact float32 search, but it shapes nDCG@10, which is scored against the judgments.
+
+We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), and search with cosine distance on L2-normalized vectors. Qdrant v1.19.2 runs in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. We pin the quantized copy in RAM and keep the originals `cold`, a memory-mapped file read on demand (see [memory tiers](/documentation/ops-configuration/memory-tiers/)). Every query sets rescoring and oversampling explicitly, because the defaults differ by method: rescoring is on by default for binary and for TurboQuant at 1, 1.5, and 2 bits, and off for scalar, product, and 4-bit TurboQuant.
+
+Fifty development queries tune each setting and 150 held-out test queries report it. Quality is ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, with a separate throughput run at eight concurrent clients. Memory is the Qdrant allocator heap after indexing and a search pass; the originals are memory-mapped and show up in the page cache instead. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, and no recall moved by more than 0.025 and no pass or fail changed.
 
 A companion notebook runs this setup on SciFact against any Qdrant 1.19 cluster, with no embedding API key.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)
 
-## Measured Tradeoffs
+## Measured Trade-Offs
 
 Every method buys memory with recall, speed, or both. Each section takes one lever and prices it: what it saves and what it costs.
 
@@ -321,7 +314,7 @@ A pinned copy loads with the process, so a quantized collection answers its firs
 
 ### Memory Caps: Headroom Against Index Builds
 
-The tradeoff here is the RAM cap against a build that finishes. A first attempt capped the container at 1 GiB, below the 2.1 GB of originals, for the whole experiment. Under the cap the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, so a cap below them is a build problem before it is a search problem. We kept the results as a recorded outcome.
+The trade-off here is the RAM cap against a build that finishes. A first attempt capped the container at 1 GiB, below the 2.1 GB of originals, for the whole experiment. Under the cap the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, so a cap below them is a build problem before it is a search problem. We kept the results as a recorded outcome.
 
 ## Pick a Method for Your Collection
 
