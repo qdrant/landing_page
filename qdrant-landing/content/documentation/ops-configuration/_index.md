@@ -8,7 +8,7 @@ partition: deploy
 
 # Configuration
 
-These pages cover the settings and runtime options available for customizing and administering a Qdrant deployment. On Qdrant Cloud, you configure a cluster in the Cloud Console instead of editing configuration files. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/). Each page below explains how it applies to Qdrant Cloud.
+These pages cover the settings and runtime options available for customizing and administering a Qdrant deployment. On Qdrant Cloud, you configure a cluster in the Cloud Console. Self-hosted Qdrant is configured through configuration files or environment variables. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/). 
 
 ## Configuration
 

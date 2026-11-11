@@ -9,7 +9,7 @@ weight: 7
 
 *Available as of v1.19.0*
 
-<aside role="status">On Qdrant Cloud, you manage capacity per cluster: you choose the cluster's CPU, memory, and disk, and Qdrant Cloud emails the account owner when memory or disk use is high. Refer to <a href="/documentation/cloud/cluster-scaling/">Scaling Qdrant Cloud Clusters</a> and <a href="/documentation/cloud/cluster-monitoring/#alerts">Alerts</a>.</aside>
+<aside role="status">On Qdrant Cloud, you manage capacity per cluster: you choose the cluster's CPU, memory, and disk, and Qdrant Cloud alerts the account owner when memory or disk use is high. Refer to <a href="/documentation/cloud/cluster-scaling/">Scaling Qdrant Cloud Clusters</a> and <a href="/documentation/cloud/cluster-monitoring/#alerts">Alerts</a>.</aside>
 
 Resource quotas stop a node from taking on more data once it's low on memory or disk space. When usage reaches a configured limit, the node rejects updates that would consume more of that resource until usage drops back down.
 

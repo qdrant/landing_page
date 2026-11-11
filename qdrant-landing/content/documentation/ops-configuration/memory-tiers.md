@@ -9,7 +9,6 @@ aliases:
 
 # Memory Tiers
 
-<aside role="status">The <code>memory</code> parameter is set per collection through the API, so it works the same on Qdrant Cloud clusters that run Qdrant v1.19 or later. The configuration file and environment variable settings on this page, such as <code>io_uring</code>, apply to self-hosted deployments. Refer to <a href="/documentation/ops-configuration/configuration/">Configuration</a>.</aside>
 
 Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter controls how each structure is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed.
 
