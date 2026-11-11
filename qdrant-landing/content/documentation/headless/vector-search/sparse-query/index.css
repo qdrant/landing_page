@@ -23,7 +23,9 @@ html[data-theme='dark'] .qi-sq {
 /* Hint labels in one column, content in the other. */
 .qi-sq__fields {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  /* Same label column width as the other vector-search islands, so their
+     content lines up down the page. */
+  grid-template-columns: minmax(104px, max-content) minmax(0, 1fr);
   align-items: center;
   gap: 28px 32px;
 }

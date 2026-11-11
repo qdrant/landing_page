@@ -54,7 +54,7 @@ Dense vectors can capture the meaning, not the words used in a text. That being 
 
 {{< island
     path="content/documentation/headless/vector-search/dense-query"
-    width="100%" ratio="11 / 6"
+    width="100%" ratio="12 / 7"
     title="A neural encoder turns each query into a dense vector. Pick a second query to compare its shared words with the first, as a sparse vector sees them, and the similarity of the two dense vectors."
 >}}
 ![Input queries contain different words, but they are still converted into similar vector representations, because the neural encoder can capture the meaning of the sentences.](/docs/gettingstarted/input.png)

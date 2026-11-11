@@ -34,31 +34,34 @@ html[data-theme='dark'] .qi-dq {
 /* Hint labels in one column, content in the other. */
 .qi-dq__fields {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  /* Same label column width as the other vector-search islands, so their
+     content lines up down the page. */
+  grid-template-columns: minmax(104px, max-content) minmax(0, 1fr);
   align-items: center;
-  gap: 18px 24px;
+  gap: 28px 32px;
 }
 .qi-dq__fields > .qi-hint {
-  font-size: 13px;
+  font-size: 12px;
 }
 .qi-dq__fields > .qi-dq__top {
   align-self: start;
-  line-height: 32px;
+  line-height: 30px;
 }
+/* The note explains the vectors above it, so it sits close under them. */
 .qi-dq__fields > .qi-dq__note {
-  margin-top: -10px;
-  font-size: 12px;
+  margin-top: -18px;
+  font-size: 11px;
 }
 
 .qi-dq__query {
-  padding: 8px 14px;
+  padding: 7px 14px;
   border: 1px solid var(--qi-border);
   border-radius: var(--qi-radius);
   background: var(--qi-surface);
   color: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* --- Dense vectors --- */
@@ -66,7 +69,8 @@ html[data-theme='dark'] .qi-dq {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 12px 8px;
+  min-height: 28px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -75,13 +79,13 @@ html[data-theme='dark'] .qi-dq {
   margin: 0;
 }
 .qi-dq .qi-dq__cell {
-  min-width: 52px;
-  padding: 6px 8px;
+  min-width: 48px;
+  padding: 4px 8px;
   border-radius: var(--qi-radius);
   color: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 13px;
+  line-height: 20px;
   text-align: center;
   font-variant-numeric: tabular-nums;
   transition: background 0.3s ease;
@@ -95,20 +99,20 @@ html[data-theme='dark'] .qi-dq {
 .qi-dq .qi-dq__more {
   color: var(--qi-line);
   font-family: var(--qi-mono);
-  font-size: 15px;
+  font-size: 13px;
 }
 
 /* --- Score bars --- */
 .qi-dq__score {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 .qi-dq__track {
   position: relative;
   flex: 0 1 280px;
-  height: 12px;
-  border-radius: 6px;
+  height: 10px;
+  border-radius: 5px;
   background: var(--qi-border);
   overflow: hidden;
 }
@@ -116,7 +120,7 @@ html[data-theme='dark'] .qi-dq {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  border-radius: 6px;
+  border-radius: 5px;
   transition: width 0.4s ease;
 }
 .qi-dq__score--sparse .qi-dq__fill {
@@ -130,7 +134,7 @@ html[data-theme='dark'] .qi-dq {
   white-space: nowrap;
   color: var(--qi-fg);
   font-family: var(--qi-mono);
-  font-size: 15px;
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -163,8 +167,8 @@ html[data-theme='dark'] .qi-dq {
     font-size: 13px;
     line-height: 20px;
   }
-  .qi-dq__query {
-    font-size: 14px;
+  .qi-dq .qi-dq__vector {
+    gap: 6px;
   }
 }
 
