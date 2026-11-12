@@ -21,7 +21,7 @@ isLesson: true
 
 Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
-**Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module3.ipynb)
+**Follow-along code**: [Module 3 notebook](https://github.com/qdrant/examples/blob/master/beginners-course/Module3.ipynb)
 
 #### Overview
 

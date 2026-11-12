@@ -82,18 +82,33 @@ you'll see a detailed view with several tabs. You don't need all of these yet, s
 
 ## Connect from Python
 
-Now let's connect from code. First, store your credentials in a file named `.env` at the root of your project (or set them in Colab). Keeping them in a separate file means you won't accidentally paste your key into shared code:
+Now let's connect from code. For a local script or notebook, store your credentials in a file named `.env` at the root of your project. Add `.env` to `.gitignore` so your credentials aren't committed to source control. In Colab, you can use its secrets store instead.
 
 ```env
 QDRANT_URL=https://YOUR-CLUSTER.cloud.qdrant.io:6333
 QDRANT_API_KEY=YOUR_API_KEY
 ```
 
-Then load those values and create a client. The **client** is the object your Python code uses to send requests to Qdrant:
+Install the Qdrant client and `python-dotenv`, which loads `.env` values into the Python process environment. In your terminal:
+
+```bash
+python -m pip install qdrant-client python-dotenv
+```
+
+Or, in a Jupyter/IPython notebook cell:
+
+```python
+%pip install qdrant-client python-dotenv
+```
+
+Run the connection example from your project root so it can find `.env`. The **client** is the object your Python code uses to send requests to Qdrant:
 
 ```python
 from qdrant_client import QdrantClient, models
+from dotenv import load_dotenv
 import os
+
+load_dotenv(".env")
 
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 

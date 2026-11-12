@@ -22,7 +22,7 @@ isLesson: true
 
 Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
 
-**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module2.ipynb)
+**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/beginners-course/Module2.ipynb)
 
 #### Overview
 

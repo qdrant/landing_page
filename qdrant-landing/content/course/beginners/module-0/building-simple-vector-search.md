@@ -43,10 +43,13 @@ from qdrant_client import QdrantClient, models
 
 ## Step 3: Connect to Qdrant Cloud
 
-Use the cluster URL and API key from the previous lesson. If you saved them in a `.env` file, this reads them automatically:
+Use the cluster URL and API key from the previous lesson. If you saved them in a `.env` file, load it with `python-dotenv`, installed during [Qdrant Setup](/course/beginners/module-0/qdrant-cloud/). Run this example from the project root containing `.env`:
 
 ```python
 import os
+from dotenv import load_dotenv
+
+load_dotenv(".env")
 
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
