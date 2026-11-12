@@ -90,12 +90,6 @@ menuItems:
       - id: 4
         name: Careers
         url: https://qdrant.to/jobs
-# Shown under the compliance badges, which link to the Trust Center.
-trustLinks:
-  - text: Security
-    url: /security/
-  - text: Bug Bounty
-    url: /security/bug-bounty-program/
 copyright: Qdrant.
 bottomLinks:
   - text: Terms
