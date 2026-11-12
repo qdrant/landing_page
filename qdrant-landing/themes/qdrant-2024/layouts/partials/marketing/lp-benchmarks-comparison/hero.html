@@ -16,5 +16,6 @@
         </div>
       </div>
     </div>
+    {{ if templates.Exists "partials/marketing/lp-customer-logos.html" }}{{ partial "marketing/lp-customer-logos" . }}{{ end }}
   </section>
 {{ end }}
