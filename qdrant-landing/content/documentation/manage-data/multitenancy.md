@@ -3,6 +3,7 @@ title: Multitenancy
 short_description: "Partition tenants in a single Qdrant collection with payload-based filtering and per-tenant indexes for clean isolation."
 description: "Set up Qdrant multitenancy with payload-based partitioning and per-tenant indexes for tenant isolation, predictable performance, and lower cluster overhead."
 weight: 40
+toc_end_level: 4
 cta: "Set up tenant isolation on a free Cloud cluster in minutes."
 aliases:
   - ../tutorials/multiple-partitions
@@ -11,7 +12,11 @@ aliases:
 
 # Configure Multitenancy
 
-Many applications serve multiple users, customers, or organizations ("tenants") from a shared deployment. Each tenant's data must stay isolated: when a tenant searches, they should only see their own data. Qdrant offers several solutions for keeping tenants' data separated within a shared deployment.
+Many applications serve multiple users, customers, or organizations ("tenants") from a shared deployment. Each tenant's data must stay isolated: when a tenant searches, they should only see their own data.
+
+## Multitenancy on Server {products="server"}
+
+Qdrant offers several solutions for keeping tenants' data separated within a shared deployment.
 
 Creating a separate collection for each tenant is rarely the most efficient approach. Each collection carries its own resource overhead, so creating many collections can quickly become expensive. Only create multiple collections when you have a limited number of tenants that need strict isolation.
 
@@ -25,7 +30,7 @@ Instead, keep all tenants in a single collection and use one of these three appr
 - [**User-defined sharding**](#user-defined-sharding) gives each tenant its own dedicated shard. This trades some resource overhead for stronger isolation, and is best suited to a smaller number of larger tenants.
 - [**Tiered multitenancy**](#tiered-multitenancy) combines the two: small tenants share a single shard while large tenants get promoted to their own dedicated shard.
 
-## Partition by Payload
+### Partition by Payload
 
 To partition data in a shared collection, add a payload field that identifies the tenant to each point. You can then filter by this field to ensure that each tenant only sees their own data.
 
@@ -60,7 +65,7 @@ Query with a filter on the tenant field (`group_id`) to return only one tenant's
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id/" >}}
 
-### Calibrate Performance
+#### Calibrate Performance
 
 Indexing speed can become a bottleneck when many tenants share a collection, since their vectors are all indexed together. To avoid this bottleneck, consider disabling the global vector index for the collection and building it only for individual groups instead.
 
@@ -75,14 +80,14 @@ To implement this approach:
 
 Setting `m` to 0 isn't the same as exact search. If the effective `payload_m` is positive, Qdrant still builds payload-aware links for indexed payload fields with HNSW enabled.
 
-### Limitations
+#### Limitations
 
 - Global requests (without the `group_id` filter) are slower, since they require scanning all groups to identify the nearest neighbors.
 - When using [BM25 full-text search](/documentation/search/text-search/full-text-search/), or [sparse vector search](/documentation/search/text-search/sparse-vector-search/) with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), payload-based partitioning alone doesn't isolate scoring statistics. By default, all tenants share the same shard-wide statistics. Use the [`idf` search parameter](#per-tenant-scoring-statistics) to scope statistics to a single tenant.
 
 <span id="per-tenant-idf-statistics"></span>
 
-### Per-Tenant Scoring Statistics
+#### Per-Tenant Scoring Statistics
 
 *Available as of v1.19.0*
 
@@ -106,7 +111,7 @@ This filter is independent of the retrieval filter. The filter that determines t
 - If the corpus filter matches no points, the statistics do not fall back to shard-wide statistics. Instead, every term gets the same constant weight, so ranking degenerates to plain TF with no rarity signal. For BM25 text queries, document length normalization is also disabled.
 - When using [user-defined sharding](#user-defined-sharding), routing a search request to a single tenant's dedicated shard already scopes IDF to that tenant's data. This shard locality also applies to the `idf` filter: if it matches points that live in a different shard than the one being queried, Qdrant does not reach across shards to satisfy it. It silently computes statistics from whatever overlap exists locally, which can be empty or partial.
 
-## User-Defined Sharding
+### User-Defined Sharding
 
 *Available as of v1.7.0*
 
@@ -128,7 +133,7 @@ Specify the same `shard_key` in query requests to search only within that tenant
 
 Shards require significant resources, so keep the number of tenants low enough that each can have its own shard. For large numbers of tenants, use [partition by payload](#partition-by-payload) or [tiered multitenancy](#tiered-multitenancy) instead.
 
-## Tiered Multitenancy
+### Tiered Multitenancy
 
 *Available as of v1.16.0*
 
@@ -153,7 +158,7 @@ There are three components in Qdrant that allow you to implement tiered multiten
 ![Tiered multitenancy with tenant promotion](/docs/tenant-promotion.png)
 {{< /island >}}
 
-### Configure Tiered Multitenancy
+#### Configure Tiered Multitenancy
 
 To take advantage of tiered multitenancy, you need to create a collection with user-defined sharding and create a fallback shard in it.
 
@@ -172,7 +177,7 @@ Since the collection will allow both dedicated and shared tenants, you still nee
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
-### Write to a Tiered Multitenant Collection
+#### Write to a Tiered Multitenant Collection
 
 Now you can start uploading data into the collection. Specify a **shard key selector** in each request to reach the correct shard. The shard key selector needs to specify two keys:
 
@@ -186,13 +191,13 @@ The routing logic works as follows:
 - If the `target` shard exists and is active, the request routes to it.
 - If the `target` shard does not exist, the request routes to the `fallback` shard.
 
-### Query Tiered Multitenant Collection
+#### Query Tiered Multitenant Collection
 
 When querying points, specify the same shard key selector and filter on the tenant field (`group_id` in this example). The tenant filter value must match the `target` shard key.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id-and-fallback-shard-key/" >}}
 
-### Promote Tenant to Dedicated Shard
+#### Promote Tenant to Dedicated Shard
 
 When a tenant grows large enough, you can promote it to its own dedicated shard.
 To do this, first create a new shard for the tenant:
@@ -210,10 +215,27 @@ At this point it's safe to delete the tenant's data from the shared fallback sha
 
 You can now [create replicas](/documentation/scaling/distributed_deployment/#creating-new-shard-replicas) for the new shard.
 
-### Limitations
+#### Limitations
 
 - The fallback shard and the dedicated tenant shards must have a `shards_number` of 1. A new dedicated tenant shard also needs to have a `replication_factor` of 1 at creation time. This is because the shard transfer mechanism only works with single shards. If you wish, you can increase the replication factor after the point transfer is complete.
 
   This means all small tenants sharing the fallback shard must fit within the storage and write capacity of a single shard, and thus that of a single node. The same applies to dedicated tenant shards. We plan to remove this restriction in a future release.
 - Similar to collections, dedicated shards introduce some resource overhead. Don't create more than a thousand dedicated shards per cluster. The recommended threshold for promoting a tenant is the same as the indexing threshold for a single collection, which is approximately 20,000 points.
 
+## Multitenancy on Serverless {products="serverless"}
+
+Qdrant Serverless keeps tenants apart with one collection per tenant.
+
+### One Collection per Tenant
+
+A space holds far more collections than a dedicated cluster, so there is no need to pack many tenants into a shared collection. Give each tenant its own collection, and keep each one within the soft limit of around 1 million vectors.
+
+Tenant isolation then comes from the collection boundary itself. A query names one collection, so it can only return that tenant's points, with no filter to write and no filter to get wrong.
+
+### Declare the Schema Up Front
+
+Create each tenant's collection with its full schema, including every payload index you filter by. A collection cannot be changed after it is created, so adding an index later means creating a new collection, uploading the points again, and deleting the old one. See [Collections](/documentation/manage-data/collections/).
+
+### What Serverless Does Not Use
+
+Payload partitioning, user-defined sharding, and tiered multitenancy are not available on Qdrant Serverless. Each of them tunes how data is sharded and indexed, which the platform manages for you. There are no HNSW parameters, quantization settings, or segment options to set per tenant: a vector takes one precision tier, and the platform decides the rest.
