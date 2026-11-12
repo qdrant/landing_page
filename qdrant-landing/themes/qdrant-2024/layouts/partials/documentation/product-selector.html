@@ -1,0 +1,7 @@
+{{- /* Product selector at the top of the docs sidebar. Behaviour: assets/docs/js/product.js. */ -}}
+<select class="product-selector" aria-label="Product">
+  <option value="">All products</option>
+  {{- range site.Data.products }}
+  <option value="{{ .key }}">{{ .label }}</option>
+  {{- end }}
+</select>

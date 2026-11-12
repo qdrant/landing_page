@@ -1,5 +1,6 @@
 import ThemeSwitch from './theme-switch.js';
 import TableOfContents from './table-of-content';
+import './product.js';
 
 const themeSwitch = new ThemeSwitch();
 

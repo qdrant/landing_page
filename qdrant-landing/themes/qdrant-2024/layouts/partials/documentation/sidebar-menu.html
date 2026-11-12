@@ -3,6 +3,7 @@
 {{ $currentNode := .context }}
 <div class="docs-menu">
   <div id="sidebar" class="docs-menu__content">
+    {{ partial "documentation/product-selector.html" . }}
     {{ if eq $partition "learn" }}
       {{ partial "documentation/learn-menu" $currentNode }}
     {{ else }}

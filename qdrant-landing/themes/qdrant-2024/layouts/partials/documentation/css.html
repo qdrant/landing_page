@@ -44,6 +44,9 @@
 {{ $documentationCss := resources.Get "docs/css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
 <link href="{{ $documentationCss.RelPermalink }}" rel="stylesheet" integrity="{{ $documentationCss.Data.Integrity }}" />
 
+<!--Per-product rules for the product selector, generated from data/products.yaml-->
+{{ partial "documentation/product-styles.html" . }}
+
 <!--"Copy as Markdown" button (assets/lib/copy-markdown/), shared by both parts.
     Right after documentation.css, where these rules sat at the end of the bundle,
     so the table of contents and article header overrides keep the same cascade.-->

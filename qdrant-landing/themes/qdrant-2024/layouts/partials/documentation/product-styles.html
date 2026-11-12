@@ -1,0 +1,19 @@
+{{- /*
+  CSS rules that depend on which product is selected. Generated from
+  data/products.yaml so the product list lives in one place. Static
+  styles are in assets/docs/css/partials/documentation/_product-scoped.scss.
+*/ -}}
+<style>
+{{- range site.Data.products }}
+{{- $k := .key }}
+{{- $off := printf `html[data-product="%s"] .product-scoped:not([data-products~="%s"])` $k $k }}
+html[data-product="{{ $k }}"] .product-scoped__selected::after{content:"{{ .label }}"}
+html[data-product="{{ $k }}"] .product-scoped[data-products~="{{ $k }}"]>.product-scoped__note{display:none}
+{{ $off | safeCSS }}>.product-scoped__note .product-scoped__mismatch{display:inline}
+{{ $off | safeCSS }}:not(.is-open)>.product-scoped__body{display:none}
+{{ $off | safeCSS }}:not(.is-open)>:is(h1,h2,h3,h4,h5,h6){margin-bottom:.25rem;font-size:1rem}
+{{ $off | safeCSS }}>.product-scoped__body{padding-left:1rem;border-left:2px solid var(--product-scoped-border)}
+html[data-product="{{ $k }}"] .product-banner[data-products~="{{ $k }}"]{display:none}
+html[data-product="{{ $k }}"] .product-banner:not([data-products~="{{ $k }}"]) .product-banner__mismatch{display:block}
+{{- end }}
+</style>

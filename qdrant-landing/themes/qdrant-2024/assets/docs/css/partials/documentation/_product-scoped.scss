@@ -1,0 +1,163 @@
+@use '../../helpers/functions' as *;
+
+// Product selector in the sidebar, and content tagged for specific
+// products. Rules that depend on the selected product are generated per
+// product in layouts/partials/documentation/product-styles.html; this
+// file holds the defaults they override.
+
+:root {
+  --product-scoped-border: #{$neutral-40};
+}
+
+[data-theme='light'] {
+  --product-scoped-border: #{$neutral-90};
+}
+
+// Selector
+
+.product-selector {
+  display: block;
+  width: 100%;
+  margin: $spacer * 1.5 0 $spacer;
+  padding: $spacer * 0.5 $spacer * 2 $spacer * 0.5 $spacer * 0.75;
+  border: 1px solid $neutral-40;
+  border-radius: 8px;
+  background-color: $neutral-20;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%238F98B3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacer * 0.75 center;
+  appearance: none;
+  font-size: 0.875rem;
+  color: $neutral-90;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $neutral-50;
+  }
+}
+
+[data-theme='light'] .product-selector {
+  border-color: $neutral-90;
+  background-color: $neutral-100;
+  color: $neutral-20;
+}
+
+[data-theme='light'] .product-selector:hover {
+  border-color: $neutral-70;
+}
+
+// Tagged sections and blocks
+
+.product-scoped__note {
+  margin: 0 0 $spacer * 0.75;
+  font-size: 0.8125rem;
+  color: $neutral-60;
+}
+
+.product-scoped__label {
+  display: inline-block;
+  padding: 0 $spacer * 0.5;
+  border: 1px solid $neutral-40;
+  border-radius: 999px;
+}
+
+.product-scoped__mismatch {
+  display: none;
+}
+
+.product-scoped__toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: $neutral-90;
+  }
+}
+
+.product-scoped__show,
+.product-scoped__hide {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.product-scoped__hide,
+.product-scoped.is-open > .product-scoped__note .product-scoped__show {
+  display: none;
+}
+
+.product-scoped.is-open > .product-scoped__note .product-scoped__hide {
+  display: inline;
+}
+
+html[data-product] .product-scoped__label {
+  display: none;
+}
+
+// With no product selected, a border shows how far a tagged block runs.
+// Sections need none: the next heading ends them.
+html:not([data-product]) .product-scoped--block > .product-scoped__body {
+  padding-left: $spacer;
+  border-left: 2px solid var(--product-scoped-border);
+}
+
+.product-scoped--block {
+  margin-bottom: $spacer * 1.5;
+}
+
+[data-theme='light'] .product-scoped__note {
+  color: $neutral-50;
+}
+
+[data-theme='light'] .product-scoped__label {
+  border-color: $neutral-90;
+}
+
+[data-theme='light'] .product-scoped__toggle:hover {
+  color: $neutral-20;
+}
+
+// Page banner
+
+.product-banner {
+  margin-bottom: $spacer * 1.5;
+  font-size: 0.875rem;
+  color: $neutral-60;
+
+  p {
+    margin: 0;
+  }
+}
+
+.product-banner__label {
+  display: inline-block;
+  padding: 0 $spacer * 0.5;
+  border: 1px solid $neutral-40;
+  border-radius: 999px;
+}
+
+.product-banner__mismatch {
+  display: none;
+  padding: $spacer * 0.75 $spacer;
+  border-left: 3px solid $neutral-60;
+  border-radius: 4px;
+  background-color: $neutral-30;
+  color: $neutral-90;
+}
+
+html[data-product] .product-banner__label {
+  display: none;
+}
+
+[data-theme='light'] .product-banner__label {
+  border-color: $neutral-90;
+}
+
+[data-theme='light'] .product-banner__mismatch {
+  background-color: $neutral-94;
+  color: $neutral-30;
+}
