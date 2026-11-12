@@ -17,9 +17,17 @@ tags:
   - edge
 ---
 
-Everyone's dream is to get vector search running on the edge. OK, maybe not *everyone* *everyone*, but it's definitely a dream we've been working towards here at Qdrant.
+Running vector search on the edge is something we've been working towards here at Qdrant.
 
 The main problem is that vector search is resource-hungry, starting with the embedding step: [EmbeddingGemma-2](https://huggingface.co/unsloth/embeddinggemma-2-GGUF), a small modern model, takes up 310MB of memory when quantized to 8 bits, while [Qwen3 Embedding 4B](https://huggingface.co/Qwen/Qwen3-Embedding-4B-GGUF), a larger one, needs 4.28GB. Size is just one side of the coin: transformer-based inference involves expensive computations and often relies on heavy dependencies like [PyTorch](https://pytorch.org/get-started/locally/) (or [libtorch](https://docs.pytorch.org/cppdocs/installing.html)).
+
+{{< island
+    path="content/headless/blog/embeddings-on-bare-metal/footprint"
+    width="760" ratio="760 / 340"
+    title="Model sizes against the 16MB of flash memory on our board, drawn as squares with proportional areas: the two transformer-based models dwarf the chip, while potion-base-2M fits inside it."
+>}}
+![Squares with areas proportional to size. Qwen3 Embedding 4B (4.28GB) is about 267 times the 16MB ESP32-S3 chip, and EmbeddingGemma-2 at 8 bits (310MB) is about 19 times. potion-base-2M (7.5MB) fits inside the 16MB square.](/blog/embeddings-on-bare-metal/footprint.svg)
+{{< /island >}}
 
 You might still be fine on embedded devices that have an operating system, a few cores, and gigabytes of RAM and storage, like [Reachy Mini](https://pollen-robotics.com/reachy-mini/). But you're out of luck on boards with just a few megabytes of flash memory, no disk, and no operating system. In short: you can't really run an embedding model on bare metal.
 
@@ -29,7 +37,7 @@ Or can you?
 
 ## A Static Model Is All You Need
 
-As we just said, two things block embedding models from running on bare metal: size and inference. That holds for transformer-based models, but there is a class of models that are small and whose inference boils down to a table lookup plus a few mathematical operations: static embedding models.
+As we just said, there are two things that block embedding models from running on bare metal: size and inference. That holds for transformer-based models like BERT or RoBERTa, which are large and whose inference is dominated by big matrix multiplications. But there is a class of models that are small and whose inference boils down to a table lookup plus a few mathematical operations: static embedding models.
 
 We did [a proper deep dive on static models](/articles/embedding-at-the-speed-of-light/), but here's a quick recap: their weights encode a lookup table that associates an embedding with each token in their vocabulary, and inference consists of three steps:
 
@@ -55,7 +63,7 @@ But how do we get the model (and its [tokenizer](https://huggingface.co/docs/tra
 
 Rust is a great language [for embedded systems](https://rust-lang.org/what/embedded/), but there is one big catch on bare metal: there is no OS to provide the services the standard library relies on, so we can't use it. We call this [`no_std` Rust](https://docs.rust-embedded.org/book/intro/no-std.html): code that talks directly to the hardware and only relies on the types and functionality guaranteed by [`core`](https://doc.rust-lang.org/core/).
 
-This context matters for what we want to do. We can't use third-party dependencies that require the standard library (like `tokenizers`). We can't read files from anywhere either: there is no disk, and the filesystem API belongs to the standard library anyway. On top of that, we lose types like `Vec` and `HashMap`, which makes mapping tokens and storing the embedding lookup table trickier.
+This context matters for what we want to do. We can't use third-party dependencies that require the standard library (like `tokenizers`). We can't read files from anywhere either: there is no disk, and the filesystem API belongs to the standard library anyway. On top of that, we lose `HashMap`, which makes mapping tokens to IDs trickier.
 
 But there's a solution to everything, so let's tackle these problems one at a time.
 
@@ -176,7 +184,7 @@ pub fn get(&self, token: &str) -> Option<u32> {
 
 With the token lookup in place, it's just a matter of implementing the tokenization pipeline in [a little over 200 lines of code](https://github.com/qdrant-labs/static-models-bm/blob/e9b785734821a033aa4e64d69d3fe44f8a3c829a/src/tokenizer.rs#L72-L305): normalizing the text (removing control characters, stripping accents, handling Chinese characters, lowercasing), pre-tokenizing it (splitting on whitespace, with each punctuation mark becoming its own token), and finally applying WordPiece.
 
-A small note: if you look at the code, you'll notice we use `Vec`, even though we said it isn't available in `no_std` Rust. This works because we configure a global allocator from the [`esp-alloc`](https://docs.espressif.com/projects/rust/esp-alloc/0.11.0/esp_alloc/) crate, which handles the heap allocations an operating system would otherwise take care of (with some limitations).
+A small note: if you look at the code, you'll notice we use `Vec`, even though plain `no_std` Rust has no heap allocation. `Vec` doesn't come from `std` but from the `alloc` crate, which only needs a heap allocator to work. We get one from the [`esp-alloc`](https://docs.espressif.com/projects/rust/esp-alloc/0.11.0/esp_alloc/) crate, which handles the heap allocations an operating system would otherwise take care of (with some limitations). `HashMap`, on the other hand, is only part of `std`, which is why we built the vocabulary blob ourselves.
 
 ## Make It Run!
 
