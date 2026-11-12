@@ -1,0 +1,59 @@
+/* sparse-vectors mixture island. Colors come from shared --qi-* tokens, so the
+   figure follows the page theme. */
+
+.qi-mix {
+  display: block;
+}
+
+.qi-mix .qi-mix__label,
+.qi-mix .qi-mix__step {
+  font-family: var(--qi-mono);
+  font-size: 16px;
+  font-weight: 500;
+}
+.qi-mix .qi-mix__label {
+  text-anchor: end;
+}
+.qi-mix .qi-mix__label tspan {
+  text-anchor: end;
+}
+.qi-mix .qi-mix__step {
+  text-anchor: start;
+  fill: var(--qi-fg);
+}
+.qi-mix .qi-mix__label--dense,
+.qi-mix .qi-mix__dot--dense {
+  fill: var(--qi-cat-1);
+}
+.qi-mix .qi-mix__label--sparse,
+.qi-mix .qi-mix__dot--sparse {
+  fill: var(--qi-cat-3);
+}
+.qi-mix .qi-mix__label--mix {
+  fill: var(--qi-cat-2);
+}
+
+.qi-mix .qi-mix__axis {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+}
+.qi-mix .qi-mix__arrow {
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+.qi-mix .qi-mix__arrowhead {
+  fill: var(--qi-muted);
+}
+
+/* Narrow screens: the drawing scales down with the column, so raise the type
+   and use the full column to keep labels at or above 12px rendered. */
+@media (max-width: 760px) {
+  .island[data-island='content/documentation/headless/sparse-vectors/mixture'] .island__stage {
+    max-width: none !important;
+  }
+  .qi-mix .qi-mix__label,
+  .qi-mix .qi-mix__step {
+    font-size: 24px;
+  }
+}

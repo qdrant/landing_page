@@ -1,0 +1,92 @@
+/* merge-results island. Scoped under .qi-mr. Controls, labels and status come
+   from the shared island design system (islands.scss); this file only styles
+   the lanes, the points, and the merged result. New points are cyan, and
+   duplicates are dashed outlines. */
+
+.qi-mr {
+  --mr-new: var(--qi-cat-3);
+
+  display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+}
+
+.qi-mr .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+.qi-mr__svg {
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+.qi-mr__lane {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-mr__lane:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 2px;
+}
+.qi-mr__lane.is-dim,
+.qi-mr__slot.is-dim {
+  opacity: 0.35;
+}
+.qi-mr__label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.qi-mr__label--strong {
+  font-weight: 600;
+}
+.qi-mr__lane.is-active .qi-mr__label {
+  font-weight: 600;
+}
+
+.qi-mr__dot {
+  fill: var(--mr-new);
+  stroke: var(--mr-new);
+  stroke-width: 1.5;
+}
+.qi-mr__dot.is-dup {
+  fill: var(--qi-surface);
+  stroke: var(--qi-muted);
+  stroke-dasharray: 4 3;
+}
+.qi-mr__dot-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+.qi-mr__dot:not(.is-dup) + .qi-mr__dot-text {
+  fill: var(--qi-accent-ink);
+}
+.qi-mr__lane.is-active .qi-mr__dot {
+  stroke-width: 3;
+}
+
+.qi-mr__rule {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.qi-mr__slot {
+  transition: opacity 0.2s ease;
+}
+.qi-mr__slot-box {
+  fill: color-mix(in srgb, var(--mr-new) 18%, transparent);
+  stroke: var(--mr-new);
+  stroke-width: 1.5;
+}
+.qi-mr__slot.is-active .qi-mr__slot-box {
+  stroke-width: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-mr__lane,
+  .qi-mr__slot {
+    transition: none;
+  }
+}

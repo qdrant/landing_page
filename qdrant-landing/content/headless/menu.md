@@ -2,6 +2,9 @@
 logIn:
   text: Log in
   url: https://cloud.qdrant.io/login
+contactUs:
+  text: Contact Us
+  url: /contact-us/
 startFree:
   text: Start Free
   url: https://cloud.qdrant.io/signup
@@ -10,39 +13,43 @@ menuItems:
     name: Products
     mainMenuItems:
       - id: mainMenu-0-0
+        name: Deploy
         subMenuItems:
         - id: subMenu-0-0
           name: Qdrant Vector Search Engine
           icon: qdrant-vector-database.svg
           url: /qdrant-vector-database/
         - id: subMenu-0-1
-          name: Qdrant Cloud
+          name: Qdrant Managed Cloud
           icon: qdrant-cloud.svg
           url: /cloud/
         - id: subMenu-0-2
           name: Qdrant Hybrid Cloud
           icon: hybrid-cloud.svg
           url: /hybrid-cloud/
-        - id: subMenu-0-3
-          name: Qdrant Enterprise Solutions
-          icon: qdrant-enterprise-solutions.svg
-          url: /enterprise-solutions/
-        - id: subMenu-0-4
-          name: Qdrant Cloud Inference
-          icon: cloud-inference.svg
-          url: /cloud-inference/
         - id: subMenu-0-5
           name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
         - id: subMenu-0-6
-          name: Qdrant Serverless (Coming soon)
+          name: Qdrant Serverless (Waitlist)
           icon: serverless.svg
           url: /serverless/
 #       - id: subMenu-0-4
 #         name: Private Cloud
 #         icon: private-cloud.svg
 #         url: /private-cloud/
+      - id: mainMenu-0-1
+        name: What's New
+        subMenuItems:
+        - id: subMenu-0-7
+          name: Change Log
+          icon: changelog.svg
+          url: https://github.com/qdrant/qdrant/releases
+        - id: subMenu-0-8
+          name: Roadmap
+          icon: roadmap.svg
+          url: https://qdrant.to/roadmap
   - id: menu-1
     name: Solutions
     mainMenuItems:
@@ -99,95 +106,97 @@ menuItems:
             url: /healthcare/
   - id: menu-2
     name: Developers
-    mainMenuItems: 
+    mainMenuItems:
       - id: mainMenu-2-0
+        name: Build
         subMenuItems:
           - id: subMenu-2-0
             name: Documentation
             icon: documentation.svg
             url: /documentation/
           - id: subMenu-2-1
-            name: Community
-            icon: community.svg
-            url: /community/
+            name: API Reference
+            icon: code.svg
+            url: https://api.qdrant.tech/api-reference
           - id: subMenu-2-2
             name: GitHub
             icon: github.svg
             url: https://github.com/qdrant/qdrant
           - id: subMenu-2-3
-            name: Roadmap
-            icon: roadmap.svg
-            url: https://qdrant.to/roadmap
-          - id: subMenu-2-4
-            name: Change Log
-            icon: changelog.svg
-            url: https://github.com/qdrant/qdrant/releases
-          - id: subMenu-2-5
-            name: Certification
-            icon: certificate.svg
-            url: http://train.qdrant.dev/
-          - id: subMenu-2-6
-            name: Security
-            icon: security.svg
-            url: /security/
-  - id: menu-3
-    name: Resources
-    mainMenuItems:
-      - id: mainMenu-3-0 
-        subMenuItems:
-          - id: subMenu-3-0
-            name: Benchmarks
-            icon: benchmarks.svg
-            url: /benchmarks/
-          - id: subMenu-3-1
             name: Blog
             icon: blog.svg
             url: /blog/
-          - id: subMenu-3-2
-            name: Technical Articles
+      - id: mainMenu-2-1
+        name: Learn
+        subMenuItems:
+          - id: subMenu-2-4
+            name: Guides
+            icon: lightbulb.svg
+            url: /documentation/guides/
+          - id: subMenu-2-5
+            name: Articles
             icon: articles.svg
             url: /articles/
-          - id: subMenu-3-3
+          - id: subMenu-2-6
+            name: Courses
+            icon: certificate.svg
+            url: /course/
+          - id: subMenu-2-7
+            name: Tutorials
+            icon: demos.svg
+            url: /learn/examples/
+      - id: mainMenu-2-2
+        name: Join
+        subMenuItems:
+          - id: subMenu-2-8
+            name: Community
+            icon: community.svg
+            url: /community/
+          - id: subMenu-2-9
             name: Events
             icon: partners.svg
             url: /events/
-          - id: subMenu-3-4
-            name: Demos
-            icon: demos.svg
-            url: /demo/
-          - id: subMenu-3-5
+          - id: subMenu-2-10
+            name: Qdrant Stars
+            icon: qdrant-stars.svg
+            url: /stars/
+          - id: subMenu-2-11
             name: Startup Program
             icon: qdrant-for-startups.svg
             url: /qdrant-for-startups/
-          - id: subMenu-3-6
-            name: Bug Bounty Program
-            icon: bug-bounty-program.svg
-            url: /security/bug-bounty-program/
-  - id: menu-4
-    name: Company
+  - id: menu-3
+    name: Resources
     mainMenuItems:
-      - id: mainMenu-4-0
+      - id: mainMenu-3-0
+        name: Implement
         subMenuItems:
-          - id: subMenu-4-0
-            name: About us
-            icon: about-us.svg
-            url: /about-us/
-          - id: subMenu-4-1
-            name: Customers
-            icon: customers.svg
-            url: /customers/
-          - id: subMenu-4-2
+          - id: subMenu-3-0
             name: Partners
             icon: partners.svg
             url: /partners/
-          - id: subMenu-4-3
-            name: Careers
-            icon: careers.svg
-            url: https://qdrant.to/jobs
-          - id: subMenu-4-4
-            name: Contact us
-            icon: contact-us.svg
-            url: /contact-us/
+          - id: subMenu-3-1
+            name: Services
+            icon: qdrant-enterprise-solutions.svg
+            url: /services/
+          - id: subMenu-3-2
+            name: Migration
+            icon: migrate.svg
+            url: /documentation/migration-guidance/
+      - id: mainMenu-3-1
+        name: Trust
+        subMenuItems:
+          - id: subMenu-3-3
+            name: Security
+            icon: security.svg
+            url: /security/
+          - id: subMenu-3-4
+            name: Trust Center
+            icon: badge-check.svg
+            url: https://qdrant.to/trust-center
+          - id: subMenu-3-5
+            name: Bug Bounty
+            icon: bug-bounty-program.svg
+            url: /security/bug-bounty-program/
   - id: menu-5
     name: Pricing
     url: /pricing/

@@ -10,7 +10,7 @@ banner:
     text: Start Free
     url: https://cloud.qdrant.io/signup
   outlinedButton:
-    text: Talk to Engineering
+    text: Talk to the Team
     url: /contact-us/
 tabs:
   - id: 0

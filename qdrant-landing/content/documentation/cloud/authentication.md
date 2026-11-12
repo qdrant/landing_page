@@ -1,17 +1,23 @@
 ---
 title: Authentication
-short_description: "Create Qdrant Cloud Database API keys with granular access control, set expirations, and connect securely to your clusters."
-description: "Create Qdrant Cloud Database API keys with granular access control, configure expirations, and authenticate to your clusters with best-practice rotation."
+short_description: "Create Qdrant Cloud Database API keys with per-collection permissions, set expirations, rotate and revoke them, and tell them apart from Cloud Management Keys."
+description: "Create, scope, rotate, and revoke Qdrant Cloud Database API keys, authenticate with the api-key or Bearer header, and tell Database keys, Cloud Management Keys, and Console roles apart."
 weight: 10
 ---
 
 # Database Authentication in Qdrant Managed Cloud
 
-This page describes what Database API keys are and shows you how to use the Qdrant Cloud Console to create a Database API key for a cluster. You will learn how to connect to your cluster using the new API key.
+Qdrant Cloud uses three kinds of credentials. Each one protects a different surface:
 
-Database API keys can be configured with granular access control. Database API keys with granular access control can be recognized by starting with `eyJhb`. Please refer to the [Table of access](/documentation/security/#table-of-access) to understand what permissions you can configure.
+| Credential | Protects | Created in | Sent as |
+|---|---|---|---|
+| Database API key | A cluster's REST and gRPC APIs, plus its `/metrics` and `/sys_metrics` endpoints | **API Keys** on the Cluster Detail page | The `api-key` header, or `Authorization: Bearer <key>` |
+| Cloud Management Key | The [Cloud API](/documentation/cloud-api/), the [`qcloud` CLI](/documentation/cloud-cli/), and [Terraform](/documentation/cloud-tools/terraform/) | **Access Management** > **Cloud Management Keys** | `Authorization: apikey <key>` |
+| Console sign-in | The Cloud Console | Email, Google, GitHub, or [SSO](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso) | A session. What a user can do is set by [Cloud RBAC](/documentation/cloud-rbac/) |
 
-Database API keys with granular access control are available for clusters using version **v1.11.0** and above.
+These credentials are independent: a key from one does not grant access to the others. SSO covers Console sign-in only.
+
+This page covers Database API keys. Creating one needs the `write:api_keys` permission, and revoking one needs `delete:api_keys`. See the [permission reference](/documentation/cloud-rbac/permission-reference/#api-keys).
 
 ## Create Database API Keys
 
@@ -30,13 +36,52 @@ Database API keys with granular access control are available for clusters using 
 
 ![API Key](/documentation/cloud/api-key.png)
 
-We recommend configuring an expiration and rotating your API keys regularly as a security best practice.
+Database API keys with granular access control start with `eyJhb` and require cluster version **v1.11.0** or later. See the [Table of Access](/documentation/security/#table-of-access) for the actions each permission level allows.
 
-<aside role="alert">
-    A Database API key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted, so it can still be used to access the cluster after its creator no longer has access. Revoke any Database API Keys tied to a user before or when removing them from the account.
-</aside>
+A new key can take a few seconds to become active. If the first request returns `403`, retry. Once a key passes its expiration, requests with it also return `403`.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=OoyobgPTU-DHIhee" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Authenticate With a Key
+
+Include the key in every request, over REST or gRPC. Use the `api-key` header or the client's API key parameter:
+
+{{< code-snippet path="/documentation/headless/snippets/authentication/api-key/" >}}
+
+Alternatively, send the key as a Bearer token in the `Authorization` header:
+
+{{< code-snippet path="/documentation/headless/snippets/authentication/bearer/" >}}
+
+A successful request to the cluster root returns the server title, version, and commit:
+
+```json
+{"title":"qdrant - vector search engine","version":"<version>","commit":"<commit-hash>"}
+```
+
+For the endpoint format, ports, and node-specific endpoints, see [Connect to a Cluster](/documentation/cloud/cluster-access/). If a request fails with `401` or `403`, see [Troubleshooting](/documentation/common-errors/#unauthorized-and-forbidden-http-401-and-403).
+
+## Rotate and Revoke Keys
+
+Set an expiration on every key, and replace keys before they expire:
+
+1. Create a new key with the same permissions.
+2. Deploy the new key to your application.
+3. Revoke the old key.
+
+Use one key per application or environment, so that revoking one key interrupts only the application that uses it. Give each key the narrowest permission it needs: read-only for query-only services, and collection-restricted keys for tenants or teams.
+
+### When a User Leaves
+
+<aside role="alert">
+    A Database API key or Cloud Management Key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted.
+</aside>
+
+Before or when you [remove a user from an account](/documentation/cloud-rbac/user-management/#removing-a-user-from-an-account):
+
+1. Revoke every Database API key that the user created, in the **API Keys** section of each cluster.
+2. Revoke every Cloud Management Key that the user created, in **Access Management** > **Cloud Management Keys**.
+3. Replace the revoked keys in the applications that used them.
+4. Remove the user.
 
 ## Admin Database API Keys
 
@@ -49,98 +94,3 @@ The previous iteration of Database API keys, called Admin Database API keys, do 
 To enable Database API keys with granular access control, click **Enable** on the **API Keys** section of the Cluster detail page.
 
 After enabling Database API keys with granular access control for a cluster, existing Admin Database API keys will continue to work, but you will not be able to create new Admin Database API Keys.
-
-## Test Cluster Access
-
-After creation, you will receive a code snippet to access your cluster. Your generated request should look very similar to this one:
-
-```bash
-curl \
-  -X GET 'https://xyz-example.cloud-region.cloud-provider.cloud.qdrant.io:6333' \
-  --header 'api-key: <paste-your-api-key-here>'
-```
-Open Terminal and run the request. You should get a response that looks like this:
-
-```bash
-{"title":"qdrant - vector search engine","version":"1.13.0","commit":"ffda0b90c8c44fc43c99adab518b9787fe57bde6"}
-```
-
-> **Note:** You need to include the API key in the request header for every
-> request over REST or gRPC.
-
-## Authenticate via SDK
-
-Now that you have created your first cluster and key, you might want to access your database from within your application.
-Our [official Qdrant clients](/documentation/interfaces/) for Python, TypeScript, Go, Rust, .NET and Java all support the API key parameter. 
-
-```bash
-curl \
-  -X GET https://xyz-example.cloud-region.cloud-provider.cloud.qdrant.io:6333 \
-  --header 'api-key: <provide-your-own-key>'
-
-# Alternatively, you can use the `Authorization` header with the `Bearer` prefix
-curl \
-  -X GET https://xyz-example.cloud-region.cloud-provider.cloud.qdrant.io:6333 \
-  --header 'Authorization: Bearer <provide-your-own-key>'
-```
-
-```python
-from qdrant_client import QdrantClient
-
-qdrant_client = QdrantClient(
-    "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
-    api_key="<paste-your-api-key-here>",
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({
-  host: "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
-  apiKey: "<paste-your-api-key-here>",
-});
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("https://xyz-example.cloud-region.cloud-provider.cloud.qdrant.io:6334")
-    .api_key("<paste-your-api-key-here>")
-    .build()?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder(
-                "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
-                6334,
-                true)
-            .withApiKey("<paste-your-api-key-here>")
-            .build());
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient(
-  host: "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
-  https: true,
-  apiKey: "<paste-your-api-key-here>"
-);
-```
-
-```go
-import "github.com/qdrant/go-client/qdrant"
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host:   "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
-	Port:   6334,
-	APIKey: "<paste-your-api-key-here>",
-	UseTLS: true,
-})
-```

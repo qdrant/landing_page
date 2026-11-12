@@ -50,7 +50,7 @@ The decision came down to a combination of search quality, performance, and oper
 
 Qdrant’s hybrid search capabilities were a key factor. By supporting both dense vectors for semantic search and sparse vectors for keyword-based retrieval—combined using [Reciprocal Rank Fusion (RRF)](https://qdrant.tech/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the team could address both conceptual questions and exact-match queries in a single system. Named Vectors made it possible to manage multiple vector types within the same collection.
 
-Performance was another major consideration. Qdrant’s [Rust-based architecture](https://qdrant.tech/articles/why-rust/), efficient [HNSW implementation](https://qdrant.tech/course/essentials/day-2/what-is-hnsw/), and support for [scalar quantization (INT8)](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) provided low-latency search while optimizing memory usage. This was crucial for an internal service expected to scale over time.
+Performance was another major consideration. Qdrant’s [Rust-based architecture](/blog/why-rust/), efficient [HNSW implementation](https://qdrant.tech/course/essentials/day-2/what-is-hnsw/), and support for [scalar quantization (INT8)](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) provided low-latency search while optimizing memory usage. This was crucial for an internal service expected to scale over time.
 
 From an operational standpoint, Qdrant fit naturally into Kakao’s environment. Its single-binary design simplified deployment, it ran reliably on Kubernetes, and it allowed Kakao to retain full control over data by self-hosting within internal infrastructure.
 

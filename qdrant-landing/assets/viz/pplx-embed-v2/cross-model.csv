@@ -1,0 +1,10 @@
+dataset,setup,ndcg10
+Page images,0.6b index and queries,0.666
+Page images,9b index and 0.6b queries,0.670
+Page images,9b index and queries,0.681
+Page markdown,0.6b index and queries,0.653
+Page markdown,9b index and 0.6b queries,0.658
+Page markdown,9b index and queries,0.671
+FiQA (text),0.6b index and queries,0.522
+FiQA (text),9b index and 0.6b queries,0.588
+FiQA (text),9b index and queries,0.622

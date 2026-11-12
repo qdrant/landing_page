@@ -17,7 +17,7 @@ Because the shard owns the files in its directory, only one `EdgeShard` may be o
 
 ## Create a New Edge Shard
 
-Creates a new Edge Shard at `path` using the supplied configuration.
+Creates a new Edge Shard at `path` using the supplied configuration. Creates the shard directory if it does not exist.
 
 ```python
 @staticmethod
@@ -30,14 +30,14 @@ pub fn new(path: &Path, config: EdgeConfig) -> OperationResult<EdgeShard>
 
 | Parameter | Description |
 | --- | --- |
-| `path` | Path to the shard directory. Must not already contain segment data. |
+| `path` | Path to the shard directory. Created if missing. Must not already contain segment data. |
 | `config` | Configuration for the new shard. Required. |
 
 **Returns** a new `EdgeShard` instance.
 
 Creation fails if the shard's segments directory already contains any segment. To open a directory that already holds data, use [`load`](#load-an-existing-edge-shard) instead.
 
-The configuration is persisted to `edge_config.json` inside the shard directory, so a later `load` can recover it without you passing it again. Write-ahead log behavior follows `config.wal_options`, which defaults to 32 MiB segments when unset. Refer to [Custom WAL Size](/documentation/edge/edge-quickstart/#custom-wal-size).
+The configuration is persisted to `edge_config.json` inside the shard directory, so a later `load` can recover it without you passing it again. Write-ahead log behavior follows `config.wal_enabled`, which enables the log when unset, and `config.wal_options` (Rust only), which defaults to 32 MiB segments when unset. Refer to [WAL Options](/documentation/edge/edge-api/configuration/#wal-options) and [Custom WAL Size](/documentation/edge/edge-quickstart/#custom-wal-size).
 
 ## Load an Existing Edge Shard
 

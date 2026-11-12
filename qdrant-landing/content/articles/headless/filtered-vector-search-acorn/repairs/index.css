@@ -1,0 +1,65 @@
+/* repairs island. Scoped under .ac-rp. Red: points matching the filter, grey:
+   filtered out, purple: extra HNSW edges, blue: the search path. */
+.ac-rp {
+  --ac-match: #dc244c;
+  --ac-extra: #8547ff;
+  --ac-path: #2f6ff0;
+  display: block;
+}
+.ac-rp__edge {
+  stroke: var(--qi-line);
+  stroke-width: 1.8;
+  opacity: 0.8;
+}
+.ac-rp__extra {
+  fill: none;
+  stroke: var(--ac-extra);
+  stroke-width: 3;
+}
+.ac-rp__path {
+  fill: none;
+  stroke: var(--ac-path);
+  stroke-width: 2.6;
+  stroke-dasharray: 6 4;
+}
+.ac-rp__marker {
+  fill: var(--ac-path);
+}
+.ac-rp__x {
+  fill: none;
+  stroke: #e02828;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+.ac-rp__through {
+  fill: none;
+  stroke: var(--ac-path);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+.ac-rp__node.is-match {
+  fill: var(--ac-match);
+  stroke: #91012a;
+  stroke-width: 1.5;
+}
+.ac-rp__node.is-out {
+  fill: var(--qi-line);
+  fill-opacity: 0.45;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.ac-rp__entry {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.ac-rp .qi-label {
+  font-size: 13px;
+}
+.ac-rp.ac-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}
+.ac-rp .qi-label.ac-rp__leg {
+  font-size: 11px;
+}

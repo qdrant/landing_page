@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  {{- partial "common/head.html" . -}}
+  <body>
+    <main>
+      <header class="site-header">
+        {{ with (.Site.GetPage "/headless/menu") }}
+          <div class="main-menu z-2">
+            <a href="/">
+              {{ partial "common/logo.html" . }}
+            </a>
+
+            <div class="d-flex d-xl-none justify-content-end align-items-center gap-4">
+              <button type="button" class="main-menu__trigger">{{ partial "common/svg" "hamburger-menu-white.svg" }}</button>
+            </div>
+
+            <div class="main-menu__buttons">
+              <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
+              <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">{{ .Params.startFree.text }}</a>
+            </div>
+          </div>
+        {{ end }}
+
+        {{ with (.Site.GetPage "/headless/menu") }}
+          <div class="menu-mobile">
+            <div class="menu-mobile__header">
+              {{ partial "marketing/logo-dark.html" . }}
+              <button type="button" class="menu-mobile__close">{{ partial "common/svg" "close.svg" }}</button>
+            </div>
+
+            <div class="menu-mobile__controls">
+              <a data-metric-loc="mobile_nav" href="{{ .Params.logIn.url }}" class="button button_outlined button_lg menu-mobile__login"
+              >{{ .Params.logIn.text }}</a
+              >
+              <a data-metric-loc="mobile_nav" href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
+            </div>
+          </div>
+        {{ end }}
+      </header>
+
+      {{ partial "marketing/rag-evaluation-guide-hero" . }}
+      {{ partial "marketing/rag-evaluation-guide-form" . }}
+      {{ partial "marketing/rag-evaluation-guide-about" . }}
+      {{ partial "marketing/rag-evaluation-guide-integrations" . }}
+      {{ partial "marketing/rag-evaluation-guide-kubernetes-clusters" . }}
+      {{ partial "marketing/rag-evaluation-guide-features" . }}
+      {{ partial "marketing/customer-list" . }}
+    </main>
+
+    {{ with (.Site.GetPage "/headless/footer") }}
+      <footer class="footer">
+        <div class="footer__top container">
+          <a href="/" title="Go to Home Page">
+            <img class="footer__top-logo" src="/img/logo-white.png" alt="Qdrant Logo" />
+          </a>
+        </div>
+
+        <div class="footer__bottom container">
+          <div class="footer__bottom-content">
+            <span>&copy; {{ time.Now.Year }} {{ .Params.copyright }}</span>
+            {{ partial "common/footer-bottom-links.html" (dict "footer" .) }}
+          </div>
+        </div>
+      </footer>
+    {{ end }}
+  </body>
+  {{ partial "common/js.html" . }}
+</html>
+
+

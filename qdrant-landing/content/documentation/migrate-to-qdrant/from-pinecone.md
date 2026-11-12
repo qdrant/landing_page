@@ -21,7 +21,7 @@ partition: ecosystem
 | Pinecone | Qdrant | Notes |
 | :--- | :--- | :--- |
 | Index | Collection | One-to-one mapping |
-| Namespace | Payload field or separate collection | No direct equivalent — the tool migrates all namespaces. Use `--pinecone.namespace` to migrate a specific one |
+| Namespace | Collection | One namespace per run. Select it with `--pinecone.namespace` |
 | Metadata | Payload | Direct mapping |
 | Sparse values | Sparse vectors | Mapped to `sparse_vector` named vector by default |
 | `cosine` | `Cosine` | Direct mapping |
@@ -72,9 +72,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Score scaling:** Pinecone cosine similarity returns values in [0, 1] (rescaled). Qdrant returns [-1, 1]. Rankings are identical, but raw scores won't match.
-- **Metadata size limits:** Pinecone limits metadata to 40KB per vector. Qdrant has no per-payload size limit, so data is preserved as-is.
-- **Namespace strategy:** If you have multiple namespaces, decide upfront whether to merge them into a single Qdrant collection (using a `namespace` payload field for filtering) or create separate collections.
+- **Namespaces:** Each run migrates one namespace, the default one unless you set `--pinecone.namespace`. Point IDs do not include the namespace, so migrate namespaces with overlapping IDs into separate collections.
 
 ## Next Steps
 

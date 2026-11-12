@@ -1,0 +1,1 @@
+Runs a BM25 text query for "time travel" on the `title` field, filtered to one tenant and year, while computing the BM25 statistics over all of that tenant's data with the `idf` parameter.

@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-semantic-cloud-inference {
+  @include lp-semantic-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-semantic-header('lp-semantic-cloud-inference', true, true);
+  @include lp-semantic-cell('lp-semantic-cloud-inference');
+  @include lp-semantic-single('lp-semantic-cloud-inference');
+  @include lp-semantic-callout('lp-semantic-cloud-inference', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}
+
+.lp-semantic-cloud-inference__header { display: block; text-align: left; }
+.lp-semantic-cloud-inference__heading, .lp-semantic-cloud-inference__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-semantic-cloud-inference__description { margin-top: $spacer; }

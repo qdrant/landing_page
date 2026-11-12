@@ -1,0 +1,237 @@
+/* acorn island. Scoped under .qi-ac. Chips, hints, labels and the status line
+   come from the shared island design system (islands.scss); this file only
+   styles the graph, the traversal arrows, the checkbox and the legend.
+   Traversal colors follow the diagram component families (orange, red, teal)
+   and are constant across themes. */
+
+.qi-ac {
+  --ac-orange: #ff9800; /* orange-500 */
+  --ac-orange-soft: #ffb74d; /* orange-300 */
+  --ac-red: #dc244c; /* amaranth-500 */
+  --ac-teal: #009688; /* teal-500 */
+  /* Regular vectors are black, filtered-out vectors grey. On the dark theme,
+     regular vectors flip to light so they stay visible. */
+  --ac-ok: #111824; /* neutral-900 */
+  --ac-filtered: #898ea3; /* neutral-500 */
+  --ac-filtered-edge: #abb1c7; /* neutral-400 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-ac {
+    --ac-ok: var(--qi-fg);
+    --ac-filtered: #656b7f; /* neutral-600 */
+    --ac-filtered-edge: #4e5366; /* neutral-700 */
+  }
+}
+html[data-theme='dark'] .qi-ac {
+  --ac-ok: var(--qi-fg);
+  --ac-filtered: #656b7f; /* neutral-600 */
+  --ac-filtered-edge: #4e5366; /* neutral-700 */
+}
+/* Blog posts are light-only (see islands.scss), whatever the theme. */
+html .qdrant-blog-post .qi-ac {
+  --ac-ok: #111824; /* neutral-900 */
+  --ac-filtered: #898ea3; /* neutral-500 */
+  --ac-filtered-edge: #abb1c7; /* neutral-400 */
+}
+
+/* All text uses the regular-vector color, which is darker than the shared
+   --qi-fg and --qi-muted on the light theme. */
+.qi-ac .qi-chip,
+.qi-ac .qi-ac__status {
+  color: var(--ac-ok);
+}
+
+/* ACORN checkbox: a chip wrapping a native checkbox. */
+.qi-ac__opt:has(.qi-ac__check:checked) {
+  color: var(--qi-fg);
+  border-color: var(--qi-fg);
+  background: var(--qi-surface);
+}
+.qi-ac__opt:has(.qi-ac__check:focus-visible) {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 1px;
+}
+.qi-ac__check {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  border: 1.5px solid var(--qi-line);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.qi-ac__check:checked {
+  border-color: var(--qi-fg);
+  background: var(--qi-fg);
+}
+.qi-ac__check:checked::after {
+  content: '';
+  position: absolute;
+  left: 3.5px;
+  top: 0.5px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--qi-surface);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* --- Graph --- drawn at its natural size and centered, so the controls,
+   legend and status line keep the full island width. */
+.qi-ac__svg {
+  max-width: 280px;
+  margin-inline: auto;
+}
+.qi-ac__area {
+  fill: var(--ac-teal);
+  fill-opacity: 0.12;
+}
+.qi-ac__edge {
+  stroke: var(--ac-ok);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  transition: stroke 0.2s ease;
+}
+.qi-ac__edge--filtered {
+  stroke: var(--ac-filtered-edge);
+}
+/* A link the search cannot follow, because it leads to a filtered-out vector. */
+.qi-ac__edge.is-blocked {
+  stroke: var(--ac-red);
+}
+
+.qi-ac__query {
+  fill: var(--ac-ok);
+}
+.qi-ac__query-ring {
+  fill: none;
+  stroke: var(--ac-teal);
+  stroke-width: 2;
+}
+.qi-ac__entry-ring {
+  fill: none;
+  stroke: var(--ac-orange);
+  stroke-width: 2;
+}
+.qi-ac__entry-label {
+  fill: var(--ac-ok);
+  font-size: 13px;
+}
+
+.qi-ac__dot {
+  transition: fill 0.3s ease;
+}
+.qi-ac__node--ok .qi-ac__dot {
+  fill: var(--ac-ok);
+}
+.qi-ac__node--filtered .qi-ac__dot {
+  fill: var(--ac-filtered);
+}
+.qi-ac__node.is-visited .qi-ac__dot {
+  fill: var(--ac-orange);
+}
+.qi-ac__node.is-best .qi-ac__dot {
+  fill: var(--ac-teal);
+}
+.qi-ac__node.is-stuck .qi-ac__dot {
+  fill: var(--ac-red);
+}
+
+/* Halo around the node being expanded, and around the final result. */
+.qi-ac__halo {
+  fill: var(--ac-orange-soft);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-ac__node.is-current .qi-ac__halo {
+  opacity: 0.45;
+}
+.qi-ac__node.is-best .qi-ac__halo {
+  fill: var(--ac-teal);
+  opacity: 0.3;
+}
+.qi-ac__node.is-stuck .qi-ac__halo {
+  fill: var(--ac-red);
+  opacity: 0.25;
+}
+
+/* Traversal arrows draw in along their length (pathLength = 1). */
+.qi-ac__arrow {
+  fill: none;
+  stroke: var(--ac-orange);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.5s ease;
+}
+.qi-ac__arrow.is-drawing {
+  stroke-dashoffset: 1;
+  transition: none;
+}
+.qi-ac__arrow--hop {
+  stroke: var(--ac-red);
+}
+.qi-ac__head {
+  fill: var(--ac-orange);
+}
+.qi-ac__head--hop {
+  fill: var(--ac-red);
+}
+
+/* --- Legend --- scoped under .qi-ac to outrank the docs list styles. */
+.qi-ac .qi-ac__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-ac .qi-ac__legend li {
+  color: var(--ac-ok);
+  font-size: 12px;
+  line-height: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+.qi-ac .qi-ac__legend li[hidden] {
+  display: none;
+}
+.qi-ac__legend svg {
+  flex: none;
+}
+.qi-ac__legend-dot--ok {
+  fill: var(--ac-ok);
+}
+.qi-ac__legend-dot--filtered {
+  fill: var(--ac-filtered);
+}
+.qi-ac__legend-dot--visited {
+  fill: var(--ac-orange);
+}
+.qi-ac__legend-hop {
+  stroke: var(--ac-red);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-ac__edge,
+  .qi-ac__dot,
+  .qi-ac__halo,
+  .qi-ac__arrow,
+  .qi-ac__check {
+    transition: none;
+  }
+}

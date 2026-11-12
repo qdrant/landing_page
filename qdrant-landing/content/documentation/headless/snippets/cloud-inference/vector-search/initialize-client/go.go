@@ -10,6 +10,6 @@ func Main() {
 		UseTLS: true,
 	})
 
-	if err != nil { panic(err) } // @hide
+	if err != nil { panic(err) }
 	_ = client // @hide
 }

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" role="img" aria-labelledby="title desc"><title id="title">C-DSSM representation architecture</title><desc id="desc">Query and document each pass through tri-letter word hashing, sliding windows, convolution, dimension-wise max pooling, and a fully connected semantic layer. Cosine compares their representations. Adapted from Shen et al., 2014.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs><rect width="760" height="580" rx="8" fill="#f0f3fa"/>
+<text x="185" y="422" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Query</text>
+<rect x="20" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="55.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">&lt;s&gt;</text>
+<rect x="20" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="55.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M55 350L55 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="98" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="133.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">word1</text>
+<rect x="98" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="133.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M133 350L133 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="176" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="211.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">word2</text>
+<rect x="176" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="211.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M211 350L211 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="254" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="289.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">word3</text>
+<rect x="254" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="289.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M289 350L289 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="240" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="67.5" y="262.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">3d</text>
+<path d="M55 300L67 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M133 300L67 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M211 300L67 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="180" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="67.5" y="202.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M67 240L67 214" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M67 180L170 144" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="123" y="240" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="170.5" y="262.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">3d</text>
+<path d="M133 300L170 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M211 300L170 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M289 300L170 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="123" y="180" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="170.5" y="202.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M170 240L170 214" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M170 180L170 144" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="226" y="240" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="273.5" y="262.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">3d</text>
+<path d="M211 300L273 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M289 300L273 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="226" y="180" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="273.5" y="202.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M273 240L273 214" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M273 180L170 144" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="130" y="110" width="80" height="34" rx="6" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<text x="170.0" y="132.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M170 110L170 94" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="130" y="60" width="80" height="34" rx="6" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<text x="170.0" y="82.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">FC</text>
+<path d="M170 60L380 40" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="575" y="422" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Document</text>
+<rect x="410" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="445.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">&lt;s&gt;</text>
+<rect x="410" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="445.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M445 350L445 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="488" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="523.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">word1</text>
+<rect x="488" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="523.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M523 350L523 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="566" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="601.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">word2</text>
+<rect x="566" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="601.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M601 350L601 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="644" y="350" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="679.0" y="372.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">word3</text>
+<rect x="644" y="300" width="70" height="34" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="679.0" y="322.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d</text>
+<path d="M679 350L679 334" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="410" y="240" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="457.5" y="262.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">3d</text>
+<path d="M445 300L457 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M523 300L457 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M601 300L457 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="410" y="180" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="457.5" y="202.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M457 240L457 214" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M457 180L560 144" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="513" y="240" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="560.5" y="262.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">3d</text>
+<path d="M523 300L560 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M601 300L560 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M679 300L560 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="513" y="180" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="560.5" y="202.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M560 240L560 214" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M560 180L560 144" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="616" y="240" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="663.5" y="262.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">3d</text>
+<path d="M601 300L663 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M679 300L663 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="616" y="180" width="95" height="34" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="663.5" y="202.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M663 240L663 214" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M663 180L560 144" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="520" y="110" width="80" height="34" rx="6" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<text x="560.0" y="132.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">m</text>
+<path d="M560 110L560 94" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="520" y="60" width="80" height="34" rx="6" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<text x="560.0" y="82.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">FC</text>
+<path d="M560 60L380 40" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="330" y="8" width="100" height="34" rx="6" fill="#ffffff" stroke="#dc244c" stroke-width="2"/>
+<text x="380.0" y="30.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">cosine</text>
+<text x="380" y="462" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">d: tri-letter hashing; 3d: sliding windows</text>
+<text x="380" y="490" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">lower m: convolution; upper m: dimension-wise max-pooling</text>
+<text x="380" y="518" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">FC: fully connected semantic layer</text>
+<text x="380" y="550" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Rows show part of each sequence; ellipses mark continuation.</text>
+<text x="338" y="326" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">...</text>
+<text x="338" y="383" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">...</text>
+<path d="M338 300L273 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="728" y="326" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">...</text>
+<text x="728" y="383" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">...</text>
+<path d="M728 300L663 274" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

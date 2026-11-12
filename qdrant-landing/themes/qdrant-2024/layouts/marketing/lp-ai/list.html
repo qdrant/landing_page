@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-ai/hero" . }}
+
+  {{ partial "marketing/lp-ai/ai-system-design" . }}
+
+  {{ partial "marketing/lp-ai/workflow-orchestration" . }}
+
+  {{ partial "marketing/lp-ai/deployment" . }}
+
+  {{ partial "marketing/lp-ai/build-ai-applications" . }}
+
+  {{ partial "marketing/lp-ai/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-ai/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

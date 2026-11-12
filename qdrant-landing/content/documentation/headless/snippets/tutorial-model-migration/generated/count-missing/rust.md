@@ -1,0 +1,9 @@
+```rust
+client
+    .count(
+        CountPointsBuilder::new(collection)
+            .filter(Filter::must_not([Condition::has_vector(new_vector)]))
+            .exact(true),
+    )
+    .await?;
+```

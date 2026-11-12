@@ -99,10 +99,8 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Source and target must differ:** You cannot migrate a collection to itself.
-- **Parallel workers and resume:** Migration progress is tracked per worker. If you change `--migration.num-workers` between runs, the saved offsets are invalidated and the migration restarts from scratch. Use `--migration.restart` explicitly if you intentionally want to change the worker count.
+- **Parallel workers and resume:** Changing `--migration.num-workers` between runs starts the migration over instead of resuming it.
 - **Large messages:** If you encounter gRPC message size errors, increase `--source.max-message-size`.
-- **Existing target collection:** If the target collection already exists, the tool uses it as-is without modifying the schema.
 
 ## Next Steps
 

@@ -3,7 +3,10 @@ languageCode = "en-us"
 title = "Qdrant - Vector Search Engine"
 theme = "qdrant-2024"
 
-enableRobotsTXT = true
+# Off so static/robots.txt is served. With it on, Hugo's generated robots.txt
+# and the static one race for the same output path, and production served the
+# generated one, which has no Sitemap line.
+enableRobotsTXT = false
 canonifyURLs = true
 
 keywords = "search engine, vector database, neural network, matching, filter, SaaS, approximate nearest neighbor search, image search, recommender system, vectors, knn algorithm, hnsw, vector search, embeddings, similarity"
@@ -126,10 +129,30 @@ disableKinds = ["taxonomy", "term"]
   isHTML = false
   notAlternative = true
 
+# Machine-readable index of the documentation, articles, blog, and course at
+# /docs-manifest.json, read by the docs MCP server at search.qdrant.tech/mcp.
+[outputFormats.DocsManifest]
+  mediaType = "application/json"
+  baseName = "docs-manifest"
+  isPlainText = true
+  isHTML = false
+  notAlternative = true
+
+# public/_headers for Netlify, from layouts/index.netlifyheaders. The name sorts
+# after Markdown, which Hugo renders first: see the template.
+[mediaTypes."text/netlify"]
+  delimiter = ""
+
+[outputFormats.NetlifyHeaders]
+  mediaType = "text/netlify"
+  baseName = "_headers"
+  isPlainText = true
+  notAlternative = true
+
 [outputs]
   page = ["HTML", "Markdown"]
   section = ["HTML", "RSS", "Markdown"]
-  home = ["HTML", "RSS", "LLMs"]
+  home = ["HTML", "RSS", "LLMs", "DocsManifest", "NetlifyHeaders"]
 
 [services]
   [services.googleAnalytics]

@@ -15,6 +15,6 @@
     {{ end }}
   </div>
   {{ if gt $paginator.TotalPages 1 }}
-    <div class="docs-articles__pagination">{{ partial "pagination" $paginator }}</div>
+    <div class="docs-articles__pagination">{{ partial "common/pagination" $paginator }}</div>
   {{ end }}
 </div>

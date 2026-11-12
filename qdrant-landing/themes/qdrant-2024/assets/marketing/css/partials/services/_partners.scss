@@ -1,0 +1,49 @@
+@use '../../helpers/functions' as *;
+
+// Logo strip under the hero. Sits on the hero's dark background because
+// most partner logos are supplied as light-on-dark versions.
+.services-partners {
+  padding-top: $spacer * 2;
+  padding-bottom: $spacer * 3;
+  background-color: $neutral-10;
+
+  &__title {
+    margin-bottom: $spacer * 2;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    font-weight: $font-weight-semibold;
+    color: $neutral-80;
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer * 2 $spacer * 3;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer * 0.5;
+    width: pxToRem(140);
+  }
+
+  &__logo {
+    height: pxToRem(48);
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    line-height: $spacer * 1.25;
+    color: $neutral-60;
+    text-align: center;
+  }
+}

@@ -1,0 +1,15 @@
+{{ with (.Site.GetPage "/services/partners") }}
+  <section class="services-partners">
+    <div class="container">
+      <h2 class="services-partners__title">{{ .Params.title }}</h2>
+      <ul class="services-partners__list">
+        {{ range .Params.partners }}
+          <li class="services-partners__item">
+            <img class="services-partners__logo" src="{{ .logo }}" alt="{{ .name }} logo" loading="lazy" draggable="false" />
+            <span class="services-partners__name">{{ .name }}</span>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  </section>
+{{ end }}

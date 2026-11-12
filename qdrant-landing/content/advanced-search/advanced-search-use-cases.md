@@ -23,11 +23,11 @@ features:
   image:
     src: /img/advanced-search-use-cases/simple-neural-search.svg
     alt: Simple Neural Search
-  title: Create a Simple Neural Search Service
+  title: Build a Semantic Search API
   description: This tutorial shows you how to build and deploy your own neural search service.
   link:
     text: View Tutorial
-    url: /documentation/beginner-tutorials/neural-search/
+    url: /documentation/tutorials-develop/neural-search/
 - id: 3
   image:
     src: /img/advanced-search-use-cases/image-classification.svg

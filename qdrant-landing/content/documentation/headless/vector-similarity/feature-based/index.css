@@ -1,0 +1,58 @@
+.qi-feature {
+  display: block;
+}
+
+.qi-feature .qi-feature__svg .qi-label {
+  fill: var(--qi-fg);
+  font-size: 20px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.qi-feature__axis {
+  stroke: var(--qi-line);
+  stroke-width: 2;
+}
+
+.qi-feature__bar--query,
+.qi-feature__bar--legend-query {
+  fill: var(--qi-cat-1);
+}
+
+.qi-feature__bar--positive {
+  fill: none;
+  stroke: var(--qi-cat-3);
+  stroke-dasharray: 5 4;
+  stroke-width: 3;
+}
+
+.qi-feature__bar--negative {
+  fill: none;
+  stroke: var(--qi-cat-4);
+  stroke-dasharray: 5 4;
+  stroke-width: 3;
+}
+
+.qi-feature__bar--legend-positive {
+  fill: none;
+  stroke: var(--qi-cat-3);
+  stroke-dasharray: 4 3;
+  stroke-width: 2;
+}
+
+.qi-feature__bar--legend-negative {
+  fill: none;
+  stroke: var(--qi-cat-4);
+  stroke-dasharray: 4 3;
+  stroke-width: 2;
+}
+
+.qi-feature .qi-feature__svg .qi-feature__legend-label {
+  text-anchor: start;
+}
+
+@media (max-width: 560px) {
+  .qi-feature .qi-feature__svg .qi-label {
+    font-size: 14px;
+  }
+}

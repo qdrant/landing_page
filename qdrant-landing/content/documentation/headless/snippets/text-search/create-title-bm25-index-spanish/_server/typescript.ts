@@ -1,0 +1,16 @@
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
+
+client.createPayloadIndex("books", {
+  field_name: "title",
+  field_schema: {
+    type: "text",
+    stemmer: {
+      type: "snowball",
+      language: "spanish",
+    },
+    stopwords: "spanish",
+    scoring: true,
+  },
+});

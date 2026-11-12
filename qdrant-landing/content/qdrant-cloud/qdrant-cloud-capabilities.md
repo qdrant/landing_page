@@ -180,7 +180,7 @@ tabs:
           src: /icons/outline/waypoints-turquoise.svg
           alt: Waypoints
         title: Private VPC Links
-        description: Traffic stays on private networks. AWS PrivateLink and GCP Private Service Connect.
+        description: On Premium, traffic stays on private networks over AWS PrivateLink, GCP Private Service Connect, or Azure Private Link.
         link: /documentation/cloud-premium/
       - id: 4
         icon:
@@ -194,7 +194,7 @@ tabs:
           src: /icons/outline/key-round-turquoise.svg
           alt: Key
         title: Single Sign-On (SSO)
-        description: Manage Cloud access through your existing identity provider. SAML 2.0 with Okta, Azure AD, Google and others.
+        description: On Premium, manage Cloud Console sign-in through your identity provider. SAML or OpenID Connect with Okta, Azure AD, Google Workspace, and others.
         link: /documentation/cloud-rbac/user-management/
   - id: 4
     tab: Monitoring and Recovery
@@ -207,7 +207,7 @@ tabs:
           alt: Activity
         title: Prometheus Metrics
         description: OpenMetrics-compatible /metrics and /sys_metrics endpoints on every cluster.
-        link: /documentation/ops-monitoring/managed-cloud-prometheus/
+        link: /documentation/cloud/cluster-monitoring-prometheus/
       - id: 1
         icon:
           src: /icons/outline/chart-line-burgundy.svg

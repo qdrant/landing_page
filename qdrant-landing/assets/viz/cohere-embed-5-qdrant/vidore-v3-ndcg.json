@@ -1,0 +1,29 @@
+{
+  "title": "Visual PDF Retrieval on ViDoRe V3",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "width": 520,
+  "height": 360,
+  "labelTop": "Model",
+  "labelBottom": "Representation",
+  "colors": [
+    1,
+    0,
+    1,
+    1,
+    0,
+    1
+  ],
+  "panels": [
+    {
+      "title": "One Vector per Page in the Top Group",
+      "subtitle": "Mean over 5 public English corpora \u00b7 Higher is better",
+      "y": "Mean nDCG@10",
+      "yMax": 70,
+      "axis": "nDCG@10"
+    }
+  ],
+  "tooltip": {
+    "Mean nDCG@10": "Mean nDCG@10"
+  }
+}

@@ -1,0 +1,19 @@
+{{- $faq := .Site.GetPage (printf "/%s/faq" .Section) -}}
+{{- if not $faq -}}{{- errorf "faq-schema.json: no FAQ page found at /%s/faq" .Section -}}{{- end -}}
+{
+  "@type": "FAQPage",
+  "@id": "{{- .Permalink -}}#faq",
+  "mainEntity": [
+    {{- range $i, $q := $faq.Params.questions -}}
+    {{- if $i -}},{{- end }}
+    {
+      "@type": "Question",
+      "name": {{ $q.question | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ $q.answer | jsonify }}
+      }
+    }
+    {{- end }}
+  ]
+}

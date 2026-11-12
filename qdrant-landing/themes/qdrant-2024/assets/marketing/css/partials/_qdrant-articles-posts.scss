@@ -1,0 +1,19 @@
+@use '../helpers/functions' as *;
+
+.qdrant-articles-posts {
+  padding-bottom: $spacer * 2.5;
+  padding-top: $spacer * 4;
+  background-color: $neutral-98;
+
+  &__articles {
+    margin-bottom: $spacer * 5;
+  }
+
+  .post-preview {
+    padding-bottom: 27.36%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+  }
+}

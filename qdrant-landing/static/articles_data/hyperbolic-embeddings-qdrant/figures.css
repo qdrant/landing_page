@@ -1,0 +1,28 @@
+.article-figure {
+  margin: 1.5rem 0;
+  max-width: 640px;
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.article-figure .article-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .article-figure img:not(.article-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .article-figure .article-figure__dark {
+  display: block;
+}
+
+.article-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

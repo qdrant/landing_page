@@ -1,0 +1,37 @@
+/* query-planner island. Scoped under .qi-qp. Boxes use the shared .qi-frame
+   (surface fill, border stroke), text uses .qi-label, and connectors use
+   .qi-axis, so the flow follows the page theme like the CTO-validated
+   islands. ACORN, the opt-in, is the one accent. */
+
+.qi-qp {
+  display: block;
+  /* Switch drawings on this figure's own width, not the viewport. */
+  container-type: inline-size;
+  container-name: qi-qp;
+}
+.qi-qp__svg--narrow {
+  display: none;
+}
+/* Below ~560px the wide drawing shrinks its labels to about 6px. Swap to the
+   compact drawing, like the repairs island does on phones. */
+@container qi-qp (max-width: 560px) {
+  .qi-qp__svg--wide {
+    display: none;
+  }
+  .qi-qp__svg--narrow {
+    display: block;
+  }
+}
+
+.qi-qp__wire {
+  fill: none;
+}
+.qi-qp__head {
+  fill: var(--qi-line);
+}
+.qi-qp__tag {
+  font-size: 12px;
+}
+.qi-qp__tag--acorn {
+  fill: var(--qi-accent);
+}

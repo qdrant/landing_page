@@ -1,357 +1,212 @@
 ---
 title: Discord RAG Bot
-short_description: "Build an agentic RAG Discord bot powered by Qdrant vector search, CAMEL-AI agents, and OpenAI embeddings for context-aware answers."
-description: "Tutorial: build an agentic RAG Discord bot that uses Qdrant for vector retrieval, CAMEL-AI agents for reasoning, and OpenAI embeddings for context-aware replies."
+short_description: "Build a Discord bot that answers questions from Qdrant documentation using vector search and CAMEL-AI."
+description: "Build a Discord RAG bot with Qdrant, CAMEL-AI, and OpenAI. Retrieve documentation chunks and use them to answer questions."
 weight: 20
-#partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 aliases:
   - /documentation/agentic-rag-camelai-discord/
 goal: RAG & Agents
 stack:
   - Python
+  - Qdrant
   - CAMEL-AI
+  - OpenAI
+  - discord.py
 example_resources:
-  - label: Open Notebook
-    url: https://colab.research.google.com/drive/1Ymqzm6ySoyVOekY7fteQBCFCXYiYyHxw#scrollTo=QQZXwzqmNfaS
+  - label: Open in Colab
+    url: https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb
+  - label: Notebook Source
+    url: https://github.com/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb
 ---
 
-<!--  ![agentic-rag-camelai-astronaut](/documentation/examples/agentic-rag-camelai-discord/astronaut-main.png) -->
+# Discord RAG Bot
 
-# Qdrant Agentic RAG Discord Bot with CAMEL-AI and OpenAI
+| Time: 45 min | Level: Intermediate | Stack: Python, Qdrant, CAMEL-AI, OpenAI, discord.py | Output: [GitHub](https://github.com/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb) |
+| --- | ----------- | ----------- | ----------- | ----------- |
 
-| Time: 45 min | Level: Intermediate | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Ymqzm6ySoyVOekY7fteQBCFCXYiYyHxw#scrollTo=QQZXwzqmNfaS) |
-| --- | ----------- | ----------- |----------- |
+Build a Discord bot that answers questions from Qdrant documentation using retrieval-augmented generation (RAG). Qdrant is the vector search engine that stores document chunks and their embeddings. [CAMEL-AI](https://www.camel-ai.org/) connects retrieval to an [OpenAI](https://openai.com/) model that drafts the answer.
 
+The application controls the sequence. Each `!ask` question triggers one retrieval, followed by one generation call when usable context is found. The model receives the original question and retrieved text. It has no retrieval tools and does not decide whether to search again.
 
+By the end, you can ask `!ask What is quantization in Qdrant?`, inspect the source chunks, and check whether the answer is supported by them.
 
+![Discord bot answers a scalar-quantization question and links to Qdrant documentation](/documentation/tutorials/agentic-rag-camelai-discord/ragbot.png)
 
-Unlike traditional RAG techniques, which passively retrieve context and generate responses, **agentic RAG** involves active decision-making and multi-step reasoning by the chatbot. Instead of just fetching data, the chatbot makes decisions, dynamically interacts with various data sources, and adapts based on context, giving it a much more dynamic and intelligent approach.
+## Prerequisites
 
-In this tutorial, we’ll develop a fully functional chatbot using Qdrant, [CAMEL-AI](https://www.camel-ai.org/), and [OpenAI](https://openai.com/).
+You need Python 3.12, familiarity with Python functions and `async`/`await`, and:
 
-Let’s get started!
+- An [OpenAI API key](https://platform.openai.com/api-keys) with access to `text-embedding-3-large` and `gpt-4o-mini`. Ingestion and questions make billable API calls.
+- A [Qdrant Cloud cluster](https://cloud.qdrant.io/) with its HTTPS endpoint and a key that can create and read the tutorial collection.
+- A Discord test server where you can install a bot, plus access to the [Discord Developer Portal](https://discord.com/developers/applications).
 
----
+Use a dedicated collection for this tutorial. Run the bot as a persistent process when you want it to stay online.
 
-## Workflow Overview
+## Run in Colab or Locally
 
-Below is a high-level look at our Agentic RAG workflow:
+The [Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/update-discord-bot/disord-bot/discord_rag_bot.ipynb) runs the same code with the same dependency pins as this page. Open it on a CPU runtime, enter your keys at the hidden prompts, and run the cells in order. Colab keeps the bot online only while the runtime stays connected.
 
+For a bot that stays online, run it on your own machine: follow Steps 1 through 7.
 
-| Step | Description                                                                                                       |
-|------|-------------------------------------------------------------------------------------------------------------------|
-| **1. Environment Setup**                | Install required libraries (`camel-ai`, `qdrant-client`, `discord.py`) and set up the Python environment.  |
-| **2. Set Up the OpenAI Embedding Instance** | Create an OpenAI account, generate an API key, and configure the embedding model.                           |
-| **3. Configure the Qdrant Client** | Sign up for Qdrant Cloud, create a cluster, configure `QdrantStorage`, and set up the API connection.    |
-| **4. Scrape and Process Data**          | Use `VectorRetriever` to scrape Qdrant documentation, chunk text, and store embeddings in Qdrant.          |
-| **5. Set Up the CAMEL-AI ChatAgent**    | Instantiate a CAMEL-AI `ChatAgent` with OpenAI models for multi-step reasoning and context-aware responses. |
-| **6. Create and Configure the Discord Bot** | Register a new bot in the Discord Developer Portal, invite it to a server, and enable permissions.      |
-| **7. Build the Discord Bot**            | Integrate Discord.py with CAMEL-AI and Qdrant to retrieve context and generate intelligent responses.      |
-| **8. Test the Bot**                     | Run the bot in a live Discord server and verify that it provides relevant, context-rich answers.          |
+## Understand the RAG Flow
 
+Select **Index documents** or **Answer a question** to trace the two paths. Hover over a step, focus it with the keyboard, or select it to keep its explanation visible.
 
-## Architecture Diagram
+{{< island path="content/documentation/headless/discord-rag/flow" width="670" ratio="670 / 690" title="CAMEL runs the fixed application flow. OpenAI embeds and generates; Qdrant stores and retrieves the supporting text." >}}
+![The application embeds a Discord question, searches Qdrant, and sends matching text with the original question to a fresh ChatAgent. Generation is skipped without usable context.](/documentation/tutorials/agentic-rag-camelai-discord/answer-flow.svg)
+{{< /island >}}
 
-Below is the architecture diagram representing the workflow and interactions of the chatbot:
+Ingestion runs once, before the bot starts. `VectorRetriever.process()` reads each URL, splits the text into chunks, and embeds the chunks with OpenAI. Qdrant stores each vector together with the chunk text, its source URL, and other metadata in the payload.
 
-![Architecture Diagram](/documentation/examples/agentic-rag-camelai-discord/diagram_discord_bot.png)
+Answering runs for every `!ask` message. `VectorRetriever.query()` embeds the question and searches Qdrant, which returns the matching records with their similarity scores. The application hands the matching text and the original question to `ChatAgent.step()`. The language model only ever sees text; the vectors stay in Qdrant.
 
-The workflow starts by **scraping, chunking, and upserting** content from URLs using the `vector_retriever.process()` method, which generates embeddings with the **OpenAI embedding instance**. These embeddings, along with their metadata, are then indexed and stored in **Qdrant** via the `QdrantStorage` class.
+## Step 1: Install the Dependencies
 
-When a user sends a query through the **Discord bot**, it is processed by `vector_retriever.query()`, which first embeds the query using **OpenAI Embeddings** and then retrieves the most relevant matches from Qdrant via `QdrantStorage`. The retrieved context (e.g., relevant documentation snippets) is then passed to an **OpenAI-powered Qdrant Agent** under **CAMEL-AI**, which generates a final, context-aware response.
-
-The Qdrant Agent processes the retrieved vectors using the `GPT_4O_MINI` language model, producing a response that is contextually relevant to the user's query. This response is then sent back to the user through the **Discord bot**, completing the flow.
-
----
-
-## **Step 1: Environment Setup**
-
-Before diving into the implementation, here's a high-level overview of the stack we'll use:
-
-| **Component**   | **Purpose**                                                                                           |
-|-----------------|-------------------------------------------------------------------------------------------------------|
-| **Qdrant**      | Vector database for storing and querying document embeddings.                                         |
-| **OpenAI**   | Embedding and language model for generating vector representations and chatbot responses.                       |
-| **CAMEL-AI**    | Framework for managing dialogue flow, retrieval, and AI agent interactions.                  |
-| **Discord API** | Platform for deploying and interacting with the chatbot.                                              |
-
-### Install Dependencies
-
-We’ll install CAMEL-AI, which includes all necessary dependencies:
-
-```python
-!pip install camel-ai[all]==0.2.17
-```
-
-
----
-
-## **Step 2: Set Up the OpenAI Embedding Instance**
-
-1. **Create an OpenAI Account**: Go to [OpenAI](https://platform.openai.com/signup) and sign up for an account if you don’t already have one.
-
-2. **Generate an API Key**:
-
-    - After logging in, click on your profile icon in the top-right corner and select **API keys**.
-
-    - Click **Create new secret key**.
-
-    - Copy the generated API key and store it securely. You won’t be able to see it again.
-
-Here’s how to set up the OpenAI client in your code:
-
-Create a `.env` file in your project directory and add your API key:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and create a local environment:
 
 ```bash
-OPENAI_API_KEY=<your_openai_api_key>
+uv venv --python 3.12
+source .venv/bin/activate
 ```
 
-Make sure to replace `<your_openai_api_key>` with your actual API key.
+On Windows PowerShell, activate the environment with `.venv\Scripts\Activate.ps1`.
 
-Now, start the OpenAI Client
+Create `requirements.txt` in your working directory with these dependency pins:
 
-```python
-import openai
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-openai_client = openai.Client(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+```text
+camel-ai==0.2.90
+mcp==1.30.0
+openai==3.35.1
+qdrant-client==1.19.1
+discord.py==2.7.1
+python-dotenv==1.2.4
+unstructured==0.16.20
+beautifulsoup4==4.15.0
+lxml==6.1.3
 ```
 
-To set up the embedding instance, we will use text embedding 3 large:
-
-```python
-from camel.embeddings import OpenAIEmbedding
-from camel.types import EmbeddingModelType
-
-embedding_instance = OpenAIEmbedding(model_type=EmbeddingModelType.TEXT_EMBEDDING_3_LARGE)
-```
-
-## **Step 3: Configure the Qdrant Client**
-
-For this tutorial, we will be using the **Qdrant Cloud Free Tier**. Here's how to set it up:
-
-1. **Create an Account**:  Sign up for a Qdrant Cloud account at [Qdrant Cloud](https://cloud.qdrant.io).
-
-2. **Create a Cluster**:  
-   - Navigate to the **Overview** section.  
-   - Follow the onboarding instructions under **Create First Cluster** to set up your cluster.  
-   - When you create the cluster, you will receive an **API Key**. Copy and securely store it, as you will need it later.  
-
-3. **Wait for the Cluster to Provision**:  
-   - Your new cluster will appear under the **Clusters** section.               
-
-After obtaining your Qdrant Cloud details, add to your `.env` file:
+Install the saved requirements:
 
 ```bash
-QDRANT_CLOUD_URL=<your-qdrant-cloud-url>
-QDRANT_CLOUD_API_KEY=<your-api-key>
+uv pip install -r requirements.txt
 ```
 
-### Configure the QdrantStorage
+These pins use [CAMEL-AI 0.2.90](https://pypi.org/project/camel-ai/0.2.90/). They install the dependencies needed for this example instead of CAMEL's full optional dependency set. The MCP 1.x pin preserves compatibility with this CAMEL release.
 
-The `QdrantStorage` will deal with connecting with the Qdrant Client for all necessary operations to your collection.
+Create `discord_rag_bot.py` in the same directory. Append each Python block in Steps 2 through 6 to that file in order. Step 7 contains commands and a separate retrieval check to run after saving the script.
 
-```python
-from camel.retrievers import VectorRetriever
+## Step 2: Configure the Connections
 
-# Define collection name
-collection_name = "qdrant-agent"
+Create a `.env` file beside your script:
 
-storage_instance = QdrantStorage(
-    vector_dim=embedding_instance.get_output_dim(),
-    url_and_api_key=(
-        qdrant_cloud_url,
-        qdrant_api_key,
-    ),
-    collection_name=collection_name,
-)
-```
-Make sure to update the `<your-qdrant-cloud-url>` and `<your-api-key>` fields.
-
----
-
-## **Step 4: Scrape and Process Data**
-
-We'll use CamelAI `VectorRetriever` library to help us to It processes content from a file or URL, divides it into chunks, and stores the embeddings in the specified Qdrant collection.
-
-```python
-from camel.retrievers import VectorRetriever
-
-vector_retriever = VectorRetriever(embedding_model=embedding_instance,
-                                   storage=storage_instance)
-
-qdrant_urls = [
-    "https://qdrant.tech/documentation/overview",
-    "/documentation/installation",
-    "/documentation/search/filtering",
-    "/documentation/manage-data/indexing",
-    "/documentation/scaling/distributed_deployment",
-    "/documentation/manage-data/quantization"
-    # Add more URLs as needed
-]
-
-for qdrant_url in qdrant_urls:
-  vector_retriever.process(
-      content=qdrant_url,
-  )
-
+```ini
+OPENAI_API_KEY=your-openai-api-key
+QDRANT_CLOUD_URL=https://your-cluster.cloud.qdrant.io:6333
+QDRANT_CLOUD_API_KEY=your-qdrant-api-key
+QDRANT_COLLECTION=qdrant-discord-docs-v1
+DISCORD_BOT_TOKEN=your-discord-bot-token
 ```
 
----
+Replace the placeholders with your credentials and the exact endpoint from your cluster. Add `.env` to `.gitignore` to keep credentials out of version control.
 
-## **Step 5: Setup the CAMEL-AI ChatAgent Instance**
+Start the script with the imports and settings:
 
-Define the OpenAI model and create a CAMEL-AI ChatAgent instance.
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="imports" >}}
 
-```python
-from camel.configs import ChatGPTConfig
-from camel.models import ModelFactory
-from camel.types import ModelPlatformType, ModelType
-from camel.agents import ChatAgent
+Create the embedding model, storage adapter, and retriever:
 
-# Create a ChatGPT configuration
-config = ChatGPTConfig(temperature=0.2).as_dict()
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="retriever" >}}
 
-# Create an OpenAI model using the configuration
-openai_model = ModelFactory.create(
-    model_platform=ModelPlatformType.OPENAI,
-    model_type=ModelType.GPT_4O_MINI,
-    model_config_dict=config,
-)
+`QdrantStorage` is the retriever's connection to your cluster: the endpoint and key from the environment, the collection to read and write, and the vector size. The size comes from `get_output_dim()`, so the collection matches the embedding model. Documents and questions must use the same model. If you switch models, create a new collection and ingest the documents again.
 
-assistant_sys_msg = """You are a helpful assistant to answer question,
-         I will give you the Original Query and Retrieved Context,
-        answer the Original Query based on the Retrieved Context,
-        if you can't answer the question just say I don't know."""
+## Step 3: Ingest the Documentation
 
-qdrant_agent = ChatAgent(system_message=assistant_sys_msg, model=openai_model)
+All source entries must be absolute URLs. Relative paths such as `/documentation/search/filtering` do not identify a web page on their own.
 
-```
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="ingestion" >}}
 
----
+The full source URL is stored in `extra_info` because CAMEL truncates its `content path` field to 100 characters. The answer function uses this full URL for source checks and citations.
 
-## **Step 6: Create and Configure the Discord Bot**
+This function is called separately from the bot. It refuses to append to a nonempty collection, which avoids accidentally adding duplicate chunks when you rerun ingestion. If ingestion is interrupted after writing some chunks, choose a new collection name and rerun it. Starting the bot again reuses the stored data.
 
-Now let's bring the bot to life! It will serve as the interface through which users can interact with the agentic RAG system you’ve built.
+## Step 4: Answer From the Retrieved Text
 
-### Create a New Discord Bot
+The retrieval result contains chunk text and its source path. Build the prompt explicitly so the model sees both the original question and the evidence:
 
-1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and log in with your Discord account.
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="answers" >}}
 
-2. Click on the **New Application** button.
+`top_k` limits the number of candidate chunks. `similarity_threshold` filters those candidates by their similarity score; it is not an answer-confidence percentage. Treat this value as a starting point and inspect the retrieved text for your own questions before changing it.
 
-3. Give your application a name and click **Create**.
+If no usable chunks are returned, the function returns an insufficient-context message without calling the chat model. A fresh agent handles each question, so questions from different users do not share conversation history. The prompt asks the model to use only the supplied evidence, but you still need to check generated claims against the sources.
 
-4. Navigate to the **Bot** tab on the left sidebar and click **Add Bot**.
+## Step 5: Configure Discord
 
-5. Once the bot is created, click **Reset Token** under the **Token** section to generate a new bot token. Copy this token securely as you will need it later.
+In the [Discord Developer Portal](https://discord.com/developers/applications), create an application and obtain its bot token from the **Bot** settings. Save that token as `DISCORD_BOT_TOKEN`.
 
-### Invite the Bot to Your Server
+Enable **Message Content Intent** in the portal. The message handler enables it too, so the bot can read a command such as `!ask What is quantization in Qdrant?`. Member and presence events are not needed for this example. See the [discord.py intent documentation](https://discordpy.readthedocs.io/en/stable/intents.html) for the distinction.
 
-1. Go to the **OAuth2** tab and then to the **URL Generator** section.
+Generate a server installation link using the `bot` scope. Grant **View Channels** and **Send Messages** in your test channel, then install the bot in your test server. Test in a regular text channel rather than a thread.
 
-2. Under **Scopes**, select **bot**.
+## Step 6: Connect the Message Handler
 
-3. Under **Bot Permissions**, select the necessary permissions:
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="discord-handler" >}}
 
-   - Send Messages
+Only messages beginning with `!ask ` trigger question answering. A bare `!ask` returns a usage hint. `asyncio.to_thread()` runs synchronous retrieval and model calls away from Discord's event loop, keeping the connection responsive while the response is generated. The lock processes one question at a time, which keeps this demo simple for a test server. The handler splits long answers to fit Discord's message limit and prevents generated text from triggering mentions.
 
-   - Read Message History
+Add the command-line entry point:
 
-4. Copy the generated URL and paste it into your browser.
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-bot/" block="entry-point" >}}
 
-5. Select the server where you want to invite the bot and click **Authorize**.
+## Step 7: Run and Check the Bot
 
-### Grant the Bot Permissions
-
-1. Go back to the **Bot** tab.
-
-2. Enable the following under **Privileged Gateway Intents**:
-
-   - Server Members Intent
-
-   -  Message Content Intent
-
-Now, the bot is ready to be integrated with your code.
-
-## **Step 7: Build the Discord Bot**
-
-Add to your `.env` file:
+Ingest the documentation once:
 
 ```bash
-DISCORD_BOT_TOKEN=<your-discord-bot-token>
+python discord_rag_bot.py ingest
 ```
 
-We'll use `discord.py` to create a simple Discord bot that interacts with users and retrieves context from Qdrant before responding.
+The command prints the source URL and number of chunks indexed, then the total vector count. Counts depend on the current documentation content. A nonempty collection should refuse a second ingestion.
 
-```python
-from camel.bots import DiscordApp
-import nest_asyncio
-import discord
+Then start the bot:
 
-nest_asyncio.apply()
-discord_q_bot = DiscordApp(token=os.getenv("DISCORD_BOT_TOKEN"))
-
-@discord_q_bot.client.event # triggers when a message is sent in the channel
-async def on_message(message: discord.Message):
-    if message.author == discord_q_bot.client.user:
-        return
-
-    if message.type != discord.MessageType.default:
-        return
-
-    if message.author.bot:
-        return
-    user_input = message.content
-
-    retrieved_info = vector_retriever.query(
-        query=user_input, top_k=10, similarity_threshold=0.6
-    )
-
-    user_msg = str(retrieved_info)
-    assistant_response = qdrant_agent.step(user_msg)
-    response_content = assistant_response.msgs[0].content
-
-    if len(response_content) > 2000: # discord message length limit
-        for chunk in [response_content[i:i+2000] for i in range(0, len(response_content), 2000)]:
-            await message.channel.send(chunk)
-    else:
-        await message.channel.send(response_content)
-
-discord_q_bot.run()
+```bash
+python discord_rag_bot.py bot
 ```
----
 
-## **Step 9: Test the Bot**
+Keep this process running while you test the bot. Stop it before starting a second copy.
 
-1. Invite your bot to your Discord server using the OAuth2 URL from the Discord Developer Portal.
+Send these messages yourself in the test channel:
 
-2. Run the notebook.
+| Check | Input or Action | Expected Behavior |
+| --- | --- | --- |
+| Grounded answer | `!ask What is quantization in Qdrant?` | The bot answers using retrieved documentation. Compare the claims with the quantization source. Exact wording can vary. |
+| Unsupported question | `!ask What did I have for breakfast today?` | The bot should say it does not have enough information. If it invents an answer, the check fails. |
+| Command handling | Send a message without `!ask`, then send an empty `!ask`. | Ordinary messages are ignored; an empty command gets a usage hint. |
+| Separate conversations | Ask from two accounts. | Each answer is based on its own question and retrieved context. No prior conversation is carried over. |
+| Restart | Stop the process and run the `bot` command again. | It uses the existing collection without ingesting the URLs again. |
 
-3. Start chatting with the bot in your Discord server. It will retrieve context from Qdrant and provide relevant answers based on your queries.
+To inspect retrieval independently of generation, run this in an interactive Python session in the same environment:
 
-![agentic-rag-discord-bot-what-is-quantization](/documentation/examples/agentic-rag-camelai-discord/example.png)
+{{< code-snippet path="/documentation/headless/snippets/discord-rag-inspection/" >}}
 
----
+If the answer is unsupported, inspect these chunks first. Missing evidence may mean the source was never ingested, useful text was split across chunks, or the score threshold excluded it. Increasing `top_k` can provide more context but also adds irrelevant text and model input tokens. A larger language model cannot recover a fact that this prompt never supplied.
 
+### Troubleshooting
 
-## Conclusion
+| Symptom | Check |
+| --- | --- |
+| Missing configuration or authentication error | Confirm `.env` is beside the script, the keys belong to the right services, and the Qdrant endpoint is copied in full. |
+| Vector-size mismatch | Use a new collection when changing embedding models or output dimensions, then ingest again. |
+| Ingestion refuses to run | The target collection already has points. Reuse it with `bot`, or select a new collection for a fresh ingestion. |
+| Gateway close code `4014` or `PrivilegedIntentsRequired` | Enable **Message Content Intent** for the Discord application that owns your bot token, save the setting, and restart the bot. |
+| HTTP `403`, Discord code `50001` (`Missing Access`) | The bot cannot access the channel. Install it in the correct server, verify the channel ID, and grant **View Channel** and **Send Messages**, including channel permission overrides. |
+| Bot is online but ignores commands | Enable Message Content Intent in both the portal and code, check channel permissions, and use `!ask ` followed by a question. |
+| Repeated insufficient-context answers | Inspect the retrieved text and scores before adjusting the threshold or adding source pages. |
 
-Nice work! You've built an agentic RAG-powered Discord bot that retrieves relevant information with Qdrant, generates smart responses with OpenAI, and handles multi-step reasoning using CAMEL-AI. Here’s a quick recap:
+## Adapt the Bot
 
+The same loop works for product support, community FAQs, or project onboarding. Point the bot at the pages people keep asking about and let the retrieved chunks show where the answer came from.
 
-- **Smart Knowledge Retrieval:** Your chatbot can now pull relevant info from large datasets using Qdrant’s vector search.
+To answer questions about your own documentation, replace `QDRANT_URLS` with your source URLs, choose a new `QDRANT_COLLECTION`, and run ingestion. Try questions with known answers and inspect the retrieved chunks before changing `top_k` or the similarity threshold. Keep the bot process running while people use it; the Discord application alone does not host your Python code.
 
-- **Autonomous Reasoning with CAMEL-AI:** Enables multi-step reasoning instead of just regurgitating text.
-
-- **Live Discord Deployment:** You launched the chatbot on Discord, making it interactive and ready to help real users.
-
-One of the biggest advantages of CAMEL-AI is the abstraction it provides, allowing you to focus on designing intelligent interactions rather than worrying about low-level implementation details.
-
-You’re now well-equipped to tackle more complex real-world problems that require scalable, autonomous knowledge systems.

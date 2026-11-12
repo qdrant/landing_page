@@ -59,8 +59,7 @@ docker run --net=host --rm -it \
 
 ## Gotchas
 
-- **No metadata:** FAISS indexes store only vectors. All points will have empty payloads. If you have a separate metadata store keyed by vector position, import that separately after migration.
-- **Point IDs:** Points are assigned IDs based on their position in the FAISS index. Use this to join with any external metadata store.
+- **No metadata:** FAISS stores only vectors, so every point has an empty payload. Point IDs are the vectors' positions in the index, which you can use to join an external metadata store.
 
 ## Next Steps
 

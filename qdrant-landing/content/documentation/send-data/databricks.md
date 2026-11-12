@@ -1,130 +1,174 @@
 ---
 title: Databricks Ingestion
-short_description: "Vectorize and ingest Databricks datasets into Qdrant using Apache Spark and the Qdrant Spark connector for large-scale embedding workflows."
-description: "Generate dense and sparse embeddings on Databricks with Spark and load them into Qdrant using the Spark connector for scalable vector ingestion pipelines."
+short_description: "Generate dense and sparse embeddings in Databricks and load them into Qdrant with the Spark connector."
+description: "Use FastEmbed on Databricks to generate dense and sparse vectors, upload a 100-row dataset to Qdrant, and verify the ingestion."
 weight: 5
 hideInSidebar: true
+learning_kind: examples
+goal: "Data & Filtering"
+stack:
+  - Python
+  - Databricks
+  - Apache Spark
+  - FastEmbed
 aliases:
   - /documentation/examples/databricks/
 ---
 
 # Ingest Databricks Data into Qdrant
 
-| Time: 30 min | Level: Intermediate | [Complete Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4750876096379825/93425612168199/6949977306828869/latest.html) |
-| ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Time: 30 min | Level: Intermediate | Stack: Python, Databricks, Apache Spark, FastEmbed |
+| --- | --- | --- |
 
-[Databricks](https://www.databricks.com/) is a unified analytics platform for working with big data and AI. It's built around Apache Spark, a powerful open-source distributed computing system well-suited for processing large-scale datasets and performing complex analytics tasks.
+[Databricks](https://www.databricks.com/) is a unified analytics platform for big data and AI. It's built around Apache Spark, an open-source system for distributed data processing and analytics.
 
-Apache Spark is designed to scale horizontally, meaning it can handle expensive operations like generating vector embeddings by distributing computation across a cluster of machines. This scalability is crucial when dealing with large datasets.
+Apache Spark distributes embedding computation across partitions. This tutorial uses 100 rows to demonstrate ingestion; it does not measure large-scale throughput.
 
-In this example, we will demonstrate how to vectorize a dataset with dense and sparse embeddings using Qdrant's [FastEmbed](https://qdrant.github.io/fastembed/) library. We will then load this vectorized data into a Qdrant cluster using the [Qdrant Spark connector](/documentation/data-management/spark/) on Databricks.
+Use Qdrant's [FastEmbed](https://qdrant.github.io/fastembed/) library to generate dense and sparse embeddings, then load them into a Qdrant cluster with the [Qdrant Spark connector](/documentation/data-management/spark/) on Databricks.
 
-### Setting up a Databricks project
+All code is included on this page. Copy each Python block into its own cell in a blank Databricks notebook and run the cells in order. Run the HTTP requests in the Qdrant API console at the indicated steps.
 
-- Set up a **[Databricks cluster](https://docs.databricks.com/en/compute/configure.html)** following the official documentation guidelines.
+## Set Up a Databricks Project
 
-- Install the **[Qdrant Spark connector](/documentation/data-management/spark/)** as a library:
+- Set up [Databricks dedicated compute](https://docs.databricks.com/aws/en/compute/dedicated-overview) with [Databricks Runtime 16.4 LTS, Scala 2.13 variant](https://docs.databricks.com/aws/en/release-notes/runtime/16.4lts), which includes Spark 3.5.2 and Python 3.12.3. Select the Scala 2.13 image to match the connector.
+
+- This example uses the Python Resilient Distributed Dataset (RDD) API (`.rdd.mapPartitions`), which is not supported on standard or serverless compute. [Databricks Free Edition](https://docs.databricks.com/aws/en/getting-started/free-edition) only provides serverless compute and cannot run this example.
+
+- Install the [Qdrant Spark connector](/documentation/data-management/spark/) as a library:
   - Navigate to the `Libraries` section in your cluster dashboard.
-  - Click on `Install New` at the top-right to open the library installation modal.
-  - Search for `io.qdrant:spark:VERSION` in the Maven packages and click on `Install`.
+  - Select `Install New` to open the library installation modal.
+  - Install the Maven coordinate `io.qdrant:spark:2.2.0`.
 
     ![Install the library](/documentation/examples/databricks/library-install.png)
 
-- Create a new **[Databricks notebook](https://docs.databricks.com/en/notebooks/index.html)** on your cluster to begin working with your data and libraries.
+- Create a blank [Python notebook in Databricks](https://docs.databricks.com/aws/en/notebooks/) attached to that compute. The notebook provides the `spark` session and `dbutils` utilities used in the code.
 
-### Download a dataset
+- Have a running Qdrant cluster that is reachable from your Databricks workers over gRPC. You also need access to its API console to create and inspect a collection.
 
-- **Install the required dependencies:**
+## Download a Dataset
+
+Install the required dependencies:
 
 ```python
-%pip install fastembed datasets
+%pip install fastembed==0.9.0 datasets==5.1.0
 ```
 
-- **Download the dataset:**
+Restart Python after installation, then run the remaining cells in order:
+
+```python
+dbutils.library.restartPython()
+```
+
+Download the dataset:
 
 ```python
 from datasets import load_dataset
 
 dataset_name = "tasksource/med"
-dataset = load_dataset(dataset_name, split="train")
+dataset = load_dataset(
+    dataset_name,
+    revision="f54332921146ca97173da1868ac510e9e07c413e",
+    split="train",
+)
 # We'll use the first 100 entries from this dataset and exclude some unused columns.
 dataset = dataset.select(range(100)).remove_columns(["gold_label", "genre"])
 ```
 
-- **Convert the dataset into a Spark dataframe:**
+For this 100-row sample, create the DataFrame directly. This avoids a dependency on deprecated DBFS root storage. For larger datasets, load data through Spark from a table or supported storage location instead of collecting it on the driver.
 
 ```python
-dataset.to_parquet("/dbfs/pq.pq")
-dataset_df = spark.read.parquet("file:/dbfs/pq.pq")
+dataset_df = spark.createDataFrame(
+    list(dataset), schema="sentence1 string, sentence2 string"
+)
 ```
 
-### Vectorizing the data
+## Vectorize the Data
 
-In this section, we'll be generating both dense and sparse vectors for our rows using [FastEmbed](https://qdrant.github.io/fastembed/). We'll create a user-defined function (UDF) to handle this step.
+Generate both dense and sparse vectors using [FastEmbed](https://qdrant.github.io/fastembed/) in a partition function. Each partition initializes its own models. Workers need network access to download the model files on first use.
 
-#### Creating the vectorization function
+Both models embed `sentence1`, so the two vector representations describe the same text. Keep `sentence2` as payload for reference; it is not embedded in this example.
+
+### Create the Partition Function
 
 ```python
-from fastembed import TextEmbedding, SparseTextEmbedding
+from collections.abc import Iterator
 
-def vectorize(partition_data):
+from fastembed import SparseTextEmbedding, TextEmbedding
+from pyspark.sql import Row
+
+
+def vectorize(partition_data: Iterator[Row]) -> Iterator[Row]:
     # Initialize dense and sparse models
     dense_model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
     sparse_model = SparseTextEmbedding(model_name="Qdrant/bm25")
 
     for row in partition_data:
         # Generate dense and sparse vectors
-        dense_vector = next(dense_model.embed(row.sentence1))
-        sparse_vector = next(sparse_model.embed(row.sentence2))
+        text = row.sentence1
+        dense_vector = next(dense_model.embed([text]))
+        sparse_vector = next(sparse_model.embed([text]))
 
-        yield [
-            row.sentence1,  # 1st column: original text
-            row.sentence2,  # 2nd column: original text
-            dense_vector.tolist(),  # 3rd column: dense vector
-            sparse_vector.indices.tolist(),  # 4th column: sparse vector indices
-            sparse_vector.values.tolist(),  # 5th column: sparse vector values
-        ]
+        yield Row(
+            sentence1=row.sentence1,
+            sentence2=row.sentence2,
+            dense_vector=dense_vector.tolist(),
+            sparse_vector_indices=sparse_vector.indices.tolist(),
+            sparse_vector_values=sparse_vector.values.tolist(),
+        )
 ```
 
-We're using the [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model for dense embeddings and [BM25](https://huggingface.co/Qdrant/bm25) for sparse embeddings.
+The function uses [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) for dense embeddings and [BM25](https://huggingface.co/Qdrant/bm25) for sparse embeddings.
 
-#### Applying the UDF on our dataframe
+### Apply the Partition Function
 
-Next, let's apply our `vectorize` UDF on our Spark dataframe to generate embeddings.
+Apply `vectorize` to the DataFrame's partitions to generate embeddings.
 
 ```python
 embeddings = dataset_df.rdd.mapPartitions(vectorize)
 ```
 
-The `mapPartitions()` method returns a [Resilient Distributed Dataset (RDD)](https://www.databricks.com/glossary/what-is-rdd) which should then be converted back to a Spark dataframe.
+The `mapPartitions()` method returns a [Resilient Distributed Dataset (RDD)](https://www.databricks.com/blog/what-is-rdd). Convert it back to a Spark DataFrame using the schema in the next step.
 
-#### Building the new Spark dataframe with the vectorized data
+### Build the DataFrame with Vectors
 
-We'll now create a new Spark dataframe (`embeddings_df`) with the vectorized data using the specified schema.
+Use this schema to create `embeddings_df` from the vectorized data:
 
 ```python
-from pyspark.sql.types import StructType, StructField, StringType, ArrayType, FloatType, IntegerType
+from pyspark.sql.types import (
+    ArrayType,
+    FloatType,
+    IntegerType,
+    StringType,
+    StructField,
+    StructType,
+)
 
 # Define the schema for the new dataframe
-schema = StructType([
-    StructField("sentence1", StringType()),
-    StructField("sentence2", StringType()),
-    StructField("dense_vector", ArrayType(FloatType())),
-    StructField("sparse_vector_indices", ArrayType(IntegerType())),
-    StructField("sparse_vector_values", ArrayType(FloatType()))
-])
+schema = StructType(
+    [
+        StructField("sentence1", StringType()),
+        StructField("sentence2", StringType()),
+        StructField("dense_vector", ArrayType(FloatType())),
+        StructField("sparse_vector_indices", ArrayType(IntegerType())),
+        StructField("sparse_vector_values", ArrayType(FloatType())),
+    ]
+)
 
 # Create the new dataframe with the vectorized data
 embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
 ```
 
-### Uploading the data to Qdrant
+## Upload the Data to Qdrant
+
+Choose a new collection name and replace `{collection_name}` in the HTTP requests with that name. Use the same name in the upload options.
 
 - **Create a Qdrant collection:**
-  - [Follow the documentation](/documentation/manage-data/collections/#create-a-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
+  - [Create a new collection](/documentation/manage-data/collections/#create-a-collection) using the Qdrant API console. The dense vector has 384 dimensions. The `Qdrant/bm25` model requires the sparse vector's [inverse document frequency (IDF) modifier](/documentation/manage-data/indexing/#idf-modifier): Qdrant maintains document-frequency statistics and applies IDF weighting during sparse queries.
 
-  ```json
+  ```http
   PUT /collections/{collection_name}
+  Content-Type: application/json
+
   {
     "vectors": {
       "dense": {
@@ -133,12 +177,16 @@ embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
       }
     },
     "sparse_vectors": {
-      "sparse": {}
+      "sparse": {
+        "modifier": "idf"
+      }
     }
   }
   ```
 
-- **Upload the dataframe to Qdrant:**
+- **Upload the DataFrame to Qdrant:**
+
+Replace `<QDRANT_GRPC_URL>`, `<QDRANT_API_KEY>`, and `<QDRANT_COLLECTION_NAME>` with your cluster's values before running this cell. Use the gRPC endpoint, such as `https://<cluster-host>:6334`. The collection name must match the collection you created.
 
 ```python
 options = {
@@ -158,20 +206,25 @@ embeddings_df.write.format("io.qdrant.spark.Qdrant").options(**options).mode(
 ).save()
 ```
 
-<aside role="status">
-   <p>You can find the list of the Spark connector configuration options <a href="/documentation/frameworks/spark/#configuration-options" target="_blank">here</a>.</p>
-</aside>
+See the [Spark connector options](/documentation/data-management/spark/#options-and-spark-types) for the supported configuration fields.
 
-Ensure to replace the placeholder values (`<QDRANT_GRPC_URL>`, `<QDRANT_API_KEY>`, `<QDRANT_COLLECTION_NAME>`) with your actual values. If the `id_field` option is not specified, Qdrant Spark connector generates random UUIDs for each point.
+If `id_field` is not specified, the connector generates random UUIDs. Running the write again adds another set of points, so use a fresh collection for the following count check.
 
-The command output you should see is similar to:
+## Verify the Ingestion
 
-```console
-Command took 40.37 seconds -- by xxxxx90@xxxxxx.com at 4/17/2024, 12:13:28 PM on fastembed
+In the Qdrant API console, count the points in the collection. The connector can return before all points are visible. If the count is below 100, wait briefly and repeat this count request; do not repeat the write:
+
+```http
+POST /collections/{collection_name}/points/count
+Content-Type: application/json
+
+{
+  "exact": true
+}
 ```
 
-### Conclusion
+For one successful write of this 100-row sample to an empty collection, expect `result.count` to be `100`. Inspect a point in the Qdrant dashboard to confirm that it has `dense` and `sparse` vectors and both source sentences in its payload.
 
-That wraps up our tutorial! Feel free to explore more functionalities and experiments with different models, parameters, and features available in Databricks, Spark, and Qdrant.
+**Validation:** On October 12, 2026, the core ingestion code passed a local integration test using Apache Spark 3.5.2 (Scala 2.13.8), Python 3.12.13, Java 17.0.20.1, `io.qdrant:spark:2.2.0`, FastEmbed 0.9.0, Datasets 5.1.0, and Qdrant 1.19.2. The test confirmed 100 points, both vector types, matching source payloads, and the IDF modifier. The Databricks Runtime 16.4 LTS setup above has not yet been validated on dedicated compute.
 
-Happy data engineering!
+You can now use these representations for [hybrid queries](/documentation/search/hybrid-queries/), embedding each query with the same dense and sparse models used during ingestion.

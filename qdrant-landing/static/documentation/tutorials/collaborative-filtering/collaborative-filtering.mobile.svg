@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="856" height="570" viewBox="0 0 856 570" role="img" aria-labelledby="title description">
+  <title id="title">User-by-movie normalized rating matrix</title>
+  <desc id="description">Illustrative movie IDs and normalized ratings for movies 1, 4, and 6, a subset of the desktop table. Rows are users, columns are movie IDs, and populated cells are ratings stored in each user's sparse vector. Blank cells are unrated movies, not stored entries. The ellipsis row represents omitted users.</desc>
+  <metadata><![CDATA[Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font.git)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://openfontlicense.org
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.]]></metadata>
+  <defs>
+    <style>
+      @font-face { font-family: 'Geist Mono'; src: url('data:font/woff2;base64,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') format('woff2'); font-weight: 400; font-style: normal; }
+      text { font-family: 'Geist Mono', monospace; font-size: 32px; font-weight: 400; fill: #303547; text-anchor: middle; dominant-baseline: middle; }
+      .grid, .header-grid { fill: none; stroke: #d3d9eb; stroke-width: 0.75; vector-effect: non-scaling-stroke; }
+    </style>
+  </defs>
+  <rect x="220" y="12" width="624" height="78" fill="#f0f3fa"/>
+  <rect x="12" y="90" width="208" height="468" fill="#f0f3fa"/>
+  <rect x="220" y="90" width="624" height="468" fill="#ffffff"/>
+  <path class="grid" d="M220 90H844 M220 90V558 M428 90V558 M636 90V558 M220 168H844 M220 246H844 M220 324H844 M220 402H844 M220 480H844"/>
+  <path class="header-grid" d="M428 12V90 M636 12V90 M12 168H220 M12 246H220 M12 324H220 M12 402H220 M12 480H220"/>
+  <path class="grid" d="M220 12H844V558H12V90H220Z"/>
+  <g>
+    <text id="column-1" class="axis" x="324" y="51">movie 1</text>
+    <text id="column-2" class="axis" x="532" y="51">movie 4</text>
+    <text id="column-3" class="axis" x="740" y="51">movie 6</text>
+  </g>
+  <g>
+    <text id="row-1-cell-1" class="axis" x="116" y="129">user 1</text>
+    <text id="row-1-cell-2" x="324" y="129">0.43</text>
+    <text id="row-1-cell-3" x="532" y="129">-0.51</text>
+  </g>
+  <g>
+    <text id="row-2-cell-1" class="axis" x="116" y="207">user 2</text>
+    <text id="row-2-cell-4" x="740" y="207">1.37</text>
+  </g>
+  <g>
+    <text id="row-3-cell-1" class="axis" x="116" y="285">user 3</text>
+    <text id="row-3-cell-2" x="324" y="285">-0.83</text>
+  </g>
+  <g>
+    <text id="row-4-cell-1" class="axis" x="116" y="363">user 4</text>
+    <text id="row-4-cell-4" x="740" y="363">-1.08</text>
+  </g>
+  <g>
+    <text id="row-5-cell-1" class="axis" x="116" y="441">...</text>
+    <text id="row-5-cell-2" x="324" y="441">...</text>
+    <text id="row-5-cell-3" x="532" y="441">...</text>
+    <text id="row-5-cell-4" x="740" y="441">...</text>
+  </g>
+  <g>
+    <text id="row-6-cell-1" class="axis" x="116" y="519">user n</text>
+    <text id="row-6-cell-3" x="532" y="519">0.29</text>
+  </g>
+</svg>

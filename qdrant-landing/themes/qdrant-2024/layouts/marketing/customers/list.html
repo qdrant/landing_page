@@ -1,0 +1,15 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ partial "marketing/customers/customers-hero" . }}
+
+  {{ with (.Site.GetPage "/customers/clients") }}
+    {{ partial "marketing/customers/customers-case-studies" . }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+    {{ partial "marketing/get-contacted" (dict "context" . "class" "customers-get-contacted") }}
+  {{ end }}
+{{ end }}

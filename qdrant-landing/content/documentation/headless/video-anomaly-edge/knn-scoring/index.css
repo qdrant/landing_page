@@ -1,0 +1,94 @@
+/* knn-scoring island. Scoped under .qi-kn. Controls, labels and the status
+   line come from the shared island design system (islands.scss); this file
+   styles the scatter. Normal clusters use --qi-cat-1, --qi-cat-2 and
+   --qi-cat-3, borderline clips the muted neutral, and anomalous clips
+   --qi-cat-4 (Qdrant red). The data is synthetic: the figure is an illustration. */
+
+.qi-kn {
+  display: block;
+}
+
+.qi-kn .qi-fig {
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+}
+
+/* Essential labels render at 14px at the normal article width. */
+.qi-kn .qi-label {
+  font-size: 14px;
+}
+.qi-kn__svg {
+  max-width: 640px;
+  margin-inline: auto;
+}
+.qi-kn__svg.is-narrow {
+  max-width: 420px;
+}
+
+.qi-kn__plot {
+  fill: var(--qi-surface);
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-kn__tag {
+  fill: var(--qi-muted);
+}
+.qi-kn__note {
+  fill: var(--qi-muted);
+  font-style: italic;
+}
+
+.qi-kn__dot {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+.qi-kn__dot--anomaly {
+  stroke: var(--qi-cat-4);
+  stroke-width: 2;
+  fill-opacity: 0.8;
+}
+.qi-kn__dot.is-hover {
+  opacity: 1;
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-kn__dot.is-near {
+  opacity: 1;
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-kn__dot.is-sel {
+  opacity: 1;
+  stroke: var(--qi-hot);
+  stroke-width: 3.5;
+}
+
+.qi-kn__link {
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  opacity: 0.8;
+}
+
+.qi-kn .qi-status {
+  min-height: calc(3 * 1.45em);
+}
+/* On phones the same text wraps onto more lines; reserve them to avoid jumps. */
+@media (max-width: 600px) {
+  .qi-kn .qi-status {
+    min-height: calc(6 * 1.45em);
+  }
+}
+.qi-kn__units {
+  color: var(--qi-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-kn__dot {
+    transition: none;
+  }
+}

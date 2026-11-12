@@ -10,6 +10,15 @@ author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2022-10-26T13:55:00+02:00
 draft: false
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v0.11.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v0.11.0"
 ---
 
 We are excited to [announce the release of Qdrant v0.11](https://github.com/qdrant/qdrant/releases/tag/v0.11.0), 

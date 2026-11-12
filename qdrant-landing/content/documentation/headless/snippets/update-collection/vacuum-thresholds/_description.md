@@ -1,0 +1,1 @@
+Update the vacuum optimizer parameters of an existing collection. A segment is vacuumed when more than 20% of its points are deleted and it contains at least 1,000 points.

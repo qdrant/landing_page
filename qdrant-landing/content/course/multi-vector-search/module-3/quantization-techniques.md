@@ -147,7 +147,7 @@ Let's compare all options for a **1 million document** ColModernVBERT collection
 | **No quantization**  | 512 GB  | 1x (baseline) | 1x          |
 | **Scalar (int8)**    | 128 GB  | 4x            | ~2x         |
 | **Binary (2-bit)**   | 32 GB   | 16x           | ~20x        |
-| **Binary (1.5-bit)** | 21.3 GB | 24x           | ~30x        |
+| **Binary (1.5-bit)** | 21.3 GB | ~21x          | ~30x        |
 | **Binary (1-bit)**   | 16 GB   | 32x           | ~40x        |
 
 <aside role="status">

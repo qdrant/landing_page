@@ -1,8 +1,6 @@
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="name_of_the_field_to_index",
@@ -12,6 +10,7 @@ client.create_payload_index(
         min_token_len=2,
         max_token_len=10,
         lowercase=True,
+        scoring=True,
     ),
 )
 ```

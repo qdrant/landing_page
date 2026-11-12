@@ -23,11 +23,9 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "<your-collection>",
-	Query: qdrant.NewQueryNearest(
-		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Text:  "Mission to Mars",
-			Model: "qdrant/clip-vit-b-32-text",
-		}),
-	),
+	Query: qdrant.NewQueryDocument(&qdrant.Document{
+		Text:  "Mission to Mars",
+		Model: "qdrant/clip-vit-b-32-text",
+	}),
 })
 ```

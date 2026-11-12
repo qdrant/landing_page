@@ -6,7 +6,7 @@ questions:
 - question: Which controls does a Premium tier account provide?
   answer: PrivateLink (private VPC connectivity), enterprise SSO, and customer-managed encryption keys (BYOK) are all available to Premium tier customers. Contact Qdrant to enable any of these for your account.
 - question: Which identity providers does Qdrant Cloud SSO support?
-  answer: Qdrant Cloud enterprise SSO supports Active Directory/LDAP, ADFS, Azure Active Directory Native, Google Workspace, OpenID Connect, Okta, PingFederate, and SAML. SSO is available as an add-on for Premium tier customers.
+  answer: Qdrant Cloud enterprise SSO supports Active Directory/LDAP, ADFS, Azure Active Directory Native, Google Workspace, OpenID Connect, Okta, PingFederate, and SAML. SSO is included with the Premium tier and covers Cloud Console sign-in. Requests to clusters still authenticate with Database API keys.
 - question: How do API keys work and can I scope them to specific collections?
   answer: Api keys default to cluster-wide manage/write permissions, with a read-only option also available. To restrict a key to a subset of collections, select the Collections tab and choose the relevant collections. Set an expiration in days (default is 90) and rotate keys regularly.
 - question: How does Hybrid Cloud address data residency requirements?

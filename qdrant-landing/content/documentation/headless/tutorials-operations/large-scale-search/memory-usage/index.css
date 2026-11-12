@@ -1,0 +1,52 @@
+/* Entity hues match the memory tiers figures: cached is purple, pinned is
+   cyan. Tokens for chrome come from the shared --qi-* set on .island. */
+.qi-ls-mem {
+  --ls-cyan: #00838f; /* cyan-800 */
+  --ls-purple: #9c27b0; /* purple-500 */
+  --ls-orange: #f59e0b;
+  --ls-blue: #6047ff; /* neon-blue-500 */
+  --ls-track: #e6eaf5;
+  --ls-cyan-text: #00838f;
+  --ls-purple-text: #9c27b0;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .qi-ls-mem {
+    --ls-track: #2a3040;
+    --ls-cyan-text: #4dd0e1;
+    --ls-purple-text: #ce93d8;
+    --ls-blue: #9494ff;
+  }
+}
+html[data-theme="dark"] .qi-ls-mem {
+  --ls-track: #2a3040;
+  --ls-cyan-text: #4dd0e1;
+  --ls-purple-text: #ce93d8;
+  --ls-blue: #9494ff;
+}
+.qi-ls-mem {
+  display: block;
+  box-sizing: border-box;
+  padding: 20px 24px;
+  border: 1px solid var(--qi-border);
+  border-radius: 12px;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  line-height: 1.4;
+}
+.qi-ls-mem * { box-sizing: border-box; }
+.qi-ls-mem .ls-muted { color: var(--qi-muted); }
+
+.qi-ls-mem .ls-bar { display: flex; height: 44px; border-radius: 8px; overflow: hidden; gap: 2px; background: var(--qi-border); }
+.qi-ls-mem .ls-seg { min-width: 6px; }
+.qi-ls-mem .ls-seg--system { background: var(--ls-orange); }
+.qi-ls-mem .ls-seg--cache { background: var(--ls-purple); }
+.qi-ls-mem .ls-seg--data { background: var(--ls-cyan); }
+.qi-ls-mem .ls-seg--free { background: var(--ls-track); }
+.qi-ls-mem .ls-scale { display: flex; justify-content: space-between; margin: 6px 0 20px; font-size: 14px; color: var(--qi-muted); }
+.qi-ls-mem .ls-rows { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.qi-ls-mem .ls-row { display: grid; grid-template-columns: 16px 1fr; column-gap: 12px; }
+.qi-ls-mem .ls-dot { width: 16px; height: 16px; border-radius: 4px; margin-top: 3px; }
+.qi-ls-mem .ls-name { font-weight: 600; font-size: 16px; }
+.qi-ls-mem .ls-name .ls-tag { margin-left: 8px; font-size: 14px; font-weight: 500; }
+.qi-ls-mem .ls-desc { margin: 2px 0 0; font-size: 14px; color: var(--qi-muted); }

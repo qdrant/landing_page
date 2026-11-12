@@ -1,1 +1,1 @@
-This example creates a collection where each data structure uses a different memory tier: the vectors are cached in RAM, the HNSW graph index is cold and served from disk, the scalar-quantized vectors are pinned in RAM, and the payload is cached.
+This example creates a collection and sets a memory tier for each data structure: the vectors are cached in RAM, the HNSW graph index is cold and served from disk, the scalar-quantized vectors are pinned in RAM, and the payload and the ID tracker are cached.

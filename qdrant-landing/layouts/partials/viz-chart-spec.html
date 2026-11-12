@@ -8,7 +8,8 @@
   caption2= while the Markdown output quietly printed an empty claim.
 
   Takes the shortcode context. Returns a dict: id, caption, spec, views
-  (labels), captions (one per view, validated).
+  (labels), captions (one per view, validated), table (false when the page
+  already has the same table, set with table="false").
 */ -}}
 {{- $sc := . -}}
 {{- $id := $sc.Get "id" -}}
@@ -27,4 +28,5 @@
   {{- if not $c }}{{ errorf "chart in %s: view %d (%q) needs caption%d=, or it inherits a claim about another view's numbers." $sc.Position $i $v.label (add $i 1) }}{{ end -}}
   {{- $captions = $captions | append $c -}}
 {{- end -}}
-{{- return dict "id" $id "caption" $caption "spec" $spec "views" $views "captions" $captions -}}
+{{- $table := ne (printf "%v" ($sc.Get "table")) "false" -}}
+{{- return dict "table" $table "id" $id "caption" $caption "spec" $spec "views" $views "captions" $captions -}}

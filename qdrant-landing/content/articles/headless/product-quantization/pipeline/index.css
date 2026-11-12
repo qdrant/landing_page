@@ -1,0 +1,43 @@
+/* pipeline island. Scoped under .pq-fp. Chunks alternate between two colors, ids use the centroid colors. */
+.pq-fp {
+  display: block;
+}
+.pq-fp__box {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+.pq-fp__box.is-a {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.14;
+  stroke: var(--qi-cat-1);
+}
+.pq-fp__box.is-b {
+  fill: var(--qi-accent);
+  fill-opacity: 0.14;
+  stroke: var(--qi-accent);
+}
+.pq-fp__val {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  font-weight: 600;
+}
+.pq-fp__id {
+  fill-opacity: 0.25;
+  stroke-width: 2;
+}
+.pq-fp__arrow {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.pq-fp__head {
+  fill: var(--qi-muted);
+}
+.pq-fp .qi-label {
+  font-size: 14px;
+}
+.pq-fp.pq-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

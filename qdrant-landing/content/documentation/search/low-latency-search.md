@@ -22,10 +22,14 @@ Qdrant can be deployed in a [distributed configuration](/documentation/scaling/d
 
 For example, a collection with three shards and a replication factor of two would have six total replicas (two replicas for each of the three shards). On a cluster with three peers, these replicas can be evenly distributed across the peers, with each peer hosting two replicas.
 
-![On a cluster with three peers, a collection with 3 shards and a replication factor of 2 would have 6 total replicas distributed across the peers.](/docs/replication.png)
-
 When querying a collection, Qdrant reads from one replica of each given shard. Each replica can handle read requests independently, so increasing the number of peers and increasing the replication factor enables you to distribute the read load across more peers, reducing latency and increasing throughput.
 
+{{< island
+    path="content/documentation/headless/low-latency-search/replica-reads"
+    width="90%" ratio="4 / 3" title="A collection on a cluster, under a steady stream of queries. Change the number of peers, the number of shards and the replication factor to see how the replicas are read and how throughput and latency change. The chart is schematic, not a benchmark."
+>}}
+![On a cluster with three peers, a collection with 3 shards and a replication factor of 2 would have 6 total replicas distributed across the peers.](/docs/replication.png)
+{{< /island >}}
 
 However, keep in mind that replicas are not free. You need more hardware to run more peers. Because writes need to be replicated across all replicas, increasing the replication factor can increase write latency. Therefore, it's important to find the right balance between read performance and resource usage when configuring the replication factor.
 

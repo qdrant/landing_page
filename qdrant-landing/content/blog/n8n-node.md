@@ -7,6 +7,7 @@ description: Qdrant now has an official, team-supported node for n8n.
 preview_image: /blog/n8n-node/n8n-node-blog-hero.jpg
 date: 2025-06-09
 author: Maddie Duhon & Evgeniya Sukhodolskaya
+author_profile: evgeniya-sukhodolskaya
 featured: true
 tags:
   - news

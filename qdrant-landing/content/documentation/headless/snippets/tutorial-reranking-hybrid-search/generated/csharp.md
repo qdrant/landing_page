@@ -11,7 +11,6 @@ var client = new QdrantClient(
 );
 
 string denseEmbeddingModel = "sentence-transformers/all-MiniLM-L6-v2";
-string sparseEmbeddingModel = "qdrant/bm25";
 string lateInteractionEmbeddingModel = "answerdotai/answerai-colbert-small-v1";
 
 string collectionName = "hybrid-search";
@@ -38,12 +37,25 @@ await client.CreateCollectionAsync(
 				HnswConfig = new HnswConfigDiff { M = 0 }, // Disable HNSW for reranking
 			},
 		}
-	},
-	sparseVectorsConfig: new SparseVectorConfig
+	}
+);
+
+await client.CreatePayloadIndexAsync(
+	collectionName: collectionName,
+	fieldName: "description",
+	schemaType: PayloadSchemaType.Text,
+	indexParams: new PayloadIndexParams
 	{
-		Map =
+		TextIndexParams = new TextIndexParams
 		{
-			["sparse"] = new SparseVectorParams { Modifier = Modifier.Idf }
+			Tokenizer = TokenizerType.Word,
+			Stemmer = new StemmingAlgorithm
+			{
+				Snowball = new SnowballParams { Language = "english" }
+			},
+			Stopwords = new StopwordsSet { Languages = { "english" } },
+			// Enable BM25 scoring
+			Scoring = new TextScoringParams { Type = TextScoringType.Bm25 }
 		}
 	}
 );
@@ -80,7 +92,6 @@ await foreach (var (title, author, description) in ParseCsv(csvUrl))
 		Vectors = new Dictionary<string, Vector>
 		{
 			["dense"] = new Document { Text = description, Model = denseEmbeddingModel },
-			["sparse"] = new Document { Text = description, Model = sparseEmbeddingModel },
 			["multi"] = new Document { Text = description, Model = lateInteractionEmbeddingModel },
 		},
 		Payload = { ["title"] = title, ["author"] = author, ["description"] = description }
@@ -110,8 +121,8 @@ foreach (var result in results)
 
 results = await client.QueryAsync(
 	collectionName: collectionName,
-	query: new Document { Text = query, Model = sparseEmbeddingModel },
-	usingVector: "sparse",
+	query: new Query { Text = new TextQuery { Query = query } },
+	usingVector: "description",
 	limit: 10
 );
 
@@ -130,8 +141,8 @@ results = await client.QueryAsync(
 		},
 		new()
 		{
-			Query = new Document { Text = query, Model = sparseEmbeddingModel },
-			Using = "sparse",
+			Query = new Query { Text = new TextQuery { Query = query } },
+			Using = "description",
 			Limit = 20,
 		},
 	},
@@ -155,8 +166,8 @@ results = await client.QueryAsync(
 		},
 		new()
 		{
-			Query = new Document { Text = query, Model = sparseEmbeddingModel },
-			Using = "sparse",
+			Query = new Query { Text = new TextQuery { Query = query } },
+			Using = "description",
 			Limit = 20,
 		},
 	},

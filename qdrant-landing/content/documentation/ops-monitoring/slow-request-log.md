@@ -19,6 +19,8 @@ The log is per-node. Each node tracks operations on its own local shards. Queryi
 
 The Slow Request Log is enabled by default and cannot be disabled.
 
+On Qdrant Cloud, accessing the log requires a [Database API key](/documentation/cloud/authentication/) that has `manage` permissions.
+
 ## What Gets Captured
 
 The log records shard-level operations that take longer than 50 ms. The following operation types are tracked:

@@ -1,4 +1,5 @@
 using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
 public class Snippet
 {

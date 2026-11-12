@@ -1,0 +1,241 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.edge-hardware-fit {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(35);
+    color: $neutral-20;
+  }
+
+  &__visual {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: $spacer * 1.5 pxToRem(20);
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    border-radius: $spacer * 0.5;
+    overflow: hidden;
+    aspect-ratio: 335 / 261;
+    background-image: url("/img/edge/hardware-fit-tab-background.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  
+  &__tabs {
+    display: flex;
+    width: 100%;
+    border-radius: $spacer * 0.5 $spacer * 0.5 0 0;
+    border: pxToRem(1) solid $neutral-90;
+    background: $neutral-90;
+    padding: pxToRem(3);
+  }
+  
+  &__tab {
+    width: 50%;
+    height: $spacer * 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $neutral-40;
+    border-radius: pxToRem(5);
+    font-size: pxToRem(10);
+    line-height: pxToRem(15);
+    background-color: transparent;
+    border: none;
+    
+    &--active {
+      color: $neutral-20;
+      background-color: $neutral-98;
+      font-weight: $font-weight-medium;
+    }
+  }
+  
+  &__panels {
+    width: 100%;
+  }
+  
+  &__panel {
+    display: none;
+    
+    &--active {
+      display: block;
+    }
+  }
+
+  &__code {
+    overflow: hidden;
+    width: 100%;
+    height: pxToRem(178);
+    border-radius: 0 0 $spacer * 0.5 $spacer * 0.5;
+    background-color: $neutral-90;
+    border: pxToRem(1) solid $neutral-90;
+    border-top: none;
+
+    &-header,
+    &-window-buttons,
+    &-bar {
+      display: none;
+    }
+
+    &-content {
+      display: flex;
+      align-items: flex-start;
+      height: pxToRem(178);
+      margin: 0 pxToRem(3);
+      padding: $spacer math.div($spacer, 4) $spacer $spacer;
+      background: $neutral-98;
+      border-right: pxToRem(1) solid $neutral-98;
+      border-left: pxToRem(1) solid $neutral-98;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+
+      .highlight {
+        width: calc(100% - ($spacer * 1.5));
+        background: transparent;
+        margin-bottom: 0;
+
+        pre {
+          display: block;
+          width: 100%;
+          padding: 0;
+          background: transparent;
+          white-space: pre-wrap;
+          overflow-x: hidden;
+        }
+
+        code {
+          display: block;
+          width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+
+          .line {
+            margin-bottom: 0;
+          }
+
+          * {
+            font-size: $font-size-s;
+            line-height: $line-height-sm;
+            color: $neutral-30;
+          }
+
+          .kn, .kc {
+            color: $secondary-teal-50;
+          }
+
+          .s2, .s1, .nn {
+            color: $secondary-blue-50;
+          }
+        }
+      }
+
+      &-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: pxToRem(3);
+        border: pxToRem(0.5) solid $neutral-90;
+        border-radius: pxToRem(3);
+        background: $neutral-98;
+
+        svg {
+          height: pxToRem(9);
+          width: pxToRem(9);
+
+          path {
+            stroke: $neutral-70;
+          }
+        }
+      }
+    }
+  }
+  
+  &__card {
+    margin-bottom: $spacer * 1.5;
+    
+    &-title {
+      margin-bottom: $spacer * .5;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+    }
+    
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 5;
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__tab {
+      height: $spacer * 2.5;
+      border-radius: $spacer * 0.5;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+    }
+
+    &__code {
+      height: pxToRem(272);
+      border-radius: 0 0 $spacer $spacer;
+
+      &-content {
+        height: pxToRem(272);
+        padding: $spacer * 1.5 $spacer $spacer * 1.5 $spacer * 1.5;
+
+        &-button {
+          padding: pxToRem(5);
+          border: pxToRem(0.8) solid $neutral-90;
+          border-radius: pxToRem(5);
+
+          svg {
+            height: pxToRem(14);
+            width: pxToRem(14);
+          }
+        }
+      }
+    }
+
+    &__card {
+      margin-bottom: $spacer * 2;
+    }
+  }
+}

@@ -48,6 +48,17 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --qdrant.collection 'your-collection'
 ```
 
+For Chroma Cloud, use these options. Chroma Cloud returns at most 300 records per request, so keep `--migration.batch-size` at 300 or lower.
+
+```bash
+    --chroma.url 'https://api.trychroma.com' \
+    --chroma.tenant 'your-tenant-id' \
+    --chroma.database 'your-database' \
+    --chroma.auth-type token \
+    --chroma.token-header X-Chroma-Token \
+    --chroma.token 'your-api-key'
+```
+
 ### All Chroma-Specific Flags
 
 | Flag | Required | Description |
@@ -69,12 +80,11 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--qdrant.document-field` | `document` | Payload field name to store Chroma document text |
 | `--qdrant.id-field` | `__id__` | Payload field name for original Chroma IDs |
 | `--qdrant.distance-metric` | `euclid` | `cosine`, `dot`, `manhattan`, or `euclid` |
+| `--qdrant.uri-field`      | Field storing Chroma URIs in Qdrant. Default: `"uri"` |
 
 ## Gotchas
 
-- **Document text:** Chroma stores raw document text alongside embeddings. Use `--qdrant.document-field` to preserve this text as a payload field in Qdrant.
-- **ID mapping:** Chroma uses string IDs. The migration tool maps these to Qdrant point IDs and stores the original Chroma ID in a payload field (default: `__id__`).
-- **Distance metric:** Chroma defaults to L2 distance. Verify which metric your collection uses and set `--qdrant.distance-metric` accordingly.
+- **Distance metric:** The tool does not read the collection's distance function and defaults to `euclid`, which matches Chroma's default `l2`. If your collection uses `cosine` or `ip`, set `--qdrant.distance-metric`.
 
 ## Next Steps
 

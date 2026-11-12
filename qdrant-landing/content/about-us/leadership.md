@@ -10,12 +10,12 @@ teamMembers:
     position: CTO & Co-Founder
     avatar: '/img/leadership/andrey-vasnetsov.png'
   - id: 2
-    name: Fabrizio Schmidt
-    position: Product & Engineering
-    avatar: '/img/leadership/fabrizio-schmidt.png'
+    name: David Stockton
+    position: VP of Engineering
+    avatar: '/img/leadership/david-stockton.png'
   - id: 3
     name: Bastian Hofmann
-    position: Enterprise Solutions
+    position: Head of Product
     avatar: '/img/leadership/bastian-hofmann.png'
   - id: 4
     name: Dominik Alberts
@@ -23,11 +23,15 @@ teamMembers:
     avatar: '/img/leadership/dominik-alberts.png'
   - id: 5
     name: Manuel Meyer
-    position: Growth
+    position: COO
     avatar: '/img/leadership/manuel-meyer.png'
   - id: 6
     name: Randy Petkoff
     position: Sales
-    avatar: '/img/leadership/randy-petkoff.png'    
+    avatar: '/img/leadership/randy-petkoff.png'
+  - id: 7
+    name: Neil Kanungo
+    position: Head of Growth & DevRel
+    avatar: '/img/leadership/neil-kanungo.png'
 sitemapExclude: true
 ---

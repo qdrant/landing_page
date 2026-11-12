@@ -1,0 +1,1 @@
+Creates a collection whose dense vectors use the `turbo16` datatype, which stores each dimension as a 16-bit TurboQuant value.

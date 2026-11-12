@@ -10,7 +10,17 @@ weight: 70
 author: Andrey Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-06-10T10:18:00.000Z
-category: demos-and-tutorials
+category: vector-search-fundamentals
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_note: This 2021 walkthrough is preserved as a historical example.
+retired_resource:
+  title: Build a Semantic Search API
+  url: /documentation/tutorials-develop/neural-search/
 # aliases: [ /articles/neural-search-tutorial/ ]
 ---
 # Neural Search 101: A Comprehensive Guide and Step-by-Step Tutorial

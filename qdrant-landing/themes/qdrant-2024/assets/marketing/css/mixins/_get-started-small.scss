@@ -1,0 +1,129 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../bootstrap-tools' as *;
+
+@mixin base(
+  $paddingTop,
+  $paddingTopMobile,
+  $paddingBottom,
+  $paddingBottomMobile,
+  $mainBackground,
+  $blockBackground,
+  $blockBackgroundMobile
+) {
+  padding-top: $paddingTopMobile;
+  padding-bottom: $paddingBottomMobile;
+  background-color: $mainBackground;
+
+  &__content {
+    position: relative;
+    background: $blockBackground;
+    border-radius: pxToRem(8);
+    overflow: hidden;
+
+    a {
+      margin-bottom: pxToRem(40);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(300);
+      margin: 0 auto;
+      padding: 0 pxToRem(17.5);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__title {
+    padding: pxToRem(40) pxToRem(24) 0 pxToRem(24);
+    margin-bottom: pxToRem(24);
+    font-size: pxToRem(24);
+    line-height: pxToRem(34);
+    text-align: center;
+    color: #f0f3fa;
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(32);
+      line-height: pxToRem(38);
+    }
+  }
+
+  &__description {
+    margin-top: -16px;
+    margin-bottom: pxToRem(16);
+    padding: 0 pxToRem(24);
+    color: #b4bacc;
+    text-align: center;
+  }
+
+  &__overlay-top {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: pxToRem(220);
+    height: pxToRem(220);
+    background-image: url('/img/blurred/blurred-light-6.svg');
+    background-position: top;
+    background-size: cover;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $paddingTop;
+    padding-bottom: $paddingBottom;
+
+    &__content {
+      min-height: pxToRem(210);
+      background: $blockBackgroundMobile;
+
+      img {
+        padding: 0;
+        width: pxToRem(300);
+        height: pxToRem(210);
+      }
+
+      a {
+        height: pxToRem(40);
+        padding: 0 pxToRem(22);
+        margin-bottom: 0;
+      }
+    }
+
+    &__title {
+      text-align: left;
+      margin-left: pxToRem(64);
+      padding: 0;
+    }
+
+    &__description {
+      max-width: pxToRem(570);
+      margin-left: pxToRem(64);
+      padding: 0;
+      text-align: left;
+    }
+
+    .button {
+      margin-left: pxToRem(64);
+    }
+
+    &__text {
+      align-self: center;
+      align-items: flex-start;
+      padding-top: pxToRem(30);
+      padding-bottom: pxToRem(30);
+    }
+
+    &__image {
+      align-self: flex-end;
+
+      img {
+        margin: 0 0 0 auto;
+      }
+    }
+  }
+}

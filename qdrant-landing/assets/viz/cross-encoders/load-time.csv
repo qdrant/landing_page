@@ -1,0 +1,9 @@
+statistic,library,minilm_ms,jina_ms
+mean,cross-encode-rs,37.6,336.6
+mean,fastembed,33.5,333.1
+p50,cross-encode-rs,37.6,336.1
+p50,fastembed,33.5,333.1
+p90,cross-encode-rs,38.0,339.5
+p90,fastembed,33.8,337.1
+p99,cross-encode-rs,38.4,395.2
+p99,fastembed,34.8,338.7

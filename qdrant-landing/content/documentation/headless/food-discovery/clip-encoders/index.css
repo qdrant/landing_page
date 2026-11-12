@@ -1,0 +1,103 @@
+/* clip-encoders island. Scoped under .qi-cl. Controls, labels and status come
+   from the shared island design system (islands.scss); this file only styles
+   the lanes. Hues are constant across themes: orange for the image lane and
+   neon blue for the text lane. */
+
+.qi-cl {
+  --cl-image: #ef6c00; /* warning-800 */
+  --cl-text: var(--qi-cat-1);
+
+  display: block;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: 8px;
+}
+
+.qi-cl .qi-status--3 {
+  min-height: calc(3 * 1.45em);
+}
+.qi-cl[data-layout='column'] .qi-cl__svg {
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+.qi-cl__lane--image {
+  --cl-c: var(--cl-image);
+}
+.qi-cl__lane--text {
+  --cl-c: var(--cl-text);
+}
+
+.qi-cl__lane {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.qi-cl__lane.is-dim {
+  opacity: 0.4;
+}
+
+.qi-cl__box {
+  fill: var(--qi-surface);
+  stroke: var(--cl-c);
+  stroke-width: 1.5;
+}
+.qi-cl__box--encoder {
+  fill: color-mix(in srgb, var(--cl-c) 16%, transparent);
+  stroke-dasharray: 5 4;
+}
+.qi-cl__lane.is-active .qi-cl__box {
+  stroke-width: 2.5;
+}
+.qi-cl__lane.is-active .qi-cl__box--encoder {
+  stroke-dasharray: none;
+}
+.qi-cl__text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-cl__text--small {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.qi-cl__arrow {
+  fill: none;
+  stroke: var(--cl-c);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.qi-cl__head {
+  fill: var(--qi-fg);
+}
+
+.qi-cl__bracket {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.2s ease;
+}
+.qi-cl__space {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+}
+.qi-cl__svg.is-compare .qi-cl__bracket {
+  stroke: var(--qi-accent);
+  stroke-width: 3;
+}
+.qi-cl__svg.is-compare .qi-cl__space {
+  fill: var(--qi-fg);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-cl__lane,
+  .qi-cl__bracket {
+    transition: none;
+  }
+}

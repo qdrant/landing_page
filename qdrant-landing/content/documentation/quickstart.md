@@ -2,7 +2,7 @@
 title: Local Quickstart
 short_description: "Run Qdrant locally with Docker, connect a client SDK, and create your first collection for vector search."
 description: "Quickstart guide to running Qdrant locally with Docker, connecting an SDK, and building a first collection for semantic vector search."
-weight: 110
+weight: 115
 partition: develop
 aliases:
   - quick_start
@@ -11,9 +11,11 @@ aliases:
 ---
 # How to Get Started with Qdrant Locally
 
+<aside role="status">The fastest way to get started is a free <a href="/documentation/cloud-quickstart/">Qdrant Cloud</a> cluster, with no Docker setup required. Use this guide to run Qdrant locally, for example for development or testing.</aside>
+
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 
-<aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
+Before you start, please make sure Docker is installed and running on your system.
 
 ## Download and run
 
@@ -109,7 +111,7 @@ await client.createCollection("test_collection", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{CreateCollectionBuilder, VectorParamsBuilder};
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder};
 
 client
     .create_collection(
@@ -144,10 +146,10 @@ import (
 )
 
 client.CreateCollection(context.Background(), &qdrant.CreateCollection{
-	CollectionName: "{collection_name}",
+	CollectionName: "test_collection",
 	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
 		Size:     4,
-		Distance: qdrant.Distance_Cosine,
+		Distance: qdrant.Distance_Dot,
 	}),
 })
 ```
@@ -393,6 +395,7 @@ let search_result = client
     .query(
         QueryPointsBuilder::new("test_collection")
             .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
     )
     .await?;
 
@@ -421,7 +424,7 @@ System.out.println(searchResult);
 var searchResult = await client.QueryAsync(
     collectionName: "test_collection",
     query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-    limit: 3,
+    limit: 3
 );
 
 Console.WriteLine(searchResult);
@@ -438,6 +441,7 @@ import (
 searchResult, err := client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "test_collection",
 	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Limit:          qdrant.PtrOf(uint64(3)),
 })
 if err != nil {
 	panic(err)
@@ -529,7 +533,10 @@ dbg!(search_result);
 ```
 
 ```java
+import io.qdrant.client.grpc.Common.Filter;
+
 import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 List<ScoredPoint> searchResult =
     client.queryAsync(QueryPoints.newBuilder()

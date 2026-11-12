@@ -54,7 +54,7 @@ To retrieve a point by ID, use the [`retrieve`](/documentation/edge/edge-api/rea
 
 You can add or remove named vectors to an existing Edge Shard's schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
 
-For example, to add a sparse vector for [BM25 keyword search](/documentation/edge/edge-bm25/):
+For example, to add a [sparse vector](/documentation/search/text-search/sparse-vector-search/) with the IDF modifier:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="modify-vector-schema" >}}
 
@@ -120,9 +120,11 @@ After closing an Edge Shard, you can reopen it by loading its data and configura
 
 ## Custom WAL Size
 
-Qdrant Edge uses a Write-Ahead Log (WAL) to record every update before it's applied to storage. The WAL file is pre-allocated to 32 MB by default, inflating backup sizes and OS storage reports. To reduce the size, set `wal_options` on `EdgeConfig` when calling `new` or `load`. WAL options are only available in Rust.
+Qdrant Edge uses a Write-Ahead Log (WAL) to record every update before it's applied to storage. The WAL file is pre-allocated to 32 MiB by default, inflating backup sizes and OS storage reports. To reduce the size, set `wal_options` on `EdgeConfig` when calling `new` or `load`. WAL options are only available in Rust.
 
-For example, to set the WAL size to 4 MB:
+To skip the WAL entirely, set `wal_enabled` to `False` (`.wal_enabled(false)` in Rust) when you create the shard. Without a WAL, updates are durable only once `flush` returns. Refer to [Disable the WAL](/documentation/edge/edge-api/configuration/#disable-the-wal).
+
+For example, to set the WAL size to 4 MiB:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="wal-options" >}}
 

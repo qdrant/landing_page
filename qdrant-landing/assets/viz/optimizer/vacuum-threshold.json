@@ -1,0 +1,26 @@
+{
+  "title": "p95 search latency around a deletion of about 25% of points",
+  "kind": "columns-2panel",
+  "labelTop": "threshold",
+  "labelBottom": "state",
+  "colors": [
+    "muted",
+    0,
+    "muted",
+    1
+  ],
+  "height": 400,
+  "panels": [
+    {
+      "title": "p95 search latency before and after deleting about 25% of points",
+      "subtitle": "lower is better",
+      "y": "p95_ms",
+      "axis": "p95 search latency, ms",
+      "unit": "ms",
+      "yMax": 25
+    }
+  ],
+  "tooltip": {
+    "p95_ms": "p95"
+  }
+}

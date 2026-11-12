@@ -1,1 +1,1 @@
-This code snippet shows how to load a dataset and upload dense and sparse vectors to Qdrant. While uploading the vectors we also include a payload known as text. 
+This code snippet shows how to load a dataset and upload dense vectors to Qdrant. Each point also stores the passage text in the `passage_text` payload field, which the full-text index uses for BM25.

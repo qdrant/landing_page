@@ -68,12 +68,6 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | :--- | :--- | :--- |
 | `--qdrant.id-field` | `__id__` | Payload field name for original OpenSearch document IDs |
 
-## Gotchas
-
-- **OpenSearch vs. Elasticsearch:** OpenSearch is a fork of Elasticsearch, so many of the same considerations apply. However, the CLI subcommand is `opensearch`, not `elasticsearch`.
-- **Score normalization:** OpenSearch `_score` values are not directly comparable to Qdrant scores. Use rank-based metrics when [verifying your migration](/documentation/migration-guidance/).
-- **Nested documents:** OpenSearch nested documents need to be flattened or restructured for Qdrant's payload model.
-
 ## Next Steps
 
 After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

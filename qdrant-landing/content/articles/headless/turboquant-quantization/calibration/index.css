@@ -1,0 +1,41 @@
+/* calibration island. Scoped under .tq-cb. Grey: data inside the codebook,
+   red: data past it. */
+.tq-cb {
+  display: block;
+}
+.tq-cb__bar {
+  fill: var(--qi-line);
+  fill-opacity: 0.9;
+}
+.tq-cb__bar.is-out {
+  fill: var(--qi-accent);
+  fill-opacity: 0.85;
+}
+.tq-cb__ref {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 1.8;
+  stroke-dasharray: 5 3;
+}
+.tq-cb__cent {
+  fill: var(--qi-accent);
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+.tq-cb__sw-ref {
+  fill: var(--qi-fg);
+}
+.tq-cb__sw-cent,
+.tq-cb__sw-out {
+  fill: var(--qi-accent);
+}
+.tq-cb__sw-in {
+  fill: var(--qi-line);
+}
+.tq-cb .qi-label {
+  font-size: 13px;
+}
+.tq-cb.tq-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

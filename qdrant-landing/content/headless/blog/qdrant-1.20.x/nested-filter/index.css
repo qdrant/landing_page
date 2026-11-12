@@ -1,0 +1,76 @@
+/* nested filter island. Scoped under .qi-nf. Controls, the collection frame
+   and labels come from the shared island design system (islands.scss); this
+   file only styles the point rows, the offers, the condition chips and the
+   status line.
+   Condition hues are constant across themes. */
+
+.qi-nf {
+  --nf-shop: var(--qi-cat-1); /* neon-blue-500 */
+  --nf-price: var(--qi-cat-3); /* cyan-800 */
+
+  display: block;
+}
+
+/* --- Point rows --- */
+.qi-nf__row {
+  transition: opacity 0.3s ease;
+}
+.qi-nf__row.is-miss {
+  opacity: 0.45;
+}
+.qi-nf__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+
+/* --- Offers --- */
+.qi-nf__offer-box {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-nf__offer.is-hot .qi-nf__offer-box {
+  stroke: var(--qi-hot);
+  stroke-width: 1.5;
+}
+
+/* --- Chips: neutral, or colored by the condition they meet --- */
+.qi-nf__chip rect {
+  fill: var(--qi-surface);
+}
+.qi-nf__chip text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qi-nf__chip--shop rect {
+  fill: var(--nf-shop);
+}
+.qi-nf__chip--price rect {
+  fill: var(--nf-price);
+}
+.qi-nf__chip--shop text,
+.qi-nf__chip--price text {
+  fill: #fff;
+  font-weight: 600;
+}
+
+/* --- Status line ---
+   Scoped with the element to outrank `.qdrant-post__content p`, which sets the
+   size, line height and margin of every paragraph in a blog post. */
+.qi-nf p.qi-nf__status {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-nf__row,
+  .qi-nf__offer-box {
+    transition: none;
+  }
+}

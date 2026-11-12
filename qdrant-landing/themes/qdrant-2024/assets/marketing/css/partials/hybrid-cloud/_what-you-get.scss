@@ -1,0 +1,68 @@
+@use '../../helpers/functions' as *;
+
+.hybrid-cloud-what-you-get {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__description {
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-30;
+    margin-bottom: $spacer * 2.5;
+  }
+  
+  &__image {
+    display: none;
+    
+    &-mobile {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(336);
+      margin: 0 auto;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      max-width: pxToRem(445);
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      margin-bottom: 0;
+    }
+
+    &__description {
+      margin-bottom: 0;
+    }
+
+    &__image {
+      display: block;
+      width: 100%;
+      margin-top: $spacer * 5.5;
+
+      &-mobile {
+        display: none;
+      }
+    }
+  }
+}

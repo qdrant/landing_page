@@ -27,7 +27,7 @@ The level of this tradeoff depends on the quantization method and its parameters
 
 Qdrant supports four quantization methods:
 
-- **[TurboQuant](#turboquant-quantization)** supports up to 32x compression, with strong recall across most embedding models.
+- **[TurboQuant](#turboquant-quantization)** supports 4x to 32x compression, with strong recall across most embedding models.
 - **[Scalar Quantization](#scalar-quantization)** compresses each vector component from a 32-bit float to an 8-bit integer, achieving 4x compression with minimal accuracy loss.
 - **[Binary Quantization](#binary-quantization)** reduces each vector component to one to two bits for up to 32x compression. Best suited for high-dimensional, centered vector distributions.
 - **[Product Quantization](#product-quantization)** enables up to 64x compression when minimizing memory is the top priority.
@@ -40,18 +40,16 @@ Depending on your requirements for recall, compression, and distance metrics, co
 
 | Compression | Method      |
 |-------------|-------------|
-| 4           | Use **Scalar Quantization**. It is a well-established quantization method with a good balance between recall and compression. <br/><br/>However, unless you need to use the Manhattan (L1) distance metric, consider using 4-bit **TurboQuant** instead of scalar quantization, as it offers comparable recall at double the compression. |
+| 4           | Use 8-bit **TurboQuant**. In our benchmarks, the 8-bit TurboQuant encoding matched or exceeded the recall of scalar quantization at the same compression, with similar speed. <br/><br/>When using the Manhattan (L1) distance metric, use **Scalar Quantization** instead. |
 | 8           | Use 4-bit **TurboQuant**. It offers a good balance between recall and compression. <br/><br/>When using the Manhattan (L1) distance metric, consider using another quantization method. |
 | 16          | **2-bit TurboQuant** and **2-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
-| 24          | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| ~21         | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | 32          | **1-bit TurboQuant** and **1-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | Up to 64  | Use **Product Quantization** if the memory footprint is the top priority and accuracy and speed are not critical. |
 
 ## TurboQuant Quantization
 
 *Available as of v1.18.0*
-
-<aside role="status">Test TurboQuant on your data before committing. We encourage you to try it on new collections.</aside>
 
 TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This allows applying a single pre-computed, globally optimized quantization mapping across the dataset, enabling TurboQuant to work effectively with any vector distribution and overcoming a key limitation found in binary quantization.
 
@@ -61,26 +59,43 @@ TurboQuant uses asymmetric quantization automatically: only stored vectors are c
 
 ### Encoding Options
 
-TurboQuant supports four bit depths:
+TurboQuant supports five bit depths:
 
 | Encoding | Bit Depth | Compression |
 |----------|-----------|-------------|
+| `bits8`           | 8 bits   | 4× |
 | `bits4` (default) | 4 bits   | 8× |
 | `bits2`           | 2 bits   | 16× |
-| `bits1_5`         | 1.5 bits | 24× |
+| `bits1_5`         | 1.5 bits | ~21× |
 | `bits1`           | 1 bit    | 32× |
 
 In our benchmarks, 4-bit TurboQuant, at twice the compression ratio of scalar quantization, delivers similar recall and speed. Results vary by dataset and embedding model: it may outperform or slightly underperform scalar quantization. This makes 4-bit TurboQuant a good default choice for many use cases.
 
 Compared to binary quantization, TurboQuant offers better recall at lower speed and equivalent storage budgets.
 
-The default encoding is `bits4`, which offers the best accuracy.
+The default encoding is `bits4`. `bits8`, available as of v1.20.0, offers the highest accuracy at half the compression of `bits4`.
 
 ### Distance Metric Support
 
 TurboQuant fully supports Cosine, Dot, and Euclidean (L2) distance with SIMD-accelerated scoring.
 
 Manhattan (L1) distance is supported but requires full vector reconstruction per comparison, making it significantly slower than the other metrics. Use Cosine, Dot, or Euclidean distance for best performance with TurboQuant.
+
+### Rescoring
+
+Rescoring re-evaluates the top search results with the original vectors, which recovers accuracy lost to compression. It improves search quality, but it reads the original vectors, which can slow down search when they're served from disk.
+
+Lower bit depths lose more precision, so Qdrant rescores them by default:
+
+| Encoding | Rescoring by default |
+|----------|----------------------|
+| `bits8`   | No |
+| `bits4`   | No |
+| `bits2`   | Yes |
+| `bits1_5` | Yes |
+| `bits1`   | Yes |
+
+To override the default for a query, set the `rescore` search parameter. See [Searching with Quantization](#searching-with-quantization).
 
 ## Scalar Quantization
 
@@ -107,7 +122,7 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 
 *Available as of v1.5.0*
 
-[Binary quantization](/articles/binary-quantization/) is an extreme case of scalar quantization.
+Binary quantization is an extreme case of scalar quantization.
 This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a factor of 32. This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions. Binary quantization can achieve up to a 40x speedup compared to the original vectors.
 
 However, binary quantization is only efficient for high-dimensional vectors and requires a centered distribution of vector components.
@@ -115,13 +130,35 @@ However, binary quantization is only efficient for high-dimensional vectors and 
 At the moment, binary quantization shows good accuracy results with the following models:
 
 - OpenAI `text-embedding-ada-002` - 1536d tested with [dbpedia dataset](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) achieving 0.98 recall@100 with 4x oversampling
+- OpenAI `text-embedding-3-large` - 3072d tested with [DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) achieving 0.9966 recall with 3x oversampling and rescoring
+- OpenAI `text-embedding-3-large` - 1536d tested with [DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M) achieving 0.9826 recall with 3x oversampling and rescoring
+- OpenAI `text-embedding-3-small` - 1536d tested with [DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K) achieving 0.9847 recall with 3x oversampling and rescoring
 - Cohere AI `embed-english-v2.0` - 4096d tested on Wikipedia embeddings - 0.98 recall@50 with 2x oversampling
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
-We recommend using binary quantization only with rescoring enabled, as this can significantly improve search quality. However, keep in mind that if the original vectors are stored on disk, rescoring can significantly decrease search speed.
+We recommend using binary quantization with rescoring enabled, because the binary pass alone loses accuracy that rescoring recovers. Keep in mind that if the original vectors are stored on disk, rescoring can significantly decrease search speed.
 
 Additionally, oversampling can be used to tune the tradeoff between search speed and search quality at query time.
+
+### Rescoring and Oversampling Results
+
+A 2024 sweep over the OpenAI `text-embedding-3` models shows what rescoring and oversampling do to binary quantization in practice. The numbers below come from that run, with the setup that produced them, so you can judge how far they carry to your data.
+
+**Setup.** 100,000 vectors sampled at random from the [DBpedia OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) dataset, embedded with `text-embedding-3-large` at 1024, 1536, and 3072 dimensions and `text-embedding-3-small` at 512, 1024, and 1536 dimensions. 100 randomly selected records served as queries. For each configuration the sweep toggled rescoring, varied the oversampling factor, and ran search limits of 10, 20, 50, and 100. Accuracy is the overlap between the quantized results and exact search, averaged over the queries. Limits 1 and 5 were excluded from the averages.
+
+**Results.** Rescoring improved accuracy in every configuration of this sweep, and the gap was largest at low dimensionality.
+
+| Model | Dimensions | Accuracy without rescoring | Accuracy with rescoring |
+|-------|------------|----------------------------|-------------------------|
+| `text-embedding-3-large` | 3072 | 76% to 77% | 97% to 99% |
+| `text-embedding-3-small` | 512 | 53% to 55% | 71% to 91% |
+
+Each range spans the search limits and oversampling factors tested. With rescoring on, raising the oversampling factor kept improving accuracy for the 3072-dimensional model. For the 512-dimensional model the gains from more oversampling were small, with or without rescoring. The improvement from rescoring itself was stable across search limits.
+
+**Limits of this run.** Treat the ranges as indicative, not as confidence intervals: 100 queries is a small sample. The run used 1-bit binary quantization only; the [1.5-bit and 2-bit encodings](#15-bit-and-2-bit-quantization) and [asymmetric quantization](#asymmetric-quantization) added in v1.15 were not part of it and are designed to reduce exactly the low-dimensional loss the 512-dimensional row shows. Rescoring is not a guarantee of accuracy: it can only reorder candidates the binary pass already retrieved, so it recovers less when the oversampling factor is low or the dimensionality is small, and it reads the original vectors, which costs disk I/O when they are stored on disk.
+
+**What to take from it.** Use the highest dimensionality the model offers, an oversampling factor of 3 as a starting point, and rescoring on. Keep the original vectors on disk and the quantized vectors in RAM; see [Memory and Speed Tuning](#memory-and-speed-tuning) for the memory tiers. Re-run the comparison in [Accuracy Tuning](#accuracy-tuning) on your own collection before fixing the parameters.
 
 ### Binary Quantization as Hamming Distance
 
@@ -157,7 +194,7 @@ Binary quantization makes it efficient to compare vectors using this representat
 
 *Available as of v1.15.0*
 
-**Binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy.
+**Binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers about 21X compression and intermediate accuracy.
 
 A major limitation of binary quantization is poor handling of values close to zero.
 2-bit quantization addresses this by explicitly representing zeros using an efficient scoring mechanism. In the case of 1.5-bit quantization, the zero-bit is shared between two values, balancing the efficiency of binary quantization with the accuracy improvements of 2-bit quantization, especially when 2-bit BQ requires too much memory.
@@ -237,7 +274,7 @@ When enabling TurboQuant on an existing collection, use a PATCH request or the c
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant/" >}}
 
-`bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
+`bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits8`, `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
 
 `memory` - the [memory tier](/documentation/ops-configuration/memory-tiers/) for the quantized vectors. By default, depends on the placement of the original vectors. See [Default Tiers](/documentation/ops-configuration/memory-tiers/#default-tiers). Set to `pinned` to always keep quantized vectors in RAM. If you're using a version older than 1.19, see [Legacy Settings](/documentation/ops-configuration/memory-tiers/#legacy-settings).
 

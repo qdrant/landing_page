@@ -1,12 +1,4 @@
-> Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
-> Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
-> Use this file to discover all available pages: https://qdrant.tech/llms.txt
-
-{{- $content := .RenderShortcodes -}}
-{{- if not (strings.TrimSpace $content) }}# {{ .Title }}
-{{ end -}}
-{{- /* Rewrite internal absolute links: ](/path/to/page/) → ](https://qdrant.tech/path/to/page/index.md) */}}
-{{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
-{{- /* Rewrite internal relative links: ](../page/) or (./page/) → same with index.md */}}
-{{- $content = replaceRE `\]\((\.\.?/[^):]*/)([\)#?])` `](https://qdrant.tech/${1}index.md${2}` $content -}}
-{{ $content }}
+{{- /* Body in partials/markdown-page/_default-list.md. Rendered once, then published at index.md and its /path.md alias. */ -}}
+{{- $out := partial "markdown-page/_default-list.md" . -}}
+{{- partial "markdown-alias.html" (dict "page" . "content" $out) -}}
+{{- $out -}}

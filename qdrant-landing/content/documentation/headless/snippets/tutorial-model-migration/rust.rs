@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, CreateVectorNameRequestBuilder, DeleteVectorNameRequestBuilder,
-    DenseVectorCreationConfigBuilder, Distance, Document, NamedVectors, PointStruct, PointVectors,
+    Condition, CountPointsBuilder, CreateCollectionBuilder, CreateVectorNameRequestBuilder, DeleteVectorNameRequestBuilder,
+    DenseVectorCreationConfigBuilder, Distance, Document, Filter, NamedVectors, PointStruct, PointVectors,
     Query, QueryPointsBuilder, ScrollPointsBuilder, UpdateMode, UpdatePointVectorsBuilder,
     UpsertPointsBuilder, VectorParamsBuilder,
 };
@@ -122,6 +122,24 @@ pub async fn main() -> anyhow::Result<()> {
         }
     }
     // @block-end migrate-points
+
+    // @block-start alias-update
+    // Use the HTTP API to submit both alias operations in one atomic request.
+    // The REST endpoint uses port 6333, unlike the gRPC client's port 6334.
+    let qdrant_rest_url = "https://your-cluster.cloud.qdrant.io:6333";
+    ureq::post(format!("{qdrant_rest_url}/collections/aliases"))
+        .header("api-key", QDRANT_API_KEY)
+        .send_json(serde_json::json!({
+            "actions": [
+                {"delete_alias": {"alias_name": "prod"}},
+                {"create_alias": {
+                    "alias_name": "prod",
+                    "collection_name": new_collection
+                }}
+            ]
+        }))?;
+    // @block-end alias-update
+
 
     // @block-start search-old-collection
     let results = client
@@ -254,6 +272,16 @@ pub async fn main() -> anyhow::Result<()> {
     // @hide-start
     _ = old_vector_results;
     // @hide-end
+
+    // @block-start count-missing
+    client
+        .count(
+            CountPointsBuilder::new(collection)
+                .filter(Filter::must_not([Condition::has_vector(new_vector)]))
+                .exact(true),
+        )
+        .await?;
+    // @block-end count-missing
 
     // @block-start search-with-new-vector
     let new_vector_results = client

@@ -13,8 +13,17 @@ tags:
   - Vector Database
   - Machine Learning
   - Information Retrieval
-category: mastering-search
+category: vector-search-fundamentals
 weight: 100
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Batch Search Documentation"
+  url: "/documentation/search/search/#batch-search-api"
 ---
 
 # How to Optimize Vector Search Using Batch Search in Qdrant 0.10.0

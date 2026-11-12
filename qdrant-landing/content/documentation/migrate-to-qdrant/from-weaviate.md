@@ -79,9 +79,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Gotchas
 
-- **Vector dimensions not exposed:** Always pre-create the Qdrant collection. If you don't know your dimensions, check a sample vector from Weaviate or your embedding model's documentation.
-- **Cross-references:** Weaviate cross-references don't have a direct equivalent in Qdrant. Store referenced IDs as payload fields and rebuild the linking in your application layer.
-- **Module dependencies:** If you used Weaviate vectorizer modules (e.g., `text2vec-openai`), ensure you exported the actual vectors, not just the source text.
+- **Named vectors:** The tool reads only the class's default vector. Classes that use named vectors are not supported.
 
 ## Next Steps
 

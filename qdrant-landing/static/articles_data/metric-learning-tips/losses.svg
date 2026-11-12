@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 530" role="img" aria-labelledby="title desc"><title id="title">Metric learning loss comparisons</title><desc id="desc">Contrastive loss compares positive and negative pairs. Triplet loss compares an anchor with a positive and a negative. Multi-class loss compares one anchor with several negatives. Constellation loss compares several anchors with several negatives. Adapted from Medela et al., 2019; point positions are schematic.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs><rect width="760" height="530" rx="8" fill="#f0f3fa"/>
+<text x="190" y="30" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">Contrastive loss</text>
+<path d="M37 124L93 124" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M135 65L171 98" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="37" cy="124" r="8" fill="#6047ff"/>
+<circle cx="93" cy="124" r="8" fill="#6047ff"/>
+<circle cx="135" cy="65" r="8" fill="#656b7f"/>
+<circle cx="171" cy="98" r="8" fill="#ef6c00"/>
+<circle cx="150" cy="124" r="8" fill="#00838f"/>
+<circle cx="171" cy="158" r="8" fill="#dc244c"/>
+<circle cx="135" cy="190" r="8" fill="#9c27b0"/>
+<text x="100" y="220" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">Before</text>
+<path d="M232 124L249 124" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M315 65L378 98" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="232" cy="124" r="8" fill="#6047ff"/>
+<circle cx="249" cy="124" r="8" fill="#6047ff"/>
+<circle cx="315" cy="65" r="8" fill="#656b7f"/>
+<circle cx="378" cy="98" r="8" fill="#ef6c00"/>
+<circle cx="345" cy="124" r="8" fill="#00838f"/>
+<circle cx="366" cy="158" r="8" fill="#dc244c"/>
+<circle cx="330" cy="190" r="8" fill="#9c27b0"/>
+<text x="295" y="220" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">After</text>
+<path d="M175 236L215 236" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="570" y="30" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">Triplet loss</text>
+<path d="M417 124L473 124" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M473 124L530 124" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="417" cy="124" r="8" fill="#6047ff"/>
+<circle cx="473" cy="124" r="8" fill="#6047ff"/>
+<circle cx="515" cy="65" r="8" fill="#656b7f"/>
+<circle cx="551" cy="98" r="8" fill="#ef6c00"/>
+<circle cx="530" cy="124" r="8" fill="#00838f"/>
+<circle cx="551" cy="158" r="8" fill="#dc244c"/>
+<circle cx="515" cy="190" r="8" fill="#9c27b0"/>
+<text x="480" y="220" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">Before</text>
+<path d="M612 124L629 124" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M629 124L725 124" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="612" cy="124" r="8" fill="#6047ff"/>
+<circle cx="629" cy="124" r="8" fill="#6047ff"/>
+<circle cx="710" cy="65" r="8" fill="#656b7f"/>
+<circle cx="746" cy="98" r="8" fill="#ef6c00"/>
+<circle cx="725" cy="124" r="8" fill="#00838f"/>
+<circle cx="746" cy="158" r="8" fill="#dc244c"/>
+<circle cx="710" cy="190" r="8" fill="#9c27b0"/>
+<text x="675" y="220" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">After</text>
+<path d="M555 236L595 236" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="190" y="285" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">Multi-class loss</text>
+<path d="M37 379L93 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M93 379L135 320" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M93 379L171 353" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M93 379L150 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M93 379L171 413" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M93 379L135 445" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="37" cy="379" r="8" fill="#6047ff"/>
+<circle cx="93" cy="379" r="8" fill="#6047ff"/>
+<circle cx="135" cy="320" r="8" fill="#656b7f"/>
+<circle cx="171" cy="353" r="8" fill="#ef6c00"/>
+<circle cx="150" cy="379" r="8" fill="#00838f"/>
+<circle cx="171" cy="413" r="8" fill="#dc244c"/>
+<circle cx="135" cy="445" r="8" fill="#9c27b0"/>
+<text x="100" y="475" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">Before</text>
+<path d="M232 379L249 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M249 379L330 320" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M249 379L366 353" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M249 379L345 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M249 379L366 413" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M249 379L330 445" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="232" cy="379" r="8" fill="#6047ff"/>
+<circle cx="249" cy="379" r="8" fill="#6047ff"/>
+<circle cx="330" cy="320" r="8" fill="#656b7f"/>
+<circle cx="366" cy="353" r="8" fill="#ef6c00"/>
+<circle cx="345" cy="379" r="8" fill="#00838f"/>
+<circle cx="366" cy="413" r="8" fill="#dc244c"/>
+<circle cx="330" cy="445" r="8" fill="#9c27b0"/>
+<text x="295" y="475" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">After</text>
+<path d="M175 491L215 491" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="570" y="285" fill="#303547" font-family="ui-monospace,monospace" font-size="18" text-anchor="middle">Constellation loss</text>
+<path d="M417 379L473 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M473 379L520 345" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M473 379L540 361" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M473 379L532 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M473 379L540 397" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M473 379L520 417" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M520 345L540 361" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M520 345L532 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M520 345L540 397" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M520 345L520 417" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M540 361L532 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M540 361L540 397" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M540 361L520 417" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M532 379L540 397" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M532 379L520 417" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M540 397L520 417" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="417" cy="379" r="8" fill="#6047ff"/>
+<circle cx="473" cy="379" r="8" fill="#6047ff"/>
+<circle cx="520" cy="345" r="8" fill="#656b7f"/>
+<circle cx="540" cy="361" r="8" fill="#ef6c00"/>
+<circle cx="532" cy="379" r="8" fill="#00838f"/>
+<circle cx="540" cy="397" r="8" fill="#dc244c"/>
+<circle cx="520" cy="417" r="8" fill="#9c27b0"/>
+<text x="480" y="475" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">Before</text>
+<path d="M612 379L629 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M629 379L690 310" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M629 379L738 342" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M629 379L718 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M629 379L738 422" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M629 379L690 454" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M690 310L738 342" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M690 310L718 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M690 310L738 422" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M690 310L690 454" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M738 342L718 379" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M738 342L738 422" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M738 342L690 454" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M718 379L738 422" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M718 379L690 454" fill="none" stroke="#656b7f" stroke-width="2"/>
+<path d="M738 422L690 454" fill="none" stroke="#656b7f" stroke-width="2"/>
+<circle cx="612" cy="379" r="8" fill="#6047ff"/>
+<circle cx="629" cy="379" r="8" fill="#6047ff"/>
+<circle cx="690" cy="310" r="8" fill="#656b7f"/>
+<circle cx="738" cy="342" r="8" fill="#ef6c00"/>
+<circle cx="718" cy="379" r="8" fill="#00838f"/>
+<circle cx="738" cy="422" r="8" fill="#dc244c"/>
+<circle cx="690" cy="454" r="8" fill="#9c27b0"/>
+<text x="675" y="475" fill="#303547" font-family="ui-monospace,monospace" font-size="14" text-anchor="middle">After</text>
+<path d="M555 491L595 491" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="380" y="518" fill="#303547" font-family="ui-monospace,monospace" font-size="13" text-anchor="middle">Connected points indicate comparisons; positions are illustrative.</text>
+</svg>

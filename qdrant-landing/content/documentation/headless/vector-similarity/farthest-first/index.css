@@ -1,0 +1,45 @@
+.qi-ff {
+  display: block;
+}
+
+.qi-ff .qi-ff__svg .qi-label,
+.qi-ff .qi-ff__svg .qi-ff__number {
+  fill: var(--qi-fg);
+  font-size: 20px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.qi-ff__point {
+  fill: var(--qi-muted);
+}
+
+.qi-ff__point--picked {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-surface);
+  stroke-width: 3;
+}
+
+.qi-ff__link {
+  fill: none;
+  stroke: var(--qi-cat-2);
+  stroke-dasharray: 7 6;
+  stroke-width: 2;
+}
+
+.qi-ff [data-next]:focus-visible,
+.qi-ff [data-reset]:focus-visible {
+  outline: 3px solid var(--qi-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .qi-ff .qi-ff__svg .qi-label,
+  .qi-ff .qi-ff__svg .qi-ff__number {
+    font-size: 14px;
+  }
+
+  .qi-ff .qi-ff__svg .qi-ff__mobile-label {
+    font-size: 14px;
+  }
+}

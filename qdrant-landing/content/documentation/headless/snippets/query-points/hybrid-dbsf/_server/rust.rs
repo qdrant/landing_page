@@ -2,13 +2,13 @@ use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     client.query(
         QueryPointsBuilder::new("{collection_name}")
             .add_prefetch(PrefetchQueryBuilder::default()
-                .query(Query::new_nearest([(1, 0.22), (42, 0.8)].as_slice()))
-                .using("sparse")
+                .query(Query::new_text("time travel"))
+                .using("title")
                 .limit(20u64)
             )
             .add_prefetch(PrefetchQueryBuilder::default()

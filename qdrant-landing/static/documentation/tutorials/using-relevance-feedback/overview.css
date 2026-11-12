@@ -1,0 +1,15 @@
+/* Eager, page-scoped fallback sizing also works without the island module. */
+.island[data-island="content/documentation/headless/relevance-feedback/overview"]
+  .island__fallback
+  > picture {
+  display: block;
+  height: 100%;
+}
+@media (max-width: 1200px) {
+  .island:not(
+      .is-ready
+    )[data-island="content/documentation/headless/relevance-feedback/overview"]
+    .island__stage {
+    aspect-ratio: 320 / 1080 !important;
+  }
+}

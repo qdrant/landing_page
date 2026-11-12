@@ -1,0 +1,27 @@
+{{- /* Shared table source for HTML and Markdown, following cloud-inference-models.html. */ -}}
+{{- $catalog := hugo.Data.fastembed_models -}}
+{{- $type := . | default "" -}}
+{{- $result := "" -}}
+{{- if eq $type "version" -}}
+  {{- $result = (printf "These tables list the built-in embedding models in [FastEmbed %s](https://github.com/qdrant/fastembed/releases/tag/v%s). Model names, dimensions, and licenses come from that release's model registry. Your installed version determines which models you can use." $catalog.version $catalog.version) -}}
+{{- else -}}
+{{- $models := index $catalog.models $type -}}
+{{- if not $models -}}
+  {{- errorf "fastembed-models: no %q models in data/fastembed_models.json" $type -}}
+{{- end -}}
+{{- $hasDimensions := ne $type "sparse" -}}
+{{- $rows := slice (printf "| Model |%s License |" (cond $hasDimensions " Dimensions |" "")) (printf "|---|%s---|" (cond $hasDimensions "---|" "")) -}}
+{{- range $models -}}
+  {{- if not (and .model .license) -}}
+    {{- errorf "fastembed-models: each %s model needs a model name and license" $type -}}
+  {{- end -}}
+  {{- $dimensions := "" -}}
+  {{- if $hasDimensions -}}
+    {{- if not .dimensions -}}{{- errorf "fastembed-models: %s needs dimensions" .model -}}{{- end -}}
+    {{- $dimensions = printf " %v |" .dimensions -}}
+  {{- end -}}
+  {{- $rows = $rows | append (printf "| `%s` |%s %s |" .model $dimensions .license) -}}
+{{- end -}}
+{{- $result = delimit $rows "\n" -}}
+{{- end -}}
+{{- return $result -}}

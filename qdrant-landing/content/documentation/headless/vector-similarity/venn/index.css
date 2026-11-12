@@ -1,0 +1,39 @@
+.qi-venn {
+  display: block;
+}
+
+.qi-venn .qi-venn__svg .qi-label,
+.qi-venn .qi-venn__svg .qi-frame-label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 20px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.qi-venn .qi-venn__left {
+  fill: color-mix(in srgb, var(--qi-cat-1) 14%, var(--qi-surface));
+  stroke: var(--qi-cat-1);
+  stroke-width: 3;
+}
+
+.qi-venn .qi-venn__right {
+  fill: color-mix(in srgb, var(--qi-cat-2) 14%, var(--qi-surface));
+  stroke: var(--qi-cat-2);
+  stroke-width: 3;
+}
+
+.qi-venn .qi-venn__overlap {
+  fill: var(--qi-cat-3-soft);
+}
+
+.qi-venn .qi-venn__clip {
+  fill: #fff;
+}
+
+@media (max-width: 560px) {
+  .qi-venn .qi-venn__svg .qi-label,
+  .qi-venn .qi-venn__svg .qi-frame-label {
+    font-size: 24px;
+  }
+}

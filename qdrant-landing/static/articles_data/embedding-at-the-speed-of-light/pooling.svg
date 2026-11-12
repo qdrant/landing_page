@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg" viewBox="0 0 760 310" role="img" aria-label="Pooling as one matrix product: a 3 by 4 count matrix of documents by distinct tokens multiplies a 4 by d matrix of the distinct tokens' embedding rows, giving 3 by d sums. Dividing each row by its text length gives the mean. Text 1 has length 3."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.se-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.se-arrowhead { fill: #656b7f; }
+.se-chip { cursor: pointer; }
+.se-chip rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-chip text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.se-chip.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.se-chip:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.se-chip:focus { outline: none; }
+.se-box rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-box text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.c1 { fill: #6047ff; }
+.c2 { fill: #9c27b0; }
+.c3 { fill: #00838f; }
+.c4 { fill: #dc244c; }
+.pad { fill: none; stroke: #abb1c7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.muted { fill: #656b7f; }
+.dim { opacity: 0.35; }
+.se-num { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; text-anchor: middle; }
+.se-cell-box { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-cell-box.is-selected { stroke: #303547; stroke-width: 2.5; }
+.se-seg { stroke: none; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="310" fill="#fff"/>
+    
+    <g class="se-chip is-selected" data-i="0" role="button" tabindex="0" aria-pressed="true" aria-label="text 1">
+      <rect x="20" y="20" width="100" height="28" rx="6"/>
+      <text x="32" y="39">text 1</text>
+    </g>
+    <g class="se-chip" data-i="1" role="button" tabindex="0" aria-pressed="false" aria-label="text 2">
+      <rect x="130" y="20" width="100" height="28" rx="6"/>
+      <text x="142" y="39">text 2</text>
+    </g>
+    <g class="se-chip" data-i="2" role="button" tabindex="0" aria-pressed="false" aria-label="text 3">
+      <rect x="240" y="20" width="100" height="28" rx="6"/>
+      <text x="252" y="39">text 3</text>
+    </g>
+    <text class="qi-title" x="20" y="84">counts</text>
+    <text class="qi-label" x="41" y="104" text-anchor="middle">t1</text><text class="qi-label" x="83" y="104" text-anchor="middle">t2</text><text class="qi-label" x="125" y="104" text-anchor="middle">t3</text><text class="qi-label" x="167" y="104" text-anchor="middle">t4</text>
+    <rect class="se-cell-box is-selected" x="20" y="112" width="168" height="30" rx="4"/>
+    <text class="se-num" x="41" y="132">2</text><text class="se-num" x="83" y="132">1</text><text class="se-num" x="125" y="132">0</text><text class="se-num" x="167" y="132">0</text>
+    <rect class="se-cell-box" x="20" y="148" width="168" height="30" rx="4"/>
+    <text class="se-num dim" x="41" y="168">0</text><text class="se-num dim" x="83" y="168">1</text><text class="se-num dim" x="125" y="168">1</text><text class="se-num dim" x="167" y="168">0</text>
+    <rect class="se-cell-box" x="20" y="184" width="168" height="30" rx="4"/>
+    <text class="se-num dim" x="41" y="204">1</text><text class="se-num dim" x="83" y="204">0</text><text class="se-num dim" x="125" y="204">0</text><text class="se-num dim" x="167" y="204">1</text>
+    <text class="qi-title" x="204" y="168">@</text>
+    <text class="qi-title" x="250" y="84">embedding rows</text>
+    <rect class="c1" x="250" y="112" width="20" height="30" rx="3"/><rect class="c1" x="272" y="112" width="20" height="30" rx="3"/><rect class="c1" x="294" y="112" width="20" height="30" rx="3"/><rect class="c1" x="316" y="112" width="20" height="30" rx="3"/><rect class="c1" x="338" y="112" width="20" height="30" rx="3"/><rect class="c1" x="360" y="112" width="20" height="30" rx="3"/><rect class="c2" x="250" y="148" width="20" height="30" rx="3"/><rect class="c2" x="272" y="148" width="20" height="30" rx="3"/><rect class="c2" x="294" y="148" width="20" height="30" rx="3"/><rect class="c2" x="316" y="148" width="20" height="30" rx="3"/><rect class="c2" x="338" y="148" width="20" height="30" rx="3"/><rect class="c2" x="360" y="148" width="20" height="30" rx="3"/><rect class="c3 dim" x="250" y="184" width="20" height="30" rx="3"/><rect class="c3 dim" x="272" y="184" width="20" height="30" rx="3"/><rect class="c3 dim" x="294" y="184" width="20" height="30" rx="3"/><rect class="c3 dim" x="316" y="184" width="20" height="30" rx="3"/><rect class="c3 dim" x="338" y="184" width="20" height="30" rx="3"/><rect class="c3 dim" x="360" y="184" width="20" height="30" rx="3"/><rect class="c4 dim" x="250" y="220" width="20" height="30" rx="3"/><rect class="c4 dim" x="272" y="220" width="20" height="30" rx="3"/><rect class="c4 dim" x="294" y="220" width="20" height="30" rx="3"/><rect class="c4 dim" x="316" y="220" width="20" height="30" rx="3"/><rect class="c4 dim" x="338" y="220" width="20" height="30" rx="3"/><rect class="c4 dim" x="360" y="220" width="20" height="30" rx="3"/>
+    <text class="qi-title" x="428" y="168">=</text>
+    <text class="qi-title" x="470" y="84">sums</text>
+    <rect class="muted" x="470" y="112" width="20" height="30" rx="3"/><rect class="muted" x="492" y="112" width="20" height="30" rx="3"/><rect class="muted" x="514" y="112" width="20" height="30" rx="3"/><rect class="muted" x="536" y="112" width="20" height="30" rx="3"/><rect class="muted" x="558" y="112" width="20" height="30" rx="3"/><rect class="muted" x="580" y="112" width="20" height="30" rx="3"/><rect class="muted dim" x="470" y="148" width="20" height="30" rx="3"/><rect class="muted dim" x="492" y="148" width="20" height="30" rx="3"/><rect class="muted dim" x="514" y="148" width="20" height="30" rx="3"/><rect class="muted dim" x="536" y="148" width="20" height="30" rx="3"/><rect class="muted dim" x="558" y="148" width="20" height="30" rx="3"/><rect class="muted dim" x="580" y="148" width="20" height="30" rx="3"/><rect class="muted dim" x="470" y="184" width="20" height="30" rx="3"/><rect class="muted dim" x="492" y="184" width="20" height="30" rx="3"/><rect class="muted dim" x="514" y="184" width="20" height="30" rx="3"/><rect class="muted dim" x="536" y="184" width="20" height="30" rx="3"/><rect class="muted dim" x="558" y="184" width="20" height="30" rx="3"/><rect class="muted dim" x="580" y="184" width="20" height="30" rx="3"/>
+    <text class="qi-label" x="620" y="132">÷ 3 tokens</text>
+    <text class="qi-label" x="20" y="268">documents × distinct tokens</text>
+    <text class="qi-label" x="250" y="268">one row per distinct token</text>
+    <text class="qi-label" x="470" y="268">documents × dimensions</text>
+    <text class="qi-label qi-label--strong" x="20" y="294">One matrix product per batch. Counts and values are illustrative.</text>
+  </svg>

@@ -1,0 +1,66 @@
+/* encoder island. Scoped under .sf-en. Blue: query and encoders, green:
+   relevance. */
+.sf-en {
+  --sf-rel: #2e9e5b;
+  display: block;
+}
+.sf-en__box,
+.sf-en__cell {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+  fill: var(--qi-surface);
+}
+.sf-en__box.is-query,
+.sf-en__box.is-enc {
+  fill: var(--qi-cat-1);
+  fill-opacity: 0.2;
+  stroke: var(--qi-cat-1);
+  stroke-width: 1.5;
+}
+.sf-en__box.is-aware {
+  fill: var(--qi-cat-3);
+  fill-opacity: 0.22;
+  stroke: var(--qi-cat-3);
+  stroke-width: 2;
+}
+.sf-en__cell.is-aware {
+  fill: var(--qi-cat-3);
+  fill-opacity: 0.2;
+}
+.sf-en__box.is-strong {
+  fill: var(--sf-rel);
+  fill-opacity: 0.55;
+}
+.sf-en__box.is-light {
+  fill: var(--sf-rel);
+  fill-opacity: 0.25;
+}
+.sf-en__box.is-none {
+  fill: var(--qi-line);
+  fill-opacity: 0.25;
+}
+.sf-en__t {
+  fill: var(--qi-fg);
+}
+.sf-en__arrow {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.sf-en__arrow.is-fb,
+.sf-en__head.is-fb {
+  stroke: var(--sf-rel);
+}
+.sf-en__head {
+  fill: var(--qi-muted);
+}
+.sf-en__head.is-fb {
+  fill: var(--sf-rel);
+}
+.sf-en .qi-label {
+  font-size: 13px;
+}
+.sf-en.sf-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

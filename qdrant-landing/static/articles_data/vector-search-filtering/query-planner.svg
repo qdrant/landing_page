@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -16 732 304"
+    aria-label="A filtered query goes to the payload index, which estimates how many points match. If the matches' vectors are below full_scan_threshold, Qdrant scores each match directly for exact results. Otherwise it searches the filterable HNSW graph, and ACORN can be added for strict filter combinations."><style>
+  .qi-label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+  .qi-label--strong { fill: #303547; }
+  .qi-axis { stroke: #abb1c7; stroke-width: 1.5; }
+  .qi-frame { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1; }
+  .qi-fo__cell { stroke: rgba(17, 24, 36, 0.3); stroke-width: 1; }
+  .qi-fo__cell--pass { fill: #00838f; }
+  .qi-fo__cell--fail { fill: #abb1c7; }
+  .qi-fo__lost { stroke: #dc244c; stroke-width: 2.5; stroke-linecap: round; fill: none; }
+  .qi-fo__result--lost { fill: #dc244c; }
+  .qi-fo__cell--out { fill: none; stroke: #abb1c7; stroke-dasharray: 4 3; }
+  .qi-fo__bracket { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+  .qi-qp__wire { fill: none; }
+  .qi-qp__head { fill: #abb1c7; }
+  .qi-qp__tag { font-size: 12px; }
+  .qi-qp__tag--acorn { fill: #dc244c; }
+  </style><rect x="-16" y="-16" width="732" height="304" fill="#ffffff"/>
+    <defs>
+      <marker id="qp-arrow-wide" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" class="qi-qp__head"/>
+      </marker>
+    </defs>
+    <path class="qi-axis qi-qp__wire" d="M130 136 H168" marker-end="url(#qp-arrow-wide)"/><path class="qi-axis qi-qp__wire" d="M340 124 H364 V60 H398" marker-end="url(#qp-arrow-wide)"/><path class="qi-axis qi-qp__wire" d="M340 148 H364 V212 H398" marker-end="url(#qp-arrow-wide)"/>
+    <rect class="qi-frame" x="0" y="103" width="130" height="66" rx="6"/><text class="qi-label qi-label--strong" x="65" y="131" text-anchor="middle">Filtered</text><text class="qi-label" x="65" y="149" text-anchor="middle">query</text><rect class="qi-frame" x="170" y="93" width="170" height="86" rx="6"/><text class="qi-label qi-label--strong" x="255" y="122" text-anchor="middle">Payload index</text><text class="qi-label" x="255" y="140" text-anchor="middle">estimates how many</text><text class="qi-label" x="255" y="158" text-anchor="middle">points match</text><rect class="qi-frame" x="400" y="4" width="300" height="112" rx="6"/><text class="qi-label qi-label--strong" x="550" y="32" text-anchor="middle">Few matches</text><text class="qi-label" x="550" y="50" text-anchor="middle">Score each match directly</text><text class="qi-label" x="550" y="68" text-anchor="middle">exact results</text><text class="qi-label qi-qp__tag" x="550" y="102" text-anchor="middle">vectors &lt; full_scan_threshold</text><rect class="qi-frame" x="400" y="156" width="300" height="112" rx="6"/><text class="qi-label qi-label--strong" x="550" y="184" text-anchor="middle">Many matches</text><text class="qi-label" x="550" y="202" text-anchor="middle">Search the filterable</text><text class="qi-label" x="550" y="220" text-anchor="middle">HNSW graph</text><text class="qi-label qi-qp__tag qi-qp__tag--acorn" x="550" y="254" text-anchor="middle">strict combinations: add ACORN</text>
+  </svg>

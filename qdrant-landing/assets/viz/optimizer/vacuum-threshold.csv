@@ -1,0 +1,5 @@
+threshold,state,p95_ms
+deleted_threshold = 0.2,before deletion,5.0
+deleted_threshold = 0.2,"after, vacuum triggered",22.7
+deleted_threshold = 0.5,before deletion,5.4
+deleted_threshold = 0.5,"after, vacuum did not run",4.3

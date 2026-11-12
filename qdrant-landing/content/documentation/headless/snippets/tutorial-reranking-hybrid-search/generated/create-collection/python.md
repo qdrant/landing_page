@@ -22,8 +22,19 @@ client.create_collection(
             hnsw_config=models.HnswConfigDiff(m=0)  #  Disable HNSW for reranking
         ),
     },
-    sparse_vectors_config={
-        "sparse": models.SparseVectorParams(modifier=models.Modifier.IDF)
-    }
+)
+
+client.create_payload_index(
+    collection_name,
+    field_name="description",
+    field_schema=models.TextIndexParams(
+        type=models.TextIndexType.TEXT,
+        stemmer=models.SnowballParams(
+            type=models.Snowball.SNOWBALL,
+            language=models.SnowballLanguage.ENGLISH,
+        ),
+        stopwords=models.Language.ENGLISH,
+        scoring=True,  # Enable BM25 scoring
+    ),
 )
 ```

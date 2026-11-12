@@ -94,7 +94,7 @@ Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vecto
 
 *Available as of v1.9.0*
 
-By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or `turbo4` (4 bits).
+By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or one of the TurboQuant datatypes: `turbo4` (4 bits), `turbo8` (8 bits), or `turbo16` (16 bits).
 
 For example, to create a collection with `uint8` embeddings:
 
@@ -170,7 +170,7 @@ The following parameters can be updated:
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config`, and [`memory`](/documentation/ops-configuration/memory-tiers/) tier settings.
-* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor`, and the payload's [`memory`](/documentation/ops-configuration/memory-tiers/) tier.
+* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor`, and the [`memory`](/documentation/ops-configuration/memory-tiers/) tiers of the payload and the ID tracker.
 * `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
@@ -197,9 +197,11 @@ To add a new sparse named vector to an existing collection:
 
 {{< code-snippet path="/documentation/headless/snippets/create-named-vector/sparse/" >}}
 
-The request body only accepts properties that define the vector space (size and distance for dense vectors). Quantization, storage type, and index configuration can be set afterward using the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) or [update vector parameters](/documentation/manage-data/collections/#update-vector-parameters) APIs.
+The request body only accepts properties that can't be changed after the named vector is created. For dense vectors, these are size, distance, datatype, and multivector configuration. For sparse vectors, these are modifier and datatype.
 
-Existing points will not have values for the newly added vector until they are upserted again. The new vector can be queried immediately, but will return no results until it is populated.
+The new named vector defaults to using the collection's quantization and HNSW index configuration. To configure quantization, storage type, or the index for this named vector only, use the [update vector parameters](/documentation/manage-data/collections/#update-vector-parameters) API afterward. To change the collection-wide defaults, use the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) API.
+
+Existing points will not have values for the newly added named vector until they are upserted again. The new named vector can be queried immediately, but will return no results until it is populated.
 
 To delete a named vector from an existing collection:
 
@@ -226,8 +228,6 @@ use `""` as name:
 
 
 To move vector data to the `cold` memory tier for a collection that **does have** named vectors:
-
-Note: To create a vector name, follow the procedure from our [Points](/documentation/manage-data/points/#create-vector-name).
 
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/vectors-to-disk-named/" >}}
@@ -307,6 +307,10 @@ The following color statuses are possible:
 - 🟡 `yellow`: collection is optimizing
 - ⚫ `grey`: collection is pending optimization ([help](#grey-collection-status))
 - 🔴 `red`: an error occurred which the engine could not recover from
+
+*Available as of v1.20.0*
+
+Collection info also includes a `created_at` field with the time Qdrant created the collection. Collections created before v1.20.0 have no creation time, so the field is absent for them. Recovering a collection from a snapshot keeps the original value.
 
 ### Grey Collection Status
 

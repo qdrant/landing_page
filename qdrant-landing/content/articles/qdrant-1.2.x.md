@@ -18,6 +18,15 @@ keywords:
   - nested filters
   - appendable mmap
   - group requests
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Qdrant v1.2.0 Release Record"
+  url: "https://github.com/qdrant/qdrant/releases/tag/v1.2.0"
 ---
 
 A brand-new Qdrant 1.2 release comes packed with a plethora of new features, some of which

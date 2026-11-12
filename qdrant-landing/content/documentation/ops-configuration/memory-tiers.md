@@ -1,7 +1,7 @@
 ---
 title: Memory Tiers
-short_description: "Control how vectors, indexes, quantized data, and payloads are cached in RAM: pinned, warmed into a disk cache, or left on disk."
-description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, and payloads."
+short_description: "Control how vectors, indexes, quantized data, payloads, and the ID tracker are cached in RAM: pinned, warmed into a disk cache, or left on disk."
+description: "Learn how Qdrant's memory parameter (cold, cached, pinned) controls RAM residency for vectors, indexes, quantized data, payloads, and the ID tracker."
 weight: 12
 aliases:
   - disk-vs-ram
@@ -9,9 +9,10 @@ aliases:
 
 # Memory Tiers
 
+
 Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter controls how each structure is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed.
 
-This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval.
+This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval. For guidance on what to choose to fit your RAM and disk budget, see [Memory Tiers: What to Use and When](/documentation/operate-and-maintain/memory-tiers/).
 
 ## Configuring Memory Tiers
 
@@ -27,6 +28,7 @@ Each collection in Qdrant is backed by several independent structures:
 - **The [sparse vector index](/documentation/manage-data/indexing/#sparse-vector-index)** is an exact, inverted-index-style structure built over sparse vectors.
 - **[Payloads](/documentation/manage-data/collections/#create-a-collection)** are the JSON documents attached to each point.
 - **[Payload indexes](/documentation/manage-data/indexing/#payload-index)** are per-field indexes that speed up filtering.
+- **The [ID tracker](/documentation/capacity-planning/#id-tracker)** maps each point's ID to its internal storage location and current version.
 
 Each of these structures accepts a `memory` parameter that controls how it is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed. The available tiers are:
 
@@ -53,12 +55,13 @@ If you don't explicitly set `memory` on a structure, Qdrant defaults to the foll
 | Sparse vector index | `pinned` |
 | Payloads | `cold` |
 | Payload indexes | `pinned` |
+| ID tracker | `pinned` |
 
 [Low Memory Mode](/documentation/ops-configuration/administration/#low-memory-mode) can degrade these defaults at startup under memory constraints, without changing the persisted collection configuration.
 
 ## Example
 
-This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload is cached:
+This example configures a collection so the vectors are cached in RAM, the HNSW vector index is cold, the quantized vectors are pinned, and the payload and the ID tracker are cached:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-memory-tiers/" >}}
 
@@ -84,7 +87,9 @@ Async I/O lets Qdrant issue disk reads concurrently instead of one at a time, re
 
 *Available as of v1.19.0.* 
 
-Set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
+On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
+
+When self-hosting, set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -102,7 +107,7 @@ QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 
 *Available as of v1.3.0.*
 
-An older setting that applies async I/O to vector rescoring only. Prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
+An older setting that applies async I/O to vector rescoring only. It is deprecated: prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -116,6 +121,8 @@ or via an environment variable:
 QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
 ```
 
+On managed Qdrant Cloud clusters, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab for Qdrant versions below v1.20.0. From v1.20.0, Qdrant Cloud sets the async I/O mode for you and `async_scorer` no longer has an effect.
+
 ### Local NVMe/SSD Storage
 
 On-disk retrieval benefits from fast, local storage. If you're self hosting Qdrant, use NVMe or SSD drives attached directly to the machine. Avoid network-attached storage. It is too slow for the sequential reads that vector search requires.
@@ -127,6 +134,17 @@ On-disk retrieval benefits from fast, local storage. If you're self hosting Qdra
 Avoid putting the HNSW vector index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of more disk usage.
 
 Enabling inline storage can significantly increase the size of the HNSW index. Do not use inline storage if the HNSW index is in RAM ([`pinned` or `cached` tiers](/documentation/ops-configuration/memory-tiers/)). To keep the index size to roughly 3–6 times the original float32 vectors, apply a quantization method [that compresses to at most 4 bits per dimension](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method), such as TurboQuant.
+
+Before v1.20.0, inline storage kept the original vectors in the regular vector storage and added a copy to the HNSW index file.
+As of v1.20.0, an indexed segment with inline storage keeps the original vectors only in the HNSW index file, with no separate vector storage.
+Existing segments switch to this layout when the optimizer rebuilds them.
+
+For these segments, `hnsw_config.memory` controls the memory tier of the original vectors, and Qdrant ignores `vectors.memory`.
+Quantized vectors are still kept in their own storage, and the HNSW index file also contains quantized copies of each point's neighbors.
+Without an explicit `memory` setting, quantized vectors follow the [default tier](#default-tiers) rule with the HNSW index in place of the original vectors: `cold` when the index is `cold`, `pinned` in any other tier.
+
+Segments without an HNSW index still use regular vector storage and follow `vectors.memory`.
+This includes small appendable segments and any segment below the [indexing threshold](/documentation/ops-optimization/optimizer/#indexing-optimizer).
 
 ## Migrating
 
@@ -193,3 +211,7 @@ The legacy parameter is `on_disk`, set on each field index.
 | `pinned` | `on_disk: false` |
 | `cached` | No legacy equivalent |
 | `cold` | `on_disk: true` |
+
+#### ID Tracker
+
+The ID tracker has no legacy parameter. Before version 1.20, it was always `pinned`.

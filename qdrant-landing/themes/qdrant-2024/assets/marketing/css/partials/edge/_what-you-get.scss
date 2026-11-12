@@ -1,0 +1,82 @@
+@use '../../helpers/functions' as *;
+
+.edge-what-you-get {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    flex-shrink: 0;
+    margin-bottom: $spacer * 1.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-30;
+  }
+  
+  &__card {
+    &-image {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(350);
+      margin: 0 auto $spacer * 1.5;
+    }
+    
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      color: $neutral-20;
+    }
+    
+    &-description {
+      margin: 0;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-30;
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      margin-bottom: 0;
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+    }
+
+    &__description {
+      max-width: pxToRem(640);
+    }
+
+    &__card {
+      &-title {
+        margin: 0 $spacer $spacer * 0.5 $spacer;
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+      }
+
+      &-description {
+        margin: 0 $spacer;
+      }
+    }
+  }
+}

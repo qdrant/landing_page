@@ -1,0 +1,1 @@
+This code snippet demonstrates how to create a full-text index with BM25 scoring enabled for a specified field in a collection, using the shorthand `scoring: true`. The index configuration includes the field name, type (text), tokenizer (word), lowercasing, and `scoring` set to `true`, which is equivalent to setting the `bm25` scoring type.

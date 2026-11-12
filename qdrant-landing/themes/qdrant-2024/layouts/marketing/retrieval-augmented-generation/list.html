@@ -1,0 +1,46 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-hero") }}
+    {{ partial "marketing/use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "marketing/retrieval-augmented-generation-features" . }}
+
+  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-integrations") }}
+    {{ partial "marketing/use-cases-vector-integrations" (dict "context" . "class" "rag-integrations") }}
+  {{ end }}
+
+  {{ partial "marketing/retrieval-augmented-generation-evaluation" . }}
+
+  {{ $class := "rag-use-cases" }}
+  <section class="use-cases-vector-cases pb-1">
+    <div class="container">
+      {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
+        {{ partial "marketing/use-cases-cards" (dict "context" . "class" $class) }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial-0") }}
+    {{ partial "marketing/testimonial-light" (dict "context" . "class" "customers-testimonial pt-1") }}
+  {{ end }}
+
+
+  <section class="use-cases-vector-cases {{ $class }}">
+    <div class="container">
+      {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
+        {{ partial "marketing/case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ partial "marketing/retrieval-augmented-generation-guide" . }}
+
+
+  <!-- {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+   -->
+
+  {{ partial "marketing/get-started" . }}
+{{ end }}

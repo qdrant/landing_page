@@ -26,11 +26,15 @@ If you are looking for a specific topic in a particular book, you can try to fin
 
 Time passed, and we haven’t had much change in that area for quite a long time. But our textual data collection started to grow at a greater pace. So we also started building up many processes around those inverted indexes. For example, we allowed our users to provide many words and started splitting them into pieces. That allowed finding some documents which do not necessarily contain all the query words, but possibly part of them. We also started converting words into their root forms to cover more cases, removing stopwords, etc. Effectively we were becoming more and more user-friendly. Still, the idea behind the whole process is derived from the most straightforward keyword-based search known since the Middle Ages, with some tweaks.
 
-{{< figure src=/docs/gettingstarted/tokenization.png caption="The process of tokenization with an additional stopwords removal and conversion to root form of a word." >}}
-
 Technically speaking, we encode the documents and queries into so-called sparse vectors where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
 
-{{< figure src=/docs/gettingstarted/query.png caption="An example of a query vectorized to sparse format." >}}
+{{< island
+    path="content/documentation/headless/vector-search/sparse-query"
+    width="100%" ratio="11 / 5"
+    title="A query is split into words, stopwords are dropped, and the words are reduced to their root form. The resulting tokens become a sparse vector: 1.0 at the position of each word in the dictionary, 0.0 everywhere else."
+>}}
+![An example of a query vectorized to sparse format.](/docs/gettingstarted/query.png)
+{{< /island >}}
 
 Sparse vectors have relatively **high dimensionality**; equal to the size of the dictionary. And the dictionary is obtained automatically from the input data. So if we have a vector, we are able to partially reconstruct the words used in the text that created that vector.
 
@@ -44,13 +48,17 @@ Every once in a while, when we discover new problems with inverted indexes, we c
 
 The latest research in Machine Learning for NLP is heavily focused on training Deep Language Models. In this process, the neural network takes a large corpus of text as input and creates a mathematical representation of the words in the form of vectors. These vectors are created in such a way that words with similar meanings and occurring in similar contexts are grouped together and represented by similar vectors. And we can also take, for example, an average of all the word vectors to create the vector for a whole text (such as query, sentence, or paragraph).
 
-![deep neural](/docs/gettingstarted/deep-neural.png)
-
 We can take those **dense vectors** produced by the network and use them as a **different data representation**. They are dense because neural networks will rarely produce zeros at any position. In contrary to sparse ones, they have a relatively low dimensionality — hundreds or a few thousand only. Unfortunately, if we want to have a look and understand the content of the document by looking at the vector it’s no longer possible. Dimensions are no longer representing the presence of specific words.
 
 Dense vectors can capture the meaning, not the words used in a text. That being said, **Large Language Models can automatically handle synonyms**. More so, since those neural networks might have been trained with multilingual corpora, they translate the same sentence, written in different languages, to similar vector representations, also called **embeddings**. And we can compare them to find similar pieces of text by calculating the distance to other vectors in our database.
 
-{{< figure src=/docs/gettingstarted/input.png caption="Input queries contain different words, but they are still converted into similar vector representations, because the neural encoder can capture the meaning of the sentences. That feature can capture synonyms but also different languages.." >}}
+{{< island
+    path="content/documentation/headless/vector-search/dense-query"
+    width="100%" ratio="12 / 7"
+    title="A neural encoder turns each query into a dense vector. Pick a second query to compare its shared words with the first, as a sparse vector sees them, and the similarity of the two dense vectors."
+>}}
+![Input queries contain different words, but they are still converted into similar vector representations, because the neural encoder can capture the meaning of the sentences.](/docs/gettingstarted/input.png)
+{{< /island >}}
 
 **Vector search** is a process of finding similar objects based on their embeddings similarity. The good thing is, you don’t have to design and train your neural network on your own. Many pre-trained models are available, either on **HuggingFace** or by using libraries like [SentenceTransformers](https://www.sbert.net/?ref=hackernoon.com). If you, however, prefer not to get your hands dirty with neural models, you can also create the embeddings with SaaS tools, like [co.embed API](https://docs.cohere.com/reference/embed?ref=hackernoon.com).
 
@@ -58,7 +66,13 @@ Dense vectors can capture the meaning, not the words used in a text. That being 
 
 The challenge with vector search arises when we need to find similar documents in a big set of objects. If we want to find the closest examples, the naive approach would require calculating the distance to every document. That might work with dozens or even hundreds of examples but may become a bottleneck if we have more than that. When we work with relational data, we set up database indexes to speed things up and avoid full table scans. And the same is true for vector search. Qdrant is a fully-fledged vector database that speeds up the search process by using a graph-like structure to find the closest objects in sublinear time. So you don’t calculate the distance to every object from the database, but some candidates only.
 
-{{< figure src=/docs/gettingstarted/vector-search.png caption="Vector search with Qdrant. Thanks to HNSW graph we are able to compare the distance to some of the objects from the database, not to all of them." >}}
+{{< island
+    path="content/documentation/headless/vector-search/hnsw-graph"
+    width="620" ratio="5 / 4"
+    title="Vector search in an HNSW graph. The search starts at the entry point and moves toward the query, so it computes the distance to only some of the vectors."
+>}}
+![Vector search with Qdrant. Thanks to HNSW graph we are able to compare the distance to some of the objects from the database, not to all of them.](/docs/gettingstarted/vector-search.png)
+{{< /island >}}
 
 While doing a semantic search at scale, because this is what we sometimes call the vector search done on texts, we need a specialized tool to do it effectively — a tool like Qdrant.
 
@@ -69,8 +83,8 @@ Vector search is an exciting alternative to sparse methods. It solves the issues
 [**Tutorial 1 - Qdrant for Complete Beginners**](/documentation/tutorials-basics/search-beginners/)
 Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](/documentation/tutorials-basics/search-beginners/) will show you how.
 
-[**Tutorial 2 - Question and Answer System**](/articles/qa-with-cohere-and-qdrant/)
-However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer System tutorial](/articles/qa-with-cohere-and-qdrant/).
+[**Tutorial 2 - Retrieval-Augmented Generation**](/documentation/tutorials-build-essentials/rag-deepseek/)
+To build a question-answering application, follow the [RAG with DeepSeek and Qdrant tutorial](/documentation/tutorials-build-essentials/rag-deepseek/). It combines embeddings, vector search, and a language model to answer questions using retrieved documents.
 
 There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with vector embeddings.
 

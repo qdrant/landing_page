@@ -1,0 +1,19 @@
+dataset,datatype,recall
+H&M (2048d),turbo4,0.970
+H&M (2048d),turbo8,0.994
+H&M (2048d),float16,0.996
+DBpedia OpenAI (1536d),turbo4,0.920
+DBpedia OpenAI (1536d),turbo8,0.965
+DBpedia OpenAI (1536d),float16,0.963
+LAION (512d),turbo4,0.927
+LAION (512d),turbo8,0.981
+LAION (512d),float16,0.984
+arXiv (384d),turbo4,0.928
+arXiv (384d),turbo8,0.972
+arXiv (384d),float16,0.973
+SIFT (128d),turbo4,0.807
+SIFT (128d),turbo8,0.970
+SIFT (128d),float16,0.983
+Deep-image (96d),turbo4,0.844
+Deep-image (96d),turbo8,0.969
+Deep-image (96d),float16,0.975

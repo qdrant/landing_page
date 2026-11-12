@@ -1,0 +1,47 @@
+{{ with (.Site.GetPage "/hybrid-cloud/features") }}
+  <section class="hybrid-cloud-features">
+    <div class="container">
+      <p class="hybrid-cloud-features__label">{{ .Params.label }}</p>
+      <h2 class="hybrid-cloud-features__title">{{ .Params.title }}</h2>
+      <div class="hybrid-cloud-features__description">{{ .Params.description }}</div>
+      <div class="hybrid-cloud-features__features">
+        <div class="hybrid-cloud-features__feature">
+          <div class="hybrid-cloud-features__feature-item">
+            <img
+                class="hybrid-cloud-features__feature-icon"
+                src="{{ .Params.featureLarge.icon.src }}"
+                alt="{{ .Params.featureLarge.icon.alt }}"
+              />
+              <h3 class="hybrid-cloud-features__feature-title">{{ .Params.featureLarge.title }}</h3>
+              <p class="hybrid-cloud-features__feature-description">{{ .Params.featureLarge.description }}</p>
+              <img
+                class="hybrid-cloud-features__feature-image"
+                src="{{ .Params.featureLarge.img.src }}"
+                alt="{{ .Params.featureLarge.img.alt }}"
+              />
+              <a
+                href="{{ .Params.featureLarge.link.url }}"
+                class="link link_md hybrid-cloud-features__feature-link"
+                {{ if strings.HasPrefix .Params.featureLarge.link.url "http" }}target="_blank"{{ end }}
+              >
+                {{ .Params.featureLarge.link.text }}
+              </a>
+          </div>
+        </div>
+        <div class="hybrid-cloud-features__feature">
+          {{ range .Params.featuresSmall }}
+            <div class="hybrid-cloud-features__feature-item">
+              <img
+                class="hybrid-cloud-features__feature-icon"
+                src="{{ .icon.src }}"
+                alt="{{ .icon.alt }}"
+              />
+              <h3 class="hybrid-cloud-features__feature-title">{{ .title }}</h3>
+              <p class="hybrid-cloud-features__feature-description">{{ .description }}</p>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

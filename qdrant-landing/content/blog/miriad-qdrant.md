@@ -10,6 +10,7 @@ title_preview_image: /blog/miriad-qdrant/preview/title.jpg # Optional image used
 
 date: 2025-07-23T00:00:00+02:00
 author: Evgeniya Sukhodolskaya & Daniel Azoulai  
+author_profile: evgeniya-sukhodolskaya
 featured: false
 tags:
   - research
