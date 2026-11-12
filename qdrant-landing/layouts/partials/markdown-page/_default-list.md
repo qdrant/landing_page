@@ -1,8 +1,8 @@
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
 > Use this file for an index of the main pages: https://qdrant.tech/llms.txt
-
-{{ $content := .RenderShortcodes -}}
+{{ $content := partial "common/products/markdown-sections.html" .RenderShortcodes -}}
+{{ if strings.Contains $content `<product-specific products="` }}> Content inside `<product-specific products="...">` tags applies only to the named products. All other content applies to every Qdrant product. If you know which product the user is on, ignore tagged content for other products.{{ "\n" }}{{ end }}{{ "\n" }}
 {{- if not (strings.TrimSpace $content) }}# {{ .Title }}
 {{ end -}}
 {{- /* Rewrite internal absolute links: ](/path/to/page/) → ](https://qdrant.tech/path/to/page/index.md) */}}

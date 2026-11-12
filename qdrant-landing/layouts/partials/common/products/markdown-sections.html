@@ -1,0 +1,69 @@
+{{- /*
+  For the Markdown output: wrap each product-tagged section, heading
+  included, in paired <product-specific> tags, and drop the products
+  attribute from the heading. Other heading attributes are kept. A
+  section runs to the next heading of the same or a higher level, so
+  subsections stay inside its tags.
+
+    ## Quantization {products="server"}
+    ...
+    ## Next section
+  becomes
+    <product-specific products="Qdrant Server">
+
+    ## Quantization
+    ...
+
+    </product-specific>
+
+    ## Next section
+
+  Lines inside fenced code blocks are skipped, so a "# comment" in a
+  shell snippet is not taken for a heading.
+
+  Input: Markdown source (after .RenderShortcodes). Returns the rewritten
+  Markdown.
+*/ -}}
+{{- $out := string . -}}
+{{- $tagged := `^(#{1,6} [^\n]*?)[ \t]*\{([^}\n]*?)\bproducts="([^"]*)"([^}\n]*)\}[ \t]*$` -}}
+{{- if findRE (printf "(?m)%s" $tagged) $out 1 -}}
+  {{- $lines := slice -}}
+  {{- $open := slice -}}
+  {{- $fence := "" -}}
+  {{- range split $out "\n" -}}
+    {{- $line := . -}}
+    {{- $marker := "" -}}
+    {{- with findRESubmatch "^[ \t]*(`{3,}|~{3,})" $line 1 }}{{ $marker = index (index . 0) 1 }}{{ end -}}
+    {{- if $fence -}}
+      {{- if and $marker (hasPrefix $marker $fence) }}{{ $fence = "" }}{{ end -}}
+      {{- $lines = $lines | append $line -}}
+    {{- else if $marker -}}
+      {{- $fence = $marker -}}
+      {{- $lines = $lines | append $line -}}
+    {{- else -}}
+      {{- with findRESubmatch `^(#{1,6})[ \t]` $line 1 -}}
+        {{- $level := len (index (index . 0) 1) -}}
+        {{- $keep := slice -}}
+        {{- range $open }}{{ if lt . $level }}{{ $keep = $keep | append . }}{{ end }}{{ end -}}
+        {{- range $open }}{{ if ge . $level }}{{ $lines = $lines | append "</product-specific>" "" }}{{ end }}{{ end -}}
+        {{- $open = $keep -}}
+        {{- with findRESubmatch $tagged $line 1 -}}
+          {{- $m := index . 0 -}}
+          {{- $r := partial "common/products/resolve.html" (dict "products" (split (index $m 3) " ") "where" (printf "Markdown heading %q" (index $m 1))) -}}
+          {{- $heading := index $m 1 -}}
+          {{- with trim (printf "%s %s" (index $m 2) (index $m 4)) " " }}{{ $heading = printf "%s {%s}" $heading . }}{{ end -}}
+          {{- $lines = $lines | append (printf "<product-specific products=%q>" $r.text) "" $heading -}}
+          {{- $open = $open | append $level -}}
+        {{- else -}}
+          {{- $lines = $lines | append $line -}}
+        {{- end -}}
+      {{- else -}}
+        {{- $lines = $lines | append $line -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $open }}{{ $lines = $lines | append "" "</product-specific>" }}{{ end -}}
+  {{- if $open }}{{ $lines = $lines | append "" }}{{ end -}}
+  {{- $out = delimit $lines "\n" -}}
+{{- end -}}
+{{- return $out -}}
