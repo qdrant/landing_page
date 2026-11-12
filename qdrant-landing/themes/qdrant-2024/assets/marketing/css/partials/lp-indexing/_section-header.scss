@@ -16,7 +16,7 @@
 // @at-root matters: these are included from INSIDE `.#{$block}`; without it every selector compiles to
 // `.block .block__x` and outranks the per-section layout rules written after the include.
 
-@mixin lp-index-band($dark: false, $wide-top: 7.5, $wide-bottom: 7.5) {
+@mixin lp-indexing-band($dark: false, $wide-top: 7.5, $wide-bottom: 7.5) {
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
   background-color: if($dark, $neutral-10, $neutral-94);
@@ -26,7 +26,7 @@
   }
 }
 
-@mixin lp-index-eyebrow($dark: false) {
+@mixin lp-indexing-eyebrow($dark: false) {
   margin-bottom: $spacer;
   font-family: $font-family-monospace;
   font-size: $font-size-sm;
@@ -37,7 +37,7 @@
   color: if($dark, $neutral-80, $neutral-30);
 }
 
-@mixin lp-index-title($dark: false, $h3: false) {
+@mixin lp-indexing-title($dark: false, $h3: false) {
   margin-bottom: 0;
   font-size: $h5-font-size;
   line-height: if($h3, 1.1, 1.2);
@@ -48,11 +48,11 @@
   }
 }
 
-@mixin lp-index-header($block, $dark: false, $h3: false) {
+@mixin lp-indexing-header($block, $dark: false, $h3: false) {
  @at-root {
   .#{$block}__header { margin-bottom: $spacer * 2.5; }
-  .#{$block}__label { @include lp-index-eyebrow($dark); }
-  .#{$block}__title { @include lp-index-title($dark, $h3); }
+  .#{$block}__label { @include lp-indexing-eyebrow($dark); }
+  .#{$block}__title { @include lp-indexing-title($dark, $h3); }
   .#{$block}__description {
     margin: $spacer 0 0;
     font-size: $font-size-l;
@@ -68,7 +68,7 @@
  }
 }
 
-@mixin lp-index-header-centered($block) {
+@mixin lp-indexing-header-centered($block) {
  @at-root {
   .#{$block}__header { display: block; text-align: center; margin-bottom: $spacer * 4; }
   .#{$block}__heading, .#{$block}__description { max-width: pxToRem(760); margin-left: auto; margin-right: auto; }
@@ -77,7 +77,7 @@
 }
 
 // code          the docs' own example in the WHY visual slot: dark panel, mono, horizontal scroll, source link
-@mixin lp-index-code($block) {
+@mixin lp-indexing-code($block) {
   .#{$block}__visual--code {
     display: flex; flex-direction: column; gap: $spacer; padding: $spacer * 1.5; background: $neutral-10; border-radius: pxToRem(8);
   }
@@ -88,7 +88,7 @@
   .#{$block}__code-link { align-self: flex-start; }
 }
 
-@mixin lp-index-callout($block, $accent, $bg, $fg) {
+@mixin lp-indexing-callout($block, $accent, $bg, $fg) {
  @at-root {
   .#{$block}__callout {
     margin-top: $spacer * 2.5;
@@ -104,7 +104,7 @@
  }
 }
 
-@mixin lp-index-tile($accent: $secondary-blue-70, $tint: $secondary-blue-90) {
+@mixin lp-indexing-tile($accent: $secondary-blue-70, $tint: $secondary-blue-90) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +116,7 @@
   img { width: $spacer * 1.5; height: $spacer * 1.5; }
 }
 
-@mixin lp-index-card($block) {
+@mixin lp-indexing-card($block) {
  @at-root {
   .#{$block}__tile {
     display: flex; flex-direction: column; gap: $spacer * 2.5;
@@ -131,7 +131,7 @@
  }
 }
 
-@mixin lp-index-cell($block) {
+@mixin lp-indexing-cell($block) {
  @at-root {
   .#{$block}__grid { display: grid; border-top: 1px solid $neutral-20; border-left: 1px solid $neutral-20; }
   .#{$block}__cell {
@@ -149,7 +149,7 @@
 }
 
 // single-bullet rule: one card spans the row, icon beside the text, the link sits below the card
-@mixin lp-index-single($block) {
+@mixin lp-indexing-single($block) {
  @at-root {
   .#{$block}__tiles--single, .#{$block}__grid--single { grid-template-columns: 1fr !important; }
   .#{$block}__tile--wide, .#{$block}__card--wide, .#{$block}__cell--wide {
@@ -163,7 +163,7 @@
  }
 }
 
-@mixin lp-index-item($block, $dark: false) {
+@mixin lp-indexing-item($block, $dark: false) {
  @at-root {
   .#{$block}__item-title {
     margin-bottom: $spacer * 0.5;

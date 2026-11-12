@@ -3,7 +3,7 @@ label: HNSW index
 title: Tune One HNSW Index for Speed and Recall
 description: Qdrant indexes dense vectors with HNSW, the graph behind fast similarity search at scale. It finds nearest neighbors in a fraction of the comparisons a full scan takes.
 image:
-  src: /img/lp-index/filter-aware-links.png
+  src: /img/lp-indexing/filter-aware-links.png
   alt: A payload index on a field adds filter-aware links between graph points that share a value.
 cards:
   - id: 0
