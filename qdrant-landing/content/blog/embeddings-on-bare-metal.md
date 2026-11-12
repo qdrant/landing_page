@@ -78,7 +78,7 @@ static MODEL_FILE: &Aligned<[u8]> = &Aligned(*include_bytes!(concat!(
 )));
 ```
 
-The [`safetensors`](https://huggingface.co/docs/safetensors/en/index) format stores some metadata along with the weights. In our `build.rs` (a custom build script) we read that metadata and produce a `model_meta.rs` file, which our library then includes at compile time:
+The [`safetensors`](https://huggingface.co/docs/safetensors/en/index) format stores some metadata along with the weights. In our [`build.rs`](https://github.com/qdrant-labs/static-models-bm/blob/main/build.rs) (a custom build script) we read that metadata and produce a `model_meta.rs` file, which our library then includes at compile time:
 
 ```rust
 // safetensors layout: [8-byte header length][JSON header][tensor data]
@@ -123,6 +123,14 @@ This way, the model tensor and its metadata (how many tokens it can encode, the 
 As mentioned, we can't use the `tokenizers` library by Hugging Face because it requires the standard library, so we have to implement a `no_std` tokenizer ourselves.
 
 If you look at the tokenizer associated with `potion-base-2M`, you will see that it uses the [WordPiece algorithm](https://huggingface.co/learn/llm-course/en/chapter6/6): starting from the word to tokenize, we greedily match the longest sub-word that is in the vocabulary, then repeat on what's left. The word `hugs` is split into `hug` (which is in the vocabulary) and `##s` (also in the vocabulary, where `##` is the *continuation prefix*).
+
+{{< island
+    path="content/headless/blog/embeddings-on-bare-metal/wordpiece"
+    width="760" ratio="760 / 340"
+    title="WordPiece, step by step: take the longest candidate, drop its last character until it is in the vocabulary, keep it, and repeat on the rest with the ## prefix. The vocabulary is illustrative, except for hug and ##s. Select a word to see its candidates."
+>}}
+![For the word hugs, WordPiece tries hugs, which is not in the vocabulary, then hug, which is. It keeps hug and repeats on the rest, trying ##s, which is in the vocabulary. The tokens are hug and ##s.](/blog/embeddings-on-bare-metal/wordpiece.svg)
+{{< /island >}}
 
 So, given the vocabulary, implementing WordPiece takes nothing but plain code, and the tokenizer file provides the vocabulary.
 
@@ -207,10 +215,10 @@ pub fn pool(&self, ids: &[u32], out: &mut [f32]) {
 } 
 ```
 
-Given our previous article on embedding models, you might expect this to run exceptionally fast. It doesn't reach the "speed of light": embedding 10-12 tokens takes around 1.2 ms, or ~830 embeddings/s. That's far from the 11,000-15,000 embeddings/s we get on a MacBook Pro (on texts that are, on average, much longer than 10-12 tokens), but still impressive given it runs with 3,000 times less memory.
+Given our previous article on static embedding models, you might expect this to run exceptionally fast. It doesn't reach the "speed of light", though: embedding 10-12 tokens takes around 1.2 ms, or ~830 embeddings/s. That's far from the 11,000-15,000 embeddings/s we get on a MacBook Pro (on texts that are, on average, much longer than 10-12 tokens), but still impressive given it runs with 3,000 times less memory.
 
 ## Conclusion
 
-So, can you run an embedding model on bare metal? Yes, as long as it's a static one. No operating system, no PyTorch, no `tokenizers`: just a table of floats and a vocabulary baked into the binary, a WordPiece tokenizer in about 200 lines of `no_std` Rust, and a pooling loop.
+So, can you run an embedding model on bare metal? Yes, as long as it's a static one. For that, you don't need PyTorch, `tokenizers`, or even an operating system: all it takes is table of floats and a vocabulary baked into the binary, a WordPiece tokenizer in about 200 lines of `no_std` Rust, and a pooling loop. It won't break any speed records, but it fits on a chip with a few megabytes of memory, and it works.
 
-It won't break any speed records, but it fits on a chip with a few megabytes of memory, and it works. Embeddings on the edge: check. Next up, the other half of the dream: vector search on the chip itself.
+Embeddings on the edge: check. Next up, the other half of the dream: vector search on the chip itself.
