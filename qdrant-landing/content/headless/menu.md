@@ -192,9 +192,9 @@ menuItems:
             icon: badge-check.svg
             url: https://qdrant.to/trust-center
           - id: subMenu-3-5
-            name: Legal Center
-            icon: scale.svg
-            url: /legal/terms_and_conditions/
+            name: Bug Bounty
+            icon: bug-bounty-program.svg
+            url: /security/bug-bounty-program/
   - id: menu-5
     name: Pricing
     url: /pricing/

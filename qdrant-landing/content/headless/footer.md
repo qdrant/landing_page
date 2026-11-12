@@ -41,27 +41,7 @@ menuItems:
       - id: 5
         name: Pricing
         url: /pricing/
-  - title: Solutions
-    items:
-      - id: 0
-        name: Use Cases
-        url: /use-cases/
-      - id: 1
-        name: RAG
-        url: /rag/
-      - id: 2
-        name: AI Agents
-        url: /ai-agents/
-      - id: 3
-        name: Advanced Search
-        url: /advanced-search/
-      - id: 4
-        name: Recommendation Systems
-        url: /recommendations/
-      - id: 5
-        name: E-commerce
-        url: /e-commerce/
-  - title: Developers
+  - title: Build
     items:
       - id: 0
         name: Documentation
@@ -76,17 +56,25 @@ menuItems:
         name: Learn
         url: /learn/
       - id: 4
-        name: Blog
-        url: /blog/
-      - id: 5
-        name: Community
-        url: /community/
-      - id: 6
-        name: Startup Program
-        url: /qdrant-for-startups/
-      - id: 7
         name: Status Page
         url: https://status.qdrant.io/
+  - title: Join
+    items:
+      - id: 0
+        name: Community
+        url: /community/
+      - id: 1
+        name: Blog
+        url: /blog/
+      - id: 2
+        name: Events
+        url: /events/
+      - id: 3
+        name: Qdrant Stars
+        url: /stars/
+      - id: 4
+        name: Startup Program
+        url: /qdrant-for-startups/
   - title: Company
     items:
       - id: 0
