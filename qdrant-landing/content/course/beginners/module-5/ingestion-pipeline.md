@@ -158,13 +158,17 @@ def ingest_earnings_call(call: dict, excerpts: list[str]):
 
 One quarterly call, ingested from the excerpts defined in [Signal Sources and Embedding Models](/course/beginners/module-5/signal-sources-and-embedding-models/):
 
+For this exercise, use the current UTC time so the sample falls within the last-day and last-week filters in the clustering and analyst-query lessons. For real data, use the source's actual publication time.
+
 ```python
+from datetime import datetime, timezone
+
 ingest_earnings_call(
     {
         "supplier_id":  "SUP-7291",
         "country":      "VN",
         "facility_id":  "FAC-HAIPHONG-1",
-        "published_at": "2026-07-16T14:00:00Z",
+        "published_at": datetime.now(timezone.utc).isoformat(),
     },
     EARNINGS_CALL_EXCERPTS,
 )
