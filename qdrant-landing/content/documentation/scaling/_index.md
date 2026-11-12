@@ -4,6 +4,13 @@ short_description: "Scale Qdrant vertically or horizontally as your data and tra
 description: "Learn when to scale Qdrant vertically versus horizontally, and how to configure replication, node count, Multi-AZ, and failover for production-ready resilience."
 weight: 115
 partition: deploy
+cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Scaling & Resilience

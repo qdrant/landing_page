@@ -301,6 +301,8 @@ For dense vectors, `uint8` is only useful if they have already been quantized to
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
 
+{{% only "server" %}}
+
 ## Quantization
 
 Apart from changing the datatype of the original vectors, Qdrant can create quantized representations of vectors alongside the original ones.
@@ -309,6 +311,8 @@ This quantized representation can be used to quickly select candidates for resco
 Quantization is applied in the background, during the optimization process.
 
 More information about the quantization process can be found in the [Quantization](/documentation/manage-data/quantization/) section.
+
+{{% /only %}}
 
 ## Vector Storage
 

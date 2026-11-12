@@ -1,0 +1,21 @@
+{{- /*
+  A root-relative URL, corrected for the current content role.
+
+  Only /documentation/ paths move. The documentation tree is mounted for every
+  role, so those pages exist in each one. The marketing pages, the blog, the
+  articles, and Learn are mounted for the default role alone, so links to them
+  keep pointing at the default site rather than 404 under a role prefix.
+
+  A no-op in the default role, where Home.RelPermalink is "/".
+
+  Returns rather than prints: a printing partial HTML-escapes its result, and
+  a caller that pipes it through safeURL then escapes it twice, turning an
+  "&amp;" in a query string into "&amp;amp;".
+
+  Usage: {{ partial "common/role-url.html" "/documentation/quickstart/" }}
+*/ -}}
+{{- $u := . -}}
+{{- if and (strings.HasPrefix $u "/documentation/") (not site.Role.IsDefault) -}}
+  {{- $u = printf "%s%s" (strings.TrimSuffix "/" site.Home.RelPermalink) $u -}}
+{{- end -}}
+{{- return $u -}}

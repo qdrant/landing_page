@@ -13,6 +13,10 @@
   published from this template with resources.FromString, so they need no
   output format of their own.
 */ -}}
+{{- /* This index spans the whole site (Learn, Articles, Pricing, Legal),
+  which only the default role mounts. A non-default role needs an index of
+  its own: see the roles PoC write-up, step 7. */ -}}
+{{- if site.Role.IsDefault -}}
 {{ $brief := (site.GetPage "/headless/llms").RawContent | strings.TrimSpace -}}
 {{- $everything := "" -}}
 {{ $brief }}
@@ -83,6 +87,7 @@
 {{ partial "llms-entry" (site.GetPage "/legal/terms_and_conditions") -}}
 - [Trust Center](https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9): Qdrant security, compliance reports, and certifications.
 
+{{- end -}}
 {{- /*
   A page as a link, then every page under it, nested, unless `flat`.
   A section that is never rendered itself (an `is_empty` group such as the

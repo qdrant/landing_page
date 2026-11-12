@@ -4,6 +4,13 @@ short_description: "Run Qdrant in your own Kubernetes cluster while managing it 
 description: "Deploy Qdrant Hybrid Cloud into your own Kubernetes cluster on any cloud, on-prem, or edge environment while managing it through Qdrant Cloud."
 weight: 260
 partition: deploy
+cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Qdrant Hybrid Cloud

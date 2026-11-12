@@ -6,6 +6,9 @@
   name order, so NetlifyHeaders runs after Markdown. If that ever changes, the
   store is empty here and the build fails instead of shipping no headers.
 */ -}}
+{{- /* Netlify reads only the _headers at the publish root, so a non-default
+  role would emit a file nothing serves: roles PoC, step 7. */ -}}
+{{- if site.Role.IsDefault -}}
 {{- $aliases := hugo.Store.Get "markdownAliases" -}}
 {{- if not $aliases -}}
   {{- errorf "index.netlifyheaders: no Markdown aliases recorded; did NetlifyHeaders render before Markdown?" -}}
@@ -16,3 +19,4 @@
 {{ $path }}
   Link: <{{ $alias }}>; rel="alternate"; type="text/markdown"
 {{ end -}}
+{{- end -}}

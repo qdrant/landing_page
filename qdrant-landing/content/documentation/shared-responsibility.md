@@ -4,6 +4,9 @@ short_description: "Compare Managed Cloud, Hybrid Cloud, and Private Cloud: wher
 description: "Who is responsible for what in Qdrant Managed Cloud, Hybrid Cloud, and Private Cloud: infrastructure, Kubernetes, upgrades, networking, access control, backups, failover, monitoring, and logging."
 weight: 232
 partition: deploy
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Shared Responsibility by Deployment Model

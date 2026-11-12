@@ -4,6 +4,13 @@ short_description: "Monitor Qdrant deployments with built-in metrics endpoints, 
 description: "Monitor Qdrant with Prometheus and Grafana using built-in OpenMetrics endpoints, with setup guides for Managed Cloud, Hybrid Cloud, and self-hosted clusters. Also covers monitoring collection memory usage and identifying slow requests with the built-in slow request log."
 weight: 148
 partition: deploy
+cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Monitoring & Telemetry

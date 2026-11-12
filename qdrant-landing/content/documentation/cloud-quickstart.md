@@ -34,6 +34,20 @@ set up qdrant with https://qdrant.tech/llms.txt
 
 For detailed cluster setup instructions, see the [Cloud documentation](/documentation/deploy-intro/).
 
+{{% only "server" %}}
+### Choose a cluster size
+
+Pick the node count and memory your workload needs. A cluster runs continuously
+once created, so size it for your expected peak.
+{{% /only %}}
+
+{{% only "serverless" %}}
+### Scale to zero
+
+A Serverless cluster has no node size to choose. It scales with your traffic and
+costs nothing while idle, so there is nothing to provision ahead of a peak.
+{{% /only %}}
+
 ## 2. Install the Qdrant Client
 
 Once you have a cluster, the fastest way to get started is to use our official SDKs which provide a convenient interface for working with Qdrant in your preferred programming language.

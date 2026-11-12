@@ -2,7 +2,7 @@
   {{ if eq .Params.learning_kind "guides" }}
     <li class="docs-breadcrumbs__crumb"><a href="/learn/">Learn</a></li>
     <li class="docs-breadcrumbs__crumb-separator"></li>
-    <li class="docs-breadcrumbs__crumb"><a href="/documentation/guides/">Guides</a></li>
+    <li class="docs-breadcrumbs__crumb"><a href="{{ partial "common/role-url.html" "/documentation/guides/" }}">Guides</a></li>
     <li class="docs-breadcrumbs__crumb-separator"></li>
     {{ if eq .Parent.Params.learning_kind "guides" }}
       <li class="docs-breadcrumbs__crumb"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></li>
@@ -14,15 +14,20 @@
     <li class="docs-breadcrumbs__crumb"><a href="/articles/">Technical Articles</a></li>
     <li class="docs-breadcrumbs__crumb-separator"></li>
   {{ else }}
+  {{/* Content paths are role-relative but RelPermalink is not, so strip the
+       role prefix before walking it: $rellink stays a lookup path that
+       GetPage understands, and $href puts the prefix back. No-op by default. */}}
+  {{ $home := site.Home.RelPermalink }}
   {{ $rellink := "" }}
-  {{ $paths := (split .RelPermalink "/") }}
+  {{ $paths := (split (printf "/%s" (strings.TrimPrefix $home .RelPermalink)) "/") }}
   {{ $len := sub (len $paths) 2 }}
   {{ range first $len $paths }}
     {{ if gt (len . ) 0 }}
       {{ $rellink = printf "%s/%s" $rellink . }}
       {{ $section := $.Site.GetPage $rellink }}
       {{ $label := cond (ne $section nil) $section.Title (humanize .) }}
-      <li class="docs-breadcrumbs__crumb"><a href="{{ $rellink }}/">{{ $label }}</a></li>
+      {{ $href := printf "%s%s/" $home (strings.TrimPrefix "/" $rellink) }}
+      <li class="docs-breadcrumbs__crumb"><a href="{{ $href }}">{{ $label }}</a></li>
       <li class="docs-breadcrumbs__crumb-separator"></li>
     {{ end }}
   {{ end }}

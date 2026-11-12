@@ -4,6 +4,13 @@ short_description: "Configure and administer Qdrant with guides on config files,
 description: "Customize Qdrant with configuration files, environment variables, runtime administration tools, anonymized telemetry controls, and GPU-accelerated indexing."
 weight: 120
 partition: deploy
+cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Configuration

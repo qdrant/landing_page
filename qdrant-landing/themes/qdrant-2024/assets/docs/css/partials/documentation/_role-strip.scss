@@ -1,0 +1,75 @@
+@use '../../helpers/functions' as *;
+
+// Links between the role variants of a page, sharing the page-top row with the
+// breadcrumbs and taking its own line.
+//
+// Related to the code-snippet deployment strip but deliberately not the same:
+// that control switches a code sample within one page, this one moves between
+// documentation sets, and both show on most Cloud pages. Pills rather than
+// underlined text, and a label that names what it changes.
+.role-strip {
+  flex: 0 0 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: pxToRem(8);
+  margin: 0;
+
+  &__label {
+    font-size: pxToRem(13);
+    line-height: pxToRem(20);
+    color: $neutral-60;
+    user-select: none;
+  }
+
+  &__item {
+    display: inline-block;
+    padding: pxToRem(3) pxToRem(12);
+    border: 1px solid $neutral-30;
+    border-radius: pxToRem(100);
+    font-size: pxToRem(13);
+    line-height: pxToRem(20);
+    color: $neutral-70;
+    text-decoration: none;
+
+    &:hover {
+      color: $neutral-98;
+      border-color: $neutral-50;
+      text-decoration: none;
+    }
+
+    // The current product is bold as well as filled. The fill alone carries
+    // the state in the dark theme, but reads weakly against the light one,
+    // and weight says "you are here" without relying on colour.
+    &_current {
+      background: $neutral-30;
+      border-color: $neutral-30;
+      color: $neutral-98;
+      font-weight: 600;
+    }
+  }
+
+  // Written out rather than nested under &__item: inside a compound selector
+  // the theme attribute lands in descendant position and never matches.
+  [data-theme='light'] & {
+    .role-strip__label {
+      color: $neutral-50;
+    }
+
+    .role-strip__item {
+      border-color: $neutral-90;
+      color: $neutral-50;
+
+      &:hover {
+        color: $neutral-20;
+        border-color: $neutral-70;
+      }
+    }
+
+    .role-strip__item_current {
+      background: $neutral-94;
+      border-color: $neutral-94;
+      color: $neutral-20;
+    }
+  }
+}

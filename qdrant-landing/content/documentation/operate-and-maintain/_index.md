@@ -5,6 +5,9 @@ description: Operate and maintain Qdrant with practical guidance on bulk uploads
 partition: learn
 learning_kind: guides
 cascade:
+  sites:
+    matrix:
+      roles: ['! serverless', '**']
   partition: learn
   learning_kind: guides
 layout: guides
@@ -27,4 +30,7 @@ worked_examples:
   - /documentation/tutorials-search-engineering/index-dynamic-payloads/
   - /documentation/tutorials-operations/embedding-model-migration/
   - /documentation/tutorials-operations/data-streaming-kafka-qdrant/
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---

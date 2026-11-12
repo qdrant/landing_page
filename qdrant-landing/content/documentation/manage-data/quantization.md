@@ -8,6 +8,12 @@ aliases:
   - ../quantization
   - /articles/dedicated-service/documentation/guides/quantization/
   - /guides/quantization/
+# Serverless owns quantization itself and exposes a precision tier instead, so
+# this page has no meaning there. Its replacement is
+# content-serverless/documentation/manage-data/precision-tiers.md.
+sites:
+  matrix:
+    roles: ['! serverless', '**']
 ---
 
 # Quantization

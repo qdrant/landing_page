@@ -7,7 +7,11 @@
       {{ partial "documentation/learn-menu" $currentNode }}
     {{ else }}
 
-      {{ $pathSegments := split (trim $currentNode.RelPermalink "/") "/" }}
+      {{/* RelPermalink carries the role prefix outside the default role, which
+           would shift every level by one and leave the menu empty. Home's
+           RelPermalink is "/" in the default role, so this is a no-op there. */}}
+      {{ $relPath := strings.TrimPrefix site.Home.RelPermalink $currentNode.RelPermalink }}
+      {{ $pathSegments := split (trim $relPath "/") "/" }}
       {{ $numLevels := len $pathSegments }}
 
       {{ $subject := $currentNode }}
@@ -36,9 +40,11 @@
             {{ if (eq .Params.type "delimiter") }}
               <h3 class="docs-menu__links-title">{{ .Title }}</h3>
             {{ else if eq .Params.type "reference" }}
-              {{ $page := site.GetPage .Params.reference }}
-
-
+              {{/* A reference points at another page by path. That page can be
+                   absent from the current role, in which case the entry is
+                   dropped rather than rendered against a nil page. */}}
+              {{ with site.GetPage .Params.reference }}
+              {{ $page := . }}
               <div
                 class="docs-menu__links-group {{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
   {{- if (eq $page.Params.type "external-link") }}external-link{{ end -}} "
@@ -56,6 +62,7 @@
                   </a>
                 </div>
               </div>
+              {{ end }}
             {{ else }}
               {{ if and (.IsPage) (not .Params.hideInSidebar) }}
                 <div
@@ -138,7 +145,8 @@
                               </a>
                             </li>
                           {{ else if eq .Params.type "reference" }}
-                            {{ $page := site.GetPage .Params.reference }}
+                            {{ with site.GetPage .Params.reference }}
+                            {{ $page := . }}
                             <li
                               class="docs-menu__links-submenu-item{{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}
                                 active
@@ -146,6 +154,7 @@
                             >
                               <a href="{{ $page.Permalink }}">{{ $page.Title }}</a>
                             </li>
+                            {{ end }}
                           {{ else if not .Params.hideInSidebar }}
                             <li
                               class="docs-menu__links-submenu-item{{ if eq .File.UniqueID $currentNode.File.UniqueID }}
