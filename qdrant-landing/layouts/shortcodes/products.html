@@ -1,0 +1,25 @@
+{{- /*
+  Mark a block of content as relevant to specific products only.
+
+    {{% products "serverless" %}}
+    Paragraphs, diagrams or code snippets.
+    {{% /products %}}
+
+  Several products: {{% products "server, serverless" %}}.
+  Use the percent form so headings inside reach the table of contents.
+*/ -}}
+{{- $r := partial "common/products/resolve.html" (dict "products" (.Get 0) "where" (printf "%s: products shortcode" .Page.File.Path)) -}}
+{{- /*
+  Nested shortcodes (such as code-snippet) emit HTML indented by their own
+  templates. Four spaces at line start is an indented code block in
+  Markdown, which would escape that HTML, so strip that indentation.
+*/ -}}
+{{- $inner := replaceRE `(?m)^(?:[ ]{4,}|\t+)<` "<" .Inner -}}
+<div class="product-scoped product-scoped--block" data-products="{{ delimit $r.keys " " }}">
+{{ partial "common/products/note.html" (merge $r (dict "block" true)) }}
+<div class="product-scoped__body">
+
+{{ $inner | safeHTML }}
+
+</div>
+</div>

@@ -207,7 +207,9 @@ Storing vectors as 32-bit floats has a cost: memory and storage grow linearly wi
 
 To reduce vector size or efficiently store vectors that are already lower precision, you can configure a per-vector datatype: [Float32](#float32) (default), one of the [TurboQuant datatypes](#turboquant-datatypes) ([Turbo16](#turbo16), [Turbo8](#turbo8), or [Turbo4](#turbo4)), [Float16](#float16), or [Uint8](#uint8).
 
+{{% products "server" %}}
 Note that datatypes are distinct from the [quantization feature](/documentation/manage-data/quantization/). Quantization creates a separate quantized representation of vectors alongside the original ones, while datatypes determine the representation of the original vectors themselves.
+{{% /products %}}
 
 ### Float32
 
