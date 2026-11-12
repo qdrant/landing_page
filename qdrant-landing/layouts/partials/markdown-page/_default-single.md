@@ -3,6 +3,10 @@
 > Use this file for an index of the main pages: https://qdrant.tech/llms.txt
 {{ $content := partial "common/products/markdown-sections.html" .RenderShortcodes -}}
 {{ if strings.Contains $content `<product-specific products="` }}> Content inside `<product-specific products="...">` tags applies only to the named products. All other content applies to every Qdrant product. If you know which product the user is on, ignore tagged content for other products.{{ "\n" }}{{ end }}{{ "\n" }}
+{{- with .Params.products -}}
+  {{- $r := partial "common/products/resolve.html" (dict "products" . "where" (printf "%s: front matter" $.File.Path)) -}}
+  {{- $content = printf "> This page is only for %s.\n\n%s" $r.text $content -}}
+{{- end -}}
 {{- if .Params.retired -}}
   {{- $content = printf "> %s\n\n%s" (partial "common/retirement-notice.html" .) $content -}}
 {{- end -}}

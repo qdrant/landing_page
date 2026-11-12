@@ -5,6 +5,7 @@
     {{ partial "common/retirement-notice.html" . | markdownify }}
   </aside>
 {{ end }}
+{{ partial "common/products/page-banner.html" . }}
 {{ $contentWithImgCaptures := partial "common/products/wrap-sections.html" .Content | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}
 
 {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
