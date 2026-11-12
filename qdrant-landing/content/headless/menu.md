@@ -168,6 +168,7 @@ menuItems:
     name: Resources
     mainMenuItems:
       - id: mainMenu-3-0
+        name: Implement
         subMenuItems:
           - id: subMenu-3-0
             name: Partners
@@ -182,6 +183,7 @@ menuItems:
             icon: migrate.svg
             url: /documentation/migration-guidance/
       - id: mainMenu-3-1
+        name: Trust
         subMenuItems:
           - id: subMenu-3-3
             name: Security
