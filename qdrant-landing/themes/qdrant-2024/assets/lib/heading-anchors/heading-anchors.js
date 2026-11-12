@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
   anchors.add('.qdrant-post__body :is(h1, h2, h3, h4, h5, h6)');
   if (/documentation|articles|course/.test(window.location?.pathname)) {
     anchors.add('.documentation-article > :is(h1, h2, h3, h4, h5, h6)');
+    // Headings inside product-tagged sections and blocks (see product.js).
+    anchors.add('.documentation-article :is(.product-scoped, .product-scoped__body) > :is(h1, h2, h3, h4, h5, h6)');
   }
   createToast();
 });

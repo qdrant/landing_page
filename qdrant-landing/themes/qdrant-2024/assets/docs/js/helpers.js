@@ -9,11 +9,31 @@ export function isElementInViewport(el) {
   );
 }
 
+// Open or close a product-scoped section or block (see product.js).
+export function setProductScopedOpen(scoped, open) {
+  scoped.classList.toggle('is-open', open);
+  const toggle = scoped.querySelector(':scope > .product-scoped__note .product-scoped__toggle');
+  if (toggle) {
+    toggle.setAttribute('aria-expanded', String(open));
+  }
+}
+
+// Open every product-scoped section or block around an element, so a
+// link into collapsed content can show its target.
+export function revealProductScoped(el) {
+  for (let scoped = el.closest('.product-scoped'); scoped; scoped = scoped.parentElement.closest('.product-scoped')) {
+    setProductScopedOpen(scoped, true);
+  }
+}
+
 export function scrollIntoViewWithOffset(id, offset) {
   offset = offset || 0;
 
-  const targetPosition =
-    document.getElementById(id).getBoundingClientRect().top - document.body.getBoundingClientRect().top - offset;
+  const target = document.getElementById(id);
+  if (!target) return;
+  revealProductScoped(target);
+
+  const targetPosition = target.getBoundingClientRect().top - document.body.getBoundingClientRect().top - offset;
 
   window.scrollTo({
     top: targetPosition,

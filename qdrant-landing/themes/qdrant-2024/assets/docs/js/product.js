@@ -9,6 +9,7 @@
 // localStorage. Choosing a product in the selector saves it and drops the
 // URL parameter.
 import * as params from '@params';
+import { setProductScopedOpen as setOpen } from './helpers';
 
 const STORAGE_KEY = 'preferred-product';
 const PARAM = 'product';
@@ -63,14 +64,6 @@ function syncSelectors() {
   document.querySelectorAll('.product-selector').forEach((select) => {
     select.value = product;
   });
-}
-
-function setOpen(scoped, open) {
-  scoped.classList.toggle('is-open', open);
-  const toggle = scoped.querySelector(':scope > .product-scoped__note .product-scoped__toggle');
-  if (toggle) {
-    toggle.setAttribute('aria-expanded', String(open));
-  }
 }
 
 function selectProduct(product) {
