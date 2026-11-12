@@ -20,29 +20,24 @@ socialMedia:
     icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.775 7.1999C23.775 7.1999 23.55 5.5499 22.8 4.7999C21.9 3.8249 20.85 3.8249 20.4 3.7499C17.025 3.5249 12 3.5249 12 3.5249C12 3.5249 6.975 3.5249 3.6 3.7499C3.15 3.8249 2.1 3.8249 1.2 4.7999C0.45 5.5499 0.225 7.1999 0.225 7.1999C0.225 7.1999 0 9.1499 0 11.0999V12.8999C0 14.8499 0.225 16.7999 0.225 16.7999C0.225 16.7999 0.45 18.4499 1.2 19.1999C2.1 20.1749 3.3 20.0999 3.825 20.2499C5.775 20.3999 12 20.4749 12 20.4749C12 20.4749 17.025 20.4749 20.4 20.2499C20.85 20.1749 21.9 20.1749 22.8 19.1999C23.55 18.4499 23.775 16.7999 23.775 16.7999C23.775 16.7999 24 14.8499 24 12.8999V11.0999C24 9.1499 23.775 7.1999 23.775 7.1999ZM9.525 15.1499V8.3999L15.975 11.7749L9.525 15.1499Z" fill="#F0F3FA"/></svg>
     name: YouTube
     url: https://www.youtube.com/channel/UC6ftm8PwH1RU_LM1jwG0LQA
+tagline: High-Performance Vector Search
 menuItems:
-  - title: Products
+  - title: Product
     items:
       - id: 0
         name: Qdrant Vector Search Engine
         url: /qdrant-vector-database/
       - id: 1
-        name: Qdrant Cloud
+        name: Qdrant Managed Cloud
         url: /cloud/
       - id: 2
         name: Qdrant Hybrid Cloud
         url: /hybrid-cloud/
       - id: 3
-        name: Qdrant Enterprise Solutions
-        url: /enterprise-solutions/
-      - id: 4
-        name: Qdrant Cloud Inference
-        url: /cloud-inference/
-      - id: 5
         name: Qdrant Edge (Beta)
         url: /edge/
-      - id: 6
-        name: Qdrant Serverless (Coming soon)
+      - id: 4
+        name: Qdrant Serverless (Waitlist)
         url: /serverless/
   - title: Developers
     items:
@@ -50,43 +45,34 @@ menuItems:
         name: Documentation
         url: /documentation/
       - id: 1
-        name: Community
-        url: /community/
+        name: API Reference
+        url: https://api.qdrant.tech/api-reference
       - id: 2
         name: GitHub
         url: https://github.com/qdrant/qdrant
       - id: 3
-        name: Roadmap
-        url: https://qdrant.to/roadmap
+        name: Learn
+        url: /learn/
       - id: 4
-        name: Change Log
-        url: https://github.com/qdrant/qdrant/releases
-      - id: 5
         name: Status Page
         url: https://status.qdrant.io/
-      - id: 6
-        name: Certification
-        url: http://train.qdrant.dev/
-  - title: Resources
+  - title: Community
     items:
       - id: 0
+        name: Community
+        url: /community/
+      - id: 1
         name: Blog
         url: /blog/
-      - id: 1
-        name: Benchmarks
-        url: /benchmarks/
       - id: 2
-        name: Technical Articles
-        url: /articles/
-      - id: 4
         name: Events
         url: /events/
-      - id: 5
+      - id: 3
+        name: Qdrant Stars
+        url: /stars/
+      - id: 4
         name: Startup Program
         url: /qdrant-for-startups/
-      - id: 6
-        name: Demos
-        url: /demo/
   - title: Company
     items:
       - id: 0
@@ -104,32 +90,6 @@ menuItems:
       - id: 4
         name: Careers
         url: https://qdrant.to/jobs
-      - id: 5
-        name: Contact Us
-        url: /contact-us/
-  - title: Security & Legal
-    items:
-      - id: 0
-        name: Security
-        url: /security/
-      - id: 1
-        name: Bug Bounty Program
-        url: /security/bug-bounty-program/
-      - id: 2
-        name: Trust Center
-        url: http://qdrant.to/trust-center
-      - id: 3
-        name: Terms
-        url: /legal/terms_and_conditions/
-      - id: 4
-        name: Privacy Policy
-        url: /legal/privacy-policy/
-      - id: 5
-        name: Impressum
-        url: /legal/impressum/
-      - id: 6
-        name: Recruitment Privacy Policy
-        url: /legal/recruitment-privacy-policy/
 copyright: Qdrant.
 bottomLinks:
   - text: Terms
@@ -149,10 +109,10 @@ bages:
     url: https://heydata.eu/
   - src: /img/dark-gdpr-badge.png
     alt: "GDPR"
-    url: /#
+    url: https://qdrant.to/trust-center
   - src: /img/hipaa-badge.png
     alt: "HIPAA"
-    url: /#
+    url: https://qdrant.to/trust-center
 question: Ready to get started with Qdrant?
 questionButton:
   text: Start Free

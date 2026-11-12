@@ -169,40 +169,6 @@
     gap: $spacer;
     white-space: nowrap;
   }
-
-  &__star {
-    display: inline-flex;
-    align-items: center;
-    gap: pxToRem(6);
-    height: pxToRem(26);
-    padding: 0 pxToRem(10);
-    border: 1px solid $neutral-40;
-    border-radius: 999px;
-    color: $neutral-70;
-    font-size: $font-size-xs;
-    font-weight: 500;
-    text-decoration: none;
-    @include mixins.transitionAll(300ms);
-
-    svg {
-      width: pxToRem(14);
-      height: pxToRem(14);
-    }
-
-    &:hover {
-      color: $neutral-98;
-      border-color: $neutral-60;
-    }
-  }
-
-  // Below this width the GitHub badge shows only its icon, so the buttons fit beside the links.
-  &__star-text {
-    display: none;
-
-    @media (min-width: 1360px) {
-      display: inline;
-    }
-  }
 }
 
 @include media-breakpoint-up(xl) {
