@@ -55,4 +55,22 @@
   if (saved) {
     allGroups.forEach((g) => switchDeployment(g, saved));
   }
+
+  // The docs product selector (assets/docs/js/product.js) drives the
+  // snippets one way: choosing a product switches every snippet to that
+  // deployment when it exists, while choosing a snippet tab never changes
+  // the product. A product from the ?product= URL parameter applies on load
+  // without being saved.
+  const root = document.documentElement;
+  if (root.getAttribute('data-product-source') === 'url') {
+    const product = root.getAttribute('data-product');
+    allGroups.forEach((g) => switchDeployment(g, product));
+  }
+
+  document.addEventListener('product:change', (e) => {
+    const { product, persist } = e.detail || {};
+    if (!product) return;
+    allGroups.forEach((g) => switchDeployment(g, product));
+    if (persist) save(product);
+  });
 }).call(this);
