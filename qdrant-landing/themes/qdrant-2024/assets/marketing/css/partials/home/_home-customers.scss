@@ -76,7 +76,10 @@
   }
 
   &__more {
-    flex-direction: row;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin: $spacer * 1.5 auto 0;
     gap: pxToRem(4);
     font-size: pxToRem(11);
     line-height: 1.3;

@@ -195,9 +195,6 @@ menuItems:
             name: Legal Center
             icon: scale.svg
             url: /legal/terms_and_conditions/
-  - id: menu-4
-    name: Customers
-    url: /customers/
   - id: menu-5
     name: Pricing
     url: /pricing/
