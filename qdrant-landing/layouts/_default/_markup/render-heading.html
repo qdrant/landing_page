@@ -1,0 +1,6 @@
+{{- range $k, $_ := .Attributes -}}
+  {{- if not (in (slice "id" "class" "products") $k) -}}
+    {{- errorf "%s: heading %q has unsupported attribute %q (allowed: id, class, products)" $.Page.File.Path $.PlainText $k -}}
+  {{- end -}}
+{{- end -}}
+<h{{ .Level }} id="{{ .Anchor }}"{{ with .Attributes.class }} class="{{ . }}"{{ end }}>{{ .Text }}</h{{ .Level }}>
