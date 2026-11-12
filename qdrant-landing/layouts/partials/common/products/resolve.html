@@ -1,0 +1,47 @@
+{{- /*
+  Resolve a product tag to validated keys and labels.
+
+  Input: a dict with
+    "products": a list of keys, or a string of comma-separated keys
+    "where":    a description of the caller, used in error messages
+  Returns: a dict with
+    "keys":   list of product keys, in registry order
+    "labels": list of labels, in registry order
+    "text":   labels joined for prose ("Server", "Server and Serverless")
+  Fails the build on an unknown key.
+*/ -}}
+{{- $in := .products -}}
+{{- $raw := slice -}}
+{{- if reflect.IsSlice $in -}}
+  {{- range $in }}{{ $raw = $raw | append (trim (string .) " ") }}{{ end -}}
+{{- else -}}
+  {{- range split (string $in) "," }}{{ with trim . " " }}{{ $raw = $raw | append . }}{{ end }}{{ end -}}
+{{- end -}}
+{{- $known := slice -}}
+{{- range site.Data.products }}{{ $known = $known | append .key }}{{ end -}}
+{{- range $raw -}}
+  {{- if not (in $known .) -}}
+    {{- errorf "%s: unknown product %q (known: %s)" $.where . (delimit $known ", ") -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $raw -}}
+  {{- errorf "%s: empty product tag" .where -}}
+{{- end -}}
+{{- $keys := slice -}}
+{{- $labels := slice -}}
+{{- range site.Data.products -}}
+  {{- if in $raw .key -}}
+    {{- $keys = $keys | append .key -}}
+    {{- $labels = $labels | append .label -}}
+  {{- end -}}
+{{- end -}}
+{{- $text := "" -}}
+{{- $n := len $labels -}}
+{{- if eq $n 1 -}}
+  {{- $text = index $labels 0 -}}
+{{- else if eq $n 2 -}}
+  {{- $text = printf "%s and %s" (index $labels 0) (index $labels 1) -}}
+{{- else -}}
+  {{- $text = printf "%s, and %s" (delimit (first (sub $n 1) $labels) ", ") (index $labels (sub $n 1)) -}}
+{{- end -}}
+{{- return (dict "keys" $keys "labels" $labels "text" $text) -}}

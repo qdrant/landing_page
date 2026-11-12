@@ -1,0 +1,8 @@
+# Products that docs content can be tagged for, in display order.
+# key: used in front matter, heading attributes and the products shortcode.
+#      Matches the code-snippet deployment keys (_server, _serverless).
+# label: shown to readers.
+- key: server
+  label: Qdrant Server
+- key: serverless
+  label: Qdrant Serverless
