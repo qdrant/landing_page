@@ -11,7 +11,7 @@ aliases:
 
 # Configuration
 
-How you configure Qdrant depends on how you deploy it. This page summarizes the options for Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted deployments, and links to the pages with the details.
+How you configure Qdrant depends on how you deploy it. This page summarizes the options for Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted deployments.
 
 ## Managed Cloud
 
@@ -26,7 +26,7 @@ Qdrant Cloud exposes a selection of options that you can configure and set on th
 | Shard rebalance strategy | How shards are balanced across the nodes | [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) |
 | Audit logging | The rotation and retention of audit logs on paid clusters | [Audit Logging](/documentation/cloud/configure-cluster/#audit-logging) |
 
-Qdrant Cloud also configures some settings for you. Strict mode is on for new collections, a cluster can have a maximum of 1000 collections, and a collection can have a maximum of 100 payload indices. Cluster mode is enabled, which enables you to scale horizontally. From v1.20.0, [quotas](/documentation/ops-configuration/quotas/#quotas-on-qdrant-cloud) are on by default with 90% memory and disk limits. Qdrant Cloud doesn't collect [usage statistics](/documentation/ops-configuration/usage-statistics/) from your clusters.
+Qdrant Cloud also configures some settings for you. Strict mode is on for new collections, a cluster can have a maximum of 1000 collections, and a collection can have a maximum of 100 payload indices. Cluster mode is enabled, which enables you to scale horizontally. From v1.20.0, [quotas](/documentation/ops-configuration/quotas/#quotas-on-qdrant-cloud) are on by default with 90% memory and disk limits. 
 
 ## Hybrid Cloud
 
