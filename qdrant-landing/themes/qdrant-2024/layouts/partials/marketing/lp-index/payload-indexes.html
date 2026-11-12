@@ -1,0 +1,33 @@
+{{ with (.Site.GetPage "/lp-index/payload-indexes") }}
+  <section class="lp-index-payload-indexes">
+    <div class="container">
+      <div class="lp-index-payload-indexes__header">
+        <div class="lp-index-payload-indexes__heading">
+          {{ with .Params.label }}<p class="lp-index-payload-indexes__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-index-payload-indexes__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-index-payload-indexes__description">{{ . | markdownify }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-index-payload-indexes__grid{{ if eq $n 1 }} lp-index-payload-indexes__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-index-payload-indexes__cell{{ if eq $n 1 }} lp-index-payload-indexes__cell--wide{{ end }}">
+            {{ with .icon }}<img class="lp-index-payload-indexes__cell-icon" src="{{ .src }}" alt="" loading="lazy" />{{ end }}
+            <h3 class="lp-index-payload-indexes__cell-title">{{ .title }}</h3>
+            <p class="lp-index-payload-indexes__cell-description">{{ .description | markdownify }}</p>
+            {{ with .url }}<a class="link link_md link_light lp-index-payload-indexes__cell-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-index-payload-indexes__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-index-payload-indexes__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

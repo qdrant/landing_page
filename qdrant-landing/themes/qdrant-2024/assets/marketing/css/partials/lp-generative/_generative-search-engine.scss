@@ -1,0 +1,22 @@
+@use '../../helpers/functions' as *;
+
+.lp-generative-generative-search-engine {
+  @include lp-generative-band(false, 5, 5);
+  @include lp-generative-header('lp-generative-generative-search-engine', false, true);
+  @include lp-generative-item('lp-generative-generative-search-engine');
+  @include lp-generative-callout('lp-generative-generative-search-engine', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2.5; }
+  &__visual { border-radius: pxToRem(8); overflow: hidden; img { display: block; width: 100%; height: auto; } }
+  @include lp-generative-code('lp-generative-generative-search-engine');
+  &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
+  &__grid--text .lp-generative-generative-search-engine__list { max-width: pxToRem(760); margin: 0; }
+  &__link { margin-top: $spacer * 2; }
+  @include media-breakpoint-up(lg) {
+    &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: center; }
+    &__grid--text { grid-template-columns: 1fr; }
+  }
+}
+
+.lp-generative-generative-search-engine__header { display: block; text-align: left; }
+.lp-generative-generative-search-engine__heading, .lp-generative-generative-search-engine__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-generative-generative-search-engine__description { margin-top: $spacer; }

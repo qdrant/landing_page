@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-generative/hero" . }}
+
+  {{ partial "marketing/lp-generative/generative-search-engine" . }}
+
+  {{ partial "marketing/lp-generative/embeddings-and-ranking" . }}
+
+  {{ partial "marketing/lp-generative/fresh-answers" . }}
+
+  {{ partial "marketing/lp-generative/results" . }}
+
+  {{ partial "marketing/lp-generative/getting-started" . }}
+
+  {{ partial "marketing/lp-generative/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-generative/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

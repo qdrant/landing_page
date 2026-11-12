@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-general-vector-database/hero" . }}
+
+  {{ partial "marketing/lp-general-vector-database/vector-database" . }}
+
+  {{ partial "marketing/lp-general-vector-database/vector-embedding-database" . }}
+
+  {{ partial "marketing/lp-general-vector-database/managed-vector-database" . }}
+
+  {{ partial "marketing/lp-general-vector-database/results" . }}
+
+  {{ partial "marketing/lp-general-vector-database/getting-started" . }}
+
+  {{ partial "marketing/lp-general-vector-database/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-general-vector-database/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

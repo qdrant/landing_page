@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/lp-index/faq") }}
+  <section class="lp-index-faq">
+    <div class="container">
+      <h2 class="lp-index-faq__title">{{ .Params.title }}</h2>
+      {{ partial "marketing/accordion" . }}
+    </div>
+  </section>
+{{ end }}
