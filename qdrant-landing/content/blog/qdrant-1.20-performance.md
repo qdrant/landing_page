@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Faster and Cheaper Search With Qdrant 1.20"
+title: "More TurboQuant Datatypes and Faster Nested Filters With Qdrant 1.20"
 slug: qdrant-1.20-performance
 short_description: "How the new turbo8 and turbo16 datatypes and per-element nested indexes in Qdrant 1.20 perform."
 description: "Measurements of Qdrant 1.20 performance: turbo8 and turbo16 match float32 recall at a quarter and half of the storage, and per-element indexes make nested filters up to 4 times faster."
