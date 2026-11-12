@@ -20,8 +20,9 @@ socialMedia:
     icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.775 7.1999C23.775 7.1999 23.55 5.5499 22.8 4.7999C21.9 3.8249 20.85 3.8249 20.4 3.7499C17.025 3.5249 12 3.5249 12 3.5249C12 3.5249 6.975 3.5249 3.6 3.7499C3.15 3.8249 2.1 3.8249 1.2 4.7999C0.45 5.5499 0.225 7.1999 0.225 7.1999C0.225 7.1999 0 9.1499 0 11.0999V12.8999C0 14.8499 0.225 16.7999 0.225 16.7999C0.225 16.7999 0.45 18.4499 1.2 19.1999C2.1 20.1749 3.3 20.0999 3.825 20.2499C5.775 20.3999 12 20.4749 12 20.4749C12 20.4749 17.025 20.4749 20.4 20.2499C20.85 20.1749 21.9 20.1749 22.8 19.1999C23.55 18.4499 23.775 16.7999 23.775 16.7999C23.775 16.7999 24 14.8499 24 12.8999V11.0999C24 9.1499 23.775 7.1999 23.775 7.1999ZM9.525 15.1499V8.3999L15.975 11.7749L9.525 15.1499Z" fill="#F0F3FA"/></svg>
     name: YouTube
     url: https://www.youtube.com/channel/UC6ftm8PwH1RU_LM1jwG0LQA
+tagline: High-Performance Vector Search
 menuItems:
-  - title: Products
+  - title: Product
     items:
       - id: 0
         name: Qdrant Vector Search Engine
@@ -38,10 +39,7 @@ menuItems:
       - id: 4
         name: Qdrant Serverless (Waitlist)
         url: /serverless/
-      - id: 5
-        name: Pricing
-        url: /pricing/
-  - title: Build
+  - title: Developers
     items:
       - id: 0
         name: Documentation
@@ -58,7 +56,7 @@ menuItems:
       - id: 4
         name: Status Page
         url: https://status.qdrant.io/
-  - title: Join
+  - title: Community
     items:
       - id: 0
         name: Community
@@ -92,20 +90,12 @@ menuItems:
       - id: 4
         name: Careers
         url: https://qdrant.to/jobs
-      - id: 5
-        name: Contact Us
-        url: /contact-us/
-  - title: Trust
-    items:
-      - id: 0
-        name: Security
-        url: /security/
-      - id: 1
-        name: Trust Center
-        url: https://qdrant.to/trust-center
-      - id: 2
-        name: Bug Bounty Program
-        url: /security/bug-bounty-program/
+# Shown under the compliance badges, which link to the Trust Center.
+trustLinks:
+  - text: Security
+    url: /security/
+  - text: Bug Bounty
+    url: /security/bug-bounty-program/
 copyright: Qdrant.
 bottomLinks:
   - text: Terms
@@ -125,10 +115,10 @@ bages:
     url: https://heydata.eu/
   - src: /img/dark-gdpr-badge.png
     alt: "GDPR"
-    url: /#
+    url: https://qdrant.to/trust-center
   - src: /img/hipaa-badge.png
     alt: "HIPAA"
-    url: /#
+    url: https://qdrant.to/trust-center
 question: Ready to get started with Qdrant?
 questionButton:
   text: Start Free
