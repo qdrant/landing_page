@@ -3,4 +3,9 @@
     {{- errorf "%s: heading %q has unsupported attribute %q (allowed: id, class, products)" $.Page.File.Path $.PlainText $k -}}
   {{- end -}}
 {{- end -}}
-<h{{ .Level }} id="{{ .Anchor }}"{{ with .Attributes.class }} class="{{ . }}"{{ end }}>{{ .Text }}</h{{ .Level }}>
+{{- $products := "" -}}
+{{- with .Attributes.products -}}
+  {{- $r := partial "common/products/resolve.html" (dict "products" . "where" (printf "%s: heading %q" $.Page.File.Path $.PlainText)) -}}
+  {{- $products = delimit $r.keys " " -}}
+{{- end -}}
+<h{{ .Level }} id="{{ .Anchor }}"{{ with .Attributes.class }} class="{{ . }}"{{ end }}{{ with $products }} data-products="{{ . }}"{{ end }}>{{ .Text }}</h{{ .Level }}>

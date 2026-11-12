@@ -1,0 +1,36 @@
+{{- /*
+  Wrap each product-tagged section of rendered content in a
+  .product-scoped container. A section runs from its heading to the next
+  heading of the same or a higher level, so subsections are included.
+
+  Input: rendered HTML (.Content). Tagged headings carry data-products,
+  set by render-heading.html. Content without tagged headings is returned
+  unchanged.
+*/ -}}
+{{- $out := string . -}}
+{{- if strings.Contains $out " data-products=" -}}
+  {{- $parts := split (replaceRE `<h([1-6])([\s>])` "\x1e<h$1$2" $out) "\x1e" -}}
+  {{- $out = index $parts 0 -}}
+  {{- $stack := slice -}}
+  {{- range $part := after 1 $parts -}}
+    {{- $level := int (substr $part 2 1) -}}
+    {{- /* Close open sections at this level or deeper. Levels on the stack only increase. */ -}}
+    {{- $keep := slice -}}
+    {{- range $stack -}}
+      {{- if lt . $level }}{{ $keep = $keep | append . }}{{ else }}{{ $out = printf "%s</div></div>" $out }}{{ end -}}
+    {{- end -}}
+    {{- $stack = $keep -}}
+    {{- $tag := findRESubmatch `^<h[1-6][^>]*\sdata-products="([^"]*)"` $part 1 -}}
+    {{- if $tag -}}
+      {{- $r := partial "common/products/resolve.html" (dict "products" (split (index (index $tag 0) 1) " ") "where" "wrap-sections") -}}
+      {{- $heading := index (findRE `(?s)^<h[1-6][^>]*>.*?</h[1-6]>` $part 1) 0 -}}
+      {{- $rest := strings.TrimPrefix $heading $part -}}
+      {{- $out = printf "%s<div class=\"product-scoped product-scoped--section\" data-products=\"%s\">%s%s<div class=\"product-scoped__body\">%s" $out (delimit $r.keys " ") $heading (partial "common/products/note.html" $r) $rest -}}
+      {{- $stack = $stack | append $level -}}
+    {{- else -}}
+      {{- $out = printf "%s%s" $out $part -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $stack }}{{ $out = printf "%s</div></div>" $out }}{{ end -}}
+{{- end -}}
+{{- return $out -}}

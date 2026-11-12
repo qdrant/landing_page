@@ -1,0 +1,8 @@
+{{- /*
+  Small print shown on a product-scoped section.
+  Input: the dict returned by common/products/resolve.html.
+  Which parts show is decided by CSS from <html data-product>: the label
+  when no product is selected, and the mismatch line with its toggle when
+  the section does not apply to the selected product.
+*/ -}}
+<p class="product-scoped__note"><span class="product-scoped__label">{{ .text }} only</span><span class="product-scoped__mismatch">Not applicable to <span class="product-scoped__selected"></span>. <button type="button" class="product-scoped__toggle" aria-expanded="false"><span class="product-scoped__show">Show anyway</span><span class="product-scoped__hide">Hide</span></button></span></p>
