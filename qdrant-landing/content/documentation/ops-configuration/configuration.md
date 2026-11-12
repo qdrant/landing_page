@@ -1,7 +1,7 @@
 ---
 title: Configuration
-short_description: "Customize Qdrant with config files and environment variables to control storage, networking, performance tuning, and feature flags."
-description: "Configure Qdrant via config files and environment variables to set storage paths, network interfaces, performance parameters, and feature flags."
+short_description: "Configure Qdrant on Managed Cloud, Hybrid Cloud, Private Cloud, or self-hosted deployments, with links to the options for each."
+description: "Configure Qdrant on Managed Cloud, Hybrid Cloud, Private Cloud, or self-hosted deployments, including config files and environment variables for storage, networking, and performance."
 weight: 5
 aliases:
   - /guides/configuration/
@@ -11,13 +11,54 @@ aliases:
 
 # Configuration
 
-<aside role="status">
-  On managed Qdrant Cloud, you can't edit the configuration file or set environment variables. Instead, you set the default collection settings (replication factor, write consistency factor, and whether vectors are stored on disk) and the advanced optimizer settings on the Cluster Details page. Refer to <a href="/documentation/cloud/configure-cluster/">Configure Qdrant Cloud Clusters</a>. The rest of this page describes configuration files and environment variables for self-hosted deployments.
-</aside>
+How you configure Qdrant depends on how you deploy it. This page summarizes the options for Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted deployments, and links to the pages with the details.
+
+## Managed Cloud
+
+Qdrant Cloud exposes a selection of options that you can configure and set on the Cluster Details page in the Cloud Console. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/) for all of them.
+
+| Option | What it controls | Details |
+|---|---|---|
+| Collection defaults | The default replication factor, write consistency factor, and whether vectors are stored on disk for new collections | [Collection Defaults](/documentation/cloud/configure-cluster/#collection-defaults) |
+| Advanced optimizations | The optimizer CPU budget. | [Advanced Optimizations](/documentation/cloud/configure-cluster/#advanced-optimizations) |
+| Client IP restrictions | Which IP ranges can reach the cluster | [Client IP Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions) |
+| Restart mode | How the nodes restart when a change needs a restart | [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime) |
+| Shard rebalance strategy | How shards are balanced across the nodes | [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) |
+| Audit logging | The rotation and retention of audit logs on paid clusters | [Audit Logging](/documentation/cloud/configure-cluster/#audit-logging) |
+
+Qdrant Cloud also configures some settings for you. Strict mode is on for new collections, a cluster can have a maximum of 1000 collections, and a collection can have a maximum of 100 payload indices. Cluster mode is enabled, which enables you to scale horizontally. From v1.20.0, [quotas](/documentation/ops-configuration/quotas/#quotas-on-qdrant-cloud) are on by default with 90% memory and disk limits. Qdrant Cloud doesn't collect [usage statistics](/documentation/ops-configuration/usage-statistics/) from your clusters.
+
+## Hybrid Cloud
+
+Hybrid Cloud clusters run in your own Kubernetes cluster, and you manage them in the Cloud Console. They have the settings of a Managed Cloud cluster, such as the collection defaults and strict mode. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/). They also have settings that control how the pods run in your Kubernetes cluster:
+
+| Option | Details |
+|---|---|
+| Node selectors, tolerations, and topology spread constraints | [Scheduling Configuration](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#scheduling-configuration) |
+| API key and read-only API key from a Kubernetes secret | [Authentication](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#authentication-to-your-qdrant-clusters) |
+| Service type, service annotations, and load balancer source ranges | [Exposing Qdrant clusters](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#exposing-qdrant-clusters-to-your-client-applications) |
+| TLS | [Configuring TLS](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#configuring-tls) |
+| CPU and memory reservation | [Resource reservations](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#configuring-cpu-and-memory-resource-reservations) |
+| Storage class, snapshot storage class, and volume snapshot class | [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/) |
+
+On Hybrid Cloud, you can also set the log level and, from Qdrant v1.20.0, choose where audit log entries are written. Refer to [Configure, Scale & Update Qdrant Hybrid Cloud Clusters](/documentation/hybrid-cloud/configure-scale-upgrade/) for which changes restart the pods. To configure the Qdrant Operator itself, refer to [Configure the Qdrant Operator](/documentation/hybrid-cloud/operator-configuration/).
+
+## Private Cloud
+
+Qdrant Private Cloud runs the same Qdrant Operator as Managed Cloud and Hybrid Cloud, without a connection to the Qdrant Cloud Management Console. You configure it with Kubernetes resources, on two levels.
+
+| Level | What it configures | Details |
+|---|---|---|
+| Helm chart | The Operator and the defaults it applies to every database it manages, such as images, namespaces, storage classes, network policies, ingress, backups, log levels, and shard rebalancing | [Private Cloud Configuration](/documentation/private-cloud/configuration/) |
+| `QdrantCluster` resource | A single cluster: scheduling, CPU, memory, disk, Qdrant version, exposure, API keys, TLS, audit logging, GPU indexing, snapshot storage, and shard rebalancing | [Configuring a Cluster](/documentation/private-cloud/qdrant-cluster-management/#configuring-a-cluster) |
+
+For every other field of the `QdrantCluster` resource, refer to the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
+
+## Self-Hosted
 
 Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.
 
-## Configuration Files
+### Configuration Files
 
 To customize Qdrant, you can mount your configuration file in any of the following locations. This guide uses `.yaml` files, but Qdrant also supports other formats such as `.toml`, `.json`, and `.ini`.
 
@@ -67,7 +108,7 @@ To customize Qdrant, you can mount your configuration file in any of the followi
 
 For details on how these configurations are loaded and merged, see the [loading order and priority](#loading-order-and-priority). The full list of available configuration options can be found [below](#configuration-options).
 
-## Environment Variables
+### Environment Variables
 
 You can also configure Qdrant using environment variables, which always take the highest priority and override any file-based settings.
 
@@ -93,7 +134,7 @@ tls:
   cert: ./tls/cert.pem
 ```
 
-## Loading Order and Priority
+### Loading Order and Priority
 
 During startup, Qdrant merges multiple configuration sources into a single effective configuration. The loading order is as follows (from least to most significant):
 
@@ -104,7 +145,7 @@ During startup, Qdrant merges multiple configuration sources into a single effec
 5. Custom configuration file
 6. Environment variables
 
-### Overriding Behavior
+#### Overriding Behavior
 
 Settings from later sources in the list override those from earlier sources:
 
@@ -112,7 +153,7 @@ Settings from later sources in the list override those from earlier sources:
 - A custom configuration file provided via `--config-path` (5) will override all other file-based settings.
 - Environment variables (6) have the highest priority and will override any settings from files.
 
-## Configuration Validation
+### Configuration Validation
 
 Qdrant validates the configuration during startup. If any issues are found, the server will terminate immediately, providing information about the error. For example:
 
@@ -122,7 +163,7 @@ Error: invalid type: 64-bit integer `-1`, expected an unsigned 64-bit or smaller
 
 This ensures that misconfigurations are caught early, preventing Qdrant from running with invalid settings.
 
-## Configuration Options
+### Configuration Options
 
 The following YAML example describes the available configuration options.
 
