@@ -1,9 +1,11 @@
 ---
-title: Qdrant Internals
-short_description: "Deep dives into Qdrant internals: HNSW indexing, quantization, storage layout, sharding, and query execution."
-description: Take a look under the hood of Qdrant’s high-performance vector search engine. Explore the architecture, components, and design principles the Qdrant Vector Search Engine is built on.
+title: Indexing & Storage
+short_description: "Explore filterable HNSW, quantization, memory use, and Qdrant storage mechanisms."
+description: "Explore filterable HNSW, quantization, memory use, and Qdrant storage mechanisms."
 category: qdrant-internals
 url: /articles/qdrant-internals/
 isCategoryPage: true
-weight: 50
+weight: 40
+aliases:
+  - /articles/production-ops/
 ---

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg" viewBox="0 0 760 220" role="img" aria-label="A safetensors file has three regions: 8 bytes that give the header size N, a JSON header of N bytes with dtype, shape, and byte range, and the raw weight bytes. 1 · The first 8 bytes hold the size N of the JSON header. 2 · The next N bytes are JSON: the tensor's dtype, shape, and byte range. 3 · Load just that byte range as a numpy array, optionally through mmap."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.se-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.se-arrowhead { fill: #656b7f; }
+.se-chip { cursor: pointer; }
+.se-chip rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-chip text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.se-chip.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.se-chip:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.se-chip:focus { outline: none; }
+.se-box rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-box text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.c1 { fill: #6047ff; }
+.c2 { fill: #9c27b0; }
+.c3 { fill: #00838f; }
+.c4 { fill: #dc244c; }
+.pad { fill: none; stroke: #abb1c7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.muted { fill: #656b7f; }
+.dim { opacity: 0.35; }
+.se-num { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; text-anchor: middle; }
+.se-cell-box { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-cell-box.is-selected { stroke: #303547; stroke-width: 2.5; }
+.se-seg { stroke: none; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="220" fill="#fff"/>
+    
+    <rect class="se-seg c1" x="20" y="30" width="110" height="44" rx="4"/>
+    <circle cx="38" cy="52" r="11" fill="#fff"/><text class="qi-title" x="38" y="57" text-anchor="middle" style="fill:#0b0f19">1</text>
+    <text class="qi-label" x="20" y="98">8 bytes: N</text>
+    
+    <rect class="se-seg c2" x="130" y="30" width="250" height="44" rx="4"/>
+    <circle cx="148" cy="52" r="11" fill="#fff"/><text class="qi-title" x="148" y="57" text-anchor="middle" style="fill:#0b0f19">2</text>
+    <text class="qi-label" x="130" y="98">JSON header, N bytes</text>
+    
+    <rect class="se-seg c3" x="380" y="30" width="340" height="44" rx="4"/>
+    <circle cx="398" cy="52" r="11" fill="#fff"/><text class="qi-title" x="398" y="57" text-anchor="middle" style="fill:#0b0f19">3</text>
+    <text class="qi-label" x="380" y="98">weight bytes: vocab × 256 × 4 (f32)</text>
+    <text class="qi-label qi-label--strong" x="20" y="146">1 · The first 8 bytes hold the size N of the JSON header.</text><text class="qi-label qi-label--strong" x="20" y="172">2 · The next N bytes are JSON: the tensor's dtype, shape, and byte range.</text><text class="qi-label qi-label--strong" x="20" y="198">3 · Load just that byte range as a numpy array, optionally through mmap.</text>
+  </svg>

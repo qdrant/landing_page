@@ -1,3 +1,3 @@
 ```python
-query_text = "What is relapsing polychondritis?"
+query_text = "Why does stoma closure fail?"
 ```

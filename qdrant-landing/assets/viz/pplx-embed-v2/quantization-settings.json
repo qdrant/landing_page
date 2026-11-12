@@ -1,0 +1,25 @@
+{
+  "title": "Retained nDCG@10 by storage per page image, all TurboQuant and binary quantization settings",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "labelTop": "config",
+  "labelBottom": "rescoring",
+  "colors": ["muted", 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+  "height": 640,
+  "width": 540,
+  "yMax": 100,
+  "panels": [
+    {
+      "title": "Retained nDCG@10 by quantization setting",
+      "subtitle": "pplx-embed-v2-late-9b, ViDoRe v3, % of exact float32 search",
+      "y": "retained_ndcg_pct",
+      "axis": "% of nDCG@10 retained (rescoring: oversampling 4)",
+      "unit": ""
+    }
+  ],
+  "tooltip": {
+    "retained_ndcg_pct": "% nDCG@10 retained",
+    "kb_per_page": "KB per page image",
+    "bytes_per_vector": "bytes per token vector"
+  }
+}

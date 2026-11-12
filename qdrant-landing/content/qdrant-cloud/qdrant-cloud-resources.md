@@ -18,7 +18,7 @@ cards:
     title: Talk to a Solutions Engineer
     description: For SOC 2 evidence, HIPAA BAA, sizing help, or enterprise procurement.
     link:
-      text: Talk to Engineering
+      text: Talk to the Team
       url: /contact-us/
   - id: 2
     icon:

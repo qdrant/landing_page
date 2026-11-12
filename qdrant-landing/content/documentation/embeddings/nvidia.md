@@ -1,189 +1,82 @@
 ---
-title: Nvidia
-short_description: "Generate embeddings with NVIDIA's retrieval models and store them in Qdrant for accurate, GPU-accelerated semantic search and RAG workflows."
-description: "Pair NVIDIA embedding models with Qdrant to power semantic search and RAG, using NVIDIA's retrieval API for high-quality query and passage embeddings."
+title: NVIDIA
+weight: 100
+short_description: "Embed text and images with NVIDIA Nemotron models through the NVIDIA API or a self-hosted NIM, then store and search the vectors in Qdrant."
+description: "Use NVIDIA nemotron-3-embed-1b and llama-nemotron-embed-vl-1b-v2 with Qdrant: passage and query modes, document, query, and image embedding, and NIM containers."
+directory:
+  summary: "NVIDIA Nemotron text and image embedding models, through the NVIDIA API or self-hosted NIM containers."
+  input: [Text, Image]
+  vectors: [Dense]
+  runs: [Provider API, Self-hosted]
 ---
 
-# Nvidia
+# NVIDIA
 
-Qdrant supports working with [Nvidia embeddings](https://build.nvidia.com/explore/retrieval).
+[NVIDIA](https://build.nvidia.com/explore/retrieval) provides Nemotron embedding models with separate passage and query modes. There are two ways to use them with Qdrant:
 
-You can generate an API key to authenticate the requests from the [Nvidia Playground](<https://build.nvidia.com/nvidia/embed-qa-4>).
+- Call the hosted NVIDIA API from your application and send the vectors to Qdrant. Most of this page covers this path.
+- Run the model in a NIM container on your own GPUs and point the same code at it. See [Self-Host with NIM](#self-host-with-nim).
 
-### Setting up the Qdrant client and Nvidia session
+## Models
 
-```python
-import requests
-from qdrant_client import QdrantClient
+| Model | Dimensions | Max Tokens per Input | Input |
+|---|---|---|---|
+| `nvidia/nemotron-3-embed-1b` | 2048 | 4096 | Text |
+| `nvidia/llama-nemotron-embed-vl-1b-v2` | 2048 | 2048 | Text queries, image or text documents |
 
-NVIDIA_BASE_URL = "https://ai.api.nvidia.com/v1/retrieval/nvidia/embeddings"
+The API also serves older models, such as `nvidia/embed-qa-4` and `nvidia/llama-3.2-nv-embedqa-1b-v1`. Use `nvidia/nemotron-3-embed-1b` for new text projects.
 
-NVIDIA_API_KEY = "<YOUR_API_KEY>"
+NVIDIA doesn't name a distance metric for these models. Use Cosine, which doesn't depend on vector length.
 
-nvidia_session = requests.Session()
+## Setup
 
-client = QdrantClient(":memory:")
+Install the OpenAI SDK and the Qdrant client. The NVIDIA API is OpenAI-compatible, and NVIDIA's own Python examples use the OpenAI SDK with NVIDIA's base URL. NVIDIA has no TypeScript SDK, so the TypeScript examples call the REST API with `fetch`.
 
-headers = {
-    "Authorization": f"Bearer {NVIDIA_API_KEY}",
-    "Accept": "application/json",
-}
+- Python: `pip install openai qdrant-client`
+- TypeScript: `npm install @qdrant/js-client-rest`
 
-texts = [
-    "Qdrant is the best vector search engine!",
-    "Loved by Enterprises and everyone building for low latency, high performance, and scale.",
-]
-```
+Create an API key on [build.nvidia.com](https://build.nvidia.com/nvidia/nemotron-3-embed-1b) and export it as the `NVIDIA_API_KEY` environment variable. Then create both clients and a collection sized for the model:
 
-```typescript
-import { QdrantClient } from '@qdrant/js-client-rest';
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nvidia/" block="setup" >}}
 
-const NVIDIA_BASE_URL = "https://ai.api.nvidia.com/v1/retrieval/nvidia/embeddings"
-const NVIDIA_API_KEY = "<YOUR_API_KEY>"
+## Embed Documents
 
-const client = new QdrantClient({ url: 'http://localhost:6333' });
+Embed documents with `input_type` set to `passage`. Each item in the response carries the `index` of its input, which this example uses as the point ID:
 
-const headers = {
-    "Authorization": "Bearer " + NVIDIA_API_KEY,
-    "Accept": "application/json",
-    "Content-Type": "application/json"
-}
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nvidia/" block="embed-documents" >}}
 
-const texts = [
-    "Qdrant is the best vector search engine!",
-    "Loved by Enterprises and everyone building for low latency, high performance, and scale.",
-]
-```
+Each input can be up to 4096 tokens. The default `truncate` value, `NONE`, rejects longer inputs with an error, and `END` cuts them to fit.
 
-The following example shows how to embed documents with the `embed-qa-4` model that generates sentence embeddings of size 1024.
+## Embed Queries
 
-### Embedding documents
+Embed the query with the same model and `input_type` set to `query`. The model encodes passages and queries differently, and NVIDIA warns that using the wrong `input_type` causes large drops in retrieval accuracy.
 
-```python
-payload = {
-    "input": texts,
-    "input_type": "passage",
-    "model": "NV-Embed-QA",
-}
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nvidia/" block="embed-queries" >}}
 
-response_body = nvidia_session.post(
-    NVIDIA_BASE_URL, headers=headers, json=payload
-).json()
-```
+## Reduce Vector Size
 
-```typescript
-let body = {
-    "input": texts,
-    "input_type": "passage",
-    "model": "NV-Embed-QA"
-}
+`nvidia/nemotron-3-embed-1b` has no `dimensions` parameter and always returns 2048 values. To store smaller vectors, keep the first 1024 or 512 values of each embedding, for example `item.embedding[:1024]`, and set the collection's `size` to match. Shortened vectors must be normalized again before scoring, which Qdrant does on upload when the collection uses the Cosine distance. Shorten query vectors the same way.
 
-let response = await fetch(NVIDIA_BASE_URL, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers
-});
+## Embed Images
 
-let response_body = await response.json()
-```
+`nvidia/llama-nemotron-embed-vl-1b-v2` embeds documents as images, text, or both, and retrieves them with text queries. Pass each image as a PNG or JPEG data URL with `modality` set to `image`. Images are always documents, so they need `input_type` set to `passage`. This model's vectors don't share a space with `nvidia/nemotron-3-embed-1b`, so store them in a separate collection:
 
-### Converting the model outputs to Qdrant points
+{{< code-snippet path="/documentation/headless/snippets/embeddings/nvidia/" block="embed-images" >}}
 
-```python
-from qdrant_client.models import PointStruct
+## Self-Host with NIM
 
-points = [
-    PointStruct(
-        id=idx,
-        vector=data["embedding"],
-        payload={"text": text},
-    )
-    for idx, (data, text) in enumerate(zip(response_body["data"], texts))
-]
-```
+NVIDIA publishes `nvidia/nemotron-3-embed-1b` as a NIM container, `nvcr.io/nim/nvidia/nemotron-3-embed-1b`. It needs an NVIDIA GPU and an NGC API key to pull, and the [deploy guide](https://build.nvidia.com/nvidia/nemotron-3-embed-1b/deploy) has the `docker run` command. The container serves the same `/v1/embeddings` API on port 8000, so the code on this page works after you change the base URL to `http://localhost:8000/v1`. The deploy guide calls the local endpoint without an API key, but the OpenAI SDK needs a non-empty `api_key` value.
 
-```typescript
-let points = response_body.data.map((data, i) => {
-    return {
-        id: i,
-        vector: data.embedding,
-        payload: {
-            text: texts[i]
-        }
-    }
-})
-```
+The [NeMo Retriever Embedding NIM support matrix](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/support-matrix.html) lists the models each NIM release serves, including Nemotron 3.5 Embed models that the hosted API doesn't offer.
 
-### Creating a collection to insert the documents
+## Store and Search the Vectors
 
-```python
-from qdrant_client.models import VectorParams, Distance
+{{< embedding-next-steps >}}
 
-collection_name = "example_collection"
+## Next Steps
 
-client.create_collection(
-    collection_name,
-    vectors_config=VectorParams(
-        size=1024,
-        distance=Distance.COSINE,
-    ),
-)
-client.upsert(collection_name, points)
-```
-
-```typescript
-const COLLECTION_NAME = "example_collection"
-
-await client.createCollection(COLLECTION_NAME, {
-    vectors: {
-        size: 1024,
-        distance: 'Cosine',
-    }
-});
-
-await client.upsert(COLLECTION_NAME, {
-    wait: true,
-    points
-})
-```
-
-## Searching for documents with Qdrant
-
-Once the documents are added, you can search for the most relevant documents.
-
-```python
-payload = {
-    "input": "What is the best to use for vector search scaling?",
-    "input_type": "query",
-    "model": "NV-Embed-QA",
-}
-
-response_body = nvidia_session.post(
-    NVIDIA_BASE_URL, headers=headers, json=payload
-).json()
-
-client.query_points(
-    collection_name=collection_name,
-    query=response_body["data"][0]["embedding"],
-)
-```
-
-```typescript
-body = {
-    "input": "What is the best to use for vector search scaling?",
-    "input_type": "query",
-    "model": "NV-Embed-QA",
-}
-
-response = await fetch(NVIDIA_BASE_URL, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers
-});
-
-response_body = await response.json()
-
-await client.query(COLLECTION_NAME, {
-    query: response_body.data[0].embedding,
-});
-```
+- [Use named vectors](/documentation/manage-data/vectors/#named-vectors) to keep text and image vectors on the same points.
+- Read the [NVIDIA Embedding NIM API guide](https://docs.nvidia.com/nim/nemo-retriever/embedding/latest/use-the-api-openai.html) for embedding types, modality, and truncation options.
+- [Filter search results](/documentation/search/filtering/) by payload fields.
+- [Combine NVIDIA vectors with sparse vectors](/documentation/search/hybrid-queries/) for hybrid search.
+- [Reduce memory use with quantization](/documentation/manage-data/quantization/).

@@ -1,0 +1,27 @@
+.documentation-article .hybrid-reranking-figure {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.hybrid-reranking-figure picture,
+.hybrid-reranking-figure img {
+  display: block;
+  width: 100%;
+}
+
+.hybrid-reranking-figure img {
+  height: auto;
+  margin: 0;
+}
+
+.hybrid-reranking-figure .hybrid-reranking-figure__dark {
+  display: none;
+}
+
+html:not([data-theme='light']) .hybrid-reranking-figure picture:not(.hybrid-reranking-figure__dark) {
+  display: none;
+}
+
+html:not([data-theme='light']) .hybrid-reranking-figure .hybrid-reranking-figure__dark {
+  display: block;
+}

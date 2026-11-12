@@ -1,0 +1,31 @@
+featured:
+  - title: Qdrant Cloud Inference
+    tag: Managed
+    tagColor: violet
+    icon:
+      src: /icons/outline/cloud-managed-violet.svg
+      alt: ""
+    description: Embed text and images on Qdrant Cloud with hosted dense, sparse, and multivector models, including free models. Connect OpenAI, Cohere, Jina AI, and OpenRouter.
+    link:
+      text: Use Cloud Inference
+      url: /documentation/embeddings/qdrant-cloud-inference/
+  - title: FastEmbed
+    tag: Local
+    tagColor: teal
+    icon:
+      src: /icons/outline/database-zap-teal.svg
+      alt: ""
+    description: Run open dense, sparse, and multivector models on your own hardware with Qdrant's lightweight Python library. You do not need an API key or GPU.
+    link:
+      text: Browse Supported Models
+      url: /documentation/embeddings/fastembed/
+steps:
+  - title: Create a Collection
+    description: Match the model's dimensions and distance metric.
+    url: /documentation/manage-data/collections/#create-a-collection
+  - title: Upload Vectors
+    description: Batch points with payloads for filtering.
+    url: /documentation/manage-data/points/#upload-points
+  - title: Search
+    description: Find matching points with the Query API.
+    url: /documentation/search/search/#query-api

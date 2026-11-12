@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="260" viewBox="0 0 800 260" role="img" aria-labelledby="title desc">
+  <title id="title">Semantic search workflow</title>
+  <desc id="desc">Load 40,474 startup records, upload their text to Qdrant Cloud, use Cloud Inference to embed and store vectors with payload, retrieve five closest startups with an optional city filter, and expose the search through FastAPI.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #303547; text-anchor: middle; }
+    .step { font-size: 16px; font-weight: 600; }
+    .name { font-size: 17px; font-weight: 700; }
+    .detail { font-size: 14px; }
+    .flow { fill: none; stroke: #656b7f; stroke-width: 2; stroke-dasharray: 5 5; stroke-linecap: round; stroke-linejoin: round; }
+    .arrow { fill: #656b7f; }
+    .node { fill: #fff; stroke: #656b7f; stroke-width: 2; }
+    .upload { fill: #f0eeff; stroke: #6047ff; }
+    .cloud { fill: #b2ebf2; stroke: #00838f; }
+  </style>
+  <rect width="800" height="260" fill="#f0f3fa"/>
+  <g class="flow">
+    <path d="M145 136H174"/><path d="M307 136H336"/><path d="M495 136H524"/><path d="M655 136H684"/>
+    <path d="M82 88V74Q82 61 95 61H232Q245 61 245 74V88"/>
+    <path d="M245 181V204Q245 217 258 217H407Q420 217 420 204V182"/>
+    <path d="M420 88V74Q420 61 433 61H581Q594 61 594 74V88"/>
+    <path d="M594 181V204Q594 217 607 217H725Q738 217 738 204V182"/>
+  </g>
+  <g class="arrow">
+    <path d="M174 131 182 136 174 141Z"/><path d="M336 131 344 136 336 141Z"/>
+    <path d="M524 131 532 136 524 141Z"/><path d="M684 131 692 136 684 141Z"/>
+    <path d="M240 88 245 96 250 88Z"/><path d="M415 182 420 174 425 182Z"/>
+    <path d="M589 88 594 96 599 88Z"/><path d="M733 182 738 174 743 182Z"/>
+  </g>
+  <text class="step" x="163" y="35">1. Load Data</text>
+  <text class="step" x="333" y="250">2. Upload Text</text>
+  <text class="step" x="507" y="35">3. Return Five Matches</text>
+  <text class="step" x="666" y="250">4. Serve Endpoint</text>
+  <g>
+    <rect class="node" x="20" y="96" width="125" height="78" rx="4"/>
+    <rect class="node upload" x="183" y="96" width="124" height="78" rx="4"/>
+    <rect class="node cloud" x="345" y="96" width="150" height="78" rx="4"/>
+    <rect class="node" x="533" y="96" width="122" height="78" rx="4"/>
+    <rect class="node" x="693" y="96" width="87" height="78" rx="4"/>
+  </g>
+  <text class="name" x="82" y="127">Dataset</text>
+  <text class="detail" x="82" y="151">40,474 startups</text>
+  <text class="name" x="245" y="127">Text Upload</text>
+  <text class="detail" x="245" y="151">One client call</text>
+  <text class="name" x="420" y="118">Qdrant Cloud</text>
+  <text class="detail" x="420" y="141">Cloud Inference</text>
+  <text class="detail" x="420" y="160">Vectors + payload</text>
+  <text class="name" x="594" y="127">Search API</text>
+  <text class="detail" x="594" y="151">Query + city filter</text>
+  <text class="name" x="736" y="118">FastAPI</text>
+  <text class="detail" x="736" y="141">GET</text>
+  <text class="detail" x="736" y="160">/api/search</text>
+</svg>

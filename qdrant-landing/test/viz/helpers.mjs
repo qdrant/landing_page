@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, readdirSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -9,6 +9,8 @@ let cachedDir = null;
 export function buildSite() {
   if (cachedDir) return cachedDir;
   const out = mkdtempSync(join(tmpdir(), 'viz-build-'));
+  // Each build is over 1 GB; left behind, a few test runs fill the disk.
+  process.on('exit', () => rmSync(out, { recursive: true, force: true }));
   execFileSync('hugo', [
     '--buildDrafts',
     '--baseURL', 'http://localhost:1313/',

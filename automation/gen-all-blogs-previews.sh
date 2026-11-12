@@ -24,6 +24,9 @@ function get_value_from_md() {
     # remove leading and trailing spaces
     value=$(echo "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
+    # remove surrounding quotes
+    value=$(echo "$value" | sed -e 's/^["'"'"']//' -e 's/["'"'"']$//')
+
     echo "$value"
 }
 

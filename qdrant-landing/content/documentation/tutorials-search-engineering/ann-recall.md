@@ -49,6 +49,8 @@ Qdrant's Web UI includes an ANN Recall tab that measures the gap between approxi
 
 The tab reports average **recall@k** (1.0 = perfect overlap; 0.95+ is typical for well-tuned HNSW).
 
+A recall of 1.0 can also mean that Qdrant used an exact scan because the HNSW index is not built. Before interpreting the score, check the [collection index state](/documentation/search-tuning/before-tuning-a-qdrant-collection/#dense-search-and-indexing): indexing may be incomplete, and small segments can remain unindexed. Changing `hnsw_ef` does not affect an exact scan.
+
 ## Tuning Search Recall
 
 Toggle **advanced mode** in the ANN Recall tab to tune search-time parameters inline. The main one is `hnsw_ef`: the number of candidates evaluated during a search. Raising it explores more of the graph, improving recall at the cost of higher query latency. To see the effect, raise `hnsw_ef` (for example, to 256) and run the evaluation again.

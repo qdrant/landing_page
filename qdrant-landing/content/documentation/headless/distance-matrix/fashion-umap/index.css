@@ -1,0 +1,24 @@
+/* Shared chrome inherits the article theme. Category colors are invariant. */
+.qi-fm {
+  --fm-0: #6047ff;
+  --fm-1: #00acc1;
+  --fm-2: #dc244c;
+  --fm-3: #ff9800;
+  --fm-4: #03a9f4;
+  --fm-5: #9c27b0;
+  --fm-6: #43a047;
+  --fm-7: #8d6e63;
+  --fm-8: #607d8b;
+  --fm-9: #f06292;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.qi-fm .qi-chip { font-size: 14px; }
+.qi-fm .qi-fm__legend { gap: 8px; }
+.qi-fm button:focus-visible { outline: 2px solid var(--qi-hot); outline-offset: 2px; }
+.qi-fm__dots { fill: none; stroke-width: 5; stroke-linecap: round; transition: opacity 0.15s ease; }
+.qi-fm__dots.is-faded { opacity: 0.12; }
+@media (prefers-reduced-motion: reduce) {
+  .qi-fm .qi-chip,
+  .qi-fm__dots { transition: none; }
+}

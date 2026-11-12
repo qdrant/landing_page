@@ -84,7 +84,13 @@ Incidents within a 20-second cooldown window are merged to prevent fragmentation
 
 ## Baseline Governance
 
-![Baseline governance: quarantine, scrubbing, and poisoning prevention to maintain detection quality](/articles_data/video-anomaly-edge/governance.png)
+{{< island
+    path="content/documentation/headless/video-anomaly-edge/governance"
+    ratio="3 / 2"
+    title="Baseline governance with the default thresholds. Select a scenario to follow a clip through the checks."
+>}}
+![Baseline governance with the default thresholds. Admission: a baseline candidate goes through a contamination check (score at most 0.025), one hour of quarantine, a re-score (score at most 0.025 again), and a per-scene cap (fewer than 500 clips), and is admitted to the baseline; failing a check rejects it. Hourly scrub: every baseline entry must be added at most 7 days ago and score at most 0.0375 on re-scoring to be kept; otherwise it is removed.](/documentation/tutorials/video-anomaly-edge/baseline-governance.svg)
+{{< /island >}}
 
 The baseline is the system's ground truth for "normal." If contaminated with anomalous clips, detection quality degrades silently. The memory governor implements three defenses.
 
@@ -208,25 +214,43 @@ GET  /health                           Service health check
 
 ## Results
 
-![UMAP scatter plot of video embeddings showing normal baseline clusters and anomaly outliers in vector space](/articles_data/video-anomaly-edge/umap-scatter.png)
+{{< island
+    path="content/documentation/headless/video-anomaly-edge/knn-scoring"
+    ratio="3 / 2"
+    title="How kNN scoring separates anomalies from the baseline. An illustration with synthetic points, not data from the evaluation."
+>}}
+![Illustration of kNN anomaly scoring with synthetic points. Normal clips form three clusters, the baseline. Borderline clips lie between clusters and anomalous clips lie far from all of them. The anomaly score of a clip is the mean distance to its three nearest baseline clips; the example shows an anomalous clip and its three nearest baseline clips, all far away.](/documentation/tutorials/video-anomaly-edge/knn-scoring.svg)
+{{< /island >}}
 
-We evaluated on the [UCF-Crime dataset](https://www.crcv.ucf.edu/projects/real-world/), the standard benchmark for video anomaly detection. The dataset contains 1,900 surveillance videos across 13 anomaly categories (abuse, arrest, arson, assault, burglary, explosion, fighting, road accidents, robbery, shooting, shoplifting, stealing, vandalism) plus normal footage.
+We evaluated on the [UCF-Crime dataset](https://www.crcv.ucf.edu/projects/real-world/) ([Sultani et al., 2018](https://arxiv.org/abs/1801.04264)). It contains 1,900 untrimmed surveillance videos, split into 1,610 training videos (800 normal, 810 anomalous) and 290 test videos (150 normal, 140 anomalous). The anomalous videos cover 13 categories: abuse, arrest, arson, assault, burglary, explosion, fighting, road accidents, robbery, shooting, shoplifting, stealing, and vandalism.
 
-**Cloud tier (Twelve Labs Marengo, k=3):**
+### How the scores are computed
+
+The numbers below depend on choices that are easy to miss, so here is exactly what is measured:
+
+- **Baseline.** Only normal training footage, cut into 10-second clips and embedded. No anomalous clip is used, which is why categories that never appear in the baseline can still be scored.
+- **Scoring level.** Every 10-second clip of the test split is scored on its own as `1 - mean(cosine similarity to its k nearest baseline clips)`. The metrics are computed over clips, not over videos or frames.
+- **Labels.** A clip takes the label of its video. Clips of an anomalous video count as anomalous even when the event covers only part of the video. Most published UCF-Crime results use frame-level labels, so these numbers are not directly comparable with them.
+- **Threshold.** The F1-optimal threshold is picked on the test scores themselves. F1 and the recall at that threshold are therefore optimistic: a threshold chosen on a separate validation set would give lower figures.
+- **False positives per hour.** The false positive rate on normal test clips is converted to hours by assuming that a camera produces 360 clips per hour (one every 10 seconds). It is an extrapolation from UCF-Crime's normal footage, not a measurement on live cameras.
+- **Average precision.** It depends on the share of anomalous clips in the test set, which is not recorded with these results.
+
+**Reported cloud tier results (Twelve Labs Marengo, k=3):**
 
 | Metric | Score |
 |--------|-------|
 | AUC-ROC | 0.9696 |
 | Average Precision | 0.9987 |
-| F1 (optimal threshold) | 0.9778 |
+| F1 (threshold chosen on the test set) | 0.9778 |
 
-**Operating point analysis.** At a budget of 2 false positives per hour:
-- Recall: 94.2%
-- This means the system catches 94% of anomalies while generating only 2 false alarms per hour per camera.
+At the operating point where the false positive rate on normal test clips equals 2 per 360 clips (about 0.56%), recall was 94.2%. If a camera produced 360 normal clips an hour with that same false positive rate, that would be about 2 false alarms per hour.
 
-**Per-category performance** varies. Explosions and arson (dramatic visual changes) are detected reliably. Shoplifting and stealing (subtle, context-dependent) are harder, but still detectable because they differ from normal, even if the model has never seen a shoplifting example.
+<aside role="status">
+    The evaluation script in the project repository, <code>scripts/evaluate.py</code>, scores precomputed embeddings and defaults to k=5. The embedding script it is paired with (<code>embed_clips.py --model cloud</code>) produces VideoMAE embeddings, not Marengo embeddings, and the repository does not include the Marengo run, its Marengo version, or its output. The figures above are reported results that you cannot reproduce from the repository as it is. Run the script on your own embeddings to get numbers for your data.
+</aside>
 
-![Benchmark results on UCF-Crime dataset](/articles_data/video-anomaly-edge/benchmark-results.png)
+`scripts/evaluate.py` also reports per-category detection rates, so you can see which categories your model separates well. We do not publish per-category figures here, so this tutorial makes no claim about which categories are easier. The design explains why none is excluded: the baseline holds only normal footage, so every category is scored by its distance from normal, whether or not the model has ever seen an example of it.
+
 
 ---
 

@@ -2,7 +2,7 @@
 title: Encryption at Rest
 short_description: "Use your own AWS KMS, GCP Cloud KMS, or Azure Key Vault key to encrypt Qdrant Managed Cloud storage volumes as a Premium customer."
 description: "Enable customer-managed encryption keys (BYOK) for Qdrant Managed Cloud storage volumes on AWS, GCP, or Azure as a Premium customer by opening a support ticket."
-weight: 27
+weight: 50
 ---
 
 # Encryption at Rest

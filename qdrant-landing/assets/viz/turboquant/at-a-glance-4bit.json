@@ -1,0 +1,13 @@
+{
+  "title": "Recall: float32 baseline, SQ (4x), and TurboQuant 4-bit (8x)",
+  "kind": "grouped-columns",
+  "subtitle": "four representative datasets, HNSW, higher is better",
+  "group": "dataset",
+  "series": "variant",
+  "y": "recall",
+  "yLabel": "recall",
+  "yMin": 0,
+  "yMax": 1,
+  "colors": ["muted", 1, 0],
+  "height": 400
+}

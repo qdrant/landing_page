@@ -30,12 +30,6 @@ We are excited to have trusted industry players support the launch of Qdrant Hyb
 
 Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. These tutorials demonstrate that Qdrant Hybrid Cloud is the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
 
-**AI Customer Support Chatbot** with Qdrant Hybrid Cloud, Airbyte, Cohere, and AWS
-
-> This tutorial shows how to build a private AI customer support system using Cohere's AI models on AWS, Airbyte, and Qdrant Hybrid Cloud for efficient and secure query automation.
-
-[View Tutorial](/documentation/examples/rag-customer-support-cohere-airbyte-aws/)
-
 **RAG System for Employee Onboarding** with Qdrant Hybrid Cloud, Oracle Cloud Infrastructure (OCI), Cohere, and LangChain
 
 > This tutorial demonstrates how to use Oracle Cloud Infrastructure (OCI) for a secure setup that integrates Cohere's language models with Qdrant Hybrid Cloud, using LangChain to orchestrate natural language search for corporate documents, enhancing resource discovery and onboarding.
@@ -52,25 +46,13 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 > Learn how to streamline contract management with a RAG-based system in this tutorial, which utilizes Aleph Alpha’s embeddings and a region-specific cloud setup. Hosted on STACKIT with Qdrant Hybrid Cloud, this solution ensures secure, GDPR-compliant storage and processing of data, ideal for businesses with intensive contractual needs.
 
-[View Tutorial](/documentation/examples/rag-contract-management-stackit-aleph-alpha/)
+[View Tutorial](/documentation/examples/rag-contract-management-stackit-cohere/)
  
-**Movie Recommendation System** with Qdrant Hybrid Cloud and OVHcloud
-
-> Discover how to build a recommendation system with our guide on collaborative filtering, using sparse vectors and the Movielens dataset.
-
-[View Tutorial](/documentation/examples/recommendation-system-ovhcloud/)
-
 **Private RAG Information Extraction Engine** with Qdrant Hybrid Cloud and Vultr using DSPy and Ollama
 
 > This tutorial teaches you how to handle and structure private documents with large unstructured data. Learn to use DSPy for information extraction, run your LLM with Ollama on Vultr, and manage data with Qdrant Hybrid Cloud on Vultr, perfect for regulated environments needing data privacy.
 
 [View Tutorial](/documentation/examples/rag-chatbot-vultr-dspy-ollama/)
-
-**RAG System That Chats with Blog Contents** with Qdrant Hybrid Cloud and Scaleway using LangChain.
-
-> Build a RAG system that combines blog scanning with the capabilities of semantic search. RAG enhances the generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
-
-[View Tutorial](/documentation/examples/rag-chatbot-scaleway/)
 
 **Private Chatbot for Interactive Learning** with Qdrant Hybrid Cloud and Red Hat OpenShift using Haystack.
 

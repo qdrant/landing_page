@@ -1,0 +1,155 @@
+@use '../../helpers/functions' as *;
+
+.edge-demos {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-10;
+  border-top: pxToRem(1) solid rgba($neutral-98, 0.1);
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    color: $neutral-98;
+  }
+
+  &__description {
+    max-width: pxToRem(720);
+    margin-bottom: $spacer * 2.5;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-70;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid rgba($neutral-98, 0.1);
+    background-color: rgba($neutral-98, 0.04);
+    overflow: hidden;
+  }
+
+  &__chrome {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.75;
+    padding: $spacer * 0.5 $spacer;
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-60;
+  }
+
+  &__dots {
+    display: inline-flex;
+    gap: pxToRem(5);
+
+    i {
+      width: pxToRem(8);
+      height: pxToRem(8);
+      border-radius: 50%;
+      background-color: rgba($neutral-98, 0.2);
+    }
+  }
+
+  &__media {
+    display: block;
+    flex: none;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background-color: $neutral-20;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: $spacer * 1.5 $spacer $spacer;
+  }
+
+  &__card-title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $font-size-xl;
+    line-height: pxToRem(30);
+    color: $neutral-98;
+  }
+
+  &__card-description {
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-80;
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: $spacer * 0.5 $spacer;
+    margin-top: auto;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 0.5 $spacer * 1.25;
+  }
+
+  &__link {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    font-weight: $font-weight-medium;
+    color: $neutral-98;
+    text-decoration: none;
+
+    &:first-child {
+      color: $secondary-violet-70;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__runs {
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-60;
+    white-space: nowrap;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+    }
+
+    &__description {
+      margin-bottom: $spacer * 3;
+    }
+
+    &__body {
+      padding: $spacer * 2 $spacer * 2 $spacer * 1.5;
+    }
+  }
+}

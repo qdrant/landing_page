@@ -74,7 +74,7 @@ When designing the knowledge engine, Xaver deliberately chose to focus on its ap
 
 [Qdrant](https://qdrant.tech/documentation/overview/) was selected after extensive evaluation for several reasons:
 
-* **High performance at low latency.** Its [Rust-based core](https://qdrant.tech/articles/why-rust/) allowed Xaver to meet strict real-time response thresholds for conversational use cases.
+* **High performance at low latency.** Its [Rust-based core](/blog/why-rust/) allowed Xaver to meet strict real-time response thresholds for conversational use cases.
 
 * **Developer simplicity.** Qdrant’s [intuitive API](https://api.qdrant.tech/api-reference) and clean operational model helped the team integrate quickly without diverting resources to maintain infrastructure.
 

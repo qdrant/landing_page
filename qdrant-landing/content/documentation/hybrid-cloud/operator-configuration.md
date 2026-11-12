@@ -2,7 +2,7 @@
 title: Configure the Qdrant Operator 
 short_description: "Tune the Qdrant Operator in Hybrid Cloud with options for scheduling, security, ingress, networking, and snapshot management."
 description: "Tune the Qdrant Operator in Hybrid Cloud with advanced options for scheduling, security, ingress, networking, and automated snapshot management."
-weight: 20
+weight: 30
 ---
 
 # Configuring Qdrant Operator: Advanced Options

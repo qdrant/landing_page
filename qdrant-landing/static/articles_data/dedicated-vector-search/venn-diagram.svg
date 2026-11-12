@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+<title id="title">Full-text and vector search capabilities</title>
+<desc id="desc">Both support similarity search, filters, counts, and facets. Full-text search supports synonym rules. Vector search supports dissimilarity search, recommendations, diverse search, and multimodality.</desc>
+<rect width="760" height="430" rx="8" fill="#f5f6fa"/>
+<ellipse cx="280" cy="240" rx="250" ry="175" fill="#008596" fill-opacity=".14" stroke="#007784" stroke-width="2"/>
+<ellipse cx="480" cy="240" rx="250" ry="175" fill="#dc244c" fill-opacity=".14" stroke="#c81942" stroke-width="2"/>
+<g fill="#192238" font-family="monospace" font-size="14" font-weight="600" text-anchor="middle">
+<text x="150" y="30">Full-text search</text>
+<text x="596" y="30">Vector search</text>
+<text x="150" y="240">Synonym rules</text>
+<text x="380" y="175">Similarity search</text>
+<text x="380" y="220">Filters</text>
+<text x="380" y="265">Counts</text>
+<text x="380" y="310">Facets</text>
+<text x="596" y="155">Dissimilarity search</text>
+<text x="596" y="210">Recommend</text>
+<text x="596" y="265">Diverse search</text>
+<text x="596" y="320">Multimodality</text>
+</g>
+</svg>

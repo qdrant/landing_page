@@ -38,11 +38,9 @@ func Main() {
 
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "<your-collection>",
-		Query: qdrant.NewQueryNearest(
-			qdrant.NewVectorInputDocument(&qdrant.Document{
-				Text:  "How to bake cookies?",
-				Model: "<the-model-to-use>",
-			}),
-		),
+		Query: qdrant.NewQueryDocument(&qdrant.Document{
+			Text:  "How to bake cookies?",
+			Model: "<the-model-to-use>",
+		}),
 	})
 }

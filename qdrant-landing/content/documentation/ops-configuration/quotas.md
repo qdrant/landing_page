@@ -9,11 +9,13 @@ weight: 7
 
 *Available as of v1.19.0*
 
+<aside role="status">On Qdrant Cloud, you manage capacity per cluster: you choose the cluster's CPU, memory, and disk, and Qdrant Cloud alerts the account owner when memory or disk use is high. Refer to <a href="/documentation/cloud/cluster-scaling/">Scaling Qdrant Cloud Clusters</a> and <a href="/documentation/cloud/cluster-monitoring/#alerts">Alerts</a>.</aside>
+
 Resource quotas stop a node from taking on more data once it's low on memory or disk space. When usage reaches a configured limit, the node rejects updates that would consume more of that resource until usage drops back down.
 
 ## Configuring Quotas
 
-Quotas are disabled by default. You can configure quotas per node, or apply them to every node in a cluster via the API.
+In self-hosted deployments, quotas are disabled by default. Qdrant Cloud enables them by default, as described in [Quotas on Qdrant Cloud](#quotas-on-qdrant-cloud). You can configure quotas per node, or apply them to every node in a cluster via the API.
 
 To apply quotas to a node, configure `storage.quotas` in the node's configuration file:
 
@@ -67,6 +69,17 @@ Until the quota is set through the API anywhere in the cluster, Qdrant reads the
 Each node resolves its own quota, and Qdrant neither compares them across peers nor warns you when they differ. Enforcement is per node: a node that reached the limit rejects updates to the replicas it holds. When a shard is replicated elsewhere, Qdrant deactivates the local replica and the update is applied on the other node.
 
 To ensure a uniform quota across all nodes, use the `PUT /quotas` API.
+
+### Quotas on Qdrant Cloud
+
+On Qdrant Cloud, quotas are enabled by default from v1.20.0, with memory and disk limits set to 90%. You can change the limits or disable quotas through `PUT /quotas`:
+
+```http
+PUT /quotas?wait=true
+{
+    "enabled": false
+}
+```
 
 ## When a Quota Is Exceeded
 

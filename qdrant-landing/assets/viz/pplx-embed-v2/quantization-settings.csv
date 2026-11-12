@@ -1,0 +1,12 @@
+config,rescoring,kb_per_page,bytes_per_vector,ram_vs_float32,retained_ndcg_pct
+"Original vectors, 856 KB",float32,856,512,1x,100.0
+"4-bit TurboQuant, 120 KB",no rescoring,120,72,7x less,99.4
+"4-bit TurboQuant, 120 KB",rescoring,120,72,7x less,100.0
+"2-bit TurboQuant, 67 KB",no rescoring,67,40,13x less,98.5
+"2-bit TurboQuant, 67 KB",rescoring,67,40,13x less,99.9
+"2-bit binary, 54 KB",no rescoring,54,32,16x less,95.6
+"2-bit binary, 54 KB",rescoring,54,32,16x less,99.9
+"1-bit TurboQuant, 40 KB",no rescoring,40,24,21x less,96.5
+"1-bit TurboQuant, 40 KB",rescoring,40,24,21x less,99.9
+"1-bit binary, 27 KB",no rescoring,27,16,32x less,76.4
+"1-bit binary, 27 KB",rescoring,27,16,32x less,99.4

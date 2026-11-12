@@ -14,7 +14,7 @@ breadcrumb: false
 guide_icon: /icons/outline/search-blue.svg
 related:
   - /documentation/search/
-  - /articles/search-quality/
+  - /articles/relevance-and-evaluation/
 aliases:
   - /documentation/improve-search/
 worked_examples:

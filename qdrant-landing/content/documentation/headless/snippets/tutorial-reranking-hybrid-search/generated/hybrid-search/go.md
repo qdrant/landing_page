@@ -11,11 +11,8 @@ results, err = client.Query(context.Background(), &qdrant.QueryPoints{
 			Limit: qdrant.PtrOf(uint64(20)),
 		},
 		{
-			Query: qdrant.NewQueryDocument(&qdrant.Document{
-				Text:  query,
-				Model: sparseEmbeddingModel,
-			}),
-			Using: qdrant.PtrOf("sparse"),
+			Query: qdrant.NewQueryText(&qdrant.TextQuery{Query: query}),
+			Using: qdrant.PtrOf("description"),
 			Limit: qdrant.PtrOf(uint64(20)),
 		},
 	},

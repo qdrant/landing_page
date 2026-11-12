@@ -1,0 +1,70 @@
+// Sass tools for content components: shortcode stylesheets and code blocks
+// (assets/lib/code-blocks/). Emits no CSS.
+//
+// Shortcodes and code blocks render in both the marketing and the documentation part, and will
+// render under the new marketing theme too, so their styles must not depend on
+// either part's theme. The values here are copied from
+// assets/{,docs/}css/_theme-variables.scss as they stood when the shortcodes
+// moved out (identical in both parts then), so the compiled CSS did not change.
+//
+// Changing a value here changes the shortcode everywhere it renders. Add a
+// value only when a shortcode needs it, and keep the theme names so the
+// stylesheets read the same as the rest of the codebase.
+
+@use 'sass:math';
+
+@function pxToRem($value) {
+  @return math.div($value, 16) + rem;
+}
+
+// Neutrals
+$neutral-10: #090e1a;
+$neutral-20: #161e33;
+$neutral-30: #28324d;
+$neutral-40: #3d4866;
+$neutral-50: #576280;
+$neutral-60: #717c99;
+$neutral-70: #8f98b2;
+$neutral-80: #b4bacc;
+$neutral-90: #d4d9e6;
+$neutral-94: #e1e5f0;
+$neutral-98: #f0f3fa;
+$neutral-100: #ffffff;
+
+// Brand
+$primary-50: #dc244c;
+$secondary-blue-50: #2f6ff0;
+$secondary-blue-90: #d9e2fe;
+
+// Status
+$success-50: #008a53;
+$success-70: #50bf83;
+
+// Type
+$font-family-code: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,
+  'Lucida Console', 'Monaco', monospace;
+$font-family-monospace: $font-family-code;
+// 400, not the theme's 350: Bootstrap's value loads first there and wins over the !default.
+$font-weight-base: 400;
+$font-size-s: pxToRem(14);
+$font-size-md: pxToRem(16);
+$font-size-l: pxToRem(18);
+$font-size-xl: pxToRem(20);
+$line-height-sm: pxToRem(21);
+$line-height-lg: pxToRem(27);
+
+// Spacing and shape (Bootstrap defaults the themes did not override)
+$spacer: 1rem;
+$code-snippet-border-radius: 0.75rem;
+
+// Breakpoints, for Bootstrap's media-breakpoint-* mixins
+$grid-breakpoints: (
+  xxs: 0,
+  xs: 375px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1900px,
+);
+@import 'bootstrap/scss/mixins/breakpoints';

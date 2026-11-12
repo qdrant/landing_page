@@ -1,0 +1,7 @@
+{{ $class := .class }}
+<section class="use-cases-vector-cases {{ $class }}">
+  <div class="container">
+    {{ partial "marketing/use-cases-cards" (dict "context" .context "class" $class) }}
+    {{ partial "marketing/case-study" .context }}
+  </div>
+</section>

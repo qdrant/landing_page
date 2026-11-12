@@ -10,6 +10,13 @@ author: Prankstorm Team
 draft: false
 author_link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 date: 2023-04-01T00:48:00.000Z
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_note: "This article was published as an April Fools joke. Quantum quantization is not a Qdrant capability."
 ---
 
 

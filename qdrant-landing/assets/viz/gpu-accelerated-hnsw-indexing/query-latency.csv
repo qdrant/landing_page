@@ -1,0 +1,9 @@
+percentile,cluster,latency_ms
+p50,GPU cluster,48.43
+p95,GPU cluster,58.51
+p99,GPU cluster,69.67
+max,GPU cluster,73.15
+p50,CPU-only cluster,46.86
+p95,CPU-only cluster,55.90
+p99,CPU-only cluster,64.98
+max,CPU-only cluster,305.03

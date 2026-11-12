@@ -1,0 +1,18 @@
+{{- /*
+  public/_headers. The hand-written rules live in assets/netlify/_headers, so
+  there is one source for this path: a file in static/ would race this one.
+  The Link rules name only the /path.md aliases that markdown-alias.html
+  published. That relies on Hugo rendering output formats one at a time in
+  name order, so NetlifyHeaders runs after Markdown. If that ever changes, the
+  store is empty here and the build fails instead of shipping no headers.
+*/ -}}
+{{- $aliases := hugo.Store.Get "markdownAliases" -}}
+{{- if not $aliases -}}
+  {{- errorf "index.netlifyheaders: no Markdown aliases recorded; did NetlifyHeaders render before Markdown?" -}}
+{{- end -}}
+{{- with resources.Get "netlify/_headers" }}{{ .Content }}{{ end }}
+# Markdown alternates, one per page with a /path.md alias
+{{ range $path, $alias := $aliases -}}
+{{ $path }}
+  Link: <{{ $alias }}>; rel="alternate"; type="text/markdown"
+{{ end -}}

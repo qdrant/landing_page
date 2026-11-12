@@ -1,0 +1,13 @@
+dataset,model,ndcg_at_10
+ESCI,BM25,0.333
+ESCI,SPLADE off-the-shelf,0.362
+ESCI,SPLADE fine-tuned on ESCI,0.389
+WANDS,BM25,0.329
+WANDS,SPLADE off-the-shelf,0.341
+WANDS,SPLADE fine-tuned on ESCI,0.355
+Home Depot,BM25,0.349
+Home Depot,SPLADE off-the-shelf,0.391
+Home Depot,SPLADE fine-tuned on ESCI,0.384
+MS MARCO,BM25,0.915
+MS MARCO,SPLADE off-the-shelf,0.982
+MS MARCO,SPLADE fine-tuned on ESCI,0.751

@@ -1,0 +1,25 @@
+{
+  "title": "Median query latency after enabling indexing",
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "Median (p50) query latency after enabling indexing",
+  "subtitle": "lower is better",
+  "x": "stage",
+  "xLabel": "stage relative to reconfigure --enable-indexing",
+  "yLabel": "median (p50) query latency, ms",
+  "yScale": "linear",
+  "yDomain": [
+    0,
+    6000
+  ],
+  "series": [
+    "default_ms",
+    "prevent_unoptimized_ms"
+  ],
+  "seriesLabels": [
+    "default",
+    "prevent_unoptimized"
+  ],
+  "unit": "ms",
+  "height": 360
+}

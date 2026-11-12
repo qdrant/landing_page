@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" role="img" aria-labelledby="title desc"><title id="title">MV-LSTM interaction architecture</title><desc id="desc">Two sentence inputs enter bidirectional LSTMs. Their positional representations interact in a tensor, followed by k-Max pooling and an MLP similarity score. Architectural adaptation of Wan et al.; individual activations are omitted.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs><rect width="760" height="380" rx="8" fill="#f0f3fa"/>
+<rect x="20" y="50" width="110" height="52" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="75.0" y="81.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">S_X</text>
+<path d="M130 76L155 76" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="155" y="40" width="170" height="72" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="240.0" y="70.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Bidirectional</text>
+<text x="240.0" y="91.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">LSTM</text>
+<rect x="20" y="230" width="110" height="52" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="75.0" y="261.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">S_Y</text>
+<path d="M130 256L155 256" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="155" y="220" width="170" height="72" rx="6" fill="#ffffff" stroke="#6047ff" stroke-width="2"/>
+<text x="240.0" y="250.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Bidirectional</text>
+<text x="240.0" y="271.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">LSTM</text>
+<path d="M325 76L375 170" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M325 256L375 210" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="375" y="155" width="145" height="76" rx="6" fill="#ffffff" stroke="#9c27b0" stroke-width="2"/>
+<text x="447.5" y="187.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Interaction</text>
+<text x="447.5" y="208.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Tensor</text>
+<path d="M520 193L545 193" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="545" y="155" width="90" height="76" rx="6" fill="#ffffff" stroke="#00838f" stroke-width="2"/>
+<text x="590.0" y="187.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">k-Max</text>
+<text x="590.0" y="208.5" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Pooling</text>
+<path d="M635 193L660 193" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="660" y="155" width="80" height="76" rx="6" fill="#ffffff" stroke="#dc244c" stroke-width="2"/>
+<text x="700.0" y="198.0" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">MLP</text>
+<text x="460" y="123" fill="#303547" font-family="ui-monospace,monospace" font-size="15" text-anchor="middle">Local matching signals</text>
+<text x="700" y="260" fill="#303547" font-family="ui-monospace,monospace" font-size="16" text-anchor="middle">Score</text>
+<path d="M700 231L700 240" fill="none" stroke="#656b7f" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

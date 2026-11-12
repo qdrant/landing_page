@@ -1,0 +1,52 @@
+.qi-dissimilarity {
+  display: block;
+}
+
+.qi-dissimilarity .qi-dissimilarity__svg .qi-label {
+  fill: var(--qi-fg);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.qi-dissimilarity__link {
+  stroke: var(--qi-muted);
+  stroke-dasharray: 7 6;
+  stroke-width: 2;
+}
+
+.qi-dissimilarity__point {
+  fill: var(--qi-fg);
+}
+
+.qi-dissimilarity__result {
+  fill: none;
+  stroke: var(--qi-cat-1);
+  stroke-width: 4;
+}
+
+.qi-dissimilarity__query-point {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-surface);
+  stroke-width: 4;
+}
+
+.qi-dissimilarity__query-label-bg {
+  fill: var(--qi-surface);
+}
+
+.qi-dissimilarity .qi-dissimilarity__svg .qi-dissimilarity__query {
+  fill: var(--qi-fg);
+  font-size: 20px;
+  font-weight: 600;
+  text-anchor: start;
+}
+
+@media (max-width: 560px) {
+  .qi-dissimilarity .qi-dissimilarity__svg .qi-label {
+    font-size: 14px;
+  }
+
+  .qi-dissimilarity .qi-dissimilarity__svg .qi-dissimilarity__query {
+    font-size: 14px;
+  }
+}

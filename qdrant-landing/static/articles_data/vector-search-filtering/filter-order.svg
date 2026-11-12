@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-16 -16 732 318"
+    aria-label="Five laptops ranked by similarity: 899.99, 1299.99, 799.99, 1099.99, and 949.99 dollars. Post-filtering takes the top 3 and then drops the 1299.99 laptop, returning 2 of 3 results. Pre-filtering keeps the three laptops under 1000 dollars and returns all 3."><style>
+  .qi-label { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+  .qi-label--strong { fill: #303547; }
+  .qi-axis { stroke: #abb1c7; stroke-width: 1.5; }
+  .qi-frame { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1; }
+  .qi-fo__cell { stroke: rgba(17, 24, 36, 0.3); stroke-width: 1; }
+  .qi-fo__cell--pass { fill: #00838f; }
+  .qi-fo__cell--fail { fill: #abb1c7; }
+  .qi-fo__lost { stroke: #dc244c; stroke-width: 2.5; stroke-linecap: round; fill: none; }
+  .qi-fo__result--lost { fill: #dc244c; }
+  .qi-fo__cell--out { fill: none; stroke: #abb1c7; stroke-dasharray: 4 3; }
+  .qi-fo__bracket { stroke: #abb1c7; stroke-width: 1.5; fill: none; }
+  .qi-qp__wire { fill: none; }
+  .qi-qp__head { fill: #abb1c7; }
+  .qi-qp__tag { font-size: 12px; }
+  .qi-qp__tag--acorn { fill: #dc244c; }
+  </style><rect x="-16" y="-16" width="732" height="318" fill="#ffffff"/>
+    <text class="qi-label" x="552" y="14" text-anchor="end">most similar first →</text>
+    <text class="qi-label" x="0" y="14">Post-filtering · top 3 by similarity, then price ≤ $1000</text>
+    <path class="qi-fo__bracket" d="M0 54 V48 H328 V54"/>
+    <text class="qi-label" x="164" y="42" text-anchor="middle">top 3</text>
+    <rect class="qi-fo__cell qi-fo__cell--pass" x="0" y="64" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="52" y="110" text-anchor="middle">$899.99</text><rect class="qi-fo__cell qi-fo__cell--fail" x="112" y="64" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="164" y="110" text-anchor="middle">$1299.99</text><path class="qi-fo__lost" d="M119 70 L209 88 M209 70 L119 88"/><rect class="qi-fo__cell qi-fo__cell--pass" x="224" y="64" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="276" y="110" text-anchor="middle">$799.99</text><rect class="qi-fo__cell qi-fo__cell--out" x="336" y="64" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="388" y="110" text-anchor="middle">$1099.99</text><rect class="qi-fo__cell qi-fo__cell--out" x="448" y="64" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="500" y="110" text-anchor="middle">$949.99</text>
+    <text class="qi-label qi-fo__result--lost" x="700" y="84" text-anchor="end">2 of 3</text>
+    <text class="qi-label" x="0" y="156">Pre-filtering · price ≤ $1000 first, then score the matches</text>
+    <rect class="qi-fo__cell qi-fo__cell--pass" x="0" y="178" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="52" y="224" text-anchor="middle">$899.99</text><rect class="qi-fo__cell qi-fo__cell--fail" x="112" y="178" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="164" y="224" text-anchor="middle">$1299.99</text><rect class="qi-fo__cell qi-fo__cell--pass" x="224" y="178" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="276" y="224" text-anchor="middle">$799.99</text><rect class="qi-fo__cell qi-fo__cell--fail" x="336" y="178" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="388" y="224" text-anchor="middle">$1099.99</text><rect class="qi-fo__cell qi-fo__cell--pass" x="448" y="178" width="104" height="30" rx="3"/><text class="qi-label qi-label--strong" x="500" y="224" text-anchor="middle">$949.99</text>
+    <text class="qi-label qi-label--strong" x="700" y="198" text-anchor="end">3 of 3</text>
+    <rect class="qi-fo__cell qi-fo__cell--pass" x="0" y="261" width="22" height="14" rx="3"/><text class="qi-label" x="30" y="272">passes the filter</text><rect class="qi-fo__cell qi-fo__cell--fail" x="200" y="261" width="22" height="14" rx="3"/><text class="qi-label" x="230" y="272">fails the filter</text><rect class="qi-fo__cell qi-fo__cell--out" x="400" y="261" width="22" height="14" rx="3"/><text class="qi-label" x="430" y="272">not retrieved</text>
+  </svg>

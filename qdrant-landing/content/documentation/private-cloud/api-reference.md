@@ -99,7 +99,29 @@ _Appears in:_
 | `dir` _string_ | Dir specifies the directory to write audit log files into.<br />Default is `./storage/audit` |  | Optional: \{\} <br /> |
 | `rotation` _[AuditRotation](#auditrotation)_ | Rotation specifies the rotation interval: "daily" (default) or "hourly". | daily | Enum: [daily hourly] <br />Optional: \{\} <br /> |
 | `max_log_files` _integer_ | MaxLogFiles specifies the maximum number of rotated audit log files to keep.<br />Older files are deleted when a new log file is created. Default: 7. | 7 | Minimum: 1 <br />Optional: \{\} <br /> |
+| `output` _[AuditOutput](#auditoutput)_ | Output specifies where audit log entries are written: "file", "stdout",<br />"stderr", "file_and_stdout" or "file_and_stderr". If unset, Qdrant<br />defaults to "file". No CRD default is set, so existing resources are<br />not changed when the CRD is updated.<br />Dir, Rotation and MaxLogFiles only apply when the output includes file.<br />Requires Qdrant v1.20.0 or later; ignored on older versions. |  | Enum: [file stdout stderr file_and_stdout file_and_stderr] <br />Optional: \{\} <br /> |
 | `trust_forwarded_headers` _boolean_ | TrustForwardedHeaders specifies whether to use X-Forwarded-For header to<br />determine the client address recorded in audit log entries. Only enable<br />this when running behind a trusted reverse proxy or load balancer.<br />Default is false. |  | Optional: \{\} <br /> |
+
+
+#### AuditOutput
+
+_Underlying type:_ _string_
+
+AuditOutput specifies where audit log entries are written.
+
+_Validation:_
+- Enum: [file stdout stderr file_and_stdout file_and_stderr]
+
+_Appears in:_
+- [AuditConfig](#auditconfig)
+
+| Field | Description |
+| --- | --- |
+| `file` |  |
+| `stdout` |  |
+| `stderr` |  |
+| `file_and_stdout` |  |
+| `file_and_stderr` |  |
 
 
 #### AuditRotation
@@ -306,6 +328,46 @@ _Appears in:_
 | `amd` |  |
 
 
+#### GlobalQuotaConfigStatus
+
+
+
+GlobalQuotaConfigStatus records the complete quota configuration owned by the
+operator. It contains the defaults last applied by the operator, or adopted
+when Qdrant already had those same defaults. It is not a live copy of
+Qdrant's current quota state. The fields stay together because the quotas API
+replaces the complete configuration.
+
+
+
+_Appears in:_
+- [GlobalQuotasStatus](#globalquotasstatus)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `enabled` _boolean_ | Enabled records whether quotas were enabled in the last applied<br />configuration. |  |  |
+| `maxResidentMemoryPercent` _integer_ | MaxResidentMemoryPercent records the resident-memory limit in the last<br />applied configuration. |  | Maximum: 100 <br />Minimum: 1 <br /> |
+| `maxDiskUsagePercent` _integer_ | MaxDiskUsagePercent records the disk-usage limit in the last applied<br />configuration. |  | Maximum: 100 <br />Minimum: 1 <br /> |
+
+
+#### GlobalQuotasStatus
+
+
+
+GlobalQuotasStatus records the last quota configuration applied by the
+operator. A nil QdrantClusterStatus.GlobalQuotas means ownership has not
+been established yet.
+
+
+
+_Appears in:_
+- [QdrantClusterStatus](#qdrantclusterstatus)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `lastApplied` _[GlobalQuotaConfigStatus](#globalquotaconfigstatus)_ | LastApplied is the complete quota configuration from the operator's last<br />action. |  |  |
+
+
 #### HelmRelease
 
 
@@ -338,6 +400,24 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `markedForDeletionAt` _string_ | MarkedForDeletionAt specifies the time when the helm repository was marked for deletion |  | Optional: \{\} <br /> |
 | `object` _[HelmRepository](#helmrepository)_ | Object specifies the helm repository object |  | EmbeddedResource: \{\} <br /> |
+
+
+#### IOUringMode
+
+_Underlying type:_ _string_
+
+IOUringMode specifies the async I/O mode, supported from Qdrant v1.19.0.
+
+_Validation:_
+- Enum: [auto disabled]
+
+_Appears in:_
+- [StoragePerformanceConfig](#storageperformanceconfig)
+
+| Field | Description |
+| --- | --- |
+| `auto` | IOUringAuto uses io_uring for every structure in the cold memory tier.<br /> |
+| `disabled` | IOUringDisabled turns io_uring off entirely.<br /> |
 
 
 #### InferenceConfig
@@ -1588,6 +1668,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `optimizer_cpu_budget` _integer_ | OptimizerCPUBudget defines the number of CPU allocation.<br />If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size<br />If negative - subtract this number of CPUs from the available CPUs.<br />If positive - use this exact number of CPUs. |  | Optional: \{\} <br /> |
 | `async_scorer` _boolean_ | AsyncScorer enables io_uring when rescoring |  | Optional: \{\} <br /> |
+| `io_uring` _[IOUringMode](#iouringmode)_ | IOUring selects the async I/O mode, supported from Qdrant v1.19.0.<br />When set it overrides AsyncScorer. |  | Enum: [auto disabled] <br />Optional: \{\} <br /> |
 
 
 #### TemplateMetadata
@@ -1695,3 +1776,4 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `id` _string_ | Id specifies the unique identifier of the write cluster |  |  |
+

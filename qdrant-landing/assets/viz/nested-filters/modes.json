@@ -1,0 +1,16 @@
+{
+  "title": "Nested filters: flat, regular indexes, and per-element index",
+  "kind": "grouped-columns",
+  "group": "profile",
+  "series": "mode",
+  "colors": ["muted", 0, 1],
+  "height": 420,
+  "width": 900,
+  "textScale": 1.1,
+  "legendLayout": "auto",
+  "views": [
+    { "label": "p95 latency", "subtitle": "1M points, lower is better", "y": "p95_ms", "yLabel": "p95 latency (ms)", "yMax": 300 },
+    { "label": "Throughput", "subtitle": "1M points, 16 concurrent clients, higher is better", "y": "qps", "yLabel": "queries per second", "yMax": 200 },
+    { "label": "Recall@10", "subtitle": "1M points, scored against exact nested results, higher is better", "y": "recall", "yLabel": "recall@10 (%)", "yMax": 100 }
+  ]
+}

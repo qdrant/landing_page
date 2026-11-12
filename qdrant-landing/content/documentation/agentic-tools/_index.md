@@ -1,7 +1,7 @@
 ---
 title: "Agentic Tools"
 short_description: "Tools that help AI coding assistants work with Qdrant: a prompt to get started, agent skills that carry solutions architect knowledge, and prompts embedded across the documentation."
-description: "Qdrant agentic tools for AI coding assistants. Start from a single prompt that runs Qdrant locally and installs the Qdrant Advisor, then use agent skills to diagnose and tune search, memory, scaling, and relevance in a running deployment."
+description: "Qdrant agentic tools for AI coding assistants. Start from a single prompt that sets up a free Qdrant Cloud cluster or a local instance and installs the Qdrant Advisor, then use agent skills to diagnose and tune search, memory, scaling, and relevance in a running deployment."
 weight: 303
 partition: develop
 ---
@@ -14,11 +14,13 @@ Use them to give your agent task-specific guidance, troubleshoot existing deploy
 ## Start Building
 
 If you're new to Qdrant, the Start building on Qdrant prompt takes your coding assistant from an empty project to a working search query.
-It stands up a local instance, installs the client with local embeddings, adds the [Qdrant Advisor](/documentation/agentic-tools/skills/#the-qdrant-advisor) skill, and then either runs a quick demo on sample data or builds against your own use case.
+It sets up a free Qdrant Cloud cluster (recommended) or a local Docker instance, installs the client and the [Qdrant Advisor](/documentation/agentic-tools/skills/#the-qdrant-advisor) skill, and then either runs a quick demo on sample data or builds against your own use case.
 
 {{< prompt "start-building" >}}
 
-Qdrant runs in Docker and [FastEmbed](/documentation/fastembed/fastembed-quickstart/) generates embeddings on your machine, so you can go from nothing to a working search query without signing up for anything.
+With Qdrant Cloud, nothing needs to run on your machine and you don't need a credit card. **Cloud Inference creates embeddings for free** with the [free Qdrant-hosted models](/documentation/cloud/inference/#qdrant-hosted-models), so you don't need an embedding library or an embedding provider key.
+
+Locally, Qdrant runs in Docker and [FastEmbed](/documentation/fastembed/fastembed-quickstart/) generates embeddings on your machine, so you don't need to sign up for anything.
 
 Collection configuration is important. A mismatched distance metric or a missing payload index can result in slower or lower quality search.
 The prompt is written to make your assistant ask what you are building, then commit to those choices out loud before it writes any code.

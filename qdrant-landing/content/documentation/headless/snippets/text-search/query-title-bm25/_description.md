@@ -1,0 +1,1 @@
+Runs a BM25 query for "time travel" against the full-text index on the `title` field of the `books` collection.

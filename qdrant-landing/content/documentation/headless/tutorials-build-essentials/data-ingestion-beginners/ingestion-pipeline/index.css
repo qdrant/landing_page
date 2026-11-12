@@ -1,0 +1,165 @@
+/* ingestion-pipeline island. Scoped under .qi-di. Chrome colors come from the
+   shared island design system (islands.scss); this file only adds the stage
+   shapes and the row/column switch. The two entity hues are constant across
+   themes, like the other islands' categorical colors. */
+
+.qi-di {
+  --di-text: var(--qi-cat-1);
+  --di-image: var(--qi-cat-3);
+  --di-payload: var(--qi-line);
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid var(--qi-border);
+  border-radius: 10px;
+  padding: 14px;
+  /* The row/column switch follows the island's own width, not the viewport,
+     because the documentation column is narrower than the window. */
+  container-type: inline-size;
+}
+
+.di-flow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+.di-stage {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+}
+.di-stage--wide,
+.di-arrow--v {
+  display: none;
+}
+.di-arrow {
+  flex: 0 0 24px;
+  width: 24px;
+  height: auto;
+}
+.di-arrow__line {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 2;
+}
+.di-arrow__head {
+  fill: var(--qi-muted);
+}
+
+/* Four 160-unit stages in a row only stay readable above this width. Below it,
+   stack the stages into a column of wide strips joined by down arrows. */
+@container (max-width: 660px) {
+  .di-flow {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .di-stage--tall,
+  .di-arrow--h {
+    display: none;
+  }
+  .di-stage--wide {
+    display: block;
+    max-width: 440px;
+  }
+  .di-arrow--v {
+    display: block;
+    flex: 0 0 auto;
+    width: 24px;
+  }
+}
+
+/* --- SVG text and shapes --- */
+.di-label,
+.di-txt {
+  font-family: var(--qi-mono);
+  font-size: 15px;
+  fill: var(--qi-fg);
+}
+.di-label,
+.di-txt--muted {
+  fill: var(--qi-muted);
+}
+.di-txt--strong {
+  font-size: 16px;
+  font-weight: 600;
+  fill: var(--qi-fg);
+}
+.di-frame {
+  stroke-width: 2;
+  stroke: var(--qi-line);
+}
+.di-card {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+
+/* Entity hues. Chips and icons are a tinted fill with a solid outline. */
+.di-shape {
+  stroke-width: 1.5;
+  fill-opacity: 0.16;
+}
+.di-shape--text {
+  fill: var(--di-text);
+  stroke: var(--di-text);
+}
+.di-shape--image {
+  fill: var(--di-image);
+  stroke: var(--di-image);
+}
+.di-stroke {
+  fill: none;
+  stroke-width: 1.5;
+}
+.di-stroke--text {
+  stroke: var(--di-text);
+}
+.di-fill--text {
+  fill: var(--di-text);
+}
+.di-fill--image {
+  fill: var(--di-image);
+}
+.di-fill--payload {
+  fill: var(--di-payload);
+}
+
+/* --- Legend --- */
+.di-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  color: var(--qi-fg);
+}
+.di-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+.di-legend li::before {
+  content: none;
+}
+.di-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+span.di-swatch.di-fill--text {
+  background: var(--di-text);
+}
+span.di-swatch.di-fill--image {
+  background: var(--di-image);
+}
+span.di-swatch.di-fill--payload {
+  background: var(--di-payload);
+}

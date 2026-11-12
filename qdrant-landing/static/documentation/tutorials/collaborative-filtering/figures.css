@@ -1,0 +1,27 @@
+.documentation-article .collaborative-filtering-figure {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.collaborative-filtering-figure picture,
+.collaborative-filtering-figure img {
+  display: block;
+  width: 100%;
+}
+
+.collaborative-filtering-figure img {
+  height: auto;
+  margin: 0;
+}
+
+.collaborative-filtering-figure .collaborative-filtering-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .collaborative-filtering-figure picture:not(.collaborative-filtering-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .collaborative-filtering-figure .collaborative-filtering-figure__dark {
+  display: block;
+}

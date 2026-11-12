@@ -16,11 +16,11 @@ Sizing a Qdrant cluster means estimating how much storage and memory your collec
 
 - The number of vectors, their dimensions, and their datatype.
 - Payload sizes and their payload indexes.
-- Which memory tier you use for vectors, indexes, and payloads.
+- Which memory tier you use for vectors, indexes, payloads, and the ID tracker.
 - Your collections' replication settings.
 - Whether you're using quantization and how you’ve set it up.
 
-<aside role="status">To size your deployment interactively, try the <a href="https://sizing.qdrant.tech/">Qdrant Sizing Calculator</a>.</aside>
+<aside role="status">To size your deployment interactively, try the <a href="https://sizing.qdrant.tech/estimate">Qdrant Sizing Calculator</a>.</aside>
 
 ## Calculating RAM and Disk Size
 
@@ -44,7 +44,7 @@ base = number_of_points * replication_factor
 dense_size = base * dimensions * bytes_per_dim
 ```
 
-Where `bytes_per_dim` depends on the [datatype](/documentation/manage-data/vectors/#datatypes): `float32` = 4 bytes (default), `float16` = 2 bytes, `uint8` = 1 byte, `turbo4` = 0.5 bytes. Dense vectors count toward RAM if the vectors are in the default `cached` tier. If you move them to `cold`, only actively-read pages get cached by the OS opportunistically, so you don't need to budget RAM for them up front.
+Where `bytes_per_dim` depends on the [datatype](/documentation/manage-data/vectors/#datatypes): `float32` = 4 bytes (default), `float16` = 2 bytes, `turbo16` = 2 bytes, `uint8` = 1 byte, `turbo8` = 1 byte, `turbo4` = 0.5 bytes. Dense vectors count toward RAM if the vectors are in the default `cached` tier. If you move them to `cold`, only actively-read pages get cached by the OS opportunistically, so you don't need to budget RAM for them up front.
 
 Example: one million points, 768 dimensions, a replication factor of two, `float32`, default `cached` tier:
 
@@ -99,7 +99,7 @@ Each named vector has its own HNSW vector index. If you have multiple named vect
 
 ### Sparse Vectors
 
-[Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) back keyword-style [full-text search](/documentation/search/text-search/full-text-search/). They also have an index, which is an inverted-index-style structure.
+[Sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) back [sparse vector search](/documentation/search/text-search/sparse-vector-search/). They also have an index, which is an inverted-index-style structure.
 
 If you're using sparse vectors, size them separately using their non-zero element count (`nnz`) instead of `dimensions`:
 
@@ -147,9 +147,11 @@ payload_index_size ≈ indexed_payload_size * 2
 
 Only index the fields you filter on: indexing everything wastes RAM.
 
+A [per-element index](/documentation/manage-data/indexing/#per-element-index-for-arrays-of-objects) also keeps a map from array elements to points in RAM, whatever its memory tier. Budget about 4 bytes per point for each per-element index.
+
 ### ID Tracker
 
-The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and keeps it resident in RAM at all times:
+The ID tracker maps each point's external ID to its internal storage location and current version. Qdrant persists it on disk and, in the default `pinned` tier, also keeps it in RAM:
 
 ```text
 id_tracker_size = base * 52 bytes
@@ -161,6 +163,8 @@ For example, with one million points and a replication factor of two:
 id_tracker_size = 2,000,000 * 52 bytes ≈ 0.10 GB
 ```
 
+In the `cached` tier, the ID tracker still counts toward RAM, but the OS can evict it under memory pressure. In the `cold` tier, you don't need to budget RAM for it up front.
+
 ## Putting It Together
 
 Add up the components that apply to your setup, based on the tiers you've chosen:
@@ -170,7 +174,7 @@ Add up the components that apply to your setup, based on the tiers you've chosen
   - The HNSW vector indexes (`cached` by default)
   - Quantized vectors and the sparse indexes (`pinned` by default)
   - Payload indexes (`pinned` by default)
-  - The ID tracker, which is always resident
+  - The ID tracker (`pinned` by default)
 - **Disk**: everything, regardless of tier:
   - Dense vectors and quantized vectors
   - The HNSW vector indexes
@@ -194,7 +198,7 @@ Disk = dense_size + hnsw_size + disk_size (payload) + id_tracker_size
      * 1.2 headroom ≈ 10.76 GB to plan for
 ```
 
-These are still estimates. For exact numbers on your own data, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/) or test with a representative sample.
+These are still estimates. For exact numbers on your own data, use the [Qdrant Sizing Calculator](https://sizing.qdrant.tech/estimate) or test with a representative sample.
 
 Repeat this calculation for every collection, then sum the RAM and disk totals across all of them to size the cluster as a whole.
 
@@ -227,6 +231,12 @@ Shard count is a tradeoff between scalability headroom and per-node efficiency:
 
 Qdrant can't split a shard across nodes, so a shard count that isn't a multiple of your node count leaves capacity unused. See [Choosing the right number of shards](/documentation/scaling/distributed_deployment/#choosing-the-right-number-of-shards).
 
+## CPU
+
+CPU matters most during ingestion, when a node uploads and indexes at the same time. The [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) tutorial found 8 CPU cores, 64 GB of RAM, and 1 TB of disk to be a minimal configuration for indexing and exploring a dataset of 400 million vectors on a single node, and notes that production setups can need more.
+
+By default, Qdrant uses up to 16 threads for indexing. If your nodes have more than 16 cores, raise the number of indexing threads explicitly. See [Vector Search in Production](/documentation/deploy-and-scale/vector-search-in-production/#other-solutions-to-alleviate-indexing-bottleneck). Sustained CPU throttling during ingestion is a sign that the nodes need more cores.
+
 ## Choosing Disk over RAM
 
 Only frequently accessed data should be cached in RAM. The rest can be offloaded to disk. For example, payload fields that you don't use for filtering don't need a payload index that's pinned in RAM. 
@@ -237,7 +247,7 @@ If your priority is to handle large volumes of vectors with average search laten
 
 The amount of available RAM greatly impacts search performance. As a general rule, if you store half as many vectors in RAM, search latency will roughly double.
 
-Disk speed is also crucial. [Contact us](/documentation/support/) if you have specific requirements for high-volume searches in our Cloud.
+Disk speed is also crucial. Use local SSDs with at least 50k IOPS for on-disk vector storage. In the [memory benchmark](/articles/memory-consumption/), a network-mounted disk with about 6,400 IOPS and 25 MiB/s was too slow, a local disk with about 63,000 IOPS and 247 MiB/s was much faster, and a local SSD with about 183,000 IOPS and 716 MiB/s was faster still. Default volume performance is a baseline, not a target. For example, AWS gp3 volumes start at 3,000 IOPS and 125 MiB/s, so provision more for bulk loads and on-disk search. [Contact us](/documentation/support/) if you have specific requirements for high-volume searches in our Cloud.
 
 ### Subgroup-Oriented Configuration
 
@@ -254,8 +264,6 @@ See the [multitenancy](/documentation/manage-data/multitenancy/) documentation f
 ### Scaling Disk Space in Qdrant Cloud
 
 Clusters supporting vector search require substantial disk space compared to other search systems. If you're running low on disk space, you can use the UI at [cloud.qdrant.io](https://cloud.qdrant.io/) to scale your cluster.
-
-<aside role="status">Note: If you increase disk space via the Qdrant UI, you can't reduce it later.</aside>
 
 When running low on disk space, consider the following benefits of scaling up:
 

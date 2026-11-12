@@ -13,7 +13,6 @@ client = QdrantClient(
 
 # @block-start define-models
 dense_embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
-sparse_embedding_model = "qdrant/bm25"
 late_interaction_embedding_model = "answerdotai/answerai-colbert-small-v1"
 # @block-end define-models
 
@@ -41,9 +40,20 @@ client.create_collection(
             hnsw_config=models.HnswConfigDiff(m=0)  #  Disable HNSW for reranking
         ),
     },
-    sparse_vectors_config={
-        "sparse": models.SparseVectorParams(modifier=models.Modifier.IDF)
-    }
+)
+
+client.create_payload_index(
+    collection_name,
+    field_name="description",
+    field_schema=models.TextIndexParams(
+        type=models.TextIndexType.TEXT,
+        stemmer=models.SnowballParams(
+            type=models.Snowball.SNOWBALL,
+            language=models.SnowballLanguage.ENGLISH,
+        ),
+        stopwords=models.Language.ENGLISH,
+        scoring=True,  # Enable BM25 scoring
+    ),
 )
 # @block-end create-collection
 
@@ -67,7 +77,6 @@ points = (
         id=idx,
         vector={
             "dense": Document(text=row['Description'], model=dense_embedding_model),
-            "sparse": Document(text=row['Description'], model=sparse_embedding_model),
             "multi": Document(text=row['Description'], model=late_interaction_embedding_model),
         },
         payload={"title": row['Title'], "author": row['Author'], "description": row['Description']}
@@ -96,16 +105,16 @@ results = client.query_points(
 pprint.pp(results.points)
 # @block-end dense-retrieval
 
-# @block-start sparse-retrieval
+# @block-start bm25-retrieval
 results = client.query_points(
     collection_name,
-    query=models.Document(text=query, model=sparse_embedding_model),
-    using="sparse",
+    query=models.TextQuery(text=query),
+    using="description",
     limit=10,
 )
 
 pprint.pp(results.points)
-# @block-end sparse-retrieval
+# @block-end bm25-retrieval
 
 # @block-start hybrid-search
 prefetch = [
@@ -115,8 +124,8 @@ prefetch = [
         limit=20,
     ),
     models.Prefetch(
-        query=models.Document(text=query, model=sparse_embedding_model),
-        using="sparse",
+        query=models.TextQuery(text=query),
+        using="description",
         limit=20,
     ),
 ]
@@ -140,8 +149,8 @@ prefetch = [
         limit=20,
     ),
     models.Prefetch(
-        query=models.Document(text=query, model=sparse_embedding_model),
-        using="sparse",
+        query=models.TextQuery(text=query),
+        using="description",
         limit=20,
     ),
 ]

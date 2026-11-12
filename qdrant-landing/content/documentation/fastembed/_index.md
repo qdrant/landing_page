@@ -15,6 +15,8 @@ FastEmbed easily integrates with Qdrant for a variety of multimodal search purpo
 
 ## Using FastEmbed
 
+[Browse supported models](/documentation/embeddings/fastembed/) to compare embedding model dimensions and licenses.
+
 | Type         | Guide                                                                                  | What you'll learn                                                                                  |
 |--------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | **Beginner** | [Generate Text Embeddings](/documentation/fastembed/fastembed-quickstart/)             | Install FastEmbed and generate dense text embeddings                                               |

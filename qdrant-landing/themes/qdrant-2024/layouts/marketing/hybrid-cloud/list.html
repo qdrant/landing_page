@@ -1,0 +1,12 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/hybrid-cloud/hero" . }}
+  {{ partial "marketing/hybrid-cloud/features" . }}
+  {{ partial "marketing/hybrid-cloud/getting-started" . }}
+  {{ partial "marketing/hybrid-cloud/what-you-get" . }}
+  {{ partial "marketing/hybrid-cloud/faq" . }}
+
+  {{ with (.Site.GetPage "/hybrid-cloud/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

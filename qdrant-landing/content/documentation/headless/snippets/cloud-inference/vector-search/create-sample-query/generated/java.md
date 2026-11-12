@@ -1,3 +1,3 @@
 ```java
-String queryText = "What is relapsing polychondritis?";
+String queryText = "Why does stoma closure fail?";
 ```

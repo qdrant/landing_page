@@ -1,5 +1,6 @@
 ---
 title: Subscribe
+type: marketing/subscribe
 section_title: Subscribe
 subtitle: Subscribe 
 description: Subscribe 
@@ -25,4 +26,6 @@ footer:
   impressumLink:
     url: /legal/impressum/
     text: Impressum
+cascade:
+  - type: marketing/subscribe
 ---

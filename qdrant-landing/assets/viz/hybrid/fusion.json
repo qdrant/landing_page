@@ -14,5 +14,7 @@
   ],
   "deltaField": "delta",
   "deltaLabel": "vs better alone",
-  "height": 400
+  "height": 400,
+  "textScale": 1.35,
+  "legendLayout": "auto"
 }

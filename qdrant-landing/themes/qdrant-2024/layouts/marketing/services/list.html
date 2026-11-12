@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ with (.Site.GetPage "/services/hero") }}
+    {{ partial "marketing/common-hero" . }}
+  {{ end }}
+
+  {{ partial "marketing/services/partners" . }}
+
+  {{ with (.Site.GetPage "/services/use-cases") }}
+    {{ partial "marketing/services/cards" (dict "context" . "class" "services-use-cases") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/services/how-it-works") }}
+    {{ partial "marketing/services/cards" (dict "context" . "class" "services-how-it-works") }}
+  {{ end }}
+
+  {{ partial "marketing/services/contact-form" . }}
+{{ end }}

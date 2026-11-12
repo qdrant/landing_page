@@ -1,0 +1,3 @@
+configuration,setting,draining_p50_ms,draining_p95_ms,drain_duration_s
+default,auto-select,44.0,820.4,474.4
+serial,1 thread,138.4,373.7,3244.1

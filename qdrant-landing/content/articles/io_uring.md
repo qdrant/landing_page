@@ -78,7 +78,11 @@ for operations. User processes can setup a Submission Queue (SQ) and a
 Completion Queue (CQ), both of which are shared between the process and the
 kernel, so there's no copying overhead.
 
+{{< island path="content/articles/headless/io_uring/rings"
+    ratio="76 / 52"
+    title="The two io_uring ring buffers shared by the application and the kernel. Step a request through submit, take, complete, and reap." >}}
 ![io_uring diagram](/articles_data/io_uring/io-uring.png)
+{{< /island >}}
 
 Apart from avoiding copying overhead, the queue-based architecture lends
 itself to multithreading as item insertion/extraction can be made lockless,
@@ -105,35 +109,69 @@ However unless the collection resides fully in memory, this optimization
 method generates significant disk IO, so it is a prime candidate for possible
 improvements.
 
-If you run Qdrant on Linux, you can enable io\_uring with the following in your
-configuration:
+On Linux, with a kernel that supports io\_uring, you enable it in the
+[storage configuration](/documentation/ops-configuration/configuration/).
+
+### Qdrant 1.19 and later
+
+Set `storage.performance.io_uring` to `auto`. Qdrant then uses io\_uring for
+every structure with a `cold` [memory placement](/documentation/ops-configuration/memory-tiers/#async-io),
+such as original vectors and payload, because reads there hit the disk.
+Structures meant to sit in RAM keep using mmap, which is faster for them.
 
 ```yaml
-# within the storage config
 storage:
   performance:
-	# enable the async scorer which uses io_uring
-	async_scorer: true
+    io_uring: auto
+```
+
+or `QDRANT__STORAGE__PERFORMANCE__IO_URING=auto`.
+
+To turn io\_uring off everywhere, set `io_uring: disabled`. If you leave the
+setting unset, the older `async_scorer` setting below decides.
+
+### Before Qdrant 1.19: `async_scorer`
+
+Qdrant 1.3.0 introduced `async_scorer`, which applies io\_uring to vector
+rescoring only, not to payload. It still works, and `io_uring` takes precedence
+over it for the structures `io_uring` covers.
+
+```yaml
+storage:
+  performance:
+    async_scorer: true
 ```
 
 or `QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true`.
 
 You can return to the mmap based backend by either deleting the `async_scorer`
-entry or setting the value to `false`.
+entry or setting the value to `false`. On Qdrant Cloud, `async_scorer` is
+available under **Advanced Optimizations** in the cluster **Configuration** tab.
 
 ## Benchmarks
+
+<aside role="status">
+These measurements are from 2023. They were taken with <code>async_scorer</code>
+on a network drive and have not been repeated on current versions. Treat them as
+an illustration of the effect, and measure your own setup.
+</aside>
 
 To run the benchmark, use a test instance of Qdrant. If necessary spin up a
 docker container and load a snapshot of the collection you want to benchmark
 with. You can copy and edit our [benchmark script](/articles_data/io_uring/rescore-benchmark.sh)
-to run the benchmark. Run the script with and without enabling
-`storage.async_scorer` and once. You can measure IO usage with `iostat` from
-another console.
+to run the benchmark. Run the script once with io\_uring enabled, as described
+above, and once without. You can measure IO usage with `iostat` from another
+console.
 
 For our benchmark, we chose the laion dataset picking 5 million 768d entries.
 We enabled scalar quantization + HNSW with m=16 and ef_construct=512.
 We do the quantization in RAM, HNSW in RAM but keep the original vectors on
-disk (which was a network drive rented from Hetzner for the benchmark).
+disk (which was a network drive rented from Hetzner for the benchmark). Qdrant
+ran on 4 cores.
+
+Each run of the script sends 1,000 `recommend` queries with `limit` 10 and
+rescoring enabled, at the stated concurrency. The table reports the wall clock
+time of a run, averaged over three runs, and the peak IOPS seen with `iostat`.
 
 If you want to reproduce the benchmarks, you can get snapshots containing the
 datasets:
@@ -154,14 +192,15 @@ Running the benchmark, we get the following IOPS, CPU loads and wall clock times
 
 
 Note that in this case, the IO operations have relatively high latency due to
-using a network disk. Thus, the kernel takes more time to fulfil the mmap
+using a network disk. Our [documentation](/documentation/ops-configuration/memory-tiers/#local-nvmessd-storage)
+now recommends local NVMe or SSD storage over network-attached storage for
+on-disk collections. Thus, the kernel takes more time to fulfil the mmap
 requests, and application threads need to wait, which is reflected in the CPU
 percentage. On the other hand, with the io\_uring backend, the application
 threads can better use available cores for the rescore operation without any
 IO-induced delays.
 
-Oversampling is a new feature to improve accuracy at the cost of some
-performance. It allows setting a factor, which is multiplied with the `limit`
+Oversampling improves accuracy at the cost of some performance. It allows setting a factor, which is multiplied with the `limit`
 while doing the search. The results are then re-scored using the original vector
 and only then the top results up to the limit are selected.
 
@@ -175,23 +214,23 @@ become quite visible. While memory-mapped IO gives us a fair deal in terms of
 ease of use and performance, we can improve on the latter in exchange for
 some modest complexity increase.
 
-io\_uring is still quite young, having only been introduced in 2019 with kernel
-5.1, so some administrators will be wary of introducing it. Of course, as with
+io\_uring was introduced in 2019 with kernel 5.1, so some administrators will be
+wary of introducing it. Verify kernel support before you enable it in production. Of course, as with
 performance, the right answer is usually "it depends", so please review your
 personal risk profile and act accordingly.
 
 ## Best Practices
 
 If your on-disk collection's query performance is of sufficiently high
-priority to you, enable the io\_uring-based async\_scorer to greatly reduce
-operating system overhead from disk IO. On the other hand, if your
+priority to you, enable io\_uring to greatly reduce operating system overhead
+from disk IO. On the other hand, if your
 collections are in memory only, activating it will be ineffective. Also note
 that many queries are not IO bound, so the overhead may or may not become
 measurable in your workload. Finally, on-device disks typically carry lower
 latency than network drives, which may also affect mmap overhead.
 
 Therefore before you roll out io\_uring, perform the above or a similar
-benchmark with both mmap and io\_uring and measure both wall time and IOps).
+benchmark with both mmap and io\_uring and measure both wall time and IOPS.
 Benchmarks are always highly use-case dependent, so your mileage may vary.
 Still, doing that benchmark once is a small price for the possible performance
 wins. Also please

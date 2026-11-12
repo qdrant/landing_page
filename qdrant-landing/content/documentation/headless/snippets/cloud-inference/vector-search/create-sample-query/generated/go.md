@@ -1,3 +1,3 @@
 ```go
-queryText := "What is relapsing polychondritis?"
+queryText := "Why does stoma closure fail?"
 ```

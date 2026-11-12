@@ -2,7 +2,7 @@
 title: Scale Clusters
 short_description: "Scale Qdrant Cloud clusters vertically or horizontally with automatic shard rebalancing as your data and traffic grow."
 description: "Scale Qdrant Cloud clusters vertically or horizontally with automatic shard rebalancing to match growing vector data volumes and query workloads."
-weight: 20
+weight: 25
 ---
 
 # Scaling Qdrant Cloud Clusters
@@ -15,13 +15,25 @@ The amount of data is always growing and at some point you might need to change 
 
 Vertical scaling is the process of increasing the capacity of a cluster by adding or removing CPU, storage and memory resources on each database node.
 
-You can start with a minimal cluster configuration and scale it up over time to accomodate the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. 
+You can start with a minimal cluster configuration and scale it up over time to accommodate the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. 
 
-Note that vertical cluster scaling will require a short downtime, if the collections in your cluster are not replicated. This is because each node of the cluster needs to be restarted to apply the CPU, memory and disk size.
+Changing the CPU or memory restarts each node, whether you scale up or down. If the collections in your cluster are not replicated, this causes a short downtime. Increasing only the disk size does not restart the nodes. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime).
 
-If you want to scale your cluster down, the new, smaller memory size must be still sufficient to store all the data in the cluster. Otherwise, the database cluster could run out of memory and crash. Therefore, the new memory size must be at least as large as the current memory usage of the database cluster including a bit of buffer. Qdrant Cloud will automatically prevent you from scaling down the Qdrant database cluster with a too small memory size.
+When you scale down, the new memory size must still fit all the data in the cluster. Otherwise, the cluster can run out of memory and become unavailable until you scale it back up. The Qdrant Cloud Console and the `qcloud` CLI warn you when your cluster's recent peak memory usage, plus a buffer, is more than the new configuration provides, or when current usage can't be determined. The warning doesn't block the change. Other tools, such as the [Qdrant Cloud API](/documentation/cloud-api/), Terraform, or Pulumi, apply the change without a warning. Before you scale down with them, check your cluster's memory usage. See [Monitor Clusters](/documentation/cloud/cluster-monitoring/).
 
-Note, that it is not possible to scale down the disk space of the cluster due to technical limitations of the underlying cloud providers.
+### Scaling Down Disk Space
+
+You can reduce the disk size of your cluster nodes as well as increase it. Cloud providers don't support shrinking a disk in place, so Qdrant Cloud replaces the nodes instead. For each node, Qdrant Cloud:
+
+1. Creates a new node with the smaller disk.
+2. Replicates all data from the old node to the new node.
+3. Shuts down the old node with the larger disk once replication is complete.
+
+Qdrant Cloud repeats this one node at a time until every node in the cluster has the new disk size. The process doesn't cause downtime, but keep the following in mind:
+
+- The new disk size must still fit all the data on each node, with room to grow. Check your cluster's current disk usage before you scale down. See [Monitor Clusters](/documentation/cloud/cluster-monitoring/).
+- Replacing nodes can take a while, depending on how much data your cluster holds.
+- Replicating data to the new nodes increases the disk I/O load on your cluster until the process completes.
 
 ## Horizontal Scaling
 

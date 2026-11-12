@@ -16,12 +16,10 @@ results = client.queryAsync(
         .addPrefetch(
             PrefetchQuery.newBuilder()
                 .setQuery(
-                    nearest(
-                        Document.newBuilder()
-                            .setText(query)
-                            .setModel(sparseEmbeddingModel)
-                            .build()))
-                .setUsing("sparse")
+                    Query.newBuilder()
+                        .setText(TextQuery.newBuilder().setQuery(query).build())
+                        .build())
+                .setUsing("description")
                 .setLimit(20)
                 .build())
         .setQuery(Query.newBuilder().setFusion(Fusion.RRF).build())

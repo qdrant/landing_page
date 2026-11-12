@@ -1,0 +1,57 @@
+/* filter-order island. Scoped under .qi-fo. Visual language from the
+   CTO-validated quantization islands (bit-depth): no frame, muted mono
+   captions (.qi-label), rounded cells with the shared cell stroke, cyan
+   (--qi-cat-3) for points that pass the filter, neutral gray for points that
+   fail it, and Qdrant red for the result post-filtering loses. */
+
+.qi-fo {
+  display: block;
+  /* Switch drawings on this figure's own width, not the viewport. */
+  container-type: inline-size;
+  container-name: qi-fo;
+}
+.qi-fo__svg--narrow {
+  display: none;
+}
+/* Below ~560px the wide drawing shrinks its labels to about 6px. Swap to the
+   compact drawing, like the repairs island does on phones. */
+@container qi-fo (max-width: 560px) {
+  .qi-fo__svg--wide {
+    display: none;
+  }
+  .qi-fo__svg--narrow {
+    display: block;
+  }
+}
+
+.qi-fo__cell {
+  stroke: var(--qi-cell-stroke);
+  stroke-width: 1;
+}
+.qi-fo__cell--pass {
+  fill: var(--qi-cat-3);
+}
+.qi-fo__cell--fail {
+  /* Neutral gray, not the soft cyan: in dark mode the soft cyan is too close
+     to the pass color to tell apart. */
+  fill: var(--qi-line);
+}
+.qi-fo__cell--out {
+  fill: none;
+  stroke: var(--qi-line);
+  stroke-dasharray: 4 3;
+}
+.qi-fo__lost {
+  stroke: var(--qi-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  fill: none;
+}
+.qi-fo__result--lost {
+  fill: var(--qi-accent);
+}
+.qi-fo__bracket {
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+  fill: none;
+}

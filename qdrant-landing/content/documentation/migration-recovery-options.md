@@ -26,7 +26,7 @@ The [Qdrant Migration Tool](/documentation/migrate-to-qdrant/) streams points fr
 During migration, the target cluster needs <strong>twice the RAM and disk</strong> of the source collection. You can scale RAM back down once the migration is complete.
 </aside>
 
-See the [Data Migration tutorial](/documentation/tutorials-operations/migration/) for step-by-step instructions.
+See the [Migrate to Qdrant documentation](/documentation/migrate-to-qdrant/) for step-by-step instructions.
 
 ## Snapshots
 

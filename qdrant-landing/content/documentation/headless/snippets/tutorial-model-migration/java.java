@@ -1,5 +1,6 @@
 package com.example.snippets_amalgamation;
 
+import static io.qdrant.client.ConditionFactory.hasVector;
 import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.ValueFactory.value;
@@ -12,7 +13,11 @@ import io.qdrant.client.WithVectorsSelectorFactory;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.AliasOperations;
+import io.qdrant.client.grpc.Collections.CreateAlias;
+import io.qdrant.client.grpc.Collections.DeleteAlias;
 import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.JsonWithInt.Value;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.PointStruct;
@@ -152,6 +157,20 @@ public class Snippet {
         }
         // @block-end migrate-points
 
+        // @block-start alias-update
+        client.updateAliasesAsync(List.of(
+            AliasOperations.newBuilder()
+                .setDeleteAlias(DeleteAlias.newBuilder().setAliasName("prod").build())
+                .build(),
+            AliasOperations.newBuilder()
+                .setCreateAlias(CreateAlias.newBuilder()
+                    .setAliasName("prod")
+                    .setCollectionName(NEW_COLLECTION)
+                    .build())
+                .build()
+        )).get();
+        // @block-end alias-update
+
         // @block-start search-old-collection
         QueryPoints oldRequest =
             QueryPoints.newBuilder()
@@ -279,6 +298,15 @@ public class Snippet {
                 .setLimit(10)
                 .build()).get();
         // @block-end search-with-old-vector
+
+        // @block-start count-missing
+        client
+            .countAsync(
+                COLLECTION,
+                Filter.newBuilder().addMustNot(hasVector(NEW_VECTOR)).build(),
+                true)
+            .get();
+        // @block-end count-missing
 
         // @block-start search-with-new-vector
         var newVectorResults = client.queryAsync(

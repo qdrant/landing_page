@@ -1,0 +1,5 @@
+{{ if partial "common/is-docs-part.html" . }}
+  {{ partial "documentation/js-head.html" . }}
+{{ else }}
+  {{ partial "marketing/js-head.html" . }}
+{{ end }}

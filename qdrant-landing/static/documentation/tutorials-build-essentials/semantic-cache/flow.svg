@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="300" viewBox="0 0 1000 300" role="img" aria-labelledby="title desc">
+  <title id="title">Semantic cache lookup and serve flow</title>
+  <desc id="desc">A cache hit returns the stored answer without RAG. An optional Jev check can reject the hit and send it to RAG. A miss retrieves policy documents, generates an answer, stores the question and answer, then returns the answer.</desc>
+  <defs>
+    <marker id="quiet-arrow" viewBox="0 0 12 10" refX="8" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 11 5 1 9Z" fill="#656b7f"/></marker>
+    <marker id="hit-arrow" viewBox="0 0 12 10" refX="8" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 11 5 1 9Z" fill="#00838f"/></marker>
+    <marker id="miss-arrow" viewBox="0 0 12 10" refX="8" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 11 5 1 9Z" fill="#dc244c"/></marker>
+    <marker id="violet-arrow" viewBox="0 0 12 10" refX="8" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 11 5 1 9Z" fill="#6047ff"/></marker>
+  </defs>
+  <rect width="1000" height="300" rx="8" fill="#f0f3fa"/>
+  <path d="M150 79H181" fill="none" stroke="#656b7f" stroke-width="3" stroke-linejoin="round" marker-end="url(#quiet-arrow)"/>
+  <path d="M383 79H855" fill="none" stroke="#00838f" stroke-width="3" stroke-linejoin="round" marker-end="url(#hit-arrow)"/>
+  <path d="M480 79V157H518" fill="none" stroke="#6047ff" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#violet-arrow)"/>
+  <path d="M768 157H899V119" fill="none" stroke="#00838f" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#hit-arrow)"/>
+  <path d="M649 185V213" fill="none" stroke="#dc244c" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="7 6" marker-end="url(#miss-arrow)"/>
+  <path d="M288 107V253H544" fill="none" stroke="#dc244c" stroke-width="3" stroke-linejoin="round" marker-end="url(#miss-arrow)"/>
+  <path d="M674 253H719" fill="none" stroke="#dc244c" stroke-width="3" stroke-linejoin="round" marker-end="url(#miss-arrow)"/>
+  <path d="M848 253H947V119" fill="none" stroke="#6047ff" stroke-width="3" stroke-linejoin="round" marker-end="url(#violet-arrow)"/>
+  <text x="438" y="63" fill="#303547" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="700" text-anchor="middle">Hit</text>
+  <text x="481" y="237" fill="#303547" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="700" text-anchor="middle">Miss</text>
+  <rect x="20" y="52" width="130" height="55" rx="7" fill="#ffffff" stroke="#656b7f" stroke-width="2.5"/>
+  <text x="85" y="87" fill="#303547" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" text-anchor="middle">Question</text>
+  <rect x="193" y="52" width="190" height="55" rx="7" fill="#6047ff"/>
+  <text x="288" y="87" fill="#ffffff" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="700" text-anchor="middle">Cache lookup</text>
+  <rect x="530" y="130" width="238" height="55" rx="7" fill="#ffffff" stroke="#6047ff" stroke-width="2.5" stroke-dasharray="8 6"/>
+  <text x="649" y="164" fill="#303547" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" text-anchor="middle">Jev check (optional)</text>
+  <rect x="556" y="225" width="118" height="56" rx="7" fill="#dc244c"/>
+  <text x="615" y="259" fill="#ffffff" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="700" text-anchor="middle">RAG</text>
+  <rect x="731" y="225" width="117" height="56" rx="7" fill="#ffffff" stroke="#6047ff" stroke-width="2.5"/>
+  <text x="789" y="259" fill="#303547" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" text-anchor="middle">Store</text>
+  <rect x="867" y="52" width="112" height="55" rx="7" fill="#00838f"/>
+  <text x="923" y="87" fill="#ffffff" font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="700" text-anchor="middle">Answer</text>
+</svg>

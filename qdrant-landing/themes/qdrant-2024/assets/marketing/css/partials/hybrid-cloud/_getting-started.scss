@@ -1,0 +1,271 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.hybrid-cloud-getting-started {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+  overflow: hidden;
+  position: relative;
+  
+  &__container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    margin-bottom: $spacer * 2;
+    color: $neutral-80;
+  }
+  
+  &__links {
+    display: flex;
+    gap: $spacer * 2;
+    margin-bottom: $spacer * 5;
+  }
+  
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 5;
+    padding: $spacer * 2 $spacer * 1.5;
+    border-radius: math.div($spacer, 4);
+    border: pxToRem(1) solid $neutral-20;
+    background: linear-gradient(180deg, #111824 -15.46%, rgba(17, 24, 36, 0.00) 54.1%), $neutral-10;
+
+    &-line {
+      display: none;
+    }
+  }
+  
+  &__step {
+    padding-left: $spacer * 2.5;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+    position: relative;
+    
+    &-tag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: $spacer * 2;
+      padding: math.div($spacer, 4) $spacer * 0.5;
+      border-radius: pxToRem(2);
+      border-top: pxToRem(0.5) solid $secondary-violet-70;
+      background: $secondary-violet-30;
+      align-self: flex-start;
+      
+      span {
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+        color: $secondary-violet-90;
+      }
+    }
+    
+    &-description {
+      color: #ABB1C7;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      margin-bottom: 0;
+    }
+    
+    &:after {
+      display: block;
+      content: "";
+      position: absolute;
+      left: pxToRem(-28);
+      top: pxToRem(-32);
+      height: pxToRem(80);
+      width: pxToRem(78);
+      background-image: url("/img/hybrid-cloud-points/point1.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+    
+    &:before {
+      display: block;
+      content: "";
+      position: absolute;
+      left: pxToRem(10);
+      top: pxToRem(5);
+      height: 100%;
+      width: pxToRem(2);
+      background-color: rgba($neutral-100, 0.04);
+    }
+
+    &:first-of-type {
+      &:before {
+        height: calc(100% + ($spacer * 5));
+      }
+    }
+
+    &:nth-of-type(2) {
+      &:after {
+        background-image: url("/img/hybrid-cloud-points/point2.svg");
+      }
+
+      &:before {
+        height: calc(100% + ($spacer * 5));
+      }
+      
+      .hybrid-cloud-getting-started__step-tag {
+        border-top: pxToRem(0.5) solid $secondary-blue-70;
+        background: $secondary-blue-30;
+
+        span {
+          color: $secondary-blue-90;
+        }
+      }
+    }
+
+    &:nth-of-type(3) {
+      &:after {
+        background-image: url("/img/hybrid-cloud-points/point3.svg");
+      }
+      
+      .hybrid-cloud-getting-started__step-tag {
+        border-top: pxToRem(0.5) solid $secondary-teal-70;
+        background: $secondary-teal-30;
+
+        span {
+          color: $secondary-teal-90;
+        }
+      }
+    }
+  }
+
+  &__overlay-top {
+    position: absolute;
+    left: 0;
+    top: 18%;
+    width: pxToRem(375);
+    height: pxToRem(686);
+    background-image: url("/img/hybrid-cloud-mask-mobile-top.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% 100%;
+  }
+
+  &__overlay-bottom {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: pxToRem(375);
+    height: pxToRem(350);
+    background-image: url("/img/hybrid-cloud-mask-mobile-bottom.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% 100%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      max-width: pxToRem(445);
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      margin-bottom: 0;
+    }
+
+    &__links {
+      margin-bottom: 0;
+    }
+
+    &__step {
+      padding-left: 0;
+      padding-top: pxToRem(100);
+      width: 33.333%;
+
+      &:after {
+        left: pxToRem(-28);
+        top: pxToRem(-29);
+      }
+      
+      &:before {
+        height: $spacer * 5;
+        width: pxToRem(2);
+        top: pxToRem(18);
+        background-color: transparent;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='80' viewBox='0 0 2 80' fill='none'%3E%3Cpath d='M1 0V80' stroke='%2328324D' stroke-width='2' stroke-dasharray='6 6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: contain;
+      }
+    }
+    
+    &__steps {
+      flex-direction: row;
+      margin-top: $spacer * 7.5;
+      position: relative;
+
+      &-line {
+        display: block;
+        position: absolute;
+        left: $spacer * 2;
+        top: pxToRem(42);
+        width: calc(100% - ($spacer * 4));
+        height: pxToRem(2);
+        overflow: hidden;
+        background-color: rgba($neutral-100, 0.04);
+        
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: pxToRem(-60);
+          width: pxToRem(115);
+          height: pxToRem(2);
+          background: url("/img/hybrid-cloud-light.svg") no-repeat center;
+          background-size: pxToRem(115) pxToRem(20);
+          animation: light-move 5s ease-in-out infinite;
+          mix-blend-mode: screen;
+        }
+
+        @keyframes light-move {
+          from {
+            left: pxToRem(-95);
+          }
+          to {
+            left: calc(100% - #{pxToRem(25)});
+          }
+        }
+      }
+    }
+
+    &__overlay-top {
+      display: none;
+    }
+
+    &__overlay-bottom {
+      left: 50%;
+      transform: translate(-50%, 0);
+      bottom: 0;
+      width: pxToRem(1440);
+      height: pxToRem(846);
+      background-image: url("/img/hybrid-cloud-mask.svg");
+    }
+  }
+}

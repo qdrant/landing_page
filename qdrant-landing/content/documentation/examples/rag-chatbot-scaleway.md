@@ -14,6 +14,12 @@ stack:
 example_resources:
   - label: View Notebook
     url: https://github.com/qdrant/examples/blob/langchain-lcel-rag/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 # Blog-Reading Chatbot with GPT-4o

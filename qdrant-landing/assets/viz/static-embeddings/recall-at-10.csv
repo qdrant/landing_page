@@ -1,0 +1,6 @@
+model,pipeline,recall_at_10
+potion-base-8M,dense,0.1576
+potion-base-8M,dense + BM25 (hybrid),0.3091
+potion-retrieval-32M,dense,0.3993
+potion-retrieval-32M,dense + BM25 (hybrid),0.4411
+potion-multilingual-128M,dense,0.0719

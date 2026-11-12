@@ -1,0 +1,11 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ partial "marketing/progress-bar" . }}
+
+  {{ partial "marketing/qdrant-post" (dict "context" . "variant" "blog-post" ) }}
+
+  {{ with (.Site.GetPage "/headless/get-started-blogs") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "get-started-blogs") }}
+  {{ end }}
+{{ end }}

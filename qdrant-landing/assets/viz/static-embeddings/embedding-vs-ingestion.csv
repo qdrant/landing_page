@@ -1,0 +1,7 @@
+model,stage,hours
+potion-base-8M,embedding,0.587
+potion-base-8M,upload and ingestion,8.337
+potion-retrieval-32M,embedding,0.634
+potion-retrieval-32M,upload and ingestion,10.131
+potion-multilingual-128M,embedding,0.787
+potion-multilingual-128M,upload and ingestion,8.443

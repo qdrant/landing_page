@@ -2,14 +2,14 @@
 title: Configure Clusters
 short_description: "Tune Qdrant Cloud clusters with collection defaults, strict mode, replication factor, and advanced optimizer settings."
 description: "Configure Qdrant Cloud clusters with collection defaults, strict mode, replication factors, and advanced optimizer settings tailored to your workload."
-weight: 25
+weight: 20
 ---
 
 # Configure Qdrant Cloud Clusters
 
 Qdrant Cloud offers several advanced configuration options to optimize clusters for your specific needs. You can access these options from the Cluster Details page in the Qdrant Cloud console.
 
-The cloud platform does not expose all [configuration options](/documentation/ops-configuration/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
+The cloud platform does not expose all [configuration options](/documentation/ops-configuration/configuration/) available in Qdrant. We have selected the relevant options that are explained in this page.
 
 In addition, the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
 
@@ -45,7 +45,7 @@ Configures how many CPUs (threads) to allocate for optimization and indexing job
 
 *Async Scorer*
 
-Enables async scorer which uses io_uring when rescoring. See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/tutorials-operations/large-scale-search/) for more details.
+Enables async scorer which uses io_uring when rescoring. This setting is deprecated. On clusters running Qdrant v1.20.0 or later, Qdrant Cloud sets the async I/O mode itself and this setting no longer has an effect. Refer to [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/tutorials-operations/large-scale-search/) for more details.
 
 ## Client IP Restrictions
 
@@ -53,15 +53,33 @@ If configured, only the chosen IP ranges will be allowed to access the cluster. 
 
 ![Cluster node endpoints](/documentation/cloud/cloud-ip-restrictions.png)
 
-## Restart Mode
+## Restarts and Downtime
 
-The cloud platform will automatically choose the optimal restart mode during version upgrades or maintenance for your cluster. If you have a multi-node cluster and one or more collections with a replication factor of at least 2, the cloud platform will use the rolling restart mode. This means that nodes in the cluster will be restarted one at a time, ensuring that the cluster remains available during the restart process.
+These operations restart the nodes of a cluster:
 
-If you have a multi-node cluster, but all collections have a replication factor of 1, the cloud platform will use the parallel restart mode. This means that nodes in the cluster will be restarted simultaneously, which will result in a short downtime period, but will be faster than a rolling restart.
+- Version upgrades.
+- Vertical scaling of the CPU or memory, up or down.
+- Decreasing the disk size. Each node is replaced by a smaller one and its shards are transferred.
+- Changing the collection defaults and the advanced settings of the cluster: replication factor, write consistency factor, async scorer, optimizer CPU budget, vectors on disk, log level, and audit logging.
+- Enabling Database API keys with granular access control.
+- Enabling or disabling [Cloud Inference](/documentation/cloud/inference/).
 
-It is possible to override your cluster's default restart mode in the advanced configuration section of the Cluster Details page.
+These changes take effect without a restart: increasing only the disk size, client IP restrictions, the restart mode itself, the shard rebalance strategy, the disk speed tier, the cost allocation label, and cluster labels.
+
+Downtime during a restart depends on the configuration of your cluster and its collections:
+
+| Cluster | Restart mode | Downtime |
+|---|---|---|
+| Multi-node, with at least one collection that has a replication factor of 2 or more | Rolling: nodes restart one at a time | None for replicated collections. The cluster stays available |
+| Multi-node, with all collections at a replication factor of 1 | Parallel: all nodes restart at the same time | A short downtime, but a faster restart |
+| Single node | Not applicable | A short downtime while the node restarts |
+| Free tier | Not applicable | Version upgrades happen with downtime |
+
+The cloud platform chooses the restart mode automatically. To override the default, use the restart mode setting in the advanced configuration section of the Cluster Details page.
 
 ![Cluster node endpoints](/documentation/cloud/cloud-restart-mode.png)
+
+To avoid downtime, run at least 3 nodes, and set a replication factor of at least 2 on the collections that must stay available. See [Scale Clusters](/documentation/cloud/cluster-scaling/) and [Update Clusters](/documentation/cloud/cluster-upgrades/) for the steps.
 
 ## Shard Rebalancing
 
@@ -90,9 +108,10 @@ Renaming a cluster does not affect its functionality or configuration. The clust
 
 ## Adding Labels to a Cluster
 
-You can add labels to a Qdrant Cluster from the cluster's detail page. Labels are key-value pairs that help you organize and manage your clusters.
+You can add labels to a Qdrant Cluster from the cluster's detail page. Labels are key-value pairs that help you organize and manage your clusters. You can also configure which label will be used for cost attribution and shown in consumption reports.
 
 ![Cluster Labels](/documentation/cloud/cloud-cluster-labels.png)
+![Cluster Labels Cost Allocation](/documentation/cloud/cloud-cluster-labels-cost-allocation.png)
 
 ## Audit Logging
 
@@ -111,6 +130,16 @@ The following information is tracked:
 You can configure the rotation (daily/hourly) and retention of your log files (how many of the log files should be kept). 
 
 Audit log files will be stored on your cluster's encrypted storage disk. You need to ensure that you have enough storage capacity available. Storage capacity and usage can be viewed in your cluster metrics.
+
+### Audit Log Output on Hybrid Cloud
+
+On Hybrid Cloud clusters running Qdrant v1.20.0 or later, you can choose where audit log entries are written under "Write Audit Logs To": File, Stdout, or both. File is selected by default. Managed Cloud clusters always write to file.
+
+File stores the entries on the cluster storage disk. It is required for log download and the `/audit/logs` API. Rotation and Max Log Files apply to file output only.
+
+Stdout writes one JSON line per event to the standard output of the Qdrant container, so your log collector can pick it up together with the regular container logs. Every audit line carries `"kind": "audit"` to tell it apart from other log entries. With Stdout only, nothing is written to disk, and the `/audit/logs` API returns no entries. See [Audit Log Output](/documentation/security/#audit-log-output) for the details.
+
+You can also set the output through the Qdrant Cloud API (`output` in the audit logging configuration), the `output` attribute of the Terraform provider, and the `--audit-log-output` flag of the Qdrant Cloud CLI.
 
 You can download the audit logs from your cluster through the Qdrant API:
 

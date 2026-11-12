@@ -9,9 +9,14 @@ weight: 60
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-06-28T08:57:07.604Z
-category: demos-and-tutorials
+category: rag-and-agents
 # aliases: [ /articles/faq-question-answering/ ]
+retired: true
 hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
 ---
 
 # Question-answering system with Similarity Learning and Quaterion

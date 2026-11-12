@@ -1,5 +1,5 @@
 {{ $data := .Inner | transform.Unmarshal }}
-<div class="cards-list">
+<div class="cards-list" data-shortcode="cards-list">
   {{ range $data }}
     {{ if .link }}
       <a href="{{ .link }}" class="cards-list__item cards-list__item--link">

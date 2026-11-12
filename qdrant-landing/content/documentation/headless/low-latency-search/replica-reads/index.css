@@ -1,0 +1,194 @@
+/* replica-reads island. Scoped under .qi-rr. Controls, frames and labels come
+   from the shared island design system (islands.scss); this file only styles
+   the collection strip, the client, the query wire, the cluster frame and the
+   shard replicas. The first three shard colors match the replication island
+   on the horizontal scaling page; shards cycle through six colors. */
+
+.qi-rr {
+  --rr-0: #6047ff; /* neon-blue-500 */
+  --rr-1: #388e3c; /* green-700 */
+  --rr-2: #ef6c00; /* warning-800 */
+  --rr-3: #c2185b; /* pink-700 */
+  --rr-4: #00838f; /* cyan-800 */
+  --rr-5: #6d4c41; /* brown-600 */
+  --rr-query: var(--qi-muted);
+
+  display: block;
+}
+
+/* Steppers: value between the minus and plus buttons. */
+.qi-rr__steppers {
+  gap: 8px 18px;
+}
+.qi-rr__value {
+  min-width: 2ch;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--qi-fg);
+}
+
+/* Shard colors: collection chips, the bars of full boxes, compact cells. */
+.qi-rr__chip--0,
+.qi-rr__shard--0 .qi-rr__bar,
+.qi-rr__shard--0 .qi-rr__cell {
+  fill: var(--rr-0);
+}
+.qi-rr__chip--1,
+.qi-rr__shard--1 .qi-rr__bar,
+.qi-rr__shard--1 .qi-rr__cell {
+  fill: var(--rr-1);
+}
+.qi-rr__chip--2,
+.qi-rr__shard--2 .qi-rr__bar,
+.qi-rr__shard--2 .qi-rr__cell {
+  fill: var(--rr-2);
+}
+.qi-rr__chip--3,
+.qi-rr__shard--3 .qi-rr__bar,
+.qi-rr__shard--3 .qi-rr__cell {
+  fill: var(--rr-3);
+}
+.qi-rr__chip--4,
+.qi-rr__shard--4 .qi-rr__bar,
+.qi-rr__shard--4 .qi-rr__cell {
+  fill: var(--rr-4);
+}
+.qi-rr__chip--5,
+.qi-rr__shard--5 .qi-rr__bar,
+.qi-rr__shard--5 .qi-rr__cell {
+  fill: var(--rr-5);
+}
+
+.qi-rr__chip-text,
+.qi-rr__cell-text {
+  fill: #fff;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+/* Cluster: an outline around the peers; queries arrive here. */
+.qi-rr__cluster {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+
+.qi-rr__client {
+  fill: var(--qi-border);
+}
+.qi-rr__client-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  text-anchor: middle;
+}
+
+/* Query wire: shown while queries are running. */
+.qi-rr__wire {
+  fill: none;
+  stroke: var(--rr-query);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.qi-rr__wire.is-on {
+  opacity: 1;
+}
+.qi-rr__arrowhead {
+  fill: var(--rr-query);
+}
+.qi-rr__token {
+  fill: var(--qi-fg);
+  stroke: var(--qi-surface);
+  stroke-width: 1.5;
+}
+
+/* --- Shard replicas: only those the steppers call for are shown --- */
+.qi-rr__shard {
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+.qi-rr__shard.is-on {
+  opacity: 1;
+}
+.qi-rr__box {
+  fill: var(--qi-line);
+  fill-opacity: 0.35;
+  stroke: var(--qi-border);
+  stroke-width: 1;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.qi-rr__shard.is-hot .qi-rr__box {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-rr__cell {
+  stroke: transparent;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.2s ease;
+}
+.qi-rr__shard.is-hot .qi-rr__cell {
+  stroke: var(--qi-hot);
+}
+
+/* --- Chart: schematic throughput and latency over time --- */
+.qi-rr__grid,
+.qi-rr__axis {
+  stroke: var(--qi-border);
+  stroke-width: 1;
+}
+.qi-rr__axis {
+  stroke: var(--qi-line);
+}
+.qi-rr__tick,
+.qi-rr__metric {
+  font-variant-numeric: tabular-nums;
+}
+.qi-rr__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.qi-rr__line--thr {
+  stroke: var(--qi-accent);
+}
+.qi-rr__line--lat {
+  stroke: var(--qi-fg);
+  stroke-dasharray: 5 4;
+  stroke-linecap: butt;
+}
+
+/* Full boxes up to three replicas per peer, compact cells beyond. */
+.qi-rr__full,
+.qi-rr__compact,
+.qi-rr__cell-text {
+  transition: opacity 0.4s ease;
+}
+.qi-rr__compact,
+.qi-rr__svg.is-compact .qi-rr__full,
+.qi-rr__svg.is-tiny .qi-rr__cell-text {
+  opacity: 0;
+}
+.qi-rr__svg.is-compact .qi-rr__compact {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-rr__full,
+  .qi-rr__compact,
+  .qi-rr__cell,
+  .qi-rr__cell-text,
+  .qi-rr__wire,
+  .qi-rr__shard,
+  .qi-rr__box {
+    transition: none;
+  }
+}

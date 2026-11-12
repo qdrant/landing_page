@@ -1,0 +1,8 @@
+{{- $notice := "**Archived Content.** This content is no longer maintained. Its examples and technical details may be outdated." -}}
+{{- with .Params.retired_note -}}
+  {{- $notice = printf "%s %s" $notice . -}}
+{{- end -}}
+{{- with .Params.retired_resource -}}
+  {{- $notice = printf "%s See [%s](%s)." $notice .title .url -}}
+{{- end -}}
+{{- return $notice -}}

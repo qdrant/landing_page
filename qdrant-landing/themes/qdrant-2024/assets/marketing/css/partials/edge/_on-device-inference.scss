@@ -1,0 +1,328 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.edge-on-device-inference {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-10;
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 2.5;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-80;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    cursor: pointer;
+    padding: $spacer * 1.5 0;
+    border-bottom: pxToRem(1) solid $neutral-40;
+    
+    &-title {
+      margin-bottom: 0;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-top: $spacer;
+      margin-bottom: $spacer;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-80;
+    }
+
+    &-details {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.35s ease;
+    }
+
+    &-details-inner {
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    &--active &-details {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  &__panels {
+    display: grid;
+  }
+
+  &__panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: 1 / 1;
+    min-width: 0;
+    max-width: 100%;
+    margin-top: $spacer * 2.5;
+    overflow-x: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    width: 100%;
+    aspect-ratio: 84 / 75;
+    padding: $spacer $spacer * 2;
+    background-image: url("/img/background-mask-3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    
+    &-image {
+      width: 100%;
+    }
+  }
+
+  &__panel--active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  &__code {
+    overflow: hidden;
+    width: 100%;
+    height: pxToRem(264);
+    border-radius: $spacer * 0.5;
+    background-color: $neutral-10;
+    border: pxToRem(1) solid $neutral-20;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: $spacer * 1.5;
+      padding: pxToRem(14);
+      background-color: $neutral-10;
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+
+    &-window-buttons {
+      display: flex;
+      gap: pxToRem(4);
+
+      div {
+        height: pxToRem(7);
+        width: pxToRem(7);
+        border-radius: 50%;
+      }
+
+      &__close {
+        background-color: $error-50;
+      }
+
+      &__minimize {
+        background-color: $neutral-60;
+      }
+
+      &__expand {
+        background-color: $success-50;
+      }
+    }
+
+    &-bar {
+      margin-bottom: 0;
+      font-size: $spacer * 0.5;
+      line-height: pxToRem(12);
+      color: $neutral-100;
+    }
+
+    &-content {
+      display: flex;
+      align-items: flex-start;
+      height: pxToRem(240);
+      margin: 0 math.div($spacer, 4);
+      padding: $spacer math.div($spacer, 4) $spacer $spacer;
+      background: linear-gradient($neutral-20, #0e1424);
+      border-right: pxToRem(1) solid $neutral-20;
+      border-left: pxToRem(1) solid $neutral-20;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+
+      .highlight {
+        width: calc(100% - ($spacer * 1.5));
+        background: transparent;
+        margin-bottom: 0;
+
+        pre {
+          display: block;
+          width: 100%;
+          padding: 0;
+          background: transparent;
+          white-space: pre-wrap;
+          overflow-x: hidden;
+        }
+
+        code {
+          display: block;
+          width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+
+          .line {
+            margin-bottom: 0;
+          }
+
+          * {
+            font-size: $font-size-s;
+            line-height: $line-height-sm;
+            color: #d4d4d4;
+          }
+
+          .kn, .kc {
+            color: $secondary-teal-50;
+          }
+
+          .s2, .s1, .nn {
+            color: $secondary-blue-50;
+          }
+        }
+      }
+
+      &-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: pxToRem(4);
+        border: pxToRem(1) solid $neutral-30;
+        border-radius: math.div($spacer, 4);
+        background: linear-gradient($neutral-20, #0e1424);
+
+        svg {
+          height: pxToRem(8);
+          width: pxToRem(8);
+
+          path {
+            stroke: $neutral-80;
+          }
+        }
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      margin-bottom: 0;
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      width: pxToRem(445);
+    }
+
+    &__description {
+      margin-bottom: 0;
+      max-width: pxToRem(560);
+    }
+
+    &__features {
+      display: flex;
+      align-items: center;
+      gap: $spacer * 3;
+    }
+
+    &__nav {
+      width: 40%;
+    }
+
+    &__panels {
+      width: 60%;
+    }
+
+    &__panel {
+      margin-top: 0;
+      padding: $spacer $spacer * 2.5;
+    }
+
+    &__code {
+      height: pxToRem(440);
+
+      &-header {
+        height: $spacer * 2.5;
+        padding: 0 $spacer * 1.5;
+      }
+
+      &-window-buttons {
+        gap: pxToRem(6);
+
+        div {
+          height: pxToRem(11);
+          width: pxToRem(11);
+        }
+      }
+
+      &-bar {
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+      }
+
+      &-content {
+        display: flex;
+        align-items: flex-start;
+        height: pxToRem(400);
+        padding: pxToRem(24) pxToRem(20) pxToRem(16) pxToRem(28);
+
+        &-button {
+          padding: pxToRem(7);
+
+          svg {
+            height: pxToRem(14);
+            width: pxToRem(14);
+          }
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__features {
+      gap: $spacer * 5;
+    }
+
+    &__nav {
+      width: 45%;
+    }
+
+    &__panels {
+      width: 55%;
+    }
+  }
+}

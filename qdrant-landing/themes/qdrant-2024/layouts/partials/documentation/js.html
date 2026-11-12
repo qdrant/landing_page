@@ -1,0 +1,107 @@
+{{/* Documentation part scripts. The part's own code comes from assets/docs/js/,
+     never from the marketing tree in assets/marketing/js/. Shared code comes from
+     assets/lib/ and assets/shortcodes/. */}}
+
+{{ partial "common/analytics/body.html" . }}
+
+{{ $indexJs := resources.Get "docs/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $indexJs.RelPermalink }}"></script>
+
+{{ if .HasShortcode "chart" }}
+  <!--Chart hover affordances. The generated SVG is complete without this file,
+      so it is purely additive; gate on the shortcode rather than the section,
+      since only a handful of pages actually embed a chart.-->
+  {{ $vizJs := resources.Get "shortcodes/chart/chart.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $vizJs.RelPermalink }}" defer></script>
+{{ end }}
+
+{{/* Content islands: behavior half. The shell CSS is loaded from documentation/css.html.
+     Gated on `.HasShortcode "island"` so it ships only on pages with an island. */}}
+{{ if .HasShortcode "island" }}
+  {{ $islandsLoaderJs := resources.Get "shortcodes/island/island.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $islandsLoaderJs.RelPermalink }}"></script>
+{{ end }}
+
+{{/* Third-party libraries are shared with the marketing part (assets/lib/vendor/) and
+     load before the docs scripts that use them. */}}
+{{ $vendorSearchJs := resources.Get "lib/vendor/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $vendorSearchJs.RelPermalink }}" type="module"></script>
+{{ $popoverJs := resources.Get "lib/vendor/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $popoverJs.RelPermalink }}"></script>
+
+{{ $pageSearchJs := resources.Get "docs/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
+
+{{ if .IsPage }}
+  {{ $pageSearchScrollJs := resources.Get "lib/vendor/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Path "/documentation/guides-tab" }}
+  {{ $guideDirectoryJs := resources.Get "docs/js/guide-directory.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $guideDirectoryJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Layout "examples" }}
+  {{ $exampleLibraryJs := resources.Get "docs/js/example-library.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $exampleLibraryJs.RelPermalink }}"></script>
+{{ end }}
+
+<!--"Copy as Markdown" button (assets/lib/copy-markdown/), shared by both parts-->
+{{ partial "common/copy-markdown/js.html" . }}
+
+{{ if .HasShortcode "integration-directory" }}
+  {{ $integrationDirectoryJs := resources.Get "docs/js/integration-directory.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $integrationDirectoryJs.RelPermalink }}"></script>
+{{ end }}
+
+<!--popper.js for bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+{{ partial "common/code-blocks/js.html" . }}
+
+{{/* Scripts for the shortcodes on this page (assets/shortcodes/), shared by both parts.
+     They load after lang-switcher.js, where code-snippet's deployment switcher used to load. */}}
+{{ partial "common/shortcode-assets/js.html" . }}
+
+<!-- MathJax support -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ['$', '$'],
+        ['\\(', '\\)'],
+      ],
+      displayMath: [
+        ['$$', '$$'],
+        ['\\[', '\\]'],
+      ],
+      processEscapes: true,
+      processEnvironments: true,
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    },
+  };
+
+  window.addEventListener('load', (event) => {
+    document.querySelectorAll('mjx-container').forEach(function (x) {
+      x.parentElement.classList.add('has-jax');
+    });
+  });
+</script>
+
+{{ partial "common/heading-anchors/js.html" . }}
+
+<script>
+  document.addEventListener('keydown', function (event) {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      event.preventDefault();
+
+      let searchButton = document.querySelector('[data-target="#searchModal"]');
+
+      if (searchButton) searchButton?.click();
+    }
+  });
+</script>

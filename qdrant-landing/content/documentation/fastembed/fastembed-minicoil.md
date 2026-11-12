@@ -33,7 +33,7 @@ Install `qdrant-client` integration with `fastembed`.
 pip install "qdrant-client[fastembed]"
 ```
 
-Then, initialize the Qdrant client. You could use for experiments [a free cluster](https://qdrant.tech/documentation/cloud-quickstart/#authenticate-via-sdks) in Qdrant Cloud or run a [local Qdrant instance via Docker](https://qdrant.tech/documentation/quickstart/#initialize-the-client).
+Then, initialize the Qdrant client. You could use for experiments [a free cluster](https://qdrant.tech/documentation/cloud-quickstart/#3-connect-to-qdrant-cloud) in Qdrant Cloud or run a [local Qdrant instance via Docker](https://qdrant.tech/documentation/quickstart/#initialize-the-client).
 
 We'll run our search on a list of book and article titles containing the keywords "*vector*" and "*search*" used in different contexts, to demonstrate how miniCOIL captures the meaning of these keywords as opposed to BM25.
 

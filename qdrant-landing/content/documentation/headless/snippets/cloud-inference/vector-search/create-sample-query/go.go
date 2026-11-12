@@ -1,6 +1,6 @@
 package snippet
 
 func Main() {
-	queryText := "What is relapsing polychondritis?"
+	queryText := "Why does stoma closure fail?"
 	_ = queryText // @hide
 }

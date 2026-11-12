@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/lp-open-source/qdrant-cloud") }}
+  <section class="lp-open-source-qdrant-cloud">
+    <div class="container">
+      <div class="lp-open-source-qdrant-cloud__header">
+        <div class="lp-open-source-qdrant-cloud__heading">
+          {{ with .Params.label }}<p class="lp-open-source-qdrant-cloud__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-open-source-qdrant-cloud__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-open-source-qdrant-cloud__description">{{ . }}</p>{{ end }}
+      </div>
+      <div class="lp-open-source-qdrant-cloud__grid{{ if not (or .Params.image .Params.snippet) }} lp-open-source-qdrant-cloud__grid--text{{ end }}">
+        {{ with .Params.snippet }}
+          <div class="lp-open-source-qdrant-cloud__visual lp-open-source-qdrant-cloud__visual--code">
+            <pre class="lp-open-source-qdrant-cloud__code"><code>{{ .code }}</code></pre>
+            {{ $lbl := .label | default "See the full example" }}
+            {{ with .source }}<a class="link lp-open-source-qdrant-cloud__code-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $lbl }}</a>{{ end }}
+          </div>
+        {{ end }}
+        {{ with .Params.image }}
+          <div class="lp-open-source-qdrant-cloud__visual">{{ partial "marketing/picture" (dict "src" .src "alt" .alt "loading" "lazy" "decoding" "async") }}</div>
+        {{ end }}
+        <div>
+          <ul class="lp-open-source-qdrant-cloud__list">
+            {{ range .Params.cards }}{{ $card := . }}
+              <li class="lp-open-source-qdrant-cloud__item">
+                <h3 class="lp-open-source-qdrant-cloud__item-title">{{ .title }}</h3>
+                <p class="lp-open-source-qdrant-cloud__item-description">{{ .description }}</p>
+                {{ with .url }}<a class="link link_md lp-open-source-qdrant-cloud__item-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+              </li>
+            {{ end }}
+          </ul>
+      {{ with .Params.callout }}
+        <blockquote class="lp-open-source-qdrant-cloud__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-open-source-qdrant-cloud__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

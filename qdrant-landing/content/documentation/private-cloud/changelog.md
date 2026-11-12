@@ -7,6 +7,95 @@ weight: 35
 
 # Changelog
 
+## 1.15.0 (2026-11-05)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.41.0 |
+| operator                | 2.37.2  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.20.0
+
+* Fixed global quotas being re-enabled after a user disabled or changed them through the Qdrant quotas API. For Qdrant v1.20.0 and later, the operator now renders its default 90% quotas into `storage.quotas` in the Qdrant configuration instead of calling the quotas API. Quotas set through the API take precedence, so a user's change stays. Running pods are not restarted. They pick up the defaults when they are next recreated
+* The operator no longer writes `status.globalQuotas` on `QdrantCluster`
+* Updated operator to 2.37.2
+
+## 1.14.0 (2026-11-03)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.41.0 |
+| operator                | 2.37.1  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.20.0
+
+* Resolved operator issue where pods in phase Failed were not deleted automatically.
+
+## 1.13.0 (2026-10-23)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.41.0 |
+| operator                | 2.37.0  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.20.0
+
+* Support for Qdrant 1.20
+* Clusters running Qdrant v1.20.0 or later get `storage.performance.io_uring: auto` in their Qdrant configuration unless `spec.config.storage.performance.io_uring` is set on the `QdrantCluster`. Qdrant checks whether io_uring is usable on the node. Set it to `disabled` to turn it off. This is rendered into the configuration only, so running clusters are not restarted for it
+* Support for [scaling down disk space](/documentation/private-cloud/qdrant-cluster-management/#scaling-down-disk-space) by reducing `spec.resources.storage` on `QdrantCluster`. The Operator replaces the nodes one at a time with a smaller volume. Disabled by default, enable it with `diskScaleDown.enable: true` in the operator settings (requires the cluster manager, enabled by default, and Qdrant v1.19.2 or later)
+* Support for configuring the [audit log output](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) via `spec.config.audit.output` on `QdrantCluster`: `file`, `stdout`, `stderr`, `file_and_stdout`, or `file_and_stderr` (requires Qdrant v1.20.0 or later)
+
+## 1.12.0 (2026-10-21)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.39.0 |
+| operator                | 2.36.1  |
+| qdrant-cluster-manager  | v0.3.25 |
+| qdrant-cluster-exporter | 1.8.3   |
+
+Latest validated Qdrant version: 1.19.2
+
+* Updated qdrant-cluster-manager to v0.3.25 and qdrant-cluster-exporter to 1.8.3.
+
+## 1.11.0 (2026-10-16)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.39.0 |
+| operator                | 2.36.1  |
+| qdrant-cluster-manager  | v0.3.23 |
+| qdrant-cluster-exporter | 1.8.2   |
+
+Latest validated Qdrant version: 1.19.2
+
+* Updated operator.
+
+## 1.10.0 (2026-10-06)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.38.0 |
+| operator                | 2.35.1  |
+| qdrant-cluster-manager  | v0.3.23 |
+| qdrant-cluster-exporter | 1.8.2   |
+
+Latest validated Qdrant version: 1.19.1
+
+* Added global quota enforcement. For Qdrant 1.20.0 and newer, the operator sets a flat 90% quota through the Qdrant quotas API and keeps quota fields it does not manage.
+* Added a configurable Kubernetes cluster domain, so clusters that do not use `cluster.local` work.
+* Data PVCs are now kept for a configurable TTL after a `QdrantCluster` is deleted. Snapshot volumes are removed right away.
+* Fixed status version parsing for GPU and custom registry images.
+* The operator no longer logs Kubernetes patch conflicts, which greatly reduces log noise.
+* Improved qdrant-cluster-manager performance.
+* Updated operator to 2.35.1, qdrant-cluster-manager to v0.3.23, qdrant-cluster-exporter to 1.8.2, and qdrant-kubernetes-api to v1.38.0.
+
 ## 1.9.15 (2026-09-04)
 
 | Component               | Version |

@@ -1,10 +1,12 @@
 ---
 title: Vector Search Use Cases
+type: marketing/use-cases
 section_title: Apps and ideas Qdrant make possible
 description: Discover the diverse applications of Qdrant vector search, from retrieval and augmented generation to anomaly detection, advanced search, and more.
 build:
   render: always
 cascade:
+- type: marketing/use-cases
 - build:
     list: local
     publishResources: false

@@ -1,0 +1,13 @@
+filter,strategy,recall,latency_ms
+One keyword (20%),Plain graph,62.9,1.6
+One keyword (20%),Plain graph + ACORN,98.9,4.4
+One keyword (20%),Filterable HNSW,94.8,1.2
+One keyword (10%),Plain graph,20.6,1.7
+One keyword (10%),Plain graph + ACORN,98.1,4.3
+One keyword (10%),Filterable HNSW,99.0,1.1
+One keyword (1%),Plain graph,0.1,1.6
+One keyword (1%),Plain graph + ACORN,67.7,4.7
+One keyword (1%),Filterable HNSW,99.8,1.0
+Correlated (10%),Plain graph,88.4,1.7
+Correlated (10%),Plain graph + ACORN,98.6,3.5
+Correlated (10%),Filterable HNSW,99.0,1.2

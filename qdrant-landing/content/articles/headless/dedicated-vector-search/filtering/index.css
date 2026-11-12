@@ -1,0 +1,73 @@
+/* filtering island. Scoped under .dv-fi. Dark: points matching the filter,
+   faded: filtered out, orange: the search path, purple: the additional link. */
+.dv-fi {
+  --dv-path: #e98a15;
+  --dv-extra: #8547ff;
+  --dv-hit: #00a35c;
+  display: block;
+}
+.dv-fi__region {
+  fill: var(--dv-hit);
+  fill-opacity: 0.16;
+  stroke: none;
+}
+.dv-fi__edge {
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.dv-fi__edge.is-faded {
+  opacity: 0.25;
+}
+.dv-fi__node.is-match {
+  fill: var(--qi-fg);
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+}
+.dv-fi__node.is-out {
+  fill: var(--qi-line);
+  fill-opacity: 0.45;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.dv-fi__node.is-hit {
+  fill: var(--dv-hit);
+  stroke: var(--dv-hit);
+}
+.dv-fi__entry {
+  fill: none;
+  stroke: var(--dv-path);
+  stroke-width: 2.5;
+}
+.dv-fi__query {
+  fill: var(--qi-fg);
+  stroke: var(--dv-hit);
+  stroke-width: 2.5;
+}
+.dv-fi__path {
+  fill: none;
+  stroke: var(--dv-path);
+  stroke-width: 2.8;
+}
+.dv-fi__head {
+  fill: var(--dv-path);
+}
+.dv-fi__extra {
+  fill: none;
+  stroke: var(--dv-extra);
+  stroke-width: 2.4;
+}
+.dv-fi__x {
+  fill: none;
+  stroke: #e02828;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+}
+.dv-fi .qi-label,
+.dv-fi .qi-title {
+  font-size: 13px;
+}
+.dv-fi.dv-narrow .qi-svg {
+  max-width: 420px;
+  margin-inline: auto;
+}

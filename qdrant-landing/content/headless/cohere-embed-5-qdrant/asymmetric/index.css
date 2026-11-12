@@ -1,0 +1,32 @@
+.ce5-asymmetric {
+  box-sizing: border-box;
+  padding: 24px;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  background: var(--qi-surface);
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.ce5-asymmetric .qi-fig { gap: 20px; }
+.ce5-asymmetric .qi-chip { min-height: 44px; font-size: 14px; border-color: var(--qi-muted); }
+.ce5-asymmetric .qi-chip[aria-pressed='true'] { border-color: var(--qi-cat-4); }
+.ce5-asymmetric .ce5-asymmetric__note { margin: 0; font-size: 14px; line-height: 1.5; color: var(--qi-muted); }
+.ce5-asymmetric__matrix { display: grid; gap: 12px; }
+.ce5-asymmetric__row { display: grid; grid-template-columns: 68px repeat(8, minmax(0, 1fr)); gap: 10px; align-items: center; padding: 10px; border: 2px solid transparent; border-radius: var(--qi-radius); font-size: 16px; }
+.ce5-asymmetric__row[data-winner='true'] { border-color: var(--qi-cat-4); }
+.ce5-asymmetric__query { align-items: end; }
+.ce5-asymmetric__query > span:first-child { align-self: center; }
+.ce5-asymmetric__slot { height: 100px; display: flex; align-items: end; justify-content: center; border-bottom: 1px solid var(--qi-muted); }
+/* Keep the six tiny positive bars visible without implying exact plotted magnitudes. */
+.ce5-asymmetric [data-bar] { display: block; width: 70%; min-height: 3px; background: var(--qi-cat-4); border-radius: 2px 2px 0 0; }
+.ce5-asymmetric__sign { text-align: center; font: 24px var(--qi-mono); }
+.ce5-asymmetric__sign--match { font-weight: 700; text-decoration: underline; text-decoration-color: var(--qi-cat-4); text-underline-offset: 6px; text-decoration-thickness: 2px; }
+.ce5-asymmetric .qi-status { margin: 0; font-size: 14px; line-height: 1.5; }
+@media (max-width: 480px) {
+  .ce5-asymmetric { padding: 16px; }
+  .ce5-asymmetric__row { grid-template-columns: 54px repeat(8, minmax(0, 1fr)); gap: 4px; padding: 8px 4px; font-size: 14px; }
+  .ce5-asymmetric__sign { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ce5-asymmetric .qi-chip { transition: none; }
+}

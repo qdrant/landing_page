@@ -1,7 +1,7 @@
 ---
 title: Vertical Scaling
 short_description: "Scale Qdrant by increasing CPU, RAM, or disk on existing nodes, with RAM sizing guidelines and signs it's time to scale horizontally instead."
-description: "Learn when and how to scale Qdrant vertically by resizing node resources, including RAM sizing formulas, Qdrant Cloud and self-hosted resize steps, and the signals that mean it's time to scale horizontally instead."
+description: "Learn when and how to scale Qdrant vertically by resizing node resources, including RAM sizing, Qdrant Cloud and self-hosted resize steps, and the signals that mean it's time to scale horizontally instead."
 weight: 5
 ---
 
@@ -40,17 +40,9 @@ For self-hosted deployments, resize the underlying VM or container resources dir
 
 RAM is the resource that most directly affects Qdrant's search performance, since search is fastest when vectors and indexes fit in memory.
 
-Exact RAM usage is difficult to predict precisely, but this formula gives a reasonable estimate for full-precision vectors kept in RAM:
+How much RAM a collection needs depends on its vector dimensions and datatype, quantization, the replication factor, and which structures you keep in RAM with [memory tiers](/documentation/ops-configuration/memory-tiers/). To estimate it, follow [Capacity Planning](/documentation/capacity-planning/#calculating-ram-and-disk-size), which sizes each structure separately. To turn the cluster total into RAM per node, see [Node Count](/documentation/capacity-planning/#node-count).
 
-```text
-num_vectors * dimensions * 4 bytes * 1.5
-```
-
-Quantization can reduce this estimate by a factor of 4 to 32, depending on the quantization method. See [Quantization](/documentation/manage-data/quantization/) for the tradeoffs between quantization methods, and monitor actual memory usage before and after resizing (see [Monitor Collection Memory Usage](/documentation/ops-monitoring/memory-usage/)).
-
-<aside role="status">To get a more detailed sizing estimate, try the <a href="https://sizing.qdrant.tech/">Qdrant Sizing Calculator</a>.</aside>
-
-On top of the vector data itself, budget for the HNSW index, which typically adds 20% to 30% overhead, along with payload indexes and the write-ahead log. Reserve about 20% headroom for optimizer operations and operating system cache.
+Monitor actual memory usage before and after resizing. See [Monitor Collection Memory Usage](/documentation/ops-monitoring/memory-usage/).
 
 ## When Vertical Scaling Is No Longer Enough
 

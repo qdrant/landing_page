@@ -1,0 +1,9 @@
+```python
+client.update_collection(
+    collection_name="{collection_name}",
+    optimizers_config=models.OptimizersConfigDiff(
+        default_segment_number=4,
+        max_segment_size=1000000,
+    ),
+)
+```

@@ -1,0 +1,18 @@
+/* The static SVGs carry the light island tokens as literal colors so the
+   fallback image matches; inline, they are remapped to the theme tokens. */
+/* Full column width: the figures are drawn so labels stay at 14 px or larger
+   at article width on desktop. */
+.what-is-a-vector-database-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.what-is-a-vector-database-figure [font-family] { font-family: var(--qi-mono); }
+.what-is-a-vector-database-figure [fill='#303547'] { fill: var(--qi-fg); }
+.what-is-a-vector-database-figure [stroke='#303547'] { stroke: var(--qi-fg); }
+.what-is-a-vector-database-figure [fill='#656b7f'] { fill: var(--qi-muted); }
+.what-is-a-vector-database-figure [stroke='#656b7f'] { stroke: var(--qi-muted); }
+.what-is-a-vector-database-figure [fill='#f0f3fa'] { fill: var(--qi-surface); }
+.what-is-a-vector-database-figure [stroke='#f0f3fa'] { stroke: var(--qi-surface); }
+.what-is-a-vector-database-figure [stroke='#d3d9eb'] { stroke: var(--qi-border); }
+.what-is-a-vector-database-figure [stroke='#abb1c7'] { stroke: var(--qi-line); }

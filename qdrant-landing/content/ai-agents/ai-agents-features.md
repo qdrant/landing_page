@@ -30,7 +30,7 @@ features:
   description: Qdrant’s scalability and multitenancy ensures that multiple agents can collaborate in distributed systems, enabling seamless coordination and communication - key for Agentic RAG workflows.
   link:
     text: Multitenancy
-    url: /documentation/production-operations/multitenant-search/
+    url: /documentation/deploy-and-scale/multitenant-search/
 - id: 2
   icon:
     src: /icons/outline/time-blue.svg
@@ -57,6 +57,6 @@ features:
   description: Qdrant enhances AI agent efficiency with semantic caching, which preserves results of queries based on semantic equivalence rather than exact matches. This method reduces query processing times and system load by reusing previously computed answers, essential for high-throughput AI applications.
   link:
     text: Semantic Cache
-    url: /articles/semantic-cache-ai-data-retrieval/
+    url: /documentation/tutorials-build-essentials/semantic-cache/
 sitemapExclude: true
 ---

@@ -84,6 +84,19 @@ while not reached_end:
     # Check if we reached the end of the collection
     reached_end = (last_offset == None)
 
+client.update_collection_aliases(
+    change_aliases_operations=[
+        models.DeleteAliasOperation(
+            delete_alias=models.DeleteAlias(alias_name="prod")
+        ),
+        models.CreateAliasOperation(
+            create_alias=models.CreateAlias(
+                collection_name=NEW_COLLECTION, alias_name="prod"
+            )
+        ),
+    ]
+)
+
 results = client.query_points(
     collection_name=OLD_COLLECTION,
     query=models.Document(text="my query", model=OLD_MODEL),
@@ -165,6 +178,14 @@ results = client.query_points(
     using=OLD_VECTOR,
     limit=10,
 )
+
+missing = client.count(
+    collection_name=COLLECTION,
+    count_filter=models.Filter(
+        must_not=[models.HasVectorCondition(has_vector=NEW_VECTOR)]
+    ),
+    exact=True,
+).count
 
 results = client.query_points(
     collection_name=COLLECTION,

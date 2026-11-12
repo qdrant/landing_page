@@ -1,0 +1,46 @@
+{
+  "title": "Chunk Vectors for 200,000 Articles: Size and Retrieval Quality",
+  "kind": "columns-2panel",
+  "horizontal": true,
+  "labelTop": "config",
+  "labelBottom": "rescoring",
+  "colors": [
+    "muted",
+    2,
+    0
+  ],
+  "height": 280,
+  "width": 400,
+  "views": [
+    {
+      "label": "Vector Size",
+      "yMax": 24,
+      "panels": [
+        {
+          "title": "Chunk Vectors: 30x Smaller",
+          "subtitle": "Per article. Lower is better.",
+          "y": "kb_per_doc",
+          "axis": "KB per article",
+          "unit": "KB"
+        }
+      ]
+    },
+    {
+      "label": "Retrieval Quality",
+      "yMax": 100,
+      "panels": [
+        {
+          "title": "Retrieval Quality Retained",
+          "subtitle": "MLDR, 200,000 articles. Higher is better.",
+          "y": "retained_pct",
+          "axis": "% of exact nDCG@10 retained",
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "tooltip": {
+    "kb_per_doc": "KB per article",
+    "retained_pct": "% of exact nDCG@10 retained"
+  }
+}

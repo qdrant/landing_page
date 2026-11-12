@@ -9,11 +9,11 @@ const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 
 let config = EdgeConfigBuilder::new()
-    .on_disk_payload(true)
+    .payload_memory(Memory::Cold)
     .vector(
         VECTOR_NAME,
         EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
-            .on_disk(true)
+            .memory(Memory::Cold)
             .build(),
     )
     .build();
@@ -115,11 +115,11 @@ edge_shard.optimize()?;
 use qdrant_edge::*;
 
 let config = EdgeConfigBuilder::new()
-    .on_disk_payload(true)
+    .payload_memory(Memory::Cold)
     .vector(
         VECTOR_NAME,
         EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
-            .on_disk(true)
+            .memory(Memory::Cold)
             .build(),
     )
     .optimizers(EdgeOptimizersConfig {

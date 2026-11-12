@@ -85,7 +85,7 @@ These settings apply whether the collection has thousands of documents or billio
 
 **[Modifier.IDF](/documentation/manage-data/indexing/#idf-modifier)** Use this modifier for sparse vectors from BM25 or miniCOIL. Both leave inverse document frequency (IDF) to Qdrant, which computes it per shard for each query term and weights the term by it. SPLADE already includes corpus-level term weighting, so applying the modifier would count rarity twice.
 
-**[BM25 avg_len](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters)** Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/full-text-search/#bm25-text-processing). BM25 uses this value to adjust for document length. Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256. Measure it using the same stemmer and stopword settings as the collection.
+**[BM25 avg_len](/documentation/search/text-search/sparse-vector-search/#configuring-bm25-parameters)** Set `avg_len` to the average number of tokens in the field after BM25 [stems words and removes stopwords](/documentation/search/text-search/sparse-vector-search/#bm25-text-processing). BM25 uses this value to adjust for document length. Do not estimate it from raw word counts. In the five datasets tested here, the stemmed count was 15% to 43% lower. The correct values ranged from 35.3 to 151.4, compared with the default of 256. Measure it using the same stemmer and stopword settings as the collection.
 
 ### Hybrid Search
 
@@ -116,7 +116,7 @@ Start with a change that does not rebuild the collection or add a retrieval stag
 | Rebuild | Embedding model, `m` | Every collection | Re-indexing the collection. Changing the embedding model also means generating a new vector for every point |
 | Rebuild | Quantization | Collections limited by memory | Re-indexing, plus a compressed copy of every vector. Holding ranking quality then depends on rescoring |
 
-Consider a model-level rebuild only when it addresses a measured constraint, since a new embedding model means re-embedding every point. [How to choose an embedding model](/documentation/search-patterns/choose-embedding-model/) covers that decision. When memory is the constraint, a Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) shortens the vector itself, which is a different trade from compressing it with quantization.
+Consider a model-level rebuild only when it addresses a measured constraint, since a new embedding model means re-embedding every point. [How to choose an embedding model](/documentation/search-design/choose-embedding-model/) covers that decision. When memory is the constraint, a Matryoshka model's [`mrl` parameter](/documentation/inference/matryoshka-models/) shortens the vector itself, which is a different trade from compressing it with quantization.
 
 ## Choose a Metric Before You Tune
 

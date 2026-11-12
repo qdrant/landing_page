@@ -18,7 +18,7 @@ Qdrant is a vector search engine, making it a great tool for [semantic search](#
 Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/manage-data/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
 
 <aside role="status">
-The examples in this guide use <a href="/documentation/inference/">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/cloud-inference/">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
+The examples in this guide use <a href="/documentation/inference/">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/cloud-inference/">Qdrant Cloud</a>. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
 </aside>
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
@@ -37,7 +37,21 @@ In these examples, Qdrant uses [inference](/documentation/inference/) to generat
 
 ## Lexical Search
 
-Lexical search, also known as keyword-based search, is a traditional search technique that relies on matching words or phrases in the text. Many applications require a combination of semantic and traditional lexical search. A good example is in e-commerce, where users may want to search for products using a product ID. ID values don't lend themselves well to vectorization, but being able to search for them is essential for a good search experience. To facilitate these use cases, Qdrant supports [text filtering](/documentation/search/text-search/text-filtering/) and [full-text search](/documentation/search/text-search/full-text-search/).
+Lexical search, also known as keyword-based search, is a traditional search technique that relies on matching words or phrases in the text. Many applications require a combination of semantic and traditional lexical search. A good example is in e-commerce, where users may want to search for products using a product ID. ID values don't lend themselves well to vectorization, but being able to search for them is essential for a good search experience.
+
+Qdrant supports several types of lexical search:
+
+- [Text filtering](/documentation/search/text-search/text-filtering/) narrows down results to points whose text contains specific words, phrases, or exact strings, such as product IDs.
+- [Full-text search](/documentation/search/text-search/full-text-search/) ranks points by how relevant their text is to a query, using the BM25 ranking function.
+- [Sparse vector search](/documentation/search/text-search/sparse-vector-search/) ranks points with learned sparse models like SPLADE++ and miniCOIL, which also capture meaning, such as synonyms.
+
+Full-text filtering and full-text search both work on a [full-text index](/documentation/manage-data/indexing/#full-text-index) on the payload field that holds the text, so you don't need to generate embeddings. For example, to search the book titles, create a full-text index with BM25 scoring enabled on the `title` field:
+
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-title-bm25-index/" >}}
+
+To find books with "time travel" in the title, use the following query:
+
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-title-bm25/" >}}
 
 ## Filtering Versus Querying
 
@@ -47,6 +61,8 @@ When it comes to lexical search in Qdrant, it's important to distinguish between
 |---|---|
 | Does not contribute to ranking | Contributes to ranking |
 | Improves precision by narrowing down results | Improves recall by finding relevant data |
+
+A full-text index supports both. Use [full-text match conditions](/documentation/search/filtering/#full-text-match) to filter on text, and enable [BM25 scoring](/documentation/manage-data/indexing/#bm25-scoring) on the index to rank points with a [`text` query](/documentation/search/text-search/full-text-search/#query-a-text-field).
 
 ## Combining Semantic and Lexical Search
 

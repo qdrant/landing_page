@@ -1,0 +1,139 @@
+/* decay-functions island. Scoped under .qi-dk. Controls, axes, labels and the
+   status line come from the shared island design system (islands.scss); this
+   file only styles the curve, the guides and the drag handles. */
+
+.qi-dk {
+  --dk-curve: #6047ff; /* secondary-500 */
+
+  /* One hue per parameter, carried by its span, its label and its handle, so
+     the three pairs are told apart at a glance. Categorical hues from the
+     island palette, held constant across themes as the other islands do. */
+  --dk-target: #dc244c; /* amaranth-500 */
+  --dk-scale: #00838f; /* cyan-800 */
+  --dk-midpoint: #388e3c; /* green-700 */
+  /* Plain guide lines stay neutral, as in the illustration this replaces; the
+     hue is reserved for the measured spans and what they belong to. */
+  --dk-guide: var(--qi-muted);
+
+  display: block;
+}
+
+/* `.qi-chip` sets `display: inline-flex`, which outranks the user agent's
+   `[hidden] { display: none }`, so Reset would stay visible while hidden. */
+.qi-dk [hidden] {
+  display: none;
+}
+
+/* The saturated violet reads thin on a dark page. Same pair of guards
+   islands.scss uses for its own tokens. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-dk {
+    --dk-curve: #7e75ff; /* secondary-400 */
+  }
+}
+html[data-theme='dark'] .qi-dk {
+  --dk-curve: #7e75ff;
+}
+
+/* Labels sit in open plot space rather than inside a control or a frame, so
+   they carry a step more than the shared 12px. Scoped to this island. */
+.qi-dk .qi-label {
+  font-size: 15px;
+}
+
+/* --- Plot --- */
+.qi-dk__curve {
+  fill: none;
+  stroke: var(--dk-curve);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.qi-dk__tick {
+  stroke-width: 1;
+}
+
+/* Guides: dashed, neutral by default. The double-headed spans override the
+   stroke with their parameter's hue. */
+.qi-dk__guide {
+  stroke: var(--dk-guide);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.qi-dk__guide--target {
+  stroke: var(--dk-target);
+}
+.qi-dk__guide--scale {
+  stroke: var(--dk-scale);
+}
+.qi-dk__guide--midpoint {
+  stroke: var(--dk-midpoint);
+}
+.qi-dk__arrowhead--target {
+  fill: var(--dk-target);
+}
+.qi-dk__arrowhead--scale {
+  fill: var(--dk-scale);
+}
+.qi-dk__arrowhead--midpoint {
+  fill: var(--dk-midpoint);
+}
+
+/* Scoped past `.qi-label`, which sets its own muted fill. */
+.qi-dk .qi-dk__label--target {
+  fill: var(--dk-target);
+}
+.qi-dk .qi-dk__label--scale {
+  fill: var(--dk-scale);
+}
+.qi-dk .qi-dk__label--midpoint {
+  fill: var(--dk-midpoint);
+}
+
+/* --- Handles --- */
+/* `touch-action: none` so dragging a handle on a touch screen does not scroll
+   the page instead. The hit circle is larger than the knob for coarse pointers. */
+.qi-dk__handle {
+  cursor: grab;
+  touch-action: none;
+}
+.qi-dk__handle.is-dragging {
+  cursor: grabbing;
+}
+.qi-dk__hit {
+  fill: transparent;
+}
+.qi-dk__handle--target .qi-dk__knob {
+  fill: var(--dk-target);
+}
+.qi-dk__handle--scale .qi-dk__knob {
+  fill: var(--dk-scale);
+}
+.qi-dk__handle--midpoint .qi-dk__knob {
+  fill: var(--dk-midpoint);
+}
+.qi-dk__knob {
+  stroke: var(--qi-surface);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.15s ease;
+}
+.qi-dk__handle:hover .qi-dk__knob,
+.qi-dk__handle.is-dragging .qi-dk__knob {
+  transform: scale(1.25);
+}
+.qi-dk__handle:focus {
+  outline: none;
+}
+.qi-dk__handle:focus-visible .qi-dk__knob {
+  stroke: var(--qi-hot);
+  stroke-width: 2.5;
+  transform: scale(1.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-dk__knob {
+    transition: none;
+  }
+}

@@ -1,0 +1,43 @@
+.documentation-article .semantic-cache-figure {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.semantic-cache-figure picture,
+.semantic-cache-figure img {
+  display: block;
+  width: 100%;
+}
+
+.semantic-cache-figure img {
+  height: auto;
+  margin: 0;
+}
+
+.semantic-cache-figure .semantic-cache-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .semantic-cache-figure picture:not(.semantic-cache-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .semantic-cache-figure .semantic-cache-figure__dark {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .semantic-cache-figure picture:not(.semantic-cache-figure__dark) {
+    display: none;
+  }
+
+  html:not([data-theme='light']) .semantic-cache-figure .semantic-cache-figure__dark {
+    display: block;
+  }
+}
+
+.semantic-cache-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

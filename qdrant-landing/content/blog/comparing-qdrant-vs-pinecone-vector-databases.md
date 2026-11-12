@@ -38,7 +38,7 @@ Over the past few years, several vector database solutions have emerged – the 
 
 ## Exploring Qdrant Vector Database: Features and Capabilities
 
-Qdrant is a high-performance, open-source vector similarity search engine built with [Rust](https://qdrant.tech/articles/why-rust/), designed to handle the demands of large-scale AI applications with exceptional speed and reliability. Founded in 2021, Qdrant's mission is to "build the most efficient, scalable, and high-performance vector database in the market." This mission is reflected in its architecture and feature set.
+Qdrant is a high-performance, open-source vector similarity search engine built with [Rust](/blog/why-rust/), designed to handle the demands of large-scale AI applications with exceptional speed and reliability. Founded in 2021, Qdrant's mission is to "build the most efficient, scalable, and high-performance vector database in the market." This mission is reflected in its architecture and feature set.
 
 Qdrant is highly scalable and performant: it can handle billions of vectors efficiently and with [minimal latency](https://qdrant.tech/benchmarks/). Its advanced vector indexing, search, and retrieval capabilities make it ideal for applications that require fast and accurate search results. It supports vertical and horizontal scaling, advanced compression techniques, highly flexible deployment options – including cloud-native, [hybrid cloud](https://qdrant.tech/documentation/hybrid-cloud/), and private cloud solutions – and powerful security features.
 

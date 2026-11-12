@@ -1,0 +1,14 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ range .Params.sections }}
+    {{ $type := .type }}
+    {{ $special := dict
+      "cta-banner" "marketing/cta-banner.html"
+    }}
+    
+    {{ $partialPath := (index $special $type) | default (printf "marketing/industries/industries-%s.html" $type) }}
+    {{ partial $partialPath (dict "Params" .) }}
+  {{ end }}
+
+{{ end }}

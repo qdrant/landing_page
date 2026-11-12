@@ -56,7 +56,7 @@ When the vectors you upload do not all fit in RAM, you likely want to move them 
 [`cold` memory tier](/documentation/ops-configuration/memory-tiers/) directly.
 
 During [collection
-creation](/documentation/manage-data/collections/#create-collection),
+creation](/documentation/manage-data/collections/#create-a-collection),
 you can set the `memory` parameter to `cold` on a per-vector basis. This
 will store vector data directly on disk at all times.
 

@@ -133,6 +133,18 @@ func Main() {
 	}
 	// @block-end migrate-points
 
+	// @block-start alias-update
+	err = client.UpdateAliases(context.Background(), []*qdrant.AliasOperations{
+		qdrant.NewAliasDelete("prod"),
+		qdrant.NewAliasCreate("prod", NEW_COLLECTION),
+	})
+	// @hide-start
+	if err != nil {
+		panic(err)
+	}
+	// @hide-end
+	// @block-end alias-update
+
 	// @block-start search-old-collection
 	results, err := client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: OLD_COLLECTION,
@@ -266,6 +278,27 @@ func Main() {
 		Limit: qdrant.PtrOf(uint64(10)),
 	})
 	// @block-end search-with-old-vector
+
+	// @block-start count-missing
+	count, err := client.Count(context.Background(), &qdrant.CountPoints{
+		CollectionName: COLLECTION,
+		Exact: qdrant.PtrOf(true),
+		Filter: &qdrant.Filter{
+			MustNot: []*qdrant.Condition{
+				qdrant.NewHasVector(NEW_VECTOR),
+			},
+		},
+	})
+
+	// @hide-start
+	if err != nil {
+		panic(err)
+	}
+
+	_ = count
+	//@hide-end
+
+	// @block-end count-missing
 
 	// @hide-start
 	if err != nil {

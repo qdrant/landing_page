@@ -1,0 +1,64 @@
+/* cdc-pipeline island. Scoped under .qi-kc. Controls, frames and status come
+   from the shared island design system (islands.scss). */
+
+.qi-kc {
+  --kc-src: var(--qi-cat-1);
+  --kc-hub: var(--qi-cat-3);
+  --kc-qdrant: var(--qi-cat-4);
+  display: block;
+}
+
+.kc-frame-label {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.kc-node {
+  fill: none;
+  stroke-width: 2;
+  transition: opacity 0.25s ease;
+}
+.kc-node--src {
+  stroke: var(--kc-src);
+}
+.kc-node--hub {
+  stroke: var(--kc-hub);
+}
+.kc-node--qdrant {
+  stroke: var(--kc-qdrant);
+}
+.kc-node-text {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.kc-conn-text {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.kc-arrow {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+}
+.kc-arrowhead {
+  fill: var(--qi-fg);
+}
+.kc-source,
+.kc-edge {
+  transition: opacity 0.25s ease;
+}
+.kc-source.is-dim,
+.kc-edge.is-dim {
+  opacity: 0.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kc-source,
+  .kc-edge,
+  .kc-node {
+    transition: none;
+  }
+}

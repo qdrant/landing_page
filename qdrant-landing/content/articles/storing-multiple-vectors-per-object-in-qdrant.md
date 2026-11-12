@@ -14,8 +14,17 @@ tags:
   - Database
   - Search
   - Similarity Search
-category: mastering-search
+category: vector-search-fundamentals
 weight: 90
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: "Multi-Representation Search Tutorial"
+  url: "/documentation/tutorials-search-engineering/multi-representation-search/"
 ---
 
 # How to Optimize Vector Storage by Storing Multiple Vectors Per Object
@@ -177,7 +186,7 @@ The created vectors might be easily put into Qdrant. For the sake of simplicity,
 
 ## Searching with multiple vectors
 
-If you decided to describe each object with several [neural embeddings](https://qdrant.tech/articles/neural-search-tutorial/), then at each search operation you need to provide the vector name along with the [vector embedding](https://qdrant.tech/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
+If you decided to describe each object with several [neural embeddings](/articles/what-are-embeddings/), then at each search operation you need to provide the vector name along with the [vector embedding](https://qdrant.tech/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
 
 ```python
 text_results = client.query_points(

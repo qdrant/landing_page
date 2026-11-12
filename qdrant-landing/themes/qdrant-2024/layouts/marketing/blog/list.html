@@ -1,0 +1,15 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/qdrant-articles-hero" . }}
+
+  {{ partial "marketing/qdrant-blog-features" . }}
+  {{ partial "marketing/qdrant-blog-posts" . }}
+
+  {{ with (.Site.GetPage "/headless/get-started-blogs") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "get-started-blogs") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/headless/newsletter") }}
+    {{ partial "marketing/newsletter" (dict "context" . "class" "") }}
+  {{ end }}
+{{ end }}

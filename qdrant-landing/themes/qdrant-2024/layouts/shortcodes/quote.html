@@ -39,7 +39,7 @@
 {{- /* The company name is redundant next to the logo, so it is hidden when
        one is shown. It is marked up rather than dropped because the logo is
        hidden on narrow screens, where the name has to come back. */ -}}
-<figure class="customer-quote
+<figure data-shortcode="quote" class="customer-quote
   {{- if $featured }} customer-quote_featured{{ end }}
   {{- if $logo }} customer-quote_has-logo{{ end }}">
   <blockquote class="customer-quote__quote">
