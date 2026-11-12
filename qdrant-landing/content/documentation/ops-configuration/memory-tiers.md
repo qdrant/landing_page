@@ -9,9 +9,10 @@ aliases:
 
 # Memory Tiers
 
+
 Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter controls how each structure is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed.
 
-This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval. For guidance on what to choose to fit your RAM and disk budget, see [Memory Tiers: What to Use and When](/documentation/production-operations/memory-tiers/).
+This page covers how to configure memory tiers, the different placement tiers available, and how to optimize for disk-based retrieval. For guidance on what to choose to fit your RAM and disk budget, see [Memory Tiers: What to Use and When](/documentation/operate-and-maintain/memory-tiers/).
 
 ## Configuring Memory Tiers
 
@@ -86,7 +87,9 @@ Async I/O lets Qdrant issue disk reads concurrently instead of one at a time, re
 
 *Available as of v1.19.0.* 
 
-Set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
+On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
+
+When self-hosting, set `io_uring` to `auto` in the [storage configuration](/documentation/ops-configuration/configuration/) to apply async I/O to any structure that's `cold`. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -104,7 +107,7 @@ QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 
 *Available as of v1.3.0.*
 
-An older setting that applies async I/O to vector rescoring only. Prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
+An older setting that applies async I/O to vector rescoring only. It is deprecated: prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -117,6 +120,8 @@ or via an environment variable:
 ```bash
 QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
 ```
+
+On managed Qdrant Cloud clusters, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab for Qdrant versions below v1.20.0. From v1.20.0, Qdrant Cloud sets the async I/O mode for you and `async_scorer` no longer has an effect.
 
 ### Local NVMe/SSD Storage
 

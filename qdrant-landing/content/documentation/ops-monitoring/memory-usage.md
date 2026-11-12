@@ -11,7 +11,7 @@ weight: 7
 
 Qdrant lets you inspect a collection's disk space, RAM, and OS page cache usage, summed up across the whole cluster and broken down by component. Use this to plan capacity, diagnose memory pressure, or understand which parts of a collection are resident in memory.
 
-This information is available in the [Qdrant Web UI](/documentation/web-ui/) and through the API.
+This information is available in the [Qdrant Web UI](/documentation/web-ui/) and through the API. 
 
 ## Web UI
 
@@ -54,11 +54,14 @@ These roughly map to the [memory tiers](/documentation/ops-configuration/memory-
 
 ## API
 
-You can retrieve the same data though Qdrant's API:
+You can retrieve the same data via the `/memory` endpoint:
 
 ```bash
-curl http://localhost:6333/collections/{collection_name}/memory
+curl https://<cluster-endpoint>:6333/collections/{collection_name}/memory \
+  -H "api-key: <your-database-api-key>"
 ```
+
+The API key needs read access to the collection, so a read-only key is enough.
 
 <!--
 The response contains a `result` object with `total`, `vectors`, `sparse_vectors`, `payload`, `payload_index`, and `other` fields. Each field uses the same four-value structure: `disk_bytes`, `ram_bytes`, `cached_bytes`, and `expected_cache_bytes`.

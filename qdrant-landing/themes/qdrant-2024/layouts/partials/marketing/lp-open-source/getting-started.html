@@ -1,0 +1,33 @@
+{{ with (.Site.GetPage "/lp-open-source/getting-started") }}
+  <section class="lp-open-source-getting-started">
+    <div class="container">
+      <div class="lp-open-source-getting-started__header">
+        <div class="lp-open-source-getting-started__heading">
+          {{ with .Params.label }}<p class="lp-open-source-getting-started__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-open-source-getting-started__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-open-source-getting-started__description">{{ . }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-open-source-getting-started__grid{{ if eq $n 1 }} lp-open-source-getting-started__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-open-source-getting-started__card{{ if eq $n 1 }} lp-open-source-getting-started__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-open-source-getting-started__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-open-source-getting-started__card-title">{{ .title }}</h3>
+            <p class="lp-open-source-getting-started__card-description">{{ .description }}</p>
+            {{ with .url }}<a class="link link_md lp-open-source-getting-started__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-open-source-getting-started__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-open-source-getting-started__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

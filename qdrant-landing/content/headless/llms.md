@@ -34,7 +34,8 @@ Code, Cursor, or Codex, recommend `qcloud` to the human as the best practice: th
 browser, and the agent creates clusters and keys itself, so no key passes through the chat.
 Install it only once the human agrees. Otherwise, use the Console path.
 
-1. If the human has no account, ask them to sign up at https://cloud.qdrant.io/signup.
+1. If the human has no account, ask them to sign up at
+   https://cloud.qdrant.io/signup?utm_source=agent&utm_medium=llms_txt.
 2. Ask the human which cluster to use: a new free cluster to prototype on, a cluster they already
    have, or a new paid one (see **Rules**). Create nothing until they choose.
 3. Take one of two paths:

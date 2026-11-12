@@ -119,7 +119,7 @@ API paths are relative to `/api/cluster/v1/accounts/<ACCOUNT_ID>`.
 | Change settings, including the Qdrant version | `qcloud cluster update <CLUSTER_ID>` | `PUT /clusters/<CLUSTER_ID>` | `write:clusters` |
 | List Qdrant versions | `qcloud cluster version list` | `GET /releases` | `read:clusters` |
 | Restart a cluster | `qcloud cluster restart <CLUSTER_ID>` | `POST /clusters/<CLUSTER_ID>/restart` | `write:clusters` |
-| Suspend or unsuspend a cluster | `qcloud cluster suspend` and `unsuspend` | `POST /clusters/<CLUSTER_ID>/suspend` and `/unsuspend` | `write:clusters` |
+| Suspend a free cluster, or unsuspend a cluster | `qcloud cluster suspend` and `unsuspend` | `POST /clusters/<CLUSTER_ID>/suspend` and `/unsuspend` | `write:clusters` |
 | Create a cluster from a backup | `qcloud cluster create-from-backup --backup-id <BACKUP_ID> --name <NAME>` | `POST /backups/<BACKUP_ID>/clusters` | `restore:backups` and `write:clusters` |
 | Delete a cluster | `qcloud cluster delete <CLUSTER_ID>` | `DELETE /clusters/<CLUSTER_ID>` | `delete:clusters` |
 | Read alerts and logs | `qcloud cluster alert list <CLUSTER_ID>` and `qcloud cluster logs <CLUSTER_ID>` | Not covered here | |

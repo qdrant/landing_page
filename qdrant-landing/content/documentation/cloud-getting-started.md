@@ -101,7 +101,7 @@ A cluster is production-ready when it meets these minimums. The [Cloud Productio
 | Monitoring | Alert emails reaching the account owner, and metrics scraped from `/metrics` and `/sys_metrics` | See [Monitoring](/documentation/cloud/cluster-monitoring/) |
 | Upgrades | Take a backup, update the cluster, then update the client SDKs. Keep each SDK within one minor version of the cluster | See [Updating Clusters](/documentation/cloud/cluster-upgrades/) |
 
-Multi-AZ clusters, available on the Premium tier, can only be chosen at creation. They need a multiple of 3 nodes. For the reasoning behind each setting, see [Vector Search in Production](/documentation/production-operations/vector-search-in-production/).
+Multi-AZ clusters, available on the Premium tier, can only be chosen at creation. They need a multiple of 3 nodes. For the reasoning behind each setting, see [Vector Search in Production](/documentation/deploy-and-scale/vector-search-in-production/).
 
 ## Automate
 

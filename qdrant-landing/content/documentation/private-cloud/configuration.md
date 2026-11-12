@@ -2,7 +2,7 @@
 title: Configuration
 short_description: "Configure the Qdrant Private Cloud Helm chart for the Operator, networking, scheduling, ingress, and backup management."
 description: "Configure the Qdrant Private Cloud Helm chart with Operator settings, networking, scheduling, ingress, and backup management options for Kubernetes."
-weight: 10
+weight: 15
 ---
 
 # Private Cloud Configuration
@@ -11,7 +11,40 @@ The Qdrant Private Cloud Helm chart has several configuration options. These con
 
 Settings that differ per cluster are not set here. API keys, TLS and [audit logging](/documentation/private-cloud/qdrant-cluster-management/#audit-logging) (`spec.config.audit`) belong on the `QdrantCluster` resource; see [Managing a Cluster](/documentation/private-cloud/qdrant-cluster-management/) and the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#auditconfig). Audit logging has no Helm-level default and must be enabled on each cluster.
 
-The following YAML shows all Helm chart configuration options with their default values:
+## Settings by Topic
+
+Most installations change only a few values. These are the settings that most often matter, and where each one is explained. Paths are relative to the Helm values file.
+
+| Topic | Values | Details |
+|---|---|---|
+| Images, pull secrets, and a registry mirror | `operator.image`, `qdrant-cluster-manager.image`, `qdrant-cluster-exporter.image`, `operator.settings.features.clusterManagement.qdrant.image` | [Mirroring Images and Charts](/documentation/private-cloud/private-cloud-setup/#mirroring-images-and-charts) |
+| Namespaces the Operator watches | `operator.watch.onlyReleaseNamespace`, `operator.watch.namespaces` | [Scope of the Operator](/documentation/private-cloud/private-cloud-setup/#scope-of-the-operator) |
+| Storage classes and snapshot classes | `operator.settings.features.clusterManagement.storageClass`, `operator.settings.features.backupManagement.snapshots.volumeSnapshotClass` | [Configuring Private Cloud](/documentation/private-cloud/private-cloud-setup/#configuring-private-cloud) |
+| Volume expansion and disk scale-down | `operator.settings.features.clusterManagement.volumeExpansionMode`, `...diskScaleDown.enable` | [Settings That Affect Scaling](#settings-that-affect-scaling) |
+| Network policies | `operator.settings.features.clusterManagement.qdrant.networkPolicies` | [Network Policies](/documentation/private-cloud/security-exposure/#network-policies) |
+| Ingress provider | `operator.settings.features.clusterManagement.ingress` | [Ingress](/documentation/private-cloud/security-exposure/#ingress) |
+| Backups | `operator.settings.features.backupManagement` | [Backups](/documentation/private-cloud/backups/) |
+| Log levels and Prometheus scraping | `operator.settings.logLevel`, `qdrant-cluster-exporter.config.logLevel`, and the `serviceMonitor` values of both | [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/) |
+| Shard rebalancing and the cluster manager | `operator.settings.features.clusterManagement.clusterManager`, `qdrant-cluster-manager` | [Automatic Shard Rebalancing](/documentation/private-cloud/qdrant-cluster-management/#automatic-shard-rebalancing) |
+
+The chart sets no `resources` for the Operator, the cluster manager, or the exporter. Set requests and limits for them yourself.
+
+## Settings That Affect Scaling
+
+Two operator settings change how cluster resources are scaled. See [Scaling a Cluster](/documentation/private-cloud/qdrant-cluster-management/#scaling-a-cluster).
+
+| Setting | Default | Effect |
+|---|---|---|
+| `operator.settings.features.clusterManagement.volumeExpansionMode` | `Online` | `Online` expands volumes without a restart. Set it to `Offline` if your storage provider needs a restart to resize a volume, as some Azure disks do. |
+| `operator.settings.features.clusterManagement.diskScaleDown.enable` | `false` | Lets the Operator reduce the disk size of a cluster by replacing its nodes. See [Scaling Down Disk Space](/documentation/private-cloud/qdrant-cluster-management/#scaling-down-disk-space). |
+
+## All Settings
+
+The following YAML shows all Helm chart configuration options with their default values. It has one block for each component that the chart installs.
+
+### Operator
+
+The `operator` block configures the Operator. Its `settings.features` section turns the Operator features on and off, and holds the defaults that it applies to every database cluster: `clusterManagement` for the databases, and `backupManagement` for snapshots and restores.
 
 ```yaml
 operator:
@@ -337,7 +370,13 @@ operator:
           enable:  true
           # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 1.
           maxConcurrentReconciles: 1
+```
 
+### Cluster Manager
+
+The `qdrant-cluster-manager` block configures the cluster manager, which moves shards between nodes.
+
+```yaml
 qdrant-cluster-manager:
   replicaCount: 1
 
@@ -407,7 +446,13 @@ qdrant-cluster-manager:
   tolerations: []
 
   affinity: {}
+```
 
+### Cluster Exporter
+
+The `qdrant-cluster-exporter` block configures the exporter, which exposes metrics about your Qdrant clusters in Prometheus format.
+
+```yaml
 qdrant-cluster-exporter:
   image:
     repository: registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter

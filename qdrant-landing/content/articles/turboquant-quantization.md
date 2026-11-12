@@ -14,7 +14,7 @@ keywords:
   - vector-search
   - performance
   - benchmarks
-category: production-ops
+category: qdrant-internals
 weight: 10
 ---
 
