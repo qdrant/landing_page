@@ -1,7 +1,7 @@
 ---
 title: "How to Choose a Chunking Strategy"
-short_description: "Choose chunk boundaries, size, and overlap from your documents and questions, then test whether the right evidence reaches the answer."
-description: "A practical guide to chunking for RAG: inspect your documents, choose boundaries, set size and overlap, preserve context, and evaluate the results."
+short_description: "Choose boundaries, size, and overlap from your documents and questions. Follow a worked example from missing evidence to a repair you can test."
+description: "Choose a chunking strategy for RAG: preserve meaningful boundaries, budget size and overlap, add context where needed, and diagnose retrieval failures."
 author: Ewa Szyszka
 date: 2026-11-12T00:00:00.000Z
 draft: false
@@ -12,31 +12,33 @@ weight: 20
 
 # How to Choose a Chunking Strategy
 
-A search result can contain the right instruction and still leave out the exception that makes it usable. Choosing a chunking strategy means deciding which information your retrieval system must keep together.
+A user asks how to share a complete project copy. Your search finds the export procedure, and the answer tells them to download and share the archive. But a separate paragraph says linked files must be downloaded separately. The answer follows the retrieved instructions and still leaves the user with an incomplete copy.
 
-Chunking divides documents into smaller, independently retrievable pieces. With a single dense embedding per chunk, the vector represents that piece as a whole. Embedding a long document about several topics can make a small detail harder to find; splitting it gives that detail a more focused representation. But a chunk that loses its subject, conditions, or definitions may be too small to support an answer.
+This is the problem a chunking strategy must address: **which information needs to reach the answer together?**
 
-Start with the documents and questions, choose meaningful boundaries, then set size and overlap limits. Add context where a chunk needs it, and test whether the required evidence reaches the answering model. This guide follows that process with one example you can replace with your own documents.
+Chunking divides documents into separately retrievable pieces. In a dense retrieval system, each chunk gets its own embedding and source reference. Search can then return a passage instead of an entire document. Because one embedding represents its input as a whole, a focused passage can make a detail easier to find than embedding a long document about many topics. Splitting too aggressively can remove the context needed to use that detail.
 
-You may not need chunk retrieval at all if you already know which document answers a question and can supply it within your application's text budget. A short, focused document can also be a useful retrieval unit on its own.
+Start with your documents and questions. Choose meaningful boundaries, fit them to your model budgets, and test the evidence that reaches the answer. The fictional handbook in this guide follows that process, including a failed split and two ways to repair it.
+
+If you already know the relevant document and it fits the available input budget, supplying the whole document may be sufficient. A short, focused document can also be a useful retrieval unit without further splitting.
 
 ## 1. Inspect Your Documents and Questions
 
-Take a small sample that covers your document types and write questions users are likely to ask. Identify the passages needed to answer each question completely. The aim is to discover what belongs together before choosing a splitter.
+Choose a small sample that includes your common document types and difficult cases: long sections, tables, references to earlier definitions, and exceptions. Write representative questions alongside it. For each question, mark the source passages needed for a complete answer before deciding where to split.
 
-Consider this fictional project export handbook:
+Here is our project handbook:
 
-> **What is a complete export?** A complete export includes project settings, documents, and attached files.
+> **Definition: a complete export.** A complete export includes project settings, documents, and attached files.
 >
-> **Export a project.** Pause edits, select **Export project**, download the archive, and check its contents before sharing it.
+> **Procedure: export a project.** Pause edits, select **Export project**, download the archive, and check its contents before sharing it.
 >
-> **Linked-file exception.** Linked files appear as references in the archive. Download those files separately and include them when sharing a complete copy.
+> **Exception: linked files.** Linked files appear as references in the archive. Download those files separately and include them when sharing a complete copy.
 >
 > **Billing FAQ.** Where can I download an invoice? Open **Billing**, then **Invoices**.
 
-The question "What does a complete export include?" needs the definition. "How do I share a complete copy of a project with linked files?" needs the definition, procedure, and exception. The invoice question belongs to a different topic.
+"What does a complete export include?" needs the definition. "What must a complete project copy include, and how do I share one that uses linked files?" needs the definition, procedure, and exception. The invoice question belongs to a different topic.
 
-For this handbook, try keeping the short export section together and making the billing FAQ a separate chunk. A boundary immediately after the export steps would separate the action from a condition needed to complete it.
+A plausible first split is one chunk per bold label. Yet a match on the procedure would not necessarily retrieve the definition or exception. Grouping the export passages is one candidate repair; keeping the billing entry separate preserves its focus.
 
 <figure class="chunking-figure">
   <picture>
@@ -47,110 +49,147 @@ For this handbook, try keeping the short export section together and making the 
     <source media="(max-width: 540px)" srcset="/guides_data/chunking/complete-task.mobile.dark.svg" width="360" height="766">
     <img src="/guides_data/chunking/complete-task.dark.svg" alt="A project handbook becomes an export chunk containing the definition, steps, and linked-file exception, plus a separate billing FAQ chunk. A split after the export steps would leave out the exception." width="640" height="568" loading="lazy">
   </picture>
-  <figcaption>Keep the export definition, steps, and linked-file exception together so a retrieved procedure contains the conditions needed to complete it. The billing FAQ can be retrieved independently.</figcaption>
+  <figcaption>Keep the export definition, steps, and linked-file exception together for the complete-copy question. Retrieve the independent billing FAQ on its own.</figcaption>
 </figure>
 
-Use the same reasoning for other document types:
+Look for the same dependencies in your own data:
 
-| Document pattern | Information to keep together |
-| --- | --- |
-| FAQ | The question and its answer; the answer alone may not name its subject. |
-| Procedure | The relevant steps, prerequisites, definitions, and exceptions. |
-| Prose | A paragraph or group of paragraphs that develops one idea. |
-| Reference manual | A heading and the entry it identifies, including applicable notes. |
+| Document pattern | Starting unit | Dependency to check |
+| --- | --- | --- |
+| FAQ | One question and answer | Does the answer name its subject without the question? |
+| Procedure | A complete task or subtask | Which prerequisites, definitions, and exceptions govern the steps? |
+| Prose | A paragraph developing one idea | Does it depend on an earlier paragraph or section title? |
+| Reference manual | A section or complete entry | Do notes and table headers apply to the whole entry? |
 
-A parser must preserve the structure you intend to use. Inspect extracted text from PDFs and other formatted sources: columns in the wrong order, missing headings, or a table detached from its headers will create problems no chunk-size setting can repair.
+Inspect the extracted text as well as the original document. A PDF parser that scrambles columns or drops table headers has already lost information. Fix that before tuning the splitter. Keep document identifiers and versions, section paths, and source positions so you can trace every chunk back to its origin.
 
 ## 2. Choose Meaningful Boundaries
 
-A splitter turns your preferred boundaries into chunks. Choose a method that can recognize the structure you found, and give it a fallback for sections that exceed your size limit.
+Use the structure you found to choose a starting method. These methods can work together: split a manual into sections first, then apply a size-limited splitter only to sections that are too long.
 
-| Method | When to try it | What to inspect |
+| Method | When to try it | What it preserves or breaks |
 | --- | --- | --- |
-| Fixed size | A simple baseline, or text with little reliable structure. Split after a chosen number of tokens or characters. | It can cut a sentence, table, or instruction in the middle. Overlap may help at the cut but does not understand dependencies. |
-| Recursive splitting | Prose with useful paragraph and sentence boundaries, but inconsistent headings. Try larger separators first, then smaller ones when a piece is too long. | It preserves nearby text where it fits. It does not know that an exception several paragraphs away belongs to an instruction. |
-| Document structure | FAQs, manuals, or procedures with reliable headings and complete entries. Split by those units first. | A section may contain several topics or exceed the input limit. Split oversized sections further while retaining their heading and necessary context. |
+| Fixed size | A simple baseline, especially when structure is unreliable. | Predictable lengths in the chosen unit, but cuts can separate sentences, table rows, or conditions. The [course's fixed-size example](/course/essentials/day-1/chunking-strategies/#1-fixed-size-chunking) counts words, not model tokens. |
+| Recursive splitting | Prose with useful paragraph or line breaks and inconsistent section structure. | Tries larger separators first, then smaller ones when a piece is too long. It preserves nearby text where it fits, but cannot recognize a distant exception. |
+| Document structure | FAQs, manuals, and procedures with reliable headings or complete entries. | Preserves the units the author supplied. A heading can still contain multiple topics, and an oversized section needs a fallback. |
 
-For a plain-text starting point, LangChain's [recursive text splitter](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) tries paragraph breaks, line breaks, spaces, and finally individual characters. Its default length measurement is characters, not tokens. Choose separators appropriate to the language and format; spaces are not word boundaries in every language.
+[LangChain's recursive text splitter](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) tries paragraph breaks, line breaks, spaces, and finally individual characters by default. That does not guarantee complete sentences. Use appropriate separators for your language and format, and check the resulting chunks. Its default length measurement is characters, not tokens.
 
-For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups content under configured headings and records those headings as metadata. It removes heading text from the chunk by default. Decide whether to include those headings in the text you embed, and apply a size-limited splitter to oversized sections.
+For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups content under configured headings and records their hierarchy as metadata. It strips heading text by default. Retain useful headings in the embedding input, and use a second splitter when a section exceeds your limit.
 
-In the handbook, structure is a useful starting point, but splitting on every bold label would be too aggressive. Group the definition, steps, and exception into an export section. Keep the billing question and answer together as a separate entry. If a real export procedure is too long, divide it into complete subtasks and carry the definitions or conditions each subtask needs into its chunk.
+**For the handbook, start with two units: the complete export section and the billing question-answer pair.** A single sentence can be enough for a self-contained fact. Keep its paragraph or section when that is where its subject, definition, or conditions live. There is no reason to pad a short, complete FAQ to the maximum chunk length.
 
-Semantic chunking, which uses changes in embedding similarity to suggest topic boundaries, is another option when structure is unreliable. It adds embedding work during splitting, and a topic change is not proof that two passages can be understood independently. Try it when your simpler baseline repeatedly joins unrelated topics, then evaluate it with the same questions. The [Essentials chunking lesson](/course/essentials/day-1/chunking-strategies/) introduces this and other methods in more detail.
+If an export section grows into several pages, divide it into focused subtasks. Keep the conditions relevant to each subtask with it. When that still requires too much repeated text, preserve the relationship to the section so you can supply that context after retrieval, as described in [Add Context Where Needed](#4-add-context-where-needed).
 
-## 3. Set Size and Overlap Constraints
+Semantic chunking uses changes in embedding similarity to suggest boundaries. Consider it when simpler methods repeatedly join unrelated topics in poorly structured text. It adds embedding work during splitting, and a change in topic does not prove that adjacent passages are independent. Compare it with your structural or recursive baseline using the same questions and text budget. The [Essentials lesson](/course/essentials/day-1/chunking-strategies/) provides further explanations and implementations.
 
-Chunk size is a limit on your chosen units, not a reason to discard their structure. There are two separate budgets:
+## 3. Fit Size and Overlap to Your Constraints
 
-- **Embedding input:** Each chunk must fit the embedding model's supported input length, including any title, context, or model-required prefix. Check the model and serving configuration: an oversized input may be rejected or truncated.
-- **Answering-model input:** The retrieved chunks must fit the space left after instructions, the question, conversation history, and reserved output. This is a total budget across results, not a per-chunk limit.
+There are two different limits to satisfy:
 
-Count the final embedding input with that model's tokenizer, including required special tokens, with truncation disabled for the check. Otherwise, a shortened token count can hide an oversized input. A character count or another model's tokenizer is only an approximation. [Hugging Face's tokenizer documentation](https://huggingface.co/docs/transformers/main_classes/tokenizer) describes these controls; hosted models may provide their own token-counting tools. Count the final answer context with the answering model's tokenizer as well.
+- **Embedding input:** Every final input must fit the embedding model's supported length, including titles, added context, required prefixes, and special tokens. Oversized inputs may be rejected or truncated, depending on the model and serving configuration.
+- **Answer context:** All retrieved text must fit the space remaining after instructions, the question, conversation history, and reserved output. This budget applies across results, including any text added after retrieval.
 
-### A Starting Size for Your Documents
+Measure final embedding inputs with that model's tokenizer, with truncation disabled for inspection. Otherwise, a shortened count can hide an oversized input. Measure the assembled answer context with the answering model's tokenizer. Character counts, word counts, and token counts from a different model are not interchangeable. [Hugging Face's tokenizer documentation](https://huggingface.co/docs/transformers/main_classes/tokenizer) explains these controls; hosted models may offer their own counting tools.
 
-Start with one complete FAQ entry, focused section, or short procedure where it fits both budgets. Inspect the token lengths of those units before imposing a numeric cap. In the handbook, the export section is short enough that splitting it further gains little and risks losing the exception.
+### Set a Cap Without Treating It as a Target
 
-For an illustrative application with a 2,000-token retrieved-text budget that needs evidence from roughly four passages, test a cap near 500 answering-model tokens per passage. Leave room for titles, source labels, and any added context, and independently enforce the embedding model's limit. This is a budgeting starting point, not a universally best chunk size: variable passage lengths and the evidence needed for each question will change how many results fit.
+Inspect the lengths of your complete units first. Keep short units intact. For oversized ones, choose a finer meaningful boundary and preserve the context the smaller unit needs.
 
-Smaller chunks can isolate facts but may require several results to reconstruct a procedure. Larger chunks can keep that procedure complete but consume more of the answer budget with unrelated text. More chunks also mean more vectors to store and index; overlap and repeated context add text to embed. Compare these costs alongside retrieval quality.
+For example, suppose you allocate **2,000 answering-model tokens to retrieved evidence** and expect to need four passages. That allows roughly 500 tokens per passage. If a title and source label use about 50 tokens, around 450 remain for the body. These are illustrative planning assumptions to test, not a recommended universal chunk size. Independently check whether that same input fits the embedding model's tokenizer and limit.
 
-### When to Add Chunk Overlap
+If a complete export subtask is longer than this allowance, you have a decision: use fewer passages, allocate more evidence space if available, or split the subtask at a meaningful boundary and supply its needed context separately. Cutting at token 450 and losing the exception defeats the purpose of the budget. Short billing entries should stay short.
 
-Overlap repeats text from one chunk in a neighboring chunk. It is a setting you can use with several splitting methods, rather than a separate boundary strategy.
+Smaller chunks can isolate facts but require several hits to reconstruct a task. Larger chunks can preserve the task but spend more of the answer budget on unrelated text. More chunks mean more vectors to store and index; repeated text also increases embedding work. Choose the tradeoff using your questions, not the embedding model's maximum length alone.
 
-Start without overlap when your units are complete, independent entries. When a long prose section must be divided, try retaining the last sentence or paragraph across a boundary if inspection shows that the next chunk depends on it. Verify the actual output: some splitters treat the configured overlap as a target, and structural boundaries can prevent that amount from being repeated.
+### Add Overlap Only Where It Repairs a Boundary
 
-Overlap helps with local continuity. It cannot reliably reconnect the handbook's steps to an exception elsewhere in a document. Keep those passages together or explicitly supply the missing condition. Increasing overlap everywhere would duplicate unrelated text and spend the answer budget on repeated evidence.
+Overlap repeats text in neighboring chunks. It can accompany different splitting methods; it is not a separate way to find meaningful boundaries.
 
-Keep source metadata with each chunk: a document identifier and version, section path, and position or page reference. In Qdrant, these fields can live in the point's [payload](/documentation/manage-data/payload/). Metadata supports source citations and lets your application recover neighboring text; storing it does not automatically add it to the embedding or the answering-model input. Preserve table headers with the rows they describe, including when a table must be divided.
+Start with zero overlap for complete, independent entries. When splitting a long prose section, test carrying the last sentence or paragraph into the next chunk if it is needed to understand that chunk. Inspect actual output: an overlap setting may be a target rather than an exact amount, and structural splitters can prevent overlap across sections.
 
-## 4. Add Context Where Meaning Is Missing
+For the handbook, a little overlap might preserve a definition immediately before a subtask. It will not reliably attach an exception several paragraphs away. Increasing overlap everywhere also lets nearly identical hits consume multiple result slots and repeat evidence in the answer context. Reduce it, merge duplicate source spans, or retrieve the relevant surrounding passage explicitly.
 
-Read a chunk without its document. Does "it" have a clear referent? Does "complete" refer to a definition you removed? Does the paragraph identify the product or procedure it describes?
+Preserve table headers with the rows they describe, including when splitting a long table. Keep source positions with repeated text so you can recognize duplicated spans. In Qdrant, document, section, and position fields can live in a point's [payload](/documentation/manage-data/payload/); they do not automatically become part of the embedding or the answer context.
 
-For the handbook, a chunk beginning "Download those files separately" needs the linked-file condition. A title alone cannot restore that instruction. Preserve the source passage that explains which files and why. A heading such as "Project export: linked files" can still help distinguish this passage from a billing download.
+## 4. Add Context Where Needed
 
-Use the smallest addition that repairs the observed problem:
+Read a chunk without its document. Does "it" have a clear referent? Does "complete" depend on an earlier definition? Can you tell which product, version, or procedure the passage describes?
 
-| Missing information | First adjustment to test |
+For the handbook's exception, "Project handbook > Export > Linked files" identifies the subject. But a title cannot replace the instruction to download those files separately. Preserve the source text that carries the condition.
+
+Choose the addition according to where information is missing:
+
+| Problem | First adjustment to test |
 | --- | --- |
-| Document or section identity | Include a concise title and section path. |
-| A definition, prerequisite, or exception | Retain the relevant source text with the passage, or retrieve it through an explicit document relationship. |
-| Context spread across a long document | Consider a short generated explanation, checked against the source. |
+| The passage's identity is unclear during search. | Include a concise document title and section path before embedding. |
+| A definition or exception is missing from a retrieved result. | Keep it with the source chunk, or fetch the relevant source context after a useful hit. |
+| Useful context is scattered across a long document. | Consider a short generated explanation, checked against the source, after trying source headings and definitions. |
 
-Decide separately what you send to each model. Text added **before embedding** changes the chunk's searchable representation and must fit the embedding limit. Text assembled **after retrieval** can help the answering model interpret a result, but cannot fix a result that was never retrieved. Both additions consume tokens in their respective stages.
+### Search a Passage, Then Supply Its Surroundings
 
-[Anthropic's contextual retrieval experiments](https://www.anthropic.com/research/contextual-retrieval) prepend a short, document-specific explanation before indexing chunks and report fewer retrieval failures in their tested setups. This supports testing generated context when isolated passages lose meaning. It does not establish that every corpus needs it or that better retrieval guarantees correct answers. Generated context also adds preprocessing cost and can introduce unsupported details; compare it with simply retaining the source heading or definition first.
+The text used to find a match need not be all the text supplied to the answer. If the export section becomes too long, you can index focused subtasks and retain their section identifiers. After a subtask matches, fetch the relevant definition and exception from that section. This is the idea behind [parent-document retrieval](https://reference.langchain.com/python/langchain-classic/retrievers/parent_document_retriever/ParentDocumentRetriever), where smaller searchable chunks lead to larger source units.
+
+This approach requires an explicit application step and a reliable link back to the source. Bound the expansion, merge overlapping passages when several hits belong to one section, and count the expanded text against the answer budget. It can recover a condition that did not match independently, but still needs a useful initial hit. It does not change the initial vector matching.
+
+By contrast, adding text **before embedding** changes the searchable representation and consumes the embedding input budget. If that added text is also passed to the answering model, count it there too. Adding it only **after retrieval** cannot improve the initial match, but can make the matched passage usable.
+
+[Anthropic's contextual retrieval experiments](https://www.anthropic.com/research/contextual-retrieval) prepend a short explanation generated from the document before embedding and lexical indexing. They report fewer retrieval failures in the tested configurations. That supports testing generated context for passages that lose meaning in isolation; it does not establish better final answers for every corpus. Generation adds preprocessing cost and can introduce unsupported details. Keep the original passage, distinguish generated context from source evidence, and check both retrieval and answers.
+
+For our short handbook, the initial plan remains simple: index the complete export section and the complete billing entry, retain titles and source references, and use zero overlap. The larger-section alternative is available if the real documents cannot fit those units within their limits. Now test which evidence that plan actually delivers.
 
 ## 5. Test the Evidence That Reaches the Answer
 
-Before running retrieval, inspect the chunks: are related facts together, are subjects understandable in isolation, do complete inputs fit the model limits, and are tables and reading order intact? Check that each source reference leads back to the right passage.
+Before running retrieval, inspect a few chunks against their source:
 
-Then turn your sample questions into a small evaluation set. Pair each question with the required source passages, rather than chunk IDs that will change when you alter the splitter.
+- Are the needed facts, conditions, and exceptions preserved?
+- Can each chunk be understood outside its document?
+- Does the complete embedding input fit without truncation?
+- Are tables and reading order intact?
+- Can you recover the correct source passage and version?
 
-| Example question | Required evidence | Failure to look for |
-| --- | --- | --- |
-| What does a complete export include? | The definition listing settings, documents, and attached files. | A retrieved passage uses "complete" without defining it. |
-| How do I share a complete project with linked files? | Definition, export steps, and linked-file exception. | The steps reach the model but the exception is missing. |
-| Where can I download an invoice? | The billing question and answer. | Export chunks crowd out the billing entry. |
+Build a small question set from the inspection in step 1. Include straightforward facts, complete procedures, and cases likely to cross a boundary. Label the required **source passages**, not chunk IDs that change with the splitter. Accept equivalent evidence elsewhere when it answers the same question.
 
-Keep the embedding model, search configuration, question set, and total retrieved-text budget fixed while comparing boundary strategies. If you compare five short chunks with five long chunks, the longer-chunk setup gets more text; that is not a comparison at equal answer-context cost. Assemble results using the same budget rule and record which evidence survives selection, deduplication, and any truncation. When comparing generated answers, keep the answering model, prompt, and generation settings fixed too.
-
-For each question, check two outcomes separately:
-
-1. **Evidence available:** Did all required passages reach the answering model within the budget? Record missing evidence, duplicate text, and irrelevant material.
-2. **Answer correct:** Did the generated answer use that evidence correctly, include necessary conditions, and cite the right source? A retrieved exception is no help if the answer ignores it.
-
-Change the smallest setting that addresses the observed failure:
-
-| Observed failure | Next change to test |
+| Question | Evidence needed for a complete answer |
 | --- | --- |
-| An instruction arrives without its exception. | Repair the boundary or explicitly include the missing source passage. |
-| A chunk has an unclear subject. | Retain its title, section name, or defining sentence. |
-| Relevant facts arrive with too much unrelated text. | Split at a more focused boundary and check that the needed context survives. |
-| Several results repeat the same passage. | Reduce overlap or deduplicate during context assembly. |
-| The right passages arrive, but the answer is wrong. | Inspect the answering stage before changing chunking again. |
+| What does a complete export include? | The definition: settings, documents, and attached files. |
+| What must a complete project copy include, and how do I share one that uses linked files? | Definition, export procedure, and linked-file exception. |
+| Where can I download an invoice? | The billing question and answer. |
 
-Keep a short record of the strategy, model versions, budgets, and questions it handles or misses. Revisit it when document types, user questions, models, or available context change. Your first useful result is a chunking strategy you can explain from your documents, plus a repeatable test that shows where it needs adjustment.
+Also include a question the documents cannot answer, such as "How long does an export download link remain valid?" for this handbook. Check that the answer acknowledges the missing information rather than inventing a duration. Keep that result separate from evidence coverage on answerable questions.
+
+### Follow One Failure Through to a Repair
+
+Consider an illustrative run where the procedure is the only retrieved hit for the complete-copy question. The two repairs are candidates to test, not measured results. Inspect the text sent to the model, not just the ranked search results:
+
+| Candidate | Final context to inspect | What to check |
+| --- | --- | --- |
+| Separate definition, procedure, and exception chunks | Procedure only | The definition and linked-file condition are missing. "Export and share the archive" is insufficient. |
+| One complete export chunk | Definition + procedure + exception, if that chunk is retrieved and fits | All required evidence is available. The answer must still include the inventory and separate linked-file download. |
+| Focused subtask with source expansion | Matched procedure + its definition and exception | Check the same evidence, including the expanded text in the budget and avoiding duplicate section content. |
+
+The second and third candidates address this particular failure. Rerun the full question set after either change: a grouping that helps the procedure question can reduce focus for another question. Do not infer a retrieval improvement from the chunk layout alone.
+
+### Compare at the Same Text Budget
+
+Keep the documents, embedding model, search configuration, question set, and total retrieved-text budget fixed while changing one chunking choice at a time. Five 200-token chunks and five 800-token chunks offer different amounts of evidence. A fixed result count alone is not an equal-budget comparison.
+
+Use the same rule to select, expand, and deduplicate results until they fit. Record the actual text and token count supplied, including titles and source labels. Do not silently truncate the final chunk halfway through a condition. When comparing generated answers, keep the answering model, prompt, and generation settings fixed too.
+
+Score two outcomes separately:
+
+1. **Evidence available:** Did all passages needed for this question survive into the final context? One relevant passage is not a pass when the question requires three. Record missing passages, duplicate text, and irrelevant material.
+2. **Answer correct:** Did the answer use that evidence correctly, include the conditions, avoid unsupported additions, and cite the right source? Available evidence is not a guarantee that the model will use it.
+
+### Locate the Loss Before Changing the Splitter
+
+| Where evidence disappears | Next action |
+| --- | --- |
+| Missing from extracted text or indexed chunks | Fix parsing, discarded content, or truncation before testing retrieval. |
+| Present in chunks, absent from retrieved candidates | Inspect the query, filters, and representation. Test a title/context repair or a different boundary when the missing meaning explains the miss. |
+| Retrieved, then dropped during context assembly | Inspect ranking, duplication, expansion, and the text budget. Re-splitting may not be necessary. |
+| Present in the final context, absent or wrong in the answer | Inspect the answering stage before changing chunking. |
+
+Use this trace to choose the smallest useful change. Check both the failing question and the questions that previously worked.
+
+Keep a short decision record: boundaries and fallback, size limits and tokenizers, overlap, context added at each stage, source references, and the questions that pass or fail. Reassess when document types, questions, models, or budgets change. That record gives you a starting configuration you can explain and evidence for the next change.
