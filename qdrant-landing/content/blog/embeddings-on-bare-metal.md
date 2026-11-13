@@ -33,19 +33,11 @@ You might still be fine on embedded devices that have an operating system, a few
 
 Or can you?
 
-> For this blog post we used an [ESP32-S3](https://documentation.espressif.com/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf) board with 16MB of flash memory and 8MB of PSRAM, so everything (model and code) is sized for it. Find the repository [here](https://github.com/qdrant-labs/static-models-bm).
+> For this blog post we used an [ESP32-S3](https://documentation.espressif.com/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf) board with 16MB of flash memory and 8MB of PSRAM, so everything (model and code) is sized for it. We run a static embedding model with `no_std` Rust, baking the weights and the tokenizer vocabulary into the firmware at build time: the chip embeds 10-12 tokens in about 1.2 ms. If you want to jump to the code, go directly to [Make It Run!](#make-it-run).
 
 ## A Static Model Is All You Need
 
-As we just said, there are two things that block embedding models from running on bare metal: size and inference. That holds for transformer-based models like BERT or RoBERTa, which are large and whose inference is dominated by big matrix multiplications. But there is a class of models that are small and whose inference boils down to a table lookup plus a few mathematical operations: static embedding models.
-
-We did [a proper deep dive on static models](/articles/embedding-at-the-speed-of-light/), but here's a quick recap: their weights encode a lookup table that associates an embedding with each token in their vocabulary, and inference consists of three steps:
-
-- For each token, find its embedding in the table
-- Mean-pool all the token vectors (that is, take the average value for each dimension)
-- Perform [L2 normalization](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm), scaling the vector to unit length. This step is optional but improves retrieval quality
-
-As you can see, there's no torch required. In fact, we can express all of this in a few hundred lines of plain code, with no need for optimized matrix multiplications and the like.
+As we just said, there are two things that block embedding models from running on bare metal: size and inference. Transformer-based models like BERT or RoBERTa are large, and their inference is dominated by big matrix multiplications. Static embedding models are the exception: they are a lookup table with one embedding per vocabulary token, so inference is just tokenizing the text, reading a row per token, mean pooling, and (optionally) L2-normalizing. We covered [how they work](/articles/embedding-at-the-speed-of-light/) in a dedicated article, so here we only need the consequence: no torch, and a few hundred lines of plain code.
 
 {{< island
     path="content/headless/blog/embeddings-on-bare-metal/inference"
@@ -229,4 +221,4 @@ Given our previous article on static embedding models, you might expect this to 
 
 So, can you run an embedding model on bare metal? Yes, as long as it's a static one. For that, you don't need PyTorch, `tokenizers`, or even an operating system: all it takes is table of floats and a vocabulary baked into the binary, a WordPiece tokenizer in about 200 lines of `no_std` Rust, and a pooling loop. It won't break any speed records, but it fits on a chip with a few megabytes of memory, and it works.
 
-Embeddings on the edge: check. Next up, the other half of the dream: vector search on the chip itself.
+Embeddings on the edge: check. You can find the full code in [the repository](https://github.com/qdrant-labs/static-models-bm). Next up, the other half of the dream: vector search on the chip itself.
