@@ -97,7 +97,7 @@ A cluster is production-ready when it meets these minimums. The [Cloud Productio
 | Scaling headroom | At least 2 shards per node in each collection | Shard count at collection creation. [Resharding](/documentation/cloud/cluster-scaling/#resharding) changes it later |
 | Recovery | A backup schedule | **Backups** tab of the cluster. See [Backups](/documentation/cloud/backups/) |
 | Access | One key per application with an expiration, and the narrowest permission each needs | **API Keys** tab. Restrict client networks with [IP ranges](/documentation/cloud/configure-cluster/#client-ip-restrictions) |
-| Disk speed (AWS) | **Balanced** tier for disks of 32 GiB or more, **Performance** tier for 256 GiB or more | Cluster creation |
+| Disk speed (AWS) | **Cost-Optimized** tier (the default), unless the workload is write-heavy or has a low RAM cache ratio. Then **Balanced** for more IOPS and throughput, or **Performance** for the most | Cluster creation, or [later](/documentation/cloud/cluster-scaling/#changing-disk-speed) |
 | Monitoring | Alert emails reaching the account owner, and metrics scraped from `/metrics` and `/sys_metrics` | See [Monitoring](/documentation/cloud/cluster-monitoring/) |
 | Upgrades | Take a backup, update the cluster, then update the client SDKs. Keep each SDK within one minor version of the cluster | See [Updating Clusters](/documentation/cloud/cluster-upgrades/) |
 
