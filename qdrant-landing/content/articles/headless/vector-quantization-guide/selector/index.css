@@ -1,0 +1,389 @@
+/*
+ * selector island. Scoped under .qsel. Controls, chips, switches and the
+ * status text come from the shared .qi-* classes; this file only styles what
+ * is specific to the selector: sliders, the result card, impact tiles, and the
+ * comparison table.
+ */
+.qsel {
+  display: block;
+  text-align: left;
+}
+.qsel .qs-fig {
+  gap: 18px;
+}
+
+/* Sliders: two columns, one when the island is narrow. */
+.qsel .qs-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 28px;
+}
+.qsel .qs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.qsel .qs-field__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.qsel .qs-field__head label {
+  margin: 0;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+}
+.qsel .qs-field__head output {
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--qi-fg);
+  font-variant-numeric: tabular-nums;
+}
+.qsel input[type='range'] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--qi-fg);
+  cursor: pointer;
+}
+.qsel input[type='range']:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 3px;
+}
+.qsel .qs-hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--qi-muted);
+}
+.qsel .qs-chips {
+  gap: 10px 22px;
+}
+.qsel .qs-chips .qi-group {
+  gap: 6px;
+}
+.qsel .qs-chips .qi-hint {
+  margin-right: 2px;
+}
+
+/* Result card */
+.qsel .qs-result {
+  padding: 16px 18px;
+  border: 1px solid var(--qi-border);
+  border-left: 4px solid var(--qi-cat-1);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+}
+.qsel .qs-result p {
+  margin: 0;
+}
+.qsel .qs-result__kicker {
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-cat-1);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.qsel .qs-result__kicker--warn {
+  color: var(--qi-accent);
+}
+.qsel .qs-result__name {
+  margin: 4px 0 8px;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--qi-fg);
+}
+.qsel .qs-result__why {
+  font-size: 14px;
+  line-height: 1.55;
+}
+.qsel .qs-result__why + .qs-result__why {
+  margin-top: 6px;
+}
+.qsel .qs-settings {
+  margin-top: 10px !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 13px;
+}
+.qsel .qs-settings code {
+  padding: 2px 6px;
+  border: 1px solid var(--qi-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qsel .qs-settings a,
+.qsel .qs-link {
+  color: var(--qi-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.qsel .qs-note {
+  margin-top: 10px !important;
+  padding-top: 10px;
+  border-top: 1px dashed var(--qi-line);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--qi-muted);
+}
+
+/* Impact tiles */
+.qsel .qs-tiles__title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--qi-muted);
+}
+.qsel .qs-tiles__title strong {
+  color: var(--qi-fg);
+}
+.qsel .qs-link {
+  margin-left: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.qsel .qs-tiles__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.qsel .qs-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.qsel .qs-tile__label {
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+}
+.qsel .qs-tile__big {
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--qi-fg);
+  font-variant-numeric: tabular-nums;
+}
+.qsel .qs-tile__sub {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--qi-muted);
+}
+
+/* Comparison table */
+.qsel .qs-table-wrap {
+  overflow-x: auto;
+}
+.qsel .qs-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: var(--qi-fg);
+}
+.qsel .qs-table th,
+.qsel .qs-table td {
+  padding: 8px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--qi-border);
+  background: transparent;
+  text-align: left;
+  vertical-align: middle;
+  color: var(--qi-fg);
+}
+.qsel .qs-table thead th {
+  font-family: var(--qi-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--qi-muted);
+  white-space: nowrap;
+}
+.qsel .qs-table tbody th {
+  font-weight: 600;
+}
+.qsel .qs-row.is-out td,
+.qsel .qs-row.is-out th {
+  color: var(--qi-muted);
+}
+.qsel .qs-row.is-shown td,
+.qsel .qs-row.is-shown th {
+  background: var(--qi-surface);
+}
+.qsel .qs-row.is-best th {
+  box-shadow: inset 3px 0 0 var(--qi-cat-1);
+}
+.qsel .qs-pick {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
+}
+.qsel .qs-pick:hover {
+  text-decoration-color: currentColor;
+}
+.qsel .qs-pick:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 2px;
+}
+.qsel .qs-pick--static {
+  cursor: default;
+  text-decoration: none;
+}
+.qsel .qs-num {
+  display: block;
+  font-family: var(--qi-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.qsel .qs-na {
+  color: var(--qi-muted);
+}
+.qsel .qs-bar {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 4px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: var(--qi-border);
+}
+.qsel .qs-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 2px;
+  background: var(--qi-cat-1);
+}
+.qsel .qs-bar--recall i {
+  background: var(--qi-cat-3);
+}
+.qsel .qs-bar b {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--qi-accent);
+}
+.qsel .qs-verdict {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--qi-muted);
+}
+.qsel .qs-verdict--ok {
+  color: var(--qi-fg);
+}
+.qsel .qs-verdict--best {
+  color: var(--qi-cat-1);
+  font-weight: 600;
+}
+.qsel .qs-verdict--recall,
+.qsel .qs-verdict--ram,
+.qsel .qs-verdict--slow,
+.qsel .qs-verdict--metric {
+  color: var(--qi-accent);
+}
+.qsel .qs-foot {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--qi-muted);
+}
+.qsel .qs-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Narrow: one slider column, two tile columns, and the table becomes cards. */
+.qsel.qs-narrow .qs-controls {
+  grid-template-columns: minmax(0, 1fr);
+}
+.qsel.qs-narrow .qs-tiles__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.qsel.qs-narrow .qs-table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.qsel.qs-narrow .qs-table,
+.qsel.qs-narrow .qs-table tbody,
+.qsel.qs-narrow .qs-table tr,
+.qsel.qs-narrow .qs-table th,
+.qsel.qs-narrow .qs-table td {
+  display: block;
+}
+.qsel.qs-narrow .qs-row {
+  margin-bottom: 10px;
+  padding: 6px 0;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.qsel.qs-narrow .qs-table th,
+.qsel.qs-narrow .qs-table td {
+  border-bottom: 0;
+}
+.qsel.qs-narrow .qs-table td {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 12px;
+}
+.qsel.qs-narrow .qs-table td::before {
+  content: attr(data-label);
+  font-family: var(--qi-mono);
+  font-size: 11px;
+  color: var(--qi-muted);
+}
+.qsel.qs-narrow .qs-table td > .qs-num {
+  margin-left: auto;
+  text-align: right;
+}
+.qsel.qs-narrow .qs-table td > .qs-bar {
+  flex: none;
+  margin-top: 0;
+}
+.qsel.qs-narrow .qs-row.is-shown td,
+.qsel.qs-narrow .qs-row.is-shown th {
+  background: transparent;
+}
+.qsel.qs-narrow .qs-row.is-shown {
+  background: var(--qi-surface);
+}
+.qsel.qs-narrow .qs-row.is-best {
+  border-left: 3px solid var(--qi-cat-1);
+}
+.qsel.qs-narrow .qs-row.is-best th {
+  box-shadow: none;
+}

@@ -1,0 +1,49 @@
+/* scale island. Scoped under .qscale. Controls, chips and the status line come
+   from the shared .qi-* classes; this file styles the bars and labels. A bar
+   that fits in the chosen RAM uses the secondary brand blue (--qi-cat-1), one
+   that does not uses Qdrant red (--qi-accent) and also says "exceeds" in text,
+   so color is never the only cue. Labels are 14px. */
+
+.qscale {
+  display: block;
+  text-align: left;
+}
+.qscale .qi-fig {
+  gap: 16px;
+}
+/* Three lines of status text, reserved so a control change never reflows. */
+.qscale .qscale__status {
+  min-height: calc(3 * 1.45em);
+}
+
+.qscale .qscale-h,
+.qscale .qscale-sub {
+  fill: var(--qi-muted);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+.qscale .qscale-name,
+.qscale .qscale-num {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.qscale .qscale-name {
+  font-weight: 600;
+}
+.qscale .qscale-num.is-over {
+  fill: var(--qi-accent);
+  font-weight: 600;
+}
+.qscale .qscale-bar.is-fit {
+  fill: var(--qi-cat-1);
+}
+.qscale .qscale-bar.is-over {
+  fill: var(--qi-accent);
+}
+.qscale .qscale-ram {
+  stroke: var(--qi-fg);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}

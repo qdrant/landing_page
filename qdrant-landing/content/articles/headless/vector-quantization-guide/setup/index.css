@@ -1,0 +1,10 @@
+/* setup island. Scoped under .qset; the model chips and status line come from
+   the shared .qi-* classes. Data color: the secondary brand blue (--qi-cat-1)
+   for the float32 originals. Labels are 14px. */
+.qset { display: block; text-align: left; }
+.qset .qi-fig { gap: 16px; }
+.qset .qset-h, .qset .qset-sub { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 14px; }
+.qset .qset-name { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 600; }
+.qset .qset-task, .qset .qset-num { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.qset .qset-bar { fill: var(--qi-cat-1); }
+.qset .qset-sep { stroke: var(--qi-border); stroke-width: 1; }
