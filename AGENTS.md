@@ -39,7 +39,7 @@ Three things about the build cause more lost time than everything else combined:
 | `qdrant-landing/content/headless/`, `.../documentation/headless/` | Page bundles that are never published as URLs: code snippets, prompts |
 | `qdrant-landing/themes/qdrant-2024/` | The theme: layouts, shortcodes, SCSS, JS |
 | `qdrant-landing/layouts/` | Project layouts, which override the theme's |
-| `netlify/edge-functions/` | Netlify Edge Functions (Deno). `agent-skills.ts` serves `/.well-known/agent-skills/` from skills.qdrant.tech |
+| `netlify/edge-functions/` | Netlify Edge Functions (Deno). `agent-skills.ts` serves `/.well-known/agent-skills/` from skills.qdrant.tech. `agent-links.ts` adds `utm_term=<agent>` to the `utm_source=agent` links in `llms.txt` and `.md` pages for known agent User-Agents, and logs every reader |
 | `automation/` | Checks and generators, each with its own README |
 | `.github/workflows/` | CI |
 
