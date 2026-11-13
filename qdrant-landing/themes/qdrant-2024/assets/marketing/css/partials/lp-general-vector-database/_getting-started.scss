@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-general-vector-database-getting-started {
+  @include lp-general-vector-database-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-general-vector-database-header('lp-general-vector-database-getting-started', true, true);
+  @include lp-general-vector-database-cell('lp-general-vector-database-getting-started');
+  @include lp-general-vector-database-single('lp-general-vector-database-getting-started');
+  @include lp-general-vector-database-callout('lp-general-vector-database-getting-started', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}
+
+.lp-general-vector-database-getting-started__header { display: block; text-align: left; }
+.lp-general-vector-database-getting-started__heading, .lp-general-vector-database-getting-started__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-general-vector-database-getting-started__description { margin-top: $spacer; }

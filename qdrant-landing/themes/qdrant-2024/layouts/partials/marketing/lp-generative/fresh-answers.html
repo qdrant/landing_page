@@ -1,0 +1,33 @@
+{{ with (.Site.GetPage "/lp-generative/fresh-answers") }}
+  <section class="lp-generative-fresh-answers">
+    <div class="container">
+      <div class="lp-generative-fresh-answers__header">
+        <div class="lp-generative-fresh-answers__heading">
+          {{ with .Params.label }}<p class="lp-generative-fresh-answers__label">{{ . }}</p>{{ end }}
+          <h2 class="lp-generative-fresh-answers__title">{{ .Params.title }}</h2>
+        </div>
+        {{ with .Params.description }}<p class="lp-generative-fresh-answers__description">{{ . | markdownify }}</p>{{ end }}
+      </div>
+      {{ $n := len (default (slice) .Params.cards) }}{{ $cols := cond (gt $n 4) 3 $n }}
+      <div class="lp-generative-fresh-answers__grid{{ if eq $n 1 }} lp-generative-fresh-answers__grid--single{{ end }}" style="--cols: {{ $cols }}">
+        {{ range .Params.cards }}{{ $card := . }}
+          <div class="lp-generative-fresh-answers__card{{ if eq $n 1 }} lp-generative-fresh-answers__card--wide{{ end }}">
+            {{ with .icon }}<span class="lp-generative-fresh-answers__card-icon" aria-hidden="true"><img src="{{ .src }}" alt="" loading="lazy" /></span>{{ end }}
+            <h3 class="lp-generative-fresh-answers__card-title">{{ .title }}</h3>
+            <p class="lp-generative-fresh-answers__card-description">{{ .description | markdownify }}</p>
+            {{ with .url }}<a class="link link_md lp-generative-fresh-answers__card-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">Read the {{ $card.title }} case study</a>{{ end }}
+          </div>
+        {{ end }}
+      </div>
+      {{ with .Params.callout }}
+        <blockquote class="lp-generative-fresh-answers__callout">
+          {{ .text }}
+          {{ if .url }}<a href="{{ .url }}">{{ .label | default "Read the case study" }}</a>{{ end }}
+        </blockquote>
+      {{ end }}
+      {{ with .Params.button }}
+        <a class="link lp-generative-fresh-answers__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
