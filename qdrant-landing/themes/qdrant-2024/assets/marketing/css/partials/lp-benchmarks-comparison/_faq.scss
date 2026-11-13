@@ -1,0 +1,8 @@
+@use '../../helpers/functions' as *;
+
+.lp-benchmarks-comparison-faq {
+  @include lp-benchmarks-comparison-band(false, 5, 5);
+  &__title { @include lp-benchmarks-comparison-title(false, true); margin-bottom: $spacer * 2.5; text-align: left; }
+  @include media-breakpoint-up(lg) { &__title { margin-bottom: $spacer * 4; } }
+  .accordion { margin-left: 0; }
+}

@@ -1,0 +1,20 @@
+@use '../../helpers/functions' as *;
+
+.lp-similarity-vector-similarity-search {
+  @include lp-similarity-band(false, 5, 5);
+  @include lp-similarity-header('lp-similarity-vector-similarity-search');
+  @include lp-similarity-single('lp-similarity-vector-similarity-search');
+  @include lp-similarity-callout('lp-similarity-vector-similarity-search', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2 $spacer * 1.5; }
+  &__card { display: flex; flex-direction: column; align-items: flex-start; }
+  &__card-icon { @include lp-similarity-tile; margin-bottom: $spacer * 1.5; }
+  &__card-title { margin-bottom: $spacer * 0.5; font-size: $font-size-md; font-weight: $font-weight-semibold; line-height: 1.5; color: $neutral-20; }
+  &__card-link { margin-top: $spacer * 0.5; }
+  &__card-description { margin-bottom: 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-30; }
+  @include media-breakpoint-up(md) { &__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @include media-breakpoint-up(lg) { &__grid { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); } }
+}
+
+.lp-similarity-vector-similarity-search__header { display: block; text-align: left; }
+.lp-similarity-vector-similarity-search__heading, .lp-similarity-vector-similarity-search__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-similarity-vector-similarity-search__description { margin-top: $spacer; }
