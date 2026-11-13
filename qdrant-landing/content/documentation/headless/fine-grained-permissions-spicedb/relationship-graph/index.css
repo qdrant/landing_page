@@ -1,0 +1,37 @@
+/* A successful stylesheet response must also apply this scoped marker. */
+.qi-sp-graph { --qi-sp-ready: 1; }
+/* Geometry and contrast adjustments only; typography and colors inherit the
+   shared qi design system. Shared by the five figures of this tutorial:
+   neutral nodes, Qdrant in --qi-cat-4, SpiceDB and authorization in
+   --qi-cat-1, a found path in --qi-cat-3, a denial in --qi-accent. Every
+   color cue is repeated by a label, a dashed line, or dimming. */
+.qi-sp .qi-sp__node { stroke: var(--qi-muted); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.qi-sp .qi-sp__node--rel { stroke: var(--qi-line); }
+.qi-sp .qi-sp__node--qdrant { stroke: var(--qi-cat-4); }
+.qi-sp .qi-sp__node--authz { stroke: var(--qi-cat-1); stroke-width: 3; }
+.qi-sp .qi-sp__node--hot { stroke: var(--qi-cat-3); stroke-width: 3; }
+.qi-sp .qi-sp__node--deny { stroke: var(--qi-accent); stroke-width: 2.5; }
+.qi-sp .qi-sp__dim { opacity: 0.4; }
+.qi-sp .qi-sp__dashed { stroke-dasharray: 6 5; }
+.qi-sp .qi-sp__label { font-weight: 600; }
+.qi-sp .qi-sp__kicker { letter-spacing: 0.08em; }
+.qi-sp .qi-sp__edge { fill: none; stroke: var(--qi-muted); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.qi-sp .qi-sp__edge--hot { stroke: var(--qi-cat-3); stroke-width: 3; }
+.qi-sp .qi-sp__edge--deny { stroke: var(--qi-accent); stroke-dasharray: 6 5; }
+.qi-sp .qi-sp__head { fill: var(--qi-muted); }
+.qi-sp .qi-sp__head--hot { fill: var(--qi-cat-3); }
+.qi-sp .qi-sp__head--deny { fill: var(--qi-accent); }
+.qi-sp .qi-sp__cross { fill: var(--qi-surface); stroke: var(--qi-accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
+
+.qi-sp { container-type: inline-size; }
+.qi-sp__narrow { display: none; max-width: 340px; margin-inline: auto; }
+@container (max-width: 600px) {
+  .qi-sp__wide { display: none; }
+  .qi-sp__narrow { display: block; }
+}
+
+/* The shortcode reserves the narrow fallback even when this lazy stylesheet
+   cannot load. Expand only a successfully mounted illustration. */
+.island.is-ready[data-island='content/documentation/headless/fine-grained-permissions-spicedb/relationship-graph'] .island__stage {
+  max-width: 760px !important;
+}
