@@ -1,0 +1,21 @@
+.be-vocab { display: block; }
+.be-vocab .qi-title { font-size: 14px; }
+.be-vocab .qi-label { font-size: 13px; }
+.be-vocab .be-flow { fill: none; stroke: var(--qi-line); stroke-width: 1.4; opacity: 0.6; }
+.be-vocab .be-flow.is-selected { stroke: var(--qi-hot); stroke-width: 2; opacity: 1; }
+.be-vocab .be-arrowhead { fill: var(--qi-muted); }
+.be-vocab .be-count { fill: var(--qi-fg); }
+.be-vocab .be-slot { cursor: pointer; }
+.be-vocab .be-slot rect { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.5; }
+.be-vocab .be-slot text { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-fg); }
+.be-vocab .be-slot.is-selected rect { stroke: var(--qi-hot); stroke-width: 2.5; }
+.be-vocab .be-slot:focus-visible rect { stroke: var(--qi-accent); stroke-width: 2.5; }
+.be-vocab .be-slot:focus { outline: none; }
+.be-vocab .be-dots { font-size: 14px; fill: var(--qi-muted); }
+.be-vocab .be-entry { opacity: 0.5; }
+.be-vocab .be-entry.is-selected { opacity: 1; }
+.be-vocab .be-seg-id, .be-vocab .be-key-id { fill: var(--qi-cat-1); color: var(--qi-cat-1); }
+.be-vocab .be-seg-len, .be-vocab .be-key-len { fill: var(--qi-cat-2); color: var(--qi-cat-2); }
+.be-vocab .be-seg-bytes, .be-vocab .be-key-bytes { fill: var(--qi-cat-3); color: var(--qi-cat-3); }
+.be-vocab .be-key-id, .be-vocab .be-key-len, .be-vocab .be-key-bytes { fill: currentColor; }
+.be-vocab .be-ent-text { font-family: var(--qi-mono); font-size: 15px; fill: #fff; }

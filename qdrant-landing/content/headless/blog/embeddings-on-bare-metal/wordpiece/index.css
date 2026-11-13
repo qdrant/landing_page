@@ -1,0 +1,24 @@
+.be-wordpiece { display: block; }
+.be-wordpiece .qi-title { font-size: 14px; }
+.be-wordpiece .qi-label { font-size: 13px; }
+.be-wordpiece .be-word { cursor: pointer; }
+.be-wordpiece .be-word rect { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.5; }
+.be-wordpiece .be-word text { font-family: var(--qi-mono); font-size: 14px; fill: var(--qi-fg); }
+.be-wordpiece .be-word.is-selected rect { stroke: var(--qi-hot); stroke-width: 2.5; }
+.be-wordpiece .be-word:focus-visible rect { stroke: var(--qi-accent); stroke-width: 2.5; }
+.be-wordpiece .be-word:focus { outline: none; }
+.be-wordpiece .be-try rect { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.5; }
+.be-wordpiece .be-cand { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-fg); }
+.be-wordpiece .be-result { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-muted); }
+.be-wordpiece .be-try.is-hit .be-result { fill: var(--qi-fg); }
+.be-wordpiece .be-try.is-hit.is-1 rect { fill: var(--qi-cat-1); stroke: var(--qi-cat-1); }
+.be-wordpiece .be-try.is-hit.is-2 rect { fill: var(--qi-cat-2); stroke: var(--qi-cat-2); }
+.be-wordpiece .be-try.is-hit.is-3 rect { fill: var(--qi-cat-3); stroke: var(--qi-cat-3); }
+.be-wordpiece .be-try.is-hit.is-4 rect { fill: var(--qi-cat-4); stroke: var(--qi-cat-4); }
+.be-wordpiece .be-try.is-hit .be-cand { fill: #fff; }
+.be-wordpiece .be-out.is-1 { fill: var(--qi-cat-1); }
+.be-wordpiece .be-out.is-2 { fill: var(--qi-cat-2); }
+.be-wordpiece .be-out.is-3 { fill: var(--qi-cat-3); }
+.be-wordpiece .be-out.is-4 { fill: var(--qi-cat-4); }
+.be-wordpiece .be-out.is-unk { fill: var(--qi-muted); }
+.be-wordpiece .be-out-text { font-family: var(--qi-mono); font-size: 13px; fill: #fff; }

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg be-svg" viewBox="0 0 760 340" role="img" aria-label="WordPiece on the word hugs: starting from the whole word, the tokenizer drops the last character until the candidate is in the vocabulary, keeps it as a token, and repeats on the rest with the ## prefix. Result: hug, ##s."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.be-word { cursor: pointer; }
+.be-word rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.be-word text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; fill: #303547; }
+.be-word.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.be-word:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.be-word:focus { outline: none; }
+.be-try rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.be-cand { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.be-result { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #656b7f; }
+.be-try.is-hit .be-result { fill: #303547; }
+.be-try.is-hit.is-1 rect { fill: #6047ff; stroke: #6047ff; }
+.be-try.is-hit.is-2 rect { fill: #9c27b0; stroke: #9c27b0; }
+.be-try.is-hit.is-3 rect { fill: #00838f; stroke: #00838f; }
+.be-try.is-hit.is-4 rect { fill: #dc244c; stroke: #dc244c; }
+.be-try.is-hit .be-cand { fill: #fff; }
+.be-out.is-1 { fill: #6047ff; }
+.be-out.is-2 { fill: #9c27b0; }
+.be-out.is-3 { fill: #00838f; }
+.be-out.is-4 { fill: #dc244c; }
+.be-out.is-unk { fill: #656b7f; }
+.be-out-text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #fff; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="340" fill="#fff"/>
+    
+    <g class="be-word is-selected" data-word="0" role="button" tabindex="0" aria-pressed="true" aria-label="Word hugs">
+      <rect x="20" y="20" width="130" height="30" rx="6"/>
+      <text x="85" y="40" text-anchor="middle">hugs</text>
+    </g>
+    <g class="be-word" data-word="1" role="button" tabindex="0" aria-pressed="false" aria-label="Word tokenizer">
+      <rect x="170" y="20" width="130" height="30" rx="6"/>
+      <text x="235" y="40" text-anchor="middle">tokenizer</text>
+    </g>
+    <g class="be-word" data-word="2" role="button" tabindex="0" aria-pressed="false" aria-label="Word unhug">
+      <rect x="320" y="20" width="130" height="30" rx="6"/>
+      <text x="385" y="40" text-anchor="middle">unhug</text>
+    </g>
+    <g class="be-word" data-word="3" role="button" tabindex="0" aria-pressed="false" aria-label="Word qzx">
+      <rect x="470" y="20" width="130" height="30" rx="6"/>
+      <text x="535" y="40" text-anchor="middle">qzx</text>
+    </g>
+    <text class="qi-label" x="20" y="76">Candidates, longest first (the vocabulary is illustrative: hug, ##s, token, ##izer, un, ##hug, ##ged)</text>
+    <g class="be-try is-1">
+      <rect x="20" y="88" width="190" height="24" rx="5"/>
+      <text class="be-cand" x="32" y="105">hugs</text>
+      <text class="be-result" x="226" y="105">not in vocabulary: drop the last character</text>
+    </g><g class="be-try is-1 is-hit">
+      <rect x="20" y="118" width="190" height="24" rx="5"/>
+      <text class="be-cand" x="32" y="135">hug</text>
+      <text class="be-result" x="226" y="135">in vocabulary: keep it</text>
+    </g><g class="be-try is-2 is-hit">
+      <rect x="20" y="148" width="190" height="24" rx="5"/>
+      <text class="be-cand" x="32" y="165">##s</text>
+      <text class="be-result" x="226" y="165">in vocabulary: keep it</text>
+    </g>
+    <text class="qi-title" x="20" y="290">Tokens</text>
+    
+    <rect class="be-out is-1" x="20" y="300" width="100" height="26" rx="5"/>
+    <text class="be-out-text" x="70" y="318" text-anchor="middle">hug</text>
+    <rect class="be-out is-2" x="130" y="300" width="100" height="26" rx="5"/>
+    <text class="be-out-text" x="180" y="318" text-anchor="middle">##s</text>
+  </svg>

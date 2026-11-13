@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg be-svg" viewBox="0 0 760 330" role="img" aria-label="Static embedding inference on the chip: the tokenizer turns the text into token IDs, each ID selects one row of the embedding table, the rows are averaged into one vector, and the vector is scaled to unit length."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.be-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.be-arrowhead { fill: #656b7f; }
+.be-token { cursor: pointer; }
+.be-token rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.be-token text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.be-token.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.be-token:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.be-token:focus { outline: none; }
+.be-cell { stroke: none; opacity: 0.45; }
+.be-row.is-selected .be-cell { opacity: 1; }
+.be-dots { font-size: 14px; fill: #656b7f; }
+.be-row.is-1 .be-cell { fill: #6047ff; }
+.be-row.is-2 .be-cell { fill: #9c27b0; }
+.be-row.is-3 .be-cell { fill: #00838f; }
+.be-row.is-4 .be-cell { fill: #dc244c; }
+.be-pooled { fill: #656b7f; }
+.be-final { fill: #303547; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="330" fill="#fff"/>
+    <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="be-arrowhead" d="M0 0L10 5L0 10Z"/></marker></defs>
+    <text class="qi-title" x="20" y="34">1 · tokenize</text>
+    <text class="qi-title" x="200" y="34">2 · look up rows</text>
+    <text class="qi-title" x="400" y="34">3 · mean pool</text>
+    <text class="qi-title" x="590" y="34">4 · L2 normalize</text>
+    <text class="qi-label" x="20" y="58">"hugs are nice"</text>
+    
+    <g class="be-token is-1 is-selected" data-token="0" role="button" tabindex="0" aria-pressed="true" aria-label="Token hug, ID 7555">
+      <rect x="20" y="78" width="130" height="26" rx="6"/>
+      <text x="32" y="96">hug · 7,555</text>
+    </g>
+    <g class="be-token is-2" data-token="1" role="button" tabindex="0" aria-pressed="false" aria-label="Token ##s, ID 2015">
+      <rect x="20" y="130" width="130" height="26" rx="6"/>
+      <text x="32" y="148">##s · 2,015</text>
+    </g>
+    <g class="be-token is-3" data-token="2" role="button" tabindex="0" aria-pressed="false" aria-label="Token are, ID 2024">
+      <rect x="20" y="182" width="130" height="26" rx="6"/>
+      <text x="32" y="200">are · 2,024</text>
+    </g>
+    <g class="be-token is-4" data-token="3" role="button" tabindex="0" aria-pressed="false" aria-label="Token nice, ID 3835">
+      <rect x="20" y="234" width="130" height="26" rx="6"/>
+      <text x="32" y="252">nice · 3,835</text>
+    </g>
+    
+    <g class="be-row is-1 is-selected">
+      <rect class="be-cell" x="200" y="78" width="15" height="26" rx="3"/><rect class="be-cell" x="217" y="78" width="15" height="26" rx="3"/><rect class="be-cell" x="234" y="78" width="15" height="26" rx="3"/><rect class="be-cell" x="251" y="78" width="15" height="26" rx="3"/><rect class="be-cell" x="268" y="78" width="15" height="26" rx="3"/><rect class="be-cell" x="285" y="78" width="15" height="26" rx="3"/>
+      <text class="be-dots" x="304" y="96">…</text>
+    </g>
+    <path class="be-flow" d="M150 91H192" marker-end="url(#a)"/>
+    <path class="be-flow" d="M318 91C360 91 360 143 392 143" marker-end="url(#a)"/>
+    <g class="be-row is-2">
+      <rect class="be-cell" x="200" y="130" width="15" height="26" rx="3"/><rect class="be-cell" x="217" y="130" width="15" height="26" rx="3"/><rect class="be-cell" x="234" y="130" width="15" height="26" rx="3"/><rect class="be-cell" x="251" y="130" width="15" height="26" rx="3"/><rect class="be-cell" x="268" y="130" width="15" height="26" rx="3"/><rect class="be-cell" x="285" y="130" width="15" height="26" rx="3"/>
+      <text class="be-dots" x="304" y="148">…</text>
+    </g>
+    <path class="be-flow" d="M150 143H192" marker-end="url(#a)"/>
+    <path class="be-flow" d="M318 143C360 143 360 143 392 143" marker-end="url(#a)"/>
+    <g class="be-row is-3">
+      <rect class="be-cell" x="200" y="182" width="15" height="26" rx="3"/><rect class="be-cell" x="217" y="182" width="15" height="26" rx="3"/><rect class="be-cell" x="234" y="182" width="15" height="26" rx="3"/><rect class="be-cell" x="251" y="182" width="15" height="26" rx="3"/><rect class="be-cell" x="268" y="182" width="15" height="26" rx="3"/><rect class="be-cell" x="285" y="182" width="15" height="26" rx="3"/>
+      <text class="be-dots" x="304" y="200">…</text>
+    </g>
+    <path class="be-flow" d="M150 195H192" marker-end="url(#a)"/>
+    <path class="be-flow" d="M318 195C360 195 360 143 392 143" marker-end="url(#a)"/>
+    <g class="be-row is-4">
+      <rect class="be-cell" x="200" y="234" width="15" height="26" rx="3"/><rect class="be-cell" x="217" y="234" width="15" height="26" rx="3"/><rect class="be-cell" x="234" y="234" width="15" height="26" rx="3"/><rect class="be-cell" x="251" y="234" width="15" height="26" rx="3"/><rect class="be-cell" x="268" y="234" width="15" height="26" rx="3"/><rect class="be-cell" x="285" y="234" width="15" height="26" rx="3"/>
+      <text class="be-dots" x="304" y="252">…</text>
+    </g>
+    <path class="be-flow" d="M150 247H192" marker-end="url(#a)"/>
+    <path class="be-flow" d="M318 247C360 247 360 143 392 143" marker-end="url(#a)"/>
+    <rect class="be-pooled" x="400" y="130" width="116" height="26" rx="3"/>
+    <text class="qi-label" x="400" y="176">average of the rows,</text>
+    <text class="qi-label" x="400" y="194">per dimension</text>
+    <path class="be-flow" d="M516 143H582" marker-end="url(#a)"/>
+    <rect class="be-final" x="590" y="130" width="116" height="26" rx="3"/>
+    <text class="qi-label" x="590" y="176">one vector,</text>
+    <text class="qi-label" x="590" y="194">unit length</text>
+    <text class="qi-label qi-label--strong" x="20" y="300">row start for "hug" = 4 bytes × DIM × ID 7,555</text>
+  </svg>
