@@ -35,6 +35,22 @@ Qdrant Cloud repeats this one node at a time until every node in the cluster has
 - Replacing nodes can take a while, depending on how much data your cluster holds.
 - Replicating data to the new nodes increases the disk I/O load on your cluster until the process completes.
 
+### Changing Disk Speed
+
+On AWS, you can change the IOPS and throughput of your cluster's disks by picking a different disk speed tier. Each tier has more IOPS and throughput than the one before it:
+
+- **Cost-Optimized** (the default): the lowest IOPS and throughput. For test clusters and small production clusters.
+- **Balanced**: several times the IOPS and throughput of Cost-Optimized. For medium-sized clusters.
+- **Performance**: the most IOPS and throughput. For large clusters with a high write load.
+
+Each tier requires a minimum disk size.
+
+The more your workload reads from and writes to disk, the more it gains from a faster tier. This applies to write-heavy workloads, bulk loads, and configurations with a low RAM cache ratio, such as vectors in the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/). If disk I/O isn't the bottleneck, Cost-Optimized is enough.
+
+Pick the tier under **Disk Speed** in the Qdrant Cloud console, or pass `--disk-performance` with `balanced`, `cost-optimised`, or `performance` to `qcloud cluster scale` or `qcloud cluster update`. Changing the tier doesn't restart the nodes. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime).
+
+To decide whether your workload needs faster disks, see [Storage-Focused Configuration](/documentation/capacity-planning/#storage-focused-configuration).
+
 ## Horizontal Scaling
 
 Vertical scaling can be an effective way to improve the performance of a cluster and extend the capacity, but it has some limitations. The main disadvantage of vertical scaling is that there are limits to how much a cluster can be expanded. At some point, adding more resources to a cluster can become impractical or cost-prohibitive.
