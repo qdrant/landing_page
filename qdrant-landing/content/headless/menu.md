@@ -39,17 +39,6 @@ menuItems:
 #         name: Private Cloud
 #         icon: private-cloud.svg
 #         url: /private-cloud/
-      - id: mainMenu-0-1
-        name: What's New
-        subMenuItems:
-        - id: subMenu-0-7
-          name: Change Log
-          icon: changelog.svg
-          url: https://github.com/qdrant/qdrant/releases
-        - id: subMenu-0-8
-          name: Roadmap
-          icon: roadmap.svg
-          url: https://qdrant.to/roadmap
   - id: menu-1
     name: Solutions
     mainMenuItems:
