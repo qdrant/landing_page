@@ -37,7 +37,7 @@ export function render(ratio) {
   for (let i = 0; i < D; i++) {
     out.push(`<rect class="qprod-cell" x="${X0 + i * PITCH}" y="24" width="${CELL}" height="28" rx="4"/>`);
   }
-  out.push(`<text class="qprod-h" x="0" y="96">Each sub-vector becomes the id of its nearest centroid (example ids)</text>`);
+  out.push(`<text class="qprod-h" x="0" y="96">Each sub-vector becomes one byte: #id of its nearest centroid in the codebook (example ids)</text>`);
   for (let g = 0; g < groups; g++) {
     const x = X0 + g * r.per * PITCH;
     const w = r.per * PITCH - (PITCH - CELL);
@@ -47,7 +47,7 @@ export function render(ratio) {
       `<text class="qprod-num" x="${x + w / 2}" y="126" text-anchor="middle">#${centroidId(g, r.per)}</text>`,
     );
   }
-  out.push(`<text class="qprod-h" x="0" y="170">Codebook: 256 centroids per sub-vector, one byte each</text>`);
+  out.push(`<text class="qprod-h" x="0" y="170">Codebook: 256 centroids per sub-vector, so each #id fits in one byte</text>`);
   const full = 610;
   const bits = groups * 8;
   out.push(
