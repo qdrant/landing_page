@@ -1,7 +1,7 @@
 ---
 title: Running with GPU
-short_description: "Speed up Qdrant vector indexing with GPUs, and learn how to enable them on Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted deployments."
-description: "Enable GPU-accelerated vector indexing in Qdrant on Managed Cloud, Hybrid Cloud, Private Cloud, or self-hosted deployments with NVIDIA and AMD hardware, powered by the Vulkan compute API."
+short_description: "Speed up Qdrant vector indexing with GPUs, and learn how to enable them on Managed Cloud, Private Cloud, and self-hosted deployments."
+description: "Enable GPU-accelerated vector indexing in Qdrant on Managed Cloud, Private Cloud, or self-hosted deployments with NVIDIA and AMD hardware, powered by the Vulkan compute API."
 weight: 20
 aliases:
   - /documentation/guides/running-with-GPU/
@@ -20,12 +20,6 @@ Qdrant can use a GPU to build vector indices faster than a CPU can. This helps m
 ## Managed Cloud
 
 On Qdrant Managed Cloud, you add a GPU to each node when you create a cluster. GPUs are available on standard clusters on AWS, for higher RAM configurations. Qdrant Cloud configures all GPU settings for you. Refer to [Cluster Options](/documentation/cloud/create-cluster/#cluster-options) for how to choose a GPU.
-
-## Hybrid Cloud
-
-On Hybrid Cloud, the cluster runs on GPU nodes in your own Kubernetes cluster. You set the GPU type, NVIDIA or AMD, in the cluster configuration, which enables GPU indexing. You can also set the advanced options described in [Configuration](#configuration).
-
-Your Kubernetes cluster needs nodes with GPUs. Refer to [Schedule GPUs](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/) in the Kubernetes documentation and to [Configure, Scale & Update Qdrant Hybrid Cloud Clusters](/documentation/hybrid-cloud/configure-scale-upgrade/).
 
 ## Private Cloud
 
