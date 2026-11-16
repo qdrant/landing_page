@@ -4,6 +4,9 @@
     content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui"
   />
   <meta charset="UTF-8" />
+  {{ if partial "common/is-docs-part.html" . }}
+    {{ partial "documentation/theme-init.html" . }}
+  {{ end }}
 
   <!-- If the title contains "qdrant", don't add the - Qdrant suffix -->
   {{ if findRE `(?i)qdrant` .Title }}
