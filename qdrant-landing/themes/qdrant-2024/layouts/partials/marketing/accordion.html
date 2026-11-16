@@ -1,7 +1,10 @@
+{{/* Paid landing pages (sections lp-*) put the FAQ heading at h2, so the questions are h3, not h6
+     (Lighthouse heading-order, 2026-11-16). The SCSS sets the size, so both tags look the same. */}}
+{{ $tag := cond (hasPrefix .Section "lp-") "h3" "h6" }}
 <div class="accordion">
   {{ range $index, $element := .Params.questions }}
     <div class="accordion__item">
-      <h6 class="accordion__item-header">{{ .question }}</h6>
+      {{ printf "<%s class=\"accordion__item-header\">" $tag | safeHTML }}{{ .question }}{{ printf "</%s>" $tag | safeHTML }}
       <div class="accordion__item-body">
         <div class="accordion__item-body-content">
           {{ .answer | safeHTML }}

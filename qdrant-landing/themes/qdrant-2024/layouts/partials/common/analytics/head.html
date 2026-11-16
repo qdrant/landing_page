@@ -1,3 +1,7 @@
 {{/* Analytics in <head> for every page. Called from each part's js-head.html. */}}
+{{/* Paid landing pages (sections lp-*) have no form: Start Free is their only action. The forms
+     script is 200 KB compressed and render-blocking, so they skip it (Lighthouse mobile, 2026-11-16). */}}
+{{ if not (hasPrefix .Section "lp-") }}
 <!--Hubspot forms-->
 <script charset="utf-8" type="text/javascript" src="//js-eu1.hsforms.net/forms/embed/v2.js"></script>
+{{ end }}
