@@ -195,6 +195,17 @@ Four-bit TurboQuant gives 8× compression and, in every run we measured, recall 
 
 Counts and lengths come from Table 1 of the BEIR paper. Quora is 144 times larger than NFCorpus and its float32 originals take 2,142 MB at 1,024 dimensions, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, it is the only symmetric task, and its embeddings are the most centered, which is why binary quantization passes there (see [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall)). NFCorpus has 38.2 relevant documents per query against one to three elsewhere, which leaves recall@10 unchanged but shapes nDCG@10. We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), search with cosine distance on L2-normalized vectors, and run Qdrant v1.20.0 in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. The quantized copy is pinned in RAM and the originals stay `cold` (see [memory tiers](/documentation/ops-configuration/memory-tiers/)), and every query sets rescoring and oversampling explicitly because the defaults differ by method: on for binary and for TurboQuant at 1, 1.5, and 2 bits, off for scalar, product, and 4- and 8-bit TurboQuant. Fifty development queries tune each setting and 150 held-out test queries report it. We score ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, throughput uses eight concurrent clients, and memory is the Qdrant allocator heap after indexing and a search pass. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, with no recall moving by more than 0.025 and no pass or fail changing. The Colab notebook in the section title runs this setup on SciFact against any Qdrant 1.20 or later cluster, with no embedding API key.
 
+### Pick a Method for Your Collection
+
+The selector turns the measurements in this guide into a recommendation for your collection. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target. Click any row to see that method's impact on its own.
+
+{{< island path="content/articles/headless/vector-quantization-guide/selector"
+    ratio="3 / 4" >}}
+This selector needs JavaScript. Without it, use the [decision table in the quantization docs](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method).
+{{< /island >}}
+
+Every number the selector shows comes from the experimental setup described above: these datasets, these two embedding models, this machine, and Qdrant v1.20.0. Memory is exact arithmetic on your inputs. Recall, p95, and throughput are read from the measurements in this guide and interpolated, between the two embedding models by dimension count and between the corpora by sign imbalance; methods the guide did not measure for latency show n/m. Your collection will differ from these workloads in distribution, hardware, and load, so treat the recommendation as a starting point and verify it on your own data before you commit, as the [Limitations](#limitations) below explain.
+
 ### Limitations
 
 Two embedding models and four datasets show the shape of the trade-offs, not universal rules, and the sign-imbalance threshold comes from eight points, so test it on your own embeddings. Latency comes from an otherwise idle machine, and the throughput run shares its CPUs between client and server, so the ordering holds but the absolute numbers are not a capacity plan. We did not measure steady-state search with originals that permanently exceed RAM; if yours do, run `scripts/memory-pressure.sh` from the benchmark repository first. One of 57 builds (`turbo4` storage with a 4-bit TurboQuant copy on FiQA with BGE) returned recall 0.0 and is excluded from the datatype figures and reported to the Qdrant engineers as a defect. Most configurations were first measured on the previous Qdrant release and re-checked on v1.20.0 on NFCorpus with BGE, where recall moved by at most 0.004 in any of 178 ablation cells, and the float32 baselines on the other three corpora matched within 0.002. The 8-bit TurboQuant search copy and the `turbo8` and `turbo16` storage datatypes are new in v1.20 and were measured on v1.20.0 only, the search copy on NFCorpus with BGE alone. Neural quantizers, learned rotations, and dimensionality reduction are out of scope.
@@ -298,17 +309,6 @@ A pinned copy loads with the process, so a quantized collection answers its firs
 ### Memory Caps: Headroom Against Index Builds
 
 The trade-off is the RAM cap against a build that finishes. A first attempt capped the container at 1 GiB, below the 2.1 GB of originals. Under the cap the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, so a cap below them is a build problem before it is a search problem. We kept the results as a recorded outcome.
-
-## Pick a Method for Your Collection
-
-The selector turns the measurements in this guide into a recommendation for your collection. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target. Click any row to see that method's impact on its own.
-
-{{< island path="content/articles/headless/vector-quantization-guide/selector"
-    ratio="3 / 4" >}}
-This selector needs JavaScript. Without it, use the [decision table in the quantization docs](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method).
-{{< /island >}}
-
-Memory is exact arithmetic. Recall, p95, and throughput are read from the measurements in this guide and interpolated, between the two embedding models by dimension count and between the corpora by sign imbalance, so a result for a collection unlike those workloads is an estimate. Methods the guide did not measure for latency show n/m. [Limitations](#limitations) lists what the measurements cannot say.
 
 ## Further Readings
 

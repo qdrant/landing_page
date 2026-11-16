@@ -347,11 +347,11 @@ export function mount(node) {
   node.innerHTML = `
     <div class="qi-fig qs-fig">
       <div class="qs-controls">
-        ${field('vectors', 'Vectors', 'Points in the collection.')}
-        ${field('dims', 'Dimensions', 'Recall is measured at 384 and 1,024 and interpolated in between.')}
-        ${field('ram', 'RAM for the quantized copy', 'Leave room for the HNSW graph and payload indexes. They are not counted here.')}
-        ${field('target', 'Recall@10 target', 'Overlap with exact float32 search.')}
-        ${field('imbalance', 'Sign imbalance', 'Average distance between each coordinate\'s share of positive values and one half. Quora text sits near 0.13, FiQA and SciFact between 0.16 and 0.21.')}
+        ${field('vectors', 'Vectors')}
+        ${field('dims', 'Dimensions')}
+        ${field('ram', 'RAM for the quantized copy')}
+        ${field('target', 'Recall@10 target')}
+        ${field('imbalance', 'Sign imbalance')}
       </div>
       <div class="qi-controls qs-chips">
         <div class="qi-group" role="group" aria-label="Priority">
