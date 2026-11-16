@@ -21,21 +21,11 @@ keywords:
   - memory
 ---
 
-Production-scale search applications typically rely on high-dimensional vector embeddings. Common sizes and the models that produce them are summarized in this table:
-
-| Dimensions | Example models |
-|---|---|
-| 384 | all-MiniLM-L6-v2, e5-small-v2 |
-| 768 | BERT base, e5-base-v2 |
-| 1024 | e5-large-v2, bge-large-en-v1.5 |
-| 1536 | OpenAI text-embedding-3-small |
-| 3072 | OpenAI text-embedding-3-large |
-
-To put those numbers into perspective, one vector of 1536 dimensions takes 6KB of memory. If we were to store 1M of such 1536-dimensional vectors, the memory load would be about 6GB. This is before you count the HNSW graph, payloads, or a single replica. Quantization is a compression technique which makes the vectors take less storage while preserving the retrieval quality. To follow along with this guide, we recommend reading [What is vector quantization](/articles/what-is-vector-quantization/) first.
-
-This guide covers the four methods available in Qdrant: [Scalar Quantization](/documentation/manage-data/quantization/#scalar-quantization), [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization), [Product Quantization](/documentation/manage-data/quantization/#product-quantization), and [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), how each one encodes a vector, and what happened when we ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, 24 index builds per dataset. The numbers come from a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). The interactive selector in [Pick a Method for Your Collection](#pick-a-method-for-your-collection) helps you determine which quantization method is best for your use case and vector shape.
-
 ## Why Quantization Matters
+
+Vector search bills you for RAM. One 1,536-dimensional float32 vector takes 6 KB, so 100 million of them need 614 GB before you count the HNSW graph, payloads, or a single replica. Quantization shrinks the copy you search by 4x to 64x, and in our runs the best methods kept rescored recall within 0.01 of float32 HNSW. Each method pays for the memory differently: in recall, in latency, or in constraints on your embeddings. This guide measures those costs so you can pick one, and the selector in [Pick a Method for Your Collection](#pick-a-method-for-your-collection) turns the measurements into a recommendation for your collection.
+
+Qdrant ships four methods: [Scalar Quantization](/documentation/manage-data/quantization/#scalar-quantization), [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization), [Product Quantization](/documentation/manage-data/quantization/#product-quantization), and [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization). We ran all of them against the same corpora, queries, and index settings on one machine: four datasets from 3,600 to 523,000 documents, two embedding models, and 24 index builds per dataset, in a [benchmark you can rerun](https://github.com/qdrant-labs/quantization-comparison-bench). If quantization itself is new to you, [What is vector quantization](/articles/what-is-vector-quantization/) covers the basics.
 
 Memory grows linearly with the vector count and with the dimensions. Set your own dimensions, vector count, and RAM to see where float32 stops fitting and what each quantized copy brings back.
 
