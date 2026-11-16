@@ -346,6 +346,16 @@ The trade-off is the RAM cap against a build that finishes. A first attempt capp
 
 </details>
 
+## Conclusion
+
+- Quantization cut the searched copy by 4x to 64x, and the best methods kept rescored recall within 0.01 of float32.
+- Scalar int8 is the safe default: it met the 0.95 recall target on all eight workloads at the lowest search effort. 4-bit TurboQuant matched it at half the memory.
+- At equal compression TurboQuant beat binary on every workload; binary needs a sign imbalance below about 0.19.
+- Keep rescoring on: with oversampling 2 it recovered most of the lost recall for at most 0.04 ms of p95. Every method except product also searched faster than float32.
+- When disk is the constraint, `turbo8` and `turbo16` halve or quarter it for under a point of recall.
+
+[Pick a Method for Your Collection](#pick-a-method-for-your-collection) turns these measurements into a recommendation, and the [benchmark](https://github.com/qdrant-labs/quantization-comparison-bench) reruns them on your own workload.
+
 ## Further Readings
 
 - [Quantization documentation](/documentation/manage-data/quantization/)
