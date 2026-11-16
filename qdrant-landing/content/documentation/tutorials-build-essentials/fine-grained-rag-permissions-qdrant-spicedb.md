@@ -27,18 +27,24 @@ example_resources:
 
 # Fine-Grained RAG Permissions with Qdrant and SpiceDB
 
-| Time: 45 min | Level: Intermediate | Output: Permission-aware RAG pipeline |
+| Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/authzed/workshops/tree/main/secure-rag-pipelines) |
 | --- | --- | --- |
 
-A standard RAG pipeline answers questions using information retrieved from your documents. Qdrant stores their embeddings and associated metadata and finds relevant documents to provide as context to the language model. But without an authorization step, any user can get an answer from any document in the collection. This could lead to data leakage as a user might see information from documents they aren't allowed to read.
+A standard RAG pipeline answers questions using information retrieved from your documents. Qdrant stores their embeddings and associated metadata and finds relevant documents to provide as context to the language model. But without an authorization step, any user can get an answer from any document in the collection, including documents they aren't allowed to read. The [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/) lists this kind of leak as Sensitive Information Disclosure.
 
-For simple cases, there are coarse-grained techniques of adding access control such as [a department field in the payload](/documentation/manage-data/multitenancy/#partition-by-payload), and then using [payload filtering](/documentation/search/filtering/). But this breaks down in real-world scenarios when access gets more specific. For example:
+For simple cases, there are coarse-grained techniques of adding access control such as [payload filtering](/documentation/search/filtering/) on a department field. But this breaks down in real-world scenarios when access gets more specific. In the example this tutorial uses:
 
 - Engineering shares **one** architecture document with Sales.
-- A contractor can read two engineering guides and nothing else.
-- An executive needs a one-off exception for a document outside their department.
+- Bob, who works in Sales, has a one-off exception for one engineering guide.
+- Dana, a contractor, can read two engineering guides and nothing else.
 
-You could add pseudo-departments, copy allow-lists into every point's payload, or write `if-else` checks in application code. Each of these gets harder to maintain with every new rule, and none of them is easy to audit. In fact, the [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/) lists this kind of leak as Sensitive Information Disclosure.
+You could add pseudo-departments, copy allow-lists into every point's payload, or write `if-else` checks in application code. Each of these gets harder to maintain with every new rule, and none of them is easy to audit.
+
+This tutorial splits the job between two systems. **Qdrant finds** the documents that are relevant to a question, and **[SpiceDB](https://github.com/authzed/spicedb) decides** who can see them. Every Qdrant point carries a `doc_id` in its payload, SpiceDB stores who can view each `doc_id`, and an authorization step checks every retrieved document before any of them reach the LLM:
+
+{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/architecture" width="340" ratio="340 / 640" title="Fig. 1: The request flow. The application checks the candidate chunks from Qdrant in SpiceDB (step 3) before it builds the prompt for the LLM (step 4)." >}}
+![The user sends a query to the application, which runs five numbered steps. 1: it embeds the query with the embedding model. 2: it retrieves candidate chunks from Qdrant. 3: it checks permissions in SpiceDB. 4: it builds the prompt using only the authorized chunks and calls the LLM. 5: it returns the response to the user.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/architecture-mobile.png)
+{{< /island >}}
 
 In this tutorial, you'll use SpiceDB to:
 
@@ -46,47 +52,7 @@ In this tutorial, you'll use SpiceDB to:
 2. Add an authorization node that checks every retrieved document with `CheckBulkPermissions` before it reaches the LLM. The LLM can't skip it.
 3. Grant and revoke access to a document without touching your Qdrant collection.
 
-You can follow this tutorial, complete with a chatbot UI, in this self-guided [repository](https://github.com/authzed/workshops/tree/main/secure-rag-pipelines). Qdrant and SpiceDB run locally in Docker, and embeddings run locally with FastEmbed, so the only key you need is for any chat model (for example Claude, OpenAI, or Qwen)
-
-## What's Relationship-Based Access Control?
-
-**Relationship-Based Access Control (ReBAC)** decides access from the relationships between subjects (users, agents, groups) and resources (documents, folders, photos, or maps). It was popularized by Google's 2019 paper, [Zanzibar: Google's Consistent, Global Authorization System](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), which describes the authorization system behind Calendar, Drive, Maps, Photos, YouTube, and other Google services. If you've used any of these services (chances are that you have!), you've gone through the Zanzibar authorization system.
-
-In ReBAC, relationships form a graph, and every authorization decision answers one question:
-
-*Is this **actor** allowed to perform this **action** on this **resource**?*
-
-To answer it, the system checks whether a path exists in the graph between the resource and the actor.
-
-Take a document in Google Docs. When `user:alice` creates `document:somedocument`, Zanzibar records that Alice is a `writer` of the document as a **relationship tuple**:
-
-```text
-document:somedocument#writer@user:alice
-```
-
-When Alice shares the document with `user:bob` as a reader, Zanzibar writes another tuple:
-
-```text
-document:somedocument#reader@user:bob
-```
-
-The system also has a rule that every writer is also a reader. Together, the tuples and the rule form this graph:
-
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/relationship-graph" width="340" ratio="340 / 360" title="Fig. 1: Relationship graph for `somedocument`. Every `writer` is also a `reader`." >}}
-![The document somedocument has a reader relation, which points to Bob and Carol, and a writer relation, which points to Alice. A dashed edge shows that reader includes writer.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/relationship-graph-mobile.png)
-{{< /island >}}
-
-When Alice tries to read `somedocument`, Zanzibar looks for a path from the document's `reader` relation to Alice. There's no direct `reader` edge for Alice, but `reader` includes `writer`, and Alice is a writer, so she can read the document.
-
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/relationship-path" width="340" ratio="340 / 360" title="Fig. 2: The path that lets Alice read `somedocument`: `reader` includes `writer`, and Alice is a `writer`." >}}
-![The same graph with the path highlighted from somedocument to its reader relation, through the includes edge to writer, and on to Alice. Bob and Carol are dimmed.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/relationship-path-mobile.png)
-{{< /island >}}
-
-If no path exists, access is denied. So in this example Bob can't write to the document as there's no path from `somedocument` to `bob` via `writer`.
-
-The same model works for RAG. Per-document sharing, cross-department access, and one-off exceptions are all relationships that can be written to the system. Compare this to traditional authorization methods such as Role-Based Access Control or scoped tokens. Neither handles them without a new role or token for every exception.
-
-This tutorial uses [SpiceDB](https://github.com/authzed/spicedb), an open source implementation of Zanzibar, to store those relationships and answer permission checks. (Fun fact: SpiceDB is named in homage to Dune. "The spice must flow.") SpiceDB is used by Reddit, Netflix, OpenAI, Calendly, Zoom, and many more companies for authorization.
+You can follow this tutorial, complete with a chatbot UI, in this self-guided [repository](https://github.com/authzed/workshops/tree/main/secure-rag-pipelines). Qdrant and SpiceDB run locally in Docker, and embeddings run locally with FastEmbed, so the only key you need is for any chat model.
 
 ## Setup
 
@@ -171,41 +137,39 @@ qdrant.upload_points(
 
 Each point's payload includes a `doc_id`, like `engineering-architecture-001`. Qdrant point IDs must be unsigned integers or UUIDs, so the human-readable ID goes in the payload instead. SpiceDB uses the same ID for its `document` resources, and that shared ID is what connects the two systems. In this tutorial, each document is a single point. If you split documents into chunks, give every chunk its parent's `doc_id`, and the permission check stays the same.
 
-On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. You'll look at both in [Review the Permission Model](#review-the-permission-model).
+On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents.
 
-## Explore the Pipeline
+## How SpiceDB Decides Access
 
-The pipeline is a LangGraph state machine in `agentic_rag/graph.py`. It runs three nodes in order:
+SpiceDB is an open source implementation of [Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), the authorization system behind Google Drive, Calendar, YouTube, and other Google services. Reddit, Netflix, OpenAI, and many more companies use it for authorization.
 
-1. **`retrieve`** embeds the query and runs a vector search against Qdrant.
-2. **`authorize`** checks every retrieved document before the LLM sees it.
-3. **`generate`** asks the chat model for an answer, using only the authorized documents.
+SpiceDB uses **Relationship-Based Access Control (ReBAC)**, which decides access from the relationships between subjects (users, agents, groups) and resources (documents, folders). In ReBAC, relationships form a graph, and every authorization decision answers one question:
 
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/pipeline" width="340" ratio="340 / 360" title="Fig. 3: The pipeline. Every retrieved document passes the authorization step before generation." >}}
-![The application sends the query to retrieval in Qdrant, then to authorization in SpiceDB, then to generation by the LLM. The authorization step is highlighted.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/pipeline-mobile.png)
-{{< /island >}}
+*Is this **subject** allowed to perform this **action** on this **resource**?*
 
-The retrieval node, in `agentic_rag/nodes/retrieval_node.py`, runs a plain vector search:
+To answer it, the system checks whether a path exists in the graph between the resource and the subject. Take Bob, who works in Sales. SpiceDB stores his department membership as a **relationship tuple**:
 
-```python
-response = qdrant.query_points(
-    collection_name="Documents",
-    query=embed(state["query"]),
-    limit=5,
-    with_payload=True,
-    score_threshold=config.score_threshold,
-)
+```text
+department:sales#member@user:bob
 ```
 
-The query has no permission logic. Qdrant ranks documents by how relevant they are to the question, so any document in the collection can come back for any user. The `authorize` node is where access gets enforced, and in the starter code it passes every retrieved document straight to the LLM. You'll replace it in [Write the Authorization Node](#write-the-authorization-node).
+Engineering shared `engineering-architecture-001` with the whole sales team, which is another relationship:
 
-## Review the Permission Model
+```text
+document:engineering-architecture-001#viewer@department:sales#member
+```
 
-Before you write the authorization node, look at the permission model that the setup script loaded into SpiceDB. It has two parts which make up a working permissions system: a schema and relationships.
+To check whether Bob can view `engineering-architecture-001`, SpiceDB walks from the document through `viewer` to the sales department, and through `member` to Bob. The path exists, so Bob can view it. `engineering-architecture-002` was never shared, so its only viewers are members of Engineering. There's no path to Bob, so the check fails:
+
+{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/permission-check" width="340" ratio="340 / 356" title="Fig. 2: Two checks for `user:bob`. SpiceDB finds a path to Bob from `engineering-architecture-001`, but not from `engineering-architecture-002`." >}}
+![Two permission checks for user bob. For engineering-architecture-001, the path goes through viewer to the sales department and through member to bob, so the result is PERMISSIONSHIP_HAS_PERMISSION. For engineering-architecture-002, the path goes through viewer to the engineering department, but its member relation does not reach bob, so the result is PERMISSIONSHIP_NO_PERMISSION.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/permission-check-mobile.png)
+{{< /island >}}
+
+Per-document sharing, cross-department access, and one-off exceptions are all relationships like these. Role-Based Access Control or scoped tokens can't express them without a new role or token for every exception.
 
 ### Schema
 
-A SpiceDB **schema** defines the types of objects in your application, how they relate to one another, and the permissions computed from those relations. Here's `data/schema.zed`:
+A SpiceDB **schema** defines the types of objects in your application, how they relate to one another, and the permissions computed from those relations. Here's the workshop's `data/schema.zed`:
 
 ```text
 definition user {}
@@ -232,33 +196,62 @@ It defines:
 
 ### Relationships
 
-A **relationship** is a specific instance of a relation. The setup script wrote relationships for each access pattern from the introduction:
+A **relationship** is a specific instance of a relation. The setup script writes relationships for each access pattern from the introduction:
 
 | Access pattern | Example relationship |
 | :--- | :--- |
 | Department membership | `department:sales#member@user:bob` |
 | Department documents | `document:engineering-architecture-002#viewer@department:engineering#member` |
 | Cross-department share | `document:engineering-architecture-001#viewer@department:sales#member` |
-| Individual exception | `document:sales-proposal-001#viewer@user:alice` |
+| Individual exception | `document:engineering-guide-006#viewer@user:bob` |
 | Contractor | `document:engineering-guide-006#viewer@user:dana` |
 
 Every user also has a direct `viewer` relationship to each of the five public documents.
 
-To check whether Bob, who's in sales, can view `engineering-architecture-001`, SpiceDB walks the graph from the document to Bob. In this case he *does* have permission to view the doc.
+Your application asks SpiceDB whether a user can view a document with the `CheckPermission` API, or with `CheckBulkPermissions` to check many documents in one request.
 
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/permission-check" width="340" ratio="340 / 356" title="Fig. 4: Two checks for `user:bob`. SpiceDB finds a path to Bob from `engineering-architecture-001`, but not from `engineering-architecture-002`." >}}
-![Two permission checks for user bob. For engineering-architecture-001, the path goes through viewer to the sales department and through member to bob, so the result is PERMISSIONSHIP_HAS_PERMISSION. For engineering-architecture-002, the path goes through viewer to the engineering department, but its member relation does not reach bob, so the result is PERMISSIONSHIP_NO_PERMISSION.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/permission-check-mobile.png)
+## Choose Where to Check Permissions
+
+You can check permissions after Qdrant retrieves documents or before retrieval to narrow the search. Each approach has trade-offs.
+
+| Approach | How it works | Fits when | Trade-off |
+| :--- | :--- | :--- | :--- |
+| Post-filter (this tutorial) | Retrieve the top *k* from Qdrant, check them with `CheckBulkPermissions`, and drop the denied ones | Users can view most of the corpus | Denied documents take up top-*k* slots, leaving the LLM less context |
+| Pre-filter | List every document the user can view with SpiceDB's `LookupResources`, then filter the Qdrant search on those `doc_id` values | Users can view a small slice of the corpus | The ID list grows with everything the user can view |
+
+The weak spot of post-filtering is recall: if four of the five retrieved documents are denied, the LLM answers from one. Over-fetching more candidates and keeping the first *k* that pass fills the gap. Pre-filtering fills the top *k* with documents the user can view, but you fetch and send the list of IDs on every query. Part 3 of the workshop, [Pre-filter with LookupResources](https://github.com/authzed/workshops/blob/main/secure-rag-pipelines/3-pre-filter.md), has the full code.
+
+Also consider consistency. By default, SpiceDB answers checks from a cached snapshot that can be a few seconds old, so a share or a revoke might not apply to the very next query. When it has to, you can make the check read data at least as fresh as that write, as described in [Prepare for Production](#prepare-for-production).
+
+## Explore the Pipeline
+
+The pipeline is a LangGraph state machine in `agentic_rag/graph.py`. It runs three nodes in order:
+
+1. **`retrieve`** embeds the query and runs a vector search against Qdrant.
+2. **`authorize`** checks every retrieved document before the LLM sees it.
+3. **`generate`** asks the chat model for an answer, using only the authorized documents.
+
+{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/pipeline" width="340" ratio="340 / 360" title="Fig. 3: The pipeline. Every retrieved document passes the authorization step before generation." >}}
+![The application sends the query to retrieval in Qdrant, then to authorization in SpiceDB, then to generation by the LLM. The authorization step is highlighted.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/pipeline-mobile.png)
 {{< /island >}}
 
-There's no path from `engineering-architecture-002` to Bob, so he can't view it. Your application asks SpiceDB these questions with the `CheckPermission` API, or `CheckBulkPermissions` to check many documents at once.
+The retrieval node, in `agentic_rag/nodes/retrieval_node.py`, runs a plain vector search:
+
+```python
+response = qdrant.query_points(
+    collection_name="Documents",
+    query=embed(state["query"]),
+    limit=5,
+    with_payload=True,
+    score_threshold=config.score_threshold,
+)
+```
+
+The query has no permission logic. Qdrant ranks documents by how relevant they are to the question, so any document in the collection can come back for any user. The `authorize` node is where access gets enforced.
 
 ## Write the Authorization Node
 
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/architecture" width="340" ratio="340 / 640" title="Fig. 5: Where SpiceDB sits. The application checks the documents Qdrant returns before it sends any of them to the LLM." >}}
-![The user sends a query to the application. The application gets the embedded query from the embedding model, sends it to Qdrant, and receives relevant chunks. It checks those chunks with SpiceDB, then sends the query, context, and prompt to the LLM and returns the response to the user.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/architecture-mobile.png)
-{{< /island >}}
-
-The authorization node runs after retrieval and before generation, and drops every document the user can't view. This pattern is called **post-filter authorization**: retrieve first, then filter. The check has to happen **before** the LLM, because anything that reaches the model can end up in its answer and that's the security boundary you want to maintain.
+The authorization node runs after retrieval and before generation, and drops every document the user can't view. This is the post-filter approach. The check has to happen **before** the LLM, because anything that reaches the model can end up in its answer and that's the security boundary you want to maintain.
 
 The node checks all five documents with a single `CheckBulkPermissions` request instead of five `CheckPermission` calls. Replace the contents of `agentic_rag/nodes/authorization_node.py` with this:
 
@@ -374,13 +367,9 @@ Authorized: ['engineering-architecture-001']
 Denied: 4
 ```
 
-Retrieval returned five engineering architecture documents, the closest matches to the question. SpiceDB denied four of them. `engineering-architecture-001` passed because engineering shared it with sales. The answer in `result["answer"]` draws only on that document. The generation node also tells the model how many documents were denied, so the answer can say that some information wasn't accessible. The denied content itself never reaches the model.
+SpiceDB denied four of the five retrieved documents. `engineering-architecture-001` passed because engineering shared it with sales. The generation node also tells the model how many documents were denied, so the answer can say that some information wasn't accessible. The denied content itself never reaches the model.
 
 <aside role="status"><strong>Note</strong>: Here you pass <code>subject_id</code> yourself so you can switch users, for demo purposes. In production, set it on the server from the logged-in user's session, never from the request or the LLM, and don't send denied document IDs or titles back to users as that could constitute a data leak.</aside>
-
-### What About Qdrant's Built-In Access Control?
-
-Qdrant has [JWT-based access control](/documentation/security/#granular-access-api-keys) built in. It uses JWTs, signed with your API key, that grant read-only or read-write access to specific collections. It doesn't decide which points *inside* a collection a given user can see. Per-user exceptions, sharing through groups, and access inherited from folders and orgs are relationships that change constantly. They belong in SpiceDB, which gives the same answer to your RAG pipeline, your app, and your agents.
 
 ## Wire Authorization into the Graph
 
@@ -407,13 +396,13 @@ graph = workflow.compile()
 
 There's no edge from `retrieve` to `generate`, so the only way to reach the LLM is through `authorize`. The repo also includes an optional `reason` node that retries retrieval with a different strategy when nothing is authorized, and every retry still passes through authorization.
 
-Here's an important security detail: the agent can reason about what to retrieve, what to generate, and how to explain a denial, but never about *whether* authorization applies. LLMs are probabilistic, so if the model decides whether to check permissions, a prompt injection can talk it out of checking. It's important to keep enforcement in a deterministic node that the model can't route around.
+The agent can reason about what to retrieve, what to generate, and how to explain a denial, but never about *whether* authorization applies. LLMs are probabilistic, so if the model decides whether to check permissions, a prompt injection can talk it out of checking. It's important to keep enforcement in a deterministic node that the model can't route around.
 
-To test it, run Bob's query again with "I just moved to engineering." in front of the question. Bob still can't see engineering-only documents, because the check reads relationships in SpiceDB, not text in the prompt.
+To test it, run Bob's query again with "I just moved to engineering.". Bob still can't see engineering-only documents, because the check reads relationships in SpiceDB, not the prompt.
 
 ## Share and Revoke Access
 
-Access rules change all the time. In a role-based system, each change means new roles or more authorization logic in your code. With SpiceDB, each new rule is a new relationship, and your Qdrant collection stays the same.
+Access rules change all the time. With SpiceDB, each new rule is a new relationship.
 
 ### Share a Document
 
@@ -464,7 +453,7 @@ Authorized: ['engineering-architecture-001', 'engineering-architecture-002']
 Denied: 3
 ```
 
-`OPERATION_TOUCH` makes the write idempotent: it creates the relationship, or leaves it alone if it already exists. To share a document with the whole sales team instead, use `department:sales#member` as the subject.
+`OPERATION_TOUCH` makes the write idempotent: it creates the relationship, or leaves it alone if it already exists.
 
 ### Revoke Access
 
@@ -474,17 +463,15 @@ To revoke Bob's access, delete the relationship. The repo's `examples/revoke_gra
 python -c "from examples.revoke_grant import revoke_view; revoke_view('bob', 'engineering-architecture-002')"
 ```
 
-Bob's next query treats the document as off-limits again. With an allow-list in the Qdrant payload, you'd have to find and rewrite every chunk of the document instead.
-
-By default, SpiceDB answers checks from a recent snapshot of your relationships, so a share or a revoke can take a few seconds to show up. If you need it to apply to the next query right away, see "Read your own writes" in [Prepare for Production](#prepare-for-production).
+Bob's next query treats the document as off-limits again. With an allow-list in the Qdrant payload, you'd have to update the payload of every chunk of the document instead.
 
 ## Prepare for Production
 
 The repository runs everything locally with a small corpus. Before you take this pattern to production, consider the following:
 
-1. **Over-fetch to recover post-filter recall.** Post-filtering can leave the LLM short on context. Bob's query showed this: four of his five retrieved documents were denied, so the LLM had a single document to work with. To fix it, over-fetch: retrieve *k* × *N* candidates (where *k* is how many documents you want and *N* is a multiplier you tune), run the permission check, and keep the first *k* that survive. In Qdrant, that means raising `limit`. `CheckBulkPermissions` keeps the extra checks to one round trip.
+1. **Over-fetch to recover post-filter recall.** Raise `limit` in the retrieval node to *k* × *N*, where *k* is how many documents you want and *N* is a multiplier you tune, and keep the first *k* documents that pass the check.
 
-2. **Add a coarse-grained metadata filter.** You may also want to restrict results by department, recency, or classification. A Qdrant `query_filter` applies those conditions during the vector search, so you don't waste top-*k* slots on documents you'd throw away. SpiceDB still makes the fine-grained call afterwards:
+2. **Add a coarse-grained metadata filter.** Apply rules that hold for every user, such as department, recency, or classification, as a Qdrant `query_filter` during the vector search, so you don't waste top-*k* slots on documents you'd throw away. SpiceDB still makes the fine-grained call afterwards:
 
    ```python
    from qdrant_client.models import FieldCondition, Filter, MatchAny
@@ -500,9 +487,7 @@ The repository runs everything locally with a small corpus. Before you take this
    )
    ```
 
-   On a related note, when a user can see only a small slice, most retrieved documents get thrown away. In these use cases you could do a pre-filter authorization by calling SpiceDB's `LookupResources` API to list every document the user can view, and pass those IDs to Qdrant as a payload filter on `doc_id`. Part 3 of the workshop, [Pre-filter with LookupResources](https://github.com/authzed/workshops/blob/main/secure-rag-pipelines/3-pre-filter.md), has the full code.
-
-   To keep these filters fast, create a [payload index](/documentation/manage-data/indexing/#payload-index) on each field you filter on: `classification` for the coarse filter, and `doc_id` if you pre-filter with `LookupResources`. Qdrant can filter on any payload field, but an index lets its query planner estimate how selective a filter is and pick the fastest search strategy:
+   To keep these filters fast, create a [payload index](/documentation/manage-data/indexing/#payload-index) on each field you filter on:
 
    ```python
    from qdrant_client.models import PayloadSchemaType
@@ -515,7 +500,7 @@ The repository runs everything locally with a small corpus. Before you take this
        )
    ```
 
-3. **Keep relationships in sync with the source of truth.** In the repo, a setup script seeds the relationships. In production, they come from wherever access is managed, like your document system, HR directory, or identity provider. Write a relationship when a document is shared or someone joins a team, and delete it when access is revoked. Because permissions live in SpiceDB and not in the payload, none of this touches your Qdrant collection.
+3. **Keep relationships in sync with the source of truth.** In the repo, a setup script seeds the relationships. In production, they come from wherever access is managed, like your document system, HR directory, or identity provider. Write a relationship when a document is shared or someone joins a team, and delete it when access is revoked.
 
 4. **Read your own writes.** Every write to SpiceDB returns a [ZedToken](https://authzed.com/docs/spicedb/concepts/consistency#consistency-in-spicedb), an opaque token that marks the point in time of that write. Pass it as `at_least_as_fresh` consistency on the next check, and a share or revoke you just made is guaranteed to apply, without paying for `fully_consistent` on every query.
 
@@ -523,10 +508,6 @@ The repository runs everything locally with a small corpus. Before you take this
 
 ## Conclusion
 
-You added fine-grained permissions to a RAG pipeline on Qdrant with SpiceDB:
-
-- **Qdrant finds, SpiceDB decides.** Qdrant ranks documents by relevance, SpiceDB decides who can see them, and a `doc_id` in the payload connects the two.
-- **The check lives in a node, not a prompt.** A deterministic authorization node sits between retrieval and generation, and nothing reaches the LLM without passing through it.
-- **Access changes are writes, not reindexes.** Sharing or revoking a document is one relationship in SpiceDB, and your collection never changes.
+You added fine-grained permissions to a RAG pipeline on Qdrant: Qdrant finds relevant documents, SpiceDB decides who can see them, and a `doc_id` in the payload connects the two. Because the check is a deterministic node, the LLM can't skip it, and sharing or revoking access is a single SpiceDB write that never touches your collection.
 
 The full repository, including a chatbot UI, is [on GitHub](https://github.com/authzed/workshops/tree/main/secure-rag-pipelines). If distributed systems are your thing, check out the annotated Zanzibar paper at [zanzibar.tech](https://zanzibar.tech).

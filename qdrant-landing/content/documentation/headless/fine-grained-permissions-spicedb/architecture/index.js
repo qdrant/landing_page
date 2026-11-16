@@ -34,11 +34,15 @@ function open(w, h, cls, label) {
 
 const ROOT = 'qi-sp-arch';
 const HOT = false;
-const LABEL = 'The user sends a query to the application. The application gets the embedded query from the embedding model, sends it to Qdrant, and receives relevant chunks. It checks those chunks with SpiceDB with a CheckPermissionRequest and gets a CheckPermissionResponse back, then sends the query, context, and prompt to the LLM and returns the response to the user.';
+const LABEL = 'The user sends a query to the application, which runs five numbered steps. 1: it embeds the query with the embedding model. 2: it retrieves candidate chunks from Qdrant. 3: it checks permissions in SpiceDB with a CheckPermissionRequest and gets a CheckPermissionResponse back. 4: it builds the prompt using only the authorized chunks and calls the LLM. 5: it returns the response to the user.';
 
 /* Request flow around the application: embedding model, Qdrant, and the LLM,
    with SpiceDB checking the retrieved chunks before any reach the LLM. */
 const strong = 'qi-label--strong qi-sp__label';
+function step(x, y, n) {
+  return `<circle cx="${x}" cy="${y}" r="11" class="qi-sp__step"/>` +
+    `<text x="${x}" y="${y + 5}" class="qi-label qi-sp__step-num" style="font-size:14px;text-anchor:middle">${n}</text>`;
+}
 export function svg(narrow = false, id = ROOT) {
   if (narrow) {
     const W = 340, H = 640;
@@ -51,9 +55,9 @@ export function svg(narrow = false, id = ROOT) {
       `<text x="58" y="367" class="qi-label qi-label--strong qi-sp__label" style="font-size:18px;text-anchor:middle" transform="rotate(-90 58 367)">Application</text>`;
     const rows = [
       ['Embedding', 'model', '', ['query'], ['embedded', 'query']],
-      ['Qdrant', '', 'qi-sp__node--qdrant', ['embedded', 'query'], ['relevant', 'chunks']],
+      ['Qdrant', '', 'qi-sp__node--qdrant', ['embedded', 'query'], ['candidate', 'chunks']],
       ['SpiceDB', '', 'qi-sp__node--authz', ['Check', 'Permission', 'Request'], ['Check', 'Permission', 'Response']],
-      ['LLM', '', '', ['query +', 'context +', 'prompt'], ['response']],
+      ['LLM', '', '', ['query +', 'authorized', 'context +', 'prompt'], ['response']],
     ];
     rows.forEach(([a, b, cls, req, resp], i) => {
       const y = [120, 250, 390, 550][i];
@@ -62,28 +66,29 @@ export function svg(narrow = false, id = ROOT) {
         edge(id, `M102 ${y + 20} H204`) + edge(id, `M204 ${y + 44} H102`);
       const above = req.map((_, j) => y + 12 - (req.length - 1 - j) * 16);
       out += lines(153, above, req, 14, 'middle') +
-        lines(153, resp.map((_, j) => y + 62 + j * 16), resp, 14, 'middle');
+        lines(153, resp.map((_, j) => y + 62 + j * 16), resp, 14, 'middle') +
+        step(324, y, i + 1);
     });
-    return out + '</svg>';
+    return out + step(212, 93, 5) + '</svg>';
   }
   const W = 760, H = 372;
   let out = open(W, H, 'qi-sp__wide', LABEL) + defs(id) + frame(W, H) +
     box(16, 190, 110, 56) + text(71, 224, 'User', 20, strong) +
     edge(id, 'M128 218 H168') + text(148, 210, 'query', 14) +
-    edge(id, 'M230 248 V330 H71 V250') + text(150, 322, 'response', 14) +
+    edge(id, 'M230 248 V330 H71 V250') + text(150, 322, 'response', 14) + step(150, 292, 5) +
     box(170, 190, 574, 56) + text(457, 224, 'Application', 20, strong) +
     box(180, 20, 150, 60) + text(255, 46, 'Embedding', 18, strong) + text(255, 68, 'model', 16) +
     box(385, 20, 150, 60, 'qi-sp__node--qdrant') + text(460, 57, 'Qdrant', 18, strong) +
     box(590, 20, 150, 60) + text(665, 57, 'LLM', 18, strong) +
     edge(id, 'M210 188 V82') + lines(202, [112], ['query'], 14, 'end') +
-    edge(id, 'M300 82 V188') + lines(308, [154, 170], ['embedded', 'query'], 14, 'start') +
+    edge(id, 'M300 82 V188') + lines(308, [154, 170], ['embedded', 'query'], 14, 'start') + step(255, 135, 1) +
     edge(id, 'M415 188 V82') + lines(407, [104, 120], ['embedded', 'query'], 14, 'end') +
-    edge(id, 'M505 82 V188') + lines(513, [154, 170], ['relevant', 'chunks'], 14, 'start') +
-    edge(id, 'M620 188 V82') + lines(612, [98, 114, 130], ['query +', 'context +', 'prompt'], 14, 'end') +
+    edge(id, 'M505 82 V188') + lines(513, [164, 180], ['candidate', 'chunks'], 14, 'start') + step(460, 135, 2) +
+    edge(id, 'M620 188 V82') + lines(612, [96, 112, 128, 144], ['query +', 'authorized', 'context +', 'prompt'], 14, 'end') + step(665, 116, 4) +
     edge(id, 'M710 82 V188') + lines(702, [162], ['response'], 14, 'end') +
     box(425, 300, 170, 56, 'qi-sp__node--authz') + text(510, 334, 'SpiceDB', 18, strong) +
     edge(id, 'M455 248 V298') + lines(447, [270, 286], ['CheckPermission', 'Request'], 14, 'end') +
-    edge(id, 'M565 298 V248') + lines(573, [270, 286], ['CheckPermission', 'Response'], 14, 'start');
+    edge(id, 'M565 298 V248') + lines(573, [270, 286], ['CheckPermission', 'Response'], 14, 'start') + step(510, 273, 3);
   return out + '</svg>';
 }
 

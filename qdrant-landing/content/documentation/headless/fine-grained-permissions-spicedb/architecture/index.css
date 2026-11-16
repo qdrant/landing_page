@@ -21,6 +21,8 @@
 .qi-sp .qi-sp__head { fill: var(--qi-muted); }
 .qi-sp .qi-sp__head--hot { fill: var(--qi-cat-3); }
 .qi-sp .qi-sp__head--deny { fill: var(--qi-accent); }
+.qi-sp .qi-sp__step { fill: var(--qi-fg); }
+.qi-sp .qi-sp__step-num { fill: var(--qi-surface); font-weight: 600; }
 .qi-sp .qi-sp__cross { fill: var(--qi-surface); stroke: var(--qi-accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
 
 .qi-sp { container-type: inline-size; }
