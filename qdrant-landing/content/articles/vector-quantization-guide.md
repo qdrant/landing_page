@@ -168,9 +168,10 @@ Qdrant supports 1-, 1.5-, 2-, and 4-bit encoding, plus an 8-bit option (`bits8`)
 
 ## Rescoring and Oversampling
 
-A quantized vector approximates the original, so searching the compressed copy can miss true neighbors. Two per-query settings recover most of that loss, so one collection can serve a cheap feed query and an expensive deduplication query.
+A quantized vector approximates the original, so searching the compressed copy can miss some of the true nearest neighbors. To reduce that loss, you can use a two-stage search technique:
 
-**Oversampling** widens the first pass: with `limit=10` and `oversampling=2.0`, the search over the quantized copy returns 20 candidates instead of 10. **Rescoring** re-scores those candidates against the original vectors and returns the best 10. With it off, the quantized scores are final and the originals are never read.
+- **Step 1, oversampling:** the search engine widens the initial pass by fetching a larger pool of approximate candidates than requested (`limit` x `oversampling`) from the fast, compressed HNSW index. For example, with `limit=10` and `oversampling=2.0`, Qdrant retrieves 20 candidates instead of 10. If a true neighbor was ranked 14th, this step gives it a chance to be selected.
+- **Step 2, rescoring:** Qdrant recalculates the exact similarity between the query and each candidate using their original, uncompressed vectors, then re-sorts them to return the top `limit` results. A true neighbor that sat at position 14 during the approximate pass can climb into the top 10.
 
 <figure style="margin:1.25rem 0">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -16 800 282" style="width:100%;height:auto;display:block" role="img" aria-labelledby="qros-t qros-d">
