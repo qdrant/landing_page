@@ -1,15 +1,13 @@
 /* rescore island. Scoped under .qrs; controls and status come from .qi-*.
    The true neighbor at rough rank 14 is the single highlighted cell; red
-   marks a lost or never-fetched neighbor, teal marks a recovered one. */
+   marks it lost, teal marks it recovered. */
 .qrs { display: block; text-align: left; }
 .qrs .qi-fig { gap: 16px; }
-.qrs .qi-status--3 { min-height: calc(3 * 1.45em); }
+.qrs .qi-status--2 { min-height: calc(2 * 1.45em); }
 .qrs .qrs-h { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 15px; }
 .qrs .qrs-n { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 12px; }
 .qrs .qrs-n.is-hit { fill: #ffffff; }
-.qrs .qrs-n.is-miss { fill: var(--qi-accent); }
 .qrs .qrs-cell { fill: none; stroke: var(--qi-border); stroke-width: 1.5; }
 .qrs .qrs-cell.is-hit { fill: var(--qi-cat-1); stroke: var(--qi-cat-1); }
-.qrs .qrs-cell.is-miss { stroke: var(--qi-accent); stroke-dasharray: 4 3; }
 .qrs .qrs-note { fill: var(--qi-accent); font-family: var(--qi-mono); font-size: 15px; }
 .qrs .qrs-keep { fill: var(--qi-cat-3); font-family: var(--qi-mono); font-size: 15px; }
