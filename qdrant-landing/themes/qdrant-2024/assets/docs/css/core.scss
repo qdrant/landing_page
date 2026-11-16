@@ -65,6 +65,14 @@ html {
 }
 
 body {
+  // The page canvas follows the theme. Bootstrap's $body-bg is the light color,
+  // which showed through as a light flash in the dark theme wherever the
+  // content had not covered the viewport yet (first frames, overscroll).
+  background-color: $neutral-10;
+  [data-theme='light'] & {
+    background-color: $body-bg;
+  }
+
   &.no-scroll {
     overflow: hidden;
   }
