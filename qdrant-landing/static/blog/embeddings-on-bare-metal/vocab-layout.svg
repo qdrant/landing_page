@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg be-svg" viewBox="0 0 760 350" role="img" aria-label="The vocabulary blob: a count, then an index of byte offsets, one slot per token, then variable-length entries in sorted order. Each index slot points to one entry made of a four-byte ID, a one-byte length, and the token bytes. Selected: slot 2 points to the entry for hug with ID 7555."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.be-flow { fill: none; stroke: #abb1c7; stroke-width: 1.4; opacity: 0.6; }
+.be-flow.is-selected { stroke: #303547; stroke-width: 2; opacity: 1; }
+.be-arrowhead { fill: #656b7f; }
+.be-count { fill: #303547; }
+.be-slot { cursor: pointer; }
+.be-slot rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.be-slot text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.be-slot.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.be-slot:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.be-slot:focus { outline: none; }
+.be-dots { font-size: 14px; fill: #656b7f; }
+.be-entry { opacity: 0.5; }
+.be-entry.is-selected { opacity: 1; }
+.be-seg-id, .be-key-id { fill: #6047ff; color: #6047ff; }
+.be-seg-len, .be-key-len { fill: #9c27b0; color: #9c27b0; }
+.be-seg-bytes, .be-key-bytes { fill: #00838f; color: #00838f; }
+.be-key-id, .be-key-len, .be-key-bytes { fill: currentColor; }
+.be-ent-text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; fill: #fff; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="350" fill="#fff"/>
+    <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="be-arrowhead" d="M0 0L10 5L0 10Z"/></marker></defs>
+    <text class="qi-title" x="20" y="30">count + INDEX: fixed 4-byte slots</text>
+    <rect class="be-count" x="20" y="50" width="70" height="34" rx="6"/>
+    <text class="be-slot-text" x="55" y="72" text-anchor="middle" style="fill:#fff">N</text>
+    
+    <g class="be-slot" data-slot="0" role="button" tabindex="0" aria-pressed="false" aria-label="Index slot 0, entry ##s">
+      <rect x="110" y="50" width="124" height="34" rx="6"/>
+      <text x="172" y="72" text-anchor="middle">slot 0</text>
+    </g>
+    <path class="be-flow" d="M172 84C172 140 105 130 105 182" marker-end="url(#a)"/>
+    <g class="be-slot" data-slot="1" role="button" tabindex="0" aria-pressed="false" aria-label="Index slot 1, entry are">
+      <rect x="250" y="50" width="124" height="34" rx="6"/>
+      <text x="312" y="72" text-anchor="middle">slot 1</text>
+    </g>
+    <path class="be-flow" d="M312 84C312 140 285 130 285 182" marker-end="url(#a)"/>
+    <g class="be-slot is-selected" data-slot="2" role="button" tabindex="0" aria-pressed="true" aria-label="Index slot 2, entry hug">
+      <rect x="390" y="50" width="124" height="34" rx="6"/>
+      <text x="452" y="72" text-anchor="middle">slot 2</text>
+    </g>
+    <path class="be-flow is-selected" d="M452 84C452 140 465 130 465 182" marker-end="url(#a)"/>
+    <g class="be-slot" data-slot="3" role="button" tabindex="0" aria-pressed="false" aria-label="Index slot 3, entry nice">
+      <rect x="530" y="50" width="124" height="34" rx="6"/>
+      <text x="592" y="72" text-anchor="middle">slot 3</text>
+    </g>
+    <path class="be-flow" d="M592 84C592 140 645 130 645 182" marker-end="url(#a)"/>
+    <text class="be-dots" x="680" y="72">…</text>
+    <g class="be-entry">
+      <rect class="be-seg-id" x="20" y="190" width="70" height="48" rx="5"/>
+      <rect class="be-seg-len" x="90" y="190" width="40" height="48" rx="5"/>
+      <rect class="be-seg-bytes" x="130" y="190" width="60" height="48" rx="5"/>
+      <text class="be-ent-text" x="55" y="219" text-anchor="middle">2015</text>
+      <text class="be-ent-text" x="110" y="219" text-anchor="middle">3</text>
+      <text class="be-ent-text" x="160" y="219" text-anchor="middle">##s</text>
+    </g><g class="be-entry">
+      <rect class="be-seg-id" x="200" y="190" width="70" height="48" rx="5"/>
+      <rect class="be-seg-len" x="270" y="190" width="40" height="48" rx="5"/>
+      <rect class="be-seg-bytes" x="310" y="190" width="60" height="48" rx="5"/>
+      <text class="be-ent-text" x="235" y="219" text-anchor="middle">2024</text>
+      <text class="be-ent-text" x="290" y="219" text-anchor="middle">3</text>
+      <text class="be-ent-text" x="340" y="219" text-anchor="middle">are</text>
+    </g><g class="be-entry is-selected">
+      <rect class="be-seg-id" x="380" y="190" width="70" height="48" rx="5"/>
+      <rect class="be-seg-len" x="450" y="190" width="40" height="48" rx="5"/>
+      <rect class="be-seg-bytes" x="490" y="190" width="60" height="48" rx="5"/>
+      <text class="be-ent-text" x="415" y="219" text-anchor="middle">7555</text>
+      <text class="be-ent-text" x="470" y="219" text-anchor="middle">3</text>
+      <text class="be-ent-text" x="520" y="219" text-anchor="middle">hug</text>
+    </g><g class="be-entry">
+      <rect class="be-seg-id" x="560" y="190" width="70" height="48" rx="5"/>
+      <rect class="be-seg-len" x="630" y="190" width="40" height="48" rx="5"/>
+      <rect class="be-seg-bytes" x="670" y="190" width="80" height="48" rx="5"/>
+      <text class="be-ent-text" x="595" y="219" text-anchor="middle">3835</text>
+      <text class="be-ent-text" x="650" y="219" text-anchor="middle">4</text>
+      <text class="be-ent-text" x="710" y="219" text-anchor="middle">nice</text>
+    </g>
+    <text class="qi-title" x="20" y="268">ENTRIES: variable length, sorted by token bytes</text>
+    <text class="qi-label" x="20" y="290"><tspan class="be-key-id">■</tspan> ID, 4 bytes<tspan class="be-key-len" dx="24">■</tspan> length, 1 byte<tspan class="be-key-bytes" dx="24">■</tspan> token bytes, UTF-8</text>
+    <text class="qi-label qi-label--strong" x="20" y="320">slot 2 stores the offset of "hug": ID 7,555, 3 bytes. Binary search compares token bytes and returns the ID.</text>
+  </svg>
