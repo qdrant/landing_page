@@ -110,7 +110,7 @@ Test [HNSW inline storage](/documentation/ops-optimization/optimize/#inline-stor
 
 That second cost scales with edge count and vector size, not point count, so it can grow far faster than the collection does.
 
-Since Qdrant 1.20, rebuilt indexed segments with inline storage keep original vectors only in the HNSW file. `hnsw_config.memory` controls their placement there; `vectors.memory` has no effect.
+Since Qdrant 1.20, rebuilt indexed segments with [inline storage](/documentation/ops-configuration/memory-tiers/#inline-storage) keep original vectors only in the HNSW file. `hnsw_config.memory` controls their placement there; `vectors.memory` has no effect.
 
 {{< island path="content/documentation/headless/memory-tiers/hnsw-inline" ratio="960 / 470" >}}
 ![A standard HNSW graph stores a link per edge; inline storage attaches a compressed vector copy to every edge instead, so on-disk graph size grows with edge count, not just point count, and the gap between the two widens as a collection scales](/articles_data/memory-tiers-in-qdrant-what-to-use-and-when/visuals/hnsw-storage-blowup.png)
