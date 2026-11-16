@@ -133,15 +133,7 @@ html:not([data-product]) .product-scoped--block > .product-scoped__body {
   }
 }
 
-.product-banner__label {
-  display: inline-block;
-  padding: 0 $spacer * 0.5;
-  border: 1px solid $neutral-40;
-  border-radius: 999px;
-}
-
-.product-banner__mismatch {
-  display: none;
+.product-banner__message {
   padding: $spacer * 0.75 $spacer;
   border-left: 3px solid $neutral-60;
   border-radius: 4px;
@@ -149,15 +141,15 @@ html:not([data-product]) .product-scoped--block > .product-scoped__body {
   color: $neutral-90;
 }
 
-html[data-product] .product-banner__label {
+.product-banner__mismatch {
   display: none;
 }
 
-[data-theme='light'] .product-banner__label {
-  border-color: $neutral-90;
+html[data-product] .product-banner__all {
+  display: none;
 }
 
-[data-theme='light'] .product-banner__mismatch {
+[data-theme='light'] .product-banner__message {
   background-color: $neutral-94;
   color: $neutral-30;
 }

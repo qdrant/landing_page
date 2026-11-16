@@ -1,10 +1,10 @@
 {{- /*
   Banner for a page tagged with front matter products: [...].
-  Which parts show is decided by CSS from <html data-product>: a small
-  label when no product is selected, nothing on a match, and the full
-  message on a mismatch.
+  Which message shows is decided by CSS from <html data-product>: which
+  products the page is for when no product is selected, nothing on a
+  match, and that it does not apply on a mismatch.
 */ -}}
 {{- with .Params.products -}}
   {{- $r := partial "common/products/resolve.html" (dict "products" . "where" (printf "%s: front matter" $.File.Path)) -}}
-  <div class="product-banner" role="note" data-products="{{ delimit $r.keys " " }}"><p class="product-banner__label">{{ $r.text }} only</p><p class="product-banner__mismatch">The information on this page is not applicable to <span class="product-scoped__selected"></span> (only applicable to {{ $r.text }}).</p></div>
+  <div class="product-banner" role="note" data-products="{{ delimit $r.keys " " }}"><p class="product-banner__message product-banner__all">The information on this page is only applicable to {{ $r.text }}.</p><p class="product-banner__message product-banner__mismatch">The information on this page is not applicable to <span class="product-scoped__selected"></span> (only applicable to {{ $r.text }}).</p></div>
 {{- end -}}
