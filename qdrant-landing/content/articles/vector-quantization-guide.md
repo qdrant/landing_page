@@ -183,8 +183,8 @@ A quantized vector approximates the original, so searching the compressed copy c
     .qros-cell.is-hit { fill: #6047ff; stroke: #6047ff; }
     .qros-brace { fill: none; stroke: #abb1c7; stroke-width: 1.5; }
     .qros-brace.is-lost { stroke: #dc244c; }
-    .qros-note { fill: #dc244c; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 13px; }
-    .qros-keep { fill: #1a9d63; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 13px; }
+    .qros-note { fill: #dc244c; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qros-keep { fill: #00838f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
     .qros-arrow { stroke: #303547; stroke-width: 1.5; fill: none; }
   </style>
   <rect x="-20" y="-16" width="800" height="282" fill="#FFFFFF" rx="12"/>
@@ -244,6 +244,7 @@ A quantized vector approximates the original, so searching the compressed copy c
   <text class="qros-keep" x="0" y="220">the best 10 by exact score are returned, the rank-14 candidate among them</text>
   <text class="qros-h" x="0" y="248">cost: 20 original vectors read per query, not the whole collection</text>
 </svg>
+<figcaption style="margin-top:8px;font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-size:13px;color:#656b7f">One query at limit 10 with oversampling 2.0. The ranks are illustrative.</figcaption>
 </figure>
 
 The experiments in this guide use both to recover the accuracy that quantization loses.
@@ -293,16 +294,16 @@ The experiment behind this article, although it runs across four datasets and tw
 
 ## Measured Trade-Offs
 
-Every method buys memory with recall, speed, or both. Six findings carry the section:
+Every method buys memory with recall, speed, or both. The key finding from each trade-off:
 
-- Rescoring is a small correction at 4 bits and above and the whole method at 2 bits and below, and it added at most 0.04 ms to p95.
-- Scalar and 4-bit TurboQuant met the 0.95 recall target on all eight workloads at the lowest search effort offered; 4-bit did it at half of scalar's memory.
-- At equal compression, TurboQuant beat binary on every workload.
-- Binary passed only where sign imbalance stayed below about 0.19, a number you can compute on your own vectors in seconds.
-- Product quantization fits the tightest RAM budgets but was the slowest method everywhere, the only one slower than float32.
-- A pinned quantized copy answered cold queries in about 10 ms where float32 took more than a second.
-
-Each section below takes one lever and prices it: what it saves and what it costs.
+- [Rescoring: Recall Against Extra Reads](#rescoring-recall-against-extra-reads): a small correction at 4 bits and above, the whole method at 2 bits and below, for at most 0.04 ms of p95.
+- [Oversampling: Recall Against Search Effort](#oversampling-recall-against-search-effort): scalar and 4-bit TurboQuant met the 0.95 target on all eight workloads at the lowest effort offered, 4-bit at half of scalar's memory.
+- [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall): binary passed only below about 0.19 sign imbalance, and at equal compression TurboQuant beat it on every workload.
+- [Storage Datatypes: Disk Against Recall](#storage-datatypes-disk-against-recall): `turbo8` and `turbo16` halve or quarter the disk for under a point of recall.
+- [Pinned Copies: RAM Against Latency](#pinned-copies-ram-against-latency): every quantized copy searched faster than float32 on the same graph except product, the only method slower than float32.
+- [Throughput: Compression Against Queries per Second](#throughput-compression-against-queries-per-second): float32 delivered about 70% of the quantized throughput, product under half.
+- [Cold Start: RAM Against First-Query Latency](#cold-start-ram-against-first-query-latency): a pinned quantized copy answered cold queries in about 10 ms where float32 took more than a second.
+- [Memory Caps: Headroom Against Index Builds](#memory-caps-headroom-against-index-builds): a RAM cap below the originals kills the index build before it ever slows a search.
 
 ### Rescoring: Recall Against Extra Reads
 
