@@ -1,0 +1,104 @@
+@use '../helpers/functions' as *;
+
+.partners-directory {
+  padding: $spacer * 4 0;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-10;
+    text-align: center;
+    margin-bottom: $spacer;
+  }
+
+  &__description {
+    color: $neutral-30;
+    text-align: center;
+    max-width: pxToRem(730);
+    margin: 0 auto $spacer * 3;
+  }
+
+  &__group {
+    margin-bottom: $spacer * 3.5;
+  }
+
+  &__group_implementation &__logo,
+  &__group_resell &__logo {
+    height: pxToRem(32);
+
+    img {
+      max-width: pxToRem(120);
+    }
+  }
+
+  &__group-title {
+    font-size: pxToRem(28);
+    color: $neutral-10;
+    margin-bottom: $spacer * 0.5;
+  }
+
+  &__group-description {
+    color: $neutral-30;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: $spacer * 1.5;
+    border-radius: pxToRem(12);
+    background: #fff;
+
+    &-title {
+      font-size: pxToRem(20);
+      color: $neutral-10;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &-description {
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $neutral-30;
+      margin-bottom: $spacer;
+    }
+
+    &-link {
+      margin-top: auto;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    height: pxToRem(48);
+    margin-bottom: $spacer;
+
+    img {
+      max-height: 100%;
+      max-width: pxToRem(160);
+    }
+
+    &-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: pxToRem(48);
+      height: pxToRem(48);
+      font-weight: 600;
+      color: $neutral-10;
+      border: 1px solid $neutral-60;
+      border-radius: pxToRem(10);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: $spacer * 6 0;
+
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: pxToRem(67);
+    }
+  }
+}
