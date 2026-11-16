@@ -262,7 +262,7 @@ export function fmtCount(n) {
   return `${n / 1e3}k`;
 }
 
-const fmtX = (x) => (x >= 10 ? x.toFixed(0) : x.toFixed(x >= 1 ? 1 : 2)).replace(/\.0$/, '') + '×';
+const fmtX = (x) => (x >= 10 ? x.toFixed(0) : x.toFixed(x >= 1 ? 1 : 2)).replace(/\.0$/, '') + 'x';
 
 // ---------------------------------------------------------------------------
 // View
@@ -419,8 +419,8 @@ export function mount(node) {
         <th scope="row">${esc(m.name)}</th>
         ${cell('Copy in RAM', `<span class="qs-num">${fmtBytes(r.ram)}</span><span class="qs-bar"><i style="width:${memPct}%"></i></span>`)}
         ${cell('Recall@10', r.recall == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${fmtR(r.recall)}</span><span class="qs-bar qs-bar--recall"><i style="width:${recPct}%"></i><b style="left:${tick}%"></b></span>`)}
-        ${cell('p95', r.p95 == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${m.id === 'f32' ? '1×' : fmtX(r.p95)}</span>`)}
-        ${cell('QPS', r.qps == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${m.id === 'f32' ? '1×' : fmtX(r.qps)}</span>`)}
+        ${cell('p95', r.p95 == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${m.id === 'f32' ? '1x' : fmtX(r.p95)}</span>`)}
+        ${cell('QPS', r.qps == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${m.id === 'f32' ? '1x' : fmtX(r.qps)}</span>`)}
         ${cell('Verdict', `<span class="qs-verdict qs-verdict--${m.id === best ? 'best' : r.verdict.tag}">${m.id === best ? 'Recommended' : esc(r.verdict.text)}</span>`)}
       </tr>`;
     });
@@ -447,7 +447,7 @@ export function mount(node) {
     let status = '';
     if (storageWins) {
       status = `<p class="qs-settings">Set up <strong>turbo4 storage</strong>: <code>datatype: turbo4</code> <a href="${DOCS}">Quantization docs</a></p>
-        <p class="qs-note">The originals shrink 8× on disk; that loss is permanent and cannot be undone without re-ingesting. If RAM is also tight, pair it with a pinned search copy.</p>`;
+        <p class="qs-note">The originals shrink 8x on disk; that loss is permanent and cannot be undone without re-ingesting. If RAM is also tight, pair it with a pinned search copy.</p>`;
     } else if (rec.pick) {
       const m = rec.pick.method;
       const anchor = { scalar: '#setting-up-scalar-quantization', turbo: '#setting-up-turboquant', binary: '#setting-up-binary-quantization', product: '#setting-up-product-quantization' }[m.family];

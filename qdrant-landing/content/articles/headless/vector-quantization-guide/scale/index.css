@@ -20,7 +20,7 @@
 .qscale .qscale-sub {
   fill: var(--qi-muted);
   font-family: var(--qi-mono);
-  font-size: 14px;
+  font-size: 15px;
 }
 .qscale .qscale-name,
 .qscale .qscale-num {

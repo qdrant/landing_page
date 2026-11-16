@@ -33,9 +33,9 @@ export const DEFAULTS = { dims: 1536, count: 1e8, ram: 256e9 };
 
 export const ROWS = [
   { id: 'f32', name: 'float32 originals', ratio: 1 },
-  { id: 'sq', name: 'Scalar int8 · 4×', ratio: 4 },
-  { id: 'tq', name: 'TurboQuant 4-bit or product x8 · 8×', ratio: 8 },
-  { id: 'bq', name: 'Binary 1-bit · 32×', ratio: 32 },
+  { id: 'sq', name: 'Scalar int8 · 4x', ratio: 4 },
+  { id: 'tq', name: 'TurboQuant 4-bit or product x8 · 8x', ratio: 8 },
+  { id: 'bq', name: 'Binary 1-bit · 32x', ratio: 32 },
 ];
 
 const VB_W = 760;
@@ -73,7 +73,7 @@ export function statusText(dims, count, ram) {
   const over = `That is ${times(f32 / ram)} times the ${ramLabel} of RAM.`;
   if (first) return `${head} ${over} The first copy that fits is ${first.name.split(' · ')[0]} at ${fmtBytes(first.bytes)}.`;
   const last = rows[rows.length - 1];
-  return `${head} ${over} Even the 32× copy takes ${fmtBytes(last.bytes)}, ${times(last.bytes / ram)} times the RAM.`;
+  return `${head} ${over} Even the 32x copy takes ${fmtBytes(last.bytes)}, ${times(last.bytes / ram)} times the RAM.`;
 }
 
 // Returns the inner markup of the SVG (no <svg> wrapper).

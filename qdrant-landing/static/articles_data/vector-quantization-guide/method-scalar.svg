@@ -11,7 +11,7 @@
     .qscalar .qscalar__val input { width: 160px; margin: 0; accent-color: #303547; cursor: pointer; }
     .qscalar .qscalar__val input:focus-visible { outline: 2px solid #303547; outline-offset: 3px; }
     .qscalar .qscalar__val output { min-width: 3.2em; color: #303547; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-    .qscalar .qscalar-h { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qscalar .qscalar-h { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 15px; }
     .qscalar .qscalar-bin.is-in { fill: #6047ff; }
     .qscalar .qscalar-bin.is-out { fill: #dc244c; }
     .qscalar .qscalar-bound { stroke: #303547; stroke-width: 1.5; stroke-dasharray: 4 3; }

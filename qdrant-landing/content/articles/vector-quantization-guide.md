@@ -176,15 +176,15 @@ A quantized vector approximates the original, so searching the compressed copy c
   <title id="qros-t">Oversampling and rescoring on one query</title>
   <desc id="qros-d">With limit 10 and oversampling 2, the first pass over the quantized copy returns 20 candidates ranked by rough scores. A true neighbor sits at rank 14, outside the top 10, so with rescoring off it is lost. Rescoring reads the 20 original vectors, re-sorts by exact score, and the rank-14 candidate lands in the returned top 10.</desc>
   <style>
-    .qros-h { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qros-h { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 15px; }
     .qros-n { fill: #303547; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 12px; }
     .qros-n.is-hit { fill: #ffffff; }
     .qros-cell { fill: none; stroke: #d3d9eb; stroke-width: 1.5; }
     .qros-cell.is-hit { fill: #6047ff; stroke: #6047ff; }
     .qros-brace { fill: none; stroke: #abb1c7; stroke-width: 1.5; }
     .qros-brace.is-lost { stroke: #dc244c; }
-    .qros-note { fill: #dc244c; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
-    .qros-keep { fill: #00838f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qros-note { fill: #dc244c; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 15px; }
+    .qros-keep { fill: #00838f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 15px; }
     .qros-arrow { stroke: #303547; stroke-width: 1.5; fill: none; }
   </style>
   <rect x="-20" y="-16" width="800" height="282" fill="#FFFFFF" rx="12"/>
@@ -244,7 +244,7 @@ A quantized vector approximates the original, so searching the compressed copy c
   <text class="qros-keep" x="0" y="220">the best 10 by exact score are returned, the rank-14 candidate among them</text>
   <text class="qros-h" x="0" y="248">cost: 20 original vectors read per query, not the whole collection</text>
 </svg>
-<figcaption style="margin-top:8px;font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-size:13px;color:#656b7f">One query at limit 10 with oversampling 2.0. The ranks are illustrative.</figcaption>
+<figcaption style="margin-top:8px;font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-size:14px;color:#656b7f">One query at limit 10 with oversampling 2.0. The ranks are illustrative.</figcaption>
 </figure>
 
 The experiments in this guide use both to recover the accuracy that quantization loses.

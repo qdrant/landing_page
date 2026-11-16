@@ -9,7 +9,7 @@
 .qscalar .qscalar__val input { width: 160px; margin: 0; accent-color: var(--qi-fg); cursor: pointer; }
 .qscalar .qscalar__val input:focus-visible { outline: 2px solid var(--qi-fg); outline-offset: 3px; }
 .qscalar .qscalar__val output { min-width: 3.2em; color: var(--qi-fg); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.qscalar .qscalar-h { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 14px; }
+.qscalar .qscalar-h { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 15px; }
 .qscalar .qscalar-bin.is-in { fill: var(--qi-cat-1); }
 .qscalar .qscalar-bin.is-out { fill: var(--qi-accent); }
 .qscalar .qscalar-bound { stroke: var(--qi-fg); stroke-width: 1.5; stroke-dasharray: 4 3; }

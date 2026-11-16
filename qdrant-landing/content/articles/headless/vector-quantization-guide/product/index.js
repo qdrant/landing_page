@@ -37,7 +37,7 @@ export function render(ratio) {
   for (let i = 0; i < D; i++) {
     out.push(`<rect class="qprod-cell" x="${X0 + i * PITCH}" y="24" width="${CELL}" height="28" rx="4"/>`);
   }
-  out.push(`<text class="qprod-h" x="0" y="96">Each sub-vector becomes one byte: #id of its nearest centroid in the codebook (example ids)</text>`);
+  out.push(`<text class="qprod-h" x="0" y="96">Each sub-vector becomes one byte: the #id of its nearest centroid (example ids)</text>`);
   for (let g = 0; g < groups; g++) {
     const x = X0 + g * r.per * PITCH;
     const w = r.per * PITCH - (PITCH - CELL);
@@ -56,7 +56,7 @@ export function render(ratio) {
     `<text class="qprod-h" x="${86 + full - 50 + 10}" y="214">${D * 32} bit</text>`,
     `<text class="qprod-h" x="0" y="262">PQ ${r.label}</text>`,
     `<rect class="qprod-bar" x="86" y="248" width="${Math.max(3, ((full - 50) * bits) / (D * 32))}" height="18" rx="3"/>`,
-    `<text class="qprod-h" x="${86 + Math.max(3, ((full - 50) * bits) / (D * 32)) + 10}" y="262">${bits} bit, ${r.id}× smaller</text>`,
+    `<text class="qprod-h" x="${86 + Math.max(3, ((full - 50) * bits) / (D * 32)) + 10}" y="262">${bits} bit, ${r.id}x smaller</text>`,
   );
   return out.join('');
 }

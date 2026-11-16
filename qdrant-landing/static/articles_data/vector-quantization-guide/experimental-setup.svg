@@ -5,7 +5,7 @@
     
     .qset { display: block; text-align: left; }
     .qset .qi-fig { gap: 16px; }
-    .qset .qset-h, .qset .qset-sub { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qset .qset-h, .qset .qset-sub { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 15px; }
     .qset .qset-name { fill: #303547; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; font-weight: 600; }
     .qset .qset-task, .qset .qset-num { fill: #303547; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; font-variant-numeric: tabular-nums; }
     .qset .qset-bar { fill: #6047ff; }
