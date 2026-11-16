@@ -313,6 +313,7 @@ function linesFacet(c) {
   return facets.map((fv, fi) => {
     const pw = widths[fi];
     const rows_ = data.filter((d) => d[c.facet] === fv);
+    const xVals = rows_.map((r) => r[c.x]);
     const node = Plot.plot({
       document: dom.window.document,
       width: pw, height: c.height,
@@ -320,12 +321,14 @@ function linesFacet(c) {
       marginTop: LAYOUT.top, marginBottom: LAYOUT.bottom,
       style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none',
                color: MUTED },
-      x: { type: 'point', label: null, domain: rows_.map((r) => r[c.x]), tickSize: 0,
-           tickFormat: (v) => `${v}${c.xSuffix ?? ''}`,
-           // Shared axes: the panels plot the same x values at the same
-           // positions, so the tick labels only need to appear under the first
-           // panel; tooltips still name the exact x in every panel.
-           ...(shared && fi > 0 ? { tickFormat: () => '' } : {}) },
+      x: { type: 'point', label: null, domain: xVals, tickSize: 0,
+           // Shared axes: every panel plots the same x values, so repeating the
+           // full tick row four times is clutter, but labeling only one panel
+           // reads as broken. Each panel keeps its endpoints and the tooltips
+           // name the exact x everywhere in between.
+           tickFormat: shared
+             ? (v) => (v === xVals[0] || v === xVals[xVals.length - 1] ? `${v}${c.xSuffix ?? ''}` : '')
+             : (v) => `${v}${c.xSuffix ?? ''}` },
       // A log axis defaults to a tick at every 1,2,3…9,10,20,30… which draws
       // ~33 gridlines per panel and leaves most tick labels blank. Only the
       // decades earn a line.
