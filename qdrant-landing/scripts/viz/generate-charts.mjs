@@ -448,6 +448,17 @@ function groupedColumns(c) {
     color: { domain: series, range: colors },
     marks: [
       Plot.barY(data, { fx: c.group, x: c.series, y: c.y, fill: c.series, rx: 1.5, insetLeft: 2, insetRight: 2 }),
+      // Opt-in value labels: when the data clusters near the top of the axis,
+      // bar heights stop carrying the differences, so each bar prints its own
+      // number. Views inherit the flag through the spec merge.
+      ...(c.valueLabels
+        ? [Plot.text(data, { fx: c.group, x: c.series, y: c.y, dy: -8,
+            // Autotyping turns 0.990 into 0.99; print integers with grouping
+            // and everything else at three decimals so the column reads evenly.
+            text: (d) => { const n = Number(d[c.y]); return Number.isInteger(n) ? n.toLocaleString('en-US') : n.toFixed(3); },
+            fontFamily: FONT, fontSize: viz.type.label,
+            fill: { value: () => MUTED, scale: null } })]
+        : []),
     ],
   });
   const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');

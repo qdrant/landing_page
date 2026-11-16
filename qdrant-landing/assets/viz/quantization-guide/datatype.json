@@ -4,6 +4,7 @@
   "group": "configuration",
   "series": "model",
   "colors": [0, 1],
+  "valueLabels": true,
   "height": 430,
   "width": 980,
   "textScale": 1.0,
