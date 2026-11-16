@@ -4,8 +4,6 @@
 
   {{ partial "marketing/partners-directory" . }}
 
-  {{ with (.Site.GetPage "/partners/partners-get-started") }}
-    {{ partial "marketing/get-started-small" (dict "context" . "class" "partners-get-started") }}
-  {{ end }}
+  {{ partial "marketing/partners-apply" . }}
 
 {{ end }}

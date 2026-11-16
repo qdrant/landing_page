@@ -1,0 +1,143 @@
+{{ with (.Site.GetPage "/partners/partners-apply") }}
+  <section class="partners-apply" id="become-a-partner">
+    <div class="container">
+      <div class="partners-apply__box">
+        <h3 class="partners-apply__title">{{ .Params.title }}</h3>
+        <p class="partners-apply__description">{{ .Params.description | safeHTML }}</p>
+
+        <div class="partners-apply__types" role="radiogroup" aria-label="Partner type">
+          {{ range $i, $t := .Params.types }}
+            <label class="partners-apply__type">
+              <input type="radio" name="partnerTypeChoice" value="{{ $t.id }}" {{ if eq $i 0 }}checked{{ end }} />
+              <span>{{ $t.label }}</span>
+            </label>
+          {{ end }}
+        </div>
+
+        <form class="partners-apply__form" data-action="{{ .Params.action }}" {{ with .Params.action }}action="{{ . }}" method="post"{{ end }}>
+          <input type="hidden" name="partnerType" value="cloud" data-type-field />
+
+          <div class="partners-apply__grid">
+            <label>Your name
+              <input type="text" name="name" required autocomplete="name" />
+            </label>
+            <label>Work email
+              <input type="email" name="email" required autocomplete="email" />
+            </label>
+            <label>Company
+              <input type="text" name="company" required autocomplete="organization" />
+            </label>
+            <label>Your role
+              <input type="text" name="role" required autocomplete="organization-title" />
+            </label>
+            <label>Company website
+              <input type="url" name="website" required placeholder="https://" />
+            </label>
+            <label>Country or region
+              <input type="text" name="country" required autocomplete="country-name" />
+            </label>
+
+            <div class="partners-apply__group" data-types="cloud" >
+              <label>Cloud platform or marketplace
+                <input type="text" name="platform" data-required-for="cloud" />
+              </label>
+              <label>Is Qdrant already available on your platform?
+                <select name="qdrantAvailable" data-required-for="cloud">
+                  <option value="">Select one</option>
+                  <option>Yes, listed in our marketplace</option>
+                  <option>Yes, self-managed deployments only</option>
+                  <option>No, but we would like to offer it</option>
+                </select>
+              </label>
+              <label class="partners-apply__wide">Regions you operate in
+                <input type="text" name="regions" />
+              </label>
+            </div>
+
+            <div class="partners-apply__group" data-types="implementation" hidden>
+              <label>Team size
+                <select name="teamSize" data-required-for="implementation">
+                  <option value="">Select one</option>
+                  <option>1 to 10</option>
+                  <option>11 to 50</option>
+                  <option>51 to 100</option>
+                  <option>101 to 250</option>
+                  <option>251 to 500</option>
+                  <option>501 to 1,000</option>
+                  <option>1,001 to 5,000</option>
+                  <option>More than 5,000</option>
+                </select>
+              </label>
+              <label>Vector search or AI projects delivered
+                <input type="text" name="projectsDelivered" />
+              </label>
+              <label class="partners-apply__wide">Areas of expertise
+                <input type="text" name="expertise" data-required-for="implementation" placeholder="For example RAG, search, recommendations, data engineering" />
+              </label>
+              <label class="partners-apply__wide">Link to case studies or customer references
+                <input type="url" name="references" placeholder="https://" />
+              </label>
+            </div>
+
+            <div class="partners-apply__group" data-types="resell" hidden>
+              <label>Territories you cover
+                <input type="text" name="territories" data-required-for="resell" />
+              </label>
+              <label>Main customer segment
+                <select name="segment" data-required-for="resell">
+                  <option value="">Select one</option>
+                  <option>Enterprise</option>
+                  <option>Mid-market</option>
+                  <option>Public sector</option>
+                  <option>Small business</option>
+                </select>
+              </label>
+              <label class="partners-apply__wide">Software you currently resell or support
+                <input type="text" name="portfolio" />
+              </label>
+            </div>
+
+            <label class="partners-apply__wide">
+              <span data-types="cloud implementation resell">Tell us about your company and how you would like to partner with Qdrant</span>
+              <span data-types="other" hidden>Describe the partnership you have in mind</span>
+              <textarea name="details" rows="4" required></textarea>
+            </label>
+          </div>
+
+          <button type="submit" class="button button_contained button_lg">Submit application</button>
+          <p class="partners-apply__status" role="status" hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script>
+    (function () {
+      var root = document.getElementById('become-a-partner');
+      if (!root) return;
+      var form = root.querySelector('form');
+      var typeField = root.querySelector('[data-type-field]');
+      var status = root.querySelector('.partners-apply__status');
+
+      function setType(type) {
+        typeField.value = type;
+        root.querySelectorAll('[data-types]').forEach(function (el) {
+          el.hidden = el.dataset.types.split(' ').indexOf(type) === -1;
+        });
+        root.querySelectorAll('[data-required-for]').forEach(function (el) {
+          el.required = el.dataset.requiredFor === type;
+        });
+      }
+      root.querySelectorAll('input[name="partnerTypeChoice"]').forEach(function (r) {
+        r.addEventListener('change', function () { setType(r.value); });
+      });
+      setType('cloud');
+
+      form.addEventListener('submit', function (e) {
+        if (form.dataset.action) return; // posts natively to the configured endpoint
+        e.preventDefault();
+        status.hidden = false;
+        status.textContent = 'This form is not connected to a submission endpoint yet.';
+      });
+    })();
+  </script>
+{{ end }}

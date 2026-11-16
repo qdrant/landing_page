@@ -1,0 +1,114 @@
+@use '../helpers/functions' as *;
+
+.partners-apply {
+  padding: $spacer * 3 0 $spacer * 5;
+  background-color: $neutral-94;
+
+  &__box {
+    max-width: pxToRem(880);
+    margin: 0 auto;
+    padding: $spacer * 2;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: pxToRem(16);
+    background: $neutral-10;
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    color: $neutral-98;
+    text-align: center;
+    margin-bottom: $spacer * 0.75;
+  }
+
+  &__description {
+    color: $neutral-70;
+    text-align: center;
+    margin-bottom: $spacer * 2;
+  }
+
+  &__types {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer * 0.75;
+    margin-bottom: $spacer * 2;
+  }
+
+  &__type {
+    cursor: pointer;
+
+    input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    span {
+      display: block;
+      padding: $spacer * 0.5 $spacer * 1.25;
+      color: $neutral-98;
+      border: 1px solid $neutral-70;
+      border-radius: pxToRem(100);
+    }
+
+    input:checked + span {
+      background: $neutral-98;
+      color: $neutral-10;
+    }
+
+    input:focus-visible + span {
+      outline: 2px solid $neutral-98;
+      outline-offset: 2px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__group {
+    display: contents;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.375;
+    font-size: pxToRem(14);
+    color: $neutral-70;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='url'],
+  select,
+  textarea {
+    padding: $spacer * 0.75;
+    font-size: pxToRem(16);
+    color: $neutral-98;
+    background: $neutral-10;
+    border: 1px solid $neutral-70;
+    border-radius: pxToRem(8);
+  }
+
+  &__status {
+    margin: $spacer 0 0;
+    color: $neutral-70;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &__wide {
+      grid-column: 1 / -1;
+    }
+  }
+}
