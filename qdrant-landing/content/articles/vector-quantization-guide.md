@@ -294,7 +294,7 @@ A storage datatype shrinks the originals themselves, so it saves disk but leaves
 
 **`turbo16` and `turbo8` cost almost nothing.** All four workloads stay within one point of float32 recall at half and a quarter of the disk: on Quora with Cohere that is 1,073 MB and 538 MB against 2,142 MB, at 0.991 and 0.990 recall against 0.994. **`turbo4` saves 8x on disk and costs recall.** On Quora it drops to 0.97 against 0.99 for float32 with a 4-bit copy on Cohere, and to 0.95 against 1.00 on BGE. **Rescoring against it inherits the loss.** Every configuration that rescores against `turbo4`, 1-bit copies and binary retrieval alike, lands two to five points below the same configuration over float32; the charts carry the per-workload numbers.
 
-**So it's a disk decision.** When disk rather than RAM is the constraint, `turbo8` and `turbo16` are close to free: under a point of recall for half or a quarter of the space. `turbo4` only makes sense when a 2 to 5 point loss, 5 to 10 on the small model, is acceptable. A storage datatype doesn't replace a search copy over float32 originals. And it shrinks the originals themselves, so the only way back out is re-ingesting the collection.
+**It's a disk decision.** When disk rather than RAM is the constraint, `turbo8` and `turbo16` are close to free: under a point of recall for half or a quarter of the space. `turbo4` only makes sense when a 2 to 5 point loss, 5 to 10 on the small model, is acceptable. A storage datatype doesn't replace a search copy over float32 originals. And it shrinks the originals themselves, so the only way back out is re-ingesting the collection.
 
 </details>
 
