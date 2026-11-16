@@ -272,12 +272,6 @@
 .qsel .qs-verdict--metric {
   color: var(--qi-accent);
 }
-.qsel .qs-foot {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--qi-muted);
-}
 .qsel .qs-sr {
   position: absolute;
   width: 1px;

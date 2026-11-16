@@ -337,7 +337,6 @@ export function mount(node) {
       </div>
       <div class="qs-table-wrap"></div>
       <div class="qs-status" role="status" aria-live="polite"></div>
-      <p class="qs-foot"></p>
     </div>`;
 
   const q = (s) => node.querySelector(s);
@@ -466,8 +465,6 @@ export function mount(node) {
       status += `<p class="qs-note">${dimsOut ? 'The guide measured 384 and 1,024 dimensions, so recall here is extrapolated. ' : ''}${extrap ? 'This sign imbalance is outside the range measured for these dimensions, so recall is extrapolated. ' : ''}Treat it as a prompt to measure, not a result.</p>`;
     }
     q('.qs-status').innerHTML = status;
-
-    q('.qs-foot').textContent = `Memory is arithmetic with ${Math.round((OVERHEAD - 1) * 100)}% added for bookkeeping. Recall assumes hnsw_ef 256 and oversampling 2. Latency and throughput were measured on Quora with an 8-vCPU VM, so read them as ratios, not capacity numbers. n/m means the guide did not measure it.`;
   }
 
   node.addEventListener('input', (e) => { if (e.target.matches('input[type="range"]')) render(); });
