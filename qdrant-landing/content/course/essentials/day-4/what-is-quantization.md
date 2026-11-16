@@ -28,7 +28,9 @@ Consider the mathematics of scale. OpenAI's `text-embedding-3-small` produces 15
 
 For production RAG systems serving real-time queries, these vectors must reside in RAM or high-speed SSD storage. At cloud pricing, this translates to substantial infrastructure costs - hundreds to thousands of dollars monthly for enterprise-scale deployments.
 
-Quantization breaks this cost scaling by compressing vectors while maintaining search effectiveness. The three primary quantization families - scalar, binary, and product - offer different points on the speed-memory-accuracy tradeoff curve, each optimized for specific deployment scenarios.
+Quantization breaks this cost scaling by compressing vectors while maintaining search effectiveness. The video covers scalar, binary, and product quantization, each with different speed, memory, and accuracy trade-offs.
+
+> **Update:** [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), available since 1.18, is another option. In 1.20, its `bits8` encoding offers the same 4x compression as scalar quantization and is the recommended starting point, except for Manhattan distance. The [TurboQuant datatypes](/documentation/manage-data/vectors/#datatypes), `turbo4` (1.19), `turbo8`, and `turbo16` (1.20), compress the original vectors themselves. Quantization keeps an original copy for rescoring; these datatypes replace it with a compressed representation.
 
 ## Scalar Quantization
 
@@ -36,7 +38,7 @@ Quantization breaks this cost scaling by compressing vectors while maintaining s
 
 The technique leverages SIMD optimizations available for int8 operations, enabling up to 2x speed improvements beyond the memory benefits. Distance calculations using int8 values are computationally simpler than float32 operations, particularly for dot product and cosine similarity computations that dominate vector search workloads.
 
-Scalar quantization excels as the production default because it [maintains 99%+ accuracy](/articles/scalar-quantization/) across diverse embedding models while providing predictable compression ratios. Unlike binary quantization, which requires specific model characteristics, scalar quantization works reliably with embeddings from commercial providers (OpenAI, Cohere, Anthropic) and open-source models alike.
+Scalar quantization remains useful, particularly for Manhattan distance, and provides predictable 4x compression. [Our scalar quantization benchmarks](/articles/scalar-quantization/) show high recall across several embedding models. Unlike binary quantization, which requires specific model characteristics, scalar quantization works reliably with embeddings from commercial providers (OpenAI, Cohere, Anthropic) and open-source models alike.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -54,17 +56,19 @@ client.create_collection(
     vectors_config=models.VectorParams(
         size=1536,
         distance=models.Distance.COSINE,
-        on_disk=True,  # Move originals to disk
+        memory=models.Memory.COLD,  # Read originals from disk on demand
     ),
     quantization_config=models.ScalarQuantization(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.99,  # Exclude extreme 1% of values
-            always_ram=True,  # Keep quantized vectors in RAM
+            memory=models.Memory.PINNED,  # Keep quantized vectors in RAM
         )
     ),
 )
 ```
+
+> **Version note:** Since Qdrant 1.19, use `memory` in place of the video's `on_disk` and `always_ram` flags. The old flags still work but are deprecated.
 
 > [Check out](/documentation/manage-data/quantization/#setting-up-scalar-quantization) how to set up scalar quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
 
@@ -88,12 +92,12 @@ client.create_collection(
     vectors_config=models.VectorParams(
         size=1536,
         distance=models.Distance.COSINE,
-        on_disk=True,
+        memory=models.Memory.COLD,
     ),
     quantization_config=models.BinaryQuantization(
         binary=models.BinaryQuantizationConfig(
             encoding=models.BinaryQuantizationEncoding.ONE_BIT,
-            always_ram=True,
+            memory=models.Memory.PINNED,
         )
     ),
 )
@@ -116,12 +120,12 @@ client.create_collection(
     vectors_config=models.VectorParams(
         size=1024,
         distance=models.Distance.COSINE,
-        on_disk=True,
+        memory=models.Memory.COLD,
     ),
     quantization_config=models.ProductQuantization(
         product=models.ProductQuantizationConfig(
             compression=models.CompressionRatio.X32, #or X4, X8, X16, X32 and X64
-            always_ram=True,
+            memory=models.Memory.PINNED,
         )
     ),
 )
@@ -147,6 +151,6 @@ Qdrant's quantization implementation maintains both compressed and original vect
 
 > Check out our **[quantization tips](/documentation/manage-data/quantization/#quantization-tips)**
 
-The default configuration stores both representations in RAM, providing fast search with quantized vectors and exact scoring with originals when needed. However, this negates memory savings. The optimal production pattern places original vectors on disk (`on_disk=True`) while keeping quantized vectors in RAM (`always_ram=True`). This configuration delivers the best of both worlds: rapid quantized search with the ability to perform exact rescoring by reading only the small candidate set from disk storage.
+By default, original dense vectors use `cached`, which warms the operating system cache at startup, and quantized vectors use `pinned`. To reduce RAM use, set `memory=models.Memory.COLD` on the original vectors and `memory=models.Memory.PINNED` on the quantization config. Qdrant searches the quantized vectors in RAM and reads original vectors from disk for rescoring. The operating system can still cache those reads. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for details.
 
 This storage strategy is particularly effective because quantized search reliably identifies the neighborhood of relevant documents, making the selective disk reads for rescoring both efficient and accurate. The result is dramatic RAM reduction with minimal latency impact, exactly what production RAG systems require for cost-effective scaling. 

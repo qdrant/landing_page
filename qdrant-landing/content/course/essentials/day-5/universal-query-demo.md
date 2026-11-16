@@ -69,7 +69,7 @@ client.create_collection(
     sparse_vectors_config={
         # Sparse vectors for exact technical term matching
         "sparse": models.SparseVectorParams(
-            index=models.SparseIndexParams(on_disk=False)
+            index=models.SparseIndexParams(memory=models.Memory.PINNED)
         )
     },
 )

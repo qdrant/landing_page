@@ -32,7 +32,7 @@ A performance-optimized version of your Day 1 search engine that demonstrates:
 ### Prerequisites
 
 * Qdrant Cloud cluster (URL + API key)
-* Python 3.9+ (or Google Colab)
+* Python 3.10+ (or Google Colab)
 * Packages: `qdrant-client`, `sentence-transformers`, `numpy`
 
 ### Models

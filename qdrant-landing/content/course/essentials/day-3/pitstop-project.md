@@ -32,7 +32,7 @@ A hybrid search system that demonstrates:
 ### Prerequisites
 
 * Qdrant Cloud cluster (URL + API key)
-* Python 3.9+ (or Google Colab)
+* Python 3.10+ (or Google Colab)
 * Packages: `qdrant-client`, `sentence-transformers`
 
 ### Models
@@ -73,7 +73,7 @@ client.create_collection(
     },
     sparse_vectors_config={
         "sparse": models.SparseVectorParams(
-            index=models.SparseIndexParams(on_disk=False)
+            index=models.SparseIndexParams(memory=models.Memory.PINNED)
         )
     }
 )
@@ -120,8 +120,7 @@ for i, item in enumerate(your_dataset):
     
     points.append(models.PointStruct(
         id=i,
-        vector={"dense": dense_vector},
-        sparse_vector={"sparse": sparse_vector},
+        vector={"dense": dense_vector, "sparse": sparse_vector},
         payload=item
     ))
 
