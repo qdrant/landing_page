@@ -8,33 +8,32 @@ partition: develop
 
 # Agentic Tools
 
-Qdrant provides tools and resources that help AI agents work with Qdrant more effectively.
-Use them to give your agent task-specific guidance, troubleshoot existing deployments, design and evaluate search systems, and apply Qdrant best practices to your specific use case.
+Qdrant provides tools and resources that help AI agents work with Qdrant more effectively. Use them to give your agent task-specific guidance, troubleshoot existing deployments, design and evaluate search systems, and apply Qdrant best practices to your specific use case.
 
-## Start with llms.txt
+## Getting Started with AI Agents
 
-[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt) is the single entry point for AI agents.
-It tells an agent what Qdrant is, how to set it up, how to use it correctly, and where to find everything else on qdrant.tech.
-To get started, copy this into your agent:
+[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt) is the single entry point for AI agents. We've curated it to be under 30KB and to provide your agent with everything it needs to get started, manage, and troubleshoot your Qdrant search engine. It tells an agent what Qdrant is, how to set it up, how to use it correctly, and where to find everything else on qdrant.tech.
+
+**To get started, simply give this into your agent:**
 
 ```text
 set up qdrant with https://qdrant.tech/llms.txt
 ```
 
-The agent reads the file and takes it from there.
-It recommends a free Qdrant Cloud cluster, where nothing needs to run on your machine and you don't need a credit card. **Cloud Inference creates embeddings for free** with the [free Qdrant-hosted models](/documentation/cloud/inference/#qdrant-hosted-models), so you don't need an embedding library or an embedding provider key.
+By default, it recommends a free [Qdrant Cloud](https://cloud.qdrant.io/) cluster, where nothing needs to run on your machine and you don't need a credit card. This is our simplest setup and gives your agent more control with the Qdrant CLI. Additionally, **Cloud Inference creates embeddings for free** with the [free Qdrant-hosted models](/documentation/cloud/inference/#qdrant-hosted-models), so you don't need an embedding library or an embedding provider key.
+
 The agent asks before it creates anything, and you never paste a key into the chat.
 
-To run Qdrant on your own machine instead, say so in the prompt. The [Local Quickstart](/documentation/quickstart/) runs Qdrant in Docker, and [FastEmbed](/documentation/fastembed/fastembed-quickstart/) generates embeddings on your machine.
+To run Qdrant on your own machine instead, just say so in your prompt. The agent will set up Qdrant in Docker, and [FastEmbed](/documentation/fastembed/fastembed-quickstart/) to generate embeddings on your machine.
 
-### What llms.txt Contains
+### What Our `llms.txt` Contains
 
 The file has a hand-written brief, followed by an index of the site that is generated on every build.
 
 | Part | What it gives your agent |
 | --- | --- |
 | Overview | What Qdrant is, when to use it, and why to start on Qdrant Cloud. Self-hosted Qdrant is set up only when you ask for it. |
-| Setup | The steps to a working Qdrant Cloud cluster: sign up, choose a cluster, connect through the [Qdrant Cloud CLI](#the-cli-and-mcp-servers) or the Cloud Console, store keys in a `.env` file, and test the connection. Coding agents recommend the CLI and install it only after you agree. Hosted assistants such as claude.ai guide you through the Console. |
+| Setup | The steps to a working Qdrant Cloud cluster: sign up, choose a cluster, connect through the [Qdrant Cloud CLI](#the-cli-and-mcp-servers) or the Cloud Console, store keys in a `.env` file, and test the connection. Coding agents recommend the CLI and install it only after you agree.  |
 | MCP servers | When to connect the [Qdrant MCP servers](#the-cli-and-mcp-servers), and how. |
 | Core usage | Connection details, a Python example that creates a collection and searches it with Cloud Inference, the Query API for hybrid search, and common `qcloud` commands. |
 | Rules | Guardrails that prevent common mistakes, such as filtering on fields without a payload index, choosing the wrong vector size or distance metric, and building multitenancy without access control. The agent also confirms with you before it takes an action that costs money or deletes data. |
@@ -52,7 +51,6 @@ They're organized around symptoms, so they answer "why is this happening, and wh
 Reach for skills when something is already running and behaving unexpectedly: slow search, growing memory, a stuck optimizer, poor relevance.
 
 When you set up through the CLI, `llms.txt` also installs the [Qdrant Advisor](/documentation/agentic-tools/skills/#the-qdrant-advisor), a skill that searches [skills.qdrant.tech](https://skills.qdrant.tech) and loads only the guidance that matches your problem.
-In claude.ai, where skills can't be installed this way, the agent asks you to add `Use skills.qdrant.tech` to your prompt instead.
 
 ## Prompts in the Docs
 
@@ -62,13 +60,15 @@ The [prompt index](/documentation/agentic-tools/prompts/) lists all available pr
 
 Where `llms.txt` gets you started, a prompt in the docs is for a specific task once you're building, such as designing a collection or setting up monitoring.
 
+These are designed to help as an optional additional resource when humans are navigating Qdrant documentation themselves.
+
 ## The CLI and MCP Servers
 
 Skills and prompts tell your agent what to do. The Qdrant Cloud CLI and the Qdrant MCP servers let it act.
 
 | Tool | What your agent can do with it | Works with |
 | --- | --- | --- |
-| [Qdrant Cloud CLI](/documentation/cloud-cli/) (`qcloud`) | Create and manage clusters, database API keys, and backups from the command line. You log in once in your browser with `qcloud auth login`. | Qdrant Cloud |
+| [Qdrant Cloud CLI (qcloud)](/documentation/cloud-cli/) | Create and manage clusters, database API keys, and backups from the command line. You log in once in your browser with `qcloud auth login`. | Qdrant Cloud |
 | [Qdrant Cloud MCP](/documentation/qdrant-mcp/cloud/) | Manage clusters, serverless spaces, backups, access, and billing through tool calls. You sign in with OAuth. It also searches the documentation. | Qdrant Cloud |
 | [Qdrant Docs MCP](/documentation/qdrant-mcp/docs/) | Search the documentation, articles, blog, and courses, and find code snippets. No account needed. | Any deployment |
 | [Qdrant MCP (open source)](/documentation/qdrant-mcp/oss/) | Store and retrieve information in a Qdrant collection, as semantic memory or code search. | Any deployment, including local |
